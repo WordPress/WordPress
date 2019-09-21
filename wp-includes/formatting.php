@@ -3836,8 +3836,8 @@ function ent2ncr( $text ) {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param null   $converted_text The text to be converted. Default null.
-	 * @param string $text           The text prior to entity conversion.
+	 * @param string|null $converted_text The text to be converted. Default null.
+	 * @param string      $text           The text prior to entity conversion.
 	 */
 	$filtered = apply_filters( 'pre_ent2ncr', null, $text );
 	if ( null !== $filtered ) {

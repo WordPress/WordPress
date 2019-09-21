@@ -1053,10 +1053,10 @@ function load_script_translations( $file, $handle, $domain ) {
 	 *
 	 * @since 5.0.2
 	 *
-	 * @param string|false $translations JSON-encoded translation data. Default null.
-	 * @param string|false $file         Path to the translation file to load. False if there isn't one.
-	 * @param string       $handle       Name of the script to register a translation domain to.
-	 * @param string       $domain       The text domain.
+	 * @param string|false|null $translations JSON-encoded translation data. Default null.
+	 * @param string|false      $file         Path to the translation file to load. False if there isn't one.
+	 * @param string            $handle       Name of the script to register a translation domain to.
+	 * @param string            $domain       The text domain.
 	 */
 	$translations = apply_filters( 'pre_load_script_translations', null, $file, $handle, $domain );
 

@@ -225,8 +225,8 @@ function render_block( $block ) {
 	 *
 	 * @since 5.1.0
 	 *
-	 * @param string $pre_render The pre-rendered content. Default null.
-	 * @param array  $block      The block being rendered.
+	 * @param string|null $pre_render The pre-rendered content. Default null.
+	 * @param array       $block      The block being rendered.
 	 */
 	$pre_render = apply_filters( 'pre_render_block', null, $block );
 	if ( ! is_null( $pre_render ) ) {

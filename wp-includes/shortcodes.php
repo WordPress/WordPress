@@ -305,12 +305,12 @@ function do_shortcode_tag( $m ) {
 	/**
 	 * Filters whether to call a shortcode callback.
 	 *
-	 * Passing a truthy value to the filter will effectively short-circuit the
+	 * Returning a non-false value from filter will short-circuit the
 	 * shortcode generation process, returning that value instead.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param bool|string $return      Short-circuit return value. Either false or the value to replace the shortcode with.
+	 * @param false|string $return      Short-circuit return value. Either false or the value to replace the shortcode with.
 	 * @param string       $tag         Shortcode name.
 	 * @param array|string $attr        Shortcode attributes array or empty string.
 	 * @param array        $m           Regular expression match array.

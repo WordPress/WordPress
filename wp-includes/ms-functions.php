@@ -2426,19 +2426,19 @@ function wp_update_network_user_counts( $network_id = null ) {
 }
 
 /**
- * Returns the space used by the current blog.
+ * Returns the space used by the current site.
  *
  * @since 3.5.0
  *
- * @return int Used space in megabytes
+ * @return int Used space in megabytes.
  */
 function get_space_used() {
 	/**
-	 * Filters the amount of storage space used by the current site.
+	 * Filters the amount of storage space used by the current site, in megabytes.
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param int|bool $space_used The amount of used space, in megabytes. Default false.
+	 * @param int|false $space_used The amount of used space, in megabytes. Default false.
 	 */
 	$space_used = apply_filters( 'pre_get_space_used', false );
 	if ( false === $space_used ) {

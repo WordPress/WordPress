@@ -852,10 +852,10 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param string $move_new_file If null (default) move the file after the upload.
-	 * @param string $file          An array of data for a single file.
-	 * @param string $new_file      Filename of the newly-uploaded file.
-	 * @param string $type          File type.
+	 * @param mixed    $move_new_file If null (default) move the file after the upload.
+	 * @param string[] $file          An array of data for a single file.
+	 * @param string   $new_file      Filename of the newly-uploaded file.
+	 * @param string   $type          File type.
 	 */
 	$move_new_file = apply_filters( 'pre_move_uploaded_file', null, $file, $new_file, $type );
 

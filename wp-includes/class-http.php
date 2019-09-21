@@ -251,8 +251,8 @@ class WP_Http {
 		 * @since 2.9.0
 		 *
 		 * @param false|array|WP_Error $preempt Whether to preempt an HTTP request's return value. Default false.
-		 * @param array               $parsed_args        HTTP request arguments.
-		 * @param string              $url      The request URL.
+		 * @param array                $parsed_args        HTTP request arguments.
+		 * @param string               $url      The request URL.
 		 */
 		$pre = apply_filters( 'pre_http_request', false, $parsed_args, $url );
 

@@ -2703,8 +2703,8 @@ class wpdb {
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param string $charset The character set to use. Default null.
-		 * @param string $table   The name of the table being checked.
+		 * @param string|null $charset The character set to use. Default null.
+		 * @param string      $table   The name of the table being checked.
 		 */
 		$charset = apply_filters( 'pre_get_table_charset', null, $table );
 		if ( null !== $charset ) {
@@ -2807,9 +2807,9 @@ class wpdb {
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param string $charset The character set to use. Default null.
-		 * @param string $table   The name of the table being checked.
-		 * @param string $column  The name of the column being checked.
+		 * @param string|null $charset The character set to use. Default null.
+		 * @param string      $table   The name of the table being checked.
+		 * @param string      $column  The name of the column being checked.
 		 */
 		$charset = apply_filters( 'pre_get_col_charset', null, $table, $column );
 		if ( null !== $charset ) {

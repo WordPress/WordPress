@@ -2608,10 +2608,10 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param string $avatar      HTML for the user's avatar. Default null.
-		 * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
-		 *                            user email, WP_User object, WP_Post object, or WP_Comment object.
-		 * @param array  $args        Arguments passed to get_avatar_url(), after processing.
+		 * @param string|null $avatar      HTML for the user's avatar. Default null.
+		 * @param mixed       $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+		 *                                 user email, WP_User object, WP_Post object, or WP_Comment object.
+		 * @param array       $args        Arguments passed to get_avatar_url(), after processing.
 		 */
 		$avatar = apply_filters( 'pre_get_avatar', null, $id_or_email, $args );
 

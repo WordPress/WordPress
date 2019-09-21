@@ -686,7 +686,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	 *
 	 * @since 3.8.0
 	 *
-	 * @param array $prepared_themes Array of themes.
+	 * @param array $prepared_themes Array of theme data.
 	 */
 	$prepared_themes = apply_filters( 'wp_prepare_themes_for_js', $prepared_themes );
 	$prepared_themes = array_values( $prepared_themes );

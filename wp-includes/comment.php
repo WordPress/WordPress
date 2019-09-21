@@ -820,8 +820,8 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	 * @since 4.9.0 Returning a WP_Error value from the filter will shortcircuit comment insertion and
 	 *              allow skipping further processing.
 	 *
-	 * @param bool|string|WP_Error $approved    The approval status. Accepts 1, 0, 'spam' or WP_Error.
-	 * @param array                $commentdata Comment data.
+	 * @param int|string|WP_Error $approved    The approval status. Accepts 1, 0, 'spam' or WP_Error.
+	 * @param array               $commentdata Comment data.
 	 */
 	$approved = apply_filters( 'pre_comment_approved', $approved, $commentdata );
 	return $approved;
@@ -2488,7 +2488,7 @@ function wp_update_comment_count( $post_id, $do_deferred = false ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $post_id Post ID
- * @return bool True on success, false on '0' $post_id or if post with ID does not exist.
+ * @return bool True on success, false if the post does not exist.
  */
 function wp_update_comment_count_now( $post_id ) {
 	global $wpdb;
@@ -2512,9 +2512,9 @@ function wp_update_comment_count_now( $post_id ) {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @param int $new     The new comment count. Default null.
-	 * @param int $old     The old comment count.
-	 * @param int $post_id Post ID.
+	 * @param int|null $new     The new comment count. Default null.
+	 * @param int      $old     The old comment count.
+	 * @param int      $post_id Post ID.
 	 */
 	$new = apply_filters( 'pre_wp_update_comment_count_now', null, $old, $post_id );
 

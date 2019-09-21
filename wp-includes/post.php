@@ -2935,9 +2935,9 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param bool    $delete       Whether to go forward with deletion.
-	 * @param WP_Post $post         Post object.
-	 * @param bool    $force_delete Whether to bypass the trash.
+	 * @param bool|null $delete       Whether to go forward with deletion.
+	 * @param WP_Post   $post         Post object.
+	 * @param bool      $force_delete Whether to bypass the trash.
 	 */
 	$check = apply_filters( 'pre_delete_post', null, $post, $force_delete );
 	if ( null !== $check ) {
@@ -3104,8 +3104,8 @@ function wp_trash_post( $post_id = 0 ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param bool    $trash Whether to go forward with trashing.
-	 * @param WP_Post $post  Post object.
+	 * @param bool|null $trash Whether to go forward with trashing.
+	 * @param WP_Post   $post  Post object.
 	 */
 	$check = apply_filters( 'pre_trash_post', null, $post );
 	if ( null !== $check ) {
@@ -3173,8 +3173,8 @@ function wp_untrash_post( $post_id = 0 ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param bool    $untrash Whether to go forward with untrashing.
-	 * @param WP_Post $post    Post object.
+	 * @param bool|null $untrash Whether to go forward with untrashing.
+	 * @param WP_Post   $post    Post object.
 	 */
 	$check = apply_filters( 'pre_untrash_post', null, $post );
 	if ( null !== $check ) {
@@ -4284,12 +4284,12 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 	 *
 	 * @since 5.1.0
 	 *
-	 * @param string $override_slug Short-circuit return value.
-	 * @param string $slug          The desired slug (post_name).
-	 * @param int    $post_ID       Post ID.
-	 * @param string $post_status   The post status.
-	 * @param string $post_type     Post type.
-	 * @param int    $post_parent   Post parent ID.
+	 * @param string|null $override_slug Short-circuit return value.
+	 * @param string      $slug          The desired slug (post_name).
+	 * @param int         $post_ID       Post ID.
+	 * @param string      $post_status   The post status.
+	 * @param string      $post_type     Post type.
+	 * @param int         $post_parent   Post parent ID.
 	 */
 	$override_slug = apply_filters( 'pre_wp_unique_post_slug', null, $slug, $post_ID, $post_status, $post_type, $post_parent );
 	if ( null !== $override_slug ) {
@@ -6351,7 +6351,7 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
 }
 
 /**
- * Retrieve the date that the last post was published.
+ * Retrieves the most recent time that a post on the site was published.
  *
  * The server timezone is the default and is the difference between GMT and
  * server time. The 'blog' value is the date when the last post was posted. The
@@ -6362,15 +6362,15 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
  *
  * @param string $timezone  Optional. The timezone for the timestamp. Accepts 'server', 'blog', or 'gmt'.
  *                          'server' uses the server's internal timezone.
- *                          'blog' uses the `post_modified` field, which proxies to the timezone set for the site.
- *                          'gmt' uses the `post_modified_gmt` field.
+ *                          'blog' uses the `post_date` field, which proxies to the timezone set for the site.
+ *                          'gmt' uses the `post_date_gmt` field.
  *                          Default 'server'.
  * @param string $post_type Optional. The post type to check. Default 'any'.
  * @return string The date of the last post.
  */
 function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
 	/**
-	 * Filters the date the last post was published.
+	 * Filters the most recent time that a post on the site was published.
 	 *
 	 * @since 2.3.0
 	 *
@@ -6382,7 +6382,7 @@ function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
 }
 
 /**
- * Get the timestamp of the last time any post was modified.
+ * Get the most recent time that a post on the site was modified.
  *
  * The server timezone is the default and is the difference between GMT and
  * server time. The 'blog' value is just when the last post was modified. The
@@ -6395,7 +6395,7 @@ function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
  *                          for information on accepted values.
  *                          Default 'server'.
  * @param string $post_type Optional. The post type to check. Default 'any'.
- * @return string The timestamp.
+ * @return string The timestamp in 'Y-m-d H:i:s' format.
  */
 function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
 	/**
@@ -6403,11 +6403,11 @@ function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string $lastpostmodified Date the last post was modified.
-	 *                                 Returning anything other than false will short-circuit the function.
-	 * @param string $timezone         Location to use for getting the post modified date.
-	 *                                 See get_lastpostdate() for accepted `$timezone` values.
-	 * @param string $post_type        The post type to check.
+	 * @param string|false $lastpostmodified The most recent time that a post was modified, in 'Y-m-d H:i:s' format, or
+	 *                                       false. Returning anything other than false will short-circuit the function.
+	 * @param string       $timezone         Location to use for getting the post modified date.
+	 *                                       See get_lastpostdate() for accepted `$timezone` values.
+	 * @param string       $post_type        The post type to check.
 	 */
 	$lastpostmodified = apply_filters( 'pre_get_lastpostmodified', false, $timezone, $post_type );
 	if ( false !== $lastpostmodified ) {
@@ -6422,11 +6422,11 @@ function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
 	}
 
 	/**
-	 * Filters the date the last post was modified.
+	 * Filters the most recent time that a post was modified.
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string $lastpostmodified Date the last post was modified.
+	 * @param string $lastpostmodified The most recent time that a post was modified, in 'Y-m-d H:i:s' format.
 	 * @param string $timezone         Location to use for getting the post modified date.
 	 *                                 See get_lastpostdate() for accepted `$timezone` values.
 	 */
@@ -6434,7 +6434,7 @@ function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
 }
 
 /**
- * Get the timestamp of the last time any post was modified or published.
+ * Gets the timestamp of the last time any post was modified or published.
  *
  * @since 3.1.0
  * @since 4.4.0 The `$post_type` argument was added.
@@ -6446,7 +6446,7 @@ function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
  *                          for information on accepted values.
  * @param string $field     Post field to check. Accepts 'date' or 'modified'.
  * @param string $post_type Optional. The post type to check. Default 'any'.
- * @return string|false The timestamp.
+ * @return string|false The timestamp in 'Y-m-d H:i:s' format, or false on error.
  */
 function _get_last_post_time( $timezone, $field, $post_type = 'any' ) {
 	global $wpdb;
