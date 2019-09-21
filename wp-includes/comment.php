@@ -283,6 +283,7 @@ function get_default_comment_status( $post_type = 'post', $comment_type = 'comme
 		default:
 			$supports = 'comments';
 			$option   = 'comment';
+			break;
 	}
 
 	// Set the status.
