@@ -95,6 +95,8 @@ class WP_Site_Health_Auto_Updates {
 		$headers = array(
 			'Cache-Control' => 'no-cache',
 		);
+		/** This filter is documented in wp-includes/class-wp-http-streams.php */
+		$sslverify = apply_filters( 'https_local_ssl_verify', false );
 
 		// Include Basic auth in loopback requests.
 		if ( isset( $_SERVER['PHP_AUTH_USER'] ) && isset( $_SERVER['PHP_AUTH_PW'] ) ) {
@@ -108,7 +110,7 @@ class WP_Site_Health_Auto_Updates {
 			admin_url( 'site-health.php' )
 		);
 
-		$test = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );
+		$test = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
 
 		if ( is_wp_error( $test ) ) {
 			return array(

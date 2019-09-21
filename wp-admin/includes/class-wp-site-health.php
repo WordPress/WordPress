@@ -1677,6 +1677,8 @@ class WP_Site_Health {
 			'Cache-Control' => 'no-cache',
 			'X-WP-Nonce'    => wp_create_nonce( 'wp_rest' ),
 		);
+		/** This filter is documented in wp-includes/class-wp-http-streams.php */
+		$sslverify = apply_filters( 'https_local_ssl_verify', false );
 
 		// Include Basic auth in loopback requests.
 		if ( isset( $_SERVER['PHP_AUTH_USER'] ) && isset( $_SERVER['PHP_AUTH_PW'] ) ) {
@@ -1693,7 +1695,7 @@ class WP_Site_Health {
 			$url
 		);
 
-		$r = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );
+		$r = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
 
 		if ( is_wp_error( $r ) ) {
 			$result['status'] = 'critical';
@@ -2000,6 +2002,8 @@ class WP_Site_Health {
 		$headers = array(
 			'Cache-Control' => 'no-cache',
 		);
+		/** This filter is documented in wp-includes/class-wp-http-streams.php */
+		$sslverify = apply_filters( 'https_local_ssl_verify', false );
 
 		// Include Basic auth in loopback requests.
 		if ( isset( $_SERVER['PHP_AUTH_USER'] ) && isset( $_SERVER['PHP_AUTH_PW'] ) ) {
@@ -2008,7 +2012,7 @@ class WP_Site_Health {
 
 		$url = admin_url();
 
-		$r = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );
+		$r = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
 
 		if ( is_wp_error( $r ) ) {
 			return (object) array(
