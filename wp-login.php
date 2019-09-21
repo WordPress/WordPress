@@ -660,8 +660,8 @@ switch ( $action ) {
 
 				printf(
 					/* translators: %s: Admin email address. */
-					__( 'Current administration email: <strong>%s</strong>' ),
-					esc_html( $admin_email )
+					__( 'Current administration email: %s' ),
+					'<strong>' . esc_html( $admin_email ) . '</strong>'
 				);
 
 				?>
