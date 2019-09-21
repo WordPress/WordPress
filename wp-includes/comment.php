@@ -354,17 +354,27 @@ function get_lastcommentmodified( $timezone = 'server' ) {
 }
 
 /**
- * The amount of comments in a post or total comments.
+ * Retrieves the total comment counts for the whole site or a single post.
  *
- * A lot like wp_count_comments(), in that they both return comment stats (albeit with different types).
- * The wp_count_comments() actually caches, but this function does not.
+ * Unlike wp_count_comments(), this function always returns the live comment counts without caching.
  *
  * @since 2.0.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int $post_id Optional. Comment amount in post if > 0, else total comments blog wide.
- * @return array The amount of spam, approved, awaiting moderation, and total comments.
+ * @param int $post_id Optional. Restrict the comment counts to the given post. Default 0, which indicates that
+ *                     comment counts for the whole site will be retrieved.
+ * @return array() {
+ *     The number of comments keyed by their status.
+ *
+ *     @type int|string $approved            The number of approved comments.
+ *     @type int|string $awaiting_moderation The number of comments awaiting moderation (a.k.a. pending).
+ *     @type int|string $spam                The number of spam comments.
+ *     @type int|string $trash               The number of trashed comments.
+ *     @type int|string $post-trashed        The number of comments for posts that are in the trash.
+ *     @type int        $total_comments      The total number of non-trashed comments, including spam.
+ *     @type int        $all                 The total number of pending or approved comments.
+ * }
  */
 function get_comment_count( $post_id = 0 ) {
 	global $wpdb;
@@ -1296,31 +1306,39 @@ function wp_blacklist_check( $author, $email, $url, $comment, $user_ip, $user_ag
 }
 
 /**
- * Retrieve total comments for blog or single post.
- *
- * The properties of the returned object contain the 'moderated', 'approved',
- * and spam comments for either the entire blog or single post. Those properties
- * contain the amount of comments that match the status. The 'total_comments'
- * property contains the integer of total comments.
+ * Retrieves the total comment counts for the whole site or a single post.
  *
  * The comment stats are cached and then retrieved, if they already exist in the
  * cache.
  *
+ * @see get_comment_count() Which handles fetching the live comment counts.
+ *
  * @since 2.5.0
  *
- * @param int $post_id Optional. Post ID.
- * @return object|array Comment stats.
+ * @param int $post_id Optional. Restrict the comment counts to the given post. Default 0, which indicates that
+ *                     comment counts for the whole site will be retrieved.
+ * @return stdClass {
+ *     The number of comments keyed by their status.
+ *
+ *     @type int|string $approved       The number of approved comments.
+ *     @type int|string $moderated      The number of comments awaiting moderation (a.k.a. pending).
+ *     @type int|string $spam           The number of spam comments.
+ *     @type int|string $trash          The number of trashed comments.
+ *     @type int|string $post-trashed   The number of comments for posts that are in the trash.
+ *     @type int        $total_comments The total number of non-trashed comments, including spam.
+ *     @type int        $all            The total number of pending or approved comments.
+ * }
  */
 function wp_count_comments( $post_id = 0 ) {
 	$post_id = (int) $post_id;
 
 	/**
-	 * Filters the comments count for a given post.
+	 * Filters the comments count for a given post or the whole site.
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param array $count   An empty array.
-	 * @param int   $post_id The post ID.
+	 * @param array|stdClass $count   An empty array or an object containing comment counts.
+	 * @param int            $post_id The post ID. Can be 0 to represent the whole site.
 	 */
 	$filtered = apply_filters( 'wp_count_comments', array(), $post_id );
 	if ( ! empty( $filtered ) ) {
