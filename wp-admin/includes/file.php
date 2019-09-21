@@ -518,6 +518,9 @@ function wp_edit_theme_plugin_file( $args ) {
 			'Cache-Control' => 'no-cache',
 		);
 
+		/** This filter is documented in wp-includes/class-wp-http-streams.php */
+		$sslverify = apply_filters( 'https_local_ssl_verify', false );
+
 		// Include Basic auth in loopback requests.
 		if ( isset( $_SERVER['PHP_AUTH_USER'] ) && isset( $_SERVER['PHP_AUTH_PW'] ) ) {
 			$headers['Authorization'] = 'Basic ' . base64_encode( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) . ':' . wp_unslash( $_SERVER['PHP_AUTH_PW'] ) );
@@ -547,7 +550,7 @@ function wp_edit_theme_plugin_file( $args ) {
 			$url = admin_url();
 		}
 		$url                    = add_query_arg( $scrape_params, $url );
-		$r                      = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );
+		$r                      = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
 		$body                   = wp_remote_retrieve_body( $r );
 		$scrape_result_position = strpos( $body, $needle_start );
 
