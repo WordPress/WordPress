@@ -4939,7 +4939,7 @@ body.page .main-navigation {
   .archive .page-header,
   .search .page-header,
   .error404 .page-header {
-    margin: 0 calc(10% + 60px) calc(10% + 60px);
+    margin: 0 calc(10% + 60px) calc(3 * 1rem);
   }
 }
 
@@ -4967,18 +4967,8 @@ body.page .main-navigation {
   clear: both;
 }
 
-.archive .page-header .search-term:after,
-.archive .page-header .page-description:after,
-.search .page-header .search-term:after,
-.search .page-header .page-description:after,
-.error404 .page-header .search-term:after,
-.error404 .page-header .page-description:after {
-  content: ".";
-  font-weight: bold;
-  color: #767676;
-}
-
-.archive .page-header .page-description {
+.archive .page-header .page-description,
+.search .page-header .page-description {
   display: block;
   color: #111;
   font-size: 1em;
@@ -4991,17 +4981,13 @@ body.page .main-navigation {
 }
 
 /* 404 & Not found */
-.error-404.not-found .page-title,
 .error-404.not-found .page-content,
-.no-results.not-found .page-title,
 .no-results.not-found .page-content {
   margin: calc(3 * 1rem) 1rem;
 }
 
 @media only screen and (min-width: 768px) {
-  .error-404.not-found .page-title,
   .error-404.not-found .page-content,
-  .no-results.not-found .page-title,
   .no-results.not-found .page-content {
     margin: calc(3 * 1rem) calc(10% + 60px) calc(1rem / 2);
   }

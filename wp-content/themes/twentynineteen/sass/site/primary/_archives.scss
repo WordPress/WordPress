@@ -5,7 +5,7 @@
 	margin: $size__spacing-unit $size__spacing-unit calc(3 * #{$size__spacing-unit});
 
 	@include media(tablet) {
-		margin: 0 $size__site-margins $size__site-margins;
+		margin: 0 $size__site-margins calc(3 * #{$size__spacing-unit});
 	}
 
 	.page-title {
@@ -23,16 +23,11 @@
 	.page-description {
 		display: inherit;
 		clear: both;
-
-		&:after {
-			content: ".";
-			font-weight: bold;
-			color: $color__text-light;
-		}
 	}
 }
 
-.archive .page-header .page-description {
+.archive .page-header .page-description,
+.search .page-header .page-description {
 	display: block;
 	color: $color__text-main;
 	font-size: 1em;
@@ -50,7 +45,6 @@
 .error-404.not-found,
 .no-results.not-found {
 
-	.page-title,
 	.page-content {
 
 		margin: calc(3 * #{$size__spacing-unit}) #{$size__spacing-unit};
