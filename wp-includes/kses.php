@@ -2071,7 +2071,8 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	 * @since 5.0.0 Added support for `background-image`.
 	 * @since 5.1.0 Added support for `text-transform`.
 	 * @since 5.2.0 Added support for `background-position` and `grid-template-columns`
-	 * @since 5.3.0 Added support for `flex`, `flex-grow`, `flex-shrink`, and `flex-basis`.
+	 * @since 5.3.0 Added support for `grid`, `flex` and `column` layout properties.
+	 *              Extend `background-*` support of individual properties.
 	 *
 	 * @param string[] $attr Array of allowed CSS attributes.
 	 */
@@ -2082,8 +2083,12 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'background-color',
 			'background-image',
 			'background-position',
+			'background-size',
+			'background-attachment',
+			'background-blend-mode',
 
 			'border',
+			'border-radius',
 			'border-width',
 			'border-color',
 			'border-style',
@@ -2107,6 +2112,14 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'border-spacing',
 			'border-collapse',
 			'caption-side',
+
+			'columns',
+			'column-count',
+			'column-fill',
+			'column-gap',
+			'column-rule',
+			'column-span',
+			'column-width',
 
 			'color',
 			'font',
@@ -2143,9 +2156,30 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'padding-top',
 
 			'flex',
+			'flex-basis',
+			'flex-direction',
+			'flex-flow',
 			'flex-grow',
 			'flex-shrink',
-			'flex-basis',
+
+			'grid-template-columns',
+			'grid-auto-columns',
+			'grid-column-start',
+			'grid-column-end',
+			'grid-column-gap',
+			'grid-template-rows',
+			'grid-auto-rows',
+			'grid-row-start',
+			'grid-row-end',
+			'grid-row-gap',
+			'grid-gap',
+
+			'justify-content',
+			'justify-items',
+			'justify-self',
+			'align-content',
+			'align-items',
+			'align-self',
 
 			'clear',
 			'cursor',
@@ -2154,7 +2188,6 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'overflow',
 			'vertical-align',
 			'list-style-type',
-			'grid-template-columns',
 		)
 	);
 
