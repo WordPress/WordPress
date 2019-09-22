@@ -2544,6 +2544,7 @@ function posts_nav_link( $sep = '', $prelabel = '', $nxtlabel = '' ) {
  *
  * @since 4.1.0
  * @since 4.4.0 Introduced the `in_same_term`, `excluded_terms`, and `taxonomy` arguments.
+ * @since 5.3.0 Added the `aria_label` parameter.
  *
  * @param array $args {
  *     Optional. Default post navigation arguments. Default empty array.
@@ -2553,11 +2554,17 @@ function posts_nav_link( $sep = '', $prelabel = '', $nxtlabel = '' ) {
  *     @type bool         $in_same_term       Whether link should be in a same taxonomy term. Default false.
  *     @type array|string $excluded_terms     Array or comma-separated list of excluded term IDs. Default empty.
  *     @type string       $taxonomy           Taxonomy, if `$in_same_term` is true. Default 'category'.
- *     @type string       $screen_reader_text Screen reader text for nav element. Default 'Post navigation'.
+ *     @type string       $screen_reader_text Screen reader text for the nav element. Default 'Post navigation'.
+ *     @type string       $aria_label         ARIA label text for the nav element. Default 'Posts'.
  * }
  * @return string Markup for post links.
  */
 function get_the_post_navigation( $args = array() ) {
+	// Make sure the nav element has an aria-label attribute: fallback to the screen reader text.
+	if ( ! empty( $args['screen_reader_text'] ) && empty( $args['aria_label'] ) ) {
+		$args['aria_label'] = $args['screen_reader_text'];
+	}
+
 	$args = wp_parse_args(
 		$args,
 		array(
@@ -2567,6 +2574,7 @@ function get_the_post_navigation( $args = array() ) {
 			'excluded_terms'     => '',
 			'taxonomy'           => 'category',
 			'screen_reader_text' => __( 'Post navigation' ),
+			'aria_label'         => __( 'Posts' ),
 		)
 	);
 
@@ -2590,7 +2598,7 @@ function get_the_post_navigation( $args = array() ) {
 
 	// Only add markup if there's somewhere to navigate to.
 	if ( $previous || $next ) {
-		$navigation = _navigation_markup( $previous . $next, 'post-navigation', $args['screen_reader_text'] );
+		$navigation = _navigation_markup( $previous . $next, 'post-navigation', $args['screen_reader_text'], $args['aria_label'] );
 	}
 
 	return $navigation;
@@ -2612,6 +2620,7 @@ function the_post_navigation( $args = array() ) {
  * Returns the navigation to next/previous set of posts, when applicable.
  *
  * @since 4.1.0
+ * @since 5.3.0 Added the `aria_label` parameter.
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
@@ -2622,8 +2631,9 @@ function the_post_navigation( $args = array() ) {
  *                                      Default 'Older posts'.
  *     @type string $next_text          Anchor text to display in the next posts link.
  *                                      Default 'Newer posts'.
- *     @type string $screen_reader_text Screen reader text for nav element.
+ *     @type string $screen_reader_text Screen reader text for the nav element.
  *                                      Default 'Posts navigation'.
+ *     @type string $aria_label         ARIA label text for the nav element. Default 'Posts'.
  * }
  * @return string Markup for posts links.
  */
@@ -2632,12 +2642,18 @@ function get_the_posts_navigation( $args = array() ) {
 
 	// Don't print empty markup if there's only one page.
 	if ( $GLOBALS['wp_query']->max_num_pages > 1 ) {
+		// Make sure the nav element has an aria-label attribute: fallback to the screen reader text.
+		if ( ! empty( $args['screen_reader_text'] ) && empty( $args['aria_label'] ) ) {
+			$args['aria_label'] = $args['screen_reader_text'];
+		}
+
 		$args = wp_parse_args(
 			$args,
 			array(
 				'prev_text'          => __( 'Older posts' ),
 				'next_text'          => __( 'Newer posts' ),
 				'screen_reader_text' => __( 'Posts navigation' ),
+				'aria_label'         => __( 'Posts' ),
 			)
 		);
 
@@ -2652,7 +2668,7 @@ function get_the_posts_navigation( $args = array() ) {
 			$navigation .= '<div class="nav-next">' . $next_link . '</div>';
 		}
 
-		$navigation = _navigation_markup( $navigation, 'posts-navigation', $args['screen_reader_text'] );
+		$navigation = _navigation_markup( $navigation, 'posts-navigation', $args['screen_reader_text'], $args['aria_label'] );
 	}
 
 	return $navigation;
@@ -2674,12 +2690,14 @@ function the_posts_navigation( $args = array() ) {
  * Retrieves a paginated navigation to next/previous set of posts, when applicable.
  *
  * @since 4.1.0
+ * @since 5.3.0 Added the `aria_label` parameter.
  *
  * @param array $args {
  *     Optional. Default pagination arguments, see paginate_links().
  *
  *     @type string $screen_reader_text Screen reader text for navigation element.
  *                                      Default 'Posts navigation'.
+ *     @type string $aria_label         ARIA label text for the nav element. Default 'Posts'.
  * }
  * @return string Markup for pagination links.
  */
@@ -2688,6 +2706,11 @@ function get_the_posts_pagination( $args = array() ) {
 
 	// Don't print empty markup if there's only one page.
 	if ( $GLOBALS['wp_query']->max_num_pages > 1 ) {
+		// Make sure the nav element has an aria-label attribute: fallback to the screen reader text.
+		if ( ! empty( $args['screen_reader_text'] ) && empty( $args['aria_label'] ) ) {
+			$args['aria_label'] = $args['screen_reader_text'];
+		}
+
 		$args = wp_parse_args(
 			$args,
 			array(
@@ -2695,6 +2718,7 @@ function get_the_posts_pagination( $args = array() ) {
 				'prev_text'          => _x( 'Previous', 'previous set of posts' ),
 				'next_text'          => _x( 'Next', 'next set of posts' ),
 				'screen_reader_text' => __( 'Posts navigation' ),
+				'aria_label'         => __( 'Posts' ),
 			)
 		);
 
@@ -2707,7 +2731,7 @@ function get_the_posts_pagination( $args = array() ) {
 		$links = paginate_links( $args );
 
 		if ( $links ) {
-			$navigation = _navigation_markup( $links, 'pagination', $args['screen_reader_text'] );
+			$navigation = _navigation_markup( $links, 'pagination', $args['screen_reader_text'], $args['aria_label'] );
 		}
 	}
 
@@ -2730,20 +2754,25 @@ function the_posts_pagination( $args = array() ) {
  * Wraps passed links in navigational markup.
  *
  * @since 4.1.0
+ * @since 5.3.0 Added the `aria_label` parameter.
  * @access private
  *
  * @param string $links              Navigational links.
- * @param string $class              Optional. Custom class for nav element. Default: 'posts-navigation'.
- * @param string $screen_reader_text Optional. Screen reader text for nav element. Default: 'Posts navigation'.
+ * @param string $class              Optional. Custom class for the nav element. Default: 'posts-navigation'.
+ * @param string $screen_reader_text Optional. Screen reader text for the nav element. Default: 'Posts navigation'.
+ * @param string $aria_label         Optional. ARIA label for the nav element. Default: same value as $screen_reader_text.
  * @return string Navigation template tag.
  */
-function _navigation_markup( $links, $class = 'posts-navigation', $screen_reader_text = '' ) {
+function _navigation_markup( $links, $class = 'posts-navigation', $screen_reader_text = '', $aria_label = '' ) {
 	if ( empty( $screen_reader_text ) ) {
 		$screen_reader_text = __( 'Posts navigation' );
 	}
+	if ( empty( $aria_label ) ) {
+		$aria_label = $screen_reader_text;
+	}
 
 	$template = '
-	<nav class="navigation %1$s" role="navigation">
+	<nav class="navigation %1$s" role="navigation" aria-label="%4$s">
 		<h2 class="screen-reader-text">%2$s</h2>
 		<div class="nav-links">%3$s</div>
 	</nav>';
@@ -2752,10 +2781,10 @@ function _navigation_markup( $links, $class = 'posts-navigation', $screen_reader
 	 * Filters the navigation markup template.
 	 *
 	 * Note: The filtered template HTML must contain specifiers for the navigation
-	 * class (%1$s), the screen-reader-text value (%2$s), and placement of the
-	 * navigation links (%3$s):
+	 * class (%1$s), the screen-reader-text value (%2$s), placement of the navigation
+	 * links (%3$s), and ARIA label text if screen-reader-text does not fit that (%4$s):
 	 *
-	 *     <nav class="navigation %1$s" role="navigation">
+	 *     <nav class="navigation %1$s" role="navigation" aria-label="%4$s">
 	 *         <h2 class="screen-reader-text">%2$s</h2>
 	 *         <div class="nav-links">%3$s</div>
 	 *     </nav>
@@ -2768,7 +2797,7 @@ function _navigation_markup( $links, $class = 'posts-navigation', $screen_reader
 	 */
 	$template = apply_filters( 'navigation_markup_template', $template, $class );
 
-	return sprintf( $template, sanitize_html_class( $class ), esc_html( $screen_reader_text ), $links );
+	return sprintf( $template, sanitize_html_class( $class ), esc_html( $screen_reader_text ), $links, esc_html( $aria_label ) );
 }
 
 /**
@@ -2977,6 +3006,7 @@ function paginate_comments_links( $args = array() ) {
  * Retrieves navigation to next/previous set of comments, when applicable.
  *
  * @since 4.4.0
+ * @since 5.3.0 Added the `aria_label` parameter.
  *
  * @param array $args {
  *     Optional. Default comments navigation arguments.
@@ -2985,7 +3015,8 @@ function paginate_comments_links( $args = array() ) {
  *                                      Default 'Older comments'.
  *     @type string $next_text          Anchor text to display in the next comments link.
  *                                      Default 'Newer comments'.
- *     @type string $screen_reader_text Screen reader text for nav element. Default 'Comments navigation'.
+ *     @type string $screen_reader_text Screen reader text for the nav element. Default 'Comments navigation'.
+ *     @type string $aria_label         ARIA label text for the nav element. Default 'Comments'.
  * }
  * @return string Markup for comments links.
  */
@@ -2994,12 +3025,18 @@ function get_the_comments_navigation( $args = array() ) {
 
 	// Are there comments to navigate through?
 	if ( get_comment_pages_count() > 1 ) {
+		// Make sure the nav element has an aria-label attribute: fallback to the screen reader text.
+		if ( ! empty( $args['screen_reader_text'] ) && empty( $args['aria_label'] ) ) {
+			$args['aria_label'] = $args['screen_reader_text'];
+		}
+
 		$args = wp_parse_args(
 			$args,
 			array(
 				'prev_text'          => __( 'Older comments' ),
 				'next_text'          => __( 'Newer comments' ),
 				'screen_reader_text' => __( 'Comments navigation' ),
+				'aria_label'         => __( 'Comments' ),
 			)
 		);
 
@@ -3014,7 +3051,7 @@ function get_the_comments_navigation( $args = array() ) {
 			$navigation .= '<div class="nav-next">' . $next_link . '</div>';
 		}
 
-		$navigation = _navigation_markup( $navigation, 'comment-navigation', $args['screen_reader_text'] );
+		$navigation = _navigation_markup( $navigation, 'comment-navigation', $args['screen_reader_text'], $args['aria_label'] );
 	}
 
 	return $navigation;
@@ -3035,22 +3072,31 @@ function the_comments_navigation( $args = array() ) {
  * Retrieves a paginated navigation to next/previous set of comments, when applicable.
  *
  * @since 4.4.0
+ * @since 5.3.0 Added the `aria_label` parameter.
  *
  * @see paginate_comments_links()
  *
  * @param array $args {
  *     Optional. Default pagination arguments.
  *
- *     @type string $screen_reader_text Screen reader text for nav element. Default 'Comments navigation'.
+ *     @type string $screen_reader_text Screen reader text for the nav element. Default 'Comments navigation'.
+ *     @type string $aria_label         ARIA label text for the nav element. Default 'Comments'.
  * }
  * @return string Markup for pagination links.
  */
 function get_the_comments_pagination( $args = array() ) {
-	$navigation   = '';
+	$navigation = '';
+
+	// Make sure the nav element has an aria-label attribute: fallback to the screen reader text.
+	if ( ! empty( $args['screen_reader_text'] ) && empty( $args['aria_label'] ) ) {
+		$args['aria_label'] = $args['screen_reader_text'];
+	}
+
 	$args         = wp_parse_args(
 		$args,
 		array(
 			'screen_reader_text' => __( 'Comments navigation' ),
+			'aria_label'         => __( 'Comments' ),
 		)
 	);
 	$args['echo'] = false;
@@ -3063,7 +3109,7 @@ function get_the_comments_pagination( $args = array() ) {
 	$links = paginate_comments_links( $args );
 
 	if ( $links ) {
-		$navigation = _navigation_markup( $links, 'comments-pagination', $args['screen_reader_text'] );
+		$navigation = _navigation_markup( $links, 'comments-pagination', $args['screen_reader_text'], $args['aria_label'] );
 	}
 
 	return $navigation;
