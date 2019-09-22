@@ -411,10 +411,10 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
  * @since 4.4.0
  *
  * @param string $path   Optional. REST route. Default empty.
- * @param string $scheme Optional. Sanitization scheme. Default 'json'.
+ * @param string $scheme Optional. Sanitization scheme. Default 'rest'.
  * @return string Full URL to the endpoint.
  */
-function rest_url( $path = '', $scheme = 'json' ) {
+function rest_url( $path = '', $scheme = 'rest' ) {
 	return get_rest_url( null, $path, $scheme );
 }
 
