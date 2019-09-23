@@ -1,0 +1,462 @@
+.site-health #wpcontent,
+.site-health.auto-fold #wpcontent {
+	padding-right: 0;
+}
+
+/* Emulates .wrap h1 styling */
+.health-check-header h1 {
+	display: inline-block;
+	font-weight: 600;
+	margin: 0 0.8rem 1rem;
+	font-size: 23px;
+	padding: 9px 0 4px 0;
+	line-height: 1.3;
+}
+
+.health-check-body h2 {
+	padding: 1rem 0;
+	line-height: 1.4;
+}
+
+.health-check-body h3 {
+	padding: 0;
+	font-weight: 400;
+}
+
+.health-check-header {
+	text-align: center;
+	margin: 0 0 1rem;
+	background: #fff;
+	border-bottom: 1px solid #e2e4e7;
+}
+
+.health-check-title-section {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	clear: both;
+}
+
+.site-health-progress-wrapper {
+	margin-bottom: 1rem;
+}
+
+.site-health-progress {
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	margin: 0;
+	border-radius: 100%;
+	position: relative;
+	font-weight: 600;
+	font-size: 0.4rem;
+}
+
+.site-health-progress-count {
+	position: absolute;
+	display: block;
+	height: 80px;
+	width: 80px;
+	right: 50%;
+	top: 50%;
+	margin-top: -40px;
+	margin-right: -40px;
+	border-radius: 100%;
+	line-height: 6.3;
+	font-size: 2em;
+}
+
+.loading .site-health-progress svg #bar {
+	stroke-dashoffset: 0;
+	stroke: #adc5d2;
+	animation: loadingPulse 3s infinite ease-in-out;
+}
+
+.site-health-progress svg circle {
+	stroke-dashoffset: 0;
+	transition: stroke-dashoffset 1s linear;
+	stroke: #ccc;
+	stroke-width: 2em;
+}
+
+.site-health-progress svg #bar {
+	stroke-dashoffset: 565;
+	stroke: #dc3232;
+}
+
+.green .site-health-progress #bar {
+	stroke: #46b450;
+}
+.green .site-health-progress .site-health-progress-label {
+	color: #46b450;
+}
+
+.orange .site-health-progress #bar {
+	stroke: #ffb900;
+}
+.orange .site-health-progress .site-health-progress-label {
+	color: #ffb900;
+}
+
+.site-health-progress-label {
+	font-weight: 600;
+	line-height: 20px;
+	margin-right: 0.3rem;
+}
+
+@keyframes loadingPulse {
+	0% {
+		stroke: #adc5d2;
+	}
+	50% {
+		stroke: #00a0d2;
+	}
+	100% {
+		stroke: #adc5d2;
+	}
+}
+
+.health-check-tabs-wrapper {
+	/* IE 11 */
+	display: -ms-inline-grid;
+	-ms-grid-columns: 1fr 1fr;
+	vertical-align: top;
+	/* modern browsers */
+	display: inline-grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.health-check-tab {
+	display: block; /* IE 11 */
+	text-decoration: none;
+	color: inherit;
+	padding: 0.5rem 1rem 1rem;
+	margin: 0 1rem;
+	transition: box-shadow 0.5s ease-in-out;
+}
+
+.health-check-tab:nth-child(1) {
+	-ms-grid-column: 1; /* IE 11 */
+}
+
+.health-check-tab:nth-child(2) {
+	-ms-grid-column: 2; /* IE 11 */
+}
+
+.health-check-tab:focus {
+	color: #191e23;
+	outline: 1px solid #6c7781;
+	box-shadow: none;
+}
+
+.health-check-tab.active {
+	box-shadow: inset 0 -3px #007cba;
+	font-weight: 600;
+}
+
+.health-check-body {
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.health-check-table td:first-child {
+	width: 30%;
+}
+
+.health-check-table td {
+	width: 70%;
+}
+
+.health-check-table ul,
+.health-check-table ol {
+	margin: 0;
+}
+
+.health-check-body li {
+	line-height: 1.5;
+}
+
+.health-check-body .pass::before,
+.health-check-body .good::before {
+	content: "\f147";
+	color: #46b450;
+}
+
+.health-check-body .warning::before {
+	content: "\f460";
+	color: #ffb900;
+}
+
+.health-check-body .info::before {
+	content: "\f348";
+	color: #00a0d2;
+}
+
+.health-check-body .fail::before,
+.health-check-body .error::before {
+	content: "\f335";
+	color: #dc3232;
+}
+
+.site-health-copy-buttons {
+	margin: 1rem 0;
+}
+
+.site-health-copy-buttons .copy-button-wrapper {
+	margin: 0.5rem 0 1rem;
+}
+
+.site-health-copy-buttons .success {
+	display: none;
+	color: #40860a;
+	line-height: 1.8;
+	margin-right: 0.5rem;
+}
+
+.site-health-copy-buttons .success.visible {
+	display: inline-block;
+	height: 28px;
+	line-height: 2.2;
+}
+
+.site-status-has-issues.hide {
+	display: none;
+}
+
+.site-health-view-more {
+	text-align: center;
+}
+
+.site-health-issues-wrapper:first-of-type {
+	margin-top: 3rem;
+}
+
+.site-health-issues-wrapper {
+	margin-bottom: 3rem;
+	margin-top: 2rem;
+}
+
+.site-status-all-clear {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	height: 100%;
+	width: 100%;
+	margin-top: 0;
+}
+
+@media all and (min-width: 784px) {
+	.site-status-all-clear {
+		margin: 5rem 0;
+	}
+}
+
+.site-status-all-clear.hide {
+	display: none;
+}
+
+.site-status-all-clear .dashicons {
+	font-size: 150px;
+	height: 130px;
+	width: 150px;
+}
+
+.site-status-all-clear .encouragement {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.site-status-all-clear p {
+	margin: 0;
+}
+
+.health-check-accordion {
+	border: 1px solid #ccd0d4;
+}
+
+.health-check-accordion-heading {
+	margin: 0;
+	border-top: 1px solid #ccd0d4;
+	font-size: inherit;
+	line-height: inherit;
+	font-weight: 600;
+	color: inherit;
+}
+
+.health-check-accordion-heading:first-child {
+	border-top: none;
+}
+
+.health-check-accordion-trigger {
+	background: #fff;
+	border: 0;
+	color: #32373c;
+	cursor: pointer;
+	display: flex;
+	font-weight: 400;
+	margin: 0;
+	padding: 1em 1.5em 1em 3.5em;
+	min-height: 46px;
+	position: relative;
+	text-align: right;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.wp-core-ui .button.site-health-view-passed {
+	position: relative;
+	padding-left: 40px;
+	padding-right: 20px;
+}
+
+.health-check-accordion-trigger:hover,
+.health-check-accordion-trigger:active {
+	background: #f8f9f9;
+}
+
+.health-check-accordion-trigger:focus {
+	color: #191e23;
+	border: none;
+	box-shadow: none;
+	outline-offset: -2px;
+	outline: 1px dotted #555d66;
+}
+
+.health-check-accordion-trigger .title {
+	pointer-events: none;
+	font-weight: 600;
+	flex-grow: 1;
+}
+
+.health-check-accordion-trigger .icon,
+.site-health-view-passed .icon {
+	border: solid #555d66;
+	border-width: 0 0 2px 2px;
+	height: 0.5rem;
+	pointer-events: none;
+	position: absolute;
+	left: 1.5em;
+	top: 50%;
+	transform: translateY(-70%) rotate(-45deg);
+	width: 0.5rem;
+}
+
+.health-check-accordion-trigger .badge {
+	padding: 0.1rem 0.5rem 0.15rem;
+	color: #32373c;
+	font-weight: 600;
+	margin-right: 0.5rem;
+}
+
+.health-check-accordion-trigger .badge.blue {
+	border: 1px solid #bfe7f3;
+}
+
+.health-check-accordion-trigger .badge.orange {
+	border: 1px solid #ffb900;
+}
+
+.health-check-accordion-trigger .badge.red {
+	border: 1px solid #dc3232;
+}
+
+.health-check-accordion-trigger .badge.green {
+	border: 1px solid #46b450;
+}
+
+.health-check-accordion-trigger .badge.purple {
+	border: 1px solid #826eb4;
+}
+
+.health-check-accordion-trigger .badge.gray {
+	border: 1px solid #ccd0d4;
+}
+
+.health-check-accordion-trigger[aria-expanded="true"] .icon,
+.site-health-view-passed[aria-expanded="true"] .icon {
+	transform: translateY(-30%) rotate(135deg)
+}
+
+.health-check-accordion-panel {
+	margin: 0;
+	padding: 1em 1.5em;
+	background: #fff;
+}
+
+.health-check-accordion-panel[hidden] {
+	display: none;
+}
+
+.health-check-accordion-panel a .dashicons {
+	text-decoration: none;
+}
+
+/* Better position for the WordPress admin notices and update nag. */
+.site-health .notice {
+	margin: 5px 22px 15px 20px;
+}
+
+.site-health .update-nag {
+	margin-bottom: 20px;
+	margin-right: 22px;
+}
+
+.health-check-wp-paths-sizes.spinner {
+	visibility: visible;
+	float: none;
+	margin: 0 4px;
+	flex-shrink: 0;
+}
+
+@media screen and (max-width: 782px) {
+	.health-check-body {
+		margin: 0 12px;
+		width: auto;
+	}
+
+	.site-health .notice {
+		margin: 5px 10px 15px;
+	}
+
+	.site-health .update-nag {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+
+	.site-health-issues-wrapper .health-check-accordion-trigger {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.health-check-accordion-trigger .badge {
+		margin: 1em 0 0;
+	}
+
+	.health-check-table {
+		table-layout: fixed;
+	}
+
+	.health-check-table td {
+		box-sizing: border-box;
+		display: block;
+		width: 100%;
+		word-wrap: break-word;
+	}
+
+	.health-check-table td:first-child {
+		width: 100%;
+		padding-bottom: 0;
+		font-weight: 600;
+	}
+}
+
+/* The breakpoint is usually at 960px, the additional space is to allow for the margin. */
+@media only screen and (max-width: 1004px) {
+	.health-check-body {
+		margin: 0 22px;
+		width: auto;
+	}
+}

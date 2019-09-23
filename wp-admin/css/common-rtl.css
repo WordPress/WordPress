@@ -9,22 +9,22 @@
 
 #wpcontent {
 	height: 100%;
-	padding-left: 20px;
+	padding-right: 20px;
 }
 
 #wpcontent,
 #wpfooter {
-	margin-left: 160px;
+	margin-right: 160px;
 }
 
 .folded #wpcontent,
 .folded #wpfooter {
-	margin-left: 36px;
+	margin-right: 36px;
 }
 
 #wpbody-content {
 	padding-bottom: 65px;
-	float: left;
+	float: right;
 	width: 100%;
 	overflow: visible !important;
 }
@@ -32,15 +32,15 @@
 /* inner 2 column liquid layout */
 
 .inner-sidebar {
-	float: right;
-	clear: right;
+	float: left;
+	clear: left;
 	display: none;
 	width: 281px;
 	position: relative;
 }
 
 .columns-2 .inner-sidebar {
-	margin-right: auto;
+	margin-left: auto;
 	width: 286px;
 	display: block;
 }
@@ -57,14 +57,14 @@
 }
 
 .has-right-sidebar #post-body {
-	float: left;
-	clear: left;
+	float: right;
+	clear: right;
 	width: 100%;
-	margin-right: -2000px;
+	margin-left: -2000px;
 }
 
 .has-right-sidebar #post-body-content {
-	margin-right: 300px;
+	margin-left: 300px;
 	float: none;
 	width: auto;
 }
@@ -72,38 +72,38 @@
 /* 2 columns main area */
 
 #col-left {
-	float: left;
+	float: right;
 	width: 35%;
 }
 
 #col-right {
-	float: right;
+	float: left;
 	width: 65%;
 }
 
 #col-left .col-wrap {
-	padding: 0 6px 0 0;
+	padding: 0 0 0 6px;
 }
 
 #col-right .col-wrap {
-	padding: 0 0 0 6px;
+	padding: 0 6px 0 0;
 }
 
 /* utility classes */
 .alignleft {
-	float: left;
-}
-
-.alignright {
 	float: right;
 }
 
+.alignright {
+	float: left;
+}
+
 .textleft {
-	text-align: left;
+	text-align: right;
 }
 
 .textright {
-	text-align: right;
+	text-align: left;
 }
 
 .clear {
@@ -144,7 +144,7 @@
 }
 
 .screen-reader-shortcut:focus {
-	left: 6px;
+	right: 6px;
 	top: -25px;
 	height: auto;
 	width: auto;
@@ -372,7 +372,7 @@ ul {
 
 ol {
 	list-style-type: decimal;
-	margin-left: 2em;
+	margin-right: 2em;
 }
 
 ul.ul-disc {
@@ -390,7 +390,7 @@ ol.ol-decimal {
 ul.ul-disc,
 ul.ul-square,
 ol.ol-decimal {
-	margin-left: 1.8em;
+	margin-right: 1.8em;
 }
 
 ul.ul-disc > li,
@@ -426,7 +426,7 @@ code {
 	margin: 8px 0 0;
 	padding: 0;
 	font-size: 13px;
-	float: left;
+	float: right;
 	color: #666;
 }
 
@@ -512,7 +512,7 @@ code {
 .widefat th,
 .widefat thead td,
 .widefat tfoot td {
-	text-align: left;
+	text-align: right;
 	line-height: 1.3em;
 	font-size: 14px;
 }
@@ -521,7 +521,7 @@ code {
 .updates-table td input,
 .widefat thead td input,
 .widefat tfoot td input {
-	margin: 0 0 0 8px;
+	margin: 0 8px 0 0;
 	padding: 0;
 	vertical-align: text-top;
 }
@@ -540,7 +540,7 @@ code {
 .widefat tbody th.check-column,
 .updates-table tbody td.check-column,
 .widefat tfoot td.check-column {
-	padding: 11px 0 0 3px;
+	padding: 11px 3px 0 0;
 }
 
 .widefat thead td.check-column,
@@ -551,7 +551,7 @@ code {
 
 .update-php div.updated,
 .update-php div.error {
-	margin-left: 0;
+	margin-right: 0;
 }
 
 .no-js .widefat thead .check-column input,
@@ -571,11 +571,11 @@ code {
 }
 
 .wrap {
-	margin: 10px 20px 0 2px;
+	margin: 10px 2px 0 20px;
 }
 
 .wrap.block-editor-no-js {
-	padding-left: 20px;
+	padding-right: 20px;
 }
 
 .wrap > h2:first-child, /* Back-compat for pre-4.4 */
@@ -591,7 +591,7 @@ code {
 
 .wrap h1.wp-heading-inline {
 	display: inline-block;
-	margin-right: 5px;
+	margin-left: 5px;
 }
 
 .wp-header-end {
@@ -601,7 +601,7 @@ code {
 
 .subtitle {
 	margin: 0;
-	padding-left: 25px;
+	padding-right: 25px;
 	color: #555d66;
 	font-size: 14px;
 	font-weight: 400;
@@ -612,7 +612,7 @@ code {
 .wrap .add-new-h2:active, /* deprecated */
 .wrap .page-title-action,
 .wrap .page-title-action:active {
-	margin-left: 4px;
+	margin-right: 4px;
 	padding: 4px 8px;
 	position: relative;
 	top: -3px;
@@ -628,7 +628,7 @@ code {
 }
 
 .wrap .wp-heading-inline + .page-title-action {
-	margin-left: 0;
+	margin-right: 0;
 }
 
 .wrap .add-new-h2:hover, /* deprecated */
@@ -646,7 +646,7 @@ code {
 /* Dashicon for language options on General Settings and Profile screens */
 .form-table th label[for="locale"] .dashicons,
 .form-table th label[for="WPLANG"] .dashicons {
-	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .wrap .page-title-action:focus {
@@ -657,7 +657,7 @@ code {
 }
 
 .wrap h1.long-header {
-	padding-right: 0;
+	padding-left: 0;
 }
 
 .wp-dialog {
@@ -690,7 +690,7 @@ ul.striped > :nth-child(odd),
 
 .bar {
 	background-color: #e8e8e8;
-	border-right-color: #99d;
+	border-left-color: #99d;
 }
 
 /* Helper classes for plugins to leverage the active WordPress color scheme */
@@ -812,7 +812,7 @@ img.emoji {
 }
 
 .tagchecklist .ntdelbutton .remove-tag-icon:before {
-	margin-left: 2px;
+	margin-right: 2px;
 	border-radius: 50%;
 	color: #0073aa;
 	/* vertically center the icon cross browsers */
@@ -915,15 +915,15 @@ span.required,
 }
 
 #delete-action {
-	float: left;
+	float: right;
 	line-height: 2.1;
 }
 
 #delete-link {
 	line-height: 2.1;
 	vertical-align: middle;
-	text-align: left;
-	margin-left: 8px;
+	text-align: right;
+	margin-right: 8px;
 }
 
 #delete-link a {
@@ -931,13 +931,13 @@ span.required,
 }
 
 #publishing-action {
-	text-align: right;
-	float: right;
+	text-align: left;
+	float: left;
 	line-height: 1.9;
 }
 
 #publishing-action .spinner {
-	float: left;
+	float: right;
 }
 
 #misc-publishing-actions {
@@ -954,19 +954,19 @@ span.required,
 
 #minor-publishing-actions {
 	padding: 10px 10px 0 10px;
-	text-align: right;
+	text-align: left;
 }
 
 #save-post {
-	float: left;
-}
-
-.preview {
 	float: right;
 }
 
+.preview {
+	float: left;
+}
+
 #sticky-span {
-	margin-left: 18px;
+	margin-right: 18px;
 }
 
 .approve,
@@ -982,12 +982,12 @@ span.required,
 
 td.action-links,
 th.action-links {
-	text-align: right;
+	text-align: left;
 }
 
 #misc-publishing-actions .notice {
-	margin-left: 10px;
 	margin-right: 10px;
+	margin-left: 10px;
 }
 
 /* Filter bar */
@@ -1032,12 +1032,12 @@ th.action-links {
 .title-count {
 	display: inline;
 	top: -3px;
-	margin-left: 5px;
-	margin-right: 20px;
+	margin-right: 5px;
+	margin-left: 20px;
 }
 
 .filter-items {
-	float: left;
+	float: right;
 }
 
 .filter-links {
@@ -1073,7 +1073,7 @@ th.action-links {
 }
 
 .wp-filter .search-form {
-	float: right;
+	float: left;
 	margin: 10px 0;
 }
 
@@ -1099,7 +1099,7 @@ th.action-links {
 
 .wp-filter .button.drawer-toggle {
 	margin: 10px 9px 0;
-	padding: 0 10px 0 6px;
+	padding: 0 6px 0 10px;
 	border-color: transparent;
 	background-color: transparent;
 	color: #666;
@@ -1109,7 +1109,7 @@ th.action-links {
 
 .wp-filter .drawer-toggle:before {
 	content: "\f111";
-	margin: 0 5px 0 0;
+	margin: 0 0 0 5px;
 	color: #72777c;
 	font: normal 16px/1 dashicons;
 	vertical-align: text-bottom;
@@ -1147,7 +1147,7 @@ th.action-links {
 .filter-drawer,
 .wp-filter .favorites-form {
 	display: none;
-	margin: 0 -10px 0 -20px;
+	margin: 0 -20px 0 -10px;
 	padding: 20px;
 	border-top: 1px solid #eee;
 	background: #fafafa;
@@ -1181,8 +1181,8 @@ th.action-links {
 .filter-group {
 	box-sizing: border-box;
 	position: relative;
-	float: left;
-	margin: 0 1% 0 0;
+	float: right;
+	margin: 0 0 0 1%;
 	padding: 20px 10px 10px;
 	width: 24%;
 	background: #fff;
@@ -1218,7 +1218,7 @@ th.action-links {
 
 .filter-group .filter-group-feature label {
 	display: block;
-	margin: 14px 0px 14px 23px;
+	margin: 14px 23px 14px 0px;
 }
 
 .filter-drawer .buttons {
@@ -1240,7 +1240,7 @@ th.action-links {
 
 .wp-filter .button.clear-filters {
 	display: none;
-	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .wp-filter .button-link.edit-filters {
@@ -1258,7 +1258,7 @@ th.action-links {
 }
 
 .filtered-by a {
-	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .filtered-by .tags {
@@ -1367,14 +1367,14 @@ div.updated,
 div.error {
 	background: #fff;
 	border: 1px solid #ccd0d4;
-	border-left-width: 4px;
+	border-right-width: 4px;
 	box-shadow: 0 1px 1px rgba(0,0,0,.04);
 	margin: 5px 15px 2px;
 	padding: 1px 12px;
 }
 
 div[class="update-message"] { /* back-compat for pre-4.6 */
-	padding: 0.5em 12px 0.5em 0;
+	padding: 0.5em 0 0.5em 12px;
 }
 
 .notice p,
@@ -1409,14 +1409,14 @@ div.error p,
 }
 
 .wp-core-ui .notice.is-dismissible {
-	padding-right: 38px;
+	padding-left: 38px;
 	position: relative;
 }
 
 .notice-dismiss {
 	position: absolute;
 	top: 0;
-	right: 1px;
+	left: 1px;
 	border: none;
 	margin: 0;
 	padding: 9px;
@@ -1441,7 +1441,7 @@ div.error p,
 
 .notice-success,
 div.updated {
-	border-left-color: #46b450;
+	border-right-color: #46b450;
 }
 
 .notice-success.notice-alt {
@@ -1449,7 +1449,7 @@ div.updated {
 }
 
 .notice-warning {
-	border-left-color: #ffb900;
+	border-right-color: #ffb900;
 }
 
 .notice-warning.notice-alt {
@@ -1458,7 +1458,7 @@ div.updated {
 
 .notice-error,
 div.error {
-	border-left-color: #dc3232;
+	border-right-color: #dc3232;
 }
 
 .notice-error.notice-alt {
@@ -1466,7 +1466,7 @@ div.error {
 }
 
 .notice-info {
-	border-left-color: #00a0d2;
+	border-right-color: #00a0d2;
 }
 
 .notice-info.notice-alt {
@@ -1505,7 +1505,7 @@ div.error {
 }
 
 .wrap #templateside span.notice {
-	margin-left: -12px;
+	margin-right: -12px;
 }
 
 #templateside li.notice a {
@@ -1546,7 +1546,7 @@ div.error {
 
 .wrap .notice p:before,
 .import-php .updating-message:before {
-	margin-right: 6px;
+	margin-left: 6px;
 	vertical-align: bottom;
 }
 
@@ -1556,10 +1556,10 @@ div.error {
 	line-height: 1.4;
 	padding: 11px 15px;
 	font-size: 14px;
-	text-align: left;
-	margin: 25px 20px 0 2px;
+	text-align: right;
+	margin: 25px 2px 0 20px;
 	background-color: #fff;
-	border-left: 4px solid #ffba00;
+	border-right: 4px solid #ffba00;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -1573,7 +1573,7 @@ ul#dismissed-updates {
 
 #dismiss,
 #undismiss {
-	margin-left: 0.5em;
+	margin-right: 0.5em;
 }
 
 form.upgrade {
@@ -1600,14 +1600,14 @@ form.upgrade .hint {
 }
 
 #ajax-response.alignleft {
-	margin-left: 2em;
+	margin-right: 2em;
 }
 
 .button.updating-message:before,
 .button.updated-message:before,
 .button.installed:before,
 .button.installing:before {
-	margin: 3px 5px 0 -2px;
+	margin: 3px -2px 0 5px;
 }
 
 .button-primary.updating-message:before {
@@ -1657,18 +1657,18 @@ form.upgrade .hint {
 
 #contextual-help-wrap {
 	overflow: auto;
-	margin-left: 0 !important;
+	margin-right: 0 !important;
 }
 
 #screen-meta-links {
-	float: right;
-	margin: 0 20px 0 0;
+	float: left;
+	margin: 0 0 0 20px;
 }
 
 /* screen options and help tabs revert */
 #screen-meta {
 	display: none;
-	margin: 0 20px -1px 0px;
+	margin: 0 0px -1px 20px;
 	position: relative;
 	background-color: #fff;
 	border: 1px solid #ccd0d4;
@@ -1678,8 +1678,8 @@ form.upgrade .hint {
 
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
-	float: left;
-	margin: 0 0 0 6px;
+	float: right;
+	margin: 0 6px 0 0;
 }
 
 #screen-meta-links .screen-meta-toggle {
@@ -1692,7 +1692,7 @@ form.upgrade .hint {
 	border-top: none;
 	height: auto;
 	margin-bottom: 0;
-	padding: 3px 6px 3px 16px;
+	padding: 3px 16px 3px 6px;
 	background: #fff;
 	border-radius: 0 0 4px 4px;
 	color: #72777c;
@@ -1717,12 +1717,12 @@ form.upgrade .hint {
 }
 
 #screen-meta-links .show-settings:after {
-	right: 0;
+	left: 0;
 	content: "\f140";
 	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
-	padding: 0 5px 0 0;
+	padding: 0 0 0 5px;
 	bottom: 2px;
 	position: relative;
 	vertical-align: bottom;
@@ -1740,7 +1740,7 @@ form.upgrade .hint {
 
 .toggle-arrow {
 	background-repeat: no-repeat;
-	background-position: top left;
+	background-position: top right;
 	background-color: transparent;
 	height: 22px;
 	line-height: 22px;
@@ -1748,7 +1748,7 @@ form.upgrade .hint {
 }
 
 .toggle-arrow-active {
-	background-position: bottom left;
+	background-position: bottom right;
 }
 
 #screen-options-wrap h5, /* Back-compat for old plugins */
@@ -1766,7 +1766,7 @@ form.upgrade .hint {
 
 .metabox-prefs label {
 	display: inline-block;
-	padding-right: 15px;
+	padding-left: 15px;
 	line-height: 2.35;
 }
 
@@ -1778,16 +1778,16 @@ form.upgrade .hint {
 
 .metabox-prefs input[type=checkbox] {
 	margin-top: 0;
-	margin-right: 6px;
+	margin-left: 6px;
 }
 
 .metabox-prefs label input,
 .metabox-prefs label input[type=checkbox] {
-	margin: -4px 5px 0 0;
+	margin: -4px 0 0 5px;
 }
 
 .metabox-prefs .columns-prefs label input {
-	margin: -1px 2px 0 0;
+	margin: -1px 0 0 2px;
 }
 
 .metabox-prefs label a {
@@ -1802,12 +1802,12 @@ form.upgrade .hint {
 }
 
 .metabox-prefs .screen-options .screen-per-page {
-	margin-right: 15px;
+	margin-left: 15px;
 }
 
 .metabox-prefs .screen-options label {
 	line-height: 2.2;
-	padding-right: 0;
+	padding-left: 0;
 }
 
 .screen-options + .screen-options {
@@ -1835,8 +1835,8 @@ form.upgrade .hint {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	left: 150px;
-	right: 170px;
+	right: 150px;
+	left: 170px;
 	border: 1px solid #ccd0d4;
 	border-top: none;
 	border-bottom: none;
@@ -1844,13 +1844,13 @@ form.upgrade .hint {
 }
 
 #contextual-help-wrap.no-sidebar #contextual-help-back {
-	right: 0;
-	border-right-width: 0;
-	border-bottom-right-radius: 2px;
+	left: 0;
+	border-left-width: 0;
+	border-bottom-left-radius: 2px;
 }
 
 .contextual-help-tabs {
-	float: left;
+	float: right;
 	width: 150px;
 	margin: 0;
 }
@@ -1863,18 +1863,18 @@ form.upgrade .hint {
 	margin-bottom: 0;
 	list-style-type: none;
 	border-style: solid;
-	border-width: 0 0 0 2px;
+	border-width: 0 2px 0 0;
 	border-color: transparent;
 }
 
 .contextual-help-tabs a {
 	display: block;
-	padding: 5px 5px 5px 12px;
+	padding: 5px 12px 5px 5px;
 	line-height: 1.4;
 	text-decoration: none;
 	border: 1px solid transparent;
-	border-right: none;
 	border-left: none;
+	border-right: none;
 }
 
 .contextual-help-tabs a:hover {
@@ -1883,8 +1883,8 @@ form.upgrade .hint {
 
 .contextual-help-tabs .active {
 	padding: 0;
-	margin: 0 -1px 0 0;
-	border-left: 2px solid #00a0d2;
+	margin: 0 0 0 -1px;
+	border-right: 2px solid #00a0d2;
 	background: #f6fbfd;
 	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02), 0 1px 0 rgba(0, 0, 0, 0.02);
 }
@@ -1901,7 +1901,7 @@ form.upgrade .hint {
 
 .help-tab-content {
 	display: none;
-	margin: 0 22px 12px 0;
+	margin: 0 0 12px 22px;
 	line-height: 1.6;
 }
 
@@ -1911,13 +1911,13 @@ form.upgrade .hint {
 
 .help-tab-content ul li {
 	list-style-type: disc;
-	margin-left: 18px;
+	margin-right: 18px;
 }
 
 .contextual-help-sidebar {
 	width: 150px;
-	float: right;
-	padding: 0 8px 0 12px;
+	float: left;
+	padding: 0 12px 0 8px;
 	overflow: auto;
 }
 
@@ -1964,12 +1964,12 @@ html.wp-toolbar {
 
 .widefat .column-comment ul {
 	list-style: initial;
-	margin-left: 2em;
+	margin-right: 2em;
 }
 
 /* Screens with postboxes */
 .postbox-container {
-	float: left;
+	float: right;
 }
 
 .postbox-container .meta-box-sortables {
@@ -1991,9 +1991,9 @@ html.wp-toolbar {
 	margin: auto;
 	position: absolute;
 	top: 0;
-	left: 0;
-	bottom: 0;
 	right: 0;
+	bottom: 0;
+	left: 0;
 	height: 1em;
 	width: 200px;
 	text-align: center;
@@ -2014,12 +2014,12 @@ html.wp-toolbar {
 #post-body-content {
 	width: 100%;
 	min-width: 463px;
-	float: left;
+	float: right;
 }
 
 #post-body.columns-2 #postbox-container-1 {
-	float: right;
-	margin-right: -300px;
+	float: left;
+	margin-left: -300px;
 	width: 280px;
 }
 
@@ -2048,7 +2048,7 @@ html.wp-toolbar {
 
 .postbox .handlediv {
 	display: none;
-	float: right;
+	float: left;
 	width: 36px;
 	height: 36px;
 	margin: 0;
@@ -2124,7 +2124,7 @@ html.wp-toolbar {
 }
 
 .columns-prefs label {
-	padding: 0 10px 0 0;
+	padding: 0 0 0 10px;
 }
 
 /* @todo: what is this doing here */
@@ -2151,8 +2151,8 @@ html.wp-toolbar {
 #wpfooter {
 	position: absolute;
 	bottom: 0;
-	left: 0;
 	right: 0;
+	left: 0;
 	padding: 10px 20px;
 	color: #555d66;
 }
@@ -2172,10 +2172,10 @@ html.wp-toolbar {
 ------------------------------------------------------------------------------*/
 
 .nav-tab {
-	float: left;
+	float: right;
 	border: 1px solid #ccc;
 	border-bottom: none;
-	margin-left: 0.5em; /* half the font size so set the font size properly */
+	margin-right: 0.5em; /* half the font size so set the font size properly */
 	padding: 5px 10px;
 	font-size: 14px;
 	line-height: 1.71428571;
@@ -2251,7 +2251,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 	background-size: 20px 20px;
 	display: inline-block;
 	visibility: hidden;
-	float: right;
+	float: left;
 	vertical-align: middle;
 	opacity: 0.7;
 	filter: alpha(opacity=70);
@@ -2266,11 +2266,11 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 }
 
 #template > div {
-	margin-right: 16em;
+	margin-left: 16em;
 }
 #template .notice {
 	margin-top: 1em;
-	margin-right: 3%;
+	margin-left: 3%;
 }
 #template .notice p {
 	width: auto;
@@ -2291,7 +2291,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 
 /* Back-compat for nav-menus screen */
 .nav-menus-php .metabox-holder h3 {
-	padding: 10px 10px 11px 14px;
+	padding: 10px 14px 11px 10px;
 	line-height: 1.5;
 }
 
@@ -2307,7 +2307,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 table .vers,
 table .column-visible,
 table .column-rating {
-	text-align: left;
+	text-align: right;
 }
 
 .attention,
@@ -2354,7 +2354,7 @@ body.iframe {
 }
 
 .importers td {
-	padding-right: 14px;
+	padding-left: 14px;
 	line-height: 1.4;
 }
 
@@ -2471,7 +2471,7 @@ div.star-holder {
 div.star-holder .star-rating {
 	background: url(../images/stars.png?ver=20121108) repeat-x top left;
 	height: 17px;
-	float: left;
+	float: right;
 }
 
 /* Star Ratings */
@@ -2521,9 +2521,9 @@ div.action-links {
 	background: #fff;
 	position: fixed;
 	top: 0;
-	right: 0;
-	bottom: 0;
 	left: 0;
+	bottom: 0;
+	right: 0;
 	height: 100%;
 	padding: 0;
 }
@@ -2545,7 +2545,7 @@ div.action-links {
 }
 
 #plugin-information-title.with-banner {
-	margin-right: 0;
+	margin-left: 0;
 	height: 250px;
 	background-size: cover;
 }
@@ -2585,7 +2585,7 @@ div.action-links {
 	position: absolute;
 	display: block;
 	top: 0;
-	left: 0;
+	right: 0;
 	height: 250px;
 	width: 100%;
 	background: transparent;
@@ -2595,8 +2595,8 @@ div.action-links {
 #plugin-information-tabs {
 	padding: 0 16px;
 	position: relative;
-	right: 0;
 	left: 0;
+	right: 0;
 	min-height: 36px;
 	font-size: 0;
 	z-index: 1;
@@ -2640,8 +2640,8 @@ div.action-links {
 	background: #fff;
 	position: relative;
 	top: 0;
-	right: 0;
 	left: 0;
+	right: 0;
 	min-height: 100%;
 	/* Height of title + tabs + install now */
 	min-height: calc( 100% - 152px );
@@ -2655,11 +2655,11 @@ div.action-links {
 #section-holder {
 	position: relative;
 	top: 0;
-	right: 250px;
+	left: 250px;
 	bottom: 0;
-	left: 0;
+	right: 0;
 	margin-top: 10px;
-	margin-right: 250px; /* FYI box */
+	margin-left: 250px; /* FYI box */
 	padding: 10px 26px;
 	margin-bottom: -99939px; /* 60px less than the padding below to accommodate footer */
 	padding-bottom: 99999px; /* equal height column trick */
@@ -2674,15 +2674,15 @@ div.action-links {
 }
 
 #plugin-information .fyi {
-	float: right;
+	float: left;
 	position: relative;
 	top: 0;
-	right: 0;
+	left: 0;
 	padding: 16px;
 	margin-bottom: -99939px; /* 60px less than the padding below to accommodate footer */
 	padding-bottom: 99999px; /* equal height column trick */
 	width: 217px;
-	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 	background: #f3f3f3;
 	color: #666;
 }
@@ -2702,7 +2702,7 @@ div.action-links {
 #plugin-information .fyi h2 {
 	font-size: 0.9em;
 	margin-bottom: 0;
-	margin-right: 0;
+	margin-left: 0;
 }
 
 #plugin-information .fyi ul {
@@ -2724,8 +2724,8 @@ div.action-links {
 }
 
 #plugin-information .counter-label {
-	float: left;
-	margin-right: 5px;
+	float: right;
+	margin-left: 5px;
 	min-width: 55px;
 }
 
@@ -2733,17 +2733,17 @@ div.action-links {
 	height: 17px;
 	width: 92px;
 	background-color: #e5e5e5;
-	float: left;
+	float: right;
 }
 
 #plugin-information .counter-bar {
 	height: 17px;
 	background-color: #ffc733; /* slightly lighter than stars due to larger expanse */
-	float: left;
+	float: right;
 }
 
 #plugin-information .counter-count {
-	margin-left: 5px;
+	margin-right: 5px;
 }
 
 #plugin-information .fyi ul.contributors {
@@ -2752,27 +2752,27 @@ div.action-links {
 
 #plugin-information .fyi ul.contributors li {
 	display: inline-block;
-	margin-right: 8px;
+	margin-left: 8px;
 	vertical-align: middle;
 }
 
 #plugin-information .fyi ul.contributors li {
 	display: inline-block;
-	margin-right: 8px;
+	margin-left: 8px;
 	vertical-align: middle;
 }
 
 #plugin-information .fyi ul.contributors li img {
 	vertical-align: middle;
-	margin-right: 4px;
+	margin-left: 4px;
 }
 
 #plugin-information-footer {
 	padding: 13px 16px;
 	position: absolute;
-	right: 0;
-	bottom: 0;
 	left: 0;
+	bottom: 0;
+	right: 0;
 	height: 33px; /* 33+13+13+1=60 */
 	border-top: 1px solid #ddd;
 	background: #f3f3f3;
@@ -2823,11 +2823,11 @@ div.action-links {
 }
 
 #plugin-information blockquote {
-	border-left: 2px solid #ddd;
+	border-right: 2px solid #ddd;
 	color: #666;
 	font-style: italic;
 	margin: 1em 0;
-	padding: 0 0 0 1em;
+	padding: 0 1em 0 0;
 }
 
 /* rtl:ignore */
@@ -2884,7 +2884,7 @@ div.action-links {
 
 /* For non-js plugin installation screen ticket #36430. */
 .update-php .button.button-primary {
-	margin-right: 1em;
+	margin-left: 1em;
 }
 
 @media screen and (max-width: 771px) {
@@ -2951,10 +2951,10 @@ div.action-links {
 	width: 20px;
 	height: 20px;
 	position: absolute;
-	left: 50%;
+	right: 50%;
 	top: 50%;
 	z-index: -1;
-	margin: -10px 0 0 -10px;
+	margin: -10px -10px 0 0;
 	background: #fcfcfc url(../images/spinner.gif) no-repeat center;
 	background-size: 20px 20px;
 	transform: translateZ(0);
@@ -2970,7 +2970,7 @@ div.action-links {
 }
 
 .plugin-details-modal #TB_title {
-	float: left;
+	float: right;
 	height: 1px;
 }
 
@@ -2979,8 +2979,8 @@ div.action-links {
 }
 
 .plugin-details-modal #TB_closeWindowButton {
-	left: auto;
-	right: -30px;
+	right: auto;
+	left: -30px;
 	color: #eee;
 }
 
@@ -3006,7 +3006,7 @@ div.action-links {
 /* move plugin install close icon to top on narrow screens */
 @media screen and (max-width: 830px) {
 	.plugin-details-modal #TB_closeWindowButton {
-		right: 0;
+		left: 0;
 		top: -30px;
 	}
 }
@@ -3110,13 +3110,13 @@ img {
 	height: calc(100vh - 295px);
 	background-color: #f7f7f7;
 	border: 1px solid #ddd;
-	border-left: none;
+	border-right: none;
 }
 #templateside ul ul {
-	padding-left: 12px;
+	padding-right: 12px;
 }
 #templateside > ul > li > ul[role=group] {
-	padding-left: 0;
+	padding-right: 0;
 }
 
 /*
@@ -3137,14 +3137,14 @@ img {
 	pointer-events: none;
 }
 [role="treeitem"][aria-expanded="false"] > .folder-label .icon:after {
-	content: "\f139";
+	content: "\f141";
 }
 [role="treeitem"][aria-expanded="true"] > .folder-label .icon:after {
 	content: "\f140";
 }
 [role="treeitem"] .folder-label {
 	display: block;
-	padding: 3px 3px 3px 12px;
+	padding: 3px 12px 3px 3px;
 	cursor: pointer;
 }
 
@@ -3174,8 +3174,8 @@ img {
 	content: "";
 	display: block;
 	position: absolute;
-	left: 2px;
-	border-left: 1px solid #ccc;
+	right: 2px;
+	border-right: 1px solid #ccc;
 	top: -13px;
 	bottom: 10px;
 }
@@ -3183,8 +3183,8 @@ img {
 	content: "";
 	position: absolute;
 	display: block;
-	border-left: 1px solid #ccc;
-	left: 2px;
+	border-right: 1px solid #ccc;
+	right: 2px;
 	top: -5px;
 	height: 18px;
 	width: 7px;
@@ -3194,8 +3194,8 @@ img {
 	content: "";
 	position: absolute;
 	display: block;
-	border-left: 1px solid #ccc;
-	left: 2px;
+	border-right: 1px solid #ccc;
+	right: 2px;
 	bottom: -7px;
 	top: 0;
 }
@@ -3205,16 +3205,16 @@ img {
 	margin: -4px 0 -2px;
 }
 .tree-folder > .current-file::before {
-	left: 4px;
+	right: 4px;
 	height: 15px;
 	width: 0px;
-	border-left: none;
+	border-right: none;
 	top: 3px;
 }
 .tree-folder > .current-file::after {
 	bottom: -4px;
 	height: 7px;
-	left: 2px;
+	right: 2px;
 	top: auto;
 }
 
@@ -3242,7 +3242,7 @@ img {
 	max-width: 40%;
 }
 .fileedit-sub .alignright {
-	text-align: right;
+	text-align: left;
 }
 
 #template p {
@@ -3269,7 +3269,7 @@ img {
 	cursor: not-allowed;
 }
 #templateside {
-	float: right;
+	float: left;
 	width: 16em;
 	word-wrap: break-word;
 }
@@ -3289,7 +3289,7 @@ img {
 #templateside li:not(.howto) a,
 .theme-editor-php .highlight {
 	display: block;
-	padding: 3px 0 3px 12px;
+	padding: 3px 12px 3px 0;
 	text-decoration: none;
 }
 
@@ -3302,7 +3302,7 @@ img {
 }
 
 .theme-editor-php .highlight {
-	margin: -3px 3px -3px -12px;
+	margin: -3px -12px -3px 3px;
 }
 
 #templateside .highlight {
@@ -3314,7 +3314,7 @@ img {
 	color: #666;
 	font-size: 11px;
 	font-style: italic;
-	padding-left: 12px;
+	padding-right: 12px;
 }
 
 #documentation {
@@ -3351,7 +3351,7 @@ img {
 }
 
 .widget-top .widget-action .toggle-indicator:before {
-	padding: 1px 2px 1px 0px;
+	padding: 1px 0px 1px 2px;
 	border-radius: 50%;
 }
 
@@ -3386,8 +3386,8 @@ img {
 
 .control-section .accordion-section-title:after,
 .accordion-section-title:after {
-	float: right;
-	right: 20px;
+	float: left;
+	left: 20px;
 	top: -2px;
 }
 
@@ -3438,8 +3438,8 @@ img {
 	margin: 0;
 	padding: 12px 15px 15px;
 	position: relative;
-	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -3453,7 +3453,7 @@ img {
 .js .accordion-section-title:after {
 	position: absolute;
 	top: 12px;
-	right: 10px;
+	left: 10px;
 	z-index: 1;
 }
 
@@ -3476,9 +3476,9 @@ img {
 
 .control-section .accordion-section-title,
 .customize-pane-child .accordion-section-title {
-	border-left: none;
 	border-right: none;
-	padding: 10px 10px 11px 14px;
+	border-left: none;
+	padding: 10px 14px 11px 10px;
 	line-height: 1.55;
 	background: #fff;
 }
@@ -3537,21 +3537,21 @@ img {
 		height: 100%;
 		position: absolute;
 		top: 0;
-		right: 0;
+		left: 0;
 		background: #ccc;
 	}
 
 }
 @media only screen and (min-width: 600px) and (max-width: 699px) {
 	.my-sites li{
-		float: left;
+		float: right;
 		width: 44%;
 	}
 	.my-sites.striped li {
 		background-color: #fff;
 	}
 	.my-sites.striped li:nth-of-type(2n+1) {
-		clear: left;
+		clear: right;
 	}
 	.my-sites.striped li:nth-of-type(2n+2):after {
 		content: none;
@@ -3565,7 +3565,7 @@ img {
 
 @media only screen and (min-width: 700px) and (max-width: 1199px) {
 	.my-sites li {
-		float: left;
+		float: right;
 		width: 27.333333%;
 		background-color: #fff;
 	}
@@ -3581,13 +3581,13 @@ img {
 
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
 	.my-sites li {
-		float: left;
+		float: right;
 		width: 21%;
 		padding: 8px 2%;
 		background-color: #fff;
 	}
 	.my-sites.striped li:nth-of-type(4n+1) {
-		clear: left;
+		clear: right;
 	}
 	.my-sites.striped li:nth-of-type(4n+4):after {
 		content: none;
@@ -3602,13 +3602,13 @@ img {
 
 @media only screen and (min-width: 1400px) and (max-width: 1599px) {
 	.my-sites li {
-		float: left;
+		float: right;
 		width: 16%;
 		padding: 8px 2%;
 		background-color: #fff;
 	}
 	.my-sites.striped li:nth-of-type(5n+1) {
-		clear: left;
+		clear: right;
 	}
 	.my-sites.striped li:nth-of-type(5n+5):after {
 		content: none;
@@ -3624,13 +3624,13 @@ img {
 
 @media only screen and (min-width: 1600px) {
 	.my-sites li {
-		float: left;
+		float: right;
 		width: 12.666666%;
 		padding: 8px 2%;
 		background-color: #fff;
 	}
 	.my-sites.striped li:nth-of-type(6n+1) {
-		clear: left;
+		clear: right;
 	}
 	.my-sites.striped li:nth-of-type(6n+6):after {
 		content: none;
@@ -3708,8 +3708,8 @@ img {
 
 	#wpcontent {
 		position: relative;
-		margin-left: 0;
-		padding-left: 10px;
+		margin-right: 0;
+		padding-right: 10px;
 	}
 
 	#wpbody-content {
@@ -3718,8 +3718,8 @@ img {
 
 	.wrap {
 		clear: both;
-		margin-right: 12px;
-		margin-left: 0;
+		margin-left: 12px;
+		margin-right: 0;
 	}
 
 	/* categories */
@@ -3765,7 +3765,7 @@ img {
 	}
 
 	.wp-core-ui .notice.is-dismissible {
-		padding-right: 46px;
+		padding-left: 46px;
 	}
 
 	.notice-dismiss {
@@ -3777,7 +3777,7 @@ img {
 	}
 
 	.wp-responsive-open #wpbody {
-		right: -16em;
+		left: -16em;
 	}
 
 	code {
@@ -3822,7 +3822,7 @@ img {
 	}
 
 	#templateside > ul {
-		border-left: 1px solid #ddd;
+		border-right: 1px solid #ddd;
 	}
 
 	#templateside li {
@@ -3839,7 +3839,7 @@ img {
 
 	#templateside .highlight {
 		padding: 5px;
-		margin-left: -5px;
+		margin-right: -5px;
 		margin-top: -5px;
 	}
 
@@ -3856,7 +3856,7 @@ img {
 	}
 
 	#templateside ul ul {
-		padding-left: 1.5em;
+		padding-right: 1.5em;
 	}
 	[role="treeitem"] .folder-label {
 		display: block;
@@ -3865,31 +3865,31 @@ img {
 	.tree-folder > li::before,
 	.tree-folder > li::after,
 	.tree-folder .tree-folder::after {
-		left: -8px;
+		right: -8px;
 	}
 	.tree-folder > li::before {
 		top: 0px;
 		height: 13px;
 	}
 	.tree-folder > .current-file::before {
-		left: -5px;
+		right: -5px;
 		top: 7px;
 		width: 4px;
 	}
 	.tree-folder > .current-file::after {
 		height: 9px;
-		left: -8px;
+		right: -8px;
 	}
 	.wrap #templateside span.notice {
-		margin-left: -5px;
+		margin-right: -5px;
 		width: 100%;
 	}
 
 	.fileedit-sub .alignright {
-		float: left;
+		float: right;
 		margin-top: 15px;
 		width: 100%;
-		text-align: left;
+		text-align: right;
 	}
 
 	.fileedit-sub .alignright label {
@@ -3898,7 +3898,7 @@ img {
 
 	.fileedit-sub #theme,
 	.fileedit-sub #plugin {
-		margin-left: 0;
+		margin-right: 0;
 		max-width: 70%;
 	}
 
@@ -3912,7 +3912,7 @@ img {
 	}
 
 	#documentation select[name="docs-list"] {
-		margin-left: 0;
+		margin-right: 0;
 		max-width: 60%;
 	}
 
@@ -3939,7 +3939,7 @@ img {
 	}
 
 	.filter-drawer .filter-group-feature label {
-		margin-left: 32px;
+		margin-right: 32px;
 	}
 
 	.wp-filter .button.drawer-toggle {
@@ -4019,7 +4019,7 @@ img {
 	h2 .nav-tab,
 	h3 .nav-tab,
 	nav .nav-tab {
-		margin: 10px 10px 0 0;
+		margin: 10px 0 0 10px;
 		border-bottom: 1px solid #ccc;
 	}
 
@@ -4039,6 +4039,6 @@ img {
 	   the network dashboard is viewed on a small mobile device. */
 	#network_dashboard_right_now .subsubsub {
 		font-size: 14px;
-		text-align: left;
+		text-align: right;
 	}
 }
