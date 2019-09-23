@@ -337,14 +337,15 @@ function create_initial_post_types() {
 	register_post_status(
 		'draft',
 		array(
-			'label'       => _x( 'Draft', 'post status' ),
-			'protected'   => true,
-			'_builtin'    => true, /* internal use only. */
+			'label'         => _x( 'Draft', 'post status' ),
+			'protected'     => true,
+			'_builtin'      => true, /* internal use only. */
 			/* translators: %s: Number of draft posts. */
-			'label_count' => _n_noop(
+			'label_count'   => _n_noop(
 				'Draft <span class="count">(%s)</span>',
 				'Drafts <span class="count">(%s)</span>'
 			),
+			'date_floating' => true,
 		)
 	);
 
@@ -394,9 +395,10 @@ function create_initial_post_types() {
 	register_post_status(
 		'auto-draft',
 		array(
-			'label'    => 'auto-draft',
-			'internal' => true,
-			'_builtin' => true, /* internal use only. */
+			'label'         => 'auto-draft',
+			'internal'      => true,
+			'_builtin'      => true, /* internal use only. */
+			'date_floating' => true,
 		)
 	);
 
@@ -1018,6 +1020,8 @@ function _wp_privacy_statuses() {
  *                                                  the top of the edit listings,
  *                                                  e.g. All (12) | Published (9) | My Custom Status (2)
  *                                                  Default is value of $internal.
+ *     @type bool        $date_floating             Whether the post has a floating creation date.
+ *                                                  Default to false.
  * }
  * @return object
  */
@@ -1041,6 +1045,7 @@ function register_post_status( $post_status, $args = array() ) {
 		'publicly_queryable'        => null,
 		'show_in_admin_status_list' => null,
 		'show_in_admin_all_list'    => null,
+		'date_floating'             => null,
 	);
 	$args     = wp_parse_args( $args, $defaults );
 	$args     = (object) $args;
@@ -1083,6 +1088,10 @@ function register_post_status( $post_status, $args = array() ) {
 
 	if ( null === $args->show_in_admin_status_list ) {
 		$args->show_in_admin_status_list = ! $args->internal;
+	}
+
+	if ( null === $args->date_floating ) {
+		$args->date_floating = false;
 	}
 
 	if ( false === $args->label ) {

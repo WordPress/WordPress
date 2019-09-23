@@ -1021,16 +1021,18 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		// Post date.
 		if ( ! empty( $schema['properties']['date'] ) && ! empty( $request['date'] ) ) {
-			$date_data = rest_get_date_with_gmt( $request['date'] );
+			$current_date = isset( $prepared_post->ID ) ? get_post( $prepared_post->ID )->post_date : false;
+			$date_data    = rest_get_date_with_gmt( $request['date'] );
 
-			if ( ! empty( $date_data ) ) {
+			if ( ! empty( $date_data ) && $current_date !== $date_data[0] ) {
 				list( $prepared_post->post_date, $prepared_post->post_date_gmt ) = $date_data;
 				$prepared_post->edit_date                                        = true;
 			}
 		} elseif ( ! empty( $schema['properties']['date_gmt'] ) && ! empty( $request['date_gmt'] ) ) {
-			$date_data = rest_get_date_with_gmt( $request['date_gmt'], true );
+			$current_date = isset( $prepared_post->ID ) ? get_post( $prepared_post->ID )->post_date_gmt : false;
+			$date_data    = rest_get_date_with_gmt( $request['date_gmt'], true );
 
-			if ( ! empty( $date_data ) ) {
+			if ( ! empty( $date_data ) && $current_date !== $date_data[1] ) {
 				list( $prepared_post->post_date, $prepared_post->post_date_gmt ) = $date_data;
 				$prepared_post->edit_date                                        = true;
 			}
