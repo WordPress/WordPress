@@ -23,11 +23,11 @@ function twentytwenty_get_starter_content() {
 	$starter_content = array(
 		'widgets'   => array(
 			// Place one core-defined widgets in the first tooter widget area.
-			'footer-one' => array(
+			'sidebar-1' => array(
 				'text_about',
 			),
 			// Place one core-defined widgets in the second tooter widget area.
-			'footer-two' => array(
+			'sidebar-2' => array(
 				'text_business_info',
 			),
 		),

@@ -89,24 +89,24 @@
 				<?php } ?>
 
 
-				<?php if ( is_active_sidebar( 'footer-one' ) || is_active_sidebar( 'footer-two' ) ) { ?>
+				<?php if ( is_active_sidebar( 'sidebar-1' ) || is_active_sidebar( 'sidebar-2' ) ) { ?>
 
 					<div class="footer-widgets-outer-wrapper">
 
 						<div class="footer-widgets-wrapper">
 
-							<?php if ( is_active_sidebar( 'footer-one' ) ) { ?>
+							<?php if ( is_active_sidebar( 'sidebar-1' ) ) { ?>
 
 								<div class="footer-widgets column-one grid-item">
-									<?php dynamic_sidebar( 'footer-one' ); ?>
+									<?php dynamic_sidebar( 'sidebar-1' ); ?>
 								</div>
 
 							<?php } ?>
 
-							<?php if ( is_active_sidebar( 'footer-two' ) ) { ?>
+							<?php if ( is_active_sidebar( 'sidebar-2' ) ) { ?>
 
 								<div class="footer-widgets column-two grid-item">
-									<?php dynamic_sidebar( 'footer-two' ); ?>
+									<?php dynamic_sidebar( 'sidebar-2' ); ?>
 								</div>
 
 							<?php } ?>
