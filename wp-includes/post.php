@@ -352,11 +352,11 @@ function create_initial_post_types() {
 	register_post_status(
 		'pending',
 		array(
-			'label'       => _x( 'Pending', 'post status' ),
-			'protected'   => true,
-			'_builtin'    => true, /* internal use only. */
+			'label'         => _x( 'Pending', 'post status' ),
+			'protected'     => true,
+			'_builtin'      => true, /* internal use only. */
 			/* translators: %s: Number of pending posts. */
-			'label_count' => _n_noop(
+			'label_count'   => _n_noop(
 				'Pending <span class="count">(%s)</span>',
 				'Pending <span class="count">(%s)</span>'
 			),
