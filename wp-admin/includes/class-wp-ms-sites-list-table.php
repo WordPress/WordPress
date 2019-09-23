@@ -236,7 +236,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 				? ' class="current" aria-current="page"'
 				: '';
 			if ( (int) $counts[ $status ] > 0 ) {
-				$label = sprintf( translate_nooped_plural( $label_count, $counts[ $status ] ), number_format_i18n( $counts[ $status ] ) );
+				$label    = sprintf( translate_nooped_plural( $label_count, $counts[ $status ] ), number_format_i18n( $counts[ $status ] ) );
 				$full_url = 'all' === $status ? $url : add_query_arg( 'status', $status, $url );
 
 				$view_links[ $status ] = sprintf(
