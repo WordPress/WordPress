@@ -41,9 +41,7 @@
 
 .media-frame select,
 .wp-admin .media-frame select {
-	padding: 2px;
-	line-height: 2;
-	height: 28px;
+	min-height: 28px;
 	vertical-align: middle;
 }
 

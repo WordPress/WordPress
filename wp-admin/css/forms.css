@@ -64,7 +64,7 @@ input[type="url"] {
 
 /* Vertically align the number selector with the input. */
 input[type="number"] {
-	height: 28px;
+	min-height: 28px;
 	line-height: 1;
 }
 
@@ -307,12 +307,37 @@ input[type="radio"].disabled:checked:before {
   2.0 - Forms
 ------------------------------------------------------------------------------*/
 
-
+/* Select styles are based on the default button in buttons.css */
 .wp-admin select {
-	padding: 2px;
-	line-height: 2;
-	height: 28px;
+	color: #555;
+	border-color: #7e8993;
+	box-shadow: none;
+	border-radius: 3px;
+	padding: 2px 24px 2px 8px;
+	min-height: 28px;
 	vertical-align: middle;
+	-webkit-appearance: none;
+	/* The SVG is arrow-down-alt2 from Dashicons. */
+	background: #f7f7f7 url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 4px top 50%;
+	background-size: 16px 16px;
+}
+
+.wp-admin select:hover {
+	background-color: #f3f5f6;
+	color: #007cba;
+}
+
+.wp-admin select:focus {
+	background-color: #f3f5f6;
+	border-color: #007cba;
+	color: #016087;
+	box-shadow: 0 0 0 1px #007cba;
+}
+
+.wp-admin select:active {
+	background-color: #eee;
+	border-color: #999;
+	box-shadow: none;
 }
 
 .wp-admin .button-cancel {
@@ -412,15 +437,15 @@ input[type="number"].tiny-text {
 .tablenav .actions select {
 	float: left;
 	margin-right: 6px;
-	max-width: 200px;
+	max-width: 12.5rem;
 }
 
 .ie8 .tablenav .actions select {
-	width: 155px;
+	width: 9.6875rem;
 }
 
 .ie8 .tablenav .actions select#cat {
-	width: 200px;
+	width: 12.5rem;
 }
 
 #timezone_string option {
@@ -1248,7 +1273,7 @@ table.form-table td .updated p {
 	}
 
 	input[type="number"] {
-		height: 40px;
+		min-height: 40px;
 	}
 
 	input.code {
@@ -1302,7 +1327,7 @@ table.form-table td .updated p {
 	}
 
 	#wpbody select {
-		height: 36px;
+		min-height: 36px;
 		font-size: 16px;
 	}
 
@@ -1372,7 +1397,7 @@ table.form-table td .updated p {
 	}
 
 	#wpbody .form-table td select {
-		height: 40px;
+		min-height: 40px;
 	}
 
 	input[type="text"].small-text,

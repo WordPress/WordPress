@@ -47,9 +47,9 @@ TABLE OF CONTENTS:
 	text-decoration: none;
 	font-size: 13px;
 	line-height: 2;
-	height: 28px;
+	min-height: 28px;
 	margin: 0;
-	padding: 0 10px 1px;
+	padding: 0 10px;
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
@@ -71,14 +71,14 @@ TABLE OF CONTENTS:
 
 .wp-core-ui .button.button-large,
 .wp-core-ui .button-group.button-large .button {
-	height: 30px;
+	min-height: 30px;
 	line-height: 2.15384615;
 	padding: 0 12px 2px;
 }
 
 .wp-core-ui .button.button-small,
 .wp-core-ui .button-group.button-small .button {
-	height: 24px;
+	min-height: 24px;
 	line-height: 2;
 	padding: 0 8px 1px;
 	font-size: 11px;
@@ -87,7 +87,7 @@ TABLE OF CONTENTS:
 .wp-core-ui .button.button-hero,
 .wp-core-ui .button-group.button-hero .button {
 	font-size: 14px;
-	height: 46px;
+	min-height: 46px;
 	line-height: 3.14285714;
 	padding: 0 36px;
 }
@@ -348,7 +348,7 @@ TABLE OF CONTENTS:
 
 	#media-upload.wp-core-ui .button {
 		padding: 0 10px 1px;
-		height: 24px;
+		min-height: 24px;
 		line-height: 22px;
 		font-size: 13px;
 	}
@@ -369,7 +369,7 @@ TABLE OF CONTENTS:
 		padding: 0 10px 1px;
 		font-size: 13px;
 		line-height: 2;
-		height: 28px;
+		min-height: 28px;
 		margin: 0;
 		vertical-align: inherit;
 	}
@@ -382,7 +382,7 @@ TABLE OF CONTENTS:
 	/* Reset responsive styles on Log in button on iframed login form */
 
 	.interim-login .button.button-large {
-		height: 30px;
+		min-height: 30px;
 		line-height: 2;
 		padding: 0 12px 2px;
 	}
