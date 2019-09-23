@@ -336,6 +336,16 @@ final class WP_Post_Type {
 	public $rest_controller_class;
 
 	/**
+	 * The controller instance for this post type's REST API endpoints.
+	 *
+	 * Lazily computed. Should be accessed using {@see WP_Post_Type::get_rest_controller()}.
+	 *
+	 * @since 5.3.0
+	 * @var WP_REST_Controller $rest_controller
+	 */
+	private $rest_controller;
+
+	/**
 	 * Constructor.
 	 *
 	 * Will populate object properties from the provided arguments and assign other
@@ -681,5 +691,37 @@ final class WP_Post_Type {
 	 */
 	public function remove_hooks() {
 		remove_action( 'future_' . $this->name, '_future_post_hook', 5 );
+	}
+
+	/**
+	 * Gets the REST API controller for this post type.
+	 *
+	 * Will only instantiate the controller class once per request.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @return WP_REST_Controller|null The controller instance, or null if the post type
+	 *                                 is set not to show in rest.
+	 */
+	public function get_rest_controller() {
+		if ( ! $this->show_in_rest ) {
+			return null;
+		}
+
+		$class = $this->rest_controller_class ? $this->rest_controller_class : WP_REST_Posts_Controller::class;
+
+		if ( ! class_exists( $class ) ) {
+			return null;
+		}
+
+		if ( ! is_subclass_of( $class, WP_REST_Controller::class ) ) {
+			return null;
+		}
+
+		if ( ! $this->rest_controller ) {
+			$this->rest_controller = new $class( $this->name );
+		}
+
+		return $this->rest_controller;
 	}
 }

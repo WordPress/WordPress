@@ -192,13 +192,9 @@ function rest_api_default_filters() {
  */
 function create_initial_rest_routes() {
 	foreach ( get_post_types( array( 'show_in_rest' => true ), 'objects' ) as $post_type ) {
-		$class = ! empty( $post_type->rest_controller_class ) ? $post_type->rest_controller_class : 'WP_REST_Posts_Controller';
+		$controller = $post_type->get_rest_controller();
 
-		if ( ! class_exists( $class ) ) {
-			continue;
-		}
-		$controller = new $class( $post_type->name );
-		if ( ! is_subclass_of( $controller, 'WP_REST_Controller' ) ) {
+		if ( ! $controller ) {
 			continue;
 		}
 
