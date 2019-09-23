@@ -1,0 +1,74 @@
+#!/bin/bash
+
+set -e
+
+
+source ${PHP_CONTAINER_SCRIPTS_PATH}/common.sh
+
+shopt -s dotglob
+echo "---> Installing application source..."
+mv /tmp/src/* ./
+
+
+# /opt/app-root/src/wp-content
+if [ -f "/opt/app-root/src/wp-config-sample.php" ]; then
+    mv /opt/app-root/src/wp-config-sample.php /silo/wordpress/wp-config.php
+    ln -s /silo/wordpress/wp-config.php /opt/app-root/src
+    sed '/table_prefix/a define('"'"'WP_CONTENT_DIR'"'"', '"'"/silo/wp-content"'"')' /silo/wordpress/wp-config.php
+    mv /opt/app-root/src/wp-content /silo/wordpress && export MI_PID="$!" && \
+    while $(kill -0 "$MI_PID");do  sleep 1;done
+fi
+
+while ['0'] ; do
+    echo "el 0 es true"
+done
+
+
+if [ -f composer.json ]; then
+  echo "Found 'composer.json', installing dependencies using composer.phar... "
+
+  # Install Composer
+  TEMPFILE=$(mktemp)
+  RETRIES=6
+  for ((i=0; i<$RETRIES; i++)); do
+
+    if [ -z "$COMPOSER_INSTALLER" ]; then
+      export COMPOSER_INSTALLER="https://getcomposer.org/installer"
+    fi
+
+    echo "Downloading $COMPOSER_INSTALLER, attempt $((i+1))/$RETRIES"
+    curl -o $TEMPFILE $COMPOSER_INSTALLER && break
+    sleep 10
+  done
+  if [[ $i == $RETRIES ]]; then
+    echo "Download failed, giving up."
+    exit 1
+  fi
+  php <$TEMPFILE
+
+  if [ "$(ls -a /tmp/artifacts/ 2>/dev/null)" ]; then
+    echo "Restoring build artifacts"
+    mv /tmp/artifacts/* $HOME/
+  fi
+
+  # Change the repo mirror if provided
+  if [ -n "$COMPOSER_MIRROR" ]; then
+    ./composer.phar config -g repositories.packagist composer $COMPOSER_MIRROR
+  fi
+
+  # Install App dependencies using Composer
+  ./composer.phar install --no-interaction --no-ansi --optimize-autoloader $COMPOSER_ARGS
+
+  if [ ! -f composer.lock ]; then
+    echo -e "\nConsider adding a 'composer.lock' file into your source repository.\n"
+  fi
+fi
+
+# post-assemble files
+process_extending_files ./php-post-assemble/ ${PHP_CONTAINER_SCRIPTS_PATH}/post-assemble/
+
+# Fix source directory permissions
+fix-permissions ./
+fix-permissions /silo
+fix-permissions ${HTTPD_CONFIGURATION_PATH}
+
