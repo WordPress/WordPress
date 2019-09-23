@@ -787,6 +787,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			// We want the thumbnail to be readable, so increase the rendering DPI.
 			$this->image->setResolution( 128, 128 );
 
+			// When generating thumbnails from cropped PDF pages, Imagemagick uses the uncropped
+			// area (resulting in unnecessary whitespace) unless the following option is set.
+			$this->image->setOption( 'pdf:use-cropbox', true );
+
 			// Only load the first page.
 			return $this->file . '[0]';
 		} catch ( Exception $e ) {
