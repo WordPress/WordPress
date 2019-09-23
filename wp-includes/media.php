@@ -3854,7 +3854,10 @@ function wp_enqueue_media( $args = array() ) {
 		'filterByType'                => __( 'Filter by type' ),
 		'searchMediaLabel'            => __( 'Search Media' ),
 		'searchMediaPlaceholder'      => __( 'Search media items...' ), // placeholder (no ellipsis)
-		'noMedia'                     => __( 'No media files found.' ),
+		'mediaFound'                  => __( 'Number of media items found: %d' ),
+		'mediaFoundHasMoreResults'    => __( 'Number of media items displayed: %d. Scroll the page for more results.' ),
+		'noMedia'                     => __( 'No media items found.' ),
+		'noMediaTryNewSearch'         => __( 'No media items found. Try a different search.' ),
 
 		// Library Details
 		'attachmentDetails'           => __( 'Attachment Details' ),

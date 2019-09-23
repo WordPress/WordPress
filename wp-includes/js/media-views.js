@@ -4593,8 +4593,9 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 * provided element and other elements that should not be hidden.
 	 *
 	 * The reason why we use `aria-hidden` is that `aria-modal="true"` is buggy
-	 * in Safari 11.1 and support is spotty in other browsers. In the future we
-	 * should consider to remove this helper function and only use `aria-modal="true"`.
+	 * in Safari 11.1 and support is spotty in other browsers. Also, `aria-modal="true"`
+	 * prevents the `wp.a11y.speak()` ARIA live regions to work as they're outside
+	 * of the modal dialog and get hidden from assistive technologies.
 	 *
 	 * @since 5.2.3
 	 *
@@ -7291,8 +7292,7 @@ Search = wp.media.View.extend(/** @lends wp.media.view.Search.prototype */{
 	},
 
 	events: {
-		'input':  'search',
-		'keyup':  'search'
+		'input': 'search'
 	},
 
 	/**
@@ -7304,12 +7304,15 @@ Search = wp.media.View.extend(/** @lends wp.media.view.Search.prototype */{
 	},
 
 	search: _.debounce( function( event ) {
-		if ( event.target.value ) {
-			this.model.set( 'search', event.target.value );
+		var searchTerm = event.target.value.trim();
+
+		// Trigger the search only after 2 ASCII characters.
+		if ( searchTerm && searchTerm.length > 1 ) {
+			this.model.set( 'search', searchTerm );
 		} else {
-			this.model.unset('search');
+			this.model.unset( 'search' );
 		}
-	}, 300 )
+	}, 500 )
 });
 
 module.exports = Search;
@@ -7732,7 +7735,39 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 		}
 
 		this.collection.on( 'add remove reset', this.updateContent, this );
+
+		// The non-cached or cached attachments query has completed.
+		this.collection.on( 'attachments:received', this.announceSearchResults, this );
 	},
+
+	/**
+	 * Updates the `wp.a11y.speak()` ARIA live region with a message to communicate
+	 * the number of search results to screen reader users. This function is
+	 * debounced because the collection updates multiple times.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @returns {void}
+	 */
+	announceSearchResults: _.debounce( function() {
+		var count;
+
+		if ( this.collection.mirroring.args.s ) {
+			count = this.collection.length;
+
+			if ( 0 === count ) {
+				wp.a11y.speak( l10n.noMediaTryNewSearch );
+				return;
+			}
+
+			if ( this.collection.hasMore() ) {
+				wp.a11y.speak( l10n.mediaFoundHasMoreResults.replace( '%d', count ) );
+				return;
+			}
+
+			wp.a11y.speak( l10n.mediaFound.replace( '%d', count ) );
+		}
+	}, 200 ),
 
 	editSelection: function( modal ) {
 		// When editing a selection, move focus to the "Return to library" button.
