@@ -45,14 +45,14 @@ _twentyTwentyColor.prototype.setAccentColorsArray = function() {
 			var colorObj = new Color( {
 					h: self.accentHue,
 					s: s,
-					l: l,
+					l: l
 				} ),
 				item;
 
 			item = {
 				color: colorObj,
 				contrastBackground: colorObj.getDistanceLuminosityFrom( self.bgColorObj ),
-				contrastText: colorObj.getDistanceLuminosityFrom( self.textColorObj ),
+				contrastText: colorObj.getDistanceLuminosityFrom( self.textColorObj )
 			};
 
 			// Check a minimum of 4.5:1 contrast with the background and 3:1 with surrounding text.
@@ -133,7 +133,7 @@ _twentyTwentyColor.prototype.getAccentColor = function() {
  * @param {number} accentHue - The hue for our accent color.
  * @return {Object} - this
  */
-function twentyTwentyColor( backgroundColor, accentHue ) {
+function twentyTwentyColor( backgroundColor, accentHue ) { // jshint ignore:line
 	var color = new _twentyTwentyColor( backgroundColor, accentHue );
 	color.setAccentColorsArray();
 	return color;

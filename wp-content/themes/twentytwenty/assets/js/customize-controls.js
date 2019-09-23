@@ -64,21 +64,21 @@
 			value[ context ] = {
 				text: colors.getTextColor(),
 				accent: colors.getAccentColor().toCSS(),
-				background: backgroundColor,
+				background: backgroundColor
 			};
 
 			// Get borders color.
 			value[ context ].borders = Color( {
 				h: colors.bgColorObj.h(),
 				s: colors.bgColorObj.s() * 0.3922,
-				l: colors.isDark ? colors.bgColorObj.l() + 9 : colors.bgColorObj.l() - 9,
+				l: colors.isDark ? colors.bgColorObj.l() + 9 : colors.bgColorObj.l() - 9
 			} ).toCSS();
 
 			// Get secondary color.
 			value[ context ].secondary = Color( {
 				h: colors.bgColorObj.h(),
 				s: colors.bgColorObj.s() / 2,
-				l: ( colors.textColorObj.l() * 0.57 ) + ( colors.bgColorObj.l() * 0.43 ),
+				l: ( colors.textColorObj.l() * 0.57 ) + ( colors.bgColorObj.l() * 0.43 )
 			} ).toCSS();
 		}
 
