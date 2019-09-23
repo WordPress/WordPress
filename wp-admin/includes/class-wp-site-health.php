@@ -260,7 +260,7 @@ class WP_Site_Health {
 					$result['status'] = 'good';
 					$result['label']  = sprintf(
 						/* translators: %s: The current version of WordPress installed on this site. */
-						__( 'Your WordPress version is up to date (%s)' ),
+						__( 'Your version of WordPress (%s) is up to date' ),
 						$core_current_version
 					);
 
@@ -654,7 +654,7 @@ class WP_Site_Health {
 		$result = array(
 			'label'       => sprintf(
 				/* translators: %s: The current PHP version. */
-				__( 'PHP is up to date (%s)' ),
+				__( 'Your version of PHP (%s) is up to date' ),
 				PHP_VERSION
 			),
 			'status'      => 'good',
@@ -664,7 +664,11 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				__( 'PHP is the programming language we use to build and maintain WordPress. Newer versions of PHP are both faster and more secure, so updating will have a positive effect on your site&#8217;s performance.' )
+				sprintf(
+					/* translators: %s: The minimum recommended PHP version. */
+					__( 'PHP is the programming language used to build and maintain WordPress. Newer versions of PHP are faster and more secure, so staying up to date will help your site&#8217;s overall performance and security. The minimum recommended version of PHP is %s.' ),
+					$response['recommended_version']
+				)
 			),
 			'actions'     => sprintf(
 				'<p><a href="%s" target="_blank" rel="noopener noreferrer">%s <span class="screen-reader-text">%s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
@@ -681,9 +685,13 @@ class WP_Site_Health {
 			return $result;
 		}
 
-		// The PHP version is older than the recommended version, but still acceptable.
+		// The PHP version is older than the recommended version, but still receiving active support.
 		if ( $response['is_supported'] ) {
-			$result['label']  = __( 'We recommend that you update PHP' );
+			$result['label'] = sprintf(
+				/* translators: %s: The server PHP version. */
+				__( 'Your version of PHP (%s) is out of date' ),
+				PHP_VERSION
+			);
 			$result['status'] = 'recommended';
 
 			return $result;
@@ -691,14 +699,22 @@ class WP_Site_Health {
 
 		// The PHP version is only receiving security fixes.
 		if ( $response['is_secure'] ) {
-			$result['label']  = __( 'Your PHP version should be updated' );
+			$result['label'] = sprintf(
+				/* translators: %s: The server PHP version. */
+				__( 'Your version of PHP (%s) should be updated' ),
+				PHP_VERSION
+			);
 			$result['status'] = 'recommended';
 
 			return $result;
 		}
 
 		// Anything no longer secure must be updated.
-		$result['label']          = __( 'Your PHP version requires an update' );
+		$result['label'] = sprintf(
+			/* translators: %s: The server PHP version. */
+			__( 'Your version of PHP (%s) requires an update' ),
+			PHP_VERSION
+		);
 		$result['status']         = 'critical';
 		$result['badge']['label'] = __( 'Security' );
 
