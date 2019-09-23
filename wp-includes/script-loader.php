@@ -651,7 +651,8 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 	}
 	$scripts->add_inline_script(
 		'wp-api-fetch',
-		join(
+		implode(
+			"\n",
 			array(
 				sprintf(
 					'wp.apiFetch.nonceMiddleware = wp.apiFetch.createNonceMiddleware( "%s" );',
@@ -662,8 +663,7 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 					'wp.apiFetch.nonceEndpoint = "%s";',
 					admin_url( 'admin-ajax.php?action=rest-nonce' )
 				),
-			),
-			"\n"
+			)
 		),
 		'after'
 	);
