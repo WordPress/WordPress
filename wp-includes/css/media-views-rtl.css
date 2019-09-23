@@ -2162,6 +2162,11 @@
 	line-height: 1.1;
 }
 
+/* Buttons group in IE 11. */
+.image-details .embed-media-settings .setting .button-group {
+	width: auto;
+}
+
 .media-embed-sidebar {
 	position: absolute;
 	top: 0;
