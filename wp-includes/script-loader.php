@@ -651,26 +651,19 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 	}
 	$scripts->add_inline_script(
 		'wp-api-fetch',
-		sprintf(
-			implode(
-				"\n",
-				array(
-					'( function() {',
-					'	var nonceMiddleware = wp.apiFetch.createNonceMiddleware( "%s" );',
-					'	wp.apiFetch.use( nonceMiddleware );',
-					'	wp.hooks.addAction(',
-					'		"heartbeat.tick",',
-					'		"core/api-fetch/create-nonce-middleware",',
-					'		function( response ) {',
-					'			if ( response[ "rest_nonce" ] ) {',
-					'				nonceMiddleware.nonce = response[ "rest_nonce" ];',
-					'			}',
-					'		}',
-					'	);',
-					'} )();',
-				)
+		join(
+			array(
+				sprintf(
+					'wp.apiFetch.nonceMiddleware = wp.apiFetch.createNonceMiddleware( "%s" );',
+					( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' )
+				),
+				'wp.apiFetch.use( wp.apiFetch.nonceMiddleware );',
+				sprintf(
+					'wp.apiFetch.nonceEndpoint = "%s";',
+					admin_url( 'admin-ajax.php?action=rest-nonce' )
+				),
 			),
-			( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' )
+			"\n"
 		),
 		'after'
 	);

@@ -5268,3 +5268,12 @@ function wp_ajax_health_check_get_sizes() {
 
 	wp_send_json_success( $all_sizes );
 }
+
+/**
+ * Ajax handler to renew the REST API nonce.
+ *
+ * @since 5.3.0
+ */
+function wp_ajax_rest_nonce() {
+	exit( wp_create_nonce( 'wp_rest' ) );
+}
