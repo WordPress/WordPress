@@ -2041,6 +2041,11 @@ html.wp-toolbar {
 	cursor: move;
 }
 
+.js .widget .widget-top.is-non-sortable,
+.js .postbox .hndle.is-non-sortable {
+	cursor: auto;
+}
+
 .hndle a {
 	font-size: 11px;
 	font-weight: 400;
