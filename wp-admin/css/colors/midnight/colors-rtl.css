@@ -1,6 +1,6 @@
 /*! This file is auto-generated */
 /*
- * Button mixin- creates 3d-ish button effect with correct
+ * Button mixin- creates a button effect with correct
  * highlights/shadows, based on a base color.
  */
 body {
@@ -37,45 +37,64 @@ input[type=radio]:checked:before {
   color: #0096dd;
 }
 
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="color"]:focus,
+input[type="date"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="email"]:focus,
+input[type="month"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="text"]:focus,
+input[type="time"]:focus,
+input[type="url"]:focus,
+input[type="week"]:focus,
+input[type="checkbox"]:focus,
+input[type="radio"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #e14d43;
+  box-shadow: 0 0 0 1px #e14d43;
+}
+
 /* Core UI */
+.wp-core-ui .button.focus,
+.wp-core-ui .button:focus,
+.wp-core-ui .button-secondary:focus {
+  border-color: #e14d43;
+  color: #dd382d;
+  box-shadow: 0 0 0 1px #e14d43;
+}
+
 .wp-core-ui .button-primary {
   background: #e14d43;
-  border-color: #d02c21 #ba281e #ba281e;
+  border-color: #e14d43;
   color: #fff;
-  box-shadow: 0 1px 0 #ba281e;
-  text-shadow: 0 -1px 1px #ba281e, -1px 0 1px #ba281e, 0 1px 1px #ba281e, 1px 0 1px #ba281e;
 }
 
 .wp-core-ui .button-primary:hover, .wp-core-ui .button-primary:focus {
   background: #e35950;
-  border-color: #ba281e;
+  border-color: #df4136;
   color: #fff;
-  box-shadow: 0 1px 0 #ba281e;
 }
 
 .wp-core-ui .button-primary:focus {
-  box-shadow: inset 0 1px 0 #d02c21, 0 0 2px 1px #33b3db;
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #e14d43;
 }
 
 .wp-core-ui .button-primary:active, .wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover {
-  background: #d02c21;
-  border-color: #ba281e;
-  box-shadow: inset 0 2px 0 #ba281e;
+  background: #dd382d;
+  border-color: #dd382d;
 }
 
 .wp-core-ui .button-primary[disabled], .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary.button-primary-disabled, .wp-core-ui .button-primary.disabled {
   color: #d1c8c7 !important;
-  background: #d92e23 !important;
-  border-color: #ba281e !important;
+  background: #ec8b85 !important;
+  border-color: #ec8b85 !important;
   text-shadow: none !important;
-}
-
-.wp-core-ui .button-primary.button-hero {
-  box-shadow: 0 2px 0 #ba281e !important;
-}
-
-.wp-core-ui .button-primary.button-hero:active {
-  box-shadow: inset 0 3px 0 #ba281e !important;
 }
 
 .wp-core-ui .wp-ui-primary {

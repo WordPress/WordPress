@@ -43,10 +43,41 @@ input[type=radio]:checked:before {
 	color: $link-focus;
 }
 
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="color"]:focus,
+input[type="date"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="email"]:focus,
+input[type="month"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="text"]:focus,
+input[type="time"]:focus,
+input[type="url"]:focus,
+input[type="week"]:focus,
+input[type="checkbox"]:focus,
+input[type="radio"]:focus,
+select:focus,
+textarea:focus {
+	border-color: $highlight-color;
+	box-shadow: 0 0 0 1px $highlight-color;
+}
+
 
 /* Core UI */
 
 .wp-core-ui {
+	.button.focus,
+	.button:focus,
+	.button-secondary:focus {
+		border-color: $button-color;
+		color: darken( $button-color, 5% );
+		box-shadow: 0 0 0 1px $button-color;
+	}
+
 	.button-primary {
 		@include button( $button-color );
 	}

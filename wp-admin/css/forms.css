@@ -50,8 +50,8 @@ input[type="checkbox"]:focus,
 input[type="radio"]:focus,
 select:focus,
 textarea:focus {
-	border-color: #5b9dd9;
-	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
+	border-color: #007cba;
+	box-shadow: 0 0 0 1px #007cba;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }

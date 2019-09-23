@@ -272,11 +272,7 @@ a:focus,
 a:focus .media-icon img,
 .wp-person a:focus .gravatar {
 	color: #124964;
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
-	/* Only visible in Windows High Contrast mode */
-	outline: 1px solid transparent;
+	outline: 1px dotted #555d66;
 }
 
 .ie8 a:focus {
@@ -284,9 +280,7 @@ a:focus .media-icon img,
 }
 
 #adminmenu a:focus {
-	box-shadow: none;
-	/* Only visible in Windows High Contrast mode */
-	outline: 1px solid transparent;
+	outline: 1px dotted #555d66;
 	outline-offset: -1px;
 }
 
@@ -623,15 +617,13 @@ code {
 	position: relative;
 	top: -3px;
 	text-decoration: none;
-	border: none;
-	border: 1px solid #ccc;
+	border: 1px solid #7e8993;
 	border-radius: 2px;
-	background: #f7f7f7;
 	text-shadow: none;
 	font-weight: 600;
 	font-size: 13px;
 	line-height: normal; /* IE8-IE11 need this for buttons */
-	color: #0073aa; /* some of these controls are button elements and don't inherit from links */
+	color: #555; /* use the standard color used for buttons */
 	cursor: pointer;
 }
 
@@ -641,14 +633,14 @@ code {
 
 .wrap .add-new-h2:hover, /* deprecated */
 .wrap .page-title-action:hover {
-	border-color: #008EC2;
-	background: #00a0d2;
-	color: #fff;
+	background: #f3f5f6;
+	border-color: #7e8993;
+	color: #007cba;
 }
 
 /* lower specificity: color needs to be overridden by :hover and :active */
 .page-title-action:focus {
-	color: #124964;
+	color: #016087;
 }
 
 /* Dashicon for language options on General Settings and Profile screens */
@@ -658,8 +650,8 @@ code {
 }
 
 .wrap .page-title-action:focus {
-	border-color: #5b9dd9;
-	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
+	border-color: #007cba;
+	box-shadow: 0 0 0 1px #007cba;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -841,9 +833,7 @@ img.emoji {
 }
 
 .tagchecklist .ntdelbutton:focus .remove-tag-icon:before {
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
+	outline: 1px dotted #555d66;
 }
 
 .key-labels label {
@@ -1441,8 +1431,7 @@ div.error p,
 }
 
 .notice-dismiss:focus {
-	outline: none;
-	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+	outline: 1px dotted #555d66;
 }
 
 .ie8 .notice-dismiss:focus {
@@ -3070,9 +3059,7 @@ img {
 }
 
 .js .postbox .handlediv:focus .toggle-indicator:before {
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
+	outline: 1px dotted #555d66;
 }
 
 /* @todo: appears to be Press This only and overridden */
@@ -3166,7 +3153,7 @@ img {
 }
 [role="treeitem"] .folder-label.focus {
 	color: #124964;
-	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+	outline: 1px dotted #555d66;
 }
 [role="treeitem"].hover,
 [role="treeitem"] .folder-label.hover {
@@ -3393,9 +3380,7 @@ img {
 }
 
 .widget-top .widget-action:focus .toggle-indicator:before {
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
+	outline: 1px dotted #555d66;
 }
 
 .control-section .accordion-section-title:after,
