@@ -593,11 +593,6 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 
 				$checkbox_items = walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $posts ), 0, (object) $args );
 
-				if ( 'all' == $current_tab && ! empty( $_REQUEST['selectall'] ) ) {
-					$checkbox_items = preg_replace( '/(type=(.)checkbox(\2))/', '$1 checked=$2checked$2', $checkbox_items );
-
-				}
-
 				echo $checkbox_items;
 				?>
 			</ul>
@@ -608,21 +603,10 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 			<?php endif; ?>
 		</div><!-- /.tabs-panel -->
 
-		<p class="button-controls wp-clearfix">
-			<span class="list-controls">
-				<a href="
-				<?php
-					echo esc_url(
-						add_query_arg(
-							array(
-								$post_type_name . '-tab' => 'all',
-								'selectall'              => 1,
-							),
-							remove_query_arg( $removed_args )
-						)
-					);
-				?>
-				#posttype-<?php echo $post_type_name; ?>" class="select-all aria-button-if-js"><?php _e( 'Select All' ); ?></a>
+		<p class="button-controls wp-clearfix" data-items-type="posttype-<?php echo esc_attr( $post_type_name ); ?>">
+			<span class="list-controls hide-if-no-js">
+				<input type="checkbox" id="<?php echo esc_attr( $post_type_name . '-tab' ); ?>" class="select-all" />
+				<label for="<?php echo esc_attr( $post_type_name . '-tab' ); ?>"><?php _e( 'Select All' ); ?></label>
 			</span>
 
 			<span class="add-to-menu">
@@ -848,21 +832,10 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
 			</ul>
 		</div><!-- /.tabs-panel -->
 
-		<p class="button-controls wp-clearfix">
-			<span class="list-controls">
-				<a href="
-				<?php
-					echo esc_url(
-						add_query_arg(
-							array(
-								$taxonomy_name . '-tab' => 'all',
-								'selectall'             => 1,
-							),
-							remove_query_arg( $removed_args )
-						)
-					);
-				?>
-				#taxonomy-<?php echo $taxonomy_name; ?>" class="select-all aria-button-if-js"><?php _e( 'Select All' ); ?></a>
+		<p class="button-controls wp-clearfix" data-items-type="taxonomy-<?php echo esc_attr( $taxonomy_name ); ?>">
+			<span class="list-controls hide-if-no-js">
+				<input type="checkbox" id="<?php echo esc_attr( $taxonomy_name . '-tab' ); ?>" class="select-all" />
+				<label for="<?php echo esc_attr( $taxonomy_name . '-tab' ); ?>"><?php _e( 'Select All' ); ?></label>
 			</span>
 
 			<span class="add-to-menu">
