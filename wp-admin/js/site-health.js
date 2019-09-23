@@ -179,7 +179,8 @@ jQuery( document ).ready( function( $ ) {
 					ajaxurl,
 					data,
 					function( response ) {
-						AppendIssue( response.data );
+						/** This filter is documented in wp-admin/includes/class-wp-site-health.php */
+						AppendIssue( wp.hooks.applyFilters( 'site_status_test_result', response.data ) );
 						maybeRunNextAsyncTest();
 					}
 				);
