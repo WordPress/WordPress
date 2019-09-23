@@ -1156,6 +1156,10 @@ table.form-table td .updated p {
 	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
+.privacy_requests .row-actions {
+	color: #72777c;
+}
+
 .privacy_requests tbody .has-request-results th {
 	box-shadow: none;
 }

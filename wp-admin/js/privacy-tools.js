@@ -151,7 +151,7 @@ jQuery( document ).ready( function( $ ) {
 			var summaryMessage = strings.noDataFound;
 			var classes = 'notice-success';
 
-			setActionState( $action, 'remove-personal-data-idle' );
+			setActionState( $action, 'remove-personal-data-success' );
 
 			if ( false === hasRemoved ) {
 				if ( false === hasRetained ) {
