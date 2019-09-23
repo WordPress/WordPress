@@ -853,3 +853,42 @@ function _update_posts_count_on_transition_post_status( $new_status, $old_status
 
 	update_posts_count();
 }
+
+/**
+ * Count number of sites grouped by site status.
+ *
+ * @since 5.3.0
+ *
+ * @param int $network_id The network to get counts for.  Default is the current network id.
+ * @return array Includes a grand total 'all' and an array of counts indexed by
+ *                status strings: public, archived, mature, spam, deleted.
+ */
+function wp_count_sites( $network_id = null ) {
+	if ( empty( $network_id ) ) {
+		$network_id = get_current_network_id();
+	}
+
+	$counts = array();
+	$args   = array(
+		'network_id'    => $network_id,
+		'number'        => 1,
+		'fields'        => 'ids',
+		'no_found_rows' => false,
+	);
+
+	$q             = new WP_Site_Query( $args );
+	$counts['all'] = $q->found_sites;
+
+	$_args    = $args;
+	$statuses = array( 'public', 'archived', 'mature', 'spam', 'deleted' );
+
+	foreach ( $statuses as $status ) {
+		$_args            = $args;
+		$_args[ $status ] = 1;
+
+		$q                 = new WP_Site_Query( $_args );
+		$counts[ $status ] = $q->found_sites;
+	}
+
+	return $counts;
+}

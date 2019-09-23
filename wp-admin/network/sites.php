@@ -369,6 +369,8 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 
 <hr class="wp-header-end">
 
+<?php $wp_list_table->views(); ?>
+
 <?php echo $msg; ?>
 
 <form method="get" id="ms-search" class="wp-clearfix">
