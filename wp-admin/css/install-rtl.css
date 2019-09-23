@@ -301,6 +301,17 @@ body.rtl,
 		box-sizing: border-box;
 	}
 
+	.wp-pwd #pass1 {
+		padding-left: 50px;
+	}
+
+	.wp-pwd .button.wp-hide-pw {
+		left: 0;
+	}
+
+	#pass-strength-result {
+		width: 100%;
+	}
 }
 
 body.language-chooser {

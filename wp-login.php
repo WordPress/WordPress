@@ -825,10 +825,9 @@ switch ( $action ) {
 		?>
 
 		<form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
-			<p>
-				<label for="user_login" ><?php _e( 'Username or Email Address' ); ?><br />
-				<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" /></label>
-			</p>
+
+			<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
+			<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" />
 			<?php
 
 			/**
@@ -840,12 +839,12 @@ switch ( $action ) {
 
 			?>
 			<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
-			<p class="submit">
+			<div class="submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Get New Password' ); ?>" />
-			</p>
+			</div>
 		</form>
 
-		<p id="nav">
+		<div id="nav">
 			<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log in' ); ?></a>
 			<?php
 
@@ -859,7 +858,7 @@ switch ( $action ) {
 			}
 
 			?>
-		</p>
+		</div>
 		<?php
 
 		login_footer( 'user_login' );
@@ -936,31 +935,27 @@ switch ( $action ) {
 			<input type="hidden" id="user_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off" />
 
 			<div class="user-pass1-wrap">
-				<p>
-					<label for="pass1"><?php _e( 'New password' ); ?></label>
-				</p>
+
+				<label for="pass1"><?php _e( 'New password' ); ?></label>
 
 				<div class="wp-pwd">
-					<div class="password-input-wrapper">
-						<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input password-input" size="24" value="" autocomplete="off" aria-describedby="pass-strength-result" />
-						<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js">
-							<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
-						</button>
-					</div>
+					<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input password-input" size="24" value="" autocomplete="off" aria-describedby="pass-strength-result" />
+
+					<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
+						<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
+					</button>
 					<div id="pass-strength-result" class="hide-if-no-js" aria-live="polite"><?php _e( 'Strength indicator' ); ?></div>
 				</div>
 				<div class="pw-weak">
-					<label>
-						<input type="checkbox" name="pw_weak" class="pw-checkbox" />
-						<?php _e( 'Confirm use of weak password' ); ?>
-					</label>
+					<input type="checkbox" name="pw_weak" id="pw-weak" class="pw-checkbox" />
+					<label for="pw-weak"><?php _e( 'Confirm use of weak password' ); ?></label>
 				</div>
 			</div>
 
-			<p class="user-pass2-wrap">
-				<label for="pass2"><?php _e( 'Confirm new password' ); ?></label><br />
+			<div class="user-pass2-wrap">
+				<label for="pass2"><?php _e( 'Confirm new password' ); ?></label>
 				<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off" />
-			</p>
+			</div>
 
 			<p class="description indicator-hint"><?php echo wp_get_password_hint(); ?></p>
 			<br class="clear" />
@@ -978,12 +973,12 @@ switch ( $action ) {
 
 			?>
 			<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>" />
-			<p class="submit">
+			<div class="submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Reset Password' ); ?>" />
-			</p>
+			</div>
 		</form>
 
-		<p id="nav">
+		<div id="nav">
 			<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log in' ); ?></a>
 			<?php
 
@@ -997,7 +992,7 @@ switch ( $action ) {
 			}
 
 			?>
-		</p>
+		</div>
 		<?php
 
 		login_footer( 'user_pass' );
@@ -1057,14 +1052,14 @@ switch ( $action ) {
 
 		?>
 		<form name="registerform" id="registerform" action="<?php echo esc_url( site_url( 'wp-login.php?action=register', 'login_post' ) ); ?>" method="post" novalidate="novalidate">
-			<p>
-				<label for="user_login"><?php _e( 'Username' ); ?><br />
-				<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( wp_unslash( $user_login ) ); ?>" size="20" autocapitalize="off" /></label>
-			</p>
-			<p>
-				<label for="user_email"><?php _e( 'Email' ); ?><br />
-				<input type="email" name="user_email" id="user_email" class="input" value="<?php echo esc_attr( wp_unslash( $user_email ) ); ?>" size="25" /></label>
-			</p>
+			<div>
+				<label for="user_login"><?php _e( 'Username' ); ?></label>
+				<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( wp_unslash( $user_login ) ); ?>" size="20" autocapitalize="off" />
+			</div>
+			<div>
+				<label for="user_email"><?php _e( 'Email' ); ?></label>
+				<input type="email" name="user_email" id="user_email" class="input" value="<?php echo esc_attr( wp_unslash( $user_email ) ); ?>" size="25" />
+			</div>
 			<?php
 
 			/**
@@ -1080,16 +1075,16 @@ switch ( $action ) {
 			</p>
 			<br class="clear" />
 			<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
-			<p class="submit">
+			<div class="submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Register' ); ?>" />
-			</p>
+			</div>
 		</form>
 
-		<p id="nav">
+		<div id="nav">
 			<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log in' ); ?></a>
 				<?php echo esc_html( $login_link_separator ); ?>
 			<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Lost your password?' ); ?></a>
-		</p>
+		</div>
 		<?php
 
 		login_footer( 'user_login' );
@@ -1329,17 +1324,22 @@ switch ( $action ) {
 			$aria_describedby_error = '';
 		}
 
+		wp_enqueue_script( 'user-profile' );
 		?>
 
 		<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
-			<p>
-				<label for="user_login"><?php _e( 'Username or Email Address' ); ?><br />
-				<input type="text" name="log" id="user_login"<?php echo $aria_describedby_error; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" /></label>
-			</p>
-			<p>
-				<label for="user_pass"><?php _e( 'Password' ); ?><br />
-				<input type="password" name="pwd" id="user_pass"<?php echo $aria_describedby_error; ?> class="input" value="" size="20" /></label>
-			</p>
+			<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
+			<input type="text" name="log" id="user_login"<?php echo $aria_describedby_error; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" />
+
+			<div class="user-pass-wrap">
+				<label for="user_pass"><?php _e( 'Password' ); ?></label>
+				<div class="wp-pwd">
+					<input type="password" name="pwd" id="user_pass"<?php echo $aria_describedby_error; ?> class="input password-input" value="" size="20" />
+					<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Show password' ); ?>">
+						<span class="dashicons dashicons-visibility" aria-hidden="true"></span>
+					</button>
+				</div>
+			</div>
 			<?php
 
 			/**
@@ -1350,8 +1350,8 @@ switch ( $action ) {
 			do_action( 'login_form' );
 
 			?>
-			<p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <?php esc_html_e( 'Remember Me' ); ?></label></p>
-			<p class="submit">
+			<div class="forgetmenot"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <label for="rememberme"><?php esc_html_e( 'Remember Me' ); ?></label></div>
+			<div class="submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Log In' ); ?>" />
 				<?php
 
@@ -1373,14 +1373,14 @@ switch ( $action ) {
 
 				?>
 				<input type="hidden" name="testcookie" value="1" />
-			</p>
+			</div>
 		</form>
 
 		<?php
 
 		if ( ! $interim_login ) {
 			?>
-			<p id="nav">
+			<div id="nav">
 				<?php
 
 				if ( ! isset( $_GET['checkemail'] ) || ! in_array( $_GET['checkemail'], array( 'confirm', 'newpass' ), true ) ) {
@@ -1399,7 +1399,7 @@ switch ( $action ) {
 				}
 
 				?>
-			</p>
+			</div>
 			<?php
 		}
 

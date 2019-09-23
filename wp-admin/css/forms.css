@@ -1500,9 +1500,9 @@ table.form-table td .updated p {
 		position: relative;
 	}
 
-	.wp-pwd [type="text"],
-	.wp-pwd [type="password"] {
-		padding-right: 88px;
+	/* Needs higher specificity than normal input type text and password. */
+	#profile-page .form-table #pass1 {
+		padding-right: 90px;
 	}
 
 	.wp-pwd button.button {
