@@ -1,0 +1,40 @@
+{
+  "name": "twentytwenty",
+  "version": "1.0.0",
+  "description": "Default WP Theme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wordpress/twentytwenty.git"
+  },
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/wordpress/twentytwenty/issues"
+  },
+  "homepage": "https://github.com/wordpress/twentytwenty#readme",
+  "devDependencies": {
+    "@wordpress/scripts": "^5.0.0",
+    "concurrently": "^4.1.2",
+    "rtlcss": "^2.4.0"
+  },
+  "rtlcssConfig": {
+    "options": {
+      "autoRename": false,
+      "autoRenameStrict": false,
+      "blacklist": {},
+      "clean": true,
+      "greedy": false,
+      "processUrls": false,
+      "stringMap": []
+    },
+    "plugins": [],
+    "map": false
+  },
+  "scripts": {
+    "build:rtl": "concurrently \"npm run build:rtl-style\" \"npm run build:rtl-esb\" \"npm run build:rtl-esc\"",
+    "build:rtl-style": "rtlcss style.css style-rtl.css",
+    "build:rtl-esb": "rtlcss assets/css/editor-style-block.css assets/css/editor-style-block-rtl.css",
+    "build:rtl-esc": "rtlcss assets/css/editor-style-classic.css assets/css/editor-style-classic-rtl.css",
+    "lint:css": "wp-scripts lint-style 'style.css' 'assets/**/*.css'",
+    "lint:js": "wp-scripts lint-js 'assets/**/*.js'"
+  }
+}
