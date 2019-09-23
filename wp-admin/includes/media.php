@@ -432,14 +432,15 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
  * Handles a side-loaded file in the same way as an uploaded file is handled by media_handle_upload().
  *
  * @since 2.6.0
+ * @since 5.3.0 Made `$post_id` parameter optional.
  *
  * @param array  $file_array Array similar to a `$_FILES` upload array.
- * @param int    $post_id    The post ID the media is associated with.
+ * @param int    $post_id    Optional. The post ID the media is associated with.
  * @param string $desc       Optional. Description of the side-loaded file. Default null.
  * @param array  $post_data  Optional. Post data to override. Default empty array.
  * @return int|WP_Error The ID of the attachment or a WP_Error on failure.
  */
-function media_handle_sideload( $file_array, $post_id, $desc = null, $post_data = array() ) {
+function media_handle_sideload( $file_array, $post_id = 0, $desc = null, $post_data = array() ) {
 	$overrides = array( 'test_form' => false );
 
 	$time = current_time( 'mysql' );
@@ -969,14 +970,15 @@ function wp_media_upload_handler() {
  * @since 2.6.0
  * @since 4.2.0 Introduced the `$return` parameter.
  * @since 4.8.0 Introduced the 'id' option within the `$return` parameter.
+ * @since 5.3.0 Made the `$post_id` parameter optional
  *
  * @param string $file    The URL of the image to download.
- * @param int    $post_id The post ID the media is to be associated with.
+ * @param int    $post_id Optional. The post ID the media is to be associated with.
  * @param string $desc    Optional. Description of the image.
  * @param string $return  Optional. Accepts 'html' (image tag html) or 'src' (URL), or 'id' (attachment ID). Default 'html'.
  * @return string|WP_Error Populated HTML img tag on success, WP_Error object otherwise.
  */
-function media_sideload_image( $file, $post_id, $desc = null, $return = 'html' ) {
+function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'html' ) {
 	if ( ! empty( $file ) ) {
 
 		// Set variables for storage, fix file filename for query strings.
