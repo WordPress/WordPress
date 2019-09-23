@@ -727,15 +727,18 @@ class WP_Site_Health {
 	 * Make the check for available PHP modules into a simple boolean operator for a cleaner test runner.
 	 *
 	 * @since 5.2.0
+	 * @since 5.3.0 The `$constant` and `$class` parameters were added.
 	 *
 	 * @param string $extension Optional. The extension name to test. Default null.
 	 * @param string $function  Optional. The function name to test. Default null.
+	 * @param string $constant  Optional. The constant name to test for. Default null.
+	 * @param string $class     Optional. The class name to test for. Default null.
 	 *
 	 * @return bool Whether or not the extension and function are available.
 	 */
-	private function test_php_extension_availability( $extension = null, $function = null ) {
+	private function test_php_extension_availability( $extension = null, $function = null, $constant = null, $class = null ) {
 		// If no extension or function is passed, claim to fail testing, as we have nothing to test against.
-		if ( ! $extension && ! $function ) {
+		if ( ! $extension && ! $function && ! $constant && ! $class ) {
 			return false;
 		}
 
@@ -743,6 +746,12 @@ class WP_Site_Health {
 			return false;
 		}
 		if ( $function && ! function_exists( $function ) ) {
+			return false;
+		}
+		if ( $constant && ! defined( $constant ) ) {
+			return false;
+		}
+		if ( $class && ! class_exists( $class ) ) {
 			return false;
 		}
 
@@ -788,36 +797,40 @@ class WP_Site_Health {
 		);
 
 		$modules = array(
-			'bcmath'    => array(
-				'function' => 'bcadd',
-				'required' => false,
-			),
 			'curl'      => array(
 				'function' => 'curl_version',
+				'required' => false,
+			),
+			'dom'       => array(
+				'class'    => 'DOMNode',
 				'required' => false,
 			),
 			'exif'      => array(
 				'function' => 'exif_read_data',
 				'required' => false,
 			),
-			'filter'    => array(
-				'function' => 'filter_list',
-				'required' => false,
-			),
 			'fileinfo'  => array(
 				'function' => 'finfo_file',
 				'required' => false,
 			),
-			'mod_xml'   => array(
-				'extension' => 'libxml',
-				'required'  => false,
+			'hash'      => array(
+				'function' => 'hash',
+				'required' => false,
+			),
+			'json'      => array(
+				'function' => 'json_last_error',
+				'required' => true,
+			),
+			'mbstring'  => array(
+				'function' => 'mb_check_encoding',
+				'required' => false,
 			),
 			'mysqli'    => array(
 				'function' => 'mysqli_connect',
 				'required' => false,
 			),
 			'libsodium' => array(
-				'function'            => 'sodium_compare',
+				'constant'            => 'SODIUM_LIBRARY_VERSION',
 				'required'            => false,
 				'php_bundled_version' => '7.2.0',
 			),
@@ -833,20 +846,41 @@ class WP_Site_Health {
 				'extension' => 'imagick',
 				'required'  => false,
 			),
+			'mod_xml'   => array(
+				'extension' => 'libxml',
+				'required'  => false,
+			),
+			'zip'       => array(
+				'class'    => 'ZipArchive',
+				'required' => false,
+			),
+			'filter'    => array(
+				'function' => 'filter_list',
+				'required' => false,
+			),
 			'gd'        => array(
 				'extension'    => 'gd',
 				'required'     => false,
 				'fallback_for' => 'imagick',
+			),
+			'iconv'     => array(
+				'function' => 'iconv',
+				'required' => false,
 			),
 			'mcrypt'    => array(
 				'extension'    => 'mcrypt',
 				'required'     => false,
 				'fallback_for' => 'libsodium',
 			),
+			'simplexml' => array(
+				'extension'    => 'simplexml',
+				'required'     => false,
+				'fallback_for' => 'mod_xml',
+			),
 			'xmlreader' => array(
 				'extension'    => 'xmlreader',
 				'required'     => false,
-				'fallback_for' => 'xml',
+				'fallback_for' => 'mod_xml',
 			),
 			'zlib'      => array(
 				'extension'    => 'zlib',
@@ -859,6 +893,7 @@ class WP_Site_Health {
 		 * An array representing all the modules we wish to test for.
 		 *
 		 * @since 5.2.0
+		 * @since 5.3.0 The `$constant` and `$class` parameters were added.
 		 *
 		 * @param array $modules {
 		 *     An associated array of modules to test for.
@@ -869,6 +904,8 @@ class WP_Site_Health {
 		 *
 		 *         string $function     Optional. A function name to test for the existence of.
 		 *         string $extension    Optional. An extension to check if is loaded in PHP.
+		 *         string $constant     Optional. A constant name to check for to verify an extension exists.
+		 *         string $class        Optional. A class name to check for to verify an extension exists.
 		 *         bool   $required     Is this a required feature or not.
 		 *         string $fallback_for Optional. The module this module replaces as a fallback.
 		 *     }
@@ -879,8 +916,10 @@ class WP_Site_Health {
 		$failures = array();
 
 		foreach ( $modules as $library => $module ) {
-			$extension = ( isset( $module['extension'] ) ? $module['extension'] : null );
-			$function  = ( isset( $module['function'] ) ? $module['function'] : null );
+			$extension  = ( isset( $module['extension'] ) ? $module['extension'] : null );
+			$function   = ( isset( $module['function'] ) ? $module['function'] : null );
+			$constant   = ( isset( $module['constant'] ) ? $module['constant'] : null );
+			$class_name = ( isset( $module['class'] ) ? $module['class'] : null );
 
 			// If this module is a fallback for another function, check if that other function passed.
 			if ( isset( $module['fallback_for'] ) ) {
@@ -895,7 +934,7 @@ class WP_Site_Health {
 				}
 			}
 
-			if ( ! $this->test_php_extension_availability( $extension, $function ) && ( ! isset( $module['php_bundled_version'] ) || version_compare( PHP_VERSION, $module['php_bundled_version'], '<' ) ) ) {
+			if ( ! $this->test_php_extension_availability( $extension, $function, $constant, $class_name ) && ( ! isset( $module['php_bundled_version'] ) || version_compare( PHP_VERSION, $module['php_bundled_version'], '<' ) ) ) {
 				if ( $module['required'] ) {
 					$result['status'] = 'critical';
 
