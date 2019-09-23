@@ -855,6 +855,39 @@ function update_user_meta( $user_id, $meta_key, $meta_value, $prev_value = '' ) 
 }
 
 /**
+ * Update user meta field based on user ID and Previous value.
+ *
+ * If the meta field for the user does not exist, it will be added.
+ *
+ * @param int    $user_id    User ID.
+ * @param string $meta_key   Metadata key.
+ * @param mixed  $meta_value Metadata value.
+ * @param mixed  $method     Optional. How to apply changes.
+ * 							 add: (default) - Add $meta_value to previous value
+ * 							 subtract: Subtraction or Remove $meta_value from previous value
+ * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
+ */
+function stateful_update_user_meta( $user_id, $meta_key, $meta_value, $method = 'add' ) {
+	$prev_value = get_metadata( 'user', $user_id, $meta_key, true );
+	
+	if ( $method == 'add' ) {
+		if ( is_array( $meta_value ) ) {
+			$meta_value = array_merge( $prev_value, $meta_value );
+		} else {
+			$meta_value += $prev_value;
+		}
+	} elseif ( $method == 'subtract' ) {
+		if ( is_array( $meta_value ) ) {
+			$meta_value = array_diff( $prev_value, $meta_value );
+		} else {
+			$meta_value = $prev_value - $meta_value;
+		}
+	}
+
+	return update_metadata( 'user', $user_id, $meta_key, $meta_value, $prev_value );
+}
+
+/**
  * Count number of users who have each of the user roles.
  *
  * Assumes there are neither duplicated nor orphaned capabilities meta_values.
@@ -3519,7 +3552,7 @@ function wp_send_user_request( $request_id ) {
 
 A request has been made to perform the following action on your account:
 
-     ###DESCRIPTION###
+	 ###DESCRIPTION###
 
 To confirm this, please click on the following link:
 ###CONFIRM_URL###
