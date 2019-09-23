@@ -404,7 +404,7 @@ function wp_templating_constants() {
 	 * @see WP_Theme::get_core_default_theme()
 	 */
 	if ( ! defined( 'WP_DEFAULT_THEME' ) ) {
-		define( 'WP_DEFAULT_THEME', 'twentynineteen' );
+		define( 'WP_DEFAULT_THEME', 'twentytwenty' );
 	}
 
 }
