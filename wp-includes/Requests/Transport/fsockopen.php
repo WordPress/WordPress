@@ -150,7 +150,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 		$options['hooks']->dispatch('fsockopen.remote_host_path', array(&$path, $url));
 
 		$request_body = '';
-		$out = sprintf("%s %s HTTP/%.1f\r\n", $options['type'], $path, $options['protocol_version']);
+		$out = sprintf("%s %s HTTP/%.1F\r\n", $options['type'], $path, $options['protocol_version']);
 
 		if ($options['type'] !== Requests::TRACE) {
 			if (is_array($data)) {
@@ -192,7 +192,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 		$headers = Requests::flatten($headers);
 
 		if (!empty($headers)) {
-			$out .= implode($headers, "\r\n") . "\r\n";
+			$out .= implode("\r\n", $headers) . "\r\n";
 		}
 
 		$options['hooks']->dispatch('fsockopen.after_headers', array(&$out));
