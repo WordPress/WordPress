@@ -1272,7 +1272,8 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * @since 4.6.0 Post type object returned is now an instance of `WP_Post_Type`.
  * @since 4.7.0 Introduced `show_in_rest`, `rest_base` and `rest_controller_class`
  *              arguments to register the post type in REST API.
- *
+ * @since 5.3.0 The `supports` argument will now accept an array of arguments for a feature.
+ * .
  * @global array $wp_post_types List of post types.
  *
  * @param string $post_type Post type key. Must not exceed 20 characters and may
@@ -1343,8 +1344,11 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                              'page-attributes', 'thumbnail', 'custom-fields', and 'post-formats'.
  *                                              Additionally, the 'revisions' feature dictates whether the post type
  *                                              will store revisions, and the 'comments' feature dictates whether the
- *                                              comments count will show on the edit screen. Defaults is an array
- *                                              containing 'title' and 'editor'.
+ *                                              comments count will show on the edit screen. A feature can also be
+ *                                              specified as an array of arguments to provide additional information
+ *                                              about supporting that feature. Example: `array( 'my_feature', array(
+ *                                              'field' => 'value' ) )`. Default is an array containing 'title' and
+ *                                              'editor'.
  *     @type callable    $register_meta_box_cb  Provide a callback function that sets up the meta boxes for the
  *                                              edit form. Do remove_meta_box() and add_meta_box() calls in the
  *                                              callback. Default null.
@@ -1800,6 +1804,9 @@ function _add_post_type_submenus() {
  * Additionally, the 'revisions' feature dictates whether the post type will
  * store revisions, and the 'comments' feature dictates whether the comments
  * count will show on the edit screen.
+ *
+ * A third, optional parameter can also be passed along with a feature to provide
+ * additional information about supporting that feature.
  *
  * Example usage:
  *
