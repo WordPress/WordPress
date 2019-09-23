@@ -273,12 +273,12 @@
 }
 
 .health-check-accordion {
-	border: 1px solid #e2e4e7;
+	border: 1px solid #ccd0d4;
 }
 
 .health-check-accordion-heading {
 	margin: 0;
-	border-top: 1px solid #e2e4e7;
+	border-top: 1px solid #ccd0d4;
 	font-size: inherit;
 	line-height: inherit;
 	font-weight: 600;

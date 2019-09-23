@@ -1047,7 +1047,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 .upload-theme .wp-upload-form,
 .upload-plugin .wp-upload-form {
 	background: #fafafa;
-	border: 1px solid #e5e5e5;
+	border: 1px solid #ccd0d4;
 	padding: 30px;
 	margin: 30px auto;
 	max-width: 380px;

@@ -190,7 +190,7 @@ p.popular-tags,
 .feature-filter,
 .imgedit-group,
 .comment-ays {
-	border: 1px solid #e5e5e5;
+	border: 1px solid #ccd0d4;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
@@ -484,12 +484,12 @@ code {
 
 .widefat thead th,
 .widefat thead td {
-	border-bottom: 1px solid #e1e1e1;
+	border-bottom: 1px solid #ccd0d4;
 }
 
 .widefat tfoot th,
 .widefat tfoot td {
-	border-top: 1px solid #e1e1e1;
+	border-top: 1px solid #ccd0d4;
 	border-bottom: none;
 }
 
@@ -771,7 +771,7 @@ img.emoji {
 
 .postbox .hndle,
 .stuffbox .hndle {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #ccd0d4;
 }
 
 .quicktags,
@@ -999,7 +999,7 @@ th.action-links {
 	padding: 0 10px;
 	width: 100%;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	border: 1px solid #e5e5e5;
+	border: 1px solid #ccd0d4;
 	background: #fff;
 	color: #555;
 	font-size: 13px;
@@ -1366,8 +1366,9 @@ th.action-links {
 div.updated,
 div.error {
 	background: #fff;
-	border-left: 4px solid #fff;
-	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	border: 1px solid #ccd0d4;
+	border-left-width: 4px;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04)
 	margin: 5px 15px 2px;
 	padding: 1px 12px;
 }
@@ -1670,7 +1671,7 @@ form.upgrade .hint {
 	margin: 0 20px -1px 0px;
 	position: relative;
 	background-color: #fff;
-	border: 1px solid #ddd;
+	border: 1px solid #ccd0d4;
 	border-top: none;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.025);
 }
@@ -1687,9 +1688,9 @@ form.upgrade .hint {
 }
 
 #screen-meta-links .show-settings {
-	border: 1px solid #ddd;
+	border: 1px solid #ccd0d4;
 	border-top: none;
-	border-bottom-color: #ccc;
+	border-bottom-color: #ccd0d4;
 	height: auto;
 	margin-bottom: 0;
 	padding: 3px 6px 3px 16px;
@@ -1836,7 +1837,7 @@ form.upgrade .hint {
 	bottom: 0;
 	left: 150px;
 	right: 170px;
-	border: 1px solid #e1e1e1;
+	border: 1px solid #ccd0d4;
 	border-top: none;
 	border-bottom: none;
 	background: #f6fbfd;
@@ -1889,7 +1890,7 @@ form.upgrade .hint {
 }
 
 .contextual-help-tabs .active a {
-	border-color: #e1e1e1;
+	border-color: #ccd0d4;
 	color: #32373c;
 }
 
