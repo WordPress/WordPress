@@ -446,12 +446,12 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.'
 			'sidebars_widgets',
 			array(
 				'wp_inactive_widgets' => array(),
-				'sidebar-1'          => array(
+				'sidebar-1'           => array(
 					0 => 'search-2',
 					1 => 'recent-posts-2',
 					2 => 'recent-comments-2',
 				),
-				'sidebar-2'          => array(
+				'sidebar-2'           => array(
 					0 => 'archives-2',
 					1 => 'categories-2',
 					2 => 'meta-2',
