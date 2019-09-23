@@ -85,11 +85,13 @@
 .media-frame input[type="url"],
 .media-frame textarea,
 .media-frame select {
+	padding: 6px 8px;
+	box-shadow: 0 0 0 transparent;
+	transition: box-shadow 0.1s linear;
+	border: 1px solid #7e8993;
+	border-radius: 4px;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 12px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #ddd;
 }
 
 .media-frame input[type="text"]:focus,
@@ -100,7 +102,9 @@
 .media-frame input[type="url"]:focus,
 .media-frame textarea:focus,
 .media-frame select:focus {
-	border-color: #5b9dd9;
+	border-color: #007cba;
+	box-shadow: 0 0 0 1px #007cba;
+	outline: 2px solid transparent;
 }
 
 .media-frame input:disabled,
@@ -209,7 +213,6 @@
 	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
-	outline-offset: -2px;
 }
 
 .media-modal-close span.media-modal-icon {
