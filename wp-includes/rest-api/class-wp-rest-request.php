@@ -398,6 +398,30 @@ class WP_REST_Request implements ArrayAccess {
 	}
 
 	/**
+	 * Checks if a parameter exists in the request.
+	 *
+	 * This allows distinguishing between an omitted parameter,
+	 * and a parameter specifically set to null.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param string $key Parameter name.
+	 *
+	 * @return bool True if a param exists for the given key.
+	 */
+	public function has_param( $key ) {
+		$order = $this->get_parameter_order();
+
+		foreach ( $order as $type ) {
+			if ( array_key_exists( $key, $this->params[ $type ] ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Sets a parameter on the request.
 	 *
 	 * @since 4.4.0
