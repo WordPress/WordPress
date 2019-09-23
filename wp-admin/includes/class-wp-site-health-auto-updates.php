@@ -287,7 +287,7 @@ class WP_Site_Health_Auto_Updates {
 					'<code>' . $check_dir . '</code>',
 					"<code>$vcs_dir</code>"
 				),
-				'severity'    => 'fail',
+				'severity'    => 'warning',
 			);
 		}
 
