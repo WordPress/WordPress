@@ -360,6 +360,7 @@ function create_initial_post_types() {
 				'Pending <span class="count">(%s)</span>',
 				'Pending <span class="count">(%s)</span>'
 			),
+			'date_floating' => true,
 		)
 	);
 
