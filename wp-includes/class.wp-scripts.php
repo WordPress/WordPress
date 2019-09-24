@@ -149,7 +149,11 @@ class WP_Scripts extends WP_Dependencies {
 	 * @since 3.4.0
 	 */
 	public function init() {
-		if ( ! is_admin() && ! current_theme_supports( 'html5', 'script' ) ) {
+		if (
+			function_exists( 'is_admin' ) && ! is_admin()
+		&&
+			function_exists( 'current_theme_supports' ) && ! current_theme_supports( 'html5', 'script' )
+		) {
 			$this->type_attr = " type='text/javascript'";
 		}
 
@@ -220,10 +224,19 @@ class WP_Scripts extends WP_Dependencies {
 			return $output;
 		}
 
-		echo "<script{$this->type_attr}>\n"; // CDATA and type="text/javascript" is not needed for HTML 5.
-		echo "/* <![CDATA[ */\n";
+		echo "<script{$this->type_attr}>\n";
+
+		// CDATA is not needed for HTML 5.
+		if ( $this->type_attr ) {
+			echo "/* <![CDATA[ */\n";
+		}
+
 		echo "$output\n";
-		echo "/* ]]> */\n";
+
+		if ( $this->type_attr ) {
+			echo "/* ]]> */\n";
+		}
+
 		echo "</script>\n";
 
 		return true;
