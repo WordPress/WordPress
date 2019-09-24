@@ -432,7 +432,7 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
  * Handles a side-loaded file in the same way as an uploaded file is handled by media_handle_upload().
  *
  * @since 2.6.0
- * @since 5.3.0 Made `$post_id` parameter optional.
+ * @since 5.3.0 The `$post_id` parameter was made optional.
  *
  * @param array  $file_array Array similar to a `$_FILES` upload array.
  * @param int    $post_id    Optional. The post ID the media is associated with.
@@ -970,7 +970,7 @@ function wp_media_upload_handler() {
  * @since 2.6.0
  * @since 4.2.0 Introduced the `$return` parameter.
  * @since 4.8.0 Introduced the 'id' option within the `$return` parameter.
- * @since 5.3.0 Made the `$post_id` parameter optional
+ * @since 5.3.0 The `$post_id` parameter was made optional.
  *
  * @param string $file    The URL of the image to download.
  * @param int    $post_id Optional. The post ID the media is to be associated with.

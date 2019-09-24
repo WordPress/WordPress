@@ -299,7 +299,7 @@ final class WP_Privacy_Policy_Content {
 	 * Add a notice with a link to the guide when editing the privacy policy page.
 	 *
 	 * @since 4.9.6
-	 * @since 5.0.0 The $post parameter is now optional.
+	 * @since 5.0.0 The `$post` parameter was made optional.
 	 *
 	 * @param WP_Post|null $post The currently edited post. Default null.
 	 */

@@ -981,7 +981,7 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
  * Retrieves the URL for editing a given term.
  *
  * @since 3.1.0
- * @since 4.5.0 The `$taxonomy` argument was made optional.
+ * @since 4.5.0 The `$taxonomy` parameter was made optional.
  *
  * @param int    $term_id     Term ID.
  * @param string $taxonomy    Optional. Taxonomy. Defaults to the taxonomy of the term identified
