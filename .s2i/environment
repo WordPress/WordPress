@@ -1,14 +1,60 @@
-WORDPRESS_DATABASE_NAME="mysqldb"
-WORDPRESS_DATABASE_HOST="localhost"
-WORDPRESS_DATABASE_USER="userdb"
-WORDPRESS_TABLE_PREFIX="wp_"
-WORDPRESS_USERNAME="user"
-WORDPRESS_PASSWORD="silo"
+WORDPRESS_USERNAME="userwp"
+WORDPRESS_PASSWORD="passuserwp"
 WORDPRESS_EMAIL="user@example.com"
 WORDPRESS_FIRST_NAME="FirtsName"
 WORDPRESS_LAST_NAME="LastName"
 WORDPRESS_BLOG_NAME="Mi Blog"
-WORDPRESS_SCHEME="http"
-WORDPRESS_HTACCESS_OVERRIDE_NONE="yes"
+WORDPRESS_SCHEME="https"
+
+WORDPRESS_DATABASE_USER="userdb"
+WORDPRESS_DATABASE_NAME="devnelydb"
+WORDPRESS_DATABASE_HOST="localhost"
+MYSQL_PORT_NUMBER="3306"
+WORDPRESS_DATABASE_PASSWORD="passdb"
+
+WORDPRESS_TABLE_PREFIX="wp_"
+
+
+
+
+## WORDPRESS_HTACCESS_OVERRIDE_NONE="yes"
 ## GOOGLE_APPLICATION_CREDENTIALS="${GOOGLE_APPLICATION_CREDENTIALS:-/opt/credenciales/credenciales.json}"   
 ## BUCKET="${BUCKET:-mibucket}"
+## WORDPRESS_SKIP_INSTALL: Force the container to not execute the WordPress installation wizard. This is necessary in case you use a database that already has WordPress data. Default: no
+## ALLOW_EMPTY_PASSWORD: It can be us
+
+
+ENV ALLOW_EMPTY_PASSWORD="no" \
+    BITNAMI_APP_NAME="wordpress" \
+    BITNAMI_IMAGE_VERSION="5.2.3-debian-9-r21" \
+    MARIADB_HOST="mariadb" \
+    MARIADB_PORT_NUMBER="3306" \
+    MARIADB_ROOT_PASSWORD="" \
+    MARIADB_ROOT_USER="root" \
+    MYSQL_CLIENT_CREATE_DATABASE_NAME="" \
+    MYSQL_CLIENT_CREATE_DATABASE_PASSWORD="" \
+    MYSQL_CLIENT_CREATE_DATABASE_PRIVILEGES="ALL" \
+    MYSQL_CLIENT_CREATE_DATABASE_USER="" \
+    PATH="/opt/bitnami/apache/bin:/opt/bitnami/php/bin:/opt/bitnami/php/sbin:/opt/bitnami/wp-cli/bin:/opt/bitnami/mysql/bin:$PATH" \
+    SMTP_HOST="" \
+    SMTP_PASSWORD="" \
+    SMTP_PORT="" \
+    SMTP_PROTOCOL="" \
+    SMTP_USER="" \
+    SMTP_USERNAME="" \
+    WORDPRESS_BLOG_NAME="User's Blog!" \
+    WORDPRESS_DATABASE_NAME="bitnami_wordpress" \
+    WORDPRESS_DATABASE_PASSWORD="" \
+    WORDPRESS_DATABASE_SSL_CA_FILE="" \
+    WORDPRESS_DATABASE_USER="bn_wordpress" \
+    WORDPRESS_EMAIL="user@example.com" \
+    WORDPRESS_FIRST_NAME="FirstName" \
+    WORDPRESS_HTACCESS_OVERRIDE_NONE="yes" \
+    WORDPRESS_HTTPS_PORT="443" \
+    WORDPRESS_HTTP_PORT="80" \
+    WORDPRESS_LAST_NAME="LastName" \
+    WORDPRESS_PASSWORD="bitnami" \
+    WORDPRESS_SCHEME="http" \
+    WORDPRESS_SKIP_INSTALL="no" \
+    WORDPRESS_TABLE_PREFIX="wp_" \
+    WORDPRESS_USERNAME="user"
