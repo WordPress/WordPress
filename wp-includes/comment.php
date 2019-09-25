@@ -2679,7 +2679,7 @@ function do_all_pings() {
 		)
 	);
 
-	foreach ( $enclosure as $enclosure ) {
+	foreach ( $enclosures as $enclosure ) {
 		delete_post_meta( $enclosure, '_encloseme' );
 		do_enclose( null, $enclosure->ID );
 	}
