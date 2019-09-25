@@ -98,10 +98,10 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 
 		$output .= isset( $title ) ? esc_html( $title ) : esc_html( $item->title );
 
- 		if ( empty( $item->label ) && isset( $item->post_type ) && 'page' === $item->post_type ) {
- 			// Append post states.
- 			$output .= _post_states( $item, false );
- 		}
+		if ( empty( $item->label ) && isset( $item->post_type ) && 'page' === $item->post_type ) {
+			// Append post states.
+			$output .= _post_states( $item, false );
+		}
 
 		$output .= '</label>';
 
