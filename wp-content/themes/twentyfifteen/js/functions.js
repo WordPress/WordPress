@@ -100,16 +100,13 @@
 			sidebarHeight = $sidebar.height(),
 			bodyHeight = $body.height();
 
-		if( 955 < $window.width()
-			&& bodyHeight > sidebarHeight
-			&& ( windowPos + windowHeight ) >= sidebarHeight ) {
-
+		if( 955 < $window.width() && bodyHeight > sidebarHeight && ( windowPos + windowHeight ) >= sidebarHeight ) {
 			$sidebar.css({
-				position: "fixed",
+				position: 'fixed',
 				bottom: sidebarHeight > windowHeight ? 0 : 'auto'
 			});
 		} else {
-			$sidebar.css('position', 'relative')
+			$sidebar.css('position', 'relative');
 		}
 	}
 
