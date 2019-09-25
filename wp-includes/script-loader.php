@@ -91,8 +91,8 @@ function wp_default_packages_vendor( &$scripts ) {
 	);
 
 	$vendor_scripts_versions = array(
-		'react'                       => '16.8.4',
-		'react-dom'                   => '16.8.4',
+		'react'                       => '16.9.0',
+		'react-dom'                   => '16.9.0',
 		'moment'                      => '2.22.2',
 		'lodash'                      => '4.17.15',
 		'wp-polyfill-fetch'           => '3.0.0',
