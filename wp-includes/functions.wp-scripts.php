@@ -59,7 +59,7 @@ function _wp_scripts_maybe_doing_it_wrong( $function ) {
  * Makes use of already-instantiated $wp_scripts global if present. Use provided {@see 'wp_print_scripts'}
  * hook to register/enqueue new scripts.
  *
- * @see WP_Scripts::do_items()
+ * @see WP_Scripts::do_item()
  * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
  * @since 2.1.0
