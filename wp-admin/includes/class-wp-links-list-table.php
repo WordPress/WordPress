@@ -58,7 +58,7 @@ class WP_Links_List_Table extends WP_List_Table {
 			'hide_empty'     => 0,
 		);
 
-		if ( 'all' != $cat_id ) {
+		if ( 'all' !== $cat_id ) {
 			$args['category'] = $cat_id;
 		}
 		if ( ! empty( $s ) ) {
@@ -97,7 +97,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	protected function extra_tablenav( $which ) {
 		global $cat_id;
 
-		if ( 'top' != $which ) {
+		if ( 'top' !== $which ) {
 			return;
 		}
 		?>
@@ -228,7 +228,7 @@ class WP_Links_List_Table extends WP_List_Table {
 				echo $cat->get_error_message();
 			}
 			$cat_name = $cat->name;
-			if ( $cat_id != $category ) {
+			if ( $cat_id !== $category ) {
 				$cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
 			}
 			$cat_names[] = $cat_name;
