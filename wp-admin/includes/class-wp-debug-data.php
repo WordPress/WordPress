@@ -728,7 +728,7 @@ class WP_Debug_Data {
 		if ( isset( $wpdb->use_mysqli ) && $wpdb->use_mysqli ) {
 			$client_version = $wpdb->dbh->client_info;
 		} else {
-			// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysql_get_client_info
+			// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysql_get_client_info,PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved
 			if ( preg_match( '|[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}|', mysql_get_client_info(), $matches ) ) {
 				$client_version = $matches[0];
 			} else {

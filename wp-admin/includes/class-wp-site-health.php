@@ -158,7 +158,7 @@ class WP_Site_Health {
 			// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_get_server_info
 			$mysql_server_type = mysqli_get_server_info( $wpdb->dbh );
 		} else {
-			// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysql_get_server_info
+			// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysql_get_server_info,PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved
 			$mysql_server_type = mysql_get_server_info( $wpdb->dbh );
 		}
 
@@ -1171,7 +1171,7 @@ class WP_Site_Health {
 			// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_get_client_info
 			$mysql_client_version = mysqli_get_client_info();
 		} else {
-			// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysql_get_client_info
+			// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysql_get_client_info,PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved
 			$mysql_client_version = mysql_get_client_info();
 		}
 

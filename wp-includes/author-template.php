@@ -565,6 +565,6 @@ function is_multi_author() {
  * @since 3.2.0
  * @access private
  */
-function __clear_multi_author_cache() { //phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore
+function __clear_multi_author_cache() { //phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 	delete_transient( 'is_multi_author' );
 }
