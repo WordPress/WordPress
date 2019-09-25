@@ -354,12 +354,88 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 		$args = array_merge( $args, (array) $box['args']->_default_query );
 	}
 
+	/*
+	 * If we're dealing with pages, let's prioritize the Front Page,
+	 * Posts Page and Privacy Policy Page at the top of the list.
+	 */
+	$important_pages = array();
+	if ( 'page' == $post_type_name ) {
+		$suppress_page_ids = array();
+
+		// Insert Front Page or custom Home link.
+		$front_page = 'page' == get_option( 'show_on_front' ) ? (int) get_option( 'page_on_front' ) : 0;
+
+		$front_page_obj = null;
+		if ( ! empty( $front_page ) ) {
+			$front_page_obj                = get_post( $front_page );
+			$front_page_obj->front_or_home = true;
+
+			$important_pages[]   = $front_page_obj;
+			$suppress_page_ids[] = $front_page_obj->ID;
+		} else {
+			$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval( $_nav_menu_placeholder ) - 1 : -1;
+			$front_page_obj        = (object) array(
+				'front_or_home' => true,
+				'ID'            => 0,
+				'object_id'     => $_nav_menu_placeholder,
+				'post_content'  => '',
+				'post_excerpt'  => '',
+				'post_parent'   => '',
+				'post_title'    => _x( 'Home', 'nav menu home label' ),
+				'post_type'     => 'nav_menu_item',
+				'type'          => 'custom',
+				'url'           => home_url( '/' ),
+			);
+
+			$important_pages[] = $front_page_obj;
+		}
+
+		// Insert Posts Page.
+		$posts_page = 'page' == get_option( 'show_on_front' ) ? (int) get_option( 'page_for_posts' ) : 0;
+
+		if ( ! empty( $posts_page ) ) {
+			$posts_page_obj             = get_post( $posts_page );
+			$posts_page_obj->posts_page = true;
+
+			$important_pages[]   = $posts_page_obj;
+			$suppress_page_ids[] = $posts_page_obj->ID;
+		}
+
+		// Insert Privacy Policy Page.
+		$privacy_policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
+
+		if ( ! empty( $privacy_policy_page_id ) ) {
+			$privacy_policy_page = get_post( $privacy_policy_page_id );
+			if ( $privacy_policy_page instanceof WP_Post && 'publish' === $privacy_policy_page->post_status ) {
+				$privacy_policy_page->privacy_policy_page = true;
+
+				$important_pages[]   = $privacy_policy_page;
+				$suppress_page_ids[] = $privacy_policy_page->ID;
+			}
+		}
+
+		// Add suppression array to arguments for WP_Query.
+		if ( ! empty( $suppress_page_ids ) ) {
+			$args['post__not_in'] = $suppress_page_ids;
+		}
+	}
+
 	// @todo transient caching of these results with proper invalidation on updating of a post of this type
 	$get_posts = new WP_Query;
 	$posts     = $get_posts->query( $args );
+
+	// Only suppress and insert when more than just suppression pages available.
 	if ( ! $get_posts->post_count ) {
-		echo '<p>' . __( 'No items.' ) . '</p>';
-		return;
+		if ( ! empty( $suppress_page_ids ) ) {
+			unset( $args['post__not_in'] );
+			$get_posts = new WP_Query;
+			$posts     = $get_posts->query( $args );
+		} else {
+			echo '<p>' . __( 'No items.' ) . '</p>';
+			return;
+		}
+	} elseif ( ! empty( $important_pages ) ) {
+		$posts = array_merge( $important_pages, $posts );
 	}
 
 	$num_pages = $get_posts->max_num_pages;
@@ -521,36 +597,6 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 			<ul id="<?php echo $post_type_name; ?>checklist" data-wp-lists="list:<?php echo $post_type_name; ?>" class="categorychecklist form-no-clear">
 				<?php
 				$args['walker'] = $walker;
-
-				/*
-				 * If we're dealing with pages, let's put a checkbox for the front
-				 * page at the top of the list.
-				 */
-				if ( 'page' == $post_type_name ) {
-					$front_page = 'page' == get_option( 'show_on_front' ) ? (int) get_option( 'page_on_front' ) : 0;
-					if ( ! empty( $front_page ) ) {
-						$front_page_obj                = get_post( $front_page );
-						$front_page_obj->front_or_home = true;
-						array_unshift( $posts, $front_page_obj );
-					} else {
-						$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval( $_nav_menu_placeholder ) - 1 : -1;
-						array_unshift(
-							$posts,
-							(object) array(
-								'front_or_home' => true,
-								'ID'            => 0,
-								'object_id'     => $_nav_menu_placeholder,
-								'post_content'  => '',
-								'post_excerpt'  => '',
-								'post_parent'   => '',
-								'post_title'    => _x( 'Home', 'nav menu home label' ),
-								'post_type'     => 'nav_menu_item',
-								'type'          => 'custom',
-								'url'           => home_url( '/' ),
-							)
-						);
-					}
-				}
 
 				$post_type = get_post_type_object( $post_type_name );
 

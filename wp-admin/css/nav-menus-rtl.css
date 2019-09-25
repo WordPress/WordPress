@@ -413,6 +413,10 @@ ul.add-menu-item-tabs li {
 	margin-top: -4px;
 }
 
+.menu-item-title .post-state {
+	font-weight: 600;
+}
+
 /* Nav Menu */
 #menu-container .inside {
 	padding-bottom: 10px;

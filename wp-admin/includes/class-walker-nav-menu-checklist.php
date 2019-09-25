@@ -94,13 +94,15 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		} elseif ( isset( $item->post_type ) ) {
 			/** This filter is documented in wp-includes/post-template.php */
 			$title = apply_filters( 'the_title', $item->post_title, $item->ID );
-			if ( ! empty( $item->front_or_home ) && _x( 'Home', 'nav menu home label' ) !== $title ) {
-				/* translators: %s: Front page title. */
-				$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), $title );
-			}
 		}
 
 		$output .= isset( $title ) ? esc_html( $title ) : esc_html( $item->title );
+
+ 		if ( empty( $item->label ) && isset( $item->post_type ) && 'page' === $item->post_type ) {
+ 			// Append post states.
+ 			$output .= _post_states( $item, false );
+ 		}
+
 		$output .= '</label>';
 
 		// Menu item hidden fields
