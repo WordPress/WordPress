@@ -846,8 +846,6 @@ border color while dragging a file over the uploader drop area */
 
 .wp_attachment_holder .imgedit-wrap .imgedit-panel-content {
 	float: left;
-	box-sizing: border-box;
-	width: calc( 100% - 250px );
 	padding: 3px 16px 0 0;
 }
 
