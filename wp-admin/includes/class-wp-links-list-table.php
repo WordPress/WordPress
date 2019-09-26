@@ -228,7 +228,7 @@ class WP_Links_List_Table extends WP_List_Table {
 				echo $cat->get_error_message();
 			}
 			$cat_name = $cat->name;
-			if ( $cat_id !== $category ) {
+			if ( (int) $cat_id !== $category ) {
 				$cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
 			}
 			$cat_names[] = $cat_name;
