@@ -2062,15 +2062,16 @@ function iframe_footer() {
 }
 
 /**
- * Function to echo or return the Post States as HTML.
+ * Function to echo or return the post states as HTML.
  *
  * @since 2.7.0
- * @since 5.3.0 Adopted use of get_post_states
+ * @since 5.3.0 Added the `$echo` parameter and a return value.
+ *
+ * @see get_post_states()
  *
  * @param WP_Post $post The post to retrieve states for.
- * @param boolean $echo Optional. Whether to echo or return the Post States as an HTML string. Default true for echo.
- *
- * @return string|void Post States string when echo is false.
+ * @param bool    $echo Optional. Whether to echo the post states as an HTML string. Default true.
+ * @return string Post states string.
  */
 function _post_states( $post, $echo = true ) {
 	$post_states        = get_post_states( $post );
@@ -2096,14 +2097,12 @@ function _post_states( $post, $echo = true ) {
 }
 
 /**
- * Function to retrieve an array of Post States from a Post.
+ * Function to retrieve an array of post states from a post.
  *
  * @since 5.3.0
  *
  * @param WP_Post $post The post to retrieve states for.
- *
- * @return array $post_states The array of translated post states.
- *
+ * @return array The array of translated post states.
  */
 function get_post_states( $post ) {
 	$post_states = array();
@@ -2170,7 +2169,12 @@ function get_post_states( $post ) {
 }
 
 /**
- * @param WP_Post $post
+ * Function to echo the attachment media states as HTML.
+ *
+ * @since 3.2.0
+ *
+ * @param WP_Post $post The attachment post to retrieve states for.
+ * @return string Media states string.
  */
 function _media_states( $post ) {
 	$media_states = array();
