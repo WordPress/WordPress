@@ -1230,8 +1230,17 @@ switch ( $action ) {
 				exit;
 			}
 
+			/**
+			 * Filters the capability required for displaying the admin email check screen.
+			 *
+			 * @since 5.3.0
+			 *
+			 * @param string $capability The capability required to display the admn email check screen.
+			 */
+			$admin_check_cap = apply_filters( 'admin_email_check_cap', 'manage_options' );
+
 			// Check if it is time to add a redirect to the admin email confirmation screen.
-			if ( is_a( $user, 'WP_User' ) && $user->exists() && $user->has_cap( 'manage_options' ) ) {
+			if ( is_a( $user, 'WP_User' ) && $user->exists() && $user->has_cap( $admin_check_cap ) ) {
 				$admin_email_lifespan = (int) get_option( 'admin_email_lifespan' );
 
 				// If `0` (or anything "falsey" as it is cast to int) is returned, the user will not be redirected
