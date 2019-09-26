@@ -337,6 +337,8 @@
 }
 
 #adminmenu div.wp-menu-name {
+	display: flex;
+	word-break: break-word;
 	padding: 8px 0;
 }
 
@@ -692,7 +694,7 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	.auto-fold #adminmenu a.menu-top {
-		height: 34px;
+		height: auto;
 	}
 
 	.auto-fold #adminmenu li.wp-menu-open {
