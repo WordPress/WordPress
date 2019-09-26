@@ -439,7 +439,7 @@ function add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  * @param mixed  ...$arg Optional. Additional arguments which are passed on to the
  *                       functions hooked to the action. Default empty.
  */
-function do_action( $tag, $arg = '' ) {
+function do_action( $tag, ...$arg ) {
 	global $wp_filter, $wp_actions, $wp_current_filter;
 
 	if ( ! isset( $wp_actions[ $tag ] ) ) {
@@ -448,11 +448,10 @@ function do_action( $tag, $arg = '' ) {
 		++$wp_actions[ $tag ];
 	}
 
-	$all_args = func_get_args();
-
 	// Do 'all' actions first
 	if ( isset( $wp_filter['all'] ) ) {
 		$wp_current_filter[] = $tag;
+		$all_args            = func_get_args();
 		_wp_call_all_hook( $all_args );
 	}
 
@@ -467,14 +466,11 @@ function do_action( $tag, $arg = '' ) {
 		$wp_current_filter[] = $tag;
 	}
 
-	$args = $all_args;
-	array_shift( $args );
-
-	if ( empty( $args ) ) {
-		$args = array( '' );
+	if ( empty( $arg ) ) {
+		$arg[] = '';
 	}
 
-	$wp_filter[ $tag ]->do_action( $args );
+	$wp_filter[ $tag ]->do_action( $arg );
 
 	array_pop( $wp_current_filter );
 }
