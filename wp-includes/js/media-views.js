@@ -5321,7 +5321,9 @@ UploaderStatus = View.extend(/** @lends wp.media.view.UploaderStatus.prototype *
 		}
 		wp.Uploader.errors.reset();
 		// Move focus to the modal after the dismiss button gets removed from the DOM.
-		this.controller.modal.focusManager.focus();
+		if ( this.controller.modal ) {
+			this.controller.modal.focusManager.focus();
+		}
 	}
 });
 
