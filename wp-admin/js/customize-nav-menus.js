@@ -584,7 +584,7 @@
 			this.currentMenuControl.addItemToMenu( menuItem );
 
 			// Reset the custom link form.
-			itemUrl.val( 'http://' );
+			itemUrl.val( '' ).attr( 'placeholder', 'https://' );
 			itemName.val( '' );
 		},
 
