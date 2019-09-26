@@ -608,10 +608,10 @@ function get_theme_root( $stylesheet_or_template = false ) {
  *
  * @global array $wp_theme_directories
  *
- * @param string $stylesheet_or_template Optional. The stylesheet or template name of the theme.
- *                                       Default is to leverage the main theme root.
- * @param string $theme_root             Optional. The theme root for which calculations will be based, preventing
- *                                       the need for a get_raw_theme_root() call.
+ * @param bool|string $stylesheet_or_template Optional. The stylesheet or template name of the theme.
+ *                                            Default value false, to use the main theme root.
+ * @param bool|string $theme_root             Optional. The theme root for which calculations will be based, preventing
+ *                                            the need for a get_raw_theme_root() call. Default value false.
  * @return string Themes URI.
  */
 function get_theme_root_uri( $stylesheet_or_template = false, $theme_root = false ) {
