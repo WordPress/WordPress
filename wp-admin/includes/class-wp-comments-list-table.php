@@ -487,6 +487,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Display the comments table. Override the parent method to render extra comments.
+	 *
+	 * @since 3.1.0
 	 */
 	public function display() {
 		wp_nonce_field( 'fetch-list-' . get_class( $this ), '_ajax_fetch_list_nonce' );
