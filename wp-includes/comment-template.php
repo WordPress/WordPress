@@ -1646,6 +1646,10 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 
 	$comment = get_comment( $comment );
 
+	if ( empty( $comment ) ) {
+		return;
+	}
+
 	if ( empty( $post ) ) {
 		$post = $comment->comment_post_ID;
 	}
