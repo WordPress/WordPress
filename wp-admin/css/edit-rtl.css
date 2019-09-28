@@ -72,6 +72,7 @@
 	position: absolute;
 	font-size: 1.7em;
 	padding: 11px 10px;
+	pointer-events: none;
 }
 
 input#link_description,
