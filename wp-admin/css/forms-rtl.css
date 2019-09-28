@@ -323,19 +323,16 @@ input[type="radio"].disabled:checked:before {
 }
 
 .wp-admin select:hover {
-	background-color: #f3f5f6;
 	color: #007cba;
 }
 
 .wp-admin select:focus {
-	background-color: #f3f5f6;
 	border-color: #007cba;
 	color: #016087;
 	box-shadow: 0 0 0 1px #007cba;
 }
 
 .wp-admin select:active {
-	background-color: #eee;
 	border-color: #999;
 	box-shadow: none;
 }
