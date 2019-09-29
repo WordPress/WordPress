@@ -1173,7 +1173,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Display the table
+	 * Displays the table.
 	 *
 	 * @since 3.1.0
 	 */

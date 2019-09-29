@@ -333,7 +333,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Override the parent display() so we can provide a different container.
+	 * Displays the plugin install table.
+	 *
+	 * Overrides the parent display() method to provide a different container.
+	 *
+	 * @since 4.0.0
 	 */
 	public function display() {
 		$singular = $this->_args['singular'];

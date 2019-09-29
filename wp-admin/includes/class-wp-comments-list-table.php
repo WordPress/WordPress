@@ -487,7 +487,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Display the comments table. Override the parent method to render extra comments.
+	 * Displays the comments table.
+	 *
+	 * Overrides the parent display() method to render extra comments.
 	 *
 	 * @since 3.1.0
 	 */
