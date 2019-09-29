@@ -143,9 +143,9 @@ input[type="checkbox"]:checked::before {
 input[type="radio"]:checked::before {
 	content: "";
 	border-radius: 50%;
-	width: 50%;
-	height: 50%;
-	margin: 25%;
+	width: 0.5rem; /* 8px */
+	height: 0.5rem; /* 8px */
+	margin: 0.1875rem; /* 3px */
 	line-height: 0.76190476;
 	background-color: #1e8cbe;
 }
