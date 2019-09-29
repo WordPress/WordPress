@@ -563,7 +563,7 @@ abstract class WP_REST_Meta_Fields {
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param string $type
+	 * @param string $type The schema type.
 	 * @return mixed
 	 */
 	protected function get_default_for_type( $type ) {
@@ -577,7 +577,6 @@ abstract class WP_REST_Meta_Fields {
 			case 'number':
 				return 0.0;
 			case 'array':
-				return array();
 			case 'object':
 				return array();
 			default:
