@@ -313,8 +313,12 @@ function get_the_content( $more_link_text = null, $strip_teaser = false, $post =
 		return get_the_password_form( $_post );
 	}
 
-	if ( $elements['page'] > count( $elements['pages'] ) ) { // if the requested page doesn't exist
-		$elements['page'] = count( $elements['pages'] ); // give them the highest numbered page that DOES exist
+	if ( is_array( $elements['pages']  ) ) {
+		if ( $elements['page'] > count( $elements['pages'] ) ) { // if the requested page doesn't exist
+			$elements['page'] = count( $elements['pages'] ); // give them the highest numbered page that DOES exist
+		}
+	} else {
+		$elements['page'] = 0;
 	}
 
 	$page_no = $elements['page'];
