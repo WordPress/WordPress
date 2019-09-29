@@ -16,10 +16,11 @@ a:hover, a:active, a:focus {
   color: #0096dd;
 }
 
-#media-upload a.del-link:hover,
-div.dashboard-widget-submit input:hover,
-.subsubsub a:hover,
-.subsubsub a.current:hover {
+#post-body .misc-pub-post-status:before,
+#post-body #visibility:before,
+.curtime #timestamp:before,
+#post-body .misc-pub-revisions:before,
+span.wp-media-buttons-icon:before {
   color: #0096dd;
 }
 
@@ -61,6 +62,22 @@ textarea:focus {
 }
 
 /* Core UI */
+.wp-core-ui .button,
+.wp-core-ui .button-secondary {
+  color: #a3b745;
+  border-color: #a3b745;
+}
+
+.wp-core-ui .button.hover,
+.wp-core-ui .button:hover,
+.wp-core-ui .button-secondary:hover,
+.wp-core-ui .button.focus,
+.wp-core-ui .button:focus,
+.wp-core-ui .button-secondary:focus {
+  border-color: #93a43e;
+  color: #93a43e;
+}
+
 .wp-core-ui .button.focus,
 .wp-core-ui .button:focus,
 .wp-core-ui .button-secondary:focus {
@@ -95,6 +112,10 @@ textarea:focus {
   background: #bfcd7b !important;
   border-color: #bfcd7b !important;
   text-shadow: none !important;
+}
+
+.wp-core-ui .button-group > .button.active {
+  border-color: #a3b745;
 }
 
 .wp-core-ui .wp-ui-primary {

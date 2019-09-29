@@ -23,10 +23,11 @@ a {
 	}
 }
 
-#media-upload a.del-link:hover,
-div.dashboard-widget-submit input:hover,
-.subsubsub a:hover,
-.subsubsub a.current:hover {
+#post-body .misc-pub-post-status:before,
+#post-body #visibility:before,
+.curtime #timestamp:before,
+#post-body .misc-pub-revisions:before,
+span.wp-media-buttons-icon:before {
 	color: $link-focus;
 }
 
@@ -73,6 +74,23 @@ textarea:focus {
 /* Core UI */
 
 .wp-core-ui {
+
+	.button,
+	.button-secondary {
+		color: $button-color;
+		border-color: $button-color;
+	}
+
+	.button.hover,
+	.button:hover,
+	.button-secondary:hover,
+	.button.focus,
+	.button:focus,
+	.button-secondary:focus {
+		border-color: darken( $button-color, 5% );
+		color: darken( $button-color, 5% );
+	}
+
 	.button.focus,
 	.button:focus,
 	.button-secondary:focus {
@@ -83,6 +101,10 @@ textarea:focus {
 
 	.button-primary {
 		@include button( $button-color );
+	}
+
+	.button-group > .button.active {
+		border-color: $button-color;
 	}
 
 	.wp-ui-primary {

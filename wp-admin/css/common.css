@@ -617,13 +617,14 @@ code {
 	position: relative;
 	top: -3px;
 	text-decoration: none;
-	border: 1px solid #7e8993;
+	border: 1px solid #0071a1;
 	border-radius: 2px;
 	text-shadow: none;
 	font-weight: 600;
 	font-size: 13px;
 	line-height: normal; /* IE8-IE11 need this for buttons */
-	color: #555; /* use the standard color used for buttons */
+	color: #0071a1; /* use the standard color used for buttons */
+	background: #f3f5f6;
 	cursor: pointer;
 }
 
@@ -633,9 +634,9 @@ code {
 
 .wrap .add-new-h2:hover, /* deprecated */
 .wrap .page-title-action:hover {
-	background: #f3f5f6;
-	border-color: #7e8993;
-	color: #007cba;
+	background: #f1f1f1;
+	border-color: #016087;
+	color: #016087;
 }
 
 /* lower specificity: color needs to be overridden by :hover and :active */
