@@ -3012,35 +3012,19 @@ function _split_str_by_whitespace( $string, $goal ) {
 }
 
 /**
- * Adds rel nofollow string to all HTML A elements in content.
+ * Callback to add a rel attribute to HTML A element.
  *
- * @since 1.5.0
+ * Will remove already existing string before adding to prevent invalidating (X)HTML.
  *
- * @param string $text Content that may contain HTML A elements.
- * @return string Converted content.
+ * @since 5.3.0
+ *
+ * @param array  $matches Single match.
+ * @param string $rel     The rel attribute to add.
+ * @return string HTML A element with the added rel attribute.
  */
-function wp_rel_nofollow( $text ) {
-	// This is a pre save filter, so text is already escaped.
-	$text = stripslashes( $text );
-	$text = preg_replace_callback( '|<a (.+?)>|i', 'wp_rel_nofollow_callback', $text );
-	return wp_slash( $text );
-}
-
-/**
- * Callback to add rel=nofollow string to HTML A element.
- *
- * Will remove already existing rel="nofollow" and rel='nofollow' from the
- * string to prevent from invalidating (X)HTML.
- *
- * @since 2.3.0
- *
- * @param array $matches Single Match
- * @return string HTML A Element with rel nofollow.
- */
-function wp_rel_nofollow_callback( $matches ) {
+function wp_rel_callback( $matches, $rel ) {
 	$text = $matches[1];
 	$atts = wp_kses_hair( $matches[1], wp_allowed_protocols() );
-	$rel  = 'nofollow';
 
 	if ( ! empty( $atts['href'] ) ) {
 		if ( in_array( strtolower( wp_parse_url( $atts['href']['value'], PHP_URL_SCHEME ) ), array( 'http', 'https' ), true ) ) {
@@ -3051,11 +3035,10 @@ function wp_rel_nofollow_callback( $matches ) {
 	}
 
 	if ( ! empty( $atts['rel'] ) ) {
-		$parts = array_map( 'trim', explode( ' ', $atts['rel']['value'] ) );
-		if ( false === array_search( 'nofollow', $parts ) ) {
-			$parts[] = 'nofollow';
-		}
-		$rel = implode( ' ', $parts );
+		$parts     = array_map( 'trim', explode( ' ', $atts['rel']['value'] ) );
+		$rel_array = array_map( 'trim', explode( ' ', $rel ) );
+		$parts     = array_unique( array_merge( $parts, $rel_array ) );
+		$rel       = implode( ' ', $parts );
 		unset( $atts['rel'] );
 
 		$html = '';
@@ -3069,6 +3052,63 @@ function wp_rel_nofollow_callback( $matches ) {
 		$text = trim( $html );
 	}
 	return "<a $text rel=\"" . esc_attr( $rel ) . '">';
+}
+
+/**
+ * Adds `rel="nofollow"` string to all HTML A elements in content.
+ *
+ * @since 1.5.0
+ *
+ * @param string $text Content that may contain HTML A elements.
+ * @return string Converted content.
+ */
+function wp_rel_nofollow( $text ) {
+	// This is a pre save filter, so text is already escaped.
+	$text = stripslashes( $text );
+	$rel  = 'nofollow';
+	$text = preg_replace_callback(
+		'|<a (.+?)>|i',
+		function( $matches ) use ( $rel ) {
+			return wp_rel_callback( $matches, $rel );
+		},
+		$text
+	);
+	return wp_slash( $text );
+}
+
+/**
+ * Callback to add `rel="nofollow"` string to HTML A element.
+ *
+ * @since 2.3.0
+ * @deprecated 5.3.0 Use wp_rel_callback()
+ *
+ * @param array $matches Single match.
+ * @return string HTML A Element with `rel="nofollow"`.
+ */
+function wp_rel_nofollow_callback( $matches ) {
+	return wp_rel_callback( $matches, 'nofollow' );
+}
+
+/**
+ * Adds `rel="nofollow ugc"` string to all HTML A elements in content.
+ *
+ * @since 5.3.0
+ *
+ * @param string $text Content that may contain HTML A elements.
+ * @return string Converted content.
+ */
+function wp_rel_ugc( $text ) {
+	// This is a pre save filter, so text is already escaped.
+	$text = stripslashes( $text );
+	$rel  = 'nofollow ugc';
+	$text = preg_replace_callback(
+		'|<a (.+?)>|i',
+		function( $matches ) use ( $rel ) {
+			return wp_rel_callback( $matches, $rel );
+		},
+		$text
+	);
+	return wp_slash( $text );
 }
 
 /**
