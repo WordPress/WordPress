@@ -1900,6 +1900,7 @@
 
 .media-frame .embed-url input {
 	font-size: 18px;
+	line-height: 1.22222222; /* 22px */
 	padding: 12px 40px 12px 14px; /* right padding to leave room for the spinner */
 	width: 100%;
 	min-width: 200px;
