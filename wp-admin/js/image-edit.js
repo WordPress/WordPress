@@ -503,7 +503,7 @@
 
 			// If a response is returned, close the editor and show an error.
 			if ( ret.error ) {
-				$('#imgedit-response-' + postid).html('<div class="error"><p>' + ret.error + '</p></div>');
+				$('#imgedit-response-' + postid).html('<div class="error" role="alert"><p>' + ret.error + '</p></div>');
 				imageEdit.close(postid);
 				return;
 			}
@@ -517,7 +517,7 @@
 			}
 
 			if ( ret.msg ) {
-				$('#imgedit-response-' + postid).html('<div class="updated"><p>' + ret.msg + '</p></div>');
+				$('#imgedit-response-' + postid).html('<div class="updated" role="alert"><p>' + ret.msg + '</p></div>');
 			}
 
 			if ( self._view ) {

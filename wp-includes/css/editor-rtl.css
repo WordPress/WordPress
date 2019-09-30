@@ -1322,7 +1322,7 @@ i.mce-i-wp_code:before {
 	.wp-core-ui .quicktags-toolbar input.button.button-small {
 		/* .button-small is normally 11px, but a bit too small for these buttons. */
 		font-size: 12px;
-		height: 26px;
+		min-height: 26px;
 		line-height: 2;
 	}
 }
