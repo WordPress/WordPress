@@ -580,23 +580,29 @@
 	user-select: none;
 }
 
-.media-menu > a {
+.media-menu .media-menu-item {
 	display: block;
+	box-sizing: border-box;
+	width: 100%;
 	position: relative;
-	padding: 8px 20px;
+	border: 0;
 	margin: 0;
-	line-height: 1.28571428;
+	padding: 8px 20px;
 	font-size: 14px;
+	line-height: 1.28571428;
+	background: transparent;
 	color: #0073aa;
+	text-align: right;
 	text-decoration: none;
+	cursor: pointer;
 }
 
-.media-menu > a:hover {
-	color: #0073aa;
+.media-menu .media-menu-item:hover {
 	background: rgba(0, 0, 0, 0.04);
 }
 
-.media-menu > a:active {
+.media-menu .media-menu-item:active {
+	color: #0073aa;
 	outline: none;
 }
 
@@ -604,6 +610,15 @@
 .media-menu .active:hover {
 	color: #23282d;
 	font-weight: 600;
+}
+
+.media-menu .media-menu-item:focus {
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
+	color: #124964;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 .media-menu .separator {
@@ -621,42 +636,48 @@
 	padding: 0 6px;
 	margin: 0;
 	clear: both;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 }
 
-.media-router a {
-	transition: none;
-}
-
-.media-router > a {
+.media-router .media-menu-item {
 	position: relative;
 	float: right;
-	padding: 8px 10px 9px;
+	border: 0;
 	margin: 0;
+	padding: 8px 10px 9px;
 	height: 18px;
 	line-height: 1.28571428;
 	font-size: 14px;
 	text-decoration: none;
+	background: transparent;
+	cursor: pointer;
+	transition: none;
 }
 
-.media-router > a:last-child {
+.media-router .media-menu-item:last-child {
 	border-left: 0;
 }
 
-.media-router > a:active {
-	outline: none;
+.media-router .media-menu-item:hover,
+.media-router .media-menu-item:active {
+	color: #0073aa;
 }
 
 .media-router .active,
 .media-router .active:hover {
-	color: #32373c;
+	color: #23282d;
+}
+
+.media-router .media-menu-item:focus {
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
+	color: #124964;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 .media-router .active,
-.media-router > a.active:last-child {
+.media-router .media-menu-item.active:last-child {
 	margin: -1px -1px 0;
 	background: #fff;
 	border: 1px solid #ddd;
@@ -752,20 +773,15 @@
 	display: none;
 }
 
-.media-frame.hide-router .media-frame-title {
-	border-bottom: 1px solid #ddd;
-	box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.1);
-}
-
-.media-frame-title .dashicons {
-	display: none;
-}
-
 .media-frame-title h1 {
 	padding: 0 16px;
 	font-size: 22px;
 	line-height: 2.27272727;
 	margin: 0;
+}
+
+.wp-core-ui .button.media-frame-menu-toggle {
+	display: none;
 }
 
 .media-frame-title .suggested-dimensions {
@@ -2251,13 +2267,45 @@
  * Responsive layout
  */
 @media only screen and (max-width: 900px) {
+	.media-modal .media-frame-title {
+		height: 40px;
+	}
+
+	.media-modal .media-frame-title h1 {
+		line-height: 2.22222222;
+		font-size: 18px;
+	}
+
+	.media-modal-close {
+		width: 42px;
+		height: 42px;
+	}
 
 	/* Drop-down menu */
-	.media-frame:not(.hide-menu) .media-frame-title,
+	.media-frame .media-frame-title {
+		position: static;
+		padding: 0 44px;
+		text-align: center;
+	}
+
 	.media-frame:not(.hide-menu) .media-frame-router,
 	.media-frame:not(.hide-menu) .media-frame-content,
 	.media-frame:not(.hide-menu) .media-frame-toolbar {
 		right: 0;
+	}
+
+	.media-frame:not(.hide-menu) .media-frame-router {
+		/* 40 title + (40 - 6) menu toggle button + 6 spacing */
+		top: 80px;
+	}
+
+	.media-frame:not(.hide-menu) .media-frame-content {
+		/* 80 + room for the tabs */
+		top: 114px;
+	}
+
+	.media-frame.hide-router .media-frame-content {
+		top: 80px;
 	}
 
 	.media-frame:not(.hide-menu) .media-frame-menu {
@@ -2266,12 +2314,13 @@
 	}
 
 	.media-frame:not(.hide-menu) .media-menu {
+		display: none;
 		width: auto;
 		max-width: 80%;
 		overflow: auto;
 		z-index: 2000;
-		top: 50px;
-		right: -300px;
+		top: 75px;
+		right: 0;
 		left: auto;
 		bottom: auto;
 		padding: 5px 0;
@@ -2279,7 +2328,7 @@
 	}
 
 	.media-frame:not(.hide-menu) .media-menu.visible {
-		right: 0;
+		display: block;
 	}
 
 	.media-frame:not(.hide-menu) .media-menu > a {
@@ -2287,29 +2336,32 @@
 		font-size: 16px;
 	}
 
-	.media-frame:not(.hide-menu) .media-menu > a.active {
-		display: none;
-	}
-
 	.media-frame:not(.hide-menu) .media-menu .separator {
 		margin: 5px 10px;
 	}
 
-	.media-frame:not(.hide-menu) .media-frame-title {
-		right: 0;
+	.wp-core-ui .media-frame:not(.hide-menu) .button.media-frame-menu-toggle {
+		display: inline-flex;
+		align-items: center;
+		vertical-align: top;
+		min-height: 40px;
+		margin: -6px 6px 0;
+		padding: 0 12px 0 2px;
+		font-size: 0.875rem;
+		font-weight: 600;
+		text-decoration: none;
+		background: transparent;
 	}
 
-	.media-frame:not(.hide-menu) .media-frame-title .dashicons {
-		display: inline-block;
-		line-height: 2.5;
+	.wp-core-ui .button.media-frame-menu-toggle:hover,
+	.wp-core-ui .button.media-frame-menu-toggle:active {
+		background: transparent;
+		transform: none;
 	}
 
-	.media-frame:not(.hide-menu) .media-frame-title h1 {
-		color: #0073aa;
-		line-height: 3;
-		font-size: 18px;
-		float: right;
-		cursor: pointer;
+	.wp-core-ui .button.media-frame-menu-toggle:focus {
+		/* Only visible in Windows High Contrast mode */
+		outline: 1px solid transparent;
 	}
 	/* End drop-down menu */
 
@@ -2561,31 +2613,6 @@
 	}
 }
 
-/* Landscape specific header override */
-@media screen and (max-height: 400px) {
-	.media-menu,
-	.media-frame:not(.hide-menu) .media-menu {
-		top: 44px;
-	}
-
-	.media-frame-router {
-		top: 44px;
-	}
-
-	.media-frame-content {
-		top: 78px;
-	}
-
-	.attachments-browser .attachments {
-		top: 40px;
-	}
-
-	/* Prevent unnecessary scrolling on title input */
-	.embed-link-settings {
-		overflow: visible;
-	}
-}
-
 @media only screen and (min-width: 901px) and (max-height: 400px) {
 	.media-menu,
 	.media-frame:not(.hide-menu) .media-menu {
@@ -2595,36 +2622,8 @@
 }
 
 @media only screen and (max-width: 480px) {
-	.media-modal-close {
-		top: -5px;
-	}
-
-	.media-modal .media-frame-title {
-		height: 40px;
-	}
-
 	.wp-core-ui.wp-customizer .media-button {
 		margin-top: 13px;
-	}
-
-	.media-modal .media-frame-title h1,
-	.media-frame:not(.hide-menu) .media-frame-title h1 {
-		font-size: 18px;
-		line-height: 2.22222222;
-	}
-
-	.media-frame:not(.hide-menu) .media-frame-title .dashicons {
-		line-height: 2;
-	}
-
-	.media-frame-router,
-	.media-frame:not(.hide-menu) .media-menu {
-		top: 40px;
-		padding-top: 0;
-	}
-
-	.media-frame-content {
-		top: 74px;
 	}
 
 	.media-frame.hide-router .media-frame-content {

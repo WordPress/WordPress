@@ -2924,7 +2924,7 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 	regions:   ['menu','title','content','toolbar','router'],
 
 	events: {
-		'click div.media-frame-title h1': 'toggleMenu'
+		'click .media-frame-menu-toggle': 'toggleMenu'
 	},
 
 	/**
@@ -2976,13 +2976,78 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 		this.on( 'title:create:default', this.createTitle, this );
 		this.title.mode('default');
 
-		this.on( 'title:render', function( view ) {
-			view.$el.append( '<span class="dashicons dashicons-arrow-down"></span>' );
-		});
-
 		// Bind default menu.
 		this.on( 'menu:create:default', this.createMenu, this );
+
+		// Set the menu ARIA tab panel attributes when the modal opens.
+		this.on( 'open', this.setMenuTabPanelAriaAttributes, this );
+		// Set the router ARIA tab panel attributes when the modal opens.
+		this.on( 'open', this.setRouterTabPanelAriaAttributes, this );
+
+		// Update the menu ARIA tab panel attributes when the content updates.
+		this.on( 'content:render', this.setMenuTabPanelAriaAttributes, this );
+		// Update the router ARIA tab panel attributes when the content updates.
+		this.on( 'content:render', this.setRouterTabPanelAriaAttributes, this );
 	},
+
+	/**
+	 * Sets the attributes to be used on the menu ARIA tab panel.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @returns {void}
+	 */
+	setMenuTabPanelAriaAttributes: function() {
+		var stateId = this.state().get( 'id' ),
+			tabPanelEl = this.$el.find( '.media-frame-tab-panel' ),
+			ariaLabelledby;
+
+		tabPanelEl.removeAttr( 'role aria-labelledby tabindex' );
+
+		if ( this.menuView && this.menuView.isVisible ) {
+			ariaLabelledby = 'menu-item-' + stateId;
+
+			// Set the tab panel attributes only if the tabs are visible.
+			tabPanelEl
+				.attr( {
+					role: 'tabpanel',
+					'aria-labelledby': ariaLabelledby,
+					tabIndex: '0'
+				} );
+		}
+	},
+
+	/**
+	 * Sets the attributes to be used on the router ARIA tab panel.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @returns {void}
+	 */
+	setRouterTabPanelAriaAttributes: function() {
+		var tabPanelEl = this.$el.find( '.media-frame-content' ),
+			ariaLabelledby;
+
+		tabPanelEl.removeAttr( 'role aria-labelledby tabindex' );
+
+		// On the Embed view the router menu is hidden.
+		if ( 'embed' === this.content._mode ) {
+			return;
+		}
+
+		// Set the tab panel attributes only if the tabs are visible.
+		if ( this.routerView && this.routerView.isVisible && this.content._mode ) {
+			ariaLabelledby = 'menu-item-' + this.content._mode;
+
+			tabPanelEl
+				.attr( {
+					role: 'tabpanel',
+					'aria-labelledby': ariaLabelledby,
+					tabIndex: '0'
+				} );
+		}
+	},
+
 	/**
 	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining
 	 */
@@ -3012,12 +3077,22 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 	 */
 	createMenu: function( menu ) {
 		menu.view = new wp.media.view.Menu({
-			controller: this
+			controller: this,
+
+			attributes: {
+				role:               'tablist',
+				'aria-orientation': 'vertical'
+			}
 		});
+
+		this.menuView = menu.view;
 	},
 
-	toggleMenu: function() {
-		this.$el.find( '.media-menu' ).toggleClass( 'visible' );
+	toggleMenu: function( event ) {
+		var menu = this.$el.find( '.media-menu' );
+
+		menu.toggleClass( 'visible' );
+		$( event.target ).attr( 'aria-expanded', menu.hasClass( 'visible' ) );
 	},
 
 	/**
@@ -3035,8 +3110,15 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 	 */
 	createRouter: function( router ) {
 		router.view = new wp.media.view.Router({
-			controller: this
+			controller: this,
+
+			attributes: {
+				role:               'tablist',
+				'aria-orientation': 'horizontal'
+			}
 		});
+
+		this.routerView = router.view;
 	},
 	/**
 	 * @param {Object} options
@@ -3620,8 +3702,11 @@ Post = Select.extend(/** @lends wp.media.view.MediaFrame.Post.prototype */{
 	mainMenu: function( view ) {
 		view.set({
 			'library-separator': new wp.media.View({
-				className: 'separator',
-				priority: 100
+				className:  'separator',
+				priority:   100,
+				attributes: {
+					role: 'presentation'
+				}
 			})
 		});
 	},
@@ -4520,6 +4605,8 @@ module.exports = Modal;
 /* 56 */
 /***/ (function(module, exports) {
 
+var $ = jQuery;
+
 /**
  * wp.media.view.FocusManager
  *
@@ -4533,7 +4620,40 @@ module.exports = Modal;
 var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.prototype */{
 
 	events: {
-		'keydown': 'constrainTabbing'
+		'keydown': 'focusManagementMode'
+	},
+
+	/**
+	 * Initializes the Focus Manager.
+	 *
+	 * @param {object} options The Focus Manager options.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @return {void}
+	 */
+	initialize: function( options ) {
+		this.mode                    = options.mode || 'constrainTabbing';
+		this.tabsAutomaticActivation = options.tabsAutomaticActivation || false;
+	},
+
+ 	/**
+	 * Determines which focus management mode to use.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param {object} event jQuery event object.
+	 *
+	 * @returns {void}
+	 */
+	focusManagementMode: function( event ) {
+		if ( this.mode === 'constrainTabbing' ) {
+			this.constrainTabbing( event );
+		}
+
+		if ( this.mode === 'tabsNavigation' ) {
+			this.tabsNavigation( event );
+		}
 	},
 
 	/**
@@ -4589,8 +4709,10 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	},
 
 	/**
-	 * Hides from assistive technologies all the body children except the
-	 * provided element and other elements that should not be hidden.
+	 * Hides from assistive technologies all the body children.
+	 *
+	 * Sets an `aria-hidden="true"` attribute on all the body children except
+	 * the provided element and other elements that should not be hidden.
 	 *
 	 * The reason why we use `aria-hidden` is that `aria-modal="true"` is buggy
 	 * in Safari 11.1 and support is spotty in other browsers. Also, `aria-modal="true"`
@@ -4633,7 +4755,9 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	},
 
 	/**
-	 * Makes visible again to assistive technologies all body children
+	 * Unhides from assistive technologies all the body children.
+	 *
+	 * Makes visible again to assistive technologies all the body children
 	 * previously hidden and stored in this.ariaHiddenElements.
 	 *
 	 * @since 5.2.3
@@ -4687,7 +4811,158 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 *
 	 * @since 5.2.3
 	 */
-	ariaHiddenElements: []
+	ariaHiddenElements: [],
+
+	/**
+	 * Holds the jQuery collection of ARIA tabs.
+	 *
+	 * @since 5.3.0
+	 */
+	tabs: $(),
+
+	/**
+	 * Sets up tabs in an ARIA tabbed interface.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param {object} event jQuery event object.
+	 *
+	 * @returns {void}
+	 */
+	setupAriaTabs: function() {
+		this.tabs = this.$( '[role="tab"]' );
+
+		// Set up initial attributes.
+		this.tabs.attr( {
+			'aria-selected': 'false',
+			tabIndex: '-1'
+		} );
+
+		// Set up attributes on the initially active tab.
+		this.tabs.filter( '.active' )
+			.removeAttr( 'tabindex' )
+			.attr( 'aria-selected', 'true' );
+	},
+
+	/**
+	 * Enables arrows navigation within the ARIA tabbed interface.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param {object} event jQuery event object.
+	 *
+	 * @returns {void}
+	 */
+	tabsNavigation: function( event ) {
+		var orientation = 'horizontal',
+			keys = [ 32, 35, 36, 37, 38, 39, 40 ];
+
+		// Return if not Spacebar, End, Home, or Arrow keys.
+		if ( keys.indexOf( event.which ) === -1 ) {
+			return;
+		}
+
+		// Determine navigation direction.
+		if ( this.$el.attr( 'aria-orientation' ) === 'vertical' ) {
+			orientation = 'vertical';
+		}
+
+		// Make Up and Down arrow keys do nothing with horizontal tabs.
+		if ( orientation === 'horizontal' && [ 38, 40 ].indexOf( event.which ) !== -1 ) {
+			return;
+		}
+
+		// Make Left and Right arrow keys do nothing with vertical tabs.
+		if ( orientation === 'vertical' && [ 37, 39 ].indexOf( event.which ) !== -1 ) {
+			return;
+		}
+
+		this.switchTabs( event, this.tabs );
+	},
+
+	/**
+	 * Switches tabs in the ARIA tabbed interface.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param {object} event jQuery event object.
+	 *
+	 * @returns {void}
+	 */
+	switchTabs: function( event ) {
+		var key   = event.which,
+			index = this.tabs.index( $( event.target ) ),
+			newIndex;
+
+		switch ( key ) {
+			// Space bar: Activate current targeted tab.
+			case 32: {
+				this.activateTab( this.tabs[ index ] );
+				break;
+			}
+			// End key: Activate last tab.
+			case 35: {
+				event.preventDefault();
+				this.activateTab( this.tabs[ this.tabs.length - 1 ] );
+				break;
+			}
+			// Home key: Activate first tab.
+			case 36: {
+				event.preventDefault();
+				this.activateTab( this.tabs[ 0 ] );
+				break;
+			}
+			// Left and up keys: Activate previous tab.
+			case 37:
+			case 38: {
+				event.preventDefault();
+				newIndex = ( index - 1 ) < 0 ? this.tabs.length - 1 : index - 1;
+				this.activateTab( this.tabs[ newIndex ] );
+				break;
+			}
+			// Right and down keys: Activate next tab.
+			case 39:
+			case 40: {
+				event.preventDefault();
+				newIndex = ( index + 1 ) === this.tabs.length ? 0 : index + 1;
+				this.activateTab( this.tabs[ newIndex ] );
+				break;
+			}
+		}
+	},
+
+	/**
+	 * Sets a single tab to be focusable and semantically selected.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param {object} tab The tab DOM element.
+	 *
+	 * @returns {void}
+	 */
+	activateTab: function( tab ) {
+		if ( ! tab ) {
+			return;
+		}
+
+		// The tab is a DOM element: no need for jQuery methods.
+		tab.focus();
+
+		// Handle automatic activation.
+		if ( this.tabsAutomaticActivation ) {
+			tab.removeAttribute( 'tabindex' );
+			tab.setAttribute( 'aria-selected', 'true' );
+			tab.click();
+
+			return;
+		}
+
+		// Handle manual activation.
+		$( tab ).on( 'click', function() {
+			tab.removeAttribute( 'tabindex' );
+			tab.setAttribute( 'aria-selected', 'true' );
+		} );
+ 	}
 });
 
 module.exports = FocusManager;
@@ -5903,25 +6178,23 @@ var MenuItem;
  * @augments Backbone.View
  */
 MenuItem = wp.media.View.extend(/** @lends wp.media.view.MenuItem.prototype */{
-	tagName:   'a',
+	tagName:   'button',
 	className: 'media-menu-item',
 
 	attributes: {
-		href: '#'
+		type: 'button',
+		role: 'tab'
 	},
 
 	events: {
 		'click': '_click'
 	},
-	/**
-	 * @param {Object} event
-	 */
-	_click: function( event ) {
-		var clickOverride = this.options.click;
 
-		if ( event ) {
-			event.preventDefault();
-		}
+	/**
+	 * Allows to override the click event.
+	 */
+	_click: function() {
+		var clickOverride = this.options.click;
 
 		if ( clickOverride ) {
 			clickOverride.call( this );
@@ -5935,20 +6208,26 @@ MenuItem = wp.media.View.extend(/** @lends wp.media.view.MenuItem.prototype */{
 
 		if ( state ) {
 			this.controller.setState( state );
+			// Toggle the menu visibility in the responsive view.
 			this.views.parent.$el.removeClass( 'visible' ); // TODO: or hide on any click, see below
 		}
 	},
+
 	/**
 	 * @returns {wp.media.view.MenuItem} returns itself to allow chaining
 	 */
 	render: function() {
-		var options = this.options;
+		var options = this.options,
+			menuProperty = options.state || options.contentMode;
 
 		if ( options.text ) {
 			this.$el.text( options.text );
 		} else if ( options.html ) {
 			this.$el.html( options.html );
 		}
+
+		// Set the menu item ID based on the frame state associated to the menu item.
+		this.$el.attr( 'id', 'menu-item-' + menuProperty );
 
 		return this;
 	}
@@ -5983,15 +6262,30 @@ Menu = PriorityList.extend(/** @lends wp.media.view.Menu.prototype */{
 	ItemView:  MenuItem,
 	region:    'menu',
 
-	/* TODO: alternatively hide on any click anywhere
-	events: {
-		'click': 'click'
+	attributes: {
+		role:               'tablist',
+		'aria-orientation': 'horizontal'
 	},
 
-	click: function() {
-		this.$el.removeClass( 'visible' );
+	initialize: function() {
+		this._views = {};
+
+		this.set( _.extend( {}, this._views, this.options.views ), { silent: true });
+		delete this.options.views;
+
+		if ( ! this.options.silent ) {
+			this.render();
+		}
+
+		// Initialize the Focus Manager.
+		this.focusManager = new wp.media.view.FocusManager( {
+			el:   this.el,
+			mode: 'tabsNavigation'
+		} );
+
+		// The menu is always rendered and can be visible or hidden on some frames.
+		this.isVisible = true;
 	},
-	*/
 
 	/**
 	 * @param {Object} options
@@ -6010,6 +6304,9 @@ Menu = PriorityList.extend(/** @lends wp.media.view.Menu.prototype */{
 		 */
 		PriorityList.prototype.ready.apply( this, arguments );
 		this.visibility();
+
+		// Set up aria tabs initial attributes.
+		this.focusManager.setupAriaTabs();
 	},
 
 	set: function() {
@@ -6035,6 +6332,9 @@ Menu = PriorityList.extend(/** @lends wp.media.view.Menu.prototype */{
 			hide = ! views || views.length < 2;
 
 		if ( this === view ) {
+			// Flag this menu as hidden or visible.
+			this.isVisible = ! hide;
+			// Set or remove a CSS class to hide the menu.
 			this.controller.$el.toggleClass( 'hide-' + region, hide );
 		}
 	},
@@ -6050,6 +6350,9 @@ Menu = PriorityList.extend(/** @lends wp.media.view.Menu.prototype */{
 
 		this.deselect();
 		view.$el.addClass('active');
+
+		// Set up again the aria tabs initial attributes after the menu updates.
+		this.focusManager.setupAriaTabs();
 	},
 
 	deselect: function() {
@@ -6135,6 +6438,11 @@ Router = Menu.extend(/** @lends wp.media.view.Router.prototype */{
 	property:  'contentMode',
 	ItemView:  wp.media.view.RouterItem,
 	region:    'router',
+
+	attributes: {
+		role:               'tablist',
+		'aria-orientation': 'horizontal'
+	},
 
 	initialize: function() {
 		this.controller.on( 'content:render', this.update, this );

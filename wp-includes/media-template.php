@@ -178,9 +178,15 @@ function wp_print_media_templates() {
 	<?php // Template for the media frame: used both in the media grid and in the media modal. ?>
 	<script type="text/html" id="tmpl-media-frame">
 		<div class="media-frame-title" id="media-frame-title"></div>
+		<button type="button" class="button button-link media-frame-menu-toggle" aria-expanded="false">
+			<?php _e( 'Media Types' ); ?>
+			<span class="dashicons dashicons-arrow-down" aria-hidden="true"></span>
+		</button>
 		<div class="media-frame-menu"></div>
-		<div class="media-frame-router"></div>
-		<div class="media-frame-content"></div>
+		<div class="media-frame-tab-panel">
+			<div class="media-frame-router"></div>
+			<div class="media-frame-content"></div>
+		</div>
 		<div class="media-frame-toolbar"></div>
 		<div class="media-frame-uploader"></div>
 	</script>
