@@ -273,6 +273,7 @@ p {
 .login input[type="text"],
 .login input[type="password"] {
 	font-size: 24px;
+	line-height: 1.16666666; /* 28px */
 	width: 100%;
 	padding: 5px;
 	margin: 3px 0 16px 6px;

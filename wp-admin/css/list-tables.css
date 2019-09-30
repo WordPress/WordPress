@@ -622,8 +622,6 @@ th.asc a:focus span.sorting-indicator {
 
 .tablenav-pages .current-page {
 	margin: 0 2px 0 0;
-	padding-top: 5px;
-	padding-bottom: 5px;
 	font-size: 13px;
 	text-align: center;
 }
@@ -950,8 +948,8 @@ tr.inline-edit-row td,
 .inline-edit-row fieldset.inline-edit-date label {
 	display: inline-block;
 	margin: 0;
-	line-height: 1.5;
 	vertical-align: baseline;
+	line-height: 2;
 }
 
 .inline-edit-row fieldset label.inline-edit-tags {
@@ -973,11 +971,6 @@ tr.inline-edit-row td,
 
 #posts-filter fieldset.inline-edit-date legend {
 	padding: 0;
-}
-
-.inline-edit-row fieldset.inline-edit-date select {
-	margin: 1px;
-	line-height: 2;
 }
 
 .inline-edit-row fieldset label span.input-text-wrap,
@@ -1039,14 +1032,13 @@ tr.inline-edit-row td,
 
 .inline-edit-row fieldset input[name=jj],
 .inline-edit-row fieldset input[name=hh],
-.inline-edit-row fieldset input[name=mn] {
-	font-size: 12px;
-	width: 2.3em;
-}
-
+.inline-edit-row fieldset input[name=mn],
 .inline-edit-row fieldset input[name=aa] {
 	font-size: 12px;
-	width: 3.5em;
+	line-height: 1.16666666;
+	vertical-align: middle;
+	text-align: center;
+	padding: 6px 4px;
 }
 
 .inline-edit-row fieldset label input.inline-edit-password-input {
@@ -1986,16 +1978,6 @@ div.action-links,
 	.inline-edit-row fieldset label span.input-text-wrap,
 	.inline-edit-row fieldset .timestamp-wrap {
 		margin-left: 0;
-	}
-
-	.inline-edit-row fieldset input[name=jj],
-	.inline-edit-row fieldset input[name=hh],
-	.inline-edit-row fieldset input[name=mn] {
-		width: 3em;
-	}
-
-	.inline-edit-row fieldset input[name=aa] {
-		width: 4.5em;
 	}
 
 	.inline-edit-row .inline-edit-or {

@@ -1,12 +1,42 @@
 /* Include margin and padding in the width calculation of input and textarea. */
 input,
-textarea {
+select,
+textarea,
+button {
 	box-sizing: border-box;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+}
+
+textarea,
+input {
+	font-size: 14px;
+}
+
+textarea {
+	overflow: auto;
+	padding: 2px 6px;
+	/* inherits font size 14px */
+	line-height: 1.42857143; /* 20px */
+	resize: vertical;
+}
+
+label {
+	cursor: pointer;
+}
+
+input,
+select {
+	margin: 1px;
+}
+
+textarea.code {
+	padding: 4px 6px 1px 6px;
 }
 
 input[type="text"],
 input[type="password"],
-input[type="checkbox"],
 input[type="color"],
 input[type="date"],
 input[type="datetime"],
@@ -15,22 +45,40 @@ input[type="email"],
 input[type="month"],
 input[type="number"],
 input[type="search"],
-input[type="radio"],
 input[type="tel"],
-input[type="text"],
 input[type="time"],
 input[type="url"],
 input[type="week"],
 select,
 textarea {
-	padding: 6px 8px;
 	box-shadow: 0 0 0 transparent;
-	transition: box-shadow 0.1s linear;
 	border-radius: 4px;
 	border: 1px solid #7e8993;
 	background-color: #fff;
 	color: #32373c;
-	outline: none;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+input[type="week"] {
+	padding: 0 8px;
+	/* inherits font size 14px */
+	line-height: 2; /* 28px */
+}
+
+::-webkit-datetime-edit {
+	/* inherits font size 14px */
+	line-height: 1.85714286; /* 26px */
 }
 
 input[type="text"]:focus,
@@ -44,7 +92,6 @@ input[type="month"]:focus,
 input[type="number"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
-input[type="text"]:focus,
 input[type="time"]:focus,
 input[type="url"]:focus,
 input[type="week"]:focus,
@@ -64,15 +111,10 @@ input[type="url"] {
 	direction: ltr;
 }
 
-/* Vertically align the number selector with the input. */
-input[type="number"] {
-	min-height: 28px;
-	line-height: 1;
-}
-
 input[type="checkbox"],
 input[type="radio"] {
 	border: 1px solid #7e8993;
+	border-radius: 4px;
 	background: #fff;
 	color: #555;
 	clear: none;
@@ -118,6 +160,7 @@ td > input[type="checkbox"],
 input[type="radio"] {
 	border-radius: 50%;
 	margin-right: 0.25rem;
+	/* 10px not sure if still necessary, comes from the MP6 redesign in r26072 */
 	line-height: 0.71428571;
 }
 
@@ -146,8 +189,9 @@ input[type="radio"]:checked::before {
 	width: 0.5rem; /* 8px */
 	height: 0.5rem; /* 8px */
 	margin: 0.1875rem; /* 3px */
-	line-height: 0.76190476;
 	background-color: #1e8cbe;
+	/* 16px not sure if still necessary, comes from the MP6 redesign in r26072 */
+	line-height: 1.14285714;
 }
 
 @-moz-document url-prefix() {
@@ -167,55 +211,9 @@ input[type="search"]::-webkit-search-decoration {
 	display: none;
 }
 
-.ie8 input[type="password"] {
-	font-family: sans-serif;
-}
-
-textarea,
-input,
-select,
-button {
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-}
-
-textarea,
-input,
-select {
-	font-size: 14px;
-	padding: 3px 5px;
-}
-
-textarea {
-	overflow: auto;
-	padding: 2px 6px;
-	line-height: 1.4;
-	resize: vertical;
-}
-
 .wp-admin input[type="file"] {
 	padding: 3px 0;
 	cursor: pointer;
-}
-
-label {
-	cursor: pointer;
-}
-
-input,
-select {
-	margin: 1px;
-	padding: 3px 5px;
-}
-
-input.code {
-	padding-top: 6px;
-}
-
-textarea.code {
-	line-height: 1.4;
-	padding: 4px 6px 1px 6px;
 }
 
 input.readonly,
@@ -309,17 +307,27 @@ input[type="radio"].disabled:checked:before {
 
 /* Select styles are based on the default button in buttons.css */
 .wp-admin select {
-	color: #555;
+	font-size: 13px;
+	line-height: 1.38461538; /* 18px */
+	color: #32373c;
 	border-color: #7e8993;
 	box-shadow: none;
 	border-radius: 3px;
-	padding: 2px 24px 2px 8px;
+	padding: 3px 24px 3px 8px;
 	min-height: 28px;
 	vertical-align: middle;
 	-webkit-appearance: none;
 	/* The SVG is arrow-down-alt2 from Dashicons. */
-	background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 4px top 50%;
+	background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 5px top 55%;
 	background-size: 16px 16px;
+	cursor: pointer;
+}
+
+/* Color and font size in the core form tables. */
+.wp-admin .form-table select {
+	font-size: 14px;
+	line-height: 1.28571428; /* 18px */
+	color: #32373c;
 }
 
 .wp-admin select:hover {
@@ -350,7 +358,40 @@ input[type="radio"].disabled:checked:before {
 	transform: none;
 }
 
+/* Reset Firefox inner outline that appears on :focus. */
+/* This ruleset overrides the color change on :focus thus needs to be after select:focus. */
+.wp-admin select:-moz-focusring {
+	color: transparent;
+	text-shadow: 0 0 0 #016087;
+}
+
+/* Remove background focus style from IE11 while keeping focus style available on option elements. */
+.wp-admin select::-ms-value {
+	background: transparent;
+	color: #555;
+}
+
+.wp-admin select:hover::-ms-value {
+	color: #007cba;
+}
+
+.wp-admin select:focus::-ms-value {
+	color: #016087;
+}
+
+.wp-admin select.disabled::-ms-value,
+.wp-admin select:disabled::-ms-value {
+	color: #a0a5aa;
+}
+
+/* Hide the native down arrow for select element on IE. */
+.wp-admin select::-ms-expand {
+	display: none;
+}
+
 .wp-admin .button-cancel {
+	display: inline-block;
+	min-height: 28px;
 	padding: 0 5px;
 	line-height: 2;
 }
@@ -359,8 +400,14 @@ input[type="radio"].disabled:checked:before {
 	max-width: 100%;
 }
 
+.misc-pub-post-status select {
+	margin-top: 0;
+}
+
 .wp-admin select[multiple] {
 	height: auto;
+	padding-right: 8px;
+	background: #fff;
 }
 
 .submit {
@@ -416,7 +463,7 @@ textarea.large-text {
 
 input.small-text {
 	width: 50px;
-	padding: 1px 6px;
+	padding: 0 6px;
 }
 
 input[type="number"].small-text {
@@ -448,14 +495,6 @@ input[type="number"].tiny-text {
 	float: left;
 	margin-right: 6px;
 	max-width: 12.5rem;
-}
-
-.ie8 .tablenav .actions select {
-	width: 9.6875rem;
-}
-
-.ie8 .tablenav .actions select#cat {
-	width: 12.5rem;
 }
 
 #timezone_string option {
@@ -590,18 +629,12 @@ p.search-box {
 .tablenav .search-plugins input[name="s"],
 .tagsdiv .newtag {
 	float: left;
-	height: 28px;
 	margin: 0 4px 0 0;
 }
 
 .js.plugins-php .search-box .wp-filter-search {
 	margin: 0;
 	width: 280px;
-	font-size: 16px;
-	font-weight: 300;
-	line-height: 1.5;
-	padding: 3px 5px;
-	height: 32px;
 }
 
 input[type="text"].ui-autocomplete-loading,
@@ -952,6 +985,7 @@ table.form-table td .updated p {
 
 .options-general-php input.small-text {
 	width: 56px;
+	margin: -2px 0;
 }
 
 .options-general-php .spinner {
@@ -1188,9 +1222,6 @@ table.form-table td .updated p {
 }
 
 .privacy_requests .next_steps .button {
-	height: auto;
-	line-height: 1.5;
-	padding: 4px 10px;
 	word-break: break-all;
 	white-space: unset;
 }
@@ -1242,7 +1273,6 @@ table.form-table td .updated p {
 }
 
 .wp-privacy-request-form input {
-	line-height: 1.5;
 	margin: 0;
 }
 
@@ -1278,21 +1308,24 @@ table.form-table td .updated p {
 	}
 
 	input[type="text"],
-	input[type="email"],
-	input[type="search"],
 	input[type="password"],
-	input[type="number"] {
+	input[type="date"],
+	input[type="datetime"],
+	input[type="datetime-local"],
+	input[type="email"],
+	input[type="month"],
+	input[type="number"],
+	input[type="search"],
+	input[type="tel"],
+	input[type="time"],
+	input[type="url"],
+	input[type="week"] {
 		-webkit-appearance: none;
-		padding: 6px 10px;
+		padding: 3px 10px;
 	}
 
-	input[type="number"] {
-		min-height: 40px;
-	}
-
-	input.code {
-		padding-bottom: 5px;
-		padding-top: 10px;
+	::-webkit-datetime-edit {
+		line-height: 1.875; /* 30px */
 	}
 
 	input[type="checkbox"],
@@ -1340,14 +1373,19 @@ table.form-table td .updated p {
 		margin-top: 10px;
 	}
 
-	#wpbody select {
-		min-height: 36px;
+	.wp-admin select,
+	.wp-admin .form-table select {
+		min-height: 40px;
 		font-size: 16px;
+		line-height: 1.625; /* 26px */
+		padding: 5px 24px 5px 8px;
 	}
 
 	.wp-admin .button-cancel {
-		padding: 0;
+		margin-bottom: 0;
+		padding: 2px 0;
 		font-size: 14px;
+		vertical-align: middle;
 	}
 
 	#adduser .form-field input,
@@ -1397,9 +1435,6 @@ table.form-table td .updated p {
 	.form-table span.description,
 	#profile-page .form-table textarea {
 		width: 100%;
-		font-size: 16px;
-		line-height: 1.5;
-		padding: 7px 10px;
 		display: block;
 		max-width: none;
 		box-sizing: border-box;
@@ -1408,10 +1443,6 @@ table.form-table td .updated p {
 	.form-table .form-required.form-invalid td:after {
 		float: right;
 		margin: -30px 3px 0 0;
-	}
-
-	#wpbody .form-table td select {
-		min-height: 40px;
 	}
 
 	input[type="text"].small-text,
@@ -1443,12 +1474,10 @@ table.form-table td .updated p {
 	}
 
 	p.search-box input[name="s"] {
-		height: auto;
 		float: none;
 		width: 100%;
 		margin-bottom: 10px;
 		vertical-align: middle;
-		-webkit-appearance: none;
 	}
 
 	p.search-box input[type="submit"] {
@@ -1548,6 +1577,11 @@ table.form-table td .updated p {
 
 	.wp-pwd .button .text {
 		display: none;
+	}
+
+	.wp-pwd [type="text"],
+	.wp-pwd [type="password"] {
+		line-height: 2;
 	}
 
 	.wp-cancel-pw .dashicons-no {

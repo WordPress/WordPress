@@ -775,8 +775,7 @@ img.emoji {
 	border-bottom: 1px solid #ccd0d4;
 }
 
-.quicktags,
-.search {
+.quicktags {
 	background-color: #ccc;
 	color: #000;
 	font-size: 12px;
@@ -1080,18 +1079,15 @@ th.action-links {
 
 .wp-filter .search-form input[type="search"] {
 	margin: 0;
-	padding: 3px 5px;
 	width: 280px;
 	max-width: 100%;
-	font-size: 16px;
-	font-weight: 300;
-	line-height: 1.5;
+	font-size: inherit;
+	/* inherits font size 13px */
+	line-height: 2.15384615; /* 28px */
 }
 
 .wp-filter .search-form select {
 	margin: 0;
-	height: 32px;
-	vertical-align: top;
 }
 
 .wp-filter .search-form.search-plugins {
@@ -3910,7 +3906,7 @@ img {
 
 	.fileedit-sub input[type="submit"] {
 		margin-bottom: 0px;
-		padding: 8px 18px;
+		padding: 4px 18px;
 	}
 
 	#documentation label[for="docs-list"] {

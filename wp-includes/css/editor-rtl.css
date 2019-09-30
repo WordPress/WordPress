@@ -1509,7 +1509,6 @@ i.mce-i-wp_code:before {
 }
 
 #wp-link .link-search-field {
-	float: right;
 	width: 250px;
 	max-width: 70%;
 }
@@ -1520,13 +1519,9 @@ i.mce-i-wp_code:before {
 	overflow: hidden;
 }
 
-#wp-link .link-search-wrapper span {
-	float: right;
-	margin-top: 4px;
-}
-
 #wp-link .link-search-wrapper .spinner {
-	margin-top: 5px;
+	float: none;
+	margin: -3px 4px 0 0;
 }
 
 #wp-link .link-target {
@@ -1553,7 +1548,7 @@ i.mce-i-wp_code:before {
 }
 
 .has-text-field #wp-link .query-results {
-	top: 200px;
+	top: 210px;
 }
 
 #wp-link li {
@@ -1781,6 +1776,7 @@ div.wp-link-input input {
 	width: 300px;
 	padding: 3px;
 	box-sizing: border-box;
+	line-height: 1.28571429;
 }
 
 .mce-toolbar div.wp-link-preview ~ .mce-btn,

@@ -34,17 +34,6 @@
 	line-height: 1.2;
 }
 
-.media-frame input,
-.media-frame textarea {
-	padding: 6px 8px;
-}
-
-.media-frame select,
-.wp-admin .media-frame select {
-	min-height: 28px;
-	vertical-align: middle;
-}
-
 .media-frame a {
 	border-bottom: none;
 	color: #0073aa;
@@ -77,21 +66,58 @@
 	color: #fff;
 }
 
+.media-frame input,
+.media-frame textarea {
+	padding: 6px 8px;
+}
+
+.media-frame select,
+.wp-admin .media-frame select {
+	min-height: 28px;
+	vertical-align: middle;
+}
+
 .media-frame input[type="text"],
 .media-frame input[type="password"],
+.media-frame input[type="color"],
+.media-frame input[type="date"],
+.media-frame input[type="datetime"],
+.media-frame input[type="datetime-local"],
+.media-frame input[type="email"],
+.media-frame input[type="month"],
 .media-frame input[type="number"],
 .media-frame input[type="search"],
-.media-frame input[type="email"],
+.media-frame input[type="tel"],
+.media-frame input[type="time"],
 .media-frame input[type="url"],
+.media-frame input[type="week"],
 .media-frame textarea,
 .media-frame select {
-	padding: 6px 8px;
 	box-shadow: 0 0 0 transparent;
-	transition: box-shadow 0.1s linear;
-	border: 1px solid #7e8993;
 	border-radius: 4px;
+	border: 1px solid #7e8993;
+	background-color: #fff;
+	color: #32373c;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	font-size: 12px;
+	font-size: 13px;
+}
+
+.media-frame input[type="text"],
+.media-frame input[type="password"],
+.media-frame input[type="date"],
+.media-frame input[type="datetime"],
+.media-frame input[type="datetime-local"],
+.media-frame input[type="email"],
+.media-frame input[type="month"],
+.media-frame input[type="number"],
+.media-frame input[type="search"],
+.media-frame input[type="tel"],
+.media-frame input[type="time"],
+.media-frame input[type="url"],
+.media-frame input[type="week"] {
+	padding: 0 8px;
+	/* inherits font size 13px */
+	line-height: 2.15384615; /* 28px */
 }
 
 .media-frame input[type="text"]:focus,
@@ -807,7 +833,7 @@
  * Search
  */
 .media-frame .search {
-	margin-top: 11px;
+	margin-top: 10px;
 	padding: 4px;
 	font-size: 13px;
 	color: #444;
@@ -1047,7 +1073,7 @@
 	display: block;
 	width: 100%;
 	margin: 0;
-	padding: 8px;
+	padding: 0 8px;
 	font-size: 12px;
 	border-radius: 0;
 }
@@ -1075,7 +1101,7 @@
 .attachments-browser .media-toolbar-primary > .media-button-group,
 .attachments-browser .media-toolbar-secondary > .media-button,
 .attachments-browser .media-toolbar-secondary > .media-button-group {
-	margin: 11px 0;
+	margin: 10px 0;
 }
 
 .attachments-browser .attachments {

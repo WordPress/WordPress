@@ -71,7 +71,7 @@
 	color: #72777c;
 	position: absolute;
 	font-size: 1.7em;
-	padding: 11px 10px;
+	padding: 10px;
 	pointer-events: none;
 }
 
@@ -419,16 +419,15 @@ form#tags-filter {
 }
 
 #timestampdiv select {
-	height: 21px;
-	line-height: 1.16666666;
-	padding: 0;
 	vertical-align: top;
 	font-size: 12px;
+	line-height: 1.5; /* 18px */
 }
 
 #aa, #jj, #hh, #mn {
-	padding: 1px;
+	padding: 6px 1px;
 	font-size: 12px;
+	line-height: 1.16666666; /* 14px */
 }
 
 #jj, #hh, #mn {
@@ -494,8 +493,6 @@ form#tags-filter {
 }
 
 #timestampdiv input {
-	border-width: 1px;
-	border-style: solid;
 	text-align: center;
 }
 
