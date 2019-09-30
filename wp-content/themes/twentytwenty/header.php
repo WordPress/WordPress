@@ -16,7 +16,7 @@
 
 	<head>
 
-		<meta http-equiv="content-type" content="<?php bloginfo( 'html_type' ); ?>" charset="<?php bloginfo( 'charset' ); ?>" />
+		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
 
 		<link rel="profile" href="https://gmpg.org/xfn/11">
@@ -48,7 +48,9 @@
 
 						<button class="toggle search-toggle mobile-search-toggle" data-toggle-target=".search-modal" data-toggle-screen-lock="true" data-toggle-body-class="showing-search-modal" data-set-focus=".search-modal .search-field" aria-expanded="false">
 							<div class="toggle-inner">
-								<?php twentytwenty_the_theme_svg( 'search' ); ?>
+								<div class="toggle-icon">
+									<?php twentytwenty_the_theme_svg( 'search' ); ?>
+								</div>
 								<span class="toggle-text"><?php _e( 'Search', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?></span>
 							</div>
 						</button><!-- .search-toggle -->
@@ -69,7 +71,9 @@
 
 					<button class="toggle nav-toggle mobile-nav-toggle" data-toggle-target=".menu-modal" data-toggle-screen-lock="true" data-toggle-body-class="showing-menu-modal" aria-expanded="false" data-set-focus=".close-nav-toggle">
 						<div class="toggle-inner">
-							<?php twentytwenty_the_theme_svg( 'ellipsis' ); ?>
+							<div class="toggle-icon">
+								<?php twentytwenty_the_theme_svg( 'ellipsis' ); ?>
+							</div>
 							<span class="toggle-text"><?php _e( 'Menu', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?></span>
 						</div>
 					</button><!-- .nav-toggle -->
@@ -82,9 +86,7 @@
 					if ( has_nav_menu( 'primary' ) || ! has_nav_menu( 'expanded' ) ) {
 						?>
 
-						<div class="primary-menu-wrapper">
-
-							<nav aria-label="<?php esc_attr_e( 'Primary', 'twentytwenty' ); ?>">
+							<nav class="primary-menu-wrapper" aria-label="<?php esc_attr_e( 'Horizontal', 'twentytwenty' ); ?>" role="navigation">
 
 								<ul class="primary-menu reset-list-style">
 
@@ -115,9 +117,7 @@
 
 								</ul>
 
-							</nav><!-- .primary-menu -->
-
-						</div><!-- .primary-menu-wrapper -->
+							</nav><!-- .primary-menu-wrapper -->
 
 						<?php
 					}
@@ -145,7 +145,9 @@
 							<button class="toggle nav-toggle" data-toggle-target=".menu-modal" data-toggle-screen-lock="true" data-toggle-body-class="showing-menu-modal" aria-expanded="false" data-set-focus=".close-nav-toggle">
 								<div class="toggle-inner">
 									<span class="toggle-text"><?php _e( 'Menu', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?></span>
-									<?php twentytwenty_the_theme_svg( 'ellipsis' ); ?>
+									<div class="toggle-icon">
+										<?php twentytwenty_the_theme_svg( 'ellipsis' ); ?>
+									</div>
 								</div>
 							</button><!-- .nav-toggle -->
 

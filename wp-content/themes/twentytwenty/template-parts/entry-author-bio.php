@@ -17,7 +17,7 @@ if ( (bool) get_the_author_meta( 'description' ) ) : ?>
 				<?php
 				printf(
 					/* Translators: %s: post author */
-					esc_html( 'By %s', 'twentytwenty' ),
+					esc_html__( 'By %s', 'twentytwenty' ),
 					esc_html( get_the_author() )
 				);
 				?>

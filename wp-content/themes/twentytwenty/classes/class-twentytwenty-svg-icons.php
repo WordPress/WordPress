@@ -10,7 +10,7 @@
 if ( ! class_exists( 'TwentyTwenty_SVG_Icons' ) ) {
 	/**
 	 * SVG ICONS CLASS
-	 * Retrieve the SVG code for the specified icon. Based on a solution in TwentyNineteen.
+	 * Retrieve the SVG code for the specified icon. Based on a solution in Twenty Nineteen.
 	 */
 	class TwentyTwenty_SVG_Icons {
 		/**

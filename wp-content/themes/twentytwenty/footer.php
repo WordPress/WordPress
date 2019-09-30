@@ -11,113 +11,10 @@
  * @since 1.0.0
  */
 
-?>
+?>		
+			<footer id="site-footer" role="contentinfo" class="header-footer-group">
 
-		<footer id="site-footer" role="contentinfo" class="header-footer-group">
-
-			<div class="footer-inner section-inner">
-
-				<?php
-
-				$has_footer_menu = has_nav_menu( 'footer' );
-				$has_social_menu = has_nav_menu( 'social' );
-
-				$footer_top_classes = '';
-
-				$footer_top_classes .= $has_footer_menu ? ' has-footer-menu' : '';
-				$footer_top_classes .= $has_social_menu ? ' has-social-menu' : '';
-
-				$footer_social_wrapper_class = $has_footer_menu ? 'footer-social-wrapper' : '';
-
-				if ( $has_footer_menu || $has_social_menu ) {
-					?>
-					<div class="footer-top<?php echo esc_attr( $footer_top_classes ); ?>">
-						<?php if ( $has_footer_menu ) { ?>
-
-							<nav aria-label="<?php esc_attr_e( 'Footer menu', 'twentytwenty' ); ?>">
-
-								<ul class="footer-menu reset-list-style">
-									<?php
-									wp_nav_menu(
-										array(
-											'container'  => '',
-											'depth'      => 1,
-											'items_wrap' => '%3$s',
-											'theme_location' => 'footer',
-										)
-									);
-									?>
-								</ul>
-
-							</nav><!-- .site-nav -->
-
-						<?php } ?>
-						<?php if ( $has_social_menu ) { ?>
-
-							<div class="<?php esc_attr( $footer_social_wrapper_class ); ?>">
-
-								<nav aria-label="<?php esc_attr_e( 'Social links', 'twentytwenty' ); ?>">
-
-									<ul class="social-menu footer-social reset-list-style social-icons s-icons">
-
-										<?php
-										wp_nav_menu(
-											array(
-												'theme_location' => 'social',
-												'container' => '',
-												'container_class' => '',
-												'items_wrap' => '%3$s',
-												'menu_id' => '',
-												'menu_class' => '',
-												'depth'   => 1,
-												'link_before' => '<span class="screen-reader-text">',
-												'link_after' => '</span>',
-												'fallback_cb' => '',
-											)
-										);
-										?>
-
-									</ul>
-
-								</nav><!-- .social-menu -->
-
-							</div><!-- .footer-social-wrapper -->
-
-						<?php } ?>
-					</div><!-- .footer-top -->
-
-				<?php } ?>
-
-
-				<?php if ( is_active_sidebar( 'sidebar-1' ) || is_active_sidebar( 'sidebar-2' ) ) { ?>
-
-					<div class="footer-widgets-outer-wrapper">
-
-						<div class="footer-widgets-wrapper">
-
-							<?php if ( is_active_sidebar( 'sidebar-1' ) ) { ?>
-
-								<div class="footer-widgets column-one grid-item">
-									<?php dynamic_sidebar( 'sidebar-1' ); ?>
-								</div>
-
-							<?php } ?>
-
-							<?php if ( is_active_sidebar( 'sidebar-2' ) ) { ?>
-
-								<div class="footer-widgets column-two grid-item">
-									<?php dynamic_sidebar( 'sidebar-2' ); ?>
-								</div>
-
-							<?php } ?>
-
-						</div><!-- .footer-widgets-wrapper -->
-
-					</div><!-- .footer-widgets-outer-wrapper -->
-
-				<?php } ?>
-
-				<div class="footer-bottom">
+				<div class="section-inner">
 
 					<div class="footer-credits">
 
@@ -130,14 +27,15 @@
 								)
 							);
 							?>
-							<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo bloginfo( 'name' ); ?></a></a>
+							<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo bloginfo( 'name' ); ?></a>
 						</p>
 
 						<p class="powered-by-wordpress">
-							<?php
-							/* Translators: %s = Link to WordPress.org */
-							printf( _x( 'Powered by %s', 'Translators: %s = Link to WordPress.org', 'twentytwenty' ), '<a href="https://wordpress.org">' . __( 'WordPress', 'twentytwenty' ) . '</a>' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- core trusts translations
-							?>
+							<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentytwenty' ) ); ?>">
+								<?php
+								_e( 'Powered by WordPress', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations
+								?>
+							</a>
 						</p><!-- .theme-credits -->
 
 					</div><!-- .footer-credits -->
@@ -157,11 +55,9 @@
 						</span>
 					</a>
 
-				</div><!-- .footer-bottom -->
+				</div><!-- .section-inner -->
 
-			</div><!-- .footer-inner -->
-
-		</footer><!-- #site-footer -->
+			</footer><!-- #site-footer -->
 
 		<?php wp_footer(); ?>
 

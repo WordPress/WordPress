@@ -24,6 +24,8 @@ get_header();
 		}
 	}
 
+	get_template_part( 'template-parts/footer-menus-widgets' );
+
 	?>
 
 </main><!-- #site-content -->

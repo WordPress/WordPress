@@ -2,24 +2,16 @@
 	font-family: "Font Awesome 5";
 	font-style: normal;
 	font-weight: 400;
-	src: url(../fonts/font-awesome/fa-fallback.eot?15574881);
 	src:
-		url(../fonts/font-awesome/fa-fallback.eot?15574881#iefix) format("embedded-opentype"),
 		url(../fonts/font-awesome/fa-fallback.woff2?15574881) format("woff2"),
-		url(../fonts/font-awesome/fa-fallback.woff?15574881) format("woff"),
-		url(../fonts/font-awesome/fa-fallback.ttf?15574881) format("truetype"),
-		url(../fonts/font-awesome/fa-fallback.svg?15574881#font-awsome-fallback) format("svg");
+		url(../fonts/font-awesome/fa-fallback.woff?15574881) format("woff");
 }
 
 @font-face {
 	font-family: "Font Awesome 5 Brands";
 	font-style: normal;
 	font-weight: 400;
-	src: url(../fonts/font-awesome/fa-brands-400.eot);
 	src:
-		url(../fonts/font-awesome/fa-brands-400.eot?#iefix) format("embedded-opentype"),
 		url(../fonts/font-awesome/fa-brands-400.woff2) format("woff2"),
-		url(../fonts/font-awesome/fa-brands-400.woff) format("woff"),
-		url(../fonts/font-awesome/fa-brands-400.ttf) format("truetype"),
-		url(../fonts/font-awesome/fa-brands-400.svg#fontawesome) format("svg");
+		url(../fonts/font-awesome/fa-brands-400.woff) format("woff");
 }
