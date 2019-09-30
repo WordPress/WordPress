@@ -653,11 +653,6 @@
   .blocks-gallery-grid.alignright {
     max-width: 305px;
     width: 100%; }
-  .wp-block-gallery.alignleft, .wp-block-gallery.aligncenter, .wp-block-gallery.alignright,
-  .blocks-gallery-grid.alignleft,
-  .blocks-gallery-grid.aligncenter,
-  .blocks-gallery-grid.alignright {
-    display: flex; }
   .wp-block-gallery.aligncenter .blocks-gallery-item figure,
   .blocks-gallery-grid.aligncenter .blocks-gallery-item figure {
     justify-content: center; }

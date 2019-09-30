@@ -434,7 +434,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -788,7 +788,7 @@ function reducer_formatTypes() {
 }));
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(35);
+var rememo = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/store/selectors.js
 /**
@@ -4167,6 +4167,10 @@ function (_Component) {
     _this.Editable = _this.Editable.bind(Object(assertThisInitialized["a" /* default */])(_this));
 
     _this.onKeyDown = function (event) {
+      if (event.defaultPrevented) {
+        return;
+      }
+
       _this.handleDelete(event);
 
       _this.handleEnter(event);
@@ -4387,7 +4391,7 @@ function (_Component) {
       // (CJK), do not trigger a change if characters are being composed.
       // Browsers setting `isComposing` to `true` will usually emit a final
       // `input` event when the characters are composed.
-      if (event && event.nativeEvent.isComposing) {
+      if (event && event.nativeEvent && event.nativeEvent.isComposing) {
         // Also don't update any selection.
         document.removeEventListener('selectionchange', this.onSelectionChange);
         return;
@@ -4396,6 +4400,10 @@ function (_Component) {
       var inputType;
 
       if (event) {
+        inputType = event.inputType;
+      }
+
+      if (!inputType) {
         inputType = event.nativeEvent.inputType;
       } // The browser formatted something or tried to insert HTML.
       // Overwrite it. It will be handled later by the format library if
@@ -4463,7 +4471,9 @@ function (_Component) {
     value: function onCompositionEnd() {
       // Ensure the value is up-to-date for browsers that don't emit a final
       // input event after composition.
-      this.onInput(); // Tracking selection changes can be resumed.
+      this.onInput({
+        inputType: 'insertText'
+      }); // Tracking selection changes can be resumed.
 
       document.addEventListener('selectionchange', this.onSelectionChange);
     }
@@ -4722,11 +4732,17 @@ function (_Component) {
   }, {
     key: "handleSpace",
     value: function handleSpace(event) {
+      var keyCode = event.keyCode,
+          shiftKey = event.shiftKey,
+          altKey = event.altKey,
+          metaKey = event.metaKey,
+          ctrlKey = event.ctrlKey;
       var _this$props5 = this.props,
           tagName = _this$props5.tagName,
           multilineTag = _this$props5.__unstableMultilineTag;
 
-      if (event.keyCode !== external_this_wp_keycodes_["SPACE"] || multilineTag !== 'li') {
+      if ( // Only override when no modifiers are pressed.
+      shiftKey || altKey || metaKey || ctrlKey || keyCode !== external_this_wp_keycodes_["SPACE"] || multilineTag !== 'li') {
         return;
       }
 
@@ -5034,6 +5050,8 @@ function (_Component) {
   }, {
     key: "Editable",
     value: function Editable(props) {
+      var _this3 = this;
+
       var _this$props9 = this.props,
           _this$props9$tagName = _this$props9.tagName,
           Tagname = _this$props9$tagName === void 0 ? 'div' : _this$props9$tagName,
@@ -5056,7 +5074,11 @@ function (_Component) {
         onPaste: this.onPaste,
         onInput: this.onInput,
         onCompositionEnd: this.onCompositionEnd,
-        onKeyDown: this.onKeyDown,
+        onKeyDown: props.onKeyDown ? function (event) {
+          props.onKeyDown(event);
+
+          _this3.onKeyDown(event);
+        } : this.onKeyDown,
         onFocus: this.onFocus,
         onBlur: this.onBlur,
         onMouseDown: this.onPointerDown,

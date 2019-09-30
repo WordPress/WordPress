@@ -363,7 +363,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 34:
+/***/ 35:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blob"]; }());
@@ -796,7 +796,7 @@ var external_this_wp_apiFetch_ = __webpack_require__(32);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(34);
+var external_this_wp_blob_ = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/upload-media.js
 

@@ -382,7 +382,6 @@
   position: absolute;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   pointer-events: none;
@@ -512,9 +511,6 @@
 
 .edit-post-header .edit-post-header__settings .components-button.editor-post-save-draft {
   margin: 0; }
-  @media (min-width: 600px) {
-    .edit-post-header .edit-post-header__settings .components-button.editor-post-save-draft .dashicon {
-      display: none; } }
 
 .editor-post-taxonomies__hierarchical-terms-list {
   max-height: 14em;
@@ -523,9 +519,6 @@
 
 .editor-post-taxonomies__hierarchical-terms-choice {
   margin-bottom: 8px; }
-
-.editor-post-taxonomies__hierarchical-terms-input[type="checkbox"] {
-  margin-top: 0; }
 
 .editor-post-taxonomies__hierarchical-terms-subchoices {
   margin-top: 8px;
@@ -622,31 +615,32 @@ body.admin-color-light .editor-post-text-editor__link{
 .editor-post-text-editor__del {
   text-decoration: line-through; }
 
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-fieldset {
+.edit-post-post-visibility__dialog,
+.editor-post-visibility__dialog-fieldset {
   padding: 4px;
   padding-top: 0; }
-
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-legend {
-  font-weight: 600;
-  margin-bottom: 1em;
-  margin-top: 0.5em;
-  padding: 0; }
-
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio {
-  margin-top: 2px; }
-
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-label {
-  font-weight: 600; }
-
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-info {
-  margin-top: 0;
-  margin-left: 28px; }
-
-.edit-post-post-visibility__dialog .editor-post-visibility__choice:last-child .editor-post-visibility__dialog-info {
-  margin-bottom: 0; }
-
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-password-input {
-  margin-left: 28px; }
+  .edit-post-post-visibility__dialog .editor-post-visibility__dialog-legend,
+  .editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-legend {
+    font-weight: 600;
+    margin-bottom: 1em;
+    margin-top: 0.5em;
+    padding: 0; }
+  .edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio,
+  .editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio {
+    margin-top: 2px; }
+  .edit-post-post-visibility__dialog .editor-post-visibility__dialog-label,
+  .editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-label {
+    font-weight: 600; }
+  .edit-post-post-visibility__dialog .editor-post-visibility__dialog-info,
+  .editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-info {
+    margin-top: 0;
+    margin-left: 28px; }
+  .edit-post-post-visibility__dialog .editor-post-visibility__choice:last-child .editor-post-visibility__dialog-info,
+  .editor-post-visibility__dialog-fieldset .editor-post-visibility__choice:last-child .editor-post-visibility__dialog-info {
+    margin-bottom: 0; }
+  .edit-post-post-visibility__dialog .editor-post-visibility__dialog-password-input,
+  .editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-password-input {
+    margin-left: 28px; }
 
 .edit-post-post-visibility__dialog.components-popover.is-bottom {
   z-index: 100001; }
@@ -741,10 +735,12 @@ body.admin-color-light .editor-post-text-editor__link{
 
 .editor-post-trash.components-button {
   width: 100%;
-  color: #c92c2c;
+  color: #b52727;
+  border-color: #b52727;
   justify-content: center; }
   .editor-post-trash.components-button:hover, .editor-post-trash.components-button:focus {
-    color: #b52727; }
+    color: #a02222;
+    border-color: #a02222; }
 
 .table-of-contents__popover.components-popover:not(.is-mobile) .components-popover__content {
   min-width: 380px; }

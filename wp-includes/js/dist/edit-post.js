@@ -1180,9 +1180,6 @@ var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
 var external_this_wp_i18n_ = __webpack_require__(1);
 
-// EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
-var external_this_wp_blockEditor_ = __webpack_require__(6);
-
 // EXTERNAL MODULE: external {"this":["wp","plugins"]}
 var external_this_wp_plugins_ = __webpack_require__(52);
 
@@ -1383,6 +1380,9 @@ function FullscreenModeClose(_ref) {
   };
 })(FullscreenModeClose));
 
+// EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
+var external_this_wp_blockEditor_ = __webpack_require__(6);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/header/header-toolbar/index.js
 
 
@@ -1412,7 +1412,8 @@ function HeaderToolbar(_ref) {
     "aria-label": toolbarAriaLabel
   }, Object(external_this_wp_element_["createElement"])("div", null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["Inserter"], {
     disabled: !showInserter,
-    position: "bottom right"
+    position: "bottom right",
+    showInserterHelpPanel: true
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_nux_["DotTip"], {
     tipId: "core/editor.inserter"
   }, Object(external_this_wp_i18n_["__"])('Welcome to the wonderful world of blocks! Click the “+” (“Add block”) button to add a new block. There are blocks available for all kinds of content: you can insert text, headings, images, lists, and lots more!'))), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["EditorHistoryUndo"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["EditorHistoryRedo"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["TableOfContents"], {
@@ -4007,7 +4008,6 @@ function (_Component) {
 
 
 
-
 /**
  * Internal dependencies
  */
@@ -4061,7 +4061,7 @@ function Layout(_ref) {
     ,
     "aria-label": Object(external_this_wp_i18n_["__"])('Editor content'),
     tabIndex: "-1"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["EditorNotices"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["PreserveScrollInReorder"], null), Object(external_this_wp_element_["createElement"])(components_keyboard_shortcuts, null), Object(external_this_wp_element_["createElement"])(keyboard_shortcut_help_modal, null), Object(external_this_wp_element_["createElement"])(manage_blocks_modal, null), Object(external_this_wp_element_["createElement"])(options_modal, null), (mode === 'text' || !isRichEditingEnabled) && Object(external_this_wp_element_["createElement"])(text_editor, null), isRichEditingEnabled && mode === 'visual' && Object(external_this_wp_element_["createElement"])(visual_editor, null), Object(external_this_wp_element_["createElement"])("div", {
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["EditorNotices"], null), Object(external_this_wp_element_["createElement"])(components_keyboard_shortcuts, null), Object(external_this_wp_element_["createElement"])(keyboard_shortcut_help_modal, null), Object(external_this_wp_element_["createElement"])(manage_blocks_modal, null), Object(external_this_wp_element_["createElement"])(options_modal, null), (mode === 'text' || !isRichEditingEnabled) && Object(external_this_wp_element_["createElement"])(text_editor, null), isRichEditingEnabled && mode === 'visual' && Object(external_this_wp_element_["createElement"])(visual_editor, null), Object(external_this_wp_element_["createElement"])("div", {
     className: "edit-post-layout__metaboxes"
   }, Object(external_this_wp_element_["createElement"])(meta_boxes, {
     location: "normal"
@@ -5071,7 +5071,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6182,7 +6182,7 @@ function metaBoxUpdatesSuccess() {
 }
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(35);
+var rememo = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/store/selectors.js
 /**
@@ -6498,6 +6498,7 @@ var getMetaBoxContainer = function getMetaBoxContainer(location) {
 
 
 
+var saveMetaboxUnsubscribe;
 var effects = {
   SET_META_BOXES_PER_LOCATIONS: function SET_META_BOXES_PER_LOCATIONS(action, store) {
     // Allow toggling metaboxes panels
@@ -6518,9 +6519,14 @@ var effects = {
     //
     // See: https://github.com/WordPress/WordPress/blob/5.1.1/wp-admin/includes/post.php#L2307-L2309
 
-    var hasActiveMetaBoxes = Object(external_this_wp_data_["select"])('core/edit-post').hasMetaBoxes(); // Save metaboxes when performing a full save on the post.
+    var hasActiveMetaBoxes = Object(external_this_wp_data_["select"])('core/edit-post').hasMetaBoxes(); // First remove any existing subscription in order to prevent multiple saves
 
-    Object(external_this_wp_data_["subscribe"])(function () {
+    if (!!saveMetaboxUnsubscribe) {
+      saveMetaboxUnsubscribe();
+    } // Save metaboxes when performing a full save on the post.
+
+
+    saveMetaboxUnsubscribe = Object(external_this_wp_data_["subscribe"])(function () {
       var isSavingPost = Object(external_this_wp_data_["select"])('core/editor').isSavingPost();
       var isAutosavingPost = Object(external_this_wp_data_["select"])('core/editor').isAutosavingPost(); // Save metaboxes on save completion, except for autosaves that are not a post preview.
 

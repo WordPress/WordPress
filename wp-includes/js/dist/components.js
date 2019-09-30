@@ -555,7 +555,8 @@ function _typeof(obj) {
 
 /***/ }),
 /* 32 */,
-/* 33 */
+/* 33 */,
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -573,7 +574,6 @@ if (false) { var throwOnDirectAccess, ReactIs; } else {
 
 
 /***/ }),
-/* 34 */,
 /* 35 */,
 /* 36 */,
 /* 37 */
@@ -2908,7 +2908,7 @@ var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -2948,7 +2948,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -5726,7 +5726,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -5834,7 +5834,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -5868,7 +5868,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -6068,7 +6068,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -6089,7 +6089,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -6396,7 +6396,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -6718,7 +6718,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -7566,7 +7566,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -8245,7 +8245,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -10633,7 +10633,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -11082,7 +11082,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -11765,7 +11765,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -11906,7 +11906,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -11927,7 +11927,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -11948,7 +11948,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -12140,7 +12140,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -12629,7 +12629,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -13087,7 +13087,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -13777,7 +13777,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -15385,7 +15385,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -16421,7 +16421,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -16560,7 +16560,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -16924,7 +16924,7 @@ var external_React_ = __webpack_require__(28);
 var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
 
 // EXTERNAL MODULE: ./node_modules/prop-types/index.js
-var prop_types = __webpack_require__(33);
+var prop_types = __webpack_require__(34);
 var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
 
 // CONCATENATED MODULE: ./node_modules/react-portal/es/utils.js
@@ -19371,23 +19371,28 @@ var getStringSize = fast_memoize_1.default(function (n) {
     }
     return n + "px";
 });
+var getPixelSize = function (size, parentSize) {
+    if (size && typeof size === 'string') {
+        if (endsWith(size, '%')) {
+            var ratio = Number(size.replace('%', '')) / 100;
+            return parentSize * ratio;
+        }
+        else if (endsWith(size, 'vw')) {
+            var ratio = Number(size.replace('vw', '')) / 100;
+            return window.innerWidth * ratio;
+        }
+        else if (endsWith(size, 'vh')) {
+            var ratio = Number(size.replace('vh', '')) / 100;
+            return window.innerHeight * ratio;
+        }
+    }
+    return size;
+};
 var calculateNewMax = fast_memoize_1.default(function (parentSize, maxWidth, maxHeight, minWidth, minHeight) {
-    if (maxWidth && typeof maxWidth === 'string' && endsWith(maxWidth, '%')) {
-        var ratio = Number(maxWidth.replace('%', '')) / 100;
-        maxWidth = parentSize.width * ratio;
-    }
-    if (maxHeight && typeof maxHeight === 'string' && endsWith(maxHeight, '%')) {
-        var ratio = Number(maxHeight.replace('%', '')) / 100;
-        maxHeight = parentSize.height * ratio;
-    }
-    if (minWidth && typeof minWidth === 'string' && endsWith(minWidth, '%')) {
-        var ratio = Number(minWidth.replace('%', '')) / 100;
-        minWidth = parentSize.width * ratio;
-    }
-    if (minHeight && typeof minHeight === 'string' && endsWith(minHeight, '%')) {
-        var ratio = Number(minHeight.replace('%', '')) / 100;
-        minHeight = parentSize.height * ratio;
-    }
+    maxWidth = getPixelSize(maxWidth, parentSize.width);
+    maxHeight = getPixelSize(maxHeight, parentSize.height);
+    minWidth = getPixelSize(minWidth, parentSize.width);
+    minHeight = getPixelSize(minHeight, parentSize.height);
     return {
         maxWidth: typeof maxWidth === 'undefined' ? undefined : Number(maxWidth),
         maxHeight: typeof maxHeight === 'undefined' ? undefined : Number(maxHeight),
@@ -19461,13 +19466,6 @@ var Resizable = /** @class */ (function (_super) {
         _this.onResizeStart = _this.onResizeStart.bind(_this);
         _this.onMouseMove = _this.onMouseMove.bind(_this);
         _this.onMouseUp = _this.onMouseUp.bind(_this);
-        if (typeof window !== 'undefined') {
-            window.addEventListener('mouseup', _this.onMouseUp);
-            window.addEventListener('mousemove', _this.onMouseMove);
-            window.addEventListener('mouseleave', _this.onMouseUp);
-            window.addEventListener('touchmove', _this.onMouseMove);
-            window.addEventListener('touchend', _this.onMouseUp);
-        }
         return _this;
     }
     Object.defineProperty(Resizable.prototype, "parentNode", {
@@ -19587,6 +19585,24 @@ var Resizable = /** @class */ (function (_super) {
         this.base.style.minWidth = minWidth;
         return size;
     };
+    Resizable.prototype.bindEvents = function () {
+        if (typeof window !== 'undefined') {
+            window.addEventListener('mouseup', this.onMouseUp);
+            window.addEventListener('mousemove', this.onMouseMove);
+            window.addEventListener('mouseleave', this.onMouseUp);
+            window.addEventListener('touchmove', this.onMouseMove);
+            window.addEventListener('touchend', this.onMouseUp);
+        }
+    };
+    Resizable.prototype.unbindEvents = function () {
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('mouseup', this.onMouseUp);
+            window.removeEventListener('mousemove', this.onMouseMove);
+            window.removeEventListener('mouseleave', this.onMouseUp);
+            window.removeEventListener('touchmove', this.onMouseMove);
+            window.removeEventListener('touchend', this.onMouseUp);
+        }
+    };
     Resizable.prototype.componentDidMount = function () {
         this.setState({
             width: this.state.width || this.size.width,
@@ -19616,11 +19632,7 @@ var Resizable = /** @class */ (function (_super) {
     };
     Resizable.prototype.componentWillUnmount = function () {
         if (typeof window !== 'undefined') {
-            window.removeEventListener('mouseup', this.onMouseUp);
-            window.removeEventListener('mousemove', this.onMouseMove);
-            window.removeEventListener('mouseleave', this.onMouseUp);
-            window.removeEventListener('touchmove', this.onMouseMove);
-            window.removeEventListener('touchend', this.onMouseUp);
+            this.unbindEvents();
             var parent_1 = this.parentNode;
             if (!this.base || !parent_1) {
                 return;
@@ -19788,6 +19800,7 @@ var Resizable = /** @class */ (function (_super) {
             typeof this.props.lockAspectRatio === 'number' ? this.props.lockAspectRatio : this.size.width / this.size.height;
         // For boundary
         this.setBoundingClientRect();
+        this.bindEvents();
         this.setState({
             original: {
                 x: clientX,
@@ -19890,6 +19903,7 @@ var Resizable = /** @class */ (function (_super) {
         if (this.props.size) {
             this.setState(this.props.size);
         }
+        this.unbindEvents();
         this.setState({ isResizing: false, resizeCursor: 'auto' });
     };
     Resizable.prototype.updateSize = function (size) {
@@ -22749,7 +22763,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -22850,7 +22864,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -24344,7 +24358,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -24371,7 +24385,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var DISPLAY = {
   BLOCK: 'block',
   FLEX: 'flex',
-  INLINE_BLOCK: 'inline-block'
+  INLINE: 'inline',
+  INLINE_BLOCK: 'inline-block',
+  CONTENTS: 'contents'
 };
 
 var propTypes = (0, _airbnbPropTypes.forbidExtraProps)({
@@ -24426,12 +24442,13 @@ var OutsideClickHandler = function (_React$Component) {
       return componentDidMount;
     }()
   }, {
-    key: 'componentWillReceiveProps',
+    key: 'componentDidUpdate',
     value: function () {
-      function componentWillReceiveProps(_ref2) {
-        var disabled = _ref2.disabled,
-            useCapture = _ref2.useCapture;
-        var prevDisabled = this.props.disabled;
+      function componentDidUpdate(_ref2) {
+        var prevDisabled = _ref2.disabled;
+        var _props2 = this.props,
+            disabled = _props2.disabled,
+            useCapture = _props2.useCapture;
 
         if (prevDisabled !== disabled) {
           if (disabled) {
@@ -24442,7 +24459,7 @@ var OutsideClickHandler = function (_React$Component) {
         }
       }
 
-      return componentWillReceiveProps;
+      return componentDidUpdate;
     }()
   }, {
     key: 'componentWillUnmount',
@@ -24534,9 +24551,9 @@ var OutsideClickHandler = function (_React$Component) {
     key: 'render',
     value: function () {
       function render() {
-        var _props2 = this.props,
-            children = _props2.children,
-            display = _props2.display;
+        var _props3 = this.props,
+            children = _props3.children,
+            display = _props3.display;
 
 
         return _react2['default'].createElement(
@@ -25186,7 +25203,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -25570,7 +25587,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -26076,7 +26093,7 @@ var _react = __webpack_require__(28);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(33);
+var _propTypes = __webpack_require__(34);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -27552,179 +27569,6 @@ var external_this_wp_richText_ = __webpack_require__(22);
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
 var external_this_wp_dom_ = __webpack_require__(25);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(18);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/higher-order/with-focus-outside/index.js
-
-
-
-
-
-
-
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Input types which are classified as button types, for use in considering
- * whether element is a (focus-normalized) button.
- *
- * @type {string[]}
- */
-
-var INPUT_BUTTON_TYPES = ['button', 'submit'];
-/**
- * Returns true if the given element is a button element subject to focus
- * normalization, or false otherwise.
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
- *
- * @param {Element} element Element to test.
- *
- * @return {boolean} Whether element is a button.
- */
-
-function isFocusNormalizedButton(element) {
-  switch (element.nodeName) {
-    case 'A':
-    case 'BUTTON':
-      return true;
-
-    case 'INPUT':
-      return Object(external_lodash_["includes"])(INPUT_BUTTON_TYPES, element.type);
-  }
-
-  return false;
-}
-
-/* harmony default export */ var with_focus_outside = (Object(external_this_wp_compose_["createHigherOrderComponent"])(function (WrappedComponent) {
-  return (
-    /*#__PURE__*/
-    function (_Component) {
-      Object(inherits["a" /* default */])(_class, _Component);
-
-      function _class() {
-        var _this;
-
-        Object(classCallCheck["a" /* default */])(this, _class);
-
-        _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(_class).apply(this, arguments));
-        _this.bindNode = _this.bindNode.bind(Object(assertThisInitialized["a" /* default */])(_this));
-        _this.cancelBlurCheck = _this.cancelBlurCheck.bind(Object(assertThisInitialized["a" /* default */])(_this));
-        _this.queueBlurCheck = _this.queueBlurCheck.bind(Object(assertThisInitialized["a" /* default */])(_this));
-        _this.normalizeButtonFocus = _this.normalizeButtonFocus.bind(Object(assertThisInitialized["a" /* default */])(_this));
-        return _this;
-      }
-
-      Object(createClass["a" /* default */])(_class, [{
-        key: "componentWillUnmount",
-        value: function componentWillUnmount() {
-          this.cancelBlurCheck();
-        }
-      }, {
-        key: "bindNode",
-        value: function bindNode(node) {
-          if (node) {
-            this.node = node;
-          } else {
-            delete this.node;
-            this.cancelBlurCheck();
-          }
-        }
-      }, {
-        key: "queueBlurCheck",
-        value: function queueBlurCheck(event) {
-          var _this2 = this;
-
-          // React does not allow using an event reference asynchronously
-          // due to recycling behavior, except when explicitly persisted.
-          event.persist(); // Skip blur check if clicking button. See `normalizeButtonFocus`.
-
-          if (this.preventBlurCheck) {
-            return;
-          }
-
-          this.blurCheckTimeout = setTimeout(function () {
-            // If document is not focused then focus should remain
-            // inside the wrapped component and therefore we cancel
-            // this blur event thereby leaving focus in place.
-            // https://developer.mozilla.org/en-US/docs/Web/API/Document/hasFocus.
-            if (!document.hasFocus()) {
-              event.preventDefault();
-              return;
-            }
-
-            if ('function' === typeof _this2.node.handleFocusOutside) {
-              _this2.node.handleFocusOutside(event);
-            }
-          }, 0);
-        }
-      }, {
-        key: "cancelBlurCheck",
-        value: function cancelBlurCheck() {
-          clearTimeout(this.blurCheckTimeout);
-        }
-        /**
-         * Handles a mousedown or mouseup event to respectively assign and
-         * unassign a flag for preventing blur check on button elements. Some
-         * browsers, namely Firefox and Safari, do not emit a focus event on
-         * button elements when clicked, while others do. The logic here
-         * intends to normalize this as treating click on buttons as focus.
-         *
-         * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
-         *
-         * @param {MouseEvent} event Event for mousedown or mouseup.
-         */
-
-      }, {
-        key: "normalizeButtonFocus",
-        value: function normalizeButtonFocus(event) {
-          var type = event.type,
-              target = event.target;
-          var isInteractionEnd = Object(external_lodash_["includes"])(['mouseup', 'touchend'], type);
-
-          if (isInteractionEnd) {
-            this.preventBlurCheck = false;
-          } else if (isFocusNormalizedButton(target)) {
-            this.preventBlurCheck = true;
-          }
-        }
-      }, {
-        key: "render",
-        value: function render() {
-          // Disable reason: See `normalizeButtonFocus` for browser-specific
-          // focus event normalization.
-
-          /* eslint-disable jsx-a11y/no-static-element-interactions */
-          return Object(external_this_wp_element_["createElement"])("div", {
-            onFocus: this.cancelBlurCheck,
-            onMouseDown: this.normalizeButtonFocus,
-            onMouseUp: this.normalizeButtonFocus,
-            onTouchStart: this.normalizeButtonFocus,
-            onTouchEnd: this.normalizeButtonFocus,
-            onBlur: this.queueBlurCheck
-          }, Object(external_this_wp_element_["createElement"])(WrappedComponent, Object(esm_extends["a" /* default */])({
-            ref: this.bindNode
-          }, this.props)));
-          /* eslint-enable jsx-a11y/no-static-element-interactions */
-        }
-      }]);
-
-      return _class;
-    }(external_this_wp_element_["Component"])
-  );
-}, 'withFocusOutside'));
-
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js + 1 modules
 var objectWithoutProperties = __webpack_require__(21);
 
@@ -27783,6 +27627,9 @@ function Button(props, ref) {
   }));
 }
 /* harmony default export */ var build_module_button = (Object(external_this_wp_element_["forwardRef"])(Button));
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
+var esm_extends = __webpack_require__(18);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
 var external_this_wp_isShallowEqual_ = __webpack_require__(41);
@@ -28288,6 +28135,176 @@ var withConstrainedTabbing = Object(external_this_wp_compose_["createHigherOrder
   );
 }, 'withConstrainedTabbing');
 /* harmony default export */ var with_constrained_tabbing = (withConstrainedTabbing);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/higher-order/with-focus-outside/index.js
+
+
+
+
+
+
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Input types which are classified as button types, for use in considering
+ * whether element is a (focus-normalized) button.
+ *
+ * @type {string[]}
+ */
+
+var INPUT_BUTTON_TYPES = ['button', 'submit'];
+/**
+ * Returns true if the given element is a button element subject to focus
+ * normalization, or false otherwise.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
+ *
+ * @param {Element} element Element to test.
+ *
+ * @return {boolean} Whether element is a button.
+ */
+
+function isFocusNormalizedButton(element) {
+  switch (element.nodeName) {
+    case 'A':
+    case 'BUTTON':
+      return true;
+
+    case 'INPUT':
+      return Object(external_lodash_["includes"])(INPUT_BUTTON_TYPES, element.type);
+  }
+
+  return false;
+}
+
+/* harmony default export */ var with_focus_outside = (Object(external_this_wp_compose_["createHigherOrderComponent"])(function (WrappedComponent) {
+  return (
+    /*#__PURE__*/
+    function (_Component) {
+      Object(inherits["a" /* default */])(_class, _Component);
+
+      function _class() {
+        var _this;
+
+        Object(classCallCheck["a" /* default */])(this, _class);
+
+        _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(_class).apply(this, arguments));
+        _this.bindNode = _this.bindNode.bind(Object(assertThisInitialized["a" /* default */])(_this));
+        _this.cancelBlurCheck = _this.cancelBlurCheck.bind(Object(assertThisInitialized["a" /* default */])(_this));
+        _this.queueBlurCheck = _this.queueBlurCheck.bind(Object(assertThisInitialized["a" /* default */])(_this));
+        _this.normalizeButtonFocus = _this.normalizeButtonFocus.bind(Object(assertThisInitialized["a" /* default */])(_this));
+        return _this;
+      }
+
+      Object(createClass["a" /* default */])(_class, [{
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+          this.cancelBlurCheck();
+        }
+      }, {
+        key: "bindNode",
+        value: function bindNode(node) {
+          if (node) {
+            this.node = node;
+          } else {
+            delete this.node;
+            this.cancelBlurCheck();
+          }
+        }
+      }, {
+        key: "queueBlurCheck",
+        value: function queueBlurCheck(event) {
+          var _this2 = this;
+
+          // React does not allow using an event reference asynchronously
+          // due to recycling behavior, except when explicitly persisted.
+          event.persist(); // Skip blur check if clicking button. See `normalizeButtonFocus`.
+
+          if (this.preventBlurCheck) {
+            return;
+          }
+
+          this.blurCheckTimeout = setTimeout(function () {
+            // If document is not focused then focus should remain
+            // inside the wrapped component and therefore we cancel
+            // this blur event thereby leaving focus in place.
+            // https://developer.mozilla.org/en-US/docs/Web/API/Document/hasFocus.
+            if (!document.hasFocus()) {
+              event.preventDefault();
+              return;
+            }
+
+            if ('function' === typeof _this2.node.handleFocusOutside) {
+              _this2.node.handleFocusOutside(event);
+            }
+          }, 0);
+        }
+      }, {
+        key: "cancelBlurCheck",
+        value: function cancelBlurCheck() {
+          clearTimeout(this.blurCheckTimeout);
+        }
+        /**
+         * Handles a mousedown or mouseup event to respectively assign and
+         * unassign a flag for preventing blur check on button elements. Some
+         * browsers, namely Firefox and Safari, do not emit a focus event on
+         * button elements when clicked, while others do. The logic here
+         * intends to normalize this as treating click on buttons as focus.
+         *
+         * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
+         *
+         * @param {MouseEvent} event Event for mousedown or mouseup.
+         */
+
+      }, {
+        key: "normalizeButtonFocus",
+        value: function normalizeButtonFocus(event) {
+          var type = event.type,
+              target = event.target;
+          var isInteractionEnd = Object(external_lodash_["includes"])(['mouseup', 'touchend'], type);
+
+          if (isInteractionEnd) {
+            this.preventBlurCheck = false;
+          } else if (isFocusNormalizedButton(target)) {
+            this.preventBlurCheck = true;
+          }
+        }
+      }, {
+        key: "render",
+        value: function render() {
+          // Disable reason: See `normalizeButtonFocus` for browser-specific
+          // focus event normalization.
+
+          /* eslint-disable jsx-a11y/no-static-element-interactions */
+          return Object(external_this_wp_element_["createElement"])("div", {
+            onFocus: this.cancelBlurCheck,
+            onMouseDown: this.normalizeButtonFocus,
+            onMouseUp: this.normalizeButtonFocus,
+            onTouchStart: this.normalizeButtonFocus,
+            onTouchEnd: this.normalizeButtonFocus,
+            onBlur: this.queueBlurCheck
+          }, Object(external_this_wp_element_["createElement"])(WrappedComponent, Object(esm_extends["a" /* default */])({
+            ref: this.bindNode
+          }, this.props)));
+          /* eslint-enable jsx-a11y/no-static-element-interactions */
+        }
+      }]);
+
+      return _class;
+    }(external_this_wp_element_["Component"])
+  );
+}, 'withFocusOutside'));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/popover/detect-outside.js
 
@@ -31090,7 +31107,6 @@ var external_this_wp_a11y_ = __webpack_require__(46);
 
 
 
-
 /**
  * A raw completer option.
  *
@@ -31234,7 +31250,6 @@ function (_Component) {
     Object(classCallCheck["a" /* default */])(this, Autocomplete);
 
     _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(Autocomplete).apply(this, arguments));
-    _this.bindNode = _this.bindNode.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.select = _this.select.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.reset = _this.reset.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.resetWhenSuppressed = _this.resetWhenSuppressed.bind(Object(assertThisInitialized["a" /* default */])(_this));
@@ -31245,11 +31260,6 @@ function (_Component) {
   }
 
   Object(createClass["a" /* default */])(Autocomplete, [{
-    key: "bindNode",
-    value: function bindNode(node) {
-      this.node = node;
-    }
-  }, {
     key: "insertCompletion",
     value: function insertCompletion(replacement) {
       var _this$state = this.state,
@@ -31304,12 +31314,7 @@ function (_Component) {
   }, {
     key: "reset",
     value: function reset() {
-      var isMounted = !!this.node; // Autocompletions may replace the block containing this component,
-      // so we make sure it is mounted before resetting the state.
-
-      if (isMounted) {
-        this.setState(this.constructor.getInitialState());
-      }
+      this.setState(this.constructor.getInitialState());
     }
   }, {
     key: "resetWhenSuppressed",
@@ -31321,11 +31326,6 @@ function (_Component) {
       if (open && suppress === open.idx) {
         this.reset();
       }
-    }
-  }, {
-    key: "handleFocusOutside",
-    value: function handleFocusOutside() {
-      this.reset();
     }
   }, {
     key: "announce",
@@ -31479,31 +31479,14 @@ function (_Component) {
 
 
       event.preventDefault();
-      event.stopPropagation();
-    }
-  }, {
-    key: "toggleKeyEvents",
-    value: function toggleKeyEvents(isListening) {
-      // This exists because we must capture ENTER key presses before RichText.
-      // It seems that react fires the simulated capturing events after the
-      // native browser event has already bubbled so we can't stopPropagation
-      // and avoid RichText getting the event from TinyMCE, hence we must
-      // register a native event handler.
-      var handler = isListening ? 'addEventListener' : 'removeEventListener';
-      this.node[handler]('keydown', this.handleKeyDown, true);
     }
   }, {
     key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps, prevState) {
+    value: function componentDidUpdate(prevProps) {
       var _this$props2 = this.props,
           record = _this$props2.record,
           completers = _this$props2.completers;
       var prevRecord = prevProps.record;
-      var prevOpen = prevState.open;
-
-      if (!this.state.open !== !prevOpen) {
-        this.toggleKeyEvents(!!this.state.open);
-      }
 
       if (Object(external_this_wp_richText_["isCollapsed"])(record)) {
         var text = Object(external_lodash_["deburr"])(Object(external_this_wp_richText_["getTextContent"])(Object(external_this_wp_richText_["slice"])(record, 0)));
@@ -31581,7 +31564,6 @@ function (_Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this.toggleKeyEvents(false);
       this.debouncedLoadOptions.cancel();
     }
   }, {
@@ -31591,7 +31573,8 @@ function (_Component) {
 
       var _this$props3 = this.props,
           children = _this$props3.children,
-          instanceId = _this$props3.instanceId;
+          instanceId = _this$props3.instanceId,
+          isSelected = _this$props3.isSelected;
       var _this$state6 = this.state,
           open = _this$state6.open,
           suppress = _this$state6.suppress,
@@ -31608,19 +31591,13 @@ function (_Component) {
 
       var isExpanded = suppress !== idx && filteredOptions.length > 0;
       var listBoxId = isExpanded ? "components-autocomplete-listbox-".concat(instanceId) : null;
-      var activeId = isExpanded ? "components-autocomplete-item-".concat(instanceId, "-").concat(selectedKey) : null; // Disable reason: Clicking the editor should reset the autocomplete when the menu is suppressed
-
-      /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
-
-      return Object(external_this_wp_element_["createElement"])("div", {
-        ref: this.bindNode,
-        onClick: this.resetWhenSuppressed,
-        className: "components-autocomplete"
-      }, children({
+      var activeId = isExpanded ? "components-autocomplete-item-".concat(instanceId, "-").concat(selectedKey) : null;
+      return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, children({
         isExpanded: isExpanded,
         listBoxId: listBoxId,
-        activeId: activeId
-      }), isExpanded && Object(external_this_wp_element_["createElement"])(popover, {
+        activeId: activeId,
+        onKeyDown: this.handleKeyDown
+      }), isExpanded && isSelected && Object(external_this_wp_element_["createElement"])(popover, {
         focusOnMount: false,
         onClose: this.reset,
         position: "top right",
@@ -31645,13 +31622,12 @@ function (_Component) {
           }
         }, option.label);
       }))));
-      /* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
     }
   }]);
 
   return Autocomplete;
 }(external_this_wp_element_["Component"]);
-/* harmony default export */ var autocomplete = (Object(external_this_wp_compose_["compose"])([with_spoken_messages, external_this_wp_compose_["withInstanceId"], with_focus_outside])(autocomplete_Autocomplete));
+/* harmony default export */ var autocomplete = (Object(external_this_wp_compose_["compose"])([with_spoken_messages, external_this_wp_compose_["withInstanceId"]])(autocomplete_Autocomplete));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/base-control/index.js
 

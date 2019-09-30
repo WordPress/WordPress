@@ -5455,14 +5455,14 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 34:
+/***/ 35:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blob"]; }());
 
 /***/ }),
 
-/***/ 35:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5986,7 +5986,7 @@ function reducer_categories() {
 }));
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(35);
+var rememo = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/selectors.js
 /**
@@ -7379,6 +7379,20 @@ function switchToBlockType(blocks, name) {
     return Object(external_this_wp_hooks_["applyFilters"])('blocks.switchToBlockType.transformedBlock', transformedBlock, blocks);
   });
 }
+/**
+ * Create a block object from the example API.
+ *
+ * @param {string} name
+ * @param {Object} example
+ *
+ * @return {Object} block.
+ */
+
+var factory_getBlockFromExample = function getBlockFromExample(name, example) {
+  return createBlock(name, example.attributes, Object(external_lodash_["map"])(example.innerBlocks, function (innerBlock) {
+    return getBlockFromExample(innerBlock.name, innerBlock);
+  }));
+};
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
 var slicedToArray = __webpack_require__(23);
@@ -11199,7 +11213,7 @@ function ms_list_converter_isList(node) {
 });
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(34);
+var external_this_wp_blob_ = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js
 
@@ -11869,6 +11883,7 @@ function synchronizeBlocksWithTemplate() {
 /* concated harmony reexport switchToBlockType */__webpack_require__.d(__webpack_exports__, "switchToBlockType", function() { return switchToBlockType; });
 /* concated harmony reexport getBlockTransforms */__webpack_require__.d(__webpack_exports__, "getBlockTransforms", function() { return getBlockTransforms; });
 /* concated harmony reexport findTransform */__webpack_require__.d(__webpack_exports__, "findTransform", function() { return findTransform; });
+/* concated harmony reexport getBlockFromExample */__webpack_require__.d(__webpack_exports__, "getBlockFromExample", function() { return factory_getBlockFromExample; });
 /* concated harmony reexport parse */__webpack_require__.d(__webpack_exports__, "parse", function() { return parser; });
 /* concated harmony reexport getBlockAttributes */__webpack_require__.d(__webpack_exports__, "getBlockAttributes", function() { return getBlockAttributes; });
 /* concated harmony reexport parseWithAttributeSchema */__webpack_require__.d(__webpack_exports__, "parseWithAttributeSchema", function() { return parseWithAttributeSchema; });

@@ -225,7 +225,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -649,7 +649,7 @@ function reducer_annotations() {
 var objectWithoutProperties = __webpack_require__(21);
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(35);
+var rememo = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/selectors.js
 

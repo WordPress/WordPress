@@ -163,269 +163,304 @@
   cursor: pointer;
   -webkit-appearance: none;
   background: none;
+  transition: box-shadow 0.1s linear;
   /* Buttons that look like links, for a cross of good semantics with the visual */
   /* Link buttons that are red to indicate destructive behavior. */ }
+  @media (prefers-reduced-motion: reduce) {
+    .components-button {
+      transition-duration: 0s; } }
   .components-button.is-button {
-    padding: 0 10px 1px;
-    line-height: 26px;
+    padding: 0 10px;
+    line-height: 2;
     height: 28px;
     border-radius: 3px;
     white-space: nowrap;
     border-width: 1px;
     border-style: solid; }
   .components-button.is-default {
-    color: #555;
-    border-color: #ccc;
-    background: #f7f7f7;
-    box-shadow: inset 0 -1px 0 #ccc;
-    vertical-align: top; }
+    color: rgb(0, 117, 175);
+    border-color: rgb(0, 117, 175);
+    background: #f3f5f6; }
+  body.admin-color-sunrise .components-button.is-default {
+    color: rgb(196, 126, 70);
+    border-color: rgb(196, 126, 70); }
+  body.admin-color-ocean .components-button.is-default {
+    color: rgb(153, 174, 152);
+    border-color: rgb(153, 174, 152); }
+  body.admin-color-midnight .components-button.is-default {
+    color: rgb(212, 72, 63);
+    border-color: rgb(212, 72, 63); }
+  body.admin-color-ectoplasm .components-button.is-default {
+    color: rgb(157, 171, 81);
+    border-color: rgb(157, 171, 81); }
+  body.admin-color-coffee .components-button.is-default {
+    color: rgb(182, 156, 132);
+    border-color: rgb(182, 156, 132); }
+  body.admin-color-blue .components-button.is-default {
+    color: rgb(204, 161, 84);
+    border-color: rgb(204, 161, 84); }
+  body.admin-color-light .components-button.is-default {
+    color: rgb(0, 125, 175);
+    border-color: rgb(0, 125, 175); }
     .components-button.is-default:hover {
-      background: #fafafa;
-      border-color: #999;
-      box-shadow: inset 0 -1px 0 #999;
-      color: #23282d;
+      background: #f1f1f1;
+      border-color: rgb(0, 93, 140);
+      color: rgb(0, 93, 140);
       text-decoration: none; }
+    body.admin-color-sunrise .components-button.is-default:hover {
+      border-color: rgb(157, 101, 56);
+      color: rgb(157, 101, 56); }
+    body.admin-color-ocean .components-button.is-default:hover {
+      border-color: rgb(122, 139, 122);
+      color: rgb(122, 139, 122); }
+    body.admin-color-midnight .components-button.is-default:hover {
+      border-color: rgb(169, 58, 50);
+      color: rgb(169, 58, 50); }
+    body.admin-color-ectoplasm .components-button.is-default:hover {
+      border-color: rgb(125, 137, 65);
+      color: rgb(125, 137, 65); }
+    body.admin-color-coffee .components-button.is-default:hover {
+      border-color: rgb(146, 125, 105);
+      color: rgb(146, 125, 105); }
+    body.admin-color-blue .components-button.is-default:hover {
+      border-color: rgb(163, 128, 67);
+      color: rgb(163, 128, 67); }
+    body.admin-color-light .components-button.is-default:hover {
+      border-color: rgb(0, 100, 140);
+      color: rgb(0, 100, 140); }
     .components-button.is-default:focus:enabled {
-      background: #fafafa;
-      color: #23282d;
-      border-color: #999;
-      box-shadow: inset 0 -1px 0 #999, 0 0 0 1px #fff, 0 0 0 3px #007cba;
+      background: #f3f5f6;
+      color: rgb(0, 93, 140);
+      border-color: rgb(0, 118, 177);
+      box-shadow: 0 0 0 1px rgb(0, 118, 177);
       text-decoration: none; }
+    body.admin-color-sunrise .components-button.is-default:focus:enabled {
+      color: rgb(157, 101, 56);
+      border-color: rgb(199, 127, 70);
+      box-shadow: 0 0 0 1px rgb(199, 127, 70); }
+    body.admin-color-ocean .components-button.is-default:focus:enabled {
+      color: rgb(122, 139, 122);
+      border-color: rgb(155, 176, 154);
+      box-shadow: 0 0 0 1px rgb(155, 176, 154); }
+    body.admin-color-midnight .components-button.is-default:focus:enabled {
+      color: rgb(169, 58, 50);
+      border-color: rgb(214, 73, 64);
+      box-shadow: 0 0 0 1px rgb(214, 73, 64); }
+    body.admin-color-ectoplasm .components-button.is-default:focus:enabled {
+      color: rgb(125, 137, 65);
+      border-color: rgb(159, 173, 82);
+      box-shadow: 0 0 0 1px rgb(159, 173, 82); }
+    body.admin-color-coffee .components-button.is-default:focus:enabled {
+      color: rgb(146, 125, 105);
+      border-color: rgb(184, 158, 133);
+      box-shadow: 0 0 0 1px rgb(184, 158, 133); }
+    body.admin-color-blue .components-button.is-default:focus:enabled {
+      color: rgb(163, 128, 67);
+      border-color: rgb(206, 162, 85);
+      box-shadow: 0 0 0 1px rgb(206, 162, 85); }
+    body.admin-color-light .components-button.is-default:focus:enabled {
+      color: rgb(0, 100, 140);
+      border-color: rgb(0, 126, 177);
+      box-shadow: 0 0 0 1px rgb(0, 126, 177); }
     .components-button.is-default:active:enabled {
-      background: #eee;
-      border-color: #999;
-      box-shadow: inset 0 1px 0 #999; }
+      background: #f3f5f6;
+      color: rgb(0, 118, 177);
+      border-color: #7e8993;
+      box-shadow: none; }
+    body.admin-color-sunrise .components-button.is-default:active:enabled {
+      color: rgb(199, 127, 70); }
+    body.admin-color-ocean .components-button.is-default:active:enabled {
+      color: rgb(155, 176, 154); }
+    body.admin-color-midnight .components-button.is-default:active:enabled {
+      color: rgb(214, 73, 64); }
+    body.admin-color-ectoplasm .components-button.is-default:active:enabled {
+      color: rgb(159, 173, 82); }
+    body.admin-color-coffee .components-button.is-default:active:enabled {
+      color: rgb(184, 158, 133); }
+    body.admin-color-blue .components-button.is-default:active:enabled {
+      color: rgb(206, 162, 85); }
+    body.admin-color-light .components-button.is-default:active:enabled {
+      color: rgb(0, 126, 177); }
     .components-button.is-default:disabled, .components-button.is-default[aria-disabled="true"] {
       color: #a0a5aa;
       border-color: #ddd;
       background: #f7f7f7;
-      box-shadow: none;
       text-shadow: 0 1px 0 #fff;
       transform: none;
       opacity: 1; }
   .components-button.is-primary {
-    background: rgb(0, 133, 186);
-    border-color: rgb(0, 106, 149) rgb(0, 100, 140) rgb(0, 100, 140);
-    box-shadow: inset 0 -1px 0 rgb(0, 100, 140);
+    background: rgb(0, 124, 186);
+    border-color: rgb(0, 124, 186);
     color: #fff;
     text-decoration: none;
-    text-shadow: 0 -1px 1px rgb(0, 93, 130), -1px 0 1px rgb(0, 93, 130), 0 1px 1px rgb(0, 93, 130), 1px 0 1px rgb(0, 93, 130); }
+    text-shadow: none; }
   body.admin-color-sunrise .components-button.is-primary {
     background: rgb(209, 134, 74);
-    border-color: rgb(167, 107, 59) rgb(157, 101, 56) rgb(157, 101, 56);
-    box-shadow: inset 0 -1px 0 rgb(157, 101, 56);
-    text-shadow: 0 -1px 1px rgb(146, 94, 52), -1px 0 1px rgb(146, 94, 52), 0 1px 1px rgb(146, 94, 52), 1px 0 1px rgb(146, 94, 52); }
+    border-color: rgb(209, 134, 74); }
   body.admin-color-ocean .components-button.is-primary {
     background: rgb(163, 185, 162);
-    border-color: rgb(130, 148, 130) rgb(122, 139, 122) rgb(122, 139, 122);
-    box-shadow: inset 0 -1px 0 rgb(122, 139, 122);
-    text-shadow: 0 -1px 1px rgb(114, 130, 113), -1px 0 1px rgb(114, 130, 113), 0 1px 1px rgb(114, 130, 113), 1px 0 1px rgb(114, 130, 113); }
+    border-color: rgb(163, 185, 162); }
   body.admin-color-midnight .components-button.is-primary {
     background: rgb(225, 77, 67);
-    border-color: rgb(180, 62, 54) rgb(169, 58, 50) rgb(169, 58, 50);
-    box-shadow: inset 0 -1px 0 rgb(169, 58, 50);
-    text-shadow: 0 -1px 1px rgb(158, 54, 47), -1px 0 1px rgb(158, 54, 47), 0 1px 1px rgb(158, 54, 47), 1px 0 1px rgb(158, 54, 47); }
+    border-color: rgb(225, 77, 67); }
   body.admin-color-ectoplasm .components-button.is-primary {
     background: rgb(167, 182, 86);
-    border-color: rgb(134, 146, 69) rgb(125, 137, 65) rgb(125, 137, 65);
-    box-shadow: inset 0 -1px 0 rgb(125, 137, 65);
-    text-shadow: 0 -1px 1px rgb(117, 127, 60), -1px 0 1px rgb(117, 127, 60), 0 1px 1px rgb(117, 127, 60), 1px 0 1px rgb(117, 127, 60); }
+    border-color: rgb(167, 182, 86); }
   body.admin-color-coffee .components-button.is-primary {
     background: rgb(194, 166, 140);
-    border-color: rgb(155, 133, 112) rgb(146, 125, 105) rgb(146, 125, 105);
-    box-shadow: inset 0 -1px 0 rgb(146, 125, 105);
-    text-shadow: 0 -1px 1px rgb(136, 116, 98), -1px 0 1px rgb(136, 116, 98), 0 1px 1px rgb(136, 116, 98), 1px 0 1px rgb(136, 116, 98); }
+    border-color: rgb(194, 166, 140); }
   body.admin-color-blue .components-button.is-primary {
     background: rgb(217, 171, 89);
-    border-color: rgb(174, 137, 71) rgb(163, 128, 67) rgb(163, 128, 67);
-    box-shadow: inset 0 -1px 0 rgb(163, 128, 67);
-    text-shadow: 0 -1px 1px rgb(152, 120, 62), -1px 0 1px rgb(152, 120, 62), 0 1px 1px rgb(152, 120, 62), 1px 0 1px rgb(152, 120, 62); }
+    border-color: rgb(217, 171, 89); }
   body.admin-color-light .components-button.is-primary {
     background: rgb(0, 133, 186);
-    border-color: rgb(0, 106, 149) rgb(0, 100, 140) rgb(0, 100, 140);
-    box-shadow: inset 0 -1px 0 rgb(0, 100, 140);
-    text-shadow: 0 -1px 1px rgb(0, 93, 130), -1px 0 1px rgb(0, 93, 130), 0 1px 1px rgb(0, 93, 130), 1px 0 1px rgb(0, 93, 130); }
+    border-color: rgb(0, 133, 186); }
     .components-button.is-primary:hover, .components-button.is-primary:focus:enabled {
-      background: rgb(0, 126, 177);
-      border-color: rgb(0, 67, 93);
+      background: rgb(0, 112, 167);
+      border-color: rgb(0, 112, 167);
       color: #fff; }
     body.admin-color-sunrise .components-button.is-primary:hover, body.admin-color-sunrise .components-button.is-primary:focus:enabled {
-      background: rgb(199, 127, 70);
-      border-color: rgb(105, 67, 37); }
+      background: rgb(188, 121, 67);
+      border-color: rgb(188, 121, 67); }
     body.admin-color-ocean .components-button.is-primary:hover, body.admin-color-ocean .components-button.is-primary:focus:enabled {
-      background: rgb(155, 176, 154);
-      border-color: rgb(82, 93, 81); }
+      background: rgb(147, 167, 146);
+      border-color: rgb(147, 167, 146); }
     body.admin-color-midnight .components-button.is-primary:hover, body.admin-color-midnight .components-button.is-primary:focus:enabled {
-      background: rgb(214, 73, 64);
-      border-color: rgb(113, 39, 34); }
+      background: rgb(203, 69, 60);
+      border-color: rgb(203, 69, 60); }
     body.admin-color-ectoplasm .components-button.is-primary:hover, body.admin-color-ectoplasm .components-button.is-primary:focus:enabled {
-      background: rgb(159, 173, 82);
-      border-color: rgb(84, 91, 43); }
+      background: rgb(150, 164, 77);
+      border-color: rgb(150, 164, 77); }
     body.admin-color-coffee .components-button.is-primary:hover, body.admin-color-coffee .components-button.is-primary:focus:enabled {
-      background: rgb(184, 158, 133);
-      border-color: rgb(97, 83, 70); }
+      background: rgb(175, 149, 126);
+      border-color: rgb(175, 149, 126); }
     body.admin-color-blue .components-button.is-primary:hover, body.admin-color-blue .components-button.is-primary:focus:enabled {
-      background: rgb(206, 162, 85);
-      border-color: rgb(109, 86, 45); }
+      background: rgb(195, 154, 80);
+      border-color: rgb(195, 154, 80); }
     body.admin-color-light .components-button.is-primary:hover, body.admin-color-light .components-button.is-primary:focus:enabled {
-      background: rgb(0, 126, 177);
-      border-color: rgb(0, 67, 93); }
-    .components-button.is-primary:hover {
-      box-shadow: inset 0 -1px 0 rgb(0, 67, 93); }
-    body.admin-color-sunrise .components-button.is-primary:hover {
-      box-shadow: inset 0 -1px 0 rgb(105, 67, 37); }
-    body.admin-color-ocean .components-button.is-primary:hover {
-      box-shadow: inset 0 -1px 0 rgb(82, 93, 81); }
-    body.admin-color-midnight .components-button.is-primary:hover {
-      box-shadow: inset 0 -1px 0 rgb(113, 39, 34); }
-    body.admin-color-ectoplasm .components-button.is-primary:hover {
-      box-shadow: inset 0 -1px 0 rgb(84, 91, 43); }
-    body.admin-color-coffee .components-button.is-primary:hover {
-      box-shadow: inset 0 -1px 0 rgb(97, 83, 70); }
-    body.admin-color-blue .components-button.is-primary:hover {
-      box-shadow: inset 0 -1px 0 rgb(109, 86, 45); }
-    body.admin-color-light .components-button.is-primary:hover {
-      box-shadow: inset 0 -1px 0 rgb(0, 67, 93); }
+      background: rgb(0, 120, 167);
+      border-color: rgb(0, 120, 167); }
     .components-button.is-primary:focus:enabled {
-      box-shadow: inset 0 -1px 0 rgb(0, 67, 93), 0 0 0 1px #fff, 0 0 0 3px rgb(0, 126, 177); }
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(0, 124, 186); }
     body.admin-color-sunrise .components-button.is-primary:focus:enabled {
-      box-shadow: inset 0 -1px 0 rgb(105, 67, 37), 0 0 0 1px #fff, 0 0 0 3px rgb(199, 127, 70); }
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(209, 134, 74); }
     body.admin-color-ocean .components-button.is-primary:focus:enabled {
-      box-shadow: inset 0 -1px 0 rgb(82, 93, 81), 0 0 0 1px #fff, 0 0 0 3px rgb(155, 176, 154); }
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(163, 185, 162); }
     body.admin-color-midnight .components-button.is-primary:focus:enabled {
-      box-shadow: inset 0 -1px 0 rgb(113, 39, 34), 0 0 0 1px #fff, 0 0 0 3px rgb(214, 73, 64); }
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(225, 77, 67); }
     body.admin-color-ectoplasm .components-button.is-primary:focus:enabled {
-      box-shadow: inset 0 -1px 0 rgb(84, 91, 43), 0 0 0 1px #fff, 0 0 0 3px rgb(159, 173, 82); }
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(167, 182, 86); }
     body.admin-color-coffee .components-button.is-primary:focus:enabled {
-      box-shadow: inset 0 -1px 0 rgb(97, 83, 70), 0 0 0 1px #fff, 0 0 0 3px rgb(184, 158, 133); }
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(194, 166, 140); }
     body.admin-color-blue .components-button.is-primary:focus:enabled {
-      box-shadow: inset 0 -1px 0 rgb(109, 86, 45), 0 0 0 1px #fff, 0 0 0 3px rgb(206, 162, 85); }
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(217, 171, 89); }
     body.admin-color-light .components-button.is-primary:focus:enabled {
-      box-shadow: inset 0 -1px 0 rgb(0, 67, 93), 0 0 0 1px #fff, 0 0 0 3px rgb(0, 126, 177); }
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(0, 133, 186); }
     .components-button.is-primary:active:enabled {
-      background: rgb(0, 106, 149);
-      border-color: rgb(0, 67, 93);
-      box-shadow: inset 0 1px 0 rgb(0, 67, 93);
-      vertical-align: top; }
+      background: rgb(0, 99, 149);
+      border-color: rgb(0, 99, 149);
+      color: #fff; }
     body.admin-color-sunrise .components-button.is-primary:active:enabled {
       background: rgb(167, 107, 59);
-      border-color: rgb(105, 67, 37);
-      box-shadow: inset 0 1px 0 rgb(105, 67, 37); }
+      border-color: rgb(167, 107, 59); }
     body.admin-color-ocean .components-button.is-primary:active:enabled {
       background: rgb(130, 148, 130);
-      border-color: rgb(82, 93, 81);
-      box-shadow: inset 0 1px 0 rgb(82, 93, 81); }
+      border-color: rgb(130, 148, 130); }
     body.admin-color-midnight .components-button.is-primary:active:enabled {
       background: rgb(180, 62, 54);
-      border-color: rgb(113, 39, 34);
-      box-shadow: inset 0 1px 0 rgb(113, 39, 34); }
+      border-color: rgb(180, 62, 54); }
     body.admin-color-ectoplasm .components-button.is-primary:active:enabled {
       background: rgb(134, 146, 69);
-      border-color: rgb(84, 91, 43);
-      box-shadow: inset 0 1px 0 rgb(84, 91, 43); }
+      border-color: rgb(134, 146, 69); }
     body.admin-color-coffee .components-button.is-primary:active:enabled {
       background: rgb(155, 133, 112);
-      border-color: rgb(97, 83, 70);
-      box-shadow: inset 0 1px 0 rgb(97, 83, 70); }
+      border-color: rgb(155, 133, 112); }
     body.admin-color-blue .components-button.is-primary:active:enabled {
       background: rgb(174, 137, 71);
-      border-color: rgb(109, 86, 45);
-      box-shadow: inset 0 1px 0 rgb(109, 86, 45); }
+      border-color: rgb(174, 137, 71); }
     body.admin-color-light .components-button.is-primary:active:enabled {
       background: rgb(0, 106, 149);
-      border-color: rgb(0, 67, 93);
-      box-shadow: inset 0 1px 0 rgb(0, 67, 93); }
-    .components-button.is-primary:disabled, .components-button.is-primary:disabled:active:enabled, .components-button.is-primary[aria-disabled="true"], .components-button.is-primary[aria-disabled="true"]:active:enabled {
-      color: rgb(102, 182, 214);
-      background: rgb(0, 133, 186);
-      border-color: rgb(0, 124, 173);
-      box-shadow: none;
-      text-shadow: none;
+      border-color: rgb(0, 106, 149); }
+    .components-button.is-primary:disabled, .components-button.is-primary:disabled:active:enabled, .components-button.is-primary[aria-disabled="true"], .components-button.is-primary[aria-disabled="true"]:enabled, .components-button.is-primary[aria-disabled="true"]:active:enabled {
+      color: rgb(102, 176, 214);
+      background: rgb(25, 137, 193);
+      border-color: rgb(25, 137, 193);
       opacity: 1; }
-    body.admin-color-sunrise .components-button.is-primary:disabled, body.admin-color-sunrise .components-button.is-primary:disabled:active:enabled, body.admin-color-sunrise .components-button.is-primary[aria-disabled="true"], body.admin-color-sunrise .components-button.is-primary[aria-disabled="true"]:active:enabled {
+    body.admin-color-sunrise .components-button.is-primary:disabled, body.admin-color-sunrise .components-button.is-primary:disabled:active:enabled, body.admin-color-sunrise .components-button.is-primary[aria-disabled="true"], body.admin-color-sunrise .components-button.is-primary[aria-disabled="true"]:enabled, body.admin-color-sunrise .components-button.is-primary[aria-disabled="true"]:active:enabled {
       color: rgb(227, 182, 146);
-      background: rgb(209, 134, 74);
-      border-color: rgb(194, 125, 69); }
-    body.admin-color-ocean .components-button.is-primary:disabled, body.admin-color-ocean .components-button.is-primary:disabled:active:enabled, body.admin-color-ocean .components-button.is-primary[aria-disabled="true"], body.admin-color-ocean .components-button.is-primary[aria-disabled="true"]:active:enabled {
+      background: rgb(214, 146, 92);
+      border-color: rgb(214, 146, 92); }
+    body.admin-color-ocean .components-button.is-primary:disabled, body.admin-color-ocean .components-button.is-primary:disabled:active:enabled, body.admin-color-ocean .components-button.is-primary[aria-disabled="true"], body.admin-color-ocean .components-button.is-primary[aria-disabled="true"]:enabled, body.admin-color-ocean .components-button.is-primary[aria-disabled="true"]:active:enabled {
       color: rgb(200, 213, 199);
-      background: rgb(163, 185, 162);
-      border-color: rgb(152, 172, 151); }
-    body.admin-color-midnight .components-button.is-primary:disabled, body.admin-color-midnight .components-button.is-primary:disabled:active:enabled, body.admin-color-midnight .components-button.is-primary[aria-disabled="true"], body.admin-color-midnight .components-button.is-primary[aria-disabled="true"]:active:enabled {
+      background: rgb(172, 192, 171);
+      border-color: rgb(172, 192, 171); }
+    body.admin-color-midnight .components-button.is-primary:disabled, body.admin-color-midnight .components-button.is-primary:disabled:active:enabled, body.admin-color-midnight .components-button.is-primary[aria-disabled="true"], body.admin-color-midnight .components-button.is-primary[aria-disabled="true"]:enabled, body.admin-color-midnight .components-button.is-primary[aria-disabled="true"]:active:enabled {
       color: rgb(237, 148, 142);
-      background: rgb(225, 77, 67);
-      border-color: rgb(209, 72, 62); }
-    body.admin-color-ectoplasm .components-button.is-primary:disabled, body.admin-color-ectoplasm .components-button.is-primary:disabled:active:enabled, body.admin-color-ectoplasm .components-button.is-primary[aria-disabled="true"], body.admin-color-ectoplasm .components-button.is-primary[aria-disabled="true"]:active:enabled {
+      background: rgb(228, 95, 86);
+      border-color: rgb(228, 95, 86); }
+    body.admin-color-ectoplasm .components-button.is-primary:disabled, body.admin-color-ectoplasm .components-button.is-primary:disabled:active:enabled, body.admin-color-ectoplasm .components-button.is-primary[aria-disabled="true"], body.admin-color-ectoplasm .components-button.is-primary[aria-disabled="true"]:enabled, body.admin-color-ectoplasm .components-button.is-primary[aria-disabled="true"]:active:enabled {
       color: rgb(202, 211, 154);
-      background: rgb(167, 182, 86);
-      border-color: rgb(155, 169, 80); }
-    body.admin-color-coffee .components-button.is-primary:disabled, body.admin-color-coffee .components-button.is-primary:disabled:active:enabled, body.admin-color-coffee .components-button.is-primary[aria-disabled="true"], body.admin-color-coffee .components-button.is-primary[aria-disabled="true"]:active:enabled {
+      background: rgb(176, 189, 103);
+      border-color: rgb(176, 189, 103); }
+    body.admin-color-coffee .components-button.is-primary:disabled, body.admin-color-coffee .components-button.is-primary:disabled:active:enabled, body.admin-color-coffee .components-button.is-primary[aria-disabled="true"], body.admin-color-coffee .components-button.is-primary[aria-disabled="true"]:enabled, body.admin-color-coffee .components-button.is-primary[aria-disabled="true"]:active:enabled {
       color: rgb(218, 202, 186);
-      background: rgb(194, 166, 140);
-      border-color: rgb(180, 154, 130); }
-    body.admin-color-blue .components-button.is-primary:disabled, body.admin-color-blue .components-button.is-primary:disabled:active:enabled, body.admin-color-blue .components-button.is-primary[aria-disabled="true"], body.admin-color-blue .components-button.is-primary[aria-disabled="true"]:active:enabled {
+      background: rgb(200, 175, 152);
+      border-color: rgb(200, 175, 152); }
+    body.admin-color-blue .components-button.is-primary:disabled, body.admin-color-blue .components-button.is-primary:disabled:active:enabled, body.admin-color-blue .components-button.is-primary[aria-disabled="true"], body.admin-color-blue .components-button.is-primary[aria-disabled="true"]:enabled, body.admin-color-blue .components-button.is-primary[aria-disabled="true"]:active:enabled {
       color: rgb(232, 205, 155);
-      background: rgb(217, 171, 89);
-      border-color: rgb(202, 159, 83); }
-    body.admin-color-light .components-button.is-primary:disabled, body.admin-color-light .components-button.is-primary:disabled:active:enabled, body.admin-color-light .components-button.is-primary[aria-disabled="true"], body.admin-color-light .components-button.is-primary[aria-disabled="true"]:active:enabled {
+      background: rgb(221, 179, 106);
+      border-color: rgb(221, 179, 106); }
+    body.admin-color-light .components-button.is-primary:disabled, body.admin-color-light .components-button.is-primary:disabled:active:enabled, body.admin-color-light .components-button.is-primary[aria-disabled="true"], body.admin-color-light .components-button.is-primary[aria-disabled="true"]:enabled, body.admin-color-light .components-button.is-primary[aria-disabled="true"]:active:enabled {
       color: rgb(102, 182, 214);
-      background: rgb(0, 133, 186);
-      border-color: rgb(0, 124, 173); }
-      .components-button.is-primary:disabled.is-button, .components-button.is-primary:disabled.is-button:hover, .components-button.is-primary:disabled:active:enabled, .components-button.is-primary:disabled:active:enabled.is-button, .components-button.is-primary:disabled:active:enabled.is-button:hover, .components-button.is-primary:disabled:active:enabled:active:enabled, .components-button.is-primary[aria-disabled="true"].is-button, .components-button.is-primary[aria-disabled="true"].is-button:hover, .components-button.is-primary[aria-disabled="true"]:active:enabled, .components-button.is-primary[aria-disabled="true"]:active:enabled.is-button, .components-button.is-primary[aria-disabled="true"]:active:enabled.is-button:hover, .components-button.is-primary[aria-disabled="true"]:active:enabled:active:enabled {
+      background: rgb(25, 145, 193);
+      border-color: rgb(25, 145, 193); }
+      .components-button.is-primary:disabled.is-button, .components-button.is-primary:disabled.is-button:hover, .components-button.is-primary:disabled:active:enabled, .components-button.is-primary:disabled:active:enabled.is-button, .components-button.is-primary:disabled:active:enabled.is-button:hover, .components-button.is-primary:disabled:active:enabled:active:enabled, .components-button.is-primary[aria-disabled="true"].is-button, .components-button.is-primary[aria-disabled="true"].is-button:hover, .components-button.is-primary[aria-disabled="true"]:active:enabled, .components-button.is-primary[aria-disabled="true"]:enabled.is-button, .components-button.is-primary[aria-disabled="true"]:enabled.is-button:hover, .components-button.is-primary[aria-disabled="true"]:enabled:active:enabled, .components-button.is-primary[aria-disabled="true"]:active:enabled.is-button, .components-button.is-primary[aria-disabled="true"]:active:enabled.is-button:hover, .components-button.is-primary[aria-disabled="true"]:active:enabled:active:enabled {
         box-shadow: none;
         text-shadow: none; }
-      .components-button.is-primary:disabled:focus:enabled, .components-button.is-primary:disabled:active:enabled:focus:enabled, .components-button.is-primary[aria-disabled="true"]:focus:enabled, .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
-        color: rgb(102, 182, 214);
-        border-color: rgb(0, 124, 173);
-        box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba; }
-      body.admin-color-sunrise .components-button.is-primary:disabled:focus:enabled, body.admin-color-sunrise .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-sunrise .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-sunrise .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
-        color: rgb(227, 182, 146);
-        border-color: rgb(194, 125, 69); }
-      body.admin-color-ocean .components-button.is-primary:disabled:focus:enabled, body.admin-color-ocean .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-ocean .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-ocean .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
-        color: rgb(200, 213, 199);
-        border-color: rgb(152, 172, 151); }
-      body.admin-color-midnight .components-button.is-primary:disabled:focus:enabled, body.admin-color-midnight .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-midnight .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-midnight .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
-        color: rgb(237, 148, 142);
-        border-color: rgb(209, 72, 62); }
-      body.admin-color-ectoplasm .components-button.is-primary:disabled:focus:enabled, body.admin-color-ectoplasm .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-ectoplasm .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-ectoplasm .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
-        color: rgb(202, 211, 154);
-        border-color: rgb(155, 169, 80); }
-      body.admin-color-coffee .components-button.is-primary:disabled:focus:enabled, body.admin-color-coffee .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-coffee .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-coffee .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
-        color: rgb(218, 202, 186);
-        border-color: rgb(180, 154, 130); }
-      body.admin-color-blue .components-button.is-primary:disabled:focus:enabled, body.admin-color-blue .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-blue .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-blue .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
-        color: rgb(232, 205, 155);
-        border-color: rgb(202, 159, 83); }
-      body.admin-color-light .components-button.is-primary:disabled:focus:enabled, body.admin-color-light .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-light .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-light .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
-        color: rgb(102, 182, 214);
-        border-color: rgb(0, 124, 173); }
+      .components-button.is-primary:disabled:focus:enabled, .components-button.is-primary:disabled:active:enabled:focus:enabled, .components-button.is-primary[aria-disabled="true"]:focus:enabled, .components-button.is-primary[aria-disabled="true"]:enabled:focus:enabled, .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(0, 124, 186); }
+      body.admin-color-sunrise .components-button.is-primary:disabled:focus:enabled, body.admin-color-sunrise .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-sunrise .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-sunrise .components-button.is-primary[aria-disabled="true"]:enabled:focus:enabled, body.admin-color-sunrise .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(209, 134, 74); }
+      body.admin-color-ocean .components-button.is-primary:disabled:focus:enabled, body.admin-color-ocean .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-ocean .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-ocean .components-button.is-primary[aria-disabled="true"]:enabled:focus:enabled, body.admin-color-ocean .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(163, 185, 162); }
+      body.admin-color-midnight .components-button.is-primary:disabled:focus:enabled, body.admin-color-midnight .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-midnight .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-midnight .components-button.is-primary[aria-disabled="true"]:enabled:focus:enabled, body.admin-color-midnight .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(225, 77, 67); }
+      body.admin-color-ectoplasm .components-button.is-primary:disabled:focus:enabled, body.admin-color-ectoplasm .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-ectoplasm .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-ectoplasm .components-button.is-primary[aria-disabled="true"]:enabled:focus:enabled, body.admin-color-ectoplasm .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(167, 182, 86); }
+      body.admin-color-coffee .components-button.is-primary:disabled:focus:enabled, body.admin-color-coffee .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-coffee .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-coffee .components-button.is-primary[aria-disabled="true"]:enabled:focus:enabled, body.admin-color-coffee .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(194, 166, 140); }
+      body.admin-color-blue .components-button.is-primary:disabled:focus:enabled, body.admin-color-blue .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-blue .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-blue .components-button.is-primary[aria-disabled="true"]:enabled:focus:enabled, body.admin-color-blue .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(217, 171, 89); }
+      body.admin-color-light .components-button.is-primary:disabled:focus:enabled, body.admin-color-light .components-button.is-primary:disabled:active:enabled:focus:enabled, body.admin-color-light .components-button.is-primary[aria-disabled="true"]:focus:enabled, body.admin-color-light .components-button.is-primary[aria-disabled="true"]:enabled:focus:enabled, body.admin-color-light .components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(0, 133, 186); }
     .components-button.is-primary.is-busy, .components-button.is-primary.is-busy:disabled, .components-button.is-primary.is-busy[aria-disabled="true"] {
       color: #fff;
       background-size: 100px 100%;
       /* stylelint-disable */
-      background-image: linear-gradient(45deg, #0085ba 28%, rgb(0, 93, 130) 28%, rgb(0, 93, 130) 72%, #0085ba 72%);
+      background-image: linear-gradient(45deg, #007cba 28%, rgb(0, 99, 149) 28%, rgb(0, 99, 149) 72%, #007cba 72%);
       /* stylelint-enable */
-      border-color: rgb(0, 67, 93); }
+      border-color: rgb(0, 124, 186); }
     body.admin-color-sunrise .components-button.is-primary.is-busy, body.admin-color-sunrise .components-button.is-primary.is-busy:disabled, body.admin-color-sunrise .components-button.is-primary.is-busy[aria-disabled="true"] {
-      background-image: linear-gradient(45deg, #d1864a 28%, rgb(146, 94, 52) 28%, rgb(146, 94, 52) 72%, #d1864a 72%);
-      border-color: rgb(105, 67, 37); }
+      background-image: linear-gradient(45deg, #d1864a 28%, rgb(167, 107, 59) 28%, rgb(167, 107, 59) 72%, #d1864a 72%);
+      border-color: rgb(209, 134, 74); }
     body.admin-color-ocean .components-button.is-primary.is-busy, body.admin-color-ocean .components-button.is-primary.is-busy:disabled, body.admin-color-ocean .components-button.is-primary.is-busy[aria-disabled="true"] {
-      background-image: linear-gradient(45deg, #a3b9a2 28%, rgb(114, 130, 113) 28%, rgb(114, 130, 113) 72%, #a3b9a2 72%);
-      border-color: rgb(82, 93, 81); }
+      background-image: linear-gradient(45deg, #a3b9a2 28%, rgb(130, 148, 130) 28%, rgb(130, 148, 130) 72%, #a3b9a2 72%);
+      border-color: rgb(163, 185, 162); }
     body.admin-color-midnight .components-button.is-primary.is-busy, body.admin-color-midnight .components-button.is-primary.is-busy:disabled, body.admin-color-midnight .components-button.is-primary.is-busy[aria-disabled="true"] {
-      background-image: linear-gradient(45deg, #e14d43 28%, rgb(158, 54, 47) 28%, rgb(158, 54, 47) 72%, #e14d43 72%);
-      border-color: rgb(113, 39, 34); }
+      background-image: linear-gradient(45deg, #e14d43 28%, rgb(180, 62, 54) 28%, rgb(180, 62, 54) 72%, #e14d43 72%);
+      border-color: rgb(225, 77, 67); }
     body.admin-color-ectoplasm .components-button.is-primary.is-busy, body.admin-color-ectoplasm .components-button.is-primary.is-busy:disabled, body.admin-color-ectoplasm .components-button.is-primary.is-busy[aria-disabled="true"] {
-      background-image: linear-gradient(45deg, #a7b656 28%, rgb(117, 127, 60) 28%, rgb(117, 127, 60) 72%, #a7b656 72%);
-      border-color: rgb(84, 91, 43); }
+      background-image: linear-gradient(45deg, #a7b656 28%, rgb(134, 146, 69) 28%, rgb(134, 146, 69) 72%, #a7b656 72%);
+      border-color: rgb(167, 182, 86); }
     body.admin-color-coffee .components-button.is-primary.is-busy, body.admin-color-coffee .components-button.is-primary.is-busy:disabled, body.admin-color-coffee .components-button.is-primary.is-busy[aria-disabled="true"] {
-      background-image: linear-gradient(45deg, #c2a68c 28%, rgb(136, 116, 98) 28%, rgb(136, 116, 98) 72%, #c2a68c 72%);
-      border-color: rgb(97, 83, 70); }
+      background-image: linear-gradient(45deg, #c2a68c 28%, rgb(155, 133, 112) 28%, rgb(155, 133, 112) 72%, #c2a68c 72%);
+      border-color: rgb(194, 166, 140); }
     body.admin-color-blue .components-button.is-primary.is-busy, body.admin-color-blue .components-button.is-primary.is-busy:disabled, body.admin-color-blue .components-button.is-primary.is-busy[aria-disabled="true"] {
-      background-image: linear-gradient(45deg, #82b4cb 28%, rgb(91, 126, 142) 28%, rgb(91, 126, 142) 72%, #82b4cb 72%);
-      border-color: rgb(65, 90, 102); }
+      background-image: linear-gradient(45deg, #d9ab59 28%, rgb(174, 137, 71) 28%, rgb(174, 137, 71) 72%, #d9ab59 72%);
+      border-color: rgb(217, 171, 89); }
     body.admin-color-light .components-button.is-primary.is-busy, body.admin-color-light .components-button.is-primary.is-busy:disabled, body.admin-color-light .components-button.is-primary.is-busy[aria-disabled="true"] {
-      background-image: linear-gradient(45deg, #0085ba 28%, rgb(0, 93, 130) 28%, rgb(0, 93, 130) 72%, #0085ba 72%);
-      border-color: rgb(0, 67, 93); }
+      background-image: linear-gradient(45deg, #0085ba 28%, rgb(0, 106, 149) 28%, rgb(0, 106, 149) 72%, #0085ba 72%);
+      border-color: rgb(0, 133, 186); }
   .components-button.is-link {
     margin: 0;
     padding: 0;
@@ -580,7 +615,6 @@ svg.dashicon.components-checkbox-control__checked {
   width: 31px;
   height: 31px;
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   pointer-events: none; }
@@ -1230,7 +1264,6 @@ svg.dashicon {
   text-align: center;
   vertical-align: top;
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
 
@@ -1306,7 +1339,6 @@ svg.dashicon {
 .DayPickerNavigation_button {
   cursor: pointer;
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   border: 0;
@@ -1503,7 +1535,6 @@ svg.dashicon {
 
 .DateInput_input__readOnly {
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
 
@@ -1811,7 +1842,6 @@ svg.dashicon {
       font-size: 11px;
       font-weight: 600; }
     .components-datetime__time .components-datetime__time-wrapper .components-datetime__time-field select {
-      padding: 2px;
       margin-left: 4px; }
       .components-datetime__time .components-datetime__time-wrapper .components-datetime__time-field select:focus {
         position: relative;
@@ -1819,7 +1849,6 @@ svg.dashicon {
     .components-datetime__time .components-datetime__time-wrapper .components-datetime__time-field input[type="number"] {
       padding: 2px;
       margin-left: 4px;
-      width: 40px;
       text-align: center;
       -moz-appearance: textfield; }
       .components-datetime__time .components-datetime__time-wrapper .components-datetime__time-field input[type="number"]:focus {
@@ -1851,7 +1880,7 @@ svg.dashicon {
   width: 55px; }
 
 .components-datetime__time-field-month-select {
-  width: 90px; }
+  max-width: 145px; }
 
 .components-popover .components-datetime__date {
   padding-right: 4px; }
@@ -2073,7 +2102,6 @@ body.is-dragging-components-draggable {
     max-width: 100%;
     width: auto;
     -webkit-user-select: none;
-       -moz-user-select: none;
         -ms-user-select: none;
             user-select: none; }
 
@@ -2892,6 +2920,7 @@ body.is-dragging-components-draggable {
   flex-direction: column; }
 
 .components-placeholder__input {
+  margin-top: 0;
   margin-left: 8px;
   flex: 1 1 auto; }
 
@@ -3360,7 +3389,6 @@ body.lockscroll {
   @media (min-width: 600px) {
     .components-snackbar {
       width: -webkit-fit-content;
-      width: -moz-fit-content;
       width: fit-content; } }
   .components-snackbar:hover {
     background-color: #191e23; }

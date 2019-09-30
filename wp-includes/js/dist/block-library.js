@@ -570,13 +570,13 @@ function _typeof(obj) {
 
 /***/ }),
 /* 33 */,
-/* 34 */
+/* 34 */,
+/* 35 */
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blob"]; }());
 
 /***/ }),
-/* 35 */,
 /* 36 */,
 /* 37 */
 /***/ (function(module, exports) {
@@ -6104,6 +6104,54 @@ var settings = {
   icon: icon,
   description: Object(external_this_wp_i18n_["__"])('A block that groups other blocks.'),
   keywords: [Object(external_this_wp_i18n_["__"])('container'), Object(external_this_wp_i18n_["__"])('wrapper'), Object(external_this_wp_i18n_["__"])('row'), Object(external_this_wp_i18n_["__"])('section')],
+  example: {
+    attributes: {
+      customBackgroundColor: '#ffffff'
+    },
+    innerBlocks: [{
+      name: 'core/paragraph',
+      attributes: {
+        customTextColor: '#cf2e2e',
+        fontSize: 'large',
+        content: Object(external_this_wp_i18n_["__"])('One.')
+      }
+    }, {
+      name: 'core/paragraph',
+      attributes: {
+        customTextColor: '#ff6900',
+        fontSize: 'large',
+        content: Object(external_this_wp_i18n_["__"])('Two.')
+      }
+    }, {
+      name: 'core/paragraph',
+      attributes: {
+        customTextColor: '#fcb900',
+        fontSize: 'large',
+        content: Object(external_this_wp_i18n_["__"])('Three.')
+      }
+    }, {
+      name: 'core/paragraph',
+      attributes: {
+        customTextColor: '#00d084',
+        fontSize: 'large',
+        content: Object(external_this_wp_i18n_["__"])('Four.')
+      }
+    }, {
+      name: 'core/paragraph',
+      attributes: {
+        customTextColor: '#0693e3',
+        fontSize: 'large',
+        content: Object(external_this_wp_i18n_["__"])('Five.')
+      }
+    }, {
+      name: 'core/paragraph',
+      attributes: {
+        customTextColor: '#9b51e0',
+        fontSize: 'large',
+        content: Object(external_this_wp_i18n_["__"])('Six.')
+      }
+    }]
+  },
   supports: {
     align: ['wide', 'full'],
     anchor: true,
@@ -7560,7 +7608,9 @@ var settings = {
   keywords: [Object(external_this_wp_i18n_["__"])('text')],
   example: {
     attributes: {
-      content: Object(external_this_wp_i18n_["__"])('Start writing, no matter what. The water does not flow until the faucet is turned on.')
+      content: Object(external_this_wp_i18n_["__"])('In a village of La Mancha, the name of which I have no desire to call to mind, there lived not long since one of those gentlemen that keep a lance in the lance-rack, an old buckler, a lean hack, and a greyhound for coursing.'),
+      customFontSize: 28,
+      dropCap: true
     }
   },
   supports: {
@@ -9199,6 +9249,12 @@ var settings = {
     className: false,
     anchor: true
   },
+  example: {
+    attributes: {
+      content: Object(external_this_wp_i18n_["__"])('Code is Poetry'),
+      level: 2
+    }
+  },
   transforms: heading_transforms,
   deprecated: heading_deprecated,
   merge: function merge(attributes, attributesToMerge) {
@@ -9599,7 +9655,7 @@ var external_this_wp_compose_ = __webpack_require__(8);
 var external_this_wp_components_ = __webpack_require__(3);
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(34);
+var external_this_wp_blob_ = __webpack_require__(35);
 
 // EXTERNAL MODULE: external {"this":["wp","data"]}
 var external_this_wp_data_ = __webpack_require__(4);
@@ -9833,7 +9889,7 @@ function (_Component) {
         className: "blocks-gallery-item__remove",
         label: Object(external_this_wp_i18n_["__"])('Remove image'),
         disabled: !isSelected
-      })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
+      })), (isSelected || caption) && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
         tagName: "figcaption",
         placeholder: isSelected ? Object(external_this_wp_i18n_["__"])('Write caption…') : null,
         value: caption,
@@ -10603,6 +10659,16 @@ var settings = {
   description: Object(external_this_wp_i18n_["__"])('Display multiple images in a rich gallery.'),
   icon: icon,
   keywords: [Object(external_this_wp_i18n_["__"])('images'), Object(external_this_wp_i18n_["__"])('photos')],
+  example: {
+    attributes: {
+      columns: 2,
+      images: [{
+        url: 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Glacial_lakes%2C_Bhutan.jpg'
+      }, {
+        url: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Sediment_off_the_Yucatan_Peninsula.jpg'
+      }]
+    }
+  },
   supports: {
     align: true
   },
@@ -11169,7 +11235,8 @@ function (_Component) {
       var temporaryMediaWidth = this.state.mediaWidth;
       var classNames = classnames_default()(className, (_classnames = {
         'has-media-on-the-right': 'right' === mediaPosition,
-        'is-selected': isSelected
+        'is-selected': isSelected,
+        'has-background': backgroundColor.class || backgroundColor.color
       }, Object(defineProperty["a" /* default */])(_classnames, backgroundColor.class, backgroundColor.class), Object(defineProperty["a" /* default */])(_classnames, 'is-stacked-on-mobile', isStackedOnMobile), Object(defineProperty["a" /* default */])(_classnames, "is-vertically-aligned-".concat(verticalAlignment), verticalAlignment), Object(defineProperty["a" /* default */])(_classnames, 'is-image-fill', imageFill), _classnames));
       var widthString = "".concat(temporaryMediaWidth || mediaWidth, "%");
       var style = {
@@ -11339,7 +11406,8 @@ function save_save(_ref) {
   };
   var backgroundClass = Object(external_this_wp_blockEditor_["getColorClassName"])('background-color', backgroundColor);
   var className = classnames_default()((_classnames = {
-    'has-media-on-the-right': 'right' === mediaPosition
+    'has-media-on-the-right': 'right' === mediaPosition,
+    'has-background': backgroundClass || customBackgroundColor
   }, Object(defineProperty["a" /* default */])(_classnames, backgroundClass, backgroundClass), Object(defineProperty["a" /* default */])(_classnames, 'is-stacked-on-mobile', isStackedOnMobile), Object(defineProperty["a" /* default */])(_classnames, "is-vertically-aligned-".concat(verticalAlignment), verticalAlignment), Object(defineProperty["a" /* default */])(_classnames, 'is-image-fill', imageFill), _classnames));
   var backgroundStyles = imageFill ? imageFillStyles(mediaUrl, focalPoint) : {};
   var gridTemplateColumns;
@@ -11520,6 +11588,23 @@ var settings = {
   supports: {
     align: ['wide', 'full'],
     html: false
+  },
+  example: {
+    attributes: {
+      mediaType: 'image',
+      mediaUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Biologia_Centrali-Americana_-_Cantorchilus_semibadius_1902.jpg'
+    },
+    innerBlocks: [{
+      name: 'core/paragraph',
+      attributes: {
+        content: Object(external_this_wp_i18n_["__"])('The wren<br>Earns his living<br>Noiselessly.')
+      }
+    }, {
+      name: 'core/paragraph',
+      attributes: {
+        content: Object(external_this_wp_i18n_["__"])('— Kobayashi Issa (一茶)')
+      }
+    }]
   },
   transforms: media_text_transforms,
   edit: edit,
@@ -11759,7 +11844,7 @@ var slicedToArray = __webpack_require__(23);
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(34);
+var external_this_wp_blob_ = __webpack_require__(35);
 
 // EXTERNAL MODULE: external {"this":["wp","components"]}
 var external_this_wp_components_ = __webpack_require__(3);
@@ -12886,7 +12971,8 @@ function (_Component) {
   var _select2 = select('core/block-editor'),
       getSettings = _select2.getSettings;
 
-  var id = props.attributes.id;
+  var id = props.attributes.id,
+      isSelected = props.isSelected;
 
   var _getSettings = getSettings(),
       __experimentalMediaUpload = _getSettings.__experimentalMediaUpload,
@@ -12895,7 +12981,7 @@ function (_Component) {
       maxWidth = _getSettings.maxWidth;
 
   return {
-    image: id ? getMedia(id) : null,
+    image: id && isSelected ? getMedia(id) : null,
     maxWidth: maxWidth,
     isRTL: isRTL,
     imageSizes: imageSizes,
@@ -13224,6 +13310,13 @@ var settings = {
   icon: icon,
   keywords: ['img', // "img" is not translated as it is intended to reflect the HTML <img> tag.
   Object(external_this_wp_i18n_["__"])('photo')],
+  example: {
+    attributes: {
+      sizeSlug: 'large',
+      url: 'https://upload.wikimedia.org/wikipedia/commons/1/15/MtBlanc1.JPG',
+      caption: Object(external_this_wp_i18n_["__"])('Mont Blanc appears—still, snowy, and serene.')
+    }
+  },
   styles: [{
     name: 'default',
     label: Object(external_this_wp_i18n_["_x"])('Default', 'block style'),
@@ -13653,7 +13746,7 @@ var CoverHeightInput = Object(external_this_wp_compose_["withInstanceId"])(funct
   }, [temporaryInput, setTemporaryInput]);
   var inputId = "block-cover-height-input-".concat(instanceId);
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["BaseControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Height in pixels'),
+    label: Object(external_this_wp_i18n_["__"])('Minimum height in pixels'),
     id: inputId
   }, Object(external_this_wp_element_["createElement"])("input", {
     type: "number",
@@ -13867,13 +13960,6 @@ function (_Component) {
             focalPoint: value
           });
         }
-      }), Object(external_this_wp_element_["createElement"])(CoverHeightInput, {
-        value: temporaryMinHeight || minHeight,
-        onChange: function onChange(value) {
-          setAttributes({
-            minHeight: value
-          });
-        }
       }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelRow"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
         isDefault: true,
         isSmall: true,
@@ -13888,7 +13974,16 @@ function (_Component) {
             hasParallax: undefined
           });
         }
-      }, Object(external_this_wp_i18n_["__"])('Clear Media')))), (url || overlayColor.color) && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["PanelColorSettings"], {
+      }, Object(external_this_wp_i18n_["__"])('Clear Media')))), (url || overlayColor.color) && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
+        title: Object(external_this_wp_i18n_["__"])('Dimensions')
+      }, Object(external_this_wp_element_["createElement"])(CoverHeightInput, {
+        value: temporaryMinHeight || minHeight,
+        onChange: function onChange(value) {
+          setAttributes({
+            minHeight: value
+          });
+        }
+      })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["PanelColorSettings"], {
         title: Object(external_this_wp_i18n_["__"])('Overlay'),
         initialOpen: true,
         colorSettings: [{
@@ -13904,7 +13999,7 @@ function (_Component) {
         max: 100,
         step: 10,
         required: true
-      }))));
+      })))));
 
       if (!(url || overlayColor.color)) {
         var placeholderIcon = Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockIcon"], {
@@ -14273,6 +14368,21 @@ var settings = {
   icon: icon,
   supports: {
     align: true
+  },
+  example: {
+    attributes: {
+      customOverlayColor: '#065174',
+      dimRatio: 40,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Windbuchencom.jpg'
+    },
+    innerBlocks: [{
+      name: 'core/paragraph',
+      attributes: {
+        customFontSize: 48,
+        content: Object(external_this_wp_i18n_["__"])('<strong>Snow Patrol</strong>'),
+        align: 'center'
+      }
+    }]
   },
   transforms: cover_transforms,
   save: save_save,
@@ -15783,6 +15893,56 @@ var settings = {
   title: Object(external_this_wp_i18n_["__"])('Table'),
   description: Object(external_this_wp_i18n_["__"])('Insert a table — perfect for sharing charts and data.'),
   icon: icon,
+  example: {
+    attributes: {
+      head: [{
+        cells: [{
+          content: Object(external_this_wp_i18n_["__"])('Version'),
+          tag: 'th'
+        }, {
+          content: Object(external_this_wp_i18n_["__"])('Jazz Musician'),
+          tag: 'th'
+        }, {
+          content: Object(external_this_wp_i18n_["__"])('Release Date'),
+          tag: 'th'
+        }]
+      }],
+      body: [{
+        cells: [{
+          content: '5.2',
+          tag: 'td'
+        }, {
+          content: 'Jaco Pastorius',
+          tag: 'td'
+        }, {
+          content: Object(external_this_wp_i18n_["__"])('May 7, 2019'),
+          tag: 'td'
+        }]
+      }, {
+        cells: [{
+          content: '5.1',
+          tag: 'td'
+        }, {
+          content: 'Betty Carter',
+          tag: 'td'
+        }, {
+          content: Object(external_this_wp_i18n_["__"])('February 21, 2019'),
+          tag: 'td'
+        }]
+      }, {
+        cells: [{
+          content: '5.0',
+          tag: 'td'
+        }, {
+          content: 'Bebo Valdés',
+          tag: 'td'
+        }, {
+          content: Object(external_this_wp_i18n_["__"])('December 6, 2018'),
+          tag: 'td'
+        }]
+      }]
+    }
+  },
   styles: [{
     name: 'regular',
     label: Object(external_this_wp_i18n_["_x"])('Default', 'block style'),
@@ -15843,7 +16003,7 @@ var classnames = __webpack_require__(16);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(34);
+var external_this_wp_blob_ = __webpack_require__(35);
 
 // EXTERNAL MODULE: external {"this":["wp","components"]}
 var external_this_wp_components_ = __webpack_require__(3);
@@ -16681,6 +16841,11 @@ var settings = {
   title: Object(external_this_wp_i18n_["__"])('Verse'),
   description: Object(external_this_wp_i18n_["__"])('Insert poetry. Use special spacing formats. Or quote song lyrics.'),
   icon: icon,
+  example: {
+    attributes: {
+      content: Object(external_this_wp_i18n_["__"])('WHAT was he doing, the great god Pan,') + '<br>' + Object(external_this_wp_i18n_["__"])('    Down in the reeds by the river?') + '<br>' + Object(external_this_wp_i18n_["__"])('Spreading ruin and scattering ban,') + '<br>' + Object(external_this_wp_i18n_["__"])('Splashing and paddling with hoofs of a goat,') + '<br>' + Object(external_this_wp_i18n_["__"])('And breaking the golden lilies afloat') + '<br>' + Object(external_this_wp_i18n_["__"])('    With the dragon-fly on the river.')
+    }
+  },
   keywords: [Object(external_this_wp_i18n_["__"])('poetry')],
   transforms: tranforms,
   deprecated: verse_deprecated,
@@ -17394,19 +17559,45 @@ var SOLID_COLOR_CLASS = "is-style-".concat(SOLID_COLOR_STYLE_NAME);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
 var objectSpread = __webpack_require__(7);
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+var defineProperty = __webpack_require__(10);
+
 // EXTERNAL MODULE: external {"this":["wp","element"]}
 var external_this_wp_element_ = __webpack_require__(0);
 
+// EXTERNAL MODULE: ./node_modules/classnames/index.js
+var classnames = __webpack_require__(16);
+var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
+
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
+
 // EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
 var external_this_wp_blockEditor_ = __webpack_require__(6);
+
+// EXTERNAL MODULE: external {"this":["wp","data"]}
+var external_this_wp_data_ = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/pullquote/deprecated.js
 
 
 
+
+/**
+ * External dependencies
+ */
+
+
 /**
  * WordPress dependencies
  */
+
+
+
+/**
+ * Internal dependencies
+ */
+
 
 var blockAttributes = {
   value: {
@@ -17435,9 +17626,64 @@ var blockAttributes = {
   }
 };
 var deprecated = [{
-  attributes: Object(objectSpread["a" /* default */])({}, blockAttributes),
+  attributes: blockAttributes,
   save: function save(_ref) {
     var attributes = _ref.attributes;
+    var mainColor = attributes.mainColor,
+        customMainColor = attributes.customMainColor,
+        textColor = attributes.textColor,
+        customTextColor = attributes.customTextColor,
+        value = attributes.value,
+        citation = attributes.citation,
+        className = attributes.className;
+    var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
+    var figureClass, figureStyles; // Is solid color style
+
+    if (isSolidColorStyle) {
+      figureClass = Object(external_this_wp_blockEditor_["getColorClassName"])('background-color', mainColor);
+
+      if (!figureClass) {
+        figureStyles = {
+          backgroundColor: customMainColor
+        };
+      } // Is normal style and a custom color is being used ( we can set a style directly with its value)
+
+    } else if (customMainColor) {
+      figureStyles = {
+        borderColor: customMainColor
+      }; // Is normal style and a named color is being used, we need to retrieve the color value to set the style,
+      // as there is no expectation that themes create classes that set border colors.
+    } else if (mainColor) {
+      var colors = Object(external_lodash_["get"])(Object(external_this_wp_data_["select"])('core/block-editor').getSettings(), ['colors'], []);
+      var colorObject = Object(external_this_wp_blockEditor_["getColorObjectByAttributeValues"])(colors, mainColor);
+      figureStyles = {
+        borderColor: colorObject.color
+      };
+    }
+
+    var blockquoteTextColorClass = Object(external_this_wp_blockEditor_["getColorClassName"])('color', textColor);
+    var blockquoteClasses = textColor || customTextColor ? classnames_default()('has-text-color', Object(defineProperty["a" /* default */])({}, blockquoteTextColorClass, blockquoteTextColorClass)) : undefined;
+    var blockquoteStyle = blockquoteTextColorClass ? undefined : {
+      color: customTextColor
+    };
+    return Object(external_this_wp_element_["createElement"])("figure", {
+      className: figureClass,
+      style: figureStyles
+    }, Object(external_this_wp_element_["createElement"])("blockquote", {
+      className: blockquoteClasses,
+      style: blockquoteStyle
+    }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
+      value: value,
+      multiline: true
+    }), !external_this_wp_blockEditor_["RichText"].isEmpty(citation) && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
+      tagName: "cite",
+      value: citation
+    })));
+  }
+}, {
+  attributes: Object(objectSpread["a" /* default */])({}, blockAttributes),
+  save: function save(_ref2) {
+    var attributes = _ref2.attributes;
     var value = attributes.value,
         citation = attributes.citation;
     return Object(external_this_wp_element_["createElement"])("blockquote", null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
@@ -17460,8 +17706,8 @@ var deprecated = [{
       default: 'none'
     }
   }),
-  save: function save(_ref2) {
-    var attributes = _ref2.attributes;
+  save: function save(_ref3) {
+    var attributes = _ref3.attributes;
     var value = attributes.value,
         citation = attributes.citation,
         align = attributes.align;
@@ -17481,9 +17727,6 @@ var deprecated = [{
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 var esm_extends = __webpack_require__(18);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(10);
-
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
 var classCallCheck = __webpack_require__(12);
 
@@ -17501,13 +17744,6 @@ var assertThisInitialized = __webpack_require__(5);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
 var inherits = __webpack_require__(15);
-
-// EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(16);
-var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
-
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/pullquote/edit.js
 
@@ -17594,20 +17830,23 @@ function (_Component) {
       var value = attributes.value,
           citation = attributes.citation;
       var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
-      var figureStyle = isSolidColorStyle ? {
+      var figureStyles = isSolidColorStyle ? {
         backgroundColor: mainColor.color
       } : {
         borderColor: mainColor.color
       };
-      var blockquoteStyle = {
+      var figureClasses = classnames_default()(className, Object(defineProperty["a" /* default */])({
+        'has-background': isSolidColorStyle && mainColor.color
+      }, mainColor.class, isSolidColorStyle && mainColor.class));
+      var blockquoteStyles = {
         color: textColor.color
       };
-      var blockquoteClasses = textColor.color ? classnames_default()('has-text-color', Object(defineProperty["a" /* default */])({}, textColor.class, textColor.class)) : undefined;
+      var blockquoteClasses = textColor.color && classnames_default()('has-text-color', Object(defineProperty["a" /* default */])({}, textColor.class, textColor.class));
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])("figure", {
-        style: figureStyle,
-        className: classnames_default()(className, Object(defineProperty["a" /* default */])({}, mainColor.class, isSolidColorStyle && mainColor.class))
+        style: figureStyles,
+        className: figureClasses
       }, Object(external_this_wp_element_["createElement"])("blockquote", {
-        style: blockquoteStyle,
+        style: blockquoteStyles,
         className: blockquoteClasses
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
         multiline: true,
@@ -17682,9 +17921,6 @@ var external_this_wp_components_ = __webpack_require__(3);
   points: "21 4 2 4 2 6 21 6"
 })));
 
-// EXTERNAL MODULE: external {"this":["wp","data"]}
-var external_this_wp_data_ = __webpack_require__(4);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/pullquote/save.js
 
 
@@ -17715,21 +17951,20 @@ function save_save(_ref) {
       citation = attributes.citation,
       className = attributes.className;
   var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
-  var figureClass, figureStyles; // Is solid color style
+  var figureClasses, figureStyles; // Is solid color style
 
   if (isSolidColorStyle) {
-    figureClass = Object(external_this_wp_blockEditor_["getColorClassName"])('background-color', mainColor);
-
-    if (!figureClass) {
-      figureStyles = {
-        backgroundColor: customMainColor
-      };
-    } // Is normal style and a custom color is being used ( we can set a style directly with its value)
-
+    var backgroundClass = Object(external_this_wp_blockEditor_["getColorClassName"])('background-color', mainColor);
+    figureClasses = classnames_default()(Object(defineProperty["a" /* default */])({
+      'has-background': backgroundClass || customMainColor
+    }, backgroundClass, backgroundClass));
+    figureStyles = {
+      backgroundColor: backgroundClass ? undefined : customMainColor
+    }; // Is normal style and a custom color is being used ( we can set a style directly with its value)
   } else if (customMainColor) {
     figureStyles = {
       borderColor: customMainColor
-    }; // Is normal style and a named color is being used, we need to retrieve the color value to set the style,
+    }; // If normal style and a named color are being used, we need to retrieve the color value to set the style,
     // as there is no expectation that themes create classes that set border colors.
   } else if (mainColor) {
     var colors = Object(external_lodash_["get"])(Object(external_this_wp_data_["select"])('core/block-editor').getSettings(), ['colors'], []);
@@ -17740,16 +17975,16 @@ function save_save(_ref) {
   }
 
   var blockquoteTextColorClass = Object(external_this_wp_blockEditor_["getColorClassName"])('color', textColor);
-  var blockquoteClasses = textColor || customTextColor ? classnames_default()('has-text-color', Object(defineProperty["a" /* default */])({}, blockquoteTextColorClass, blockquoteTextColorClass)) : undefined;
-  var blockquoteStyle = blockquoteTextColorClass ? undefined : {
+  var blockquoteClasses = (textColor || customTextColor) && classnames_default()('has-text-color', Object(defineProperty["a" /* default */])({}, blockquoteTextColorClass, blockquoteTextColorClass));
+  var blockquoteStyles = blockquoteTextColorClass ? undefined : {
     color: customTextColor
   };
   return Object(external_this_wp_element_["createElement"])("figure", {
-    className: figureClass,
+    className: figureClasses,
     style: figureStyles
   }, Object(external_this_wp_element_["createElement"])("blockquote", {
     className: blockquoteClasses,
-    style: blockquoteStyle
+    style: blockquoteStyles
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
     value: value,
     multiline: true
@@ -17812,6 +18047,12 @@ var settings = {
   title: Object(external_this_wp_i18n_["__"])('Pullquote'),
   description: Object(external_this_wp_i18n_["__"])('Give special visual emphasis to a quote from your text.'),
   icon: icon,
+  example: {
+    attributes: {
+      value: '<p>' + Object(external_this_wp_i18n_["__"])('One of the hardest things to do in technology is disrupt yourself.') + '</p>',
+      citation: 'Matt Mullenweg'
+    }
+  },
   styles: [{
     name: 'default',
     label: Object(external_this_wp_i18n_["_x"])('Default', 'block style'),
@@ -18090,6 +18331,11 @@ var settings = {
   title: Object(external_this_wp_i18n_["__"])('Code'),
   description: Object(external_this_wp_i18n_["__"])('Display code snippets that respect your spacing and tabs.'),
   icon: icon,
+  example: {
+    attributes: {
+      content: Object(external_this_wp_i18n_["__"])('// A "block" is the abstract term used') + '\n' + Object(external_this_wp_i18n_["__"])('// to describe units of markup that,') + '\n' + Object(external_this_wp_i18n_["__"])('// when composed together, form the') + '\n' + Object(external_this_wp_i18n_["__"])('// content or layout of a page.') + '\n' + Object(external_this_wp_i18n_["__"])('registerBlockType( name, settings );')
+    }
+  },
   supports: {
     html: false
   },
@@ -18552,6 +18798,11 @@ var settings = {
   keywords: [Object(external_this_wp_i18n_["__"])('bullet list'), Object(external_this_wp_i18n_["__"])('ordered list'), Object(external_this_wp_i18n_["__"])('numbered list')],
   supports: {
     className: false
+  },
+  example: {
+    attributes: {
+      values: '<li>Alice.</li><li>The White Rabbit.</li><li>The Cheshire Cat.</li><li>The Mad Hatter.</li><li>The Queen of Hearts.</li>'
+    }
   },
   transforms: list_transforms,
   merge: function merge(attributes, attributesToMerge) {
@@ -19090,7 +19341,14 @@ var settings = {
   title: Object(external_this_wp_i18n_["__"])('Quote'),
   description: Object(external_this_wp_i18n_["__"])('Give quoted text visual emphasis. "In quoting others, we cite ourselves." — Julio Cortázar'),
   icon: icon,
-  keywords: [Object(external_this_wp_i18n_["__"])('blockquote')],
+  keywords: [Object(external_this_wp_i18n_["__"])('blockquote'), Object(external_this_wp_i18n_["__"])('cite')],
+  example: {
+    attributes: {
+      value: '<p>' + Object(external_this_wp_i18n_["__"])('In quoting others, we cite ourselves.') + '</p>',
+      citation: 'Julio Cortázar',
+      className: 'is-style-large'
+    }
+  },
   styles: [{
     name: 'default',
     label: Object(external_this_wp_i18n_["_x"])('Default', 'block style'),
@@ -19373,6 +19631,11 @@ var settings = {
   description: Object(external_this_wp_i18n_["__"])('Add custom HTML code and preview it as you edit.'),
   icon: icon,
   keywords: [Object(external_this_wp_i18n_["__"])('embed')],
+  example: {
+    attributes: {
+      content: '<marquee>' + Object(external_this_wp_i18n_["__"])('Welcome to the wonderful world of blocks…') + '</marquee>'
+    }
+  },
   supports: {
     customClassName: false,
     className: false,
@@ -20057,6 +20320,13 @@ var settings = {
   description: Object(external_this_wp_i18n_["__"])('Prompt visitors to take action with a button-style link.'),
   icon: icon,
   keywords: [Object(external_this_wp_i18n_["__"])('link')],
+  example: {
+    attributes: {
+      className: 'is-style-fill',
+      backgroundColor: 'vivid-green-cyan',
+      text: Object(external_this_wp_i18n_["__"])('Call to Action')
+    }
+  },
   supports: {
     align: true,
     alignWide: false
@@ -20341,6 +20611,7 @@ var settings = {
     html: false,
     multiple: false
   },
+  example: {},
   transforms: more_transforms,
   edit: edit_MoreEdit,
   save: save
@@ -20464,6 +20735,7 @@ var settings = {
     className: false,
     html: false
   },
+  example: {},
   transforms: nextpage_transforms,
   edit: NextPageEdit,
   save: save
@@ -21010,6 +21282,40 @@ var settings = {
     align: ['wide', 'full'],
     html: false
   },
+  example: {
+    innerBlocks: [{
+      name: 'core/column',
+      innerBlocks: [{
+        name: 'core/paragraph',
+        attributes: {
+          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et eros eu felis pellentesque efficitur. Nam dapibus felis malesuada tincidunt rhoncus. Integer non malesuada tortor.'
+        }
+      }, {
+        name: 'core/image',
+        attributes: {
+          url: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Windbuchencom.jpg'
+        }
+      }, {
+        name: 'core/paragraph',
+        attributes: {
+          content: 'Suspendisse commodo neque lacus, a dictum orci interdum et. Ut vel mi ut leo fringilla rutrum.'
+        }
+      }]
+    }, {
+      name: 'core/column',
+      innerBlocks: [{
+        name: 'core/paragraph',
+        attributes: {
+          content: Object(external_this_wp_i18n_["__"])('Etiam et egestas lorem. Vivamus sagittis sit amet dolor quis lobortis. Integer sed fermentum arcu, id vulputate lacus. Etiam fermentum sem eu quam hendrerit, eget faucibus urna pulvinar.')
+        }
+      }, {
+        name: 'core/paragraph',
+        attributes: {
+          content: Object(external_this_wp_i18n_["__"])('Nam risus massa, ullamcorper consectetur eros fermentum, porta aliquet ligula. Sed vel mauris nec enim ultricies commodo.')
+        }
+      }]
+    }]
+  },
   deprecated: deprecated,
   edit: edit,
   save: save_save
@@ -21193,6 +21499,11 @@ var settings = {
   title: Object(external_this_wp_i18n_["__"])('Preformatted'),
   description: Object(external_this_wp_i18n_["__"])('Add text that respects your spacing and tabs, and also allows styling.'),
   icon: icon,
+  example: {
+    attributes: {
+      content: Object(external_this_wp_i18n_["__"])('EXT. XANADU - FAINT DAWN - 1940 (MINIATURE)') + '\n' + Object(external_this_wp_i18n_["__"])('Window, very small in the distance, illuminated.') + '\n' + Object(external_this_wp_i18n_["__"])('All around this is an almost totally black screen. Now, as the camera moves slowly towards the window which is almost a postage stamp in the frame, other forms appear;')
+    }
+  },
   transforms: preformatted_transforms,
   edit: PreformattedEdit,
   save: save,
@@ -21387,6 +21698,12 @@ var settings = {
   description: Object(external_this_wp_i18n_["__"])('Create a break between ideas or sections with a horizontal separator.'),
   icon: icon,
   keywords: [Object(external_this_wp_i18n_["__"])('horizontal-line'), 'hr', Object(external_this_wp_i18n_["__"])('divider')],
+  example: {
+    attributes: {
+      customColor: '#065174',
+      className: 'is-style-wide'
+    }
+  },
   styles: [{
     name: 'default',
     label: Object(external_this_wp_i18n_["__"])('Default'),
@@ -21442,7 +21759,7 @@ var inherits = __webpack_require__(15);
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(34);
+var external_this_wp_blob_ = __webpack_require__(35);
 
 // EXTERNAL MODULE: external {"this":["wp","compose"]}
 var external_this_wp_compose_ = __webpack_require__(8);
@@ -22278,7 +22595,7 @@ var inherits = __webpack_require__(15);
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(34);
+var external_this_wp_blob_ = __webpack_require__(35);
 
 // EXTERNAL MODULE: external {"this":["wp","components"]}
 var external_this_wp_components_ = __webpack_require__(3);
@@ -25018,6 +25335,7 @@ var settings = {
   supports: {
     align: true
   },
+  example: {},
   edit: edit
 };
 
@@ -25735,6 +26053,24 @@ var settings = {
   supports: {
     align: ['left', 'center', 'right']
   },
+  example: {
+    innerBlocks: [{
+      name: 'core/social-link-wordpress',
+      attributes: {
+        url: 'https://wordpress.org'
+      }
+    }, {
+      name: 'core/social-link-facebook',
+      attributes: {
+        url: 'https://www.facebook.com/WordPress/'
+      }
+    }, {
+      name: 'core/social-link-twitter',
+      attributes: {
+        url: 'https://twitter.com/WordPress'
+      }
+    }]
+  },
   styles: [{
     name: 'default',
     label: Object(external_this_wp_i18n_["__"])('Default'),
@@ -26292,6 +26628,7 @@ var settings = {
   supports: {
     align: true
   },
+  example: {},
   edit: SearchEdit
 };
 
@@ -26551,6 +26888,11 @@ var settings = {
     align: true,
     html: false
   },
+  example: {
+    attributes: {
+      feedURL: 'https://wordpress.org'
+    }
+  },
   edit: edit
 };
 
@@ -26718,7 +27060,7 @@ var registerCoreBlocks = function registerCoreBlocks() {
   // in various contexts — like the inserter and auto-complete components.
   _paragraph__WEBPACK_IMPORTED_MODULE_6__, _image__WEBPACK_IMPORTED_MODULE_7__, _heading__WEBPACK_IMPORTED_MODULE_8__, _gallery__WEBPACK_IMPORTED_MODULE_10__, _list__WEBPACK_IMPORTED_MODULE_29__, _quote__WEBPACK_IMPORTED_MODULE_9__, // Register all remaining core blocks.
   _shortcode__WEBPACK_IMPORTED_MODULE_40__, _archives__WEBPACK_IMPORTED_MODULE_11__, _audio__WEBPACK_IMPORTED_MODULE_12__, _button__WEBPACK_IMPORTED_MODULE_13__, _calendar__WEBPACK_IMPORTED_MODULE_14__, _categories__WEBPACK_IMPORTED_MODULE_15__, _code__WEBPACK_IMPORTED_MODULE_16__, _columns__WEBPACK_IMPORTED_MODULE_17__, _column__WEBPACK_IMPORTED_MODULE_18__, _cover__WEBPACK_IMPORTED_MODULE_19__, _embed__WEBPACK_IMPORTED_MODULE_20__].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_embed__WEBPACK_IMPORTED_MODULE_20__["common"]), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_embed__WEBPACK_IMPORTED_MODULE_20__["others"]), [_file__WEBPACK_IMPORTED_MODULE_21__, _group__WEBPACK_IMPORTED_MODULE_38__, window.wp && window.wp.oldEditor ? _classic__WEBPACK_IMPORTED_MODULE_48__ : null, // Only add the classic block in WP Context
-  _html__WEBPACK_IMPORTED_MODULE_22__, _media_text__WEBPACK_IMPORTED_MODULE_23__, _latest_comments__WEBPACK_IMPORTED_MODULE_26__, _latest_posts__WEBPACK_IMPORTED_MODULE_27__, _missing__WEBPACK_IMPORTED_MODULE_30__, _more__WEBPACK_IMPORTED_MODULE_31__, _nextpage__WEBPACK_IMPORTED_MODULE_32__, _preformatted__WEBPACK_IMPORTED_MODULE_33__, _pullquote__WEBPACK_IMPORTED_MODULE_34__, _rss__WEBPACK_IMPORTED_MODULE_36__, _search__WEBPACK_IMPORTED_MODULE_37__, _separator__WEBPACK_IMPORTED_MODULE_39__, _block__WEBPACK_IMPORTED_MODULE_35__, _social_links__WEBPACK_IMPORTED_MODULE_49__], Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_social_link__WEBPACK_IMPORTED_MODULE_50__[/* sites */ "a"]), [_spacer__WEBPACK_IMPORTED_MODULE_41__, _subhead__WEBPACK_IMPORTED_MODULE_42__, _table__WEBPACK_IMPORTED_MODULE_43__, _tag_cloud__WEBPACK_IMPORTED_MODULE_47__, _text_columns__WEBPACK_IMPORTED_MODULE_44__, _verse__WEBPACK_IMPORTED_MODULE_45__, _video__WEBPACK_IMPORTED_MODULE_46__]).forEach(registerBlock);
+  _html__WEBPACK_IMPORTED_MODULE_22__, _media_text__WEBPACK_IMPORTED_MODULE_23__, _latest_comments__WEBPACK_IMPORTED_MODULE_26__, _latest_posts__WEBPACK_IMPORTED_MODULE_27__, _missing__WEBPACK_IMPORTED_MODULE_30__, _more__WEBPACK_IMPORTED_MODULE_31__, _nextpage__WEBPACK_IMPORTED_MODULE_32__, _preformatted__WEBPACK_IMPORTED_MODULE_33__, _pullquote__WEBPACK_IMPORTED_MODULE_34__, _rss__WEBPACK_IMPORTED_MODULE_36__, _search__WEBPACK_IMPORTED_MODULE_37__, _separator__WEBPACK_IMPORTED_MODULE_39__, _block__WEBPACK_IMPORTED_MODULE_35__, _spacer__WEBPACK_IMPORTED_MODULE_41__, _subhead__WEBPACK_IMPORTED_MODULE_42__, _table__WEBPACK_IMPORTED_MODULE_43__, _tag_cloud__WEBPACK_IMPORTED_MODULE_47__, _text_columns__WEBPACK_IMPORTED_MODULE_44__, _verse__WEBPACK_IMPORTED_MODULE_45__, _video__WEBPACK_IMPORTED_MODULE_46__]).forEach(registerBlock);
   Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__["setDefaultBlockName"])(_paragraph__WEBPACK_IMPORTED_MODULE_6__["name"]);
 
   if (window.wp && window.wp.oldEditor) {
@@ -26747,7 +27089,7 @@ var registerCoreBlocks = function registerCoreBlocks() {
 var __experimentalRegisterExperimentalCoreBlocks = process.env.GUTENBERG_PHASE === 2 ? function (settings) {
   var __experimentalEnableLegacyWidgetBlock = settings.__experimentalEnableLegacyWidgetBlock,
       __experimentalEnableMenuBlock = settings.__experimentalEnableMenuBlock;
-  [__experimentalEnableLegacyWidgetBlock ? _legacy_widget__WEBPACK_IMPORTED_MODULE_28__ : null, __experimentalEnableMenuBlock ? _navigation_menu__WEBPACK_IMPORTED_MODULE_24__ : null, __experimentalEnableMenuBlock ? _navigation_menu_item__WEBPACK_IMPORTED_MODULE_25__ : null].forEach(registerBlock);
+  [__experimentalEnableLegacyWidgetBlock ? _legacy_widget__WEBPACK_IMPORTED_MODULE_28__ : null, __experimentalEnableMenuBlock ? _navigation_menu__WEBPACK_IMPORTED_MODULE_24__ : null, __experimentalEnableMenuBlock ? _navigation_menu_item__WEBPACK_IMPORTED_MODULE_25__ : null, _social_links__WEBPACK_IMPORTED_MODULE_49__].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_social_link__WEBPACK_IMPORTED_MODULE_50__[/* sites */ "a"])).forEach(registerBlock);
 } : undefined;
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(96)))

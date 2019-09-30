@@ -230,7 +230,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -546,6 +546,7 @@ __webpack_require__.d(build_module_actions_namespaceObject, "receiveEmbedPreview
 __webpack_require__.d(build_module_actions_namespaceObject, "editEntityRecord", function() { return editEntityRecord; });
 __webpack_require__.d(build_module_actions_namespaceObject, "undo", function() { return undo; });
 __webpack_require__.d(build_module_actions_namespaceObject, "redo", function() { return redo; });
+__webpack_require__.d(build_module_actions_namespaceObject, "__unstableCreateUndoLevel", function() { return __unstableCreateUndoLevel; });
 __webpack_require__.d(build_module_actions_namespaceObject, "saveEntityRecord", function() { return saveEntityRecord; });
 __webpack_require__.d(build_module_actions_namespaceObject, "saveEditedEntityRecord", function() { return saveEditedEntityRecord; });
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveUploadPermissions", function() { return receiveUploadPermissions; });
@@ -824,7 +825,7 @@ function receiveQueriedItems(items) {
 }
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(35);
+var rememo = __webpack_require__(36);
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
 var equivalent_key_map = __webpack_require__(79);
@@ -1428,6 +1429,17 @@ function redo() {
   }, _marked3);
 }
 /**
+ * Forces the creation of a new undo level.
+ *
+ * @return {Object} Action object.
+ */
+
+function __unstableCreateUndoLevel() {
+  return {
+    type: 'CREATE_UNDO_LEVEL'
+  };
+}
+/**
  * Action triggered to save an entity record.
  *
  * @param {string} kind    Kind of the received entity.
@@ -1446,6 +1458,8 @@ function saveEntityRecord(kind, name, record) {
       recordId,
       updatedRecord,
       error,
+      persistedEntity,
+      currentEdits,
       path,
       persistedRecord,
       currentUser,
@@ -1576,43 +1590,97 @@ function saveEntityRecord(kind, name, record) {
           return receiveAutosaves(persistedRecord.id, updatedRecord);
 
         case 38:
-          _context4.next = 47;
+          _context4.next = 55;
           break;
 
         case 40:
-          // Auto drafts should be converted to drafts on explicit saves,
+          // Auto drafts should be converted to drafts on explicit saves and we should not respect their default title,
           // but some plugins break with this behavior so we can't filter it on the server.
           _data = record;
 
-          if (kind === 'postType' && persistedRecord.status === 'auto-draft' && !_data.status) {
-            _data = Object(objectSpread["a" /* default */])({}, _data, {
-              status: 'draft'
-            });
-          }
+          if (kind === 'postType' && persistedRecord && persistedRecord.status === 'auto-draft') {
+            if (!_data.status) {
+              _data = Object(objectSpread["a" /* default */])({}, _data, {
+                status: 'draft'
+              });
+            }
+
+            if (!_data.title || _data.title === 'Auto Draft') {
+              _data = Object(objectSpread["a" /* default */])({}, _data, {
+                title: ''
+              });
+            }
+          } // We perform an optimistic update here to clear all the edits that
+          // will be persisted so that if the server filters them, the new
+          // filtered values are always accepted.
+
 
           _context4.next = 44;
+          return controls_select('getEntityRecord', kind, name, recordId);
+
+        case 44:
+          persistedEntity = _context4.sent;
+          _context4.next = 47;
+          return controls_select('getEntityRecordEdits', kind, name, recordId);
+
+        case 47:
+          currentEdits = _context4.sent;
+          _context4.next = 50;
+          return receiveEntityRecords(kind, name, Object(objectSpread["a" /* default */])({}, persistedEntity, _data), undefined, true);
+
+        case 50:
+          _context4.next = 52;
           return apiFetch({
             path: path,
             method: recordId ? 'PUT' : 'POST',
             data: _data
           });
 
-        case 44:
+        case 52:
           updatedRecord = _context4.sent;
-          _context4.next = 47;
+          _context4.next = 55;
           return receiveEntityRecords(kind, name, updatedRecord, undefined, true);
 
-        case 47:
-          _context4.next = 52;
+        case 55:
+          _context4.next = 77;
           break;
 
-        case 49:
-          _context4.prev = 49;
+        case 57:
+          _context4.prev = 57;
           _context4.t0 = _context4["catch"](11);
-          error = _context4.t0;
+          error = _context4.t0; // If we got to the point in the try block where we made an optimistic update,
+          // we need to roll it back here.
 
-        case 52:
-          _context4.next = 54;
+          if (!(persistedEntity && currentEdits)) {
+            _context4.next = 77;
+            break;
+          }
+
+          _context4.next = 63;
+          return receiveEntityRecords(kind, name, persistedEntity, undefined, true);
+
+        case 63:
+          _context4.t1 = editEntityRecord;
+          _context4.t2 = kind;
+          _context4.t3 = name;
+          _context4.t4 = recordId;
+          _context4.t5 = objectSpread["a" /* default */];
+          _context4.t6 = {};
+          _context4.t7 = currentEdits;
+          _context4.next = 72;
+          return controls_select('getEntityRecordEdits', kind, name, recordId);
+
+        case 72:
+          _context4.t8 = _context4.sent;
+          _context4.t9 = (0, _context4.t5)(_context4.t6, _context4.t7, _context4.t8);
+          _context4.t10 = {
+            undoIgnore: true
+          };
+          _context4.next = 77;
+          return (0, _context4.t1)(_context4.t2, _context4.t3, _context4.t4, _context4.t9, _context4.t10);
+
+        case 77:
+          _context4.next = 79;
           return {
             type: 'SAVE_ENTITY_RECORD_FINISH',
             kind: kind,
@@ -1622,15 +1690,15 @@ function saveEntityRecord(kind, name, record) {
             isAutosave: isAutosave
           };
 
-        case 54:
+        case 79:
           return _context4.abrupt("return", updatedRecord);
 
-        case 55:
+        case 80:
         case "end":
           return _context4.stop();
       }
     }
-  }, _marked4, null, [[11, 49]]);
+  }, _marked4, null, [[11, 57]]);
 }
 /**
  * Action triggered to save an entity record's edits.
@@ -2392,12 +2460,20 @@ var reducer_entities = function entities() {
 
 var UNDO_INITIAL_STATE = [];
 UNDO_INITIAL_STATE.offset = 0;
+var lastEditAction;
 function reducer_undo() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : UNDO_INITIAL_STATE;
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
     case 'EDIT_ENTITY_RECORD':
+    case 'CREATE_UNDO_LEVEL':
+      if (action.type === 'CREATE_UNDO_LEVEL') {
+        action = lastEditAction;
+      } else {
+        lastEditAction = action;
+      }
+
       if (action.meta.isUndo || action.meta.isRedo) {
         var _nextState = Object(toConsumableArray["a" /* default */])(state);
 
@@ -2766,7 +2842,7 @@ var getEntityRecordNonTransientEdits = Object(rememo["a" /* default */])(functio
  */
 
 function hasEditsForEntityRecord(state, kind, name, recordId) {
-  return Object.keys(getEntityRecordNonTransientEdits(state, kind, name, recordId)).length > 0;
+  return isSavingEntityRecord(state, kind, name, recordId) || Object.keys(getEntityRecordNonTransientEdits(state, kind, name, recordId)).length > 0;
 }
 /**
  * Returns the specified entity record, merged with its edits.
