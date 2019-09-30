@@ -2416,7 +2416,7 @@
 		 */
 		$( window ).on( 'message', function( event ) {
 			var originalEvent  = event.originalEvent,
-				expectedOrigin = document.location.protocol + '//' + document.location.hostname,
+				expectedOrigin = document.location.protocol + '//' + document.location.host,
 				message;
 
 			if ( originalEvent.origin !== expectedOrigin ) {
