@@ -3379,9 +3379,6 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			border-color: #999;
 			-webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 			box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
-			-webkit-transform: translateY(1px);
-			-ms-transform: translateY(1px);
-			transform: translateY(1px);
 		}
 
 		<?php

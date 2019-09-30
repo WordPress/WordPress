@@ -1802,7 +1802,6 @@ p.customize-section-description {
 	background: #eee;
 	border-color: #999;
 	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
-	transform: translateY(1px);
 }
 
 .themes-filter-bar .feature-filter-toggle .filter-count-filters {

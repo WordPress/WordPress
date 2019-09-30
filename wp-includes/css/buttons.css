@@ -159,7 +159,6 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-secondary:active {
 	background: #f3f5f6;
 	border-color: #7e8993;
-	transform: translateY(1px);
 	box-shadow: none;
 }
 
@@ -265,7 +264,6 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-primary:active {
 	background: #00669b;
 	border-color: #00669b;
-	transform: translateY(1px);
 	box-shadow: none;
 }
 
@@ -320,11 +318,6 @@ TABLE OF CONTENTS:
 	background-color: #e2e4e7;
 	box-shadow: inset 0 1px 0 0 #999;
 	border-color: #016087;
-}
-
-.wp-core-ui .button-group > .button:active,
-.wp-core-ui .button-group > .button.active {
-	transform: translateY(0);
 }
 
 /* ----------------------------------------------------------------------------
