@@ -590,7 +590,7 @@ switch ( $action ) {
 
 			/**
 			 * Filters the interval for redirecting the user to the admin email confirmation screen.
-			 * If `0` (zero), or any "falsey" value is returned, the user will not be redirected.
+			 * If `0` (zero) is returned, the user will not be redirected.
 			 *
 			 * @since 5.3.0
 			 *
@@ -1232,19 +1232,12 @@ switch ( $action ) {
 				exit;
 			}
 
-			/**
-			 * Filters the capability required for displaying the admin email check screen.
-			 *
-			 * @since 5.3.0
-			 *
-			 * @param string $capability The capability required to display the admin email check screen.
-			 */
-			$admin_check_cap = apply_filters( 'admin_email_check_cap', 'manage_options' );
-
 			// Check if it is time to add a redirect to the admin email confirmation screen.
-			if ( is_a( $user, 'WP_User' ) && $user->exists() && $user->has_cap( $admin_check_cap ) ) {
+			if ( is_a( $user, 'WP_User' ) && $user->exists() && $user->has_cap( 'manage_options' ) ) {
 				$admin_email_lifespan = (int) get_option( 'admin_email_lifespan' );
 
+				// If `0` (or anything "falsey" as it is cast to int) is returned, the user will not be redirected
+				// to the admin email confirmation screen.
 				/** This filter is documented in wp-login.php */
 				$admin_email_check_interval = (int) apply_filters( 'admin_email_check_interval', 6 * MONTH_IN_SECONDS );
 
