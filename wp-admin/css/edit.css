@@ -652,6 +652,12 @@ form#tags-filter {
 	margin-bottom: 20px;
 }
 
+.wp_attachment_details .attachment-content-description {
+	margin-top: 0.5385em;
+	display: inline-block;
+	min-height: 1.6923em;
+}
+
 /* Suggested text for privacy policy */
 .wp-privacy-policy-guide {
 	max-width: 1000px;

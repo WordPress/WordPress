@@ -1114,10 +1114,14 @@ span.imgedit-scale-warn {
 	padding: 10px;
 }
 
+.imgedit-settings .imgedit-original-dimensions {
+	display: inline-block;
+}
+
 .imgedit-settings .imgedit-scale input[type="text"],
 .imgedit-settings .imgedit-crop-ratio input[type="text"],
 .imgedit-settings .imgedit-crop-sel input[type="text"] {
-	width: 50px;
+	width: 80px;
 	font-size: 14px;
 	padding: 5px 8px;
 }
@@ -1128,6 +1132,11 @@ span.imgedit-scale-warn {
 	text-align: center;
 	font-size: 13px;
 	color: #444;
+}
+
+.imgedit-settings .imgedit-scale-button-wrapper {
+	margin-top: 0.3077em;
+	display: block;
 }
 
 .imgedit-settings .imgedit-scale .button {
