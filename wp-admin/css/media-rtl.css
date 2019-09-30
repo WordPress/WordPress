@@ -800,11 +800,6 @@ border color while dragging a file over the uploader drop area */
 	margin-bottom: 5px;
 }
 
-.attachment-details .setting + .description a:focus {
-        /* Only visible in Windows High Contrast mode */
-        outline: 1px solid transparent;
-}
-
 .wp_attachment_details .attachment-alt-text-description {
 	margin-top: 5px;
 }
@@ -1119,14 +1114,10 @@ span.imgedit-scale-warn {
 	padding: 10px;
 }
 
-.imgedit-settings .imgedit-original-dimensions {
-	display: inline-block;
-}
-
 .imgedit-settings .imgedit-scale input[type="text"],
 .imgedit-settings .imgedit-crop-ratio input[type="text"],
 .imgedit-settings .imgedit-crop-sel input[type="text"] {
-	width: 80px;
+	width: 50px;
 	font-size: 14px;
 	padding: 5px 8px;
 }
@@ -1137,11 +1128,6 @@ span.imgedit-scale-warn {
 	text-align: center;
 	font-size: 13px;
 	color: #444;
-}
-
-.imgedit-settings .imgedit-scale-button-wrapper {
-	margin-top: 0.3077em;
-	display: block;
 }
 
 .imgedit-settings .imgedit-scale .button {

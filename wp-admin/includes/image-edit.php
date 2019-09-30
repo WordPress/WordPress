@@ -38,9 +38,9 @@ function wp_image_editor( $post_id, $msg = false ) {
 
 	if ( $msg ) {
 		if ( isset( $msg->error ) ) {
-			$note = "<div class='error' tabindex='-1' role='alert'><p>$msg->error</p></div>";
+			$note = "<div class='error'><p>$msg->error</p></div>";
 		} elseif ( isset( $msg->msg ) ) {
-			$note = "<div class='updated' tabindex='-1' role='alert'><p>$msg->msg</p></div>";
+			$note = "<div class='updated'><p>$msg->msg</p></div>";
 		}
 	}
 
@@ -62,7 +62,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 			printf(
 				/* translators: %s: Image width and height in pixels. */
 				__( 'Original dimensions %s' ),
-				'<span class="imgedit-original-dimensions">' . $meta['width'] . ' &times; ' . $meta['height'] . '</span>'
+				$meta['width'] . ' &times; ' . $meta['height']
 			);
 			?>
 		</p>
@@ -78,7 +78,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 		<label for="imgedit-scale-height-<?php echo $post_id; ?>" class="screen-reader-text"><?php _e( 'scale height' ); ?></label>
 		<input type="text" id="imgedit-scale-height-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" value="<?php echo isset( $meta['height'] ) ? $meta['height'] : 0; ?>" />
 		<span class="imgedit-scale-warn" id="imgedit-scale-warn-<?php echo $post_id; ?>">!</span>
-		<div class="imgedit-scale-button-wrapper"><input id="imgedit-scale-button" type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'scale')" class="button button-primary" value="<?php esc_attr_e( 'Scale' ); ?>" /></div>
+		<input id="imgedit-scale-button" type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'scale')" class="button button-primary" value="<?php esc_attr_e( 'Scale' ); ?>" />
 		</div>
 		</fieldset>
 
@@ -235,7 +235,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 		<input type="hidden" id="imgedit-y-<?php echo $post_id; ?>" value="<?php echo isset( $meta['height'] ) ? $meta['height'] : 0; ?>" />
 
 		<div id="imgedit-crop-<?php echo $post_id; ?>" class="imgedit-crop-wrap">
-		<img id="image-preview-<?php echo $post_id; ?>"  src="<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>?action=imgedit-preview&amp;_ajax_nonce=<?php echo $nonce; ?>&amp;postid=<?php echo $post_id; ?>&amp;rand=<?php echo rand( 1, 99999 ); ?>" alt="" />
+		<img id="image-preview-<?php echo $post_id; ?>" onload="imageEdit.imgLoaded('<?php echo $post_id; ?>')" src="<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>?action=imgedit-preview&amp;_ajax_nonce=<?php echo $nonce; ?>&amp;postid=<?php echo $post_id; ?>&amp;rand=<?php echo rand( 1, 99999 ); ?>" alt="" />
 		</div>
 
 		<div class="imgedit-submit">

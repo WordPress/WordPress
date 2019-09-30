@@ -3207,7 +3207,7 @@ function edit_form_image_editor( $post ) {
 
 	?>
 
-	<label for="attachment_content" class="attachment-content-description"><strong><?php _e( 'Description' ); ?></strong>
+	<label for="attachment_content"><strong><?php _e( 'Description' ); ?></strong>
 	<?php
 
 	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ) {
