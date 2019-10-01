@@ -355,6 +355,11 @@ body.interim-login {
 	word-wrap: normal !important; /* many screen reader and browser combinations announce broken words as they would appear visually */
 }
 
+/* Hide the Edge "reveal password" native button */
+input::-ms-reveal {
+	display: none;
+}
+
 @-ms-viewport {
 	width: device-width;
 }
