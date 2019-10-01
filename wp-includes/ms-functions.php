@@ -959,7 +959,6 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		$key
 	);
 
-	// TODO: Don't hard code activation link.
 	$subject = sprintf(
 		/**
 		 * Filters the subject of the new blog notification email.
@@ -1073,7 +1072,6 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		site_url( "wp-activate.php?key=$key" )
 	);
 
-	// TODO: Don't hard code activation link.
 	$subject = sprintf(
 		/**
 		 * Filters the subject of the notification email of new user signup.
