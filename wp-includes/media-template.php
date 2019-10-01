@@ -1355,11 +1355,22 @@ function wp_print_media_templates() {
 					var content = '';
 					if ( ! _.isEmpty( data.model.content ) ) {
 						var tracks = jQuery( data.model.content ).filter( 'track' );
-						_.each( tracks.toArray(), function (track) {
+						_.each( tracks.toArray(), function( track, index ) {
 							content += track.outerHTML; #>
-						<label for="video-details-track" class="name"><?php _e( 'Tracks (subtitles, captions, descriptions, chapters, or metadata)' ); ?></label>
-						<input class="content-track" type="text" id="video-details-track" readonly value="{{ track.outerHTML }}" />
-						<button type="button" class="button-link remove-setting remove-track"><?php _ex( 'Remove video track', 'media' ); ?></button>
+						<label for="video-details-track-{{ index }}" class="name"><?php _e( 'Tracks (subtitles, captions, descriptions, chapters, or metadata)' ); ?></label>
+						<input class="content-track" type="text" id="video-details-track-{{ index }}" aria-describedby="video-details-track-desc-{{ index }}" value="{{ track.outerHTML }}" />
+						<span class="description" id="video-details-track-desc-{{ index }}">
+						<?php
+							printf(
+								/* translators: 1: "srclang" HTML attribute, 2: "label" HTML attribute, 3: "kind" HTML attribute. */
+								__( 'The %1$s, %2$s, and %3$s values can be edited to set the video track language and kind.' ),
+								'srclang',
+								'label',
+								'kind'
+							);
+						?>
+						</span>
+						<button type="button" class="button-link remove-setting remove-track"><?php _ex( 'Remove video track', 'media' ); ?></button><br/>
 						<# } ); #>
 					<# } else { #>
 					<span class="name"><?php _e( 'Tracks (subtitles, captions, descriptions, chapters, or metadata)' ); ?></span><br />

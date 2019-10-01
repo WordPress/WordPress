@@ -2126,6 +2126,16 @@
 	font-style: normal;
 }
 
+.media-embed .content-track + .description {
+	line-height: 1.4;
+	/* The !important needs to override a high specificity selector from wp-medialement.css */
+	max-width: none !important;
+}
+
+.media-embed .remove-track {
+	margin-bottom: 10px;
+}
+
 .image-details .embed-media-settings .setting,
 .image-details .embed-media-settings .setting-group {
 	float: none;
