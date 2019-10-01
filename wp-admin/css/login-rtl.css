@@ -83,12 +83,15 @@ p {
 	box-shadow: none;
 	font-size: 14px;
 	line-height: 2;
-	height: auto;
+	width: 2.5rem;
+	height: 2.5rem;
+	min-width: 40px;
+	min-height: 40px;
 	margin: 0;
 	padding: 5px 9px;
 	position: absolute;
 	left: 0;
-	top: 3px;
+	top: 0;
 }
 
 .login .button.wp-hide-pw:hover {
@@ -97,8 +100,10 @@ p {
 
 .login .button.wp-hide-pw:focus {
 	background: transparent;
-	border-color: #5b9dd9;
-	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+	border-color: #007cba;
+	box-shadow: 0 0 0 1px #007cba;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .login .button.wp-hide-pw:active {
@@ -108,7 +113,9 @@ p {
 }
 
 .login .button.wp-hide-pw .dashicons {
-	top: 4px;
+	width: 1.25rem;
+	height: 1.25rem;
+	top: 0.25rem;
 }
 
 .login .wp-pwd {
@@ -192,6 +199,9 @@ p {
 
 .login label {
 	font-size: 14px;
+	line-height: 1.5;
+	display: inline-block;
+	margin-bottom: 3px;
 }
 
 .login .forgetmenot label,
@@ -273,16 +283,19 @@ p {
 .login input[type="text"],
 .login input[type="password"] {
 	font-size: 24px;
-	line-height: 1.16666666; /* 28px */
+	line-height: 1.33333333; /* 32px */
 	width: 100%;
-	padding: 5px;
-	margin: 3px 0 16px 6px;
+	border-width: 0.0625rem;
+	padding: 0.1875rem 0.3125rem; /* 3px 5px */
+	margin: 0 0 16px 6px;
+	min-height: 40px;
+	max-height: none;
 }
 
 .js.login input.password-input,
 .js.login-action-rp form .input,
 .js.login-action-rp input[type="text"] {
-	padding-left: 45px;
+	padding-left: 2.5rem;
 }
 
 .login form .input,
@@ -352,15 +365,16 @@ body.interim-login {
 	}
 }
 
+
 @media screen and (max-width: 782px) {
 	.interim-login input[type=checkbox] {
-		height: 16px;
-		width: 16px;
+		width: 1rem;
+		height: 1rem;
 	}
 
 	.interim-login input[type=checkbox]:checked:before {
-		width: 16px;
-		font: normal 21px/1 dashicons;
-		margin: -3px -4px 0 0;
+		width: 1.3125rem;
+		height: 1.3125rem;
+		margin: -0.1875rem -0.25rem 0 0;
 	}
 }
