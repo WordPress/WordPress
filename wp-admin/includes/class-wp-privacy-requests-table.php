@@ -267,8 +267,6 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 * @since 5.1.0 Added support for column sorting.
 	 */
 	public function prepare_items() {
-		global $wpdb;
-
 		$this->items    = array();
 		$posts_per_page = $this->get_items_per_page( $this->request_type . '_requests_per_page' );
 		$args           = array(
