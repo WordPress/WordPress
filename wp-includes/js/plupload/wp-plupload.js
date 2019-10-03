@@ -119,9 +119,19 @@ window.wp = window.wp || {};
 		 */
 		tryAgain = function( message, data, file ) {
 			var times;
+			var id;
 
-			if ( ! file || ! file.id ) {
-				error( pluploadL10n.upload_failed, data, file, 'no-retry' );
+			if ( ! data || ! data.responseHeaders ) {
+				error( pluploadL10n.http_error_image, data, file, 'no-retry' );
+				return;
+			}
+
+			id = data.responseHeaders.match( /x-wp-upload-attachment-id:\s*(\d+)/i );
+
+			if ( id && id[1] ) {
+				id = id[1];
+			} else {
+				error( pluploadL10n.http_error_image, data, file, 'no-retry' );
 				return;
 			}
 
@@ -138,7 +148,7 @@ window.wp = window.wp || {};
 					data: {
 						action: 'media-create-image-subsizes',
 						_wpnonce: _wpPluploadSettings.defaults.multipart_params._wpnonce,
-						_wp_temp_upload_ref: file.id,
+						attachment_id: id,
 						_wp_upload_failed_cleanup: true,
 					}
 				});
@@ -161,7 +171,7 @@ window.wp = window.wp || {};
 				data: {
 					action: 'media-create-image-subsizes',
 					_wpnonce: _wpPluploadSettings.defaults.multipart_params._wpnonce,
-					_wp_temp_upload_ref: file.id, // Used to find the new attachment_id.
+					attachment_id: id,
 				}
 			}).done( function( response ) {
 				if ( response.success ) {
@@ -314,21 +324,6 @@ window.wp = window.wp || {};
 			// If HTML5 mode, hide the auto-created file container.
 			$('#' + this.uploader.id + '_html5_container').hide();
 		}
-
-		/**
-		 * When uploading images add a reference used to retrieve the attachment_id.
-		 * Used if the uploading fails due to a server timeout of out of memoty error (HTTP 500).
-		 *
-		 * @param {plupload.Uploader} up   Uploader instance.
-		 * @param {plupload.File}     file File for uploading.
-		 */
-		this.uploader.bind( 'BeforeUpload', function( up, file ) {
-			if ( file.type && file.type.indexOf( 'image/' ) === 0 ) {
-				up.settings.multipart_params._wp_temp_upload_ref = file.id;
-			} else {
-				up.settings.multipart_params._wp_temp_upload_ref = '';
-			}
-		} );
 
 		/**
 		 * After files were filtered and added to the queue, create a model for each.

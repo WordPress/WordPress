@@ -431,9 +431,19 @@ jQuery( document ).ready( function( $ ) {
 	tryAgain = function( up, error ) {
 		var file = error.file;
 		var times;
+		var id;
 
-		if ( ! file || ! file.id ) {
-			wpQueueError( error.message || pluploadL10n.default_error );
+		if ( ! error || ! error.responseHeaders ) {
+			wpQueueError( pluploadL10n.http_error_image );
+			return;
+		}
+
+		id = error.responseHeaders.match( /x-wp-upload-attachment-id:\s*(\d+)/i );
+
+		if ( id && id[1] ) {
+			id = id[1];
+		} else {
+			wpQueueError( pluploadL10n.http_error_image );
 			return;
 		}
 
@@ -449,8 +459,8 @@ jQuery( document ).ready( function( $ ) {
 				dataType: 'json',
 				data: {
 					action: 'media-create-image-subsizes',
-					_wpnonce: _wpPluploadSettings.defaults.multipart_params._wpnonce,
-					_wp_temp_upload_ref: file.id,
+					_wpnonce: wpUploaderInit.multipart_params._wpnonce,
+					attachment_id: id,
 					_wp_upload_failed_cleanup: true,
 				}
 			});
@@ -478,8 +488,8 @@ jQuery( document ).ready( function( $ ) {
 			data: {
 				action: 'media-create-image-subsizes',
 				_wpnonce: wpUploaderInit.multipart_params._wpnonce,
-				_wp_temp_upload_ref: file.id,
-				_legasy_support: 'true',
+				attachment_id: id,
+				_legacy_support: 'true',
 			}
 		}).done( function( response ) {
 			var message;
@@ -589,21 +599,6 @@ jQuery( document ).ready( function( $ ) {
 		uploader.bind( 'UploadComplete', function() {
 			uploadComplete();
 		});
-
-		/**
-		 * When uploading images add a file reference used to retrieve the attachment_id
-		 * if the uploading fails due to a server timeout of out of memoty (HTTP 500) error.
-		 *
-		 * @param {plupload.Uploader} up   Uploader instance.
-		 * @param {plupload.File}     file File for uploading.
-		 */
-		uploader.bind( 'BeforeUpload', function( up, file ) {
-			if ( file.type && file.type.indexOf( 'image/' ) === 0 ) {
-				up.settings.multipart_params._wp_temp_upload_ref = file.id;
-			} else {
-				up.settings.multipart_params._wp_temp_upload_ref = '';
-			}
-		} );
 	};
 
 	if ( typeof( wpUploaderInit ) == 'object' ) {

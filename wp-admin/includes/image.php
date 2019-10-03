@@ -251,6 +251,12 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 			return $image_meta;
 		}
 
+		// Set a custom header with the attachment_id.
+		// Used by the browser/client to resume creating image sub-sizes after a PHP fatal error.
+		if ( ! headers_sent() ) {
+			header( 'X-WP-Upload-Attachment-ID: ' . $attachment_id );
+		}
+
 		// Resize the image
 		$resized = $editor->resize( $threshold, $threshold );
 		$rotated = null;
@@ -273,6 +279,8 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 				if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
 					$image_meta['image_meta']['orientation'] = 1;
 				}
+
+				wp_update_attachment_metadata( $attachment_id, $image_meta );
 			} else {
 				// TODO: handle errors.
 			}
@@ -289,6 +297,10 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 			return $image_meta;
 		}
 
+		if ( ! headers_sent() ) {
+			header( 'X-WP-Upload-Attachment-ID: ' . $attachment_id );
+		}
+
 		// Rotate the image
 		$rotated = $editor->maybe_exif_rotate();
 
@@ -303,6 +315,8 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 				if ( ! empty( $image_meta['image_meta']['orientation'] ) ) {
 					$image_meta['image_meta']['orientation'] = 1;
 				}
+
+				wp_update_attachment_metadata( $attachment_id, $image_meta );
 			} else {
 				// TODO: handle errors.
 			}
@@ -384,6 +398,12 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 	if ( is_wp_error( $editor ) ) {
 		// The image cannot be edited.
 		return $image_meta;
+	}
+
+	// Set a custom header with the attachment_id.
+	// Used by the browser/client to resume creating image sub-sizes after a PHP fatal error.
+	if ( ! headers_sent() ) {
+		header( 'X-WP-Upload-Attachment-ID: ' . $attachment_id );
 	}
 
 	// If stored EXIF data exists, rotate the source image before creating sub-sizes.

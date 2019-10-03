@@ -2422,39 +2422,19 @@ function wp_ajax_media_create_image_subsizes() {
 		wp_send_json_error( array( 'message' => __( 'Sorry, you are not allowed to upload files.' ) ) );
 	}
 
-	if ( ! empty( $_POST['_wp_temp_upload_ref'] ) ) {
-		// Uploading of images usually fails while creating the sub-sizes, either because of a timeout or out of memory.
-		// At this point the file has been uploaded and an attachment post created, but because of the PHP fatal error
-		// the cliend doesn't know the attachment ID yet.
-		// To be able to find the new attachment_id in these cases we temporarily store an upload reference sent by the client
-		// in the original upload request. It is used to save a transient with the attachment_id as value.
-		// That reference currently is Plupload's `file.id` but can be any sufficiently random alpha-numeric string.
-		$attachment_id = _wp_get_upload_ref_attachment_id( $_POST['_wp_temp_upload_ref'] );
-	} else {
-		wp_send_json_error( array( 'message' => __( 'Invalid file reference.' ) ) );
-	}
-
-	if ( empty( $attachment_id ) ) {
+	if ( empty( $_POST['attachment_id'] ) ) {
 		wp_send_json_error( array( 'message' => __( 'Upload failed. Please reload and try again.' ) ) );
 	}
 
+	$attachment_id = (int) $_POST['attachment_id'];
+
 	if ( ! empty( $_POST['_wp_upload_failed_cleanup'] ) ) {
 		// Upload failed. Cleanup.
-		if ( wp_attachment_is_image( $attachment_id ) ) {
+		if ( wp_attachment_is_image( $attachment_id ) && current_user_can( 'delete_post', $attachment_id ) ) {
 			$attachment = get_post( $attachment_id );
 
-			// Posted at most 10 min ago.
+			// Created at most 10 min ago.
 			if ( $attachment && ( time() - strtotime( $attachment->post_date_gmt ) < 600 ) ) {
-				/**
-				 * Runs when an image upload fails during the post-processing phase,
-				 * and the newly created attachment post is about to be deleted.
-				 *
-				 * @since 5.3.0
-				 *
-				 * @param int $attachment_id The attachment post ID.
-				 */
-				do_action( 'wp_upload_failed_cleanup', $attachment_id );
-
 				wp_delete_attachment( $attachment_id, true );
 				wp_send_json_success();
 			}
@@ -2465,7 +2445,7 @@ function wp_ajax_media_create_image_subsizes() {
 	// The js that handles the response would need to also handle HTTP 500 errors.
 	wp_update_image_subsizes( $attachment_id );
 
-	if ( ! empty( $_POST['_legasy_support'] ) ) {
+	if ( ! empty( $_POST['_legacy_support'] ) ) {
 		// The old (inline) uploader. Only needs the attachment_id.
 		$response = array( 'id' => $attachment_id );
 	} else {
@@ -2478,8 +2458,6 @@ function wp_ajax_media_create_image_subsizes() {
 	}
 
 	// At this point the image has been uploaded successfully.
-	_wp_clear_upload_ref( $_POST['_wp_temp_upload_ref'] );
-
 	wp_send_json_success( $response );
 }
 
