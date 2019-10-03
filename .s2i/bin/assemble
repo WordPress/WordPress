@@ -18,7 +18,7 @@ mkdir -p /opt/app-root/silo/wordpress
 if [ -f "/opt/app-root/src/wp-config-sample.php" ]; then
     mv /opt/app-root/src/wp-config-sample.php /opt/app-root/silo/wordpress/wp-config.php
     ln -s /opt/app-root/silo/wordpress/wp-config.php /opt/app-root/src
-    sed -i '/table_prefix/a define('"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"')\n Cranades' /opt/app-root/silo/wordpress/wp-config.php
+    sed -i '/table_prefix/a define('"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"')\ndefine( '"'"'WP_PLUGIN_DIR'"'"', WP_CONTENT_DIR . '"'"'/plugins'"'"' )' /opt/app-root/silo/wordpress/wp-config.php
     mv /opt/app-root/src/wp-content /opt/app-root/silo/wordpress && export MI_PID="$!" && \
     while $(kill -0 "$MI_PID");do  sleep 1;done
 fi
