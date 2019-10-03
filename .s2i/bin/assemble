@@ -9,19 +9,23 @@ shopt -s dotglob
 echo "---> Installing application source..."
 mv /tmp/src/* ./
 
+mkdir -p /opt/silo/wordpress
+
+
+
 
 # /opt/app-root/src/wp-content
 if [ -f "/opt/app-root/src/wp-config-sample.php" ]; then
-    mv /opt/app-root/src/wp-config-sample.php /silo/wordpress/wp-config.php
-    ln -s /silo/wordpress/wp-config.php /opt/app-root/src
-    sed '/table_prefix/a define('"'"'WP_CONTENT_DIR'"'"', '"'"/silo/wp-content"'"')' /silo/wordpress/wp-config.php
-    mv /opt/app-root/src/wp-content /silo/wordpress && export MI_PID="$!" && \
+    mv /opt/app-root/src/wp-config-sample.php /opt/silo/wordpress/wp-config.php
+    ln -s /opt/silo/wordpress/wp-config.php /opt/app-root/src
+    sed '/table_prefix/a define('"'"'WP_CONTENT_DIR'"'"', '"'"/opt/silo/wordpress"'"')' /opt/silo/wordpress/wp-config.php
+    mv /opt/app-root/src/wp-content /opt/silo/wordpress && export MI_PID="$!" && \
     while $(kill -0 "$MI_PID");do  sleep 1;done
 fi
 
-while ['0'] ; do
-    echo "el 0 es true"
-done
+# while ['0'] ; do
+#     echo "el 0 es true"
+# done
 
 
 if [ -f composer.json ]; then
@@ -69,6 +73,6 @@ process_extending_files ./php-post-assemble/ ${PHP_CONTAINER_SCRIPTS_PATH}/post-
 
 # Fix source directory permissions
 fix-permissions ./
-fix-permissions /silo
+fix-permissions /opt/silo
 fix-permissions ${HTTPD_CONFIGURATION_PATH}
 
