@@ -268,7 +268,7 @@
 }
 
 .media-modal-content .media-frame select.attachment-filters {
-	margin-top: 11px;
+	margin-top: 32px;
 	margin-right: 2%;
 	width: 42%;
 	width: calc(48% - 12px);
@@ -305,12 +305,6 @@
 	height: auto;
 	overflow: visible;
 	border-top: 1px solid #ddd;
-}
-
-@media screen and (max-width: 782px) {
-	.media-frame-toolbar .media-toolbar {
-		bottom: -48px;
-	}
 }
 
 .media-toolbar-primary {
@@ -768,6 +762,7 @@
 }
 
 .media-frame.hide-menu .media-frame-menu,
+.media-frame.hide-menu .media-frame-menu-heading,
 .media-frame.hide-router .media-frame-router,
 .media-frame.hide-toolbar .media-frame-toolbar {
 	display: none;
@@ -778,6 +773,32 @@
 	font-size: 22px;
 	line-height: 2.27272727;
 	margin: 0;
+}
+
+.media-frame-menu-heading,
+.media-attachments-filter-heading {
+	position: absolute;
+	left: 20px;
+	top: 22px;
+	margin: 0;
+	font-size: 13px;
+	line-height: 1;
+	/* Above the media-frame-menu. */
+	z-index: 151;
+}
+
+.media-attachments-filter-heading {
+	top: 10px;
+	left: 16px;
+}
+
+.mode-grid .media-attachments-filter-heading {
+	top: 0;
+	left: -9999px;
+}
+
+.mode-grid .media-frame-actions-heading {
+	display: none;
 }
 
 .wp-core-ui .button.media-frame-menu-toggle {
@@ -849,7 +870,7 @@
  * Search
  */
 .media-frame .search {
-	margin-top: 10px;
+	margin-top: 32px;
 	padding: 4px;
 	font-size: 13px;
 	color: #444;
@@ -1106,7 +1127,8 @@
 
 .attachments-browser .media-toolbar {
 	right: 300px;
-	height: 50px;
+	height: 72px;
+	background: #fff;
 }
 
 .attachments-browser.hide-sidebar .media-toolbar {
@@ -1127,7 +1149,7 @@
 .attachments-browser .attachments,
 .attachments-browser .uploader-inline {
 	position: absolute;
-	top: 50px;
+	top: 72px;
 	left: 0;
 	right: 300px;
 	bottom: 0;
@@ -2330,7 +2352,8 @@
 		overflow: auto;
 		z-index: 2000;
 		top: 75px;
-		left: 0;
+		left: 50%;
+		transform: translateX(-50%);
 		right: auto;
 		bottom: auto;
 		padding: 5px 0;
@@ -2350,17 +2373,35 @@
 		margin: 5px 10px;
 	}
 
+	/* Visually hide the menu heading keeping it available to assistive technologies. */
+	.media-frame-menu-heading {
+		clip: rect(1px, 1px, 1px, 1px);
+		-webkit-clip-path: inset(50%);
+		clip-path: inset(50%);
+		height: 1px;
+		overflow: hidden;
+		padding: 0;
+		width: 1px;
+		word-wrap: normal !important;
+	}
+
+	/* Reveal the menu toggle button. */
 	.wp-core-ui .media-frame:not(.hide-menu) .button.media-frame-menu-toggle {
 		display: inline-flex;
 		align-items: center;
-		vertical-align: top;
-		min-height: 40px;
-		margin: -6px 6px 0;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		margin: -6px 0 0;
 		padding: 0 2px 0 12px;
 		font-size: 0.875rem;
 		font-weight: 600;
 		text-decoration: none;
 		background: transparent;
+		/* Only for IE11 to vertically align text within the inline-flex button */
+		height: 0.1%;
+		/* Modern browsers */
+		min-height: 40px;
 	}
 
 	.wp-core-ui .button.media-frame-menu-toggle:hover,
@@ -2564,6 +2605,29 @@
 	.media-frame select {
 		font-size: 16px;
 	}
+
+	.media-frame .media-toolbar input[type="search"] {
+		line-height: 1.625; /* 26px */
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.attachments-browser .media-toolbar {
+		height: 82px;
+	}
+
+	.attachments-browser .attachments,
+	.attachments-browser .uploader-inline {
+		top: 82px;
+	}
+
+	.media-frame .media-toolbar input[type="search"] {
+		line-height: 2.25; /* 36px */
+	}
+
+	.media-frame-toolbar .media-toolbar {
+		bottom: -48px;
+	}
 }
 
 /* Responsive on portrait and landscape */
@@ -2634,10 +2698,6 @@
 @media only screen and (max-width: 480px) {
 	.wp-core-ui.wp-customizer .media-button {
 		margin-top: 13px;
-	}
-
-	.media-frame.hide-router .media-frame-content {
-		top: 40px;
 	}
 }
 

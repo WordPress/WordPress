@@ -3931,7 +3931,8 @@ function wp_enqueue_media( $args = array() ) {
 		'addToVideoPlaylistTitle'     => __( 'Add to Video Playlist' ),
 
 		// Headings
-		'attachmentsList'             => __( 'Attachments list' ),
+		'filterAttachments'           => __( 'Filter Media' ),
+		'attachmentsList'             => __( 'Media list' ),
 	);
 
 	/**

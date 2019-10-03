@@ -178,6 +178,7 @@ function wp_print_media_templates() {
 	<?php // Template for the media frame: used both in the media grid and in the media modal. ?>
 	<script type="text/html" id="tmpl-media-frame">
 		<div class="media-frame-title" id="media-frame-title"></div>
+		<h2 class="media-frame-menu-heading"><?php _e( 'Media Types' ); ?></h2>
 		<button type="button" class="button button-link media-frame-menu-toggle" aria-expanded="false">
 			<?php _e( 'Media Types' ); ?>
 			<span class="dashicons dashicons-arrow-down" aria-hidden="true"></span>
@@ -187,6 +188,7 @@ function wp_print_media_templates() {
 			<div class="media-frame-router"></div>
 			<div class="media-frame-content"></div>
 		</div>
+		<h2 class="media-frame-actions-heading screen-reader-text"><?php _e( 'Available actions' ); ?></h2>
 		<div class="media-frame-toolbar"></div>
 		<div class="media-frame-uploader"></div>
 	</script>
