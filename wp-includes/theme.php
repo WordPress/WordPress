@@ -107,7 +107,7 @@ function wp_get_themes( $args = array() ) {
  *                           is used to calculate the theme root for the $stylesheet provided (or current theme).
  * @return WP_Theme Theme object. Be sure to check the object's exists() method if you need to confirm the theme's existence.
  */
-function wp_get_theme( $stylesheet = null, $theme_root = null ) {
+function wp_get_theme( $stylesheet = '', $theme_root = '' ) {
 	global $wp_theme_directories;
 
 	if ( empty( $stylesheet ) ) {
@@ -566,10 +566,11 @@ function search_theme_directories( $force = false ) {
  *
  * @global array $wp_theme_directories
  *
- * @param string $stylesheet_or_template The stylesheet or template name of the theme
- * @return string Theme path.
+ * @param string $stylesheet_or_template Optional. The stylesheet or template name of the theme.
+ *                                       Default is to leverage the main theme root.
+ * @return string Themes directory path.
  */
-function get_theme_root( $stylesheet_or_template = false ) {
+function get_theme_root( $stylesheet_or_template = '' ) {
 	global $wp_theme_directories;
 
 	$theme_root = '';
@@ -608,13 +609,13 @@ function get_theme_root( $stylesheet_or_template = false ) {
  *
  * @global array $wp_theme_directories
  *
- * @param bool|string $stylesheet_or_template Optional. The stylesheet or template name of the theme.
- *                                            Default value false, to use the main theme root.
- * @param bool|string $theme_root             Optional. The theme root for which calculations will be based, preventing
- *                                            the need for a get_raw_theme_root() call. Default value false.
- * @return string Themes URI.
+ * @param string $stylesheet_or_template Optional. The stylesheet or template name of the theme.
+ *                                       Default is to leverage the main theme root.
+ * @param string $theme_root             Optional. The theme root for which calculations will be based,
+ *                                       preventing the need for a get_raw_theme_root() call. Default empty.
+ * @return string Themes directory URI.
  */
-function get_theme_root_uri( $stylesheet_or_template = false, $theme_root = false ) {
+function get_theme_root_uri( $stylesheet_or_template = '', $theme_root = '' ) {
 	global $wp_theme_directories;
 
 	if ( $stylesheet_or_template && ! $theme_root ) {
@@ -647,7 +648,7 @@ function get_theme_root_uri( $stylesheet_or_template = false, $theme_root = fals
 	 *
 	 * @param string $theme_root_uri         The URI for themes directory.
 	 * @param string $siteurl                WordPress web address which is set in General Options.
-	 * @param string $stylesheet_or_template Stylesheet or template name of the theme.
+	 * @param string $stylesheet_or_template The stylesheet or template name of the theme.
 	 */
 	return apply_filters( 'theme_root_uri', $theme_root_uri, get_option( 'siteurl' ), $stylesheet_or_template );
 }
@@ -659,10 +660,10 @@ function get_theme_root_uri( $stylesheet_or_template = false, $theme_root = fals
  *
  * @global array $wp_theme_directories
  *
- * @param string $stylesheet_or_template The stylesheet or template name of the theme
+ * @param string $stylesheet_or_template The stylesheet or template name of the theme.
  * @param bool   $skip_cache             Optional. Whether to skip the cache.
  *                                       Defaults to false, meaning the cache is used.
- * @return string Theme root
+ * @return string Theme root.
  */
 function get_raw_theme_root( $stylesheet_or_template, $skip_cache = false ) {
 	global $wp_theme_directories;
@@ -3180,7 +3181,7 @@ function _wp_customize_loader_settings() {
  *                           The theme's stylesheet will be urlencoded if necessary.
  * @return string
  */
-function wp_customize_url( $stylesheet = null ) {
+function wp_customize_url( $stylesheet = '' ) {
 	$url = admin_url( 'customize.php' );
 	if ( $stylesheet ) {
 		$url .= '?theme=' . urlencode( $stylesheet );
