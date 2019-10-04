@@ -1307,7 +1307,7 @@ function wp_comment_form_unfiltered_html_nonce() {
  * @global WP_Post    $post             Global post object.
  * @global wpdb       $wpdb             WordPress database abstraction object.
  * @global int        $id
- * @global WP_Comment $comment
+ * @global WP_Comment $comment          Global comment object.
  * @global string     $user_login
  * @global int        $user_ID
  * @global string     $user_identity
@@ -1922,7 +1922,7 @@ function comment_id_fields( $id = 0 ) {
  *
  * @since 2.7.0
  *
- * @global WP_Comment $comment Current comment.
+ * @global WP_Comment $comment Global comment object.
  *
  * @param string $noreplytext  Optional. Text to display when not replying to a comment.
  *                             Default false.

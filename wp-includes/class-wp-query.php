@@ -3351,7 +3351,7 @@ class WP_Query {
 	 * Sets up the current comment.
 	 *
 	 * @since 2.2.0
-	 * @global WP_Comment $comment Current comment.
+	 * @global WP_Comment $comment Global comment object.
 	 */
 	public function the_comment() {
 		global $comment;

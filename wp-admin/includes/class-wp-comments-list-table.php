@@ -539,7 +539,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	/**
 	 * @global WP_Post    $post    Global post object.
-	 * @global WP_Comment $comment
+	 * @global WP_Comment $comment Global comment object.
 	 *
 	 * @param WP_Comment $item
 	 */
