@@ -7,6 +7,15 @@ set -eo pipefail
 
 
 
+
+shopt -s dotglob
+echo "---> Installing application source..."
+mv /tmp/src/* ./
+
+# Fix source directory permissions
+fix-permissions ./
+
+
 mkdir -p /opt/app-root/silo/wordpress
 
 

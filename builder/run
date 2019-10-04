@@ -4,7 +4,7 @@ set -x
 
 set -eo pipefail
 
-if [ false ]; then
+
 sed -i '/table_prefix/a\
 define('"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"')\n\
 define( '"'"'WP_PLUGIN_DIR'"'"', WP_CONTENT_DIR . '"'"'/plugins'"'"' )' /opt/app-root/silo/wordpress/wp-config.php
@@ -72,7 +72,6 @@ EOF
 
 ln -s /opt/app-root/silo/wordpress/.htaccess /opt/app-root/src
 
-fi
 
 # Execute the original run script, replacing this script as current process.
 
