@@ -8,12 +8,12 @@ set -eo pipefail
 
 
 
-shopt -s dotglob
-echo "---> Installing application source..."
-mv /tmp/src/* ./
+# shopt -s dotglob
+# echo "---> Installing application source..."
+# mv /tmp/src/* ./
 
-# Fix source directory permissions
-fix-permissions ./
+# # Fix source directory permissions
+# fix-permissions ./
 
 
 mkdir -p /opt/app-root/silo/wordpress
@@ -51,7 +51,7 @@ mkdir -p /tmp/.s2i
 
 mv /tmp/src/builder/image_metadata.json /tmp/.s2i/image_metadata.json
 
-rm -rf /tmp/src
+# rm -rf /tmp/src
 
 # Fixup permissions on directories and files.
 
