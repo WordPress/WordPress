@@ -638,12 +638,12 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 		} );
 
-		// Alt+Shift+Z removes a block in the Block Editor, don't add it to the Classic Block.
+		// Alt+Shift+Z removes a block in the block editor, don't add it to the Classic block.
 		if ( ! editor.settings.classic_block_editor ) {
 			editor.addShortcut( 'access+z', '', 'WP_Adv' );
 		}
 
-		// Workaround for not triggering the global help modal in the Block Editor by the Classic Block shortcut.
+		// Workaround for not triggering the global help modal in the block editor by the Classic block shortcut.
 		editor.on( 'keydown', function( event ) {
 			var match;
 

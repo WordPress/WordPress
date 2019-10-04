@@ -1294,7 +1294,7 @@ final class _WP_Editors {
 				'Link options'                         => __( 'Link options' ), // Tooltip for the 'link options' button in the inline link dialog
 				'Visual'                               => _x( 'Visual', 'Name for the Visual editor tab' ), // Editor switch tab label
 				'Text'                                 => _x( 'Text', 'Name for the Text editor tab (formerly HTML)' ), // Editor switch tab label
-				'Add Media'                            => array( __( 'Add Media' ), 'accessM' ), // Tooltip for the 'Add Media' button in the Block Editor Classic block
+				'Add Media'                            => array( __( 'Add Media' ), 'accessM' ), // Tooltip for the 'Add Media' button in the block editor Classic block
 
 				// Shortcuts help modal
 				'Keyboard Shortcuts'                   => array( __( 'Keyboard Shortcuts' ), 'accessH' ),
