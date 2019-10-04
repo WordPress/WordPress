@@ -439,58 +439,65 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					break;
 				case 'active':
 					/* translators: %s: Number of plugins. */
-					$text = _n(
+					$text = _nx(
 						'Active <span class="count">(%s)</span>',
 						'Active <span class="count">(%s)</span>',
-						$count
+						$count,
+						'plugins'
 					);
 					break;
 				case 'recently_activated':
 					/* translators: %s: Number of plugins. */
-					$text = _n(
+					$text = _nx(
 						'Recently Active <span class="count">(%s)</span>',
 						'Recently Active <span class="count">(%s)</span>',
-						$count
+						$count,
+						'plugins'
 					);
 					break;
 				case 'inactive':
 					/* translators: %s: Number of plugins. */
-					$text = _n(
+					$text = _nx(
 						'Inactive <span class="count">(%s)</span>',
 						'Inactive <span class="count">(%s)</span>',
-						$count
+						$count,
+						'plugins'
 					);
 					break;
 				case 'mustuse':
 					/* translators: %s: Number of plugins. */
-					$text = _n(
+					$text = _nx(
 						'Must-Use <span class="count">(%s)</span>',
 						'Must-Use <span class="count">(%s)</span>',
-						$count
+						$count,
+						'plugins'
 					);
 					break;
 				case 'dropins':
 					/* translators: %s: Number of plugins. */
-					$text = _n(
+					$text = _nx(
 						'Drop-in <span class="count">(%s)</span>',
 						'Drop-ins <span class="count">(%s)</span>',
-						$count
+						$count,
+						'plugins'
 					);
 					break;
 				case 'paused':
 					/* translators: %s: Number of plugins. */
-					$text = _n(
+					$text = _nx(
 						'Paused <span class="count">(%s)</span>',
 						'Paused <span class="count">(%s)</span>',
-						$count
+						$count,
+						'plugins'
 					);
 					break;
 				case 'upgrade':
 					/* translators: %s: Number of plugins. */
-					$text = _n(
+					$text = _nx(
 						'Update Available <span class="count">(%s)</span>',
 						'Update Available <span class="count">(%s)</span>',
-						$count
+						$count,
+						'plugins'
 					);
 					break;
 			}
