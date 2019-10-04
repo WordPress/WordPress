@@ -23,13 +23,13 @@
 define( 'DB_NAME', 'database_name_here' );
 
 /** MySQL database username */
-define( 'DB_USER', '${WORDPRESS_USERNAME}' );
+define( 'DB_USER', 'username_here' );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', '${WORDPRESS_PASSWORD}' );
+define( 'DB_PASSWORD', 'password_here' );
 
 /** MySQL hostname */
-define( 'DB_HOST', '{$MYSQL_HOST}:{$MYSQL_PORT_NUMBER}' );
+define( 'DB_HOST', 'localhost' );
 
 /** Database Charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
@@ -65,8 +65,6 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
  */
 $table_prefix = 'wp_';
 
-
-
 /**
  * For developers: WordPress debugging mode.
  *
@@ -81,28 +79,6 @@ $table_prefix = 'wp_';
  */
 define( 'WP_DEBUG', false );
 
-/**
- * The WP_SITEURL and WP_HOME options are configured to access from any hostname or IP address.
- * If you want to access only from an specific domain, you can modify them. For example:
- *  define('WP_HOME','http://example.com');
- *  define('WP_SITEURL','http://example.com');
- *
- */
-
-if ( defined( 'WP_CLI' ) ) {
-    $_SERVER['HTTP_HOST'] = 'localhost';
-}
-
-define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/');
-define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/');
-
-
-define( 'WP_CONTENT_DIR', '/silo' );
-define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
-
-##define('WP_TEMP_DIR', '/opt/bitnami/apps/wordpress/tmp');
-
-
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
@@ -112,21 +88,3 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Sets up WordPress vars and included files. */
 require_once( ABSPATH . 'wp-settings.php' );
-
-
-//  Disable pingback.ping xmlrpc method to prevent Wordpress from participating in DDoS attacks
-    //  More info at: https://docs.bitnami.com/general/apps/wordpress/troubleshooting/xmlrpc-and-pingback/
-
-    if ( !defined( 'WP_CLI' ) ) {
-        // remove x-pingback HTTP header
-        add_filter('wp_headers', function($headers) {
-            unset($headers['X-Pingback']);
-            return $headers;
-        });
-        // disable pingbacks
-        add_filter( 'xmlrpc_methods', function( $methods ) {
-            unset( $methods['pingback.ping'] );
-            return $methods;
-        });
-        add_filter( 'auto_update_translation', '__return_false' );
-    }
