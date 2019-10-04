@@ -1,0 +1,9 @@
+{
+  "labels": [
+    {"io.k8s.display-name":"WordPress"},
+    {"io.k8s.description":"WordPress application and S2I builder."},
+    {"io.openshift.s2i.scripts-url":"image:///opt/app-root/s2i"},
+    {"io.s2i.scripts-url":"image:///opt/app-root/s2i"},
+    {"io.openshift.tags":"builder,php,wordpress"}
+  ]
+}

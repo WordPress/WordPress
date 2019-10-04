@@ -1,0 +1,77 @@
+#!/bin/bash
+
+set -x
+
+set -eo pipefail
+
+sed -i '/table_prefix/a\
+define('"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"')\n\
+define( '"'"'WP_PLUGIN_DIR'"'"', WP_CONTENT_DIR . '"'"'/plugins'"'"' )' /opt/app-root/silo/wordpress/wp-config.php
+
+    sed -i "/'DB_COLLATE', *'')/a\
+    define('FS_METHOD', 'direct')"  /opt/app-root/silo/wordpress/wp-config.php
+
+    # Edit the wp-config-sample.php to force use of a secure connection
+    # for login and adminstration.
+
+    sed -i "/'DB_COLLATE', *'')a\
+    define( 'FORCE_SSL_ADMIN', true )"  /opt/app-root/silo/wordpress/wp-config.php
+
+    # Edit the wp-config-sample.php to ensure that static files are served
+    # up over same protocol as request to avoid mixed content errors.
+
+    sed -i "/'DB_COLLATE', *'')/a\
+    if (strpos(\$_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) \$_SERVER['HTTPS']='on'"  /opt/app-root/silo/wordpress/wp-config.php
+
+
+# Check whether the wp-config.php file has been generated previously. If
+# not then we need to generate it. This is placed in the persistent volume.
+
+secret() {
+    python -c 'import random; import string; print("".join([random.SystemRandom().choice(string.ascii_letters+string.digits) for i in range(50)]))'
+}
+
+
+    sed -i "s/'DB_NAME', *'database_name_here'/'DB_NAME', '$MYSQL_DATABASE'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/'DB_USER', *'username_here'/'DB_USER', '$MYSQL_USER'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/'DB_PASSWORD', *'password_here'/'DB_PASSWORD', '$MYSQL_PASSWORD'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/'DB_HOST', *'localhost'/'DB_HOST', '$MYSQL_HOST'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/\$table_prefix *= *'wp_';/\$table_prefix = '$MYSQL_TABLE_PREFIX';/" /opt/app-root/silo/wordpress/wp-config.php
+
+    sed -i "s/'AUTH_KEY', *'put your unique phrase here'/'AUTH_KEY', '`secret`'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/'SECURE_AUTH_KEY', *'put your unique phrase here'/'SECURE_AUTH_KEY', '`secret`'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/'LOGGED_IN_KEY', *'put your unique phrase here'/'LOGGED_IN_KEY', '`secret`'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/'NONCE_KEY', *'put your unique phrase here'/'NONCE_KEY', '`secret`'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/'AUTH_SALT', *'put your unique phrase here'/'AUTH_SALT', '`secret`'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/'SECURE_AUTH_SALT', *'put your unique phrase here'/'SECURE_AUTH_SALT', '`secret`'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/'LOGGED_IN_SALT', *'put your unique phrase here'/'LOGGED_IN_SALT', '`secret`'/" /opt/app-root/silo/wordpress/wp-config.php
+    sed -i "s/'NONCE_SALT', *'put your unique phrase here'/'NONCE_SALT', '`secret`'/" /opt/app-root/silo/wordpress/wp-config.php
+
+# Copy user provided plugins, themes, language files and configuration
+# files into the persistent volume. This happens every time the image is
+# started, which is not ideal. If application is scaled, then could also
+# occur from multple replicas at the same time. No obvious way to avoid
+# that, so outstanding question as to whether that will cause any issues.
+
+
+cat <<EOF > /opt/app-root/silo/wordpress/.htaccess
+# BEGIN WordPress
+
+
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+
+# END WordPress
+
+EOF
+
+ln -s /opt/app-root/silo/wordpress/.htaccess /opt/app-root/src
+
+
+# Execute the original run script, replacing this script as current process.
+
+exec /usr/libexec/s2i/run

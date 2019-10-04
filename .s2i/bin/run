@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Run the custom run script. This script would only be used where the
+# custom image is run as an application image. If the custom image is
+# used as a S2I builder, this script is bypassed and custom script will
+# be executed directly.
+
+exec /opt/app-root/s2i/run
