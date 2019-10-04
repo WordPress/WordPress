@@ -313,9 +313,10 @@ function create_initial_post_types() {
 			'public'      => true,
 			'_builtin'    => true, /* internal use only. */
 			/* translators: %s: Number of published posts. */
-			'label_count' => _n_noop(
+			'label_count' => _nx_noop(
 				'Published <span class="count">(%s)</span>',
-				'Published <span class="count">(%s)</span>'
+				'Published <span class="count">(%s)</span>',
+				'post status'
 			),
 		)
 	);
@@ -327,9 +328,10 @@ function create_initial_post_types() {
 			'protected'   => true,
 			'_builtin'    => true, /* internal use only. */
 			/* translators: %s: Number of scheduled posts. */
-			'label_count' => _n_noop(
+			'label_count' => _nx_noop(
 				'Scheduled <span class="count">(%s)</span>',
-				'Scheduled <span class="count">(%s)</span>'
+				'Scheduled <span class="count">(%s)</span>',
+				'post status'
 			),
 		)
 	);
@@ -341,9 +343,10 @@ function create_initial_post_types() {
 			'protected'     => true,
 			'_builtin'      => true, /* internal use only. */
 			/* translators: %s: Number of draft posts. */
-			'label_count'   => _n_noop(
+			'label_count'   => _nx_noop(
 				'Draft <span class="count">(%s)</span>',
-				'Drafts <span class="count">(%s)</span>'
+				'Drafts <span class="count">(%s)</span>',
+				'post status'
 			),
 			'date_floating' => true,
 		)
@@ -356,9 +359,10 @@ function create_initial_post_types() {
 			'protected'     => true,
 			'_builtin'      => true, /* internal use only. */
 			/* translators: %s: Number of pending posts. */
-			'label_count'   => _n_noop(
+			'label_count'   => _nx_noop(
 				'Pending <span class="count">(%s)</span>',
-				'Pending <span class="count">(%s)</span>'
+				'Pending <span class="count">(%s)</span>',
+				'post status'
 			),
 			'date_floating' => true,
 		)
@@ -371,9 +375,10 @@ function create_initial_post_types() {
 			'private'     => true,
 			'_builtin'    => true, /* internal use only. */
 			/* translators: %s: Number of private posts. */
-			'label_count' => _n_noop(
+			'label_count' => _nx_noop(
 				'Private <span class="count">(%s)</span>',
-				'Private <span class="count">(%s)</span>'
+				'Private <span class="count">(%s)</span>',
+				'post status'
 			),
 		)
 	);
@@ -385,9 +390,10 @@ function create_initial_post_types() {
 			'internal'                  => true,
 			'_builtin'                  => true, /* internal use only. */
 			/* translators: %s: Number of trashed posts. */
-			'label_count'               => _n_noop(
+			'label_count'               => _nx_noop(
 				'Trash <span class="count">(%s)</span>',
-				'Trash <span class="count">(%s)</span>'
+				'Trash <span class="count">(%s)</span>',
+				'post status'
 			),
 			'show_in_admin_status_list' => true,
 		)
@@ -420,9 +426,10 @@ function create_initial_post_types() {
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
 			/* translators: %s: Number of pending requests. */
-			'label_count'         => _n_noop(
+			'label_count'         => _nx_noop(
 				'Pending <span class="count">(%s)</span>',
-				'Pending <span class="count">(%s)</span>'
+				'Pending <span class="count">(%s)</span>',
+				'request status'
 			),
 			'exclude_from_search' => false,
 		)
@@ -435,9 +442,10 @@ function create_initial_post_types() {
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
 			/* translators: %s: Number of confirmed requests. */
-			'label_count'         => _n_noop(
+			'label_count'         => _nx_noop(
 				'Confirmed <span class="count">(%s)</span>',
-				'Confirmed <span class="count">(%s)</span>'
+				'Confirmed <span class="count">(%s)</span>',
+				'request status'
 			),
 			'exclude_from_search' => false,
 		)
@@ -450,9 +458,10 @@ function create_initial_post_types() {
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
 			/* translators: %s: Number of failed requests. */
-			'label_count'         => _n_noop(
+			'label_count'         => _nx_noop(
 				'Failed <span class="count">(%s)</span>',
-				'Failed <span class="count">(%s)</span>'
+				'Failed <span class="count">(%s)</span>',
+				'request status'
 			),
 			'exclude_from_search' => false,
 		)
@@ -465,9 +474,10 @@ function create_initial_post_types() {
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
 			/* translators: %s: Number of completed requests. */
-			'label_count'         => _n_noop(
+			'label_count'         => _nx_noop(
 				'Completed <span class="count">(%s)</span>',
-				'Completed <span class="count">(%s)</span>'
+				'Completed <span class="count">(%s)</span>',
+				'request status'
 			),
 			'exclude_from_search' => false,
 		)
@@ -2709,54 +2719,60 @@ function get_post_mime_types() {
 			__( 'Images' ),
 			__( 'Manage Images' ),
 			/* translators: %s: Number of images. */
-			_n_noop(
+			_nx_noop(
 				'Image <span class="count">(%s)</span>',
-				'Images <span class="count">(%s)</span>'
+				'Images <span class="count">(%s)</span>',
+				'mime types'
 			),
 		),
 		'audio'       => array(
 			__( 'Audio' ),
 			__( 'Manage Audio' ),
 			/* translators: %s: Number of audio files. */
-			_n_noop(
+			_nx_noop(
 				'Audio <span class="count">(%s)</span>',
-				'Audio <span class="count">(%s)</span>'
+				'Audio <span class="count">(%s)</span>',
+				'mime types'
 			),
 		),
 		'video'       => array(
 			__( 'Video' ),
 			__( 'Manage Video' ),
 			/* translators: %s: Number of video files. */
-			_n_noop(
+			_nx_noop(
 				'Video <span class="count">(%s)</span>',
-				'Video <span class="count">(%s)</span>'
+				'Video <span class="count">(%s)</span>',
+				'mime types'
 			),
 		),
 		'document'    => array(
 			__( 'Documents' ),
 			__( 'Manage Documents' ),
 			/* translators: %s: Number of documents. */
-			_n_noop(
+			_nx_noop(
 				'Document <span class="count">(%s)</span>',
-				'Documents <span class="count">(%s)</span>'
+				'Documents <span class="count">(%s)</span>',
+				'mime types'
 			),
 		),
 		'spreadsheet' => array(
 			__( 'Spreadsheets' ),
 			__( 'Manage Spreadsheets' ),
 			/* translators: %s: Number of spreadsheets. */
-			_n_noop(
+			_nx_noop(
 				'Spreadsheet <span class="count">(%s)</span>',
-				'Spreadsheets <span class="count">(%s)</span>'
+				'Spreadsheets <span class="count">(%s)</span>',
+				'mime types'
 			),
 		),
 		'archive'     => array(
 			__( 'Archives' ),
 			__( 'Manage Archives' ),
 			/* translators: %s: Number of archives. */
-			_n_noop(
+			_nx_noop(
 				'Archive <span class="count">(%s)</span>',
-				'Archives <span class="count">(%s)</span>'
+				'Archives <span class="count">(%s)</span>',
+				'mime types'
 			),
 		),
 	);
