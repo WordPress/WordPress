@@ -219,12 +219,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		$counts = wp_count_sites();
 
 		$statuses = array(
-			'all'      => _n_noop( 'All <span class="count">(%s)</span>', 'All <span class="count">(%1$s)</span>' ),
-			'public'   => _n_noop( 'Public <span class="count">(%s)</span>', 'Public <span class="count">(%1$s)</span>' ),
-			'archived' => _n_noop( 'Archived <span class="count">(%1$s)</span>', 'Archived <span class="count">(%1$s)</span>' ),
-			'mature'   => _n_noop( 'Mature <span class="count">(%1$s)</span>', 'Mature <span class="count">(%1$s)</span>' ),
-			'spam'     => _n_noop( 'Spam <span class="count">(%1$s)</span>', 'Spam <span class="count">(%1$s)</span>' ),
-			'deleted'  => _n_noop( 'Deleted <span class="count">(%1$s)</span>', 'Deleted <span class="count">(%1$s)</span>' ),
+			'all'      => _n_noop( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>' ),
+			'public'   => _n_noop( 'Public <span class="count">(%s)</span>', 'Public <span class="count">(%s)</span>' ),
+			'archived' => _n_noop( 'Archived <span class="count">(%s)</span>', 'Archived <span class="count">(%s)</span>' ),
+			'mature'   => _n_noop( 'Mature <span class="count">(%s)</span>', 'Mature <span class="count">(%s)</span>' ),
+			'spam'     => _n_noop( 'Spam <span class="count">(%s)</span>', 'Spam <span class="count">(%s)</span>' ),
+			'deleted'  => _n_noop( 'Deleted <span class="count">(%s)</span>', 'Deleted <span class="count">(%s)</span>' ),
 		);
 
 		$view_links       = array();
