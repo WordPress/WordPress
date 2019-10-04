@@ -231,9 +231,13 @@ if ( isset( $_GET['action'] ) ) {
 					wp_safe_redirect( $redirect_to );
 					exit();
 				}
-			} elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
-				// process query defined by WP_MS_Site_List_Table::extra_table_nav().
-				wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+			} else {
+				// Process query defined by WP_MS_Site_List_Table::extra_table_nav().
+				$location = remove_query_arg(
+					array( '_wp_http_referer', '_wpnonce' ),
+					add_query_arg( $_POST, network_admin_url( 'sites.php' ) )
+				);
+				wp_redirect( $location );
 				exit;
 			}
 
