@@ -161,10 +161,11 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			$current_link_attributes,
 			sprintf(
 				/* translators: Number of users. */
-				_n(
+				_nx(
 					'Super Admin <span class="count">(%s)</span>',
 					'Super Admins <span class="count">(%s)</span>',
-					$total_admins
+					$total_admins,
+					'users'
 				),
 				number_format_i18n( $total_admins )
 			)
