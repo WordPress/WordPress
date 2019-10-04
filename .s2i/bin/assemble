@@ -47,5 +47,4 @@ rm -rf /tmp/src
 # Fixup permissions on directories and files.
 
 fix-permissions /opt/app-root
-fix-permissions /opt/app-root/silo/wordpress
 
