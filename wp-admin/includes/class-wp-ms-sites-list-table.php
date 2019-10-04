@@ -36,10 +36,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 */
 	public function __construct( $args = array() ) {
 		$this->status_list = array(
-			'archived' => array( 'site-archived', __( 'Archived' ) ),
+			'archived' => array( 'site-archived', _x( 'Archived', 'site' ) ),
 			'spam'     => array( 'site-spammed', _x( 'Spam', 'site' ) ),
-			'deleted'  => array( 'site-deleted', __( 'Deleted' ) ),
-			'mature'   => array( 'site-mature', __( 'Mature' ) ),
+			'deleted'  => array( 'site-deleted', _x( 'Deleted', 'site' ) ),
+			'mature'   => array( 'site-mature', _x( 'Mature', 'site' ) ),
 		);
 
 		parent::__construct(
@@ -219,12 +219,42 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		$counts = wp_count_sites();
 
 		$statuses = array(
-			'all'      => _n_noop( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>' ),
-			'public'   => _n_noop( 'Public <span class="count">(%s)</span>', 'Public <span class="count">(%s)</span>' ),
-			'archived' => _n_noop( 'Archived <span class="count">(%s)</span>', 'Archived <span class="count">(%s)</span>' ),
-			'mature'   => _n_noop( 'Mature <span class="count">(%s)</span>', 'Mature <span class="count">(%s)</span>' ),
-			'spam'     => _n_noop( 'Spam <span class="count">(%s)</span>', 'Spam <span class="count">(%s)</span>' ),
-			'deleted'  => _n_noop( 'Deleted <span class="count">(%s)</span>', 'Deleted <span class="count">(%s)</span>' ),
+			/* translators: %s: Number of sites. */
+			'all'      => _nx_noop(
+				'All <span class="count">(%s)</span>',
+				'All <span class="count">(%s)</span>',
+				'sites'
+			),
+			/* translators: %s: Number of sites. */
+			'public'   => _nx_noop(
+				'Public <span class="count">(%s)</span>',
+				'Public <span class="count">(%s)</span>',
+				'sites'
+			),
+			/* translators: %s: Number of sites. */
+			'archived' => _nx_noop(
+				'Archived <span class="count">(%s)</span>',
+				'Archived <span class="count">(%s)</span>',
+				'sites'
+			),
+			/* translators: %s: Number of sites. */
+			'mature'   => _nx_noop(
+				'Mature <span class="count">(%s)</span>',
+				'Mature <span class="count">(%s)</span>',
+				'sites'
+			),
+			/* translators: %s: Number of sites. */
+			'spam'     => _nx_noop(
+				'Spam <span class="count">(%s)</span>',
+				'Spam <span class="count">(%s)</span>',
+				'sites'
+			),
+			/* translators: %s: Number of sites. */
+			'deleted'  => _nx_noop(
+				'Deleted <span class="count">(%s)</span>',
+				'Deleted <span class="count">(%s)</span>',
+				'sites'
+			),
 		);
 
 		$view_links       = array();
