@@ -46,7 +46,7 @@ mv /tmp/src/ /opt/app-root/2i/assemble
 
 mv /tmp/src/wp-contents  /opt/app-root/silo/wordpress
 mv /tmp/src/wp-config-sample.php /opt/app-root/silo/wordpress/wp-config.php
-mv /tmp/src/* ./
+mv /tmp/src ./
 
 
 
