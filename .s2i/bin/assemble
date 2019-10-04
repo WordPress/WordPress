@@ -21,16 +21,6 @@ mkdir -p /opt/app-root/silo/wordpress
 
 
 
-# /opt/app-root/silo/wordpress
-if [ -f "/opt/app-root/src/wp-config-sample.php" ]; then
-    mv /opt/app-root/src/wp-config-sample.php /opt/app-root/silo/wordpress/wp-config.php
-    ln -s /opt/app-root/silo/wordpress/wp-config.php /opt/app-root/src
-    mv /opt/app-root/src/wp-content /opt/app-root/silo/wordpress && export MI_PID="$!" && \
-    while $(kill -0 "$MI_PID");do  sleep 1;done
-fi
-
-
-
 # while ['0'] ; do
 #     echo "el 0 es true"
 # done
@@ -51,7 +41,26 @@ mkdir -p /tmp/.s2i
 
 mv /tmp/src/builder/image_metadata.json /tmp/.s2i/image_metadata.json
 
-# rm -rf /tmp/src
+
+mv /tmp/src/ /opt/app-root/2i/assemble
+
+mv /tmp/src/wp-contents  /opt/app-root/silo/wordpress
+mv /tmp/src/wp-config-sample.php /opt/app-root/silo/wordpress/wp-config.php
+mv /tmp/src/* ./
+
+
+
+if [ -f "/opt/app-root/silo/wordpress/wp-config.php" ]; then
+    ln -s /opt/app-root/silo/wordpress/wp-config.php /opt/app-root/src
+    # mv /opt/app-root/src/wp-content /opt/app-root/silo/wordpress && export MI_PID="$!" && \
+    #     while $(kill -0 "$MI_PID");do  sleep 1;done
+fi
+
+
+
+
+
+rm -rf /tmp/src
 
 # Fixup permissions on directories and files.
 
