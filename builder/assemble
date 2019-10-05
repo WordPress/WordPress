@@ -16,3 +16,5 @@ rm -fr /opt/app-root/silo/wordpress
 mv /tmp/src/wordpress /opt/app-root/silo
 
 rm -rf /tmp/src
+
+fix-permissions /opt/app-root
