@@ -121,11 +121,6 @@
 						while ( ii-- ) {
 							node = addedNodes[ ii ];
 
-							// Don't replace emoji inside elements that don't support it.
-							if ( ! node || node.closest( '.wp-exclude-emoji' ) || node.closest( '.CodeMirror' ) ) {
-								continue;
-							}
-
 							// Node type 3 is a TEXT_NODE.
 							if ( node.nodeType === 3 ) {
 								if ( ! node.parentNode ) {
@@ -150,8 +145,14 @@
 								node = node.parentNode;
 							}
 
-							// Only make replacements inside Element nodes.
-							if ( node.nodeType !== 1 ) {
+							/*
+							 * If the class name of a non-element node contains 'wp-exclude-emoji' ignore it.
+							 *
+							 * Node type 1 is an ELEMENT_NODE.
+							 */
+							if ( ! node || node.nodeType !== 1 ||
+								( node.className && typeof node.className === 'string' && node.className.indexOf( 'wp-exclude-emoji' ) !== -1 ) ) {
+
 								continue;
 							}
 
