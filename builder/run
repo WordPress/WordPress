@@ -50,16 +50,16 @@ cat <<EOF >> /opt/app-root/silo/wordpress/wp-config.php
 
 
 
-if ( !defined( 'WP_CLI' ) ) {
+if ( ! defined( 'WP_CLI' ) ) {
     // remove x-pingback HTTP header
-    add_filter('wp_headers', function($headers) {
+    add_filter('wp_headers', function(\$headers) {
         unset($headers['X-Pingback']);
         return $headers;
     });
     // disable pingbacks
-    add_filter( 'xmlrpc_methods', function( $methods ) {
-            unset( $methods['pingback.ping'] );
-            return $methods;
+    add_filter( 'xmlrpc_methods', function( \$methods ) {
+            unset( \$methods['pingback.ping'] );
+            return \$methods;
     });
     add_filter( 'auto_update_translation', '__return_false' );
 }
