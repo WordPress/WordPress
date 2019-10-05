@@ -42,7 +42,7 @@ mkdir -p /tmp/.s2i
 mv /tmp/src/builder/image_metadata.json /tmp/.s2i/image_metadata.json
 
 
-mv /tmp/src/wp-contents  /opt/app-root/silo/wordpress
+mv /tmp/src/wp-content  /opt/app-root/silo/wordpress/
 mv /tmp/src/wp-config-sample.php /opt/app-root/silo/wordpress/wp-config.php
 mv /tmp/src/* ./
 
