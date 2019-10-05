@@ -1023,6 +1023,11 @@ ul.categorychecklist li {
 	width: 95%;
 }
 
+.form-field select,
+.form-field p {
+	max-width: 95%;
+}
+
 p.description,
 .form-wrap p {
 	margin: 2px 0 5px;
@@ -1044,10 +1049,6 @@ p.description code {
 .form-wrap .form-field {
 	margin: 1em 0;
 	padding: 0;
-}
-
-.form-wrap .form-field #parent {
-	max-width: 100%;
 }
 
 .col-wrap h2 {
