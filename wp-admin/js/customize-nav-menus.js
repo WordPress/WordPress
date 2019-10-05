@@ -1921,7 +1921,6 @@
 			control.params.target = settingValue.target;
 			control.params.attr_title = settingValue.attr_title;
 			control.params.classes = _.isArray( settingValue.classes ) ? settingValue.classes.join( ' ' ) : settingValue.classes;
-			control.params.attr_title = settingValue.attr_title;
 			control.params.xfn = settingValue.xfn;
 			control.params.description = settingValue.description;
 			control.params.parent = settingValue.menu_item_parent;
