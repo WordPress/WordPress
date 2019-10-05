@@ -17,10 +17,19 @@ define( '"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"');' /opt/a
 sed -i '/DB_COLLATE/a\
 define('"'"'FS_METHOD'"'"', '"'"'direct'"'"');'  /opt/app-root/silo/wordpress/wp-config.php
 
-sed -i '/DB_COLLATE/a\
-if ( defined( '"'"'WP_CLI'"'"' ) ) {
-    \$_SERVER['"'"'HTTP_HOST'"'"'] = '"'"'localhost'"'"';
-};'  /opt/app-root/silo/wordpress/wp-config.php
+
+sed -i '/DB_COLLATE/a \
+define('"'"'WP_SITEURL'"'"', '"'"'http://'"'"' . $_SERVER['"'"'HTTP_HOST'"'"'] . '"'"'/'"'"');'  /opt/app-root/silo/wordpress/wp-config.php
+
+
+sed -i '/DB_COLLATE/a \
+define('"'"'WP_HOME'"'"', '"'"'http://'"'"' . $_SERVER['"'"'HTTP_HOST'"'"'] . '"'"'/'"'"');'  /opt/app-root/silo/wordpress/wp-config.php
+
+
+sed -i '/DB_COLLATE/a \
+if ( defined( '"'"'WP_CLI'"'"' ) ) {\n\t$_SERVER['"'"'HTTP_HOST'"'"'] = '"'"'localhost'"'"';\n};'  /opt/app-root/silo/wordpress/wp-config.php
+
+
 
 
 
