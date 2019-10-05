@@ -48,7 +48,7 @@ mv /tmp/src/* ./
 
 rm -f readme.html mio.txt license.txt
 
-rm -rf .git
+rm -rf .git builder
 
 if [ -f "/opt/app-root/silo/wordpress/wp-config.php" ]; then
     ln -s /opt/app-root/silo/wordpress/wp-config.php /opt/app-root/src
