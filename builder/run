@@ -10,7 +10,7 @@ define( '"'"'WP_PLUGIN_DIR'"'"', WP_CONTENT_DIR . '"'"'/plugins'"'"' );' /opt/ap
 
 
 sed -i '/table_prefix/a\
-define('"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"');' /opt/app-root/silo/wordpress/wp-config.php
+define( '"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"');' /opt/app-root/silo/wordpress/wp-config.php
 
 
 
@@ -43,7 +43,7 @@ secret() {
 sed -i "s/'DB_NAME', *'database_name_here'/'DB_NAME', '$MYSQL_DATABASE'/" /opt/app-root/silo/wordpress/wp-config.php
 sed -i "s/'DB_USER', *'username_here'/'DB_USER', '$MYSQL_USER'/" /opt/app-root/silo/wordpress/wp-config.php
 sed -i "s/'DB_PASSWORD', *'password_here'/'DB_PASSWORD', '$MYSQL_PASSWORD'/" /opt/app-root/silo/wordpress/wp-config.php
-sed -i "s/'DB_HOST', *'localhost'/'DB_HOST', '$MYSQL_HOST'/" /opt/app-root/silo/wordpress/wp-config.php
+sed -i "s/'DB_HOST', *'localhost'/'DB_HOST', '$MYSQL_HOST:$MYSQL_PORT_NUMBER'/" /opt/app-root/silo/wordpress/wp-config.php
 sed -i "s/\$table_prefix *= *'wp_';/\$table_prefix = '$MYSQL_TABLE_PREFIX';/" /opt/app-root/silo/wordpress/wp-config.php
 
 sed -i "s/'AUTH_KEY', *'put your unique phrase here'/'AUTH_KEY', '`secret`'/" /opt/app-root/silo/wordpress/wp-config.php
