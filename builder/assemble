@@ -13,6 +13,6 @@ set -eo pipefail
 
 
 
-mv /tmp/src/wordpress /opt/app-root/silo
+mv -f /tmp/src/wordpress /opt/app-root/silo
 
 rm -rf /tmp/src
