@@ -42,13 +42,13 @@ mkdir -p /tmp/.s2i
 mv /tmp/src/builder/image_metadata.json /tmp/.s2i/image_metadata.json
 
 
-mv /tmp/src/ /opt/app-root/2i/assemble
-
 mv /tmp/src/wp-contents  /opt/app-root/silo/wordpress
 mv /tmp/src/wp-config-sample.php /opt/app-root/silo/wordpress/wp-config.php
-mv /tmp/src ./
+mv /tmp/src/* ./
 
+rm -f readme.html mio.txt license.txt
 
+rm -rf .git
 
 if [ -f "/opt/app-root/silo/wordpress/wp-config.php" ]; then
     ln -s /opt/app-root/silo/wordpress/wp-config.php /opt/app-root/src
