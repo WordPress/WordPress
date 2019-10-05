@@ -33,15 +33,14 @@ sed -i '/table_prefix/a \
 
 
 
-sed -i '/WP_DEBUG/a\
+sed -i '/.* all, stop editing! Happy publishing/a\
 \ndefine('"'"'FS_METHOD'"'"', '"'"'direct'"'"');'  /opt/app-root/silo/wordpress/wp-config.php
 
-sed -i '/WP_DEBUG/a \
-\nif ( ! defined( '"'"'ABSPATH'"'"' ) ) {\n\tdefine( 'ABSPATH', dirname( __FILE__ ) . '/' );\n};'  /opt/app-root/silo/wordpress/wp-config.php
+# sed -i '/WP_DEBUG/a \
+# \nif ( ! defined( '"'"'ABSPATH'"'"' ) ) {\n\tdefine( 'ABSPATH', dirname( __FILE__ ) . '/' );\n};'  /opt/app-root/silo/wordpress/wp-config.php
 
 
-
-sed -i '/WP_DEBUG/a \
+sed -i '/.* all, stop editing! Happy publishing/a\
 \nif ( defined( '"'"'WP_CLI'"'"' ) ) {\n\t$_SERVER['"'"'HTTP_HOST'"'"'] = '"'"'localhost'"'"';\n};'  /opt/app-root/silo/wordpress/wp-config.php
 
 
@@ -73,14 +72,14 @@ EOF
 # for login and adminstration.
 
 sed -i '/DB_COLLATE/a\
-define('"'"'FORCE_SSL_ADMIN'"'"', true);'  /opt/app-root/silo/wordpress/wp-config.php
+\ndefine('"'"'FORCE_SSL_ADMIN'"'"', true);'  /opt/app-root/silo/wordpress/wp-config.php
 
    
 # Edit the wp-config-sample.php to ensure that static files are served
 # up over same protocol as request to avoid mixed content errors.
 
 sed -i '/DB_COLLATE/a\
-if (strpos(\$_SERVER['"'"'HTTP_X_FORWARDED_PROTO'"'"'], '"'"'https'"'"') !== false) \$_SERVER['"'"'HTTPS'"'"']='"'"'on'"'"';'  /opt/app-root/silo/wordpress/wp-config.php
+\nif (strpos(\$_SERVER['"'"'HTTP_X_FORWARDED_PROTO'"'"'], '"'"'https'"'"') !== false) \$_SERVER['"'"'HTTPS'"'"']='"'"'on'"'"';'  /opt/app-root/silo/wordpress/wp-config.php
 
     
 
