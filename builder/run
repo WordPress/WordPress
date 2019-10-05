@@ -54,7 +54,7 @@ if ( ! defined( 'WP_CLI' ) ) {
     // remove x-pingback HTTP header
     add_filter('wp_headers', function(\$headers) {
         unset(\$headers['X-Pingback']);
-        return $headers;
+        return \$headers;
     });
     // disable pingbacks
     add_filter( 'xmlrpc_methods', function( \$methods ) {
