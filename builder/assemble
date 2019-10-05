@@ -11,8 +11,8 @@ set -eo pipefail
 # persistent volume.
 
 
+rm -fr /opt/app-root/silo/wordpress
 
-
-mv -f /tmp/src/wordpress /opt/app-root/silo
+mv /tmp/src/wordpress /opt/app-root/silo
 
 rm -rf /tmp/src
