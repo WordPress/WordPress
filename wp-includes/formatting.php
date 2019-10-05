@@ -3063,13 +3063,12 @@ function wp_rel_callback( $matches, $rel ) {
  * @return string Converted content.
  */
 function wp_rel_nofollow( $text ) {
-	// This is a pre save filter, so text is already escaped.
+	// This is a pre-save filter, so text is already escaped.
 	$text = stripslashes( $text );
-	$rel  = 'nofollow';
 	$text = preg_replace_callback(
 		'|<a (.+?)>|i',
-		function( $matches ) use ( $rel ) {
-			return wp_rel_callback( $matches, $rel );
+		function( $matches ) {
+			return wp_rel_callback( $matches, 'nofollow' );
 		},
 		$text
 	);
@@ -3098,13 +3097,12 @@ function wp_rel_nofollow_callback( $matches ) {
  * @return string Converted content.
  */
 function wp_rel_ugc( $text ) {
-	// This is a pre save filter, so text is already escaped.
+	// This is a pre-save filter, so text is already escaped.
 	$text = stripslashes( $text );
-	$rel  = 'nofollow ugc';
 	$text = preg_replace_callback(
 		'|<a (.+?)>|i',
-		function( $matches ) use ( $rel ) {
-			return wp_rel_callback( $matches, $rel );
+		function( $matches ) {
+			return wp_rel_callback( $matches, 'nofollow ugc' );
 		},
 		$text
 	);
