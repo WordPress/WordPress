@@ -235,6 +235,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 	 *
 	 * @since 5.3.0
 	 *
+	 * @param int    $threshold     The threshold value in pixels. Default 2560.
 	 * @param array  $imagesize     Indexed array of the image width and height (in that order).
 	 * @param string $file          Full path to the uploaded image file.
 	 * @param int    $attachment_id Attachment post ID.
