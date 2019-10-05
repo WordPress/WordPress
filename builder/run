@@ -53,7 +53,7 @@ cat <<EOF >> /opt/app-root/silo/wordpress/wp-config.php
 if ( ! defined( 'WP_CLI' ) ) {
     // remove x-pingback HTTP header
     add_filter('wp_headers', function(\$headers) {
-        unset($headers['X-Pingback']);
+        unset(\$headers['X-Pingback']);
         return $headers;
     });
     // disable pingbacks
