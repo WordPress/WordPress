@@ -6,26 +6,26 @@ set -eo pipefail
 
 
 sed -i '/table_prefix/a\
-define('"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"')\' /opt/app-root/silo/wordpress/wp-config.php
+define('"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"');' /opt/app-root/silo/wordpress/wp-config.php
 
 sed -i '/table_prefix/a\
-define( '"'"'WP_PLUGIN_DIR'"'"', WP_CONTENT_DIR . '"'"'/plugins'"'"' )' /opt/app-root/silo/wordpress/wp-config.php
+define( '"'"'WP_PLUGIN_DIR'"'"', WP_CONTENT_DIR . '"'"'/plugins'"'"' );' /opt/app-root/silo/wordpress/wp-config.php
 
     sed -i '/DB_COLLATE/a\
-    define('"'"'FS_METHOD'"'"', '"'"'direct'"'"')'  /opt/app-root/silo/wordpress/wp-config.php
+    define('"'"'FS_METHOD'"'"', '"'"'direct'"'"');'  /opt/app-root/silo/wordpress/wp-config.php
 
     # Edit the wp-config-sample.php to force use of a secure connection
     # for login and adminstration.
 
     sed -i '/DB_COLLATE/a\
-    define('"'"'FORCE_SSL_ADMIN'"'"', true)'  /opt/app-root/silo/wordpress/wp-config.php
+    define('"'"'FORCE_SSL_ADMIN'"'"', true);'  /opt/app-root/silo/wordpress/wp-config.php
 
    
     # Edit the wp-config-sample.php to ensure that static files are served
     # up over same protocol as request to avoid mixed content errors.
 
     sed -i '/DB_COLLATE/a\
-    if (strpos(\$_SERVER['"'"'HTTP_X_FORWARDED_PROTO'"'"'], '"'"'https'"'"') !== false) \$_SERVER['"'"'HTTPS'"'"']='"'"'on'"'"''  /opt/app-root/silo/wordpress/wp-config.php
+    if (strpos(\$_SERVER['"'"'HTTP_X_FORWARDED_PROTO'"'"'], '"'"'https'"'"') !== false) \$_SERVER['"'"'HTTPS'"'"']='"'"'on'"'"';'  /opt/app-root/silo/wordpress/wp-config.php
 
     
 
