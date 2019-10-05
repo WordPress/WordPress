@@ -905,15 +905,15 @@ function get_theme_mods() {
  * Retrieve theme modification value for the current theme.
  *
  * If the modification name does not exist, then the $default will be passed
- * through {@link https://secure.php.net/sprintf sprintf()} PHP function with the first
- * string the template directory URI and the second string the stylesheet
- * directory URI.
+ * through {@link https://secure.php.net/sprintf sprintf()} PHP function with
+ * the template directory URI as the first string and the stylesheet directory URI
+ * as the second string.
  *
  * @since 2.1.0
  *
- * @param string      $name    Theme modification name.
- * @param bool|string $default
- * @return mixed
+ * @param string       $name    Theme modification name.
+ * @param string|false $default Optional. Theme modification default value. Default false.
+ * @return mixed Theme modification value.
  */
 function get_theme_mod( $name, $default = false ) {
 	$mods = get_theme_mods();
@@ -922,10 +922,9 @@ function get_theme_mod( $name, $default = false ) {
 		/**
 		 * Filters the theme modification, or 'theme_mod', value.
 		 *
-		 * The dynamic portion of the hook name, `$name`, refers to
-		 * the key name of the modification array. For example,
-		 * 'header_textcolor', 'header_image', and so on depending
-		 * on the theme options.
+		 * The dynamic portion of the hook name, `$name`, refers to the key name
+		 * of the modification array. For example, 'header_textcolor', 'header_image',
+		 * and so on depending on the theme options.
 		 *
 		 * @since 2.2.0
 		 *
@@ -955,16 +954,16 @@ function set_theme_mod( $name, $value ) {
 	$old_value = isset( $mods[ $name ] ) ? $mods[ $name ] : false;
 
 	/**
-	 * Filters the theme mod value on save.
+	 * Filters the theme modification, or 'theme_mod', value on save.
 	 *
-	 * The dynamic portion of the hook name, `$name`, refers to the key name of
-	 * the modification array. For example, 'header_textcolor', 'header_image',
+	 * The dynamic portion of the hook name, `$name`, refers to the key name
+	 * of the modification array. For example, 'header_textcolor', 'header_image',
 	 * and so on depending on the theme options.
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param string $value     The new value of the theme mod.
-	 * @param string $old_value The current value of the theme mod.
+	 * @param string $value     The new value of the theme modification.
+	 * @param string $old_value The current value of the theme modification.
 	 */
 	$mods[ $name ] = apply_filters( "pre_set_theme_mod_{$name}", $value, $old_value );
 
