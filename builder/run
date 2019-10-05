@@ -6,7 +6,9 @@ set -eo pipefail
 
 
 sed -i '/table_prefix/a\
-define('"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"')\n\
+define('"'"'WP_CONTENT_DIR'"'"', '"'"/opt/app-root/silo/wordpress"'"')\' /opt/app-root/silo/wordpress/wp-config.php
+
+sed -i '/table_prefix/a\
 define( '"'"'WP_PLUGIN_DIR'"'"', WP_CONTENT_DIR . '"'"'/plugins'"'"' )' /opt/app-root/silo/wordpress/wp-config.php
 
     sed -i "/'DB_COLLATE', *'')/a\
