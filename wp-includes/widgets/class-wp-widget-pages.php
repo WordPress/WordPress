@@ -56,7 +56,7 @@ class WP_Widget_Pages extends WP_Widget {
 		$sortby  = empty( $instance['sortby'] ) ? 'menu_order' : $instance['sortby'];
 		$exclude = empty( $instance['exclude'] ) ? '' : $instance['exclude'];
 
-		if ( $sortby == 'menu_order' ) {
+		if ( 'menu_order' === $sortby ) {
 			$sortby = 'menu_order, post_title';
 		}
 
