@@ -288,6 +288,11 @@ class Requests_Cookie {
 				return $expiry_time;
 
 			case 'domain':
+				// Domains are not required as per RFC 6265 section 5.2.3
+				if (empty($value)) {
+					return null;
+				}
+
 				// Domain normalization, as per RFC 6265 section 5.2.3
 				if ($value[0] === '.') {
 					$value = substr($value, 1);
