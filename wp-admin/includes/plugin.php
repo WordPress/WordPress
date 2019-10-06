@@ -85,7 +85,7 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 
 	$plugin_data = get_file_data( $plugin_file, $default_headers, 'plugin' );
 
-	// Site Wide Only is the old header for Network
+	// Site Wide Only is the old header for Network.
 	if ( ! $plugin_data['Network'] && $plugin_data['_sitewide'] ) {
 		/* translators: 1: Site Wide Only: true, 2: Network: true */
 		_deprecated_argument( __FUNCTION__, '3.0.0', sprintf( __( 'The %1$s plugin header is deprecated. Use %2$s instead.' ), '<code>Site Wide Only: true</code>', '<code>Network: true</code>' ) );
@@ -142,10 +142,10 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
  */
 function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup = true, $translate = true ) {
 
-	// Sanitize the plugin filename to a WP_PLUGIN_DIR relative path
+	// Sanitize the plugin filename to a WP_PLUGIN_DIR relative path.
 	$plugin_file = plugin_basename( $plugin_file );
 
-	// Translate fields
+	// Translate fields.
 	if ( $translate ) {
 		$textdomain = $plugin_data['TextDomain'];
 		if ( $textdomain ) {
@@ -167,7 +167,7 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 		}
 	}
 
-	// Sanitize fields
+	// Sanitize fields.
 	$allowed_tags_in_links = array(
 		'abbr'    => array( 'title' => true ),
 		'acronym' => array( 'title' => true ),
@@ -196,7 +196,7 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 	$plugin_data['Title']      = $plugin_data['Name'];
 	$plugin_data['AuthorName'] = $plugin_data['Author'];
 
-	// Apply markup
+	// Apply markup.
 	if ( $markup ) {
 		if ( $plugin_data['PluginURI'] && $plugin_data['Name'] ) {
 			$plugin_data['Title'] = '<a href="' . $plugin_data['PluginURI'] . '">' . $plugin_data['Name'] . '</a>';
@@ -292,7 +292,7 @@ function get_plugins( $plugin_folder = '' ) {
 		$plugin_root .= $plugin_folder;
 	}
 
-	// Files in wp-content/plugins directory
+	// Files in wp-content/plugins directory.
 	$plugins_dir  = @ opendir( $plugin_root );
 	$plugin_files = array();
 	if ( $plugins_dir ) {
@@ -358,7 +358,7 @@ function get_plugins( $plugin_folder = '' ) {
  */
 function get_mu_plugins() {
 	$wp_plugins = array();
-	// Files in wp-content/mu-plugins directory
+	// Files in wp-content/mu-plugins directory.
 	$plugin_files = array();
 
 	if ( ! is_dir( WPMU_PLUGIN_DIR ) ) {
@@ -431,7 +431,7 @@ function get_dropins() {
 
 	$_dropins = _get_dropins();
 
-	// These exist in the wp-content directory
+	// These exist in the wp-content directory.
 	$plugins_dir = @opendir( WP_CONTENT_DIR );
 	if ( $plugins_dir ) {
 		while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
@@ -1537,7 +1537,6 @@ function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @param int      $position   The position in the menu order this item should appear.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
-
 function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
 	if ( current_user_can( 'edit_users' ) ) {
 		$parent = 'users.php';
@@ -1546,6 +1545,7 @@ function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $fun
 	}
 	return add_submenu_page( $parent, $page_title, $menu_title, $capability, $menu_slug, $function, $position );
 }
+
 /**
  * Add submenu page to the Dashboard main menu.
  *
