@@ -1801,6 +1801,7 @@ function wp_default_scripts( &$scripts ) {
 				'noneRemoved'     => __( 'Personal data was found for this user but was not erased.' ),
 				'someNotRemoved'  => __( 'Personal data was found for this user but some of the personal data found was not erased.' ),
 				'removalError'    => __( 'An error occurred while attempting to find and erase personal data.' ),
+				'emailSent'       => __( 'The personal data export link for this user was sent.' ),
 				'noExportFile'    => __( 'No personal data export file was generated.' ),
 				'exportError'     => __( 'An error occurred while attempting to export personal data.' ),
 			)
