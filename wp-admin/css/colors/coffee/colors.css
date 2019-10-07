@@ -21,7 +21,7 @@ a:hover, a:active, a:focus {
 .curtime #timestamp:before,
 #post-body .misc-pub-revisions:before,
 span.wp-media-buttons-icon:before {
-  color: #0096dd;
+  color: currentColor;
 }
 
 /* Forms */
@@ -86,6 +86,19 @@ textarea:focus {
   box-shadow: 0 0 0 1px #c7a589;
 }
 
+.wp-core-ui .button:active {
+  background: #bf9878;
+  border-color: #bf9878;
+}
+
+.wp-core-ui .button.active,
+.wp-core-ui .button.active:focus,
+.wp-core-ui .button.active:hover {
+  border-color: #bf9878;
+  color: #bf9878;
+  box-shadow: inset 0 2px 5px -3px #bf9878;
+}
+
 .wp-core-ui .button-primary {
   background: #c7a589;
   border-color: #c7a589;
@@ -102,9 +115,17 @@ textarea:focus {
   box-shadow: 0 0 0 1px #fff, 0 0 0 3px #c7a589;
 }
 
-.wp-core-ui .button-primary:active, .wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover {
+.wp-core-ui .button-primary:active {
   background: #bf9878;
   border-color: #bf9878;
+  color: #fff;
+}
+
+.wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover {
+  background: #c7a589;
+  color: #fff;
+  border-color: #ae7d55;
+  box-shadow: inset 0 2px 5px -3px #37271a;
 }
 
 .wp-core-ui .button-primary[disabled], .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary.button-primary-disabled, .wp-core-ui .button-primary.disabled {
