@@ -274,9 +274,9 @@ function wpmu_admin_do_redirect( $url = '' ) {
 	if ( isset( $_GET['ref'] ) && isset( $_POST['ref'] ) && $_GET['ref'] !== $_POST['ref'] ) {
 		wp_die( __( 'A variable mismatch has been detected.' ), __( 'Sorry, you are not allowed to view this item.' ), 400 );
 	} elseif ( isset( $_POST['ref'] ) ) {
-		$ref = $_POST[ 'ref' ];
+		$ref = $_POST['ref'];
 	} elseif ( isset( $_GET['ref'] ) ) {
-		$ref = $_GET[ 'ref' ];
+		$ref = $_GET['ref'];
 	}
 
 	if ( $ref ) {
