@@ -2441,6 +2441,12 @@ function wp_ajax_media_create_image_subsizes() {
 		}
 	}
 
+	// Set a custom header with the attachment_id.
+	// Used by the browser/client to resume creating image sub-sizes after a PHP fatal error.
+	if ( ! headers_sent() ) {
+		header( 'X-WP-Upload-Attachment-ID: ' . $attachment_id );
+	}
+
 	// This can still be pretty slow and cause timeout or out of memory errors.
 	// The js that handles the response would need to also handle HTTP 500 errors.
 	wp_update_image_subsizes( $attachment_id );

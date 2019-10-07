@@ -408,6 +408,12 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 	$attachment_id = wp_insert_attachment( $attachment, $file, $post_id, true );
 
 	if ( ! is_wp_error( $attachment_id ) ) {
+		// Set a custom header with the attachment_id.
+		// Used by the browser/client to resume creating image sub-sizes after a PHP fatal error.
+		if ( ! headers_sent() ) {
+			header( 'X-WP-Upload-Attachment-ID: ' . $attachment_id );
+		}
+
 		// The image sub-sizes are created during wp_generate_attachment_metadata().
 		// This is generally slow and may cause timeouts or out of memory errors.
 		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
