@@ -272,7 +272,11 @@ a:focus,
 a:focus .media-icon img,
 .wp-person a:focus .gravatar {
 	color: #124964;
-	outline: 1px dotted #555d66;
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
+		/* Only visible in Windows High Contrast mode */
+		outline: 1px solid transparent;
 }
 
 .ie8 a:focus {
@@ -280,7 +284,9 @@ a:focus .media-icon img,
 }
 
 #adminmenu a:focus {
-	outline: 1px dotted #555d66;
+	box-shadow: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 	outline-offset: -1px;
 }
 
@@ -833,7 +839,9 @@ img.emoji {
 }
 
 .tagchecklist .ntdelbutton:focus .remove-tag-icon:before {
-	outline: 1px dotted #555d66;
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .key-labels label {
@@ -1429,7 +1437,10 @@ div.error p,
 }
 
 .notice-dismiss:focus {
-	outline: 1px dotted #555d66;
+	outline: none;
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .ie8 .notice-dismiss:focus {
@@ -3062,7 +3073,9 @@ img {
 }
 
 .js .postbox .handlediv:focus .toggle-indicator:before {
-	outline: 1px dotted #555d66;
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 /* @todo: appears to be Press This only and overridden */
@@ -3157,7 +3170,9 @@ img {
 }
 [role="treeitem"] .folder-label.focus {
 	color: #124964;
-	outline: 1px dotted #555d66;
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 [role="treeitem"].hover,
 [role="treeitem"] .folder-label.hover {
@@ -3384,7 +3399,9 @@ img {
 }
 
 .widget-top .widget-action:focus .toggle-indicator:before {
-	outline: 1px dotted #555d66;
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .control-section .accordion-section-title:after,

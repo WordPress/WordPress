@@ -176,7 +176,8 @@ body.js .theme-browser.search-loading {
 }
 
 .theme-browser .theme:focus {
-	outline: 1px dotted #555d66;
+	border-color: #5b9dd9;
+	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
 }
 
 .theme-browser .theme:focus .more-details {
