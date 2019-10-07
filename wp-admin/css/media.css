@@ -538,7 +538,6 @@ border color while dragging a file over the uploader drop area */
 
 .media-frame.mode-grid .media-toolbar select {
 	margin: 0 10px 0 0;
-	font-size: 14px;
 }
 
 .media-frame.mode-grid.mode-edit .media-toolbar-secondary > .select-mode-toggle-button {
@@ -555,8 +554,14 @@ border color while dragging a file over the uploader drop area */
 	margin-top: 0;
 }
 
-.media-frame.mode-grid .spinner {
-	margin-top: 16px;
+.media-search-input-label {
+	margin: 0 .2em 0 0;
+	vertical-align: baseline;
+}
+
+.media-frame.mode-grid .media-search-input-label {
+	position: static;
+	margin: 0 .5em 0 0;
 }
 
 .attachments-browser .media-toolbar-secondary > .media-button {

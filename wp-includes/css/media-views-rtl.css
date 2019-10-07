@@ -310,6 +310,7 @@
 .media-toolbar-primary {
 	float: left;
 	height: 100%;
+	position: relative;
 }
 
 .media-toolbar-secondary {
@@ -870,7 +871,7 @@
  * Search
  */
 .media-frame .search {
-	margin-top: 32px;
+	margin: 32px 0 0;
 	padding: 4px;
 	font-size: 13px;
 	color: #444;
@@ -880,6 +881,14 @@
 
 .media-toolbar-primary .search {
 	max-width: 100%;
+}
+
+.media-frame .media-search-input-label {
+	position: absolute;
+	right: 0;
+	top: 10px;
+	margin: 0;
+	line-height: 1;
 }
 
 /**
@@ -1163,6 +1172,15 @@
 
 .attachments-browser .media-toolbar-primary {
 	max-width: 33%;
+}
+
+.mode-grid .attachments-browser .media-toolbar-primary {
+	display: flex;
+	align-items: center;
+}
+
+.mode-grid .attachments-browser .media-toolbar-mode-select .media-toolbar-primary {
+	display: none;
 }
 
 .attachments-browser .media-toolbar-secondary {
@@ -1650,12 +1668,20 @@
 	vertical-align: middle;
 }
 
-.media-frame .spinner.is-active {
-	visibility: visible;
+.media-frame.mode-grid .spinner {
+	margin: 0;
+	float: none;
+	vertical-align: middle;
 }
 
-.media-toolbar .spinner {
-	margin-top: 14px;
+.media-modal .media-toolbar .spinner {
+	float: none;
+	vertical-align: bottom;
+	margin: 0 5px 5px 0;
+}
+
+.media-frame .spinner.is-active {
+	visibility: visible;
 }
 
 /**
@@ -2493,6 +2519,10 @@
 		height: auto;
 	}
 
+	.media-frame .media-toolbar input[type="search"] {
+		line-height: 2.25; /* 36px */
+	}
+
 	.media-sidebar .setting select.columns,
 	.attachment-details .setting select.columns {
 		width: auto;
@@ -2502,6 +2532,13 @@
 	.media-frame textarea,
 	.media-frame .search {
 		padding: 3px 6px;
+	}
+
+	.wp-admin .media-frame select {
+		min-height: 40px;
+		font-size: 16px;
+		line-height: 1.625;
+		padding: 5px 8px 5px 24px;
 	}
 
 	.image-details .column-image {
@@ -2590,10 +2627,6 @@
 		height: auto;
 	}
 
-	.media-modal .attachments-browser .media-toolbar .spinner {
-		margin: 14px 2px 0;
-	}
-
 	/* Text inputs need to be 16px, or they force zooming on iOS */
 	.media-frame input[type="text"],
 	.media-frame input[type="password"],
@@ -2607,7 +2640,11 @@
 	}
 
 	.media-frame .media-toolbar input[type="search"] {
-		line-height: 1.625; /* 26px */
+		line-height: 2.3755; /* 38px */
+	}
+
+	.media-modal .media-toolbar .spinner {
+		margin-bottom: 10px;
 	}
 }
 
@@ -2621,12 +2658,14 @@
 		top: 82px;
 	}
 
-	.media-frame .media-toolbar input[type="search"] {
-		line-height: 2.25; /* 36px */
-	}
-
 	.media-frame-toolbar .media-toolbar {
 		bottom: -48px;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.mode-grid .attachments-browser .media-toolbar-primary {
+		display: block;
 	}
 }
 

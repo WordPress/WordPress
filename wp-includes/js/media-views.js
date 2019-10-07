@@ -7578,8 +7578,7 @@ module.exports = Attachments;
 /* 77 */
 /***/ (function(module, exports) {
 
-var l10n = wp.media.view.l10n,
-	Search;
+var Search;
 
 /**
  * wp.media.view.Search
@@ -7597,8 +7596,7 @@ Search = wp.media.View.extend(/** @lends wp.media.view.Search.prototype */{
 	id:        'media-search-input',
 
 	attributes: {
-		type:        'search',
-		placeholder: l10n.searchMediaPlaceholder
+		type: 'search'
 	},
 
 	events: {
@@ -8310,7 +8308,8 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 		if ( this.options.search ) {
 			// Search is an input, a visually hidden label element needs to be rendered before.
 			this.toolbar.set( 'searchLabel', new wp.media.view.Label({
-				value: l10n.searchMediaLabel,
+				value: l10n.searchLabel,
+				className: 'media-search-input-label',
 				attributes: {
 					'for': 'media-search-input'
 				},

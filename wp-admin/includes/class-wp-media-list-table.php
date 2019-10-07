@@ -270,8 +270,8 @@ class WP_Media_List_Table extends WP_List_Table {
 	</div>
 
 	<div class="search-form">
-		<label for="media-search-input" class="screen-reader-text"><?php esc_html_e( 'Search Media' ); ?></label>
-		<input type="search" placeholder="<?php esc_attr_e( 'Search media items...' ); ?>" id="media-search-input" class="search" name="s" value="<?php _admin_search_query(); ?>"></div>
+		<label for="media-search-input" class="media-search-input-label"><?php esc_html_e( 'Search' ); ?></label>
+		<input type="search" id="media-search-input" class="search" name="s" value="<?php _admin_search_query(); ?>"></div>
 	</div>
 		<?php
 	}

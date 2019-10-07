@@ -3985,6 +3985,10 @@ img {
 	#screen-meta-links {
 		margin-bottom: 20px; /* Add margins beneath links for better spacing between boxes and elements */
 	}
+
+	.wp-filter .search-form input[type="search"] {
+		font-size: 1rem;
+	}
 }
 
 /* Smartphone */
