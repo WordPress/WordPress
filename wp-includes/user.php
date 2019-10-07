@@ -149,10 +149,7 @@ function wp_authenticate_username_password( $user, $username, $password ) {
 	if ( ! $user ) {
 		return new WP_Error(
 			'invalid_username',
-			__( '<strong>ERROR</strong>: Invalid username.' ) .
-			' <a href="' . wp_lostpassword_url() . '">' .
-			__( 'Lost your password?' ) .
-			'</a>'
+			__( 'Unknown username. Check again or try your email address.' )
 		);
 	}
 
@@ -230,10 +227,7 @@ function wp_authenticate_email_password( $user, $email, $password ) {
 	if ( ! $user ) {
 		return new WP_Error(
 			'invalid_email',
-			__( '<strong>ERROR</strong>: Invalid email address.' ) .
-			' <a href="' . wp_lostpassword_url() . '">' .
-			__( 'Lost your password?' ) .
-			'</a>'
+			__( 'Unknown email address. Check again or try your username.' )
 		);
 	}
 
