@@ -133,7 +133,7 @@ class WP_Http {
 	 *                                             compressed content is returned in the response anyway, it will
 	 *                                             need to be separately decompressed. Default true.
 	 *     @type bool         $sslverify           Whether to verify SSL for the request. Default true.
-	 *     @type string       sslcertificates      Absolute path to an SSL certificate .crt file.
+	 *     @type string       $sslcertificates     Absolute path to an SSL certificate .crt file.
 	 *                                             Default ABSPATH . WPINC . '/certificates/ca-bundle.crt'.
 	 *     @type bool         $stream              Whether to stream to a file. If set to true and no filename was
 	 *                                             given, it will be droped it in the WP temp dir and its name will
@@ -215,7 +215,7 @@ class WP_Http {
 		// Pre-parse for the HEAD checks.
 		$args = wp_parse_args( $args );
 
-		// By default, Head requests do not cause redirections.
+		// By default, HEAD requests do not cause redirections.
 		if ( isset( $args['method'] ) && 'HEAD' == $args['method'] ) {
 			$defaults['redirection'] = 0;
 		}
@@ -250,9 +250,9 @@ class WP_Http {
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param false|array|WP_Error $preempt Whether to preempt an HTTP request's return value. Default false.
-		 * @param array                $parsed_args        HTTP request arguments.
-		 * @param string               $url      The request URL.
+		 * @param false|array|WP_Error $preempt     Whether to preempt an HTTP request's return value. Default false.
+		 * @param array                $parsed_args HTTP request arguments.
+		 * @param string               $url         The request URL.
 		 */
 		$pre = apply_filters( 'pre_http_request', false, $parsed_args, $url );
 
@@ -409,11 +409,11 @@ class WP_Http {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array|WP_Error $response HTTP response or WP_Error object.
-		 * @param string         $context  Context under which the hook is fired.
-		 * @param string         $class    HTTP transport used.
-		 * @param array          $parsed_args        HTTP request arguments.
-		 * @param string         $url      The request URL.
+		 * @param array|WP_Error $response    HTTP response or WP_Error object.
+		 * @param string         $context     Context under which the hook is fired.
+		 * @param string         $class       HTTP transport used.
+		 * @param array          $parsed_args HTTP request arguments.
+		 * @param string         $url         The request URL.
 		 */
 		do_action( 'http_api_debug', $response, 'response', 'Requests', $parsed_args, $url );
 		if ( is_wp_error( $response ) ) {
@@ -438,9 +438,9 @@ class WP_Http {
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param array  $response HTTP response.
-		 * @param array  $parsed_args        HTTP request arguments.
-		 * @param string $url      The request URL.
+		 * @param array  $response    HTTP response.
+		 * @param array  $parsed_args HTTP request arguments.
+		 * @param string $url         The request URL.
 		 */
 		return apply_filters( 'http_response', $response, $parsed_args, $url );
 	}
@@ -890,7 +890,7 @@ class WP_Http {
 		if ( ! empty( $wildcard_regex ) ) {
 			return ! preg_match( $wildcard_regex, $check['host'] );
 		} else {
-			return ! in_array( $check['host'], $accessible_hosts ); //Inverse logic, If it's in the array, then we can't access it.
+			return ! in_array( $check['host'], $accessible_hosts ); // Inverse logic, if it's in the array, then don't block it.
 		}
 
 	}
@@ -989,7 +989,7 @@ class WP_Http {
 	}
 
 	/**
-	 * Handles HTTP Redirects and follows them if appropriate.
+	 * Handles an HTTP redirect and follows it if appropriate.
 	 *
 	 * @since 3.7.0
 	 *

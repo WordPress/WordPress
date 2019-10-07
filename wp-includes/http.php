@@ -154,7 +154,7 @@ function wp_remote_request( $url, $args = array() ) {
 }
 
 /**
- * Retrieve the raw response from the HTTP request using the GET method.
+ * Performs an HTTP request using the GET method and returns its response.
  *
  * @since 2.7.0
  *
@@ -171,7 +171,7 @@ function wp_remote_get( $url, $args = array() ) {
 }
 
 /**
- * Retrieve the raw response from the HTTP request using the POST method.
+ * Performs an HTTP request using the POST method and returns its response.
  *
  * @since 2.7.0
  *
@@ -188,7 +188,7 @@ function wp_remote_post( $url, $args = array() ) {
 }
 
 /**
- * Retrieve the raw response from the HTTP request using the HEAD method.
+ * Performs an HTTP request using the HEAD method and returns its response.
  *
  * @since 2.7.0
  *
@@ -417,7 +417,7 @@ function get_http_origin() {
  *
  * @since 3.4.0
  *
- * @return array Array of origin URLs.
+ * @return string[] Array of origin URLs.
  */
 function get_allowed_http_origins() {
 	$admin_origin = parse_url( admin_url() );
@@ -438,12 +438,13 @@ function get_allowed_http_origins() {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param array $allowed_origins {
-	 *     Default allowed HTTP origins.
-	 *     @type string Non-secure URL for admin origin.
-	 *     @type string Secure URL for admin origin.
-	 *     @type string Non-secure URL for home origin.
-	 *     @type string Secure URL for home origin.
+	 * @param string[] $allowed_origins {
+	 *     Array of default allowed HTTP origins.
+	 *
+	 *     @type string $0 Non-secure URL for admin origin.
+	 *     @type string $1 Secure URL for admin origin.
+	 *     @type string $2 Non-secure URL for home origin.
+	 *     @type string $3 Secure URL for home origin.
 	 * }
 	 */
 	return apply_filters( 'allowed_http_origins', $allowed_origins );
@@ -517,7 +518,7 @@ function send_origin_headers() {
  *
  * @since 3.5.2
  *
- * @param string $url
+ * @param string $url Request URL.
  * @return false|string URL or false on failure.
  */
 function wp_http_validate_url( $url ) {
@@ -572,9 +573,9 @@ function wp_http_validate_url( $url ) {
 				 *
 				 * @since 3.6.0
 				 *
-				 * @param bool   false Whether HTTP request is external or not.
-				 * @param string $host IP of the requested host.
-				 * @param string $url  URL of the requested host.
+				 * @param bool   $external Whether HTTP request is external or not.
+				 * @param string $host     Host name of the requested URL.
+				 * @param string $url      Requested URL.
 				 */
 				if ( ! apply_filters( 'http_request_host_is_external', false, $host, $url ) ) {
 					return false;
@@ -715,9 +716,9 @@ function wp_parse_url( $url, $component = -1 ) {
  * @link https://secure.php.net/manual/en/function.parse-url.php
  *
  * @param array|false $url_parts The parsed URL. Can be false if the URL failed to parse.
- * @param int    $component The specific component to retrieve. Use one of the PHP
- *                          predefined constants to specify which one.
- *                          Defaults to -1 (= return all parts as an array).
+ * @param int         $component The specific component to retrieve. Use one of the PHP
+ *                               predefined constants to specify which one.
+ *                               Defaults to -1 (= return all parts as an array).
  * @return mixed False on parse failure; Array of URL components on success;
  *               When a specific component has been requested: null if the component
  *               doesn't exist in the given URL; a string or - in the case of
@@ -747,7 +748,7 @@ function _get_component_from_parsed_url_array( $url_parts, $component = -1 ) {
  * @link https://secure.php.net/manual/en/url.constants.php
  *
  * @param int $constant PHP_URL_* constant.
- * @return string|bool The named key or false.
+ * @return string|false The named key or false.
  */
 function _wp_translate_php_url_constant_to_key( $constant ) {
 	$translation = array(
