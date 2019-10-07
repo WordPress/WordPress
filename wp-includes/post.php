@@ -6800,9 +6800,9 @@ function _publish_post_hook( $post_id ) {
 	}
 
 	if ( get_option( 'default_pingback_flag' ) ) {
-		add_post_meta( $post_id, '_pingme', '1' );
+		add_post_meta( $post_id, '_pingme', '1', true );
 	}
-	add_post_meta( $post_id, '_encloseme', '1' );
+	add_post_meta( $post_id, '_encloseme', '1', true );
 
 	$to_ping = get_to_ping( $post_id );
 	if ( ! empty( $to_ping ) ) {
