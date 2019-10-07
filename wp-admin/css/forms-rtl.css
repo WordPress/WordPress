@@ -74,6 +74,8 @@ input[type="week"] {
 	padding: 0 8px;
 	/* inherits font size 14px */
 	line-height: 2; /* 28px */
+	/* Only necessary for IE11 */
+	min-height: 30px;
 }
 
 ::-webkit-datetime-edit {
@@ -1171,7 +1173,7 @@ table.form-table td .updated p {
 
 .tools-privacy-policy-page input.button,
 .tools-privacy-policy-page select {
-	margin-right: 6px;
+	margin: 0 6px 0 1px;
 }
 
 .tools-privacy-edit {

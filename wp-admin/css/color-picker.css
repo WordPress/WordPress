@@ -94,6 +94,7 @@
 	margin: 0;
 	padding: 5px;
 	vertical-align: top;
+	min-height: 28px;
 }
 
 .wp-color-picker::-webkit-input-placeholder {

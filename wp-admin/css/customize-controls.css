@@ -284,12 +284,14 @@ body.trashing #publish-settings {
 }
 
 #customize-control-changeset_preview_link input {
-	line-height: 2.5;
+	line-height: 2.85714286; /* 40px */
 	border-top: 1px solid #ddd;
 	border-left: none;
 	border-right: none;
 	text-indent: -999px;
 	color: #fff;
+	/* Only necessary for IE11 */
+	min-height: 40px;
 }
 
 #customize-control-changeset_preview_link label {
@@ -347,7 +349,7 @@ body.trashing #publish-settings {
 }
 
 .date-time-fields .date-input.year {
-	width: 60px;
+	width: 65px;
 }
 
 .date-time-fields .date-input.meridian {
@@ -924,7 +926,6 @@ p.customize-section-description {
 .customize-control input[type="tel"],
 .customize-control input[type="url"] {
 	width: 100%;
-	line-height: 1.3;
 	margin: 0;
 }
 
@@ -2588,9 +2589,9 @@ body.adding-widget .add-new-widget:before,
 #available-widgets-filter input,
 #available-menu-items-search input {
 	width: 100%;
-	height: 32px;
+	min-height: 32px;
 	margin: 1px 0;
-	padding: 6px 30px;
+	padding: 0 30px;
 }
 
 #available-widgets-filter input::-ms-clear,

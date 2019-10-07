@@ -34,6 +34,7 @@ body.js .theme-browser.search-loading {
 	left: 20px;
 	margin: 0;
 	width: 280px;
+	font-size: inherit;
 }
 
 /* Position admin messages */
