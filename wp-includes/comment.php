@@ -2681,7 +2681,7 @@ function do_all_pings() {
 
 	foreach ( $enclosures as $enclosure ) {
 		delete_post_meta( $enclosure, '_encloseme' );
-		do_enclose( null, $enclosure->ID );
+		do_enclose( null, $enclosure );
 	}
 
 	// Do trackbacks.
