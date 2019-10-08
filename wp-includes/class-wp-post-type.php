@@ -343,7 +343,7 @@ final class WP_Post_Type {
 	 * @since 5.3.0
 	 * @var WP_REST_Controller $rest_controller
 	 */
-	private $rest_controller;
+	public $rest_controller;
 
 	/**
 	 * Constructor.
@@ -720,6 +720,10 @@ final class WP_Post_Type {
 
 		if ( ! $this->rest_controller ) {
 			$this->rest_controller = new $class( $this->name );
+		}
+
+		if ( ! ( $this->rest_controller instanceof $class ) ) {
+			return null;
 		}
 
 		return $this->rest_controller;

@@ -15,15 +15,6 @@
  * @see WP_REST_Controller
  */
 class WP_REST_Posts_Controller extends WP_REST_Controller {
-
-	/**
-	 * Instances of post type controllers keyed by post type.
-	 *
-	 * @since 5.3.0
-	 * @var WP_REST_Controller[]
-	 */
-	private static $post_type_controllers = array();
-
 	/**
 	 * Post type.
 	 *
