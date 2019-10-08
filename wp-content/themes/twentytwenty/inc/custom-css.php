@@ -60,11 +60,11 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 		$accent         = sanitize_hex_color( twentytwenty_get_color_for_area( 'content', 'accent' ) );
 		$accent_default = '#cd2653';
 		/**
-		 * Filters the CSS selectors targetting button component on frontend to apply common css
+		 * Filters the CSS selectors targeting button component on frontend to apply common css
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $string   The comma separated string of all CSS selectors targetting button component
+		 * @param string $string   The comma separated string of all CSS selectors targeting button component
 		 */
 		$buttons_targets = apply_filters( 'twentytwenty_buttons_targets_front_end', 'button, .button, .faux-button, .wp-block-button__link, .wp-block-file__button, input[type=\'button\'], input[type=\'reset\'], input[type=\'submit\']' );
 
@@ -102,7 +102,7 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 					foreach ( $definitions as $property => $elements ) {
 						/*
 						 * If we don't have an elements array or it is empty
-						 * then skip this itteration early;
+						 * then skip this iteration early;
 						 */
 						if ( ! is_array( $elements ) || empty( $elements ) ) {
 							continue;
@@ -118,14 +118,6 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 			if ( $cover && $cover !== $cover_default ) {
 				twentytwenty_generate_css( '.overlay-header .header-inner', 'color', $cover );
 				twentytwenty_generate_css( '.cover-header .entry-header *', 'color', $cover );
-			}
-
-			// Helper Classes.
-			if ( $accent && $accent !== $accent_default ) {
-				twentytwenty_generate_css( '.color-accent, .color-accent-hover:hover, .has-accent-color', 'color', $accent );
-				twentytwenty_generate_css( '.bg-accent, .bg-accent-hover:hover, .has-accent-background-color', 'background-color', $accent );
-				twentytwenty_generate_css( '.border-color-accent, .border-color-accent-hover:hover', 'border-color', $accent );
-				twentytwenty_generate_css( '.fill-children-accent, .fill-children-accent *', 'fill', $accent );
 			}
 
 			// Block Editor Styles.

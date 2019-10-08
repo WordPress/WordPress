@@ -33,7 +33,7 @@ if ( is_singular() ) {
 			?>
 
 			<div class="entry-categories">
-				<span class="screen-reader-text"><?php esc_html_e( 'Categories', 'twentytwenty' ); ?></span>
+				<span class="screen-reader-text"><?php _e( 'Categories', 'twentytwenty' ); ?></span>
 				<div class="entry-categories-inner">
 					<?php the_category( ' ' ); ?>
 				</div><!-- .entry-categories-inner -->
@@ -59,7 +59,7 @@ if ( is_singular() ) {
 		if ( has_excerpt() && is_singular() ) {
 			?>
 
-			<div class="intro-text section-inner max-percentage<?php echo esc_attr( $intro_text_width ); ?>">
+			<div class="intro-text section-inner max-percentage<?php echo $intro_text_width; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output ?>">
 				<?php the_excerpt(); ?>
 			</div>
 

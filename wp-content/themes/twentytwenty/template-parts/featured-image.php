@@ -19,7 +19,7 @@ if ( has_post_thumbnail() && ! post_password_required() ) {
 
 	<figure class="featured-media">
 
-		<div class="featured-media-inner section-inner<?php echo esc_attr( $featured_media_inner_classes ); ?>">
+		<div class="featured-media-inner section-inner<?php echo $featured_media_inner_classes; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output ?>">
 
 			<?php
 			the_post_thumbnail();

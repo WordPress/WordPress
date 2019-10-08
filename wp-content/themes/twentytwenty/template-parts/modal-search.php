@@ -17,13 +17,13 @@
 			<?php
 			get_search_form(
 				array(
-					'label' => _x( 'Search for:', 'Label', 'twentytwenty' ),
+					'label' => __( 'Search for:', 'twentytwenty' ),
 				)
 			);
 			?>
 
-			<button class="toggle search-untoggle fill-children-current-color" data-toggle-target=".search-modal" data-toggle-screen-lock="true" data-toggle-body-class="showing-search-modal" data-set-focus=".search-modal .search-field">
-				<span class="screen-reader-text"><?php _e( 'Close search', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?></span>
+			<button class="toggle search-untoggle fill-children-current-color" data-toggle-target=".search-modal" data-toggle-body-class="showing-search-modal" data-set-focus=".search-modal .search-field">
+				<span class="screen-reader-text"><?php _e( 'Close search', 'twentytwenty' ); ?></span>
 				<?php twentytwenty_the_theme_svg( 'cross' ); ?>
 			</button><!-- .search-toggle -->
 

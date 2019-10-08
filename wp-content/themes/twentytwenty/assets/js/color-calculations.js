@@ -133,7 +133,7 @@ _twentyTwentyColor.prototype.getAccentColor = function() {
  * @param {number} accentHue - The hue for our accent color.
  * @return {Object} - this
  */
-function twentyTwentyColor( backgroundColor, accentHue ) { // jshint ignore:line
+function twentyTwentyColor( backgroundColor, accentHue ) {// jshint ignore:line
 	var color = new _twentyTwentyColor( backgroundColor, accentHue );
 	color.setAccentColorsArray();
 	return color;

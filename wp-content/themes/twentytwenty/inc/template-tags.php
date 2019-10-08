@@ -9,17 +9,25 @@
 
 /**
  * Table of Contents:
+ * Logo & Description
  * Comments
  * Post Meta
  * Menus
  * Classes
+ * Archives
+ * Miscellaneous
  */
 
+/**
+ * Logo & Description
+ */
 /**
  * Displays the site logo, either text or image.
  *
  * @param array   $args Arguments for displaying the site logo either as an image or text.
- * @param boolean $echo Echo or return the html.
+ * @param boolean $echo Echo or return the HTML.
+ *
+ * @return string $html Compiled HTML based on our arguments.
  */
 function twentytwenty_site_logo( $args = array(), $echo = true ) {
 	$logo       = get_custom_logo();
@@ -81,6 +89,8 @@ function twentytwenty_site_logo( $args = array(), $echo = true ) {
  * Displays the site description.
  *
  * @param boolean $echo Echo or return the html.
+ *
+ * @return string $html The HTML to display.
  */
 function twentytwenty_site_description( $echo = true ) {
 	$description = get_bloginfo( 'description' );
@@ -118,6 +128,8 @@ function twentytwenty_site_description( $echo = true ) {
  * Check if the specified comment is written by the author of the post commented on.
  *
  * @param object $comment Comment data.
+ *
+ * @return bool
  */
 function twentytwenty_is_comment_by_post_author( $comment = null ) {
 
@@ -142,6 +154,8 @@ function twentytwenty_is_comment_by_post_author( $comment = null ) {
  * makes it scroll to the wrong position on the page.
  *
  * @param string $link Link to the top of the page.
+ *
+ * @return string $link Link to the top of the page.
  */
 function twentytwenty_filter_comment_reply_link( $link ) {
 
@@ -167,6 +181,40 @@ function twentytwenty_the_post_meta( $post_id = null, $location = 'single-top' )
 	echo twentytwenty_get_post_meta( $post_id, $location ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_post_meta().
 
 }
+
+/**
+ * Filters the edit post link to add an icon and use the post meta structure.
+ *
+ * @param string $link    Anchor tag for the edit link.
+ * @param int    $post_id Post ID.
+ * @param string $text    Anchor text.
+ */
+function twentytwenty_edit_post_link( $link, $post_id, $text ) {
+
+	$edit_url = get_edit_post_link( $post_id );
+
+	if ( ! $edit_url ) {
+		return;
+	}
+
+	$text = sprintf(
+		wp_kses(
+			/* translators: %s: Post title. Only visible to screen readers. */
+			__( 'Edit <span class="screen-reader-text">%s</span>', 'twentytwenty' ),
+			array(
+				'span' => array(
+					'class' => array(),
+				),
+			)
+		),
+		get_the_title( $post_id )
+	);
+
+	return '<div class="post-meta-wrapper post-meta-edit-link-wrapper"><ul class="post-meta"><li class="post-edit meta-wrapper"><span class="meta-icon">' . twentytwenty_get_theme_svg( 'edit' ) . '</span><span class="meta-text"><a href="' . esc_url( $edit_url ) . '">' . $text . '</a></span></li></ul><!-- .post-meta --></div><!-- .post-meta-wrapper -->';
+
+}
+
+add_filter( 'edit_post_link', 'twentytwenty_edit_post_link', 10, 3 );
 
 /**
  * Get the post meta.
@@ -206,7 +254,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 		/**
 		* Filters post meta info visibility
 		*
-		* Use this filter to hide post meta information like Author, Post date, Comments, Is stiky status
+		* Use this filter to hide post meta information like Author, Post date, Comments, Is sticky status
 		*
 		* @since 1.0.0
 		*
@@ -289,14 +337,14 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 					?>
 					<li class="post-author meta-wrapper">
 						<span class="meta-icon">
-							<span class="screen-reader-text"><?php _e( 'Post author', 'twentytwenty' );// phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?></span>
+							<span class="screen-reader-text"><?php _e( 'Post author', 'twentytwenty' ); ?></span>
 							<?php twentytwenty_the_theme_svg( 'user' ); ?>
 						</span>
 						<span class="meta-text">
 							<?php
 							printf(
-								// Translators: %s = the author name.
-								_x( 'By %s', '%s = author name', 'twentytwenty' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- core trusts translations
+								/* translators: %s: Author name */
+								__( 'By %s', 'twentytwenty' ),
 								'<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author_meta( 'display_name' ) ) . '</a>'
 							);
 							?>
@@ -314,7 +362,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 					<li class="post-date">
 						<a class="meta-wrapper" href="<?php the_permalink(); ?>">
 							<span class="meta-icon">
-								<span class="screen-reader-text"><?php _e( 'Post date', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?></span>
+								<span class="screen-reader-text"><?php _e( 'Post date', 'twentytwenty' ); ?></span>
 								<?php twentytwenty_the_theme_svg( 'calendar' ); ?>
 							</span>
 							<span class="meta-text">
@@ -333,11 +381,11 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 					?>
 					<li class="post-categories meta-wrapper">
 						<span class="meta-icon">
-							<span class="screen-reader-text"><?php _e( 'Categories', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?></span>
+							<span class="screen-reader-text"><?php _e( 'Categories', 'twentytwenty' ); ?></span>
 							<?php twentytwenty_the_theme_svg( 'folder' ); ?>
 						</span>
 						<span class="meta-text">
-							<?php _e( 'In', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?> <?php the_category( ', ' ); ?>
+							<?php _ex( 'In', 'A string that is output before one or more categories', 'twentytwenty' ); ?> <?php the_category( ', ' ); ?>
 						</span>
 					</li>
 					<?php
@@ -351,7 +399,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 					?>
 					<li class="post-tags meta-wrapper">
 						<span class="meta-icon">
-							<span class="screen-reader-text"><?php _e( 'Tags', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?></span>
+							<span class="screen-reader-text"><?php _e( 'Tags', 'twentytwenty' ); ?></span>
 							<?php twentytwenty_the_theme_svg( 'tag' ); ?>
 						</span>
 						<span class="meta-text">
@@ -389,7 +437,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 							<?php twentytwenty_the_theme_svg( 'bookmark' ); ?>
 						</span>
 						<span class="meta-text">
-							<?php _e( 'Sticky post', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?>
+							<?php _e( 'Sticky post', 'twentytwenty' ); ?>
 						</span>
 					</li>
 					<?php
@@ -437,11 +485,13 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
  * Filter the class applied to wp_list_pages() items with children to match the menu class, to simplify.
  * styling of sub levels in the fallback. Only applied if the match_menu_classes argument is set.
  *
- * @param string $css_class CSS Class names.
+ * @param array  $css_class CSS Class names.
  * @param string $item Comment.
  * @param int    $depth Depth of the current comment.
  * @param array  $args An array of arguments.
- * @param string $current_page Wether or not the item is the current item.
+ * @param string $current_page Whether or not the item is the current item.
+ *
+ * @return array $css_class CSS Class names.
  */
 function twentytwenty_filter_wp_list_pages_item_classes( $css_class, $item, $depth, $args, $current_page ) {
 
@@ -471,9 +521,11 @@ add_filter( 'page_css_class', 'twentytwenty_filter_wp_list_pages_item_classes', 
 /**
  * Add a Sub Nav Toggle to the Expanded Menu and Mobile Menu.
  *
- * @param array  $args An array of arguments.
- * @param string $item Menu item.
- * @param int    $depth Depth of the current menu item.
+ * @param stdClass $args An array of arguments.
+ * @param string   $item Menu item.
+ * @param int      $depth Depth of the current menu item.
+ *
+ * @return stdClass $args An object of wp_nav_menu() arguments.
  */
 function twentytwenty_add_sub_toggles_to_main_menu( $args, $item, $depth ) {
 
@@ -514,6 +566,30 @@ function twentytwenty_add_sub_toggles_to_main_menu( $args, $item, $depth ) {
 add_filter( 'nav_menu_item_args', 'twentytwenty_add_sub_toggles_to_main_menu', 10, 3 );
 
 /**
+ * Display SVG icons in social links menu.
+ *
+ * @param  string  $item_output The menu item output.
+ * @param  WP_Post $item        Menu item object.
+ * @param  int     $depth       Depth of the menu.
+ * @param  array   $args        wp_nav_menu() arguments.
+ * @return string  $item_output The menu item output with social icon.
+ */
+function twentytwenty_nav_menu_social_icons( $item_output, $item, $depth, $args ) {
+	// Change SVG icon inside social links menu if there is supported URL.
+	if ( 'social' === $args->theme_location ) {
+		$svg = TwentyTwenty_SVG_Icons::get_social_link_svg( $item->url );
+		if ( empty( $svg ) ) {
+			$svg = twentytwenty_get_theme_svg( 'link' );
+		}
+		$item_output = str_replace( $args->link_after, '</span>' . $svg, $item_output );
+	}
+
+	return $item_output;
+}
+
+add_filter( 'walker_nav_menu_start_el', 'twentytwenty_nav_menu_social_icons', 10, 4 );
+
+/**
  * Classes
  */
 /**
@@ -531,57 +607,11 @@ function twentytwenty_no_js_class() {
 add_action( 'wp_head', 'twentytwenty_no_js_class' );
 
 /**
- * Filters the archive title and styles the word before the first colon.
- *
- * @param string $title Current archive title.
- */
-function twentytwenty_get_the_archive_title( $title ) {
-
-	$regex = apply_filters(
-		'twentytwenty_get_the_archive_title_regex',
-		array(
-			'pattern'     => '/(\A[^\:]+\:)/',
-			'replacement' => '<span class="color-accent">$1</span>',
-		)
-	);
-
-	if ( empty( $regex ) ) {
-
-		return $title;
-
-	}
-
-	return preg_replace( $regex['pattern'], $regex['replacement'], $title );
-
-}
-
-add_filter( 'get_the_archive_title', 'twentytwenty_get_the_archive_title' );
-
-/**
- * Filters the edit post link to add an icon and use the post meta structure.
- *
- * @param string $link    Anchor tag for the edit link.
- * @param int    $post_id Post ID.
- * @param string $text    Anchor text.
- */
-function twentytwenty_edit_post_link( $link, $post_id, $text ) {
-
-	$edit_url = get_edit_post_link( $post_id );
-
-	if ( ! $edit_url ) {
-		return;
-	}
-
-	return '<div class="post-meta-wrapper post-meta-edit-link-wrapper"><ul class="post-meta"><li class="post-edit meta-wrapper"><span class="meta-icon">' . twentytwenty_get_theme_svg( 'edit' ) . '</span><span class="meta-text"><a href="' . esc_url( $edit_url ) . '">' . $text . '</a></span></li></ul><!-- .post-meta --></div><!-- .post-meta-wrapper -->';
-
-}
-
-add_filter( 'edit_post_link', 'twentytwenty_edit_post_link', 10, 3 );
-
-/**
  * Add conditional body classes.
  *
- * @param string $classes Classes added to the body tag.
+ * @param array $classes Classes added to the body tag.
+ *
+ * @return array $classes Classes added to the body tag.
  */
 function twentytwenty_body_classes( $classes ) {
 
@@ -675,6 +705,41 @@ function twentytwenty_body_classes( $classes ) {
 add_filter( 'body_class', 'twentytwenty_body_classes' );
 
 /**
+ * Archives
+ */
+/**
+ * Filters the archive title and styles the word before the first colon.
+ *
+ * @param string $title Current archive title.
+ *
+ * @return string $title Current archive title.
+ */
+function twentytwenty_get_the_archive_title( $title ) {
+
+	$regex = apply_filters(
+		'twentytwenty_get_the_archive_title_regex',
+		array(
+			'pattern'     => '/(\A[^\:]+\:)/',
+			'replacement' => '<span class="color-accent">$1</span>',
+		)
+	);
+
+	if ( empty( $regex ) ) {
+
+		return $title;
+
+	}
+
+	return preg_replace( $regex['pattern'], $regex['replacement'], $title );
+
+}
+
+add_filter( 'get_the_archive_title', 'twentytwenty_get_the_archive_title' );
+
+/**
+ * Miscellaneous
+ */
+/**
  * Toggle animation duration in milliseconds.
  *
  * @return integer Duration in milliseconds
@@ -690,4 +755,27 @@ function twentytwenty_toggle_duration() {
 	$duration = apply_filters( 'twentytwenty_toggle_duration', 250 );
 
 	return $duration;
+}
+
+/**
+ * Get unique ID.
+ *
+ * This is a PHP implementation of Underscore's uniqueId method. A static variable
+ * contains an integer that is incremented with each call. This number is returned
+ * with the optional prefix. As such the returned value is not universally unique,
+ * but it is unique across the life of the PHP process.
+ *
+ * @see wp_unique_id() Themes requiring WordPress 5.0.3 and greater should use this instead.
+ *
+ * @staticvar int $id_counter
+ *
+ * @param string $prefix Prefix for the returned ID.
+ * @return string Unique ID.
+ */
+function twentytwenty_unique_id( $prefix = '' ) {
+	static $id_counter = 0;
+	if ( function_exists( 'wp_unique_id' ) ) {
+		return wp_unique_id( $prefix );
+	}
+	return $prefix . (string) ++$id_counter;
 }

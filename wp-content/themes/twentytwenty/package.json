@@ -18,10 +18,17 @@
 		"url": "https://github.com/wordpress/twentytwenty/issues"
 	},
 	"devDependencies": {
+		"@wordpress/browserslist-config": "^2.6.0",
 		"@wordpress/scripts": "^5.0.0",
+		"autoprefixer": "^9.6.1",
 		"concurrently": "^4.1.2",
-		"rtlcss": "^2.4.0"
+		"postcss-cli": "^6.1.3",
+		"rtlcss": "^2.4.0",
+		"stylelint-a11y": "^1.2.1"
 	},
+	"browserslist": [
+		"extends @wordpress/browserslist-config"
+	],
 	"rtlcssConfig": {
 		"options": {
 			"autoRename": false,
@@ -36,10 +43,15 @@
 		"map": false
 	},
 	"scripts": {
+		"build": "npm run build:vendor-prefixes && npm run build:rtl",
 		"build:rtl": "concurrently \"npm run build:rtl-style\" \"npm run build:rtl-esb\" \"npm run build:rtl-esc\"",
 		"build:rtl-style": "rtlcss style.css style-rtl.css",
 		"build:rtl-esb": "rtlcss assets/css/editor-style-block.css assets/css/editor-style-block-rtl.css",
 		"build:rtl-esc": "rtlcss assets/css/editor-style-classic.css assets/css/editor-style-classic-rtl.css",
+		"build:vendor-prefixes": "concurrently \"npm run build:vendor-prefixes-style\" \"npm run build:vendor-prefixes-esb\" \"npm run build:vendor-prefixes-esc\"",
+		"build:vendor-prefixes-style": "postcss -r --no-map style.css assets/css/editor-style-block.css assets/css/editor-style-classic.css",
+		"build:vendor-prefixes-esb": "postcss -r --no-map assets/css/editor-style-block.css ",
+		"build:vendor-prefixes-esc": "postcss -r --no-map assets/css/editor-style-classic.css",
 		"lint:css": "wp-scripts lint-style 'style.css' 'assets/**/*.css'",
 		"lint:js": "wp-scripts lint-js 'assets/**/*.js'",
 		"lint:pkg-json": "wp-scripts lint-pkg-json"

@@ -31,24 +31,22 @@ if ( $comments ) {
 			<h2 class="comment-reply-title">
 			<?php
 			if ( ! have_comments() ) {
-				esc_html_e( 'Leave a comment', 'twentytwenty' );
+				_e( 'Leave a comment', 'twentytwenty' );
 			} elseif ( '1' === $comments_number ) {
 				/* translators: %s: post title */
-				printf( esc_html_x( 'One reply on &ldquo;%s&rdquo;', 'comments title', 'twentytwenty' ), esc_html( get_the_title() ) );
+				printf( _x( 'One reply on &ldquo;%s&rdquo;', 'comments title', 'twentytwenty' ), esc_html( get_the_title() ) );
 			} else {
-				echo esc_html(
-					sprintf(
-						/* translators: 1: number of comments, 2: post title */
-						_nx(
-							'%1$s reply on &ldquo;%2$s&rdquo;',
-							'%1$s replies on &ldquo;%2$s&rdquo;',
-							$comments_number,
-							'comments title',
-							'twentytwenty'
-						),
-						number_format_i18n( $comments_number ),
-						get_the_title()
-					)
+				echo sprintf(
+					/* translators: 1: number of comments, 2: post title */
+					_nx(
+						'%1$s reply on &ldquo;%2$s&rdquo;',
+						'%1$s replies on &ldquo;%2$s&rdquo;',
+						$comments_number,
+						'comments title',
+						'twentytwenty'
+					),
+					number_format_i18n( $comments_number ),
+					esc_html( get_the_title() )
 				);
 			}
 
@@ -60,7 +58,6 @@ if ( $comments ) {
 		<div class="comments-inner section-inner thin max-percentage">
 
 			<?php
-
 			wp_list_comments(
 				array(
 					'walker'      => new TwentyTwenty_Walker_Comment(),
@@ -80,16 +77,15 @@ if ( $comments ) {
 			);
 
 			if ( $comment_pagination ) {
+				$pagination_classes = '';
 
 				// If we're only showing the "Next" link, add a class indicating so.
-				if ( strpos( $comment_pagination, 'prev page-numbers' ) === false ) {
+				if ( false === strpos( $comment_pagination, 'prev page-numbers' ) ) {
 					$pagination_classes = ' only-next';
-				} else {
-					$pagination_classes = '';
 				}
 				?>
 
-				<nav class="comments-pagination pagination<?php echo esc_attr( $pagination_classes ); ?>" aria-label="<?php esc_attr_e( 'Comments', 'twentytwenty' ); ?>">
+				<nav class="comments-pagination pagination<?php echo $pagination_classes; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output ?>" aria-label="<?php esc_attr_e( 'Comments', 'twentytwenty' ); ?>">
 					<?php echo wp_kses_post( $comment_pagination ); ?>
 				</nav>
 
@@ -128,7 +124,7 @@ if ( comments_open() || pings_open() ) {
 
 	<div class="comment-respond" id="respond">
 
-		<p class="comments-closed"><?php _e( 'Comments are closed.', 'twentytwenty' ); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations ?></p>
+		<p class="comments-closed"><?php _e( 'Comments are closed.', 'twentytwenty' ); ?></p>
 
 	</div><!-- #respond -->
 

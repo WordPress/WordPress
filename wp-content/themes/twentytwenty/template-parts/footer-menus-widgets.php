@@ -29,14 +29,12 @@ if ( $has_footer_menu || $has_social_menu || $has_sidebar_1 || $has_sidebar_2 ) 
 			$footer_top_classes .= $has_footer_menu ? ' has-footer-menu' : '';
 			$footer_top_classes .= $has_social_menu ? ' has-social-menu' : '';
 
-			$footer_social_wrapper_class = $has_footer_menu ? 'footer-social-wrapper' : '';
-
 			if ( $has_footer_menu || $has_social_menu ) {
 				?>
-				<div class="footer-top<?php echo esc_attr( $footer_top_classes ); ?>">
+				<div class="footer-top<?php echo $footer_top_classes; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output ?>">
 					<?php if ( $has_footer_menu ) { ?>
 
-						<nav aria-label="<?php esc_attr_e( 'Footer', 'twentytwenty' ); ?>" role="navigation">
+						<nav aria-label="<?php esc_attr_e( 'Footer', 'twentytwenty' ); ?>" role="navigation" class="footer-menu-wrapper">
 
 							<ul class="footer-menu reset-list-style">
 								<?php
@@ -56,34 +54,30 @@ if ( $has_footer_menu || $has_social_menu || $has_sidebar_1 || $has_sidebar_2 ) 
 					<?php } ?>
 					<?php if ( $has_social_menu ) { ?>
 
-						<div class="<?php echo esc_attr( $footer_social_wrapper_class ); ?>">
+						<nav aria-label="<?php esc_attr_e( 'Social links', 'twentytwenty' ); ?>" class="footer-social-wrapper">
 
-							<nav aria-label="<?php esc_attr_e( 'Social links', 'twentytwenty' ); ?>">
+							<ul class="social-menu footer-social reset-list-style social-icons fill-children-current-color">
 
-								<ul class="social-menu footer-social reset-list-style social-icons s-icons">
+								<?php
+								wp_nav_menu(
+									array(
+										'theme_location'  => 'social',
+										'container'       => '',
+										'container_class' => '',
+										'items_wrap'      => '%3$s',
+										'menu_id'         => '',
+										'menu_class'      => '',
+										'depth'           => 1,
+										'link_before'     => '<span class="screen-reader-text">',
+										'link_after'      => '</span>',
+										'fallback_cb'     => '',
+									)
+								);
+								?>
 
-									<?php
-									wp_nav_menu(
-										array(
-											'theme_location' => 'social',
-											'container'   => '',
-											'container_class' => '',
-											'items_wrap'  => '%3$s',
-											'menu_id'     => '',
-											'menu_class'  => '',
-											'depth'       => 1,
-											'link_before' => '<span class="screen-reader-text">',
-											'link_after'  => '</span>',
-											'fallback_cb' => '',
-										)
-									);
-									?>
+							</ul><!-- .footer-social -->
 
-								</ul>
-
-							</nav><!-- .social-menu -->
-
-						</div><!-- .footer-social-wrapper -->
+						</nav><!-- .footer-social-wrapper -->
 
 					<?php } ?>
 				</div><!-- .footer-top -->
