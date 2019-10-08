@@ -1225,7 +1225,7 @@
 .attachments-browser .instructions {
 	display: inline-block;
 	margin-top: 16px;
-	line-height: 18px;
+	line-height: 1.38461538;
 	font-size: 13px;
 	color: #666;
 	margin-left: 0.5em;
