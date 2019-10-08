@@ -824,7 +824,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 }
 
 /* Admin menu is folded */
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 960px) {
 	.theme-overlay .theme-wrap {
 		right: 65px;
 	}
