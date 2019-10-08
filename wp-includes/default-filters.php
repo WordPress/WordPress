@@ -331,11 +331,11 @@ if ( ! defined( 'DOING_CRON' ) ) {
 }
 
 // 2 Actions 2 Furious
-add_action( 'do_feed_rdf', 'do_feed_rdf', 10, 1 );
-add_action( 'do_feed_rss', 'do_feed_rss', 10, 1 );
+add_action( 'do_feed_rdf', 'do_feed_rdf', 10, 0 );
+add_action( 'do_feed_rss', 'do_feed_rss', 10, 0 );
 add_action( 'do_feed_rss2', 'do_feed_rss2', 10, 1 );
 add_action( 'do_feed_atom', 'do_feed_atom', 10, 1 );
-add_action( 'do_pings', 'do_all_pings', 10, 1 );
+add_action( 'do_pings', 'do_all_pings', 10, 0 );
 add_action( 'do_robots', 'do_robots' );
 add_action( 'set_comment_cookies', 'wp_set_comment_cookies', 10, 3 );
 add_action( 'sanitize_comment_cookies', 'sanitize_comment_cookies' );
