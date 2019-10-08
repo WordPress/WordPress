@@ -564,11 +564,6 @@ class WP_REST_Server {
 		$embedded = array();
 
 		foreach ( $data['_links'] as $rel => $links ) {
-			// Ignore links to self, for obvious reasons.
-			if ( 'self' === $rel ) {
-				continue;
-			}
-
 			$embeds = array();
 
 			foreach ( $links as $item ) {
