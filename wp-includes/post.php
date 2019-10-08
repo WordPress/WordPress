@@ -2751,7 +2751,7 @@ function get_post_mime_types() {
 			),
 		),
 		'archive'     => array(
-			__( 'Archives' ),
+			_x( 'Archives', 'file type group' ),
 			__( 'Manage Archives' ),
 			/* translators: %s: Number of archives. */
 			_n_noop(
