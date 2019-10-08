@@ -190,7 +190,7 @@ twentytwenty.coverModals = {
 					htmlStyle.setProperty( styleKey, styles[ styleKey ] );
 				} );
 
-				_win.twentytwenty.scrolled = parseInt( styles.top );
+				_win.twentytwenty.scrolled = parseInt( styles.top, 10 );
 
 				if ( adminBar ) {
 					_doc.body.style.setProperty( 'padding-top', paddingTop );
