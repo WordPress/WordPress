@@ -1672,8 +1672,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return false;
 		}
 
-		if ( ! current_user_can( 'moderate_comments' ) ) {
-			return false;
+		if ( current_user_can( 'moderate_comments' ) ) {
+			return true;
 		}
 
 		return current_user_can( 'edit_comment', $comment->comment_ID );
