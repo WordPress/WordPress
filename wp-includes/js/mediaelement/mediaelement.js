@@ -8,7 +8,7 @@
  * Copyright 2010-2017, John Dyer (http://j.hn/)
  * License: MIT
  *
- */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+ */(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(_dereq_,module,exports){
 
 },{}],2:[function(_dereq_,module,exports){
 (function (global){
@@ -49,6 +49,193 @@ module.exports = win;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(_dereq_,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],5:[function(_dereq_,module,exports){
+(function (setImmediate){
 (function (root) {
 
   // Store setTimeout reference so promise-polyfill will be unaffected by
@@ -283,7 +470,87 @@ module.exports = win;
 
 })(this);
 
-},{}],5:[function(_dereq_,module,exports){
+}).call(this,_dereq_(6).setImmediate)
+},{"6":6}],6:[function(_dereq_,module,exports){
+(function (setImmediate,clearImmediate){
+var nextTick = _dereq_(4).nextTick;
+var apply = Function.prototype.apply;
+var slice = Array.prototype.slice;
+var immediateIds = {};
+var nextImmediateId = 0;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) { timeout.close(); };
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// That's not how node.js implements it but the exposed api is the same.
+exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+  var id = nextImmediateId++;
+  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+  immediateIds[id] = true;
+
+  nextTick(function onNextTick() {
+    if (immediateIds[id]) {
+      // fn.call() is faster so we optimize for the common use-case
+      // @see http://jsperf.com/call-apply-segu
+      if (args) {
+        fn.apply(null, args);
+      } else {
+        fn.call(null);
+      }
+      // Prevent ids from leaking
+      exports.clearImmediate(id);
+    }
+  });
+
+  return id;
+};
+
+exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+  delete immediateIds[id];
+};
+}).call(this,_dereq_(6).setImmediate,_dereq_(6).clearImmediate)
+},{"4":4,"6":6}],7:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -292,13 +559,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _en = _dereq_(9);
+var _en = _dereq_(11);
 
-var _general = _dereq_(18);
+var _general = _dereq_(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -315,8 +582,8 @@ i18n.language = function () {
 			throw new TypeError('Language code must be a string value');
 		}
 
-		if (!/^(([a-z]{2}((\-|_)[a-z]{2})?)|([a-z]{3}))$/i.test(args[0])) {
-			throw new TypeError('Language code must have format `xx`, `xxx`, `xx_XX` or `xx-xx`');
+		if (!/^[a-z]{2,3}((\-|_)[a-z]{2})?$/i.test(args[0])) {
+			throw new TypeError('Language code must have format 2-3 letters and. optionally, hyphen, underscore followed by 2 more letters');
 		}
 
 		i18n.lang = args[0];
@@ -550,7 +817,7 @@ if (typeof mejsL10n !== 'undefined') {
 
 exports.default = i18n;
 
-},{"18":18,"7":7,"9":9}],6:[function(_dereq_,module,exports){
+},{"11":11,"20":20,"9":9}],8:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -567,17 +834,17 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _general = _dereq_(18);
+var _general = _dereq_(20);
 
-var _media2 = _dereq_(19);
+var _media2 = _dereq_(21);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _constants = _dereq_(16);
+var _constants = _dereq_(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -863,7 +1130,7 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 	},
 	    triggerAction = function triggerAction(methodName, args) {
 		try {
-			if (methodName === 'play' && t.mediaElement.rendererName === 'native_dash') {
+			if (methodName === 'play' && (t.mediaElement.rendererName === 'native_dash' || t.mediaElement.rendererName === 'native_hls')) {
 				var response = t.mediaElement.renderer[methodName](args);
 				if (response && typeof response.then === 'function') {
 					response.catch(function () {
@@ -961,6 +1228,15 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 		}
 	};
 
+	t.mediaElement.destroy = function () {
+		var mediaElement = t.mediaElement.originalNode.cloneNode(true);
+		var wrapper = t.mediaElement.parentElement;
+		mediaElement.removeAttribute('id');
+		mediaElement.remove();
+		t.mediaElement.remove();
+		wrapper.appendChild(mediaElement);
+	};
+
 	if (mediaFiles.length) {
 		t.mediaElement.src = mediaFiles;
 	}
@@ -993,7 +1269,7 @@ _mejs2.default.MediaElement = MediaElement;
 
 exports.default = MediaElement;
 
-},{"16":16,"18":18,"19":19,"2":2,"3":3,"7":7,"8":8}],7:[function(_dereq_,module,exports){
+},{"10":10,"18":18,"2":2,"20":20,"21":21,"3":3,"9":9}],9:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1008,7 +1284,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mejs = {};
 
-mejs.version = '4.2.6';
+mejs.version = '4.2.12';
 
 mejs.html5media = {
 	properties: ['volume', 'src', 'currentTime', 'muted', 'duration', 'paused', 'ended', 'buffered', 'error', 'networkState', 'readyState', 'seeking', 'seekable', 'currentSrc', 'preload', 'bufferedBytes', 'bufferedTime', 'initialTime', 'startOffsetTime', 'defaultPlaybackRate', 'playbackRate', 'played', 'autoplay', 'loop', 'controls'],
@@ -1025,7 +1301,7 @@ _window2.default.mejs = mejs;
 
 exports.default = mejs;
 
-},{"3":3}],8:[function(_dereq_,module,exports){
+},{"3":3}],10:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1037,7 +1313,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -1139,7 +1415,7 @@ var renderer = exports.renderer = new Renderer();
 
 _mejs2.default.Renderers = renderer;
 
-},{"7":7}],9:[function(_dereq_,module,exports){
+},{"9":9}],11:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1229,7 +1505,7 @@ var EN = exports.EN = {
 	'mejs.yiddish': 'Yiddish'
 };
 
-},{}],10:[function(_dereq_,module,exports){
+},{}],12:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1238,19 +1514,19 @@ var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(18);
+var _general = _dereq_(20);
 
-var _media = _dereq_(19);
+var _media = _dereq_(21);
 
-var _constants = _dereq_(16);
+var _constants = _dereq_(18);
 
-var _dom = _dereq_(17);
+var _dom = _dereq_(19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1320,12 +1596,12 @@ var DashNativeRenderer = {
 		options = Object.assign(options, mediaElement.options);
 
 		var props = _mejs2.default.html5media.properties,
-		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']).filter(function (e) {
+			return e !== 'error';
+		}),
 		    attachNativeEvents = function attachNativeEvents(e) {
-			if (e.type !== 'error') {
-				var _event = (0, _general.createEvent)(e.type, mediaElement);
-				mediaElement.dispatchEvent(_event);
-			}
+			var event = (0, _general.createEvent)(e.type, mediaElement);
+			mediaElement.dispatchEvent(event);
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
@@ -1377,10 +1653,7 @@ var DashNativeRenderer = {
 			var dashEvents = dashjs.MediaPlayer.events,
 			    assignEvents = function assignEvents(eventName) {
 				if (eventName === 'loadedmetadata') {
-					dashPlayer.getDebug().setLogToBrowserConsole(options.dash.debug);
 					dashPlayer.initialize();
-					dashPlayer.setScheduleWhilePaused(false);
-					dashPlayer.setFastSwitchEnabled(true);
 					dashPlayer.attachView(node);
 					dashPlayer.setAutoPlay(false);
 
@@ -1400,25 +1673,21 @@ var DashNativeRenderer = {
 				assignEvents(events[_i3]);
 			}
 
-			var assignMdashEvents = function assignMdashEvents(name, data) {
-				if (name.toLowerCase() === 'error') {
-					mediaElement.generateError(data.message, node.src);
-					console.error(data);
+			var assignMdashEvents = function assignMdashEvents(e) {
+				if (e.type.toLowerCase() === 'error') {
+					mediaElement.generateError(e.message, node.src);
+					console.error(e);
 				} else {
-					var _event2 = (0, _general.createEvent)(name, mediaElement);
-					_event2.data = data;
-					mediaElement.dispatchEvent(_event2);
+					var _event = (0, _general.createEvent)(e.type, mediaElement);
+					_event.data = e;
+					mediaElement.dispatchEvent(_event);
 				}
 			};
 
 			for (var eventType in dashEvents) {
 				if (dashEvents.hasOwnProperty(eventType)) {
 					dashPlayer.on(dashEvents[eventType], function (e) {
-						for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-							args[_key - 1] = arguments[_key];
-						}
-
-						return assignMdashEvents(e.type, args);
+						return assignMdashEvents(e);
 					});
 				}
 			}
@@ -1483,7 +1752,7 @@ _media.typeChecks.push(function (url) {
 
 _renderer.renderer.add(DashNativeRenderer);
 
-},{"16":16,"17":17,"18":18,"19":19,"3":3,"7":7,"8":8}],11:[function(_dereq_,module,exports){
+},{"10":10,"18":18,"19":19,"20":20,"21":21,"3":3,"9":9}],13:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1501,21 +1770,21 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _i18n = _dereq_(5);
+var _i18n = _dereq_(7);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(18);
+var _general = _dereq_(20);
 
-var _constants = _dereq_(16);
+var _constants = _dereq_(18);
 
-var _media = _dereq_(19);
+var _media = _dereq_(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1925,7 +2194,7 @@ if (hasFlash) {
 	_renderer.renderer.add(FlashMediaElementAudioOggRenderer);
 }
 
-},{"16":16,"18":18,"19":19,"2":2,"3":3,"5":5,"7":7,"8":8}],12:[function(_dereq_,module,exports){
+},{"10":10,"18":18,"2":2,"20":20,"21":21,"3":3,"7":7,"9":9}],14:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1934,19 +2203,19 @@ var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(18);
+var _general = _dereq_(20);
 
-var _constants = _dereq_(16);
+var _constants = _dereq_(18);
 
-var _media = _dereq_(19);
+var _media = _dereq_(21);
 
-var _dom = _dereq_(17);
+var _dom = _dereq_(19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1962,7 +2231,7 @@ var NativeFlv = {
 				NativeFlv._createPlayer(settings);
 			});
 		} else {
-			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.3/flv.min.js';
+			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdn.jsdelivr.net/npm/flv.js@latest';
 
 			NativeFlv.promise = NativeFlv.promise || (0, _dom.loadScript)(settings.options.path);
 			NativeFlv.promise.then(function () {
@@ -1987,7 +2256,7 @@ var FlvNativeRenderer = {
 	options: {
 		prefix: 'native_flv',
 		flv: {
-			path: 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.3/flv.min.js',
+			path: 'https://cdn.jsdelivr.net/npm/flv.js@latest',
 
 			cors: true,
 			debug: false
@@ -2010,12 +2279,12 @@ var FlvNativeRenderer = {
 		options = Object.assign(options, mediaElement.options);
 
 		var props = _mejs2.default.html5media.properties,
-		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']).filter(function (e) {
+			return e !== 'error';
+		}),
 		    attachNativeEvents = function attachNativeEvents(e) {
-			if (e.type !== 'error') {
-				var _event = (0, _general.createEvent)(e.type, mediaElement);
-				mediaElement.dispatchEvent(_event);
-			}
+			var event = (0, _general.createEvent)(e.type, mediaElement);
+			mediaElement.dispatchEvent(event);
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
@@ -2084,9 +2353,9 @@ var FlvNativeRenderer = {
 					var message = data[0] + ': ' + data[1] + ' ' + data[2].msg;
 					mediaElement.generateError(message, node.src);
 				} else {
-					var _event2 = (0, _general.createEvent)(name, mediaElement);
-					_event2.data = data;
-					mediaElement.dispatchEvent(_event2);
+					var _event = (0, _general.createEvent)(name, mediaElement);
+					_event.data = data;
+					mediaElement.dispatchEvent(_event);
 				}
 			};
 
@@ -2174,7 +2443,7 @@ _media.typeChecks.push(function (url) {
 
 _renderer.renderer.add(FlvNativeRenderer);
 
-},{"16":16,"17":17,"18":18,"19":19,"3":3,"7":7,"8":8}],13:[function(_dereq_,module,exports){
+},{"10":10,"18":18,"19":19,"20":20,"21":21,"3":3,"9":9}],15:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -2183,19 +2452,19 @@ var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(18);
+var _general = _dereq_(20);
 
-var _constants = _dereq_(16);
+var _constants = _dereq_(18);
 
-var _media = _dereq_(19);
+var _media = _dereq_(21);
 
-var _dom = _dereq_(17);
+var _dom = _dereq_(19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2211,7 +2480,7 @@ var NativeHls = {
 				NativeHls._createPlayer(settings);
 			});
 		} else {
-			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.8.4/hls.min.js';
+			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdn.jsdelivr.net/npm/hls.js@latest';
 
 			NativeHls.promise = NativeHls.promise || (0, _dom.loadScript)(settings.options.path);
 			NativeHls.promise.then(function () {
@@ -2234,7 +2503,7 @@ var HlsNativeRenderer = {
 	options: {
 		prefix: 'native_hls',
 		hls: {
-			path: 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.8.4/hls.min.js',
+			path: 'https://cdn.jsdelivr.net/npm/hls.js@latest',
 
 			autoStartLoad: false,
 			debug: false
@@ -2262,12 +2531,12 @@ var HlsNativeRenderer = {
 		options.hls.autoStartLoad = preload && preload !== 'none' || autoplay;
 
 		var props = _mejs2.default.html5media.properties,
-		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']).filter(function (e) {
+			return e !== 'error';
+		}),
 		    attachNativeEvents = function attachNativeEvents(e) {
-			if (e.type !== 'error') {
-				var _event = (0, _general.createEvent)(e.type, mediaElement);
-				mediaElement.dispatchEvent(_event);
-			}
+			var event = (0, _general.createEvent)(e.type, mediaElement);
+			mediaElement.dispatchEvent(event);
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
@@ -2367,12 +2636,12 @@ var HlsNativeRenderer = {
 								hlsPlayer.destroy();
 								break;
 						}
+						return;
 					}
-				} else {
-					var _event2 = (0, _general.createEvent)(name, mediaElement);
-					_event2.data = data;
-					mediaElement.dispatchEvent(_event2);
 				}
+				var event = (0, _general.createEvent)(name, mediaElement);
+				event.data = data;
+				mediaElement.dispatchEvent(event);
 			};
 
 			var _loop = function _loop(eventType) {
@@ -2463,7 +2732,7 @@ _media.typeChecks.push(function (url) {
 
 _renderer.renderer.add(HlsNativeRenderer);
 
-},{"16":16,"17":17,"18":18,"19":19,"3":3,"7":7,"8":8}],14:[function(_dereq_,module,exports){
+},{"10":10,"18":18,"19":19,"20":20,"21":21,"3":3,"9":9}],16:[function(_dereq_,module,exports){
 'use strict';
 
 var _window = _dereq_(3);
@@ -2474,15 +2743,15 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(18);
+var _general = _dereq_(20);
 
-var _constants = _dereq_(16);
+var _constants = _dereq_(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2540,7 +2809,9 @@ var HtmlMediaElement = {
 			assignGettersSetters(props[i]);
 		}
 
-		var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']).filter(function (e) {
+			return e !== 'error';
+		}),
 		    assignEvents = function assignEvents(eventName) {
 			node.addEventListener(eventName, function (e) {
 				if (isActive) {
@@ -2608,7 +2879,7 @@ _window2.default.HtmlMediaElement = _mejs2.default.HtmlMediaElement = HtmlMediaE
 
 _renderer.renderer.add(HtmlMediaElement);
 
-},{"16":16,"18":18,"2":2,"3":3,"7":7,"8":8}],15:[function(_dereq_,module,exports){
+},{"10":10,"18":18,"2":2,"20":20,"3":3,"9":9}],17:[function(_dereq_,module,exports){
 'use strict';
 
 var _window = _dereq_(3);
@@ -2619,17 +2890,17 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(18);
+var _general = _dereq_(20);
 
-var _media = _dereq_(19);
+var _media = _dereq_(21);
 
-var _dom = _dereq_(17);
+var _dom = _dereq_(19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2798,6 +3069,8 @@ var YouTubeIframeRenderer = {
 						case 'volume':
 							volume = youTubeApi.getVolume() / 100;
 							return volume;
+						case 'playbackRate':
+							return youTubeApi.getPlaybackRate();
 						case 'paused':
 							return paused;
 						case 'ended':
@@ -2863,6 +3136,13 @@ var YouTubeIframeRenderer = {
 								mediaElement.dispatchEvent(event);
 							}, 50);
 							break;
+						case 'playbackRate':
+							youTubeApi.setPlaybackRate(value);
+							setTimeout(function () {
+								var event = (0, _general.createEvent)('ratechange', youtube);
+								mediaElement.dispatchEvent(event);
+							}, 50);
+							break;
 						case 'readyState':
 							var event = (0, _general.createEvent)('canplay', youtube);
 							mediaElement.dispatchEvent(event);
@@ -2904,6 +3184,29 @@ var YouTubeIframeRenderer = {
 		for (var _i = 0, _total = methods.length; _i < _total; _i++) {
 			assignMethods(methods[_i]);
 		}
+
+		var errorHandler = function errorHandler(error) {
+			var message = '';
+			switch (error.data) {
+				case 2:
+					message = 'The request contains an invalid parameter value. Verify that video ID has 11 characters and that contains no invalid characters, such as exclamation points or asterisks.';
+					break;
+				case 5:
+					message = 'The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.';
+					break;
+				case 100:
+					message = 'The video requested was not found. Either video has been removed or has been marked as private.';
+					break;
+				case 101:
+				case 105:
+					message = 'The owner of the requested video does not allow it to be played in embedded players.';
+					break;
+				default:
+					message = 'Unknown error.';
+					break;
+			}
+			mediaElement.generateError('Code ' + error.data + ': ' + message, mediaFiles);
+		};
 
 		var youtubeContainer = _document2.default.createElement('div');
 		youtubeContainer.id = youtube.id;
@@ -3028,9 +3331,7 @@ var YouTubeIframeRenderer = {
 					}
 				},
 				onError: function onError(e) {
-					var event = (0, _general.createEvent)('error', youtube);
-					event.data = e.data;
-					mediaElement.dispatchEvent(event);
+					return errorHandler(e);
 				}
 			}
 		};
@@ -3047,6 +3348,10 @@ var YouTubeIframeRenderer = {
 		}
 		if (mediaElement.originalNode.loop) {
 			youtubeSettings.playerVars.loop = 1;
+		}
+
+		if ((youtubeSettings.playerVars.loop && parseInt(youtubeSettings.playerVars.loop, 10) === 1 || mediaElement.originalNode.src.indexOf('loop=') > -1) && !youtubeSettings.playerVars.playlist && mediaElement.originalNode.src.indexOf('playlist=') === -1) {
+			youtubeSettings.playerVars.playlist = YouTubeApi.getYouTubeId(mediaElement.originalNode.src);
 		}
 
 		YouTubeApi.enqueueIframe(youtubeSettings);
@@ -3112,7 +3417,7 @@ _media.typeChecks.push(function (url) {
 
 _renderer.renderer.add(YouTubeIframeRenderer);
 
-},{"17":17,"18":18,"19":19,"2":2,"3":3,"7":7,"8":8}],16:[function(_dereq_,module,exports){
+},{"10":10,"19":19,"2":2,"20":20,"21":21,"3":3,"9":9}],18:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3128,7 +3433,7 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -3160,7 +3465,7 @@ var SUPPORT_POINTER_EVENTS = exports.SUPPORT_POINTER_EVENTS = function () {
 	element.style.pointerEvents = 'auto';
 	element.style.pointerEvents = 'x';
 	documentElement.appendChild(element);
-	var supports = getComputedStyle && getComputedStyle(element, '').pointerEvents === 'auto';
+	var supports = getComputedStyle && (getComputedStyle(element, '') || {}).pointerEvents === 'auto';
 	element.remove();
 	return !!supports;
 }();
@@ -3298,7 +3603,7 @@ _mejs2.default.Features.isFullScreen = isFullScreen;
 _mejs2.default.Features.requestFullScreen = requestFullScreen;
 _mejs2.default.Features.cancelFullScreen = cancelFullScreen;
 
-},{"2":2,"3":3,"7":7}],17:[function(_dereq_,module,exports){
+},{"2":2,"3":3,"9":9}],19:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3322,7 +3627,7 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -3527,7 +3832,7 @@ _mejs2.default.Utils.visible = visible;
 _mejs2.default.Utils.ajax = ajax;
 _mejs2.default.Utils.loadScript = loadScript;
 
-},{"2":2,"3":3,"7":7}],18:[function(_dereq_,module,exports){
+},{"2":2,"3":3,"9":9}],20:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3541,7 +3846,7 @@ exports.createEvent = createEvent;
 exports.isNodeAfter = isNodeAfter;
 exports.isString = isString;
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -3663,7 +3968,7 @@ _mejs2.default.Utils.createEvent = createEvent;
 _mejs2.default.Utils.isNodeAfter = isNodeAfter;
 _mejs2.default.Utils.isString = isString;
 
-},{"7":7}],19:[function(_dereq_,module,exports){
+},{"9":9}],21:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3677,11 +3982,11 @@ exports.getTypeFromFile = getTypeFromFile;
 exports.getExtension = getExtension;
 exports.normalizeExtension = normalizeExtension;
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _general = _dereq_(18);
+var _general = _dereq_(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3786,14 +4091,14 @@ _mejs2.default.Utils.getTypeFromFile = getTypeFromFile;
 _mejs2.default.Utils.getExtension = getExtension;
 _mejs2.default.Utils.normalizeExtension = normalizeExtension;
 
-},{"18":18,"7":7}],20:[function(_dereq_,module,exports){
+},{"20":20,"9":9}],22:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _promisePolyfill = _dereq_(4);
+var _promisePolyfill = _dereq_(5);
 
 var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
 
@@ -3939,4 +4244,4 @@ if (!window.Promise) {
 	}
 })(window.Node || window.Element);
 
-},{"2":2,"4":4}]},{},[20,6,5,9,14,11,10,12,13,15]);
+},{"2":2,"5":5}]},{},[22,8,7,11,16,13,12,14,15,17]);

@@ -661,7 +661,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
     list-style-type: none !important;
     margin: 0 0 6px;
     overflow: hidden;
-    padding: 0 10px;
+    padding: 0;
 }
 
 .mejs__captions-selector-list-item:hover,
@@ -685,7 +685,8 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
     float: left;
     font-size: 10px;
     line-height: 15px;
-    padding: 4px 0 0;
+    padding: 4px 10px 0;
+    width: 100%;
 }
 
 .mejs__captions-selected,
@@ -749,6 +750,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
 }
 .mejs__overlay-error > img {
     left: 0;
+    max-width: 100%;
     position: absolute;
     top: 0;
     z-index: -1;

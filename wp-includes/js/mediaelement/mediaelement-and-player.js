@@ -8,7 +8,7 @@
  * Copyright 2010-2017, John Dyer (http://j.hn/)
  * License: MIT
  *
- */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+ */(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(_dereq_,module,exports){
 
 },{}],2:[function(_dereq_,module,exports){
 (function (global){
@@ -49,6 +49,193 @@ module.exports = win;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(_dereq_,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],5:[function(_dereq_,module,exports){
+(function (setImmediate){
 (function (root) {
 
   // Store setTimeout reference so promise-polyfill will be unaffected by
@@ -283,7 +470,87 @@ module.exports = win;
 
 })(this);
 
-},{}],5:[function(_dereq_,module,exports){
+}).call(this,_dereq_(6).setImmediate)
+},{"6":6}],6:[function(_dereq_,module,exports){
+(function (setImmediate,clearImmediate){
+var nextTick = _dereq_(4).nextTick;
+var apply = Function.prototype.apply;
+var slice = Array.prototype.slice;
+var immediateIds = {};
+var nextImmediateId = 0;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) { timeout.close(); };
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// That's not how node.js implements it but the exposed api is the same.
+exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+  var id = nextImmediateId++;
+  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+  immediateIds[id] = true;
+
+  nextTick(function onNextTick() {
+    if (immediateIds[id]) {
+      // fn.call() is faster so we optimize for the common use-case
+      // @see http://jsperf.com/call-apply-segu
+      if (args) {
+        fn.apply(null, args);
+      } else {
+        fn.call(null);
+      }
+      // Prevent ids from leaking
+      exports.clearImmediate(id);
+    }
+  });
+
+  return id;
+};
+
+exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+  delete immediateIds[id];
+};
+}).call(this,_dereq_(6).setImmediate,_dereq_(6).clearImmediate)
+},{"4":4,"6":6}],7:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -292,13 +559,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _en = _dereq_(15);
+var _en = _dereq_(17);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -550,7 +817,7 @@ if (typeof mejsL10n !== 'undefined') {
 
 exports.default = i18n;
 
-},{"15":15,"27":27,"7":7}],6:[function(_dereq_,module,exports){
+},{"17":17,"29":29,"9":9}],8:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -567,17 +834,17 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _media2 = _dereq_(28);
+var _media2 = _dereq_(30);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _constants = _dereq_(25);
+var _constants = _dereq_(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -863,7 +1130,7 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 	},
 	    triggerAction = function triggerAction(methodName, args) {
 		try {
-			if (methodName === 'play' && t.mediaElement.rendererName === 'native_dash') {
+			if (methodName === 'play' && (t.mediaElement.rendererName === 'native_dash' || t.mediaElement.rendererName === 'native_hls')) {
 				var response = t.mediaElement.renderer[methodName](args);
 				if (response && typeof response.then === 'function') {
 					response.catch(function () {
@@ -961,6 +1228,15 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 		}
 	};
 
+	t.mediaElement.destroy = function () {
+		var mediaElement = t.mediaElement.originalNode.cloneNode(true);
+		var wrapper = t.mediaElement.parentElement;
+		mediaElement.removeAttribute('id');
+		mediaElement.remove();
+		t.mediaElement.remove();
+		wrapper.appendChild(mediaElement);
+	};
+
 	if (mediaFiles.length) {
 		t.mediaElement.src = mediaFiles;
 	}
@@ -993,7 +1269,7 @@ _mejs2.default.MediaElement = MediaElement;
 
 exports.default = MediaElement;
 
-},{"2":2,"25":25,"27":27,"28":28,"3":3,"7":7,"8":8}],7:[function(_dereq_,module,exports){
+},{"10":10,"2":2,"27":27,"29":29,"3":3,"30":30,"9":9}],9:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1008,7 +1284,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mejs = {};
 
-mejs.version = '4.2.6';
+mejs.version = '4.2.12';
 
 mejs.html5media = {
 	properties: ['volume', 'src', 'currentTime', 'muted', 'duration', 'paused', 'ended', 'buffered', 'error', 'networkState', 'readyState', 'seeking', 'seekable', 'currentSrc', 'preload', 'bufferedBytes', 'bufferedTime', 'initialTime', 'startOffsetTime', 'defaultPlaybackRate', 'playbackRate', 'played', 'autoplay', 'loop', 'controls'],
@@ -1025,7 +1301,7 @@ _window2.default.mejs = mejs;
 
 exports.default = mejs;
 
-},{"3":3}],8:[function(_dereq_,module,exports){
+},{"3":3}],10:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1037,7 +1313,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -1139,7 +1415,7 @@ var renderer = exports.renderer = new Renderer();
 
 _mejs2.default.Renderers = renderer;
 
-},{"7":7}],9:[function(_dereq_,module,exports){
+},{"9":9}],11:[function(_dereq_,module,exports){
 'use strict';
 
 var _window = _dereq_(3);
@@ -1150,23 +1426,23 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _i18n = _dereq_(5);
+var _i18n = _dereq_(7);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _player = _dereq_(16);
+var _player = _dereq_(18);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _constants = _dereq_(25);
+var _constants = _dereq_(27);
 
 var Features = _interopRequireWildcard(_constants);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
-var _media = _dereq_(28);
+var _media = _dereq_(30);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1239,7 +1515,7 @@ Object.assign(_player2.default.prototype, {
 
 		t.exitFullscreenCallback = function (e) {
 			var key = e.which || e.keyCode || 0;
-			if (key === 27 && (Features.HAS_TRUE_NATIVE_FULLSCREEN && Features.IS_FULLSCREEN || t.isFullScreen)) {
+			if (t.options.enableKeyboard && key === 27 && (Features.HAS_TRUE_NATIVE_FULLSCREEN && Features.IS_FULLSCREEN || t.isFullScreen)) {
 				player.exitFullScreen();
 			}
 		};
@@ -1292,6 +1568,10 @@ Object.assign(_player2.default.prototype, {
 		var t = this,
 		    isNative = t.media.rendererName !== null && /(html5|native)/i.test(t.media.rendererName),
 		    containerStyles = getComputedStyle(t.getElement(t.container));
+
+		if (!t.isVideo) {
+			return;
+		}
 
 		if (t.options.useFakeFullscreen === false && Features.IS_IOS && Features.HAS_IOS_FULLSCREEN && typeof t.media.originalNode.webkitEnterFullscreen === 'function' && t.media.originalNode.canPlayType((0, _media.getTypeFromFile)(t.media.getSrc()))) {
 			t.media.originalNode.webkitEnterFullscreen();
@@ -1372,7 +1652,7 @@ Object.assign(_player2.default.prototype, {
 		if (captionText) {
 			captionText.style.fontSize = zoomFactor * 100 + '%';
 			captionText.style.lineHeight = 'normal';
-			t.getElement(t.container).querySelector('.' + t.options.classPrefix + 'captions-position').style.bottom = '45px';
+			t.getElement(t.container).querySelector('.' + t.options.classPrefix + 'captions-position').style.bottom = (screen.height - t.normalHeight) / 2 - t.getElement(t.controls).offsetHeight / 2 + zoomFactor + 15 + 'px';
 		}
 		var event = (0, _general.createEvent)('enteredfullscreen', t.getElement(t.container));
 		t.getElement(t.container).dispatchEvent(event);
@@ -1380,6 +1660,10 @@ Object.assign(_player2.default.prototype, {
 	exitFullScreen: function exitFullScreen() {
 		var t = this,
 		    isNative = t.media.rendererName !== null && /(native|html5)/i.test(t.media.rendererName);
+
+		if (!t.isVideo) {
+			return;
+		}
 
 		clearTimeout(t.containerSizeTimeout);
 
@@ -1437,24 +1721,24 @@ Object.assign(_player2.default.prototype, {
 	}
 });
 
-},{"16":16,"2":2,"25":25,"26":26,"27":27,"28":28,"3":3,"5":5}],10:[function(_dereq_,module,exports){
+},{"18":18,"2":2,"27":27,"28":28,"29":29,"3":3,"30":30,"7":7}],12:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _player = _dereq_(16);
+var _player = _dereq_(18);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _i18n = _dereq_(5);
+var _i18n = _dereq_(7);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1530,30 +1814,30 @@ Object.assign(_player2.default.prototype, {
 	}
 });
 
-},{"16":16,"2":2,"26":26,"27":27,"5":5}],11:[function(_dereq_,module,exports){
+},{"18":18,"2":2,"28":28,"29":29,"7":7}],13:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _player = _dereq_(16);
+var _player2 = _dereq_(18);
 
-var _player2 = _interopRequireDefault(_player);
+var _player3 = _interopRequireDefault(_player2);
 
-var _i18n = _dereq_(5);
+var _i18n = _dereq_(7);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _constants = _dereq_(25);
+var _constants = _dereq_(27);
 
-var _time = _dereq_(30);
+var _time = _dereq_(32);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-Object.assign(_player.config, {
+Object.assign(_player2.config, {
 	enableProgressTooltip: true,
 
 	useSmoothHover: true,
@@ -1561,7 +1845,7 @@ Object.assign(_player.config, {
 	forceLive: false
 });
 
-Object.assign(_player2.default.prototype, {
+Object.assign(_player3.default.prototype, {
 	buildprogress: function buildprogress(player, controls, layers, media) {
 
 		var lastKeyPressTime = 0,
@@ -1587,7 +1871,10 @@ Object.assign(_player2.default.prototype, {
 						player.startControlsTimer();
 					}
 
-					player.getElement(player.container).querySelector('.' + _player.config.classPrefix + 'time-total').focus();
+					var timeSlider = player.getElement(player.container).querySelector('.' + _player.config.classPrefix + 'time-total');
+					if (timeSlider) {
+						timeSlider.focus();
+					}
 
 					var newTime = Math.max(player.currentTime - player.options.defaultSeekBackwardInterval(player), 0);
 					player.setCurrentTime(newTime);
@@ -1603,7 +1890,10 @@ Object.assign(_player2.default.prototype, {
 						player.startControlsTimer();
 					}
 
-					player.getElement(player.container).querySelector('.' + _player.config.classPrefix + 'time-total').focus();
+					var timeSlider = player.getElement(player.container).querySelector('.' + _player.config.classPrefix + 'time-total');
+					if (timeSlider) {
+						timeSlider.focus();
+					}
 
 					var newTime = Math.min(player.currentTime + player.options.defaultSeekForwardInterval(player), player.duration);
 					player.setCurrentTime(newTime);
@@ -1682,7 +1972,7 @@ Object.assign(_player2.default.prototype, {
 
 				pos = x - offsetStyles.left;
 				percentage = pos / width;
-				t.newTime = percentage <= 0.02 ? 0 : percentage * t.getDuration();
+				t.newTime = percentage * t.getDuration();
 
 				if (mouseIsDown && t.getCurrentTime() !== null && t.newTime.toFixed(4) !== t.getCurrentTime().toFixed(4)) {
 					t.setCurrentRailHandle(t.newTime);
@@ -1750,7 +2040,7 @@ Object.assign(_player2.default.prototype, {
 			if (media.paused) {
 				t.slider.setAttribute('aria-label', timeSliderText);
 				t.slider.setAttribute('aria-valuemin', 0);
-				t.slider.setAttribute('aria-valuemax', duration);
+				t.slider.setAttribute('aria-valuemax', isNaN(duration) ? 0 : duration);
 				t.slider.setAttribute('aria-valuenow', seconds);
 				t.slider.setAttribute('aria-valuetext', time);
 			} else {
@@ -1769,7 +2059,7 @@ Object.assign(_player2.default.prototype, {
 		    handleMouseup = function handleMouseup() {
 			if (mouseIsDown && t.getCurrentTime() !== null && t.newTime.toFixed(4) !== t.getCurrentTime().toFixed(4)) {
 				t.setCurrentTime(t.newTime);
-				t.setCurrentRail();
+				t.setCurrentRailHandle(t.newTime);
 				t.updateCurrent(t.newTime);
 			}
 			if (t.forcedHandlePause) {
@@ -1790,7 +2080,7 @@ Object.assign(_player2.default.prototype, {
 				startedPaused = t.paused;
 			}
 
-			if (t.options.keyActions.length) {
+			if (t.options.enableKeyboard && t.options.keyActions.length) {
 
 				var keyCode = e.which || e.keyCode || 0,
 				    duration = t.getDuration(),
@@ -1851,7 +2141,7 @@ Object.assign(_player2.default.prototype, {
 						return;
 				}
 
-				seekTime = seekTime < 0 ? 0 : seekTime >= duration ? duration : Math.floor(seekTime);
+				seekTime = seekTime < 0 || isNaN(seekTime) ? 0 : seekTime >= duration ? duration : Math.floor(seekTime);
 				lastKeyPressTime = new Date();
 				if (!startedPaused) {
 					player.pause();
@@ -1950,7 +2240,7 @@ Object.assign(_player2.default.prototype, {
 					player.setCurrentRail(e);
 				}
 				updateSlider();
-			} else if (!broadcast || t.options.forceLive) {
+			} else if (!broadcast && t.options.forceLive) {
 				var label = _document2.default.createElement('span');
 				label.className = t.options.classPrefix + 'broadcast';
 				label.innerText = _i18n2.default.t('mejs.live-broadcast');
@@ -2069,20 +2359,20 @@ Object.assign(_player2.default.prototype, {
 	}
 });
 
-},{"16":16,"2":2,"25":25,"26":26,"30":30,"5":5}],12:[function(_dereq_,module,exports){
+},{"18":18,"2":2,"27":27,"28":28,"32":32,"7":7}],14:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _player = _dereq_(16);
+var _player = _dereq_(18);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _time = _dereq_(30);
+var _time = _dereq_(32);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2169,7 +2459,7 @@ Object.assign(_player2.default.prototype, {
 
 		var duration = t.getDuration();
 
-		if (isNaN(duration) || duration === Infinity || duration < 0) {
+		if (t.media !== undefined && (isNaN(duration) || duration === Infinity || duration < 0)) {
 			t.media.duration = t.options.duration = duration = 0;
 		}
 
@@ -2191,30 +2481,30 @@ Object.assign(_player2.default.prototype, {
 	}
 });
 
-},{"16":16,"2":2,"26":26,"30":30}],13:[function(_dereq_,module,exports){
+},{"18":18,"2":2,"28":28,"32":32}],15:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _i18n = _dereq_(5);
+var _i18n = _dereq_(7);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _player = _dereq_(16);
+var _player = _dereq_(18);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _time = _dereq_(30);
+var _time = _dereq_(32);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2953,26 +3243,26 @@ _mejs2.default.TrackFormatParser = {
 	}
 };
 
-},{"16":16,"2":2,"26":26,"27":27,"30":30,"5":5,"7":7}],14:[function(_dereq_,module,exports){
+},{"18":18,"2":2,"28":28,"29":29,"32":32,"7":7,"9":9}],16:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _player = _dereq_(16);
+var _player = _dereq_(18);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _i18n = _dereq_(5);
+var _i18n = _dereq_(7);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _constants = _dereq_(25);
+var _constants = _dereq_(27);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3014,7 +3304,7 @@ Object.assign(_player2.default.prototype, {
 			keys: [38],
 			action: function action(player) {
 				var volumeSlider = player.getElement(player.container).querySelector('.' + _player.config.classPrefix + 'volume-slider');
-				if (volumeSlider || player.getElement(player.container).querySelector('.' + _player.config.classPrefix + 'volume-slider').matches(':focus')) {
+				if (volumeSlider && volumeSlider.matches(':focus')) {
 					volumeSlider.style.display = 'block';
 				}
 				if (player.isVideo) {
@@ -3071,6 +3361,7 @@ Object.assign(_player2.default.prototype, {
 			anchor.setAttribute('aria-label', _i18n2.default.t('mejs.volume-slider'));
 			anchor.setAttribute('aria-valuemin', 0);
 			anchor.setAttribute('aria-valuemax', 100);
+			anchor.setAttribute('aria-valuenow', 100);
 			anchor.setAttribute('role', 'slider');
 			anchor.innerHTML += '<span class="' + t.options.classPrefix + 'offscreen">' + volumeControlText + '</span>' + ('<div class="' + t.options.classPrefix + 'horizontal-volume-total">') + ('<div class="' + t.options.classPrefix + 'horizontal-volume-current"></div>') + ('<div class="' + t.options.classPrefix + 'horizontal-volume-handle"></div>') + '</div>';
 			mute.parentNode.insertBefore(anchor, mute.nextSibling);
@@ -3209,7 +3500,7 @@ Object.assign(_player2.default.prototype, {
 			mouseIsOver = false;
 		});
 		mute.addEventListener('keydown', function (e) {
-			if (t.options.keyActions.length) {
+			if (t.options.enableKeyboard && t.options.keyActions.length) {
 				var keyCode = e.which || e.keyCode || 0,
 				    volume = media.volume;
 
@@ -3301,7 +3592,6 @@ Object.assign(_player2.default.prototype, {
 				if (!modified && !rendered) {
 					if (player.options.startVolume === 0 || media.originalNode.muted) {
 						media.setMuted(true);
-						player.options.startVolume = 0;
 					}
 					media.setVolume(player.options.startVolume);
 					t.setControlsSize();
@@ -3322,7 +3612,7 @@ Object.assign(_player2.default.prototype, {
 	}
 });
 
-},{"16":16,"2":2,"25":25,"26":26,"27":27,"5":5}],15:[function(_dereq_,module,exports){
+},{"18":18,"2":2,"27":27,"28":28,"29":29,"7":7}],17:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3412,7 +3702,7 @@ var EN = exports.EN = {
 	'mejs.yiddish': 'Yiddish'
 };
 
-},{}],16:[function(_dereq_,module,exports){
+},{}],18:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3432,31 +3722,31 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _mediaelement = _dereq_(6);
+var _mediaelement = _dereq_(8);
 
 var _mediaelement2 = _interopRequireDefault(_mediaelement);
 
-var _default = _dereq_(17);
+var _default = _dereq_(19);
 
 var _default2 = _interopRequireDefault(_default);
 
-var _i18n = _dereq_(5);
+var _i18n = _dereq_(7);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _constants = _dereq_(25);
+var _constants = _dereq_(27);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _time = _dereq_(30);
+var _time = _dereq_(32);
 
-var _media = _dereq_(28);
+var _media = _dereq_(30);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
 var dom = _interopRequireWildcard(_dom);
 
@@ -3753,7 +4043,7 @@ var MediaElementPlayer = function () {
 									tracks.push(childNode);
 									break;
 								default:
-									cloneNode.appendChild(childNode);
+									cloneNode.appendChild(childNode.cloneNode(true));
 									break;
 							}
 						})();
@@ -4397,8 +4687,8 @@ var MediaElementPlayer = function () {
 			    parentStyles = parent ? getComputedStyle(parent, null) : getComputedStyle(_document2.default.body, null),
 			    nativeWidth = function () {
 				if (t.isVideo) {
-					if (t.media.videoWidth && t.media.videoWidth > 0) {
-						return t.media.videoWidth;
+					if (t.node.videoWidth && t.node.videoWidth > 0) {
+						return t.node.videoWidth;
 					} else if (t.node.getAttribute('width')) {
 						return t.node.getAttribute('width');
 					} else {
@@ -4410,8 +4700,8 @@ var MediaElementPlayer = function () {
 			}(),
 			    nativeHeight = function () {
 				if (t.isVideo) {
-					if (t.media.videoHeight && t.media.videoHeight > 0) {
-						return t.media.videoHeight;
+					if (t.node.videoHeight && t.node.videoHeight > 0) {
+						return t.node.videoHeight;
 					} else if (t.node.getAttribute('height')) {
 						return t.node.getAttribute('height');
 					} else {
@@ -4427,8 +4717,8 @@ var MediaElementPlayer = function () {
 					return ratio;
 				}
 
-				if (t.media.videoWidth && t.media.videoWidth > 0 && t.media.videoHeight && t.media.videoHeight > 0) {
-					ratio = t.height >= t.width ? t.media.videoWidth / t.media.videoHeight : t.media.videoHeight / t.media.videoWidth;
+				if (t.node.videoWidth && t.node.videoWidth > 0 && t.node.videoHeight && t.node.videoHeight > 0) {
+					ratio = t.height >= t.width ? t.node.videoWidth / t.node.videoHeight : t.node.videoHeight / t.node.videoWidth;
 				} else {
 					ratio = t.initialAspectRatio;
 				}
@@ -5159,11 +5449,12 @@ var MediaElementPlayer = function () {
 
 					delete t.node.autoplay;
 
+					t.node.setAttribute('src', '');
 					if (t.media.canPlayType((0, _media.getTypeFromFile)(src)) !== '') {
 						t.node.setAttribute('src', src);
 					}
 
-					if (~rendererName.indexOf('iframe')) {
+					if (rendererName && rendererName.indexOf('iframe') > -1) {
 						var layer = _document2.default.getElementById(t.media.id + '-iframe-overlay');
 						layer.remove();
 					}
@@ -5210,7 +5501,7 @@ var MediaElementPlayer = function () {
 				t.getElement(t.container).parentNode.insertBefore(t.node, t.getElement(t.container));
 			}
 
-			if (typeof t.media.renderer.destroy === 'function') {
+			if (t.media.renderer && typeof t.media.renderer.destroy === 'function') {
 				t.media.renderer.destroy();
 			}
 
@@ -5289,7 +5580,7 @@ _mejs2.default.MediaElementPlayer = MediaElementPlayer;
 
 exports.default = MediaElementPlayer;
 
-},{"17":17,"2":2,"25":25,"26":26,"27":27,"28":28,"3":3,"30":30,"5":5,"6":6,"7":7}],17:[function(_dereq_,module,exports){
+},{"19":19,"2":2,"27":27,"28":28,"29":29,"3":3,"30":30,"32":32,"7":7,"8":8,"9":9}],19:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5436,6 +5727,11 @@ var DefaultPlayer = function () {
 			return this.getDuration();
 		}
 	}, {
+		key: 'remainingTime',
+		get: function get() {
+			return this.getDuration() - this.currentTime();
+		}
+	}, {
 		key: 'volume',
 		set: function set(volume) {
 			this.setVolume(volume);
@@ -5461,29 +5757,29 @@ exports.default = DefaultPlayer;
 
 _window2.default.DefaultPlayer = DefaultPlayer;
 
-},{"3":3}],18:[function(_dereq_,module,exports){
+},{"3":3}],20:[function(_dereq_,module,exports){
 'use strict';
 
 var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _player = _dereq_(16);
+var _player = _dereq_(18);
 
 var _player2 = _interopRequireDefault(_player);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (typeof jQuery !== 'undefined') {
-	_mejs2.default.$ = _window2.default.jQuery = _window2.default.$ = jQuery;
+	_mejs2.default.$ = jQuery;
 } else if (typeof Zepto !== 'undefined') {
-	_mejs2.default.$ = _window2.default.Zepto = _window2.default.$ = Zepto;
+	_mejs2.default.$ = Zepto;
 } else if (typeof ender !== 'undefined') {
-	_mejs2.default.$ = _window2.default.ender = _window2.default.$ = ender;
+	_mejs2.default.$ = ender;
 }
 
 (function ($) {
@@ -5511,7 +5807,7 @@ if (typeof jQuery !== 'undefined') {
 	}
 })(_mejs2.default.$);
 
-},{"16":16,"3":3,"7":7}],19:[function(_dereq_,module,exports){
+},{"18":18,"3":3,"9":9}],21:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -5520,19 +5816,19 @@ var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _media = _dereq_(28);
+var _media = _dereq_(30);
 
-var _constants = _dereq_(25);
+var _constants = _dereq_(27);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5602,12 +5898,12 @@ var DashNativeRenderer = {
 		options = Object.assign(options, mediaElement.options);
 
 		var props = _mejs2.default.html5media.properties,
-		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']).filter(function (e) {
+			return e !== 'error';
+		}),
 		    attachNativeEvents = function attachNativeEvents(e) {
-			if (e.type !== 'error') {
-				var _event = (0, _general.createEvent)(e.type, mediaElement);
-				mediaElement.dispatchEvent(_event);
-			}
+			var event = (0, _general.createEvent)(e.type, mediaElement);
+			mediaElement.dispatchEvent(event);
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
@@ -5659,10 +5955,7 @@ var DashNativeRenderer = {
 			var dashEvents = dashjs.MediaPlayer.events,
 			    assignEvents = function assignEvents(eventName) {
 				if (eventName === 'loadedmetadata') {
-					dashPlayer.getDebug().setLogToBrowserConsole(options.dash.debug);
 					dashPlayer.initialize();
-					dashPlayer.setScheduleWhilePaused(false);
-					dashPlayer.setFastSwitchEnabled(true);
 					dashPlayer.attachView(node);
 					dashPlayer.setAutoPlay(false);
 
@@ -5682,25 +5975,21 @@ var DashNativeRenderer = {
 				assignEvents(events[_i3]);
 			}
 
-			var assignMdashEvents = function assignMdashEvents(name, data) {
-				if (name.toLowerCase() === 'error') {
-					mediaElement.generateError(data.message, node.src);
-					console.error(data);
+			var assignMdashEvents = function assignMdashEvents(e) {
+				if (e.type.toLowerCase() === 'error') {
+					mediaElement.generateError(e.message, node.src);
+					console.error(e);
 				} else {
-					var _event2 = (0, _general.createEvent)(name, mediaElement);
-					_event2.data = data;
-					mediaElement.dispatchEvent(_event2);
+					var _event = (0, _general.createEvent)(e.type, mediaElement);
+					_event.data = e;
+					mediaElement.dispatchEvent(_event);
 				}
 			};
 
 			for (var eventType in dashEvents) {
 				if (dashEvents.hasOwnProperty(eventType)) {
 					dashPlayer.on(dashEvents[eventType], function (e) {
-						for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-							args[_key - 1] = arguments[_key];
-						}
-
-						return assignMdashEvents(e.type, args);
+						return assignMdashEvents(e);
 					});
 				}
 			}
@@ -5765,7 +6054,7 @@ _media.typeChecks.push(function (url) {
 
 _renderer.renderer.add(DashNativeRenderer);
 
-},{"25":25,"26":26,"27":27,"28":28,"3":3,"7":7,"8":8}],20:[function(_dereq_,module,exports){
+},{"10":10,"27":27,"28":28,"29":29,"3":3,"30":30,"9":9}],22:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5783,21 +6072,21 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _i18n = _dereq_(5);
+var _i18n = _dereq_(7);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _constants = _dereq_(25);
+var _constants = _dereq_(27);
 
-var _media = _dereq_(28);
+var _media = _dereq_(30);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6207,7 +6496,7 @@ if (hasFlash) {
 	_renderer.renderer.add(FlashMediaElementAudioOggRenderer);
 }
 
-},{"2":2,"25":25,"27":27,"28":28,"3":3,"5":5,"7":7,"8":8}],21:[function(_dereq_,module,exports){
+},{"10":10,"2":2,"27":27,"29":29,"3":3,"30":30,"7":7,"9":9}],23:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -6216,19 +6505,19 @@ var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _constants = _dereq_(25);
+var _constants = _dereq_(27);
 
-var _media = _dereq_(28);
+var _media = _dereq_(30);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6244,7 +6533,7 @@ var NativeFlv = {
 				NativeFlv._createPlayer(settings);
 			});
 		} else {
-			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.3/flv.min.js';
+			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdn.jsdelivr.net/npm/flv.js@latest';
 
 			NativeFlv.promise = NativeFlv.promise || (0, _dom.loadScript)(settings.options.path);
 			NativeFlv.promise.then(function () {
@@ -6269,7 +6558,7 @@ var FlvNativeRenderer = {
 	options: {
 		prefix: 'native_flv',
 		flv: {
-			path: 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.3/flv.min.js',
+			path: 'https://cdn.jsdelivr.net/npm/flv.js@latest',
 
 			cors: true,
 			debug: false
@@ -6292,12 +6581,12 @@ var FlvNativeRenderer = {
 		options = Object.assign(options, mediaElement.options);
 
 		var props = _mejs2.default.html5media.properties,
-		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']).filter(function (e) {
+			return e !== 'error';
+		}),
 		    attachNativeEvents = function attachNativeEvents(e) {
-			if (e.type !== 'error') {
-				var _event = (0, _general.createEvent)(e.type, mediaElement);
-				mediaElement.dispatchEvent(_event);
-			}
+			var event = (0, _general.createEvent)(e.type, mediaElement);
+			mediaElement.dispatchEvent(event);
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
@@ -6366,9 +6655,9 @@ var FlvNativeRenderer = {
 					var message = data[0] + ': ' + data[1] + ' ' + data[2].msg;
 					mediaElement.generateError(message, node.src);
 				} else {
-					var _event2 = (0, _general.createEvent)(name, mediaElement);
-					_event2.data = data;
-					mediaElement.dispatchEvent(_event2);
+					var _event = (0, _general.createEvent)(name, mediaElement);
+					_event.data = data;
+					mediaElement.dispatchEvent(_event);
 				}
 			};
 
@@ -6456,7 +6745,7 @@ _media.typeChecks.push(function (url) {
 
 _renderer.renderer.add(FlvNativeRenderer);
 
-},{"25":25,"26":26,"27":27,"28":28,"3":3,"7":7,"8":8}],22:[function(_dereq_,module,exports){
+},{"10":10,"27":27,"28":28,"29":29,"3":3,"30":30,"9":9}],24:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -6465,19 +6754,19 @@ var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _constants = _dereq_(25);
+var _constants = _dereq_(27);
 
-var _media = _dereq_(28);
+var _media = _dereq_(30);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6493,7 +6782,7 @@ var NativeHls = {
 				NativeHls._createPlayer(settings);
 			});
 		} else {
-			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.8.4/hls.min.js';
+			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdn.jsdelivr.net/npm/hls.js@latest';
 
 			NativeHls.promise = NativeHls.promise || (0, _dom.loadScript)(settings.options.path);
 			NativeHls.promise.then(function () {
@@ -6516,7 +6805,7 @@ var HlsNativeRenderer = {
 	options: {
 		prefix: 'native_hls',
 		hls: {
-			path: 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.8.4/hls.min.js',
+			path: 'https://cdn.jsdelivr.net/npm/hls.js@latest',
 
 			autoStartLoad: false,
 			debug: false
@@ -6544,12 +6833,12 @@ var HlsNativeRenderer = {
 		options.hls.autoStartLoad = preload && preload !== 'none' || autoplay;
 
 		var props = _mejs2.default.html5media.properties,
-		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']).filter(function (e) {
+			return e !== 'error';
+		}),
 		    attachNativeEvents = function attachNativeEvents(e) {
-			if (e.type !== 'error') {
-				var _event = (0, _general.createEvent)(e.type, mediaElement);
-				mediaElement.dispatchEvent(_event);
-			}
+			var event = (0, _general.createEvent)(e.type, mediaElement);
+			mediaElement.dispatchEvent(event);
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
@@ -6649,12 +6938,12 @@ var HlsNativeRenderer = {
 								hlsPlayer.destroy();
 								break;
 						}
+						return;
 					}
-				} else {
-					var _event2 = (0, _general.createEvent)(name, mediaElement);
-					_event2.data = data;
-					mediaElement.dispatchEvent(_event2);
 				}
+				var event = (0, _general.createEvent)(name, mediaElement);
+				event.data = data;
+				mediaElement.dispatchEvent(event);
 			};
 
 			var _loop = function _loop(eventType) {
@@ -6745,7 +7034,7 @@ _media.typeChecks.push(function (url) {
 
 _renderer.renderer.add(HlsNativeRenderer);
 
-},{"25":25,"26":26,"27":27,"28":28,"3":3,"7":7,"8":8}],23:[function(_dereq_,module,exports){
+},{"10":10,"27":27,"28":28,"29":29,"3":3,"30":30,"9":9}],25:[function(_dereq_,module,exports){
 'use strict';
 
 var _window = _dereq_(3);
@@ -6756,15 +7045,15 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _constants = _dereq_(25);
+var _constants = _dereq_(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6822,7 +7111,9 @@ var HtmlMediaElement = {
 			assignGettersSetters(props[i]);
 		}
 
-		var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']).filter(function (e) {
+			return e !== 'error';
+		}),
 		    assignEvents = function assignEvents(eventName) {
 			node.addEventListener(eventName, function (e) {
 				if (isActive) {
@@ -6890,7 +7181,7 @@ _window2.default.HtmlMediaElement = _mejs2.default.HtmlMediaElement = HtmlMediaE
 
 _renderer.renderer.add(HtmlMediaElement);
 
-},{"2":2,"25":25,"27":27,"3":3,"7":7,"8":8}],24:[function(_dereq_,module,exports){
+},{"10":10,"2":2,"27":27,"29":29,"3":3,"9":9}],26:[function(_dereq_,module,exports){
 'use strict';
 
 var _window = _dereq_(3);
@@ -6901,17 +7192,17 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(8);
+var _renderer = _dereq_(10);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
-var _media = _dereq_(28);
+var _media = _dereq_(30);
 
-var _dom = _dereq_(26);
+var _dom = _dereq_(28);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7080,6 +7371,8 @@ var YouTubeIframeRenderer = {
 						case 'volume':
 							volume = youTubeApi.getVolume() / 100;
 							return volume;
+						case 'playbackRate':
+							return youTubeApi.getPlaybackRate();
 						case 'paused':
 							return paused;
 						case 'ended':
@@ -7145,6 +7438,13 @@ var YouTubeIframeRenderer = {
 								mediaElement.dispatchEvent(event);
 							}, 50);
 							break;
+						case 'playbackRate':
+							youTubeApi.setPlaybackRate(value);
+							setTimeout(function () {
+								var event = (0, _general.createEvent)('ratechange', youtube);
+								mediaElement.dispatchEvent(event);
+							}, 50);
+							break;
 						case 'readyState':
 							var event = (0, _general.createEvent)('canplay', youtube);
 							mediaElement.dispatchEvent(event);
@@ -7186,6 +7486,29 @@ var YouTubeIframeRenderer = {
 		for (var _i = 0, _total = methods.length; _i < _total; _i++) {
 			assignMethods(methods[_i]);
 		}
+
+		var errorHandler = function errorHandler(error) {
+			var message = '';
+			switch (error.data) {
+				case 2:
+					message = 'The request contains an invalid parameter value. Verify that video ID has 11 characters and that contains no invalid characters, such as exclamation points or asterisks.';
+					break;
+				case 5:
+					message = 'The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.';
+					break;
+				case 100:
+					message = 'The video requested was not found. Either video has been removed or has been marked as private.';
+					break;
+				case 101:
+				case 105:
+					message = 'The owner of the requested video does not allow it to be played in embedded players.';
+					break;
+				default:
+					message = 'Unknown error.';
+					break;
+			}
+			mediaElement.generateError('Code ' + error.data + ': ' + message, mediaFiles);
+		};
 
 		var youtubeContainer = _document2.default.createElement('div');
 		youtubeContainer.id = youtube.id;
@@ -7310,9 +7633,7 @@ var YouTubeIframeRenderer = {
 					}
 				},
 				onError: function onError(e) {
-					var event = (0, _general.createEvent)('error', youtube);
-					event.data = e.data;
-					mediaElement.dispatchEvent(event);
+					return errorHandler(e);
 				}
 			}
 		};
@@ -7329,6 +7650,10 @@ var YouTubeIframeRenderer = {
 		}
 		if (mediaElement.originalNode.loop) {
 			youtubeSettings.playerVars.loop = 1;
+		}
+
+		if ((youtubeSettings.playerVars.loop && parseInt(youtubeSettings.playerVars.loop, 10) === 1 || mediaElement.originalNode.src.indexOf('loop=') > -1) && !youtubeSettings.playerVars.playlist && mediaElement.originalNode.src.indexOf('playlist=') === -1) {
+			youtubeSettings.playerVars.playlist = YouTubeApi.getYouTubeId(mediaElement.originalNode.src);
 		}
 
 		YouTubeApi.enqueueIframe(youtubeSettings);
@@ -7394,7 +7719,7 @@ _media.typeChecks.push(function (url) {
 
 _renderer.renderer.add(YouTubeIframeRenderer);
 
-},{"2":2,"26":26,"27":27,"28":28,"3":3,"7":7,"8":8}],25:[function(_dereq_,module,exports){
+},{"10":10,"2":2,"28":28,"29":29,"3":3,"30":30,"9":9}],27:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7410,7 +7735,7 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -7442,7 +7767,7 @@ var SUPPORT_POINTER_EVENTS = exports.SUPPORT_POINTER_EVENTS = function () {
 	element.style.pointerEvents = 'auto';
 	element.style.pointerEvents = 'x';
 	documentElement.appendChild(element);
-	var supports = getComputedStyle && getComputedStyle(element, '').pointerEvents === 'auto';
+	var supports = getComputedStyle && (getComputedStyle(element, '') || {}).pointerEvents === 'auto';
 	element.remove();
 	return !!supports;
 }();
@@ -7580,7 +7905,7 @@ _mejs2.default.Features.isFullScreen = isFullScreen;
 _mejs2.default.Features.requestFullScreen = requestFullScreen;
 _mejs2.default.Features.cancelFullScreen = cancelFullScreen;
 
-},{"2":2,"3":3,"7":7}],26:[function(_dereq_,module,exports){
+},{"2":2,"3":3,"9":9}],28:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7604,7 +7929,7 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -7809,7 +8134,7 @@ _mejs2.default.Utils.visible = visible;
 _mejs2.default.Utils.ajax = ajax;
 _mejs2.default.Utils.loadScript = loadScript;
 
-},{"2":2,"3":3,"7":7}],27:[function(_dereq_,module,exports){
+},{"2":2,"3":3,"9":9}],29:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7823,7 +8148,7 @@ exports.createEvent = createEvent;
 exports.isNodeAfter = isNodeAfter;
 exports.isString = isString;
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -7945,7 +8270,7 @@ _mejs2.default.Utils.createEvent = createEvent;
 _mejs2.default.Utils.isNodeAfter = isNodeAfter;
 _mejs2.default.Utils.isString = isString;
 
-},{"7":7}],28:[function(_dereq_,module,exports){
+},{"9":9}],30:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7959,11 +8284,11 @@ exports.getTypeFromFile = getTypeFromFile;
 exports.getExtension = getExtension;
 exports.normalizeExtension = normalizeExtension;
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _general = _dereq_(27);
+var _general = _dereq_(29);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8068,14 +8393,14 @@ _mejs2.default.Utils.getTypeFromFile = getTypeFromFile;
 _mejs2.default.Utils.getExtension = getExtension;
 _mejs2.default.Utils.normalizeExtension = normalizeExtension;
 
-},{"27":27,"7":7}],29:[function(_dereq_,module,exports){
+},{"29":29,"9":9}],31:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _promisePolyfill = _dereq_(4);
+var _promisePolyfill = _dereq_(5);
 
 var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
 
@@ -8221,7 +8546,7 @@ if (!window.Promise) {
 	}
 })(window.Node || window.Element);
 
-},{"2":2,"4":4}],30:[function(_dereq_,module,exports){
+},{"2":2,"5":5}],32:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8233,7 +8558,7 @@ exports.timeCodeToSeconds = timeCodeToSeconds;
 exports.calculateTimeFormat = calculateTimeFormat;
 exports.convertSMPTEtoSeconds = convertSMPTEtoSeconds;
 
-var _mejs = _dereq_(7);
+var _mejs = _dereq_(9);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -8249,7 +8574,7 @@ function secondsToTimeCode(time) {
 	var showFrameCount = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 	var fps = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 25;
 	var secondsDecimalLength = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
-	var timeFormat = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 'mm:ss';
+	var timeFormat = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 'hh:mm:ss';
 
 
 	time = !time || typeof time !== 'number' || time < 0 ? 0 : time;
@@ -8288,7 +8613,7 @@ function secondsToTimeCode(time) {
 		if (showFrameCount) {
 			seconds = timeBaseDivision % 60;
 		} else {
-			seconds = (f / timeBase % 60).toFixed(secondsDecimalLength);
+			seconds = Math.floor(f / timeBase % 60).toFixed(secondsDecimalLength);
 		}
 	} else {
 		hours = Math.floor(time / 3600) % 24;
@@ -8296,12 +8621,15 @@ function secondsToTimeCode(time) {
 		if (showFrameCount) {
 			seconds = Math.floor(time % 60);
 		} else {
-			seconds = (time % 60).toFixed(secondsDecimalLength);
+			seconds = Math.floor(time % 60).toFixed(secondsDecimalLength);
 		}
 	}
 	hours = hours <= 0 ? 0 : hours;
 	minutes = minutes <= 0 ? 0 : minutes;
 	seconds = seconds <= 0 ? 0 : seconds;
+
+	seconds = seconds === 60 ? 0 : seconds;
+	minutes = minutes === 60 ? 0 : minutes;
 
 	var timeFormatFrags = timeFormat.split(':');
 	var timeFormatSettings = {};
@@ -8471,4 +8799,4 @@ _mejs2.default.Utils.timeCodeToSeconds = timeCodeToSeconds;
 _mejs2.default.Utils.calculateTimeFormat = calculateTimeFormat;
 _mejs2.default.Utils.convertSMPTEtoSeconds = convertSMPTEtoSeconds;
 
-},{"7":7}]},{},[29,6,5,15,23,20,19,21,22,24,16,18,17,9,10,11,12,13,14]);
+},{"9":9}]},{},[31,8,7,17,25,22,21,23,24,26,18,20,19,11,12,13,14,15,16]);
