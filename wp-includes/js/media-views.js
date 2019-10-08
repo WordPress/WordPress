@@ -3004,7 +3004,7 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 
 		tabPanelEl.removeAttr( 'role aria-labelledby tabindex' );
 
-		if ( this.menuView && this.menuView.isVisible ) {
+		if ( this.state().get( 'menu' ) && this.menuView && this.menuView.isVisible ) {
 			ariaLabelledby = 'menu-item-' + stateId;
 
 			// Set the tab panel attributes only if the tabs are visible.
@@ -3030,13 +3030,8 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 
 		tabPanelEl.removeAttr( 'role aria-labelledby tabindex' );
 
-		// On the Embed view the router menu is hidden.
-		if ( 'embed' === this.content._mode ) {
-			return;
-		}
-
 		// Set the tab panel attributes only if the tabs are visible.
-		if ( this.routerView && this.routerView.isVisible && this.content._mode ) {
+		if ( this.state().get( 'router' ) && this.routerView && this.routerView.isVisible && this.content._mode ) {
 			ariaLabelledby = 'menu-item-' + this.content._mode;
 
 			tabPanelEl
