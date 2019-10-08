@@ -9,7 +9,7 @@
   "devDependencies": {
     "@wordpress/browserslist-config": "^2.5.0",
     "autoprefixer": "^9.6.0",
-    "chokidar-cli": "^1.2.2",
+    "chokidar-cli": "^2.0.0",
     "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.5",
     "postcss-cli": "^6.1.2",
