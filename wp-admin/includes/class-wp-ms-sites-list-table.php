@@ -617,8 +617,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		reset( $this->status_list );
 
+		$site_status = isset( $_REQUEST['status'] ) ? wp_unslash( trim( $_REQUEST['status'] ) ) : '';
 		foreach ( $this->status_list as $status => $col ) {
-			if ( $_site->{$status} == 1 ) {
+			if ( ( 1 === intval( $_site->{$status} ) ) && ( $site_status !== $status ) ) {
 				$site_states[ $col[0] ] = $col[1];
 			}
 		}
