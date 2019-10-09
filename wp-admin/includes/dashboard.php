@@ -1055,6 +1055,8 @@ function wp_dashboard_rss_output( $widget_id ) {
  * which is later replaced by Ajax call (see top of /wp-admin/index.php)
  *
  * @since 2.5.0
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  *
  * @param string   $widget_id  The widget ID.
  * @param callable $callback   The callback funtion used to display each feed.

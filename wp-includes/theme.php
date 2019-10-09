@@ -2357,6 +2357,8 @@ function get_theme_starter_content() {
  *              `disable-custom-font-sizes`, `editor-color-palette`, `editor-font-sizes`,
  *              `editor-styles`, and `wp-block-styles` features were added.
  * @since 5.3.0 The `html5` feature now also accepts 'script' and 'style'.
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  *
  * @global array $_wp_theme_features
  *
@@ -2671,6 +2673,8 @@ function _custom_logo_header_styles() {
  *     get_theme_support( 'custom-header', 'width' );
  *
  * @since 3.1.0
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  *
  * @global array $_wp_theme_features
  *
@@ -2791,6 +2795,8 @@ function _remove_theme_support( $feature ) {
  *     current_theme_supports( 'html5', 'comment-form' );
  *
  * @since 2.9.0
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  *
  * @global array $_wp_theme_features
  *

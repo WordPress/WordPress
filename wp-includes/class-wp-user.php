@@ -730,6 +730,8 @@ class WP_User {
 	 * may produce unreliable results.
 	 *
 	 * @since 2.0.0
+	 * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+	 *              by adding it to the function signature.
 	 *
 	 * @see map_meta_cap()
 	 *

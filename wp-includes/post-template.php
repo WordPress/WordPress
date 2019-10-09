@@ -1530,8 +1530,11 @@ function walk_page_tree( $pages, $depth, $current_page, $r ) {
 /**
  * Retrieve HTML dropdown (select) content for page list.
  *
- * @uses Walker_PageDropdown to create HTML dropdown content.
  * @since 2.1.0
+ * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
+ *              to the function signature.
+ *
+ * @uses Walker_PageDropdown to create HTML dropdown content.
  * @see Walker_PageDropdown::walk() for parameters and return description.
  *
  * @return string

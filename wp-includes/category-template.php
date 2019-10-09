@@ -1054,8 +1054,11 @@ function _wp_object_count_sort_cb( $a, $b ) {
 /**
  * Retrieve HTML list content for category list.
  *
- * @uses Walker_Category to create HTML list content.
  * @since 2.1.0
+ * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
+ *              to the function signature.
+ *
+ * @uses Walker_Category to create HTML list content.
  * @see Walker::walk() for parameters and return description.
  *
  * @param mixed ...$args Elements array, maximum hierarchical depth and optional additional arguments.
@@ -1074,8 +1077,11 @@ function walk_category_tree( ...$args ) {
 /**
  * Retrieve HTML dropdown (select) content for category list.
  *
- * @uses Walker_CategoryDropdown to create HTML dropdown content.
  * @since 2.1.0
+ * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
+ *              to the function signature.
+ *
+ * @uses Walker_CategoryDropdown to create HTML dropdown content.
  * @see Walker::walk() for parameters and return description.
  *
  * @param mixed ...$args Elements array, maximum hierarchical depth and optional additional arguments.

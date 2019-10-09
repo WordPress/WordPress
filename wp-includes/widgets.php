@@ -344,6 +344,8 @@ function is_registered_sidebar( $sidebar_id ) {
  * parameter is an empty string.
  *
  * @since 2.2.0
+ * @since 5.3.0 Formalized the existing and already documented `...$params` parameter
+ *              by adding it to the function signature.
  *
  * @global array $wp_registered_widgets            Uses stored registered widgets.
  * @global array $wp_registered_widget_controls    Stores the registered widget controls (options).
@@ -481,6 +483,8 @@ function wp_unregister_sidebar_widget( $id ) {
  * Registers widget control callback for customizing options.
  *
  * @since 2.2.0
+ * @since 5.3.0 Formalized the existing and already documented `...$params` parameter
+ *              by adding it to the function signature.
  *
  * @global array $wp_registered_widget_controls
  * @global array $wp_registered_widget_updates
@@ -556,6 +560,8 @@ function wp_register_widget_control( $id, $name, $control_callback, $options = a
  * Registers the update callback for a widget.
  *
  * @since 2.8.0
+ * @since 5.3.0 Formalized the existing and already documented `...$params` parameter
+ *              by adding it to the function signature.
  *
  * @global array $wp_registered_widget_updates
  *
@@ -588,6 +594,8 @@ function _register_widget_update_callback( $id_base, $update_callback, $options 
  * Registers the form callback for a widget.
  *
  * @since 2.8.0
+ * @since 5.3.0 Formalized the existing and already documented `...$params` parameter
+ *              by adding it to the function signature.
  *
  * @global array $wp_registered_widget_controls
  *

@@ -87,6 +87,8 @@ class _WP_Dependency {
 	 * Setup dependencies.
 	 *
 	 * @since 2.6.0
+	 * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
+	 *              to the function signature.
 	 *
 	 * @param ...$args Dependency information.
 	 */

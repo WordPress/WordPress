@@ -1280,6 +1280,9 @@ class wpdb {
 	 *
 	 * @link https://secure.php.net/sprintf Description of syntax.
 	 * @since 2.3.0
+	 * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+	 *              by updating the function signature. The second parameter was changed
+	 *              from `$args` to `...$args`.
 	 *
 	 * @param string      $query   Query statement with sprintf()-like placeholders
 	 * @param array|mixed $args    The array of variables to substitute into the query's placeholders

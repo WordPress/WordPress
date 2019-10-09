@@ -25,6 +25,8 @@
  * 'delete_page', 'edit_post', 'edit_page', 'read_post', or 'read_page'.
  *
  * @since 2.0.0
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  *
  * @global array $post_type_meta_caps Used to get post type meta capabilities.
  *
@@ -635,6 +637,8 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
  * Note: Will always return true if the current user is a super admin, unless specifically denied.
  *
  * @since 2.0.0
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  *
  * @see WP_User::has_cap()
  * @see map_meta_cap()
@@ -668,6 +672,8 @@ function current_user_can( $capability, ...$args ) {
  *     current_user_can_for_blog( $blog_id, 'edit_post_meta', $post->ID, $meta_key );
  *
  * @since 3.0.0
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  *
  * @param int    $blog_id    Site ID.
  * @param string $capability Capability name.
@@ -709,6 +715,8 @@ function current_user_can_for_blog( $blog_id, $capability, ...$args ) {
  *     author_can( $post, 'edit_post_meta', $post->ID, $meta_key );
  *
  * @since 2.9.0
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  *
  * @param int|WP_Post $post       Post ID or post object.
  * @param string      $capability Capability name.
@@ -744,6 +752,8 @@ function author_can( $post, $capability, ...$args ) {
  *     user_can( $user->ID, 'edit_post_meta', $post->ID, $meta_key );
  *
  * @since 3.1.0
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  *
  * @param int|WP_User $user       User ID or object.
  * @param string      $capability Capability name.

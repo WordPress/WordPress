@@ -1048,6 +1048,8 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
  * (XSS) attacks.
  *
  * @since 1.5.0
+ * @since 5.3.0 Formalized the existing and already documented parameters
+ *              by adding `...$args` to the function signature.
  *
  * @param string|array $key   Either a query variable key, or an associative array of query variables.
  * @param string       $value Optional. Either a query variable value, or a URL to act upon.

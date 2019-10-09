@@ -430,6 +430,8 @@ function add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *     $value = do_action( 'example_action', $arg1, $arg2 );
  *
  * @since 1.2.0
+ * @since 5.3.0 Formalized the existing and already documented `...$arg` parameter
+ *              by adding it to the function signature.
  *
  * @global array $wp_filter         Stores all of the filters
  * @global array $wp_actions        Increments the amount of times action was triggered.

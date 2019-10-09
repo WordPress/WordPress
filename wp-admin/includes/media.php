@@ -504,6 +504,8 @@ function media_handle_sideload( $file_array, $post_id = 0, $desc = null, $post_d
  * Outputs the iframe to display the media upload page.
  *
  * @since 2.5.0
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  *
  * @global int $body_id
  *
