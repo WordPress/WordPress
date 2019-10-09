@@ -177,8 +177,8 @@ class Walker {
 	 * $max_depth > 0 specifies the number of display levels.
 	 *
 	 * @since 2.1.0
-	 * @since 5.3.0 Formalized the existing `...$args` parameter by adding
-	 *              it to the function signature.
+	 * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
+	 *              to the function signature.
 	 *
 	 * @param array $elements  An array of elements.
 	 * @param int   $max_depth The maximum hierarchical depth.
@@ -271,8 +271,8 @@ class Walker {
 	 * $max_depth > 0 specifies the number of display levels.
 	 *
 	 * @since 2.7.0
-	 * @since 5.3.0 Formalized the existing `...$args` parameter by adding
-	 *              it to the function signature.
+	 * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
+	 *              to the function signature.
 	 *
 	 * @param array $elements
 	 * @param int   $max_depth The maximum hierarchical depth.
