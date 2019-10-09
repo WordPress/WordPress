@@ -338,7 +338,6 @@
 
 #adminmenu div.wp-menu-name {
 	display: flex;
-	word-break: break-word;
 	padding: 8px 0;
 }
 
@@ -510,14 +509,11 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 /* @todo: consider to use a single rule for these counters and the list table comments counters. */
-#adminmenu .awaiting-mod,
-#adminmenu .update-plugins {
+#adminmenu .wp-menu-name > span {
 	display: inline-block;
 	vertical-align: top;
-	box-sizing: border-box;
-	margin: 1px 2px -1px 0;
-	padding: 0 5px;
-	min-width: 18px;
+	margin: 1px 2px -1px 1px;
+	padding: 0 6px;
 	height: 18px;
 	border-radius: 9px;
 	background-color: #ca4a1f;
