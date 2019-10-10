@@ -2191,17 +2191,26 @@ function get_theme_starter_content() {
 			'home'             => array(
 				'post_type'    => 'page',
 				'post_title'   => _x( 'Home', 'Theme starter content' ),
-				'post_content' => _x( 'Welcome to your site! This is your homepage, which is what most visitors will see when they come to your site for the first time.', 'Theme starter content' ),
+				'post_content' => sprintf(
+					"<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
+					_x( 'Welcome to your site! This is your homepage, which is what most visitors will see when they come to your site for the first time.', 'Theme starter content' )
+				),
 			),
 			'about'            => array(
 				'post_type'    => 'page',
 				'post_title'   => _x( 'About', 'Theme starter content' ),
-				'post_content' => _x( 'You might be an artist who would like to introduce yourself and your work here or maybe you&rsquo;re a business with a mission to describe.', 'Theme starter content' ),
+				'post_content' => sprintf(
+					"<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
+					_x( 'You might be an artist who would like to introduce yourself and your work here or maybe you&rsquo;re a business with a mission to describe.', 'Theme starter content' )
+				),
 			),
 			'contact'          => array(
 				'post_type'    => 'page',
 				'post_title'   => _x( 'Contact', 'Theme starter content' ),
-				'post_content' => _x( 'This is a page with some basic contact information, such as an address and phone number. You might also try a plugin to add a contact form.', 'Theme starter content' ),
+				'post_content' => sprintf(
+					"<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
+					_x( 'This is a page with some basic contact information, such as an address and phone number. You might also try a plugin to add a contact form.', 'Theme starter content' )
+				),
 			),
 			'blog'             => array(
 				'post_type'  => 'page',
@@ -2215,7 +2224,10 @@ function get_theme_starter_content() {
 			'homepage-section' => array(
 				'post_type'    => 'page',
 				'post_title'   => _x( 'A homepage section', 'Theme starter content' ),
-				'post_content' => _x( 'This is an example of a homepage section. Homepage sections can be any page other than the homepage itself, including the page that shows your latest blog posts.', 'Theme starter content' ),
+				'post_content' => sprintf(
+					"<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
+					_x( 'This is an example of a homepage section. Homepage sections can be any page other than the homepage itself, including the page that shows your latest blog posts.', 'Theme starter content' )
+				),
 			),
 		),
 	);
