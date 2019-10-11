@@ -581,13 +581,18 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 
 				// Resize based on the full size image, rather than the source.
 				if ( ! is_wp_error( $uploaded ) ) {
-					$editor = wp_get_image_editor( $uploaded['path'] );
+					$image_file = $uploaded['path'];
 					unset( $uploaded['path'] );
 
-					if ( ! is_wp_error( $editor ) ) {
-						$metadata['sizes']         = $editor->multi_resize( $merged_sizes );
-						$metadata['sizes']['full'] = $uploaded;
-					}
+					$metadata['sizes'] = array(
+						'full' => $uploaded,
+					);
+
+					// Save the meta data before any image post-processing errors could happen.
+					wp_update_attachment_metadata( $attachment_id, $metadata );
+
+					// Create sub-sizes saving the image meta after each.
+					$metadata = _wp_make_subsizes( $merged_sizes, $image_file, $metadata, $attachment_id );
 				}
 			}
 		}
