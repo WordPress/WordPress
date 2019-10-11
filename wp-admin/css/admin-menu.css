@@ -760,6 +760,10 @@ li#wp-admin-bar-menu-toggle {
 		z-index: 100;
 	}
 
+	.auto-fold #adminmenuback {
+		position: fixed;
+	}
+
 	.auto-fold #adminmenuback,
 	.auto-fold #adminmenuwrap {
 		display: none;
