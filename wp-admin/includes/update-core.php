@@ -1001,13 +1001,13 @@ function update_core( $from, $to ) {
 		);
 	}
 
-	// Add a warning when the JSON Extension is missing.
+	// Add a warning when the JSON PHP extension is missing.
 	if ( ! extension_loaded( 'json' ) ) {
 		return new WP_Error(
 			'php_not_compatible',
 			sprintf(
-				/* translators: 1: WordPress version number, 2: The PHP Extension name needed. */
-				__( 'The update cannot be installed because WordPress %1$s requires the %2$s PHP Extension.' ),
+				/* translators: 1: WordPress version number, 2: The PHP extension name needed. */
+				__( 'The update cannot be installed because WordPress %1$s requires the %2$s PHP extension.' ),
 				$wp_version,
 				'JSON'
 			)
