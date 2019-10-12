@@ -73,6 +73,7 @@
  *                                       FAQ, screenshots, other notes, and changelog. Default false.
  *         @type bool $tested            Whether to return the 'Compatible up to' value. Default true.
  *         @type bool $requires          Whether to return the required WordPress version. Default true.
+ *         @type bool $requires_php      Whether to return the required PHP version. Default true.
  *         @type bool $rating            Whether to return the rating in percent and total number of ratings.
  *                                       Default true.
  *         @type bool $ratings           Whether to return the number of rating for each star (1-5). Default true.
