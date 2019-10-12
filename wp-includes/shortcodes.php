@@ -488,9 +488,9 @@ function get_shortcode_atts_regex() {
  * retrieval of the attributes, since all attributes have to be known.
  *
  * @since 2.5.0
- * @since 5.3.0 Support of a full shortcode input.
+ * @since 5.3.0 Added support of a full shortcode input.
  *
- * @param string $text  Any single shortcode of any format or key/value pair string.
+ * @param string $text Any single shortcode of any format or key/value pair string.
  * @return array|string List of attribute values.
  *                      Returns empty array if trim( $text ) == '""'.
  *                      Returns empty string if trim( $text ) == ''.
