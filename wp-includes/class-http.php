@@ -822,16 +822,16 @@ class WP_Http {
 	}
 
 	/**
-	 * Block requests through the proxy.
+	 * Determines whether an HTTP API request to the given URL should be blocked.
 	 *
 	 * Those who are behind a proxy and want to prevent access to certain hosts may do so. This will
-	 * prevent plugins from working and core functionality, if you don't include api.wordpress.org.
+	 * prevent plugins from working and core functionality, if you don't include `api.wordpress.org`.
 	 *
-	 * You block external URL requests by defining WP_HTTP_BLOCK_EXTERNAL as true in your wp-config.php
+	 * You block external URL requests by defining `WP_HTTP_BLOCK_EXTERNAL` as true in your `wp-config.php`
 	 * file and this will only allow localhost and your site to make requests. The constant
-	 * WP_ACCESSIBLE_HOSTS will allow additional hosts to go through for requests. The format of the
-	 * WP_ACCESSIBLE_HOSTS constant is a comma separated list of hostnames to allow, wildcard domains
-	 * are supported, eg *.wordpress.org will allow for all subdomains of wordpress.org to be contacted.
+	 * `WP_ACCESSIBLE_HOSTS` will allow additional hosts to go through for requests. The format of the
+	 * `WP_ACCESSIBLE_HOSTS` constant is a comma separated list of hostnames to allow, wildcard domains
+	 * are supported, eg `*.wordpress.org` will allow for all subdomains of `wordpress.org` to be contacted.
 	 *
 	 * @since 2.8.0
 	 * @link https://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
@@ -859,12 +859,13 @@ class WP_Http {
 		// Don't block requests back to ourselves by default.
 		if ( 'localhost' == $check['host'] || ( isset( $home['host'] ) && $home['host'] == $check['host'] ) ) {
 			/**
-			 * Filters whether to block local requests through the proxy.
+			 * Filters whether to block local HTTP API requests.
+			 *
+			 * A local request is one to `localhost` or to the same host as the site itself.
 			 *
 			 * @since 2.8.0
 			 *
-			 * @param bool $block Whether to block local requests through proxy.
-			 *                    Default false.
+			 * @param bool $block Whether to block local requests. Default false.
 			 */
 			return apply_filters( 'block_local_requests', false );
 		}
@@ -993,10 +994,11 @@ class WP_Http {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param string $url The URL which was requested.
-	 * @param array $args The Arguments which were used to make the request.
-	 * @param array $response The Response of the HTTP request.
-	 * @return false|object False if no redirect is present, a WP_HTTP or WP_Error result otherwise.
+	 * @param string $url      The URL which was requested.
+	 * @param array  $args     The arguments which were used to make the request.
+	 * @param array  $response The response of the HTTP request.
+	 * @return false|WP_Error|array False if no redirect is present, a WP_Error object if there's an error, or an HTTP
+	 *                              API response array if the redirect is successfully followed.
 	 */
 	public static function handle_redirects( $url, $args, $response ) {
 		// If no redirects are present, or, redirects were not requested, perform no action.

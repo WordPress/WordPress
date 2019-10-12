@@ -133,7 +133,7 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @return mixed Response data.
+	 * @return string Response data.
 	 */
 	public function get_data() {
 		return $this->response->body;
@@ -144,7 +144,7 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param mixed $data Response data.
+	 * @param string $data Response data.
 	 */
 	public function set_data( $data ) {
 		$this->response->body = $data;
