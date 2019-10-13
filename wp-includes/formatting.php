@@ -5542,7 +5542,7 @@ function print_emoji_detection_script() {
 }
 
 /**
- * Prints inline Emoji dection script
+ * Prints inline Emoji detection script.
  *
  * @ignore
  * @since 4.6.0
