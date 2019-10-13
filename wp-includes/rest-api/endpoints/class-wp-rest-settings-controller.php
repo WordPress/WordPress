@@ -123,9 +123,11 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * @return mixed The prepared value.
 	 */
 	protected function prepare_value( $value, $schema ) {
-		// If the value is not valid by the schema, set the value to null. Null
-		// values are specifcally non-destructive so this will not cause overwriting
-		// the current invalid value to null.
+		/*
+		 * If the value is not valid by the schema, set the value to null.
+		 * Null values are specifically non-destructive, so this will not cause
+		 * overwriting the current invalid value to null.
+		 */
 		if ( is_wp_error( rest_validate_value_from_schema( $value, $schema ) ) ) {
 			return null;
 		}
