@@ -555,7 +555,7 @@ function wp_http_validate_url( $url ) {
 		} else {
 			$ip = gethostbyname( $host );
 			if ( $ip === $host ) { // Error condition for gethostbyname()
-				$ip = false;
+				return false;
 			}
 		}
 		if ( $ip ) {
