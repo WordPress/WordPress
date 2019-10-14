@@ -589,7 +589,7 @@ function rest_send_cors_headers( $value ) {
 		header( 'Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, PATCH, DELETE' );
 		header( 'Access-Control-Allow-Credentials: true' );
 		header( 'Vary: Origin' );
-	} else if ( 'GET' === $_SERVER['REQUEST_METHOD'] && ! is_user_logged_in() ) {
+	} elseif ( ! headers_sent() && 'GET' === $_SERVER['REQUEST_METHOD'] && ! is_user_logged_in() ) {
 		header( 'Vary: Origin' );
 	}
 
