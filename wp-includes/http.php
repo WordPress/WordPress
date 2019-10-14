@@ -531,8 +531,9 @@ function wp_http_validate_url( $url ) {
 			$ip = $host;
 		} else {
 			$ip = gethostbyname( $host );
-			if ( $ip === $host ) // Error condition for gethostbyname()
-				$ip = false;
+			if ( $ip === $host ) { // Error condition for gethostbyname()
+				return false;
+			}
 		}
 		if ( $ip ) {
 			$parts = array_map( 'intval', explode( '.', $ip ) );
