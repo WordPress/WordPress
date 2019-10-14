@@ -529,7 +529,6 @@ class WP_Query {
 			'attachment',
 			'attachment_id',
 			'name',
-			'static',
 			'pagename',
 			'page_id',
 			'second',
@@ -793,7 +792,7 @@ class WP_Query {
 			// If year, month, day, hour, minute, and second are set, a single
 			// post is being queried.
 			$this->is_single = true;
-		} elseif ( '' != $qv['static'] || '' != $qv['pagename'] || ! empty( $qv['page_id'] ) ) {
+		} elseif ( '' != $qv['pagename'] || ! empty( $qv['page_id'] ) ) {
 			$this->is_page   = true;
 			$this->is_single = false;
 		} else {
