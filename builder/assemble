@@ -11,6 +11,23 @@ set -eo pipefail
 # persistent volume.
 
 
+
+
+if [ ! -f "/opt/app-root/silo/wordpress/wp-config.php" ]; then
+
+    cp /opt/app-root/src/wp-config-sample.php /opt/app-root/silo/wordpress/wp-config.php
+
+
+
+else if [ ! -d "/opt/app-root/silo/wordpress/wp-content" ]; then
+
+         cp /opt/app-root/src/wp-content /opt/app-root/silo/wordpress
+
+else
+
+fi
+
+
 rm -fr /opt/app-root/silo/wordpress/*
 
 mv /tmp/src/* /opt/app-root/silo/wordpress/

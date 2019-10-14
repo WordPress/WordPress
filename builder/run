@@ -7,6 +7,9 @@ set -eo pipefail
 
 
 
+
+
+
 sed -i '/table_prefix/a\
 \ndefine( '"'"'WP_PLUGIN_DIR'"'"', WP_CONTENT_DIR . '"'"'/plugins'"'"' );' /opt/app-root/silo/wordpress/wp-config.php
 
@@ -45,26 +48,6 @@ sed -i '/.* all, stop editing! Happy publishing/a\
 
 
 
-
-cat <<EOF >> /opt/app-root/silo/wordpress/wp-config.php
-
-
-
-if ( ! defined( 'WP_CLI' ) ) {
-    // remove x-pingback HTTP header
-    add_filter('wp_headers', function(\$headers) {
-        unset(\$headers['X-Pingback']);
-        return \$headers;
-    });
-    // disable pingbacks
-    add_filter( 'xmlrpc_methods', function( \$methods ) {
-            unset( \$methods['pingback.ping'] );
-            return \$methods;
-    });
-    add_filter( 'auto_update_translation', '__return_false' );
-}
-
-EOF
 
 
 
@@ -114,6 +97,30 @@ sed -i "s/'NONCE_SALT', *'put your unique phrase here'/'NONCE_SALT', '`secret`'/
 # that, so outstanding question as to whether that will cause any issues.
 
 
+
+
+cat <<EOF >> /opt/app-root/silo/wordpress/wp-config.php
+
+
+
+if ( ! defined( 'WP_CLI' ) ) {
+    // remove x-pingback HTTP header
+    add_filter('wp_headers', function(\$headers) {
+        unset(\$headers['X-Pingback']);
+        return \$headers;
+    });
+    // disable pingbacks
+    add_filter( 'xmlrpc_methods', function( \$methods ) {
+            unset( \$methods['pingback.ping'] );
+            return \$methods;
+    });
+    add_filter( 'auto_update_translation', '__return_false' );
+}
+
+EOF
+
+
+
 cat <<EOF > /opt/app-root/silo/wordpress/.htaccess
 # BEGIN WordPress
 
@@ -129,7 +136,10 @@ RewriteRule . /index.php [L]
 
 EOF
 
+
 ln -s /opt/app-root/silo/wordpress/.htaccess /opt/app-root/src
+
+
 
 
 # Execute the original run script, replacing this script as current process.

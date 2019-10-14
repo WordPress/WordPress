@@ -42,19 +42,21 @@ mkdir -p /tmp/.s2i
 mv /tmp/src/builder/image_metadata.json /tmp/.s2i/image_metadata.json
 
 
-mv /tmp/src/wp-content  /opt/app-root/silo/wordpress/
-mv /tmp/src/wp-config-sample.php /opt/app-root/silo/wordpress/wp-config.php
+
+
+# mv /tmp/src/wp-content  /opt/app-root/silo/wordpress/
+# mv /tmp/src/wp-config-sample.php /opt/app-root/silo/wordpress/wp-config.php
 mv /tmp/src/* ./
 
 rm -f readme.html mio.txt license.txt
 
 rm -rf .git builder
 
-if [ -f "/opt/app-root/silo/wordpress/wp-config.php" ]; then
-    ln -s /opt/app-root/silo/wordpress/wp-config.php /opt/app-root/src
-    # mv /opt/app-root/src/wp-content /opt/app-root/silo/wordpress && export MI_PID="$!" && \
-    #     while $(kill -0 "$MI_PID");do  sleep 1;done
-fi
+# if [ -f "/opt/app-root/silo/wordpress/wp-config.php" ]; then
+#     ln -s /opt/app-root/silo/wordpress/wp-config.php /opt/app-root/src
+#     # mv /opt/app-root/src/wp-content /opt/app-root/silo/wordpress && export MI_PID="$!" && \
+#     #     while $(kill -0 "$MI_PID");do  sleep 1;done
+# fi
 
 
 
