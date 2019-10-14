@@ -180,7 +180,7 @@ function wp_print_media_templates() {
 		<div class="media-frame-title" id="media-frame-title"></div>
 		<h2 class="media-frame-menu-heading"><?php _ex( 'Actions', 'media modal menu actions' ); ?></h2>
 		<button type="button" class="button button-link media-frame-menu-toggle" aria-expanded="false">
-			<?php _e( 'Media Types' ); ?>
+			<?php _ex( 'Menu', 'media modal menu' ); ?>
 			<span class="dashicons dashicons-arrow-down" aria-hidden="true"></span>
 		</button>
 		<div class="media-frame-menu"></div>
