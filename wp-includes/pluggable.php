@@ -805,18 +805,29 @@ if ( !function_exists('check_admin_referer') ) :
  * @param string $action Action nonce
  * @param string $query_arg where to look for nonce in $_REQUEST (since 2.5)
  */
-function check_admin_referer($action = -1, $query_arg = '_wpnonce') {
-	if ( -1 == $action )
-		_doing_it_wrong( __FUNCTION__, __( 'You should specify a nonce action to be verified by using the first parameter.' ), '3.2' );
+function check_admin_referer( $action = -1, $query_arg = '_wpnonce' ) {
+	if ( -1 === $action )
+		_doing_it_wrong( __FUNCTION__, __( 'You should specify a nonce action to be verified by using the first parameter.' ), '3.2.0' );
 
 	$adminurl = strtolower(admin_url());
 	$referer = strtolower(wp_get_referer());
 	$result = isset($_REQUEST[$query_arg]) ? wp_verify_nonce($_REQUEST[$query_arg], $action) : false;
-	if ( !$result && !(-1 == $action && strpos($referer, $adminurl) === 0) ) {
-		wp_nonce_ays($action);
+
+	/**
+	 * Fires once the admin request has been validated or not.
+	 *
+	 * @since 1.5.1
+	 *
+	 * @param string $action The nonce action.
+	 * @param bool   $result Whether the admin request nonce was validated.
+	 */
+	do_action( 'check_admin_referer', $action, $result );
+
+	if ( ! $result && ! ( -1 === $action && strpos( $referer, $adminurl ) === 0 ) ) {
+		wp_nonce_ays( $action );
 		die();
 	}
-	do_action('check_admin_referer', $action, $result);
+
 	return $result;
 }
 endif;
@@ -831,6 +842,9 @@ if ( !function_exists('check_ajax_referer') ) :
  * @param string $query_arg where to look for nonce in $_REQUEST (since 2.5)
  */
 function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
+	if ( -1 === $action )
+		_doing_it_wrong( __FUNCTION__, __( 'You should specify a nonce action to be verified by using the first parameter.' ), '3.2.0' );
+
 	$nonce = '';
 
 	if ( $query_arg && isset( $_REQUEST[ $query_arg ] ) )
@@ -1855,38 +1869,5 @@ function wp_text_diff( $left_string, $right_string, $args = null ) {
 	$r .= "</table>";
 
 	return $r;
-}
-endif;
-
-if ( ! function_exists( 'hash_equals' ) ) :
-/**
- * Compare two strings in constant time.
- *
- * This function is NOT pluggable. It is in this file (in addition to
- * compat.php) to prevent errors if, during an update, pluggable.php
- * copies over but compat.php does not.
- *
- * This function was added in PHP 5.6.
- * It can leak the length of a string.
- *
- * @since 3.9.2
- *
- * @param string $a Expected string.
- * @param string $b Actual string.
- * @return bool Whether strings are equal.
- */
-function hash_equals( $a, $b ) {
-	$a_length = strlen( $a );
-	if ( $a_length !== strlen( $b ) ) {
-		return false;
-	}
-	$result = 0;
-
-	// Do not attempt to "optimize" this.
-	for ( $i = 0; $i < $a_length; $i++ ) {
-		$result |= ord( $a[ $i ] ) ^ ord( $b[ $i ] );
-	}
-
-	return $result === 0;
 }
 endif;
