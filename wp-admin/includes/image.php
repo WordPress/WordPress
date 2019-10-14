@@ -277,10 +277,10 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 
 				wp_update_attachment_metadata( $attachment_id, $image_meta );
 			} else {
-				// TODO: handle errors.
+				// TODO: log errors.
 			}
 		} else {
-			// TODO: handle errors.
+			// TODO: log errors.
 		}
 	} elseif ( ! empty( $exif_meta['orientation'] ) && (int) $exif_meta['orientation'] !== 1 ) {
 		// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
@@ -309,7 +309,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 
 				wp_update_attachment_metadata( $attachment_id, $image_meta );
 			} else {
-				// TODO: handle errors.
+				// TODO: log errors.
 			}
 		}
 	}
@@ -396,7 +396,7 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 		$rotated = $editor->maybe_exif_rotate();
 
 		if ( is_wp_error( $rotated ) ) {
-			// TODO: handle errors.
+			// TODO: log errors.
 		}
 	}
 
@@ -405,41 +405,12 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 			$new_size_meta = $editor->make_subsize( $new_size_data );
 
 			if ( is_wp_error( $new_size_meta ) ) {
-				$error_code = $new_size_meta->get_error_code();
-
-				if ( $error_code === 'error_getting_dimensions' ) {
-					// Ignore errors when `image_resize_dimensions()` returns false.
-					// They mean that the requested size is larger than the original image and should be skipped.
-					continue;
-				}
-
-				if ( empty( $image_meta['subsize_errors'] ) ) {
-					$image_meta['subsize_errors'] = array();
-				}
-
-				$error = array(
-					'error_code'    => $error_code,
-					'error_message' => $new_size_meta->get_error_message(),
-				);
-
-				// Store the error code and error message for displaying in the UI.
-				$image_meta['subsize_errors'][ $new_size_name ] = $error;
+				// TODO: log errors.
 			} else {
-				// The sub-size was created successfully.
-				// Clear out previous errors in creating this subsize.
-				if ( ! empty( $image_meta['subsize_errors'][ $new_size_name ] ) ) {
-					unset( $image_meta['subsize_errors'][ $new_size_name ] );
-				}
-
-				if ( empty( $image_meta['subsize_errors'] ) ) {
-					unset( $image_meta['subsize_errors'] );
-				}
-
 				// Save the size meta value.
 				$image_meta['sizes'][ $new_size_name ] = $new_size_meta;
+				wp_update_attachment_metadata( $attachment_id, $image_meta );
 			}
-
-			wp_update_attachment_metadata( $attachment_id, $image_meta );
 		}
 	} else {
 		// Fall back to `$editor->multi_resize()`.
@@ -447,7 +418,6 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 
 		if ( ! empty( $created_sizes ) ) {
 			$image_meta['sizes'] = array_merge( $image_meta['sizes'], $created_sizes );
-			unset( $image_meta['subsize_errors'] );
 			wp_update_attachment_metadata( $attachment_id, $image_meta );
 		}
 	}
