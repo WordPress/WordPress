@@ -1418,6 +1418,7 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 			$path = '';
 			if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
 				$path = dirname( parse_url( 'http://placeholder' . $_SERVER['REQUEST_URI'], PHP_URL_PATH ) . '?' );
+				$path = wp_normalize_path( $path );
 			}
 			$location = '/' . ltrim( $path . '/', '/' ) . $location;
 		}
