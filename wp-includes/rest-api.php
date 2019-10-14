@@ -210,7 +210,7 @@ function create_initial_rest_routes() {
 	$controller->register_routes();
 
 	// Taxonomies.
-	$controller = new WP_REST_Taxonomies_Controller;
+	$controller = new WP_REST_Taxonomies_Controller();
 	$controller->register_routes();
 
 	// Terms.
@@ -573,7 +573,9 @@ function rest_send_cors_headers( $value ) {
 		header( 'Access-Control-Allow-Origin: ' . $origin );
 		header( 'Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, PATCH, DELETE' );
 		header( 'Access-Control-Allow-Credentials: true' );
-		header( 'Vary: Origin' );
+		header( 'Vary: Origin', false );
+	} elseif ( ! headers_sent() && 'GET' === $_SERVER['REQUEST_METHOD'] && ! is_user_logged_in() ) {
+		header( 'Vary: Origin', false );
 	}
 
 	return $value;
