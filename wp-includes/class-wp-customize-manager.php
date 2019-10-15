@@ -1517,7 +1517,27 @@ final class WP_Customize_Manager {
 
 		// Options.
 		foreach ( $options as $name => $value ) {
-			if ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) ) {
+
+			// Serialize the value to check for post symbols.
+			$value = maybe_serialize( $value );
+
+			if ( is_serialized( $value ) ) {
+				if ( preg_match( '/s:\d+:"{{(?P<symbol>.+)}}"/', $value, $matches ) ) {
+					if ( isset( $posts[ $matches['symbol'] ] ) ) {
+						$symbol_match = $posts[ $matches['symbol'] ]['ID'];
+					} elseif ( isset( $attachment_ids[ $matches['symbol'] ] ) ) {
+						$symbol_match = $attachment_ids[ $matches['symbol'] ];
+					}
+
+					// If we have any symbol matches, update the values.
+					if ( isset( $symbol_match ) ) {
+						// Replace found string matches with post IDs.
+						$value = str_replace( $matches[0], "i:{$symbol_match}", $value );
+					} else {
+						continue;
+					}
+				}
+			} elseif ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) ) {
 				if ( isset( $posts[ $matches['symbol'] ] ) ) {
 					$value = $posts[ $matches['symbol'] ]['ID'];
 				} elseif ( isset( $attachment_ids[ $matches['symbol'] ] ) ) {
@@ -1526,6 +1546,9 @@ final class WP_Customize_Manager {
 					continue;
 				}
 			}
+
+			// Unserialize values after checking for post symbols, so they can be properly referenced.
+			$value = maybe_unserialize( $value );
 
 			if ( empty( $changeset_data[ $name ] ) || ! empty( $changeset_data[ $name ]['starter_content'] ) ) {
 				$this->set_post_value( $name, $value );
@@ -1535,7 +1558,28 @@ final class WP_Customize_Manager {
 
 		// Theme mods.
 		foreach ( $theme_mods as $name => $value ) {
-			if ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) ) {
+
+			// Serialize the value to check for post symbols.
+			$value = maybe_serialize( $value );
+
+			// Check if value was serialized.
+			if ( is_serialized( $value ) ) {
+				if ( preg_match( '/s:\d+:"{{(?P<symbol>.+)}}"/', $value, $matches ) ) {
+					if ( isset( $posts[ $matches['symbol'] ] ) ) {
+						$symbol_match = $posts[ $matches['symbol'] ]['ID'];
+					} elseif ( isset( $attachment_ids[ $matches['symbol'] ] ) ) {
+						$symbol_match = $attachment_ids[ $matches['symbol'] ];
+					}
+
+					// If we have any symbol matches, update the values.
+					if ( isset( $symbol_match ) ) {
+						// Replace found string matches with post IDs.
+						$value = str_replace( $matches[0], "i:{$symbol_match}", $value );
+					} else {
+						continue;
+					}
+				}
+			} elseif ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) ) {
 				if ( isset( $posts[ $matches['symbol'] ] ) ) {
 					$value = $posts[ $matches['symbol'] ]['ID'];
 				} elseif ( isset( $attachment_ids[ $matches['symbol'] ] ) ) {
@@ -1544,6 +1588,9 @@ final class WP_Customize_Manager {
 					continue;
 				}
 			}
+
+			// Unserialize values after checking for post symbols, so they can be properly referenced.
+			$value = maybe_unserialize( $value );
 
 			// Handle header image as special case since setting has a legacy format.
 			if ( 'header_image' === $name ) {
