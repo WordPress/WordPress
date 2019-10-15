@@ -10,7 +10,7 @@
 
 /* Needs higher specificiity. */
 .wp-picker-container .wp-color-result.button {
-	min-height: 28px;
+	min-height: 30px;
 	margin: 0 6px 6px 0px;
 	padding: 0 0 0 30px;
 	font-size: 11px;
@@ -22,7 +22,7 @@
 	border-left: 1px solid #ccc;
 	color: #555;
 	display: block;
-	line-height: 2.36363636; /* 26px */
+	line-height: 2.54545455; /* 28px */
 	padding: 0 6px;
 	text-align: center;
 }
@@ -73,7 +73,9 @@
 .wp-picker-input-wrap .button.wp-picker-default,
 .wp-customizer .wp-picker-input-wrap .button.wp-picker-default {
 	margin-left: 6px;
-	padding: 2px 8px;
+	padding: 0 8px;
+	line-height: 2.54545455; /* 28px */
+	min-height: 30px;
 }
 
 .wp-picker-container .iris-square-slider .ui-slider-handle:focus {
@@ -87,14 +89,14 @@
 }
 
 .wp-picker-container input[type="text"].wp-color-picker {
-	width: 65px;
+	width: 4rem;
 	font-size: 12px;
 	font-family: monospace;
-	line-height: 1.33333333; /* 16px */
+	line-height: 2.33333333; /* 28px */
 	margin: 0;
-	padding: 5px;
+	padding: 0 5px;
 	vertical-align: top;
-	min-height: 28px;
+	min-height: 30px;
 }
 
 .wp-color-picker::-webkit-input-placeholder {
@@ -132,26 +134,38 @@
 
 @media screen and (max-width: 782px) {
 	.wp-picker-container input[type="text"].wp-color-picker {
-		width: 80px;
-		padding: 6px 5px 5px;
+		width: 5rem;
 		font-size: 16px;
-		line-height: 1.15;
+		line-height: 1.875; /* 30px */
+		min-height: 32px;
 	}
 
 	.wp-customizer .wp-picker-container input[type="text"].wp-color-picker {
-		padding: 5px 5px 4px;
+		padding: 0 5px;
+	}
+
+	.wp-picker-input-wrap .button.wp-picker-default {
+		padding: 0 8px;
+		line-height: 2.14285714; /* 30px */
+		min-height: 32px;
+	}
+
+	.wp-customizer .wp-picker-input-wrap .button.wp-picker-default {
+		padding: 0 8px;
+		font-size: 14px;
+		line-height: 2.14285714; /* 30px */
+		min-height: 32px;
 	}
 
 	.wp-picker-container .wp-color-result.button {
-		height: auto;
 		padding: 0 0 0 40px;
 		font-size: 14px;
-		line-height: 2.1;
+		line-height: 2.14285714; /* 30px */
 	}
 
 	.wp-customizer .wp-picker-container .wp-color-result.button {
-		font-size: 13px;
-		line-height: 2;
+		font-size: 14px;
+		line-height: 2.14285714; /* 30px */
 	}
 
 	.wp-picker-container .wp-color-result-text {
@@ -162,16 +176,5 @@
 
 	.wp-customizer .wp-picker-container .wp-color-result-text {
 		padding: 0 10px;
-	}
-}
-
-@media screen and (max-width: 640px) {
-	.wp-customizer .wp-picker-container .wp-color-result.button {
-		font-size: 14px;
-		line-height: 2.1;
-	}
-
-	.wp-customizer .wp-picker-container input[type="text"].wp-color-picker {
-		padding: 6px 5px;
 	}
 }

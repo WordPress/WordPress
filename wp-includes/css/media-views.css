@@ -73,7 +73,7 @@
 
 .media-frame select,
 .wp-admin .media-frame select {
-	min-height: 28px;
+	min-height: 30px;
 	vertical-align: middle;
 }
 
