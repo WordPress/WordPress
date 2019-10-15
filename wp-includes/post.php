@@ -7180,3 +7180,45 @@ function wp_get_original_image_path( $attachment_id ) {
 	 */
 	return apply_filters( 'wp_get_original_image_path', $original_image, $attachment_id );
 }
+
+/**
+ * Retrieve the URL to an original attachment image.
+ *
+ * Similar to `wp_get_attachment_url()` however some images may have been
+ * processed after uploading. In this case this function returns the URL
+ * to the originally uploaded image file.
+ *
+ * @since 5.3.0
+ *
+ * @param int $attachment_id Attachment post ID.
+ * @return string|false Attachment image URL, false on error or if the attachment is not an image.
+ */
+function wp_get_original_image_url( $attachment_id ) {
+	if ( ! wp_attachment_is_image( $attachment_id ) ) {
+		return false;
+	}
+
+	$image_url = wp_get_attachment_url( $attachment_id );
+
+	if ( empty( $image_url ) ) {
+		return false;
+	}
+
+	$image_meta = wp_get_attachment_metadata( $attachment_id );
+
+	if ( empty( $image_meta['original_image'] ) ) {
+		$original_image_url = $image_url;
+	} else {
+		$original_image_url = path_join( dirname( $image_url ), $image_meta['original_image'] );
+	}
+
+	/**
+	 * Filters the URL to the original attachment image.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param string $original_image_url URL to original image.
+	 * @param int    $attachment_id      Attachment ID.
+	 */
+	return apply_filters( 'wp_get_original_image_url', $original_image_url, $attachment_id );
+}
