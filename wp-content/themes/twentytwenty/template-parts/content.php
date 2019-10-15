@@ -33,7 +33,7 @@
 			if ( is_search() || ! is_singular() && 'summary' === get_theme_mod( 'blog_content', 'full' ) ) {
 				the_excerpt();
 			} else {
-				the_content();
+				the_content( sprintf( '<span class="faux-button">%1$s</span> <span class="screen-reader-text">"%2$s"</span>', __( 'Continue reading', 'twentytwenty' ), get_the_title() ) );
 			}
 			?>
 
@@ -75,7 +75,7 @@
 	 *  Output comments wrapper if it's a post, or if comments are open,
 	 * or if there's a comment number – and check for password.
 	 * */
-	if ( ( 'post' === $post->post_type || comments_open() || get_comments_number() ) && ! post_password_required() ) {
+	if ( ( is_single() || is_page() ) && ( comments_open() || get_comments_number() ) && ! post_password_required() ) {
 		?>
 
 		<div class="comments-wrapper section-inner">

@@ -257,14 +257,16 @@ Inter variable font. Usage:
 	font-family: "Inter var";
 	font-weight: 100 900; /* stylelint-disable-line font-weight-notation */
 	font-style: normal;
-	src: url(./assets/fonts/inter/Inter-upright.var.woff2) format("woff2");
+	font-display: swap;
+	src: url(./assets/fonts/inter/Inter-upright-var.woff2) format("woff2");
 }
 
 @font-face {
 	font-family: "Inter var";
 	font-weight: 100 900; /* stylelint-disable-line font-weight-notation */
 	font-style: italic;
-	src: url(./assets/fonts/inter/Inter-italic.var.woff2) format("woff2");
+	font-display: swap;
+	src: url(./assets/fonts/inter/Inter-italic-var.woff2) format("woff2");
 }
 
 
@@ -534,11 +536,11 @@ dd + dt {
 blockquote {
 	border-color: #cd2653;
 	border-style: solid;
-	border-width: 0 0.2rem 0 0;
+	border-width: 0 0 0 0.2rem;
 	color: inherit;
 	font-size: 1em;
 	margin: 4rem 0;
-	padding: 0.5rem 2rem 0.5rem 0;
+	padding: 0.5rem 0 0.5rem 2rem;
 }
 
 cite {
@@ -1560,7 +1562,8 @@ ul.primary-menu {
 }
 
 .primary-menu a:hover,
-.primary-menu a:focus {
+.primary-menu a:focus,
+.primary-menu .current_page_ancestor {
 	text-decoration: underline;
 }
 
@@ -1666,12 +1669,15 @@ ul.primary-menu {
 
 .primary-menu ul ul::after {
 	border-bottom-color: transparent;
-	border-right-color: #000;
+	border-left-color: #000;
 	bottom: auto;
 	left: -1.6rem;
 	top: 2rem;
 }
 
+.rtl .primary-menu ul ul::after {
+	transform: rotate(-180deg);
+}
 
 /* -------------------------------------------------------------------------- */
 
@@ -1800,7 +1806,8 @@ button.close-nav-toggle .toggle-text {
 
 .modal-menu a:focus,
 .modal-menu a:hover,
-.modal-menu li.current-menu-item > .ancestor-wrapper > a {
+.modal-menu li.current-menu-item > .ancestor-wrapper > a,
+.modal-menu li.current_page_ancestor > .ancestor-wrapper > a {
 	text-decoration: underline;
 }
 
@@ -2613,7 +2620,7 @@ h2.entry-title {
 /* Block Typography Classes ------------------ */
 
 .has-text-align-left {
-	text-align: right;
+	text-align: left;
 }
 
 .has-text-align-center {
@@ -3171,8 +3178,8 @@ hr.wp-block-separator {
 }
 
 .wp-block-quote[style="text-align:right"] {
-	border-width: 0 0 0 0.2rem;
-	padding: 0 0 0 2rem;
+	border-width: 0 0.2rem 0 0;
+	padding: 0 2rem 0 0;
 }
 
 /* STYLE: LARGE */
@@ -4012,7 +4019,7 @@ div.comment:first-of-type {
 
 /* Widget: RSS ------------------------------- */
 
-.widget_rss a.rsswidget:first-of-type {
+.widget_rss .widget-title a.rsswidget:first-of-type {
 	display: none;
 }
 
@@ -4990,6 +4997,14 @@ a.to-the-top > * {
 	.aligncenter {
 		margin-bottom: 4rem;
 		margin-top: 4rem;
+	}
+
+	.alignleft {
+		margin: 0.3rem 0 2rem 2rem;
+	}
+
+	.alignright {
+		margin: 0.3rem 2rem 2rem 0;
 	}
 
 	.alignwide,

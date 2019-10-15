@@ -92,23 +92,25 @@ twentytwenty.coverModals = {
 
 	// Handle cover modals when they're toggled
 	onToggle: function() {
-		document.querySelector( '.cover-modal' ).addEventListener( 'toggled', function( event ) {
-			var modal, body;
+		document.querySelectorAll( '.cover-modal' ).forEach( function( element ) {
+			element.addEventListener( 'toggled', function( event ) {
+				var modal, body;
 
-			modal = event.target;
-			body = document.body;
+				modal = event.target;
+				body = document.body;
 
-			if ( modal.classList.contains( 'active' ) ) {
-				body.classList.add( 'showing-modal' );
-			} else {
-				body.classList.remove( 'showing-modal' );
-				body.classList.add( 'hiding-modal' );
+				if ( modal.classList.contains( 'active' ) ) {
+					body.classList.add( 'showing-modal' );
+				} else {
+					body.classList.remove( 'showing-modal' );
+					body.classList.add( 'hiding-modal' );
 
-				// Remove the hiding class after a delay, when animations have been run
-				setTimeout( function() {
-					body.classList.remove( 'hiding-modal' );
-				}, 500 );
-			}
+					// Remove the hiding class after a delay, when animations have been run
+					setTimeout( function() {
+						body.classList.remove( 'hiding-modal' );
+					}, 500 );
+				}
+			} );
 		} );
 	},
 
@@ -413,7 +415,7 @@ twentytwenty.modalMenu = {
 	init: function() {
 		// If the current menu item is in a sub level, expand all the levels higher up on load
 		this.expandLevel();
-		this.goBackToCloseButton();
+		this.keepFocusInModal();
 	},
 
 	expandLevel: function() {
@@ -433,74 +435,54 @@ twentytwenty.modalMenu = {
 		} );
 	},
 
-	// If the current menu item is the last one, return to close button when tab
-	goBackToCloseButton: function() {
-		document.addEventListener( 'keydown', function( event ) {
-			var closeMenuButton, mobileMenu, isDesktop, menuLinks, firstLevelmenuLinks, lastMenuLinkToggleButton, lastToogleSubMenuLinkNotOpened, lastMenuLinkHasSubClosedMenu, socialLinks, hasSocialMenu, lastModalMenuItems, focusedElementParentLi, focusedElementIsInsideModal, lastMenuItem, isFirstModalItem, isLastModalItem;
+	keepFocusInModal: function() {
+		var _doc = document;
 
-			closeMenuButton = document.querySelector( '.toggle.close-nav-toggle' );
-			mobileMenu = document.querySelector( '.mobile-menu' );
+		_doc.addEventListener( 'keydown', function( event ) {
+			var clickedEl = twentytwenty.toggles.clickedEl,
+				toggleTarget, modal, selectors, elements, menuType, bottomMenu, activeEl, lastEl, firstEl, tabKey, shiftKey;
 
-			if ( mobileMenu ) {
-				return false;
-			}
+			if ( clickedEl && _doc.body.classList.contains( 'showing-modal' ) ) {
+				toggleTarget = clickedEl.dataset.toggleTarget;
+				selectors = 'input, a, button';
+				modal = _doc.querySelector( toggleTarget );
 
-			isDesktop = window.getComputedStyle( mobileMenu, null ).getPropertyValue( 'display' ) === 'none';
+				elements = modal.querySelectorAll( selectors );
+				elements = Array.prototype.slice.call( elements );
 
-			menuLinks = isDesktop ?
-				document.querySelectorAll( '.menu-modal .expanded-menu .modal-menu li' ) :
-				document.querySelectorAll( '.menu-modal .mobile-menu .modal-menu li' );
+				if ( '.menu-modal' === toggleTarget ) {
+					menuType = window.matchMedia( '(min-width: 1000px)' ).matches;
+					menuType = menuType ? '.expanded-menu' : '.mobile-menu';
 
-			firstLevelmenuLinks = isDesktop ?
-				document.querySelectorAll( '.menu-modal .expanded-menu .modal-menu > li' ) :
-				document.querySelectorAll( '.menu-modal .mobile-menu .modal-menu > li' );
+					elements = elements.filter( function( element ) {
+						return null !== element.closest( menuType ) && null !== element.offsetParent;
+					} );
 
-			if ( firstLevelmenuLinks ) {
-				return false;
-			}
+					elements.unshift( _doc.querySelector( '.close-nav-toggle' ) );
 
-			lastMenuLinkToggleButton = firstLevelmenuLinks[firstLevelmenuLinks.length - 1].querySelector( '.sub-menu-toggle' ) || undefined;
-			lastMenuLinkHasSubClosedMenu = lastMenuLinkToggleButton && ! lastMenuLinkToggleButton.classList.contains( 'active' );
+					bottomMenu = _doc.querySelector( '.menu-bottom > nav' );
 
-			lastToogleSubMenuLinkNotOpened = isDesktop ?
-				document.querySelector( '.menu-modal .expanded-menu .modal-menu .sub-menu .sub-menu-toggle:not(.active)' ) :
-				document.querySelector( '.menu-modal .mobile-menu .sub-menu .sub-menu-toggle:not(.active)' );
+					if ( bottomMenu ) {
+						bottomMenu.querySelectorAll( selectors ).forEach( function( element ) {
+							elements.push( element );
+						} );
+					}
+				}
 
-			socialLinks = document.querySelectorAll( '.menu-modal .social-menu li' );
-			hasSocialMenu = document.querySelectorAll( '.menu-modal .social-menu' ).length > 0;
-			lastModalMenuItems = hasSocialMenu ? socialLinks : menuLinks;
-			focusedElementParentLi = twentytwentyFindParents( event.target, 'li' );
-			focusedElementIsInsideModal = twentytwentyFindParents( event.target, '.menu-modal' ).length > 0;
+				lastEl = elements[ elements.length - 1 ];
+				firstEl = elements[0];
+				activeEl = _doc.activeElement;
+				tabKey = event.keyCode === 9;
+				shiftKey = event.shiftKey;
 
-			lastMenuItem = lastModalMenuItems[lastModalMenuItems.length - 1];
+				if ( ! shiftKey && tabKey && lastEl === activeEl ) {
+					event.preventDefault();
+					firstEl.focus();
+				}
 
-			isFirstModalItem = event.target === closeMenuButton;
-
-			isLastModalItem = focusedElementIsInsideModal && focusedElementParentLi[0] ?
-				focusedElementParentLi[0].className === lastMenuItem.className :
-				undefined;
-
-			if ( lastMenuLinkToggleButton && lastMenuLinkHasSubClosedMenu && ! hasSocialMenu ) { // Last 1st level item has submenu and is closed
-				isLastModalItem = event.target === lastMenuLinkToggleButton;
-				lastMenuItem = lastMenuLinkToggleButton;
-			}
-			if ( lastMenuLinkToggleButton && ! lastMenuLinkHasSubClosedMenu && ! hasSocialMenu ) { // Last 1st level item has submenu is opened
-				isLastModalItem = event.target === lastToogleSubMenuLinkNotOpened || event.target === menuLinks[menuLinks.length - 1].querySelector( 'a' );
-				lastMenuItem = lastToogleSubMenuLinkNotOpened || menuLinks[menuLinks.length - 1].querySelector( 'a' );
-			}
-
-			if ( ! event.shiftKey && event.key === 'Tab' && isLastModalItem ) {
-				// Forward
-				event.preventDefault();
-				closeMenuButton.focus();
-			}
-			if ( event.shiftKey && event.key === 'Tab' && isFirstModalItem ) {
-				// Backward
-				event.preventDefault();
-				if ( lastMenuItem.querySelector( 'a' ) ) {
-					lastMenuItem.querySelector( 'a' ).focus();
-				} else {
-					lastMenuItem.focus();
+				if ( shiftKey && tabKey && firstEl === activeEl ) {
+					event.preventDefault();
+					lastEl.focus();
 				}
 			}
 		} );
@@ -645,9 +627,13 @@ twentytwenty.toggles = {
 			// Toggle aria-expanded on the toggle
 			twentytwentyToggleAttribute( toggle, 'aria-expanded', 'true', 'false' );
 
+			if ( self.clickedEl && -1 !== toggle.getAttribute( 'class' ).indexOf( 'close-' ) ) {
+				twentytwentyToggleAttribute( self.clickedEl, 'aria-expanded', 'true', 'false' );
+			}
+
 			// Toggle body class
 			if ( toggle.dataset.toggleBodyClass ) {
-				_doc.querySelector( 'body' ).classList.toggle( toggle.dataset.toggleBodyClass );
+				_doc.body.classList.toggle( toggle.dataset.toggleBodyClass );
 			}
 
 			// Check whether to set focus
@@ -777,7 +763,7 @@ function twentytwentyToggleAttribute( element, attribute, trueVal, falseVal ) {
 	if ( falseVal === undefined ) {
 		falseVal = false;
 	}
-	if ( element[ attribute ] !== trueVal ) {
+	if ( element.getAttribute( attribute ) !== trueVal ) {
 		element.setAttribute( attribute, trueVal );
 	} else {
 		element.setAttribute( attribute, falseVal );

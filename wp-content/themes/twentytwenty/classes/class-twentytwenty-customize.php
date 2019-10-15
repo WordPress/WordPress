@@ -26,6 +26,12 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
 			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
+			/**
+			 * Removes the background image section.
+			 * The theme only supports the background color option.
+			 */
+			$wp_customize->remove_section( 'background_image' );
+
 			$wp_customize->selective_refresh->add_partial(
 				'blogname',
 				array(

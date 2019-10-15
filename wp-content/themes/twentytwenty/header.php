@@ -121,38 +121,31 @@
 						<?php
 					}
 
-					$header_toggles_classes = '';
-
-					if ( ! has_nav_menu( 'expanded' ) && false === $enable_header_search ) {
-						$header_toggles_classes .= ' hide-on-desktop';
-					}
-					?>
-
-					<div class="header-toggles hide-no-js<?php echo $header_toggles_classes; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output ?>">
-
-						<?php
-						$nav_toggle_wrapper_classes = '';
-
-						// Add a class indicating whether the navigation toggle wrapper can be hidden on desktop.
-						if ( has_nav_menu( 'expanded' ) ) {
-							$nav_toggle_wrapper_classes .= ' has-expanded-menu';
-						}
+					if ( true === $enable_header_search || has_nav_menu( 'expanded' ) ) {
 						?>
 
-						<div class="toggle-wrapper nav-toggle-wrapper<?php echo $nav_toggle_wrapper_classes; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output ?>">
-
-							<button class="toggle nav-toggle desktop-nav-toggle" data-toggle-target=".menu-modal" data-toggle-body-class="showing-menu-modal" aria-expanded="false" data-set-focus=".close-nav-toggle">
-								<span class="toggle-inner">
-									<span class="toggle-text"><?php _e( 'Menu', 'twentytwenty' ); ?></span>
-									<span class="toggle-icon">
-										<?php twentytwenty_the_theme_svg( 'ellipsis' ); ?>
-									</span>
-								</span>
-							</button><!-- .nav-toggle -->
-
-						</div><!-- .nav-toggle-wrapper -->
+						<div class="header-toggles hide-no-js">
 
 						<?php
+						if ( has_nav_menu( 'expanded' ) ) {
+							?>
+
+							<div class="toggle-wrapper nav-toggle-wrapper has-expanded-menu">
+
+								<button class="toggle nav-toggle desktop-nav-toggle" data-toggle-target=".menu-modal" data-toggle-body-class="showing-menu-modal" aria-expanded="false" data-set-focus=".close-nav-toggle">
+									<span class="toggle-inner">
+										<span class="toggle-text"><?php _e( 'Menu', 'twentytwenty' ); ?></span>
+										<span class="toggle-icon">
+											<?php twentytwenty_the_theme_svg( 'ellipsis' ); ?>
+										</span>
+									</span>
+								</button><!-- .nav-toggle -->
+
+							</div><!-- .nav-toggle-wrapper -->
+
+							<?php
+						}
+
 						if ( true === $enable_header_search ) {
 							?>
 
@@ -171,7 +164,10 @@
 						}
 						?>
 
-					</div><!-- .header-toggles -->
+						</div><!-- .header-toggles -->
+						<?php
+					}
+					?>
 
 				</div><!-- .header-navigation-wrapper -->
 
