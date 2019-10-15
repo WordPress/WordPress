@@ -488,9 +488,8 @@ function get_shortcode_atts_regex() {
  * retrieval of the attributes, since all attributes have to be known.
  *
  * @since 2.5.0
- * @since 5.3.0 Added support of a full shortcode input.
  *
- * @param string $text Any single shortcode of any format or key/value pair string.
+ * @param string $text
  * @return array|string List of attribute values.
  *                      Returns empty array if trim( $text ) == '""'.
  *                      Returns empty string if trim( $text ) == ''.
@@ -499,13 +498,7 @@ function get_shortcode_atts_regex() {
 function shortcode_parse_atts( $text ) {
 	$atts    = array();
 	$pattern = get_shortcode_atts_regex();
-	$text    = trim( preg_replace( "/[\x{00a0}\x{200b}]+/u", ' ', $text ) );
-
-	// Remove everything but attributes from shortcode.
-	if ( preg_match( '#^\[[\w-]+([^\]]*?)\/?\]#', $text, $matches ) ) {
-		$text = $matches[1];
-	}
-
+	$text    = preg_replace( "/[\x{00a0}\x{200b}]+/u", ' ', $text );
 	if ( preg_match_all( $pattern, $text, $match, PREG_SET_ORDER ) ) {
 		foreach ( $match as $m ) {
 			if ( ! empty( $m[1] ) ) {
