@@ -167,10 +167,12 @@
 #adminmenu .wp-submenu a {
 	color: #b4b9be;
 	color: rgba(240, 245, 250, 0.7);
+	display: flex;
 	font-size: 13px;
 	line-height: 1.4;
 	margin: 0;
 	padding: 5px 0;
+	word-break: break-word;
 }
 
 #adminmenu .wp-submenu a:hover,
@@ -339,6 +341,7 @@
 #adminmenu div.wp-menu-name {
 	display: flex;
 	padding: 8px 0;
+	word-break: break-word;
 }
 
 #adminmenu div.wp-menu-image {
@@ -509,11 +512,17 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 /* @todo: consider to use a single rule for these counters and the list table comments counters. */
+#adminmenu .wp-submenu a > span,
 #adminmenu .wp-menu-name > span {
+	margin: 0px 5px -1px 1px;
+}
+
+#adminmenu .wp-submenu a > span > span,
+#adminmenu .wp-menu-name > span > span,
+#adminmenu .wp-submenu-head > span > span{
 	display: inline-block;
-	vertical-align: top;
-	margin: 1px 2px -1px 1px;
-	padding: 0 6px;
+	min-width: 8px;
+	padding: 0 5px;
 	height: 18px;
 	border-radius: 9px;
 	background-color: #ca4a1f;
@@ -521,13 +530,9 @@ ul#adminmenu > li.current > a.current:after {
 	font-size: 11px;
 	line-height: 1.6;
 	text-align: center;
+	word-break: normal;
 	z-index: 26;
-}
 
-#adminmenu li.current a .awaiting-mod,
-#adminmenu li a.wp-has-current-submenu .update-plugins {
-	background-color: #ca4a1f;
-	color: #fff;
 }
 
 #adminmenu li span.count-0 {
