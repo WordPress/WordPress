@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["formatLibrary"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 321);
+/******/ 	return __webpack_require__(__webpack_require__.s = 350);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -360,7 +360,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 321:
+/***/ 350:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1181,17 +1181,17 @@ function (_Component) {
       var opensInNewWindow = target === '_blank';
 
       if (!isShowingInput(props, state)) {
+        var update = {};
+
         if (url !== state.inputValue) {
-          return {
-            inputValue: url
-          };
+          update.inputValue = url;
         }
 
         if (opensInNewWindow !== state.opensInNewWindow) {
-          return {
-            opensInNewWindow: opensInNewWindow
-          };
+          update.opensInNewWindow = opensInNewWindow;
         }
+
+        return Object.keys(update).length ? update : null;
       }
 
       return null;

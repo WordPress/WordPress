@@ -589,6 +589,8 @@
   .components-checkbox-control__input[type="checkbox"]:checked {
     background: #11a0d2;
     border-color: #11a0d2; }
+    .components-checkbox-control__input[type="checkbox"]:checked::-ms-check {
+      opacity: 0; }
   .components-checkbox-control__input[type="checkbox"]:focus:checked {
     border: none; }
   .components-checkbox-control__input[type="checkbox"]:checked::before {
@@ -615,6 +617,7 @@ svg.dashicon.components-checkbox-control__checked {
   width: 31px;
   height: 31px;
   -webkit-user-select: none;
+     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   pointer-events: none; }
@@ -708,9 +711,6 @@ svg.dashicon.components-checkbox-control__checked {
   margin-left: 16px; }
   .components-color-palette__custom-color .components-button {
     line-height: 22px; }
-
-.block-editor__container .components-popover.components-color-palette__picker.is-bottom {
-  z-index: 100001; }
 
 /**
  * Parts of this source were derived and modified from react-color,
@@ -1264,6 +1264,7 @@ svg.dashicon {
   text-align: center;
   vertical-align: top;
   -webkit-user-select: none;
+  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
 
@@ -1339,6 +1340,7 @@ svg.dashicon {
 .DayPickerNavigation_button {
   cursor: pointer;
   -webkit-user-select: none;
+  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   border: 0;
@@ -1535,6 +1537,7 @@ svg.dashicon {
 
 .DateInput_input__readOnly {
   -webkit-user-select: none;
+  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
 
@@ -2050,6 +2053,13 @@ body.is-dragging-components-draggable {
       box-shadow: none;
       outline-offset: -2px;
       outline: 1px dotted #555d66; }
+    .components-dropdown-menu__menu .components-dropdown-menu__menu-item:hover, .components-dropdown-menu__menu .components-dropdown-menu__menu-item:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover,
+    .components-dropdown-menu__menu .components-menu-item:hover,
+    .components-dropdown-menu__menu .components-menu-item:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
+      color: #191e23;
+      border: none;
+      box-shadow: none;
+      background: #f3f4f5; }
     .components-dropdown-menu__menu .components-dropdown-menu__menu-item > svg,
     .components-dropdown-menu__menu .components-menu-item > svg {
       border-radius: 4px;
@@ -2102,6 +2112,7 @@ body.is-dragging-components-draggable {
     max-width: 100%;
     width: auto;
     -webkit-user-select: none;
+       -moz-user-select: none;
         -ms-user-select: none;
             user-select: none; }
 
@@ -2517,7 +2528,7 @@ body.is-dragging-components-draggable {
   .components-icon-button:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
     background-color: #fff;
     color: #191e23;
-    box-shadow: inset 0 0 0 1px #e2e4e7, inset 0 0 0 2px #fff, 0 1px 1px rgba(25, 30, 35, 0.2); }
+    box-shadow: inset 0 0 0 1px #555d66, inset 0 0 0 2px #fff; }
   .components-icon-button:not(:disabled):not([aria-disabled="true"]):not(.is-default):active {
     outline: none;
     background-color: #fff;
@@ -2581,7 +2592,8 @@ body.is-dragging-components-draggable {
   color: #6c7781; }
 
 .components-menu-item__shortcut {
-  align-self: center;
+  -ms-grid-row-align: center;
+      align-self: center;
   color: #6c7781;
   margin-left: 0;
   margin-right: auto;
@@ -2872,15 +2884,17 @@ body.is-dragging-components-draggable {
 
 .components-placeholder {
   margin-bottom: 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding: 1em;
   min-height: 200px;
   width: 100%;
   text-align: center;
   background: rgba(139, 139, 150, 0.1); }
+  @supports ((position: -webkit-sticky) or (position: sticky)) {
+    .components-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; } }
   .is-dark-theme .components-placeholder {
     background: rgba(255, 255, 255, 0.15); }
 
@@ -3000,8 +3014,7 @@ body.is-dragging-components-draggable {
   .components-popover:not(.is-mobile).is-top {
     bottom: 100%; }
   .components-popover:not(.is-mobile).is-bottom {
-    top: 100%;
-    z-index: 99990; }
+    top: 100%; }
   .components-popover:not(.is-mobile).is-middle {
     align-items: center;
     display: flex; }
@@ -3058,6 +3071,8 @@ body.is-dragging-components-draggable {
 .components-radio-control {
   display: flex;
   flex-direction: column; }
+  .components-radio-control .components-base-control__help {
+    margin-top: 0; }
 
 .components-radio-control__option:not(:last-child) {
   margin-bottom: 4px; }
@@ -3337,6 +3352,9 @@ body.admin-color-light .components-resizable-box__side-handle::before {
 .components-responsive-wrapper {
   position: relative;
   max-width: 100%; }
+  .components-responsive-wrapper,
+  .components-responsive-wrapper > span {
+    display: block; }
 
 .components-responsive-wrapper__content {
   position: absolute;
@@ -3401,12 +3419,17 @@ body.lockscroll {
   color: #fff;
   height: auto;
   flex-shrink: 0;
-  line-height: 1.4; }
+  line-height: 1.4;
+  padding: 0; }
   .components-snackbar__action.components-button:not(:disabled):not([aria-disabled="true"]):not(.is-default) {
-    text-decoration: underline; }
-    .components-snackbar__action.components-button:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
+    text-decoration: underline;
+    background-color: transparent; }
+    .components-snackbar__action.components-button:not(:disabled):not([aria-disabled="true"]):not(.is-default):focus {
       color: #fff;
-      text-decoration: none; }
+      box-shadow: none;
+      outline: 1px dotted #fff; }
+    .components-snackbar__action.components-button:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
+      color: #33b3db; }
 
 .components-snackbar__content {
   display: flex;
@@ -3464,7 +3487,8 @@ body.lockscroll {
   display: flex;
   color: #555d66; }
   .components-tip svg {
-    align-self: center;
+    -ms-grid-row-align: center;
+        align-self: center;
     fill: #f0b849;
     flex-shrink: 0;
     margin-left: 16px; }
@@ -3484,8 +3508,11 @@ body.lockscroll {
   margin: 0;
   border: 1px solid #e2e4e7;
   background-color: #fff;
-  display: flex;
+  display: inline-flex;
   flex-shrink: 0; }
+  @supports ((position: -webkit-sticky) or (position: sticky)) {
+    .components-toolbar {
+      display: flex; } }
 
 div.components-toolbar > div {
   display: block;

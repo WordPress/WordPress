@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["element"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 328);
+/******/ 	return __webpack_require__(__webpack_require__.s = 359);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -190,7 +190,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 328:
+/***/ 359:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -489,7 +489,7 @@ var utils_isEmptyElement = function isEmptyElement(element) {
 var esm_typeof = __webpack_require__(31);
 
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
-var external_this_wp_escapeHtml_ = __webpack_require__(68);
+var external_this_wp_escapeHtml_ = __webpack_require__(71);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/raw-html.js
 
@@ -1064,13 +1064,6 @@ function renderStyle(style) {
 
 /***/ }),
 
-/***/ 68:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["escapeHtml"]; }());
-
-/***/ }),
-
 /***/ 7:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1096,6 +1089,13 @@ function _objectSpread(target) {
 
   return target;
 }
+
+/***/ }),
+
+/***/ 71:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["escapeHtml"]; }());
 
 /***/ })
 

@@ -382,6 +382,7 @@
   position: absolute;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
+  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   pointer-events: none;
@@ -642,9 +643,6 @@ body.admin-color-light .editor-post-text-editor__link{
   .editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-password-input {
     margin-left: 28px; }
 
-.edit-post-post-visibility__dialog.components-popover.is-bottom {
-  z-index: 100001; }
-
 .editor-post-title__block {
   position: relative;
   padding: 5px 0;
@@ -744,6 +742,9 @@ body.admin-color-light .editor-post-text-editor__link{
 
 .table-of-contents__popover.components-popover:not(.is-mobile) .components-popover__content {
   min-width: 380px; }
+
+.components-popover.table-of-contents__popover {
+  z-index: 99998; }
 
 .table-of-contents__popover .components-popover__content {
   padding: 16px; }

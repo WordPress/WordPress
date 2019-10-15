@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["tokenList"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 306);
+/******/ 	return __webpack_require__(__webpack_require__.s = 337);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -138,7 +138,7 @@ module.exports = __webpack_require__(47);
 
 /***/ }),
 
-/***/ 306:
+/***/ 337:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

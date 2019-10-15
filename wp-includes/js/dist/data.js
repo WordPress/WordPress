@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["data"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 317);
+/******/ 	return __webpack_require__(__webpack_require__.s = 348);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -116,7 +116,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 105:
+/***/ 111:
 /***/ (function(module, exports) {
 
 function combineReducers( reducers ) {
@@ -175,11 +175,11 @@ module.exports = combineReducers;
 
 /***/ }),
 
-/***/ 137:
+/***/ 145:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(206);
+/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(229);
 /* global window */
 
 
@@ -198,7 +198,7 @@ if (typeof self !== 'undefined') {
 var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(root);
 /* harmony default export */ __webpack_exports__["a"] = (result);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(61), __webpack_require__(286)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(65), __webpack_require__(318)(module)))
 
 /***/ }),
 
@@ -275,14 +275,14 @@ module.exports = __webpack_require__(47);
 
 /***/ }),
 
-/***/ 205:
+/***/ 228:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["reduxRoutine"]; }());
 
 /***/ }),
 
-/***/ 206:
+/***/ 229:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -305,13 +305,6 @@ function symbolObservablePonyfill(root) {
 	return result;
 };
 
-
-/***/ }),
-
-/***/ 207:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["priorityQueue"]; }());
 
 /***/ }),
 
@@ -363,7 +356,25 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 286:
+/***/ 230:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["priorityQueue"]; }());
+
+/***/ }),
+
+/***/ 30:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+/***/ }),
+
+/***/ 318:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -394,18 +405,7 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 30:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-
-/***/ }),
-
-/***/ 317:
+/***/ 348:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -430,7 +430,7 @@ __webpack_require__.d(plugins_namespaceObject, "controls", function() { return c
 __webpack_require__.d(plugins_namespaceObject, "persistence", function() { return plugins_persistence; });
 
 // EXTERNAL MODULE: ./node_modules/turbo-combine-reducers/index.js
-var turbo_combine_reducers = __webpack_require__(105);
+var turbo_combine_reducers = __webpack_require__(111);
 var turbo_combine_reducers_default = /*#__PURE__*/__webpack_require__.n(turbo_combine_reducers);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
@@ -450,7 +450,7 @@ var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 var asyncToGenerator = __webpack_require__(43);
 
 // EXTERNAL MODULE: ./node_modules/symbol-observable/es/index.js
-var es = __webpack_require__(137);
+var es = __webpack_require__(145);
 
 // CONCATENATED MODULE: ./node_modules/redux/es/redux.js
 
@@ -1102,11 +1102,11 @@ if (false) {}
 
 
 // EXTERNAL MODULE: external {"this":["wp","reduxRoutine"]}
-var external_this_wp_reduxRoutine_ = __webpack_require__(205);
+var external_this_wp_reduxRoutine_ = __webpack_require__(228);
 var external_this_wp_reduxRoutine_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_reduxRoutine_);
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(94);
+var is_promise = __webpack_require__(98);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/promise-middleware.js
@@ -1197,7 +1197,7 @@ var resolvers_cache_middleware_createResolversCacheMiddleware = function createR
 /* harmony default export */ var resolvers_cache_middleware = (resolvers_cache_middleware_createResolversCacheMiddleware);
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(72);
+var equivalent_key_map = __webpack_require__(74);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
@@ -2442,10 +2442,10 @@ var external_this_wp_element_ = __webpack_require__(0);
 var external_this_wp_compose_ = __webpack_require__(8);
 
 // EXTERNAL MODULE: external {"this":["wp","priorityQueue"]}
-var external_this_wp_priorityQueue_ = __webpack_require__(207);
+var external_this_wp_priorityQueue_ = __webpack_require__(230);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(40);
+var external_this_wp_isShallowEqual_ = __webpack_require__(41);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/registry-provider/context.js
@@ -3354,7 +3354,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 40:
+/***/ 41:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["isShallowEqual"]; }());
@@ -4137,7 +4137,7 @@ try {
 
 /***/ }),
 
-/***/ 61:
+/***/ 65:
 /***/ (function(module, exports) {
 
 var g;
@@ -4192,7 +4192,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 72:
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4514,7 +4514,7 @@ module.exports = EquivalentKeyMap;
 
 /***/ }),
 
-/***/ 94:
+/***/ 98:
 /***/ (function(module, exports) {
 
 module.exports = isPromise;

@@ -262,6 +262,9 @@ body.is-fullscreen-mode .edit-post-header {
   .edit-post-more-menu__content .components-popover__content .components-dropdown-menu__menu {
     padding: 0; }
 
+.components-popover.edit-post-more-menu__content {
+  z-index: 99998; }
+
 .edit-post-pinned-plugins {
   display: none; }
   @media (min-width: 600px) {

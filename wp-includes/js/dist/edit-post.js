@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["editPost"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 314);
+/******/ 	return __webpack_require__(__webpack_require__.s = 345);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -178,13 +178,6 @@ function _possibleConstructorReturn(self, call) {
 
 /***/ }),
 
-/***/ 134:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["notices"]; }());
-
-/***/ }),
-
 /***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -196,6 +189,13 @@ function _getPrototypeOf(o) {
   };
   return _getPrototypeOf(o);
 }
+
+/***/ }),
+
+/***/ 142:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["notices"]; }());
 
 /***/ }),
 
@@ -363,13 +363,6 @@ function _extends() {
 
 /***/ }),
 
-/***/ 208:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blockLibrary"]; }());
-
-/***/ }),
-
 /***/ 21:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -462,6 +455,13 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
+/***/ 231:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blockLibrary"]; }());
+
+/***/ }),
+
 /***/ 24:
 /***/ (function(module, exports) {
 
@@ -524,7 +524,14 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 314:
+/***/ 34:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ 345:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -578,7 +585,7 @@ __webpack_require__.d(selectors_namespaceObject, "isSavingMetaBoxes", function()
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external {"this":["wp","coreData"]}
-var external_this_wp_coreData_ = __webpack_require__(86);
+var external_this_wp_coreData_ = __webpack_require__(89);
 
 // EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
 var external_this_wp_blockEditor_ = __webpack_require__(6);
@@ -587,22 +594,22 @@ var external_this_wp_blockEditor_ = __webpack_require__(6);
 var external_this_wp_editor_ = __webpack_require__(24);
 
 // EXTERNAL MODULE: external {"this":["wp","nux"]}
-var external_this_wp_nux_ = __webpack_require__(58);
+var external_this_wp_nux_ = __webpack_require__(61);
 
 // EXTERNAL MODULE: external {"this":["wp","viewport"]}
 var external_this_wp_viewport_ = __webpack_require__(42);
 
 // EXTERNAL MODULE: external {"this":["wp","notices"]}
-var external_this_wp_notices_ = __webpack_require__(134);
+var external_this_wp_notices_ = __webpack_require__(142);
 
 // EXTERNAL MODULE: external {"this":["wp","blockLibrary"]}
-var external_this_wp_blockLibrary_ = __webpack_require__(208);
+var external_this_wp_blockLibrary_ = __webpack_require__(231);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
 var external_this_wp_hooks_ = __webpack_require__(27);
 
 // EXTERNAL MODULE: external {"this":["wp","mediaUtils"]}
-var external_this_wp_mediaUtils_ = __webpack_require__(95);
+var external_this_wp_mediaUtils_ = __webpack_require__(99);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/hooks/components/index.js
 /**
@@ -805,7 +812,7 @@ function CopyContentMenuItem(_ref) {
       setState({
         hasCopied: true
       });
-      createNotice('info', 'All content copied.', {
+      createNotice('info', Object(external_this_wp_i18n_["__"])('All content copied.'), {
         isDismissible: true,
         type: 'snackbar'
       });
@@ -1285,7 +1292,7 @@ var reducer_metaBoxes = Object(external_this_wp_data_["combineReducers"])({
 }));
 
 // EXTERNAL MODULE: ./node_modules/refx/refx.js
-var refx = __webpack_require__(69);
+var refx = __webpack_require__(72);
 var refx_default = /*#__PURE__*/__webpack_require__.n(refx);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
@@ -1295,7 +1302,7 @@ var slicedToArray = __webpack_require__(23);
 var external_this_wp_a11y_ = __webpack_require__(45);
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(32);
+var external_this_wp_apiFetch_ = __webpack_require__(34);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/store/actions.js
@@ -5211,7 +5218,7 @@ function PostLink(_ref) {
         });
       }
     }
-  }), Object(external_this_wp_element_["createElement"])("p", null, Object(external_this_wp_i18n_["__"])('The last part of the URL. '), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
+  }), Object(external_this_wp_element_["createElement"])("p", null, Object(external_this_wp_i18n_["__"])('The last part of the URL.'), ' ', Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
     href: "https://wordpress.org/support/article/writing-posts/#post-field-descriptions"
   }, Object(external_this_wp_i18n_["__"])('Read about permalinks')))), Object(external_this_wp_element_["createElement"])("p", {
     className: "edit-post-post-link__preview-label"
@@ -6005,26 +6012,36 @@ var listener_hooks_useAdjustSidebarListener = function useAdjustSidebarListener(
   var _useSelect2 = Object(external_this_wp_data_["useSelect"])(function (select) {
     return {
       isSmall: select('core/viewport').isViewportMatch('< medium'),
-      sidebarToReOpenOnExpand: select(STORE_KEY).getActiveGeneralSidebarName()
+      activeGeneralSidebarName: select(STORE_KEY).getActiveGeneralSidebarName()
     };
   }, [postId]),
       isSmall = _useSelect2.isSmall,
-      sidebarToReOpenOnExpand = _useSelect2.sidebarToReOpenOnExpand;
+      activeGeneralSidebarName = _useSelect2.activeGeneralSidebarName;
 
   var _useDispatch2 = Object(external_this_wp_data_["useDispatch"])(STORE_KEY),
       openGeneralSidebar = _useDispatch2.openGeneralSidebar,
       closeGeneralSidebar = _useDispatch2.closeGeneralSidebar;
 
-  var previousOpenedSidebar = Object(external_this_wp_element_["useRef"])('');
+  var previousIsSmall = Object(external_this_wp_element_["useRef"])(null);
+  var sidebarToReOpenOnExpand = Object(external_this_wp_element_["useRef"])(null);
   Object(external_this_wp_element_["useEffect"])(function () {
-    if (isSmall && sidebarToReOpenOnExpand) {
-      previousOpenedSidebar.current = sidebarToReOpenOnExpand;
-      closeGeneralSidebar();
-    } else if (!isSmall && previousOpenedSidebar.current) {
-      openGeneralSidebar(previousOpenedSidebar.current);
-      previousOpenedSidebar.current = '';
+    if (previousIsSmall.current === isSmall) {
+      return;
     }
-  }, [isSmall, sidebarToReOpenOnExpand]);
+
+    previousIsSmall.current = isSmall;
+
+    if (isSmall) {
+      sidebarToReOpenOnExpand.current = activeGeneralSidebarName;
+
+      if (activeGeneralSidebarName) {
+        closeGeneralSidebar();
+      }
+    } else if (sidebarToReOpenOnExpand.current && !activeGeneralSidebarName) {
+      openGeneralSidebar(sidebarToReOpenOnExpand.current);
+      sidebarToReOpenOnExpand.current = null;
+    }
+  }, [isSmall, activeGeneralSidebarName]);
 };
 /**
  * This listener hook monitors any change in permalink and updates the view
@@ -6075,8 +6092,8 @@ var listener_hooks_useUpdatePostLinkListener = function useUpdatePostLinkListene
 
 /* harmony default export */ var editor_initialization = (function (_ref) {
   var postId = _ref.postId;
-  listener_hooks_useAdjustSidebarListener(postId);
   listener_hooks_useBlockSelectionListener(postId);
+  listener_hooks_useAdjustSidebarListener(postId);
   listener_hooks_useUpdatePostLinkListener(postId);
 
   var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/nux'),
@@ -6825,13 +6842,6 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
 
 /***/ }),
 
-/***/ 32:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["apiFetch"]; }());
-
-/***/ }),
-
 /***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -7297,13 +7307,6 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 58:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["nux"]; }());
-
-/***/ }),
-
 /***/ 6:
 /***/ (function(module, exports) {
 
@@ -7311,7 +7314,42 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 69:
+/***/ 61:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["nux"]; }());
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
+
+/***/ }),
+
+/***/ 72:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7367,34 +7405,6 @@ module.exports = refx;
 
 /***/ }),
 
-/***/ 7:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
-
-/***/ }),
-
 /***/ 8:
 /***/ (function(module, exports) {
 
@@ -7402,7 +7412,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 86:
+/***/ 89:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["coreData"]; }());
@@ -7416,7 +7426,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 95:
+/***/ 99:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["mediaUtils"]; }());

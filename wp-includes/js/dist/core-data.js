@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 318);
+/******/ 	return __webpack_require__(__webpack_require__.s = 349);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -223,7 +223,14 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 318:
+/***/ 34:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ 349:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -308,7 +315,7 @@ var defineProperty = __webpack_require__(10);
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(40);
+var external_this_wp_isShallowEqual_ = __webpack_require__(41);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/conservative-map-item.js
@@ -521,7 +528,7 @@ function receiveQueriedItems(items) {
 var rememo = __webpack_require__(36);
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(72);
+var equivalent_key_map = __webpack_require__(74);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
@@ -697,7 +704,7 @@ var regenerator = __webpack_require__(20);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(32);
+var external_this_wp_apiFetch_ = __webpack_require__(34);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/controls.js
@@ -1012,7 +1019,7 @@ function editEntityRecord(kind, name, recordId, edits) {
             edits: Object.keys(edits).reduce(function (acc, key) {
               var recordValue = record[key];
               var editedRecordValue = editedRecord[key];
-              var value = mergedEdits[key] ? Object(external_lodash_["merge"])({}, editedRecordValue, edits[key]) : edits[key];
+              var value = mergedEdits[key] ? Object(objectSpread["a" /* default */])({}, editedRecordValue, edits[key]) : edits[key];
               acc[key] = Object(external_lodash_["isEqual"])(recordValue, value) ? undefined : value;
               return acc;
             }, {}),
@@ -2161,17 +2168,32 @@ function reducer_undo() {
   switch (action.type) {
     case 'EDIT_ENTITY_RECORD':
     case 'CREATE_UNDO_LEVEL':
-      if (action.type === 'CREATE_UNDO_LEVEL') {
+      var isCreateUndoLevel = action.type === 'CREATE_UNDO_LEVEL';
+      var isUndoOrRedo = !isCreateUndoLevel && (action.meta.isUndo || action.meta.isRedo);
+
+      if (isCreateUndoLevel) {
         action = lastEditAction;
-      } else {
+      } else if (!isUndoOrRedo) {
         lastEditAction = action;
       }
 
-      if (action.meta.isUndo || action.meta.isRedo) {
-        var _nextState = Object(toConsumableArray["a" /* default */])(state);
+      var nextState;
 
-        _nextState.offset = state.offset + (action.meta.isUndo ? -1 : 1);
-        return _nextState;
+      if (isUndoOrRedo) {
+        nextState = Object(toConsumableArray["a" /* default */])(state);
+        nextState.offset = state.offset + (action.meta.isUndo ? -1 : 1);
+
+        if (state.flattenedUndo) {
+          // The first undo in a sequence of undos might happen while we have
+          // flattened undos in state. If this is the case, we want execution
+          // to continue as if we were creating an explicit undo level. This
+          // will result in an extra undo level being appended with the flattened
+          // undo values.
+          isCreateUndoLevel = true;
+          action = lastEditAction;
+        } else {
+          return nextState;
+        }
       }
 
       if (!action.meta.undo) {
@@ -2181,27 +2203,30 @@ function reducer_undo() {
       // are merged. They are defined in the entity's config.
 
 
-      if (!Object.keys(action.edits).some(function (key) {
+      if (!isCreateUndoLevel && !Object.keys(action.edits).some(function (key) {
         return !action.transientEdits[key];
       })) {
-        var _nextState2 = Object(toConsumableArray["a" /* default */])(state);
-
-        _nextState2.flattenedUndo = Object(objectSpread["a" /* default */])({}, state.flattenedUndo, action.edits);
-        _nextState2.offset = state.offset;
-        return _nextState2;
+        nextState = Object(toConsumableArray["a" /* default */])(state);
+        nextState.flattenedUndo = Object(objectSpread["a" /* default */])({}, state.flattenedUndo, action.edits);
+        nextState.offset = state.offset;
+        return nextState;
       } // Clear potential redos, because this only supports linear history.
 
 
-      var nextState = state.slice(0, state.offset || undefined);
-      nextState.offset = 0;
+      nextState = nextState || state.slice(0, state.offset || undefined);
+      nextState.offset = nextState.offset || 0;
       nextState.pop();
-      nextState.push({
-        kind: action.meta.undo.kind,
-        name: action.meta.undo.name,
-        recordId: action.meta.undo.recordId,
-        edits: Object(objectSpread["a" /* default */])({}, state.flattenedUndo, action.meta.undo.edits)
-      }); // When an edit is a function it's an optimization to avoid running some expensive operation.
+
+      if (!isCreateUndoLevel) {
+        nextState.push({
+          kind: action.meta.undo.kind,
+          name: action.meta.undo.name,
+          recordId: action.meta.undo.recordId,
+          edits: Object(objectSpread["a" /* default */])({}, state.flattenedUndo, action.meta.undo.edits)
+        });
+      } // When an edit is a function it's an optimization to avoid running some expensive operation.
       // We can't rely on the function references being the same so we opt out of comparing them here.
+
 
       var comparisonUndoEdits = Object.values(action.meta.undo.edits).filter(function (edit) {
         return typeof edit !== 'function';
@@ -2215,7 +2240,7 @@ function reducer_undo() {
           kind: action.kind,
           name: action.name,
           recordId: action.recordId,
-          edits: action.edits
+          edits: isCreateUndoLevel ? Object(objectSpread["a" /* default */])({}, state.flattenedUndo, action.edits) : action.edits
         });
       }
 
@@ -3380,13 +3405,6 @@ Object(external_this_wp_data_["registerStore"])(REDUCER_KEY, {
 
 /***/ }),
 
-/***/ 32:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["apiFetch"]; }());
-
-/***/ }),
-
 /***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3705,7 +3723,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 40:
+/***/ 41:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["isShallowEqual"]; }());
@@ -4473,7 +4491,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 72:
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

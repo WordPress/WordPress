@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["annotations"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 325);
+/******/ 	return __webpack_require__(__webpack_require__.s = 355);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -225,7 +225,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 325:
+/***/ 355:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -447,7 +447,7 @@ function __experimentalGetAnnotations(state) {
 }
 
 // EXTERNAL MODULE: ./node_modules/uuid/v4.js
-var v4 = __webpack_require__(64);
+var v4 = __webpack_require__(67);
 var v4_default = /*#__PURE__*/__webpack_require__.n(v4);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/actions.js
@@ -1104,11 +1104,11 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 64:
+/***/ 67:
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(82);
-var bytesToUuid = __webpack_require__(83);
+var rng = __webpack_require__(85);
+var bytesToUuid = __webpack_require__(86);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -1168,7 +1168,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 82:
+/***/ 85:
 /***/ (function(module, exports) {
 
 // Unique ID creation requires a high quality random # generator.  In the
@@ -1209,7 +1209,7 @@ if (getRandomValues) {
 
 /***/ }),
 
-/***/ 83:
+/***/ 86:
 /***/ (function(module, exports) {
 
 /**

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 315);
+/******/ 	return __webpack_require__(__webpack_require__.s = 346);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -434,7 +434,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 315:
+/***/ 346:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2956,7 +2956,7 @@ function applySelection(_ref7, current) {
 }
 
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
-var external_this_wp_escapeHtml_ = __webpack_require__(68);
+var external_this_wp_escapeHtml_ = __webpack_require__(71);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/to-html-string.js
 /**
@@ -3451,7 +3451,7 @@ var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 var external_this_wp_keycodes_ = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(40);
+var external_this_wp_isShallowEqual_ = __webpack_require__(41);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
@@ -3505,7 +3505,7 @@ var format_edit_FormatEdit = function FormatEdit(_ref) {
     var activeFormat = getActiveFormat(value, name);
     var isActive = activeFormat !== undefined;
     var activeObject = getActiveObject(value);
-    var isObjectActive = activeObject !== undefined;
+    var isObjectActive = activeObject !== undefined && activeObject.type === name;
     return Object(external_this_wp_element_["createElement"])(Edit, {
       key: name,
       isActive: isActive,
@@ -3835,6 +3835,29 @@ function createPrepareEditableTree(props, prefix) {
       return fn(accumulator, value.text);
     }, value.formats);
   };
+}
+/**
+ * If the selection is set on the placeholder element, collapse the selection to
+ * the start (before the placeholder).
+ */
+
+
+function fixPlaceholderSelection() {
+  var selection = window.getSelection();
+  var anchorNode = selection.anchorNode,
+      anchorOffset = selection.anchorOffset;
+
+  if (anchorNode.nodeType !== anchorNode.ELEMENT_NODE) {
+    return;
+  }
+
+  var targetNode = anchorNode.childNodes[anchorOffset];
+
+  if (!targetNode || targetNode.nodeType !== targetNode.ELEMENT_NODE || !targetNode.getAttribute('data-rich-text-placeholder')) {
+    return;
+  }
+
+  selection.collapseToStart();
 }
 /**
  * See export statement below.
@@ -4223,14 +4246,11 @@ function (_Component) {
       }
 
       if (start === value.start && end === value.end) {
-        // If a placeholder is set, some browsers seems to place the
-        // selection after the placeholder instead of the text node that is
-        // padding the empty container element. The internal selection is
-        // set correctly to zero, but the caret is not visible. By
-        // reapplying the value to the DOM we reset the selection to the
-        // right node, making the caret visible again.
+        // Sometimes the browser may set the selection on the placeholder
+        // element, in which case the caret is not visible. We need to set
+        // the caret before the placeholder if that's the case.
         if (value.text.length === 0 && start === 0) {
-          this.applyRecord(value);
+          fixPlaceholderSelection();
         }
 
         return;
@@ -4653,20 +4673,12 @@ function (_Component) {
       shouldReapply = shouldReapply || !external_this_wp_isShallowEqual_default()(prepareProps, prevPrepareProps); // Rerender if the placeholder changed.
 
       shouldReapply = shouldReapply || placeholder !== prevProps.placeholder;
-      var _this$record$activeFo2 = this.record.activeFormats,
-          activeFormats = _this$record$activeFo2 === void 0 ? [] : _this$record$activeFo2;
 
       if (shouldReapply) {
         this.value = value;
         this.record = this.formatToValue(value);
         this.record.start = selectionStart;
         this.record.end = selectionEnd;
-        updateFormats({
-          value: this.record,
-          start: this.record.start,
-          end: this.record.end,
-          formats: activeFormats
-        });
         this.applyRecord(this.record);
       } else if (this.record.start !== selectionStart || this.record.end !== selectionEnd) {
         this.record = Object(objectSpread["a" /* default */])({}, this.record, {
@@ -5214,7 +5226,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 40:
+/***/ 41:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["isShallowEqual"]; }());
@@ -5233,13 +5245,6 @@ function _assertThisInitialized(self) {
 
   return self;
 }
-
-/***/ }),
-
-/***/ 68:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["escapeHtml"]; }());
 
 /***/ }),
 
@@ -5268,6 +5273,13 @@ function _objectSpread(target) {
 
   return target;
 }
+
+/***/ }),
+
+/***/ 71:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["escapeHtml"]; }());
 
 /***/ }),
 

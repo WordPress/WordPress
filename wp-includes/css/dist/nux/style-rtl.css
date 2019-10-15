@@ -104,7 +104,8 @@
   z-index: 1000001; }
   @media (max-width: 600px) {
     .nux-dot-tip:not(.is-mobile).is-left .components-popover__content, .nux-dot-tip:not(.is-mobile).is-center .components-popover__content, .nux-dot-tip:not(.is-mobile).is-right .components-popover__content {
-      align-self: end;
+      -ms-grid-row-align: end;
+          align-self: end;
       right: 5px;
       margin: 20px 0 0 0;
       max-width: none !important;
