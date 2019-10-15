@@ -269,7 +269,6 @@ require( ABSPATH . WPINC . '/blocks/latest-posts.php' );
 require( ABSPATH . WPINC . '/blocks/rss.php' );
 require( ABSPATH . WPINC . '/blocks/search.php' );
 require( ABSPATH . WPINC . '/blocks/shortcode.php' );
-require( ABSPATH . WPINC . '/blocks/social-link.php' );
 require( ABSPATH . WPINC . '/blocks/tag-cloud.php' );
 
 $GLOBALS['wp_embed'] = new WP_Embed();

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["tokenList"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 377);
+/******/ 	return __webpack_require__(__webpack_require__.s = 306);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -133,12 +133,12 @@ function _classCallCheck(instance, Constructor) {
 /***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(48);
+module.exports = __webpack_require__(47);
 
 
 /***/ }),
 
-/***/ 377:
+/***/ 306:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -413,7 +413,7 @@ function () {
 
 /***/ }),
 
-/***/ 48:
+/***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**

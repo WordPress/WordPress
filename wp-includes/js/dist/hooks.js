@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["hooks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 388);
+/******/ 	return __webpack_require__(__webpack_require__.s = 320);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -131,7 +131,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 388:
+/***/ 320:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

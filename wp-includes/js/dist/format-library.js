@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["formatLibrary"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 390);
+/******/ 	return __webpack_require__(__webpack_require__.s = 321);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -360,7 +360,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 390:
+/***/ 321:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -799,7 +799,7 @@ var italic = {
 var external_this_wp_url_ = __webpack_require__(26);
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
-var external_this_wp_htmlEntities_ = __webpack_require__(54);
+var external_this_wp_htmlEntities_ = __webpack_require__(52);
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__(2);
@@ -1505,7 +1505,7 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 54:
+/***/ 52:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["htmlEntities"]; }());
