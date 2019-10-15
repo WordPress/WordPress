@@ -14,145 +14,183 @@ $title = _x( 'About', 'page title' );
 
 list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
 
+$version_label = sprintf(
+	/* translators: The current WordPress version number */
+	__( 'WordPress %s' ),
+	$display_version
+);
+
 include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 	<div class="wrap about-wrap full-width-layout">
-		<h1>
-			<?php
-			printf(
-				/* translators: %s: The current WordPress version number. */
-				__( 'Welcome to WordPress&nbsp;%s' ),
-				$display_version
-			);
-			?>
-		</h1>
+		<div class="about__header">
+			<div class="about__header-title">
+				<h1 aria-label="<?php echo esc_attr( $version_label ); ?>">
+					<span><?php echo $display_version; ?></span>
+					WordPress <?php /* @todo Does this need translation? */ ?>
+				</h1>
+			</div>
 
-		<p class="about-text">
-			<?php
-			printf(
-				/* translators: %s: The current WordPress version number. */
-				__( 'Congratulations on updating to WordPress %s! This update makes it easier than ever to fix your site if something goes wrong.' ),
-				$display_version
-			);
-			?>
-		</p>
+			<div class="about__header-badge wp-badge">
+				<?php
+				printf(
+					/* translators: %s: The current WordPress version number. */
+					__( 'Version %s' ),
+					$display_version
+				);
+				?>
+			</div>
 
-		<div class="wp-badge">
-			<?php
-			printf(
-				/* translators: %s: The current WordPress version number. */
-				__( 'Version %s' ),
-				$display_version
-			);
-			?>
+			<div class="about__header-text">
+				<p>
+					<?php
+					printf(
+						/* translators: %s: The current WordPress version number. */
+						__( 'Introducing our most refined user experience with the improved Block Editor in WordPress %s &#147;Name&#148;!' ),
+						$display_version
+					);
+					?>
+				</p>
+			</div>
+
+			<nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
+				<a href="about.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e( 'What&#8217;s New' ); ?></a>
+				<a href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
+				<a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
+				<a href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
+			</nav>
 		</div>
 
-		<nav class="nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
-			<a href="about.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e( 'What&#8217;s New' ); ?></a>
-			<a href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
-			<a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
-			<a href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
-		</nav>
-
-		<div class="headline-feature">
-			<h2><?php _e( 'Keeping Your Site Safe' ); ?></h2>
-			<p class="lead-description"><?php _e( 'WordPress 5.2 gives you even more robust tools for identifying and fixing configuration issues and fatal errors. Whether you are a developer helping clients or you manage your site solo, these tools can help get you the right information when you need it.' ); ?></p>
-			<div class="inline-svg aligncenter">
-				<img src="https://s.w.org/images/core/5.2/about_maintain-wordpress-v2.svg" alt="">
-			</div>
+		<div class="about__section is-feature">
+			<p>
+				<?php _e( '5.3 expands and refines the block editor introduced in WordPress 5.0 with new blocks, more intuitive interactions, and improved accessibility. New features in the editor increase design freedoms, provide additional layout options and style variations to allow designers complete control over the look of a site. This release also introduces the Twenty Twenty theme giving the user more design flexibility and integration with the Block Editor. Creating beautiful web pages and advanced layouts has never been easier.' ); ?>
+			</p>
 		</div>
 
 		<hr />
 
-		<div class="feature-section is-wide has-2-columns is-wider-left">
+		<div class="about__section has-2-columns">
+			<div class="column is-edge-to-edge has-accent-background-color">
+				<div class="about__image aligncenter">
+					<img src="data:image/svg+xml;utf8,%3Csvg width='660' height='818' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='99' y='178' width='132' height='132' fill='%23F4EFE1'/%3E%3Crect x='231' y='310' width='99' height='99' fill='%2344141E'/%3E%3Crect x='330' y='409' width='132' height='132' fill='%23F4EFE1'/%3E%3Crect x='462' y='541' width='99' height='99' fill='%2344141E'/%3E%3C/svg%3E" alt="" />
+				</div>
+			</div>
 			<div class="column is-vertically-aligned-center">
-				<h3><?php _e( 'Site Health Check' ); ?></h3>
+				<h3><?php _e( 'Block Editor Improvements' ); ?></h3>
 				<p>
-					<?php
-					printf(
-						/* translators: 1: Link to the WordPress 5.1 release post. */
-						__( 'Building on <a href="%1$s">the Site Health features introduced in 5.1</a>, this release adds two new pages to help debug common configuration issues. It also adds space where developers can include debugging information for site maintainers.' ),
-						__( 'https://wordpress.org/news/2019/02/betty/' )
-					);
+					<?php _e( 'This enhancement-focused update introduces over 150 new features and usability improvements, including improved large image support for uploading non-optimized, high-resolution pictures taken from your smartphone or other high-quality cameras. Combined with larger default image sizes, pictures always look their best.' ); ?>
+				</p>
 
-					if ( current_user_can( 'install_plugins' ) ) {
-						printf(
-							/* translators: 1: URL to Site Health Status screen, 2: URL to Site Health Info screen. */
-							__( ' <a href="%1$s">Check your site status</a>, and <a href="%2$s">learn how to debug issues</a>.' ),
-							admin_url( 'site-health.php' ),
-							admin_url( 'site-health.php?tab=debug' )
-						);
-					}
+				<p>
+					<?php _e( 'Accessibility improvements include the integration of block editor styles in the admin interface. These improved styles fix many accessibility issues: color contrast on form fields and buttons, consistency between editor and admin interfaces, new snackbar notices, standardizing to the default WordPress color scheme, and the introduction of Motion to make interacting with your blocks feel swift and natural. For people who use a keyboard to navigate the dashboard, the Block Editor now has a Navigation mode. This lets you jump from block to block without tabbing through every part of the block controls.' ); ?>
+				</p>
+			</div>
+		</div>
+
+		<div class="about__section has-2-columns">
+			<div class="column is-vertically-aligned-center">
+				<h3><?php _e( 'Expanded Design Flexibility' ); ?></h3>
+				<p><?php _e( '&#147;Name&#148; adds even more robust tools for creating amazing designs.' ); ?></p>
+				<ul>
+					<li><?php _e( 'The new Group block lets you easily divide your page into colorful sections' ); ?></li>
+					<li><?php _e( 'The Columns block now supports fixed column widths' ); ?></li>
+					<li><?php _e( 'The new Predefined layouts make it a cinch to arrange content into advanced designs' ); ?></li>
+					<li><?php _e( 'Heading blocks now offer controls for text and background color' ); ?></li>
+					<li><?php _e( 'Additional style options allow you to set your preferred style for any block that supports this feature' ); ?></li>
+				</ul>
+			</div>
+			<div class="column is-edge-to-edge has-accent-background-color">
+				<div class="about__image aligncenter">
+					<img src="data:image/svg+xml;utf8,%3Csvg width='500' height='500' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='75' y='200' width='150' height='75' fill='%2344141E'/%3E%3Crect x='175' y='75' width='50' height='100' fill='%2385273B'/%3E%3Crect x='75' y='75' width='75' height='100' fill='%23F4EFE1'/%3E%3Crect x='250' y='200' width='175' height='75' fill='%2344141E'/%3E%3Crect x='350' y='75' width='75' height='100' fill='%2385273B'/%3E%3Crect x='250' y='75' width='75' height='100' fill='%23F4EFE1'/%3E%3Crect x='75' y='375' width='150' height='50' fill='%2344141E'/%3E%3Crect x='175' y='300' width='50' height='50' fill='%2385273B'/%3E%3Crect x='75' y='300' width='75' height='50' fill='%23F4EFE1'/%3E%3Crect x='250' y='372.5' width='175' height='52.5' fill='%2344141E'/%3E%3Crect x='350' y='300' width='75' height='50' fill='%2385273B'/%3E%3Crect x='250' y='300' width='75' height='50' fill='%23F4EFE1'/%3E%3C/svg%3E%0A" alt="">
+				</div>
+			</div>
+		</div>
+
+		<div class="about__section has-2-columns has-subtle-background-color">
+			<div class="column is-vertically-aligned-center">
+				<h3><?php _e( 'Introducing Twenty Twenty' ); ?></h3>
+				<p><?php _e( 'As the Block Editor celebrates its first birthday, we are proud that Twenty Twenty is designed with flexibility at its core. Show off your services or products with a combination of columns, groups, and media blocks. Set your content to wide or full alignment for dynamic and engaging layouts. Or let your thoughts be the star with a centered content column!' ); ?></p>
+
+				<p>
+				<?php
+					printf(
+						/* translators: 1: Link to the Inter font website. */
+						__( 'As befits a theme called Twenty Twenty, clarity and readability is also a big focus. The theme includes the typeface <a href="%1$s">Inter</a>, designed by Rasmus Andersson. Inter comes in a Variable Font version, a first for default themes, which keeps load times short by containing all weights and styles of Inter in just two font files.' ),
+						'https://rsms.me/inter/'
+					);
 					?>
 				</p>
 			</div>
-			<div class="column">
-				<div class="inline-svg aligncenter">
-					<img src="https://s.w.org/images/core/5.2/about_site-health.svg" alt="">
+			<div class="column is-edge-to-edge">
+				<div class="about__image aligncenter">
+					<img src="https://cldup.com/rsaSI50LvZ.png" alt="" />
+				</div>
+			</div>
+		</div>
+
+		<div class="about__section has-subtle-background-color">
+			<div class="column is-edge-to-edge">
+				<div class="about__image aligncenter">
+					<img src="https://cldup.com/8AuwuFLW0J.png" alt="" />
 				</div>
 			</div>
 		</div>
 
 		<hr />
 
-		<div class="feature-section is-wide has-2-columns is-wider-right">
+		<div class="about__section has-3-columns">
+			<h3 class="is-section-header"><?php _e( 'Improvements for Everyone' ); ?></h3>
+
 			<div class="column">
-				<div class="inline-svg aligncenter">
-					<img src="https://s.w.org/images/core/5.2/about_error-protection.svg" alt="">
+				<h4><?php _e( 'Automatic Image Rotation' ); ?></h4>
+				<p><?php _e( 'Your images will be correctly rotated upon upload according to the embedded orientation data. This feature was first proposed nine years ago and made possible through the perserverance of many dedicated contributors.' ); ?></p>
+			</div>
+			<div class="column">
+				<h4><?php _e( 'Site Health Checks' ); ?></h4>
+				<p><?php _e( 'The improvements introduced in 5.3 make it even easier to identify issues. Expanded recommendations highlight areas that may need troubleshooting on your site from the Health Check screen.' ); ?></p>
+			</div>
+			<div class="column">
+				<h4><?php _e( 'Admin Email Verification' ); ?></h4>
+				<p><?php _e( 'You’ll now be periodically asked to confirm that your admin email address is up to date when you log in as an administrator. This reduces the chance of getting locked out out of your site if you change your email address.' ); ?></p>
+			</div>
+		</div>
+
+		<div class="about__section">
+			<div class="column is-edge-to-edge">
+				<div class="about__image aligncenter">
+					<img src="data:image/svg+xml;utf8,%3Csvg width='1000' height='498' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='865.463' y='36.8596' width='133.8' height='132.326' fill='%23942F44'/%3E%3Crect x='865.463' y='180.98' width='133.8' height='132.326' fill='%23942F44'/%3E%3Crect x='866.2' y='328.05' width='133.8' height='132.694' fill='%23942F44'/%3E%3Crect y='331.736' width='405.455' height='134.169' fill='%234E1521'/%3E%3Crect y='36.8596' width='405.455' height='129.008' fill='%234E1521'/%3E%3Crect y='184.298' width='387.025' height='133.8' fill='%234E1521'/%3E%3Crect x='719.13' y='34.6479' width='133.8' height='428.677' fill='%23BD3854'/%3E%3Crect x='571.323' y='18.4297' width='133.8' height='423.885' fill='%23BD3854'/%3E%3Crect x='423.516' y='35.0164' width='133.8' height='425.728' fill='%23BD3854'/%3E%3C/svg%3E" alt="" />
 				</div>
 			</div>
-			<div class="column is-vertically-aligned-center">
-				<h3><?php _e( 'PHP Error Protection' ); ?></h3>
-				<p><?php _e( 'This administrator-focused update will let you safely fix or manage fatal errors without requiring a developer. It features better handling of the so-called “white screen of death”, and a way to enter recovery mode, which pauses error-causing plugins or themes.' ); ?></p>
-			</div>
 		</div>
 
 		<hr />
 
-		<h3 class="aligncenter"><?php _e( 'Improvements for Everyone' ); ?></h3>
+		<div class="about__section has-2-columns has-subtle-background-color">
+			<h3 class="is-section-header"><?php _e( 'For Developers' ); ?></h3>
 
-		<div class="has-2-columns">
-			<div class="column aligncenter">
-				<h4><?php _e( 'Accessibility Updates' ); ?></h4>
-				<p><?php _e( 'A number of changes work together to improve contextual awareness and keyboard navigation flow for those using screen readers and other assistive technologies.' ); ?></p>
-			</div>
-			<div class="column aligncenter">
-				<h4><?php _e( 'New Dashboard Icons' ); ?></h4>
-				<p><?php _e( 'Thirteen new icons include Instagram, a suite of icons for BuddyPress, and rotated Earth icons for global inclusion. Find them in the Dashboard and have some fun!' ); ?></p>
-			</div>
-		</div>
-
-		<hr />
-
-		<h3 class="aligncenter"><?php _e( 'Developer Happiness' ); ?></h3>
-
-		<div class="has-2-columns is-fullwidth">
 			<div class="column">
-				<h4><a href="https://make.wordpress.org/core/2019/03/26/coding-standards-updates-for-php-5-6/"><?php _e( 'PHP Version Bump' ); ?></a></h4>
-				<p><?php _e( 'The minimum supported PHP version is now 5.6.20. As of WordPress 5.2, themes and plugins can safely take advantage of namespaces, anonymous functions, and more!' ); ?></p>
-			</div>
-			<div class="column">
-				<h4><a href="https://make.wordpress.org/core/2019/04/24/developer-focused-privacy-updates-in-5-2/"><?php _e( 'Privacy Updates' ); ?></a></h4>
-				<p><?php _e( 'A new theme page template, a conditional function, and two CSS classes make designing and customizing the Privacy Policy page easier.' ); ?></p>
-			</div>
-		</div>
-		<div class="has-2-columns is-fullwidth">
-			<div class="column">
-				<h4><a href="https://make.wordpress.org/core/2019/04/24/miscellaneous-developer-updates-in-5-2/"><?php _e( 'New Body Tag Hook' ); ?></a></h4>
+				<h4><?php _e( 'Time/Date Component Fixes' ); ?></h4>
 				<p>
-					<?php
+				<?php
 					printf(
-						/* translators: 1: wp_body_open, 2: <body> */
-						__( '5.2 introduces a %1$s hook, which lets themes support injecting code right at the beginning of the %2$s element.' ),
-						'<code>wp_body_open</code>',
-						'<code>&lt;body&gt;</code>'
+						/* translators: 1: Link to the date/time developer notes. */
+						__( 'Developers can now work with <a href="%1$s">dates and timezones</a> in a more reliable way. Date and time functionality has received a number of new API functions for unified timezone retrieval and PHP interoperability, as well as many bug fixes.' ),
+						'https://make.wordpress.org/core/2019/09/23/date-time-improvements-wp-5-3/'
 					);
 					?>
 				</p>
 			</div>
 			<div class="column">
-				<h4><a href="https://make.wordpress.org/core/2019/03/25/building-javascript/"><?php _e( 'Building JavaScript' ); ?></a></h4>
-				<p><?php _e( 'With the addition of webpack and Babel configurations in the @wordpress/scripts package, developers won&#8217;t have to worry about setting up complex build tools to write modern JavaScript.' ); ?></p>
+				<h4><?php _e( 'PHP 7.4 Compatibility' ); ?></h4>
+				<p>
+				<?php
+					printf(
+						/* translators: 1: Link to the PHP 7 developer notes. */
+						__( 'The WordPress core team is actively preparing to support PHP 7.4 when it is released later this year. WordPress 5.3 contains <a href="%1$s">multiple changes</a> to remove deprecated functionality and ensure compatibility. Please test 5.3 with PHP 7.4 to ensure all functionality continues to work as expected and does not raise any new warnings.' ),
+						'https://make.wordpress.org/core/2019/10/11/wordpress-and-php-7-4/'
+					);
+					?>
+				</p>
 			</div>
 		</div>
 
