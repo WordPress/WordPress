@@ -1228,7 +1228,6 @@
 	line-height: 1.38461538;
 	font-size: 13px;
 	color: #666;
-	margin-left: 0.5em;
 }
 
 .attachments-browser .no-media {
@@ -1678,6 +1677,10 @@
 	float: none;
 	vertical-align: bottom;
 	margin: 0 5px 5px 0;
+}
+
+.media-frame .instructions + .spinner.is-active {
+	vertical-align: middle;
 }
 
 .media-frame .spinner.is-active {

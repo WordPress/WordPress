@@ -8118,7 +8118,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 		this.views.add( this.toolbar );
 
 		this.toolbar.set( 'spinner', new wp.media.view.Spinner({
-			priority: -60
+			priority: -20
 		}) );
 
 		if ( showFilterByType || this.options.date ) {
