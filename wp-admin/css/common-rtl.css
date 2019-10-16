@@ -924,11 +924,11 @@ span.required,
 
 #delete-action {
 	float: right;
-	line-height: 2.30769231; /* 30px */
+	line-height: 2.1;
 }
 
 #delete-link {
-	line-height: 2.30769231; /* 30px */
+	line-height: 2.1;
 	vertical-align: middle;
 	text-align: right;
 	margin-right: 8px;
@@ -945,8 +945,7 @@ span.required,
 }
 
 #publishing-action .spinner {
-	float: none;
-	margin-top: 5px;
+	float: right;
 }
 
 #misc-publishing-actions {
@@ -1087,7 +1086,7 @@ th.action-links {
 }
 
 .wp-filter .search-form input[type="search"] {
-	margin: 1px 0;
+	margin: 0;
 	width: 280px;
 	max-width: 100%;
 	font-size: inherit;

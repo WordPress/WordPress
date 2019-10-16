@@ -638,7 +638,6 @@ th.asc a:focus span.sorting-indicator {
 	clear: both;
 	height: 30px;
 	margin: 6px 0 4px;
-	padding-top: 5px;
 	vertical-align: middle;
 }
 
@@ -648,7 +647,7 @@ th.asc a:focus span.sorting-indicator {
 
 .tablenav .tablenav-pages {
 	float: right;
-	margin: 0 0 9px;
+	margin: 3px 0 9px;
 }
 
 .tablenav .no-pages,
@@ -660,12 +659,12 @@ th.asc a:focus span.sorting-indicator {
 .tablenav .tablenav-pages .tablenav-pages-navspan {
 	display: inline-block;
 	vertical-align: baseline;
-	min-width: 30px;
-	min-height: 30px;
+	min-width: 28px;
+	min-height: 28px;
 	margin: 0;
 	padding: 0 4px;
 	font-size: 16px;
-	line-height: 1.625; /* 26px */
+	line-height: 1.5;
 	text-align: center;
 }
 
@@ -679,7 +678,8 @@ th.asc a:focus span.sorting-indicator {
 }
 
 .tablenav .actions {
-	padding: 0 8px 0 0;
+	overflow: hidden;
+	padding: 2px 8px 0 0;
 }
 
 .wp-filter .actions {
@@ -1038,7 +1038,7 @@ tr.inline-edit-row td,
 	line-height: 1.16666666;
 	vertical-align: middle;
 	text-align: center;
-	padding: 0 4px;
+	padding: 6px 4px;
 }
 
 .inline-edit-row fieldset label input.inline-edit-password-input {
@@ -1955,15 +1955,6 @@ div.action-links,
 		width: 100%;
 		max-width: none;
 		box-sizing: border-box;
-	}
-
-	.inline-edit-row fieldset input[name=jj],
-	.inline-edit-row fieldset input[name=hh],
-	.inline-edit-row fieldset input[name=mn],
-	.inline-edit-row fieldset input[name=aa] {
-		font-size: 16px;
-		line-height: 2;
-		padding: 3px 4px;
 	}
 
 	.inline-edit-row fieldset ul.cat-checklist label,

@@ -28,7 +28,7 @@ label {
 
 input,
 select {
-	margin: 0 1px;
+	margin: 1px;
 }
 
 textarea.code {
@@ -315,8 +315,8 @@ input[type="radio"].disabled:checked:before {
 	border-color: #7e8993;
 	box-shadow: none;
 	border-radius: 3px;
-	padding: 4px 24px 4px 8px;
-	min-height: 30px;
+	padding: 3px 24px 3px 8px;
+	min-height: 28px;
 	max-width: 25rem;
 	vertical-align: middle;
 	-webkit-appearance: none;
@@ -484,7 +484,14 @@ input[type="number"].tiny-text {
 #doaction,
 #doaction2,
 #post-query-submit {
-	margin: 0 8px 0 0;
+	margin: 1px 8px 0 0;
+}
+
+.tablenav #changeit,
+.tablenav #delete_all,
+.tablenav #clear-recent-list,
+.wp-filter #delete_all {
+	margin-top: 1px;
 }
 
 .tablenav .actions select {
@@ -501,10 +508,6 @@ input[type="number"].tiny-text {
 .wp-cancel-pw > .dashicons {
 	position: relative;
 	top: 3px;
-	width: 1.25rem;
-	height: 1.25rem;
-	top: 0.25rem;
-	font-size: 20px;
 }
 
 .wp-cancel-pw .dashicons-no {
@@ -598,12 +601,9 @@ fieldset label,
 .wp-pwd [type="password"] {
 	margin-bottom: 0;
 	/* Same height as the buttons */
-	min-height: 30px;
-}
-
-/* Hide the Edge "reveal password" native button */
-.wp-pwd input::-ms-reveal {
-	display: none;
+	line-height: 20px;
+	min-height: 28px;
+	max-height: 40px;
 }
 
 #pass1-text,
@@ -633,10 +633,6 @@ p.search-box {
 .tagsdiv .newtag {
 	float: left;
 	margin: 0 4px 0 0;
-}
-
-.plugins-php .search-box .wp-filter-search {
-	font-size: inherit;
 }
 
 .js.plugins-php .search-box .wp-filter-search {
@@ -1565,14 +1561,10 @@ table.form-table td .updated p {
 		position: absolute;
 		right: 0;
 		top: 0;
-		width: 2.375rem;
-		height: 2.375rem;
-		min-width: 40px;
-		min-height: 40px;
 	}
 
 	.wp-pwd button.wp-hide-pw {
-		right: 2.5rem;
+		right: 40px;
 	}
 
 	.wp-pwd button.button:hover,
@@ -1593,7 +1585,6 @@ table.form-table td .updated p {
 	.wp-pwd [type="text"],
 	.wp-pwd [type="password"] {
 		line-height: 2;
-		padding-right: 5rem;
 	}
 
 	.wp-cancel-pw .dashicons-no {
