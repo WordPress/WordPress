@@ -274,14 +274,13 @@ function wp_load_core_site_options( $network_id = null ) {
 }
 
 /**
- * Update the value of an option that was already added.
+ * Update the value of an option that was already added, or add a new option if it does not exist.
  *
  * You do not need to serialize values. If the value needs to be serialized, then
  * it will be serialized before it is inserted into the database. Remember,
  * resources can not be serialized or added as an option.
  *
- * If the option does not exist, then the option will be added with the option value,
- * with an `$autoload` value of 'yes'.
+ * If the option does not exist, it will be created
 
  * This function is designed to work with or without a logged-in user. In terms of security,
  * plugin developers should check the current user's capabilities before updating any options.
@@ -296,7 +295,8 @@ function wp_load_core_site_options( $network_id = null ) {
  * @param string|bool $autoload Optional. Whether to load the option when WordPress starts up. For existing options,
  *                              `$autoload` can only be updated using `update_option()` if `$value` is also changed.
  *                              Accepts 'yes'|true to enable or 'no'|false to disable. For non-existent options,
- *                              the default value is 'yes'. Default null.
+ *                              the default value is 'yes'. For existing options, the default value is `null` meaning the
+ *                              current value will be kept.
  * @return bool False if value was not updated and true if value was updated.
  */
 function update_option( $option, $value, $autoload = null ) {
