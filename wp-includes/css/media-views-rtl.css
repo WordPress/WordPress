@@ -2268,6 +2268,7 @@
 }
 
 /* Buttons group in IE 11. */
+.media-frame .setting-group .button-group,
 .image-details .embed-media-settings .setting .button-group {
 	width: auto;
 }
