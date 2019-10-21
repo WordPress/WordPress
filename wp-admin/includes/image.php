@@ -263,9 +263,9 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		}
 
 		if ( ! is_wp_error( $resized ) ) {
-			// Append the threshold size to the image file name. It will look like "my-image-2560.jpg".
+			// Append the threshold size to the image file name. It will look like "my-image-scaled-2560.jpg".
 			// This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
-			$saved = $editor->save( $editor->generate_filename( $threshold ) );
+			$saved = $editor->save( $editor->generate_filename( 'scaled-' . $threshold ) );
 
 			if ( ! is_wp_error( $saved ) ) {
 				$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
