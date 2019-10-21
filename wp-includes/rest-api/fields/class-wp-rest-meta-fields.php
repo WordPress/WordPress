@@ -430,7 +430,7 @@ abstract class WP_REST_Meta_Fields {
 			$type = ! empty( $rest_args['schema']['type'] ) ? $rest_args['schema']['type'] : $type;
 
 			if ( null === $rest_args['schema']['default'] ) {
-				$rest_args['schema']['default'] = $this->get_default_for_type( $type );
+				$rest_args['schema']['default'] = static::get_empty_value_for_type( $type );
 			}
 
 			$rest_args['schema'] = $this->default_additional_properties_to_false( $rest_args['schema'] );
@@ -501,6 +501,10 @@ abstract class WP_REST_Meta_Fields {
 			$schema = $args['schema']['items'];
 		}
 
+		if ( '' === $value && in_array( $schema['type'], array( 'boolean', 'integer', 'number' ), true ) ) {
+			$value = static::get_empty_value_for_type( $schema['type'] );
+		}
+
 		if ( is_wp_error( rest_validate_value_from_schema( $value, $schema ) ) ) {
 			return null;
 		}
@@ -559,14 +563,14 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Gets the default value for a schema type.
+	 * Gets the empty value for a schema type.
 	 *
 	 * @since 5.3.0
 	 *
 	 * @param string $type The schema type.
 	 * @return mixed
 	 */
-	protected function get_default_for_type( $type ) {
+	protected static function get_empty_value_for_type( $type ) {
 		switch ( $type ) {
 			case 'string':
 				return '';
