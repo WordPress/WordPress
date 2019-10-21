@@ -109,7 +109,7 @@ window.wp = window.wp || {};
 
 		/**
 		 * Attempt to create image sub-sizes when an image was uploaded successfully
-		 * but the server responded with HTTP 500 or 502 error.
+		 * but the server responded with HTTP 5xx error.
 		 *
 		 * @since 5.3.0
 		 *
@@ -184,8 +184,8 @@ window.wp = window.wp || {};
 					error( message, data, file, 'no-retry' );
 				}
 			}).fail( function( jqXHR ) {
-				// If another HTTP 500 or 502 error, try try again...
-				if ( jqXHR.status === 500 || jqXHR.status === 502 ) {
+				// If another HTTP 5xx error, try try again...
+				if ( jqXHR.status >= 500 && jqXHR.status < 600 ) {
 					tryAgain( message, data, file );
 					return;
 				}
@@ -209,8 +209,8 @@ window.wp = window.wp || {};
 			var isImage = file.type && file.type.indexOf( 'image/' ) === 0;
 			var status  = data && data.status;
 
-			// If the file is an image and the error is HTTP 500 or 502 try to create sub-sizes again.
-			if ( retry !== 'no-retry' && isImage && ( status === 500 || status === 502 ) ) {
+			// If the file is an image and the error is HTTP 5xx try to create sub-sizes again.
+			if ( retry !== 'no-retry' && isImage && status >= 500 && status < 600 ) {
 				tryAgain( message, data, file );
 				return;
 			}

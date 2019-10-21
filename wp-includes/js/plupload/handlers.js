@@ -427,7 +427,7 @@ jQuery( document ).ready( function( $ ) {
 	});
 
 	// Attempt to create image sub-sizes when an image was uploaded successfully
-	// but the server responded with an HTTP 500 or 502 error.
+	// but the server responded with an HTTP 5xx error.
 	tryAgain = function( up, error ) {
 		var file = error.file;
 		var times;
@@ -465,7 +465,7 @@ jQuery( document ).ready( function( $ ) {
 				}
 			});
 
-			if ( error.message && error.status !== 500 && error.status !== 502  ) {
+			if ( error.message && ( error.status < 500 || error.status >= 600 ) ) {
 				wpQueueError( error.message );
 			} else {
 				wpQueueError( pluploadL10n.http_error_image );
@@ -504,8 +504,8 @@ jQuery( document ).ready( function( $ ) {
 				wpQueueError( message || pluploadL10n.http_error_image );
 			}
 		}).fail( function( jqXHR ) {
-			// If another HTTP 500 error, try try again...
-			if ( jqXHR.status === 500 || jqXHR.status === 502 ) {
+			// If another HTTP 5xx error, try try again...
+			if ( jqXHR.status >= 500 && jqXHR.status < 600 ) {
 				tryAgain( up, error );
 				return;
 			}
@@ -582,8 +582,8 @@ jQuery( document ).ready( function( $ ) {
 			var isImage = error.file && error.file.type && error.file.type.indexOf( 'image/' ) === 0;
 			var status  = error && error.status;
 
-			// If the file is an image and the error is HTTP 500 or 502 try to create sub-sizes again.
-			if ( ( status === 500 || status === 502 ) && isImage ) {
+			// If the file is an image and the error is HTTP 5xx try to create sub-sizes again.
+			if ( isImage && status >= 500 && status < 600 ) {
 				tryAgain( up, error );
 				return;
 			}
