@@ -180,7 +180,13 @@ div[data-type="core/button"] div[data-block] {
     .wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"] > .editor-block-list__block-edit .block-core-columns {
       display: flex;
       flex-direction: column;
-      flex: 1 0 auto; }
+      flex: 1 1 auto; }
+      @supports ((position: -webkit-sticky) or (position: sticky)) {
+        .wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"],
+        .wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"] > .editor-block-list__block-edit,
+        .wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"] > .editor-block-list__block-edit > div[data-block],
+        .wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"] > .editor-block-list__block-edit .block-core-columns {
+          flex: 1; } }
     .wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"] {
       padding-left: 0;
       padding-right: 0;

@@ -752,6 +752,10 @@ function removeQueryArgs(url) {
  */
 
 function prependHTTP(url) {
+  if (!url) {
+    return url;
+  }
+
   url = url.trim();
 
   if (!USABLE_HREF_REGEXP.test(url) && !EMAIL_REGEXP.test(url)) {

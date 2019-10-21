@@ -540,9 +540,6 @@ function (_Component) {
     } else {
       var frameConfig = {
         title: title,
-        button: {
-          text: Object(external_this_wp_i18n_["__"])('Select')
-        },
         multiple: multiple
       };
 
