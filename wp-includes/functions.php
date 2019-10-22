@@ -254,22 +254,22 @@ function wp_date( $format, $timestamp = null, $timezone = null ) {
 		for ( $i = 0; $i < $format_length; $i ++ ) {
 			switch ( $format[ $i ] ) {
 				case 'D':
-					$new_format .= backslashit( $wp_locale->get_weekday_abbrev( $weekday ) );
+					$new_format .= addcslashes( $wp_locale->get_weekday_abbrev( $weekday ), '\\A..Za..z' );
 					break;
 				case 'F':
-					$new_format .= backslashit( $month );
+					$new_format .= addcslashes( $month, '\\A..Za..z' );
 					break;
 				case 'l':
-					$new_format .= backslashit( $weekday );
+					$new_format .= addcslashes( $weekday, '\\A..Za..z' );
 					break;
 				case 'M':
-					$new_format .= backslashit( $wp_locale->get_month_abbrev( $month ) );
+					$new_format .= addcslashes( $wp_locale->get_month_abbrev( $month ), '\\A..Za..z' );
 					break;
 				case 'a':
-					$new_format .= backslashit( $wp_locale->get_meridiem( $datetime->format( 'a' ) ) );
+					$new_format .= addcslashes( $wp_locale->get_meridiem( $datetime->format( 'a' ) ), '\\A..Za..z' );
 					break;
 				case 'A':
-					$new_format .= backslashit( $wp_locale->get_meridiem( $datetime->format( 'A' ) ) );
+					$new_format .= addcslashes( $wp_locale->get_meridiem( $datetime->format( 'A' ) ), '\\A..Za..z' );
 					break;
 				case '\\':
 					$new_format .= $format[ $i ];
