@@ -35,19 +35,33 @@ function _twentyTwentyColor( backgroundColor, accentHue ) {
  */
 _twentyTwentyColor.prototype.setAccentColorsArray = function() {
 	var self = this,
-		minSaturation = 55,
-		maxSaturation = 90,
-		minLightness = 25,
-		maxLighness = 75,
-		stepSaturation = 2.5,
-		stepLightness = 2.5,
+		minSaturation = 65,
+		maxSaturation = 100,
+		minLightness = 30,
+		maxLighness = 80,
+		stepSaturation = 2,
+		stepLightness = 2,
 		pushColor = function() {
 			var colorObj = new Color( {
 					h: self.accentHue,
 					s: s,
 					l: l
 				} ),
-				item;
+				item,
+				/**
+				 * Get a score for this color in contrast to its background color and surrounding text.
+				 *
+				 * @since 1.0.0
+				 * @param {number} contrastBackground - WCAG contrast with the background color.
+				 * @param {number} contrastSurroundingText - WCAG contrast with surrounding text.
+				 * @return {number} - 0 is best, higher numbers have bigger difference with the desired scores.
+				 */
+				getScore = function( contrastBackground, contrastSurroundingText ) {
+					var diffBackground = ( 7 >= contrastBackground ) ? 0 : 7 - contrastBackground,
+						diffSurroundingText = ( 3 >= contrastSurroundingText ) ? 0 : 3 - contrastSurroundingText;
+
+					return diffBackground + diffSurroundingText;
+				};
 
 			item = {
 				color: colorObj,
@@ -62,7 +76,7 @@ _twentyTwentyColor.prototype.setAccentColorsArray = function() {
 
 			// Get a score for this color by multiplying the 2 contrasts.
 			// We'll use that to sort the array.
-			item.score = item.contrastBackground * item.contrastText;
+			item.score = getScore( item.contrastBackground, item.contrastText );
 
 			self.accentColorsArray.push( item );
 		},
@@ -89,7 +103,7 @@ _twentyTwentyColor.prototype.setAccentColorsArray = function() {
 
 	// Sort colors by contrast.
 	this.accentColorsArray.sort( function( a, b ) {
-		return b.score - a.score;
+		return a.score - b.score;
 	} );
 	return this;
 };

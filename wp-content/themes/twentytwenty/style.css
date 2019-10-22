@@ -141,11 +141,6 @@ body {
 	word-wrap: break-word;
 }
 
-::selection {
-	background: #000;
-	color: #fff;
-}
-
 #site-content {
 	overflow: hidden;
 }
@@ -1421,6 +1416,8 @@ body:not(.enable-search-modal) .site-logo img {
 }
 
 .toggle-inner {
+	display: flex;
+	justify-content: center;
 	height: 2.3rem;
 	position: relative;
 }
@@ -1466,11 +1463,6 @@ body:not(.enable-search-modal) .site-logo img {
 	width: 2.3rem;
 }
 
-.search-toggle .toggle-text {
-	left: 0;
-	text-align: left;
-}
-
 /* Navigation Toggle ------------------------- */
 
 .nav-toggle {
@@ -1489,11 +1481,6 @@ body:not(.enable-search-modal) .site-logo img {
 
 .nav-toggle .toggle-inner {
 	padding-top: 0.8rem;
-}
-
-.nav-toggle .toggle-text {
-	right: 0;
-	text-align: right;
 }
 
 /* Primary Menu ---------------------------- */
@@ -2487,26 +2474,26 @@ h2.entry-title {
 
 .author-bio {
 	margin-top: 4rem;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
 }
 
-.hide-avatars .author-bio {
-	padding-left: 0;
+.author-info {
+	flex: 1;
 }
 
-.author-bio-inner p:last-child {
-	margin-bottom: 0;
+.hide-avatars img.avatar {
+	display: none;
 }
 
 .author-bio .avatar {
 	margin-right: 1.5rem;
-	height: 5rem;
 	width: 5rem;
 }
 
 .author-bio .author-title {
-	align-items: center;
-	display: flex;
-	margin: 0 0 1rem 0;
+	margin: 0;
 }
 
 .author-bio .author-link {
@@ -2584,43 +2571,43 @@ h2.entry-title {
 
 /* CUSTOM COLORS */
 
-.has-accent-color {
+:root .has-accent-color {
 	color: #cd2653;
 }
 
-.has-accent-background-color {
+:root .has-accent-background-color {
 	background-color: #cd2653;
 }
 
-.has-primary-color {
+:root .has-primary-color {
 	color: #000;
 }
 
-.has-primary-background-color {
+:root .has-primary-background-color {
 	background-color: #000;
 }
 
-.has-secondary-color {
+:root .has-secondary-color {
 	color: #6d6d6d;
 }
 
-.has-secondary-background-color {
+:root .has-secondary-background-color {
 	background-color: #6d6d6d;
 }
 
-.has-subtle-background-color {
+:root .has-subtle-background-color {
 	color: #dcd7ca;
 }
 
-.has-subtle-background-background-color {
+:root .has-subtle-background-background-color {
 	background-color: #dcd7ca;
 }
 
-.has-background-color {
+:root .has-background-color {
 	color: #f5efe0;
 }
 
-.has-background-background-color {
+:root .has-background-background-color {
 	background-color: #f5efe0;
 }
 
@@ -2854,12 +2841,20 @@ h2.entry-title {
 
 /* Block: Button ----------------------------- */
 
+.wp-block-button {
+	margin: 3rem 0;
+}
+
 .wp-block-button.is-style-outline {
 	color: #cd2653;
 }
 
-.wp-block-button.is-style-outline .wp-block-button__link {
+.is-style-outline .wp-block-button__link:not(.has-text-color) {
 	color: inherit;
+}
+
+.is-style-outline .wp-block-button__link {
+	padding: calc(1.1em - 0.2rem) calc(1.44em - 0.2rem);
 }
 
 /* Block: Columns ---------------------------- */
@@ -3001,6 +2996,10 @@ figure.wp-block-gallery.alignfull {
 
 .wp-block-media-text .wp-block-media-text__content p {
 	max-width: none;
+}
+
+.wp-block-media-text__content > *:first-child {
+	margin-top: 0;
 }
 
 .wp-block-media-text__content > *:last-child {
@@ -4353,25 +4352,25 @@ a.to-the-top > * {
 
 	/* BLOCK: COLUMNS */
 
-	.alignfull .wp-block-column > p:not(.has-background-color),
+	.alignfull:not(.has-background) .wp-block-column > p:not(.has-background-color),
 	.alignfull:not(.has-background) .wp-block-group__inner-container > p:not(.has-background-color) {
 		max-width: calc(100% - 4rem);
 		margin: auto;
 	}
 }
 
-@media ( min-width: 600px ) {
+@media ( min-width: 600px ) and ( max-width: 781px ) {
 
 	/* Blocks -------------------------------- */
 
 	/* BLOCK: COLUMNS */
 
-	.alignfull .wp-block-column:nth-child(odd) > p:not(.has-background-color),
+	.alignfull:not(.has-background) .wp-block-column:nth-child(odd) > p:not(.has-background-color),
 	.alignfull:not(.has-background) .wp-block-group__inner-container > p:not(.has-background-color) {
 		padding-left: 2rem;
 	}
 
-	.alignfull .wp-block-column:nth-child(even) > p:not(.has-background-color),
+	.alignfull:not(.has-background) .wp-block-column:nth-child(even) > p:not(.has-background-color),
 	.alignfull:not(.has-background) .wp-block-group__inner-container > p:not(.has-background-color) {
 		padding-right: 2rem;
 	}
@@ -4788,15 +4787,10 @@ a.to-the-top > * {
 	.author-bio {
 		margin-top: 8rem;
 		min-height: 8rem;
-		padding-left: 10rem;
 		position: relative;
 	}
 
 	.author-bio .avatar {
-		position: absolute;
-		left: 0;
-		top: 0;
-		height: 8rem;
 		width: 8rem;
 	}
 
@@ -5277,12 +5271,16 @@ a.to-the-top > * {
 
 	/* BLOCK: COLUMNS */
 
+	.wp-block-column {
+		margin-bottom: 0;
+	}
+
 	.alignfull .wp-block-column:first-child > p,
 	.alignfull:not(.has-background) .wp-block-group__inner-container > p:not(.has-background-color) {
 		padding-left: 2rem;
 	}
 
-	.alignfull .wp-block-column:last-child > p,
+	.alignfull:not(.has-background) .wp-block-column:last-child > p,
 	.alignfull:not(.has-background) .wp-block-group__inner-container > p:not(.has-background-color) {
 		padding-right: 2rem;
 	}

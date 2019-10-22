@@ -12,7 +12,6 @@
 }
 
 .editor-styles-wrapper > * {
-	color: #000;
 	font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 18px;
 }
@@ -26,8 +25,14 @@
 }
 
 .block-editor-default-block-appender textarea.block-editor-default-block-appender__content {
+	color: inherit;
 	font-family: inherit;
 	font-size: inherit;
+}
+
+.block-editor-block-list__empty-block-inserter .block-editor-inserter__toggle:not(:hover):not(:focus),
+.block-editor-default-block-appender .block-editor-inserter .block-editor-inserter__toggle:not(:hover):not(:focus) {
+	color: inherit;
 }
 
 
@@ -195,7 +200,7 @@ Inter variable font. Usage:
 
 /* Typography -------------------------------- */
 
-.editor-styles-wrapper a {
+.editor-styles-wrapper .editor-block-list__layout a {
 	color: #cd2653;
 	text-decoration: underline;
 }
@@ -212,7 +217,6 @@ Inter variable font. Usage:
 .editor-styles-wrapper .wp-block h4,
 .editor-styles-wrapper .wp-block h5,
 .editor-styles-wrapper .wp-block h6 {
-	color: #000;
 	font-feature-settings: "lnum";
 	font-variant-numeric: lining-nums;
 	font-weight: 700;
@@ -473,13 +477,13 @@ Inter variable font. Usage:
 	border: none;
 }
 
-.editor-styles-wrapper  .wp-block-table caption {
+.editor-styles-wrapper .wp-block-table caption {
 	background: #dcd7ca;
 	text-align: center;
 }
 
-.editor-styles-wrapper  .wp-block-table th,
-.editor-styles-wrapper  .wp-block-table td {
+.editor-styles-wrapper .wp-block-table th,
+.editor-styles-wrapper .wp-block-table td {
 	line-height: 1.4;
 	margin: 0;
 	overflow: visible;
@@ -575,7 +579,6 @@ hr.wp-block-separator.is-style-dots::before {
 	border-color: #cd2653;
 	border-style: solid;
 	border-width: 0 0 0 2px;
-	color: inherit;
 	margin: 20px 0;
 	padding: 5px 0 5px 20px;
 }
@@ -633,6 +636,10 @@ hr.wp-block-separator.is-style-dots::before {
 
 /* Block: Code, Verse and Preformatted ------- */
 
+.editor-styles-wrapper .wp-block-code {
+	color: inherit;
+}
+
 .editor-styles-wrapper .wp-block-code,
 .editor-styles-wrapper .wp-block-preformatted pre,
 .editor-styles-wrapper .wp-block-verse pre {
@@ -641,10 +648,12 @@ hr.wp-block-separator.is-style-dots::before {
 	padding: 30px;
 }
 
+.editor-styles-wrapper .wp-block-freeform.block-library-rich-text__tinymce pre,
 .editor-styles-wrapper .wp-block-preformatted pre,
 .editor-styles-wrapper .wp-block-code .block-editor-plain-text,
 .editor-styles-wrapper .wp-block-verse pre {
 	background: transparent;
+	color: inherit;
 	font-family: monospace;
 	font-size: 14px;
 }
@@ -936,6 +945,12 @@ hr.wp-block-separator.is-style-dots::before {
 	font-size: 0.95em;
 	line-height: 1.4;
 	margin-top: 15px;
+}
+
+/* Block: Shortcode -------------------------- */
+
+.editor-styles-wrapper .wp-block-shortcode textarea {
+	color: #191e23;
 }
 
 /* Block: Embed ------------------------------ */

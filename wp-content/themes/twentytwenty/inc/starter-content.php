@@ -21,7 +21,7 @@ function twentytwenty_get_starter_content() {
 
 	// Define and register starter content to showcase the theme on new sites.
 	$starter_content = array(
-		'widgets'   => array(
+		'widgets'     => array(
 			// Place one core-defined widgets in the first footer widget area.
 			'sidebar-1' => array(
 				'text_about',
@@ -32,11 +32,21 @@ function twentytwenty_get_starter_content() {
 			),
 		),
 
+		// Create the custom image attachments used as post thumbnails for pages.
+		'attachments' => array(
+			'image-opening' => array(
+				'post_title' => _x( 'The New UMoMA Opens its Doors', 'Theme starter content', 'twentytwenty' ),
+				'file'       => 'assets/images/2020-landscape-1.png', // URL relative to the template directory.
+			),
+		),
+
 		// Specify the core-defined pages to create and add custom thumbnails to some of them.
-		'posts'     => array(
+		'posts'       => array(
 			'front' => array(
 				'post_type'    => 'page',
 				'post_title'   => __( 'The New UMoMA Opens its Doors', 'twentytwenty' ),
+				// Use the above featured image with the predefined about page.
+				'thumbnail'    => '{{image-opening}}',
 				'post_content' => join(
 					'',
 					array(
@@ -49,6 +59,9 @@ function twentytwenty_get_starter_content() {
 						'<div class="wp-block-columns alignwide"><!-- wp:column -->',
 						'<div class="wp-block-column"><!-- wp:group -->',
 						'<div class="wp-block-group"><div class="wp-block-group__inner-container">',
+						'<!-- wp:image {"align":"full","id":37,"sizeSlug":"full"} -->',
+						'<figure class="wp-block-image alignfull size-full"><img src="' . get_theme_file_uri() . '/assets/images/2020-three-quarters-1.png" alt="" class="wp-image-37"/></figure>',
+						'<!-- /wp:image -->',
 						'<!-- wp:heading {"level":3} -->',
 						'<h3>' . __( 'Works and Days', 'twentytwenty' ) . '</h3>',
 						'<!-- /wp:heading -->',
@@ -61,6 +74,9 @@ function twentytwenty_get_starter_content() {
 						'<!-- /wp:group -->',
 						'<!-- wp:group -->',
 						'<div class="wp-block-group"><div class="wp-block-group__inner-container">',
+						'<!-- wp:image {"align":"full","id":37,"sizeSlug":"full"} -->',
+						'<figure class="wp-block-image alignfull size-full"><img src="' . get_theme_file_uri() . '/assets/images/2020-three-quarters-3.png" alt="" class="wp-image-37"/></figure>',
+						'<!-- /wp:image -->',
 						'<!-- wp:heading {"level":3} -->',
 						'<h3>' . __( 'Theatre of Operations', 'twentytwenty' ) . '</h3>',
 						'<!-- /wp:heading -->',
@@ -75,6 +91,9 @@ function twentytwenty_get_starter_content() {
 						'<!-- wp:column -->',
 						'<div class="wp-block-column"><!-- wp:group -->',
 						'<div class="wp-block-group"><div class="wp-block-group__inner-container">',
+						'<!-- wp:image {"align":"full","id":37,"sizeSlug":"full"} -->',
+						'<figure class="wp-block-image alignfull size-full"><img src="' . get_theme_file_uri() . '/assets/images/2020-three-quarters-2.png" alt="" class="wp-image-37"/></figure>',
+						'<!-- /wp:image -->',
 						'<!-- wp:heading {"level":3} -->',
 						'<h3>' . __( 'The Life I Deserve', 'twentytwenty' ) . '</h3>',
 						'<!-- /wp:heading -->',
@@ -87,6 +106,9 @@ function twentytwenty_get_starter_content() {
 						'<!-- /wp:group -->',
 						'<!-- wp:group -->',
 						'<div class="wp-block-group"><div class="wp-block-group__inner-container">',
+						'<!-- wp:image {"align":"full","id":37,"sizeSlug":"full"} -->',
+						'<figure class="wp-block-image alignfull size-full"><img src="' . get_theme_file_uri() . '/assets/images/2020-three-quarters-4.png" alt="" class="wp-image-37"/></figure>',
+						'<!-- /wp:image -->',
 						'<!-- wp:heading {"level":3} -->',
 						'<h3>' . __( 'From Signac to Matisse', 'twentytwenty' ) . '</h3>',
 						'<!-- /wp:heading -->',
@@ -99,6 +121,9 @@ function twentytwenty_get_starter_content() {
 						'<!-- /wp:group --></div>',
 						'<!-- /wp:column --></div>',
 						'<!-- /wp:columns -->',
+						'<!-- wp:image {"align":"full","id":37,"sizeSlug":"full"} -->',
+						'<figure class="wp-block-image alignfull size-full"><img src="' . get_theme_file_uri() . '/assets/images/2020-landscape-2.png" alt="" class="wp-image-37"/></figure>',
+						'<!-- /wp:image -->',
 						'<!-- wp:group {"align":"wide"} -->',
 						'<div class="wp-block-group alignwide"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center","textColor":"accent"} -->',
 						'<h2 class="has-accent-color has-text-align-center">' . __( '”Cyborgs, as the philosopher Donna Haraway established, are not reverent. They do not remember the cosmos.”', 'twentytwenty' ) . '</h2>',
@@ -126,6 +151,9 @@ function twentytwenty_get_starter_content() {
 						'<!-- /wp:button --></div></div>',
 						'<!-- /wp:group --></div></div>',
 						'<!-- /wp:group -->',
+						'<!-- wp:gallery {"ids":[39,38],"align":"wide"} -->',
+						'<figure class="wp-block-gallery alignwide columns-2 is-cropped"><ul class="blocks-gallery-grid"><li class="blocks-gallery-item"><figure><img src="' . get_theme_file_uri() . '/assets/images/2020-square-2.png" alt="" data-id="39" data-full-url="' . get_theme_file_uri() . '/assets/images/2020-square-2.png" data-link="assets/images/2020-square-2/" class="wp-image-39"/></figure></li><li class="blocks-gallery-item"><figure><img src="' . get_theme_file_uri() . '/assets/images/2020-square-1.png" alt="" data-id="38" data-full-url="' . get_theme_file_uri() . '/assets/images/2020-square-1.png" data-link="' . get_theme_file_uri() . '/assets/images/2020-square-1/" class="wp-image-38"/></figure></li></ul></figure>',
+						'<!-- /wp:gallery -->',
 					)
 				),
 			),
@@ -135,14 +163,14 @@ function twentytwenty_get_starter_content() {
 		),
 
 		// Default to a static front page and assign the front and posts pages.
-		'options'   => array(
+		'options'     => array(
 			'show_on_front'  => 'page',
 			'page_on_front'  => '{{front}}',
 			'page_for_posts' => '{{blog}}',
 		),
 
 		// Set up nav menus for each of the two areas registered in the theme.
-		'nav_menus' => array(
+		'nav_menus'   => array(
 			// Assign a menu to the "primary" location.
 			'primary'  => array(
 				'name'  => __( 'Primary', 'twentytwenty' ),

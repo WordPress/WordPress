@@ -231,14 +231,14 @@ twentytwenty.coverModals = {
 						modal.style.removeProperty( 'top' );
 					}
 
-					_win.scrollTo( 0, Math.abs( _win.twentytwenty.scrolled + getAdminBarHeight() ) );
-
-					_win.twentytwenty.scrolled = 0;
-
 					if ( clickedEl !== false ) {
 						clickedEl.focus();
 						clickedEl = false;
 					}
+
+					_win.scrollTo( 0, Math.abs( _win.twentytwenty.scrolled + getAdminBarHeight() ) );
+
+					_win.twentytwenty.scrolled = 0;
 				}, 500 );
 			} );
 		} );
@@ -620,9 +620,6 @@ twentytwenty.toggles = {
 				// If not, toggle all toggles with this toggle target
 				_doc.querySelector( '*[data-toggle-target="' + targetString + '"]' ).classList.toggle( activeClass );
 			}
-
-			// Toggle aria-expanded on the target
-			twentytwentyToggleAttribute( target, 'aria-expanded', 'true', 'false' );
 
 			// Toggle aria-expanded on the toggle
 			twentytwentyToggleAttribute( toggle, 'aria-expanded', 'true', 'false' );
