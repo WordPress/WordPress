@@ -1373,7 +1373,19 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
 	}
 
 	$new_sub_menu = array( $menu_title, $capability, $menu_slug, $page_title );
-	if ( null === $position ) {
+	if ( ! is_int( $position ) ) {
+		if ( null !== $position ) {
+			_doing_it_wrong(
+				__FUNCTION__,
+				sprintf(
+					/* translators: %s: add_submenu_page() */
+					__( 'The seventh parameter passed to %s should be an integer representing menu position.' ),
+					'<code>add_submenu_page()</code>'
+				),
+				'5.3.0'
+			);
+		}
+
 		$submenu[ $parent_slug ][] = $new_sub_menu;
 	} else {
 		// If position is equal or higher than the number of items in the array, append the submenu.
