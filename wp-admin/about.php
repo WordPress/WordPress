@@ -14,20 +14,15 @@ $title = _x( 'About', 'page title' );
 
 list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
 
-$version_label = sprintf(
-	/* translators: The current WordPress version number */
-	__( 'WordPress %s' ),
-	$display_version
-);
-
 include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 	<div class="wrap about-wrap full-width-layout">
+
 		<div class="about__header">
 			<div class="about__header-title">
-				<h1 aria-label="<?php echo esc_attr( $version_label ); ?>">
+				<h1>
 					<span><?php echo $display_version; ?></span>
-					WordPress <?php /* @todo Does this need translation? */ ?>
+					<?php _e( 'WordPress' ); ?>
 				</h1>
 			</div>
 
@@ -46,7 +41,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					<?php
 					printf(
 						/* translators: %s: The current WordPress version number. */
-						__( 'Introducing our most refined user experience with the improved Block Editor in WordPress %s &#147;Name&#148;!' ),
+						__( 'Introducing our most refined user experience with the improved block editor in WordPress %s!' ),
 						$display_version
 					);
 					?>
@@ -63,7 +58,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="about__section is-feature">
 			<p>
-				<?php _e( '5.3 expands and refines the block editor introduced in WordPress 5.0 with new blocks, more intuitive interactions, and improved accessibility. New features in the editor increase design freedoms, provide additional layout options and style variations to allow designers complete control over the look of a site. This release also introduces the Twenty Twenty theme giving the user more design flexibility and integration with the Block Editor. Creating beautiful web pages and advanced layouts has never been easier.' ); ?>
+				<?php _e( '5.3 expands and refines the block editor introduced in WordPress 5.0 with new blocks, more intuitive interactions, and improved accessibility. New features in the editor increase design freedoms, provide additional layout options and style variations to allow designers complete control over the look of a site. This release also introduces the Twenty Twenty theme giving the user more design flexibility and integration with the block editor. Creating beautiful web pages and advanced layouts has never been easier.' ); ?>
 			</p>
 		</div>
 
@@ -82,7 +77,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				</p>
 
 				<p>
-					<?php _e( 'Accessibility improvements include the integration of block editor styles in the admin interface. These improved styles fix many accessibility issues: color contrast on form fields and buttons, consistency between editor and admin interfaces, new snackbar notices, standardizing to the default WordPress color scheme, and the introduction of Motion to make interacting with your blocks feel swift and natural. For people who use a keyboard to navigate the dashboard, the Block Editor now has a Navigation mode. This lets you jump from block to block without tabbing through every part of the block controls.' ); ?>
+					<?php _e( 'Accessibility improvements include the integration of block editor styles in the admin interface. These improved styles fix many accessibility issues: color contrast on form fields and buttons, consistency between editor and admin interfaces, new snackbar notices, standardizing to the default WordPress color scheme, and the introduction of Motion to make interacting with your blocks feel swift and natural. For people who use a keyboard to navigate the dashboard, the block editor now has a Navigation mode. This lets you jump from block to block without tabbing through every part of the block controls.' ); ?>
 				</p>
 			</div>
 		</div>
@@ -90,7 +85,15 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<h3><?php _e( 'Expanded Design Flexibility' ); ?></h3>
-				<p><?php _e( '&#147;Name&#148; adds even more robust tools for creating amazing designs.' ); ?></p>
+				<p>
+					<?php
+					printf(
+						/* translators: %s: The current WordPress version number. */
+						__( 'WordPress %s adds even more robust tools for creating amazing designs.' ),
+						$display_version
+					);
+					?>
+				</p>
 				<ul>
 					<li><?php _e( 'The new Group block lets you easily divide your page into colorful sections' ); ?></li>
 					<li><?php _e( 'The Columns block now supports fixed column widths' ); ?></li>
@@ -109,13 +112,13 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="about__section has-2-columns has-subtle-background-color">
 			<div class="column is-vertically-aligned-center">
 				<h3><?php _e( 'Introducing Twenty Twenty' ); ?></h3>
-				<p><?php _e( 'As the Block Editor celebrates its first birthday, we are proud that Twenty Twenty is designed with flexibility at its core. Show off your services or products with a combination of columns, groups, and media blocks. Set your content to wide or full alignment for dynamic and engaging layouts. Or let your thoughts be the star with a centered content column!' ); ?></p>
+				<p><?php _e( 'As the block editor celebrates its first birthday, we are proud that Twenty Twenty is designed with flexibility at its core. Show off your services or products with a combination of columns, groups, and media blocks. Set your content to wide or full alignment for dynamic and engaging layouts. Or let your thoughts be the star with a centered content column!' ); ?></p>
 
 				<p>
-				<?php
+					<?php
 					printf(
-						/* translators: 1: Link to the Inter font website. */
-						__( 'As befits a theme called Twenty Twenty, clarity and readability is also a big focus. The theme includes the typeface <a href="%1$s">Inter</a>, designed by Rasmus Andersson. Inter comes in a Variable Font version, a first for default themes, which keeps load times short by containing all weights and styles of Inter in just two font files.' ),
+						/* translators: %s: Link to the Inter font website. */
+						__( 'As befits a theme called Twenty Twenty, clarity and readability is also a big focus. The theme includes the typeface <a href="%s">Inter</a>, designed by Rasmus Andersson. Inter comes in a Variable Font version, a first for default themes, which keeps load times short by containing all weights and styles of Inter in just two font files.' ),
 						'https://rsms.me/inter/'
 					);
 					?>
@@ -169,12 +172,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h3 class="is-section-header"><?php _e( 'For Developers' ); ?></h3>
 
 			<div class="column">
-				<h4><?php _e( 'Time/Date Component Fixes' ); ?></h4>
+				<h4><?php _e( 'Date/Time Component Fixes' ); ?></h4>
 				<p>
-				<?php
+					<?php
 					printf(
-						/* translators: 1: Link to the date/time developer notes. */
-						__( 'Developers can now work with <a href="%1$s">dates and timezones</a> in a more reliable way. Date and time functionality has received a number of new API functions for unified timezone retrieval and PHP interoperability, as well as many bug fixes.' ),
+						/* translators: %s: Link to the date/time developer notes. */
+						__( 'Developers can now work with <a href="%s">dates and timezones</a> in a more reliable way. Date and time functionality has received a number of new API functions for unified timezone retrieval and PHP interoperability, as well as many bug fixes.' ),
 						'https://make.wordpress.org/core/2019/09/23/date-time-improvements-wp-5-3/'
 					);
 					?>
@@ -183,10 +186,10 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="column">
 				<h4><?php _e( 'PHP 7.4 Compatibility' ); ?></h4>
 				<p>
-				<?php
+					<?php
 					printf(
-						/* translators: 1: Link to the PHP 7 developer notes. */
-						__( 'The WordPress core team is actively preparing to support PHP 7.4 when it is released later this year. WordPress 5.3 contains <a href="%1$s">multiple changes</a> to remove deprecated functionality and ensure compatibility. Please test 5.3 with PHP 7.4 to ensure all functionality continues to work as expected and does not raise any new warnings.' ),
+						/* translators: %s: Link to the PHP 7 developer notes. */
+						__( 'WordPress 5.3 aims to fully support PHP 7.4. This release contains <a href="%s">multiple changes</a> to remove deprecated functionality and ensure compatibility. WordPress continues to encourage all users to run the latest and greatest versions of PHP.' ),
 						'https://make.wordpress.org/core/2019/10/11/wordpress-and-php-7-4/'
 					);
 					?>

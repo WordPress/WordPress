@@ -18,44 +18,45 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap about-wrap full-width-layout">
 
-<h1>
-	<?php
-	printf(
-		/* translators: %s: The current WordPress version number. */
-		__( 'Welcome to WordPress&nbsp;%s' ),
-		$display_version
-	);
-	?>
-</h1>
+	<div class="about__header">
+		<div class="about__header-title">
+			<h1>
+				<span><?php echo $display_version; ?></span>
+				<?php _e( 'WordPress' ); ?>
+			</h1>
+		</div>
 
-<p class="about-text">
-	<?php
-	printf(
-		/* translators: %s: The current WordPress version number. */
-		__( 'Congratulations on updating to WordPress %s! This update makes it easier than ever to fix your site if something goes wrong.' ),
-		$display_version
-	);
-	?>
-</p>
+		<div class="about__header-badge wp-badge">
+			<?php
+			printf(
+				/* translators: %s: The current WordPress version number. */
+				__( 'Version %s' ),
+				$display_version
+			);
+			?>
+		</div>
 
-<div class="wp-badge">
-	<?php
-	printf(
-		/* translators: %s: The current WordPress version number. */
-		__( 'Version %s' ),
-		$display_version
-	);
-	?>
-</div>
+		<div class="about__header-text">
+			<p>
+				<?php
+				printf(
+					/* translators: %s: The current WordPress version number. */
+					__( 'Introducing our most refined user experience with the improved block editor in WordPress %s!' ),
+					$display_version
+				);
+				?>
+			</p>
+		</div>
 
-<nav class="nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
-	<a href="about.php" class="nav-tab"><?php _e( 'What&#8217;s New' ); ?></a>
-	<a href="credits.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e( 'Credits' ); ?></a>
-	<a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
-	<a href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
-</nav>
+		<nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
+			<a href="about.php" class="nav-tab"><?php _e( 'What&#8217;s New' ); ?></a>
+			<a href="credits.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e( 'Credits' ); ?></a>
+			<a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
+			<a href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
+		</nav>
+	</div>
 
-<div class="about-wrap-content">
+	<div class="about-wrap-content">
 <?php
 
 $credits = wp_credits();
@@ -137,7 +138,7 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 }
 
 ?>
-</div>
+	</div>
 </div>
 <?php
 
