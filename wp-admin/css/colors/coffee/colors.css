@@ -130,8 +130,8 @@ textarea:focus {
 
 .wp-core-ui .button-primary[disabled], .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary.button-primary-disabled, .wp-core-ui .button-primary.disabled {
   color: #d1ccc7 !important;
-  background: #e0cdbd !important;
-  border-color: #e0cdbd !important;
+  background: #ba906d !important;
+  border-color: #ba906d !important;
   text-shadow: none !important;
 }
 

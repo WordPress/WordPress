@@ -40,8 +40,8 @@
 	&.button-primary-disabled,
 	&.disabled {
 		color: hsl( hue( $button-color ), 10%, 80% ) !important;
-		background: lighten( $button-color, 15% ) !important;
-		border-color: lighten( $button-color, 15% ) !important;
+		background: darken( $button-color, 8% ) !important;
+		border-color: darken( $button-color, 8% ) !important;
 		text-shadow: none !important;
 	}
 }
