@@ -1582,18 +1582,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 						$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );
 					}
 
-					/**
-					 * Filters the arguments used to generate the Quick Edit authors drop-down.
-					 *
-					 * @since 5.3.0
-					 *
-					 * @see wp_dropdown_users()
-					 *
-					 * @param array $users_opt An array of arguments for wp_dropdown_users function.
-					 * @param bool  $bulk      A boolean to know if it's a bulk action or not.
-					 */
-					$users_opt = apply_filters( 'quick_edit_authors_query_args', $users_opt, $bulk );
-
 					$authors = wp_dropdown_users( $users_opt );
 					if ( $authors ) :
 						$authors_dropdown  = '<label class="inline-edit-author">';
