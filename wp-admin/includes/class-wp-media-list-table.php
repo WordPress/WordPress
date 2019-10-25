@@ -452,19 +452,14 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( '0000-00-00 00:00:00' === $post->post_date ) {
 			$h_time = __( 'Unpublished' );
 		} else {
-			$m_time = $post->post_date;
-			$time   = get_post_time( 'G', true, $post, false );
-			$t_diff = time() - $time;
-			if ( ( abs( $t_diff ) ) < DAY_IN_SECONDS ) {
-				if ( $t_diff < 0 ) {
-					/* translators: %s: Human-readable time difference. */
-					$h_time = sprintf( __( '%s from now' ), human_time_diff( $time ) );
-				} else {
-					/* translators: %s: Human-readable time difference. */
-					$h_time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
-				}
+			$time      = get_post_timestamp( $post );
+			$time_diff = time() - $time;
+
+			if ( $time && $time_diff > 0 && $time_diff < DAY_IN_SECONDS ) {
+				/* translators: %s: Human-readable time difference. */
+				$h_time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
 			} else {
-				$h_time = mysql2date( __( 'Y/m/d' ), $m_time );
+				$h_time = get_the_time( __( 'Y/m/d' ), $post );
 			}
 		}
 
