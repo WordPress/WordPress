@@ -176,9 +176,9 @@ function date_i18n( $format, $timestamp_with_offset = false, $gmt = false ) {
 	 */
 	if ( 'U' === $format ) {
 		$date = $timestamp;
-	} elseif ( $gmt && ! $timestamp_with_offset ) { // Current time in UTC.
+	} elseif ( $gmt && false === $timestamp_with_offset ) { // Current time in UTC.
 		$date = wp_date( $format, null, new DateTimeZone( 'UTC' ) );
-	} elseif ( ! $timestamp_with_offset ) { // Current time in site's timezone.
+	} elseif ( false === $timestamp_with_offset ) { // Current time in site's timezone.
 		$date = wp_date( $format );
 	} else {
 		/*
