@@ -76,11 +76,11 @@ class WP_Upgrader_Skin {
 	 *
 	 * @see request_filesystem_credentials()
 	 *
-	 * @param bool   $error                        Optional. Whether the current request has failed to connect.
-	 *                                             Default false.
-	 * @param string $context                      Optional. Full path to the directory that is tested
-	 *                                             for being writable. Default empty.
-	 * @param bool   $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
+	 * @param bool|WP_Error $error                        Optional. Whether the current request has failed to connect,
+	 *                                                    or an error object. Default false.
+	 * @param string        $context                      Optional. Full path to the directory that is tested
+	 *                                                    for being writable. Default empty.
+	 * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
 	 * @return bool False on failure, true on success.
 	 */
 	public function request_filesystem_credentials( $error = false, $context = '', $allow_relaxed_file_ownership = false ) {

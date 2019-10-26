@@ -1931,15 +1931,15 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
  *
  * @global string $pagenow
  *
- * @param string $form_post                    The URL to post the form to.
- * @param string $type                         Optional. Chosen type of filesystem. Default empty.
- * @param bool   $error                        Optional. Whether the current request has failed to connect.
- *                                             Default false.
- * @param string $context                      Optional. Full path to the directory that is tested for being
- *                                             writable. Default empty.
- * @param array  $extra_fields                 Optional. Extra `POST` fields to be checked for inclusion in
- *                                             the post. Default null.
- * @param bool   $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
+ * @param string        $form_post                    The URL to post the form to.
+ * @param string        $type                         Optional. Chosen type of filesystem. Default empty.
+ * @param bool|WP_Error $error                        Optional. Whether the current request has failed to connect,
+ *                                                    or an error object. Default false.
+ * @param string        $context                      Optional. Full path to the directory that is tested for being
+ *                                                    writable. Default empty.
+ * @param array         $extra_fields                 Optional. Extra `POST` fields to be checked for inclusion in
+ *                                                    the post. Default null.
+ * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
  *
  * @return bool True on success, false on failure.
  */
@@ -1955,16 +1955,16 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	 * @since 2.5.0
 	 * @since 4.6.0 The `$context` parameter default changed from `false` to an empty string.
 	 *
-	 * @param mixed  $output                       Form output to return instead. Default empty.
-	 * @param string $form_post                    The URL to post the form to.
-	 * @param string $type                         Chosen type of filesystem.
-	 * @param bool   $error                        Whether the current request has failed to connect.
-	 *                                             Default false.
-	 * @param string $context                      Full path to the directory that is tested for
-	 *                                             being writable.
-	 * @param bool   $allow_relaxed_file_ownership Whether to allow Group/World writable.
-	 *                                             Default false.
-	 * @param array  $extra_fields                 Extra POST fields.
+	 * @param mixed         $output                       Form output to return instead. Default empty.
+	 * @param string        $form_post                    The URL to post the form to.
+	 * @param string        $type                         Chosen type of filesystem.
+	 * @param bool|WP_Error $error                        Optional. Whether the current request has failed to connect,
+	 *                                                    or an error object. Default false.
+	 * @param string        $context                      Full path to the directory that is tested for
+	 *                                                    being writable.
+	 * @param bool          $allow_relaxed_file_ownership Whether to allow Group/World writable.
+	 *                                                    Default false.
+	 * @param array         $extra_fields                 Extra POST fields.
 	 */
 	$req_cred = apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership );
 	if ( '' !== $req_cred ) {
@@ -2083,12 +2083,11 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	 * @since 2.9.0
 	 * @since 4.6.0 The `$context` parameter default changed from `false` to an empty string.
 	 *
-	 * @param array  $types       Types of connections.
-	 * @param array  $credentials Credentials to connect with.
-	 * @param string $type        Chosen filesystem method.
-	 * @param object $error       Error object.
-	 * @param string $context     Full path to the directory that is tested
-	 *                            for being writable.
+	 * @param string[]      $types       Types of connections.
+	 * @param array         $credentials Credentials to connect with.
+	 * @param string        $type        Chosen filesystem method.
+	 * @param WP_Error|bool $error       Error object or status.
+	 * @param string        $context     Full path to the directory that is tested for being writable.
 	 */
 	$types = apply_filters( 'fs_ftp_connection_types', $types, $credentials, $type, $error, $context );
 
