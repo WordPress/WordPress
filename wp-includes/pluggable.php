@@ -676,6 +676,13 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 
 		$manager = WP_Session_Tokens::get_instance( $user->ID );
 		if ( ! $manager->verify( $token ) ) {
+			/**
+			 * Fires if a bad session token is encountered.
+			 *
+			 * @since 4.0.0
+			 *
+			 * @param string[] $cookie_elements An array of data for the authentication cookie.
+			 */
 			do_action( 'auth_cookie_bad_session_token', $cookie_elements );
 			return false;
 		}
