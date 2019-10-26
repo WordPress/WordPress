@@ -1132,8 +1132,8 @@ function get_term_to_edit( $id, $taxonomy ) {
  * @param array|string $deprecated Argument array, when using the legacy function parameter format. If present, this
  *                                 parameter will be interpreted as `$args`, and the first function parameter will
  *                                 be parsed as a taxonomy or array of taxonomies.
- * @return array|int|WP_Error List of WP_Term instances and their children. Will return WP_Error, if any of taxonomies
- *                            do not exist.
+ * @return WP_Term[]|int|WP_Error List of WP_Term instances and their children. Will return WP_Error, if any of taxonomies
+ *                                do not exist.
  */
 function get_terms( $args = array(), $deprecated = '' ) {
 	$term_query = new WP_Term_Query();
@@ -3219,9 +3219,9 @@ function clean_object_term_cache( $object_ids, $object_type ) {
  * @global wpdb $wpdb                           WordPress database abstraction object.
  * @global bool $_wp_suspend_cache_invalidation
  *
- * @param int|array $ids            Single or list of Term IDs.
- * @param string    $taxonomy       Optional. Can be empty and will assume `tt_ids`, else will use for context.
- *                                  Default empty.
+ * @param int|int[] $ids            Single or array of term IDs.
+ * @param string    $taxonomy       Optional. Taxonomy slug. Can be empty, in which case the taxonomies of the passed
+ *                                  term IDs will be used. Default empty.
  * @param bool      $clean_taxonomy Optional. Whether to clean taxonomy wide caches (true), or just individual
  *                                  term object caches (false). Default true.
  */
@@ -3436,8 +3436,8 @@ function update_object_term_cache( $object_ids, $object_type ) {
  *
  * @since 2.3.0
  *
- * @param array  $terms    List of term objects to change.
- * @param string $taxonomy Optional. Update Term to this taxonomy in cache. Default empty.
+ * @param WP_Term[] $terms    Array of term objects to change.
+ * @param string    $taxonomy Not used.
  */
 function update_term_cache( $terms, $taxonomy = '' ) {
 	foreach ( (array) $terms as $term ) {

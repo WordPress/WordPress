@@ -161,7 +161,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param array $methods An array of XML-RPC methods.
+		 * @param string[] $methods An array of XML-RPC methods, keyed by their methodName.
 		 */
 		$this->methods = apply_filters( 'xmlrpc_methods', $this->methods );
 	}

@@ -1202,9 +1202,9 @@ function wp_dropdown_pages( $args = '' ) {
 	 * @since 2.1.0
 	 * @since 4.4.0 `$parsed_args` and `$pages` added as arguments.
 	 *
-	 * @param string $output      HTML output for drop down list of pages.
-	 * @param array  $parsed_args The parsed arguments array.
-	 * @param array  $pages       List of WP_Post objects returned by `get_pages()`
+	 * @param string    $output      HTML output for drop down list of pages.
+	 * @param array     $parsed_args The parsed arguments array.
+	 * @param WP_Post[] $pages       Array of the page objects.
 	 */
 	$html = apply_filters( 'wp_dropdown_pages', $output, $parsed_args, $pages );
 
@@ -1292,7 +1292,7 @@ function wp_list_pages( $args = '' ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param array $exclude_array An array of page IDs to exclude.
+	 * @param string[] $exclude_array An array of page IDs to exclude.
 	 */
 	$parsed_args['exclude'] = implode( ',', apply_filters( 'wp_list_pages_excludes', $exclude_array ) );
 
@@ -1330,9 +1330,9 @@ function wp_list_pages( $args = '' ) {
 	 *
 	 * @see wp_list_pages()
 	 *
-	 * @param string $output      HTML output of the pages list.
-	 * @param array  $parsed_args An array of page-listing arguments.
-	 * @param array  $pages       List of WP_Post objects returned by `get_pages()`
+	 * @param string    $output      HTML output of the pages list.
+	 * @param array     $parsed_args An array of page-listing arguments.
+	 * @param WP_Post[] $pages       Array of the page objects.
 	 */
 	$html = apply_filters( 'wp_list_pages', $output, $parsed_args, $pages );
 

@@ -1280,7 +1280,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param array $title_array Parts of the page title.
+	 * @param string[] $title_array Array of parts of the page title.
 	 */
 	$title_array = apply_filters( 'wp_title_parts', explode( $t_sep, $title ) );
 

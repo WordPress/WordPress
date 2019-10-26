@@ -1991,7 +1991,7 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
  *     @type bool   $short_ping        Whether to output short pings. Default false.
  *     @type bool   $echo              Whether to echo the output or return it. Default true.
  * }
- * @param array $comments Optional. Array of WP_Comment objects.
+ * @param WP_Comment[] $comments Optional. Array of WP_Comment objects.
  */
 function wp_list_comments( $args = array(), $comments = null ) {
 	global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt, $overridden_cpage, $in_comment_loop;

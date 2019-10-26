@@ -11,7 +11,7 @@
  *
  * @since 2.5.0
  *
- * @return array default tabs
+ * @return string[] Default tabs.
  */
 function media_upload_tabs() {
 	$_default_tabs = array(
@@ -26,7 +26,7 @@ function media_upload_tabs() {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array $_default_tabs An array of media tabs.
+	 * @param string[] $_default_tabs An array of media tabs.
 	 */
 	return apply_filters( 'media_upload_tabs', $_default_tabs );
 }
@@ -1128,8 +1128,8 @@ function image_size_input_fields( $post, $check = '' ) {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param array $size_names Array of image sizes and their names. Default values
-	 *                          include 'Thumbnail', 'Medium', 'Large', 'Full Size'.
+	 * @param string[] $size_names Array of image size labels keyed by their name. Default values
+	 *                             include 'Thumbnail', 'Medium', 'Large', and 'Full Size'.
 	 */
 	$size_names = apply_filters(
 		'image_size_names_choose',

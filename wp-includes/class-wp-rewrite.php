@@ -854,7 +854,7 @@ class WP_Rewrite {
 	 *                                    over and rewrite rules built for each in-turn. Default true.
 	 * @param bool   $endpoints           Optional. Whether endpoints should be applied to the generated rewrite rules.
 	 *                                    Default true.
-	 * @return array Rewrite rule list.
+	 * @return string[] Array of rewrite rules keyed by their regex pattern.
 	 */
 	public function generate_rewrite_rules( $permalink_structure, $ep_mask = EP_NONE, $paged = true, $feed = true, $forcomments = false, $walk_dirs = true, $endpoints = true ) {
 		// Build a regex to match the feed section of URLs, something like (feed|atom|rss|rss2)/?
@@ -1287,7 +1287,7 @@ class WP_Rewrite {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param array $post_rewrite The rewrite rules for posts.
+		 * @param string[] $post_rewrite Array of rewrite rules for posts, keyed by their regex pattern.
 		 */
 		$post_rewrite = apply_filters( 'post_rewrite_rules', $post_rewrite );
 
@@ -1301,7 +1301,7 @@ class WP_Rewrite {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param array $date_rewrite The rewrite rules for date archives.
+		 * @param string[] $date_rewrite Array of rewrite rules for date archives, keyed by their regex pattern.
 		 */
 		$date_rewrite = apply_filters( 'date_rewrite_rules', $date_rewrite );
 
@@ -1316,7 +1316,7 @@ class WP_Rewrite {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param array $root_rewrite The root-level rewrite rules.
+		 * @param string[] $root_rewrite Array of root-level rewrite rules, keyed by their regex pattern.
 		 */
 		$root_rewrite = apply_filters( 'root_rewrite_rules', $root_rewrite );
 
@@ -1330,7 +1330,7 @@ class WP_Rewrite {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param array $comments_rewrite The rewrite rules for the site-wide comments feeds.
+		 * @param string[] $comments_rewrite Array of rewrite rules for the site-wide comments feeds, keyed by their regex pattern.
 		 */
 		$comments_rewrite = apply_filters( 'comments_rewrite_rules', $comments_rewrite );
 
@@ -1346,7 +1346,7 @@ class WP_Rewrite {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param array $search_rewrite The rewrite rules for search queries.
+		 * @param string[] $search_rewrite Array of rewrite rules for search queries, keyed by their regex pattern.
 		 */
 		$search_rewrite = apply_filters( 'search_rewrite_rules', $search_rewrite );
 
@@ -1361,7 +1361,7 @@ class WP_Rewrite {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param array $author_rewrite The rewrite rules for author archives.
+		 * @param string[] $author_rewrite Array of rewrite rules for author archives, keyed by their regex pattern.
 		 */
 		$author_rewrite = apply_filters( 'author_rewrite_rules', $author_rewrite );
 
@@ -1373,7 +1373,7 @@ class WP_Rewrite {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param array $page_rewrite The rewrite rules for the "page" post type.
+		 * @param string[] $page_rewrite Array of rewrite rules for the "page" post type, keyed by their regex pattern.
 		 */
 		$page_rewrite = apply_filters( 'page_rewrite_rules', $page_rewrite );
 
@@ -1398,7 +1398,7 @@ class WP_Rewrite {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param array $rules The rewrite rules generated for the current permastruct.
+			 * @param string[] $rules Array of rewrite rules generated for the current permastruct, keyed by their regex pattern.
 			 */
 			$rules = apply_filters( "{$permastructname}_rewrite_rules", $rules );
 			if ( 'post_tag' == $permastructname ) {
@@ -1409,7 +1409,7 @@ class WP_Rewrite {
 				 * @since 2.3.0
 				 * @deprecated 3.1.0 Use 'post_tag_rewrite_rules' instead
 				 *
-				 * @param array $rules The rewrite rules generated for tags.
+				 * @param string[] $rules Array of rewrite rules generated for tags, keyed by their regex pattern.
 				 */
 				$rules = apply_filters( 'tag_rewrite_rules', $rules );
 			}
@@ -1438,7 +1438,7 @@ class WP_Rewrite {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param array $this->rules The compiled array of rewrite rules.
+		 * @param string[] $this->rules The compiled array of rewrite rules, keyed by their regex pattern.
 		 */
 		$this->rules = apply_filters( 'rewrite_rules_array', $this->rules );
 

@@ -59,8 +59,8 @@ $preload_paths = array(
  *
  * @since 5.0.0
  *
- * @param array  $preload_paths Array of paths to preload.
- * @param object $post          The post resource data.
+ * @param string[] $preload_paths Array of paths to preload.
+ * @param WP_Post  $post          Post being edited.
  */
 $preload_paths = apply_filters( 'block_editor_preload_paths', $preload_paths, $post );
 

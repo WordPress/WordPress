@@ -1039,7 +1039,7 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array        $attr       Attributes for the image markup.
+		 * @param string[]     $attr       Array of attribute values for the image markup, keyed by attribute name.
 		 * @param WP_Post      $attachment Image attachment post.
 		 * @param string|array $size       Requested size. Image size or array of width and height values
 		 *                                 (in that order). Default 'thumbnail'.
@@ -1603,8 +1603,8 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
  * @ignore
  * @since 2.9.0
  *
- * @param array $attr Thumbnail attributes including src, class, alt, title.
- * @return array Modified array of attributes including the new 'wp-post-image' class.
+ * @param string[] $attr Array of thumbnail attributes including src, class, alt, title, keyed by attribute name.
+ * @return string[] Modified array of attributes including the new 'wp-post-image' class.
  */
 function _wp_post_thumbnail_class_filter( $attr ) {
 	$attr['class'] .= ' wp-post-image';
@@ -1618,7 +1618,7 @@ function _wp_post_thumbnail_class_filter( $attr ) {
  * @ignore
  * @since 2.9.0
  *
- * @param array $attr Thumbnail attributes including src, class, alt, title.
+ * @param string[] $attr Array of thumbnail attributes including src, class, alt, title, keyed by attribute name.
  */
 function _wp_post_thumbnail_class_filter_add( $attr ) {
 	add_filter( 'wp_get_attachment_image_attributes', '_wp_post_thumbnail_class_filter' );
@@ -1631,7 +1631,7 @@ function _wp_post_thumbnail_class_filter_add( $attr ) {
  * @ignore
  * @since 2.9.0
  *
- * @param array $attr Thumbnail attributes including src, class, alt, title.
+ * @param string[] $attr Array of thumbnail attributes including src, class, alt, title, keyed by attribute name.
  */
 function _wp_post_thumbnail_class_filter_remove( $attr ) {
 	remove_filter( 'wp_get_attachment_image_attributes', '_wp_post_thumbnail_class_filter' );
@@ -2416,7 +2416,7 @@ function wp_mediaelement_fallback( $url ) {
  *
  * @since 3.6.0
  *
- * @return array Supported audio formats.
+ * @return string[] Supported audio formats.
  */
 function wp_get_audio_extensions() {
 	/**
@@ -2424,8 +2424,8 @@ function wp_get_audio_extensions() {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array $extensions An array of supported audio formats. Defaults are
-	 *                          'mp3', 'ogg', 'flac', 'm4a', 'wav'.
+	 * @param string[] $extensions An array of supported audio formats. Defaults are
+	 *                            'mp3', 'ogg', 'flac', 'm4a', 'wav'.
 	 */
 	return apply_filters( 'wp_audio_extensions', array( 'mp3', 'ogg', 'flac', 'm4a', 'wav' ) );
 }
@@ -2664,7 +2664,7 @@ add_shortcode( 'audio', 'wp_audio_shortcode' );
  *
  * @since 3.6.0
  *
- * @return array List of supported video formats.
+ * @return string[] List of supported video formats.
  */
 function wp_get_video_extensions() {
 	/**
@@ -2672,8 +2672,8 @@ function wp_get_video_extensions() {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array $extensions An array of supported video formats. Defaults are
-	 *                          'mp4', 'm4v', 'webm', 'ogv', 'flv'.
+	 * @param string[] $extensions An array of supported video formats. Defaults are
+	 *                             'mp4', 'm4v', 'webm', 'ogv', 'flv'.
 	 */
 	return apply_filters( 'wp_video_extensions', array( 'mp4', 'm4v', 'webm', 'ogv', 'flv' ) );
 }
@@ -3266,8 +3266,8 @@ function _wp_image_editor_choose( $args = array() ) {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param array $image_editors List of available image editors. Defaults are
-	 *                             'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD'.
+	 * @param string[] $image_editors Array of available image editor class names. Defaults are
+	 *                                'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD'.
 	 */
 	$implementations = apply_filters( 'wp_image_editors', array( 'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD' ) );
 
@@ -3983,8 +3983,8 @@ function wp_enqueue_media( $args = array() ) {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param array   $strings List of media view strings.
-	 * @param WP_Post $post    Post object.
+	 * @param string[] $strings Array of media view strings keyed by the name they'll be referenced by in JavaScript.
+	 * @param WP_Post  $post    Post object.
 	 */
 	$strings = apply_filters( 'media_view_strings', $strings, $post );
 
@@ -4024,7 +4024,7 @@ function wp_enqueue_media( $args = array() ) {
  *
  * @param string      $type Mime type.
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
- * @return array Found attachments.
+ * @return WP_Post[] Array of media attached to the given post.
  */
 function get_attached_media( $type, $post = 0 ) {
 	$post = get_post( $post );
@@ -4060,9 +4060,9 @@ function get_attached_media( $type, $post = 0 ) {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array   $children Associative array of media attached to the given post.
-	 * @param string  $type     Mime type of the media desired.
-	 * @param WP_Post $post     Post object.
+	 * @param WP_Post[] $children Array of media attached to the given post.
+	 * @param string    $type     Mime type of the media desired.
+	 * @param WP_Post   $post     Post object.
 	 */
 	return (array) apply_filters( 'get_attached_media', $children, $type, $post );
 }
@@ -4072,9 +4072,9 @@ function get_attached_media( $type, $post = 0 ) {
  *
  * @since 3.6.0
  *
- * @param string $content A string which might contain media data.
- * @param array  $types   An array of media types: 'audio', 'video', 'object', 'embed', or 'iframe'.
- * @return array A list of found HTML media embeds.
+ * @param string   $content A string of HTML which might contain media elements.
+ * @param string[] $types   An array of media types: 'audio', 'video', 'object', 'embed', or 'iframe'.
+ * @return string[] Array of found HTML media elements.
  */
 function get_media_embedded_in_content( $content, $types = null ) {
 	$html = array();
@@ -4084,8 +4084,8 @@ function get_media_embedded_in_content( $content, $types = null ) {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array $allowed_media_types An array of allowed media types. Default media types are
-	 *                                   'audio', 'video', 'object', 'embed', and 'iframe'.
+	 * @param string[] $allowed_media_types An array of allowed media types. Default media types are
+	 *                                      'audio', 'video', 'object', 'embed', and 'iframe'.
 	 */
 	$allowed_media_types = apply_filters( 'media_embedded_in_content_allowed_types', array( 'audio', 'video', 'object', 'embed', 'iframe' ) );
 
@@ -4326,8 +4326,8 @@ function wpview_media_sandbox_styles() {
 /**
  * Registers the personal data exporter for media.
  *
- * @param array   $exporters   An array of personal data exporters.
- * @return array  An array of personal data exporters.
+ * @param array[] $exporters An array of personal data exporters, keyed by their ID.
+ * @return array[] Updated array of personal data exporters.
  */
 function wp_register_media_personal_data_exporter( $exporters ) {
 	$exporters['wordpress-media'] = array(

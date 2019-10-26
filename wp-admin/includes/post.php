@@ -2191,7 +2191,7 @@ function get_block_categories( $post ) {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array   $default_categories Array of block categories.
+	 * @param array[] $default_categories Array of block categories.
 	 * @param WP_Post $post               Post being loaded.
 	 */
 	return apply_filters( 'block_categories', $default_categories, $post );

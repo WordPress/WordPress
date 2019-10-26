@@ -378,10 +378,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			 *
 			 * @since 5.2.0
 			 *
-			 * @param array  $site_classes Class used within the span tag. Default "site-#" with the site's network ID.
-			 * @param int    $site_id      Site ID.
-			 * @param int    $network_id   Network ID.
-			 * @param object $user         WP_User object.
+			 * @param string[] $site_classes Array of class names used within the span tag. Default "site-#" with the site's network ID.
+			 * @param int      $site_id      Site ID.
+			 * @param int      $network_id   Network ID.
+			 * @param WP_User  $user         WP_User object.
 			 */
 			$site_classes = apply_filters( 'ms_user_list_site_class', $site_classes, $val->userblog_id, $val->site_id, $user );
 			if ( is_array( $site_classes ) && ! empty( $site_classes ) ) {

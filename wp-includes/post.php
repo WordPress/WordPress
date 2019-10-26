@@ -632,8 +632,7 @@ function _wp_relative_upload_path( $path ) {
  * @param mixed  $args   Optional. User defined arguments for replacing the defaults. Default empty.
  * @param string $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
  *                       a WP_Post object, an associative array, or a numeric array, respectively. Default OBJECT.
- * @return array Array of children, where the type of each element is determined by $output parameter.
- *               Empty array on failure.
+ * @return WP_Post[]|int[] Array of post objects or post IDs.
  */
 function get_children( $args = '', $output = OBJECT ) {
 	$kids = array();
@@ -1599,7 +1598,7 @@ function get_post_type_capabilities( $args ) {
  *
  * @global array $post_type_meta_caps Used to store meta capabilities.
  *
- * @param array $capabilities Post type meta capabilities.
+ * @param string[] $capabilities Post type meta capabilities.
  */
 function _post_type_meta_capabilities( $capabilities = null ) {
 	global $post_type_meta_caps;
@@ -4731,8 +4730,8 @@ function get_enclosed( $post_id ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $pung    Array of enclosures for the given post.
-	 * @param int   $post_id Post ID.
+	 * @param string[] $pung    Array of enclosures for the given post.
+	 * @param int      $post_id Post ID.
 	 */
 	return apply_filters( 'get_enclosed', $pung, $post_id );
 }
@@ -4773,7 +4772,7 @@ function get_pung( $post_id ) {
  * @since 4.7.0 `$post_id` can be a WP_Post object.
  *
  * @param int|WP_Post $post_id Post Object or ID
- * @return array
+ * @param string[] List of URLs yet to ping.
  */
 function get_to_ping( $post_id ) {
 	$post = get_post( $post_id );
@@ -4790,7 +4789,7 @@ function get_to_ping( $post_id ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $to_ping List of URLs yet to ping.
+	 * @param string[] $to_ping List of URLs yet to ping.
 	 */
 	return apply_filters( 'get_to_ping', $to_ping );
 }
@@ -5065,9 +5064,9 @@ function get_page_children( $page_id, $pages ) {
  *
  * @since 2.0.0
  *
- * @param array $pages   Posts array (passed by reference).
- * @param int   $page_id Optional. Parent page ID. Default 0.
- * @return array A list arranged by hierarchy. Children immediately follow their parents.
+ * @param WP_Post[] $pages   Posts array (passed by reference).
+ * @param int       $page_id Optional. Parent page ID. Default 0.
+ * @return string[] Array of post names keyed by ID and arranged by hierarchy. Children immediately follow their parents.
  */
 function get_page_hierarchy( &$pages, $page_id = 0 ) {
 	if ( empty( $pages ) ) {
@@ -5096,9 +5095,9 @@ function get_page_hierarchy( &$pages, $page_id = 0 ) {
  *
  * @see _page_traverse_name()
  *
- * @param int   $page_id   Page ID.
- * @param array $children  Parent-children relations (passed by reference).
- * @param array $result    Result (passed by reference).
+ * @param int      $page_id  Page ID.
+ * @param array    $children Parent-children relations (passed by reference).
+ * @param string[] $result   Array of page names keyed by ID (passed by reference).
  */
 function _page_traverse_name( $page_id, &$children, &$result ) {
 	if ( isset( $children[ $page_id ] ) ) {
@@ -5461,8 +5460,8 @@ function get_pages( $args = array() ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param array $pages List of pages to retrieve.
-	 * @param array $parsed_args     Array of get_pages() arguments.
+	 * @param WP_Post[] $pages       Array of page objects.
+	 * @param array     $parsed_args Array of get_pages() arguments.
 	 */
 	return apply_filters( 'get_pages', $pages, $parsed_args );
 }
@@ -6107,11 +6106,11 @@ function wp_mime_type_icon( $mime = 0 ) {
 			$icon_dir_uri = apply_filters( 'icon_dir_uri', includes_url( 'images/media' ) );
 
 			/**
-			 * Filters the list of icon directory URIs.
+			 * Filters the array of icon directory URIs.
 			 *
 			 * @since 2.5.0
 			 *
-			 * @param array $uris List of icon directory URIs.
+			 * @param string[] $uris Array of icon directory URIs keyed by directory absolute path.
 			 */
 			$dirs       = apply_filters( 'icon_dirs', array( $icon_dir => $icon_dir_uri ) );
 			$icon_files = array();
@@ -7095,9 +7094,9 @@ function wp_add_trashed_suffix_to_post_name_for_post( $post ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array $clauses An array including WHERE, GROUP BY, JOIN, ORDER BY,
- *                       DISTINCT, fields (SELECT), and LIMITS clauses.
- * @return array The modified clauses.
+ * @param string[] $clauses An array including WHERE, GROUP BY, JOIN, ORDER BY,
+ *                          DISTINCT, fields (SELECT), and LIMITS clauses.
+ * @return string[] The modified array of clauses.
  */
 function _filter_query_attachment_filenames( $clauses ) {
 	global $wpdb;

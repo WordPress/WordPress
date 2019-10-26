@@ -175,11 +175,11 @@ class WP_Upgrader {
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
-	 * @param array $directories                  Optional. A list of directories. If any of these do
-	 *                                            not exist, a WP_Error object will be returned.
-	 *                                            Default empty array.
-	 * @param bool  $allow_relaxed_file_ownership Whether to allow relaxed file ownership.
-	 *                                            Default false.
+	 * @param string[] $directories                  Optional. Array of directories. If any of these do
+	 *                                               not exist, a WP_Error object will be returned.
+	 *                                               Default empty array.
+	 * @param bool     $allow_relaxed_file_ownership Whether to allow relaxed file ownership.
+	 *                                               Default false.
 	 * @return bool|WP_Error True if able to connect, false or a WP_Error otherwise.
 	 */
 	public function fs_connect( $directories = array(), $allow_relaxed_file_ownership = false ) {

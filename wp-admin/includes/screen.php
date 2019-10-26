@@ -14,7 +14,7 @@
  * @staticvar array $column_headers
  *
  * @param string|WP_Screen $screen The screen you want the headers for
- * @return array Containing the headers in the format id => UI String
+ * @return string[] The column header labels keyed by column ID.
  */
 function get_column_headers( $screen ) {
 	if ( is_string( $screen ) ) {
@@ -24,7 +24,6 @@ function get_column_headers( $screen ) {
 	static $column_headers = array();
 
 	if ( ! isset( $column_headers[ $screen->id ] ) ) {
-
 		/**
 		 * Filters the column headers for a list table on a specific screen.
 		 *
@@ -35,7 +34,7 @@ function get_column_headers( $screen ) {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param array $columns An array of column headers. Default empty.
+		 * @param string[] $columns The column header labels keyed by column ID.
 		 */
 		$column_headers[ $screen->id ] = apply_filters( "manage_{$screen->id}_columns", array() );
 	}

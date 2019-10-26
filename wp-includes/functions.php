@@ -862,8 +862,8 @@ function do_enclose( $content = null, $post ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $post_links An array of enclosure links.
-	 * @param int   $post_ID    Post ID.
+	 * @param string[] $post_links An array of enclosure links.
+	 * @param int      $post_ID    Post ID.
 	 */
 	$post_links = apply_filters( 'enclosure_links', $post_links, $post->ID );
 
@@ -1147,7 +1147,7 @@ function remove_query_arg( $key, $query = false ) {
  *
  * @since 4.4.0
  *
- * @return array An array of parameters to remove from the URL.
+ * @return string[] An array of parameters to remove from the URL.
  */
 function wp_removable_query_args() {
 	$removable_query_args = array(
@@ -1181,7 +1181,7 @@ function wp_removable_query_args() {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array $removable_query_args An array of query variables to remove from a URL.
+	 * @param string[] $removable_query_args An array of query variables to remove from a URL.
 	 */
 	return apply_filters( 'removable_query_args', $removable_query_args );
 }
@@ -2613,9 +2613,14 @@ function wp_ext2type( $ext ) {
  *
  * @since 2.0.4
  *
- * @param string $filename File name or path.
- * @param array  $mimes    Optional. Key is the file extension with value as the mime type.
- * @return array Values with extension first and mime type.
+ * @param string   $filename File name or path.
+ * @param string[] $mimes    Optional. Array of mime types keyed by their file extension regex.
+ * @return array {
+ *     Values with extension first and mime type.
+ *
+ *     @type string $0 File extension.
+ *     @type string $1 File mime type.
+ * }
  */
 function wp_check_filetype( $filename, $mimes = null ) {
 	if ( empty( $mimes ) ) {
@@ -2648,10 +2653,10 @@ function wp_check_filetype( $filename, $mimes = null ) {
  *
  * @since 3.0.0
  *
- * @param string $file     Full path to the file.
- * @param string $filename The name of the file (may differ from $file due to $file being
- *                         in a tmp directory).
- * @param array   $mimes   Optional. Key is the file extension with value as the mime type.
+ * @param string   $file     Full path to the file.
+ * @param string   $filename The name of the file (may differ from $file due to $file being
+ *                           in a tmp directory).
+ * @param string[] $mimes    Optional. Array of mime types keyed by their file extension regex.
  * @return array Values for the extension, MIME, and either a corrected filename or false
  *               if original $filename is valid.
  */
@@ -2814,7 +2819,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 	 * @param string      $file                      Full path to the file.
 	 * @param string      $filename                  The name of the file (may differ from $file due to
 	 *                                               $file being in a tmp directory).
-	 * @param array       $mimes                     Key is the file extension with value as the mime type.
+	 * @param string[]    $mimes                     Array of mime types keyed by their file extension regex.
 	 * @param string|bool $real_mime                 The actual mime type or false if the type cannot be determined.
 	 */
 	return apply_filters( 'wp_check_filetype_and_ext', compact( 'ext', 'type', 'proper_filename' ), $file, $filename, $mimes, $real_mime );
@@ -2861,7 +2866,7 @@ function wp_get_image_mime( $file ) {
  * @since 4.9.2 Support was added for Flac (.flac) files.
  * @since 4.9.6 Support was added for AAC (.aac) files.
  *
- * @return array Array of mime types keyed by the file extension regex corresponding to those types.
+ * @return string[] Array of mime types keyed by the file extension regex corresponding to those types.
  */
 function wp_get_mime_types() {
 	/**
@@ -2872,7 +2877,7 @@ function wp_get_mime_types() {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param array $wp_get_mime_types Mime types keyed by the file extension regex
+	 * @param string[] $wp_get_mime_types Mime types keyed by the file extension regex
 	 *                                 corresponding to those types.
 	 */
 	return apply_filters(
@@ -3024,8 +3029,8 @@ function wp_get_ext_types() {
  * @since 2.8.6
  *
  * @param int|WP_User $user Optional. User to check. Defaults to current user.
- * @return array Array of mime types keyed by the file extension regex corresponding
- *               to those types.
+ * @return string[] Array of mime types keyed by the file extension regex corresponding
+ *                  to those types.
  */
 function get_allowed_mime_types( $user = null ) {
 	$t = wp_get_mime_types();
@@ -4154,7 +4159,7 @@ function smilies_init() {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array $wpsmiliestrans List of the smilies.
+	 * @param string[] $wpsmiliestrans List of the smilies' hexadecimal representations, keyed by their smily code.
 	 */
 	$wpsmiliestrans = apply_filters( 'smilies', $wpsmiliestrans );
 
@@ -5010,8 +5015,8 @@ function iis7_supports_permalinks() {
  *
  * @since 1.2.0
  *
- * @param string $file          File path.
- * @param array  $allowed_files Optional. List of allowed files.
+ * @param string   $file          File path.
+ * @param string[] $allowed_files Optional. Array of allowed files.
  * @return int 0 means nothing is wrong, greater than 0 means something was wrong.
  */
 function validate_file( $file, $allowed_files = array() ) {
@@ -5978,7 +5983,7 @@ function wp_allowed_protocols() {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param array $protocols Array of allowed protocols e.g. 'http', 'ftp', 'tel', and more.
+		 * @param string[] $protocols Array of allowed protocols e.g. 'http', 'ftp', 'tel', and more.
 		 */
 		$protocols = array_unique( (array) apply_filters( 'kses_allowed_protocols', $protocols ) );
 	}

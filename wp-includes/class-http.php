@@ -521,10 +521,10 @@ class WP_Http {
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param array  $transports Array of HTTP transports to check. Default array contains
-		 *                           'curl', and 'streams', in that order.
-		 * @param array  $args       HTTP request arguments.
-		 * @param string $url        The URL to request.
+		 * @param string[] $transports Array of HTTP transports to check. Default array contains
+		 *                             'curl' and 'streams', in that order.
+		 * @param array    $args       HTTP request arguments.
+		 * @param string   $url        The URL to request.
 		 */
 		$request_order = apply_filters( 'http_api_transports', $transports, $args, $url );
 

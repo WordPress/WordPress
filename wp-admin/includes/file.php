@@ -1061,11 +1061,11 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 	// If the caller expects signature verification to occur, check to see if this URL supports it.
 	if ( $signature_verification ) {
 		/**
-		 * Filters the list of hosts which should have Signature Verification attempteds on.
+		 * Filters the list of hosts which should have Signature Verification attempted on.
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param array List of hostnames.
+		 * @param string[] $hostnames List of hostnames.
 		 */
 		$signed_hostnames       = apply_filters( 'wp_signature_hosts', array( 'wordpress.org', 'downloads.wordpress.org', 's.w.org' ) );
 		$signature_verification = in_array( parse_url( $url, PHP_URL_HOST ), $signed_hostnames, true );
@@ -1341,7 +1341,7 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
  *
  * @since 5.2.0
  *
- * @return array List of base64-encoded Signing keys.
+ * @return string[] Array of base64-encoded signing keys.
  */
 function wp_trusted_keys() {
 	$trusted_keys = array();
@@ -1354,11 +1354,11 @@ function wp_trusted_keys() {
 	// TODO: Add key #2 with longer expiration.
 
 	/**
-	 * Filter the valid Signing keys used to verify the contents of files.
+	 * Filter the valid signing keys used to verify the contents of files.
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param array $trusted_keys The trusted keys that may sign packages.
+	 * @param string[] $trusted_keys The trusted keys that may sign packages.
 	 */
 	return apply_filters( 'wp_trusted_keys', $trusted_keys );
 }
@@ -1449,9 +1449,9 @@ function unzip_file( $file, $to ) {
  *
  * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
- * @param string $file       Full path and filename of ZIP archive.
- * @param string $to         Full path on the filesystem to extract archive to.
- * @param array $needed_dirs A partial list of required folders needed to be created.
+ * @param string   $file        Full path and filename of ZIP archive.
+ * @param string   $to          Full path on the filesystem to extract archive to.
+ * @param string[] $needed_dirs A partial list of required folders needed to be created.
  * @return true|WP_Error True on success, WP_Error on failure.
  */
 function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
@@ -1580,9 +1580,9 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
  *
  * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
- * @param string $file       Full path and filename of ZIP archive.
- * @param string $to         Full path on the filesystem to extract archive to.
- * @param array $needed_dirs A partial list of required folders needed to be created.
+ * @param string   $file        Full path and filename of ZIP archive.
+ * @param string   $to          Full path on the filesystem to extract archive to.
+ * @param string[] $needed_dirs A partial list of required folders needed to be created.
  * @return true|WP_Error True on success, WP_Error on failure.
  */
 function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
@@ -1691,9 +1691,9 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
  *
  * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
- * @param string $from     Source directory.
- * @param string $to       Destination directory.
- * @param array $skip_list A list of files/folders to skip copying.
+ * @param string   $from      Source directory.
+ * @param string   $to        Destination directory.
+ * @param string[] $skip_list An array of files/folders to skip copying.
  * @return true|WP_Error True on success, WP_Error on failure.
  */
 function copy_dir( $from, $to, $skip_list = array() ) {

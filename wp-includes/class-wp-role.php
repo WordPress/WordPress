@@ -37,8 +37,9 @@ class WP_Role {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $role Role name.
-	 * @param array $capabilities List of capabilities.
+	 * @param string $role         Role name.
+	 * @param bool[] $capabilities List of capabilities keyed by the capability name,
+	 *                             e.g. array( 'edit_posts' => true, 'delete_posts' => false ).
 	 */
 	public function __construct( $role, $capabilities ) {
 		$this->name         = $role;

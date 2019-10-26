@@ -1311,10 +1311,10 @@ function update_core( $from, $to ) {
  *
  * @global WP_Filesystem_Base $wp_filesystem
  *
- * @param string $from     source directory
- * @param string $to       destination directory
- * @param array $skip_list a list of files/folders to skip copying
- * @return mixed WP_Error on failure, True on success.
+ * @param string   $from      Source directory.
+ * @param string   $to        Destination directory.
+ * @param string[] $skip_list Array of files/folders to skip copying.
+ * @return WP_Error|true WP_Error on failure, true on success.
  */
 function _copy_dir( $from, $to, $skip_list = array() ) {
 	global $wp_filesystem;

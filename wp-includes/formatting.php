@@ -230,7 +230,7 @@ function wptexturize( $text, $reset = false ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array $default_no_texturize_tags An array of HTML element names.
+	 * @param string[] $default_no_texturize_tags An array of HTML element names.
 	 */
 	$no_texturize_tags = apply_filters( 'no_texturize_tags', $default_no_texturize_tags );
 	/**
@@ -238,7 +238,7 @@ function wptexturize( $text, $reset = false ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array $default_no_texturize_shortcodes An array of shortcode names.
+	 * @param string[] $default_no_texturize_shortcodes An array of shortcode names.
 	 */
 	$no_texturize_shortcodes = apply_filters( 'no_texturize_shortcodes', $default_no_texturize_shortcodes );
 
@@ -397,9 +397,9 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
  * @since 2.9.0
  * @access private
  *
- * @param string $text Text to check. Must be a tag like `<html>` or `[shortcode]`.
- * @param array  $stack List of open tag elements.
- * @param array  $disabled_elements The tag names to match against. Spaces are not allowed in tag names.
+ * @param string   $text              Text to check. Must be a tag like `<html>` or `[shortcode]`.
+ * @param string[] $stack             Array of open tag elements.
+ * @param string[] $disabled_elements Array of tag names to match against. Spaces are not allowed in tag names.
  */
 function _wptexturize_pushpop_element( $text, &$stack, $disabled_elements ) {
 	// Is it an opening tag or closing tag?
@@ -736,10 +736,9 @@ function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
  *
  * @access private
  * @ignore
- * @internal This function will be removed in 4.5.0 per Shortcode API Roadmap.
  * @since 4.4.0
  *
- * @param array $tagnames List of shortcodes to find.
+ * @param string[] $tagnames Array of shortcodes to find.
  * @return string The regular expression
  */
 function _get_wptexturize_shortcode_regex( $tagnames ) {
@@ -2000,8 +1999,8 @@ function remove_accents( $string ) {
  *
  * @since 2.1.0
  *
- * @param string $filename The filename to be sanitized
- * @return string The sanitized filename
+ * @param string $filename The filename to be sanitized.
+ * @return string The sanitized filename.
  */
 function sanitize_file_name( $filename ) {
 	$filename_raw  = $filename;
@@ -2011,8 +2010,8 @@ function sanitize_file_name( $filename ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array  $special_chars Characters to remove.
-	 * @param string $filename_raw  Filename as it was passed into sanitize_file_name().
+	 * @param string[] $special_chars Array of characters to remove.
+	 * @param string   $filename_raw  The original filename to be sanitized.
 	 */
 	$special_chars = apply_filters( 'sanitize_file_name_chars', $special_chars, $filename_raw );
 	$filename      = preg_replace( "#\x{00a0}#siu", ' ', $filename );
@@ -4268,10 +4267,10 @@ function esc_sql( $data ) {
  *
  * @since 2.8.0
  *
- * @param string $url       The URL to be cleaned.
- * @param array  $protocols Optional. An array of acceptable protocols.
- *                          Defaults to return value of wp_allowed_protocols()
- * @param string $_context  Private. Use esc_url_raw() for database usage.
+ * @param string   $url       The URL to be cleaned.
+ * @param string[] $protocols Optional. An array of acceptable protocols.
+ *                            Defaults to return value of wp_allowed_protocols()
+ * @param string   $_context  Private. Use esc_url_raw() for database usage.
  * @return string The cleaned $url after the {@see 'clean_url'} filter is applied.
  */
 function esc_url( $url, $protocols = null, $_context = 'display' ) {
@@ -4376,8 +4375,8 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
  *
  * @since 2.8.0
  *
- * @param string $url       The URL to be cleaned.
- * @param array  $protocols An array of acceptable protocols.
+ * @param string   $url       The URL to be cleaned.
+ * @param string[] $protocols An array of acceptable protocols.
  * @return string The cleaned URL.
  */
 function esc_url_raw( $url, $protocols = null ) {
@@ -5120,9 +5119,9 @@ function _links_add_base( $m ) {
  *
  * @global string $_links_add_target
  *
- * @param string $content String to search for links in.
- * @param string $target  The Target to add to the links.
- * @param array  $tags    An array of tags to apply to.
+ * @param string   $content String to search for links in.
+ * @param string   $target  The Target to add to the links.
+ * @param string[] $tags    An array of tags to apply to.
  * @return string The processed content.
  */
 function links_add_target( $content, $target = '_blank', $tags = array( 'a' ) ) {

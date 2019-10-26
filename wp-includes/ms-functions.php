@@ -2600,7 +2600,7 @@ function get_subdirectory_reserved_names() {
 	 * @since 4.4.0 'wp-admin', 'wp-content', 'wp-includes', 'wp-json', and 'embed' were added
 	 *              to the reserved names list.
 	 *
-	 * @param array $subdirectory_reserved_names Array of reserved names.
+	 * @param string[] $subdirectory_reserved_names Array of reserved names.
 	 */
 	return apply_filters( 'subdirectory_reserved_names', $names );
 }

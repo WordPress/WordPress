@@ -617,8 +617,8 @@ function wp_get_nav_menus( $args = array() ) {
 	 *
 	 * @see get_terms()
 	 *
-	 * @param array $menus An array of menu objects.
-	 * @param array $args  An array of arguments used to retrieve menu objects.
+	 * @param WP_Term[] $menus An array of menu objects.
+	 * @param array     $args  An array of arguments used to retrieve menu objects.
 	 */
 	return apply_filters( 'wp_get_nav_menus', get_terms( $args ), $args );
 }

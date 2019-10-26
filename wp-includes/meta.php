@@ -406,10 +406,10 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param array  $meta_ids    An array of metadata entry IDs to delete.
-	 * @param int    $object_id   Object ID.
-	 * @param string $meta_key    Meta key.
-	 * @param mixed  $_meta_value Meta value.
+	 * @param string[] $meta_ids    An array of metadata entry IDs to delete.
+	 * @param int      $object_id   Object ID.
+	 * @param string   $meta_key    Meta key.
+	 * @param mixed    $_meta_value Meta value.
 	 */
 	do_action( "delete_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
 
@@ -420,7 +420,7 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param array $meta_ids An array of post metadata entry IDs to delete.
+		 * @param string[] $meta_ids An array of metadata entry IDs to delete.
 		 */
 		do_action( 'delete_postmeta', $meta_ids );
 	}
@@ -449,10 +449,10 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param array  $meta_ids    An array of deleted metadata entry IDs.
-	 * @param int    $object_id   Object ID.
-	 * @param string $meta_key    Meta key.
-	 * @param mixed  $_meta_value Meta value.
+	 * @param string[] $meta_ids    An array of metadata entry IDs to delete.
+	 * @param int      $object_id   Object ID.
+	 * @param string   $meta_key    Meta key.
+	 * @param mixed    $_meta_value Meta value.
 	 */
 	do_action( "deleted_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
 
@@ -463,7 +463,7 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param array $meta_ids An array of deleted post metadata entry IDs.
+		 * @param string[] $meta_ids An array of metadata entry IDs to delete.
 		 */
 		do_action( 'deleted_postmeta', $meta_ids );
 	}

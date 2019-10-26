@@ -1208,9 +1208,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 				 *
 				 * @since 5.2.0
 				 *
-				 * @param array  $term_links List of links to edit.php, filtered by the taxonomy term.
-				 * @param string $taxonomy   Taxonomy name.
-				 * @param array  $terms      Array of terms appearing in the post row.
+				 * @param string[]  $term_links Array of term editing links.
+				 * @param string    $taxonomy   Taxonomy name.
+				 * @param WP_Term[] $terms      Array of term objects appearing in the post row.
 				 */
 				$term_links = apply_filters( 'post_column_taxonomy_links', $term_links, $taxonomy, $terms );
 
