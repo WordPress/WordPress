@@ -105,7 +105,7 @@ if ( isset( $_REQUEST['action'] ) && 'adduser' == $_REQUEST['action'] ) {
 			 * @since 4.4.0
 			 *
 			 * @param int    $user_id     The invited user's ID.
-			 * @param array  $role        The role of invited user.
+			 * @param array  $role        Array containing role information for the invited user.
 			 * @param string $newuser_key The key of the invitation.
 			 */
 			do_action( 'invite_user', $user_id, $role, $newuser_key );

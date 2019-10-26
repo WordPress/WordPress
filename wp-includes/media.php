@@ -38,10 +38,7 @@ function wp_get_additional_image_sizes() {
  * not set.
  *
  * Finally, there is a filter named {@see 'editor_max_image_size'}, that will be
- * called on the calculated array for width and height, respectively. The second
- * parameter will be the value that was in the $size parameter. The returned
- * type for the hook is an array with the width as the first element and the
- * height as the second element.
+ * called on the calculated array for width and height, respectively.
  *
  * @since 2.5.0
  *
@@ -54,7 +51,12 @@ function wp_get_additional_image_sizes() {
  *                              Default 'medium'.
  * @param string       $context Optional. Could be 'display' (like in a theme) or 'edit'
  *                              (like inserting into an editor). Default null.
- * @return array Width and height of what the result image should resize to.
+ * @return int[] {
+ *     An array of width and height values.
+ *
+ *     @type int $0 The maximum width in pixels.
+ *     @type int $1 The maximum height in pixels.
+ * }
  */
 function image_constrain_size_for_editor( $width, $height, $size = 'medium', $context = null ) {
 	global $content_width;
@@ -117,8 +119,12 @@ function image_constrain_size_for_editor( $width, $height, $size = 'medium', $co
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array        $max_image_size An array with the width as the first element,
-	 *                                     and the height as the second element.
+	 * @param int[]        $max_image_size {
+	 *     An array of width and height values.
+	 *
+	 *     @type int $0 The maximum width in pixels.
+	 *     @type int $1 The maximum height in pixels.
+	 * }
 	 * @param string|array $size           Size of what the result image should be.
 	 * @param string       $context        The context the image is being resized for.
 	 *                                     Possible values are 'display' (like in a theme)
@@ -417,7 +423,12 @@ function get_image_tag( $id, $alt, $title, $align, $size = 'medium' ) {
  * @param int $current_height Current height of the image.
  * @param int $max_width      Optional. Max width in pixels to constrain to. Default 0.
  * @param int $max_height     Optional. Max height in pixels to constrain to. Default 0.
- * @return array First item is the width, the second item is the height.
+ * @return int[] {
+ *     An array of width and height values.
+ *
+ *     @type int $0 The width in pixels.
+ *     @type int $1 The height in pixels.
+ * }
  */
 function wp_constrain_dimensions( $current_width, $current_height, $max_width = 0, $max_height = 0 ) {
 	if ( ! $max_width && ! $max_height ) {
@@ -474,7 +485,12 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width = 
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param array $dimensions     The image width and height.
+	 * @param int[] $dimensions     {
+	 *     An array of width and height values.
+	 *
+	 *     @type int $0 The width in pixels.
+	 *     @type int $1 The height in pixels.
+	 * }
 	 * @param int   $current_width  The current width of the image.
 	 * @param int   $current_height The current height of the image.
 	 * @param int   $max_width      The maximum width permitted.
@@ -1149,10 +1165,15 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $imag
  *
  * @since 4.4.0
  *
- * @param array  $size_array    Array of width and height values in pixels (in that order).
+ * @param int[]  $size_array    {
+ *     An array of width and height values.
+ *
+ *     @type int $0 The width in pixels.
+ *     @type int $1 The height in pixels.
+ * }
  * @param string $image_src     The 'src' of the image.
  * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
- * @param int    $attachment_id Optional. The image attachment ID to pass to the filter. Default 0.
+ * @param int    $attachment_id Optional. The image attachment ID. Default 0.
  * @return string|bool          The 'srcset' attribute value. False on error or when only one source exists.
  */
 function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attachment_id = 0 ) {
@@ -1162,7 +1183,12 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 * @since 4.5.0
 	 *
 	 * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
-	 * @param array  $size_array    Array of width and height values in pixels (in that order).
+	 * @param int[]  $size_array    {
+	 *     An array of requested width and height values.
+	 *
+	 *     @type int $0 The width in pixels.
+	 *     @type int $1 The height in pixels.
+	 * }
 	 * @param string $image_src     The 'src' of the image.
 	 * @param int    $attachment_id The image attachment ID or 0 if not supplied.
 	 */
@@ -1231,7 +1257,12 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 * @since 4.4.0
 	 *
 	 * @param int   $max_width  The maximum image width to be included in the 'srcset'. Default '2048'.
-	 * @param array $size_array Array of width and height values in pixels (in that order).
+	 * @param int[] $size_array {
+	 *     An array of requested width and height values.
+	 *
+	 *     @type int $0 The width in pixels.
+	 *     @type int $1 The height in pixels.
+	 * }
 	 */
 	$max_srcset_image_width = apply_filters( 'max_srcset_image_width', 2048, $size_array );
 
@@ -1310,7 +1341,12 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 *                                  pixel density value if paired with an 'x' descriptor.
 	 *     }
 	 * }
-	 * @param array  $size_array    Array of width and height values in pixels (in that order).
+	 * @param array $size_array     {
+	 *     An array of requested width and height values.
+	 *
+	 *     @type int $0 The width in pixels.
+	 *     @type int $1 The height in pixels.
+	 * }
 	 * @param string $image_src     The 'src' of the image.
 	 * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
 	 * @param int    $attachment_id Image attachment ID or 0.
@@ -2376,7 +2412,7 @@ function wp_mediaelement_fallback( $url ) {
 }
 
 /**
- * Returns a filtered list of WP-supported audio formats.
+ * Returns a filtered list of supported audio formats.
  *
  * @since 3.6.0
  *
@@ -2624,7 +2660,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 add_shortcode( 'audio', 'wp_audio_shortcode' );
 
 /**
- * Returns a filtered list of WP-supported video formats.
+ * Returns a filtered list of supported video formats.
  *
  * @since 3.6.0
  *
@@ -4011,9 +4047,9 @@ function get_attached_media( $type, $post = 0 ) {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array  $args Post query arguments.
-	 * @param string $type Mime type of the desired media.
-	 * @param mixed  $post Post ID or object.
+	 * @param array   $args Post query arguments.
+	 * @param string  $type Mime type of the desired media.
+	 * @param WP_Post $post Post object.
 	 */
 	$args = apply_filters( 'get_attached_media_args', $args, $type, $post );
 
@@ -4024,15 +4060,15 @@ function get_attached_media( $type, $post = 0 ) {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array  $children Associative array of media attached to the given post.
-	 * @param string $type     Mime type of the media desired.
-	 * @param mixed  $post     Post ID or object.
+	 * @param array   $children Associative array of media attached to the given post.
+	 * @param string  $type     Mime type of the media desired.
+	 * @param WP_Post $post     Post object.
 	 */
 	return (array) apply_filters( 'get_attached_media', $children, $type, $post );
 }
 
 /**
- * Check the content blob for an audio, video, object, embed, or iframe tags.
+ * Check the content HTML for a audio, video, object, embed, or iframe tags.
  *
  * @since 3.6.0
  *
@@ -4288,7 +4324,7 @@ function wpview_media_sandbox_styles() {
 }
 
 /**
- * Registers the personal data exporter for media
+ * Registers the personal data exporter for media.
  *
  * @param array   $exporters   An array of personal data exporters.
  * @return array  An array of personal data exporters.

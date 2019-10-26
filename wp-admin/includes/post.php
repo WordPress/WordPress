@@ -1319,7 +1319,12 @@ function postbox_classes( $box_id, $screen_id ) {
  * @param int    $id    Post ID or post object.
  * @param string $title Optional. Title to override the post's current title when generating the post name. Default null.
  * @param string $name  Optional. Name to override the post name. Default null.
- * @return array Array containing the sample permalink with placeholder for the post name, and the post name.
+ * @return array {
+ *     Array containing the sample permalink with placeholder for the post name, and the post name.
+ *
+ *     @type string $0 The permalink with placeholder for the post name.
+ *     @type string $1 The post name.
+ * }
  */
 function get_sample_permalink( $id, $title = null, $name = null ) {
 	$post = get_post( $id );
@@ -1383,7 +1388,12 @@ function get_sample_permalink( $id, $title = null, $name = null ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array   $permalink Array containing the sample permalink with placeholder for the post name, and the post name.
+	 * @param array   $permalink {
+	 *     Array containing the sample permalink with placeholder for the post name, and the post name.
+	 *
+	 *     @type string $0 The permalink with placeholder for the post name.
+	 *     @type string $1 The post name.
+	 * }
 	 * @param int     $post_id   Post ID.
 	 * @param string  $title     Post title.
 	 * @param string  $name      Post name (slug).
@@ -1637,17 +1647,16 @@ function _admin_notice_post_locked() {
 	}
 
 	if ( $user ) {
-
 		/**
 		 * Filters whether to show the post locked dialog.
 		 *
-		 * Returning a falsey value to the filter will short-circuit displaying the dialog.
+		 * Returning false from the filter will prevent the dialog from being displayed.
 		 *
 		 * @since 3.6.0
 		 *
-		 * @param bool         $display Whether to display the dialog. Default true.
-		 * @param WP_Post      $post    Post object.
-		 * @param WP_User|bool $user    WP_User object on success, false otherwise.
+		 * @param bool    $display Whether to display the dialog. Default true.
+		 * @param WP_Post $post    Post object.
+		 * @param WP_User $user    The user with the lock for the post.
 		 */
 		if ( ! apply_filters( 'show_post_locked_dialog', true, $post, $user ) ) {
 			return;
@@ -1696,14 +1705,14 @@ function _admin_notice_post_locked() {
 		/**
 		 * Filters whether to allow the post lock to be overridden.
 		 *
-		 * Returning a falsey value to the filter will disable the ability
+		 * Returning false from the filter will disable the ability
 		 * to override the post lock.
 		 *
 		 * @since 3.6.0
 		 *
-		 * @param bool    $override Whether to allow overriding post locks. Default true.
+		 * @param bool    $override Whether to allow the post lock to be overridden. Default true.
 		 * @param WP_Post $post     Post object.
-		 * @param WP_User $user     User object.
+		 * @param WP_User $user     The user with the lock for the post.
 		 */
 		$override = apply_filters( 'override_post_lock', true, $post, $user );
 		$tab_last = $override ? '' : ' wp-tab-last';

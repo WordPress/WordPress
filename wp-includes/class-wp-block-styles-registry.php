@@ -67,7 +67,7 @@ final class WP_Block_Styles_Registry {
 	 * Unregisters a block style.
 	 *
 	 * @param string $block_name       Block type name including namespace.
-	 * @param array  $block_style_name Block style name.
+	 * @param string $block_style_name Block style name.
 	 *
 	 * @return boolean True if the block style was unregistered with success and false otherwise.
 	 */
@@ -90,7 +90,7 @@ final class WP_Block_Styles_Registry {
 	 * @since 5.3.0
 	 *
 	 * @param string $block_name       Block type name including namespace.
-	 * @param array  $block_style_name Block style name.
+	 * @param string $block_style_name Block style name.
 	 *
 	 * @return array Registered block style properties.
 	 */
@@ -135,7 +135,7 @@ final class WP_Block_Styles_Registry {
 	 * @since 5.3.0
 	 *
 	 * @param string $block_name       Block type name including namespace.
-	 * @param array  $block_style_name Block style name.
+	 * @param string $block_style_name Block style name.
 	 *
 	 * @return bool True if the block style is registered, false otherwise.
 	 */

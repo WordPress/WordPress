@@ -2857,7 +2857,9 @@ function wp_get_image_mime( $file ) {
  * Retrieve list of mime types and file extensions.
  *
  * @since 3.5.0
- * @since 4.2.0 Support was added for GIMP (xcf) files.
+ * @since 4.2.0 Support was added for GIMP (.xcf) files.
+ * @since 4.9.2 Support was added for Flac (.flac) files.
+ * @since 4.9.6 Support was added for AAC (.aac) files.
  *
  * @return array Array of mime types keyed by the file extension regex corresponding to those types.
  */
@@ -3042,9 +3044,7 @@ function get_allowed_mime_types( $user = null ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array            $t    Mime types keyed by the file extension regex corresponding to
-	 *                               those types. 'swf' and 'exe' removed from full list. 'htm|html' also
-	 *                               removed depending on '$user' capabilities.
+	 * @param array            $t    Mime types keyed by the file extension regex corresponding to those types.
 	 * @param int|WP_User|null $user User ID, User object or null if not provided (indicates current user).
 	 */
 	return apply_filters( 'upload_mimes', $t, $user );
