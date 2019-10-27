@@ -60,18 +60,18 @@ class WP_Widget_Pages extends WP_Widget {
 			$sortby = 'menu_order, post_title';
 		}
 
-		/**
-		 * Filters the arguments for the Pages widget.
-		 *
-		 * @since 2.8.0
-		 * @since 4.9.0 Added the `$instance` parameter.
-		 *
-		 * @see wp_list_pages()
-		 *
-		 * @param array $args     An array of arguments to retrieve the pages list.
-		 * @param array $instance Array of settings for the current widget.
-		 */
 		$out = wp_list_pages(
+			/**
+			 * Filters the arguments for the Pages widget.
+			 *
+			 * @since 2.8.0
+			 * @since 4.9.0 Added the `$instance` parameter.
+			 *
+			 * @see wp_list_pages()
+			 *
+			 * @param array $args     An array of arguments to retrieve the pages list.
+			 * @param array $instance Array of settings for the current widget.
+			 */
 			apply_filters(
 				'widget_pages_args',
 				array(

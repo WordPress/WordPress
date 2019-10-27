@@ -56,18 +56,18 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		}
 		$show_date = isset( $instance['show_date'] ) ? $instance['show_date'] : false;
 
-		/**
-		 * Filters the arguments for the Recent Posts widget.
-		 *
-		 * @since 3.4.0
-		 * @since 4.9.0 Added the `$instance` parameter.
-		 *
-		 * @see WP_Query::get_posts()
-		 *
-		 * @param array $args     An array of arguments used to retrieve the recent posts.
-		 * @param array $instance Array of settings for the current widget.
-		 */
 		$r = new WP_Query(
+			/**
+			 * Filters the arguments for the Recent Posts widget.
+			 *
+			 * @since 3.4.0
+			 * @since 4.9.0 Added the `$instance` parameter.
+			 *
+			 * @see WP_Query::get_posts()
+			 *
+			 * @param array $args     An array of arguments used to retrieve the recent posts.
+			 * @param array $instance Array of settings for the current widget.
+			 */
 			apply_filters(
 				'widget_posts_args',
 				array(

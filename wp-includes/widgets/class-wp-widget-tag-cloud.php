@@ -54,19 +54,19 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 		$show_count = ! empty( $instance['count'] );
 
-		/**
-		 * Filters the taxonomy used in the Tag Cloud widget.
-		 *
-		 * @since 2.8.0
-		 * @since 3.0.0 Added taxonomy drop-down.
-		 * @since 4.9.0 Added the `$instance` parameter.
-		 *
-		 * @see wp_tag_cloud()
-		 *
-		 * @param array $args     Args used for the tag cloud widget.
-		 * @param array $instance Array of settings for the current widget.
-		 */
 		$tag_cloud = wp_tag_cloud(
+			/**
+			 * Filters the taxonomy used in the Tag Cloud widget.
+			 *
+			 * @since 2.8.0
+			 * @since 3.0.0 Added taxonomy drop-down.
+			 * @since 4.9.0 Added the `$instance` parameter.
+			 *
+			 * @see wp_tag_cloud()
+			 *
+			 * @param array $args     Args used for the tag cloud widget.
+			 * @param array $instance Array of settings for the current widget.
+			 */
 			apply_filters(
 				'widget_tag_cloud_args',
 				array(
