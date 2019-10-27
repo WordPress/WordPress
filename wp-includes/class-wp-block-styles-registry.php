@@ -43,7 +43,7 @@ final class WP_Block_Styles_Registry {
 	public function register( $block_name, $style_properties ) {
 
 		if ( ! isset( $block_name ) || ! is_string( $block_name ) ) {
-			$message = __( 'Block name name must be a string.' );
+			$message = __( 'Block name must be a string.' );
 			_doing_it_wrong( __METHOD__, $message, '5.3.0' );
 			return false;
 		}
