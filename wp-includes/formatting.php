@@ -5584,7 +5584,7 @@ function _print_emoji_detection_script() {
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param string The emoji base URL for png images.
+		 * @param string $url The emoji base URL for png images.
 		 */
 		'baseUrl' => apply_filters( 'emoji_url', 'https://s.w.org/images/core/emoji/12.0.0-1/72x72/' ),
 
@@ -5593,7 +5593,7 @@ function _print_emoji_detection_script() {
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param string The emoji extension for png files. Default .png.
+		 * @param string $extension The emoji extension for png files. Default .png.
 		 */
 		'ext'     => apply_filters( 'emoji_ext', '.png' ),
 
@@ -5602,7 +5602,7 @@ function _print_emoji_detection_script() {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param string The emoji base URL for svg images.
+		 * @param string $url The emoji base URL for svg images.
 		 */
 		'svgUrl'  => apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/12.0.0-1/svg/' ),
 
@@ -5611,7 +5611,7 @@ function _print_emoji_detection_script() {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param string The emoji extension for svg files. Default .svg.
+		 * @param string $extension The emoji extension for svg files. Default .svg.
 		 */
 		'svgExt'  => apply_filters( 'emoji_svg_ext', '.svg' ),
 	);

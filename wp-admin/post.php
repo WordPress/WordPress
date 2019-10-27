@@ -168,8 +168,8 @@ switch ( $action ) {
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param boolean      Whether to replace the editor. Default false.
-		 * @param object $post Post object.
+		 * @param bool    $replace Whether to replace the editor. Default false.
+		 * @param WP_Post $post    Post object.
 		 */
 		if ( apply_filters( 'replace_editor', false, $post ) === true ) {
 			break;

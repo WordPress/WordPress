@@ -635,9 +635,9 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
 		 *
 		 * @since 5.3.0
 		 *
-		 * @param bool The filtered value.
-		 * @param int  Original image width.
-		 * @param int  Original image height.
+		 * @param bool $proceed The filtered value.
+		 * @param int  $orig_w  Original image width.
+		 * @param int  $orig_h  Original image height.
 		 */
 		$proceed = (bool) apply_filters( 'wp_image_resize_identical_dimensions', false, $orig_w, $orig_h );
 
@@ -3696,8 +3696,8 @@ function wp_enqueue_media( $args = array() ) {
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
-	 * @param bool|null Whether to show the button, or `null` to decide based
-	 *                  on whether any audio files exist in the media library.
+	 * @param bool|null $show Whether to show the button, or `null` to decide based
+	 *                        on whether any audio files exist in the media library.
 	 */
 	$show_audio_playlist = apply_filters( 'media_library_show_audio_playlist', true );
 	if ( null === $show_audio_playlist ) {
@@ -3726,8 +3726,8 @@ function wp_enqueue_media( $args = array() ) {
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
-	 * @param bool|null Whether to show the button, or `null` to decide based
-	 *                  on whether any video files exist in the media library.
+	 * @param bool|null $show Whether to show the button, or `null` to decide based
+	 *                        on whether any video files exist in the media library.
 	 */
 	$show_video_playlist = apply_filters( 'media_library_show_video_playlist', true );
 	if ( null === $show_video_playlist ) {
@@ -3754,9 +3754,9 @@ function wp_enqueue_media( $args = array() ) {
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
-	 * @param array|null An array of objects with `month` and `year`
-	 *                   properties, or `null` (or any other non-array value)
-	 *                   for default behavior.
+	 * @param array|null $months An array of objects with `month` and `year`
+	 *                           properties, or `null` (or any other non-array value)
+	 *                           for default behavior.
 	 */
 	$months = apply_filters( 'media_library_months_with_files', null );
 	if ( ! is_array( $months ) ) {

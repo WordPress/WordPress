@@ -3572,10 +3572,10 @@ function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
 		 *
 		 * @since 4.9.6
 		 *
-		 * @param bool|string                    Whether to apply the comment anonymization (bool).
-		 *                                       Custom prevention message (string). Default true.
-		 * @param WP_Comment $comment            WP_Comment object.
-		 * @param array      $anonymized_comment Anonymized comment data.
+		 * @param bool|string $anon_message       Whether to apply the comment anonymization (bool) or a custom
+		 *                                        message (string). Default true.
+		 * @param WP_Comment  $comment            WP_Comment object.
+		 * @param array       $anonymized_comment Anonymized comment data.
 		 */
 		$anon_message = apply_filters( 'wp_anonymize_comment', true, $comment, $anonymized_comment );
 

@@ -594,7 +594,7 @@ switch ( $action ) {
 			 *
 			 * @since 5.3.0
 			 *
-			 * @param int Interval time (in seconds).
+			 * @param int $interval Interval time (in seconds).
 			 */
 			$admin_email_check_interval = (int) apply_filters( 'admin_email_check_interval', 6 * MONTH_IN_SECONDS );
 

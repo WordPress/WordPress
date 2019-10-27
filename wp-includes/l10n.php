@@ -126,7 +126,7 @@ function determine_locale() {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param string|null The locale to return and short-circuit, or null as default.
+	 * @param string|null $locale The locale to return and short-circuit. Default null.
 	 */
 	$determined_locale = apply_filters( 'pre_determine_locale', null );
 	if ( ! empty( $determined_locale ) && is_string( $determined_locale ) ) {
