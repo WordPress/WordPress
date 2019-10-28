@@ -2618,8 +2618,8 @@ function wp_ext2type( $ext ) {
  * @return array {
  *     Values for the extension and mime type.
  *
- *     @type string|false $0 File extension, or false if the file doesn't match a mime type.
- *     @type string|false $1 File mime type, or false if the file doesn't match a mime type.
+ *     @type string|false $ext  File extension, or false if the file doesn't match a mime type.
+ *     @type string|false $type File mime type, or false if the file doesn't match a mime type.
  * }
  */
 function wp_check_filetype( $filename, $mimes = null ) {
@@ -2660,9 +2660,9 @@ function wp_check_filetype( $filename, $mimes = null ) {
  * @return array {
  *     Values for the extension, mime type, and corrected filename.
  *
- *     @type string|false $0 File extension, or false if the file doesn't match a mime type.
- *     @type string|false $1 File mime type, or false if the file doesn't match a mime type.
- *     @type string|false $2 File name with its correct extension, or false if it cannot be determined.
+ *     @type string|false $ext             File extension, or false if the file doesn't match a mime type.
+ *     @type string|false $type            File mime type, or false if the file doesn't match a mime type.
+ *     @type string|false $proper_filename File name with its correct extension, or false if it cannot be determined.
  * }
  */
 function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
@@ -2822,9 +2822,9 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 	 * @param array       $wp_check_filetype_and_ext {
 	 *     Values for the extension, mime type, and corrected filename.
 	 *
-	 *     @type string|false $0 File extension, or false if the file doesn't match a mime type.
-	 *     @type string|false $1 File mime type, or false if the file doesn't match a mime type.
-	 *     @type string|false $2 File name with its correct extension, or false if it cannot be determined.
+	 *     @type string|false $ext             File extension, or false if the file doesn't match a mime type.
+	 *     @type string|false $type            File mime type, or false if the file doesn't match a mime type.
+	 *     @type string|false $proper_filename File name with its correct extension, or false if it cannot be determined.
 	 * }
 	 * @param string      $file                      Full path to the file.
 	 * @param string      $filename                  The name of the file (may differ from $file due to

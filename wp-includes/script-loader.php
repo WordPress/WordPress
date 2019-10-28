@@ -778,7 +778,7 @@ function wp_tinymce_inline_scripts() {
 		'wpview',
 	);
 
-	/* This filter is documented in wp-includes/class-wp-editor.php */
+	/** This filter is documented in wp-includes/class-wp-editor.php */
 	$tinymce_plugins = apply_filters( 'tiny_mce_plugins', $tinymce_plugins, 'classic-block' );
 	$tinymce_plugins = array_unique( $tinymce_plugins );
 
@@ -807,7 +807,7 @@ function wp_tinymce_inline_scripts() {
 		'wp_adv',
 	);
 
-	/* This filter is documented in wp-includes/class-wp-editor.php */
+	/** This filter is documented in wp-includes/class-wp-editor.php */
 	$toolbar1 = apply_filters( 'mce_buttons', $toolbar1, 'classic-block' );
 
 	$toolbar2 = array(
@@ -824,13 +824,13 @@ function wp_tinymce_inline_scripts() {
 		'wp_help',
 	);
 
-	/* This filter is documented in wp-includes/class-wp-editor.php */
+	/** This filter is documented in wp-includes/class-wp-editor.php */
 	$toolbar2 = apply_filters( 'mce_buttons_2', $toolbar2, 'classic-block' );
-	/* This filter is documented in wp-includes/class-wp-editor.php */
+	/** This filter is documented in wp-includes/class-wp-editor.php */
 	$toolbar3 = apply_filters( 'mce_buttons_3', array(), 'classic-block' );
-	/* This filter is documented in wp-includes/class-wp-editor.php */
+	/** This filter is documented in wp-includes/class-wp-editor.php */
 	$toolbar4 = apply_filters( 'mce_buttons_4', array(), 'classic-block' );
-	/* This filter is documented in wp-includes/class-wp-editor.php */
+	/** This filter is documented in wp-includes/class-wp-editor.php */
 	$external_plugins = apply_filters( 'mce_external_plugins', array(), 'classic-block' );
 
 	$tinymce_settings = array(
@@ -851,7 +851,7 @@ function wp_tinymce_inline_scripts() {
 		array_merge( $tinymce_settings, $editor_settings['tinymce'] );
 	}
 
-	/* This filter is documented in wp-includes/class-wp-editor.php */
+	/** This filter is documented in wp-includes/class-wp-editor.php */
 	$tinymce_settings = apply_filters( 'tiny_mce_before_init', $tinymce_settings, 'classic-block' );
 
 	// Do "by hand" translation from PHP array to js object.
