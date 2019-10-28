@@ -406,7 +406,9 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		if ( in_array( 'caption', $fields, true ) ) {
 			/** This filter is documented in wp-includes/post-template.php */
-			$caption         = apply_filters( 'the_excerpt', apply_filters( 'get_the_excerpt', $post->post_excerpt, $post ) );
+			$caption         = apply_filters( 'get_the_excerpt', $post->post_excerpt, $post );
+			/** This filter is documented in wp-includes/post-template.php */
+			$caption         = apply_filters( 'the_excerpt', $caption );
 			$data['caption'] = array(
 				'raw'      => $post->post_excerpt,
 				'rendered' => $caption,

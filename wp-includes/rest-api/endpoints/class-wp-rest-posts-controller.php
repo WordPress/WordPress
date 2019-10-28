@@ -1558,7 +1558,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( rest_is_field_included( 'excerpt', $fields ) ) {
 			/** This filter is documented in wp-includes/post-template.php */
-			$excerpt         = apply_filters( 'the_excerpt', apply_filters( 'get_the_excerpt', $post->post_excerpt, $post ) );
+			$excerpt         = apply_filters( 'get_the_excerpt', $post->post_excerpt, $post );
+			/** This filter is documented in wp-includes/post-template.php */
+			$excerpt         = apply_filters( 'the_excerpt', $excerpt );
 			$data['excerpt'] = array(
 				'raw'       => $post->post_excerpt,
 				'rendered'  => post_password_required( $post ) ? '' : $excerpt,
