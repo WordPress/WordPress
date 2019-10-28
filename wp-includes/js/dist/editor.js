@@ -7215,7 +7215,7 @@ function useAutosavePurge() {
   var lastIsDirty = Object(external_this_wp_element_["useRef"])(isDirty);
   var lastIsAutosaving = Object(external_this_wp_element_["useRef"])(isAutosaving);
   Object(external_this_wp_element_["useEffect"])(function () {
-    if (lastIsAutosaving.current && !isAutosaving && !didError) {
+    if (!didError && (lastIsAutosaving.current && !isAutosaving || lastIsDirty.current && !isDirty)) {
       localAutosaveClear(postId);
     }
 

@@ -14164,6 +14164,7 @@ var ordered_list_settings_OrderedListSettings = function OrderedListSettings(_re
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/list/edit.js
 
 
+
 /**
  * WordPress dependencies
  */
@@ -14287,10 +14288,9 @@ function ListEdit(_ref) {
     placeholder: Object(external_this_wp_i18n_["__"])('Write list…'),
     onMerge: mergeBlocks,
     onSplit: function onSplit(value) {
-      return Object(external_this_wp_blocks_["createBlock"])(list_name, {
-        ordered: ordered,
+      return Object(external_this_wp_blocks_["createBlock"])(list_name, Object(objectSpread["a" /* default */])({}, attributes, {
         values: value
-      });
+      }));
     },
     __unstableOnSplitMiddle: function __unstableOnSplitMiddle() {
       return Object(external_this_wp_blocks_["createBlock"])('core/paragraph');
