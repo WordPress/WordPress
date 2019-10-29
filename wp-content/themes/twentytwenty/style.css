@@ -2,8 +2,8 @@
 Theme Name: Twenty Twenty
 Text Domain: twentytwenty
 Version: 1.0
-Description: Default theme for Twenty Twenty
-Tags: blog, one-column, custom-background, custom-colors, custom-logo, custom-menu, editor-style, featured-images, footer-widgets, full-width-template, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready, block-styles, wide-blocks
+Description: Our default theme for 2020 is designed to take full advantage of the flexibility of the block editor. Organizations and businesses have the ability to create dynamic landing pages with endless layouts using the group and column blocks. The centered content column and fine-tuned typography also makes it perfect for traditional blogs. Complete editor styles give you a good idea of what your content will look like, even before you publish. You can give your site a personal touch by changing the background colors and the accent color in the Customizer. The colors of all elements on your site are automatically calculated based on the colors you pick, ensuring a high, accessible color contrast for your visitors.
+Tags: blog, one-column, custom-background, custom-colors, custom-logo, custom-menu, editor-style, featured-images, footer-widgets, full-width-template, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready, block-styles, wide-blocks, accessibility-ready
 Author: the WordPress team
 Author URI: https://wordpress.org/
 Theme URI: https://wordpress.org/themes/twentytwenty/
@@ -841,8 +841,15 @@ table {
 	margin: 4rem 0;
 	max-width: 100%;
 	overflow: hidden;
-	table-layout: fixed;
 	width: 100%;
+}
+
+.alignleft > table {
+	margin: 0;
+}
+
+.alignright > table {
+	margin: 0;
 }
 
 th,
@@ -1339,10 +1346,14 @@ body:not(.enable-search-modal) .header-titles-wrapper {
 	display: block;
 }
 
+.header-titles .site-logo .site-logo {
+	margin: 0;
+}
+
 .site-logo img {
 	max-height: 6rem;
-	width: auto;
 	margin: 0 auto;
+	width: auto;
 }
 
 body:not(.enable-search-modal) .site-logo img {
@@ -1684,7 +1695,8 @@ ul.primary-menu {
 	background: #fff;
 	display: none;
 	opacity: 0;
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
 	position: fixed;
 	bottom: 0;
 	left: -99999rem;
@@ -2187,10 +2199,14 @@ body.template-full-width .entry-content {
 }
 
 body.template-full-width .entry-content .alignleft {
+
+	/*rtl:ignore*/
 	margin-left: 0;
 }
 
 body.template-full-width .entry-content .alignright {
+
+	/*rtl:ignore*/
 	margin-right: 0;
 }
 
@@ -2468,28 +2484,33 @@ h2.entry-title {
 
 /* Author Bio -------------------------------- */
 
-.avatar {
-	border-radius: 50%;
-}
-
 .author-bio {
 	margin-top: 4rem;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-start;
 }
 
-.author-info {
-	flex: 1;
+.hide-avatars .author-bio {
+	padding-left: 0;
+}
+
+.author-bio .author-title-wrapper {
+	align-items: center;
+	display: flex;
+	margin: 0 0 1rem 0;
+}
+
+.author-bio .avatar {
+	border-radius: 50%;
+	margin-right: 1.5rem;
+	height: 5rem;
+	width: 5rem;
 }
 
 .hide-avatars img.avatar {
 	display: none;
 }
 
-.author-bio .avatar {
-	margin-right: 1.5rem;
-	width: 5rem;
+.author-bio p:last-child {
+	margin-bottom: 0;
 }
 
 .author-bio .author-title {
@@ -2527,7 +2548,7 @@ h2.entry-title {
 }
 
 .pagination-single hr:last-child {
-	margin: 2.8rem 0 0 0;
+	margin: 2.8rem 0 0.8rem 0;
 }
 
 .pagination-single a {
@@ -2536,11 +2557,7 @@ h2.entry-title {
 	font-weight: 600;
 	letter-spacing: -0.0275em;
 	text-decoration: none;
-}
-
-.pagination-single a:hover,
-.pagination-single a:focus {
-	text-decoration: underline;
+	flex: 1;
 }
 
 .pagination-single a + a {
@@ -3171,7 +3188,7 @@ hr.wp-block-separator {
 }
 
 .wp-block-table.is-style-stripes {
-	border-bottom-color: #dcd7ca;
+	border-bottom: none;
 }
 
 /* Block: Quote ------------------------------ */
@@ -4298,6 +4315,12 @@ a.to-the-top > * {
 		max-width: 26rem;
 	}
 
+	/* BLOCK: TABLE WIDTH */
+	.wp-block-table.alignleft,
+	.wp-block-table.alignright {
+		max-width: 100%;
+	}
+
 	/* Entry Content ------------------------- */
 
 	/* ALIGNMENT CLASSES */
@@ -4398,13 +4421,17 @@ a.to-the-top > * {
 
 	/* ALIGNMENT CLASSES */
 
-	.entry-content .alignleft {
+	.entry-content > .alignleft,
+	.entry-content > p .alignleft,
+	.entry-content > .wp-block-image .alignleft {
 
 		/*rtl:ignore*/
 		margin-left: calc(( 100vw - 58rem - 8rem ) / -2);
 	}
 
-	.entry-content .alignright {
+	.entry-content > .alignright,
+	.entry-content > p .alignright,
+	.entry-content > .wp-block-image .alignright {
 
 		/*rtl:ignore*/
 		margin-right: calc(( 100vw - 58rem - 8rem ) / -2);
@@ -4787,10 +4814,15 @@ a.to-the-top > * {
 	.author-bio {
 		margin-top: 8rem;
 		min-height: 8rem;
+		padding-left: 10rem;
 		position: relative;
 	}
 
 	.author-bio .avatar {
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 8rem;
 		width: 8rem;
 	}
 
@@ -4815,7 +4847,7 @@ a.to-the-top > * {
 	}
 
 	.pagination-single hr:last-child {
-		margin: 4rem 0 0 0;
+		margin: 4rem 0 0.8rem 0;
 	}
 
 	.pagination-single a + a {
@@ -5020,10 +5052,14 @@ a.to-the-top > * {
 	}
 
 	.alignleft {
+
+		/*rtl:ignore*/
 		margin: 0.3rem 2rem 2rem 0;
 	}
 
 	.alignright {
+
+		/*rtl:ignore*/
 		margin: 0.3rem 0 2rem 2rem;
 	}
 
@@ -5813,13 +5849,17 @@ a.to-the-top > * {
 
 	/* ALIGNMENT CLASSES */
 
-	.entry-content .alignleft {
+	.entry-content > .alignleft,
+	.entry-content > p .alignleft,
+	.entry-content > .wp-block-image .alignleft {
 
 		/*rtl:ignore*/
 		margin-left: -31rem;
 	}
 
-	.entry-content .alignright {
+	.entry-content > .alignright,
+	.entry-content > p .alignright,
+	.entry-content > .wp-block-image .alignright {
 
 		/*rtl:ignore*/
 		margin-right: -31rem;

@@ -463,7 +463,7 @@ Inter variable font. Usage:
 	border-collapse: collapse;
 	border-spacing: 0;
 	empty-cells: show;
-	font-size: 16px;
+	font-size: 18px;
 	margin-bottom: 1.1em;
 	width: 100%;
 }
@@ -491,16 +491,30 @@ Inter variable font. Usage:
 }
 
 .editor-styles-wrapper .wp-block-table .wp-block-table__cell-content {
-	padding: 12px;
+	padding: 0.5em;
 }
 
 .editor-styles-wrapper .wp-block-table thead {
 	vertical-align: bottom;
 	white-space: nowrap;
+	text-align: inherit;
 }
 
 .editor-styles-wrapper .wp-block-table th {
 	font-weight: 700;
+	text-align: inherit; /* Prevents the header from being centered by default*/
+}
+
+.editor-styles-wrapper .wp-block-table th.has-text-align-center {
+	text-align: center;
+}
+
+.editor-styles-wrapper .wp-block-table th.has-text-align-right {
+	text-align: left;
+}
+
+.editor-styles-wrapper .wp-block-table th.has-text-align-left {
+	text-align: right;
 }
 
 /* STYLE: STRIPES */

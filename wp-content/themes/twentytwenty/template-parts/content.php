@@ -33,7 +33,7 @@
 			if ( is_search() || ! is_singular() && 'summary' === get_theme_mod( 'blog_content', 'full' ) ) {
 				the_excerpt();
 			} else {
-				the_content( sprintf( '<span class="faux-button">%1$s</span> <span class="screen-reader-text">"%2$s"</span>', __( 'Continue reading', 'twentytwenty' ), get_the_title() ) );
+				the_content( __( 'Continue reading', 'twentytwenty' ) );
 			}
 			?>
 

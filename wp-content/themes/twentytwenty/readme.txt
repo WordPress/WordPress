@@ -7,9 +7,20 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Default theme for Twenty Twenty
+Default theme for 2020.
 
 == Description ==
+
+Our default theme for 2020 is designed to take full advantage of the 
+flexibility of the block editor. Organizations and businesses have the 
+ability to create dynamic landing pages with endless layouts using the 
+group and column blocks. The centered content column and fine-tuned 
+typography also makes it perfect for traditional blogs. Complete editor 
+styles give you a good idea of what your content will look like, even 
+before you publish. You can give your site a personal touch by changing 
+the background colors and the accent color in the Customizer. The colors of 
+all elements on your site are automatically calculated based on the colors 
+you pick, ensuring a high, accessible color contrast for your visitors.
 
 == Changelog ==
 
@@ -33,9 +44,8 @@ Chaplin Theme is distributed under the terms of the GNU GPL version 2.0
 
 Twenty Twenty bundles the following third-party resources:
 
-Image in screenshot.png from PxHere
-License: Creative Commons Zero (CC0), https://creativecommons.org/publicdomain/zero/1.0/
-URL: https://pxhere.com/en/photo/18153
+Illustrations in screenshot.png by Tammie Lister
+License: Creative Commons Zero (CC0), https://creativecommons.org/publicdomain/zero/1.0/  
 
 Inter Font
 Copyright (c) 2016-2019 The Inter Project Authors (me@rsms.me)
@@ -54,10 +64,10 @@ License: MIT License, https://opensource.org/licenses/MIT
 Source: https://feathericons.com
 Used for post meta icons, and the link icon in the social menu.
 
-Socicon Icons
-License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
-Source: https://www.socicon.com
-Used for all social menu icons except the link icon.
+Social Icons
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Source: WordPress Social Link Block (See wp-includes\blocks\social-link.php)
 
 Code from Twenty Nineteen
 Copyright (c) 2018 WordPress.org
