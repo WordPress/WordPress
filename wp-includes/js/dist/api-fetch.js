@@ -713,7 +713,7 @@ function mediaUploadMiddleware(options, next) {
   })).catch(function (response) {
     var attachmentId = response.headers.get('x-wp-upload-attachment-id');
 
-    if ((response.status === 500 || response.status === 502) && attachmentId) {
+    if (response.status >= 500 && response.status < 600 && attachmentId) {
       return postProcess(attachmentId).catch(function () {
         if (options.parse !== false) {
           return Promise.reject({
