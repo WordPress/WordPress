@@ -232,8 +232,6 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 		return;
 	}
 
-	$page_template = get_page_template_slug( $post_id );
-
 	/**
 	 * Filters post types array
 	 *
@@ -362,16 +360,14 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 
 					$has_meta = true;
 					?>
-					<li class="post-date">
-						<a class="meta-wrapper" href="<?php the_permalink(); ?>">
-							<span class="meta-icon">
-								<span class="screen-reader-text"><?php _e( 'Post date', 'twentytwenty' ); ?></span>
-								<?php twentytwenty_the_theme_svg( 'calendar' ); ?>
-							</span>
-							<span class="meta-text">
-								<?php the_time( get_option( 'date_format' ) ); ?>
-							</span>
-						</a>
+					<li class="post-date meta-wrapper">
+						<span class="meta-icon">
+							<span class="screen-reader-text"><?php _e( 'Post date', 'twentytwenty' ); ?></span>
+							<?php twentytwenty_the_theme_svg( 'calendar' ); ?>
+						</span>
+						<span class="meta-text">
+							<a href="<?php the_permalink(); ?>"><?php the_time( get_option( 'date_format' ) ); ?></a>
+						</span>
 					</li>
 					<?php
 
