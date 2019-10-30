@@ -9,7 +9,7 @@
  * Complie libssh2 (Note: Only 0.14 is officaly working with PHP 5.2.6+ right now, But many users have found the latest versions work)
  *
  * cd /usr/src
- * wget http://surfnet.dl.sourceforge.net/sourceforge/libssh2/libssh2-0.14.tar.gz
+ * wget https://www.libssh2.org/download/libssh2-0.14.tar.gz
  * tar -zxvf libssh2-0.14.tar.gz
  * cd libssh2-0.14/
  * ./configure

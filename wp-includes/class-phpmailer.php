@@ -121,7 +121,7 @@ class PHPMailer
      * An iCal message part body.
      * Only supported in simple alt or alt_inline message types
      * To generate iCal events, use the bundled extras/EasyPeasyICS.php class or iCalcreator
-     * @link http://sprain.ch/blog/downloads/php-class-easypeasyics-create-ical-files-with-php/
+     * @link http://www.bradym.net/php/creating-icalendar-ics-files-with-php.html
      * @link http://kigkonsult.se/iCalcreator/
      * @var string
      */
