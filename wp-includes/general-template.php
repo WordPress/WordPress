@@ -2898,13 +2898,13 @@ function wp_footer() {
 /**
  * Fire the wp_body_open action.
  *
- * * See {@see 'wp_body_open'}.
+ * See {@see 'wp_body_open'}.
  *
  * @since 5.2.0
  */
 function wp_body_open() {
 	/**
-	 * Triggered after the opening <body> tag.
+	 * Triggered after the opening body tag.
 	 *
 	 * @since 5.2.0
 	 */

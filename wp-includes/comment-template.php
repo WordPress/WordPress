@@ -2628,7 +2628,7 @@ function comment_form( $args = array(), $post_id = null ) {
 			echo apply_filters( 'comment_form_submit_field', $submit_field, $args );
 
 			/**
-			 * Fires at the bottom of the comment form, inside the closing </form> tag.
+			 * Fires at the bottom of the comment form, inside the closing form tag.
 			 *
 			 * @since 1.5.0
 			 *
