@@ -592,6 +592,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	 * Filters the generated attachment meta data.
 	 *
 	 * @since 2.1.0
+	 * @since 5.3.0 The `$context` parameter was added.
 	 *
 	 * @param array  $metadata      An array of attachment meta data.
 	 * @param int    $attachment_id Current attachment ID.
