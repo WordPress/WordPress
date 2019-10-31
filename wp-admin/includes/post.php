@@ -2428,7 +2428,7 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @params WP_Post $post The post that is being edited.
+	 * @param WP_Post $post The post that is being edited.
 	 */
 	do_action( 'block_editor_meta_box_hidden_fields', $post );
 }

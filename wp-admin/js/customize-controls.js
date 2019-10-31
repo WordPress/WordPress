@@ -1152,8 +1152,8 @@
 		/**
 		 * @since 4.1.0
 		 *
-		 * @params {Boolean} active
-		 * @param {Object}   [params]
+		 * @param {Boolean} active
+		 * @param {Object}  [params]
 		 * @returns {Boolean} false if state already applied
 		 */
 		_toggleActive: function ( active, params ) {
