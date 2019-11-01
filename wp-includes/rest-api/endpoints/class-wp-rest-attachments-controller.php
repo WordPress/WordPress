@@ -737,8 +737,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @link http://tools.ietf.org/html/rfc2388
-	 * @link http://tools.ietf.org/html/rfc6266
+	 * @link https://tools.ietf.org/html/rfc2388
+	 * @link https://tools.ietf.org/html/rfc6266
 	 *
 	 * @param string[] $disposition_header List of Content-Disposition header values.
 	 * @return string|null Filename if available, or null if not found.
