@@ -36,9 +36,12 @@ class WP_Widget_Factory {
 	 * PHP4 constructor.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 4.3.0 Use __construct() instead.
+	 *
+	 * @see WP_Widget_Factory::__construct()
 	 */
 	public function WP_Widget_Factory() {
-		_deprecated_constructor( 'WP_Widget_Factory', '4.2.0' );
+		_deprecated_constructor( 'WP_Widget_Factory', '4.3.0' );
 		self::__construct();
 	}
 
