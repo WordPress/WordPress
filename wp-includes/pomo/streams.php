@@ -25,12 +25,12 @@ if ( ! class_exists( 'POMO_Reader', false ) ) :
 		/**
 		 * PHP4 constructor.
 		 *
-		 * @deprecated 5.3.0 Use __construct() instead.
+		 * @deprecated 5.4.0 Use __construct() instead.
 		 *
 		 * @see POMO_Reader::__construct()
 		 */
 		public function POMO_Reader() {
-			_deprecated_constructor( self::class, '5.3.0', static::class );
+			_deprecated_constructor( self::class, '5.4.0', static::class );
 			self::__construct();
 		}
 
@@ -156,12 +156,12 @@ if ( ! class_exists( 'POMO_FileReader', false ) ) :
 		/**
 		 * PHP4 constructor.
 		 *
-		 * @deprecated 5.3.0 Use __construct() instead.
+		 * @deprecated 5.4.0 Use __construct() instead.
 		 *
 		 * @see POMO_FileReader::__construct()
 		 */
 		public function POMO_FileReader( $filename ) {
-			_deprecated_constructor( self::class, '5.3.0', static::class );
+			_deprecated_constructor( self::class, '5.4.0', static::class );
 			self::__construct( $filename );
 		}
 
@@ -240,12 +240,12 @@ if ( ! class_exists( 'POMO_StringReader', false ) ) :
 		/**
 		 * PHP4 constructor.
 		 *
-		 * @deprecated 5.3.0 Use __construct() instead.
+		 * @deprecated 5.4.0 Use __construct() instead.
 		 *
 		 * @see POMO_StringReader::__construct()
 		 */
 		public function POMO_StringReader( $str = '' ) {
-			_deprecated_constructor( self::class, '5.3.0', static::class );
+			_deprecated_constructor( self::class, '5.4.0', static::class );
 			self::__construct( $str );
 		}
 
@@ -311,12 +311,12 @@ if ( ! class_exists( 'POMO_CachedFileReader', false ) ) :
 		/**
 		 * PHP4 constructor.
 		 *
-		 * @deprecated 5.3.0 Use __construct() instead.
+		 * @deprecated 5.4.0 Use __construct() instead.
 		 *
 		 * @see POMO_CachedFileReader::__construct()
 		 */
 		public function POMO_CachedFileReader( $filename ) {
-			_deprecated_constructor( self::class, '5.3.0', static::class );
+			_deprecated_constructor( self::class, '5.4.0', static::class );
 			self::__construct( $filename );
 		}
 	}
@@ -337,12 +337,12 @@ if ( ! class_exists( 'POMO_CachedIntFileReader', false ) ) :
 		/**
 		 * PHP4 constructor.
 		 *
-		 * @deprecated 5.3.0 Use __construct() instead.
+		 * @deprecated 5.4.0 Use __construct() instead.
 		 *
 		 * @see POMO_CachedIntFileReader::__construct()
 		 */
 		function POMO_CachedIntFileReader( $filename ) {
-			_deprecated_constructor( self::class, '5.3.0', static::class );
+			_deprecated_constructor( self::class, '5.4.0', static::class );
 			self::__construct( $filename );
 		}
 	}
