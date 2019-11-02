@@ -38,6 +38,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 * PHP4 constructor.
 	 *
 	 * @since Twenty Eleven 1.0
+	 * @deprecated Twenty Eleven 2.2
 	 */
 	function Twenty_Eleven_Ephemera_Widget() {
 		self::__construct();
