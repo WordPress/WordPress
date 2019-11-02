@@ -65,8 +65,13 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 
 		/**
 		 * PHP4 constructor.
+		 *
+		 * @deprecated 5.3.0 Use __construct() instead.
+		 *
+		 * @see Translation_Entry::__construct()
 		 */
 		public function Translation_Entry( $args = array() ) {
+			_deprecated_constructor( self::class, '5.3.0', static::class );
 			self::__construct( $args );
 		}
 
