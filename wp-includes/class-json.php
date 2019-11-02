@@ -159,7 +159,7 @@ class Services_JSON
      *
      * @deprecated 5.3.0 Use __construct() instead.
      *
-     * @see __construct()
+     * @see Services_JSON::__construct()
 	 */
 	public function Services_JSON( $use = 0 ) {
 		_deprecated_constructor( 'Services_JSON', '5.3.0', get_class( $this ) );
@@ -991,7 +991,7 @@ if (class_exists('PEAR_Error')) {
 	     *
 	     * @deprecated 5.3.0 Use __construct() instead.
 	     *
-	     * @see __construct()
+	     * @see Services_JSON_Error::__construct()
 	     */
 		public function Services_JSON_Error($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null) {
@@ -1023,7 +1023,7 @@ if (class_exists('PEAR_Error')) {
 	     *
 	     * @deprecated 5.3.0 Use __construct() instead.
 	     *
-	     * @see __construct()
+	     * @see Services_JSON_Error::__construct()
 	     */
 		public function Services_JSON_Error( $message = 'unknown error', $code = null,
 	                                     $mode = null, $options = null, $userinfo = null ) {
