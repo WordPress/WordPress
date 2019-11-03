@@ -5,8 +5,6 @@
  */
 window.wp = window.wp || {};
 
-// Suppress warning about Uploader function's unused "isIE" argument:
-/* jshint unused:false */
 ( function( exports, $ ) {
 	var Uploader;
 
@@ -145,13 +143,13 @@ window.wp = window.wp || {};
 				// Do a cleanup then tell the user to scale down the image and upload it again.
 				$.ajax({
 					type: 'post',
-					url: ajaxurl, // jshint ignore:line
+					url: ajaxurl,
 					dataType: 'json',
 					data: {
 						action: 'media-create-image-subsizes',
 						_wpnonce: _wpPluploadSettings.defaults.multipart_params._wpnonce,
 						attachment_id: id,
-						_wp_upload_failed_cleanup: true
+						_wp_upload_failed_cleanup: true,
 					}
 				});
 
@@ -168,12 +166,12 @@ window.wp = window.wp || {};
 			// Another request to try to create the missing image sub-sizes.
 			$.ajax({
 				type: 'post',
-				url: ajaxurl, // jshint ignore:line
+				url: ajaxurl,
 				dataType: 'json',
 				data: {
 					action: 'media-create-image-subsizes',
 					_wpnonce: _wpPluploadSettings.defaults.multipart_params._wpnonce,
-					attachment_id: id
+					attachment_id: id,
 				}
 			}).done( function( response ) {
 				if ( response.success ) {
@@ -194,7 +192,7 @@ window.wp = window.wp || {};
 
 				error( message, data, file, 'no-retry' );
 			});
-		};
+		}
 
 		/**
 		 * Custom error callback.
@@ -258,7 +256,7 @@ window.wp = window.wp || {};
 			}
 
 			self.success( file.attachment );
-		};
+		}
 
 		/**
 		 * After the Uploader has been initialized, initialize some behaviors for the dropzone.
@@ -462,7 +460,7 @@ window.wp = window.wp || {};
 			}
 
 			return pluploadL10n.http_error;
-		}
+		},
 	};
 
 	$.extend( Uploader.prototype, /** @lends wp.Uploader.prototype */{
