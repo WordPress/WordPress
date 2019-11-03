@@ -4676,7 +4676,7 @@ function _deprecated_constructor( $class, $version, $parent_class = '' ) {
 						$class,
 						$parent_class,
 						$version,
-						'<pre>__construct()</pre>'
+						'<code>__construct()</code>'
 					),
 					E_USER_DEPRECATED
 				);
@@ -4687,7 +4687,7 @@ function _deprecated_constructor( $class, $version, $parent_class = '' ) {
 						__( 'The called constructor method for %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.' ),
 						$class,
 						$version,
-						'<pre>__construct()</pre>'
+						'<code>__construct()</code>'
 					),
 					E_USER_DEPRECATED
 				);
@@ -4700,7 +4700,7 @@ function _deprecated_constructor( $class, $version, $parent_class = '' ) {
 						$class,
 						$parent_class,
 						$version,
-						'<pre>__construct()</pre>'
+						'<code>__construct()</code>'
 					),
 					E_USER_DEPRECATED
 				);
@@ -4710,7 +4710,7 @@ function _deprecated_constructor( $class, $version, $parent_class = '' ) {
 						'The called constructor method for %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.',
 						$class,
 						$version,
-						'<pre>__construct()</pre>'
+						'<code>__construct()</code>'
 					),
 					E_USER_DEPRECATED
 				);
