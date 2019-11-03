@@ -1032,7 +1032,7 @@ switch ( $action ) {
 
 		if ( $http_post ) {
 			if ( isset( $_POST['user_login'] ) && is_string( $_POST['user_login'] ) ) {
-				$user_login = $_POST['user_login'];
+				$user_login = wp_unslash( $_POST['user_login'] );
 			}
 
 			if ( isset( $_POST['user_email'] ) && is_string( $_POST['user_email'] ) ) {
@@ -1150,7 +1150,7 @@ switch ( $action ) {
 
 		// If the user wants SSL but the session is not SSL, force a secure cookie.
 		if ( ! empty( $_POST['log'] ) && ! force_ssl_admin() ) {
-			$user_name = sanitize_user( $_POST['log'] );
+			$user_name = sanitize_user( wp_unslash( $_POST['log'] ) );
 			$user      = get_user_by( 'login', $user_name );
 
 			if ( ! $user && strpos( $user_name, '@' ) ) {

@@ -41,7 +41,7 @@ function edit_user( $user_id = 0 ) {
 	}
 
 	if ( ! $update && isset( $_POST['user_login'] ) ) {
-		$user->user_login = sanitize_user( $_POST['user_login'], true );
+		$user->user_login = sanitize_user( wp_unslash( $_POST['user_login'] ), true );
 	}
 
 	$pass1 = '';
