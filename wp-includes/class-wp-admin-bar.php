@@ -82,16 +82,28 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * @param array $node
+	 * Add a node (menu item) to the Admin Bar menu.
+	 *
+	 * @since 3.3.0
+	 * @since 5.4.0 Deprecated in favor of {@see WP_Admin_Bar::add_node()}.
+	 *
+	 * @param array $node The attributes that define the node.
 	 */
 	public function add_menu( $node ) {
+		_deprecated_function( __METHOD__, '5.4.0', __CLASS__ . '::add_node()' );
 		$this->add_node( $node );
 	}
 
 	/**
-	 * @param string $id
+	 * Remove a node from the admin bar.
+	 *
+	 * @since 3.1.0
+	 * @since 5.4.0 Deprecated in favor of {@see WP_Admin_Bar::remove_node()}.
+	 *
+	 * @param string $id The menu slug to remove.
 	 */
 	public function remove_menu( $id ) {
+		_deprecated_function( __METHOD__, '5.4.0', __CLASS__ . '::remove_node()' );
 		$this->remove_node( $id );
 	}
 
