@@ -1252,11 +1252,11 @@ function wp_default_scripts( &$scripts ) {
 		'error_uploading'           => __( '&#8220;%s&#8221; has failed to upload.' ),
 	);
 
-	$scripts->add( 'moxiejs', "/wp-includes/js/plupload/moxie$suffix.js", array(), '1.3.5' );
-	$scripts->add( 'plupload', "/wp-includes/js/plupload/plupload$suffix.js", array( 'moxiejs' ), '2.1.9' );
+	$scripts->add( 'moxiejs', "/wp-includes/js/plupload/moxie$suffix.js", array(), '1.5.7' );
+	$scripts->add( 'plupload', "/wp-includes/js/plupload/plupload$suffix.js", array( 'moxiejs' ), '2.3.6' );
 	// Back compat handles:
 	foreach ( array( 'all', 'html5', 'flash', 'silverlight', 'html4' ) as $handle ) {
-		$scripts->add( "plupload-$handle", false, array( 'plupload' ), '2.1.1' );
+		$scripts->add( "plupload-$handle", false, array( 'plupload' ), '2.3.6' );
 	}
 
 	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array( 'plupload', 'jquery' ) );

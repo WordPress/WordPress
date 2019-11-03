@@ -216,10 +216,10 @@ function itemAjaxError( id, message ) {
 		return;
 
 	item.html( '<div class="error-div">' +
-				'<a class="dismiss" href="#">' + pluploadL10n.dismiss + '</a>' +
-				'<strong>' + pluploadL10n.error_uploading.replace( '%s', jQuery.trim( filename )) + '</strong> ' +
-				message +
-				'</div>' ).data( 'last-err', id );
+		'<a class="dismiss" href="#">' + pluploadL10n.dismiss + '</a>' +
+		'<strong>' + pluploadL10n.error_uploading.replace( '%s', jQuery.trim( filename )) + '</strong> ' +
+		message +
+		'</div>' ).data( 'last-err', id );
 }
 
 function deleteSuccess( data ) {
@@ -323,10 +323,10 @@ function uploadError( fileObj, errorCode, message, up ) {
 		case plupload.SECURITY_ERROR:
 			wpQueueError( pluploadL10n.security_error );
 			break;
-/*		case plupload.UPLOAD_ERROR.UPLOAD_STOPPED:
-		case plupload.UPLOAD_ERROR.FILE_CANCELLED:
-			jQuery( '#media-item-' + fileObj.id ).remove();
-			break;*/
+		/*		case plupload.UPLOAD_ERROR.UPLOAD_STOPPED:
+				case plupload.UPLOAD_ERROR.FILE_CANCELLED:
+					jQuery( '#media-item-' + fileObj.id ).remove();
+					break;*/
 		default:
 			wpFileError( fileObj, pluploadL10n.default_error );
 	}
@@ -461,7 +461,7 @@ jQuery( document ).ready( function( $ ) {
 					action: 'media-create-image-subsizes',
 					_wpnonce: wpUploaderInit.multipart_params._wpnonce,
 					attachment_id: id,
-					_wp_upload_failed_cleanup: true,
+					_wp_upload_failed_cleanup: true
 				}
 			});
 
@@ -489,7 +489,7 @@ jQuery( document ).ready( function( $ ) {
 				action: 'media-create-image-subsizes',
 				_wpnonce: wpUploaderInit.multipart_params._wpnonce,
 				attachment_id: id,
-				_legacy_support: 'true',
+				_legacy_support: 'true'
 			}
 		}).done( function( response ) {
 			var message;
@@ -512,7 +512,7 @@ jQuery( document ).ready( function( $ ) {
 
 			wpQueueError( pluploadL10n.http_error_image );
 		});
-	}
+	};
 
 	// init and set the uploader
 	uploader_init = function() {
