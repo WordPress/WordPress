@@ -270,6 +270,10 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
 
+		if ( ! empty( $request['tax_relation'] ) ) {
+			$query_args['tax_query'] = array( 'relation' => $request['tax_relation'] );
+		}
+
 		foreach ( $taxonomies as $taxonomy ) {
 			$base        = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 			$tax_exclude = $base . '_exclude';
@@ -2530,6 +2534,14 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		);
 
 		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
+
+		if ( ! empty( $taxonomies ) ) {
+			$query_params['tax_relation'] = array(
+				'description' => __( 'Limit result set based on relationship between multiple taxonomies.' ),
+				'type'        => 'string',
+				'enum'        => array( 'AND', 'OR' ),
+			);
+		}
 
 		foreach ( $taxonomies as $taxonomy ) {
 			$base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
