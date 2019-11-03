@@ -3393,7 +3393,7 @@ function wp_handle_comment_submission( $comment_data ) {
  * @since 4.9.6
  *
  * @param array $exporters An array of personal data exporters.
- * @return array $exporters An array of personal data exporters.
+ * @return array An array of personal data exporters.
  */
 function wp_register_comment_personal_data_exporter( $exporters ) {
 	$exporters['wordpress-comments'] = array(
@@ -3411,7 +3411,7 @@ function wp_register_comment_personal_data_exporter( $exporters ) {
  *
  * @param string $email_address The comment author email address.
  * @param int    $page          Comment page.
- * @return array $return An array of personal data.
+ * @return array An array of personal data.
  */
 function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 	// Limit us to 500 comments at a time to avoid timing out.
@@ -3503,7 +3503,7 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
  * @since 4.9.6
  *
  * @param  array $erasers An array of personal data erasers.
- * @return array $erasers An array of personal data erasers.
+ * @return array An array of personal data erasers.
  */
 function wp_register_comment_personal_data_eraser( $erasers ) {
 	$erasers['wordpress-comments'] = array(

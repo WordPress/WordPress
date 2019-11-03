@@ -1107,8 +1107,7 @@ function _wp_get_attachment_relative_path( $file ) {
  *
  * @param string $size_name  Image size. Accepts any valid image size name ('thumbnail', 'medium', etc.).
  * @param array  $image_meta The image meta data.
- * @return array|bool Array of width and height values in pixels (in that order)
- *                    or false if the size doesn't exist.
+ * @return array|bool The image meta data as returned by `wp_get_attachment_metadata()`.
  */
 function _wp_get_image_size_from_meta( $size_name, $image_meta ) {
 	if ( $size_name === 'full' ) {

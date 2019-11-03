@@ -2577,7 +2577,7 @@ function wp_is_large_network( $using = 'sites', $network_id = null ) {
  *
  * @since 4.4.0
  *
- * @return array $names Array of reserved subdirectory names.
+ * @return array Array of reserved subdirectory names.
  */
 function get_subdirectory_reserved_names() {
 	$names = array(

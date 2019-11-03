@@ -1001,7 +1001,7 @@ function add_contextual_help( $screen, $help ) {
  * @deprecated 3.4.0 Use wp_get_themes()
  * @see wp_get_themes()
  *
- * @return array $themes Array of allowed themes.
+ * @return WP_Theme[] Array of WP_Theme objects keyed by their name.
  */
 function get_allowed_themes() {
 	_deprecated_function( __FUNCTION__, '3.4.0', "wp_get_themes( array( 'allowed' => true ) )" );

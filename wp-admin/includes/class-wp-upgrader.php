@@ -348,7 +348,7 @@ class WP_Upgrader {
 	 *
 	 * @param  array  $nested_files  Array of files as returned by WP_Filesystem::dirlist()
 	 * @param  string $path          Relative path to prepend to child nodes. Optional.
-	 * @return array $files A flattened array of the $nested_files specified.
+	 * @return array A flattened array of the $nested_files specified.
 	 */
 	protected function flatten_dirlist( $nested_files, $path = '' ) {
 		$files = array();

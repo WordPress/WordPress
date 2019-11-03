@@ -1104,7 +1104,7 @@ final class WP_Customize_Widgets {
 	 * @since 4.2.0
 	 *
 	 * @param  array $nonces Array of nonces.
-	 * @return array $nonces Array of nonces.
+	 * @return array Array of nonces.
 	 */
 	public function refresh_nonces( $nonces ) {
 		$nonces['update-widget'] = wp_create_nonce( 'update-widget' );
