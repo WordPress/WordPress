@@ -248,7 +248,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 	 *     Indexed array of the image width and height in pixels.
 	 *
 	 *     @type int $0 The image width.
-	 *     @type int $0 The image height.
+	 *     @type int $1 The image height.
 	 * }
 	 * @param string $file          Full path to the uploaded image file.
 	 * @param int    $attachment_id Attachment post ID.

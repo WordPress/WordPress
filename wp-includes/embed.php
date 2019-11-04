@@ -80,7 +80,7 @@ function wp_embed_defaults( $url = '' ) {
 	 *     Indexed array of the embed width and height in pixels.
 	 *
 	 *     @type int $0 The embed width.
-	 *     @type int $0 The embed height.
+	 *     @type int $1 The embed height.
 	 * }
 	 * @param string $url  The URL that should be embedded.
 	 */
