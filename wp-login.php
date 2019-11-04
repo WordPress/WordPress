@@ -373,7 +373,7 @@ function retrieve_password() {
 			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no account with that username or email address.' ) );
 		}
 	} else {
-		$login     = trim( $_POST['user_login'] );
+		$login     = trim( wp_unslash( $_POST['user_login'] ) );
 		$user_data = get_user_by( 'login', $login );
 	}
 
