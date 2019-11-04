@@ -287,11 +287,6 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 				if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
 					$image_meta['image_meta']['orientation'] = 1;
 				}
-
-				// Initial save of the new metadata when the original image was scaled.
-				// At this point the file was uploaded and moved to the uploads directory
-				// but the image sub-sizes haven't been created yet and the `sizes` array is empty.
-				wp_update_attachment_metadata( $attachment_id, $image_meta );
 			} else {
 				// TODO: log errors.
 			}
@@ -322,17 +317,16 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 				if ( ! empty( $image_meta['image_meta']['orientation'] ) ) {
 					$image_meta['image_meta']['orientation'] = 1;
 				}
-
-				// Initial save of the new metadata when the original image was rotated.
-				wp_update_attachment_metadata( $attachment_id, $image_meta );
 			} else {
 				// TODO: log errors.
 			}
 		}
-	} else {
-		// Initial save of the new metadata when the image was not scaled or rotated.
-		wp_update_attachment_metadata( $attachment_id, $image_meta );
 	}
+
+	// Initial save of the new metadata.
+	// At this point the file was uploaded and moved to the uploads directory
+	// but the image sub-sizes haven't been created yet and the `sizes` array is empty.
+	wp_update_attachment_metadata( $attachment_id, $image_meta );
 
 	$new_sizes = wp_get_registered_image_subsizes();
 
