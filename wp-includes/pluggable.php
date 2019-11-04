@@ -1251,7 +1251,7 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 			return false;
 		}
 
-		if ( 300 > $status || 399 < $status ) {
+		if ( $status < 300 || 399 < $status ) {
 			wp_die( __( 'HTTP redirect status code must be a redirection code, 3xx.' ) );
 		}
 
