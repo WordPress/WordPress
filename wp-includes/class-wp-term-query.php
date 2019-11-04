@@ -121,20 +121,20 @@ class WP_Term_Query {
 	 *                                                not return accurate results when coupled with $object_ids.
 	 *                                                See #41796 for details.
 	 *     @type int          $offset                 The number by which to offset the terms query. Default empty.
-	 *     @type string       $fields                 Term fields to query for. Accepts 'all' (returns an array of
-	 *                                                complete term objects), 'all_with_object_id' (returns an
-	 *                                                array of term objects with the 'object_id' param; works only
-	 *                                                when the `$object_ids` parameter is populated), 'ids'
-	 *                                                (returns an array of ids), 'tt_ids' (returns an array of
-	 *                                                term taxonomy ids), 'id=>parent' (returns an associative
-	 *                                                array with ids as keys, parent term IDs as values), 'names'
-	 *                                                (returns an array of term names), 'count' (returns the number
-	 *                                                of matching terms), 'id=>name' (returns an associative array
-	 *                                                with ids as keys, term names as values), or 'id=>slug'
-	 *                                                (returns an associative array with ids as keys, term slugs
-	 *                                                as values). Default 'all'.
-	 *     @type bool         $count                  Whether to return a term count (true) or array of term objects
-	 *                                                (false). Will take precedence over `$fields` if true.
+	 *     @type string       $fields                 Term fields to query for. Accepts:
+	 *                                                - 'all' Returns an array of complete term objects (`WP_Term[]`).
+	 *                                                - 'all_with_object_id' Returns an array of term objects with the 'object_id'
+	 *                                                  param (`WP_Term[]`). Works only when the `$object_ids` parameter is populated.
+	 *                                                - 'ids' Returns an array of term IDs (`int[]`).
+	 *                                                - 'tt_ids' Returns an array of term taxonomy IDs (`int[]`).
+	 *                                                - 'names' Returns an array of term names (`string[]`).
+	 *                                                - 'slugs' Returns an array of term slugs (`string[]`).
+	 *                                                - 'count' Returns the number of matching terms (`int`).
+	 *                                                - 'id=>parent' Returns an associative array of parent term IDs, keyed by term ID (`int[]`).
+	 *                                                - 'id=>name' Returns an associative array of term names, keyed by term ID (`string[]`).
+	 *                                                - 'id=>slug' Returns an associative array of term slugs, keyed by term ID (`string[]`).
+	 *                                                Default 'all'.
+	 *     @type bool         $count                  Whether to return a term count. Will take precedence over `$fields` if true.
 	 *                                                Default false.
 	 *     @type string|array $name                   Optional. Name or array of names to return term(s) for.
 	 *                                                Default empty.
