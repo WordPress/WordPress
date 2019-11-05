@@ -452,7 +452,7 @@ function comment_class( $class = '', $comment = null, $post_id = null, $echo = t
  * @param string|array   $class      Optional. One or more classes to add to the class list. Default empty.
  * @param int|WP_Comment $comment_id Comment ID or WP_Comment object. Default current comment.
  * @param int|WP_Post    $post_id    Post ID or WP_Post object. Default current post.
- * @return array An array of classes.
+ * @return string[] An array of classes.
  */
 function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	global $comment_alt, $comment_depth, $comment_thread_alt;

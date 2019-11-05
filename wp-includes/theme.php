@@ -1973,13 +1973,13 @@ function remove_editor_styles() {
 }
 
 /**
- * Retrieve any registered editor stylesheets
+ * Retrieve any registered editor stylesheet URLs.
  *
  * @since 4.0.0
  *
  * @global array $editor_styles Registered editor stylesheets
  *
- * @return array If registered, a list of editor stylesheet URLs.
+ * @return string[] If registered, a list of editor stylesheet URLs.
  */
 function get_editor_stylesheets() {
 	$stylesheets = array();
@@ -2019,11 +2019,11 @@ function get_editor_stylesheets() {
 	}
 
 	/**
-	 * Filters the array of stylesheets applied to the editor.
+	 * Filters the array of URLs of stylesheets applied to the editor.
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param array $stylesheets Array of stylesheets to be applied to the editor.
+	 * @param string[] $stylesheets Array of URLs of stylesheets to be applied to the editor.
 	 */
 	return apply_filters( 'editor_stylesheets', $stylesheets );
 }

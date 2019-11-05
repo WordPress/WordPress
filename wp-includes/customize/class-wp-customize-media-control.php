@@ -207,7 +207,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @return array An associative array of default button labels.
+	 * @return string[] An associative array of default button labels keyed by the button name.
 	 */
 	public function get_default_button_labels() {
 		// Get just the mime type and strip the mime subtype if present.

@@ -90,7 +90,7 @@ function set_post_format( $post, $format ) {
  *
  * @since 3.1.0
  *
- * @return array The array of translated post format names.
+ * @return string[] Array of post format labels keyed by format slug.
  */
 function get_post_format_strings() {
 	$strings = array(
@@ -113,7 +113,7 @@ function get_post_format_strings() {
  *
  * @since 3.1.0
  *
- * @return array The array of post format slugs as both keys and values.
+ * @return string[] The array of post format slugs as both keys and values.
  */
 function get_post_format_slugs() {
 	$slugs = array_keys( get_post_format_strings() );

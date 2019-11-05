@@ -251,7 +251,7 @@ function get_comments( $args = '' ) {
  *
  * @since 2.7.0
  *
- * @return array List of comment statuses.
+ * @return string[] List of comment status labels keyed by status.
  */
 function get_comment_statuses() {
 	$status = array(
@@ -1163,7 +1163,7 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @return array Maximum character length for the comment form fields.
+ * @return int[] Array of maximum lengths keyed by field name.
  */
 function wp_get_comment_fields_max_lengths() {
 	global $wpdb;
@@ -1206,7 +1206,7 @@ function wp_get_comment_fields_max_lengths() {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @param array $lengths Associative array `'field_name' => 'maximum length'`.
+	 * @param int[] $lengths Array of maximum lengths keyed by field name.
 	 */
 	return apply_filters( 'wp_get_comment_fields_max_lengths', $lengths );
 }
@@ -1778,7 +1778,13 @@ function _clear_modified_cache_on_transition_comment_status( $new_status, $old_s
  *
  * @since 2.0.4
  *
- * @return array Comment author, email, url respectively.
+ * @return array {
+ *     An array of current commenter variables.
+ *
+ *     @type string $comment_author       The name of the current commenter, or an empty string.
+ *     @type string $comment_author_email The email address of the current commenter, or an empty string.
+ *     @type string $comment_author_url   The URL address of the current commenter, or an empty string.
+ * }
  */
 function wp_get_current_commenter() {
 	// Cookies should already be sanitized.
@@ -1806,9 +1812,9 @@ function wp_get_current_commenter() {
 	 * @param array $comment_author_data {
 	 *     An array of current commenter variables.
 	 *
-	 *     @type string $comment_author       The name of the author of the comment. Default empty.
-	 *     @type string $comment_author_email The email address of the `$comment_author`. Default empty.
-	 *     @type string $comment_author_url   The URL address of the `$comment_author`. Default empty.
+	 *     @type string $comment_author       The name of the current commenter, or an empty string.
+	 *     @type string $comment_author_email The email address of the current commenter, or an empty string.
+	 *     @type string $comment_author_url   The URL address of the current commenter, or an empty string.
 	 * }
 	 */
 	return apply_filters( 'wp_get_current_commenter', compact( 'comment_author', 'comment_author_email', 'comment_author_url' ) );

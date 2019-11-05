@@ -1317,7 +1317,7 @@ function unregister_meta_key( $object_type, $meta_key, $object_subtype = '' ) {
  *
  * @param string $object_type    The type of object. Post, comment, user, term.
  * @param string $object_subtype Optional. The subtype of the object type.
- * @return array List of registered meta keys.
+ * @return string[] List of registered meta keys.
  */
 function get_registered_meta_keys( $object_type, $object_subtype = '' ) {
 	global $wp_meta_keys;

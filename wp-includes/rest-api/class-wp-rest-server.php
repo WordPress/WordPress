@@ -780,7 +780,7 @@ class WP_REST_Server {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @return array List of registered namespaces.
+	 * @return string[] List of registered namespaces.
 	 */
 	public function get_namespaces() {
 		return array_keys( $this->namespaces );
@@ -1017,7 +1017,7 @@ class WP_REST_Server {
 	 *
 	 *     @type string $context Context.
 	 * }
-	 * @return array Index entity
+	 * @return WP_REST_Response The API root index data.
 	 */
 	public function get_index( $request ) {
 		// General site data.
@@ -1100,7 +1100,7 @@ class WP_REST_Server {
 	 *
 	 * @param array  $routes  Routes to get data for.
 	 * @param string $context Optional. Context for data. Accepts 'view' or 'help'. Default 'view'.
-	 * @return array Route data to expose in indexes.
+	 * @return array[] Route data to expose in indexes, keyed by route.
 	 */
 	public function get_data_for_routes( $routes, $context = 'view' ) {
 		$available = array();
@@ -1131,8 +1131,8 @@ class WP_REST_Server {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array $available Map of route to route data.
-		 * @param array $routes    Internal route data as an associative array.
+		 * @param array[] $available Route data to expose in indexes, keyed by route.
+		 * @param array   $routes    Internal route data as an associative array.
 		 */
 		return apply_filters( 'rest_route_data', $available, $routes );
 	}

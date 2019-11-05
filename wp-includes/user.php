@@ -395,10 +395,10 @@ function count_user_posts( $userid, $post_type = 'post', $public_only = false ) 
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array        $users       Array of user IDs.
- * @param string|array $post_type   Optional. Single post type or array of post types to check. Defaults to 'post'.
- * @param bool         $public_only Optional. Only return counts for public posts.  Defaults to false.
- * @return array Amount of posts each user has written.
+ * @param int[]           $users       Array of user IDs.
+ * @param string|string[] $post_type   Optional. Single post type or array of post types to check. Defaults to 'post'.
+ * @param bool            $public_only Optional. Only return counts for public posts.  Defaults to false.
+ * @return string[] Amount of posts each user has written, as strings, keyed by user ID.
  */
 function count_many_users_posts( $users, $post_type = 'post', $public_only = false ) {
 	global $wpdb;
@@ -865,7 +865,12 @@ function update_user_meta( $user_id, $meta_key, $meta_value, $prev_value = '' ) 
  * @param string   $strategy Optional. The computational strategy to use when counting the users.
  *                           Accepts either 'time' or 'memory'. Default 'time'.
  * @param int|null $site_id  Optional. The site ID to count users for. Defaults to the current site.
- * @return array Includes a grand total and an array of counts indexed by role strings.
+ * @return array {
+ *     User counts.
+ *
+ *     @type int   $total_users Total number of users on the site.
+ *     @type int[] $avail_roles Array of user counts keyed by user role.
+ * }
  */
 function count_users( $strategy = 'time', $site_id = null ) {
 	global $wpdb;
@@ -2171,7 +2176,7 @@ function wp_create_user( $username, $password, $email = '' ) {
  * @access private
  *
  * @param WP_User $user WP_User instance.
- * @return array List of user keys to be populated in wp_update_user().
+ * @return string[] List of user keys to be populated in wp_update_user().
  */
 function _get_additional_user_keys( $user ) {
 	$keys = array( 'first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'syntax_highlighting', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front', 'locale' );
@@ -2186,7 +2191,7 @@ function _get_additional_user_keys( $user ) {
  * @since 3.7.0
  *
  * @param WP_User $user Optional. WP_User object.
- * @return array Array of contact methods and their labels.
+ * @return string[] Array of contact method labels keyed by contact method.
  */
 function wp_get_user_contact_methods( $user = null ) {
 	$methods = array();
@@ -2203,8 +2208,8 @@ function wp_get_user_contact_methods( $user = null ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param array   $methods Array of contact methods and their labels.
-	 * @param WP_User $user    WP_User object.
+	 * @param string[] $methods Array of contact method labels keyed by contact method.
+	 * @param WP_User  $user    WP_User object.
 	 */
 	return apply_filters( 'user_contactmethods', $methods, $user );
 }
@@ -2218,7 +2223,7 @@ function wp_get_user_contact_methods( $user = null ) {
  * @access private
  *
  * @param WP_User $user Optional. WP_User object. Default null.
- * @return array Array of contact methods and their labels.
+ * @return string[] Array of contact method labels keyed by contact method.
  */
 function _wp_get_user_contactmethods( $user = null ) {
 	return wp_get_user_contact_methods( $user );
@@ -2660,7 +2665,7 @@ function wp_destroy_all_sessions() {
  * @since 4.9.0 The `$site_id` parameter was added to support multisite.
  *
  * @param int|null $site_id Optional. The site ID to get users with no role for. Defaults to the current site.
- * @return array Array of user IDs.
+ * @return string[] Array of user IDs as strings.
  */
 function wp_get_users_with_no_role( $site_id = null ) {
 	global $wpdb;

@@ -32,7 +32,7 @@ function is_subdomain_install() {
  * @access private
  * @since 3.1.0
  *
- * @return array Files to include.
+ * @return string[] Array of absolute paths to files to include.
  */
 function wp_get_active_network_plugins() {
 	$active_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );

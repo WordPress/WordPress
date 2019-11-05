@@ -766,7 +766,7 @@ function xmlrpc_removepostdata( $content ) {
  * @since 3.7.0
  *
  * @param string $content Content to extract URLs from.
- * @return array URLs found in passed string.
+ * @return string[] Array of URLs found in passed string.
  */
 function wp_extract_urls( $content ) {
 	preg_match_all(
@@ -2487,7 +2487,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
  *
  * @param string       $name       Filename.
  * @param null|string  $deprecated Never used. Set to null.
- * @param mixed        $bits       File content
+ * @param string       $bits       File content
  * @param string       $time       Optional. Time formatted in 'yyyy/mm'. Default null.
  * @return array
  */
@@ -3003,7 +3003,7 @@ function wp_get_mime_types() {
  *
  * @since 4.6.0
  *
- * @return array Array of file extensions types keyed by the type of file.
+ * @return array[] Multi-dimensional array of file extensions types keyed by the type of file.
  */
 function wp_get_ext_types() {
 
@@ -3014,8 +3014,7 @@ function wp_get_ext_types() {
 	 *
 	 * @see wp_ext2type()
 	 *
-	 * @param array $ext2type Multi-dimensional array with extensions for a default set
-	 *                        of file types.
+	 * @param array[] $ext2type Multi-dimensional array of file extensions types keyed by the type of file.
 	 */
 	return apply_filters(
 		'ext2type',
@@ -4262,7 +4261,7 @@ function wp_parse_list( $list ) {
  * @since 3.0.0
  *
  * @param array|string $list List of ids.
- * @return array Sanitized array of IDs.
+ * @return int[] Sanitized array of IDs.
  */
 function wp_parse_id_list( $list ) {
 	$list = wp_parse_list( $list );
@@ -4276,7 +4275,7 @@ function wp_parse_id_list( $list ) {
  * @since 4.7.0
  *
  * @param  array|string $list List of slugs.
- * @return array Sanitized array of slugs.
+ * @return string[] Sanitized array of slugs.
  */
 function wp_parse_slug_list( $list ) {
 	$list = wp_parse_list( $list );
@@ -5842,7 +5841,7 @@ function wp_scheduled_delete() {
  * @param array  $default_headers List of headers, in the format `array( 'HeaderKey' => 'Header Name' )`.
  * @param string $context         Optional. If specified adds filter hook {@see 'extra_$context_headers'}.
  *                                Default empty.
- * @return array Array of file headers in `HeaderKey => Header Value` format.
+ * @return string[] Array of file header values keyed by header name.
  */
 function get_file_data( $file, $default_headers, $context = '' ) {
 	// We don't need to write to the file, so just open for reading.

@@ -1297,7 +1297,7 @@ function translate_user_role( $name, $domain = 'default' ) {
  *
  * @param string $dir A directory to search for language files.
  *                    Default WP_LANG_DIR.
- * @return array An array of language codes or an empty array if no languages are present. Language codes are formed by stripping the .mo extension from the language file names.
+ * @return string[] An array of language codes or an empty array if no languages are present. Language codes are formed by stripping the .mo extension from the language file names.
  */
 function get_available_languages( $dir = null ) {
 	$languages = array();
@@ -1318,8 +1318,8 @@ function get_available_languages( $dir = null ) {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array  $languages An array of available language codes.
-	 * @param string $dir       The directory where the language files were found.
+	 * @param string[] $languages An array of available language codes.
+	 * @param string   $dir       The directory where the language files were found.
 	 */
 	return apply_filters( 'get_available_languages', $languages, $dir );
 }
@@ -1386,7 +1386,7 @@ function wp_get_installed_translations( $type ) {
  * @since 3.7.0
  *
  * @param string $po_file Path to PO file.
- * @return array PO file headers.
+ * @return string[] Array of PO file header values keyed by header name.
  */
 function wp_get_pomo_file_data( $po_file ) {
 	$headers = get_file_data(

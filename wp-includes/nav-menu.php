@@ -600,7 +600,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
  *
  * @param array $args Optional. Array of arguments passed on to get_terms().
  *                    Default empty array.
- * @return array Menu objects.
+ * @return WP_Term[] An array of menu objects.
  */
 function wp_get_nav_menus( $args = array() ) {
 	$defaults = array(
@@ -984,7 +984,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
  * @param int    $object_id   The ID of the original object.
  * @param string $object_type The type of object, such as "taxonomy" or "post_type."
  * @param string $taxonomy    If $object_type is "taxonomy", $taxonomy is the name of the tax that $object_id belongs to
- * @return array The array of menu item IDs; empty array if none;
+ * @return int[] The array of menu item IDs; empty array if none;
  */
 function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_type', $taxonomy = '' ) {
 	$object_id     = (int) $object_id;

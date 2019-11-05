@@ -948,7 +948,7 @@ function wp_kses_split( $string, $allowed_html, $allowed_protocols ) {
 }
 
 /**
- * Helper function listing HTML attributes containing a URL.
+ * Returns an array of HTML attribute names whose value contains a URL.
  *
  * This function returns a list of all HTML attributes that must contain
  * a URL according to the HTML specification.
@@ -959,7 +959,7 @@ function wp_kses_split( $string, $allowed_html, $allowed_protocols ) {
  *
  * @since 5.0.1
  *
- * @return array HTML attributes that must include a URL.
+ * @return string[] HTML attribute names whose value contains a URL.
  */
 function wp_kses_uri_attributes() {
 	$uri_attributes = array(
@@ -990,7 +990,7 @@ function wp_kses_uri_attributes() {
 	 *
 	 * @since 5.0.1
 	 *
-	 * @param array $uri_attributes HTML attributes requiring validation as a URL.
+	 * @param string[] $uri_attributes HTML attribute names whose value contains a URL.
 	 */
 	$uri_attributes = apply_filters( 'wp_kses_uri_attributes', $uri_attributes );
 

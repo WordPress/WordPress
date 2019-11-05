@@ -1165,7 +1165,7 @@ function rest_is_boolean( $maybe_bool ) {
  *
  * @param mixed $id_or_email The Gravatar to retrieve a URL for. Accepts a user_id, gravatar md5 hash,
  *                           user email, WP_User object, WP_Post object, or WP_Comment object.
- * @return array Gravatar url for each size.
+ * @return array Avatar URLs keyed by size. Each value can be a URL string or boolean false.
  */
 function rest_get_avatar_urls( $id_or_email ) {
 	$avatar_sizes = rest_get_avatar_sizes();
@@ -1183,7 +1183,7 @@ function rest_get_avatar_urls( $id_or_email ) {
  *
  * @since 4.7.0
  *
- * @return array List of pixel sizes for avatars. Default `[ 24, 48, 96 ]`.
+ * @return int[] List of pixel sizes for avatars. Default `[ 24, 48, 96 ]`.
  */
 function rest_get_avatar_sizes() {
 	/**
@@ -1194,7 +1194,7 @@ function rest_get_avatar_sizes() {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $sizes An array of int values that are the pixel sizes for avatars.
+	 * @param int[] $sizes An array of int values that are the pixel sizes for avatars.
 	 *                     Default `[ 24, 48, 96 ]`.
 	 */
 	return apply_filters( 'rest_avatar_sizes', array( 24, 48, 96 ) );

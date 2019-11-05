@@ -65,7 +65,7 @@ function _wp_scripts_maybe_doing_it_wrong( $function ) {
  * @since 2.1.0
  *
  * @param string|bool|array $handles Optional. Scripts to be printed. Default 'false'.
- * @return array On success, a processed array of WP_Dependencies items; otherwise, an empty array.
+ * @return string[] On success, an array of handles of processed WP_Dependencies items; otherwise, an empty array.
  */
 function wp_print_scripts( $handles = false ) {
 	/**

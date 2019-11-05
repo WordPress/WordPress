@@ -37,7 +37,7 @@ function wp_styles() {
  * @since 2.6.0
  *
  * @param string|bool|array $handles Styles to be printed. Default 'false'.
- * @return array On success, a processed array of WP_Dependencies items; otherwise, an empty array.
+ * @return string[] On success, an array of handles of processed WP_Dependencies items; otherwise, an empty array.
  */
 function wp_print_styles( $handles = false ) {
 	if ( '' === $handles ) { // for wp_head

@@ -622,7 +622,7 @@ function wpautop( $pee, $br = true ) {
  * @since 4.2.4
  *
  * @param string $input The text which has to be formatted.
- * @return array The formatted text.
+ * @return string[] Array of the formatted text.
  */
 function wp_html_split( $input ) {
 	return preg_split( get_html_split_regex(), $input, -1, PREG_SPLIT_DELIM_CAPTURE );

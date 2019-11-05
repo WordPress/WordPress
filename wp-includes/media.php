@@ -845,11 +845,11 @@ function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
 }
 
 /**
- * Gets the available intermediate image sizes.
+ * Gets the available intermediate image size names.
  *
  * @since 3.0.0
  *
- * @return array Returns a filtered array of image size strings.
+ * @return string[] An array of image size names.
  */
 function get_intermediate_image_sizes() {
 	$default_sizes    = array( 'thumbnail', 'medium', 'medium_large', 'large' );
@@ -864,8 +864,8 @@ function get_intermediate_image_sizes() {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array $default_sizes An array of intermediate image sizes. Defaults
-	 *                             are 'thumbnail', 'medium', 'medium_large', 'large'.
+	 * @param string[] $default_sizes An array of intermediate image size names. Defaults
+	 *                                are 'thumbnail', 'medium', 'medium_large', 'large'.
 	 */
 	return apply_filters( 'intermediate_image_sizes', $default_sizes );
 }
@@ -2436,7 +2436,7 @@ function wp_get_audio_extensions() {
  *
  * @param WP_Post $attachment The current attachment, provided for context.
  * @param string  $context    Optional. The context. Accepts 'edit', 'display'. Default 'display'.
- * @return array Key/value pairs of field keys to labels.
+ * @return string[] Key/value pairs of field keys to labels.
  */
 function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
 	$fields = array(
@@ -3046,7 +3046,7 @@ function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false )
  * @param string           $output     Output type. 'names' to return an array of taxonomy names,
  *                                     or 'objects' to return an array of taxonomy objects.
  *                                     Default is 'names'.
- * @return array Empty array on failure. List of taxonomies on success.
+ * @return string[]|WP_Taxonomy[] List of taxonomies or taxonomy names. Empty array on failure.
  */
 function get_attachment_taxonomies( $attachment, $output = 'names' ) {
 	if ( is_int( $attachment ) ) {
@@ -3159,7 +3159,12 @@ function wp_imagecreatetruecolor( $width, $height ) {
  * @param int $example_height The height of an example embed.
  * @param int $max_width      The maximum allowed width.
  * @param int $max_height     The maximum allowed height.
- * @return array The maximum possible width and height based on the example ratio.
+ * @return int[] {
+ *     An array of maximum width and height values.
+ *
+ *     @type int $0 The maximum width in pixels.
+ *     @type int $1 The maximum height in pixels.
+ * }
  */
 function wp_expand_dimensions( $example_width, $example_height, $max_width, $max_height ) {
 	$example_width  = (int) $example_width;
@@ -4226,7 +4231,7 @@ function get_post_galleries_images( $post = 0 ) {
  * @see get_post_gallery()
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
- * @return array A list of a gallery's image srcs in order.
+ * @return string[] A list of a gallery's image srcs in order.
  */
 function get_post_gallery_images( $post = 0 ) {
 	$gallery = get_post_gallery( $post, false );
@@ -4312,7 +4317,7 @@ function attachment_url_to_postid( $url ) {
  *
  * @since 4.0.0
  *
- * @return array The relevant CSS file URLs.
+ * @return string[] The relevant CSS file URLs.
  */
 function wpview_media_sandbox_styles() {
 	$version        = 'ver=' . get_bloginfo( 'version' );

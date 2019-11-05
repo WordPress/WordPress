@@ -4377,12 +4377,12 @@ function get_the_taxonomies( $post = 0, $args = array() ) {
 }
 
 /**
- * Retrieve all taxonomies of a post with just the names.
+ * Retrieve all taxonomy names for the given post.
  *
  * @since 2.5.0
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
- * @return array An array of all taxonomy names for the given post.
+ * @return string[] An array of all taxonomy names for the given post.
  */
 function get_post_taxonomies( $post = 0 ) {
 	$post = get_post( $post );
@@ -4492,7 +4492,7 @@ function is_object_in_taxonomy( $object_type, $taxonomy ) {
  *                              ancestors. Accepts a post type or a taxonomy name. Default empty.
  * @param string $resource_type Optional. Type of resource $object_type is. Accepts 'post_type'
  *                              or 'taxonomy'. Default empty.
- * @return array An array of ancestors from lowest to highest in the hierarchy.
+ * @return int[] An array of IDs of ancestors from lowest to highest in the hierarchy.
  */
 function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' ) {
 	$object_id = (int) $object_id;
@@ -4529,7 +4529,7 @@ function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' )
 	 * @since 3.1.0
 	 * @since 4.1.1 Introduced the `$resource_type` parameter.
 	 *
-	 * @param array  $ancestors     An array of object ancestors.
+	 * @param int[]  $ancestors     An array of IDs of object ancestors.
 	 * @param int    $object_id     Object ID.
 	 * @param string $object_type   Type of object.
 	 * @param string $resource_type Type of resource $object_type is.

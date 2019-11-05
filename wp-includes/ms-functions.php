@@ -12,7 +12,12 @@
  *
  * @since MU (3.0.0)
  *
- * @return array Site and user count for the network.
+ * @return int[] {
+ *     Site and user count for the network.
+ *
+ *     @type int $blogs Number of sites on the network.
+ *     @type int $users Number of users on the network.
+ * }
  */
 function get_sitestats() {
 	$stats = array(
@@ -443,7 +448,14 @@ function is_email_address_unsafe( $user_email ) {
  *
  * @param string $user_name  The login name provided by the user.
  * @param string $user_email The email provided by the user.
- * @return array Contains username, email, and error messages.
+ * @return array {
+ *     The array of user name, email, and the error messages.
+ *
+ *     @type string   $user_name     Sanitized and unique username.
+ *     @type string   $orig_username Original username.
+ *     @type string   $user_email    User email address.
+ *     @type WP_Error $errors        WP_Error object containing any errors found.
+ * }
  */
 function wpmu_validate_user_signup( $user_name, $user_email ) {
 	global $wpdb;
@@ -559,7 +571,7 @@ function wpmu_validate_user_signup( $user_name, $user_email ) {
 	 * @since MU (3.0.0)
 	 *
 	 * @param array $result {
-	 *     The array of user name, email and the error messages.
+	 *     The array of user name, email, and the error messages.
 	 *
 	 *     @type string   $user_name     Sanitized and unique username.
 	 *     @type string   $orig_username Original username.
@@ -592,7 +604,16 @@ function wpmu_validate_user_signup( $user_name, $user_email ) {
  * @param string         $blogname   The blog name provided by the user. Must be unique.
  * @param string         $blog_title The blog title provided by the user.
  * @param WP_User|string $user       Optional. The user object to check against the new site name.
- * @return array Contains the new site data and error messages.
+ * @return array {
+ *     Array of domain, path, blog name, blog title, user and error messages.
+ *
+ *     @type string         $domain     Domain for the site.
+ *     @type string         $path       Path for the site. Used in subdirectory installations.
+ *     @type string         $blogname   The unique site name (slug).
+ *     @type string         $blog_title Blog title.
+ *     @type string|WP_User $user       By default, an empty string. A user object if provided.
+ *     @type WP_Error       $errors     WP_Error containing any errors found.
+ * }
  */
 function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	global $wpdb, $domain;
@@ -1973,7 +1994,11 @@ function global_terms( $term_id, $deprecated = '' ) {
  * @since MU (3.0.0)
  *
  * @param array|string $deprecated Not used.
- * @return array The current site's domain
+ * @return string[] {
+ *     An array containing the current site's domain.
+ *
+ *     @type string $0 The current site's domain.
+ * }
  */
 function redirect_this_site( $deprecated = '' ) {
 	return array( get_network()->domain );
@@ -2577,7 +2602,7 @@ function wp_is_large_network( $using = 'sites', $network_id = null ) {
  *
  * @since 4.4.0
  *
- * @return array Array of reserved subdirectory names.
+ * @return string[] Array of reserved names.
  */
 function get_subdirectory_reserved_names() {
 	$names = array(

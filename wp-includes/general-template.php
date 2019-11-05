@@ -3286,7 +3286,7 @@ function wp_resource_hints() {
  *
  * @since 4.6.0
  *
- * @return array A list of unique hosts of enqueued scripts and styles.
+ * @return string[] A list of unique hosts of enqueued scripts and styles.
  */
 function wp_dependencies_unique_hosts() {
 	global $wp_scripts, $wp_styles;

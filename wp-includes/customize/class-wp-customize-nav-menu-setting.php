@@ -381,7 +381,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 *
 	 * @param array $nav_menu_options Nav menu options including auto_add.
-	 * @return array (Kaybe) modified nav menu options.
+	 * @return array (Maybe) modified nav menu options.
 	 */
 	public function filter_nav_menu_options( $nav_menu_options ) {
 		if ( $this->_previewed_blog_id !== get_current_blog_id() ) {

@@ -706,7 +706,13 @@ function get_children( $args = '', $output = OBJECT ) {
  * @since 1.0.0
  *
  * @param string $post Post content.
- * @return array Post before ('main'), after ('extended'), and custom read more ('more_text').
+ * @return string[] {
+ *     Extended entry info.
+ *
+ *     @type string $main      Content before the more tag.
+ *     @type string $extended  Content after the more tag.
+ *     @type string $more_text Custom read more text, or empty string.
+ * }
  */
 function get_extended( $post ) {
 	//Match the new style more links.
@@ -790,7 +796,7 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
  * @since 2.5.0
  *
  * @param int|WP_Post $post Post ID or post object.
- * @return array Ancestor IDs or empty array if none are found.
+ * @return int[] Ancestor IDs or empty array if none are found.
  */
 function get_post_ancestors( $post ) {
 	$post = get_post( $post );
@@ -930,7 +936,7 @@ function get_post_status( $post = null ) {
  *
  * @since 2.5.0
  *
- * @return array List of post statuses.
+ * @return string[] Array of post status labels keyed by their status.
  */
 function get_post_statuses() {
 	$status = array(
@@ -951,7 +957,7 @@ function get_post_statuses() {
  *
  * @since 2.5.0
  *
- * @return array List of page statuses.
+ * @return string[] Array of page status labels keyed by their status.
  */
 function get_page_statuses() {
 	$status = array(
@@ -1916,7 +1922,7 @@ function post_type_supports( $post_type, $feature ) {
  *                               only one element from the array needs to match; 'and'
  *                               means all elements must match; 'not' means no elements may
  *                               match. Default 'and'.
- * @return array A list of post type names.
+ * @return string[] A list of post type names.
  */
 function get_post_types_by_support( $feature, $operator = 'and' ) {
 	global $_wp_post_type_features;
@@ -4706,7 +4712,7 @@ function add_ping( $post_id, $uri ) {
  * @since 1.5.0
  *
  * @param int $post_id Post ID.
- * @return array List of enclosures.
+ * @return string[] Array of enclosures for the given post.
  */
 function get_enclosed( $post_id ) {
 	$custom_fields = get_post_custom( $post_id );
@@ -4833,7 +4839,7 @@ function trackback_url_list( $tb_list, $post_id ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @return array List of page IDs.
+ * @return string[] List of page IDs as strings.
  */
 function get_all_page_ids() {
 	global $wpdb;
@@ -4855,12 +4861,12 @@ function get_all_page_ids() {
  * @since 1.5.1
  * @deprecated 3.5.0 Use get_post()
  *
- * @param mixed  $page   Page object or page ID. Passed by reference.
- * @param string $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
- *                       a WP_Post object, an associative array, or a numeric array, respectively. Default OBJECT.
- * @param string $filter Optional. How the return value should be filtered. Accepts 'raw',
- *                       'edit', 'db', 'display'. Default 'raw'.
- * @return WP_Post|array|null WP_Post (or array) on success, or null on failure.
+ * @param int|WP_Post $page   Page object or page ID. Passed by reference.
+ * @param string      $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
+ *                            a WP_Post object, an associative array, or a numeric array, respectively. Default OBJECT.
+ * @param string      $filter Optional. How the return value should be filtered. Accepts 'raw',
+ *                            'edit', 'db', 'display'. Default 'raw'.
+ * @return WP_Post|array|null WP_Post or array on success, null on failure.
  */
 function get_page( $page, $output = OBJECT, $filter = 'raw' ) {
 	return get_post( $page, $output, $filter );
@@ -6293,12 +6299,12 @@ function get_private_posts_cap_sql( $post_type ) {
  * @see get_private_posts_cap_sql()
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array|string   $post_type   Single post type or an array of post types.
- * @param bool           $full        Optional. Returns a full WHERE statement instead of just
- *                                    an 'andalso' term. Default true.
- * @param int            $post_author Optional. Query posts having a single author ID. Default null.
- * @param bool           $public_only Optional. Only return public posts. Skips cap checks for
- *                                    $current_user.  Default false.
+ * @param string|string[] $post_type   Single post type or an array of post types.
+ * @param bool            $full        Optional. Returns a full WHERE statement instead of just
+ *                                     an 'andalso' term. Default true.
+ * @param int             $post_author Optional. Query posts having a single author ID. Default null.
+ * @param bool            $public_only Optional. Only return public posts. Skips cap checks for
+ *                                     $current_user.  Default false.
  * @return string SQL WHERE code that can be added to a query.
  */
 function get_posts_by_author_sql( $post_type, $full = true, $post_author = null, $public_only = false ) {

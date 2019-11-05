@@ -625,7 +625,7 @@ function wp_not_installed() {
  * @since 3.0.0
  * @access private
  *
- * @return array Files to include.
+ * @return string[] Array of absolute paths of files to include.
  */
 function wp_get_mu_plugins() {
 	$mu_plugins = array();
@@ -736,7 +736,7 @@ function wp_skip_paused_plugins( array $plugins ) {
  * @since 5.1.0
  * @access private
  *
- * @return array Array of paths to theme directories.
+ * @return string[] Array of absolute paths to theme directories.
  */
 function wp_get_active_and_valid_themes() {
 	global $pagenow;
@@ -775,7 +775,7 @@ function wp_get_active_and_valid_themes() {
  * @since 5.2.0
  *
  * @param string[] $themes Array of absolute theme directory paths.
- * @return string[] Filtered array of themes, without any paused themes.
+ * @return string[] Filtered array of absolute paths to themes, without any paused themes.
  */
 function wp_skip_paused_themes( array $themes ) {
 	$paused_themes = wp_paused_themes()->get_all();
