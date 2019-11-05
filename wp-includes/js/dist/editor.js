@@ -12329,9 +12329,9 @@ function (_Component) {
   }, {
     key: "warnIfUnsavedChanges",
     value: function warnIfUnsavedChanges(event) {
-      var isDirty = this.props.isDirty;
+      var isEditedPostDirty = this.props.isEditedPostDirty;
 
-      if (isDirty) {
+      if (isEditedPostDirty()) {
         event.returnValue = Object(external_this_wp_i18n_["__"])('You have unsaved changes. If you proceed, they will be lost.');
         return event.returnValue;
       }
@@ -12348,7 +12348,11 @@ function (_Component) {
 
 /* harmony default export */ var unsaved_changes_warning = (Object(external_this_wp_data_["withSelect"])(function (select) {
   return {
-    isDirty: select('core/editor').isEditedPostDirty()
+    // We need to call the selector directly in the listener to avoid race
+    // conditions with `BrowserURL` where `componentDidUpdate` gets the
+    // new value of `isEditedPostDirty` before this component does,
+    // causing this component to incorrectly think a trashed post is still dirty.
+    isEditedPostDirty: select('core/editor').isEditedPostDirty
   };
 })(unsaved_changes_warning_UnsavedChangesWarning));
 
