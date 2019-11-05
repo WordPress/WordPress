@@ -527,23 +527,6 @@
 .block-editor-block-list__block.is-multi-selected > .block-editor-block-mover {
   right: -30px; }
 
-.block-editor-block-list__block[data-align="left"].is-selected > .block-editor-block-list__block-edit > .block-editor-block-mover, .block-editor-block-list__block[data-align="right"].is-selected > .block-editor-block-list__block-edit > .block-editor-block-mover {
-  display: none; }
-  @media (min-width: 600px) {
-    .block-editor-block-list__block[data-align="left"].is-selected > .block-editor-block-list__block-edit > .block-editor-block-mover, .block-editor-block-list__block[data-align="right"].is-selected > .block-editor-block-list__block-edit > .block-editor-block-mover {
-      display: block;
-      opacity: 1;
-      animation: none;
-      width: 45px;
-      height: auto;
-      padding-bottom: 14px;
-      margin-top: 0; } }
-
-.block-editor-block-list__block[data-align="left"].is-hovered > .block-editor-block-list__block-edit > .block-editor-block-mover,
-.block-editor-block-list__block[data-align="left"].is-dragging > .block-editor-block-list__block-edit > .block-editor-block-mover, .block-editor-block-list__block[data-align="right"].is-hovered > .block-editor-block-list__block-edit > .block-editor-block-mover,
-.block-editor-block-list__block[data-align="right"].is-dragging > .block-editor-block-list__block-edit > .block-editor-block-mover {
-  display: none; }
-
 /**
  * Mobile unified toolbar.
  */

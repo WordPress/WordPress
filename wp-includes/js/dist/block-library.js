@@ -15169,6 +15169,7 @@ var SOLID_COLOR_CLASS = "is-style-".concat(SOLID_COLOR_STYLE_NAME);
 
 
 
+
 /**
  * External dependencies
  */
@@ -15211,10 +15212,116 @@ var pullquote_deprecated_blockAttributes = {
     type: 'string'
   }
 };
+
+function parseBorderColor(styleString) {
+  if (!styleString) {
+    return;
+  }
+
+  var matches = styleString.match(/border-color:([^;]+)[;]?/);
+
+  if (matches && matches[1]) {
+    return matches[1];
+  }
+}
+
 var pullquote_deprecated_deprecated = [{
-  attributes: pullquote_deprecated_blockAttributes,
+  attributes: Object(objectSpread["a" /* default */])({}, pullquote_deprecated_blockAttributes, {
+    // figureStyle is an attribute that never existed.
+    // We are using it as a way to access the styles previously applied to the figure.
+    figureStyle: {
+      source: 'attribute',
+      selector: 'figure',
+      attribute: 'style'
+    }
+  }),
   save: function save(_ref) {
     var attributes = _ref.attributes;
+    var mainColor = attributes.mainColor,
+        customMainColor = attributes.customMainColor,
+        textColor = attributes.textColor,
+        customTextColor = attributes.customTextColor,
+        value = attributes.value,
+        citation = attributes.citation,
+        className = attributes.className,
+        figureStyle = attributes.figureStyle;
+    var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
+    var figureClasses, figureStyles; // Is solid color style
+
+    if (isSolidColorStyle) {
+      var backgroundClass = Object(external_this_wp_blockEditor_["getColorClassName"])('background-color', mainColor);
+      figureClasses = classnames_default()(Object(defineProperty["a" /* default */])({
+        'has-background': backgroundClass || customMainColor
+      }, backgroundClass, backgroundClass));
+      figureStyles = {
+        backgroundColor: backgroundClass ? undefined : customMainColor
+      }; // Is normal style and a custom color is being used ( we can set a style directly with its value)
+    } else if (customMainColor) {
+      figureStyles = {
+        borderColor: customMainColor
+      }; // If normal style and a named color are being used, we need to retrieve the color value to set the style,
+      // as there is no expectation that themes create classes that set border colors.
+    } else if (mainColor) {
+      // Previously here we queried the color settings to know the color value
+      // of a named color. This made the save function impure and the block was refactored,
+      // because meanwhile a change in the editor made it impossible to query color settings in the save function.
+      // Here instead of querying the color settings to know the color value, we retrieve the value
+      // directly from the style previously serialized.
+      var borderColor = parseBorderColor(figureStyle);
+      figureStyles = {
+        borderColor: borderColor
+      };
+    }
+
+    var blockquoteTextColorClass = Object(external_this_wp_blockEditor_["getColorClassName"])('color', textColor);
+    var blockquoteClasses = (textColor || customTextColor) && classnames_default()('has-text-color', Object(defineProperty["a" /* default */])({}, blockquoteTextColorClass, blockquoteTextColorClass));
+    var blockquoteStyles = blockquoteTextColorClass ? undefined : {
+      color: customTextColor
+    };
+    return Object(external_this_wp_element_["createElement"])("figure", {
+      className: figureClasses,
+      style: figureStyles
+    }, Object(external_this_wp_element_["createElement"])("blockquote", {
+      className: blockquoteClasses,
+      style: blockquoteStyles
+    }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
+      value: value,
+      multiline: true
+    }), !external_this_wp_blockEditor_["RichText"].isEmpty(citation) && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
+      tagName: "cite",
+      value: citation
+    })));
+  },
+  migrate: function migrate(_ref2) {
+    var className = _ref2.className,
+        figureStyle = _ref2.figureStyle,
+        mainColor = _ref2.mainColor,
+        attributes = Object(objectWithoutProperties["a" /* default */])(_ref2, ["className", "figureStyle", "mainColor"]);
+
+    var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS); // If is the default style, and a main color is set,
+    // migrate the main color value into a custom color.
+    // The custom color value is retrived by parsing the figure styles.
+
+    if (!isSolidColorStyle && mainColor && figureStyle) {
+      var borderColor = parseBorderColor(figureStyle);
+
+      if (borderColor) {
+        return Object(objectSpread["a" /* default */])({}, attributes, {
+          className: className,
+          customMainColor: borderColor
+        });
+      }
+    }
+
+    return Object(objectSpread["a" /* default */])({
+      className: className,
+      mainColor: mainColor
+    }, attributes);
+  }
+}, {
+  attributes: pullquote_deprecated_blockAttributes,
+  save: function save(_ref3) {
+    var attributes = _ref3.attributes;
     var mainColor = attributes.mainColor,
         customMainColor = attributes.customMainColor,
         textColor = attributes.textColor,
@@ -15268,8 +15375,8 @@ var pullquote_deprecated_deprecated = [{
   }
 }, {
   attributes: Object(objectSpread["a" /* default */])({}, pullquote_deprecated_blockAttributes),
-  save: function save(_ref2) {
-    var attributes = _ref2.attributes;
+  save: function save(_ref4) {
+    var attributes = _ref4.attributes;
     var value = attributes.value,
         citation = attributes.citation;
     return Object(external_this_wp_element_["createElement"])("blockquote", null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
@@ -15292,8 +15399,8 @@ var pullquote_deprecated_deprecated = [{
       default: 'none'
     }
   }),
-  save: function save(_ref3) {
-    var attributes = _ref3.attributes;
+  save: function save(_ref5) {
+    var attributes = _ref5.attributes;
     var value = attributes.value,
         citation = attributes.citation,
         align = attributes.align;
@@ -15362,13 +15469,24 @@ function (_Component) {
       var _this$props = this.props,
           colorUtils = _this$props.colorUtils,
           textColor = _this$props.textColor,
+          setAttributes = _this$props.setAttributes,
           setTextColor = _this$props.setTextColor,
           setMainColor = _this$props.setMainColor,
           className = _this$props.className;
       var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
       var needTextColor = !textColor.color || this.wasTextColorAutomaticallyComputed;
       var shouldSetTextColor = isSolidColorStyle && needTextColor && colorValue;
-      setMainColor(colorValue);
+
+      if (isSolidColorStyle) {
+        // If we use the solid color style, set the color using the normal mechanism.
+        setMainColor(colorValue);
+      } else {
+        // If we use the default style, set the color as a custom color to force the usage of an inline style.
+        // Default style uses a border color for which classes are not available.
+        setAttributes({
+          customMainColor: colorValue
+        });
+      }
 
       if (shouldSetTextColor) {
         this.wasTextColorAutomaticallyComputed = true;
@@ -15383,15 +15501,35 @@ function (_Component) {
       this.wasTextColorAutomaticallyComputed = false;
     }
   }, {
-    key: "render",
-    value: function render() {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
       var _this$props2 = this.props,
           attributes = _this$props2.attributes,
+          className = _this$props2.className,
           mainColor = _this$props2.mainColor,
-          textColor = _this$props2.textColor,
-          setAttributes = _this$props2.setAttributes,
-          isSelected = _this$props2.isSelected,
-          className = _this$props2.className;
+          setAttributes = _this$props2.setAttributes; // If the block includes a named color and we switched from the
+      // solid color style to the default style.
+
+      if (attributes.mainColor && !Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS) && Object(external_lodash_["includes"])(prevProps.className, SOLID_COLOR_CLASS)) {
+        // Remove the named color, and set the color as a custom color.
+        // This is done because named colors use classes, in the default style we use a border color,
+        // and themes don't set classes for border colors.
+        setAttributes({
+          mainColor: undefined,
+          customMainColor: mainColor.color
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props3 = this.props,
+          attributes = _this$props3.attributes,
+          mainColor = _this$props3.mainColor,
+          textColor = _this$props3.textColor,
+          setAttributes = _this$props3.setAttributes,
+          isSelected = _this$props3.isSelected,
+          className = _this$props3.className;
       var value = attributes.value,
           citation = attributes.citation;
       var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
@@ -15497,7 +15635,6 @@ function (_Component) {
  */
 
 
-
 /**
  * Internal dependencies
  */
@@ -15526,13 +15663,6 @@ function pullquote_save_save(_ref) {
   } else if (customMainColor) {
     figureStyles = {
       borderColor: customMainColor
-    }; // If normal style and a named color are being used, we need to retrieve the color value to set the style,
-    // as there is no expectation that themes create classes that set border colors.
-  } else if (mainColor) {
-    var colors = Object(external_lodash_["get"])(Object(external_this_wp_data_["select"])('core/block-editor').getSettings(), ['colors'], []);
-    var colorObject = Object(external_this_wp_blockEditor_["getColorObjectByAttributeValues"])(colors, mainColor);
-    figureStyles = {
-      borderColor: colorObject.color
     };
   }
 
