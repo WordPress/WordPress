@@ -115,8 +115,8 @@ function translations_api( $type, $args = null ) {
  *
  * @see translations_api()
  *
- * @return array Array of translations, each an array of data. If the API response results
- *               in an error, an empty array will be returned.
+ * @return array[] Array of translations, each an array of data, keyed by the language. If the API response results
+ *                 in an error, an empty array will be returned.
  */
 function wp_get_available_translations() {
 	if ( ! wp_installing() ) {

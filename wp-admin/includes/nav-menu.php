@@ -1085,7 +1085,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
  *
  * @since 3.0.0
  *
- * @return array Columns.
+ * @return string[] Array of column titles keyed by their column name.
  */
 function wp_nav_menu_manage_columns() {
 	return array(

@@ -117,12 +117,12 @@ function wp_delete_link( $link_id ) {
 }
 
 /**
- * Retrieves the link categories associated with the link specified.
+ * Retrieves the link category IDs associated with the link specified.
  *
  * @since 2.1.0
  *
- * @param int $link_id Link ID to look up
- * @return array The requested link's categories
+ * @param int $link_id Link ID to look up.
+ * @return int[] The IDs of the requested link's categories.
  */
 function wp_get_link_cats( $link_id = 0 ) {
 	$cats = wp_get_object_terms( $link_id, 'link_category', array( 'fields' => 'ids' ) );

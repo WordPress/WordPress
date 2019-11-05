@@ -170,7 +170,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *
 	 * @global string $role
 	 *
-	 * @return array An array of HTML links, one for each view.
+	 * @return string[] An array of HTML links keyed by their view.
 	 */
 	protected function get_views() {
 		global $role;
@@ -259,7 +259,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *
 	 * @since  3.1.0
 	 *
-	 * @return array Array of bulk actions.
+	 * @return string[] Array of bulk action labels keyed by their action.
 	 */
 	protected function get_bulk_actions() {
 		$actions = array();
@@ -348,8 +348,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *
 	 * @since  3.1.0
 	 *
-	 * @return array Array in which the key is the ID of the column,
-	 *               and the value is the description.
+	 * @return string[] Array of column titles keyed by their column name.
 	 */
 	public function get_columns() {
 		$c = array(

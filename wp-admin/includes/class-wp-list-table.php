@@ -1217,7 +1217,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return array List of CSS classes for the table tag.
+	 * @return string[] Array of CSS classes for the table tag.
 	 */
 	protected function get_table_classes() {
 		return array( 'widefat', 'fixed', 'striped', $this->_args['plural'] );

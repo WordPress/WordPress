@@ -140,12 +140,12 @@ function meta_box_prefs( $screen ) {
 }
 
 /**
- * Get Hidden Meta Boxes
+ * Gets an array of IDs of hidden meta boxes.
  *
  * @since 2.7.0
  *
  * @param string|WP_Screen $screen Screen identifier
- * @return array Hidden Meta Boxes
+ * @return string[] IDs of hidden meta boxes.
  */
 function get_hidden_meta_boxes( $screen ) {
 	if ( is_string( $screen ) ) {
@@ -172,7 +172,7 @@ function get_hidden_meta_boxes( $screen ) {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array     $hidden An array of meta boxes hidden by default.
+		 * @param string[]  $hidden An array of IDs of meta boxes hidden by default.
 		 * @param WP_Screen $screen WP_Screen object of the current screen.
 		 */
 		$hidden = apply_filters( 'default_hidden_meta_boxes', $hidden, $screen );
@@ -183,7 +183,7 @@ function get_hidden_meta_boxes( $screen ) {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param array     $hidden       An array of hidden meta boxes.
+	 * @param string[]  $hidden       An array of IDs of hidden meta boxes.
 	 * @param WP_Screen $screen       WP_Screen object of the current screen.
 	 * @param bool      $use_defaults Whether to show the default meta boxes.
 	 *                                Default true.
@@ -233,8 +233,8 @@ function get_current_screen() {
  *
  * @since 3.0.0
  *
- * @param mixed $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen,
- *                         or an existing screen object.
+ * @param string|WP_Screen $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen,
+ *                                    or an existing screen object.
  */
 function set_current_screen( $hook_name = '' ) {
 	WP_Screen::get( $hook_name )->set_current_screen();

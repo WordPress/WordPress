@@ -1082,8 +1082,8 @@ function _fix_attachment_links( $post ) {
  *
  * @since 2.5.0
  *
- * @param string $type The post_type you want the statuses for
- * @return array As array of all the statuses for the supplied post type
+ * @param string $type The post_type you want the statuses for. Default 'post'.
+ * @return string[] An array of all the statuses for the supplied post type.
  */
 function get_available_post_statuses( $type = 'post' ) {
 	$stati = wp_count_posts( $type );
@@ -1492,7 +1492,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
  * @since 2.9.0
  *
  * @param int $thumbnail_id ID of the attachment used for thumbnail
- * @param mixed $post The post ID or object associated with the thumbnail, defaults to global $post.
+ * @param int|WP_Post $post Optional. The post ID or object associated with the thumbnail, defaults to global $post.
  * @return string html
  */
 function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
@@ -2150,7 +2150,7 @@ function use_block_editor_for_post_type( $post_type ) {
  * @since 5.0.0
  *
  * @param WP_Post $post Post object.
- * @return array Array of block categories.
+ * @return array[] Array of block categories.
  */
 function get_block_categories( $post ) {
 	$default_categories = array(

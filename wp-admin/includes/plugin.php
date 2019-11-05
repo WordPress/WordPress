@@ -226,7 +226,7 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
  * @since 2.8.0
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.
- * @return array List of files relative to the plugin root.
+ * @return string[] Array of file names relative to the plugin root.
  */
 function get_plugin_files( $plugin ) {
 	$plugin_file = WP_PLUGIN_DIR . '/' . $plugin;
@@ -273,7 +273,7 @@ function get_plugin_files( $plugin ) {
  * @since 1.5.0
  *
  * @param string $plugin_folder Optional. Relative path to single plugin folder.
- * @return array Key is the plugin file path and the value is an array of the plugin data.
+ * @return array[] Array of arrays of plugin data, keyed by plugin file name. See `get_plugin_data()`.
  */
 function get_plugins( $plugin_folder = '' ) {
 
@@ -354,7 +354,7 @@ function get_plugins( $plugin_folder = '' ) {
  * WordPress only includes mu-plugin files in the base mu-plugins directory (wp-content/mu-plugins).
  *
  * @since 3.0.0
- * @return array Key is the mu-plugin file path and the value is an array of the mu-plugin data.
+ * @return array[] Array of arrays of mu-plugin data, keyed by plugin file name. See `get_plugin_data()`.
  */
 function get_mu_plugins() {
 	$wp_plugins = array();
@@ -423,7 +423,7 @@ function _sort_uname_callback( $a, $b ) {
  * Check the wp-content directory and retrieve all drop-ins with any plugin data.
  *
  * @since 3.0.0
- * @return array Key is the file path and the value is an array of the plugin data.
+ * @return array[] Array of arrays of dropin plugin data, keyed by plugin file name. See `get_plugin_data()`.
  */
 function get_dropins() {
 	$dropins      = array();
@@ -471,7 +471,7 @@ function get_dropins() {
  * Includes Multisite drop-ins only when is_multisite()
  *
  * @since 3.0.0
- * @return array Key is file name. The value is an array, with the first value the
+ * @return array[] Key is file name. The value is an array, with the first value the
  *  purpose of the drop-in and the second value the name of the constant that must be
  *  true for the drop-in to be used, or true if no constant is required.
  */
@@ -1029,7 +1029,7 @@ function delete_plugins( $plugins, $deprecated = '' ) {
  * returns an array of deactivated ones.
  *
  * @since 2.5.0
- * @return array invalid plugins, plugin as key, error as value
+ * @return WP_Error[] Array of plugin errors keyed by plugin file name.
  */
 function validate_active_plugins() {
 	$plugins = get_option( 'active_plugins', array() );

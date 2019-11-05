@@ -35,7 +35,14 @@ if ( ! function_exists( 'wp_install' ) ) :
 	 * @param string $deprecated    Optional. Not used.
 	 * @param string $user_password Optional. User's chosen password. Default empty (random password).
 	 * @param string $language      Optional. Language chosen. Default empty.
-	 * @return array Array keys 'url', 'user_id', 'password', and 'password_message'.
+	 * @return array {
+	 *     Data for the newly installed site.
+	 *
+	 *     @type string $url              The URL of the site.
+	 *     @type int    $user_id          The ID of the site owner.
+	 *     @type string $password         The password of the site owner, if their user account didn't already exist.
+	 *     @type string $password_message The explanatory message regarding the password.
+	 * }
 	 */
 	function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated = '', $user_password = '', $language = '' ) {
 		if ( ! empty( $deprecated ) ) {

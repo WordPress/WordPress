@@ -98,7 +98,7 @@ function has_block( $block_type, $post = null ) {
  *
  * @since 5.0.0
  *
- * @return array Array of dynamic block names.
+ * @return string[] Array of dynamic block names.
  */
 function get_dynamic_block_names() {
 	$dynamic_block_names = array();
@@ -281,7 +281,7 @@ function render_block( $block ) {
  * @since 5.0.0
  *
  * @param string $content Post content.
- * @return array Array of parsed block objects.
+ * @return array[] Array of parsed block objects.
  */
 function parse_blocks( $content ) {
 	/**

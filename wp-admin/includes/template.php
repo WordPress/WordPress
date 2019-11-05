@@ -199,10 +199,10 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
  * @since 2.5.0
  *
  * @param string $taxonomy Taxonomy to retrieve terms from.
- * @param int $default Not used.
- * @param int $number Number of terms to retrieve. Defaults to 10.
- * @param bool $echo Optionally output the list as well. Defaults to true.
- * @return array List of popular term IDs.
+ * @param int    $default  Not used.
+ * @param int    $number   Number of terms to retrieve. Defaults to 10.
+ * @param bool   $echo     Optionally output the list as well. Defaults to true.
+ * @return int[] Array of popular term IDs.
  */
 function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $echo = true ) {
 	$post = get_post();
@@ -2097,12 +2097,12 @@ function _post_states( $post, $echo = true ) {
 }
 
 /**
- * Function to retrieve an array of post states from a post.
+ * Retrieves an array of post states from a post.
  *
  * @since 5.3.0
  *
  * @param WP_Post $post The post to retrieve states for.
- * @return array The array of translated post states.
+ * @return string[] Array of post state labels keyed by their state.
  */
 function get_post_states( $post ) {
 	$post_states = array();
