@@ -356,9 +356,9 @@ class WP_Styles extends WP_Dependencies {
 	 *
 	 * @see WP_Dependencies::all_deps()
 	 *
-	 * @param mixed     $handles   Item handle and argument (string) or item handles and arguments (array of strings).
-	 * @param bool      $recursion Internal flag that function is calling itself.
-	 * @param int|false $group     Group level: (int) level, (false) no groups.
+	 * @param string|string[] $handles   Item handle and argument (string) or item handles and arguments (array of strings).
+	 * @param bool            $recursion Internal flag that function is calling itself.
+	 * @param int|false       $group     Group level: (int) level, (false) no groups.
 	 * @return bool True on success, false on failure.
 	 */
 	public function all_deps( $handles, $recursion = false, $group = false ) {
@@ -437,7 +437,7 @@ class WP_Styles extends WP_Dependencies {
 	 *
 	 * @see WP_Dependencies::do_items()
 	 *
-	 * @return array Handles of items that have been processed.
+	 * @return string[] Handles of items that have been processed.
 	 */
 	public function do_footer_items() {
 		$this->do_items( false, 1 );

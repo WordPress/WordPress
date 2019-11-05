@@ -251,7 +251,7 @@ final class WP_Comment {
 	 *                                 `$meta_query`. Also accepts false, an empty array, or
 	 *                                 'none' to disable `ORDER BY` clause.
 	 * }
-	 * @return array Array of `WP_Comment` objects.
+	 * @return WP_Comment[] Array of `WP_Comment` objects.
 	 */
 	public function get_children( $args = array() ) {
 		$defaults = array(

@@ -1156,8 +1156,8 @@ final class WP_Theme implements ArrayAccess {
 	 * @param mixed $type Optional. Array of extensions to return. Defaults to all files (null).
 	 * @param int $depth Optional. How deep to search for files. Defaults to a flat scan (0 depth). -1 depth is infinite.
 	 * @param bool $search_parent Optional. Whether to return parent files. Defaults to false.
-	 * @return array Array of files, keyed by the path to the file relative to the theme's directory, with the values
-	 *               being absolute paths.
+	 * @return string[] Array of files, keyed by the path to the file relative to the theme's directory, with the values
+	 *                  being absolute paths.
 	 */
 	public function get_files( $type = null, $depth = 0, $search_parent = false ) {
 		$files = (array) self::scandir( $this->get_stylesheet_directory(), $type, $depth );
@@ -1174,7 +1174,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @return array Array of page templates, keyed by filename and post type,
+	 * @return string Array of page templates, keyed by filename and post type,
 	 *               with the value of the translated header name.
 	 */
 	public function get_post_templates() {
@@ -1233,7 +1233,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @param WP_Post|null $post      Optional. The post being edited, provided for context.
 	 * @param string       $post_type Optional. Post type to get the templates for. Default 'page'.
 	 *                                If a post is provided, its post type is used.
-	 * @return array Array of page templates, keyed by filename, with the value of the translated header name.
+	 * @return string[] Array of template header names keyed by the template file name.
 	 */
 	public function get_page_templates( $post = null, $post_type = 'page' ) {
 		if ( $post ) {
@@ -1248,8 +1248,7 @@ final class WP_Theme implements ArrayAccess {
 		 *
 		 * @since 4.9.6
 		 *
-		 * @param string[]     $post_templates Array of page templates. Keys are filenames,
-		 *                                     values are translated names.
+		 * @param string[]     $post_templates Array of template header names keyed by the template file name.
 		 * @param WP_Theme     $this           The theme object.
 		 * @param WP_Post|null $post           The post being edited, provided for context, or null.
 		 * @param string       $post_type      Post type to get the templates for.
@@ -1265,8 +1264,7 @@ final class WP_Theme implements ArrayAccess {
 		 * @since 4.4.0 Converted to allow complete control over the `$page_templates` array.
 		 * @since 4.7.0 Added the `$post_type` parameter.
 		 *
-		 * @param string[]     $post_templates Array of page templates. Keys are filenames,
-		 *                                     values are translated names.
+		 * @param string[]     $post_templates Array of template header names keyed by the template file name.
 		 * @param WP_Theme     $this           The theme object.
 		 * @param WP_Post|null $post           The post being edited, provided for context, or null.
 		 * @param string       $post_type      Post type to get the templates for.
@@ -1289,8 +1287,8 @@ final class WP_Theme implements ArrayAccess {
 	 * @param string            $relative_path Optional. The basename of the absolute path. Used to control the
 	 *                                         returned path for the found files, particularly when this function
 	 *                                         recurses to lower depths. Default empty.
-	 * @return array|false Array of files, keyed by the path to the file relative to the `$path` directory prepended
-	 *                     with `$relative_path`, with the values being absolute paths. False otherwise.
+	 * @return string[]|false Array of files, keyed by the path to the file relative to the `$path` directory prepended
+	 *                        with `$relative_path`, with the values being absolute paths. False otherwise.
 	 */
 	private static function scandir( $path, $extensions = null, $depth = 0, $relative_path = '' ) {
 		if ( ! is_dir( $path ) ) {

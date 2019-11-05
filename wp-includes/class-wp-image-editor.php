@@ -172,7 +172,12 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @return array {'width'=>int, 'height'=>int}
+	 * @return array {
+	 *     Dimensions of the image.
+	 *
+	 *     @type int $width  The image width.
+	 *     @type int $height The image height.
+	 * }
 	 */
 	public function get_size() {
 		return $this->size;

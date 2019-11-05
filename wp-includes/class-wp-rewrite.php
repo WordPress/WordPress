@@ -463,7 +463,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return array Page rewrite rules.
+	 * @return string[] Page rewrite rules.
 	 */
 	public function page_rewrite_rules() {
 		// The extra .? at the beginning prevents clashes with other regular expressions in the rules array.
@@ -1250,7 +1250,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return array An associate array of matches and queries.
+	 * @return string[] An associative array of matches and queries.
 	 */
 	public function rewrite_rules() {
 		$rewrite = array();
@@ -1455,7 +1455,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return array Rewrite rules.
+	 * @return string[] Array of rewrite rules keyed by their regex pattern.
 	 */
 	public function wp_rewrite_rules() {
 		$this->rules = get_option( 'rewrite_rules' );

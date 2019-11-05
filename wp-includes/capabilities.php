@@ -33,7 +33,7 @@
  * @param string $cap     Capability name.
  * @param int    $user_id User ID.
  * @param mixed  ...$args Optional further parameters, typically starting with an object ID.
- * @return array Actual capabilities for meta capability.
+ * @return string[] Actual capabilities for meta capability.
  */
 function map_meta_cap( $cap, $user_id, ...$args ) {
 	$caps = array();
@@ -838,7 +838,7 @@ function remove_role( $role ) {
  *
  * @global array $super_admins
  *
- * @return array List of super admin logins
+ * @return string[] List of super admin logins.
  */
 function get_super_admins() {
 	global $super_admins;

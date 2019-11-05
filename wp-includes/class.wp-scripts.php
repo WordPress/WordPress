@@ -175,11 +175,11 @@ class WP_Scripts extends WP_Dependencies {
 	 * @since 2.1.0
 	 * @since 2.8.0 Added the `$group` parameter.
 	 *
-	 * @param mixed $handles Optional. Scripts to be printed. (void) prints queue, (string) prints
-	 *                       that script, (array of strings) prints those scripts. Default false.
-	 * @param int   $group   Optional. If scripts were queued in groups prints this group number.
-	 *                       Default false.
-	 * @return array Scripts that have been printed.
+	 * @param mixed     $handles Optional. Scripts to be printed. (void) prints queue, (string) prints
+	 *                           that script, (array of strings) prints those scripts. Default false.
+	 * @param int|false $group   Optional. If scripts were queued in groups prints this group number.
+	 *                           Default false.
+	 * @return string[] Handles of scripts that have been printed.
 	 */
 	public function print_scripts( $handles = false, $group = false ) {
 		return $this->do_items( $handles, $group );
@@ -627,7 +627,7 @@ JS;
 	 *
 	 * @see WP_Dependencies::do_items()
 	 *
-	 * @return array Handles of items that have been processed.
+	 * @return string[] Handles of items that have been processed.
 	 */
 	public function do_head_items() {
 		$this->do_items( false, 0 );
@@ -641,7 +641,7 @@ JS;
 	 *
 	 * @see WP_Dependencies::do_items()
 	 *
-	 * @return array Handles of items that have been processed.
+	 * @return string[] Handles of items that have been processed.
 	 */
 	public function do_footer_items() {
 		$this->do_items( false, 1 );

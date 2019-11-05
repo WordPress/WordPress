@@ -789,7 +789,7 @@ class Requests {
 	 * Convert a key => value array to a 'key: value' array for headers
 	 *
 	 * @param array $array Dictionary of header values
-	 * @return array List of headers
+	 * @return string[] List of headers
 	 */
 	public static function flatten($array) {
 		$return = array();
@@ -805,7 +805,7 @@ class Requests {
 	 * @codeCoverageIgnore
 	 * @deprecated Misspelling of {@see Requests::flatten}
 	 * @param array $array Dictionary of header values
-	 * @return array List of headers
+	 * @return string[] List of headers
 	 */
 	public static function flattern($array) {
 		return self::flatten($array);
