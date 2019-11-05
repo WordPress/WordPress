@@ -82,7 +82,6 @@
     .edit-post-header {
       height: 56px;
       top: 0;
-      position: -webkit-sticky;
       position: sticky;
       flex-wrap: nowrap; } }
   @media (min-width: 600px) {
@@ -97,7 +96,7 @@
         top: 0; } }
   .edit-post-header > .edit-post-header__settings {
     order: 1; }
-    @supports ((position: -webkit-sticky) or (position: sticky)) {
+    @supports (position: sticky) {
       .edit-post-header > .edit-post-header__settings {
         order: initial; } }
 
@@ -439,7 +438,7 @@ body.is-fullscreen-mode .edit-post-layout__content .components-editor-notices__s
       overscroll-behavior-y: none; } }
   .edit-post-layout__content .edit-post-visual-editor {
     flex: 1 1 auto; }
-    @supports ((position: -webkit-sticky) or (position: sticky)) {
+    @supports (position: sticky) {
       .edit-post-layout__content .edit-post-visual-editor {
         flex-basis: 100%; } }
   .edit-post-layout__content .edit-post-layout__metaboxes {
@@ -578,7 +577,6 @@ body.is-fullscreen-mode .edit-post-layout__content .components-editor-notices__s
   margin: 0 0 2rem 0; }
 
 .edit-post-manage-blocks-modal__category-title {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   padding: 16px 0;
@@ -688,12 +686,15 @@ body.is-fullscreen-mode .edit-post-layout__content .components-editor-notices__s
     z-index: 5; }
   .edit-post-meta-boxes-area .is-hidden {
     display: none; }
-  .edit-post-meta-boxes-area .metabox-location-side .postbox input[type="checkbox"] {
+  .edit-post-meta-boxes-area .postbox-container .postbox input[type="checkbox"],
+  .edit-post-meta-boxes-area .postbox-container .postbox input[type="radio"] {
     border: 1px solid #6c7781; }
-    .edit-post-meta-boxes-area .metabox-location-side .postbox input[type="checkbox"]:checked {
+    .edit-post-meta-boxes-area .postbox-container .postbox input[type="checkbox"]:checked,
+    .edit-post-meta-boxes-area .postbox-container .postbox input[type="radio"]:checked {
       background: #fff;
       border-color: #6c7781; }
-    .edit-post-meta-boxes-area .metabox-location-side .postbox input[type="checkbox"]::before {
+    .edit-post-meta-boxes-area .postbox-container .postbox input[type="checkbox"]::before,
+    .edit-post-meta-boxes-area .postbox-container .postbox input[type="radio"]::before {
       margin: -3px -4px; }
 
 .edit-post-meta-boxes-area__clear {
@@ -871,7 +872,7 @@ body.is-fullscreen-mode .edit-post-layout__content .components-editor-notices__s
 .editor-post-author__select {
   margin: -5px 0;
   width: 100%; }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     .editor-post-author__select {
       width: auto; } }
 
@@ -940,7 +941,6 @@ body.is-fullscreen-mode .edit-post-layout__content .components-editor-notices__s
   padding-right: 0;
   padding-left: 4px;
   border-top: 0;
-  position: -webkit-sticky;
   position: sticky;
   z-index: -1;
   top: 0; }
@@ -2163,13 +2163,6 @@ body.block-editor-page {
     min-height: calc(100vh - 32px); }
     body.is-fullscreen-mode .block-editor__container {
       min-height: 100vh; } }
-
-.block-editor__container img {
-  max-width: 100%;
-  height: auto; }
-
-.block-editor__container iframe {
-  width: 100%; }
 
 .block-editor__container .components-navigate-regions {
   height: 100%; }

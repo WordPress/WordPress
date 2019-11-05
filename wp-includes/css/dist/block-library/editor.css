@@ -181,7 +181,7 @@ div[data-type="core/button"] div[data-block] {
       display: flex;
       flex-direction: column;
       flex: 1 1 auto; }
-      @supports ((position: -webkit-sticky) or (position: sticky)) {
+      @supports (position: sticky) {
         .wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"],
         .wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"] > .editor-block-list__block-edit,
         .wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"] > .editor-block-list__block-edit > div[data-block],
@@ -605,7 +605,6 @@ div[data-type="core/freeform"].is-selected .block-library-rich-text__tinymce::af
   display: none;
   width: auto;
   margin: 0 -14px;
-  position: -webkit-sticky;
   position: sticky;
   z-index: 10;
   top: 14px;
@@ -703,7 +702,7 @@ body.admin-color-light .blocks-gallery-item figure.is-selected {
   max-height: 100%;
   overflow-y: auto; }
 
-@supports ((position: -webkit-sticky) or (position: sticky)) {
+@supports (position: sticky) {
   .blocks-gallery-item .is-selected .block-editor-rich-text {
     right: 0;
     left: 0;
@@ -1140,7 +1139,6 @@ figure.block-library-media-text__media-container {
 .wp-block-navigation-menu {
   display: -ms-grid;
   display: grid;
-  grid-auto-columns: -webkit-min-content;
   grid-auto-columns: min-content;
   grid-auto-flow: column;
   align-items: center;
@@ -1153,7 +1151,6 @@ figure.block-library-media-text__media-container {
 .wp-block-navigation-menu-item__edit-container {
   display: -ms-grid;
   display: grid;
-  grid-auto-columns: -webkit-min-content;
   grid-auto-columns: min-content;
   grid-auto-flow: column;
   align-items: center;

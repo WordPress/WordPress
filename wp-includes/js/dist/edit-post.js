@@ -2234,12 +2234,10 @@ function (_Component) {
       var _this$props = this.props,
           postId = _this$props.postId,
           postStatus = _this$props.postStatus,
-          postType = _this$props.postType,
-          isSavingPost = _this$props.isSavingPost;
-      var historyId = this.state.historyId; // Posts are still dirty while saving so wait for saving to finish
-      // to avoid the unsaved changes warning when trashing posts.
+          postType = _this$props.postType;
+      var historyId = this.state.historyId;
 
-      if (postStatus === 'trash' && !isSavingPost) {
+      if (postStatus === 'trash') {
         this.setTrashURL(postId, postType);
         return;
       }
@@ -2293,8 +2291,7 @@ function (_Component) {
 }(external_this_wp_element_["Component"]);
 /* harmony default export */ var browser_url = (Object(external_this_wp_data_["withSelect"])(function (select) {
   var _select = select('core/editor'),
-      getCurrentPost = _select.getCurrentPost,
-      isSavingPost = _select.isSavingPost;
+      getCurrentPost = _select.getCurrentPost;
 
   var _getCurrentPost = getCurrentPost(),
       id = _getCurrentPost.id,
@@ -2304,8 +2301,7 @@ function (_Component) {
   return {
     postId: id,
     postStatus: status,
-    postType: type,
-    isSavingPost: isSavingPost()
+    postType: type
   };
 })(browser_url_BrowserURL));
 

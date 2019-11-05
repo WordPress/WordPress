@@ -38,10 +38,6 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block-audio figcaption {
-  margin-top: 0.5em;
-  margin-bottom: 1em; }
-
 .wp-block-audio audio {
   width: 100%;
   min-width: 300px; }
@@ -241,7 +237,7 @@
     content: "";
     font-size: 0;
     min-height: inherit; }
-    @supports ((position: -webkit-sticky) or (position: sticky)) {
+    @supports (position: sticky) {
       .wp-block-cover-image::after,
       .wp-block-cover::after {
         content: none; } }
@@ -342,9 +338,6 @@ section.wp-block-cover-image > h2,
 
 .wp-block-embed {
   margin-bottom: 1em; }
-  .wp-block-embed figcaption {
-    margin-top: 0.5em;
-    margin-bottom: 1em; }
 
 .wp-embed-responsive .wp-block-embed.wp-embed-aspect-21-9 .wp-block-embed__wrapper,
 .wp-embed-responsive .wp-block-embed.wp-embed-aspect-18-9 .wp-block-embed__wrapper,
@@ -446,7 +439,7 @@ section.wp-block-cover-image > h2,
     .blocks-gallery-grid .blocks-gallery-item figure {
       margin: 0;
       height: 100%; }
-      @supports ((position: -webkit-sticky) or (position: sticky)) {
+      @supports (position: sticky) {
         .wp-block-gallery .blocks-gallery-image figure,
         .wp-block-gallery .blocks-gallery-item figure,
         .blocks-gallery-grid .blocks-gallery-image figure,
@@ -466,7 +459,7 @@ section.wp-block-cover-image > h2,
     .blocks-gallery-grid .blocks-gallery-image img,
     .blocks-gallery-grid .blocks-gallery-item img {
       width: 100%; }
-      @supports ((position: -webkit-sticky) or (position: sticky)) {
+      @supports (position: sticky) {
         .wp-block-gallery .blocks-gallery-image img,
         .wp-block-gallery .blocks-gallery-item img,
         .blocks-gallery-grid .blocks-gallery-image img,
@@ -500,7 +493,7 @@ section.wp-block-cover-image > h2,
   .blocks-gallery-grid.is-cropped .blocks-gallery-item a,
   .blocks-gallery-grid.is-cropped .blocks-gallery-item img {
     width: 100%; }
-    @supports ((position: -webkit-sticky) or (position: sticky)) {
+    @supports (position: sticky) {
       .wp-block-gallery.is-cropped .blocks-gallery-image a,
       .wp-block-gallery.is-cropped .blocks-gallery-image img,
       .wp-block-gallery.is-cropped .blocks-gallery-item a,
@@ -690,25 +683,18 @@ section.wp-block-cover-image > h2,
   .wp-block-image .aligncenter {
     margin-left: auto;
     margin-right: auto; }
-  .wp-block-image figcaption {
-    margin-top: 0.5em;
-    margin-bottom: 1em; }
 
 .is-style-circle-mask img {
   border-radius: 9999px; }
-  @supports ((-webkit-mask-image: none) or (mask-image: none)) or (-webkit-mask-image: none) {
+  @supports (mask-image: none) or (-webkit-mask-image: none) {
     .is-style-circle-mask img {
       /* stylelint-disable */
-      -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
-              mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
+      mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
       /* stylelint-enable */
       mask-mode: alpha;
-      -webkit-mask-repeat: no-repeat;
-              mask-repeat: no-repeat;
-      -webkit-mask-size: contain;
-              mask-size: contain;
-      -webkit-mask-position: center;
-              mask-position: center;
+      mask-repeat: no-repeat;
+      mask-size: contain;
+      mask-position: center;
       border-radius: none; } }
 
 .wp-block-latest-comments__comment {
@@ -1427,15 +1413,12 @@ pre.wp-block-verse {
   margin-right: 0; }
   .wp-block-video video {
     max-width: 100%; }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     .wp-block-video [poster] {
       -o-object-fit: cover;
          object-fit: cover; } }
   .wp-block-video.aligncenter {
     text-align: center; }
-  .wp-block-video figcaption {
-    margin-top: 0.5em;
-    margin-bottom: 1em; }
 
 :root .has-pale-pink-background-color {
   background-color: #f78da7; }
@@ -1536,3 +1519,19 @@ pre.wp-block-verse {
 .has-text-align-right {
   /*rtl:ignore*/
   text-align: right; }
+
+/**
+ * Vanilla Block Styles
+ * These are base styles that apply across blocks, meant to provide a baseline.
+ * They are applied both to the editor and the theme, so we should have as few of these as possible.
+ * Please note that some styles are stored in packages/editor/src/editor-styles.scss, as they pertain to CSS bleed for the editor only.
+ */
+figcaption {
+  margin-top: 0.5em; }
+
+img {
+  max-width: 100%;
+  height: auto; }
+
+iframe {
+  width: 100%; }
