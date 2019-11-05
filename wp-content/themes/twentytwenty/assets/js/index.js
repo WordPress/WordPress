@@ -523,6 +523,37 @@ twentytwenty.primaryMenu = {
 				self = self.parentElement;
 			}
 		}
+
+		/**
+		 * Toggles `focus` class to allow submenu access on tablets.
+		 */
+		( function( menuObj ) {
+			var touchStartFn, j,
+				parentLink = menuObj.querySelectorAll( '.primary-menu .menu-item-has-children > a' );
+
+			if ( 'ontouchstart' in window ) {
+				touchStartFn = function( e ) {
+					var menuItem = this.parentNode;
+
+					if ( ! menuItem.classList.contains( 'focus' ) ) {
+						e.preventDefault();
+						for ( j = 0; j < menuItem.parentNode.children.length; ++j ) {
+							if ( menuItem === menuItem.parentNode.children[j] ) {
+								continue;
+							}
+							menuItem.parentNode.children[i].classList.remove( 'focus' );
+						}
+						menuItem.classList.add( 'focus' );
+					} else {
+						menuItem.classList.remove( 'focus' );
+					}
+				};
+
+				for ( j = 0; j < parentLink.length; ++j ) {
+					parentLink[j].addEventListener( 'touchstart', touchStartFn, false );
+				}
+			}
+		}( menu ) );
 	}
 }; // twentytwenty.primaryMenu
 
