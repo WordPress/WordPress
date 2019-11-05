@@ -5,7 +5,7 @@ var twemoji = (function (
   */
 
   // WARNING:   this file is generated automatically via
-  //            `node 2/scripts/generate`
+  //            `node scripts/generate`
   //            please update its `createTwemoji` function
   //            at the bottom of the same file instead.
 
@@ -24,7 +24,7 @@ var twemoji = (function (
     /////////////////////////
 
       // default assets url, by default will be Twitter Inc. CDN
-      base: 'https://twemoji.maxcdn.com/v/12.1.2/',
+      base: 'https://twemoji.maxcdn.com/v/12.1.3/',
 
       // default assets file extensions, by default '.png'
       ext: '.png',
