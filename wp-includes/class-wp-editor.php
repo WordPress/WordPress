@@ -577,16 +577,17 @@ final class _WP_Editors {
 			}
 
 			if ( $set['teeny'] ) {
+				$mce_buttons = array( 'bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'alignleft', 'aligncenter', 'alignright', 'undo', 'redo', 'link', 'fullscreen' );
 
 				/**
 				 * Filters the list of teenyMCE buttons (Text tab).
 				 *
 				 * @since 2.7.0
 				 *
-				 * @param array  $buttons   An array of teenyMCE buttons.
-				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 * @param array  $mce_buttons An array of teenyMCE buttons.
+				 * @param string $editor_id   Unique editor identifier, e.g. 'content'.
 				 */
-				$mce_buttons   = apply_filters( 'teeny_mce_buttons', array( 'bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'alignleft', 'aligncenter', 'alignright', 'undo', 'redo', 'link', 'fullscreen' ), $editor_id );
+				$mce_buttons   = apply_filters( 'teeny_mce_buttons', $mce_buttons, $editor_id );
 				$mce_buttons_2 = array();
 				$mce_buttons_3 = array();
 				$mce_buttons_4 = array();
@@ -610,8 +611,8 @@ final class _WP_Editors {
 				 *
 				 * @since 2.0.0
 				 *
-				 * @param array  $buttons   First-row list of buttons.
-				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 * @param array  $mce_buttons First-row list of buttons.
+				 * @param string $editor_id   Unique editor identifier, e.g. 'content'.
 				 */
 				$mce_buttons = apply_filters( 'mce_buttons', $mce_buttons, $editor_id );
 
@@ -626,8 +627,8 @@ final class _WP_Editors {
 				 *
 				 * @since 2.0.0
 				 *
-				 * @param array  $buttons   Second-row list of buttons.
-				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 * @param array  $mce_buttons_2 Second-row list of buttons.
+				 * @param string $editor_id     Unique editor identifier, e.g. 'content'.
 				 */
 				$mce_buttons_2 = apply_filters( 'mce_buttons_2', $mce_buttons_2, $editor_id );
 
@@ -636,8 +637,8 @@ final class _WP_Editors {
 				 *
 				 * @since 2.0.0
 				 *
-				 * @param array  $buttons   Third-row list of buttons.
-				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 * @param array  $mce_buttons_3 Third-row list of buttons.
+				 * @param string $editor_id     Unique editor identifier, e.g. 'content'.
 				 */
 				$mce_buttons_3 = apply_filters( 'mce_buttons_3', array(), $editor_id );
 
@@ -646,8 +647,8 @@ final class _WP_Editors {
 				 *
 				 * @since 2.5.0
 				 *
-				 * @param array  $buttons   Fourth-row list of buttons.
-				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 * @param array  $mce_buttons_4 Fourth-row list of buttons.
+				 * @param string $editor_id     Unique editor identifier, e.g. 'content'.
 				 */
 				$mce_buttons_4 = apply_filters( 'mce_buttons_4', array(), $editor_id );
 			}
