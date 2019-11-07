@@ -90,8 +90,20 @@ function wp_get_missing_image_subsizes( $attachment_id ) {
 		return $registered_sizes;
 	}
 
-	$full_width     = (int) $image_meta['width'];
-	$full_height    = (int) $image_meta['height'];
+	// Use the originally uploaded image dimensions as full_width and full_height.
+	if ( ! empty( $image_meta['original_image'] ) ) {
+		$image_file = wp_get_original_image_path( $attachment_id );
+		$imagesize  = @getimagesize( $image_file );
+	}
+
+	if ( ! empty( $imagesize ) ) {
+		$full_width  = $imagesize[0];
+		$full_height = $imagesize[1];
+	} else {
+		$full_width  = (int) $image_meta['width'];
+		$full_height = (int) $image_meta['height'];
+	}
+
 	$possible_sizes = array();
 
 	// Skip registered sizes that are too large for the uploaded image.
