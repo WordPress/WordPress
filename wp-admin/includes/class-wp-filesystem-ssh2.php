@@ -350,7 +350,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @param string    $file      Path to the file.
 	 * @param int|false $mode      Optional. The permissions as octal number, usually 0644 for files,
 	 *                             0755 for directories. Default false.
-	 * @param bool      $recursive Optional. If set to true, changes file group recursively.
+	 * @param bool      $recursive Optional. If set to true, changes file permissions recursively.
 	 *                             Default false.
 	 * @return bool True on success, false on failure.
 	 */
@@ -503,7 +503,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @since 2.7.0
 	 *
 	 * @param string       $file      Path to the file or directory.
-	 * @param bool         $recursive Optional. If set to true, changes file group recursively.
+	 * @param bool         $recursive Optional. If set to true, deletes files and folders recursively.
 	 *                                Default false.
 	 * @param string|false $type      Type of resource. 'f' for file, 'd' for directory.
 	 *                                Default false.
