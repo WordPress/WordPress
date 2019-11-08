@@ -90,7 +90,6 @@ class WP_Admin_Bar {
 	 * @param array $node The attributes that define the node.
 	 */
 	public function add_menu( $node ) {
-		_deprecated_function( __METHOD__, '5.4.0', __CLASS__ . '::add_node()' );
 		$this->add_node( $node );
 	}
 
@@ -103,7 +102,6 @@ class WP_Admin_Bar {
 	 * @param string $id The menu slug to remove.
 	 */
 	public function remove_menu( $id ) {
-		_deprecated_function( __METHOD__, '5.4.0', __CLASS__ . '::remove_node()' );
 		$this->remove_node( $id );
 	}
 
