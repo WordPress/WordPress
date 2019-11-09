@@ -141,7 +141,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	 * Filters the title attribute of the header logo above login form.
 	 *
 	 * @since 2.1.0
-	 * @deprecated 5.2.0 Use login_headertext
+	 * @deprecated 5.2.0 Use {@see 'login_headertext'} instead.
 	 *
 	 * @param string $login_header_title Login header logo title attribute.
 	 */

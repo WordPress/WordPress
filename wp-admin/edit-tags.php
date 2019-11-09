@@ -374,7 +374,7 @@ if ( $can_edit_terms ) {
 		 * Fires before the Add Category form.
 		 *
 		 * @since 2.1.0
-		 * @deprecated 3.0.0 Use {$taxonomy}_pre_add_form instead.
+		 * @deprecated 3.0.0 Use {@see '{$taxonomy}_pre_add_form'} instead.
 		 *
 		 * @param object $arg Optional arguments cast to an object.
 		 */
@@ -384,7 +384,7 @@ if ( $can_edit_terms ) {
 		 * Fires before the link category form.
 		 *
 		 * @since 2.3.0
-		 * @deprecated 3.0.0 Use {$taxonomy}_pre_add_form instead.
+		 * @deprecated 3.0.0 Use {@see '{$taxonomy}_pre_add_form'} instead.
 		 *
 		 * @param object $arg Optional arguments cast to an object.
 		 */
@@ -394,7 +394,7 @@ if ( $can_edit_terms ) {
 		 * Fires before the Add Tag form.
 		 *
 		 * @since 2.5.0
-		 * @deprecated 3.0.0 Use {$taxonomy}_pre_add_form instead.
+		 * @deprecated 3.0.0 Use {@see '{$taxonomy}_pre_add_form'} instead.
 		 *
 		 * @param string $taxonomy The taxonomy slug.
 		 */
@@ -530,7 +530,7 @@ if ( $can_edit_terms ) {
 		 * Fires at the end of the Edit Category form.
 		 *
 		 * @since 2.1.0
-		 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
+		 * @deprecated 3.0.0 Use {@see '{$taxonomy}_add_form'} instead.
 		 *
 		 * @param object $arg Optional arguments cast to an object.
 		 */
@@ -540,7 +540,7 @@ if ( $can_edit_terms ) {
 		 * Fires at the end of the Edit Link form.
 		 *
 		 * @since 2.3.0
-		 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
+		 * @deprecated 3.0.0 Use {@see '{$taxonomy}_add_form'} instead.
 		 *
 		 * @param object $arg Optional arguments cast to an object.
 		 */
@@ -550,7 +550,7 @@ if ( $can_edit_terms ) {
 		 * Fires at the end of the Add Tag form.
 		 *
 		 * @since 2.7.0
-		 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
+		 * @deprecated 3.0.0 Use {@see '{$taxonomy}_add_form'} instead.
 		 *
 		 * @param string $taxonomy The taxonomy slug.
 		 */

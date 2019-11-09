@@ -121,7 +121,7 @@ function wp_insert_site( array $data ) {
 		 * Fires immediately after a new site is created.
 		 *
 		 * @since MU (3.0.0)
-		 * @deprecated 5.1.0 Use wp_insert_site
+		 * @deprecated 5.1.0 Use {@see 'wp_insert_site'} instead.
 		 *
 		 * @param int    $site_id    Site ID.
 		 * @param int    $user_id    User ID.
@@ -1026,7 +1026,7 @@ function clean_blog_cache( $blog ) {
 	 * Fires after the blog details cache is cleared.
 	 *
 	 * @since 3.4.0
-	 * @deprecated 4.9.0 Use clean_site_cache
+	 * @deprecated 4.9.0 Use {@see 'clean_site_cache'} instead.
 	 *
 	 * @param int $blog_id Blog ID.
 	 */

@@ -287,7 +287,7 @@ function wp_stream_image( $image, $mime_type, $attachment_id ) {
 		 * Filters the GD image resource to be streamed to the browser.
 		 *
 		 * @since 2.9.0
-		 * @deprecated 3.5.0 Use image_editor_save_pre instead.
+		 * @deprecated 3.5.0 Use {@see 'image_editor_save_pre'} instead.
 		 *
 		 * @param resource $image         Image resource to be streamed.
 		 * @param int      $attachment_id The attachment post ID.
@@ -362,7 +362,7 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 		 * returning that value instead.
 		 *
 		 * @since 2.9.0
-		 * @deprecated 3.5.0 Use wp_save_image_editor_file instead.
+		 * @deprecated 3.5.0 Use {@see 'wp_save_image_editor_file'} instead.
 		 *
 		 * @param mixed           $override  Value to return instead of saving. Default null.
 		 * @param string          $filename  Name of the file to be saved.
@@ -565,7 +565,7 @@ function image_edit_apply_changes( $image, $changes ) {
 		 * Filters the GD image resource before applying changes to the image.
 		 *
 		 * @since 2.9.0
-		 * @deprecated 3.5.0 Use wp_image_editor_before_change instead.
+		 * @deprecated 3.5.0 Use {@see 'wp_image_editor_before_change'} instead.
 		 *
 		 * @param resource $image   GD image resource.
 		 * @param array    $changes Array of change operations.

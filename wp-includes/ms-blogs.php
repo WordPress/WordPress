@@ -249,7 +249,7 @@ function get_blog_details( $fields = null, $get_all = true ) {
 	 * Filters a blog's details.
 	 *
 	 * @since MU (3.0.0)
-	 * @deprecated 4.7.0 Use site_details
+	 * @deprecated 4.7.0 Use {@see 'site_details'} instead.
 	 *
 	 * @param object $details The blog details.
 	 */

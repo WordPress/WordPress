@@ -6737,7 +6737,7 @@ function _transition_post_status( $new_status, $old_status, $post ) {
 		 * Fires when a post's status is transitioned from private to published.
 		 *
 		 * @since 1.5.0
-		 * @deprecated 2.3.0 Use 'private_to_publish' instead.
+		 * @deprecated 2.3.0 Use {@see 'private_to_publish'} instead.
 		 *
 		 * @param int $post_id Post ID.
 		 */

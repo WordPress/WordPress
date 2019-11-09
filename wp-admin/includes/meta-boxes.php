@@ -1504,7 +1504,7 @@ function register_and_do_post_meta_boxes( $post ) {
 	 * Fires in the middle of built-in meta box registration.
 	 *
 	 * @since 2.1.0
-	 * @deprecated 3.7.0 Use 'add_meta_boxes' instead.
+	 * @deprecated 3.7.0 Use {@see 'add_meta_boxes'} instead.
 	 *
 	 * @param WP_Post $post Post object.
 	 */

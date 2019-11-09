@@ -260,7 +260,8 @@ class WP_REST_Server {
 		 * Filters whether the REST API is enabled.
 		 *
 		 * @since 4.4.0
-		 * @deprecated 4.7.0 Use the rest_authentication_errors filter to restrict access to the API
+		 * @deprecated 4.7.0 Use the {@see 'rest_authentication_errors'} filter to
+		 *                   restrict access to the API.
 		 *
 		 * @param bool $rest_enabled Whether the REST API is enabled. Default true.
 		 */
