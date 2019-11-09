@@ -1411,7 +1411,7 @@ class WP_Rewrite {
 				 *
 				 * @param string[] $rules Array of rewrite rules generated for tags, keyed by their regex pattern.
 				 */
-				$rules = apply_filters( 'tag_rewrite_rules', $rules );
+				$rules = apply_filters_deprecated( 'tag_rewrite_rules', array( $rules ), '3.1.0', 'post_tag_rewrite_rules' );
 			}
 
 			$this->extra_rules_top = array_merge( $this->extra_rules_top, $rules );
@@ -1560,7 +1560,7 @@ class WP_Rewrite {
 		 *
 		 * @param string $rules mod_rewrite Rewrite rules formatted for .htaccess.
 		 */
-		return apply_filters( 'rewrite_rules', $rules );
+		return apply_filters_deprecated( 'rewrite_rules', array( $rules ), '1.5.0', 'mod_rewrite_rules' );
 	}
 
 	/**

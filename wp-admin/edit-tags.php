@@ -378,7 +378,7 @@ if ( $can_edit_terms ) {
 		 *
 		 * @param object $arg Optional arguments cast to an object.
 		 */
-		do_action( 'add_category_form_pre', (object) array( 'parent' => 0 ) );
+		do_action_deprecated( 'add_category_form_pre', array( (object) array( 'parent' => 0 ) ), '3.0.0', '{$taxonomy}_pre_add_form' );
 	} elseif ( 'link_category' == $taxonomy ) {
 		/**
 		 * Fires before the link category form.
@@ -388,7 +388,7 @@ if ( $can_edit_terms ) {
 		 *
 		 * @param object $arg Optional arguments cast to an object.
 		 */
-		do_action( 'add_link_category_form_pre', (object) array( 'parent' => 0 ) );
+		do_action_deprecated( 'add_link_category_form_pre', array( (object) array( 'parent' => 0 ) ), '3.0.0', '{$taxonomy}_pre_add_form' );
 	} else {
 		/**
 		 * Fires before the Add Tag form.
@@ -398,7 +398,7 @@ if ( $can_edit_terms ) {
 		 *
 		 * @param string $taxonomy The taxonomy slug.
 		 */
-		do_action( 'add_tag_form_pre', $taxonomy );
+		do_action_deprecated( 'add_tag_form_pre', array( $taxonomy ), '3.0.0', '{$taxonomy}_pre_add_form' );
 	}
 
 	/**
@@ -534,7 +534,7 @@ if ( $can_edit_terms ) {
 		 *
 		 * @param object $arg Optional arguments cast to an object.
 		 */
-		do_action( 'edit_category_form', (object) array( 'parent' => 0 ) );
+		do_action_deprecated( 'edit_category_form', array( (object) array( 'parent' => 0 ) ), '3.0.0', '{$taxonomy}_add_form' );
 	} elseif ( 'link_category' == $taxonomy ) {
 		/**
 		 * Fires at the end of the Edit Link form.
@@ -544,7 +544,7 @@ if ( $can_edit_terms ) {
 		 *
 		 * @param object $arg Optional arguments cast to an object.
 		 */
-		do_action( 'edit_link_category_form', (object) array( 'parent' => 0 ) );
+		do_action_deprecated( 'edit_link_category_form', array( (object) array( 'parent' => 0 ) ), '3.0.0', '{$taxonomy}_add_form' );
 	} else {
 		/**
 		 * Fires at the end of the Add Tag form.
@@ -554,7 +554,7 @@ if ( $can_edit_terms ) {
 		 *
 		 * @param string $taxonomy The taxonomy slug.
 		 */
-		do_action( 'add_tag_form', $taxonomy );
+		do_action_deprecated( 'add_tag_form', array( $taxonomy ), '3.0.0', '{$taxonomy}_add_form' );
 	}
 
 	/**

@@ -457,7 +457,7 @@ function validate_another_blog_signup() {
 	 *
 	 * @param array $blog_meta_defaults An array of default blog meta variables.
 	 */
-	$meta_defaults = apply_filters( 'signup_create_blog_meta', $blog_meta_defaults );
+	$meta_defaults = apply_filters_deprecated( 'signup_create_blog_meta', array( $blog_meta_defaults ), '3.0.0', 'add_signup_meta' );
 
 	/**
 	 * Filters the new default site meta variables.

@@ -546,7 +546,12 @@ class WP {
 			 *
 			 * @param string $query_string The query string to modify.
 			 */
-			$this->query_string = apply_filters( 'query_string', $this->query_string );
+			$this->query_string = apply_filters_deprecated(
+				'query_string',
+				array( $this->query_string ),
+				'2.1.0',
+				'query_vars, request'
+			);
 			parse_str( $this->query_string, $this->query_vars );
 		}
 	}

@@ -796,7 +796,12 @@ final class WP_Screen {
 		 * @param array     $old_compat_help Old contextual help.
 		 * @param WP_Screen $this            Current WP_Screen instance.
 		 */
-		self::$_old_compat_help = apply_filters( 'contextual_help_list', self::$_old_compat_help, $this );
+		self::$_old_compat_help = apply_filters_deprecated(
+			'contextual_help_list',
+			array( self::$_old_compat_help, $this ),
+			'3.3.0',
+			'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
+		);
 
 		$old_help = isset( self::$_old_compat_help[ $this->id ] ) ? self::$_old_compat_help[ $this->id ] : '';
 
@@ -811,7 +816,12 @@ final class WP_Screen {
 		 * @param string    $screen_id Screen ID.
 		 * @param WP_Screen $this      Current WP_Screen instance.
 		 */
-		$old_help = apply_filters( 'contextual_help', $old_help, $this->id, $this );
+		$old_help = apply_filters_deprecated(
+			'contextual_help',
+			array( $old_help, $this->id, $this ),
+			'3.3.0',
+			'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
+		);
 
 		// Default help only if there is no old-style block of text and no new-style help tabs.
 		if ( empty( $old_help ) && ! $this->get_help_tabs() ) {
@@ -825,7 +835,12 @@ final class WP_Screen {
 			 *
 			 * @param string $old_help_default Default contextual help text.
 			 */
-			$default_help = apply_filters( 'default_contextual_help', '' );
+			$default_help = apply_filters_deprecated(
+				'default_contextual_help',
+				array( '' ),
+				'3.3.0',
+				'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
+			);
 			if ( $default_help ) {
 				$old_help = '<p>' . $default_help . '</p>';
 			}

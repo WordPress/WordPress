@@ -6332,7 +6332,7 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
 		 *
 		 * @param string $cap Capability.
 		 */
-		$cap = apply_filters( 'pub_priv_sql_capability', '' );
+		$cap = apply_filters_deprecated( 'pub_priv_sql_capability', array( '' ), '3.2.0' );
 		if ( ! $cap ) {
 			$cap = current_user_can( $post_type_obj->cap->read_private_posts );
 		}
@@ -6741,7 +6741,7 @@ function _transition_post_status( $new_status, $old_status, $post ) {
 		 *
 		 * @param int $post_id Post ID.
 		 */
-		do_action( 'private_to_published', $post->ID );
+		do_action_deprecated( 'private_to_published', array( $post->ID ), '2.3.0', 'private_to_publish' );
 	}
 
 	// If published posts changed clear the lastpostmodified cache.
