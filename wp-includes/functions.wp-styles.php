@@ -43,12 +43,13 @@ function wp_print_styles( $handles = false ) {
 	if ( '' === $handles ) { // for wp_head
 		$handles = false;
 	}
-	/**
-	 * Fires before styles in the $handles queue are printed.
-	 *
-	 * @since 2.6.0
-	 */
+
 	if ( ! $handles ) {
+		/**
+		 * Fires before styles in the $handles queue are printed.
+		 *
+		 * @since 2.6.0
+		 */
 		do_action( 'wp_print_styles' );
 	}
 
