@@ -971,7 +971,7 @@ class WP_Http {
 		if ( ! empty( $relative_url_parts['path'] ) && '/' == $relative_url_parts['path'][0] ) {
 			$path = $relative_url_parts['path'];
 
-		// Else it's a relative path.
+			// Else it's a relative path.
 		} elseif ( ! empty( $relative_url_parts['path'] ) ) {
 			// Strip off any file components from the absolute path.
 			$path = substr( $path, 0, strrpos( $path, '/' ) + 1 );
