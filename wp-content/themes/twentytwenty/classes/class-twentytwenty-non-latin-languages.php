@@ -19,7 +19,7 @@ if ( ! class_exists( 'TwentyTwenty_Non_Latin_Languages' ) ) {
 		 * Get custom CSS.
 		 *
 		 * Return CSS for non-latin language, if available, or null
-		 *
+		 * 
 		 * @param string $type Whether to return CSS for the "front-end", "block-editor" or "classic-editor".
 		 *
 		 * @return void

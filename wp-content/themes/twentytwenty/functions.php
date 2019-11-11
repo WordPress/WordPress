@@ -19,9 +19,9 @@
  * Custom Logo
  * WP Body Open
  * Register Sidebars
- * Enqueue block editor assets
- * Enqueue classic editor styles
- * Block editor settings
+ * Enqueue Block Editor Assets
+ * Enqueue Classic Editor Styles
+ * Block Editor Settings
  */
 
 /**
@@ -119,8 +119,15 @@ function twentytwenty_theme_support() {
 	// Add support for full and wide align images.
 	add_theme_support( 'align-wide' );
 
-	// Adds starter content to highlight the theme on fresh sites.
-	add_theme_support( 'starter-content', twentytwenty_get_starter_content() );
+	/*
+	 * Adds starter content to highlight the theme on fresh sites.
+	 * This is done conditionally to avoid loading the starter content on every
+	 * page load, as it is a one-off operation only needed once in the customizer.
+	 */
+	if ( is_customize_preview() ) {
+		require get_template_directory() . '/inc/starter-content.php';
+		add_theme_support( 'starter-content', twentytwenty_get_starter_content() );
+	}
 
 	// Add theme support for selective refresh for widgets.
 	add_theme_support( 'customize-selective-refresh-widgets' );
@@ -166,9 +173,6 @@ require get_template_directory() . '/classes/class-twentytwenty-non-latin-langua
 
 // Custom CSS.
 require get_template_directory() . '/inc/custom-css.php';
-
-// Custom starter content to highlight the theme on fresh sites.
-require get_template_directory() . '/inc/starter-content.php';
 
 /**
  * Register and Enqueue Styles.
@@ -531,7 +535,7 @@ function twentytwenty_block_editor_settings() {
 				'name'      => _x( 'Regular', 'Name of the regular font size in the block editor', 'twentytwenty' ),
 				'shortName' => _x( 'M', 'Short name of the regular font size in the block editor.', 'twentytwenty' ),
 				'size'      => 21,
-				'slug'      => 'regular',
+				'slug'      => 'normal',
 			),
 			array(
 				'name'      => _x( 'Large', 'Name of the large font size in the block editor', 'twentytwenty' ),
@@ -692,26 +696,26 @@ function twentytwenty_get_elements_array() {
 	$elements = array(
 		'content'       => array(
 			'accent'     => array(
-				'color'        => array( '.color-accent', '.color-accent-hover:hover', '.color-accent-hover:focus', ':root .has-accent-color', '.has-drop-cap:not(:focus):first-letter', '.wp-block-button.is-style-outline', 'a' ),
-				'border-color' => array( 'blockquote', '.border-color-accent', '.border-color-accent-hover:hover', '.border-color-accent-hover:focus' ),
-				'background'   => array( 'button:not(.toggle)', '.button', '.faux-button', '.wp-block-button__link', '.wp-block-file .wp-block-file__button', 'input[type="button"]', 'input[type="reset"]', 'input[type="submit"]', '.bg-accent', '.bg-accent-hover:hover', '.bg-accent-hover:focus', ':root .has-accent-background-color', '.comment-reply-link' ),
-				'fill'         => array( '.fill-children-accent', '.fill-children-accent *' ),
+				'color'            => array( '.color-accent', '.color-accent-hover:hover', '.color-accent-hover:focus', ':root .has-accent-color', '.has-drop-cap:not(:focus):first-letter', '.wp-block-button.is-style-outline', 'a' ),
+				'border-color'     => array( 'blockquote', '.border-color-accent', '.border-color-accent-hover:hover', '.border-color-accent-hover:focus' ),
+				'background-color' => array( 'button:not(.toggle)', '.button', '.faux-button', '.wp-block-button__link', '.wp-block-file .wp-block-file__button', 'input[type="button"]', 'input[type="reset"]', 'input[type="submit"]', '.bg-accent', '.bg-accent-hover:hover', '.bg-accent-hover:focus', ':root .has-accent-background-color', '.comment-reply-link' ),
+				'fill'             => array( '.fill-children-accent', '.fill-children-accent *' ),
 			),
 			'background' => array(
-				'color'      => array( ':root .has-background-color', 'button', '.button', '.faux-button', '.wp-block-button__link', '.wp-block-file__button', 'input[type="button"]', 'input[type="reset"]', 'input[type="submit"]', '.wp-block-button', '.comment-reply-link' ),
-				'background' => array( ':root .has-background-background-color' ),
+				'color'            => array( ':root .has-background-color', 'button', '.button', '.faux-button', '.wp-block-button__link', '.wp-block-file__button', 'input[type="button"]', 'input[type="reset"]', 'input[type="submit"]', '.wp-block-button', '.comment-reply-link', '.has-background.has-primary-background-color:not(.has-text-color)', '.has-background.has-primary-background-color *:not(.has-text-color)', '.has-background.has-accent-background-color:not(.has-text-color)', '.has-background.has-accent-background-color *:not(.has-text-color)' ),
+				'background-color' => array( ':root .has-background-background-color' ),
 			),
 			'text'       => array(
-				'color'      => array( 'body', '.entry-title a', ':root .has-primary-color' ),
-				'background' => array( ':root .has-primary-background-color' ),
+				'color'            => array( 'body', '.entry-title a', ':root .has-primary-color' ),
+				'background-color' => array( ':root .has-primary-background-color' ),
 			),
 			'secondary'  => array(
-				'color'      => array( 'cite', 'figcaption', '.wp-caption-text', '.post-meta', '.entry-content .wp-block-archives li', '.entry-content .wp-block-categories li', '.entry-content .wp-block-latest-posts li', '.wp-block-latest-comments__comment-date', '.wp-block-latest-posts__post-date', '.wp-block-embed figcaption', '.wp-block-image figcaption', '.wp-block-pullquote cite', '.comment-metadata', '.comment-respond .comment-notes', '.comment-respond .logged-in-as', '.pagination .dots', '.entry-content hr:not(.has-background)', 'hr.styled-separator', ':root .has-secondary-color' ),
-				'background' => array( ':root .has-secondary-background-color' ),
+				'color'            => array( 'cite', 'figcaption', '.wp-caption-text', '.post-meta', '.entry-content .wp-block-archives li', '.entry-content .wp-block-categories li', '.entry-content .wp-block-latest-posts li', '.wp-block-latest-comments__comment-date', '.wp-block-latest-posts__post-date', '.wp-block-embed figcaption', '.wp-block-image figcaption', '.wp-block-pullquote cite', '.comment-metadata', '.comment-respond .comment-notes', '.comment-respond .logged-in-as', '.pagination .dots', '.entry-content hr:not(.has-background)', 'hr.styled-separator', ':root .has-secondary-color' ),
+				'background-color' => array( ':root .has-secondary-background-color' ),
 			),
 			'borders'    => array(
 				'border-color'        => array( 'pre', 'fieldset', 'input', 'textarea', 'table', 'table *', 'hr' ),
-				'background'          => array( 'caption', 'code', 'code', 'kbd', 'samp', '.wp-block-table.is-style-stripes tbody tr:nth-child(odd)', ':root .has-subtle-background-background-color' ),
+				'background-color'    => array( 'caption', 'code', 'code', 'kbd', 'samp', '.wp-block-table.is-style-stripes tbody tr:nth-child(odd)', ':root .has-subtle-background-background-color' ),
 				'border-bottom-color' => array( '.wp-block-table.is-style-stripes' ),
 				'border-top-color'    => array( '.wp-block-latest-posts.is-grid li' ),
 				'color'               => array( ':root .has-subtle-background-color' ),
@@ -719,16 +723,16 @@ function twentytwenty_get_elements_array() {
 		),
 		'header-footer' => array(
 			'accent'     => array(
-				'color'      => array( 'body:not(.overlay-header) .primary-menu > li > a', 'body:not(.overlay-header) .primary-menu > li > .icon', '.modal-menu a', '.footer-menu a, .footer-widgets a', '#site-footer .wp-block-button.is-style-outline', '.wp-block-pullquote:before', '.singular:not(.overlay-header) .entry-header a', '.archive-header a', '.header-footer-group .color-accent', '.header-footer-group .color-accent-hover:hover' ),
-				'background' => array( '.social-icons a', '#site-footer button:not(.toggle)', '#site-footer .button', '#site-footer .faux-button', '#site-footer .wp-block-button__link', '#site-footer .wp-block-file__button', '#site-footer input[type="button"]', '#site-footer input[type="reset"]', '#site-footer input[type="submit"]' ),
+				'color'            => array( 'body:not(.overlay-header) .primary-menu > li > a', 'body:not(.overlay-header) .primary-menu > li > .icon', '.modal-menu a', '.footer-menu a, .footer-widgets a', '#site-footer .wp-block-button.is-style-outline', '.wp-block-pullquote:before', '.singular:not(.overlay-header) .entry-header a', '.archive-header a', '.header-footer-group .color-accent', '.header-footer-group .color-accent-hover:hover' ),
+				'background-color' => array( '.social-icons a', '#site-footer button:not(.toggle)', '#site-footer .button', '#site-footer .faux-button', '#site-footer .wp-block-button__link', '#site-footer .wp-block-file__button', '#site-footer input[type="button"]', '#site-footer input[type="reset"]', '#site-footer input[type="submit"]' ),
 			),
 			'background' => array(
-				'color'      => array( '.social-icons a', 'body:not(.overlay-header) .primary-menu ul', '.header-footer-group button', '.header-footer-group .button', '.header-footer-group .faux-button', '.header-footer-group .wp-block-button:not(.is-style-outline) .wp-block-button__link', '.header-footer-group .wp-block-file__button', '.header-footer-group input[type="button"]', '.header-footer-group input[type="reset"]', '.header-footer-group input[type="submit"]' ),
-				'background' => array( '#site-header', '.footer-nav-widgets-wrapper', '#site-footer', '.menu-modal', '.menu-modal-inner', '.search-modal-inner', '.archive-header', '.singular .entry-header', '.singular .featured-media:before', '.wp-block-pullquote:before' ),
+				'color'            => array( '.social-icons a', 'body:not(.overlay-header) .primary-menu ul', '.header-footer-group button', '.header-footer-group .button', '.header-footer-group .faux-button', '.header-footer-group .wp-block-button:not(.is-style-outline) .wp-block-button__link', '.header-footer-group .wp-block-file__button', '.header-footer-group input[type="button"]', '.header-footer-group input[type="reset"]', '.header-footer-group input[type="submit"]' ),
+				'background-color' => array( '#site-header', '.footer-nav-widgets-wrapper', '#site-footer', '.menu-modal', '.menu-modal-inner', '.search-modal-inner', '.archive-header', '.singular .entry-header', '.singular .featured-media:before', '.wp-block-pullquote:before' ),
 			),
 			'text'       => array(
 				'color'               => array( '.header-footer-group', 'body:not(.overlay-header) #site-header .toggle', '.menu-modal .toggle' ),
-				'background'          => array( 'body:not(.overlay-header) .primary-menu ul' ),
+				'background-color'    => array( 'body:not(.overlay-header) .primary-menu ul' ),
 				'border-bottom-color' => array( 'body:not(.overlay-header) .primary-menu > li > ul:after' ),
 				'border-left-color'   => array( 'body:not(.overlay-header) .primary-menu ul ul:after' ),
 			),
@@ -736,8 +740,8 @@ function twentytwenty_get_elements_array() {
 				'color' => array( '.site-description', 'body:not(.overlay-header) .toggle-inner .toggle-text', '.widget .post-date', '.widget .rss-date', '.widget_archive li', '.widget_categories li', '.widget cite', '.widget_pages li', '.widget_meta li', '.widget_nav_menu li', '.powered-by-wordpress', '.to-the-top', '.singular .entry-header .post-meta', '.singular:not(.overlay-header) .entry-header .post-meta a' ),
 			),
 			'borders'    => array(
-				'border-color' => array( '.header-footer-group pre', '.header-footer-group fieldset', '.header-footer-group input', '.header-footer-group textarea', '.header-footer-group table', '.header-footer-group table *', '.footer-nav-widgets-wrapper', '#site-footer', '.menu-modal nav *', '.footer-widgets-outer-wrapper', '.footer-top' ),
-				'background'   => array( '.header-footer-group table caption', 'body:not(.overlay-header) .header-inner .toggle-wrapper::before' ),
+				'border-color'     => array( '.header-footer-group pre', '.header-footer-group fieldset', '.header-footer-group input', '.header-footer-group textarea', '.header-footer-group table', '.header-footer-group table *', '.footer-nav-widgets-wrapper', '#site-footer', '.menu-modal nav *', '.footer-widgets-outer-wrapper', '.footer-top' ),
+				'background-color' => array( '.header-footer-group table caption', 'body:not(.overlay-header) .header-inner .toggle-wrapper::before' ),
 			),
 		),
 	);

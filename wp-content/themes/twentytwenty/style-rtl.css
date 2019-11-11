@@ -180,6 +180,7 @@ path {
 	position: absolute !important;
 	width: 1px;
 	word-wrap: normal !important;
+	word-break: normal;
 }
 
 .screen-reader-text:focus {
@@ -824,6 +825,29 @@ input[type="reset"]:hover,
 input[type="submit"]:focus,
 input[type="submit"]:hover {
 	text-decoration: underline;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="range"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="week"]:focus,
+input[type="time"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="color"]:focus,
+textarea:focus {
+	border-color: currentColor;
+}
+
+input[type="search"]:focus {
+	outline: thin dotted;
+	outline-offset: -4px;
 }
 
 /* Tables ------------------------------------ */
@@ -1677,6 +1701,38 @@ ul.primary-menu {
 
 .rtl .primary-menu ul ul::after {
 	transform: rotate(-180deg);
+}
+
+/*
+ * Enable nav submenu expansion with tapping on arrows on large-viewport
+ * touch interfaces (e.g. tablets or laptops with touch screens).
+ * These rules are supported by all browsers (>IE11) and when JS is disabled.
+ */
+@media (any-pointer: coarse) {
+
+	.primary-menu > li.menu-item-has-children > a {
+		padding-left: 0;
+		margin-left: 2rem;
+	}
+
+	.primary-menu ul li.menu-item-has-children > a {
+		margin-left: 4.5rem;
+		padding-left: 0;
+		width: unset;
+	}
+
+}
+
+/* Repeat previous rules for IE11 (when JS enabled for polyfill). */
+body.touch-enabled .primary-menu > li.menu-item-has-children > a {
+	padding-left: 0;
+	margin-left: 2rem;
+}
+
+body.touch-enabled .primary-menu ul li.menu-item-has-children > a {
+	margin-left: 4.5rem;
+	padding-left: 0;
+	width: unset;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -2685,6 +2741,7 @@ h2.entry-title {
 	font-size: 0.842em;
 }
 
+.entry-content .has-normal-font-size,
 .entry-content .has-regular-font-size {
 	font-size: 1em;
 }
@@ -2864,6 +2921,12 @@ h2.entry-title {
 
 /* Block: Columns ---------------------------- */
 
+.wp-block-columns.alignfull,
+.alignfull:not(.has-background) .wp-block-columns {
+	padding-right: 2rem;
+	padding-left: 2rem;
+}
+
 .wp-block-column {
 	margin-bottom: 3.2rem;
 }
@@ -2989,6 +3052,11 @@ figure.wp-block-gallery.alignfull {
 .wp-block-group__inner-container,
 .entry-content .wp-block-group p {
 	max-width: 100%;
+}
+
+.alignfull:not(.has-background) > .wp-block-group__inner-container > p:not(.has-background-color) {
+	padding-right: 2rem;
+	padding-left: 2rem;
 }
 
 /* Block: Image ------------------------------ */
@@ -3175,8 +3243,12 @@ hr.wp-block-separator {
 	background: #dcd7ca;
 }
 
-.wp-block-table.is-style-stripes {
+figure.wp-block-table.is-style-stripes {
 	border-bottom: none;
+}
+
+.wp-block-table.is-style-stripes table {
+	border-collapse: inherit;
 }
 
 /* Block: Quote ------------------------------ */
@@ -4349,36 +4421,6 @@ a.to-the-top > * {
 
 }
 
-@media ( max-width: 599px ) {
-
-	/* Blocks -------------------------------- */
-
-	/* BLOCK: COLUMNS */
-
-	.alignfull:not(.has-background) .wp-block-column > p:not(.has-background-color),
-	.alignfull:not(.has-background) .wp-block-group__inner-container > p:not(.has-background-color) {
-		max-width: calc(100% - 4rem);
-		margin: auto;
-	}
-}
-
-@media ( min-width: 600px ) and ( max-width: 781px ) {
-
-	/* Blocks -------------------------------- */
-
-	/* BLOCK: COLUMNS */
-
-	.alignfull:not(.has-background) .wp-block-column:nth-child(odd) > p:not(.has-background-color),
-	.alignfull:not(.has-background) .wp-block-group__inner-container > p:not(.has-background-color) {
-		padding-right: 2rem;
-	}
-
-	.alignfull:not(.has-background) .wp-block-column:nth-child(even) > p:not(.has-background-color),
-	.alignfull:not(.has-background) .wp-block-group__inner-container > p:not(.has-background-color) {
-		padding-left: 2rem;
-	}
-}
-
 @media ( min-width: 660px ) {
 
 	/* Blocks -------------------------------- */
@@ -5279,14 +5321,9 @@ a.to-the-top > * {
 		margin-bottom: 0;
 	}
 
-	.alignfull .wp-block-column:first-child > p,
-	.alignfull:not(.has-background) .wp-block-group__inner-container > p:not(.has-background-color) {
-		padding-right: 2rem;
-	}
-
-	.alignfull:not(.has-background) .wp-block-column:last-child > p,
-	.alignfull:not(.has-background) .wp-block-group__inner-container > p:not(.has-background-color) {
-		padding-left: 2rem;
+	.wp-block-columns.alignwide + .wp-block-columns.alignwide,
+	.wp-block-columns.alignfull + .wp-block-columns.alignfull {
+		margin-top: -2.8rem;
 	}
 }
 
@@ -5512,7 +5549,7 @@ a.to-the-top > * {
 
 	.wp-block-columns.alignwide + .wp-block-columns.alignwide,
 	.wp-block-columns.alignfull + .wp-block-columns.alignfull {
-		margin-top: -5.2rem;
+		margin-top: -4.8rem;
 	}
 
 	/* BLOCK: GALLERY */

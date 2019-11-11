@@ -129,7 +129,8 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 
 			// Background color.
 			if ( $background && $background !== $background_default ) {
-				twentytwenty_generate_css( '.editor-styles-wrapper', 'background', '#' . $background );
+				twentytwenty_generate_css( '.editor-styles-wrapper', 'background-color', '#' . $background );
+				twentytwenty_generate_css( '.has-background.has-primary-background-color:not(.has-text-color),.has-background.has-primary-background-color *:not(.has-text-color),.has-background.has-accent-background-color:not(.has-text-color),.has-background.has-accent-background-color *:not(.has-text-color)', 'color', '#' . $background );
 			}
 
 			// Borders color.
@@ -164,7 +165,7 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 
 			// Background color.
 			if ( $background && $background !== $background_default ) {
-				twentytwenty_generate_css( 'body#tinymce.wp-editor.content', 'background', '#' . $background );
+				twentytwenty_generate_css( 'body#tinymce.wp-editor.content', 'background-color', '#' . $background );
 			}
 
 			// Text color.

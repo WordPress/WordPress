@@ -26,7 +26,7 @@
 							);
 							?>
 							<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo bloginfo( 'name' ); ?></a>
-						</p>
+						</p><!-- .footer-copyright -->
 
 						<p class="powered-by-wordpress">
 							<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentytwenty' ) ); ?>">

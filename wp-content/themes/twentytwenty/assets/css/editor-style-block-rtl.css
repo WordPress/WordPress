@@ -319,6 +319,7 @@ Inter variable font. Usage:
 	font-size: 0.842em;
 }
 
+.editor-styles-wrapper p.has-normal-font-size,
 .editor-styles-wrapper p.has-regular-font-size {
 	font-size: 1em;
 }

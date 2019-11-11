@@ -1,4 +1,4 @@
-/* global twentyTwentyBgColors, twentyTwentyColor, Color, jQuery, wp, _ */
+/* global twentyTwentyBgColors, twentyTwentyColor, jQuery, wp, _ */
 /**
  * Customizer enhancements for a better user experience.
  *
@@ -74,11 +74,11 @@
 				.toCSS();
 
 			// Get secondary color.
-			value[ context ].secondary = Color( {
-				h: colors.bgColorObj.h(),
-				s: colors.bgColorObj.s() / 2,
-				l: ( colors.textColorObj.l() * 0.57 ) + ( colors.bgColorObj.l() * 0.43 )
-			} ).toCSS();
+			value[ context ].secondary = colors.bgColorObj
+				.clone()
+				.getReadableContrastingColor( colors.bgColorObj )
+				.s( colors.bgColorObj.s() / 2 )
+				.toCSS();
 		}
 
 		// Change the value.
