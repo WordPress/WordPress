@@ -3150,7 +3150,7 @@ function wp_site_icon() {
 	}
 	$icon_180 = get_site_icon_url( 180 );
 	if ( $icon_180 ) {
-		$meta_tags[] = sprintf( '<link rel="apple-touch-icon-precomposed" href="%s" />', esc_url( $icon_180 ) );
+		$meta_tags[] = sprintf( '<link rel="apple-touch-icon" href="%s" />', esc_url( $icon_180 ) );
 	}
 	$icon_270 = get_site_icon_url( 270 );
 	if ( $icon_270 ) {
