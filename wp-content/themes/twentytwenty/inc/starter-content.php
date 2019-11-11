@@ -175,16 +175,20 @@ function twentytwenty_get_starter_content() {
 			'primary'  => array(
 				'name'  => __( 'Primary', 'twentytwenty' ),
 				'items' => array(
+					'link_home', // Note that the core "home" page is actually a link in case a static front page is not used.
+					'page_about',
+					'page_blog',
 					'page_contact',
 				),
 			),
-			// Assign a menu to the "expanded" (modal) menu location.
+			// This replicates primary just to demonstrate the expanded menu.
 			'expanded' => array(
 				'name'  => __( 'Primary', 'twentytwenty' ),
 				'items' => array(
 					'link_home', // Note that the core "home" page is actually a link in case a static front page is not used.
 					'page_about',
 					'page_blog',
+					'page_contact',
 				),
 			),
 			// Assign a menu to the "social" location.
