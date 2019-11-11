@@ -25,7 +25,7 @@
 
 	?>
 
-	<div class="post-inner section-inner <?php echo is_page_template( 'templates/template-full-width.php' ) ? '' : 'thin'; ?> ">
+	<div class="post-inner <?php echo is_page_template( 'templates/template-full-width.php' ) ? '' : 'thin'; ?> ">
 
 		<div class="entry-content">
 
@@ -39,6 +39,9 @@
 
 		</div><!-- .entry-content -->
 
+	</div><!-- .post-inner -->
+
+	<div class="section-inner">
 		<?php
 		wp_link_pages(
 			array(
@@ -61,7 +64,7 @@
 		}
 		?>
 
-	</div><!-- .post-inner -->
+	</div><!-- .section-inner -->
 
 	<?php
 
