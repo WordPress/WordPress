@@ -651,6 +651,14 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 	}
 	$scripts->add_inline_script(
 		'wp-api-fetch',
+		sprintf(
+			'wp.apiFetch.use( wp.apiFetch.createRootURLMiddleware( "%s" ) );',
+			esc_url_raw( get_rest_url() )
+		),
+		'after'
+	);
+	$scripts->add_inline_script(
+		'wp-api-fetch',
 		implode(
 			"\n",
 			array(
@@ -668,15 +676,6 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 		),
 		'after'
 	);
-	$scripts->add_inline_script(
-		'wp-api-fetch',
-		sprintf(
-			'wp.apiFetch.use( wp.apiFetch.createRootURLMiddleware( "%s" ) );',
-			esc_url_raw( get_rest_url() )
-		),
-		'after'
-	);
-
 	$scripts->add_inline_script(
 		'wp-data',
 		implode(
