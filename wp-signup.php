@@ -95,7 +95,7 @@ do_action( 'before_signup_form' );
  *
  * @param string          $blogname   The new site name.
  * @param string          $blog_title The new site title.
- * @param WP_Error|string $errors     A WP_Error object containing existing errors. Defaults to empty string.
+ * @param string|WP_Error $errors     A WP_Error object containing existing errors. Defaults to empty string.
  */
 function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	if ( ! is_wp_error( $errors ) ) {
@@ -246,7 +246,7 @@ function validate_blog_form() {
  *
  * @param string          $user_name  The entered username.
  * @param string          $user_email The entered email address.
- * @param WP_Error|string $errors     A WP_Error object containing existing errors. Defaults to empty string.
+ * @param string|WP_Error $errors     A WP_Error object containing existing errors. Defaults to empty string.
  */
 function show_user_form( $user_name = '', $user_email = '', $errors = '' ) {
 	if ( ! is_wp_error( $errors ) ) {
@@ -304,7 +304,7 @@ function validate_user_form() {
  *
  * @param string          $blogname   The new site name
  * @param string          $blog_title The new site title.
- * @param WP_Error|string $errors     A WP_Error object containing existing errors. Defaults to empty string.
+ * @param string|WP_Error $errors     A WP_Error object containing existing errors. Defaults to empty string.
  */
 function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 	$current_user = wp_get_current_user();
@@ -553,7 +553,7 @@ function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $
  *
  * @param string          $user_name  The username.
  * @param string          $user_email The user's email.
- * @param WP_Error|string $errors     A WP_Error object containing existing errors. Defaults to empty string.
+ * @param string|WP_Error $errors     A WP_Error object containing existing errors. Defaults to empty string.
  */
 function signup_user( $user_name = '', $user_email = '', $errors = '' ) {
 	global $active_signup;
@@ -691,7 +691,7 @@ function confirm_user_signup( $user_name, $user_email ) {
  * @param string          $user_email The user's email address.
  * @param string          $blogname   The site name.
  * @param string          $blog_title The site title.
- * @param WP_Error|string $errors     A WP_Error object containing existing errors. Defaults to empty string.
+ * @param string|WP_Error $errors     A WP_Error object containing existing errors. Defaults to empty string.
  */
 function signup_blog( $user_name = '', $user_email = '', $blogname = '', $blog_title = '', $errors = '' ) {
 	if ( ! is_wp_error( $errors ) ) {

@@ -76,7 +76,7 @@ class WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @var WP_Error|array $result {
+	 * @var array|WP_Error $result {
 	 *      @type string $source             The full path to the source the files were installed from.
 	 *      @type string $source_files       List of all the files in the source directory.
 	 *      @type string $destination        The full path to the installation destination folder.

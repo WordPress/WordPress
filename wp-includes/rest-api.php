@@ -504,7 +504,7 @@ function rest_ensure_request( $request ) {
  *
  * @since 4.4.0
  *
- * @param WP_Error|WP_HTTP_Response|mixed $response Response to check.
+ * @param WP_HTTP_Response|WP_Error|mixed $response Response to check.
  * @return WP_REST_Response|mixed If response generated an error, WP_Error, if response
  *                                is already an instance, WP_HTTP_Response, otherwise
  *                                returns a new WP_REST_Response instance.
@@ -872,8 +872,7 @@ function rest_output_link_header() {
  * @global mixed          $wp_rest_auth_cookie
  *
  * @param WP_Error|mixed $result Error from another authentication handler,
- *                               null if we should handle it, or another value
- *                               if not.
+ *                               null if we should handle it, or another value if not.
  * @return WP_Error|mixed|bool WP_Error if the cookie is invalid, the $result, otherwise true.
  */
 function rest_cookie_check_errors( $result ) {
@@ -1025,7 +1024,7 @@ function rest_authorization_required_code() {
  * @param  mixed            $value
  * @param  WP_REST_Request  $request
  * @param  string           $param
- * @return WP_Error|boolean
+ * @return true|WP_Error
  */
 function rest_validate_request_arg( $value, $request, $param ) {
 	$attributes = $request->get_attributes();

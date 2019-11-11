@@ -450,7 +450,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * @param string        $local_destination
 	 * @param string        $remote_destination
 	 * @param array         $plugin
-	 * @return WP_Error|bool
+	 * @return bool|WP_Error
 	 */
 	public function delete_old_plugin( $removed, $local_destination, $remote_destination, $plugin ) {
 		global $wp_filesystem;

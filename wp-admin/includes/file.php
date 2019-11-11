@@ -2086,7 +2086,7 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	 * @param string[]      $types       Types of connections.
 	 * @param array         $credentials Credentials to connect with.
 	 * @param string        $type        Chosen filesystem method.
-	 * @param WP_Error|bool $error       Error object or status.
+	 * @param bool|WP_Error $error       Error object or status.
 	 * @param string        $context     Full path to the directory that is tested for being writable.
 	 */
 	$types = apply_filters( 'fs_ftp_connection_types', $types, $credentials, $type, $error, $context );

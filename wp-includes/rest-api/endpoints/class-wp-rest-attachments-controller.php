@@ -84,7 +84,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @since 4.7.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return WP_Error|true Boolean true if the attachment may be created, or a WP_Error if not.
+	 * @return true|WP_Error Boolean true if the attachment may be created, or a WP_Error if not.
 	 */
 	public function create_item_permissions_check( $request ) {
 		$ret = parent::create_item_permissions_check( $request );
@@ -116,7 +116,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @since 4.7.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return WP_Error|WP_REST_Response Response object on success, WP_Error object on failure.
+	 * @return WP_REST_Response|WP_Error Response object on success, WP_Error object on failure.
 	 */
 	public function create_item( $request ) {
 
@@ -274,7 +274,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @since 4.7.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return WP_Error|WP_REST_Response Response object on success, WP_Error object on failure.
+	 * @return WP_REST_Response|WP_Error Response object on success, WP_Error object on failure.
 	 */
 	public function update_item( $request ) {
 		if ( ! empty( $request['post'] ) && in_array( get_post_type( $request['post'] ), array( 'revision', 'attachment' ), true ) ) {
@@ -352,7 +352,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @since 4.7.0
 	 *
 	 * @param WP_REST_Request $request Request object.
-	 * @return WP_Error|stdClass $prepared_attachment Post object.
+	 * @return stdClass|WP_Error Post object.
 	 */
 	protected function prepare_item_for_database( $request ) {
 		$prepared_attachment = parent::prepare_item_for_database( $request );

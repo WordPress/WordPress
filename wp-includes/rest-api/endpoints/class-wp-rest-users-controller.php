@@ -1125,7 +1125,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @param mixed           $value   The username submitted in the request.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @param string          $param   The parameter name.
-	 * @return WP_Error|string The sanitized username, if valid, otherwise an error.
+	 * @return string|WP_Error The sanitized username, if valid, otherwise an error.
 	 */
 	public function check_username( $value, $request, $param ) {
 		$username = (string) $value;
@@ -1154,7 +1154,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @param mixed           $value   The password submitted in the request.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @param string          $param   The parameter name.
-	 * @return WP_Error|string The sanitized password, if valid, otherwise an error.
+	 * @return string|WP_Error The sanitized password, if valid, otherwise an error.
 	 */
 	public function check_user_password( $value, $request, $param ) {
 		$password = (string) $value;

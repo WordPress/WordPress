@@ -3499,7 +3499,7 @@ class wpdb {
 	 * @global string $wp_version
 	 * @global string $required_mysql_version
 	 *
-	 * @return WP_Error|void
+	 * @return void|WP_Error
 	 */
 	public function check_database_version() {
 		global $wp_version, $required_mysql_version;

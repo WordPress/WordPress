@@ -129,7 +129,7 @@ class WP_REST_Server {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param WP_Error|null|bool WP_Error if authentication error, null if authentication
+		 * @param WP_Error|null|true WP_Error if authentication error, null if authentication
 		 *                              method wasn't used, true if authentication succeeded.
 		 */
 		return apply_filters( 'rest_authentication_errors', null );
