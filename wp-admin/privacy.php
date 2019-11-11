@@ -25,9 +25,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			</h1>
 		</div>
 
-		<div class="about__header-badge">
-			<img src="https://wordpress.org/images/core/5.4/code-is-poetry-rc.svg" alt="<?php _e( 'Code is Poetry' ); ?>" />
-		</div>
+		<div class="about__header-badge"></div>
 
 		<div class="about__header-text">
 			<p>

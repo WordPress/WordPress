@@ -18,22 +18,31 @@
    x.5.0 Legacy About Styles: Media Queries
 ------------------------------------------------------------------------------*/
 
-:root {
-	/* Beiges, used as text backgrounds. */
-	--base-1: #FEFCF7;
-	--base-2: #F4EFE1;
-	--base-3: #D7D2C5;
-	--base-4: #7B776C;
-	--text: #413E38;
-	/* Reds, used as accents, backgrounds, etc */
-	--accent-1: #BD3854;
-	--accent-2: #5F1B29;
+.about__container {
+	/* Section backgrounds */
+	--background: #f4efe1;
+	--subtle-background: #d7d2c5;
+	/* Main text color */
+	--text: #413e38;
+	/* Navigation colors. */
+	--nav-background: #fefcf7;
+	--nav-color: #716d64;
+	/* Reds, used as accents & in header. */
+	--accent-1: #bd3854;
+	--accent-2: #5f1b29;
 	--accent-3: #321017;
 }
 
 /*------------------------------------------------------------------------------
   1.0 - Global: About, Credits, Freedoms, Privacy
 ------------------------------------------------------------------------------*/
+
+.about-php,
+.credits-php,
+.freedoms-php,
+.privacy-php {
+	background: #fff;
+}
 
 .about-php #wpcontent,
 .credits-php #wpcontent,
@@ -55,6 +64,7 @@
 .about__container {
 	max-width: 1000px;
 	margin: 24px auto;
+	clear: both;
 }
 
 .about__container .alignleft {
@@ -86,7 +96,7 @@
 
 .about__section {
 	background: #F4EFE1;
-	background: var(--base-2);
+	background: var(--background);
 }
 
 .about__container .has-accent-background-color {
@@ -96,7 +106,7 @@
 
 .about__container .has-subtle-background-color {
 	background-color: #D7D2C5;
-	background-color: var(--base-3);
+	background-color: var(--subtle-background);
 }
 
 /* 1.1 - Layout */
@@ -295,6 +305,13 @@
 	line-height: inherit;
 }
 
+.about__section a,
+.about__section a:hover,
+.about__section a:active,
+.about__section a:focus {
+	color: inherit;
+}
+
 .about__container ul {
 	list-style: disc;
 	margin-left: 16px;
@@ -325,13 +342,19 @@
 	border: none;
 }
 
+.about__container div.updated,
+.about__container div.error,
+.about__container .notice {
+	display: none !important;
+}
+
 .about__section {
 	font-size: 1.2em;
 }
 
 .about__section.is-feature {
 	font-size: 1.6em;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 @media screen and (max-width: 782px) {
@@ -394,7 +417,7 @@
 
 .about__header-title h1 span {
 	display: block;
-	font-weight: bold;
+	font-weight: 600;
 	font-size: 1.2em;
 	line-height: 1;
 }
@@ -425,7 +448,7 @@
 	background-color: #321017;
 	background-color: var(--accent-3);
 	color: white;
-	font-size: 1.6em;
+	font-size: 1.5em;
 	line-height: 1.4;
 }
 
@@ -441,15 +464,14 @@
 	grid-row: 3;
 	padding-top: 0;
 	background: #FEFCF7;
-	background: var(--base-1);
-	color: #7B776C;
-	color: var(--base-4);
+	background: var(--nav-background);
+	color: #716d64;
+	color: var(--nav-color);
 	border-bottom: 3px solid currentColor;
 }
 
 .about__header-navigation .nav-tab {
 	margin-left: 0;
-	margin-bottom: -3px;
 	padding: 24px 32px;
 	font-size: 1.4em;
 	line-height: 1;
@@ -460,9 +482,23 @@
 	color: inherit;
 }
 
+.about__header-navigation .nav-tab:hover,
+.about__header-navigation .nav-tab:active {
+	background-color: #F4EFE1;
+	background-color: var(--background);
+}
+
 .about__header-navigation .nav-tab-active {
+	margin-bottom: -3px;
+	border-width: 0 0 6px;
 	color: #BD3854;
 	color: var(--accent-1);
+	border-color: currentColor;
+}
+
+.about__header-navigation .nav-tab-active:hover,
+.about__header-navigation .nav-tab-active:active {
+	background-color: transparent;
 	border-color: currentColor;
 }
 
@@ -505,7 +541,7 @@
 		border-bottom: none;
 		border-left-width: 3px;
 		background: #F4EFE1;
-		background: var(--base-2);
+		background: var(--background);
 	}
 }
 
@@ -556,7 +592,7 @@
 
 .about__section .wp-person .web {
 	font-size: 1.4em;
-	font-weight: 700;
+	font-weight: 600;
 	text-decoration: none;
 	color: #413E38;
 	color: var(--text);
@@ -573,6 +609,25 @@
 .about__section .wp-person .title {
 	display: block;
 	margin-top: 0.5em;
+}
+
+@media screen and (max-width: 480px) {
+	.about__section .wp-person {
+		min-width: 100%;
+	}
+
+	.about__section .wp-person .gravatar {
+		width: 60px;
+		height: 60px;
+	}
+
+	.about__section .wp-person .web {
+		font-size: 1em;
+	}
+
+	.about__section .compact .wp-person .web {
+		font-size: 1em;
+	}
 }
 
 
@@ -684,7 +739,7 @@
 }
 
 .about-wrap h2 {
-	margin: 40px 0 .6em;
+	margin: 40px 0 0.6em;
 	font-size: 2.7em;
 	line-height: 1.3;
 	font-weight: 300;
@@ -692,7 +747,7 @@
 }
 
 .about-wrap h3 {
-	margin: 1.25em 0 .6em;
+	margin: 1.25em 0 0.6em;
 	font-size: 1.4em;
 	line-height: 1.5;
 }

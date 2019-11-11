@@ -26,9 +26,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				</h1>
 			</div>
 
-			<div class="about__header-badge">
-				<img src="https://wordpress.org/images/core/5.4/code-is-poetry-rc.svg" alt="<?php _e( 'Code is Poetry' ); ?>" />
-			</div>
+			<div class="about__header-badge"></div>
 
 			<div class="about__header-text">
 				<p>
@@ -52,7 +50,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="about__section is-feature">
 			<p>
-				<?php _e( '5.3 expands and refines the block editor introduced in WordPress 5.0 with new blocks, more intuitive interactions, and improved accessibility. New features in the editor increase design freedoms, provide additional layout options and style variations to allow designers complete control over the look of a site. This release also introduces the Twenty Twenty theme giving the user more design flexibility and integration with the block editor. Creating beautiful web pages and advanced layouts has never been easier.' ); ?>
+				<?php _e( '5.3 expands and refines the block editor introduced in WordPress 5.0 with a new block, more intuitive interactions, and improved accessibility. New features in the editor increase design freedoms, provide additional layout options and style variations to allow designers complete control over the look of a site. This release also introduces the Twenty Twenty theme giving the user more design flexibility and integration with the block editor. Creating beautiful web pages and advanced layouts has never been easier.' ); ?>
 			</p>
 		</div>
 
@@ -92,7 +90,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					<li><?php _e( 'The new Group block lets you easily divide your page into colorful sections' ); ?></li>
 					<li><?php _e( 'The Columns block now supports fixed column widths' ); ?></li>
 					<li><?php _e( 'The new Predefined layouts make it a cinch to arrange content into advanced designs' ); ?></li>
-					<li><?php _e( 'Heading blocks now offer controls for text and background color' ); ?></li>
+					<li><?php _e( 'Heading blocks now offer controls for text color' ); ?></li>
 					<li><?php _e( 'Additional style options allow you to set your preferred style for any block that supports this feature' ); ?></li>
 				</ul>
 			</div>
