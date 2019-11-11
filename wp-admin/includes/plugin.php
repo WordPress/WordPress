@@ -1756,17 +1756,17 @@ function remove_submenu_page( $menu_slug, $submenu_slug ) {
 }
 
 /**
- * Get the url to access a particular menu page based on the slug it was registered with.
+ * Get the URL to access a particular menu page based on the slug it was registered with.
  *
- * If the slug hasn't been registered properly no url will be returned
+ * If the slug hasn't been registered properly, no URL will be returned.
  *
  * @since 3.0.0
  *
  * @global array $_parent_pages
  *
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param bool $echo Whether or not to echo the url - default is true
- * @return string the url
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu).
+ * @param bool   $echo      Whether or not to echo the URL. Default true.
+ * @return string The menu page URL.
  */
 function menu_page_url( $menu_slug, $echo = true ) {
 	global $_parent_pages;
@@ -2186,7 +2186,8 @@ function remove_option_whitelist( $del_options, $options = '' ) {
  *
  * @since 2.7.0
  *
- * @param string $option_group A settings group name. This should match the group name used in register_setting().
+ * @param string $option_group A settings group name. This should match the group name
+ *                             used in register_setting().
  */
 function settings_fields( $option_group ) {
 	echo "<input type='hidden' name='option_page' value='" . esc_attr( $option_group ) . "' />";
@@ -2195,11 +2196,11 @@ function settings_fields( $option_group ) {
 }
 
 /**
- * Clears the Plugins cache used by get_plugins() and by default, the Plugin Update cache.
+ * Clears the plugins cache used by get_plugins() and by default, the plugin updates cache.
  *
  * @since 3.7.0
  *
- * @param bool $clear_update_cache Whether to clear the Plugin updates cache
+ * @param bool $clear_update_cache Whether to clear the plugin updates cache. Default true.
  */
 function wp_clean_plugins_cache( $clear_update_cache = true ) {
 	if ( $clear_update_cache ) {
@@ -2241,7 +2242,8 @@ function plugin_sandbox_scrape( $plugin ) {
  *
  * @since 4.9.6
  *
- * @param string $plugin_name The name of the plugin or theme that is suggesting content for the site's privacy policy.
+ * @param string $plugin_name The name of the plugin or theme that is suggesting content
+ *                            for the site's privacy policy.
  * @param string $policy_text The suggested content for inclusion in the policy.
  */
 function wp_add_privacy_policy_content( $plugin_name, $policy_text ) {
@@ -2287,7 +2289,7 @@ function wp_add_privacy_policy_content( $plugin_name, $policy_text ) {
  * @since 5.2.0
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.
- * @return bool True, if in the list of paused plugins. False, not in the list.
+ * @return bool True, if in the list of paused plugins. False, if not in the list.
  */
 function is_plugin_paused( $plugin ) {
 	if ( ! isset( $GLOBALS['_paused_plugins'] ) ) {
@@ -2308,10 +2310,9 @@ function is_plugin_paused( $plugin ) {
  *
  * @since 5.2.0
  *
- * @param string $plugin Path to the plugin file relative to the plugins
- *                       directory.
- * @return array|false Array of error information as it was returned by
- *                     `error_get_last()`, or false if none was recorded.
+ * @param string $plugin Path to the plugin file relative to the plugins directory.
+ * @return array|false Array of error information as returned by `error_get_last()`,
+ *                     or false if none was recorded.
  */
 function wp_get_plugin_error( $plugin ) {
 	if ( ! isset( $GLOBALS['_paused_plugins'] ) ) {
@@ -2339,8 +2340,8 @@ function wp_get_plugin_error( $plugin ) {
  *
  * @since 5.2.0
  *
- * @param string $plugin       Single plugin to resume.
- * @param string $redirect     Optional. URL to redirect to. Default empty string.
+ * @param string $plugin   Single plugin to resume.
+ * @param string $redirect Optional. URL to redirect to. Default empty string.
  * @return bool|WP_Error True on success, false if `$plugin` was not paused,
  *                       `WP_Error` on failure.
  */
