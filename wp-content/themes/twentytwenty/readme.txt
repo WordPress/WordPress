@@ -1,8 +1,6 @@
 === Twenty Twenty ===
 Contributors: the WordPress team
-Requires at least: 4.7
-Tested up to: WordPress 5.3
-Requires PHP: 5.2.4
+Tested up to: 5.3
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
