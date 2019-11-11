@@ -106,7 +106,9 @@ window.addComment = ( function( window ) {
 			}
 		};
 
-		commentFormElement.addEventListener( 'keydown', submitFormHandler );
+		if ( commentFormElement ) {
+			commentFormElement.addEventListener( 'keydown', submitFormHandler );
+		}
 
 		var links = replyLinks( context );
 		var element;
