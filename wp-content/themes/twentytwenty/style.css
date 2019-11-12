@@ -5177,8 +5177,8 @@ a.to-the-top > * {
 		margin: 0.3rem 0 2rem 2rem;
 	}
 
-	.entry-content > .alignwide:not(.wp-block-group),
-	.entry-content > .alignfull:not(.wp-block-group) {
+	.entry-content > .alignwide:not(.wp-block-group.has-background),
+	.entry-content > .alignfull:not(.wp-block-group.has-background) {
 		margin-bottom: 6rem;
 		margin-top: 6rem;
 	}
@@ -5737,8 +5737,8 @@ a.to-the-top > * {
 		max-width: calc((100% - 58rem) / 2 - 4rem);
 	}
 
-	.entry-content > .alignwide:not(.wp-block-group),
-	.entry-content > .alignfull:not(.wp-block-group) {
+	.entry-content > .alignwide:not(.wp-block-group.has-background),
+	.entry-content > .alignfull:not(.wp-block-group.has-background) {
 		margin-bottom: 8rem;
 		margin-top: 8rem;
 	}
