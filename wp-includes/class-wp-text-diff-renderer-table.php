@@ -168,9 +168,9 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 				 *
 				 * @since 4.1.0
 				 *
-				 * @param String $processed_line The processed diffed line.
-				 * @param String $line           The unprocessed diffed line.
-				 * @param string null            The line context. Values are 'added', 'deleted' or 'unchanged'.
+				 * @param string $processed_line The processed diffed line.
+				 * @param string $line           The unprocessed diffed line.
+				 * @param string $context        The line context. Values are 'added', 'deleted' or 'unchanged'.
 				 */
 				$line = apply_filters( 'process_text_diff_html', $processed_line, $line, 'added' );
 			}
