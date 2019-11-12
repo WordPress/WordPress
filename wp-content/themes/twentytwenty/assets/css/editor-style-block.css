@@ -1060,6 +1060,11 @@ hr.wp-block-separator.is-style-dots::before {
 	margin-top: 30px;
 }
 
+.editor-styles-wrapper .wp-block-image.is-resized {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /* Block: Group ------------------------------ */
 
 .editor-styles-wrapper .wp-block-group.has-background {

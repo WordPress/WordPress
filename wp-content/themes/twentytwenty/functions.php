@@ -570,7 +570,7 @@ add_action( 'after_setup_theme', 'twentytwenty_block_editor_settings' );
  * @return string $html
  */
 function twentytwenty_read_more_tag( $html ) {
-	return preg_replace( '/<a(.*)>(.*)<\/a>/iU', sprintf( '<a$1><span class="faux-button">$2</span> <span class="screen-reader-text">"%1$s"</span></a>', get_the_title( get_the_ID() ) ), $html );
+	return preg_replace( '/<a(.*)>(.*)<\/a>/iU', sprintf( '<div class="read-more-button-wrap"><a$1><span class="faux-button">$2</span> <span class="screen-reader-text">"%1$s"</span></a></div>', get_the_title( get_the_ID() ) ), $html );
 }
 
 add_filter( 'the_content_more_link', 'twentytwenty_read_more_tag' );
