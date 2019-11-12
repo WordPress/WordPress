@@ -162,46 +162,61 @@ Inter variable font. Usage:
 
 /* CUSTOM COLORS */
 
-.has-accent-color {
+:root .has-accent-color {
 	color: #cd2653;
 }
 
-.has-accent-background-color {
+:root .has-accent-background-color {
 	background-color: #cd2653;
+	color: #fff;
 }
 
-.has-secondary-color {
+:root .has-primary-color {
+	color: #000;
+}
+
+:root .has-primary-background-color {
+	background-color: #000;
+	color: #f5efe0;
+}
+
+:root .has-secondary-color {
 	color: #6d6d6d;
 }
 
-.has-secondary-background-color {
+:root .has-secondary-background-color {
 	background-color: #6d6d6d;
+	color: #fff;
 }
 
-.has-subtle-background-color {
+:root .has-subtle-background-color {
 	color: #dcd7ca;
 }
 
-.has-subtle-background-background-color {
+:root .has-subtle-background-background-color {
 	background-color: #dcd7ca;
+	color: #000;
 }
 
-.has-background-color {
-	color: #6d6d6d;
+:root .has-background-color {
+	color: #f5efe0;
 }
 
-.has-background-background-color {
-	background-color: #6d6d6d;
+:root .has-background-background-color {
+	background-color: #f5efe0;
+	color: #000;
 }
 
 /* GENERAL COLORS */
 
 .has-black-background-color {
 	background-color: #000;
+	color: #fff;
 }
 
 .has-white-background-color {
 	background-color: #fff;
+	color: #000;
 }
 
 .has-black-color {
