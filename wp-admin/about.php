@@ -118,7 +118,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			</div>
 			<div class="column is-edge-to-edge">
 				<div class="about__image aligncenter">
-					<img src="https://make.wordpress.org/core/files/2019/10/twentytwenty-mobile.png" alt="" />
+					<img src="https://s.w.org/images/core/5.3/twentytwenty-mobile.png" alt="" />
 				</div>
 			</div>
 		</div>
@@ -126,7 +126,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="about__section has-subtle-background-color">
 			<div class="column is-edge-to-edge">
 				<div class="about__image aligncenter">
-					<img src="https://make.wordpress.org/core/files/2019/10/twentytwenty-desktop.png" alt="" />
+					<img src="https://s.w.org/images/core/5.3/twentytwenty-desktop.png" alt="" />
 				</div>
 			</div>
 		</div>
