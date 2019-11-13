@@ -493,7 +493,7 @@ if ( ! class_exists( 'PO', false ) ) :
 
 		/**
 		 * @param string $s
-		 * @return sring
+		 * @return string
 		 */
 		public static function trim_quotes( $s ) {
 			if ( substr( $s, 0, 1 ) == '"' ) {
