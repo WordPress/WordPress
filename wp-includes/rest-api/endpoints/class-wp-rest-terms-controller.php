@@ -718,7 +718,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param obj             $item    Term object.
+	 * @param WP_Term         $item    Term object.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response $response Response object.
 	 */
