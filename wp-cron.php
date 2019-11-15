@@ -86,7 +86,7 @@ $gmt_time = microtime( true );
 // The cron lock: a unix timestamp from when the cron was spawned.
 $doing_cron_transient = get_transient( 'doing_cron' );
 
-// Use global $doing_wp_cron lock otherwise use the GET lock. If no lock, trying grabbing a new lock.
+// Use global $doing_wp_cron lock, otherwise use the GET lock. If no lock, try to grab a new lock.
 if ( empty( $doing_wp_cron ) ) {
 	if ( empty( $_GET['doing_wp_cron'] ) ) {
 		// Called from external script/job. Try setting a lock.
