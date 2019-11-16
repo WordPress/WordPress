@@ -75,7 +75,8 @@ final class _WP_Editors {
 		 * @see _WP_Editors::parse_settings()
 		 *
 		 * @param array  $settings  Array of editor arguments.
-		 * @param string $editor_id ID for the current editor instance.
+		 * @param string $editor_id ID for the current editor instance. Accepts 'classic-block'
+		 *                          when called from block editor's Classic block.
 		 */
 		$settings = apply_filters( 'wp_editor_settings', $settings, $editor_id );
 
@@ -375,11 +376,24 @@ final class _WP_Editors {
 					 * Filters the list of teenyMCE plugins.
 					 *
 					 * @since 2.7.0
+					 * @since 3.3.0 The `$editor_id` parameter was added.
 					 *
 					 * @param array  $plugins   An array of teenyMCE plugins.
 					 * @param string $editor_id Unique editor identifier, e.g. 'content'.
 					 */
-					$plugins = apply_filters( 'teeny_mce_plugins', array( 'colorpicker', 'lists', 'fullscreen', 'image', 'wordpress', 'wpeditimage', 'wplink' ), $editor_id );
+					$plugins = apply_filters(
+						'teeny_mce_plugins',
+						array(
+							'colorpicker',
+							'lists',
+							'fullscreen',
+							'image',
+							'wordpress',
+							'wpeditimage',
+							'wplink',
+						),
+						$editor_id
+					);
 				} else {
 
 					/**
@@ -396,10 +410,13 @@ final class _WP_Editors {
 					 * one of the 'mce_buttons' filters.
 					 *
 					 * @since 2.5.0
+					 * @since 5.3.0 The `$editor_id` parameter was added.
 					 *
-					 * @param array $external_plugins An array of external TinyMCE plugins.
+					 * @param array  $external_plugins An array of external TinyMCE plugins.
+					 * @param string $editor_id        Unique editor identifier, e.g. 'content'. Accepts 'classic-block'
+					 *                                 when called from block editor's Classic block.
 					 */
-					$mce_external_plugins = apply_filters( 'mce_external_plugins', array() );
+					$mce_external_plugins = apply_filters( 'mce_external_plugins', array(), $editor_id );
 
 					$plugins = array(
 						'charmap',
@@ -433,10 +450,13 @@ final class _WP_Editors {
 					 * in WordPress should be added to the TinyMCE instance.
 					 *
 					 * @since 3.3.0
+					 * @since 5.3.0 The `$editor_id` parameter was added.
 					 *
-					 * @param array $plugins An array of default TinyMCE plugins.
+					 * @param array  $plugins   An array of default TinyMCE plugins.
+					 * @param string $editor_id Unique editor identifier, e.g. 'content'. Accepts 'classic-block'
+					 *                          when called from block editor's Classic block.
 					 */
-					$plugins = array_unique( apply_filters( 'tiny_mce_plugins', $plugins ) );
+					$plugins = array_unique( apply_filters( 'tiny_mce_plugins', $plugins, $editor_id ) );
 
 					$key = array_search( 'spellchecker', $plugins );
 					if ( false !== $key ) {
@@ -457,10 +477,12 @@ final class _WP_Editors {
 						 * and should define a variable ($strings) that holds all translated strings.
 						 *
 						 * @since 2.5.0
+						 * @since 5.3.0 The `$editor_id` parameter was added.
 						 *
-						 * @param array $translations Translations for external TinyMCE plugins.
+						 * @param array  $translations Translations for external TinyMCE plugins.
+						 * @param string $editor_id    Unique editor identifier, e.g. 'content'.
 						 */
-						$mce_external_languages = apply_filters( 'mce_external_languages', array() );
+						$mce_external_languages = apply_filters( 'mce_external_languages', array(), $editor_id );
 
 						$loaded_langs = array();
 						$strings      = '';
@@ -577,12 +599,28 @@ final class _WP_Editors {
 			}
 
 			if ( $set['teeny'] ) {
-				$mce_buttons = array( 'bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'alignleft', 'aligncenter', 'alignright', 'undo', 'redo', 'link', 'fullscreen' );
+				$mce_buttons = array(
+					'bold',
+					'italic',
+					'underline',
+					'blockquote',
+					'strikethrough',
+					'bullist',
+					'numlist',
+					'alignleft',
+					'aligncenter',
+					'alignright',
+					'undo',
+					'redo',
+					'link',
+					'fullscreen',
+				);
 
 				/**
 				 * Filters the list of teenyMCE buttons (Text tab).
 				 *
 				 * @since 2.7.0
+				 * @since 3.3.0 The `$editor_id` parameter was added.
 				 *
 				 * @param array  $mce_buttons An array of teenyMCE buttons.
 				 * @param string $editor_id   Unique editor identifier, e.g. 'content'.
@@ -592,7 +630,20 @@ final class _WP_Editors {
 				$mce_buttons_3 = array();
 				$mce_buttons_4 = array();
 			} else {
-				$mce_buttons = array( 'formatselect', 'bold', 'italic', 'bullist', 'numlist', 'blockquote', 'alignleft', 'aligncenter', 'alignright', 'link', 'wp_more', 'spellchecker' );
+				$mce_buttons = array(
+					'formatselect',
+					'bold',
+					'italic',
+					'bullist',
+					'numlist',
+					'blockquote',
+					'alignleft',
+					'aligncenter',
+					'alignright',
+					'link',
+					'wp_more',
+					'spellchecker',
+				);
 
 				if ( ! wp_is_mobile() ) {
 					if ( $set['_content_editor_dfw'] ) {
@@ -610,13 +661,26 @@ final class _WP_Editors {
 				 * Filters the first-row list of TinyMCE buttons (Visual tab).
 				 *
 				 * @since 2.0.0
+				 * @since 3.3.0 The `$editor_id` parameter was added.
 				 *
 				 * @param array  $mce_buttons First-row list of buttons.
-				 * @param string $editor_id   Unique editor identifier, e.g. 'content'.
+				 * @param string $editor_id   Unique editor identifier, e.g. 'content'. Accepts 'classic-block'
+				 *                            when called from block editor's Classic block.
 				 */
 				$mce_buttons = apply_filters( 'mce_buttons', $mce_buttons, $editor_id );
 
-				$mce_buttons_2 = array( 'strikethrough', 'hr', 'forecolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo' );
+				$mce_buttons_2 = array(
+					'strikethrough',
+					'hr',
+					'forecolor',
+					'pastetext',
+					'removeformat',
+					'charmap',
+					'outdent',
+					'indent',
+					'undo',
+					'redo',
+				);
 
 				if ( ! wp_is_mobile() ) {
 					$mce_buttons_2[] = 'wp_help';
@@ -626,9 +690,11 @@ final class _WP_Editors {
 				 * Filters the second-row list of TinyMCE buttons (Visual tab).
 				 *
 				 * @since 2.0.0
+				 * @since 3.3.0 The `$editor_id` parameter was added.
 				 *
 				 * @param array  $mce_buttons_2 Second-row list of buttons.
-				 * @param string $editor_id     Unique editor identifier, e.g. 'content'.
+				 * @param string $editor_id     Unique editor identifier, e.g. 'content'. Accepts 'classic-block'
+				 *                              when called from block editor's Classic block.
 				 */
 				$mce_buttons_2 = apply_filters( 'mce_buttons_2', $mce_buttons_2, $editor_id );
 
@@ -636,9 +702,11 @@ final class _WP_Editors {
 				 * Filters the third-row list of TinyMCE buttons (Visual tab).
 				 *
 				 * @since 2.0.0
+				 * @since 3.3.0 The `$editor_id` parameter was added.
 				 *
 				 * @param array  $mce_buttons_3 Third-row list of buttons.
-				 * @param string $editor_id     Unique editor identifier, e.g. 'content'.
+				 * @param string $editor_id     Unique editor identifier, e.g. 'content'. Accepts 'classic-block'
+				 *                              when called from block editor's Classic block.
 				 */
 				$mce_buttons_3 = apply_filters( 'mce_buttons_3', array(), $editor_id );
 
@@ -646,9 +714,11 @@ final class _WP_Editors {
 				 * Filters the fourth-row list of TinyMCE buttons (Visual tab).
 				 *
 				 * @since 2.5.0
+				 * @since 3.3.0 The `$editor_id` parameter was added.
 				 *
 				 * @param array  $mce_buttons_4 Fourth-row list of buttons.
-				 * @param string $editor_id     Unique editor identifier, e.g. 'content'.
+				 * @param string $editor_id     Unique editor identifier, e.g. 'content'. Accepts 'classic-block'
+				 *                              when called from block editor's Classic block.
 				 */
 				$mce_buttons_4 = apply_filters( 'mce_buttons_4', array(), $editor_id );
 			}
@@ -716,6 +786,7 @@ final class _WP_Editors {
 				 * Filters the teenyMCE config before init.
 				 *
 				 * @since 2.7.0
+				 * @since 3.3.0 The `$editor_id` parameter was added.
 				 *
 				 * @param array  $mceInit   An array with teenyMCE config.
 				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
@@ -727,9 +798,11 @@ final class _WP_Editors {
 				 * Filters the TinyMCE config before init.
 				 *
 				 * @since 2.5.0
+				 * @since 3.3.0 The `$editor_id` parameter was added.
 				 *
 				 * @param array  $mceInit   An array with TinyMCE config.
-				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 * @param string $editor_id Unique editor identifier, e.g. 'content'. Accepts 'classic-block'
+				 *                          when called from block editor's Classic block.
 				 */
 				$mceInit = apply_filters( 'tiny_mce_before_init', $mceInit, $editor_id );
 			}
