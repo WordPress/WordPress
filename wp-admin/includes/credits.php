@@ -78,7 +78,7 @@ function _wp_credits_build_object_link( &$data ) {
 }
 
 /**
- * Display a the title for a given group of contributors.
+ * Displays the title for a given group of contributors.
  *
  * @since 5.3.0
  *
@@ -106,7 +106,7 @@ function wp_credits_section_title( $group_data = array() ) {
 }
 
 /**
- * Display a list of contributors for a given group.
+ * Displays a list of contributors for a given group.
  *
  * @since 5.3.0
  *
