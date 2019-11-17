@@ -113,7 +113,7 @@ if ( ! class_exists( 'Translations', false ) ) :
 		 * Here, in the base Translations class, the common logic for English is implemented:
 		 *  0 if there is one element, 1 otherwise
 		 *
-		 * This function should be overridden by the sub-classes. For example MO/PO can derive the logic
+		 * This function should be overridden by the subclasses. For example MO/PO can derive the logic
 		 * from their headers.
 		 *
 		 * @param integer $count number of items

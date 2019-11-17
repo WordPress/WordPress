@@ -3500,7 +3500,7 @@
 			control.params = _.extend(
 				{},
 				control.defaults,
-				control.params || {}, // In case sub-class already defines.
+				control.params || {}, // In case subclass already defines.
 				options.params || options || {} // The options.params property is deprecated, but it is checked first for back-compat.
 			);
 

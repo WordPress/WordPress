@@ -101,7 +101,7 @@ class WP_Widget {
 	/**
 	 * Echoes the widget content.
 	 *
-	 * Sub-classes should over-ride this function to generate their widget code.
+	 * Subclasses should override this function to generate their widget code.
 	 *
 	 * @since 2.8.0
 	 *
@@ -110,7 +110,7 @@ class WP_Widget {
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public function widget( $args, $instance ) {
-		die( 'function WP_Widget::widget() must be over-ridden in a sub-class.' );
+		die( 'function WP_Widget::widget() must be overridden in a subclass.' );
 	}
 
 	/**

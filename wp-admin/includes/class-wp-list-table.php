@@ -251,7 +251,7 @@ class WP_List_Table {
 	 * @abstract
 	 */
 	public function ajax_user_can() {
-		die( 'function WP_List_Table::ajax_user_can() must be over-ridden in a sub-class.' );
+		die( 'function WP_List_Table::ajax_user_can() must be overridden in a subclass.' );
 	}
 
 	/**
@@ -263,7 +263,7 @@ class WP_List_Table {
 	 * @abstract
 	 */
 	public function prepare_items() {
-		die( 'function WP_List_Table::prepare_items() must be over-ridden in a sub-class.' );
+		die( 'function WP_List_Table::prepare_items() must be overridden in a subclass.' );
 	}
 
 	/**
@@ -931,7 +931,7 @@ class WP_List_Table {
 	 * @return array
 	 */
 	public function get_columns() {
-		die( 'function WP_List_Table::get_columns() must be over-ridden in a sub-class.' );
+		die( 'function WP_List_Table::get_columns() must be overridden in a subclass.' );
 	}
 
 	/**
