@@ -13,7 +13,7 @@
  * * Database table prefix
  * * ABSPATH
  *
- * @link https://codex.wordpress.org/Editing_wp-config.php
+ * @link https://wordpress.org/support/article/editing-wp-config-php/
  *
  * @package WordPress
  */
@@ -73,9 +73,9 @@ $table_prefix = 'wp_';
  * in their development environments.
  *
  * For information on other constants that can be used for debugging,
- * visit the Codex.
+ * visit the documentation.
  *
- * @link https://codex.wordpress.org/Debugging_in_WordPress
+ * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
 define( 'WP_DEBUG', false );
 
