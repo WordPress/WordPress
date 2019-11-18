@@ -1321,7 +1321,7 @@ ul.cat-checklist {
 .plugins .paused .error-display code {
 	font-size: 90%;
 	font-style: italic;
-	color: rgb( 0, 0, 0, 0.7 );
+	color: rgba( 0, 0, 0, 0.7 );
 }
 
 .plugins .resume-link {
