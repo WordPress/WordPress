@@ -363,7 +363,8 @@ function wp_login_viewport_meta() {
  * @return bool|WP_Error True: when finish. WP_Error on error
  */
 function retrieve_password() {
-	$errors = new WP_Error();
+	$errors    = new WP_Error();
+	$user_data = false;
 
 	if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
 		$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or email address.' ) );
@@ -382,11 +383,13 @@ function retrieve_password() {
 	 *
 	 * @since 2.1.0
 	 * @since 4.4.0 Added the `$errors` parameter.
+	 * @since 5.4.0 Added the `$user_data` parameter.
 	 *
 	 * @param WP_Error $errors A WP_Error object containing any errors generated
 	 *                         by using invalid credentials.
+	 * @param WP_User|false    WP_User object if found, false if the user does not exist.
 	 */
-	do_action( 'lostpassword_post', $errors );
+	do_action( 'lostpassword_post', $errors, $user_data );
 
 	if ( $errors->has_errors() ) {
 		return $errors;
