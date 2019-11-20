@@ -734,7 +734,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 *
 	 * @param string $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
-	 * @return string|false String on success, false on failure.
+	 * @return string|array|false String or array (for Tags header) on success, false on failure.
 	 */
 	public function get( $header ) {
 		if ( ! isset( $this->headers[ $header ] ) ) {
@@ -773,7 +773,8 @@ final class WP_Theme implements ArrayAccess {
 	 * @param string $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
 	 * @param bool $markup Optional. Whether to mark up the header. Defaults to true.
 	 * @param bool $translate Optional. Whether to translate the header. Defaults to true.
-	 * @return string|false Processed header, false on failure.
+	 * @return string|array|false Processed header. An array for Tags if `$markup` is false, string otherwise.
+	 *                            False on failure.
 	 */
 	public function display( $header, $markup = true, $translate = true ) {
 		$value = $this->get( $header );
@@ -805,8 +806,8 @@ final class WP_Theme implements ArrayAccess {
 	 * @staticvar array $header_tags_with_a
 	 *
 	 * @param string $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
-	 * @param string $value Value to sanitize.
-	 * @return mixed
+	 * @param string $value  Value to sanitize.
+	 * @return string|array An array for Tags header, string otherwise.
 	 */
 	private function sanitize_header( $header, $value ) {
 		switch ( $header ) {
@@ -824,7 +825,8 @@ final class WP_Theme implements ArrayAccess {
 					'em'      => true,
 					'strong'  => true,
 				);
-				$value              = wp_kses( $value, $header_tags );
+
+				$value = wp_kses( $value, $header_tags );
 				break;
 			case 'Author':
 				// There shouldn't be anchor tags in Author, but some themes like to be challenging.
@@ -840,7 +842,8 @@ final class WP_Theme implements ArrayAccess {
 					'em'      => true,
 					'strong'  => true,
 				);
-				$value                     = wp_kses( $value, $header_tags_with_a );
+
+				$value = wp_kses( $value, $header_tags_with_a );
 				break;
 			case 'ThemeURI':
 			case 'AuthorURI':
@@ -864,9 +867,9 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @staticvar string $comma
 	 *
-	 * @param string $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
-	 * @param string $value Value to mark up.
-	 * @param string $translate Whether the header has been translated.
+	 * @param string       $header    Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
+	 * @param string|array $value     Value to mark up. An array for Tags header, string otherwise.
+	 * @param string       $translate Whether the header has been translated.
 	 * @return string Value, marked up.
 	 */
 	private function markup_header( $header, $value, $translate ) {
@@ -910,9 +913,9 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @staticvar array $tags_list
 	 *
-	 * @param string $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
-	 * @param string $value Value to translate.
-	 * @return string Translated value.
+	 * @param string       $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
+	 * @param string|array $value  Value to translate. An array for Tags header, string otherwise.
+	 * @return string|array Translated value. An array for Tags header, string otherwise.
 	 */
 	private function translate_header( $header, $value ) {
 		switch ( $header ) {
