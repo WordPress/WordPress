@@ -4622,9 +4622,13 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.4.0
 	 *
+	 * @global array $_registered_pages
+	 *
 	 * @return string URL for link to close Customizer.
 	 */
 	public function get_return_url() {
+		global $_registered_pages;
+
 		$referer                    = wp_get_referer();
 		$excluded_referer_basenames = array( 'customize.php', 'wp-login.php' );
 
@@ -4637,6 +4641,22 @@ final class WP_Customize_Manager {
 		} else {
 			$return_url = home_url( '/' );
 		}
+
+		$return_url_basename = wp_basename( parse_url( $this->return_url, PHP_URL_PATH ) );
+		$return_url_query    = parse_url( $this->return_url, PHP_URL_QUERY );
+
+		if ( 'themes.php' === $return_url_basename && $return_url_query ) {
+			parse_str( $return_url_query, $query_vars );
+
+			/*
+			 * If the return URL is a page added by a theme to the Appearance menu via add_submenu_page(),
+			 * verify that belongs to the active theme, otherwise fall back to the Themes screen.
+			 */
+			if ( isset( $query_vars['page'] ) && ! isset( $_registered_pages[ "appearance_page_{$query_vars['page']}" ] ) ) {
+				$return_url = admin_url( 'themes.php' );
+			}
+		}
+
 		return $return_url;
 	}
 
