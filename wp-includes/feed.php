@@ -683,7 +683,7 @@ function get_feed_build_date( $format ) {
 
 	// Determine the maximum modified time.
 	$datetime = date_create_immutable_from_format(
-		'Y-m-d h:i:s',
+		'Y-m-d H:i:s',
 		max( $modified_times ),
 		new DateTimeZone( 'UTC' )
 	);
