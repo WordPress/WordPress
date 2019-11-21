@@ -902,7 +902,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						if ( ! empty( $plugin_data['AuthorURI'] ) ) {
 							$author = '<a href="' . $plugin_data['AuthorURI'] . '">' . $plugin_data['Author'] . '</a>';
 						}
-						/* translators: %s: Plugin version number. */
+						/* translators: %s: Plugin author name. */
 						$plugin_meta[] = sprintf( __( 'By %s' ), $author );
 					}
 
