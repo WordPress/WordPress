@@ -312,7 +312,7 @@ function wp_debug_mode() {
 	 *
 	 * This filter runs before it can be used by plugins. It is designed for
 	 * non-web run-times. Returning false causes the `WP_DEBUG` and related
-	 * constants to not be checked and the default php values for errors
+	 * constants to not be checked and the default PHP values for errors
 	 * will be used unless you take care to update them yourself.
 	 *
 	 * @since 4.6.0
@@ -990,7 +990,7 @@ function is_admin() {
 }
 
 /**
- * Whether the current request is for a site's admininstrative interface.
+ * Whether the current request is for a site's administrative interface.
  *
  * e.g. `/wp-admin/`
  *
@@ -1527,7 +1527,7 @@ function wp_is_jsonp_request() {
  *
  * @since 5.2.0
  *
- * @return bool True if Accepts or Content-Type headers contain xml, false otherwise.
+ * @return bool True if `Accepts` or `Content-Type` headers contain XML, false otherwise.
  */
 function wp_is_xml_request() {
 	$accepted = array(
