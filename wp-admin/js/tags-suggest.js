@@ -144,15 +144,18 @@
 			}
 		}, options );
 
-		$element.on( 'keydown', function() {
+		var elementAutocomplete = $element.on( 'keydown', function() {
 			$element.removeAttr( 'aria-activedescendant' );
 		} )
-		.autocomplete( options )
-		.autocomplete( 'instance' )._renderItem = function( ul, item ) {
-			return $( '<li role="option" id="wp-tags-autocomplete-' + item.id + '">' )
-				.text( item.name )
-				.appendTo( ul );
-		};
+		.autocomplete( options );
+		// If there is a element, so apply the autocomplete
+		if ( elementAutocomplete.length) {
+			elementAutocomplete.autocomplete( 'instance' )._renderItem = function( ul, item ) {
+				return $( '<li role="option" id="wp-tags-autocomplete-' + item.id + '">' )
+					.text( item.name )
+					.appendTo( ul );
+			};
+		}
 
 		$element.attr( {
 			'role': 'combobox',
