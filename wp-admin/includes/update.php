@@ -9,6 +9,8 @@
 /**
  * Selects the first update version from the update_core option.
  *
+ * @since 2.7.0
+ *
  * @return object|array|false The response from the API on success, false on failure.
  */
 function get_preferred_from_update_core() {
@@ -23,7 +25,9 @@ function get_preferred_from_update_core() {
 }
 
 /**
- * Get available core updates.
+ * Gets available core updates.
+ *
+ * @since 2.7.0
  *
  * @param array $options Set $options['dismissed'] to true to show dismissed upgrades too,
  *                       set $options['available'] to false to skip not-dismissed updates.
@@ -72,13 +76,13 @@ function get_core_updates( $options = array() ) {
 }
 
 /**
- * Gets the best available (and enabled) Auto-Update for WordPress Core.
+ * Gets the best available (and enabled) Auto-Update for WordPress core.
  *
- * If there's 1.2.3 and 1.3 on offer, it'll choose 1.3 if the installation allows it, else, 1.2.3
+ * If there's 1.2.3 and 1.3 on offer, it'll choose 1.3 if the installation allows it, else, 1.2.3.
  *
  * @since 3.7.0
  *
- * @return array|false False on failure, otherwise the core update offering.
+ * @return object|false The core update offering on success, false on failure.
  */
 function find_core_auto_update() {
 	$updates = get_site_transient( 'update_core' );
@@ -113,7 +117,7 @@ function find_core_auto_update() {
  *
  * @param string $version Version string to query.
  * @param string $locale  Locale to query.
- * @return bool|array False on failure. An array of checksums on success.
+ * @return array|false An array of checksums on success, false on failure.
  */
 function get_core_checksums( $version, $locale ) {
 	$http_url = 'http://api.wordpress.org/core/checksums/1.0/?' . http_build_query( compact( 'version', 'locale' ), null, '&' );
@@ -156,6 +160,10 @@ function get_core_checksums( $version, $locale ) {
 }
 
 /**
+ * Dismisses core update.
+ *
+ * @since 2.7.0
+ *
  * @param object $update
  * @return bool
  */
@@ -166,6 +174,10 @@ function dismiss_core_update( $update ) {
 }
 
 /**
+ * Undismisses core update.
+ *
+ * @since 2.7.0
+ *
  * @param string $version
  * @param string $locale
  * @return bool
@@ -183,9 +195,13 @@ function undismiss_core_update( $version, $locale ) {
 }
 
 /**
- * @param string $version
- * @param string $locale
- * @return object|false
+ * Finds the available update for WordPress core.
+ *
+ * @since 2.7.0
+ *
+ * @param string $version Version string to find the update for.
+ * @param string $locale  Locale to find the update for.
+ * @return object|false The core update offering on success, false on failure.
  */
 function find_core_update( $version, $locale ) {
 	$from_api = get_site_transient( 'update_core' );
@@ -204,6 +220,8 @@ function find_core_update( $version, $locale ) {
 }
 
 /**
+ * @since 2.3.0
+ *
  * @param string $msg
  * @return string
  */
@@ -255,6 +273,8 @@ function core_update_footer( $msg = '' ) {
 }
 
 /**
+ * @since 2.3.0
+ *
  * @global string $pagenow
  * @return false|void
  */
@@ -301,7 +321,11 @@ function update_nag() {
 	echo "<div class='update-nag'>$msg</div>";
 }
 
-// Called directly from dashboard
+/**
+ * Displays WordPress version and active theme in the 'At a Glance' dashboard widget.
+ *
+ * @since 2.5.0
+ */
 function update_right_now_message() {
 	$theme_name = wp_get_theme();
 	if ( current_user_can( 'switch_themes' ) ) {
@@ -380,6 +404,8 @@ function wp_plugin_update_rows() {
 
 /**
  * Displays update information for a plugin.
+ *
+ * @since 2.3.0
  *
  * @param string $file        Plugin basename.
  * @param array  $plugin_data Plugin information.
@@ -540,6 +566,8 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 }
 
 /**
+ * @since 2.9.0
+ *
  * @return array
  */
 function get_theme_updates() {
@@ -578,6 +606,8 @@ function wp_theme_update_rows() {
 
 /**
  * Displays update information for a theme.
+ *
+ * @since 3.1.0
  *
  * @param string   $theme_key Theme stylesheet.
  * @param WP_Theme $theme     Theme object.
@@ -687,6 +717,8 @@ function wp_theme_update_row( $theme_key, $theme ) {
 }
 
 /**
+ * @since 2.7.0
+ *
  * @global int $upgrading
  * @return false|void
  */
