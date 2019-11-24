@@ -130,7 +130,7 @@
 	color: #72777c;
 }
 
-.welcome-panel a {
+.welcome-panel li a {
 	text-decoration: none;
 }
 
@@ -257,6 +257,16 @@
 
 .welcome-panel .welcome-widgets-menus:before {
 	content: "\f116";
+	top: -2px;
+}
+
+.welcome-panel .welcome-widgets:before {
+	content: "\f538";
+	top: -2px;
+}
+
+.welcome-panel .welcome-menus:before {
+	content: "\f163";
 	top: -2px;
 }
 
@@ -886,8 +896,9 @@ body #dashboard-widgets .postbox form .submit {
 	min-width: 0;
 }
 
-#dashboard-widgets a,
-#dashboard-widgets .button-link {
+#dashboard-widgets li a,
+#dashboard-widgets .button-link,
+.community-events-footer a {
 	text-decoration: none;
 }
 
