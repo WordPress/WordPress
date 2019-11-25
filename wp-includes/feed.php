@@ -683,7 +683,13 @@ function get_feed_build_date( $format ) {
 	}
 
 	// Determine the maximum modified time.
-	$max_modified_time = mysql2date( $format, max( $modified_times ), false );
+	$datetime = date_create_immutable_from_format(
+		'Y-m-d H:i:s',
+		max( $modified_times ),
+		new DateTimeZone( 'UTC' )
+	);
+
+	$max_modified_time = $datetime->format( $format );
 
 	/**
 	 * Filters the date the last post or comment in the query was modified.
