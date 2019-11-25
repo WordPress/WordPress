@@ -189,7 +189,7 @@ function form_option( $option ) {
  * Loads and caches all autoloaded options, if available or all options.
  *
  * @since 2.2.0
- * @since 5.4.0 The `$force_cache` parameter was added.
+ * @since 5.3.1 The `$force_cache` parameter was added.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
