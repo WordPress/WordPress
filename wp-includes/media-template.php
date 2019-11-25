@@ -318,7 +318,7 @@ function wp_print_media_templates() {
 		<a href="<?php echo esc_url( add_query_arg( 'mode', 'list', $_SERVER['REQUEST_URI'] ) ); ?>" class="view-list">
 			<span class="screen-reader-text"><?php _e( 'List View' ); ?></span>
 		</a>
-		<a href="<?php echo esc_url( add_query_arg( 'mode', 'grid', $_SERVER['REQUEST_URI'] ) ); ?>" class="view-grid current">
+		<a href="<?php echo esc_url( add_query_arg( 'mode', 'grid', $_SERVER['REQUEST_URI'] ) ); ?>" class="view-grid current" aria-current="page">
 			<span class="screen-reader-text"><?php _e( 'Grid View' ); ?></span>
 		</a>
 	</script>
