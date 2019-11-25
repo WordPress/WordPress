@@ -214,7 +214,7 @@ function image_downsize( $id, $size = 'medium' ) {
 	// If the file isn't an image, attempt to replace its URL with a rendered image from its meta.
 	// Otherwise, a non-image type could be returned.
 	if ( ! $is_image ) {
-		if ( ! empty( $meta['sizes'] ) ) {
+		if ( ! empty( $meta['sizes']['full'] ) ) {
 			$img_url          = str_replace( $img_url_basename, $meta['sizes']['full']['file'], $img_url );
 			$img_url_basename = $meta['sizes']['full']['file'];
 			$width            = $meta['sizes']['full']['width'];
