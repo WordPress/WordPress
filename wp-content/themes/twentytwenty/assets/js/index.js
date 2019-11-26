@@ -71,18 +71,21 @@ if ( ! Element.prototype.matches ) {
 
 // Add a class to the body for when touch is enabled for browsers that don't support media queries
 // for interaction media features. Adapted from <https://codepen.io/Ferie/pen/vQOMmO>
-( function() {
-	var matchMedia = function() {
-		// Include the 'heartz' as a way to have a non matching MQ to help terminate the join. See <https://git.io/vznFH>.
-		var prefixes = [ '-webkit-', '-moz-', '-o-', '-ms-' ];
-		var query = [ '(', prefixes.join( 'touch-enabled),(' ), 'heartz', ')' ].join( '' );
-		return window.matchMedia && window.matchMedia( query ).matches;
-	};
+twentytwenty.touchEnabled = {
 
-	if ( ( 'ontouchstart' in window ) || ( window.DocumentTouch && document instanceof window.DocumentTouch ) || matchMedia() ) {
-		document.body.classList.add( 'touch-enabled' );
+	init: function() {
+		var matchMedia = function() {
+			// Include the 'heartz' as a way to have a non matching MQ to help terminate the join. See <https://git.io/vznFH>.
+			var prefixes = [ '-webkit-', '-moz-', '-o-', '-ms-' ];
+			var query = [ '(', prefixes.join( 'touch-enabled),(' ), 'heartz', ')' ].join( '' );
+			return window.matchMedia && window.matchMedia( query ).matches;
+		};
+
+		if ( ( 'ontouchstart' in window ) || ( window.DocumentTouch && document instanceof window.DocumentTouch ) || matchMedia() ) {
+			document.body.classList.add( 'touch-enabled' );
+		}
 	}
-}() );
+}; // twentytwenty.touchEnabled
 
 /*	-----------------------------------------------------------------------------------------------
 	Cover Modals
@@ -745,6 +748,7 @@ twentytwentyDomReady( function() {
 	twentytwenty.smoothScroll.init();	// Smooth scroll to anchor link or a specific element
 	twentytwenty.modalMenu.init();	// Modal Menu
 	twentytwenty.primaryMenu.init();	// Primary Menu
+	twentytwenty.touchEnabled.init();	// Add class to body if device is touch-enabled
 } );
 
 /*	-----------------------------------------------------------------------------------------------
