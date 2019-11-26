@@ -173,7 +173,7 @@ function wp_install_language_form( $languages ) {
 				'<option value="%s" lang="%s" data-continue="%s"%s>%s</option>' . "\n",
 				esc_attr( $language['language'] ),
 				esc_attr( current( $language['iso'] ) ),
-				esc_attr( $language['strings']['continue'] ),
+				esc_attr( $language['strings']['continue'] ?: 'Continue' ),
 				in_array( $language['language'], $installed_languages ) ? ' data-installed="1"' : '',
 				esc_html( $language['native_name'] )
 			);
@@ -187,7 +187,7 @@ function wp_install_language_form( $languages ) {
 			'<option value="%s" lang="%s" data-continue="%s"%s>%s</option>' . "\n",
 			esc_attr( $language['language'] ),
 			esc_attr( current( $language['iso'] ) ),
-			esc_attr( $language['strings']['continue'] ),
+			esc_attr( $language['strings']['continue'] ?: 'Continue' ),
 			in_array( $language['language'], $installed_languages ) ? ' data-installed="1"' : '',
 			esc_html( $language['native_name'] )
 		);
