@@ -1898,10 +1898,6 @@ div.action-links,
 		padding-top: 10px;
 	}
 
-	.widefat * {
-		word-wrap: normal;
-	}
-
 	/* Make row actions more easy to select on mobile */
 	body:not(.plugins-php) .row-actions {
 		display: -ms-grid;
