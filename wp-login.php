@@ -1254,7 +1254,13 @@ switch ( $action ) {
 				$admin_email_check_interval = (int) apply_filters( 'admin_email_check_interval', 6 * MONTH_IN_SECONDS );
 
 				if ( $admin_email_check_interval > 0 && time() > $admin_email_lifespan ) {
-					$redirect_to = add_query_arg( 'action', 'confirm_admin_email', wp_login_url( $redirect_to ) );
+					$redirect_to = add_query_arg(
+						array(
+							'action'  => 'confirm_admin_email',
+							'wp_lang' => get_user_locale( $user ),
+						),
+						wp_login_url( $redirect_to )
+					);
 				}
 			}
 
