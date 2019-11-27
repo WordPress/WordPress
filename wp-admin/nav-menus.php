@@ -920,7 +920,12 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 								if ( isset( $menu_items ) && 0 == count( $menu_items ) ) {
 									$hide_style = 'style="display: none;"';
 								}
-								$starter_copy = ( $one_theme_location_no_menus ) ? __( 'Edit your default menu by adding or removing items. Drag each item into the order you prefer. Click Create Menu to save your changes.' ) : __( 'Drag each item into the order you prefer. Click the arrow on the right of the item to reveal additional configuration options.' );
+
+								if ( $one_theme_location_no_menus ) {
+									$starter_copy = __( 'Edit your default menu by adding or removing items. Drag the items into the order you prefer. Click Create Menu to save your changes.' );
+								} else {
+									$starter_copy = __( 'Drag the items into the order you prefer. Click the arrow on the right of the item to reveal additional configuration options.' );
+								}
 								?>
 							<div class="drag-instructions post-body-plain" <?php echo $hide_style; ?>>
 								<p><?php echo $starter_copy; ?></p>
