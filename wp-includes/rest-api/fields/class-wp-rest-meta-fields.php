@@ -126,8 +126,8 @@ abstract class WP_REST_Meta_Fields {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array           $meta      Array of meta parsed from the request.
-	 * @param int             $object_id Object ID to fetch meta for.
+	 * @param array $meta      Array of meta parsed from the request.
+	 * @param int   $object_id Object ID to fetch meta for.
 	 * @return null|WP_Error Null on success, WP_Error object on failure.
 	 */
 	public function update_value( $meta, $object_id ) {
@@ -435,7 +435,7 @@ abstract class WP_REST_Meta_Fields {
 
 			$rest_args['schema'] = $this->default_additional_properties_to_false( $rest_args['schema'] );
 
-			if ( ! in_array( $type, array( 'string', 'boolean', 'integer', 'number', 'array', 'object' ) ) ) {
+			if ( ! in_array( $type, array( 'string', 'boolean', 'integer', 'number', 'array', 'object' ), true ) ) {
 				continue;
 			}
 
