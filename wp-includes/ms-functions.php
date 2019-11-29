@@ -488,7 +488,7 @@ function wpmu_validate_user_signup( $user_name, $user_email ) {
 	/** This filter is documented in wp-includes/user.php */
 	$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
 
-	if ( in_array( strtolower( $user_name ), array_map( 'strtolower', $illegal_logins ) ) ) {
+	if ( in_array( strtolower( $user_name ), array_map( 'strtolower', $illegal_logins ), true ) ) {
 		$errors->add( 'user_name', __( 'Sorry, that username is not allowed.' ) );
 	}
 

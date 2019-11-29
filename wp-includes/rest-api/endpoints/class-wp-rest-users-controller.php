@@ -1137,7 +1137,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		/** This filter is documented in wp-includes/user.php */
 		$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
 
-		if ( in_array( strtolower( $username ), array_map( 'strtolower', $illegal_logins ) ) ) {
+		if ( in_array( strtolower( $username ), array_map( 'strtolower', $illegal_logins ), true ) ) {
 			return new WP_Error( 'rest_user_invalid_username', __( 'Sorry, that username is not allowed.' ), array( 'status' => 400 ) );
 		}
 
