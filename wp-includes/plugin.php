@@ -902,19 +902,13 @@ function _wp_call_all_hook( $args ) {
  *              and the function always returns a string.
  * @access private
  *
- * @global array $wp_filter Stores all of the filters and actions.
- * @staticvar int $filter_id_count
- *
  * @param string   $tag      Unused. The name of the filter to build ID for.
  * @param callable $function The function to generate ID for.
- * @param int      $priority Unused. The order in which the functions associated
- *                           with a particular action are executed.
- * @return string Unique ID for usage as array key.
+ * @param int      $priority Unused. The order in which the functions
+ *                           associated with a particular action are executed.
+ * @return string Unique function ID for usage as array key.
  */
 function _wp_filter_build_unique_id( $tag, $function, $priority ) {
-	global $wp_filter;
-	static $filter_id_count = 0;
-
 	if ( is_string( $function ) ) {
 		return $function;
 	}
