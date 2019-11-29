@@ -64,14 +64,15 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @param string   $tag             The name of the filter to hook the $function_to_add callback to.
 	 * @param callable $function_to_add The callback to be run when the filter is applied.
-	 * @param int      $priority        The order in which the functions associated with a
-	 *                                  particular action are executed. Lower numbers correspond with
-	 *                                  earlier execution, and functions with the same priority are executed
-	 *                                  in the order in which they were added to the action.
+	 * @param int      $priority        The order in which the functions associated with a particular action
+	 *                                  are executed. Lower numbers correspond with earlier execution,
+	 *                                  and functions with the same priority are executed in the order
+	 *                                  in which they were added to the action.
 	 * @param int      $accepted_args   The number of arguments the function accepts.
 	 */
 	public function add_filter( $tag, $function_to_add, $priority, $accepted_args ) {
-		$idx              = _wp_filter_build_unique_id( $tag, $function_to_add, $priority );
+		$idx = _wp_filter_build_unique_id( $tag, $function_to_add, $priority );
+
 		$priority_existed = isset( $this->callbacks[ $priority ] );
 
 		$this->callbacks[ $priority ][ $idx ] = array(
@@ -162,8 +163,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param string   $tag                The filter hook to which the function to be removed is hooked. Used
-	 *                                     for building the callback ID when SPL is not available.
+	 * @param string   $tag                The filter hook to which the function to be removed is hooked.
 	 * @param callable $function_to_remove The callback to be removed from running when the filter is applied.
 	 * @param int      $priority           The exact priority used when adding the original filter callback.
 	 * @return bool Whether the callback existed before it was removed.
@@ -189,8 +189,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param string        $tag               Optional. The name of the filter hook. Used for building
-	 *                                         the callback ID when SPL is not available. Default empty.
+	 * @param string        $tag               Optional. The name of the filter hook. Default empty.
 	 * @param callable|bool $function_to_check Optional. The callback to check for. Default false.
 	 * @return bool|int The priority of that hook is returned, or false if the function is not attached.
 	 */
