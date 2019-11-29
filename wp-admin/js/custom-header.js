@@ -33,7 +33,7 @@
 		 * @since 3.5.0
 		 * @deprecated 4.1.0
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		$('#choose-from-library-link').click( function( event ) {
 			var $el = $(this);
@@ -71,7 +71,7 @@
 			 * @since 3.5.0
 			 * @deprecated 4.1.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			frame.on( 'select', function() {
 				// Grab the selected attachment.

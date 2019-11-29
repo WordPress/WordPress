@@ -21,7 +21,7 @@
 		 * Create the default states.
 		 *
 		 * @since 4.9.0
-		 * @returns {void}
+		 * @return {void}
 		 */
 		createStates: function createStates() {
 			this.states.add([
@@ -88,7 +88,7 @@
 		 * @param {Backbone.Model} options.model - Model.
 		 * @param {jQuery}         options.el - Control field container element.
 		 * @param {jQuery}         options.syncContainer - Container element where fields are synced for the server.
-		 * @returns {void}
+		 * @return {void}
 		 */
 		initialize: function initialize( options ) {
 			var control = this;
@@ -122,7 +122,7 @@
 		 * Update the selected attachments if necessary.
 		 *
 		 * @since 4.9.0
-		 * @returns {void}
+		 * @return {void}
 		 */
 		updateSelectedAttachments: function updateSelectedAttachments() {
 			var control = this, newIds, oldIds, removedIds, addedIds, addedQuery;
@@ -155,7 +155,7 @@
 		 * Render preview.
 		 *
 		 * @since 4.9.0
-		 * @returns {void}
+		 * @return {void}
 		 */
 		renderPreview: function renderPreview() {
 			var control = this, previewContainer, previewTemplate, data;
@@ -176,7 +176,7 @@
 		 * Determine whether there are selected attachments.
 		 *
 		 * @since 4.9.0
-		 * @returns {boolean} Selected.
+		 * @return {boolean} Selected.
 		 */
 		isSelected: function isSelected() {
 			var control = this;
@@ -192,7 +192,7 @@
 		 * Open the media select frame to edit images.
 		 *
 		 * @since 4.9.0
-		 * @returns {void}
+		 * @return {void}
 		 */
 		editMedia: function editMedia() {
 			var control = this, selection, mediaFrame, mediaFrameProps;
@@ -255,7 +255,7 @@
 		 * Open the media select frame to chose an item.
 		 *
 		 * @since 4.9.0
-		 * @returns {void}
+		 * @return {void}
 		 */
 		selectMedia: function selectMedia() {
 			var control = this, selection, mediaFrame, mediaFrameProps;
@@ -321,7 +321,7 @@
 		 *
 		 * @since 4.9.0
 		 * @param {wp.media.models.Attachment} attachment - Attachment.
-		 * @returns {void}
+		 * @return {void}
 		 */
 		handleAttachmentDestroy: function handleAttachmentDestroy( attachment ) {
 			var control = this;

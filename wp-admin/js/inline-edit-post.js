@@ -36,7 +36,7 @@ window.wp = window.wp || {};
 	 * @memberof inlineEditPost
 	 * @since 2.7.0
 	 *
-	 * @returns {void}
+	 * @return {void}
 	 */
 	init : function(){
 		var t = this, qeRow = $('#inline-edit'), bulkRow = $('#bulk-edit');
@@ -48,7 +48,7 @@ window.wp = window.wp || {};
 		/**
 		 * Binds the escape key to revert the changes and close the quick editor.
 		 *
-		 * @returns {boolean} The result of revert.
+		 * @return {boolean} The result of revert.
 		 */
 		qeRow.keyup(function(e){
 			// Revert changes if escape key is pressed.
@@ -60,7 +60,7 @@ window.wp = window.wp || {};
 		/**
 		 * Binds the escape key to revert the changes and close the bulk editor.
 		 *
-		 * @returns {boolean} The result of revert.
+		 * @return {boolean} The result of revert.
 		 */
 		bulkRow.keyup(function(e){
 			// Revert changes if escape key is pressed.
@@ -72,7 +72,7 @@ window.wp = window.wp || {};
 		/**
 		 * Reverts changes and close the quick editor if the cancel button is clicked.
 		 *
-		 * @returns {boolean} The result of revert.
+		 * @return {boolean} The result of revert.
 		 */
 		$( '.cancel', qeRow ).click( function() {
 			return inlineEditPost.revert();
@@ -81,7 +81,7 @@ window.wp = window.wp || {};
 		/**
 		 * Saves changes in the quick editor if the save(named: update) button is clicked.
 		 *
-		 * @returns {boolean} The result of save.
+		 * @return {boolean} The result of save.
 		 */
 		$( '.save', qeRow ).click( function() {
 			return inlineEditPost.save(this);
@@ -90,7 +90,7 @@ window.wp = window.wp || {};
 		/**
 		 * If enter is pressed, and the target is not the cancel button, save the post.
 		 *
-		 * @returns {boolean} The result of save.
+		 * @return {boolean} The result of save.
 		 */
 		$('td', qeRow).keydown(function(e){
 			if ( e.which === 13 && ! $( e.target ).hasClass( 'cancel' ) ) {
@@ -101,7 +101,7 @@ window.wp = window.wp || {};
 		/**
 		 * Reverts changes and close the bulk editor if the cancel button is clicked.
 		 *
-		 * @returns {boolean} The result of revert.
+		 * @return {boolean} The result of revert.
 		 */
 		$( '.cancel', bulkRow ).click( function() {
 			return inlineEditPost.revert();
@@ -247,7 +247,7 @@ window.wp = window.wp || {};
 	 *
 	 * @param {number|Object} id The id of the clicked post or an element within a post
 	 *                           table row.
-	 * @returns {boolean} Always returns false at the end of execution.
+	 * @return {boolean} Always returns false at the end of execution.
 	 */
 	edit : function(id) {
 		var t = this, fields, editRow, rowData, status, pageOpt, pageLevel, nextPage, pageLoop = true, nextLevel, f, val, pw;
@@ -285,7 +285,7 @@ window.wp = window.wp || {};
 			/**
 			 * Replaces the image for a Twemoji(Twitter emoji) with it's alternate text.
 			 *
-			 * @returns Alternate text from the image.
+			 * @return {string} Alternate text from the image.
 			 */
 			val.find( 'img' ).replaceWith( function() { return this.alt; } );
 			val = val.text();
@@ -385,9 +385,9 @@ window.wp = window.wp || {};
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param   {int}     id The id for the post that has been changed.
-	 * @returns {boolean}    false, so the form does not submit when pressing
-	 *                       Enter on a focused field.
+	 * @param  {int}     id The id for the post that has been changed.
+	 * @return {boolean}    False, so the form does not submit when pressing
+	 *                      Enter on a focused field.
 	 */
 	save : function(id) {
 		var params, fields, page = $('.post_status_page').val() || '';
@@ -453,7 +453,7 @@ window.wp = window.wp || {};
 	 * @memberof    inlineEditPost
 	 * @since 2.7.0
 	 *
-	 * @returns {boolean} Always returns false.
+	 * @return {boolean} Always returns false.
 	 */
 	revert : function(){
 		var $tableWideFat = $( '.widefat' ),
@@ -497,8 +497,8 @@ window.wp = window.wp || {};
 	 * @memberof    inlineEditPost
 	 * @since 2.7.0
 	 *
-	 * @param   {Object} o DOM row object to get the id for.
-	 * @returns {string}   The post id extracted from the table row in the object.
+	 * @param  {Object} o DOM row object to get the id for.
+	 * @return {string}   The post id extracted from the table row in the object.
 	 */
 	getId : function(o) {
 		var id = $(o).closest('tr').attr('id'),

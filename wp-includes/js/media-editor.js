@@ -21,7 +21,7 @@
 	 *
 	 * @param {object} attrs Map of props from a shortcode or settings.
 	 * @param {string} key The key within the passed map to check for a value.
-	 * @returns {mixed|undefined} The original or coerced value of key within attrs.
+	 * @return {mixed|undefined} The original or coerced value of key within attrs.
 	 */
 	wp.media.coerce = function ( attrs, key ) {
 		if ( _.isUndefined( attrs[ key ] ) && ! _.isUndefined( this.defaults[ key ] ) ) {
@@ -43,7 +43,7 @@
 		 *
 		 * @param {Object} [props={}] Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
-		 * @returns {Object} Joined props
+		 * @return {Object} Joined props
 		 */
 		props: function( props, attachment ) {
 			var link, linkUrl, size, sizes,
@@ -109,7 +109,7 @@
 		 *
 		 * @param {Object} props Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
-		 * @returns {string} The link markup
+		 * @return {string} The link markup
 		 */
 		link: function( props, attachment ) {
 			var options;
@@ -135,7 +135,7 @@
 		 *
 		 * @param {Object} props Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
-		 * @returns {string} The audio shortcode
+		 * @return {string} The audio shortcode
 		 */
 		audio: function( props, attachment ) {
 			return wp.media.string._audioVideo( 'audio', props, attachment );
@@ -145,7 +145,7 @@
 		 *
 		 * @param {Object} props Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
-		 * @returns {string} The video shortcode
+		 * @return {string} The video shortcode
 		 */
 		video: function( props, attachment ) {
 			return wp.media.string._audioVideo( 'video', props, attachment );
@@ -158,7 +158,7 @@
 		 * @param {string} type The shortcode tag name: 'audio' or 'video'.
 		 * @param {Object} props Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
-		 * @returns {string} The media shortcode
+		 * @return {string} The media shortcode
 		 */
 		_audioVideo: function( type, props, attachment ) {
 			var shortcode, html, extension;
@@ -205,7 +205,7 @@
 		 *
 		 * @param {Object} props Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
-		 * @returns {string}
+		 * @return {string}
 		 */
 		image: function( props, attachment ) {
 			var img = {},
@@ -345,10 +345,10 @@
 			 * Retrieve attachments based on the properties of the passed shortcode
 			 *
 			 * @param {wp.shortcode} shortcode An instance of wp.shortcode().
-			 * @returns {wp.media.model.Attachments} A Backbone.Collection containing
-			 *      the media items belonging to a collection.
-			 *      The query[ this.tag ] property is a Backbone.Model
-			 *          containing the 'props' for the collection.
+			 * @return {wp.media.model.Attachments} A Backbone.Collection containing
+			 *                                      the media items belonging to a collection.
+			 *                                      The query[ this.tag ] property is a Backbone.Model
+			 *                                      containing the 'props' for the collection.
 			 */
 			attachments: function( shortcode ) {
 				var shortcodeString = shortcode.string(),
@@ -414,7 +414,7 @@
 			 *      the media items belonging to a collection.
 			 *      The query[ this.tag ] property is a Backbone.Model
 			 *          containing the 'props' for the collection.
-			 * @returns {wp.shortcode}
+			 * @return {wp.shortcode}
 			 */
 			shortcode: function( attachments ) {
 				var props = attachments.props.toJSON(),
@@ -483,7 +483,7 @@
 			 *
 			 * @this wp.media.{prop}
 			 *
-			 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
+			 * @return {wp.media.view.MediaFrame.Select} A media workflow.
 			 */
 			edit: function( content ) {
 				var shortcode = wp.shortcode.next( this.tag, content ),
@@ -603,7 +603,7 @@
 		/**
 		 * Get the featured image post ID
 		 *
-		 * @returns {wp.media.view.settings.post.featuredImageId|number}
+		 * @return {wp.media.view.settings.post.featuredImageId|number}
 		 */
 		get: function() {
 			return wp.media.view.settings.post.featuredImageId;
@@ -642,7 +642,7 @@
 		 *
 		 * @this wp.media.featuredImage
 		 *
-		 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
+		 * @return {wp.media.view.MediaFrame.Select} A media workflow.
 		 */
 		frame: function() {
 			if ( this._frame ) {
@@ -775,7 +775,7 @@
 		 *
 		 * @this wp.media.editor
 		 *
-		 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
+		 * @return {wp.media.view.MediaFrame.Select} A media workflow.
 		 */
 		add: function( id, options ) {
 			var workflow = this.get( id );
@@ -879,7 +879,7 @@
 		 *
 		 * @param {string} [id=''] A slug used to identify the workflow.
 		 *
-		 * @returns {wpActiveEditor|string|tinymce.activeEditor.id}
+		 * @return {wpActiveEditor|string|tinymce.activeEditor.id}
 		 */
 		id: function( id ) {
 			if ( id ) {
@@ -905,7 +905,7 @@
 		 *
 		 * @this wp.media.editor
 		 *
-		 * @returns {wp.media.view.MediaFrame} A media workflow.
+		 * @return {wp.media.view.MediaFrame} A media workflow.
 		 */
 		get: function( id ) {
 			id = this.id( id );
@@ -930,7 +930,7 @@
 			 *
 			 * @param {Object} props Attachment details (align, link, size, etc).
 			 * @param {Object} attachment The attachment object, media version of Post.
-			 * @returns {Promise}
+			 * @return {Promise}
 			 */
 			attachment: function( props, attachment ) {
 				var caption = attachment.caption,
@@ -984,7 +984,7 @@
 			 * Called when 'Insert From URL' source is not an image. Example: YouTube url.
 			 *
 			 * @param {Object} embed
-			 * @returns {Promise}
+			 * @return {Promise}
 			 */
 			link: function( embed ) {
 				return wp.media.post( 'send-link-to-editor', {
@@ -1004,7 +1004,7 @@
 		 *
 		 * @this wp.media.editor
 		 *
-		 * @returns {wp.media.view.MediaFrame}
+		 * @return {wp.media.view.MediaFrame}
 		 */
 		open: function( id, options ) {
 			var workflow;

@@ -21,7 +21,7 @@
 		 *
 		 * @since 3.5.0
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		$('#background-color').wpColorPicker({
 			change: function( event, ui ) {
@@ -37,7 +37,7 @@
 		 *
 		 * @since 4.7.0
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		$( 'select[name="background-size"]' ).change( function() {
 			bgImage.css( 'background-size', $( this ).val() );
@@ -48,7 +48,7 @@
 		 *
 		 * @since 4.7.0
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		$( 'input[name="background-position"]' ).change( function() {
 			bgImage.css( 'background-position', $( this ).val() );
@@ -59,7 +59,7 @@
 		 *
 		 * @since 3.0.0
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		$( 'input[name="background-repeat"]' ).change( function() {
 			bgImage.css( 'background-repeat', $( this ).is( ':checked' ) ? 'repeat' : 'no-repeat' );
@@ -70,7 +70,7 @@
 		 *
 		 * @since 4.7.0
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		$( 'input[name="background-attachment"]' ).change( function() {
 			bgImage.css( 'background-attachment', $( this ).is( ':checked' ) ? 'scroll' : 'fixed' );
@@ -81,7 +81,7 @@
 		 *
 		 * @since 3.5.0
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		$('#choose-from-library-link').click( function( event ) {
 			var $el = $(this);
@@ -121,7 +121,7 @@
 			 *
 			 * @since 3.5.0
 			 *
-			 * @returns {void}
+			 * @return {void}
  			 */
 			frame.on( 'select', function() {
 				// Grab the selected attachment.

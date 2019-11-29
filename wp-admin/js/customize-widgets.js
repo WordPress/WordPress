@@ -1039,7 +1039,7 @@
 		 * over when copying sanitized values over to the form loaded.
 		 *
 		 * @param {jQuery} container element in which to look for inputs
-		 * @returns {jQuery} inputs
+		 * @return {jQuery} inputs
 		 * @private
 		 */
 		_getInputs: function( container ) {
@@ -1051,7 +1051,7 @@
 		 * This string can be used to compare whether or not the form has all of the same fields.
 		 *
 		 * @param {jQuery} inputs
-		 * @returns {string}
+		 * @return {string}
 		 * @private
 		 */
 		_getInputsSignature: function( inputs ) {
@@ -1074,7 +1074,7 @@
 		 * Get the state for an input depending on its type.
 		 *
 		 * @param {jQuery|Element} input
-		 * @returns {string|boolean|array|*}
+		 * @return {string|boolean|array|*}
 		 * @private
 		 */
 		_getInputState: function( input ) {
@@ -1340,7 +1340,7 @@
 		 *
 		 * @param {Boolean} expanded
 		 * @param {Object} [params]
-		 * @returns {Boolean} False if state already applied.
+		 * @return {Boolean} False if state already applied.
 		 */
 		_toggleExpanded: api.Section.prototype._toggleExpanded,
 
@@ -1348,7 +1348,7 @@
 		 * @since 4.1.0
 		 *
 		 * @param {Object} [params]
-		 * @returns {Boolean} False if already expanded.
+		 * @return {Boolean} False if already expanded.
 		 */
 		expand: api.Section.prototype.expand,
 
@@ -1365,7 +1365,7 @@
 		 * @since 4.1.0
 		 *
 		 * @param {Object} [params]
-		 * @returns {Boolean} False if already collapsed.
+		 * @return {Boolean} False if already collapsed.
 		 */
 		collapse: api.Section.prototype.collapse,
 
@@ -1495,7 +1495,7 @@
 		/**
 		 * Get the position (index) of the widget in the containing sidebar
 		 *
-		 * @returns {Number}
+		 * @return {Number}
 		 */
 		getWidgetSidebarPosition: function() {
 			var sidebarWidgetIds, position;
@@ -1652,7 +1652,7 @@
 				/**
 				 * Update the notice.
 				 *
-				 * @returns {void}
+				 * @return {void}
 				 */
 				updateNotice = function() {
 					var activeSectionCount = getActiveSectionCount(), someRenderedMessage, nonRenderedAreaCount, registeredAreaCount;
@@ -1708,7 +1708,7 @@
 		 *
 		 * @since 4.4.0
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		isContextuallyActive: function() {
 			var panel = this;
@@ -2061,7 +2061,7 @@
 
 		/**
 		 * @param {string} widgetId or an id_base for adding a previously non-existing widget.
-		 * @returns {object|false} widget_form control instance, or false on error.
+		 * @return {object|false} widget_form control instance, or false on error.
 		 */
 		addWidget: function( widgetId ) {
 			var self = this, controlHtml, $widget, controlType = 'widget_form', controlContainer, controlConstructor,
@@ -2330,7 +2330,7 @@
 
 	/**
 	 * @param {String} widgetId
-	 * @returns {Object}
+	 * @return {Object}
 	 */
 	function parseWidgetId( widgetId ) {
 		var matches, parsed = {
@@ -2352,7 +2352,7 @@
 
 	/**
 	 * @param {String} widgetId
-	 * @returns {String} settingId
+	 * @return {String} settingId
 	 */
 	function widgetIdToSettingId( widgetId ) {
 		var parsed = parseWidgetId( widgetId ), settingId;

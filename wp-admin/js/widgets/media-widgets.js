@@ -45,7 +45,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 *
 		 * @param {Object} options - Options.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		initialize: function initialize( options ) {
 			_.bindAll( this, 'handleDisplaySettingChange' );
@@ -56,7 +56,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * Sync changes to the current display settings back into the current customized.
 		 *
 		 * @param {Backbone.Model} displaySettings - Modified display settings.
-		 * @returns {void}
+		 * @return {void}
 		 */
 		handleDisplaySettingChange: function handleDisplaySettingChange( displaySettings ) {
 			this.get( 'selectedDisplaySettings' ).set( displaySettings.attributes );
@@ -71,7 +71,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * settings.
 		 *
 		 * @param {Backbone.Model} model - Display settings model.
-		 * @returns {Backbone.Model} Display settings model.
+		 * @return {Backbone.Model} Display settings model.
 		 */
 		display: function getDisplaySettingsModel( model ) {
 			var display, selectedDisplaySettings = this.get( 'selectedDisplaySettings' );
@@ -101,7 +101,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * @since 4.9.0
 		 *
 		 * @param {object} options - Options.
-		 * @returns {void}
+		 * @return {void}
 		 */
 		initialize: function( options ) {
 			var view = this, embedController; // eslint-disable-line consistent-this
@@ -117,7 +117,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 *
 		 * Forked override of {wp.media.view.Embed#refresh()} to suppress irrelevant "link text" field.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		refresh: function refresh() {
 			/**
@@ -136,7 +136,7 @@ wp.mediaWidgets = ( function( $ ) {
 					 * Set the disabled state on the Add to Widget button.
 					 *
 					 * @param {boolean} disabled - Disabled.
-					 * @returns {void}
+					 * @return {void}
 					 */
 					setAddToWidgetButtonDisabled: function setAddToWidgetButtonDisabled( disabled ) {
 						this.views.parent.views.parent.views.get( '.media-frame-toolbar' )[0].$el.find( '.media-button-select' ).prop( 'disabled', disabled );
@@ -146,7 +146,7 @@ wp.mediaWidgets = ( function( $ ) {
 					 * Set or clear an error notice.
 					 *
 					 * @param {string} notice - Notice.
-					 * @returns {void}
+					 * @return {void}
 					 */
 					setErrorNotice: function setErrorNotice( notice ) {
 						var embedLinkView = this, noticeContainer; // eslint-disable-line consistent-this
@@ -175,7 +175,7 @@ wp.mediaWidgets = ( function( $ ) {
 					 *
 					 * @since 4.9.0
 					 *
-					 * @returns {void}
+					 * @return {void}
 					 */
 					updateoEmbed: function() {
 						var embedLinkView = this, url; // eslint-disable-line consistent-this
@@ -200,7 +200,7 @@ wp.mediaWidgets = ( function( $ ) {
 					/**
 					 * Fetch media.
 					 *
-					 * @returns {void}
+					 * @return {void}
 					 */
 					fetch: function() {
 						var embedLinkView = this, fetchSuccess, matches, fileExt, urlParser, url, re, youTubeEmbedMatch; // eslint-disable-line consistent-this
@@ -276,7 +276,7 @@ wp.mediaWidgets = ( function( $ ) {
 					 * The element is getting display:none in the stylesheet, but the underlying method uses
 					 * uses {jQuery.fn.show()} which adds an inline style. This avoids the need for !important.
 					 *
-					 * @returns {void}
+					 * @return {void}
 					 */
 					renderFail: function renderFail() {
 						var embedLinkView = this; // eslint-disable-line consistent-this
@@ -306,7 +306,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Create the default states.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		createStates: function createStates() {
 			var mime = this.options.mimeType, specificMimes = [];
@@ -358,7 +358,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 *
 		 * @param {wp.Backbone.View} view - Toolbar view.
 		 * @this {wp.media.controller.Library}
-		 * @returns {void}
+		 * @return {void}
 		 */
 		mainInsertToolbar: function mainInsertToolbar( view ) {
 			var controller = this; // eslint-disable-line consistent-this
@@ -374,7 +374,7 @@ wp.mediaWidgets = ( function( $ ) {
 				 * @ignore
 				 *
 				 * @fires wp.media.controller.State#insert()
-				 * @returns {void}
+				 * @return {void}
 				 */
 				click: function onClick() {
 					var state = controller.state(),
@@ -393,7 +393,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 *
 		 * @param {wp.Backbone.View} toolbar - Toolbar view.
 		 * @this {wp.media.controller.Library}
-		 * @returns {void}
+		 * @return {void}
 		 */
 		mainEmbedToolbar: function mainEmbedToolbar( toolbar ) {
 			toolbar.view = new wp.media.view.Toolbar.Embed({
@@ -408,7 +408,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 *
 		 * Forked override of {wp.media.view.MediaFrame.Post#embedContent()} to suppress irrelevant "link text" field.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		embedContent: function embedContent() {
 			var view = new component.MediaEmbedView({
@@ -489,7 +489,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * @param {jQuery}         options.el - Control field container element.
 		 * @param {jQuery}         options.syncContainer - Container element where fields are synced for the server.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		initialize: function initialize( options ) {
 			var control = this;
@@ -593,7 +593,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Update the selected attachment if necessary.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		updateSelectedAttachment: function updateSelectedAttachment() {
 			var control = this, attachment;
@@ -619,7 +619,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Sync the model attributes to the hidden inputs, and update previewTemplateProps.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		syncModelToPreviewProps: function syncModelToPreviewProps() {
 			var control = this;
@@ -629,7 +629,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Sync the model attributes to the hidden inputs, and update previewTemplateProps.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		syncModelToInputs: function syncModelToInputs() {
 			var control = this;
@@ -659,7 +659,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Get template.
 		 *
-		 * @returns {Function} Template.
+		 * @return {Function} Template.
 		 */
 		template: function template() {
 			var control = this;
@@ -672,7 +672,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Render template.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		render: function render() {
 			var control = this, titleInput;
@@ -695,7 +695,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * Render media preview.
 		 *
 		 * @abstract
-		 * @returns {void}
+		 * @return {void}
 		 */
 		renderPreview: function renderPreview() {
 			throw new Error( 'renderPreview must be implemented' );
@@ -704,7 +704,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Whether a media item is selected.
 		 *
-		 * @returns {boolean} Whether selected and no error.
+		 * @return {boolean} Whether selected and no error.
 		 */
 		isSelected: function isSelected() {
 			var control = this;
@@ -720,7 +720,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * Handle click on link to Media Library to open modal, such as the link that appears when in the missing attachment error notice.
 		 *
 		 * @param {jQuery.Event} event - Event.
-		 * @returns {void}
+		 * @return {void}
 		 */
 		handleMediaLibraryLinkClick: function handleMediaLibraryLinkClick( event ) {
 			var control = this;
@@ -731,7 +731,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Open the media select frame to chose an item.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		selectMedia: function selectMedia() {
 			var control = this, selection, mediaFrame, defaultSync, mediaFrameProps, selectionModels = [];
@@ -818,7 +818,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * Get the instance props from the media selection frame.
 		 *
 		 * @param {wp.media.view.MediaFrame.Select} mediaFrame - Select frame.
-		 * @returns {Object} Props.
+		 * @return {Object} Props.
 		 */
 		getModelPropsFromMediaFrame: function getModelPropsFromMediaFrame( mediaFrame ) {
 			var control = this, state, mediaFrameProps, modelProps;
@@ -867,7 +867,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * Map media frame props to model props.
 		 *
 		 * @param {Object} mediaFrameProps - Media frame props.
-		 * @returns {Object} Model props.
+		 * @return {Object} Model props.
 		 */
 		mapMediaToModelProps: function mapMediaToModelProps( mediaFrameProps ) {
 			var control = this, mediaFramePropToModelPropMap = {}, modelProps = {}, extension;
@@ -918,7 +918,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * Map model props to media frame props.
 		 *
 		 * @param {Object} modelProps - Model props.
-		 * @returns {Object} Media frame props.
+		 * @return {Object} Media frame props.
 		 */
 		mapModelToMediaFrameProps: function mapModelToMediaFrameProps( modelProps ) {
 			var control = this, mediaFrameProps = {};
@@ -942,7 +942,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Map model props to previewTemplateProps.
 		 *
-		 * @returns {Object} Preview Template Props.
+		 * @return {Object} Preview Template Props.
 		 */
 		mapModelToPreviewTemplateProps: function mapModelToPreviewTemplateProps() {
 			var control = this, previewTemplateProps = {};
@@ -961,7 +961,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * Open the media frame to modify the selected item.
 		 *
 		 * @abstract
-		 * @returns {void}
+		 * @return {void}
 		 */
 		editMedia: function editMedia() {
 			throw new Error( 'editMedia not implemented' );
@@ -1009,7 +1009,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Get default attribute values.
 		 *
-		 * @returns {Object} Mapping of property names to their default values.
+		 * @return {Object} Mapping of property names to their default values.
 		 */
 		defaults: function() {
 			var defaults = {};
@@ -1029,7 +1029,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * @param {string|Object} key - Attribute name or attribute pairs.
 		 * @param {mixed|Object}  [val] - Attribute value or options object.
 		 * @param {Object}        [options] - Options when attribute name and value are passed separately.
-		 * @returns {wp.mediaWidgets.MediaWidgetModel} This model.
+		 * @return {wp.mediaWidgets.MediaWidgetModel} This model.
 		 */
 		set: function set( key, val, options ) {
 			var model = this, attrs, opts, castedAttrs; // eslint-disable-line consistent-this
@@ -1083,7 +1083,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Get props which are merged on top of the model when an embed is chosen (as opposed to an attachment).
 		 *
-		 * @returns {Object} Reset/override props.
+		 * @return {Object} Reset/override props.
 		 */
 		getEmbedResetProps: function getEmbedResetProps() {
 			return {
@@ -1120,7 +1120,7 @@ wp.mediaWidgets = ( function( $ ) {
 	 * @param {jQuery.Event} event - Event.
 	 * @param {jQuery}       widgetContainer - Widget container element.
 	 *
-	 * @returns {void}
+	 * @return {void}
 	 */
 	component.handleWidgetAdded = function handleWidgetAdded( event, widgetContainer ) {
 		var fieldContainer, syncContainer, widgetForm, idBase, ControlConstructor, ModelConstructor, modelAttributes, widgetControl, widgetModel, widgetId, animatedCheckDelay = 50, renderWhenAnimationDone;
@@ -1203,7 +1203,7 @@ wp.mediaWidgets = ( function( $ ) {
 	 *
 	 * @memberOf wp.mediaWidgets
 	 *
-	 * @returns {void}
+	 * @return {void}
 	 */
 	component.setupAccessibleMode = function setupAccessibleMode() {
 		var widgetForm, widgetId, idBase, widgetControl, ControlConstructor, ModelConstructor, modelAttributes, fieldContainer, syncContainer;
@@ -1257,7 +1257,7 @@ wp.mediaWidgets = ( function( $ ) {
 	 * @param {jQuery.Event} event - Event.
 	 * @param {jQuery}       widgetContainer - Widget container element.
 	 *
-	 * @returns {void}
+	 * @return {void}
 	 */
 	component.handleWidgetUpdated = function handleWidgetUpdated( event, widgetContainer ) {
 		var widgetForm, widgetContent, widgetId, widgetControl, attributes = {};
@@ -1291,7 +1291,7 @@ wp.mediaWidgets = ( function( $ ) {
 	 *
 	 * @memberOf wp.mediaWidgets
 	 *
-	 * @returns {void}
+	 * @return {void}
 	 */
 	component.init = function init() {
 		var $document = $( document );

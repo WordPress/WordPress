@@ -1598,7 +1598,7 @@
 	 * @param {string} response.errorCode    Error code for the error that occurred.
 	 * @param {string} response.errorMessage The error that occurred.
 	 * @param {string} action                The type of request to perform.
-	 * @returns {boolean} Whether there is an error that needs to be handled or not.
+	 * @return {boolean} Whether there is an error that needs to be handled or not.
 	 */
 	wp.updates.maybeHandleCredentialError = function( response, action ) {
 		if ( wp.updates.shouldRequestFilesystemCredentials && response.errorCode && 'unable_to_connect_to_filesystem' === response.errorCode ) {

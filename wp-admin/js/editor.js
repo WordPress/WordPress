@@ -26,7 +26,7 @@ window.wp = window.wp || {};
 				 *
 				 * @since 4.3.0
 				 *
-				 * @returns {void}
+				 * @return {void}
 				 */
 				$$( document ).on( 'click', function( event ) {
 					var id, mode,
@@ -47,7 +47,7 @@ window.wp = window.wp || {};
 		 * @since 3.9.0
 		 *
 		 * @param {Object} editor The TinyMCE editor.
-		 * @returns {number} If the height is between 10 and 200 return the height,
+		 * @return {number} If the height is between 10 and 200 return the height,
 		 * else return 30.
 		 */
 		function getToolbarHeight( editor ) {
@@ -70,7 +70,7 @@ window.wp = window.wp || {};
 		 *
 		 * @param {string} id The id of the editor you want to change the editor mode for. Default: `content`.
 		 * @param {string} mode The mode you want to switch to. Default: `toggle`.
-		 * @returns {void}
+		 * @return {void}
 		 */
 		function switchEditor( id, mode ) {
 			id = id || 'content';
@@ -202,7 +202,7 @@ window.wp = window.wp || {};
 		 * @param {string} content The test content where the cursor is.
 		 * @param {number} cursorPosition The cursor position inside the content.
 		 *
-		 * @returns {(null|Object)} Null if cursor is not in a tag, Object if the cursor is inside a tag.
+		 * @return {(null|Object)} Null if cursor is not in a tag, Object if the cursor is inside a tag.
 		 */
 		function getContainingTagInfo( content, cursorPosition ) {
 			var lastLtPos = content.lastIndexOf( '<', cursorPosition - 1 ),
@@ -659,7 +659,7 @@ window.wp = window.wp || {};
 		 * and why this solution was chosen.
 		 *
 		 * @param {Object} editor The editor where we must find the selection.
-		 * @returns {(null|Object)} The selection range position in the editor.
+		 * @return {(null|Object)} The selection range position in the editor.
 		 */
 		function findBookmarkedPosition( editor ) {
 			// Get the TinyMCE `window` reference, since we need to access the raw selection.
@@ -1004,7 +1004,7 @@ window.wp = window.wp || {};
 		 * @memberof switchEditors
 		 *
 		 * @param {string} text The text input.
-		 * @returns {string} The formatted text.
+		 * @return {string} The formatted text.
 		 */
 		function autop( text ) {
 			var preserve_linebreaks = false,
@@ -1131,7 +1131,7 @@ window.wp = window.wp || {};
 		 * @memberof switchEditors
 		 *
 		 * @param {String} html The content from the visual editor.
-		 * @returns {String} the filtered content.
+		 * @return {String} the filtered content.
 		 */
 		function pre_wpautop( html ) {
 			var obj = { o: exports, data: html, unfiltered: html };
@@ -1157,7 +1157,7 @@ window.wp = window.wp || {};
 		 * @memberof switchEditors
 		 *
 		 * @param {String} text The content from the text editor.
-		 * @returns {String} filtered content.
+		 * @return {String} filtered content.
 		 */
 		function wpautop( text ) {
 			var obj = { o: exports, data: text, unfiltered: text };

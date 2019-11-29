@@ -29,7 +29,7 @@ window.inlineEditTax = {
 	 *
 	 * @this inlineEditTax
 	 * @memberof inlineEditTax
-	 * @returns {void}
+	 * @return {void}
 	 */
 	init : function() {
 		var t = this, row = $('#inline-edit');
@@ -96,7 +96,7 @@ window.inlineEditTax = {
 	 *
 	 * @param {HTMLElement} el An element within the table row or the table row
 	 *                         itself that we want to quick edit.
-	 * @returns {void}
+	 * @return {void}
 	 */
 	toggle : function(el) {
 		var t = this;
@@ -115,7 +115,7 @@ window.inlineEditTax = {
 	 * @param {string|HTMLElement} id The ID of the term we want to quick edit or an
 	 *                                element within the table row or the
 	 * table row itself.
-	 * @returns {boolean} Always returns false.
+	 * @return {boolean} Always returns false.
 	 */
 	edit : function(id) {
 		var editRow, rowData, val,
@@ -162,7 +162,7 @@ window.inlineEditTax = {
 	 * @param {string|HTMLElement} id The ID of the term we want to quick edit or an
 	 *                                element within the table row or the
 	 * table row itself.
-	 * @returns {boolean} Always returns false.
+	 * @return {boolean} Always returns false.
 	 */
 	save : function(id) {
 		var params, fields, tax = $('input[name="taxonomy"]').val() || '';
@@ -255,7 +255,7 @@ window.inlineEditTax = {
 	 *
 	 * @this inlineEditTax
 	 * @memberof inlineEditTax
-	 * @returns {void}
+	 * @return {void}
 	 */
 	revert : function() {
 		var id = $('table.widefat tr.inline-editor').attr('id');
@@ -280,7 +280,7 @@ window.inlineEditTax = {
 	 * @memberof inlineEditTax
 	 *
 	 * @param {HTMLElement} o An element within the table row or the table row itself.
-	 * @returns {string} The ID of the term based on the element.
+	 * @return {string} The ID of the term based on the element.
 	 */
 	getId : function(o) {
 		var id = o.tagName === 'TR' ? o.id : $(o).parents('tr').attr('id'), parts = id.split('-');

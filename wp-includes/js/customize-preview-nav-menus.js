@@ -134,7 +134,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			 * @param {wp.customize.Value|string} setting  - Object or ID.
 			 * @param {number|object|false|null}  newValue - New value, or null if the setting was just removed.
 			 * @param {number|object|false|null}  oldValue - Old value, or null if the setting was just added.
-			 * @returns {boolean}
+			 * @return {boolean}
 			 */
 			isRelatedSetting: function( setting, newValue, oldValue ) {
 				var partial = this, navMenuLocationSetting, navMenuId, isNavMenuItemSetting, _newValue, _oldValue, urlParser;
@@ -210,7 +210,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			 *
 			 * @since 4.5.0
 			 *
-			 * @returns {Promise}
+			 * @return {Promise}
 			 */
 			refresh: function() {
 				var partial = this, menuId, deferred = $.Deferred();

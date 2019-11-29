@@ -41,7 +41,7 @@
 	 * @param {Array}  settings.l10n.shortcodes                   Optional. Array of shortcodes that should be removed
 	 *                                                            from the text.
 	 *
-	 * @return void
+	 * @return {void}
 	 */
 	function WordCounter( settings ) {
 		var key,

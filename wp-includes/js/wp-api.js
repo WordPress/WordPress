@@ -835,7 +835,7 @@
 			 * @param {string} method.
 			 * @param {Backbone.Model} model.
 			 * @param {{beforeSend}, *} options.
-			 * @returns {*}.
+			 * @return {*}.
 			 */
 			sync: function( method, model, options ) {
 				var beforeSend;
@@ -988,7 +988,7 @@
 			 * @param {string} method.
 			 * @param {Backbone.Model} model.
 			 * @param {{success}, *} options.
-			 * @returns {*}.
+			 * @return {*}.
 			 */
 			sync: function( method, model, options ) {
 				var beforeSend, success,
@@ -1063,7 +1063,7 @@
 			 * Fetches the next page of objects if a new page exists.
 			 *
 			 * @param {data: {page}} options.
-			 * @returns {*}.
+			 * @return {*}.
 			 */
 			more: function( options ) {
 				options = options || {};
@@ -1089,7 +1089,7 @@
 			/**
 			 * Returns true if there are more pages of objects available.
 			 *
-			 * @returns null|boolean.
+			 * @return {null|boolean}
 			 */
 			hasMore: function() {
 				if ( null === this.state.totalPages ||

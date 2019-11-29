@@ -22,9 +22,9 @@
  * @global
  *
  * @param {string} html The HTML to be sent to the editor.
- * @returns {void|boolean} Returns false when both TinyMCE and QTags instances
- *                         are unavailable. This means that the HTML was not
- *                         sent to the editor.
+ * @return {void|boolean} Returns false when both TinyMCE and QTags instances
+ *                        are unavailable. This means that the HTML was not
+ *                        sent to the editor.
  */
 window.send_to_editor = function( html ) {
 	var editor,
@@ -71,8 +71,8 @@ window.send_to_editor = function( html ) {
 	 *
 	 * @global
 	 *
-	 * @returns {Object[]} Array containing jQuery objects for all the found
-	 *                     ThickBox anchors.
+	 * @return {Object[]} Array containing jQuery objects for all the found
+	 *                    ThickBox anchors.
 	 */
 	window.tb_position = function() {
 		var tbWindow = $('#TB_window'),

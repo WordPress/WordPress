@@ -23,7 +23,7 @@ window.autosave = function() {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @returns {Object}
+	 * @return {Object}
 	 * 	{{
 	 * 		getPostData: getPostData,
 	 * 		getCompareString: getCompareString,
@@ -46,7 +46,7 @@ window.autosave = function() {
 		 *
 		 * @param {string} type The type of autosave either local or remote.
 		 *
-		 * @returns {Object} Object containing the post data.
+		 * @return {Object} Object containing the post data.
 		 */
 		function getPostData( type ) {
 			var post_name, parent_id, data,
@@ -110,7 +110,7 @@ window.autosave = function() {
 		 *
 		 * @param {Object} postData The object containing the post data.
 		 *
-		 * @returns {string} A concatenated string with title, content and excerpt.
+		 * @return {string} A concatenated string with title, content and excerpt.
 		 */
 		function getCompareString( postData ) {
 			if ( typeof postData === 'object' ) {
@@ -125,7 +125,7 @@ window.autosave = function() {
 		 *
 		 * @since 3.9.0
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		function disableButtons() {
 			$document.trigger('autosave-disable-buttons');
@@ -139,7 +139,7 @@ window.autosave = function() {
 		 *
 		 * @since 3.9.0
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		function enableButtons() {
 			$document.trigger( 'autosave-enable-buttons' );
@@ -150,8 +150,8 @@ window.autosave = function() {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @returns {boolean|*} Returns either false if the editor is undefined,
-		 * 						or the instance of the content editor.
+		 * @return {boolean|*} Returns either false if the editor is undefined,
+		 *                     or the instance of the content editor.
 		 */
 		function getEditor() {
 			return typeof tinymce !== 'undefined' && tinymce.get('content');
@@ -162,7 +162,7 @@ window.autosave = function() {
 		 *
 		 * @since 3.9.0
 		 *
-		 * @returns {
+		 * @return {
 		 * {
 		 * 	hasStorage: *,
 		 * 	getSavedPostData: getSavedPostData,
@@ -183,7 +183,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {boolean} True if the sessionStorage is supported and enabled.
+			 * @return {boolean} True if the sessionStorage is supported and enabled.
 			 */
 			function checkStorage() {
 				var test = Math.random().toString(),
@@ -204,8 +204,8 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {boolean|Object} False if no sessionStorage in the browser or an Object
-			 *                           containing all postData for this blog.
+			 * @return {boolean|Object} False if no sessionStorage in the browser or an Object
+			 *                          containing all postData for this blog.
 			 */
 			function getStorage() {
 				var stored_obj = false;
@@ -229,7 +229,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {boolean} True if the data was saved successfully, false if it wasn't saved.
+			 * @return {boolean} True if the data was saved successfully, false if it wasn't saved.
 			 */
 			function setStorage( stored_obj ) {
 				var key;
@@ -248,7 +248,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {boolean|Object} False if no storage or no data or the postData as an Object.
+			 * @return {boolean|Object} False if no storage or no data or the postData as an Object.
 			 */
 			function getSavedPostData() {
 				var stored = getStorage();
@@ -269,7 +269,7 @@ window.autosave = function() {
 			 *
 			 * @param {Object|boolean|null} stored_data The post data to store or null/false/empty to delete the key.
 			 *
-			 * @returns {boolean} True if data is stored, false if data was removed.
+			 * @return {boolean} True if data is stored, false if data was removed.
 			 */
 			function setData( stored_data ) {
 				var stored = getStorage();
@@ -294,7 +294,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			function suspend() {
 				isSuspended = true;
@@ -305,7 +305,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			function resume() {
 				isSuspended = false;
@@ -321,7 +321,7 @@ window.autosave = function() {
 			 *
 			 * @param {Object} data The post data for saving, minimum 'post_title' and 'content'.
 			 *
-			 * @returns {boolean} Returns true when data has been saved, otherwise it returns false.
+			 * @return {boolean} Returns true when data has been saved, otherwise it returns false.
 			 */
 			function save( data ) {
 				var postData, compareString,
@@ -370,7 +370,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			function run() {
 				post_id = $('#post_ID').val() || 0;
@@ -427,7 +427,7 @@ window.autosave = function() {
 			 *
 			 * @param {string} str1 The first string.
 			 * @param {string} str2 The second string.
-			 * @returns {boolean} True if the strings are the same.
+			 * @return {boolean} True if the strings are the same.
 			 */
 			function compare( str1, str2 ) {
 				function removeSpaces( string ) {
@@ -445,7 +445,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			function checkPost() {
 				var content, post_title, excerpt, $notice,
@@ -513,7 +513,7 @@ window.autosave = function() {
 			 *
 			 * @param {Object} postData The object containing all post data.
 			 *
-			 * @returns {boolean} True if the post is restored.
+			 * @return {boolean} True if the post is restored.
 			 */
 			function restorePost( postData ) {
 				var editor;
@@ -579,7 +579,7 @@ window.autosave = function() {
 		 *
 		 * @since 3.9.0
 		 *
-		 * @returns {Object} {
+		 * @return {Object} {
 		 * 	{
 		 * 		tempBlockSave: tempBlockSave,
 		 * 		triggerSave: triggerSave,
@@ -600,7 +600,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			function tempBlockSave() {
 				_blockSave = true;
@@ -616,7 +616,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			function suspend() {
 				isSuspended = true;
@@ -627,7 +627,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			function resume() {
 				isSuspended = false;
@@ -640,7 +640,7 @@ window.autosave = function() {
 			 *
 			 * @param {Object} data The post data.
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			function response( data ) {
 				_schedule();
@@ -664,7 +664,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			function triggerSave() {
 				nextRun = 0;
@@ -693,7 +693,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {Object} Returns the post data.
+			 * @return {Object} Returns the post data.
 			 */
 			function save() {
 				var postData, compareString;
@@ -739,7 +739,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			function _schedule() {
 				nextRun = ( new Date() ).getTime() + ( autosaveL10n.autosaveInterval * 1000 ) || 60000;
@@ -750,7 +750,7 @@ window.autosave = function() {
 			 *
 			 * @since 3.9.0
 			 *
-			 * @returns {void}
+			 * @return {void}
 			 */
 			$document.on( 'heartbeat-send.autosave', function( event, data ) {
 				var autosaveData = save();
@@ -765,7 +765,7 @@ window.autosave = function() {
 				 *
 				 * @since 3.9.0
 				 *
-				 * @returns {void}
+				 * @return {void}
 				 */
 			}).on( 'heartbeat-tick.autosave', function( event, data ) {
 				if ( data.wp_autosave ) {
@@ -776,7 +776,7 @@ window.autosave = function() {
 				 *
 				 * @since 3.9.0
 				 *
-				 * @returns {void}
+				 * @return {void}
 				 */
 			}).on( 'heartbeat-connection-lost.autosave', function( event, error, status ) {
 
@@ -797,7 +797,7 @@ window.autosave = function() {
 				 *
 				 * @since 3.9.0
 				 *
-				 * @returns {void}
+				 * @return {void}
 				 */
 			}).on( 'heartbeat-connection-restored.autosave', function() {
 				$('#lost-connection-notice').hide();
@@ -825,7 +825,7 @@ window.autosave = function() {
 		 *
 		 * @since 3.9.0
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		$document.on( 'tinymce-editor-init.autosave', function( event, editor ) {
 			if ( editor.id === 'content' ) {
