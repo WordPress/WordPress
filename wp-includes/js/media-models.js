@@ -696,7 +696,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 *
 	 * @param {wp.media.model.Attachment} attachment
 	 * @param {Object} options
-	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
+	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining.
 	 */
 	validate: function( attachment, options ) {
 		var valid = this.validator( attachment ),
@@ -719,7 +719,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 *
 	 * @fires wp.media.model.Attachments#reset
 	 *
-	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
+	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining.
 	 */
 	validateAll: function( attachments, options ) {
 		options = options || {};
@@ -753,7 +753,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 * Stop replicating collection change events from another attachments collection.
 	 *
 	 * @param {wp.media.model.Attachments} The attachments collection to stop observing.
-	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
+	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining.
 	 */
 	unobserve: function( attachments ) {
 		if ( attachments ) {
@@ -776,7 +776,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 * @param {wp.media.model.Attachments} attachments
 	 * @param {Object} options
 	 *
-	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
+	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining.
 	 */
 	_validateHandler: function( attachment, attachments, options ) {
 		// If we're not mirroring this `attachments` collection,
@@ -792,7 +792,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 *
 	 * @param {wp.media.model.Attachments} attachments
 	 * @param {Object} options
-	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
+	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining.
 	 */
 	_validateAllHandler: function( attachments, options ) {
 		return this.validateAll( attachments, options );
@@ -802,7 +802,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 * in the collection.
 	 *
 	 * @param {wp.media.model.Attachments} The attachments collection to mirror.
-	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
+	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining.
 	 */
 	mirror: function( attachments ) {
 		if ( this.mirroring && this.mirroring === attachments ) {

@@ -21,7 +21,7 @@
 	 *
 	 * @param {object} attrs Map of props from a shortcode or settings.
 	 * @param {string} key The key within the passed map to check for a value.
-	 * @returns {mixed|undefined} The original or coerced value of key within attrs
+	 * @returns {mixed|undefined} The original or coerced value of key within attrs.
 	 */
 	wp.media.coerce = function ( attrs, key ) {
 		if ( _.isUndefined( attrs[ key ] ) && ! _.isUndefined( this.defaults[ key ] ) ) {

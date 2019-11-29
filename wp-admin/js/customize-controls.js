@@ -1154,7 +1154,7 @@
 		 *
 		 * @param {Boolean} active
 		 * @param {Object}  [params]
-		 * @returns {Boolean} false if state already applied
+		 * @returns {Boolean} False if state already applied.
 		 */
 		_toggleActive: function ( active, params ) {
 			var self = this;
@@ -1173,7 +1173,7 @@
 
 		/**
 		 * @param {Object} [params]
-		 * @returns {Boolean} false if already active
+		 * @returns {Boolean} False if already active.
 		 */
 		activate: function ( params ) {
 			return this._toggleActive( true, params );
@@ -1181,7 +1181,7 @@
 
 		/**
 		 * @param {Object} [params]
-		 * @returns {Boolean} false if already inactive
+		 * @returns {Boolean} False if already inactive.
 		 */
 		deactivate: function ( params ) {
 			return this._toggleActive( false, params );
@@ -1201,7 +1201,7 @@
 		 * @param {Boolean}  expanded - The new state to apply.
 		 * @param {Object}   [params] - Object containing options for expand/collapse.
 		 * @param {Function} [params.completeCallback] - Function to call when expansion/collapse is complete.
-		 * @returns {Boolean} false if state already applied or active state is false
+		 * @returns {Boolean} False if state already applied or active state is false.
 		 */
 		_toggleExpanded: function( expanded, params ) {
 			var instance = this, previousCompleteCallback;
@@ -1238,7 +1238,7 @@
 
 		/**
 		 * @param {Object} [params]
-		 * @returns {Boolean} false if already expanded or if inactive.
+		 * @returns {Boolean} False if already expanded or if inactive.
 		 */
 		expand: function ( params ) {
 			return this._toggleExpanded( true, params );
@@ -1246,7 +1246,7 @@
 
 		/**
 		 * @param {Object} [params]
-		 * @returns {Boolean} false if already collapsed.
+		 * @returns {Boolean} False if already collapsed.
 		 */
 		collapse: function ( params ) {
 			return this._toggleExpanded( false, params );

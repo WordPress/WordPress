@@ -658,8 +658,8 @@ window.wp = window.wp || {};
 		 * Check the notes in the comments in the code below for more information on some gotchas
 		 * and why this solution was chosen.
 		 *
-		 * @param {Object} editor The editor where we must find the selection
-		 * @returns {(null|Object)} The selection range position in the editor
+		 * @param {Object} editor The editor where we must find the selection.
+		 * @returns {(null|Object)} The selection range position in the editor.
 		 */
 		function findBookmarkedPosition( editor ) {
 			// Get the TinyMCE `window` reference, since we need to access the raw selection.

@@ -1340,7 +1340,7 @@
 		 *
 		 * @param {Boolean} expanded
 		 * @param {Object} [params]
-		 * @returns {Boolean} false if state already applied
+		 * @returns {Boolean} False if state already applied.
 		 */
 		_toggleExpanded: api.Section.prototype._toggleExpanded,
 
@@ -1348,7 +1348,7 @@
 		 * @since 4.1.0
 		 *
 		 * @param {Object} [params]
-		 * @returns {Boolean} false if already expanded
+		 * @returns {Boolean} False if already expanded.
 		 */
 		expand: api.Section.prototype.expand,
 
@@ -1365,7 +1365,7 @@
 		 * @since 4.1.0
 		 *
 		 * @param {Object} [params]
-		 * @returns {Boolean} false if already collapsed
+		 * @returns {Boolean} False if already collapsed.
 		 */
 		collapse: api.Section.prototype.collapse,
 
@@ -2060,8 +2060,8 @@
 		},
 
 		/**
-		 * @param {string} widgetId or an id_base for adding a previously non-existing widget
-		 * @returns {object|false} widget_form control instance, or false on error
+		 * @param {string} widgetId or an id_base for adding a previously non-existing widget.
+		 * @returns {object|false} widget_form control instance, or false on error.
 		 */
 		addWidget: function( widgetId ) {
 			var self = this, controlHtml, $widget, controlType = 'widget_form', controlContainer, controlConstructor,

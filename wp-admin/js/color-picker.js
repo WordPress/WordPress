@@ -327,7 +327,7 @@
 		 *
 		 * @since 3.5.0
 		 *
-		 * @returns {string} The element's color
+		 * @returns {string} The element's color.
 		 */
 		color: function( newColor ) {
 			if ( newColor === undef ) {

@@ -334,7 +334,7 @@ _.extend( Region.prototype,/** @lends wp.media.controller.Region.prototype */{
 	 * @fires Region#create
 	 * @fires Region#render
 	 *
-	 * @returns {wp.media.controller.Region} Returns itself to allow chaining
+	 * @returns {wp.media.controller.Region} Returns itself to allow chaining.
 	 */
 	render: function( mode ) {
 		// If the mode isn't active, activate it.
@@ -390,7 +390,7 @@ _.extend( Region.prototype,/** @lends wp.media.controller.Region.prototype */{
 	 *
 	 * @param {Array|Object} views
 	 * @param {Object} [options={}]
-	 * @returns {wp.Backbone.Subviews} Subviews is returned to allow chaining
+	 * @returns {wp.Backbone.Subviews} Subviews is returned to allow chaining.
 	 */
 	set: function( views, options ) {
 		if ( options ) {
@@ -502,7 +502,7 @@ _.extend( StateMachine.prototype, Backbone.Events,/** @lends wp.media.controller
 	 * @fires wp.media.controller.State#deactivate
 	 * @fires wp.media.controller.State#activate
 	 *
-	 * @returns {wp.media.controller.StateMachine} Returns itself to allow chaining
+	 * @returns {wp.media.controller.StateMachine} Returns itself to allow chaining.
 	 */
 	setState: function( id ) {
 		var previous = this.state();
@@ -2685,7 +2685,7 @@ var View = wp.Backbone.View.extend(/** @lends wp.media.View.prototype */{
 	 *       before Backbone 0.9.8 came out. Figure out if Backbone core takes
 	 *       care of this in Backbone.View now.
 	 *
-	 * @returns {wp.media.View} Returns itself to allow chaining
+	 * @returns {wp.media.View} Returns itself to allow chaining.
 	 */
 	dispose: function() {
 		// Undelegating events, removing events from the model, and
@@ -2709,7 +2709,7 @@ var View = wp.Backbone.View.extend(/** @lends wp.media.View.prototype */{
 		return this;
 	},
 	/**
-	 * @returns {wp.media.View} Returns itself to allow chaining
+	 * @returns {wp.media.View} Returns itself to allow chaining.
 	 */
 	remove: function() {
 		this.dispose();
@@ -2809,7 +2809,7 @@ var Frame = wp.media.View.extend(/** @lends wp.media.view.Frame.prototype */{
 	/**
 	 * Reset all states on the frame to their defaults.
 	 *
-	 * @returns {wp.media.view.Frame} Returns itself to allow chaining
+	 * @returns {wp.media.view.Frame} Returns itself to allow chaining.
 	 */
 	reset: function() {
 		this.states.invoke( 'trigger', 'reset' );
@@ -3044,7 +3044,7 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 	},
 
 	/**
-	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining
+	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining.
 	 */
 	render: function() {
 		// Activate the default state if no active state exists.
@@ -3217,35 +3217,35 @@ _.each(['open','close','attach','detach','escape'], function( method ) {
 	 * @memberOf wp.media.view.MediaFrame
 	 * @instance
 	 *
-	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining
+	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining.
 	 */
 	/**
 	 * @function close
 	 * @memberOf wp.media.view.MediaFrame
 	 * @instance
 	 *
-	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining
+	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining.
 	 */
 	/**
 	 * @function attach
 	 * @memberOf wp.media.view.MediaFrame
 	 * @instance
 	 *
-	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining
+	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining.
 	 */
 	/**
 	 * @function detach
 	 * @memberOf wp.media.view.MediaFrame
 	 * @instance
 	 *
-	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining
+	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining.
 	 */
 	/**
 	 * @function escape
 	 * @memberOf wp.media.view.MediaFrame
 	 * @instance
 	 *
-	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining
+	 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining.
 	 */
 	MediaFrame.prototype[ method ] = function() {
 		if ( this.modal ) {
@@ -4438,7 +4438,7 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	},
 
 	/**
-	 * @returns {wp.media.view.Modal} Returns itself to allow chaining
+	 * @returns {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	attach: function() {
 		if ( this.views.attached ) {
@@ -4459,7 +4459,7 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	},
 
 	/**
-	 * @returns {wp.media.view.Modal} Returns itself to allow chaining
+	 * @returns {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	detach: function() {
 		if ( this.$el.is(':visible') ) {
@@ -4472,7 +4472,7 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	},
 
 	/**
-	 * @returns {wp.media.view.Modal} Returns itself to allow chaining
+	 * @returns {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	open: function() {
 		var $el = this.$el,
@@ -4516,7 +4516,7 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 
 	/**
 	 * @param {Object} options
-	 * @returns {wp.media.view.Modal} Returns itself to allow chaining
+	 * @returns {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	close: function( options ) {
 		if ( ! this.views.attached || ! this.$el.is(':visible') ) {
@@ -4555,7 +4555,7 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 		return this;
 	},
 	/**
-	 * @returns {wp.media.view.Modal} Returns itself to allow chaining
+	 * @returns {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	escape: function() {
 		return this.close({ escape: true });
@@ -4570,7 +4570,7 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 
 	/**
 	 * @param {Array|Object} content Views to register to '.media-modal-content'
-	 * @returns {wp.media.view.Modal} Returns itself to allow chaining
+	 * @returns {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	content: function( content ) {
 		this.views.set( '.media-modal-content', content );
@@ -4582,7 +4582,7 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	 * forwards events to the modal's controller.
 	 *
 	 * @param {string} id
-	 * @returns {wp.media.view.Modal} Returns itself to allow chaining
+	 * @returns {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	propagate: function( id ) {
 		this.trigger( id );
@@ -5389,7 +5389,7 @@ UploaderInline = View.extend(/** @lends wp.media.view.UploaderInline.prototype *
 		return data;
 	},
 	/**
-	 * @returns {wp.media.view.UploaderInline} Returns itself to allow chaining
+	 * @returns {wp.media.view.UploaderInline} Returns itself to allow chaining.
 	 */
 	dispose: function() {
 		if ( this.disposing ) {
@@ -5406,7 +5406,7 @@ UploaderInline = View.extend(/** @lends wp.media.view.UploaderInline.prototype *
 		return this.remove();
 	},
 	/**
-	 * @returns {wp.media.view.UploaderInline} Returns itself to allow chaining
+	 * @returns {wp.media.view.UploaderInline} Returns itself to allow chaining.
 	 */
 	remove: function() {
 		/**
@@ -5714,7 +5714,7 @@ Toolbar = View.extend(/** @lends wp.media.view.Toolbar.prototype */{
 	 * @param {string} id
 	 * @param {Backbone.View|Object} view
 	 * @param {Object} [options={}]
-	 * @returns {wp.media.view.Toolbar} Returns itself to allow chaining
+	 * @returns {wp.media.view.Toolbar} Returns itself to allow chaining.
 	 */
 	set: function( id, view, options ) {
 		var list;
@@ -5756,7 +5756,7 @@ Toolbar = View.extend(/** @lends wp.media.view.Toolbar.prototype */{
 	/**
 	 * @param {string} id
 	 * @param {Object} options
-	 * @returns {wp.media.view.Toolbar} Returns itself to allow chaining
+	 * @returns {wp.media.view.Toolbar} Returns itself to allow chaining.
 	 */
 	unset: function( id, options ) {
 		delete this._views[ id ];
@@ -5974,7 +5974,7 @@ var Button = wp.media.View.extend(/** @lends wp.media.view.Button.prototype */{
 		this.listenTo( this.model, 'change', this.render );
 	},
 	/**
-	 * @returns {wp.media.view.Button} Returns itself to allow chaining
+	 * @returns {wp.media.view.Button} Returns itself to allow chaining.
 	 */
 	render: function() {
 		var classes = [ 'button', this.className ],
@@ -6096,7 +6096,7 @@ var PriorityList = wp.media.View.extend(/** @lends wp.media.view.PriorityList.pr
 	 * @param {string} id
 	 * @param {wp.media.View|Object} view
 	 * @param {Object} options
-	 * @returns {wp.media.view.PriorityList} Returns itself to allow chaining
+	 * @returns {wp.media.view.PriorityList} Returns itself to allow chaining.
 	 */
 	set: function( id, view, options ) {
 		var priority, views, index;
@@ -6221,7 +6221,7 @@ MenuItem = wp.media.View.extend(/** @lends wp.media.view.MenuItem.prototype */{
 	},
 
 	/**
-	 * @returns {wp.media.view.MenuItem} returns itself to allow chaining
+	 * @returns {wp.media.view.MenuItem} returns itself to allow chaining.
 	 */
 	render: function() {
 		var options = this.options,
@@ -6565,7 +6565,7 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		this.listenTo( this.controller.states, 'attachment:compat:waiting attachment:compat:ready', this.updateSave );
 	},
 	/**
-	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining.
 	 */
 	dispose: function() {
 		var selection = this.options.selection;
@@ -6583,7 +6583,7 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		return this;
 	},
 	/**
-	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining.
 	 */
 	render: function() {
 		var options = _.defaults( this.model.toJSON(), {
@@ -6930,7 +6930,7 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 	},
 	/**
 	 * @param {string} status
-	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining.
 	 */
 	updateSave: function( status ) {
 		var save = this._save = this._save || { status: 'ready' };
@@ -7025,7 +7025,7 @@ _.each({
 	 *
 	 * @param {Backbone.Model} model
 	 * @param {string} value
-	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining.
 	 */
 	/**
 	 * @function _syncTitle
@@ -7034,7 +7034,7 @@ _.each({
 	 *
 	 * @param {Backbone.Model} model
 	 * @param {string} value
-	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining.
 	 */
 	/**
 	 * @function _syncArtist
@@ -7043,7 +7043,7 @@ _.each({
 	 *
 	 * @param {Backbone.Model} model
 	 * @param {string} value
-	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining.
 	 */
 	/**
 	 * @function _syncAlbum
@@ -7052,7 +7052,7 @@ _.each({
 	 *
 	 * @param {Backbone.Model} model
 	 * @param {string} value
-	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining.
 	 */
 	Attachment.prototype[ method ] = function( model, value ) {
 		var $setting = this.$('[data-setting="' + setting + '"]');
@@ -7611,7 +7611,7 @@ Search = wp.media.View.extend(/** @lends wp.media.view.Search.prototype */{
 	},
 
 	/**
-	 * @returns {wp.media.view.Search} Returns itself to allow chaining
+	 * @returns {wp.media.view.Search} Returns itself to allow chaining.
 	 */
 	render: function() {
 		this.el.value = this.model.escape('search');
@@ -8090,7 +8090,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 	},
 
 	/**
-	 * @returns {wp.media.view.AttachmentsBrowser} Returns itself to allow chaining
+	 * @returns {wp.media.view.AttachmentsBrowser} Returns itself to allow chaining.
 	 */
 	dispose: function() {
 		this.options.selection.off( null, null, this );
@@ -8720,7 +8720,7 @@ Settings = View.extend(/** @lends wp.media.view.Settings.prototype */{
 		}, this.options );
 	},
 	/**
-	 * @returns {wp.media.view.Settings} Returns itself to allow chaining
+	 * @returns {wp.media.view.Settings} Returns itself to allow chaining.
 	 */
 	render: function() {
 		View.prototype.render.apply( this, arguments );
@@ -8862,7 +8862,7 @@ AttachmentDisplay = Settings.extend(/** @lends wp.media.view.Settings.Attachment
 		Settings.prototype.dispose.apply( this, arguments );
 	},
 	/**
-	 * @returns {wp.media.view.AttachmentDisplay} Returns itself to allow chaining
+	 * @returns {wp.media.view.AttachmentDisplay} Returns itself to allow chaining.
 	 */
 	render: function() {
 		var attachment = this.options.attachment;
@@ -9218,7 +9218,7 @@ AttachmentCompat = View.extend(/** @lends wp.media.view.AttachmentCompat.prototy
 		this.listenTo( this.model, 'change:compat', this.render );
 	},
 	/**
-	 * @returns {wp.media.view.AttachmentCompat} Returns itself to allow chaining
+	 * @returns {wp.media.view.AttachmentCompat} Returns itself to allow chaining.
 	 */
 	dispose: function() {
 		if ( this.$(':focus').length ) {
@@ -9230,7 +9230,7 @@ AttachmentCompat = View.extend(/** @lends wp.media.view.AttachmentCompat.prototy
 		return View.prototype.dispose.apply( this, arguments );
 	},
 	/**
-	 * @returns {wp.media.view.AttachmentCompat} Returns itself to allow chaining
+	 * @returns {wp.media.view.AttachmentCompat} Returns itself to allow chaining.
 	 */
 	render: function() {
 		var compat = this.model.get('compat');
@@ -9292,7 +9292,7 @@ module.exports = AttachmentCompat;
 var Iframe = wp.media.View.extend(/** @lends wp.media.view.Iframe.prototype */{
 	className: 'media-iframe',
 	/**
-	 * @returns {wp.media.view.Iframe} Returns itself to allow chaining
+	 * @returns {wp.media.view.Iframe} Returns itself to allow chaining.
 	 */
 	render: function() {
 		this.views.detach();
@@ -9452,7 +9452,7 @@ EmbedUrl = View.extend(/** @lends wp.media.view.EmbedUrl.prototype */{
 		}
 	},
 	/**
-	 * @returns {wp.media.view.EmbedUrl} Returns itself to allow chaining
+	 * @returns {wp.media.view.EmbedUrl} Returns itself to allow chaining.
 	 */
 	render: function() {
 		var $input = this.$input;

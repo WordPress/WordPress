@@ -1962,7 +1962,7 @@
 		 *
 		 * @param {Boolean} expanded
 		 * @param {Object} [params]
-		 * @returns {Boolean} false if state already applied
+		 * @returns {Boolean} False if state already applied.
 		 */
 		_toggleExpanded: api.Section.prototype._toggleExpanded,
 
@@ -1970,7 +1970,7 @@
 		 * @since 4.6.0
 		 *
 		 * @param {Object} [params]
-		 * @returns {Boolean} false if already expanded
+		 * @returns {Boolean} False if already expanded.
 		 */
 		expand: api.Section.prototype.expand,
 
@@ -1990,7 +1990,7 @@
 		 * @since 4.6.0
 		 *
 		 * @param {Object} [params]
-		 * @returns {Boolean} false if already collapsed
+		 * @returns {Boolean} False if already collapsed.
 		 */
 		collapse: api.Section.prototype.collapse,
 

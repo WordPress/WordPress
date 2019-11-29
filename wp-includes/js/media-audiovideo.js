@@ -995,7 +995,7 @@ MediaDetails = AttachmentDisplay.extend(/** @lends wp.media.view.MediaDetails.pr
 	},
 
 	/**
-	 * @returns {media.view.MediaDetails} Returns itself to allow chaining
+	 * @returns {media.view.MediaDetails} Returns itself to allow chaining.
 	 */
 	render: function() {
 		AttachmentDisplay.prototype.render.apply( this, arguments );
