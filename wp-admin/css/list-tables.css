@@ -1751,10 +1751,6 @@ div.action-links,
 		display: none;
 	}
 
-	.comment-count {
-		font-size: 14px;
-	}
-
 	.wp-list-table th.column-primary ~ th,
 	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td.column-primary ~ td:not(.check-column) {
 		display: none;
