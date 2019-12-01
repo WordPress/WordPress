@@ -46,19 +46,6 @@ class WP_Widget_Factory {
 	}
 
 	/**
-	 * Memory for the number of times unique class instances have been hashed.
-	 *
-	 * This can be eliminated in favor of straight spl_object_hash() when 5.3
-	 * is the minimum requirement for PHP.
-	 *
-	 * @since 4.6.0
-	 * @var array
-	 *
-	 * @see WP_Widget_Factory::hash_object()
-	 */
-	private $hashed_class_counts = array();
-
-	/**
 	 * Registers a widget subclass.
 	 *
 	 * @since 2.8.0
