@@ -199,9 +199,12 @@ switch ( $wp_list_table->current_action() ) {
 			break;
 		}
 		check_admin_referer( 'bulk-tags' );
-		$tags = (array) $_REQUEST['delete_tags'];
-		/** This action is documented in wp-admin/edit-comments.php */
-		$location = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $location, $wp_list_table->current_action(), $tags );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
+		$screen = get_current_screen()->id;
+		$tags   = (array) $_REQUEST['delete_tags'];
+
+		/** This action is documented in wp-admin/edit.php */
+		$location = apply_filters( "handle_bulk_actions-{$screen}", $location, $wp_list_table->current_action(), $tags );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		break;
 }
 

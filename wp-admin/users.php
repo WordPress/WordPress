@@ -456,11 +456,12 @@ switch ( $wp_list_table->current_action() ) {
 		}
 
 		if ( $wp_list_table->current_action() && ! empty( $_REQUEST['users'] ) ) {
-			$userids  = $_REQUEST['users'];
+			$screen   = get_current_screen()->id;
 			$sendback = wp_get_referer();
+			$userids  = $_REQUEST['users'];
 
-			/** This action is documented in wp-admin/edit-comments.php */
-			$sendback = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $sendback, $wp_list_table->current_action(), $userids ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+			/** This action is documented in wp-admin/edit.php */
+			$sendback = apply_filters( "handle_bulk_actions-{$screen}", $sendback, $wp_list_table->current_action(), $userids ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 			wp_safe_redirect( $sendback );
 			exit;

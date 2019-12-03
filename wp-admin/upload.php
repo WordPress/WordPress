@@ -198,8 +198,10 @@ if ( $doaction ) {
 			$location = add_query_arg( 'deleted', count( $post_ids ), $location );
 			break;
 		default:
-			/** This action is documented in wp-admin/edit-comments.php */
-			$location = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $location, $doaction, $post_ids ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+			$screen = get_current_screen()->id;
+
+			/** This action is documented in wp-admin/edit.php */
+			$location = apply_filters( "handle_bulk_actions-{$screen}", $location, $doaction, $post_ids ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	}
 
 	wp_redirect( $location );

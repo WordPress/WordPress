@@ -182,8 +182,24 @@ if ( $doaction ) {
 			}
 			break;
 		default:
-			/** This action is documented in wp-admin/edit-comments.php */
-			$sendback = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $sendback, $doaction, $post_ids ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+			$screen = get_current_screen()->id;
+
+			/**
+			 * Fires when a custom bulk action should be handled.
+			 *
+			 * The redirect link should be modified with success or failure feedback
+			 * from the action to be used to display feedback to the user.
+			 *
+			 * The dynamic portion of the hook name, `$screen`, refers to the current screen ID.
+			 *
+			 * @since 4.7.0
+			 *
+			 * @param string $sendback The redirect URL.
+			 * @param string $doaction The action being taken.
+			 * @param array  $items    The items to take the action on. Accepts an array of IDs of posts,
+			 *                         comments, terms, links, plugins, attachments, or users.
+			 */
+			$sendback = apply_filters( "handle_bulk_actions-{$screen}", $sendback, $doaction, $post_ids ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 			break;
 	}
 

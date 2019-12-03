@@ -92,20 +92,7 @@ if ( $doaction ) {
 	if ( ! in_array( $doaction, array( 'approve', 'unapprove', 'spam', 'unspam', 'trash', 'delete' ), true ) ) {
 		$screen = get_current_screen()->id;
 
-		/**
-		 * Fires when a custom bulk action should be handled.
-		 *
-		 * The redirect link should be modified with success or failure feedback
-		 * from the action to be used to display feedback to the user.
-		 *
-		 * The dynamic portion of the hook name, `$screen`, refers to the current screen ID.
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param string $redirect_url The redirect URL.
-		 * @param string $doaction     The action being taken.
-		 * @param array  $items        The items to take the action on.
-		 */
+		/** This action is documented in wp-admin/edit.php */
 		$redirect_to = apply_filters( "handle_bulk_actions-{$screen}", $redirect_to, $doaction, $comment_ids ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	}
 
