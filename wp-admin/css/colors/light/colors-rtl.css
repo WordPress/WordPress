@@ -26,11 +26,11 @@ span.wp-media-buttons-icon:before {
 
 /* Forms */
 input[type=checkbox]:checked::before {
-  content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%2304a4cc%27%2F%3E%3C%2Fsvg%3E");
+  content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%237e8993%27%2F%3E%3C%2Fsvg%3E");
 }
 
 input[type=radio]:checked::before {
-  background: #04a4cc;
+  background: #7e8993;
 }
 
 .wp-core-ui input[type="reset"]:hover,
@@ -62,53 +62,48 @@ textarea:focus {
 }
 
 /* Core UI */
-.wp-core-ui .button,
-.wp-core-ui .button-secondary {
-  color: #04a4cc;
-  border-color: #04a4cc;
+.wp-core-ui .button {
+  border-color: #7e8993;
+  color: #32373c;
 }
 
 .wp-core-ui .button.hover,
 .wp-core-ui .button:hover,
-.wp-core-ui .button-secondary:hover,
 .wp-core-ui .button.focus,
-.wp-core-ui .button:focus,
-.wp-core-ui .button-secondary:focus {
-  border-color: #0490b3;
-  color: #0490b3;
+.wp-core-ui .button:focus {
+  border-color: #717c87;
+  color: #262a2e;
 }
 
 .wp-core-ui .button.focus,
-.wp-core-ui .button:focus,
-.wp-core-ui .button-secondary:focus {
+.wp-core-ui .button:focus {
   border-color: #04a4cc;
-  color: #0490b3;
   box-shadow: 0 0 0 1px #04a4cc;
 }
 
 .wp-core-ui .button:active {
-  background: #0490b3;
-  border-color: #0490b3;
+  border-color: #7e8993;
+  color: #262a2e;
+  box-shadow: none;
 }
 
 .wp-core-ui .button.active,
 .wp-core-ui .button.active:focus,
 .wp-core-ui .button.active:hover {
   border-color: #0490b3;
-  color: #0490b3;
-  box-shadow: inset 0 2px 5px -3px #0490b3;
+  color: #262626;
 }
 
 .wp-core-ui .button-primary {
   background: #04a4cc;
   border-color: #04a4cc;
-  color: #fff;
+  color: #333;
 }
 
 .wp-core-ui .button-primary:hover, .wp-core-ui .button-primary:focus {
   background: #04b0db;
   border-color: #0498bd;
-  color: #fff;
+  color: #333;
 }
 
 .wp-core-ui .button-primary:focus {
@@ -118,12 +113,12 @@ textarea:focus {
 .wp-core-ui .button-primary:active {
   background: #0490b3;
   border-color: #0490b3;
-  color: #fff;
+  color: #333;
 }
 
 .wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover {
   background: #04a4cc;
-  color: #fff;
+  color: #333;
   border-color: #036881;
   box-shadow: inset 0 2px 5px -3px black;
 }
