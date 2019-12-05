@@ -90,8 +90,9 @@ textarea:focus {
 
 	.button.focus,
 	.button:focus {
-		border-color: $highlight-color;
-		box-shadow: 0 0 0 1px $highlight-color;
+		border-color: #7e8993;
+		color: darken( #32373c, 5% );
+		box-shadow: 0 0 0 1px #32373c;
 	}
 
 	.button:active {
@@ -105,6 +106,7 @@ textarea:focus {
 	.button.active:hover {
 		border-color: darken( $button-color, 5% );
 		color: darken( $button-text-color, 5% );
+		box-shadow: inset 0 2px 5px -3px darken( $button-color, 5% );
 	}
 
 	.button-primary {
