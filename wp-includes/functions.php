@@ -2409,6 +2409,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 	// Separate the filename into a name and extension.
 	$ext  = pathinfo( $filename, PATHINFO_EXTENSION );
 	$name = pathinfo( $filename, PATHINFO_BASENAME );
+
 	if ( $ext ) {
 		$ext = '.' . $ext;
 	}
@@ -2426,6 +2427,15 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 		$filename = call_user_func( $unique_filename_callback, $dir, $name, $ext );
 	} else {
 		$number = '';
+		$fname  = pathinfo( $filename, PATHINFO_FILENAME );
+
+		// Always append a number to file names that can potentially match image sub-size file names.
+		if ( $fname && preg_match( '/-(?:\d+x\d+|scaled|rotated)$/', $fname ) ) {
+			$number = 1;
+
+			// At this point the file name may not be unique. This is tested below and the $number is incremented.
+			$filename = str_replace( "{$fname}{$ext}", "{$fname}-{$number}{$ext}", $filename );
+		}
 
 		// Change '.ext' to lower case.
 		if ( $ext && strtolower( $ext ) != $ext ) {
@@ -2433,39 +2443,91 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 			$filename2 = preg_replace( '|' . preg_quote( $ext ) . '$|', $ext2, $filename );
 
 			// Check for both lower and upper case extension or image sub-sizes may be overwritten.
-			while ( file_exists( $dir . "/$filename" ) || file_exists( $dir . "/$filename2" ) ) {
+			while ( file_exists( $dir . "/{$filename}" ) || file_exists( $dir . "/{$filename2}" ) ) {
 				$new_number = (int) $number + 1;
-				$filename   = str_replace( array( "-$number$ext", "$number$ext" ), "-$new_number$ext", $filename );
-				$filename2  = str_replace( array( "-$number$ext2", "$number$ext2" ), "-$new_number$ext2", $filename2 );
+				$filename   = str_replace( array( "-{$number}{$ext}", "{$number}{$ext}" ), "-{$new_number}{$ext}", $filename );
+				$filename2  = str_replace( array( "-{$number}{$ext2}", "{$number}{$ext2}" ), "-{$new_number}{$ext2}", $filename2 );
 				$number     = $new_number;
 			}
 
-			/**
-			 * Filters the result when generating a unique file name.
-			 *
-			 * @since 4.5.0
-			 *
-			 * @param string        $filename                 Unique file name.
-			 * @param string        $ext                      File extension, eg. ".png".
-			 * @param string        $dir                      Directory path.
-			 * @param callable|null $unique_filename_callback Callback function that generates the unique file name.
-			 */
-			return apply_filters( 'wp_unique_filename', $filename2, $ext, $dir, $unique_filename_callback );
+			$filename = $filename2;
+		} else {
+			while ( file_exists( $dir . "/{$filename}" ) ) {
+				$new_number = (int) $number + 1;
+
+				if ( '' === "{$number}{$ext}" ) {
+					$filename = "{$filename}-{$new_number}";
+				} else {
+					$filename = str_replace( array( "-{$number}{$ext}", "{$number}{$ext}" ), "-{$new_number}{$ext}", $filename );
+				}
+
+				$number = $new_number;
+			}
 		}
 
-		while ( file_exists( $dir . "/$filename" ) ) {
-			$new_number = (int) $number + 1;
-			if ( '' == "$number$ext" ) {
-				$filename = "$filename-" . $new_number;
-			} else {
-				$filename = str_replace( array( "-$number$ext", "$number$ext" ), '-' . $new_number . $ext, $filename );
+		// Prevent collisions with existing file names that contain dimension-like strings
+		// (whether they are subsizes or originals uploaded prior to #42437).
+
+		// The (resized) image files would have name and extension, and will be in the uploads dir.
+		if ( @is_dir( $dir ) && $name && $ext ) {
+			// List of all files and directories contained in $dir (with the "dot" files removed).
+			$files = array_diff( scandir( $dir ), array( '.', '..' ) );
+
+			if ( ! empty( $files ) ) {
+				while ( _wp_check_existing_file_names( $filename, $files ) ) {
+					$new_number = (int) $number + 1;
+					$filename   = str_replace( array( "-{$number}{$ext}", "{$number}{$ext}" ), "-{$new_number}{$ext}", $filename );
+					$number     = $new_number;
+				}
 			}
-			$number = $new_number;
 		}
 	}
 
-	/** This filter is documented in wp-includes/functions.php */
+	/**
+	 * Filters the result when generating a unique file name.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param string        $filename                 Unique file name.
+	 * @param string        $ext                      File extension, eg. ".png".
+	 * @param string        $dir                      Directory path.
+	 * @param callable|null $unique_filename_callback Callback function that generates the unique file name.
+	 */
 	return apply_filters( 'wp_unique_filename', $filename, $ext, $dir, $unique_filename_callback );
+}
+
+/**
+ * Helper function to check if a file name could match an existing image sub-size file name.
+ *
+ * @since 5.3.1
+ * @access private
+ *
+ * @param string $filename The file name to check.
+ * $param array  $files    An array of existing files in the directory.
+ * $return bool True if the tested file name could match an existing file, false otherwise.
+ */
+function _wp_check_existing_file_names( $filename, $files ) {
+	$fname = pathinfo( $filename, PATHINFO_FILENAME );
+	$ext   = pathinfo( $filename, PATHINFO_EXTENSION );
+
+	// Edge case, file names like `.ext`
+	if ( empty( $fname ) ) {
+		return false;
+	}
+
+	if ( $ext ) {
+		$ext = ".$ext";
+	}
+
+	$regex = '/^' . preg_quote( $fname ) . '-(?:\d+x\d+|scaled|rotated)' . preg_quote( $ext ) . '$/';
+
+	foreach ( $files as $file ) {
+		if ( preg_match( $regex, $file ) ) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 /**
