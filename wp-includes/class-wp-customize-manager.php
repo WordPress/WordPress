@@ -4569,7 +4569,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @returns array Allowed URLs.
+	 * @return array Allowed URLs.
 	 */
 	public function get_allowed_urls() {
 		$allowed_urls = array( home_url( '/' ) );
@@ -5700,7 +5700,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @returns bool Whether there are published (or to be published) pages.
+	 * @return bool Whether there are published (or to be published) pages.
 	 */
 	public function has_published_pages() {
 

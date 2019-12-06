@@ -179,7 +179,7 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param stdClass        $taxonomy Taxonomy data.
+	 * @param WP_Taxonomy     $taxonomy Taxonomy data.
 	 * @param WP_REST_Request $request  Full details about the request.
 	 * @return WP_REST_Response Response object.
 	 */
@@ -262,7 +262,7 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 		 * @since 4.7.0
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param object           $item     The original taxonomy object.
+		 * @param WP_Taxonomy      $item     The original taxonomy object.
 		 * @param WP_REST_Request  $request  Request used to generate the response.
 		 */
 		return apply_filters( 'rest_prepare_taxonomy', $response, $taxonomy, $request );

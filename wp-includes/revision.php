@@ -443,8 +443,8 @@ function wp_delete_post_revision( $revision_id ) {
 		 *
 		 * @since 2.6.0
 		 *
-		 * @param int          $revision_id Post revision ID.
-		 * @param object|array $revision    Post revision object or array.
+		 * @param int     $revision_id Post revision ID.
+		 * @param WP_Post $revision    Post revision object.
 		 */
 		do_action( 'wp_delete_post_revision', $revision->ID, $revision );
 	}

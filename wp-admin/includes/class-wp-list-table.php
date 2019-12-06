@@ -580,8 +580,8 @@ class WP_List_Table {
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param object $months    The months drop-down query results.
-		 * @param string $post_type The post type.
+		 * @param object[] $months    Array of the months drop-down query results.
+		 * @param string   $post_type The post type.
 		 */
 		$months = apply_filters( 'months_dropdown_results', $months, $post_type );
 

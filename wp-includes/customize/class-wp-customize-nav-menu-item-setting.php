@@ -299,7 +299,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * @since 4.7.0
 	 *
 	 * @param object $item Nav menu item.
-	 * @returns string The type label.
+	 * @return string The type label.
 	 */
 	protected function get_type_label( $item ) {
 		if ( 'post_type' === $item->type ) {

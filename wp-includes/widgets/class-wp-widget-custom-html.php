@@ -239,7 +239,6 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 	 *
 	 * @see WP_Widget_Custom_HTML::render_control_template_scripts()
 	 * @param array $instance Current instance.
-	 * @returns void
 	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, $this->default_instance );

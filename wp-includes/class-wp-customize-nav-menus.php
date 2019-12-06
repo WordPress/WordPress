@@ -1282,7 +1282,7 @@ final class WP_Customize_Nav_Menus {
 	 * @since 4.7.0
 	 *
 	 * @param array $value Post IDs.
-	 * @returns array Post IDs.
+	 * @return array Post IDs.
 	 */
 	public function sanitize_nav_menus_created_posts( $value ) {
 		$post_ids = array();

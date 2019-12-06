@@ -104,7 +104,7 @@ else :
 	 * @since MU (3.0.0)
 	 *
 	 * @param string $settings_html The settings HTML markup. Default empty.
-	 * @param object $context       Context of the setting (global or site-specific). Default 'global'.
+	 * @param string $context       Context of the setting (global or site-specific). Default 'global'.
 	 */
 	$settings_html = apply_filters( 'myblogs_options', '', 'global' );
 	if ( $settings_html != '' ) {
