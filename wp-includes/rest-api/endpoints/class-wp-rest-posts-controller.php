@@ -869,7 +869,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param object           $post     The deleted or trashed post.
+		 * @param WP_Post          $post     The deleted or trashed post.
 		 * @param WP_REST_Response $response The response data.
 		 * @param WP_REST_Request  $request  The request sent to the API.
 		 */
@@ -1145,8 +1145,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param string $post_status Post status.
-	 * @param object $post_type   Post type.
+	 * @param string       $post_status Post status.
+	 * @param WP_Post_Type $post_type   Post type.
 	 * @return string|WP_Error Post status or WP_Error if lacking the proper permission.
 	 */
 	protected function handle_status_param( $post_status, $post_type ) {
@@ -1321,7 +1321,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param object|string $post_type Post type name or object.
+	 * @param WP_Post_Type|string $post_type Post type name or object.
 	 * @return bool Whether the post type is allowed in REST.
 	 */
 	protected function check_is_post_type_allowed( $post_type ) {
@@ -1343,7 +1343,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param object $post Post object.
+	 * @param WP_Post $post Post object.
 	 * @return bool Whether the post can be read.
 	 */
 	public function check_read_permission( $post ) {
@@ -1386,7 +1386,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param object $post Post object.
+	 * @param WP_Post $post Post object.
 	 * @return bool Whether the post can be edited.
 	 */
 	protected function check_update_permission( $post ) {
@@ -1404,7 +1404,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param object $post Post object.
+	 * @param WP_Post $post Post object.
 	 * @return bool Whether the post can be created.
 	 */
 	protected function check_create_permission( $post ) {
@@ -1422,7 +1422,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param object $post Post object.
+	 * @param WP_Post $post Post object.
 	 * @return bool Whether the post can be deleted.
 	 */
 	protected function check_delete_permission( $post ) {

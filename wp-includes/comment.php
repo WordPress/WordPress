@@ -1684,9 +1684,9 @@ function wp_get_comment_status( $comment_id ) {
  *
  * @since 2.7.0
  *
- * @param string $new_status New comment status.
- * @param string $old_status Previous comment status.
- * @param object $comment Comment data.
+ * @param string     $new_status New comment status.
+ * @param string     $old_status Previous comment status.
+ * @param WP_Comment $comment    Comment object.
  */
 function wp_transition_comment_status( $new_status, $old_status, $comment ) {
 	/*
@@ -1716,7 +1716,7 @@ function wp_transition_comment_status( $new_status, $old_status, $comment ) {
 		 *
 		 * @param int|string $new_status The new comment status.
 		 * @param int|string $old_status The old comment status.
-		 * @param object     $comment    The comment data.
+		 * @param WP_Comment $comment    Comment object.
 		 */
 		do_action( 'transition_comment_status', $new_status, $old_status, $comment );
 		/**

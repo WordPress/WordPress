@@ -12,9 +12,9 @@
  *
  * @since 3.6.0
  *
- * @param object|int $post         The post object. Also accepts a post ID.
- * @param int        $compare_from The revision ID to compare from.
- * @param int        $compare_to   The revision ID to come to.
+ * @param WP_Post|int $post         The post object or post ID.
+ * @param int         $compare_from The revision ID to compare from.
+ * @param int         $compare_to   The revision ID to come to.
  *
  * @return array|bool Associative array of a post's revisioned fields and their diffs.
  *                    Or, false on failure.
@@ -158,9 +158,9 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
  *
  * @since 3.6.0
  *
- * @param object|int $post                 The post object. Also accepts a post ID.
- * @param int        $selected_revision_id The selected revision ID.
- * @param int        $from                 Optional. The revision ID to compare from.
+ * @param WP_Post|int $post                 The post object or post ID.
+ * @param int         $selected_revision_id The selected revision ID.
+ * @param int         $from                 Optional. The revision ID to compare from.
  *
  * @return array An associative array of revision data and related settings.
  */

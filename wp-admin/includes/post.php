@@ -1793,8 +1793,8 @@ function _admin_notice_post_locked() {
  *
  * @since 2.6.0
  *
- * @param mixed $post_data Associative array containing the post data or int post ID.
- * @return mixed The autosave revision ID. WP_Error or 0 on error.
+ * @param array|int $post_data Associative array containing the post data or int post ID.
+ * @return int|WP_Error The autosave revision ID. WP_Error or 0 on error.
  */
 function wp_create_post_autosave( $post_data ) {
 	if ( is_numeric( $post_data ) ) {

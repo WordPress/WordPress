@@ -3683,8 +3683,8 @@ function _prime_term_caches( $term_ids, $update_meta_cache = true ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array  $terms    List of Term taxonomy IDs.
- * @param object $taxonomy Current taxonomy object of terms.
+ * @param int[]       $terms    List of Term taxonomy IDs.
+ * @param WP_Taxonomy $taxonomy Current taxonomy object of terms.
  */
 function _update_post_term_count( $terms, $taxonomy ) {
 	global $wpdb;
@@ -3738,8 +3738,8 @@ function _update_post_term_count( $terms, $taxonomy ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array  $terms    List of term taxonomy IDs.
- * @param object $taxonomy Current taxonomy object of terms.
+ * @param int[]       $terms    List of term taxonomy IDs.
+ * @param WP_Taxonomy $taxonomy Current taxonomy object of terms.
  */
 function _update_generic_term_count( $terms, $taxonomy ) {
 	global $wpdb;
@@ -4172,8 +4172,8 @@ function wp_term_is_shared( $term_id ) {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param object|int|string $term     The term object, ID, or slug whose link will be retrieved.
- * @param string            $taxonomy Optional. Taxonomy. Default empty.
+ * @param WP_Term|int|string $term     The term object, ID, or slug whose link will be retrieved.
+ * @param string             $taxonomy Optional. Taxonomy. Default empty.
  * @return string|WP_Error URL of the taxonomy term archive on success, WP_Error if term does not exist.
  */
 function get_term_link( $term, $taxonomy = '' ) {
@@ -4269,9 +4269,9 @@ function get_term_link( $term, $taxonomy = '' ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $termlink Term link URL.
-	 * @param object $term     Term object.
-	 * @param string $taxonomy Taxonomy slug.
+	 * @param string  $termlink Term link URL.
+	 * @param WP_Term $term     Term object.
+	 * @param string  $taxonomy Taxonomy slug.
 	 */
 	return apply_filters( 'term_link', $termlink, $term, $taxonomy );
 }

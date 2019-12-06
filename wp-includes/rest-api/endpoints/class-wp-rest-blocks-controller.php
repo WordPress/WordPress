@@ -24,7 +24,7 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param object $post Post object that backs the block.
+	 * @param WP_Post $post Post object that backs the block.
 	 * @return bool Whether the block can be read.
 	 */
 	public function check_read_permission( $post ) {

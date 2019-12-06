@@ -961,7 +961,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		 * @since 4.7.0
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param object           $user     User object used to create response.
+		 * @param WP_User          $user     User object used to create response.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
 		return apply_filters( 'rest_prepare_user', $response, $user, $request );

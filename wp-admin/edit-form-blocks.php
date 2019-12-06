@@ -144,7 +144,7 @@ $font_sizes    = current( (array) get_theme_support( 'editor-font-sizes' ) );
  *
  * @param bool|array $allowed_block_types Array of block type slugs, or
  *                                        boolean to enable/disable all.
- * @param object $post                    The post resource data.
+ * @param WP_Post    $post                The post resource data.
  */
 $allowed_block_types = apply_filters( 'allowed_block_types', true, $post );
 

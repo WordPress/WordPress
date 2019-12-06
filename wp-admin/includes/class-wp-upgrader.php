@@ -557,10 +557,10 @@ class WP_Upgrader {
 			 *
 			 * @since 2.8.0
 			 *
-			 * @param mixed  $removed            Whether the destination was cleared. true on success, WP_Error on failure
-			 * @param string $local_destination  The local package destination.
-			 * @param string $remote_destination The remote package destination.
-			 * @param array  $hook_extra         Extra arguments passed to hooked filters.
+			 * @param true|WP_Error $removed            Whether the destination was cleared. true upon success, WP_Error on failure.
+			 * @param string        $local_destination  The local package destination.
+			 * @param string        $remote_destination The remote package destination.
+			 * @param array         $hook_extra         Extra arguments passed to hooked filters.
 			 */
 			$removed = apply_filters( 'upgrader_clear_destination', $removed, $local_destination, $remote_destination, $args['hook_extra'] );
 

@@ -769,9 +769,9 @@ function get_last_updated( $deprecated = '', $start = 0, $quantity = 40 ) {
  *
  * @since 3.3.0
  *
- * @param string $new_status The new post status
- * @param string $old_status The old post status
- * @param object $post       Post object
+ * @param string  $new_status The new post status.
+ * @param string  $old_status The old post status.
+ * @param WP_Post $post       Post object.
  */
 function _update_blog_date_on_post_publish( $new_status, $old_status, $post ) {
 	$post_type_obj = get_post_type_object( $post->post_type );

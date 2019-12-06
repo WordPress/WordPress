@@ -925,7 +925,7 @@ switch ( $action ) {
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param object           $errors WP Error object.
+		 * @param WP_Error         $errors WP Error object.
 		 * @param WP_User|WP_Error $user   WP_User object if the login and reset key match. WP_Error object otherwise.
 		 */
 		do_action( 'validate_password_reset', $errors, $user );
@@ -1320,8 +1320,8 @@ switch ( $action ) {
 		 *
 		 * @since 3.6.0
 		 *
-		 * @param object $errors      WP Error object.
-		 * @param string $redirect_to Redirect destination URL.
+		 * @param WP_Error $errors      WP Error object.
+		 * @param string   $redirect_to Redirect destination URL.
 		 */
 		$errors = apply_filters( 'wp_login_errors', $errors, $redirect_to );
 

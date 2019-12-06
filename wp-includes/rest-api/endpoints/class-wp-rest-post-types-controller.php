@@ -227,9 +227,9 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param WP_REST_Response $response The response object.
-		 * @param object           $item     The original post type object.
-		 * @param WP_REST_Request  $request  Request used to generate the response.
+		 * @param WP_REST_Response $response  The response object.
+		 * @param WP_Post_Type     $post_type The original post type object.
+		 * @param WP_REST_Request  $request   Request used to generate the response.
 		 */
 		return apply_filters( 'rest_prepare_post_type', $response, $post_type, $request );
 	}

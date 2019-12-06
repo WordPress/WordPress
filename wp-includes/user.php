@@ -2450,8 +2450,8 @@ function reset_password( $user, $new_pass ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param object $user     The user.
-	 * @param string $new_pass New user password.
+	 * @param WP_User $user     The user.
+	 * @param string  $new_pass New user password.
 	 */
 	do_action( 'password_reset', $user, $new_pass );
 

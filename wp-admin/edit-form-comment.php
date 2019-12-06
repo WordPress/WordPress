@@ -172,8 +172,8 @@ endif;
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param string $html    Output HTML to display miscellaneous action.
-	 * @param object $comment Current comment object.
+	 * @param string     $html    Output HTML to display miscellaneous action.
+	 * @param WP_Comment $comment Current comment object.
 	 */
 	echo apply_filters( 'edit_comment_misc_actions', '', $comment );
 ?>

@@ -222,8 +222,8 @@ if ( $location ) {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param string $location The destination URL.
-	 * @param object $tax      The taxonomy object.
+	 * @param string      $location The destination URL.
+	 * @param WP_Taxonomy $tax      The taxonomy object.
 	 */
 	wp_redirect( apply_filters( 'redirect_term_location', $location, $tax ) );
 	exit;

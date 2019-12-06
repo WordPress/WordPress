@@ -1664,7 +1664,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param object $comment Comment object.
+	 * @param WP_Comment $comment Comment object.
 	 * @return bool Whether the comment can be edited or deleted.
 	 */
 	protected function check_edit_permission( $comment ) {
