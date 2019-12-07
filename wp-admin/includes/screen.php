@@ -48,7 +48,7 @@ function get_column_headers( $screen ) {
  * @since 2.7.0
  *
  * @param string|WP_Screen $screen The screen you want the hidden columns for
- * @return array
+ * @return string[] Array of IDs of hidden columns.
  */
 function get_hidden_columns( $screen ) {
 	if ( is_string( $screen ) ) {
@@ -67,7 +67,7 @@ function get_hidden_columns( $screen ) {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array     $hidden An array of columns hidden by default.
+		 * @param string[]  $hidden Array of IDs of columns hidden by default.
 		 * @param WP_Screen $screen WP_Screen object of the current screen.
 		 */
 		$hidden = apply_filters( 'default_hidden_columns', $hidden, $screen );
@@ -79,8 +79,8 @@ function get_hidden_columns( $screen ) {
 	 * @since 4.4.0
 	 * @since 4.4.1 Added the `use_defaults` parameter.
 	 *
-	 * @param array     $hidden An array of hidden columns.
-	 * @param WP_Screen $screen WP_Screen object of the current screen.
+	 * @param string[]  $hidden       Array of IDs of hidden columns.
+	 * @param WP_Screen $screen       WP_Screen object of the current screen.
 	 * @param bool      $use_defaults Whether to show the default columns.
 	 */
 	return apply_filters( 'hidden_columns', $hidden, $screen, $use_defaults );

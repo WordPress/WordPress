@@ -551,7 +551,7 @@ jQuery(document).ready( function($) {
  *
  * @since 2.7.0
  *
- * @param object $user User data object.
+ * @param WP_User $user User data object.
  */
 function use_ssl_preference( $user ) {
 	?>
