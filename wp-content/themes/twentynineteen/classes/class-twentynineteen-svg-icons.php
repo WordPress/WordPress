@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Nineteen
- * @since 1.0.0
+ * @since Twenty Nineteen 1.0
  */
 
 /**
@@ -17,7 +17,7 @@
  * All icons are assumed to have equal width and height, hence the option
  * to only specify a `$size` parameter in the svg methods.
  *
- * @since 1.0.0
+ * @since Twenty Nineteen 1.0
  */
 class TwentyNineteen_SVG_Icons {
 

@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
- * @since 1.0.0
+ * @since Twenty Twenty 1.0
  */
 
 /**
@@ -106,7 +106,7 @@ function twentytwenty_site_description( $echo = true ) {
 	/**
 	 * Filters the html for the site description.
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty 1.0
 	 *
 	 * @param string $html         The HTML to display.
 	 * @param string $description  Site description via `bloginfo()`.
@@ -237,7 +237,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 	 *
 	 * This filter can be used to hide post meta information of post, page or custom post type registerd by child themes or plugins
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty 1.0
 	 *
 	 * @param array Array of post types
 	 */
@@ -257,7 +257,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 		*
 		* Use this filter to hide post meta information like Author, Post date, Comments, Is sticky status
 		*
-		* @since 1.0.0
+		* @since Twenty Twenty 1.0
 		*
 		* @param array $args {
 		*  @type string 'author'
@@ -284,7 +284,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 		*
 		* Use this filter to hide post tags
 		*
-		* @since 1.0.0
+		* @since Twenty Twenty 1.0
 		*
 		* @param array $args {
 		*   @type string 'tags'
@@ -325,7 +325,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 				 *
 				 * Allow output of additional post meta info to be added by child themes and plugins.
 				 *
-				 * @since 1.0.0
+				 * @since Twenty Twenty 1.0
 				 *
 				 * @param int   $post_ID Post ID.
 				 */
@@ -448,7 +448,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 				 *
 				 * Allow output of additional post meta info to be added by child themes and plugins.
 				 *
-				 * @since 1.0.0
+				 * @since Twenty Twenty 1.0
 				 *
 				 * @param int   $post_ID Post ID.
 				 */
@@ -747,7 +747,7 @@ function twentytwenty_toggle_duration() {
 	/**
 	 * Filters the animation duration/speed used usually for submenu toggles.
 	 *
-	 * @since 1.0
+	 * @since Twenty Twenty 1.0
 	 *
 	 * @param integer $duration Duration in milliseconds.
 	 */

@@ -6,7 +6,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
- * @since 1.0.0
+ * @since Twenty Twenty 1.0
  */
 
 /**
@@ -232,7 +232,7 @@ add_action( 'wp_print_footer_scripts', 'twentytwenty_skip_link_focus_fix' );
 
 /** Enqueue non-latin language styles
  *
- * @since 1.0.0
+ * @since Twenty Twenty 1.0
  *
  * @return void
  */
@@ -578,7 +578,7 @@ add_filter( 'the_content_more_link', 'twentytwenty_read_more_tag' );
 /**
  * Enqueues scripts for customizer controls & settings.
  *
- * @since 1.0.0
+ * @since Twenty Twenty 1.0
  *
  * @return void
  */
@@ -601,7 +601,7 @@ add_action( 'customize_controls_enqueue_scripts', 'twentytwenty_customize_contro
 /**
  * Enqueue scripts for the customizer preview.
  *
- * @since 1.0.0
+ * @since Twenty Twenty 1.0
  *
  * @return void
  */
@@ -627,7 +627,7 @@ add_action( 'customize_preview_init', 'twentytwenty_customize_preview_init' );
 /**
  * Get accessible color for an area.
  *
- * @since 1.0.0
+ * @since Twenty Twenty 1.0
  *
  * @param string $area The area we want to get the colors for.
  * @param string $context Can be 'text' or 'accent'.
@@ -666,7 +666,7 @@ function twentytwenty_get_color_for_area( $area = 'content', $context = 'text' )
 /**
  * Returns an array of variables for the customizer preview.
  *
- * @since 1.0.0
+ * @since Twenty Twenty 1.0
  *
  * @return array
  */
@@ -685,7 +685,7 @@ function twentytwenty_get_customizer_color_vars() {
 /**
  * Get an array of elements.
  *
- * @since 1.0
+ * @since Twenty Twenty 1.0
  *
  * @return array
  */
@@ -749,7 +749,7 @@ function twentytwenty_get_elements_array() {
 	/**
 	* Filters Twenty Twenty theme elements
 	*
-	* @since 1.0.0
+	* @since Twenty Twenty 1.0
 	*
 	* @param array Array of elements
 	*/

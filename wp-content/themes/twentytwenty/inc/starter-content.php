@@ -6,7 +6,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
- * @since 1.0.0
+ * @since Twenty Twenty 1.0
  */
 
 /**
@@ -14,7 +14,7 @@
  *
  * Passes it through the `twentytwenty_starter_content` filter before returning.
  *
- * @since  Twenty Twenty 1.0.0
+ * @since Twenty Twenty 1.0
  * @return array a filtered array of args for the starter_content.
  */
 function twentytwenty_get_starter_content() {
@@ -208,7 +208,7 @@ function twentytwenty_get_starter_content() {
 	/**
 	 * Filters Twenty Twenty array of starter content.
 	 *
-	 * @since Twenty Twenty 1.0.0
+	 * @since Twenty Twenty 1.0
 	 *
 	 * @param array $starter_content Array of starter content.
 	 */

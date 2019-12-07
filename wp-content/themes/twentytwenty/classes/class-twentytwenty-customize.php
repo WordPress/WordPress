@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
- * @since 1.0.0
+ * @since Twenty Twenty 1.0
  */
 
 if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
@@ -134,7 +134,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 			 * The control is a hue-only colorpicker, and there is a separate setting that holds values
 			 * for other colors calculated based on the selected hue and various background-colors on the page.
 			 *
-			 * @since 1.0.0
+			 * @since Twenty Twenty 1.0
 			 */
 
 			// Add the setting for the hue colorpicker.
@@ -414,7 +414,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 		 *
 		 * @static
 		 * @access public
-		 * @since 1.0.0
+		 * @since Twenty Twenty 1.0
 		 * @param array $value The value we want to sanitize.
 		 * @return array       Returns sanitized value. Each item in the array gets sanitized separately.
 		 */

@@ -1,7 +1,7 @@
 /**
  * Remove squared button style
  *
- * @since 1.0.0
+ * @since Twenty Twenty 1.0
  */
 /* global wp */
 wp.domReady( function() {
