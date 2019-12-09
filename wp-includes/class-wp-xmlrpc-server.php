@@ -1469,8 +1469,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_data['edit_date'] = false;
 
 		if ( ! empty( $dateCreated ) ) {
-			$post_data['post_date']     = get_date_from_gmt( iso8601_to_datetime( $dateCreated ) );
-			$post_data['post_date_gmt'] = iso8601_to_datetime( $dateCreated, 'GMT' );
+			$post_data['post_date']     = iso8601_to_datetime( $dateCreated );
+			$post_data['post_date_gmt'] = iso8601_to_datetime( $dateCreated, 'gmt' );
 
 			// Flag the post date to be edited.
 			$post_data['edit_date'] = true;
@@ -3762,8 +3762,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! empty( $content_struct['date_created_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
 			$dateCreated                 = rtrim( $content_struct['date_created_gmt']->getIso(), 'Z' ) . 'Z';
-			$comment['comment_date']     = get_date_from_gmt( iso8601_to_datetime( $dateCreated ) );
-			$comment['comment_date_gmt'] = iso8601_to_datetime( $dateCreated, 'GMT' );
+			$comment['comment_date']     = get_date_from_gmt( $dateCreated );
+			$comment['comment_date_gmt'] = iso8601_to_datetime( $dateCreated, 'gmt' );
 		}
 
 		if ( isset( $content_struct['content'] ) ) {
@@ -5481,8 +5481,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! empty( $dateCreated ) ) {
-			$post_date     = get_date_from_gmt( iso8601_to_datetime( $dateCreated ) );
-			$post_date_gmt = iso8601_to_datetime( $dateCreated, 'GMT' );
+			$post_date     = iso8601_to_datetime( $dateCreated );
+			$post_date_gmt = iso8601_to_datetime( $dateCreated, 'gmt' );
 		} else {
 			$post_date     = '';
 			$post_date_gmt = '';
@@ -5870,8 +5870,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$edit_date = false;
 
 		if ( ! empty( $dateCreated ) ) {
-			$post_date     = get_date_from_gmt( iso8601_to_datetime( $dateCreated ) );
-			$post_date_gmt = iso8601_to_datetime( $dateCreated, 'GMT' );
+			$post_date     = iso8601_to_datetime( $dateCreated );
+			$post_date_gmt = iso8601_to_datetime( $dateCreated, 'gmt' );
 
 			// Flag the post date to be edited.
 			$edit_date = true;
