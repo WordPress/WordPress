@@ -151,8 +151,9 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
         for ($i = 0; $i < 10; ++$i) {
             $h[$i] = $h[$i]->toInt32();
         }
-        /** @var array<int, ParagonIE_Sodium_Core32_Int32> $h */
-        return ParagonIE_Sodium_Core32_Curve25519_Fe::fromArray($h);
+        /** @var array<int, ParagonIE_Sodium_Core32_Int32> $h2 */
+        $h2 = $h;
+        return ParagonIE_Sodium_Core32_Curve25519_Fe::fromArray($h2);
     }
 
     /**

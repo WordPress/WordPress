@@ -43,7 +43,17 @@ if (PHP_VERSION_ID >= 50300) {
     // unless PHP >= 5.3.0
     require_once dirname(__FILE__) . '/lib/namespaced.php';
     require_once dirname(__FILE__) . '/lib/sodium_compat.php';
+} else {
+    require_once dirname(__FILE__) . '/src/PHP52/SplFixedArray.php';
 }
 if (PHP_VERSION_ID < 70200 || !extension_loaded('sodium')) {
-    require_once dirname(__FILE__) . '/lib/php72compat.php';
+    if (PHP_VERSION_ID >= 50300 && !defined('SODIUM_CRYPTO_SCALARMULT_BYTES')) {
+        require_once dirname(__FILE__) . '/lib/php72compat_const.php';
+    }
+    if (PHP_VERSION_ID >= 70000) {
+        assert(class_exists('ParagonIE_Sodium_Compat'), 'Possible filesystem/autoloader bug?');
+    } else {
+        assert(class_exists('ParagonIE_Sodium_Compat'));
+    }
+    require_once (dirname(__FILE__) . '/lib/php72compat.php');
 }
