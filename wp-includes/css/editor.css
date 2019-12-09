@@ -1201,9 +1201,10 @@ i.mce-i-wp_code:before {
 
 .wp-media-buttons span.wp-media-buttons-icon {
 	display: inline-block;
-	width: 18px;
-	height: 18px;
-	vertical-align: text-top;
+	width: 20px;
+	height: 20px;
+	line-height: 1;
+	vertical-align: middle;
 	margin: 0 2px;
 }
 
@@ -1776,7 +1777,9 @@ div.wp-link-input input {
 	width: 300px;
 	padding: 3px;
 	box-sizing: border-box;
-	line-height: 1.28571429;
+	line-height: 1.28571429; /* 18px */
+	/* Override value inherited from default input fields. */
+	min-height: 26px;
 }
 
 .mce-toolbar div.wp-link-preview ~ .mce-btn,

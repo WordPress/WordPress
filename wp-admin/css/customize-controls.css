@@ -159,6 +159,7 @@ body:not(.ready) #customize-save-button-wrapper .save {
 	float: left;
 	transform: none;
 	margin-top: 0;
+	line-height: 2;
 }
 
 body:not(.ready) #publish-settings,
@@ -912,12 +913,6 @@ p.customize-section-description {
 	margin-bottom: 12px;
 }
 
-.customize-control select,
-.customize-control input[type="radio"],
-.customize-control input[type="checkbox"] {
-	line-height: 2;
-}
-
 .customize-control input[type="text"],
 .customize-control input[type="password"],
 .customize-control input[type="email"],
@@ -940,8 +935,6 @@ p.customize-section-description {
 
 .customize-control select {
 	width: 100%;
-	height: 28px;
-	line-height: 2;
 }
 
 .customize-control select[multiple] {
@@ -2871,15 +2864,11 @@ body.adding-widget .add-new-widget:before,
 	}
 
 	.wp-core-ui.wp-customizer .button {
-		padding: 6px 14px;
-		line-height: normal;
+		min-height: 30px;
+		padding: 0 14px;
+		line-height: 2;
 		font-size: 14px;
 		vertical-align: middle;
-		height: auto;
-	}
-
-	#publish-settings {
-		height: 31px;
 	}
 
 	#customize-control-changeset_status .customize-inside-control-row {

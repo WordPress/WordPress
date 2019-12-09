@@ -28,7 +28,7 @@ label {
 
 input,
 select {
-	margin: 1px;
+	margin: 0 1px;
 }
 
 textarea.code {
@@ -308,48 +308,41 @@ input[type="radio"].disabled:checked:before {
 ------------------------------------------------------------------------------*/
 
 /* Select styles are based on the default button in buttons.css */
-.wp-admin select {
-	font-size: 13px;
-	line-height: 1.38461538; /* 18px */
+.wp-core-ui select {
+	font-size: 14px;
+	line-height: 2; /* 28px */
 	color: #32373c;
 	border-color: #7e8993;
 	box-shadow: none;
 	border-radius: 3px;
-	padding: 3px 24px 3px 8px;
-	min-height: 28px;
+	padding: 0 24px 0 8px;
+	min-height: 30px;
 	max-width: 25rem;
-	vertical-align: middle;
 	-webkit-appearance: none;
 	/* The SVG is arrow-down-alt2 from Dashicons. */
 	background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 5px top 55%;
 	background-size: 16px 16px;
 	cursor: pointer;
-}
+	vertical-align: middle;
+}e
 
-/* Color and font size in the core form tables. */
-.wp-admin .form-table select {
-	font-size: 14px;
-	line-height: 1.28571428; /* 18px */
-	color: #32373c;
-}
-
-.wp-admin select:hover {
+.wp-core-ui select:hover {
 	color: #007cba;
 }
 
-.wp-admin select:focus {
+.wp-core-ui select:focus {
 	border-color: #007cba;
 	color: #016087;
 	box-shadow: 0 0 0 1px #007cba;
 }
 
-.wp-admin select:active {
+.wp-core-ui select:active {
 	border-color: #999;
 	box-shadow: none;
 }
 
-.wp-admin select.disabled,
-.wp-admin select:disabled {
+.wp-core-ui select.disabled,
+.wp-core-ui select:disabled {
 	color: #a0a5aa;
 	border-color: #ddd;
 	background-color: #f7f7f7;
@@ -363,32 +356,32 @@ input[type="radio"].disabled:checked:before {
 
 /* Reset Firefox inner outline that appears on :focus. */
 /* This ruleset overrides the color change on :focus thus needs to be after select:focus. */
-.wp-admin select:-moz-focusring {
+.wp-core-ui select:-moz-focusring {
 	color: transparent;
 	text-shadow: 0 0 0 #016087;
 }
 
 /* Remove background focus style from IE11 while keeping focus style available on option elements. */
-.wp-admin select::-ms-value {
+.wp-core-ui select::-ms-value {
 	background: transparent;
 	color: #555;
 }
 
-.wp-admin select:hover::-ms-value {
+.wp-core-ui select:hover::-ms-value {
 	color: #007cba;
 }
 
-.wp-admin select:focus::-ms-value {
+.wp-core-ui select:focus::-ms-value {
 	color: #016087;
 }
 
-.wp-admin select.disabled::-ms-value,
-.wp-admin select:disabled::-ms-value {
+.wp-core-ui select.disabled::-ms-value,
+.wp-core-ui select:disabled::-ms-value {
 	color: #a0a5aa;
 }
 
 /* Hide the native down arrow for select element on IE. */
-.wp-admin select::-ms-expand {
+.wp-core-ui select::-ms-expand {
 	display: none;
 }
 
@@ -407,7 +400,7 @@ input[type="radio"].disabled:checked:before {
 	margin-top: 0;
 }
 
-.wp-admin select[multiple] {
+.wp-core-ui select[multiple] {
 	height: auto;
 	padding-right: 8px;
 	background: #fff;
@@ -484,14 +477,7 @@ input[type="number"].tiny-text {
 #doaction,
 #doaction2,
 #post-query-submit {
-	margin: 1px 8px 0 0;
-}
-
-.tablenav #changeit,
-.tablenav #delete_all,
-.tablenav #clear-recent-list,
-.wp-filter #delete_all {
-	margin-top: 1px;
+	margin: 0 8px 0 0;
 }
 
 .tablenav .actions select {
@@ -508,6 +494,10 @@ input[type="number"].tiny-text {
 .wp-cancel-pw > .dashicons {
 	position: relative;
 	top: 3px;
+	width: 1.25rem;
+	height: 1.25rem;
+	top: 0.25rem;
+	font-size: 20px;
 }
 
 .wp-cancel-pw .dashicons-no {
@@ -601,9 +591,12 @@ fieldset label,
 .wp-pwd [type="password"] {
 	margin-bottom: 0;
 	/* Same height as the buttons */
-	line-height: 20px;
-	min-height: 28px;
-	max-height: 40px;
+	min-height: 30px;
+}
+
+/* Hide the Edge "reveal password" native button */
+.wp-pwd input::-ms-reveal {
+	display: none;
 }
 
 #pass1-text,
@@ -1325,6 +1318,8 @@ table.form-table td .updated p {
 	input[type="week"] {
 		-webkit-appearance: none;
 		padding: 3px 10px;
+		/* Only necessary for IE11 */
+		min-height: 40px;
 	}
 
 	::-webkit-datetime-edit {
@@ -1376,7 +1371,7 @@ table.form-table td .updated p {
 		margin-top: 10px;
 	}
 
-	.wp-admin select,
+	.wp-core-ui select,
 	.wp-admin .form-table select {
 		min-height: 40px;
 		font-size: 16px;
@@ -1526,6 +1521,10 @@ table.form-table td .updated p {
 		font-size: 14px;
 	}
 
+	.background-position-control .button-group > label {
+		font-size: 0;
+	}
+
 	.form-table fieldset label {
 		display: block;
 	}
@@ -1561,10 +1560,14 @@ table.form-table td .updated p {
 		position: absolute;
 		right: 0;
 		top: 0;
+		width: 2.375rem;
+		height: 2.375rem;
+		min-width: 40px;
+		min-height: 40px;
 	}
 
 	.wp-pwd button.wp-hide-pw {
-		right: 40px;
+		right: 2.5rem;
 	}
 
 	.wp-pwd button.button:hover,
@@ -1585,6 +1588,7 @@ table.form-table td .updated p {
 	.wp-pwd [type="text"],
 	.wp-pwd [type="password"] {
 		line-height: 2;
+		padding-right: 5rem;
 	}
 
 	.wp-cancel-pw .dashicons-no {
