@@ -581,14 +581,26 @@ switch ( $action ) {
 			exit;
 		}
 
+		/**
+		 * Filters the interval for dismissing the admin email confirmation screen.
+		 *
+		 * If `0` (zero) is returned, the "Remind me later" link will not be displayed.
+		 *
+		 * @since 5.3.1
+		 *
+		 * @param int $interval Interval time (in seconds). Default is 3 days.
+		 */
+		$remind_interval = (int) apply_filters( 'admin_email_remind_interval', 3 * DAY_IN_SECONDS );
+
 		if ( ! empty( $_GET['remind_me_later'] ) ) {
 			if ( ! wp_verify_nonce( $_GET['remind_me_later'], 'remind_me_later_nonce' ) ) {
 				wp_safe_redirect( wp_login_url() );
 				exit;
 			}
 
-			// "Remind me later" is a bit ambiguous. Three days later?
-			update_option( 'admin_email_lifespan', time() + 3 * DAY_IN_SECONDS );
+			if ( $remind_interval > 0 ) {
+				update_option( 'admin_email_lifespan', time() + $remind_interval );
+			}
 
 			wp_safe_redirect( $redirect_to );
 			exit;
@@ -695,21 +707,23 @@ switch ( $action ) {
 					<a class="button button-large" href="<?php echo esc_url( $change_link ); ?>"><?php _e( 'Update' ); ?></a>
 					<input type="submit" name="correct-admin-email" id="correct-admin-email" class="button button-primary button-large" value="<?php esc_attr_e( 'The email is correct' ); ?>" />
 				</div>
-				<div class="admin-email__actions-secondary">
-					<?php
+				<?php if ( $remind_interval > 0 ) : ?>
+					<div class="admin-email__actions-secondary">
+						<?php
 
-					$remind_me_link = wp_login_url( $redirect_to );
-					$remind_me_link = add_query_arg(
-						array(
-							'action'          => 'confirm_admin_email',
-							'remind_me_later' => wp_create_nonce( 'remind_me_later_nonce' ),
-						),
-						$remind_me_link
-					);
+						$remind_me_link = wp_login_url( $redirect_to );
+						$remind_me_link = add_query_arg(
+							array(
+								'action'          => 'confirm_admin_email',
+								'remind_me_later' => wp_create_nonce( 'remind_me_later_nonce' ),
+							),
+							$remind_me_link
+						);
 
-					?>
-					<a href="<?php echo esc_url( $remind_me_link ); ?>"><?php _e( 'Remind me later' ); ?></a>
-				</div>
+						?>
+						<a href="<?php echo esc_url( $remind_me_link ); ?>"><?php _e( 'Remind me later' ); ?></a>
+					</div>
+				<?php endif; ?>
 			</div>
 		</form>
 
