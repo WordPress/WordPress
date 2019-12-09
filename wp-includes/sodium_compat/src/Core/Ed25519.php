@@ -276,7 +276,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
         if (self::strlen($sig) < 64) {
             throw new SodiumException('Signature is too short');
         }
-        if (self::check_S_lt_L(self::substr($sig, 32, 32))) {
+        if ((self::chrToInt($sig[63]) & 240) && self::check_S_lt_L(self::substr($sig, 32, 32))) {
             throw new SodiumException('S < L - Invalid signature');
         }
         if (self::small_order($sig)) {
