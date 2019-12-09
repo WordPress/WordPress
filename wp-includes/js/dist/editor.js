@@ -13620,6 +13620,9 @@ var store_storeConfig = {
 var build_module_store_store = Object(external_this_wp_data_["registerStore"])(MODULE_KEY, store_storeConfig);
 /* harmony default export */ var block_directory_build_module_store = (build_module_store_store);
 
+// EXTERNAL MODULE: external {"this":["wp","plugins"]}
+var external_this_wp_plugins_ = __webpack_require__(48);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/block-ratings/stars.js
 
 
@@ -14049,14 +14052,7 @@ function DownloadableBlocksPanel(_ref) {
   };
 })])(DownloadableBlocksPanel));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/index.js
-/**
- * Internal dependencies
- */
-
-
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/inserter-menu-downloadable-blocks-panel/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/plugins/inserter-menu-downloadable-blocks-panel/index.js
 
 
 
@@ -14069,6 +14065,10 @@ function DownloadableBlocksPanel(_ref) {
  */
 
 
+
+/**
+ * Internal dependencies
+ */
 
 
 
@@ -14103,6 +14103,79 @@ function InserterMenuDownloadableBlocksPanel() {
 }
 
 /* harmony default export */ var inserter_menu_downloadable_blocks_panel = (InserterMenuDownloadableBlocksPanel);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/plugins/index.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+Object(external_this_wp_plugins_["registerPlugin"])('block-directory', {
+  render: function render() {
+    return Object(external_this_wp_element_["createElement"])(inserter_menu_downloadable_blocks_panel, null);
+  }
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/index.js
+/**
+ * Internal dependencies
+ */
+
+
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/inserter-menu-downloadable-blocks-panel/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+function inserter_menu_downloadable_blocks_panel_InserterMenuDownloadableBlocksPanel() {
+  var _useState = Object(external_this_wp_element_["useState"])(''),
+      _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
+      debouncedFilterValue = _useState2[0],
+      setFilterValue = _useState2[1];
+
+  var debouncedSetFilterValue = Object(external_lodash_["debounce"])(setFilterValue, 400);
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalInserterMenuExtension"], null, function (_ref) {
+    var onSelect = _ref.onSelect,
+        onHover = _ref.onHover,
+        filterValue = _ref.filterValue,
+        hasItems = _ref.hasItems;
+
+    if (hasItems || !filterValue) {
+      return null;
+    }
+
+    if (debouncedFilterValue !== filterValue) {
+      debouncedSetFilterValue(filterValue);
+    }
+
+    return Object(external_this_wp_element_["createElement"])(/* Cannot get final name for export "DownloadableBlocksPanel" in "./node_modules/@wordpress/block-directory/build-module/index.js" (known exports: , known reexports: ) */ undefined, {
+      onSelect: onSelect,
+      onHover: onHover,
+      filterValue: debouncedFilterValue,
+      isWaiting: filterValue !== debouncedFilterValue
+    });
+  });
+}
+
+/* harmony default export */ var components_inserter_menu_downloadable_blocks_panel = (inserter_menu_downloadable_blocks_panel_InserterMenuDownloadableBlocksPanel);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/provider/index.js
 
@@ -14305,7 +14378,7 @@ function (_Component) {
         onChange: resetEditorBlocks,
         settings: editorSettings,
         useSubRegistry: false
-      }, children, Object(external_this_wp_element_["createElement"])(reusable_blocks_buttons, null), Object(external_this_wp_element_["createElement"])(convert_to_group_buttons, null), editorSettings.__experimentalBlockDirectory && Object(external_this_wp_element_["createElement"])(inserter_menu_downloadable_blocks_panel, null));
+      }, children, Object(external_this_wp_element_["createElement"])(reusable_blocks_buttons, null), Object(external_this_wp_element_["createElement"])(convert_to_group_buttons, null), editorSettings.__experimentalBlockDirectory && Object(external_this_wp_element_["createElement"])(components_inserter_menu_downloadable_blocks_panel, null));
     }
   }]);
 
@@ -15933,6 +16006,13 @@ try {
   Function("r", "regeneratorRuntime = r")(runtime);
 }
 
+
+/***/ }),
+
+/***/ 48:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["plugins"]; }());
 
 /***/ }),
 

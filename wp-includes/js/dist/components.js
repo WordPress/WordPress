@@ -1443,7 +1443,8 @@ try {
 
 
 /***/ }),
-/* 48 */
+/* 48 */,
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
@@ -2643,7 +2644,7 @@ else {}
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2667,7 +2668,7 @@ module.exports = polyfill;
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2886,7 +2887,6 @@ var CalendarDayPhrases = exports.CalendarDayPhrases = {
 };
 
 /***/ }),
-/* 51 */,
 /* 52 */,
 /* 53 */,
 /* 54 */
@@ -2900,7 +2900,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports['default'] = getPhrasePropTypes;
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -3001,7 +3001,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 exports.withStyles = withStyles;
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -7925,7 +7925,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -7953,7 +7953,7 @@ var _moment = __webpack_require__(29);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -8788,7 +8788,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -8824,7 +8824,7 @@ var _reactOutsideClickHandler = __webpack_require__(134);
 
 var _reactOutsideClickHandler2 = _interopRequireDefault(_reactOutsideClickHandler);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -11378,7 +11378,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -11406,7 +11406,7 @@ var _moment = __webpack_require__(29);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -11827,7 +11827,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -11857,7 +11857,7 @@ var _moment2 = _interopRequireDefault(_moment);
 
 var _consolidatedEvents = __webpack_require__(105);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -12644,7 +12644,7 @@ var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
 var _airbnbPropTypes = __webpack_require__(46);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -13027,7 +13027,7 @@ var _OpenDirectionShape = __webpack_require__(81);
 
 var _OpenDirectionShape2 = _interopRequireDefault(_OpenDirectionShape);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -13490,7 +13490,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -13506,7 +13506,7 @@ var _airbnbPropTypes = __webpack_require__(46);
 
 var _reactWithStyles = __webpack_require__(56);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -13948,7 +13948,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -14638,7 +14638,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -14668,7 +14668,7 @@ var _isTouchDevice = __webpack_require__(80);
 
 var _isTouchDevice2 = _interopRequireDefault(_isTouchDevice);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -16246,7 +16246,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -16276,7 +16276,7 @@ var _isTouchDevice = __webpack_require__(80);
 
 var _isTouchDevice2 = _interopRequireDefault(_isTouchDevice);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -17300,7 +17300,7 @@ var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
 var _airbnbPropTypes = __webpack_require__(46);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -17421,7 +17421,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -17437,7 +17437,7 @@ var _airbnbPropTypes = __webpack_require__(46);
 
 var _reactWithStyles = __webpack_require__(56);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -25096,7 +25096,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -25124,7 +25124,7 @@ var _moment = __webpack_require__(29);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -25759,7 +25759,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -25795,7 +25795,7 @@ var _DateRangePickerShape = __webpack_require__(188);
 
 var _DateRangePickerShape2 = _interopRequireDefault(_DateRangePickerShape);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getResponsiveContainerStyles = __webpack_require__(192);
 
@@ -28506,7 +28506,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -28522,7 +28522,7 @@ var _airbnbPropTypes = __webpack_require__(46);
 
 var _reactWithStyles = __webpack_require__(56);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -28890,7 +28890,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -28906,7 +28906,7 @@ var _airbnbPropTypes = __webpack_require__(46);
 
 var _reactWithStyles = __webpack_require__(56);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _getPhrasePropTypes = __webpack_require__(54);
 
@@ -29396,7 +29396,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -29560,7 +29560,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = __webpack_require__(49);
+var _object = __webpack_require__(50);
 
 var _object2 = _interopRequireDefault(_object);
 
@@ -29592,7 +29592,7 @@ var _SingleDatePickerShape = __webpack_require__(208);
 
 var _SingleDatePickerShape2 = _interopRequireDefault(_SingleDatePickerShape);
 
-var _defaultPhrases = __webpack_require__(50);
+var _defaultPhrases = __webpack_require__(51);
 
 var _toMomentObject = __webpack_require__(78);
 
@@ -35435,7 +35435,7 @@ function (_Component) {
 /* harmony default export */ var dropdown = (dropdown_Dropdown);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(48);
+var tinycolor = __webpack_require__(49);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/color-picker/utils.js

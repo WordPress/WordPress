@@ -4928,7 +4928,7 @@ var external_this_wp_hooks_ = __webpack_require__(27);
 var external_this_wp_data_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(48);
+var tinycolor = __webpack_require__(49);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors/utils.js
@@ -19749,7 +19749,7 @@ function (_Component) {
         return;
       }
 
-      var diff = currentCaretRect.y - this.caretRect.y;
+      var diff = currentCaretRect.top - this.caretRect.top;
 
       if (diff === 0) {
         return;
@@ -19763,8 +19763,8 @@ function (_Component) {
 
       var windowScroll = scrollContainer === document.body;
       var scrollY = windowScroll ? window.scrollY : scrollContainer.scrollTop;
-      var scrollContainerY = windowScroll ? 0 : scrollContainer.getBoundingClientRect().y;
-      var relativeScrollPosition = windowScroll ? this.caretRect.y / window.innerHeight : (this.caretRect.y - scrollContainerY) / (window.innerHeight - scrollContainerY); // If the scroll position is at the start, the active editable element
+      var scrollContainerY = windowScroll ? 0 : scrollContainer.getBoundingClientRect().top;
+      var relativeScrollPosition = windowScroll ? this.caretRect.top / window.innerHeight : (this.caretRect.top - scrollContainerY) / (window.innerHeight - scrollContainerY); // If the scroll position is at the start, the active editable element
       // is the last one, and the caret is positioned within the initial
       // trigger percentage of the page, do not scroll the page.
       // The typewriter effect should not kick in until an empty page has been
@@ -19781,8 +19781,8 @@ function (_Component) {
       // view.
 
       if ( // The caret is under the lower fold.
-      this.caretRect.y + this.caretRect.height > scrollContainerY + scrollContainerHeight || // The caret is above the upper fold.
-      this.caretRect.y < scrollContainerY) {
+      this.caretRect.top + this.caretRect.height > scrollContainerY + scrollContainerHeight || // The caret is above the upper fold.
+      this.caretRect.top < scrollContainerY) {
         // Reset the caret position to maintain.
         this.caretRect = currentCaretRect;
         return;
@@ -23627,7 +23627,7 @@ try {
 
 /***/ }),
 
-/***/ 48:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
