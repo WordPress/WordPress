@@ -244,88 +244,97 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		$image_meta['image_meta'] = $exif_meta;
 	}
 
-	/**
-	 * Filters the "BIG image" threshold value.
-	 *
-	 * If the original image width or height is above the threshold, it will be scaled down. The threshold is
-	 * used as max width and max height. The scaled down image will be used as the largest available size, including
-	 * the `_wp_attached_file` post meta value.
-	 *
-	 * Returning `false` from the filter callback will disable the scaling.
-	 *
-	 * @since 5.3.0
-	 *
-	 * @param int    $threshold     The threshold value in pixels. Default 2560.
-	 * @param array  $imagesize     Indexed array of the image width and height (in that order).
-	 * @param string $file          Full path to the uploaded image file.
-	 * @param int    $attachment_id Attachment post ID.
-	 */
-	$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file, $attachment_id );
+	// Do not scale (large) PNG images. May result in sub-sizes that have greater file size than the original. See #48736.
+	if ( $imagesize['mime'] !== 'image/png' ) {
 
-	// If the original image's dimensions are over the threshold, scale the image
-	// and use it as the "full" size.
-	if ( $threshold && ( $image_meta['width'] > $threshold || $image_meta['height'] > $threshold ) ) {
-		$editor = wp_get_image_editor( $file );
+		/**
+		 * Filters the "BIG image" threshold value.
+		 *
+		 * If the original image width or height is above the threshold, it will be scaled down. The threshold is
+		 * used as max width and max height. The scaled down image will be used as the largest available size, including
+		 * the `_wp_attached_file` post meta value.
+		 *
+		 * Returning `false` from the filter callback will disable the scaling.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param int    $threshold     The threshold value in pixels. Default 2560.
+		 * @param array  $imagesize     {
+		 *     Indexed array of the image width and height in pixels.
+		 *
+		 *     @type int $0 The image width.
+		 *     @type int $1 The image height.
+		 * }
+		 * @param string $file          Full path to the uploaded image file.
+		 * @param int    $attachment_id Attachment post ID.
+		 */
+		$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file, $attachment_id );
 
-		if ( is_wp_error( $editor ) ) {
-			// This image cannot be edited.
-			return $image_meta;
-		}
+		// If the original image's dimensions are over the threshold, scale the image
+		// and use it as the "full" size.
+		if ( $threshold && ( $image_meta['width'] > $threshold || $image_meta['height'] > $threshold ) ) {
+			$editor = wp_get_image_editor( $file );
 
-		// Resize the image
-		$resized = $editor->resize( $threshold, $threshold );
-		$rotated = null;
+			if ( is_wp_error( $editor ) ) {
+				// This image cannot be edited.
+				return $image_meta;
+			}
 
-		// If there is EXIF data, rotate according to EXIF Orientation.
-		if ( ! is_wp_error( $resized ) && is_array( $exif_meta ) ) {
-			$resized = $editor->maybe_exif_rotate();
-			$rotated = $resized;
-		}
+			// Resize the image
+			$resized = $editor->resize( $threshold, $threshold );
+			$rotated = null;
 
-		if ( ! is_wp_error( $resized ) ) {
-			// Append "-scaled" to the image file name. It will look like "my_image-scaled.jpg".
-			// This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
-			$saved = $editor->save( $editor->generate_filename( 'scaled' ) );
+			// If there is EXIF data, rotate according to EXIF Orientation.
+			if ( ! is_wp_error( $resized ) && is_array( $exif_meta ) ) {
+				$resized = $editor->maybe_exif_rotate();
+				$rotated = $resized;
+			}
 
-			if ( ! is_wp_error( $saved ) ) {
-				$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
+			if ( ! is_wp_error( $resized ) ) {
+				// Append "-scaled" to the image file name. It will look like "my_image-scaled.jpg".
+				// This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
+				$saved = $editor->save( $editor->generate_filename( 'scaled' ) );
 
-				// If the image was rotated update the stored EXIF data.
-				if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
-					$image_meta['image_meta']['orientation'] = 1;
+				if ( ! is_wp_error( $saved ) ) {
+					$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
+
+					// If the image was rotated update the stored EXIF data.
+					if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
+						$image_meta['image_meta']['orientation'] = 1;
+					}
+				} else {
+					// TODO: log errors.
 				}
 			} else {
 				// TODO: log errors.
 			}
-		} else {
-			// TODO: log errors.
-		}
-	} elseif ( ! empty( $exif_meta['orientation'] ) && (int) $exif_meta['orientation'] !== 1 ) {
-		// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
+		} elseif ( ! empty( $exif_meta['orientation'] ) && (int) $exif_meta['orientation'] !== 1 ) {
+			// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
 
-		$editor = wp_get_image_editor( $file );
+			$editor = wp_get_image_editor( $file );
 
-		if ( is_wp_error( $editor ) ) {
-			// This image cannot be edited.
-			return $image_meta;
-		}
+			if ( is_wp_error( $editor ) ) {
+				// This image cannot be edited.
+				return $image_meta;
+			}
 
-		// Rotate the image
-		$rotated = $editor->maybe_exif_rotate();
+			// Rotate the image
+			$rotated = $editor->maybe_exif_rotate();
 
-		if ( true === $rotated ) {
-			// Append `-rotated` to the image file name.
-			$saved = $editor->save( $editor->generate_filename( 'rotated' ) );
+			if ( true === $rotated ) {
+				// Append `-rotated` to the image file name.
+				$saved = $editor->save( $editor->generate_filename( 'rotated' ) );
 
-			if ( ! is_wp_error( $saved ) ) {
-				$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
+				if ( ! is_wp_error( $saved ) ) {
+					$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
 
-				// Update the stored EXIF data.
-				if ( ! empty( $image_meta['image_meta']['orientation'] ) ) {
-					$image_meta['image_meta']['orientation'] = 1;
+					// Update the stored EXIF data.
+					if ( ! empty( $image_meta['image_meta']['orientation'] ) ) {
+						$image_meta['image_meta']['orientation'] = 1;
+					}
+				} else {
+					// TODO: log errors.
 				}
-			} else {
-				// TODO: log errors.
 			}
 		}
 	}
@@ -541,8 +550,8 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param array $fallback_sizes An array of image size names.
-		 * @param array $metadata       Current attachment metadata.
+		 * @param string[] $fallback_sizes An array of image size names.
+		 * @param array    $metadata       Current attachment metadata.
 		 */
 		$fallback_sizes = apply_filters( 'fallback_intermediate_image_sizes', $fallback_sizes, $metadata );
 
