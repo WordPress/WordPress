@@ -255,23 +255,25 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 }
 
 /**
- * Check whether to disable the Menu Locations meta box submit button
+ * Check whether to disable the Menu Locations meta box submit button and inputs.
  *
  * @since 3.6.0
+ * @since 5.3.1 The `$echo` parameter was added.
  *
  * @global bool $one_theme_location_no_menus to determine if no menus exist
  *
- * @param int|string $nav_menu_selected_id (id, name or slug) of the currently-selected menu
- * @return string Disabled attribute if at least one menu exists, false if not
+ * @param int|string $nav_menu_selected_id ID, name, or slug of the currently selected menu.
+ * @param bool       $echo                 Whether to echo or just return the string.
+ * @return string|false Disabled attribute if at least one menu exists, false if not.
  */
-function wp_nav_menu_disabled_check( $nav_menu_selected_id ) {
+function wp_nav_menu_disabled_check( $nav_menu_selected_id, $echo = true ) {
 	global $one_theme_location_no_menus;
 
 	if ( $one_theme_location_no_menus ) {
 		return false;
 	}
 
-	return disabled( $nav_menu_selected_id, 0 );
+	return disabled( $nav_menu_selected_id, 0, $echo );
 }
 
 /**
@@ -292,12 +294,12 @@ function wp_nav_menu_item_link_meta_box() {
 		<input type="hidden" value="custom" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-type]" />
 		<p id="menu-item-url-wrap" class="wp-clearfix">
 			<label class="howto" for="custom-menu-item-url"><?php _e( 'URL' ); ?></label>
-			<input id="custom-menu-item-url" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-url]" type="text" class="code menu-item-textbox" placeholder="https://" />
+			<input id="custom-menu-item-url" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-url]" type="text"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="code menu-item-textbox" placeholder="https://" />
 		</p>
 
 		<p id="menu-item-name-wrap" class="wp-clearfix">
 			<label class="howto" for="custom-menu-item-name"><?php _e( 'Link Text' ); ?></label>
-			<input id="custom-menu-item-name" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]" type="text" class="regular-text menu-item-textbox" />
+			<input id="custom-menu-item-name" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]" type="text"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="regular-text menu-item-textbox" />
 		</p>
 
 		<p class="button-controls wp-clearfix">
@@ -569,7 +571,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 			?>
 			<p class="quick-search-wrap">
 				<label for="quick-search-posttype-<?php echo $post_type_name; ?>" class="screen-reader-text"><?php _e( 'Search' ); ?></label>
-				<input type="search" class="quick-search" value="<?php echo $searched; ?>" name="quick-search-posttype-<?php echo $post_type_name; ?>" id="quick-search-posttype-<?php echo $post_type_name; ?>" />
+				<input type="search"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="quick-search" value="<?php echo $searched; ?>" name="quick-search-posttype-<?php echo $post_type_name; ?>" id="quick-search-posttype-<?php echo $post_type_name; ?>" />
 				<span class="spinner"></span>
 				<?php submit_button( __( 'Search' ), 'small quick-search-submit hide-if-js', 'submit', false, array( 'id' => 'submit-quick-search-posttype-' . $post_type_name ) ); ?>
 			</p>
@@ -651,7 +653,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 
 		<p class="button-controls wp-clearfix" data-items-type="posttype-<?php echo esc_attr( $post_type_name ); ?>">
 			<span class="list-controls hide-if-no-js">
-				<input type="checkbox" id="<?php echo esc_attr( $post_type_name . '-tab' ); ?>" class="select-all" />
+				<input type="checkbox"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> id="<?php echo esc_attr( $post_type_name . '-tab' ); ?>" class="select-all" />
 				<label for="<?php echo esc_attr( $post_type_name . '-tab' ); ?>"><?php _e( 'Select All' ); ?></label>
 			</span>
 
@@ -880,7 +882,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
 
 		<p class="button-controls wp-clearfix" data-items-type="taxonomy-<?php echo esc_attr( $taxonomy_name ); ?>">
 			<span class="list-controls hide-if-no-js">
-				<input type="checkbox" id="<?php echo esc_attr( $taxonomy_name . '-tab' ); ?>" class="select-all" />
+				<input type="checkbox"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> id="<?php echo esc_attr( $taxonomy_name . '-tab' ); ?>" class="select-all" />
 				<label for="<?php echo esc_attr( $taxonomy_name . '-tab' ); ?>"><?php _e( 'Select All' ); ?></label>
 			</span>
 
