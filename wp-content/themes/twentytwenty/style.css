@@ -816,7 +816,10 @@ input:-ms-input-placeholder {
 }
 
 input::-moz-placeholder {
-	line-height: normal;
+	/* Browsers supporting line-height revert 
+	* to reset a property to the value established by the user-agent stylesheet 
+	*/
+	line-height: revert;
 }
 
 input[type="search"]::-webkit-search-decoration,
