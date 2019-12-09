@@ -1199,7 +1199,6 @@ audio, video {
 	.imgedit-settings .imgedit-scale input[type="text"],
 	.imgedit-settings .imgedit-crop-ratio input[type="text"],
 	.imgedit-settings .imgedit-crop-sel input[type="text"] {
-		width: 60px;
 		font-size: 16px;
 		padding: 6px 10px;
 	}
