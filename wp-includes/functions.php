@@ -335,24 +335,29 @@ function wp_maybe_decline_date( $date ) {
 		$months          = $wp_locale->month;
 		$months_genitive = $wp_locale->month_genitive;
 
-		// Match a format like 'j F Y' or 'j. F'
-		if ( preg_match( '#^\d{1,2}\.? [^\d ]+#u', $date ) ) {
-
+		/*
+		 * Match a format like 'j F Y' or 'j. F' (day of the month, followed by month name)
+		 * and decline the month.
+		 */
+		if ( preg_match( '#\b\d{1,2}\.? [^\d ]+\b#u', $date ) ) {
 			foreach ( $months as $key => $month ) {
-				$months[ $key ] = '# ' . $month . '( |$)#u';
+				$months[ $key ] = '# ' . preg_quote( $month, '#' ) . '\b#u';
 			}
 
 			foreach ( $months_genitive as $key => $month ) {
-				$months_genitive[ $key ] = ' ' . $month . '$1';
+				$months_genitive[ $key ] = ' ' . $month;
 			}
 
 			$date = preg_replace( $months, $months_genitive, $date );
 		}
 
-		// Match a format like 'F jS' or 'F j' and change it to 'j F'
-		if ( preg_match( '#^[^\d ]+ \d{1,2}(st|nd|rd|th)? #u', trim( $date ) ) ) {
+		/*
+		 * Match a format like 'F jS' or 'F j' (month name, followed by day with an optional ordinal suffix)
+		 * and change it to declined 'j F'.
+		 */
+		if ( preg_match( '#\b[^\d ]+ \d{1,2}(st|nd|rd|th)?\b#u', trim( $date ) ) ) {
 			foreach ( $months as $key => $month ) {
-				$months[ $key ] = '#' . $month . ' (\d{1,2})(st|nd|rd|th)?#u';
+				$months[ $key ] = '#\b' . preg_quote( $month, '#' ) . ' (\d{1,2})(st|nd|rd|th)?\b#u';
 			}
 
 			foreach ( $months_genitive as $key => $month ) {
