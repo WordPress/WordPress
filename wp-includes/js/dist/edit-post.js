@@ -783,7 +783,7 @@ Object(external_this_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/edit-post
 
 
 // EXTERNAL MODULE: external {"this":["wp","plugins"]}
-var external_this_wp_plugins_ = __webpack_require__(51);
+var external_this_wp_plugins_ = __webpack_require__(48);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
 var external_this_wp_url_ = __webpack_require__(26);
@@ -7289,6 +7289,13 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
+/***/ 48:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["plugins"]; }());
+
+/***/ }),
+
 /***/ 5:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -7301,13 +7308,6 @@ function _assertThisInitialized(self) {
 
   return self;
 }
-
-/***/ }),
-
-/***/ 51:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["plugins"]; }());
 
 /***/ }),
 
