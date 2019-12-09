@@ -73,7 +73,7 @@
 
 .media-frame select,
 .wp-admin .media-frame select {
-	min-height: 28px;
+	min-height: 30px;
 	vertical-align: middle;
 }
 
@@ -118,6 +118,12 @@
 	padding: 0 8px;
 	/* inherits font size 13px */
 	line-height: 2.15384615; /* 28px */
+}
+
+/* Search field in the Media Library toolbar */
+.media-frame.mode-grid .wp-filter input[type="search"] {
+	font-size: 14px;
+	line-height: 2;
 }
 
 .media-frame input[type="text"]:focus,
