@@ -643,6 +643,11 @@ figcaption a,
 	color: inherit;
 }
 
+blockquote.instagram-media,
+iframe.instagram-media {
+	margin: auto !important;
+}
+
 
 /* GALLERIES */
 
