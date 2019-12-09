@@ -62,7 +62,8 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @global int $_nav_menu_placeholder
+	 * @global int        $_nav_menu_placeholder
+	 * @global int|string $nav_menu_selected_id
 	 *
 	 * @param string $output Used to append additional content (passed by reference).
 	 * @param object $item   Menu item data object.
@@ -71,7 +72,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 * @param int    $id     Not used.
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-		global $_nav_menu_placeholder;
+		global $_nav_menu_placeholder, $nav_menu_selected_id;
 
 		$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval( $_nav_menu_placeholder ) - 1 : -1;
 		$possible_object_id    = isset( $item->post_type ) && 'nav_menu_item' == $item->post_type ? $item->object_id : $_nav_menu_placeholder;
@@ -81,7 +82,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 
 		$output .= $indent . '<li>';
 		$output .= '<label class="menu-item-title">';
-		$output .= '<input type="checkbox" class="menu-item-checkbox';
+		$output .= '<input type="checkbox"' . wp_nav_menu_disabled_check( $nav_menu_selected_id, false ) . ' class="menu-item-checkbox';
 
 		if ( ! empty( $item->front_or_home ) ) {
 			$output .= ' add-to-top';
