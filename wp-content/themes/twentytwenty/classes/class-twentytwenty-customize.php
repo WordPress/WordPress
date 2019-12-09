@@ -205,7 +205,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 				)
 			);
 
-			/* Enable Header Search --------- */
+			/* Enable Header Search ----------------------------------------------- */
 
 			$wp_customize->add_setting(
 				'enable_header_search',
@@ -223,6 +223,27 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 					'section'  => 'options',
 					'priority' => 10,
 					'label'    => __( 'Show search in header', 'twentytwenty' ),
+				)
+			);
+
+			/* Show author bio ---------------------------------------------------- */
+
+			$wp_customize->add_setting(
+				'show_author_bio',
+				array(
+					'capability'        => 'edit_theme_options',
+					'default'           => true,
+					'sanitize_callback' => array( __CLASS__, 'sanitize_checkbox' ),
+				)
+			);
+
+			$wp_customize->add_control(
+				'show_author_bio',
+				array(
+					'type'     => 'checkbox',
+					'section'  => 'options',
+					'priority' => 10,
+					'label'    => __( 'Show author bio', 'twentytwenty' ),
 				)
 			);
 
