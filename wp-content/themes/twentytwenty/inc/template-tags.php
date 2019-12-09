@@ -263,10 +263,10 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 		*  @type string 'author'
 		*  @type string 'post-date'
 		*  @type string 'comments'
-		*  @type string  'sticky'
+		*  @type string 'sticky'
 		* }
 		*/
-		$post_meta                 = apply_filters(
+		$post_meta = apply_filters(
 			'twentytwenty_post_meta_location_single_top',
 			array(
 				'author',
@@ -275,6 +275,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 				'sticky',
 			)
 		);
+
 		$post_meta_wrapper_classes = ' post-meta-single post-meta-single-top';
 
 	} elseif ( 'single-bottom' === $location ) {
@@ -290,12 +291,13 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 		*   @type string 'tags'
 		* }
 		*/
-		$post_meta                 = apply_filters(
+		$post_meta = apply_filters(
 			'twentytwenty_post_meta_location_single_bottom',
 			array(
 				'tags',
 			)
 		);
+
 		$post_meta_wrapper_classes = ' post-meta-single post-meta-single-bottom';
 
 	}
@@ -326,10 +328,14 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 				 * Allow output of additional post meta info to be added by child themes and plugins.
 				 *
 				 * @since 1.0.0
+				 * @since Twenty Twenty 1.1 Added the `$post_meta` and `$location` parameters.
 				 *
-				 * @param int   $post_ID Post ID.
+				 * @param int    $post_id   Post ID.
+				 * @param array  $post_meta An array of post meta information.
+				 * @param string $location  The location where the meta is shown.
+				 *                          Accepts 'single-top' or 'single-bottom'.
 				 */
-				do_action( 'twentytwenty_start_of_post_meta_list', $post_id );
+				do_action( 'twentytwenty_start_of_post_meta_list', $post_id, $post_meta, $location );
 
 				// Author.
 				if ( in_array( 'author', $post_meta, true ) ) {
@@ -449,10 +455,14 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 				 * Allow output of additional post meta info to be added by child themes and plugins.
 				 *
 				 * @since 1.0.0
+				 * @since Twenty Twenty 1.1 Added the `$post_meta` and `$location` parameters.
 				 *
-				 * @param int   $post_ID Post ID.
+				 * @param int    $post_id   Post ID.
+				 * @param array  $post_meta An array of post meta information.
+				 * @param string $location  The location where the meta is shown.
+				 *                          Accepts 'single-top' or 'single-bottom'.
 				 */
-				do_action( 'twentytwenty_end_of_post_meta_list', $post_id );
+				do_action( 'twentytwenty_end_of_post_meta_list', $post_id, $post_meta, $location );
 
 				?>
 
