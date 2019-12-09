@@ -10357,7 +10357,7 @@ var dist = __webpack_require__(221);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(49);
+var tinycolor = __webpack_require__(48);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/cover/icon.js
@@ -20605,7 +20605,7 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ 49:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1

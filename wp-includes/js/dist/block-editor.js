@@ -4928,7 +4928,7 @@ var external_this_wp_hooks_ = __webpack_require__(27);
 var external_this_wp_data_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(49);
+var tinycolor = __webpack_require__(48);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors/utils.js
@@ -23627,7 +23627,7 @@ try {
 
 /***/ }),
 
-/***/ 49:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
