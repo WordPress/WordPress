@@ -1763,7 +1763,10 @@ div.action-links,
 	/* Checkboxes need to show */
 	.wp-list-table tr th.check-column {
 		display: table-cell;
-		width: 35px;
+	}
+
+	.wp-list-table .check-column {
+		width: 2.5em;
 	}
 
 	.wp-list-table .column-primary .toggle-row {
