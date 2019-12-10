@@ -1516,7 +1516,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'hoverIntent', "/wp-includes/js/hoverIntent$suffix.js", array( 'jquery' ), '1.8.1', 1 );
 
 	// JS-only version of hoverintent (no dependencies).
-	$scripts->add( 'hoverintent-js', "/wp-includes/js/hoverintent-js.min.js", array(), '2.2.1', 1 );
+	$scripts->add( 'hoverintent-js', '/wp-includes/js/hoverintent-js.min.js', array(), '2.2.1', 1 );
 
 	$scripts->add( 'customize-base', "/wp-includes/js/customize-base$suffix.js", array( 'jquery', 'json2', 'underscore' ), false, 1 );
 	$scripts->add( 'customize-loader', "/wp-includes/js/customize-loader$suffix.js", array( 'customize-base' ), false, 1 );

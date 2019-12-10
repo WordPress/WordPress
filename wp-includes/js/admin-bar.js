@@ -10,6 +10,7 @@
  *
  * @return {void}
  */
+/* global hoverintent */
 ( function( document, window, navigator ) {
 	document.addEventListener( 'DOMContentLoaded', function() {
 		var adminBar = document.getElementById( 'wpadminbar' ),
@@ -65,7 +66,7 @@
 				addHoverClass.bind( null, topMenuItems[i] ),
 				removeHoverClass.bind( null, topMenuItems[i] )
 			).options( {
-				timeout: 180,
+				timeout: 180
 			} );
 
 			/**
