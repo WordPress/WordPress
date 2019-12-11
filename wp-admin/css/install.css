@@ -323,11 +323,20 @@ body.language-chooser {
 	width: 100%;
 	display: block;
 	border: 1px solid #ddd;
-	background-color: #fff;
+	background: #fff;
 	color: #32373c;
 	font-size: 16px;
 	font-family: Arial, sans-serif;
 	font-weight: 400;
+}
+
+.language-chooser select:focus {
+	color: #32373c;
+}
+
+.language-chooser select option:hover,
+.language-chooser select option:focus {
+	color: #016087;
 }
 
 .language-chooser p {
