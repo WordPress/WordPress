@@ -3109,7 +3109,7 @@ function wp_targeted_link_rel_callback( $matches ) {
 	}
 
 	$atts['rel']['whole'] = 'rel="' . esc_attr( $rel ) . '"';
-	$link_html            = join( ' ', array_column( $atts, 'whole' ) );
+	$link_html            = join( ' ', wp_list_pluck( $atts, 'whole' ) );
 
 	if ( $is_escaped ) {
 		$link_html = preg_replace( '/[\'"]/', '\\\\$0', $link_html );
