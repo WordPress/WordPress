@@ -9,9 +9,8 @@
 /**
  * Retrieve list of category objects.
  *
- * If you change the type to 'link' in the arguments, then the link categories
- * will be returned instead. Also all categories will be updated to be backward
- * compatible with pre-2.3 plugins and themes.
+ * If you set the 'taxonomy' argument to 'link_category', the link categories
+ * will be returned instead.
  *
  * @since 2.1.0
  * @see get_terms() Type of arguments that can be changed.
@@ -19,9 +18,9 @@
  * @param string|array $args {
  *     Optional. Arguments to retrieve categories. See get_terms() for additional options.
  *
- *     @type string $taxonomy Taxonomy to retrieve terms for. In this case, default 'category'.
+ *     @type string $taxonomy Taxonomy to retrieve terms for. Default 'category'.
  * }
- * @return array List of categories.
+ * @return array List of category objects.
  */
 function get_categories( $args = '' ) {
 	$defaults = array( 'taxonomy' => 'category' );
@@ -77,8 +76,6 @@ function get_categories( $args = '' ) {
  *
  * If you look at get_term(), then both types will be passed through several
  * filters and finally sanitized based on the $filter parameter value.
- *
- * The category will converted to maintain backward compatibility.
  *
  * @since 1.5.1
  *
@@ -336,7 +333,7 @@ function clean_category_cache( $id ) {
 }
 
 /**
- * Update category structure to old pre 2.3 from new taxonomy structure.
+ * Update category structure to old pre-2.3 from new taxonomy structure.
  *
  * This function was added for the taxonomy support to update the new category
  * structure with the old category one. This will maintain compatibility with
