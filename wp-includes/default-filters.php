@@ -224,30 +224,31 @@ foreach ( array( 'publish_post', 'publish_page', 'wp_ajax_save-widget', 'wp_ajax
 }
 
 // Misc filters
-add_filter( 'option_ping_sites',        'privacy_ping_filter'                 );
-add_filter( 'option_blog_charset',      '_wp_specialchars'                    ); // IMPORTANT: This must not be wp_specialchars() or esc_html() or it'll cause an infinite loop
-add_filter( 'option_blog_charset',      '_canonical_charset'                  );
-add_filter( 'option_home',              '_config_wp_home'                     );
-add_filter( 'option_siteurl',           '_config_wp_siteurl'                  );
-add_filter( 'tiny_mce_before_init',     '_mce_set_direction'                  );
-add_filter( 'teeny_mce_before_init',    '_mce_set_direction'                  );
-add_filter( 'pre_kses',                 'wp_pre_kses_less_than'               );
-add_filter( 'sanitize_title',           'sanitize_title_with_dashes',   10, 3 );
-add_action( 'check_comment_flood',      'check_comment_flood_db',       10, 4 );
-add_filter( 'comment_flood_filter',     'wp_throttle_comment_flood',    10, 3 );
-add_filter( 'pre_comment_content',      'wp_rel_nofollow',              15    );
-add_filter( 'comment_email',            'antispambot'                         );
-add_filter( 'option_tag_base',          '_wp_filter_taxonomy_base'            );
-add_filter( 'option_category_base',     '_wp_filter_taxonomy_base'            );
-add_filter( 'the_posts',                '_close_comments_for_old_posts', 10, 2);
-add_filter( 'comments_open',            '_close_comments_for_old_post', 10, 2 );
-add_filter( 'pings_open',               '_close_comments_for_old_post', 10, 2 );
-add_filter( 'editable_slug',            'urldecode'                           );
-add_filter( 'editable_slug',            'esc_textarea'                        );
-add_filter( 'nav_menu_meta_box_object', '_wp_nav_menu_meta_box_object'        );
-add_filter( 'pingback_ping_source_uri', 'pingback_ping_source_uri'            );
-add_filter( 'xmlrpc_pingback_error',    'xmlrpc_pingback_error'               );
-add_filter( 'title_save_pre',           'trim'                                );
+add_filter( 'option_ping_sites', 'privacy_ping_filter' );
+add_filter( 'option_blog_charset', '_wp_specialchars' ); // IMPORTANT: This must not be wp_specialchars() or esc_html() or it'll cause an infinite loop
+add_filter( 'option_blog_charset', '_canonical_charset' );
+add_filter( 'option_home', '_config_wp_home' );
+add_filter( 'option_siteurl', '_config_wp_siteurl' );
+add_filter( 'tiny_mce_before_init', '_mce_set_direction' );
+add_filter( 'teeny_mce_before_init', '_mce_set_direction' );
+add_filter( 'pre_kses', 'wp_pre_kses_less_than' );
+add_filter( 'pre_kses', 'wp_pre_kses_block_attributes', 10, 3 );
+add_filter( 'sanitize_title', 'sanitize_title_with_dashes', 10, 3 );
+add_action( 'check_comment_flood', 'check_comment_flood_db', 10, 4 );
+add_filter( 'comment_flood_filter', 'wp_throttle_comment_flood', 10, 3 );
+add_filter( 'pre_comment_content', 'wp_rel_nofollow', 15 );
+add_filter( 'comment_email', 'antispambot' );
+add_filter( 'option_tag_base', '_wp_filter_taxonomy_base' );
+add_filter( 'option_category_base', '_wp_filter_taxonomy_base' );
+add_filter( 'the_posts', '_close_comments_for_old_posts', 10, 2 );
+add_filter( 'comments_open', '_close_comments_for_old_post', 10, 2 );
+add_filter( 'pings_open', '_close_comments_for_old_post', 10, 2 );
+add_filter( 'editable_slug', 'urldecode' );
+add_filter( 'editable_slug', 'esc_textarea' );
+add_filter( 'nav_menu_meta_box_object', '_wp_nav_menu_meta_box_object' );
+add_filter( 'pingback_ping_source_uri', 'pingback_ping_source_uri' );
+add_filter( 'xmlrpc_pingback_error', 'xmlrpc_pingback_error' );
+add_filter( 'title_save_pre', 'trim' );
 
 add_action( 'transition_comment_status', '_clear_modified_cache_on_transition_comment_status', 10, 2 );
 
