@@ -1152,9 +1152,18 @@ function wp_kses_attr( $element, $attr, $allowed_html, $allowed_protocols ) {
  * @return bool Whether or not the attribute is allowed.
  */
 function wp_kses_attr_check( &$name, &$value, &$whole, $vless, $element, $allowed_html ) {
-	$allowed_attr = $allowed_html[ strtolower( $element ) ];
+	$name_low    = strtolower( $name );
+	$element_low = strtolower( $element );
 
-	$name_low = strtolower( $name );
+	if ( ! isset( $allowed_html[ $element_low ] ) ) {
+		$name  = '';
+		$value = '';
+		$whole = '';
+		return false;
+	}
+
+	$allowed_attr = $allowed_html[ $element_low ];
+
 	if ( ! isset( $allowed_attr[ $name_low ] ) || '' == $allowed_attr[ $name_low ] ) {
 		/*
 		 * Allow `data-*` attributes.
