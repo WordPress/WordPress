@@ -43,10 +43,10 @@ $pagenum       = $wp_list_table->get_pagenum();
 
 $title = $tax->labels->name;
 
-if ( 'post' != $post_type ) {
-	$parent_file  = ( 'attachment' == $post_type ) ? 'upload.php' : "edit.php?post_type=$post_type";
+if ( 'post' !== $post_type ) {
+	$parent_file  = ( 'attachment' === $post_type ) ? 'upload.php' : "edit.php?post_type=$post_type";
 	$submenu_file = "edit-tags.php?taxonomy=$taxonomy&amp;post_type=$post_type";
-} elseif ( 'link_category' == $tax->name ) {
+} elseif ( 'link_category' === $tax->name ) {
 	$parent_file  = 'link-manager.php';
 	$submenu_file = 'edit-tags.php?taxonomy=link_category';
 } else {
@@ -242,21 +242,21 @@ if ( current_user_can( $tax->cap->edit_terms ) ) {
 	wp_enqueue_script( 'inline-edit-tax' );
 }
 
-if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $taxonomy ) {
+if ( 'category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' === $taxonomy ) {
 	$help = '';
-	if ( 'category' == $taxonomy ) {
+	if ( 'category' === $taxonomy ) {
 		$help = '<p>' . sprintf(
 			/* translators: %s: URL to Writing Settings screen. */
 			__( 'You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href="%s">writing settings</a>.' ),
 			'options-writing.php'
 		) . '</p>';
-	} elseif ( 'link_category' == $taxonomy ) {
+	} elseif ( 'link_category' === $taxonomy ) {
 		$help = '<p>' . __( 'You can create groups of links by using Link Categories. Link Category names must be unique and Link Categories are separate from the categories you use for posts.' ) . '</p>';
 	} else {
 		$help = '<p>' . __( 'You can assign keywords to your posts using <strong>tags</strong>. Unlike categories, tags have no hierarchy, meaning there&#8217;s no relationship from one tag to another.' ) . '</p>';
 	}
 
-	if ( 'link_category' == $taxonomy ) {
+	if ( 'link_category' === $taxonomy ) {
 		$help .= '<p>' . __( 'You can delete Link Categories in the Bulk Action pull-down, but that action does not delete the links within the category. Instead, it moves them to the default Link Category.' ) . '</p>';
 	} else {
 		$help .= '<p>' . __( 'What&#8217;s the difference between categories and tags? Normally, tags are ad-hoc keywords that identify important information in your post (names, subjects, etc) that may or may not recur in other posts, while categories are pre-determined sections. If you think of your site like a book, the categories are like the Table of Contents and the tags are like the terms in the index.' ) . '</p>';
@@ -270,8 +270,8 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 		)
 	);
 
-	if ( 'category' == $taxonomy || 'post_tag' == $taxonomy ) {
-		if ( 'category' == $taxonomy ) {
+	if ( 'category' === $taxonomy || 'post_tag' === $taxonomy ) {
+		if ( 'category' === $taxonomy ) {
 			$help = '<p>' . __( 'When adding a new category on this screen, you&#8217;ll fill in the following fields:' ) . '</p>';
 		} else {
 			$help = '<p>' . __( 'When adding a new tag on this screen, you&#8217;ll fill in the following fields:' ) . '</p>';
@@ -284,7 +284,7 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 			$help .= '<li>' . __( '<strong>Slug</strong> &mdash; The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ) . '</li>';
 		}
 
-		if ( 'category' == $taxonomy ) {
+		if ( 'category' === $taxonomy ) {
 			$help .= '<li>' . __( '<strong>Parent</strong> &mdash; Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have child categories for Bebop and Big Band. Totally optional. To create a subcategory, just choose another category from the Parent dropdown.' ) . '</li>';
 		}
 
@@ -295,7 +295,7 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 		get_current_screen()->add_help_tab(
 			array(
 				'id'      => 'adding-terms',
-				'title'   => 'category' == $taxonomy ? __( 'Adding Categories' ) : __( 'Adding Tags' ),
+				'title'   => 'category' === $taxonomy ? __( 'Adding Categories' ) : __( 'Adding Tags' ),
 				'content' => $help,
 			)
 		);
@@ -303,9 +303,9 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 
 	$help = '<p><strong>' . __( 'For more information:' ) . '</strong></p>';
 
-	if ( 'category' == $taxonomy ) {
+	if ( 'category' === $taxonomy ) {
 		$help .= '<p>' . __( '<a href="https://wordpress.org/support/article/posts-categories-screen/">Documentation on Categories</a>' ) . '</p>';
-	} elseif ( 'link_category' == $taxonomy ) {
+	} elseif ( 'link_category' === $taxonomy ) {
 		$help .= '<p>' . __( '<a href="https://codex.wordpress.org/Links_Link_Categories_Screen">Documentation on Link Categories</a>' ) . '</p>';
 	} else {
 		$help .= '<p>' . __( '<a href="https://wordpress.org/support/article/posts-tags-screen/">Documentation on Tags</a>' ) . '</p>';
@@ -372,7 +372,7 @@ if ( $can_edit_terms ) {
 <div class="col-wrap">
 
 	<?php
-	if ( 'category' == $taxonomy ) {
+	if ( 'category' === $taxonomy ) {
 		/**
 		 * Fires before the Add Category form.
 		 *
@@ -382,7 +382,7 @@ if ( $can_edit_terms ) {
 		 * @param object $arg Optional arguments cast to an object.
 		 */
 		do_action_deprecated( 'add_category_form_pre', array( (object) array( 'parent' => 0 ) ), '3.0.0', '{$taxonomy}_pre_add_form' );
-	} elseif ( 'link_category' == $taxonomy ) {
+	} elseif ( 'link_category' === $taxonomy ) {
 		/**
 		 * Fires before the link category form.
 		 *
@@ -487,7 +487,7 @@ if ( $can_edit_terms ) {
 
 		wp_dropdown_categories( $dropdown_args );
 		?>
-		<?php if ( 'category' == $taxonomy ) : ?>
+		<?php if ( 'category' === $taxonomy ) : ?>
 		<p><?php _e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.' ); ?></p>
 	<?php else : ?>
 		<p><?php _e( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.' ); ?></p>
@@ -528,7 +528,7 @@ if ( $can_edit_terms ) {
 		<span class="spinner"></span>
 	</p>
 	<?php
-	if ( 'category' == $taxonomy ) {
+	if ( 'category' === $taxonomy ) {
 		/**
 		 * Fires at the end of the Edit Category form.
 		 *
@@ -538,7 +538,7 @@ if ( $can_edit_terms ) {
 		 * @param object $arg Optional arguments cast to an object.
 		 */
 		do_action_deprecated( 'edit_category_form', array( (object) array( 'parent' => 0 ) ), '3.0.0', '{$taxonomy}_add_form' );
-	} elseif ( 'link_category' == $taxonomy ) {
+	} elseif ( 'link_category' === $taxonomy ) {
 		/**
 		 * Fires at the end of the Edit Link form.
 		 *
@@ -589,7 +589,7 @@ if ( $can_edit_terms ) {
 
 </form>
 
-<?php if ( 'category' == $taxonomy ) : ?>
+<?php if ( 'category' === $taxonomy ) : ?>
 <div class="form-wrap edit-term-notes">
 <p>
 	<?php
@@ -613,7 +613,7 @@ if ( $can_edit_terms ) {
 	</p>
 	<?php endif; ?>
 </div>
-<?php elseif ( 'post_tag' == $taxonomy && current_user_can( 'import' ) ) : ?>
+<?php elseif ( 'post_tag' === $taxonomy && current_user_can( 'import' ) ) : ?>
 <div class="form-wrap edit-term-notes">
 <p>
 	<?php
