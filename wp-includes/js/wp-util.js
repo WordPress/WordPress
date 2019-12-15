@@ -94,10 +94,13 @@ window.wp = window.wp || {};
 
 			deferred = $.Deferred( function( deferred ) {
 				// Transfer success/error callbacks.
-				if ( options.success )
+				if ( options.success ) {
 					deferred.done( options.success );
-				if ( options.error )
+				}
+
+				if ( options.error ) {
 					deferred.fail( options.error );
+				}
 
 				delete options.success;
 				delete options.error;
@@ -105,13 +108,15 @@ window.wp = window.wp || {};
 				// Use with PHP's wp_send_json_success() and wp_send_json_error()
 				deferred.jqXHR = $.ajax( options ).done( function( response ) {
 					// Treat a response of 1 as successful for backward compatibility with existing handlers.
-					if ( response === '1' || response === 1 )
+					if ( response === '1' || response === 1 ) {
 						response = { success: true };
+					}
 
-					if ( _.isObject( response ) && ! _.isUndefined( response.success ) )
+					if ( _.isObject( response ) && ! _.isUndefined( response.success ) ) {
 						deferred[ response.success ? 'resolveWith' : 'rejectWith' ]( this, [response.data] );
-					else
+					} else {
 						deferred.rejectWith( this, [response] );
+					}
 				}).fail( function() {
 					deferred.rejectWith( this, arguments );
 				});
