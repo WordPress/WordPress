@@ -24,11 +24,11 @@ $widgets_access = get_user_setting( 'widgets_access' );
 if ( isset( $_GET['widgets-access'] ) ) {
 	check_admin_referer( 'widgets-access' );
 
-	$widgets_access = 'on' == $_GET['widgets-access'] ? 'on' : 'off';
+	$widgets_access = 'on' === $_GET['widgets-access'] ? 'on' : 'off';
 	set_user_setting( 'widgets_access', $widgets_access );
 }
 
-if ( 'on' == $widgets_access ) {
+if ( 'on' === $widgets_access ) {
 	add_filter( 'admin_body_class', 'wp_widgets_access_body_class' );
 } else {
 	wp_enqueue_script( 'admin-widgets' );
@@ -96,7 +96,7 @@ if ( empty( $sidebars_widgets ) ) {
 }
 
 foreach ( $sidebars_widgets as $sidebar_id => $widgets ) {
-	if ( 'wp_inactive_widgets' == $sidebar_id ) {
+	if ( 'wp_inactive_widgets' === $sidebar_id ) {
 		continue;
 	}
 
@@ -188,7 +188,7 @@ if ( isset( $_POST['savewidget'] ) || isset( $_POST['removewidget'] ) ) {
 	$_POST['widget-id'] = $sidebar;
 
 	foreach ( (array) $wp_registered_widget_updates as $name => $control ) {
-		if ( $name != $id_base || ! is_callable( $control['callback'] ) ) {
+		if ( $name !== $id_base || ! is_callable( $control['callback'] ) ) {
 			continue;
 		}
 
@@ -316,7 +316,7 @@ if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 	<?php
 	foreach ( $wp_registered_sidebars as $sbname => $sbvalue ) {
 		echo "\t\t<tr><td><label><input type='radio' name='sidebar' value='" . esc_attr( $sbname ) . "'" . checked( $sbname, $sidebar, false ) . " /> $sbvalue[name]</label></td><td>";
-		if ( 'wp_inactive_widgets' == $sbname || 'orphaned_widgets' == substr( $sbname, 0, 16 ) ) {
+		if ( 'wp_inactive_widgets' === $sbname || 'orphaned_widgets' === substr( $sbname, 0, 16 ) ) {
 			echo '&nbsp;';
 		} else {
 			if ( ! isset( $sidebars_widgets[ $sbname ] ) || ! is_array( $sidebars_widgets[ $sbname ] ) ) {
@@ -456,13 +456,13 @@ do_action( 'widgets_admin_page' );
 
 $theme_sidebars = array();
 foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
-	if ( false !== strpos( $registered_sidebar['class'], 'inactive-sidebar' ) || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) ) {
+	if ( false !== strpos( $registered_sidebar['class'], 'inactive-sidebar' ) || 'orphaned_widgets' === substr( $sidebar, 0, 16 ) ) {
 		$wrap_class = 'widgets-holder-wrap';
 		if ( ! empty( $registered_sidebar['class'] ) ) {
 			$wrap_class .= ' ' . $registered_sidebar['class'];
 		}
 
-		$is_inactive_widgets = 'wp_inactive_widgets' == $registered_sidebar['id'];
+		$is_inactive_widgets = 'wp_inactive_widgets' === $registered_sidebar['id'];
 		?>
 		<div class="<?php echo esc_attr( $wrap_class ); ?>">
 			<div class="widget-holder inactive">
@@ -510,7 +510,7 @@ $single_sidebar_class = '';
 $sidebars_count       = count( $theme_sidebars );
 
 if ( $sidebars_count > 1 ) {
-	$split = ceil( $sidebars_count / 2 );
+	$split = (int) ceil( $sidebars_count / 2 );
 } else {
 	$single_sidebar_class = ' single-sidebar';
 }
@@ -531,7 +531,7 @@ foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
 		$wrap_class .= ' closed';
 	}
 
-	if ( $split && $i == $split ) {
+	if ( $split && $i === $split ) {
 		?>
 		</div><div class="sidebars-column-2">
 		<?php
