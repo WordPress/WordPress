@@ -34,7 +34,7 @@ function network_domain_check() {
  */
 function allow_subdomain_install() {
 	$domain = preg_replace( '|https?://([^/]+)|', '$1', get_option( 'home' ) );
-	if ( parse_url( get_option( 'home' ), PHP_URL_PATH ) || 'localhost' == $domain || preg_match( '|^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$|', $domain ) ) {
+	if ( parse_url( get_option( 'home' ), PHP_URL_PATH ) || 'localhost' === $domain || preg_match( '|^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$|', $domain ) ) {
 		return false;
 	}
 
@@ -256,7 +256,7 @@ function network_step1( $errors = false ) {
 		<?php
 	endif;
 
-	if ( WP_CONTENT_DIR != ABSPATH . 'wp-content' && ( allow_subdirectory_install() || ! allow_subdomain_install() ) ) {
+	if ( WP_CONTENT_DIR !== ABSPATH . 'wp-content' && ( allow_subdirectory_install() || ! allow_subdomain_install() ) ) {
 		echo '<div class="error inline"><p><strong>' . __( 'Warning:' ) . '</strong> ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</p></div>';
 	}
 
@@ -293,7 +293,7 @@ function network_step1( $errors = false ) {
 
 		<h3><?php esc_html_e( 'Network Details' ); ?></h3>
 		<table class="form-table" role="presentation">
-		<?php if ( 'localhost' == $hostname ) : ?>
+		<?php if ( 'localhost' === $hostname ) : ?>
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Sub-directory Installation' ); ?></th>
 				<td>
@@ -524,7 +524,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
 			?>
 		<p>
 			<?php
-			if ( 1 == $num_keys_salts ) {
+			if ( 1 === $num_keys_salts ) {
 				printf(
 					/* translators: %s: wp-config.php */
 					__( 'This unique authentication key is also missing from your %s file.' ),
@@ -607,7 +607,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
 				'<code>' . $home_path . '</code>'
 			);
 		echo '</p>';
-		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' ) {
+		if ( ! $subdomain_install && WP_CONTENT_DIR !== ABSPATH . 'wp-content' ) {
 			echo '<p><strong>' . __( 'Warning:' ) . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
 		}
 		?>
@@ -649,7 +649,7 @@ EOF;
 			'<code>' . $home_path . '</code>'
 		);
 		echo '</p>';
-		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' ) {
+		if ( ! $subdomain_install && WP_CONTENT_DIR !== ABSPATH . 'wp-content' ) {
 			echo '<p><strong>' . __( 'Warning:' ) . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
 		}
 		?>
