@@ -2472,11 +2472,17 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 
 		// Prevent collisions with existing file names that contain dimension-like strings
 		// (whether they are subsizes or originals uploaded prior to #42437).
+		$upload_dir = wp_get_upload_dir();
 
 		// The (resized) image files would have name and extension, and will be in the uploads dir.
-		if ( @is_dir( $dir ) && $name && $ext ) {
-			// List of all files and directories contained in $dir (with the "dot" files removed).
-			$files = array_diff( scandir( $dir ), array( '.', '..' ) );
+		if ( $name && $ext && @is_dir( $dir ) && false !== strpos( $dir, $upload_dir['basedir'] ) ) {
+			// List of all files and directories contained in $dir.
+			$files = @scandir( $dir );
+
+			if ( ! empty( $files ) ) {
+				// Remove "dot" dirs.
+				$files = array_diff( $files, array( '.', '..' ) );
+			}
 
 			if ( ! empty( $files ) ) {
 				while ( _wp_check_existing_file_names( $filename, $files ) ) {
