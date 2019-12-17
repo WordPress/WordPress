@@ -91,9 +91,13 @@ textarea:focus {
 .wp-core-ui .button.active,
 .wp-core-ui .button.active:focus,
 .wp-core-ui .button.active:hover {
-  border-color: #8faf91;
-  color: #f2f2f2;
-  box-shadow: inset 0 2px 5px -3px #8faf91;
+  border-color: #9ebaa0;
+  color: #262a2e;
+  box-shadow: inset 0 2px 5px -3px #9ebaa0;
+}
+
+.wp-core-ui .button.active:focus {
+  box-shadow: 0 0 0 1px #32373c;
 }
 
 .wp-core-ui .button-primary {
