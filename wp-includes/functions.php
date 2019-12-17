@@ -2492,7 +2492,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 				// Ensure this never goes into infinite loop
 				// as it uses pathinfo() and regex in the check but string replacement for the changes.
 				$count = count( $files );
-				$i     = 1;
+				$i     = 0;
 
 				while ( $i <= $count && _wp_check_existing_file_names( $filename, $files ) ) {
 					$new_number = (int) $number + 1;
