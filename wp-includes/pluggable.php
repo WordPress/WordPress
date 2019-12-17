@@ -547,15 +547,19 @@ if ( ! function_exists( 'wp_authenticate' ) ) :
 		$ignore_codes = array( 'empty_username', 'empty_password' );
 
 		if ( is_wp_error( $user ) && ! in_array( $user->get_error_code(), $ignore_codes ) ) {
+			$error = $user;
+
 			/**
 			 * Fires after a user login has failed.
 			 *
 			 * @since 2.5.0
 			 * @since 4.5.0 The value of `$username` can now be an email address.
+			 * @since 5.4.0 The `$error` parameter was added.
 			 *
-			 * @param string $username Username or email address.
+			 * @param string   $username Username or email address.
+			 * @param WP_Error $error    A WP_Error object with the authentication failure details.
 			 */
-			do_action( 'wp_login_failed', $username );
+			do_action( 'wp_login_failed', $username, $error );
 		}
 
 		return $user;
