@@ -109,7 +109,7 @@ class WP_Http {
 	 *                                             'TRACE', 'OPTIONS', or 'PATCH'.
 	 *                                             Some transports technically allow others, but should not be
 	 *                                             assumed. Default 'GET'.
-	 *     @type int          $timeout             How long the connection should stay open in seconds. Default 5.
+	 *     @type float        $timeout             How long the connection should stay open in seconds. Default 5.
 	 *     @type int          $redirection         Number of allowed redirects. Not supported by all transports
 	 *                                             Default 5.
 	 *     @type string       $httpversion         Version of the HTTP protocol to use. Accepts '1.0' and '1.1'.
@@ -155,7 +155,7 @@ class WP_Http {
 			 * @since 2.7.0
 			 * @since 5.1.0 The `$url` parameter was added.
 			 *
-			 * @param int    $timeout_value Time in seconds until a request times out. Default 5.
+			 * @param float  $timeout_value Time in seconds until a request times out. Default 5.
 			 * @param string $url           The request URL.
 			 */
 			'timeout'             => apply_filters( 'http_request_timeout', 5, $url ),
