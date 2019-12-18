@@ -4150,7 +4150,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
  * @param array|object $postarr  Optional. Post data. Arrays are expected to be escaped,
  *                               objects are not. Default array.
  * @param bool         $wp_error Optional. Allow return of WP_Error on failure. Default false.
- * @return int|WP_Error The value 0 or WP_Error on failure. The post ID on success.
+ * @return int|WP_Error The post ID on success. The value 0 or WP_Error on failure.
  */
 function wp_update_post( $postarr = array(), $wp_error = false ) {
 	if ( is_object( $postarr ) ) {
