@@ -82,22 +82,31 @@ if ( ! function_exists( 'wp_install' ) ) :
 		$user_id        = username_exists( $user_name );
 		$user_password  = trim( $user_password );
 		$email_password = false;
+		$user_created   = false;
+
 		if ( ! $user_id && empty( $user_password ) ) {
 			$user_password = wp_generate_password( 12, false );
 			$message       = __( '<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.' );
 			$user_id       = wp_create_user( $user_name, $user_password, $user_email );
 			update_user_option( $user_id, 'default_password_nag', true, true );
 			$email_password = true;
+			$user_created   = true;
 		} elseif ( ! $user_id ) {
-			// Password has been provided
-			$message = '<em>' . __( 'Your chosen password.' ) . '</em>';
-			$user_id = wp_create_user( $user_name, $user_password, $user_email );
+			// Password has been provided.
+			$message      = '<em>' . __( 'Your chosen password.' ) . '</em>';
+			$user_id      = wp_create_user( $user_name, $user_password, $user_email );
+			$user_created = true;
 		} else {
 			$message = __( 'User already exists. Password inherited.' );
 		}
 
 		$user = new WP_User( $user_id );
 		$user->set_role( 'administrator' );
+
+		if ( $user_created ) {
+			$user->user_url = $guessurl;
+			wp_update_user( $user );
+		}
 
 		wp_install_defaults( $user_id );
 
