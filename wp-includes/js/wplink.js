@@ -507,9 +507,10 @@
 
 		searchInternalLinks: function() {
 			var waiting,
-				search = inputs.search.val() || '';
+				search = inputs.search.val() || '',
+				minInputLength = parseInt( wpLinkL10n.minInputLength, 10 ) || 3;
 
-			if ( search.length > 2 ) {
+			if ( search.length >= minInputLength ) {
 				rivers.recent.hide();
 				rivers.search.show();
 
