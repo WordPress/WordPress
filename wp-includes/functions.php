@@ -1162,6 +1162,7 @@ function wp_removable_query_args() {
 		'deactivate',
 		'deleted',
 		'disabled',
+		'doing_wp_cron',
 		'enabled',
 		'error',
 		'hotkeys_highlight_first',
