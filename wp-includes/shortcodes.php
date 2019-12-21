@@ -162,6 +162,24 @@ function has_shortcode( $content, $tag ) {
 /**
  * Search content for shortcodes and filter shortcodes through their hooks.
  *
+ * This function is an alias for do_shortcode().
+ *
+ * @since 5.4.0
+ *
+ * @see do_shortcode()
+ *
+ * @param string $content     Content to search for shortcodes.
+ * @param bool   $ignore_html When true, shortcodes inside HTML elements will be skipped.
+ *                            Default false.
+ * @return string Content with shortcodes filtered out.
+ */
+function apply_shortcodes( $content, $ignore_html = false ) {
+	return do_shortcode( $content, $ignore_html );
+}
+
+/**
+ * Search content for shortcodes and filter shortcodes through their hooks.
+ *
  * If there are no shortcode tags defined, then the content will be returned
  * without any filtering. This might cause issues when plugins are disabled but
  * the shortcode will still show up in the post or content.
@@ -170,8 +188,9 @@ function has_shortcode( $content, $tag ) {
  *
  * @global array $shortcode_tags List of shortcode tags and their callback hooks.
  *
- * @param string $content Content to search for shortcodes.
- * @param bool $ignore_html When true, shortcodes inside HTML elements will be skipped.
+ * @param string $content     Content to search for shortcodes.
+ * @param bool   $ignore_html When true, shortcodes inside HTML elements will be skipped.
+ *                            Default false.
  * @return string Content with shortcodes filtered out.
  */
 function do_shortcode( $content, $ignore_html = false ) {
