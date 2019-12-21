@@ -227,8 +227,8 @@ window.wp = window.wp || {};
 			this.attrs = wp.shortcode.attrs( attrs );
 
 		// Identify a correctly formatted `attrs` object.
-		} else if ( _.isEqual( _.keys( attrs ), [ 'named', 'numeric' ] ) ) {
-			this.attrs = attrs;
+		} else if ( _.difference( _.keys( attrs ), [ 'named', 'numeric' ] ).length === 0 ) {
+			this.attrs = _.defaults( attrs, this.attrs );
 
 		// Handle a flat object of attributes.
 		} else {
