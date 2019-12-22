@@ -111,8 +111,15 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 		if ( ! is_writable( dirname( $filename ) ) ) {
 			return false;
 		}
+
 		if ( ! touch( $filename ) ) {
 			return false;
+		}
+
+		// Make sure the file is created with a minimum set of permissions.
+		$perms = fileperms( $filename );
+		if ( $perms ) {
+			chmod( $filename, $perms | 0644 );
 		}
 	} elseif ( ! is_writeable( $filename ) ) {
 		return false;
