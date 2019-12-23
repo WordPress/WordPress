@@ -1796,6 +1796,10 @@ function menu_page_url( $menu_slug, $echo = true ) {
 // Pluggable Menu Support -- Private
 //
 /**
+ * Gets the parent file of the current admin page.
+ *
+ * @since 1.5.0
+ *
  * @global string $parent_file
  * @global array $menu
  * @global array $submenu
@@ -1806,7 +1810,7 @@ function menu_page_url( $menu_slug, $echo = true ) {
  * @global array $_wp_menu_nopriv
  * @global array $_wp_submenu_nopriv
  *
- * @return string
+ * @return string The parent file of the current admin page.
  */
 function get_admin_page_parent( $parent = '' ) {
 	global $parent_file, $menu, $submenu, $pagenow, $typenow,
@@ -1871,6 +1875,10 @@ function get_admin_page_parent( $parent = '' ) {
 }
 
 /**
+ * Gets the title of the current admin page.
+ *
+ * @since 1.5.0
+ *
  * @global string $title
  * @global array $menu
  * @global array $submenu
@@ -1878,7 +1886,7 @@ function get_admin_page_parent( $parent = '' ) {
  * @global string $plugin_page
  * @global string $typenow
  *
- * @return string
+ * @return string The title of the current admin page.
  */
 function get_admin_page_title() {
 	global $title, $menu, $submenu, $pagenow, $plugin_page, $typenow;
@@ -1954,7 +1962,9 @@ function get_admin_page_title() {
 }
 
 /**
- * @since 2.3.0
+ * Gets the hook attached to the administrative page of a plugin.
+ *
+ * @since 1.5.0
  *
  * @param string $plugin_page The slug name of the plugin page.
  * @param string $parent_page The slug name for the parent menu (or the file name of a standard
@@ -1971,6 +1981,10 @@ function get_plugin_page_hook( $plugin_page, $parent_page ) {
 }
 
 /**
+ * Gets the hook name for the administrative page of a plugin.
+ *
+ * @since 1.5.0
+ *
  * @global array $admin_page_hooks
  *
  * @param string $plugin_page The slug name of the plugin page.
@@ -2000,15 +2014,19 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 }
 
 /**
- * @global string $pagenow
- * @global array $menu
- * @global array $submenu
- * @global array $_wp_menu_nopriv
- * @global array $_wp_submenu_nopriv
- * @global string $plugin_page
- * @global array $_registered_pages
+ * Determines whether the current user can access the current admin page.
  *
- * @return bool Whether the current user can access the current admin page.
+ * @since 1.5.0
+ *
+ * @global string $pagenow
+ * @global array  $menu
+ * @global array  $submenu
+ * @global array  $_wp_menu_nopriv
+ * @global array  $_wp_submenu_nopriv
+ * @global string $plugin_page
+ * @global array  $_registered_pages
+ *
+ * @return bool True if the current user can access the admin page, false otherwise.
  */
 function user_can_access_admin_page() {
 	global $pagenow, $menu, $submenu, $_wp_menu_nopriv, $_wp_submenu_nopriv,
