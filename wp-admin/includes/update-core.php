@@ -807,7 +807,7 @@ $_old_files = array(
  * @since 4.7.0 New themes were not automatically installed for 4.4-4.6 on
  *              upgrade. New themes are now installed again. To disable new
  *              themes from being installed on upgrade, explicitly define
- *              CORE_UPGRADE_SKIP_NEW_BUNDLED as false.
+ *              CORE_UPGRADE_SKIP_NEW_BUNDLED as true.
  * @global array $_new_bundled_files
  * @var array
  * @name $_new_bundled_files
