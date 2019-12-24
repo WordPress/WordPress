@@ -242,7 +242,7 @@ function get_comment_author_link( $comment_ID = 0 ) {
 }
 
 /**
- * Display the html link to the url of the author of the current comment.
+ * Display the HTML link to the URL of the author of the current comment.
  *
  * @since 0.71
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -294,14 +294,14 @@ function comment_author_IP( $comment_ID = 0 ) { // phpcs:ignore WordPress.Naming
 }
 
 /**
- * Retrieve the url of the author of the current comment.
+ * Retrieves the URL of the author of the current comment, not linked.
  *
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
  *
  * @param int|WP_Comment $comment_ID Optional. WP_Comment or the ID of the comment for which to get the author's URL.
  *                                   Default current comment.
- * @return string Comment author URL.
+ * @return string Comment author URL, if provided, an empty string otherwise.
  */
 function get_comment_author_url( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
@@ -327,7 +327,7 @@ function get_comment_author_url( $comment_ID = 0 ) {
 }
 
 /**
- * Display the url of the author of the current comment.
+ * Displays the URL of the author of the current comment, not linked.
  *
  * @since 0.71
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -352,7 +352,7 @@ function comment_author_url( $comment_ID = 0 ) {
 }
 
 /**
- * Retrieves the HTML link of the url of the author of the current comment.
+ * Retrieves the HTML link of the URL of the author of the current comment.
  *
  * $linktext parameter is only used if the URL does not exist for the comment
  * author. If the URL does exist then the URL will be used and the $linktext
@@ -397,7 +397,7 @@ function get_comment_author_url_link( $linktext = '', $before = '', $after = '',
 }
 
 /**
- * Displays the HTML link of the url of the author of the current comment.
+ * Displays the HTML link of the URL of the author of the current comment.
  *
  * @since 0.71
  * @since 4.6.0 Added the `$comment` parameter.
@@ -1349,7 +1349,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	$comment_author_email = $commenter['comment_author_email'];
 
 	/*
-	 * The url of the current comment author escaped for use in attributes.
+	 * The URL of the current comment author escaped for use in attributes.
 	 */
 	$comment_author_url = esc_url( $commenter['comment_author_url'] );
 
