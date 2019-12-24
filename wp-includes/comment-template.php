@@ -9,7 +9,7 @@
  */
 
 /**
- * Retrieve the author of the current comment.
+ * Retrieves the author of the current comment.
  *
  * If the comment has an empty comment_author field, then 'Anonymous' person is
  * assumed.
@@ -74,7 +74,7 @@ function comment_author( $comment_ID = 0 ) {
 }
 
 /**
- * Retrieve the email of the author of the current comment.
+ * Retrieves the email of the author of the current comment.
  *
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -100,7 +100,7 @@ function get_comment_author_email( $comment_ID = 0 ) {
 }
 
 /**
- * Display the email of the author of the current global $comment.
+ * Displays the email of the author of the current global $comment.
  *
  * Care should be taken to protect the email address and assure that email
  * harvesters do not capture your commenter's email address. Most assume that
@@ -131,7 +131,7 @@ function comment_author_email( $comment_ID = 0 ) {
 }
 
 /**
- * Display the html email link to the author of the current comment.
+ * Displays the HTML email link to the author of the current comment.
  *
  * Care should be taken to protect the email address and assure that email
  * harvesters do not capture your commenter's email address. Most assume that
@@ -156,7 +156,7 @@ function comment_author_email_link( $linktext = '', $before = '', $after = '', $
 }
 
 /**
- * Return the html email link to the author of the current comment.
+ * Returns the HTML email link to the author of the current comment.
  *
  * Care should be taken to protect the email address and assure that email
  * harvesters do not capture your commenter's email address. Most assume that
@@ -204,7 +204,7 @@ function get_comment_author_email_link( $linktext = '', $before = '', $after = '
 }
 
 /**
- * Retrieve the HTML link to the URL of the author of the current comment.
+ * Retrieves the HTML link to the URL of the author of the current comment.
  *
  * Both get_comment_author_url() and get_comment_author() rely on get_comment(),
  * which falls back to the global comment variable if the $comment_ID argument is empty.
@@ -242,7 +242,7 @@ function get_comment_author_link( $comment_ID = 0 ) {
 }
 
 /**
- * Display the HTML link to the URL of the author of the current comment.
+ * Displays the HTML link to the URL of the author of the current comment.
  *
  * @since 0.71
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -281,7 +281,7 @@ function get_comment_author_IP( $comment_ID = 0 ) { // phpcs:ignore WordPress.Na
 }
 
 /**
- * Display the IP address of the author of the current comment.
+ * Displays the IP address of the author of the current comment.
  *
  * @since 0.71
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -537,7 +537,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 }
 
 /**
- * Retrieve the comment date of the current comment.
+ * Retrieves the comment date of the current comment.
  *
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -567,7 +567,7 @@ function get_comment_date( $d = '', $comment_ID = 0 ) {
 }
 
 /**
- * Display the comment date of the current comment.
+ * Displays the comment date of the current comment.
  *
  * @since 0.71
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -624,7 +624,7 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 }
 
 /**
- * Display the excerpt of the current comment.
+ * Displays the excerpt of the current comment.
  *
  * @since 1.2.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -649,7 +649,7 @@ function comment_excerpt( $comment_ID = 0 ) {
 }
 
 /**
- * Retrieve the comment id of the current comment.
+ * Retrieves the comment id of the current comment.
  *
  * @since 1.5.0
  *
@@ -671,7 +671,7 @@ function get_comment_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFun
 }
 
 /**
- * Display the comment id of the current comment.
+ * Displays the comment id of the current comment.
  *
  * @since 0.71
  */
@@ -680,7 +680,7 @@ function comment_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctio
 }
 
 /**
- * Retrieve the link to a given comment.
+ * Retrieves the link to a given comment.
  *
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment` to also accept a WP_Comment object. Added `$cpage` argument.
@@ -818,7 +818,7 @@ function get_comments_link( $post_id = 0 ) {
 }
 
 /**
- * Display the link to the current post comments.
+ * Displays the link to the current post comments.
  *
  * @since 0.71
  *
@@ -866,7 +866,7 @@ function get_comments_number( $post_id = 0 ) {
 }
 
 /**
- * Display the language string for the number of comments the current post has.
+ * Displays the language string for the number of comments the current post has.
  *
  * @since 0.71
  *
@@ -883,7 +883,7 @@ function comments_number( $zero = false, $one = false, $more = false, $deprecate
 }
 
 /**
- * Display the language string for the number of comments the current post has.
+ * Displays the language string for the number of comments the current post has.
  *
  * @since 4.0.0
  *
@@ -944,7 +944,7 @@ function get_comments_number_text( $zero = false, $one = false, $more = false ) 
 }
 
 /**
- * Retrieve the text of the current comment.
+ * Retrieves the text of the current comment.
  *
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -974,7 +974,7 @@ function get_comment_text( $comment_ID = 0, $args = array() ) {
 }
 
 /**
- * Display the text of the current comment.
+ * Displays the text of the current comment.
  *
  * @since 0.71
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -1004,7 +1004,7 @@ function comment_text( $comment_ID = 0, $args = array() ) {
 }
 
 /**
- * Retrieve the comment time of the current comment.
+ * Retrieves the comment time of the current comment.
  *
  * @since 1.5.0
  *
@@ -1039,7 +1039,7 @@ function get_comment_time( $d = '', $gmt = false, $translate = true ) {
 }
 
 /**
- * Display the comment time of the current comment.
+ * Displays the comment time of the current comment.
  *
  * @since 0.71
  *
@@ -1050,7 +1050,7 @@ function comment_time( $d = '' ) {
 }
 
 /**
- * Retrieve the comment type of the current comment.
+ * Retrieves the comment type of the current comment.
  *
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
@@ -1079,7 +1079,7 @@ function get_comment_type( $comment_ID = 0 ) {
 }
 
 /**
- * Display the comment type of the current comment.
+ * Displays the comment type of the current comment.
  *
  * @since 0.71
  *
@@ -1111,7 +1111,7 @@ function comment_type( $commenttxt = false, $trackbacktxt = false, $pingbacktxt 
 }
 
 /**
- * Retrieve The current post's trackback URL.
+ * Retrieves the current post's trackback URL.
  *
  * There is a check to see if permalink's have been enabled and if so, will
  * retrieve the pretty path. If permalinks weren't enabled, the ID of the
@@ -1139,7 +1139,7 @@ function get_trackback_url() {
 }
 
 /**
- * Display the current post's trackback URL.
+ * Displays the current post's trackback URL.
  *
  * @since 0.71
  *
@@ -1168,7 +1168,7 @@ function trackback_url( $deprecated_echo = true ) {
 }
 
 /**
- * Generate and display the RDF for the trackback information of current post.
+ * Generates and displays the RDF for the trackback information of current post.
  *
  * Deprecated in 3.0.0, and restored in 3.0.1.
  *
@@ -1260,7 +1260,7 @@ function pings_open( $post_id = null ) {
 }
 
 /**
- * Display form token for unfiltered comments.
+ * Displays form token for unfiltered comments.
  *
  * Will only display nonce token if the current user has permissions for
  * unfiltered html. Won't display the token for other users.
@@ -1284,7 +1284,7 @@ function wp_comment_form_unfiltered_html_nonce() {
 }
 
 /**
- * Load the comment template specified in $file.
+ * Loads the comment template specified in $file.
  *
  * Will not display the comments template if not on single post or page, or if
  * the post does not have comments.
@@ -1597,7 +1597,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 }
 
 /**
- * Retrieve HTML content for reply to comment link.
+ * Retrieves HTML content for reply to comment link.
  *
  * @since 2.7.0
  * @since 4.4.0 Added the ability for `$comment` to also accept a WP_Comment object.
@@ -1742,7 +1742,7 @@ function comment_reply_link( $args = array(), $comment = null, $post = null ) {
 }
 
 /**
- * Retrieve HTML content for reply to post link.
+ * Retrieves HTML content for reply to post link.
  *
  * @since 2.7.0
  *
@@ -1832,7 +1832,7 @@ function post_reply_link( $args = array(), $post = null ) {
 }
 
 /**
- * Retrieve HTML content for cancel comment reply link.
+ * Retrieves HTML content for cancel comment reply link.
  *
  * @since 2.7.0
  *
@@ -1862,7 +1862,7 @@ function get_cancel_comment_reply_link( $text = '' ) {
 }
 
 /**
- * Display HTML content for cancel comment reply link.
+ * Displays HTML content for cancel comment reply link.
  *
  * @since 2.7.0
  *
@@ -1873,7 +1873,7 @@ function cancel_comment_reply_link( $text = '' ) {
 }
 
 /**
- * Retrieve hidden input HTML for replying to comments.
+ * Retrieves hidden input HTML for replying to comments.
  *
  * @since 3.0.0
  *
@@ -1902,7 +1902,7 @@ function get_comment_id_fields( $id = 0 ) {
 }
 
 /**
- * Output hidden input HTML for replying to comments.
+ * Outputs hidden input HTML for replying to comments.
  *
  * @since 2.7.0
  *
@@ -1913,7 +1913,7 @@ function comment_id_fields( $id = 0 ) {
 }
 
 /**
- * Display text based on comment reply status.
+ * Displays text based on comment reply status.
  *
  * Only affects users with JavaScript disabled.
  *
@@ -1956,7 +1956,7 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
 }
 
 /**
- * List comments.
+ * Displays a list of comments.
  *
  * Used in the comments.php template to list comments for a particular post.
  *
