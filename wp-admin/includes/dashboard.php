@@ -1059,10 +1059,10 @@ function wp_dashboard_rss_output( $widget_id ) {
  *              by adding it to the function signature.
  *
  * @param string   $widget_id  The widget ID.
- * @param callable $callback   The callback funtion used to display each feed.
- * @param array    $check_urls RSS feeds
- * @param mixed    ...$args    Optional additional parameters to pass to the callback function when it's called.
- * @return bool False on failure. True on success.
+ * @param callable $callback   The callback function used to display each feed.
+ * @param array    $check_urls RSS feeds.
+ * @param mixed    ...$args    Optional additional parameters to pass to the callback function.
+ * @return bool True on success, false on failure. 
  */
 function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array(), ...$args ) {
 	$loading    = '<p class="widget-loading hide-if-no-js">' . __( 'Loading&hellip;' ) . '</p><div class="hide-if-js notice notice-error inline"><p>' . __( 'This widget requires JavaScript.' ) . '</p></div>';
