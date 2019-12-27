@@ -2316,7 +2316,7 @@ function wp_set_comment_status( $comment_id, $comment_status, $wp_error = false 
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $commentarr Contains information on the comment.
- * @return int Comment was updated if value is 1, or was not updated if value is 0.
+ * @return int The value 1 if the comment was updated, 0 if not updated.
  */
 function wp_update_comment( $commentarr ) {
 	global $wpdb;
