@@ -1637,6 +1637,23 @@ function do_robots() {
 }
 
 /**
+ * Display the favicon.ico file content.
+ *
+ * @since 5.4.0
+ */
+function do_favicon() {
+	/**
+	 * Fires when serving the favicon.ico file.
+	 *
+	 * @since 5.4.0
+	 */
+	do_action( 'do_faviconico' );
+
+	wp_redirect( get_site_icon_url( 32, admin_url( 'images/w-logo-blue.png' ) ) );
+	exit;
+}
+
+/**
  * Determines whether WordPress is already installed.
  *
  * The cache will be checked first. If you have a cache plugin, which saves

@@ -19,8 +19,8 @@
  *
  * Prevents redirection for feeds, trackbacks, searches, and
  * admin URLs. Does not redirect on non-pretty-permalink-supporting IIS 7+,
- * page/post previews, WP admin, Trackbacks, robots.txt, searches, or on POST
- * requests.
+ * page/post previews, WP admin, Trackbacks, robots.txt, favicon.ico, searches,
+ * or on POST requests.
  *
  * Will also attempt to find the correct link when a user enters a URL that does
  * not exist based on exact WordPress query. Will instead try to parse the URL
@@ -56,7 +56,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		}
 	}
 
-	if ( is_trackback() || is_search() || is_admin() || is_preview() || is_robots() || ( $is_IIS && ! iis7_supports_permalinks() ) ) {
+	if ( is_trackback() || is_search() || is_admin() || is_preview() || is_robots() || is_favicon() || ( $is_IIS && ! iis7_supports_permalinks() ) ) {
 		return;
 	}
 

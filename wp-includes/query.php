@@ -623,7 +623,7 @@ function is_preview() {
 }
 
 /**
- * Is the query for the robots file?
+ * Is the query for the robots.txt file?
  *
  * @since 2.1.0
  *
@@ -640,6 +640,26 @@ function is_robots() {
 	}
 
 	return $wp_query->is_robots();
+}
+
+/**
+ * Is the query for the favicon.ico file?
+ *
+ * @since 5.4.0
+ *
+ * @global WP_Query $wp_query WordPress Query object.
+ *
+ * @return bool
+ */
+function is_favicon() {
+	global $wp_query;
+
+	if ( ! isset( $wp_query ) ) {
+		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the query is run. Before then, they always return false.' ), '3.1.0' );
+		return false;
+	}
+
+	return $wp_query->is_favicon();
 }
 
 /**

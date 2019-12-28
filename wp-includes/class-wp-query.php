@@ -391,6 +391,14 @@ class WP_Query {
 	public $is_robots = false;
 
 	/**
+	 * Signifies whether the current query is for the favicon.ico file.
+	 *
+	 * @since 5.4.0
+	 * @var bool
+	 */
+	public $is_favicon = false;
+
+	/**
 	 * Signifies whether the current query is for the page_for_posts page.
 	 *
 	 * Basically, the homepage if the option isn't set for the static homepage.
@@ -478,6 +486,7 @@ class WP_Query {
 		$this->is_attachment        = false;
 		$this->is_singular          = false;
 		$this->is_robots            = false;
+		$this->is_favicon           = false;
 		$this->is_posts_page        = false;
 		$this->is_post_type_archive = false;
 	}
@@ -744,6 +753,8 @@ class WP_Query {
 
 		if ( ! empty( $qv['robots'] ) ) {
 			$this->is_robots = true;
+		} elseif ( ! empty( $qv['favicon'] ) ) {
+			$this->is_favicon = true;
 		}
 
 		if ( ! is_scalar( $qv['p'] ) || $qv['p'] < 0 ) {
@@ -957,7 +968,9 @@ class WP_Query {
 			$this->is_comment_feed = true;
 		}
 
-		if ( ! ( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_robots ) ) {
+		if ( ! ( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed
+				|| ( defined( 'REST_REQUEST' ) && REST_REQUEST )
+				|| $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_robots || $this->is_favicon ) ) {
 			$this->is_home = true;
 		}
 
@@ -4007,7 +4020,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for the robots file?
+	 * Is the query for the robots.txt file?
 	 *
 	 * @since 3.1.0
 	 *
@@ -4015,6 +4028,17 @@ class WP_Query {
 	 */
 	public function is_robots() {
 		return (bool) $this->is_robots;
+	}
+
+	/**
+	 * Is the query for the favicon.ico file?
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return bool
+	 */
+	public function is_favicon() {
+		return (bool) $this->is_favicon;
 	}
 
 	/**

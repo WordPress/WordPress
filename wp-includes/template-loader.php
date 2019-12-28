@@ -36,6 +36,14 @@ if ( is_robots() ) {
 	 */
 	do_action( 'do_robots' );
 	return;
+} elseif ( is_favicon() ) {
+	/**
+	 * Fired when the template loader determines a favicon.ico request.
+	 *
+	 * @since 5.4.0
+	 */
+	do_action( 'do_favicon' );
+	return;
 } elseif ( is_feed() ) {
 	do_feed();
 	return;
