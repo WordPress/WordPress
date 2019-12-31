@@ -469,7 +469,7 @@ function _flip_image_resource( $img, $horz, $vert ) {
  * @ignore
  * @param resource $img Image resource.
  * @param float    $x   Source point x-coordinate.
- * @param float    $y   Source point y-cooredinate.
+ * @param float    $y   Source point y-coordinate.
  * @param float    $w   Source width.
  * @param float    $h   Source height.
  * @return resource (maybe) cropped image resource.
