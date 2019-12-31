@@ -1024,7 +1024,11 @@ final class _WP_Editors {
 	}
 
 	/**
+	 * Returns the TinyMCE locale.
+	 *
 	 * @since 4.8.0
+	 *
+	 * @return string
 	 */
 	public static function get_mce_locale() {
 		if ( empty( self::$mce_locale ) ) {
@@ -1036,7 +1040,11 @@ final class _WP_Editors {
 	}
 
 	/**
+	 * Returns the TinyMCE base URL.
+	 *
 	 * @since 4.8.0
+	 *
+	 * @return string
 	 */
 	public static function get_baseurl() {
 		if ( empty( self::$baseurl ) ) {
