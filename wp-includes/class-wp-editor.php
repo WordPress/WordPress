@@ -35,6 +35,8 @@ final class _WP_Editors {
 	/**
 	 * Parse default arguments for the editor instance.
 	 *
+	 * @since 3.3.0
+	 *
 	 * @param string $editor_id ID for the current editor instance.
 	 * @param array  $settings {
 	 *     Array of editor arguments.
@@ -149,6 +151,8 @@ final class _WP_Editors {
 
 	/**
 	 * Outputs the HTML for a single instance of the editor.
+	 *
+	 * @since 3.3.0
 	 *
 	 * @param string $content The initial content of the editor.
 	 * @param string $editor_id ID for the textarea and TinyMCE and Quicktags instances (can contain only ASCII letters and numbers).
@@ -309,6 +313,8 @@ final class _WP_Editors {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @global string $tinymce_version
 	 *
 	 * @param string $editor_id
@@ -817,6 +823,8 @@ final class _WP_Editors {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @param array $init
 	 * @return string
 	 */
@@ -843,8 +851,7 @@ final class _WP_Editors {
 	}
 
 	/**
-	 *
-	 * @static
+	 * @since 3.3.0
 	 *
 	 * @param bool $default_scripts Optional. Whether default scripts should be enqueued. Default false.
 	 */
@@ -1016,6 +1023,9 @@ final class _WP_Editors {
 		self::wp_link_dialog();
 	}
 
+	/**
+	 * @since 4.8.0
+	 */
 	public static function get_mce_locale() {
 		if ( empty( self::$mce_locale ) ) {
 			$mce_locale       = get_user_locale();
@@ -1025,6 +1035,9 @@ final class _WP_Editors {
 		return self::$mce_locale;
 	}
 
+	/**
+	 * @since 4.8.0
+	 */
 	public static function get_baseurl() {
 		if ( empty( self::$baseurl ) ) {
 			self::$baseurl = includes_url( 'js/tinymce' );
@@ -1036,6 +1049,8 @@ final class _WP_Editors {
 	/**
 	 * Returns the default TinyMCE settings.
 	 * Doesn't include plugins, buttons, editor selector.
+	 *
+	 * @since 4.8.0
 	 *
 	 * @global string $tinymce_version
 	 *
@@ -1104,6 +1119,11 @@ final class _WP_Editors {
 		return $settings;
 	}
 
+	/**
+	 * @since 4.7.0
+	 *
+	 * @return array
+	 */
 	private static function get_translation() {
 		if ( empty( self::$translation ) ) {
 			self::$translation = array(
@@ -1427,6 +1447,8 @@ final class _WP_Editors {
 	 * Translates the default TinyMCE strings and returns them as JSON encoded object ready to be loaded with tinymce.addI18n(),
 	 * or as JS snippet that should run after tinymce.js is loaded.
 	 *
+	 * @since 3.9.0
+	 *
 	 * @param string $mce_locale The locale used for the editor.
 	 * @param bool $json_only optional Whether to include the JavaScript calls to tinymce.addI18n() and tinymce.ScriptLoader.markDone().
 	 * @return string Translation object, JSON encoded.
@@ -1487,6 +1509,8 @@ final class _WP_Editors {
 	 * The compressed TinyMCE file cannot deal with custom themes, so this makes
 	 * sure that we use the uncompressed TinyMCE file if a theme is defined.
 	 * Even if we are on a production environment.
+	 *
+	 * @since 5.0.0
 	 */
 	public static function force_uncompressed_tinymce() {
 		$has_custom_theme = false;
@@ -1536,6 +1560,8 @@ final class _WP_Editors {
 
 	/**
 	 * Print (output) the TinyMCE configuration and initialization scripts.
+	 *
+	 * @since 3.3.0
 	 *
 	 * @global string $tinymce_version
 	 */
