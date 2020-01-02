@@ -953,7 +953,7 @@ function get_comments_number_text( $zero = false, $one = false, $more = false ) 
  *
  * @param int|WP_Comment  $comment_ID WP_Comment or ID of the comment for which to get the text.
  *                                    Default current comment.
- * @param array           $args       Optional. An array of arguments. Default empty.
+ * @param array           $args       Optional. An array of arguments. Default empty array.
  * @return string The comment content.
  */
 function get_comment_text( $comment_ID = 0, $args = array() ) {
@@ -983,7 +983,7 @@ function get_comment_text( $comment_ID = 0, $args = array() ) {
  *
  * @param int|WP_Comment  $comment_ID WP_Comment or ID of the comment for which to print the text.
  *                                    Default current comment.
- * @param array           $args       Optional. An array of arguments. Default empty array. Default empty.
+ * @param array           $args       Optional. An array of arguments. Default empty array.
  */
 function comment_text( $comment_ID = 0, $args = array() ) {
 	$comment = get_comment( $comment_ID );
@@ -1732,7 +1732,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
  *
  * @see get_comment_reply_link()
  *
- * @param array          $args    Optional. Override default options.
+ * @param array          $args    Optional. Override default options. Default empty array.
  * @param int|WP_Comment $comment Comment being replied to. Default current comment.
  * @param int|WP_Post    $post    Post ID or WP_Post object the comment is going to be displayed on.
  *                                Default current post.
@@ -1823,7 +1823,7 @@ function get_post_reply_link( $args = array(), $post = null ) {
  *
  * @see get_post_reply_link()
  *
- * @param array       $args Optional. Override default options,
+ * @param array       $args Optional. Override default options. Default empty array.
  * @param int|WP_Post $post Post ID or WP_Post object the comment is going to be displayed on.
  *                          Default current post.
  */
