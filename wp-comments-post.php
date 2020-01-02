@@ -5,9 +5,9 @@
  * @package WordPress
  */
 
-if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
+if ( 'POST' !== $_SERVER['REQUEST_METHOD'] ) {
 	$protocol = $_SERVER['SERVER_PROTOCOL'];
-	if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ) ) ) {
+	if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ), true ) ) {
 		$protocol = 'HTTP/1.0';
 	}
 
