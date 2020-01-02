@@ -8799,7 +8799,8 @@ Settings = View.extend(/** @lends wp.media.view.Settings.prototype */{
 
 		// If the setting has a corresponding user setting,
 		// update that as well.
-		if ( userSetting = $setting.data('userSetting') ) {
+		userSetting = $setting.data('userSetting');
+		if ( userSetting ) {
 			window.setUserSetting( userSetting, value );
 		}
 	},
