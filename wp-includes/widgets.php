@@ -674,7 +674,7 @@ function dynamic_sidebar( $index = 1 ) {
 	} else {
 		$index = sanitize_title( $index );
 		foreach ( (array) $wp_registered_sidebars as $key => $value ) {
-			if ( sanitize_title( $value['name'] ) == $index ) {
+			if ( sanitize_title( $value['name'] ) === $index ) {
 				$index = $key;
 				break;
 			}
@@ -876,8 +876,8 @@ function is_active_widget( $callback = false, $widget_id = false, $id_base = fal
 
 			if ( is_array( $widgets ) ) {
 				foreach ( $widgets as $widget ) {
-					if ( ( $callback && isset( $wp_registered_widgets[ $widget ]['callback'] ) && $wp_registered_widgets[ $widget ]['callback'] == $callback ) || ( $id_base && _get_widget_id_base( $widget ) == $id_base ) ) {
-						if ( ! $widget_id || $widget_id == $wp_registered_widgets[ $widget ]['id'] ) {
+					if ( ( $callback && isset( $wp_registered_widgets[ $widget ]['callback'] ) && $wp_registered_widgets[ $widget ]['callback'] === $callback ) || ( $id_base && _get_widget_id_base( $widget ) === $id_base ) ) {
+						if ( ! $widget_id || $widget_id === $wp_registered_widgets[ $widget ]['id'] ) {
 							return $sidebar;
 						}
 					}
@@ -966,7 +966,7 @@ function is_active_sidebar( $index ) {
  * @return array Upgraded list of widgets to version 3 array format when called from the admin.
  */
 function wp_get_sidebars_widgets( $deprecated = true ) {
-	if ( $deprecated !== true ) {
+	if ( true !== $deprecated ) {
 		_deprecated_argument( __FUNCTION__, '2.8.1' );
 	}
 
@@ -1062,7 +1062,7 @@ function wp_convert_widget_settings( $base_name, $option_name, $settings ) {
 		$single = true;
 	} else {
 		foreach ( array_keys( $settings ) as $number ) {
-			if ( 'number' == $number ) {
+			if ( 'number' === $number ) {
 				continue;
 			}
 			if ( ! is_numeric( $number ) ) {
@@ -1088,7 +1088,7 @@ function wp_convert_widget_settings( $base_name, $option_name, $settings ) {
 		foreach ( (array) $sidebars_widgets as $index => $sidebar ) {
 			if ( is_array( $sidebar ) ) {
 				foreach ( $sidebar as $i => $name ) {
-					if ( $base_name == $name ) {
+					if ( $base_name === $name ) {
 						$sidebars_widgets[ $index ][ $i ] = "$name-2";
 						$changed                          = true;
 						break 2;
@@ -1527,7 +1527,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	echo '<ul>';
 	foreach ( $rss->get_items( 0, $items ) as $item ) {
 		$link = $item->get_link();
-		while ( stristr( $link, 'http' ) != $link ) {
+		while ( stristr( $link, 'http' ) !== $link ) {
 			$link = substr( $link, 1 );
 		}
 		$link = esc_url( strip_tags( $link ) );
@@ -1545,7 +1545,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 			$summary = $desc;
 
 			// Change existing [...] to [&hellip;].
-			if ( '[...]' == substr( $summary, -5 ) ) {
+			if ( '[...]' === substr( $summary, -5 ) ) {
 				$summary = substr( $summary, 0, -5 ) . '[&hellip;]';
 			}
 
@@ -1570,7 +1570,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 			}
 		}
 
-		if ( $link == '' ) {
+		if ( '' === $link ) {
 			echo "<li>$title{$date}{$summary}{$author}</li>";
 		} elseif ( $show_summary ) {
 			echo "<li><a class='rsswidget' href='$link'>$title</a>{$date}{$summary}{$author}</li>";
@@ -1695,7 +1695,7 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 			$error = $rss->get_error_message();
 		} else {
 			$link = esc_url( strip_tags( $rss->get_permalink() ) );
-			while ( stristr( $link, 'http' ) != $link ) {
+			while ( stristr( $link, 'http' ) !== $link ) {
 				$link = substr( $link, 1 );
 			}
 
