@@ -282,17 +282,17 @@ jQuery( document ).ready( function( $ ) {
 
 	function updateDirSizes( data ) {
 		var copyButton = $( 'button.button.copy-button' );
-		var clipdoardText = copyButton.attr( 'data-clipboard-text' );
+		var clipboardText = copyButton.attr( 'data-clipboard-text' );
 
 		$.each( data, function( name, value ) {
 			var text = value.debug || value.size;
 
 			if ( typeof text !== 'undefined' ) {
-				clipdoardText = clipdoardText.replace( name + ': loading...', name + ': ' + text );
+				clipboardText = clipboardText.replace( name + ': loading...', name + ': ' + text );
 			}
 		} );
 
-		copyButton.attr( 'data-clipboard-text', clipdoardText );
+		copyButton.attr( 'data-clipboard-text', clipboardText );
 
 		pathsSizesSection.find( 'td[class]' ).each( function( i, element ) {
 			var td = $( element );
