@@ -81,8 +81,10 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( 'edit' === $request['context'] ) {
-			foreach ( get_post_types( array(), 'object' ) as $post_type ) {
-				if ( ! empty( $post_type->show_in_rest ) && current_user_can( $post_type->cap->edit_posts ) ) {
+			$types = get_post_types( array( 'show_in_rest' => true ), 'objects' );
+
+			foreach ( $types as $type ) {
+				if ( current_user_can( $type->cap->edit_posts ) ) {
 					return true;
 				}
 			}
@@ -102,15 +104,16 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		$data = array();
+		$data  = array();
+		$types = get_post_types( array( 'show_in_rest' => true ), 'objects' );
 
-		foreach ( get_post_types( array(), 'object' ) as $obj ) {
-			if ( empty( $obj->show_in_rest ) || ( 'edit' === $request['context'] && ! current_user_can( $obj->cap->edit_posts ) ) ) {
+		foreach ( $types as $type ) {
+			if ( 'edit' === $request['context'] && ! current_user_can( $type->cap->edit_posts ) ) {
 				continue;
 			}
 
-			$post_type          = $this->prepare_item_for_response( $obj, $request );
-			$data[ $obj->name ] = $this->prepare_response_for_collection( $post_type );
+			$post_type           = $this->prepare_item_for_response( $type, $request );
+			$data[ $type->name ] = $this->prepare_response_for_collection( $post_type );
 		}
 
 		return rest_ensure_response( $data );

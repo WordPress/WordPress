@@ -199,17 +199,16 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		}
 
 		if ( 'authors' === $request['who'] ) {
-			$can_view = false;
-			$types    = get_post_types( array( 'show_in_rest' => true ), 'objects' );
+			$types = get_post_types( array( 'show_in_rest' => true ), 'objects' );
+
 			foreach ( $types as $type ) {
 				if ( post_type_supports( $type->name, 'author' )
 					&& current_user_can( $type->cap->edit_posts ) ) {
-					$can_view = true;
+					return true;
 				}
 			}
-			if ( ! $can_view ) {
-				return new WP_Error( 'rest_forbidden_who', __( 'Sorry, you are not allowed to query users by this parameter.' ), array( 'status' => rest_authorization_required_code() ) );
-			}
+
+			return new WP_Error( 'rest_forbidden_who', __( 'Sorry, you are not allowed to query users by this parameter.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
