@@ -2242,7 +2242,22 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
 		foreach ( $taxonomies as $taxonomy ) {
-			$base                          = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
+			$base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
+
+			if ( array_key_exists( $base, $schema['properties'] ) ) {
+				$taxonomy_field_name_with_conflict = ! empty( $taxonomy->rest_base ) ? 'rest_base' : 'name';
+				_doing_it_wrong(
+					'register_taxonomy',
+					sprintf(
+						/* translators: 1. The taxonomy name, 2. The property name, either rest_base or name. */
+						__( 'The "%1$s" taxonomy "%2$s" conflicts with an existing property on the REST API Posts Controller. Specify a custom "rest_base" when registering the taxonomy to avoid this error.' ),
+						$base,
+						$taxonomy_field_name_with_conflict
+					),
+					'5.4.0'
+				);
+			}
+
 			$schema['properties'][ $base ] = array(
 				/* translators: %s: Taxonomy name. */
 				'description' => sprintf( __( 'The terms assigned to the object in the %s taxonomy.' ), $taxonomy->name ),
