@@ -18,7 +18,7 @@ header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true 
 $link_cat = '';
 if ( ! empty( $_GET['link_cat'] ) ) {
 	$link_cat = $_GET['link_cat'];
-	if ( ! in_array( $link_cat, array( 'all', '0' ) ) ) {
+	if ( ! in_array( $link_cat, array( 'all', '0' ), true ) ) {
 		$link_cat = absint( (string) urldecode( $link_cat ) );
 	}
 }
