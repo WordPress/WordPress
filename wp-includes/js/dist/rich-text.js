@@ -456,8 +456,8 @@ var external_this_wp_data_ = __webpack_require__(4);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
 var objectSpread = __webpack_require__(7);
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/store/reducer.js
 
@@ -486,10 +486,10 @@ function reducer_formatTypes() {
 
   switch (action.type) {
     case 'ADD_FORMAT_TYPES':
-      return Object(objectSpread["a" /* default */])({}, state, Object(external_lodash_["keyBy"])(action.formatTypes, 'name'));
+      return Object(objectSpread["a" /* default */])({}, state, Object(external_this_lodash_["keyBy"])(action.formatTypes, 'name'));
 
     case 'REMOVE_FORMAT_TYPES':
-      return Object(external_lodash_["omit"])(state, action.names);
+      return Object(external_this_lodash_["omit"])(state, action.names);
   }
 
   return state;
@@ -543,7 +543,7 @@ function getFormatType(state, name) {
  */
 
 function getFormatTypeForBareElement(state, bareElementTagName) {
-  return Object(external_lodash_["find"])(getFormatTypes(state), function (_ref) {
+  return Object(external_this_lodash_["find"])(getFormatTypes(state), function (_ref) {
     var className = _ref.className,
         tagName = _ref.tagName;
     return className === null && bareElementTagName === tagName;
@@ -559,7 +559,7 @@ function getFormatTypeForBareElement(state, bareElementTagName) {
  */
 
 function getFormatTypeForClassName(state, elementClassName) {
-  return Object(external_lodash_["find"])(getFormatTypes(state), function (_ref2) {
+  return Object(external_this_lodash_["find"])(getFormatTypes(state), function (_ref2) {
     var className = _ref2.className;
 
     if (className === null) {
@@ -587,7 +587,7 @@ function getFormatTypeForClassName(state, elementClassName) {
 function addFormatTypes(formatTypes) {
   return {
     type: 'ADD_FORMAT_TYPES',
-    formatTypes: Object(external_lodash_["castArray"])(formatTypes)
+    formatTypes: Object(external_this_lodash_["castArray"])(formatTypes)
   };
 }
 /**
@@ -601,7 +601,7 @@ function addFormatTypes(formatTypes) {
 function removeFormatTypes(names) {
   return {
     type: 'REMOVE_FORMAT_TYPES',
-    names: Object(external_lodash_["castArray"])(names)
+    names: Object(external_this_lodash_["castArray"])(names)
   };
 }
 
@@ -761,7 +761,7 @@ function applyFormat(value, format) {
   var newFormats = formats.slice(); // The selection is collapsed.
 
   if (startIndex === endIndex) {
-    var startFormat = Object(external_lodash_["find"])(newFormats[startIndex], {
+    var startFormat = Object(external_this_lodash_["find"])(newFormats[startIndex], {
       type: format.type
     }); // If the caret is at a format of the same type, expand start and end to
     // the edges of the format. This is useful to apply new attributes.
@@ -812,7 +812,7 @@ function applyFormat(value, format) {
     // Always revise active formats. This serves as a placeholder for new
     // inputs with the format so new input appears with the format applied,
     // and ensures a format of the same type uses the latest values.
-    activeFormats: [].concat(Object(toConsumableArray["a" /* default */])(Object(external_lodash_["reject"])(activeFormats, {
+    activeFormats: [].concat(Object(toConsumableArray["a" /* default */])(Object(external_this_lodash_["reject"])(activeFormats, {
       type: format.type
     })), [format])
   }));
@@ -1479,7 +1479,7 @@ function getActiveFormats(_ref) {
  */
 
 function getActiveFormat(value, formatType) {
-  return Object(external_lodash_["find"])(getActiveFormats(value), {
+  return Object(external_this_lodash_["find"])(getActiveFormats(value), {
     type: formatType
   });
 }
@@ -1865,7 +1865,7 @@ function registerFormatType(name, settings) {
         hocs.push(Object(external_this_wp_data_["withSelect"])(function (sel, _ref) {
           var clientId = _ref.clientId,
               identifier = _ref.identifier;
-          return Object(external_lodash_["mapKeys"])(settings.__experimentalGetPropsForEditableTreePreparation(sel, {
+          return Object(external_this_lodash_["mapKeys"])(settings.__experimentalGetPropsForEditableTreePreparation(sel, {
             richTextIdentifier: identifier,
             blockClientId: clientId
           }), function (value, key) {
@@ -1878,7 +1878,7 @@ function registerFormatType(name, settings) {
         hocs.push(Object(external_this_wp_data_["withDispatch"])(function (disp, _ref2) {
           var clientId = _ref2.clientId,
               identifier = _ref2.identifier;
-          return Object(external_lodash_["mapKeys"])(settings.__experimentalGetPropsForEditableTreeChangeHandler(disp, {
+          return Object(external_this_lodash_["mapKeys"])(settings.__experimentalGetPropsForEditableTreeChangeHandler(disp, {
             richTextIdentifier: identifier,
             blockClientId: clientId
           }), function (value, key) {
@@ -1928,19 +1928,19 @@ function removeFormat(value, formatType) {
   // format.
 
   if (startIndex === endIndex) {
-    var format = Object(external_lodash_["find"])(newFormats[startIndex], {
+    var format = Object(external_this_lodash_["find"])(newFormats[startIndex], {
       type: formatType
     });
 
     if (format) {
-      while (Object(external_lodash_["find"])(newFormats[startIndex], format)) {
+      while (Object(external_this_lodash_["find"])(newFormats[startIndex], format)) {
         filterFormats(newFormats, startIndex, formatType);
         startIndex--;
       }
 
       endIndex++;
 
-      while (Object(external_lodash_["find"])(newFormats[endIndex], format)) {
+      while (Object(external_this_lodash_["find"])(newFormats[endIndex], format)) {
         filterFormats(newFormats, endIndex, formatType);
         endIndex++;
       }
@@ -1955,7 +1955,7 @@ function removeFormat(value, formatType) {
 
   return normaliseFormats(Object(objectSpread["a" /* default */])({}, value, {
     formats: newFormats,
-    activeFormats: Object(external_lodash_["reject"])(activeFormats, {
+    activeFormats: Object(external_this_lodash_["reject"])(activeFormats, {
       type: formatType
     })
   }));
@@ -2956,7 +2956,7 @@ function applySelection(_ref7, current) {
 }
 
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
-var external_this_wp_escapeHtml_ = __webpack_require__(71);
+var external_this_wp_escapeHtml_ = __webpack_require__(70);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/to-html-string.js
 /**
@@ -3534,20 +3534,20 @@ var objectWithoutProperties = __webpack_require__(21);
 
 
 var aria_isAriaPropName = function isAriaPropName(name) {
-  return Object(external_lodash_["startsWith"])(name, 'aria-');
+  return Object(external_this_lodash_["startsWith"])(name, 'aria-');
 };
 
 var aria_pickAriaProps = function pickAriaProps(props) {
-  return Object(external_lodash_["pickBy"])(props, function (value, key) {
-    return aria_isAriaPropName(key) && !Object(external_lodash_["isNil"])(value);
+  return Object(external_this_lodash_["pickBy"])(props, function (value, key) {
+    return aria_isAriaPropName(key) && !Object(external_this_lodash_["isNil"])(value);
   });
 };
 var aria_diffAriaProps = function diffAriaProps(props, nextProps) {
-  var prevAriaKeys = Object(external_lodash_["keys"])(aria_pickAriaProps(props));
-  var nextAriaKeys = Object(external_lodash_["keys"])(aria_pickAriaProps(nextProps));
-  var removedKeys = Object(external_lodash_["difference"])(prevAriaKeys, nextAriaKeys);
+  var prevAriaKeys = Object(external_this_lodash_["keys"])(aria_pickAriaProps(props));
+  var nextAriaKeys = Object(external_this_lodash_["keys"])(aria_pickAriaProps(nextProps));
+  var removedKeys = Object(external_this_lodash_["difference"])(prevAriaKeys, nextAriaKeys);
   var updatedKeys = nextAriaKeys.filter(function (key) {
-    return !Object(external_lodash_["isEqual"])(props[key], nextProps[key]);
+    return !Object(external_this_lodash_["isEqual"])(props[key], nextProps[key]);
   });
   return {
     removedKeys: removedKeys,
@@ -3609,14 +3609,14 @@ function (_Component) {
     value: function shouldComponentUpdate(nextProps) {
       var _this2 = this;
 
-      if (!Object(external_lodash_["isEqual"])(this.props.style, nextProps.style)) {
+      if (!Object(external_this_lodash_["isEqual"])(this.props.style, nextProps.style)) {
         this.editorNode.setAttribute('style', '');
         Object.assign(this.editorNode.style, Object(objectSpread["a" /* default */])({}, nextProps.style || {}, {
           whiteSpace: 'pre-wrap'
         }));
       }
 
-      if (!Object(external_lodash_["isEqual"])(this.props.className, nextProps.className)) {
+      if (!Object(external_this_lodash_["isEqual"])(this.props.className, nextProps.className)) {
         this.editorNode.className = nextProps.className;
       }
 
@@ -3991,8 +3991,8 @@ function (_Component) {
           files = clipboardData.files; // In Edge these properties can be null instead of undefined, so a more
       // rigorous test is required over using default values.
 
-      items = Object(external_lodash_["isNil"])(items) ? [] : items;
-      files = Object(external_lodash_["isNil"])(files) ? [] : files;
+      items = Object(external_this_lodash_["isNil"])(items) ? [] : items;
+      files = Object(external_this_lodash_["isNil"])(files) ? [] : files;
       var plainText = '';
       var html = ''; // IE11 only supports `Text` as an argument for `getData` and will
       // otherwise throw an invalid argument error, so we try the standard
@@ -4039,7 +4039,7 @@ function (_Component) {
       if (onPaste) {
         // Only process file if no HTML is present.
         // Note: a pasted file may have the URL as plain text.
-        var image = Object(external_lodash_["find"])([].concat(Object(toConsumableArray["a" /* default */])(items), Object(toConsumableArray["a" /* default */])(files)), function (_ref4) {
+        var image = Object(external_this_lodash_["find"])([].concat(Object(toConsumableArray["a" /* default */])(items), Object(toConsumableArray["a" /* default */])(files)), function (_ref4) {
           var type = _ref4.type;
           return /^image\/(?:jpe?g|png|gif)$/.test(type);
         });
@@ -4330,7 +4330,7 @@ function (_Component) {
           end = record.end,
           _record$activeFormats = record.activeFormats,
           activeFormats = _record$activeFormats === void 0 ? [] : _record$activeFormats;
-      var changeHandlers = Object(external_lodash_["pickBy"])(this.props, function (v, key) {
+      var changeHandlers = Object(external_this_lodash_["pickBy"])(this.props, function (v, key) {
         return key.startsWith('format_on_change_functions_');
       });
       Object.values(changeHandlers).forEach(function (changeHandler) {
@@ -4667,8 +4667,8 @@ function (_Component) {
         return key.startsWith(prefix);
       };
 
-      var prepareProps = Object(external_lodash_["pickBy"])(this.props, predicate);
-      var prevPrepareProps = Object(external_lodash_["pickBy"])(prevProps, predicate); // Check if any format props changed.
+      var prepareProps = Object(external_this_lodash_["pickBy"])(this.props, predicate);
+      var prevPrepareProps = Object(external_this_lodash_["pickBy"])(prevProps, predicate); // Check if any format props changed.
 
       shouldReapply = shouldReapply || !external_this_wp_isShallowEqual_default()(prepareProps, prevPrepareProps); // Rerender if the placeholder changed.
 
@@ -5276,7 +5276,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 71:
+/***/ 70:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["escapeHtml"]; }());

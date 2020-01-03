@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 354);
+/******/ 	return __webpack_require__(__webpack_require__.s = 355);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,30 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 
 /***/ }),
 
-/***/ 11:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-/***/ }),
-
-/***/ 110:
+/***/ 109:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -159,6 +136,29 @@ function useMediaQuery(query) {
   return match;
 }
 
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
 /***/ }),
 
@@ -274,11 +274,11 @@ function _extends() {
 
 /***/ }),
 
-/***/ 210:
+/***/ 209:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var _use_media_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var _use_media_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(109);
 /**
  * Internal dependencies
  */
@@ -569,14 +569,14 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 354:
+/***/ 355:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/utils/create-higher-order-component/index.js
 /**
@@ -600,7 +600,7 @@ function createHigherOrderComponent(mapComponentToEnhancedComponent, modifierNam
     var EnhancedComponent = mapComponentToEnhancedComponent(OriginalComponent);
     var _OriginalComponent$di = OriginalComponent.displayName,
         displayName = _OriginalComponent$di === void 0 ? OriginalComponent.name || 'Component' : _OriginalComponent$di;
-    EnhancedComponent.displayName = "".concat(Object(external_lodash_["upperFirst"])(Object(external_lodash_["camelCase"])(modifierName)), "(").concat(displayName, ")");
+    EnhancedComponent.displayName = "".concat(Object(external_this_lodash_["upperFirst"])(Object(external_this_lodash_["camelCase"])(modifierName)), "(").concat(displayName, ")");
     return EnhancedComponent;
   };
 }
@@ -787,7 +787,7 @@ function () {
   }, {
     key: "remove",
     value: function remove(eventType, instance) {
-      this.listeners[eventType] = Object(external_lodash_["without"])(this.listeners[eventType], instance);
+      this.listeners[eventType] = Object(external_this_lodash_["without"])(this.listeners[eventType], instance);
 
       if (!this.listeners[eventType].length) {
         // Removing last listener for this type, so unbind event.
@@ -798,7 +798,7 @@ function () {
   }, {
     key: "handleEvent",
     value: function handleEvent(event) {
-      Object(external_lodash_["forEach"])(this.listeners[event.type], function (instance) {
+      Object(external_this_lodash_["forEach"])(this.listeners[event.type], function (instance) {
         instance.handleEvent(event);
       });
     }
@@ -882,7 +882,7 @@ function withGlobalEvents(eventTypesToHandlers) {
         value: function componentDidMount() {
           var _this2 = this;
 
-          Object(external_lodash_["forEach"])(eventTypesToHandlers, function (handler, eventType) {
+          Object(external_this_lodash_["forEach"])(eventTypesToHandlers, function (handler, eventType) {
             with_global_events_listener.add(eventType, _this2);
           });
         }
@@ -891,7 +891,7 @@ function withGlobalEvents(eventTypesToHandlers) {
         value: function componentWillUnmount() {
           var _this3 = this;
 
-          Object(external_lodash_["forEach"])(eventTypesToHandlers, function (handler, eventType) {
+          Object(external_this_lodash_["forEach"])(eventTypesToHandlers, function (handler, eventType) {
             with_global_events_listener.remove(eventType, _this3);
           });
         }
@@ -1089,7 +1089,7 @@ var withSafeTimeout = create_higher_order_component(function (OriginalComponent)
           return clearTimeout;
         }(function (id) {
           clearTimeout(id);
-          this.timeouts = Object(external_lodash_["without"])(this.timeouts, id);
+          this.timeouts = Object(external_this_lodash_["without"])(this.timeouts, id);
         })
       }, {
         key: "render",
@@ -1170,14 +1170,14 @@ function withState() {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-media-query/index.js
-var use_media_query = __webpack_require__(110);
+var use_media_query = __webpack_require__(109);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-reduced-motion/index.js
-var use_reduced_motion = __webpack_require__(210);
+var use_reduced_motion = __webpack_require__(209);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/index.js
 /* concated harmony reexport createHigherOrderComponent */__webpack_require__.d(__webpack_exports__, "createHigherOrderComponent", function() { return create_higher_order_component; });
-/* concated harmony reexport compose */__webpack_require__.d(__webpack_exports__, "compose", function() { return external_lodash_["flowRight"]; });
+/* concated harmony reexport compose */__webpack_require__.d(__webpack_exports__, "compose", function() { return external_this_lodash_["flowRight"]; });
 /* concated harmony reexport ifCondition */__webpack_require__.d(__webpack_exports__, "ifCondition", function() { return if_condition; });
 /* concated harmony reexport pure */__webpack_require__.d(__webpack_exports__, "pure", function() { return higher_order_pure; });
 /* concated harmony reexport withGlobalEvents */__webpack_require__.d(__webpack_exports__, "withGlobalEvents", function() { return with_global_events; });

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["element"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 359);
+/******/ 	return __webpack_require__(__webpack_require__.s = 361);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -190,7 +190,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 359:
+/***/ 361:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -202,11 +202,11 @@ var objectSpread = __webpack_require__(7);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js + 1 modules
 var objectWithoutProperties = __webpack_require__(21);
 
-// EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__(28);
+// EXTERNAL MODULE: external {"this":"React"}
+var external_this_React_ = __webpack_require__(28);
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react.js
 
@@ -380,9 +380,9 @@ function concatChildren() {
   }
 
   return childrenArguments.reduce(function (result, children, i) {
-    external_React_["Children"].forEach(children, function (child, j) {
+    external_this_React_["Children"].forEach(children, function (child, j) {
       if (child && 'string' !== typeof child) {
-        child = Object(external_React_["cloneElement"])(child, {
+        child = Object(external_this_React_["cloneElement"])(child, {
           key: [i, j].join()
         });
       }
@@ -402,9 +402,9 @@ function concatChildren() {
  */
 
 function switchChildrenNodeName(children, nodeName) {
-  return children && external_React_["Children"].map(children, function (elt, index) {
-    if (Object(external_lodash_["isString"])(elt)) {
-      return Object(external_React_["createElement"])(nodeName, {
+  return children && external_this_React_["Children"].map(children, function (elt, index) {
+    if (Object(external_this_lodash_["isString"])(elt)) {
+      return Object(external_this_React_["createElement"])(nodeName, {
         key: index
       }, elt);
     }
@@ -413,14 +413,14 @@ function switchChildrenNodeName(children, nodeName) {
         childrenProp = _elt$props.children,
         props = Object(objectWithoutProperties["a" /* default */])(_elt$props, ["children"]);
 
-    return Object(external_React_["createElement"])(nodeName, Object(objectSpread["a" /* default */])({
+    return Object(external_this_React_["createElement"])(nodeName, Object(objectSpread["a" /* default */])({
       key: index
     }, props), childrenProp);
   });
 }
 
-// EXTERNAL MODULE: external "ReactDOM"
-var external_ReactDOM_ = __webpack_require__(57);
+// EXTERNAL MODULE: external {"this":"ReactDOM"}
+var external_this_ReactDOM_ = __webpack_require__(56);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react-platform.js
 /**
@@ -474,11 +474,11 @@ var external_ReactDOM_ = __webpack_require__(57);
  */
 
 var utils_isEmptyElement = function isEmptyElement(element) {
-  if (Object(external_lodash_["isNumber"])(element)) {
+  if (Object(external_this_lodash_["isNumber"])(element)) {
     return false;
   }
 
-  if (Object(external_lodash_["isString"])(element) || Object(external_lodash_["isArray"])(element)) {
+  if (Object(external_this_lodash_["isString"])(element) || Object(external_this_lodash_["isArray"])(element)) {
     return !element.length;
   }
 
@@ -489,7 +489,7 @@ var utils_isEmptyElement = function isEmptyElement(element) {
 var esm_typeof = __webpack_require__(31);
 
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
-var external_this_wp_escapeHtml_ = __webpack_require__(71);
+var external_this_wp_escapeHtml_ = __webpack_require__(70);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/raw-html.js
 
@@ -518,7 +518,7 @@ function RawHTML(_ref) {
 
   // The DIV wrapper will be stripped by serializer, unless there are
   // non-children props present.
-  return Object(external_React_["createElement"])('div', Object(objectSpread["a" /* default */])({
+  return Object(external_this_React_["createElement"])('div', Object(objectSpread["a" /* default */])({
     dangerouslySetInnerHTML: {
       __html: children
     }
@@ -573,11 +573,11 @@ function RawHTML(_ref) {
 
 
 
-var _createContext = Object(external_React_["createContext"])(),
+var _createContext = Object(external_this_React_["createContext"])(),
     Provider = _createContext.Provider,
     Consumer = _createContext.Consumer;
 
-var ForwardRef = Object(external_React_["forwardRef"])(function () {
+var ForwardRef = Object(external_this_React_["forwardRef"])(function () {
   return null;
 });
 /**
@@ -732,15 +732,15 @@ function getNormalAttributeName(attribute) {
 
 
 function getNormalStylePropertyName(property) {
-  if (Object(external_lodash_["startsWith"])(property, '--')) {
+  if (Object(external_this_lodash_["startsWith"])(property, '--')) {
     return property;
   }
 
   if (hasPrefix(property, ['ms', 'O', 'Moz', 'Webkit'])) {
-    return '-' + Object(external_lodash_["kebabCase"])(property);
+    return '-' + Object(external_this_lodash_["kebabCase"])(property);
   }
 
-  return Object(external_lodash_["kebabCase"])(property);
+  return Object(external_this_lodash_["kebabCase"])(property);
 }
 /**
  * Returns the normal form of the style property value for HTML. Appends a
@@ -794,15 +794,15 @@ function renderElement(element, context) {
       props = element.props;
 
   switch (type) {
-    case external_React_["StrictMode"]:
-    case external_React_["Fragment"]:
+    case external_this_React_["StrictMode"]:
+    case external_this_React_["Fragment"]:
       return renderChildren(props.children, context, legacyContext);
 
     case RawHTML:
       var children = props.children,
           wrapperProps = Object(objectWithoutProperties["a" /* default */])(props, ["children"]);
 
-      return renderNativeComponent(Object(external_lodash_["isEmpty"])(wrapperProps) ? null : 'div', Object(objectSpread["a" /* default */])({}, wrapperProps, {
+      return renderNativeComponent(Object(external_this_lodash_["isEmpty"])(wrapperProps) ? null : 'div', Object(objectSpread["a" /* default */])({}, wrapperProps, {
         dangerouslySetInnerHTML: {
           __html: children
         }
@@ -855,7 +855,7 @@ function renderNativeComponent(type, props, context) {
     // place of children. Ensure to omit so it is not assigned as attribute
     // as well.
     content = renderChildren(props.value, context, legacyContext);
-    props = Object(external_lodash_["omit"])(props, 'value');
+    props = Object(external_this_lodash_["omit"])(props, 'value');
   } else if (props.dangerouslySetInnerHTML && typeof props.dangerouslySetInnerHTML.__html === 'string') {
     // Dangerous content is left unescaped.
     content = props.dangerouslySetInnerHTML.__html;
@@ -910,7 +910,7 @@ function renderComponent(Component, props, context) {
 function renderChildren(children, context) {
   var legacyContext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var result = '';
-  children = Object(external_lodash_["castArray"])(children);
+  children = Object(external_this_lodash_["castArray"])(children);
 
   for (var i = 0; i < children.length; i++) {
     var child = children[i];
@@ -987,7 +987,7 @@ function renderAttributes(props) {
 
 function renderStyle(style) {
   // Only generate from object, e.g. tolerate string value.
-  if (!Object(external_lodash_["isPlainObject"])(style)) {
+  if (!Object(external_this_lodash_["isPlainObject"])(style)) {
     return style;
   }
 
@@ -1016,35 +1016,35 @@ function renderStyle(style) {
 /* harmony default export */ var serialize = (renderElement);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/index.js
-/* concated harmony reexport Children */__webpack_require__.d(__webpack_exports__, "Children", function() { return external_React_["Children"]; });
-/* concated harmony reexport cloneElement */__webpack_require__.d(__webpack_exports__, "cloneElement", function() { return external_React_["cloneElement"]; });
-/* concated harmony reexport Component */__webpack_require__.d(__webpack_exports__, "Component", function() { return external_React_["Component"]; });
-/* concated harmony reexport createContext */__webpack_require__.d(__webpack_exports__, "createContext", function() { return external_React_["createContext"]; });
-/* concated harmony reexport createElement */__webpack_require__.d(__webpack_exports__, "createElement", function() { return external_React_["createElement"]; });
-/* concated harmony reexport createRef */__webpack_require__.d(__webpack_exports__, "createRef", function() { return external_React_["createRef"]; });
-/* concated harmony reexport forwardRef */__webpack_require__.d(__webpack_exports__, "forwardRef", function() { return external_React_["forwardRef"]; });
-/* concated harmony reexport Fragment */__webpack_require__.d(__webpack_exports__, "Fragment", function() { return external_React_["Fragment"]; });
-/* concated harmony reexport isValidElement */__webpack_require__.d(__webpack_exports__, "isValidElement", function() { return external_React_["isValidElement"]; });
-/* concated harmony reexport memo */__webpack_require__.d(__webpack_exports__, "memo", function() { return external_React_["memo"]; });
-/* concated harmony reexport StrictMode */__webpack_require__.d(__webpack_exports__, "StrictMode", function() { return external_React_["StrictMode"]; });
-/* concated harmony reexport useCallback */__webpack_require__.d(__webpack_exports__, "useCallback", function() { return external_React_["useCallback"]; });
-/* concated harmony reexport useContext */__webpack_require__.d(__webpack_exports__, "useContext", function() { return external_React_["useContext"]; });
-/* concated harmony reexport useDebugValue */__webpack_require__.d(__webpack_exports__, "useDebugValue", function() { return external_React_["useDebugValue"]; });
-/* concated harmony reexport useEffect */__webpack_require__.d(__webpack_exports__, "useEffect", function() { return external_React_["useEffect"]; });
-/* concated harmony reexport useImperativeHandle */__webpack_require__.d(__webpack_exports__, "useImperativeHandle", function() { return external_React_["useImperativeHandle"]; });
-/* concated harmony reexport useLayoutEffect */__webpack_require__.d(__webpack_exports__, "useLayoutEffect", function() { return external_React_["useLayoutEffect"]; });
-/* concated harmony reexport useMemo */__webpack_require__.d(__webpack_exports__, "useMemo", function() { return external_React_["useMemo"]; });
-/* concated harmony reexport useReducer */__webpack_require__.d(__webpack_exports__, "useReducer", function() { return external_React_["useReducer"]; });
-/* concated harmony reexport useRef */__webpack_require__.d(__webpack_exports__, "useRef", function() { return external_React_["useRef"]; });
-/* concated harmony reexport useState */__webpack_require__.d(__webpack_exports__, "useState", function() { return external_React_["useState"]; });
-/* concated harmony reexport lazy */__webpack_require__.d(__webpack_exports__, "lazy", function() { return external_React_["lazy"]; });
-/* concated harmony reexport Suspense */__webpack_require__.d(__webpack_exports__, "Suspense", function() { return external_React_["Suspense"]; });
+/* concated harmony reexport Children */__webpack_require__.d(__webpack_exports__, "Children", function() { return external_this_React_["Children"]; });
+/* concated harmony reexport cloneElement */__webpack_require__.d(__webpack_exports__, "cloneElement", function() { return external_this_React_["cloneElement"]; });
+/* concated harmony reexport Component */__webpack_require__.d(__webpack_exports__, "Component", function() { return external_this_React_["Component"]; });
+/* concated harmony reexport createContext */__webpack_require__.d(__webpack_exports__, "createContext", function() { return external_this_React_["createContext"]; });
+/* concated harmony reexport createElement */__webpack_require__.d(__webpack_exports__, "createElement", function() { return external_this_React_["createElement"]; });
+/* concated harmony reexport createRef */__webpack_require__.d(__webpack_exports__, "createRef", function() { return external_this_React_["createRef"]; });
+/* concated harmony reexport forwardRef */__webpack_require__.d(__webpack_exports__, "forwardRef", function() { return external_this_React_["forwardRef"]; });
+/* concated harmony reexport Fragment */__webpack_require__.d(__webpack_exports__, "Fragment", function() { return external_this_React_["Fragment"]; });
+/* concated harmony reexport isValidElement */__webpack_require__.d(__webpack_exports__, "isValidElement", function() { return external_this_React_["isValidElement"]; });
+/* concated harmony reexport memo */__webpack_require__.d(__webpack_exports__, "memo", function() { return external_this_React_["memo"]; });
+/* concated harmony reexport StrictMode */__webpack_require__.d(__webpack_exports__, "StrictMode", function() { return external_this_React_["StrictMode"]; });
+/* concated harmony reexport useCallback */__webpack_require__.d(__webpack_exports__, "useCallback", function() { return external_this_React_["useCallback"]; });
+/* concated harmony reexport useContext */__webpack_require__.d(__webpack_exports__, "useContext", function() { return external_this_React_["useContext"]; });
+/* concated harmony reexport useDebugValue */__webpack_require__.d(__webpack_exports__, "useDebugValue", function() { return external_this_React_["useDebugValue"]; });
+/* concated harmony reexport useEffect */__webpack_require__.d(__webpack_exports__, "useEffect", function() { return external_this_React_["useEffect"]; });
+/* concated harmony reexport useImperativeHandle */__webpack_require__.d(__webpack_exports__, "useImperativeHandle", function() { return external_this_React_["useImperativeHandle"]; });
+/* concated harmony reexport useLayoutEffect */__webpack_require__.d(__webpack_exports__, "useLayoutEffect", function() { return external_this_React_["useLayoutEffect"]; });
+/* concated harmony reexport useMemo */__webpack_require__.d(__webpack_exports__, "useMemo", function() { return external_this_React_["useMemo"]; });
+/* concated harmony reexport useReducer */__webpack_require__.d(__webpack_exports__, "useReducer", function() { return external_this_React_["useReducer"]; });
+/* concated harmony reexport useRef */__webpack_require__.d(__webpack_exports__, "useRef", function() { return external_this_React_["useRef"]; });
+/* concated harmony reexport useState */__webpack_require__.d(__webpack_exports__, "useState", function() { return external_this_React_["useState"]; });
+/* concated harmony reexport lazy */__webpack_require__.d(__webpack_exports__, "lazy", function() { return external_this_React_["lazy"]; });
+/* concated harmony reexport Suspense */__webpack_require__.d(__webpack_exports__, "Suspense", function() { return external_this_React_["Suspense"]; });
 /* concated harmony reexport concatChildren */__webpack_require__.d(__webpack_exports__, "concatChildren", function() { return concatChildren; });
 /* concated harmony reexport switchChildrenNodeName */__webpack_require__.d(__webpack_exports__, "switchChildrenNodeName", function() { return switchChildrenNodeName; });
-/* concated harmony reexport createPortal */__webpack_require__.d(__webpack_exports__, "createPortal", function() { return external_ReactDOM_["createPortal"]; });
-/* concated harmony reexport findDOMNode */__webpack_require__.d(__webpack_exports__, "findDOMNode", function() { return external_ReactDOM_["findDOMNode"]; });
-/* concated harmony reexport render */__webpack_require__.d(__webpack_exports__, "render", function() { return external_ReactDOM_["render"]; });
-/* concated harmony reexport unmountComponentAtNode */__webpack_require__.d(__webpack_exports__, "unmountComponentAtNode", function() { return external_ReactDOM_["unmountComponentAtNode"]; });
+/* concated harmony reexport createPortal */__webpack_require__.d(__webpack_exports__, "createPortal", function() { return external_this_ReactDOM_["createPortal"]; });
+/* concated harmony reexport findDOMNode */__webpack_require__.d(__webpack_exports__, "findDOMNode", function() { return external_this_ReactDOM_["findDOMNode"]; });
+/* concated harmony reexport render */__webpack_require__.d(__webpack_exports__, "render", function() { return external_this_ReactDOM_["render"]; });
+/* concated harmony reexport unmountComponentAtNode */__webpack_require__.d(__webpack_exports__, "unmountComponentAtNode", function() { return external_this_ReactDOM_["unmountComponentAtNode"]; });
 /* concated harmony reexport isEmptyElement */__webpack_require__.d(__webpack_exports__, "isEmptyElement", function() { return utils_isEmptyElement; });
 /* concated harmony reexport renderToString */__webpack_require__.d(__webpack_exports__, "renderToString", function() { return serialize; });
 /* concated harmony reexport RawHTML */__webpack_require__.d(__webpack_exports__, "RawHTML", function() { return RawHTML; });
@@ -1057,7 +1057,7 @@ function renderStyle(style) {
 
 /***/ }),
 
-/***/ 57:
+/***/ 56:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["ReactDOM"]; }());
@@ -1092,7 +1092,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 71:
+/***/ 70:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["escapeHtml"]; }());

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["formatLibrary"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 350);
+/******/ 	return __webpack_require__(__webpack_require__.s = 353);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -360,7 +360,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 350:
+/***/ 353:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -799,10 +799,10 @@ var italic = {
 var external_this_wp_url_ = __webpack_require__(26);
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
-var external_this_wp_htmlEntities_ = __webpack_require__(52);
+var external_this_wp_htmlEntities_ = __webpack_require__(51);
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/link/utils.js
 /**
@@ -844,7 +844,7 @@ function isValidHref(href) {
     // This ensures URIs with an http protocol have exactly two forward slashes following the protocol.
 
 
-    if (Object(external_lodash_["startsWith"])(protocol, 'http') && !/^https?:\/\/[^\/\s]/i.test(trimmedHref)) {
+    if (Object(external_this_lodash_["startsWith"])(protocol, 'http') && !/^https?:\/\/[^\/\s]/i.test(trimmedHref)) {
       return false;
     }
 
@@ -874,7 +874,7 @@ function isValidHref(href) {
   } // Validate anchor links.
 
 
-  if (Object(external_lodash_["startsWith"])(trimmedHref, '#') && !Object(external_this_wp_url_["isValidFragment"])(trimmedHref)) {
+  if (Object(external_this_lodash_["startsWith"])(trimmedHref, '#') && !Object(external_this_wp_url_["isValidFragment"])(trimmedHref)) {
     return false;
   }
 
@@ -1505,7 +1505,7 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 52:
+/***/ 51:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["htmlEntities"]; }());

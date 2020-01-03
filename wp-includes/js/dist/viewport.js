@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["viewport"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 357);
+/******/ 	return __webpack_require__(__webpack_require__.s = 358);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["viewport"] =
 
 /***/ }),
 
-/***/ 357:
+/***/ 358:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -106,8 +106,8 @@ var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "isViewportMatch", function() { return isViewportMatch; });
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","data"]}
 var external_this_wp_data_ = __webpack_require__(4);
@@ -237,7 +237,7 @@ var external_this_wp_compose_ = __webpack_require__(8);
 
 var with_viewport_match_withViewportMatch = function withViewportMatch(queries) {
   return Object(external_this_wp_compose_["createHigherOrderComponent"])(Object(external_this_wp_data_["withSelect"])(function (select) {
-    return Object(external_lodash_["mapValues"])(queries, function (query) {
+    return Object(external_this_lodash_["mapValues"])(queries, function (query) {
       return select('core/viewport').isViewportMatch(query);
     });
   }), 'withViewportMatch');
@@ -336,8 +336,8 @@ var OPERATORS = {
  * maximum of one time per call stack.
  */
 
-var build_module_setIsMatching = Object(external_lodash_["debounce"])(function () {
-  var values = Object(external_lodash_["mapValues"])(build_module_queries, function (query) {
+var build_module_setIsMatching = Object(external_this_lodash_["debounce"])(function () {
+  var values = Object(external_this_lodash_["mapValues"])(build_module_queries, function (query) {
     return query.matches;
   });
   Object(external_this_wp_data_["dispatch"])('core/viewport').setIsMatching(values);
@@ -354,8 +354,8 @@ var build_module_setIsMatching = Object(external_lodash_["debounce"])(function (
  * @type {Object<string,MediaQueryList>}
  */
 
-var build_module_queries = Object(external_lodash_["reduce"])(BREAKPOINTS, function (result, width, name) {
-  Object(external_lodash_["forEach"])(OPERATORS, function (condition, operator) {
+var build_module_queries = Object(external_this_lodash_["reduce"])(BREAKPOINTS, function (result, width, name) {
+  Object(external_this_lodash_["forEach"])(OPERATORS, function (condition, operator) {
     var list = window.matchMedia("(".concat(condition, ": ").concat(width, "px)"));
     list.addListener(build_module_setIsMatching);
     var key = [operator, name].join(' ');

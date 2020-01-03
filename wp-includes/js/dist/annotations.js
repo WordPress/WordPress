@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["annotations"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 355);
+/******/ 	return __webpack_require__(__webpack_require__.s = 357);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -225,7 +225,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 355:
+/***/ 357:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -255,8 +255,8 @@ var toConsumableArray = __webpack_require__(17);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
 var objectSpread = __webpack_require__(7);
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/reducer.js
 
@@ -290,7 +290,7 @@ function filterWithReference(collection, predicate) {
 
 
 function isValidAnnotationRange(annotation) {
-  return Object(external_lodash_["isNumber"])(annotation.start) && Object(external_lodash_["isNumber"])(annotation.end) && annotation.start <= annotation.end;
+  return Object(external_this_lodash_["isNumber"])(annotation.start) && Object(external_this_lodash_["isNumber"])(annotation.end) && annotation.start <= annotation.end;
 }
 /**
  * Reducer managing annotations.
@@ -322,18 +322,18 @@ function reducer_annotations() {
         return state;
       }
 
-      var previousAnnotationsForBlock = Object(external_lodash_["get"])(state, blockClientId, []);
+      var previousAnnotationsForBlock = Object(external_this_lodash_["get"])(state, blockClientId, []);
       return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, blockClientId, [].concat(Object(toConsumableArray["a" /* default */])(previousAnnotationsForBlock), [newAnnotation])));
 
     case 'ANNOTATION_REMOVE':
-      return Object(external_lodash_["mapValues"])(state, function (annotationsForBlock) {
+      return Object(external_this_lodash_["mapValues"])(state, function (annotationsForBlock) {
         return filterWithReference(annotationsForBlock, function (annotation) {
           return annotation.id !== action.annotationId;
         });
       });
 
     case 'ANNOTATION_UPDATE_RANGE':
-      return Object(external_lodash_["mapValues"])(state, function (annotationsForBlock) {
+      return Object(external_this_lodash_["mapValues"])(state, function (annotationsForBlock) {
         var hasChangedRange = false;
         var newAnnotations = annotationsForBlock.map(function (annotation) {
           if (annotation.id === action.annotationId) {
@@ -352,7 +352,7 @@ function reducer_annotations() {
       });
 
     case 'ANNOTATION_REMOVE_SOURCE':
-      return Object(external_lodash_["mapValues"])(state, function (annotationsForBlock) {
+      return Object(external_this_lodash_["mapValues"])(state, function (annotationsForBlock) {
         return filterWithReference(annotationsForBlock, function (annotation) {
           return annotation.source !== action.source;
         });
@@ -399,14 +399,14 @@ var EMPTY_ARRAY = [];
  */
 
 var __experimentalGetAnnotationsForBlock = Object(rememo["a" /* default */])(function (state, blockClientId) {
-  return Object(external_lodash_["get"])(state, blockClientId, []).filter(function (annotation) {
+  return Object(external_this_lodash_["get"])(state, blockClientId, []).filter(function (annotation) {
     return annotation.selector === 'block';
   });
 }, function (state, blockClientId) {
-  return [Object(external_lodash_["get"])(state, blockClientId, EMPTY_ARRAY)];
+  return [Object(external_this_lodash_["get"])(state, blockClientId, EMPTY_ARRAY)];
 });
 var selectors_experimentalGetAllAnnotationsForBlock = function __experimentalGetAllAnnotationsForBlock(state, blockClientId) {
-  return Object(external_lodash_["get"])(state, blockClientId, EMPTY_ARRAY);
+  return Object(external_this_lodash_["get"])(state, blockClientId, EMPTY_ARRAY);
 };
 /**
  * Returns the annotations that apply to the given RichText instance.
@@ -422,7 +422,7 @@ var selectors_experimentalGetAllAnnotationsForBlock = function __experimentalGet
  */
 
 var __experimentalGetAnnotationsForRichText = Object(rememo["a" /* default */])(function (state, blockClientId, richTextIdentifier) {
-  return Object(external_lodash_["get"])(state, blockClientId, []).filter(function (annotation) {
+  return Object(external_this_lodash_["get"])(state, blockClientId, []).filter(function (annotation) {
     return annotation.selector === 'range' && richTextIdentifier === annotation.richTextIdentifier;
   }).map(function (annotation) {
     var range = annotation.range,
@@ -431,7 +431,7 @@ var __experimentalGetAnnotationsForRichText = Object(rememo["a" /* default */])(
     return Object(objectSpread["a" /* default */])({}, range, other);
   });
 }, function (state, blockClientId) {
-  return [Object(external_lodash_["get"])(state, blockClientId, EMPTY_ARRAY)];
+  return [Object(external_this_lodash_["get"])(state, blockClientId, EMPTY_ARRAY)];
 });
 /**
  * Returns all annotations in the editor state.
@@ -441,13 +441,13 @@ var __experimentalGetAnnotationsForRichText = Object(rememo["a" /* default */])(
  */
 
 function __experimentalGetAnnotations(state) {
-  return Object(external_lodash_["flatMap"])(state, function (annotations) {
+  return Object(external_this_lodash_["flatMap"])(state, function (annotations) {
     return annotations;
   });
 }
 
 // EXTERNAL MODULE: ./node_modules/uuid/v4.js
-var v4 = __webpack_require__(67);
+var v4 = __webpack_require__(66);
 var v4_default = /*#__PURE__*/__webpack_require__.n(v4);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/actions.js
@@ -1104,11 +1104,11 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 67:
+/***/ 66:
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(85);
-var bytesToUuid = __webpack_require__(86);
+var rng = __webpack_require__(84);
+var bytesToUuid = __webpack_require__(85);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -1168,7 +1168,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 85:
+/***/ 84:
 /***/ (function(module, exports) {
 
 // Unique ID creation requires a high quality random # generator.  In the
@@ -1209,7 +1209,7 @@ if (getRandomValues) {
 
 /***/ }),
 
-/***/ 86:
+/***/ 85:
 /***/ (function(module, exports) {
 
 /**

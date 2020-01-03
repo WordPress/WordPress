@@ -146,7 +146,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 112:
+/***/ 111:
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -180,13 +180,13 @@ if (typeof Object.create === 'function') {
 
 /***/ }),
 
-/***/ 113:
+/***/ 112:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var util = __webpack_require__(114);
+var util = __webpack_require__(113);
 
 function scrollIntoView(elem, container, config) {
   config = config || {};
@@ -316,7 +316,7 @@ module.exports = scrollIntoView;
 
 /***/ }),
 
-/***/ 114:
+/***/ 113:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -762,7 +762,7 @@ module.exports = _extends({
 
 /***/ }),
 
-/***/ 115:
+/***/ 114:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -797,8 +797,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 exports.__esModule = true;
 var React = __webpack_require__(28);
 var PropTypes = __webpack_require__(33);
-var autosize = __webpack_require__(116);
-var _getLineHeight = __webpack_require__(117);
+var autosize = __webpack_require__(115);
+var _getLineHeight = __webpack_require__(116);
 var getLineHeight = _getLineHeight;
 var UPDATE = 'autosize:update';
 var DESTROY = 'autosize:destroy';
@@ -891,7 +891,7 @@ exports["default"] = TextareaAutosize;
 
 /***/ }),
 
-/***/ 116:
+/***/ 115:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -1180,11 +1180,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 117:
+/***/ 116:
 /***/ (function(module, exports, __webpack_require__) {
 
 // Load in dependencies
-var computedStyle = __webpack_require__(118);
+var computedStyle = __webpack_require__(117);
 
 /**
  * Calculate the `line-height` of a given node
@@ -1284,7 +1284,7 @@ module.exports = lineHeight;
 
 /***/ }),
 
-/***/ 118:
+/***/ 117:
 /***/ (function(module, exports) {
 
 // This code has been refactored for 140 bytes
@@ -1318,7 +1318,7 @@ module.exports = computedStyle;
 
 /***/ }),
 
-/***/ 119:
+/***/ 118:
 /***/ (function(module, exports) {
 
 function _extends() {
@@ -1343,20 +1343,7 @@ module.exports = _extends;
 
 /***/ }),
 
-/***/ 12:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-/***/ }),
-
-/***/ 120:
+/***/ 119:
 /***/ (function(module, exports) {
 
 function _objectWithoutPropertiesLoose(source, excluded) {
@@ -1378,7 +1365,20 @@ module.exports = _objectWithoutPropertiesLoose;
 
 /***/ }),
 
-/***/ 121:
+/***/ 12:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+/***/ }),
+
+/***/ 120:
 /***/ (function(module, exports) {
 
 function _inheritsLoose(subClass, superClass) {
@@ -1391,7 +1391,7 @@ module.exports = _inheritsLoose;
 
 /***/ }),
 
-/***/ 122:
+/***/ 121:
 /***/ (function(module, exports) {
 
 function _assertThisInitialized(self) {
@@ -1406,7 +1406,7 @@ module.exports = _assertThisInitialized;
 
 /***/ }),
 
-/***/ 123:
+/***/ 122:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -1929,11 +1929,11 @@ module.exports = _assertThisInitialized;
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(124)(module), __webpack_require__(65)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(123)(module), __webpack_require__(64)))
 
 /***/ }),
 
-/***/ 124:
+/***/ 123:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -1962,7 +1962,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 125:
+/***/ 124:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1986,19 +1986,19 @@ module.exports = {
 
 /***/ }),
 
-/***/ 126:
+/***/ 125:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(127);
-exports.encode = exports.stringify = __webpack_require__(128);
+exports.decode = exports.parse = __webpack_require__(126);
+exports.encode = exports.stringify = __webpack_require__(127);
 
 
 /***/ }),
 
-/***/ 127:
+/***/ 126:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2090,7 +2090,7 @@ var isArray = Array.isArray || function (xs) {
 
 /***/ }),
 
-/***/ 128:
+/***/ 127:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2216,7 +2216,7 @@ function _getPrototypeOf(o) {
 
 /***/ }),
 
-/***/ 143:
+/***/ 142:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["tokenList"]; }());
@@ -2388,10 +2388,9 @@ function _extends() {
 /***/ }),
 
 /***/ 20:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-module.exports = __webpack_require__(47);
-
+(function() { module.exports = this["regeneratorRuntime"]; }());
 
 /***/ }),
 
@@ -2439,7 +2438,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 218:
+/***/ 217:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2470,7 +2469,7 @@ exports.default = multi;
 
 /***/ }),
 
-/***/ 219:
+/***/ 218:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -4313,14 +4312,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["richText"]; }());
-
-/***/ }),
-
-/***/ 220:
+/***/ 219:
 /***/ (function(module, exports) {
 
 var traverse = module.exports = function (obj) {
@@ -4641,6 +4633,13 @@ var hasOwnProperty = Object.hasOwnProperty || function (obj, key) {
 
 /***/ }),
 
+/***/ 22:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["richText"]; }());
+
+/***/ }),
+
 /***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4771,7 +4770,7 @@ function _typeof(obj) {
 if (false) { var throwOnDirectAccess, ReactIs; } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(87)();
+  module.exports = __webpack_require__(86)();
 }
 
 
@@ -4915,8 +4914,8 @@ var external_this_wp_element_ = __webpack_require__(0);
 var classnames = __webpack_require__(16);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","compose"]}
 var external_this_wp_compose_ = __webpack_require__(8);
@@ -4928,7 +4927,7 @@ var external_this_wp_hooks_ = __webpack_require__(27);
 var external_this_wp_data_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(48);
+var tinycolor = __webpack_require__(47);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors/utils.js
@@ -4952,7 +4951,7 @@ var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 var utils_getColorObjectByAttributeValues = function getColorObjectByAttributeValues(colors, definedColor, customColor) {
   if (definedColor) {
-    var colorObj = Object(external_lodash_["find"])(colors, {
+    var colorObj = Object(external_this_lodash_["find"])(colors, {
       slug: definedColor
     });
 
@@ -4976,7 +4975,7 @@ var utils_getColorObjectByAttributeValues = function getColorObjectByAttributeVa
  */
 
 var utils_getColorObjectByColorValue = function getColorObjectByColorValue(colors, colorValue) {
-  return Object(external_lodash_["find"])(colors, {
+  return Object(external_this_lodash_["find"])(colors, {
     color: colorValue
   });
 };
@@ -4995,7 +4994,7 @@ function getColorClassName(colorContextName, colorSlug) {
     return undefined;
   }
 
-  return "has-".concat(Object(external_lodash_["kebabCase"])(colorSlug), "-").concat(colorContextName);
+  return "has-".concat(Object(external_this_lodash_["kebabCase"])(colorSlug), "-").concat(colorContextName);
 }
 /**
  * Given an array of color objects and a color value returns the color value of the most readable color in the array.
@@ -5007,7 +5006,7 @@ function getColorClassName(colorContextName, colorSlug) {
  */
 
 function utils_getMostReadableColor(colors, colorValue) {
-  return tinycolor_default.a.mostReadable(colorValue, Object(external_lodash_["map"])(colors, 'color')).toHexString();
+  return tinycolor_default.a.mostReadable(colorValue, Object(external_this_lodash_["map"])(colors, 'color')).toHexString();
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
@@ -5090,7 +5089,7 @@ var with_colors_withEditorColorPalette = function withEditorColorPalette() {
   return Object(external_this_wp_data_["withSelect"])(function (select) {
     var settings = select('core/block-editor').getSettings();
     return {
-      colors: Object(external_lodash_["get"])(settings, ['colors'], DEFAULT_COLORS)
+      colors: Object(external_this_lodash_["get"])(settings, ['colors'], DEFAULT_COLORS)
     };
   });
 };
@@ -5106,8 +5105,8 @@ var with_colors_withEditorColorPalette = function withEditorColorPalette() {
 
 
 function createColorHOC(colorTypes, withColorPalette) {
-  var colorMap = Object(external_lodash_["reduce"])(colorTypes, function (colorObject, colorType) {
-    return Object(objectSpread["a" /* default */])({}, colorObject, Object(external_lodash_["isString"])(colorType) ? Object(defineProperty["a" /* default */])({}, colorType, Object(external_lodash_["kebabCase"])(colorType)) : colorType);
+  var colorMap = Object(external_this_lodash_["reduce"])(colorTypes, function (colorObject, colorType) {
+    return Object(objectSpread["a" /* default */])({}, colorObject, Object(external_this_lodash_["isString"])(colorType) ? Object(defineProperty["a" /* default */])({}, colorType, Object(external_this_lodash_["kebabCase"])(colorType)) : colorType);
   }, {});
   return Object(external_this_wp_compose_["compose"])([withColorPalette, function (WrappedComponent) {
     return (
@@ -5140,8 +5139,8 @@ function createColorHOC(colorTypes, withColorPalette) {
           value: function createSetters() {
             var _this2 = this;
 
-            return Object(external_lodash_["reduce"])(colorMap, function (settersAccumulator, colorContext, colorAttributeName) {
-              var upperFirstColorAttributeName = Object(external_lodash_["upperFirst"])(colorAttributeName);
+            return Object(external_this_lodash_["reduce"])(colorMap, function (settersAccumulator, colorContext, colorAttributeName) {
+              var upperFirstColorAttributeName = Object(external_this_lodash_["upperFirst"])(colorAttributeName);
               var customColorAttributeName = "custom".concat(upperFirstColorAttributeName);
               settersAccumulator["set".concat(upperFirstColorAttributeName)] = _this2.createSetColor(colorAttributeName, customColorAttributeName);
               return settersAccumulator;
@@ -5174,10 +5173,10 @@ function createColorHOC(colorTypes, withColorPalette) {
           value: function getDerivedStateFromProps(_ref2, previousState) {
             var attributes = _ref2.attributes,
                 colors = _ref2.colors;
-            return Object(external_lodash_["reduce"])(colorMap, function (newState, colorContext, colorAttributeName) {
-              var colorObject = utils_getColorObjectByAttributeValues(colors, attributes[colorAttributeName], attributes["custom".concat(Object(external_lodash_["upperFirst"])(colorAttributeName))]);
+            return Object(external_this_lodash_["reduce"])(colorMap, function (newState, colorContext, colorAttributeName) {
+              var colorObject = utils_getColorObjectByAttributeValues(colors, attributes[colorAttributeName], attributes["custom".concat(Object(external_this_lodash_["upperFirst"])(colorAttributeName))]);
               var previousColorObject = previousState[colorAttributeName];
-              var previousColor = Object(external_lodash_["get"])(previousColorObject, ['color']);
+              var previousColor = Object(external_this_lodash_["get"])(previousColorObject, ['color']);
               /**
                * The "and previousColorObject" condition checks that a previous color object was already computed.
                * At the start previousColorObject and colorValue are both equal to undefined
@@ -5295,7 +5294,7 @@ function withColors() {
 
 var utils_getFontSize = function getFontSize(fontSizes, fontSizeAttribute, customFontSizeAttribute) {
   if (fontSizeAttribute) {
-    var fontSizeObject = Object(external_lodash_["find"])(fontSizes, {
+    var fontSizeObject = Object(external_this_lodash_["find"])(fontSizes, {
       slug: fontSizeAttribute
     });
 
@@ -5322,7 +5321,7 @@ function getFontSizeClass(fontSizeSlug) {
     return;
   }
 
-  return "has-".concat(Object(external_lodash_["kebabCase"])(fontSizeSlug), "-font-size");
+  return "has-".concat(Object(external_this_lodash_["kebabCase"])(fontSizeSlug), "-font-size");
 }
 
 // EXTERNAL MODULE: external {"this":["wp","components"]}
@@ -5392,8 +5391,8 @@ var external_this_wp_components_ = __webpack_require__(3);
   * and the value is the custom font size attribute name.
   * Custom font size is automatically compted by appending custom followed by the font size attribute name in with the first letter capitalized.
   */
-  var fontSizeAttributeNames = Object(external_lodash_["reduce"])(fontSizeNames, function (fontSizeAttributeNamesAccumulator, fontSizeAttributeName) {
-    fontSizeAttributeNamesAccumulator[fontSizeAttributeName] = "custom".concat(Object(external_lodash_["upperFirst"])(fontSizeAttributeName));
+  var fontSizeAttributeNames = Object(external_this_lodash_["reduce"])(fontSizeNames, function (fontSizeAttributeNamesAccumulator, fontSizeAttributeName) {
+    fontSizeAttributeNamesAccumulator[fontSizeAttributeName] = "custom".concat(Object(external_this_lodash_["upperFirst"])(fontSizeAttributeName));
     return fontSizeAttributeNamesAccumulator;
   }, {});
   return Object(external_this_wp_compose_["createHigherOrderComponent"])(Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select) {
@@ -5425,8 +5424,8 @@ var external_this_wp_components_ = __webpack_require__(3);
           value: function createSetters() {
             var _this2 = this;
 
-            return Object(external_lodash_["reduce"])(fontSizeAttributeNames, function (settersAccumulator, customFontSizeAttributeName, fontSizeAttributeName) {
-              var upperFirstFontSizeAttributeName = Object(external_lodash_["upperFirst"])(fontSizeAttributeName);
+            return Object(external_this_lodash_["reduce"])(fontSizeAttributeNames, function (settersAccumulator, customFontSizeAttributeName, fontSizeAttributeName) {
+              var upperFirstFontSizeAttributeName = Object(external_this_lodash_["upperFirst"])(fontSizeAttributeName);
               settersAccumulator["set".concat(upperFirstFontSizeAttributeName)] = _this2.createSetFontSize(fontSizeAttributeName, customFontSizeAttributeName);
               return settersAccumulator;
             }, {});
@@ -5439,7 +5438,7 @@ var external_this_wp_components_ = __webpack_require__(3);
             return function (fontSizeValue) {
               var _this3$props$setAttri;
 
-              var fontSizeObject = Object(external_lodash_["find"])(_this3.props.fontSizes, {
+              var fontSizeObject = Object(external_this_lodash_["find"])(_this3.props.fontSizes, {
                 size: Number(fontSizeValue)
               });
 
@@ -5474,11 +5473,11 @@ var external_this_wp_components_ = __webpack_require__(3);
               return true;
             };
 
-            if (!Object(external_lodash_["some"])(fontSizeAttributeNames, didAttributesChange)) {
+            if (!Object(external_this_lodash_["some"])(fontSizeAttributeNames, didAttributesChange)) {
               return null;
             }
 
-            var newState = Object(external_lodash_["reduce"])(Object(external_lodash_["pickBy"])(fontSizeAttributeNames, didAttributesChange), function (newStateAccumulator, customFontSizeAttributeName, fontSizeAttributeName) {
+            var newState = Object(external_this_lodash_["reduce"])(Object(external_this_lodash_["pickBy"])(fontSizeAttributeNames, didAttributesChange), function (newStateAccumulator, customFontSizeAttributeName, fontSizeAttributeName) {
               var fontSizeAttributeValue = attributes[fontSizeAttributeName];
               var fontSizeObject = utils_getFontSize(fontSizes, fontSizeAttributeValue, attributes[customFontSizeAttributeName]);
               newStateAccumulator[fontSizeAttributeName] = Object(objectSpread["a" /* default */])({}, fontSizeObject, {
@@ -5547,7 +5546,7 @@ function AlignmentToolbar(props) {
     };
   }
 
-  var activeAlignment = Object(external_lodash_["find"])(alignmentControls, function (control) {
+  var activeAlignment = Object(external_this_lodash_["find"])(alignmentControls, function (control) {
     return control.align === value;
   });
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Toolbar"], {
@@ -5585,7 +5584,7 @@ var _createContext = Object(external_this_wp_element_["createContext"])({
   name: '',
   isSelected: false,
   focusedElement: null,
-  setFocusedElement: external_lodash_["noop"],
+  setFocusedElement: external_this_lodash_["noop"],
   clientId: null
 }),
     Consumer = _createContext.Consumer,
@@ -5667,7 +5666,7 @@ function withFilteredAutocompleters(Autocomplete) {
 
     if (Object(external_this_wp_hooks_["hasFilter"])('editor.Autocomplete.completers')) {
       completers = Object(external_this_wp_hooks_["applyFilters"])('editor.Autocomplete.completers', // Provide copies so filters may directly modify them.
-      completers.map(external_lodash_["clone"]), props.blockName);
+      completers.map(external_this_lodash_["clone"]), props.blockName);
     }
 
     return Object(external_this_wp_element_["createElement"])(Autocomplete, Object(esm_extends["a" /* default */])({}, props, {
@@ -5960,7 +5959,7 @@ function BlockIcon(_ref) {
       showColors = _ref$showColors === void 0 ? false : _ref$showColors,
       className = _ref.className;
 
-  if (Object(external_lodash_["get"])(icon, ['src']) === 'block-default') {
+  if (Object(external_this_lodash_["get"])(icon, ['src']) === 'block-default') {
     icon = {
       src: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
         xmlns: "http://www.w3.org/2000/svg",
@@ -6024,7 +6023,7 @@ function BlockNavigationList(_ref) {
     Object(external_this_wp_element_["createElement"])("ul", {
       className: "editor-block-navigation__list block-editor-block-navigation__list",
       role: "list"
-    }, Object(external_lodash_["map"])(blocks, function (block) {
+    }, Object(external_this_lodash_["map"])(blocks, function (block) {
       var blockType = Object(external_this_wp_blocks_["getBlockType"])(block.name);
       var isSelected = block.clientId === selectedBlockClientId;
       return Object(external_this_wp_element_["createElement"])("li", {
@@ -6119,7 +6118,7 @@ function BlockNavigation(_ref) {
   };
 }), Object(external_this_wp_data_["withDispatch"])(function (dispatch, _ref2) {
   var _ref2$onSelect = _ref2.onSelect,
-      onSelect = _ref2$onSelect === void 0 ? external_lodash_["noop"] : _ref2$onSelect;
+      onSelect = _ref2$onSelect === void 0 ? external_this_lodash_["noop"] : _ref2$onSelect;
   return {
     selectBlock: function selectBlock(clientId) {
       dispatch('core/block-editor').selectBlock(clientId);
@@ -6535,7 +6534,7 @@ function (_Component) {
 var toConsumableArray = __webpack_require__(17);
 
 // EXTERNAL MODULE: ./node_modules/dom-scroll-into-view/lib/index.js
-var lib = __webpack_require__(68);
+var lib = __webpack_require__(67);
 var lib_default = /*#__PURE__*/__webpack_require__.n(lib);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
@@ -6703,7 +6702,7 @@ var SETTINGS_DEFAULTS = {
  */
 
 function insertAt(array, elements, index) {
-  return [].concat(Object(toConsumableArray["a" /* default */])(array.slice(0, index)), Object(toConsumableArray["a" /* default */])(Object(external_lodash_["castArray"])(elements)), Object(toConsumableArray["a" /* default */])(array.slice(index)));
+  return [].concat(Object(toConsumableArray["a" /* default */])(array.slice(0, index)), Object(toConsumableArray["a" /* default */])(Object(external_this_lodash_["castArray"])(elements)), Object(toConsumableArray["a" /* default */])(array.slice(index)));
 }
 /**
  * Moves an element in an array.
@@ -6801,7 +6800,7 @@ function mapBlockParents(blocks) {
 
 
 function flattenBlocks(blocks) {
-  var transform = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : external_lodash_["identity"];
+  var transform = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : external_this_lodash_["identity"];
   var result = {};
 
   var stack = Object(toConsumableArray["a" /* default */])(blocks);
@@ -6830,7 +6829,7 @@ function flattenBlocks(blocks) {
 
 function getFlattenedBlocksWithoutAttributes(blocks) {
   return flattenBlocks(blocks, function (block) {
-    return Object(external_lodash_["omit"])(block, 'attributes');
+    return Object(external_this_lodash_["omit"])(block, 'attributes');
   });
 }
 /**
@@ -6867,7 +6866,7 @@ function getFlattenedBlockAttributes(blocks) {
 
 function getNestedBlockClientIds(blocksOrder) {
   var rootClientId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-  return Object(external_lodash_["reduce"])(blocksOrder[rootClientId], function (result, clientId) {
+  return Object(external_this_lodash_["reduce"])(blocksOrder[rootClientId], function (result, clientId) {
     return [].concat(Object(toConsumableArray["a" /* default */])(result), [clientId], Object(toConsumableArray["a" /* default */])(getNestedBlockClientIds(blocksOrder, clientId)));
   }, []);
 }
@@ -6901,7 +6900,7 @@ function getMutateSafeObject(original, working) {
 
 
 function hasSameKeys(a, b) {
-  return Object(external_lodash_["isEqual"])(Object(external_lodash_["keys"])(a), Object(external_lodash_["keys"])(b));
+  return Object(external_this_lodash_["isEqual"])(Object(external_this_lodash_["keys"])(a), Object(external_this_lodash_["keys"])(b));
 }
 /**
  * Returns true if, given the currently dispatching action and the previously
@@ -6979,7 +6978,7 @@ var reducer_withBlockCache = function withBlockCache(reducer) {
 
     switch (action.type) {
       case 'RESET_BLOCKS':
-        newState.cache = Object(external_lodash_["mapValues"])(flattenBlocks(action.blocks), function () {
+        newState.cache = Object(external_this_lodash_["mapValues"])(flattenBlocks(action.blocks), function () {
           return {};
         });
         break;
@@ -6987,7 +6986,7 @@ var reducer_withBlockCache = function withBlockCache(reducer) {
       case 'RECEIVE_BLOCKS':
       case 'INSERT_BLOCKS':
         {
-          var updatedBlockUids = Object(external_lodash_["keys"])(flattenBlocks(action.blocks));
+          var updatedBlockUids = Object(external_this_lodash_["keys"])(flattenBlocks(action.blocks));
 
           if (action.rootClientId) {
             updatedBlockUids.push(action.rootClientId);
@@ -7004,11 +7003,11 @@ var reducer_withBlockCache = function withBlockCache(reducer) {
 
       case 'REPLACE_BLOCKS_AUGMENTED_WITH_CHILDREN':
         var parentClientIds = fillKeysWithEmptyObject(getBlocksWithParentsClientIds(action.replacedClientIds));
-        newState.cache = Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(newState.cache, action.replacedClientIds), Object(external_lodash_["omit"])(parentClientIds, action.replacedClientIds), fillKeysWithEmptyObject(Object(external_lodash_["keys"])(flattenBlocks(action.blocks))));
+        newState.cache = Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(newState.cache, action.replacedClientIds), Object(external_this_lodash_["omit"])(parentClientIds, action.replacedClientIds), fillKeysWithEmptyObject(Object(external_this_lodash_["keys"])(flattenBlocks(action.blocks))));
         break;
 
       case 'REMOVE_BLOCKS_AUGMENTED_WITH_CHILDREN':
-        newState.cache = Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(newState.cache, action.removedClientIds), fillKeysWithEmptyObject(Object(external_lodash_["difference"])(getBlocksWithParentsClientIds(action.clientIds), action.clientIds)));
+        newState.cache = Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(newState.cache, action.removedClientIds), fillKeysWithEmptyObject(Object(external_this_lodash_["difference"])(getBlocksWithParentsClientIds(action.clientIds), action.clientIds)));
         break;
 
       case 'MOVE_BLOCK_TO_POSITION':
@@ -7042,7 +7041,7 @@ var reducer_withBlockCache = function withBlockCache(reducer) {
 
       case 'SAVE_REUSABLE_BLOCK_SUCCESS':
         {
-          var _updatedBlockUids3 = Object(external_lodash_["keys"])(Object(external_lodash_["omitBy"])(newState.attributes, function (attributes, clientId) {
+          var _updatedBlockUids3 = Object(external_this_lodash_["keys"])(Object(external_this_lodash_["omitBy"])(newState.attributes, function (attributes, clientId) {
             return newState.byClientId[clientId].name !== 'core/block' || attributes.ref !== action.updatedId;
           }));
 
@@ -7073,7 +7072,7 @@ function withPersistentBlockChange(reducer) {
     // explicitly marking as persistent.
 
     if (state === nextState && !isExplicitPersistentChange) {
-      var nextIsPersistentChange = Object(external_lodash_["get"])(state, ['isPersistentChange'], true);
+      var nextIsPersistentChange = Object(external_this_lodash_["get"])(state, ['isPersistentChange'], true);
 
       if (state.isPersistentChange === nextIsPersistentChange) {
         return state;
@@ -7193,11 +7192,11 @@ var reducer_withBlockReset = function withBlockReset(reducer) {
     if (state && action.type === 'RESET_BLOCKS') {
       var visibleClientIds = getNestedBlockClientIds(state.order);
       return Object(objectSpread["a" /* default */])({}, state, {
-        byClientId: Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state.byClientId, visibleClientIds), getFlattenedBlocksWithoutAttributes(action.blocks)),
-        attributes: Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state.attributes, visibleClientIds), getFlattenedBlockAttributes(action.blocks)),
-        order: Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state.order, visibleClientIds), mapBlockOrder(action.blocks)),
-        parents: Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state.parents, visibleClientIds), mapBlockParents(action.blocks)),
-        cache: Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state.cache, visibleClientIds), Object(external_lodash_["mapValues"])(flattenBlocks(action.blocks), function () {
+        byClientId: Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(state.byClientId, visibleClientIds), getFlattenedBlocksWithoutAttributes(action.blocks)),
+        attributes: Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(state.attributes, visibleClientIds), getFlattenedBlockAttributes(action.blocks)),
+        order: Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(state.order, visibleClientIds), mapBlockOrder(action.blocks)),
+        parents: Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(state.parents, visibleClientIds), mapBlockParents(action.blocks)),
+        cache: Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(state.cache, visibleClientIds), Object(external_this_lodash_["mapValues"])(flattenBlocks(action.blocks), function () {
           return {};
         }))
       });
@@ -7268,7 +7267,7 @@ var reducer_withSaveReusableBlock = function withSaveReusableBlock(reducer) {
       }
 
       state = Object(objectSpread["a" /* default */])({}, state);
-      state.attributes = Object(external_lodash_["mapValues"])(state.attributes, function (attributes, clientId) {
+      state.attributes = Object(external_this_lodash_["mapValues"])(state.attributes, function (attributes, clientId) {
         var name = state.byClientId[clientId].name;
 
         if (name === 'core/block' && attributes.ref === id) {
@@ -7294,7 +7293,7 @@ var reducer_withSaveReusableBlock = function withSaveReusableBlock(reducer) {
  */
 
 
-var reducer_blocks = Object(external_lodash_["flow"])(external_this_wp_data_["combineReducers"], reducer_withSaveReusableBlock, // needs to be before withBlockCache
+var reducer_blocks = Object(external_this_lodash_["flow"])(external_this_wp_data_["combineReducers"], reducer_withSaveReusableBlock, // needs to be before withBlockCache
 reducer_withBlockCache, // needs to be before withInnerBlocksRemoveCascade
 reducer_withInnerBlocksRemoveCascade, reducer_withReplaceInnerBlocks, // needs to be after withInnerBlocksRemoveCascade
 reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
@@ -7317,9 +7316,9 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
         } // Do nothing if only attributes change.
 
 
-        var changes = Object(external_lodash_["omit"])(action.updates, 'attributes');
+        var changes = Object(external_this_lodash_["omit"])(action.updates, 'attributes');
 
-        if (Object(external_lodash_["isEmpty"])(changes)) {
+        if (Object(external_this_lodash_["isEmpty"])(changes)) {
           return state;
         }
 
@@ -7330,10 +7329,10 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
           return state;
         }
 
-        return Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state, action.replacedClientIds), getFlattenedBlocksWithoutAttributes(action.blocks));
+        return Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(state, action.replacedClientIds), getFlattenedBlocksWithoutAttributes(action.blocks));
 
       case 'REMOVE_BLOCKS_AUGMENTED_WITH_CHILDREN':
-        return Object(external_lodash_["omit"])(state, action.removedClientIds);
+        return Object(external_this_lodash_["omit"])(state, action.removedClientIds);
     }
 
     return state;
@@ -7365,7 +7364,7 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
         } // Consider as updates only changed values
 
 
-        var nextAttributes = Object(external_lodash_["reduce"])(action.attributes, function (result, value, key) {
+        var nextAttributes = Object(external_this_lodash_["reduce"])(action.attributes, function (result, value, key) {
           if (value !== result[key]) {
             result = getMutateSafeObject(state[action.clientId], result);
             result[key] = value;
@@ -7387,10 +7386,10 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
           return state;
         }
 
-        return Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state, action.replacedClientIds), getFlattenedBlockAttributes(action.blocks));
+        return Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(state, action.replacedClientIds), getFlattenedBlockAttributes(action.blocks));
 
       case 'REMOVE_BLOCKS_AUGMENTED_WITH_CHILDREN':
-        return Object(external_lodash_["omit"])(state, action.removedClientIds);
+        return Object(external_this_lodash_["omit"])(state, action.removedClientIds);
     }
 
     return state;
@@ -7404,7 +7403,7 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
         return mapBlockOrder(action.blocks);
 
       case 'RECEIVE_BLOCKS':
-        return Object(objectSpread["a" /* default */])({}, state, Object(external_lodash_["omit"])(mapBlockOrder(action.blocks), ''));
+        return Object(objectSpread["a" /* default */])({}, state, Object(external_this_lodash_["omit"])(mapBlockOrder(action.blocks), ''));
 
       case 'INSERT_BLOCKS':
         {
@@ -7440,7 +7439,7 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
           } // Moving from a parent block to another
 
 
-          return Object(objectSpread["a" /* default */])({}, state, (_objectSpread7 = {}, Object(defineProperty["a" /* default */])(_objectSpread7, fromRootClientId, Object(external_lodash_["without"])(state[fromRootClientId], clientId)), Object(defineProperty["a" /* default */])(_objectSpread7, toRootClientId, insertAt(state[toRootClientId], clientId, _index)), _objectSpread7));
+          return Object(objectSpread["a" /* default */])({}, state, (_objectSpread7 = {}, Object(defineProperty["a" /* default */])(_objectSpread7, fromRootClientId, Object(external_this_lodash_["without"])(state[fromRootClientId], clientId)), Object(defineProperty["a" /* default */])(_objectSpread7, toRootClientId, insertAt(state[toRootClientId], clientId, _index)), _objectSpread7));
         }
 
       case 'MOVE_BLOCKS_UP':
@@ -7449,10 +7448,10 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
               _action$rootClientId2 = action.rootClientId,
               _rootClientId = _action$rootClientId2 === void 0 ? '' : _action$rootClientId2;
 
-          var firstClientId = Object(external_lodash_["first"])(clientIds);
+          var firstClientId = Object(external_this_lodash_["first"])(clientIds);
           var _subState2 = state[_rootClientId];
 
-          if (!_subState2.length || firstClientId === Object(external_lodash_["first"])(_subState2)) {
+          if (!_subState2.length || firstClientId === Object(external_this_lodash_["first"])(_subState2)) {
             return state;
           }
 
@@ -7467,12 +7466,12 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
               _action$rootClientId3 = action.rootClientId,
               _rootClientId2 = _action$rootClientId3 === void 0 ? '' : _action$rootClientId3;
 
-          var _firstClientId = Object(external_lodash_["first"])(_clientIds);
+          var _firstClientId = Object(external_this_lodash_["first"])(_clientIds);
 
-          var lastClientId = Object(external_lodash_["last"])(_clientIds);
+          var lastClientId = Object(external_this_lodash_["last"])(_clientIds);
           var _subState3 = state[_rootClientId2];
 
-          if (!_subState3.length || lastClientId === Object(external_lodash_["last"])(_subState3)) {
+          if (!_subState3.length || lastClientId === Object(external_this_lodash_["last"])(_subState3)) {
             return state;
           }
 
@@ -7491,13 +7490,13 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
 
           var _mappedBlocks = mapBlockOrder(action.blocks);
 
-          return Object(external_lodash_["flow"])([function (nextState) {
-            return Object(external_lodash_["omit"])(nextState, action.replacedClientIds);
+          return Object(external_this_lodash_["flow"])([function (nextState) {
+            return Object(external_this_lodash_["omit"])(nextState, action.replacedClientIds);
           }, function (nextState) {
-            return Object(objectSpread["a" /* default */])({}, nextState, Object(external_lodash_["omit"])(_mappedBlocks, ''));
+            return Object(objectSpread["a" /* default */])({}, nextState, Object(external_this_lodash_["omit"])(_mappedBlocks, ''));
           }, function (nextState) {
-            return Object(external_lodash_["mapValues"])(nextState, function (subState) {
-              return Object(external_lodash_["reduce"])(subState, function (result, clientId) {
+            return Object(external_this_lodash_["mapValues"])(nextState, function (subState) {
+              return Object(external_this_lodash_["reduce"])(subState, function (result, clientId) {
                 if (clientId === _clientIds2[0]) {
                   return [].concat(Object(toConsumableArray["a" /* default */])(result), Object(toConsumableArray["a" /* default */])(_mappedBlocks['']));
                 }
@@ -7513,13 +7512,13 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
         }
 
       case 'REMOVE_BLOCKS_AUGMENTED_WITH_CHILDREN':
-        return Object(external_lodash_["flow"])([// Remove inner block ordering for removed blocks
+        return Object(external_this_lodash_["flow"])([// Remove inner block ordering for removed blocks
         function (nextState) {
-          return Object(external_lodash_["omit"])(nextState, action.removedClientIds);
+          return Object(external_this_lodash_["omit"])(nextState, action.removedClientIds);
         }, // Remove deleted blocks from other blocks' orderings
         function (nextState) {
-          return Object(external_lodash_["mapValues"])(nextState, function (subState) {
-            return external_lodash_["without"].apply(void 0, [subState].concat(Object(toConsumableArray["a" /* default */])(action.removedClientIds)));
+          return Object(external_this_lodash_["mapValues"])(nextState, function (subState) {
+            return external_this_lodash_["without"].apply(void 0, [subState].concat(Object(toConsumableArray["a" /* default */])(action.removedClientIds)));
           });
         }])(state);
     }
@@ -7548,10 +7547,10 @@ reducer_withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
         }
 
       case 'REPLACE_BLOCKS_AUGMENTED_WITH_CHILDREN':
-        return Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state, action.replacedClientIds), mapBlockParents(action.blocks, state[action.clientIds[0]]));
+        return Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(state, action.replacedClientIds), mapBlockParents(action.blocks, state[action.clientIds[0]]));
 
       case 'REMOVE_BLOCKS_AUGMENTED_WITH_CHILDREN':
-        return Object(external_lodash_["omit"])(state, action.removedClientIds);
+        return Object(external_this_lodash_["omit"])(state, action.removedClientIds);
     }
 
     return state;
@@ -7911,7 +7910,7 @@ var reducer_blockListSettings = function blockListSettings() {
     case 'REPLACE_BLOCKS':
     case 'REMOVE_BLOCKS':
       {
-        return Object(external_lodash_["omit"])(state, action.clientIds);
+        return Object(external_this_lodash_["omit"])(state, action.clientIds);
       }
 
     case 'UPDATE_BLOCK_LIST_SETTINGS':
@@ -7920,13 +7919,13 @@ var reducer_blockListSettings = function blockListSettings() {
 
         if (!action.settings) {
           if (state.hasOwnProperty(clientId)) {
-            return Object(external_lodash_["omit"])(state, clientId);
+            return Object(external_this_lodash_["omit"])(state, clientId);
           }
 
           return state;
         }
 
-        if (Object(external_lodash_["isEqual"])(state[clientId], action.settings)) {
+        if (Object(external_this_lodash_["isEqual"])(state[clientId], action.settings)) {
           return state;
         }
 
@@ -8012,19 +8011,19 @@ function reducer_didAutomaticChange(state, action) {
 }));
 
 // EXTERNAL MODULE: ./node_modules/refx/refx.js
-var refx = __webpack_require__(72);
+var refx = __webpack_require__(71);
 var refx_default = /*#__PURE__*/__webpack_require__.n(refx);
 
 // EXTERNAL MODULE: ./node_modules/redux-multi/lib/index.js
-var redux_multi_lib = __webpack_require__(218);
+var redux_multi_lib = __webpack_require__(217);
 var redux_multi_lib_default = /*#__PURE__*/__webpack_require__.n(redux_multi_lib);
 
 // EXTERNAL MODULE: external {"this":["wp","a11y"]}
 var external_this_wp_a11y_ = __webpack_require__(45);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(20);
-var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
+// EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
+var external_this_regeneratorRuntime_ = __webpack_require__(20);
+var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/controls.js
 
@@ -8075,25 +8074,25 @@ var controls_controls = {
 
 var _marked =
 /*#__PURE__*/
-regenerator_default.a.mark(ensureDefaultBlock),
+external_this_regeneratorRuntime_default.a.mark(ensureDefaultBlock),
     _marked2 =
 /*#__PURE__*/
-regenerator_default.a.mark(selectPreviousBlock),
+external_this_regeneratorRuntime_default.a.mark(selectPreviousBlock),
     _marked3 =
 /*#__PURE__*/
-regenerator_default.a.mark(selectNextBlock),
+external_this_regeneratorRuntime_default.a.mark(selectNextBlock),
     _marked4 =
 /*#__PURE__*/
-regenerator_default.a.mark(actions_replaceBlocks),
+external_this_regeneratorRuntime_default.a.mark(actions_replaceBlocks),
     _marked5 =
 /*#__PURE__*/
-regenerator_default.a.mark(moveBlockToPosition),
+external_this_regeneratorRuntime_default.a.mark(moveBlockToPosition),
     _marked6 =
 /*#__PURE__*/
-regenerator_default.a.mark(actions_insertBlocks),
+external_this_regeneratorRuntime_default.a.mark(actions_insertBlocks),
     _marked7 =
 /*#__PURE__*/
-regenerator_default.a.mark(actions_removeBlocks);
+external_this_regeneratorRuntime_default.a.mark(actions_removeBlocks);
 
 /**
  * External dependencies
@@ -8118,7 +8117,7 @@ regenerator_default.a.mark(actions_removeBlocks);
 
 function ensureDefaultBlock() {
   var count;
-  return regenerator_default.a.wrap(function ensureDefaultBlock$(_context) {
+  return external_this_regeneratorRuntime_default.a.wrap(function ensureDefaultBlock$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -8240,7 +8239,7 @@ function actions_selectBlock(clientId) {
 
 function selectPreviousBlock(clientId) {
   var previousBlockClientId;
-  return regenerator_default.a.wrap(function selectPreviousBlock$(_context2) {
+  return external_this_regeneratorRuntime_default.a.wrap(function selectPreviousBlock$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
@@ -8274,7 +8273,7 @@ function selectPreviousBlock(clientId) {
 
 function selectNextBlock(clientId) {
   var nextBlockClientId;
-  return regenerator_default.a.wrap(function selectNextBlock$(_context3) {
+  return external_this_regeneratorRuntime_default.a.wrap(function selectNextBlock$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
@@ -8366,7 +8365,7 @@ function actions_toggleSelection() {
 }
 
 function getBlocksWithDefaultStylesApplied(blocks, blockEditorSettings) {
-  var preferredStyleVariations = Object(external_lodash_["get"])(blockEditorSettings, ['__experimentalPreferredStyleVariations', 'value'], {});
+  var preferredStyleVariations = Object(external_this_lodash_["get"])(blockEditorSettings, ['__experimentalPreferredStyleVariations', 'value'], {});
   return blocks.map(function (block) {
     var blockName = block.name;
 
@@ -8374,9 +8373,9 @@ function getBlocksWithDefaultStylesApplied(blocks, blockEditorSettings) {
       return block;
     }
 
-    var className = Object(external_lodash_["get"])(block, ['attributes', 'className']);
+    var className = Object(external_this_lodash_["get"])(block, ['attributes', 'className']);
 
-    if (Object(external_lodash_["includes"])(className, 'is-style-')) {
+    if (Object(external_this_lodash_["includes"])(className, 'is-style-')) {
       return block;
     }
 
@@ -8405,13 +8404,13 @@ function getBlocksWithDefaultStylesApplied(blocks, blockEditorSettings) {
 
 function actions_replaceBlocks(clientIds, blocks, indexToSelect) {
   var rootClientId, index, block, canInsertBlock;
-  return regenerator_default.a.wrap(function replaceBlocks$(_context4) {
+  return external_this_regeneratorRuntime_default.a.wrap(function replaceBlocks$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          clientIds = Object(external_lodash_["castArray"])(clientIds);
+          clientIds = Object(external_this_lodash_["castArray"])(clientIds);
           _context4.t0 = getBlocksWithDefaultStylesApplied;
-          _context4.t1 = Object(external_lodash_["castArray"])(blocks);
+          _context4.t1 = Object(external_this_lodash_["castArray"])(blocks);
           _context4.next = 5;
           return controls_select('core/block-editor', 'getSettings');
 
@@ -8419,7 +8418,7 @@ function actions_replaceBlocks(clientIds, blocks, indexToSelect) {
           _context4.t2 = _context4.sent;
           blocks = (0, _context4.t0)(_context4.t1, _context4.t2);
           _context4.next = 9;
-          return controls_select('core/block-editor', 'getBlockRootClientId', Object(external_lodash_["first"])(clientIds));
+          return controls_select('core/block-editor', 'getBlockRootClientId', Object(external_this_lodash_["first"])(clientIds));
 
         case 9:
           rootClientId = _context4.sent;
@@ -8495,7 +8494,7 @@ function replaceBlock(clientId, block) {
 function createOnMove(type) {
   return function (clientIds, rootClientId) {
     return {
-      clientIds: Object(external_lodash_["castArray"])(clientIds),
+      clientIds: Object(external_this_lodash_["castArray"])(clientIds),
       type: type,
       rootClientId: rootClientId
     };
@@ -8525,7 +8524,7 @@ function moveBlockToPosition(clientId) {
       blockName,
       canInsertBlock,
       _args5 = arguments;
-  return regenerator_default.a.wrap(function moveBlockToPosition$(_context5) {
+  return external_this_regeneratorRuntime_default.a.wrap(function moveBlockToPosition$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
@@ -8640,13 +8639,13 @@ function actions_insertBlocks(blocks, index, rootClientId) {
       isValid,
       _args6 = arguments;
 
-  return regenerator_default.a.wrap(function insertBlocks$(_context6) {
+  return external_this_regeneratorRuntime_default.a.wrap(function insertBlocks$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
           updateSelection = _args6.length > 3 && _args6[3] !== undefined ? _args6[3] : true;
           _context6.t0 = getBlocksWithDefaultStylesApplied;
-          _context6.t1 = Object(external_lodash_["castArray"])(blocks);
+          _context6.t1 = Object(external_this_lodash_["castArray"])(blocks);
           _context6.next = 5;
           return controls_select('core/block-editor', 'getSettings');
 
@@ -8819,12 +8818,12 @@ function actions_mergeBlocks(firstBlockClientId, secondBlockClientId) {
 function actions_removeBlocks(clientIds) {
   var selectPrevious,
       _args7 = arguments;
-  return regenerator_default.a.wrap(function removeBlocks$(_context7) {
+  return external_this_regeneratorRuntime_default.a.wrap(function removeBlocks$(_context7) {
     while (1) {
       switch (_context7.prev = _context7.next) {
         case 0:
           selectPrevious = _args7.length > 1 && _args7[1] !== undefined ? _args7[1] : true;
-          clientIds = Object(external_lodash_["castArray"])(clientIds);
+          clientIds = Object(external_this_lodash_["castArray"])(clientIds);
 
           if (!selectPrevious) {
             _context7.next = 5;
@@ -9249,7 +9248,7 @@ var selectors_unstableGetBlockWithoutInnerBlocks = Object(rememo["a" /* default 
  */
 
 var selectors_getBlocks = Object(rememo["a" /* default */])(function (state, rootClientId) {
-  return Object(external_lodash_["map"])(selectors_getBlockOrder(state, rootClientId), function (clientId) {
+  return Object(external_this_lodash_["map"])(selectors_getBlockOrder(state, rootClientId), function (clientId) {
     return selectors_getBlock(state, clientId);
   });
 }, function (state) {
@@ -9266,7 +9265,7 @@ var selectors_getBlocks = Object(rememo["a" /* default */])(function (state, roo
  */
 
 var selectors_getClientIdsOfDescendants = function getClientIdsOfDescendants(state, clientIds) {
-  return Object(external_lodash_["flatMap"])(clientIds, function (clientId) {
+  return Object(external_this_lodash_["flatMap"])(clientIds, function (clientId) {
     var descendants = selectors_getBlockOrder(state, clientId);
     return [].concat(Object(toConsumableArray["a" /* default */])(descendants), Object(toConsumableArray["a" /* default */])(getClientIdsOfDescendants(state, descendants)));
   });
@@ -9303,7 +9302,7 @@ var getGlobalBlockCount = Object(rememo["a" /* default */])(function (state, blo
     return clientIds.length;
   }
 
-  return Object(external_lodash_["reduce"])(clientIds, function (count, clientId) {
+  return Object(external_this_lodash_["reduce"])(clientIds, function (count, clientId) {
     var block = state.blocks.byClientId[clientId];
     return block.name === blockName ? count + 1 : count;
   }, 0);
@@ -9321,7 +9320,7 @@ var getGlobalBlockCount = Object(rememo["a" /* default */])(function (state, blo
  */
 
 var selectors_getBlocksByClientId = Object(rememo["a" /* default */])(function (state, clientIds) {
-  return Object(external_lodash_["map"])(Object(external_lodash_["castArray"])(clientIds), function (clientId) {
+  return Object(external_this_lodash_["map"])(Object(external_this_lodash_["castArray"])(clientIds), function (clientId) {
     return selectors_getBlock(state, clientId);
   });
 }, function (state) {
@@ -9698,7 +9697,7 @@ var getMultiSelectedBlocks = Object(rememo["a" /* default */])(function (state) 
  */
 
 function getFirstMultiSelectedBlockClientId(state) {
-  return Object(external_lodash_["first"])(getMultiSelectedBlockClientIds(state)) || null;
+  return Object(external_this_lodash_["first"])(getMultiSelectedBlockClientIds(state)) || null;
 }
 /**
  * Returns the client ID of the last block in the multi-selection set, or null
@@ -9710,7 +9709,7 @@ function getFirstMultiSelectedBlockClientId(state) {
  */
 
 function getLastMultiSelectedBlockClientId(state) {
-  return Object(external_lodash_["last"])(getMultiSelectedBlockClientIds(state)) || null;
+  return Object(external_this_lodash_["last"])(getMultiSelectedBlockClientIds(state)) || null;
 }
 /**
  * Returns true if a multi-selection exists, and the block corresponding to the
@@ -9872,7 +9871,7 @@ function selectors_isBlockSelected(state, clientId) {
 
 function selectors_hasSelectedInnerBlock(state, clientId) {
   var deep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  return Object(external_lodash_["some"])(selectors_getBlockOrder(state, clientId), function (innerClientId) {
+  return Object(external_this_lodash_["some"])(selectors_getBlockOrder(state, clientId), function (innerClientId) {
     return selectors_isBlockSelected(state, innerClientId) || selectors_isBlockMultiSelected(state, innerClientId) || deep && selectors_hasSelectedInnerBlock(state, innerClientId, deep);
   });
 }
@@ -10077,12 +10076,12 @@ var selectors_canInsertBlockTypeUnmemoized = function canInsertBlockTypeUnmemoiz
   var checkAllowList = function checkAllowList(list, item) {
     var defaultResult = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-    if (Object(external_lodash_["isBoolean"])(list)) {
+    if (Object(external_this_lodash_["isBoolean"])(list)) {
       return list;
     }
 
-    if (Object(external_lodash_["isArray"])(list)) {
-      return Object(external_lodash_["includes"])(list, item);
+    if (Object(external_this_lodash_["isArray"])(list)) {
+      return Object(external_this_lodash_["includes"])(list, item);
     }
 
     return defaultResult;
@@ -10110,7 +10109,7 @@ var selectors_canInsertBlockTypeUnmemoized = function canInsertBlockTypeUnmemoiz
   }
 
   var parentBlockListSettings = getBlockListSettings(state, rootClientId);
-  var parentAllowedBlocks = Object(external_lodash_["get"])(parentBlockListSettings, ['allowedBlocks']);
+  var parentAllowedBlocks = Object(external_this_lodash_["get"])(parentBlockListSettings, ['allowedBlocks']);
   var hasParentAllowedBlock = checkAllowList(parentAllowedBlocks, blockName);
   var blockAllowedParentBlocks = blockType.parent;
   var parentName = selectors_getBlockName(state, rootClientId);
@@ -10152,7 +10151,7 @@ var selectors_canInsertBlockType = Object(rememo["a" /* default */])(selectors_c
  */
 
 function getInsertUsage(state, id) {
-  return Object(external_lodash_["get"])(state.preferences.insertUsage, [id], null);
+  return Object(external_this_lodash_["get"])(state.preferences.insertUsage, [id], null);
 }
 /**
  * Returns whether we can show a block type in the inserter
@@ -10256,12 +10255,12 @@ var selectors_getInserterItems = Object(rememo["a" /* default */])(function (sta
     var isDisabled = false;
 
     if (!Object(external_this_wp_blocks_["hasBlockSupport"])(blockType.name, 'multiple', true)) {
-      isDisabled = Object(external_lodash_["some"])(selectors_getBlocksByClientId(state, getClientIdsWithDescendants(state)), {
+      isDisabled = Object(external_this_lodash_["some"])(selectors_getBlocksByClientId(state, getClientIdsWithDescendants(state)), {
         name: blockType.name
       });
     }
 
-    var isContextual = Object(external_lodash_["isArray"])(blockType.parent);
+    var isContextual = Object(external_this_lodash_["isArray"])(blockType.parent);
 
     var _ref = getInsertUsage(state, id) || {},
         time = _ref.time,
@@ -10320,7 +10319,7 @@ var selectors_getInserterItems = Object(rememo["a" /* default */])(function (sta
     return selectors_canIncludeBlockTypeInInserter(state, blockType, rootClientId);
   }).map(buildBlockTypeInserterItem);
   var reusableBlockInserterItems = selectors_canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId) ? getReusableBlocks(state).map(buildReusableBlockInserterItem) : [];
-  return Object(external_lodash_["orderBy"])([].concat(Object(toConsumableArray["a" /* default */])(blockTypeInserterItems), Object(toConsumableArray["a" /* default */])(reusableBlockInserterItems)), ['utility', 'frecency'], ['desc', 'desc']);
+  return Object(external_this_lodash_["orderBy"])([].concat(Object(toConsumableArray["a" /* default */])(blockTypeInserterItems), Object(toConsumableArray["a" /* default */])(reusableBlockInserterItems)), ['utility', 'frecency'], ['desc', 'desc']);
 }, function (state, rootClientId) {
   return [state.blockListSettings[rootClientId], state.blocks.byClientId, state.blocks.order, state.preferences.insertUsage, state.settings.allowedBlockTypes, state.settings.templateLock, getReusableBlocks(state), Object(external_this_wp_blocks_["getBlockTypes"])()];
 });
@@ -10335,7 +10334,7 @@ var selectors_getInserterItems = Object(rememo["a" /* default */])(function (sta
 
 var hasInserterItems = Object(rememo["a" /* default */])(function (state) {
   var rootClientId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var hasBlockType = Object(external_lodash_["some"])(Object(external_this_wp_blocks_["getBlockTypes"])(), function (blockType) {
+  var hasBlockType = Object(external_this_lodash_["some"])(Object(external_this_wp_blocks_["getBlockTypes"])(), function (blockType) {
     return selectors_canIncludeBlockTypeInInserter(state, blockType, rootClientId);
   });
 
@@ -10394,7 +10393,7 @@ function selectors_isLastBlockChangePersistent(state) {
  */
 
 var __experimentalGetParsedReusableBlock = Object(rememo["a" /* default */])(function (state, ref) {
-  var reusableBlock = Object(external_lodash_["find"])(getReusableBlocks(state), function (block) {
+  var reusableBlock = Object(external_this_lodash_["find"])(getReusableBlocks(state), function (block) {
     return block.id === ref;
   });
 
@@ -10446,7 +10445,7 @@ function __experimentalGetLastBlockAttributeChanges(state) {
  */
 
 function getReusableBlocks(state) {
-  return Object(external_lodash_["get"])(state, ['settings', '__experimentalReusableBlocks'], EMPTY_ARRAY);
+  return Object(external_this_lodash_["get"])(state, ['settings', '__experimentalReusableBlocks'], EMPTY_ARRAY);
 }
 /**
  * Returns whether the navigation mode is enabled.
@@ -10582,7 +10581,7 @@ function validateBlocksToTemplate(action, store) {
     var updatedAttributes = blockAType.merge(cloneA.attributes, blocksWithTheSameType[0].attributes);
 
     if (hasTextSelection) {
-      var newAttributeKey = Object(external_lodash_["findKey"])(updatedAttributes, function (v) {
+      var newAttributeKey = Object(external_this_lodash_["findKey"])(updatedAttributes, function (v) {
         return typeof v === 'string' && v.indexOf(START_OF_SELECTED_AREA) !== -1;
       });
       var convertedHtml = updatedAttributes[newAttributeKey];
@@ -10665,7 +10664,7 @@ function applyMiddlewares(store) {
   chain = middlewares.map(function (middleware) {
     return middleware(middlewareAPI);
   });
-  enhancedDispatch = external_lodash_["flowRight"].apply(void 0, Object(toConsumableArray["a" /* default */])(chain))(store.dispatch);
+  enhancedDispatch = external_this_lodash_["flowRight"].apply(void 0, Object(toConsumableArray["a" /* default */])(chain))(store.dispatch);
   store.dispatch = enhancedDispatch;
   return store;
 }
@@ -10887,9 +10886,9 @@ function (_Component) {
       this.unsubscribe = registry.subscribe(function () {
         var _this$props2 = _this.props,
             _this$props2$onChange = _this$props2.onChange,
-            onChange = _this$props2$onChange === void 0 ? external_lodash_["noop"] : _this$props2$onChange,
+            onChange = _this$props2$onChange === void 0 ? external_this_lodash_["noop"] : _this$props2$onChange,
             _this$props2$onInput = _this$props2.onInput,
-            onInput = _this$props2$onInput === void 0 ? external_lodash_["noop"] : _this$props2$onInput;
+            onInput = _this$props2$onInput === void 0 ? external_this_lodash_["noop"] : _this$props2$onInput;
         var newBlocks = getBlocks();
         var newIsPersistent = isLastBlockChangePersistent();
 
@@ -10965,7 +10964,7 @@ var block_async_mode_provider_BlockAsyncModeProvider = function BlockAsyncModePr
 /* harmony default export */ var block_async_mode_provider = (block_async_mode_provider_BlockAsyncModeProvider);
 
 // EXTERNAL MODULE: ./node_modules/react-spring/web.cjs.js
-var web_cjs = __webpack_require__(64);
+var web_cjs = __webpack_require__(63);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
 var external_this_wp_dom_ = __webpack_require__(25);
@@ -11273,7 +11272,7 @@ function (_Component) {
           isHidden = _this$props.isHidden,
           rootClientId = _this$props.rootClientId;
       var isFocused = this.state.isFocused;
-      var blocksCount = Object(external_lodash_["castArray"])(clientIds).length;
+      var blocksCount = Object(external_this_lodash_["castArray"])(clientIds).length;
 
       if (isLocked || isFirst && isLast && !rootClientId) {
         return null;
@@ -11335,13 +11334,13 @@ function (_Component) {
       getBlockRootClientId = _select.getBlockRootClientId,
       getBlockOrder = _select.getBlockOrder;
 
-  var normalizedClientIds = Object(external_lodash_["castArray"])(clientIds);
-  var firstClientId = Object(external_lodash_["first"])(normalizedClientIds);
+  var normalizedClientIds = Object(external_this_lodash_["castArray"])(clientIds);
+  var firstClientId = Object(external_this_lodash_["first"])(normalizedClientIds);
   var block = getBlock(firstClientId);
-  var rootClientId = getBlockRootClientId(Object(external_lodash_["first"])(normalizedClientIds));
+  var rootClientId = getBlockRootClientId(Object(external_this_lodash_["first"])(normalizedClientIds));
   var blockOrder = getBlockOrder(rootClientId);
   var firstIndex = getBlockIndex(firstClientId, rootClientId);
-  var lastIndex = getBlockIndex(Object(external_lodash_["last"])(normalizedClientIds), rootClientId);
+  var lastIndex = getBlockIndex(Object(external_this_lodash_["last"])(normalizedClientIds), rootClientId);
   return {
     blockType: block ? Object(external_this_wp_blocks_["getBlockType"])(block.name) : null,
     isLocked: getTemplateLock(rootClientId) === 'all',
@@ -11359,8 +11358,8 @@ function (_Component) {
       moveBlocksUp = _dispatch.moveBlocksUp;
 
   return {
-    onMoveDown: Object(external_lodash_["partial"])(moveBlocksDown, clientIds, rootClientId),
-    onMoveUp: Object(external_lodash_["partial"])(moveBlocksUp, clientIds, rootClientId)
+    onMoveDown: Object(external_this_lodash_["partial"])(moveBlocksDown, clientIds, rootClientId),
+    onMoveUp: Object(external_this_lodash_["partial"])(moveBlocksUp, clientIds, rootClientId)
   };
 }), external_this_wp_compose_["withInstanceId"])(block_mover_BlockMover));
 
@@ -11424,7 +11423,7 @@ function Warning(_ref) {
 /* harmony default export */ var warning = (Warning);
 
 // EXTERNAL MODULE: ./node_modules/diff/dist/diff.js
-var dist_diff = __webpack_require__(219);
+var dist_diff = __webpack_require__(218);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-compare/block-view.js
 
@@ -11527,7 +11526,7 @@ function (_Component) {
     key: "getConvertedContent",
     value: function getConvertedContent(block) {
       // The convertor may return an array of items or a single item
-      var newBlocks = Object(external_lodash_["castArray"])(block); // Get converted block details
+      var newBlocks = Object(external_this_lodash_["castArray"])(block); // Get converted block details
 
       var newContent = newBlocks.map(function (item) {
         return Object(external_this_wp_blocks_["getSaveContent"])(item.name, item.attributes, item.innerBlocks);
@@ -11809,7 +11808,7 @@ function (_Component) {
 /* harmony default export */ var block_crash_boundary = (block_crash_boundary_BlockCrashBoundary);
 
 // EXTERNAL MODULE: ./node_modules/react-autosize-textarea/lib/index.js
-var react_autosize_textarea_lib = __webpack_require__(62);
+var react_autosize_textarea_lib = __webpack_require__(61);
 var react_autosize_textarea_lib_default = /*#__PURE__*/__webpack_require__.n(react_autosize_textarea_lib);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-list/block-html.js
@@ -11856,7 +11855,7 @@ function (_Component) {
   Object(createClass["a" /* default */])(BlockHTML, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      if (!Object(external_lodash_["isEqual"])(this.props.block.attributes, prevProps.block.attributes)) {
+      if (!Object(external_this_lodash_["isEqual"])(this.props.block.attributes, prevProps.block.attributes)) {
         this.setState({
           html: Object(external_this_wp_blocks_["getBlockContent"])(this.props.block)
         });
@@ -12095,7 +12094,7 @@ function (_Component) {
         orientation: "horizontal",
         role: "toolbar",
         ref: this.toolbar
-      }, Object(external_lodash_["omit"])(props, ['focusOnMount'])), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["KeyboardShortcuts"], {
+      }, Object(external_this_lodash_["omit"])(props, ['focusOnMount'])), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["KeyboardShortcuts"], {
         bindGlobal: true // Use the same event that TinyMCE uses in the Classic block for its own `alt+f10` shortcut.
         ,
         eventName: "keydown",
@@ -12411,7 +12410,7 @@ function (_Component) {
           tagName = _this$props$tagName === void 0 ? 'div' : _this$props$tagName,
           props = Object(objectWithoutProperties["a" /* default */])(_this$props, ["childHandledEvents", "forwardedRef", "tagName"]);
 
-      var eventHandlers = Object(external_lodash_["reduce"])([].concat(Object(toConsumableArray["a" /* default */])(childHandledEvents), Object(toConsumableArray["a" /* default */])(Object.keys(props))), function (result, key) {
+      var eventHandlers = Object(external_this_lodash_["reduce"])([].concat(Object(toConsumableArray["a" /* default */])(childHandledEvents), Object(toConsumableArray["a" /* default */])(Object.keys(props))), function (result, key) {
         // Try to match prop key as event handler
         var match = key.match(/^on([A-Z][a-zA-Z]+?)(Handled)?$/);
 
@@ -12485,8 +12484,8 @@ function InserterWithShortcuts(_ref) {
     return null;
   }
 
-  var itemsWithoutDefaultBlock = Object(external_lodash_["filter"])(items, function (item) {
-    return !item.isDisabled && (item.name !== Object(external_this_wp_blocks_["getDefaultBlockName"])() || !Object(external_lodash_["isEmpty"])(item.initialAttributes));
+  var itemsWithoutDefaultBlock = Object(external_this_lodash_["filter"])(items, function (item) {
+    return !item.isDisabled && (item.name !== Object(external_this_wp_blocks_["getDefaultBlockName"])() || !Object(external_this_lodash_["isEmpty"])(item.initialAttributes));
   }).slice(0, 3);
   return Object(external_this_wp_element_["createElement"])("div", {
     className: "editor-inserter-with-shortcuts block-editor-inserter-with-shortcuts"
@@ -13011,7 +13010,7 @@ function block_BlockListBlock(_ref) {
     // tabbables.
 
     var isReverse = -1 === initialPosition;
-    var target = (isReverse ? external_lodash_["last"] : external_lodash_["first"])(textInputs);
+    var target = (isReverse ? external_this_lodash_["last"] : external_this_lodash_["first"])(textInputs);
 
     if (!target) {
       wrapper.current.focus();
@@ -13486,7 +13485,7 @@ Object(external_this_wp_compose_["ifCondition"])(function (_ref5) {
 }), Object(external_this_wp_components_["withFilters"])('editor.BlockListBlock'))(block_BlockListBlock));
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
-var external_this_wp_htmlEntities_ = __webpack_require__(52);
+var external_this_wp_htmlEntities_ = __webpack_require__(51);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/default-block-appender/index.js
 
@@ -13661,7 +13660,7 @@ function BlockListAppender(_ref) {
       childHandledEvents: ['onFocus', 'onClick', 'onKeyDown']
     }, Object(external_this_wp_element_["createElement"])(default_block_appender, {
       rootClientId: rootClientId,
-      lastBlockClientId: Object(external_lodash_["last"])(blockClientIds)
+      lastBlockClientId: Object(external_this_lodash_["last"])(blockClientIds)
     })));
   } // Fallback in the case no renderAppender has been provided and the
   // default block can't be inserted.
@@ -13751,7 +13750,7 @@ function (_Component) {
     _this.onSelectionEnd = _this.onSelectionEnd.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.setBlockRef = _this.setBlockRef.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.setLastClientY = _this.setLastClientY.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.onPointerMove = Object(external_lodash_["throttle"])(_this.onPointerMove.bind(Object(assertThisInitialized["a" /* default */])(_this)), 100); // Browser does not fire `*move` event when the pointer position changes
+    _this.onPointerMove = Object(external_this_lodash_["throttle"])(_this.onPointerMove.bind(Object(assertThisInitialized["a" /* default */])(_this)), 100); // Browser does not fire `*move` event when the pointer position changes
     // relative to the document, so fire it with the last known position.
 
     _this.onScroll = function () {
@@ -13816,7 +13815,7 @@ function (_Component) {
       }
 
       var y = clientY - blockContentBoundaries.top;
-      var key = Object(external_lodash_["findLast"])(this.coordMapKeys, function (coordY) {
+      var key = Object(external_this_lodash_["findLast"])(this.coordMapKeys, function (coordY) {
         return coordY < y;
       });
       this.onSelectionChange(this.coordMap[key]);
@@ -13837,15 +13836,15 @@ function (_Component) {
 
       var boundaries = this.nodes[clientId].getBoundingClientRect(); // Create a clientId to Y coördinate map.
 
-      var clientIdToCoordMap = Object(external_lodash_["mapValues"])(this.nodes, function (node) {
+      var clientIdToCoordMap = Object(external_this_lodash_["mapValues"])(this.nodes, function (node) {
         return node.getBoundingClientRect().top - boundaries.top;
       }); // Cache a Y coördinate to clientId map for use in `onPointerMove`.
 
-      this.coordMap = Object(external_lodash_["invert"])(clientIdToCoordMap); // Cache an array of the Y coördinates for use in `onPointerMove`.
+      this.coordMap = Object(external_this_lodash_["invert"])(clientIdToCoordMap); // Cache an array of the Y coördinates for use in `onPointerMove`.
       // Sort the coördinates, as `this.nodes` will not necessarily reflect
       // the current block sequence.
 
-      this.coordMapKeys = Object(external_lodash_["sortBy"])(Object.values(clientIdToCoordMap));
+      this.coordMapKeys = Object(external_this_lodash_["sortBy"])(Object.values(clientIdToCoordMap));
       this.selectionAtStart = clientId;
       window.addEventListener('mousemove', this.onPointerMove); // Capture scroll on all elements.
 
@@ -14125,7 +14124,7 @@ function BlockPreview(_ref2) {
       padding = _ref2.padding,
       settings = _ref2.settings;
   var renderedBlocks = Object(external_this_wp_element_["useMemo"])(function () {
-    return Object(external_lodash_["castArray"])(blocks);
+    return Object(external_this_lodash_["castArray"])(blocks);
   }, [blocks]);
 
   var _useReducer = Object(external_this_wp_element_["useReducer"])(function (state) {
@@ -14428,10 +14427,10 @@ var menu_searchItems = function searchItems(items, searchTerm) {
 
   var categories = Object(external_this_wp_blocks_["getCategories"])();
   return items.filter(function (item) {
-    var itemCategory = Object(external_lodash_["find"])(categories, {
+    var itemCategory = Object(external_this_lodash_["find"])(categories, {
       slug: item.category
     });
-    return matchSearch(item.title) || Object(external_lodash_["some"])(item.keywords, matchSearch) || itemCategory && matchSearch(itemCategory.title);
+    return matchSearch(item.title) || Object(external_this_lodash_["some"])(item.keywords, matchSearch) || itemCategory && matchSearch(itemCategory.title);
   });
 };
 /**
@@ -14445,7 +14444,7 @@ var menu_searchItems = function searchItems(items, searchTerm) {
 var menu_normalizeTerm = function normalizeTerm(term) {
   // Disregard diacritics.
   //  Input: "média"
-  term = Object(external_lodash_["deburr"])(term); // Accommodate leading slash, matching autocomplete expectations.
+  term = Object(external_this_lodash_["deburr"])(term); // Accommodate leading slash, matching autocomplete expectations.
   //  Input: "/media"
 
   term = term.replace(/^\//, ''); // Lowercase.
@@ -14538,7 +14537,7 @@ function (_Component) {
 
         if (isOpened) {
           _this3.setState({
-            openPanels: Object(external_lodash_["without"])(_this3.state.openPanels, panel)
+            openPanels: Object(external_this_lodash_["without"])(_this3.state.openPanels, panel)
           });
         } else {
           _this3.setState({
@@ -14587,38 +14586,38 @@ function (_Component) {
           rootChildBlocks = _this$props2.rootChildBlocks;
       var filteredItems = menu_searchItems(items, filterValue);
 
-      var childItems = Object(external_lodash_["filter"])(filteredItems, function (_ref) {
+      var childItems = Object(external_this_lodash_["filter"])(filteredItems, function (_ref) {
         var name = _ref.name;
-        return Object(external_lodash_["includes"])(rootChildBlocks, name);
+        return Object(external_this_lodash_["includes"])(rootChildBlocks, name);
       });
 
       var suggestedItems = [];
 
       if (!filterValue) {
         var maxSuggestedItems = this.props.maxSuggestedItems || MAX_SUGGESTED_ITEMS;
-        suggestedItems = Object(external_lodash_["filter"])(items, function (item) {
+        suggestedItems = Object(external_this_lodash_["filter"])(items, function (item) {
           return item.utility > 0;
         }).slice(0, maxSuggestedItems);
       }
 
-      var reusableItems = Object(external_lodash_["filter"])(filteredItems, {
+      var reusableItems = Object(external_this_lodash_["filter"])(filteredItems, {
         category: 'reusable'
       });
 
       var getCategoryIndex = function getCategoryIndex(item) {
-        return Object(external_lodash_["findIndex"])(Object(external_this_wp_blocks_["getCategories"])(), function (category) {
+        return Object(external_this_lodash_["findIndex"])(Object(external_this_wp_blocks_["getCategories"])(), function (category) {
           return category.slug === item.category;
         });
       };
 
-      var itemsPerCategory = Object(external_lodash_["flow"])(function (itemList) {
-        return Object(external_lodash_["filter"])(itemList, function (item) {
+      var itemsPerCategory = Object(external_this_lodash_["flow"])(function (itemList) {
+        return Object(external_this_lodash_["filter"])(itemList, function (item) {
           return item.category !== 'reusable';
         });
       }, function (itemList) {
-        return Object(external_lodash_["sortBy"])(itemList, getCategoryIndex);
+        return Object(external_this_lodash_["sortBy"])(itemList, getCategoryIndex);
       }, function (itemList) {
-        return Object(external_lodash_["groupBy"])(itemList, 'category');
+        return Object(external_this_lodash_["groupBy"])(itemList, 'category');
       })(filteredItems);
       this.setState({
         hoveredItem: null,
@@ -14638,7 +14637,7 @@ function (_Component) {
   }, {
     key: "onKeyDown",
     value: function onKeyDown(event) {
-      if (Object(external_lodash_["includes"])([external_this_wp_keycodes_["LEFT"], external_this_wp_keycodes_["DOWN"], external_this_wp_keycodes_["RIGHT"], external_this_wp_keycodes_["UP"], external_this_wp_keycodes_["BACKSPACE"], external_this_wp_keycodes_["ENTER"]], event.keyCode)) {
+      if (Object(external_this_lodash_["includes"])([external_this_wp_keycodes_["LEFT"], external_this_wp_keycodes_["DOWN"], external_this_wp_keycodes_["RIGHT"], external_this_wp_keycodes_["UP"], external_this_wp_keycodes_["BACKSPACE"], external_this_wp_keycodes_["ENTER"]], event.keyCode)) {
         // Stop the key event from propagating up to ObserveTyping.startTypingInTextField.
         event.stopPropagation();
       }
@@ -14666,7 +14665,7 @@ function (_Component) {
         return openPanels.indexOf(panel) !== -1;
       };
 
-      var hasItems = !Object(external_lodash_["isEmpty"])(suggestedItems) || !Object(external_lodash_["isEmpty"])(reusableItems) || !Object(external_lodash_["isEmpty"])(itemsPerCategory);
+      var hasItems = !Object(external_this_lodash_["isEmpty"])(suggestedItems) || !Object(external_this_lodash_["isEmpty"])(reusableItems) || !Object(external_this_lodash_["isEmpty"])(itemsPerCategory);
       var hoveredItemBlockType = hoveredItem ? Object(external_this_wp_blocks_["getBlockType"])(hoveredItem.name) : null;
       var hasHelpPanel = hasItems && showInserterHelpPanel; // Disable reason (no-autofocus): The inserter menu is a modal display, not one which
       // is always visible, and one which already incurs this behavior of autoFocus via
@@ -14714,7 +14713,7 @@ function (_Component) {
         items: suggestedItems,
         onSelect: onSelect,
         onHover: this.onHover
-      })), Object(external_lodash_["map"])(Object(external_this_wp_blocks_["getCategories"])(), function (category) {
+      })), Object(external_this_lodash_["map"])(Object(external_this_wp_blocks_["getCategories"])(), function (category) {
         var categoryItems = itemsPerCategory[category.slug];
 
         if (!categoryItems || !categoryItems.length) {
@@ -15125,7 +15124,7 @@ function button_block_appender_ButtonBlockAppender(_ref) {
   return {
     colors: colors,
     disableCustomColors: disableCustomColors,
-    hasColorsToChoose: !Object(external_lodash_["isEmpty"])(colors) || !disableCustomColors
+    hasColorsToChoose: !Object(external_this_lodash_["isEmpty"])(colors) || !disableCustomColors
   };
 }), 'withColorContext'));
 
@@ -15228,7 +15227,7 @@ var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n
 
 var withClientId = Object(external_this_wp_compose_["createHigherOrderComponent"])(function (WrappedComponent) {
   return context_withBlockEditContext(function (context) {
-    return Object(external_lodash_["pick"])(context, ['clientId']);
+    return Object(external_this_lodash_["pick"])(context, ['clientId']);
   })(WrappedComponent);
 }, 'withClientId');
 /* harmony default export */ var with_client_id = (withClientId);
@@ -15287,7 +15286,7 @@ var inner_blocks_default_block_appender_DefaultBlockAppender = function DefaultB
 
   var blockClientIds = getBlockOrder(clientId);
   return {
-    lastBlockClientId: Object(external_lodash_["last"])(blockClientIds)
+    lastBlockClientId: Object(external_this_lodash_["last"])(blockClientIds)
   };
 })])(inner_blocks_default_block_appender_DefaultBlockAppender));
 
@@ -15432,7 +15431,7 @@ function (_Component) {
       this.updateNestedSettings(); // Only synchronize innerBlocks with template if innerBlocks are empty or a locking all exists directly on the block.
 
       if (innerBlocks.length === 0 || templateLock === 'all') {
-        var hasTemplateChanged = !Object(external_lodash_["isEqual"])(template, prevProps.template);
+        var hasTemplateChanged = !Object(external_this_lodash_["isEqual"])(template, prevProps.template);
 
         if (hasTemplateChanged) {
           this.synchronizeBlocksWithTemplate();
@@ -15456,7 +15455,7 @@ function (_Component) {
 
       var nextBlocks = Object(external_this_wp_blocks_["synchronizeBlocksWithTemplate"])(innerBlocks, template);
 
-      if (!Object(external_lodash_["isEqual"])(nextBlocks, innerBlocks)) {
+      if (!Object(external_this_lodash_["isEqual"])(nextBlocks, innerBlocks)) {
         replaceInnerBlocks(nextBlocks);
       }
     }
@@ -15516,7 +15515,7 @@ inner_blocks_InnerBlocks = Object(external_this_wp_compose_["compose"])([Object(
   isSmallScreen: '< medium'
 }), // Temporary click-through disable on desktop.
 context_withBlockEditContext(function (context) {
-  return Object(external_lodash_["pick"])(context, ['clientId']);
+  return Object(external_this_lodash_["pick"])(context, ['clientId']);
 }), Object(external_this_wp_data_["withSelect"])(function (select, ownProps) {
   var _select = select('core/block-editor'),
       isBlockSelected = _select.isBlockSelected,
@@ -15736,7 +15735,7 @@ function (_Component) {
     _this.onKeyDown = _this.onKeyDown.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.autocompleteRef = autocompleteRef || Object(external_this_wp_element_["createRef"])();
     _this.inputRef = Object(external_this_wp_element_["createRef"])();
-    _this.updateSuggestions = Object(external_lodash_["throttle"])(_this.updateSuggestions.bind(Object(assertThisInitialized["a" /* default */])(_this)), 200);
+    _this.updateSuggestions = Object(external_this_lodash_["throttle"])(_this.updateSuggestions.bind(Object(assertThisInitialized["a" /* default */])(_this)), 200);
     _this.suggestionNodes = [];
     _this.state = {
       suggestions: [],
@@ -16281,23 +16280,23 @@ function (_Component) {
         return false;
       }
 
-      return Object(external_lodash_["every"])(allowedTypes, function (allowedType) {
-        return allowedType === 'image' || Object(external_lodash_["startsWith"])(allowedType, 'image/');
+      return Object(external_this_lodash_["every"])(allowedTypes, function (allowedType) {
+        return allowedType === 'image' || Object(external_this_lodash_["startsWith"])(allowedType, 'image/');
       });
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setState({
-        src: Object(external_lodash_["get"])(this.props.value, ['src'], '')
+        src: Object(external_this_lodash_["get"])(this.props.value, ['src'], '')
       });
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      if (Object(external_lodash_["get"])(prevProps.value, ['src'], '') !== Object(external_lodash_["get"])(this.props.value, ['src'], '')) {
+      if (Object(external_this_lodash_["get"])(prevProps.value, ['src'], '') !== Object(external_this_lodash_["get"])(this.props.value, ['src'], '')) {
         this.setState({
-          src: Object(external_lodash_["get"])(this.props.value, ['src'], '')
+          src: Object(external_this_lodash_["get"])(this.props.value, ['src'], '')
         });
       }
     }
@@ -16452,7 +16451,7 @@ function (_Component) {
       var _this$props3 = this.props,
           disableDropZone = _this$props3.disableDropZone,
           _this$props3$onHTMLDr = _this$props3.onHTMLDrop,
-          onHTMLDrop = _this$props3$onHTMLDr === void 0 ? external_lodash_["noop"] : _this$props3$onHTMLDr;
+          onHTMLDrop = _this$props3$onHTMLDr === void 0 ? external_this_lodash_["noop"] : _this$props3$onHTMLDr;
 
       if (disableDropZone) {
         return null;
@@ -16523,7 +16522,7 @@ function (_Component) {
         multiple: multiple,
         onSelect: onSelect,
         allowedTypes: allowedTypes,
-        value: Object(external_lodash_["isArray"])(value) ? value.map(function (_ref4) {
+        value: Object(external_this_lodash_["isArray"])(value) ? value.map(function (_ref4) {
           var id = _ref4.id;
           return id;
         }) : value.id,
@@ -16698,7 +16697,7 @@ var panel_color_settings_hasColorsToChoose = function hasColorsToChoose(_ref) {
   var colors = _ref.colors,
       disableCustomColors = _ref.disableCustomColors,
       colorSettings = _ref.colorSettings;
-  return Object(external_lodash_["some"])(colorSettings, function (colorSetting) {
+  return Object(external_this_lodash_["some"])(colorSettings, function (colorSetting) {
     return hasColorsToChooseInSetting(colors, disableCustomColors, colorSetting);
   });
 }; // translators: first %s: The type of color (e.g. background color), second %s: the color name or value (e.g. red or #ff0000)
@@ -16828,7 +16827,7 @@ var format_toolbar_FormatToolbar = function FormatToolbar() {
     return fills.length !== 0 && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["DropdownMenu"], {
       icon: false,
       label: Object(external_this_wp_i18n_["__"])('More rich text controls'),
-      controls: Object(external_lodash_["orderBy"])(fills.map(function (_ref) {
+      controls: Object(external_this_lodash_["orderBy"])(fills.map(function (_ref) {
         var _ref2 = Object(slicedToArray["a" /* default */])(_ref, 1),
             props = _ref2[0].props;
 
@@ -16871,7 +16870,7 @@ var HANDLED_SHORTCUTS = [external_this_wp_keycodes_["rawShortcut"].primary('z'),
 
 var SHORTCUTS_ELEMENT = Object(external_this_wp_element_["createElement"])(external_this_wp_components_["KeyboardShortcuts"], {
   bindGlobal: true,
-  shortcuts: Object(external_lodash_["fromPairs"])(HANDLED_SHORTCUTS.map(function (shortcut) {
+  shortcuts: Object(external_this_lodash_["fromPairs"])(HANDLED_SHORTCUTS.map(function (shortcut) {
     return [shortcut, function (event) {
       return event.preventDefault();
     }];
@@ -17591,7 +17590,7 @@ RichTextContainer.Content = function (_ref12) {
   var content = Object(external_this_wp_element_["createElement"])(external_this_wp_element_["RawHTML"], null, value);
 
   if (Tag) {
-    return Object(external_this_wp_element_["createElement"])(Tag, Object(external_lodash_["omit"])(props, ['format']), content);
+    return Object(external_this_wp_element_["createElement"])(Tag, Object(external_this_lodash_["omit"])(props, ['format']), content);
   }
 
   return content;
@@ -17794,7 +17793,7 @@ function BlockActions(_ref) {
 
   var blocks = getBlocksByClientId(props.clientIds);
   var rootClientId = getBlockRootClientId(props.clientIds[0]);
-  var canDuplicate = Object(external_lodash_["every"])(blocks, function (block) {
+  var canDuplicate = Object(external_this_lodash_["every"])(blocks, function (block) {
     return !!block && Object(external_this_wp_blocks_["hasBlockSupport"])(block.name, 'multiple', true) && canInsertBlockType(block.name, rootClientId);
   });
   var canInsertDefaultBlock = canInsertBlockType(getDefaultBlockName(), rootClientId);
@@ -17830,14 +17829,14 @@ function BlockActions(_ref) {
       var _select3 = select('core/block-editor'),
           getBlockIndex = _select3.getBlockIndex;
 
-      var lastSelectedIndex = getBlockIndex(Object(external_lodash_["last"])(Object(external_lodash_["castArray"])(clientIds)), rootClientId);
+      var lastSelectedIndex = getBlockIndex(Object(external_this_lodash_["last"])(Object(external_this_lodash_["castArray"])(clientIds)), rootClientId);
       var clonedBlocks = blocks.map(function (block) {
         return Object(external_this_wp_blocks_["cloneBlock"])(block);
       });
       insertBlocks(clonedBlocks, lastSelectedIndex + 1, rootClientId);
 
       if (clonedBlocks.length > 1) {
-        multiSelect(Object(external_lodash_["first"])(clonedBlocks).clientId, Object(external_lodash_["last"])(clonedBlocks).clientId);
+        multiSelect(Object(external_this_lodash_["first"])(clonedBlocks).clientId, Object(external_this_lodash_["last"])(clonedBlocks).clientId);
       }
     },
     onRemove: function onRemove() {
@@ -17850,7 +17849,7 @@ function BlockActions(_ref) {
         var _select4 = select('core/block-editor'),
             getBlockIndex = _select4.getBlockIndex;
 
-        var firstSelectedIndex = getBlockIndex(Object(external_lodash_["first"])(Object(external_lodash_["castArray"])(clientIds)), rootClientId);
+        var firstSelectedIndex = getBlockIndex(Object(external_this_lodash_["first"])(Object(external_this_lodash_["castArray"])(clientIds)), rootClientId);
         insertDefaultBlock({}, rootClientId, firstSelectedIndex);
       }
     },
@@ -17859,7 +17858,7 @@ function BlockActions(_ref) {
         var _select5 = select('core/block-editor'),
             getBlockIndex = _select5.getBlockIndex;
 
-        var lastSelectedIndex = getBlockIndex(Object(external_lodash_["last"])(Object(external_lodash_["castArray"])(clientIds)), rootClientId);
+        var lastSelectedIndex = getBlockIndex(Object(external_this_lodash_["last"])(Object(external_this_lodash_["castArray"])(clientIds)), rootClientId);
         insertDefaultBlock({}, rootClientId, lastSelectedIndex + 1);
       }
     },
@@ -17974,7 +17973,7 @@ function (_Component) {
           rootBlocksClientIds = _this$props.rootBlocksClientIds,
           onMultiSelect = _this$props.onMultiSelect;
       event.preventDefault();
-      onMultiSelect(Object(external_lodash_["first"])(rootBlocksClientIds), Object(external_lodash_["last"])(rootBlocksClientIds));
+      onMultiSelect(Object(external_this_lodash_["first"])(rootBlocksClientIds), Object(external_this_lodash_["last"])(rootBlocksClientIds));
     }
   }, {
     key: "deleteSelectedBlocks",
@@ -18028,7 +18027,7 @@ function (_Component) {
             onInsertBefore = _ref2.onInsertBefore;
         return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["KeyboardShortcuts"], {
           bindGlobal: true,
-          shortcuts: (_ref3 = {}, Object(defineProperty["a" /* default */])(_ref3, shortcuts.duplicate.raw, Object(external_lodash_["flow"])(preventDefault, onDuplicate)), Object(defineProperty["a" /* default */])(_ref3, shortcuts.removeBlock.raw, Object(external_lodash_["flow"])(preventDefault, onRemove)), Object(defineProperty["a" /* default */])(_ref3, shortcuts.insertBefore.raw, Object(external_lodash_["flow"])(preventDefault, onInsertBefore)), Object(defineProperty["a" /* default */])(_ref3, shortcuts.insertAfter.raw, Object(external_lodash_["flow"])(preventDefault, onInsertAfter)), _ref3)
+          shortcuts: (_ref3 = {}, Object(defineProperty["a" /* default */])(_ref3, shortcuts.duplicate.raw, Object(external_this_lodash_["flow"])(preventDefault, onDuplicate)), Object(defineProperty["a" /* default */])(_ref3, shortcuts.removeBlock.raw, Object(external_this_lodash_["flow"])(preventDefault, onRemove)), Object(defineProperty["a" /* default */])(_ref3, shortcuts.insertBefore.raw, Object(external_this_lodash_["flow"])(preventDefault, onInsertBefore)), Object(defineProperty["a" /* default */])(_ref3, shortcuts.insertAfter.raw, Object(external_this_lodash_["flow"])(preventDefault, onInsertAfter)), _ref3)
         });
       }));
     }
@@ -18049,7 +18048,7 @@ function (_Component) {
   return {
     rootBlocksClientIds: getBlockOrder(),
     hasMultiSelection: hasMultiSelection(),
-    isLocked: Object(external_lodash_["some"])(selectedBlockClientIds, function (clientId) {
+    isLocked: Object(external_this_lodash_["some"])(selectedBlockClientIds, function (clientId) {
       return !!getTemplateLock(getBlockRootClientId(clientId));
     }),
     selectedBlockClientIds: selectedBlockClientIds
@@ -18105,7 +18104,7 @@ var skip_to_selected_block_SkipToSelectedBlock = function SkipToSelectedBlock(_r
 })(skip_to_selected_block_SkipToSelectedBlock));
 
 // EXTERNAL MODULE: external {"this":["wp","tokenList"]}
-var external_this_wp_tokenList_ = __webpack_require__(143);
+var external_this_wp_tokenList_ = __webpack_require__(142);
 var external_this_wp_tokenList_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_tokenList_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-styles/index.js
@@ -18156,7 +18155,7 @@ function getActiveStyle(styles, className) {
       }
 
       var potentialStyleName = style.substring(9);
-      var activeStyle = Object(external_lodash_["find"])(styles, {
+      var activeStyle = Object(external_this_lodash_["find"])(styles, {
         name: potentialStyleName
       });
 
@@ -18179,7 +18178,7 @@ function getActiveStyle(styles, className) {
     }
   }
 
-  return Object(external_lodash_["find"])(styles, 'isDefault');
+  return Object(external_this_lodash_["find"])(styles, 'isDefault');
 }
 /**
  * Replaces the active style in the block's className.
@@ -18209,15 +18208,15 @@ function BlockStyles(_ref) {
       type = _ref.type,
       block = _ref.block,
       _ref$onSwitch = _ref.onSwitch,
-      onSwitch = _ref$onSwitch === void 0 ? external_lodash_["noop"] : _ref$onSwitch,
+      onSwitch = _ref$onSwitch === void 0 ? external_this_lodash_["noop"] : _ref$onSwitch,
       _ref$onHoverClassName = _ref.onHoverClassName,
-      onHoverClassName = _ref$onHoverClassName === void 0 ? external_lodash_["noop"] : _ref$onHoverClassName;
+      onHoverClassName = _ref$onHoverClassName === void 0 ? external_this_lodash_["noop"] : _ref$onHoverClassName;
 
   if (!styles || styles.length === 0) {
     return null;
   }
 
-  if (!type.styles && !Object(external_lodash_["find"])(styles, 'isDefault')) {
+  if (!type.styles && !Object(external_this_lodash_["find"])(styles, 'isDefault')) {
     styles = [{
       name: 'default',
       label: Object(external_this_wp_i18n_["_x"])('Default', 'block style'),
@@ -18308,7 +18307,7 @@ function BlockStyles(_ref) {
 })])(BlockStyles));
 
 // EXTERNAL MODULE: external {"this":["wp","wordcount"]}
-var external_this_wp_wordcount_ = __webpack_require__(97);
+var external_this_wp_wordcount_ = __webpack_require__(96);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/multi-selection-inspector/index.js
 
@@ -18385,8 +18384,8 @@ function DefaultStylePicker(_ref) {
     var settings = select('core/block-editor').getSettings();
     var preferredStyleVariations = settings.__experimentalPreferredStyleVariations;
     return {
-      preferredStyle: Object(external_lodash_["get"])(preferredStyleVariations, ['value', blockName]),
-      onUpdatePreferredStyleVariations: Object(external_lodash_["get"])(preferredStyleVariations, ['onChange'], null),
+      preferredStyle: Object(external_this_lodash_["get"])(preferredStyleVariations, ['value', blockName]),
+      onUpdatePreferredStyleVariations: Object(external_this_lodash_["get"])(preferredStyleVariations, ['onChange'], null),
       styles: select('core/blocks').getBlockStyles(blockName)
     };
   }, [blockName]),
@@ -18484,7 +18483,7 @@ var block_inspector_BlockInspector = function BlockInspector(_ref) {
   }), Object(external_this_wp_element_["createElement"])(DefaultStylePicker, {
     blockName: blockType.name
   }))), Object(external_this_wp_element_["createElement"])("div", null, Object(external_this_wp_element_["createElement"])(inspector_controls.Slot, null)), Object(external_this_wp_element_["createElement"])("div", null, Object(external_this_wp_element_["createElement"])(inspector_advanced_controls.Slot, null, function (fills) {
-    return !Object(external_lodash_["isEmpty"])(fills) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
+    return !Object(external_this_lodash_["isEmpty"])(fills) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
       className: "editor-block-inspector__advanced block-editor-block-inspector__advanced",
       title: Object(external_this_wp_i18n_["__"])('Advanced'),
       initialOpen: false
@@ -18587,7 +18586,7 @@ function (_Component) {
         tabIndex: -1,
         onFocus: this.clearSelectionIfFocusTarget,
         ref: this.bindContainer
-      }, Object(external_lodash_["omit"])(this.props, ['clearSelectedBlock', 'hasSelectedBlock', 'hasMultiSelection'])));
+      }, Object(external_this_lodash_["omit"])(this.props, ['clearSelectedBlock', 'hasSelectedBlock', 'hasMultiSelection'])));
     }
   }]);
 
@@ -18665,7 +18664,7 @@ function BlockModeToggle(_ref) {
   };
 }), Object(external_this_wp_data_["withDispatch"])(function (dispatch, _ref3) {
   var _ref3$onToggle = _ref3.onToggle,
-      onToggle = _ref3$onToggle === void 0 ? external_lodash_["noop"] : _ref3$onToggle,
+      onToggle = _ref3$onToggle === void 0 ? external_this_lodash_["noop"] : _ref3$onToggle,
       clientId = _ref3.clientId;
   return {
     onToggleMode: function onToggleMode() {
@@ -18791,7 +18790,7 @@ var block_settings_menu_POPOVER_PROPS = {
 };
 function BlockSettingsMenu(_ref) {
   var clientIds = _ref.clientIds;
-  var blockClientIds = Object(external_lodash_["castArray"])(clientIds);
+  var blockClientIds = Object(external_this_lodash_["castArray"])(clientIds);
   var count = blockClientIds.length;
   var firstBlockClientId = blockClientIds[0];
   return Object(external_this_wp_element_["createElement"])(block_actions, {
@@ -18821,17 +18820,17 @@ function BlockSettingsMenu(_ref) {
         clientId: firstBlockClientId
       }), canDuplicate && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
         className: "editor-block-settings-menu__control block-editor-block-settings-menu__control",
-        onClick: Object(external_lodash_["flow"])(onClose, onDuplicate),
+        onClick: Object(external_this_lodash_["flow"])(onClose, onDuplicate),
         icon: "admin-page",
         shortcut: shortcuts.duplicate.display
       }, Object(external_this_wp_i18n_["__"])('Duplicate')), canInsertDefaultBlock && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
         className: "editor-block-settings-menu__control block-editor-block-settings-menu__control",
-        onClick: Object(external_lodash_["flow"])(onClose, onInsertBefore),
+        onClick: Object(external_this_lodash_["flow"])(onClose, onInsertBefore),
         icon: "insert-before",
         shortcut: shortcuts.insertBefore.display
       }, Object(external_this_wp_i18n_["__"])('Insert Before')), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
         className: "editor-block-settings-menu__control block-editor-block-settings-menu__control",
-        onClick: Object(external_lodash_["flow"])(onClose, onInsertAfter),
+        onClick: Object(external_this_lodash_["flow"])(onClose, onInsertAfter),
         icon: "insert-after",
         shortcut: shortcuts.insertAfter.display
       }, Object(external_this_wp_i18n_["__"])('Insert After'))), count === 1 && Object(external_this_wp_element_["createElement"])(block_mode_toggle, {
@@ -18844,7 +18843,7 @@ function BlockSettingsMenu(_ref) {
         }
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuGroup"], null, !isLocked && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
         className: "editor-block-settings-menu__control block-editor-block-settings-menu__control",
-        onClick: Object(external_lodash_["flow"])(onClose, onRemove),
+        onClick: Object(external_this_lodash_["flow"])(onClose, onRemove),
         icon: "trash",
         shortcut: shortcuts.removeBlock.display
       }, Object(external_this_wp_i18n_["_n"])('Remove Block', 'Remove Blocks', count))));
@@ -18929,18 +18928,18 @@ function (_Component) {
 
       var hoveredBlock = hoveredClassName ? blocks[0] : null;
       var hoveredBlockType = hoveredClassName ? Object(external_this_wp_blocks_["getBlockType"])(hoveredBlock.name) : null;
-      var itemsByName = Object(external_lodash_["mapKeys"])(inserterItems, function (_ref) {
+      var itemsByName = Object(external_this_lodash_["mapKeys"])(inserterItems, function (_ref) {
         var name = _ref.name;
         return name;
       });
-      var possibleBlockTransformations = Object(external_lodash_["orderBy"])(Object(external_lodash_["filter"])(Object(external_this_wp_blocks_["getPossibleBlockTransformations"])(blocks), function (block) {
+      var possibleBlockTransformations = Object(external_this_lodash_["orderBy"])(Object(external_this_lodash_["filter"])(Object(external_this_wp_blocks_["getPossibleBlockTransformations"])(blocks), function (block) {
         return block && !!itemsByName[block.name];
       }), function (block) {
         return itemsByName[block.name].frecency;
       }, 'desc'); // When selection consists of blocks of multiple types, display an
       // appropriate icon to communicate the non-uniformity.
 
-      var isSelectionOfSameType = Object(external_lodash_["uniq"])(Object(external_lodash_["map"])(blocks, 'name')).length === 1;
+      var isSelectionOfSameType = Object(external_this_lodash_["uniq"])(Object(external_this_lodash_["map"])(blocks, 'name')).length === 1;
       var icon;
 
       if (isSelectionOfSameType) {
@@ -19059,7 +19058,7 @@ function (_Component) {
   var _select2 = select('core/blocks'),
       getBlockStyles = _select2.getBlockStyles;
 
-  var rootClientId = getBlockRootClientId(Object(external_lodash_["first"])(Object(external_lodash_["castArray"])(clientIds)));
+  var rootClientId = getBlockRootClientId(Object(external_this_lodash_["first"])(Object(external_this_lodash_["castArray"])(clientIds)));
   var blocks = getBlocksByClientId(clientIds);
   var firstBlock = blocks && blocks.length === 1 ? blocks[0] : null;
   var styles = firstBlock && getBlockStyles(firstBlock.name);
@@ -19369,7 +19368,7 @@ var KEY_DOWN_ELIGIBLE_KEY_CODES = [external_this_wp_keycodes_["UP"], external_th
 function isKeyDownEligibleForStartTyping(event) {
   var keyCode = event.keyCode,
       shiftKey = event.shiftKey;
-  return !shiftKey && Object(external_lodash_["includes"])(KEY_DOWN_ELIGIBLE_KEY_CODES, keyCode);
+  return !shiftKey && Object(external_this_lodash_["includes"])(KEY_DOWN_ELIGIBLE_KEY_CODES, keyCode);
 }
 
 var observe_typing_ObserveTyping =
@@ -19388,7 +19387,7 @@ function (_Component) {
     _this.startTypingInTextField = _this.startTypingInTextField.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.stopTypingOnNonTextField = _this.stopTypingOnNonTextField.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.stopTypingOnEscapeKey = _this.stopTypingOnEscapeKey.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.onKeyDown = Object(external_lodash_["over"])([_this.startTypingInTextField, _this.stopTypingOnEscapeKey]);
+    _this.onKeyDown = Object(external_this_lodash_["over"])([_this.startTypingInTextField, _this.stopTypingOnEscapeKey]);
     _this.lastMouseMove = null;
     return _this;
   }
@@ -19907,7 +19906,7 @@ var _window = window,
  * @return {boolean} Whether element is a tabbable text field.
  */
 
-var isTabbableTextField = Object(external_lodash_["overEvery"])([external_this_wp_dom_["isTextField"], external_this_wp_dom_["focus"].tabbable.isTabbableIndex]);
+var isTabbableTextField = Object(external_this_lodash_["overEvery"])([external_this_wp_dom_["isTextField"], external_this_wp_dom_["focus"].tabbable.isTabbableIndex]);
 /**
  * Returns true if the element should consider edge navigation upon a keyboard
  * event of the given directional key code, or false otherwise.
@@ -20002,7 +20001,7 @@ function (_Component) {
       var focusableNodes = external_this_wp_dom_["focus"].focusable.find(this.container);
 
       if (isReverse) {
-        focusableNodes = Object(external_lodash_["reverse"])(focusableNodes);
+        focusableNodes = Object(external_this_lodash_["reverse"])(focusableNodes);
       } // Consider as candidates those focusables after the current target.
       // It's assumed this can only be reached if the target is focusable
       // (on its keydown event), so no need to verify it exists in the set.
@@ -20057,7 +20056,7 @@ function (_Component) {
         return true;
       }
 
-      return Object(external_lodash_["find"])(focusableNodes, isTabCandidate);
+      return Object(external_this_lodash_["find"])(focusableNodes, isTabCandidate);
     }
   }, {
     key: "expandSelection",
@@ -20176,7 +20175,7 @@ function (_Component) {
           // need check the previous result, otherwise all blocks will be
           // selected right away.
           if (target.isContentEditable ? this.isEntirelySelected : Object(external_this_wp_dom_["isEntirelySelected"])(target)) {
-            onMultiSelect(Object(external_lodash_["first"])(blocks), Object(external_lodash_["last"])(blocks));
+            onMultiSelect(Object(external_this_lodash_["first"])(blocks), Object(external_this_lodash_["last"])(blocks));
             event.preventDefault();
           } // After pressing primary + A we can assume isEntirelySelected is true.
           // Calling right away isEntirelySelected after primary + A may still return false on some browsers.
@@ -20242,7 +20241,7 @@ function (_Component) {
     value: function focusLastTextField() {
       this.disableNavigationMode();
       var focusableNodes = external_this_wp_dom_["focus"].focusable.find(this.container);
-      var target = Object(external_lodash_["findLast"])(focusableNodes, isTabbableTextField);
+      var target = Object(external_this_lodash_["findLast"])(focusableNodes, isTabbableTextField);
 
       if (target) {
         Object(external_this_wp_dom_["placeCaretAtHorizontalEdge"])(target, true);
@@ -20455,7 +20454,7 @@ function getValidAlignments(blockAlign) {
   }
 
   if (!hasWideEnabled || blockAlign === true && !hasWideBlockSupport) {
-    return external_lodash_["without"].apply(void 0, [validAlignments].concat(WIDE_ALIGNMENTS));
+    return external_this_lodash_["without"].apply(void 0, [validAlignments].concat(WIDE_ALIGNMENTS));
   }
 
   return validAlignments;
@@ -20469,13 +20468,13 @@ function getValidAlignments(blockAlign) {
 
 function addAttribute(settings) {
   // allow blocks to specify their own attribute definition with default values if needed.
-  if (Object(external_lodash_["has"])(settings.attributes, ['align', 'type'])) {
+  if (Object(external_this_lodash_["has"])(settings.attributes, ['align', 'type'])) {
     return settings;
   }
 
   if (Object(external_this_wp_blocks_["hasBlockSupport"])(settings, 'align')) {
     // Use Lodash's assign to gracefully handle if attributes are undefined
-    settings.attributes = Object(external_lodash_["assign"])(settings.attributes, {
+    settings.attributes = Object(external_this_lodash_["assign"])(settings.attributes, {
       align: {
         type: 'string'
       }
@@ -20503,7 +20502,7 @@ var withToolbarControls = Object(external_this_wp_compose_["createHigherOrderCom
     var updateAlignment = function updateAlignment(nextAlign) {
       if (!nextAlign) {
         var blockType = Object(external_this_wp_blocks_["getBlockType"])(props.name);
-        var blockDefaultAlign = Object(external_lodash_["get"])(blockType, ['attributes', 'align', 'default']);
+        var blockDefaultAlign = Object(external_this_lodash_["get"])(blockType, ['attributes', 'align', 'default']);
 
         if (blockDefaultAlign) {
           nextAlign = '';
@@ -20536,7 +20535,7 @@ var align_insideSelectWithDataAlign = function insideSelectWithDataAlign(BlockLi
     var validAlignments = getValidAlignments(Object(external_this_wp_blocks_["getBlockSupport"])(name, 'align'), Object(external_this_wp_blocks_["hasBlockSupport"])(name, 'alignWide', true), hasWideEnabled);
     var wrapperProps = props.wrapperProps;
 
-    if (Object(external_lodash_["includes"])(validAlignments, align)) {
+    if (Object(external_this_lodash_["includes"])(validAlignments, align)) {
       wrapperProps = Object(objectSpread["a" /* default */])({}, wrapperProps, {
         'data-align': align
       });
@@ -20576,7 +20575,7 @@ function addAssignedAlign(props, blockType, attributes) {
   var align = attributes.align;
   var blockAlign = Object(external_this_wp_blocks_["getBlockSupport"])(blockType, 'align');
   var hasWideBlockSupport = Object(external_this_wp_blocks_["hasBlockSupport"])(blockType, 'alignWide', true);
-  var isAlignValid = Object(external_lodash_["includes"])( // Compute valid alignments without taking into account,
+  var isAlignValid = Object(external_this_lodash_["includes"])( // Compute valid alignments without taking into account,
   // if the theme supports wide alignments or not.
   // This way changing themes does not impacts the block save.
   getValidAlignments(blockAlign, hasWideBlockSupport), align);
@@ -20631,13 +20630,13 @@ var ANCHOR_REGEX = /[\s#]/g;
 
 function anchor_addAttribute(settings) {
   // allow blocks to specify their own attribute definition with default values if needed.
-  if (Object(external_lodash_["has"])(settings.attributes, ['anchor', 'type'])) {
+  if (Object(external_this_lodash_["has"])(settings.attributes, ['anchor', 'type'])) {
     return settings;
   }
 
   if (Object(external_this_wp_blocks_["hasBlockSupport"])(settings, 'anchor')) {
     // Use Lodash's assign to gracefully handle if attributes are undefined
-    settings.attributes = Object(external_lodash_["assign"])(settings.attributes, {
+    settings.attributes = Object(external_this_lodash_["assign"])(settings.attributes, {
       anchor: {
         type: 'string',
         source: 'attribute',
@@ -20739,7 +20738,7 @@ Object(external_this_wp_hooks_["addFilter"])('blocks.getSaveContent.extraProps',
 function custom_class_name_addAttribute(settings) {
   if (Object(external_this_wp_blocks_["hasBlockSupport"])(settings, 'customClassName', true)) {
     // Use Lodash's assign to gracefully handle if attributes are undefined
-    settings.attributes = Object(external_lodash_["assign"])(settings.attributes, {
+    settings.attributes = Object(external_this_lodash_["assign"])(settings.attributes, {
       className: {
         type: 'string'
       }
@@ -20834,11 +20833,11 @@ function addParsedDifference(blockAttributes, blockType, innerHTML) {
     // attributes, with the exception of `className`. This will determine
     // the default set of classes. From there, any difference in innerHTML
     // can be considered as custom classes.
-    var attributesSansClassName = Object(external_lodash_["omit"])(blockAttributes, ['className']);
+    var attributesSansClassName = Object(external_this_lodash_["omit"])(blockAttributes, ['className']);
     var serialized = Object(external_this_wp_blocks_["getSaveContent"])(blockType, attributesSansClassName);
     var defaultClasses = getHTMLRootElementClasses(serialized);
     var actualClasses = getHTMLRootElementClasses(innerHTML);
-    var customClasses = Object(external_lodash_["difference"])(actualClasses, defaultClasses);
+    var customClasses = Object(external_this_lodash_["difference"])(actualClasses, defaultClasses);
 
     if (customClasses.length) {
       blockAttributes.className = customClasses.join(' ');
@@ -20884,7 +20883,7 @@ function addGeneratedClassName(extraProps, blockType) {
     if (typeof extraProps.className === 'string') {
       // We have some extra classes and want to add the default classname
       // We use uniq to prevent duplicate classnames
-      extraProps.className = Object(external_lodash_["uniq"])([Object(external_this_wp_blocks_["getBlockDefaultClassName"])(blockType.name)].concat(Object(toConsumableArray["a" /* default */])(extraProps.className.split(' ')))).join(' ').trim();
+      extraProps.className = Object(external_this_lodash_["uniq"])([Object(external_this_wp_blocks_["getBlockDefaultClassName"])(blockType.name)].concat(Object(toConsumableArray["a" /* default */])(extraProps.className.split(' ')))).join(' ').trim();
     } else {
       // There is no string in the className variable,
       // so we just dump the default name in there
@@ -20906,7 +20905,7 @@ Object(external_this_wp_hooks_["addFilter"])('blocks.getSaveContent.extraProps',
 
 
 // EXTERNAL MODULE: ./node_modules/traverse/index.js
-var traverse = __webpack_require__(220);
+var traverse = __webpack_require__(219);
 var traverse_default = /*#__PURE__*/__webpack_require__.n(traverse);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
@@ -21609,7 +21608,7 @@ function addParent(obj, parent) {
 /* eslint-enable @wordpress/no-unused-vars-before-return */
 
 // EXTERNAL MODULE: ./node_modules/inherits/inherits_browser.js
-var inherits_browser = __webpack_require__(112);
+var inherits_browser = __webpack_require__(111);
 var inherits_browser_default = /*#__PURE__*/__webpack_require__.n(inherits_browser);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/utils/transform-styles/ast/stringify/compiler.js
@@ -22097,7 +22096,7 @@ function traverseCSS(css, callback) {
 /* harmony default export */ var transform_styles_traverse = (traverseCSS);
 
 // EXTERNAL MODULE: ./node_modules/url/url.js
-var url_url = __webpack_require__(82);
+var url_url = __webpack_require__(81);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/utils/transform-styles/transforms/url-rewrite.js
 
@@ -22265,7 +22264,7 @@ var wrap_wrap = function wrap(namespace) {
   var ignore = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   return function (node) {
     var updateSelector = function updateSelector(selector) {
-      if (Object(external_lodash_["includes"])(ignore, selector.trim())) {
+      if (Object(external_this_lodash_["includes"])(ignore, selector.trim())) {
         return selector;
       } // Anything other than a root tag is always prefixed.
 
@@ -22318,7 +22317,7 @@ var wrap_wrap = function wrap(namespace) {
 
 var transform_styles_transformStyles = function transformStyles(styles) {
   var wrapperClassName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-  return Object(external_lodash_["map"])(styles, function (_ref) {
+  return Object(external_this_lodash_["map"])(styles, function (_ref) {
     var css = _ref.css,
         baseURL = _ref.baseURL;
     var transforms = [];
@@ -22895,739 +22894,6 @@ module.exports = function memize( fn, options ) {
 /***/ }),
 
 /***/ 47:
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-var runtime = (function (exports) {
-  "use strict";
-
-  var Op = Object.prototype;
-  var hasOwn = Op.hasOwnProperty;
-  var undefined; // More compressible than void 0.
-  var $Symbol = typeof Symbol === "function" ? Symbol : {};
-  var iteratorSymbol = $Symbol.iterator || "@@iterator";
-  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
-  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
-    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
-    var generator = Object.create(protoGenerator.prototype);
-    var context = new Context(tryLocsList || []);
-
-    // The ._invoke method unifies the implementations of the .next,
-    // .throw, and .return methods.
-    generator._invoke = makeInvokeMethod(innerFn, self, context);
-
-    return generator;
-  }
-  exports.wrap = wrap;
-
-  // Try/catch helper to minimize deoptimizations. Returns a completion
-  // record like context.tryEntries[i].completion. This interface could
-  // have been (and was previously) designed to take a closure to be
-  // invoked without arguments, but in all the cases we care about we
-  // already have an existing method we want to call, so there's no need
-  // to create a new function object. We can even get away with assuming
-  // the method takes exactly one argument, since that happens to be true
-  // in every case, so we don't have to touch the arguments object. The
-  // only additional allocation required is the completion record, which
-  // has a stable shape and so hopefully should be cheap to allocate.
-  function tryCatch(fn, obj, arg) {
-    try {
-      return { type: "normal", arg: fn.call(obj, arg) };
-    } catch (err) {
-      return { type: "throw", arg: err };
-    }
-  }
-
-  var GenStateSuspendedStart = "suspendedStart";
-  var GenStateSuspendedYield = "suspendedYield";
-  var GenStateExecuting = "executing";
-  var GenStateCompleted = "completed";
-
-  // Returning this object from the innerFn has the same effect as
-  // breaking out of the dispatch switch statement.
-  var ContinueSentinel = {};
-
-  // Dummy constructor functions that we use as the .constructor and
-  // .constructor.prototype properties for functions that return Generator
-  // objects. For full spec compliance, you may wish to configure your
-  // minifier not to mangle the names of these two functions.
-  function Generator() {}
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-
-  // This is a polyfill for %IteratorPrototype% for environments that
-  // don't natively support it.
-  var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
-    return this;
-  };
-
-  var getProto = Object.getPrototypeOf;
-  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-  if (NativeIteratorPrototype &&
-      NativeIteratorPrototype !== Op &&
-      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
-    // This environment has a native %IteratorPrototype%; use it instead
-    // of the polyfill.
-    IteratorPrototype = NativeIteratorPrototype;
-  }
-
-  var Gp = GeneratorFunctionPrototype.prototype =
-    Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunctionPrototype[toStringTagSymbol] =
-    GeneratorFunction.displayName = "GeneratorFunction";
-
-  // Helper for defining the .next, .throw, and .return methods of the
-  // Iterator interface in terms of a single ._invoke method.
-  function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function(method) {
-      prototype[method] = function(arg) {
-        return this._invoke(method, arg);
-      };
-    });
-  }
-
-  exports.isGeneratorFunction = function(genFun) {
-    var ctor = typeof genFun === "function" && genFun.constructor;
-    return ctor
-      ? ctor === GeneratorFunction ||
-        // For the native GeneratorFunction constructor, the best we can
-        // do is to check its .name property.
-        (ctor.displayName || ctor.name) === "GeneratorFunction"
-      : false;
-  };
-
-  exports.mark = function(genFun) {
-    if (Object.setPrototypeOf) {
-      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-    } else {
-      genFun.__proto__ = GeneratorFunctionPrototype;
-      if (!(toStringTagSymbol in genFun)) {
-        genFun[toStringTagSymbol] = "GeneratorFunction";
-      }
-    }
-    genFun.prototype = Object.create(Gp);
-    return genFun;
-  };
-
-  // Within the body of any async function, `await x` is transformed to
-  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
-  // `hasOwn.call(value, "__await")` to determine if the yielded value is
-  // meant to be awaited.
-  exports.awrap = function(arg) {
-    return { __await: arg };
-  };
-
-  function AsyncIterator(generator) {
-    function invoke(method, arg, resolve, reject) {
-      var record = tryCatch(generator[method], generator, arg);
-      if (record.type === "throw") {
-        reject(record.arg);
-      } else {
-        var result = record.arg;
-        var value = result.value;
-        if (value &&
-            typeof value === "object" &&
-            hasOwn.call(value, "__await")) {
-          return Promise.resolve(value.__await).then(function(value) {
-            invoke("next", value, resolve, reject);
-          }, function(err) {
-            invoke("throw", err, resolve, reject);
-          });
-        }
-
-        return Promise.resolve(value).then(function(unwrapped) {
-          // When a yielded Promise is resolved, its final value becomes
-          // the .value of the Promise<{value,done}> result for the
-          // current iteration.
-          result.value = unwrapped;
-          resolve(result);
-        }, function(error) {
-          // If a rejected Promise was yielded, throw the rejection back
-          // into the async generator function so it can be handled there.
-          return invoke("throw", error, resolve, reject);
-        });
-      }
-    }
-
-    var previousPromise;
-
-    function enqueue(method, arg) {
-      function callInvokeWithMethodAndArg() {
-        return new Promise(function(resolve, reject) {
-          invoke(method, arg, resolve, reject);
-        });
-      }
-
-      return previousPromise =
-        // If enqueue has been called before, then we want to wait until
-        // all previous Promises have been resolved before calling invoke,
-        // so that results are always delivered in the correct order. If
-        // enqueue has not been called before, then it is important to
-        // call invoke immediately, without waiting on a callback to fire,
-        // so that the async generator function has the opportunity to do
-        // any necessary setup in a predictable way. This predictability
-        // is why the Promise constructor synchronously invokes its
-        // executor callback, and why async functions synchronously
-        // execute code before the first await. Since we implement simple
-        // async functions in terms of async generators, it is especially
-        // important to get this right, even though it requires care.
-        previousPromise ? previousPromise.then(
-          callInvokeWithMethodAndArg,
-          // Avoid propagating failures to Promises returned by later
-          // invocations of the iterator.
-          callInvokeWithMethodAndArg
-        ) : callInvokeWithMethodAndArg();
-    }
-
-    // Define the unified helper method that is used to implement .next,
-    // .throw, and .return (see defineIteratorMethods).
-    this._invoke = enqueue;
-  }
-
-  defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
-    return this;
-  };
-  exports.AsyncIterator = AsyncIterator;
-
-  // Note that simple async functions are implemented on top of
-  // AsyncIterator objects; they just return a Promise for the value of
-  // the final result produced by the iterator.
-  exports.async = function(innerFn, outerFn, self, tryLocsList) {
-    var iter = new AsyncIterator(
-      wrap(innerFn, outerFn, self, tryLocsList)
-    );
-
-    return exports.isGeneratorFunction(outerFn)
-      ? iter // If outerFn is a generator, return the full iterator.
-      : iter.next().then(function(result) {
-          return result.done ? result.value : iter.next();
-        });
-  };
-
-  function makeInvokeMethod(innerFn, self, context) {
-    var state = GenStateSuspendedStart;
-
-    return function invoke(method, arg) {
-      if (state === GenStateExecuting) {
-        throw new Error("Generator is already running");
-      }
-
-      if (state === GenStateCompleted) {
-        if (method === "throw") {
-          throw arg;
-        }
-
-        // Be forgiving, per 25.3.3.3.3 of the spec:
-        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
-        return doneResult();
-      }
-
-      context.method = method;
-      context.arg = arg;
-
-      while (true) {
-        var delegate = context.delegate;
-        if (delegate) {
-          var delegateResult = maybeInvokeDelegate(delegate, context);
-          if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
-            return delegateResult;
-          }
-        }
-
-        if (context.method === "next") {
-          // Setting context._sent for legacy support of Babel's
-          // function.sent implementation.
-          context.sent = context._sent = context.arg;
-
-        } else if (context.method === "throw") {
-          if (state === GenStateSuspendedStart) {
-            state = GenStateCompleted;
-            throw context.arg;
-          }
-
-          context.dispatchException(context.arg);
-
-        } else if (context.method === "return") {
-          context.abrupt("return", context.arg);
-        }
-
-        state = GenStateExecuting;
-
-        var record = tryCatch(innerFn, self, context);
-        if (record.type === "normal") {
-          // If an exception is thrown from innerFn, we leave state ===
-          // GenStateExecuting and loop back for another invocation.
-          state = context.done
-            ? GenStateCompleted
-            : GenStateSuspendedYield;
-
-          if (record.arg === ContinueSentinel) {
-            continue;
-          }
-
-          return {
-            value: record.arg,
-            done: context.done
-          };
-
-        } else if (record.type === "throw") {
-          state = GenStateCompleted;
-          // Dispatch the exception by looping back around to the
-          // context.dispatchException(context.arg) call above.
-          context.method = "throw";
-          context.arg = record.arg;
-        }
-      }
-    };
-  }
-
-  // Call delegate.iterator[context.method](context.arg) and handle the
-  // result, either by returning a { value, done } result from the
-  // delegate iterator, or by modifying context.method and context.arg,
-  // setting context.delegate to null, and returning the ContinueSentinel.
-  function maybeInvokeDelegate(delegate, context) {
-    var method = delegate.iterator[context.method];
-    if (method === undefined) {
-      // A .throw or .return when the delegate iterator has no .throw
-      // method always terminates the yield* loop.
-      context.delegate = null;
-
-      if (context.method === "throw") {
-        // Note: ["return"] must be used for ES3 parsing compatibility.
-        if (delegate.iterator["return"]) {
-          // If the delegate iterator has a return method, give it a
-          // chance to clean up.
-          context.method = "return";
-          context.arg = undefined;
-          maybeInvokeDelegate(delegate, context);
-
-          if (context.method === "throw") {
-            // If maybeInvokeDelegate(context) changed context.method from
-            // "return" to "throw", let that override the TypeError below.
-            return ContinueSentinel;
-          }
-        }
-
-        context.method = "throw";
-        context.arg = new TypeError(
-          "The iterator does not provide a 'throw' method");
-      }
-
-      return ContinueSentinel;
-    }
-
-    var record = tryCatch(method, delegate.iterator, context.arg);
-
-    if (record.type === "throw") {
-      context.method = "throw";
-      context.arg = record.arg;
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    var info = record.arg;
-
-    if (! info) {
-      context.method = "throw";
-      context.arg = new TypeError("iterator result is not an object");
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    if (info.done) {
-      // Assign the result of the finished delegate to the temporary
-      // variable specified by delegate.resultName (see delegateYield).
-      context[delegate.resultName] = info.value;
-
-      // Resume execution at the desired location (see delegateYield).
-      context.next = delegate.nextLoc;
-
-      // If context.method was "throw" but the delegate handled the
-      // exception, let the outer generator proceed normally. If
-      // context.method was "next", forget context.arg since it has been
-      // "consumed" by the delegate iterator. If context.method was
-      // "return", allow the original .return call to continue in the
-      // outer generator.
-      if (context.method !== "return") {
-        context.method = "next";
-        context.arg = undefined;
-      }
-
-    } else {
-      // Re-yield the result returned by the delegate method.
-      return info;
-    }
-
-    // The delegate iterator is finished, so forget it and continue with
-    // the outer generator.
-    context.delegate = null;
-    return ContinueSentinel;
-  }
-
-  // Define Generator.prototype.{next,throw,return} in terms of the
-  // unified ._invoke helper method.
-  defineIteratorMethods(Gp);
-
-  Gp[toStringTagSymbol] = "Generator";
-
-  // A Generator should always return itself as the iterator object when the
-  // @@iterator function is called on it. Some browsers' implementations of the
-  // iterator prototype chain incorrectly implement this, causing the Generator
-  // object to not be returned from this call. This ensures that doesn't happen.
-  // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
-    return this;
-  };
-
-  Gp.toString = function() {
-    return "[object Generator]";
-  };
-
-  function pushTryEntry(locs) {
-    var entry = { tryLoc: locs[0] };
-
-    if (1 in locs) {
-      entry.catchLoc = locs[1];
-    }
-
-    if (2 in locs) {
-      entry.finallyLoc = locs[2];
-      entry.afterLoc = locs[3];
-    }
-
-    this.tryEntries.push(entry);
-  }
-
-  function resetTryEntry(entry) {
-    var record = entry.completion || {};
-    record.type = "normal";
-    delete record.arg;
-    entry.completion = record;
-  }
-
-  function Context(tryLocsList) {
-    // The root entry object (effectively a try statement without a catch
-    // or a finally block) gives us a place to store values thrown from
-    // locations where there is no enclosing try statement.
-    this.tryEntries = [{ tryLoc: "root" }];
-    tryLocsList.forEach(pushTryEntry, this);
-    this.reset(true);
-  }
-
-  exports.keys = function(object) {
-    var keys = [];
-    for (var key in object) {
-      keys.push(key);
-    }
-    keys.reverse();
-
-    // Rather than returning an object with a next method, we keep
-    // things simple and return the next function itself.
-    return function next() {
-      while (keys.length) {
-        var key = keys.pop();
-        if (key in object) {
-          next.value = key;
-          next.done = false;
-          return next;
-        }
-      }
-
-      // To avoid creating an additional object, we just hang the .value
-      // and .done properties off the next function object itself. This
-      // also ensures that the minifier will not anonymize the function.
-      next.done = true;
-      return next;
-    };
-  };
-
-  function values(iterable) {
-    if (iterable) {
-      var iteratorMethod = iterable[iteratorSymbol];
-      if (iteratorMethod) {
-        return iteratorMethod.call(iterable);
-      }
-
-      if (typeof iterable.next === "function") {
-        return iterable;
-      }
-
-      if (!isNaN(iterable.length)) {
-        var i = -1, next = function next() {
-          while (++i < iterable.length) {
-            if (hasOwn.call(iterable, i)) {
-              next.value = iterable[i];
-              next.done = false;
-              return next;
-            }
-          }
-
-          next.value = undefined;
-          next.done = true;
-
-          return next;
-        };
-
-        return next.next = next;
-      }
-    }
-
-    // Return an iterator with no values.
-    return { next: doneResult };
-  }
-  exports.values = values;
-
-  function doneResult() {
-    return { value: undefined, done: true };
-  }
-
-  Context.prototype = {
-    constructor: Context,
-
-    reset: function(skipTempReset) {
-      this.prev = 0;
-      this.next = 0;
-      // Resetting context._sent for legacy support of Babel's
-      // function.sent implementation.
-      this.sent = this._sent = undefined;
-      this.done = false;
-      this.delegate = null;
-
-      this.method = "next";
-      this.arg = undefined;
-
-      this.tryEntries.forEach(resetTryEntry);
-
-      if (!skipTempReset) {
-        for (var name in this) {
-          // Not sure about the optimal order of these conditions:
-          if (name.charAt(0) === "t" &&
-              hasOwn.call(this, name) &&
-              !isNaN(+name.slice(1))) {
-            this[name] = undefined;
-          }
-        }
-      }
-    },
-
-    stop: function() {
-      this.done = true;
-
-      var rootEntry = this.tryEntries[0];
-      var rootRecord = rootEntry.completion;
-      if (rootRecord.type === "throw") {
-        throw rootRecord.arg;
-      }
-
-      return this.rval;
-    },
-
-    dispatchException: function(exception) {
-      if (this.done) {
-        throw exception;
-      }
-
-      var context = this;
-      function handle(loc, caught) {
-        record.type = "throw";
-        record.arg = exception;
-        context.next = loc;
-
-        if (caught) {
-          // If the dispatched exception was caught by a catch block,
-          // then let that catch block handle the exception normally.
-          context.method = "next";
-          context.arg = undefined;
-        }
-
-        return !! caught;
-      }
-
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        var record = entry.completion;
-
-        if (entry.tryLoc === "root") {
-          // Exception thrown outside of any try block that could handle
-          // it, so set the completion value of the entire function to
-          // throw the exception.
-          return handle("end");
-        }
-
-        if (entry.tryLoc <= this.prev) {
-          var hasCatch = hasOwn.call(entry, "catchLoc");
-          var hasFinally = hasOwn.call(entry, "finallyLoc");
-
-          if (hasCatch && hasFinally) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            } else if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else if (hasCatch) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            }
-
-          } else if (hasFinally) {
-            if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else {
-            throw new Error("try statement without catch or finally");
-          }
-        }
-      }
-    },
-
-    abrupt: function(type, arg) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev &&
-            hasOwn.call(entry, "finallyLoc") &&
-            this.prev < entry.finallyLoc) {
-          var finallyEntry = entry;
-          break;
-        }
-      }
-
-      if (finallyEntry &&
-          (type === "break" ||
-           type === "continue") &&
-          finallyEntry.tryLoc <= arg &&
-          arg <= finallyEntry.finallyLoc) {
-        // Ignore the finally entry if control is not jumping to a
-        // location outside the try/catch block.
-        finallyEntry = null;
-      }
-
-      var record = finallyEntry ? finallyEntry.completion : {};
-      record.type = type;
-      record.arg = arg;
-
-      if (finallyEntry) {
-        this.method = "next";
-        this.next = finallyEntry.finallyLoc;
-        return ContinueSentinel;
-      }
-
-      return this.complete(record);
-    },
-
-    complete: function(record, afterLoc) {
-      if (record.type === "throw") {
-        throw record.arg;
-      }
-
-      if (record.type === "break" ||
-          record.type === "continue") {
-        this.next = record.arg;
-      } else if (record.type === "return") {
-        this.rval = this.arg = record.arg;
-        this.method = "return";
-        this.next = "end";
-      } else if (record.type === "normal" && afterLoc) {
-        this.next = afterLoc;
-      }
-
-      return ContinueSentinel;
-    },
-
-    finish: function(finallyLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.finallyLoc === finallyLoc) {
-          this.complete(entry.completion, entry.afterLoc);
-          resetTryEntry(entry);
-          return ContinueSentinel;
-        }
-      }
-    },
-
-    "catch": function(tryLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc === tryLoc) {
-          var record = entry.completion;
-          if (record.type === "throw") {
-            var thrown = record.arg;
-            resetTryEntry(entry);
-          }
-          return thrown;
-        }
-      }
-
-      // The context.catch method must only be called with a location
-      // argument that corresponds to a known catch block.
-      throw new Error("illegal catch attempt");
-    },
-
-    delegateYield: function(iterable, resultName, nextLoc) {
-      this.delegate = {
-        iterator: values(iterable),
-        resultName: resultName,
-        nextLoc: nextLoc
-      };
-
-      if (this.method === "next") {
-        // Deliberately forget the last sent value so that we don't
-        // accidentally pass it on to the delegate.
-        this.arg = undefined;
-      }
-
-      return ContinueSentinel;
-    }
-  };
-
-  // Regardless of whether this script is executing as a CommonJS module
-  // or not, return the runtime object so that we can declare the variable
-  // regeneratorRuntime in the outer scope, which allows this module to be
-  // injected easily by `bin/regenerator --include-runtime script.js`.
-  return exports;
-
-}(
-  // If this script is executing as a CommonJS module, use module.exports
-  // as the regeneratorRuntime namespace. Otherwise create a new empty
-  // object. Either way, the resulting object will be used to initialize
-  // the regeneratorRuntime variable at the top of this file.
-   true ? module.exports : undefined
-));
-
-try {
-  regeneratorRuntime = runtime;
-} catch (accidentalStrictMode) {
-  // This module should not be running in strict mode, so the above
-  // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, we can escape
-  // strict mode using a global Function call. This could conceivably fail
-  // if a Content Security Policy forbids using Function, but in that case
-  // the proper solution is to fix the accidental strict mode problem. If
-  // you've misconfigured your bundler to force strict mode and applied a
-  // CSP to forbid Function, and you're not willing to fix either of those
-  // problems, please detail your unique predicament in a GitHub issue.
-  Function("r", "regeneratorRuntime = r")(runtime);
-}
-
-
-/***/ }),
-
-/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
@@ -24843,26 +24109,26 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 52:
+/***/ 51:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["htmlEntities"]; }());
 
 /***/ }),
 
-/***/ 62:
+/***/ 61:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 exports.__esModule = true;
-var TextareaAutosize_1 = __webpack_require__(115);
+var TextareaAutosize_1 = __webpack_require__(114);
 exports["default"] = TextareaAutosize_1["default"];
 
 
 /***/ }),
 
-/***/ 64:
+/***/ 63:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24872,12 +24138,12 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var _extends = _interopDefault(__webpack_require__(119));
-var _objectWithoutPropertiesLoose = _interopDefault(__webpack_require__(120));
+var _extends = _interopDefault(__webpack_require__(118));
+var _objectWithoutPropertiesLoose = _interopDefault(__webpack_require__(119));
 var React = __webpack_require__(28);
 var React__default = _interopDefault(React);
-var _inheritsLoose = _interopDefault(__webpack_require__(121));
-var _assertThisInitialized = _interopDefault(__webpack_require__(122));
+var _inheritsLoose = _interopDefault(__webpack_require__(120));
+var _assertThisInitialized = _interopDefault(__webpack_require__(121));
 
 var is = {
   arr: Array.isArray,
@@ -27193,7 +26459,7 @@ exports.useSprings = useSprings;
 
 /***/ }),
 
-/***/ 65:
+/***/ 64:
 /***/ (function(module, exports) {
 
 var g;
@@ -27220,13 +26486,13 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 68:
+/***/ 67:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(113);
+module.exports = __webpack_require__(112);
 
 /***/ }),
 
@@ -27258,7 +26524,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 72:
+/***/ 71:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27321,7 +26587,7 @@ module.exports = refx;
 
 /***/ }),
 
-/***/ 82:
+/***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27348,8 +26614,8 @@ module.exports = refx;
 
 
 
-var punycode = __webpack_require__(123);
-var util = __webpack_require__(125);
+var punycode = __webpack_require__(122);
+var util = __webpack_require__(124);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -27424,7 +26690,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(126);
+    querystring = __webpack_require__(125);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -28061,7 +27327,7 @@ Url.prototype.parseHost = function() {
 
 /***/ }),
 
-/***/ 87:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28074,7 +27340,7 @@ Url.prototype.parseHost = function() {
 
 
 
-var ReactPropTypesSecret = __webpack_require__(88);
+var ReactPropTypesSecret = __webpack_require__(87);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -28133,7 +27399,7 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 88:
+/***/ 87:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28160,7 +27426,7 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 
-/***/ 97:
+/***/ 96:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["wordcount"]; }());

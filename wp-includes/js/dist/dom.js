@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 364);
+/******/ 	return __webpack_require__(__webpack_require__.s = 365);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -138,7 +138,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 364:
+/***/ 365:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -235,8 +235,8 @@ function find(context) {
   });
 }
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/tabbable.js
 /**
@@ -311,7 +311,7 @@ function createStatefulCollapseRadioGroup() {
 
     if (hasChosen) {
       var hadChosenElement = CHOSEN_RADIO_BY_NAME[name];
-      result = Object(external_lodash_["without"])(result, hadChosenElement);
+      result = Object(external_this_lodash_["without"])(result, hadChosenElement);
     }
 
     CHOSEN_RADIO_BY_NAME[name] = element;
@@ -449,7 +449,7 @@ function isSelectionForward(selection) {
 
 
 function isEdge(container, isReverse, onlyVertical) {
-  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+  if (Object(external_this_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
     if (container.selectionStart !== container.selectionEnd) {
       return false;
     }
@@ -628,7 +628,7 @@ function placeCaretAtHorizontalEdge(container, isReverse) {
     return;
   }
 
-  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+  if (Object(external_this_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
     container.focus();
 
     if (isReverse) {
@@ -835,7 +835,7 @@ function documentHasSelection() {
  */
 
 function isEntirelySelected(element) {
-  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], element.nodeName)) {
+  if (Object(external_this_lodash_["includes"])(['INPUT', 'TEXTAREA'], element.nodeName)) {
     return element.selectionStart === 0 && element.value.length === element.selectionEnd;
   }
 

@@ -386,8 +386,8 @@ var getPrototypeOf = __webpack_require__(14);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
 var inherits = __webpack_require__(15);
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
 var external_this_wp_i18n_ = __webpack_require__(1);
@@ -458,7 +458,7 @@ function (_Component) {
       this.fetch(this.props); // Only debounce once the initial fetch occurs to ensure that the first
       // renders show data as soon as possible.
 
-      this.fetch = Object(external_lodash_["debounce"])(this.fetch, 500);
+      this.fetch = Object(external_this_lodash_["debounce"])(this.fetch, 500);
     }
   }, {
     key: "componentWillUnmount",
@@ -468,7 +468,7 @@ function (_Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      if (!Object(external_lodash_["isEqual"])(prevProps, this.props)) {
+      if (!Object(external_this_lodash_["isEqual"])(prevProps, this.props)) {
         this.fetch(this.props);
       }
     }

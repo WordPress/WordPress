@@ -159,7 +159,7 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 123:
+/***/ 122:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -682,11 +682,11 @@ function _classCallCheck(instance, Constructor) {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(124)(module), __webpack_require__(65)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(123)(module), __webpack_require__(64)))
 
 /***/ }),
 
-/***/ 124:
+/***/ 123:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -715,7 +715,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 125:
+/***/ 124:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -739,19 +739,19 @@ module.exports = {
 
 /***/ }),
 
-/***/ 126:
+/***/ 125:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(127);
-exports.encode = exports.stringify = __webpack_require__(128);
+exports.decode = exports.parse = __webpack_require__(126);
+exports.encode = exports.stringify = __webpack_require__(127);
 
 
 /***/ }),
 
-/***/ 127:
+/***/ 126:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -843,7 +843,7 @@ var isArray = Array.isArray || function (xs) {
 
 /***/ }),
 
-/***/ 128:
+/***/ 127:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1184,7 +1184,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 221:
+/***/ 220:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! Fast Average Color | © 2019 Denis Seleznev | MIT License | https://github.com/hcodes/fast-average-color/ */
@@ -1960,7 +1960,7 @@ var toConsumableArray = __webpack_require__(17);
 var defineProperty = __webpack_require__(10);
 
 // EXTERNAL MODULE: external {"this":["wp","coreData"]}
-var external_this_wp_coreData_ = __webpack_require__(89);
+var external_this_wp_coreData_ = __webpack_require__(88);
 
 // EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
 var external_this_wp_blockEditor_ = __webpack_require__(6);
@@ -1984,8 +1984,8 @@ var external_this_wp_element_ = __webpack_require__(0);
 var classnames = __webpack_require__(16);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/paragraph/deprecated.js
 
@@ -2125,7 +2125,7 @@ var deprecated = [{
   }
 }, {
   supports: deprecated_supports,
-  attributes: Object(external_lodash_["omit"])(Object(objectSpread["a" /* default */])({}, deprecated_blockAttributes, {
+  attributes: Object(external_this_lodash_["omit"])(Object(objectSpread["a" /* default */])({}, deprecated_blockAttributes, {
     fontSize: {
       type: 'number'
     }
@@ -2154,8 +2154,8 @@ var deprecated = [{
     }, content);
   },
   migrate: function migrate(attributes) {
-    return Object(external_lodash_["omit"])(Object(objectSpread["a" /* default */])({}, attributes, {
-      customFontSize: Object(external_lodash_["isFinite"])(attributes.fontSize) ? attributes.fontSize : undefined,
+    return Object(external_this_lodash_["omit"])(Object(objectSpread["a" /* default */])({}, attributes, {
+      customFontSize: Object(external_this_lodash_["isFinite"])(attributes.fontSize) ? attributes.fontSize : undefined,
       customTextColor: attributes.textColor && '#' === attributes.textColor[0] ? attributes.textColor : undefined,
       customBackgroundColor: attributes.backgroundColor && '#' === attributes.backgroundColor[0] ? attributes.backgroundColor : undefined
     }), ['fontSize', 'textColor', 'backgroundColor']);
@@ -3277,7 +3277,7 @@ var DEFAULT_EMBED_BLOCK = 'core/embed';
 var WORDPRESS_EMBED_BLOCK = 'core-embed/wordpress';
 
 // EXTERNAL MODULE: ./node_modules/classnames/dedupe.js
-var dedupe = __webpack_require__(70);
+var dedupe = __webpack_require__(69);
 var dedupe_default = /*#__PURE__*/__webpack_require__.n(dedupe);
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
@@ -3342,7 +3342,7 @@ var util_findBlock = function findBlock(url) {
   return DEFAULT_EMBED_BLOCK;
 };
 var util_isFromWordPress = function isFromWordPress(html) {
-  return Object(external_lodash_["includes"])(html, 'class="wp-embedded-content"');
+  return Object(external_this_lodash_["includes"])(html, 'class="wp-embedded-content"');
 };
 var util_getPhotoHtml = function getPhotoHtml(photo) {
   // 100% width for the preview so it fits nicely into the document, some "thumbnails" are
@@ -3498,7 +3498,7 @@ var getAttributesFromPreview = memize_default()(function (preview, title, curren
 
   var html = preview.html,
       providerName = preview.provider_name;
-  var providerNameSlug = Object(external_lodash_["kebabCase"])(Object(external_lodash_["toLower"])('' !== providerName ? providerName : title));
+  var providerNameSlug = Object(external_this_lodash_["kebabCase"])(Object(external_this_lodash_["toLower"])('' !== providerName ? providerName : title));
 
   if (util_isFromWordPress(html)) {
     type = 'wp-embed';
@@ -3619,7 +3619,7 @@ function (_Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       if (this.image) {
-        this.image.onload = external_lodash_["noop"];
+        this.image.onload = external_this_lodash_["noop"];
       }
     }
   }, {
@@ -3717,8 +3717,8 @@ var NEW_TAB_REL = 'noreferrer noopener';
 var ALLOWED_MEDIA_TYPES = ['image'];
 var DEFAULT_SIZE_SLUG = 'large';
 var edit_pickRelevantMediaFiles = function pickRelevantMediaFiles(image) {
-  var imageProps = Object(external_lodash_["pick"])(image, ['alt', 'id', 'link', 'caption']);
-  imageProps.url = Object(external_lodash_["get"])(image, ['sizes', 'large', 'url']) || Object(external_lodash_["get"])(image, ['media_details', 'sizes', 'large', 'source_url']) || image.url;
+  var imageProps = Object(external_this_lodash_["pick"])(image, ['alt', 'id', 'link', 'caption']);
+  imageProps.url = Object(external_this_lodash_["get"])(image, ['sizes', 'large', 'url']) || Object(external_this_lodash_["get"])(image, ['media_details', 'sizes', 'large', 'source_url']) || image.url;
   return imageProps;
 };
 /**
@@ -3835,7 +3835,7 @@ var edit_ImageURLInputUI = function ImageURLInputUI(_ref) {
     onChangeUrl('');
   });
   var linkEditorValue = urlInput !== null ? urlInput : url;
-  var urlLabel = (Object(external_lodash_["find"])(mediaLinks, ['linkDestination', linkDestination]) || {}).title;
+  var urlLabel = (Object(external_this_lodash_["find"])(mediaLinks, ['linkDestination', linkDestination]) || {}).title;
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
     icon: "admin-links",
     className: "components-toolbar__control",
@@ -3848,7 +3848,7 @@ var edit_ImageURLInputUI = function ImageURLInputUI(_ref) {
     renderSettings: function renderSettings() {
       return advancedOptions;
     },
-    additionalControls: !linkEditorValue && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["NavigableMenu"], null, Object(external_lodash_["map"])(mediaLinks, function (link) {
+    additionalControls: !linkEditorValue && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["NavigableMenu"], null, Object(external_this_lodash_["map"])(mediaLinks, function (link) {
       return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
         key: link.linkDestination,
         icon: link.icon,
@@ -4014,11 +4014,11 @@ function (_Component) {
 
       if (edit_isTemporaryImage(id, url)) {
         if (alt) {
-          mediaAttributes = Object(external_lodash_["omit"])(mediaAttributes, ['alt']);
+          mediaAttributes = Object(external_this_lodash_["omit"])(mediaAttributes, ['alt']);
         }
 
         if (caption) {
-          mediaAttributes = Object(external_lodash_["omit"])(mediaAttributes, ['caption']);
+          mediaAttributes = Object(external_this_lodash_["omit"])(mediaAttributes, ['caption']);
         }
       }
 
@@ -4081,7 +4081,7 @@ function (_Component) {
       if (!value) {
         linkDestinationInput = LINK_DESTINATION_NONE;
       } else {
-        linkDestinationInput = (Object(external_lodash_["find"])(linkDestinations, function (destination) {
+        linkDestinationInput = (Object(external_this_lodash_["find"])(linkDestinations, function (destination) {
           return destination.url === value;
         }) || {
           linkDestination: LINK_DESTINATION_CUSTOM
@@ -4172,7 +4172,7 @@ function (_Component) {
     key: "updateImage",
     value: function updateImage(sizeSlug) {
       var image = this.props.image;
-      var url = Object(external_lodash_["get"])(image, ['media_details', 'sizes', sizeSlug, 'source_url']);
+      var url = Object(external_this_lodash_["get"])(image, ['media_details', 'sizes', sizeSlug, 'source_url']);
 
       if (!url) {
         return null;
@@ -4219,7 +4219,7 @@ function (_Component) {
       var path = Object(external_this_wp_url_["getPath"])(url);
 
       if (path) {
-        return Object(external_lodash_["last"])(path.split('/'));
+        return Object(external_this_lodash_["last"])(path.split('/'));
       }
     }
   }, {
@@ -4262,7 +4262,7 @@ function (_Component) {
     key: "getImageSizeOptions",
     value: function getImageSizeOptions() {
       var imageSizes = this.props.imageSizes;
-      return Object(external_lodash_["map"])(imageSizes, function (_ref5) {
+      return Object(external_this_lodash_["map"])(imageSizes, function (_ref5) {
         var name = _ref5.name,
             slug = _ref5.slug;
         return {
@@ -4412,7 +4412,7 @@ function (_Component) {
           help: Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
             href: "https://www.w3.org/WAI/tutorials/images/decision-tree"
           }, Object(external_this_wp_i18n_["__"])('Describe the purpose of the image')), Object(external_this_wp_i18n_["__"])('Leave empty if the image is purely decorative.'))
-        }), !Object(external_lodash_["isEmpty"])(imageSizeOptions) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], {
+        }), !Object(external_this_lodash_["isEmpty"])(imageSizeOptions) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], {
           label: Object(external_this_wp_i18n_["__"])('Image Size'),
           value: sizeSlug,
           options: imageSizeOptions,
@@ -5170,7 +5170,7 @@ function (_Component) {
         icon: Object(external_this_wp_element_["createElement"])(HeadingLevelIcon, {
           level: selectedLevel
         }),
-        controls: Object(external_lodash_["range"])(minLevel, maxLevel).map(function (index) {
+        controls: Object(external_this_lodash_["range"])(minLevel, maxLevel).map(function (index) {
           return _this.createLevelControl(index, selectedLevel, onChange);
         })
       });
@@ -5553,7 +5553,7 @@ var quote_deprecated_deprecated = [{
   }),
   migrate: function migrate(attributes) {
     if (attributes.style === 2) {
-      return Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(attributes, ['style']), {
+      return Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(attributes, ['style']), {
         className: attributes.className ? attributes.className + ' is-style-large' : 'is-style-large'
       });
     }
@@ -6025,9 +6025,9 @@ function defaultColumnsNumber(attributes) {
   return Math.min(3, attributes.images.length);
 }
 var shared_pickRelevantMediaFiles = function pickRelevantMediaFiles(image) {
-  var imageProps = Object(external_lodash_["pick"])(image, ['alt', 'id', 'link', 'caption']);
-  imageProps.url = Object(external_lodash_["get"])(image, ['sizes', 'large', 'url']) || Object(external_lodash_["get"])(image, ['media_details', 'sizes', 'large', 'source_url']) || image.url;
-  var fullUrl = Object(external_lodash_["get"])(image, ['sizes', 'full', 'url']) || Object(external_lodash_["get"])(image, ['media_details', 'sizes', 'full', 'source_url']);
+  var imageProps = Object(external_this_lodash_["pick"])(image, ['alt', 'id', 'link', 'caption']);
+  imageProps.url = Object(external_this_lodash_["get"])(image, ['sizes', 'large', 'url']) || Object(external_this_lodash_["get"])(image, ['media_details', 'sizes', 'large', 'source_url']) || image.url;
+  var fullUrl = Object(external_this_lodash_["get"])(image, ['sizes', 'full', 'url']) || Object(external_this_lodash_["get"])(image, ['media_details', 'sizes', 'full', 'source_url']);
 
   if (fullUrl) {
     imageProps.fullUrl = fullUrl;
@@ -6204,7 +6204,7 @@ var gallery_deprecated_deprecated = [{
   isEligible: function isEligible(_ref2) {
     var images = _ref2.images,
         ids = _ref2.ids;
-    return images && images.length > 0 && (!ids && images || ids && images && ids.length !== images.length || Object(external_lodash_["some"])(images, function (id, index) {
+    return images && images.length > 0 && (!ids && images || ids && images && ids.length !== images.length || Object(external_this_lodash_["some"])(images, function (id, index) {
       if (!id && ids[index] !== null) {
         return true;
       }
@@ -6214,7 +6214,7 @@ var gallery_deprecated_deprecated = [{
   },
   migrate: function migrate(attributes) {
     return Object(objectSpread["a" /* default */])({}, attributes, {
-      ids: Object(external_lodash_["map"])(attributes.images, function (_ref3) {
+      ids: Object(external_this_lodash_["map"])(attributes.images, function (_ref3) {
         var id = _ref3.id;
 
         if (!id) {
@@ -6690,7 +6690,7 @@ function (_Component) {
 
       if (attributes.images) {
         attributes = Object(objectSpread["a" /* default */])({}, attributes, {
-          ids: Object(external_lodash_["map"])(attributes.images, 'id')
+          ids: Object(external_this_lodash_["map"])(attributes.images, 'id')
         });
       }
 
@@ -6755,7 +6755,7 @@ function (_Component) {
       var _this5 = this;
 
       return function () {
-        var images = Object(external_lodash_["filter"])(_this5.props.attributes.images, function (img, i) {
+        var images = Object(external_this_lodash_["filter"])(_this5.props.attributes.images, function (img, i) {
           return index !== i;
         });
         var columns = _this5.props.attributes.columns;
@@ -6773,7 +6773,7 @@ function (_Component) {
   }, {
     key: "selectCaption",
     value: function selectCaption(newImage, images, attachmentCaptions) {
-      var currentImage = Object(external_lodash_["find"])(images, {
+      var currentImage = Object(external_this_lodash_["find"])(images, {
         id: newImage.id
       });
       var currentImageCaption = currentImage ? currentImage.caption : newImage.caption;
@@ -6782,7 +6782,7 @@ function (_Component) {
         return currentImageCaption;
       }
 
-      var attachment = Object(external_lodash_["find"])(attachmentCaptions, {
+      var attachment = Object(external_this_lodash_["find"])(attachmentCaptions, {
         id: newImage.id
       }); // if the attachment caption is updated
 
@@ -6880,15 +6880,15 @@ function (_Component) {
           mediaUpload = _this$props.mediaUpload;
       var images = attributes.images;
 
-      if (Object(external_lodash_["every"])(images, function (_ref) {
+      if (Object(external_this_lodash_["every"])(images, function (_ref) {
         var url = _ref.url;
         return Object(external_this_wp_blob_["isBlobURL"])(url);
       })) {
-        var filesList = Object(external_lodash_["map"])(images, function (_ref2) {
+        var filesList = Object(external_this_lodash_["map"])(images, function (_ref2) {
           var url = _ref2.url;
           return Object(external_this_wp_blob_["getBlobByURL"])(url);
         });
-        Object(external_lodash_["forEach"])(images, function (_ref3) {
+        Object(external_this_lodash_["forEach"])(images, function (_ref3) {
           var url = _ref3.url;
           return Object(external_this_wp_blob_["revokeBlobURL"])(url);
         });
@@ -6930,7 +6930,7 @@ function (_Component) {
           images = attributes.images,
           linkTo = attributes.linkTo;
       var hasImages = !!images.length;
-      var hasImagesWithId = hasImages && Object(external_lodash_["some"])(images, function (_ref4) {
+      var hasImagesWithId = hasImages && Object(external_this_lodash_["some"])(images, function (_ref4) {
         var id = _ref4.id;
         return id;
       });
@@ -7137,8 +7137,8 @@ var gallery_transforms_transforms = {
       // Init the align attribute from the first item which may be either the placeholder or an image.
       var align = attributes[0].align; // Loop through all the images and check if they have the same align.
 
-      align = Object(external_lodash_["every"])(attributes, ['align', align]) ? align : undefined;
-      var validImages = Object(external_lodash_["filter"])(attributes, function (_ref) {
+      align = Object(external_this_lodash_["every"])(attributes, ['align', align]) ? align : undefined;
+      var validImages = Object(external_this_lodash_["filter"])(attributes, function (_ref) {
         var url = _ref.url;
         return url;
       });
@@ -7205,7 +7205,7 @@ var gallery_transforms_transforms = {
     // When created by drag and dropping multiple files on an insertion point
     type: 'files',
     isMatch: function isMatch(files) {
-      return files.length !== 1 && Object(external_lodash_["every"])(files, function (file) {
+      return files.length !== 1 && Object(external_this_lodash_["every"])(files, function (file) {
         return file.type.indexOf('image/') === 0;
       });
     },
@@ -7357,7 +7357,7 @@ var gallery_settings = {
 };
 
 // EXTERNAL MODULE: external {"this":["wp","serverSideRender"]}
-var external_this_wp_serverSideRender_ = __webpack_require__(58);
+var external_this_wp_serverSideRender_ = __webpack_require__(57);
 var external_this_wp_serverSideRender_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_serverSideRender_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/archives/edit.js
@@ -7911,7 +7911,7 @@ var audio_settings = {
 
 
 var deprecated_colorsMigration = function colorsMigration(attributes) {
-  return Object(external_lodash_["omit"])(Object(objectSpread["a" /* default */])({}, attributes, {
+  return Object(external_this_lodash_["omit"])(Object(objectSpread["a" /* default */])({}, attributes, {
     customTextColor: attributes.textColor && '#' === attributes.textColor[0] ? attributes.textColor : undefined,
     customBackgroundColor: attributes.color && '#' === attributes.color[0] ? attributes.color : undefined
   }), ['color', 'textColor']);
@@ -8535,9 +8535,9 @@ var button_settings = {
   deprecated: button_deprecated
 };
 
-// EXTERNAL MODULE: external "moment"
-var external_moment_ = __webpack_require__(29);
-var external_moment_default = /*#__PURE__*/__webpack_require__.n(external_moment_);
+// EXTERNAL MODULE: external {"this":"moment"}
+var external_this_moment_ = __webpack_require__(29);
+var external_this_moment_default = /*#__PURE__*/__webpack_require__.n(external_this_moment_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/calendar/edit.js
 
@@ -8590,7 +8590,7 @@ function (_Component) {
         return {};
       }
 
-      var momentDate = external_moment_default()(date);
+      var momentDate = external_this_moment_default()(date);
       return {
         year: momentDate.year(),
         month: momentDate.month() + 1
@@ -8777,7 +8777,7 @@ function (_Component) {
         return Object(external_this_wp_i18n_["__"])('(Untitled)');
       }
 
-      return Object(external_lodash_["unescape"])(category.name).trim();
+      return Object(external_this_lodash_["unescape"])(category.name).trim();
     }
   }, {
     key: "renderCategoryList",
@@ -8847,7 +8847,7 @@ function (_Component) {
       var childCategories = this.getCategories(category.id);
       return [Object(external_this_wp_element_["createElement"])("option", {
         key: category.id
-      }, Object(external_lodash_["times"])(level * 3, function () {
+      }, Object(external_this_lodash_["times"])(level * 3, function () {
         return '\xa0';
       }), this.renderCategoryName(category), !!showPostCounts ? " (".concat(category.count, ")") : ''), showHierarchy && !!childCategories.length && childCategories.map(function (childCategory) {
         return _this5.renderCategoryDropdownItem(childCategory, level + 1);
@@ -8969,7 +8969,7 @@ var categories_settings = {
  */
 
 function utils_escape(content) {
-  return Object(external_lodash_["flow"])(escapeAmpersands, escapeOpeningSquareBrackets, escapeProtocolInIsolatedUrls)(content || '');
+  return Object(external_this_lodash_["flow"])(escapeAmpersands, escapeOpeningSquareBrackets, escapeProtocolInIsolatedUrls)(content || '');
 }
 /**
  * Unescapes escaped ampersands, shortcodes, and links.
@@ -8979,7 +8979,7 @@ function utils_escape(content) {
  */
 
 function utils_unescape(content) {
-  return Object(external_lodash_["flow"])(unescapeProtocolInIsolatedUrls, unescapeOpeningSquareBrackets, unescapeAmpersands)(content || '');
+  return Object(external_this_lodash_["flow"])(unescapeProtocolInIsolatedUrls, unescapeOpeningSquareBrackets, unescapeAmpersands)(content || '');
 }
 /**
  * Returns the given content with all its ampersand characters converted
@@ -9310,7 +9310,7 @@ function getDeprecatedLayoutColumn(originalContent) {
     var migratedInnerBlocks = columns.map(function (columnBlocks) {
       return Object(external_this_wp_blocks_["createBlock"])('core/column', {}, columnBlocks);
     });
-    return [Object(external_lodash_["omit"])(attributes, ['columns']), migratedInnerBlocks];
+    return [Object(external_this_lodash_["omit"])(attributes, ['columns']), migratedInnerBlocks];
   },
   save: function save(_ref) {
     var attributes = _ref.attributes;
@@ -9327,7 +9327,7 @@ function getDeprecatedLayoutColumn(originalContent) {
     }
   },
   migrate: function migrate(attributes, innerBlocks) {
-    attributes = Object(external_lodash_["omit"])(attributes, ['columns']);
+    attributes = Object(external_this_lodash_["omit"])(attributes, ['columns']);
     return [attributes, innerBlocks];
   },
   save: function save(_ref2) {
@@ -9362,7 +9362,7 @@ var getColumnsTemplate = memize_default()(function (columns) {
     return null;
   }
 
-  return Object(external_lodash_["times"])(columns, function () {
+  return Object(external_this_lodash_["times"])(columns, function () {
     return ['core/column'];
   });
 });
@@ -9391,7 +9391,7 @@ var toWidthPrecision = function toWidthPrecision(value) {
  */
 
 function getAdjacentBlocks(blocks, clientId) {
-  var index = Object(external_lodash_["findIndex"])(blocks, {
+  var index = Object(external_this_lodash_["findIndex"])(blocks, {
     clientId: clientId
   });
   var isLastBlock = index === blocks.length - 1;
@@ -9424,7 +9424,7 @@ function getEffectiveColumnWidth(block, totalBlockCount) {
 
 function getTotalColumnsWidth(blocks) {
   var totalBlockCount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : blocks.length;
-  return Object(external_lodash_["sumBy"])(blocks, function (block) {
+  return Object(external_this_lodash_["sumBy"])(blocks, function (block) {
     return getEffectiveColumnWidth(block, totalBlockCount);
   });
 }
@@ -9463,7 +9463,7 @@ function getRedistributedColumnWidths(blocks, availableWidth) {
   var totalWidth = getTotalColumnsWidth(blocks, totalBlockCount);
   var difference = availableWidth - totalWidth;
   var adjustment = difference / blocks.length;
-  return Object(external_lodash_["mapValues"])(getColumnWidths(blocks, totalBlockCount), function (width) {
+  return Object(external_this_lodash_["mapValues"])(getColumnWidths(blocks, totalBlockCount), function (width) {
     return toWidthPrecision(width + adjustment);
   });
 }
@@ -9493,7 +9493,7 @@ function hasExplicitColumnWidths(blocks) {
 
 function getMappedColumnWidths(blocks, widths) {
   return blocks.map(function (block) {
-    return Object(external_lodash_["merge"])({}, block, {
+    return Object(external_this_lodash_["merge"])({}, block, {
       attributes: {
         width: widths[block.clientId]
       }
@@ -9758,18 +9758,18 @@ function ColumnsEdit(_ref) {
         // constraining the available working width.
 
         var widths = getRedistributedColumnWidths(innerBlocks, 100 - newColumnWidth);
-        innerBlocks = [].concat(Object(toConsumableArray["a" /* default */])(getMappedColumnWidths(innerBlocks, widths)), Object(toConsumableArray["a" /* default */])(Object(external_lodash_["times"])(newColumns - previousColumns, function () {
+        innerBlocks = [].concat(Object(toConsumableArray["a" /* default */])(getMappedColumnWidths(innerBlocks, widths)), Object(toConsumableArray["a" /* default */])(Object(external_this_lodash_["times"])(newColumns - previousColumns, function () {
           return Object(external_this_wp_blocks_["createBlock"])('core/column', {
             width: newColumnWidth
           });
         })));
       } else if (isAddingColumn) {
-        innerBlocks = [].concat(Object(toConsumableArray["a" /* default */])(innerBlocks), Object(toConsumableArray["a" /* default */])(Object(external_lodash_["times"])(newColumns - previousColumns, function () {
+        innerBlocks = [].concat(Object(toConsumableArray["a" /* default */])(innerBlocks), Object(toConsumableArray["a" /* default */])(Object(external_this_lodash_["times"])(newColumns - previousColumns, function () {
           return Object(external_this_wp_blocks_["createBlock"])('core/column');
         })));
       } else {
         // The removed column will be the last of the inner blocks.
-        innerBlocks = Object(external_lodash_["dropRight"])(innerBlocks, previousColumns - newColumns);
+        innerBlocks = Object(external_this_lodash_["dropRight"])(innerBlocks, previousColumns - newColumns);
 
         if (hasExplicitWidths) {
           // Redistribute as if block is already removed.
@@ -9999,7 +9999,7 @@ function ColumnEdit(_ref) {
       var adjacentColumns = getAdjacentBlocks(columns, clientId); // The occupied width is calculated as the sum of the new width
       // and the total width of blocks _not_ in the adjacent set.
 
-      var occupiedWidth = width + getTotalColumnsWidth(Object(external_lodash_["difference"])(columns, [Object(external_lodash_["find"])(columns, {
+      var occupiedWidth = width + getTotalColumnsWidth(Object(external_this_lodash_["difference"])(columns, [Object(external_this_lodash_["find"])(columns, {
         clientId: clientId
       })].concat(Object(toConsumableArray["a" /* default */])(adjacentColumns)))); // Compute _all_ next column widths, in case the updated column
       // is in the middle of a set of columns which don't yet have
@@ -10008,7 +10008,7 @@ function ColumnEdit(_ref) {
 
       var nextColumnWidths = Object(objectSpread["a" /* default */])({}, getColumnWidths(columns, columns.length), Object(defineProperty["a" /* default */])({}, clientId, toWidthPrecision(width)), getRedistributedColumnWidths(adjacentColumns, 100 - occupiedWidth, columns.length));
 
-      Object(external_lodash_["forEach"])(nextColumnWidths, function (nextColumnWidth, columnClientId) {
+      Object(external_this_lodash_["forEach"])(nextColumnWidths, function (nextColumnWidth, columnClientId) {
         updateBlockAttributes(columnClientId, {
           width: nextColumnWidth
         });
@@ -10240,7 +10240,7 @@ var cover_deprecated_deprecated = [{
     }));
   },
   migrate: function migrate(attributes) {
-    return [Object(external_lodash_["omit"])(attributes, ['title', 'contentAlign']), [Object(external_this_wp_blocks_["createBlock"])('core/paragraph', {
+    return [Object(external_this_lodash_["omit"])(attributes, ['title', 'contentAlign']), [Object(external_this_wp_blocks_["createBlock"])('core/paragraph', {
       content: attributes.title,
       align: attributes.contentAlign,
       fontSize: 'large',
@@ -10296,7 +10296,7 @@ var cover_deprecated_deprecated = [{
     }));
   },
   migrate: function migrate(attributes) {
-    return [Object(external_lodash_["omit"])(attributes, ['title', 'contentAlign', 'align']), [Object(external_this_wp_blocks_["createBlock"])('core/paragraph', {
+    return [Object(external_this_lodash_["omit"])(attributes, ['title', 'contentAlign', 'align']), [Object(external_this_wp_blocks_["createBlock"])('core/paragraph', {
       content: attributes.title,
       align: attributes.contentAlign,
       fontSize: 'large',
@@ -10342,7 +10342,7 @@ var cover_deprecated_deprecated = [{
     }));
   },
   migrate: function migrate(attributes) {
-    return [Object(external_lodash_["omit"])(attributes, ['title', 'contentAlign', 'align']), [Object(external_this_wp_blocks_["createBlock"])('core/paragraph', {
+    return [Object(external_this_lodash_["omit"])(attributes, ['title', 'contentAlign', 'align']), [Object(external_this_wp_blocks_["createBlock"])('core/paragraph', {
       content: attributes.title,
       align: attributes.contentAlign,
       fontSize: 'large',
@@ -10353,11 +10353,11 @@ var cover_deprecated_deprecated = [{
 /* harmony default export */ var cover_deprecated = (cover_deprecated_deprecated);
 
 // EXTERNAL MODULE: ./node_modules/fast-average-color/dist/index.js
-var dist = __webpack_require__(221);
+var dist = __webpack_require__(220);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(48);
+var tinycolor = __webpack_require__(47);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/cover/icon.js
@@ -11211,7 +11211,7 @@ var embed_placeholder_EmbedPlaceholder = function EmbedPlaceholder(props) {
 /* harmony default export */ var embed_placeholder = (embed_placeholder_EmbedPlaceholder);
 
 // EXTERNAL MODULE: ./node_modules/url/url.js
-var url_url = __webpack_require__(82);
+var url_url = __webpack_require__(81);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/wp-embed-preview.js
 
@@ -11374,7 +11374,7 @@ function (_Component) {
       var html = 'photo' === type ? util_getPhotoHtml(preview) : preview.html;
       var parsedHost = Object(url_url["parse"])(url).host.split('.');
       var parsedHostBaseUrl = parsedHost.splice(parsedHost.length - 2, parsedHost.length - 1).join('.');
-      var cannotPreview = Object(external_lodash_["includes"])(HOSTS_NO_PREVIEWS, parsedHostBaseUrl); // translators: %s: host providing embed content e.g: www.youtube.com
+      var cannotPreview = Object(external_this_lodash_["includes"])(HOSTS_NO_PREVIEWS, parsedHostBaseUrl); // translators: %s: host providing embed content e.g: www.youtube.com
 
       var iframeTitle = Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('Embedded content from %s'), parsedHostBaseUrl);
       var sandboxClassnames = dedupe_default()(type, className, 'wp-block-embed__wrapper'); // Disabled because the overlay div doesn't actually have a role or functionality
@@ -12394,7 +12394,7 @@ var file_transforms_transforms = {
           getMedia = _select.getMedia;
 
       var media = getMedia(id);
-      return !!media && Object(external_lodash_["includes"])(media.mime_type, 'audio');
+      return !!media && Object(external_this_lodash_["includes"])(media.mime_type, 'audio');
     },
     transform: function transform(attributes) {
       return Object(external_this_wp_blocks_["createBlock"])('core/audio', {
@@ -12417,7 +12417,7 @@ var file_transforms_transforms = {
           getMedia = _select2.getMedia;
 
       var media = getMedia(id);
-      return !!media && Object(external_lodash_["includes"])(media.mime_type, 'video');
+      return !!media && Object(external_this_lodash_["includes"])(media.mime_type, 'video');
     },
     transform: function transform(attributes) {
       return Object(external_this_wp_blocks_["createBlock"])('core/video', {
@@ -12440,7 +12440,7 @@ var file_transforms_transforms = {
           getMedia = _select3.getMedia;
 
       var media = getMedia(id);
-      return !!media && Object(external_lodash_["includes"])(media.mime_type, 'image');
+      return !!media && Object(external_this_lodash_["includes"])(media.mime_type, 'image');
     },
     transform: function transform(attributes) {
       return Object(external_this_wp_blocks_["createBlock"])('core/image', {
@@ -12835,7 +12835,7 @@ var DEFAULT_MEDIA_WIDTH = 50;
       style: style
     }, Object(external_this_wp_element_["createElement"])("figure", {
       className: "wp-block-media-text__media"
-    }, (mediaTypeRenders[mediaType] || external_lodash_["noop"])()), Object(external_this_wp_element_["createElement"])("div", {
+    }, (mediaTypeRenders[mediaType] || external_this_lodash_["noop"])()), Object(external_this_wp_element_["createElement"])("div", {
       className: "wp-block-media-text__content"
     }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InnerBlocks"].Content, null)));
   }
@@ -13149,7 +13149,7 @@ function (_Component) {
 
       if (mediaType === 'image') {
         // Try the "large" size URL, falling back to the "full" size URL below.
-        src = Object(external_lodash_["get"])(media, ['sizes', 'large', 'url']) || Object(external_lodash_["get"])(media, ['media_details', 'sizes', 'large', 'source_url']);
+        src = Object(external_this_lodash_["get"])(media, ['sizes', 'large', 'url']) || Object(external_this_lodash_["get"])(media, ['media_details', 'sizes', 'large', 'source_url']);
       }
 
       setAttributes({
@@ -13424,7 +13424,7 @@ function media_text_save_save(_ref) {
   }, Object(external_this_wp_element_["createElement"])("figure", {
     className: "wp-block-media-text__media",
     style: backgroundStyles
-  }, (mediaTypeRenders[mediaType] || external_lodash_["noop"])()), Object(external_this_wp_element_["createElement"])("div", {
+  }, (mediaTypeRenders[mediaType] || external_this_lodash_["noop"])()), Object(external_this_wp_element_["createElement"])("div", {
     className: "wp-block-media-text__content"
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InnerBlocks"].Content, null)));
 }
@@ -13764,7 +13764,7 @@ var external_this_wp_apiFetch_ = __webpack_require__(34);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // EXTERNAL MODULE: external {"this":["wp","date"]}
-var external_this_wp_date_ = __webpack_require__(53);
+var external_this_wp_date_ = __webpack_require__(52);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/latest-posts/edit.js
 
@@ -14037,13 +14037,13 @@ function (_Component) {
   var _select = select('core'),
       getEntityRecords = _select.getEntityRecords;
 
-  var latestPostsQuery = Object(external_lodash_["pickBy"])({
+  var latestPostsQuery = Object(external_this_lodash_["pickBy"])({
     categories: categories,
     order: order,
     orderby: orderBy,
     per_page: postsToShow
   }, function (value) {
-    return !Object(external_lodash_["isUndefined"])(value);
+    return !Object(external_this_lodash_["isUndefined"])(value);
   });
   return {
     latestPosts: getEntityRecords('postType', 'post', latestPostsQuery)
@@ -14812,7 +14812,7 @@ function more_save_save(_ref) {
       noTeaser = attributes.noTeaser;
   var moreTag = customText ? "<!--more ".concat(customText, "-->") : '<!--more-->';
   var noTeaserTag = noTeaser ? '<!--noteaser-->' : '';
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["RawHTML"], null, Object(external_lodash_["compact"])([moreTag, noTeaserTag]).join('\n'));
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["RawHTML"], null, Object(external_this_lodash_["compact"])([moreTag, noTeaserTag]).join('\n'));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/more/transforms.js
@@ -15249,7 +15249,7 @@ var pullquote_deprecated_deprecated = [{
         citation = attributes.citation,
         className = attributes.className,
         figureStyle = attributes.figureStyle;
-    var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
+    var isSolidColorStyle = Object(external_this_lodash_["includes"])(className, SOLID_COLOR_CLASS);
     var figureClasses, figureStyles; // Is solid color style
 
     if (isSolidColorStyle) {
@@ -15302,7 +15302,7 @@ var pullquote_deprecated_deprecated = [{
         mainColor = _ref2.mainColor,
         attributes = Object(objectWithoutProperties["a" /* default */])(_ref2, ["className", "figureStyle", "mainColor"]);
 
-    var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS); // If is the default style, and a main color is set,
+    var isSolidColorStyle = Object(external_this_lodash_["includes"])(className, SOLID_COLOR_CLASS); // If is the default style, and a main color is set,
     // migrate the main color value into a custom color.
     // The custom color value is retrived by parsing the figure styles.
 
@@ -15333,7 +15333,7 @@ var pullquote_deprecated_deprecated = [{
         value = attributes.value,
         citation = attributes.citation,
         className = attributes.className;
-    var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
+    var isSolidColorStyle = Object(external_this_lodash_["includes"])(className, SOLID_COLOR_CLASS);
     var figureClass, figureStyles; // Is solid color style
 
     if (isSolidColorStyle) {
@@ -15351,7 +15351,7 @@ var pullquote_deprecated_deprecated = [{
       }; // Is normal style and a named color is being used, we need to retrieve the color value to set the style,
       // as there is no expectation that themes create classes that set border colors.
     } else if (mainColor) {
-      var colors = Object(external_lodash_["get"])(Object(external_this_wp_data_["select"])('core/block-editor').getSettings(), ['colors'], []);
+      var colors = Object(external_this_lodash_["get"])(Object(external_this_wp_data_["select"])('core/block-editor').getSettings(), ['colors'], []);
       var colorObject = Object(external_this_wp_blockEditor_["getColorObjectByAttributeValues"])(colors, mainColor);
       figureStyles = {
         borderColor: colorObject.color
@@ -15477,7 +15477,7 @@ function (_Component) {
           setTextColor = _this$props.setTextColor,
           setMainColor = _this$props.setMainColor,
           className = _this$props.className;
-      var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
+      var isSolidColorStyle = Object(external_this_lodash_["includes"])(className, SOLID_COLOR_CLASS);
       var needTextColor = !textColor.color || this.wasTextColorAutomaticallyComputed;
       var shouldSetTextColor = isSolidColorStyle && needTextColor && colorValue;
 
@@ -15514,7 +15514,7 @@ function (_Component) {
           setAttributes = _this$props2.setAttributes; // If the block includes a named color and we switched from the
       // solid color style to the default style.
 
-      if (attributes.mainColor && !Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS) && Object(external_lodash_["includes"])(prevProps.className, SOLID_COLOR_CLASS)) {
+      if (attributes.mainColor && !Object(external_this_lodash_["includes"])(className, SOLID_COLOR_CLASS) && Object(external_this_lodash_["includes"])(prevProps.className, SOLID_COLOR_CLASS)) {
         // Remove the named color, and set the color as a custom color.
         // This is done because named colors use classes, in the default style we use a border color,
         // and themes don't set classes for border colors.
@@ -15536,7 +15536,7 @@ function (_Component) {
           className = _this$props3.className;
       var value = attributes.value,
           citation = attributes.citation;
-      var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
+      var isSolidColorStyle = Object(external_this_lodash_["includes"])(className, SOLID_COLOR_CLASS);
       var figureStyles = isSolidColorStyle ? {
         backgroundColor: mainColor.color
       } : {
@@ -15653,7 +15653,7 @@ function pullquote_save_save(_ref) {
       value = attributes.value,
       citation = attributes.citation,
       className = attributes.className;
-  var isSolidColorStyle = Object(external_lodash_["includes"])(className, SOLID_COLOR_CLASS);
+  var isSolidColorStyle = Object(external_this_lodash_["includes"])(className, SOLID_COLOR_CLASS);
   var figureClasses, figureStyles; // Is solid color style
 
   if (isSolidColorStyle) {
@@ -16134,9 +16134,9 @@ function (_Component) {
 
   var ref = ownProps.attributes.ref;
   return {
-    fetchReusableBlock: Object(external_lodash_["partial"])(fetchReusableBlocks, ref),
-    onChange: Object(external_lodash_["partial"])(updateReusableBlock, ref),
-    onSave: Object(external_lodash_["partial"])(saveReusableBlock, ref)
+    fetchReusableBlock: Object(external_this_lodash_["partial"])(fetchReusableBlocks, ref),
+    onChange: Object(external_this_lodash_["partial"])(updateReusableBlock, ref),
+    onSave: Object(external_this_lodash_["partial"])(saveReusableBlock, ref)
   };
 })])(edit_ReusableBlockEdit));
 
@@ -16975,7 +16975,7 @@ function shortcode_save_save(_ref) {
 }
 
 // EXTERNAL MODULE: external {"this":["wp","autop"]}
-var external_this_wp_autop_ = __webpack_require__(69);
+var external_this_wp_autop_ = __webpack_require__(68);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/shortcode/transforms.js
 /**
@@ -17567,9 +17567,9 @@ function createTable(_ref) {
   var rowCount = _ref.rowCount,
       columnCount = _ref.columnCount;
   return {
-    body: Object(external_lodash_["times"])(rowCount, function () {
+    body: Object(external_this_lodash_["times"])(rowCount, function () {
       return {
-        cells: Object(external_lodash_["times"])(columnCount, function () {
+        cells: Object(external_this_lodash_["times"])(columnCount, function () {
           return {
             content: '',
             tag: 'td'
@@ -17614,7 +17614,7 @@ function getCellAttribute(state, cellLocation, attributeName) {
   var sectionName = cellLocation.sectionName,
       rowIndex = cellLocation.rowIndex,
       columnIndex = cellLocation.columnIndex;
-  return Object(external_lodash_["get"])(state, [sectionName, rowIndex, 'cells', columnIndex, attributeName]);
+  return Object(external_this_lodash_["get"])(state, [sectionName, rowIndex, 'cells', columnIndex, attributeName]);
 }
 /**
  * Returns updated cell attributes after applying the `updateCell` function to the selection.
@@ -17631,10 +17631,10 @@ function updateSelectedCell(state, selection, updateCell) {
     return state;
   }
 
-  var tableSections = Object(external_lodash_["pick"])(state, ['head', 'body', 'foot']);
+  var tableSections = Object(external_this_lodash_["pick"])(state, ['head', 'body', 'foot']);
   var selectionSectionName = selection.sectionName,
       selectionRowIndex = selection.rowIndex;
-  return Object(external_lodash_["mapValues"])(tableSections, function (section, sectionName) {
+  return Object(external_this_lodash_["mapValues"])(tableSections, function (section, sectionName) {
     if (selectionSectionName && selectionSectionName !== sectionName) {
       return section;
     }
@@ -17700,16 +17700,16 @@ function insertRow(state, _ref2) {
       rowIndex = _ref2.rowIndex,
       columnCount = _ref2.columnCount;
   var firstRow = getFirstRow(state);
-  var cellCount = columnCount === undefined ? Object(external_lodash_["get"])(firstRow, ['cells', 'length']) : columnCount; // Bail early if the function cannot determine how many cells to add.
+  var cellCount = columnCount === undefined ? Object(external_this_lodash_["get"])(firstRow, ['cells', 'length']) : columnCount; // Bail early if the function cannot determine how many cells to add.
 
   if (!cellCount) {
     return state;
   }
 
   return Object(defineProperty["a" /* default */])({}, sectionName, [].concat(Object(toConsumableArray["a" /* default */])(state[sectionName].slice(0, rowIndex)), [{
-    cells: Object(external_lodash_["times"])(cellCount, function (index) {
-      var firstCellInColumn = Object(external_lodash_["get"])(firstRow, ['cells', index], {});
-      var inheritedAttributes = Object(external_lodash_["pick"])(firstCellInColumn, INHERITED_COLUMN_ATTRIBUTES);
+    cells: Object(external_this_lodash_["times"])(cellCount, function (index) {
+      var firstCellInColumn = Object(external_this_lodash_["get"])(firstRow, ['cells', index], {});
+      var inheritedAttributes = Object(external_this_lodash_["pick"])(firstCellInColumn, INHERITED_COLUMN_ATTRIBUTES);
       return Object(objectSpread["a" /* default */])({}, inheritedAttributes, {
         content: '',
         tag: sectionName === 'head' ? 'th' : 'td'
@@ -17747,8 +17747,8 @@ function deleteRow(state, _ref4) {
 
 function insertColumn(state, _ref6) {
   var columnIndex = _ref6.columnIndex;
-  var tableSections = Object(external_lodash_["pick"])(state, ['head', 'body', 'foot']);
-  return Object(external_lodash_["mapValues"])(tableSections, function (section, sectionName) {
+  var tableSections = Object(external_this_lodash_["pick"])(state, ['head', 'body', 'foot']);
+  return Object(external_this_lodash_["mapValues"])(tableSections, function (section, sectionName) {
     // Bail early if the table section is empty.
     if (isEmptyTableSection(section)) {
       return section;
@@ -17782,8 +17782,8 @@ function insertColumn(state, _ref6) {
 
 function deleteColumn(state, _ref7) {
   var columnIndex = _ref7.columnIndex;
-  var tableSections = Object(external_lodash_["pick"])(state, ['head', 'body', 'foot']);
-  return Object(external_lodash_["mapValues"])(tableSections, function (section) {
+  var tableSections = Object(external_this_lodash_["pick"])(state, ['head', 'body', 'foot']);
+  return Object(external_this_lodash_["mapValues"])(tableSections, function (section) {
     // Bail early if the table section is empty.
     if (isEmptyTableSection(section)) {
       return section;
@@ -17816,7 +17816,7 @@ function toggleSection(state, sectionName) {
   } // Get the length of the first row of the body to use when creating the header.
 
 
-  var columnCount = Object(external_lodash_["get"])(state, ['body', 0, 'cells', 'length'], 1); // Section doesn't exist, insert an empty row to create the section.
+  var columnCount = Object(external_this_lodash_["get"])(state, ['body', 0, 'cells', 'length'], 1); // Section doesn't exist, insert an empty row to create the section.
 
   return insertRow(state, {
     sectionName: sectionName,
@@ -17833,7 +17833,7 @@ function toggleSection(state, sectionName) {
  */
 
 function isEmptyTableSection(section) {
-  return !section || !section.length || Object(external_lodash_["every"])(section, isEmptyRow);
+  return !section || !section.length || Object(external_this_lodash_["every"])(section, isEmptyRow);
 }
 /**
  * Determines whether a table row is empty.
@@ -18899,13 +18899,13 @@ function TextColumnsEdit(_ref) {
     required: true
   }))), Object(external_this_wp_element_["createElement"])("div", {
     className: "".concat(className, " align").concat(width, " columns-").concat(columns)
-  }, Object(external_lodash_["times"])(columns, function (index) {
+  }, Object(external_this_lodash_["times"])(columns, function (index) {
     return Object(external_this_wp_element_["createElement"])("div", {
       className: "wp-block-column",
       key: "column-".concat(index)
     }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
       tagName: "p",
-      value: Object(external_lodash_["get"])(content, [index, 'children']),
+      value: Object(external_this_lodash_["get"])(content, [index, 'children']),
       onChange: function onChange(nextContent) {
         setAttributes({
           content: [].concat(Object(toConsumableArray["a" /* default */])(content.slice(0, index)), [{
@@ -18937,13 +18937,13 @@ function text_columns_save_save(_ref) {
       columns = attributes.columns;
   return Object(external_this_wp_element_["createElement"])("div", {
     className: "align".concat(width, " columns-").concat(columns)
-  }, Object(external_lodash_["times"])(columns, function (index) {
+  }, Object(external_this_lodash_["times"])(columns, function (index) {
     return Object(external_this_wp_element_["createElement"])("div", {
       className: "wp-block-column",
       key: "column-".concat(index)
     }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
       tagName: "p",
-      value: Object(external_lodash_["get"])(content, [index, 'children'])
+      value: Object(external_this_lodash_["get"])(content, [index, 'children'])
     }));
   }));
 }
@@ -19840,13 +19840,13 @@ function (_Component) {
   Object(createClass["a" /* default */])(TagCloudEdit, [{
     key: "getTaxonomyOptions",
     value: function getTaxonomyOptions() {
-      var taxonomies = Object(external_lodash_["filter"])(this.props.taxonomies, 'show_cloud');
+      var taxonomies = Object(external_this_lodash_["filter"])(this.props.taxonomies, 'show_cloud');
       var selectOption = {
         label: Object(external_this_wp_i18n_["__"])('- Select -'),
         value: '',
         disabled: true
       };
-      var taxonomyOptions = Object(external_lodash_["map"])(taxonomies, function (taxonomy) {
+      var taxonomyOptions = Object(external_this_lodash_["map"])(taxonomies, function (taxonomy) {
         return {
           value: taxonomy.slug,
           label: taxonomy.name
@@ -20605,7 +20605,7 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ 48:
+/***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
@@ -21821,14 +21821,14 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 53:
+/***/ 52:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["date"]; }());
 
 /***/ }),
 
-/***/ 58:
+/***/ 57:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["serverSideRender"]; }());
@@ -21842,7 +21842,7 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 65:
+/***/ 64:
 /***/ (function(module, exports) {
 
 var g;
@@ -21869,42 +21869,14 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 69:
+/***/ 68:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["autop"]; }());
 
 /***/ }),
 
-/***/ 7:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 70:
+/***/ 69:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -22020,6 +21992,34 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
+/***/ 7:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
+
+/***/ }),
+
 /***/ 8:
 /***/ (function(module, exports) {
 
@@ -22027,7 +22027,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 82:
+/***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22054,8 +22054,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 
-var punycode = __webpack_require__(123);
-var util = __webpack_require__(125);
+var punycode = __webpack_require__(122);
+var util = __webpack_require__(124);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -22130,7 +22130,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(126);
+    querystring = __webpack_require__(125);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -22767,7 +22767,7 @@ Url.prototype.parseHost = function() {
 
 /***/ }),
 
-/***/ 89:
+/***/ 88:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["coreData"]; }());

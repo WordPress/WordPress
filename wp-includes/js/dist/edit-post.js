@@ -192,7 +192,7 @@ function _getPrototypeOf(o) {
 
 /***/ }),
 
-/***/ 142:
+/***/ 141:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["notices"]; }());
@@ -455,7 +455,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 231:
+/***/ 230:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blockLibrary"]; }());
@@ -585,7 +585,7 @@ __webpack_require__.d(selectors_namespaceObject, "isSavingMetaBoxes", function()
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external {"this":["wp","coreData"]}
-var external_this_wp_coreData_ = __webpack_require__(89);
+var external_this_wp_coreData_ = __webpack_require__(88);
 
 // EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
 var external_this_wp_blockEditor_ = __webpack_require__(6);
@@ -594,22 +594,22 @@ var external_this_wp_blockEditor_ = __webpack_require__(6);
 var external_this_wp_editor_ = __webpack_require__(24);
 
 // EXTERNAL MODULE: external {"this":["wp","nux"]}
-var external_this_wp_nux_ = __webpack_require__(61);
+var external_this_wp_nux_ = __webpack_require__(60);
 
 // EXTERNAL MODULE: external {"this":["wp","viewport"]}
 var external_this_wp_viewport_ = __webpack_require__(42);
 
 // EXTERNAL MODULE: external {"this":["wp","notices"]}
-var external_this_wp_notices_ = __webpack_require__(142);
+var external_this_wp_notices_ = __webpack_require__(141);
 
 // EXTERNAL MODULE: external {"this":["wp","blockLibrary"]}
-var external_this_wp_blockLibrary_ = __webpack_require__(231);
+var external_this_wp_blockLibrary_ = __webpack_require__(230);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
 var external_this_wp_hooks_ = __webpack_require__(27);
 
 // EXTERNAL MODULE: external {"this":["wp","mediaUtils"]}
-var external_this_wp_mediaUtils_ = __webpack_require__(99);
+var external_this_wp_mediaUtils_ = __webpack_require__(98);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/hooks/components/index.js
 /**
@@ -630,8 +630,8 @@ var esm_extends = __webpack_require__(18);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js + 1 modules
 var objectWithoutProperties = __webpack_require__(21);
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","blocks"]}
 var external_this_wp_blocks_ = __webpack_require__(9);
@@ -691,7 +691,7 @@ Object(external_this_wp_data_["withSelect"])(function (select, block) {
 
 
   var blocks = select('core/block-editor').getBlocks();
-  var firstOfSameType = Object(external_lodash_["find"])(blocks, function (_ref) {
+  var firstOfSameType = Object(external_this_lodash_["find"])(blocks, function (_ref) {
     var name = _ref.name;
     return block.name === name;
   });
@@ -783,7 +783,7 @@ Object(external_this_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/edit-post
 
 
 // EXTERNAL MODULE: external {"this":["wp","plugins"]}
-var external_this_wp_plugins_ = __webpack_require__(51);
+var external_this_wp_plugins_ = __webpack_require__(50);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
 var external_this_wp_url_ = __webpack_require__(26);
@@ -920,7 +920,7 @@ ToolsMoreMenuGroup.Slot = function (_ref) {
   return Object(external_this_wp_element_["createElement"])(Slot, {
     fillProps: fillProps
   }, function (fills) {
-    return !Object(external_lodash_["isEmpty"])(fills) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuGroup"], {
+    return !Object(external_this_lodash_["isEmpty"])(fills) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuGroup"], {
       label: Object(external_this_wp_i18n_["__"])('Tools')
     }, fills);
   });
@@ -1057,7 +1057,7 @@ var createWithInitialState = function createWithInitialState(initialState) {
  */
 
 
-var preferences = Object(external_lodash_["flow"])([external_this_wp_data_["combineReducers"], createWithInitialState(PREFERENCES_DEFAULTS)])({
+var preferences = Object(external_this_lodash_["flow"])([external_this_wp_data_["combineReducers"], createWithInitialState(PREFERENCES_DEFAULTS)])({
   isGeneralSidebarDismissed: function isGeneralSidebarDismissed(state, action) {
     switch (action.type) {
       case 'OPEN_GENERAL_SIDEBAR':
@@ -1073,14 +1073,14 @@ var preferences = Object(external_lodash_["flow"])([external_this_wp_data_["comb
         {
           var panelName = action.panelName;
           return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, panelName, Object(objectSpread["a" /* default */])({}, state[panelName], {
-            enabled: !Object(external_lodash_["get"])(state, [panelName, 'enabled'], true)
+            enabled: !Object(external_this_lodash_["get"])(state, [panelName, 'enabled'], true)
           })));
         }
 
       case 'TOGGLE_PANEL_OPENED':
         {
           var _panelName = action.panelName;
-          var isOpen = state[_panelName] === true || Object(external_lodash_["get"])(state, [_panelName, 'opened'], false);
+          var isOpen = state[_panelName] === true || Object(external_this_lodash_["get"])(state, [_panelName, 'opened'], false);
           return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, _panelName, Object(objectSpread["a" /* default */])({}, state[_panelName], {
             opened: !isOpen
           })));
@@ -1105,7 +1105,7 @@ var preferences = Object(external_lodash_["flow"])([external_this_wp_data_["comb
   },
   pinnedPluginItems: function pinnedPluginItems(state, action) {
     if (action.type === 'TOGGLE_PINNED_PLUGIN_ITEM') {
-      return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.pluginName, !Object(external_lodash_["get"])(state, [action.pluginName], true)));
+      return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.pluginName, !Object(external_this_lodash_["get"])(state, [action.pluginName], true)));
     }
 
     return state;
@@ -1113,10 +1113,10 @@ var preferences = Object(external_lodash_["flow"])([external_this_wp_data_["comb
   hiddenBlockTypes: function hiddenBlockTypes(state, action) {
     switch (action.type) {
       case 'SHOW_BLOCK_TYPES':
-        return external_lodash_["without"].apply(void 0, [state].concat(Object(toConsumableArray["a" /* default */])(action.blockNames)));
+        return external_this_lodash_["without"].apply(void 0, [state].concat(Object(toConsumableArray["a" /* default */])(action.blockNames)));
 
       case 'HIDE_BLOCK_TYPES':
-        return Object(external_lodash_["union"])(state, action.blockNames);
+        return Object(external_this_lodash_["union"])(state, action.blockNames);
     }
 
     return state;
@@ -1130,7 +1130,7 @@ var preferences = Object(external_lodash_["flow"])([external_this_wp_data_["comb
           }
 
           if (!action.blockStyle) {
-            return Object(external_lodash_["omit"])(state, [action.blockName]);
+            return Object(external_this_lodash_["omit"])(state, [action.blockName]);
           }
 
           return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.blockName, action.blockStyle));
@@ -1163,7 +1163,7 @@ function removedPanels() {
 
   switch (action.type) {
     case 'REMOVE_PANEL':
-      if (!Object(external_lodash_["includes"])(state, action.panelName)) {
+      if (!Object(external_this_lodash_["includes"])(state, action.panelName)) {
         return [].concat(Object(toConsumableArray["a" /* default */])(state), [action.panelName]);
       }
 
@@ -1292,7 +1292,7 @@ var reducer_metaBoxes = Object(external_this_wp_data_["combineReducers"])({
 }));
 
 // EXTERNAL MODULE: ./node_modules/refx/refx.js
-var refx = __webpack_require__(72);
+var refx = __webpack_require__(71);
 var refx_default = /*#__PURE__*/__webpack_require__.n(refx);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
@@ -1483,7 +1483,7 @@ function togglePinnedPluginItem(pluginName) {
 function actions_hideBlockTypes(blockNames) {
   return {
     type: 'HIDE_BLOCK_TYPES',
-    blockNames: Object(external_lodash_["castArray"])(blockNames)
+    blockNames: Object(external_this_lodash_["castArray"])(blockNames)
   };
 }
 /**
@@ -1520,7 +1520,7 @@ function __experimentalUpdateLocalAutosaveInterval(interval) {
 function actions_showBlockTypes(blockNames) {
   return {
     type: 'SHOW_BLOCK_TYPES',
-    blockNames: Object(external_lodash_["castArray"])(blockNames)
+    blockNames: Object(external_this_lodash_["castArray"])(blockNames)
   };
 }
 /**
@@ -1591,7 +1591,7 @@ function getEditorMode(state) {
 
 function selectors_isEditorSidebarOpened(state) {
   var activeGeneralSidebar = getActiveGeneralSidebarName(state);
-  return Object(external_lodash_["includes"])(['edit-post/document', 'edit-post/block'], activeGeneralSidebar);
+  return Object(external_this_lodash_["includes"])(['edit-post/document', 'edit-post/block'], activeGeneralSidebar);
 }
 /**
  * Returns true if the plugin sidebar is opened.
@@ -1676,7 +1676,7 @@ function selectors_isPublishSidebarOpened(state) {
  */
 
 function isEditorPanelRemoved(state, panelName) {
-  return Object(external_lodash_["includes"])(state.removedPanels, panelName);
+  return Object(external_this_lodash_["includes"])(state.removedPanels, panelName);
 }
 /**
  * Returns true if the given panel is enabled, or false otherwise. Panels are
@@ -1690,7 +1690,7 @@ function isEditorPanelRemoved(state, panelName) {
 
 function selectors_isEditorPanelEnabled(state, panelName) {
   var panels = selectors_getPreference(state, 'panels');
-  return !isEditorPanelRemoved(state, panelName) && Object(external_lodash_["get"])(panels, [panelName, 'enabled'], true);
+  return !isEditorPanelRemoved(state, panelName) && Object(external_this_lodash_["get"])(panels, [panelName, 'enabled'], true);
 }
 /**
  * Returns true if the given panel is open, or false otherwise. Panels are
@@ -1704,7 +1704,7 @@ function selectors_isEditorPanelEnabled(state, panelName) {
 
 function selectors_isEditorPanelOpened(state, panelName) {
   var panels = selectors_getPreference(state, 'panels');
-  return Object(external_lodash_["get"])(panels, [panelName]) === true || Object(external_lodash_["get"])(panels, [panelName, 'opened']) === true;
+  return Object(external_this_lodash_["get"])(panels, [panelName]) === true || Object(external_this_lodash_["get"])(panels, [panelName, 'opened']) === true;
 }
 /**
  * Returns true if a modal is active, or false otherwise.
@@ -1728,7 +1728,7 @@ function selectors_isModalActive(state, modalName) {
  */
 
 function isFeatureActive(state, feature) {
-  return Object(external_lodash_["get"])(state.preferences.features, [feature], false);
+  return Object(external_this_lodash_["get"])(state.preferences.features, [feature], false);
 }
 /**
  * Returns true if the plugin item is pinned to the header.
@@ -1742,7 +1742,7 @@ function isFeatureActive(state, feature) {
 
 function isPluginItemPinned(state, pluginName) {
   var pinnedPluginItems = selectors_getPreference(state, 'pinnedPluginItems', {});
-  return Object(external_lodash_["get"])(pinnedPluginItems, [pluginName], true);
+  return Object(external_this_lodash_["get"])(pinnedPluginItems, [pluginName], true);
 }
 /**
  * Returns an array of active meta box locations.
@@ -1769,7 +1769,7 @@ var getActiveMetaBoxLocations = Object(rememo["a" /* default */])(function (stat
  */
 
 function isMetaBoxLocationVisible(state, location) {
-  return isMetaBoxLocationActive(state, location) && Object(external_lodash_["some"])(getMetaBoxesPerLocation(state, location), function (_ref) {
+  return isMetaBoxLocationActive(state, location) && Object(external_this_lodash_["some"])(getMetaBoxesPerLocation(state, location), function (_ref) {
     var id = _ref.id;
     return selectors_isEditorPanelEnabled(state, "meta-box-".concat(id));
   });
@@ -1809,7 +1809,7 @@ function getMetaBoxesPerLocation(state, location) {
  */
 
 var getAllMetaBoxes = Object(rememo["a" /* default */])(function (state) {
-  return Object(external_lodash_["flatten"])(Object(external_lodash_["values"])(state.metaBoxes.locations));
+  return Object(external_this_lodash_["flatten"])(Object(external_this_lodash_["values"])(state.metaBoxes.locations));
 }, function (state) {
   return [state.metaBoxes.locations];
 });
@@ -1937,7 +1937,7 @@ var effects = {
       return new window.FormData(getMetaBoxContainer(location));
     }))); // Merge all form data objects into a single one.
 
-    var formData = Object(external_lodash_["reduce"])(formDataToMerge, function (memo, currentFormData) {
+    var formData = Object(external_this_lodash_["reduce"])(formDataToMerge, function (memo, currentFormData) {
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
@@ -2034,7 +2034,7 @@ function applyMiddlewares(store) {
   chain = middlewares.map(function (middleware) {
     return middleware(middlewareAPI);
   });
-  enhancedDispatch = external_lodash_["flowRight"].apply(void 0, Object(toConsumableArray["a" /* default */])(chain))(store.dispatch);
+  enhancedDispatch = external_this_lodash_["flowRight"].apply(void 0, Object(toConsumableArray["a" /* default */])(chain))(store.dispatch);
   store.dispatch = enhancedDispatch;
   return store;
 }
@@ -2340,7 +2340,7 @@ function FullscreenModeClose(_ref) {
     href: Object(external_this_wp_url_["addQueryArgs"])('edit.php', {
       post_type: postType.slug
     }),
-    label: Object(external_lodash_["get"])(postType, ['labels', 'view_items'], Object(external_this_wp_i18n_["__"])('Back'))
+    label: Object(external_this_lodash_["get"])(postType, ['labels', 'view_items'], Object(external_this_wp_i18n_["__"])('Back'))
   }));
 }
 
@@ -2522,7 +2522,7 @@ PluginsMoreMenuGroup.Slot = function (_ref) {
   return Object(external_this_wp_element_["createElement"])(plugins_more_menu_group_Slot, {
     fillProps: fillProps
   }, function (fills) {
-    return !Object(external_lodash_["isEmpty"])(fills) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuGroup"], {
+    return !Object(external_this_lodash_["isEmpty"])(fills) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuGroup"], {
       label: Object(external_this_wp_i18n_["__"])('Plugins')
     }, fills);
   });
@@ -2592,7 +2592,7 @@ function FeatureToggle(_ref) {
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
     icon: isActive && 'yes',
     isSelected: isActive,
-    onClick: Object(external_lodash_["flow"])(onToggle, speakMessage),
+    onClick: Object(external_this_lodash_["flow"])(onToggle, speakMessage),
     role: "menuitemcheckbox",
     info: info
   }, label);
@@ -2719,7 +2719,7 @@ var pinned_plugins_createSlotFill = Object(external_this_wp_components_["createS
 
 PinnedPlugins.Slot = function (props) {
   return Object(external_this_wp_element_["createElement"])(pinned_plugins_Slot, props, function (fills) {
-    return !Object(external_lodash_["isEmpty"])(fills) && Object(external_this_wp_element_["createElement"])("div", {
+    return !Object(external_this_lodash_["isEmpty"])(fills) && Object(external_this_wp_element_["createElement"])("div", {
       className: "edit-post-pinned-plugins"
     }, fills);
   });
@@ -2800,7 +2800,7 @@ function PostPublishButtonOrToggle(_ref) {
 }
 /* harmony default export */ var post_publish_button_or_toggle = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_data_["withSelect"])(function (select) {
   return {
-    hasPublishAction: Object(external_lodash_["get"])(select('core/editor').getCurrentPost(), ['_links', 'wp:action-publish'], false),
+    hasPublishAction: Object(external_this_lodash_["get"])(select('core/editor').getCurrentPost(), ['_links', 'wp:action-publish'], false),
     isBeingScheduled: select('core/editor').isEditedPostBeingScheduled(),
     isPending: select('core/editor').isCurrentPostPending(),
     isPublished: select('core/editor').isCurrentPostPublished(),
@@ -2978,7 +2978,7 @@ function BlockInspectorButton(_ref) {
       closeSidebar = _ref.closeSidebar,
       openEditorSidebar = _ref.openEditorSidebar,
       _ref$onClick = _ref.onClick,
-      onClick = _ref$onClick === void 0 ? external_lodash_["noop"] : _ref$onClick,
+      onClick = _ref$onClick === void 0 ? external_this_lodash_["noop"] : _ref$onClick,
       _ref$small = _ref.small,
       small = _ref$small === void 0 ? false : _ref$small,
       speak = _ref.speak;
@@ -2994,7 +2994,7 @@ function BlockInspectorButton(_ref) {
   var label = areAdvancedSettingsOpened ? Object(external_this_wp_i18n_["__"])('Hide Block Settings') : Object(external_this_wp_i18n_["__"])('Show Block Settings');
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
     className: "editor-block-settings-menu__control block-editor-block-settings-menu__control",
-    onClick: Object(external_lodash_["flow"])(areAdvancedSettingsOpened ? closeSidebar : openEditorSidebar, speakMessage, onClick),
+    onClick: Object(external_this_lodash_["flow"])(areAdvancedSettingsOpened ? closeSidebar : openEditorSidebar, speakMessage, onClick),
     icon: "admin-generic",
     shortcut: keyboard_shortcuts.toggleSidebar
   }, !small && label);
@@ -3034,7 +3034,7 @@ var plugin_block_settings_menu_group_createSlotFill = Object(external_this_wp_co
 var plugin_block_settings_menu_group_PluginBlockSettingsMenuGroupSlot = function PluginBlockSettingsMenuGroupSlot(_ref) {
   var fillProps = _ref.fillProps,
       selectedBlocks = _ref.selectedBlocks;
-  selectedBlocks = Object(external_lodash_["map"])(selectedBlocks, function (block) {
+  selectedBlocks = Object(external_this_lodash_["map"])(selectedBlocks, function (block) {
     return block.name;
   });
   return Object(external_this_wp_element_["createElement"])(plugin_block_settings_menu_group_Slot, {
@@ -3042,7 +3042,7 @@ var plugin_block_settings_menu_group_PluginBlockSettingsMenuGroupSlot = function
       selectedBlocks: selectedBlocks
     })
   }, function (fills) {
-    return !Object(external_lodash_["isEmpty"])(fills) && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])("div", {
+    return !Object(external_this_lodash_["isEmpty"])(fills) && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])("div", {
       className: "editor-block-settings-menu__separator block-editor-block-settings-menu__separator"
     }), fills);
   });
@@ -3393,7 +3393,7 @@ var keyboard_shortcut_help_modal_ShortcutList = function ShortcutList(_ref) {
       }, Object(external_this_wp_element_["createElement"])("kbd", {
         className: "edit-post-keyboard-shortcut-help__shortcut-key-combination",
         "aria-label": ariaLabel
-      }, keyboard_shortcut_help_modal_mapKeyCombination(Object(external_lodash_["castArray"])(keyCombination)))));
+      }, keyboard_shortcut_help_modal_mapKeyCombination(Object(external_this_lodash_["castArray"])(keyCombination)))));
     }))
     /* eslint-enable jsx-a11y/no-redundant-roles */
 
@@ -3477,7 +3477,7 @@ function BlockTypesChecklist(_ref) {
         icon: blockType.icon
       })),
       checked: value.includes(blockType.name),
-      onChange: Object(external_lodash_["partial"])(onItemChange, blockType.name)
+      onChange: Object(external_this_lodash_["partial"])(onItemChange, blockType.name)
     }));
   }));
 }
@@ -3531,7 +3531,7 @@ function BlockManagerCategory(_ref) {
 
     return blockTypes.filter(function (_ref2) {
       var name = _ref2.name;
-      return Object(external_lodash_["includes"])(allowedBlockTypes || [], name);
+      return Object(external_this_lodash_["includes"])(allowedBlockTypes || [], name);
     });
   }, [allowedBlockTypes, blockTypes]);
 
@@ -3539,7 +3539,7 @@ function BlockManagerCategory(_ref) {
     return null;
   }
 
-  var checkedBlockNames = external_lodash_["without"].apply(void 0, [Object(external_lodash_["map"])(filteredBlockTypes, 'name')].concat(Object(toConsumableArray["a" /* default */])(hiddenBlockTypes)));
+  var checkedBlockNames = external_this_lodash_["without"].apply(void 0, [Object(external_this_lodash_["map"])(filteredBlockTypes, 'name')].concat(Object(toConsumableArray["a" /* default */])(hiddenBlockTypes)));
   var titleId = 'edit-post-manage-blocks-modal__category-title-' + instanceId;
   var isAllChecked = checkedBlockNames.length === filteredBlockTypes.length;
   var ariaChecked;
@@ -3592,7 +3592,7 @@ function BlockManagerCategory(_ref) {
       }
     },
     toggleAllVisible: function toggleAllVisible(nextIsChecked) {
-      var blockNames = Object(external_lodash_["map"])(ownProps.blockTypes, 'name');
+      var blockNames = Object(external_this_lodash_["map"])(ownProps.blockTypes, 'name');
 
       if (nextIsChecked) {
         showBlockTypes(blockNames);
@@ -3663,7 +3663,7 @@ function BlockManager(_ref) {
     return Object(external_this_wp_element_["createElement"])(manage_blocks_modal_category, {
       key: category.slug,
       category: category,
-      blockTypes: Object(external_lodash_["filter"])(blockTypes, {
+      blockTypes: Object(external_this_lodash_["filter"])(blockTypes, {
         category: category.slug
       })
     });
@@ -3683,7 +3683,7 @@ function BlockManager(_ref) {
       getPreference = _select2.getPreference;
 
   var hiddenBlockTypes = getPreference('hiddenBlockTypes');
-  var numberOfHiddenBlocks = Object(external_lodash_["isArray"])(hiddenBlockTypes) && hiddenBlockTypes.length;
+  var numberOfHiddenBlocks = Object(external_this_lodash_["isArray"])(hiddenBlockTypes) && hiddenBlockTypes.length;
   return {
     blockTypes: getBlockTypes(),
     categories: getCategories(),
@@ -4097,7 +4097,7 @@ function MetaBoxesSection(_ref) {
       sectionProps = Object(objectWithoutProperties["a" /* default */])(_ref, ["areCustomFieldsRegistered", "metaBoxes"]);
 
   // The 'Custom Fields' meta box is a special case that we handle separately.
-  var thirdPartyMetaBoxes = Object(external_lodash_["filter"])(metaBoxes, function (_ref2) {
+  var thirdPartyMetaBoxes = Object(external_this_lodash_["filter"])(metaBoxes, function (_ref2) {
     var id = _ref2.id;
     return id !== 'postcustom';
   });
@@ -4108,7 +4108,7 @@ function MetaBoxesSection(_ref) {
 
   return Object(external_this_wp_element_["createElement"])(section, sectionProps, areCustomFieldsRegistered && Object(external_this_wp_element_["createElement"])(enable_custom_fields, {
     label: Object(external_this_wp_i18n_["__"])('Custom Fields')
-  }), Object(external_lodash_["map"])(thirdPartyMetaBoxes, function (_ref3) {
+  }), Object(external_this_lodash_["map"])(thirdPartyMetaBoxes, function (_ref3) {
     var id = _ref3.id,
         title = _ref3.title;
     return Object(external_this_wp_element_["createElement"])(enable_panel, {
@@ -4187,7 +4187,7 @@ function OptionsModal(_ref) {
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PostTaxonomies"], {
     taxonomyWrapper: function taxonomyWrapper(content, taxonomy) {
       return Object(external_this_wp_element_["createElement"])(enable_panel, {
-        label: Object(external_lodash_["get"])(taxonomy, ['labels', 'menu_name']),
+        label: Object(external_this_lodash_["get"])(taxonomy, ['labels', 'menu_name']),
         panelName: "taxonomy-panel-".concat(taxonomy.slug)
       });
     }
@@ -4219,7 +4219,7 @@ function OptionsModal(_ref) {
   var postType = getPostType(getEditedPostAttribute('type'));
   return {
     isModalActive: select('core/edit-post').isModalActive(options_modal_MODAL_NAME),
-    isViewable: Object(external_lodash_["get"])(postType, ['viewable'], false)
+    isViewable: Object(external_this_lodash_["get"])(postType, ['viewable'], false)
   };
 }), Object(external_this_wp_data_["withDispatch"])(function (dispatch) {
   return {
@@ -4430,7 +4430,7 @@ function MetaBoxes(_ref) {
   var location = _ref.location,
       isVisible = _ref.isVisible,
       metaBoxes = _ref.metaBoxes;
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_lodash_["map"])(metaBoxes, function (_ref2) {
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_lodash_["map"])(metaBoxes, function (_ref2) {
     var id = _ref2.id;
     return Object(external_this_wp_element_["createElement"])(meta_box_visibility, {
       key: id,
@@ -4963,7 +4963,7 @@ function TaxonomyPanel(_ref) {
     return null;
   }
 
-  var taxonomyMenuName = Object(external_lodash_["get"])(taxonomy, ['labels', 'menu_name']);
+  var taxonomyMenuName = Object(external_this_lodash_["get"])(taxonomy, ['labels', 'menu_name']);
 
   if (!taxonomyMenuName) {
     return null;
@@ -4977,7 +4977,7 @@ function TaxonomyPanel(_ref) {
 }
 
 /* harmony default export */ var taxonomy_panel = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_data_["withSelect"])(function (select, ownProps) {
-  var slug = Object(external_lodash_["get"])(ownProps.taxonomy, ['slug']);
+  var slug = Object(external_this_lodash_["get"])(ownProps.taxonomy, ['slug']);
   var panelName = slug ? "taxonomy-panel-".concat(slug) : '';
   return {
     panelName: panelName,
@@ -5050,7 +5050,7 @@ function FeaturedImage(_ref) {
   }
 
   return Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PostFeaturedImageCheck"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_lodash_["get"])(postType, ['labels', 'featured_image'], Object(external_this_wp_i18n_["__"])('Featured Image')),
+    title: Object(external_this_lodash_["get"])(postType, ['labels', 'featured_image'], Object(external_this_wp_i18n_["__"])('Featured Image')),
     opened: isOpened,
     onToggle: onTogglePanel
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PostFeaturedImage"], null)));
@@ -5078,7 +5078,7 @@ var applyWithDispatch = Object(external_this_wp_data_["withDispatch"])(function 
       toggleEditorPanelOpened = _dispatch.toggleEditorPanelOpened;
 
   return {
-    onTogglePanel: Object(external_lodash_["partial"])(toggleEditorPanelOpened, featured_image_PANEL_NAME)
+    onTogglePanel: Object(external_this_lodash_["partial"])(toggleEditorPanelOpened, featured_image_PANEL_NAME)
   };
 });
 /* harmony default export */ var featured_image = (Object(external_this_wp_compose_["compose"])(applyWithSelect, applyWithDispatch)(FeaturedImage));
@@ -5265,11 +5265,11 @@ function PostLink(_ref) {
     isOpened: isEditorPanelOpened(post_link_PANEL_NAME),
     permalinkParts: getPermalinkParts(),
     isEnabled: isEditorPanelEnabled(post_link_PANEL_NAME),
-    isViewable: Object(external_lodash_["get"])(postType, ['viewable'], false),
+    isViewable: Object(external_this_lodash_["get"])(postType, ['viewable'], false),
     postTitle: getEditedPostAttribute('title'),
     postSlug: getEditedPostAttribute('slug'),
     postID: id,
-    postTypeLabel: Object(external_lodash_["get"])(postType, ['labels', 'view_item'])
+    postTypeLabel: Object(external_this_lodash_["get"])(postType, ['labels', 'view_item'])
   };
 }), Object(external_this_wp_compose_["ifCondition"])(function (_ref2) {
   var isEnabled = _ref2.isEnabled,
@@ -5383,7 +5383,7 @@ function PageAttributes(_ref) {
   }
 
   return Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PageAttributesCheck"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_lodash_["get"])(postType, ['labels', 'attributes'], Object(external_this_wp_i18n_["__"])('Page Attributes')),
+    title: Object(external_this_lodash_["get"])(postType, ['labels', 'attributes'], Object(external_this_wp_i18n_["__"])('Page Attributes')),
     opened: isOpened,
     onToggle: onTogglePanel
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PageTemplate"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PageAttributesParent"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelRow"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PageAttributesOrder"], null))));
@@ -5410,7 +5410,7 @@ var page_attributes_applyWithDispatch = Object(external_this_wp_data_["withDispa
       toggleEditorPanelOpened = _dispatch.toggleEditorPanelOpened;
 
   return {
-    onTogglePanel: Object(external_lodash_["partial"])(toggleEditorPanelOpened, page_attributes_PANEL_NAME)
+    onTogglePanel: Object(external_this_lodash_["partial"])(toggleEditorPanelOpened, page_attributes_PANEL_NAME)
   };
 });
 /* harmony default export */ var page_attributes = (Object(external_this_wp_compose_["compose"])(page_attributes_applyWithSelect, page_attributes_applyWithDispatch)(PageAttributes));
@@ -6175,12 +6175,12 @@ function (_Component) {
         __experimentalLocalAutosaveInterval: __experimentalLocalAutosaveInterval
       }); // Omit hidden block types if exists and non-empty.
 
-      if (Object(external_lodash_["size"])(hiddenBlockTypes) > 0) {
+      if (Object(external_this_lodash_["size"])(hiddenBlockTypes) > 0) {
         // Defer to passed setting for `allowedBlockTypes` if provided as
         // anything other than `true` (where `true` is equivalent to allow
         // all block types).
-        var defaultAllowedBlockTypes = true === settings.allowedBlockTypes ? Object(external_lodash_["map"])(blockTypes, 'name') : settings.allowedBlockTypes || [];
-        settings.allowedBlockTypes = external_lodash_["without"].apply(void 0, [defaultAllowedBlockTypes].concat(Object(toConsumableArray["a" /* default */])(hiddenBlockTypes)));
+        var defaultAllowedBlockTypes = true === settings.allowedBlockTypes ? Object(external_this_lodash_["map"])(blockTypes, 'name') : settings.allowedBlockTypes || [];
+        settings.allowedBlockTypes = external_this_lodash_["without"].apply(void 0, [defaultAllowedBlockTypes].concat(Object(toConsumableArray["a" /* default */])(hiddenBlockTypes)));
       }
 
       return settings;
@@ -6282,7 +6282,7 @@ function (_Component) {
 
 
 var plugin_block_settings_menu_item_isEverySelectedBlockAllowed = function isEverySelectedBlockAllowed(selected, allowed) {
-  return Object(external_lodash_["difference"])(selected, allowed).length === 0;
+  return Object(external_this_lodash_["difference"])(selected, allowed).length === 0;
 };
 /**
  * Plugins may want to add an item to the menu either for every block
@@ -6406,7 +6406,7 @@ var plugin_block_settings_menu_item_PluginBlockSettingsMenuItem = function Plugi
 
 var plugin_more_menu_item_PluginMoreMenuItem = function PluginMoreMenuItem(_ref) {
   var _ref$onClick = _ref.onClick,
-      onClick = _ref$onClick === void 0 ? external_lodash_["noop"] : _ref$onClick,
+      onClick = _ref$onClick === void 0 ? external_this_lodash_["noop"] : _ref$onClick,
       props = Object(objectWithoutProperties["a" /* default */])(_ref, ["onClick"]);
 
   return Object(external_this_wp_element_["createElement"])(plugins_more_menu_group, null, function (fillProps) {
@@ -7304,7 +7304,7 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 51:
+/***/ 50:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["plugins"]; }());
@@ -7318,7 +7318,7 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 61:
+/***/ 60:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["nux"]; }());
@@ -7353,7 +7353,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 72:
+/***/ 71:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7416,7 +7416,7 @@ module.exports = refx;
 
 /***/ }),
 
-/***/ 89:
+/***/ 88:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["coreData"]; }());
@@ -7430,7 +7430,7 @@ module.exports = refx;
 
 /***/ }),
 
-/***/ 99:
+/***/ 98:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["mediaUtils"]; }());

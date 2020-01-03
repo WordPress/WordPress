@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["plugins"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 363);
+/******/ 	return __webpack_require__(__webpack_require__.s = 364);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -281,7 +281,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 363:
+/***/ 364:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -308,8 +308,8 @@ var inherits = __webpack_require__(15);
 // EXTERNAL MODULE: external {"this":["wp","element"]}
 var external_this_wp_element_ = __webpack_require__(0);
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
 var external_this_wp_hooks_ = __webpack_require__(27);
@@ -485,7 +485,7 @@ function registerPlugin(name, settings) {
 
   settings = Object(external_this_wp_hooks_["applyFilters"])('plugins.registerPlugin', settings, name);
 
-  if (!Object(external_lodash_["isFunction"])(settings.render)) {
+  if (!Object(external_this_lodash_["isFunction"])(settings.render)) {
     console.error('The "render" property must be specified and must be a valid function.');
     return null;
   }
@@ -634,7 +634,7 @@ function (_Component) {
     key: "getCurrentPluginsState",
     value: function getCurrentPluginsState() {
       return {
-        plugins: Object(external_lodash_["map"])(getPlugins(), function (_ref) {
+        plugins: Object(external_this_lodash_["map"])(getPlugins(), function (_ref) {
           var icon = _ref.icon,
               name = _ref.name,
               render = _ref.render;
@@ -672,7 +672,7 @@ function (_Component) {
         style: {
           display: 'none'
         }
-      }, Object(external_lodash_["map"])(this.state.plugins, function (_ref2) {
+      }, Object(external_this_lodash_["map"])(this.state.plugins, function (_ref2) {
         var context = _ref2.context,
             Plugin = _ref2.Plugin;
         return Object(external_this_wp_element_["createElement"])(Provider, {
