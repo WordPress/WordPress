@@ -51,12 +51,14 @@ window.wp = window.wp || {};
 
 		// Add prototype properties (instance properties) to the subclass,
 		// if supplied.
-		if ( protoProps )
+		if ( protoProps ) {
 			$.extend( child.prototype, protoProps );
+		}
 
 		// Add static properties to the constructor function, if supplied.
-		if ( staticProps )
+		if ( staticProps ) {
 			$.extend( child, staticProps );
+		}
 
 		// Correctly set child's `prototype.constructor`.
 		child.prototype.constructor = child;
@@ -132,10 +134,12 @@ window.wp = window.wp || {};
 		var proto = this;
 
 		while ( typeof proto.constructor !== 'undefined' ) {
-			if ( proto.constructor === constructor )
+			if ( proto.constructor === constructor ) {
 				return true;
-			if ( typeof proto.constructor.__super__ === 'undefined' )
+			}
+			if ( typeof proto.constructor.__super__ === 'undefined' ) {
 				return false;
+			}
 			proto = proto.constructor.__super__;
 		}
 		return false;
@@ -148,8 +152,9 @@ window.wp = window.wp || {};
 	 */
 	api.Events = {
 		trigger: function( id ) {
-			if ( this.topics && this.topics[ id ] )
+			if ( this.topics && this.topics[ id ] ) {
 				this.topics[ id ].fireWith( this, slice.call( arguments, 1 ) );
+			}
 			return this;
 		},
 
@@ -161,8 +166,9 @@ window.wp = window.wp || {};
 		},
 
 		unbind: function( id ) {
-			if ( this.topics && this.topics[ id ] )
+			if ( this.topics && this.topics[ id ] ) {
 				this.topics[ id ].remove.apply( this.topics[ id ], slice.call( arguments, 1 ) );
+			}
 			return this;
 		}
 	};
@@ -351,8 +357,9 @@ window.wp = window.wp || {};
 		 *                    A Deferred Promise object if a callback function is supplied.
 		 */
 		instance: function( id ) {
-			if ( arguments.length === 1 )
+			if ( arguments.length === 1 ) {
 				return this.value( id );
+			}
 
 			return this.when.apply( this, arguments );
 		},
@@ -490,16 +497,18 @@ window.wp = window.wp || {};
 				dfd  = $.Deferred();
 
 			// If the last argument is a callback, bind it to .done()
-			if ( $.isFunction( ids[ ids.length - 1 ] ) )
+			if ( $.isFunction( ids[ ids.length - 1 ] ) ) {
 				dfd.done( ids.pop() );
+			}
 
 			/*
 			 * Create a stack of deferred objects for each item that is not
 			 * yet available, and invoke the supplied callback when they are.
 			 */
 			$.when.apply( $, $.map( ids, function( id ) {
-				if ( self.has( id ) )
+				if ( self.has( id ) ) {
 					return;
+				}
 
 				/*
 				 * The requested item is not available yet, create a deferred
@@ -546,7 +555,7 @@ window.wp = window.wp || {};
 	 * @param {string|jQuery collection} element
 	 */
 	api.ensure = function( element ) {
-		return typeof element == 'string' ? $( element ) : element;
+		return typeof element === 'string' ? $( element ) : element;
 	};
 
 	/**
@@ -744,10 +753,11 @@ window.wp = window.wp || {};
 			}
 
 			// Check to make sure the origin is valid.
-			if ( this.origin() && event.origin !== this.origin() )
+			if ( this.origin() && event.origin !== this.origin() ) {
 				return;
+			}
 
-			// Ensure we have a string that's JSON.parse-able
+			// Ensure we have a string that's JSON.parse-able.
 			if ( typeof event.data !== 'string' || event.data[0] !== '{' ) {
 				return;
 			}
@@ -755,12 +765,14 @@ window.wp = window.wp || {};
 			message = JSON.parse( event.data );
 
 			// Check required message properties.
-			if ( ! message || ! message.id || typeof message.data === 'undefined' )
+			if ( ! message || ! message.id || typeof message.data === 'undefined' ) {
 				return;
+			}
 
 			// Check if channel names match.
-			if ( ( message.channel || this.channel() ) && this.channel() !== message.channel )
+			if ( ( message.channel || this.channel() ) && this.channel() !== message.channel ) {
 				return;
+			}
 
 			this.trigger( message.id, message.data );
 		},
@@ -776,12 +788,14 @@ window.wp = window.wp || {};
 
 			data = typeof data === 'undefined' ? null : data;
 
-			if ( ! this.url() || ! this.targetWindow() )
+			if ( ! this.url() || ! this.targetWindow() ) {
 				return;
+			}
 
 			message = { id: id, data: data };
-			if ( this.channel() )
+			if ( this.channel() ) {
 				message.channel = this.channel();
+			}
 
 			this.targetWindow().postMessage( JSON.stringify( message ), this.origin() );
 		}
