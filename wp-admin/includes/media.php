@@ -1268,7 +1268,7 @@ function media_single_attachment_fields_to_edit( $form_fields, $post ) {
 }
 
 /**
- * Retrieves the post non-image attachment fields to edito form fields.
+ * Retrieves the post non-image attachment fields to edit form fields.
  *
  * @since 2.8.0
  *
