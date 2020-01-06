@@ -270,7 +270,11 @@ class WP_REST_Server {
 			array( true ),
 			'4.7.0',
 			'rest_authentication_errors',
-			__( 'The REST API can no longer be completely disabled, the rest_authentication_errors filter can be used to restrict access to the API, instead.' )
+			sprintf(
+				/* translators: %s: rest_authentication_errors */
+				__( 'The REST API can no longer be completely disabled, the %s filter can be used to restrict access to the API, instead.' ),
+				'rest_authentication_errors'
+			)
 		);
 
 		/**
