@@ -439,8 +439,6 @@ if ( ! function_exists( 'wp_mail' ) ) :
 			$charset = get_bloginfo( 'charset' );
 		}
 
-		// Set the content-type and charset
-
 		/**
 		 * Filters the default wp_mail() charset.
 		 *
