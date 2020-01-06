@@ -804,7 +804,13 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 		if ( is_multisite() ) {
 			$error_msg = __( 'File is empty. Please upload something more substantial.' );
 		} else {
-			$error_msg = __( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.' );
+			$error_msg = sprintf(
+				/* translators: 1: php.ini, 2: post_max_size, 3: upload_max_filesize */
+				__( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your %1$s file or by %2$s being defined as smaller than %3$s in %1$s.' ),
+				'php.ini',
+				'post_max_size',
+				'upload_max_filesize'
+			);
 		}
 		return call_user_func_array( $upload_error_handler, array( &$file, $error_msg ) );
 	}
