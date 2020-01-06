@@ -2249,10 +2249,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				_doing_it_wrong(
 					'register_taxonomy',
 					sprintf(
-						/* translators: 1. The taxonomy name, 2. The property name, either 'rest_base' or 'name'. */
-						__( 'The "%1$s" taxonomy "%2$s" conflicts with an existing property on the REST API Posts Controller. Specify a custom "rest_base" when registering the taxonomy to avoid this error.' ),
+						/* translators: 1. The taxonomy name, 2. The property name, either 'rest_base' or 'name', 3. The conflicting value. */
+						__( 'The "%1$s" taxonomy "%2$s" property (%3$s) conflicts with an existing property on the REST API Posts Controller. Specify a custom "rest_base" when registering the taxonomy to avoid this error.' ),
 						$taxonomy->name,
-						$taxonomy_field_name_with_conflict
+						$taxonomy_field_name_with_conflict,
+						$base
 					),
 					'5.4.0'
 				);
