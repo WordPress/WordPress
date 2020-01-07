@@ -216,8 +216,8 @@
 
 .site-health-copy-buttons .success.visible {
 	display: inline-block;
-	height: 28px;
-	line-height: 2.2;
+	height: 30px;
+	line-height: 2.30769231;
 }
 
 .site-status-has-issues.hide {
