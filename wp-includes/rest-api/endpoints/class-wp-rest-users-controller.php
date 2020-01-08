@@ -609,7 +609,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			sort( $request_params );
 			// If only 'id' and 'roles' are specified (we are only trying to
 			// edit roles), then only the 'promote_user' cap is required.
-			if ( $request_params === array( 'id', 'roles' ) ) {
+			if ( array( 'id', 'roles' ) === $request_params ) {
 				return true;
 			}
 		}
