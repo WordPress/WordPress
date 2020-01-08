@@ -1016,8 +1016,8 @@ function load_script_textdomain( $handle, $domain = 'default', $path = null ) {
 	 *
 	 * @since 5.0.2
 	 *
-	 * @param string $relative The relative path of the script. False if it could not be determined.
-	 * @param string $src      The full source url of the script.
+	 * @param string|false $relative The relative path of the script. False if it could not be determined.
+	 * @param string       $src      The full source URL of the script.
 	 */
 	$relative = apply_filters( 'load_script_textdomain_relative_path', $relative, $src );
 
