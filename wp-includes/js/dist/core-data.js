@@ -82,34 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 349);
+/******/ 	return __webpack_require__(__webpack_require__.s = 369);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 10:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 0:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
+(function() { module.exports = this["wp"]["element"]; }());
 
 /***/ }),
 
-/***/ 17:
+/***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -125,7 +110,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(30);
+var iterableToArray = __webpack_require__(32);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -149,23 +134,20 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 20:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["regeneratorRuntime"]; }());
-
-/***/ }),
-
-/***/ 23:
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(38);
+var arrayWithHoles = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
+  if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+    return;
+  }
+
   var _arr = [];
   var _n = true;
   var _d = false;
@@ -191,7 +173,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(39);
+var nonIterableRest = __webpack_require__(34);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
@@ -204,14 +186,21 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 26:
+/***/ 23:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["regeneratorRuntime"]; }());
+
+/***/ }),
+
+/***/ 25:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 30:
+/***/ 32:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -222,14 +211,36 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 34:
-/***/ (function(module, exports) {
+/***/ 33:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = this["wp"]["apiFetch"]; }());
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
 
 /***/ }),
 
-/***/ 349:
+/***/ 34:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+
+/***/ }),
+
+/***/ 35:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["deprecated"]; }());
+
+/***/ }),
+
+/***/ 369:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -242,11 +253,11 @@ __webpack_require__.d(build_module_actions_namespaceObject, "addEntities", funct
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveEntityRecords", function() { return receiveEntityRecords; });
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveThemeSupports", function() { return receiveThemeSupports; });
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveEmbedPreview", function() { return receiveEmbedPreview; });
-__webpack_require__.d(build_module_actions_namespaceObject, "editEntityRecord", function() { return editEntityRecord; });
+__webpack_require__.d(build_module_actions_namespaceObject, "editEntityRecord", function() { return actions_editEntityRecord; });
 __webpack_require__.d(build_module_actions_namespaceObject, "undo", function() { return undo; });
 __webpack_require__.d(build_module_actions_namespaceObject, "redo", function() { return redo; });
 __webpack_require__.d(build_module_actions_namespaceObject, "__unstableCreateUndoLevel", function() { return __unstableCreateUndoLevel; });
-__webpack_require__.d(build_module_actions_namespaceObject, "saveEntityRecord", function() { return saveEntityRecord; });
+__webpack_require__.d(build_module_actions_namespaceObject, "saveEntityRecord", function() { return actions_saveEntityRecord; });
 __webpack_require__.d(build_module_actions_namespaceObject, "saveEditedEntityRecord", function() { return saveEditedEntityRecord; });
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveUploadPermissions", function() { return receiveUploadPermissions; });
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveUserPermission", function() { return receiveUserPermission; });
@@ -258,7 +269,7 @@ __webpack_require__.d(build_module_selectors_namespaceObject, "getAuthors", func
 __webpack_require__.d(build_module_selectors_namespaceObject, "getCurrentUser", function() { return getCurrentUser; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getUserQueryResults", function() { return getUserQueryResults; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEntitiesByKind", function() { return getEntitiesByKind; });
-__webpack_require__.d(build_module_selectors_namespaceObject, "getEntity", function() { return getEntity; });
+__webpack_require__.d(build_module_selectors_namespaceObject, "getEntity", function() { return selectors_getEntity; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEntityRecord", function() { return getEntityRecord; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getRawEntityRecord", function() { return getRawEntityRecord; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEntityRecords", function() { return getEntityRecords; });
@@ -302,19 +313,19 @@ var objectSpread = __webpack_require__(7);
 var external_this_wp_data_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(23);
+var slicedToArray = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(17);
+var toConsumableArray = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(10);
+var defineProperty = __webpack_require__(9);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(41);
+var external_this_wp_isShallowEqual_ = __webpack_require__(45);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/conservative-map-item.js
@@ -524,14 +535,14 @@ function receiveQueriedItems(items) {
 }
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(36);
+var rememo = __webpack_require__(38);
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(73);
+var equivalent_key_map = __webpack_require__(76);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(26);
+var external_this_wp_url_ = __webpack_require__(25);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/get-query-parts.js
 
@@ -699,11 +710,11 @@ var getQueriedItems = Object(rememo["a" /* default */])(function (state) {
 });
 
 // EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
-var external_this_regeneratorRuntime_ = __webpack_require__(20);
+var external_this_regeneratorRuntime_ = __webpack_require__(23);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(34);
+var external_this_wp_apiFetch_ = __webpack_require__(37);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/controls.js
@@ -784,31 +795,11 @@ var controls = {
   }),
   RESOLVE_SELECT: Object(external_this_wp_data_["createRegistryControl"])(function (registry) {
     return function (_ref3) {
+      var _registry$__experimen;
+
       var selectorName = _ref3.selectorName,
           args = _ref3.args;
-      return new Promise(function (resolve) {
-        var hasFinished = function hasFinished() {
-          return registry.select('core/data').hasFinishedResolution('core', selectorName, args);
-        };
-
-        var getResult = function getResult() {
-          return registry.select('core')[selectorName].apply(null, args);
-        }; // trigger the selector (to trigger the resolver)
-
-
-        var result = getResult();
-
-        if (hasFinished()) {
-          return resolve(result);
-        }
-
-        var unsubscribe = registry.subscribe(function () {
-          if (hasFinished()) {
-            unsubscribe();
-            resolve(getResult());
-          }
-        });
-      });
+      return (_registry$__experimen = registry.__experimentalResolveSelect('core'))[selectorName].apply(_registry$__experimen, Object(toConsumableArray["a" /* default */])(args));
     };
   })
 };
@@ -820,7 +811,7 @@ var controls = {
 
 var _marked =
 /*#__PURE__*/
-external_this_regeneratorRuntime_default.a.mark(editEntityRecord),
+external_this_regeneratorRuntime_default.a.mark(actions_editEntityRecord),
     _marked2 =
 /*#__PURE__*/
 external_this_regeneratorRuntime_default.a.mark(undo),
@@ -829,7 +820,7 @@ external_this_regeneratorRuntime_default.a.mark(undo),
 external_this_regeneratorRuntime_default.a.mark(redo),
     _marked4 =
 /*#__PURE__*/
-external_this_regeneratorRuntime_default.a.mark(saveEntityRecord),
+external_this_regeneratorRuntime_default.a.mark(actions_saveEntityRecord),
     _marked5 =
 /*#__PURE__*/
 external_this_regeneratorRuntime_default.a.mark(saveEditedEntityRecord);
@@ -946,8 +937,8 @@ function receiveThemeSupports(themeSupports) {
  * Returns an action object used in signalling that the preview data for
  * a given URl has been received.
  *
- * @param {string}  url      URL to preview the embed for.
- * @param {Mixed}   preview  Preview data.
+ * @param {string}  url     URL to preview the embed for.
+ * @param {*}       preview Preview data.
  *
  * @return {Object} Action object.
  */
@@ -973,7 +964,7 @@ function receiveEmbedPreview(url, preview) {
  * @return {Object} Action object.
  */
 
-function editEntityRecord(kind, name, recordId, edits) {
+function actions_editEntityRecord(kind, name, recordId, edits) {
   var options,
       entity,
       _entity$transientEdit,
@@ -1153,7 +1144,7 @@ function __unstableCreateUndoLevel() {
  * @param {Object} options Saving options.
  */
 
-function saveEntityRecord(kind, name, record) {
+function actions_saveEntityRecord(kind, name, record) {
   var _ref,
       _ref$isAutosave,
       isAutosave,
@@ -1365,7 +1356,7 @@ function saveEntityRecord(kind, name, record) {
           return receiveEntityRecords(kind, name, persistedEntity, undefined, true);
 
         case 63:
-          _context4.t1 = editEntityRecord;
+          _context4.t1 = actions_editEntityRecord;
           _context4.t2 = kind;
           _context4.t3 = name;
           _context4.t4 = recordId;
@@ -1440,7 +1431,7 @@ function saveEditedEntityRecord(kind, name, recordId, options) {
           record = Object(objectSpread["a" /* default */])({
             id: recordId
           }, edits);
-          return _context5.delegateYield(saveEntityRecord(kind, name, record, options), "t0", 9);
+          return _context5.delegateYield(actions_saveEntityRecord(kind, name, record, options), "t0", 9);
 
         case 9:
         case "end":
@@ -1524,6 +1515,10 @@ external_this_regeneratorRuntime_default.a.mark(getKindEntities);
 
 var DEFAULT_ENTITY_KEY = 'id';
 var defaultEntities = [{
+  name: 'site',
+  kind: 'root',
+  baseURL: '/wp/v2/settings'
+}, {
   name: 'postType',
   kind: 'root',
   key: 'slug',
@@ -1543,7 +1538,10 @@ var defaultEntities = [{
   name: 'widgetArea',
   kind: 'root',
   baseURL: '/__experimental/widget-areas',
-  plural: 'widgetAreas'
+  plural: 'widgetAreas',
+  transientEdits: {
+    blocks: true
+  }
 }];
 var kinds = [{
   name: 'postType',
@@ -1577,7 +1575,9 @@ function loadPostTypeEntities() {
               baseURL: '/wp/v2/' + postType.rest_base,
               name: name,
               transientEdits: {
-                blocks: true
+                blocks: true,
+                selectionStart: true,
+                selectionEnd: true
               },
               mergedEdits: {
                 meta: true
@@ -1774,10 +1774,10 @@ function reducer_items() {
   switch (action.type) {
     case 'RECEIVE_ITEMS':
       var key = action.key || DEFAULT_ENTITY_KEY;
-      return Object(objectSpread["a" /* default */])({}, state, action.items.reduce(function (acc, value) {
+      return Object(objectSpread["a" /* default */])({}, state, action.items.reduce(function (accumulator, value) {
         var itemId = value[key];
-        acc[itemId] = conservativeMapItem(state[itemId], value);
-        return acc;
+        accumulator[itemId] = conservativeMapItem(state[itemId], value);
+        return accumulator;
       }, {}));
   }
 
@@ -2179,7 +2179,18 @@ function reducer_undo() {
       if (isCreateUndoLevel) {
         action = lastEditAction;
       } else if (!isUndoOrRedo) {
-        lastEditAction = action;
+        // Don't lose the last edit cache if the new one only has transient edits.
+        // Transient edits don't create new levels so updating the cache would make
+        // us skip an edit later when creating levels explicitly.
+        if (Object.keys(action.edits).some(function (key) {
+          return !action.transientEdits[key];
+        })) {
+          lastEditAction = action;
+        } else {
+          lastEditAction = Object(objectSpread["a" /* default */])({}, action, {
+            edits: Object(objectSpread["a" /* default */])({}, lastEditAction && lastEditAction.edits, action.edits)
+          });
+        }
       }
 
       var nextState;
@@ -2333,7 +2344,7 @@ function reducer_autosaves() {
 }));
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(37);
+var external_this_wp_deprecated_ = __webpack_require__(35);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/name.js
@@ -2443,7 +2454,7 @@ function getEntitiesByKind(state, kind) {
  * @return {Object} Entity
  */
 
-function getEntity(state, kind, name) {
+function selectors_getEntity(state, kind, name) {
   return Object(external_this_lodash_["find"])(state.entities.config, {
     kind: kind,
     name: name
@@ -2477,12 +2488,12 @@ function getEntityRecord(state, kind, name, key) {
 
 var getRawEntityRecord = Object(rememo["a" /* default */])(function (state, kind, name, key) {
   var record = getEntityRecord(state, kind, name, key);
-  return record && Object.keys(record).reduce(function (acc, _key) {
+  return record && Object.keys(record).reduce(function (accumulator, _key) {
     // Because edits are the "raw" attribute values,
     // we return those from record selectors to make rendering,
     // comparisons, and joins with edits easier.
-    acc[_key] = Object(external_this_lodash_["get"])(record[_key], 'raw', record[_key]);
-    return acc;
+    accumulator[_key] = Object(external_this_lodash_["get"])(record[_key], 'raw', record[_key]);
+    return accumulator;
   }, {});
 }, function (state) {
   return [state.entities.data];
@@ -2537,7 +2548,7 @@ function getEntityRecordEdits(state, kind, name, recordId) {
  */
 
 var getEntityRecordNonTransientEdits = Object(rememo["a" /* default */])(function (state, kind, name, recordId) {
-  var _ref = getEntity(state, kind, name) || {},
+  var _ref = selectors_getEntity(state, kind, name) || {},
       transientEdits = _ref.transientEdits;
 
   var edits = getEntityRecordEdits(state, kind, name, recordId) || {};
@@ -2979,16 +2990,21 @@ function resolvers_getCurrentUser() {
  * @param {number} key    Record's key
  */
 
-function resolvers_getEntityRecord(kind, name, key) {
-  var entities, entity, record;
+function resolvers_getEntityRecord(kind, name) {
+  var key,
+      entities,
+      entity,
+      record,
+      _args3 = arguments;
   return external_this_regeneratorRuntime_default.a.wrap(function getEntityRecord$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _context3.next = 2;
+          key = _args3.length > 2 && _args3[2] !== undefined ? _args3[2] : '';
+          _context3.next = 3;
           return getKindEntities(kind);
 
-        case 2:
+        case 3:
           entities = _context3.sent;
           entity = Object(external_this_lodash_["find"])(entities, {
             kind: kind,
@@ -2996,24 +3012,24 @@ function resolvers_getEntityRecord(kind, name, key) {
           });
 
           if (entity) {
-            _context3.next = 6;
+            _context3.next = 7;
             break;
           }
 
           return _context3.abrupt("return");
 
-        case 6:
-          _context3.next = 8;
+        case 7:
+          _context3.next = 9;
           return apiFetch({
             path: "".concat(entity.baseURL, "/").concat(key, "?context=edit")
           });
 
-        case 8:
+        case 9:
           record = _context3.sent;
-          _context3.next = 11;
+          _context3.next = 12;
           return receiveEntityRecords(kind, name, record);
 
-        case 11:
+        case 12:
         case "end":
           return _context3.stop();
       }
@@ -3323,7 +3339,192 @@ function resolvers_getAutosave(postType, postId) {
   }, _marked10);
 }
 
+// EXTERNAL MODULE: external {"this":["wp","element"]}
+var external_this_wp_element_ = __webpack_require__(0);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/entity-provider.js
+
+
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+var entity_provider_entities = Object(objectSpread["a" /* default */])({}, defaultEntities.reduce(function (acc, entity) {
+  if (!acc[entity.kind]) {
+    acc[entity.kind] = {};
+  }
+
+  acc[entity.kind][entity.name] = {
+    context: Object(external_this_wp_element_["createContext"])()
+  };
+  return acc;
+}, {}), kinds.reduce(function (acc, kind) {
+  acc[kind.name] = {};
+  return acc;
+}, {}));
+
+var entity_provider_getEntity = function getEntity(kind, type) {
+  if (!entity_provider_entities[kind]) {
+    throw new Error("Missing entity config for kind: ".concat(kind, "."));
+  }
+
+  if (!entity_provider_entities[kind][type]) {
+    entity_provider_entities[kind][type] = {
+      context: Object(external_this_wp_element_["createContext"])()
+    };
+  }
+
+  return entity_provider_entities[kind][type];
+};
+/**
+ * Context provider component for providing
+ * an entity for a specific entity type.
+ *
+ * @param {Object} props          The component's props.
+ * @param {string} props.kind     The entity kind.
+ * @param {string} props.type     The entity type.
+ * @param {number} props.id       The entity ID.
+ * @param {*}      props.children The children to wrap.
+ *
+ * @return {Object} The provided children, wrapped with
+ *                   the entity's context provider.
+ */
+
+
+function EntityProvider(_ref) {
+  var kind = _ref.kind,
+      type = _ref.type,
+      id = _ref.id,
+      children = _ref.children;
+  var Provider = entity_provider_getEntity(kind, type).context.Provider;
+  return Object(external_this_wp_element_["createElement"])(Provider, {
+    value: id
+  }, children);
+}
+/**
+ * Hook that returns the ID for the nearest
+ * provided entity of the specified type.
+ *
+ * @param {string} kind The entity kind.
+ * @param {string} type The entity type.
+ */
+
+function useEntityId(kind, type) {
+  return Object(external_this_wp_element_["useContext"])(entity_provider_getEntity(kind, type).context);
+}
+/**
+ * Hook that returns the value and a setter for the
+ * specified property of the nearest provided
+ * entity of the specified type.
+ *
+ * @param {string} kind The entity kind.
+ * @param {string} type The entity type.
+ * @param {string} prop The property name.
+ *
+ * @return {[*, Function]} A tuple where the first item is the
+ *                          property value and the second is the
+ *                          setter.
+ */
+
+function useEntityProp(kind, type, prop) {
+  var id = useEntityId(kind, type);
+  var value = Object(external_this_wp_data_["useSelect"])(function (select) {
+    var _select = select('core'),
+        getEntityRecord = _select.getEntityRecord,
+        getEditedEntityRecord = _select.getEditedEntityRecord;
+
+    getEntityRecord(kind, type, id); // Trigger resolver.
+
+    var entity = getEditedEntityRecord(kind, type, id);
+    return entity && entity[prop];
+  }, [kind, type, id, prop]);
+
+  var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core'),
+      editEntityRecord = _useDispatch.editEntityRecord;
+
+  var setValue = Object(external_this_wp_element_["useCallback"])(function (newValue) {
+    editEntityRecord(kind, type, id, Object(defineProperty["a" /* default */])({}, prop, newValue));
+  }, [kind, type, id, prop]);
+  return [value, setValue];
+}
+/**
+ * Hook that returns whether the nearest provided
+ * entity of the specified type is dirty, saving,
+ * and a function to save it.
+ *
+ * The last, optional parameter is for scoping the
+ * selection to a single property or a list properties.
+ *
+ * By default, dirtyness detection and saving considers
+ * and handles all properties of an entity, but this
+ * last parameter lets you scope it to a single property
+ * or a list of properties for each instance of this hook.
+ *
+ * @param {string}          kind    The entity kind.
+ * @param {string}          type    The entity type.
+ * @param {string|[string]} [props] The property name or list of property names.
+ */
+
+function __experimentalUseEntitySaving(kind, type, props) {
+  var id = useEntityId(kind, type);
+
+  var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
+    var _select2 = select('core'),
+        getEntityRecordNonTransientEdits = _select2.getEntityRecordNonTransientEdits,
+        isSavingEntityRecord = _select2.isSavingEntityRecord;
+
+    var _edits = getEntityRecordNonTransientEdits(kind, type, id);
+
+    var editKeys = Object.keys(_edits);
+    return [props ? editKeys.some(function (key) {
+      return typeof props === 'string' ? key === props : props.includes(key);
+    }) : editKeys.length > 0, isSavingEntityRecord(kind, type, id), _edits];
+  }, [kind, type, id, props]),
+      _useSelect2 = Object(slicedToArray["a" /* default */])(_useSelect, 3),
+      isDirty = _useSelect2[0],
+      isSaving = _useSelect2[1],
+      edits = _useSelect2[2];
+
+  var _useDispatch2 = Object(external_this_wp_data_["useDispatch"])('core'),
+      saveEntityRecord = _useDispatch2.saveEntityRecord;
+
+  var save = Object(external_this_wp_element_["useCallback"])(function () {
+    var filteredEdits = edits;
+
+    if (typeof props === 'string') {
+      filteredEdits = Object(defineProperty["a" /* default */])({}, props, filteredEdits[props]);
+    } else if (props) {
+      filteredEdits = filteredEdits.reduce(function (acc, key) {
+        if (props.includes(key)) {
+          acc[key] = filteredEdits[key];
+        }
+
+        return acc;
+      }, {});
+    }
+
+    saveEntityRecord(kind, type, Object(objectSpread["a" /* default */])({
+      id: id
+    }, filteredEdits));
+  }, [kind, type, id, props, edits]);
+  return [isDirty, isSaving, save];
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/index.js
+/* concated harmony reexport EntityProvider */__webpack_require__.d(__webpack_exports__, "EntityProvider", function() { return EntityProvider; });
+/* concated harmony reexport useEntityId */__webpack_require__.d(__webpack_exports__, "useEntityId", function() { return useEntityId; });
+/* concated harmony reexport useEntityProp */__webpack_require__.d(__webpack_exports__, "useEntityProp", function() { return useEntityProp; });
+/* concated harmony reexport __experimentalUseEntitySaving */__webpack_require__.d(__webpack_exports__, "__experimentalUseEntitySaving", function() { return __experimentalUseEntitySaving; });
 
 
 /**
@@ -3398,7 +3599,7 @@ var entityActions = defaultEntities.reduce(function (result, entity) {
       name = entity.name;
 
   result[entities_getMethodName(kind, name, 'save')] = function (key) {
-    return saveEntityRecord(kind, name, key);
+    return actions_saveEntityRecord(kind, name, key);
   };
 
   return result;
@@ -3412,9 +3613,17 @@ Object(external_this_wp_data_["registerStore"])(REDUCER_KEY, {
 });
 
 
+
 /***/ }),
 
-/***/ 36:
+/***/ 37:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3696,35 +3905,6 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 37:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
-
-/***/ }),
-
-/***/ 38:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-}
-
-/***/ }),
-
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -3732,7 +3912,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 41:
+/***/ 45:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["isShallowEqual"]; }());
@@ -3744,12 +3924,12 @@ function _nonIterableRest() {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
+    var ownKeys = Object.keys(Object(source));
 
     if (typeof Object.getOwnPropertySymbols === 'function') {
       ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
@@ -3767,7 +3947,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 73:
+/***/ 76:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4079,6 +4259,28 @@ function () {
 
 module.exports = EquivalentKeyMap;
 
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
 
 /***/ })
 

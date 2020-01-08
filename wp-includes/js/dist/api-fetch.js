@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 354);
+/******/ 	return __webpack_require__(__webpack_require__.s = 375);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,61 +94,16 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["regeneratorRuntime"]; }());
-
-/***/ }),
-
 /***/ 21:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = _objectWithoutPropertiesLoose(source, excluded);
+  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -167,14 +122,21 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 26:
+/***/ 23:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["regeneratorRuntime"]; }());
+
+/***/ }),
+
+/***/ 25:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 354:
+/***/ 375:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -183,8 +145,11 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
 var objectSpread = __webpack_require__(7);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js + 1 modules
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
 var objectWithoutProperties = __webpack_require__(21);
+
+// EXTERNAL MODULE: external {"this":["wp","i18n"]}
+var external_this_wp_i18n_ = __webpack_require__(1);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js
 
@@ -283,32 +248,45 @@ var root_url_createRootURLMiddleware = function createRootURLMiddleware(rootURL)
 /* harmony default export */ var root_url = (root_url_createRootURLMiddleware);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/preloading.js
-var createPreloadingMiddleware = function createPreloadingMiddleware(preloadedData) {
+/**
+ * Given a path, returns a normalized path where equal query parameter values
+ * will be treated as identical, regardless of order they appear in the original
+ * text.
+ *
+ * @param {string} path Original path.
+ *
+ * @return {string} Normalized path.
+ */
+function getStablePath(path) {
+  var splitted = path.split('?');
+  var query = splitted[1];
+  var base = splitted[0];
+
+  if (!query) {
+    return base;
+  } // 'b=1&c=2&a=5'
+
+
+  return base + '?' + query // [ 'b=1', 'c=2', 'a=5' ]
+  .split('&') // [ [ 'b, '1' ], [ 'c', '2' ], [ 'a', '5' ] ]
+  .map(function (entry) {
+    return entry.split('=');
+  }) // [ [ 'a', '5' ], [ 'b, '1' ], [ 'c', '2' ] ]
+  .sort(function (a, b) {
+    return a[0].localeCompare(b[0]);
+  }) // [ 'a=5', 'b=1', 'c=2' ]
+  .map(function (pair) {
+    return pair.join('=');
+  }) // 'a=5&b=1&c=2'
+  .join('&');
+}
+
+function createPreloadingMiddleware(preloadedData) {
+  var cache = Object.keys(preloadedData).reduce(function (result, path) {
+    result[getStablePath(path)] = preloadedData[path];
+    return result;
+  }, {});
   return function (options, next) {
-    function getStablePath(path) {
-      var splitted = path.split('?');
-      var query = splitted[1];
-      var base = splitted[0];
-
-      if (!query) {
-        return base;
-      } // 'b=1&c=2&a=5'
-
-
-      return base + '?' + query // [ 'b=1', 'c=2', 'a=5' ]
-      .split('&') // [ [ 'b, '1' ], [ 'c', '2' ], [ 'a', '5' ] ]
-      .map(function (entry) {
-        return entry.split('=');
-      }) // [ [ 'a', '5' ], [ 'b, '1' ], [ 'c', '2' ] ]
-      .sort(function (a, b) {
-        return a[0].localeCompare(b[0]);
-      }) // [ 'a=5', 'b=1', 'c=2' ]
-      .map(function (pair) {
-        return pair.join('=');
-      }) // 'a=5&b=1&c=2'
-      .join('&');
-    }
-
     var _options$parse = options.parse,
         parse = _options$parse === void 0 ? true : _options$parse;
 
@@ -316,28 +294,28 @@ var createPreloadingMiddleware = function createPreloadingMiddleware(preloadedDa
       var method = options.method || 'GET';
       var path = getStablePath(options.path);
 
-      if (parse && 'GET' === method && preloadedData[path]) {
-        return Promise.resolve(preloadedData[path].body);
-      } else if ('OPTIONS' === method && preloadedData[method] && preloadedData[method][path]) {
-        return Promise.resolve(preloadedData[method][path]);
+      if (parse && 'GET' === method && cache[path]) {
+        return Promise.resolve(cache[path].body);
+      } else if ('OPTIONS' === method && cache[method] && cache[method][path]) {
+        return Promise.resolve(cache[method][path]);
       }
     }
 
     return next(options);
   };
-};
+}
 
 /* harmony default export */ var preloading = (createPreloadingMiddleware);
 
 // EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
-var external_this_regeneratorRuntime_ = __webpack_require__(20);
+var external_this_regeneratorRuntime_ = __webpack_require__(23);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
 var asyncToGenerator = __webpack_require__(43);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(26);
+var external_this_wp_url_ = __webpack_require__(25);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
 
@@ -577,9 +555,6 @@ function userLocaleMiddleware(options, next) {
 
 /* harmony default export */ var user_locale = (userLocaleMiddleware);
 
-// EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(1);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/utils/response.js
 /**
  * WordPress dependencies
@@ -738,8 +713,13 @@ function mediaUploadMiddleware(options, next) {
 
 
 /**
+ * WordPress dependencies
+ */
+
+/**
  * Internal dependencies
  */
+
 
 
 
@@ -809,10 +789,20 @@ var build_module_defaultFetchHandler = function defaultFetchHandler(nextOptions)
     body: body,
     headers: headers
   }));
-  return responsePromise.then(checkStatus).catch(function (response) {
-    return parseAndThrowError(response, parse);
-  }).then(function (response) {
-    return parseResponseAndNormalizeError(response, parse);
+  return responsePromise // Return early if fetch errors. If fetch error, there is most likely no
+  // network connection. Unfortunately fetch just throws a TypeError and
+  // the message might depend on the browser.
+  .then(function (value) {
+    return Promise.resolve(value).then(checkStatus).catch(function (response) {
+      return parseAndThrowError(response, parse);
+    }).then(function (response) {
+      return parseResponseAndNormalizeError(response, parse);
+    });
+  }, function () {
+    throw {
+      code: 'fetch_error',
+      message: Object(external_this_wp_i18n_["__"])('You are probably offline.')
+    };
   });
 };
 
@@ -873,6 +863,28 @@ apiFetch.mediaUploadMiddleware = media_upload;
 
 /***/ }),
 
+/***/ 40:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+/***/ }),
+
 /***/ 43:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -921,12 +933,12 @@ function _asyncToGenerator(fn) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
+    var ownKeys = Object.keys(Object(source));
 
     if (typeof Object.getOwnPropertySymbols === 'function') {
       ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
@@ -940,6 +952,28 @@ function _objectSpread(target) {
   }
 
   return target;
+}
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
 }
 
 /***/ })

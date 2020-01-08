@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["escapeHtml"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 370);
+/******/ 	return __webpack_require__(__webpack_require__.s = 388);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 370:
+/***/ 388:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -116,6 +116,7 @@ function __unstableEscapeGreaterThan(value) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "escapeLessThan", function() { return escapeLessThan; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "escapeAttribute", function() { return escapeAttribute; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "escapeHTML", function() { return escapeHTML; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "escapeEditableHTML", function() { return escapeEditableHTML; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidAttributeName", function() { return isValidAttributeName; });
 /**
  * Internal dependencies
@@ -213,6 +214,19 @@ function escapeAttribute(value) {
 
 function escapeHTML(value) {
   return escapeLessThan(escapeAmpersand(value));
+}
+/**
+ * Returns an escaped Editable HTML element value. This is different from
+ * `escapeHTML`, because for editable HTML, ALL ampersands must be escaped in
+ * order to render the content correctly on the page.
+ *
+ * @param {string} value Element value.
+ *
+ * @return {string} Escaped HTML element value.
+ */
+
+function escapeEditableHTML(value) {
+  return escapeLessThan(value.replace(/&/g, '&amp;'));
 }
 /**
  * Returns true if the given attribute name is valid, or false otherwise.

@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["tokenList"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 337);
+/******/ 	return __webpack_require__(__webpack_require__.s = 357);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 11:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -110,7 +110,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 12:
+/***/ 13:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -130,23 +130,23 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 20:
+/***/ 23:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["regeneratorRuntime"]; }());
 
 /***/ }),
 
-/***/ 337:
+/***/ 357:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TokenList; });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
-/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
+/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
 
@@ -183,8 +183,8 @@ function () {
       _this[fn] = function () {
         var _this$_valueAsArray;
 
-        return (_this$_valueAsArray = this._valueAsArray)[fn].apply(_this$_valueAsArray, arguments);
-      }.bind(_this);
+        return (_this$_valueAsArray = _this._valueAsArray)[fn].apply(_this$_valueAsArray, arguments);
+      };
     });
   }
   /**
@@ -246,7 +246,7 @@ function () {
      *
      * @param {number} index Index at which to return token.
      *
-     * @return {?string} Token at index.
+     * @return {string|undefined} Token at index.
      */
 
   }, {
@@ -311,8 +311,8 @@ function () {
      *
      * @see https://dom.spec.whatwg.org/#dom-domtokenlist-toggle
      *
-     * @param {string}   token Token to toggle.
-     * @param {?boolean} force Presence to force.
+     * @param {string}  token   Token to toggle.
+     * @param {boolean} [force] Presence to force.
      *
      * @return {boolean} Whether token is present after toggle.
      */

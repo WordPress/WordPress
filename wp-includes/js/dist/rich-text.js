@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 346);
+/******/ 	return __webpack_require__(__webpack_require__.s = 365);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,132 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
 /***/ 11:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-/***/ }),
-
-/***/ 12:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
-/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
-
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
-}
-
-/***/ }),
-
-/***/ 14:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _inherits; });
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-/***/ }),
-
-/***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -277,40 +152,43 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 17:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
   }
 }
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(30);
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
 }
 
 /***/ }),
 
-/***/ 18:
+/***/ 13:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+/***/ }),
+
+/***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -335,6 +213,106 @@ function _extends() {
 
 /***/ }),
 
+/***/ 15:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
+/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+}
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+/***/ }),
+
+/***/ 17:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _inherits; });
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+/***/ }),
+
+/***/ 18:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+var iterableToArray = __webpack_require__(32);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+}
+
+/***/ }),
+
 /***/ 19:
 /***/ (function(module, exports) {
 
@@ -349,50 +327,6 @@ function _extends() {
 
 /***/ }),
 
-/***/ 21:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-  var target = _objectWithoutPropertiesLoose(source, excluded);
-  var key, i;
-
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-
-  return target;
-}
-
-/***/ }),
-
 /***/ 27:
 /***/ (function(module, exports) {
 
@@ -400,7 +334,28 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 30:
+/***/ 31:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+/***/ }),
+
+/***/ 32:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -411,30 +366,14 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 31:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 35:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
-function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
-
-function _typeof(obj) {
-  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
-    _typeof = function _typeof(obj) {
-      return _typeof2(obj);
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
-    };
-  }
-
-  return _typeof(obj);
-}
+(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 
-/***/ 346:
+/***/ 365:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -499,7 +438,7 @@ function reducer_formatTypes() {
 }));
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(36);
+var rememo = __webpack_require__(38);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/store/selectors.js
 /**
@@ -624,7 +563,7 @@ Object(external_this_wp_data_["registerStore"])('core/rich-text', {
 });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(17);
+var toConsumableArray = __webpack_require__(18);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/is-format-equal.js
 /**
@@ -1004,6 +943,8 @@ function toFormat(_ref) {
  *                                            multiline.
  * @param {Array}   [$1.multilineWrapperTags] Tags where lines can be found if
  *                                            nesting is possible.
+ * @param {?boolean} [$1.preserveWhiteSpace]  Whether or not to collapse white
+ *                                            space characters.
  *
  * @return {Object} A rich text value.
  */
@@ -1017,7 +958,8 @@ function create() {
       range = _ref2.range,
       multilineTag = _ref2.multilineTag,
       multilineWrapperTags = _ref2.multilineWrapperTags,
-      isEditableTree = _ref2.__unstableIsEditableTree;
+      isEditableTree = _ref2.__unstableIsEditableTree,
+      preserveWhiteSpace = _ref2.preserveWhiteSpace;
 
   if (typeof text === 'string' && text.length > 0) {
     return {
@@ -1039,7 +981,8 @@ function create() {
     return createFromElement({
       element: element,
       range: range,
-      isEditableTree: isEditableTree
+      isEditableTree: isEditableTree,
+      preserveWhiteSpace: preserveWhiteSpace
     });
   }
 
@@ -1048,7 +991,8 @@ function create() {
     range: range,
     multilineTag: multilineTag,
     multilineWrapperTags: multilineWrapperTags,
-    isEditableTree: isEditableTree
+    isEditableTree: isEditableTree,
+    preserveWhiteSpace: preserveWhiteSpace
   });
 }
 /**
@@ -1134,14 +1078,27 @@ function filterRange(node, range, filter) {
     endOffset: endOffset
   };
 }
+/**
+ * Collapse any whitespace used for HTML formatting to one space character,
+ * because it will also be displayed as such by the browser.
+ *
+ * @param {string} string
+ */
+
+
+function collapseWhiteSpace(string) {
+  return string.replace(/[\n\r\t]+/g, ' ');
+}
 
 var ZWNBSPRegExp = new RegExp(ZWNBSP, 'g');
+/**
+ * Removes padding (zero width non breaking spaces) added by `toTree`.
+ *
+ * @param {string} string
+ */
 
-function filterString(string) {
-  // Reduce any whitespace used for HTML formatting to one space
-  // character, because it will also be displayed as such by the browser.
-  return string.replace(/[\n\r\t]+/g, ' ') // Remove padding added by `toTree`.
-  .replace(ZWNBSPRegExp, '');
+function removePadding(string) {
+  return string.replace(ZWNBSPRegExp, '');
 }
 /**
  * Creates a Rich Text value from a DOM element and range.
@@ -1153,6 +1110,8 @@ function filterString(string) {
  *                                            multiline.
  * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if
  *                                            nesting is possible.
+ * @param {?boolean} $1.preserveWhiteSpace    Whether or not to collapse white
+ *                                            space characters.
  *
  * @return {Object} A rich text value.
  */
@@ -1165,7 +1124,8 @@ function createFromElement(_ref3) {
       multilineWrapperTags = _ref3.multilineWrapperTags,
       _ref3$currentWrapperT = _ref3.currentWrapperTags,
       currentWrapperTags = _ref3$currentWrapperT === void 0 ? [] : _ref3$currentWrapperT,
-      isEditableTree = _ref3.isEditableTree;
+      isEditableTree = _ref3.isEditableTree,
+      preserveWhiteSpace = _ref3.preserveWhiteSpace;
   var accumulator = createEmptyValue();
 
   if (!element) {
@@ -1184,8 +1144,16 @@ function createFromElement(_ref3) {
     var type = node.nodeName.toLowerCase();
 
     if (node.nodeType === TEXT_NODE) {
-      var text = filterString(node.nodeValue);
-      range = filterRange(node, range, filterString);
+      var filter = removePadding;
+
+      if (!preserveWhiteSpace) {
+        filter = function filter(string) {
+          return removePadding(collapseWhiteSpace(string));
+        };
+      }
+
+      var text = filter(node.nodeValue);
+      range = filterRange(node, range, filter);
       accumulateSelection(accumulator, node, range, {
         text: text
       }); // Create a sparse array of the same length as `text`, in which
@@ -1233,7 +1201,8 @@ function createFromElement(_ref3) {
         multilineTag: multilineTag,
         multilineWrapperTags: multilineWrapperTags,
         currentWrapperTags: [].concat(Object(toConsumableArray["a" /* default */])(currentWrapperTags), [format]),
-        isEditableTree: isEditableTree
+        isEditableTree: isEditableTree,
+        preserveWhiteSpace: preserveWhiteSpace
       });
 
       accumulateSelection(accumulator, node, range, _value);
@@ -1246,7 +1215,8 @@ function createFromElement(_ref3) {
       range: range,
       multilineTag: multilineTag,
       multilineWrapperTags: multilineWrapperTags,
-      isEditableTree: isEditableTree
+      isEditableTree: isEditableTree,
+      preserveWhiteSpace: preserveWhiteSpace
     });
     accumulateSelection(accumulator, node, range, value);
 
@@ -1281,15 +1251,17 @@ function createFromElement(_ref3) {
  * Creates a rich text value from a DOM element and range that should be
  * multiline.
  *
- * @param {Object}    $1                      Named argements.
- * @param {?Element}  $1.element              Element to create value from.
- * @param {?Range}    $1.range                Range to create value from.
- * @param {?string}   $1.multilineTag         Multiline tag if the structure is
- *                                            multiline.
- * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if
- *                                            nesting is possible.
- * @param {boolean}   $1.currentWrapperTags   Whether to prepend a line
- *                                            separator.
+ * @param {Object}   $1                      Named argements.
+ * @param {?Element} $1.element              Element to create value from.
+ * @param {?Range}   $1.range                Range to create value from.
+ * @param {?string}  $1.multilineTag         Multiline tag if the structure is
+ *                                           multiline.
+ * @param {?Array}   $1.multilineWrapperTags Tags where lines can be found if
+ *                                           nesting is possible.
+ * @param {boolean}  $1.currentWrapperTags   Whether to prepend a line
+ *                                           separator.
+ * @param {?boolean} $1.preserveWhiteSpace   Whether or not to collapse white
+ *                                           space characters.
  *
  * @return {Object} A rich text value.
  */
@@ -1302,7 +1274,8 @@ function createFromMultilineElement(_ref4) {
       multilineWrapperTags = _ref4.multilineWrapperTags,
       _ref4$currentWrapperT = _ref4.currentWrapperTags,
       currentWrapperTags = _ref4$currentWrapperT === void 0 ? [] : _ref4$currentWrapperT,
-      isEditableTree = _ref4.isEditableTree;
+      isEditableTree = _ref4.isEditableTree,
+      preserveWhiteSpace = _ref4.preserveWhiteSpace;
   var accumulator = createEmptyValue();
 
   if (!element || !element.hasChildNodes()) {
@@ -1324,7 +1297,8 @@ function createFromMultilineElement(_ref4) {
       multilineTag: multilineTag,
       multilineWrapperTags: multilineWrapperTags,
       currentWrapperTags: currentWrapperTags,
-      isEditableTree: isEditableTree
+      isEditableTree: isEditableTree,
+      preserveWhiteSpace: preserveWhiteSpace
     }); // Multiline value text should be separated by a line separator.
 
     if (index !== 0 || currentWrapperTags.length > 0) {
@@ -1743,15 +1717,24 @@ var external_this_wp_compose_ = __webpack_require__(8);
 
 
 /**
+ * @typedef {Object} WPFormat
+ *
+ * @property {string}   name        A string identifying the format. Must be
+ *                                  unique across all registered formats.
+ * @property {string}   tagName     The HTML tag this format will wrap the
+ *                                  selection with.
+ * @property {string}   [className] A class to match the format.
+ * @property {string}   title       Name of the format.
+ * @property {Function} edit        Should return a component for the user to
+ *                                  interact with the new registered format.
+ */
+
+/**
  * Registers a new format provided a unique name and an object defining its
  * behavior.
  *
  * @param {string}   name                 Format name.
- * @param {Object}   settings             Format settings.
- * @param {string}   settings.tagName     The HTML tag this format will wrap the selection with.
- * @param {string}   [settings.className] A class to match the format.
- * @param {string}   settings.title       Name of the format.
- * @param {Function} settings.edit        Should return a component for the user to interact with the new registered format.
+ * @param {WPFormat} settings             Format settings.
  *
  * @return {WPFormat|undefined} The format, if it has been successfully registered;
  *                              otherwise `undefined`.
@@ -2451,6 +2434,7 @@ function fromFormat(_ref) {
 function toTree(_ref2) {
   var value = _ref2.value,
       multilineTag = _ref2.multilineTag,
+      preserveWhiteSpace = _ref2.preserveWhiteSpace,
       createEmpty = _ref2.createEmpty,
       append = _ref2.append,
       getLastChild = _ref2.getLastChild,
@@ -2589,7 +2573,7 @@ function toTree(_ref2) {
       }))); // Ensure pointer is text node.
 
       pointer = append(getParent(pointer), '');
-    } else if (character === '\n') {
+    } else if (!preserveWhiteSpace && character === '\n') {
       pointer = append(getParent(pointer), {
         type: 'br',
         attributes: isEditableTree ? {
@@ -2714,7 +2698,7 @@ function getNodeByPath(node, path) {
  * each call to `createEmpty`. Therefore, you should not hold a reference to
  * the value to operate upon asynchronously, as it may have unexpected results.
  *
- * @return {WPRichTextTree} RichText tree.
+ * @return {Object} RichText tree.
  */
 
 
@@ -2956,7 +2940,7 @@ function applySelection(_ref7, current) {
 }
 
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
-var external_this_wp_escapeHtml_ = __webpack_require__(70);
+var external_this_wp_escapeHtml_ = __webpack_require__(59);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/to-html-string.js
 /**
@@ -2972,19 +2956,23 @@ var external_this_wp_escapeHtml_ = __webpack_require__(70);
  * Create an HTML string from a Rich Text value. If a `multilineTag` is
  * provided, text separated by a line separator will be wrapped in it.
  *
- * @param {Object} $1                        Named argements.
- * @param {Object} $1.value                  Rich text value.
- * @param {string} [$1.multilineTag]         Multiline tag.
+ * @param {Object}   $1                      Named argements.
+ * @param {Object}   $1.value                Rich text value.
+ * @param {string}   [$1.multilineTag]       Multiline tag.
+ * @param {?boolean} [$1.preserveWhiteSpace] Whether or not to use newline
+ *                                           characters for line breaks.
  *
  * @return {string} HTML string.
  */
 
 function toHTMLString(_ref) {
   var value = _ref.value,
-      multilineTag = _ref.multilineTag;
+      multilineTag = _ref.multilineTag,
+      preserveWhiteSpace = _ref.preserveWhiteSpace;
   var tree = toTree({
     value: value,
     multilineTag: multilineTag,
+    preserveWhiteSpace: preserveWhiteSpace,
     createEmpty: to_html_string_createEmpty,
     append: to_html_string_append,
     getLastChild: to_html_string_getLastChild,
@@ -3073,7 +3061,7 @@ function createElementHTML(_ref6) {
 function createChildrenHTML() {
   var children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   return children.map(function (child) {
-    return child.text === undefined ? createElementHTML(child) : Object(external_this_wp_escapeHtml_["escapeHTML"])(child.text);
+    return child.text === undefined ? createElementHTML(child) : Object(external_this_wp_escapeHtml_["escapeEditableHTML"])(child.text);
   }).join('');
 }
 
@@ -3107,6 +3095,8 @@ function toggleFormat(value, format) {
  */
 
 
+/** @typedef {import('./register-format-type').WPFormat} WPFormat */
+
 /**
  * Unregisters a format.
  *
@@ -3132,12 +3122,62 @@ function unregisterFormatType(name) {
   return oldFormat;
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/can-indent-list-items.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Checks if the selected list item can be indented.
+ *
+ * @param {Object} value Value to check.
+ *
+ * @return {boolean} Whether or not the selected list item can be indented.
+ */
+
+function canIndentListItems(value) {
+  var lineIndex = getLineIndex(value); // There is only one line, so the line cannot be indented.
+
+  if (lineIndex === undefined) {
+    return false;
+  }
+
+  var replacements = value.replacements;
+  var previousLineIndex = getLineIndex(value, lineIndex);
+  var formatsAtLineIndex = replacements[lineIndex] || [];
+  var formatsAtPreviousLineIndex = replacements[previousLineIndex] || []; // If the indentation of the current line is greater than previous line,
+  // then the line cannot be furter indented.
+
+  return formatsAtLineIndex.length <= formatsAtPreviousLineIndex.length;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/can-outdent-list-items.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Checks if the selected list item can be outdented.
+ *
+ * @param {Object} value Value to check.
+ *
+ * @return {boolean} Whether or not the selected list item can be outdented.
+ */
+
+function canOutdentListItems(value) {
+  var replacements = value.replacements,
+      start = value.start;
+  var startingLineIndex = getLineIndex(value, start);
+  return replacements[startingLineIndex] !== undefined;
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/indent-list-items.js
 
 
 /**
  * Internal dependencies
  */
+
 
 
 /**
@@ -3181,24 +3221,15 @@ function getTargetLevelLineIndex(_ref, lineIndex) {
 
 
 function indentListItems(value, rootFormat) {
-  var lineIndex = getLineIndex(value); // There is only one line, so the line cannot be indented.
-
-  if (lineIndex === undefined) {
+  if (!canIndentListItems(value)) {
     return value;
   }
 
+  var lineIndex = getLineIndex(value);
+  var previousLineIndex = getLineIndex(value, lineIndex);
   var text = value.text,
       replacements = value.replacements,
       end = value.end;
-  var previousLineIndex = getLineIndex(value, lineIndex);
-  var formatsAtLineIndex = replacements[lineIndex] || [];
-  var formatsAtPreviousLineIndex = replacements[previousLineIndex] || []; // The the indentation of the current line is greater than previous line,
-  // then the line cannot be furter indented.
-
-  if (formatsAtLineIndex.length > formatsAtPreviousLineIndex.length) {
-    return value;
-  }
-
   var newFormats = replacements.slice();
   var targetLevelLineIndex = getTargetLevelLineIndex(value, lineIndex);
 
@@ -3311,6 +3342,7 @@ function getLastChildIndex(_ref, lineIndex) {
 
 
 
+
 /**
  * Outdents any selected list items if possible.
  *
@@ -3320,16 +3352,15 @@ function getLastChildIndex(_ref, lineIndex) {
  */
 
 function outdentListItems(value) {
+  if (!canOutdentListItems(value)) {
+    return value;
+  }
+
   var text = value.text,
       replacements = value.replacements,
       start = value.start,
       end = value.end;
-  var startingLineIndex = getLineIndex(value, start); // Return early if the starting line index cannot be further outdented.
-
-  if (replacements[startingLineIndex] === undefined) {
-    return value;
-  }
-
+  var startingLineIndex = getLineIndex(value, start);
   var newFormats = replacements.slice(0);
   var parentFormats = replacements[getParentLineIndex(value, startingLineIndex)] || [];
   var endingLineIndex = getLineIndex(value, end);
@@ -3423,39 +3454,39 @@ function changeListType(value, newFormat) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(18);
+var esm_extends = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
-var classCallCheck = __webpack_require__(12);
+var classCallCheck = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__(11);
+var createClass = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(13);
+var possibleConstructorReturn = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
-var getPrototypeOf = __webpack_require__(14);
+var getPrototypeOf = __webpack_require__(16);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
-var assertThisInitialized = __webpack_require__(5);
+var assertThisInitialized = __webpack_require__(6);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(15);
+var inherits = __webpack_require__(17);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(16);
+var classnames = __webpack_require__(11);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
 var external_this_wp_keycodes_ = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(41);
+var external_this_wp_isShallowEqual_ = __webpack_require__(45);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(37);
+var external_this_wp_deprecated_ = __webpack_require__(35);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/format-edit.js
@@ -3524,184 +3555,6 @@ var format_edit_FormatEdit = function FormatEdit(_ref) {
   };
 })(format_edit_FormatEdit));
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js + 1 modules
-var objectWithoutProperties = __webpack_require__(21);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/aria.js
-/**
- * External dependencies
- */
-
-
-var aria_isAriaPropName = function isAriaPropName(name) {
-  return Object(external_this_lodash_["startsWith"])(name, 'aria-');
-};
-
-var aria_pickAriaProps = function pickAriaProps(props) {
-  return Object(external_this_lodash_["pickBy"])(props, function (value, key) {
-    return aria_isAriaPropName(key) && !Object(external_this_lodash_["isNil"])(value);
-  });
-};
-var aria_diffAriaProps = function diffAriaProps(props, nextProps) {
-  var prevAriaKeys = Object(external_this_lodash_["keys"])(aria_pickAriaProps(props));
-  var nextAriaKeys = Object(external_this_lodash_["keys"])(aria_pickAriaProps(nextProps));
-  var removedKeys = Object(external_this_lodash_["difference"])(prevAriaKeys, nextAriaKeys);
-  var updatedKeys = nextAriaKeys.filter(function (key) {
-    return !Object(external_this_lodash_["isEqual"])(props[key], nextProps[key]);
-  });
-  return {
-    removedKeys: removedKeys,
-    updatedKeys: updatedKeys
-  };
-};
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/editable.js
-
-
-
-
-
-
-
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-
-var editable_Editable =
-/*#__PURE__*/
-function (_Component) {
-  Object(inherits["a" /* default */])(Editable, _Component);
-
-  function Editable() {
-    var _this;
-
-    Object(classCallCheck["a" /* default */])(this, Editable);
-
-    _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(Editable).call(this));
-    _this.bindEditorNode = _this.bindEditorNode.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    return _this;
-  } // We must prevent rerenders because the browser will modify the DOM. React
-  // will rerender the DOM fine, but we're losing selection and it would be
-  // more expensive to do so as it would just set the inner HTML through
-  // `dangerouslySetInnerHTML`. Instead RichText does it's own diffing and
-  // selection setting.
-  //
-  // Because we never update the component, we have to look through props and
-  // update the attributes on the wrapper nodes here. `componentDidUpdate`
-  // will never be called.
-
-
-  Object(createClass["a" /* default */])(Editable, [{
-    key: "shouldComponentUpdate",
-    value: function shouldComponentUpdate(nextProps) {
-      var _this2 = this;
-
-      if (!Object(external_this_lodash_["isEqual"])(this.props.style, nextProps.style)) {
-        this.editorNode.setAttribute('style', '');
-        Object.assign(this.editorNode.style, Object(objectSpread["a" /* default */])({}, nextProps.style || {}, {
-          whiteSpace: 'pre-wrap'
-        }));
-      }
-
-      if (!Object(external_this_lodash_["isEqual"])(this.props.className, nextProps.className)) {
-        this.editorNode.className = nextProps.className;
-      }
-
-      if (this.props.start !== nextProps.start) {
-        this.editorNode.setAttribute('start', nextProps.start);
-      }
-
-      if (this.props.reversed !== nextProps.reversed) {
-        this.editorNode.reversed = nextProps.reversed;
-      }
-
-      var _diffAriaProps = aria_diffAriaProps(this.props, nextProps),
-          removedKeys = _diffAriaProps.removedKeys,
-          updatedKeys = _diffAriaProps.updatedKeys;
-
-      removedKeys.forEach(function (key) {
-        return _this2.editorNode.removeAttribute(key);
-      });
-      updatedKeys.forEach(function (key) {
-        return _this2.editorNode.setAttribute(key, nextProps[key]);
-      });
-      return false;
-    }
-  }, {
-    key: "bindEditorNode",
-    value: function bindEditorNode(editorNode) {
-      this.editorNode = editorNode;
-      this.props.setRef(editorNode);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          _this$props$tagName = _this$props.tagName,
-          tagName = _this$props$tagName === void 0 ? 'div' : _this$props$tagName,
-          _this$props$style = _this$props.style,
-          style = _this$props$style === void 0 ? {} : _this$props$style,
-          record = _this$props.record,
-          valueToEditableHTML = _this$props.valueToEditableHTML,
-          className = _this$props.className,
-          remainingProps = Object(objectWithoutProperties["a" /* default */])(_this$props, ["tagName", "style", "record", "valueToEditableHTML", "className"]);
-
-      delete remainingProps.setRef; // In HTML, leading and trailing spaces are not visible, and multiple
-      // spaces elsewhere are visually reduced to one space. This rule
-      // prevents spaces from collapsing so all space is visible in the editor
-      // and can be removed.
-      // It also prevents some browsers from inserting non-breaking spaces at
-      // the end of a line to prevent the space from visually disappearing.
-      // Sometimes these non breaking spaces can linger in the editor causing
-      // unwanted non breaking spaces in between words. If also prevent
-      // Firefox from inserting a trailing `br` node to visualise any trailing
-      // space, causing the element to be saved.
-      //
-      // > Authors are encouraged to set the 'white-space' property on editing
-      // > hosts and on markup that was originally created through these
-      // > editing mechanisms to the value 'pre-wrap'. Default HTML whitespace
-      // > handling is not well suited to WYSIWYG editing, and line wrapping
-      // > will not work correctly in some corner cases if 'white-space' is
-      // > left at its default value.
-      // >
-      // > https://html.spec.whatwg.org/multipage/interaction.html#best-practices-for-in-page-editors
-
-      var whiteSpace = 'pre-wrap';
-      return Object(external_this_wp_element_["createElement"])(tagName, Object(objectSpread["a" /* default */])({
-        role: 'textbox',
-        'aria-multiline': true,
-        className: className,
-        contentEditable: true,
-        ref: this.bindEditorNode,
-        style: Object(objectSpread["a" /* default */])({}, style, {
-          whiteSpace: whiteSpace
-        }),
-        suppressContentEditableWarning: true,
-        dangerouslySetInnerHTML: {
-          __html: valueToEditableHTML(record)
-        }
-      }, remainingProps));
-    }
-  }]);
-
-  return Editable;
-}(external_this_wp_element_["Component"]);
-
-
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/update-formats.js
 /**
  * Internal dependencies
@@ -3765,7 +3618,6 @@ function updateFormats(_ref) {
 
 
 
-
 /**
  * External dependencies
  */
@@ -3798,7 +3650,6 @@ function updateFormats(_ref) {
 
 
 
-
 /**
  * Browser dependencies
  */
@@ -3806,6 +3657,8 @@ function updateFormats(_ref) {
 var _window = window,
     getSelection = _window.getSelection,
     getComputedStyle = _window.getComputedStyle;
+/** @typedef {import('@wordpress/element').WPSyntheticEvent} WPSyntheticEvent */
+
 /**
  * All inserting input types that would insert HTML into the DOM.
  *
@@ -3815,6 +3668,37 @@ var _window = window,
  */
 
 var INSERTION_INPUT_TYPES_TO_IGNORE = new Set(['insertParagraph', 'insertOrderedList', 'insertUnorderedList', 'insertHorizontalRule', 'insertLink']);
+/**
+ * In HTML, leading and trailing spaces are not visible, and multiple spaces
+ * elsewhere are visually reduced to one space. This rule prevents spaces from
+ * collapsing so all space is visible in the editor and can be removed. It also
+ * prevents some browsers from inserting non-breaking spaces at the end of a
+ * line to prevent the space from visually disappearing. Sometimes these non
+ * breaking spaces can linger in the editor causing unwanted non breaking spaces
+ * in between words. If also prevent Firefox from inserting a trailing `br` node
+ * to visualise any trailing space, causing the element to be saved.
+ *
+ * > Authors are encouraged to set the 'white-space' property on editing hosts
+ * > and on markup that was originally created through these editing mechanisms
+ * > to the value 'pre-wrap'. Default HTML whitespace handling is not well
+ * > suited to WYSIWYG editing, and line wrapping will not work correctly in
+ * > some corner cases if 'white-space' is left at its default value.
+ *
+ * https://html.spec.whatwg.org/multipage/interaction.html#best-practices-for-in-page-editors
+ *
+ * @type {string}
+ */
+
+var whiteSpace = 'pre-wrap';
+/**
+ * Default style object for the editable element.
+ *
+ * @type {Object<string,string>}
+ */
+
+var defaultStyle = {
+  whiteSpace: whiteSpace
+};
 /**
  * Global stylesheet.
  */
@@ -3894,8 +3778,6 @@ function (_Component) {
     _this.createRecord = _this.createRecord.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.applyRecord = _this.applyRecord.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.valueToFormat = _this.valueToFormat.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.setRef = _this.setRef.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.valueToEditableHTML = _this.valueToEditableHTML.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.onPointerDown = _this.onPointerDown.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.formatToValue = _this.formatToValue.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.Editable = _this.Editable.bind(Object(assertThisInitialized["a" /* default */])(_this));
@@ -3931,28 +3813,30 @@ function (_Component) {
       window.cancelAnimationFrame(this.rafId);
     }
   }, {
-    key: "setRef",
-    value: function setRef(node) {
-      if (node) {
-        if (false) { var computedStyle; }
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      if (false) { var computedStyle; }
 
-        this.editableRef = node;
-      } else {
-        delete this.editableRef;
-      }
+      this.applyRecord(this.record, {
+        domOnly: true
+      });
     }
   }, {
     key: "createRecord",
     value: function createRecord() {
-      var multilineTag = this.props.__unstableMultilineTag;
+      var _this$props = this.props,
+          multilineTag = _this$props.__unstableMultilineTag,
+          forwardedRef = _this$props.forwardedRef,
+          preserveWhiteSpace = _this$props.preserveWhiteSpace;
       var selection = getSelection();
       var range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
       return create({
-        element: this.editableRef,
+        element: forwardedRef.current,
         range: range,
         multilineTag: multilineTag,
         multilineWrapperTags: multilineTag === 'li' ? ['ul', 'ol'] : undefined,
-        __unstableIsEditableTree: true
+        __unstableIsEditableTree: true,
+        preserveWhiteSpace: preserveWhiteSpace
       });
     }
   }, {
@@ -3961,10 +3845,12 @@ function (_Component) {
       var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
           domOnly = _ref2.domOnly;
 
-      var multilineTag = this.props.__unstableMultilineTag;
+      var _this$props2 = this.props,
+          multilineTag = _this$props2.__unstableMultilineTag,
+          forwardedRef = _this$props2.forwardedRef;
       apply({
         value: record,
-        current: this.editableRef,
+        current: forwardedRef.current,
         multilineTag: multilineTag,
         multilineWrapperTags: multilineTag === 'li' ? ['ul', 'ol'] : undefined,
         prepareEditableTree: createPrepareEditableTree(this.props, 'format_prepare_functions'),
@@ -3977,15 +3863,22 @@ function (_Component) {
      *
      * Saves the pasted data as plain text in `pastedPlainText`.
      *
-     * @param {PasteEvent} event The paste event.
+     * @param {ClipboardEvent} event The paste event.
      */
 
   }, {
     key: "onPaste",
     value: function onPaste(event) {
-      var _this$props = this.props,
-          formatTypes = _this$props.formatTypes,
-          onPaste = _this$props.onPaste;
+      var _this$props3 = this.props,
+          formatTypes = _this$props3.formatTypes,
+          onPaste = _this$props3.onPaste,
+          isSelected = _this$props3.__unstableIsSelected;
+
+      if (!isSelected) {
+        event.preventDefault();
+        return;
+      }
+
       var clipboardData = event.clipboardData;
       var items = clipboardData.items,
           files = clipboardData.files; // In Edge these properties can be null instead of undefined, so a more
@@ -4037,18 +3930,36 @@ function (_Component) {
       }
 
       if (onPaste) {
-        // Only process file if no HTML is present.
-        // Note: a pasted file may have the URL as plain text.
-        var image = Object(external_this_lodash_["find"])([].concat(Object(toConsumableArray["a" /* default */])(items), Object(toConsumableArray["a" /* default */])(files)), function (_ref4) {
-          var type = _ref4.type;
-          return /^image\/(?:jpe?g|png|gif)$/.test(type);
+        files = Array.from(files);
+        Array.from(items).forEach(function (item) {
+          if (!item.getAsFile) {
+            return;
+          }
+
+          var file = item.getAsFile();
+
+          if (!file) {
+            return;
+          }
+
+          var name = file.name,
+              type = file.type,
+              size = file.size;
+
+          if (!Object(external_this_lodash_["find"])(files, {
+            name: name,
+            type: type,
+            size: size
+          })) {
+            files.push(file);
+          }
         });
         onPaste({
           value: this.removeEditorOnlyFormats(record),
           onChange: this.onChange,
           html: html,
           plainText: plainText,
-          image: image
+          files: files
         });
       }
     }
@@ -4115,7 +4026,7 @@ function (_Component) {
     /**
      * Handle input on the next selection change event.
      *
-     * @param {SyntheticEvent} event Synthetic input event.
+     * @param {WPSyntheticEvent} event Synthetic input event.
      */
 
   }, {
@@ -4164,12 +4075,12 @@ function (_Component) {
       this.onChange(change, {
         withoutHistory: true
       });
-      var _this$props2 = this.props,
-          inputRule = _this$props2.__unstableInputRule,
-          markAutomaticChange = _this$props2.__unstableMarkAutomaticChange,
-          formatTypes = _this$props2.formatTypes,
-          setTimeout = _this$props2.setTimeout,
-          clearTimeout = _this$props2.clearTimeout; // Create an undo level when input stops for over a second.
+      var _this$props4 = this.props,
+          inputRule = _this$props4.__unstableInputRule,
+          markAutomaticChange = _this$props4.__unstableMarkAutomaticChange,
+          formatTypes = _this$props4.formatTypes,
+          setTimeout = _this$props4.setTimeout,
+          clearTimeout = _this$props4.clearTimeout; // Create an undo level when input stops for over a second.
 
       clearTimeout(this.onInput.timeout);
       this.onInput.timeout = setTimeout(this.onCreateUndoLevel, 1000); // Only run input rules when inserting text.
@@ -4182,8 +4093,8 @@ function (_Component) {
         inputRule(change, this.valueToFormat);
       }
 
-      var transformed = formatTypes.reduce(function (accumlator, _ref5) {
-        var __unstableInputRule = _ref5.__unstableInputRule;
+      var transformed = formatTypes.reduce(function (accumlator, _ref4) {
+        var __unstableInputRule = _ref4.__unstableInputRule;
 
         if (__unstableInputRule) {
           accumlator = __unstableInputRule(accumlator);
@@ -4216,13 +4127,17 @@ function (_Component) {
      * native events, `keyup`, `mouseup` and `touchend` synthetic events, and
      * animation frames after the `focus` event.
      *
-     * @param {Event|SyntheticEvent|DOMHighResTimeStamp} event
+     * @param {Event|WPSyntheticEvent|DOMHighResTimeStamp} event
      */
 
   }, {
     key: "onSelectionChange",
     value: function onSelectionChange(event) {
       if (event.type !== 'selectionchange' && !this.props.__unstableIsSelected) {
+        return;
+      }
+
+      if (this.props.disabled) {
         return;
       } // In case of a keyboard event, ignore selection changes during
       // composition.
@@ -4256,10 +4171,10 @@ function (_Component) {
         return;
       }
 
-      var _this$props3 = this.props,
-          isCaretWithinFormattedText = _this$props3.__unstableIsCaretWithinFormattedText,
-          onEnterFormattedText = _this$props3.__unstableOnEnterFormattedText,
-          onExitFormattedText = _this$props3.__unstableOnExitFormattedText;
+      var _this$props5 = this.props,
+          isCaretWithinFormattedText = _this$props5.__unstableIsCaretWithinFormattedText,
+          onEnterFormattedText = _this$props5.__unstableOnEnterFormattedText,
+          onExitFormattedText = _this$props5.__unstableOnExitFormattedText;
 
       var newValue = Object(objectSpread["a" /* default */])({}, value, {
         start: start,
@@ -4297,7 +4212,7 @@ function (_Component) {
     key: "recalculateBoundaryStyle",
     value: function recalculateBoundaryStyle() {
       var boundarySelector = '*[data-rich-text-format-boundary]';
-      var element = this.editableRef.querySelector(boundarySelector);
+      var element = this.props.forwardedRef.current.querySelector(boundarySelector);
 
       if (!element) {
         return;
@@ -4322,8 +4237,8 @@ function (_Component) {
   }, {
     key: "onChange",
     value: function onChange(record) {
-      var _ref6 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          withoutHistory = _ref6.withoutHistory;
+      var _ref5 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+          withoutHistory = _ref5.withoutHistory;
 
       this.applyRecord(record);
       var start = record.start,
@@ -4337,9 +4252,11 @@ function (_Component) {
         changeHandler(record.formats, record.text);
       });
       this.value = this.valueToFormat(record);
-      this.record = record;
-      this.props.onChange(this.value);
+      this.record = record; // Selection must be updated first, so it is recorded in history when
+      // the content change happens.
+
       this.props.onSelectionChange(start, end);
+      this.props.onChange(this.value);
       this.setState({
         activeFormats: activeFormats
       });
@@ -4366,7 +4283,7 @@ function (_Component) {
      * - delete content if everything is selected,
      * - trigger the onDelete prop when selection is uncollapsed and at an edge.
      *
-     * @param {SyntheticEvent} event A synthetic keyboard event.
+     * @param {WPSyntheticEvent} event A synthetic keyboard event.
      */
 
   }, {
@@ -4390,31 +4307,37 @@ function (_Component) {
         return;
       }
 
-      var _this$props4 = this.props,
-          onDelete = _this$props4.onDelete,
-          multilineTag = _this$props4.__unstableMultilineTag;
+      var _this$props6 = this.props,
+          onDelete = _this$props6.onDelete,
+          multilineTag = _this$props6.__unstableMultilineTag;
       var _this$state$activeFor = this.state.activeFormats,
           activeFormats = _this$state$activeFor === void 0 ? [] : _this$state$activeFor;
       var value = this.createRecord();
       var start = value.start,
           end = value.end,
           text = value.text;
-      var isReverse = keyCode === external_this_wp_keycodes_["BACKSPACE"];
-
-      if (multilineTag) {
-        var newValue = removeLineSeparator(value, isReverse);
-
-        if (newValue) {
-          this.onChange(newValue);
-          event.preventDefault();
-        }
-      } // Always handle full content deletion ourselves.
-
+      var isReverse = keyCode === external_this_wp_keycodes_["BACKSPACE"]; // Always handle full content deletion ourselves.
 
       if (start === 0 && end !== 0 && end === text.length) {
         this.onChange(remove_remove(value));
         event.preventDefault();
         return;
+      }
+
+      if (multilineTag) {
+        var newValue; // Check to see if we should remove the first item if empty.
+
+        if (isReverse && value.start === 0 && value.end === 0 && isEmptyLine(value)) {
+          newValue = removeLineSeparator(value, !isReverse);
+        } else {
+          newValue = removeLineSeparator(value, isReverse);
+        }
+
+        if (newValue) {
+          this.onChange(newValue);
+          event.preventDefault();
+          return;
+        }
       } // Only process delete if the key press occurs at an uncollapsed edge.
 
 
@@ -4431,7 +4354,7 @@ function (_Component) {
     /**
      * Triggers the `onEnter` prop on keydown.
      *
-     * @param {SyntheticEvent} event A synthetic keyboard event.
+     * @param {WPSyntheticEvent} event A synthetic keyboard event.
      */
 
   }, {
@@ -4457,7 +4380,7 @@ function (_Component) {
     /**
      * Indents list items on space keydown.
      *
-     * @param {SyntheticEvent} event A synthetic keyboard event.
+     * @param {WPSyntheticEvent} event A synthetic keyboard event.
      */
 
   }, {
@@ -4468,9 +4391,9 @@ function (_Component) {
           altKey = event.altKey,
           metaKey = event.metaKey,
           ctrlKey = event.ctrlKey;
-      var _this$props5 = this.props,
-          tagName = _this$props5.tagName,
-          multilineTag = _this$props5.__unstableMultilineTag;
+      var _this$props7 = this.props,
+          tagName = _this$props7.tagName,
+          multilineTag = _this$props7.__unstableMultilineTag;
 
       if ( // Only override when no modifiers are pressed.
       shiftKey || altKey || metaKey || ctrlKey || keyCode !== external_this_wp_keycodes_["SPACE"] || multilineTag !== 'li') {
@@ -4501,7 +4424,7 @@ function (_Component) {
      * navigation is handled separately to move correctly around format
      * boundaries.
      *
-     * @param  {SyntheticEvent} event A synthetic keyboard event.
+     * @param {WPSyntheticEvent} event A synthetic keyboard event.
      */
 
   }, {
@@ -4529,7 +4452,7 @@ function (_Component) {
           activeFormats = _value$activeFormats === void 0 ? [] : _value$activeFormats;
       var collapsed = isCollapsed(value); // To do: ideally, we should look at visual position instead.
 
-      var _getComputedStyle = getComputedStyle(this.editableRef),
+      var _getComputedStyle = getComputedStyle(this.props.forwardedRef.current),
           direction = _getComputedStyle.direction;
 
       var reverseKey = direction === 'rtl' ? external_this_wp_keycodes_["RIGHT"] : external_this_wp_keycodes_["LEFT"];
@@ -4626,7 +4549,7 @@ function (_Component) {
      * Select object when they are clicked. The browser will not set any
      * selection when clicking e.g. an image.
      *
-     * @param  {SyntheticEvent} event Synthetic mousedown or touchstart event.
+     * @param {WPSyntheticEvent} event Synthetic mousedown or touchstart event.
      */
 
   }, {
@@ -4634,7 +4557,7 @@ function (_Component) {
     value: function onPointerDown(event) {
       var target = event.target; // If the child element has no text content, it must be an object.
 
-      if (target === this.editableRef || target.textContent) {
+      if (target === this.props.forwardedRef.current || target.textContent) {
         return;
       }
 
@@ -4650,15 +4573,17 @@ function (_Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      var _this$props6 = this.props,
-          tagName = _this$props6.tagName,
-          value = _this$props6.value,
-          selectionStart = _this$props6.selectionStart,
-          selectionEnd = _this$props6.selectionEnd,
-          placeholder = _this$props6.placeholder,
-          isSelected = _this$props6.__unstableIsSelected; // Check if the content changed.
+      var _this$props8 = this.props,
+          tagName = _this$props8.tagName,
+          value = _this$props8.value,
+          selectionStart = _this$props8.selectionStart,
+          selectionEnd = _this$props8.selectionEnd,
+          placeholder = _this$props8.placeholder,
+          isSelected = _this$props8.__unstableIsSelected; // Check if tag name changed.
 
-      var shouldReapply = tagName === prevProps.tagName && value !== prevProps.value && value !== this.value; // Check if the selection changed.
+      var shouldReapply = tagName !== prevProps.tagName; // Check if the content changed.
+
+      shouldReapply = shouldReapply || value !== prevProps.value && value !== this.value; // Check if the selection changed.
 
       shouldReapply = shouldReapply || isSelected && !prevProps.isSelected && (this.record.start !== selectionStart || this.record.end !== selectionEnd);
       var prefix = 'format_prepare_props_';
@@ -4697,9 +4622,10 @@ function (_Component) {
   }, {
     key: "formatToValue",
     value: function formatToValue(value) {
-      var _this$props7 = this.props,
-          format = _this$props7.format,
-          multilineTag = _this$props7.__unstableMultilineTag;
+      var _this$props9 = this.props,
+          format = _this$props9.format,
+          multilineTag = _this$props9.__unstableMultilineTag,
+          preserveWhiteSpace = _this$props9.preserveWhiteSpace;
 
       if (format !== 'string') {
         return value;
@@ -4709,21 +4635,11 @@ function (_Component) {
       value = create({
         html: value,
         multilineTag: multilineTag,
-        multilineWrapperTags: multilineTag === 'li' ? ['ul', 'ol'] : undefined
+        multilineWrapperTags: multilineTag === 'li' ? ['ul', 'ol'] : undefined,
+        preserveWhiteSpace: preserveWhiteSpace
       });
       value.formats = prepare(value);
       return value;
-    }
-  }, {
-    key: "valueToEditableHTML",
-    value: function valueToEditableHTML(value) {
-      var multilineTag = this.props.__unstableMultilineTag;
-      return toDom({
-        value: value,
-        multilineTag: multilineTag,
-        prepareEditableTree: createPrepareEditableTree(this.props, 'format_prepare_functions'),
-        placeholder: this.props.placeholder
-      }).body.innerHTML;
     }
     /**
      * Removes editor only formats from the value.
@@ -4756,9 +4672,10 @@ function (_Component) {
   }, {
     key: "valueToFormat",
     value: function valueToFormat(value) {
-      var _this$props8 = this.props,
-          format = _this$props8.format,
-          multilineTag = _this$props8.__unstableMultilineTag;
+      var _this$props10 = this.props,
+          format = _this$props10.format,
+          multilineTag = _this$props10.__unstableMultilineTag,
+          preserveWhiteSpace = _this$props10.preserveWhiteSpace;
       value = this.removeEditorOnlyFormats(value);
 
       if (format !== 'string') {
@@ -4767,7 +4684,8 @@ function (_Component) {
 
       return toHTMLString({
         value: value,
-        multilineTag: multilineTag
+        multilineTag: multilineTag,
+        preserveWhiteSpace: preserveWhiteSpace
       });
     }
   }, {
@@ -4775,25 +4693,28 @@ function (_Component) {
     value: function Editable(props) {
       var _this3 = this;
 
-      var _this$props9 = this.props,
-          _this$props9$tagName = _this$props9.tagName,
-          Tagname = _this$props9$tagName === void 0 ? 'div' : _this$props9$tagName,
-          style = _this$props9.style,
-          className = _this$props9.className,
-          placeholder = _this$props9.placeholder; // Generating a key that includes `tagName` ensures that if the tag
-      // changes, we replace the relevant element. This is needed because we
-      // prevent Editable component updates.
-
-      var key = Tagname;
-      return Object(external_this_wp_element_["createElement"])(editable_Editable, Object(esm_extends["a" /* default */])({}, props, {
-        tagName: Tagname,
-        style: style,
-        record: this.record,
-        valueToEditableHTML: this.valueToEditableHTML,
+      var _this$props11 = this.props,
+          _this$props11$tagName = _this$props11.tagName,
+          TagName = _this$props11$tagName === void 0 ? 'div' : _this$props11$tagName,
+          style = _this$props11.style,
+          className = _this$props11.className,
+          placeholder = _this$props11.placeholder,
+          forwardedRef = _this$props11.forwardedRef,
+          disabled = _this$props11.disabled;
+      var ariaProps = Object(external_this_lodash_["pickBy"])(this.props, function (value, key) {
+        return Object(external_this_lodash_["startsWith"])(key, 'aria-');
+      });
+      return Object(external_this_wp_element_["createElement"])(TagName // Overridable props.
+      , Object(esm_extends["a" /* default */])({
+        role: "textbox",
+        "aria-multiline": true,
         "aria-label": placeholder
-      }, aria_pickAriaProps(this.props), {
+      }, props, ariaProps, {
+        ref: forwardedRef,
+        style: style ? Object(objectSpread["a" /* default */])({}, style, {
+          whiteSpace: whiteSpace
+        }) : defaultStyle,
         className: classnames_default()('rich-text', className),
-        key: key,
         onPaste: this.onPaste,
         onInput: this.onInput,
         onCompositionEnd: this.onCompositionEnd,
@@ -4805,25 +4726,27 @@ function (_Component) {
         onFocus: this.onFocus,
         onBlur: this.onBlur,
         onMouseDown: this.onPointerDown,
-        onTouchStart: this.onPointerDown,
-        setRef: this.setRef // Selection updates must be done at these events as they
+        onTouchStart: this.onPointerDown // Selection updates must be done at these events as they
         // happen before the `selectionchange` event. In some cases,
         // the `selectionchange` event may not even fire, for
         // example when the window receives focus again on click.
         ,
         onKeyUp: this.onSelectionChange,
         onMouseUp: this.onSelectionChange,
-        onTouchEnd: this.onSelectionChange
+        onTouchEnd: this.onSelectionChange // Do not set the attribute if disabled.
+        ,
+        contentEditable: disabled ? undefined : true,
+        suppressContentEditableWarning: !disabled
       }));
     }
   }, {
     key: "render",
     value: function render() {
-      var _this$props10 = this.props,
-          isSelected = _this$props10.__unstableIsSelected,
-          children = _this$props10.children,
-          allowedFormats = _this$props10.allowedFormats,
-          withoutInteractiveFormatting = _this$props10.withoutInteractiveFormatting;
+      var _this$props12 = this.props,
+          isSelected = _this$props12.__unstableIsSelected,
+          children = _this$props12.children,
+          allowedFormats = _this$props12.allowedFormats,
+          withoutInteractiveFormatting = _this$props12.withoutInteractiveFormatting;
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, isSelected && Object(external_this_wp_element_["createElement"])(format_edit, {
         allowedFormats: allowedFormats,
         withoutInteractiveFormatting: withoutInteractiveFormatting,
@@ -4845,16 +4768,21 @@ component_RichText.defaultProps = {
   format: 'string',
   value: ''
 };
+var RichTextWrapper = Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select) {
+  return {
+    formatTypes: select('core/rich-text').getFormatTypes()
+  };
+}), external_this_wp_compose_["withSafeTimeout"]])(component_RichText);
 /**
  * Renders a rich content input, providing users with the option to format the
  * content.
  */
 
-/* harmony default export */ var component = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select) {
-  return {
-    formatTypes: select('core/rich-text').getFormatTypes()
-  };
-}), external_this_wp_compose_["withSafeTimeout"]])(component_RichText));
+/* harmony default export */ var component = (Object(external_this_wp_element_["forwardRef"])(function (props, ref) {
+  return Object(external_this_wp_element_["createElement"])(RichTextWrapper, Object(esm_extends["a" /* default */])({}, props, {
+    forwardedRef: ref
+  }));
+}));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/index.js
 /* concated harmony reexport applyFormat */__webpack_require__.d(__webpack_exports__, "applyFormat", function() { return applyFormat; });
@@ -4884,6 +4812,8 @@ component_RichText.defaultProps = {
 /* concated harmony reexport toggleFormat */__webpack_require__.d(__webpack_exports__, "toggleFormat", function() { return toggleFormat; });
 /* concated harmony reexport __UNSTABLE_LINE_SEPARATOR */__webpack_require__.d(__webpack_exports__, "__UNSTABLE_LINE_SEPARATOR", function() { return LINE_SEPARATOR; });
 /* concated harmony reexport unregisterFormatType */__webpack_require__.d(__webpack_exports__, "unregisterFormatType", function() { return unregisterFormatType; });
+/* concated harmony reexport __unstableCanIndentListItems */__webpack_require__.d(__webpack_exports__, "__unstableCanIndentListItems", function() { return canIndentListItems; });
+/* concated harmony reexport __unstableCanOutdentListItems */__webpack_require__.d(__webpack_exports__, "__unstableCanOutdentListItems", function() { return canOutdentListItems; });
 /* concated harmony reexport __unstableIndentListItems */__webpack_require__.d(__webpack_exports__, "__unstableIndentListItems", function() { return indentListItems; });
 /* concated harmony reexport __unstableOutdentListItems */__webpack_require__.d(__webpack_exports__, "__unstableOutdentListItems", function() { return outdentListItems; });
 /* concated harmony reexport __unstableChangeListType */__webpack_require__.d(__webpack_exports__, "__unstableChangeListType", function() { return changeListType; });
@@ -4928,9 +4858,11 @@ component_RichText.defaultProps = {
 
 
 
+
+
 /***/ }),
 
-/***/ 36:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5212,13 +5144,6 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 37:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
-
-/***/ }),
-
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -5226,14 +5151,21 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 41:
+/***/ 45:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["isShallowEqual"]; }());
 
 /***/ }),
 
-/***/ 5:
+/***/ 59:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["escapeHtml"]; }());
+
+/***/ }),
+
+/***/ 6:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5253,12 +5185,12 @@ function _assertThisInitialized(self) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
+    var ownKeys = Object.keys(Object(source));
 
     if (typeof Object.getOwnPropertySymbols === 'function') {
       ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
@@ -5276,17 +5208,32 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 70:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["escapeHtml"]; }());
-
-/***/ }),
-
 /***/ 8:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
 
 /***/ })
 

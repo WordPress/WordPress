@@ -24,9 +24,6 @@
  * Applies editor left position to the selector passed as argument
  */
 /**
- * Applies editor right position to the selector passed as argument
- */
-/**
  * Styles that are reused verbatim in a few places
  */
 /**
@@ -147,7 +144,8 @@
 .components-editor-notices__dismissible .components-notice,
 .components-editor-notices__pinned .components-notice {
   box-sizing: border-box;
-  margin: 0 0 5px;
+  margin: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   padding: 6px 12px;
   min-height: 60px; }
   .components-editor-notices__dismissible .components-notice .components-notice__dismiss,
@@ -185,8 +183,15 @@
 
 .editor-post-featured-image {
   padding: 0; }
+  .editor-post-featured-image__container {
+    margin-bottom: 1em;
+    position: relative; }
   .editor-post-featured-image .components-spinner {
-    margin: 0; }
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -9px;
+    margin-left: -9px; }
   .editor-post-featured-image .components-button + .components-button {
     display: block;
     margin-top: 1em; }
@@ -212,6 +217,7 @@
 .editor-post-featured-image__toggle {
   border: 1px dashed #a2aab2;
   background-color: #edeff0;
+  min-height: 90px;
   line-height: 20px;
   padding: 8px 0;
   text-align: center; }
@@ -396,8 +402,7 @@
 
 /* rtl:end:ignore */
 .editor-post-publish-panel {
-  background: #fff;
-  color: #555d66; }
+  background: #fff; }
 
 .editor-post-publish-panel__content {
   min-height: calc(100% - 140px); }
@@ -408,12 +413,16 @@
 
 .editor-post-publish-panel__header {
   background: #fff;
-  padding-left: 16px;
+  padding-left: 8px;
+  padding-right: 8px;
   height: 56px;
   border-bottom: 1px solid #e2e4e7;
   display: flex;
   align-items: center;
   align-content: space-between; }
+  .editor-post-publish-panel__header .components-icon-button {
+    position: absolute;
+    right: 8px; }
 
 .editor-post-publish-panel__header-publish-button {
   display: flex;
@@ -450,6 +459,8 @@
     margin-right: -16px; }
   .editor-post-publish-panel__prepublish .editor-post-visibility__dialog-legend {
     display: none; }
+  .editor-post-publish-panel__prepublish .components-datetime {
+    padding: 0; }
 
 .post-publish-panel__postpublish .components-panel__body {
   border-bottom: 1px solid #e2e4e7;
@@ -698,10 +709,6 @@ body.admin-color-light .editor-post-text-editor__link{
         box-shadow: -3px 0 0 0 #555d66; }
         .is-dark-theme .editor-post-title__block:not(.is-focus-mode).is-selected .editor-post-title__input {
           box-shadow: -3px 0 0 0 #d7dade; } }
-  .editor-post-title__block:not(.is-focus-mode):not(.has-fixed-toolbar):not(.is-selected) .editor-post-title__input:hover {
-    box-shadow: -3px 0 0 0 rgba(145, 151, 162, 0.25); }
-    .is-dark-theme .editor-post-title__block:not(.is-focus-mode):not(.has-fixed-toolbar):not(.is-selected) .editor-post-title__input:hover {
-      box-shadow: -3px 0 0 0 rgba(255, 255, 255, 0.25); }
   .editor-post-title__block.is-focus-mode .editor-post-title__input {
     opacity: 0.5;
     transition: opacity 0.1s linear; }
@@ -740,7 +747,7 @@ body.admin-color-light .editor-post-text-editor__link{
     color: #a02222;
     border-color: #a02222; }
 
-.table-of-contents__popover.components-popover:not(.is-mobile) .components-popover__content {
+.table-of-contents__popover.components-popover .components-popover__content {
   min-width: 380px; }
 
 .components-popover.table-of-contents__popover {
