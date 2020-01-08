@@ -694,10 +694,11 @@ class WP_Query {
 	 *     @type string       $pagename                Page slug.
 	 *     @type string       $perm                    Show posts if user has the appropriate capability.
 	 *     @type string       $ping_status             Ping status.
-	 *     @type array        $post__in                An array of post IDs to retrieve, sticky posts will be included
-	 *     @type string       $post_mime_type          The mime type of the post. Used for 'attachment' post_type.
+	 *     @type array        $post__in                An array of post IDs to retrieve, sticky posts will be included.
 	 *     @type array        $post__not_in            An array of post IDs not to retrieve. Note: a string of comma-
 	 *                                                 separated IDs will NOT work.
+	 *     @type string       $post_mime_type          The mime type of the post. Used for 'attachment' post_type.
+	 *     @type array        $post_name__in           An array of post slugs that results must match.
 	 *     @type int          $post_parent             Page ID to retrieve child pages for. Use 0 to only retrieve
 	 *                                                 top-level pages.
 	 *     @type array        $post_parent__in         An array containing parent page IDs to query child pages from.
@@ -708,7 +709,6 @@ class WP_Query {
 	 *     @type int          $posts_per_page          The number of posts to query for. Use -1 to request all posts.
 	 *     @type int          $posts_per_archive_page  The number of posts to query for by archive page. Overrides
 	 *                                                 'posts_per_page' when is_archive(), or is_search() are true.
-	 *     @type array        $post_name__in           An array of post slugs that results must match.
 	 *     @type string       $s                       Search keyword(s). Prepending a term with a hyphen will
 	 *                                                 exclude posts matching that term. Eg, 'pillow -sofa' will
 	 *                                                 return posts containing 'pillow' but not 'sofa'. The

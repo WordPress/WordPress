@@ -20,10 +20,6 @@ function render_block_core_rss( $attributes ) {
 	}
 
 	if ( ! $rss->get_item_quantity() ) {
-		// PHP 5.2 compatibility. See: http://simplepie.org/wiki/faq/i_m_getting_memory_leaks.
-		$rss->__destruct();
-		unset( $rss );
-
 		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'An error has occurred, which probably means the feed is down. Try again later.' ) . '</div></div>';
 	}
 
@@ -96,13 +92,7 @@ function render_block_core_rss( $attributes ) {
 		$class .= ' ' . $attributes['className'];
 	}
 
-	$list_items_markup = "<ul class='{$class}'>{$list_items}</ul>";
-
-	// PHP 5.2 compatibility. See: http://simplepie.org/wiki/faq/i_m_getting_memory_leaks.
-	$rss->__destruct();
-	unset( $rss );
-
-	return $list_items_markup;
+	return "<ul class='{$class}'>{$list_items}</ul>";
 }
 
 /**
