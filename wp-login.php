@@ -523,7 +523,7 @@ if ( defined( 'RELOCATE' ) && RELOCATE ) { // Move flag is set
 $secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
 setcookie( TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN, $secure );
 
-if ( SITECOOKIEPATH != COOKIEPATH ) {
+if ( SITECOOKIEPATH !== COOKIEPATH ) {
 	setcookie( TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN, $secure );
 }
 
@@ -932,7 +932,7 @@ switch ( $action ) {
 
 		$errors = new WP_Error();
 
-		if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['pass2'] ) {
+		if ( isset( $_POST['pass1'] ) && $_POST['pass1'] !== $_POST['pass2'] ) {
 			$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.' ) );
 		}
 

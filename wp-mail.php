@@ -101,7 +101,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 				$content_transfer_encoding = explode( ';', $content_transfer_encoding );
 				$content_transfer_encoding = $content_transfer_encoding[0];
 			}
-			if ( ( $content_type == 'multipart/alternative' ) && ( false !== strpos( $line, 'boundary="' ) ) && ( '' == $boundary ) ) {
+			if ( ( 'multipart/alternative' === $content_type ) && ( false !== strpos( $line, 'boundary="' ) ) && ( '' === $boundary ) ) {
 				$boundary = trim( $line );
 				$boundary = explode( '"', $boundary );
 				$boundary = $boundary[1];
@@ -142,11 +142,11 @@ for ( $i = 1; $i <= $count; $i++ ) {
 			}
 
 			if ( preg_match( '/Date: /i', $line ) ) { // of the form '20 Mar 2002 20:32:37 +0100'
-				$ddate         = str_replace( 'Date: ', '', trim( $line ) );
-				$ddate         = preg_replace( '!\s*\(.+\)\s*$!', '', $ddate ); // remove parenthesised timezone string if it exists, as this confuses strtotime
-				$ddate_U       = strtotime( $ddate );
-				$post_date     = gmdate( 'Y-m-d H:i:s', $ddate_U + $time_difference );
-				$post_date_gmt = gmdate( 'Y-m-d H:i:s', $ddate_U );
+				$ddate           = str_replace( 'Date: ', '', trim( $line ) );
+				$ddate           = preg_replace( '!\s*\(.+\)\s*$!', '', $ddate ); // remove parenthesised timezone string if it exists, as this confuses strtotime
+				$ddate_timestamp = strtotime( $ddate );
+				$post_date       = gmdate( 'Y-m-d H:i:s', $ddate_timestamp + $time_difference );
+				$post_date_gmt   = gmdate( 'Y-m-d H:i:s', $ddate_timestamp );
 			}
 		}
 	}
@@ -162,7 +162,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 
 	$subject = trim( $subject );
 
-	if ( $content_type == 'multipart/alternative' ) {
+	if ( 'multipart/alternative' === $content_type ) {
 		$content = explode( '--' . $boundary, $content );
 		$content = $content[2];
 
@@ -212,7 +212,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 
 	$post_title = xmlrpc_getposttitle( $content );
 
-	if ( $post_title == '' ) {
+	if ( '' === $post_title ) {
 		$post_title = $subject;
 	}
 
