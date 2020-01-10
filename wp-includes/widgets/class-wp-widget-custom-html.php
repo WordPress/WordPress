@@ -238,6 +238,7 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 	 * @since 4.9.0 The form contains only hidden sync inputs. For the control UI, see `WP_Widget_Custom_HTML::render_control_template_scripts()`.
 	 *
 	 * @see WP_Widget_Custom_HTML::render_control_template_scripts()
+	 *
 	 * @param array $instance Current instance.
 	 */
 	public function form( $instance ) {

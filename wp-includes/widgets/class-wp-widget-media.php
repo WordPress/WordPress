@@ -127,6 +127,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * @see WP_REST_Controller::get_item_schema()
 	 * @see WP_REST_Controller::get_additional_fields()
 	 * @link https://core.trac.wordpress.org/ticket/35574
+	 *
 	 * @return array Schema for properties.
 	 */
 	public function get_instance_schema() {
@@ -320,8 +321,8 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * @since 4.8.0
 	 *
 	 * @see \WP_Widget_Media::render_control_template_scripts() Where the JS template is located.
+	 *
 	 * @param array $instance Current settings.
-	 * @return void
 	 */
 	final public function form( $instance ) {
 		$instance_schema = $this->get_instance_schema();
