@@ -1373,7 +1373,8 @@ class WP_List_Table {
 	 * @param object $item        The item being acted upon.
 	 * @param string $column_name Current column name.
 	 * @param string $primary     Primary column name.
-	 * @return string The row actions HTML, or an empty string if the current column is the primary column.
+	 * @return string The row actions HTML, or an empty string
+	 *                if the current column is not the primary column.
 	 */
 	protected function handle_row_actions( $item, $column_name, $primary ) {
 		return $column_name === $primary ? '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>' : '';
