@@ -3612,7 +3612,7 @@ class WP_Query {
 		}
 		$post_type_object = get_post_type_object( $post_type );
 
-		return in_array( $post_type_object->name, (array) $post_types );
+		return in_array( $post_type_object->name, (array) $post_types ) || in_array( $post_type_object->slug, (array) $post_types );
 	}
 
 	/**
