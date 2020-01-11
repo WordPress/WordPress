@@ -1738,7 +1738,7 @@ final class _WP_Editors {
 	 * @since 3.1.0
 	 *
 	 * @param array $args Optional. Accepts 'pagenum' and 's' (search) arguments.
-	 * @return false|array Results.
+	 * @return array|false Results.
 	 */
 	public static function wp_link_query( $args = array() ) {
 		$pts      = get_post_types( array( 'public' => true ), 'objects' );

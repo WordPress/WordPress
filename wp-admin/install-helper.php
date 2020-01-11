@@ -114,7 +114,7 @@ endif;
  * @param string $table_name Table name
  * @param string $column_name Column name
  * @param string $drop_ddl SQL statement to drop column.
- * @return bool False on failure, true on success or doesn't exist.
+ * @return bool True on success or if the column doesn't exist, false on failure.
  */
 function maybe_drop_column( $table_name, $column_name, $drop_ddl ) {
 	global $wpdb;

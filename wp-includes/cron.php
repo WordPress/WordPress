@@ -393,7 +393,7 @@ function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
  *
  * @param string $hook Action hook, the execution of which will be unscheduled.
  * @param array  $args Optional. Arguments that were to be passed to the hook's callback function.
- * @return false|int On success an integer indicating number of events unscheduled (0 indicates no
+ * @return int|false On success an integer indicating number of events unscheduled (0 indicates no
  *                   events were registered with the hook and arguments combination), false if
  *                   unscheduling one or more events fail.
  */
@@ -461,7 +461,7 @@ function wp_clear_scheduled_hook( $hook, $args = array() ) {
  * @since 5.1.0 Return value added to indicate success or failure.
  *
  * @param string $hook Action hook, the execution of which will be unscheduled.
- * @return false|int On success an integer indicating number of events unscheduled (0 indicates no
+ * @return int|false On success an integer indicating number of events unscheduled (0 indicates no
  *                   events were registered on the hook), false if unscheduling fails.
  */
 function wp_unschedule_hook( $hook ) {
@@ -528,7 +528,7 @@ function wp_unschedule_hook( $hook ) {
  *                            Although not passed to a callback, these arguments are used to uniquely identify the
  *                            event, so they should be the same as those used when originally scheduling the event.
  * @param int|null $timestamp Optional. Unix timestamp (UTC) of the event. If not specified, the next scheduled event is returned.
- * @return false|object The event object. False if the event does not exist.
+ * @return object|false The event object. False if the event does not exist.
  */
 function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
 	/**
@@ -606,7 +606,7 @@ function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
  * @param array  $args Optional. Array containing each separate argument to pass to the hook's callback function.
  *                     Although not passed to a callback, these arguments are used to uniquely identify the
  *                     event, so they should be the same as those used when originally scheduling the event.
- * @return false|int The Unix timestamp of the next time the event will occur. False if the event doesn't exist.
+ * @return int|false The Unix timestamp of the next time the event will occur. False if the event doesn't exist.
  */
 function wp_next_scheduled( $hook, $args = array() ) {
 	$next_event = wp_get_scheduled_event( $hook, $args );
@@ -926,7 +926,7 @@ function wp_get_ready_cron_jobs() {
  * @since 2.1.0
  * @access private
  *
- * @return false|array CRON info array.
+ * @return array|false CRON info array.
  */
 function _get_cron_array() {
 	$cron = get_option( 'cron' );

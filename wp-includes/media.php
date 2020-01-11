@@ -185,7 +185,7 @@ function image_hwstring( $width, $height ) {
  * @param array|string $size Optional. Image size to scale to. Accepts any valid image size,
  *                           or an array of width and height values in pixels (in that order).
  *                           Default 'medium'.
- * @return false|array Array containing the image URL, width, height, and boolean for whether
+ * @return array|false Array containing the image URL, width, height, and boolean for whether
  *                     the image is an intermediate size. False on failure.
  */
 function image_downsize( $id, $size = 'medium' ) {
@@ -521,7 +521,7 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width = 
  * @param int        $dest_h New height in pixels.
  * @param bool|array $crop   Optional. Whether to crop image to specified width and height or resize.
  *                           An array can specify positioning of the crop area. Default false.
- * @return false|array False on failure. Returned array matches parameters for `imagecopyresampled()`.
+ * @return array|false Returned array matches parameters for `imagecopyresampled()`. False on failure.
  */
 function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = false ) {
 
@@ -665,7 +665,7 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
  * @param int    $height Image height.
  * @param bool   $crop   Optional. Whether to crop image to specified width and height or resize.
  *                       Default false.
- * @return false|array False, if no image was created. Metadata array on success.
+ * @return array|false Metadata array on success. False if no image was created.
  */
 function image_make_intermediate_size( $file, $width, $height, $crop = false ) {
 	if ( $width || $height ) {
@@ -740,7 +740,7 @@ function wp_image_matches_ratio( $source_width, $source_height, $target_width, $
  * @param array|string $size    Optional. Image size. Accepts any valid image size, or an array
  *                              of width and height values in pixels (in that order).
  *                              Default 'thumbnail'.
- * @return false|array $data {
+ * @return array|false $data {
  *     Array of file relative path, width, and height on success. Additionally includes absolute
  *     path and URL if registered size is passed to $size parameter. False on failure.
  *
@@ -941,7 +941,7 @@ function wp_get_registered_image_subsizes() {
  * @param string|array $size          Optional. Image size. Accepts any valid image size, or an array of width
  *                                    and height values in pixels (in that order). Default 'thumbnail'.
  * @param bool         $icon          Optional. Whether the image should be treated as an icon. Default false.
- * @return false|array Returns an array (url, width, height, is_intermediate), or false, if no image is available.
+ * @return array|false Returns an array (url, width, height, is_intermediate), or false if no image is available.
  */
 function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon = false ) {
 	// get a thumbnail or intermediate image if there is one

@@ -379,7 +379,7 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @return false|string suffix
+	 * @return string|false suffix
 	 */
 	public function get_suffix() {
 		if ( ! $this->get_size() ) {

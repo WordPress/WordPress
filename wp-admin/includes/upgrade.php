@@ -3061,7 +3061,7 @@ function make_site_theme_from_oldschool( $theme_name, $template ) {
  *
  * @param string $theme_name The name of the theme.
  * @param string $template   The directory name of the theme.
- * @return false|void
+ * @return void|false
  */
 function make_site_theme_from_default( $theme_name, $template ) {
 	$site_dir    = WP_CONTENT_DIR . "/themes/$template";
@@ -3136,7 +3136,7 @@ function make_site_theme_from_default( $theme_name, $template ) {
  *
  * @since 1.5.0
  *
- * @return false|string
+ * @return string|false
  */
 function make_site_theme() {
 	// Name the theme after the blog.

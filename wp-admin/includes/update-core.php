@@ -880,7 +880,7 @@ $_new_bundled_files = array(
  *
  * @param string $from New release unzipped path.
  * @param string $to   Path to old WordPress installation.
- * @return null|WP_Error WP_Error on failure, null on success.
+ * @return null|WP_Error Null on success, WP_Error on failure.
  */
 function update_core( $from, $to ) {
 	global $wp_filesystem, $_old_files, $_new_bundled_files, $wpdb;
@@ -1314,7 +1314,7 @@ function update_core( $from, $to ) {
  * @param string   $from      Source directory.
  * @param string   $to        Destination directory.
  * @param string[] $skip_list Array of files/folders to skip copying.
- * @return true|WP_Error WP_Error on failure, true on success.
+ * @return true|WP_Error True on success, WP_Error on failure.
  */
 function _copy_dir( $from, $to, $skip_list = array() ) {
 	global $wp_filesystem;

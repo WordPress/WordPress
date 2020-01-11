@@ -467,7 +467,7 @@ function get_attachment_link( $post = null, $leavename = false ) {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param int|bool $year False for current year or year for permalink.
+ * @param int|false $year Integer of year. False for current year.
  * @return string The permalink for the specified year archive.
  */
 function get_year_link( $year ) {
@@ -501,8 +501,8 @@ function get_year_link( $year ) {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param bool|int $year  False for current year. Integer of year.
- * @param bool|int $month False for current month. Integer of month.
+ * @param int|false $year  Integer of year. False for current year.
+ * @param int|false $month Integer of month. False for current month.
  * @return string The permalink for the specified month and year archive.
  */
 function get_month_link( $year, $month ) {
@@ -541,9 +541,9 @@ function get_month_link( $year, $month ) {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param bool|int $year  False for current year. Integer of year.
- * @param bool|int $month False for current month. Integer of month.
- * @param bool|int $day   False for current day. Integer of day.
+ * @param int|false $year  Integer of year. False for current year.
+ * @param int|false $month Integer of month. False for current month.
+ * @param int|false $day   Integer of day. False for current day.
  * @return string The permalink for the specified day, month, and year archive.
  */
 function get_day_link( $year, $month, $day ) {
@@ -2968,7 +2968,10 @@ function previous_comments_link( $label = '' ) {
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string|array $args Optional args. See paginate_links(). Default empty array.
- * @return string|array|void Markup for comment page links or array of comment page links.
+ * @return void|string|array Void if 'echo' argument is true and 'type' is not an array,
+ *                           or if the query is not for an existing single post of any post type.
+ *                           Otherwise, markup for comment page links or array of comment page links,
+ *                           depending on 'type' argument.
  */
 function paginate_comments_links( $args = array() ) {
 	global $wp_rewrite;
@@ -4011,7 +4014,7 @@ function the_shortlink( $text = '', $title = '', $before = '', $after = '' ) {
  *     @type array  $processed_args When the function returns, the value will be the processed/sanitized $args
  *                                  plus a "found_avatar" guess. Pass as a reference. Default null.
  * }
- * @return false|string The URL of the avatar we found, or false if we couldn't find an avatar.
+ * @return string|false The URL of the avatar on success, false on failure.
  */
 function get_avatar_url( $id_or_email, $args = null ) {
 	$args = get_avatar_data( $id_or_email, $args );

@@ -253,7 +253,7 @@ function wp_get_post_autosave( $post_id, $user_id = 0 ) {
  * @since 2.6.0
  *
  * @param int|WP_Post $post Post ID or post object.
- * @return false|int False if not a revision, ID of revision's parent otherwise.
+ * @return int|false ID of revision's parent on success, false if not a revision.
  */
 function wp_is_post_revision( $post ) {
 	$post = wp_get_post_revision( $post );
@@ -270,7 +270,7 @@ function wp_is_post_revision( $post ) {
  * @since 2.6.0
  *
  * @param int|WP_Post $post Post ID or post object.
- * @return false|int False if not a revision, ID of autosave's parent otherwise
+ * @return int|false ID of autosave's parent on success, false if not a revision.
  */
 function wp_is_post_autosave( $post ) {
 	$post = wp_get_post_revision( $post );

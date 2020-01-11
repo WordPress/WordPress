@@ -478,7 +478,8 @@ function wp_dropdown_categories( $args = '' ) {
  *     @type int|array    $current_category      ID of category, or array of IDs of categories, that should get the
  *                                               'current-cat' class. Default 0.
  *     @type int          $depth                 Category depth. Used for tab indentation. Default 0.
- *     @type bool|int     $echo                  True to echo markup, false to return it. Default 1.
+ *     @type bool|int     $echo                  Whether to echo or return the generated markup. Accepts 0, 1, or their
+ *                                               bool equivalents. Default 1.
  *     @type array|string $exclude               Array or comma/space-separated string of term IDs to exclude.
  *                                               If `$hierarchical` is true, descendants of `$exclude` terms will also
  *                                               be excluded; see `$exclude_tree`. See get_terms().
@@ -493,7 +494,8 @@ function wp_dropdown_categories( $args = '' ) {
  *     @type bool         $hide_title_if_empty   Whether to hide the `$title_li` element if there are no terms in
  *                                               the list. Default false (title will always be shown).
  *     @type string       $separator             Separator between links. Default '<br />'.
- *     @type bool|int     $show_count            Whether to show how many posts are in the category. Default 0.
+ *     @type bool|int     $show_count            Whether to include post counts. Accepts 0, 1, or their bool equivalents.
+ *                                               Default 0.
  *     @type string       $show_option_all       Text to display for showing all categories. Default empty string.
  *     @type string       $show_option_none      Text to display for the 'no categories' option.
  *                                               Default 'No categories'.
@@ -503,9 +505,10 @@ function wp_dropdown_categories( $args = '' ) {
  *     @type string       $title_li              Text to use for the list title `<li>` element. Pass an empty string
  *                                               to disable. Default 'Categories'.
  *     @type bool|int     $use_desc_for_title    Whether to use the category description as the title attribute.
- *                                               Default 1.
+ *                                               Accepts 0, 1, or their bool equivalents. Default 1.
  * }
- * @return false|string HTML list of categories only if 'echo' argument is 0.
+ * @return void|string|false Void if 'echo' argument is true, HTML list of categories if 'echo' is false.
+ *                           False if the taxonomy does not exist.
  */
 function wp_list_categories( $args = '' ) {
 	$defaults = array(
@@ -671,8 +674,8 @@ function wp_list_categories( $args = '' ) {
  *                             associated with the taxonomy.
  *     @type bool   $echo      Whether or not to echo the return value. Default true.
  * }
- * @return void|array Generated tag cloud, only if no failures and 'array' is set for the 'format' argument.
- *                    Otherwise, this function outputs the tag cloud.
+ * @return void|string|array Void if 'echo' argument is true, or on failure. Otherwise, tag cloud
+ *                           as a string or an array, depending on 'format' argument.
  */
 function wp_tag_cloud( $args = '' ) {
 	$defaults = array(
@@ -692,7 +695,8 @@ function wp_tag_cloud( $args = '' ) {
 		'echo'       => true,
 		'show_count' => 0,
 	);
-	$args     = wp_parse_args( $args, $defaults );
+
+	$args = wp_parse_args( $args, $defaults );
 
 	$tags = get_terms(
 		array_merge(
@@ -714,6 +718,7 @@ function wp_tag_cloud( $args = '' ) {
 		} else {
 			$link = get_term_link( intval( $tag->term_id ), $tag->taxonomy );
 		}
+
 		if ( is_wp_error( $link ) ) {
 			return;
 		}
@@ -729,8 +734,8 @@ function wp_tag_cloud( $args = '' ) {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string $return HTML output of the tag cloud.
-	 * @param array  $args   An array of tag cloud arguments.
+	 * @param string|array $return Tag cloud as a string or an array, depending on 'format' argument.
+	 * @param array        $args   An array of tag cloud arguments.
 	 */
 	$return = apply_filters( 'wp_tag_cloud', $return, $args );
 
@@ -1265,11 +1270,11 @@ function get_the_terms( $post, $taxonomy ) {
  *
  * @since 2.5.0
  *
- * @param int $id Post ID.
+ * @param int    $id       Post ID.
  * @param string $taxonomy Taxonomy name.
- * @param string $before Optional. Before list.
- * @param string $sep Optional. Separate items using this.
- * @param string $after Optional. After list.
+ * @param string $before   Optional. Before list.
+ * @param string $sep      Optional. Separate items using this.
+ * @param string $after    Optional. After list.
  * @return string|false|WP_Error A list of terms on success, false if there are no terms, WP_Error on failure.
  */
 function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
@@ -1378,12 +1383,12 @@ function get_term_parents_list( $term_id, $taxonomy, $args = array() ) {
  *
  * @since 2.5.0
  *
- * @param int $id Post ID.
+ * @param int    $id       Post ID.
  * @param string $taxonomy Taxonomy name.
- * @param string $before Optional. Before list.
- * @param string $sep Optional. Separate items using this.
- * @param string $after Optional. After list.
- * @return false|void False on WordPress error.
+ * @param string $before   Optional. Before list.
+ * @param string $sep      Optional. Separate items using this.
+ * @param string $after    Optional. After list.
+ * @return void|false False on WordPress error.
  */
 function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
 	$term_list = get_the_term_list( $id, $taxonomy, $before, $sep, $after );
@@ -1412,7 +1417,7 @@ function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
  * @since 3.1.0
  *
  * @param string|int|array $category Optional. The category name/term_id/slug or array of them to check for.
- * @param int|object $post Optional. Post to check instead of the current post.
+ * @param int|object       $post     Optional. Post to check instead of the current post.
  * @return bool True if the current post has any of the given categories (or any category, if no category specified).
  */
 function has_category( $category = '', $post = null ) {
@@ -1436,8 +1441,8 @@ function has_category( $category = '', $post = null ) {
  *
  * @since 2.6.0
  *
- * @param string|int|array $tag Optional. The tag name/term_id/slug or array of them to check for.
- * @param int|object $post Optional. Post to check instead of the current post. (since 2.7.0)
+ * @param string|int|array $tag  Optional. The tag name/term_id/slug or array of them to check for.
+ * @param int|object       $post Optional. Post to check instead of the current post. (since 2.7.0)
  * @return bool True if the current post has any of the given tags (or any tag, if no tag specified).
  */
 function has_tag( $tag = '', $post = null ) {

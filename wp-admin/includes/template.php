@@ -76,6 +76,7 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
  *     @type bool   $echo                 Whether to echo the generated markup. False to return the markup instead
  *                                        of echoing it. Default true.
  * }
+ * @return string HTML list of input elements.
  */
 function wp_terms_checklist( $post_id = 0, $args = array() ) {
 	$defaults = array(

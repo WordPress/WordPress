@@ -81,7 +81,7 @@ class WP_Upgrader_Skin {
 	 * @param string        $context                      Optional. Full path to the directory that is tested
 	 *                                                    for being writable. Default empty.
 	 * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
-	 * @return bool False on failure, true on success.
+	 * @return bool True on success, false on failure.
 	 */
 	public function request_filesystem_credentials( $error = false, $context = '', $allow_relaxed_file_ownership = false ) {
 		$url = $this->options['url'];

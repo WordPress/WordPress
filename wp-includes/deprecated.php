@@ -610,7 +610,7 @@ function get_autotoggle($id = 0) {
  * @param string $feed_image
  * @param string $exclude
  * @param bool $hierarchical
- * @return false|null
+ * @return null|false
  */
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0,
 				$optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=false, $child_of=0, $categories=0,
@@ -630,7 +630,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
  * @see wp_list_categories()
  *
  * @param string|array $args
- * @return false|null|string
+ * @return null|string|false
  */
 function wp_list_cats($args = '') {
 	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_list_categories()' );
@@ -1908,7 +1908,7 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
  * @param int $id Optional. Post ID.
  * @param bool $fullsize Optional, default to false. Whether to have full size image.
  * @param array $max_dims Optional. Dimensions of image.
- * @return false|string HTML content.
+ * @return string|false HTML content.
  */
 function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	_deprecated_function( __FUNCTION__, '2.5.0', 'wp_get_attachment_image()' );
@@ -1964,7 +1964,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
  * @param int $id Optional. Post ID.
  * @param bool $fullsize Optional, default to false. Whether to have full size image.
  * @param array $max_dims Optional. Dimensions of image.
- * @return false|string
+ * @return string|false
  */
 function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {
 	_deprecated_function( __FUNCTION__, '2.5.0', 'wp_get_attachment_image()' );

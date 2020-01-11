@@ -196,7 +196,7 @@ function get_template_part( $slug, $name = null ) {
  *                              multiple search forms on the same page and improve
  *                              accessibility. Default empty.
  * }
- * @return string|void String when the $echo param is false.
+ * @return void|string Void if 'echo' argument is true, search form HTML if 'echo' is false.
  */
 function get_search_form( $args = array() ) {
 	/**
@@ -300,7 +300,7 @@ function get_search_form( $args = array() ) {
 		$result = $form;
 	}
 
-	if ( isset( $args['echo'] ) && $args['echo'] ) {
+	if ( $args['echo'] ) {
 		echo $result;
 	} else {
 		return $result;
@@ -426,7 +426,7 @@ function wp_registration_url() {
 /**
  * Provides a simple login form for use anywhere within WordPress.
  *
- * The login format HTML is echoed by default. Pass a false value for `$echo` to return it instead.
+ * The login form HTML is echoed by default. Pass a false value for `$echo` to return it instead.
  *
  * @since 3.0.0
  *
@@ -452,7 +452,7 @@ function wp_registration_url() {
  *                                  Default false (unchecked).
  *
  * }
- * @return string|void String when retrieving.
+ * @return void|string Void if 'echo' argument is true, login form HTML if 'echo' is false.
  */
 function wp_login_form( $args = array() ) {
 	$defaults = array(
@@ -1806,7 +1806,7 @@ function get_archives_link( $url, $text, $format = 'html', $before = '', $after 
  *     @type string     $day             Day. Default current day.
  *     @type string     $w               Week. Default current week.
  * }
- * @return string|void String when retrieving.
+ * @return void|string Void if 'echo' argument is true, archive links if 'echo' is false.
  */
 function wp_get_archives( $args = '' ) {
 	global $wpdb, $wp_locale;
@@ -2019,6 +2019,7 @@ function wp_get_archives( $args = '' ) {
 			}
 		}
 	}
+
 	if ( $parsed_args['echo'] ) {
 		echo $output;
 	} else {
@@ -2389,7 +2390,7 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
  *
  * @param  string      $d    Optional. PHP date format defaults to the date_format option if not specified.
  * @param  int|WP_Post $post Optional. Post ID or WP_Post object. Default current post.
- * @return false|string Date the current post was written. False on failure.
+ * @return string|false Date the current post was written. False on failure.
  */
 function get_the_date( $d = '', $post = null ) {
 	$post = get_post( $post );
@@ -2460,7 +2461,7 @@ function the_modified_date( $d = '', $before = '', $after = '', $echo = true ) {
  *
  * @param string      $d    Optional. PHP date format defaults to the date_format option if not specified.
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default current post.
- * @return false|string Date the current post was modified. False on failure.
+ * @return string|false Date the current post was modified. False on failure.
  */
 function get_the_modified_date( $d = '', $post = null ) {
 	$post = get_post( $post );
@@ -2705,7 +2706,7 @@ function the_modified_time( $d = '' ) {
  *                           was modified. Either 'G', 'U', or php date format defaults
  *                           to the value specified in the time_format option. Default empty.
  * @param int|WP_Post $post  Optional. Post ID or WP_Post object. Default current post.
- * @return false|string Formatted date string or Unix timestamp. False on failure.
+ * @return string|false Formatted date string or Unix timestamp. False on failure.
  */
 function get_the_modified_time( $d = '', $post = null ) {
 	$post = get_post( $post );
@@ -4070,7 +4071,8 @@ function language_attributes( $doctype = 'html' ) {
  *     @type string $before_page_number A string to appear before the page number. Default empty.
  *     @type string $after_page_number  A string to append after the page number. Default empty.
  * }
- * @return string|array|void String of page links or array of page links.
+ * @return string|array|void String of page links or array of page links, depending on 'type' argument.
+ *                           Void if total number of pages is less than 2.
  */
 function paginate_links( $args = '' ) {
 	global $wp_query, $wp_rewrite;

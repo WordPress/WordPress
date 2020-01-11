@@ -1189,8 +1189,8 @@ function verify_file_md5( $filename, $expected_md5 ) {
  * @param string       $filename            The file to validate.
  * @param string|array $signatures          A Signature provided for the file.
  * @param string       $filename_for_errors A friendly filename for errors. Optional.
- *
- * @return bool|WP_Error true on success, false if verification not attempted, or WP_Error describing an error condition.
+ * @return bool|WP_Error True on success, false if verification not attempted,
+ *                       or WP_Error describing an error condition.
  */
 function verify_file_signature( $filename, $signatures, $filename_for_errors = false ) {
 	if ( ! $filename_for_errors ) {
@@ -1964,12 +1964,11 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	 * @param mixed         $output                       Form output to return instead. Default empty.
 	 * @param string        $form_post                    The URL to post the form to.
 	 * @param string        $type                         Chosen type of filesystem.
-	 * @param bool|WP_Error $error                        Optional. Whether the current request has failed to connect,
-	 *                                                    or an error object. Default false.
+	 * @param bool|WP_Error $error                        Whether the current request has failed to connect,
+	 *                                                    or an error object.
 	 * @param string        $context                      Full path to the directory that is tested for
 	 *                                                    being writable.
 	 * @param bool          $allow_relaxed_file_ownership Whether to allow Group/World writable.
-	 *                                                    Default false.
 	 * @param array         $extra_fields                 Extra POST fields.
 	 */
 	$req_cred = apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership );
@@ -2092,7 +2091,8 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	 * @param string[]      $types       Types of connections.
 	 * @param array         $credentials Credentials to connect with.
 	 * @param string        $type        Chosen filesystem method.
-	 * @param bool|WP_Error $error       Error object or status.
+	 * @param bool|WP_Error $error       Whether the current request has failed to connect,
+	 *                                   or an error object.
 	 * @param string        $context     Full path to the directory that is tested for being writable.
 	 */
 	$types = apply_filters( 'fs_ftp_connection_types', $types, $credentials, $type, $error, $context );

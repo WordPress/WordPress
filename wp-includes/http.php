@@ -513,7 +513,7 @@ function send_origin_headers() {
  * @since 3.5.2
  *
  * @param string $url Request URL.
- * @return false|string URL or false on failure.
+ * @return string|false URL or false on failure.
  */
 function wp_http_validate_url( $url ) {
 	$original_url = $url;

@@ -407,7 +407,7 @@ function get_author_posts_url( $author_id, $author_nicename = '' ) {
  *     @type array|string $exclude       Array or comma/space-separated list of author IDs to exclude. Default empty.
  *     @type array|string $include       Array or comma/space-separated list of author IDs to include. Default empty.
  * }
- * @return string|void The output, if echo is set to false.
+ * @return void|string Void if 'echo' argument is true, list of authors if 'echo' is false.
  */
 function wp_list_authors( $args = '' ) {
 	global $wpdb;
@@ -518,10 +518,11 @@ function wp_list_authors( $args = '' ) {
 
 	$return = rtrim( $return, ', ' );
 
-	if ( ! $args['echo'] ) {
+	if ( $args['echo'] ) {
+		echo $return;
+	} else {
 		return $return;
 	}
-	echo $return;
 }
 
 /**

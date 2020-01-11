@@ -334,8 +334,8 @@ function wp_authenticate_spam_check( $user ) {
  *
  * @since 3.9.0
  *
- * @param int|bool $user_id The user ID (or false) as received from the
- *                       determine_current_user filter.
+ * @param int|bool $user_id The user ID (or false) as received from
+ *                          the `determine_current_user` filter.
  * @return int|false User ID if validated, false otherwise. If a user ID from
  *                   an earlier filter callback is received, that value is returned.
  */
@@ -1093,7 +1093,7 @@ function setup_userdata( $for_user_id = 0 ) {
  *     @type array        $role__not_in            An array of role names to exclude. Users matching one or more of
  *                                                 these roles will not be included in results. Default empty array.
  * }
- * @return string String of HTML content.
+ * @return string HTML dropdown list of users.
  */
 function wp_dropdown_users( $args = '' ) {
 	$defaults = array(
@@ -3637,7 +3637,7 @@ function wp_generate_user_request_key( $request_id ) {
  *
  * @param string $request_id ID of the request being confirmed.
  * @param string $key        Provided key to validate.
- * @return bool|WP_Error WP_Error on failure, true on success.
+ * @return bool|WP_Error True on success, WP_Error on failure.
  */
 function wp_validate_user_request_key( $request_id, $key ) {
 	global $wp_hasher;

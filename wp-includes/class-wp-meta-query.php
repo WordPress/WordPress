@@ -311,7 +311,7 @@ class WP_Meta_Query {
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
 	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
 	 * @param object $context           Optional. The main query object.
-	 * @return false|array {
+	 * @return array|false {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
 	 *
 	 *     @type string $join  SQL fragment to append to the main JOIN clause.

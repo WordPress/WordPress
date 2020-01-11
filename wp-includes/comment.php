@@ -1645,7 +1645,7 @@ function wp_unspam_comment( $comment_id ) {
  * @since 1.0.0
  *
  * @param int|WP_Comment $comment_id Comment ID or WP_Comment object
- * @return false|string Status might be 'trash', 'approved', 'unapproved', 'spam'. False on failure.
+ * @return string|false Status might be 'trash', 'approved', 'unapproved', 'spam'. False on failure.
  */
 function wp_get_comment_status( $comment_id ) {
 	$comment = get_comment( $comment_id );
@@ -2569,7 +2569,7 @@ function wp_update_comment_count_now( $post_id ) {
  *
  * @param string $url URL to ping.
  * @param int $deprecated Not Used.
- * @return false|string False on failure, string containing URI on success.
+ * @return string|false String containing URI on success, false on failure.
  */
 function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {

@@ -927,7 +927,7 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  * @param string $domain Optional. Text domain. Default 'default'.
  * @param string $path   Optional. The full file path to the directory containing translation files.
  *
- * @return false|string False if the script textdomain could not be loaded, the translated strings
+ * @return string|false False if the script textdomain could not be loaded, the translated strings
  *                      in JSON encoding otherwise.
  */
 function load_script_textdomain( $handle, $domain = 'default', $path = null ) {
@@ -1432,7 +1432,7 @@ function wp_get_pomo_file_data( $po_file ) {
  *     @type bool     $show_option_site_default     Whether to show an option to fall back to the site's locale. Default false.
  *     @type bool     $show_option_en_us            Whether to show an option for English (United States). Default true.
  * }
- * @return string HTML content
+ * @return string HTML dropdown list of languages.
  */
 function wp_dropdown_languages( $args = array() ) {
 

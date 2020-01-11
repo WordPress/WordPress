@@ -280,7 +280,7 @@ function comment_guid( $comment_id = null ) {
  * @since 2.5.0
  *
  * @param int|WP_Comment $comment_id Optional comment object or id. Defaults to global comment object.
- * @return false|string false on failure or guid for comment on success.
+ * @return string|false GUID for comment on success, false on failure.
  */
 function get_comment_guid( $comment_id = null ) {
 	$comment = get_comment( $comment_id );

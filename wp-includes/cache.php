@@ -22,7 +22,7 @@
  *                           to be used across groups. Default empty.
  * @param int        $expire Optional. When the cache data should expire, in seconds.
  *                           Default 0 (no expiration).
- * @return bool False if cache key and group already exist, true on success.
+ * @return bool True on success, false if cache key and group already exist.
  */
 function wp_cache_add( $key, $data, $group = '', $expire = 0 ) {
 	global $wp_object_cache;
@@ -58,7 +58,7 @@ function wp_cache_close() {
  * @param int|string $key    The cache key to decrement.
  * @param int        $offset Optional. The amount by which to decrement the item's value. Default 1.
  * @param string     $group  Optional. The group the key is in. Default empty.
- * @return false|int False on failure, the item's new value on success.
+ * @return int|false The item's new value on success, false on failure.
  */
 function wp_cache_decr( $key, $offset = 1, $group = '' ) {
 	global $wp_object_cache;
@@ -92,7 +92,7 @@ function wp_cache_delete( $key, $group = '' ) {
  * @see WP_Object_Cache::flush()
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  *
- * @return bool False on failure, true on success
+ * @return bool True on success, false on failure.
  */
 function wp_cache_flush() {
 	global $wp_object_cache;
@@ -134,7 +134,7 @@ function wp_cache_get( $key, $group = '', $force = false, &$found = null ) {
  * @param int|string $key    The key for the cache contents that should be incremented.
  * @param int        $offset Optional. The amount by which to increment the item's value. Default 1.
  * @param string     $group  Optional. The group the key is in. Default empty.
- * @return false|int False on failure, the item's new value on success.
+ * @return int|false The item's new value on success, false on failure.
  */
 function wp_cache_incr( $key, $offset = 1, $group = '' ) {
 	global $wp_object_cache;
@@ -191,7 +191,7 @@ function wp_cache_replace( $key, $data, $group = '', $expire = 0 ) {
  *                           to be used across groups. Default empty.
  * @param int        $expire Optional. When to expire the cache contents, in seconds.
  *                           Default 0 (no expiration).
- * @return bool False on failure, true on success
+ * @return bool True on success, false on failure.
  */
 function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
 	global $wp_object_cache;
@@ -396,7 +396,7 @@ class WP_Object_Cache {
 	 * @param mixed      $data   The contents to store in the cache.
 	 * @param string     $group  Optional. Where to group the cache contents. Default 'default'.
 	 * @param int        $expire Optional. When to expire the cache contents. Default 0 (no expiration).
-	 * @return bool False if cache key and group already exist, true on success
+	 * @return bool True on success, false if cache key and group already exist.
 	 */
 	public function add( $key, $data, $group = 'default', $expire = 0 ) {
 		if ( wp_suspend_cache_addition() ) {
@@ -441,7 +441,7 @@ class WP_Object_Cache {
 	 * @param int|string $key    The cache key to decrement.
 	 * @param int        $offset Optional. The amount by which to decrement the item's value. Default 1.
 	 * @param string     $group  Optional. The group the key is in. Default 'default'.
-	 * @return false|int False on failure, the item's new value on success.
+	 * @return int|false The item's new value on success, false on failure.
 	 */
 	public function decr( $key, $offset = 1, $group = 'default' ) {
 		if ( empty( $group ) ) {
@@ -530,7 +530,7 @@ class WP_Object_Cache {
 	 *                           cache. Default false.
 	 * @param bool       $found  Optional. Whether the key was found in the cache (passed by reference).
 	 *                           Disambiguates a return of false, a storable value. Default null.
-	 * @return false|mixed False on failure to retrieve contents or the cache contents on success.
+	 * @return mixed|false The cache contents on success, false on failure to retrieve contents.
 	 */
 	public function get( $key, $group = 'default', $force = false, &$found = null ) {
 		if ( empty( $group ) ) {
@@ -564,7 +564,7 @@ class WP_Object_Cache {
 	 * @param int|string $key    The cache key to increment
 	 * @param int        $offset Optional. The amount by which to increment the item's value. Default 1.
 	 * @param string     $group  Optional. The group the key is in. Default 'default'.
-	 * @return false|int False on failure, the item's new value on success.
+	 * @return int|false The item's new value on success, false on failure.
 	 */
 	public function incr( $key, $offset = 1, $group = 'default' ) {
 		if ( empty( $group ) ) {

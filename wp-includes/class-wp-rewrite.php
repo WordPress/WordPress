@@ -489,7 +489,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string|false False on no permalink structure. Date permalink structure.
+	 * @return string|false Date permalink structure on success, false on failure.
 	 */
 	public function get_date_permastruct() {
 		if ( isset( $this->date_structure ) ) {
@@ -546,7 +546,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return false|string False on failure. Year structure on success.
+	 * @return string|false Year permalink structure on success, false on failure.
 	 */
 	public function get_year_permastruct() {
 		$structure = $this->get_date_permastruct();
@@ -570,7 +570,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return false|string False on failure. Year/Month structure on success.
+	 * @return string|false Year/Month permalink structure on success, false on failure.
 	 */
 	public function get_month_permastruct() {
 		$structure = $this->get_date_permastruct();
@@ -592,7 +592,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string|false False on failure. Year/Month/Day structure on success.
+	 * @return string|false Year/Month/Day permalink structure on success, false on failure.
 	 */
 	public function get_day_permastruct() {
 		return $this->get_date_permastruct();
@@ -608,7 +608,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string|false False on failure. Category permalink structure.
+	 * @return string|false Category permalink structure on success, false on failure.
 	 */
 	public function get_category_permastruct() {
 		return $this->get_extra_permastruct( 'category' );
@@ -624,7 +624,7 @@ class WP_Rewrite {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @return string|false False on failure. Tag permalink structure.
+	 * @return string|false Tag permalink structure on success, false on failure.
 	 */
 	public function get_tag_permastruct() {
 		return $this->get_extra_permastruct( 'post_tag' );
@@ -636,7 +636,7 @@ class WP_Rewrite {
 	 * @since 2.5.0
 	 *
 	 * @param string $name Permalink structure name.
-	 * @return string|false False if not found. Permalink structure string.
+	 * @return string|false Permalink structure string on success, false on failure.
 	 */
 	public function get_extra_permastruct( $name ) {
 		if ( empty( $this->permalink_structure ) ) {
@@ -659,7 +659,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string|false False if not found. Permalink structure string.
+	 * @return string|false Author permalink structure on success, false on failure.
 	 */
 	public function get_author_permastruct() {
 		if ( isset( $this->author_structure ) ) {
@@ -685,7 +685,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string|false False if not found. Permalink structure string.
+	 * @return string|false Search permalink structure on success, false on failure.
 	 */
 	public function get_search_permastruct() {
 		if ( isset( $this->search_structure ) ) {
@@ -711,7 +711,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string|false False if not found. Permalink structure string.
+	 * @return string|false Page permalink structure on success, false on failure.
 	 */
 	public function get_page_permastruct() {
 		if ( isset( $this->page_structure ) ) {
@@ -737,7 +737,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string|false False if not found. Permalink structure string.
+	 * @return string|false Feed permalink structure on success, false on failure.
 	 */
 	public function get_feed_permastruct() {
 		if ( isset( $this->feed_structure ) ) {
@@ -763,7 +763,7 @@ class WP_Rewrite {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string|false False if not found. Permalink structure string.
+	 * @return string|false Comment feed permalink structure on success, false on failure.
 	 */
 	public function get_comment_feed_permastruct() {
 		if ( isset( $this->comment_feed_structure ) ) {

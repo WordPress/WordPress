@@ -679,7 +679,7 @@ function strip_fragment_from_url( $url ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @return false|string The correct URL if one is found. False on failure.
+ * @return string|false The correct URL if one is found. False on failure.
  */
 function redirect_guess_404_permalink() {
 	global $wpdb;

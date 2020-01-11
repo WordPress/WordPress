@@ -1219,7 +1219,7 @@ function add_magic_quotes( $array ) {
  * @see wp_safe_remote_get()
  *
  * @param string $uri URI/URL of web page to retrieve.
- * @return false|string HTTP content. False on failure.
+ * @return string|false HTTP content. False on failure.
  */
 function wp_remote_fopen( $uri ) {
 	$parsed_url = @parse_url( $uri );
@@ -1858,7 +1858,7 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
  *
  * @since 2.0.4
  *
- * @return false|string False on failure. Referer URL on success.
+ * @return string|false Referer URL on success, false on failure.
  */
 function wp_get_referer() {
 	if ( ! function_exists( 'wp_validate_redirect' ) ) {

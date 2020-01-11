@@ -229,7 +229,7 @@ class WP_Community_Events {
 	 *
 	 * @since 4.8.0
 	 *
-	 * @return false|string The anonymized address on success; the given address
+	 * @return string|false The anonymized address on success; the given address
 	 *                      or false on failure.
 	 */
 	public static function get_unsafe_client_ip() {
@@ -341,8 +341,8 @@ class WP_Community_Events {
 	 *
 	 * @since 4.8.0
 	 *
-	 * @return false|array false on failure; an array containing `location`
-	 *                     and `events` items on success.
+	 * @return array|false An array containing `location` and `events` items
+	 *                     on success, false on failure.
 	 */
 	public function get_cached_events() {
 		$cached_response = get_site_transient( $this->get_events_transient_key( $this->user_location ) );

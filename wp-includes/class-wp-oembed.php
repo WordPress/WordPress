@@ -248,7 +248,7 @@ class WP_oEmbed {
 	 *
 	 * @param string        $url  The URL to the content.
 	 * @param string|array  $args Optional provider arguments.
-	 * @return false|string False on failure, otherwise the oEmbed provider URL.
+	 * @return string|false The oEmbed provider URL on success, false on failure.
 	 */
 	public function get_provider( $url, $args = '' ) {
 		$args = wp_parse_args( $args );
@@ -339,7 +339,7 @@ class WP_oEmbed {
 	 *
 	 * @param string       $url  The URL to the content that should be attempted to be embedded.
 	 * @param array|string $args Optional. Arguments, usually passed from a shortcode. Default empty.
-	 * @return false|object False on failure, otherwise the result in the form of an object.
+	 * @return object|false The result in the form of an object on success, false on failure.
 	 */
 	public function get_data( $url, $args = '' ) {
 		$args = wp_parse_args( $args );
@@ -369,7 +369,8 @@ class WP_oEmbed {
 	 *
 	 * @param string       $url  The URL to the content that should be attempted to be embedded.
 	 * @param array|string $args Optional. Arguments, usually passed from a shortcode. Default empty.
-	 * @return false|string False on failure, otherwise the UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
+	 * @return string|false The UNSANITIZED (and potentially unsafe) HTML that should be used to embed on success,
+	 *                      false on failure.
 	 */
 	public function get_html( $url, $args = '' ) {
 		/**
@@ -417,7 +418,7 @@ class WP_oEmbed {
 	 * @since 2.9.0
 	 *
 	 * @param string $url The URL that should be inspected for discovery `<link>` tags.
-	 * @return false|string False on failure, otherwise the oEmbed provider URL.
+	 * @return string|false The oEmbed provider URL on success, false on failure.
 	 */
 	public function discover( $url ) {
 		$providers = array();
@@ -509,7 +510,7 @@ class WP_oEmbed {
 	 * @param string       $provider The URL to the oEmbed provider.
 	 * @param string       $url      The URL to the content that is desired to be embedded.
 	 * @param array|string $args     Optional. Arguments, usually passed from a shortcode. Default empty.
-	 * @return false|object False on failure, otherwise the result in the form of an object.
+	 * @return object|false The result in the form of an object on success, false on failure.
 	 */
 	public function fetch( $provider, $url, $args = '' ) {
 		$args = wp_parse_args( $args, wp_embed_defaults( $url ) );
@@ -547,8 +548,8 @@ class WP_oEmbed {
 	 * @since 3.0.0
 	 *
 	 * @param string $provider_url_with_args URL to the provider with full arguments list (url, maxheight, etc.)
-	 * @param string $format Format to use
-	 * @return false|object|WP_Error False on failure, otherwise the result in the form of an object.
+	 * @param string $format                 Format to use.
+	 * @return object|false|WP_Error The result in the form of an object on success, false on failure.
 	 */
 	private function _fetch_with_format( $provider_url_with_args, $format ) {
 		$provider_url_with_args = add_query_arg( 'format', $format, $provider_url_with_args );
@@ -653,8 +654,8 @@ class WP_oEmbed {
 	 * @since 2.9.0
 	 *
 	 * @param object $data A data object result from an oEmbed provider.
-	 * @param string $url The URL to the content that is desired to be embedded.
-	 * @return false|string False on error, otherwise the HTML needed to embed.
+	 * @param string $url  The URL to the content that is desired to be embedded.
+	 * @return string|false The HTML needed to embed on success, false on failure.
 	 */
 	public function data2html( $data, $url ) {
 		if ( ! is_object( $data ) || empty( $data->type ) ) {

@@ -427,11 +427,12 @@ function comment_author_url_link( $linktext = '', $before = '', $after = '', $co
  * @param int|WP_Post    $post_id  Post ID or WP_Post object. Default current post.
  * @param bool           $echo     Optional. Whether to echo or return the output.
  *                                 Default true.
- * @return string If `$echo` is false, the class will be returned. Void otherwise.
+ * @return void|string Void if `$echo` argument is true, comment classes if `$echo` is false.
  */
 function comment_class( $class = '', $comment = null, $post_id = null, $echo = true ) {
 	// Separates classes with a single space, collates classes for comment DIV
 	$class = 'class="' . join( ' ', get_comment_class( $class, $comment, $post_id ) ) . '"';
+
 	if ( $echo ) {
 		echo $class;
 	} else {
@@ -1992,6 +1993,8 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
  *     @type bool   $echo              Whether to echo the output or return it. Default true.
  * }
  * @param WP_Comment[] $comments Optional. Array of WP_Comment objects.
+ * @return void|string Void if 'echo' argument is true, or no comments to list.
+ *                     Otherwise, HTML list of comments.
  */
 function wp_list_comments( $args = array(), $comments = null ) {
 	global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt, $overridden_cpage, $in_comment_loop;

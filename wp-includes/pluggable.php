@@ -600,7 +600,7 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 	 *
 	 * @param string $cookie Optional. If used, will validate contents instead of cookie's.
 	 * @param string $scheme Optional. The cookie scheme to use: 'auth', 'secure_auth', or 'logged_in'.
-	 * @return false|int False if invalid cookie, user ID if valid.
+	 * @return int|false User ID if valid cookie, false if invalid.
 	 */
 	function wp_validate_auth_cookie( $cookie = '', $scheme = '' ) {
 		$cookie_elements = wp_parse_auth_cookie( $cookie, $scheme );
@@ -1111,8 +1111,9 @@ if ( ! function_exists( 'check_admin_referer' ) ) :
 	 *
 	 * @param int|string $action    The nonce action.
 	 * @param string     $query_arg Optional. Key to check for nonce in `$_REQUEST`. Default '_wpnonce'.
-	 * @return false|int False if the nonce is invalid, 1 if the nonce is valid and generated between
-	 *                   0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
+	 * @return int|false 1 if the nonce is valid and generated between 0-12 hours ago,
+	 *                   2 if the nonce is valid and generated between 12-24 hours ago.
+	 *                   False if the nonce is invalid.
 	 */
 	function check_admin_referer( $action = -1, $query_arg = '_wpnonce' ) {
 		if ( -1 === $action ) {
@@ -1155,8 +1156,9 @@ if ( ! function_exists( 'check_ajax_referer' ) ) :
 	 *                                (in that order). Default false.
 	 * @param bool         $die       Optional. Whether to die early when the nonce cannot be verified.
 	 *                                Default true.
-	 * @return false|int False if the nonce is invalid, 1 if the nonce is valid and generated between
-	 *                   0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
+	 * @return int|false 1 if the nonce is valid and generated between 0-12 hours ago,
+	 *                   2 if the nonce is valid and generated between 12-24 hours ago.
+	 *                   False if the nonce is invalid.
 	 */
 	function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 		if ( -1 == $action ) {
@@ -2092,8 +2094,9 @@ if ( ! function_exists( 'wp_verify_nonce' ) ) :
 	 *
 	 * @param string     $nonce  Nonce value that was used for verification, usually via a form field.
 	 * @param string|int $action Should give context to what is taking place and be the same when nonce was created.
-	 * @return false|int False if the nonce is invalid, 1 if the nonce is valid and generated between
-	 *                   0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
+	 * @return int|false 1 if the nonce is valid and generated between 0-12 hours ago,
+	 *                   2 if the nonce is valid and generated between 12-24 hours ago.
+	 *                   False if the nonce is invalid.
 	 */
 	function wp_verify_nonce( $nonce, $action = -1 ) {
 		$nonce = (string) $nonce;
@@ -2580,7 +2583,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 	 *                                       Default false.
 	 *     @type string       $extra_attr    HTML attributes to insert in the IMG element. Is not sanitized. Default empty.
 	 * }
-	 * @return false|string `<img>` tag for the user's avatar. False on failure.
+	 * @return string|false `<img>` tag for the user's avatar. False on failure.
 	 */
 	function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args = null ) {
 		$defaults = array(

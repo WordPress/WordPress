@@ -667,7 +667,7 @@ function _is_valid_nav_menu_item( $item ) {
  *                               processed in this function. Default 'menu_order'.
  *     @type bool   $nopaging    Whether to retrieve all menu items (true) or paginate (false). Default true.
  * }
- * @return false|array $items Array of menu items, otherwise false.
+ * @return array|false $items Array of menu items, otherwise false.
  */
 function wp_get_nav_menu_items( $menu, $args = array() ) {
 	$menu = wp_get_nav_menu_object( $menu );

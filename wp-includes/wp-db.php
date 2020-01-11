@@ -1435,10 +1435,10 @@ class wpdb {
 	 * Print SQL/DB error.
 	 *
 	 * @since 0.71
-	 * @global array $EZSQL_ERROR Stores error information of query and error string
+	 * @global array $EZSQL_ERROR Stores error information of query and error string.
 	 *
-	 * @param string $str The error to display
-	 * @return false|void False if the showing of errors is disabled.
+	 * @param string $str The error to display.
+	 * @return void|false Void if the showing of errors is enabled, false if disabled.
 	 */
 	public function print_error( $str = '' ) {
 		global $EZSQL_ERROR;
@@ -3411,7 +3411,7 @@ class wpdb {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return float Total time spent on the query, in seconds
+	 * @return float Total time spent on the query, in seconds.
 	 */
 	public function timer_stop() {
 		return ( microtime( true ) - $this->time_start );
@@ -3424,9 +3424,9 @@ class wpdb {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $message    The Error message
-	 * @param string $error_code Optional. A Computer readable string to identify the error.
-	 * @return false|void
+	 * @param string $message    The error message.
+	 * @param string $error_code Optional. A computer-readable string to identify the error.
+	 * @return void|false Void if the showing of errors is enabled, false if disabled.
 	 */
 	public function bail( $message, $error_code = '500' ) {
 		if ( $this->show_errors ) {
