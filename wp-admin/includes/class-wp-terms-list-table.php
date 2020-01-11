@@ -446,7 +446,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * @param WP_Term $tag         Tag being acted upon.
 	 * @param string  $column_name Current column name.
 	 * @param string  $primary     Primary column name.
-	 * @return string Row actions output for terms.
+	 * @return string Row actions output for terms, or an empty string
+	 *                if the current column is not the primary column.
 	 */
 	protected function handle_row_actions( $tag, $column_name, $primary ) {
 		if ( $primary !== $column_name ) {

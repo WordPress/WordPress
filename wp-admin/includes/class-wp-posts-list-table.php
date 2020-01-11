@@ -1320,7 +1320,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @param object $post        Post being acted upon.
 	 * @param string $column_name Current column name.
 	 * @param string $primary     Primary column name.
-	 * @return string Row actions output for posts.
+	 * @return string Row actions output for posts, or an empty string
+	 *                if the current column is not the primary column.
 	 */
 	protected function handle_row_actions( $post, $column_name, $primary ) {
 		if ( $primary !== $column_name ) {

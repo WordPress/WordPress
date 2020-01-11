@@ -576,7 +576,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * @param WP_Comment $comment     The comment object.
 	 * @param string     $column_name Current column name.
 	 * @param string     $primary     Primary column name.
-	 * @return string|void Comment row actions output.
+	 * @return string Row actions output for comments. An empty string
+	 *                if the current column is not the primary column,
+	 *                or if the current user cannot edit the comment.
 	 */
 	protected function handle_row_actions( $comment, $column_name, $primary ) {
 		global $comment_status;
@@ -586,7 +588,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		if ( ! $this->user_can ) {
-			return;
+			return '';
 		}
 
 		$the_comment_status = wp_get_comment_status( $comment );

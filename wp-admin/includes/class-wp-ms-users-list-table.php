@@ -488,7 +488,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	 * @param object $user        User being acted upon.
 	 * @param string $column_name Current column name.
 	 * @param string $primary     Primary column name.
-	 * @return string Row actions output for users in Multisite.
+	 * @return string Row actions output for users in Multisite, or an empty string
+	 *                if the current column is not the primary column.
 	 */
 	protected function handle_row_actions( $user, $column_name, $primary ) {
 		if ( $primary !== $column_name ) {
@@ -517,6 +518,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		 * @param WP_User  $user    WP_User object.
 		 */
 		$actions = apply_filters( 'ms_user_row_actions', $actions, $user );
+
 		return $this->row_actions( $actions );
 	}
 }
