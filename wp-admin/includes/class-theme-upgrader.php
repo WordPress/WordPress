@@ -91,7 +91,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * @param bool  $install_result
 	 * @param array $hook_extra
 	 * @param array $child_result
-	 * @return type
+	 * @return bool
 	 */
 	public function check_parent_theme_filter( $install_result, $hook_extra, $child_result ) {
 		// Check to see if we need to install a parent theme
