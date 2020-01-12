@@ -42,6 +42,20 @@ function wp_dashboard_setup() {
 		wp_add_dashboard_widget( 'dashboard_php_nag', __( 'PHP Update Required' ), 'wp_dashboard_php_nag' );
 	}
 
+	// Site Health.
+	if ( current_user_can( 'view_site_health_checks' ) ) {
+		if ( ! class_exists( 'WP_Site_Health' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+		}
+
+		WP_Site_Health::initialize();
+
+		wp_enqueue_style( 'site-health' );
+		wp_enqueue_script( 'site-health' );
+
+		wp_add_dashboard_widget( 'dashboard_site_health', __( 'Site Health Status' ), 'wp_dashboard_site_health' );
+	}
+
 	// Right Now
 	if ( is_blog_admin() && current_user_can( 'edit_posts' ) ) {
 		wp_add_dashboard_widget( 'dashboard_right_now', __( 'At a Glance' ), 'wp_dashboard_right_now' );
@@ -1748,6 +1762,89 @@ function dashboard_php_nag_class( $classes ) {
 	}
 
 	return $classes;
+}
+
+/**
+ * Displays the Site Health Status widget.
+ *
+ * @since 5.4.0
+ */
+function wp_dashboard_site_health() {
+	$get_issues = get_transient( 'health-check-site-status-result' );
+
+	$issue_counts = new stdClass();
+
+	if ( false !== $get_issues ) {
+		$issue_counts = json_decode( $get_issues );
+	}
+
+	if ( ! is_object( $issue_counts ) || empty( $issue_counts ) ) {
+		$issue_counts = (object) array(
+			'good'        => 0,
+			'recommended' => 0,
+			'critical'    => 0,
+		);
+	}
+
+	$issues_total = $issue_counts->recommended + $issue_counts->critical;
+	?>
+	<div class="health-check-title-section site-health-progress-wrapper loading hide-if-no-js">
+		<div class="site-health-progress">
+			<svg role="img" aria-hidden="true" focusable="false" width="100%" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+				<circle r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+				<circle id="bar" r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+			</svg>
+		</div>
+		<div class="site-health-progress-label">
+			<?php if ( false === $get_issues ) : ?>
+				<?php _e( 'No information yet&hellip;' ); ?>
+			<?php else : ?>
+				<?php _e( 'Results are still loading&hellip;' ); ?>
+			<?php endif; ?>
+		</div>
+	</div>
+
+	<?php if ( false === $get_issues ) : ?>
+		<p>
+			<?php _e( 'No Site Health information has been gathered yet, you can do so by visiting the Site Health screen, alternatively the checks will run periodically.' ); ?>
+		</p>
+
+		<p>
+			<?php
+			printf(
+				/* translators: %s: URL to Site Health screen. */
+				__( '<a href="%s">Visit the Site Health screen</a> to gather information on about your site.' ),
+				esc_url( admin_url( 'site-health.php' ) )
+			);
+			?>
+		</p>
+
+	<?php else : ?>
+		<p>
+			<?php if ( $issue_counts->critical > 0 ) : ?>
+				<?php _e( 'Your site has critical issues that should be addressed as soon as possible to improve the performance or security of your website.' ); ?>
+			<?php elseif ( $issues_total <= 0 ) : ?>
+				<?php _e( 'Great job! Your site currently passes all site health checks.' ); ?>
+			<?php else : ?>
+				<?php _e( 'Your site health is looking quite good, but there are still some things you can do to improve the performance and security of your website.' ); ?>
+			<?php endif; ?>
+		</p>
+	<?php endif; ?>
+
+	<?php if ( $issues_total > 0 && false !== $get_issues ) : ?>
+		<p>
+			<?php
+			printf(
+				/* translators: 1: Number of issues. 2: URL to Site Health screen. */
+				__( 'Take a look at the <strong>%1$d items</strong> on the <a href="%2$s">Site Health Status screen</a>.' ),
+				$issues_total,
+				esc_url( admin_url( 'site-health.php' ) )
+			);
+			?>
+		</p>
+	<?php endif; ?>
+
+	<?php
 }
 
 /**

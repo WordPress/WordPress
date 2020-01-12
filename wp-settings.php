@@ -351,6 +351,12 @@ if ( ! is_multisite() ) {
 	wp_recovery_mode()->initialize();
 }
 
+// Create an instance of WP_Site_Health so that Cron events may fire.
+if ( ! class_exists( 'WP_Site_Health' ) ) {
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+}
+WP_Site_Health::initialize();
+
 // Load active plugins.
 foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
 	wp_register_plugin_realpath( $plugin );
