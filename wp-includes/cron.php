@@ -783,29 +783,30 @@ function wp_cron() {
 /**
  * Retrieve supported event recurrence schedules.
  *
- * The default supported recurrences are 'hourly', 'twicedaily', and 'daily'. A plugin may
- * add more by hooking into the {@see 'cron_schedules'} filter. The filter accepts an array
- * of arrays. The outer array has a key that is the name of the schedule or for
- * example 'weekly'. The value is an array with two keys, one is 'interval' and
- * the other is 'display'.
+ * The default supported recurrences are 'hourly', 'twicedaily', 'daily', and 'weekly'.
+ * A plugin may add more by hooking into the {@see 'cron_schedules'} filter.
+ * The filter accepts an array of arrays. The outer array has a key that is the name
+ * of the schedule, for example 'monthly'. The value is an array with two keys,
+ * one is 'interval' and the other is 'display'.
  *
- * The 'interval' is a number in seconds of when the cron job should run. So for
- * 'hourly', the time is 3600 or 60*60. For weekly, the value would be
- * 60*60*24*7 or 604800. The value of 'interval' would then be 604800.
+ * The 'interval' is a number in seconds of when the cron job should run.
+ * So for 'hourly' the time is `HOUR_IN_SECONDS` (60 * 60 or 3600). For 'monthly',
+ * the value would be `MONTH_IN_SECONDS` (30 * 24 * 60 * 60 or 2592000).
  *
- * The 'display' is the description. For the 'weekly' key, the 'display' would
- * be `__( 'Once Weekly' )`.
+ * The 'display' is the description. For the 'monthly' key, the 'display'
+ * would be `__( 'Once Monthly' )`.
  *
- * For your plugin, you will be passed an array. you can easily add your
+ * For your plugin, you will be passed an array. You can easily add your
  * schedule by doing the following.
  *
  *     // Filter parameter variable name is 'array'.
- *     $array['weekly'] = array(
- *         'interval' => 604800,
- *         'display'  => __( 'Once Weekly' )
+ *     $array['monthly'] = array(
+ *         'interval' => MONTH_IN_SECONDS,
+ *         'display'  => __( 'Once Monthly' )
  *     );
  *
  * @since 2.1.0
+ * @since 5.4.0 The 'weekly' schedule was added.
  *
  * @return array
  */
@@ -823,7 +824,12 @@ function wp_get_schedules() {
 			'interval' => DAY_IN_SECONDS,
 			'display'  => __( 'Once Daily' ),
 		),
+		'weekly'     => array(
+			'interval' => 7 * DAY_IN_SECONDS,
+			'display'  => __( 'Once Weekly' ),
+		),
 	);
+
 	/**
 	 * Filters the non-default cron schedules.
 	 *
