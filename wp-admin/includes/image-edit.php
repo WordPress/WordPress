@@ -11,7 +11,7 @@
  *
  * @since 2.9.0
  *
- * @param int         $post_id Post ID.
+ * @param int         $post_id Attachment post ID.
  * @param bool|object $msg     Optional. Message to display for image editor updates or errors.
  *                             Default false.
  */
@@ -315,11 +315,11 @@ function wp_stream_image( $image, $mime_type, $attachment_id ) {
  *
  * @since 2.9.0
  *
- * @param string $filename
- * @param WP_Image_Editor $image
- * @param string $mime_type
- * @param int $post_id
- * @return bool
+ * @param string          $filename  Name of the file to be saved.
+ * @param WP_Image_Editor $image     The image editor instance.
+ * @param string          $mime_type The mime type of the image.
+ * @param int             $post_id   Attachment post ID.
+ * @return bool True on success, false on failure.
  */
 function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 	if ( $image instanceof WP_Image_Editor ) {
@@ -337,9 +337,9 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 		 *
 		 * @param mixed           $override  Value to return instead of saving. Default null.
 		 * @param string          $filename  Name of the file to be saved.
-		 * @param WP_Image_Editor $image     WP_Image_Editor instance.
-		 * @param string          $mime_type Image mime type.
-		 * @param int             $post_id   Post ID.
+		 * @param WP_Image_Editor $image     The image editor instance.
+		 * @param string          $mime_type The mime type of the image.
+		 * @param int             $post_id   Attachment post ID.
 		 */
 		$saved = apply_filters( 'wp_save_image_editor_file', null, $filename, $image, $mime_type, $post_id );
 
@@ -366,9 +366,9 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 		 *
 		 * @param mixed           $override  Value to return instead of saving. Default null.
 		 * @param string          $filename  Name of the file to be saved.
-		 * @param WP_Image_Editor $image     WP_Image_Editor instance.
-		 * @param string          $mime_type Image mime type.
-		 * @param int             $post_id   Post ID.
+		 * @param WP_Image_Editor $image     The image editor instance.
+		 * @param string          $mime_type The mime type of the image.
+		 * @param int             $post_id   Attachment post ID.
 		 */
 		$saved = apply_filters_deprecated( 'wp_save_image_file', array( null, $filename, $image, $mime_type, $post_id ), '3.5.0', 'wp_save_image_editor_file' );
 
@@ -617,12 +617,12 @@ function image_edit_apply_changes( $image, $changes ) {
 
 /**
  * Streams image in post to browser, along with enqueued changes
- * in $_REQUEST['history']
+ * in `$_REQUEST['history']`.
  *
  * @since 2.9.0
  *
- * @param int $post_id
- * @return bool
+ * @param int $post_id Attachment post ID.
+ * @return bool True on success, false on failure.
  */
 function stream_preview_image( $post_id ) {
 	$post = get_post( $post_id );
@@ -747,13 +747,13 @@ function wp_restore_image( $post_id ) {
 }
 
 /**
- * Saves image to post along with enqueued changes
- * in $_REQUEST['history']
+ * Saves image to post, along with enqueued changes
+ * in `$_REQUEST['history']`.
  *
  * @since 2.9.0
  *
- * @param int $post_id
- * @return \stdClass
+ * @param int $post_id Attachment post ID.
+ * @return stdClass
  */
 function wp_save_image( $post_id ) {
 	$_wp_additional_image_sizes = wp_get_additional_image_sizes();
