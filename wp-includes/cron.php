@@ -825,7 +825,7 @@ function wp_get_schedules() {
 			'display'  => __( 'Once Daily' ),
 		),
 		'weekly'     => array(
-			'interval' => 7 * DAY_IN_SECONDS,
+			'interval' => WEEK_IN_SECONDS,
 			'display'  => __( 'Once Weekly' ),
 		),
 	);
