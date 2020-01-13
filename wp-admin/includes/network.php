@@ -122,7 +122,7 @@ function network_step1( $errors = false ) {
 
 	$active_plugins = get_option( 'active_plugins' );
 	if ( ! empty( $active_plugins ) ) {
-		echo '<div class="updated"><p><strong>' . __( 'Warning:' ) . '</strong> ' . sprintf(
+		echo '<div class="notice notice-warning"><p><strong>' . __( 'Warning:' ) . '</strong> ' . sprintf(
 			/* translators: %s: URL to Plugins screen. */
 			__( 'Please <a href="%s">deactivate your plugins</a> before enabling the Network feature.' ),
 			admin_url( 'plugins.php?plugin_status=active' )
@@ -434,7 +434,7 @@ function network_step2( $errors = false ) {
 		?>
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
-		<div class="updated inline"><p>
+		<div class="notice notice-warning inline"><p>
 		<?php
 		if ( file_exists( $home_path . '.htaccess' ) ) {
 			echo '<strong>' . __( 'Caution:' ) . '</strong> ';
