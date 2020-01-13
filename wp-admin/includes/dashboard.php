@@ -1772,21 +1772,21 @@ function dashboard_php_nag_class( $classes ) {
 function wp_dashboard_site_health() {
 	$get_issues = get_transient( 'health-check-site-status-result' );
 
-	$issue_counts = new stdClass();
+	$issue_counts = array();
 
 	if ( false !== $get_issues ) {
-		$issue_counts = json_decode( $get_issues );
+		$issue_counts = json_decode( $get_issues, true );
 	}
 
-	if ( ! is_object( $issue_counts ) || empty( $issue_counts ) ) {
-		$issue_counts = (object) array(
+	if ( ! is_array( $issue_counts ) || ! $issue_counts ) {
+		$issue_counts = array(
 			'good'        => 0,
 			'recommended' => 0,
 			'critical'    => 0,
 		);
 	}
 
-	$issues_total = $issue_counts->recommended + $issue_counts->critical;
+	$issues_total = $issue_counts['recommended'] + $issue_counts['critical'];
 	?>
 	<div class="health-check-title-section site-health-progress-wrapper loading hide-if-no-js">
 		<div class="site-health-progress">
@@ -1821,7 +1821,7 @@ function wp_dashboard_site_health() {
 
 	<?php else : ?>
 		<p>
-			<?php if ( $issue_counts->critical > 0 ) : ?>
+			<?php if ( $issue_counts['critical'] > 0 ) : ?>
 				<?php _e( 'Your site has critical issues that should be addressed as soon as possible to improve the performance or security of your website.' ); ?>
 			<?php elseif ( $issues_total <= 0 ) : ?>
 				<?php _e( 'Great job! Your site currently passes all site health checks.' ); ?>
