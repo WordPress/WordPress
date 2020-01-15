@@ -421,7 +421,7 @@ form#tags-filter {
 #timestampdiv select {
 	vertical-align: top;
 	font-size: 12px;
-	line-height: 1.5; /* 18px */
+	line-height: 2.33333333; /* 28px */
 }
 
 #aa, #jj, #hh, #mn {
