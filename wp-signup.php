@@ -198,7 +198,7 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 
 	<div id="privacy">
 		<p class="privacy-intro">
-			<label for="blog_public_on"><?php _e( 'Privacy:' ); ?></label>
+			<?php _e( 'Privacy:' ); ?>
 			<?php _e( 'Allow search engines to index this site.' ); ?>
 			<br style="clear:both" />
 			<label class="checkbox" for="blog_public_on">
