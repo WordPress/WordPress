@@ -86,7 +86,7 @@ get_header( 'wp-signup' );
 do_action( 'before_signup_form' );
 ?>
 <div id="signup-content" class="widecolumn">
-<div class="mu_register wp-signup-container">
+<div class="mu_register wp-signup-container" role="main">
 <?php
 /**
  * Generates and displays the Signup and Create Site forms
