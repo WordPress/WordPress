@@ -465,6 +465,7 @@ input.small-text {
 
 input[type="number"].small-text {
 	width: 65px;
+	padding-left: 0;
 }
 
 input.tiny-text {
@@ -473,6 +474,7 @@ input.tiny-text {
 
 input[type="number"].tiny-text {
 	width: 45px;
+	padding-left: 0;
 }
 
 #doaction,
