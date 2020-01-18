@@ -268,7 +268,7 @@ function network_step1( $errors = false ) {
 		<?php
 		printf(
 			/* translators: 1: Site URL, 2: Host name, 3: www. */
-			__( 'We recommend you change your siteurl to %1$s before enabling the network feature. It will still be possible to visit your site using the %3$s prefix with an address like %2$s but any links will not have the %3$s prefix.' ),
+			__( 'We recommend you change your site domain to %1$s before enabling the network feature. It will still be possible to visit your site using the %3$s prefix with an address like %2$s but any links will not have the %3$s prefix.' ),
 			'<code>' . substr( $hostname, 4 ) . '</code>',
 			'<code>' . $hostname . '</code>',
 			'<code>www</code>'
