@@ -87,7 +87,7 @@ class WP_Debug_Data {
 				),
 				'permalink'              => array(
 					'label' => __( 'Permalink structure' ),
-					'value' => $permalink_structure ?: __( 'No permalink structure set' ),
+					'value' => $permalink_structure ? $permalink_structure : __( 'No permalink structure set' ),
 					'debug' => $permalink_structure,
 				),
 				'https_status'           => array(
@@ -879,8 +879,7 @@ class WP_Debug_Data {
 		$active_theme  = wp_get_theme();
 		$theme_updates = get_theme_updates();
 
-		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-		$active_theme_version       = $active_theme->Version;
+		$active_theme_version       = $active_theme->version;
 		$active_theme_version_debug = $active_theme_version;
 
 		if ( array_key_exists( $active_theme->stylesheet, $theme_updates ) ) {
@@ -891,7 +890,7 @@ class WP_Debug_Data {
 			$active_theme_version_debug .= sprintf( ' (latest version: %s)', $theme_update_new_version );
 		}
 
-		$active_theme_author_uri = $active_theme->offsetGet( 'Author URI' );
+		$active_theme_author_uri = $active_theme->display( 'AuthorURI' );
 
 		if ( $active_theme->parent_theme ) {
 			$active_theme_parent_theme = sprintf(
@@ -913,12 +912,10 @@ class WP_Debug_Data {
 		$info['wp-active-theme']['fields'] = array(
 			'name'           => array(
 				'label' => __( 'Name' ),
-				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				'value' => sprintf(
 					/* translators: 1: Theme name. 2: Theme slug. */
 					__( '%1$s (%2$s)' ),
-					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-					$active_theme->Name,
+					$active_theme->name,
 					$active_theme->stylesheet
 				),
 			),
@@ -929,8 +926,7 @@ class WP_Debug_Data {
 			),
 			'author'         => array(
 				'label' => __( 'Author' ),
-				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'value' => wp_kses( $active_theme->Author, array() ),
+				'value' => wp_kses( $active_theme->author, array() ),
 			),
 			'author_website' => array(
 				'label' => __( 'Author website' ),
@@ -955,8 +951,7 @@ class WP_Debug_Data {
 		$parent_theme = $active_theme->parent();
 
 		if ( $parent_theme ) {
-			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			$parent_theme_version       = $parent_theme->Version;
+			$parent_theme_version       = $parent_theme->version;
 			$parent_theme_version_debug = $parent_theme_version;
 
 			if ( array_key_exists( $parent_theme->stylesheet, $theme_updates ) ) {
@@ -967,17 +962,15 @@ class WP_Debug_Data {
 				$parent_theme_version_debug .= sprintf( ' (latest version: %s)', $parent_theme_update_new_version );
 			}
 
-			$parent_theme_author_uri = $parent_theme->offsetGet( 'Author URI' );
+			$parent_theme_author_uri = $parent_theme->display( 'AuthorURI' );
 
 			$info['wp-parent-theme']['fields'] = array(
 				'name'           => array(
 					'label' => __( 'Name' ),
-					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					'value' => sprintf(
 						/* translators: 1: Theme name. 2: Theme slug. */
 						__( '%1$s (%2$s)' ),
-						// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-						$parent_theme->Name,
+						$parent_theme->name,
 						$parent_theme->stylesheet
 					),
 				),
@@ -988,8 +981,7 @@ class WP_Debug_Data {
 				),
 				'author'         => array(
 					'label' => __( 'Author' ),
-					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-					'value' => wp_kses( $parent_theme->Author, array() ),
+					'value' => wp_kses( $parent_theme->author, array() ),
 				),
 				'author_website' => array(
 					'label' => __( 'Author website' ),
@@ -1017,10 +1009,8 @@ class WP_Debug_Data {
 				continue;
 			}
 
-			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			$theme_version = $theme->Version;
-			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			$theme_author = $theme->Author;
+			$theme_version = $theme->version;
+			$theme_author  = $theme->author;
 
 			// Sanitize
 			$theme_author = wp_kses( $theme_author, array() );
@@ -1052,13 +1042,11 @@ class WP_Debug_Data {
 				$theme_version_string_debug .= sprintf( ' (latest version: %s)', $theme_updates[ $theme_slug ]->update['new_version'] );
 			}
 
-			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			$info['wp-themes-inactive']['fields'][ sanitize_text_field( $theme->Name ) ] = array(
+			$info['wp-themes-inactive']['fields'][ sanitize_text_field( $theme->name ) ] = array(
 				'label' => sprintf(
 					/* translators: 1: Theme name. 2: Theme slug. */
 					__( '%1$s (%2$s)' ),
-					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-					$theme->Name,
+					$theme->name,
 					$theme_slug
 				),
 				'value' => $theme_version_string,
