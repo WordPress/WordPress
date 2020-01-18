@@ -21,7 +21,7 @@
  */
 function _get_list_table( $class, $args = array() ) {
 	$core_classes = array(
-		//Site Admin
+		// Site Admin.
 		'WP_Posts_List_Table'                         => 'posts',
 		'WP_Media_List_Table'                         => 'media',
 		'WP_Terms_List_Table'                         => 'terms',
@@ -34,12 +34,12 @@ function _get_list_table( $class, $args = array() ) {
 		'WP_Theme_Install_List_Table'                 => array( 'themes', 'theme-install' ),
 		'WP_Plugins_List_Table'                       => 'plugins',
 
-		// Network Admin
+		// Network Admin.
 		'WP_MS_Sites_List_Table'                      => 'ms-sites',
 		'WP_MS_Users_List_Table'                      => 'ms-users',
 		'WP_MS_Themes_List_Table'                     => 'ms-themes',
 
-		// Privacy requests tables
+		// Privacy requests tables.
 		'WP_Privacy_Data_Export_Requests_List_Table'  => 'privacy-data-export-requests',
 		'WP_Privacy_Data_Removal_Requests_List_Table' => 'privacy-data-removal-requests',
 	);

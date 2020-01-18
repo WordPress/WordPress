@@ -199,7 +199,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 			<button type="button" onclick="imageEdit.handleCropToolClick( <?php echo "$post_id, '$nonce'"; ?>, this )" class="imgedit-crop button disabled" disabled><?php esc_html_e( 'Crop' ); ?></button>
 			<?php
 
-			// On some setups GD library does not provide imagerotate() - Ticket #11536
+			// On some setups GD library does not provide imagerotate() - Ticket #11536.
 			if ( wp_image_editor_supports(
 				array(
 					'mime_type' => get_post_mime_type( $post_id ),
@@ -601,10 +601,10 @@ function image_edit_apply_changes( $image, $changes ) {
 					$w    = $size['width'];
 					$h    = $size['height'];
 
-					$scale = 1 / _image_get_preview_ratio( $w, $h ); // discard preview scaling
+					$scale = 1 / _image_get_preview_ratio( $w, $h ); // Discard preview scaling.
 					$image->crop( $sel->x * $scale, $sel->y * $scale, $sel->w * $scale, $sel->h * $scale );
 				} else {
-					$scale = 1 / _image_get_preview_ratio( imagesx( $image ), imagesy( $image ) ); // discard preview scaling
+					$scale = 1 / _image_get_preview_ratio( imagesx( $image ), imagesy( $image ) ); // Discard preview scaling.
 					$image = _crop_image_resource( $image, $sel->x * $scale, $sel->y * $scale, $sel->w * $scale, $sel->h * $scale );
 				}
 				break;
@@ -955,7 +955,7 @@ function wp_save_image( $post_id ) {
 		update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes );
 
 		if ( $target == 'thumbnail' || $target == 'all' || $target == 'full' ) {
-			// Check if it's an image edit from attachment edit screen
+			// Check if it's an image edit from attachment edit screen.
 			if ( ! empty( $_REQUEST['context'] ) && 'edit-attachment' == $_REQUEST['context'] ) {
 				$thumb_url         = wp_get_attachment_image_src( $post_id, array( 900, 600 ), true );
 				$return->thumbnail = $thumb_url[0];

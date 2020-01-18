@@ -103,7 +103,7 @@ function wp_import_handle_upload() {
 		return $upload;
 	}
 
-	// Construct the object array
+	// Construct the object array.
 	$object = array(
 		'post_title'     => wp_basename( $upload['file'] ),
 		'post_content'   => $upload['url'],
@@ -113,7 +113,7 @@ function wp_import_handle_upload() {
 		'post_status'    => 'private',
 	);
 
-	// Save the data
+	// Save the data.
 	$id = wp_insert_attachment( $object, $upload['file'] );
 
 	/*
@@ -136,7 +136,7 @@ function wp_import_handle_upload() {
  * @return array Importers with metadata for each.
  */
 function wp_get_popular_importers() {
-	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
+	include( ABSPATH . WPINC . '/version.php' ); // Include an unmodified $wp_version.
 
 	$locale            = get_user_locale();
 	$cache_key         = 'popular_importers_' . md5( $locale . $wp_version );
@@ -184,7 +184,7 @@ function wp_get_popular_importers() {
 	}
 
 	return array(
-		// slug => name, description, plugin slug, and register_importer() slug
+		// slug => name, description, plugin slug, and register_importer() slug.
 		'blogger'     => array(
 			'name'        => __( 'Blogger' ),
 			'description' => __( 'Import posts, comments, and users from a Blogger blog.' ),

@@ -15,7 +15,7 @@
  */
 function media_upload_tabs() {
 	$_default_tabs = array(
-		'type'     => __( 'From Computer' ), // handler action suffix => tab text
+		'type'     => __( 'From Computer' ), // Handler action suffix => tab text.
 		'type_url' => __( 'From URL' ),
 		'gallery'  => __( 'Gallery' ),
 		'library'  => __( 'Media Library' ),
@@ -226,7 +226,7 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 	$caption = str_replace( array( "\r\n", "\r" ), "\n", $caption );
 	$caption = preg_replace_callback( '/<[a-zA-Z0-9]+(?: [^<>]+>)*/', '_cleanup_image_add_caption', $caption );
 
-	// Convert any remaining line breaks to <br>.
+	// Convert any remaining line breaks to <br />.
 	$caption = preg_replace( '/[ \n\t]*\n[ \t]*/', '<br />', $caption );
 
 	$html = preg_replace( '/(class=["\'][^\'"]*)align(none|left|right|center)\s?/', '$1', $html );
@@ -388,7 +388,7 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 		}
 	}
 
-	// Construct the attachment array
+	// Construct the attachment array.
 	$attachment = array_merge(
 		array(
 			'post_mime_type' => $type,
@@ -404,7 +404,7 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 	// This should never be set as it would then overwrite an existing attachment.
 	unset( $attachment['ID'] );
 
-	// Save the data
+	// Save the data.
 	$attachment_id = wp_insert_attachment( $attachment, $file, $post_id, true );
 
 	if ( ! is_wp_error( $attachment_id ) ) {
@@ -490,7 +490,7 @@ function media_handle_sideload( $file_array, $post_id = 0, $desc = null, $post_d
 	// This should never be set as it would then overwrite an existing attachment.
 	unset( $attachment['ID'] );
 
-	// Save the attachment metadata
+	// Save the attachment metadata.
 	$attachment_id = wp_insert_attachment( $attachment, $file, $post_id, true );
 
 	if ( ! is_wp_error( $attachment_id ) ) {
@@ -519,7 +519,7 @@ function wp_iframe( $content_func, ...$args ) {
 	<?php
 
 	wp_enqueue_style( 'colors' );
-	// Check callback name for 'media'
+	// Check callback name for 'media'.
 	if (
 		( is_array( $content_func ) && ! empty( $content_func[1] ) && 0 === strpos( (string) $content_func[1], 'media' ) ) ||
 		( ! is_array( $content_func ) && 0 === strpos( $content_func, 'media' ) )
@@ -849,7 +849,7 @@ function wp_media_upload_handler() {
 
 	if ( isset( $_POST['html-upload'] ) && ! empty( $_FILES ) ) {
 		check_admin_referer( 'media-form' );
-		// Upload File button was clicked
+		// Upload File button was clicked.
 		$id = media_handle_upload( 'async-upload', $_REQUEST['post_id'] );
 		unset( $_FILES );
 
@@ -1421,8 +1421,12 @@ function get_attachment_fields_to_edit( $post, $errors = null ) {
 		$form_fields[ $taxonomy ] = $t;
 	}
 
-	// Merge default fields with their errors, so any key passed with the error (e.g. 'error', 'helps', 'value') will replace the default
-	// The recursive merge is easily traversed with array casting: foreach ( (array) $things as $thing )
+	/*
+	 * Merge default fields with their errors, so any key passed with the error
+	 * (e.g. 'error', 'helps', 'value') will replace the default.
+	 * The recursive merge is easily traversed with array casting:
+	 * foreach ( (array) $things as $thing )
+	 */
 	$form_fields = array_merge_recursive( $form_fields, (array) $errors );
 
 	// This was formerly in image_attachment_fields_to_edit().
@@ -1596,7 +1600,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		$toggle_links = '';
 	}
 
-	$display_title = ( ! empty( $title ) ) ? $title : $filename; // $title shouldn't ever be empty, but just in case
+	$display_title = ( ! empty( $title ) ) ? $title : $filename; // $title shouldn't ever be empty, but just in case.
 	$display_title = $parsed_args['show_title'] ? "<div class='filename new'><span class='title'>" . wp_html_excerpt( $display_title, 60, '&hellip;' ) . '</span></div>' : '';
 
 	$gallery = ( ( isset( $_REQUEST['tab'] ) && 'gallery' == $_REQUEST['tab'] ) || ( isset( $redir_tab ) && 'gallery' == $redir_tab ) );
@@ -1710,7 +1714,7 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	if ( isset( $_GET['post_id'] ) ) {
 		$calling_post_id = absint( $_GET['post_id'] );
-	} elseif ( isset( $_POST ) && count( $_POST ) ) {// Like for async-upload where $_GET['post_id'] isn't set
+	} elseif ( isset( $_POST ) && count( $_POST ) ) {// Like for async-upload where $_GET['post_id'] isn't set.
 		$calling_post_id = $post->post_parent;
 	}
 
@@ -1875,8 +1879,12 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 		}
 	}
 
-	// Merge default fields with their errors, so any key passed with the error (e.g. 'error', 'helps', 'value') will replace the default
-	// The recursive merge is easily traversed with array casting: foreach ( (array) $things as $thing )
+	/*
+	 * Merge default fields with their errors, so any key passed with the error
+	 * (e.g. 'error', 'helps', 'value') will replace the default.
+	 * The recursive merge is easily traversed with array casting:
+	 * foreach ( (array) $things as $thing )
+	 */
 	$form_fields = array_merge_recursive( $form_fields, (array) $args['errors'] );
 
 	/** This filter is documented in wp-admin/includes/media.php */
@@ -2132,8 +2140,11 @@ function media_upload_form( $errors = null ) {
 		'multipart_params' => $post_params,
 	);
 
-	// Currently only iOS Safari supports multiple files uploading but iOS 7.x has a bug that prevents uploading of videos
-	// when enabled. See #29602.
+	/*
+	 * Currently only iOS Safari supports multiple files uploading,
+	 * but iOS 7.x has a bug that prevents uploading of videos when enabled.
+	 * See #29602.
+	 */
 	if (
 		wp_is_mobile() &&
 		strpos( $_SERVER['HTTP_USER_AGENT'], 'OS 7_' ) !== false &&
@@ -2700,7 +2711,7 @@ function media_upload_library_form( $errors ) {
 				}
 			}
 		}
-		// If available type specified by media button clicked, filter by that type
+		// If available type specified by media button clicked, filter by that type.
 		if ( empty( $_GET['post_mime_type'] ) && ! empty( $num_posts[ $type ] ) ) {
 			$_GET['post_mime_type']                        = $type;
 			list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();

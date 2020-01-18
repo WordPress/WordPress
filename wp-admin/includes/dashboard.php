@@ -56,7 +56,7 @@ function wp_dashboard_setup() {
 		wp_add_dashboard_widget( 'dashboard_site_health', __( 'Site Health Status' ), 'wp_dashboard_site_health' );
 	}
 
-	// Right Now
+	// Right Now.
 	if ( is_blog_admin() && current_user_can( 'edit_posts' ) ) {
 		wp_add_dashboard_widget( 'dashboard_right_now', __( 'At a Glance' ), 'wp_dashboard_right_now' );
 	}
@@ -65,18 +65,18 @@ function wp_dashboard_setup() {
 		wp_add_dashboard_widget( 'network_dashboard_right_now', __( 'Right Now' ), 'wp_network_dashboard_right_now' );
 	}
 
-	// Activity Widget
+	// Activity Widget.
 	if ( is_blog_admin() ) {
 		wp_add_dashboard_widget( 'dashboard_activity', __( 'Activity' ), 'wp_dashboard_site_activity' );
 	}
 
-	// QuickPress Widget
+	// QuickPress Widget.
 	if ( is_blog_admin() && current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
 		$quick_draft_title = sprintf( '<span class="hide-if-no-js">%1$s</span> <span class="hide-if-js">%2$s</span>', __( 'Quick Draft' ), __( 'Your Recent Drafts' ) );
 		wp_add_dashboard_widget( 'dashboard_quick_press', $quick_draft_title, 'wp_dashboard_quick_press' );
 	}
 
-	// WordPress Events and News
+	// WordPress Events and News.
 	wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress Events and News' ), 'wp_dashboard_events_news' );
 
 	if ( is_network_admin() ) {
@@ -139,7 +139,7 @@ function wp_dashboard_setup() {
 
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset( $_POST['widget_id'] ) ) {
 		check_admin_referer( 'edit-dashboard-widget_' . $_POST['widget_id'], 'dashboard-widget-nonce' );
-		ob_start(); // hack - but the same hack wp-admin/widgets.php uses
+		ob_start(); // Hack - but the same hack wp-admin/widgets.php uses.
 		wp_dashboard_trigger_widget_control( $_POST['widget_id'] );
 		ob_end_clean();
 		wp_redirect( remove_query_arg( 'edit' ) );
@@ -278,7 +278,7 @@ function wp_dashboard_right_now() {
 	<div class="main">
 	<ul>
 	<?php
-	// Posts and Pages
+	// Posts and Pages.
 	foreach ( array( 'post', 'page' ) as $post_type ) {
 		$num_posts = wp_count_posts( $post_type );
 		if ( $num_posts && $num_posts->publish ) {
@@ -298,7 +298,7 @@ function wp_dashboard_right_now() {
 			}
 		}
 	}
-	// Comments
+	// Comments.
 	$num_comm = wp_count_comments();
 	if ( $num_comm && ( $num_comm->approved || $num_comm->moderated ) ) {
 		/* translators: %s: Number of comments. */
@@ -506,21 +506,21 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 	}
 
 	/* Check if a new auto-draft (= no new post_ID) is needed or if the old can be used */
-	$last_post_id = (int) get_user_option( 'dashboard_quick_press_last_post_id' ); // Get the last post_ID
+	$last_post_id = (int) get_user_option( 'dashboard_quick_press_last_post_id' ); // Get the last post_ID.
 	if ( $last_post_id ) {
 		$post = get_post( $last_post_id );
-		if ( empty( $post ) || $post->post_status != 'auto-draft' ) { // auto-draft doesn't exists anymore
+		if ( empty( $post ) || $post->post_status != 'auto-draft' ) { // auto-draft doesn't exists anymore.
 			$post = get_default_post_to_edit( 'post', true );
-			update_user_option( get_current_user_id(), 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
+			update_user_option( get_current_user_id(), 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID.
 		} else {
-			$post->post_title = ''; // Remove the auto draft title
+			$post->post_title = ''; // Remove the auto draft title.
 		}
 	} else {
 		$post    = get_default_post_to_edit( 'post', true );
 		$user_id = get_current_user_id();
 		// Don't create an option if this is a super admin who does not belong to this site.
 		if ( in_array( get_current_blog_id(), array_keys( get_blogs_of_user( $user_id ) ) ) ) {
-			update_user_option( $user_id, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
+			update_user_option( $user_id, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID.
 		}
 	}
 
@@ -760,7 +760,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			++$i;
 			( ( ( 'approve' == $action || 'unapprove' == $action ) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
 
-			// Reply and quickedit need a hide-if-no-js span
+			// Reply and quickedit need a hide-if-no-js span.
 			if ( 'reply' == $action || 'quickedit' == $action ) {
 				$action .= ' hide-if-no-js';
 			}
@@ -1108,7 +1108,8 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 		array_unshift( $args, $widget_id, $check_urls );
 		ob_start();
 		call_user_func_array( $callback, $args );
-		set_transient( $cache_key, ob_get_flush(), 12 * HOUR_IN_SECONDS ); // Default lifetime in cache of 12 hours (same as the feeds)
+		// Default lifetime in cache of 12 hours (same as the feeds).
+		set_transient( $cache_key, ob_get_flush(), 12 * HOUR_IN_SECONDS );
 	}
 
 	return true;
@@ -1163,7 +1164,8 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 		$widget_options[ $widget_id ] = array();
 	}
 
-	$number                                 = 1; // Hack to use wp_widget_rss_form()
+	$number = 1; // Hack to use wp_widget_rss_form().
+
 	$widget_options[ $widget_id ]['number'] = $number;
 
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset( $_POST['widget-rss'][ $number ] ) ) {
@@ -1662,7 +1664,7 @@ function wp_check_browser_version() {
 
 	$response = get_site_transient( 'browser_' . $key );
 	if ( false === $response ) {
-		// include an unmodified $wp_version
+		// Include an unmodified $wp_version.
 		include( ABSPATH . WPINC . '/version.php' );
 
 		$url     = 'http://api.wordpress.org/core/browse-happy/1.1/';

@@ -208,13 +208,13 @@ function add_menu_classes( $menu ) {
 	foreach ( $menu as $order => $top ) {
 		$i++;
 
-		if ( 0 == $order ) { // dashboard is always shown/single
+		if ( 0 == $order ) { // Dashboard is always shown/single.
 			$menu[0][4] = add_cssclass( 'menu-top-first', $top[4] );
 			$lastorder  = 0;
 			continue;
 		}
 
-		if ( 0 === strpos( $top[2], 'separator' ) && false !== $lastorder ) { // if separator
+		if ( 0 === strpos( $top[2], 'separator' ) && false !== $lastorder ) { // If separator.
 			$first                 = true;
 			$c                     = $menu[ $lastorder ][4];
 			$menu[ $lastorder ][4] = add_cssclass( 'menu-top-last', $c );
@@ -227,7 +227,7 @@ function add_menu_classes( $menu ) {
 			$first             = false;
 		}
 
-		if ( $mc == $i ) { // last item
+		if ( $mc == $i ) { // Last item.
 			$c                 = $menu[ $order ][4];
 			$menu[ $order ][4] = add_cssclass( 'menu-top-last', $c );
 		}
@@ -245,7 +245,7 @@ function add_menu_classes( $menu ) {
 	return apply_filters( 'add_menu_classes', $menu );
 }
 
-uksort( $menu, 'strnatcasecmp' ); // make it all pretty
+uksort( $menu, 'strnatcasecmp' ); // Make it all pretty.
 
 /**
  * Filters whether to enable custom ordering of the administration menu.
@@ -310,21 +310,21 @@ if ( apply_filters( 'custom_menu_order', false ) ) {
 	unset( $menu_order, $default_menu_order );
 }
 
-// Prevent adjacent separators
+// Prevent adjacent separators.
 $prev_menu_was_separator = false;
 foreach ( $menu as $id => $data ) {
 	if ( false === stristr( $data[4], 'wp-menu-separator' ) ) {
 
-		// This item is not a separator, so falsey the toggler and do nothing
+		// This item is not a separator, so falsey the toggler and do nothing.
 		$prev_menu_was_separator = false;
 	} else {
 
-		// The previous item was a separator, so unset this one
+		// The previous item was a separator, so unset this one.
 		if ( true === $prev_menu_was_separator ) {
 			unset( $menu[ $id ] );
 		}
 
-		// This item is a separator, so truthy the toggler and move on
+		// This item is a separator, so truthy the toggler and move on.
 		$prev_menu_was_separator = true;
 	}
 }
