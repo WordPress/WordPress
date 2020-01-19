@@ -580,7 +580,7 @@ function shortcode_atts( $pairs, $atts, $shortcode = '' ) {
 
 	if ( $shortcode ) {
 		/**
-		 * Filters a shortcode's default attributes.
+		 * Filters shortcode attributes.
 		 *
 		 * If the third parameter of the shortcode_atts() function is present then this filter is available.
 		 * The third parameter, $shortcode, is the name of the shortcode.
