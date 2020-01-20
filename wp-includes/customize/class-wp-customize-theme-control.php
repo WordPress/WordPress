@@ -110,7 +110,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 			<# if ( data.theme.active ) { #>
 				<div class="theme-id-container">
 					<h3 class="theme-name" id="{{ data.section }}-{{ data.theme.id }}-name">
-						<span><?php _e( 'Previewing:' ); ?></span> {{ data.theme.name }}
+						<span><?php _ex( 'Previewing:', 'theme' ); ?></span> {{ data.theme.name }}
 					</h3>
 					<div class="theme-actions">
 						<button type="button" class="button button-primary customize-theme" aria-label="<?php echo esc_attr( $customize_label ); ?>"><?php _e( 'Customize' ); ?></button>
