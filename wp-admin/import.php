@@ -161,7 +161,7 @@ if ( empty( $importers ) ) {
 					);
 				} else {
 					$action = sprintf(
-						/* translators: URL to Import screen on the main site. */
+						/* translators: %s: URL to Import screen on the main site. */
 						__( 'This importer is not installed. Please install importers from <a href="%s">the main site</a>.' ),
 						get_admin_url( get_current_network_id(), 'import.php' )
 					);
