@@ -390,7 +390,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @link https://secure.php.net/manual/en/arrayaccess.offsetexists.php
+	 * @link https://www.php.net/manual/en/arrayaccess.offsetexists.php
 	 *
 	 * @param mixed $offset An offset to check for.
 	 * @return bool True if the offset exists, false otherwise.
@@ -404,7 +404,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @link https://secure.php.net/manual/en/arrayaccess.offsetget.php
+	 * @link https://www.php.net/manual/en/arrayaccess.offsetget.php
 	 *
 	 * @param mixed $offset The offset to retrieve.
 	 * @return mixed If set, the value at the specified offset, null otherwise.
@@ -418,7 +418,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @link https://secure.php.net/manual/en/arrayaccess.offsetset.php
+	 * @link https://www.php.net/manual/en/arrayaccess.offsetset.php
 	 *
 	 * @param mixed $offset The offset to assign the value to.
 	 * @param mixed $value The value to set.
@@ -436,7 +436,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @link https://secure.php.net/manual/en/arrayaccess.offsetunset.php
+	 * @link https://www.php.net/manual/en/arrayaccess.offsetunset.php
 	 *
 	 * @param mixed $offset The offset to unset.
 	 */
@@ -449,7 +449,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @link https://secure.php.net/manual/en/iterator.current.php
+	 * @link https://www.php.net/manual/en/iterator.current.php
 	 *
 	 * @return array Of callbacks at current priority.
 	 */
@@ -462,7 +462,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @link https://secure.php.net/manual/en/iterator.next.php
+	 * @link https://www.php.net/manual/en/iterator.next.php
 	 *
 	 * @return array Of callbacks at next priority.
 	 */
@@ -475,7 +475,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @link https://secure.php.net/manual/en/iterator.key.php
+	 * @link https://www.php.net/manual/en/iterator.key.php
 	 *
 	 * @return mixed Returns current priority on success, or NULL on failure
 	 */
@@ -488,7 +488,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @link https://secure.php.net/manual/en/iterator.valid.php
+	 * @link https://www.php.net/manual/en/iterator.valid.php
 	 *
 	 * @return boolean
 	 */
@@ -501,7 +501,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @link https://secure.php.net/manual/en/iterator.rewind.php
+	 * @link https://www.php.net/manual/en/iterator.rewind.php
 	 */
 	public function rewind() {
 		reset( $this->callbacks );

@@ -384,7 +384,7 @@ function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
  *
  * Warning: This function may return Boolean FALSE, but may also return a non-Boolean
  * value which evaluates to FALSE. For information about casting to booleans see the
- * {@link https://php.net/manual/en/language.types.boolean.php PHP documentation}. Use
+ * {@link https://www.php.net/manual/en/language.types.boolean.php PHP documentation}. Use
  * the `===` operator for testing the return value of this function.
  *
  * @since 2.1.0
@@ -454,7 +454,7 @@ function wp_clear_scheduled_hook( $hook, $args = array() ) {
  *
  * Warning: This function may return Boolean FALSE, but may also return a non-Boolean
  * value which evaluates to FALSE. For information about casting to booleans see the
- * {@link https://php.net/manual/en/language.types.boolean.php PHP documentation}. Use
+ * {@link https://www.php.net/manual/en/language.types.boolean.php PHP documentation}. Use
  * the `===` operator for testing the return value of this function.
  *
  * @since 4.9.0
@@ -733,7 +733,7 @@ function spawn_cron( $gmt_time = 0 ) {
  *
  * Warning: This function may return Boolean FALSE, but may also return a non-Boolean
  * value which evaluates to FALSE. For information about casting to booleans see the
- * {@link https://php.net/manual/en/language.types.boolean.php PHP documentation}. Use
+ * {@link https://www.php.net/manual/en/language.types.boolean.php PHP documentation}. Use
  * the `===` operator for testing the return value of this function.
  *
  * @since 2.1.0

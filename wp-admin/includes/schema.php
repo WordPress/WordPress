@@ -394,7 +394,7 @@ function populate_options( array $options = array() ) {
 	$gmt_offset      = 0;
 	/*
 	 * translators: default GMT offset or timezone string. Must be either a valid offset (-12 to 14)
-	 * or a valid timezone string (America/New_York). See https://secure.php.net/manual/en/timezones.php
+	 * or a valid timezone string (America/New_York). See https://www.php.net/manual/en/timezones.php
 	 * for all timezone strings supported by PHP.
 	 */
 	$offset_or_tz = _x( '0', 'default GMT offset or timezone string' ); // phpcs:ignore WordPress.WP.I18n.NoEmptyStrings
@@ -429,11 +429,11 @@ function populate_options( array $options = array() ) {
 		'default_ping_status'             => 'open',
 		'default_pingback_flag'           => 1,
 		'posts_per_page'                  => 10,
-		/* translators: Default date format, see https://secure.php.net/date */
+		/* translators: Default date format, see https://www.php.net/date */
 		'date_format'                     => __( 'F j, Y' ),
-		/* translators: Default time format, see https://secure.php.net/date */
+		/* translators: Default time format, see https://www.php.net/date */
 		'time_format'                     => __( 'g:i a' ),
-		/* translators: Links last updated date format, see https://secure.php.net/date */
+		/* translators: Links last updated date format, see https://www.php.net/date */
 		'links_updated_date_format'       => __( 'F j, Y g:i a' ),
 		'comment_moderation'              => 0,
 		'moderation_notify'               => 1,
