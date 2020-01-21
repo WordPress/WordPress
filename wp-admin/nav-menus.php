@@ -530,7 +530,7 @@ wp_initial_nav_menu_meta_boxes();
 
 if ( ! current_theme_supports( 'menus' ) && ! $num_locations ) {
 	$messages[] = '<div id="message" class="updated"><p>' . sprintf(
-		/* translators: URL to Widgets screen. */
+		/* translators: %s: URL to Widgets screen. */
 		__( 'Your theme does not natively support menus, but you can use them in sidebars by adding a &#8220;Navigation Menu&#8221; widget on the <a href="%s">Widgets</a> screen.' ),
 		admin_url( 'widgets.php' )
 	) . '</p></div>';

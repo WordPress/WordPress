@@ -1221,7 +1221,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		}
 
 		/* translators: 1: Parameter, 2: List of types. */
-		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s' ), $param, implode( ',', $args['type'] ) ) );
+		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, implode( ',', $args['type'] ) ) );
 	}
 
 	if ( 'array' === $args['type'] ) {

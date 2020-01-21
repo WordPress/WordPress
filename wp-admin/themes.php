@@ -342,10 +342,7 @@ foreach ( $themes as $theme ) :
 	<div class="theme-id-container">
 		<?php if ( $theme['active'] ) { ?>
 			<h2 class="theme-name" id="<?php echo $aria_name; ?>">
-				<?php
-				/* translators: %s: Theme name. */
-				printf( __( '<span>Active:</span> %s' ), $theme['name'] );
-				?>
+				<span><?php _ex( 'Active:', 'theme' ); ?></span> <?php echo $theme['name']; ?>
 			</h2>
 		<?php } else { ?>
 			<h2 class="theme-name" id="<?php echo $aria_name; ?>"><?php echo $theme['name']; ?></h2>
@@ -509,10 +506,7 @@ if ( ! is_multisite() && current_user_can( 'edit_themes' ) && $broken_themes ) {
 	<div class="theme-id-container">
 		<# if ( data.active ) { #>
 			<h2 class="theme-name" id="{{ data.id }}-name">
-				<?php
-				/* translators: %s: Theme name. */
-				printf( __( '<span>Active:</span> %s' ), '{{{ data.name }}}' );
-				?>
+				<span><?php _ex( 'Active:', 'theme' ); ?></span> {{{ data.name }}}
 			</h2>
 		<# } else { #>
 			<h2 class="theme-name" id="{{ data.id }}-name">{{{ data.name }}}</h2>

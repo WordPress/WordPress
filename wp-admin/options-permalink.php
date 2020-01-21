@@ -32,7 +32,7 @@ get_current_screen()->add_help_tab(
 		'title'   => __( 'Permalink Settings' ),
 		'content' => '<p>' . __( 'Permalinks can contain useful information, such as the post date, title, or other elements. You can choose from any of the suggested permalink formats, or you can craft your own if you select Custom Structure.' ) . '</p>' .
 			'<p>' . sprintf(
-				/* translators: '%' character. */
+				/* translators: %s: Percent sign (%). */
 				__( 'If you pick an option other than Plain, your general URL path with structure tags (terms surrounded by %s) will also appear in the custom structure field and your path can be further modified there.' ),
 				'<code>%</code>'
 			) . '</p>' .

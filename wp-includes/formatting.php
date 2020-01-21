@@ -2707,7 +2707,7 @@ function untrailingslashit( $string ) {
  * Adds slashes to escape strings.
  *
  * Slashes will first be removed if magic_quotes_gpc is set, see {@link
- * https://secure.php.net/magic_quotes} for more details.
+ * https://www.php.net/magic_quotes} for more details.
  *
  * @since 0.71
  *
@@ -4397,7 +4397,7 @@ function esc_url_raw( $url, $protocols = null ) {
 /**
  * Convert entities, while preserving already-encoded entities.
  *
- * @link https://secure.php.net/htmlentities Borrowed from the PHP Manual user notes.
+ * @link https://www.php.net/htmlentities Borrowed from the PHP Manual user notes.
  *
  * @since 1.2.2
  *
@@ -4936,7 +4936,7 @@ function wp_pre_kses_block_attributes( $string, $allowed_html, $allowed_protocol
  * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
  *              by adding it to the function signature.
  *
- * @link https://secure.php.net/sprintf
+ * @link https://www.php.net/sprintf
  *
  * @param string $pattern The string which formatted args are inserted.
  * @param mixed  ...$args Arguments to be formatted into the $pattern string.

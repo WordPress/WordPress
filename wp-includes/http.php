@@ -660,7 +660,7 @@ function ms_allowed_http_request_hosts( $is_external, $host ) {
  * @since 4.4.0
  * @since 4.7.0 The `$component` parameter was added for parity with PHP's `parse_url()`.
  *
- * @link https://secure.php.net/manual/en/function.parse-url.php
+ * @link https://www.php.net/manual/en/function.parse-url.php
  *
  * @param string $url       The URL to parse.
  * @param int    $component The specific component to retrieve. Use one of the PHP
@@ -707,7 +707,7 @@ function wp_parse_url( $url, $component = -1 ) {
  * @since 4.7.0
  * @access private
  *
- * @link https://secure.php.net/manual/en/function.parse-url.php
+ * @link https://www.php.net/manual/en/function.parse-url.php
  *
  * @param array|false $url_parts The parsed URL. Can be false if the URL failed to parse.
  * @param int         $component The specific component to retrieve. Use one of the PHP
@@ -739,7 +739,7 @@ function _get_component_from_parsed_url_array( $url_parts, $component = -1 ) {
  * @since 4.7.0
  * @access private
  *
- * @link https://secure.php.net/manual/en/url.constants.php
+ * @link https://www.php.net/manual/en/url.constants.php
  *
  * @param int $constant PHP_URL_* constant.
  * @return string|false The named key or false.

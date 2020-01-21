@@ -1309,7 +1309,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 
 						echo '<button type="button" class="handlediv" aria-expanded="true">';
 						echo '<span class="screen-reader-text">' . sprintf(
-							/* translators: Meta box title. */
+							/* translators: %s: Meta box title. */
 							__( 'Toggle panel: %s' ),
 							$widget_title
 						) . '</span>';

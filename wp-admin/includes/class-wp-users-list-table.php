@@ -223,7 +223,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
 			$name = translate_user_role( $name );
 			$name = sprintf(
-				/* translators: User role name with count. */
+				/* translators: 1: User role name, 2: Number of users. */
 				__( '%1$s <span class="count">(%2$s)</span>' ),
 				$name,
 				number_format_i18n( $avail_roles[ $this_role ] )
@@ -242,7 +242,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
 			$name = __( 'No role' );
 			$name = sprintf(
-				/* translators: User role name with count. */
+				/* translators: 1: User role name, 2: Number of users. */
 				__( '%1$s <span class="count">(%2$s)</span>' ),
 				$name,
 				number_format_i18n( $avail_roles['none'] )

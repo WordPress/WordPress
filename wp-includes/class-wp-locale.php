@@ -194,9 +194,9 @@ class WP_Locale {
 		$this->meridiem['PM'] = __( 'PM' );
 
 		// Numbers formatting
-		// See https://secure.php.net/number_format
+		// See https://www.php.net/number_format
 
-		/* translators: $thousands_sep argument for https://secure.php.net/number_format, default is ',' */
+		/* translators: $thousands_sep argument for https://www.php.net/number_format, default is ',' */
 		$thousands_sep = __( 'number_format_thousands_sep' );
 
 		// Replace space with a non-breaking space to avoid wrapping.
@@ -204,7 +204,7 @@ class WP_Locale {
 
 		$this->number_format['thousands_sep'] = ( 'number_format_thousands_sep' === $thousands_sep ) ? ',' : $thousands_sep;
 
-		/* translators: $dec_point argument for https://secure.php.net/number_format, default is '.' */
+		/* translators: $dec_point argument for https://www.php.net/number_format, default is '.' */
 		$decimal_point = __( 'number_format_decimal_point' );
 
 		$this->number_format['decimal_point'] = ( 'number_format_decimal_point' === $decimal_point ) ? '.' : $decimal_point;
@@ -359,11 +359,11 @@ class WP_Locale {
 	 * @since 3.6.0
 	 */
 	public function _strings_for_pot() {
-		/* translators: Localized date format, see https://secure.php.net/date */
+		/* translators: Localized date format, see https://www.php.net/date */
 		__( 'F j, Y' );
-		/* translators: Localized time format, see https://secure.php.net/date */
+		/* translators: Localized time format, see https://www.php.net/date */
 		__( 'g:i a' );
-		/* translators: Localized date and time format, see https://secure.php.net/date */
+		/* translators: Localized date and time format, see https://www.php.net/date */
 		__( 'F j, Y g:i a' );
 	}
 }

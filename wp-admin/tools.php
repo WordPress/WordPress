@@ -70,7 +70,7 @@ if ( current_user_can( 'import' ) ) :
 			<p>
 			<?php
 				printf(
-					/* translators: URL to Import screen. */
+					/* translators: %s: URL to Import screen. */
 					__( 'If you want to convert your categories to tags (or vice versa), use the <a href="%s">Categories and Tags Converter</a> available from the Import screen.' ),
 					'import.php'
 				);

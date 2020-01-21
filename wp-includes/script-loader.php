@@ -390,13 +390,13 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 						),
 					),
 					'formats'  => array(
-						/* translators: Time format, see https://secure.php.net/date */
+						/* translators: Time format, see https://www.php.net/date */
 						'time'                => get_option( 'time_format', __( 'g:i a' ) ),
-						/* translators: Date format, see https://secure.php.net/date */
+						/* translators: Date format, see https://www.php.net/date */
 						'date'                => get_option( 'date_format', __( 'F j, Y' ) ),
-						/* translators: Date/Time format, see https://secure.php.net/date */
+						/* translators: Date/Time format, see https://www.php.net/date */
 						'datetime'            => __( 'F j, Y g:i a' ),
-						/* translators: Abbreviated date/time format, see https://secure.php.net/date */
+						/* translators: Abbreviated date/time format, see https://www.php.net/date */
 						'datetimeAbbreviated' => __( 'M j, Y g:i a' ),
 					),
 					'timezone' => array(
@@ -984,35 +984,23 @@ function wp_default_scripts( &$scripts ) {
 				array(
 					'language' => strtolower( strtok( determine_locale(), '_-' ) ),
 					'strings'  => array(
+						'mejs.download-file'       => __( 'Download File' ),
 						'mejs.install-flash'       => __( 'You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https://get.adobe.com/flashplayer/' ),
-						'mejs.fullscreen-off'      => __( 'Turn off Fullscreen' ),
-						'mejs.fullscreen-on'       => __( 'Go Fullscreen' ),
-						'mejs.download-video'      => __( 'Download Video' ),
 						'mejs.fullscreen'          => __( 'Fullscreen' ),
-						'mejs.time-jump-forward'   => array( __( 'Jump forward 1 second' ), __( 'Jump forward %1 seconds' ) ),
-						'mejs.loop'                => __( 'Toggle Loop' ),
 						'mejs.play'                => __( 'Play' ),
 						'mejs.pause'               => __( 'Pause' ),
-						'mejs.close'               => __( 'Close' ),
 						'mejs.time-slider'         => __( 'Time Slider' ),
 						'mejs.time-help-text'      => __( 'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.' ),
-						'mejs.time-skip-back'      => array( __( 'Skip back 1 second' ), __( 'Skip back %1 seconds' ) ),
-						'mejs.captions-subtitles'  => __( 'Captions/Subtitles' ),
-						'mejs.captions-chapters'   => __( 'Chapters' ),
-						'mejs.none'                => __( 'None' ),
-						'mejs.mute-toggle'         => __( 'Mute Toggle' ),
+						'mejs.live-broadcast'      => __( 'Live Broadcast' ),
 						'mejs.volume-help-text'    => __( 'Use Up/Down Arrow keys to increase or decrease volume.' ),
 						'mejs.unmute'              => __( 'Unmute' ),
 						'mejs.mute'                => __( 'Mute' ),
 						'mejs.volume-slider'       => __( 'Volume Slider' ),
 						'mejs.video-player'        => __( 'Video Player' ),
 						'mejs.audio-player'        => __( 'Audio Player' ),
-						'mejs.ad-skip'             => __( 'Skip ad' ),
-						'mejs.ad-skip-info'        => array( __( 'Skip in 1 second' ), __( 'Skip in %1 seconds' ) ),
-						'mejs.source-chooser'      => __( 'Source Chooser' ),
-						'mejs.stop'                => __( 'Stop' ),
-						'mejs.speed-rate'          => __( 'Speed Rate' ),
-						'mejs.live-broadcast'      => __( 'Live Broadcast' ),
+						'mejs.captions-subtitles'  => __( 'Captions/Subtitles' ),
+						'mejs.captions-chapters'   => __( 'Chapters' ),
+						'mejs.none'                => __( 'None' ),
 						'mejs.afrikaans'           => __( 'Afrikaans' ),
 						'mejs.albanian'            => __( 'Albanian' ),
 						'mejs.arabic'              => __( 'Arabic' ),

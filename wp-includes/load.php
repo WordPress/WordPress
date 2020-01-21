@@ -1280,8 +1280,8 @@ function is_ssl() {
  * @since 2.3.0
  * @since 4.6.0 Moved from media.php to load.php.
  *
- * @link https://secure.php.net/manual/en/function.ini-get.php
- * @link https://secure.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
+ * @link https://www.php.net/manual/en/function.ini-get.php
+ * @link https://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
  *
  * @param string $value A (PHP ini) byte value, either shorthand or ordinary.
  * @return int An integer byte value.
@@ -1309,7 +1309,7 @@ function wp_convert_hr_to_bytes( $value ) {
  *
  * @staticvar array $ini_all
  *
- * @link https://secure.php.net/manual/en/function.ini-get-all.php
+ * @link https://www.php.net/manual/en/function.ini-get-all.php
  *
  * @param string $setting The name of the ini setting to check.
  * @return bool True if the value is changeable at runtime. False otherwise.
