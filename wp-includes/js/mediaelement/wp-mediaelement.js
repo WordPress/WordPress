@@ -59,7 +59,7 @@
 			settings.customError = function ( media, node ) {
 				// Make sure we only fall back to a download link for flash files.
 				if ( -1 !== media.rendererName.indexOf( 'flash' ) || -1 !== media.rendererName.indexOf( 'flv' ) ) {
-					return '<a href="' + node.src + '">' + mejsL10n.strings['mejs.download-video'] + '</a>';
+					return '<a href="' + node.src + '">' + mejsL10n.strings['mejs.download-file'] + '</a>';
 				}
 			};
 
