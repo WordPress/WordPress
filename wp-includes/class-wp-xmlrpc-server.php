@@ -3847,7 +3847,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! $user ) {
 			$logged_in = false;
 			if ( $allow_anon && get_option( 'comment_registration' ) ) {
-				return new IXR_Error( 403, __( 'You must be registered to comment.' ) );
+				return new IXR_Error( 403, __( 'Sorry, you must be logged in to comment.' ) );
 			} elseif ( ! $allow_anon ) {
 				return $this->error;
 			}
