@@ -373,11 +373,11 @@ function wp_maybe_decline_date( $date, $format = '' ) {
 
 		if ( $decline ) {
 			foreach ( $months as $key => $month ) {
-				$months[ $key ] = '#\b' . preg_quote( $month, '#' ) . ' (\d{1,2})(st|nd|rd|th)?\b#u';
+				$months[ $key ] = '#\b' . preg_quote( $month, '#' ) . ' (\d{1,2})(st|nd|rd|th)?([-–]\d{1,2})?(st|nd|rd|th)?\b#u';
 			}
 
 			foreach ( $months_genitive as $key => $month ) {
-				$months_genitive[ $key ] = '$1 ' . $month;
+				$months_genitive[ $key ] = '$1$3 ' . $month;
 			}
 
 			$date = preg_replace( $months, $months_genitive, $date );
