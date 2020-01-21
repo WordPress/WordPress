@@ -167,8 +167,8 @@ function get_bookmarks( $args = '' ) {
 			 *
 			 * @see get_bookmarks()
 			 *
-			 * @param array $bookmarks List of the cached bookmarks.
-			 * @param array $parsed_args         An array of bookmark query arguments.
+			 * @param array $bookmarks   List of the cached bookmarks.
+			 * @param array $parsed_args An array of bookmark query arguments.
 			 */
 			return apply_filters( 'get_bookmarks', $bookmarks, $parsed_args );
 		}

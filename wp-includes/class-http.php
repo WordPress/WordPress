@@ -226,8 +226,8 @@ class WP_Http {
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param array  $parsed_args   An array of HTTP request arguments.
-		 * @param string $url The request URL.
+		 * @param array  $parsed_args An array of HTTP request arguments.
+		 * @param string $url         The request URL.
 		 */
 		$parsed_args = apply_filters( 'http_request_args', $parsed_args, $url );
 

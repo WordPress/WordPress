@@ -1146,8 +1146,8 @@ function wp_dropdown_users( $args = '' ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $query_args The query arguments for get_users().
-	 * @param array $parsed_args          The arguments passed to wp_dropdown_users() combined with the defaults.
+	 * @param array $query_args  The query arguments for get_users().
+	 * @param array $parsed_args The arguments passed to wp_dropdown_users() combined with the defaults.
 	 */
 	$query_args = apply_filters( 'wp_dropdown_users_args', $query_args, $parsed_args );
 

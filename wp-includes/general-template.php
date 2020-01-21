@@ -1859,8 +1859,8 @@ function wp_get_archives( $args = '' ) {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string $sql_where Portion of SQL query containing the WHERE clause.
-	 * @param array  $parsed_args         An array of default arguments.
+	 * @param string $sql_where   Portion of SQL query containing the WHERE clause.
+	 * @param array  $parsed_args An array of default arguments.
 	 */
 	$where = apply_filters( 'getarchives_where', $sql_where, $parsed_args );
 

@@ -223,9 +223,9 @@ class WP_Http_Curl {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param resource $handle  The cURL handle returned by curl_init() (passed by reference).
-		 * @param array    $parsed_args       The HTTP request arguments.
-		 * @param string   $url     The request URL.
+		 * @param resource $handle      The cURL handle returned by curl_init() (passed by reference).
+		 * @param array    $parsed_args The HTTP request arguments.
+		 * @param string   $url         The request URL.
 		 */
 		do_action_ref_array( 'http_api_curl', array( &$handle, $parsed_args, $url ) );
 

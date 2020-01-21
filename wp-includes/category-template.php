@@ -452,8 +452,8 @@ function wp_dropdown_categories( $args = '' ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $output HTML output.
-	 * @param array  $parsed_args      Arguments used to build the drop-down.
+	 * @param string $output      HTML output.
+	 * @param array  $parsed_args Arguments used to build the drop-down.
 	 */
 	$output = apply_filters( 'wp_dropdown_cats', $output, $parsed_args );
 
