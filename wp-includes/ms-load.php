@@ -203,7 +203,8 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param null|false|WP_Site $site     Site value to return by path.
+	 * @param null|false|WP_Site $site     Site value to return by path. Default null
+	 *                                     to continue retrieving the site.
 	 * @param string             $domain   The requested domain.
 	 * @param string             $path     The requested path, in full.
 	 * @param int|null           $segments The suggested number of paths to consult.

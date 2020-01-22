@@ -932,7 +932,8 @@ function wp_is_site_initialized( $site_id ) {
 	 *
 	 * @since 5.1.0
 	 *
-	 * @param bool|null $pre     The value to return, if not null.
+	 * @param bool|null $pre     The value to return instead. Default null
+	 *                           to continue with the check.
 	 * @param int       $site_id The site ID that is being checked.
 	 */
 	$pre = apply_filters( 'pre_wp_is_site_initialized', null, $site_id );

@@ -384,7 +384,8 @@ class WP_oEmbed {
 		 *
 		 * @since 4.5.3
 		 *
-		 * @param null|string $result The UNSANITIZED (and potentially unsafe) HTML that should be used to embed. Default null.
+		 * @param null|string $result The UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
+		 *                            Default null to continue retrieving the result.
 		 * @param string      $url    The URL to the content that should be attempted to be embedded.
 		 * @param array       $args   Optional. Arguments, usually passed from a shortcode. Default empty.
 		 */
