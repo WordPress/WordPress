@@ -317,7 +317,7 @@ function get_search_form( $args = array() ) {
  *
  * @param string $redirect Optional path to redirect to on login/logout.
  * @param bool   $echo     Default to echo and not return the link.
- * @return string|void String when retrieving.
+ * @return void|string Void if `$echo` argument is true, log in/out link if `$echo` is false.
  */
 function wp_loginout( $redirect = '', $echo = true ) {
 	if ( ! is_user_logged_in() ) {
@@ -587,7 +587,8 @@ function wp_lostpassword_url( $redirect = '' ) {
  * @param string $before Text to output before the link. Default `<li>`.
  * @param string $after  Text to output after the link. Default `</li>`.
  * @param bool   $echo   Default to echo and not return the link.
- * @return string|void String when retrieving.
+ * @return void|string Void if `$echo` argument is true, registration or admin link
+ *                     if `$echo` is false.
  */
 function wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
 	if ( ! is_user_logged_in() ) {
@@ -2057,7 +2058,7 @@ function calendar_week_mod( $num ) {
  *
  * @param bool $initial Optional, default is true. Use initial calendar names.
  * @param bool $echo    Optional, default is true. Set to false for return.
- * @return string|void String when retrieving.
+ * @return void|string Void if `$echo` argument is true, calendar HTML if `$echo` is false.
  */
 function get_calendar( $initial = true, $echo = true ) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
