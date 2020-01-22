@@ -886,9 +886,7 @@ function page_template_dropdown( $default = '', $post_type = 'page' ) {
  * @param int         $parent  Optional. The parent page ID. Default 0.
  * @param int         $level   Optional. Page depth level. Default 0.
  * @param int|WP_Post $post    Post ID or WP_Post object.
- *
- * @return void|false HTML dropdown list of page parents on success,
- *                    false if the page has no children.
+ * @return void|false Void on success, false if the page has no children.
  */
 function parent_dropdown( $default = 0, $parent = 0, $level = 0, $post = null ) {
 	global $wpdb;
