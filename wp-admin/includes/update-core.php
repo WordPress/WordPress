@@ -880,7 +880,7 @@ $_new_bundled_files = array(
  *
  * @param string $from New release unzipped path.
  * @param string $to   Path to old WordPress installation.
- * @return null|WP_Error Null on success, WP_Error on failure.
+ * @return string|WP_Error New WordPress version on success, WP_Error on failure.
  */
 function update_core( $from, $to ) {
 	global $wp_filesystem, $_old_files, $_new_bundled_files, $wpdb;

@@ -57,7 +57,7 @@ class Core_Upgrader extends WP_Upgrader {
 	 *        @type bool $do_rollback      Whether to perform this "upgrade" as a rollback.
 	 *                                     Default false.
 	 * }
-	 * @return null|false|WP_Error Null on success, false or WP_Error on failure.
+	 * @return string|false|WP_Error New WordPress version on success, false or WP_Error on failure.
 	 */
 	public function upgrade( $current, $args = array() ) {
 		global $wp_filesystem;
