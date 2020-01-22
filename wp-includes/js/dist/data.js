@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["data"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 367);
+/******/ 	return __webpack_require__(__webpack_require__.s = 368);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["data"] =
 
 /***/ }),
 
-/***/ 108:
+/***/ 109:
 /***/ (function(module, exports) {
 
 function combineReducers( reducers ) {
@@ -153,7 +153,7 @@ module.exports = combineReducers;
 
 /***/ }),
 
-/***/ 14:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -182,7 +182,7 @@ function _extends() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(228);
+/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(229);
 /* global window */
 
 
@@ -201,7 +201,7 @@ if (typeof self !== 'undefined') {
 var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(root);
 /* harmony default export */ __webpack_exports__["a"] = (result);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(61), __webpack_require__(337)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(63), __webpack_require__(338)(module)))
 
 /***/ }),
 
@@ -221,7 +221,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -251,7 +251,7 @@ function _toConsumableArray(arr) {
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(33);
+var arrayWithHoles = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
@@ -284,7 +284,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(34);
+var nonIterableRest = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
@@ -297,14 +297,14 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 227:
+/***/ 228:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["reduxRoutine"]; }());
 
 /***/ }),
 
-/***/ 228:
+/***/ 229:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -330,13 +330,6 @@ function symbolObservablePonyfill(root) {
 
 /***/ }),
 
-/***/ 229:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["priorityQueue"]; }());
-
-/***/ }),
-
 /***/ 23:
 /***/ (function(module, exports) {
 
@@ -344,7 +337,14 @@ function symbolObservablePonyfill(root) {
 
 /***/ }),
 
-/***/ 32:
+/***/ 230:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["priorityQueue"]; }());
+
+/***/ }),
+
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -356,17 +356,13 @@ function _iterableToArray(iter) {
 /***/ }),
 
 /***/ 33:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
+(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 
-/***/ 337:
+/***/ 338:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -397,7 +393,18 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 34:
+/***/ 35:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+/***/ }),
+
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -408,14 +415,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 35:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
-
-/***/ }),
-
-/***/ 367:
+/***/ 368:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -440,14 +440,14 @@ __webpack_require__.d(plugins_namespaceObject, "controls", function() { return c
 __webpack_require__.d(plugins_namespaceObject, "persistence", function() { return plugins_persistence; });
 
 // EXTERNAL MODULE: ./node_modules/turbo-combine-reducers/index.js
-var turbo_combine_reducers = __webpack_require__(108);
+var turbo_combine_reducers = __webpack_require__(109);
 var turbo_combine_reducers_default = /*#__PURE__*/__webpack_require__.n(turbo_combine_reducers);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
 var slicedToArray = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
-var objectSpread = __webpack_require__(7);
+var objectSpread = __webpack_require__(6);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
@@ -461,7 +461,7 @@ var external_this_regeneratorRuntime_ = __webpack_require__(23);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(43);
+var asyncToGenerator = __webpack_require__(44);
 
 // EXTERNAL MODULE: ./node_modules/symbol-observable/es/index.js
 var es = __webpack_require__(147);
@@ -1118,11 +1118,11 @@ if (false) {}
 
 
 // EXTERNAL MODULE: external {"this":["wp","reduxRoutine"]}
-var external_this_wp_reduxRoutine_ = __webpack_require__(227);
+var external_this_wp_reduxRoutine_ = __webpack_require__(228);
 var external_this_wp_reduxRoutine_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_reduxRoutine_);
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(97);
+var is_promise = __webpack_require__(98);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/promise-middleware.js
@@ -1215,7 +1215,7 @@ var resolvers_cache_middleware_createResolversCacheMiddleware = function createR
 /* harmony default export */ var resolvers_cache_middleware = (resolvers_cache_middleware_createResolversCacheMiddleware);
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(76);
+var equivalent_key_map = __webpack_require__(57);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
@@ -2070,10 +2070,10 @@ function createRegistry() {
     maxSize: 1
   });
   /**
-  	 * Given the name of a registered store, returns an object containing the store's
-  	 * selectors pre-bound to state so that you only need to supply additional arguments,
-  	 * and modified so that they return promises that resolve to their eventual values,
-  	 * after any resolvers have ran.
+   * Given the name of a registered store, returns an object containing the store's
+   * selectors pre-bound to state so that you only need to supply additional arguments,
+   * and modified so that they return promises that resolve to their eventual values,
+   * after any resolvers have ran.
    *
    * @param {string} reducerKey Part of the state shape to register the
    *                            selectors for.
@@ -2207,7 +2207,7 @@ function createRegistry() {
 /* harmony default export */ var default_registry = (createRegistry());
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(35);
+var external_this_wp_deprecated_ = __webpack_require__(33);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/plugins/controls/index.js
@@ -2483,14 +2483,16 @@ var persistence_persistencePlugin = function persistencePlugin(registry, pluginO
   };
 };
 /**
- * Deprecated: Remove this function once WordPress 5.3 is released.
+ * Deprecated: Remove this function and the code in WordPress Core that calls
+ * it once WordPress 5.4 is released.
  */
 
 
 persistence_persistencePlugin.__unstableMigrate = function (pluginOptions) {
-  var persistence = createPersistenceInterface(pluginOptions); // Preferences migration to introduce the block editor module
+  var persistence = createPersistenceInterface(pluginOptions);
+  var state = persistence.get(); // Migrate 'insertUsage' from 'core/editor' to 'core/block-editor'
 
-  var insertUsage = Object(external_this_lodash_["get"])(persistence.get(), ['core/editor', 'preferences', 'insertUsage']);
+  var insertUsage = Object(external_this_lodash_["get"])(state, ['core/editor', 'preferences', 'insertUsage']);
 
   if (insertUsage) {
     persistence.set('core/block-editor', {
@@ -2498,6 +2500,20 @@ persistence_persistencePlugin.__unstableMigrate = function (pluginOptions) {
         insertUsage: insertUsage
       }
     });
+  } // Migrate 'areTipsEnabled' from 'core/nux' to 'showWelcomeGuide' in 'core/edit-post'
+
+
+  var areTipsEnabled = Object(external_this_lodash_["get"])(state, ['core/nux', 'preferences', 'areTipsEnabled']);
+  var hasWelcomeGuide = Object(external_this_lodash_["has"])(state, ['core/edit-post', 'preferences', 'features', 'welcomeGuide']);
+
+  if (areTipsEnabled !== undefined && !hasWelcomeGuide) {
+    persistence.set('core/edit-post', Object(external_this_lodash_["merge"])(state['core/edit-post'], {
+      preferences: {
+        features: {
+          welcomeGuide: areTipsEnabled
+        }
+      }
+    }));
   }
 };
 
@@ -2508,7 +2524,7 @@ persistence_persistencePlugin.__unstableMigrate = function (pluginOptions) {
 
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(14);
+var esm_extends = __webpack_require__(12);
 
 // EXTERNAL MODULE: external {"this":["wp","element"]}
 var external_this_wp_element_ = __webpack_require__(0);
@@ -2517,10 +2533,10 @@ var external_this_wp_element_ = __webpack_require__(0);
 var external_this_wp_compose_ = __webpack_require__(8);
 
 // EXTERNAL MODULE: external {"this":["wp","priorityQueue"]}
-var external_this_wp_priorityQueue_ = __webpack_require__(229);
+var external_this_wp_priorityQueue_ = __webpack_require__(230);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(45);
+var external_this_wp_isShallowEqual_ = __webpack_require__(46);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/registry-provider/context.js
@@ -2654,7 +2670,7 @@ var AsyncModeConsumer = context_Consumer;
  * function BlockCount() {
  *   const count = useSelect( ( select ) => {
  *     return select( 'core/block-editor' ).getBlockCount()
- *   } );
+ *   }, [] );
  *
  *   return count;
  * }
@@ -2830,7 +2846,7 @@ function useSelect(_mapSelect, deps) {
           latestMapOutputError.current = error;
         }
 
-        forceRender({});
+        forceRender();
       }
     }; // catch any possible state changes during mount before the subscription
     // could be set.
@@ -2957,7 +2973,8 @@ var with_select_withSelect = function withSelect(mapSelectToProps) {
  *
  * const SaleButton = ( { children } ) => {
  *   const { stockNumber } = useSelect(
- *     ( select ) => select( 'my-shop' ).getStockNumber()
+ *     ( select ) => select( 'my-shop' ).getStockNumber(),
+ *     []
  *   );
  *   const { startSale } = useDispatch( 'my-shop' );
  *   const onClick = useCallback( () => {
@@ -3271,6 +3288,7 @@ function createRegistryControl(registryControl) {
 /* concated harmony reexport useRegistry */__webpack_require__.d(__webpack_exports__, "useRegistry", function() { return useRegistry; });
 /* concated harmony reexport useSelect */__webpack_require__.d(__webpack_exports__, "useSelect", function() { return useSelect; });
 /* concated harmony reexport useDispatch */__webpack_require__.d(__webpack_exports__, "useDispatch", function() { return use_dispatch; });
+/* concated harmony reexport __unstableUseDispatchWithMap */__webpack_require__.d(__webpack_exports__, "__unstableUseDispatchWithMap", function() { return use_dispatch_with_map; });
 /* concated harmony reexport AsyncModeProvider */__webpack_require__.d(__webpack_exports__, "AsyncModeProvider", function() { return async_mode_provider_context; });
 /* concated harmony reexport createRegistry */__webpack_require__.d(__webpack_exports__, "createRegistry", function() { return createRegistry; });
 /* concated harmony reexport createRegistrySelector */__webpack_require__.d(__webpack_exports__, "createRegistrySelector", function() { return createRegistrySelector; });
@@ -3571,7 +3589,7 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ 43:
+/***/ 44:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3614,69 +3632,14 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ 45:
+/***/ 46:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["isShallowEqual"]; }());
 
 /***/ }),
 
-/***/ 61:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(Object(source));
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 76:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3991,6 +3954,61 @@ module.exports = EquivalentKeyMap;
 
 /***/ }),
 
+/***/ 6:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? Object(arguments[i]) : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
+
+/***/ }),
+
+/***/ 63:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
 /***/ 8:
 /***/ (function(module, exports) {
 
@@ -4020,7 +4038,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 97:
+/***/ 98:
 /***/ (function(module, exports) {
 
 module.exports = isPromise;

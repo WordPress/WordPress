@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["reduxRoutine"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 385);
+/******/ 	return __webpack_require__(__webpack_require__.s = 387);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 107:
+/***/ 108:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -324,7 +324,7 @@ exports.default = keys;
 
 /***/ }),
 
-/***/ 231:
+/***/ 232:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -347,15 +347,15 @@ Object.keys(_helpers).forEach(function (key) {
   });
 });
 
-var _create = __webpack_require__(351);
+var _create = __webpack_require__(352);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _async = __webpack_require__(353);
+var _async = __webpack_require__(354);
 
 var _async2 = _interopRequireDefault(_async);
 
-var _wrap = __webpack_require__(355);
+var _wrap = __webpack_require__(356);
 
 var _wrap2 = _interopRequireDefault(_wrap);
 
@@ -367,7 +367,7 @@ exports.wrapControls = _wrap2.default;
 
 /***/ }),
 
-/***/ 351:
+/***/ 352:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -377,11 +377,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _builtin = __webpack_require__(352);
+var _builtin = __webpack_require__(353);
 
 var _builtin2 = _interopRequireDefault(_builtin);
 
-var _is = __webpack_require__(107);
+var _is = __webpack_require__(108);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -453,7 +453,7 @@ exports.default = create;
 
 /***/ }),
 
-/***/ 352:
+/***/ 353:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -464,7 +464,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.iterator = exports.array = exports.object = exports.error = exports.any = undefined;
 
-var _is = __webpack_require__(107);
+var _is = __webpack_require__(108);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -554,7 +554,7 @@ exports.default = [error, iterator, array, object, any];
 
 /***/ }),
 
-/***/ 353:
+/***/ 354:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -565,13 +565,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.race = exports.join = exports.fork = exports.promise = undefined;
 
-var _is = __webpack_require__(107);
+var _is = __webpack_require__(108);
 
 var _is2 = _interopRequireDefault(_is);
 
 var _helpers = __webpack_require__(210);
 
-var _dispatcher = __webpack_require__(354);
+var _dispatcher = __webpack_require__(355);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
@@ -676,7 +676,7 @@ exports.default = [promise, fork, join, race, subscribe];
 
 /***/ }),
 
-/***/ 354:
+/***/ 355:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -709,7 +709,7 @@ exports.default = createDispatcher;
 
 /***/ }),
 
-/***/ 355:
+/***/ 356:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -720,7 +720,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.cps = exports.call = undefined;
 
-var _is = __webpack_require__(107);
+var _is = __webpack_require__(108);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -752,7 +752,7 @@ exports.default = [call, cps];
 
 /***/ }),
 
-/***/ 385:
+/***/ 387:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -773,13 +773,13 @@ function isGenerator(object) {
 }
 
 // EXTERNAL MODULE: ./node_modules/rungen/dist/index.js
-var dist = __webpack_require__(231);
+var dist = __webpack_require__(232);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(97);
+var is_promise = __webpack_require__(98);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-action.js
@@ -919,7 +919,7 @@ function createMiddleware() {
 
 /***/ }),
 
-/***/ 97:
+/***/ 98:
 /***/ (function(module, exports) {
 
 module.exports = isPromise;

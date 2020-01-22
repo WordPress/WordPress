@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["blob"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 233);
+/******/ 	return __webpack_require__(__webpack_require__.s = 234);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 233:
+/***/ 234:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -102,6 +102,10 @@ __webpack_require__.r(__webpack_exports__);
 var _window$URL = window.URL,
     createObjectURL = _window$URL.createObjectURL,
     revokeObjectURL = _window$URL.revokeObjectURL;
+/**
+ * @type {{[key: string]: File|undefined}}
+ */
+
 var cache = {};
 /**
  * Create a blob URL from a file.
@@ -123,7 +127,7 @@ function createBlobURL(file) {
  *
  * @param {string} url The blob URL.
  *
- * @return {?File} The file for the blob URL.
+ * @return {File|undefined} The file for the blob URL.
  */
 
 function getBlobByURL(url) {

@@ -6,6 +6,9 @@
  * Breakpoints & Media Queries
  */
 /**
+ * Colors
+ */
+/**
  * Often re-used variables
  */
 /**
@@ -36,7 +39,7 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.editor-autocompleters__block .editor-block-icon {
+.editor-autocompleters__block .block-editor-block-icon {
   margin-left: 8px; }
 
 .editor-autocompleters__user .editor-autocompleters__user-avatar {
@@ -155,6 +158,11 @@
 .components-editor-notices__snackbar {
   width: 100%; }
 
+.editor-entities-saved-states__save-button {
+  display: block;
+  margin-right: auto;
+  margin-left: 0; }
+
 .editor-error-boundary {
   margin: auto;
   max-width: 780px;
@@ -245,16 +253,18 @@
   .editor-post-last-revision__title .dashicon {
     margin-left: 5px; }
 
-.components-icon-button:not(:disabled):not([aria-disabled="true"]).editor-post-last-revision__title:hover, .components-icon-button:not(:disabled):not([aria-disabled="true"]).editor-post-last-revision__title:active {
-  border: none;
-  box-shadow: none; }
-
-.components-icon-button:not(:disabled):not([aria-disabled="true"]).editor-post-last-revision__title:focus {
-  color: #191e23;
-  border: none;
-  box-shadow: none;
-  outline-offset: -2px;
-  outline: 1px dotted #555d66; }
+.components-button:not(:disabled):not([aria-disabled="true"]).editor-post-last-revision__title {
+  height: auto; }
+  .components-button:not(:disabled):not([aria-disabled="true"]).editor-post-last-revision__title:hover, .components-button:not(:disabled):not([aria-disabled="true"]).editor-post-last-revision__title:active {
+    background: #f3f4f5 !important;
+    border: none !important;
+    box-shadow: none !important; }
+  .components-button:not(:disabled):not([aria-disabled="true"]).editor-post-last-revision__title:focus {
+    color: #191e23;
+    border: none;
+    box-shadow: none;
+    outline-offset: -2px;
+    outline: 1px dotted #555d66; }
 
 .editor-post-locked-modal {
   height: auto;
@@ -397,6 +407,14 @@
   left: auto;
   width: 20%;
   height: auto; }
+.editor-post-publish-button__button.has-changes-dot::before {
+  background: currentcolor;
+  border-radius: 4px;
+  content: "";
+  height: 8px;
+  margin: auto -3px auto 5px;
+  width: 8px; }
+
 .editor-post-publish-panel {
   background: #fff; }
 
@@ -416,7 +434,7 @@
   display: flex;
   align-items: center;
   align-content: space-between; }
-  .editor-post-publish-panel__header .components-icon-button {
+  .editor-post-publish-panel__header .components-button.has-icon {
     position: absolute;
     left: 8px; }
 
@@ -735,7 +753,6 @@ body.admin-color-light .editor-post-text-editor__link{
       left: 2px; } }
 
 .editor-post-trash.components-button {
-  width: 100%;
   color: #b52727;
   border-color: #b52727;
   justify-content: center; }

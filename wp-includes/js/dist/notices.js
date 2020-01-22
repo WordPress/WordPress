@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["notices"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 376);
+/******/ 	return __webpack_require__(__webpack_require__.s = 377);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -103,7 +103,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -134,7 +134,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 32:
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -145,7 +145,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 376:
+/***/ 377:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -175,7 +175,7 @@ var external_this_lodash_ = __webpack_require__(2);
 var defineProperty = __webpack_require__(9);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
-var objectSpread = __webpack_require__(7);
+var objectSpread = __webpack_require__(6);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/utils/on-sub-key.js
 
@@ -534,7 +534,7 @@ function getNotices(state) {
 }
 
 // EXTERNAL MODULE: external {"this":["wp","a11y"]}
-var external_this_wp_a11y_ = __webpack_require__(44);
+var external_this_wp_a11y_ = __webpack_require__(45);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/controls.js
 /**
@@ -583,14 +583,14 @@ var external_this_wp_a11y_ = __webpack_require__(44);
 
 /***/ }),
 
-/***/ 44:
+/***/ 45:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["a11y"]; }());
 
 /***/ }),
 
-/***/ 7:
+/***/ 6:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -599,8 +599,8 @@ var external_this_wp_a11y_ = __webpack_require__(44);
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(Object(source));
+    var source = arguments[i] != null ? Object(arguments[i]) : {};
+    var ownKeys = Object.keys(source);
 
     if (typeof Object.getOwnPropertySymbols === 'function') {
       ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {

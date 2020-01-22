@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 380);
+/******/ 	return __webpack_require__(__webpack_require__.s = 381);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -326,14 +326,14 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 380:
+/***/ 381:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
-var objectSpread = __webpack_require__(7);
+var objectSpread = __webpack_require__(6);
 
 // CONCATENATED MODULE: ./node_modules/@tannin/postfix/index.js
 var PRECEDENCE, OPENERS, TERMINATORS, PATTERN;
@@ -868,10 +868,14 @@ var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 
 /**
+ * @typedef {{[key: string]: any}} LocaleData
+ */
+
+/**
  * Default locale data to use for Tannin domain when not otherwise provided.
  * Assumes an English plural forms expression.
  *
- * @type {Object}
+ * @type {LocaleData}
  */
 
 var DEFAULT_LOCALE_DATA = {
@@ -904,8 +908,8 @@ var i18n = new Tannin({});
  *
  * @see http://messageformat.github.io/Jed/
  *
- * @param {?Object} data   Locale data configuration.
- * @param {?string} domain Domain for which configuration applies.
+ * @param {LocaleData} [data]   Locale data configuration.
+ * @param {string}     [domain] Domain for which configuration applies.
  */
 
 function setLocaleData(data) {
@@ -919,13 +923,14 @@ function setLocaleData(data) {
  * Wrapper for Tannin's `dcnpgettext`. Populates default locale data if not
  * otherwise previously assigned.
  *
- * @param {?string} domain  Domain to retrieve the translated text.
- * @param {?string} context Context information for the translators.
- * @param {string}  single  Text to translate if non-plural. Used as fallback
- *                          return value on a caught error.
- * @param {?string} plural  The text to be used if the number is plural.
- * @param {?number} number  The number to compare against to use either the
- *                          singular or plural form.
+ * @param {string|undefined} domain   Domain to retrieve the translated text.
+ * @param {string|undefined} context  Context information for the translators.
+ * @param {string}           single   Text to translate if non-plural. Used as
+ *                                    fallback return value on a caught error.
+ * @param {string}           [plural] The text to be used if the number is
+ *                                    plural.
+ * @param {number}           [number] The number to compare against to use
+ *                                    either the singular or plural form.
  *
  * @return {string} The translated string.
  */
@@ -948,8 +953,8 @@ function dcnpgettext() {
  *
  * @see https://developer.wordpress.org/reference/functions/__/
  *
- * @param {string}  text   Text to translate.
- * @param {?string} domain Domain to retrieve the translated text.
+ * @param {string} text     Text to translate.
+ * @param {string} [domain] Domain to retrieve the translated text.
  *
  * @return {string} Translated text.
  */
@@ -963,9 +968,9 @@ function __(text, domain) {
  *
  * @see https://developer.wordpress.org/reference/functions/_x/
  *
- * @param {string}  text    Text to translate.
- * @param {string}  context Context information for the translators.
- * @param {?string} domain  Domain to retrieve the translated text.
+ * @param {string} text     Text to translate.
+ * @param {string} context  Context information for the translators.
+ * @param {string} [domain] Domain to retrieve the translated text.
  *
  * @return {string} Translated context string without pipe.
  */
@@ -979,11 +984,11 @@ function _x(text, context, domain) {
  *
  * @see https://developer.wordpress.org/reference/functions/_n/
  *
- * @param {string}  single The text to be used if the number is singular.
- * @param {string}  plural The text to be used if the number is plural.
- * @param {number}  number The number to compare against to use either the
- *                         singular or plural form.
- * @param {?string} domain Domain to retrieve the translated text.
+ * @param {string} single   The text to be used if the number is singular.
+ * @param {string} plural   The text to be used if the number is plural.
+ * @param {number} number   The number to compare against to use either the
+ *                          singular or plural form.
+ * @param {string} [domain] Domain to retrieve the translated text.
  *
  * @return {string} The translated singular or plural form.
  */
@@ -997,12 +1002,12 @@ function _n(single, plural, number, domain) {
  *
  * @see https://developer.wordpress.org/reference/functions/_nx/
  *
- * @param {string}  single  The text to be used if the number is singular.
- * @param {string}  plural  The text to be used if the number is plural.
- * @param {number}  number  The number to compare against to use either the
+ * @param {string} single   The text to be used if the number is singular.
+ * @param {string} plural   The text to be used if the number is plural.
+ * @param {number} number   The number to compare against to use either the
  *                          singular or plural form.
- * @param {string}  context Context information for the translators.
- * @param {?string} domain  Domain to retrieve the translated text.
+ * @param {string} context  Context information for the translators.
+ * @param {string} [domain] Domain to retrieve the translated text.
  *
  * @return {string} The translated singular or plural form.
  */
@@ -1014,8 +1019,8 @@ function _nx(single, plural, number, context, domain) {
  * Returns a formatted string. If an error occurs in applying the format, the
  * original format string is returned.
  *
- * @param {string}   format  The format of the string to generate.
- * @param {...string} args Arguments to apply to the format.
+ * @param {string}    format The format of the string to generate.
+ * @param {...string} args   Arguments to apply to the format.
  *
  * @see http://www.diveintojavascript.com/projects/javascript-sprintf
  *
@@ -1156,7 +1161,7 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ 7:
+/***/ 6:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1165,8 +1170,8 @@ module.exports = function memize( fn, options ) {
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(Object(source));
+    var source = arguments[i] != null ? Object(arguments[i]) : {};
+    var ownKeys = Object.keys(source);
 
     if (typeof Object.getOwnPropertySymbols === 'function') {
       ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {

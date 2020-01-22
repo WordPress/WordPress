@@ -252,6 +252,7 @@ function wp_default_packages_scripts( &$scripts ) {
 		'html-entities',
 		'i18n',
 		'is-shallow-equal',
+		'keyboard-shortcuts',
 		'keycodes',
 		'list-reusable-blocks',
 		'media-utils',

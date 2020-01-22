@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 368);
+/******/ 	return __webpack_require__(__webpack_require__.s = 369);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -351,7 +351,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 358:
+/***/ 359:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -628,7 +628,7 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 359:
+/***/ 360:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -878,7 +878,7 @@ module.exports = function (str, opts) {
 
 /***/ }),
 
-/***/ 368:
+/***/ 369:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1143,7 +1143,7 @@ function isValidFragment(fragment) {
 }
 
 // EXTERNAL MODULE: ./node_modules/qs/lib/index.js
-var lib = __webpack_require__(71);
+var lib = __webpack_require__(73);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/add-query-args.js
 /**
@@ -1421,14 +1421,14 @@ function filterURLForDisplay(url) {
 
 /***/ }),
 
-/***/ 71:
+/***/ 73:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(358);
-var parse = __webpack_require__(359);
+var stringify = __webpack_require__(359);
+var parse = __webpack_require__(360);
 var formats = __webpack_require__(213);
 
 module.exports = {

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["keycodes"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 390);
+/******/ 	return __webpack_require__(__webpack_require__.s = 392);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -110,7 +110,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -134,7 +134,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 32:
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -145,7 +145,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 390:
+/***/ 392:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -232,6 +232,17 @@ function isAppleOS() {
  * Internal dependencies
  */
 
+
+/**
+ * @typedef {'primary'|'primaryShift'|'primaryAlt'|'secondary'|'access'|'ctrl'|'alt'|'ctrlShift'|'shift'|'shiftAlt'} WPKeycodeModifier
+ */
+
+/**
+ * An object of handler functions for each of the possible modifier
+ * combinations. A handler will return a value for a given key.
+ *
+ * @typedef {{[M in WPKeycodeModifier]:(key:string)=>any}} WPKeycodeHandlerByModifier
+ */
 
 /**
  * Keycode for BACKSPACE key.
@@ -361,7 +372,7 @@ var modifiers = {
  * E.g. rawShortcut.primary( 'm' ) will return 'meta+m' on Mac.
  * These are intended for user with the KeyboardShortcuts component or TinyMCE.
  *
- * @type {Object} Keyed map of functions to raw shortcuts.
+ * @type {WPKeycodeHandlerByModifier} Keyed map of functions to raw shortcuts.
  */
 
 var rawShortcut = Object(external_this_lodash_["mapValues"])(modifiers, function (modifier) {
@@ -375,7 +386,8 @@ var rawShortcut = Object(external_this_lodash_["mapValues"])(modifiers, function
  * Return an array of the parts of a keyboard shortcut chord for display
  * E.g displayShortcutList.primary( 'm' ) will return [ '⌘', 'M' ] on Mac.
  *
- * @type {Object} keyed map of functions to shortcut sequences
+ * @type {WPKeycodeHandlerByModifier} Keyed map of functions to shortcut
+ *                                    sequences.
  */
 
 var displayShortcutList = Object(external_this_lodash_["mapValues"])(modifiers, function (modifier) {
@@ -404,7 +416,8 @@ var displayShortcutList = Object(external_this_lodash_["mapValues"])(modifiers, 
  * An object that contains functions to display shortcuts.
  * E.g. displayShortcut.primary( 'm' ) will return '⌘M' on Mac.
  *
- * @type {Object} Keyed map of functions to display shortcuts.
+ * @type {WPKeycodeHandlerByModifier} Keyed map of functions to display
+ *                                    shortcuts.
  */
 
 var displayShortcut = Object(external_this_lodash_["mapValues"])(displayShortcutList, function (shortcutList) {
@@ -417,6 +430,9 @@ var displayShortcut = Object(external_this_lodash_["mapValues"])(displayShortcut
 /**
  * An object that contains functions to return an aria label for a keyboard shortcut.
  * E.g. shortcutAriaLabel.primary( '.' ) will return 'Command + Period' on Mac.
+ *
+ * @type {WPKeycodeHandlerByModifier} Keyed map of functions to shortcut ARIA
+ *                                    labels.
  */
 
 var shortcutAriaLabel = Object(external_this_lodash_["mapValues"])(modifiers, function (modifier) {
@@ -439,7 +455,7 @@ var shortcutAriaLabel = Object(external_this_lodash_["mapValues"])(modifiers, fu
  * E.g. isKeyboardEvent.primary( event, 'm' ) will return true if the event
  * signals pressing ⌘M.
  *
- * @type {Object} Keyed map of functions to match events.
+ * @type {WPKeycodeHandlerByModifier} Keyed map of functions to match events.
  */
 
 var isKeyboardEvent = Object(external_this_lodash_["mapValues"])(modifiers, function (getModifiers) {

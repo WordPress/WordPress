@@ -5,6 +5,9 @@
  * Breakpoints & Media Queries
  */
 /**
+ * Colors
+ */
+/**
  * Often re-used variables
  */
 /**
@@ -37,7 +40,7 @@
  */
 .block-editor-format-toolbar__image-container-content {
   display: flex; }
-  .block-editor-format-toolbar__image-container-content .components-icon-button {
+  .block-editor-format-toolbar__image-container-content .components-button {
     align-self: flex-end;
     height: 30px;
     margin-bottom: 8px;

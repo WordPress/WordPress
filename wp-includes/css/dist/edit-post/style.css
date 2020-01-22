@@ -5,6 +5,9 @@
  * Breakpoints & Media Queries
  */
 /**
+ * Colors
+ */
+/**
  * Often re-used variables
  */
 /**
@@ -219,21 +222,17 @@ body.is-fullscreen-mode .edit-post-editor-regions {
   align-items: center;
   flex-wrap: wrap; }
 
-.edit-post-header .components-button.is-toggled {
+.edit-post-header .components-button.is-pressed {
   color: #fff;
-  background: #555d66;
-  margin: 1px;
-  padding: 7px; }
+  background: #555d66; }
 
-.edit-post-header .components-button.is-toggled:hover, .edit-post-header .components-button.is-toggled:focus {
+.edit-post-header .components-button.is-pressed:hover, .edit-post-header .components-button.is-pressed:focus {
   box-shadow: 0 0 0 1px #555d66, inset 0 0 0 1px #fff !important;
   color: #fff !important;
   background: #555d66 !important; }
 
 .edit-post-header .components-button.editor-post-save-draft, .edit-post-header .components-button.editor-post-switch-to-draft, .edit-post-header .components-button.editor-post-preview, .edit-post-header .components-button.editor-post-publish-button, .edit-post-header .components-button.editor-post-publish-panel__toggle {
   margin: 2px;
-  height: 34px;
-  line-height: 32px;
   font-size: 13px; }
 
 .edit-post-header .components-button.editor-post-save-draft, .edit-post-header .components-button.editor-post-switch-to-draft {
@@ -320,13 +319,13 @@ body.is-fullscreen-mode .edit-post-editor-regions {
 
 .edit-post-more-menu {
   margin-left: -4px; }
-  .edit-post-more-menu .components-icon-button {
+  .edit-post-more-menu .components-button {
     width: auto;
     padding: 8px 2px; }
   @media (min-width: 600px) {
     .edit-post-more-menu {
       margin-left: 4px; }
-      .edit-post-more-menu .components-icon-button {
+      .edit-post-more-menu .components-button {
         padding: 8px 4px; } }
   .edit-post-more-menu .components-button svg {
     transform: rotate(90deg); }
@@ -348,69 +347,75 @@ body.is-fullscreen-mode .edit-post-editor-regions {
   @media (min-width: 600px) {
     .edit-post-pinned-plugins {
       display: flex; } }
-  .edit-post-pinned-plugins .components-icon-button {
+  .edit-post-pinned-plugins .components-button {
     margin-left: 4px; }
-    .edit-post-pinned-plugins .components-icon-button.is-toggled {
+    .edit-post-pinned-plugins .components-button.is-pressed {
       margin-left: 5px; }
-    .edit-post-pinned-plugins .components-icon-button svg {
+    .edit-post-pinned-plugins .components-button svg {
       max-width: 24px;
       max-height: 24px; }
-  .edit-post-pinned-plugins .components-icon-button:not(.is-toggled) svg,
-  .edit-post-pinned-plugins .components-icon-button:not(.is-toggled) svg * {
+  .edit-post-pinned-plugins .components-button:not(.is-pressed) svg,
+  .edit-post-pinned-plugins .components-button:not(.is-pressed) svg * {
     stroke: #555d66;
     fill: #555d66;
     stroke-width: 0; }
-  .edit-post-pinned-plugins .components-icon-button.is-toggled svg,
-  .edit-post-pinned-plugins .components-icon-button.is-toggled svg *,
-  .edit-post-pinned-plugins .components-icon-button.is-toggled:hover svg,
-  .edit-post-pinned-plugins .components-icon-button.is-toggled:hover svg * {
+  .edit-post-pinned-plugins .components-button.is-pressed svg,
+  .edit-post-pinned-plugins .components-button.is-pressed svg *,
+  .edit-post-pinned-plugins .components-button.is-pressed:hover svg,
+  .edit-post-pinned-plugins .components-button.is-pressed:hover svg * {
     stroke: #fff !important;
     fill: #fff !important;
     stroke-width: 0; }
-  .edit-post-pinned-plugins .components-icon-button:hover svg,
-  .edit-post-pinned-plugins .components-icon-button:hover svg * {
+  .edit-post-pinned-plugins .components-button:hover svg,
+  .edit-post-pinned-plugins .components-button:hover svg * {
     stroke: #191e23 !important;
     fill: #191e23 !important;
     stroke-width: 0; }
 
-.edit-post-keyboard-shortcut-help__section {
+.edit-post-keyboard-shortcut-help-modal__section {
   margin: 0 0 2rem 0; }
 
-.edit-post-keyboard-shortcut-help__main-shortcuts .edit-post-keyboard-shortcut-help__shortcut-list {
+.edit-post-keyboard-shortcut-help-modal__main-shortcuts .edit-post-keyboard-shortcut-help-modal__shortcut-list {
   margin-top: -25px; }
 
-.edit-post-keyboard-shortcut-help__section-title {
+.edit-post-keyboard-shortcut-help-modal__section-title {
   font-size: 0.9rem;
   font-weight: 600; }
 
-.edit-post-keyboard-shortcut-help__shortcut {
+.edit-post-keyboard-shortcut-help-modal__shortcut {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   padding: 0.6rem 0;
   border-top: 1px solid #e2e4e7;
   margin-bottom: 0; }
-  .edit-post-keyboard-shortcut-help__shortcut:last-child {
+  .edit-post-keyboard-shortcut-help-modal__shortcut:last-child {
     border-bottom: 1px solid #e2e4e7; }
+  .edit-post-keyboard-shortcut-help-modal__shortcut:empty {
+    display: none; }
 
-.edit-post-keyboard-shortcut-help__shortcut-term {
+.edit-post-keyboard-shortcut-help-modal__shortcut-term {
   font-weight: 600;
-  margin: 0 0 0 1rem; }
+  margin: 0 0 0 1rem;
+  text-align: right; }
 
-.edit-post-keyboard-shortcut-help__shortcut-description {
+.edit-post-keyboard-shortcut-help-modal__shortcut-description {
   flex: 1;
   margin: 0;
   flex-basis: auto; }
 
-.edit-post-keyboard-shortcut-help__shortcut-key-combination {
+.edit-post-keyboard-shortcut-help-modal__shortcut-key-combination {
+  display: block;
   background: none;
   margin: 0;
   padding: 0; }
+  .edit-post-keyboard-shortcut-help-modal__shortcut-key-combination + .edit-post-keyboard-shortcut-help-modal__shortcut-key-combination {
+    margin-top: 10px; }
 
-.edit-post-keyboard-shortcut-help__shortcut-key {
+.edit-post-keyboard-shortcut-help-modal__shortcut-key {
   padding: 0.25rem 0.5rem;
   border-radius: 8%;
   margin: 0 0.2rem 0 0.2rem; }
-  .edit-post-keyboard-shortcut-help__shortcut-key:last-child {
+  .edit-post-keyboard-shortcut-help-modal__shortcut-key:last-child {
     margin: 0 0 0 0.2rem; }
 
 .edit-post-layout__metaboxes {
@@ -498,9 +503,6 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 
 .edit-post-layout .editor-post-publish-panel__header-publish-button {
   justify-content: center; }
-  .edit-post-layout .editor-post-publish-panel__header-publish-button .components-button {
-    height: 33px;
-    line-height: 32px; }
 
 .edit-post-toggle-publish-panel {
   background-color: #fff;
@@ -635,7 +637,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
     justify-content: space-between;
     flex-grow: 1;
     padding: 0.6rem 0 0.6rem 10px; }
-  .edit-post-manage-blocks-modal__checklist-item .editor-block-icon {
+  .edit-post-manage-blocks-modal__checklist-item .block-editor-block-icon {
     margin-right: 10px;
     fill: #555d66; }
 
@@ -804,16 +806,17 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   padding-right: 4px;
   border-top: 0;
   margin-top: 0; }
-  .components-panel__header.edit-post-sidebar__panel-tabs .components-icon-button {
+  .components-panel__header.edit-post-sidebar__panel-tabs .components-button.has-icon {
     display: none;
     margin-left: auto; }
     @media (min-width: 782px) {
-      .components-panel__header.edit-post-sidebar__panel-tabs .components-icon-button {
+      .components-panel__header.edit-post-sidebar__panel-tabs .components-button.has-icon {
         display: flex; } }
 
 .edit-post-sidebar__panel-tab {
   background: transparent;
   border: none;
+  border-radius: 0;
   box-shadow: none;
   cursor: pointer;
   height: 50px;
@@ -1013,13 +1016,13 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 .components-panel__header.edit-post-sidebar-header {
   padding-right: 4px;
   background: #f3f4f5; }
-  .components-panel__header.edit-post-sidebar-header .components-icon-button {
+  .components-panel__header.edit-post-sidebar-header .components-button.has-icon {
     display: none;
     margin-left: auto; }
-    .components-panel__header.edit-post-sidebar-header .components-icon-button ~ .components-icon-button {
+    .components-panel__header.edit-post-sidebar-header .components-button.has-icon ~ .components-button {
       margin-left: 0; }
     @media (min-width: 782px) {
-      .components-panel__header.edit-post-sidebar-header .components-icon-button {
+      .components-panel__header.edit-post-sidebar-header .components-button.has-icon {
         display: flex; } }
 
 .edit-post-text-editor {
@@ -1062,7 +1065,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
     margin: 0 auto 0 0;
     font-size: 13px;
     color: #555d66; }
-  .edit-post-text-editor__toolbar .components-icon-button svg {
+  .edit-post-text-editor__toolbar .components-button svg {
     order: 1; }
 
 .edit-post-text-editor__body {
@@ -1182,8 +1185,8 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 
 .edit-post-welcome-guide__heading {
   font-family: "Noto Serif", serif;
-  font-size: 32px;
-  line-height: 44px;
+  font-size: 21px;
+  line-height: 1.4;
   margin: 8px 0; }
 
 .edit-post-welcome-guide__image {
@@ -1193,20 +1196,26 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   margin: 8px 0; }
   @media (min-width: 600px) {
     .edit-post-welcome-guide__image {
-      height: 300px;
-      left: 0;
       position: absolute;
-      width: 320px; } }
+      left: 0;
+      top: 50%;
+      height: 300px;
+      width: 320px;
+      margin-top: -150px; } }
 
 .edit-post-welcome-guide__text {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.4;
   margin: 8px 0; }
 
 .edit-post-welcome-guide__inserter-icon {
   margin: 0 4px;
   position: relative;
   top: 4px; }
+
+@media (min-width: 600px) {
+  .edit-post-welcome-guide {
+    width: 600px; } }
 
 /**
  * Animations

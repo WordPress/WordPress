@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockDirectory"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 370);
+/******/ 	return __webpack_require__(__webpack_require__.s = 371);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -101,7 +101,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockDirectory"] =
 
 /***/ }),
 
-/***/ 10:
+/***/ 11:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blocks"]; }());
@@ -124,7 +124,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -154,7 +154,7 @@ function _toConsumableArray(arr) {
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(33);
+var arrayWithHoles = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
@@ -187,7 +187,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(34);
+var nonIterableRest = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
@@ -214,7 +214,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 32:
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -225,7 +225,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 33:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -236,7 +236,7 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ 34:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -247,14 +247,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 37:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["apiFetch"]; }());
-
-/***/ }),
-
-/***/ 370:
+/***/ 371:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -286,7 +279,7 @@ var toConsumableArray = __webpack_require__(18);
 var defineProperty = __webpack_require__(9);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
-var objectSpread = __webpack_require__(7);
+var objectSpread = __webpack_require__(6);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/reducer.js
 
@@ -417,10 +410,10 @@ var external_this_regeneratorRuntime_ = __webpack_require__(23);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: external {"this":["wp","blocks"]}
-var external_this_wp_blocks_ = __webpack_require__(10);
+var external_this_wp_blocks_ = __webpack_require__(11);
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(37);
+var external_this_wp_apiFetch_ = __webpack_require__(38);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/controls.js
@@ -1050,7 +1043,7 @@ var store = Object(external_this_wp_data_["registerStore"])(MODULE_KEY, storeCon
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external {"this":["wp","plugins"]}
-var external_this_wp_plugins_ = __webpack_require__(49);
+var external_this_wp_plugins_ = __webpack_require__(50);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
 var slicedToArray = __webpack_require__(22);
@@ -1162,9 +1155,10 @@ function DownloadableBlockHeader(_ref) {
       _onClick = _ref.onClick;
   return Object(external_this_wp_element_["createElement"])("div", {
     className: "block-directory-downloadable-block-header__row"
-  }, icon.match(/\.(jpeg|jpg|gif|png)$/) !== null ? Object(external_this_wp_element_["createElement"])("img", {
+  }, icon.match(/\.(jpeg|jpg|gif|png)(?:\?.*)?$/) !== null ? // translators: %s: Name of the plugin e.g: "Akismet".
+  Object(external_this_wp_element_["createElement"])("img", {
     src: icon,
-    alt: "block icon"
+    alt: Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('%s block icon'), title)
   }) : Object(external_this_wp_element_["createElement"])("span", null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockIcon"], {
     icon: icon,
     showColors: true
@@ -1576,17 +1570,17 @@ Object(external_this_wp_plugins_["registerPlugin"])('block-directory', {
 
 /***/ }),
 
+/***/ 38:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["apiFetch"]; }());
+
+/***/ }),
+
 /***/ 4:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ 49:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["plugins"]; }());
 
 /***/ }),
 
@@ -1597,7 +1591,14 @@ Object(external_this_wp_plugins_["registerPlugin"])('block-directory', {
 
 /***/ }),
 
-/***/ 7:
+/***/ 50:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["plugins"]; }());
+
+/***/ }),
+
+/***/ 6:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1606,8 +1607,8 @@ Object(external_this_wp_plugins_["registerPlugin"])('block-directory', {
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(Object(source));
+    var source = arguments[i] != null ? Object(arguments[i]) : {};
+    var ownKeys = Object.keys(source);
 
     if (typeof Object.getOwnPropertySymbols === 'function') {
       ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {

@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('lodash', 'wp-api-fetch', 'wp-data', 'wp-deprecated', 'wp-element', 'wp-is-shallow-equal', 'wp-polyfill', 'wp-url'), 'version' => '429966f6050943802dd580f0e09d24ee');
+<?php return array('dependencies' => array('lodash', 'wp-api-fetch', 'wp-data', 'wp-deprecated', 'wp-element', 'wp-is-shallow-equal', 'wp-polyfill', 'wp-url'), 'version' => 'ce7ba24ba56c4c906cb61e971c39951e');

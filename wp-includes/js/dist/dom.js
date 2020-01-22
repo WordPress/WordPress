@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 386);
+/******/ 	return __webpack_require__(__webpack_require__.s = 388);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 
 /***/ }),
 
-/***/ 386:
+/***/ 388:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -106,6 +106,8 @@ var tabbable_namespaceObject = {};
 __webpack_require__.r(tabbable_namespaceObject);
 __webpack_require__.d(tabbable_namespaceObject, "isTabbableIndex", function() { return isTabbableIndex; });
 __webpack_require__.d(tabbable_namespaceObject, "find", function() { return tabbable_find; });
+__webpack_require__.d(tabbable_namespaceObject, "findPrevious", function() { return findPrevious; });
+__webpack_require__.d(tabbable_namespaceObject, "findNext", function() { return findNext; });
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/focusable.js
 /**
@@ -323,9 +325,53 @@ function compareObjectTabbables(a, b) {
 
   return aTabIndex - bTabIndex;
 }
+/**
+ * Givin focusable elements, filters out tabbable element.
+ *
+ * @param {Array} focusables Focusable elements to filter.
+ *
+ * @return {Array} Tabbable elements.
+ */
+
+
+function filterTabbable(focusables) {
+  return focusables.filter(isTabbableIndex).map(mapElementToObjectTabbable).sort(compareObjectTabbables).map(mapObjectTabbableToElement).reduce(createStatefulCollapseRadioGroup(), []);
+}
 
 function tabbable_find(context) {
-  return find(context).filter(isTabbableIndex).map(mapElementToObjectTabbable).sort(compareObjectTabbables).map(mapObjectTabbableToElement).reduce(createStatefulCollapseRadioGroup(), []);
+  return filterTabbable(find(context));
+}
+/**
+ * Given a focusable element, find the preceding tabbable element.
+ *
+ * @param {Element} element The focusable element before which to look. Defaults
+ *                          to the active element.
+ */
+
+function findPrevious() {
+  var element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.activeElement;
+  var focusables = find(document.body);
+  var index = focusables.indexOf(element); // Remove all focusables after and including `element`.
+
+  focusables.length = index;
+  return Object(external_this_lodash_["last"])(filterTabbable(focusables));
+}
+/**
+ * Given a focusable element, find the next tabbable element.
+ *
+ * @param {Element} element The focusable element after which to look. Defaults
+ *                          to the active element.
+ */
+
+function findNext() {
+  var element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.activeElement;
+  var focusables = find(document.body);
+  var index = focusables.indexOf(element); // Remove all focusables before and inside `element`.
+
+  var remaining = focusables.slice(index + 1).filter(function (node) {
+    return !element.contains(node);
+  });
+  return Object(external_this_lodash_["first"])(filterTabbable(remaining));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom.js

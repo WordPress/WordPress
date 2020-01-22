@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 387);
+/******/ 	return __webpack_require__(__webpack_require__.s = 389);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 
 /***/ }),
 
-/***/ 387:
+/***/ 389:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -110,7 +110,7 @@ var external_this_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(exter
  *
  * @param {string} ariaLive Optional. Value for the 'aria-live' attribute, default 'polite'.
  *
- * @return {Object} $container The ARIA live region jQuery object.
+ * @return {HTMLDivElement} The ARIA live region HTML element.
  */
 var addContainer = function addContainer(ariaLive) {
   ariaLive = ariaLive || 'polite';
@@ -121,7 +121,12 @@ var addContainer = function addContainer(ariaLive) {
   container.setAttribute('aria-live', ariaLive);
   container.setAttribute('aria-relevant', 'additions text');
   container.setAttribute('aria-atomic', 'true');
-  document.querySelector('body').appendChild(container);
+  var body = document.querySelector('body');
+
+  if (body) {
+    body.appendChild(container);
+  }
+
   return container;
 };
 
@@ -194,11 +199,11 @@ var build_module_setup = function setup() {
   var containerAssertive = document.getElementById('a11y-speak-assertive');
 
   if (containerPolite === null) {
-    containerPolite = build_module_addContainer('polite');
+    build_module_addContainer('polite');
   }
 
   if (containerAssertive === null) {
-    containerAssertive = build_module_addContainer('assertive');
+    build_module_addContainer('assertive');
   }
 };
 /**

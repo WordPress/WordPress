@@ -1,4 +1,4 @@
-this["wp"] = this["wp"] || {}; this["wp"]["nux"] =
+this["wp"] = this["wp"] || {}; this["wp"]["keyboardShortcuts"] =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -82,24 +82,10 @@ this["wp"] = this["wp"] || {}; this["wp"]["nux"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 384);
+/******/ 	return __webpack_require__(__webpack_require__.s = 382);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 0:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["element"]; }());
-
-/***/ }),
-
-/***/ 1:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["i18n"]; }());
-
-/***/ }),
 
 /***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -134,69 +120,17 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
+/***/ 19:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
 /***/ 2:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["lodash"]; }());
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(35);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
-function _iterableToArrayLimit(arr, i) {
-  if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
-    return;
-  }
-
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(36);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(nonIterableRest["a" /* default */])();
-}
-
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["components"]; }());
 
 /***/ }),
 
@@ -208,13 +142,6 @@ function _slicedToArray(arr, i) {
 function _iterableToArray(iter) {
   if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 
@@ -500,48 +427,22 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 35:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-/***/ }),
-
-/***/ 36:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-}
-
-/***/ }),
-
-/***/ 384:
+/***/ 382:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
-__webpack_require__.d(actions_namespaceObject, "triggerGuide", function() { return triggerGuide; });
-__webpack_require__.d(actions_namespaceObject, "dismissTip", function() { return dismissTip; });
-__webpack_require__.d(actions_namespaceObject, "disableTips", function() { return disableTips; });
-__webpack_require__.d(actions_namespaceObject, "enableTips", function() { return enableTips; });
+__webpack_require__.d(actions_namespaceObject, "registerShortcut", function() { return registerShortcut; });
+__webpack_require__.d(actions_namespaceObject, "unregisterShortcut", function() { return unregisterShortcut; });
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
-__webpack_require__.d(selectors_namespaceObject, "getAssociatedGuide", function() { return getAssociatedGuide; });
-__webpack_require__.d(selectors_namespaceObject, "isTipVisible", function() { return isTipVisible; });
-__webpack_require__.d(selectors_namespaceObject, "areTipsEnabled", function() { return selectors_areTipsEnabled; });
-
-// EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(33);
-var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
+__webpack_require__.d(selectors_namespaceObject, "getShortcutKeyCombination", function() { return getShortcutKeyCombination; });
+__webpack_require__.d(selectors_namespaceObject, "getShortcutRepresentation", function() { return getShortcutRepresentation; });
+__webpack_require__.d(selectors_namespaceObject, "getShortcutDescription", function() { return getShortcutDescription; });
+__webpack_require__.d(selectors_namespaceObject, "getShortcutAliases", function() { return getShortcutAliases; });
+__webpack_require__.d(selectors_namespaceObject, "getAllShortcutRawKeyCombinations", function() { return getAllShortcutRawKeyCombinations; });
 
 // EXTERNAL MODULE: external {"this":["wp","data"]}
 var external_this_wp_data_ = __webpack_require__(4);
@@ -552,65 +453,19 @@ var defineProperty = __webpack_require__(9);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
 var objectSpread = __webpack_require__(6);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(18);
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/reducer.js
-
+// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/reducer.js
 
 
 
 /**
- * WordPress dependencies
+ * External dependencies
  */
 
 /**
- * Reducer that tracks which tips are in a guide. Each guide is represented by
- * an array which contains the tip identifiers contained within that guide.
- *
- * @param {Array} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Array} Updated state.
- */
-
-function guides() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'TRIGGER_GUIDE':
-      return [].concat(Object(toConsumableArray["a" /* default */])(state), [action.tipIds]);
-  }
-
-  return state;
-}
-/**
- * Reducer that tracks whether or not tips are globally enabled.
- *
- * @param {boolean} state Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {boolean} Updated state.
- */
-
-function areTipsEnabled() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'DISABLE_TIPS':
-      return false;
-
-    case 'ENABLE_TIPS':
-      return true;
-  }
-
-  return state;
-}
-/**
- * Reducer that tracks which tips have been dismissed. If the state object
- * contains a tip identifier, then that tip is dismissed.
+ * Reducer returning the registered shortcuts
  *
  * @param {Object} state  Current state.
  * @param {Object} action Dispatched action.
@@ -618,93 +473,99 @@ function areTipsEnabled() {
  * @return {Object} Updated state.
  */
 
-function dismissedTips() {
+function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
-    case 'DISMISS_TIP':
-      return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.id, true));
+    case 'REGISTER_SHORTCUT':
+      return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.name, {
+        category: action.category,
+        keyCombination: action.keyCombination,
+        aliases: action.aliases,
+        description: action.description
+      }));
 
-    case 'ENABLE_TIPS':
-      return {};
+    case 'UNREGISTER_SHORTCUT':
+      return Object(external_this_lodash_["omit"])(state, action.name);
   }
 
   return state;
 }
-var preferences = Object(external_this_wp_data_["combineReducers"])({
-  areTipsEnabled: areTipsEnabled,
-  dismissedTips: dismissedTips
-});
-/* harmony default export */ var reducer = (Object(external_this_wp_data_["combineReducers"])({
-  guides: guides,
-  preferences: preferences
-}));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/actions.js
+/* harmony default export */ var store_reducer = (reducer);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/actions.js
+/** @typedef {import('@wordpress/keycodes').WPKeycodeModifier} WPKeycodeModifier */
+
 /**
- * Returns an action object that, when dispatched, presents a guide that takes
- * the user through a series of tips step by step.
+ * Keyboard key combination.
  *
- * @param {string[]} tipIds Which tips to show in the guide.
+ * @typedef {Object} WPShortcutKeyCombination
  *
- * @return {Object} Action object.
+ * @property {string}                      character Character.
+ * @property {WPKeycodeModifier|undefined} modifier  Modifier.
  */
-function triggerGuide(tipIds) {
+
+/**
+ * Configuration of a registered keyboard shortcut.
+ *
+ * @typedef {Object} WPShortcutConfig
+ *
+ * @property {string}                     name           Shortcut name.
+ * @property {string}                     category       Shortcut category.
+ * @property {string}                     description    Shortcut description.
+ * @property {WPShortcutKeyCombination}   keyCombination Shortcut key combination.
+ * @property {WPShortcutKeyCombination[]} [aliases]      Shortcut aliases.
+ */
+
+/**
+ * Returns an action object used to register a new keyboard shortcut.
+ *
+ * @param {WPShortcutConfig} config Shortcut config.
+ *
+ * @return {Object} action.
+ */
+function registerShortcut(_ref) {
+  var name = _ref.name,
+      category = _ref.category,
+      description = _ref.description,
+      keyCombination = _ref.keyCombination,
+      aliases = _ref.aliases;
   return {
-    type: 'TRIGGER_GUIDE',
-    tipIds: tipIds
+    type: 'REGISTER_SHORTCUT',
+    name: name,
+    category: category,
+    keyCombination: keyCombination,
+    aliases: aliases,
+    description: description
   };
 }
 /**
- * Returns an action object that, when dispatched, dismisses the given tip. A
- * dismissed tip will not show again.
+ * Returns an action object used to unregister a keyboard shortcut.
  *
- * @param {string} id The tip to dismiss.
+ * @param {string} name Shortcut name.
  *
- * @return {Object} Action object.
+ * @return {Object} action.
  */
 
-function dismissTip(id) {
+function unregisterShortcut(name) {
   return {
-    type: 'DISMISS_TIP',
-    id: id
-  };
-}
-/**
- * Returns an action object that, when dispatched, prevents all tips from
- * showing again.
- *
- * @return {Object} Action object.
- */
-
-function disableTips() {
-  return {
-    type: 'DISABLE_TIPS'
-  };
-}
-/**
- * Returns an action object that, when dispatched, makes all tips show again.
- *
- * @return {Object} Action object.
- */
-
-function enableTips() {
-  return {
-    type: 'ENABLE_TIPS'
+    type: 'UNREGISTER_SHORTCUT',
+    name: name
   };
 }
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(22);
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
+var toConsumableArray = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
 var rememo = __webpack_require__(34);
 
-// EXTERNAL MODULE: external {"this":"lodash"}
-var external_this_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external {"this":["wp","keycodes"]}
+var external_this_wp_keycodes_ = __webpack_require__(19);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/selectors.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/selectors.js
 
 
 /**
@@ -713,109 +574,123 @@ var external_this_lodash_ = __webpack_require__(2);
 
 
 /**
- * An object containing information about a guide.
- *
- * @typedef {Object} NUXGuideInfo
- * @property {string[]} tipIds       Which tips the guide contains.
- * @property {?string}  currentTipId The guide's currently showing tip.
- * @property {?string}  nextTipId    The guide's next tip to show.
+ * WordPress dependencies
  */
+
+
+/** @typedef {import('./actions').WPShortcutKeyCombination} WPShortcutKeyCombination */
+
+/** @typedef {import('@wordpress/keycodes').WPKeycodeHandlerByModifier} WPKeycodeHandlerByModifier */
 
 /**
- * Returns an object describing the guide, if any, that the given tip is a part
- * of.
+ * Shared reference to an empty array for cases where it is important to avoid
+ * returning a new array reference on every invocation.
  *
- * @param {Object} state Global application state.
- * @param {string} tipId The tip to query.
- *
- * @return {?NUXGuideInfo} Information about the associated guide.
+ * @type {Array<any>}
  */
 
-var getAssociatedGuide = Object(rememo["a" /* default */])(function (state, tipId) {
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+var EMPTY_ARRAY = [];
+/**
+ * Shortcut formatting methods.
+ *
+ * @property {WPKeycodeHandlerByModifier} display     Display formatting.
+ * @property {WPKeycodeHandlerByModifier} rawShortcut Raw shortcut formatting.
+ * @property {WPKeycodeHandlerByModifier} ariaLabel   ARIA label formatting.
+ */
 
-  try {
-    for (var _iterator = state.guides[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var tipIds = _step.value;
+var FORMATTING_METHODS = {
+  display: external_this_wp_keycodes_["displayShortcut"],
+  raw: external_this_wp_keycodes_["rawShortcut"],
+  ariaLabel: external_this_wp_keycodes_["shortcutAriaLabel"]
+};
+/**
+ * Returns a string representing the key combination.
+ *
+ * @param {?WPShortcutKeyCombination} shortcut       Key combination.
+ * @param {keyof FORMATTING_METHODS}  representation Type of representation
+ *                                                   (display, raw, ariaLabel).
+ *
+ * @return {string?} Shortcut representation.
+ */
 
-      if (Object(external_this_lodash_["includes"])(tipIds, tipId)) {
-        var nonDismissedTips = Object(external_this_lodash_["difference"])(tipIds, Object(external_this_lodash_["keys"])(state.preferences.dismissedTips));
-
-        var _nonDismissedTips = Object(slicedToArray["a" /* default */])(nonDismissedTips, 2),
-            _nonDismissedTips$ = _nonDismissedTips[0],
-            currentTipId = _nonDismissedTips$ === void 0 ? null : _nonDismissedTips$,
-            _nonDismissedTips$2 = _nonDismissedTips[1],
-            nextTipId = _nonDismissedTips$2 === void 0 ? null : _nonDismissedTips$2;
-
-        return {
-          tipIds: tipIds,
-          currentTipId: currentTipId,
-          nextTipId: nextTipId
-        };
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
+function getKeyCombinationRepresentation(shortcut, representation) {
+  if (!shortcut) {
+    return null;
   }
 
-  return null;
-}, function (state) {
-  return [state.guides, state.preferences.dismissedTips];
+  return shortcut.modifier ? FORMATTING_METHODS[representation][shortcut.modifier](shortcut.character) : shortcut.character;
+}
+/**
+ * Returns the main key combination for a given shortcut name.
+ *
+ * @param {Object} state Global state.
+ * @param {string} name  Shortcut name.
+ *
+ * @return {WPShortcutKeyCombination?} Key combination.
+ */
+
+
+function getShortcutKeyCombination(state, name) {
+  return state[name] ? state[name].keyCombination : null;
+}
+/**
+ * Returns a string representing the main key combination for a given shortcut name.
+ *
+ * @param {Object}                   state          Global state.
+ * @param {string}                   name           Shortcut name.
+ * @param {keyof FORMATTING_METHODS} representation Type of representation
+ *                                                  (display, raw, ariaLabel).
+ *
+ * @return {string?} Shortcut representation.
+ */
+
+function getShortcutRepresentation(state, name) {
+  var representation = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'display';
+  var shortcut = getShortcutKeyCombination(state, name);
+  return getKeyCombinationRepresentation(shortcut, representation);
+}
+/**
+ * Returns the shortcut description given its name.
+ *
+ * @param {Object} state Global state.
+ * @param {string} name  Shortcut name.
+ *
+ * @return {string?} Shortcut description.
+ */
+
+function getShortcutDescription(state, name) {
+  return state[name] ? state[name].description : null;
+}
+/**
+ * Returns the aliases for a given shortcut name.
+ *
+ * @param {Object} state Global state.
+ * @param {string} name  Shortcut name.
+ *
+ * @return {WPShortcutKeyCombination[]} Key combinations.
+ */
+
+function getShortcutAliases(state, name) {
+  return state[name] && state[name].aliases ? state[name].aliases : EMPTY_ARRAY;
+}
+/**
+ * Returns the raw representation of all the keyboard combinations of a given shortcut name.
+ *
+ * @param {Object} state Global state.
+ * @param {string} name  Shortcut name.
+ *
+ * @return {string[]} Shortcuts.
+ */
+
+var getAllShortcutRawKeyCombinations = Object(rememo["a" /* default */])(function (state, name) {
+  return Object(external_this_lodash_["compact"])([getKeyCombinationRepresentation(getShortcutKeyCombination(state, name), 'raw')].concat(Object(toConsumableArray["a" /* default */])(getShortcutAliases(state, name).map(function (combination) {
+    return getKeyCombinationRepresentation(combination, 'raw');
+  }))));
+}, function (state, name) {
+  return [state[name]];
 });
-/**
- * Determines whether or not the given tip is showing. Tips are hidden if they
- * are disabled, have been dismissed, or are not the current tip in any
- * guide that they have been added to.
- *
- * @param {Object} state Global application state.
- * @param {string} tipId The tip to query.
- *
- * @return {boolean} Whether or not the given tip is showing.
- */
 
-function isTipVisible(state, tipId) {
-  if (!state.preferences.areTipsEnabled) {
-    return false;
-  }
-
-  if (Object(external_this_lodash_["has"])(state.preferences.dismissedTips, [tipId])) {
-    return false;
-  }
-
-  var associatedGuide = getAssociatedGuide(state, tipId);
-
-  if (associatedGuide && associatedGuide.currentTipId !== tipId) {
-    return false;
-  }
-
-  return true;
-}
-/**
- * Returns whether or not tips are globally enabled.
- *
- * @param {Object} state Global application state.
- *
- * @return {boolean} Whether tips are globally enabled.
- */
-
-function selectors_areTipsEnabled(state) {
-  return state.preferences.areTipsEnabled;
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/index.js
 /**
  * WordPress dependencies
  */
@@ -827,133 +702,45 @@ function selectors_areTipsEnabled(state) {
 
 
 
-var store = Object(external_this_wp_data_["registerStore"])('core/nux', {
-  reducer: reducer,
+/* harmony default export */ var store = (Object(external_this_wp_data_["registerStore"])('core/keyboard-shortcuts', {
+  reducer: store_reducer,
   actions: actions_namespaceObject,
-  selectors: selectors_namespaceObject,
-  persist: ['preferences']
-});
-/* harmony default export */ var build_module_store = (store);
-
-// EXTERNAL MODULE: external {"this":["wp","element"]}
-var external_this_wp_element_ = __webpack_require__(0);
+  selectors: selectors_namespaceObject
+}));
 
 // EXTERNAL MODULE: external {"this":["wp","compose"]}
 var external_this_wp_compose_ = __webpack_require__(8);
 
-// EXTERNAL MODULE: external {"this":["wp","components"]}
-var external_this_wp_components_ = __webpack_require__(3);
-
-// EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(1);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/components/dot-tip/index.js
-
-
+// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/hooks/use-shortcut.js
 /**
  * WordPress dependencies
  */
 
 
-
-
-
-
-function onClick(event) {
-  // Tips are often nested within buttons. We stop propagation so that clicking
-  // on a tip doesn't result in the button being clicked.
-  event.stopPropagation();
-}
-
-function DotTip(_ref) {
-  var _ref$position = _ref.position,
-      position = _ref$position === void 0 ? 'middle right' : _ref$position,
-      children = _ref.children,
-      isVisible = _ref.isVisible,
-      hasNextTip = _ref.hasNextTip,
-      onDismiss = _ref.onDismiss,
-      onDisable = _ref.onDisable;
-  var anchorParent = Object(external_this_wp_element_["useRef"])(null);
-  var onFocusOutsideCallback = Object(external_this_wp_element_["useCallback"])(function (event) {
-    if (!anchorParent.current) {
-      return;
-    }
-
-    if (anchorParent.current.contains(event.relatedTarget)) {
-      return;
-    }
-
-    onDisable();
-  }, [onDisable, anchorParent]);
-
-  if (!isVisible) {
-    return null;
-  }
-
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], {
-    className: "nux-dot-tip",
-    position: position,
-    noArrow: true,
-    focusOnMount: "container",
-    shouldAnchorIncludePadding: true,
-    role: "dialog",
-    "aria-label": Object(external_this_wp_i18n_["__"])('Editor tips'),
-    onClick: onClick,
-    onFocusOutside: onFocusOutsideCallback
-  }, Object(external_this_wp_element_["createElement"])("p", null, children), Object(external_this_wp_element_["createElement"])("p", null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-    isLink: true,
-    onClick: onDismiss
-  }, hasNextTip ? Object(external_this_wp_i18n_["__"])('See next tip') : Object(external_this_wp_i18n_["__"])('Got it'))), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-    className: "nux-dot-tip__disable",
-    icon: "no-alt",
-    label: Object(external_this_wp_i18n_["__"])('Disable tips'),
-    onClick: onDisable
-  }));
-}
-/* harmony default export */ var dot_tip = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_data_["withSelect"])(function (select, _ref2) {
-  var tipId = _ref2.tipId;
-
-  var _select = select('core/nux'),
-      isTipVisible = _select.isTipVisible,
-      getAssociatedGuide = _select.getAssociatedGuide;
-
-  var associatedGuide = getAssociatedGuide(tipId);
-  return {
-    isVisible: isTipVisible(tipId),
-    hasNextTip: !!(associatedGuide && associatedGuide.nextTipId)
-  };
-}), Object(external_this_wp_data_["withDispatch"])(function (dispatch, _ref3) {
-  var tipId = _ref3.tipId;
-
-  var _dispatch = dispatch('core/nux'),
-      dismissTip = _dispatch.dismissTip,
-      disableTips = _dispatch.disableTips;
-
-  return {
-    onDismiss: function onDismiss() {
-      dismissTip(tipId);
-    },
-    onDisable: function onDisable() {
-      disableTips();
-    }
-  };
-}))(DotTip));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/index.js
-/* concated harmony reexport DotTip */__webpack_require__.d(__webpack_exports__, "DotTip", function() { return dot_tip; });
 /**
- * WordPress dependencies
+ * Attach a keyboard shortcut handler.
+ *
+ * @param {string} name       Shortcut name.
+ * @param {Function} callback Shortcut callback.
+ * @param {Object} options    Shortcut options.
  */
 
+function useShortcut(name, callback, options) {
+  var shortcuts = Object(external_this_wp_data_["useSelect"])(function (select) {
+    return select('core/keyboard-shortcuts').getAllShortcutRawKeyCombinations(name);
+  }, [name]);
+  Object(external_this_wp_compose_["useKeyboardShortcut"])(shortcuts, callback, options);
+}
+
+/* harmony default export */ var use_shortcut = (useShortcut);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/index.js
+/* concated harmony reexport useShortcut */__webpack_require__.d(__webpack_exports__, "useShortcut", function() { return use_shortcut; });
 /**
  * Internal dependencies
  */
 
 
-
-external_this_wp_deprecated_default()('wp.nux', {
-  hint: 'wp.components.Guide can be used to show a user guide.'
-});
 
 
 /***/ }),

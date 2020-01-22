@@ -82,17 +82,51 @@ this["wp"] = this["wp"] || {}; this["wp"]["priorityQueue"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 350);
+/******/ 	return __webpack_require__(__webpack_require__.s = 351);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 350:
+/***/ 351:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createQueue", function() { return createQueue; });
+/**
+ * Enqueued callback to invoke once idle time permits.
+ *
+ * @typedef {()=>void} WPPriorityQueueCallback
+ */
+
+/**
+ * An object used to associate callbacks in a particular context grouping.
+ *
+ * @typedef {{}} WPPriorityQueueContext
+ */
+
+/**
+ * Function to add callback to priority queue.
+ *
+ * @typedef {(element:WPPriorityQueueContext,item:WPPriorityQueueCallback)=>void} WPPriorityQueueAdd
+ */
+
+/**
+ * Function to flush callbacks from priority queue.
+ *
+ * @typedef {(element:WPPriorityQueueContext)=>boolean} WPPriorityQueueFlush
+ */
+
+/**
+ * Priority queue instance.
+ *
+ * @typedef {Object} WPPriorityQueue
+ *
+ * @property {WPPriorityQueueAdd}   add   Add callback to queue for context.
+ * @property {WPPriorityQueueFlush} flush Flush queue for context.
+ */
+
+/** @type {typeof window.requestIdleCallback|typeof window.requestAnimationFrame} */
 var requestIdleCallback = window.requestIdleCallback ? window.requestIdleCallback : window.requestAnimationFrame;
 /**
  * Creates a context-aware queue that only executes
@@ -114,28 +148,59 @@ var requestIdleCallback = window.requestIdleCallback ? window.requestIdleCallbac
  * queue.add( ctx2, () => console.log( 'This will be printed second' ) );
  *```
  *
- * @return {Object} Queue object with `add` and `flush` methods.
+ * @return {WPPriorityQueue} Queue object with `add` and `flush` methods.
  */
 
 var createQueue = function createQueue() {
+  /** @type {WPPriorityQueueContext[]} */
   var waitingList = [];
+  /** @type {WeakMap<WPPriorityQueueContext,WPPriorityQueueCallback>} */
+
   var elementsMap = new WeakMap();
   var isRunning = false;
+  /**
+   * Callback to process as much queue as time permits.
+   *
+   * @type {IdleRequestCallback & FrameRequestCallback}
+   *
+   * @param {IdleDeadline|number} deadline Idle callback deadline object, or
+   *                                       animation frame timestamp.
+   */
 
   var runWaitingList = function runWaitingList(deadline) {
+    var hasTimeRemaining = typeof deadline === 'number' ? function () {
+      return false;
+    } : function () {
+      return deadline.timeRemaining() > 0;
+    };
+
     do {
       if (waitingList.length === 0) {
         isRunning = false;
         return;
       }
 
-      var nextElement = waitingList.shift();
-      elementsMap.get(nextElement)();
+      var nextElement =
+      /** @type {WPPriorityQueueContext} */
+      waitingList.shift();
+      var callback =
+      /** @type {WPPriorityQueueCallback} */
+      elementsMap.get(nextElement);
+      callback();
       elementsMap.delete(nextElement);
-    } while (deadline && deadline.timeRemaining && deadline.timeRemaining() > 0);
+    } while (hasTimeRemaining());
 
     requestIdleCallback(runWaitingList);
   };
+  /**
+   * Add a callback to the queue for a given context.
+   *
+   * @type {WPPriorityQueueAdd}
+   *
+   * @param {WPPriorityQueueContext}  element Context object.
+   * @param {WPPriorityQueueCallback} item    Callback function.
+   */
+
 
   var add = function add(element, item) {
     if (!elementsMap.has(element)) {
@@ -149,6 +214,17 @@ var createQueue = function createQueue() {
       requestIdleCallback(runWaitingList);
     }
   };
+  /**
+   * Flushes queue for a given context, returning true if the flush was
+   * performed, or false if there is no queue for the given context.
+   *
+   * @type {WPPriorityQueueFlush}
+   *
+   * @param {WPPriorityQueueContext} element Context object.
+   *
+   * @return {boolean} Whether flush was performed.
+   */
+
 
   var flush = function flush(element) {
     if (!elementsMap.has(element)) {
