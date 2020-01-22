@@ -1388,7 +1388,7 @@ function get_term_parents_list( $term_id, $taxonomy, $args = array() ) {
  * @param string $before   Optional. Before list.
  * @param string $sep      Optional. Separate items using this.
  * @param string $after    Optional. After list.
- * @return void|false False on WordPress error.
+ * @return void|false Void on success, false on failure.
  */
 function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
 	$term_list = get_the_term_list( $id, $taxonomy, $before, $sep, $after );
