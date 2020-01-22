@@ -508,11 +508,14 @@ function switch_to_blog( $new_blog_id, $deprecated = null ) {
 		 * Fires when the blog is switched.
 		 *
 		 * @since MU (3.0.0)
+		 * @since 5.4.0 The `$context` parameter was added.
 		 *
-		 * @param int $new_blog_id  New blog ID.
-		 * @param int $prev_blog_id Previous blog ID.
+		 * @param int    $new_blog_id  New blog ID.
+		 * @param int    $prev_blog_id Previous blog ID.
+		 * @param string $context      Additional context. Accepts 'switch' when called from switch_to_blog()
+		 *                             or 'restore' when called from restore_current_blog().
 		 */
-		do_action( 'switch_blog', $new_blog_id, $prev_blog_id );
+		do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'switch' );
 		$GLOBALS['switched'] = true;
 		return true;
 	}
@@ -544,7 +547,7 @@ function switch_to_blog( $new_blog_id, $deprecated = null ) {
 	}
 
 	/** This filter is documented in wp-includes/ms-blogs.php */
-	do_action( 'switch_blog', $new_blog_id, $prev_blog_id );
+	do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'switch' );
 	$GLOBALS['switched'] = true;
 
 	return true;
@@ -577,7 +580,7 @@ function restore_current_blog() {
 
 	if ( $new_blog_id == $prev_blog_id ) {
 		/** This filter is documented in wp-includes/ms-blogs.php */
-		do_action( 'switch_blog', $new_blog_id, $prev_blog_id );
+		do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'restore' );
 		// If we still have items in the switched stack, consider ourselves still 'switched'
 		$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
 		return true;
@@ -611,7 +614,7 @@ function restore_current_blog() {
 	}
 
 	/** This filter is documented in wp-includes/ms-blogs.php */
-	do_action( 'switch_blog', $new_blog_id, $prev_blog_id );
+	do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'restore' );
 
 	// If we still have items in the switched stack, consider ourselves still 'switched'
 	$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
