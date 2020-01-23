@@ -604,8 +604,6 @@ class wpdb {
 	 * @param string $dbhost     MySQL database host
 	 */
 	public function __construct( $dbuser, $dbpassword, $dbname, $dbhost ) {
-		register_shutdown_function( array( $this, '__destruct' ) );
-
 		if ( WP_DEBUG && WP_DEBUG_DISPLAY ) {
 			$this->show_errors();
 		}
@@ -630,17 +628,6 @@ class wpdb {
 		}
 
 		$this->db_connect();
-	}
-
-	/**
-	 * PHP5 style destructor and will run when database object is destroyed.
-	 *
-	 * @see wpdb::__construct()
-	 * @since 2.0.8
-	 * @return true
-	 */
-	public function __destruct() {
-		return true;
 	}
 
 	/**

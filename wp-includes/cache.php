@@ -336,6 +336,16 @@ class WP_Object_Cache {
 	private $multisite;
 
 	/**
+	 * Sets up object properties; PHP 5 style constructor.
+	 *
+	 * @since 2.0.8
+	 */
+	public function __construct() {
+		$this->multisite   = is_multisite();
+		$this->blog_prefix = $this->multisite ? get_current_blog_id() . ':' : '';
+	}
+
+	/**
 	 * Makes private properties readable for backward compatibility.
 	 *
 	 * @since 4.0.0
@@ -725,34 +735,5 @@ class WP_Object_Cache {
 	 */
 	protected function _exists( $key, $group ) {
 		return isset( $this->cache[ $group ] ) && ( isset( $this->cache[ $group ][ $key ] ) || array_key_exists( $key, $this->cache[ $group ] ) );
-	}
-
-	/**
-	 * Sets up object properties; PHP 5 style constructor.
-	 *
-	 * @since 2.0.8
-	 */
-	public function __construct() {
-		$this->multisite   = is_multisite();
-		$this->blog_prefix = $this->multisite ? get_current_blog_id() . ':' : '';
-
-		/**
-		 * @todo This should be moved to the PHP4 style constructor, PHP5
-		 * already calls __destruct()
-		 */
-		register_shutdown_function( array( $this, '__destruct' ) );
-	}
-
-	/**
-	 * Saves the object cache before object is completely destroyed.
-	 *
-	 * Called upon object destruction, which should be when PHP ends.
-	 *
-	 * @since 2.0.8
-	 *
-	 * @return true Always returns true.
-	 */
-	public function __destruct() {
-		return true;
 	}
 }
