@@ -1260,19 +1260,22 @@ function wp_installing( $is_installing = null ) {
  * @return bool True if SSL, otherwise false.
  */
 function is_ssl() {
-	if ( isset( $_SERVER['HTTPS'] ) ) {
-		if ( 'on' == strtolower( $_SERVER['HTTPS'] ) ) {
-			return true;
-		}
+        if ( isset( $_SERVER['HTTPS'] ) ) {
+                if ( 'on' == strtolower( $_SERVER['HTTPS'] ) ) {
+                        return true;
+                }    
 
-		if ( '1' == $_SERVER['HTTPS'] ) {
-			return true;
-		}
-	} elseif ( isset( $_SERVER['SERVER_PORT'] ) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
-		return true;
-	}
-	return false;
-}
+                if ( '1' == $_SERVER['HTTPS'] ) {
+                        return true;
+                }    
+        } elseif ( isset( $_SERVER['SERVER_PORT'] ) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
+                return true;
+        } elseif ( isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' == $_SERVER['HTTP_X_FORWARDED_PROTO']) {
+                return true;
+        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_PORT'] ) && ( '443' == $_SERVER['HTTP_X_FORWARDED_PORT'] ) ) {
+                return true;
+        }    
+        return false;
 
 /**
  * Converts a shorthand byte value to an integer byte value.
