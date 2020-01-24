@@ -158,7 +158,8 @@ function get_blog_post( $blog_id, $post_id ) {
  * @param int    $blog_id ID of the blog you're adding the user to.
  * @param int    $user_id ID of the user you're adding.
  * @param string $role    The role you want the user to have
- * @return true|WP_Error
+ * @return true|WP_Error True on success or a WP_Error object if the user doesn't exist
+ *                       or could not be added.
  */
 function add_user_to_blog( $blog_id, $user_id, $role ) {
 	switch_to_blog( $blog_id );
@@ -1195,9 +1196,9 @@ function wpmu_activate_signup( $key ) {
 		 *
 		 * @since MU (3.0.0)
 		 *
-		 * @param int   $user_id  User ID.
-		 * @param int   $password User password.
-		 * @param array $meta     Signup meta data.
+		 * @param int    $user_id  User ID.
+		 * @param string $password User password.
+		 * @param array  $meta     Signup meta data.
 		 */
 		do_action( 'wpmu_activate_user', $user_id, $password, $meta );
 		return array(
@@ -2140,8 +2141,9 @@ function maybe_add_existing_user_to_blog() {
  *
  * @since MU (3.0.0)
  *
- * @param array $details
- * @return true|WP_Error|void
+ * @param array $details User details.
+ * @return true|WP_Error|void True on success or a WP_Error object if the user doesn't exist
+ *                            or could not be added. Void if $details array was not provided.
  */
 function add_existing_user_to_blog( $details = false ) {
 	if ( is_array( $details ) ) {
@@ -2153,9 +2155,9 @@ function add_existing_user_to_blog( $details = false ) {
 		 *
 		 * @since MU (3.0.0)
 		 *
-		 * @param int   $user_id User ID.
-		 * @param mixed $result  True on success or a WP_Error object if the user doesn't exist
-		 *                       or could not be added.
+		 * @param int           $user_id User ID.
+		 * @param true|WP_Error $result  True on success or a WP_Error object if the user doesn't exist
+		 *                               or could not be added.
 		 */
 		do_action( 'added_existing_user', $details['user_id'], $result );
 
@@ -2172,9 +2174,9 @@ function add_existing_user_to_blog( $details = false ) {
  * @since MU (3.0.0)
  * @see add_user_to_blog()
  *
- * @param int   $user_id
- * @param mixed $password Ignored.
- * @param array $meta
+ * @param int    $user_id  User ID.
+ * @param string $password User password. Ignored.
+ * @param array  $meta     Signup meta data.
  */
 function add_new_user_to_blog( $user_id, $password, $meta ) {
 	if ( ! empty( $meta['add_to_blog'] ) ) {
