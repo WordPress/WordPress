@@ -730,6 +730,7 @@ form#tags-filter {
 	margin-top: 6px;
 }
 
+.hide-privacy-policy-tutorial .wp-policy-help, /* For back-compat see #49282 */
 .hide-privacy-policy-tutorial .privacy-policy-tutorial {
 	visibility: hidden;
 }
@@ -738,6 +739,7 @@ form#tags-filter {
 	font-style: italic;
 }
 
+.wp-suggested-text p.wp-policy-help, /* For back-compat see #49282 */
 .wp-suggested-text p.privacy-policy-tutorial {
 	font-style: normal;
 }
