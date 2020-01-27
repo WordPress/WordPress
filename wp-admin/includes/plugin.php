@@ -2257,10 +2257,10 @@ function plugin_sandbox_scrape( $plugin ) {
  * For more information see the Plugin Handbook:
  * https://developer.wordpress.org/plugins/privacy/suggesting-text-for-the-site-privacy-policy/.
  *
- * The HTML contents of the `$policy_text` supports use of a specialized `privacy-policy-tutorial` css class 
- * which can be used to provide supplemental information. Any content contained within html elements 
- * that have the `privacy-policy-tutorial` css class applied will be omitted from the clipboard 
- * when the section content is copied.
+ * The HTML contents of the `$policy_text` supports use of a specialized `.privacy-policy-tutorial`
+ * CSS class which can be used to provide supplemental information. Any content contained within
+ * HTML elements that have the `.privacy-policy-tutorial` CSS class applied will be omitted
+ * from the clipboard when the section content is copied.
  *
  * Intended for use with the `'admin_init'` action.
  *
