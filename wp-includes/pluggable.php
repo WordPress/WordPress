@@ -1584,6 +1584,7 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 				/* translators: Trackback notification email subject. 1: Site title, 2: Post title. */
 				$subject = sprintf( __( '[%1$s] Trackback: "%2$s"' ), $blogname, $post->post_title );
 				break;
+
 			case 'pingback':
 				/* translators: %s: Post title. */
 				$notify_message = sprintf( __( 'New pingback on your post "%s"' ), $post->post_title ) . "\r\n";
@@ -1597,6 +1598,7 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 				/* translators: Pingback notification email subject. 1: Site title, 2: Post title. */
 				$subject = sprintf( __( '[%1$s] Pingback: "%2$s"' ), $blogname, $post->post_title );
 				break;
+
 			default: // Comments
 				/* translators: %s: Post title. */
 				$notify_message = sprintf( __( 'New comment on your post "%s"' ), $post->post_title ) . "\r\n";
@@ -1606,6 +1608,12 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 				$notify_message .= sprintf( __( 'Email: %s' ), $comment->comment_author_email ) . "\r\n";
 				/* translators: %s: Trackback/pingback/comment author URL. */
 				$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
+
+				if ( $comment->comment_parent && user_can( $post->post_author, 'edit_comment', $comment->comment_parent ) ) {
+					/* translators: Comment moderation. %s: Parent comment edit URL. */
+					$notify_message .= sprintf( __( 'In reply to: %s' ), admin_url( "comment.php?action=editcomment&c={$comment->comment_parent}#wpbody-content" ) ) . "\r\n";
+				}
+
 				/* translators: %s: Comment text. */
 				$notify_message .= sprintf( __( 'Comment: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 				$notify_message .= __( 'You can see all comments on this post here:' ) . "\r\n";
@@ -1613,6 +1621,7 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 				$subject = sprintf( __( '[%1$s] Comment: "%2$s"' ), $blogname, $post->post_title );
 				break;
 		}
+
 		$notify_message .= get_permalink( $comment->comment_post_ID ) . "#comments\r\n\r\n";
 		/* translators: %s: Comment URL. */
 		$notify_message .= sprintf( __( 'Permalink: %s' ), get_comment_link( $comment ) ) . "\r\n";
@@ -1761,6 +1770,7 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 				$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
 				$notify_message .= __( 'Trackback excerpt: ' ) . "\r\n" . $comment_content . "\r\n\r\n";
 				break;
+
 			case 'pingback':
 				/* translators: %s: Post title. */
 				$notify_message  = sprintf( __( 'A new pingback on the post "%s" is waiting for your approval' ), $post->post_title ) . "\r\n";
@@ -1771,6 +1781,7 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 				$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
 				$notify_message .= __( 'Pingback excerpt: ' ) . "\r\n" . $comment_content . "\r\n\r\n";
 				break;
+
 			default: // Comments
 				/* translators: %s: Post title. */
 				$notify_message  = sprintf( __( 'A new comment on the post "%s" is waiting for your approval' ), $post->post_title ) . "\r\n";
@@ -1781,6 +1792,12 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 				$notify_message .= sprintf( __( 'Email: %s' ), $comment->comment_author_email ) . "\r\n";
 				/* translators: %s: Trackback/pingback/comment author URL. */
 				$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
+
+				if ( $comment->comment_parent ) {
+					/* translators: Comment moderation. %s: Parent comment edit URL. */
+					$notify_message .= sprintf( __( 'In reply to: %s' ), admin_url( "comment.php?action=editcomment&c={$comment->comment_parent}#wpbody-content" ) ) . "\r\n";
+				}
+
 				/* translators: %s: Comment text. */
 				$notify_message .= sprintf( __( 'Comment: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 				break;
