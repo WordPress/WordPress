@@ -387,7 +387,7 @@ Attachment = Backbone.Model.extend(/** @lends wp.media.model.Attachment.prototyp
 
 		// Overload the `update` request so properties can be saved.
 		} else if ( 'update' === method ) {
-			// If we do not have the necessary nonce, fail immeditately.
+			// If we do not have the necessary nonce, fail immediately.
 			if ( ! this.get('nonces') || ! this.get('nonces').update ) {
 				return $.Deferred().rejectWith( this ).promise();
 			}
@@ -471,7 +471,7 @@ Attachment = Backbone.Model.extend(/** @lends wp.media.model.Attachment.prototyp
 	saveCompat: function( data, options ) {
 		var model = this;
 
-		// If we do not have the necessary nonce, fail immeditately.
+		// If we do not have the necessary nonce, fail immediately.
 		if ( ! this.get('nonces') || ! this.get('nonces').update ) {
 			return $.Deferred().rejectWith( this ).promise();
 		}
