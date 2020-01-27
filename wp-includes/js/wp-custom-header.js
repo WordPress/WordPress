@@ -50,7 +50,7 @@
 
 	CustomHeader.prototype = {
 		/**
-		 * Initalize the custom header.
+		 * Initialize the custom header.
 		 *
 		 * If the environment supports video, loops through registered handlers
 		 * until one is found that can handle the video.
