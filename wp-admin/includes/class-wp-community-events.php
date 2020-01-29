@@ -376,8 +376,47 @@ class WP_Community_Events {
 				 * are available, without having to open the link.
 				 */
 				/* translators: Date format for upcoming events on the dashboard. Include the day of the week. See https://www.php.net/date */
-				$response_body['events'][ $key ]['formatted_date'] = date_i18n( __( 'l, M j, Y' ), $timestamp );
-				$response_body['events'][ $key ]['formatted_time'] = date_i18n( get_option( 'time_format' ), $timestamp );
+				$formatted_date = date_i18n( __( 'l, M j, Y' ), $timestamp );
+				$formatted_time = date_i18n( get_option( 'time_format' ), $timestamp );
+
+				if ( isset( $event['end_date'] ) ) {
+					$end_timestamp      = strtotime( $event['end_date'] );
+					$formatted_end_date = date_i18n( __( 'l, M j, Y' ), $end_timestamp );
+
+					if ( 'meetup' !== $event['type'] && $formatted_end_date !== $formatted_date ) {
+						/* translators: Upcoming events month format. See https://www.php.net/date */
+						$start_month = date_i18n( _x( 'F', 'upcoming events month format' ), $timestamp );
+						$end_month   = date_i18n( _x( 'F', 'upcoming events month format' ), $end_timestamp );
+
+						if ( $start_month === $end_month ) {
+							$formatted_date = sprintf(
+								/* translators: Date string for upcoming events. 1: Month, 2: Starting day, 3: Ending day, 4: Year. */
+								__( '%1$s %2$d–%3$d, %4$d' ),
+								$start_month,
+								/* translators: Upcoming events day format. See https://www.php.net/date */
+								date_i18n( _x( 'j', 'upcoming events day format' ), $timestamp ),
+								date_i18n( _x( 'j', 'upcoming events day format' ), $end_timestamp ),
+								/* translators: Upcoming events year format. See https://www.php.net/date */
+								date_i18n( _x( 'Y', 'upcoming events year format' ), $timestamp )
+							);
+						} else {
+							$formatted_date = sprintf(
+								/* translators: Date string for upcoming events. 1: Starting month, 2: Starting day, 3: Ending month, 4: Ending day, 5: Year. */
+								__( '%1$s %2$d – %3$s %4$d, %5$d' ),
+								$start_month,
+								date_i18n( _x( 'j', 'upcoming events day format' ), $timestamp ),
+								$end_month,
+								date_i18n( _x( 'j', 'upcoming events day format' ), $end_timestamp ),
+								date_i18n( _x( 'Y', 'upcoming events year format' ), $timestamp )
+							);
+						}
+
+						$formatted_date = wp_maybe_decline_date( $formatted_date, 'F j, Y' );
+					}
+				}
+
+				$response_body['events'][ $key ]['formatted_date'] = $formatted_date;
+				$response_body['events'][ $key ]['formatted_time'] = $formatted_time;
 			}
 		}
 
