@@ -178,7 +178,7 @@ Any changes to the directives between these markers will be overwritten.'
 		$lines[] = rtrim( fgets( $fp ), "\r\n" );
 	}
 
-	// Split out the existing file into the preceding lines, and those that appear after the marker
+	// Split out the existing file into the preceding lines, and those that appear after the marker.
 	$pre_lines        = array();
 	$post_lines       = array();
 	$existing_lines   = array();
@@ -201,7 +201,7 @@ Any changes to the directives between these markers will be overwritten.'
 		}
 	}
 
-	// Check to see if there was a change
+	// Check to see if there was a change.
 	if ( $existing_lines === $insertion ) {
 		flock( $fp, LOCK_UN );
 		fclose( $fp );
@@ -209,7 +209,7 @@ Any changes to the directives between these markers will be overwritten.'
 		return true;
 	}
 
-	// Generate the new file data
+	// Generate the new file data.
 	$new_file_data = implode(
 		"\n",
 		array_merge(
@@ -221,7 +221,7 @@ Any changes to the directives between these markers will be overwritten.'
 		)
 	);
 
-	// Write to the start of the file, and truncate it to that length
+	// Write to the start of the file, and truncate it to that length.
 	fseek( $fp, 0 );
 	$bytes = fwrite( $fp, $new_file_data );
 	if ( $bytes ) {
@@ -296,7 +296,7 @@ function iis7_save_url_rewrite_rules() {
 	$home_path       = get_home_path();
 	$web_config_file = $home_path . 'web.config';
 
-	// Using win_is_writable() instead of is_writable() because of a bug in Windows PHP
+	// Using win_is_writable() instead of is_writable() because of a bug in Windows PHP.
 	if ( iis7_supports_permalinks() && ( ( ! file_exists( $web_config_file ) && win_is_writable( $home_path ) && $wp_rewrite->using_mod_rewrite_permalinks() ) || win_is_writable( $web_config_file ) ) ) {
 		$rule = $wp_rewrite->iis7_url_rewrite_rules( false );
 		if ( ! empty( $rule ) ) {
@@ -598,11 +598,11 @@ function wp_doc_link_parse( $content ) {
 		}
 
 		if ( T_STRING == $tokens[ $t ][0] && ( '(' == $tokens[ $t + 1 ] || '(' == $tokens[ $t + 2 ] ) ) {
-			// If it's a function or class defined locally, there's not going to be any docs available
+			// If it's a function or class defined locally, there's not going to be any docs available.
 			if ( ( isset( $tokens[ $t - 2 ][1] ) && in_array( $tokens[ $t - 2 ][1], array( 'function', 'class' ) ) ) || ( isset( $tokens[ $t - 2 ][0] ) && T_OBJECT_OPERATOR == $tokens[ $t - 1 ][0] ) ) {
 				$ignore_functions[] = $tokens[ $t ][1];
 			}
-			// Add this to our stack of unique references
+			// Add this to our stack of unique references.
 			$functions[] = $tokens[ $t ][1];
 		}
 	}
@@ -673,7 +673,7 @@ function set_screen_options() {
 			case 'plugins_per_page':
 			case 'export_personal_data_requests_per_page':
 			case 'remove_personal_data_requests_per_page':
-				// Network admin
+				// Network admin.
 			case 'sites_network_per_page':
 			case 'users_network_per_page':
 			case 'site_users_network_per_page':
@@ -702,7 +702,7 @@ function set_screen_options() {
 				 * @param string   $option The option name.
 				 * @param int      $value  The number of rows to use.
 				 */
-				$value = apply_filters( 'set-screen-option', false, $option, $value );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+				$value = apply_filters( 'set-screen-option', false, $option, $value ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 				if ( false === $value ) {
 					return;
@@ -760,7 +760,7 @@ function iis7_rewrite_rule_exists( $filename ) {
  * @return bool
  */
 function iis7_delete_rewrite_rule( $filename ) {
-	// If configuration file does not exist then rules also do not exist so there is nothing to delete
+	// If configuration file does not exist then rules also do not exist, so there is nothing to delete.
 	if ( ! file_exists( $filename ) ) {
 		return true;
 	}
@@ -817,13 +817,13 @@ function iis7_add_rewrite_rule( $filename, $rewrite_rule ) {
 
 	$xpath = new DOMXPath( $doc );
 
-	// First check if the rule already exists as in that case there is no need to re-add it
+	// First check if the rule already exists as in that case there is no need to re-add it.
 	$wordpress_rules = $xpath->query( '/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]' );
 	if ( $wordpress_rules->length > 0 ) {
 		return true;
 	}
 
-	// Check the XPath to the rewrite rule and create XML nodes if they do not exist
+	// Check the XPath to the rewrite rule and create XML nodes if they do not exist.
 	$xmlnodes = $xpath->query( '/configuration/system.webServer/rewrite/rules' );
 	if ( $xmlnodes->length > 0 ) {
 		$rules_node = $xmlnodes->item( 0 );

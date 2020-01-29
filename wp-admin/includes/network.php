@@ -181,14 +181,14 @@ function network_step1( $errors = false ) {
 
 	if ( isset( $_POST['subdomain_install'] ) ) {
 		$subdomain_install = (bool) $_POST['subdomain_install'];
-	} elseif ( apache_mod_loaded( 'mod_rewrite' ) ) { // assume nothing
+	} elseif ( apache_mod_loaded( 'mod_rewrite' ) ) { // Assume nothing.
 		$subdomain_install = true;
 	} elseif ( ! allow_subdirectory_install() ) {
 		$subdomain_install = true;
 	} else {
 		$subdomain_install = false;
 		$got_mod_rewrite   = got_mod_rewrite();
-		if ( $got_mod_rewrite ) { // dangerous assumptions
+		if ( $got_mod_rewrite ) { // Dangerous assumptions.
 			echo '<div class="updated inline"><p><strong>' . __( 'Note:' ) . '</strong> ';
 			printf(
 				/* translators: %s: mod_rewrite */
@@ -206,7 +206,7 @@ function network_step1( $errors = false ) {
 			echo '</p>';
 		}
 
-		if ( $got_mod_rewrite || $is_apache ) { // Protect against mod_rewrite mimicry (but ! Apache)
+		if ( $got_mod_rewrite || $is_apache ) { // Protect against mod_rewrite mimicry (but ! Apache).
 			echo '<p>';
 			printf(
 				/* translators: 1: mod_rewrite, 2: mod_rewrite documentation URL, 3: Google search for mod_rewrite. */
@@ -225,7 +225,7 @@ function network_step1( $errors = false ) {
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories.' ); ?>
 			<strong><?php _e( 'You cannot change this later.' ); ?></strong></p>
 		<p><?php _e( 'You will need a wildcard DNS record if you are going to use the virtual host (sub-domain) functionality.' ); ?></p>
-		<?php // @todo: Link to an MS readme? ?>
+		<?php // @todo Link to an MS readme? ?>
 		<table class="form-table" role="presentation">
 			<tr>
 				<th><label><input type="radio" name="subdomain_install" value="1"<?php checked( $subdomain_install ); ?> /> <?php _e( 'Sub-domains' ); ?></label></th>
@@ -547,7 +547,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
 		</li>
 	<?php
 	if ( iis7_supports_permalinks() ) :
-		// IIS doesn't support RewriteBase, all your RewriteBase are belong to us
+		// IIS doesn't support RewriteBase, all your RewriteBase are belong to us.
 		$iis_subdir_match       = ltrim( $base, '/' ) . $subdir_match;
 		$iis_rewrite_base       = ltrim( $base, '/' ) . $rewrite_base;
 		$iis_subdir_replacement = $subdomain_install ? '' : '{R:1}';
@@ -616,7 +616,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
 	</ol>
 
 		<?php
-	else : // end iis7_supports_permalinks(). construct an htaccess file instead:
+	else : // End iis7_supports_permalinks(). Construct an .htaccess file instead:
 
 		$ms_files_rewriting = '';
 		if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
@@ -658,7 +658,7 @@ EOF;
 	</ol>
 
 		<?php
-	endif; // end IIS/Apache code branches.
+	endif; // End IIS/Apache code branches.
 
 	if ( ! is_multisite() ) {
 		?>

@@ -138,12 +138,12 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
  * @since 3.0.0
  */
 function wp_nav_menu_setup() {
-	// Register meta boxes
+	// Register meta boxes.
 	wp_nav_menu_post_type_meta_boxes();
 	add_meta_box( 'add-custom-links', __( 'Custom Links' ), 'wp_nav_menu_item_link_meta_box', 'nav-menus', 'side', 'default' );
 	wp_nav_menu_taxonomy_meta_boxes();
 
-	// Register advanced menu items (columns)
+	// Register advanced menu items (columns).
 	add_filter( 'manage_nav-menus_columns', 'wp_nav_menu_manage_columns' );
 
 	// If first time editing, disable advanced items by default.
@@ -422,7 +422,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 		}
 	}
 
-	// @todo transient caching of these results with proper invalidation on updating of a post of this type
+	// @todo Transient caching of these results with proper invalidation on updating of a post of this type.
 	$get_posts = new WP_Query;
 	$posts     = $get_posts->query( $args );
 
@@ -921,7 +921,8 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
 					! isset( $_item_object_data['menu-item-type'] ) ||
 					// Or URL is the default.
 					in_array( $_item_object_data['menu-item-url'], array( 'https://', 'http://', '' ) ) ||
-					! ( 'custom' == $_item_object_data['menu-item-type'] && ! isset( $_item_object_data['menu-item-db-id'] ) ) || // or it's not a custom menu item (but not the custom home page)
+					// Or it's not a custom menu item (but not the custom home page).
+					! ( 'custom' == $_item_object_data['menu-item-type'] && ! isset( $_item_object_data['menu-item-db-id'] ) ) ||
 					// Or it *is* a custom menu item that already exists.
 					! empty( $_item_object_data['menu-item-db-id'] )
 				)
@@ -1142,7 +1143,7 @@ function wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selecte
 	);
 	$messages            = array();
 	$menu_items          = array();
-	// Index menu items by db ID
+	// Index menu items by DB ID.
 	foreach ( $unsorted_menu_items as $_item ) {
 		$menu_items[ $_item->db_id ] = $_item;
 	}
@@ -1164,11 +1165,11 @@ function wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selecte
 	);
 
 	wp_defer_term_counting( true );
-	// Loop through all the menu items' POST variables
+	// Loop through all the menu items' POST variables.
 	if ( ! empty( $_POST['menu-item-db-id'] ) ) {
 		foreach ( (array) $_POST['menu-item-db-id'] as $_key => $k ) {
 
-			// Menu item title can't be blank
+			// Menu item title can't be blank.
 			if ( ! isset( $_POST['menu-item-title'][ $_key ] ) || '' == $_POST['menu-item-title'][ $_key ] ) {
 				continue;
 			}
@@ -1188,7 +1189,7 @@ function wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selecte
 		}
 	}
 
-	// Remove menu items from the menu that weren't in $_POST
+	// Remove menu items from the menu that weren't in $_POST.
 	if ( ! empty( $menu_items ) ) {
 		foreach ( array_keys( $menu_items ) as $menu_item_id ) {
 			if ( is_nav_menu_item( $menu_item_id ) ) {
@@ -1213,7 +1214,7 @@ function wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selecte
 			unset( $nav_menu_option['auto_add'][ $key ] );
 		}
 	}
-	// Remove nonexistent/deleted menus
+	// Remove non-existent/deleted menus.
 	$nav_menu_option['auto_add'] = array_intersect( $nav_menu_option['auto_add'], wp_get_nav_menus( array( 'fields' => 'ids' ) ) );
 	update_option( 'nav_menu_options', $nav_menu_option );
 
@@ -1252,7 +1253,7 @@ function _wp_expand_nav_menu_post_data() {
 	if ( ! is_null( $data ) && $data ) {
 		foreach ( $data as $post_input_data ) {
 			// For input names that are arrays (e.g. `menu-item-db-id[3][4][5]`),
-			// derive the array path keys via regex and set the value in $_POST.
+			// derive the array path keys via regex and set the value in $_POST.
 			preg_match( '#([^\[]*)(\[(.+)\])?#', $post_input_data->name, $matches );
 
 			$array_bits = array( $matches[1] );
@@ -1264,7 +1265,7 @@ function _wp_expand_nav_menu_post_data() {
 			$new_post_data = array();
 
 			// Build the new array value from leaf to trunk.
-			for ( $i = count( $array_bits ) - 1; $i >= 0; $i -- ) {
+			for ( $i = count( $array_bits ) - 1; $i >= 0; $i-- ) {
 				if ( $i == count( $array_bits ) - 1 ) {
 					$new_post_data[ $array_bits[ $i ] ] = wp_slash( $post_input_data->value );
 				} else {

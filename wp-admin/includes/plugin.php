@@ -331,7 +331,8 @@ function get_plugins( $plugin_folder = '' ) {
 			continue;
 		}
 
-		$plugin_data = get_plugin_data( "$plugin_root/$plugin_file", false, false ); //Do not apply markup/translate as it'll be cached.
+		// Do not apply markup/translate as it will be cached.
+		$plugin_data = get_plugin_data( "$plugin_root/$plugin_file", false, false );
 
 		if ( empty( $plugin_data['Name'] ) ) {
 			continue;
@@ -357,13 +358,14 @@ function get_plugins( $plugin_folder = '' ) {
  * @return array[] Array of arrays of mu-plugin data, keyed by plugin file name. See `get_plugin_data()`.
  */
 function get_mu_plugins() {
-	$wp_plugins = array();
-	// Files in wp-content/mu-plugins directory.
+	$wp_plugins   = array();
 	$plugin_files = array();
 
 	if ( ! is_dir( WPMU_PLUGIN_DIR ) ) {
 		return $wp_plugins;
 	}
+
+	// Files in wp-content/mu-plugins directory.
 	$plugins_dir = @opendir( WPMU_PLUGIN_DIR );
 	if ( $plugins_dir ) {
 		while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
@@ -386,7 +388,8 @@ function get_mu_plugins() {
 			continue;
 		}
 
-		$plugin_data = get_plugin_data( WPMU_PLUGIN_DIR . "/$plugin_file", false, false ); //Do not apply markup/translate as it'll be cached.
+		// Do not apply markup/translate as it will be cached.
+		$plugin_data = get_plugin_data( WPMU_PLUGIN_DIR . "/$plugin_file", false, false );
 
 		if ( empty( $plugin_data['Name'] ) ) {
 			$plugin_data['Name'] = $plugin_file;
@@ -395,7 +398,8 @@ function get_mu_plugins() {
 		$wp_plugins[ $plugin_file ] = $plugin_data;
 	}
 
-	if ( isset( $wp_plugins['index.php'] ) && filesize( WPMU_PLUGIN_DIR . '/index.php' ) <= 30 ) { // silence is golden
+	if ( isset( $wp_plugins['index.php'] ) && filesize( WPMU_PLUGIN_DIR . '/index.php' ) <= 30 ) {
+		// Silence is golden.
 		unset( $wp_plugins['index.php'] );
 	}
 
@@ -431,7 +435,7 @@ function get_dropins() {
 
 	$_dropins = _get_dropins();
 
-	// These exist in the wp-content directory.
+	// Files in wp-content directory.
 	$plugins_dir = @opendir( WP_CONTENT_DIR );
 	if ( $plugins_dir ) {
 		while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
@@ -453,10 +457,14 @@ function get_dropins() {
 		if ( ! is_readable( WP_CONTENT_DIR . "/$plugin_file" ) ) {
 			continue;
 		}
-		$plugin_data = get_plugin_data( WP_CONTENT_DIR . "/$plugin_file", false, false ); //Do not apply markup/translate as it'll be cached.
+
+		// Do not apply markup/translate as it will be cached.
+		$plugin_data = get_plugin_data( WP_CONTENT_DIR . "/$plugin_file", false, false );
+
 		if ( empty( $plugin_data['Name'] ) ) {
 			$plugin_data['Name'] = $plugin_file;
 		}
+
 		$dropins[ $plugin_file ] = $plugin_data;
 	}
 
@@ -477,21 +485,21 @@ function get_dropins() {
  */
 function _get_dropins() {
 	$dropins = array(
-		'advanced-cache.php'      => array( __( 'Advanced caching plugin.' ), 'WP_CACHE' ), // WP_CACHE
-		'db.php'                  => array( __( 'Custom database class.' ), true ), // auto on load
-		'db-error.php'            => array( __( 'Custom database error message.' ), true ), // auto on error
-		'install.php'             => array( __( 'Custom installation script.' ), true ), // auto on installation
-		'maintenance.php'         => array( __( 'Custom maintenance message.' ), true ), // auto on maintenance
-		'object-cache.php'        => array( __( 'External object cache.' ), true ), // auto on load
-		'php-error.php'           => array( __( 'Custom PHP error message.' ), true ), // auto on error
-		'fatal-error-handler.php' => array( __( 'Custom PHP fatal error handler.' ), true ), // auto on error
+		'advanced-cache.php'      => array( __( 'Advanced caching plugin.' ), 'WP_CACHE' ),  // WP_CACHE
+		'db.php'                  => array( __( 'Custom database class.' ), true ),          // Auto on load.
+		'db-error.php'            => array( __( 'Custom database error message.' ), true ),  // Auto on error.
+		'install.php'             => array( __( 'Custom installation script.' ), true ),     // Auto on installation.
+		'maintenance.php'         => array( __( 'Custom maintenance message.' ), true ),     // Auto on maintenance.
+		'object-cache.php'        => array( __( 'External object cache.' ), true ),          // Auto on load.
+		'php-error.php'           => array( __( 'Custom PHP error message.' ), true ),       // Auto on error.
+		'fatal-error-handler.php' => array( __( 'Custom PHP fatal error handler.' ), true ), // Auto on error.
 	);
 
 	if ( is_multisite() ) {
 		$dropins['sunrise.php']        = array( __( 'Executed before Multisite is loaded.' ), 'SUNRISE' ); // SUNRISE
-		$dropins['blog-deleted.php']   = array( __( 'Custom site deleted message.' ), true ); // auto on deleted blog
-		$dropins['blog-inactive.php']  = array( __( 'Custom site inactive message.' ), true ); // auto on inactive blog
-		$dropins['blog-suspended.php'] = array( __( 'Custom site suspended message.' ), true ); // auto on archived or spammed blog
+		$dropins['blog-deleted.php']   = array( __( 'Custom site deleted message.' ), true );   // Auto on deleted blog.
+		$dropins['blog-inactive.php']  = array( __( 'Custom site inactive message.' ), true );  // Auto on inactive blog.
+		$dropins['blog-suspended.php'] = array( __( 'Custom site suspended message.' ), true ); // Auto on archived or spammed blog.
 	}
 
 	return $dropins;
@@ -638,7 +646,8 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 
 	if ( ( $network_wide && ! isset( $current[ $plugin ] ) ) || ( ! $network_wide && ! in_array( $plugin, $current ) ) ) {
 		if ( ! empty( $redirect ) ) {
-			wp_redirect( add_query_arg( '_error_nonce', wp_create_nonce( 'plugin-activation-error_' . $plugin ), $redirect ) ); // we'll override this later if the plugin can be included without fatal error
+			// We'll override this later if the plugin can be included without fatal error.
+			wp_redirect( add_query_arg( '_error_nonce', wp_create_nonce( 'plugin-activation-error_' . $plugin ), $redirect ) );
 		}
 
 		ob_start();
@@ -908,7 +917,8 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 
 	if ( ! WP_Filesystem( $credentials ) ) {
 		ob_start();
-		request_filesystem_credentials( $url, '', true ); // Failed to connect, Error and request again.
+		// Failed to connect. Error and request again.
+		request_filesystem_credentials( $url, '', true );
 		$data = ob_get_clean();
 
 		if ( ! empty( $data ) ) {
@@ -958,7 +968,8 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 		$this_plugin_dir = trailingslashit( dirname( $plugins_dir . $plugin_file ) );
 
 		// If plugin is in its own directory, recursively delete the directory.
-		if ( strpos( $plugin_file, '/' ) && $this_plugin_dir != $plugins_dir ) { //base check on if plugin includes directory separator AND that it's not the root plugin folder
+		// Base check on if plugin includes directory separator AND that it's not the root plugin folder.
+		if ( strpos( $plugin_file, '/' ) && $this_plugin_dir != $plugins_dir ) {
 			$deleted = $wp_filesystem->delete( $this_plugin_dir, true );
 		} else {
 			$deleted = $wp_filesystem->delete( $plugins_dir . $plugin_file );
@@ -1237,7 +1248,7 @@ function uninstall_plugin( $plugin ) {
 }
 
 //
-// Menu
+// Menu.
 //
 
 /**
@@ -1306,7 +1317,7 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 
 	$_registered_pages[ $hookname ] = true;
 
-	// No parent as top level
+	// No parent as top level.
 	$_parent_pages[ $menu_slug ] = false;
 
 	return $hookname;
@@ -1412,7 +1423,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
 			}
 		}
 	}
-	// Sort the parent array
+	// Sort the parent array.
 	ksort( $submenu[ $parent_slug ] );
 
 	$hookname = get_plugin_page_hookname( $menu_slug, $parent_slug );
@@ -1793,7 +1804,7 @@ function menu_page_url( $menu_slug, $echo = true ) {
 }
 
 //
-// Pluggable Menu Support -- Private
+// Pluggable Menu Support -- Private.
 //
 /**
  * Gets the parent file of the current admin page.
@@ -1932,7 +1943,7 @@ function get_admin_page_title() {
 						return $submenu_array[3];
 				}
 
-				if ( $submenu_array[2] != $pagenow || isset( $_GET['page'] ) ) { // not the current page
+				if ( $submenu_array[2] != $pagenow || isset( $_GET['page'] ) ) { // Not the current page.
 					continue;
 				}
 
