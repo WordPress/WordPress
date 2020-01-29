@@ -3922,7 +3922,7 @@ img {
 
 	.fileedit-sub input[type="submit"] {
 		margin-bottom: 0px;
-		padding: 4px 18px;
+		padding: 0px 18px;
 	}
 
 	#documentation label[for="docs-list"] {
