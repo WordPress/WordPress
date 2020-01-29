@@ -79,16 +79,17 @@ function edit_comment() {
 	}
 
 	if ( ! empty( $_POST['edit_date'] ) ) {
-		$aa                    = $_POST['aa'];
-		$mm                    = $_POST['mm'];
-		$jj                    = $_POST['jj'];
-		$hh                    = $_POST['hh'];
-		$mn                    = $_POST['mn'];
-		$ss                    = $_POST['ss'];
-		$jj                    = ( $jj > 31 ) ? 31 : $jj;
-		$hh                    = ( $hh > 23 ) ? $hh - 24 : $hh;
-		$mn                    = ( $mn > 59 ) ? $mn - 60 : $mn;
-		$ss                    = ( $ss > 59 ) ? $ss - 60 : $ss;
+		$aa = $_POST['aa'];
+		$mm = $_POST['mm'];
+		$jj = $_POST['jj'];
+		$hh = $_POST['hh'];
+		$mn = $_POST['mn'];
+		$ss = $_POST['ss'];
+		$jj = ( $jj > 31 ) ? 31 : $jj;
+		$hh = ( $hh > 23 ) ? $hh - 24 : $hh;
+		$mn = ( $mn > 59 ) ? $mn - 60 : $mn;
+		$ss = ( $ss > 59 ) ? $ss - 60 : $ss;
+
 		$_POST['comment_date'] = "$aa-$mm-$jj $hh:$mn:$ss";
 	}
 

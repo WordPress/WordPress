@@ -438,7 +438,7 @@ function get_comment_count( $post_id = 0 ) {
 }
 
 //
-// Comment meta functions
+// Comment meta functions.
 //
 
 /**
@@ -657,7 +657,7 @@ function sanitize_comment_cookies() {
 function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	global $wpdb;
 
-	// Simple duplicate check
+	// Simple duplicate check.
 	// expected_slashed ($comment_post_ID, $comment_author, $comment_author_email, $comment_content)
 	$dupe = $wpdb->prepare(
 		"SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_parent = %s AND comment_approved != 'trash' AND ( comment_author = %s ",
@@ -869,7 +869,7 @@ function wp_check_comment_flood( $is_flood, $ip, $email, $date, $avoid_die = fal
 		return $is_flood;
 	}
 
-	// don't throttle admins or moderators
+	// Don't throttle admins or moderators.
 	if ( current_user_can( 'manage_options' ) || current_user_can( 'moderate_comments' ) ) {
 		return false;
 	}
@@ -1093,7 +1093,7 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 			}
 		}
 
-		// Find this comment's top level parent if threading is enabled
+		// Find this comment's top-level parent if threading is enabled.
 		if ( $args['max_depth'] > 1 && 0 != $comment->comment_parent ) {
 			return get_page_of_comment( $comment->comment_parent, $args );
 		}
@@ -1120,7 +1120,7 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 		if ( 0 == $older_comment_count ) {
 			$page = 1;
 
-			// Divide comments older than this one by comments per page to get this comment's page number
+			// Divide comments older than this one by comments per page to get this comment's page number.
 		} else {
 			$page = ceil( ( $older_comment_count + 1 ) / $args['per_page'] );
 		}
@@ -1180,7 +1180,7 @@ function wp_get_comment_fields_max_lengths() {
 			$col_length = $wpdb->get_col_length( $wpdb->comments, $column );
 			$max_length = 0;
 
-			// No point if we can't get the DB column lengths
+			// No point if we can't get the DB column lengths.
 			if ( is_wp_error( $col_length ) ) {
 				break;
 			}
@@ -1272,7 +1272,7 @@ function wp_blacklist_check( $author, $email, $url, $comment, $user_ip, $user_ag
 
 	$mod_keys = trim( get_option( 'blacklist_keys' ) );
 	if ( '' == $mod_keys ) {
-		return false; // If moderation keys are empty
+		return false; // If moderation keys are empty.
 	}
 
 	// Ensure HTML tags are not being used to bypass the blacklist.
@@ -1283,12 +1283,12 @@ function wp_blacklist_check( $author, $email, $url, $comment, $user_ip, $user_ag
 	foreach ( (array) $words as $word ) {
 		$word = trim( $word );
 
-		// Skip empty lines
+		// Skip empty lines.
 		if ( empty( $word ) ) {
 			continue; }
 
-		// Do some escaping magic so that '#' chars in the
-		// spam words don't break things:
+		// Do some escaping magic so that '#' chars
+		// in the spam words don't break things:
 		$word = preg_quote( $word, '#' );
 
 		$pattern = "#$word#i";
@@ -1407,7 +1407,7 @@ function wp_delete_comment( $comment_id, $force_delete = false ) {
 		clean_comment_cache( $children );
 	}
 
-	// Delete metadata
+	// Delete metadata.
 	$meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->commentmeta WHERE comment_id = %d", $comment->comment_ID ) );
 	foreach ( $meta_ids as $mid ) {
 		delete_metadata_by_mid( 'comment', $mid );
@@ -1690,15 +1690,15 @@ function wp_get_comment_status( $comment_id ) {
  */
 function wp_transition_comment_status( $new_status, $old_status, $comment ) {
 	/*
-	 * Translate raw statuses to human readable formats for the hooks.
+	 * Translate raw statuses to human-readable formats for the hooks.
 	 * This is not a complete list of comment status, it's only the ones
-	 * that need to be renamed
+	 * that need to be renamed.
 	 */
 	$comment_statuses = array(
 		0         => 'unapproved',
-		'hold'    => 'unapproved', // wp_set_comment_status() uses "hold"
+		'hold'    => 'unapproved', // wp_set_comment_status() uses "hold".
 		1         => 'approved',
-		'approve' => 'approved', // wp_set_comment_status() uses "approve"
+		'approve' => 'approved',   // wp_set_comment_status() uses "approve".
 	);
 	if ( isset( $comment_statuses[ $new_status ] ) ) {
 		$new_status = $comment_statuses[ $new_status ];
@@ -1707,7 +1707,7 @@ function wp_transition_comment_status( $new_status, $old_status, $comment ) {
 		$old_status = $comment_statuses[ $old_status ];
 	}
 
-	// Call the hooks
+	// Call the hooks.
 	if ( $new_status != $old_status ) {
 		/**
 		 * Fires when the comment status is in transition.
@@ -2020,7 +2020,7 @@ function wp_filter_comment( $commentdata ) {
  * @return bool Whether comment should be blocked.
  */
 function wp_throttle_comment_flood( $block, $time_lastcomment, $time_newcomment ) {
-	if ( $block ) { // a plugin has already blocked... we'll let that decision stand
+	if ( $block ) { // A plugin has already blocked... we'll let that decision stand.
 		return $block;
 	}
 	if ( ( $time_newcomment - $time_lastcomment ) < 15 ) {
@@ -2321,7 +2321,7 @@ function wp_set_comment_status( $comment_id, $comment_status, $wp_error = false 
 function wp_update_comment( $commentarr ) {
 	global $wpdb;
 
-	// First, get all of the original fields
+	// First, get all of the original fields.
 	$comment = get_comment( $commentarr['comment_ID'], ARRAY_A );
 	if ( empty( $comment ) ) {
 		return 0;
@@ -2430,7 +2430,7 @@ function wp_defer_comment_counting( $defer = null ) {
 
 	if ( is_bool( $defer ) ) {
 		$_defer = $defer;
-		// flush any deferred counts
+		// Flush any deferred counts.
 		if ( ! $defer ) {
 			wp_update_comment_count( null, true );
 		}
@@ -2586,7 +2586,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 		return false;
 	}
 
-	//Do not search for a pingback server on our own uploads
+	// Do not search for a pingback server on our own uploads.
 	$uploads_dir = wp_get_upload_dir();
 	if ( 0 === strpos( $url, $uploads_dir['baseurl'] ) ) {
 		return false;
@@ -2613,7 +2613,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 		return false;
 	}
 
-	// Now do a GET since we're going to look in the html headers (and we're sure it's not a binary file)
+	// Now do a GET since we're going to look in the html headers (and we're sure it's not a binary file).
 	$response = wp_safe_remote_get(
 		$url,
 		array(
@@ -2639,7 +2639,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 		$pingback_server_url_len = $pingback_href_end - $pingback_href_start;
 		$pingback_server_url     = substr( $contents, $pingback_href_start, $pingback_server_url_len );
 
-		// We may find rel="pingback" but an incomplete pingback URL
+		// We may find rel="pingback" but an incomplete pingback URL.
 		if ( $pingback_server_url_len > 0 ) { // We got it!
 			return $pingback_server_url;
 		}
@@ -2804,7 +2804,7 @@ function pingback( $content, $post_id ) {
 	include_once( ABSPATH . WPINC . '/class-IXR.php' );
 	include_once( ABSPATH . WPINC . '/class-wp-http-ixr-client.php' );
 
-	// original code by Mort (http://mort.mine.nu:8080)
+	// Original code by Mort (http://mort.mine.nu:8080).
 	$post_links = array();
 
 	$post = get_post( $post_id );
@@ -2818,22 +2818,27 @@ function pingback( $content, $post_id ) {
 		$content = $post->post_content;
 	}
 
-	// Step 1
-	// Parsing the post, external links (if any) are stored in the $post_links array
+	/*
+	 * Step 1.
+	 * Parsing the post, external links (if any) are stored in the $post_links array.
+	 */
 	$post_links_temp = wp_extract_urls( $content );
 
-	// Step 2.
-	// Walking thru the links array
-	// first we get rid of links pointing to sites, not to specific files
-	// Example:
-	// http://dummy-weblog.org
-	// http://dummy-weblog.org/
-	// http://dummy-weblog.org/post.php
-	// We don't wanna ping first and second types, even if they have a valid <link/>
-
-	foreach ( (array) $post_links_temp as $link_test ) :
-		if ( ! in_array( $link_test, $pung ) && ( url_to_postid( $link_test ) != $post->ID ) // If we haven't pung it already and it isn't a link to itself
-				&& ! is_local_attachment( $link_test ) ) : // Also, let's never ping local attachments.
+	/*
+	 * Step 2.
+	 * Walking through the links array.
+	 * First we get rid of links pointing to sites, not to specific files.
+	 * Example:
+	 * http://dummy-weblog.org
+	 * http://dummy-weblog.org/
+	 * http://dummy-weblog.org/post.php
+	 * We don't wanna ping first and second types, even if they have a valid <link/>.
+	 */
+	foreach ( (array) $post_links_temp as $link_test ) {
+		// If we haven't pung it already and it isn't a link to itself.
+		if ( ! in_array( $link_test, $pung ) && ( url_to_postid( $link_test ) != $post->ID )
+				// Also, let's never ping local attachments.
+				&& ! is_local_attachment( $link_test ) ) {
 			$test = @parse_url( $link_test );
 			if ( $test ) {
 				if ( isset( $test['query'] ) ) {
@@ -2842,10 +2847,11 @@ function pingback( $content, $post_id ) {
 					$post_links[] = $link_test;
 				}
 			}
-		endif;
-	endforeach;
+		}
+	}
 
 	$post_links = array_unique( $post_links );
+
 	/**
 	 * Fires just before pinging back links found in a post.
 	 *
@@ -2862,10 +2868,10 @@ function pingback( $content, $post_id ) {
 
 		if ( $pingback_server_url ) {
 			set_time_limit( 60 );
-			// Now, the RPC call
+			// Now, the RPC call.
 			$pagelinkedfrom = get_permalink( $post );
 
-			// using a timeout of 3 seconds should be enough to cover slow servers
+			// Using a timeout of 3 seconds should be enough to cover slow servers.
 			$client          = new WP_HTTP_IXR_Client( $pingback_server_url );
 			$client->timeout = 3;
 			/**
@@ -2881,10 +2887,10 @@ function pingback( $content, $post_id ) {
 			 * @param string $pagelinkedfrom      URL of page linked from.
 			 */
 			$client->useragent = apply_filters( 'pingback_useragent', $client->useragent . ' -- WordPress/' . get_bloginfo( 'version' ), $client->useragent, $pingback_server_url, $pagelinkedto, $pagelinkedfrom );
-			// when set to true, this outputs debug messages by itself
+			// When set to true, this outputs debug messages by itself.
 			$client->debug = false;
 
-			if ( $client->query( 'pingback.ping', $pagelinkedfrom, $pagelinkedto ) || ( isset( $client->error->code ) && 48 == $client->error->code ) ) { // Already registered
+			if ( $client->query( 'pingback.ping', $pagelinkedfrom, $pagelinkedto ) || ( isset( $client->error->code ) && 48 == $client->error->code ) ) { // Already registered.
 				add_ping( $post, $pagelinkedto );
 			}
 		}
@@ -2960,15 +2966,15 @@ function weblog_ping( $server = '', $path = '' ) {
 	include_once( ABSPATH . WPINC . '/class-IXR.php' );
 	include_once( ABSPATH . WPINC . '/class-wp-http-ixr-client.php' );
 
-	// using a timeout of 3 seconds should be enough to cover slow servers
+	// Using a timeout of 3 seconds should be enough to cover slow servers.
 	$client             = new WP_HTTP_IXR_Client( $server, ( ( ! strlen( trim( $path ) ) || ( '/' == $path ) ) ? false : $path ) );
 	$client->timeout    = 3;
 	$client->useragent .= ' -- WordPress/' . get_bloginfo( 'version' );
 
-	// when set to true, this outputs debug messages by itself
+	// When set to true, this outputs debug messages by itself.
 	$client->debug = false;
 	$home          = trailingslashit( home_url() );
-	if ( ! $client->query( 'weblogUpdates.extendedPing', get_option( 'blogname' ), $home, get_bloginfo( 'rss2_url' ) ) ) { // then try a normal ping
+	if ( ! $client->query( 'weblogUpdates.extendedPing', get_option( 'blogname' ), $home, get_bloginfo( 'rss2_url' ) ) ) { // Then try a normal ping.
 		$client->query( 'weblogUpdates.ping', get_option( 'blogname' ), $home );
 	}
 }
@@ -3006,7 +3012,7 @@ function xmlrpc_pingback_error( $ixr_error ) {
 }
 
 //
-// Cache
+// Cache.
 //
 
 /**
@@ -3085,7 +3091,7 @@ function _prime_comment_caches( $comment_ids, $update_meta_cache = true ) {
 }
 
 //
-// Internal
+// Internal.
 //
 
 /**
@@ -3316,7 +3322,7 @@ function wp_handle_comment_submission( $comment_data ) {
 
 	}
 
-	// If the user is logged in
+	// If the user is logged in.
 	$user = wp_get_current_user();
 	if ( $user->exists() ) {
 		if ( empty( $user->display_name ) ) {
@@ -3330,8 +3336,8 @@ function wp_handle_comment_submission( $comment_data ) {
 			if ( ! isset( $comment_data['_wp_unfiltered_html_comment'] )
 				|| ! wp_verify_nonce( $comment_data['_wp_unfiltered_html_comment'], 'unfiltered-html-comment_' . $comment_post_ID )
 			) {
-				kses_remove_filters(); // start with a clean slate
-				kses_init_filters(); // set up the filters
+				kses_remove_filters(); // Start with a clean slate.
+				kses_init_filters();   // Set up the filters.
 				remove_filter( 'pre_comment_content', 'wp_filter_post_kses' );
 				add_filter( 'pre_comment_content', 'wp_filter_kses' );
 			}

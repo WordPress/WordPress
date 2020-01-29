@@ -770,7 +770,7 @@ function media_upload_form_handler() {
 				if ( $image_alt != get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) {
 					$image_alt = wp_strip_all_tags( $image_alt, true );
 
-					// Update_meta expects slashed.
+					// update_post_meta() expects slashed.
 					update_post_meta( $attachment_id, '_wp_attachment_image_alt', wp_slash( $image_alt ) );
 				}
 			}
@@ -2529,7 +2529,7 @@ function media_upload_gallery_form( $errors ) {
 	</div>
 	<form enctype="multipart/form-data" method="post" action="<?php echo esc_url( $form_action_url ); ?>" class="<?php echo $form_class; ?>" id="gallery-form">
 		<?php wp_nonce_field( 'media-form' ); ?>
-		<?php //media_upload_form( $errors ); ?>
+		<?php // media_upload_form( $errors ); ?>
 	<table class="widefat">
 	<thead><tr>
 	<th><?php _e( 'Media' ); ?></th>
@@ -2831,7 +2831,7 @@ function media_upload_library_form( $errors ) {
 
 	<form enctype="multipart/form-data" method="post" action="<?php echo esc_url( $form_action_url ); ?>" class="<?php echo $form_class; ?>" id="library-form">
 	<?php wp_nonce_field( 'media-form' ); ?>
-	<?php //media_upload_form( $errors ); ?>
+	<?php // media_upload_form( $errors ); ?>
 
 	<script type="text/javascript">
 	jQuery(function($){

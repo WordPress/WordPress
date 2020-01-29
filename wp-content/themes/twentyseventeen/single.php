@@ -17,7 +17,7 @@ get_header(); ?>
 		<main id="main" class="site-main" role="main">
 
 			<?php
-			/* Start the Loop */
+			// Start the Loop.
 			while ( have_posts() ) :
 				the_post();
 
@@ -35,7 +35,7 @@ get_header(); ?>
 					)
 				);
 
-			endwhile; // End of the loop.
+			endwhile; // End the loop.
 			?>
 
 		</main><!-- #main -->

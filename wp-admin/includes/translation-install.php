@@ -17,7 +17,8 @@
  * @return object|WP_Error On success an object of translations, WP_Error on failure.
  */
 function translations_api( $type, $args = null ) {
-	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
+	// Include an unmodified $wp_version.
+	include( ABSPATH . WPINC . '/version.php' );
 
 	if ( ! in_array( $type, array( 'plugins', 'themes', 'core' ) ) ) {
 		return  new WP_Error( 'invalid_type', __( 'Invalid translation type.' ) );
@@ -47,12 +48,12 @@ function translations_api( $type, $args = null ) {
 			'body'    => array(
 				'wp_version' => $wp_version,
 				'locale'     => get_locale(),
-				'version'    => $args['version'], // Version of plugin, theme or core
+				'version'    => $args['version'], // Version of plugin, theme or core.
 			),
 		);
 
 		if ( 'core' !== $type ) {
-			$options['body']['slug'] = $args['slug']; // Plugin or theme slug
+			$options['body']['slug'] = $args['slug']; // Plugin or theme slug.
 		}
 
 		$request = wp_remote_post( $url, $options );
@@ -126,7 +127,8 @@ function wp_get_available_translations() {
 		}
 	}
 
-	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
+	// Include an unmodified $wp_version.
+	include( ABSPATH . WPINC . '/version.php' );
 
 	$api = translations_api( 'core', array( 'version' => $wp_version ) );
 

@@ -77,7 +77,7 @@ function display_header( $body_classes = '' ) {
 <p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></p>
 
 	<?php
-} // end display_header()
+} // End display_header().
 
 /**
  * Display installer setup form.
@@ -94,7 +94,7 @@ function display_setup_form( $error = null ) {
 	$sql        = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $wpdb->users ) );
 	$user_table = ( $wpdb->get_var( $sql ) != null );
 
-	// Ensure that Blogs appear in search engines by default.
+	// Ensure that sites appear in search engines by default.
 	$blog_public = 1;
 	if ( isset( $_POST['weblog_title'] ) ) {
 		$blog_public = isset( $_POST['blog_public'] );
@@ -209,7 +209,7 @@ function display_setup_form( $error = null ) {
 	<input type="hidden" name="language" value="<?php echo isset( $_REQUEST['language'] ) ? esc_attr( $_REQUEST['language'] ) : ''; ?>" />
 </form>
 	<?php
-} // end display_setup_form()
+} // End display_setup_form().
 
 // Let's check to make sure WP isn't already installed.
 if ( is_blog_installed() ) {
@@ -303,7 +303,7 @@ if ( ! empty( $_REQUEST['language'] ) ) {
 $scripts_to_print = array( 'jquery' );
 
 switch ( $step ) {
-	case 0: // Step 0
+	case 0: // Step 0.
 		if ( wp_can_install_language_pack() && empty( $language ) ) {
 			$languages = wp_get_available_translations();
 			if ( $languages ) {
@@ -355,7 +355,7 @@ switch ( $step ) {
 		$scripts_to_print[] = 'user-profile';
 
 		display_header();
-		// Fill in the data we gathered
+		// Fill in the data we gathered.
 		$weblog_title         = isset( $_POST['weblog_title'] ) ? trim( wp_unslash( $_POST['weblog_title'] ) ) : '';
 		$user_name            = isset( $_POST['user_name'] ) ? trim( wp_unslash( $_POST['user_name'] ) ) : '';
 		$admin_password       = isset( $_POST['admin_password'] ) ? wp_unslash( $_POST['admin_password'] ) : '';
@@ -366,22 +366,22 @@ switch ( $step ) {
 		// Check email address.
 		$error = false;
 		if ( empty( $user_name ) ) {
-			// TODO: poka-yoke
+			// TODO: Poka-yoke.
 			display_setup_form( __( 'Please provide a valid username.' ) );
 			$error = true;
 		} elseif ( $user_name != sanitize_user( $user_name, true ) ) {
 			display_setup_form( __( 'The username you provided has invalid characters.' ) );
 			$error = true;
 		} elseif ( $admin_password != $admin_password_check ) {
-			// TODO: poka-yoke
+			// TODO: Poka-yoke.
 			display_setup_form( __( 'Your passwords do not match. Please try again.' ) );
 			$error = true;
 		} elseif ( empty( $admin_email ) ) {
-			// TODO: poka-yoke
+			// TODO: Poka-yoke.
 			display_setup_form( __( 'You must provide an email address.' ) );
 			$error = true;
 		} elseif ( ! is_email( $admin_email ) ) {
-			// TODO: poka-yoke
+			// TODO: Poka-yoke.
 			display_setup_form( __( 'Sorry, that isn&#8217;t a valid email address. Email addresses look like <code>username@example.com</code>.' ) );
 			$error = true;
 		}

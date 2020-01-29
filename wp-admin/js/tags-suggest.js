@@ -89,8 +89,8 @@
 			focus: function( event, ui ) {
 				$element.attr( 'aria-activedescendant', 'wp-tags-autocomplete-' + ui.item.id );
 
-				// Don't empty the input field when using the arrow keys to
-				// highlight items. See api.jqueryui.com/autocomplete/#event-focus
+				// Don't empty the input field when using the arrow keys
+				// to highlight items. See api.jqueryui.com/autocomplete/#event-focus
 				event.preventDefault();
 			},
 			select: function( event, ui ) {
@@ -113,7 +113,7 @@
 						window.tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
 					}
 
-					// Do not close Quick Edit / Bulk Edit
+					// Do not close Quick Edit / Bulk Edit.
 					event.preventDefault();
 					event.stopPropagation();
 				}
@@ -175,14 +175,16 @@
 			.attr( 'role', 'listbox' )
 			.removeAttr( 'tabindex' ) // Remove the `tabindex=0` attribute added by jQuery UI.
 
-			// Looks like Safari and VoiceOver need an `aria-selected` attribute. See ticket #33301.
-			// The `menufocus` and `menublur` events are the same events used to add and remove
-			// the `ui-state-focus` CSS class on the menu items. See jQuery UI Menu Widget.
+			/*
+			 * Looks like Safari and VoiceOver need an `aria-selected` attribute. See ticket #33301.
+			 * The `menufocus` and `menublur` events are the same events used to add and remove
+			 * the `ui-state-focus` CSS class on the menu items. See jQuery UI Menu Widget.
+			 */
 			.on( 'menufocus', function( event, ui ) {
 				ui.item.attr( 'aria-selected', 'true' );
 			})
 			.on( 'menublur', function() {
-				// The `menublur` event returns an object where the item is `null`
+				// The `menublur` event returns an object where the item is `null`,
 				// so we need to find the active item with other means.
 				$( this ).find( '[aria-selected="true"]' ).removeAttr( 'aria-selected' );
 			});

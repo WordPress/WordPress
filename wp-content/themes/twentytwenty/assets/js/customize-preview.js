@@ -25,11 +25,11 @@
 		return deferred.promise();
 	}
 
-	// Selective refresh for "Fixed Background Image"
+	// Selective refresh for "Fixed Background Image".
 	api.selectiveRefresh.partialConstructor.cover_fixed = api.selectiveRefresh.Partial.extend( {
 
 		/**
-		 * Override the refresh method
+		 * Override the refresh method.
 		 *
 		 * @return {jQuery.Promise} Resolved promise.
 		 */
@@ -49,7 +49,7 @@
 
 	} );
 
-	// Selective refresh for "Image Overlay Opacity"
+	// Selective refresh for "Image Overlay Opacity".
 	api.selectiveRefresh.partialConstructor.cover_opacity = api.selectiveRefresh.Partial.extend( {
 
 		/**
@@ -60,7 +60,7 @@
 		attrs: {},
 
 		/**
-		 * Override the refresh method
+		 * Override the refresh method.
 		 *
 		 * @return {jQuery.Promise} Resolved promise.
 		 */

@@ -26,7 +26,7 @@ if ( ! class_exists( 'TwentyTwenty_Non_Latin_Languages' ) ) {
 		 */
 		public static function get_non_latin_css( $type = 'front-end' ) {
 
-			// Fetch users locale.
+			// Fetch site locale.
 			$locale = get_bloginfo( 'language' );
 
 			// Define fallback fonts for non-latin languages.

@@ -580,7 +580,7 @@ class WP_Debug_Data {
 
 		if ( function_exists( 'phpversion' ) ) {
 			$php_version_debug = phpversion();
-			// Whether PHP supports 64bit
+			// Whether PHP supports 64-bit.
 			$php64bit = ( PHP_INT_SIZE * 8 === 64 );
 
 			$php_version = sprintf(
@@ -677,7 +677,7 @@ class WP_Debug_Data {
 			);
 		}
 
-		// SUHOSIN
+		// SUHOSIN.
 		$suhosin_loaded = ( extension_loaded( 'suhosin' ) || ( defined( 'SUHOSIN_PATCH' ) && constant( 'SUHOSIN_PATCH' ) ) );
 
 		$info['wp-server']['fields']['suhosin'] = array(
@@ -686,7 +686,7 @@ class WP_Debug_Data {
 			'debug' => $suhosin_loaded,
 		);
 
-		// Imagick
+		// Imagick.
 		$imagick_loaded = extension_loaded( 'imagick' );
 
 		$info['wp-server']['fields']['imagick_availability'] = array(
@@ -1012,7 +1012,7 @@ class WP_Debug_Data {
 			$theme_version = $theme->version;
 			$theme_author  = $theme->author;
 
-			// Sanitize
+			// Sanitize.
 			$theme_author = wp_kses( $theme_author, array() );
 
 			$theme_version_string       = __( 'No version or author information is available.' );
@@ -1054,7 +1054,7 @@ class WP_Debug_Data {
 			);
 		}
 
-		// Add more filesystem checks
+		// Add more filesystem checks.
 		if ( defined( 'WPMU_PLUGIN_DIR' ) && is_dir( WPMU_PLUGIN_DIR ) ) {
 			$is_writable_wpmu_plugin_dir = wp_is_writable( WPMU_PLUGIN_DIR );
 

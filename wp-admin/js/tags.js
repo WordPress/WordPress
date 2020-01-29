@@ -132,10 +132,14 @@ jQuery(document).ready(function($) {
 
 			parent = form.find( 'select#parent' ).val();
 
-			if ( parent > 0 && $('#tag-' + parent ).length > 0 ) // If the parent exists on this page, insert it below. Else insert it at the top of the list.
-				$( '.tags #tag-' + parent ).after( res.responses[0].supplemental.noparents ); // As the parent exists, Insert the version with - - - prefixed
-			else
-				$( '.tags' ).prepend( res.responses[0].supplemental.parents ); // As the parent is not visible, Insert the version with Parent - Child - ThisTerm
+			// If the parent exists on this page, insert it below. Else insert it at the top of the list.
+			if ( parent > 0 && $('#tag-' + parent ).length > 0 ) {
+				// As the parent exists, insert the version with - - - prefixed.
+				$( '.tags #tag-' + parent ).after( res.responses[0].supplemental.noparents );
+			} else {
+				// As the parent is not visible, insert the version with Parent - Child - ThisTerm.
+				$( '.tags' ).prepend( res.responses[0].supplemental.parents );
+			}
 
 			$('.tags .no-items').remove();
 
@@ -143,7 +147,7 @@ jQuery(document).ready(function($) {
 				// Parents field exists, Add new term to the list.
 				term = res.responses[1].supplemental;
 
-				// Create an indent for the Parent field
+				// Create an indent for the Parent field.
 				indent = '';
 				for ( i = 0; i < res.responses[1].position; i++ )
 					indent += '&nbsp;&nbsp;&nbsp;';

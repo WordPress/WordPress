@@ -79,7 +79,7 @@
 		 * @return {boolean}
 		 */
 		supportsVideo: function() {
-			// Don't load video on small screens. @todo: consider bandwidth and other factors.
+			// Don't load video on small screens. @todo Consider bandwidth and other factors.
 			if ( window.innerWidth < settings.minWidth || window.innerHeight < settings.minHeight ) {
 				return false;
 			}

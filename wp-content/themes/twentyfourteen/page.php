@@ -25,7 +25,7 @@ if ( is_front_page() && twentyfourteen_has_featured_posts() ) {
 		<div id="content" class="site-content" role="main">
 
 			<?php
-				// Start the Loop.
+			// Start the Loop.
 			while ( have_posts() ) :
 				the_post();
 

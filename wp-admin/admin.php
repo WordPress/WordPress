@@ -93,12 +93,12 @@ require_once( ABSPATH . 'wp-admin/includes/admin.php' );
 
 auth_redirect();
 
-// Schedule trash collection
+// Schedule trash collection.
 if ( ! wp_next_scheduled( 'wp_scheduled_delete' ) && ! wp_installing() ) {
 	wp_schedule_event( time(), 'daily', 'wp_scheduled_delete' );
 }
 
-// Schedule Transient cleanup.
+// Schedule transient cleanup.
 if ( ! wp_next_scheduled( 'delete_expired_transients' ) && ! wp_installing() ) {
 	wp_schedule_event( time(), 'daily', 'delete_expired_transients' );
 }
@@ -182,7 +182,7 @@ if ( isset( $plugin_page ) ) {
 
 		// Back-compat for plugins using add_management_page().
 		if ( empty( $page_hook ) && 'edit.php' == $pagenow && '' != get_plugin_page_hook( $plugin_page, 'tools.php' ) ) {
-			// There could be plugin specific params on the URL, so we need the whole query string
+			// There could be plugin specific params on the URL, so we need the whole query string.
 			if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
 				$query_string = $_SERVER['QUERY_STRING'];
 			} else {
@@ -347,7 +347,7 @@ if ( isset( $plugin_page ) ) {
 
 	include( ABSPATH . 'wp-admin/admin-footer.php' );
 
-	// Make sure rules are flushed
+	// Make sure rules are flushed.
 	flush_rewrite_rules( false );
 
 	exit();

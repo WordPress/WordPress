@@ -45,7 +45,8 @@ function delete_theme( $stylesheet, $redirect = '' ) {
 
 	if ( ! WP_Filesystem( $credentials ) ) {
 		ob_start();
-		request_filesystem_credentials( $redirect, '', true ); // Failed to connect, Error and request again.
+		// Failed to connect. Error and request again.
+		request_filesystem_credentials( $redirect, '', true );
 		$data = ob_get_clean();
 
 		if ( ! empty( $data ) ) {
@@ -194,7 +195,7 @@ function get_theme_update_available( $theme ) {
 				'height'    => 800,
 			),
 			$update['url']
-		); //Theme browser inside WP? replace this, Also, theme preview JS will override this on the available list.
+		); // Theme browser inside WP? Replace this. Also, theme preview JS will override this on the available list.
 		$update_url  = wp_nonce_url( admin_url( 'update.php?action=upgrade-theme&amp;theme=' . urlencode( $stylesheet ) ), 'upgrade-theme_' . $stylesheet );
 
 		if ( ! is_multisite() ) {
@@ -260,7 +261,7 @@ function get_theme_update_available( $theme ) {
  * @return array Array of features keyed by category with translations keyed by slug.
  */
 function get_theme_feature_list( $api = true ) {
-	// Hard-coded list is used if api not accessible.
+	// Hard-coded list is used if API is not accessible.
 	$features = array(
 
 		__( 'Subject' )  => array(
@@ -331,7 +332,7 @@ function get_theme_feature_list( $api = true ) {
 		'Subject'  => __( 'Subject' ),
 	);
 
-	// Loop over the wporg canonical list and apply translations
+	// Loop over the wp.org canonical list and apply translations.
 	$wporg_features = array();
 	foreach ( (array) $feature_list as $feature_category => $feature_items ) {
 		if ( isset( $category_translations[ $feature_category ] ) ) {
@@ -433,7 +434,7 @@ function get_theme_feature_list( $api = true ) {
  *         for more information on the make-up of possible return objects depending on the value of `$action`.
  */
 function themes_api( $action, $args = array() ) {
-	// include an unmodified $wp_version
+	// Include an unmodified $wp_version.
 	include( ABSPATH . WPINC . '/version.php' );
 
 	if ( is_array( $args ) ) {
@@ -451,7 +452,7 @@ function themes_api( $action, $args = array() ) {
 	}
 
 	if ( ! isset( $args->wp_version ) ) {
-		$args->wp_version = substr( $wp_version, 0, 3 ); // X.y
+		$args->wp_version = substr( $wp_version, 0, 3 ); // x.y
 	}
 
 	/**
@@ -655,7 +656,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 		$prepared_themes[ $slug ] = array(
 			'id'           => $slug,
 			'name'         => $theme->display( 'Name' ),
-			'screenshot'   => array( $theme->get_screenshot() ), // @todo multiple
+			'screenshot'   => array( $theme->get_screenshot() ), // @todo Multiple screenshots.
 			'description'  => $theme->display( 'Description' ),
 			'author'       => $theme->display( 'Author', false, true ),
 			'authorAndUri' => $theme->display( 'Author' ),
@@ -674,7 +675,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 		);
 	}
 
-	// Remove 'delete' action if theme has an active child
+	// Remove 'delete' action if theme has an active child.
 	if ( ! empty( $parents ) && array_key_exists( $current_theme, $parents ) ) {
 		unset( $prepared_themes[ $parents[ $current_theme ] ]['actions']['delete'] );
 	}

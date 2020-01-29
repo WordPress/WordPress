@@ -103,19 +103,19 @@ class Plural_Forms {
 			$next = substr( $str, $pos, 1 );
 
 			switch ( $next ) {
-				// Ignore whitespace
+				// Ignore whitespace.
 				case ' ':
 				case "\t":
 					$pos++;
 					break;
 
-				// Variable (n)
+				// Variable (n).
 				case 'n':
 					$output[] = array( 'var' );
 					$pos++;
 					break;
 
-				// Parentheses
+				// Parentheses.
 				case '(':
 					$stack[] = $next;
 					$pos++;
@@ -143,7 +143,7 @@ class Plural_Forms {
 					$pos++;
 					break;
 
-				// Operators
+				// Operators.
 				case '|':
 				case '&':
 				case '>':
@@ -161,7 +161,7 @@ class Plural_Forms {
 					while ( ! empty( $stack ) ) {
 						$o2 = $stack[ count( $stack ) - 1 ];
 
-						// Ternary is right-associative in C
+						// Ternary is right-associative in C.
 						if ( $operator === '?:' || $operator === '?' ) {
 							if ( self::$op_precedence[ $operator ] >= self::$op_precedence[ $o2 ] ) {
 								break;
@@ -177,7 +177,7 @@ class Plural_Forms {
 					$pos += $end_operator;
 					break;
 
-				// Ternary "else"
+				// Ternary "else".
 				case ':':
 					$found = false;
 					$s_pos = count( $stack ) - 1;
@@ -201,7 +201,7 @@ class Plural_Forms {
 					$pos++;
 					break;
 
-				// Default - number or invalid
+				// Default - number or invalid.
 				default:
 					if ( $next >= '0' && $next <= '9' ) {
 						$span     = strspn( $str, self::NUM_CHARS, $pos );

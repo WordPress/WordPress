@@ -399,13 +399,13 @@ class WP_Widget {
 
 		$all_instances = $this->get_settings();
 
-		// We need to update the data
+		// We need to update the data.
 		if ( $this->updated ) {
 			return;
 		}
 
 		if ( isset( $_POST['delete_widget'] ) && $_POST['delete_widget'] ) {
-			// Delete the settings for this instance of the widget
+			// Delete the settings for this instance of the widget.
 			if ( isset( $_POST['the-widget-id'] ) ) {
 				$del_id = $_POST['the-widget-id'];
 			} else {
@@ -464,7 +464,7 @@ class WP_Widget {
 					$all_instances[ $number ] = $instance;
 				}
 
-				break; // run only once
+				break; // Run only once.
 			}
 		}
 
@@ -494,7 +494,7 @@ class WP_Widget {
 		$all_instances = $this->get_settings();
 
 		if ( -1 == $widget_args['number'] ) {
-			// We echo out a form where 'number' can be set later
+			// We echo out a form where 'number' can be set later.
 			$this->_set( '__i__' );
 			$instance = array();
 		} else {

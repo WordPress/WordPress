@@ -21,7 +21,7 @@ if ( ! isset( $HTTP_RAW_POST_DATA ) ) {
 	$HTTP_RAW_POST_DATA = file_get_contents( 'php://input' );
 }
 
-// fix for mozBlog and other cases where '<?xml' isn't on the very first line
+// Fix for mozBlog and other cases where '<?xml' isn't on the very first line.
 if ( isset( $HTTP_RAW_POST_DATA ) ) {
 	$HTTP_RAW_POST_DATA = trim( $HTTP_RAW_POST_DATA );
 }
@@ -82,7 +82,7 @@ $post_default_title = '';
 $wp_xmlrpc_server_class = apply_filters( 'wp_xmlrpc_server_class', 'wp_xmlrpc_server' );
 $wp_xmlrpc_server       = new $wp_xmlrpc_server_class;
 
-// Fire off the request
+// Fire off the request.
 $wp_xmlrpc_server->serve_request();
 
 exit;

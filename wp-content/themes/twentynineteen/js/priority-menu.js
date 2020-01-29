@@ -1,7 +1,7 @@
 (function() {
 
 	/**
-	 * Debounce
+	 * Debounce.
 	 *
 	 * @param {Function} func
 	 * @param {number} wait
@@ -56,7 +56,7 @@
 	 * @param {Element} element
 	 */
 	function showButton(element) {
-		// classList.remove is not supported in IE11
+		// classList.remove is not supported in IE11.
 		element.className = element.className.replace('is-empty', '');
 	}
 
@@ -66,7 +66,7 @@
 	 * @param {Element} element
 	 */
 	function hideButton(element) {
-		// classList.add is not supported in IE11
+		// classList.add is not supported in IE11.
 		if (!element.classList.contains('is-empty')) {
 			element.className += ' is-empty';
 		}
@@ -91,25 +91,25 @@
 	}
 
 	/**
-	 * Set menu container variable
+	 * Set menu container variable.
 	 */
 	var navContainer = document.querySelector('.main-navigation');
 	var breaks       = [];
 
 	/**
-	 * Let’s bail if we our menu doesn't exist
+	 * Let’s bail if we our menu doesn't exist.
 	 */
 	if ( ! navContainer ) {
 		return;
 	}
 
 	/**
-	 * Refreshes the list item from the menu depending on the menu size
+	 * Refreshes the list item from the menu depending on the menu size.
 	 */
 	function updateNavigationMenu( container ) {
 
 		/**
-		 * Let’s bail if our menu is empty
+		 * Let’s bail if our menu is empty.
 		 */
 		if ( ! container.parentNode.querySelector('.main-menu[id]') ) {
 			return;
@@ -122,42 +122,42 @@
 
 		if ( isOverflowingNavivation( visibleList, toggleButton, container ) ) {
 
-			// Record the width of the list
+			// Record the width of the list.
 			breaks.push( visibleList.offsetWidth );
-			// Move last item to the hidden list
+			// Move last item to the hidden list.
 			prependElement( hiddenList, ! visibleList.lastChild || null === visibleList.lastChild ? visibleList.previousElementSibling : visibleList.lastChild );
-			// Show the toggle button
+			// Show the toggle button.
 			showButton( toggleButton );
 
 		} else {
 
-			// There is space for another item in the nav
+			// There is space for another item in the nav.
 			if ( getAvailableSpace( toggleButton, container ) > breaks[breaks.length - 1] ) {
-				// Move the item to the visible list
+				// Move the item to the visible list.
 				visibleList.appendChild( hiddenList.firstChild.nextSibling );
 				breaks.pop();
 			}
 
-			// Hide the dropdown btn if hidden list is empty
+			// Hide the dropdown btn if hidden list is empty.
 			if (breaks.length < 2) {
 				hideButton( toggleButton );
 			}
 		}
 
-		// Recur if the visible list is still overflowing the nav
+		// Recur if the visible list is still overflowing the nav.
 		if ( isOverflowingNavivation( visibleList, toggleButton, container ) ) {
 			updateNavigationMenu( container );
 		}
 	}
 
 	/**
-	 * Run our priority+ function as soon as the document is `ready`
+	 * Run our priority+ function as soon as the document is `ready`.
 	 */
 	document.addEventListener( 'DOMContentLoaded', function() {
 
 		updateNavigationMenu( navContainer );
 
-		// Also, run our priority+ function on selective refresh in the customizer
+		// Also, run our priority+ function on selective refresh in the customizer.
 		var hasSelectiveRefresh = (
 			'undefined' !== typeof wp &&
 			wp.customize &&
@@ -166,7 +166,7 @@
 		);
 
 		if ( hasSelectiveRefresh ) {
-			// Re-run our priority+ function on Nav Menu partial refreshes
+			// Re-run our priority+ function on Nav Menu partial refreshes.
 			wp.customize.selectiveRefresh.bind( 'partial-content-rendered', function ( placement ) {
 
 				var isNewNavMenu = (
@@ -184,14 +184,14 @@
 	});
 
 	/**
-	 * Run our priority+ function on load
+	 * Run our priority+ function on load.
 	 */
 	window.addEventListener( 'load', function() {
 		updateNavigationMenu( navContainer );
 	});
 
 	/**
-	 * Run our priority+ function every time the window resizes
+	 * Run our priority+ function every time the window resizes.
 	 */
 	var isResizing = false;
 	window.addEventListener( 'resize',
@@ -209,7 +209,7 @@
 	);
 
 	/**
-	 * Run our priority+ function
+	 * Run our priority+ function.
 	 */
 	updateNavigationMenu( navContainer );
 

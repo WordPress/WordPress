@@ -39,7 +39,7 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 	 * @param array $instance Settings for the current Navigation Menu widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		// Get menu
+		// Get menu.
 		$nav_menu = ! empty( $instance['nav_menu'] ) ? wp_get_nav_menu_object( $instance['nav_menu'] ) : false;
 
 		if ( ! $nav_menu ) {
@@ -117,7 +117,7 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 		$title    = isset( $instance['title'] ) ? $instance['title'] : '';
 		$nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
 
-		// Get menus
+		// Get menus.
 		$menus = wp_get_nav_menus();
 
 		$empty_menus_style     = '';

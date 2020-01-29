@@ -198,7 +198,7 @@ class WP_Site_Query {
 			'search'                 => '',
 			'search_columns'         => array(),
 			'count'                  => false,
-			'date_query'             => null, // See WP_Date_Query
+			'date_query'             => null, // See WP_Date_Query.
 			'update_site_cache'      => true,
 			'update_site_meta_cache' => true,
 			'meta_query'             => '',

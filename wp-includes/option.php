@@ -69,7 +69,7 @@ function get_option( $option, $default = false ) {
 	$passed_default = func_num_args() > 1;
 
 	if ( ! wp_installing() ) {
-		// prevent non-existent options from triggering multiple queries
+		// Prevent non-existent options from triggering multiple queries.
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
 		if ( isset( $notoptions[ $option ] ) ) {
 			/**
@@ -99,11 +99,11 @@ function get_option( $option, $default = false ) {
 			if ( false === $value ) {
 				$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
 
-				// Has to be get_row instead of get_var because of funkiness with 0, false, null values
+				// Has to be get_row() instead of get_var() because of funkiness with 0, false, null values.
 				if ( is_object( $row ) ) {
 					$value = $row->option_value;
 					wp_cache_add( $option, $value, 'options' );
-				} else { // option does not exist, so we must cache its non-existence
+				} else { // Option does not exist, so we must cache its non-existence.
 					if ( ! is_array( $notoptions ) ) {
 						$notoptions = array();
 					}
@@ -127,7 +127,7 @@ function get_option( $option, $default = false ) {
 		}
 	}
 
-	// If home is not set use siteurl.
+	// If home is not set, use siteurl.
 	if ( 'home' == $option && '' == $value ) {
 		return get_option( 'siteurl' );
 	}
@@ -479,7 +479,8 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 
 	$value = sanitize_option( $option, $value );
 
-	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
+	// Make sure the option doesn't already exist.
+	// We can check the 'notoptions' cache before we ask for a DB query.
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
 	if ( ! is_array( $notoptions ) || ! isset( $notoptions[ $option ] ) ) {
 		/** This filter is documented in wp-includes/option.php */
@@ -516,8 +517,8 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 		}
 	}
 
-	// This option exists now
-	$notoptions = wp_cache_get( 'notoptions', 'options' ); // yes, again... we need it to be fresh
+	// This option exists now.
+	$notoptions = wp_cache_get( 'notoptions', 'options' ); // Yes, again... we need it to be fresh.
 	if ( is_array( $notoptions ) && isset( $notoptions[ $option ] ) ) {
 		unset( $notoptions[ $option ] );
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
@@ -568,7 +569,7 @@ function delete_option( $option ) {
 
 	wp_protect_special_option( $option );
 
-	// Get the ID, if no ID then return
+	// Get the ID, if no ID then return.
 	$row = $wpdb->get_row( $wpdb->prepare( "SELECT autoload FROM $wpdb->options WHERE option_name = %s", $option ) );
 	if ( is_null( $row ) ) {
 		return false;
@@ -707,7 +708,7 @@ function get_transient( $transient ) {
 	} else {
 		$transient_option = '_transient_' . $transient;
 		if ( ! wp_installing() ) {
-			// If option is not in alloptions, it is not autoloaded and thus has a timeout
+			// If option is not in alloptions, it is not autoloaded and thus has a timeout.
 			$alloptions = wp_load_alloptions();
 			if ( ! isset( $alloptions[ $transient_option ] ) ) {
 				$transient_timeout = '_transient_timeout_' . $transient;
@@ -881,7 +882,7 @@ function delete_expired_transients( $force_db = false ) {
 	);
 
 	if ( ! is_multisite() ) {
-		// non-Multisite stores site transients in the options table.
+		// Single site stores site transients in the options table.
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE a, b FROM {$wpdb->options} a, {$wpdb->options} b
@@ -940,7 +941,7 @@ function wp_user_settings() {
 	if ( isset( $_COOKIE[ 'wp-settings-' . $user_id ] ) ) {
 		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE[ 'wp-settings-' . $user_id ] );
 
-		// No change or both empty
+		// No change or both empty.
 		if ( $cookie == $settings ) {
 			return;
 		}
@@ -948,7 +949,7 @@ function wp_user_settings() {
 		$last_saved = (int) get_user_option( 'user-settings-time', $user_id );
 		$current    = isset( $_COOKIE[ 'wp-settings-time-' . $user_id ] ) ? preg_replace( '/[^0-9]/', '', $_COOKIE[ 'wp-settings-time-' . $user_id ] ) : 0;
 
-		// The cookie is newer than the saved value. Update the user_option and leave the cookie as-is
+		// The cookie is newer than the saved value. Update the user_option and leave the cookie as-is.
 		if ( $current > $last_saved ) {
 			update_user_option( $user_id, 'user-settings', $cookie, false );
 			update_user_option( $user_id, 'user-settings-time', time() - 5, false );
@@ -1063,7 +1064,7 @@ function get_all_user_settings() {
 	if ( isset( $_COOKIE[ 'wp-settings-' . $user_id ] ) ) {
 		$cookie = preg_replace( '/[^A-Za-z0-9=&_-]/', '', $_COOKIE[ 'wp-settings-' . $user_id ] );
 
-		if ( strpos( $cookie, '=' ) ) { // '=' cannot be 1st char
+		if ( strpos( $cookie, '=' ) ) { // '=' cannot be 1st char.
 			parse_str( $cookie, $user_settings );
 		}
 	} else {
@@ -1260,7 +1261,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 		return $pre;
 	}
 
-	// prevent non-existent options from triggering multiple queries
+	// Prevent non-existent options from triggering multiple queries.
 	$notoptions_key = "$network_id:notoptions";
 	$notoptions     = wp_cache_get( $notoptions_key, 'site-options' );
 
@@ -1294,7 +1295,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 		if ( ! isset( $value ) || false === $value ) {
 			$row = $wpdb->get_row( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $network_id ) );
 
-			// Has to be get_row instead of get_var because of funkiness with 0, false, null values
+			// Has to be get_row() instead of get_var() because of funkiness with 0, false, null values.
 			if ( is_object( $row ) ) {
 				$value = $row->meta_value;
 				$value = maybe_unserialize( $value );
@@ -1389,7 +1390,8 @@ function add_network_option( $network_id, $option, $value ) {
 	} else {
 		$cache_key = "$network_id:$option";
 
-		// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
+		// Make sure the option doesn't already exist.
+		// We can check the 'notoptions' cache before we ask for a DB query.
 		$notoptions = wp_cache_get( $notoptions_key, 'site-options' );
 		if ( ! is_array( $notoptions ) || ! isset( $notoptions[ $option ] ) ) {
 			if ( false !== get_network_option( $network_id, $option, false ) ) {
@@ -1415,8 +1417,8 @@ function add_network_option( $network_id, $option, $value ) {
 
 		wp_cache_set( $cache_key, $value, 'site-options' );
 
-		// This option exists now
-		$notoptions = wp_cache_get( $notoptions_key, 'site-options' ); // yes, again... we need it to be fresh
+		// This option exists now.
+		$notoptions = wp_cache_get( $notoptions_key, 'site-options' ); // Yes, again... we need it to be fresh.
 		if ( is_array( $notoptions ) && isset( $notoptions[ $option ] ) ) {
 			unset( $notoptions[ $option ] );
 			wp_cache_set( $notoptions_key, $notoptions, 'site-options' );

@@ -324,7 +324,7 @@ add_filter( 'get_custom_logo', 'twentytwenty_get_custom_logo' );
 if ( ! function_exists( 'wp_body_open' ) ) {
 
 	/**
-	 * Shim for wp_body_open, ensuring backwards compatibility with versions of WordPress older than 5.2.
+	 * Shim for wp_body_open, ensuring backward compatibility with versions of WordPress older than 5.2.
 	 */
 	function wp_body_open() {
 		do_action( 'wp_body_open' );

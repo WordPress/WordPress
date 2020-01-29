@@ -192,7 +192,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			$this->skin->feedback( 'starting_upgrade' );
 		}
 
-		// Remove any existing upgrade filters from the plugin/theme upgraders #WP29425 & #WP29230
+		// Remove any existing upgrade filters from the plugin/theme upgraders #WP29425 & #WP29230.
 		remove_all_filters( 'upgrader_pre_install' );
 		remove_all_filters( 'upgrader_clear_destination' );
 		remove_all_filters( 'upgrader_post_install' );
@@ -202,7 +202,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 
 		$this->skin->header();
 
-		// Connect to the Filesystem first.
+		// Connect to the filesystem first.
 		$res = $this->fs_connect( array( WP_CONTENT_DIR, WP_LANG_DIR ) );
 		if ( ! $res ) {
 			$this->skin->footer();
@@ -369,7 +369,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	public function get_name_for_update( $update ) {
 		switch ( $update->type ) {
 			case 'core':
-				return 'WordPress'; // Not translated
+				return 'WordPress'; // Not translated.
 
 			case 'theme':
 				$theme = wp_get_theme( $update->slug );

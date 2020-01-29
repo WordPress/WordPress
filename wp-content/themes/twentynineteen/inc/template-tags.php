@@ -76,10 +76,10 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 		// Hide author, post date, category and tag text for pages.
 		if ( 'post' === get_post_type() ) {
 
-			// Posted by
+			// Posted by.
 			twentynineteen_posted_by();
 
-			// Posted on
+			// Posted on.
 			twentynineteen_posted_on();
 
 			/* translators: Used between list items, there is a space after the comma. */
@@ -243,7 +243,7 @@ if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
 	 * Fire the wp_body_open action.
 	 *
-	 * Added for backwards compatibility to support pre 5.2.0 WordPress versions.
+	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *
 	 * @since Twenty Nineteen 1.4
 	 */

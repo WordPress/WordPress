@@ -36,7 +36,6 @@
 		 * Creates a color picker that only allows you to adjust the hue.
 		 *
 		 * @since 3.5.0
-		 *
 		 * @access private
 		 *
 		 * @return {void}
@@ -80,7 +79,6 @@
 		 * Creates the color picker, sets default values, css classes and wraps it all in HTML.
 		 *
 		 * @since 3.5.0
-		 *
 		 * @access private
 		 *
 		 * @return {void}
@@ -209,7 +207,6 @@
 		 * Binds event listeners to the color picker.
 		 *
 		 * @since 3.5.0
-		 *
 		 * @access private
 		 *
 		 * @return {void}

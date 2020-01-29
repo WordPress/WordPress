@@ -451,7 +451,7 @@ class WP_List_Table {
 			 *
 			 * @param string[] $actions An array of the available bulk actions.
 			 */
-			$this->_actions = apply_filters( "bulk_actions-{$this->screen->id}", $this->_actions );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+			$this->_actions = apply_filters( "bulk_actions-{$this->screen->id}", $this->_actions ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 			$two            = '';
 		} else {
 			$two = '2';
@@ -1004,8 +1004,8 @@ class WP_List_Table {
 		$columns = get_column_headers( $this->screen );
 		$default = $this->get_default_primary_column_name();
 
-		// If the primary column doesn't exist fall back to the
-		// first non-checkbox column.
+		// If the primary column doesn't exist,
+		// fall back to the first non-checkbox column.
 		if ( ! isset( $columns[ $default ] ) ) {
 			$default = WP_List_Table::get_default_primary_column_name();
 		}
@@ -1035,7 +1035,7 @@ class WP_List_Table {
 	 * @return array
 	 */
 	protected function get_column_info() {
-		// $_column_headers is already set / cached
+		// $_column_headers is already set / cached.
 		if ( isset( $this->_column_headers ) && is_array( $this->_column_headers ) ) {
 			// Back-compat for list tables that have been manually setting $_column_headers for horse reasons.
 			// In 4.3, we added a fourth argument for primary column.

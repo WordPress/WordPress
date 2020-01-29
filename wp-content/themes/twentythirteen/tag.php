@@ -25,13 +25,13 @@ get_header(); ?>
 				?>
 				</h1>
 
-				<?php if ( tag_description() ) : // Show an optional tag description ?>
+				<?php if ( tag_description() ) : // Show an optional tag description. ?>
 				<div class="archive-meta"><?php echo tag_description(); ?></div>
 				<?php endif; ?>
 			</header><!-- .archive-header -->
 
-			<?php /* The loop */ ?>
 			<?php
+			// Start the loop.
 			while ( have_posts() ) :
 				the_post();
 				?>

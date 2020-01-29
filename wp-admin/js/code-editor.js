@@ -79,7 +79,11 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 				options = $.extend( {}, options );
 			}
 
-			// Note that rules must be sent in the "deprecated" lint.options property to prevent linter from complaining about unrecognized options. See <https://github.com/codemirror/CodeMirror/pull/4944>.
+			/*
+			 * Note that rules must be sent in the "deprecated" lint.options property 
+			 * to prevent linter from complaining about unrecognized options.
+			 * See <https://github.com/codemirror/CodeMirror/pull/4944>.
+			 */
 			if ( ! options.options ) {
 				options.options = {};
 			}

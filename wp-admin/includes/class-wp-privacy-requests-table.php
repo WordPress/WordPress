@@ -73,9 +73,11 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 * @return array Default sortable columns.
 	 */
 	protected function get_sortable_columns() {
-		// The initial sorting is by 'Requested' (post_date) and descending.
-		// With initial sorting, the first click on 'Requested' should be ascending.
-		// With 'Requester' sorting active, the next click on 'Requested' should be descending.
+		/*
+		 * The initial sorting is by 'Requested' (post_date) and descending.
+		 * With initial sorting, the first click on 'Requested' should be ascending.
+		 * With 'Requester' sorting active, the next click on 'Requested' should be descending.
+		 */
 		$desc_first = isset( $_GET['orderby'] );
 
 		return array(
@@ -146,7 +148,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		$counts         = $this->get_request_counts();
 		$total_requests = absint( array_sum( (array) $counts ) );
 
-		// Normalized admin URL
+		// Normalized admin URL.
 		$admin_url = $this->get_admin_url();
 
 		$current_link_attributes = empty( $current_status ) ? ' class="current" aria-current="page"' : '';

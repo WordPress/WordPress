@@ -8,7 +8,7 @@
  * - Sends the REST API nonce as a request header.
  * - Allows specifying only an endpoint namespace/path instead of a full URL.
  *
- * @since     4.9.0
+ * @since 4.9.0
  * @output wp-includes/js/api-request.js
  */
 
@@ -42,8 +42,8 @@
 			apiRoot = wpApiSettings.root;
 			path = path.replace( /^\//, '' );
 
-			// API root may already include query parameter prefix if site is
-			// configured to use plain permalinks.
+			// API root may already include query parameter prefix
+			// if site is configured to use plain permalinks.
 			if ( 'string' === typeof apiRoot && -1 !== apiRoot.indexOf( '?' ) ) {
 				path = path.replace( '?', '&' );
 			}

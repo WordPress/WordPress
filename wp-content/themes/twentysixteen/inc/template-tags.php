@@ -147,7 +147,7 @@ if ( ! function_exists( 'twentysixteen_post_thumbnail' ) ) :
 	</a>
 
 		<?php
-	endif; // End is_singular()
+	endif; // End is_singular().
 	}
 endif;
 
@@ -228,10 +228,10 @@ if ( ! function_exists( 'twentysixteen_categorized_blog' ) ) :
 		}
 
 		if ( $all_the_cool_cats > 1 || is_preview() ) {
-			// This blog has more than 1 category so twentysixteen_categorized_blog should return true.
+			// This blog has more than 1 category so twentysixteen_categorized_blog() should return true.
 			return true;
 		} else {
-			// This blog has only 1 category so twentysixteen_categorized_blog should return false.
+			// This blog has only 1 category so twentysixteen_categorized_blog() should return false.
 			return false;
 		}
 	}
@@ -271,7 +271,7 @@ if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
 	 * Fire the wp_body_open action.
 	 *
-	 * Added for backwards compatibility to support pre 5.2.0 WordPress versions.
+	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *
 	 * @since Twenty Sixteen 2.0
 	 */

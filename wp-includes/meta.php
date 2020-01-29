@@ -718,7 +718,7 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
 
 		$meta_subtype = get_object_subtype( $meta_type, $object_id );
 
-		// Sanitize the meta
+		// Sanitize the meta.
 		$_meta_value = $meta_value;
 		$meta_value  = sanitize_meta( $meta_key, $meta_value, $meta_type, $meta_subtype );
 		$meta_value  = maybe_serialize( $meta_value );
@@ -794,7 +794,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 		return false;
 	}
 
-	// object and id columns
+	// Object and ID columns.
 	$column    = sanitize_key( $meta_type . '_id' );
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 
@@ -838,7 +838,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 			do_action( "delete_{$meta_type}meta", $meta_id );
 		}
 
-		// Run the query, will return true if deleted, false otherwise
+		// Run the query, will return true if deleted, false otherwise.
 		$result = (bool) $wpdb->delete( $table, array( $id_column => $meta_id ) );
 
 		// Clear the caches.
@@ -866,7 +866,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 
 	}
 
-	// Meta id was not found.
+	// Meta ID was not found.
 	return false;
 }
 
@@ -935,7 +935,7 @@ function update_meta_cache( $meta_type, $object_ids ) {
 		return $cache;
 	}
 
-	// Get meta info
+	// Get meta info.
 	$id_list   = join( ',', $ids );
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 	$meta_list = $wpdb->get_results( "SELECT $column, meta_key, meta_value FROM $table WHERE $column IN ($id_list) ORDER BY $id_column ASC", ARRAY_A );
@@ -946,7 +946,7 @@ function update_meta_cache( $meta_type, $object_ids ) {
 			$mkey = $metarow['meta_key'];
 			$mval = $metarow['meta_value'];
 
-			// Force subkeys to be array type:
+			// Force subkeys to be array type.
 			if ( ! isset( $cache[ $mpid ] ) || ! is_array( $cache[ $mpid ] ) ) {
 				$cache[ $mpid ] = array();
 			}
@@ -954,7 +954,7 @@ function update_meta_cache( $meta_type, $object_ids ) {
 				$cache[ $mpid ][ $mkey ] = array();
 			}
 
-			// Add a value to the current pid/key:
+			// Add a value to the current pid/key.
 			$cache[ $mpid ][ $mkey ][] = $mval;
 		}
 	}
@@ -1160,7 +1160,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 		'show_in_rest'      => false,
 	);
 
-	// There used to be individual args for sanitize and auth callbacks
+	// There used to be individual args for sanitize and auth callbacks.
 	$has_old_sanitize_cb = false;
 	$has_old_auth_cb     = false;
 
@@ -1298,7 +1298,7 @@ function unregister_meta_key( $object_type, $meta_key, $object_subtype = '' ) {
 
 	unset( $wp_meta_keys[ $object_type ][ $object_subtype ][ $meta_key ] );
 
-	// Do some clean up
+	// Do some clean up.
 	if ( empty( $wp_meta_keys[ $object_type ][ $object_subtype ] ) ) {
 		unset( $wp_meta_keys[ $object_type ][ $object_subtype ] );
 	}

@@ -106,7 +106,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 
 		$output .= '</label>';
 
-		// Menu item hidden fields
+		// Menu item hidden fields.
 		$output .= '<input type="hidden" class="menu-item-db-id" name="menu-item[' . $possible_object_id . '][menu-item-db-id]" value="' . $possible_db_id . '" />';
 		$output .= '<input type="hidden" class="menu-item-object" name="menu-item[' . $possible_object_id . '][menu-item-object]" value="' . esc_attr( $item->object ) . '" />';
 		$output .= '<input type="hidden" class="menu-item-parent-id" name="menu-item[' . $possible_object_id . '][menu-item-parent-id]" value="' . esc_attr( $item->menu_item_parent ) . '" />';
@@ -119,4 +119,4 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		$output .= '<input type="hidden" class="menu-item-xfn" name="menu-item[' . $possible_object_id . '][menu-item-xfn]" value="' . esc_attr( $item->xfn ) . '" />';
 	}
 
-} // Walker_Nav_Menu_Checklist
+}

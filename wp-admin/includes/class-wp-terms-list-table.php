@@ -139,7 +139,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * @return bool
 	 */
 	public function has_items() {
-		// todo: populate $this->items in prepare_items()
+		// @todo Populate $this->items in prepare_items().
 		return true;
 	}
 
@@ -254,7 +254,11 @@ class WP_Terms_List_Table extends WP_List_Table {
 			} else {
 				$children = _get_term_hierarchy( $taxonomy );
 			}
-			// Some funky recursion to get the job done( Paging & parents mainly ) is contained within, Skip it for non-hierarchical taxonomies for performance sake
+
+			/*
+			 * Some funky recursion to get the job done (paging & parents mainly) is contained within.
+			 * Skip it for non-hierarchical taxonomies for performance sake.
+			 */
 			$this->_rows( $taxonomy, $terms, $children, $offset, $number, $count );
 		} else {
 			foreach ( $terms as $term ) {
@@ -628,8 +632,11 @@ class WP_Terms_List_Table extends WP_List_Table {
 		}
 		?>
 
-	<form method="get"><table style="display: none"><tbody id="inlineedit">
-		<tr id="inline-edit" class="inline-edit-row" style="display: none"><td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
+		<form method="get">
+		<table style="display: none"><tbody id="inlineedit">
+
+			<tr id="inline-edit" class="inline-edit-row" style="display: none">
+			<td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
 
 			<fieldset>
 				<legend class="inline-edit-legend"><?php _e( 'Quick Edit' ); ?></legend>
@@ -638,50 +645,56 @@ class WP_Terms_List_Table extends WP_List_Table {
 					<span class="title"><?php _ex( 'Name', 'term name' ); ?></span>
 					<span class="input-text-wrap"><input type="text" name="name" class="ptitle" value="" /></span>
 				</label>
-		<?php if ( ! global_terms_enabled() ) { ?>
-				<label>
-					<span class="title"><?php _e( 'Slug' ); ?></span>
-					<span class="input-text-wrap"><input type="text" name="slug" class="ptitle" value="" /></span>
-				</label>
-	<?php } ?>
-			</div></fieldset>
-		<?php
 
-		$core_columns = array(
-			'cb'          => true,
-			'description' => true,
-			'name'        => true,
-			'slug'        => true,
-			'posts'       => true,
-		);
+				<?php if ( ! global_terms_enabled() ) : ?>
+					<label>
+						<span class="title"><?php _e( 'Slug' ); ?></span>
+						<span class="input-text-wrap"><input type="text" name="slug" class="ptitle" value="" /></span>
+					</label>
+				<?php endif; ?>
+				</div>
+			</fieldset>
 
-		list( $columns ) = $this->get_column_info();
+			<?php
+			$core_columns = array(
+				'cb'          => true,
+				'description' => true,
+				'name'        => true,
+				'slug'        => true,
+				'posts'       => true,
+			);
 
-		foreach ( $columns as $column_name => $column_display_name ) {
-			if ( isset( $core_columns[ $column_name ] ) ) {
-				continue;
+			list( $columns ) = $this->get_column_info();
+
+			foreach ( $columns as $column_name => $column_display_name ) {
+				if ( isset( $core_columns[ $column_name ] ) ) {
+					continue;
+				}
+
+				/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
+				do_action( 'quick_edit_custom_box', $column_name, 'edit-tags', $this->screen->taxonomy );
 			}
+			?>
 
-			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
-			do_action( 'quick_edit_custom_box', $column_name, 'edit-tags', $this->screen->taxonomy );
-		}
+			<div class="inline-edit-save submit">
+				<button type="button" class="cancel button alignleft"><?php _e( 'Cancel' ); ?></button>
+				<button type="button" class="save button button-primary alignright"><?php echo $tax->labels->update_item; ?></button>
+				<span class="spinner"></span>
 
-		?>
+				<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
+				<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $this->screen->taxonomy ); ?>" />
+				<input type="hidden" name="post_type" value="<?php echo esc_attr( $this->screen->post_type ); ?>" />
+				<br class="clear" />
 
-		<div class="inline-edit-save submit">
-			<button type="button" class="cancel button alignleft"><?php _e( 'Cancel' ); ?></button>
-			<button type="button" class="save button button-primary alignright"><?php echo $tax->labels->update_item; ?></button>
-			<span class="spinner"></span>
-			<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
-			<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $this->screen->taxonomy ); ?>" />
-			<input type="hidden" name="post_type" value="<?php echo esc_attr( $this->screen->post_type ); ?>" />
-			<br class="clear" />
-			<div class="notice notice-error notice-alt inline hidden">
-				<p class="error"></p>
+				<div class="notice notice-error notice-alt inline hidden">
+					<p class="error"></p>
+				</div>
 			</div>
-		</div>
-		</td></tr>
-		</tbody></table></form>
+
+			</td></tr>
+
+		</tbody></table>
+		</form>
 		<?php
 	}
 }

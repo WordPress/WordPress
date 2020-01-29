@@ -124,7 +124,7 @@ class WP_Widget_Links extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		//Defaults
+		// Defaults.
 		$instance  = wp_parse_args(
 			(array) $instance,
 			array(

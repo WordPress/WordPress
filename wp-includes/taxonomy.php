@@ -7,7 +7,7 @@
  */
 
 //
-// Taxonomy Registration
+// Taxonomy registration.
 //
 
 /**
@@ -680,7 +680,7 @@ function unregister_taxonomy_for_object_type( $taxonomy, $object_type ) {
 }
 
 //
-// Term API
+// Term API.
 //
 
 /**
@@ -977,7 +977,7 @@ function get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filter 
 
 	$term = array_shift( $terms );
 
-	// In the case of 'term_taxonomy_id', override the provided `$taxonomy` with whatever we find in the db.
+	// In the case of 'term_taxonomy_id', override the provided `$taxonomy` with whatever we find in the DB.
 	if ( 'term_taxonomy_id' === $field ) {
 		$taxonomy = $term->taxonomy;
 	}
@@ -1595,7 +1595,7 @@ function sanitize_term_field( $field, $value, $term_id, $taxonomy, $context ) {
 		 */
 		$value = apply_filters( "pre_{$taxonomy}_{$field}", $value );
 
-		// Back compat filters
+		// Back compat filters.
 		if ( 'slug' === $field ) {
 			/**
 			 * Filters the category nicename before it is sanitized.
@@ -1692,7 +1692,7 @@ function wp_count_terms( $taxonomy, $args = array() ) {
 	);
 	$args     = wp_parse_args( $args, $defaults );
 
-	// backward compatibility
+	// Backward compatibility.
 	if ( isset( $args['ignore_empty'] ) ) {
 		$args['hide_empty'] = $args['ignore_empty'];
 		unset( $args['ignore_empty'] );
@@ -1776,7 +1776,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	if ( 'category' === $taxonomy ) {
 		$defaults['default'] = (int) get_option( 'default_category' );
 		if ( $defaults['default'] === $term ) {
-			return 0; // Don't delete the default category
+			return 0; // Don't delete the default category.
 		}
 	}
 
@@ -1803,7 +1803,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	 */
 	do_action( 'pre_delete_term', $term, $taxonomy );
 
-	// Update children to point to new parent
+	// Update children to point to new parent.
 	if ( is_taxonomy_hierarchical( $taxonomy ) ) {
 		$term_obj = get_term( $term, $taxonomy );
 		if ( is_wp_error( $term_obj ) ) {
@@ -2269,7 +2269,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	$term_id = (int) $wpdb->insert_id;
 
-	// Seems unreachable, However, Is used in the case that a term name is provided, which sanitizes to an empty string.
+	// Seems unreachable. However, is used in the case that a term name is provided, which sanitizes to an empty string.
 	if ( empty( $slug ) ) {
 		$slug = sanitize_title( $slug, $term_id );
 
@@ -2817,7 +2817,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 
 	$term_id = (int) $term_id;
 
-	// First, get all of the original args
+	// First, get all of the original args.
 	$term = get_term( $term_id, $taxonomy );
 
 	if ( is_wp_error( $term ) ) {
@@ -2911,7 +2911,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 */
 	$parent = (int) apply_filters( 'wp_update_term_parent', $args['parent'], $term_id, $taxonomy, $parsed_args, $args );
 
-	// Check for duplicate slug
+	// Check for duplicate slug.
 	$duplicate = get_term_by( 'slug', $slug, $taxonomy );
 	if ( $duplicate && $duplicate->term_id !== $term_id ) {
 		// If an empty slug was passed or the parent changed, reset the slug to something unique.
@@ -3068,7 +3068,7 @@ function wp_defer_term_counting( $defer = null ) {
 
 	if ( is_bool( $defer ) ) {
 		$_defer = $defer;
-		// flush any deferred counts
+		// Flush any deferred counts.
 		if ( ! $defer ) {
 			wp_update_term_count( null, null, true );
 		}
@@ -3148,10 +3148,10 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 		}
 
 		if ( $object_types == array_filter( $object_types, 'post_type_exists' ) ) {
-			// Only post types are attached to this taxonomy
+			// Only post types are attached to this taxonomy.
 			_update_post_term_count( $terms, $taxonomy );
 		} else {
-			// Default count updater
+			// Default count updater.
 			_update_generic_term_count( $terms, $taxonomy );
 		}
 	}
@@ -3162,7 +3162,7 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 }
 
 //
-// Cache
+// Cache.
 //
 
 /**
@@ -3452,7 +3452,7 @@ function update_term_cache( $terms, $taxonomy = '' ) {
 }
 
 //
-// Private
+// Private.
 //
 
 /**
@@ -3669,7 +3669,7 @@ function _prime_term_caches( $term_ids, $update_meta_cache = true ) {
 }
 
 //
-// Default callbacks
+// Default callbacks.
 //
 
 /**
@@ -4237,7 +4237,8 @@ function get_term_link( $term, $taxonomy = '' ) {
 		}
 		$termlink = home_url( user_trailingslashit( $termlink, 'category' ) );
 	}
-	// Back Compat filters.
+
+	// Back compat filters.
 	if ( 'post_tag' === $taxonomy ) {
 
 		/**
@@ -4569,7 +4570,7 @@ function wp_get_term_taxonomy_parent_id( $term_id, $taxonomy ) {
  * @return int The new parent for the term.
  */
 function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
-	// Nothing fancy here - bail
+	// Nothing fancy here - bail.
 	if ( ! $parent ) {
 		return 0;
 	}
@@ -4582,7 +4583,7 @@ function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
 	// Now look for larger loops.
 	$loop = wp_find_hierarchy_loop( 'wp_get_term_taxonomy_parent_id', $term_id, $parent, array( $taxonomy ) );
 	if ( ! $loop ) {
-		return $parent; // No loop
+		return $parent; // No loop.
 	}
 
 	// Setting $parent to the given value causes a loop.

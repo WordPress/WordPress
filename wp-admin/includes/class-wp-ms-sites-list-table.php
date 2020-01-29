@@ -114,7 +114,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					preg_match( '/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.?$/', $s ) ||
 					preg_match( '/^[0-9]{1,3}\.[0-9]{1,3}\.?$/', $s ) ||
 					preg_match( '/^[0-9]{1,3}\.$/', $s ) ) {
-			// IPv4 address
+			// IPv4 address.
 			$sql          = $wpdb->prepare( "SELECT blog_id FROM {$wpdb->registration_log} WHERE {$wpdb->registration_log}.IP LIKE %s", $wpdb->esc_like( $s ) . ( ! empty( $wild ) ? '%' : '' ) );
 			$reg_blog_ids = $wpdb->get_col( $sql );
 
@@ -133,7 +133,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		$order_by = isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : '';
 		if ( 'registered' === $order_by ) {
-			// registered is a valid field name.
+			// 'registered' is a valid field name.
 		} elseif ( 'lastupdated' === $order_by ) {
 			$order_by = 'last_updated';
 		} elseif ( 'blogname' === $order_by ) {

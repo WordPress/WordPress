@@ -37,26 +37,26 @@ add_action( 'admin_print_styles-appearance_page_theme_options', 'twentyeleven_ad
 function twentyeleven_theme_options_init() {
 
 	register_setting(
-		'twentyeleven_options',       // Options group, see settings_fields() call in twentyeleven_theme_options_render_page()
-		'twentyeleven_theme_options', // Database option, see twentyeleven_get_theme_options()
-		'twentyeleven_theme_options_validate' // The sanitization callback, see twentyeleven_theme_options_validate()
+		'twentyeleven_options',               // Options group, see settings_fields() call in twentyeleven_theme_options_render_page().
+		'twentyeleven_theme_options',         // Database option, see twentyeleven_get_theme_options().
+		'twentyeleven_theme_options_validate' // The sanitization callback, see twentyeleven_theme_options_validate().
 	);
 
-	// Register our settings field group
+	// Register our settings field group.
 	add_settings_section(
-		'general', // Unique identifier for the settings section
-		'', // Section title (we don't want one)
-		'__return_false', // Section callback (we don't want anything)
-		'theme_options' // Menu slug, used to uniquely identify the page; see twentyeleven_theme_options_add_page()
+		'general',        // Unique identifier for the settings section.
+		'',               // Section title (we don't want one).
+		'__return_false', // Section callback (we don't want anything).
+		'theme_options'   // Menu slug, used to uniquely identify the page; see twentyeleven_theme_options_add_page().
 	);
 
-	// Register our individual settings fields
+	// Register our individual settings fields.
 	add_settings_field(
-		'color_scheme',                             // Unique identifier for the field for this section
-		__( 'Color Scheme', 'twentyeleven' ),       // Setting field label
-		'twentyeleven_settings_field_color_scheme', // Function that renders the settings field
-		'theme_options',                            // Menu slug, used to uniquely identify the page; see twentyeleven_theme_options_add_page()
-		'general'                                   // Settings section. Same as the first argument in the add_settings_section() above
+		'color_scheme',                             // Unique identifier for the field for this section.
+		__( 'Color Scheme', 'twentyeleven' ),       // Setting field label.
+		'twentyeleven_settings_field_color_scheme', // Function that renders the settings field.
+		'theme_options',                            // Menu slug, used to uniquely identify the page; see twentyeleven_theme_options_add_page().
+		'general'                                   // Settings section. Same as the first argument in the add_settings_section() above.
 	);
 
 	add_settings_field( 'link_color', __( 'Link Color', 'twentyeleven' ), 'twentyeleven_settings_field_link_color', 'theme_options', 'general' );
@@ -92,11 +92,11 @@ add_filter( 'option_page_capability_twentyeleven_options', 'twentyeleven_option_
  */
 function twentyeleven_theme_options_add_page() {
 	$theme_page = add_theme_page(
-		__( 'Theme Options', 'twentyeleven' ),   // Name of page
-		__( 'Theme Options', 'twentyeleven' ),   // Label in menu
-		'edit_theme_options',                    // Capability required
-		'theme_options',                         // Menu slug, used to uniquely identify the page
-		'twentyeleven_theme_options_render_page' // Function that renders the options page
+		__( 'Theme Options', 'twentyeleven' ),   // Name of page.
+		__( 'Theme Options', 'twentyeleven' ),   // Label in menu.
+		'edit_theme_options',                    // Capability required.
+		'theme_options',                         // Menu slug, used to uniquely identify the page.
+		'twentyeleven_theme_options_render_page' // Function that renders the options page.
 	);
 
 	if ( ! $theme_page ) {
@@ -124,7 +124,7 @@ function twentyeleven_theme_options_help() {
 	$screen = get_current_screen();
 
 	if ( method_exists( $screen, 'add_help_tab' ) ) {
-		// WordPress 3.3.0
+		// WordPress 3.3.0.
 		$screen->add_help_tab(
 			array(
 				'title'   => __( 'Overview', 'twentyeleven' ),
@@ -135,7 +135,7 @@ function twentyeleven_theme_options_help() {
 
 		$screen->set_help_sidebar( $sidebar );
 	} else {
-		// WordPress 3.2.0
+		// WordPress 3.2.0.
 		add_contextual_help( $screen, $help . $sidebar );
 	}
 }
@@ -378,7 +378,7 @@ function twentyeleven_theme_options_validate( $input ) {
 	$defaults = twentyeleven_get_default_theme_options();
 	$output   = $defaults;
 
-	// Color scheme must be in our array of color scheme options
+	// Color scheme must be in our array of color scheme options.
 	if ( isset( $input['color_scheme'] ) && array_key_exists( $input['color_scheme'], twentyeleven_color_schemes() ) ) {
 		$output['color_scheme'] = $input['color_scheme'];
 	}
@@ -387,12 +387,12 @@ function twentyeleven_theme_options_validate( $input ) {
 	$defaults['link_color'] = twentyeleven_get_default_link_color( $output['color_scheme'] );
 	$output['link_color']   = $defaults['link_color'];
 
-	// Link color must be 3 or 6 hexadecimal characters
+	// Link color must be 3 or 6 hexadecimal characters.
 	if ( isset( $input['link_color'] ) && preg_match( '/^#?([a-f0-9]{3}){1,2}$/i', $input['link_color'] ) ) {
 		$output['link_color'] = '#' . strtolower( ltrim( $input['link_color'], '#' ) );
 	}
 
-	// Theme layout must be in our array of theme layout options
+	// Theme layout must be in our array of theme layout options.
 	if ( isset( $input['theme_layout'] ) && array_key_exists( $input['theme_layout'], twentyeleven_layouts() ) ) {
 		$output['theme_layout'] = $input['theme_layout'];
 	}
@@ -582,7 +582,7 @@ function twentyeleven_customize_register( $wp_customize ) {
 		)
 	);
 
-	// Link Color (added to Color Scheme section in Customizer)
+	// Link Color (added to Color Scheme section in Customizer).
 	$wp_customize->add_setting(
 		'twentyeleven_theme_options[link_color]',
 		array(
@@ -605,7 +605,7 @@ function twentyeleven_customize_register( $wp_customize ) {
 		)
 	);
 
-	// Default Layout
+	// Default Layout.
 	$wp_customize->add_section(
 		'twentyeleven_layout',
 		array(

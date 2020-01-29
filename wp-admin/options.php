@@ -52,7 +52,7 @@ if ( ! current_user_can( $capability ) ) {
 	);
 }
 
-// Handle admin email change requests
+// Handle admin email change requests.
 if ( ! empty( $_GET['adminhash'] ) ) {
 	$new_admin_details = get_option( 'adminhash' );
 	$redirect          = 'options-general.php?updated=false';

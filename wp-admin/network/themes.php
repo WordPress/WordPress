@@ -177,7 +177,7 @@ if ( $action ) {
 				<?php
 				require_once( ABSPATH . 'wp-admin/admin-footer.php' );
 				exit;
-			} // Endif verify-delete
+			} // End if verify-delete.
 
 			foreach ( $themes as $theme ) {
 				$delete_result = delete_theme(

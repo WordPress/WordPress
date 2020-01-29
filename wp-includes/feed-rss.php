@@ -17,7 +17,6 @@ echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?' . '>
 	<lastBuildDate><?php echo get_feed_build_date( 'D, d M Y H:i:s +0000' ); ?></lastBuildDate>
 	<docs>http://backend.userland.com/rss092</docs>
 	<language><?php bloginfo_rss( 'language' ); ?></language>
-
 	<?php
 	/**
 	 * Fires at the end of the RSS Feed Header.

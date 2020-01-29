@@ -41,7 +41,7 @@ if ( force_ssl_admin() && ! is_ssl() ) {
 function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	global $error, $interim_login, $action;
 
-	// Don't index any of these forms
+	// Don't index any of these forms.
 	add_action( 'login_head', 'wp_sensitive_page_meta' );
 
 	add_action( 'login_head', 'wp_login_viewport_meta' );
@@ -268,7 +268,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 			echo '<p class="message">' . apply_filters( 'login_messages', $messages ) . "</p>\n";
 		}
 	}
-} // End of login_header()
+} // End of login_header().
 
 /**
  * Outputs the footer for the login page.
@@ -300,7 +300,7 @@ function login_footer( $input_id = '' ) {
 	}
 
 	?>
-	</div><?php // End of <div id="login"> ?>
+	</div><?php // End of <div id="login">. ?>
 
 	<?php
 
@@ -507,7 +507,7 @@ nocache_headers();
 
 header( 'Content-Type: ' . get_bloginfo( 'html_type' ) . '; charset=' . get_bloginfo( 'charset' ) );
 
-if ( defined( 'RELOCATE' ) && RELOCATE ) { // Move flag is set
+if ( defined( 'RELOCATE' ) && RELOCATE ) { // Move flag is set.
 	if ( isset( $_SERVER['PATH_INFO'] ) && ( $_SERVER['PATH_INFO'] !== $_SERVER['PHP_SELF'] ) ) {
 		$_SERVER['PHP_SELF'] = str_replace( $_SERVER['PATH_INFO'], '', $_SERVER['PHP_SELF'] );
 	}
@@ -519,7 +519,7 @@ if ( defined( 'RELOCATE' ) && RELOCATE ) { // Move flag is set
 	}
 }
 
-//Set a cookie now to see if they are supported by the browser.
+// Set a cookie now to see if they are supported by the browser.
 $secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
 setcookie( TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN, $secure );
 
@@ -560,9 +560,11 @@ $login_link_separator = apply_filters( 'login_link_separator', ' | ' );
 switch ( $action ) {
 
 	case 'confirm_admin_email':
-		// Note that `is_user_logged_in()` will return false immediately after logging in
-		// as the current user is not set, see wp-includes/pluggable.php.
-		// However this action runs on a redirect after logging in.
+		/*
+		 * Note that `is_user_logged_in()` will return false immediately after logging in
+		 * as the current user is not set, see wp-includes/pluggable.php.
+		 * However this action runs on a redirect after logging in.
+		 */
 		if ( ! is_user_logged_in() ) {
 			wp_safe_redirect( wp_login_url() );
 			exit;
@@ -1210,7 +1212,7 @@ switch ( $action ) {
 					)
 				);
 			} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
-				// If cookies are disabled we can't log in even with a valid user+pass
+				// If cookies are disabled, we can't log in even with a valid user and password.
 				$user = new WP_Error(
 					'test_cookie',
 					sprintf(

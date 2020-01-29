@@ -52,6 +52,7 @@
 		 * Cleans up tags by removing redundant characters.
 		 *
 		 * @since 2.9.0
+		 *
 		 * @memberOf tagBox
 		 *
 		 * @param {string} tags Comma separated tags that need to be cleaned up.
@@ -76,6 +77,7 @@
 		 * Parses tags and makes them editable.
 		 *
 		 * @since 2.9.0
+		 *
 		 * @memberOf tagBox
 		 *
 		 * @param {Object} el The tag element to retrieve the ID from.
@@ -110,6 +112,7 @@
 		 * Creates clickable links, buttons and fields for adding or editing tags.
 		 *
 		 * @since 2.9.0
+		 *
 		 * @memberOf tagBox
 		 *
 		 * @param {Object} el The container HTML element.
@@ -134,6 +137,7 @@
 			 * Creates a delete button if tag editing is enabled, before adding it to the tag list.
 			 *
 			 * @since 2.5.0
+			 *
 			 * @memberOf tagBox
 			 *
 			 * @param {string} key The index of the current tag.
@@ -209,6 +213,7 @@
 		 * Also ensures that the quick links are properly generated.
 		 *
 		 * @since 2.9.0
+		 *
 		 * @memberOf tagBox
 		 *
 		 * @param {Object} el The container HTML element.
@@ -262,6 +267,7 @@
 		 * tagcloud. Clicking a tag will add it.
 		 *
 		 * @since 2.9.0
+		 *
 		 * @memberOf tagBox
 		 *
 		 * @param {string} id The ID to extract the taxonomy from.
@@ -350,6 +356,7 @@
 		 * retrieval of tag suggestions.
 		 *
 		 * @since 2.9.0
+		 *
 		 * @memberOf tagBox
 		 *
 		 * @return {void}

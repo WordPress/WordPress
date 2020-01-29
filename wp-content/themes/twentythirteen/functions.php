@@ -494,7 +494,7 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
 			echo '<span class="tags-links">' . $tag_list . '</span>';
 		}
 
-		// Post author
+		// Post author.
 		if ( 'post' == get_post_type() ) {
 			printf(
 				'<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
@@ -592,11 +592,11 @@ if ( ! function_exists( 'twentythirteen_the_attached_image' ) ) :
 				}
 			}
 
-			// get the URL of the next image attachment...
 			if ( $next_id ) {
+				// ...get the URL of the next image attachment.
 				$next_attachment_url = get_attachment_link( $next_id );
 			} else {
-				// or get the URL of the first image attachment.
+				// ...or get the URL of the first image attachment.
 				$next_attachment_url = get_attachment_link( reset( $attachment_ids ) );
 			}
 		}
@@ -812,7 +812,7 @@ if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
 	 * Fire the wp_body_open action.
 	 *
-	 * Added for backwards compatibility to support pre 5.2.0 WordPress versions.
+	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *
 	 * @since Twenty Thirteen 2.8
 	 */

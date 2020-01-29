@@ -149,9 +149,9 @@
 				var before = string.charAt( startOffset - 1 );
 				var after = string.charAt( startOffset + p.delimiter.length );
 
-				// test*test* => format applied
-				// test *test* => applied
-				// test* test* => not applied
+				// test*test*  => format applied.
+				// test *test* => applied.
+				// test* test* => not applied.
 				if ( startOffset && /\S/.test( before ) ) {
 					if ( /\s/.test( after ) || before === delimiterFirstChar ) {
 						return;

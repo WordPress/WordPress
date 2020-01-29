@@ -26,7 +26,7 @@
 			<?php endif; ?>
 		</header><!-- .entry-header -->
 
-		<?php if ( is_search() ) : // Only display Excerpts for Search ?>
+		<?php if ( is_search() ) : // Only display excerpts for search. ?>
 		<div class="entry-summary">
 			<?php the_excerpt(); ?>
 		</div><!-- .entry-summary -->

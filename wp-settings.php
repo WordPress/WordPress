@@ -87,7 +87,7 @@ if ( WP_CACHE && apply_filters( 'enable_loading_advanced_cache_dropin', true ) &
 	// For an advanced caching plugin to use. Uses a static drop-in because you would only want one.
 	include( WP_CONTENT_DIR . '/advanced-cache.php' );
 
-	// Re-initialize any hooks added manually by advanced-cache.php
+	// Re-initialize any hooks added manually by advanced-cache.php.
 	if ( $wp_filter ) {
 		$wp_filter = WP_Hook::build_preinitialized_hooks( $wp_filter );
 	}
@@ -330,7 +330,7 @@ if ( is_multisite() ) {
 // Define constants after multisite is loaded.
 wp_cookie_constants();
 
-// Define and enforce our SSL constants
+// Define and enforce our SSL constants.
 wp_ssl_constants();
 
 // Create common globals.
@@ -343,7 +343,7 @@ create_initial_post_types();
 
 wp_start_scraping_edited_file_errors();
 
-// Register the default theme directory root
+// Register the default theme directory root.
 register_theme_directory( get_theme_root() );
 
 if ( ! is_multisite() ) {
@@ -397,7 +397,7 @@ do_action( 'plugins_loaded' );
 // Define constants which affect functionality if not already defined.
 wp_functionality_constants();
 
-// Add magic quotes and set up $_REQUEST ( $_GET + $_POST )
+// Add magic quotes and set up $_REQUEST ( $_GET + $_POST ).
 wp_magic_quotes();
 
 /**
@@ -525,7 +525,7 @@ $GLOBALS['wp']->init();
  */
 do_action( 'init' );
 
-// Check site status
+// Check site status.
 if ( is_multisite() ) {
 	$file = ms_site_check();
 	if ( true !== $file ) {

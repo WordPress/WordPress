@@ -231,7 +231,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				?>
 				</div>
 			<?php
-		} // end foreach $theme_names
+		} // End foreach $theme_names.
 
 		$this->theme_installer();
 	}

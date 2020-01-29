@@ -118,7 +118,7 @@ class WP_Locale {
 	 * @global string $wp_version
 	 */
 	public function init() {
-		// The Weekdays
+		// The weekdays.
 		$this->weekday[0] = /* translators: Weekday. */ __( 'Sunday' );
 		$this->weekday[1] = /* translators: Weekday. */ __( 'Monday' );
 		$this->weekday[2] = /* translators: Weekday. */ __( 'Tuesday' );
@@ -145,7 +145,7 @@ class WP_Locale {
 		$this->weekday_abbrev[ __( 'Friday' ) ]    = /* translators: Three-letter abbreviation of the weekday. */ __( 'Fri' );
 		$this->weekday_abbrev[ __( 'Saturday' ) ]  = /* translators: Three-letter abbreviation of the weekday. */ __( 'Sat' );
 
-		// The Months
+		// The months.
 		$this->month['01'] = /* translators: Month name. */ __( 'January' );
 		$this->month['02'] = /* translators: Month name. */ __( 'February' );
 		$this->month['03'] = /* translators: Month name. */ __( 'March' );
@@ -159,7 +159,7 @@ class WP_Locale {
 		$this->month['11'] = /* translators: Month name. */ __( 'November' );
 		$this->month['12'] = /* translators: Month name. */ __( 'December' );
 
-		// The Months, genitive
+		// The months, genitive.
 		$this->month_genitive['01'] = /* translators: Month name, genitive. */ _x( 'January', 'genitive' );
 		$this->month_genitive['02'] = /* translators: Month name, genitive. */ _x( 'February', 'genitive' );
 		$this->month_genitive['03'] = /* translators: Month name, genitive. */ _x( 'March', 'genitive' );
@@ -187,13 +187,13 @@ class WP_Locale {
 		$this->month_abbrev[ __( 'November' ) ]  = /* translators: Three-letter abbreviation of the month. */ _x( 'Nov', 'November abbreviation' );
 		$this->month_abbrev[ __( 'December' ) ]  = /* translators: Three-letter abbreviation of the month. */ _x( 'Dec', 'December abbreviation' );
 
-		// The Meridiems
+		// The meridiems.
 		$this->meridiem['am'] = __( 'am' );
 		$this->meridiem['pm'] = __( 'pm' );
 		$this->meridiem['AM'] = __( 'AM' );
 		$this->meridiem['PM'] = __( 'PM' );
 
-		// Numbers formatting
+		// Numbers formatting.
 		// See https://www.php.net/number_format
 
 		/* translators: $thousands_sep argument for https://www.php.net/number_format, default is ',' */

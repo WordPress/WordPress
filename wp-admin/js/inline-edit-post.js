@@ -29,12 +29,13 @@ window.wp = window.wp || {};
 	/**
 	 * Initializes the inline and bulk post editor.
 	 *
-	 * Binds event handlers to the escape key to close the inline editor
+	 * Binds event handlers to the Escape key to close the inline editor
 	 * and to the save and close buttons. Changes DOM to be ready for inline
 	 * editing. Adds event handler to bulk edit.
 	 *
-	 * @memberof inlineEditPost
 	 * @since 2.7.0
+	 *
+	 * @memberof inlineEditPost
 	 *
 	 * @return {void}
 	 */
@@ -42,28 +43,28 @@ window.wp = window.wp || {};
 		var t = this, qeRow = $('#inline-edit'), bulkRow = $('#bulk-edit');
 
 		t.type = $('table.widefat').hasClass('pages') ? 'page' : 'post';
-		// Post id prefix.
+		// Post ID prefix.
 		t.what = '#post-';
 
 		/**
-		 * Binds the escape key to revert the changes and close the quick editor.
+		 * Binds the Escape key to revert the changes and close the quick editor.
 		 *
 		 * @return {boolean} The result of revert.
 		 */
 		qeRow.keyup(function(e){
-			// Revert changes if escape key is pressed.
+			// Revert changes if Escape key is pressed.
 			if ( e.which === 27 ) {
 				return inlineEditPost.revert();
 			}
 		});
 
 		/**
-		 * Binds the escape key to revert the changes and close the bulk editor.
+		 * Binds the Escape key to revert the changes and close the bulk editor.
 		 *
 		 * @return {boolean} The result of revert.
 		 */
 		bulkRow.keyup(function(e){
-			// Revert changes if escape key is pressed.
+			// Revert changes if Escape key is pressed.
 			if ( e.which === 27 ) {
 				return inlineEditPost.revert();
 			}
@@ -88,7 +89,7 @@ window.wp = window.wp || {};
 		});
 
 		/**
-		 * If enter is pressed, and the target is not the cancel button, save the post.
+		 * If Enter is pressed, and the target is not the cancel button, save the post.
 		 *
 		 * @return {boolean} The result of save.
 		 */
@@ -157,8 +158,9 @@ window.wp = window.wp || {};
 	 * Toggles the quick edit window, hiding it when it's active and showing it when
 	 * inactive.
 	 *
-	 * @memberof inlineEditPost
 	 * @since 2.7.0
+	 *
+	 * @memberof inlineEditPost
 	 *
 	 * @param {Object} el Element within a post table row.
 	 */
@@ -170,8 +172,9 @@ window.wp = window.wp || {};
 	/**
 	 * Creates the bulk editor row to edit multiple posts at once.
 	 *
-	 * @memberof inlineEditPost
 	 * @since 2.7.0
+	 *
+	 * @memberof inlineEditPost
 	 */
 	setBulk : function(){
 		var te = '', type = this.type, c = true;
@@ -242,8 +245,9 @@ window.wp = window.wp || {};
 	/**
 	 * Creates a quick edit window for the post that has been clicked.
 	 *
-	 * @memberof inlineEditPost
 	 * @since 2.7.0
+	 *
+	 * @memberof inlineEditPost
 	 *
 	 * @param {number|Object} id The id of the clicked post or an element within a post
 	 *                           table row.
@@ -409,7 +413,7 @@ window.wp = window.wp || {};
 		fields = $('#edit-'+id).find(':input').serialize();
 		params = fields + '&' + $.param(params);
 
-		// Make ajax request.
+		// Make Ajax request.
 		$.post( ajaxurl, params,
 			function(r) {
 				var $errorNotice = $( '#edit-' + id + ' .inline-edit-save .notice-error' ),
@@ -450,8 +454,9 @@ window.wp = window.wp || {};
 	/**
 	 * Hides and empties the Quick Edit and/or Bulk Edit windows.
 	 *
-	 * @memberof    inlineEditPost
 	 * @since 2.7.0
+	 *
+	 * @memberof inlineEditPost
 	 *
 	 * @return {boolean} Always returns false.
 	 */
@@ -494,8 +499,9 @@ window.wp = window.wp || {};
 	 * Gets the id for a the post that you want to quick edit from the row in the quick
 	 * edit table.
 	 *
-	 * @memberof    inlineEditPost
 	 * @since 2.7.0
+	 *
+	 * @memberof inlineEditPost
 	 *
 	 * @param  {Object} o DOM row object to get the id for.
 	 * @return {string}   The post id extracted from the table row in the object.
@@ -546,7 +552,7 @@ $( document ).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
 	}
 }).ready( function() {
 
-	// Set the heartbeat interval to 15 sec.
+	// Set the heartbeat interval to 15 seconds.
 	if ( typeof wp !== 'undefined' && wp.heartbeat ) {
 		wp.heartbeat.interval( 15 );
 	}

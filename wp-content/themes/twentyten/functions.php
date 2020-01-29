@@ -27,7 +27,7 @@
  * <code>
  * add_action( 'after_setup_theme', 'my_child_theme_setup' );
  * function my_child_theme_setup() {
- *     // We are providing our own filter for excerpt_length (or using the unfiltered value)
+ *     // We are providing our own filter for excerpt_length (or using the unfiltered value).
  *     remove_filter( 'excerpt_length', 'twentyten_excerpt_length' );
  *     ...
  * }
@@ -119,15 +119,15 @@ if ( ! function_exists( 'twentyten_setup' ) ) :
 		// Post Format support. You can also use the legacy "gallery" or "asides" (note the plural) categories.
 		add_theme_support( 'post-formats', array( 'aside', 'gallery' ) );
 
-		// This theme uses post thumbnails
+		// This theme uses post thumbnails.
 		add_theme_support( 'post-thumbnails' );
 
-		// Add default posts and comments RSS feed links to head
+		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
 
 		/*
 		 * Make theme available for translation.
-		 * Translations can be filed in the /languages/ directory
+		 * Translations can be filed in the /languages/ directory.
 		 */
 		load_theme_textdomain( 'twentyten', get_template_directory() . '/languages' );
 
@@ -200,7 +200,7 @@ if ( ! function_exists( 'twentyten_setup' ) ) :
 		 */
 		set_post_thumbnail_size( $custom_header_support['width'], $custom_header_support['height'], true );
 
-		// ... and thus ends the custom header business.
+		// ...and thus ends the custom header business.
 
 		// Default custom headers packaged with the theme. %s is a placeholder for the theme template directory URI.
 		register_default_headers(
@@ -394,7 +394,7 @@ add_filter( 'use_default_gallery_style', '__return_false' );
 function twentyten_remove_gallery_css( $css ) {
 	return preg_replace( "#<style type='text/css'>(.*?)</style>#s", '', $css );
 }
-// Backwards compatibility with WordPress 3.0.
+// Backward compatibility with WordPress 3.0.
 if ( version_compare( $GLOBALS['wp_version'], '3.1', '<' ) ) {
 	add_filter( 'gallery_style', 'twentyten_remove_gallery_css' );
 }
@@ -740,7 +740,7 @@ if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
 	 * Fire the wp_body_open action.
 	 *
-	 * Added for backwards compatibility to support pre 5.2.0 WordPress versions.
+	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *
 	 * @since Twenty Ten 2.9
 	 */

@@ -414,10 +414,16 @@ class WP_REST_Server {
 			$result = wp_json_encode( $result );
 
 			$json_error_message = $this->get_json_last_error();
+
 			if ( $json_error_message ) {
-				$json_error_obj = new WP_Error( 'rest_encode_error', $json_error_message, array( 'status' => 500 ) );
-				$result         = $this->error_to_response( $json_error_obj );
-				$result         = wp_json_encode( $result->data[0] );
+				$json_error_obj = new WP_Error(
+					'rest_encode_error',
+					$json_error_message,
+					array( 'status' => 500 )
+				);
+
+				$result = $this->error_to_response( $json_error_obj );
+				$result = wp_json_encode( $result->data[0] );
 			}
 
 			if ( $jsonp_callback ) {
@@ -428,6 +434,7 @@ class WP_REST_Server {
 				echo $result;
 			}
 		}
+
 		return null;
 	}
 
@@ -453,6 +460,7 @@ class WP_REST_Server {
 			// Convert links to part of the data.
 			$data['_links'] = $links;
 		}
+
 		if ( $embed ) {
 			// Determine if this is a numeric array.
 			if ( wp_is_numeric_array( $data ) ) {
@@ -478,6 +486,7 @@ class WP_REST_Server {
 	 */
 	public static function get_response_links( $response ) {
 		$links = $response->get_links();
+
 		if ( empty( $links ) ) {
 			return array();
 		}
@@ -846,6 +855,7 @@ class WP_REST_Server {
 			}
 
 			$args = array();
+
 			foreach ( $matches as $param => $value ) {
 				if ( ! is_int( $param ) ) {
 					$args[ $param ] = $value;
@@ -866,7 +876,11 @@ class WP_REST_Server {
 				}
 
 				if ( ! is_callable( $callback ) ) {
-					$response = new WP_Error( 'rest_invalid_handler', __( 'The handler for the route is invalid' ), array( 'status' => 500 ) );
+					$response = new WP_Error(
+						'rest_invalid_handler',
+						__( 'The handler for the route is invalid' ),
+						array( 'status' => 500 )
+					);
 				}
 
 				if ( ! is_wp_error( $response ) ) {
@@ -923,7 +937,11 @@ class WP_REST_Server {
 						if ( is_wp_error( $permission ) ) {
 							$response = $permission;
 						} elseif ( false === $permission || null === $permission ) {
-							$response = new WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to do that.' ), array( 'status' => rest_authorization_required_code() ) );
+							$response = new WP_Error(
+								'rest_forbidden',
+								__( 'Sorry, you are not allowed to do that.' ),
+								array( 'status' => rest_authorization_required_code() )
+							);
 						}
 					}
 				}
@@ -987,7 +1005,13 @@ class WP_REST_Server {
 			}
 		}
 
-		return $this->error_to_response( new WP_Error( 'rest_no_route', __( 'No route was found matching the URL and request method' ), array( 'status' => 404 ) ) );
+		return $this->error_to_response(
+			new WP_Error(
+				'rest_no_route',
+				__( 'No route was found matching the URL and request method' ),
+				array( 'status' => 404 )
+			)
+		);
 	}
 
 	/**
@@ -1069,7 +1093,11 @@ class WP_REST_Server {
 		$namespace = $request['namespace'];
 
 		if ( ! isset( $this->namespaces[ $namespace ] ) ) {
-			return new WP_Error( 'rest_invalid_namespace', __( 'The specified namespace could not be found.' ), array( 'status' => 404 ) );
+			return new WP_Error(
+				'rest_invalid_namespace',
+				__( 'The specified namespace could not be found.' ),
+				array( 'status' => 404 )
+			);
 		}
 
 		$routes    = $this->namespaces[ $namespace ];
@@ -1186,6 +1214,7 @@ class WP_REST_Server {
 
 			if ( isset( $callback['args'] ) ) {
 				$endpoint_data['args'] = array();
+
 				foreach ( $callback['args'] as $key => $opts ) {
 					$arg_data = array(
 						'required' => ! empty( $opts['required'] ),

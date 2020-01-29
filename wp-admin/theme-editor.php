@@ -117,6 +117,7 @@ validate_file_to_edit( $file, $allowed_files );
 // Handle fallback editing of file when JavaScript is not available.
 $edit_error     = null;
 $posted_content = null;
+
 if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	$r = wp_edit_theme_plugin_file( wp_unslash( $_POST ) );
 	if ( is_wp_error( $r ) ) {
@@ -139,49 +140,49 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	}
 }
 
-	$settings = array(
-		'codeEditor' => wp_enqueue_code_editor( compact( 'file' ) ),
-	);
-	wp_enqueue_script( 'wp-theme-plugin-editor' );
-	wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode( $settings ) ) );
-	wp_add_inline_script( 'wp-theme-plugin-editor', 'wp.themePluginEditor.themeOrPlugin = "theme";' );
+$settings = array(
+	'codeEditor' => wp_enqueue_code_editor( compact( 'file' ) ),
+);
+wp_enqueue_script( 'wp-theme-plugin-editor' );
+wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode( $settings ) ) );
+wp_add_inline_script( 'wp-theme-plugin-editor', 'wp.themePluginEditor.themeOrPlugin = "theme";' );
 
-	require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
-	update_recently_edited( $file );
+update_recently_edited( $file );
 
-	if ( ! is_file( $file ) ) {
-		$error = true;
-	}
+if ( ! is_file( $file ) ) {
+	$error = true;
+}
 
-	$content = '';
-	if ( ! empty( $posted_content ) ) {
-		$content = $posted_content;
-	} elseif ( ! $error && filesize( $file ) > 0 ) {
-		$f       = fopen( $file, 'r' );
-		$content = fread( $f, filesize( $file ) );
+$content = '';
+if ( ! empty( $posted_content ) ) {
+	$content = $posted_content;
+} elseif ( ! $error && filesize( $file ) > 0 ) {
+	$f       = fopen( $file, 'r' );
+	$content = fread( $f, filesize( $file ) );
 
-		if ( '.php' == substr( $file, strrpos( $file, '.' ) ) ) {
-			$functions = wp_doc_link_parse( $content );
+	if ( '.php' == substr( $file, strrpos( $file, '.' ) ) ) {
+		$functions = wp_doc_link_parse( $content );
 
-			$docs_select  = '<select name="docs-list" id="docs-list">';
-			$docs_select .= '<option value="">' . esc_attr__( 'Function Name&hellip;' ) . '</option>';
-			foreach ( $functions as $function ) {
-				$docs_select .= '<option value="' . esc_attr( urlencode( $function ) ) . '">' . htmlspecialchars( $function ) . '()</option>';
-			}
-			$docs_select .= '</select>';
+		$docs_select  = '<select name="docs-list" id="docs-list">';
+		$docs_select .= '<option value="">' . esc_attr__( 'Function Name&hellip;' ) . '</option>';
+		foreach ( $functions as $function ) {
+			$docs_select .= '<option value="' . esc_attr( urlencode( $function ) ) . '">' . htmlspecialchars( $function ) . '()</option>';
 		}
-
-		$content = esc_textarea( $content );
+		$docs_select .= '</select>';
 	}
 
-	$file_description = get_file_description( $relative_file );
-	$file_show        = array_search( $file, array_filter( $allowed_files ) );
-	$description      = esc_html( $file_description );
-	if ( $file_description != $file_show ) {
-		$description .= ' <span>(' . esc_html( $file_show ) . ')</span>';
-	}
-	?>
+	$content = esc_textarea( $content );
+}
+
+$file_description = get_file_description( $relative_file );
+$file_show        = array_search( $file, array_filter( $allowed_files ) );
+$description      = esc_html( $file_description );
+if ( $file_description != $file_show ) {
+	$description .= ' <span>(' . esc_html( $file_show ) . ')</span>';
+}
+?>
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
 
@@ -195,6 +196,7 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 		<pre><?php echo esc_html( $edit_error->get_error_message() ? $edit_error->get_error_message() : $edit_error->get_error_code() ); ?></pre>
 	</div>
 <?php endif; ?>
+
 <?php if ( preg_match( '/\.css$/', $file ) ) : ?>
 	<div id="message" class="notice-info notice">
 		<p><strong><?php _e( 'Did you know?' ); ?></strong></p>
@@ -213,38 +215,40 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 <div class="fileedit-sub">
 <div class="alignleft">
 <h2>
-<?php
-echo $theme->display( 'Name' );
-if ( $description ) {
-	echo ': ' . $description;}
-?>
+	<?php
+	echo $theme->display( 'Name' );
+	if ( $description ) {
+		echo ': ' . $description;}
+	?>
 </h2>
 </div>
 <div class="alignright">
 	<form action="theme-editor.php" method="get">
 		<strong><label for="theme"><?php _e( 'Select theme to edit:' ); ?> </label></strong>
 		<select name="theme" id="theme">
-<?php
-foreach ( wp_get_themes( array( 'errors' => null ) ) as $a_stylesheet => $a_theme ) {
-	if ( $a_theme->errors() && 'theme_no_stylesheet' == $a_theme->errors()->get_error_code() ) {
-		continue;
-	}
+		<?php
+		foreach ( wp_get_themes( array( 'errors' => null ) ) as $a_stylesheet => $a_theme ) {
+			if ( $a_theme->errors() && 'theme_no_stylesheet' == $a_theme->errors()->get_error_code() ) {
+				continue;
+			}
 
-	$selected = $a_stylesheet == $stylesheet ? ' selected="selected"' : '';
-	echo "\n\t" . '<option value="' . esc_attr( $a_stylesheet ) . '"' . $selected . '>' . $a_theme->display( 'Name' ) . '</option>';
-}
-?>
+			$selected = $a_stylesheet == $stylesheet ? ' selected="selected"' : '';
+			echo "\n\t" . '<option value="' . esc_attr( $a_stylesheet ) . '"' . $selected . '>' . $a_theme->display( 'Name' ) . '</option>';
+		}
+		?>
 		</select>
 		<?php submit_button( __( 'Select' ), '', 'Submit', false ); ?>
 	</form>
 </div>
 <br class="clear" />
 </div>
+
 <?php
 if ( $theme->errors() ) {
 	echo '<div class="error"><p><strong>' . __( 'This theme is broken.' ) . '</strong> ' . $theme->errors()->get_error_message() . '</p></div>';
 }
 ?>
+
 <div id="templateside">
 	<h2 id="theme-files-label"><?php _e( 'Theme Files' ); ?></h2>
 	<ul role="tree" aria-labelledby="theme-files-label">
@@ -285,57 +289,59 @@ else :
 			<input type="hidden" name="file" value="<?php echo esc_attr( $relative_file ); ?>" />
 			<input type="hidden" name="theme" value="<?php echo esc_attr( $theme->get_stylesheet() ); ?>" />
 		</div>
-	<?php if ( ! empty( $functions ) ) : ?>
-		<div id="documentation" class="hide-if-no-js">
-		<label for="docs-list"><?php _e( 'Documentation:' ); ?></label>
-		<?php echo $docs_select; ?>
-		<input disabled id="docs-lookup" type="button" class="button" value="<?php esc_attr_e( 'Look Up' ); ?>" onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'https://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&amp;locale=<?php echo urlencode( get_user_locale() ); ?>&amp;version=<?php echo urlencode( get_bloginfo( 'version' ) ); ?>&amp;redirect=true'); }" />
-		</div>
-	<?php endif; ?>
 
-	<div>
-		<div class="editor-notices">
-			<?php if ( is_child_theme() && $theme->get_stylesheet() == get_template() ) : ?>
-				<div class="notice notice-warning inline">
-					<p>
-						<?php
-						if ( is_writeable( $file ) ) {
-							?>
-						<strong><?php _e( 'Caution:' ); ?></strong><?php } ?>
-						<?php _e( 'This is a file in your current parent theme.' ); ?>
-					</p>
-				</div>
+		<?php if ( ! empty( $functions ) ) : ?>
+			<div id="documentation" class="hide-if-no-js">
+				<label for="docs-list"><?php _e( 'Documentation:' ); ?></label>
+				<?php echo $docs_select; ?>
+				<input disabled id="docs-lookup" type="button" class="button" value="<?php esc_attr_e( 'Look Up' ); ?>" onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'https://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&amp;locale=<?php echo urlencode( get_user_locale() ); ?>&amp;version=<?php echo urlencode( get_bloginfo( 'version' ) ); ?>&amp;redirect=true'); }" />
+			</div>
+		<?php endif; ?>
+
+		<div>
+			<div class="editor-notices">
+				<?php if ( is_child_theme() && $theme->get_stylesheet() == get_template() ) : ?>
+					<div class="notice notice-warning inline">
+						<p>
+							<?php if ( is_writeable( $file ) ) : ?>
+								<strong><?php _e( 'Caution:' ); ?></strong>
+							<?php endif; ?>
+							<?php _e( 'This is a file in your current parent theme.' ); ?>
+						</p>
+					</div>
+				<?php endif; ?>
+			</div>
+			<?php if ( is_writeable( $file ) ) : ?>
+				<p class="submit">
+					<?php submit_button( __( 'Update File' ), 'primary', 'submit', false ); ?>
+					<span class="spinner"></span>
+				</p>
+			<?php else : ?>
+				<p><em>
+					<?php
+					printf(
+						/* translators: %s: Documentation URL. */
+						__( 'You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.' ),
+						__( 'https://wordpress.org/support/article/changing-file-permissions/' )
+					);
+					?>
+				</em></p>
 			<?php endif; ?>
 		</div>
-	<?php if ( is_writeable( $file ) ) : ?>
-		<p class="submit">
-			<?php submit_button( __( 'Update File' ), 'primary', 'submit', false ); ?>
-			<span class="spinner"></span>
-		</p>
-	<?php else : ?>
-		<p><em>
-			<?php
-			printf(
-				/* translators: %s: Documentation URL. */
-				__( 'You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.' ),
-				__( 'https://wordpress.org/support/article/changing-file-permissions/' )
-			);
-			?>
-		</em></p>
-	<?php endif; ?>
-	</div>
-	<?php wp_print_file_editor_templates(); ?>
+
+		<?php wp_print_file_editor_templates(); ?>
 	</form>
 	<?php
-endif; // $error
+endif; // End if $error.
 ?>
 <br class="clear" />
 </div>
 <?php
 $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
-	// Get a back URL
-	$referer                    = wp_get_referer();
+	// Get a back URL.
+	$referer = wp_get_referer();
+
 	$excluded_referer_basenames = array( 'theme-editor.php', 'wp-login.php' );
 
 	if ( $referer && ! in_array( basename( parse_url( $referer, PHP_URL_PATH ) ), $excluded_referer_basenames, true ) ) {
@@ -344,38 +350,38 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 		$return_url = admin_url( '/' );
 	}
 	?>
-<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js hidden">
-	<div class="notification-dialog-background"></div>
-	<div class="notification-dialog">
-		<div class="file-editor-warning-content">
-			<div class="file-editor-warning-message">
-				<h1><?php _e( 'Heads up!' ); ?></h1>
+	<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js hidden">
+		<div class="notification-dialog-background"></div>
+		<div class="notification-dialog">
+			<div class="file-editor-warning-content">
+				<div class="file-editor-warning-message">
+					<h1><?php _e( 'Heads up!' ); ?></h1>
+					<p>
+						<?php
+						_e( 'You appear to be making direct edits to your theme in the WordPress dashboard. We recommend that you don&#8217;t! Editing your theme directly could break your site and your changes may be lost in future updates.' );
+						?>
+					</p>
+						<?php
+						if ( ! $theme->parent() ) {
+							echo '<p>';
+							echo sprintf(
+								/* translators: %s: Link to documentation on child themes. */
+								__( 'If you need to tweak more than your theme&#8217;s CSS, you might want to try <a href="%s">making a child theme</a>.' ),
+								esc_url( __( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' ) )
+							);
+							echo '</p>';
+						}
+						?>
+					<p><?php _e( 'If you decide to go ahead with direct edits anyway, use a file manager to create a copy with a new name and hang on to the original. That way, you can re-enable a functional version if something goes wrong.' ); ?></p>
+				</div>
 				<p>
-					<?php
-					_e( 'You appear to be making direct edits to your theme in the WordPress dashboard. We recommend that you don&#8217;t! Editing your theme directly could break your site and your changes may be lost in future updates.' );
-					?>
+					<a class="button file-editor-warning-go-back" href="<?php echo esc_url( $return_url ); ?>"><?php _e( 'Go back' ); ?></a>
+					<button type="button" class="file-editor-warning-dismiss button button-primary"><?php _e( 'I understand' ); ?></button>
 				</p>
-					<?php
-					if ( ! $theme->parent() ) {
-						echo '<p>';
-						echo sprintf(
-							/* translators: %s: Link to documentation on child themes. */
-							__( 'If you need to tweak more than your theme&#8217;s CSS, you might want to try <a href="%s">making a child theme</a>.' ),
-							esc_url( __( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' ) )
-						);
-						echo '</p>';
-					}
-					?>
-				<p><?php _e( 'If you decide to go ahead with direct edits anyway, use a file manager to create a copy with a new name and hang on to the original. That way, you can re-enable a functional version if something goes wrong.' ); ?></p>
 			</div>
-			<p>
-				<a class="button file-editor-warning-go-back" href="<?php echo esc_url( $return_url ); ?>"><?php _e( 'Go back' ); ?></a>
-				<button type="button" class="file-editor-warning-dismiss button button-primary"><?php _e( 'I understand' ); ?></button>
-			</p>
 		</div>
 	</div>
-</div>
 	<?php
-endif; // editor warning notice
+endif; // Editor warning notice.
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );

@@ -943,15 +943,15 @@ class WP_Http {
 			return $maybe_relative_path;
 		}
 
-		// Check for a scheme on the 'relative' url
+		// Check for a scheme on the 'relative' URL.
 		if ( ! empty( $relative_url_parts['scheme'] ) ) {
 			return $maybe_relative_path;
 		}
 
 		$absolute_path = $url_parts['scheme'] . '://';
 
-		// Schemeless URLs will make it this far, so we check for a host in the relative url
-		// and convert it to a protocol-url
+		// Schemeless URLs will make it this far, so we check for a host in the relative URL
+		// and convert it to a protocol-URL.
 		if ( isset( $relative_url_parts['host'] ) ) {
 			$absolute_path .= $relative_url_parts['host'];
 			if ( isset( $relative_url_parts['port'] ) ) {
@@ -964,7 +964,7 @@ class WP_Http {
 			}
 		}
 
-		// Start off with the Absolute URL path.
+		// Start off with the absolute URL path.
 		$path = ! empty( $url_parts['path'] ) ? $url_parts['path'] : '/';
 
 		// If it's a root-relative path, then great.
@@ -988,7 +988,7 @@ class WP_Http {
 			$path = preg_replace( '!^/(\.\./)+!', '', $path );
 		}
 
-		// Add the Query string.
+		// Add the query string.
 		if ( ! empty( $relative_url_parts['query'] ) ) {
 			$path .= '?' . $relative_url_parts['query'];
 		}

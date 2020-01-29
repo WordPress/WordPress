@@ -150,12 +150,12 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 			reset_mbstring_encoding();
 
-			return ''; // Blank document, File does exist, It's just blank.
+			return ''; // Blank document. File does exist, it's just blank.
 		}
 
 		reset_mbstring_encoding();
 
-		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to
+		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to.
 		$contents = '';
 
 		while ( ! feof( $temphandle ) ) {
@@ -198,7 +198,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			return false;
 		}
 
-		// The FTP class uses string functions internally during file download/upload
+		// The FTP class uses string functions internally during file download/upload.
 		mbstring_binary_safe_encoding();
 
 		$bytes_written = fwrite( $temphandle, $contents );
@@ -211,7 +211,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			return false;
 		}
 
-		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to
+		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to.
 
 		$ret = $this->ftp->fput( $file, $temphandle );
 
@@ -283,7 +283,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			}
 		}
 
-		// chmod the file or directory
+		// chmod the file or directory.
 		return $this->ftp->chmod( $file, $mode );
 	}
 
@@ -408,7 +408,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			return true; // File is an empty directory.
 		}
 
-		return ! empty( $list ); //empty list = no file, so invert.
+		return ! empty( $list ); // Empty list = no file, so invert.
 		// Return $this->ftp->is_exists($file); has issues with ABOR+426 responses on the ncFTPd server.
 	}
 
@@ -635,12 +635,12 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 				}
 			}
 
-			// Replace symlinks formatted as "source -> target" with just the source name
+			// Replace symlinks formatted as "source -> target" with just the source name.
 			if ( $struc['islink'] ) {
 				$struc['name'] = preg_replace( '/(\s*->\s*.*)$/', '', $struc['name'] );
 			}
 
-			// Add the Octal representation of the file permissions
+			// Add the octal representation of the file permissions.
 			$struc['permsn'] = $this->getnumchmodfromh( $struc['perms'] );
 
 			$ret[ $struc['name'] ] = $struc;

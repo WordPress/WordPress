@@ -268,7 +268,7 @@ if ( ! class_exists( 'Translations', false ) ) :
 		 */
 		function make_headers( $translation ) {
 			$headers = array();
-			// sometimes \ns are used instead of real new lines
+			// Sometimes \n's are used instead of real new lines.
 			$translation = str_replace( '\n', "\n", $translation );
 			$lines       = explode( "\n", $translation );
 			foreach ( $lines as $line ) {

@@ -264,7 +264,7 @@
 			return;
 		}
 
-		// (Old) IE doesn't support preventDefault, and does support returnValue
+		// (Old) IE doesn't support preventDefault, and does support returnValue.
 		if ( event.preventDefault ) {
 			event.preventDefault();
 		}
@@ -451,7 +451,7 @@
 				};
 		}
 
-		// Get the closest matching elent
+		// Get the closest matching elent.
 		for ( ; el && el !== document; el = el.parentNode ) {
 			if ( el.matches( selector ) ) {
 				return el;

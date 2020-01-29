@@ -107,7 +107,7 @@ if ( isset( $GLOBALS['wp_settings']['media']['embeds'] ) ) :
 <h2 class="title"><?php _e( 'Uploading Files' ); ?></h2>
 <table class="form-table" role="presentation">
 	<?php
-	// If upload_url_path is not the default (empty), and upload_path is not the default ('wp-content/uploads' or empty)
+	// If upload_url_path is not the default (empty), and upload_path is not the default ('wp-content/uploads' or empty).
 	if ( get_option( 'upload_url_path' ) || ( get_option( 'upload_path' ) != 'wp-content/uploads' && get_option( 'upload_path' ) ) ) :
 		?>
 <tr>

@@ -3,7 +3,7 @@
  */
 
 /* global tinymce, wpCookies, autosaveL10n, switchEditors */
-// Back-compat
+// Back-compat.
 window.autosave = function() {
 	return true;
 };
@@ -209,7 +209,7 @@ window.autosave = function() {
 			 */
 			function getStorage() {
 				var stored_obj = false;
-				// Separate local storage containers for each blog_id
+				// Separate local storage containers for each blog_id.
 				if ( hasStorage && blog_id ) {
 					stored_obj = sessionStorage.getItem( 'wp-autosave-' + blog_id );
 
@@ -314,7 +314,7 @@ window.autosave = function() {
 			/**
 			 * Saves post data for the current post.
 			 *
-			 * Runs on a 15 sec. interval, saves when there are differences in the post title or content.
+			 * Runs on a 15 seconds interval, saves when there are differences in the post title or content.
 			 * When the optional data is provided, updates the last saved post data.
 			 *
 			 * @since 3.9.0
@@ -378,9 +378,11 @@ window.autosave = function() {
 				// Check if the local post data is different than the loaded post data.
 				if ( $( '#wp-content-wrap' ).hasClass( 'tmce-active' ) ) {
 
-					// If TinyMCE loads first, check the post 1.5 sec. after it is ready.
-					// By this time the content has been loaded in the editor and 'saved' to the textarea.
-					// This prevents false positives.
+					/*
+					 * If TinyMCE loads first, check the post 1.5 seconds after it is ready.
+					 * By this time the content has been loaded in the editor and 'saved' to the textarea.
+					 * This prevents false positives.
+					 */
 					$document.on( 'tinymce-editor-init.autosave', function() {
 						window.setTimeout( function() {
 							checkPost();
@@ -390,7 +392,7 @@ window.autosave = function() {
 					checkPost();
 				}
 
-				// Save every 15 sec.
+				// Save every 15 seconds.
 				intervalTimer = window.setInterval( save, 15000 );
 
 				$( 'form#post' ).on( 'submit.autosave-local', function() {
@@ -456,7 +458,7 @@ window.autosave = function() {
 
 				if ( cookie === post_id + '-saved' ) {
 					wpCookies.remove( 'wp-saving-post' );
-					// The post was saved properly, remove old data and bail
+					// The post was saved properly, remove old data and bail.
 					setData( false );
 					return;
 				}
@@ -519,7 +521,7 @@ window.autosave = function() {
 				var editor;
 
 				if ( postData ) {
-					// Set the last saved data
+					// Set the last saved data.
 					lastCompareString = getCompareString( postData );
 
 					if ( $( '#title' ).val() !== postData.post_title ) {
@@ -534,14 +536,14 @@ window.autosave = function() {
 							postData.content = switchEditors.wpautop( postData.content );
 						}
 
-						// Make sure there's an undo level in the editor
+						// Make sure there's an undo level in the editor.
 						editor.undoManager.transact( function() {
 							editor.setContent( postData.content || '' );
 							editor.nodeChanged();
 						});
 					} else {
 
-						// Make sure the Text editor is selected
+						// Make sure the Text editor is selected.
 						$( '#content-html' ).click();
 						$( '#content' ).focus();
 
@@ -558,9 +560,11 @@ window.autosave = function() {
 
 			blog_id = typeof window.autosaveL10n !== 'undefined' && window.autosaveL10n.blog_id;
 
-			// Check if the browser supports sessionStorage and it's not disabled,
-			// then initialize and run checkPost().
-			// Don't run if the post type supports neither 'editor' (textarea#content) nor 'excerpt'.
+			/*
+			 * Check if the browser supports sessionStorage and it's not disabled,
+			 * then initialize and run checkPost().
+			 * Don't run if the post type supports neither 'editor' (textarea#content) nor 'excerpt'.
+			 */
 			if ( checkStorage() && blog_id && ( $('#content').length || $('#excerpt').length ) ) {
 				$document.ready( run );
 			}
@@ -652,7 +656,7 @@ window.autosave = function() {
 				enableButtons();
 
 				if ( data.success ) {
-					// No longer an auto-draft
+					// No longer an auto-draft.
 					$( '#auto_draft' ).val('');
 				}
 			}
@@ -698,7 +702,7 @@ window.autosave = function() {
 			function save() {
 				var postData, compareString;
 
-				// window.autosave() used for back-compat
+				// window.autosave() used for back-compat.
 				if ( isSuspended || _blockSave || ! window.autosave() ) {
 					return false;
 				}
@@ -710,12 +714,12 @@ window.autosave = function() {
 				postData = getPostData();
 				compareString = getCompareString( postData );
 
-				// First check
+				// First check.
 				if ( typeof lastCompareString === 'undefined' ) {
 					lastCompareString = initialCompareString;
 				}
 
-				// No change
+				// No change.
 				if ( compareString === lastCompareString ) {
 					return false;
 				}
@@ -836,7 +840,7 @@ window.autosave = function() {
 			}
 		}).ready( function() {
 
-			// Set the initial compare string in case TinyMCE is not used or not loaded first
+			// Set the initial compare string in case TinyMCE is not used or not loaded first.
 			initialCompareString = getCompareString();
 		});
 

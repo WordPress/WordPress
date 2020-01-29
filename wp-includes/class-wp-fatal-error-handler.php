@@ -3,7 +3,7 @@
  * Error Protection API: WP_Fatal_Error_Handler class
  *
  * @package WordPress
- * @since   5.2.0
+ * @since 5.2.0
  */
 
 /**

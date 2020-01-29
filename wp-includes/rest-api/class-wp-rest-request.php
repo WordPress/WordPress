@@ -446,7 +446,7 @@ class WP_REST_Request implements ArrayAccess {
 
 		$params = array();
 		foreach ( $order as $type ) {
-			// array_merge / the "+" operator will mess up
+			// array_merge() / the "+" operator will mess up
 			// numeric keys, so instead do a manual foreach.
 			foreach ( (array) $this->params[ $type ] as $key => $value ) {
 				$params[ $key ] = $value;
@@ -674,6 +674,7 @@ class WP_REST_Request implements ArrayAccess {
 		}
 
 		$this->params['JSON'] = $params;
+
 		return true;
 	}
 
@@ -783,10 +784,12 @@ class WP_REST_Request implements ArrayAccess {
 			if ( empty( $this->params[ $type ] ) ) {
 				continue;
 			}
+
 			foreach ( $this->params[ $type ] as $key => $value ) {
 				if ( ! isset( $attributes['args'][ $key ] ) ) {
 					continue;
 				}
+
 				$param_args = $attributes['args'][ $key ];
 
 				// If the arg has a type but no sanitize_callback attribute, default to rest_parse_request_arg.
@@ -988,7 +991,7 @@ class WP_REST_Request implements ArrayAccess {
 			$api_url_part = substr( $url, strlen( untrailingslashit( $api_root ) ) );
 			$route        = parse_url( $api_url_part, PHP_URL_PATH );
 		} elseif ( ! empty( $query_params['rest_route'] ) ) {
-			// ?rest_route=... set directly
+			// ?rest_route=... set directly.
 			$route = $query_params['rest_route'];
 			unset( $query_params['rest_route'] );
 		}

@@ -38,8 +38,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			return;
 		}
 
-		// This Class uses the timeout on a per-connection basis, Others use it on a per-action basis.
-
+		// This class uses the timeout on a per-connection basis, others use it on a per-action basis.
 		if ( ! defined( 'FS_TIMEOUT' ) ) {
 			define( 'FS_TIMEOUT', 240 );
 		}
@@ -113,7 +112,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			return false;
 		}
 
-		// Set the Connection to use Passive FTP
+		// Set the connection to use Passive FTP.
 		ftp_pasv( $this->link, true );
 		if ( @ftp_get_option( $this->link, FTP_TIMEOUT_SEC ) < FS_TIMEOUT ) {
 			@ftp_set_option( $this->link, FTP_TIMEOUT_SEC, FS_TIMEOUT );
@@ -146,7 +145,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			return false;
 		}
 
-		fseek( $temp, 0 ); // Skip back to the start of the file being written to
+		fseek( $temp, 0 ); // Skip back to the start of the file being written to.
 		$contents = '';
 
 		while ( ! feof( $temp ) ) {
@@ -203,7 +202,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			return false;
 		}
 
-		fseek( $temp, 0 ); // Skip back to the start of the file being written to
+		fseek( $temp, 0 ); // Skip back to the start of the file being written to.
 
 		$ret = ftp_fput( $this->link, $file, $temp, FTP_BINARY );
 
@@ -273,7 +272,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			}
 		}
 
-		// chmod the file or directory
+		// chmod the file or directory.
 		if ( ! function_exists( 'ftp_chmod' ) ) {
 			return (bool) ftp_site( $this->link, sprintf( 'CHMOD %o %s', $mode, $file ) );
 		}
@@ -405,7 +404,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			return true; // File is an empty directory.
 		}
 
-		return ! empty( $list ); //empty list = no file, so invert.
+		return ! empty( $list ); // Empty list = no file, so invert.
 	}
 
 	/**
@@ -573,7 +572,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			if ( $lucifer[3] < 70 ) {
 				$lucifer[3] += 2000;
 			} else {
-				$lucifer[3] += 1900; // 4digit year fix
+				$lucifer[3] += 1900; // 4-digit year fix.
 			}
 			$b['isdir'] = ( $lucifer[7] == '<DIR>' );
 			if ( $b['isdir'] ) {
@@ -593,7 +592,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		} elseif ( ! $is_windows ) {
 			$lucifer = preg_split( '/[ ]/', $line, 9, PREG_SPLIT_NO_EMPTY );
 			if ( $lucifer ) {
-				//echo $line."\n";
+				// echo $line."\n";
 				$lcount = count( $lucifer );
 				if ( $lcount < 8 ) {
 					return '';
@@ -637,7 +636,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			}
 		}
 
-		// Replace symlinks formatted as "source -> target" with just the source name
+		// Replace symlinks formatted as "source -> target" with just the source name.
 		if ( isset( $b['islink'] ) && $b['islink'] ) {
 			$b['name'] = preg_replace( '/(\s*->\s*.*)$/', '', $b['name'] );
 		}

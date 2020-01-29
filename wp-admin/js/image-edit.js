@@ -48,8 +48,9 @@
 	/**
 	 * Converts a value to an integer.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} f The float value that should be converted.
 	 *
@@ -66,8 +67,9 @@
 	/**
 	 * Adds the disabled attribute and class to a single form element or a field set.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {jQuery}         el The element that should be modified.
 	 * @param {bool|number}    s  The state for the element. If set to true
@@ -95,8 +97,9 @@
 	/**
 	 * Initializes the image editor.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid The post id.
 	 *
@@ -121,12 +124,12 @@
 		$('input[type="text"]', '#imgedit-panel-' + postid).keypress(function(e) {
 			var k = e.keyCode;
 
-			// Key codes 37 thru 40 are the arrow keys.
+			// Key codes 37 through 40 are the arrow keys.
 			if ( 36 < k && k < 41 ) {
 				$(this).blur();
 			}
 
-			// The key code 13 is the enter key.
+			// The key code 13 is the Enter key.
 			if ( 13 === k ) {
 				e.preventDefault();
 				e.stopPropagation();
@@ -138,8 +141,9 @@
 	/**
 	 * Toggles the wait/load icon in the editor.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid The post id.
 	 * @param {number} toggle Is 0 or 1, fades the icon in then 1 and out when 0.
@@ -159,8 +163,9 @@
 	/**
 	 * Shows or hides the image edit help box.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {HTMLElement} el The element to create the help window in.
 	 *
@@ -181,8 +186,9 @@
 	 * The image edit target contains the image sizes where the (possible) changes
 	 * have to be applied to.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid The post id.
 	 *
@@ -198,8 +204,9 @@
 	 *
 	 * If the original image size is exceeded a red exclamation mark is shown.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number}         postid The current post id.
 	 * @param {number}         x      Is 0 when it applies the y-axis
@@ -234,8 +241,9 @@
 	/**
 	 * Gets the selected aspect ratio.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid The post id.
 	 *
@@ -261,8 +269,9 @@
 	 * Removes the last action from the image edit history.
 	 * The history consist of (edit) actions performed on the image.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid  The post id.
 	 * @param {number} setSize 0 or 1, when 1 the image resets to its original size.
@@ -295,13 +304,13 @@
 				// Restore original 'o'.
 				o = history[history.length - 1];
 
-				// c = 'crop', r = 'rotate', f = 'flip'
+				// c = 'crop', r = 'rotate', f = 'flip'.
 				o = o.c || o.r || o.f || false;
 
 				if ( o ) {
-					// fw = Full image width
+					// fw = Full image width.
 					this.hold.w = o.fw;
-					// fh = Full image height
+					// fh = Full image height.
 					this.hold.h = o.fh;
 				}
 			}
@@ -326,8 +335,9 @@
 	 *
 	 * When the image source is reloaded the image will be reloaded.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number}   postid   The post id.
 	 * @param {string}   nonce    The nonce to verify the request.
@@ -371,7 +381,7 @@
 
 				parent.empty().append(img);
 
-				// w, h are the new full size dims
+				// w, h are the new full size dimensions.
 				max1 = Math.max( t.hold.w, t.hold.h );
 				max2 = Math.max( $(img).width(), $(img).height() );
 				t.hold.sizer = max1 > max2 ? max2 / max1 : 1;
@@ -399,8 +409,9 @@
 	/**
 	 * Performs an image edit action.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param  {number}  postid The post id.
 	 * @param  {string}  nonce  The nonce to verify the request.
@@ -456,7 +467,7 @@
 		$.post(ajaxurl, data, function(r) {
 			$('#image-editor-' + postid).empty().append(r);
 			t.toggleEditor(postid, 0);
-			// refresh the attachment model so that changes propagate
+			// Refresh the attachment model so that changes propagate.
 			if ( t._view ) {
 				t._view.refresh();
 			}
@@ -466,8 +477,9 @@
 	/**
 	 * Stores the changes that are made to the image.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number}  postid   The post id to get the image from the database.
 	 * @param {string}  nonce    The nonce to verify the request.
@@ -531,8 +543,9 @@
 	/**
 	 * Creates the image edit window.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid   The post id for the image.
 	 * @param {string} nonce    The nonce to verify the request.
@@ -588,8 +601,9 @@
 	/**
 	 * Initializes the cropping tool and sets a default cropping selection.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid The post id.
 	 *
@@ -614,8 +628,9 @@
 	/**
 	 * Initializes the cropping tool.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number}      postid The post id.
 	 * @param {HTMLElement} image  The preview image.
@@ -645,8 +660,8 @@
 			 * @param {jQuery} img The preview image.
 			 */
 			onInit: function( img ) {
-				// Ensure that the imgAreaSelect wrapper elements are position:absolute.
-				// (even if we're in a position:fixed modal)
+				// Ensure that the imgAreaSelect wrapper elements are position:absolute
+				// (even if we're in a position:fixed modal).
 				$img = $( img );
 				$img.next().css( 'position', 'absolute' )
 					.nextAll( '.imgareaselect-outer' ).css( 'position', 'absolute' );
@@ -715,8 +730,9 @@
 	/**
 	 * Stores the current crop selection.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid The post id.
 	 * @param {object} c      The selection.
@@ -746,8 +762,9 @@
 	/**
 	 * Closes the image editor.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number}  postid The post id.
 	 * @param {bool}    warn   Warning message.
@@ -764,13 +781,14 @@
 		this.iasapi = {};
 		this.hold = {};
 
-		// If we've loaded the editor in the context of a Media Modal, then switch to the previous view,
-		// whatever that might have been.
+		// If we've loaded the editor in the context of a Media Modal,
+		// then switch to the previous view, whatever that might have been.
 		if ( this._view ){
 			this._view.back();
 		}
 
-		// In case we are not accessing the image editor in the context of a View, close the editor the old-skool way
+		// In case we are not accessing the image editor in the context of a View,
+		// close the editor the old-school way.
 		else {
 			$('#image-editor-' + postid).fadeOut('fast', function() {
 				$( '#media-head-' + postid ).fadeIn( 'fast', function() {
@@ -787,8 +805,9 @@
 	/**
 	 * Checks if the image edit history is saved.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid The post id.
 	 *
@@ -811,8 +830,9 @@
 	/**
 	 * Adds an image edit action to the history.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {object} op     The original position.
 	 * @param {number} postid The post id.
@@ -830,7 +850,7 @@
 			history.pop();
 			pop--;
 		}
-		undone.val(0); // reset
+		undone.val(0); // Reset.
 
 		history.push(op);
 		elem.val( JSON.stringify(history) );
@@ -844,8 +864,9 @@
 	/**
 	 * Rotates the image.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {string} angle  The angle the image is rotated with.
 	 * @param {number} postid The post id.
@@ -865,8 +886,9 @@
 	/**
 	 * Flips the image.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} axis   The axle the image is flipped on.
 	 * @param {number} postid The post id.
@@ -886,8 +908,9 @@
 	/**
 	 * Crops the image.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid The post id.
 	 * @param {string} nonce  The nonce.
@@ -915,8 +938,9 @@
 	/**
 	 * Undoes an image edit action.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid   The post id.
 	 * @param {string} nonce    The nonce.
@@ -948,8 +972,9 @@
 	/**
 	 * Reverts a undo action.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid The post id.
 	 * @param {string} nonce  The nonce.
@@ -978,8 +1003,9 @@
 	/**
 	 * Sets the selection for the height and width in pixels.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid The post id.
 	 * @param {jQuery} el     The element containing the values.
@@ -1035,8 +1061,9 @@
 	/**
 	 * Rounds a number to a whole.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} num The number.
 	 *
@@ -1064,8 +1091,9 @@
 	/**
 	 * Sets a locked aspect ratio for the selection.
 	 *
+	 * @since 2.9.0
+	 *
 	 * @memberof imageEdit
-	 * @since    2.9.0
 	 *
 	 * @param {number} postid     The post id.
 	 * @param {number} n          The ratio to set.
@@ -1108,8 +1136,9 @@
 	/**
 	 * Validates if a value in a jQuery.HTMLElement is numeric.
 	 *
+	 * @since 4.6.0
+	 *
 	 * @memberof imageEdit
-	 * @since    4.6
 	 *
 	 * @param {jQuery} el The html element.
 	 *

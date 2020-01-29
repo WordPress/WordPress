@@ -565,10 +565,12 @@
 					dom.add( node, 'span', { 'class': 'wpview-end' } );
 				} );
 
-				// Bail if the iframe node is not attached to the DOM.
-				// Happens when the view is dragged in the editor.
-				// There is a browser restriction when iframes are moved in the DOM. They get emptied.
-				// The iframe will be rerendered after dropping the view node at the new location.
+				/*
+				 * Bail if the iframe node is not attached to the DOM.
+				 * Happens when the view is dragged in the editor.
+				 * There is a browser restriction when iframes are moved in the DOM. They get emptied.
+				 * The iframe will be rerendered after dropping the view node at the new location.
+				 */
 				if ( ! iframe.contentWindow ) {
 					return;
 				}

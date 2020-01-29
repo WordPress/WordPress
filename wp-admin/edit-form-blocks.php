@@ -8,7 +8,7 @@
  * @subpackage Administration
  */
 
-// don't load directly
+// Don't load directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -148,10 +148,12 @@ $font_sizes    = current( (array) get_theme_support( 'editor-font-sizes' ) );
  */
 $allowed_block_types = apply_filters( 'allowed_block_types', true, $post );
 
-// Get all available templates for the post/page attributes meta-box.
-// The "Default template" array element should only be added if the array is
-// not empty so we do not trigger the template select element without any options
-// besides the default value.
+/*
+ * Get all available templates for the post/page attributes meta-box.
+ * The "Default template" array element should only be added if the array is
+ * not empty so we do not trigger the template select element without any options
+ * besides the default value.
+ */
 $available_templates = wp_get_theme()->get_page_templates( get_post( $post->ID ) );
 $available_templates = ! empty( $available_templates ) ? array_merge(
 	array(

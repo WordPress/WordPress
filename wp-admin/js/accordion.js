@@ -35,11 +35,11 @@
 
 		// Expand/Collapse accordion sections on click.
 		$( '.accordion-container' ).on( 'click keydown', '.accordion-section-title', function( e ) {
-			if ( e.type === 'keydown' && 13 !== e.which ) { // "return" key
+			if ( e.type === 'keydown' && 13 !== e.which ) { // "Return" key.
 				return;
 			}
 
-			e.preventDefault(); // Keep this AFTER the key filter above
+			e.preventDefault(); // Keep this AFTER the key filter above.
 
 			accordionSwitch( $( this ) );
 		});
@@ -80,7 +80,7 @@
 			section.toggleClass( 'open' );
 		}
 
-		// We have to wait for the animations to finish
+		// We have to wait for the animations to finish.
 		setTimeout(function(){
 		    container.removeClass( 'opening' );
 		}, 150);

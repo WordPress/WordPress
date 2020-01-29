@@ -35,7 +35,7 @@ get_header();
 
 		if ( $wp_query->found_posts ) {
 			$archive_subtitle = sprintf(
-				/* translators: %s: Number of search results */
+				/* translators: %s: Number of search results. */
 				_n(
 					'We found %s result for your search.',
 					'We found %s results for your search.',

@@ -37,9 +37,9 @@
 					url = this.url;
 				}
 
-				// If the URL is longer that 40 chars, concatenate the beginning (after the domain) and ending with ...
+				// If the URL is longer that 40 chars, concatenate the beginning (after the domain) and ending with '...'.
 				if ( url.length > 40 && ( index = url.indexOf( '/' ) ) !== -1 && ( lastIndex = url.lastIndexOf( '/' ) ) !== -1 && lastIndex !== index ) {
-					// If the beginning + ending are shorter that 40 chars, show more of the ending
+					// If the beginning + ending are shorter that 40 chars, show more of the ending.
 					if ( index + url.length - lastIndex < 40 ) {
 						lastIndex = -( 40 - ( index + 1 ) );
 					}
@@ -297,10 +297,10 @@
 			editor.execCommand( 'wp_link_cancel' );
 		} );
 
-		// WP default shortcuts
+		// WP default shortcuts.
 		editor.addShortcut( 'access+a', '', 'WP_Link' );
 		editor.addShortcut( 'access+s', '', 'wp_unlink' );
-		// The "de-facto standard" shortcut, see #27305
+		// The "de-facto standard" shortcut, see #27305.
 		editor.addShortcut( 'meta+k', '', 'WP_Link' );
 
 		editor.addButton( 'link', {
@@ -565,7 +565,7 @@
 		} );
 
 		editor.addButton( 'wp_link_edit', {
-			tooltip: 'Edit|button', // '|button' is not displayed, only used for context
+			tooltip: 'Edit|button', // '|button' is not displayed, only used for context.
 			icon: 'dashicon dashicons-edit',
 			cmd: 'WP_Link'
 		} );

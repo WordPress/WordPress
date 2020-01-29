@@ -38,9 +38,9 @@ get_header(); ?>
 
 			<?php
 				/*
-				 * Since we called the_post() above, we need to
-				 * rewind the loop back to the beginning that way
-				 * we can run the loop properly, in full.
+				 * Since we called the_post() above, we need
+				 * to rewind the loop back to the beginning.
+				 * That way we can run the loop properly, in full.
 				 */
 				rewind_posts();
 			?>
@@ -49,8 +49,8 @@ get_header(); ?>
 				<?php get_template_part( 'author-bio' ); ?>
 			<?php endif; ?>
 
-			<?php /* The loop */ ?>
 			<?php
+			// Start the loop.
 			while ( have_posts() ) :
 				the_post();
 				?>

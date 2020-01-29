@@ -47,7 +47,7 @@ if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
 $wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
 $pagenum       = $wp_list_table->get_pagenum();
 
-// Back-compat for viewing comments of an entry
+// Back-compat for viewing comments of an entry.
 foreach ( array( 'p', 'attachment_id', 'page_id' ) as $_redirect ) {
 	if ( ! empty( $_REQUEST[ $_redirect ] ) ) {
 		wp_redirect( admin_url( 'edit-comments.php?p=' . absint( $_REQUEST[ $_redirect ] ) ) );

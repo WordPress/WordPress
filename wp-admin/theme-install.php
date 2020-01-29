@@ -54,7 +54,7 @@ wp_localize_script(
 		'l10n'            => array(
 			'addNew'              => __( 'Add New Theme' ),
 			'search'              => __( 'Search Themes' ),
-			'searchPlaceholder'   => __( 'Search themes...' ), // placeholder (no ellipsis)
+			'searchPlaceholder'   => __( 'Search themes...' ), // Placeholder (no ellipsis).
 			'upload'              => __( 'Upload Theme' ),
 			'back'                => __( 'Back' ),
 			'error'               => sprintf(

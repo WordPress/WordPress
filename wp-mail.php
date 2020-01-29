@@ -33,7 +33,7 @@ require_once( ABSPATH . WPINC . '/class-pop3.php' );
 
 /** Only check at this interval for new messages. */
 if ( ! defined( 'WP_MAIL_INTERVAL' ) ) {
-	define( 'WP_MAIL_INTERVAL', 300 ); // 5 minutes
+	define( 'WP_MAIL_INTERVAL', 5 * MINUTE_IN_SECONDS );
 }
 
 $last_checked = get_transient( 'mailserver_last_checked' );
@@ -109,7 +109,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 			if ( preg_match( '/Subject: /i', $line ) ) {
 				$subject = trim( $line );
 				$subject = substr( $subject, 9, strlen( $subject ) - 9 );
-				// Captures any text in the subject before $phone_delim as the subject
+				// Captures any text in the subject before $phone_delim as the subject.
 				if ( function_exists( 'iconv_mime_decode' ) ) {
 					$subject = iconv_mime_decode( $subject, 2, get_option( 'blog_charset' ) );
 				} else {
@@ -141,9 +141,10 @@ for ( $i = 1; $i <= $count; $i++ ) {
 				}
 			}
 
-			if ( preg_match( '/Date: /i', $line ) ) { // of the form '20 Mar 2002 20:32:37 +0100'
-				$ddate           = str_replace( 'Date: ', '', trim( $line ) );
-				$ddate           = preg_replace( '!\s*\(.+\)\s*$!', '', $ddate ); // remove parenthesised timezone string if it exists, as this confuses strtotime
+			if ( preg_match( '/Date: /i', $line ) ) { // Of the form '20 Mar 2002 20:32:37 +0100'.
+				$ddate = str_replace( 'Date: ', '', trim( $line ) );
+				// Remove parenthesised timezone string if it exists, as this confuses strtotime().
+				$ddate           = preg_replace( '!\s*\(.+\)\s*$!', '', $ddate );
 				$ddate_timestamp = strtotime( $ddate );
 				$post_date       = gmdate( 'Y-m-d H:i:s', $ddate_timestamp + $time_difference );
 				$post_date_gmt   = gmdate( 'Y-m-d H:i:s', $ddate_timestamp );
@@ -151,7 +152,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 		}
 	}
 
-	// Set $post_status based on $author_found and on author's publish_posts capability
+	// Set $post_status based on $author_found and on author's publish_posts capability.
 	if ( $author_found ) {
 		$user        = new WP_User( $post_author );
 		$post_status = ( $user->has_cap( 'publish_posts' ) ) ? 'publish' : 'pending';
@@ -195,7 +196,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 		$content = iconv( $charset, get_option( 'blog_charset' ), $content );
 	}
 
-	// Captures any text in the body after $phone_delim as the body
+	// Captures any text in the body after $phone_delim as the body.
 	$content = explode( $phone_delim, $content );
 	$content = empty( $content[1] ) ? $content[0] : $content[1];
 

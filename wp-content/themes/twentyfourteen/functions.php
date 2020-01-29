@@ -192,7 +192,7 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 		// Indicate widget sidebars can use selective refresh in the Customizer.
 		add_theme_support( 'customize-selective-refresh-widgets' );
 	}
-endif; // twentyfourteen_setup
+endif; // twentyfourteen_setup()
 add_action( 'after_setup_theme', 'twentyfourteen_setup' );
 
 /**
@@ -455,11 +455,11 @@ if ( ! function_exists( 'twentyfourteen_the_attached_image' ) ) :
 				}
 			}
 
-			// get the URL of the next image attachment...
 			if ( $next_id ) {
+				// ...get the URL of the next image attachment.
 				$next_attachment_url = get_attachment_link( $next_id );
 			} else {
-				// or get the URL of the first image attachment.
+				// ...or get the URL of the first image attachment.
 				$next_attachment_url = get_attachment_link( reset( $attachment_ids ) );
 			}
 		}

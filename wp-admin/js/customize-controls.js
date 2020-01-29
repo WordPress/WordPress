@@ -578,7 +578,8 @@
 			return deferred.promise();
 		}
 
-		// A status would cause a revision to be made, and for this wp.customize.previewer.save() should be used. Status is also disallowed for revisions regardless.
+		// A status would cause a revision to be made, and for this wp.customize.previewer.save() should be used.
+		// Status is also disallowed for revisions regardless.
 		if ( submittedArgs.status ) {
 			return deferred.reject( { code: 'illegal_status_in_changeset_update' } ).promise();
 		}
@@ -772,13 +773,13 @@
 	 */
 	api.utils.areElementListsEqual = function ( listA, listB ) {
 		var equal = (
-			listA.length === listB.length && // if lists are different lengths, then naturally they are not equal
-			-1 === _.indexOf( _.map( // are there any false values in the list returned by map?
-				_.zip( listA, listB ), // pair up each element between the two lists
+			listA.length === listB.length && // If lists are different lengths, then naturally they are not equal.
+			-1 === _.indexOf( _.map(         // Are there any false values in the list returned by map?
+				_.zip( listA, listB ),       // Pair up each element between the two lists.
 				function ( pair ) {
-					return $( pair[0] ).is( pair[1] ); // compare to see if each pair are equal
+					return $( pair[0] ).is( pair[1] ); // Compare to see if each pair is equal.
 				}
-			), false ) // check for presence of false in map's return value
+			), false ) // Check for presence of false in map's return value.
 		);
 		return equal;
 	};
@@ -1128,7 +1129,8 @@
 			}
 
 			if ( ! $.contains( document, headContainer.get( 0 ) ) ) {
-				// If the element is not in the DOM, then jQuery.fn.slideUp() does nothing. In this case, a hard toggle is required instead.
+				// If the element is not in the DOM, then jQuery.fn.slideUp() does nothing.
+				// In this case, a hard toggle is required instead.
 				headContainer.toggle( active );
 				if ( args.completeCallback ) {
 					args.completeCallback();
@@ -1479,7 +1481,7 @@
 						});
 					} );
 				} else {
-					// There is no panel, so embed the section in the root of the customizer
+					// There is no panel, so embed the section in the root of the customizer.
 					parentContainer = api.ensure( section.containerPaneParent );
 					if ( ! section.headContainer.parent().is( parentContainer ) ) {
 						parentContainer.append( section.headContainer );
@@ -1511,7 +1513,7 @@
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
-				event.preventDefault(); // Keep this AFTER the key filter above
+				event.preventDefault(); // Keep this AFTER the key filter above.
 
 				if ( section.expanded() ) {
 					section.collapse();
@@ -1718,12 +1720,12 @@
 			var inject,
 				section = this;
 
-			// Watch for changes to the panel state
+			// Watch for changes to the panel state.
 			inject = function( panelId ) {
 				var parentContainer;
 				api.panel( panelId, function( panel ) {
 
-					// The panel has been registered, wait for it to become ready/initialized
+					// The panel has been registered, wait for it to become ready/initialized.
 					panel.deferred.embedded.done( function() {
 						parentContainer = panel.contentContainer;
 						if ( ! section.headContainer.parent().is( parentContainer ) ) {
@@ -1737,7 +1739,7 @@
 				} );
 			};
 			section.panel.bind( inject );
-			inject( section.panel.get() ); // Since a section may never get a panel, assume that it won't ever get one
+			inject( section.panel.get() ); // Since a section may never get a panel, assume that it won't ever get one.
 		},
 
 		/**
@@ -1758,17 +1760,17 @@
 					return;
 				}
 
-				// Pressing the right arrow key fires a theme:next event
+				// Pressing the right arrow key fires a theme:next event.
 				if ( 39 === event.keyCode ) {
 					section.nextTheme();
 				}
 
-				// Pressing the left arrow key fires a theme:previous event
+				// Pressing the left arrow key fires a theme:previous event.
 				if ( 37 === event.keyCode ) {
 					section.previousTheme();
 				}
 
-				// Pressing the escape key fires a theme:collapse event
+				// Pressing the escape key fires a theme:collapse event.
 				if ( 27 === event.keyCode ) {
 					if ( section.$body.hasClass( 'modal-open' ) ) {
 
@@ -1818,7 +1820,7 @@
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
-				event.preventDefault(); // Keep this AFTER the key filter above
+				event.preventDefault(); // Keep this AFTER the key filter above.
 				section.collapse();
 			});
 
@@ -1957,11 +1959,11 @@
 		 */
 		onChangeExpanded: function ( expanded, args ) {
 
-			// Note: there is a second argument 'args' passed
+			// Note: there is a second argument 'args' passed.
 			var section = this,
 				container = section.contentContainer.closest( '.customize-themes-full-container' );
 
-			// Immediately call the complete callback if there were no changes
+			// Immediately call the complete callback if there were no changes.
 			if ( args.unchanged ) {
 				if ( args.completeCallback ) {
 					args.completeCallback();
@@ -1976,7 +1978,7 @@
 					section.loadThemes();
 				}
 
-				// Collapse any sibling sections/panels
+				// Collapse any sibling sections/panels.
 				api.section.each( function ( otherSection ) {
 					var searchTerm;
 
@@ -2123,7 +2125,8 @@
 
 					_.delay( section.renderScreenshots, 100 ); // Wait for the controls to become visible.
 
-					if ( 'local' === section.params.filter_type || 100 > themes.length ) { // If we have less than the requested 100 themes, it's the end of the list.
+					if ( 'local' === section.params.filter_type || 100 > themes.length ) {
+						// If we have less than the requested 100 themes, it's the end of the list.
 						section.fullyLoaded = true;
 					}
 				} else {
@@ -2202,7 +2205,9 @@
 				container = section.container.closest( '.customize-themes-full-container' );
 
 				bottom = container.scrollTop() + container.height();
-				threshold = container.prop( 'scrollHeight' ) - 3000; // Use a fixed distance to the bottom of loaded results to avoid unnecessarily loading results sooner when using a percentage of scroll distance.
+				// Use a fixed distance to the bottom of loaded results to avoid unnecessarily
+				// loading results sooner when using a percentage of scroll distance.
+				threshold = container.prop( 'scrollHeight' ) - 3000;
 
 				if ( bottom > threshold ) {
 					section.loadThemes();
@@ -2614,15 +2619,15 @@
 			el.on( 'keydown', function( event ) {
 
 				// Return if it's not the tab key
-				// When navigating with prev/next focus is already handled
+				// When navigating with prev/next focus is already handled.
 				if ( 9 !== event.keyCode ) {
 					return;
 				}
 
-				// uses jQuery UI to get the tabbable elements
+				// Uses jQuery UI to get the tabbable elements.
 				tabbables = $( ':tabbable', el );
 
-				// Keep focus within the overlay
+				// Keep focus within the overlay.
 				if ( tabbables.last()[0] === event.target && ! event.shiftKey ) {
 					tabbables.first().focus();
 					return false;
@@ -2797,7 +2802,7 @@
 		embed: function () {
 			var panel = this,
 				container = $( '#customize-theme-controls' ),
-				parentContainer = $( '.customize-pane-parent' ); // @todo This should be defined elsewhere, and to be configurable
+				parentContainer = $( '.customize-pane-parent' ); // @todo This should be defined elsewhere, and to be configurable.
 
 			if ( ! panel.headContainer.parent().is( parentContainer ) ) {
 				parentContainer.append( panel.headContainer );
@@ -2821,7 +2826,7 @@
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
-				event.preventDefault(); // Keep this AFTER the key filter above
+				event.preventDefault(); // Keep this AFTER the key filter above.
 
 				if ( ! panel.expanded() ) {
 					panel.expand();
@@ -2833,7 +2838,7 @@
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
-				event.preventDefault(); // Keep this AFTER the key filter above
+				event.preventDefault(); // Keep this AFTER the key filter above.
 
 				if ( panel.expanded() ) {
 					panel.collapse();
@@ -2908,7 +2913,7 @@
 		 */
 		onChangeExpanded: function ( expanded, args ) {
 
-			// Immediately call the complete callback if there were no changes
+			// Immediately call the complete callback if there were no changes.
 			if ( args.unchanged ) {
 				if ( args.completeCallback ) {
 					args.completeCallback();
@@ -2916,7 +2921,7 @@
 				return;
 			}
 
-			// Note: there is a second argument 'args' passed
+			// Note: there is a second argument 'args' passed.
 			var panel = this,
 				accordionSection = panel.contentContainer,
 				overlay = accordionSection.closest( '.wp-full-overlay' ),
@@ -2927,7 +2932,7 @@
 				skipTransition;
 
 			if ( expanded && ! accordionSection.hasClass( 'current-panel' ) ) {
-				// Collapse any sibling sections/panels
+				// Collapse any sibling sections/panels.
 				api.section.each( function ( section ) {
 					if ( panel.id !== section.panel() ) {
 						section.collapse( { duration: 0 } );
@@ -3067,7 +3072,7 @@
 			// Attach regular panel events.
 			api.Panel.prototype.attachEvents.apply( panel );
 
-			// Temporary since supplying SFTP credentials does not work yet. See #42184
+			// Temporary since supplying SFTP credentials does not work yet. See #42184.
 			if ( api.settings.theme._canInstall && api.settings.theme._filesystemCredentialsNeeded ) {
 				panel.notifications.add( new api.Notification( 'theme_install_unavailable', {
 					message: api.l10n.themeInstallUnavailable,
@@ -3140,7 +3145,7 @@
 			// Expand/collapse the panel normally.
 			api.Panel.prototype.onChangeExpanded.apply( this, [ expanded, args ] );
 
-			// Immediately call the complete callback if there were no changes
+			// Immediately call the complete callback if there were no changes.
 			if ( args.unchanged ) {
 				if ( args.completeCallback ) {
 					args.completeCallback();
@@ -3682,15 +3687,15 @@
 			var control = this,
 				inject;
 
-			// Watch for changes to the section state
+			// Watch for changes to the section state.
 			inject = function ( sectionId ) {
 				var parentContainer;
-				if ( ! sectionId ) { // @todo allow a control to be embedded without a section, for instance a control embedded in the front end.
+				if ( ! sectionId ) { // @todo Allow a control to be embedded without a section, for instance a control embedded in the front end.
 					return;
 				}
-				// Wait for the section to be registered
+				// Wait for the section to be registered.
 				api.section( sectionId, function ( section ) {
-					// Wait for the section to be ready/initialized
+					// Wait for the section to be ready/initialized.
 					section.deferred.embedded.done( function () {
 						parentContainer = ( section.contentContainer.is( 'ul' ) ) ? section.contentContainer : section.contentContainer.find( 'ul:first' );
 						if ( ! control.container.parent().is( parentContainer ) ) {
@@ -3724,7 +3729,7 @@
 					control.addNewPage();
 				});
 				control.container.on( 'keydown', '.create-item-input', function( e ) {
-					if ( 13 === e.which ) { // Enter
+					if ( 13 === e.which ) { // Enter.
 						control.addNewPage();
 					}
 				});
@@ -3909,7 +3914,7 @@
 			}
 
 			if ( ! $.contains( document, this.container[0] ) ) {
-				// jQuery.fn.slideUp is not hiding an element if it is not in the DOM
+				// jQuery.fn.slideUp is not hiding an element if it is not in the DOM.
 				this.container.toggle( active );
 				if ( args.completeCallback ) {
 					args.completeCallback();
@@ -3957,7 +3962,7 @@
 					}
 				};
 
-			// Support the .dropdown class to open/close complex elements
+			// Support the .dropdown class to open/close complex elements.
 			this.container.on( 'click keydown', '.dropdown', function( event ) {
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
@@ -3973,7 +3978,7 @@
 					control.container.parent().parent().find( 'li.library-selected' ).focus();
 				}
 
-				// Don't want to fire focus and click at same time
+				// Don't want to fire focus and click at same time.
 				toggleFreeze = true;
 				setTimeout(function () {
 					toggleFreeze = false;
@@ -4017,7 +4022,8 @@
 
 			templateId = control.templateSelector;
 
-			// Use default content template when a standard HTML type is used, there isn't a more specific template existing, and the control container is empty.
+			// Use default content template when a standard HTML type is used,
+			// there isn't a more specific template existing, and the control container is empty.
 			if ( templateId === 'customize-control-' + control.params.type + '-content' &&
 				_.contains( standardTypes, control.params.type ) &&
 				! document.getElementById( 'tmpl-' + templateId ) &&
@@ -4047,6 +4053,7 @@
 		 *
 		 * @since 4.7.0
 		 * @access private
+		 *
 		 * @return {void}
 		 */
 		addNewPage: function () {
@@ -4070,7 +4077,8 @@
 			input.removeClass( 'invalid' );
 			input.attr( 'disabled', 'disabled' );
 
-			// The menus functions add the page, publish when appropriate, and also add the new page to the dropdown-pages controls.
+			// The menus functions add the page, publish when appropriate,
+			// and also add the new page to the dropdown-pages controls.
 			promise = api.Menus.insertAutoDraftPost( {
 				post_title: title,
 				post_type: 'page'
@@ -4199,7 +4207,7 @@
 			control.container.on( 'click keydown', '.remove-button', control.removeFile );
 			control.container.on( 'click keydown', '.remove-button', control.cleanupPlayer );
 
-			// Resize the player controls when it becomes visible (ie when section is expanded)
+			// Resize the player controls when it becomes visible (ie when section is expanded).
 			api.section( control.section() ).container
 				.on( 'expanded', function() {
 					if ( control.player ) {
@@ -5128,7 +5136,7 @@
 					return;
 				}
 
-				event.preventDefault(); // Keep this AFTER the key filter above
+				event.preventDefault(); // Keep this AFTER the key filter above.
 				section = api.section( control.section() );
 				section.showDetails( control.params.theme, function() {
 
@@ -5196,7 +5204,7 @@
 				control.params.priority = 101 - matchCount; // Sort results by match count.
 				return true;
 			} else {
-				control.deactivate(); // Hide control
+				control.deactivate(); // Hide control.
 				control.params.priority = 101;
 				return false;
 			}
@@ -6498,13 +6506,15 @@
 			urlParser.href = previewer.origin();
 			previewer.add( 'scheme', urlParser.protocol.replace( /:$/, '' ) );
 
-			// Limit the URL to internal, front-end links.
-			//
-			// If the front end and the admin are served from the same domain, load the
-			// preview over ssl if the Customizer is being loaded over ssl. This avoids
-			// insecure content warnings. This is not attempted if the admin and front end
-			// are on different domains to avoid the case where the front end doesn't have
-			// ssl certs.
+			/*
+			 * Limit the URL to internal, front-end links.
+			 *
+			 * If the front end and the admin are served from the same domain, load the
+			 * preview over ssl if the Customizer is being loaded over ssl. This avoids
+			 * insecure content warnings. This is not attempted if the admin and front end
+			 * are on different domains to avoid the case where the front end doesn't have
+			 * ssl certs.
+			 */
 
 			previewer.add( 'previewUrl', params.previewUrl ).setter( function( to ) {
 				var result = null, urlParser, queryParams, parsedAllowedUrl, parsedCandidateUrls = [];
@@ -6735,12 +6745,13 @@
 		 *
 		 * @since 3.4.0
 		 * @access public
+		 *
 		 * @return {void}
 		 */
 		refresh: function() {
 			var previewer = this, onSettingChange;
 
-			// Display loading indicator
+			// Display loading indicator.
 			previewer.send( 'loading-initiated' );
 
 			previewer.abort();
@@ -7013,7 +7024,7 @@
 			activeElement = $( document.activeElement );
 		}
 
-		// Sort the sections within each panel
+		// Sort the sections within each panel.
 		api.panel.each( function ( panel ) {
 			if ( 'themes' === panel.id ) {
 				return; // Don't reflow theme sections, as doing so moves them after the themes container.
@@ -7031,7 +7042,7 @@
 			}
 		} );
 
-		// Sort the controls within each section
+		// Sort the controls within each section.
 		api.section.each( function ( section ) {
 			var controls = section.controls(),
 				controlContainers = _.pluck( controls, 'container' );
@@ -7047,10 +7058,10 @@
 			}
 		} );
 
-		// Sort the root panels and sections
+		// Sort the root panels and sections.
 		rootNodes.sort( api.utils.prioritySort );
 		rootHeadContainers = _.pluck( rootNodes, 'headContainer' );
-		appendContainer = $( '#customize-theme-controls .customize-pane-parent' ); // @todo This should be defined elsewhere, and to be configurable
+		appendContainer = $( '#customize-theme-controls .customize-pane-parent' ); // @todo This should be defined elsewhere, and to be configurable.
 		if ( ! api.utils.areElementListsEqual( rootHeadContainers, appendContainer.children() ) ) {
 			_( rootNodes ).each( function ( rootNode ) {
 				appendContainer.append( rootNode.headContainer );
@@ -7058,7 +7069,7 @@
 			wasReflowed = true;
 		}
 
-		// Now re-trigger the active Value callbacks to that the panels and sections can decide whether they can be rendered
+		// Now re-trigger the active Value callbacks so that the panels and sections can decide whether they can be rendered.
 		api.panel.each( function ( panel ) {
 			var value = panel.active();
 			panel.active.callbacks.fireWith( panel.active, [ value, value ] );
@@ -7068,7 +7079,7 @@
 			section.active.callbacks.fireWith( section.active, [ value, value ] );
 		} );
 
-		// Restore focus if there was a reflow and there was an active (focused) element
+		// Restore focus if there was a reflow and there was an active (focused) element.
 		if ( wasReflowed && activeElement ) {
 			activeElement.focus();
 		}
@@ -7208,9 +7219,11 @@
 					cancelScheduleButtonReminder = api.utils.highlightButton( btnWrapper, {
 						delay: 1000,
 
-						// Only abort the reminder when the save button is focused.
-						// If the user clicks the settings button to toggle the
-						// settings closed, we'll still remind them.
+						/*
+						 * Only abort the reminder when the save button is focused.
+						 * If the user clicks the settings button to toggle the
+						 * settings closed, we'll still remind them.
+						 */
 						focusTarget: saveBtn
 					} );
 				}
@@ -7579,7 +7592,7 @@
 						if ( '0' === response ) {
 							response = 'not_logged_in';
 						} else if ( '-1' === response ) {
-							// Back-compat in case any other check_ajax_referer() call is dying
+							// Back-compat in case any other check_ajax_referer() call is dying.
 							response = 'invalid_nonce';
 						}
 
@@ -7812,7 +7825,7 @@
 			api.previewer.send( 'nonce-refresh', nonce );
 		});
 
-		// Create Settings
+		// Create Settings.
 		$.each( api.settings.settings, function( id, data ) {
 			var Constructor = api.settingConstructor[ data.type ] || api.Setting;
 			api.add( new Constructor( id, data.value, {
@@ -7822,28 +7835,31 @@
 			} ) );
 		});
 
-		// Create Panels
+		// Create Panels.
 		$.each( api.settings.panels, function ( id, data ) {
 			var Constructor = api.panelConstructor[ data.type ] || api.Panel, options;
-			options = _.extend( { params: data }, data ); // Inclusion of params alias is for back-compat for custom panels that expect to augment this property.
+			// Inclusion of params alias is for back-compat for custom panels that expect to augment this property.
+			options = _.extend( { params: data }, data );
 			api.panel.add( new Constructor( id, options ) );
 		});
 
-		// Create Sections
+		// Create Sections.
 		$.each( api.settings.sections, function ( id, data ) {
 			var Constructor = api.sectionConstructor[ data.type ] || api.Section, options;
-			options = _.extend( { params: data }, data ); // Inclusion of params alias is for back-compat for custom sections that expect to augment this property.
+			// Inclusion of params alias is for back-compat for custom sections that expect to augment this property.
+			options = _.extend( { params: data }, data );
 			api.section.add( new Constructor( id, options ) );
 		});
 
-		// Create Controls
+		// Create Controls.
 		$.each( api.settings.controls, function( id, data ) {
 			var Constructor = api.controlConstructor[ data.type ] || api.Control, options;
-			options = _.extend( { params: data }, data ); // Inclusion of params alias is for back-compat for custom controls that expect to augment this property.
+			// Inclusion of params alias is for back-compat for custom controls that expect to augment this property.
+			options = _.extend( { params: data }, data );
 			api.control.add( new Constructor( id, options ) );
 		});
 
-		// Focus the autofocused element
+		// Focus the autofocused element.
 		_.each( [ 'panel', 'section', 'control' ], function( type ) {
 			var id = api.settings.autofocus[ type ];
 			if ( ! id ) {
@@ -7896,7 +7912,7 @@
 			api.notifications.render();
 		});
 
-		// Save and activated states
+		// Save and activated states.
 		(function( state ) {
 			var saved = state.instance( 'saved' ),
 				saving = state.instance( 'saving' ),
@@ -8690,7 +8706,8 @@
 			};
 		}());
 
-		// Previewed device bindings. (The api.previewedDevice property is how this Value was first introduced, but since it has moved to api.state.)
+		// Previewed device bindings. (The api.previewedDevice property
+		// is how this Value was first introduced, but since it has moved to api.state.)
 		api.previewedDevice = api.state( 'previewedDevice' );
 
 		// Set the default device.
@@ -8797,7 +8814,7 @@
 				api.state( 'selectedChangesetStatus' ).unbind( startPromptingBeforeUnload );
 				api.state( 'selectedChangesetDate' ).unbind( startPromptingBeforeUnload );
 
-				// Prompt user with AYS dialog if leaving the Customizer with unsaved changes
+				// Prompt user with AYS dialog if leaving the Customizer with unsaved changes.
 				$( window ).on( 'beforeunload.customize-confirm', function() {
 					if ( ! isCleanState() && ! api.state( 'changesetLocked' ).get() ) {
 						setTimeout( function() {
@@ -8882,7 +8899,7 @@
 			});
 		} );
 
-		// Pass titles to the parent
+		// Pass titles to the parent.
 		api.bind( 'title', function( newTitle ) {
 			parent.send( 'title', newTitle );
 		});
@@ -8894,7 +8911,7 @@
 		// Initialize the connection with the parent frame.
 		parent.send( 'ready' );
 
-		// Control visibility for default controls
+		// Control visibility for default controls.
 		$.each({
 			'background_image': {
 				controls: [ 'background_preset', 'background_position', 'background_size', 'background_repeat', 'background_attachment' ],
@@ -8926,7 +8943,7 @@
 		api.control( 'background_preset', function( control ) {
 			var visibility, defaultValues, values, toggleVisibility, updateSettings, preset;
 
-			visibility = { // position, size, repeat, attachment
+			visibility = { // position, size, repeat, attachment.
 				'default': [ false, false, false, false ],
 				'fill': [ true, false, false, false ],
 				'fit': [ true, false, true, false ],
@@ -8942,14 +8959,15 @@
 				_wpCustomizeBackground.defaults['default-attachment']
 			];
 
-			values = { // position_x, position_y, size, repeat, attachment
+			values = { // position_x, position_y, size, repeat, attachment.
 				'default': defaultValues,
 				'fill': [ 'left', 'top', 'cover', 'no-repeat', 'fixed' ],
 				'fit': [ 'left', 'top', 'contain', 'no-repeat', 'fixed' ],
 				'repeat': [ 'left', 'top', 'auto', 'repeat', 'scroll' ]
 			};
 
-			// @todo These should actually toggle the active state, but without the preview overriding the state in data.activeControls.
+			// @todo These should actually toggle the active state,
+			// but without the preview overriding the state in data.activeControls.
 			toggleVisibility = function( preset ) {
 				_.each( [ 'background_position', 'background_size', 'background_repeat', 'background_attachment' ], function( controlId, i ) {
 					var control = api.control( controlId );
@@ -9009,7 +9027,7 @@
 			} );
 		} );
 
-		// Juggle the two controls that use header_textcolor
+		// Juggle the two controls that use header_textcolor.
 		api.control( 'display_header_text', function( control ) {
 			var last = '';
 

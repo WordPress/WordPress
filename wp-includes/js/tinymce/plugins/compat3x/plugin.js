@@ -44,7 +44,7 @@
     this.add = function (callback, scope, prepend) {
       log('<target>.on' + newEventName + ".add(..)");
 
-      // Convert callback({arg1:x, arg2:x}) -> callback(arg1, arg2)
+      // Convert callback({arg1:x, arg2:x}) -> callback(arg1, arg2).
       function patchedEventCallback(e) {
         var callbackArgs = [];
 

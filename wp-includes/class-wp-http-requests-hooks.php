@@ -50,7 +50,7 @@ class WP_HTTP_Requests_Hooks extends Requests_Hooks {
 	public function dispatch( $hook, $parameters = array() ) {
 		$result = parent::dispatch( $hook, $parameters );
 
-		// Handle back-compat actions
+		// Handle back-compat actions.
 		switch ( $hook ) {
 			case 'curl.before_send':
 				/** This action is documented in wp-includes/class-wp-http-curl.php */

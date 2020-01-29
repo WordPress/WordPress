@@ -58,7 +58,7 @@ class WP_User_Query {
 
 	private $compat_fields = array( 'results', 'total_users' );
 
-	// SQL clauses
+	// SQL clauses.
 	public $query_fields;
 	public $query_from;
 	public $query_where;
@@ -439,7 +439,7 @@ class WP_User_Query {
 			}
 		}
 
-		// sorting
+		// Sorting.
 		$qv['order'] = isset( $qv['order'] ) ? strtoupper( $qv['order'] ) : '';
 		$order       = $this->parse_order( $qv['order'] );
 
@@ -489,7 +489,7 @@ class WP_User_Query {
 
 		$this->query_orderby = 'ORDER BY ' . implode( ', ', $orderby_array );
 
-		// limit
+		// Limit.
 		if ( isset( $qv['number'] ) && $qv['number'] > 0 ) {
 			if ( $qv['offset'] ) {
 				$this->query_limit = $wpdb->prepare( 'LIMIT %d, %d', $qv['offset'], $qv['number'] );
@@ -763,7 +763,7 @@ class WP_User_Query {
 		} elseif ( 'name' == $orderby || 'display_name' == $orderby ) {
 			$_orderby = 'display_name';
 		} elseif ( 'post_count' == $orderby ) {
-			// todo: avoid the JOIN
+			// @todo Avoid the JOIN.
 			$where             = get_posts_by_author_sql( 'post' );
 			$this->query_from .= " LEFT OUTER JOIN (
 				SELECT post_author, COUNT(*) as post_count

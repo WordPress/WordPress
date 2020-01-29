@@ -22,7 +22,7 @@
 function wp_ajax_nopriv_heartbeat() {
 	$response = array();
 
-	// screen_id is the same as $current_screen->id and the JS global 'pagenow'.
+	// 'screen_id' is the same as $current_screen->id and the JS global 'pagenow'.
 	if ( ! empty( $_POST['screen_id'] ) ) {
 		$screen_id = sanitize_key( $_POST['screen_id'] );
 	} else {
@@ -272,23 +272,23 @@ function wp_ajax_autocomplete_user() {
 
 	$return = array();
 
-	// Check the type of request
-	// Current allowed values are `add` and `search`
+	// Check the type of request.
+	// Current allowed values are `add` and `search`.
 	if ( isset( $_REQUEST['autocomplete_type'] ) && 'search' === $_REQUEST['autocomplete_type'] ) {
 		$type = $_REQUEST['autocomplete_type'];
 	} else {
 		$type = 'add';
 	}
 
-	// Check the desired field for value
-	// Current allowed values are `user_email` and `user_login`
+	// Check the desired field for value.
+	// Current allowed values are `user_email` and `user_login`.
 	if ( isset( $_REQUEST['autocomplete_field'] ) && 'user_email' === $_REQUEST['autocomplete_field'] ) {
 		$field = $_REQUEST['autocomplete_field'];
 	} else {
 		$field = 'user_login';
 	}
 
-	// Exclude current users of this blog
+	// Exclude current users of this blog.
 	if ( isset( $_REQUEST['site_id'] ) ) {
 		$id = absint( $_REQUEST['site_id'] );
 	} else {
@@ -433,7 +433,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 	$page     = isset( $_POST['_page'] ) ? (int) $_POST['_page'] : 0;
 	$url      = isset( $_POST['_url'] ) ? esc_url_raw( $_POST['_url'] ) : '';
 
-	// JS didn't send us everything we need to know. Just die with success message
+	// JS didn't send us everything we need to know. Just die with success message.
 	if ( ! $total || ! $per_page || ! $page || ! $url ) {
 		$time           = time();
 		$comment        = get_comment( $comment_id );
@@ -482,7 +482,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 		$total = 0;
 	}
 
-	// Only do the expensive stuff on a page-break, and about 1 other time per page
+	// Only do the expensive stuff on a page-break, and about 1 other time per page.
 	if ( 0 == $total % $per_page || 1 == mt_rand( 1, $per_page ) ) {
 		$post_id = 0;
 		// What type of comment count are we looking for?
@@ -600,7 +600,7 @@ function _wp_ajax_add_hierarchical_term() {
 
 		$checked_categories[] = $cat_id;
 
-		if ( $parent ) { // Do these all at once in a second
+		if ( $parent ) { // Do these all at once in a second.
 			continue;
 		}
 
@@ -626,11 +626,11 @@ function _wp_ajax_add_hierarchical_term() {
 		);
 	}
 
-	if ( $parent ) { // Foncy - replace the parent and all its children
+	if ( $parent ) { // Foncy - replace the parent and all its children.
 		$parent  = get_term( $parent, $taxonomy->name );
 		$term_id = $parent->term_id;
 
-		while ( $parent->parent ) { // get the top parent
+		while ( $parent->parent ) { // Get the top parent.
 			$parent = get_term( $parent->parent, $taxonomy->name );
 			if ( is_wp_error( $parent ) ) {
 				break;
@@ -716,7 +716,8 @@ function wp_ajax_delete_comment() {
 
 		$r = wp_untrash_comment( $comment );
 
-		if ( ! isset( $_POST['comment_status'] ) || $_POST['comment_status'] != 'trash' ) { // undo trash, not in trash
+		// Undo trash, not in trash.
+		if ( ! isset( $_POST['comment_status'] ) || $_POST['comment_status'] != 'trash' ) {
 			$delta = 1;
 		}
 	} elseif ( isset( $_POST['spam'] ) && 1 == $_POST['spam'] ) {
@@ -732,7 +733,8 @@ function wp_ajax_delete_comment() {
 
 		$r = wp_unspam_comment( $comment );
 
-		if ( ! isset( $_POST['comment_status'] ) || $_POST['comment_status'] != 'spam' ) { // undo spam, not in spam
+		// Undo spam, not in spam.
+		if ( ! isset( $_POST['comment_status'] ) || $_POST['comment_status'] != 'spam' ) {
 			$delta = 1;
 		}
 	} elseif ( isset( $_POST['delete'] ) && 1 == $_POST['delete'] ) {
@@ -741,7 +743,8 @@ function wp_ajax_delete_comment() {
 		wp_die( -1 );
 	}
 
-	if ( $r ) { // Decide if we need to send back '1' or a more complicated response including page links and comment counts
+	if ( $r ) {
+		// Decide if we need to send back '1' or a more complicated response including page links and comment counts.
 		_wp_ajax_delete_comment_response( $comment->comment_ID, $delta );
 	}
 
@@ -989,7 +992,7 @@ function wp_ajax_dim_comment() {
 		$x->send();
 	}
 
-	// Decide if we need to send back '1' or a more complicated response including page links and comment counts
+	// Decide if we need to send back '1' or a more complicated response including page links and comment counts.
 	_wp_ajax_delete_comment_response( $comment->comment_ID );
 	wp_die( 0 );
 }
@@ -1161,7 +1164,7 @@ function wp_ajax_get_tagcloud() {
 		$tags[ $key ]->id   = $tag->term_id;
 	}
 
-	// We need raw tag names here, so don't filter the output
+	// We need raw tag names here, so don't filter the output.
 	$return = wp_generate_tag_cloud(
 		$tags,
 		array(
@@ -1288,8 +1291,8 @@ function wp_ajax_replyto_comment( $action ) {
 			}
 
 			if ( wp_create_nonce( 'unfiltered-html-comment' ) != $_POST['_wp_unfiltered_html_comment'] ) {
-				kses_remove_filters(); // start with a clean slate
-				kses_init_filters(); // set up the filters
+				kses_remove_filters(); // Start with a clean slate.
+				kses_init_filters();   // Set up the filters.
 				remove_filter( 'pre_comment_content', 'wp_filter_post_kses' );
 				add_filter( 'pre_comment_content', 'wp_filter_kses' );
 			}
@@ -1478,7 +1481,7 @@ function wp_ajax_add_menu_item() {
 			$_menu_items = array_map( 'wp_setup_nav_menu_item', array( $_object ) );
 			$_menu_item  = reset( $_menu_items );
 
-			// Restore the missing menu item properties
+			// Restore the missing menu item properties.
 			$menu_item_data['menu-item-description'] = $_menu_item->description;
 		}
 
@@ -1498,7 +1501,7 @@ function wp_ajax_add_menu_item() {
 		if ( ! empty( $menu_obj->ID ) ) {
 			$menu_obj        = wp_setup_nav_menu_item( $menu_obj );
 			$menu_obj->title = empty( $menu_obj->title ) ? __( 'Menu Item' ) : $menu_obj->title;
-			$menu_obj->label = $menu_obj->title; // don't show "(pending)" in ajax-added items
+			$menu_obj->label = $menu_obj->title; // Don't show "(pending)" in ajax-added items.
 			$menu_items[]    = $menu_obj;
 		}
 	}
@@ -1548,7 +1551,7 @@ function wp_ajax_add_meta() {
 		// If the post is an autodraft, save the post as a draft and then attempt to save the meta.
 		if ( $post->post_status == 'auto-draft' ) {
 			$post_data                = array();
-			$post_data['action']      = 'draft'; // Warning fix
+			$post_data['action']      = 'draft'; // Warning fix.
 			$post_data['post_ID']     = $pid;
 			$post_data['post_type']   = $post->post_type;
 			$post_data['post_status'] = 'draft';
@@ -1608,7 +1611,7 @@ function wp_ajax_add_meta() {
 		$meta = get_metadata_by_mid( 'post', $mid );
 
 		if ( ! $meta ) {
-			wp_die( 0 ); // if meta doesn't exist
+			wp_die( 0 ); // If meta doesn't exist.
 		}
 
 		if (
@@ -1731,7 +1734,8 @@ function wp_ajax_closed_postboxes() {
 	}
 
 	if ( is_array( $hidden ) ) {
-		$hidden = array_diff( $hidden, array( 'submitdiv', 'linksubmitdiv', 'manage-menu', 'create-menu' ) ); // postboxes that are always shown
+		// Postboxes that are always shown.
+		$hidden = array_diff( $hidden, array( 'submitdiv', 'linksubmitdiv', 'manage-menu', 'create-menu' ) );
 		update_user_option( $user->ID, "metaboxhidden_$page", $hidden, true );
 	}
 
@@ -2620,7 +2624,7 @@ function wp_ajax_image_editor() {
  * @since 3.1.0
  */
 function wp_ajax_set_post_thumbnail() {
-	$json = ! empty( $_REQUEST['json'] ); // New-style request
+	$json = ! empty( $_REQUEST['json'] ); // New-style request.
 
 	$post_ID = intval( $_POST['post_id'] );
 	if ( ! current_user_can( 'edit_post', $post_ID ) ) {
@@ -3226,7 +3230,7 @@ function wp_ajax_send_attachment_to_editor() {
 		$html = stripslashes_deep( $_POST['html'] );
 	} else {
 		$html = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
-		$rel  = $rel ? ' rel="attachment wp-att-' . $id . '"' : ''; // Hard-coded string, $id is already sanitized
+		$rel  = $rel ? ' rel="attachment wp-att-' . $id . '"' : ''; // Hard-coded string, $id is already sanitized.
 
 		if ( ! empty( $url ) ) {
 			$html = '<a href="' . esc_url( $url ) . '"' . $rel . '>' . $html . '</a>';
@@ -3287,7 +3291,7 @@ function wp_ajax_send_link_to_editor() {
 	$fallback = $wp_embed->maybe_make_link( $src );
 
 	if ( $check_embed !== $fallback ) {
-		// TinyMCE view for [embed] will parse this
+		// TinyMCE view for [embed] will parse this.
 		$html = '[embed]' . $src . '[/embed]';
 	} elseif ( $link_text ) {
 		$html = '<a href="' . esc_url( $src ) . '">' . $link_text . '</a>';
@@ -3327,7 +3331,7 @@ function wp_ajax_heartbeat() {
 	$data        = array();
 	$nonce_state = wp_verify_nonce( $_POST['_nonce'], 'heartbeat-nonce' );
 
-	// screen_id is the same as $current_screen->id and the JS global 'pagenow'.
+	// 'screen_id' is the same as $current_screen->id and the JS global 'pagenow'.
 	if ( ! empty( $_POST['screen_id'] ) ) {
 		$screen_id = sanitize_key( $_POST['screen_id'] );
 	} else {
@@ -3392,7 +3396,7 @@ function wp_ajax_heartbeat() {
 	 */
 	do_action( 'heartbeat_tick', $response, $screen_id );
 
-	// Send the current time according to the server
+	// Send the current time according to the server.
 	$response['server_time'] = time();
 
 	wp_send_json( $response );
@@ -3735,7 +3739,7 @@ function wp_ajax_parse_media_shortcode() {
 		$post = get_post( (int) $_POST['post_ID'] );
 	}
 
-	// the embed shortcode requires a post
+	// The embed shortcode requires a post.
 	if ( ! $post || ! current_user_can( 'edit_post', $post->ID ) ) {
 		if ( 'embed' === $shortcode ) {
 			wp_send_json_error();

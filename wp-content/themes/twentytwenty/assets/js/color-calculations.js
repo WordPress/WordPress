@@ -52,6 +52,7 @@ _twentyTwentyColor.prototype.setAccentColorsArray = function() {
 				 * Get a score for this color in contrast to its background color and surrounding text.
 				 *
 				 * @since Twenty Twenty 1.0
+				 *
 				 * @param {number} contrastBackground - WCAG contrast with the background color.
 				 * @param {number} contrastSurroundingText - WCAG contrast with surrounding text.
 				 * @return {number} - 0 is best, higher numbers have bigger difference with the desired scores.
@@ -143,6 +144,7 @@ _twentyTwentyColor.prototype.getAccentColor = function() {
  * Return a new instance of the _twentyTwentyColor object.
  *
  * @since Twenty Twenty 1.0
+ *
  * @param {string} backgroundColor - The background color.
  * @param {number} accentHue - The hue for our accent color.
  * @return {Object} - this

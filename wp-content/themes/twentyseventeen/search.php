@@ -32,7 +32,7 @@ get_header(); ?>
 
 		<?php
 		if ( have_posts() ) :
-			/* Start the Loop */
+			// Start the Loop.
 			while ( have_posts() ) :
 				the_post();
 
@@ -43,7 +43,7 @@ get_header(); ?>
 				 */
 				get_template_part( 'template-parts/post/content', 'excerpt' );
 
-			endwhile; // End of the loop.
+			endwhile; // End the loop.
 
 			the_posts_pagination(
 				array(

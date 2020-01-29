@@ -45,7 +45,7 @@ if ( have_posts() ) {
 						?>
 					</div><!-- .entry-content -->
 
-		<?php if ( get_the_author_meta( 'description' ) ) : // If a user has filled out their description, show a bio on their entries ?>
+		<?php if ( get_the_author_meta( 'description' ) ) : // If a user has filled out their description, show a bio on their entries. ?>
 					<div id="entry-author-info">
 						<div id="author-avatar">
 							<?php
@@ -88,4 +88,4 @@ if ( have_posts() ) {
 					<?php comments_template( '', true ); ?>
 
 	<?php endwhile;
-}; // end of the loop. ?>
+}; // End of the loop. ?>

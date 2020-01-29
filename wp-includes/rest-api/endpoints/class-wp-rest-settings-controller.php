@@ -131,6 +131,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 		if ( is_wp_error( rest_validate_value_from_schema( $value, $schema ) ) ) {
 			return null;
 		}
+
 		return rest_sanitize_value_from_schema( $value, $schema );
 	}
 
@@ -294,6 +295,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 		}
 
 		$this->schema = $schema;
+
 		return $this->add_additional_fields_schema( $this->schema );
 	}
 
@@ -315,6 +317,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 		if ( is_null( $value ) ) {
 			return $value;
 		}
+
 		return rest_parse_request_arg( $value, $request, $param );
 	}
 
@@ -336,6 +339,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 				foreach ( $schema['properties'] as $key => $child_schema ) {
 					$schema['properties'][ $key ] = $this->set_additional_properties_to_false( $child_schema );
 				}
+
 				$schema['additionalProperties'] = false;
 				break;
 			case 'array':

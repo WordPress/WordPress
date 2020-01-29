@@ -238,7 +238,7 @@ add_filter( 'wp_nav_menu', 'twentynineteen_add_ellipses_to_nav', 10, 2 );
  */
 function twentynineteen_nav_menu_link_attributes( $atts, $item, $args, $depth ) {
 
-	// Add [aria-haspopup] and [aria-expanded] to menu items that have children
+	// Add [aria-haspopup] and [aria-expanded] to menu items that have children.
 	$item_has_children = in_array( 'menu-item-has-children', $item->classes );
 	if ( $item_has_children ) {
 		$atts['aria-haspopup'] = 'true';
@@ -274,7 +274,7 @@ function twentynineteen_add_dropdown_icons( $output, $item, $depth, $args ) {
 			twentynineteen_get_icon_svg( 'chevron_left', 24 )
 		);
 
-		// replace opening <a> with <button>
+		// Replace opening <a> with <button>.
 		$output = preg_replace(
 			'/<a\s.*?>/',
 			$link,
@@ -282,7 +282,7 @@ function twentynineteen_add_dropdown_icons( $output, $item, $depth, $args ) {
 			1 // Limit.
 		);
 
-		// replace closing </a> with </button>
+		// Replace closing </a> with </button>.
 		$output = preg_replace(
 			'#</a>#i',
 			'</button>',

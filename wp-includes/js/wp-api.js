@@ -107,9 +107,11 @@
 			minutesOffset = 0,
 			numericKeys = [ 1, 4, 5, 6, 7, 10, 11 ];
 
-		// ES5 §15.9.4.2 states that the string should attempt to be parsed as a Date Time String Format string
-		// before falling back to any implementation-specific date parsing, so that’s what we do, even if native
-		// implementations could be faster.
+		/*
+		 * ES5 §15.9.4.2 states that the string should attempt to be parsed as a Date Time String Format string
+		 * before falling back to any implementation-specific date parsing, so that’s what we do, even if native
+		 * implementations could be faster.
+		 */
 		//              1 YYYY                2 MM       3 DD           4 HH    5 mm       6 ss        7 msec        8 Z 9 ±    10 tzHH    11 tzmm
 		if ( ( struct = /^(\d{4}|[+\-]\d{6})(?:-(\d{2})(?:-(\d{2}))?)?(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(?:(Z)|([+\-])(\d{2})(?::(\d{2}))?)?)?$/.exec( date ) ) ) {
 
@@ -855,7 +857,7 @@
 				if ( _.isFunction( model.nonce ) && ! _.isEmpty( model.nonce() ) ) {
 					beforeSend = options.beforeSend;
 
-					// @todo enable option for jsonp endpoints
+					// @todo Enable option for jsonp endpoints.
 					// options.dataType = 'jsonp';
 
 					// Include the nonce with requests.
@@ -1340,7 +1342,7 @@
 					} );
 				} else {
 
-					// This is a model without a parent in its route
+					// This is a model without a parent in its route.
 					modelClassName = wp.api.utils.capitalizeAndCamelCaseDashes( routeName );
 					modelClassName = mapping.models[ modelClassName ] || modelClassName;
 					loadingObjects.models[ modelClassName ] = wp.api.WPApiBaseModel.extend( {
@@ -1514,7 +1516,7 @@
 
 		if ( ! initializedDeferreds[ attributes.apiRoot + attributes.versionString ] ) {
 
-			// Look for an existing copy of this endpoint
+			// Look for an existing copy of this endpoint.
 			endpoint = wp.api.endpoints.findWhere( { 'apiRoot': attributes.apiRoot, 'versionString': attributes.versionString } );
 			if ( ! endpoint ) {
 				endpoint = new Endpoint( attributes );

@@ -265,7 +265,7 @@ Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype 
 				}
 			}, 1000 );
 
-		// Update the URL when entering search string (at most once per second)
+		// Update the URL when entering search string (at most once per second).
 		search.on( 'input', _.bind( input, this ) );
 
 		this.gridRouter
@@ -346,7 +346,7 @@ Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype 
 		$browser = this.$('.attachments-browser');
 		$toolbar = $browser.find('.media-toolbar');
 
-		// Offset doesn't appear to take top margin into account, hence +16
+		// Offset doesn't appear to take top margin into account, hence +16.
 		if ( ( $browser.offset().top + 16 ) < this.$window.scrollTop() + this.$adminBar.height() ) {
 			$browser.addClass( 'fixed' );
 			$toolbar.css('width', $browser.width() + 'px');
@@ -434,7 +434,7 @@ Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype 
 	},
 
 	startHistory: function() {
-		// Verify pushState support and activate
+		// Verify pushState support and activate.
 		if ( window.history && window.history.pushState ) {
 			if ( Backbone.History.started ) {
 				Backbone.history.stop();
@@ -529,7 +529,7 @@ var Router = Backbone.Router.extend(/** @lends wp.media.view.MediaFrame.Manage.R
 		'upload.php':                      'reset'
 	},
 
-	// Map routes against the page URL
+	// Map routes against the page URL.
 	baseUrl: function( url ) {
 		return 'upload.php' + url;
 	},
@@ -542,19 +542,19 @@ var Router = Backbone.Router.extend(/** @lends wp.media.view.MediaFrame.Manage.R
 		}
 	},
 
-	// Respond to the search route by filling the search field and trigggering the input event
+	// Respond to the search route by filling the search field and trigggering the input event.
 	search: function( query ) {
 		jQuery( '#media-search-input' ).val( query ).trigger( 'input' );
 	},
 
-	// Show the modal with a specific item
+	// Show the modal with a specific item.
 	showItem: function( query ) {
 		var media = wp.media,
 			frame = media.frames.browse,
 			library = frame.state().get('library'),
 			item;
 
-		// Trigger the media frame to open the correct item
+		// Trigger the media frame to open the correct item.
 		item = library.findWhere( { id: parseInt( query, 10 ) } );
 		item.set( 'skipHistory', true );
 
@@ -882,11 +882,11 @@ EditAttachments = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.EditAtta
 			return;
 		}
 
-		// The right arrow key
+		// The right arrow key.
 		if ( 39 === event.keyCode ) {
 			this.nextMediaItem();
 		}
-		// The left arrow key
+		// The left arrow key.
 		if ( 37 === event.keyCode ) {
 			this.previousMediaItem();
 		}
@@ -957,7 +957,7 @@ SelectModeToggle = Button.extend(/** @lends wp.media.view.SelectModeToggle.proto
 
 		children = toolbar.$( '.media-toolbar-secondary > *, .media-toolbar-primary > *' );
 
-		// TODO: the Frame should be doing all of this.
+		// @todo The Frame should be doing all of this.
 		if ( this.controller.isModeActive( 'select' ) ) {
 			this.model.set( {
 				size: 'large',

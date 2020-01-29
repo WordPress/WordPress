@@ -393,7 +393,7 @@ function wp_delete_user( $id, $reassign = null ) {
 			}
 		}
 
-		// Clean links
+		// Clean links.
 		$link_ids = $wpdb->get_col( $wpdb->prepare( "SELECT link_id FROM $wpdb->links WHERE link_owner = %d", $id ) );
 
 		if ( $link_ids ) {
@@ -418,7 +418,7 @@ function wp_delete_user( $id, $reassign = null ) {
 		}
 	}
 
-	// FINALLY, delete user
+	// FINALLY, delete user.
 	if ( is_multisite() ) {
 		remove_user_from_blog( $id, get_current_blog_id() );
 	} else {
@@ -474,7 +474,7 @@ function default_password_nag_handler( $errors = false ) {
 		return;
 	}
 
-	// get_user_setting = JS saved UI setting. else no-js-fallback code.
+	// get_user_setting() = JS-saved UI setting. Else no-js-fallback code.
 	if ( 'hide' == get_user_setting( 'default_password_nag' ) || isset( $_GET['default_password_nag'] ) && '0' == $_GET['default_password_nag'] ) {
 		delete_user_setting( 'default_password_nag' );
 		update_user_option( $user_ID, 'default_password_nag', false, true );

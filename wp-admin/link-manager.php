@@ -14,7 +14,7 @@ if ( ! current_user_can( 'manage_links' ) ) {
 
 $wp_list_table = _get_list_table( 'WP_Links_List_Table' );
 
-// Handle bulk deletes
+// Handle bulk deletes.
 $doaction = $wp_list_table->current_action();
 
 if ( $doaction && isset( $_REQUEST['linkcheck'] ) ) {

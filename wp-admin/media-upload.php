@@ -28,7 +28,7 @@ wp_enqueue_script( 'media-gallery' );
 
 header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 
-// IDs should be integers
+// IDs should be integers.
 $ID      = isset( $ID ) ? (int) $ID : 0;
 $post_id = isset( $post_id ) ? (int) $post_id : 0;
 
@@ -49,7 +49,7 @@ if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post', $_REQUE
 	);
 }
 
-// Upload type: image, video, file, ..?
+// Upload type: image, video, file, ...?
 if ( isset( $_GET['type'] ) ) {
 	$type = strval( $_GET['type'] );
 } else {

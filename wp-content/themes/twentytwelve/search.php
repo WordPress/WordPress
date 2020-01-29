@@ -25,8 +25,8 @@ get_header(); ?>
 
 			<?php twentytwelve_content_nav( 'nav-above' ); ?>
 
-			<?php /* Start the Loop */ ?>
 			<?php
+			// Start the Loop.
 			while ( have_posts() ) :
 				the_post();
 				?>

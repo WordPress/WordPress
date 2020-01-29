@@ -38,7 +38,7 @@ if ( empty( $load ) ) {
 }
 
 $rtl            = ( isset( $_GET['dir'] ) && 'rtl' == $_GET['dir'] );
-$expires_offset = 31536000; // 1 year
+$expires_offset = 31536000; // 1 year.
 $out            = '';
 
 $wp_styles = new WP_Styles();

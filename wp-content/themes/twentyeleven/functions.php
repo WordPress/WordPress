@@ -27,7 +27,7 @@
  * <code>
  * add_action( 'after_setup_theme', 'my_child_theme_setup' );
  * function my_child_theme_setup() {
- *     // We are providing our own filter for excerpt_length (or using the unfiltered value)
+ *     // We are providing our own filter for excerpt_length (or using the unfiltered value).
  *     remove_filter( 'excerpt_length', 'twentyeleven_excerpt_length' );
  *     ...
  * }
@@ -143,7 +143,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menu( 'primary', __( 'Primary Menu', 'twentyeleven' ) );
 
-		// Add support for a variety of post formats
+		// Add support for a variety of post formats.
 		add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote', 'image' ) );
 
 		$theme_options = twentyeleven_get_theme_options();
@@ -165,7 +165,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 			)
 		);
 
-		// This theme uses Featured Images (also known as post thumbnails) for per-post/per-page Custom Header images
+		// This theme uses Featured Images (also known as post thumbnails) for per-post/per-page Custom Header images.
 		add_theme_support( 'post-thumbnails' );
 
 		// Add support for custom headers.
@@ -285,7 +285,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 		// Indicate widget sidebars can use selective refresh in the Customizer.
 		add_theme_support( 'customize-selective-refresh-widgets' );
 	}
-endif; // twentyeleven_setup
+endif; // twentyeleven_setup()
 
 /**
  * Enqueue scripts and styles for front end.
@@ -337,7 +337,7 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
 			clip: rect(1px, 1px, 1px, 1px);
 		}
 			<?php
-			// If the user has set a custom color for the text use that
+			// If the user has set a custom color for the text, use that.
 		else :
 			?>
 		#site-title a,
@@ -348,7 +348,7 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
 	</style>
 		<?php
 	}
-endif; // twentyeleven_header_style
+endif; // twentyeleven_header_style()
 
 if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
 	/**
@@ -382,7 +382,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
 		padding: 0 0 3em;
 	}
 		<?php
-		// If the user has set a custom color for the text use that
+		// If the user has set a custom color for the text, use that.
 		if ( get_header_textcolor() != HEADER_TEXTCOLOR ) :
 			?>
 	#site-title a,
@@ -398,7 +398,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
 	</style>
 		<?php
 	}
-endif; // twentyeleven_admin_header_style
+endif; // twentyeleven_admin_header_style()
 
 if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 	/**
@@ -428,7 +428,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 		</div>
 		<?php
 	}
-endif; // twentyeleven_admin_header_image
+endif; // twentyeleven_admin_header_image()
 
 /**
  * Set the post excerpt length to 40 words.
@@ -458,7 +458,7 @@ if ( ! function_exists( 'twentyeleven_continue_reading_link' ) ) :
 	function twentyeleven_continue_reading_link() {
 		return ' <a href="' . esc_url( get_permalink() ) . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) . '</a>';
 	}
-endif; // twentyeleven_continue_reading_link
+endif; // twentyeleven_continue_reading_link()
 
 /**
  * Replace "[...]" in the Read More link with an ellipsis.
@@ -609,7 +609,7 @@ if ( ! function_exists( 'twentyeleven_content_nav' ) ) :
 			<?php
 	endif;
 	}
-endif; // twentyeleven_content_nav
+endif; // twentyeleven_content_nav()
 
 /**
  * Return the first link from the post content. If none found, the
@@ -781,7 +781,7 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 				break;
 		endswitch;
 	}
-endif; // ends check for twentyeleven_comment()
+endif; // twentyeleven_comment()
 
 if ( ! function_exists( 'twentyeleven_posted_on' ) ) :
 	/**
@@ -899,7 +899,7 @@ if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
 	 * Fire the wp_body_open action.
 	 *
-	 * Added for backwards compatibility to support pre 5.2.0 WordPress versions.
+	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *
 	 * @since Twenty Eleven 3.3
 	 */

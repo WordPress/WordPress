@@ -15,7 +15,7 @@ require_once( ABSPATH . 'wp-admin/includes/class-walker-category-checklist.php' 
 require_once( ABSPATH . 'wp-admin/includes/class-wp-internal-pointers.php' );
 
 //
-// Category Checklists
+// Category Checklists.
 //
 
 /**
@@ -165,7 +165,8 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 	$output = '';
 
 	if ( $parsed_args['checked_ontop'] ) {
-		// Post process $categories rather than adding an exclude to the get_terms() query to keep the query the same across all posts (for any query cache)
+		// Post-process $categories rather than adding an exclude to the get_terms() query
+		// to keep the query the same across all posts (for any query cache).
 		$checked_categories = array();
 		$keys               = array_keys( $categories );
 
@@ -176,10 +177,10 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 			}
 		}
 
-		// Put checked cats on top
+		// Put checked categories on top.
 		$output .= $walker->walk( $checked_categories, 0, $args );
 	}
-	// Then the rest of them
+	// Then the rest of them.
 	$output .= $walker->walk( $categories, 0, $args );
 
 	if ( $parsed_args['echo'] ) {
@@ -265,7 +266,7 @@ function wp_link_category_checklist( $link_id = 0 ) {
 
 	if ( $link_id ) {
 		$checked_categories = wp_get_link_cats( $link_id );
-		// No selected categories, strange
+		// No selected categories, strange.
 		if ( ! count( $checked_categories ) ) {
 			$checked_categories[] = $default;
 		}
@@ -559,7 +560,7 @@ function wp_comment_trashnotice() {
  * @param array $meta
  */
 function list_meta( $meta ) {
-	// Exit if no meta
+	// Exit if no meta.
 	if ( ! $meta ) {
 		echo '
 <table id="list-table" style="display: none;">
@@ -572,7 +573,7 @@ function list_meta( $meta ) {
 	<tbody id="the-list" data-wp-lists="list:meta">
 	<tr><td></td></tr>
 	</tbody>
-</table>'; //TBODY needed for list-manipulation JS
+</table>'; // TBODY needed for list-manipulation JS.
 		return;
 	}
 	$count = 0;
@@ -632,7 +633,7 @@ function _list_meta_row( $entry, &$count ) {
 	}
 
 	$entry['meta_key']   = esc_attr( $entry['meta_key'] );
-	$entry['meta_value'] = esc_textarea( $entry['meta_value'] ); // using a <textarea />
+	$entry['meta_value'] = esc_textarea( $entry['meta_value'] ); // Using a <textarea />.
 	$entry['meta_id']    = (int) $entry['meta_id'];
 
 	$delete_nonce = wp_create_nonce( 'delete-meta_' . $entry['meta_id'] );
@@ -790,7 +791,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 		$tab_index_attribute = " tabindex=\"$tab_index\"";
 	}
 
-	// todo: Remove this?
+	// @todo Remove this?
 	// echo '<label for="timestamp" style="display: block;"><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp"'.$tab_index_attribute.' /> '.__( 'Edit timestamp' ).'</label><br />';
 
 	$post_date = ( $for_post ) ? $post->post_date : get_comment()->comment_date;
@@ -925,7 +926,7 @@ function wp_dropdown_roles( $selected = '' ) {
 
 	foreach ( $editable_roles as $role => $details ) {
 		$name = translate_user_role( $details['name'] );
-		// preselect specified role
+		// Preselect specified role.
 		if ( $selected == $role ) {
 			$r .= "\n\t<option selected='selected' value='" . esc_attr( $role ) . "'>$name</option>";
 		} else {
@@ -1052,7 +1053,7 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 
 			// If a core box was previously added or removed by a plugin, don't add.
 			if ( 'core' == $priority ) {
-				// If core box previously deleted, don't add
+				// If core box previously deleted, don't add.
 				if ( false === $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ] ) {
 					return;
 				}
@@ -1067,7 +1068,7 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 				}
 				return;
 			}
-			// If no priority given and id already present, use existing priority.
+			// If no priority given and ID already present, use existing priority.
 			if ( empty( $priority ) ) {
 				$priority = $a_priority;
 				/*
@@ -1079,7 +1080,7 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 				$callback      = $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ]['callback'];
 				$callback_args = $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ]['args'];
 			}
-			// An id can be in only one priority and one context.
+			// An ID can be in only one priority and one context.
 			if ( $priority != $a_priority || $context != $a_context ) {
 				unset( $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ] );
 			}
@@ -1245,7 +1246,8 @@ function do_meta_boxes( $screen, $context, $object ) {
 
 	printf( '<div id="%s-sortables" class="meta-box-sortables">', esc_attr( $context ) );
 
-	// Grab the ones the user has manually sorted. Pull them out of their previous context/priority and into the one the user chose
+	// Grab the ones the user has manually sorted.
+	// Pull them out of their previous context/priority and into the one the user chose.
 	$sorted = get_user_option( "meta-box-order_$page" );
 	if ( ! $already_sorted && $sorted ) {
 		foreach ( $sorted as $box_context => $ids ) {
@@ -2192,12 +2194,12 @@ function _media_states( $post ) {
 		} else {
 			$header_image = get_header_image();
 
-			// Display "Header Image" if the image was ever used as a header image
+			// Display "Header Image" if the image was ever used as a header image.
 			if ( ! empty( $meta_header ) && $meta_header == $stylesheet && $header_image !== wp_get_attachment_url( $post->ID ) ) {
 				$media_states[] = __( 'Header Image' );
 			}
 
-			// Display "Current Header Image" if the image is currently the header image
+			// Display "Current Header Image" if the image is currently the header image.
 			if ( $header_image && $header_image == wp_get_attachment_url( $post->ID ) ) {
 				$media_states[] = __( 'Current Header Image' );
 			}
@@ -2378,7 +2380,7 @@ function get_submit_button( $text = '', $type = 'primary large', $name = 'submit
 
 	$text = $text ? $text : __( 'Save Changes' );
 
-	// Default the id attribute to $name unless an id was specifically provided in $other_attributes
+	// Default the id attribute to $name unless an id was specifically provided in $other_attributes.
 	$id = $name;
 	if ( is_array( $other_attributes ) && isset( $other_attributes['id'] ) ) {
 		$id = $other_attributes['id'];
@@ -2388,9 +2390,9 @@ function get_submit_button( $text = '', $type = 'primary large', $name = 'submit
 	$attributes = '';
 	if ( is_array( $other_attributes ) ) {
 		foreach ( $other_attributes as $attribute => $value ) {
-			$attributes .= $attribute . '="' . esc_attr( $value ) . '" '; // Trailing space is important
+			$attributes .= $attribute . '="' . esc_attr( $value ) . '" '; // Trailing space is important.
 		}
-	} elseif ( ! empty( $other_attributes ) ) { // Attributes provided as a string
+	} elseif ( ! empty( $other_attributes ) ) { // Attributes provided as a string.
 		$attributes = $other_attributes;
 	}
 
@@ -2533,15 +2535,15 @@ function wp_star_rating( $args = array() ) {
 	);
 	$parsed_args = wp_parse_args( $args, $defaults );
 
-	// Non-English decimal places when the $rating is coming from a string
+	// Non-English decimal places when the $rating is coming from a string.
 	$rating = (float) str_replace( ',', '.', $parsed_args['rating'] );
 
-	// Convert Percentage to star rating, 0..5 in .5 increments
+	// Convert percentage to star rating, 0..5 in .5 increments.
 	if ( 'percent' === $parsed_args['type'] ) {
 		$rating = round( $rating / 10, 0 ) / 2;
 	}
 
-	// Calculate the number of each type of star needed
+	// Calculate the number of each type of star needed.
 	$full_stars  = floor( $rating );
 	$half_stars  = ceil( $rating - $full_stars );
 	$empty_stars = 5 - $full_stars - $half_stars;

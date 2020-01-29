@@ -36,7 +36,7 @@ function get_categories( $args = '' ) {
 	 */
 	$args['taxonomy'] = apply_filters( 'get_categories_taxonomy', $args['taxonomy'], $args );
 
-	// Back compat
+	// Back compat.
 	if ( isset( $args['type'] ) && 'link' == $args['type'] ) {
 		_deprecated_argument(
 			__FUNCTION__,

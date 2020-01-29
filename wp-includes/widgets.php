@@ -19,7 +19,7 @@
  */
 
 //
-// Global Variables
+// Global Variables.
 //
 
 /** @ignore */
@@ -91,7 +91,7 @@ $GLOBALS['_wp_deprecated_widgets_callbacks'] = array(
 );
 
 //
-// Template tags & API functions
+// Template tags & API functions.
 //
 
 /**
@@ -186,10 +186,10 @@ function register_sidebars( $number = 1, $args = array() ) {
 		}
 
 		// Custom specified ID's are suffixed if they exist already.
-		// Automatically generated sidebar names need to be suffixed regardless starting at -0
+		// Automatically generated sidebar names need to be suffixed regardless starting at -0.
 		if ( isset( $args['id'] ) ) {
 			$_args['id'] = $args['id'];
-			$n           = 2; // Start at -2 for conflicting custom ID's
+			$n           = 2; // Start at -2 for conflicting custom IDs.
 			while ( is_registered_sidebar( $_args['id'] ) ) {
 				$_args['id'] = $args['id'] . '-' . $n++;
 			}
@@ -529,7 +529,7 @@ function wp_register_widget_control( $id, $name, $control_callback, $options = a
 	$defaults          = array(
 		'width'  => 250,
 		'height' => 200,
-	); // height is never used
+	); // Height is never used.
 	$options           = wp_parse_args( $options, $defaults );
 	$options['width']  = (int) $options['width'];
 	$options['height'] = (int) $options['height'];
@@ -726,7 +726,7 @@ function dynamic_sidebar( $index = 1 ) {
 			(array) $wp_registered_widgets[ $id ]['params']
 		);
 
-		// Substitute HTML id and class attributes into before_widget
+		// Substitute HTML `id` and `class` attributes into `before_widget`.
 		$classname_ = '';
 		foreach ( (array) $wp_registered_widgets[ $id ]['classname'] as $cn ) {
 			if ( is_string( $cn ) ) {
@@ -947,7 +947,7 @@ function is_active_sidebar( $index ) {
 }
 
 //
-// Internal Functions
+// Internal Functions.
 //
 
 /**
@@ -1075,7 +1075,7 @@ function wp_convert_widget_settings( $base_name, $option_name, $settings ) {
 	if ( $single ) {
 		$settings = array( 2 => $settings );
 
-		// If loading from the front page, update sidebar in memory but don't save to options
+		// If loading from the front page, update sidebar in memory but don't save to options.
 		if ( is_admin() ) {
 			$sidebars_widgets = get_option( 'sidebars_widgets' );
 		} else {
@@ -1376,11 +1376,11 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 								// Go back and check the next new sidebar.
 								continue 3;
 							}
-						} // endforeach ( $slug_group as $slug )
-					} // endforeach ( $existing_sidebars_widgets as $sidebar => $widgets )
-				} // endforeach foreach ( $wp_registered_sidebars as $new_sidebar => $args )
-			} // endforeach ( $slug_group as $slug )
-		} // endforeach ( $common_slug_groups as $slug_group )
+						} // End foreach ( $slug_group as $slug ).
+					} // End foreach ( $existing_sidebars_widgets as $sidebar => $widgets ).
+				} // End foreach ( $wp_registered_sidebars as $new_sidebar => $args ).
+			} // End foreach ( $slug_group as $slug ).
+		} // End foreach ( $common_slug_groups as $slug_group ).
 	}
 
 	// Move any left over widgets to inactive sidebar.
@@ -1440,11 +1440,11 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 								// ...otherwise remove it from the old sidebar and keep it in the new one.
 								unset( $old_sidebars_widgets[ $old_sidebar ][ $key ] );
 							}
-						} // endif ( $active_key )
-					} // endforeach ( $old_widgets as $key => $widget_id )
-				} // endforeach ( $new_sidebars_widgets as $new_sidebar => $new_widgets )
-			} // endforeach ( $old_sidebars_widgets as $old_sidebar => $old_widgets )
-		} // endif ( ! empty( $old_sidebars_widgets ) )
+						} // End if ( $active_key ).
+					} // End foreach ( $old_widgets as $key => $widget_id ).
+				} // End foreach ( $new_sidebars_widgets as $new_sidebar => $new_widgets ).
+			} // End foreach ( $old_sidebars_widgets as $old_sidebar => $old_widgets ).
+		} // End if ( ! empty( $old_sidebars_widgets ) ).
 
 		// Restore widget settings from when theme was previously active.
 		$new_sidebars_widgets = array_merge( $new_sidebars_widgets, $old_sidebars_widgets );

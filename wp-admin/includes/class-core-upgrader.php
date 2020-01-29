@@ -115,7 +115,7 @@ class Core_Upgrader extends WP_Upgrader {
 			$to_download = 'full';
 		}
 
-		// Lock to prevent multiple Core Updates occurring
+		// Lock to prevent multiple Core Updates occurring.
 		$lock = WP_Upgrader::create_lock( 'core_updater', 15 * MINUTE_IN_SECONDS );
 		if ( ! $lock ) {
 			return new WP_Error( 'locked', $this->strings['locked'] );
@@ -220,7 +220,7 @@ class Core_Upgrader extends WP_Upgrader {
 			)
 		);
 
-		// Clear the current updates
+		// Clear the current updates.
 		delete_site_transient( 'update_core' );
 
 		if ( ! $parsed_args['do_rollback'] ) {
@@ -272,8 +272,9 @@ class Core_Upgrader extends WP_Upgrader {
 	public static function should_update_to_version( $offered_ver ) {
 		include( ABSPATH . WPINC . '/version.php' ); // $wp_version; // x.y.z
 
-		$current_branch                 = implode( '.', array_slice( preg_split( '/[.-]/', $wp_version ), 0, 2 ) ); // x.y
-		$new_branch                     = implode( '.', array_slice( preg_split( '/[.-]/', $offered_ver ), 0, 2 ) ); // x.y
+		$current_branch = implode( '.', array_slice( preg_split( '/[.-]/', $wp_version ), 0, 2 ) ); // x.y
+		$new_branch     = implode( '.', array_slice( preg_split( '/[.-]/', $offered_ver ), 0, 2 ) ); // x.y
+
 		$current_is_development_version = (bool) strpos( $wp_version, '-' );
 
 		// Defaults:
@@ -284,17 +285,17 @@ class Core_Upgrader extends WP_Upgrader {
 		// WP_AUTO_UPDATE_CORE = true (all), 'minor', false.
 		if ( defined( 'WP_AUTO_UPDATE_CORE' ) ) {
 			if ( false === WP_AUTO_UPDATE_CORE ) {
-				// Defaults to turned off, unless a filter allows it
+				// Defaults to turned off, unless a filter allows it.
 				$upgrade_dev   = false;
 				$upgrade_minor = false;
 				$upgrade_major = false;
 			} elseif ( true === WP_AUTO_UPDATE_CORE ) {
-				// ALL updates for core
+				// ALL updates for core.
 				$upgrade_dev   = true;
 				$upgrade_minor = true;
 				$upgrade_major = true;
 			} elseif ( 'minor' === WP_AUTO_UPDATE_CORE ) {
-				// Only minor updates for core
+				// Only minor updates for core.
 				$upgrade_dev   = false;
 				$upgrade_minor = true;
 				$upgrade_major = false;
@@ -306,7 +307,7 @@ class Core_Upgrader extends WP_Upgrader {
 			return false;
 		}
 
-		// 2: If we're running a newer version, that's a nope
+		// 2: If we're running a newer version, that's a nope.
 		if ( version_compare( $wp_version, $offered_ver, '>' ) ) {
 			return false;
 		}
@@ -323,15 +324,17 @@ class Core_Upgrader extends WP_Upgrader {
 				return false;
 			}
 
-			// Cannot update if we're retrying the same A to B update that caused a non-critical failure.
-			// Some non-critical failures do allow retries, like download_failed.
-			// 3.7.1 => 3.7.2 resulted in files_not_writable, if we are still on 3.7.1 and still trying to update to 3.7.2.
+			/*
+			 * Cannot update if we're retrying the same A to B update that caused a non-critical failure.
+			 * Some non-critical failures do allow retries, like download_failed.
+			 * 3.7.1 => 3.7.2 resulted in files_not_writable, if we are still on 3.7.1 and still trying to update to 3.7.2.
+			 */
 			if ( empty( $failure_data['retry'] ) && $wp_version == $failure_data['current'] && $offered_ver == $failure_data['attempted'] ) {
 				return false;
 			}
 		}
 
-		// 3: 3.7-alpha-25000 -> 3.7-alpha-25678 -> 3.7-beta1 -> 3.7-beta2
+		// 3: 3.7-alpha-25000 -> 3.7-alpha-25678 -> 3.7-beta1 -> 3.7-beta2.
 		if ( $current_is_development_version ) {
 
 			/**
@@ -348,7 +351,7 @@ class Core_Upgrader extends WP_Upgrader {
 			// Else fall through to minor + major branches below.
 		}
 
-		// 4: Minor In-branch updates (3.7.0 -> 3.7.1 -> 3.7.2 -> 3.7.4)
+		// 4: Minor in-branch updates (3.7.0 -> 3.7.1 -> 3.7.2 -> 3.7.4).
 		if ( $current_branch == $new_branch ) {
 
 			/**
@@ -361,7 +364,7 @@ class Core_Upgrader extends WP_Upgrader {
 			return apply_filters( 'allow_minor_auto_core_updates', $upgrade_minor );
 		}
 
-		// 5: Major version updates (3.7.0 -> 3.8.0 -> 3.9.1)
+		// 5: Major version updates (3.7.0 -> 3.8.0 -> 3.9.1).
 		if ( version_compare( $new_branch, $current_branch, '>' ) ) {
 
 			/**
@@ -374,7 +377,7 @@ class Core_Upgrader extends WP_Upgrader {
 			return apply_filters( 'allow_major_auto_core_updates', $upgrade_major );
 		}
 
-		// If we're not sure, we don't want it
+		// If we're not sure, we don't want it.
 		return false;
 	}
 
@@ -398,7 +401,7 @@ class Core_Upgrader extends WP_Upgrader {
 		}
 
 		foreach ( $checksums as $file => $checksum ) {
-			// Skip files which get updated
+			// Skip files which get updated.
 			if ( 'wp-content' == substr( $file, 0, 10 ) ) {
 				continue;
 			}

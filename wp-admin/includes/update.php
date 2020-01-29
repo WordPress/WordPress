@@ -723,7 +723,8 @@ function wp_theme_update_row( $theme_key, $theme ) {
  * @return void|false
  */
 function maintenance_nag() {
-	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
+	// Include an unmodified $wp_version.
+	include( ABSPATH . WPINC . '/version.php' );
 	global $upgrading;
 	$nag = isset( $upgrading );
 	if ( ! $nag ) {

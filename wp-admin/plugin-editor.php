@@ -79,6 +79,7 @@ $real_file = WP_PLUGIN_DIR . '/' . $file;
 // Handle fallback editing of file when JavaScript is not available.
 $edit_error     = null;
 $posted_content = null;
+
 if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	$r = wp_edit_theme_plugin_file( wp_unslash( $_POST ) );
 	if ( is_wp_error( $r ) ) {
@@ -101,80 +102,80 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	}
 }
 
-	// List of allowable extensions
-	$editable_extensions = wp_get_plugin_file_editable_extensions( $plugin );
+// List of allowable extensions.
+$editable_extensions = wp_get_plugin_file_editable_extensions( $plugin );
 
 if ( ! is_file( $real_file ) ) {
 	wp_die( sprintf( '<p>%s</p>', __( 'File does not exist! Please double check the name and try again.' ) ) );
 } else {
-	// Get the extension of the file
+	// Get the extension of the file.
 	if ( preg_match( '/\.([^.]+)$/', $real_file, $matches ) ) {
 		$ext = strtolower( $matches[1] );
-		// If extension is not in the acceptable list, skip it
+		// If extension is not in the acceptable list, skip it.
 		if ( ! in_array( $ext, $editable_extensions ) ) {
 			wp_die( sprintf( '<p>%s</p>', __( 'Files of this type are not editable.' ) ) );
 		}
 	}
 }
 
-	get_current_screen()->add_help_tab(
-		array(
-			'id'      => 'overview',
-			'title'   => __( 'Overview' ),
-			'content' =>
-					'<p>' . __( 'You can use the plugin editor to make changes to any of your plugins&#8217; individual PHP files. Be aware that if you make changes, plugins updates will overwrite your customizations.' ) . '</p>' .
-					'<p>' . __( 'Choose a plugin to edit from the dropdown menu and click the Select button. Click once on any file name to load it in the editor, and make your changes. Don&#8217;t forget to save your changes (Update File) when you&#8217;re finished.' ) . '</p>' .
-					'<p>' . __( 'The Documentation menu below the editor lists the PHP functions recognized in the plugin file. Clicking Look Up takes you to a web page about that particular function.' ) . '</p>' .
-					'<p id="editor-keyboard-trap-help-1">' . __( 'When using a keyboard to navigate:' ) . '</p>' .
-					'<ul>' .
-					'<li id="editor-keyboard-trap-help-2">' . __( 'In the editing area, the Tab key enters a tab character.' ) . '</li>' .
-					'<li id="editor-keyboard-trap-help-3">' . __( 'To move away from this area, press the Esc key followed by the Tab key.' ) . '</li>' .
-					'<li id="editor-keyboard-trap-help-4">' . __( 'Screen reader users: when in forms mode, you may need to press the Esc key twice.' ) . '</li>' .
-					'</ul>' .
-					'<p>' . __( 'If you want to make changes but don&#8217;t want them to be overwritten when the plugin is updated, you may be ready to think about writing your own plugin. For information on how to edit plugins, write your own from scratch, or just better understand their anatomy, check out the links below.' ) . '</p>' .
-					( is_network_admin() ? '<p>' . __( 'Any edits to files from this screen will be reflected on all sites in the network.' ) . '</p>' : '' ),
-		)
-	);
+get_current_screen()->add_help_tab(
+	array(
+		'id'      => 'overview',
+		'title'   => __( 'Overview' ),
+		'content' =>
+				'<p>' . __( 'You can use the plugin editor to make changes to any of your plugins&#8217; individual PHP files. Be aware that if you make changes, plugins updates will overwrite your customizations.' ) . '</p>' .
+				'<p>' . __( 'Choose a plugin to edit from the dropdown menu and click the Select button. Click once on any file name to load it in the editor, and make your changes. Don&#8217;t forget to save your changes (Update File) when you&#8217;re finished.' ) . '</p>' .
+				'<p>' . __( 'The Documentation menu below the editor lists the PHP functions recognized in the plugin file. Clicking Look Up takes you to a web page about that particular function.' ) . '</p>' .
+				'<p id="editor-keyboard-trap-help-1">' . __( 'When using a keyboard to navigate:' ) . '</p>' .
+				'<ul>' .
+				'<li id="editor-keyboard-trap-help-2">' . __( 'In the editing area, the Tab key enters a tab character.' ) . '</li>' .
+				'<li id="editor-keyboard-trap-help-3">' . __( 'To move away from this area, press the Esc key followed by the Tab key.' ) . '</li>' .
+				'<li id="editor-keyboard-trap-help-4">' . __( 'Screen reader users: when in forms mode, you may need to press the Esc key twice.' ) . '</li>' .
+				'</ul>' .
+				'<p>' . __( 'If you want to make changes but don&#8217;t want them to be overwritten when the plugin is updated, you may be ready to think about writing your own plugin. For information on how to edit plugins, write your own from scratch, or just better understand their anatomy, check out the links below.' ) . '</p>' .
+				( is_network_admin() ? '<p>' . __( 'Any edits to files from this screen will be reflected on all sites in the network.' ) . '</p>' : '' ),
+	)
+);
 
-	get_current_screen()->set_help_sidebar(
-		'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-		'<p>' . __( '<a href="https://wordpress.org/support/article/plugins-editor-screen/">Documentation on Editing Plugins</a>' ) . '</p>' .
-		'<p>' . __( '<a href="https://developer.wordpress.org/plugins/">Documentation on Writing Plugins</a>' ) . '</p>' .
-		'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
-	);
+get_current_screen()->set_help_sidebar(
+	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/article/plugins-editor-screen/">Documentation on Editing Plugins</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://developer.wordpress.org/plugins/">Documentation on Writing Plugins</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+);
 
-	$settings = array(
-		'codeEditor' => wp_enqueue_code_editor( array( 'file' => $real_file ) ),
-	);
-	wp_enqueue_script( 'wp-theme-plugin-editor' );
-	wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode( $settings ) ) );
-	wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'wp.themePluginEditor.themeOrPlugin = "plugin";' ) );
+$settings = array(
+	'codeEditor' => wp_enqueue_code_editor( array( 'file' => $real_file ) ),
+);
+wp_enqueue_script( 'wp-theme-plugin-editor' );
+wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode( $settings ) ) );
+wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'wp.themePluginEditor.themeOrPlugin = "plugin";' ) );
 
-	require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
-	update_recently_edited( WP_PLUGIN_DIR . '/' . $file );
+update_recently_edited( WP_PLUGIN_DIR . '/' . $file );
 
-	if ( ! empty( $posted_content ) ) {
-		$content = $posted_content;
-	} else {
-		$content = file_get_contents( $real_file );
-	}
+if ( ! empty( $posted_content ) ) {
+	$content = $posted_content;
+} else {
+	$content = file_get_contents( $real_file );
+}
 
-	if ( '.php' == substr( $real_file, strrpos( $real_file, '.' ) ) ) {
-		$functions = wp_doc_link_parse( $content );
+if ( '.php' == substr( $real_file, strrpos( $real_file, '.' ) ) ) {
+	$functions = wp_doc_link_parse( $content );
 
-		if ( ! empty( $functions ) ) {
-			$docs_select  = '<select name="docs-list" id="docs-list">';
-			$docs_select .= '<option value="">' . __( 'Function Name&hellip;' ) . '</option>';
-			foreach ( $functions as $function ) {
-				$docs_select .= '<option value="' . esc_attr( $function ) . '">' . esc_html( $function ) . '()</option>';
-			}
-			$docs_select .= '</select>';
+	if ( ! empty( $functions ) ) {
+		$docs_select  = '<select name="docs-list" id="docs-list">';
+		$docs_select .= '<option value="">' . __( 'Function Name&hellip;' ) . '</option>';
+		foreach ( $functions as $function ) {
+			$docs_select .= '<option value="' . esc_attr( $function ) . '">' . esc_html( $function ) . '()</option>';
 		}
+		$docs_select .= '</select>';
 	}
+}
 
-	$content = esc_textarea( $content );
-	?>
+$content = esc_textarea( $content );
+?>
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
 
@@ -217,19 +218,19 @@ if ( ! is_file( $real_file ) ) {
 	<form action="plugin-editor.php" method="get">
 		<strong><label for="plugin"><?php _e( 'Select plugin to edit:' ); ?> </label></strong>
 		<select name="plugin" id="plugin">
-<?php
-foreach ( $plugins as $plugin_key => $a_plugin ) {
-	$plugin_name = $a_plugin['Name'];
-	if ( $plugin_key == $plugin ) {
-		$selected = " selected='selected'";
-	} else {
-		$selected = '';
-	}
-	$plugin_name = esc_attr( $plugin_name );
-	$plugin_key  = esc_attr( $plugin_key );
-	echo "\n\t<option value=\"$plugin_key\" $selected>$plugin_name</option>";
-}
-?>
+		<?php
+		foreach ( $plugins as $plugin_key => $a_plugin ) {
+			$plugin_name = $a_plugin['Name'];
+			if ( $plugin_key == $plugin ) {
+				$selected = " selected='selected'";
+			} else {
+				$selected = '';
+			}
+			$plugin_name = esc_attr( $plugin_name );
+			$plugin_key  = esc_attr( $plugin_key );
+			echo "\n\t<option value=\"$plugin_key\" $selected>$plugin_name</option>";
+		}
+		?>
 		</select>
 		<?php submit_button( __( 'Select' ), '', 'Submit', false ); ?>
 	</form>
@@ -255,50 +256,59 @@ foreach ( $plugins as $plugin_key => $a_plugin ) {
 		</ul>
 	</ul>
 </div>
+
 <form name="template" id="template" action="plugin-editor.php" method="post">
 	<?php wp_nonce_field( 'edit-plugin_' . $file, 'nonce' ); ?>
-		<div>
-			<label for="newcontent" id="theme-plugin-editor-label"><?php _e( 'Selected file content:' ); ?></label>
-			<textarea cols="70" rows="25" name="newcontent" id="newcontent" aria-describedby="editor-keyboard-trap-help-1 editor-keyboard-trap-help-2 editor-keyboard-trap-help-3 editor-keyboard-trap-help-4"><?php echo $content; ?></textarea>
-			<input type="hidden" name="action" value="update" />
-			<input type="hidden" name="file" value="<?php echo esc_attr( $file ); ?>" />
-			<input type="hidden" name="plugin" value="<?php echo esc_attr( $plugin ); ?>" />
+	<div>
+		<label for="newcontent" id="theme-plugin-editor-label"><?php _e( 'Selected file content:' ); ?></label>
+		<textarea cols="70" rows="25" name="newcontent" id="newcontent" aria-describedby="editor-keyboard-trap-help-1 editor-keyboard-trap-help-2 editor-keyboard-trap-help-3 editor-keyboard-trap-help-4"><?php echo $content; ?></textarea>
+		<input type="hidden" name="action" value="update" />
+		<input type="hidden" name="file" value="<?php echo esc_attr( $file ); ?>" />
+		<input type="hidden" name="plugin" value="<?php echo esc_attr( $plugin ); ?>" />
+	</div>
+
+	<?php if ( ! empty( $docs_select ) ) : ?>
+		<div id="documentation" class="hide-if-no-js">
+			<label for="docs-list"><?php _e( 'Documentation:' ); ?></label>
+			<?php echo $docs_select; ?>
+			<input disabled id="docs-lookup" type="button" class="button" value="<?php esc_attr_e( 'Look Up' ); ?>" onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'https://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&amp;locale=<?php echo urlencode( get_user_locale() ); ?>&amp;version=<?php echo urlencode( get_bloginfo( 'version' ) ); ?>&amp;redirect=true'); }" />
 		</div>
-		<?php if ( ! empty( $docs_select ) ) : ?>
-		<div id="documentation" class="hide-if-no-js"><label for="docs-list"><?php _e( 'Documentation:' ); ?></label> <?php echo $docs_select; ?> <input disabled id="docs-lookup" type="button" class="button" value="<?php esc_attr_e( 'Look Up' ); ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'https://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&amp;locale=<?php echo urlencode( get_user_locale() ); ?>&amp;version=<?php echo urlencode( get_bloginfo( 'version' ) ); ?>&amp;redirect=true'); }" /></div>
-		<?php endif; ?>
-<?php if ( is_writeable( $real_file ) ) : ?>
-	<div class="editor-notices">
+	<?php endif; ?>
+
+	<?php if ( is_writeable( $real_file ) ) : ?>
+		<div class="editor-notices">
 		<?php if ( in_array( $plugin, (array) get_option( 'active_plugins', array() ) ) ) { ?>
 			<div class="notice notice-warning inline active-plugin-edit-warning">
-			<p><?php _e( '<strong>Warning:</strong> Making changes to active plugins is not recommended.' ); ?></p>
-		</div>
+				<p><?php _e( '<strong>Warning:</strong> Making changes to active plugins is not recommended.' ); ?></p>
+			</div>
 		<?php } ?>
-	</div>
-	<p class="submit">
-		<?php submit_button( __( 'Update File' ), 'primary', 'submit', false ); ?>
-		<span class="spinner"></span>
-	</p>
-<?php else : ?>
-	<p><em>
-		<?php
-		printf(
-			/* translators: %s: Documentation URL. */
-			__( 'You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.' ),
-			__( 'https://wordpress.org/support/article/changing-file-permissions/' )
-		);
-		?>
-	</em></p>
-<?php endif; ?>
-<?php wp_print_file_editor_templates(); ?>
+		</div>
+		<p class="submit">
+			<?php submit_button( __( 'Update File' ), 'primary', 'submit', false ); ?>
+			<span class="spinner"></span>
+		</p>
+	<?php else : ?>
+		<p><em>
+			<?php
+			printf(
+				/* translators: %s: Documentation URL. */
+				__( 'You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.' ),
+				__( 'https://wordpress.org/support/article/changing-file-permissions/' )
+			);
+			?>
+		</em></p>
+	<?php endif; ?>
+
+	<?php wp_print_file_editor_templates(); ?>
 </form>
 <br class="clear" />
 </div>
 <?php
 $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 if ( ! in_array( 'plugin_editor_notice', $dismissed_pointers, true ) ) :
-	// Get a back URL
-	$referer                    = wp_get_referer();
+	// Get a back URL.
+	$referer = wp_get_referer();
+
 	$excluded_referer_basenames = array( 'plugin-editor.php', 'wp-login.php' );
 
 	if ( $referer && ! in_array( basename( parse_url( $referer, PHP_URL_PATH ) ), $excluded_referer_basenames, true ) ) {
@@ -307,22 +317,22 @@ if ( ! in_array( 'plugin_editor_notice', $dismissed_pointers, true ) ) :
 		$return_url = admin_url( '/' );
 	}
 	?>
-<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js hidden">
-	<div class="notification-dialog-background"></div>
-	<div class="notification-dialog">
-		<div class="file-editor-warning-content">
-			<div class="file-editor-warning-message">
-				<h1><?php _e( 'Heads up!' ); ?></h1>
-				<p><?php _e( 'You appear to be making direct edits to your plugin in the WordPress dashboard. We recommend that you don&#8217;t! Editing plugins directly may introduce incompatibilities that break your site and your changes may be lost in future updates.' ); ?></p>
-				<p><?php _e( 'If you absolutely have to make direct edits to this plugin, use a file manager to create a copy with a new name and hang on to the original. That way, you can re-enable a functional version if something goes wrong.' ); ?></p>
+	<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js hidden">
+		<div class="notification-dialog-background"></div>
+		<div class="notification-dialog">
+			<div class="file-editor-warning-content">
+				<div class="file-editor-warning-message">
+					<h1><?php _e( 'Heads up!' ); ?></h1>
+					<p><?php _e( 'You appear to be making direct edits to your plugin in the WordPress dashboard. We recommend that you don&#8217;t! Editing plugins directly may introduce incompatibilities that break your site and your changes may be lost in future updates.' ); ?></p>
+					<p><?php _e( 'If you absolutely have to make direct edits to this plugin, use a file manager to create a copy with a new name and hang on to the original. That way, you can re-enable a functional version if something goes wrong.' ); ?></p>
+				</div>
+				<p>
+					<a class="button file-editor-warning-go-back" href="<?php echo esc_url( $return_url ); ?>"><?php _e( 'Go back' ); ?></a>
+					<button type="button" class="file-editor-warning-dismiss button button-primary"><?php _e( 'I understand' ); ?></button>
+				</p>
 			</div>
-			<p>
-				<a class="button file-editor-warning-go-back" href="<?php echo esc_url( $return_url ); ?>"><?php _e( 'Go back' ); ?></a>
-				<button type="button" class="file-editor-warning-dismiss button button-primary"><?php _e( 'I understand' ); ?></button>
-			</p>
 		</div>
 	</div>
-</div>
 	<?php
 endif; // Editor warning notice.
 

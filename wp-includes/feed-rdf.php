@@ -74,15 +74,18 @@ while ( have_posts() ) :
 <item rdf:about="<?php the_permalink_rss(); ?>">
 	<title><?php the_title_rss(); ?></title>
 	<link><?php the_permalink_rss(); ?></link>
-	<dc:date><?php echo mysql2date( 'Y-m-d\TH:i:s\Z', $post->post_date_gmt, false ); ?></dc:date>
+
 	<dc:creator><![CDATA[<?php the_author(); ?>]]></dc:creator>
+	<dc:date><?php echo mysql2date( 'Y-m-d\TH:i:s\Z', $post->post_date_gmt, false ); ?></dc:date>
 	<?php the_category_rss( 'rdf' ); ?>
+
 	<?php if ( get_option( 'rss_use_excerpt' ) ) : ?>
-	<description><![CDATA[<?php the_excerpt_rss(); ?>]]></description>
-<?php else : ?>
-	<description><![CDATA[<?php the_excerpt_rss(); ?>]]></description>
-	<content:encoded><![CDATA[<?php the_content_feed( 'rdf' ); ?>]]></content:encoded>
-<?php endif; ?>
+		<description><![CDATA[<?php the_excerpt_rss(); ?>]]></description>
+	<?php else : ?>
+		<description><![CDATA[<?php the_excerpt_rss(); ?>]]></description>
+		<content:encoded><![CDATA[<?php the_content_feed( 'rdf' ); ?>]]></content:encoded>
+	<?php endif; ?>
+
 	<?php
 	/**
 	 * Fires at the end of each RDF feed item.

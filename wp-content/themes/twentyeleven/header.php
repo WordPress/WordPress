@@ -83,7 +83,7 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 			</hgroup>
 
 			<?php
-				// Check to see if the header image has been removed
+				// Check to see if the header image has been removed.
 				$header_image = get_header_image();
 			if ( $header_image ) :
 				// Compatibility with versions of WordPress prior to 3.4.
@@ -121,10 +121,10 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 					?>
 					<img src="<?php header_image(); ?>" width="<?php echo esc_attr( $header_image_width ); ?>" height="<?php echo esc_attr( $header_image_height ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" />
 					<?php
-				} // end check for featured image or standard header
+				} // End check for featured image or standard header.
 				?>
 			</a>
-			<?php endif; // end check for removed header image ?>
+			<?php endif; // End check for removed header image. ?>
 
 			<?php
 				// Has the text been hidden?
@@ -145,8 +145,14 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 
 			<nav id="access" role="navigation">
 				<h3 class="assistive-text"><?php _e( 'Main menu', 'twentyeleven' ); ?></h3>
-				<?php /* Our navigation menu. If one isn't filled out, wp_nav_menu falls back to wp_page_menu. The menu assigned to the primary location is the one used. If one isn't assigned, the menu with the lowest ID is used. */ ?>
-				<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
+				<?php
+				/*
+				 * Our navigation menu. If one isn't filled out, wp_nav_menu() falls back to wp_page_menu().
+				 * The menu assigned to the primary location is the one used.
+				 * If one isn't assigned, the menu with the lowest ID is used.
+				 */
+				wp_nav_menu( array( 'theme_location' => 'primary' ) );
+				?>
 			</nav><!-- #access -->
 	</header><!-- #branding -->
 

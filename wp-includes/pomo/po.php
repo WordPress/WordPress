@@ -48,7 +48,7 @@ if ( ! class_exists( 'PO', false ) ) :
 		 * @return string sequence of mgsgid/msgstr PO strings, doesn't containt newline at the end
 		 */
 		function export_entries() {
-			//TODO sorting
+			// TODO: Sorting.
 			return implode( "\n\n", array_map( array( 'PO', 'export_entry' ), $this->entries ) );
 		}
 
@@ -117,12 +117,12 @@ if ( ! class_exists( 'PO', false ) ) :
 			$string = str_replace( array_keys( $replaces ), array_values( $replaces ), $string );
 
 			$po = $quote . implode( "${slash}n$quote$newline$quote", explode( $newline, $string ) ) . $quote;
-			// add empty string on first line for readbility
+			// Add empty string on first line for readbility.
 			if ( false !== strpos( $string, $newline ) &&
 				( substr_count( $string, $newline ) > 1 || ! ( $newline === substr( $string, -strlen( $newline ) ) ) ) ) {
 				$po = "$quote$quote$newline$po";
 			}
-			// remove empty strings
+			// Remove empty strings.
 			$po = str_replace( "$newline$quote$quote", '', $po );
 			return $po;
 		}
@@ -161,7 +161,7 @@ if ( ! class_exists( 'PO', false ) ) :
 				}
 			}
 
-			// Standardise the line endings on imported content, technically PO files shouldn't contain \r
+			// Standardise the line endings on imported content, technically PO files shouldn't contain \r.
 			$unpoified = str_replace( array( "\r\n", "\r" ), "\n", $unpoified );
 
 			return $unpoified;
@@ -178,9 +178,11 @@ if ( ! class_exists( 'PO', false ) ) :
 			$lines  = explode( "\n", $string );
 			$append = '';
 			if ( "\n" === substr( $string, -1 ) && '' === end( $lines ) ) {
-				// Last line might be empty because $string was terminated
-				// with a newline, remove it from the $lines array,
-				// we'll restore state by re-terminating the string at the end
+				/*
+				 * Last line might be empty because $string was terminated
+				 * with a newline, remove it from the $lines array,
+				 * we'll restore state by re-terminating the string at the end.
+				 */
 				array_pop( $lines );
 				$append = "\n";
 			}
@@ -325,8 +327,8 @@ if ( ! class_exists( 'PO', false ) ) :
 		 */
 		function read_entry( $f, $lineno = 0 ) {
 			$entry = new Translation_Entry();
-			// where were we in the last step
-			// can be: comment, msgctxt, msgid, msgid_plural, msgstr, msgstr_plural
+			// Where were we in the last step.
+			// Can be: comment, msgctxt, msgid, msgid_plural, msgstr, msgstr_plural.
 			$context      = '';
 			$msgstr_index = 0;
 			while ( true ) {
@@ -336,7 +338,7 @@ if ( ! class_exists( 'PO', false ) ) :
 					if ( feof( $f ) ) {
 						if ( self::is_final( $context ) ) {
 							break;
-						} elseif ( ! $context ) { // we haven't read a line and eof came
+						} elseif ( ! $context ) { // We haven't read a line and EOF came.
 							return null;
 						} else {
 							return false;
@@ -350,17 +352,17 @@ if ( ! class_exists( 'PO', false ) ) :
 				}
 				$line = trim( $line );
 				if ( preg_match( '/^#/', $line, $m ) ) {
-					// the comment is the start of a new entry
+					// The comment is the start of a new entry.
 					if ( self::is_final( $context ) ) {
 						PO::read_line( $f, 'put-back' );
 						$lineno--;
 						break;
 					}
-					// comments have to be at the beginning
+					// Comments have to be at the beginning.
 					if ( $context && $context != 'comment' ) {
 						return false;
 					}
-					// add comment
+					// Add comment.
 					$this->add_comment_to_entry( $entry, $line );
 				} elseif ( preg_match( '/^msgctxt\s+(".*")/', $line, $m ) ) {
 					if ( self::is_final( $context ) ) {

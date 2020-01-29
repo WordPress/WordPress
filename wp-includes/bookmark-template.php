@@ -116,7 +116,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 		if ( $bookmark->link_image != null && $parsed_args['show_images'] ) {
 			if ( strpos( $bookmark->link_image, 'http' ) === 0 ) {
 				$output .= "<img src=\"$bookmark->link_image\" $alt $title />";
-			} else { // If it's a relative path
+			} else { // If it's a relative path.
 				$output .= '<img src="' . get_option( 'siteurl' ) . "$bookmark->link_image\" $alt $title />";
 			}
 			if ( $parsed_args['show_name'] ) {
@@ -147,7 +147,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 			);
 		}
 		$output .= $parsed_args['after'] . "\n";
-	} // end while
+	} // End while.
 
 	return $output;
 }
@@ -254,7 +254,7 @@ function wp_list_bookmarks( $args = '' ) {
 	}
 
 	if ( $parsed_args['categorize'] ) {
-		// Split the bookmarks into ul's for each category
+		// Split the bookmarks into ul's for each category.
 		foreach ( (array) $cats as $cat ) {
 			$params    = array_merge( $parsed_args, array( 'category' => $cat->term_id ) );
 			$bookmarks = get_bookmarks( $params );
@@ -284,7 +284,7 @@ function wp_list_bookmarks( $args = '' ) {
 			$output .= $parsed_args['category_after'] . "\n";
 		}
 	} else {
-		//output one single list using title_li for the title
+		// Output one single list using title_li for the title.
 		$bookmarks = get_bookmarks( $parsed_args );
 
 		if ( ! empty( $bookmarks ) ) {

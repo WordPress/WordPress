@@ -28,8 +28,8 @@ get_header(); ?>
 				</h1>
 			</header><!-- .archive-header -->
 
-			<?php /* The loop */ ?>
 			<?php
+			// Start the loop.
 			while ( have_posts() ) :
 				the_post();
 				?>

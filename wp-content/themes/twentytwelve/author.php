@@ -19,7 +19,8 @@ get_header(); ?>
 		<?php if ( have_posts() ) : ?>
 
 			<?php
-				/* Queue the first post, that way we know
+				/*
+				 * Queue the first post, that way we know
 				 * what author we're dealing with (if that is the case).
 				 *
 				 * We reset this later so we can run the loop
@@ -38,9 +39,10 @@ get_header(); ?>
 			</header><!-- .archive-header -->
 
 			<?php
-				/* Since we called the_post() above, we need to
-				 * rewind the loop back to the beginning that way
-				 * we can run the loop properly, in full.
+				/*
+				 * Since we called the_post() above, we need
+				 * to rewind the loop back to the beginning.
+				 * That way we can run the loop properly, in full.
 				 */
 				rewind_posts();
 			?>
@@ -77,8 +79,8 @@ get_header(); ?>
 			</div><!-- .author-info -->
 			<?php endif; ?>
 
-			<?php /* Start the Loop */ ?>
 			<?php
+			// Start the Loop.
 			while ( have_posts() ) :
 				the_post();
 				?>

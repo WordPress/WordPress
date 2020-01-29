@@ -53,7 +53,7 @@ switch ( $action ) {
 			break;
 		}
 
-		// Don't allow revision restore when post is locked
+		// Don't allow revision restore when post is locked.
 		if ( wp_check_post_lock( $post->ID ) ) {
 			break;
 		}
@@ -86,7 +86,7 @@ switch ( $action ) {
 			break;
 		}
 
-		// Revisions disabled and we're not looking at an autosave
+		// Revisions disabled and we're not looking at an autosave.
 		if ( ! wp_revisions_enabled( $post ) && ! wp_is_post_autosave( $revision ) ) {
 			$redirect = 'edit.php?post_type=' . $post->post_type;
 			break;

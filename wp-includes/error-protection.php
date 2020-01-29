@@ -3,7 +3,7 @@
  * Error Protection API: Functions
  *
  * @package WordPress
- * @since   5.2.0
+ * @since 5.2.0
  */
 
 /**

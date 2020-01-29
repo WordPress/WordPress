@@ -80,7 +80,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 			'accepted_args' => $accepted_args,
 		);
 
-		// if we're adding a new priority to the list, put them back in sorted order
+		// If we're adding a new priority to the list, put them back in sorted order.
 		if ( ! $priority_existed && count( $this->callbacks ) > 1 ) {
 			ksort( $this->callbacks, SORT_NUMERIC );
 		}
@@ -135,7 +135,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 			// If we have a new priority that didn't exist, but ::apply_filters() or ::do_action() thinks it's the current priority...
 			if ( $new_priority === $this->current_priority[ $index ] && ! $priority_existed ) {
 				/*
-				 * ... and the new priority is the same as what $this->iterations thinks is the previous
+				 * ...and the new priority is the same as what $this->iterations thinks is the previous
 				 * priority, we need to move back to it.
 				 */
 
@@ -280,7 +280,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 					$args[0] = $value;
 				}
 
-				// Avoid the array_slice if possible.
+				// Avoid the array_slice() if possible.
 				if ( $the_['accepted_args'] == 0 ) {
 					$value = call_user_func( $the_['function'] );
 				} elseif ( $the_['accepted_args'] >= $num_args ) {

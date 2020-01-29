@@ -23,7 +23,7 @@ get_header(); ?>
 
 					<?php comments_template( '', true ); ?>
 
-				<?php endwhile; // end of the loop. ?>
+				<?php endwhile; // End of the loop. ?>
 
 			</div><!-- #content -->
 		</div><!-- #primary -->

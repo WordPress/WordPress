@@ -285,7 +285,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 				)
 			);
 		}
-		// @todo add support for $args['hide_empty'] === true
+		// @todo Add support for $args['hide_empty'] === true.
 
 		return $menus;
 	}

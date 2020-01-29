@@ -20,7 +20,7 @@ if ( ! current_user_can( 'manage_network_options' ) ) {
 $title       = __( 'Network Settings' );
 $parent_file = 'settings.php';
 
-// Handle network admin email change requests
+// Handle network admin email change requests.
 if ( ! empty( $_GET['network_admin_hash'] ) ) {
 	$new_admin_details = get_site_option( 'network_admin_hash' );
 	$redirect          = 'settings.php?updated=false';

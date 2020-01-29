@@ -263,7 +263,7 @@ function wp_dashboard() {
 }
 
 //
-// Dashboard Widgets
+// Dashboard Widgets.
 //
 
 /**
@@ -1116,7 +1116,7 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 }
 
 //
-// Dashboard Widgets Controls
+// Dashboard Widgets Controls.
 //
 
 /**
@@ -1627,7 +1627,7 @@ function wp_dashboard_browser_nag() {
 	 * @param string $notice   The notice content.
 	 * @param array  $response An array containing web browser information. See `wp_check_browser_version()`.
 	 */
-	echo apply_filters( 'browse-happy-notice', $notice, $response );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+	echo apply_filters( 'browse-happy-notice', $notice, $response ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 }
 
 /**

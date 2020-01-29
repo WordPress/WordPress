@@ -475,7 +475,7 @@ function rss_enclosure() {
 			foreach ( (array) $val as $enc ) {
 				$enclosure = explode( "\n", $enc );
 
-				// only get the first element, e.g. audio/mpeg from 'audio/mpeg mpga mp2 mp3'
+				// Only get the first element, e.g. 'audio/mpeg' from 'audio/mpeg mpga mp2 mp3'.
 				$t    = preg_split( '/[ \t]/', trim( $enclosure[2] ) );
 				$type = $t[0];
 
@@ -763,7 +763,7 @@ function fetch_feed( $url ) {
 
 	$feed->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );
 	// We must manually overwrite $feed->sanitize because SimplePie's
-	// constructor sets it before we have a chance to set the sanitization class
+	// constructor sets it before we have a chance to set the sanitization class.
 	$feed->sanitize = new WP_SimplePie_Sanitize_KSES();
 
 	$feed->set_cache_class( 'WP_Feed_Cache' );

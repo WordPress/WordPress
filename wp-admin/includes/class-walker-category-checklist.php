@@ -21,7 +21,7 @@ class Walker_Category_Checklist extends Walker {
 	public $db_fields = array(
 		'parent' => 'parent',
 		'id'     => 'term_id',
-	); //TODO: decouple this
+	); // TODO: Decouple this.
 
 	/**
 	 * Starts the list before the elements are added.

@@ -66,7 +66,7 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Page' ) ) {
 			$css_classes = $css_classes ? ' class="' . esc_attr( $css_classes ) . '"' : '';
 
 			if ( '' === $page->post_title ) {
-				/* translators: %d: ID of a post */
+				/* translators: %d: ID of a post. */
 				$page->post_title = sprintf( __( '#%d (no title)', 'twentytwenty' ), $page->ID );
 			}
 

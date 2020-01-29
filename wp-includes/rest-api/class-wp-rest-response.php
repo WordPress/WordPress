@@ -154,6 +154,7 @@ class WP_REST_Response extends WP_HTTP_Response {
 			if ( 'title' === $key ) {
 				$value = '"' . $value . '"';
 			}
+
 			$header .= '; ' . $key . '=' . $value;
 		}
 		$this->header( 'Link', $header, false );
@@ -231,6 +232,7 @@ class WP_REST_Response extends WP_HTTP_Response {
 		if ( is_array( $this->get_data() ) ) {
 			$data = $this->get_data();
 			$error->add( $data['code'], $data['message'], $data['data'] );
+
 			if ( ! empty( $data['additional_errors'] ) ) {
 				foreach ( $data['additional_errors'] as $err ) {
 					$error->add( $err['code'], $err['message'], $err['data'] );
@@ -285,6 +287,7 @@ class WP_REST_Response extends WP_HTTP_Response {
 		 * @param array $additional Additional CURIEs to register with the API.
 		 */
 		$additional = apply_filters( 'rest_response_link_curies', array() );
+
 		return array_merge( $curies, $additional );
 	}
 }

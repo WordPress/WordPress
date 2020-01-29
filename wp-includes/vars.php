@@ -19,9 +19,9 @@ global $pagenow,
 	$is_lynx, $is_gecko, $is_winIE, $is_macIE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone, $is_IE, $is_edge,
 	$is_apache, $is_IIS, $is_iis7, $is_nginx;
 
-// On which page are we ?
+// On which page are we?
 if ( is_admin() ) {
-	// wp-admin pages are checked more carefully
+	// wp-admin pages are checked more carefully.
 	if ( is_network_admin() ) {
 		preg_match( '#/wp-admin/network/?(.*?)$#i', $_SERVER['PHP_SELF'], $self_matches );
 	} elseif ( is_user_admin() ) {
@@ -38,7 +38,7 @@ if ( is_admin() ) {
 		preg_match( '#(.*?)(/|$)#', $pagenow, $self_matches );
 		$pagenow = strtolower( $self_matches[1] );
 		if ( '.php' !== substr( $pagenow, -4, 4 ) ) {
-			$pagenow .= '.php'; // for Options +Multiviews: /wp-admin/themes/index.php (themes.php is queried)
+			$pagenow .= '.php'; // For `Options +Multiviews`: /wp-admin/themes/index.php (themes.php is queried).
 		}
 	}
 } else {
@@ -50,7 +50,7 @@ if ( is_admin() ) {
 }
 unset( $self_matches );
 
-// Simple browser detection
+// Simple browser detection.
 $is_lynx   = false;
 $is_gecko  = false;
 $is_winIE  = false;
@@ -106,7 +106,7 @@ if ( $is_safari && stripos( $_SERVER['HTTP_USER_AGENT'], 'mobile' ) !== false ) 
 
 $is_IE = ( $is_macIE || $is_winIE );
 
-// Server detection
+// Server detection.
 
 /**
  * Whether the server software is Apache or something else
@@ -146,7 +146,7 @@ $is_iis7 = $is_IIS && intval( substr( $_SERVER['SERVER_SOFTWARE'], strpos( $_SER
 function wp_is_mobile() {
 	if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
 		$is_mobile = false;
-	} elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Mobile' ) !== false // many mobile devices (all iPhone, iPad, etc.)
+	} elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Mobile' ) !== false // Many mobile devices (all iPhone, iPad, etc.)
 		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Android' ) !== false
 		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Silk/' ) !== false
 		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Kindle' ) !== false

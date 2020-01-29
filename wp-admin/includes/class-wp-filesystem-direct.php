@@ -131,7 +131,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		if ( ! $this->is_dir( $file ) ) {
 			return chgrp( $file, $group );
 		}
-		// Is a directory, and we want recursive
+		// Is a directory, and we want recursive.
 		$file     = trailingslashit( $file );
 		$filelist = $this->dirlist( $file );
 		foreach ( $filelist as $filename ) {
@@ -167,7 +167,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		if ( ! $recursive || ! $this->is_dir( $file ) ) {
 			return chmod( $file, $mode );
 		}
-		// Is a directory, and we want recursive
+		// Is a directory, and we want recursive.
 		$file     = trailingslashit( $file );
 		$filelist = $this->dirlist( $file );
 		foreach ( (array) $filelist as $filename => $filemeta ) {
@@ -198,7 +198,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		if ( ! $this->is_dir( $file ) ) {
 			return chown( $file, $owner );
 		}
-		// Is a directory, and we want recursive
+		// Is a directory, and we want recursive.
 		$filelist = $this->dirlist( $file );
 		foreach ( $filelist as $filename ) {
 			$this->chown( $file . '/' . $filename, $owner, $recursive );
@@ -327,10 +327,11 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	 * @return bool True on success, false on failure.
 	 */
 	public function delete( $file, $recursive = false, $type = false ) {
-		if ( empty( $file ) ) { // Some filesystems report this as /, which can cause non-expected recursive deletion of all files in the filesystem.
+		if ( empty( $file ) ) {
+			// Some filesystems report this as /, which can cause non-expected recursive deletion of all files in the filesystem.
 			return false;
 		}
-		$file = str_replace( '\\', '/', $file ); // for win32, occasional problems deleting files otherwise
+		$file = str_replace( '\\', '/', $file ); // For Win32, occasional problems deleting files otherwise.
 
 		if ( 'f' == $type || $this->is_file( $file ) ) {
 			return @unlink( $file );
@@ -339,7 +340,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 			return @rmdir( $file );
 		}
 
-		// At this point it's a folder, and we're in recursive mode
+		// At this point it's a folder, and we're in recursive mode.
 		$file     = trailingslashit( $file );
 		$filelist = $this->dirlist( $file, true );
 

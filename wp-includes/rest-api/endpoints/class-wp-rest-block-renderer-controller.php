@@ -150,6 +150,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 		$data = array(
 			'rendered' => $block->render( $request->get_param( 'attributes' ) ),
 		);
+
 		return rest_ensure_response( $data );
 	}
 
@@ -178,6 +179,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 				),
 			),
 		);
+
 		return $this->schema;
 	}
 }

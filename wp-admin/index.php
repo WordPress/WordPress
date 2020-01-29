@@ -44,7 +44,7 @@ $screen->add_help_tab(
 	)
 );
 
-// Help tabs
+// Help tabs.
 
 $help  = '<p>' . __( 'The left-hand navigation menu provides links to all of the WordPress administration screens, with submenu items displayed on hover. You can minimize this menu to a narrow icon strip by clicking on the Collapse Menu arrow at the bottom.' ) . '</p>';
 $help .= '<p>' . __( 'Links in the Toolbar at the top of the screen connect your dashboard and the front end of your site, and provide access to your profile and helpful WordPress information.' ) . '</p>';
@@ -119,7 +119,7 @@ if ( has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) )
 	$classes = 'welcome-panel';
 
 	$option = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
-	// 0 = hide, 1 = toggled to show or single site creator, 2 = multisite site owner
+	// 0 = hide, 1 = toggled to show or single site creator, 2 = multisite site owner.
 	$hide = 0 == $option || ( 2 == $option && wp_get_current_user()->user_email != get_option( 'admin_email' ) );
 	if ( $hide ) {
 		$classes .= ' hidden';

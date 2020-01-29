@@ -203,9 +203,11 @@
 
 			_.bindAll( this, 'close' );
 
-			// If the available menu items panel is open and the customize controls are
-			// interacted with (other than an item being deleted), then close the
-			// available menu items panel. Also close on back button click.
+			/*
+			 * If the available menu items panel is open and the customize controls
+			 * are interacted with (other than an item being deleted), then close
+			 * the available menu items panel. Also close on back button click.
+			 */
 			$( '#customize-controls, .customize-section-back' ).on( 'click keydown', function( e ) {
 				var isDeleteBtn = $( e.target ).is( '.item-delete, .item-delete *' ),
 					isAddNewBtn = $( e.target ).is( '.add-new-menu-item, .add-new-menu-item *' );
@@ -252,7 +254,7 @@
 				}
 			});
 
-			// Close the panel if the URL in the preview changes
+			// Close the panel if the URL in the preview changes.
 			api.previewer.bind( 'url', this.close );
 
 			self.delegateEvents();
@@ -496,7 +498,7 @@
 
 		// Submit handler for keypress and click on menu item.
 		_submit: function( event ) {
-			// Only proceed with keypress if it is Enter or Spacebar
+			// Only proceed with keypress if it is Enter or Spacebar.
 			if ( 'keypress' === event.type && ( 13 !== event.which && 32 !== event.which ) ) {
 				return;
 			}
@@ -717,7 +719,7 @@
 			this.$search.focus();
 		},
 
-		// Closes the panel
+		// Closes the panel.
 		close: function( options ) {
 			options = options || {};
 
@@ -741,7 +743,7 @@
 				isBackTab = ( 9 === event.which && event.shiftKey ),
 				isSearchFocused = $( event.target ).is( this.$search );
 
-			// If enter pressed but nothing entered, don't do anything
+			// If enter pressed but nothing entered, don't do anything.
 			if ( isEnter && ! this.$search.val() ) {
 				return;
 			}
@@ -781,7 +783,7 @@
 				}
 				event.preventDefault();
 
-				// Hide description
+				// Hide description.
 				if ( content.not( ':hidden' ) ) {
 					content.slideUp( 'fast' );
 					help.attr( 'aria-expanded', 'false' );
@@ -802,7 +804,7 @@
 				return false;
 			} );
 
-			// Help toggle
+			// Help toggle.
 			help.on( 'click keydown', function( event ) {
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
@@ -1062,7 +1064,7 @@
 				menuAutoAddControl.active.set( true );
 			}
 
-			// Add the control for deleting the menu
+			// Add the control for deleting the menu.
 			menuDeleteControlId = section.id + '[delete]';
 			menuDeleteControl = api.control( menuDeleteControlId );
 			if ( ! menuDeleteControl ) {
@@ -1126,7 +1128,7 @@
 				wpNavMenu.menuList = section.contentContainer;
 				wpNavMenu.targetList = wpNavMenu.menuList;
 
-				// Add attributes needed by wpNavMenu
+				// Add attributes needed by wpNavMenu.
 				$( '#menu-to-edit' ).removeAttr( 'id' );
 				wpNavMenu.menuList.attr( 'id', 'menu-to-edit' ).addClass( 'menu' );
 
@@ -1145,7 +1147,8 @@
 						wpNavMenu.initSortables(); // Depends on menu-to-edit ID being set above.
 						section.deferred.initSortables.resolve( wpNavMenu.menuList ); // Now MenuControl can extend the sortable.
 
-						// @todo Note that wp.customize.reflowPaneContents() is debounced, so this immediate change will show a slight flicker while priorities get updated.
+						// @todo Note that wp.customize.reflowPaneContents() is debounced,
+						// so this immediate change will show a slight flicker while priorities get updated.
 						api.control( 'nav_menu[' + String( section.params.menu_id ) + ']' ).reflowMenuItems();
 					}
 					if ( _.isFunction( completeCallback ) ) {
@@ -1415,7 +1418,7 @@
 					navMenuLocationSetting = api( 'nav_menu_locations[' + checkbox.data( 'location-id' ) + ']' );
 					navMenuLocationSetting.set( menuSection.params.menu_id );
 
-					// Reset state for next new menu
+					// Reset state for next new menu.
 					checkbox.prop( 'checked', false );
 				}
 			} );
@@ -1698,7 +1701,8 @@
 			control.elements.classes = new api.Element( control.container.find( '.edit-menu-item-classes' ) );
 			control.elements.xfn = new api.Element( control.container.find( '.edit-menu-item-xfn' ) );
 			control.elements.description = new api.Element( control.container.find( '.edit-menu-item-description' ) );
-			// @todo allow other elements, added by plugins, to be automatically picked up here; allow additional values to be added to setting array.
+			// @todo Allow other elements, added by plugins, to be automatically picked up here;
+			// allow additional values to be added to setting array.
 
 			_.each( control.elements, function( element, property ) {
 				element.bind(function( value ) {
@@ -1790,7 +1794,7 @@
 			$removeBtn = control.container.find( '.item-delete' );
 
 			$removeBtn.on( 'click', function() {
-				// Find an adjacent element to add focus to when this menu item goes away
+				// Find an adjacent element to add focus to when this menu item goes away.
 				var addingItems = true, $adjacentFocusTarget, $next, $prev;
 
 				if ( ! $( 'body' ).hasClass( 'adding-menu-items' ) ) {
@@ -1811,7 +1815,7 @@
 				control.container.slideUp( function() {
 					control.setting.set( false );
 					wp.a11y.speak( api.Menus.data.l10n.itemDeleted );
-					$adjacentFocusTarget.focus(); // keyboard accessibility
+					$adjacentFocusTarget.focus(); // Keyboard accessibility.
 				} );
 
 				control.setting.set( false );
@@ -2778,13 +2782,13 @@
 					action = sectionTitle.find( '.customize-action' ),
 					name = displayNavMenuName( menu.name );
 
-				// Update the control title
+				// Update the control title.
 				controlTitle.text( name );
 				if ( location.length ) {
 					location.appendTo( controlTitle );
 				}
 
-				// Update the section title
+				// Update the section title.
 				sectionTitle.text( name );
 				if ( action.length ) {
 					action.prependTo( sectionTitle );
@@ -2981,7 +2985,7 @@
 					position: position
 				}
 			);
-			delete item.id; // only used by Backbone
+			delete item.id; // Only used by Backbone.
 
 			placeholderId = api.Menus.generatePlaceholderAutoIncrementId();
 			customizeId = 'nav_menu_item[' + String( placeholderId ) + ']';

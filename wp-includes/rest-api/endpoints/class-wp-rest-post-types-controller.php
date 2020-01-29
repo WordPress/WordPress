@@ -89,7 +89,11 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 				}
 			}
 
-			return new WP_Error( 'rest_cannot_view', __( 'Sorry, you are not allowed to edit posts in this post type.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error(
+				'rest_cannot_view',
+				__( 'Sorry, you are not allowed to edit posts in this post type.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
 		}
 
 		return true;
@@ -131,15 +135,27 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 		$obj = get_post_type_object( $request['type'] );
 
 		if ( empty( $obj ) ) {
-			return new WP_Error( 'rest_type_invalid', __( 'Invalid post type.' ), array( 'status' => 404 ) );
+			return new WP_Error(
+				'rest_type_invalid',
+				__( 'Invalid post type.' ),
+				array( 'status' => 404 )
+			);
 		}
 
 		if ( empty( $obj->show_in_rest ) ) {
-			return new WP_Error( 'rest_cannot_read_type', __( 'Cannot view post type.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error(
+				'rest_cannot_read_type',
+				__( 'Cannot view post type.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
 		}
 
 		if ( 'edit' === $request['context'] && ! current_user_can( $obj->cap->edit_posts ) ) {
-			return new WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to edit posts in this post type.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error(
+				'rest_forbidden_context',
+				__( 'Sorry, you are not allowed to edit posts in this post type.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
 		}
 
 		$data = $this->prepare_item_for_response( $obj, $request );
@@ -321,6 +337,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 		);
 
 		$this->schema = $schema;
+
 		return $this->add_additional_fields_schema( $this->schema );
 	}
 

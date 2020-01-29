@@ -430,9 +430,11 @@
 					_.extend( attrs, attachments[this.tag].toJSON() );
 				}
 
-				// Convert all gallery shortcodes to use the `ids` property.
-				// Ignore `post__in` and `post__not_in`; the attachments in
-				// the collection will already reflect those properties.
+				/*
+				 * Convert all gallery shortcodes to use the `ids` property.
+				 * Ignore `post__in` and `post__not_in`; the attachments in
+				 * the collection will already reflect those properties.
+				 */
 				attrs.ids = attachments.pluck('id');
 
 				// Copy the `uploadedTo` post ID.
@@ -670,7 +672,7 @@
 
 				this.content.set( view );
 
-				// after bringing in the frame, load the actual editor via an ajax call
+				// After bringing in the frame, load the actual editor via an Ajax call.
 				view.loadEditor();
 
 			}, this._frame );
@@ -733,9 +735,11 @@
 				wpActiveEditor = window.wpActiveEditor;
 			}
 
-			// Delegate to the global `send_to_editor` if it exists.
-			// This attempts to play nice with any themes/plugins that have
-			// overridden the insert functionality.
+			/*
+			 * Delegate to the global `send_to_editor` if it exists.
+			 * This attempts to play nice with any themes/plugins
+			 * that have overridden the insert functionality.
+			 */
 			if ( window.send_to_editor ) {
 				return window.send_to_editor.apply( this, arguments );
 			}
@@ -780,7 +784,7 @@
 		add: function( id, options ) {
 			var workflow = this.get( id );
 
-			// only add once: if exists return existing
+			// Only add once: if exists return existing.
 			if ( workflow ) {
 				return workflow;
 			}
@@ -1016,7 +1020,7 @@
 
 			workflow = this.get( id );
 
-			// Redo workflow if state has changed
+			// Redo workflow if state has changed.
 			if ( ! workflow || ( workflow.options && options.state !== workflow.options.state ) ) {
 				workflow = this.add( id, options );
 			}

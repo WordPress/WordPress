@@ -43,12 +43,12 @@ window.inlineEditTax = {
 		});
 
 		/**
-		 * Cancels inline editing when pressing escape inside the inline editor.
+		 * Cancels inline editing when pressing Escape inside the inline editor.
 		 *
 		 * @param {Object} e The keyup event that has been triggered.
 		 */
 		row.keyup( function( e ) {
-			// 27 = [escape]
+			// 27 = [Escape].
 			if ( e.which === 27 ) {
 				return inlineEditTax.revert();
 			}
@@ -69,10 +69,10 @@ window.inlineEditTax = {
 		});
 
 		/**
-		 * Saves the inline edits when pressing enter inside the inline editor.
+		 * Saves the inline edits when pressing Enter inside the inline editor.
 		 */
 		$( 'input, select', row ).keydown( function( e ) {
-			// 13 = [enter]
+			// 13 = [Enter].
 			if ( e.which === 13 ) {
 				return inlineEditTax.save( this );
 			}
@@ -184,7 +184,7 @@ window.inlineEditTax = {
 		fields = $('#edit-'+id).find(':input').serialize();
 		params = fields + '&' + $.param(params);
 
-		// Do the ajax request to save the data to the server.
+		// Do the Ajax request to save the data to the server.
 		$.post( ajaxurl, params,
 			/**
 			 * Handles the response from the server

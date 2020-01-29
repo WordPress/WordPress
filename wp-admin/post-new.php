@@ -39,10 +39,10 @@ if ( 'post' == $post_type ) {
 		// What if there isn't a post-new.php item for this post type?
 		if ( ! isset( $_registered_pages[ get_plugin_page_hookname( "post-new.php?post_type=$post_type", $post_type_object->show_in_menu ) ] ) ) {
 			if ( isset( $_registered_pages[ get_plugin_page_hookname( "edit.php?post_type=$post_type", $post_type_object->show_in_menu ) ] ) ) {
-				// Fall back to edit.php for that post type, if it exists
+				// Fall back to edit.php for that post type, if it exists.
 				$submenu_file = "edit.php?post_type=$post_type";
 			} else {
-				// Otherwise, give up and highlight the parent
+				// Otherwise, give up and highlight the parent.
 				$submenu_file = $parent_file;
 			}
 		}

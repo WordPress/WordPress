@@ -100,7 +100,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		if ( isset( $_REQUEST['number'] ) ) {
 			$number = (int) $_REQUEST['number'];
 		} else {
-			$number = $comments_per_page + min( 8, $comments_per_page ); // Grab a few extra
+			$number = $comments_per_page + min( 8, $comments_per_page ); // Grab a few extra.
 		}
 
 		$page = $this->get_pagenum();
@@ -222,7 +222,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				'All <span class="count">(%s)</span>',
 				'All <span class="count">(%s)</span>',
 				'comments'
-			), // singular not used
+			), // Singular not used.
 
 			/* translators: %s: Number of comments. */
 			'mine'      => _nx_noop(
@@ -746,7 +746,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			++$i;
 			( ( ( 'approve' === $action || 'unapprove' === $action ) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
 
-			// Reply and quickedit need a hide-if-no-js span when not added with ajax
+			// Reply and quickedit need a hide-if-no-js span when not added with ajax.
 			if ( ( 'reply' === $action || 'quickedit' === $action ) && ! wp_doing_ajax() ) {
 				$action .= ' hide-if-no-js';
 			} elseif ( ( $action === 'untrash' && $the_comment_status === 'trash' ) || ( $action === 'unspam' && $the_comment_status === 'spam' ) ) {

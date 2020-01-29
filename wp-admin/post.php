@@ -71,11 +71,11 @@ if ( ! $sendback ||
 
 switch ( $action ) {
 	case 'post-quickdraft-save':
-		// Check nonce and capabilities
+		// Check nonce and capabilities.
 		$nonce     = $_REQUEST['_wpnonce'];
 		$error_msg = false;
 
-		// For output of the quickdraft dashboard widget
+		// For output of the Quick Draft dashboard widget.
 		require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
 		if ( ! wp_verify_nonce( $nonce, 'add-post' ) ) {
@@ -202,11 +202,11 @@ switch ( $action ) {
 	case 'editattachment':
 		check_admin_referer( 'update-post_' . $post_id );
 
-		// Don't let these be changed
+		// Don't let these be changed.
 		unset( $_POST['guid'] );
 		$_POST['post_type'] = 'attachment';
 
-		// Update the thumbnail filename
+		// Update the thumbnail filename.
 		$newmeta          = wp_get_attachment_metadata( $post_id, true );
 		$newmeta['thumb'] = wp_basename( $_POST['thumb'] );
 
@@ -218,12 +218,12 @@ switch ( $action ) {
 
 		$post_id = edit_post();
 
-		// Session cookie flag that the post was saved
+		// Session cookie flag that the post was saved.
 		if ( isset( $_COOKIE['wp-saving-post'] ) && $_COOKIE['wp-saving-post'] === $post_id . '-check' ) {
 			setcookie( 'wp-saving-post', $post_id . '-saved', time() + DAY_IN_SECONDS, ADMIN_COOKIE_PATH, COOKIE_DOMAIN, is_ssl() );
 		}
 
-		redirect_post( $post_id ); // Send user on their way while we keep working
+		redirect_post( $post_id ); // Send user on their way while we keep working.
 
 		exit();
 
@@ -349,5 +349,5 @@ switch ( $action ) {
 
 		wp_redirect( admin_url( 'edit.php' ) );
 		exit();
-} // end switch
+} // End switch.
 include( ABSPATH . 'wp-admin/admin-footer.php' );

@@ -491,7 +491,7 @@ wp.themePluginEditor = (function( $ ) {
 
 		var TreeitemLink = function (node, treeObj, group) {
 
-			// Check whether node is a DOM element
+			// Check whether node is a DOM element.
 			if (typeof node !== 'object') {
 				return;
 			}
@@ -696,7 +696,7 @@ wp.themePluginEditor = (function( $ ) {
 
 		TreeitemLink.prototype.handleClick = function (event) {
 
-			// only process click events that directly happened on this treeitem
+			// Only process click events that directly happened on this treeitem.
 			if (event.target !== this.domNode && event.target !== this.domNode.firstElementChild) {
 				return;
 			}
@@ -773,7 +773,7 @@ wp.themePluginEditor = (function( $ ) {
 		 */
 
 		var TreeLinks = function (node) {
-			// Check whether node is a DOM element
+			// Check whether node is a DOM element.
 			if (typeof node !== 'object') {
 				return;
 			}
@@ -812,7 +812,7 @@ wp.themePluginEditor = (function( $ ) {
 				}
 			}
 
-			// initialize pop up menus
+			// Initialize pop up menus.
 			if (!this.domNode.getAttribute('role')) {
 				this.domNode.setAttribute('role', 'tree');
 			}
@@ -964,16 +964,16 @@ wp.themePluginEditor = (function( $ ) {
 			var start, index;
 			_char = _char.toLowerCase();
 
-			// Get start index for search based on position of currentItem
+			// Get start index for search based on position of currentItem.
 			start = this.treeitems.indexOf(currentItem) + 1;
 			if (start === this.treeitems.length) {
 				start = 0;
 			}
 
-			// Check remaining slots in the menu
+			// Check remaining slots in the menu.
 			index = this.getIndexFirstChars(start, _char);
 
-			// If not found in remaining slots, check from beginning
+			// If not found in remaining slots, check from beginning.
 			if (index === -1) {
 				index = this.getIndexFirstChars(0, _char);
 			}

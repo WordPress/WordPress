@@ -292,7 +292,7 @@ class WP_Comment_Query {
 			'meta_key'                  => '',
 			'meta_value'                => '',
 			'meta_query'                => '',
-			'date_query'                => null, // See WP_Date_Query
+			'date_query'                => null, // See WP_Date_Query.
 			'hierarchical'              => false,
 			'cache_domain'              => 'core',
 			'update_comment_meta_cache' => true,
@@ -360,7 +360,7 @@ class WP_Comment_Query {
 
 		$this->parse_query();
 
-		// Parse meta query
+		// Parse meta query.
 		$this->meta_query = new WP_Meta_Query();
 		$this->meta_query->parse_query_vars( $this->query_vars );
 
@@ -480,7 +480,7 @@ class WP_Comment_Query {
 		 */
 		$_comments = apply_filters_ref_array( 'the_comments', array( $_comments, &$this ) );
 
-		// Convert to WP_Comment instances
+		// Convert to WP_Comment instances.
 		$comments = array_map( 'get_comment', $_comments );
 
 		if ( $this->query_vars['hierarchical'] ) {
@@ -734,7 +734,7 @@ class WP_Comment_Query {
 
 			foreach ( $_raw_types as $type ) {
 				switch ( $type ) {
-					// An empty translates to 'all', for backward compatibility
+					// An empty translates to 'all', for backward compatibility.
 					case '':
 					case 'all':
 						break;

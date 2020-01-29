@@ -120,7 +120,7 @@ function twentytwelve_setup() {
 
 	// This theme uses a custom image size for featured images, displayed on "standard" posts.
 	add_theme_support( 'post-thumbnails' );
-	set_post_thumbnail_size( 624, 9999 ); // Unlimited height, soft crop
+	set_post_thumbnail_size( 624, 9999 ); // Unlimited height, soft crop.
 
 	// Indicate widget sidebars can use selective refresh in the Customizer.
 	add_theme_support( 'customize-selective-refresh-widgets' );
@@ -482,7 +482,7 @@ if ( ! function_exists( 'twentytwelve_comment' ) ) :
 			</article><!-- #comment-## -->
 				<?php
 				break;
-		endswitch; // end comment_type check
+		endswitch; // End comment_type check.
 	}
 endif;
 
@@ -706,7 +706,7 @@ if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
 	 * Fire the wp_body_open action.
 	 *
-	 * Added for backwards compatibility to support pre 5.2.0 WordPress versions.
+	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *
 	 * @since Twenty Twelve 3.0
 	 */

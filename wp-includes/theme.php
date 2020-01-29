@@ -398,9 +398,9 @@ function register_theme_directory( $directory ) {
 	global $wp_theme_directories;
 
 	if ( ! file_exists( $directory ) ) {
-		// Try prepending as the theme directory could be relative to the content directory
+		// Try prepending as the theme directory could be relative to the content directory.
 		$directory = WP_CONTENT_DIR . '/' . $directory;
-		// If this directory does not exist, return and do not register
+		// If this directory does not exist, return and do not register.
 		if ( ! file_exists( $directory ) ) {
 			return false;
 		}
@@ -446,9 +446,11 @@ function search_theme_directories( $force = false ) {
 	$wp_theme_directories = (array) $wp_theme_directories;
 	$relative_theme_roots = array();
 
-	// Set up maybe-relative, maybe-absolute array of theme directories.
-	// We always want to return absolute, but we need to cache relative
-	// to use in get_theme_root().
+	/*
+	 * Set up maybe-relative, maybe-absolute array of theme directories.
+	 * We always want to return absolute, but we need to cache relative
+	 * to use in get_theme_root().
+	 */
 	foreach ( $wp_theme_directories as $theme_root ) {
 		if ( 0 === strpos( $theme_root, WP_CONTENT_DIR ) ) {
 			$relative_theme_roots[ str_replace( WP_CONTENT_DIR, '', $theme_root ) ] = $theme_root;
@@ -482,10 +484,10 @@ function search_theme_directories( $force = false ) {
 			return $found_themes;
 		}
 		if ( ! is_int( $cache_expiration ) ) {
-			$cache_expiration = 1800; // half hour
+			$cache_expiration = 30 * MINUTE_IN_SECONDS;
 		}
 	} else {
-		$cache_expiration = 1800; // half hour
+		$cache_expiration = 30 * MINUTE_IN_SECONDS;
 	}
 
 	/* Loop the registered theme directories and extract all themes */
@@ -503,7 +505,7 @@ function search_theme_directories( $force = false ) {
 			}
 			if ( file_exists( $theme_root . '/' . $dir . '/style.css' ) ) {
 				// wp-content/themes/a-single-theme
-				// wp-content/themes is $theme_root, a-single-theme is $dir
+				// wp-content/themes is $theme_root, a-single-theme is $dir.
 				$found_themes[ $dir ] = array(
 					'theme_file' => $dir . '/style.css',
 					'theme_root' => $theme_root,
@@ -511,7 +513,7 @@ function search_theme_directories( $force = false ) {
 			} else {
 				$found_theme = false;
 				// wp-content/themes/a-folder-of-themes/*
-				// wp-content/themes is $theme_root, a-folder-of-themes is $dir, then themes are $sub_dirs
+				// wp-content/themes is $theme_root, a-folder-of-themes is $dir, then themes are $sub_dirs.
 				$sub_dirs = @ scandir( $theme_root . '/' . $dir );
 				if ( ! $sub_dirs ) {
 					trigger_error( "$theme_root/$dir is not readable", E_USER_NOTICE );
@@ -675,7 +677,7 @@ function get_raw_theme_root( $stylesheet_or_template, $skip_cache = false ) {
 
 	$theme_root = false;
 
-	// If requesting the root for the current theme, consult options to avoid calling get_theme_roots()
+	// If requesting the root for the current theme, consult options to avoid calling get_theme_roots().
 	if ( ! $skip_cache ) {
 		if ( get_option( 'stylesheet' ) == $stylesheet_or_template ) {
 			$theme_root = get_option( 'stylesheet_root' );
@@ -1277,7 +1279,7 @@ function header_image() {
 function get_uploaded_header_images() {
 	$header_images = array();
 
-	// @todo caching
+	// @todo Caching.
 	$headers = get_posts(
 		array(
 			'post_type'  => 'attachment',
@@ -1984,7 +1986,7 @@ function remove_editor_styles() {
  */
 function get_editor_stylesheets() {
 	$stylesheets = array();
-	// load editor_style.css if the current theme supports it
+	// Load editor_style.css if the current theme supports it.
 	if ( ! empty( $GLOBALS['editor_styles'] ) && is_array( $GLOBALS['editor_styles'] ) ) {
 		$editor_styles = $GLOBALS['editor_styles'];
 
@@ -2121,7 +2123,7 @@ function get_theme_starter_content() {
 				'title' => _x( 'Home', 'Theme starter content' ),
 				'url'   => home_url( '/' ),
 			),
-			'page_home'       => array( // Deprecated in favor of link_home.
+			'page_home'       => array( // Deprecated in favor of 'link_home'.
 				'type'      => 'post_type',
 				'object'    => 'page',
 				'object_id' => '{{home}}',
@@ -2301,7 +2303,8 @@ function get_theme_starter_content() {
 				}
 				break;
 
-			// All that's left now are posts (besides attachments). Not a default case for the sake of clarity and future work.
+			// All that's left now are posts (besides attachments).
+			// Not a default case for the sake of clarity and future work.
 			case 'posts':
 				foreach ( $config[ $type ] as $id => $item ) {
 					if ( is_array( $item ) ) {
@@ -2491,11 +2494,13 @@ function add_theme_support( $feature, ...$args ) {
 				$args[0] = wp_parse_args( $args[0], $defaults );
 			}
 
-			// If a constant was defined, use that value. Otherwise, define the constant to ensure
-			// the constant is always accurate (and is not defined later,  overriding our value).
-			// As stated above, the first value wins.
-			// Once we get to wp_loaded (just-in-time), define any constants we haven't already.
-			// Constants are lame. Don't reference them. This is just for backward compatibility.
+			/*
+			 * If a constant was defined, use that value. Otherwise, define the constant to ensure
+			 * the constant is always accurate (and is not defined later,  overriding our value).
+			 * As stated above, the first value wins.
+			 * Once we get to wp_loaded (just-in-time), define any constants we haven't already.
+			 * Constants are lame. Don't reference them. This is just for backward compatibility.
+			 */
 
 			if ( defined( 'NO_HEADER_TEXT' ) ) {
 				$args[0]['header-text'] = ! NO_HEADER_TEXT;
@@ -2828,16 +2833,18 @@ function current_theme_supports( $feature, ...$args ) {
 		return false;
 	}
 
-	// If no args passed then no extra checks need be performed
+	// If no args passed then no extra checks need be performed.
 	if ( ! $args ) {
 		return true;
 	}
 
 	switch ( $feature ) {
 		case 'post-thumbnails':
-			// post-thumbnails can be registered for only certain content/post types by passing
-			// an array of types to add_theme_support(). If no array was passed, then
-			// any type is accepted
+			/*
+			 * post-thumbnails can be registered for only certain content/post types
+			 * by passing an array of types to add_theme_support().
+			 * If no array was passed, then any type is accepted.
+			 */
 			if ( true === $_wp_theme_features[ $feature ] ) {  // Registered for all types
 				return true;
 			}
@@ -2846,11 +2853,12 @@ function current_theme_supports( $feature, ...$args ) {
 
 		case 'html5':
 		case 'post-formats':
-			// specific post formats can be registered by passing an array of types to
-			// add_theme_support()
-
-			// Specific areas of HTML5 support *must* be passed via an array to add_theme_support()
-
+			/*
+			 * Specific post formats can be registered by passing an array of types
+			 * to add_theme_support().
+			 *
+			 * Specific areas of HTML5 support *must* be passed via an array to add_theme_support().
+			 */
 			$type = $args[0];
 			return in_array( $type, $_wp_theme_features[ $feature ][0] );
 
@@ -2941,7 +2949,7 @@ function check_theme_switched() {
 	if ( $stylesheet ) {
 		$old_theme = wp_get_theme( $stylesheet );
 
-		// Prevent widget & menu mapping from running since Customizer already called it up front
+		// Prevent widget & menu mapping from running since Customizer already called it up front.
 		if ( get_option( 'theme_switched_via_customizer' ) ) {
 			remove_action( 'after_switch_theme', '_wp_menus_changed' );
 			remove_action( 'after_switch_theme', '_wp_sidebars_changed' );
@@ -3013,10 +3021,16 @@ function _wp_customize_include() {
 	);
 
 	$theme             = null;
-	$changeset_uuid    = false; // Value false indicates UUID should be determined after_setup_theme to either re-use existing saved changeset or else generate a new UUID if none exists.
-	$messenger_channel = null;
 	$autosaved         = null;
-	$branching         = false; // Set initially fo false since defaults to true for back-compat; can be overridden via the customize_changeset_branching filter.
+	$messenger_channel = null;
+
+	// Value false indicates UUID should be determined after_setup_theme
+	// to either re-use existing saved changeset or else generate a new UUID if none exists.
+	$changeset_uuid = false;
+
+	// Set initially fo false since defaults to true for back-compat;
+	// can be overridden via the customize_changeset_branching filter.
+	$branching = false;
 
 	if ( $is_customize_admin_page && isset( $input_vars['changeset_uuid'] ) ) {
 		$changeset_uuid = sanitize_key( $input_vars['changeset_uuid'] );
@@ -3249,7 +3263,7 @@ function wp_customize_support_script() {
 		<?php	endif; ?>
 
 				b[c] = b[c].replace( rcs, ' ' );
-				// The customizer requires postMessage and CORS (if the site is cross domain)
+				// The customizer requires postMessage and CORS (if the site is cross domain).
 				b[c] += ( window.postMessage && request ? ' ' : ' no-' ) + cs;
 			}());
 		</script>

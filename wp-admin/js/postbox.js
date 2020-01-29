@@ -32,7 +32,9 @@
 		 * if the postbox has been closed.
 		 *
 		 * @since 4.4.0
+		 *
 		 * @memberof postboxes
+		 *
 		 * @fires postboxes#postbox-toggled
 		 *
 		 * @return {void}
@@ -90,6 +92,7 @@
 		 * Adds event handlers to all postboxes and screen option on the current page.
 		 *
 		 * @since 2.7.0
+		 *
 		 * @memberof postboxes
 		 *
 		 * @param {string} page The page we are currently on.
@@ -190,6 +193,7 @@
 		 * Initializes all the postboxes, mainly their sortable behaviour.
 		 *
 		 * @since 2.7.0
+		 *
 		 * @memberof postboxes
 		 *
 		 * @param {string} page The page we are currently on.
@@ -272,6 +276,7 @@
 		 * hidden postboxes.
 		 *
 		 * @since 2.7.0
+		 *
 		 * @memberof postboxes
 		 *
 		 * @param {string} page The page we are currently on.
@@ -303,6 +308,7 @@
 		 * Sends a list of all postboxes inside a sortable area to the server.
 		 *
 		 * @since 2.8.0
+		 *
 		 * @memberof postboxes
 		 *
 		 * @param {string} page The page we are currently on.
@@ -333,8 +339,9 @@
 		 * present.
 		 *
 		 * @since 3.3.0
-		 * @memberof postboxes
 		 * @access private
+		 *
+		 * @memberof postboxes
 		 *
 		 * @return {void}
 		 */
@@ -365,9 +372,11 @@
 		 * Changes the amount of columns on the post edit page.
 		 *
 		 * @since 3.3.0
-		 * @memberof postboxes
-		 * @fires postboxes#postboxes-columnchange
 		 * @access private
+		 *
+		 * @memberof postboxes
+		 *
+		 * @fires postboxes#postboxes-columnchange
 		 *
 		 * @param {number} n The amount of columns to divide the post edit page in.
 		 * @return {void}
@@ -395,8 +404,9 @@
 		 * orientation of the browser.
 		 *
 		 * @since 3.3.0
-		 * @memberof postboxes
 		 * @access private
+		 *
+		 * @memberof postboxes
 		 *
 		 * @return {void}
 		 */
@@ -425,19 +435,20 @@
 
 		/**
 		 * @since 2.7.0
-		 * @memberof postboxes
 		 * @access public
+		 *
 		 * @property {Function|boolean} pbshow A callback that is called when a postbox
 		 *                                     is opened.
+		 * @memberof postboxes
 		 */
 		pbshow : false,
 
 		/**
 		 * @since 2.7.0
-		 * @memberof postboxes
 		 * @access public
 		 * @property {Function|boolean} pbhide A callback that is called when a postbox
 		 *                                     is closed.
+		 * @memberof postboxes
 		 */
 		pbhide : false
 	};

@@ -173,7 +173,7 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * Constructor for WP_Theme.
 	 *
-	 * @since  3.4.0
+	 * @since 3.4.0
 	 *
 	 * @global array $wp_theme_directories
 	 *
@@ -435,7 +435,7 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * When converting the object to a string, the theme name is returned.
 	 *
-	 * @since  3.4.0
+	 * @since 3.4.0
 	 *
 	 * @return string Theme name, ready for display (translated)
 	 */
@@ -448,7 +448,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @staticvar array $properties
 	 *
-	 * @since  3.4.0
+	 * @since 3.4.0
 	 *
 	 * @param string $offset Property to check if set.
 	 * @return bool Whether the given property is set.
@@ -477,7 +477,7 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * __get() magic method for properties formerly returned by current_theme_info()
 	 *
-	 * @since  3.4.0
+	 * @since 3.4.0
 	 *
 	 * @param string $offset Property to get.
 	 * @return mixed Property value.
@@ -521,7 +521,7 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * Method to implement ArrayAccess for keys formerly returned by get_themes()
 	 *
-	 * @since  3.4.0
+	 * @since 3.4.0
 	 *
 	 * @param mixed $offset
 	 * @param mixed $value
@@ -531,7 +531,7 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * Method to implement ArrayAccess for keys formerly returned by get_themes()
 	 *
-	 * @since  3.4.0
+	 * @since 3.4.0
 	 *
 	 * @param mixed $offset
 	 */
@@ -542,7 +542,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @staticvar array $keys
 	 *
-	 * @since  3.4.0
+	 * @since 3.4.0
 	 *
 	 * @param mixed $offset
 	 * @return bool
@@ -583,7 +583,7 @@ final class WP_Theme implements ArrayAccess {
 	 * and care should be taken to use `$theme::display( 'Name' )` to get a properly
 	 * translated header.
 	 *
-	 * @since  3.4.0
+	 * @since 3.4.0
 	 *
 	 * @param mixed $offset
 	 * @return mixed
@@ -959,7 +959,7 @@ final class WP_Theme implements ArrayAccess {
 						'seasonal'          => __( 'Seasonal' ),
 					);
 
-					$feature_list = get_theme_feature_list( false ); // No API
+					$feature_list = get_theme_feature_list( false ); // No API.
 					foreach ( $feature_list as $tags ) {
 						$tags_list += $tags;
 					}
@@ -1341,7 +1341,7 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * Loads the theme's textdomain.
 	 *
-	 * Translation files are not inherited from the parent theme. Todo: if this fails for the
+	 * Translation files are not inherited from the parent theme. TODO: If this fails for the
 	 * child theme, it should probably try to load the parent theme's translations.
 	 *
 	 * @since 3.4.0
@@ -1414,7 +1414,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * This hits the filesystem.
 	 *
-	 * @since  4.4.0
+	 * @since 4.4.0
 	 *
 	 * @return WP_Theme|false Object, or false if no theme is installed, which would be bad.
 	 */

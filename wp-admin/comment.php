@@ -137,7 +137,7 @@ switch ( $action ) {
 				break;
 		}
 
-		if ( $comment->comment_approved != '0' ) { // if not unapproved
+		if ( $comment->comment_approved != '0' ) { // If not unapproved.
 			$message = '';
 			switch ( $comment->comment_approved ) {
 				case '1':
@@ -355,6 +355,6 @@ switch ( $action ) {
 	default:
 		wp_die( __( 'Unknown action.' ) );
 
-} // end switch
+} // End switch.
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );

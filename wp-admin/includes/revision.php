@@ -55,7 +55,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		$compare_to   = $temp;
 	}
 
-	// Add default title if title field is empty
+	// Add default title if title field is empty.
 	if ( $compare_from && empty( $compare_from->post_title ) ) {
 		$compare_from->post_title = __( '(no title)' );
 	}
@@ -340,7 +340,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 		'from'           => $from,
 		'diffData'       => $diffs,
 		'baseUrl'        => parse_url( admin_url( 'revision.php' ), PHP_URL_PATH ),
-		'compareTwoMode' => absint( $compare_two_mode ), // Apparently booleans are not allowed
+		'compareTwoMode' => absint( $compare_two_mode ), // Apparently booleans are not allowed.
 		'revisionIds'    => array_keys( $revisions ),
 	);
 }

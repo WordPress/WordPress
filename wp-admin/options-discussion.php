@@ -220,7 +220,7 @@ printf(
 <p><?php _e( 'An avatar is an image that follows you from weblog to weblog appearing beside your name when you comment on avatar enabled sites. Here you can enable the display of avatars for people who comment on your site.' ); ?></p>
 
 <?php
-// the above would be a good place to link to codex documentation on the gravatar functions, for putting it in themes. anything like that?
+// The above would be a good place to link to the documentation on the Gravatar functions, for putting it in themes. Anything like that?
 
 $show_avatars       = get_option( 'show_avatars' );
 $show_avatars_class = '';
@@ -294,7 +294,7 @@ $avatar_defaults = apply_filters( 'avatar_defaults', $avatar_defaults );
 $default         = get_option( 'avatar_default', 'mystery' );
 $avatar_list     = '';
 
-// Force avatars on to display these choices
+// Force avatars on to display these choices.
 add_filter( 'pre_option_show_avatars', '__return_true', 100 );
 
 foreach ( $avatar_defaults as $default_key => $default_name ) {

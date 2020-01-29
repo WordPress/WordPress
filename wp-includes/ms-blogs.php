@@ -581,7 +581,7 @@ function restore_current_blog() {
 	if ( $new_blog_id == $prev_blog_id ) {
 		/** This filter is documented in wp-includes/ms-blogs.php */
 		do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'restore' );
-		// If we still have items in the switched stack, consider ourselves still 'switched'
+		// If we still have items in the switched stack, consider ourselves still 'switched'.
 		$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
 		return true;
 	}
@@ -616,7 +616,7 @@ function restore_current_blog() {
 	/** This filter is documented in wp-includes/ms-blogs.php */
 	do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'restore' );
 
-	// If we still have items in the switched stack, consider ourselves still 'switched'
+	// If we still have items in the switched stack, consider ourselves still 'switched'.
 	$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
 
 	return true;
@@ -760,7 +760,7 @@ function get_last_updated( $deprecated = '', $start = 0, $quantity = 40 ) {
 	global $wpdb;
 
 	if ( ! empty( $deprecated ) ) {
-		_deprecated_argument( __FUNCTION__, 'MU' ); // never used
+		_deprecated_argument( __FUNCTION__, 'MU' ); // Never used.
 	}
 
 	return $wpdb->get_results( $wpdb->prepare( "SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' AND last_updated != '0000-00-00 00:00:00' ORDER BY last_updated DESC limit %d, %d", get_current_network_id(), $start, $quantity ), ARRAY_A );

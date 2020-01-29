@@ -119,7 +119,7 @@ window.wp = window.wp || {};
 				return window.location = src;
 			}
 
-			// Store the document title prior to opening the Live Preview
+			// Store the document title prior to opening the Live Preview.
 			this.originalDocumentTitle = document.title;
 
 			this.active = true;
@@ -170,7 +170,7 @@ window.wp = window.wp || {};
 				}
 			});
 
-			// Prompt AYS dialog when navigating away
+			// Prompt AYS dialog when navigating away.
 			$( window ).on( 'beforeunload', this.beforeunload );
 
 			this.messenger.bind( 'saved', function () {
@@ -223,13 +223,13 @@ window.wp = window.wp || {};
 					self.active = false;
 					self.trigger( 'close' );
 
-					// Restore document title prior to opening the Live Preview
+					// Restore document title prior to opening the Live Preview.
 					if ( self.originalDocumentTitle ) {
 						document.title = self.originalDocumentTitle;
 					}
 				} else {
 
-					// Go forward since Customizer is exited by history.back()
+					// Go forward since Customizer is exited by history.back().
 					history.forward();
 				}
 				self.messenger.unbind( 'confirmed-close', onConfirmClose );
@@ -286,6 +286,6 @@ window.wp = window.wp || {};
 		Loader.initialize();
 	});
 
-	// Expose the API publicly on window.wp.customize.Loader
+	// Expose the API publicly on window.wp.customize.Loader.
 	api.Loader = Loader;
 })( wp, jQuery );

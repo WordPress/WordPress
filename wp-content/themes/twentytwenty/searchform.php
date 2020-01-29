@@ -12,8 +12,8 @@
  */
 
 /*
- * Generate a unique ID for each form and a string containing an aria-label if
- * one was passed to get_search_form() in the args array.
+ * Generate a unique ID for each form and a string containing an aria-label
+ * if one was passed to get_search_form() in the args array.
  */
 $unique_id = twentytwenty_unique_id( 'search-form-' );
 

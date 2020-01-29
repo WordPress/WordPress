@@ -74,7 +74,7 @@ require_once( ABSPATH . 'wp-admin/includes/theme.php' );
 require_once( ABSPATH . 'wp-admin/includes/privacy-tools.php' );
 
 /** WordPress Privacy List Table classes. */
-// Previously in wp-admin/includes/user.php. Need to be loaded for backwards compatibility.
+// Previously in wp-admin/includes/user.php. Need to be loaded for backward compatibility.
 require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-requests-table.php' );
 require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-data-export-requests-list-table.php' );
 require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-data-removal-requests-list-table.php' );

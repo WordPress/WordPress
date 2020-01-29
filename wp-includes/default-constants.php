@@ -6,7 +6,7 @@
  */
 
 /**
- * Defines initial WordPress constants
+ * Defines initial WordPress constants.
  *
  * @see wp_debug_mode()
  *
@@ -69,7 +69,7 @@ function wp_initial_constants() {
 	}
 
 	if ( ! defined( 'WP_CONTENT_DIR' ) ) {
-		define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // no trailing slash, full paths only - WP_CONTENT_URL is defined further down
+		define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // No trailing slash, full paths only - WP_CONTENT_URL is defined further down.
 	}
 
 	// Add define( 'WP_DEBUG', true ); to wp-config.php to enable display of notices during development.
@@ -77,8 +77,8 @@ function wp_initial_constants() {
 		define( 'WP_DEBUG', false );
 	}
 
-	// Add define( 'WP_DEBUG_DISPLAY', null ); to wp-config.php use the globally configured setting for
-	// display_errors and not force errors to be displayed. Use false to force display_errors off.
+	// Add define( 'WP_DEBUG_DISPLAY', null ); to wp-config.php use the globally configured setting
+	// for 'display_errors' and not force errors to be displayed. Use false to force 'display_errors' off.
 	if ( ! defined( 'WP_DEBUG_DISPLAY' ) ) {
 		define( 'WP_DEBUG_DISPLAY', true );
 	}
@@ -115,7 +115,7 @@ function wp_initial_constants() {
 		define( 'SHORTINIT', false );
 	}
 
-	// Constants for features added to WP that should short-circuit their plugin implementations
+	// Constants for features added to WP that should short-circuit their plugin implementations.
 	define( 'WP_FEATURE_BETTER_PASSWORDS', true );
 
 	/**#@+
@@ -141,15 +141,15 @@ function wp_initial_constants() {
 }
 
 /**
- * Defines plugin directory WordPress constants
+ * Defines plugin directory WordPress constants.
  *
- * Defines must-use plugin directory constants, which may be overridden in the sunrise.php drop-in
+ * Defines must-use plugin directory constants, which may be overridden in the sunrise.php drop-in.
  *
  * @since 3.0.0
  */
 function wp_plugin_directory_constants() {
 	if ( ! defined( 'WP_CONTENT_URL' ) ) {
-		define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' ); // full url - WP_CONTENT_DIR is defined further up
+		define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' ); // Full URL - WP_CONTENT_DIR is defined further up.
 	}
 
 	/**
@@ -158,7 +158,7 @@ function wp_plugin_directory_constants() {
 	 * @since 2.6.0
 	 */
 	if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
-		define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' ); // full path, no trailing slash
+		define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' ); // Full path, no trailing slash.
 	}
 
 	/**
@@ -167,7 +167,7 @@ function wp_plugin_directory_constants() {
 	 * @since 2.6.0
 	 */
 	if ( ! defined( 'WP_PLUGIN_URL' ) ) {
-		define( 'WP_PLUGIN_URL', WP_CONTENT_URL . '/plugins' ); // full url, no trailing slash
+		define( 'WP_PLUGIN_URL', WP_CONTENT_URL . '/plugins' ); // Full URL, no trailing slash.
 	}
 
 	/**
@@ -186,7 +186,7 @@ function wp_plugin_directory_constants() {
 	 * @since 2.8.0
 	 */
 	if ( ! defined( 'WPMU_PLUGIN_DIR' ) ) {
-		define( 'WPMU_PLUGIN_DIR', WP_CONTENT_DIR . '/mu-plugins' ); // full path, no trailing slash
+		define( 'WPMU_PLUGIN_DIR', WP_CONTENT_DIR . '/mu-plugins' ); // Full path, no trailing slash.
 	}
 
 	/**
@@ -195,7 +195,7 @@ function wp_plugin_directory_constants() {
 	 * @since 2.8.0
 	 */
 	if ( ! defined( 'WPMU_PLUGIN_URL' ) ) {
-		define( 'WPMU_PLUGIN_URL', WP_CONTENT_URL . '/mu-plugins' ); // full url, no trailing slash
+		define( 'WPMU_PLUGIN_URL', WP_CONTENT_URL . '/mu-plugins' ); // Full URL, no trailing slash.
 	}
 
 	/**
@@ -210,7 +210,7 @@ function wp_plugin_directory_constants() {
 }
 
 /**
- * Defines cookie related WordPress constants
+ * Defines cookie-related WordPress constants.
  *
  * Defines constants after multisite is loaded.
  *
@@ -218,7 +218,7 @@ function wp_plugin_directory_constants() {
  */
 function wp_cookie_constants() {
 	/**
-	 * Used to guarantee unique hash cookies
+	 * Used to guarantee unique hash cookies.
 	 *
 	 * @since 1.5.0
 	 */
@@ -344,7 +344,7 @@ function wp_ssl_constants() {
 }
 
 /**
- * Defines functionality related WordPress constants
+ * Defines functionality-related WordPress constants.
  *
  * @since 3.0.0
  */
@@ -353,7 +353,7 @@ function wp_functionality_constants() {
 	 * @since 2.5.0
 	 */
 	if ( ! defined( 'AUTOSAVE_INTERVAL' ) ) {
-		define( 'AUTOSAVE_INTERVAL', 60 );
+		define( 'AUTOSAVE_INTERVAL', MINUTE_IN_SECONDS );
 	}
 
 	/**
@@ -371,25 +371,25 @@ function wp_functionality_constants() {
 	 * @since 3.3.0
 	 */
 	if ( ! defined( 'WP_CRON_LOCK_TIMEOUT' ) ) {
-		define( 'WP_CRON_LOCK_TIMEOUT', 60 );  // In seconds
+		define( 'WP_CRON_LOCK_TIMEOUT', MINUTE_IN_SECONDS );
 	}
 }
 
 /**
- * Defines templating related WordPress constants
+ * Defines templating-related WordPress constants.
  *
  * @since 3.0.0
  */
 function wp_templating_constants() {
 	/**
-	 * Filesystem path to the current active template directory
+	 * Filesystem path to the current active template directory.
 	 *
 	 * @since 1.5.0
 	 */
 	define( 'TEMPLATEPATH', get_template_directory() );
 
 	/**
-	 * Filesystem path to the current active template stylesheet directory
+	 * Filesystem path to the current active template stylesheet directory.
 	 *
 	 * @since 2.1.0
 	 */

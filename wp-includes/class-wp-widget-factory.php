@@ -93,7 +93,7 @@ class WP_Widget_Factory {
 		$registered = array_map( '_get_widget_id_base', $registered );
 
 		foreach ( $keys as $key ) {
-			// don't register new widget if old widget with the same id is already registered
+			// Don't register new widget if old widget with the same id is already registered.
 			if ( in_array( $this->widgets[ $key ]->id_base, $registered, true ) ) {
 				unset( $this->widgets[ $key ] );
 				continue;

@@ -9,7 +9,7 @@
 	// Collect information from customize-controls.js about which panels are opening.
 	wp.customize.bind( 'preview-ready', function() {
 
-		// Initially hide the theme option placeholders on load
+		// Initially hide the theme option placeholders on load.
 		$( '.panel-placeholder' ).hide();
 
 		wp.customize.preview.bind( 'section-highlight', function( data ) {

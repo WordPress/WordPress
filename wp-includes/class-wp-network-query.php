@@ -290,7 +290,7 @@ class WP_Network_Query {
 		 */
 		$_networks = apply_filters_ref_array( 'the_networks', array( $_networks, &$this ) );
 
-		// Convert to WP_Network instances
+		// Convert to WP_Network instances.
 		$this->networks = array_map( 'get_network', $_networks );
 
 		return $this->networks;

@@ -430,7 +430,7 @@ function comment_author_url_link( $linktext = '', $before = '', $after = '', $co
  * @return void|string Void if `$echo` argument is true, comment classes if `$echo` is false.
  */
 function comment_class( $class = '', $comment = null, $post_id = null, $echo = true ) {
-	// Separates classes with a single space, collates classes for comment DIV
+	// Separates classes with a single space, collates classes for comment DIV.
 	$class = 'class="' . join( ' ', get_comment_class( $class, $comment, $post_id ) ) . '"';
 
 	if ( $echo ) {
@@ -465,7 +465,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 		return $classes;
 	}
 
-	// Get the comment type (comment, trackback),
+	// Get the comment type (comment, trackback).
 	$classes[] = ( empty( $comment->comment_type ) ) ? 'comment' : $comment->comment_type;
 
 	// Add classes for comment authors that are registered users.
@@ -473,7 +473,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	if ( $user ) {
 		$classes[] = 'byuser';
 		$classes[] = 'comment-author-' . sanitize_html_class( $user->user_nicename, $comment->user_id );
-		// For comment authors who are the author of the post
+		// For comment authors who are the author of the post.
 		$post = get_post( $post_id );
 		if ( $post ) {
 			if ( $comment->user_id === $post->post_author ) {
@@ -501,7 +501,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 
 	$comment_alt++;
 
-	// Alt for top-level comments
+	// Alt for top-level comments.
 	if ( 1 == $comment_depth ) {
 		if ( $comment_thread_alt % 2 ) {
 			$classes[] = 'thread-odd';
@@ -907,10 +907,10 @@ function get_comments_number_text( $zero = false, $one = false, $more = false ) 
 			 */
 			if ( 'on' === _x( 'off', 'Comment number declension: on or off' ) ) {
 				$text = preg_replace( '#<span class="screen-reader-text">.+?</span>#', '', $more );
-				$text = preg_replace( '/&.+?;/', '', $text ); // Kill entities
+				$text = preg_replace( '/&.+?;/', '', $text ); // Kill entities.
 				$text = trim( strip_tags( $text ), '% ' );
 
-				// Replace '% Comments' with a proper plural form
+				// Replace '% Comments' with a proper plural form.
 				if ( $text && ! preg_match( '/[0-9]+/', $text ) && false !== strpos( $more, '%' ) ) {
 					/* translators: %s: Number of comments. */
 					$new_text = _n( '%s Comment', '%s Comments', $number );
@@ -927,7 +927,7 @@ function get_comments_number_text( $zero = false, $one = false, $more = false ) 
 		}
 	} elseif ( $number == 0 ) {
 		$output = ( false === $zero ) ? __( 'No Comments' ) : $zero;
-	} else { // must be one
+	} else { // Must be one.
 		$output = ( false === $one ) ? __( '1 Comment' ) : $one;
 	}
 	/**
@@ -1526,7 +1526,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		require( $include );
 	} elseif ( file_exists( TEMPLATEPATH . $file ) ) {
 		require( TEMPLATEPATH . $file );
-	} else { // Backward compat code will be removed in a future release
+	} else { // Backward compat code will be removed in a future release.
 		require( ABSPATH . WPINC . '/theme-compat/comments.php' );
 	}
 }
@@ -2052,7 +2052,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
 	 */
 	$parsed_args = apply_filters( 'wp_list_comments_args', $parsed_args );
 
-	// Figure out what comments we'll be looping through ($_comments)
+	// Figure out what comments we'll be looping through ($_comments).
 	if ( null !== $comments ) {
 		$comments = (array) $comments;
 		if ( empty( $comments ) ) {
@@ -2176,7 +2176,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
 			set_query_var( 'cpage', $parsed_args['page'] );
 		}
 	}
-	// Validation check
+	// Validation check.
 	$parsed_args['page'] = intval( $parsed_args['page'] );
 	if ( 0 == $parsed_args['page'] && 0 != $parsed_args['per_page'] ) {
 		$parsed_args['page'] = 1;
@@ -2452,7 +2452,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	// Ensure that the filtered args contain all required default values.
 	$args = array_merge( $defaults, $args );
 
-	// Remove aria-describedby from the email field if there's no associated description.
+	// Remove `aria-describedby` from the email field if there's no associated description.
 	if ( isset( $args['fields']['email'] ) && false === strpos( $args['comment_notes_before'], 'id="email-notes"' ) ) {
 		$args['fields']['email'] = str_replace(
 			' aria-describedby="email-notes"',
@@ -2554,10 +2554,10 @@ function comment_form( $args = array(), $post_id = null ) {
 			 */
 			$comment_fields = apply_filters( 'comment_form_fields', $comment_fields );
 
-			// Get an array of field names, excluding the textarea
+			// Get an array of field names, excluding the textarea.
 			$comment_field_keys = array_diff( array_keys( $comment_fields ), array( 'comment' ) );
 
-			// Get the first and the last field name, excluding the textarea
+			// Get the first and the last field name, excluding the textarea.
 			$first_field = reset( $comment_field_keys );
 			$last_field  = end( $comment_field_keys );
 

@@ -25,7 +25,7 @@ $parent_file   = 'users.php';
 
 add_screen_option( 'per_page' );
 
-// contextual help - choose Help on the top right of admin panel to preview this.
+// Contextual help - choose Help on the top right of admin panel to preview this.
 get_current_screen()->add_help_tab(
 	array(
 		'id'      => 'overview',
@@ -131,7 +131,8 @@ switch ( $wp_list_table->current_action() ) {
 			if ( ! current_user_can( 'promote_user', $id ) ) {
 				wp_die( __( 'Sorry, you are not allowed to edit this user.' ), 403 );
 			}
-			// The new role of the current user must also have the promote_users cap or be a multisite super admin
+
+			// The new role of the current user must also have the promote_users cap or be a multisite super admin.
 			if ( $id == $current_user->ID && ! $wp_roles->role_objects[ $role ]->has_cap( 'promote_users' )
 			&& ! ( is_multisite() && current_user_can( 'manage_network_users' ) ) ) {
 					$update = 'err_admin_role';
@@ -594,6 +595,6 @@ if ( strlen( $usersearch ) ) {
 		<?php
 		break;
 
-} // end of the $doaction switch
+} // End of the $doaction switch.
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );

@@ -43,16 +43,16 @@ window.send_to_editor = function( html ) {
 		editor = tinymce.get( wpActiveEditor );
 	}
 
-	// If the editor is set and not hidden, insert the HTML into the content of the
-	// editor.
+	// If the editor is set and not hidden,
+	// insert the HTML into the content of the editor.
 	if ( editor && ! editor.isHidden() ) {
 		editor.execCommand( 'mceInsertContent', false, html );
 	} else if ( hasQuicktags ) {
 		// If quick tags are available, insert the HTML into its content.
 		QTags.insertContent( html );
 	} else {
-		// If neither the TinyMCE editor and the quick tags are available, add the HTML
-		// to the current active editor.
+		// If neither the TinyMCE editor and the quick tags are available,
+		// add the HTML to the current active editor.
 		document.getElementById( wpActiveEditor ).value += html;
 	}
 

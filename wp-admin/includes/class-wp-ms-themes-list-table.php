@@ -62,7 +62,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	protected function get_table_classes() {
-		// todo: remove and add CSS for .themes
+		// @todo Remove and add CSS for .themes.
 		return array( 'widefat', 'plugins' );
 	}
 

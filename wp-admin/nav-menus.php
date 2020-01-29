@@ -12,14 +12,14 @@
 /** Load WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-// Load all the nav menu interface functions
+// Load all the nav menu interface functions.
 require_once( ABSPATH . 'wp-admin/includes/nav-menu.php' );
 
 if ( ! current_theme_supports( 'menus' ) && ! current_theme_supports( 'widgets' ) ) {
 	wp_die( __( 'Your theme does not support navigation menus or widgets.' ) );
 }
 
-// Permissions Check
+// Permissions check.
 if ( ! current_user_can( 'edit_theme_options' ) ) {
 	wp_die(
 		'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
@@ -34,21 +34,21 @@ if ( wp_is_mobile() ) {
 	wp_enqueue_script( 'jquery-touch-punch' );
 }
 
-// Container for any messages displayed to the user
+// Container for any messages displayed to the user.
 $messages = array();
 
-// Container that stores the name of the active menu
+// Container that stores the name of the active menu.
 $nav_menu_selected_title = '';
 
-// The menu id of the current menu being edited
+// The menu id of the current menu being edited.
 $nav_menu_selected_id = isset( $_REQUEST['menu'] ) ? (int) $_REQUEST['menu'] : 0;
 
-// Get existing menu locations assignments
+// Get existing menu locations assignments.
 $locations      = get_registered_nav_menus();
 $menu_locations = get_nav_menu_locations();
 $num_locations  = count( array_keys( $locations ) );
 
-// Allowed actions: add, update, delete
+// Allowed actions: add, update, delete.
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'edit';
 
 /*
@@ -325,13 +325,13 @@ switch ( $action ) {
 						wp_save_nav_menu_items( $nav_menu_selected_id, absint( $_REQUEST['menu-item'] ) );
 					}
 					if ( isset( $_REQUEST['zero-menu-state'] ) ) {
-						// If there are menu items, add them
+						// If there are menu items, add them.
 						wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title );
-						// Auto-save nav_menu_locations
+						// Auto-save nav_menu_locations.
 						$locations = get_nav_menu_locations();
 						foreach ( $locations as $location => $menu_id ) {
 								$locations[ $location ] = $nav_menu_selected_id;
-								break; // There should only be 1
+								break; // There should only be 1.
 						}
 						set_theme_mod( 'nav_menu_locations', $locations );
 					}
@@ -399,7 +399,7 @@ switch ( $action ) {
 
 			$new_menu_locations = array_map( 'absint', $_POST['menu-locations'] );
 			$menu_locations     = array_merge( $menu_locations, $new_menu_locations );
-			// Set menu locations
+			// Set menu locations.
 			set_theme_mod( 'nav_menu_locations', $menu_locations );
 
 			$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . __( 'Menu locations updated.' ) . '</p></div>';
@@ -471,7 +471,7 @@ if ( ! $add_new_screen && 0 < $menu_count && isset( $_GET['action'] ) && 'delete
 if ( $one_theme_location_no_menus ) {
 	$nav_menu_selected_id = 0;
 } elseif ( empty( $nav_menu_selected_id ) && ! empty( $nav_menus ) && ! $add_new_screen ) {
-	// if we have no selection yet, and we have menus, set to the first one in the list.
+	// If we have no selection yet, and we have menus, set to the first one in the list.
 	$nav_menu_selected_id = $nav_menus[0]->term_id;
 }
 
@@ -536,7 +536,7 @@ if ( ! current_theme_supports( 'menus' ) && ! $num_locations ) {
 	) . '</p></div>';
 }
 
-if ( ! $locations_screen ) : // Main tab
+if ( ! $locations_screen ) : // Main tab.
 	$overview  = '<p>' . __( 'This screen is used for managing your navigation menus.' ) . '</p>';
 	$overview .= '<p>' . sprintf(
 		/* translators: 1: URL to Widgets screen, 2 and 3: The names of the default themes. */
@@ -584,7 +584,7 @@ if ( ! $locations_screen ) : // Main tab
 			'content' => $editing_menus,
 		)
 	);
-else : // Locations Tab.
+else : // Locations tab.
 	$locations_overview  = '<p>' . __( 'This screen is used for globally assigning menus to locations defined by your theme.' ) . '</p>';
 	$locations_overview .= '<ul><li>' . __( 'To assign menus to one or more theme locations, <strong>select a menu from each location&#8217;s drop down.</strong> When you&#8217;re finished, <strong>click Save Changes</strong>' ) . '</li>';
 	$locations_overview .= '<li>' . __( 'To edit a menu currently assigned to a theme location, <strong>click the adjacent &#8217;Edit&#8217; link</strong>' ) . '</li>';
@@ -745,7 +745,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 							</div><!-- .locations-row-links -->
 						</td><!-- .menu-location-menus -->
 					</tr><!-- .menu-locations-row -->
-				<?php } // foreach ?>
+				<?php } // End foreach. ?>
 				</tbody>
 			</table>
 			<p class="button-controls wp-clearfix"><?php submit_button( __( 'Save Changes' ), 'primary left', 'nav-menu-locations', false ); ?></p>

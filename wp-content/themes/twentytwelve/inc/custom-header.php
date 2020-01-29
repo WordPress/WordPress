@@ -70,7 +70,7 @@ add_action( 'admin_print_styles-appearance_page_custom-header', 'twentytwelve_cu
 function twentytwelve_header_style() {
 	$text_color = get_header_textcolor();
 
-	// If no custom options for text are set, let's bail
+	// If no custom options for text are set, let's bail.
 	if ( $text_color == get_theme_support( 'custom-header', 'default-text-color' ) ) {
 		return;
 	}

@@ -130,7 +130,7 @@ class WP_Widget_Pages extends WP_Widget {
 	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
-		//Defaults
+		// Defaults.
 		$instance = wp_parse_args(
 			(array) $instance,
 			array(

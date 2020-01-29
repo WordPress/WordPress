@@ -75,32 +75,34 @@ get_header(); ?>
 					}
 				}
 
-				// If there is more than 1 attachment in a gallery
+				// If there is more than 1 attachment in a gallery...
 				if ( count( $attachments ) > 1 ) {
 					$k++;
 					if ( isset( $attachments[ $k ] ) ) {
-						// get the URL of the next image attachment
+						// ...get the URL of the next image attachment.
 						$next_attachment_url = get_attachment_link( $attachments[ $k ]->ID );
-					} else {      // or get the URL of the first image attachment
+					} else {
+						// ...or get the URL of the first image attachment.
 						$next_attachment_url = get_attachment_link( $attachments[0]->ID );
 					}
 				} else {
-					// or, if there's only 1 image, get the URL of the image
+					// Or, if there's only 1 image, get the URL of the image.
 					$next_attachment_url = wp_get_attachment_url();
 				}
 				?>
 									<a href="<?php echo esc_url( $next_attachment_url ); ?>" title="<?php the_title_attribute(); ?>" rel="attachment">
-														<?php
-														/**
-														 * Filter the Twenty Eleven default attachment size.
-														 *
-														 * @since Twenty Eleven 1.0
-														 *
-														 * @param int The height and width attachment size dimensions in pixels. Default 848.
-														 */
-														$attachment_size = apply_filters( 'twentyeleven_attachment_size', 848 );
-														echo wp_get_attachment_image( $post->ID, array( $attachment_size, 1024 ) ); // filterable image width with 1024px limit for image height.
-														?>
+										<?php
+										/**
+										 * Filter the Twenty Eleven default attachment size.
+										 *
+										 * @since Twenty Eleven 1.0
+										 *
+										 * @param int The height and width attachment size dimensions in pixels. Default 848.
+										 */
+										$attachment_size = apply_filters( 'twentyeleven_attachment_size', 848 );
+										// Filterable image width with 1024px limit for image height.
+										echo wp_get_attachment_image( $post->ID, array( $attachment_size, 1024 ) );
+										?>
 									</a>
 
 									<?php if ( ! empty( $post->post_excerpt ) ) : ?>
@@ -130,7 +132,7 @@ get_header(); ?>
 
 					<?php comments_template(); ?>
 
-				<?php endwhile; // end of the loop. ?>
+				<?php endwhile; // End of the loop. ?>
 
 			</div><!-- #content -->
 		</div><!-- #primary -->

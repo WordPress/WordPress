@@ -7,7 +7,7 @@
  */
 
 //
-// Category
+// Category.
 //
 
 /**
@@ -192,7 +192,7 @@ function wp_update_category( $catarr ) {
 		return false;
 	}
 
-	// First, get all of the original fields
+	// First, get all of the original fields.
 	$category = get_term( $cat_ID, 'category', ARRAY_A );
 	_make_cat_compat( $category );
 
@@ -206,7 +206,7 @@ function wp_update_category( $catarr ) {
 }
 
 //
-// Tags
+// Tags.
 //
 
 /**

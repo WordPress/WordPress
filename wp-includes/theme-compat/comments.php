@@ -15,7 +15,7 @@ _deprecated_file(
 	sprintf( __( 'Please include a %s template in your theme.' ), basename( __FILE__ ) )
 );
 
-// Do not delete these lines
+// Do not delete these lines.
 if ( ! empty( $_SERVER['SCRIPT_FILENAME'] ) && 'comments.php' == basename( $_SERVER['SCRIPT_FILENAME'] ) ) {
 	die( 'Please do not load this page directly. Thanks!' );
 }
@@ -62,12 +62,12 @@ if ( post_password_required() ) { ?>
 		<div class="alignleft"><?php previous_comments_link(); ?></div>
 		<div class="alignright"><?php next_comments_link(); ?></div>
 	</div>
-<?php else : // this is displayed if there are no comments so far ?>
+<?php else : // This is displayed if there are no comments so far. ?>
 
 	<?php if ( comments_open() ) : ?>
 		<!-- If comments are open, but there are no comments. -->
 
-	<?php else : // comments are closed ?>
+	<?php else : // Comments are closed. ?>
 		<!-- If comments are closed. -->
 		<p class="nocomments"><?php _e( 'Comments are closed.' ); ?></p>
 

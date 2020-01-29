@@ -135,7 +135,7 @@ class Walker {
 		$id_field = $this->db_fields['id'];
 		$id       = $element->$id_field;
 
-		//display this element
+		// Display this element.
 		$this->has_children = ! empty( $children_elements[ $id ] );
 		if ( isset( $args[0] ) && is_array( $args[0] ) ) {
 			$args[0]['has_children'] = $this->has_children; // Back-compat.
@@ -143,14 +143,14 @@ class Walker {
 
 		$this->start_el( $output, $element, $depth, ...array_values( $args ) );
 
-		// descend only when the depth is right and there are childrens for this element
+		// Descend only when the depth is right and there are childrens for this element.
 		if ( ( $max_depth == 0 || $max_depth > $depth + 1 ) && isset( $children_elements[ $id ] ) ) {
 
 			foreach ( $children_elements[ $id ] as $child ) {
 
 				if ( ! isset( $newlevel ) ) {
 					$newlevel = true;
-					//start the child delimiter
+					// Start the child delimiter.
 					$this->start_lvl( $output, $depth, ...array_values( $args ) );
 				}
 				$this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
@@ -159,11 +159,11 @@ class Walker {
 		}
 
 		if ( isset( $newlevel ) && $newlevel ) {
-			//end the child delimiter
+			// End the child delimiter.
 			$this->end_lvl( $output, $depth, ...array_values( $args ) );
 		}
 
-		//end this element
+		// End this element.
 		$this->end_el( $output, $element, $depth, ...array_values( $args ) );
 	}
 
@@ -188,14 +188,14 @@ class Walker {
 	public function walk( $elements, $max_depth, ...$args ) {
 		$output = '';
 
-		//invalid parameter or nothing to walk
+		// Invalid parameter or nothing to walk.
 		if ( $max_depth < -1 || empty( $elements ) ) {
 			return $output;
 		}
 
 		$parent_field = $this->db_fields['parent'];
 
-		// flat display
+		// Flat display.
 		if ( -1 == $max_depth ) {
 			$empty_array = array();
 			foreach ( $elements as $e ) {
@@ -295,7 +295,7 @@ class Walker {
 			$total_top = count( $elements );
 		}
 		if ( $page_num < 1 || $per_page < 0 ) {
-			// No paging
+			// No paging.
 			$paging = false;
 			$start  = 0;
 			if ( -1 == $max_depth ) {
@@ -311,7 +311,7 @@ class Walker {
 			}
 		}
 
-		// flat display
+		// Flat display.
 		if ( -1 == $max_depth ) {
 			if ( ! empty( $args[0]['reverse_top_level'] ) ) {
 				$elements = array_reverse( $elements );
@@ -444,4 +444,4 @@ class Walker {
 		unset( $children_elements[ $id ] );
 	}
 
-} // Walker
+}

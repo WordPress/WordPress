@@ -419,7 +419,7 @@ else :
 </form>
 	<?php endif; ?>
 <?php endif; ?>
-<?php } // multisite ?>
+<?php } // End if ! is_multisite(). ?>
 
 </div>
 

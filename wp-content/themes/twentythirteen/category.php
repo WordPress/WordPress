@@ -23,13 +23,13 @@ get_header(); ?>
 				?>
 				</h1>
 
-				<?php if ( category_description() ) : // Show an optional category description ?>
+				<?php if ( category_description() ) : // Show an optional category description. ?>
 				<div class="archive-meta"><?php echo category_description(); ?></div>
 				<?php endif; ?>
 			</header><!-- .archive-header -->
 
-			<?php /* The loop */ ?>
 			<?php
+			// Start the loop.
 			while ( have_posts() ) :
 				the_post();
 				?>

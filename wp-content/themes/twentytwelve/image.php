@@ -73,38 +73,38 @@ get_header(); ?>
 				if ( $attachment->ID == $post->ID ) {
 					break;
 				}
-endforeach;
+			endforeach;
 
-			// If there is more than 1 attachment in a gallery
+			// If there is more than 1 attachment in a gallery...
 			if ( count( $attachments ) > 1 ) :
 				$k++;
 				if ( isset( $attachments[ $k ] ) ) :
-					// get the URL of the next image attachment
+					// ...get the URL of the next image attachment.
 					$next_attachment_url = get_attachment_link( $attachments[ $k ]->ID );
 				else :
-					// or get the URL of the first image attachment
+					// ...or get the URL of the first image attachment.
 					$next_attachment_url = get_attachment_link( $attachments[0]->ID );
 				endif;
-else :
-	// or, if there's only 1 image, get the URL of the image
-	$next_attachment_url = wp_get_attachment_url();
-endif;
-?>
+			else :
+				// Or, if there's only 1 image, get the URL of the image.
+				$next_attachment_url = wp_get_attachment_url();
+			endif;
+			?>
 								<a href="<?php echo esc_url( $next_attachment_url ); ?>" title="<?php the_title_attribute(); ?>" rel="attachment">
-													<?php
-													/**
-													 * Filter the image attachment size to use.
-													 *
-													 * @since Twenty Twelve 1.0
-													 *
-													 * @param array $size {
-													 *     @type int The attachment height in pixels.
-													 *     @type int The attachment width in pixels.
-													 * }
-													 */
-													$attachment_size = apply_filters( 'twentytwelve_attachment_size', array( 960, 960 ) );
-													echo wp_get_attachment_image( $post->ID, $attachment_size );
-													?>
+									<?php
+									/**
+									 * Filter the image attachment size to use.
+									 *
+									 * @since Twenty Twelve 1.0
+									 *
+									 * @param array $size {
+									 *     @type int The attachment height in pixels.
+									 *     @type int The attachment width in pixels.
+									 * }
+									 */
+									$attachment_size = apply_filters( 'twentytwelve_attachment_size', array( 960, 960 ) );
+									echo wp_get_attachment_image( $post->ID, $attachment_size );
+									?>
 								</a>
 
 								<?php if ( ! empty( $post->post_excerpt ) ) : ?>
@@ -134,7 +134,7 @@ endif;
 
 				<?php comments_template(); ?>
 
-			<?php endwhile; // end of the loop. ?>
+			<?php endwhile; // End of the loop. ?>
 
 		</div><!-- #content -->
 	</div><!-- #primary -->

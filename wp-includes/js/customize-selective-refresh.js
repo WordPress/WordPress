@@ -442,7 +442,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 
 				if ( partial.params.containerInclusive ) {
 
-					// Note that content may be an empty string, and in this case jQuery will just remove the oldContainer
+					// Note that content may be an empty string, and in this case jQuery will just remove the oldContainer.
 					newContainerElement = $( content );
 
 					// Merge the new context on top of the old context.

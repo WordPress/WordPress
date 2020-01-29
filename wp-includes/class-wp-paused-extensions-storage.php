@@ -3,7 +3,7 @@
  * Error Protection API: WP_Paused_Extensions_Storage class
  *
  * @package WordPress
- * @since   5.2.0
+ * @since 5.2.0
  */
 
 /**

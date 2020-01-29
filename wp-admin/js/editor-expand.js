@@ -246,10 +246,11 @@
 			function mceKeyup( event ) {
 				var key = event.keyCode;
 
-				// Bail on special keys. Key code 47 is a /
+				// Bail on special keys. Key code 47 is a '/'.
 				if ( key <= 47 && ! ( key === VK.SPACEBAR || key === VK.ENTER || key === VK.DELETE || key === VK.BACKSPACE || key === VK.UP || key === VK.LEFT || key === VK.DOWN || key === VK.UP ) ) {
 					return;
-				// OS keys, function keys, num lock, scroll lock. Key code 91-93 are OS keys. Key code 112-123 are F1 to F12. Key code 144 is num lock. Key code 145 is scroll lock.
+				// OS keys, function keys, num lock, scroll lock. Key code 91-93 are OS keys.
+				// Key code 112-123 are F1 to F12. Key code 144 is num lock. Key code 145 is scroll lock.
 				} else if ( ( key >= 91 && key <= 93 ) || ( key >= 112 && key <= 123 ) || key === 144 || key === 145 ) {
 					return;
 				}
@@ -516,7 +517,7 @@
 			 * If in visual mode, checks if the editorHeight is greater than the autoresizeMinHeight + topHeight.
 			 * If not in visual mode, checks if the editorHeight is greater than the autoresizeMinHeight + 20.
 			 */
-			canPin = visual ? autoresizeMinHeight + topHeight : autoresizeMinHeight + 20; // 20px from textarea padding
+			canPin = visual ? autoresizeMinHeight + topHeight : autoresizeMinHeight + 20; // 20px from textarea padding.
 			canPin = editorHeight > ( canPin + 5 );
 
 			if ( ! canPin ) {
@@ -910,7 +911,7 @@
 			// Adjust when entering or exiting fullscreen mode.
 			fullscreen && fullscreen.pubsub.unsubscribe( 'hidden', fullscreenHide );
 
-			// Reset all css
+			// Reset all CSS.
 			$.each( [ $visualTop, $textTop, $tools, $menuBar, $bottom, $statusBar, $contentWrap, $visualEditor, $textEditor, $sideSortables ], function( i, element ) {
 				element && element.attr( 'style', '' );
 			});
@@ -1179,15 +1180,15 @@
 
 			// Return if any of the following keys or combinations of keys is pressed.
 			if ( event && ( event.metaKey || ( event.ctrlKey && ! event.altKey ) || ( event.altKey && event.shiftKey ) || ( key && (
-				// Special keys ( tab, ctrl, alt, esc, arrow keys... )
+				// Special keys ( tab, ctrl, alt, esc, arrow keys... ).
 				( key <= 47 && key !== 8 && key !== 13 && key !== 32 && key !== 46 ) ||
-				// Windows keys
+				// Windows keys.
 				( key >= 91 && key <= 93 ) ||
-				// F keys
+				// F keys.
 				( key >= 112 && key <= 135 ) ||
-				// Num Lock, Scroll Lock, OEM
+				// Num Lock, Scroll Lock, OEM.
 				( key >= 144 && key <= 150 ) ||
-				// OEM or non-printable
+				// OEM or non-printable.
 				key >= 224
 			) ) ) ) {
 				return;

@@ -706,7 +706,7 @@ function wp_tag_cloud( $args = '' ) {
 				'order'   => 'DESC',
 			)
 		)
-	); // Always query top tags
+	); // Always query top tags.
 
 	if ( empty( $tags ) || is_wp_error( $tags ) ) {
 		return;
@@ -727,7 +727,8 @@ function wp_tag_cloud( $args = '' ) {
 		$tags[ $key ]->id   = $tag->term_id;
 	}
 
-	$return = wp_generate_tag_cloud( $tags, $args ); // Here's where those top tags get sorted according to $args
+	// Here's where those top tags get sorted according to $args.
+	$return = wp_generate_tag_cloud( $tags, $args );
 
 	/**
 	 * Filters the tag cloud output.
@@ -889,7 +890,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	}
 
 	$counts      = array();
-	$real_counts = array(); // For the alt tag
+	$real_counts = array(); // For the alt tag.
 	foreach ( (array) $tags as $key => $tag ) {
 		$real_counts[ $key ] = $tag->count;
 		$counts[ $key ]      = call_user_func( $args['topic_count_scale_callback'], $tag->count );
@@ -1053,7 +1054,7 @@ function _wp_object_count_sort_cb( $a, $b ) {
 }
 
 //
-// Helper functions
+// Helper functions.
 //
 
 /**
@@ -1103,7 +1104,7 @@ function walk_category_dropdown_tree( ...$args ) {
 }
 
 //
-// Tags
+// Tags.
 //
 
 /**

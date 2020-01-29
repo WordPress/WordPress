@@ -51,8 +51,8 @@ function wp_register_tinymce_scripts( &$scripts, $force_uncompressed = false ) {
 	$compressed = $compress_scripts && $concatenate_scripts && isset( $_SERVER['HTTP_ACCEPT_ENCODING'] )
 		&& false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' ) && ! $force_uncompressed;
 
-	// Load tinymce.js when running from /src, otherwise load wp-tinymce.js.gz (in production) or
-	// tinymce.min.js (when SCRIPT_DEBUG is true).
+	// Load tinymce.js when running from /src, otherwise load wp-tinymce.js.gz (in production)
+	// or tinymce.min.js (when SCRIPT_DEBUG is true).
 	if ( $compressed ) {
 		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . 'wp-tinymce.js', array(), $tinymce_version );
 	} else {
@@ -198,9 +198,11 @@ function wp_get_script_polyfill( &$scripts, $tests ) {
 		$polyfill .= (
 			// Test presence of feature...
 			'( ' . $test . ' ) || ' .
-			// ...appending polyfill on any failures. Cautious viewers may balk
-			// at the `document.write`. Its caveat of synchronous mid-stream
-			// blocking write is exactly the behavior we need though.
+			/*
+			 * ...appending polyfill on any failures. Cautious viewers may balk
+			 * at the `document.write`. Its caveat of synchronous mid-stream
+			 * blocking write is exactly the behavior we need though.
+			 */
 			'document.write( \'<script src="' .
 			$src .
 			'"></scr\' + \'ipt>\' );'
@@ -593,7 +595,8 @@ function wp_scripts_get_suffix( $type = '' ) {
 	static $suffixes;
 
 	if ( $suffixes === null ) {
-		include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
+		// Include an unmodified $wp_version.
+		include( ABSPATH . WPINC . '/version.php' );
 
 		$develop_src = false !== strpos( $wp_version, '-src' );
 
@@ -795,15 +798,15 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'scriptaculous-controls', 'https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/controls.js', array( 'scriptaculous-root' ), '1.9.0' );
 	$scripts->add( 'scriptaculous', false, array( 'scriptaculous-dragdrop', 'scriptaculous-slider', 'scriptaculous-controls' ) );
 
-	// not used in core, replaced by Jcrop.js
+	// Not used in core, replaced by Jcrop.js.
 	$scripts->add( 'cropper', '/wp-includes/js/crop/cropper.js', array( 'scriptaculous-dragdrop' ) );
 
-	// jQuery
+	// jQuery.
 	$scripts->add( 'jquery', false, array( 'jquery-core', 'jquery-migrate' ), '1.12.4-wp' );
 	$scripts->add( 'jquery-core', '/wp-includes/js/jquery/jquery.js', array(), '1.12.4-wp' );
 	$scripts->add( 'jquery-migrate', "/wp-includes/js/jquery/jquery-migrate$suffix.js", array(), '1.4.1' );
 
-	// full jQuery UI
+	// Full jQuery UI.
 	$scripts->add( 'jquery-ui-core', "/wp-includes/js/jquery/ui/core$dev_suffix.js", array( 'jquery' ), '1.11.4', 1 );
 	$scripts->add( 'jquery-effects-core', "/wp-includes/js/jquery/ui/effect$dev_suffix.js", array( 'jquery' ), '1.11.4', 1 );
 
@@ -844,7 +847,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-ui-tooltip', "/wp-includes/js/jquery/ui/tooltip$dev_suffix.js", array( 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-position' ), '1.11.4', 1 );
 	$scripts->add( 'jquery-ui-widget', "/wp-includes/js/jquery/ui/widget$dev_suffix.js", array( 'jquery' ), '1.11.4', 1 );
 
-	// Strings for 'jquery-ui-autocomplete' live region messages
+	// Strings for 'jquery-ui-autocomplete' live region messages.
 	did_action( 'init' ) && $scripts->localize(
 		'jquery-ui-autocomplete',
 		'uiAutocompleteL10n',
@@ -858,10 +861,10 @@ function wp_default_scripts( &$scripts ) {
 		)
 	);
 
-	// deprecated, not used in core, most functionality is included in jQuery 1.3
+	// Deprecated, not used in core, most functionality is included in jQuery 1.3.
 	$scripts->add( 'jquery-form', "/wp-includes/js/jquery/jquery.form$suffix.js", array( 'jquery' ), '4.2.1', 1 );
 
-	// jQuery plugins
+	// jQuery plugins.
 	$scripts->add( 'jquery-color', '/wp-includes/js/jquery/jquery.color.min.js', array( 'jquery' ), '2.1.2', 1 );
 	$scripts->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array( 'jquery' ), '20m', 1 );
 	$scripts->add( 'jquery-query', '/wp-includes/js/jquery/jquery.query.js', array( 'jquery' ), '2.1.7', 1 );
@@ -942,7 +945,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'wp-plupload', "/wp-includes/js/plupload/wp-plupload$suffix.js", array( 'plupload', 'jquery', 'json2', 'media-models' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'wp-plupload', 'pluploadL10n', $uploader_l10n );
 
-	// keep 'swfupload' for back-compat.
+	// Keep 'swfupload' for back-compat.
 	$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', array(), '2201-20110113' );
 	$scripts->add( 'swfupload-all', false, array( 'swfupload' ), '2201' );
 	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array( 'swfupload-all', 'jquery' ), '2201-20110524' );
@@ -1105,7 +1108,8 @@ function wp_default_scripts( &$scripts ) {
 						/* translators: %d: Error count. */
 						'singular' => _n( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.', 1 ),
 						/* translators: %d: Error count. */
-						'plural'   => _n( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.', 2 ), // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
+						'plural'   => _n( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.', 2 ),
+						// @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
 					),
 				)
 			)
@@ -1232,20 +1236,22 @@ function wp_default_scripts( &$scripts ) {
 			/* translators: %s: URL to the Customizer to load the autosaved version. */
 			'autosaveNotice'          => __( 'There is a more recent autosave of your changes than the one you are previewing. <a href="%s">Restore the autosave</a>' ),
 			'videoHeaderNotice'       => __( 'This theme doesn&#8217;t support video headers on this page. Navigate to the front page or another page that supports video headers.' ),
-			// Used for overriding the file types allowed in plupload.
+			// Used for overriding the file types allowed in Plupload.
 			'allowedFiles'            => __( 'Allowed Files' ),
 			'customCssError'          => array(
 				/* translators: %d: Error count. */
 				'singular' => _n( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 1 ),
 				/* translators: %d: Error count. */
-				'plural'   => _n( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 2 ), // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
+				'plural'   => _n( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 2 ),
+				// @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
 			),
 			'pageOnFrontError'        => __( 'Homepage and posts page must be different.' ),
 			'saveBlockedError'        => array(
 				/* translators: %s: Number of invalid settings. */
 				'singular' => _n( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.', 1 ),
 				/* translators: %s: Number of invalid settings. */
-				'plural'   => _n( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.', 2 ), // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
+				'plural'   => _n( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.', 2 ),
+				// @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
 			),
 			'scheduleDescription'     => __( 'Schedule your customization changes to publish ("go live") at a future date.' ),
 			'themePreviewUnavailable' => __( 'Sorry, you can&#8217;t preview new themes when you have changes scheduled or saved as a draft. Please publish your changes, or wait until they publish to preview new themes.' ),
@@ -1524,9 +1530,9 @@ function wp_default_scripts( &$scripts ) {
 					/* translators: %s: Error string for a failed installation. */
 					'installFailed'            => __( 'Installation failed: %s' ),
 					/* translators: %s: Plugin name and version. */
-					'pluginInstallingLabel'    => _x( 'Installing %s...', 'plugin' ), // no ellipsis
+					'pluginInstallingLabel'    => _x( 'Installing %s...', 'plugin' ), // No ellipsis.
 					/* translators: %s: Theme name and version. */
-					'themeInstallingLabel'     => _x( 'Installing %s...', 'theme' ), // no ellipsis
+					'themeInstallingLabel'     => _x( 'Installing %s...', 'theme' ), // No ellipsis.
 					/* translators: %s: Plugin name and version. */
 					'pluginInstalledLabel'     => _x( '%s installed!', 'plugin' ),
 					/* translators: %s: Theme name and version. */
@@ -1616,7 +1622,7 @@ function wp_default_scripts( &$scripts ) {
 			'setPostThumbnailL10n',
 			array(
 				'setThumbnail' => __( 'Use as featured image' ),
-				'saving'       => __( 'Saving...' ), // no ellipsis
+				'saving'       => __( 'Saving...' ), // No ellipsis.
 				'error'        => __( 'Could not set that as the thumbnail image. Try a different attachment.' ),
 				'done'         => __( 'Done' ),
 			)
@@ -1662,7 +1668,8 @@ function wp_default_scripts( &$scripts ) {
  * @param WP_Styles $styles
  */
 function wp_default_styles( &$styles ) {
-	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
+	// Include an unmodified $wp_version.
+	include( ABSPATH . WPINC . '/version.php' );
 
 	if ( ! defined( 'SCRIPT_DEBUG' ) ) {
 		define( 'SCRIPT_DEBUG', false !== strpos( $wp_version, '-src' ) );
@@ -1704,7 +1711,7 @@ function wp_default_styles( &$styles ) {
 			$subsets .= ',vietnamese';
 		}
 
-		// Hotlink Open Sans, for now
+		// Hotlink Open Sans, for now.
 		$open_sans_font_url = "https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=$subsets&display=fallback";
 	}
 
@@ -1713,7 +1720,7 @@ function wp_default_styles( &$styles ) {
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
-	// Admin CSS
+	// Admin CSS.
 	$styles->add( 'common', "/wp-admin/css/common$suffix.css" );
 	$styles->add( 'forms', "/wp-admin/css/forms$suffix.css" );
 	$styles->add( 'admin-menu', "/wp-admin/css/admin-menu$suffix.css" );
@@ -1743,11 +1750,11 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css" );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
-	// Common dependencies
+	// Common dependencies.
 	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
 	$styles->add( 'dashicons', "/wp-includes/css/dashicons$suffix.css" );
 
-	// Includes CSS
+	// Includes CSS.
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'wp-auth-check', "/wp-includes/css/wp-auth-check$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css", array( 'dashicons' ) );
@@ -1757,7 +1764,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'wp-embed-template-ie', "/wp-includes/css/wp-embed-template-ie$suffix.css" );
 	$styles->add_data( 'wp-embed-template-ie', 'conditional', 'lte IE 8' );
 
-	// External libraries and friends
+	// External libraries and friends.
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.8' );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'mediaelement', '/wp-includes/js/mediaelement/mediaelementplayer-legacy.min.css', array(), '4.2.13-9993131' );
@@ -1765,14 +1772,14 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array( 'dashicons' ) );
 	$styles->add( 'wp-codemirror', '/wp-includes/js/codemirror/codemirror.min.css', array(), '5.29.1-alpha-ee20357' );
 
-	// Deprecated CSS
+	// Deprecated CSS.
 	$styles->add( 'deprecated-media', "/wp-admin/css/deprecated-media$suffix.css" );
 	$styles->add( 'farbtastic', "/wp-admin/css/farbtastic$suffix.css", array(), '1.3u1' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.min.css', array(), '0.9.12' );
 	$styles->add( 'colors-fresh', false, array( 'wp-admin', 'buttons' ) ); // Old handle.
-	$styles->add( 'open-sans', $open_sans_font_url ); // No longer used in core as of 4.6
+	$styles->add( 'open-sans', $open_sans_font_url ); // No longer used in core as of 4.6.
 
-	// Packages styles
+	// Packages styles.
 	$fonts_url = '';
 
 	/*
@@ -1832,9 +1839,9 @@ function wp_default_styles( &$styles ) {
 		$styles->add( $handle, $path, $dependencies );
 	}
 
-	// RTL CSS
+	// RTL CSS.
 	$rtl_styles = array(
-		// Admin CSS
+		// Admin CSS.
 		'common',
 		'forms',
 		'admin-menu',
@@ -1858,7 +1865,7 @@ function wp_default_styles( &$styles ) {
 		'ie',
 		'login',
 		'site-health',
-		// Includes CSS
+		// Includes CSS.
 		'buttons',
 		'admin-bar',
 		'wp-auth-check',
@@ -1866,7 +1873,7 @@ function wp_default_styles( &$styles ) {
 		'media-views',
 		'wp-pointer',
 		'wp-jquery-ui-dialog',
-		// Package styles
+		// Package styles.
 		'wp-block-library-theme',
 		'wp-edit-blocks',
 		'wp-block-editor',
@@ -1877,7 +1884,7 @@ function wp_default_styles( &$styles ) {
 		'wp-format-library',
 		'wp-list-reusable-blocks',
 		'wp-nux',
-		// Deprecated CSS
+		// Deprecated CSS.
 		'deprecated-media',
 		'farbtastic',
 	);
@@ -1991,7 +1998,7 @@ function wp_localize_jquery_ui_datepicker() {
 			'n',
 			'm', // Month.
 			'Y',
-			'y',            // Year.
+			'y', // Year.
 		),
 		array(
 			'dd',
@@ -2250,7 +2257,7 @@ function _print_scripts() {
 	if ( $concat ) {
 		if ( ! empty( $wp_scripts->print_code ) ) {
 			echo "\n<script{$type_attr}>\n";
-			echo "/* <![CDATA[ */\n"; // not needed in HTML 5
+			echo "/* <![CDATA[ */\n"; // Not needed in HTML 5.
 			echo $wp_scripts->print_code;
 			echo "/* ]]> */\n";
 			echo "</script>\n";
@@ -2293,7 +2300,7 @@ function wp_print_head_scripts() {
 	global $wp_scripts;
 
 	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {
-		return array(); // no need to run if nothing is queued
+		return array(); // No need to run if nothing is queued.
 	}
 	return print_head_scripts();
 }

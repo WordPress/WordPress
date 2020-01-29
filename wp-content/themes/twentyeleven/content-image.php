@@ -65,7 +65,7 @@
 					printf( __( '<span class="%1$s">Posted in</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-cat-links', $categories_list );
 					?>
 				</span>
-				<?php endif; // End if categories ?>
+				<?php endif; // End if categories. ?>
 				<?php
 					/* translators: Used between list items, there is a space after the comma. */
 					$tags_list = get_the_tag_list( '', __( ', ', 'twentyeleven' ) );
@@ -77,11 +77,11 @@
 					printf( __( '<span class="%1$s">Tagged</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list );
 					?>
 				</span>
-				<?php endif; // End if $tags_list ?>
+				<?php endif; // End if $tags_list. ?>
 
 				<?php if ( comments_open() ) : ?>
 				<span class="comments-link"><?php comments_popup_link( '<span class="leave-reply">' . __( 'Leave a reply', 'twentyeleven' ) . '</span>', __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?></span>
-				<?php endif; // End if comments_open() ?>
+				<?php endif; // End if comments_open(). ?>
 			</div><!-- .entry-meta -->
 
 			<?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>

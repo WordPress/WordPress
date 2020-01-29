@@ -196,7 +196,7 @@
 			resetToggle( false );
 
 			if ( $pass1Row.closest( 'form' ).is( '#your-profile' ) ) {
-				// Clear password field to prevent update
+				// Clear password field to prevent update.
 				$pass1.val( '' ).trigger( 'pwupdate' );
 				$submitButtons.prop( 'disabled', false );
 			}
@@ -342,7 +342,7 @@
 			$this.siblings( '.selected' ).removeClass( 'selected' );
 			$this.addClass( 'selected' ).find( 'input[type="radio"]' ).prop( 'checked', true );
 
-			// Set color scheme
+			// Set color scheme.
 			if ( user_id === current_user_id ) {
 				// Load the colors stylesheet.
 				// The default color scheme won't have one, so we'll need to create an element.
@@ -351,7 +351,7 @@
 				}
 				$stylesheet.attr( 'href', $this.children( '.css_url' ).val() );
 
-				// repaint icons
+				// Repaint icons.
 				if ( typeof wp !== 'undefined' && wp.svgPainter ) {
 					try {
 						colors = $.parseJSON( $this.children( '.icon_colors' ).val() );
@@ -363,7 +363,7 @@
 					}
 				}
 
-				// update user option
+				// Update user option.
 				$.post( ajaxurl, {
 					action:       'save-user-color-scheme',
 					color_scheme: $this.children( 'input[name="admin_color"]' ).val(),

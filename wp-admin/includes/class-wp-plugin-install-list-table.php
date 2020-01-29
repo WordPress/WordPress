@@ -95,7 +95,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$per_page = 36;
 
-		// These are the tabs which are shown on the page
+		// These are the tabs which are shown on the page.
 		$tabs = array();
 
 		if ( 'search' === $tab ) {
@@ -471,7 +471,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				$plugin = (array) $plugin;
 			}
 
-			// Display the group heading if there is one
+			// Display the group heading if there is one.
 			if ( isset( $plugin['group'] ) && $plugin['group'] != $group ) {
 				if ( isset( $this->groups[ $plugin['group'] ] ) ) {
 					$group_name = $this->groups[ $plugin['group'] ];
@@ -482,13 +482,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					$group_name = $plugin['group'];
 				}
 
-				// Starting a new group, close off the divs of the last one
+				// Starting a new group, close off the divs of the last one.
 				if ( ! empty( $group ) ) {
 					echo '</div></div>';
 				}
 
 				echo '<div class="plugin-group"><h3>' . esc_html( $group_name ) . '</h3>';
-				// needs an extra wrapping div for nth-child selectors to work
+				// Needs an extra wrapping div for nth-child selectors to work.
 				echo '<div class="plugin-items">';
 
 				$group = $plugin['group'];
@@ -768,7 +768,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			<?php
 		}
 
-		// Close off the group divs of the last one
+		// Close off the group divs of the last one.
 		if ( ! empty( $group ) ) {
 			echo '</div></div>';
 		}

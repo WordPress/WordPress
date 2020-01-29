@@ -61,7 +61,10 @@
 			?>
 		<?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
 
-		<?php if ( get_the_author_meta( 'description' ) && ( ! function_exists( 'is_multi_author' ) || is_multi_author() ) ) : // If a user has filled out their description and this is a multi-author blog, show a bio on their entries ?>
+		<?php
+		// If a user has filled out their description and this is a multi-author blog, show a bio on their entries.
+		if ( get_the_author_meta( 'description' ) && ( ! function_exists( 'is_multi_author' ) || is_multi_author() ) ) :
+			?>
 		<div id="author-info">
 			<div id="author-avatar">
 				<?php

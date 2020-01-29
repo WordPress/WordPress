@@ -193,7 +193,7 @@ if ( ! function_exists( 'twentyfifteen_header_style' ) ) :
 	</style>
 		<?php
 	}
-endif; // twentyfifteen_header_style
+endif; // twentyfifteen_header_style()
 
 /**
  * Enqueues front-end CSS for the header background color.

@@ -15,7 +15,7 @@
  * @return array|false A list of all of the contributors, or false on error.
  */
 function wp_credits() {
-	// include an unmodified $wp_version
+	// Include an unmodified $wp_version.
 	include( ABSPATH . WPINC . '/version.php' );
 
 	$locale = get_user_locale();

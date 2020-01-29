@@ -150,7 +150,7 @@ wp.media.mixin = {
 			return;
 		}
 
-		// invoke features cleanup
+		// Invoke features cleanup.
 		for ( featureIndex in t.options.features ) {
 			feature = t.options.features[featureIndex];
 			if ( t['clean' + feature] ) {

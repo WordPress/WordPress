@@ -25,17 +25,21 @@ window.wp = window.wp || {};
 	inherits = function( parent, protoProps, staticProps ) {
 		var child;
 
-		// The constructor function for the new subclass is either defined by you
-		// (the "constructor" property in your `extend` definition), or defaulted
-		// by us to simply call `super()`.
+		/*
+		 * The constructor function for the new subclass is either defined by you
+		 * (the "constructor" property in your `extend` definition), or defaulted
+		 * by us to simply call `super()`.
+		 */
 		if ( protoProps && protoProps.hasOwnProperty( 'constructor' ) ) {
 			child = protoProps.constructor;
 		} else {
 			child = function() {
-				// Storing the result `super()` before returning the value
-				// prevents a bug in Opera where, if the constructor returns
-				// a function, Opera will reject the return value in favor of
-				// the original object. This causes all sorts of trouble.
+				/*
+				 * Storing the result `super()` before returning the value
+				 * prevents a bug in Opera where, if the constructor returns
+				 * a function, Opera will reject the return value in favor of
+				 * the original object. This causes all sorts of trouble.
+				 */
 				var result = parent.apply( this, arguments );
 				return result;
 			};
@@ -44,8 +48,8 @@ window.wp = window.wp || {};
 		// Inherit class (static) properties from parent.
 		$.extend( child, parent );
 
-		// Set the prototype chain to inherit from `parent`, without calling
-		// `parent`'s constructor function.
+		// Set the prototype chain to inherit from `parent`,
+		// without calling `parent`'s constructor function.
 		ctor.prototype  = parent.prototype;
 		child.prototype = new ctor();
 
@@ -187,7 +191,7 @@ window.wp = window.wp || {};
 		 * @param {object} options
 		 */
 		initialize: function( initial, options ) {
-			this._value = initial; // @todo: potentially change this to a this.set() call.
+			this._value = initial; // @todo Potentially change this to a this.set() call.
 			this.callbacks = $.Callbacks();
 			this._dirty = false;
 
@@ -496,7 +500,7 @@ window.wp = window.wp || {};
 				ids  = slice.call( arguments ),
 				dfd  = $.Deferred();
 
-			// If the last argument is a callback, bind it to .done()
+			// If the last argument is a callback, bind it to .done().
 			if ( $.isFunction( ids[ ids.length - 1 ] ) ) {
 				dfd.done( ids.pop() );
 			}
@@ -699,7 +703,7 @@ window.wp = window.wp || {};
 				return urlParser.protocol + '//' + urlParser.host.replace( /:(80|443)$/, '' );
 			});
 
-			// first add with no value
+			// First add with no value.
 			this.add( 'targetWindow', null );
 			// This avoids SecurityErrors when setting a window object in x-origin iframe'd scenarios.
 			this.targetWindow.set = function( to ) {
@@ -719,15 +723,17 @@ window.wp = window.wp || {};
 
 				return this;
 			};
-			// now set it
+			// Now set it.
 			this.targetWindow( params.targetWindow || defaultTarget );
 
 
-			// Since we want jQuery to treat the receive function as unique
-			// to this instance, we give the function a new guid.
-			//
-			// This will prevent every Messenger's receive function from being
-			// unbound when calling $.off( 'message', this.receive );
+			/*
+			 * Since we want jQuery to treat the receive function as unique
+			 * to this instance, we give the function a new guid.
+			 *
+			 * This will prevent every Messenger's receive function from being
+			 * unbound when calling $.off( 'message', this.receive );
+			 */
 			this.receive = $.proxy( this.receive, this );
 			this.receive.guid = $.guid++;
 

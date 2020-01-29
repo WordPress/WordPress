@@ -800,7 +800,7 @@ endif;
 		}
 
 		$max_width = 0;
-		// For flex, limit size of image displayed to 1500px unless theme says otherwise
+		// For flex, limit size of image displayed to 1500px unless theme says otherwise.
 		if ( current_theme_supports( 'custom-header', 'flex-width' ) ) {
 			$max_width = 1500;
 		}
@@ -810,10 +810,10 @@ endif;
 		}
 		$max_width = max( $max_width, get_theme_support( 'custom-header', 'width' ) );
 
-		// If flexible height isn't supported and the image is the exact right size
+		// If flexible height isn't supported and the image is the exact right size.
 		if ( ! current_theme_supports( 'custom-header', 'flex-height' ) && ! current_theme_supports( 'custom-header', 'flex-width' )
 			&& $width == get_theme_support( 'custom-header', 'width' ) && $height == get_theme_support( 'custom-header', 'height' ) ) {
-			// Add the meta-data
+			// Add the metadata.
 			if ( file_exists( $file ) ) {
 				wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
 			}
@@ -828,7 +828,7 @@ endif;
 			 * @param string $file          Path to the file.
 			 * @param int    $attachment_id Attachment ID.
 			 */
-			do_action( 'wp_create_file_in_uploads', $file, $attachment_id ); // For replication
+			do_action( 'wp_create_file_in_uploads', $file, $attachment_id ); // For replication.
 
 			return $this->finished();
 		} elseif ( $width > $max_width ) {
@@ -839,7 +839,7 @@ endif;
 			}
 
 			/** This filter is documented in wp-admin/includes/class-custom-image-header.php */
-			$image = apply_filters( 'wp_create_file_in_uploads', $image, $attachment_id ); // For replication
+			$image = apply_filters( 'wp_create_file_in_uploads', $image, $attachment_id ); // For replication.
 
 			$url    = str_replace( wp_basename( $url ), wp_basename( $image ), $url );
 			$width  = $width / $oitar;
@@ -910,7 +910,7 @@ endif;
 		$file     = $file['file'];
 		$filename = wp_basename( $file );
 
-		// Construct the object array
+		// Construct the object array.
 		$object = array(
 			'post_title'     => $filename,
 			'post_content'   => $url,
@@ -919,7 +919,7 @@ endif;
 			'context'        => 'custom-header',
 		);
 
-		// Save the data
+		// Save the data.
 		$attachment_id = wp_insert_attachment( $object, $file );
 		return compact( 'attachment_id', 'file', 'filename', 'url', 'type' );
 	}
@@ -982,7 +982,7 @@ endif;
 		}
 
 		/** This filter is documented in wp-admin/includes/class-custom-image-header.php */
-		$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication
+		$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
 
 		$object = $this->create_attachment_object( $cropped, $attachment_id );
 
@@ -990,7 +990,7 @@ endif;
 			unset( $object['ID'] );
 		}
 
-		// Update the attachment
+		// Update the attachment.
 		$attachment_id = $this->insert_attachment( $object, $cropped );
 
 		$url = wp_get_attachment_url( $attachment_id );
@@ -1180,7 +1180,7 @@ endif;
 			'dst_width'  => null,
 		);
 
-		// For flex, limit size of image displayed to 1500px unless theme says otherwise
+		// For flex, limit size of image displayed to 1500px unless theme says otherwise.
 		if ( $has_flex_width ) {
 			$max_width = 1500;
 		}
@@ -1318,7 +1318,7 @@ endif;
 		}
 
 		/** This filter is documented in wp-admin/includes/class-custom-image-header.php */
-		$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication
+		$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
 
 		$object = $this->create_attachment_object( $cropped, $attachment_id );
 
@@ -1434,8 +1434,8 @@ endif;
 		// Get the default image if there is one.
 		$default = get_theme_support( 'custom-header', 'default-image' );
 
-		if ( ! $default ) { // If not,
-			return $this->default_headers; // easy peasy.
+		if ( ! $default ) { // If not, easy peasy.
+			return $this->default_headers;
 		}
 
 		$default             = sprintf( $default, get_template_directory_uri(), get_stylesheet_directory_uri() );

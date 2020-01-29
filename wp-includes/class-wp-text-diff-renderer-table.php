@@ -249,32 +249,34 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	public function _changed( $orig, $final ) {
 		$r = '';
 
-		// Does the aforementioned additional processing
-		// *_matches tell what rows are "the same" in orig and final. Those pairs will be diffed to get word changes
-		//	match is numeric: an index in other column
-		//	match is 'X': no match. It is a new row
-		// *_rows are column vectors for the orig column and the final column.
-		//	row >= 0: an indix of the $orig or $final array
-		//	row  < 0: a blank row for that column
+		/*
+		 * Does the aforementioned additional processing:
+		 * *_matches tell what rows are "the same" in orig and final. Those pairs will be diffed to get word changes.
+		 * - match is numeric: an index in other column.
+		 * - match is 'X': no match. It is a new row.
+		 * *_rows are column vectors for the orig column and the final column.
+		 * - row >= 0: an indix of the $orig or $final array.
+		 * - row < 0: a blank row for that column.
+		 */
 		list($orig_matches, $final_matches, $orig_rows, $final_rows) = $this->interleave_changed_lines( $orig, $final );
 
-		// These will hold the word changes as determined by an inline diff
+		// These will hold the word changes as determined by an inline diff.
 		$orig_diffs  = array();
 		$final_diffs = array();
 
-		// Compute word diffs for each matched pair using the inline diff
+		// Compute word diffs for each matched pair using the inline diff.
 		foreach ( $orig_matches as $o => $f ) {
 			if ( is_numeric( $o ) && is_numeric( $f ) ) {
 				$text_diff = new Text_Diff( 'auto', array( array( $orig[ $o ] ), array( $final[ $f ] ) ) );
 				$renderer  = new $this->inline_diff_renderer;
 				$diff      = $renderer->render( $text_diff );
 
-				// If they're too different, don't include any <ins> or <dels>
+				// If they're too different, don't include any <ins> or <del>'s.
 				if ( preg_match_all( '!(<ins>.*?</ins>|<del>.*?</del>)!', $diff, $diff_matches ) ) {
-					// length of all text between <ins> or <del>
+					// Length of all text between <ins> or <del>.
 					$stripped_matches = strlen( strip_tags( join( ' ', $diff_matches[0] ) ) );
-					// since we count lengith of text between <ins> or <del> (instead of picking just one),
-					//	we double the length of chars not in those tags.
+					// Since we count length of text between <ins> or <del> (instead of picking just one),
+					// we double the length of chars not in those tags.
 					$stripped_diff = strlen( strip_tags( $diff ) ) * 2 - $stripped_matches;
 					$diff_ratio    = $stripped_matches / $stripped_diff;
 					if ( $diff_ratio > $this->_diff_threshold ) {
@@ -282,7 +284,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 					}
 				}
 
-				// Un-inline the diffs by removing del or ins
+				// Un-inline the diffs by removing <del> or <ins>.
 				$orig_diffs[ $o ]  = preg_replace( '|<ins>.*?</ins>|', '', $diff );
 				$final_diffs[ $f ] = preg_replace( '|<del>.*?</del>|', '', $diff );
 			}
@@ -374,28 +376,28 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 			$o           = (int) $o;
 			$f           = (int) $f;
 
-			// Already have better matches for these guys
+			// Already have better matches for these guys.
 			if ( isset( $orig_matches[ $o ] ) && isset( $final_matches[ $f ] ) ) {
 				continue;
 			}
 
-			// First match for these guys. Must be best match
+			// First match for these guys. Must be best match.
 			if ( ! isset( $orig_matches[ $o ] ) && ! isset( $final_matches[ $f ] ) ) {
 				$orig_matches[ $o ]  = $f;
 				$final_matches[ $f ] = $o;
 				continue;
 			}
 
-			// Best match of this final is already taken?  Must mean this final is a new row.
+			// Best match of this final is already taken? Must mean this final is a new row.
 			if ( isset( $orig_matches[ $o ] ) ) {
 				$final_matches[ $f ] = 'x';
 			} elseif ( isset( $final_matches[ $f ] ) ) {
-				// Best match of this orig is already taken?  Must mean this orig is a deleted row.
+				// Best match of this orig is already taken? Must mean this orig is a deleted row.
 				$orig_matches[ $o ] = 'x';
 			}
 		}
 
-		// We read the text in this order
+		// We read the text in this order.
 		ksort( $orig_matches );
 		ksort( $final_matches );
 
@@ -421,7 +423,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 			}
 		}
 
-		// Pad the ends with blank rows if the columns aren't the same length
+		// Pad the ends with blank rows if the columns aren't the same length.
 		$diff_count = count( $orig_rows ) - count( $final_rows );
 		if ( $diff_count < 0 ) {
 			while ( $diff_count < 0 ) {

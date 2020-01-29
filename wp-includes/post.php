@@ -7,7 +7,7 @@
  */
 
 //
-// Post Type Registration
+// Post Type registration.
 //
 
 /**
@@ -715,7 +715,7 @@ function get_children( $args = '', $output = OBJECT ) {
  * }
  */
 function get_extended( $post ) {
-	//Match the new style more links.
+	// Match the new style more links.
 	if ( preg_match( '/<!--more(.*?)?-->/', $post, $matches ) ) {
 		list($main, $extended) = explode( $matches[0], $post, 2 );
 		$more_text             = $matches[1];
@@ -725,7 +725,7 @@ function get_extended( $post ) {
 		$more_text = '';
 	}
 
-	//  leading and trailing whitespace.
+	// Leading and trailing whitespace.
 	$main      = preg_replace( '/^[\s]*(.*)[\s]*$/', '\\1', $main );
 	$extended  = preg_replace( '/^[\s]*(.*)[\s]*$/', '\\1', $extended );
 	$more_text = preg_replace( '/^[\s]*(.*)[\s]*$/', '\\1', $more_text );
@@ -1416,7 +1416,7 @@ function register_post_type( $post_type, $args = array() ) {
 		$wp_post_types = array();
 	}
 
-	// Sanitize post type name
+	// Sanitize post type name.
 	$post_type = sanitize_key( $post_type );
 
 	if ( empty( $post_type ) || strlen( $post_type ) > 20 ) {
@@ -1558,7 +1558,7 @@ function get_post_type_capabilities( $args ) {
 	list( $singular_base, $plural_base ) = $args->capability_type;
 
 	$default_capabilities = array(
-		// Meta capabilities
+		// Meta capabilities.
 		'edit_post'          => 'edit_' . $singular_base,
 		'read_post'          => 'read_' . $singular_base,
 		'delete_post'        => 'delete_' . $singular_base,
@@ -2033,7 +2033,7 @@ function get_posts( $args = null ) {
 	}
 	if ( ! empty( $parsed_args['include'] ) ) {
 		$incposts                      = wp_parse_id_list( $parsed_args['include'] );
-		$parsed_args['posts_per_page'] = count( $incposts );  // only the number of posts included
+		$parsed_args['posts_per_page'] = count( $incposts );  // Only the number of posts included.
 		$parsed_args['post__in']       = $incposts;
 	} elseif ( ! empty( $parsed_args['exclude'] ) ) {
 		$parsed_args['post__not_in'] = wp_parse_id_list( $parsed_args['exclude'] );
@@ -2048,7 +2048,7 @@ function get_posts( $args = null ) {
 }
 
 //
-// Post meta functions
+// Post meta functions.
 //
 
 /**
@@ -2713,7 +2713,7 @@ function wp_count_attachments( $mime_type = '' ) {
  * @return array List of post mime types.
  */
 function get_post_mime_types() {
-	$post_mime_types = array(   //	array( adj, noun )
+	$post_mime_types = array(   // array( adj, noun )
 		'image'       => array(
 			__( 'Images' ),
 			__( 'Manage Images' ),
@@ -4274,7 +4274,7 @@ function check_and_publish_future_post( $post_id ) {
 
 	// Uh oh, someone jumped the gun!
 	if ( $time > time() ) {
-		wp_clear_scheduled_hook( 'publish_future_post', array( $post_id ) ); // clear anything else in the system
+		wp_clear_scheduled_hook( 'publish_future_post', array( $post_id ) ); // Clear anything else in the system.
 		wp_schedule_single_event( $time, 'publish_future_post', array( $post_id ) );
 		return;
 	}
@@ -4832,7 +4832,7 @@ function trackback_url_list( $tb_list, $post_id ) {
 }
 
 //
-// Page functions
+// Page functions.
 //
 
 /**
@@ -5266,7 +5266,7 @@ function get_pages( $args = array() ) {
 
 	$inclusions = '';
 	if ( ! empty( $parsed_args['include'] ) ) {
-		$child_of     = 0; //ignore child_of, parent, exclude, meta_key, and meta_value params if using include
+		$child_of     = 0; // Ignore child_of, parent, exclude, meta_key, and meta_value params if using include.
 		$parent       = -1;
 		$exclude      = '';
 		$meta_key     = '';
@@ -5292,7 +5292,7 @@ function get_pages( $args = array() ) {
 
 		if ( ! empty( $post_authors ) ) {
 			foreach ( $post_authors as $post_author ) {
-				//Do we have an author id or an author login?
+				// Do we have an author id or an author login?
 				if ( 0 == intval( $post_author ) ) {
 					$post_author = get_user_by( 'login', $post_author );
 					if ( empty( $post_author ) ) {
@@ -5321,7 +5321,7 @@ function get_pages( $args = array() ) {
 	if ( '' !== $meta_key || '' !== $meta_value ) {
 		$join = " LEFT JOIN $wpdb->postmeta ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id )";
 
-		// meta_key and meta_value might be slashed
+		// meta_key and meta_value might be slashed.
 		$meta_key   = wp_unslash( $meta_key );
 		$meta_value = wp_unslash( $meta_value );
 		if ( '' !== $meta_key ) {
@@ -5461,7 +5461,7 @@ function get_pages( $args = array() ) {
 
 	wp_cache_set( $cache_key, $page_structure, 'posts' );
 
-	// Convert to WP_Post instances
+	// Convert to WP_Post instances.
 	$pages = array_map( 'get_post', $pages );
 
 	/**
@@ -5476,7 +5476,7 @@ function get_pages( $args = array() ) {
 }
 
 //
-// Attachment functions
+// Attachment functions.
 //
 
 /**
@@ -5833,7 +5833,7 @@ function wp_get_attachment_url( $attachment_id = 0 ) {
 				// Replace file location with url location.
 				$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
 			} elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
-				// Get the directory name relative to the basedir (back compat for pre-2.7 uploads)
+				// Get the directory name relative to the basedir (back compat for pre-2.7 uploads).
 				$url = trailingslashit( $uploads['baseurl'] . '/' . _wp_get_attachment_relative_path( $file ) ) . wp_basename( $file );
 			} else {
 				// It's a newly-uploaded file, therefore $file is relative to the basedir.
@@ -6353,8 +6353,8 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
 					$post_status_sql .= " OR post_status = 'private' AND post_author = $id";
 				} elseif ( $id == (int) $post_author ) {
 					$post_status_sql .= " OR post_status = 'private'";
-				} // else none
-			} // else none
+				} // Else none.
+			} // Else none.
 		}
 
 		$post_type_clauses[] = "( post_type = '" . $post_type . "' AND ( $post_status_sql ) )";
@@ -6712,7 +6712,7 @@ function clean_attachment_cache( $id, $clean_terms = false ) {
 }
 
 //
-// Hooks
+// Hooks.
 //
 
 /**
@@ -6874,7 +6874,7 @@ function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
 	// Now look for larger loops.
 	$loop = wp_find_hierarchy_loop( 'wp_get_post_parent_id', $post_ID, $post_parent );
 	if ( ! $loop ) {
-		return $post_parent; // No loop
+		return $post_parent; // No loop.
 	}
 
 	// Setting $post_parent to the given value causes a loop.

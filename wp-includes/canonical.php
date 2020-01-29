@@ -47,7 +47,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	}
 
 	// If we're not in wp-admin and the post has been published and preview nonce
-	// is non-existent or invalid then no need for preview in query
+	// is non-existent or invalid then no need for preview in query.
 	if ( is_preview() && get_query_var( 'p' ) && 'publish' == get_post_status( get_query_var( 'p' ) ) ) {
 		if ( ! isset( $_GET['preview_id'] )
 			|| ! isset( $_GET['preview_nonce'] )
@@ -61,7 +61,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	}
 
 	if ( ! $requested_url && isset( $_SERVER['HTTP_HOST'] ) ) {
-		// build the URL in the address bar
+		// Build the URL in the address bar.
 		$requested_url  = is_ssl() ? 'https://' : 'http://';
 		$requested_url .= $_SERVER['HTTP_HOST'];
 		$requested_url .= $_SERVER['REQUEST_URI'];
@@ -75,7 +75,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	$redirect     = $original;
 	$redirect_url = false;
 
-	// Notice fixing
+	// Notice fixing.
 	if ( ! isset( $redirect['path'] ) ) {
 		$redirect['path'] = '';
 	}
@@ -83,12 +83,14 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$redirect['query'] = '';
 	}
 
-	// If the original URL ended with non-breaking spaces, they were almost
-	// certainly inserted by accident. Let's remove them, so the reader doesn't
-	// see a 404 error with no obvious cause.
+	/*
+	 * If the original URL ended with non-breaking spaces, they were almost
+	 * certainly inserted by accident. Let's remove them, so the reader doesn't
+	 * see a 404 error with no obvious cause.
+	 */
 	$redirect['path'] = preg_replace( '|(%C2%A0)+$|i', '', $redirect['path'] );
 
-	// It's not a preview, so remove it from URL
+	// It's not a preview, so remove it from URL.
 	if ( get_query_var( 'preview' ) ) {
 		$redirect['query'] = remove_query_arg( 'preview', $redirect['query'] );
 	}
@@ -120,10 +122,10 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		}
 	}
 
-	// These tests give us a WP-generated permalink
+	// These tests give us a WP-generated permalink.
 	if ( is_404() ) {
 
-		// Redirect ?page_id, ?p=, ?attachment_id= to their respective url's
+		// Redirect ?page_id, ?p=, ?attachment_id= to their respective URLs.
 		$id            = max( get_query_var( 'p' ), get_query_var( 'page_id' ), get_query_var( 'attachment_id' ) );
 		$redirect_post = $id ? get_post( $id ) : false;
 		if ( $redirect_post ) {
@@ -162,7 +164,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			$redirect_url      = get_permalink( $wp_query->post->ID );
 		}
 	} elseif ( is_object( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
-		// rewriting of old ?p=X, ?m=2004, ?m=200401, ?m=20040101
+		// Rewriting of old ?p=X, ?m=2004, ?m=200401, ?m=20040101.
 		if ( is_attachment() &&
 			! array_diff( array_keys( $wp->query_vars ), array( 'attachment', 'attachment_id' ) ) &&
 			! $redirect_url ) {
@@ -199,20 +201,20 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		} elseif ( ! empty( $_GET['m'] ) && ( is_year() || is_month() || is_day() ) ) {
 			$m = get_query_var( 'm' );
 			switch ( strlen( $m ) ) {
-				case 4: // Yearly
+				case 4: // Yearly.
 					$redirect_url = get_year_link( $m );
 					break;
-				case 6: // Monthly
+				case 6: // Monthly.
 					$redirect_url = get_month_link( substr( $m, 0, 4 ), substr( $m, 4, 2 ) );
 					break;
-				case 8: // Daily
+				case 8: // Daily.
 					$redirect_url = get_day_link( substr( $m, 0, 4 ), substr( $m, 4, 2 ), substr( $m, 6, 2 ) );
 					break;
 			}
 			if ( $redirect_url ) {
 				$redirect['query'] = remove_query_arg( 'm', $redirect['query'] );
 			}
-			// now moving on to non ?m=X year/month/day links
+			// Now moving on to non ?m=X year/month/day links.
 		} elseif ( is_day() && get_query_var( 'year' ) && get_query_var( 'monthnum' ) && ! empty( $_GET['day'] ) ) {
 			$redirect_url = get_day_link( get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
 			if ( $redirect_url ) {
@@ -236,7 +238,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 					$redirect['query'] = remove_query_arg( 'author', $redirect['query'] );
 				}
 			}
-		} elseif ( is_category() || is_tag() || is_tax() ) { // Terms (Tags/categories)
+		} elseif ( is_category() || is_tag() || is_tax() ) { // Terms (tags/categories).
 
 			$term_count = 0;
 			foreach ( $wp_query->tax_query->queried_terms as $tax_query ) {
@@ -248,7 +250,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$tax_url = get_term_link( (int) $obj->term_id, $obj->taxonomy );
 				if ( $tax_url && ! is_wp_error( $tax_url ) ) {
 					if ( ! empty( $redirect['query'] ) ) {
-						// Strip taxonomy query vars off the url.
+						// Strip taxonomy query vars off the URL.
 						$qv_remove = array( 'term', 'taxonomy' );
 						if ( is_category() ) {
 							$qv_remove[] = 'category_name';
@@ -256,7 +258,8 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 						} elseif ( is_tag() ) {
 							$qv_remove[] = 'tag';
 							$qv_remove[] = 'tag_id';
-						} else { // Custom taxonomies will have a custom query var, remove those too:
+						} else {
+							// Custom taxonomies will have a custom query var, remove those too.
 							$tax_obj = get_taxonomy( $obj->taxonomy );
 							if ( false !== $tax_obj->query_var ) {
 								$qv_remove[] = $tax_obj->query_var;
@@ -265,18 +268,23 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 						$rewrite_vars = array_diff( array_keys( $wp_query->query ), array_keys( $_GET ) );
 
-						if ( ! array_diff( $rewrite_vars, array_keys( $_GET ) ) ) { // Check to see if all the Query vars are coming from the rewrite, none are set via $_GET
-							$redirect['query'] = remove_query_arg( $qv_remove, $redirect['query'] ); //Remove all of the per-tax qv's
+						// Check to see if all the query vars are coming from the rewrite, none are set via $_GET.
+						if ( ! array_diff( $rewrite_vars, array_keys( $_GET ) ) ) {
+							// Remove all of the per-tax query vars.
+							$redirect['query'] = remove_query_arg( $qv_remove, $redirect['query'] );
 
-							// Create the destination url for this taxonomy
+							// Create the destination URL for this taxonomy.
 							$tax_url = parse_url( $tax_url );
-							if ( ! empty( $tax_url['query'] ) ) { // Taxonomy accessible via ?taxonomy=..&term=.. or any custom qv..
+							if ( ! empty( $tax_url['query'] ) ) {
+								// Taxonomy accessible via ?taxonomy=...&term=... or any custom query var.
 								parse_str( $tax_url['query'], $query_vars );
 								$redirect['query'] = add_query_arg( $query_vars, $redirect['query'] );
-							} else { // Taxonomy is accessible via a "pretty-URL"
+							} else {
+								// Taxonomy is accessible via a "pretty URL".
 								$redirect['path'] = $tax_url['path'];
 							}
-						} else { // Some query vars are set via $_GET. Unset those from $_GET that exist via the rewrite
+						} else {
+							// Some query vars are set via $_GET. Unset those from $_GET that exist via the rewrite.
 							foreach ( $qv_remove as $_qv ) {
 								if ( isset( $rewrite_vars[ $_qv ] ) ) {
 									$redirect['query'] = remove_query_arg( $_qv, $redirect['query'] );
@@ -296,7 +304,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 		}
 
-			// Post Paging
+			// Post paging.
 		if ( is_singular() && get_query_var( 'page' ) ) {
 			if ( ! $redirect_url ) {
 				$redirect_url = get_permalink( get_queried_object_id() );
@@ -313,13 +321,13 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
 		}
 
-			// paging and feeds
+			// Paging and feeds.
 		if ( get_query_var( 'paged' ) || is_feed() || get_query_var( 'cpage' ) ) {
 			while ( preg_match( "#/$wp_rewrite->pagination_base/?[0-9]+?(/+)?$#", $redirect['path'] ) || preg_match( '#/(comments/?)?(feed|rss|rdf|atom|rss2)(/+)?$#', $redirect['path'] ) || preg_match( "#/{$wp_rewrite->comments_pagination_base}-[0-9]+(/+)?$#", $redirect['path'] ) ) {
-				// Strip off paging and feed
-				$redirect['path'] = preg_replace( "#/$wp_rewrite->pagination_base/?[0-9]+?(/+)?$#", '/', $redirect['path'] ); // strip off any existing paging
-				$redirect['path'] = preg_replace( '#/(comments/?)?(feed|rss2?|rdf|atom)(/+|$)#', '/', $redirect['path'] ); // strip off feed endings
-				$redirect['path'] = preg_replace( "#/{$wp_rewrite->comments_pagination_base}-[0-9]+?(/+)?$#", '/', $redirect['path'] ); // strip off any existing comment paging
+				// Strip off paging and feed.
+				$redirect['path'] = preg_replace( "#/$wp_rewrite->pagination_base/?[0-9]+?(/+)?$#", '/', $redirect['path'] ); // Strip off any existing paging.
+				$redirect['path'] = preg_replace( '#/(comments/?)?(feed|rss2?|rdf|atom)(/+|$)#', '/', $redirect['path'] ); // Strip off feed endings.
+				$redirect['path'] = preg_replace( "#/{$wp_rewrite->comments_pagination_base}-[0-9]+?(/+)?$#", '/', $redirect['path'] ); // Strip off any existing comment paging.
 			}
 
 			$addl_path = '';
@@ -372,7 +380,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$redirect['query'] = remove_query_arg( 'cpage', $redirect['query'] );
 			}
 
-			$redirect['path'] = user_trailingslashit( preg_replace( '|/' . preg_quote( $wp_rewrite->index, '|' ) . '/?$|', '/', $redirect['path'] ) ); // strip off trailing /index.php/
+			$redirect['path'] = user_trailingslashit( preg_replace( '|/' . preg_quote( $wp_rewrite->index, '|' ) . '/?$|', '/', $redirect['path'] ) ); // Strip off trailing /index.php/.
 			if ( ! empty( $addl_path ) && $wp_rewrite->using_index_permalinks() && strpos( $redirect['path'], '/' . $wp_rewrite->index . '/' ) === false ) {
 				$redirect['path'] = trailingslashit( $redirect['path'] ) . $wp_rewrite->index . '/';
 			}
@@ -395,7 +403,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		}
 	}
 
-	// tack on any additional query vars
+	// Tack on any additional query vars.
 	$redirect['query'] = preg_replace( '#^\??&*?#', '', $redirect['query'] );
 	if ( $redirect_url && ! empty( $redirect['query'] ) ) {
 		parse_str( $redirect['query'], $_parsed_query );
@@ -420,7 +428,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$redirect = @parse_url( $redirect_url );
 	}
 
-	// www.example.com vs example.com
+	// www.example.com vs. example.com
 	$user_home = @parse_url( home_url() );
 	if ( ! empty( $user_home['host'] ) ) {
 		$redirect['host'] = $user_home['host'];
@@ -429,14 +437,14 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$user_home['path'] = '/';
 	}
 
-	// Handle ports
+	// Handle ports.
 	if ( ! empty( $user_home['port'] ) ) {
 		$redirect['port'] = $user_home['port'];
 	} else {
 		unset( $redirect['port'] );
 	}
 
-	// trailing /index.php
+	// Trailing /index.php.
 	$redirect['path'] = preg_replace( '|/' . preg_quote( $wp_rewrite->index, '|' ) . '/*?$|', '/', $redirect['path'] );
 
 	$punctuation_pattern = implode(
@@ -445,29 +453,29 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			'preg_quote',
 			array(
 				' ',
-				'%20',  // space
+				'%20',  // Space.
 				'!',
-				'%21',  // exclamation mark
+				'%21',  // Exclamation mark.
 				'"',
-				'%22',  // double quote
+				'%22',  // Double quote.
 				"'",
-				'%27',  // single quote
+				'%27',  // Single quote.
 				'(',
-				'%28',  // opening bracket
+				'%28',  // Opening bracket.
 				')',
-				'%29',  // closing bracket
+				'%29',  // Closing bracket.
 				',',
-				'%2C',  // comma
+				'%2C',  // Comma.
 				'.',
-				'%2E',  // period
+				'%2E',  // Period.
 				';',
-				'%3B',  // semicolon
+				'%3B',  // Semicolon.
 				'{',
-				'%7B',  // opening curly bracket
+				'%7B',  // Opening curly bracket.
 				'}',
-				'%7D',  // closing curly bracket
-				'%E2%80%9C', // opening curly quote
-				'%E2%80%9D', // closing curly quote
+				'%7D',  // Closing curly bracket.
+				'%E2%80%9C', // Opening curly quote.
+				'%E2%80%9D', // Closing curly quote.
 			)
 		)
 	);
@@ -479,22 +487,22 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		// Remove trailing spaces and end punctuation from certain terminating query string args.
 		$redirect['query'] = preg_replace( "#((p|page_id|cat|tag)=[^&]*?)($punctuation_pattern)+$#", '$1', $redirect['query'] );
 
-		// Clean up empty query strings
+		// Clean up empty query strings.
 		$redirect['query'] = trim( preg_replace( '#(^|&)(p|page_id|cat|tag)=?(&|$)#', '&', $redirect['query'] ), '&' );
 
-		// Redirect obsolete feeds
+		// Redirect obsolete feeds.
 		$redirect['query'] = preg_replace( '#(^|&)feed=rss(&|$)#', '$1feed=rss2$2', $redirect['query'] );
 
-		// Remove redundant leading ampersands
+		// Remove redundant leading ampersands.
 		$redirect['query'] = preg_replace( '#^\??&*?#', '', $redirect['query'] );
 	}
 
-	// strip /index.php/ when we're not using PATHINFO permalinks
+	// Strip /index.php/ when we're not using PATHINFO permalinks.
 	if ( ! $wp_rewrite->using_index_permalinks() ) {
 		$redirect['path'] = str_replace( '/' . $wp_rewrite->index . '/', '/', $redirect['path'] );
 	}
 
-	// trailing slashes
+	// Trailing slashes.
 	if ( is_object( $wp_rewrite ) && $wp_rewrite->using_permalinks() && ! is_404() && ( ! is_front_page() || ( is_front_page() && ( get_query_var( 'paged' ) > 1 ) ) ) ) {
 		$user_ts_type = '';
 		if ( get_query_var( 'paged' ) > 0 ) {
@@ -513,18 +521,18 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$redirect['path'] = trailingslashit( $redirect['path'] );
 	}
 
-	// Strip multiple slashes out of the URL
+	// Strip multiple slashes out of the URL.
 	if ( strpos( $redirect['path'], '//' ) > -1 ) {
 		$redirect['path'] = preg_replace( '|/+|', '/', $redirect['path'] );
 	}
 
-	// Always trailing slash the Front Page URL
+	// Always trailing slash the Front Page URL.
 	if ( trailingslashit( $redirect['path'] ) == trailingslashit( $user_home['path'] ) ) {
 		$redirect['path'] = trailingslashit( $redirect['path'] );
 	}
 
-	// Ignore differences in host capitalization, as this can lead to infinite redirects
-	// Only redirect no-www <=> yes-www
+	// Ignore differences in host capitalization, as this can lead to infinite redirects.
+	// Only redirect no-www <=> yes-www.
 	if ( strtolower( $original['host'] ) == strtolower( $redirect['host'] ) ||
 		( strtolower( $original['host'] ) != 'www.' . strtolower( $redirect['host'] ) && 'www.' . strtolower( $original['host'] ) != strtolower( $redirect['host'] ) ) ) {
 		$redirect['host'] = $original['host'];
@@ -596,18 +604,18 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	 */
 	$redirect_url = apply_filters( 'redirect_canonical', $redirect_url, $requested_url );
 
-	// yes, again -- in case the filter aborted the request
+	// Yes, again -- in case the filter aborted the request.
 	if ( ! $redirect_url || strip_fragment_from_url( $redirect_url ) == strip_fragment_from_url( $requested_url ) ) {
 		return;
 	}
 
 	if ( $do_redirect ) {
-		// protect against chained redirects
+		// Protect against chained redirects.
 		if ( ! redirect_canonical( $redirect_url, false ) ) {
 			wp_redirect( $redirect_url, 301 );
 			exit();
 		} else {
-			// Debug
+			// Debug.
 			// die("1: $redirect_url<br />2: " . redirect_canonical( $redirect_url, false ) );
 			return;
 		}
@@ -687,7 +695,7 @@ function redirect_guess_404_permalink() {
 	if ( get_query_var( 'name' ) ) {
 		$where = $wpdb->prepare( 'post_name LIKE %s', $wpdb->esc_like( get_query_var( 'name' ) ) . '%' );
 
-		// if any of post_type, year, monthnum, or day are set, use them to refine the query
+		// If any of post_type, year, monthnum, or day are set, use them to refine the query.
 		if ( get_query_var( 'post_type' ) ) {
 			$where .= $wpdb->prepare( ' AND post_type = %s', get_query_var( 'post_type' ) );
 		} else {

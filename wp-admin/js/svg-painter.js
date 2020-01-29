@@ -13,7 +13,7 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 		elements = [];
 
 	$(document).ready( function() {
-		// detection for browser SVG capability
+		// Detection for browser SVG capability.
 		if ( document.implementation.hasFeature( 'http://www.w3.org/TR/SVG11/feature#Image', '1.1' ) ) {
 			$( document.body ).removeClass( 'no-svg' ).addClass( 'svg' );
 			wp.svgPainter.init();
@@ -148,24 +148,24 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 		},
 
 		paint: function() {
-			// loop through all elements
+			// Loop through all elements.
 			$.each( elements, function( index, $element ) {
 				var $menuitem = $element.parent().parent();
 
 				if ( $menuitem.hasClass( 'current' ) || $menuitem.hasClass( 'wp-has-current-submenu' ) ) {
-					// paint icon in 'current' color
+					// Paint icon in 'current' color.
 					painter.paintElement( $element, 'current' );
 				} else {
-					// paint icon in base color
+					// Paint icon in base color.
 					painter.paintElement( $element, 'base' );
 
-					// set hover callbacks
+					// Set hover callbacks.
 					$menuitem.hover(
 						function() {
 							painter.paintElement( $element, 'focus' );
 						},
 						function() {
-							// Match the delay from hoverIntent
+							// Match the delay from hoverIntent.
 							window.setTimeout( function() {
 								painter.paintElement( $element, 'base' );
 							}, 100 );
@@ -184,7 +184,7 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 
 			color = colorscheme[ colorType ];
 
-			// only accept hex colors: #101 or #101010
+			// Only accept hex colors: #101 or #101010.
 			if ( ! color.match( /^(#[0-9a-f]{3}|#[0-9a-f]{6})$/i ) ) {
 				return;
 			}
@@ -212,13 +212,13 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 				} catch ( error ) {}
 
 				if ( xml ) {
-					// replace `fill` attributes
+					// Replace `fill` attributes.
 					xml = xml.replace( /fill="(.+?)"/g, 'fill="' + color + '"');
 
-					// replace `style` attributes
+					// Replace `style` attributes.
 					xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + color + '"');
 
-					// replace `fill` properties in `<style>` tags
+					// Replace `fill` properties in `<style>` tags.
 					xml = xml.replace( /fill:.*?;/g, 'fill: ' + color + ';');
 
 					if ( 'btoa' in window ) {

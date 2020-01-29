@@ -94,13 +94,13 @@ if ( ! isset( $current_site ) || ! isset( $current_blog ) ) {
 	wp_load_core_site_options( $site_id );
 }
 
-$wpdb->set_prefix( $table_prefix, false ); // $table_prefix can be set in sunrise.php
+$wpdb->set_prefix( $table_prefix, false ); // $table_prefix can be set in sunrise.php.
 $wpdb->set_blog_id( $current_blog->blog_id, $current_blog->site_id );
 $table_prefix       = $wpdb->get_blog_prefix();
 $_wp_switched_stack = array();
 $switched           = false;
 
-// need to init cache again after blog_id is set
+// Need to init cache again after blog_id is set.
 wp_start_object_cache();
 
 if ( ! $current_site instanceof WP_Network ) {
@@ -111,7 +111,7 @@ if ( ! $current_blog instanceof WP_Site ) {
 	$current_blog = new WP_Site( $current_blog );
 }
 
-// Define upload directory constants
+// Define upload directory constants.
 ms_upload_constants();
 
 /**

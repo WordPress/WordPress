@@ -17,7 +17,7 @@ if ( ! function_exists( 'twentytwenty_the_theme_svg' ) ) {
 	 * @param string $color Color code.
 	 */
 	function twentytwenty_the_theme_svg( $svg_name, $group = 'ui', $color = '' ) {
-		echo twentytwenty_get_theme_svg( $svg_name, $group, $color ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_theme_svg();.
+		echo twentytwenty_get_theme_svg( $svg_name, $group, $color ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_theme_svg().
 	}
 }
 

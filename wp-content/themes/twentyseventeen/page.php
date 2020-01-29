@@ -32,7 +32,7 @@ get_header(); ?>
 					comments_template();
 				endif;
 
-			endwhile; // End of the loop.
+			endwhile; // End the loop.
 			?>
 
 		</main><!-- #main -->

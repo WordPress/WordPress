@@ -276,11 +276,11 @@ final class WP_Customize_Widgets {
 		add_filter( 'customize_value_old_sidebars_widgets_data', array( $this, 'filter_customize_value_old_sidebars_widgets_data' ) );
 		$this->manager->set_post_value( 'old_sidebars_widgets_data', $this->old_sidebars_widgets ); // Override any value cached in changeset.
 
-		// retrieve_widgets() looks at the global $sidebars_widgets
+		// retrieve_widgets() looks at the global $sidebars_widgets.
 		$sidebars_widgets = $this->old_sidebars_widgets;
 		$sidebars_widgets = retrieve_widgets( 'customize' );
 		add_filter( 'option_sidebars_widgets', array( $this, 'filter_option_sidebars_widgets_for_theme_switch' ), 1 );
-		// reset global cache var used by wp_get_sidebars_widgets()
+		// Reset global cache var used by wp_get_sidebars_widgets().
 		unset( $GLOBALS['_wp_sidebars_widgets'] );
 	}
 
@@ -609,7 +609,7 @@ final class WP_Customize_Widgets {
 			$parsed['id_base'] = $matches[1];
 			$parsed['number']  = intval( $matches[2] );
 		} else {
-			// likely an old single widget
+			// Likely an old single widget.
 			$parsed['id_base'] = $widget_id;
 		}
 		return $parsed;
@@ -772,7 +772,7 @@ final class WP_Customize_Widgets {
 		$settings = array(
 			'registeredSidebars'          => array_values( $wp_registered_sidebars ),
 			'registeredWidgets'           => $wp_registered_widgets,
-			'availableWidgets'            => $available_widgets, // @todo Merge this with registered_widgets
+			'availableWidgets'            => $available_widgets, // @todo Merge this with registered_widgets.
 			'l10n'                        => array(
 				'saveBtnLabel'     => __( 'Apply' ),
 				'saveBtnTooltip'   => __( 'Save and preview changes before publishing them.' ),
@@ -799,7 +799,7 @@ final class WP_Customize_Widgets {
 		);
 
 		foreach ( $settings['registeredWidgets'] as &$registered_widget ) {
-			unset( $registered_widget['callback'] ); // may not be JSON-serializeable
+			unset( $registered_widget['callback'] ); // May not be JSON-serializeable.
 		}
 
 		$wp_scripts->add_data(
@@ -949,14 +949,14 @@ final class WP_Customize_Widgets {
 		}
 
 		global $wp_registered_widgets, $wp_registered_widget_controls;
-		require_once ABSPATH . 'wp-admin/includes/widgets.php'; // for next_widget_id_number()
+		require_once ABSPATH . 'wp-admin/includes/widgets.php'; // For next_widget_id_number().
 
 		$sort = $wp_registered_widgets;
 		usort( $sort, array( $this, '_sort_name_callback' ) );
 		$done = array();
 
 		foreach ( $sort as $widget ) {
-			if ( in_array( $widget['callback'], $done, true ) ) { // We already showed this multi-widget
+			if ( in_array( $widget['callback'], $done, true ) ) { // We already showed this multi-widget.
 				continue;
 			}
 
@@ -968,7 +968,7 @@ final class WP_Customize_Widgets {
 			}
 
 			$available_widget = $widget;
-			unset( $available_widget['callback'] ); // not serializable to JSON
+			unset( $available_widget['callback'] ); // Not serializable to JSON.
 
 			$args = array(
 				'widget_id'   => $widget['id'],
@@ -1190,7 +1190,7 @@ final class WP_Customize_Widgets {
 			'selectiveRefreshableWidgets' => $this->get_selective_refreshable_widgets(),
 		);
 		foreach ( $settings['registeredWidgets'] as &$registered_widget ) {
-			unset( $registered_widget['callback'] ); // may not be JSON-serializeable
+			unset( $registered_widget['callback'] ); // May not be JSON-serializeable.
 		}
 
 		?>
@@ -1460,7 +1460,7 @@ final class WP_Customize_Widgets {
 			}
 		}
 
-		// Clean up any input vars that were manually added
+		// Clean up any input vars that were manually added.
 		foreach ( $added_input_vars as $key ) {
 			unset( $_POST[ $key ] );
 			unset( $_REQUEST[ $key ] );
@@ -1873,7 +1873,7 @@ final class WP_Customize_Widgets {
 	}
 
 	//
-	// Option Update Capturing
+	// Option Update Capturing.
 	//
 
 	/**

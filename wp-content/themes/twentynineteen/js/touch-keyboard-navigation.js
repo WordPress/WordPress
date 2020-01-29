@@ -7,7 +7,7 @@
 (function() {
 
 	/**
-	 * Debounce
+	 * Debounce.
 	 *
 	 * @param {Function} func
 	 * @param {number} wait
@@ -43,7 +43,7 @@
 	}
 
 	/**
-	 * Add class
+	 * Add class.
 	 *
 	 * @param {Object} el
 	 * @param {string} cls
@@ -55,7 +55,7 @@
 	}
 
 	/**
-	 * Delete class
+	 * Delete class.
 	 *
 	 * @param {Object} el
 	 * @param {string} cls
@@ -80,7 +80,7 @@
 	}
 
 	/**
-	 * Toggle Aria Expanded state for screenreaders
+	 * Toggle Aria Expanded state for screenreaders.
 	 *
 	 * @param {Object} ariaItem
 	 */
@@ -99,24 +99,24 @@
 	}
 
 	/**
-	 * Open sub-menu
+	 * Open sub-menu.
 	 *
 	 * @param {Object} currentSubMenu
 	 */
 	function openSubMenu( currentSubMenu ) {
 		'use strict';
 
-		// Update classes
-		// classList.add is not supported in IE11
+		// Update classes.
+		// classList.add is not supported in IE11.
 		currentSubMenu.parentElement.className += ' off-canvas';
 		currentSubMenu.parentElement.lastElementChild.className += ' expanded-true';
 
-		// Update aria-expanded state
+		// Update aria-expanded state.
 		toggleAriaExpandedState( currentSubMenu );
 	}
 
 	/**
-	 * Close sub-menu
+	 * Close sub-menu.
 	 *
 	 * @param {Object} currentSubMenu
 	 */
@@ -127,32 +127,32 @@
 		var menuItemAria = menuItem.querySelector('a[aria-expanded]');
 		var subMenu      = currentSubMenu.closest('.sub-menu');
 
-		// If this is in a sub-sub-menu, go back to parent sub-menu
+		// If this is in a sub-sub-menu, go back to parent sub-menu.
 		if ( getCurrentParent( currentSubMenu, 'ul' ).classList.contains( 'sub-menu' ) ) {
 
-			// Update classes
-			// classList.remove is not supported in IE11
+			// Update classes.
+			// classList.remove is not supported in IE11.
 			menuItem.className = menuItem.className.replace( 'off-canvas', '' );
 			subMenu.className  = subMenu.className.replace( 'expanded-true', '' );
 
-			// Update aria-expanded and :focus states
+			// Update aria-expanded and :focus states.
 			toggleAriaExpandedState( menuItemAria );
 
-		// Or else close all sub-menus
+		// Or else close all sub-menus.
 		} else {
 
-			// Update classes
-			// classList.remove is not supported in IE11
+			// Update classes.
+			// classList.remove is not supported in IE11.
 			menuItem.className = menuItem.className.replace( 'off-canvas', '' );
 			menuItem.lastElementChild.className = menuItem.lastElementChild.className.replace( 'expanded-true', '' );
 
-			// Update aria-expanded and :focus states
+			// Update aria-expanded and :focus states.
 			toggleAriaExpandedState( menuItemAria );
 		}
 	}
 
 	/**
-	 * Find first ancestor of an element by selector
+	 * Find first ancestor of an element by selector.
 	 *
 	 * @param {Object} child
 	 * @param {String} selector
@@ -181,7 +181,7 @@
 	}
 
 	/**
-	 * Remove all off-canvas states
+	 * Remove all off-canvas states.
 	 */
 	function removeAllFocusStates() {
 		'use strict';
@@ -202,7 +202,7 @@
 	}
 
 	/**
-	 * Matches polyfill for IE11
+	 * Matches polyfill for IE11.
 	 */
 	if (!Element.prototype.matches) {
 		Element.prototype.matches = Element.prototype.msMatchesSelector;
@@ -219,31 +219,31 @@
 
 				var url = event.target.getAttribute( 'href' ) ? event.target.getAttribute( 'href' ) : '';
 
-				// Open submenu if url is #
+				// Open submenu if URL is #.
 				if ( '#' === url && event.target.nextSibling.matches('.submenu-expand') ) {
 					openSubMenu( event.target );
 				}
 			}
 
-			// Check if .submenu-expand is touched
+			// Check if .submenu-expand is touched.
 			if ( event.target.matches('.submenu-expand') ) {
 				openSubMenu(event.target);
 
-			// Check if child of .submenu-expand is touched
+			// Check if child of .submenu-expand is touched.
 			} else if ( null != getCurrentParent( event.target, '.submenu-expand' ) &&
 								getCurrentParent( event.target, '.submenu-expand' ).matches( '.submenu-expand' ) ) {
 				openSubMenu( getCurrentParent( event.target, '.submenu-expand' ) );
 
-			// Check if .menu-item-link-return is touched
+			// Check if .menu-item-link-return is touched.
 			} else if ( event.target.matches('.menu-item-link-return') ) {
 				closeSubMenu( event.target );
 
-			// Check if child of .menu-item-link-return is touched
+			// Check if child of .menu-item-link-return is touched.
 			} else if ( null != getCurrentParent( event.target, '.menu-item-link-return' ) && getCurrentParent( event.target, '.menu-item-link-return' ).matches( '.menu-item-link-return' ) ) {
 				closeSubMenu( event.target );
 			}
 
-			// Prevent default mouse/focus events
+			// Prevent default mouse/focus events.
 			removeAllFocusStates();
 
 		}, false);
@@ -253,7 +253,7 @@
 			var mainNav = getCurrentParent( event.target, '.main-navigation' );
 
 			if ( null != mainNav && hasClass( mainNav, '.main-navigation' ) ) {
-				// Prevent default mouse events
+				// Prevent default mouse events.
 				event.preventDefault();
 
 			} else if (
@@ -263,11 +263,11 @@
 				event.target.matches('.menu-item-link-return') ||
 				null != getCurrentParent( event.target, '.menu-item-link-return' ) &&
 				getCurrentParent( event.target, '.menu-item-link-return' ).matches( '.menu-item-link-return' ) ) {
-					// Prevent default mouse events
+					// Prevent default mouse events.
 					event.preventDefault();
 			}
 
-			// Prevent default mouse/focus events
+			// Prevent default mouse/focus events.
 			removeAllFocusStates();
 
 		}, false);
@@ -276,7 +276,7 @@
 
 			if ( event.target.matches('.main-navigation > div > ul > li a') ) {
 
-				// Remove Focused elements in sibling div
+				// Remove Focused elements in sibling div.
 				var currentDiv        = getCurrentParent( event.target, 'div', '.main-navigation' );
 				var currentDivSibling = currentDiv.previousElementSibling === null ? currentDiv.nextElementSibling : currentDiv.previousElementSibling;
 				var focusedElement    = currentDivSibling.querySelector( '.is-focused' );
@@ -288,17 +288,17 @@
 					deleteClass( focusedElement, focusedClass );
 				}
 
-				// Add .is-focused class to top-level li
+				// Add .is-focused class to top-level li.
 				if ( getCurrentParent( event.target, '.main-navigation > div > ul > li', '.main-navigation' ) ) {
 					addClass( getCurrentParent( event.target, '.main-navigation > div > ul > li', '.main-navigation' ), focusedClass );
 				}
 
-				// Check for previous li
+				// Check for previous li.
 				if ( prevLi && hasClass( prevLi, focusedClass ) ) {
 					deleteClass( prevLi, focusedClass );
 				}
 
-				// Check for next li
+				// Check for next li.
 				if ( nextLi && hasClass( nextLi, focusedClass ) ) {
 					deleteClass( nextLi, focusedClass );
 				}
@@ -308,25 +308,25 @@
 
 		document.addEventListener('click', function(event) {
 
-			// Remove all focused menu states when clicking outside site branding
+			// Remove all focused menu states when clicking outside site branding.
 			if ( event.target !== document.getElementsByClassName( 'site-branding' )[0] ) {
 				removeAllFocusStates();
 			} else {
-				// nothing
+				// Nothing.
 			}
 
 		}, false);
 	}
 
 	/**
-	 * Run our sub-menu function as soon as the document is `ready`
+	 * Run our sub-menu function as soon as the document is `ready`.
 	 */
 	document.addEventListener( 'DOMContentLoaded', function() {
 		toggleSubmenuDisplay();
 	});
 
 	/**
-	 * Run our sub-menu function on selective refresh in the customizer
+	 * Run our sub-menu function on selective refresh in the customizer.
 	 */
 	document.addEventListener( 'customize-preview-menu-refreshed', function( e, params ) {
 		if ( 'menu-1' === params.wpNavMenuArgs.theme_location ) {
@@ -335,7 +335,7 @@
 	});
 
 	/**
-	 * Run our sub-menu function every time the window resizes
+	 * Run our sub-menu function every time the window resizes.
 	 */
 	var isResizing = false;
 	window.addEventListener( 'resize', function() {

@@ -88,7 +88,7 @@ if ( ! current_theme_supports( 'widgets' ) ) {
 	wp_die( __( 'The theme you are currently using isn&#8217;t widget-aware, meaning that it has no sidebars that you are able to change. For information on making your theme widget-aware, please <a href="https://developer.wordpress.org/themes/functionality/widgets/">follow these instructions</a>.' ) );
 }
 
-// These are the widgets grouped by sidebar
+// These are the widgets grouped by sidebar.
 $sidebars_widgets = wp_get_sidebars_widgets();
 
 if ( empty( $sidebars_widgets ) ) {
@@ -101,7 +101,7 @@ foreach ( $sidebars_widgets as $sidebar_id => $widgets ) {
 	}
 
 	if ( ! is_registered_sidebar( $sidebar_id ) ) {
-		if ( ! empty( $widgets ) ) { // register the inactive_widgets area as sidebar
+		if ( ! empty( $widgets ) ) { // Register the inactive_widgets area as sidebar.
 			register_sidebar(
 				array(
 					'name'          => __( 'Inactive Sidebar (not used)' ),
@@ -120,7 +120,7 @@ foreach ( $sidebars_widgets as $sidebar_id => $widgets ) {
 	}
 }
 
-// register the inactive_widgets area as sidebar
+// Register the inactive_widgets area as sidebar.
 register_sidebar(
 	array(
 		'name'          => __( 'Inactive Widgets' ),
@@ -136,7 +136,7 @@ register_sidebar(
 
 retrieve_widgets();
 
-// We're saving a widget without js
+// We're saving a widget without JS.
 if ( isset( $_POST['savewidget'] ) || isset( $_POST['removewidget'] ) ) {
 	$widget_id = $_POST['widget-id'];
 	check_admin_referer( "save-delete-widget-$widget_id" );
@@ -216,7 +216,7 @@ if ( isset( $_POST['savewidget'] ) || isset( $_POST['removewidget'] ) ) {
 	exit;
 }
 
-// Remove inactive widgets without js
+// Remove inactive widgets without JS.
 if ( isset( $_POST['removeinactivewidgets'] ) ) {
 	check_admin_referer( 'remove-inactive-widgets', '_wpnonce_remove_inactive_widgets' );
 
@@ -238,17 +238,17 @@ if ( isset( $_POST['removeinactivewidgets'] ) ) {
 	exit;
 }
 
-// Output the widget form without js
+// Output the widget form without JS.
 if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 	$widget_id = $_GET['editwidget'];
 
 	if ( isset( $_GET['addnew'] ) ) {
-		// Default to the first sidebar
+		// Default to the first sidebar.
 		$keys    = array_keys( $wp_registered_sidebars );
 		$sidebar = reset( $keys );
 
-		if ( isset( $_GET['base'] ) && isset( $_GET['num'] ) ) { // multi-widget
-			// Copy minimal info from an existing instance of this widget to a new instance
+		if ( isset( $_GET['base'] ) && isset( $_GET['num'] ) ) { // Multi-widget.
+			// Copy minimal info from an existing instance of this widget to a new instance.
 			foreach ( $wp_registered_widget_controls as $control ) {
 				if ( $_GET['base'] === $control['id_base'] ) {
 					$control_callback                                = $control['callback'];
@@ -539,7 +539,10 @@ foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
 
 	?>
 	<div class="<?php echo esc_attr( $wrap_class ); ?>">
-		<?php wp_list_widget_controls( $sidebar, $registered_sidebar['name'] ); // Show the control forms for each of the widgets in this sidebar ?>
+		<?php
+		// Show the control forms for each of the widgets in this sidebar.
+		wp_list_widget_controls( $sidebar, $registered_sidebar['name'] );
+		?>
 	</div>
 	<?php
 

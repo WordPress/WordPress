@@ -91,7 +91,7 @@ if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
 	</style>
 		<?php
 	}
-endif; // twentyfourteen_header_style
+endif; // twentyfourteen_header_style()
 
 
 if ( ! function_exists( 'twentyfourteen_admin_header_style' ) ) :
@@ -130,7 +130,7 @@ if ( ! function_exists( 'twentyfourteen_admin_header_style' ) ) :
 	</style>
 		<?php
 	}
-endif; // twentyfourteen_admin_header_style
+endif; // twentyfourteen_admin_header_style()
 
 if ( ! function_exists( 'twentyfourteen_admin_header_image' ) ) :
 	/**
@@ -150,4 +150,4 @@ if ( ! function_exists( 'twentyfourteen_admin_header_image' ) ) :
 	</div>
 		<?php
 	}
-endif; // twentyfourteen_admin_header_image
+endif; // twentyfourteen_admin_header_image()

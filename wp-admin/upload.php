@@ -29,7 +29,7 @@ if ( 'grid' === $mode ) {
 	remove_action( 'admin_head', 'wp_admin_canonical_url' );
 
 	$q = $_GET;
-	// let JS handle this
+	// Let JS handle this.
 	unset( $q['s'] );
 	$vars   = wp_edit_attachments_query_vars( $q );
 	$ignore = array( 'mode', 'post_type', 'post_status', 'posts_per_page' );
@@ -114,7 +114,7 @@ if ( 'grid' === $mode ) {
 $wp_list_table = _get_list_table( 'WP_Media_List_Table' );
 $pagenum       = $wp_list_table->get_pagenum();
 
-// Handle bulk actions
+// Handle bulk actions.
 $doaction = $wp_list_table->current_action();
 
 if ( $doaction ) {

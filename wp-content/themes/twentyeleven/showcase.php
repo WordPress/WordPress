@@ -15,7 +15,7 @@
  * @since Twenty Eleven 1.0
  */
 
-// Enqueue showcase script for the slider
+// Enqueue showcase script for the slider.
 wp_enqueue_script( 'twentyeleven-showcase', get_template_directory_uri() . '/js/showcase.js', array( 'jquery' ), '20110429' );
 
 get_header(); ?>
@@ -62,7 +62,7 @@ get_header(); ?>
 					// The Featured Posts query.
 					$featured = new WP_Query( $featured_args );
 
-					// Proceed only if published posts exist
+					// Proceed only if published posts exist.
 					if ( $featured->have_posts() ) :
 
 						/*
@@ -91,13 +91,13 @@ get_header(); ?>
 							$counter_slider++;
 
 							/*
-							* We're going to add a class to our featured post for featured images
-							* by default it'll have the feature-text class.
+							* We're going to add a class to our featured post for featured images.
+							* By default it will have the feature-text class.
 							*/
 							$feature_class = 'feature-text';
 
 							if ( has_post_thumbnail() ) {
-								// ... but if it has a featured image let's add some class
+								// ...but if it has a featured image let's add some class.
 								$feature_class = 'feature-image small';
 
 								// Hang on. Let's check this here image out.
@@ -144,10 +144,10 @@ get_header(); ?>
 					<ul>
 							<?php
 
-							// Reset the counter so that we end up with matching elements
+							// Reset the counter so that we end up with matching elements.
 							$counter_slider = 0;
 
-							// Begin from zero
+							// Begin from zero.
 							rewind_posts();
 
 							// Let's roll again.
@@ -195,7 +195,7 @@ get_header(); ?>
 					// Our new query for the Recent Posts section.
 					$recent = new WP_Query( $recent_args );
 
-					// The first Recent post is displayed normally
+					// The first Recent post is displayed normally.
 					if ( $recent->have_posts() ) :
 						$recent->the_post();
 
@@ -224,7 +224,7 @@ get_header(); ?>
 						<?php
 					endwhile;
 
-					// If we had some posts, close the <ol>
+					// If we had some posts, close the <ol>.
 					if ( $recent->post_count > 0 ) {
 						echo '</ol>';
 					}
@@ -245,7 +245,7 @@ get_header(); ?>
 						);
 						?>
 
-					<?php endif; // end sidebar widget area ?>
+					<?php endif; // End sidebar widget area. ?>
 				</div><!-- .widget-area -->
 
 			</div><!-- #content -->

@@ -28,7 +28,7 @@ if ( isset( $_GET['action'] ) ) {
 
 			$id = intval( $_GET['id'] );
 			if ( $id != '0' && $id != '1' ) {
-				$_POST['allusers'] = array( $id ); // confirm_delete_users() can only handle with arrays
+				$_POST['allusers'] = array( $id ); // confirm_delete_users() can only handle arrays.
 				$title             = __( 'Users' );
 				$parent_file       = 'users.php';
 				require_once( ABSPATH . 'wp-admin/admin-header.php' );
@@ -84,7 +84,7 @@ if ( isset( $_GET['action'] ) ) {
 								$blogs        = get_blogs_of_user( $user_id, true );
 
 								foreach ( (array) $blogs as $details ) {
-									if ( $details->userblog_id != get_network()->site_id ) { // main blog not a spam !
+									if ( $details->userblog_id != get_network()->site_id ) { // Main blog is not a spam!
 										update_blog_status( $details->userblog_id, 'spam', '1' );
 									}
 								}

@@ -6,12 +6,12 @@
  * @subpackage Administration
  */
 
-// don't load directly
+// Don't load directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-// Back compat hooks
+// Back compat hooks.
 if ( 'category' == $taxonomy ) {
 	/**
 	 * Fires before the Edit Category form.
@@ -191,7 +191,7 @@ if ( isset( $tag->name ) ) {
 			<p class="description"><?php _e( 'The description is not prominent by default; however, some themes may show it.' ); ?></p></td>
 		</tr>
 		<?php
-		// Back compat hooks
+		// Back compat hooks.
 		if ( 'category' == $taxonomy ) {
 			/**
 			 * Fires after the Edit Category form fields are displayed.
@@ -238,7 +238,7 @@ if ( isset( $tag->name ) ) {
 		?>
 	</table>
 <?php
-// Back compat hooks
+// Back compat hooks.
 if ( 'category' == $taxonomy ) {
 	/** This action is documented in wp-admin/edit-tags.php */
 	do_action_deprecated( 'edit_category_form', array( $tag ), '3.0.0', '{$taxonomy}_add_form' );

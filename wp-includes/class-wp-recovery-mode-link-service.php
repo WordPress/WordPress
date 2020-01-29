@@ -3,7 +3,7 @@
  * Error Protection API: WP_Recovery_Mode_Link_Handler class
  *
  * @package WordPress
- * @since   5.2.0
+ * @since 5.2.0
  */
 
 /**

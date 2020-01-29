@@ -134,7 +134,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 	$wp_admin_bar->add_node( $wp_logo_menu_args );
 
 	if ( $about_url ) {
-		// Add "About WordPress" link
+		// Add "About WordPress" link.
 		$wp_admin_bar->add_node(
 			array(
 				'parent' => 'wp-logo',
@@ -145,7 +145,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		);
 	}
 
-	// Add WordPress.org link
+	// Add WordPress.org link.
 	$wp_admin_bar->add_node(
 		array(
 			'parent' => 'wp-logo-external',
@@ -155,7 +155,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		)
 	);
 
-	// Add codex link
+	// Add Codex link.
 	$wp_admin_bar->add_node(
 		array(
 			'parent' => 'wp-logo-external',
@@ -165,7 +165,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		)
 	);
 
-	// Add forums link
+	// Add forums link.
 	$wp_admin_bar->add_node(
 		array(
 			'parent' => 'wp-logo-external',
@@ -175,7 +175,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		)
 	);
 
-	// Add feedback link
+	// Add feedback link.
 	$wp_admin_bar->add_node(
 		array(
 			'parent' => 'wp-logo-external',
@@ -555,7 +555,7 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 		}
 	}
 
-	// Add site links
+	// Add site links.
 	$wp_admin_bar->add_group(
 		array(
 			'parent' => 'my-sites',

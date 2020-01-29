@@ -32,7 +32,7 @@
  * @return bool True if event successfully scheduled. False for failure.
  */
 function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
-	// Make sure timestamp is a positive integer
+	// Make sure timestamp is a positive integer.
 	if ( ! is_numeric( $timestamp ) || $timestamp <= 0 ) {
 		return false;
 	}
@@ -142,7 +142,7 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
 	 */
 	$event = apply_filters( 'schedule_event', $event );
 
-	// A plugin disallowed this event
+	// A plugin disallowed this event.
 	if ( ! $event ) {
 		return false;
 	}
@@ -186,7 +186,7 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
  * @return bool True if event successfully scheduled. False for failure.
  */
 function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
-	// Make sure timestamp is a positive integer
+	// Make sure timestamp is a positive integer.
 	if ( ! is_numeric( $timestamp ) || $timestamp <= 0 ) {
 		return false;
 	}
@@ -214,7 +214,7 @@ function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
 	/** This filter is documented in wp-includes/cron.php */
 	$event = apply_filters( 'schedule_event', $event );
 
-	// A plugin disallowed this event
+	// A plugin disallowed this event.
 	if ( ! $event ) {
 		return false;
 	}
@@ -251,7 +251,7 @@ function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
  * @return bool True if event successfully rescheduled. False for failure.
  */
 function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
-	// Make sure timestamp is a positive integer
+	// Make sure timestamp is a positive integer.
 	if ( ! is_numeric( $timestamp ) || $timestamp <= 0 ) {
 		return false;
 	}
@@ -307,7 +307,7 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array() ) 
 		return $pre;
 	}
 
-	// Now we assume something is wrong and fail to schedule
+	// Now we assume something is wrong and fail to schedule.
 	if ( 0 == $interval ) {
 		return false;
 	}
@@ -341,7 +341,7 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array() ) 
  * @return bool True if event successfully unscheduled. False for failure.
  */
 function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
-	// Make sure timestamp is a positive integer
+	// Make sure timestamp is a positive integer.
 	if ( ! is_numeric( $timestamp ) || $timestamp <= 0 ) {
 		return false;
 	}
@@ -398,8 +398,8 @@ function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
  *                   unscheduling one or more events fail.
  */
 function wp_clear_scheduled_hook( $hook, $args = array() ) {
-	// Backward compatibility
-	// Previously this function took the arguments as discrete vars rather than an array like the rest of the API
+	// Backward compatibility.
+	// Previously, this function took the arguments as discrete vars rather than an array like the rest of the API.
 	if ( ! is_array( $args ) ) {
 		_deprecated_argument( __FUNCTION__, '3.0.0', __( 'This argument has changed to an array to match the behavior of the other cron functions.' ) );
 		$args = array_slice( func_get_args(), 1 );
@@ -426,9 +426,11 @@ function wp_clear_scheduled_hook( $hook, $args = array() ) {
 		return $pre;
 	}
 
-	// This logic duplicates wp_next_scheduled()
-	// It's required due to a scenario where wp_unschedule_event() fails due to update_option() failing,
-	// and, wp_next_scheduled() returns the same schedule in an infinite loop.
+	/*
+	 * This logic duplicates wp_next_scheduled().
+	 * It's required due to a scenario where wp_unschedule_event() fails due to update_option() failing,
+	 * and, wp_next_scheduled() returns the same schedule in an infinite loop.
+	 */
 	$crons = _get_cron_array();
 	if ( empty( $crons ) ) {
 		return 0;
@@ -648,12 +650,12 @@ function spawn_cron( $gmt_time = 0 ) {
 		$lock = 0;
 	}
 
-	// don't run if another process is currently running it or more than once every 60 sec.
+	// Don't run if another process is currently running it or more than once every 60 sec.
 	if ( $lock + WP_CRON_LOCK_TIMEOUT > $gmt_time ) {
 		return false;
 	}
 
-	//sanity check
+	// Sanity check.
 	$crons = wp_get_ready_cron_jobs();
 	if ( empty( $crons ) ) {
 		return false;
@@ -676,7 +678,7 @@ function spawn_cron( $gmt_time = 0 ) {
 		wp_redirect( add_query_arg( 'doing_wp_cron', $doing_wp_cron, wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
 		echo ' ';
 
-		// flush any buffers and send the headers
+		// Flush any buffers and send the headers.
 		wp_ob_end_flush_all();
 		flush();
 
@@ -743,7 +745,7 @@ function spawn_cron( $gmt_time = 0 ) {
  *                  events needed to be spawned), false if spawning fails for one or more events.
  */
 function wp_cron() {
-	// Prevent infinite loops caused by lack of wp-cron.php
+	// Prevent infinite loops caused by lack of wp-cron.php.
 	if ( strpos( $_SERVER['REQUEST_URI'], '/wp-cron.php' ) !== false || ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) ) {
 		return 0;
 	}
@@ -923,7 +925,7 @@ function wp_get_ready_cron_jobs() {
 }
 
 //
-// Private functions
+// Private functions.
 //
 
 /**

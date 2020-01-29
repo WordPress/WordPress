@@ -183,11 +183,12 @@ jQuery( document ).ready( function( $ ) {
 		var tab = $( this ).attr( 'name' );
 		event.preventDefault();
 
-		// Flip the tab
+		// Flip the tab.
 		$( '#plugin-information-tabs a.current' ).removeClass( 'current' );
 		$( this ).addClass( 'current' );
 
-		// Only show the fyi box in the description section, on smaller screen, where it's otherwise always displayed at the top.
+		// Only show the fyi box in the description section, on smaller screen,
+		// where it's otherwise always displayed at the top.
 		if ( 'description' !== tab && $( window ).width() < 772 ) {
 			$( '#plugin-information-content' ).find( '.fyi' ).hide();
 		} else {

@@ -49,7 +49,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		 * @param bool   $active  Whether the widget is active. Default true.
 		 * @param string $id_base The widget ID.
 		 */
-		if ( ! current_theme_supports( 'widgets' ) // Temp hack #14876
+		if ( ! current_theme_supports( 'widgets' ) // Temp hack #14876.
 			|| ! apply_filters( 'show_recent_comments_widget_style', true, $this->id_base ) ) {
 			return;
 		}

@@ -17,7 +17,7 @@ get_header();
 
 			<?php
 
-			/* Start the Loop */
+			// Start the Loop.
 			while ( have_posts() ) :
 				the_post();
 
@@ -28,7 +28,7 @@ get_header();
 					comments_template();
 				}
 
-			endwhile; // End of the loop.
+			endwhile; // End the loop.
 			?>
 
 		</main><!-- #main -->

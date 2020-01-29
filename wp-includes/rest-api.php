@@ -73,6 +73,7 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 		'callback' => null,
 		'args'     => array(),
 	);
+
 	foreach ( $args as $key => &$arg_group ) {
 		if ( ! is_numeric( $key ) ) {
 			// Route option, skip here.
@@ -360,7 +361,7 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 		$url .= $path;
 	} else {
 		$url = trailingslashit( get_home_url( $blog_id, '', $scheme ) );
-		// nginx only allows HTTP/1.0 methods when redirecting from / to /index.php
+		// nginx only allows HTTP/1.0 methods when redirecting from / to /index.php.
 		// To work around this, we manually add index.php to the URL, avoiding the redirect.
 		if ( 'index.php' !== substr( $url, 9 ) ) {
 			$url .= 'index.php';
@@ -377,10 +378,11 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 	}
 
 	if ( is_admin() && force_ssl_admin() ) {
-		// In this situation the home URL may be http:, and `is_ssl()` may be
-		// false, but the admin is served over https: (one way or another), so
-		// REST API usage will be blocked by browsers unless it is also served
-		// over HTTPS.
+		/*
+		 * In this situation the home URL may be http:, and `is_ssl()` may be false,
+		 * but the admin is served over https: (one way or another), so REST API usage
+		 * will be blocked by browsers unless it is also served over HTTPS.
+		 */
 		$url = set_url_scheme( $url, 'https' );
 	}
 
@@ -581,7 +583,7 @@ function rest_send_cors_headers( $value ) {
 	$origin = get_http_origin();
 
 	if ( $origin ) {
-		// Requests from file:// and data: URLs send "Origin: null"
+		// Requests from file:// and data: URLs send "Origin: null".
 		if ( 'null' !== $origin ) {
 			$origin = esc_url_raw( $origin );
 		}
@@ -632,7 +634,7 @@ function rest_handle_options_request( $response, $handler, $request ) {
 		}
 
 		foreach ( $endpoints as $endpoint ) {
-			// Remove the redundant preg_match argument.
+			// Remove the redundant preg_match() argument.
 			unset( $args[0] );
 
 			$request->set_url_params( $args );
@@ -791,18 +793,20 @@ function rest_is_field_included( $field, $fields ) {
 	if ( in_array( $field, $fields, true ) ) {
 		return true;
 	}
+
 	foreach ( $fields as $accepted_field ) {
 		// Check to see if $field is the parent of any item in $fields.
 		// A field "parent" should be accepted if "parent.child" is accepted.
 		if ( strpos( $accepted_field, "$field." ) === 0 ) {
 			return true;
 		}
-		// Conversely, if "parent" is accepted, all "parent.child" fields should
-		// also be accepted.
+		// Conversely, if "parent" is accepted, all "parent.child" fields
+		// should also be accepted.
 		if ( strpos( $field, "$accepted_field." ) === 0 ) {
 			return true;
 		}
 	}
+
 	return false;
 }
 
@@ -979,9 +983,11 @@ function rest_parse_date( $date, $force_utc = false ) {
  *                    null on failure.
  */
 function rest_get_date_with_gmt( $date, $is_utc = false ) {
-	// Whether or not the original date actually has a timezone string
-	// changes the way we need to do timezone conversion.  Store this info
-	// before parsing the date, and use it later.
+	/*
+	 * Whether or not the original date actually has a timezone string
+	 * changes the way we need to do timezone conversion.
+	 * Store this info before parsing the date, and use it later.
+	 */
 	$has_timezone = preg_match( '#(Z|[+-]\d{2}(:\d{2})?)$#', $date );
 
 	$date = rest_parse_date( $date );
@@ -990,10 +996,11 @@ function rest_get_date_with_gmt( $date, $is_utc = false ) {
 		return null;
 	}
 
-	// At this point $date could either be a local date (if we were passed a
-	// *local* date without a timezone offset) or a UTC date (otherwise).
-	// Timezone conversion needs to be handled differently between these two
-	// cases.
+	/*
+	 * At this point $date could either be a local date (if we were passed
+	 * a *local* date without a timezone offset) or a UTC date (otherwise).
+	 * Timezone conversion needs to be handled differently between these two cases.
+	 */
 	if ( ! $is_utc && ! $has_timezone ) {
 		$local = gmdate( 'Y-m-d H:i:s', $date );
 		$utc   = get_gmt_from_date( $local );
@@ -1228,10 +1235,12 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		if ( ! is_null( $value ) ) {
 			$value = wp_parse_list( $value );
 		}
+
 		if ( ! wp_is_numeric_array( $value ) ) {
 			/* translators: 1: Parameter, 2: Type name. */
 			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'array' ) );
 		}
+
 		foreach ( $value as $index => $v ) {
 			$is_valid = rest_validate_value_from_schema( $v, $args['items'], $param . '[' . $index . ']' );
 			if ( is_wp_error( $is_valid ) ) {
@@ -1390,7 +1399,8 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
  */
 function rest_sanitize_value_from_schema( $value, $args ) {
 	if ( is_array( $args['type'] ) ) {
-		// Determine which type the value was validated against, and use that type when performing sanitization
+		// Determine which type the value was validated against,
+		// and use that type when performing sanitization.
 		$validated_type = '';
 
 		foreach ( $args['type'] as $type ) {
@@ -1414,12 +1424,13 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 		if ( empty( $args['items'] ) ) {
 			return (array) $value;
 		}
+
 		$value = wp_parse_list( $value );
 		foreach ( $value as $index => $v ) {
 			$value[ $index ] = rest_sanitize_value_from_schema( $v, $args['items'] );
 		}
-		// Normalize to numeric array so nothing unexpected
-		// is in the keys.
+
+		// Normalize to numeric array so nothing unexpected is in the keys.
 		$value = array_values( $value );
 		return $value;
 	}
@@ -1474,9 +1485,7 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 				return sanitize_text_field( $value );
 
 			case 'email':
-				/*
-				 * sanitize_email() validates, which would be unexpected.
-				 */
+				// sanitize_email() validates, which would be unexpected.
 				return sanitize_text_field( $value );
 
 			case 'uri':
@@ -1505,7 +1514,8 @@ function rest_sanitize_value_from_schema( $value, $args ) {
  * @return array        Modified reduce accumulator.
  */
 function rest_preload_api_request( $memo, $path ) {
-	// array_reduce() doesn't support passing an array in PHP 5.2, so we need to make sure we start with one.
+	// array_reduce() doesn't support passing an array in PHP 5.2,
+	// so we need to make sure we start with one.
 	if ( ! is_array( $memo ) ) {
 		$memo = array();
 	}

@@ -41,11 +41,11 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 		 *  - flags (array) -- flags like php-format
 		 */
 		function __construct( $args = array() ) {
-			// if no singular -- empty object
+			// If no singular -- empty object.
 			if ( ! isset( $args['singular'] ) ) {
 				return;
 			}
-			// get member variable values from args hash
+			// Get member variable values from args hash.
 			foreach ( $args as $varname => $value ) {
 				$this->$varname = $value;
 			}
@@ -85,9 +85,9 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 				return false;
 			}
 
-			// Prepend context and EOT, like in MO files
+			// Prepend context and EOT, like in MO files.
 			$key = ! $this->context ? $this->singular : $this->context . "\4" . $this->singular;
-			// Standardize on \n line endings
+			// Standardize on \n line endings.
 			$key = str_replace( array( "\r\n", "\r" ), "\n", $key );
 
 			return $key;

@@ -1214,7 +1214,7 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
 	// Check for a edge-case affecting PHP Maths abilities.
 	if (
 		! extension_loaded( 'sodium' ) &&
-		in_array( PHP_VERSION_ID, [ 70200, 70201, 70202 ], true ) &&
+		in_array( PHP_VERSION_ID, array( 70200, 70201, 70202 ), true ) &&
 		extension_loaded( 'opcache' )
 	) {
 		// Sodium_Compat isn't compatible with PHP 7.2.0~7.2.2 due to a bug in the PHP Opcache extension, bail early as it'll fail.
@@ -1546,7 +1546,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 			return new WP_Error( 'stat_failed_ziparchive', __( 'Could not retrieve file from archive.' ) );
 		}
 
-		if ( '/' == substr( $info['name'], -1 ) ) { // directory
+		if ( '/' == substr( $info['name'], -1 ) ) { // Directory.
 			continue;
 		}
 

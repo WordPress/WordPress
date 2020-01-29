@@ -20,8 +20,8 @@ get_header(); ?>
 		<div id="content" class="site-content" role="main">
 		<?php if ( have_posts() ) : ?>
 
-			<?php /* The loop */ ?>
 			<?php
+			// Start the loop.
 			while ( have_posts() ) :
 				the_post();
 				?>

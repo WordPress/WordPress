@@ -195,8 +195,8 @@ function get_permalink( $post = 0, $leavename = false ) {
 					$category = get_category_parents( $category_object->parent, false, '/', true ) . $category;
 				}
 			}
-			// show default category in permalinks, without
-			// having to assign it explicitly
+			// Show default category in permalinks,
+			// without having to assign it explicitly.
 			if ( empty( $category ) ) {
 				$default_category = get_term( get_option( 'default_category' ), 'category' );
 				if ( $default_category && ! is_wp_error( $default_category ) ) {
@@ -232,7 +232,7 @@ function get_permalink( $post = 0, $leavename = false ) {
 		$permalink = home_url( str_replace( $rewritecode, $rewritereplace, $permalink ) );
 		$permalink = user_trailingslashit( $permalink, 'single' );
 
-	} else { // if they're not using the fancy permalink option
+	} else { // If they're not using the fancy permalink option.
 		$permalink = home_url( '?p=' . $post->ID );
 	}
 
@@ -423,13 +423,13 @@ function get_attachment_link( $post = null, $leavename = false ) {
 
 	if ( $wp_rewrite->using_permalinks() && $parent ) {
 		if ( 'page' == $parent->post_type ) {
-			$parentlink = _get_page_link( $post->post_parent ); // Ignores page_on_front
+			$parentlink = _get_page_link( $post->post_parent ); // Ignores page_on_front.
 		} else {
 			$parentlink = get_permalink( $post->post_parent );
 		}
 
 		if ( is_numeric( $post->post_name ) || false !== strpos( get_option( 'permalink_structure' ), '%category%' ) ) {
-			$name = 'attachment/' . $post->post_name; // <permalink>/<int>/ is paged so we use the explicit attachment marker
+			$name = 'attachment/' . $post->post_name; // <permalink>/<int>/ is paged so we use the explicit attachment marker.
 		} else {
 			$name = $post->post_name;
 		}
@@ -1087,7 +1087,7 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $e
 /**
  * Retrieves the permalink for a search.
  *
- * @since  3.0.0
+ * @since 3.0.0
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
@@ -1649,7 +1649,9 @@ function get_edit_user_link( $user_id = null ) {
 	return apply_filters( 'get_edit_user_link', $link, $user->ID );
 }
 
-// Navigation links
+//
+// Navigation links.
+//
 
 /**
  * Retrieves the previous post that is adjacent to the current post.
@@ -2513,7 +2515,7 @@ function get_posts_nav_link( $args = array() ) {
 		$max_num_pages = $wp_query->max_num_pages;
 		$paged         = get_query_var( 'paged' );
 
-		//only have sep if there's both prev and next results
+		// Only have sep if there's both prev and next results.
 		if ( $paged < 2 || $paged >= $max_num_pages ) {
 			$args['sep'] = '';
 		}
@@ -3881,7 +3883,7 @@ function wp_get_shortlink( $id = 0, $context = 'post', $allow_slugs = true ) {
 
 	$shortlink = '';
 
-	// Return p= link for all public post types.
+	// Return `?p=` link for all public post types.
 	if ( ! empty( $post_id ) ) {
 		$post_type = get_post_type_object( $post->post_type );
 
@@ -4091,7 +4093,7 @@ function get_avatar_data( $id_or_email, $args = null ) {
 			'force_default'  => false,
 			'rating'         => get_option( 'avatar_rating' ),
 			'scheme'         => null,
-			'processed_args' => null, // if used, should be a reference
+			'processed_args' => null, // If used, should be a reference.
 			'extra_attr'     => '',
 		)
 	);
@@ -4177,17 +4179,17 @@ function get_avatar_data( $id_or_email, $args = null ) {
 		$user = get_user_by( 'id', absint( $id_or_email ) );
 	} elseif ( is_string( $id_or_email ) ) {
 		if ( strpos( $id_or_email, '@md5.gravatar.com' ) ) {
-			// md5 hash
+			// MD5 hash.
 			list( $email_hash ) = explode( '@', $id_or_email );
 		} else {
-			// email address
+			// Email address.
 			$email = $id_or_email;
 		}
 	} elseif ( $id_or_email instanceof WP_User ) {
-		// User Object
+		// User object.
 		$user = $id_or_email;
 	} elseif ( $id_or_email instanceof WP_Post ) {
-		// Post Object
+		// Post object.
 		$user = get_user_by( 'id', (int) $id_or_email->post_author );
 	} elseif ( $id_or_email instanceof WP_Comment ) {
 		if ( ! is_avatar_comment_type( get_comment_type( $id_or_email ) ) ) {

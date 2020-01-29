@@ -270,4 +270,4 @@ class Walker_Nav_Menu extends Walker {
 		$output .= "</li>{$n}";
 	}
 
-} // Walker_Nav_Menu
+}

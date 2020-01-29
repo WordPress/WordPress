@@ -37,7 +37,7 @@ require( ABSPATH . 'wp-admin/includes/noop.php' );
 require( ABSPATH . WPINC . '/script-loader.php' );
 require( ABSPATH . WPINC . '/version.php' );
 
-$expires_offset = 31536000; // 1 year
+$expires_offset = 31536000; // 1 year.
 $out            = '';
 
 $wp_scripts = new WP_Scripts();

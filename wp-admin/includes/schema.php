@@ -52,7 +52,7 @@ function wp_get_db_schema( $scope = 'all', $blog_id = null ) {
 	 */
 	$max_index_length = 191;
 
-	// Blog specific tables.
+	// Blog-specific tables.
 	$blog_tables = "CREATE TABLE $wpdb->termmeta (
 	meta_id bigint(20) unsigned NOT NULL auto_increment,
 	term_id bigint(20) unsigned NOT NULL default '0',
@@ -205,7 +205,7 @@ CREATE TABLE $wpdb->posts (
 	KEY user_email (user_email)
 ) $charset_collate;\n";
 
-	// Multisite users table
+	// Multisite users table.
 	$users_multi_table = "CREATE TABLE $wpdb->users (
 	ID bigint(20) unsigned NOT NULL auto_increment,
 	user_login varchar(60) NOT NULL default '',
@@ -236,7 +236,7 @@ CREATE TABLE $wpdb->posts (
 	KEY meta_key (meta_key($max_index_length))
 ) $charset_collate;\n";
 
-	// Global tables
+	// Global tables.
 	if ( $is_multisite ) {
 		$global_tables = $users_multi_table . $usermeta_table;
 	} else {
@@ -547,7 +547,7 @@ function populate_options( array $options = array() ) {
 			? $wp_current_db_version : $wp_db_version;
 	}
 
-	// 3.0 multisite
+	// 3.0 multisite.
 	if ( is_multisite() ) {
 		/* translators: %s: Network title. */
 		$defaults['blogdescription']     = sprintf( __( 'Just another %s site' ), get_network()->site_name );
@@ -556,7 +556,7 @@ function populate_options( array $options = array() ) {
 
 	$options = wp_parse_args( $options, $defaults );
 
-	// Set autoload to no for these options
+	// Set autoload to no for these options.
 	$fat_options = array( 'moderation_keys', 'recently_edited', 'blacklist_keys', 'uninstall_plugins' );
 
 	$keys             = "'" . implode( "', '", array_keys( $options ) ) . "'";
@@ -677,7 +677,7 @@ function populate_options( array $options = array() ) {
 	// Delete obsolete magpie stuff.
 	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name REGEXP '^rss_[0-9a-f]{32}(_ts)?$'" );
 
-	// Clear expired transients
+	// Clear expired transients.
 	delete_expired_transients( true );
 }
 
@@ -703,15 +703,14 @@ function populate_roles() {
  * @since 2.0.0
  */
 function populate_roles_160() {
-	// Add roles
-
+	// Add roles.
 	add_role( 'administrator', 'Administrator' );
 	add_role( 'editor', 'Editor' );
 	add_role( 'author', 'Author' );
 	add_role( 'contributor', 'Contributor' );
 	add_role( 'subscriber', 'Subscriber' );
 
-	// Add caps for Administrator role
+	// Add caps for Administrator role.
 	$role = get_role( 'administrator' );
 	$role->add_cap( 'switch_themes' );
 	$role->add_cap( 'edit_themes' );
@@ -744,7 +743,7 @@ function populate_roles_160() {
 	$role->add_cap( 'level_1' );
 	$role->add_cap( 'level_0' );
 
-	// Add caps for Editor role
+	// Add caps for Editor role.
 	$role = get_role( 'editor' );
 	$role->add_cap( 'moderate_comments' );
 	$role->add_cap( 'manage_categories' );
@@ -766,7 +765,7 @@ function populate_roles_160() {
 	$role->add_cap( 'level_1' );
 	$role->add_cap( 'level_0' );
 
-	// Add caps for Author role
+	// Add caps for Author role.
 	$role = get_role( 'author' );
 	$role->add_cap( 'upload_files' );
 	$role->add_cap( 'edit_posts' );
@@ -777,14 +776,14 @@ function populate_roles_160() {
 	$role->add_cap( 'level_1' );
 	$role->add_cap( 'level_0' );
 
-	// Add caps for Contributor role
+	// Add caps for Contributor role.
 	$role = get_role( 'contributor' );
 	$role->add_cap( 'edit_posts' );
 	$role->add_cap( 'read' );
 	$role->add_cap( 'level_1' );
 	$role->add_cap( 'level_0' );
 
-	// Add caps for Subscriber role
+	// Add caps for Subscriber role.
 	$role = get_role( 'subscriber' );
 	$role->add_cap( 'read' );
 	$role->add_cap( 'level_0' );
@@ -1244,7 +1243,7 @@ We hope you enjoy your new site. Thanks!
 		'welcome_email'               => $welcome_email,
 		/* translators: %s: Site link. */
 		'first_post'                  => __( 'Welcome to %s. This is your first post. Edit or delete it, then start writing!' ),
-		// @todo - network admins should have a method of editing the network siteurl (used for cookie hash)
+		// @todo - Network admins should have a method of editing the network siteurl (used for cookie hash).
 		'siteurl'                     => get_option( 'siteurl' ) . '/',
 		'add_new_users'               => '0',
 		'upload_space_check_disabled' => is_multisite() ? get_site_option( 'upload_space_check_disabled' ) : '1',

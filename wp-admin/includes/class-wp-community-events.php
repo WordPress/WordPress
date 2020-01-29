@@ -92,7 +92,7 @@ class WP_Community_Events {
 			return $cached_events;
 		}
 
-		// include an unmodified $wp_version
+		// Include an unmodified $wp_version.
 		include( ABSPATH . WPINC . '/version.php' );
 
 		$api_url                    = 'http://api.wordpress.org/events/1.0/';

@@ -368,7 +368,7 @@ function wp_http_supports( $capabilities = array(), $url = null ) {
 
 	$count = count( $capabilities );
 
-	// If we have a numeric $capabilities array, spoof a wp_remote_request() associative $args array
+	// If we have a numeric $capabilities array, spoof a wp_remote_request() associative $args array.
 	if ( $count && count( array_filter( array_keys( $capabilities ), 'is_numeric' ) ) == $count ) {
 		$capabilities = array_combine( array_values( $capabilities ), array_fill( 0, $count, true ) );
 	}
@@ -417,7 +417,7 @@ function get_allowed_http_origins() {
 	$admin_origin = parse_url( admin_url() );
 	$home_origin  = parse_url( home_url() );
 
-	// @todo preserve port?
+	// @todo Preserve port?
 	$allowed_origins = array_unique(
 		array(
 			'http://' . $admin_origin['host'],
@@ -549,7 +549,7 @@ function wp_http_validate_url( $url ) {
 			$ip = $host;
 		} else {
 			$ip = gethostbyname( $host );
-			if ( $ip === $host ) { // Error condition for gethostbyname()
+			if ( $ip === $host ) { // Error condition for gethostbyname().
 				return false;
 			}
 		}

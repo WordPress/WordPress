@@ -48,7 +48,7 @@ if ( isset( $_REQUEST['action'] ) && 'add-site' == $_REQUEST['action'] ) {
 		$domain = strtolower( $blog['domain'] );
 	}
 
-	// If not a subdomain installation, make sure the domain isn't a reserved word
+	// If not a subdomain installation, make sure the domain isn't a reserved word.
 	if ( ! is_subdomain_install() ) {
 		$subdirectory_reserved_names = get_subdirectory_reserved_names();
 
@@ -106,7 +106,7 @@ if ( isset( $_REQUEST['action'] ) && 'add-site' == $_REQUEST['action'] ) {
 
 	$password = 'N/A';
 	$user_id  = email_exists( $email );
-	if ( ! $user_id ) { // Create a new user with a random password
+	if ( ! $user_id ) { // Create a new user with a random password.
 		/**
 		 * Fires immediately before a new user is created via the network site-new.php page.
 		 *

@@ -103,7 +103,7 @@ if ( ! function_exists( 'twentysixteen_header_style' ) ) :
 		</style>
 		<?php
 	}
-endif; // twentysixteen_header_style
+endif; // twentysixteen_header_style()
 
 /**
  * Adds postMessage support for site title and description for the Customizer.
@@ -385,7 +385,7 @@ if ( ! function_exists( 'twentysixteen_get_color_scheme' ) ) :
 
 		return $color_schemes['default']['colors'];
 	}
-endif; // twentysixteen_get_color_scheme
+endif; // twentysixteen_get_color_scheme()
 
 if ( ! function_exists( 'twentysixteen_get_color_scheme_choices' ) ) :
 	/**
@@ -408,7 +408,7 @@ if ( ! function_exists( 'twentysixteen_get_color_scheme_choices' ) ) :
 
 		return $color_scheme_control_options;
 	}
-endif; // twentysixteen_get_color_scheme_choices
+endif; // twentysixteen_get_color_scheme_choices()
 
 
 if ( ! function_exists( 'twentysixteen_sanitize_color_scheme' ) ) :
@@ -432,7 +432,7 @@ if ( ! function_exists( 'twentysixteen_sanitize_color_scheme' ) ) :
 
 		return $value;
 	}
-endif; // twentysixteen_sanitize_color_scheme
+endif; // twentysixteen_sanitize_color_scheme()
 
 /**
  * Enqueues front-end CSS for color scheme.

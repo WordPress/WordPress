@@ -300,14 +300,14 @@ class WP_Themes_List_Table extends WP_List_Table {
 	 * @return bool
 	 */
 	public function search_theme( $theme ) {
-		// Search the features
+		// Search the features.
 		foreach ( $this->features as $word ) {
 			if ( ! in_array( $word, $theme->get( 'Tags' ) ) ) {
 				return false;
 			}
 		}
 
-		// Match all phrases
+		// Match all phrases.
 		foreach ( $this->search_terms as $word ) {
 			if ( in_array( $word, $theme->get( 'Tags' ) ) ) {
 				continue;

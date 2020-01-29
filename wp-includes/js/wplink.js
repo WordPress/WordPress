@@ -36,24 +36,24 @@
 			inputs.submit = $( '#wp-link-submit' );
 			inputs.close = $( '#wp-link-close' );
 
-			// Input
+			// Input.
 			inputs.text = $( '#wp-link-text' );
 			inputs.url = $( '#wp-link-url' );
 			inputs.nonce = $( '#_ajax_linking_nonce' );
 			inputs.openInNewTab = $( '#wp-link-target' );
 			inputs.search = $( '#wp-link-search' );
 
-			// Build Rivers
+			// Build rivers.
 			rivers.search = new River( $( '#search-results' ) );
 			rivers.recent = new River( $( '#most-recent-results' ) );
 			rivers.elements = inputs.dialog.find( '.query-results' );
 
-			// Get search notice text
+			// Get search notice text.
 			inputs.queryNotice = $( '#query-notice-message' );
 			inputs.queryNoticeTextDefault = inputs.queryNotice.find( '.query-notice-default' );
 			inputs.queryNoticeTextHint = inputs.queryNotice.find( '.query-notice-hint' );
 
-			// Bind event handlers
+			// Bind event handlers.
 			inputs.dialog.keydown( wpLink.keydown );
 			inputs.dialog.keyup( wpLink.keyup );
 			inputs.submit.click( function( event ) {
@@ -68,7 +68,7 @@
 
 			rivers.elements.on( 'river-select', wpLink.updateFields );
 
-			// Display 'hint' message when search field or 'query-results' box are focused
+			// Display 'hint' message when search field or 'query-results' box are focused.
 			inputs.search.on( 'focus.wplink', function() {
 				inputs.queryNoticeTextDefault.hide();
 				inputs.queryNoticeTextHint.removeClass( 'screen-reader-text' ).show();
@@ -91,7 +91,7 @@
 			inputs.url.on( 'blur', wpLink.correctURL );
 		},
 
-		// If URL wasn't corrected last time and doesn't start with http:, https:, ? # or /, prepend http://
+		// If URL wasn't corrected last time and doesn't start with http:, https:, ? # or /, prepend http://.
 		correctURL: function () {
 			var url = $.trim( inputs.url.val() );
 
@@ -154,24 +154,24 @@
 		refresh: function( url, text ) {
 			var linkText = '';
 
-			// Refresh rivers (clear links, check visibility)
+			// Refresh rivers (clear links, check visibility).
 			rivers.search.refresh();
 			rivers.recent.refresh();
 
 			if ( wpLink.isMCE() ) {
 				wpLink.mceRefresh( url, text );
 			} else {
-				// For the Text editor the "Link text" field is always shown
+				// For the Text editor the "Link text" field is always shown.
 				if ( ! inputs.wrap.hasClass( 'has-text-field' ) ) {
 					inputs.wrap.addClass( 'has-text-field' );
 				}
 
 				if ( document.selection ) {
-					// Old IE
+					// Old IE.
 					linkText = document.selection.createRange().text || text || '';
 				} else if ( typeof this.textarea.selectionStart !== 'undefined' &&
 					( this.textarea.selectionStart !== this.textarea.selectionEnd ) ) {
-					// W3C
+					// W3C.
 					text = this.textarea.value.substring( this.textarea.selectionStart, this.textarea.selectionEnd ) || text || '';
 				}
 
@@ -180,12 +180,14 @@
 			}
 
 			if ( isTouch ) {
-				// Close the onscreen keyboard
+				// Close the onscreen keyboard.
 				inputs.url.focus().blur();
 			} else {
-				// Focus the URL field and highlight its contents.
-				// If this is moved above the selection changes,
-				// IE will show a flashing cursor over the dialog.
+				/*
+				 * Focus the URL field and highlight its contents.
+				 * If this is moved above the selection changes,
+				 * IE will show a flashing cursor over the dialog.
+				 */
 				window.setTimeout( function() {
 					inputs.url[0].select();
 					inputs.url.focus();
@@ -203,7 +205,7 @@
 		hasSelectedText: function( linkNode ) {
 			var node, nodes, i, html = editor.selection.getContent();
 
-			// Partial html and not a fully selected anchor element
+			// Partial html and not a fully selected anchor element.
 			if ( /</.test( html ) && ( ! /^<a [^>]+>[^<]+<\/a>$/.test( html ) || html.indexOf('href=') === -1 ) ) {
 				return false;
 			}
@@ -259,7 +261,7 @@
 					inputs.search.val( '' );
 				}
 
-				// Always reset the search
+				// Always reset the search.
 				window.setTimeout( function() {
 					wpLink.searchInternalLinks();
 				} );
@@ -358,11 +360,11 @@
 
 			html = wpLink.buildHtml(attrs);
 
-			// Insert HTML
+			// Insert HTML.
 			if ( document.selection && wpLink.range ) {
-				// IE
+				// IE.
 				// Note: If no text is selected, IE will not place the cursor
-				//       inside the closing tag.
+				// inside the closing tag.
 				textarea.focus();
 				wpLink.range.text = html + ( text || wpLink.range.text ) + '</a>';
 				wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
@@ -370,7 +372,7 @@
 
 				wpLink.range = null;
 			} else if ( typeof textarea.selectionStart !== 'undefined' ) {
-				// W3C
+				// W3C.
 				begin = textarea.selectionStart;
 				end = textarea.selectionEnd;
 				selection = text || textarea.value.substring( begin, end );
@@ -388,7 +390,7 @@
 					textarea.value.substring( end, textarea.value.length )
 				);
 
-				// Update cursor position
+				// Update cursor position.
 				textarea.selectionStart = textarea.selectionEnd = cursor;
 			}
 
@@ -484,10 +486,10 @@
 			selection = $.trim( selection );
 
 			if ( selection && emailRegexp.test( selection ) ) {
-				// Selection is email address
+				// Selection is email address.
 				return 'mailto:' + selection;
 			} else if ( selection && urlRegexp.test( selection ) ) {
-				// Selection is URL
+				// Selection is URL.
 				return selection.replace( /&amp;|&#0?38;/gi, '&' );
 			}
 
@@ -553,7 +555,7 @@
 				id = event.target.id;
 
 				// wp-link-submit must always be the last focusable element in the dialog.
-				// following focusable elements will be skipped on keyboard navigation.
+				// Following focusable elements will be skipped on keyboard navigation.
 				if ( id === 'wp-link-submit' && ! event.shiftKey ) {
 					inputs.close.focus();
 					event.preventDefault();
@@ -656,18 +658,18 @@
 
 			this.deselect();
 			this.selected = li.addClass( 'selected' );
-			// Make sure the element is visible
+			// Make sure the element is visible.
 			liHeight = li.outerHeight();
 			elHeight = this.element.height();
 			liTop = li.position().top;
 			elTop = this.element.scrollTop();
 
-			if ( liTop < 0 ) // Make first visible element
+			if ( liTop < 0 ) // Make first visible element.
 				this.element.scrollTop( elTop + liTop );
-			else if ( liTop + liHeight > elHeight ) // Make last visible element
+			else if ( liTop + liHeight > elHeight ) // Make last visible element.
 				this.element.scrollTop( elTop + liTop - elHeight + liHeight );
 
-			// Trigger the river-select event
+			// Trigger the river-select event.
 			this.element.trigger( 'river-select', [ li, event, this ] );
 		},
 		deselect: function() {

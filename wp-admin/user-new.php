@@ -58,7 +58,7 @@ if ( isset( $_REQUEST['action'] ) && 'adduser' == $_REQUEST['action'] ) {
 		);
 	}
 
-	// Adding an existing user to this blog
+	// Adding an existing user to this blog.
 	$new_user_email = $user_details->user_email;
 	$redirect       = 'user-new.php';
 	$username       = $user_details->user_login;
@@ -174,7 +174,7 @@ Please click the following link to confirm the invite:
 			die();
 		}
 	} else {
-		// Adding a new user to this site
+		// Adding a new user to this site.
 		$new_user_email = wp_unslash( $_REQUEST['email'] );
 		$user_details   = wpmu_validate_user_signup( $_REQUEST['user_login'], $new_user_email );
 		if ( is_wp_error( $user_details['errors'] ) && $user_details['errors']->has_errors() ) {
@@ -183,8 +183,8 @@ Please click the following link to confirm the invite:
 			/** This filter is documented in wp-includes/user.php */
 			$new_user_login = apply_filters( 'pre_user_login', sanitize_user( wp_unslash( $_REQUEST['user_login'] ), true ) );
 			if ( isset( $_POST['noconfirmation'] ) && current_user_can( 'manage_network_users' ) ) {
-				add_filter( 'wpmu_signup_user_notification', '__return_false' ); // Disable confirmation email
-				add_filter( 'wpmu_welcome_user_notification', '__return_false' ); // Disable welcome email
+				add_filter( 'wpmu_signup_user_notification', '__return_false' );  // Disable confirmation email.
+				add_filter( 'wpmu_welcome_user_notification', '__return_false' ); // Disable welcome email.
 			}
 			wpmu_signup_user(
 				$new_user_login,
@@ -446,7 +446,7 @@ if ( is_multisite() && current_user_can( 'promote_users' ) ) {
 	<?php submit_button( __( 'Add Existing User' ), 'primary', 'adduser', true, array( 'id' => 'addusersub' ) ); ?>
 </form>
 	<?php
-} // is_multisite()
+} // End if is_multisite().
 
 if ( current_user_can( 'create_users' ) ) {
 	if ( $do_both ) {
@@ -547,7 +547,7 @@ if ( current_user_can( 'create_users' ) ) {
 			<label for="send_user_notification"><?php _e( 'Send the new user an email about their account.' ); ?></label>
 		</td>
 	</tr>
-<?php } // !is_multisite ?>
+<?php } // End if ! is_multisite(). ?>
 	<tr class="form-field">
 		<th scope="row"><label for="role"><?php _e( 'Role' ); ?></label></th>
 		<td><select name="role" id="role">
@@ -579,7 +579,7 @@ if ( current_user_can( 'create_users' ) ) {
 	<?php submit_button( __( 'Add New User' ), 'primary', 'createuser', true, array( 'id' => 'createusersub' ) ); ?>
 
 </form>
-<?php } // current_user_can('create_users') ?>
+<?php } // End if current_user_can( 'create_users' ). ?>
 </div>
 <?php
 include( ABSPATH . 'wp-admin/admin-footer.php' );

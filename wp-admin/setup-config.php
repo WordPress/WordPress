@@ -55,7 +55,7 @@ if ( file_exists( ABSPATH . 'wp-config-sample.php' ) ) {
 	);
 }
 
-// Check if wp-config.php has been created
+// Check if wp-config.php has been created.
 if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 	wp_die(
 		'<p>' . sprintf(
@@ -67,7 +67,7 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 	);
 }
 
-// Check if wp-config.php exists above the root directory but is not part of another installation
+// Check if wp-config.php exists above the root directory but is not part of another installation.
 if ( @file_exists( ABSPATH . '../wp-config.php' ) && ! @file_exists( ABSPATH . '../wp-settings.php' ) ) {
 	wp_die(
 		'<p>' . sprintf(
@@ -115,7 +115,7 @@ function setup_config_display_header( $body_classes = array() ) {
 <body class="<?php echo implode( ' ', $body_classes ); ?>">
 <p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></p>
 	<?php
-} // end function setup_config_display_header();
+} // End function setup_config_display_header();
 
 $language = '';
 if ( ! empty( $_REQUEST['language'] ) ) {
@@ -286,7 +286,7 @@ switch ( $step ) {
 			wp_die( __( '<strong>ERROR</strong>: "Table Prefix" can only contain numbers, letters, and underscores.' ) . $tryagain_link );
 		}
 
-		// Test the db connection.
+		// Test the DB connection.
 		/**#@+
 		 *
 		 * @ignore

@@ -18,7 +18,7 @@
  *     $error_count = 0;
  *     $tablename = $wpdb->links;
  *     // Check the column.
- *     if ( ! check_column($wpdb->links, 'link_description', 'varchar( 255 )' ) ) {
+ *     if ( ! check_column( $wpdb->links, 'link_description', 'varchar( 255 )' ) ) {
  *         $ddl = "ALTER TABLE $wpdb->links MODIFY COLUMN link_description varchar(255) NOT NULL DEFAULT '' ";
  *         $q = $wpdb->query( $ddl );
  *     }
@@ -194,7 +194,7 @@ function check_column( $table_name, $col_name, $col_type, $is_null = null, $key 
 				return false;
 			}
 			return true;
-		} // end if found our column
+		} // End if found our column.
 	}
 	return false;
 }

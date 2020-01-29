@@ -51,8 +51,8 @@
 					else
 						parent.css( 'max-height', height + 40 + 'px' );
 				} else if ( ! body || ! body.length ) {
-					// Catch "silent" iframe origin exceptions in WebKit after another page is
-					// loaded in the iframe.
+					// Catch "silent" iframe origin exceptions in WebKit
+					// after another page is loaded in the iframe.
 					wrap.addClass('fallback');
 					parent.css( 'max-height', '' );
 					form.remove();
@@ -68,9 +68,11 @@
 
 		if ( frame ) {
 			frame.focus();
-			// WebKit doesn't throw an error if the iframe fails to load because of
-			// "X-Frame-Options: DENY" header.
-			// Wait for 10 sec. and switch to the fallback text.
+			/*
+			 * WebKit doesn't throw an error if the iframe fails to load
+			 * because of "X-Frame-Options: DENY" header.
+			 * Wait for 10 seconds and switch to the fallback text.
+			 */
 			setTimeout( function() {
 				if ( ! loaded ) {
 					wrap.addClass('fallback');
@@ -92,8 +94,8 @@
 	function hide() {
 		$(window).off( 'beforeunload.wp-auth-check' );
 
-		// When on the Edit Post screen, speed up heartbeat after the user logs in to
-		// quickly refresh nonces.
+		// When on the Edit Post screen, speed up heartbeat
+		// after the user logs in to quickly refresh nonces.
 		if ( typeof adminpage !== 'undefined' && ( adminpage === 'post-php' || adminpage === 'post-new-php' ) &&
 			typeof wp !== 'undefined' && wp.heartbeat ) {
 

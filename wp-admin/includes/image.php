@@ -272,8 +272,8 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		 */
 		$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file, $attachment_id );
 
-		// If the original image's dimensions are over the threshold, scale the image
-		// and use it as the "full" size.
+		// If the original image's dimensions are over the threshold,
+		// scale the image and use it as the "full" size.
 		if ( $threshold && ( $image_meta['width'] > $threshold || $image_meta['height'] > $threshold ) ) {
 			$editor = wp_get_image_editor( $file );
 
@@ -282,7 +282,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 				return $image_meta;
 			}
 
-			// Resize the image
+			// Resize the image.
 			$resized = $editor->resize( $threshold, $threshold );
 			$rotated = null;
 
@@ -305,10 +305,10 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 						$image_meta['image_meta']['orientation'] = 1;
 					}
 				} else {
-					// TODO: log errors.
+					// TODO: Log errors.
 				}
 			} else {
-				// TODO: log errors.
+				// TODO: Log errors.
 			}
 		} elseif ( ! empty( $exif_meta['orientation'] ) && (int) $exif_meta['orientation'] !== 1 ) {
 			// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
@@ -335,7 +335,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 						$image_meta['image_meta']['orientation'] = 1;
 					}
 				} else {
-					// TODO: log errors.
+					// TODO: Log errors.
 				}
 			}
 		}
@@ -434,7 +434,7 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 		$rotated = $editor->maybe_exif_rotate();
 
 		if ( is_wp_error( $rotated ) ) {
-			// TODO: log errors.
+			// TODO: Log errors.
 		}
 	}
 
@@ -443,7 +443,7 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 			$new_size_meta = $editor->make_subsize( $new_size_data );
 
 			if ( is_wp_error( $new_size_meta ) ) {
-				// TODO: log errors.
+				// TODO: Log errors.
 			} else {
 				// Save the size meta value.
 				$image_meta['sizes'][ $new_size_name ] = $new_size_meta;
@@ -575,7 +575,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		if ( ! empty( $merged_sizes ) ) {
 			$editor = wp_get_image_editor( $file );
 
-			if ( ! is_wp_error( $editor ) ) { // No support for this type of file
+			if ( ! is_wp_error( $editor ) ) { // No support for this type of file.
 				/*
 				 * PDFs may have the same file filename as JPEGs.
 				 * Ensure the PDF preview image does not overwrite any JPEG images that already exist.
@@ -715,18 +715,18 @@ function wp_read_image_metadata( $file ) {
 		if ( ! empty( $info['APP13'] ) ) {
 			$iptc = @iptcparse( $info['APP13'] );
 
-			// Headline, "A brief synopsis of the caption."
+			// Headline, "A brief synopsis of the caption".
 			if ( ! empty( $iptc['2#105'][0] ) ) {
 				$meta['title'] = trim( $iptc['2#105'][0] );
 				/*
 				* Title, "Many use the Title field to store the filename of the image,
-				* though the field may be used in many ways."
+				* though the field may be used in many ways".
 				*/
 			} elseif ( ! empty( $iptc['2#005'][0] ) ) {
 				$meta['title'] = trim( $iptc['2#005'][0] );
 			}
 
-			if ( ! empty( $iptc['2#120'][0] ) ) { // description / legacy caption
+			if ( ! empty( $iptc['2#120'][0] ) ) { // Description / legacy caption.
 				$caption = trim( $iptc['2#120'][0] );
 
 				mbstring_binary_safe_encoding();

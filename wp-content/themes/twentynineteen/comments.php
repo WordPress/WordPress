@@ -56,7 +56,7 @@ $discussion = twentynineteen_get_discussion_data();
 		?>
 		</h2><!-- .comments-title -->
 		<?php
-			// Only show discussion meta information when comments are open and available.
+		// Only show discussion meta information when comments are open and available.
 		if ( have_comments() && comments_open() ) {
 			get_template_part( 'template-parts/post/discussion', 'meta' );
 		}
@@ -85,7 +85,7 @@ $discussion = twentynineteen_get_discussion_data();
 		</ol><!-- .comment-list -->
 		<?php
 
-		// Show comment navigation
+		// Show comment navigation.
 		if ( have_comments() ) :
 			$prev_icon     = twentynineteen_get_icon_svg( 'chevron_left', 22 );
 			$next_icon     = twentynineteen_get_icon_svg( 'chevron_right', 22 );

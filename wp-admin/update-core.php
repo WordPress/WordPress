@@ -591,7 +591,7 @@ function do_core_upgrade( $reinstall = false ) {
 	}
 
 	if ( ! WP_Filesystem( $credentials, ABSPATH, $allow_relaxed_file_ownership ) ) {
-		// Failed to connect, Error and request again
+		// Failed to connect. Error and request again.
 		request_filesystem_credentials( $url, '', true, ABSPATH, array( 'version', 'locale' ), $allow_relaxed_file_ownership );
 		echo '</div>';
 		return;
@@ -732,7 +732,7 @@ get_current_screen()->set_help_sidebar(
 );
 
 if ( 'upgrade-core' == $action ) {
-	// Force a update check when requested
+	// Force a update check when requested.
 	$force_check = ! empty( $_GET['force-check'] );
 	wp_version_check( array(), $force_check );
 

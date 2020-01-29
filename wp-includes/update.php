@@ -27,14 +27,14 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	}
 
 	global $wpdb, $wp_local_package;
-	// include an unmodified $wp_version
+	// Include an unmodified $wp_version.
 	include( ABSPATH . WPINC . '/version.php' );
 	$php_version = phpversion();
 
 	$current      = get_site_transient( 'update_core' );
 	$translations = wp_get_installed_translations( 'core' );
 
-	// Invalidate the transient when $wp_version changes
+	// Invalidate the transient when $wp_version changes.
 	if ( is_object( $current ) && $wp_version != $current->version_checked ) {
 		$current = false;
 	}
@@ -49,8 +49,8 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		$force_check = true;
 	}
 
-	// Wait 60 seconds between multiple version check requests
-	$timeout          = 60;
+	// Wait 1 minute between multiple version check requests.
+	$timeout          = MINUTE_IN_SECONDS;
 	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
 	if ( ! $force_check && $time_not_changed ) {
 		return;
@@ -65,7 +65,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	 */
 	$locale = apply_filters( 'core_version_check_locale', get_locale() );
 
-	// Update last_checked for current to prevent multiple blocking requests if request hangs
+	// Update last_checked for current to prevent multiple blocking requests if request hangs.
 	$current->last_checked = time();
 	set_site_transient( 'update_core', $current );
 
@@ -260,10 +260,10 @@ function wp_update_plugins( $extra_stats = array() ) {
 		return;
 	}
 
-	// include an unmodified $wp_version
+	// Include an unmodified $wp_version.
 	include( ABSPATH . WPINC . '/version.php' );
 
-	// If running blog-side, bail unless we've not checked in the last 12 hours
+	// If running blog-side, bail unless we've not checked in the last 12 hours.
 	if ( ! function_exists( 'get_plugins' ) ) {
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 	}
@@ -323,13 +323,13 @@ function wp_update_plugins( $extra_stats = array() ) {
 			}
 		}
 
-		// Bail if we've checked recently and if nothing has changed
+		// Bail if we've checked recently and if nothing has changed.
 		if ( ! $plugin_changed ) {
 			return;
 		}
 	}
 
-	// Update last_checked for current to prevent multiple blocking requests if request hangs
+	// Update last_checked for current to prevent multiple blocking requests if request hangs.
 	$current->last_checked = time();
 	set_site_transient( 'update_plugins', $current );
 
@@ -351,7 +351,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 	if ( $doing_cron ) {
 		$timeout = 30;
 	} else {
-		// Three seconds, plus one extra second for every 10 plugins
+		// Three seconds, plus one extra second for every 10 plugins.
 		$timeout = 3 + (int) ( count( $plugins ) / 10 );
 	}
 
@@ -440,7 +440,7 @@ function wp_update_themes( $extra_stats = array() ) {
 		return;
 	}
 
-	// include an unmodified $wp_version
+	// Include an unmodified $wp_version.
 	include( ABSPATH . WPINC . '/version.php' );
 
 	$installed_themes = wp_get_themes();
@@ -513,13 +513,13 @@ function wp_update_themes( $extra_stats = array() ) {
 			}
 		}
 
-		// Bail if we've checked recently and if nothing has changed
+		// Bail if we've checked recently and if nothing has changed.
 		if ( ! $theme_changed ) {
 			return;
 		}
 	}
 
-	// Update last_checked for current to prevent multiple blocking requests if request hangs
+	// Update last_checked for current to prevent multiple blocking requests if request hangs.
 	$last_update->last_checked = time();
 	set_site_transient( 'update_themes', $last_update );
 
@@ -541,7 +541,7 @@ function wp_update_themes( $extra_stats = array() ) {
 	if ( $doing_cron ) {
 		$timeout = 30;
 	} else {
-		// Three seconds, plus one extra second for every 10 themes
+		// Three seconds, plus one extra second for every 10 themes.
 		$timeout = 3 + (int) ( count( $themes ) / 10 );
 	}
 
@@ -728,7 +728,7 @@ function wp_get_update_data() {
  * @global string $wp_version
  */
 function _maybe_update_core() {
-	// include an unmodified $wp_version
+	// Include an unmodified $wp_version.
 	include( ABSPATH . WPINC . '/version.php' );
 
 	$current = get_site_transient( 'update_core' );

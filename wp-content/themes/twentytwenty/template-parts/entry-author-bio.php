@@ -16,7 +16,7 @@ if ( (bool) get_the_author_meta( 'description' ) && (bool) get_theme_mod( 'show_
 		<h2 class="author-title heading-size-4">
 			<?php
 			printf(
-				/* translators: %s: Author name */
+				/* translators: %s: Author name. */
 				__( 'By %s', 'twentytwenty' ),
 				esc_html( get_the_author() )
 			);

@@ -259,9 +259,11 @@ jQuery( document ).ready( function( $ ) {
 			RecalculateProgression();
 
 			if ( delay > 3000  ) {
-				// We have announced that we're waiting.
-				// Announce that we're ready after giving at least 3 seconds for the first announcement
-				// to be read out, or the two may collide.
+				/*
+				 * We have announced that we're waiting.
+				 * Announce that we're ready after giving at least 3 seconds
+				 * for the first announcement to be read out, or the two may collide.
+				 */
 				if ( delay > 6000 ) {
 					delay = 0;
 				} else {

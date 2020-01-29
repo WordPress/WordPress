@@ -27,7 +27,7 @@ send_origin_headers();
 header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 header( 'X-Robots-Tag: noindex' );
 
-// Require an action parameter
+// Require an action parameter.
 if ( empty( $_REQUEST['action'] ) ) {
 	wp_die( '0', 400 );
 }
@@ -141,7 +141,7 @@ $core_actions_post = array(
 	'health-check-get-sizes',
 );
 
-// Deprecated
+// Deprecated.
 $core_actions_post_deprecated = array( 'wp-fullscreen-save-post', 'press-this-save-post', 'press-this-add-category' );
 $core_actions_post            = array_merge( $core_actions_post, $core_actions_post_deprecated );
 
@@ -189,5 +189,5 @@ if ( is_user_logged_in() ) {
 	 */
 	do_action( "wp_ajax_nopriv_{$action}" );
 }
-// Default status
+// Default status.
 wp_die( '0' );

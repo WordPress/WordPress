@@ -29,7 +29,7 @@ get_header(); ?>
 
 				<?php get_template_part( 'content', 'page' ); ?>
 
-			<?php endwhile; // end of the loop. ?>
+			<?php endwhile; // End of the loop. ?>
 
 		</div><!-- #content -->
 	</div><!-- #primary -->

@@ -295,7 +295,7 @@ abstract class WP_Image_Editor {
 	protected function get_output_format( $filename = null, $mime_type = null ) {
 		$new_ext = null;
 
-		// By default, assume specified type takes priority
+		// By default, assume specified type takes priority.
 		if ( $mime_type ) {
 			$new_ext = $this->get_extension( $mime_type );
 		}
@@ -310,7 +310,7 @@ abstract class WP_Image_Editor {
 		}
 
 		// Check to see if specified mime-type is the same as type implied by
-		// file extension.  If so, prefer extension from file.
+		// file extension. If so, prefer extension from file.
 		if ( ! $mime_type || ( $file_mime == $mime_type ) ) {
 			$mime_type = $file_mime;
 			$new_ext   = $file_ext;
@@ -353,7 +353,7 @@ abstract class WP_Image_Editor {
 	 * @return string filename
 	 */
 	public function generate_filename( $suffix = null, $dest_path = null, $extension = null ) {
-		// $suffix will be appended to the destination filename, just before the extension
+		// $suffix will be appended to the destination filename, just before the extension.
 		if ( ! $suffix ) {
 			$suffix = $this->get_suffix();
 		}
@@ -429,7 +429,7 @@ abstract class WP_Image_Editor {
 				break;
 			case 3:
 				// Rotate 180 degrees or flip horizontally and vertically.
-				// Flipping seems faster/uses less resources.
+				// Flipping seems faster and uses less resources.
 				$result = $this->flip( true, true );
 				break;
 			case 4:

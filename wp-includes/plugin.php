@@ -152,19 +152,19 @@ function has_filter( $tag, $function_to_check = false ) {
  *
  * Example usage:
  *
- *     // The filter callback function
+ *     // The filter callback function.
  *     function example_callback( $string, $arg1, $arg2 ) {
- *         // (maybe) modify $string
+ *         // (maybe) modify $string.
  *         return $string;
  *     }
  *     add_filter( 'example_filter', 'example_callback', 10, 3 );
  *
  *     /*
- *      * Apply the filters by calling the 'example_callback()' function that's
- *      * hooked onto `example_filter` above.
+ *      * Apply the filters by calling the 'example_callback()' function
+ *      * that's hooked onto `example_filter` above.
  *      *
- *      * - 'example_filter' is the filter hook
- *      * - 'filter me' is the value being filtered
+ *      * - 'example_filter' is the filter hook.
+ *      * - 'filter me' is the value being filtered.
  *      * - $arg1 and $arg2 are the additional arguments passed to the callback.
  *     $value = apply_filters( 'example_filter', 'filter me', $arg1, $arg2 );
  *
@@ -228,7 +228,7 @@ function apply_filters( $tag, $value ) {
 function apply_filters_ref_array( $tag, $args ) {
 	global $wp_filter, $wp_current_filter;
 
-	// Do 'all' actions first
+	// Do 'all' actions first.
 	if ( isset( $wp_filter['all'] ) ) {
 		$wp_current_filter[] = $tag;
 		$all_args            = func_get_args();
@@ -415,17 +415,17 @@ function add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *
  * Example usage:
  *
- *     // The action callback function
+ *     // The action callback function.
  *     function example_callback( $arg1, $arg2 ) {
- *         // (maybe) do something with the args
+ *         // (maybe) do something with the args.
  *     }
  *     add_action( 'example_action', 'example_callback', 10, 2 );
  *
  *     /*
- *      * Trigger the actions by calling the 'example_callback()' function that's
- *      * hooked onto `example_action` above.
+ *      * Trigger the actions by calling the 'example_callback()' function
+ *      * that's hooked onto `example_action` above.
  *      *
- *      * - 'example_action' is the action hook
+ *      * - 'example_action' is the action hook.
  *      * - $arg1 and $arg2 are the additional arguments passed to the callback.
  *     $value = do_action( 'example_action', $arg1, $arg2 );
  *
@@ -450,7 +450,7 @@ function do_action( $tag, ...$arg ) {
 		++$wp_actions[ $tag ];
 	}
 
-	// Do 'all' actions first
+	// Do 'all' actions first.
 	if ( isset( $wp_filter['all'] ) ) {
 		$wp_current_filter[] = $tag;
 		$all_args            = func_get_args();
@@ -523,7 +523,7 @@ function do_action_ref_array( $tag, $args ) {
 		++$wp_actions[ $tag ];
 	}
 
-	// Do 'all' actions first
+	// Do 'all' actions first.
 	if ( isset( $wp_filter['all'] ) ) {
 		$wp_current_filter[] = $tag;
 		$all_args            = func_get_args();
@@ -692,7 +692,8 @@ function plugin_basename( $file ) {
 	$plugin_dir    = wp_normalize_path( WP_PLUGIN_DIR );
 	$mu_plugin_dir = wp_normalize_path( WPMU_PLUGIN_DIR );
 
-	$file = preg_replace( '#^' . preg_quote( $plugin_dir, '#' ) . '/|^' . preg_quote( $mu_plugin_dir, '#' ) . '/#', '', $file ); // get relative path from plugins dir
+	// Get relative path from plugins directory.
+	$file = preg_replace( '#^' . preg_quote( $plugin_dir, '#' ) . '/|^' . preg_quote( $mu_plugin_dir, '#' ) . '/#', '', $file );
 	$file = trim( $file, '/' );
 	return $file;
 }
@@ -717,7 +718,7 @@ function plugin_basename( $file ) {
 function wp_register_plugin_realpath( $file ) {
 	global $wp_plugin_paths;
 
-	// Normalize, but store as static to avoid recalculation of a constant value
+	// Normalize, but store as static to avoid recalculation of a constant value.
 	static $wp_plugin_path = null, $wpmu_plugin_path = null;
 	if ( ! isset( $wp_plugin_path ) ) {
 		$wp_plugin_path   = wp_normalize_path( WP_PLUGIN_DIR );

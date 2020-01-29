@@ -232,8 +232,8 @@
 	 *
 	 * @since 4.7.0
 	 * @access protected
-	 *
 	 * @access private
+	 *
 	 * @return {void}
 	 */
 	api.addLinkPreviewing = function addLinkPreviewing() {
@@ -337,7 +337,7 @@
 	api.prepareLinkPreview = function prepareLinkPreview( element ) {
 		var queryParams, $element = $( element );
 
-        // Skip elements with no href attribute. Check first to avoid more expensive checks down the road
+        // Skip elements with no href attribute. Check first to avoid more expensive checks down the road.
         if ( ! element.hasAttribute( 'href' ) ) {
             return;
         }
@@ -357,7 +357,7 @@
 			element.protocol = 'https:';
 		}
 
-		// Ignore links with class wp-playlist-caption
+		// Ignore links with class wp-playlist-caption.
 		if ( $element.hasClass( 'wp-playlist-caption' ) ) {
 			return;
 		}

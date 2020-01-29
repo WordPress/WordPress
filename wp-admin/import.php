@@ -39,7 +39,7 @@ if ( current_user_can( 'install_plugins' ) ) {
 	$popular_importers = array();
 }
 
-// Detect and redirect invalid importers like 'movabletype', which is registered as 'mt'
+// Detect and redirect invalid importers like 'movabletype', which is registered as 'mt'.
 if ( ! empty( $_GET['invalid'] ) && isset( $popular_importers[ $_GET['invalid'] ] ) ) {
 	$importer_id = $popular_importers[ $_GET['invalid'] ]['importer-id'];
 	if ( $importer_id != $_GET['invalid'] ) { // Prevent redirect loops.
@@ -93,7 +93,7 @@ foreach ( $popular_importers as $pop_importer => $pop_data ) {
 }
 
 if ( empty( $importers ) ) {
-	echo '<p>' . __( 'No importers are available.' ) . '</p>'; // TODO: make more helpful
+	echo '<p>' . __( 'No importers are available.' ) . '</p>'; // TODO: Make more helpful.
 } else {
 	uasort( $importers, '_usort_by_first_member' );
 	?>

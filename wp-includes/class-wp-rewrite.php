@@ -442,7 +442,7 @@ class WP_Rewrite {
 		$page_attachment_uris = array();
 
 		foreach ( $posts as $id => $post ) {
-			// URL => page name
+			// URL => page name.
 			$uri         = get_page_uri( $id );
 			$attachments = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = %d", $id ) );
 			if ( ! empty( $attachments ) ) {
@@ -897,7 +897,7 @@ class WP_Rewrite {
 
 		$num_tokens = count( $tokens[0] );
 
-		$index          = $this->index; //probably 'index.php'
+		$index          = $this->index; // Probably 'index.php'.
 		$feedindex      = $index;
 		$trackbackindex = $index;
 		$embedindex     = $index;
@@ -1003,7 +1003,7 @@ class WP_Rewrite {
 			// Start creating the array of rewrites for this dir.
 			$rewrite = array();
 
-			// ...adding on /feed/ regexes => queries
+			// ...adding on /feed/ regexes => queries.
 			if ( $feed ) {
 				$rewrite = array(
 					$feedmatch  => $feedquery,
@@ -1012,7 +1012,7 @@ class WP_Rewrite {
 				);
 			}
 
-			//...and /page/xx ones
+			// ...and /page/xx ones.
 			if ( $paged ) {
 				$rewrite = array_merge( $rewrite, array( $pagematch => $pagequery ) );
 			}
@@ -1259,11 +1259,11 @@ class WP_Rewrite {
 			return $rewrite;
 		}
 
-		// robots.txt -- only if installed at the root
+		// robots.txt -- only if installed at the root.
 		$home_path      = parse_url( home_url() );
 		$robots_rewrite = ( empty( $home_path['path'] ) || '/' == $home_path['path'] ) ? array( 'robots\.txt$' => $this->index . '?robots=1' ) : array();
 
-		// favicon.ico -- only if installed at the root
+		// favicon.ico -- only if installed at the root.
 		$favicon_rewrite = ( empty( $home_path['path'] ) || '/' == $home_path['path'] ) ? array( 'favicon\.ico$' => $this->index . '?favicon=1' ) : array();
 
 		// Old feed and service files.

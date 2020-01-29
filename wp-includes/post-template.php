@@ -313,8 +313,10 @@ function get_the_content( $more_link_text = null, $strip_teaser = false, $post =
 		return get_the_password_form( $_post );
 	}
 
-	if ( $elements['page'] > count( $elements['pages'] ) ) { // if the requested page doesn't exist
-		$elements['page'] = count( $elements['pages'] ); // give them the highest numbered page that DOES exist
+	// If the requested page doesn't exist.
+	if ( $elements['page'] > count( $elements['pages'] ) ) {
+		// Give them the highest numbered page that DOES exist.
+		$elements['page'] = count( $elements['pages'] );
 	}
 
 	$page_no = $elements['page'];
@@ -451,7 +453,7 @@ function has_excerpt( $post = 0 ) {
  * @param int|WP_Post  $post_id Optional. Post ID or post object. Defaults to the global `$post`.
  */
 function post_class( $class = '', $post_id = null ) {
-	// Separates classes with a single space, collates classes for post DIV
+	// Separates classes with a single space, collates classes for post DIV.
 	echo 'class="' . join( ' ', get_post_class( $class, $post_id ) ) . '"';
 }
 
@@ -502,7 +504,7 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes[] = 'type-' . $post->post_type;
 	$classes[] = 'status-' . $post->post_status;
 
-	// Post Format
+	// Post Format.
 	if ( post_type_supports( $post->post_type, 'post-formats' ) ) {
 		$post_format = get_post_format( $post->ID );
 
@@ -527,7 +529,7 @@ function get_post_class( $class = '', $post_id = null ) {
 		$classes[] = 'has-post-thumbnail';
 	}
 
-	// sticky for Sticky Posts
+	// Sticky for Sticky Posts.
 	if ( is_sticky( $post->ID ) ) {
 		if ( is_home() && ! is_paged() ) {
 			$classes[] = 'sticky';
@@ -536,10 +538,10 @@ function get_post_class( $class = '', $post_id = null ) {
 		}
 	}
 
-	// hentry for hAtom compliance
+	// hentry for hAtom compliance.
 	$classes[] = 'hentry';
 
-	// All public taxonomies
+	// All public taxonomies.
 	$taxonomies = get_taxonomies( array( 'public' => true ) );
 	foreach ( (array) $taxonomies as $taxonomy ) {
 		if ( is_object_in_taxonomy( $post->post_type, $taxonomy ) ) {
@@ -587,7 +589,7 @@ function get_post_class( $class = '', $post_id = null ) {
  * @param string|string[] $class Space-separated string or array of class names to add to the class list.
  */
 function body_class( $class = '' ) {
-	// Separates class names with a single space, collates class names for body element
+	// Separates class names with a single space, collates class names for body element.
 	echo 'class="' . join( ' ', get_body_class( $class ) ) . '"';
 }
 
@@ -664,7 +666,7 @@ function get_body_class( $class = '' ) {
 				$classes[] = 'single-' . sanitize_html_class( $post->post_type, $post_id );
 				$classes[] = 'postid-' . $post_id;
 
-				// Post Format
+				// Post Format.
 				if ( post_type_supports( $post->post_type, 'post-formats' ) ) {
 					$post_format = get_post_format( $post->ID );
 
@@ -878,7 +880,7 @@ function post_password_required( $post = null ) {
 }
 
 //
-// Page Template Functions for usage in Themes
+// Page Template Functions for usage in Themes.
 //
 
 /**
@@ -1123,7 +1125,7 @@ function the_meta() {
 }
 
 //
-// Pages
+// Pages.
 //
 
 /**
@@ -1175,7 +1177,7 @@ function wp_dropdown_pages( $args = '' ) {
 
 	$pages  = get_pages( $parsed_args );
 	$output = '';
-	// Back-compat with old system where both id and name were based on $name argument
+	// Back-compat with old system where both id and name were based on $name argument.
 	if ( empty( $parsed_args['id'] ) ) {
 		$parsed_args['id'] = $parsed_args['name'];
 	}
@@ -1276,17 +1278,17 @@ function wp_list_pages( $args = '' ) {
 	$parsed_args = wp_parse_args( $args, $defaults );
 
 	if ( ! in_array( $parsed_args['item_spacing'], array( 'preserve', 'discard' ), true ) ) {
-		// invalid value, fall back to default.
+		// Invalid value, fall back to default.
 		$parsed_args['item_spacing'] = $defaults['item_spacing'];
 	}
 
 	$output       = '';
 	$current_page = 0;
 
-	// sanitize, mostly to keep spaces out
+	// Sanitize, mostly to keep spaces out.
 	$parsed_args['exclude'] = preg_replace( '/[^0-9,]/', '', $parsed_args['exclude'] );
 
-	// Allow plugins to filter an array of excluded pages (but don't put a nullstring into the array)
+	// Allow plugins to filter an array of excluded pages (but don't put a nullstring into the array).
 	$exclude_array = ( $parsed_args['exclude'] ) ? explode( ',', $parsed_args['exclude'] ) : array();
 
 	/**
@@ -1394,7 +1396,7 @@ function wp_page_menu( $args = array() ) {
 	$args     = wp_parse_args( $args, $defaults );
 
 	if ( ! in_array( $args['item_spacing'], array( 'preserve', 'discard' ) ) ) {
-		// invalid value, fall back to default.
+		// Invalid value, fall back to default.
 		$args['item_spacing'] = $defaults['item_spacing'];
 	}
 
@@ -1421,7 +1423,7 @@ function wp_page_menu( $args = array() ) {
 
 	$list_args = $args;
 
-	// Show Home in the menu
+	// Show Home in the menu.
 	if ( ! empty( $args['show_home'] ) ) {
 		if ( true === $args['show_home'] || '1' === $args['show_home'] || 1 === $args['show_home'] ) {
 			$text = __( 'Home' );
@@ -1433,7 +1435,7 @@ function wp_page_menu( $args = array() ) {
 			$class = 'class="current_page_item"';
 		}
 		$menu .= '<li ' . $class . '><a href="' . home_url( '/' ) . '">' . $args['link_before'] . $text . $args['link_after'] . '</a></li>';
-		// If the front page is a page, add it to the exclude list
+		// If the front page is a page, add it to the exclude list.
 		if ( get_option( 'show_on_front' ) == 'page' ) {
 			if ( ! empty( $list_args['exclude'] ) ) {
 				$list_args['exclude'] .= ',';
@@ -1457,7 +1459,7 @@ function wp_page_menu( $args = array() ) {
 
 	if ( $menu ) {
 
-		// wp_nav_menu doesn't set before and after
+		// wp_nav_menu() doesn't set before and after.
 		if ( isset( $args['fallback_cb'] ) &&
 			'wp_page_menu' === $args['fallback_cb'] &&
 			'ul' !== $container ) {
@@ -1499,7 +1501,7 @@ function wp_page_menu( $args = array() ) {
 }
 
 //
-// Page helpers
+// Page helpers.
 //
 
 /**
@@ -1543,7 +1545,7 @@ function walk_page_tree( $pages, $depth, $current_page, $r ) {
  * @return string
  */
 function walk_page_dropdown_tree( ...$args ) {
-	if ( empty( $args[2]['walker'] ) ) { // the user's options are the third parameter
+	if ( empty( $args[2]['walker'] ) ) { // The user's options are the third parameter.
 		$walker = new Walker_PageDropdown;
 	} else {
 		$walker = $args[2]['walker'];
@@ -1553,7 +1555,7 @@ function walk_page_dropdown_tree( ...$args ) {
 }
 
 //
-// Attachments
+// Attachments.
 //
 
 /**
@@ -1671,7 +1673,7 @@ function prepend_attachment( $content ) {
 		$p = wp_audio_shortcode( array( 'src' => wp_get_attachment_url() ) );
 	} else {
 		$p = '<p class="attachment">';
-		// show the medium sized image representation of the attachment if available, and link to the raw file
+		// Show the medium sized image representation of the attachment if available, and link to the raw file.
 		$p .= wp_get_attachment_link( 0, 'medium', false );
 		$p .= '</p>';
 	}
@@ -1691,7 +1693,7 @@ function prepend_attachment( $content ) {
 }
 
 //
-// Misc
+// Misc.
 //
 
 /**
@@ -1916,7 +1918,7 @@ function wp_list_post_revisions( $post_id = 0, $type = 'all' ) {
 		return;
 	}
 
-	// $args array with (parent, format, right, left, type) deprecated since 3.6
+	// $args array with (parent, format, right, left, type) deprecated since 3.6.
 	if ( is_array( $type ) ) {
 		$type = ! empty( $type['type'] ) ? $type['type'] : $type;
 		_deprecated_argument( __FUNCTION__, '3.6.0' );

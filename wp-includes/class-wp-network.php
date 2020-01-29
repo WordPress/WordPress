@@ -243,7 +243,7 @@ class WP_Network {
 				return (int) $this->blog_id;
 			}
 
-			if ( defined( 'BLOGID_CURRENT_SITE' ) ) { // deprecated.
+			if ( defined( 'BLOGID_CURRENT_SITE' ) ) { // Deprecated.
 				$this->blog_id = (string) BLOGID_CURRENT_SITE;
 
 				return (int) $this->blog_id;

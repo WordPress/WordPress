@@ -209,7 +209,7 @@ if ( false !== strpos( $tzstring, 'Etc/GMT' ) ) {
 	$tzstring = '';
 }
 
-if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists
+if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists.
 	$check_zone_info = false;
 	if ( 0 == $current_offset ) {
 		$tzstring = 'UTC+0';
@@ -321,7 +321,7 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists
 
 foreach ( $date_formats as $format ) {
 	echo "\t<label><input type='radio' name='date_format' value='" . esc_attr( $format ) . "'";
-	if ( get_option( 'date_format' ) === $format ) { // checked() uses "==" rather than "==="
+	if ( get_option( 'date_format' ) === $format ) { // checked() uses "==" rather than "===".
 		echo " checked='checked'";
 		$custom = false;
 	}
@@ -358,7 +358,7 @@ foreach ( $date_formats as $format ) {
 
 foreach ( $time_formats as $format ) {
 	echo "\t<label><input type='radio' name='time_format' value='" . esc_attr( $format ) . "'";
-	if ( get_option( 'time_format' ) === $format ) { // checked() uses "==" rather than "==="
+	if ( get_option( 'time_format' ) === $format ) { // checked() uses "==" rather than "===".
 		echo " checked='checked'";
 		$custom = false;
 	}

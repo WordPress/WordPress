@@ -59,7 +59,11 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! is_user_logged_in() || ! current_user_can( 'edit_posts' ) ) {
-			return new WP_Error( 'rest_user_cannot_view', __( 'Sorry, you are not allowed to view themes.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error(
+				'rest_user_cannot_view',
+				__( 'Sorry, you are not allowed to view themes.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
 		}
 
 		return true;
@@ -182,6 +186,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 		);
 
 		$this->schema = $schema;
+
 		return $this->add_additional_fields_schema( $this->schema );
 	}
 

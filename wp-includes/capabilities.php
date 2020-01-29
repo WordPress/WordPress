@@ -53,7 +53,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			break;
 		case 'edit_user':
 		case 'edit_users':
-			// Allow user to edit itself
+			// Allow user to edit themselves.
 			if ( 'edit_user' == $cap && isset( $args[0] ) && $user_id == $args[0] ) {
 				break;
 			}
@@ -137,7 +137,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 
 			break;
 		// edit_post breaks down to edit_posts, edit_published_posts, or
-		// edit_others_posts
+		// edit_others_posts.
 		case 'edit_post':
 		case 'edit_page':
 			$post = get_post( $args[0] );
@@ -910,7 +910,7 @@ function grant_super_admin( $user_id ) {
 	 */
 	do_action( 'grant_super_admin', $user_id );
 
-	// Directly fetch site_admins instead of using get_super_admins()
+	// Directly fetch site_admins instead of using get_super_admins().
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
 
 	$user = get_userdata( $user_id );
@@ -957,7 +957,7 @@ function revoke_super_admin( $user_id ) {
 	 */
 	do_action( 'revoke_super_admin', $user_id );
 
-	// Directly fetch site_admins instead of using get_super_admins()
+	// Directly fetch site_admins instead of using get_super_admins().
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
 
 	$user = get_userdata( $user_id );

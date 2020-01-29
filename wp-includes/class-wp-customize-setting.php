@@ -861,7 +861,7 @@ class WP_Customize_Setting {
 
 		if ( $create ) {
 			if ( ! is_array( $node ) ) {
-				// account for an array overriding a string or object value
+				// Account for an array overriding a string or object value.
 				$node = array();
 			}
 			if ( ! isset( $node[ $last ] ) ) {

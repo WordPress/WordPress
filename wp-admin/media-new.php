@@ -29,7 +29,7 @@ if ( isset( $_REQUEST['post_id'] ) ) {
 if ( $_POST ) {
 	if ( isset( $_POST['html-upload'] ) && ! empty( $_FILES ) ) {
 		check_admin_referer( 'media-form' );
-		// Upload File button was clicked
+		// Upload File button was clicked.
 		$upload_id = media_handle_upload( 'async-upload', $post_id );
 		if ( is_wp_error( $upload_id ) ) {
 			wp_die( $upload_id );

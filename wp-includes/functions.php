@@ -323,7 +323,7 @@ function wp_date( $format, $timestamp = null, $timezone = null ) {
 function wp_maybe_decline_date( $date, $format = '' ) {
 	global $wp_locale;
 
-	// i18n functions are not available in SHORTINIT mode
+	// i18n functions are not available in SHORTINIT mode.
 	if ( ! function_exists( '_x' ) ) {
 		return $date;
 	}
@@ -384,7 +384,7 @@ function wp_maybe_decline_date( $date, $format = '' ) {
 		}
 	}
 
-	// Used for locale-specific rules
+	// Used for locale-specific rules.
 	$locale = get_locale();
 
 	if ( 'ca' === $locale ) {
@@ -590,7 +590,7 @@ function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
  * @return mixed Unserialized data can be any type.
  */
 function maybe_unserialize( $original ) {
-	if ( is_serialized( $original ) ) { // don't attempt to unserialize data that wasn't serialized going in
+	if ( is_serialized( $original ) ) { // Don't attempt to unserialize data that wasn't serialized going in.
 		return @unserialize( $original );
 	}
 	return $original;
@@ -609,7 +609,7 @@ function maybe_unserialize( $original ) {
  * @return bool False if not serialized and true if it was.
  */
 function is_serialized( $data, $strict = true ) {
-	// if it isn't a string, it isn't serialized.
+	// If it isn't a string, it isn't serialized.
 	if ( ! is_string( $data ) ) {
 		return false;
 	}
@@ -653,7 +653,7 @@ function is_serialized( $data, $strict = true ) {
 			} elseif ( false === strpos( $data, '"' ) ) {
 				return false;
 			}
-			// or else fall through
+			// Or else fall through.
 		case 'a':
 		case 'O':
 			return (bool) preg_match( "/^{$token}:[0-9]+:/s", $data );
@@ -708,9 +708,11 @@ function maybe_serialize( $data ) {
 		return serialize( $data );
 	}
 
-	// Double serialization is required for backward compatibility.
-	// See https://core.trac.wordpress.org/ticket/12930
-	// Also the world will end. See WP 3.6.1.
+	/*
+	 * Double serialization is required for backward compatibility.
+	 * See https://core.trac.wordpress.org/ticket/12930
+	 * Also the world will end. See WP 3.6.1.
+	 */
 	if ( is_serialized( $data, false ) ) {
 		return serialize( $data );
 	}
@@ -897,8 +899,7 @@ function do_enclose( $content = null, $post ) {
 				$type          = isset( $headers['content-type'] ) ? $headers['content-type'] : '';
 				$allowed_types = array( 'video', 'audio' );
 
-				// Check to see if we can figure out the mime type from
-				// the extension
+				// Check to see if we can figure out the mime type from the extension.
 				$url_parts = @parse_url( $url );
 				if ( false !== $url_parts ) {
 					$extension = pathinfo( $url_parts['path'], PATHINFO_EXTENSION );
@@ -1121,7 +1122,7 @@ function add_query_arg( ...$args ) {
 	}
 
 	wp_parse_str( $query, $qs );
-	$qs = urlencode_deep( $qs ); // this re-URL-encodes things that were already in the query string
+	$qs = urlencode_deep( $qs ); // This re-URL-encodes things that were already in the query string.
 	if ( is_array( $args[0] ) ) {
 		foreach ( $args[0] as $k => $v ) {
 			$qs[ $k ] = $v;
@@ -1154,7 +1155,7 @@ function add_query_arg( ...$args ) {
  * @return string New URL query string.
  */
 function remove_query_arg( $key, $query = false ) {
-	if ( is_array( $key ) ) { // removing multiple keys
+	if ( is_array( $key ) ) { // Removing multiple keys.
 		foreach ( $key as $k ) {
 			$query = add_query_arg( $k, false, $query );
 		}
@@ -1485,7 +1486,7 @@ function cache_javascript_headers() {
 	$expiresOffset = 10 * DAY_IN_SECONDS;
 
 	header( 'Content-Type: text/javascript; charset=' . get_bloginfo( 'charset' ) );
-	header( 'Vary: Accept-Encoding' ); // Handle proxies
+	header( 'Vary: Accept-Encoding' ); // Handle proxies.
 	header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + $expiresOffset ) . ' GMT' );
 }
 
@@ -1703,7 +1704,7 @@ function is_blog_installed() {
 	if ( ! wp_installing() ) {
 		$alloptions = wp_load_alloptions();
 	}
-	// If siteurl is not set to autoload, check it specifically
+	// If siteurl is not set to autoload, check it specifically.
 	if ( ! isset( $alloptions['siteurl'] ) ) {
 		$installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
 	} else {
@@ -2078,18 +2079,20 @@ function path_join( $base, $path ) {
  */
 function wp_normalize_path( $path ) {
 	$wrapper = '';
+
 	if ( wp_is_stream( $path ) ) {
 		list( $wrapper, $path ) = explode( '://', $path, 2 );
-		$wrapper               .= '://';
+
+		$wrapper .= '://';
 	}
 
-	// Standardise all paths to use /
+	// Standardise all paths to use '/'.
 	$path = str_replace( '\\', '/', $path );
 
 	// Replace multiple slashes down to a singular, allowing for network shares having two slashes.
 	$path = preg_replace( '|(?<=.)/+|', '/', $path );
 
-	// Windows paths should uppercase the drive letter
+	// Windows paths should uppercase the drive letter.
 	if ( ':' === substr( $path, 1, 1 ) ) {
 		$path = ucfirst( $path );
 	}
@@ -2181,22 +2184,27 @@ function wp_is_writable( $path ) {
  * @return bool Whether the path is writable.
  */
 function win_is_writable( $path ) {
-
-	if ( $path[ strlen( $path ) - 1 ] == '/' ) { // if it looks like a directory, check a random file within the directory
+	if ( $path[ strlen( $path ) - 1 ] == '/' ) {
+		// If it looks like a directory, check a random file within the directory.
 		return win_is_writable( $path . uniqid( mt_rand() ) . '.tmp' );
-	} elseif ( is_dir( $path ) ) { // If it's a directory (and not a file) check a random file within the directory
+	} elseif ( is_dir( $path ) ) {
+		// If it's a directory (and not a file), check a random file within the directory.
 		return win_is_writable( $path . '/' . uniqid( mt_rand() ) . '.tmp' );
 	}
-	// check tmp file for read/write capabilities
+
+	// Check tmp file for read/write capabilities.
 	$should_delete_tmp_file = ! file_exists( $path );
-	$f                      = @fopen( $path, 'a' );
+
+	$f = @fopen( $path, 'a' );
 	if ( $f === false ) {
 		return false;
 	}
 	fclose( $f );
+
 	if ( $should_delete_tmp_file ) {
 		unlink( $path );
 	}
+
 	return true;
 }
 
@@ -2327,7 +2335,7 @@ function _wp_upload_dir( $time = null ) {
 	if ( empty( $upload_path ) || 'wp-content/uploads' == $upload_path ) {
 		$dir = WP_CONTENT_DIR . '/uploads';
 	} elseif ( 0 !== strpos( $upload_path, ABSPATH ) ) {
-		// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
+		// $dir is absolute, $upload_path is (maybe) relative to ABSPATH.
 		$dir = path_join( ABSPATH, $upload_path );
 	} else {
 		$dir = $upload_path;
@@ -2351,7 +2359,7 @@ function _wp_upload_dir( $time = null ) {
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
-	// If multisite (and if not the main site in a post-MU network)
+	// If multisite (and if not the main site in a post-MU network).
 	if ( is_multisite() && ! ( is_main_network() && is_main_site() && defined( 'MULTISITE' ) ) ) {
 
 		if ( ! get_site_option( 'ms_files_rewriting' ) ) {
@@ -2402,7 +2410,7 @@ function _wp_upload_dir( $time = null ) {
 
 	$subdir = '';
 	if ( get_option( 'uploads_use_yearmonth_folders' ) ) {
-		// Generate the yearly and monthly dirs
+		// Generate the yearly and monthly directories.
 		if ( ! $time ) {
 			$time = current_time( 'mysql' );
 		}
@@ -2524,7 +2532,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 				$new_ext = ! empty( $ext2 ) ? $ext2 : $ext;
 
 				// Ensure this never goes into infinite loop
-				// as it uses pathinfo() and regex in the check but string replacement for the changes.
+				// as it uses pathinfo() and regex in the check, but string replacement for the changes.
 				$count = count( $files );
 				$i     = 0;
 
@@ -2565,7 +2573,7 @@ function _wp_check_existing_file_names( $filename, $files ) {
 	$fname = pathinfo( $filename, PATHINFO_FILENAME );
 	$ext   = pathinfo( $filename, PATHINFO_EXTENSION );
 
-	// Edge case, file names like `.ext`
+	// Edge case, file names like `.ext`.
 	if ( empty( $fname ) ) {
 		return false;
 	}
@@ -2681,14 +2689,14 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	fclose( $ifp );
 	clearstatcache();
 
-	// Set correct file permissions
+	// Set correct file permissions.
 	$stat  = @ stat( dirname( $new_file ) );
 	$perms = $stat['mode'] & 0007777;
 	$perms = $perms & 0000666;
 	chmod( $new_file, $perms );
 	clearstatcache();
 
-	// Compute the URL
+	// Compute the URL.
 	$url = $upload['url'] . "/$filename";
 
 	/** This filter is documented in wp-admin/includes/file.php */
@@ -2785,12 +2793,12 @@ function wp_check_filetype( $filename, $mimes = null ) {
 function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 	$proper_filename = false;
 
-	// Do basic extension validation and MIME mapping
+	// Do basic extension validation and MIME mapping.
 	$wp_filetype = wp_check_filetype( $filename, $mimes );
 	$ext         = $wp_filetype['ext'];
 	$type        = $wp_filetype['type'];
 
-	// We can't do any further validation without a file to work with
+	// We can't do any further validation without a file to work with.
 	if ( ! file_exists( $file ) ) {
 		return compact( 'ext', 'type', 'proper_filename' );
 	}
@@ -2800,7 +2808,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 	// Validate image types.
 	if ( $type && 0 === strpos( $type, 'image/' ) ) {
 
-		// Attempt to figure out what type of image it actually is
+		// Attempt to figure out what type of image it actually is.
 		$real_mime = wp_get_image_mime( $file );
 
 		if ( $real_mime && $real_mime != $type ) {
@@ -2822,7 +2830,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 				)
 			);
 
-			// Replace whatever is after the last period in the filename with the correct extension
+			// Replace whatever is after the last period in the filename with the correct extension.
 			if ( ! empty( $mime_to_ext[ $real_mime ] ) ) {
 				$filename_parts = explode( '.', $filename );
 				array_pop( $filename_parts );
@@ -2830,9 +2838,9 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 				$new_filename     = implode( '.', $filename_parts );
 
 				if ( $new_filename != $filename ) {
-					$proper_filename = $new_filename; // Mark that it changed
+					$proper_filename = $new_filename; // Mark that it changed.
 				}
-				// Redefine the extension / MIME
+				// Redefine the extension / MIME.
 				$wp_filetype = wp_check_filetype( $new_filename, $mimes );
 				$ext         = $wp_filetype['ext'];
 				$type        = $wp_filetype['type'];
@@ -2849,7 +2857,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		$real_mime = finfo_file( $finfo, $file );
 		finfo_close( $finfo );
 
-		// fileinfo often misidentifies obscure files as one of these types
+		// fileinfo often misidentifies obscure files as one of these types.
 		$nonspecific_types = array(
 			'application/octet-stream',
 			'application/encrypted',
@@ -2920,7 +2928,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		}
 	}
 
-	// The mime type must be allowed
+	// The mime type must be allowed.
 	if ( $type ) {
 		$allowed = get_allowed_mime_types();
 
@@ -3031,8 +3039,8 @@ function wp_get_mime_types() {
 			'ogv'                          => 'video/ogg',
 			'webm'                         => 'video/webm',
 			'mkv'                          => 'video/x-matroska',
-			'3gp|3gpp'                     => 'video/3gpp', // Can also be audio
-			'3g2|3gp2'                     => 'video/3gpp2', // Can also be audio
+			'3gp|3gpp'                     => 'video/3gpp',  // Can also be audio.
+			'3g2|3gp2'                     => 'video/3gpp2', // Can also be audio.
 			// Text formats.
 			'txt|asc|c|cc|h|srt'           => 'text/plain',
 			'csv'                          => 'text/csv',
@@ -3982,7 +3990,7 @@ function _wp_json_convert_string( $string ) {
  * This supports the JsonSerializable interface for PHP 5.2-5.3 as well.
  *
  * @ignore
- * @since      4.4.0
+ * @since 4.4.0
  * @deprecated 5.3.0 This function is no longer needed as support for PHP 5.2-5.3
  *                   has been dropped.
  * @access     private
@@ -4222,7 +4230,7 @@ function _mce_set_direction( $mce_init ) {
 function smilies_init() {
 	global $wpsmiliestrans, $wp_smiliessearch;
 
-	// don't bother setting up smilies if they are disabled
+	// Don't bother setting up smilies if they are disabled.
 	if ( ! get_option( 'use_smilies' ) ) {
 		return;
 	}
@@ -4302,7 +4310,7 @@ function smilies_init() {
 
 	$spaces = wp_spaces_regexp();
 
-	// Begin first "subpattern"
+	// Begin first "subpattern".
 	$wp_smiliessearch = '/(?<=' . $spaces . '|^)';
 
 	$subchar = '';
@@ -4310,11 +4318,11 @@ function smilies_init() {
 		$firstchar = substr( $smiley, 0, 1 );
 		$rest      = substr( $smiley, 1 );
 
-		// new subpattern?
+		// New subpattern?
 		if ( $firstchar != $subchar ) {
 			if ( $subchar != '' ) {
-				$wp_smiliessearch .= ')(?=' . $spaces . '|$)';  // End previous "subpattern"
-				$wp_smiliessearch .= '|(?<=' . $spaces . '|^)'; // Begin another "subpattern"
+				$wp_smiliessearch .= ')(?=' . $spaces . '|$)';  // End previous "subpattern".
+				$wp_smiliessearch .= '|(?<=' . $spaces . '|^)'; // Begin another "subpattern".
 			}
 			$subchar           = $firstchar;
 			$wp_smiliessearch .= preg_quote( $firstchar, '/' ) . '(?:';
@@ -5348,32 +5356,32 @@ function wp_guess_url() {
 		$abspath_fix         = str_replace( '\\', '/', ABSPATH );
 		$script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
 
-		// The request is for the admin
+		// The request is for the admin.
 		if ( strpos( $_SERVER['REQUEST_URI'], 'wp-admin' ) !== false || strpos( $_SERVER['REQUEST_URI'], 'wp-login.php' ) !== false ) {
 			$path = preg_replace( '#/(wp-admin/.*|wp-login.php)#i', '', $_SERVER['REQUEST_URI'] );
 
-			// The request is for a file in ABSPATH
+			// The request is for a file in ABSPATH.
 		} elseif ( $script_filename_dir . '/' == $abspath_fix ) {
-			// Strip off any file/query params in the path
+			// Strip off any file/query params in the path.
 			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['PHP_SELF'] );
 
 		} else {
 			if ( false !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
-				// Request is hitting a file inside ABSPATH
+				// Request is hitting a file inside ABSPATH.
 				$directory = str_replace( ABSPATH, '', $script_filename_dir );
-				// Strip off the sub directory, and any file/query params
+				// Strip off the subdirectory, and any file/query params.
 				$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '', $_SERVER['REQUEST_URI'] );
 			} elseif ( false !== strpos( $abspath_fix, $script_filename_dir ) ) {
-				// Request is hitting a file above ABSPATH
+				// Request is hitting a file above ABSPATH.
 				$subdirectory = substr( $abspath_fix, strpos( $abspath_fix, $script_filename_dir ) + strlen( $script_filename_dir ) );
-				// Strip off any file/query params from the path, appending the sub directory to the installation
+				// Strip off any file/query params from the path, appending the subdirectory to the installation.
 				$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['REQUEST_URI'] ) . $subdirectory;
 			} else {
 				$path = $_SERVER['REQUEST_URI'];
 			}
 		}
 
-		$schema = is_ssl() ? 'https://' : 'http://'; // set_url_scheme() is not defined yet
+		$schema = is_ssl() ? 'https://' : 'http://'; // set_url_scheme() is not defined yet.
 		$url    = $schema . $_SERVER['HTTP_HOST'] . $path;
 	}
 
@@ -5641,9 +5649,9 @@ function wp_timezone_override_offset() {
  * @return int
  */
 function _wp_timezone_choice_usort_callback( $a, $b ) {
-	// Don't use translated versions of Etc
+	// Don't use translated versions of Etc.
 	if ( 'Etc' === $a['continent'] && 'Etc' === $b['continent'] ) {
-		// Make the order of these more like the old dropdown
+		// Make the order of these more like the old dropdown.
 		if ( 'GMT+' === substr( $a['city'], 0, 4 ) && 'GMT+' === substr( $b['city'], 0, 4 ) ) {
 			return -1 * ( strnatcasecmp( $a['city'], $b['city'] ) );
 		}
@@ -5667,7 +5675,7 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
 		}
 		return strnatcasecmp( $a['t_city'], $b['t_city'] );
 	} else {
-		// Force Etc to the bottom of the list
+		// Force Etc to the bottom of the list.
 		if ( 'Etc' === $a['continent'] ) {
 			return 1;
 		}
@@ -5712,7 +5720,7 @@ function wp_timezone_choice( $selected_zone, $locale = null ) {
 			continue;
 		}
 
-		// This determines what gets set and translated - we don't translate Etc/* strings here, they are done later
+		// This determines what gets set and translated - we don't translate Etc/* strings here, they are done later.
 		$exists    = array(
 			0 => ( isset( $zone[0] ) && $zone[0] ),
 			1 => ( isset( $zone[1] ) && $zone[1] ),
@@ -5742,33 +5750,33 @@ function wp_timezone_choice( $selected_zone, $locale = null ) {
 	}
 
 	foreach ( $zonen as $key => $zone ) {
-		// Build value in an array to join later
+		// Build value in an array to join later.
 		$value = array( $zone['continent'] );
 
 		if ( empty( $zone['city'] ) ) {
-			// It's at the continent level (generally won't happen)
+			// It's at the continent level (generally won't happen).
 			$display = $zone['t_continent'];
 		} else {
-			// It's inside a continent group
+			// It's inside a continent group.
 
-			// Continent optgroup
+			// Continent optgroup.
 			if ( ! isset( $zonen[ $key - 1 ] ) || $zonen[ $key - 1 ]['continent'] !== $zone['continent'] ) {
 				$label       = $zone['t_continent'];
 				$structure[] = '<optgroup label="' . esc_attr( $label ) . '">';
 			}
 
-			// Add the city to the value
+			// Add the city to the value.
 			$value[] = $zone['city'];
 
 			$display = $zone['t_city'];
 			if ( ! empty( $zone['subcity'] ) ) {
-				// Add the subcity to the value
+				// Add the subcity to the value.
 				$value[]  = $zone['subcity'];
 				$display .= ' - ' . $zone['t_subcity'];
 			}
 		}
 
-		// Build the value
+		// Build the value.
 		$value    = join( '/', $value );
 		$selected = '';
 		if ( $value === $selected_zone ) {
@@ -5776,13 +5784,13 @@ function wp_timezone_choice( $selected_zone, $locale = null ) {
 		}
 		$structure[] = '<option ' . $selected . 'value="' . esc_attr( $value ) . '">' . esc_html( $display ) . '</option>';
 
-		// Close continent optgroup
+		// Close continent optgroup.
 		if ( ! empty( $zone['city'] ) && ( ! isset( $zonen[ $key + 1 ] ) || ( isset( $zonen[ $key + 1 ] ) && $zonen[ $key + 1 ]['continent'] !== $zone['continent'] ) ) ) {
 			$structure[] = '</optgroup>';
 		}
 	}
 
-	// Do UTC
+	// Do UTC.
 	$structure[] = '<optgroup label="' . esc_attr__( 'UTC' ) . '">';
 	$selected    = '';
 	if ( 'UTC' === $selected_zone ) {
@@ -5791,7 +5799,7 @@ function wp_timezone_choice( $selected_zone, $locale = null ) {
 	$structure[] = '<option ' . $selected . 'value="' . esc_attr( 'UTC' ) . '">' . __( 'UTC' ) . '</option>';
 	$structure[] = '</optgroup>';
 
-	// Do manual UTC offsets
+	// Do manual UTC offsets.
 	$structure[]  = '<optgroup label="' . esc_attr__( 'Manual Offsets' ) . '">';
 	$offset_range = array(
 		-12,
@@ -5985,7 +5993,7 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	 */
 	$extra_headers = $context ? apply_filters( "extra_{$context}_headers", array() ) : array();
 	if ( $extra_headers ) {
-		$extra_headers = array_combine( $extra_headers, $extra_headers ); // keys equal values
+		$extra_headers = array_combine( $extra_headers, $extra_headers ); // Keys equal values.
 		$all_headers   = array_merge( $extra_headers, (array) $default_headers );
 	} else {
 		$all_headers = $default_headers;
@@ -6174,8 +6182,8 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
 	$evanescent_hare = $start;
 	$return          = array();
 
-	// Set evanescent_hare to one past hare
-	// Increment hare two steps
+	// Set evanescent_hare to one past hare.
+	// Increment hare two steps.
 	while (
 		$tortoise
 	&&
@@ -6189,12 +6197,12 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
 			$return[ $hare ]            = true;
 		}
 
-		// tortoise got lapped - must be a loop
+		// Tortoise got lapped - must be a loop.
 		if ( $tortoise == $evanescent_hare || $tortoise == $hare ) {
 			return $_return_loop ? $return : $tortoise;
 		}
 
-		// Increment tortoise by one step
+		// Increment tortoise by one step.
 		$tortoise = isset( $override[ $tortoise ] ) ? $override[ $tortoise ] : call_user_func_array( $callback, array_merge( array( $tortoise ), $callback_args ) );
 	}
 
@@ -6277,7 +6285,7 @@ function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pr
 	$trace       = debug_backtrace( false );
 	$caller      = array();
 	$check_class = ! is_null( $ignore_class );
-	$skip_frames++; // skip this function
+	$skip_frames++; // Skip this function.
 
 	if ( ! isset( $truncate_paths ) ) {
 		$truncate_paths = array(
@@ -6291,7 +6299,7 @@ function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pr
 			$skip_frames--;
 		} elseif ( isset( $call['class'] ) ) {
 			if ( $check_class && $ignore_class == $call['class'] ) {
-				continue; // Filter out calls
+				continue; // Filter out calls.
 			}
 
 			$caller[] = "{$call['class']}{$call['type']}{$call['function']}";
@@ -6371,7 +6379,7 @@ function wp_is_stream( $path ) {
 	$scheme_separator = strpos( $path, '://' );
 
 	if ( false === $scheme_separator ) {
-		// $path isn't a stream
+		// $path isn't a stream.
 		return false;
 	}
 
@@ -6722,7 +6730,7 @@ function wp_post_preview_js() {
 		return;
 	}
 
-	// Has to match the window name used in post_submit_meta_box()
+	// Has to match the window name used in post_submit_meta_box().
 	$name = 'wp-preview-' . (int) $post->ID;
 
 	?>
@@ -7012,7 +7020,7 @@ All at ###SITENAME###
 		'headers' => '',
 	);
 
-	// get site name
+	// Get site name.
 	$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 
 	/**
@@ -7459,7 +7467,7 @@ function get_dirsize( $directory, $max_execution_time = null ) {
 		$dirsize = array();
 	}
 
-	// Exclude individual site directories from the total when checking the main site of a network
+	// Exclude individual site directories from the total when checking the main site of a network,
 	// as they are subdirectories and should not be counted.
 	if ( is_multisite() && is_main_site() ) {
 		$dirsize[ $directory ]['size'] = recurse_dirsize( $directory, $directory . '/sites', $max_execution_time );

@@ -295,4 +295,4 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		$output .= ob_get_clean();
 	}
 
-} // Walker_Nav_Menu_Edit
+}

@@ -63,11 +63,13 @@ if ( $action ) {
 			}
 
 			if ( isset( $_GET['from'] ) && 'import' == $_GET['from'] ) {
-				wp_redirect( self_admin_url( 'import.php?import=' . str_replace( '-importer', '', dirname( $plugin ) ) ) ); // overrides the ?error=true one above and redirects to the Imports page, stripping the -importer suffix
+				// Overrides the ?error=true one above and redirects to the Imports page, stripping the -importer suffix.
+				wp_redirect( self_admin_url( 'import.php?import=' . str_replace( '-importer', '', dirname( $plugin ) ) ) );
 			} elseif ( isset( $_GET['from'] ) && 'press-this' == $_GET['from'] ) {
 				wp_redirect( self_admin_url( 'press-this.php' ) );
 			} else {
-				wp_redirect( self_admin_url( "plugins.php?activate=true&plugin_status=$status&paged=$page&s=$s" ) ); // overrides the ?error=true one above
+				// Overrides the ?error=true one above.
+				wp_redirect( self_admin_url( "plugins.php?activate=true&plugin_status=$status&paged=$page&s=$s" ) );
 			}
 			exit;
 
@@ -170,8 +172,8 @@ if ( $action ) {
 				error_reporting( E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR );
 			}
 
-			ini_set( 'display_errors', true ); //Ensure that Fatal errors are displayed.
-			// Go back to "sandbox" scope so we get the same errors as before
+			ini_set( 'display_errors', true ); // Ensure that fatal errors are displayed.
+			// Go back to "sandbox" scope so we get the same errors as before.
 			plugin_sandbox_scrape( $plugin );
 			/** This action is documented in wp-admin/includes/plugin.php */
 			do_action( "activate_{$plugin}" );
@@ -254,21 +256,21 @@ if ( $action ) {
 
 			check_admin_referer( 'bulk-plugins' );
 
-			//$_POST = from the plugin form; $_GET = from the FTP details screen.
+			// $_POST = from the plugin form; $_GET = from the FTP details screen.
 			$plugins = isset( $_REQUEST['checked'] ) ? (array) wp_unslash( $_REQUEST['checked'] ) : array();
 			if ( empty( $plugins ) ) {
 				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$s" ) );
 				exit;
 			}
 
-			$plugins = array_filter( $plugins, 'is_plugin_inactive' ); // Do not allow to delete Activated plugins.
+			$plugins = array_filter( $plugins, 'is_plugin_inactive' ); // Do not allow to delete activated plugins.
 			if ( empty( $plugins ) ) {
 				wp_redirect( self_admin_url( "plugins.php?error=true&main=true&plugin_status=$status&paged=$page&s=$s" ) );
 				exit;
 			}
 
 			// Bail on all if any paths are invalid.
-			// validate_file() returns truthy for invalid files
+			// validate_file() returns truthy for invalid files.
 			$invalid_plugin_files = array_filter( $plugins, 'validate_file' );
 			if ( $invalid_plugin_files ) {
 				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$s" ) );
@@ -375,11 +377,12 @@ if ( $action ) {
 				exit;
 			} else {
 				$plugins_to_delete = count( $plugins );
-			} // endif verify-delete
+			} // End if verify-delete.
 
 			$delete_result = delete_plugins( $plugins );
 
-			set_transient( 'plugins_delete_result_' . $user_ID, $delete_result ); //Store the result in a cache rather than a URL param due to object type & length
+			// Store the result in a cache rather than a URL param due to object type & length.
+			set_transient( 'plugins_delete_result_' . $user_ID, $delete_result );
 			wp_redirect( self_admin_url( "plugins.php?deleted=$plugins_to_delete&plugin_status=$status&paged=$page&s=$s" ) );
 			exit;
 
@@ -420,7 +423,7 @@ if ( $action ) {
 				$plugins  = isset( $_POST['checked'] ) ? (array) wp_unslash( $_POST['checked'] ) : array();
 
 				/** This action is documented in wp-admin/edit.php */
-				$sendback = apply_filters( "handle_bulk_actions-{$screen}", $sendback, $action, $plugins );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+				$sendback = apply_filters( "handle_bulk_actions-{$screen}", $sendback, $action, $plugins ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 				wp_safe_redirect( $sendback );
 				exit;
 			}

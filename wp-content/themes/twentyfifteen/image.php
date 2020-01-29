@@ -13,7 +13,7 @@ get_header(); ?>
 		<main id="main" class="site-main" role="main">
 
 			<?php
-				// Start the loop.
+			// Start the loop.
 			while ( have_posts() ) :
 				the_post();
 				?>
@@ -77,7 +77,7 @@ get_header(); ?>
 				</article><!-- #post-<?php the_ID(); ?> -->
 
 				<?php
-				// If comments are open or we have at least one comment, load up the comment template
+				// If comments are open or we have at least one comment, load up the comment template.
 				if ( comments_open() || get_comments_number() ) :
 					comments_template();
 					endif;

@@ -703,8 +703,8 @@ function bloginfo( $show = '' ) {
  */
 function get_bloginfo( $show = '', $filter = 'raw' ) {
 	switch ( $show ) {
-		case 'home': // DEPRECATED
-		case 'siteurl': // DEPRECATED
+		case 'home':    // Deprecated.
+		case 'siteurl': // Deprecated.
 			_deprecated_argument(
 				__FUNCTION__,
 				'2.2.0',
@@ -1071,8 +1071,8 @@ function wp_get_document_title() {
 		$title['title'] = single_term_title( '', false );
 
 		/*
-		* If we're on the blog page that is not the homepage or
-		* a single post of any post type, use the post title.
+		* If we're on the blog page that is not the homepage
+		* or a single post of any post type, use the post title.
 		*/
 	} elseif ( is_home() || is_singular() ) {
 		$title['title'] = single_post_title( '', false );
@@ -1195,14 +1195,14 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	$search   = get_query_var( 's' );
 	$title    = '';
 
-	$t_sep = '%WP_TITLE_SEP%'; // Temporary separator, for accurate flipping, if necessary
+	$t_sep = '%WP_TITLE_SEP%'; // Temporary separator, for accurate flipping, if necessary.
 
-	// If there is a post
+	// If there is a post.
 	if ( is_single() || ( is_home() && ! is_front_page() ) || ( is_page() && ! is_front_page() ) ) {
 		$title = single_post_title( '', false );
 	}
 
-	// If there's a post type archive
+	// If there's a post type archive.
 	if ( is_post_type_archive() ) {
 		$post_type = get_query_var( 'post_type' );
 		if ( is_array( $post_type ) ) {
@@ -1214,12 +1214,12 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 		}
 	}
 
-	// If there's a category or tag
+	// If there's a category or tag.
 	if ( is_category() || is_tag() ) {
 		$title = single_term_title( '', false );
 	}
 
-	// If there's a taxonomy
+	// If there's a taxonomy.
 	if ( is_tax() ) {
 		$term = get_queried_object();
 		if ( $term ) {
@@ -1228,7 +1228,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 		}
 	}
 
-	// If there's an author
+	// If there's an author.
 	if ( is_author() && ! is_post_type_archive() ) {
 		$author = get_queried_object();
 		if ( $author ) {
@@ -1241,7 +1241,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 		$title = post_type_archive_title( '', false );
 	}
 
-	// If there's a month
+	// If there's a month.
 	if ( is_archive() && ! empty( $m ) ) {
 		$my_year  = substr( $m, 0, 4 );
 		$my_month = $wp_locale->get_month( substr( $m, 4, 2 ) );
@@ -1249,7 +1249,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 		$title    = $my_year . ( $my_month ? $t_sep . $my_month : '' ) . ( $my_day ? $t_sep . $my_day : '' );
 	}
 
-	// If there's a year
+	// If there's a year.
 	if ( is_archive() && ! empty( $year ) ) {
 		$title = $year;
 		if ( ! empty( $monthnum ) ) {
@@ -1260,13 +1260,13 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 		}
 	}
 
-	// If it's a search
+	// If it's a search.
 	if ( is_search() ) {
 		/* translators: 1: Separator, 2: Search query. */
 		$title = sprintf( __( 'Search Results %1$s %2$s' ), $t_sep, strip_tags( $search ) );
 	}
 
-	// If it's a 404 page
+	// If it's a 404 page.
 	if ( is_404() ) {
 		$title = __( 'Page not found' );
 	}
@@ -1285,8 +1285,8 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	 */
 	$title_array = apply_filters( 'wp_title_parts', explode( $t_sep, $title ) );
 
-	// Determines position of the separator and direction of the breadcrumb
-	if ( 'right' == $seplocation ) { // sep on right, so reverse the order
+	// Determines position of the separator and direction of the breadcrumb.
+	if ( 'right' == $seplocation ) { // Separator on right, so reverse the order.
 		$title_array = array_reverse( $title_array );
 		$title       = implode( " $sep ", $title_array ) . $prefix;
 	} else {
@@ -1304,7 +1304,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	 */
 	$title = apply_filters( 'wp_title', $title, $sep, $seplocation );
 
-	// Send it out
+	// Send it out.
 	if ( $display ) {
 		echo $title;
 	} else {
@@ -1747,7 +1747,7 @@ function get_archives_link( $url, $text, $format = 'html', $before = '', $after 
 		$link_html     = "\t<option value='$url'$selected_attr>$before $text $after</option>\n";
 	} elseif ( 'html' === $format ) {
 		$link_html = "\t<li>$before<a href='$url'$aria_current>$text</a>$after</li>\n";
-	} else { // custom
+	} else { // Custom.
 		$link_html = "\t$before<a href='$url'$aria_current>$text</a>$after\n";
 	}
 
@@ -1850,7 +1850,7 @@ function wp_get_archives( $args = '' ) {
 		$order = 'DESC';
 	}
 
-	// this is what will separate dates on weekly archive links
+	// This is what will separate dates on weekly archive links.
 	$archive_week_separator = '&#8211;';
 
 	$sql_where = $wpdb->prepare( "WHERE post_type = %s AND post_status = 'publish'", $parsed_args['post_type'] );
@@ -2095,17 +2095,17 @@ function get_calendar( $initial = true, $echo = true ) {
 	if ( isset( $_GET['w'] ) ) {
 		$w = (int) $_GET['w'];
 	}
-	// week_begins = 0 stands for Sunday
+	// week_begins = 0 stands for Sunday.
 	$week_begins = (int) get_option( 'start_of_week' );
 
-	// Let's figure out when we are
+	// Let's figure out when we are.
 	if ( ! empty( $monthnum ) && ! empty( $year ) ) {
 		$thismonth = zeroise( intval( $monthnum ), 2 );
 		$thisyear  = (int) $year;
 	} elseif ( ! empty( $w ) ) {
-		// We need to get the month from MySQL
+		// We need to get the month from MySQL.
 		$thisyear = (int) substr( $m, 0, 4 );
-		//it seems MySQL's weeks disagree with PHP's
+		// It seems MySQL's weeks disagree with PHP's.
 		$d         = ( ( $w - 1 ) * 7 ) + 6;
 		$thismonth = $wpdb->get_var( "SELECT DATE_FORMAT((DATE_ADD('{$thisyear}0101', INTERVAL $d DAY) ), '%m')" );
 	} elseif ( ! empty( $m ) ) {
@@ -2123,7 +2123,7 @@ function get_calendar( $initial = true, $echo = true ) {
 	$unixmonth = mktime( 0, 0, 0, $thismonth, 1, $thisyear );
 	$last_day  = gmdate( 't', $unixmonth );
 
-	// Get the next and previous month and year with at least one post
+	// Get the next and previous month and year with at least one post.
 	$previous = $wpdb->get_row(
 		"SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
@@ -2198,7 +2198,7 @@ function get_calendar( $initial = true, $echo = true ) {
 
 	$daywithpost = array();
 
-	// Get days with posts
+	// Get days with posts.
 	$dayswithposts = $wpdb->get_results(
 		"SELECT DISTINCT DAYOFMONTH(post_date)
 		FROM $wpdb->posts WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00'
@@ -2212,7 +2212,7 @@ function get_calendar( $initial = true, $echo = true ) {
 		}
 	}
 
-	// See how much we should pad in the beginning
+	// See how much we should pad in the beginning.
 	$pad = calendar_week_mod( gmdate( 'w', $unixmonth ) - $week_begins );
 	if ( 0 != $pad ) {
 		$calendar_output .= "\n\t\t" . '<td colspan="' . esc_attr( $pad ) . '" class="pad">&nbsp;</td>';
@@ -2236,7 +2236,7 @@ function get_calendar( $initial = true, $echo = true ) {
 		}
 
 		if ( in_array( $day, $daywithpost ) ) {
-			// any posts today?
+			// Any posts today?
 			$date_format = gmdate( _x( 'F j, Y', 'daily archives date format' ), strtotime( "{$thisyear}-{$thismonth}-{$day}" ) );
 			/* translators: Post calendar label. %s: Date. */
 			$label            = sprintf( __( 'Posts published on %s' ), $date_format );
@@ -3339,7 +3339,7 @@ function user_can_richedit() {
 	if ( ! isset( $wp_rich_edit ) ) {
 		$wp_rich_edit = false;
 
-		if ( get_user_option( 'rich_editing' ) == 'true' || ! is_user_logged_in() ) { // default to 'true' for logged out users
+		if ( get_user_option( 'rich_editing' ) == 'true' || ! is_user_logged_in() ) { // Default to 'true' for logged out users.
 			if ( $is_safari ) {
 				$wp_rich_edit = ! wp_is_mobile() || ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval( $match[1] ) >= 534 );
 			} elseif ( $is_IE ) {
@@ -3371,8 +3371,8 @@ function user_can_richedit() {
  * @return string Either 'tinymce', or 'html', or 'test'
  */
 function wp_default_editor() {
-	$r = user_can_richedit() ? 'tinymce' : 'html'; // defaults
-	if ( wp_get_current_user() ) { // look for cookie
+	$r = user_can_richedit() ? 'tinymce' : 'html'; // Defaults.
+	if ( wp_get_current_user() ) { // Look for cookie.
 		$ed = get_user_setting( 'editor', 'tinymce' );
 		$r  = ( in_array( $ed, array( 'tinymce', 'html', 'test' ) ) ) ? $ed : $r;
 	}
@@ -4094,8 +4094,8 @@ function paginate_links( $args = '' ) {
 	$format .= $wp_rewrite->using_permalinks() ? user_trailingslashit( $wp_rewrite->pagination_base . '/%#%', 'paged' ) : '?paged=%#%';
 
 	$defaults = array(
-		'base'               => $pagenum_link, // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
-		'format'             => $format, // ?page=%#% : %#% is replaced by the page number
+		'base'               => $pagenum_link, // http://example.com/all_posts.php%_% : %_% is replaced by format (below).
+		'format'             => $format, // ?page=%#% : %#% is replaced by the page number.
 		'total'              => $total,
 		'current'            => $current,
 		'aria_current'       => 'page',
@@ -4106,7 +4106,7 @@ function paginate_links( $args = '' ) {
 		'end_size'           => 1,
 		'mid_size'           => 2,
 		'type'               => 'plain',
-		'add_args'           => array(), // array of query args to add
+		'add_args'           => array(), // Array of query args to add.
 		'add_fragment'       => '',
 		'before_page_number' => '',
 		'after_page_number'  => '',
@@ -4136,13 +4136,13 @@ function paginate_links( $args = '' ) {
 		$args['add_args'] = array_merge( $args['add_args'], urlencode_deep( $url_query_args ) );
 	}
 
-	// Who knows what else people pass in $args
+	// Who knows what else people pass in $args.
 	$total = (int) $args['total'];
 	if ( $total < 2 ) {
 		return;
 	}
 	$current  = (int) $args['current'];
-	$end_size = (int) $args['end_size']; // Out of bounds?  Make it the default.
+	$end_size = (int) $args['end_size']; // Out of bounds? Make it the default.
 	if ( $end_size < 1 ) {
 		$end_size = 1;
 	}
@@ -4313,7 +4313,7 @@ function register_admin_color_schemes() {
 		)
 	);
 
-	// Other color schemes are not available when running out of src
+	// Other color schemes are not available when running out of src.
 	if ( false !== strpos( get_bloginfo( 'version' ), '-src' ) ) {
 		return;
 	}

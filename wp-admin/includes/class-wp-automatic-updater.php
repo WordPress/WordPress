@@ -141,7 +141,7 @@ class WP_Automatic_Updater {
 			return false;
 		}
 
-		// Only relax the filesystem checks when the update doesn't include new files
+		// Only relax the filesystem checks when the update doesn't include new files.
 		$allow_relaxed_file_ownership = false;
 		if ( 'core' == $type && isset( $item->new_files ) && ! $item->new_files ) {
 			$allow_relaxed_file_ownership = true;
@@ -283,7 +283,7 @@ class WP_Automatic_Updater {
 				break;
 			case 'plugin':
 				$upgrader = new Plugin_Upgrader( $skin );
-				$context  = WP_PLUGIN_DIR; // We don't support custom Plugin directories, or updates for WPMU_PLUGIN_DIR
+				$context  = WP_PLUGIN_DIR; // We don't support custom Plugin directories, or updates for WPMU_PLUGIN_DIR.
 				break;
 			case 'theme':
 				$upgrader = new Theme_Upgrader( $skin );
@@ -357,7 +357,7 @@ class WP_Automatic_Updater {
 				'pre_check_md5'                => false,
 				// Only available for core updates.
 				'attempt_rollback'             => true,
-				// Allow relaxed file ownership in some scenarios
+				// Allow relaxed file ownership in some scenarios.
 				'allow_relaxed_file_ownership' => $allow_relaxed_file_ownership,
 			)
 		);
@@ -409,51 +409,51 @@ class WP_Automatic_Updater {
 			return;
 		}
 
-		// Don't automatically run these thins, as we'll handle it ourselves
+		// Don't automatically run these things, as we'll handle it ourselves.
 		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
 		remove_action( 'upgrader_process_complete', 'wp_version_check' );
 		remove_action( 'upgrader_process_complete', 'wp_update_plugins' );
 		remove_action( 'upgrader_process_complete', 'wp_update_themes' );
 
-		// Next, Plugins
-		wp_update_plugins(); // Check for Plugin updates
+		// Next, plugins.
+		wp_update_plugins(); // Check for plugin updates.
 		$plugin_updates = get_site_transient( 'update_plugins' );
 		if ( $plugin_updates && ! empty( $plugin_updates->response ) ) {
 			foreach ( $plugin_updates->response as $plugin ) {
 				$this->update( 'plugin', $plugin );
 			}
-			// Force refresh of plugin update information
+			// Force refresh of plugin update information.
 			wp_clean_plugins_cache();
 		}
 
-		// Next, those themes we all love
-		wp_update_themes();  // Check for Theme updates
+		// Next, those themes we all love.
+		wp_update_themes();  // Check for theme updates.
 		$theme_updates = get_site_transient( 'update_themes' );
 		if ( $theme_updates && ! empty( $theme_updates->response ) ) {
 			foreach ( $theme_updates->response as $theme ) {
 				$this->update( 'theme', (object) $theme );
 			}
-			// Force refresh of theme update information
+			// Force refresh of theme update information.
 			wp_clean_themes_cache();
 		}
 
-		// Next, Process any core update
-		wp_version_check(); // Check for Core updates
+		// Next, process any core update.
+		wp_version_check(); // Check for core updates.
 		$core_update = find_core_auto_update();
 
 		if ( $core_update ) {
 			$this->update( 'core', $core_update );
 		}
 
-		// Clean up, and check for any pending translations
-		// (Core_Upgrader checks for core updates)
+		// Clean up, and check for any pending translations.
+		// (Core_Upgrader checks for core updates.)
 		$theme_stats = array();
 		if ( isset( $this->update_results['theme'] ) ) {
 			foreach ( $this->update_results['theme'] as $upgrade ) {
 				$theme_stats[ $upgrade->item->theme ] = ( true === $upgrade->result );
 			}
 		}
-		wp_update_themes( $theme_stats );  // Check for Theme updates
+		wp_update_themes( $theme_stats ); // Check for theme updates.
 
 		$plugin_stats = array();
 		if ( isset( $this->update_results['plugin'] ) ) {
@@ -461,21 +461,21 @@ class WP_Automatic_Updater {
 				$plugin_stats[ $upgrade->item->plugin ] = ( true === $upgrade->result );
 			}
 		}
-		wp_update_plugins( $plugin_stats ); // Check for Plugin updates
+		wp_update_plugins( $plugin_stats ); // Check for plugin updates.
 
-		// Finally, Process any new translations
+		// Finally, process any new translations.
 		$language_updates = wp_get_translation_updates();
 		if ( $language_updates ) {
 			foreach ( $language_updates as $update ) {
 				$this->update( 'translation', $update );
 			}
 
-			// Clear existing caches
+			// Clear existing caches.
 			wp_clean_update_cache();
 
-			wp_version_check();  // check for Core updates
-			wp_update_themes();  // Check for Theme updates
-			wp_update_plugins(); // Check for Plugin updates
+			wp_version_check();  // Check for core updates.
+			wp_update_themes();  // Check for theme updates.
+			wp_update_plugins(); // Check for plugin updates.
 		}
 
 		// Send debugging email to admin for all development installations.
@@ -626,7 +626,7 @@ class WP_Automatic_Updater {
 		);
 
 		$next_user_core_update = get_preferred_from_update_core();
-		// If the update transient is empty, use the update we just performed
+		// If the update transient is empty, use the update we just performed.
 		if ( ! $next_user_core_update ) {
 			$next_user_core_update = $core_update;
 		}
@@ -860,7 +860,7 @@ class WP_Automatic_Updater {
 		/* translators: %s: Network home URL. */
 		$body[] = sprintf( __( 'WordPress site: %s' ), network_home_url( '/' ) );
 
-		// Core
+		// Core.
 		if ( isset( $this->update_results['core'] ) ) {
 			$result = $this->update_results['core'][0];
 			if ( $result->result && ! is_wp_error( $result->result ) ) {
@@ -874,7 +874,7 @@ class WP_Automatic_Updater {
 			$body[] = '';
 		}
 
-		// Plugins, Themes, Translations
+		// Plugins, Themes, Translations.
 		foreach ( array( 'plugin', 'theme', 'translation' ) as $type ) {
 			if ( ! isset( $this->update_results[ $type ] ) ) {
 				continue;
@@ -894,7 +894,7 @@ class WP_Automatic_Updater {
 				}
 			}
 			if ( $success_items != $this->update_results[ $type ] ) {
-				// Failed updates
+				// Failed updates.
 				$messages = array(
 					'plugin'      => __( 'The following plugins failed to update:' ),
 					'theme'       => __( 'The following themes failed to update:' ),

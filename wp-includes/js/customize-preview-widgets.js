@@ -672,7 +672,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 			self.preview.send( 'highlight-widget-control', $( this ).prop( 'id' ) );
 		});
 
-		// Open expand the widget control when shift+clicking the widget element
+		// Open expand the widget control when shift+clicking the widget element.
 		$( document ).on( 'click', selector, function( e ) {
 			if ( ! e.shiftKey ) {
 				return;

@@ -6,7 +6,7 @@
  * @subpackage Administration
  */
 
-// don't load directly
+// Don't load directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -95,7 +95,7 @@ if ( $thumbnail_support ) {
 	wp_enqueue_media( array( 'post' => $post_ID ) );
 }
 
-// Add the local autosave notice HTML
+// Add the local autosave notice HTML.
 add_action( 'admin_footer', '_local_storage_notice' );
 
 /*
@@ -242,7 +242,7 @@ $form_action  = 'editpost';
 $nonce_action = 'update-post_' . $post_ID;
 $form_extra  .= "<input type='hidden' id='post_ID' name='post_ID' value='" . esc_attr( $post_ID ) . "' />";
 
-// Detect if there exists an autosave newer than the post and if that autosave is different than the post
+// Detect if there exists an autosave newer than the post and if that autosave is different than the post.
 if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
 	foreach ( _wp_post_revision_fields( $post ) as $autosave_field => $_autosave_field ) {
 		if ( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {

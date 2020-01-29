@@ -4,7 +4,7 @@
  * @output wp-admin/js/privacy-tools.js
  */
 
-// Privacy request action handling
+// Privacy request action handling.
 jQuery( document ).ready( function( $ ) {
 	var strings = window.privacyToolsL10n || {};
 
@@ -111,7 +111,7 @@ jQuery( document ).ready( function( $ ) {
 
 				if ( ! response.success ) {
 
-					// e.g. invalid request ID
+					// e.g. invalid request ID.
 					onExportFailure( response.data );
 					return;
 				}
@@ -127,12 +127,12 @@ jQuery( document ).ready( function( $ ) {
 				}
 			}).fail( function( jqxhr, textStatus, error ) {
 
-				// e.g. Nonce failure
+				// e.g. Nonce failure.
 				onExportFailure( error );
 			});
 		}
 
-		// And now, let's begin
+		// And now, let's begin.
 		setActionState( $action, 'export-personal-data-processing' );
 		doNextExport( 1, 1 );
 	});
@@ -224,7 +224,7 @@ jQuery( document ).ready( function( $ ) {
 			});
 		}
 
-		// And now, let's begin
+		// And now, let's begin.
 		setActionState( $action, 'remove-personal-data-processing' );
 
 		doNextErasure( 1, 1 );

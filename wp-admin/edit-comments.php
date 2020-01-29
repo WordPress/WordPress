@@ -52,7 +52,7 @@ if ( $doaction ) {
 
 	wp_defer_comment_counting( true );
 
-	foreach ( $comment_ids as $comment_id ) { // Check the permissions on each
+	foreach ( $comment_ids as $comment_id ) { // Check the permissions on each.
 		if ( ! current_user_can( 'edit_comment', $comment_id ) ) {
 			continue;
 		}

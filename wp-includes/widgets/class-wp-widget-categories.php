@@ -160,7 +160,7 @@ class WP_Widget_Categories extends WP_Widget {
 	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
-		//Defaults
+		// Defaults.
 		$instance     = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$count        = isset( $instance['count'] ) ? (bool) $instance['count'] : false;
 		$hierarchical = isset( $instance['hierarchical'] ) ? (bool) $instance['hierarchical'] : false;

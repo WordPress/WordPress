@@ -117,7 +117,7 @@ function meta_box_prefs( $screen ) {
 				if ( false == $box || ! $box['title'] ) {
 					continue;
 				}
-				// Submit box cannot be hidden
+				// Submit box cannot be hidden.
 				if ( 'submitdiv' == $box['id'] || 'linksubmitdiv' == $box['id'] ) {
 					continue;
 				}
@@ -156,7 +156,7 @@ function get_hidden_meta_boxes( $screen ) {
 
 	$use_defaults = ! is_array( $hidden );
 
-	// Hide slug boxes by default
+	// Hide slug boxes by default.
 	if ( $use_defaults ) {
 		$hidden = array();
 		if ( 'post' == $screen->base ) {

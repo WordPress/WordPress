@@ -112,7 +112,7 @@ window.wp = window.wp || {};
 				}
 
 				if ( keepSelection ) {
-					// Save the selection
+					// Save the selection.
 					addHTMLBookmarkInTextAreaContent( $textarea );
 				}
 
@@ -131,7 +131,7 @@ window.wp = window.wp || {};
 					}
 
 					if ( editor.getParam( 'wp_keep_scroll_position' ) ) {
-						// Restore the selection
+						// Restore the selection.
 						focusHTMLBookmarkInVisualEditor( editor );
 					}
 				} else {
@@ -149,7 +149,8 @@ window.wp = window.wp || {};
 				}
 
 				if ( editor ) {
-					// Don't resize the textarea in iOS. The iframe is forced to 100% height there, we shouldn't match it.
+					// Don't resize the textarea in iOS.
+					// The iframe is forced to 100% height there, we shouldn't match it.
 					if ( ! tinymce.Env.iOS ) {
 						iframe = editor.iframeElement;
 						editorHeight = iframe ? parseInt( iframe.style.height, 10 ) : 0;
@@ -177,7 +178,8 @@ window.wp = window.wp || {};
 						selectTextInTextArea( editor, selectionRange );
 					}
 				} else {
-					// There is probably a JS error on the page. The TinyMCE editor instance doesn't exist. Show the textarea.
+					// There is probably a JS error on the page.
+					// The TinyMCE editor instance doesn't exist. Show the textarea.
 					$textarea.css({ 'display': '', 'visibility': '' });
 				}
 
@@ -209,7 +211,7 @@ window.wp = window.wp || {};
 				lastGtPos = content.lastIndexOf( '>', cursorPosition );
 
 			if ( lastLtPos > lastGtPos || content.substr( cursorPosition, 1 ) === '>' ) {
-				// find what the tag is
+				// Find what the tag is.
 				var tagContent = content.substr( lastLtPos ),
 					tagMatch = tagContent.match( /<\s*(\/)?(\w+|\!-{2}.*-{2})/ );
 
@@ -222,7 +224,7 @@ window.wp = window.wp || {};
 
 				return {
 					ltPos: lastLtPos,
-					gtPos: lastLtPos + closingGt + 1, // offset by one to get the position _after_ the character,
+					gtPos: lastLtPos + closingGt + 1, // Offset by one to get the position _after_ the character.
 					tagType: tagType,
 					isClosingTag: !! tagMatch[1]
 				};
@@ -248,7 +250,7 @@ window.wp = window.wp || {};
 		 * @param {number} cursorPosition    The cursor position to check.
 		 *
 		 * @return {(undefined|Object)} Undefined if the cursor is not wrapped in a shortcode tag.
-		 *                                Information about the wrapping shortcode tag if it's wrapped in one.
+		 *                              Information about the wrapping shortcode tag if it's wrapped in one.
 		 */
 		function getShortcodeWrapperInfo( content, cursorPosition ) {
 			var contentShortcodes = getShortCodePositionsInText( content );
@@ -403,7 +405,7 @@ window.wp = window.wp || {};
 
 			var cursorStart = cursorPositions.cursorStart,
 				cursorEnd = cursorPositions.cursorEnd,
-				// check if the cursor is in a tag and if so, adjust it
+				// Check if the cursor is in a tag and if so, adjust it.
 				isCursorStartInTag = getContainingTagInfo( content, cursorStart );
 
 			if ( isCursorStartInTag ) {
@@ -506,11 +508,11 @@ window.wp = window.wp || {};
 			}
 
 			textArea.value = [
-				textArea.value.slice( 0, htmlModeCursorStartPosition ), // text until the cursor/selection position
-				cursorMarkerSkeleton.clone()							// cursor/selection start marker
+				textArea.value.slice( 0, htmlModeCursorStartPosition ), // Text until the cursor/selection position.
+				cursorMarkerSkeleton.clone()							// Cursor/selection start marker.
 					.addClass( 'mce_SELRES_start' )[0].outerHTML,
-				selectedText, 											// selected text with end cursor/position marker
-				textArea.value.slice( htmlModeCursorEndPosition )		// text from last cursor/selection position to end
+				selectedText, 											// Selected text with end cursor/position marker.
+				textArea.value.slice( htmlModeCursorEndPosition )		// Text from last cursor/selection position to end.
 			].join( '' );
 		}
 
@@ -804,7 +806,7 @@ window.wp = window.wp || {};
 					endMatchIndex -= endMatch[1].length;
 				}
 
-				// We need to adjust the end position to discard the length of the range start marker
+				// We need to adjust the end position to discard the length of the range start marker.
 				endIndex = endMatchIndex - startMatchLength;
 			}
 
@@ -826,7 +828,7 @@ window.wp = window.wp || {};
 		 * @param {Object} selection Selection data.
 		 */
 		function selectTextInTextArea( editor, selection ) {
-			// only valid in the text area mode and if we have selection
+			// Only valid in the text area mode and if we have selection.
 			if ( ! selection ) {
 				return;
 			}
@@ -836,11 +838,11 @@ window.wp = window.wp || {};
 				end = selection.end || selection.start;
 
 			if ( textArea.focus ) {
-				// Wait for the Visual editor to be hidden, then focus and scroll to the position
+				// Wait for the Visual editor to be hidden, then focus and scroll to the position.
 				setTimeout( function() {
 					textArea.setSelectionRange( start, end );
 					if ( textArea.blur ) {
-						// defocus before focusing
+						// Defocus before focusing.
 						textArea.blur();
 					}
 					textArea.focus();
@@ -1249,7 +1251,7 @@ window.wp = window.wp || {};
 
 		defaults = wp.editor.getDefaultSettings();
 
-		// Initialize TinyMCE by default
+		// Initialize TinyMCE by default.
 		if ( ! settings ) {
 			settings = {
 				tinymce: true

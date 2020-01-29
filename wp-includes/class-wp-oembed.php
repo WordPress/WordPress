@@ -262,14 +262,14 @@ class WP_oEmbed {
 		foreach ( $this->providers as $matchmask => $data ) {
 			list( $providerurl, $regex ) = $data;
 
-			// Turn the asterisk-type provider URLs into regex
+			// Turn the asterisk-type provider URLs into regex.
 			if ( ! $regex ) {
 				$matchmask = '#' . str_replace( '___wildcard___', '(.+)', preg_quote( str_replace( '*', '___wildcard___', $matchmask ), '#' ) ) . '#i';
 				$matchmask = preg_replace( '|^#http\\\://|', '#https?\://', $matchmask );
 			}
 
 			if ( preg_match( $matchmask, $url ) ) {
-				$provider = str_replace( '{format}', 'json', $providerurl ); // JSON is easier to deal with than XML
+				$provider = str_replace( '{format}', 'json', $providerurl ); // JSON is easier to deal with than XML.
 				break;
 			}
 		}
@@ -439,7 +439,7 @@ class WP_oEmbed {
 		 */
 		$args = apply_filters( 'oembed_remote_get_args', $args, $url );
 
-		// Fetch URL content
+		// Fetch URL content.
 		$request = wp_safe_remote_get( $url, $args );
 		$html    = wp_remote_retrieve_body( $request );
 		if ( $html ) {
@@ -462,13 +462,13 @@ class WP_oEmbed {
 				)
 			);
 
-			// Strip <body>
+			// Strip <body>.
 			$html_head_end = stripos( $html, '</head>' );
 			if ( $html_head_end ) {
 				$html = substr( $html, 0, $html_head_end );
 			}
 
-			// Do a quick check
+			// Do a quick check.
 			$tagfound = false;
 			foreach ( $linktypes as $linktype => $format ) {
 				if ( stripos( $html, $linktype ) ) {
@@ -484,7 +484,7 @@ class WP_oEmbed {
 					if ( ! empty( $atts['type'] ) && ! empty( $linktypes[ $atts['type'] ] ) && ! empty( $atts['href'] ) ) {
 						$providers[ $linktypes[ $atts['type'] ] ] = htmlspecialchars_decode( $atts['href'] );
 
-						// Stop here if it's JSON (that's all we need)
+						// Stop here if it's JSON (that's all we need).
 						if ( 'json' == $linktypes[ $atts['type'] ] ) {
 							break;
 						}
@@ -493,7 +493,7 @@ class WP_oEmbed {
 			}
 		}
 
-		// JSON is preferred to XML
+		// JSON is preferred to XML.
 		if ( ! empty( $providers['json'] ) ) {
 			return $providers['json'];
 		} elseif ( ! empty( $providers['xml'] ) ) {

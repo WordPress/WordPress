@@ -216,7 +216,7 @@ if ( ! function_exists( 'twentysixteen_setup' ) ) :
 		// Indicate widget sidebars can use selective refresh in the Customizer.
 		add_theme_support( 'customize-selective-refresh-widgets' );
 	}
-endif; // twentysixteen_setup
+endif; // twentysixteen_setup()
 add_action( 'after_setup_theme', 'twentysixteen_setup' );
 
 /**

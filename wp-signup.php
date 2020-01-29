@@ -39,7 +39,7 @@ if ( ! is_main_site() ) {
 	die();
 }
 
-// Fix for page title
+// Fix for page title.
 $wp_query->is_404 = false;
 
 /**
@@ -139,7 +139,7 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 		);
 	}
 
-	// Blog Title
+	// Site Title.
 	?>
 	<label for="blog_title"><?php _e( 'Site Title:' ); ?></label>
 	<?php
@@ -253,7 +253,7 @@ function show_user_form( $user_name = '', $user_email = '', $errors = '' ) {
 		$errors = new WP_Error();
 	}
 
-	// User name
+	// Username.
 	echo '<label for="user_name">' . __( 'Username:' ) . '</label>';
 	$errmsg = $errors->get_error_message( 'user_name' );
 	if ( $errmsg ) {
@@ -887,7 +887,7 @@ function signup_get_available_languages() {
 	return array_intersect_assoc( $languages, get_available_languages() );
 }
 
-// Main
+// Main.
 $active_signup = get_site_option( 'registration', 'none' );
 
 /**

@@ -23,7 +23,7 @@ function ms_upload_constants() {
 		return;
 	}
 
-	// Base uploads dir relative to ABSPATH
+	// Base uploads dir relative to ABSPATH.
 	if ( ! defined( 'UPLOADBLOGSDIR' ) ) {
 		define( 'UPLOADBLOGSDIR', 'wp-content/blogs.dir' );
 	}
@@ -35,7 +35,7 @@ function ms_upload_constants() {
 
 		define( 'UPLOADS', UPLOADBLOGSDIR . '/' . $site_id . '/files/' );
 
-		// Uploads dir relative to ABSPATH
+		// Uploads dir relative to ABSPATH.
 		if ( 'wp-content/blogs.dir' == UPLOADBLOGSDIR && ! defined( 'BLOGUPLOADDIR' ) ) {
 			define( 'BLOGUPLOADDIR', WP_CONTENT_DIR . '/blogs.dir/' . $site_id . '/files/' );
 		}

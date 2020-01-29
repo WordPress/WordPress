@@ -186,40 +186,40 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			if ( isset( $plugin_info->response[ $plugin_file ] ) ) {
 				$plugin_data                    = array_merge( (array) $plugin_info->response[ $plugin_file ], $plugin_data );
 				$plugins['all'][ $plugin_file ] = $plugin_data;
-				// Make sure that $plugins['upgrade'] also receives the extra info since it is used on ?plugin_status=upgrade
+				// Make sure that $plugins['upgrade'] also receives the extra info since it is used on ?plugin_status=upgrade.
 				if ( isset( $plugins['upgrade'][ $plugin_file ] ) ) {
 					$plugins['upgrade'][ $plugin_file ] = $plugin_data;
 				}
 			} elseif ( isset( $plugin_info->no_update[ $plugin_file ] ) ) {
 				$plugin_data                    = array_merge( (array) $plugin_info->no_update[ $plugin_file ], $plugin_data );
 				$plugins['all'][ $plugin_file ] = $plugin_data;
-				// Make sure that $plugins['upgrade'] also receives the extra info since it is used on ?plugin_status=upgrade
+				// Make sure that $plugins['upgrade'] also receives the extra info since it is used on ?plugin_status=upgrade.
 				if ( isset( $plugins['upgrade'][ $plugin_file ] ) ) {
 					$plugins['upgrade'][ $plugin_file ] = $plugin_data;
 				}
 			}
 
-			// Filter into individual sections
+			// Filter into individual sections.
 			if ( is_multisite() && ! $screen->in_admin( 'network' ) && is_network_only_plugin( $plugin_file ) && ! is_plugin_active( $plugin_file ) ) {
 				if ( $show_network_active ) {
-					// On the non-network screen, show inactive network-only plugins if allowed
+					// On the non-network screen, show inactive network-only plugins if allowed.
 					$plugins['inactive'][ $plugin_file ] = $plugin_data;
 				} else {
-					// On the non-network screen, filter out network-only plugins as long as they're not individually active
+					// On the non-network screen, filter out network-only plugins as long as they're not individually active.
 					unset( $plugins['all'][ $plugin_file ] );
 				}
 			} elseif ( ! $screen->in_admin( 'network' ) && is_plugin_active_for_network( $plugin_file ) ) {
 				if ( $show_network_active ) {
-					// On the non-network screen, show network-active plugins if allowed
+					// On the non-network screen, show network-active plugins if allowed.
 					$plugins['active'][ $plugin_file ] = $plugin_data;
 				} else {
-					// On the non-network screen, filter out network-active plugins
+					// On the non-network screen, filter out network-active plugins.
 					unset( $plugins['all'][ $plugin_file ] );
 				}
 			} elseif ( ( ! $screen->in_admin( 'network' ) && is_plugin_active( $plugin_file ) )
 				|| ( $screen->in_admin( 'network' ) && is_plugin_active_for_network( $plugin_file ) ) ) {
-				// On the non-network screen, populate the active list with plugins that are individually activated
-				// On the network-admin screen, populate the active list with plugins that are network activated
+				// On the non-network screen, populate the active list with plugins that are individually activated.
+				// On the network admin screen, populate the active list with plugins that are network-activated.
 				$plugins['active'][ $plugin_file ] = $plugin_data;
 
 				if ( ! $screen->in_admin( 'network' ) && is_plugin_paused( $plugin_file ) ) {
@@ -227,10 +227,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				}
 			} else {
 				if ( isset( $recently_activated[ $plugin_file ] ) ) {
-					// Populate the recently activated list with plugins that have been recently activated
+					// Populate the recently activated list with plugins that have been recently activated.
 					$plugins['recently_activated'][ $plugin_file ] = $plugin_data;
 				}
-				// Populate the inactive list with plugins that aren't activated
+				// Populate the inactive list with plugins that aren't activated.
 				$plugins['inactive'][ $plugin_file ] = $plugin_data;
 			}
 		}
@@ -251,7 +251,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$this->items = array();
 		foreach ( $plugins[ $status ] as $plugin_file => $plugin_data ) {
-			// Translate, Don't Apply Markup, Sanitize HTML
+			// Translate, don't apply markup, sanitize HTML.
 			$this->items[ $plugin_file ] = _get_plugin_data_markup_translate( $plugin_file, $plugin_data, false, true );
 		}
 
@@ -631,7 +631,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			'delete'     => '',
 		);
 
-		// Do not restrict by default
+		// Do not restrict by default.
 		$restrict_network_active = false;
 		$restrict_network_only   = false;
 
@@ -643,10 +643,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			if ( $plugin_file != $plugin_data['Name'] ) {
 				$plugin_name .= '<br/>' . $plugin_data['Name'];
 			}
-			if ( true === ( $dropins[ $plugin_file ][1] ) ) { // Doesn't require a constant
+			if ( true === ( $dropins[ $plugin_file ][1] ) ) { // Doesn't require a constant.
 				$is_active   = true;
 				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
-			} elseif ( defined( $dropins[ $plugin_file ][1] ) && constant( $dropins[ $plugin_file ][1] ) ) { // Constant is true
+			} elseif ( defined( $dropins[ $plugin_file ][1] ) && constant( $dropins[ $plugin_file ][1] ) ) { // Constant is true.
 				$is_active   = true;
 				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
 			} else {
@@ -750,9 +750,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 							__( 'Delete' )
 						);
 					}
-				} // end if $is_active
-			} // end if $screen->in_admin( 'network' )
-		} // end if $context
+				} // End if $is_active.
+			} // End if $screen->in_admin( 'network' ).
+		} // End if $context.
 
 		$actions = array_filter( $actions );
 
@@ -906,7 +906,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						$plugin_meta[] = sprintf( __( 'By %s' ), $author );
 					}
 
-					// Details link using API info, if available
+					// Details link using API info, if available.
 					if ( isset( $plugin_data['slug'] ) && current_user_can( 'install_plugins' ) ) {
 						$plugin_meta[] = sprintf(
 							'<a href="%s" class="thickbox open-plugin-details-modal" aria-label="%s" data-title="%s">%s</a>',

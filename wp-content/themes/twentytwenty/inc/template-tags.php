@@ -81,7 +81,7 @@ function twentytwenty_site_logo( $args = array(), $echo = true ) {
 		return $html;
 	}
 
-	echo $html; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 }
 
@@ -118,7 +118,7 @@ function twentytwenty_site_description( $echo = true ) {
 		return $html;
 	}
 
-	echo $html; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -178,7 +178,7 @@ add_filter( 'comment_reply_link', 'twentytwenty_filter_comment_reply_link' );
  */
 function twentytwenty_the_post_meta( $post_id = null, $location = 'single-top' ) {
 
-	echo twentytwenty_get_post_meta( $post_id, $location ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_post_meta().
+	echo twentytwenty_get_post_meta( $post_id, $location ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_post_meta().
 
 }
 
@@ -350,7 +350,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 						<span class="meta-text">
 							<?php
 							printf(
-								/* translators: %s: Author name */
+								/* translators: %s: Author name. */
 								__( 'By %s', 'twentytwenty' ),
 								'<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author_meta( 'display_name' ) ) . '</a>'
 							);

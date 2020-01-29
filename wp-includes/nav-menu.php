@@ -324,7 +324,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 		'slug'        => null,
 	);
 
-	// double-check that we're not going to have one menu take the name of another
+	// Double-check that we're not going to have one menu take the name of another.
 	$_possible_existing = get_term_by( 'name', $menu_data['menu-name'], 'nav_menu' );
 	if (
 		$_possible_existing &&
@@ -342,7 +342,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 		);
 	}
 
-	// menu doesn't already exist, so create a new menu
+	// Menu doesn't already exist, so create a new menu.
 	if ( ! $_menu || is_wp_error( $_menu ) ) {
 		$menu_exists = get_term_by( 'name', $menu_data['menu-name'], 'nav_menu' );
 
@@ -419,7 +419,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	$menu_id         = (int) $menu_id;
 	$menu_item_db_id = (int) $menu_item_db_id;
 
-	// make sure that we don't convert non-nav_menu_item objects into nav_menu_item objects
+	// Make sure that we don't convert non-nav_menu_item objects into nav_menu_item objects.
 	if ( ! empty( $menu_item_db_id ) && ! is_nav_menu_item( $menu_item_db_id ) ) {
 		return new WP_Error( 'update_nav_menu_item_failed', __( 'The given object ID is not that of a menu item.' ) );
 	}
@@ -495,13 +495,13 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 			$args['menu-item-title'] = '';
 		}
 
-		// hack to get wp to create a post object when too many properties are empty
+		// Hack to get wp to create a post object when too many properties are empty.
 		if ( '' == $args['menu-item-title'] && '' == $args['menu-item-description'] ) {
 			$args['menu-item-description'] = ' ';
 		}
 	}
 
-	// Populate the menu item object
+	// Populate the menu item object.
 	$post = array(
 		'menu_order'   => $args['menu-item-position'],
 		'ping_status'  => 0,
@@ -514,7 +514,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 
 	$update = 0 != $menu_item_db_id;
 
-	// New menu item. Default is draft status
+	// New menu item. Default is draft status.
 	if ( ! $update ) {
 		$post['ID']          = 0;
 		$post['post_status'] = 'publish' == $args['menu-item-status'] ? 'publish' : 'draft';
@@ -537,8 +537,8 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		do_action( 'wp_add_nav_menu_item', $menu_id, $menu_item_db_id, $args );
 	}
 
-	// Associate the menu item with the menu term
-	// Only set the menu term if it isn't set to avoid unnecessary wp_get_object_terms()
+	// Associate the menu item with the menu term.
+	// Only set the menu term if it isn't set to avoid unnecessary wp_get_object_terms().
 	if ( $menu_id && ( ! $update || ! is_object_in_term( $menu_item_db_id, 'nav_menu', (int) $menu->term_id ) ) ) {
 		wp_set_object_terms( $menu_item_db_id, array( $menu->term_id ), 'nav_menu' );
 	}
@@ -568,7 +568,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		delete_post_meta( $menu_item_db_id, '_menu_item_orphaned' );
 	}
 
-	// Update existing menu item. Default is publish status
+	// Update existing menu item. Default is publish status.
 	if ( $update ) {
 		$post['ID']          = $menu_item_db_id;
 		$post['post_status'] = 'draft' == $args['menu-item-status'] ? 'draft' : 'publish';
@@ -701,7 +701,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		$items = array();
 	}
 
-	// Get all posts and terms at once to prime the caches
+	// Get all posts and terms at once to prime the caches.
 	if ( empty( $fetched[ $menu->term_id ] ) && ! wp_using_ext_object_cache() ) {
 		$fetched[ $menu->term_id ] = true;
 		$posts                     = array();
@@ -748,7 +748,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 
 	$items = array_map( 'wp_setup_nav_menu_item', $items );
 
-	if ( ! is_admin() ) { // Remove invalid items only in front end
+	if ( ! is_admin() ) { // Remove invalid items only on front end.
 		$items = array_filter( $items, '_is_valid_nav_menu_item' );
 	}
 
@@ -1245,11 +1245,11 @@ function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locat
 							// Go back and check the next new menu location.
 							continue 3;
 						}
-					} // endforeach ( $slug_group as $slug )
-				} // endforeach ( $old_nav_menu_locations as $location => $menu_id )
-			} // endforeach foreach ( $registered_nav_menus as $new_location => $name )
-		} // endforeach ( $slug_group as $slug )
-	} // endforeach ( $common_slug_groups as $slug_group )
+					} // End foreach ( $slug_group as $slug ).
+				} // End foreach ( $old_nav_menu_locations as $location => $menu_id ).
+			} // End foreach foreach ( $registered_nav_menus as $new_location => $name ).
+		} // End foreach ( $slug_group as $slug ).
+	} // End foreach ( $common_slug_groups as $slug_group ).
 
 	return $new_nav_menu_locations;
 }

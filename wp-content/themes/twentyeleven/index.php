@@ -21,8 +21,8 @@ get_header(); ?>
 
 				<?php twentyeleven_content_nav( 'nav-above' ); ?>
 
-				<?php /* Start the Loop */ ?>
 				<?php
+				// Start the Loop.
 				while ( have_posts() ) :
 					the_post();
 					?>

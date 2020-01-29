@@ -152,14 +152,14 @@ class WP_Dependencies {
 			$handle       = $handle_parts[0];
 			$queued       = in_array( $handle, $this->to_do, true );
 
-			if ( in_array( $handle, $this->done, true ) ) { // Already done
+			if ( in_array( $handle, $this->done, true ) ) { // Already done.
 				continue;
 			}
 
 			$moved     = $this->set_group( $handle, $recursion, $group );
 			$new_group = $this->groups[ $handle ];
 
-			if ( $queued && ! $moved ) { // already queued and in the right group
+			if ( $queued && ! $moved ) { // Already queued and in the right group.
 				continue;
 			}
 
@@ -364,7 +364,7 @@ class WP_Dependencies {
 	public function query( $handle, $list = 'registered' ) {
 		switch ( $list ) {
 			case 'registered':
-			case 'scripts': // back compat
+			case 'scripts': // Back compat.
 				if ( isset( $this->registered[ $handle ] ) ) {
 					return $this->registered[ $handle ];
 				}
@@ -378,11 +378,11 @@ class WP_Dependencies {
 				return $this->recurse_deps( $this->queue, $handle );
 
 			case 'to_do':
-			case 'to_print': // back compat
+			case 'to_print': // Back compat.
 				return in_array( $handle, $this->to_do );
 
 			case 'done':
-			case 'printed': // back compat
+			case 'printed': // Back compat.
 				return in_array( $handle, $this->done );
 		}
 		return false;

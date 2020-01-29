@@ -122,7 +122,7 @@ class WP_Admin_Bar {
 	 * }
 	 */
 	public function add_node( $args ) {
-		// Shim for old method signature: add_node( $parent_id, $menu_obj, $args )
+		// Shim for old method signature: add_node( $parent_id, $menu_obj, $args ).
 		if ( func_num_args() >= 3 && is_string( $args ) ) {
 			$args = array_merge( array( 'parent' => $args ), func_get_arg( 2 ) );
 		}
@@ -607,13 +607,13 @@ class WP_Admin_Bar {
 	/**
 	 */
 	public function add_menus() {
-		// User related, aligned right.
+		// User-related, aligned right.
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 0 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_search_menu', 4 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_item', 7 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_recovery_mode_menu', 8 );
 
-		// Site related.
+		// Site-related.
 		add_action( 'admin_bar_menu', 'wp_admin_bar_sidebar_toggle', 0 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_wp_menu', 10 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
@@ -621,7 +621,7 @@ class WP_Admin_Bar {
 		add_action( 'admin_bar_menu', 'wp_admin_bar_customize_menu', 40 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 50 );
 
-		// Content related.
+		// Content-related.
 		if ( ! is_network_admin() && ! is_user_admin() ) {
 			add_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
 			add_action( 'admin_bar_menu', 'wp_admin_bar_new_content_menu', 70 );
