@@ -115,10 +115,7 @@ label {
 	padding: 0;
 }
 .language-chooser.wp-core-ui .step .button.button-large {
-	height: 36px;
 	font-size: 14px;
-	line-height: 2.35714285;
-	vertical-align: middle;
 }
 textarea {
 	border: 1px solid #ddd;
