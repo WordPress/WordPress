@@ -79,6 +79,14 @@ class WP_REST_Server {
 	protected $route_options = array();
 
 	/**
+	 * Caches embedded requests.
+	 *
+	 * @since 5.4.0
+	 * @var array
+	 */
+	protected $embed_cache = array();
+
+	/**
 	 * Instantiates the REST server.
 	 *
 	 * @since 4.4.0
@@ -462,12 +470,14 @@ class WP_REST_Server {
 		}
 
 		if ( $embed ) {
+			$this->embed_cache = array();
 			// Determine if this is a numeric array.
 			if ( wp_is_numeric_array( $data ) ) {
 				$data = array_map( array( $this, 'embed_links' ), $data );
 			} else {
 				$data = $this->embed_links( $data );
 			}
+			$this->embed_cache = array();
 		}
 
 		return $data;
@@ -588,24 +598,28 @@ class WP_REST_Server {
 					continue;
 				}
 
-				// Run through our internal routing and serve.
-				$request = WP_REST_Request::from_url( $item['href'] );
-				if ( ! $request ) {
-					$embeds[] = array();
-					continue;
+				if ( ! array_key_exists( $item['href'], $this->embed_cache ) ) {
+					// Run through our internal routing and serve.
+					$request = WP_REST_Request::from_url( $item['href'] );
+					if ( ! $request ) {
+						$embeds[] = array();
+						continue;
+					}
+
+					// Embedded resources get passed context=embed.
+					if ( empty( $request['context'] ) ) {
+						$request['context'] = 'embed';
+					}
+
+					$response = $this->dispatch( $request );
+
+					/** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
+					$response = apply_filters( 'rest_post_dispatch', rest_ensure_response( $response ), $this, $request );
+
+					$this->embed_cache[ $item['href'] ] = $this->response_to_data( $response, false );
 				}
 
-				// Embedded resources get passed context=embed.
-				if ( empty( $request['context'] ) ) {
-					$request['context'] = 'embed';
-				}
-
-				$response = $this->dispatch( $request );
-
-				/** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
-				$response = apply_filters( 'rest_post_dispatch', rest_ensure_response( $response ), $this, $request );
-
-				$embeds[] = $this->response_to_data( $response, false );
+				$embeds[] = $this->embed_cache[ $item['href'] ];
 			}
 
 			// Determine if any real links were found.
