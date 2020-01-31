@@ -324,41 +324,19 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	$file_basename        = 'wp-personal-data-file-' . $obscura;
 	$html_report_filename = wp_unique_filename( $exports_dir, $file_basename . '.html' );
 	$html_report_pathname = wp_normalize_path( $exports_dir . $html_report_filename );
-	$file                 = fopen( $html_report_pathname, 'w' );
-	if ( false === $file ) {
-		wp_send_json_error( __( 'Unable to open export file (HTML report) for writing.' ) );
-	}
+	$json_report_filename = $file_basename . '.json';
+	$json_report_pathname = wp_normalize_path( $exports_dir . $json_report_filename );
 
+	/*
+	 * Gather general data needed.
+	 */
+
+	// Title.
 	$title = sprintf(
 		/* translators: %s: User's email address. */
 		__( 'Personal Data Export for %s' ),
 		$email_address
 	);
-
-	// Open HTML.
-	fwrite( $file, "<!DOCTYPE html>\n" );
-	fwrite( $file, "<html>\n" );
-
-	// Head.
-	fwrite( $file, "<head>\n" );
-	fwrite( $file, "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n" );
-	fwrite( $file, "<style type='text/css'>" );
-	fwrite( $file, 'body { color: black; font-family: Arial, sans-serif; font-size: 11pt; margin: 15px auto; width: 860px; }' );
-	fwrite( $file, 'table { background: #f0f0f0; border: 1px solid #ddd; margin-bottom: 20px; width: 100%; }' );
-	fwrite( $file, 'th { padding: 5px; text-align: left; width: 20%; }' );
-	fwrite( $file, 'td { padding: 5px; }' );
-	fwrite( $file, 'tr:nth-child(odd) { background-color: #fafafa; }' );
-	fwrite( $file, '</style>' );
-	fwrite( $file, '<title>' );
-	fwrite( $file, esc_html( $title ) );
-	fwrite( $file, '</title>' );
-	fwrite( $file, "</head>\n" );
-
-	// Body.
-	fwrite( $file, "<body>\n" );
-
-	// Heading.
-	fwrite( $file, '<h1>' . esc_html__( 'Personal Data Export' ) . '</h1>' );
 
 	// And now, all the Groups.
 	$groups = get_post_meta( $request_id, '_export_data_grouped', true );
@@ -394,14 +372,57 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	// Merge in the special about group.
 	$groups = array_merge( array( 'about' => $about_group ), $groups );
 
+	// Convert the groups to JSON format.
+	$groups_json = wp_json_encode( $groups );
+
+	/*
+	 * Handle the JSON export.
+	 */
+	$file = fopen( $json_report_pathname, 'w' );
+
+	if ( false === $file ) {
+		wp_send_json_error( __( 'Unable to open export file (JSON report) for writing.' ) );
+	}
+
+	fwrite( $file, '{' );
+	fwrite( $file, '"' . $title . '":' );
+	fwrite( $file, $groups_json );
+	fwrite( $file, '}' );
+	fclose( $file );
+
+	/*
+	 * Handle the HTML export.
+	 */
+	$file = fopen( $html_report_pathname, 'w' );
+
+	if ( false === $file ) {
+		wp_send_json_error( __( 'Unable to open export file (HTML report) for writing.' ) );
+	}
+
+	fwrite( $file, "<!DOCTYPE html>\n" );
+	fwrite( $file, "<html>\n" );
+	fwrite( $file, "<head>\n" );
+	fwrite( $file, "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n" );
+	fwrite( $file, "<style type='text/css'>" );
+	fwrite( $file, 'body { color: black; font-family: Arial, sans-serif; font-size: 11pt; margin: 15px auto; width: 860px; }' );
+	fwrite( $file, 'table { background: #f0f0f0; border: 1px solid #ddd; margin-bottom: 20px; width: 100%; }' );
+	fwrite( $file, 'th { padding: 5px; text-align: left; width: 20%; }' );
+	fwrite( $file, 'td { padding: 5px; }' );
+	fwrite( $file, 'tr:nth-child(odd) { background-color: #fafafa; }' );
+	fwrite( $file, '</style>' );
+	fwrite( $file, '<title>' );
+	fwrite( $file, esc_html( $title ) );
+	fwrite( $file, '</title>' );
+	fwrite( $file, "</head>\n" );
+	fwrite( $file, "<body>\n" );
+	fwrite( $file, '<h1>' . esc_html__( 'Personal Data Export' ) . '</h1>' );
+
 	// Now, iterate over every group in $groups and have the formatter render it in HTML.
 	foreach ( (array) $groups as $group_id => $group_data ) {
 		fwrite( $file, wp_privacy_generate_personal_data_export_group_html( $group_data ) );
 	}
 
 	fwrite( $file, "</body>\n" );
-
-	// Close HTML.
 	fwrite( $file, "</html>\n" );
 	fclose( $file );
 
@@ -431,8 +452,12 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 
 	$zip = new ZipArchive;
 	if ( true === $zip->open( $archive_pathname, ZipArchive::CREATE ) ) {
+		if ( ! $zip->addFile( $json_report_pathname, 'export.json' ) ) {
+			$error = __( 'Unable to add data to JSON file.' );
+		}
+
 		if ( ! $zip->addFile( $html_report_pathname, 'index.html' ) ) {
-			$error = __( 'Unable to add data to export file.' );
+			$error = __( 'Unable to add data to HTML file.' );
 		}
 
 		$zip->close();
@@ -448,13 +473,16 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 			 * @param string $html_report_pathname The full path to the personal data report on the filesystem.
 			 * @param int    $request_id           The export request ID.
 			 */
-			do_action( 'wp_privacy_personal_data_export_file_created', $archive_pathname, $archive_url, $html_report_pathname, $request_id );
+			do_action( 'wp_privacy_personal_data_export_file_created', $archive_pathname, $archive_url, $html_report_pathname, $request_id, $json_report_pathname );
 		}
 	} else {
 		$error = __( 'Unable to open export file (archive) for writing.' );
 	}
 
-	// And remove the HTML file.
+	// Remove the JSON file.
+	unlink( $json_report_pathname );
+
+	// Remove the HTML file.
 	unlink( $html_report_pathname );
 
 	if ( $error ) {
