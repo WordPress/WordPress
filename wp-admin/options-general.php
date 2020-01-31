@@ -110,7 +110,7 @@ if ( ! is_multisite() ) {
 <tr>
 <th scope="row"><label for="new_admin_email"><?php _e( 'Administration Email Address' ); ?></label></th>
 <td><input name="new_admin_email" type="email" id="new_admin_email" aria-describedby="new-admin-email-description" value="<?php form_option( 'admin_email' ); ?>" class="regular-text ltr" />
-<p class="description" id="new-admin-email-description"><?php _e( 'This address is used for admin purposes. If you change this we will send you an email at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?></p>
+<p class="description" id="new-admin-email-description"><?php _e( 'This address is used for admin purposes. If you change this, we will send you an email at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?></p>
 <?php
 $new_admin_email = get_option( 'new_admin_email' );
 if ( $new_admin_email && $new_admin_email != get_option( 'admin_email' ) ) :
