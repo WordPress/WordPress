@@ -206,8 +206,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 */
 	protected function get_bulk_actions() {
 		return array(
-			'delete' => __( 'Remove' ),
-			'resend' => __( 'Resend email' ),
+			'delete' => __( 'Delete Requests' ),
+			'resend' => __( 'Resend Confirmation Requests' ),
 		);
 	}
 
