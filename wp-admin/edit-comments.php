@@ -270,7 +270,7 @@ if ( isset( $_REQUEST['approved'] ) || isset( $_REQUEST['deleted'] ) || isset( $
 	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spammed > 0 || $unspammed > 0 || $same > 0 ) {
 		if ( $approved > 0 ) {
 			/* translators: %s: Number of comments. */
-			$messages[] = sprintf( _n( '%s comment approved', '%s comments approved', $approved ), $approved );
+			$messages[] = sprintf( _n( '%s comment approved.', '%s comments approved.', $approved ), $approved );
 		}
 
 		if ( $spammed > 0 ) {
@@ -281,7 +281,7 @@ if ( isset( $_REQUEST['approved'] ) || isset( $_REQUEST['deleted'] ) || isset( $
 
 		if ( $unspammed > 0 ) {
 			/* translators: %s: Number of comments. */
-			$messages[] = sprintf( _n( '%s comment restored from the spam', '%s comments restored from the spam', $unspammed ), $unspammed );
+			$messages[] = sprintf( _n( '%s comment restored from the spam.', '%s comments restored from the spam.', $unspammed ), $unspammed );
 		}
 
 		if ( $trashed > 0 ) {
@@ -292,12 +292,12 @@ if ( isset( $_REQUEST['approved'] ) || isset( $_REQUEST['deleted'] ) || isset( $
 
 		if ( $untrashed > 0 ) {
 			/* translators: %s: Number of comments. */
-			$messages[] = sprintf( _n( '%s comment restored from the Trash', '%s comments restored from the Trash', $untrashed ), $untrashed );
+			$messages[] = sprintf( _n( '%s comment restored from the Trash.', '%s comments restored from the Trash.', $untrashed ), $untrashed );
 		}
 
 		if ( $deleted > 0 ) {
 			/* translators: %s: Number of comments. */
-			$messages[] = sprintf( _n( '%s comment permanently deleted', '%s comments permanently deleted', $deleted ), $deleted );
+			$messages[] = sprintf( _n( '%s comment permanently deleted.', '%s comments permanently deleted.', $deleted ), $deleted );
 		}
 
 		if ( $same > 0 ) {
