@@ -981,7 +981,7 @@ function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'htm
 		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
 
 		if ( ! $matches ) {
-			return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL' ) );
+			return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL.' ) );
 		}
 
 		$file_array         = array();
