@@ -200,7 +200,7 @@ if ( ! is_multisite() ) {
  *
  * @since 2.7.0
  *
- * @param array $whitelist_options Whitelist options.
+ * @param array $whitelist_options The options whitelist.
  */
 $whitelist_options = apply_filters( 'whitelist_options', $whitelist_options );
 
@@ -217,7 +217,13 @@ if ( 'update' == $action ) {
 	}
 
 	if ( ! isset( $whitelist_options[ $option_page ] ) ) {
-		wp_die( __( '<strong>Error</strong>: Options page not found.' ) );
+		wp_die(
+			sprintf(
+				/* translators: %s: The options page name. */
+				__( '<strong>Error</strong>: Options page %s not found in the options whitelist.' ),
+				'<code>' . esc_html( $option_page ) . '</code>'
+			)
+		);
 	}
 
 	if ( 'options' == $option_page ) {
@@ -268,7 +274,7 @@ if ( 'update' == $action ) {
 					sprintf(
 						/* translators: %s: The option/setting. */
 						__( 'The %s setting is unregistered. Unregistered settings are deprecated. See https://developer.wordpress.org/plugins/settings/settings-api/' ),
-						'<code>' . $option . '</code>'
+						'<code>' . esc_html( $option ) . '</code>'
 					)
 				);
 			}
