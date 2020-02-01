@@ -278,12 +278,12 @@ switch ( $step ) {
 		$tryagain_link = '</p><p class="step"><a href="' . $step_1 . '" onclick="javascript:history.go(-1);return false;" class="button button-large">' . __( 'Try Again' ) . '</a>';
 
 		if ( empty( $prefix ) ) {
-			wp_die( __( '<strong>ERROR</strong>: "Table Prefix" must not be empty.' ) . $tryagain_link );
+			wp_die( __( '<strong>Error</strong>: "Table Prefix" must not be empty.' ) . $tryagain_link );
 		}
 
 		// Validate $prefix: it can only contain letters, numbers and underscores.
 		if ( preg_match( '|[^a-z0-9_]|i', $prefix ) ) {
-			wp_die( __( '<strong>ERROR</strong>: "Table Prefix" can only contain numbers, letters, and underscores.' ) . $tryagain_link );
+			wp_die( __( '<strong>Error</strong>: "Table Prefix" can only contain numbers, letters, and underscores.' ) . $tryagain_link );
 		}
 
 		// Test the DB connection.
@@ -316,7 +316,7 @@ switch ( $step ) {
 		$wpdb->show_errors( $errors );
 		if ( ! $wpdb->last_error ) {
 			// MySQL was able to parse the prefix as a value, which we don't want. Bail.
-			wp_die( __( '<strong>ERROR</strong>: "Table Prefix" is invalid.' ) );
+			wp_die( __( '<strong>Error</strong>: "Table Prefix" is invalid.' ) );
 		}
 
 		// Generate keys and salts using secure CSPRNG; fallback to API if enabled; further fallback to original wp_generate_password().

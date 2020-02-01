@@ -274,7 +274,7 @@ switch ( $wp_list_table->current_action() ) {
 <h1><?php _e( 'Delete Users' ); ?></h1>
 		<?php if ( isset( $_REQUEST['error'] ) ) : ?>
 	<div class="error">
-		<p><strong><?php _e( 'ERROR:' ); ?></strong> <?php _e( 'Please select an option.' ); ?></p>
+		<p><strong><?php _e( 'Error:' ); ?></strong> <?php _e( 'Please select an option.' ); ?></p>
 	</div>
 		<?php endif; ?>
 

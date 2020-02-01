@@ -1543,7 +1543,7 @@ function do_feed() {
 	}
 
 	if ( ! has_action( "do_feed_{$feed}" ) ) {
-		wp_die( __( 'ERROR: This is not a valid feed template.' ), '', array( 'response' => 404 ) );
+		wp_die( __( 'Error: This is not a valid feed template.' ), '', array( 'response' => 404 ) );
 	}
 
 	/**

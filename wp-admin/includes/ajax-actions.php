@@ -1272,7 +1272,7 @@ function wp_ajax_replyto_comment( $action ) {
 	if ( empty( $post->post_status ) ) {
 		wp_die( 1 );
 	} elseif ( in_array( $post->post_status, array( 'draft', 'pending', 'trash' ) ) ) {
-		wp_die( __( 'ERROR: You are replying to a comment on a draft post.' ) );
+		wp_die( __( 'Error: You are replying to a comment on a draft post.' ) );
 	}
 
 	$user = wp_get_current_user();
@@ -1302,7 +1302,7 @@ function wp_ajax_replyto_comment( $action ) {
 	}
 
 	if ( '' == $comment_content ) {
-		wp_die( __( 'ERROR: Please type a comment.' ) );
+		wp_die( __( 'Error: Please type a comment.' ) );
 	}
 
 	$comment_parent = 0;
@@ -1404,7 +1404,7 @@ function wp_ajax_edit_comment() {
 	}
 
 	if ( '' == $_POST['content'] ) {
-		wp_die( __( 'ERROR: Please type a comment.' ) );
+		wp_die( __( 'Error: Please type a comment.' ) );
 	}
 
 	if ( isset( $_POST['status'] ) ) {

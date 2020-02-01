@@ -233,7 +233,7 @@ if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) {
 $ct = wp_get_theme();
 
 if ( $ct->errors() && ( ! is_multisite() || current_user_can( 'manage_network_themes' ) ) ) {
-	echo '<div class="error"><p>' . __( 'ERROR:' ) . ' ' . $ct->errors()->get_error_message() . '</p></div>';
+	echo '<div class="error"><p>' . __( 'Error:' ) . ' ' . $ct->errors()->get_error_message() . '</p></div>';
 }
 
 /*
