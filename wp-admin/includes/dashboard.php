@@ -48,7 +48,7 @@ function wp_dashboard_setup() {
 			require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
 		}
 
-		WP_Site_Health::initialize();
+		WP_Site_Health::get_instance();
 
 		wp_enqueue_style( 'site-health' );
 		wp_enqueue_script( 'site-health' );

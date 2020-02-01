@@ -355,7 +355,7 @@ if ( ! is_multisite() ) {
 if ( ! class_exists( 'WP_Site_Health' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
 }
-WP_Site_Health::initialize();
+WP_Site_Health::get_instance();
 
 // Load active plugins.
 foreach ( wp_get_active_and_valid_plugins() as $plugin ) {

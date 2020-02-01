@@ -27,7 +27,7 @@ if ( ! class_exists( 'WP_Site_Health' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
 }
 
-$health_check_site_status = new WP_Site_Health();
+$health_check_site_status = WP_Site_Health::get_instance();
 
 // Start by checking if this is a special request checking for the existence of certain filters.
 $health_check_site_status->check_wp_version_check_exists();
