@@ -410,7 +410,7 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 	 */
 
 	if ( ! $blog_id = insert_blog($domain, $path, $site_id) )
-		return __( '<strong>ERROR</strong>: problem creating site entry.' );
+		return __( '<strong>ERROR</strong>: Problem creating site entry.' );
 
 	switch_to_blog($blog_id);
 	install_blog($blog_id);
