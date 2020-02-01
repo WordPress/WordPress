@@ -467,11 +467,13 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 			 * Fires right after all personal data has been written to the export file.
 			 *
 			 * @since 4.9.6
+			 * @since 5.4.0 Added the `$json_report_pathname` parameter.
 			 *
 			 * @param string $archive_pathname     The full path to the export file on the filesystem.
 			 * @param string $archive_url          The URL of the archive file.
-			 * @param string $html_report_pathname The full path to the personal data report on the filesystem.
+			 * @param string $html_report_pathname The full path to the HTML personal data report on the filesystem.
 			 * @param int    $request_id           The export request ID.
+			 * @param string $json_report_pathname The full path to the JSON personal data report on the filesystem.
 			 */
 			do_action( 'wp_privacy_personal_data_export_file_created', $archive_pathname, $archive_url, $html_report_pathname, $request_id, $json_report_pathname );
 		}
