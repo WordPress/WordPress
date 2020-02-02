@@ -789,6 +789,9 @@ $_old_files = array(
 	// 5.3
 	'wp-includes/js/wp-a11y.js',     // Moved to: wp-includes/js/dist/a11y.js
 	'wp-includes/js/wp-a11y.min.js', // Moved to: wp-includes/js/dist/a11y.min.js
+	// 5.4
+	'wp-admin/js/wp-fullscreen-stub.js',
+	'wp-admin/js/wp-fullscreen-stub.min.js',
 );
 
 /**

@@ -25,7 +25,6 @@ final class _WP_Editors {
 	private static $has_medialib       = false;
 	private static $editor_buttons_css = true;
 	private static $drag_drop_upload   = false;
-	private static $old_dfw_compat     = false;
 	private static $translation;
 	private static $tinymce_scripts_printed = false;
 	private static $link_dialog_printed     = false;
@@ -58,8 +57,7 @@ final class _WP_Editors {
 	 *     @type string     $editor_class      Extra classes to add to the editor textarea element. Default empty.
 	 *     @type bool       $teeny             Whether to output the minimal editor config. Examples include
 	 *                                         Press This and the Comment editor. Default false.
-	 *     @type bool       $dfw               Deprecated in 4.1. Since 4.3 used only to enqueue wp-fullscreen-stub.js
-	 *                                         for backward compatibility.
+	 *     @type bool       $dfw               Deprecated in 4.1. Unused.
 	 *     @type bool|array $tinymce           Whether to load TinyMCE. Can be used to pass settings directly to
 	 *                                         TinyMCE using an array. Default true.
 	 *     @type bool|array $quicktags         Whether to load Quicktags. Can be used to pass settings directly to
@@ -97,7 +95,6 @@ final class _WP_Editors {
 				'editor_css'          => '',
 				'editor_class'        => '',
 				'teeny'               => false,
-				'dfw'                 => false,
 				'_content_editor_dfw' => false,
 				'tinymce'             => true,
 				'quicktags'           => true,
@@ -121,10 +118,6 @@ final class _WP_Editors {
 
 		if ( self::$this_quicktags ) {
 			self::$has_quicktags = true;
-		}
-
-		if ( $set['dfw'] ) {
-			self::$old_dfw_compat = true;
 		}
 
 		if ( empty( $set['editor_height'] ) ) {
@@ -870,10 +863,6 @@ final class _WP_Editors {
 		if ( $default_scripts || in_array( 'wplink', self::$plugins, true ) || in_array( 'link', self::$qt_buttons, true ) ) {
 			wp_enqueue_script( 'wplink' );
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
-		}
-
-		if ( self::$old_dfw_compat ) {
-			wp_enqueue_script( 'wp-fullscreen-stub' );
 		}
 
 		if ( self::$has_medialib ) {

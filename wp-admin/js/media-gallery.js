@@ -1,7 +1,7 @@
 /**
  * This file is used on media-upload.php which has been replaced by media-new.php and upload.php
  *
- * @deprecated  3.5.0
+ * @deprecated 3.5.0
  * @output wp-admin/js/media-gallery.js
  */
 
