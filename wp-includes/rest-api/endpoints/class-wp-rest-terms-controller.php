@@ -408,7 +408,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 				&& ! current_user_can( $taxonomy_obj->cap->assign_terms ) ) ) {
 			return new WP_Error(
 				'rest_cannot_create',
-				__( 'Sorry, you are not allowed to create new terms.' ),
+				__( 'Sorry, you are not allowed to create terms in this taxonomy.' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
