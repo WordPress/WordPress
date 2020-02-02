@@ -159,8 +159,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$show_network_active = apply_filters( 'show_network_active_plugins', $show );
 		}
 
-		set_transient( 'plugin_slugs', array_keys( $plugins['all'] ), DAY_IN_SECONDS );
-
 		if ( $screen->in_admin( 'network' ) ) {
 			$recently_activated = get_site_option( 'recently_activated', array() );
 		} else {
