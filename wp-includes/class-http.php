@@ -651,7 +651,12 @@ class WP_Http {
 	 * @since 2.7.0
 	 *
 	 * @param string $strResponse The full response string.
-	 * @return array Array with 'headers' and 'body' keys.
+	 * @return array {
+	 *     Array with response headers and body.
+	 *
+	 *     @type string $headers HTTP response headers.
+	 *     @type string $body    HTTP response body.
+	 * }
 	 */
 	public static function processResponse( $strResponse ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 		$res = explode( "\r\n\r\n", $strResponse, 2 );
