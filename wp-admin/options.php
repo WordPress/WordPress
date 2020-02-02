@@ -204,10 +204,7 @@ if ( ! is_multisite() ) {
  */
 $whitelist_options = apply_filters( 'whitelist_options', $whitelist_options );
 
-/*
- * If $_GET['action'] == 'update' we are saving settings sent from a settings page
- */
-if ( 'update' == $action ) {
+if ( 'update' == $action ) { // We are saving settings sent from a settings page.
 	if ( 'options' == $option_page && ! isset( $_POST['option_page'] ) ) { // This is for back compat and will eventually be removed.
 		$unregistered = true;
 		check_admin_referer( 'update-options' );
@@ -303,18 +300,17 @@ if ( 'update' == $action ) {
 		}
 	}
 
-	/**
-	 * Handle settings errors and return to options page
+	/*
+	 * Handle settings errors and return to options page.
 	 */
+
 	// If no settings errors were registered add a general 'updated' message.
 	if ( ! count( get_settings_errors() ) ) {
 		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.' ), 'success' );
 	}
 	set_transient( 'settings_errors', get_settings_errors(), 30 );
 
-	/**
-	 * Redirect back to the settings page that was submitted
-	 */
+	// Redirect back to the settings page that was submitted.
 	$goback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
 	wp_redirect( $goback );
 	exit;
