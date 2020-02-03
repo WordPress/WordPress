@@ -322,9 +322,10 @@ class WP_Styles extends WP_Dependencies {
 	 * @since 3.3.0
 	 *
 	 * @param string $handle The style's registered handle.
-	 * @param bool   $echo   Optional. Whether to echo the inline style instead of just returning it.
-	 *                       Default true.
-	 * @return string|bool False if no data exists, inline styles if `$echo` is true, true otherwise.
+	 * @param bool   $echo   Optional. Whether to echo the inline style
+	 *                       instead of just returning it. Default true.
+	 * @return string|bool False if no data exists, inline styles if `$echo` is true,
+	 *                     true otherwise.
 	 */
 	public function print_inline_style( $handle, $echo = true ) {
 		$output = $this->get_data( $handle, 'after' );
@@ -356,9 +357,11 @@ class WP_Styles extends WP_Dependencies {
 	 *
 	 * @see WP_Dependencies::all_deps()
 	 *
-	 * @param string|string[] $handles   Item handle and argument (string) or item handles and arguments (array of strings).
-	 * @param bool            $recursion Internal flag that function is calling itself.
-	 * @param int|false       $group     Group level: (int) level, (false) no groups.
+	 * @param string|string[] $handles   Item handle (string) or item handles (array of strings).
+	 * @param bool            $recursion Optional. Internal flag that function is calling itself.
+	 *                                   Default false.
+	 * @param int|false       $group     Optional. Group level: level (int), no groups (false).
+	 *                                   Default false.
 	 * @return bool True on success, false on failure.
 	 */
 	public function all_deps( $handles, $recursion = false, $group = false ) {
@@ -381,8 +384,8 @@ class WP_Styles extends WP_Dependencies {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param string $src The source of the enqueued style.
-	 * @param string $ver The version of the enqueued style.
+	 * @param string $src    The source of the enqueued style.
+	 * @param string $ver    The version of the enqueued style.
 	 * @param string $handle The style's registered handle.
 	 * @return string Style's fully-qualified URL.
 	 */

@@ -83,8 +83,10 @@ class WP_Dependencies {
 	 * @since 2.6.0
 	 * @since 2.8.0 Added the `$group` parameter.
 	 *
-	 * @param mixed     $handles Optional. Items to be processed: Process queue (false), process item (string), process items (array of strings).
-	 * @param int|false $group   Optional. Group level: level (int), no groups (false).
+	 * @param string|string[]|false $handles Optional. Items to be processed: queue (false),
+	 *                                       single item (string), or multiple items (array of strings).
+	 *                                       Default false.
+	 * @param int|false             $group   Optional. Group level: level (int), no groups (false).
 	 * @return string[] Array of handles of items that have been processed.
 	 */
 	public function do_items( $handles = false, $group = false ) {
@@ -136,9 +138,11 @@ class WP_Dependencies {
 	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 * @since 2.8.0 Added the `$group` parameter.
 	 *
-	 * @param string|string[] $handles   Item handle and argument (string) or item handles and arguments (array of strings).
-	 * @param bool            $recursion Internal flag that function is calling itself.
-	 * @param int|false       $group     Group level: (int) level, (false) no groups.
+	 * @param string|string[] $handles   Item handle (string) or item handles (array of strings).
+	 * @param bool            $recursion Optional. Internal flag that function is calling itself.
+	 *                                   Default false.
+	 * @param int|false       $group     Optional. Group level: level (int), no groups (false).
+	 *                                   Default false.
 	 * @return bool True on success, false on failure.
 	 */
 	public function all_deps( $handles, $recursion = false, $group = false ) {
@@ -203,14 +207,18 @@ class WP_Dependencies {
 	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
 	 * @param string           $handle Name of the item. Should be unique.
-	 * @param string|bool      $src    Full URL of the item, or path of the item relative to the WordPress root directory.
-	 *                                 If source is set to false, item is an alias of other items it depends on.
-	 * @param string[]         $deps   Optional. An array of registered item handles this item depends on. Default empty array.
-	 * @param string|bool|null $ver    Optional. String specifying item version number, if it has one, which is added to the URL
-	 *                                 as a query string for cache busting purposes. If version is set to false, a version
-	 *                                 number is automatically added equal to current installed WordPress version.
+	 * @param string|bool      $src    Full URL of the item, or path of the item relative
+	 *                                 to the WordPress root directory. If source is set to false,
+	 *                                 item is an alias of other items it depends on.
+	 * @param string[]         $deps   Optional. An array of registered item handles this item depends on.
+	 *                                 Default empty array.
+	 * @param string|bool|null $ver    Optional. String specifying item version number, if it has one,
+	 *                                 which is added to the URL as a query string for cache busting purposes.
+	 *                                 If version is set to false, a version number is automatically added
+	 *                                 equal to current installed WordPress version.
 	 *                                 If set to null, no version is added.
-	 * @param mixed            $args   Optional. Custom property of the item. NOT the class property $args. Examples: $media, $in_footer.
+	 * @param mixed            $args   Optional. Custom property of the item. NOT the class property $args.
+	 *                                 Examples: $media, $in_footer.
 	 * @return bool Whether the item has been registered. True on success, false on failure.
 	 */
 	public function add( $handle, $src, $deps = array(), $ver = false, $args = null ) {
@@ -230,7 +238,7 @@ class WP_Dependencies {
 	 *
 	 * @param string $handle Name of the item. Should be unique.
 	 * @param string $key    The data key.
-	 * @param mixed  $value  The data value.
+	 * @param string $value  The data value.
 	 * @return bool True on success, false on failure.
 	 */
 	public function add_data( $handle, $key, $value ) {
@@ -250,7 +258,7 @@ class WP_Dependencies {
 	 *
 	 * @param string $handle Name of the item. Should be unique.
 	 * @param string $key    The data key.
-	 * @return mixed Extra item data (string), false otherwise.
+	 * @return string|false Extra item data (string), false otherwise.
 	 */
 	public function get_data( $handle, $key ) {
 		if ( ! isset( $this->registered[ $handle ] ) ) {
@@ -270,8 +278,7 @@ class WP_Dependencies {
 	 * @since 2.1.0
 	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
-	 * @param string|string[] $handles Item handle and argument (string) or item handles and arguments (array of strings).
-	 * @return void
+	 * @param string|string[] $handles Item handle (string) or item handles (array of strings).
 	 */
 	public function remove( $handles ) {
 		foreach ( (array) $handles as $handle ) {
@@ -290,7 +297,7 @@ class WP_Dependencies {
 	 * @since 2.1.0
 	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
-	 * @param string|string[] $handles Item handle and argument (string) or item handles and arguments (array of strings).
+	 * @param string|string[] $handles Item handle (string) or item handles (array of strings).
 	 */
 	public function enqueue( $handles ) {
 		foreach ( (array) $handles as $handle ) {
@@ -313,7 +320,7 @@ class WP_Dependencies {
 	 * @since 2.1.0
 	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
-	 * @param string|string[] $handles Item handle and argument (string) or item handles and arguments (array of strings).
+	 * @param string|string[] $handles Item handle (string) or item handles (array of strings).
 	 */
 	public function dequeue( $handles ) {
 		foreach ( (array) $handles as $handle ) {
@@ -358,7 +365,7 @@ class WP_Dependencies {
 	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
 	 * @param string $handle Name of the item. Should be unique.
-	 * @param string $list   Property name of list array.
+	 * @param string $list   Optional. Property name of list array. Default 'registered'.
 	 * @return bool|_WP_Dependency Found, or object Item data.
 	 */
 	public function query( $handle, $list = 'registered' ) {
@@ -393,10 +400,10 @@ class WP_Dependencies {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param string $handle    Name of the item. Should be unique.
-	 * @param bool   $recursion Internal flag that calling function was called recursively.
-	 * @param mixed  $group     Group level.
-	 * @return bool Not already in the group or a lower group
+	 * @param string    $handle    Name of the item. Should be unique.
+	 * @param bool      $recursion Internal flag that calling function was called recursively.
+	 * @param int|false $group     Group level: level (int), no groups (false).
+	 * @return bool Not already in the group or a lower group.
 	 */
 	public function set_group( $handle, $recursion, $group ) {
 		$group = (int) $group;
