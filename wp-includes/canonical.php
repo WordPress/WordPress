@@ -485,7 +485,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 	if ( ! empty( $redirect['query'] ) ) {
 		// Remove trailing spaces and end punctuation from certain terminating query string args.
-		$redirect['query'] = preg_replace( "#((p|page_id|cat|tag)=[^&]*?)($punctuation_pattern)+$#", '$1', $redirect['query'] );
+		$redirect['query'] = preg_replace( "#((^|&)(p|page_id|cat|tag)=[^&]*?)($punctuation_pattern)+$#", '$1', $redirect['query'] );
 
 		// Clean up empty query strings.
 		$redirect['query'] = trim( preg_replace( '#(^|&)(p|page_id|cat|tag)=?(&|$)#', '&', $redirect['query'] ), '&' );
