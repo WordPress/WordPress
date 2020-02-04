@@ -137,7 +137,7 @@ function get_blog_count( $network_id = null ) {
  * @since MU (3.0.0)
  *
  * @param int $blog_id ID of the blog.
- * @param int $post_id ID of the post you're looking for.
+ * @param int $post_id ID of the post being looked for.
  * @return WP_Post|null WP_Post on success or null on failure
  */
 function get_blog_post( $blog_id, $post_id ) {
@@ -155,8 +155,8 @@ function get_blog_post( $blog_id, $post_id ) {
  *
  * @since MU (3.0.0)
  *
- * @param int    $blog_id ID of the blog you're adding the user to.
- * @param int    $user_id ID of the user you're adding.
+ * @param int    $blog_id ID of the blog the user is being added to.
+ * @param int    $user_id ID of the user being added.
  * @param string $role    The role you want the user to have
  * @return true|WP_Error True on success or a WP_Error object if the user doesn't exist
  *                       or could not be added.
@@ -234,8 +234,8 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int $user_id  ID of the user you're removing.
- * @param int $blog_id  Optional. ID of the blog you're removing the user from. Default 0.
+ * @param int $user_id  ID of the user being removed.
+ * @param int $blog_id  Optional. ID of the blog the user is being removed from. Default 0.
  * @param int $reassign Optional. ID of the user to whom to reassign posts. Default 0.
  * @return true|WP_Error True on success or a WP_Error object if the user doesn't exist.
  */
