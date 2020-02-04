@@ -3066,43 +3066,37 @@ class WP_Query {
 		// Check post status to determine if post should be displayed.
 		if ( ! empty( $this->posts ) && ( $this->is_single || $this->is_page ) ) {
 			$status = get_post_status( $this->posts[0] );
-
 			if ( 'attachment' === $this->posts[0]->post_type && 0 === (int) $this->posts[0]->post_parent ) {
 				$this->is_page       = false;
 				$this->is_single     = true;
 				$this->is_attachment = true;
 			}
+			$post_status_obj = get_post_status_object( $status );
 
 			// If the post_status was specifically requested, let it pass through.
-			if ( ! in_array( $status, $q_status ) ) {
-				$post_status_obj = get_post_status_object( $status );
+			if ( ! $post_status_obj->public && ! in_array( $status, $q_status ) ) {
 
-				if ( $post_status_obj && ! $post_status_obj->public ) {
-					if ( ! is_user_logged_in() ) {
-						// User must be logged in to view unpublished posts.
-						$this->posts = array();
-					} else {
-						if ( $post_status_obj->protected ) {
-							// User must have edit permissions on the draft to preview.
-							if ( ! current_user_can( $edit_cap, $this->posts[0]->ID ) ) {
-								$this->posts = array();
-							} else {
-								$this->is_preview = true;
-								if ( 'future' != $status ) {
-									$this->posts[0]->post_date = current_time( 'mysql' );
-								}
-							}
-						} elseif ( $post_status_obj->private ) {
-							if ( ! current_user_can( $read_cap, $this->posts[0]->ID ) ) {
-								$this->posts = array();
-							}
+				if ( ! is_user_logged_in() ) {
+					// User must be logged in to view unpublished posts.
+					$this->posts = array();
+				} else {
+					if ( $post_status_obj->protected ) {
+						// User must have edit permissions on the draft to preview.
+						if ( ! current_user_can( $edit_cap, $this->posts[0]->ID ) ) {
+							$this->posts = array();
 						} else {
+							$this->is_preview = true;
+							if ( 'future' != $status ) {
+								$this->posts[0]->post_date = current_time( 'mysql' );
+							}
+						}
+					} elseif ( $post_status_obj->private ) {
+						if ( ! current_user_can( $read_cap, $this->posts[0]->ID ) ) {
 							$this->posts = array();
 						}
+					} else {
+						$this->posts = array();
 					}
-				} else {
-					// Post status is not registered, assume it's not public.
-					$this->posts = array();
 				}
 			}
 
