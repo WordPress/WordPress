@@ -568,6 +568,7 @@ class wpdb {
 		'STRICT_TRANS_TABLES',
 		'STRICT_ALL_TABLES',
 		'TRADITIONAL',
+		'ANSI',
 	);
 
 	/**
