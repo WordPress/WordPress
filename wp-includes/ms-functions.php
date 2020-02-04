@@ -234,15 +234,17 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int    $user_id  ID of the user you're removing.
- * @param int    $blog_id  ID of the blog you're removing the user from.
- * @param string $reassign Optional. A user to whom to reassign posts.
- * @return true|WP_Error
+ * @param int $user_id  ID of the user you're removing.
+ * @param int $blog_id  Optional. ID of the blog you're removing the user from. Default 0.
+ * @param int $reassign Optional. ID of the user to whom to reassign posts. Default 0.
+ * @return true|WP_Error True on success or a WP_Error object if the user doesn't exist.
  */
-function remove_user_from_blog( $user_id, $blog_id = '', $reassign = '' ) {
+function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
 	global $wpdb;
+
 	switch_to_blog( $blog_id );
 	$user_id = (int) $user_id;
+
 	/**
 	 * Fires before a user is removed from a site.
 	 *
@@ -253,8 +255,8 @@ function remove_user_from_blog( $user_id, $blog_id = '', $reassign = '' ) {
 	 */
 	do_action( 'remove_user_from_blog', $user_id, $blog_id );
 
-	// If being removed from the primary blog, set a new primary if the user is assigned
-	// to multiple blogs.
+	// If being removed from the primary blog, set a new primary
+	// if the user is assigned to multiple blogs.
 	$primary_blog = get_user_meta( $user_id, 'primary_blog', true );
 	if ( $primary_blog == $blog_id ) {
 		$new_id     = '';
@@ -288,7 +290,7 @@ function remove_user_from_blog( $user_id, $blog_id = '', $reassign = '' ) {
 		update_user_meta( $user_id, 'source_domain', '' );
 	}
 
-	if ( $reassign != '' ) {
+	if ( $reassign ) {
 		$reassign = (int) $reassign;
 		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_author = %d", $user_id ) );
 		$link_ids = $wpdb->get_col( $wpdb->prepare( "SELECT link_id FROM $wpdb->links WHERE link_owner = %d", $user_id ) );
