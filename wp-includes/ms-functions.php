@@ -252,8 +252,8 @@ function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
 	 * @since 5.4.0 Added the `$reassign` parameter.
 	 *
 	 * @param int $user_id  ID of the user being removed.
-	 * @param int $blog_id  ID of the blog the user is being removed from. 
-	 * @param int $reassign ID of the user to whom to reassign posts. 
+	 * @param int $blog_id  ID of the blog the user is being removed from.
+	 * @param int $reassign ID of the user to whom to reassign posts.
 	 */
 	do_action( 'remove_user_from_blog', $user_id, $blog_id, $reassign );
 
