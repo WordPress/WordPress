@@ -263,6 +263,7 @@ require( ABSPATH . WPINC . '/blocks/calendar.php' );
 require( ABSPATH . WPINC . '/blocks/categories.php' );
 require( ABSPATH . WPINC . '/blocks/latest-comments.php' );
 require( ABSPATH . WPINC . '/blocks/latest-posts.php' );
+require( ABSPATH . WPINC . '/blocks/navigation.php' );
 require( ABSPATH . WPINC . '/blocks/rss.php' );
 require( ABSPATH . WPINC . '/blocks/search.php' );
 require( ABSPATH . WPINC . '/blocks/shortcode.php' );
