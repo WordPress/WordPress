@@ -227,6 +227,21 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					</label>
 				</p>
 
+				<?php
+				/**
+				 * Fires just before the move buttons of a nav menu item in the menu editor.
+				 *
+				 * @since 5.4.0
+				 *
+				 * @param int      $item_id Menu item ID.
+				 * @param WP_Post  $item    Menu item data object.
+				 * @param int      $depth   Depth of menu item. Used for padding.
+				 * @param stdClass $args    An object of menu item arguments.
+				 * @param int      $id      Nav menu ID.
+				 */
+				do_action( 'wp_nav_menu_item_custom_fields', $item_id, $item, $depth, $args, $id );
+				?>
+
 				<fieldset class="field-move hide-if-no-js description description-wide">
 					<span class="field-move-visual-label" aria-hidden="true"><?php _e( 'Move' ); ?></span>
 					<button type="button" class="button-link menus-move menus-move-up" data-dir="up"><?php _e( 'Up one' ); ?></button>
