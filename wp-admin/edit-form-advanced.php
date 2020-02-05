@@ -376,7 +376,7 @@ if ( 'post' == $post_type ) {
 
 	if ( current_theme_supports( 'post-thumbnails' ) && post_type_supports( 'post', 'thumbnail' ) ) {
 		$publish_box .= '<li>' . sprintf(
-			/* translators: %s: Featured Image. */
+			/* translators: %s: Featured image. */
 			__( '<strong>%s</strong> &mdash; This allows you to associate an image with your post without inserting it. This is usually useful only if your theme makes use of the image as a post thumbnail on the home page, a custom header, etc.' ),
 			esc_html( $post_type_object->labels->featured_image )
 		) . '</li>';
