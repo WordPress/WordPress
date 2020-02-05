@@ -22,11 +22,11 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $output Passed by reference.
-	 * @param int    $depth  Depth of menu item. Used for padding.
-	 * @param array  $args   Not used.
+	 * @param string   $output Passed by reference.
+	 * @param int      $depth  Depth of menu item. Used for padding.
+	 * @param stdClass $args   Not used.
 	 */
-	public function start_lvl( &$output, $depth = 0, $args = array() ) {}
+	public function start_lvl( &$output, $depth = 0, $args = null ) {}
 
 	/**
 	 * Ends the list of after the elements are added.
@@ -35,11 +35,11 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $output Passed by reference.
-	 * @param int    $depth  Depth of menu item. Used for padding.
-	 * @param array  $args   Not used.
+	 * @param string   $output Passed by reference.
+	 * @param int      $depth  Depth of menu item. Used for padding.
+	 * @param stdClass $args   Not used.
 	 */
-	public function end_lvl( &$output, $depth = 0, $args = array() ) {}
+	public function end_lvl( &$output, $depth = 0, $args = null ) {}
 
 	/**
 	 * Start the element output.
@@ -49,13 +49,13 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 *
 	 * @global int $_wp_nav_menu_max_depth
 	 *
-	 * @param string $output Used to append additional content (passed by reference).
-	 * @param object $item   Menu item data object.
-	 * @param int    $depth  Depth of menu item. Used for padding.
-	 * @param array  $args   Not used.
-	 * @param int    $id     Not used.
+	 * @param string   $output Used to append additional content (passed by reference).
+	 * @param WP_Post  $item   Menu item data object.
+	 * @param int      $depth  Depth of menu item. Used for padding.
+	 * @param stdClass $args   Not used.
+	 * @param int      $id     Not used.
 	 */
-	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
 		global $_wp_nav_menu_max_depth;
 		$_wp_nav_menu_max_depth = $depth > $_wp_nav_menu_max_depth ? $depth : $_wp_nav_menu_max_depth;
 

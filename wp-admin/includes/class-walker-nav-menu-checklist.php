@@ -30,11 +30,11 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $output Used to append additional content (passed by reference).
-	 * @param int    $depth  Depth of page. Used for padding.
-	 * @param array  $args   Not used.
+	 * @param string   $output Used to append additional content (passed by reference).
+	 * @param int      $depth  Depth of page. Used for padding.
+	 * @param stdClass $args   Not used.
 	 */
-	public function start_lvl( &$output, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = null ) {
 		$indent  = str_repeat( "\t", $depth );
 		$output .= "\n$indent<ul class='children'>\n";
 	}
@@ -46,11 +46,11 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $output Used to append additional content (passed by reference).
-	 * @param int    $depth  Depth of page. Used for padding.
-	 * @param array  $args   Not used.
+	 * @param string   $output Used to append additional content (passed by reference).
+	 * @param int      $depth  Depth of page. Used for padding.
+	 * @param stdClass $args   Not used.
 	 */
-	public function end_lvl( &$output, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = null ) {
 		$indent  = str_repeat( "\t", $depth );
 		$output .= "\n$indent</ul>";
 	}
@@ -65,13 +65,13 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 * @global int        $_nav_menu_placeholder
 	 * @global int|string $nav_menu_selected_id
 	 *
-	 * @param string $output Used to append additional content (passed by reference).
-	 * @param object $item   Menu item data object.
-	 * @param int    $depth  Depth of menu item. Used for padding.
-	 * @param array  $args   Not used.
-	 * @param int    $id     Not used.
+	 * @param string   $output Used to append additional content (passed by reference).
+	 * @param WP_Post  $item   Menu item data object.
+	 * @param int      $depth  Depth of menu item. Used for padding.
+	 * @param stdClass $args   Not used.
+	 * @param int      $id     Not used.
 	 */
-	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
 		global $_nav_menu_placeholder, $nav_menu_selected_id;
 
 		$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval( $_nav_menu_placeholder ) - 1 : -1;
