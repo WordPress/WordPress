@@ -408,7 +408,7 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  *     @type bool          $_builtin              This taxonomy is a "built-in" taxonomy. INTERNAL USE ONLY!
  *                                                Default false.
  * }
- * @return void|WP_Error Void on success, WP_Error object on failure.
+ * @return WP_Taxonomy|WP_Error The registered taxonomy object on success, WP_Error object on failure.
  */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	global $wp_taxonomies;
@@ -441,6 +441,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	 * @param array        $args        Array of taxonomy registration arguments.
 	 */
 	do_action( 'registered_taxonomy', $taxonomy, $object_type, (array) $taxonomy_object );
+
+	return $taxonomy_object;
 }
 
 /**
