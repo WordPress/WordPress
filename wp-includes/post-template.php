@@ -1730,7 +1730,7 @@ function get_the_password_form( $post = 0 ) {
  * Determines whether currently in a page template.
  *
  * This template tag allows you to determine if you are in a page template.
- * You can optionally provide a template name or array of template names
+ * You can optionally provide a template filename or array of template filenames
  * and then the check will be specific to that template.
  *
  * For more information on this and similar theme functions, check out
@@ -1741,7 +1741,7 @@ function get_the_password_form( $post = 0 ) {
  * @since 4.2.0 The `$template` parameter was changed to also accept an array of page templates.
  * @since 4.7.0 Now works with any post type, not just pages.
  *
- * @param string|array $template The specific template name or array of templates to match.
+ * @param string|array $template The specific template filename or array of templates to match.
  * @return bool True on success, false on failure.
  */
 function is_page_template( $template = '' ) {
@@ -1771,14 +1771,14 @@ function is_page_template( $template = '' ) {
 }
 
 /**
- * Get the specific template name for a given post.
+ * Get the specific template filename for a given post.
  *
  * @since 3.4.0
  * @since 4.7.0 Now works with any post type, not just pages.
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string|false Page template filename. Returns an empty string when the default page template
- *  is in use. Returns false if the post does not exist.
+ *                      is in use. Returns false if the post does not exist.
  */
 function get_page_template_slug( $post = null ) {
 	$post = get_post( $post );
