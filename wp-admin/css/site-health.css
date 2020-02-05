@@ -321,8 +321,9 @@
 	color: #191e23;
 	border: none;
 	box-shadow: none;
-	outline-offset: -2px;
-	outline: 1px dotted #555d66;
+	outline-offset: -1px;
+	outline: 2px solid #0071a1;
+	background-color: #f8f9f9;
 }
 
 .health-check-accordion-trigger .title {
