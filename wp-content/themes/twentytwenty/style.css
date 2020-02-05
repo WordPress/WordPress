@@ -1633,6 +1633,8 @@ ul.primary-menu {
 	display: block;
 	line-height: 1.2;
 	text-decoration: none;
+	word-break: normal;
+	word-wrap: normal;
 }
 
 .primary-menu a:hover,
@@ -4364,6 +4366,8 @@ div.comment:first-of-type {
 
 .footer-menu a {
 	text-decoration: none;
+	word-break: normal;
+	word-wrap: normal;
 }
 
 .footer-menu a:hover,
