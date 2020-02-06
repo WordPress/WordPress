@@ -74,7 +74,7 @@ html {
   @media (min-width: 782px) {
     .auto-fold .edit-post-editor-regions {
       left: 36px; } }
-  @media (min-width: 960px) {
+  @media (min-width: 961px) {
     .auto-fold .edit-post-editor-regions {
       left: 160px; } }
 
@@ -199,6 +199,7 @@ body.is-fullscreen-mode .edit-post-editor-regions {
   background: #fff;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
   max-width: 100vw; }
@@ -301,7 +302,7 @@ body.is-fullscreen-mode .edit-post-editor-regions {
     .is-sidebar-opened .edit-post-header-toolbar__block-toolbar {
       display: block;
       right: 280px; } }
-  @media (min-width: 1080px) {
+  @media (min-width: 1280px) {
     .edit-post-header-toolbar__block-toolbar {
       padding-left: 8px;
       position: static;
@@ -447,7 +448,7 @@ body.is-fullscreen-mode .edit-post-editor-regions {
   @media (min-width: 782px) {
     .auto-fold .edit-post-layout .components-editor-notices__snackbar {
       left: 36px; } }
-  @media (min-width: 960px) {
+  @media (min-width: 961px) {
     .auto-fold .edit-post-layout .components-editor-notices__snackbar {
       left: 160px; } }
 
@@ -1090,8 +1091,9 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
       flex-basis: 100%; } }
 
 .edit-post-visual-editor > .block-editor__typewriter,
-.edit-post-visual-editor > .block-editor__typewriter > .block-editor-writing-flow,
-.edit-post-visual-editor > .block-editor__typewriter > .block-editor-writing-flow > .block-editor-writing-flow__click-redirect {
+.edit-post-visual-editor > .block-editor__typewriter > div,
+.edit-post-visual-editor > .block-editor__typewriter > div > .block-editor-writing-flow,
+.edit-post-visual-editor > .block-editor__typewriter > div > .block-editor-writing-flow > .block-editor-writing-flow__click-redirect {
   height: 100%; }
 
 .edit-post-visual-editor .block-editor-writing-flow__click-redirect {
@@ -1104,25 +1106,6 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 .edit-post-visual-editor .block-editor-block-list__block {
   margin-left: auto;
   margin-right: auto; }
-  @media (min-width: 600px) {
-    .edit-post-visual-editor .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar,
-    .edit-post-visual-editor .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar {
-      height: 0;
-      width: calc(100% - 84px - 6px);
-      margin-left: 0;
-      margin-right: 0;
-      text-align: center;
-      float: left; } }
-  @media (min-width: 600px) and (min-width: 1080px) {
-    .edit-post-visual-editor .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar,
-    .edit-post-visual-editor .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar {
-      width: calc(100% - 28px + 2px); } }
-  @media (min-width: 600px) {
-      .edit-post-visual-editor .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar .block-editor-block-toolbar,
-      .edit-post-visual-editor .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar .block-editor-block-toolbar {
-        max-width: 580px;
-        width: 100%;
-        position: relative; } }
 
 @media (min-width: 600px) {
   .editor-post-title {
@@ -1849,7 +1832,7 @@ body.block-editor-page {
   .editor-post-publish-panel select,
   .components-popover select,
   .components-modal__frame select {
-    padding: 2px;
+    padding: 3px 24px 3px 8px;
     font-size: 13px;
     color: #555d66; }
     .edit-post-header select:focus,

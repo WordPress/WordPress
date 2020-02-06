@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 376);
+/******/ 	return __webpack_require__(__webpack_require__.s = 424);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,12 +94,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 
 /***/ }),
 
-/***/ 20:
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
@@ -129,30 +129,56 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 25:
+/***/ 26:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 376:
+/***/ 41:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+/***/ }),
+
+/***/ 424:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
-var objectSpread = __webpack_require__(6);
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+var defineProperty = __webpack_require__(5);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(20);
+var objectWithoutProperties = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
 var external_this_wp_i18n_ = __webpack_require__(1);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js
 
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function createNonceMiddleware(nonce) {
   function middleware(options, next) {
@@ -166,8 +192,8 @@ function createNonceMiddleware(nonce) {
       }
     }
 
-    return next(Object(objectSpread["a" /* default */])({}, options, {
-      headers: Object(objectSpread["a" /* default */])({}, headers, {
+    return next(_objectSpread({}, options, {
+      headers: _objectSpread({}, headers, {
         'X-WP-Nonce': middleware.nonce
       })
     }));
@@ -177,12 +203,16 @@ function createNonceMiddleware(nonce) {
   return middleware;
 }
 
-/* harmony default export */ var middlewares_nonce = (createNonceMiddleware);
+/* harmony default export */ var nonce = (createNonceMiddleware);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/namespace-endpoint.js
 
 
-var namespace_endpoint_namespaceAndEndpointMiddleware = function namespaceAndEndpointMiddleware(options, next) {
+function namespace_endpoint_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function namespace_endpoint_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { namespace_endpoint_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { namespace_endpoint_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+var namespaceAndEndpointMiddleware = function namespaceAndEndpointMiddleware(options, next) {
   var path = options.path;
   var namespaceTrimmed, endpointTrimmed;
 
@@ -199,15 +229,19 @@ var namespace_endpoint_namespaceAndEndpointMiddleware = function namespaceAndEnd
 
   delete options.namespace;
   delete options.endpoint;
-  return next(Object(objectSpread["a" /* default */])({}, options, {
+  return next(namespace_endpoint_objectSpread({}, options, {
     path: path
   }));
 };
 
-/* harmony default export */ var namespace_endpoint = (namespace_endpoint_namespaceAndEndpointMiddleware);
+/* harmony default export */ var namespace_endpoint = (namespaceAndEndpointMiddleware);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/root-url.js
 
+
+function root_url_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function root_url_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { root_url_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { root_url_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * Internal dependencies
@@ -238,7 +272,7 @@ var root_url_createRootURLMiddleware = function createRootURLMiddleware(rootURL)
         url = apiRoot + path;
       }
 
-      return next(Object(objectSpread["a" /* default */])({}, optionsWithPath, {
+      return next(root_url_objectSpread({}, optionsWithPath, {
         url: url
       }));
     });
@@ -312,16 +346,20 @@ var external_this_regeneratorRuntime_ = __webpack_require__(23);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(44);
+var asyncToGenerator = __webpack_require__(47);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(25);
+var external_this_wp_url_ = __webpack_require__(26);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
 
 
 
 
+
+function fetch_all_middleware_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function fetch_all_middleware_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { fetch_all_middleware_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { fetch_all_middleware_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * WordPress dependencies
@@ -333,7 +371,7 @@ var fetch_all_middleware_modifyQuery = function modifyQuery(_ref, queryArgs) {
       url = _ref.url,
       options = Object(objectWithoutProperties["a" /* default */])(_ref, ["path", "url"]);
 
-  return Object(objectSpread["a" /* default */])({}, options, {
+  return fetch_all_middleware_objectSpread({}, options, {
     url: url && Object(external_this_wp_url_["addQueryArgs"])(url, queryArgs),
     path: path && Object(external_this_wp_url_["addQueryArgs"])(path, queryArgs)
   });
@@ -399,7 +437,7 @@ function () {
 
           case 4:
             _context.next = 6;
-            return next(Object(objectSpread["a" /* default */])({}, fetch_all_middleware_modifyQuery(options, {
+            return next(fetch_all_middleware_objectSpread({}, fetch_all_middleware_modifyQuery(options, {
               per_page: 100
             }), {
               // Ensure headers are returned for page 1.
@@ -442,7 +480,7 @@ function () {
             }
 
             _context.next = 19;
-            return next(Object(objectSpread["a" /* default */])({}, options, {
+            return next(fetch_all_middleware_objectSpread({}, options, {
               // Ensure the URL for the next page is used instead of any provided path.
               path: undefined,
               url: nextPage,
@@ -483,6 +521,10 @@ function () {
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/http-v1.js
 
 
+function http_v1_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function http_v1_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { http_v1_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { http_v1_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Set of HTTP methods which are eligible to be overridden.
  *
@@ -517,8 +559,8 @@ function httpV1Middleware(options, next) {
       method = _options$method === void 0 ? DEFAULT_METHOD : _options$method;
 
   if (OVERRIDE_METHODS.has(method.toUpperCase())) {
-    options = Object(objectSpread["a" /* default */])({}, options, {
-      headers: Object(objectSpread["a" /* default */])({}, options.headers, {
+    options = http_v1_objectSpread({}, options, {
+      headers: http_v1_objectSpread({}, options.headers, {
         'X-HTTP-Method-Override': method,
         'Content-Type': 'application/json'
       }),
@@ -632,6 +674,10 @@ function parseAndThrowError(response) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/media-upload.js
 
 
+function media_upload_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function media_upload_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { media_upload_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { media_upload_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * WordPress dependencies
  */
@@ -682,7 +728,7 @@ function mediaUploadMiddleware(options, next) {
     });
   };
 
-  return next(Object(objectSpread["a" /* default */])({}, options, {
+  return next(media_upload_objectSpread({}, options, {
     parse: false
   })).catch(function (response) {
     var attachmentId = response.headers.get('x-wp-upload-attachment-id');
@@ -711,6 +757,10 @@ function mediaUploadMiddleware(options, next) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/index.js
 
 
+
+function build_module_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function build_module_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { build_module_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { build_module_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * WordPress dependencies
@@ -778,14 +828,14 @@ var build_module_defaultFetchHandler = function defaultFetchHandler(nextOptions)
   var body = nextOptions.body,
       headers = nextOptions.headers; // Merge explicitly-provided headers with default values.
 
-  headers = Object(objectSpread["a" /* default */])({}, DEFAULT_HEADERS, headers); // The `data` property is a shorthand for sending a JSON body.
+  headers = build_module_objectSpread({}, DEFAULT_HEADERS, {}, headers); // The `data` property is a shorthand for sending a JSON body.
 
   if (data) {
     body = JSON.stringify(data);
     headers['Content-Type'] = 'application/json';
   }
 
-  var responsePromise = window.fetch(url || path, Object(objectSpread["a" /* default */])({}, DEFAULT_OPTIONS, remainingOptions, {
+  var responsePromise = window.fetch(url || path, build_module_objectSpread({}, DEFAULT_OPTIONS, {}, remainingOptions, {
     body: body,
     headers: headers
   }));
@@ -853,7 +903,7 @@ function apiFetch(options) {
 
 apiFetch.use = registerMiddleware;
 apiFetch.setFetchHandler = setFetchHandler;
-apiFetch.createNonceMiddleware = middlewares_nonce;
+apiFetch.createNonceMiddleware = nonce;
 apiFetch.createPreloadingMiddleware = preloading;
 apiFetch.createRootURLMiddleware = root_url;
 apiFetch.fetchAllMiddleware = fetch_all_middleware;
@@ -863,29 +913,7 @@ apiFetch.mediaUploadMiddleware = media_upload;
 
 /***/ }),
 
-/***/ 40:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 44:
+/***/ 47:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -928,35 +956,7 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ 6:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? Object(arguments[i]) : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 9:
+/***/ 5:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

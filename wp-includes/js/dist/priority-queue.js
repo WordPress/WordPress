@@ -82,17 +82,68 @@ this["wp"] = this["wp"] || {}; this["wp"]["priorityQueue"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 351);
+/******/ 	return __webpack_require__(__webpack_require__.s = 440);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 351:
+/***/ 32:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+/***/ }),
+
+/***/ 440:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createQueue", function() { return createQueue; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
+var esm_typeof = __webpack_require__(32);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/priority-queue/build-module/request-idle-callback.js
+
+
+/**
+ * @return {typeof window.requestIdleCallback|typeof window.requestAnimationFrame|((callback:(timestamp:number)=>void)=>void)}
+ */
+function createRequestIdleCallback() {
+  if (Object(esm_typeof["a" /* default */])('window') === undefined) {
+    return function (callback) {
+      setTimeout(function () {
+        return callback(Date.now());
+      }, 0);
+    };
+  }
+
+  return window.requestIdleCallback || window.requestAnimationFrame;
+}
+/* harmony default export */ var request_idle_callback = (createRequestIdleCallback());
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/priority-queue/build-module/index.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createQueue", function() { return build_module_createQueue; });
+/**
+ * Internal dependencies
+ */
+
 /**
  * Enqueued callback to invoke once idle time permits.
  *
@@ -126,8 +177,6 @@ __webpack_require__.r(__webpack_exports__);
  * @property {WPPriorityQueueFlush} flush Flush queue for context.
  */
 
-/** @type {typeof window.requestIdleCallback|typeof window.requestAnimationFrame} */
-var requestIdleCallback = window.requestIdleCallback ? window.requestIdleCallback : window.requestAnimationFrame;
 /**
  * Creates a context-aware queue that only executes
  * the last task of a given context.
@@ -151,7 +200,7 @@ var requestIdleCallback = window.requestIdleCallback ? window.requestIdleCallbac
  * @return {WPPriorityQueue} Queue object with `add` and `flush` methods.
  */
 
-var createQueue = function createQueue() {
+var build_module_createQueue = function createQueue() {
   /** @type {WPPriorityQueueContext[]} */
   var waitingList = [];
   /** @type {WeakMap<WPPriorityQueueContext,WPPriorityQueueCallback>} */
@@ -190,7 +239,7 @@ var createQueue = function createQueue() {
       elementsMap.delete(nextElement);
     } while (hasTimeRemaining());
 
-    requestIdleCallback(runWaitingList);
+    request_idle_callback(runWaitingList);
   };
   /**
    * Add a callback to the queue for a given context.
@@ -211,7 +260,7 @@ var createQueue = function createQueue() {
 
     if (!isRunning) {
       isRunning = true;
-      requestIdleCallback(runWaitingList);
+      request_idle_callback(runWaitingList);
     }
   };
   /**
@@ -231,9 +280,13 @@ var createQueue = function createQueue() {
       return false;
     }
 
-    elementsMap.delete(element);
     var index = waitingList.indexOf(element);
     waitingList.splice(index, 1);
+    var callback =
+    /** @type {WPPriorityQueueCallback} */
+    elementsMap.get(element);
+    elementsMap.delete(element);
+    callback();
     return true;
   };
 

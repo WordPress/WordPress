@@ -83,6 +83,43 @@
   100% {
     opacity: 0.5; } }
 
+.components-angle-picker {
+  width: 50%; }
+  .components-angle-picker.components-base-control .components-base-control__label {
+    display: block; }
+
+.components-angle-picker__input-field {
+  width: calc(100% - 36px);
+  max-width: 100px; }
+
+.components-angle-picker__angle-circle {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #555d66;
+  border-radius: 50%;
+  float: right;
+  margin-left: 4px;
+  cursor: grab; }
+
+.components-angle-picker__angle-circle-indicator-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%; }
+
+.components-angle-picker__angle-circle-indicator {
+  width: 1px;
+  height: 1px;
+  border-radius: 50%;
+  border: 3px solid #555d66;
+  display: block;
+  position: absolute;
+  top: -14px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  background: #555d66; }
+
 .components-autocomplete__popover .components-popover__content {
   min-width: 200px; }
 
@@ -268,24 +305,24 @@
       color: rgb(0, 100, 140);
       border-color: rgb(0, 126, 177);
       box-shadow: 0 0 0 1px rgb(0, 126, 177); }
-    .components-button.is-secondary:active:enabled {
+    .components-button.is-secondary:not([aria-disabled="true"]):active:enabled {
       background: #f3f5f6;
       color: rgb(0, 118, 177);
       border-color: #7e8993;
       box-shadow: none; }
-    body.admin-color-sunrise .components-button.is-secondary:active:enabled {
+    body.admin-color-sunrise .components-button.is-secondary:not([aria-disabled="true"]):active:enabled {
       color: rgb(199, 127, 70); }
-    body.admin-color-ocean .components-button.is-secondary:active:enabled {
+    body.admin-color-ocean .components-button.is-secondary:not([aria-disabled="true"]):active:enabled {
       color: rgb(155, 176, 154); }
-    body.admin-color-midnight .components-button.is-secondary:active:enabled {
+    body.admin-color-midnight .components-button.is-secondary:not([aria-disabled="true"]):active:enabled {
       color: rgb(214, 73, 64); }
-    body.admin-color-ectoplasm .components-button.is-secondary:active:enabled {
+    body.admin-color-ectoplasm .components-button.is-secondary:not([aria-disabled="true"]):active:enabled {
       color: rgb(159, 173, 82); }
-    body.admin-color-coffee .components-button.is-secondary:active:enabled {
+    body.admin-color-coffee .components-button.is-secondary:not([aria-disabled="true"]):active:enabled {
       color: rgb(184, 158, 133); }
-    body.admin-color-blue .components-button.is-secondary:active:enabled {
+    body.admin-color-blue .components-button.is-secondary:not([aria-disabled="true"]):active:enabled {
       color: rgb(206, 162, 85); }
-    body.admin-color-light .components-button.is-secondary:active:enabled {
+    body.admin-color-light .components-button.is-secondary:not([aria-disabled="true"]):active:enabled {
       color: rgb(0, 126, 177); }
     .components-button.is-secondary:disabled, .components-button.is-secondary[aria-disabled="true"] {
       color: #a0a5aa;
@@ -365,29 +402,29 @@
       box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(217, 171, 89); }
     body.admin-color-light .components-button.is-primary:focus:enabled {
       box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(0, 133, 186); }
-    .components-button.is-primary:active:enabled {
+    .components-button.is-primary:not([aria-disabled="true"]):active:enabled {
       background: rgb(0, 99, 149);
       border-color: rgb(0, 99, 149);
       color: #fff; }
-    body.admin-color-sunrise .components-button.is-primary:active:enabled {
+    body.admin-color-sunrise .components-button.is-primary:not([aria-disabled="true"]):active:enabled {
       background: rgb(167, 107, 59);
       border-color: rgb(167, 107, 59); }
-    body.admin-color-ocean .components-button.is-primary:active:enabled {
+    body.admin-color-ocean .components-button.is-primary:not([aria-disabled="true"]):active:enabled {
       background: rgb(130, 148, 130);
       border-color: rgb(130, 148, 130); }
-    body.admin-color-midnight .components-button.is-primary:active:enabled {
+    body.admin-color-midnight .components-button.is-primary:not([aria-disabled="true"]):active:enabled {
       background: rgb(180, 62, 54);
       border-color: rgb(180, 62, 54); }
-    body.admin-color-ectoplasm .components-button.is-primary:active:enabled {
+    body.admin-color-ectoplasm .components-button.is-primary:not([aria-disabled="true"]):active:enabled {
       background: rgb(134, 146, 69);
       border-color: rgb(134, 146, 69); }
-    body.admin-color-coffee .components-button.is-primary:active:enabled {
+    body.admin-color-coffee .components-button.is-primary:not([aria-disabled="true"]):active:enabled {
       background: rgb(155, 133, 112);
       border-color: rgb(155, 133, 112); }
-    body.admin-color-blue .components-button.is-primary:active:enabled {
+    body.admin-color-blue .components-button.is-primary:not([aria-disabled="true"]):active:enabled {
       background: rgb(174, 137, 71);
       border-color: rgb(174, 137, 71); }
-    body.admin-color-light .components-button.is-primary:active:enabled {
+    body.admin-color-light .components-button.is-primary:not([aria-disabled="true"]):active:enabled {
       background: rgb(0, 106, 149);
       border-color: rgb(0, 106, 149); }
     .components-button.is-primary:disabled, .components-button.is-primary:disabled:active:enabled, .components-button.is-primary[aria-disabled="true"], .components-button.is-primary[aria-disabled="true"]:enabled, .components-button.is-primary[aria-disabled="true"]:active:enabled {
@@ -486,14 +523,14 @@
     @media (prefers-reduced-motion: reduce) {
       .components-button.is-link {
         transition-duration: 0s; } }
-    .components-button.is-link:not(:disabled):not([aria-disabled="true"]):hover, .components-button.is-link:active {
+    .components-button.is-link:not(:disabled):not([aria-disabled="true"]):hover, .components-button.is-link:not([aria-disabled="true"]):active {
       color: #00a0d2; }
     .components-button.is-link:focus {
       color: #124964;
       box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
   .components-button.is-link.is-destructive {
     color: #d94f4f; }
-  .components-button:active {
+  .components-button:not([aria-disabled="true"]):active {
     color: inherit; }
   .components-button:disabled, .components-button[aria-disabled="true"] {
     cursor: default;
@@ -532,10 +569,7 @@
     .components-button.is-tertiary .dashicon {
       display: inline-block;
       flex: 0 0 auto; }
-    .components-button.is-tertiary svg {
-      fill: currentColor;
-      outline: none; }
-    .components-button.is-tertiary:active:focus:enabled {
+    .components-button.is-tertiary:not([aria-disabled="true"]):active:focus:enabled {
       box-shadow: none; }
     .components-button.is-tertiary:not(:disabled):not([aria-disabled="true"]):hover {
       color: rgb(0, 93, 140); }
@@ -556,11 +590,11 @@
   .components-button.has-icon .dashicon {
     display: inline-block;
     flex: 0 0 auto; }
-  .components-button.has-icon svg {
-    fill: currentColor;
-    outline: none; }
   .components-button.has-icon.has-text svg {
     margin-left: 8px; }
+  .components-button svg {
+    fill: currentColor;
+    outline: none; }
   .components-button .screen-reader-text {
     height: auto; }
 
@@ -616,7 +650,7 @@
       width: 16px;
       height: 16px; } }
 
-svg.dashicon.components-checkbox-control__checked {
+svg.components-checkbox-control__checked {
   fill: #fff;
   cursor: pointer;
   position: absolute;
@@ -630,7 +664,7 @@ svg.dashicon.components-checkbox-control__checked {
           user-select: none;
   pointer-events: none; }
   @media (min-width: 600px) {
-    svg.dashicon.components-checkbox-control__checked {
+    svg.components-checkbox-control__checked {
       width: 21px;
       height: 21px;
       right: -3px; } }
@@ -693,10 +727,10 @@ svg.dashicon.components-checkbox-control__checked {
     box-shadow: inset 0 0 0 4px;
     position: relative;
     z-index: 1; }
-    .components-circular-option-picker__option.is-pressed + .dashicons-saved {
+    .components-circular-option-picker__option.is-pressed + svg {
       position: absolute;
-      right: 4px;
-      top: 4px;
+      right: 2px;
+      top: 2px;
       border-radius: 50%;
       z-index: 2;
       background: #fff;
@@ -775,8 +809,6 @@ svg.dashicon.components-checkbox-control__checked {
   overflow: hidden; }
   .components-color-picker * {
     box-sizing: border-box; }
-  .components-color-picker .components-button {
-    padding: 6px; }
 
 .components-color-picker__saturation {
   width: 100%;
@@ -844,8 +876,9 @@ svg.dashicon.components-checkbox-control__checked {
   background: linear-gradient(to top, #000, rgba(0, 0, 0, 0)); }
 
 .components-color-picker__saturation-pointer {
-  width: 8px;
-  height: 8px;
+  width: 14px;
+  height: 14px;
+  padding: 0;
   box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 2px rgba(0, 0, 0, 0.4);
   border-radius: 50%;
   background-color: transparent;
@@ -934,11 +967,16 @@ svg.dashicon.components-checkbox-control__checked {
 .components-color-picker__inputs-fields {
   display: flex;
   direction: ltr;
-  flex-grow: 1; }
+  flex-grow: 1;
+  margin-left: 4px; }
   .components-color-picker__inputs-fields .components-base-control + .components-base-control {
     margin-bottom: 0; }
   .components-color-picker__inputs-fields .components-base-control__field {
     margin: 0 4px; }
+
+.components-color-picker__inputs-toggle {
+  height: 30px;
+  padding: 0 5px; }
 
 .components-custom-gradient-picker:not(.has-gradient) {
   opacity: 0.4; }
@@ -1009,7 +1047,9 @@ svg.dashicon.components-checkbox-control__checked {
 
 .components-custom-select-control__menu {
   background: #fff;
+  max-height: 400px;
   min-width: 100%;
+  overflow: auto;
   padding: 0;
   position: absolute;
   z-index: 1000000; }
@@ -2573,6 +2613,7 @@ body.is-dragging-components-draggable {
 .components-form-token-field__remove-token.components-button {
   display: inline-block;
   line-height: 24px;
+  height: auto;
   background: #e2e4e7;
   transition: all 0.2s cubic-bezier(0.4, 1, 0.4, 1); }
   @media (prefers-reduced-motion: reduce) {
@@ -2747,11 +2788,13 @@ body.is-dragging-components-draggable {
   box-shadow: none; }
   .components-menu-item__button .dashicon,
   .components-menu-item__button .components-menu-items__item-icon,
+  .components-menu-item__button svg.components-menu-items__item-icon,
   .components-menu-item__button > span > svg,
   .components-menu-item__button.components-button .dashicon,
   .components-menu-item__button.components-button .components-menu-items__item-icon,
+  .components-menu-item__button.components-button svg.components-menu-items__item-icon,
   .components-menu-item__button.components-button > span > svg {
-    margin-left: 5px; }
+    margin-left: 4px; }
   .components-menu-item__button .components-menu-items__item-icon,
   .components-menu-item__button.components-button .components-menu-items__item-icon {
     display: inline-block;
@@ -2800,9 +2843,6 @@ body.is-dragging-components-draggable {
   .components-menu-items-choice.has-icon,
   .components-menu-items-choice.components-button.has-icon {
     padding-right: 0.5rem; }
-  .components-menu-items-choice .dashicon,
-  .components-menu-items-choice.components-button .dashicon {
-    margin-left: 4px; }
 
 .components-modal__screen-overlay {
   position: fixed;
@@ -2978,8 +3018,6 @@ body.is-dragging-components-draggable {
     margin: 0 0 0.5em; }
   .components-panel__body.is-opened {
     padding: 16px; }
-  .components-panel__body > .components-button {
-    color: #191e23; }
 
 .components-panel__header {
   display: flex;
@@ -3108,6 +3146,7 @@ body.is-dragging-components-draggable {
   .components-placeholder.components-placeholder .components-base-control__label {
     font-size: 13px; }
 
+.components-placeholder__error,
 .components-placeholder__instructions,
 .components-placeholder__label,
 .components-placeholder__fieldset {
@@ -3141,12 +3180,15 @@ body.is-dragging-components-draggable {
   flex-direction: column; }
 
 .components-placeholder__input {
-  margin-top: 0;
-  margin-left: 8px;
+  margin: 0 0 0 8px;
   flex: 1 1 auto; }
 
 .components-placeholder__instructions {
   margin-bottom: 1em; }
+
+.components-placeholder__error {
+  margin-top: 1em;
+  width: 100%; }
 
 .components-placeholder__preview img {
   margin: 3%;
@@ -3156,6 +3198,7 @@ body.is-dragging-components-draggable {
   margin-left: 8px;
   margin-bottom: 8px; }
   .components-placeholder__fieldset .components-button:last-child {
+    margin-bottom: 0;
     margin-left: 0; }
 
 .components-placeholder__fieldset .components-button:not(.is-link) ~ .components-button.is-link {
@@ -3700,7 +3743,6 @@ body.lockscroll {
   width: 18px;
   height: 18px;
   opacity: 0.7;
-  float: left;
   margin: 5px 11px 0;
   border-radius: 100%;
   position: relative; }

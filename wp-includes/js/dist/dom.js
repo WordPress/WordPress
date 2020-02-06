@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 388);
+/******/ 	return __webpack_require__(__webpack_require__.s = 435);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 
 /***/ }),
 
-/***/ 388:
+/***/ 435:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -384,6 +384,7 @@ function findNext() {
  */
 
 var _window = window,
+    DOMParser = _window.DOMParser,
     getComputedStyle = _window.getComputedStyle;
 var _window$Node = window.Node,
     TEXT_NODE = _window$Node.TEXT_NODE,
@@ -468,7 +469,8 @@ function isEdge(container, isReverse, onlyVertical) {
     return false;
   }
 
-  var range = selection.getRangeAt(0).cloneRange();
+  var originalRange = selection.getRangeAt(0);
+  var range = originalRange.cloneRange();
   var isForward = isSelectionForward(selection);
   var isCollapsed = selection.isCollapsed; // Collapse in direction of selection.
 
@@ -497,7 +499,8 @@ function isEdge(container, isReverse, onlyVertical) {
 
   var buffer = 3 * parseInt(lineHeight, 10) / 4;
   var containerRect = container.getBoundingClientRect();
-  var verticalEdge = isReverse ? containerRect.top + padding > rangeRect.top - buffer : containerRect.bottom - padding < rangeRect.bottom + buffer;
+  var originalRangeRect = getRectangleFromRange(originalRange);
+  var verticalEdge = isReverse ? containerRect.top + padding > originalRangeRect.top - buffer : containerRect.bottom - padding < originalRangeRect.bottom + buffer;
 
   if (!verticalEdge) {
     return false;
@@ -1003,6 +1006,18 @@ function wrap(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode);
   newNode.appendChild(referenceNode);
 }
+/**
+ * Removes any HTML tags from the provided string.
+ *
+ * @param {string} html The string containing html.
+ *
+ * @return {string} The text content with any html removed.
+ */
+
+function __unstableStripHTML(html) {
+  var document = new DOMParser().parseFromString(html, 'text/html');
+  return document.body.textContent || '';
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/index.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "focus", function() { return build_module_focus; });
@@ -1023,6 +1038,7 @@ function wrap(newNode, referenceNode) {
 /* concated harmony reexport unwrap */__webpack_require__.d(__webpack_exports__, "unwrap", function() { return unwrap; });
 /* concated harmony reexport replaceTag */__webpack_require__.d(__webpack_exports__, "replaceTag", function() { return replaceTag; });
 /* concated harmony reexport wrap */__webpack_require__.d(__webpack_exports__, "wrap", function() { return wrap; });
+/* concated harmony reexport __unstableStripHTML */__webpack_require__.d(__webpack_exports__, "__unstableStripHTML", function() { return __unstableStripHTML; });
 /**
  * Internal dependencies
  */

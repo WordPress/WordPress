@@ -254,12 +254,14 @@ function wp_default_packages_scripts( &$scripts ) {
 		'html-entities',
 		'i18n',
 		'is-shallow-equal',
+		'keyboard-shortcuts',
 		'keycodes',
 		'list-reusable-blocks',
 		'media-utils',
 		'notices',
 		'nux',
 		'plugins',
+		'primitives',
 		'priority-queue',
 		'redux-routine',
 		'rich-text',
@@ -268,6 +270,7 @@ function wp_default_packages_scripts( &$scripts ) {
 		'token-list',
 		'url',
 		'viewport',
+		'warning',
 		'wordcount',
 	);
 

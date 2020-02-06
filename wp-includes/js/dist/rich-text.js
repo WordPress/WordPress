@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 366);
+/******/ 	return __webpack_require__(__webpack_require__.s = 414);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -152,7 +152,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 12:
+/***/ 11:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -177,7 +177,7 @@ function _extends() {
 
 /***/ }),
 
-/***/ 13:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -200,7 +200,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 14:
+/***/ 13:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -213,7 +213,7 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 15:
+/***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -232,7 +232,7 @@ function _possibleConstructorReturn(self, call) {
 
 /***/ }),
 
-/***/ 16:
+/***/ 15:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -246,7 +246,7 @@ function _getPrototypeOf(o) {
 
 /***/ }),
 
-/***/ 17:
+/***/ 16:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -280,7 +280,7 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
-/***/ 18:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -296,7 +296,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(31);
+var iterableToArray = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -313,13 +313,6 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 19:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
-
-/***/ }),
-
 /***/ 2:
 /***/ (function(module, exports) {
 
@@ -327,14 +320,10 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 31:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 20:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
+(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -344,6 +333,8 @@ function _iterableToArray(iter) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
 function _typeof(obj) {
+  "@babel/helpers - typeof";
+
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function _typeof(obj) {
       return typeof obj;
@@ -360,13 +351,24 @@ function _typeof(obj) {
 /***/ }),
 
 /***/ 33:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+/***/ }),
+
+/***/ 35:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 
-/***/ 34:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -648,7 +650,14 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 366:
+/***/ 4:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["data"]; }());
+
+/***/ }),
+
+/***/ 414:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -667,14 +676,18 @@ __webpack_require__.d(actions_namespaceObject, "removeFormatTypes", function() {
 // EXTERNAL MODULE: external {"this":["wp","data"]}
 var external_this_wp_data_ = __webpack_require__(4);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
-var objectSpread = __webpack_require__(6);
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+var defineProperty = __webpack_require__(5);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/store/reducer.js
 
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -700,7 +713,7 @@ function reducer_formatTypes() {
 
   switch (action.type) {
     case 'ADD_FORMAT_TYPES':
-      return Object(objectSpread["a" /* default */])({}, state, Object(external_this_lodash_["keyBy"])(action.formatTypes, 'name'));
+      return _objectSpread({}, state, {}, Object(external_this_lodash_["keyBy"])(action.formatTypes, 'name'));
 
     case 'REMOVE_FORMAT_TYPES':
       return Object(external_this_lodash_["omit"])(state, action.names);
@@ -713,7 +726,7 @@ function reducer_formatTypes() {
 }));
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(34);
+var rememo = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/store/selectors.js
 /**
@@ -838,7 +851,7 @@ Object(external_this_wp_data_["registerStore"])('core/rich-text', {
 });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(18);
+var toConsumableArray = __webpack_require__(17);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/is-format-equal.js
 /**
@@ -899,6 +912,10 @@ function isFormatEqual(format1, format2) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/normalise-formats.js
 
 
+function normalise_formats_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function normalise_formats_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { normalise_formats_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { normalise_formats_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Internal dependencies
  */
@@ -929,7 +946,7 @@ function normaliseFormats(value) {
       newFormats[index] = newFormatsAtIndex;
     }
   });
-  return Object(objectSpread["a" /* default */])({}, value, {
+  return normalise_formats_objectSpread({}, value, {
     formats: newFormats
   });
 }
@@ -937,6 +954,10 @@ function normaliseFormats(value) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/apply-format.js
 
 
+
+function apply_format_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function apply_format_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { apply_format_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { apply_format_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -1021,7 +1042,7 @@ function applyFormat(value, format) {
     }
   }
 
-  return normaliseFormats(Object(objectSpread["a" /* default */])({}, value, {
+  return normaliseFormats(apply_format_objectSpread({}, value, {
     formats: newFormats,
     // Always revise active formats. This serves as a placeholder for new
     // inputs with the format so new input appears with the format applied,
@@ -1084,6 +1105,10 @@ var ZWNBSP = "\uFEFF";
 
 
 
+
+function create_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function create_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { create_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { create_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * WordPress dependencies
@@ -1508,7 +1533,7 @@ function createFromElement(_ref3) {
     } else {
       // Indices should share a reference to the same formats array.
       // Only create a new reference if `formats` changes.
-      var mergeFormats = function mergeFormats(formats) {
+      function mergeFormats(formats) {
         if (mergeFormats.formats === formats) {
           return mergeFormats.newFormats;
         }
@@ -1517,12 +1542,12 @@ function createFromElement(_ref3) {
         mergeFormats.formats = formats;
         mergeFormats.newFormats = newFormats;
         return newFormats;
-      }; // Since the formats parameter can be `undefined`, preset
+      } // Since the formats parameter can be `undefined`, preset
       // `mergeFormats` with a new reference.
 
 
       mergeFormats.newFormats = [format];
-      mergePair(accumulator, Object(objectSpread["a" /* default */])({}, value, {
+      mergePair(accumulator, create_objectSpread({}, value, {
         formats: Array.from(value.formats, mergeFormats)
       }));
     }
@@ -1987,6 +2012,10 @@ function join(values) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/register-format-type.js
 
 
+function register_format_type_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function register_format_type_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { register_format_type_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { register_format_type_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * WordPress dependencies
  */
@@ -2016,7 +2045,7 @@ function join(values) {
  */
 
 function registerFormatType(name, settings) {
-  settings = Object(objectSpread["a" /* default */])({
+  settings = register_format_type_objectSpread({
     name: name
   }, settings);
 
@@ -2088,6 +2117,10 @@ function registerFormatType(name, settings) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/remove-format.js
 
 
+function remove_format_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function remove_format_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { remove_format_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { remove_format_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * External dependencies
  */
@@ -2144,7 +2177,7 @@ function removeFormat(value, formatType) {
     }
   }
 
-  return normaliseFormats(Object(objectSpread["a" /* default */])({}, value, {
+  return normaliseFormats(remove_format_objectSpread({}, value, {
     formats: newFormats,
     activeFormats: Object(external_this_lodash_["reject"])(activeFormats, {
       type: formatType
@@ -2346,6 +2379,10 @@ function insertLineSeparator(value) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/remove-line-separator.js
 
 
+function remove_line_separator_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function remove_line_separator_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { remove_line_separator_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { remove_line_separator_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Internal dependencies
  */
@@ -2389,7 +2426,7 @@ function removeLineSeparator(value) {
   if (collapsed && replacements[index] && replacements[index].length) {
     var newReplacements = replacements.slice();
     newReplacements[index] = replacements[index].slice(0, -1);
-    newValue = Object(objectSpread["a" /* default */])({}, value, {
+    newValue = remove_line_separator_objectSpread({}, value, {
       replacements: newReplacements
     });
   } else {
@@ -2430,6 +2467,10 @@ function insertObject(value, formatToInsert, startIndex, endIndex) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/slice.js
 
 
+function slice_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function slice_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { slice_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { slice_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Slice a Rich Text value from `startIndex` to `endIndex`. Indices are
  * retrieved from the selection if none are provided. This is similar to
@@ -2449,7 +2490,7 @@ function slice(value) {
       text = value.text;
 
   if (startIndex === undefined || endIndex === undefined) {
-    return Object(objectSpread["a" /* default */])({}, value);
+    return slice_objectSpread({}, value);
   }
 
   return {
@@ -2564,6 +2605,10 @@ function get_format_type_getFormatType(name) {
 
 
 
+function to_tree_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function to_tree_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { to_tree_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { to_tree_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Internal dependencies
  */
@@ -2602,7 +2647,7 @@ function fromFormat(_ref) {
 
   if (!formatType) {
     if (attributes) {
-      elementAttributes = Object(objectSpread["a" /* default */])({}, attributes, elementAttributes);
+      elementAttributes = to_tree_objectSpread({}, attributes, {}, elementAttributes);
     }
 
     return {
@@ -2612,7 +2657,7 @@ function fromFormat(_ref) {
     };
   }
 
-  elementAttributes = Object(objectSpread["a" /* default */])({}, unregisteredAttributes, elementAttributes);
+  elementAttributes = to_tree_objectSpread({}, unregisteredAttributes, {}, elementAttributes);
 
   for (var name in attributes) {
     var key = formatType.attributes ? formatType.attributes[name] : false;
@@ -2795,7 +2840,7 @@ function toTree(_ref2) {
     }
 
     if (character === OBJECT_REPLACEMENT_CHARACTER) {
-      pointer = append(getParent(pointer), fromFormat(Object(objectSpread["a" /* default */])({}, replacements[i], {
+      pointer = append(getParent(pointer), fromFormat(to_tree_objectSpread({}, replacements[i], {
         object: true
       }))); // Ensure pointer is text node.
 
@@ -2857,6 +2902,10 @@ function toTree(_ref2) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/to-dom.js
 
 
+
+function to_dom_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function to_dom_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { to_dom_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { to_dom_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * Internal dependencies
@@ -2992,7 +3041,7 @@ function toDom(_ref5) {
   var endPath = [];
 
   if (prepareEditableTree) {
-    value = Object(objectSpread["a" /* default */])({}, value, {
+    value = to_dom_objectSpread({}, value, {
       formats: prepareEditableTree(value)
     });
   }
@@ -3093,11 +3142,11 @@ function applyValue(future, current) {
         if (futureAttributes) {
           for (var _ii = 0; _ii < futureAttributes.length; _ii++) {
             var _futureAttributes$_ii = futureAttributes[_ii],
-                name = _futureAttributes$_ii.name,
+                _name = _futureAttributes$_ii.name,
                 value = _futureAttributes$_ii.value;
 
-            if (currentChild.getAttribute(name) !== value) {
-              currentChild.setAttribute(name, value);
+            if (currentChild.getAttribute(_name) !== value) {
+              currentChild.setAttribute(_name, value);
             }
           }
         }
@@ -3147,11 +3196,8 @@ function applySelection(_ref7, current) {
   var ownerDocument = current.ownerDocument;
   var range = ownerDocument.createRange();
   range.setStart(startContainer, startOffset);
-  range.setEnd(endContainer, endOffset); // Set back focus if focus is lost.
-
-  if (ownerDocument.activeElement !== current) {
-    current.focus();
-  }
+  range.setEnd(endContainer, endOffset);
+  var activeElement = ownerDocument.activeElement;
 
   if (selection.rangeCount > 0) {
     // If the to be added range and the live range are the same, there's no
@@ -3164,10 +3210,11 @@ function applySelection(_ref7, current) {
   }
 
   selection.addRange(range);
+  activeElement.focus();
 }
 
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
-var external_this_wp_escapeHtml_ = __webpack_require__(61);
+var external_this_wp_escapeHtml_ = __webpack_require__(66);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/to-html-string.js
 /**
@@ -3396,6 +3443,10 @@ function canOutdentListItems(value) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/indent-list-items.js
 
 
+function indent_list_items_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function indent_list_items_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { indent_list_items_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { indent_list_items_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Internal dependencies
  */
@@ -3473,7 +3524,7 @@ function indentListItems(value, rootFormat) {
     }
   }
 
-  return Object(objectSpread["a" /* default */])({}, value, {
+  return indent_list_items_objectSpread({}, value, {
     replacements: newFormats
   });
 }
@@ -3557,6 +3608,10 @@ function getLastChildIndex(_ref, lineIndex) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/outdent-list-items.js
 
 
+function outdent_list_items_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function outdent_list_items_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { outdent_list_items_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { outdent_list_items_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Internal dependencies
  */
@@ -3606,13 +3661,17 @@ function outdentListItems(value) {
     }
   }
 
-  return Object(objectSpread["a" /* default */])({}, value, {
+  return outdent_list_items_objectSpread({}, value, {
     replacements: newFormats
   });
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/change-list-type.js
 
+
+function change_list_type_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function change_list_type_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { change_list_type_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { change_list_type_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * Internal dependencies
@@ -3670,31 +3729,31 @@ function changeListType(value, newFormat) {
     return value;
   }
 
-  return Object(objectSpread["a" /* default */])({}, value, {
+  return change_list_type_objectSpread({}, value, {
     replacements: newReplacements
   });
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(12);
+var esm_extends = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
-var classCallCheck = __webpack_require__(14);
+var classCallCheck = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__(13);
+var createClass = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(15);
+var possibleConstructorReturn = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
-var getPrototypeOf = __webpack_require__(16);
+var getPrototypeOf = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
 var assertThisInitialized = __webpack_require__(7);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(17);
+var inherits = __webpack_require__(16);
 
 // EXTERNAL MODULE: external {"this":["wp","element"]}
 var external_this_wp_element_ = __webpack_require__(0);
@@ -3704,17 +3763,17 @@ var classnames = __webpack_require__(10);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(19);
+var external_this_wp_keycodes_ = __webpack_require__(20);
 
 // EXTERNAL MODULE: external {"this":["wp","compose"]}
 var external_this_wp_compose_ = __webpack_require__(8);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(46);
+var external_this_wp_isShallowEqual_ = __webpack_require__(50);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(33);
+var external_this_wp_deprecated_ = __webpack_require__(35);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/format-edit.js
@@ -3735,6 +3794,7 @@ var interactiveContentTags = new Set(['a', 'audio', 'button', 'details', 'embed'
 function FormatEdit(_ref) {
   var formatTypes = _ref.formatTypes,
       onChange = _ref.onChange,
+      onFocus = _ref.onFocus,
       value = _ref.value,
       allowedFormats = _ref.allowedFormats,
       withoutInteractiveFormatting = _ref.withoutInteractiveFormatting;
@@ -3766,7 +3826,8 @@ function FormatEdit(_ref) {
       isObjectActive: isObjectActive,
       activeObjectAttributes: isObjectActive ? activeObject.attributes || {} : {},
       value: value,
-      onChange: onChange
+      onChange: onChange,
+      onFocus: onFocus
     });
   });
 }
@@ -3823,14 +3884,14 @@ function updateFormats(_ref) {
   return value;
 }
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(9);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/with-format-types.js
 
 
 
 
+function with_format_types_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function with_format_types_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { with_format_types_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { with_format_types_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -3868,7 +3929,7 @@ function withFormatTypes(RichText) {
         }
 
         var selectPrefix = "format_prepare_props_(".concat(settings.name, ")_");
-        return Object(objectSpread["a" /* default */])({}, acc, Object(external_this_lodash_["mapKeys"])(settings.__experimentalGetPropsForEditableTreePreparation(select, {
+        return with_format_types_objectSpread({}, acc, {}, Object(external_this_lodash_["mapKeys"])(settings.__experimentalGetPropsForEditableTreePreparation(select, {
           richTextIdentifier: identifier,
           blockClientId: clientId
         }), function (value, key) {
@@ -3884,7 +3945,7 @@ function withFormatTypes(RichText) {
         }
 
         var dispatchPrefix = "format_on_change_props_(".concat(settings.name, ")_");
-        return Object(objectSpread["a" /* default */])({}, acc, Object(external_this_lodash_["mapKeys"])(settings.__experimentalGetPropsForEditableTreeChangeHandler(dispatch, {
+        return with_format_types_objectSpread({}, acc, {}, Object(external_this_lodash_["mapKeys"])(settings.__experimentalGetPropsForEditableTreeChangeHandler(dispatch, {
           richTextIdentifier: identifier,
           blockClientId: clientId
         }), function (value, key) {
@@ -3904,7 +3965,7 @@ function withFormatTypes(RichText) {
           blockClientId: clientId
         };
 
-        var combined = Object(objectSpread["a" /* default */])({}, selectProps, dispatchProps);
+        var combined = with_format_types_objectSpread({}, selectProps, {}, dispatchProps);
 
         var name = settings.name;
         var selectPrefix = "format_prepare_props_(".concat(name, ")_");
@@ -3924,10 +3985,10 @@ function withFormatTypes(RichText) {
         if (settings.__experimentalCreateOnChangeEditableValue) {
           var _objectSpread2;
 
-          return Object(objectSpread["a" /* default */])({}, acc, (_objectSpread2 = {}, Object(defineProperty["a" /* default */])(_objectSpread2, "format_value_functions_(".concat(name, ")"), settings.__experimentalCreatePrepareEditableTree(propsByPrefix, args)), Object(defineProperty["a" /* default */])(_objectSpread2, "format_on_change_functions_(".concat(name, ")"), settings.__experimentalCreateOnChangeEditableValue(propsByPrefix, args)), _objectSpread2));
+          return with_format_types_objectSpread({}, acc, (_objectSpread2 = {}, Object(defineProperty["a" /* default */])(_objectSpread2, "format_value_functions_(".concat(name, ")"), settings.__experimentalCreatePrepareEditableTree(propsByPrefix, args)), Object(defineProperty["a" /* default */])(_objectSpread2, "format_on_change_functions_(".concat(name, ")"), settings.__experimentalCreateOnChangeEditableValue(propsByPrefix, args)), _objectSpread2));
         }
 
-        return Object(objectSpread["a" /* default */])({}, acc, Object(defineProperty["a" /* default */])({}, "format_prepare_functions_(".concat(name, ")"), settings.__experimentalCreatePrepareEditableTree(propsByPrefix, args)));
+        return with_format_types_objectSpread({}, acc, Object(defineProperty["a" /* default */])({}, "format_prepare_functions_(".concat(name, ")"), settings.__experimentalCreatePrepareEditableTree(propsByPrefix, args)));
       }, {});
     }, [formatTypes, clientId, identifier, selectProps, dispatchProps]);
     return Object(external_this_wp_element_["createElement"])(RichText, Object(esm_extends["a" /* default */])({}, props, selectProps, newProps, {
@@ -3982,6 +4043,19 @@ function BoundaryStyle(_ref) {
   return null;
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/inline-warning.js
+/**
+ * WordPress dependencies
+ */
+
+function InlineWarning(_ref) {
+  var forwardedRef = _ref.forwardedRef;
+  Object(external_this_wp_element_["useEffect"])(function () {
+    if (false) { var computedStyle; }
+  }, []);
+  return null;
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/index.js
 
 
@@ -3992,6 +4066,10 @@ function BoundaryStyle(_ref) {
 
 
 
+
+function component_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function component_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { component_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { component_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -4010,6 +4088,7 @@ function BoundaryStyle(_ref) {
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -4187,8 +4266,6 @@ function (_Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (false) { var computedStyle; }
-
       this.applyRecord(this.record, {
         domOnly: true
       });
@@ -4363,24 +4440,34 @@ function (_Component) {
 
       if (unstableOnFocus) {
         unstableOnFocus();
-      } // We know for certain that on focus, the old selection is invalid. It
-      // will be recalculated on the next mouseup, keyup, or touchend event.
+      }
 
-
-      var index = undefined;
-      var activeFormats = EMPTY_ACTIVE_FORMATS;
-      this.record = Object(objectSpread["a" /* default */])({}, this.record, {
-        start: index,
-        end: index,
-        activeFormats: activeFormats
-      });
-      this.props.onSelectionChange(index, index);
-      this.setState({
-        activeFormats: activeFormats
-      }); // Update selection as soon as possible, which is at the next animation
+      if (!this.props.__unstableIsSelected) {
+        // We know for certain that on focus, the old selection is invalid. It
+        // will be recalculated on the next mouseup, keyup, or touchend event.
+        var index = undefined;
+        var activeFormats = EMPTY_ACTIVE_FORMATS;
+        this.record = component_objectSpread({}, this.record, {
+          start: index,
+          end: index,
+          activeFormats: activeFormats
+        });
+        this.props.onSelectionChange(index, index);
+        this.setState({
+          activeFormats: activeFormats
+        });
+      } else {
+        this.props.onSelectionChange(this.record.start, this.record.end);
+        this.setState({
+          activeFormats: getActiveFormats(component_objectSpread({}, this.record, {
+            activeFormats: undefined
+          }), EMPTY_ACTIVE_FORMATS)
+        });
+      } // Update selection as soon as possible, which is at the next animation
       // frame. The event listener for selection changes may be added too late
       // at this point, but this focus event is still too early to calculate
       // the selection.
+
 
       this.rafId = window.requestAnimationFrame(this.onSelectionChange);
       document.addEventListener('selectionchange', this.onSelectionChange);
@@ -4450,12 +4537,18 @@ function (_Component) {
       var _this$props4 = this.props,
           inputRule = _this$props4.__unstableInputRule,
           markAutomaticChange = _this$props4.__unstableMarkAutomaticChange,
+          allowPrefixTransformations = _this$props4.__unstableAllowPrefixTransformations,
           formatTypes = _this$props4.formatTypes,
           setTimeout = _this$props4.setTimeout,
           clearTimeout = _this$props4.clearTimeout; // Create an undo level when input stops for over a second.
 
       clearTimeout(this.onInput.timeout);
-      this.onInput.timeout = setTimeout(this.onCreateUndoLevel, 1000); // Only run input rules when inserting text.
+      this.onInput.timeout = setTimeout(this.onCreateUndoLevel, 1000);
+
+      if (!allowPrefixTransformations) {
+        return;
+      } // Only run input rules when inserting text.
+
 
       if (inputType !== 'insertText') {
         return;
@@ -4477,7 +4570,7 @@ function (_Component) {
 
       if (transformed !== change) {
         this.onCreateUndoLevel();
-        this.onChange(Object(objectSpread["a" /* default */])({}, transformed, {
+        this.onChange(component_objectSpread({}, transformed, {
           activeFormats: activeFormats
         }));
         markAutomaticChange();
@@ -4558,7 +4651,7 @@ function (_Component) {
           onEnterFormattedText = _this$props5.__unstableOnEnterFormattedText,
           onExitFormattedText = _this$props5.__unstableOnExitFormattedText;
 
-      var newValue = Object(objectSpread["a" /* default */])({}, value, {
+      var newValue = component_objectSpread({}, value, {
         start: start,
         end: end,
         // Allow `getActiveFormats` to get new `activeFormats`.
@@ -4872,7 +4965,7 @@ function (_Component) {
       if (newActiveFormatsLength !== activeFormats.length) {
         var _newActiveFormats = source.slice(0, newActiveFormatsLength);
 
-        var _newValue = Object(objectSpread["a" /* default */])({}, value, {
+        var _newValue = component_objectSpread({}, value, {
           activeFormats: _newActiveFormats
         });
 
@@ -4887,7 +4980,7 @@ function (_Component) {
       var newPos = start + (isReverse ? -1 : 1);
       var newActiveFormats = isReverse ? formatsBefore : formatsAfter;
 
-      var newValue = Object(objectSpread["a" /* default */])({}, value, {
+      var newValue = component_objectSpread({}, value, {
         start: newPos,
         end: newPos,
         activeFormats: newActiveFormats
@@ -4962,7 +5055,7 @@ function (_Component) {
         this.record.end = selectionEnd;
         this.applyRecord(this.record);
       } else if (selectionChanged) {
-        this.record = Object(objectSpread["a" /* default */])({}, this.record, {
+        this.record = component_objectSpread({}, this.record, {
           start: selectionStart,
           end: selectionEnd
         });
@@ -5067,7 +5160,7 @@ function (_Component) {
         "aria-label": placeholder
       }, props, ariaProps, {
         ref: forwardedRef,
-        style: style ? Object(objectSpread["a" /* default */])({}, style, {
+        style: style ? component_objectSpread({}, style, {
           whiteSpace: whiteSpace
         }) : defaultStyle,
         className: classnames_default()('rich-text', className),
@@ -5099,6 +5192,8 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       var _this$props12 = this.props,
           isSelected = _this$props12.__unstableIsSelected,
           children = _this$props12.children,
@@ -5107,19 +5202,30 @@ function (_Component) {
           formatTypes = _this$props12.formatTypes,
           forwardedRef = _this$props12.forwardedRef;
       var activeFormats = this.state.activeFormats;
+
+      var onFocus = function onFocus() {
+        forwardedRef.current.focus();
+
+        _this3.applyRecord(_this3.record);
+      };
+
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(BoundaryStyle, {
         activeFormats: activeFormats,
+        forwardedRef: forwardedRef
+      }), Object(external_this_wp_element_["createElement"])(InlineWarning, {
         forwardedRef: forwardedRef
       }), isSelected && Object(external_this_wp_element_["createElement"])(FormatEdit, {
         allowedFormats: allowedFormats,
         withoutInteractiveFormatting: withoutInteractiveFormatting,
         value: this.record,
         onChange: this.onChange,
+        onFocus: onFocus,
         formatTypes: formatTypes
       }), children && children({
         isSelected: isSelected,
         value: this.record,
         onChange: this.onChange,
+        onFocus: onFocus,
         Editable: this.Editable
       }), !children && Object(external_this_wp_element_["createElement"])(this.Editable, null));
     }
@@ -5222,49 +5328,36 @@ var RichTextWrapper = Object(external_this_wp_compose_["compose"])([external_thi
 
 /***/ }),
 
-/***/ 4:
-/***/ (function(module, exports) {
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = this["wp"]["data"]; }());
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
 
 /***/ }),
 
-/***/ 46:
+/***/ 50:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["isShallowEqual"]; }());
 
 /***/ }),
 
-/***/ 6:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? Object(arguments[i]) : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 61:
+/***/ 66:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["escapeHtml"]; }());
@@ -5290,28 +5383,6 @@ function _assertThisInitialized(self) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
 
 /***/ })
 

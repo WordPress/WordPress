@@ -42,6 +42,14 @@
 .editor-autocompleters__block .block-editor-block-icon {
   margin-left: 8px; }
 
+.editor-autocompleters__user .editor-autocompleters__no-avatar::before {
+  /* stylelint-disable */
+  font: normal 20px/1 dashicons;
+  /* stylelint-enable */
+  content: "\f110";
+  margin-left: 5px;
+  vertical-align: middle; }
+
 .editor-autocompleters__user .editor-autocompleters__user-avatar {
   margin-left: 8px;
   flex-grow: 0;
@@ -422,7 +430,6 @@
   min-height: calc(100% - 140px); }
   .editor-post-publish-panel__content .components-spinner {
     display: block;
-    float: none;
     margin: 100px auto 0; }
 
 .editor-post-publish-panel__header {
@@ -523,10 +530,11 @@
   color: #555d66;
   overflow: hidden;
   white-space: nowrap; }
-  .editor-post-saved-state .dashicon {
+  .editor-post-saved-state svg {
     display: inline-block;
     flex: 0 0 auto;
-    margin-left: 8px; }
+    margin-left: 4px;
+    fill: currentColor; }
   @media (min-width: 600px) {
     .editor-post-saved-state {
       width: auto;
@@ -756,7 +764,7 @@ body.admin-color-light .editor-post-text-editor__link{
   color: #b52727;
   border-color: #b52727;
   justify-content: center; }
-  .editor-post-trash.components-button:hover, .editor-post-trash.components-button:focus {
+  .editor-post-trash.components-button:not(:disabled):not([aria-disabled="true"]):hover, .editor-post-trash.components-button:not([aria-disabled="true"]):focus {
     color: #a02222;
     border-color: #a02222; }
 

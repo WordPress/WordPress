@@ -1,0 +1,10 @@
+{
+	"name": "core/shortcode",
+	"category": "widgets",
+	"attributes": {
+		"text": {
+			"type": "string",
+			"source": "html"
+		}
+	}
+}

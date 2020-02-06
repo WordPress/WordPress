@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["formatLibrary"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 374);
+/******/ 	return __webpack_require__(__webpack_require__.s = 421);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -105,31 +105,6 @@ this["wp"] = this["wp"] || {}; this["wp"]["formatLibrary"] =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -149,7 +124,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 14:
+/***/ 13:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -162,7 +137,7 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 15:
+/***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -181,7 +156,7 @@ function _possibleConstructorReturn(self, call) {
 
 /***/ }),
 
-/***/ 16:
+/***/ 15:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -195,7 +170,7 @@ function _getPrototypeOf(o) {
 
 /***/ }),
 
-/***/ 17:
+/***/ 16:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -230,25 +205,11 @@ function _inherits(subClass, superClass) {
 /***/ }),
 
 /***/ 19:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
-
-/***/ }),
-
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
-/***/ }),
-
-/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
@@ -271,6 +232,20 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
 /***/ 24:
 /***/ (function(module, exports) {
 
@@ -278,7 +253,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 25:
+/***/ 26:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
@@ -298,6 +273,8 @@ function _objectWithoutProperties(source, excluded) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
 function _typeof(obj) {
+  "@babel/helpers - typeof";
+
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function _typeof(obj) {
       return typeof obj;
@@ -313,14 +290,36 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 374:
+/***/ 41:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+/***/ }),
+
+/***/ 421:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(20);
+var objectWithoutProperties = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","richText"]}
 var external_this_wp_richText_ = __webpack_require__(24);
@@ -332,7 +331,7 @@ var external_this_wp_element_ = __webpack_require__(0);
 var external_this_wp_i18n_ = __webpack_require__(1);
 
 // EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
-var external_this_wp_blockEditor_ = __webpack_require__(5);
+var external_this_wp_blockEditor_ = __webpack_require__(6);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/bold/index.js
 
@@ -355,13 +354,19 @@ var bold = {
   edit: function edit(_ref) {
     var isActive = _ref.isActive,
         value = _ref.value,
-        onChange = _ref.onChange;
+        onChange = _ref.onChange,
+        onFocus = _ref.onFocus;
 
-    var onToggle = function onToggle() {
-      return onChange(Object(external_this_wp_richText_["toggleFormat"])(value, {
+    function onToggle() {
+      onChange(Object(external_this_wp_richText_["toggleFormat"])(value, {
         type: bold_name
       }));
-    };
+    }
+
+    function onClick() {
+      onToggle();
+      onFocus();
+    }
 
     return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichTextShortcut"], {
       type: "primary",
@@ -371,7 +376,7 @@ var bold = {
       name: "bold",
       icon: "editor-bold",
       title: title,
-      onClick: onToggle,
+      onClick: onClick,
       isActive: isActive,
       shortcutType: "primary",
       shortcutCharacter: "b"
@@ -435,49 +440,51 @@ var code = {
   edit: function edit(_ref) {
     var value = _ref.value,
         onChange = _ref.onChange,
+        onFocus = _ref.onFocus,
         isActive = _ref.isActive;
 
-    var onToggle = function onToggle() {
-      return onChange(Object(external_this_wp_richText_["toggleFormat"])(value, {
+    function onClick() {
+      onChange(Object(external_this_wp_richText_["toggleFormat"])(value, {
         type: code_name
       }));
-    };
+      onFocus();
+    }
 
     return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichTextToolbarButton"], {
       icon: "editor-code",
       title: code_title,
-      onClick: onToggle,
+      onClick: onClick,
       isActive: isActive
     });
   }
 };
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
-var objectSpread = __webpack_require__(6);
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+var defineProperty = __webpack_require__(5);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
-var classCallCheck = __webpack_require__(14);
+var classCallCheck = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__(13);
+var createClass = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(15);
+var possibleConstructorReturn = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
-var getPrototypeOf = __webpack_require__(16);
+var getPrototypeOf = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
 var assertThisInitialized = __webpack_require__(7);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(17);
+var inherits = __webpack_require__(16);
 
 // EXTERNAL MODULE: external {"this":["wp","components"]}
 var external_this_wp_components_ = __webpack_require__(3);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(19);
+var external_this_wp_keycodes_ = __webpack_require__(20);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/image/index.js
 
@@ -488,6 +495,10 @@ var external_this_wp_keycodes_ = __webpack_require__(19);
 
 
 
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * WordPress dependencies
@@ -583,6 +594,7 @@ var image_image = {
         var _this$props = this.props,
             value = _this$props.value,
             onChange = _this$props.onChange,
+            onFocus = _this$props.onFocus,
             isObjectActive = _this$props.isObjectActive,
             activeObjectAttributes = _this$props.activeObjectAttributes;
         return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaUploadCheck"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichTextToolbarButton"], {
@@ -614,6 +626,7 @@ var image_image = {
                 alt: alt
               }
             }));
+            onFocus();
           },
           onClose: this.closeModal,
           render: function render(_ref2) {
@@ -626,24 +639,24 @@ var image_image = {
           focusOnMount: false,
           anchorRef: getRange()
         }, Object(external_this_wp_element_["createElement"])("form", {
-          className: "editor-format-toolbar__image-container-content block-editor-format-toolbar__image-container-content",
+          className: "block-editor-format-toolbar__image-container-content",
           onKeyPress: stopKeyPropagation,
           onKeyDown: this.onKeyDown,
           onSubmit: function onSubmit(event) {
             var newReplacements = value.replacements.slice();
             newReplacements[value.start] = {
               type: image_name,
-              attributes: Object(objectSpread["a" /* default */])({}, activeObjectAttributes, {
+              attributes: _objectSpread({}, activeObjectAttributes, {
                 style: "width: ".concat(_this2.state.width, "px;")
               })
             };
-            onChange(Object(objectSpread["a" /* default */])({}, value, {
+            onChange(_objectSpread({}, value, {
               replacements: newReplacements
             }));
             event.preventDefault();
           }
         }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
-          className: "editor-format-toolbar__image-container-value block-editor-format-toolbar__image-container-value",
+          className: "block-editor-format-toolbar__image-container-value",
           type: "number",
           label: Object(external_this_wp_i18n_["__"])('Width'),
           value: this.state.width,
@@ -703,13 +716,19 @@ var italic = {
   edit: function edit(_ref) {
     var isActive = _ref.isActive,
         value = _ref.value,
-        onChange = _ref.onChange;
+        onChange = _ref.onChange,
+        onFocus = _ref.onFocus;
 
-    var onToggle = function onToggle() {
-      return onChange(Object(external_this_wp_richText_["toggleFormat"])(value, {
+    function onToggle() {
+      onChange(Object(external_this_wp_richText_["toggleFormat"])(value, {
         type: italic_name
       }));
-    };
+    }
+
+    function onClick() {
+      onToggle();
+      onFocus();
+    }
 
     return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichTextShortcut"], {
       type: "primary",
@@ -719,7 +738,7 @@ var italic = {
       name: "italic",
       icon: "editor-italic",
       title: italic_title,
-      onClick: onToggle,
+      onClick: onClick,
       isActive: isActive,
       shortcutType: "primary",
       shortcutCharacter: "i"
@@ -731,13 +750,10 @@ var italic = {
 };
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(25);
+var external_this_wp_url_ = __webpack_require__(26);
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
-var external_this_wp_htmlEntities_ = __webpack_require__(54);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(12);
+var external_this_wp_htmlEntities_ = __webpack_require__(56);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
@@ -854,13 +870,9 @@ function createLinkFormat(_ref) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/link/inline.js
 
 
-
-
-
-
-
-
-
+/**
+ * External dependencies
+ */
 
 /**
  * WordPress dependencies
@@ -878,20 +890,31 @@ function createLinkFormat(_ref) {
 
 
 
-var inline_stopKeyPropagation = function stopKeyPropagation(event) {
-  return event.stopPropagation();
-};
-
-function isShowingInput(props, state) {
-  return props.addingLink || state.editLink;
-}
-
-var inline_URLPopoverAtLink = function URLPopoverAtLink(_ref) {
+function InlineLinkUI(_ref) {
   var isActive = _ref.isActive,
+      activeAttributes = _ref.activeAttributes,
       addingLink = _ref.addingLink,
       value = _ref.value,
-      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["isActive", "addingLink", "value"]);
+      onChange = _ref.onChange,
+      onFocus = _ref.onFocus,
+      speak = _ref.speak,
+      stopAddingLink = _ref.stopAddingLink;
 
+  /**
+   * A unique key is generated when switching between editing and not editing
+   * a link, based on:
+   *
+   * - This component may be rendered _either_ when a link is active _or_
+   *   when adding or editing a link.
+   * - It's only desirable to shift focus into the Popover when explicitly
+   *   adding or editing a link, not when in the inline boundary of a link.
+   * - Focus behavior can only be controlled on a Popover at the time it
+   *   mounts, so a new instance of the component must be mounted to
+   *   programmatically enact the focusOnMount behavior.
+   *
+   * @type {string}
+   */
+  var mountingKey = Object(external_this_wp_element_["useMemo"])(external_this_lodash_["uniqueId"], [addingLink]);
   var anchorRef = Object(external_this_wp_element_["useMemo"])(function () {
     var selection = window.getSelection();
 
@@ -901,7 +924,7 @@ var inline_URLPopoverAtLink = function URLPopoverAtLink(_ref) {
 
     var range = selection.getRangeAt(0);
 
-    if (addingLink) {
+    if (addingLink && !isActive) {
       return range;
     }
 
@@ -914,228 +937,55 @@ var inline_URLPopoverAtLink = function URLPopoverAtLink(_ref) {
     }
 
     return element.closest('a');
-  }, [isActive, addingLink, value.start, value.end]);
+  }, [addingLink, value.start, value.end]);
+  var linkValue = {
+    url: activeAttributes.url,
+    opensInNewTab: activeAttributes.target === '_blank'
+  };
 
-  if (!anchorRef) {
-    return null;
+  function onChangeLink(nextValue) {
+    var newUrl = Object(external_this_wp_url_["prependHTTP"])(nextValue.url);
+    var selectedText = Object(external_this_wp_richText_["getTextContent"])(Object(external_this_wp_richText_["slice"])(value));
+    var format = createLinkFormat({
+      url: newUrl,
+      opensInNewWindow: nextValue.opensInNewTab,
+      text: selectedText
+    });
+
+    if (Object(external_this_wp_richText_["isCollapsed"])(value) && !isActive) {
+      var toInsert = Object(external_this_wp_richText_["applyFormat"])(Object(external_this_wp_richText_["create"])({
+        text: newUrl
+      }), format, 0, newUrl.length);
+      onChange(Object(external_this_wp_richText_["insert"])(value, toInsert));
+    } else {
+      onChange(Object(external_this_wp_richText_["applyFormat"])(value, format));
+    }
+
+    onFocus();
+    stopAddingLink();
+
+    if (!isValidHref(newUrl)) {
+      speak(Object(external_this_wp_i18n_["__"])('Warning: the link has been inserted but may have errors. Please test it.'), 'assertive');
+    } else if (isActive) {
+      speak(Object(external_this_wp_i18n_["__"])('Link edited.'), 'assertive');
+    } else {
+      speak(Object(external_this_wp_i18n_["__"])('Link inserted.'), 'assertive');
+    }
   }
 
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["URLPopover"], Object(esm_extends["a" /* default */])({
-    anchorRef: anchorRef
-  }, props));
-};
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], {
+    key: mountingKey,
+    anchorRef: anchorRef,
+    focusOnMount: addingLink ? 'firstElement' : false,
+    onClose: stopAddingLink,
+    position: "bottom center"
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalLinkControl"], {
+    value: linkValue,
+    onChange: onChangeLink
+  }));
+}
 
-var inline_InlineLinkUI =
-/*#__PURE__*/
-function (_Component) {
-  Object(inherits["a" /* default */])(InlineLinkUI, _Component);
-
-  function InlineLinkUI() {
-    var _this;
-
-    Object(classCallCheck["a" /* default */])(this, InlineLinkUI);
-
-    _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(InlineLinkUI).apply(this, arguments));
-    _this.editLink = _this.editLink.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.submitLink = _this.submitLink.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.onKeyDown = _this.onKeyDown.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.onChangeInputValue = _this.onChangeInputValue.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.setLinkTarget = _this.setLinkTarget.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.onFocusOutside = _this.onFocusOutside.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.resetState = _this.resetState.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.autocompleteRef = Object(external_this_wp_element_["createRef"])();
-    _this.state = {
-      opensInNewWindow: false,
-      inputValue: ''
-    };
-    return _this;
-  }
-
-  Object(createClass["a" /* default */])(InlineLinkUI, [{
-    key: "onKeyDown",
-    value: function onKeyDown(event) {
-      if ([external_this_wp_keycodes_["LEFT"], external_this_wp_keycodes_["DOWN"], external_this_wp_keycodes_["RIGHT"], external_this_wp_keycodes_["UP"], external_this_wp_keycodes_["BACKSPACE"], external_this_wp_keycodes_["ENTER"]].indexOf(event.keyCode) > -1) {
-        // Stop the key event from propagating up to ObserveTyping.startTypingInTextField.
-        event.stopPropagation();
-      }
-    }
-  }, {
-    key: "onChangeInputValue",
-    value: function onChangeInputValue(inputValue) {
-      this.setState({
-        inputValue: inputValue
-      });
-    }
-  }, {
-    key: "setLinkTarget",
-    value: function setLinkTarget(opensInNewWindow) {
-      var _this$props = this.props,
-          _this$props$activeAtt = _this$props.activeAttributes.url,
-          url = _this$props$activeAtt === void 0 ? '' : _this$props$activeAtt,
-          value = _this$props.value,
-          onChange = _this$props.onChange;
-      this.setState({
-        opensInNewWindow: opensInNewWindow
-      }); // Apply now if URL is not being edited.
-
-      if (!isShowingInput(this.props, this.state)) {
-        var selectedText = Object(external_this_wp_richText_["getTextContent"])(Object(external_this_wp_richText_["slice"])(value));
-        onChange(Object(external_this_wp_richText_["applyFormat"])(value, createLinkFormat({
-          url: url,
-          opensInNewWindow: opensInNewWindow,
-          text: selectedText
-        })));
-      }
-    }
-  }, {
-    key: "editLink",
-    value: function editLink(event) {
-      this.setState({
-        editLink: true
-      });
-      event.preventDefault();
-    }
-  }, {
-    key: "submitLink",
-    value: function submitLink(event) {
-      var _this$props2 = this.props,
-          isActive = _this$props2.isActive,
-          value = _this$props2.value,
-          onChange = _this$props2.onChange,
-          speak = _this$props2.speak;
-      var _this$state = this.state,
-          inputValue = _this$state.inputValue,
-          opensInNewWindow = _this$state.opensInNewWindow;
-      var url = Object(external_this_wp_url_["prependHTTP"])(inputValue);
-      var selectedText = Object(external_this_wp_richText_["getTextContent"])(Object(external_this_wp_richText_["slice"])(value));
-      var format = createLinkFormat({
-        url: url,
-        opensInNewWindow: opensInNewWindow,
-        text: selectedText
-      });
-      event.preventDefault();
-
-      if (Object(external_this_wp_richText_["isCollapsed"])(value) && !isActive) {
-        var toInsert = Object(external_this_wp_richText_["applyFormat"])(Object(external_this_wp_richText_["create"])({
-          text: url
-        }), format, 0, url.length);
-        onChange(Object(external_this_wp_richText_["insert"])(value, toInsert));
-      } else {
-        onChange(Object(external_this_wp_richText_["applyFormat"])(value, format));
-      }
-
-      this.resetState();
-
-      if (!isValidHref(url)) {
-        speak(Object(external_this_wp_i18n_["__"])('Warning: the link has been inserted but may have errors. Please test it.'), 'assertive');
-      } else if (isActive) {
-        speak(Object(external_this_wp_i18n_["__"])('Link edited.'), 'assertive');
-      } else {
-        speak(Object(external_this_wp_i18n_["__"])('Link inserted.'), 'assertive');
-      }
-    }
-  }, {
-    key: "onFocusOutside",
-    value: function onFocusOutside() {
-      // The autocomplete suggestions list renders in a separate popover (in a portal),
-      // so onFocusOutside fails to detect that a click on a suggestion occurred in the
-      // LinkContainer. Detect clicks on autocomplete suggestions using a ref here, and
-      // return to avoid the popover being closed.
-      var autocompleteElement = this.autocompleteRef.current;
-
-      if (autocompleteElement && autocompleteElement.contains(document.activeElement)) {
-        return;
-      }
-
-      this.resetState();
-    }
-  }, {
-    key: "resetState",
-    value: function resetState() {
-      this.props.stopAddingLink();
-      this.setState({
-        editLink: false
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      var _this$props3 = this.props,
-          isActive = _this$props3.isActive,
-          url = _this$props3.activeAttributes.url,
-          addingLink = _this$props3.addingLink,
-          value = _this$props3.value;
-
-      if (!isActive && !addingLink) {
-        return null;
-      }
-
-      var _this$state2 = this.state,
-          inputValue = _this$state2.inputValue,
-          opensInNewWindow = _this$state2.opensInNewWindow;
-      var showInput = isShowingInput(this.props, this.state);
-      return Object(external_this_wp_element_["createElement"])(inline_URLPopoverAtLink, {
-        value: value,
-        isActive: isActive,
-        addingLink: addingLink,
-        onFocusOutside: this.onFocusOutside,
-        onClose: this.resetState,
-        focusOnMount: showInput ? 'firstElement' : false,
-        renderSettings: function renderSettings() {
-          return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-            label: Object(external_this_wp_i18n_["__"])('Open in New Tab'),
-            checked: opensInNewWindow,
-            onChange: _this2.setLinkTarget
-          });
-        }
-      }, showInput ? Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["URLPopover"].LinkEditor, {
-        className: "editor-format-toolbar__link-container-content block-editor-format-toolbar__link-container-content",
-        value: inputValue,
-        onChangeInputValue: this.onChangeInputValue,
-        onKeyDown: this.onKeyDown,
-        onKeyPress: inline_stopKeyPropagation,
-        onSubmit: this.submitLink,
-        autocompleteRef: this.autocompleteRef
-      }) : Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["URLPopover"].LinkViewer, {
-        className: "editor-format-toolbar__link-container-content block-editor-format-toolbar__link-container-content",
-        onKeyPress: inline_stopKeyPropagation,
-        url: url,
-        onEditLinkClick: this.editLink,
-        linkClassName: isValidHref(Object(external_this_wp_url_["prependHTTP"])(url)) ? undefined : 'has-invalid-link'
-      }));
-    }
-  }], [{
-    key: "getDerivedStateFromProps",
-    value: function getDerivedStateFromProps(props, state) {
-      var _props$activeAttribut = props.activeAttributes,
-          url = _props$activeAttribut.url,
-          target = _props$activeAttribut.target;
-      var opensInNewWindow = target === '_blank';
-
-      if (!isShowingInput(props, state)) {
-        var update = {};
-
-        if (url !== state.inputValue) {
-          update.inputValue = url;
-        }
-
-        if (opensInNewWindow !== state.opensInNewWindow) {
-          update.opensInNewWindow = opensInNewWindow;
-        }
-
-        return Object.keys(update).length ? update : null;
-      }
-
-      return null;
-    }
-  }]);
-
-  return InlineLinkUI;
-}(external_this_wp_element_["Component"]);
-
-/* harmony default export */ var inline = (Object(external_this_wp_components_["withSpokenMessages"])(inline_InlineLinkUI));
+/* harmony default export */ var inline = (Object(external_this_wp_components_["withSpokenMessages"])(InlineLinkUI));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/link/index.js
 
@@ -1269,7 +1119,8 @@ var link_link = {
             isActive = _this$props3.isActive,
             activeAttributes = _this$props3.activeAttributes,
             value = _this$props3.value,
-            onChange = _this$props3.onChange;
+            onChange = _this$props3.onChange,
+            onFocus = _this$props3.onFocus;
         return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichTextShortcut"], {
           type: "primary",
           character: "k",
@@ -1294,15 +1145,14 @@ var link_link = {
           isActive: isActive,
           shortcutType: "primary",
           shortcutCharacter: "k"
-        }), Object(external_this_wp_element_["createElement"])(inline, {
-          key: isActive // Make sure link UI state resets when switching between links.
-          ,
+        }), (this.state.addingLink || isActive) && Object(external_this_wp_element_["createElement"])(inline, {
           addingLink: this.state.addingLink,
           stopAddingLink: this.stopAddingLink,
           isActive: isActive,
           activeAttributes: activeAttributes,
           value: value,
-          onChange: onChange
+          onChange: onChange,
+          onFocus: onFocus
         }));
       }
     }]);
@@ -1332,18 +1182,20 @@ var strikethrough = {
   edit: function edit(_ref) {
     var isActive = _ref.isActive,
         value = _ref.value,
-        onChange = _ref.onChange;
+        onChange = _ref.onChange,
+        onFocus = _ref.onFocus;
 
-    var onToggle = function onToggle() {
-      return onChange(Object(external_this_wp_richText_["toggleFormat"])(value, {
+    function onClick() {
+      onChange(Object(external_this_wp_richText_["toggleFormat"])(value, {
         type: strikethrough_name
       }));
-    };
+      onFocus();
+    }
 
     return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichTextToolbarButton"], {
       icon: "editor-strikethrough",
       title: strikethrough_title,
-      onClick: onToggle,
+      onClick: onClick,
       isActive: isActive
     });
   }
@@ -1426,86 +1278,7 @@ default_formats.forEach(function (_ref) {
 
 /***/ }),
 
-/***/ 40:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-/***/ }),
-
 /***/ 5:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blockEditor"]; }());
-
-/***/ }),
-
-/***/ 54:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["htmlEntities"]; }());
-
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? Object(arguments[i]) : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-/***/ }),
-
-/***/ 9:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1523,6 +1296,35 @@ function _defineProperty(obj, key, value) {
   }
 
   return obj;
+}
+
+/***/ }),
+
+/***/ 56:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["htmlEntities"]; }());
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blockEditor"]; }());
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
 }
 
 /***/ })

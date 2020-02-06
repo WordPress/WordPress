@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["autop"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 233);
+/******/ 	return __webpack_require__(__webpack_require__.s = 273);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -93,7 +93,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["autop"] =
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(35);
+var arrayWithHoles = __webpack_require__(37);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
@@ -126,7 +126,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(36);
+var nonIterableRest = __webpack_require__(38);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
@@ -139,7 +139,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 233:
+/***/ 273:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -306,9 +306,9 @@ function autop(text) {
   text = text.replace(/<br\s*\/?>\s*<br\s*\/?>/g, '\n\n');
   var allBlocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)'; // Add a double line break above block-level opening tags.
 
-  text = text.replace(new RegExp('(<' + allBlocks + '[\\s\/>])', 'g'), '\n\n$1'); // Add a double line break below block-level closing tags.
+  text = text.replace(new RegExp('(<' + allBlocks + '[\\s/>])', 'g'), '\n\n$1'); // Add a double line break below block-level closing tags.
 
-  text = text.replace(new RegExp('(<\/' + allBlocks + '>)', 'g'), '$1\n\n'); // Standardize newline characters to "\n".
+  text = text.replace(new RegExp('(</' + allBlocks + '>)', 'g'), '$1\n\n'); // Standardize newline characters to "\n".
 
   text = text.replace(/\r\n|\r/g, '\n'); // Find newlines in all elements and add placeholders.
 
@@ -364,16 +364,16 @@ function autop(text) {
 
   text = text.replace(/<p>([^<]+)<\/(div|address|form)>/g, '<p>$1</p></$2>'); // If an opening or closing block element tag is wrapped in a <p>, unwrap it.
 
-  text = text.replace(new RegExp('<p>\\s*(<\/?' + allBlocks + '[^>]*>)\\s*<\/p>', 'g'), '$1'); // In some cases <li> may get wrapped in <p>, fix them.
+  text = text.replace(new RegExp('<p>\\s*(</?' + allBlocks + '[^>]*>)\\s*</p>', 'g'), '$1'); // In some cases <li> may get wrapped in <p>, fix them.
 
   text = text.replace(/<p>(<li.+?)<\/p>/g, '$1'); // If a <blockquote> is wrapped with a <p>, move it inside the <blockquote>.
 
   text = text.replace(/<p><blockquote([^>]*)>/gi, '<blockquote$1><p>');
   text = text.replace(/<\/blockquote><\/p>/g, '</p></blockquote>'); // If an opening or closing block element tag is preceded by an opening <p> tag, remove it.
 
-  text = text.replace(new RegExp('<p>\\s*(<\/?' + allBlocks + '[^>]*>)', 'g'), '$1'); // If an opening or closing block element tag is followed by a closing <p> tag, remove it.
+  text = text.replace(new RegExp('<p>\\s*(</?' + allBlocks + '[^>]*>)', 'g'), '$1'); // If an opening or closing block element tag is followed by a closing <p> tag, remove it.
 
-  text = text.replace(new RegExp('(<\/?' + allBlocks + '[^>]*>)\\s*<\/p>', 'g'), '$1'); // Optionally insert line breaks.
+  text = text.replace(new RegExp('(</?' + allBlocks + '[^>]*>)\\s*</p>', 'g'), '$1'); // Optionally insert line breaks.
 
   if (br) {
     // Replace newlines that shouldn't be touched with a placeholder.
@@ -391,7 +391,7 @@ function autop(text) {
   } // If a <br /> tag is after an opening or closing block tag, remove it.
 
 
-  text = text.replace(new RegExp('(<\/?' + allBlocks + '[^>]*>)\\s*<br \/>', 'g'), '$1'); // If a <br /> tag is before a subset of opening or closing block tags, remove it.
+  text = text.replace(new RegExp('(</?' + allBlocks + '[^>]*>)\\s*<br />', 'g'), '$1'); // If a <br /> tag is before a subset of opening or closing block tags, remove it.
 
   text = text.replace(/<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)/g, '$1');
   text = text.replace(/\n<\/p>$/g, '</p>'); // Replace placeholder <pre> tags with their original content.
@@ -543,7 +543,7 @@ function removep(html) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -554,7 +554,7 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ 36:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

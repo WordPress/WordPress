@@ -127,6 +127,10 @@
 
 .wp-block-table {
   border-collapse: collapse; }
+  .wp-block-table thead {
+    border-bottom: 3px solid; }
+  .wp-block-table tfoot {
+    border-top: 3px solid; }
   .wp-block-table td,
   .wp-block-table th {
     padding: 0.5em;

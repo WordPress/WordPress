@@ -82,12 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 369);
+/******/ 	return __webpack_require__(__webpack_require__.s = 417);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 212:
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 250:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -325,7 +332,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 213:
+/***/ 251:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -351,14 +358,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 359:
+/***/ 407:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(212);
-var formats = __webpack_require__(213);
+var utils = __webpack_require__(250);
+var formats = __webpack_require__(251);
 var has = Object.prototype.hasOwnProperty;
 
 var arrayPrefixGenerators = {
@@ -628,13 +635,13 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 360:
+/***/ 408:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(212);
+var utils = __webpack_require__(250);
 
 var has = Object.prototype.hasOwnProperty;
 
@@ -878,7 +885,7 @@ module.exports = function (str, opts) {
 
 /***/ }),
 
-/***/ 369:
+/***/ 417:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1143,7 +1150,7 @@ function isValidFragment(fragment) {
 }
 
 // EXTERNAL MODULE: ./node_modules/qs/lib/index.js
-var lib = __webpack_require__(73);
+var lib = __webpack_require__(92);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/add-query-args.js
 /**
@@ -1376,6 +1383,39 @@ function filterURLForDisplay(url) {
   return filteredURL;
 }
 
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/clean-for-slug.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Performs some basic cleanup of a string for use as a post slug.
+ *
+ * This replicates some of what `sanitize_title()` does in WordPress core, but
+ * is only designed to approximate what the slug will be.
+ *
+ * Converts whitespace, periods, forward slashes and underscores to hyphens.
+ * Converts Latin-1 Supplement and Latin Extended-A letters to basic Latin
+ * letters. Removes combining diacritical marks. Converts remaining string
+ * to lowercase. It does not touch octets, HTML entities, or other encoded
+ * characters.
+ *
+ * @param {string} string Title or slug to be processed.
+ *
+ * @return {string} Processed string.
+ */
+
+function cleanForSlug(string) {
+  if (!string) {
+    return '';
+  }
+
+  return Object(external_this_lodash_["toLower"])(Object(external_this_lodash_["deburr"])(Object(external_this_lodash_["trim"])(string.replace(/[\s\./_]+/g, '-'), '-')));
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/index.js
 /* concated harmony reexport isURL */__webpack_require__.d(__webpack_exports__, "isURL", function() { return isURL; });
 /* concated harmony reexport isEmail */__webpack_require__.d(__webpack_exports__, "isEmail", function() { return isEmail; });
@@ -1397,6 +1437,8 @@ function filterURLForDisplay(url) {
 /* concated harmony reexport safeDecodeURI */__webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return safeDecodeURI; });
 /* concated harmony reexport safeDecodeURIComponent */__webpack_require__.d(__webpack_exports__, "safeDecodeURIComponent", function() { return safeDecodeURIComponent; });
 /* concated harmony reexport filterURLForDisplay */__webpack_require__.d(__webpack_exports__, "filterURLForDisplay", function() { return filterURLForDisplay; });
+/* concated harmony reexport cleanForSlug */__webpack_require__.d(__webpack_exports__, "cleanForSlug", function() { return cleanForSlug; });
+
 
 
 
@@ -1421,15 +1463,15 @@ function filterURLForDisplay(url) {
 
 /***/ }),
 
-/***/ 73:
+/***/ 92:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(359);
-var parse = __webpack_require__(360);
-var formats = __webpack_require__(213);
+var stringify = __webpack_require__(407);
+var parse = __webpack_require__(408);
+var formats = __webpack_require__(251);
 
 module.exports = {
     formats: formats,

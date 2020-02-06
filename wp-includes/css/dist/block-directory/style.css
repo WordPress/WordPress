@@ -66,10 +66,11 @@
   display: flex;
   justify-content: space-between;
   color: #606a73;
-  margin-top: 8px; }
+  margin-top: 8px;
+  font-size: 12px; }
   .block-directory-downloadable-block-info__row .block-directory-downloadable-block-info__column {
     display: flex;
-    align-items: flex-start; }
+    align-items: center; }
     .block-directory-downloadable-block-info__row .block-directory-downloadable-block-info__column .dashicon {
       font-size: 16px;
       margin-right: 4px; }

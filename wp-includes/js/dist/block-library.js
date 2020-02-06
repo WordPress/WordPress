@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockLibrary"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 361);
+/******/ 	return __webpack_require__(__webpack_require__.s = 410);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -159,14 +159,747 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 11:
-/***/ (function(module, exports) {
+/***/ 109:
+/***/ (function(module, exports, __webpack_require__) {
 
-(function() { module.exports = this["wp"]["blocks"]; }());
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+var punycode = __webpack_require__(153);
+var util = __webpack_require__(155);
+
+exports.parse = urlParse;
+exports.resolve = urlResolve;
+exports.resolveObject = urlResolveObject;
+exports.format = urlFormat;
+
+exports.Url = Url;
+
+function Url() {
+  this.protocol = null;
+  this.slashes = null;
+  this.auth = null;
+  this.host = null;
+  this.port = null;
+  this.hostname = null;
+  this.hash = null;
+  this.search = null;
+  this.query = null;
+  this.pathname = null;
+  this.path = null;
+  this.href = null;
+}
+
+// Reference: RFC 3986, RFC 1808, RFC 2396
+
+// define these here so at least they only have to be
+// compiled once on the first module load.
+var protocolPattern = /^([a-z0-9.+-]+:)/i,
+    portPattern = /:[0-9]*$/,
+
+    // Special case for a simple path URL
+    simplePathPattern = /^(\/\/?(?!\/)[^\?\s]*)(\?[^\s]*)?$/,
+
+    // RFC 2396: characters reserved for delimiting URLs.
+    // We actually just auto-escape these.
+    delims = ['<', '>', '"', '`', ' ', '\r', '\n', '\t'],
+
+    // RFC 2396: characters not allowed for various reasons.
+    unwise = ['{', '}', '|', '\\', '^', '`'].concat(delims),
+
+    // Allowed by RFCs, but cause of XSS attacks.  Always escape these.
+    autoEscape = ['\''].concat(unwise),
+    // Characters that are never ever allowed in a hostname.
+    // Note that any invalid chars are also handled, but these
+    // are the ones that are *expected* to be seen, so we fast-path
+    // them.
+    nonHostChars = ['%', '/', '?', ';', '#'].concat(autoEscape),
+    hostEndingChars = ['/', '?', '#'],
+    hostnameMaxLen = 255,
+    hostnamePartPattern = /^[+a-z0-9A-Z_-]{0,63}$/,
+    hostnamePartStart = /^([+a-z0-9A-Z_-]{0,63})(.*)$/,
+    // protocols that can allow "unsafe" and "unwise" chars.
+    unsafeProtocol = {
+      'javascript': true,
+      'javascript:': true
+    },
+    // protocols that never have a hostname.
+    hostlessProtocol = {
+      'javascript': true,
+      'javascript:': true
+    },
+    // protocols that always contain a // bit.
+    slashedProtocol = {
+      'http': true,
+      'https': true,
+      'ftp': true,
+      'gopher': true,
+      'file': true,
+      'http:': true,
+      'https:': true,
+      'ftp:': true,
+      'gopher:': true,
+      'file:': true
+    },
+    querystring = __webpack_require__(156);
+
+function urlParse(url, parseQueryString, slashesDenoteHost) {
+  if (url && util.isObject(url) && url instanceof Url) return url;
+
+  var u = new Url;
+  u.parse(url, parseQueryString, slashesDenoteHost);
+  return u;
+}
+
+Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
+  if (!util.isString(url)) {
+    throw new TypeError("Parameter 'url' must be a string, not " + typeof url);
+  }
+
+  // Copy chrome, IE, opera backslash-handling behavior.
+  // Back slashes before the query string get converted to forward slashes
+  // See: https://code.google.com/p/chromium/issues/detail?id=25916
+  var queryIndex = url.indexOf('?'),
+      splitter =
+          (queryIndex !== -1 && queryIndex < url.indexOf('#')) ? '?' : '#',
+      uSplit = url.split(splitter),
+      slashRegex = /\\/g;
+  uSplit[0] = uSplit[0].replace(slashRegex, '/');
+  url = uSplit.join(splitter);
+
+  var rest = url;
+
+  // trim before proceeding.
+  // This is to support parse stuff like "  http://foo.com  \n"
+  rest = rest.trim();
+
+  if (!slashesDenoteHost && url.split('#').length === 1) {
+    // Try fast path regexp
+    var simplePath = simplePathPattern.exec(rest);
+    if (simplePath) {
+      this.path = rest;
+      this.href = rest;
+      this.pathname = simplePath[1];
+      if (simplePath[2]) {
+        this.search = simplePath[2];
+        if (parseQueryString) {
+          this.query = querystring.parse(this.search.substr(1));
+        } else {
+          this.query = this.search.substr(1);
+        }
+      } else if (parseQueryString) {
+        this.search = '';
+        this.query = {};
+      }
+      return this;
+    }
+  }
+
+  var proto = protocolPattern.exec(rest);
+  if (proto) {
+    proto = proto[0];
+    var lowerProto = proto.toLowerCase();
+    this.protocol = lowerProto;
+    rest = rest.substr(proto.length);
+  }
+
+  // figure out if it's got a host
+  // user@server is *always* interpreted as a hostname, and url
+  // resolution will treat //foo/bar as host=foo,path=bar because that's
+  // how the browser resolves relative URLs.
+  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
+    var slashes = rest.substr(0, 2) === '//';
+    if (slashes && !(proto && hostlessProtocol[proto])) {
+      rest = rest.substr(2);
+      this.slashes = true;
+    }
+  }
+
+  if (!hostlessProtocol[proto] &&
+      (slashes || (proto && !slashedProtocol[proto]))) {
+
+    // there's a hostname.
+    // the first instance of /, ?, ;, or # ends the host.
+    //
+    // If there is an @ in the hostname, then non-host chars *are* allowed
+    // to the left of the last @ sign, unless some host-ending character
+    // comes *before* the @-sign.
+    // URLs are obnoxious.
+    //
+    // ex:
+    // http://a@b@c/ => user:a@b host:c
+    // http://a@b?@c => user:a host:c path:/?@c
+
+    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
+    // Review our test case against browsers more comprehensively.
+
+    // find the first instance of any hostEndingChars
+    var hostEnd = -1;
+    for (var i = 0; i < hostEndingChars.length; i++) {
+      var hec = rest.indexOf(hostEndingChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
+        hostEnd = hec;
+    }
+
+    // at this point, either we have an explicit point where the
+    // auth portion cannot go past, or the last @ char is the decider.
+    var auth, atSign;
+    if (hostEnd === -1) {
+      // atSign can be anywhere.
+      atSign = rest.lastIndexOf('@');
+    } else {
+      // atSign must be in auth portion.
+      // http://a@b/c@d => host:b auth:a path:/c@d
+      atSign = rest.lastIndexOf('@', hostEnd);
+    }
+
+    // Now we have a portion which is definitely the auth.
+    // Pull that off.
+    if (atSign !== -1) {
+      auth = rest.slice(0, atSign);
+      rest = rest.slice(atSign + 1);
+      this.auth = decodeURIComponent(auth);
+    }
+
+    // the host is the remaining to the left of the first non-host char
+    hostEnd = -1;
+    for (var i = 0; i < nonHostChars.length; i++) {
+      var hec = rest.indexOf(nonHostChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
+        hostEnd = hec;
+    }
+    // if we still have not hit it, then the entire thing is a host.
+    if (hostEnd === -1)
+      hostEnd = rest.length;
+
+    this.host = rest.slice(0, hostEnd);
+    rest = rest.slice(hostEnd);
+
+    // pull out port.
+    this.parseHost();
+
+    // we've indicated that there is a hostname,
+    // so even if it's empty, it has to be present.
+    this.hostname = this.hostname || '';
+
+    // if hostname begins with [ and ends with ]
+    // assume that it's an IPv6 address.
+    var ipv6Hostname = this.hostname[0] === '[' &&
+        this.hostname[this.hostname.length - 1] === ']';
+
+    // validate a little.
+    if (!ipv6Hostname) {
+      var hostparts = this.hostname.split(/\./);
+      for (var i = 0, l = hostparts.length; i < l; i++) {
+        var part = hostparts[i];
+        if (!part) continue;
+        if (!part.match(hostnamePartPattern)) {
+          var newpart = '';
+          for (var j = 0, k = part.length; j < k; j++) {
+            if (part.charCodeAt(j) > 127) {
+              // we replace non-ASCII char with a temporary placeholder
+              // we need this to make sure size of hostname is not
+              // broken by replacing non-ASCII by nothing
+              newpart += 'x';
+            } else {
+              newpart += part[j];
+            }
+          }
+          // we test again with ASCII char only
+          if (!newpart.match(hostnamePartPattern)) {
+            var validParts = hostparts.slice(0, i);
+            var notHost = hostparts.slice(i + 1);
+            var bit = part.match(hostnamePartStart);
+            if (bit) {
+              validParts.push(bit[1]);
+              notHost.unshift(bit[2]);
+            }
+            if (notHost.length) {
+              rest = '/' + notHost.join('.') + rest;
+            }
+            this.hostname = validParts.join('.');
+            break;
+          }
+        }
+      }
+    }
+
+    if (this.hostname.length > hostnameMaxLen) {
+      this.hostname = '';
+    } else {
+      // hostnames are always lower case.
+      this.hostname = this.hostname.toLowerCase();
+    }
+
+    if (!ipv6Hostname) {
+      // IDNA Support: Returns a punycoded representation of "domain".
+      // It only converts parts of the domain name that
+      // have non-ASCII characters, i.e. it doesn't matter if
+      // you call it with a domain that already is ASCII-only.
+      this.hostname = punycode.toASCII(this.hostname);
+    }
+
+    var p = this.port ? ':' + this.port : '';
+    var h = this.hostname || '';
+    this.host = h + p;
+    this.href += this.host;
+
+    // strip [ and ] from the hostname
+    // the host field still retains them, though
+    if (ipv6Hostname) {
+      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
+      if (rest[0] !== '/') {
+        rest = '/' + rest;
+      }
+    }
+  }
+
+  // now rest is set to the post-host stuff.
+  // chop off any delim chars.
+  if (!unsafeProtocol[lowerProto]) {
+
+    // First, make 100% sure that any "autoEscape" chars get
+    // escaped, even if encodeURIComponent doesn't think they
+    // need to be.
+    for (var i = 0, l = autoEscape.length; i < l; i++) {
+      var ae = autoEscape[i];
+      if (rest.indexOf(ae) === -1)
+        continue;
+      var esc = encodeURIComponent(ae);
+      if (esc === ae) {
+        esc = escape(ae);
+      }
+      rest = rest.split(ae).join(esc);
+    }
+  }
+
+
+  // chop off from the tail first.
+  var hash = rest.indexOf('#');
+  if (hash !== -1) {
+    // got a fragment string.
+    this.hash = rest.substr(hash);
+    rest = rest.slice(0, hash);
+  }
+  var qm = rest.indexOf('?');
+  if (qm !== -1) {
+    this.search = rest.substr(qm);
+    this.query = rest.substr(qm + 1);
+    if (parseQueryString) {
+      this.query = querystring.parse(this.query);
+    }
+    rest = rest.slice(0, qm);
+  } else if (parseQueryString) {
+    // no query string, but parseQueryString still requested
+    this.search = '';
+    this.query = {};
+  }
+  if (rest) this.pathname = rest;
+  if (slashedProtocol[lowerProto] &&
+      this.hostname && !this.pathname) {
+    this.pathname = '/';
+  }
+
+  //to support http.request
+  if (this.pathname || this.search) {
+    var p = this.pathname || '';
+    var s = this.search || '';
+    this.path = p + s;
+  }
+
+  // finally, reconstruct the href based on what has been validated.
+  this.href = this.format();
+  return this;
+};
+
+// format a parsed object into a url string
+function urlFormat(obj) {
+  // ensure it's an object, and not a string url.
+  // If it's an obj, this is a no-op.
+  // this way, you can call url_format() on strings
+  // to clean up potentially wonky urls.
+  if (util.isString(obj)) obj = urlParse(obj);
+  if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
+  return obj.format();
+}
+
+Url.prototype.format = function() {
+  var auth = this.auth || '';
+  if (auth) {
+    auth = encodeURIComponent(auth);
+    auth = auth.replace(/%3A/i, ':');
+    auth += '@';
+  }
+
+  var protocol = this.protocol || '',
+      pathname = this.pathname || '',
+      hash = this.hash || '',
+      host = false,
+      query = '';
+
+  if (this.host) {
+    host = auth + this.host;
+  } else if (this.hostname) {
+    host = auth + (this.hostname.indexOf(':') === -1 ?
+        this.hostname :
+        '[' + this.hostname + ']');
+    if (this.port) {
+      host += ':' + this.port;
+    }
+  }
+
+  if (this.query &&
+      util.isObject(this.query) &&
+      Object.keys(this.query).length) {
+    query = querystring.stringify(this.query);
+  }
+
+  var search = this.search || (query && ('?' + query)) || '';
+
+  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
+
+  // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
+  // unless they had them to begin with.
+  if (this.slashes ||
+      (!protocol || slashedProtocol[protocol]) && host !== false) {
+    host = '//' + (host || '');
+    if (pathname && pathname.charAt(0) !== '/') pathname = '/' + pathname;
+  } else if (!host) {
+    host = '';
+  }
+
+  if (hash && hash.charAt(0) !== '#') hash = '#' + hash;
+  if (search && search.charAt(0) !== '?') search = '?' + search;
+
+  pathname = pathname.replace(/[?#]/g, function(match) {
+    return encodeURIComponent(match);
+  });
+  search = search.replace('#', '%23');
+
+  return protocol + host + pathname + search + hash;
+};
+
+function urlResolve(source, relative) {
+  return urlParse(source, false, true).resolve(relative);
+}
+
+Url.prototype.resolve = function(relative) {
+  return this.resolveObject(urlParse(relative, false, true)).format();
+};
+
+function urlResolveObject(source, relative) {
+  if (!source) return relative;
+  return urlParse(source, false, true).resolveObject(relative);
+}
+
+Url.prototype.resolveObject = function(relative) {
+  if (util.isString(relative)) {
+    var rel = new Url();
+    rel.parse(relative, false, true);
+    relative = rel;
+  }
+
+  var result = new Url();
+  var tkeys = Object.keys(this);
+  for (var tk = 0; tk < tkeys.length; tk++) {
+    var tkey = tkeys[tk];
+    result[tkey] = this[tkey];
+  }
+
+  // hash is always overridden, no matter what.
+  // even href="" will remove it.
+  result.hash = relative.hash;
+
+  // if the relative url is empty, then there's nothing left to do here.
+  if (relative.href === '') {
+    result.href = result.format();
+    return result;
+  }
+
+  // hrefs like //foo/bar always cut to the protocol.
+  if (relative.slashes && !relative.protocol) {
+    // take everything except the protocol from relative
+    var rkeys = Object.keys(relative);
+    for (var rk = 0; rk < rkeys.length; rk++) {
+      var rkey = rkeys[rk];
+      if (rkey !== 'protocol')
+        result[rkey] = relative[rkey];
+    }
+
+    //urlParse appends trailing / to urls like http://www.example.com
+    if (slashedProtocol[result.protocol] &&
+        result.hostname && !result.pathname) {
+      result.path = result.pathname = '/';
+    }
+
+    result.href = result.format();
+    return result;
+  }
+
+  if (relative.protocol && relative.protocol !== result.protocol) {
+    // if it's a known url protocol, then changing
+    // the protocol does weird things
+    // first, if it's not file:, then we MUST have a host,
+    // and if there was a path
+    // to begin with, then we MUST have a path.
+    // if it is file:, then the host is dropped,
+    // because that's known to be hostless.
+    // anything else is assumed to be absolute.
+    if (!slashedProtocol[relative.protocol]) {
+      var keys = Object.keys(relative);
+      for (var v = 0; v < keys.length; v++) {
+        var k = keys[v];
+        result[k] = relative[k];
+      }
+      result.href = result.format();
+      return result;
+    }
+
+    result.protocol = relative.protocol;
+    if (!relative.host && !hostlessProtocol[relative.protocol]) {
+      var relPath = (relative.pathname || '').split('/');
+      while (relPath.length && !(relative.host = relPath.shift()));
+      if (!relative.host) relative.host = '';
+      if (!relative.hostname) relative.hostname = '';
+      if (relPath[0] !== '') relPath.unshift('');
+      if (relPath.length < 2) relPath.unshift('');
+      result.pathname = relPath.join('/');
+    } else {
+      result.pathname = relative.pathname;
+    }
+    result.search = relative.search;
+    result.query = relative.query;
+    result.host = relative.host || '';
+    result.auth = relative.auth;
+    result.hostname = relative.hostname || relative.host;
+    result.port = relative.port;
+    // to support http.request
+    if (result.pathname || result.search) {
+      var p = result.pathname || '';
+      var s = result.search || '';
+      result.path = p + s;
+    }
+    result.slashes = result.slashes || relative.slashes;
+    result.href = result.format();
+    return result;
+  }
+
+  var isSourceAbs = (result.pathname && result.pathname.charAt(0) === '/'),
+      isRelAbs = (
+          relative.host ||
+          relative.pathname && relative.pathname.charAt(0) === '/'
+      ),
+      mustEndAbs = (isRelAbs || isSourceAbs ||
+                    (result.host && relative.pathname)),
+      removeAllDots = mustEndAbs,
+      srcPath = result.pathname && result.pathname.split('/') || [],
+      relPath = relative.pathname && relative.pathname.split('/') || [],
+      psychotic = result.protocol && !slashedProtocol[result.protocol];
+
+  // if the url is a non-slashed url, then relative
+  // links like ../.. should be able
+  // to crawl up to the hostname, as well.  This is strange.
+  // result.protocol has already been set by now.
+  // Later on, put the first path part into the host field.
+  if (psychotic) {
+    result.hostname = '';
+    result.port = null;
+    if (result.host) {
+      if (srcPath[0] === '') srcPath[0] = result.host;
+      else srcPath.unshift(result.host);
+    }
+    result.host = '';
+    if (relative.protocol) {
+      relative.hostname = null;
+      relative.port = null;
+      if (relative.host) {
+        if (relPath[0] === '') relPath[0] = relative.host;
+        else relPath.unshift(relative.host);
+      }
+      relative.host = null;
+    }
+    mustEndAbs = mustEndAbs && (relPath[0] === '' || srcPath[0] === '');
+  }
+
+  if (isRelAbs) {
+    // it's absolute.
+    result.host = (relative.host || relative.host === '') ?
+                  relative.host : result.host;
+    result.hostname = (relative.hostname || relative.hostname === '') ?
+                      relative.hostname : result.hostname;
+    result.search = relative.search;
+    result.query = relative.query;
+    srcPath = relPath;
+    // fall through to the dot-handling below.
+  } else if (relPath.length) {
+    // it's relative
+    // throw away the existing file, and take the new path instead.
+    if (!srcPath) srcPath = [];
+    srcPath.pop();
+    srcPath = srcPath.concat(relPath);
+    result.search = relative.search;
+    result.query = relative.query;
+  } else if (!util.isNullOrUndefined(relative.search)) {
+    // just pull out the search.
+    // like href='?foo'.
+    // Put this after the other two cases because it simplifies the booleans
+    if (psychotic) {
+      result.hostname = result.host = srcPath.shift();
+      //occationaly the auth can get stuck only in host
+      //this especially happens in cases like
+      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+      var authInHost = result.host && result.host.indexOf('@') > 0 ?
+                       result.host.split('@') : false;
+      if (authInHost) {
+        result.auth = authInHost.shift();
+        result.host = result.hostname = authInHost.shift();
+      }
+    }
+    result.search = relative.search;
+    result.query = relative.query;
+    //to support http.request
+    if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+      result.path = (result.pathname ? result.pathname : '') +
+                    (result.search ? result.search : '');
+    }
+    result.href = result.format();
+    return result;
+  }
+
+  if (!srcPath.length) {
+    // no path at all.  easy.
+    // we've already handled the other stuff above.
+    result.pathname = null;
+    //to support http.request
+    if (result.search) {
+      result.path = '/' + result.search;
+    } else {
+      result.path = null;
+    }
+    result.href = result.format();
+    return result;
+  }
+
+  // if a url ENDs in . or .., then it must get a trailing slash.
+  // however, if it ends in anything else non-slashy,
+  // then it must NOT get a trailing slash.
+  var last = srcPath.slice(-1)[0];
+  var hasTrailingSlash = (
+      (result.host || relative.host || srcPath.length > 1) &&
+      (last === '.' || last === '..') || last === '');
+
+  // strip single dots, resolve double dots to parent dir
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = srcPath.length; i >= 0; i--) {
+    last = srcPath[i];
+    if (last === '.') {
+      srcPath.splice(i, 1);
+    } else if (last === '..') {
+      srcPath.splice(i, 1);
+      up++;
+    } else if (up) {
+      srcPath.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (!mustEndAbs && !removeAllDots) {
+    for (; up--; up) {
+      srcPath.unshift('..');
+    }
+  }
+
+  if (mustEndAbs && srcPath[0] !== '' &&
+      (!srcPath[0] || srcPath[0].charAt(0) !== '/')) {
+    srcPath.unshift('');
+  }
+
+  if (hasTrailingSlash && (srcPath.join('/').substr(-1) !== '/')) {
+    srcPath.push('');
+  }
+
+  var isAbsolute = srcPath[0] === '' ||
+      (srcPath[0] && srcPath[0].charAt(0) === '/');
+
+  // put the host back
+  if (psychotic) {
+    result.hostname = result.host = isAbsolute ? '' :
+                                    srcPath.length ? srcPath.shift() : '';
+    //occationaly the auth can get stuck only in host
+    //this especially happens in cases like
+    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+    var authInHost = result.host && result.host.indexOf('@') > 0 ?
+                     result.host.split('@') : false;
+    if (authInHost) {
+      result.auth = authInHost.shift();
+      result.host = result.hostname = authInHost.shift();
+    }
+  }
+
+  mustEndAbs = mustEndAbs || (result.host && srcPath.length);
+
+  if (mustEndAbs && !isAbsolute) {
+    srcPath.unshift('');
+  }
+
+  if (!srcPath.length) {
+    result.pathname = null;
+    result.path = null;
+  } else {
+    result.pathname = srcPath.join('/');
+  }
+
+  //to support request.http
+  if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+    result.path = (result.pathname ? result.pathname : '') +
+                  (result.search ? result.search : '');
+  }
+  result.auth = relative.auth || result.auth;
+  result.slashes = result.slashes || relative.slashes;
+  result.href = result.format();
+  return result;
+};
+
+Url.prototype.parseHost = function() {
+  var host = this.host;
+  var port = portPattern.exec(host);
+  if (port) {
+    port = port[0];
+    if (port !== ':') {
+      this.port = port.substr(1);
+    }
+    host = host.substr(0, host.length - port.length);
+  }
+  if (host) this.hostname = host;
+};
+
 
 /***/ }),
 
-/***/ 12:
+/***/ 11:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -191,7 +924,76 @@ function _extends() {
 
 /***/ }),
 
-/***/ 121:
+/***/ 12:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+/***/ }),
+
+/***/ 13:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+/***/ }),
+
+/***/ 14:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
+/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+}
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+/***/ }),
+
+/***/ 153:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -714,11 +1516,11 @@ function _extends() {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(122)(module), __webpack_require__(63)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(154)(module), __webpack_require__(71)))
 
 /***/ }),
 
-/***/ 122:
+/***/ 154:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -747,7 +1549,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 123:
+/***/ 155:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -771,19 +1573,19 @@ module.exports = {
 
 /***/ }),
 
-/***/ 124:
+/***/ 156:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(125);
-exports.encode = exports.stringify = __webpack_require__(126);
+exports.decode = exports.parse = __webpack_require__(157);
+exports.encode = exports.stringify = __webpack_require__(158);
 
 
 /***/ }),
 
-/***/ 125:
+/***/ 157:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -875,7 +1677,7 @@ var isArray = Array.isArray || function (xs) {
 
 /***/ }),
 
-/***/ 126:
+/***/ 158:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -968,76 +1770,7 @@ var objectKeys = Object.keys || function (obj) {
 
 /***/ }),
 
-/***/ 13:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-/***/ }),
-
-/***/ 14:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
-/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
-
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
-}
-
-/***/ }),
-
 /***/ 16:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-/***/ }),
-
-/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1071,7 +1804,7 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
-/***/ 18:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1087,7 +1820,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(31);
+var iterableToArray = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -1104,26 +1837,19 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
+/***/ 18:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["primitives"]; }());
+
+/***/ }),
+
 /***/ 19:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
-
-/***/ }),
-
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
-/***/ }),
-
-/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
@@ -1146,7 +1872,80 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 219:
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 22:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
+var arrayWithHoles = __webpack_require__(37);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
+function _iterableToArrayLimit(arr, i) {
+  if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+    return;
+  }
+
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
+var nonIterableRest = __webpack_require__(38);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
+
+
+
+function _slicedToArray(arr, i) {
+  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(nonIterableRest["a" /* default */])();
+}
+
+/***/ }),
+
+/***/ 24:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["richText"]; }());
+
+/***/ }),
+
+/***/ 258:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! Fast Average Color | © 2019 Denis Seleznev | MIT License | https://github.com/hcodes/fast-average-color/ */
@@ -1601,76 +2400,92 @@ return FastAverageColor;
 
 /***/ }),
 
-/***/ 22:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(35);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
-function _iterableToArrayLimit(arr, i) {
-  if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
-    return;
-  }
-
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(36);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(nonIterableRest["a" /* default */])();
-}
-
-/***/ }),
-
-/***/ 24:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["richText"]; }());
-
-/***/ }),
-
-/***/ 25:
+/***/ 26:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 26:
+/***/ 27:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["editor"]; }());
+(function() { module.exports = this["wp"]["dom"]; }());
+
+/***/ }),
+
+/***/ 275:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+var alignLeft = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "-2 -2 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M12 5V3H3v2h9zm5 4V7H3v2h14zm-5 4v-2H3v2h9zm5 4v-2H3v2h14z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (alignLeft);
+
+
+/***/ }),
+
+/***/ 276:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+var alignCenter = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "-2 -2 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M14 5V3H6v2h8zm3 4V7H3v2h14zm-3 4v-2H6v2h8zm3 4v-2H3v2h14z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (alignCenter);
+
+
+/***/ }),
+
+/***/ 277:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+var alignRight = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "-2 -2 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M17 5V3H8v2h9zm0 4V7H3v2h14zm0 4v-2H8v2h9zm0 4v-2H3v2h14z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (alignRight);
+
 
 /***/ }),
 
@@ -1688,23 +2503,14 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 31:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-
-/***/ }),
-
 /***/ 32:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
 function _typeof(obj) {
+  "@babel/helpers - typeof";
+
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function _typeof(obj) {
       return typeof obj;
@@ -1721,13 +2527,24 @@ function _typeof(obj) {
 /***/ }),
 
 /***/ 33:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+/***/ }),
+
+/***/ 35:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 
-/***/ 35:
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1738,7 +2555,7 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ 36:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1749,31 +2566,74 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 361:
+/***/ 39:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blob"]; }());
+
+/***/ }),
+
+/***/ 4:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["data"]; }());
+
+/***/ }),
+
+/***/ 40:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ 41:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+/***/ }),
+
+/***/ 410:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var paragraph_namespaceObject = {};
-__webpack_require__.r(paragraph_namespaceObject);
-__webpack_require__.d(paragraph_namespaceObject, "metadata", function() { return paragraph_metadata; });
-__webpack_require__.d(paragraph_namespaceObject, "name", function() { return paragraph_name; });
-__webpack_require__.d(paragraph_namespaceObject, "settings", function() { return paragraph_settings; });
-var image_namespaceObject = {};
-__webpack_require__.r(image_namespaceObject);
-__webpack_require__.d(image_namespaceObject, "metadata", function() { return image_metadata; });
-__webpack_require__.d(image_namespaceObject, "name", function() { return image_name; });
-__webpack_require__.d(image_namespaceObject, "settings", function() { return image_settings; });
-var heading_namespaceObject = {};
-__webpack_require__.r(heading_namespaceObject);
-__webpack_require__.d(heading_namespaceObject, "metadata", function() { return heading_metadata; });
-__webpack_require__.d(heading_namespaceObject, "name", function() { return heading_name; });
-__webpack_require__.d(heading_namespaceObject, "settings", function() { return heading_settings; });
-var quote_namespaceObject = {};
-__webpack_require__.r(quote_namespaceObject);
-__webpack_require__.d(quote_namespaceObject, "metadata", function() { return quote_metadata; });
-__webpack_require__.d(quote_namespaceObject, "name", function() { return quote_name; });
-__webpack_require__.d(quote_namespaceObject, "settings", function() { return quote_settings; });
+var build_module_paragraph_namespaceObject = {};
+__webpack_require__.r(build_module_paragraph_namespaceObject);
+__webpack_require__.d(build_module_paragraph_namespaceObject, "metadata", function() { return paragraph_metadata; });
+__webpack_require__.d(build_module_paragraph_namespaceObject, "name", function() { return paragraph_name; });
+__webpack_require__.d(build_module_paragraph_namespaceObject, "settings", function() { return paragraph_settings; });
+var build_module_image_namespaceObject = {};
+__webpack_require__.r(build_module_image_namespaceObject);
+__webpack_require__.d(build_module_image_namespaceObject, "metadata", function() { return image_metadata; });
+__webpack_require__.d(build_module_image_namespaceObject, "name", function() { return image_name; });
+__webpack_require__.d(build_module_image_namespaceObject, "settings", function() { return image_settings; });
+var build_module_heading_namespaceObject = {};
+__webpack_require__.r(build_module_heading_namespaceObject);
+__webpack_require__.d(build_module_heading_namespaceObject, "metadata", function() { return heading_metadata; });
+__webpack_require__.d(build_module_heading_namespaceObject, "name", function() { return heading_name; });
+__webpack_require__.d(build_module_heading_namespaceObject, "settings", function() { return heading_settings; });
+var build_module_quote_namespaceObject = {};
+__webpack_require__.r(build_module_quote_namespaceObject);
+__webpack_require__.d(build_module_quote_namespaceObject, "metadata", function() { return quote_metadata; });
+__webpack_require__.d(build_module_quote_namespaceObject, "name", function() { return quote_name; });
+__webpack_require__.d(build_module_quote_namespaceObject, "settings", function() { return quote_settings; });
 var build_module_gallery_namespaceObject = {};
 __webpack_require__.r(build_module_gallery_namespaceObject);
 __webpack_require__.d(build_module_gallery_namespaceObject, "metadata", function() { return gallery_metadata; });
@@ -1783,65 +2643,65 @@ var archives_namespaceObject = {};
 __webpack_require__.r(archives_namespaceObject);
 __webpack_require__.d(archives_namespaceObject, "name", function() { return archives_name; });
 __webpack_require__.d(archives_namespaceObject, "settings", function() { return archives_settings; });
-var audio_namespaceObject = {};
-__webpack_require__.r(audio_namespaceObject);
-__webpack_require__.d(audio_namespaceObject, "metadata", function() { return audio_metadata; });
-__webpack_require__.d(audio_namespaceObject, "name", function() { return audio_name; });
-__webpack_require__.d(audio_namespaceObject, "settings", function() { return audio_settings; });
-var button_namespaceObject = {};
-__webpack_require__.r(button_namespaceObject);
-__webpack_require__.d(button_namespaceObject, "metadata", function() { return button_metadata; });
-__webpack_require__.d(button_namespaceObject, "name", function() { return button_name; });
-__webpack_require__.d(button_namespaceObject, "settings", function() { return button_settings; });
+var build_module_audio_namespaceObject = {};
+__webpack_require__.r(build_module_audio_namespaceObject);
+__webpack_require__.d(build_module_audio_namespaceObject, "metadata", function() { return audio_metadata; });
+__webpack_require__.d(build_module_audio_namespaceObject, "name", function() { return audio_name; });
+__webpack_require__.d(build_module_audio_namespaceObject, "settings", function() { return audio_settings; });
+var build_module_button_namespaceObject = {};
+__webpack_require__.r(build_module_button_namespaceObject);
+__webpack_require__.d(build_module_button_namespaceObject, "metadata", function() { return button_metadata; });
+__webpack_require__.d(build_module_button_namespaceObject, "name", function() { return button_name; });
+__webpack_require__.d(build_module_button_namespaceObject, "settings", function() { return button_settings; });
 var buttons_namespaceObject = {};
 __webpack_require__.r(buttons_namespaceObject);
 __webpack_require__.d(buttons_namespaceObject, "metadata", function() { return buttons_metadata; });
 __webpack_require__.d(buttons_namespaceObject, "name", function() { return buttons_name; });
 __webpack_require__.d(buttons_namespaceObject, "settings", function() { return buttons_settings; });
-var calendar_namespaceObject = {};
-__webpack_require__.r(calendar_namespaceObject);
-__webpack_require__.d(calendar_namespaceObject, "name", function() { return calendar_name; });
-__webpack_require__.d(calendar_namespaceObject, "settings", function() { return calendar_settings; });
+var build_module_calendar_namespaceObject = {};
+__webpack_require__.r(build_module_calendar_namespaceObject);
+__webpack_require__.d(build_module_calendar_namespaceObject, "name", function() { return calendar_name; });
+__webpack_require__.d(build_module_calendar_namespaceObject, "settings", function() { return calendar_settings; });
 var categories_namespaceObject = {};
 __webpack_require__.r(categories_namespaceObject);
 __webpack_require__.d(categories_namespaceObject, "name", function() { return categories_name; });
 __webpack_require__.d(categories_namespaceObject, "settings", function() { return categories_settings; });
-var code_namespaceObject = {};
-__webpack_require__.r(code_namespaceObject);
-__webpack_require__.d(code_namespaceObject, "metadata", function() { return code_metadata; });
-__webpack_require__.d(code_namespaceObject, "name", function() { return code_name; });
-__webpack_require__.d(code_namespaceObject, "settings", function() { return code_settings; });
-var columns_namespaceObject = {};
-__webpack_require__.r(columns_namespaceObject);
-__webpack_require__.d(columns_namespaceObject, "metadata", function() { return columns_metadata; });
-__webpack_require__.d(columns_namespaceObject, "name", function() { return columns_name; });
-__webpack_require__.d(columns_namespaceObject, "settings", function() { return columns_settings; });
-var column_namespaceObject = {};
-__webpack_require__.r(column_namespaceObject);
-__webpack_require__.d(column_namespaceObject, "metadata", function() { return column_metadata; });
-__webpack_require__.d(column_namespaceObject, "name", function() { return column_name; });
-__webpack_require__.d(column_namespaceObject, "settings", function() { return column_settings; });
-var cover_namespaceObject = {};
-__webpack_require__.r(cover_namespaceObject);
-__webpack_require__.d(cover_namespaceObject, "metadata", function() { return cover_metadata; });
-__webpack_require__.d(cover_namespaceObject, "name", function() { return cover_name; });
-__webpack_require__.d(cover_namespaceObject, "settings", function() { return cover_settings; });
+var build_module_code_namespaceObject = {};
+__webpack_require__.r(build_module_code_namespaceObject);
+__webpack_require__.d(build_module_code_namespaceObject, "metadata", function() { return code_metadata; });
+__webpack_require__.d(build_module_code_namespaceObject, "name", function() { return code_name; });
+__webpack_require__.d(build_module_code_namespaceObject, "settings", function() { return code_settings; });
+var build_module_columns_namespaceObject = {};
+__webpack_require__.r(build_module_columns_namespaceObject);
+__webpack_require__.d(build_module_columns_namespaceObject, "metadata", function() { return columns_metadata; });
+__webpack_require__.d(build_module_columns_namespaceObject, "name", function() { return columns_name; });
+__webpack_require__.d(build_module_columns_namespaceObject, "settings", function() { return columns_settings; });
+var build_module_column_namespaceObject = {};
+__webpack_require__.r(build_module_column_namespaceObject);
+__webpack_require__.d(build_module_column_namespaceObject, "metadata", function() { return column_metadata; });
+__webpack_require__.d(build_module_column_namespaceObject, "name", function() { return column_name; });
+__webpack_require__.d(build_module_column_namespaceObject, "settings", function() { return column_settings; });
+var build_module_cover_namespaceObject = {};
+__webpack_require__.r(build_module_cover_namespaceObject);
+__webpack_require__.d(build_module_cover_namespaceObject, "metadata", function() { return cover_metadata; });
+__webpack_require__.d(build_module_cover_namespaceObject, "name", function() { return cover_name; });
+__webpack_require__.d(build_module_cover_namespaceObject, "settings", function() { return cover_settings; });
 var embed_namespaceObject = {};
 __webpack_require__.r(embed_namespaceObject);
 __webpack_require__.d(embed_namespaceObject, "name", function() { return embed_name; });
 __webpack_require__.d(embed_namespaceObject, "settings", function() { return embed_settings; });
 __webpack_require__.d(embed_namespaceObject, "common", function() { return embed_common; });
 __webpack_require__.d(embed_namespaceObject, "others", function() { return embed_others; });
-var file_namespaceObject = {};
-__webpack_require__.r(file_namespaceObject);
-__webpack_require__.d(file_namespaceObject, "metadata", function() { return file_metadata; });
-__webpack_require__.d(file_namespaceObject, "name", function() { return file_name; });
-__webpack_require__.d(file_namespaceObject, "settings", function() { return file_settings; });
-var html_namespaceObject = {};
-__webpack_require__.r(html_namespaceObject);
-__webpack_require__.d(html_namespaceObject, "metadata", function() { return html_metadata; });
-__webpack_require__.d(html_namespaceObject, "name", function() { return html_name; });
-__webpack_require__.d(html_namespaceObject, "settings", function() { return html_settings; });
+var build_module_file_namespaceObject = {};
+__webpack_require__.r(build_module_file_namespaceObject);
+__webpack_require__.d(build_module_file_namespaceObject, "metadata", function() { return file_metadata; });
+__webpack_require__.d(build_module_file_namespaceObject, "name", function() { return file_name; });
+__webpack_require__.d(build_module_file_namespaceObject, "settings", function() { return file_settings; });
+var build_module_html_namespaceObject = {};
+__webpack_require__.r(build_module_html_namespaceObject);
+__webpack_require__.d(build_module_html_namespaceObject, "metadata", function() { return html_metadata; });
+__webpack_require__.d(build_module_html_namespaceObject, "name", function() { return html_name; });
+__webpack_require__.d(build_module_html_namespaceObject, "settings", function() { return html_settings; });
 var media_text_namespaceObject = {};
 __webpack_require__.r(media_text_namespaceObject);
 __webpack_require__.d(media_text_namespaceObject, "metadata", function() { return media_text_metadata; });
@@ -1869,62 +2729,63 @@ var latest_posts_namespaceObject = {};
 __webpack_require__.r(latest_posts_namespaceObject);
 __webpack_require__.d(latest_posts_namespaceObject, "name", function() { return latest_posts_name; });
 __webpack_require__.d(latest_posts_namespaceObject, "settings", function() { return latest_posts_settings; });
-var list_namespaceObject = {};
-__webpack_require__.r(list_namespaceObject);
-__webpack_require__.d(list_namespaceObject, "metadata", function() { return list_metadata; });
-__webpack_require__.d(list_namespaceObject, "name", function() { return list_name; });
-__webpack_require__.d(list_namespaceObject, "settings", function() { return list_settings; });
+var build_module_list_namespaceObject = {};
+__webpack_require__.r(build_module_list_namespaceObject);
+__webpack_require__.d(build_module_list_namespaceObject, "metadata", function() { return list_metadata; });
+__webpack_require__.d(build_module_list_namespaceObject, "name", function() { return list_name; });
+__webpack_require__.d(build_module_list_namespaceObject, "settings", function() { return list_settings; });
 var missing_namespaceObject = {};
 __webpack_require__.r(missing_namespaceObject);
 __webpack_require__.d(missing_namespaceObject, "metadata", function() { return missing_metadata; });
 __webpack_require__.d(missing_namespaceObject, "name", function() { return missing_name; });
 __webpack_require__.d(missing_namespaceObject, "settings", function() { return missing_settings; });
-var more_namespaceObject = {};
-__webpack_require__.r(more_namespaceObject);
-__webpack_require__.d(more_namespaceObject, "metadata", function() { return more_metadata; });
-__webpack_require__.d(more_namespaceObject, "name", function() { return more_name; });
-__webpack_require__.d(more_namespaceObject, "settings", function() { return more_settings; });
+var build_module_more_namespaceObject = {};
+__webpack_require__.r(build_module_more_namespaceObject);
+__webpack_require__.d(build_module_more_namespaceObject, "metadata", function() { return more_metadata; });
+__webpack_require__.d(build_module_more_namespaceObject, "name", function() { return more_name; });
+__webpack_require__.d(build_module_more_namespaceObject, "settings", function() { return more_settings; });
 var nextpage_namespaceObject = {};
 __webpack_require__.r(nextpage_namespaceObject);
 __webpack_require__.d(nextpage_namespaceObject, "metadata", function() { return nextpage_metadata; });
 __webpack_require__.d(nextpage_namespaceObject, "name", function() { return nextpage_name; });
 __webpack_require__.d(nextpage_namespaceObject, "settings", function() { return nextpage_settings; });
-var preformatted_namespaceObject = {};
-__webpack_require__.r(preformatted_namespaceObject);
-__webpack_require__.d(preformatted_namespaceObject, "metadata", function() { return preformatted_metadata; });
-__webpack_require__.d(preformatted_namespaceObject, "name", function() { return preformatted_name; });
-__webpack_require__.d(preformatted_namespaceObject, "settings", function() { return preformatted_settings; });
-var pullquote_namespaceObject = {};
-__webpack_require__.r(pullquote_namespaceObject);
-__webpack_require__.d(pullquote_namespaceObject, "metadata", function() { return pullquote_metadata; });
-__webpack_require__.d(pullquote_namespaceObject, "name", function() { return pullquote_name; });
-__webpack_require__.d(pullquote_namespaceObject, "settings", function() { return pullquote_settings; });
+var build_module_preformatted_namespaceObject = {};
+__webpack_require__.r(build_module_preformatted_namespaceObject);
+__webpack_require__.d(build_module_preformatted_namespaceObject, "metadata", function() { return preformatted_metadata; });
+__webpack_require__.d(build_module_preformatted_namespaceObject, "name", function() { return preformatted_name; });
+__webpack_require__.d(build_module_preformatted_namespaceObject, "settings", function() { return preformatted_settings; });
+var build_module_pullquote_namespaceObject = {};
+__webpack_require__.r(build_module_pullquote_namespaceObject);
+__webpack_require__.d(build_module_pullquote_namespaceObject, "metadata", function() { return pullquote_metadata; });
+__webpack_require__.d(build_module_pullquote_namespaceObject, "name", function() { return pullquote_name; });
+__webpack_require__.d(build_module_pullquote_namespaceObject, "settings", function() { return pullquote_settings; });
 var block_namespaceObject = {};
 __webpack_require__.r(block_namespaceObject);
 __webpack_require__.d(block_namespaceObject, "name", function() { return block_name; });
 __webpack_require__.d(block_namespaceObject, "settings", function() { return block_settings; });
-var rss_namespaceObject = {};
-__webpack_require__.r(rss_namespaceObject);
-__webpack_require__.d(rss_namespaceObject, "name", function() { return rss_name; });
-__webpack_require__.d(rss_namespaceObject, "settings", function() { return rss_settings; });
-var search_namespaceObject = {};
-__webpack_require__.r(search_namespaceObject);
-__webpack_require__.d(search_namespaceObject, "name", function() { return search_name; });
-__webpack_require__.d(search_namespaceObject, "settings", function() { return search_settings; });
-var group_namespaceObject = {};
-__webpack_require__.r(group_namespaceObject);
-__webpack_require__.d(group_namespaceObject, "metadata", function() { return group_metadata; });
-__webpack_require__.d(group_namespaceObject, "name", function() { return group_name; });
-__webpack_require__.d(group_namespaceObject, "settings", function() { return group_settings; });
-var separator_namespaceObject = {};
-__webpack_require__.r(separator_namespaceObject);
-__webpack_require__.d(separator_namespaceObject, "metadata", function() { return separator_metadata; });
-__webpack_require__.d(separator_namespaceObject, "name", function() { return separator_name; });
-__webpack_require__.d(separator_namespaceObject, "settings", function() { return build_module_separator_settings; });
-var shortcode_namespaceObject = {};
-__webpack_require__.r(shortcode_namespaceObject);
-__webpack_require__.d(shortcode_namespaceObject, "name", function() { return shortcode_name; });
-__webpack_require__.d(shortcode_namespaceObject, "settings", function() { return shortcode_settings; });
+var build_module_rss_namespaceObject = {};
+__webpack_require__.r(build_module_rss_namespaceObject);
+__webpack_require__.d(build_module_rss_namespaceObject, "name", function() { return rss_name; });
+__webpack_require__.d(build_module_rss_namespaceObject, "settings", function() { return rss_settings; });
+var build_module_search_namespaceObject = {};
+__webpack_require__.r(build_module_search_namespaceObject);
+__webpack_require__.d(build_module_search_namespaceObject, "name", function() { return search_name; });
+__webpack_require__.d(build_module_search_namespaceObject, "settings", function() { return search_settings; });
+var build_module_group_namespaceObject = {};
+__webpack_require__.r(build_module_group_namespaceObject);
+__webpack_require__.d(build_module_group_namespaceObject, "metadata", function() { return group_metadata; });
+__webpack_require__.d(build_module_group_namespaceObject, "name", function() { return group_name; });
+__webpack_require__.d(build_module_group_namespaceObject, "settings", function() { return group_settings; });
+var build_module_separator_namespaceObject = {};
+__webpack_require__.r(build_module_separator_namespaceObject);
+__webpack_require__.d(build_module_separator_namespaceObject, "metadata", function() { return separator_metadata; });
+__webpack_require__.d(build_module_separator_namespaceObject, "name", function() { return separator_name; });
+__webpack_require__.d(build_module_separator_namespaceObject, "settings", function() { return build_module_separator_settings; });
+var build_module_shortcode_namespaceObject = {};
+__webpack_require__.r(build_module_shortcode_namespaceObject);
+__webpack_require__.d(build_module_shortcode_namespaceObject, "metadata", function() { return shortcode_metadata; });
+__webpack_require__.d(build_module_shortcode_namespaceObject, "name", function() { return shortcode_name; });
+__webpack_require__.d(build_module_shortcode_namespaceObject, "settings", function() { return shortcode_settings; });
 var spacer_namespaceObject = {};
 __webpack_require__.r(spacer_namespaceObject);
 __webpack_require__.d(spacer_namespaceObject, "metadata", function() { return spacer_metadata; });
@@ -1935,74 +2796,89 @@ __webpack_require__.r(subhead_namespaceObject);
 __webpack_require__.d(subhead_namespaceObject, "metadata", function() { return subhead_metadata; });
 __webpack_require__.d(subhead_namespaceObject, "name", function() { return subhead_name; });
 __webpack_require__.d(subhead_namespaceObject, "settings", function() { return subhead_settings; });
-var table_namespaceObject = {};
-__webpack_require__.r(table_namespaceObject);
-__webpack_require__.d(table_namespaceObject, "metadata", function() { return table_metadata; });
-__webpack_require__.d(table_namespaceObject, "name", function() { return table_name; });
-__webpack_require__.d(table_namespaceObject, "settings", function() { return table_settings; });
+var build_module_table_namespaceObject = {};
+__webpack_require__.r(build_module_table_namespaceObject);
+__webpack_require__.d(build_module_table_namespaceObject, "metadata", function() { return table_metadata; });
+__webpack_require__.d(build_module_table_namespaceObject, "name", function() { return table_name; });
+__webpack_require__.d(build_module_table_namespaceObject, "settings", function() { return table_settings; });
 var text_columns_namespaceObject = {};
 __webpack_require__.r(text_columns_namespaceObject);
 __webpack_require__.d(text_columns_namespaceObject, "metadata", function() { return text_columns_metadata; });
 __webpack_require__.d(text_columns_namespaceObject, "name", function() { return text_columns_name; });
 __webpack_require__.d(text_columns_namespaceObject, "settings", function() { return text_columns_settings; });
-var verse_namespaceObject = {};
-__webpack_require__.r(verse_namespaceObject);
-__webpack_require__.d(verse_namespaceObject, "metadata", function() { return verse_metadata; });
-__webpack_require__.d(verse_namespaceObject, "name", function() { return verse_name; });
-__webpack_require__.d(verse_namespaceObject, "settings", function() { return verse_settings; });
-var video_namespaceObject = {};
-__webpack_require__.r(video_namespaceObject);
-__webpack_require__.d(video_namespaceObject, "metadata", function() { return video_metadata; });
-__webpack_require__.d(video_namespaceObject, "name", function() { return video_name; });
-__webpack_require__.d(video_namespaceObject, "settings", function() { return video_settings; });
+var build_module_verse_namespaceObject = {};
+__webpack_require__.r(build_module_verse_namespaceObject);
+__webpack_require__.d(build_module_verse_namespaceObject, "metadata", function() { return verse_metadata; });
+__webpack_require__.d(build_module_verse_namespaceObject, "name", function() { return verse_name; });
+__webpack_require__.d(build_module_verse_namespaceObject, "settings", function() { return verse_settings; });
+var build_module_video_namespaceObject = {};
+__webpack_require__.r(build_module_video_namespaceObject);
+__webpack_require__.d(build_module_video_namespaceObject, "metadata", function() { return video_metadata; });
+__webpack_require__.d(build_module_video_namespaceObject, "name", function() { return video_name; });
+__webpack_require__.d(build_module_video_namespaceObject, "settings", function() { return video_settings; });
 var tag_cloud_namespaceObject = {};
 __webpack_require__.r(tag_cloud_namespaceObject);
 __webpack_require__.d(tag_cloud_namespaceObject, "name", function() { return tag_cloud_name; });
 __webpack_require__.d(tag_cloud_namespaceObject, "settings", function() { return tag_cloud_settings; });
-var classic_namespaceObject = {};
-__webpack_require__.r(classic_namespaceObject);
-__webpack_require__.d(classic_namespaceObject, "metadata", function() { return classic_metadata; });
-__webpack_require__.d(classic_namespaceObject, "name", function() { return classic_name; });
-__webpack_require__.d(classic_namespaceObject, "settings", function() { return classic_settings; });
+var build_module_classic_namespaceObject = {};
+__webpack_require__.r(build_module_classic_namespaceObject);
+__webpack_require__.d(build_module_classic_namespaceObject, "metadata", function() { return classic_metadata; });
+__webpack_require__.d(build_module_classic_namespaceObject, "name", function() { return classic_name; });
+__webpack_require__.d(build_module_classic_namespaceObject, "settings", function() { return classic_settings; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(18);
+var toConsumableArray = __webpack_require__(17);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(9);
+var defineProperty = __webpack_require__(5);
 
 // EXTERNAL MODULE: external {"this":["wp","coreData"]}
-var external_this_wp_coreData_ = __webpack_require__(64);
+var external_this_wp_coreData_ = __webpack_require__(73);
 
 // EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
-var external_this_wp_blockEditor_ = __webpack_require__(5);
-
-// EXTERNAL MODULE: external {"this":["wp","editor"]}
-var external_this_wp_editor_ = __webpack_require__(26);
+var external_this_wp_blockEditor_ = __webpack_require__(6);
 
 // EXTERNAL MODULE: external {"this":["wp","blocks"]}
-var external_this_wp_blocks_ = __webpack_require__(11);
+var external_this_wp_blocks_ = __webpack_require__(9);
+
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
 var external_this_wp_i18n_ = __webpack_require__(1);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
-var objectSpread = __webpack_require__(6);
-
 // EXTERNAL MODULE: external {"this":["wp","element"]}
 var external_this_wp_element_ = __webpack_require__(0);
+
+// EXTERNAL MODULE: external {"this":["wp","primitives"]}
+var external_this_wp_primitives_ = __webpack_require__(18);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/paragraph.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var paragraph = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M11 5v7H9.5C7.6 12 6 10.4 6 8.5S7.6 5 9.5 5H11m8-2H9.5C6.5 3 4 5.5 4 8.5S6.5 14 9.5 14H11v7h2V5h2v16h2V5h2V3z"
+}));
+/* harmony default export */ var library_paragraph = (paragraph);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
 var classnames = __webpack_require__(10);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
-// EXTERNAL MODULE: external {"this":"lodash"}
-var external_this_lodash_ = __webpack_require__(2);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/paragraph/deprecated.js
 
 
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -2099,7 +2975,7 @@ var deprecated = [{
   }
 }, {
   supports: deprecated_supports,
-  attributes: Object(objectSpread["a" /* default */])({}, deprecated_blockAttributes, {
+  attributes: _objectSpread({}, deprecated_blockAttributes, {
     width: {
       type: 'string'
     }
@@ -2137,7 +3013,7 @@ var deprecated = [{
   }
 }, {
   supports: deprecated_supports,
-  attributes: Object(external_this_lodash_["omit"])(Object(objectSpread["a" /* default */])({}, deprecated_blockAttributes, {
+  attributes: Object(external_this_lodash_["omit"])(_objectSpread({}, deprecated_blockAttributes, {
     fontSize: {
       type: 'number'
     }
@@ -2166,7 +3042,7 @@ var deprecated = [{
     }, content);
   },
   migrate: function migrate(attributes) {
-    return Object(external_this_lodash_["omit"])(Object(objectSpread["a" /* default */])({}, attributes, {
+    return Object(external_this_lodash_["omit"])(_objectSpread({}, attributes, {
       customFontSize: Object(external_this_lodash_["isFinite"])(attributes.fontSize) ? attributes.fontSize : undefined,
       customTextColor: attributes.textColor && '#' === attributes.textColor[0] ? attributes.textColor : undefined,
       customBackgroundColor: attributes.backgroundColor && '#' === attributes.backgroundColor[0] ? attributes.backgroundColor : undefined
@@ -2174,7 +3050,7 @@ var deprecated = [{
   }
 }, {
   supports: deprecated_supports,
-  attributes: Object(objectSpread["a" /* default */])({}, deprecated_blockAttributes, {
+  attributes: _objectSpread({}, deprecated_blockAttributes, {
     content: {
       type: 'string',
       source: 'html',
@@ -2209,6 +3085,9 @@ var external_this_wp_data_ = __webpack_require__(4);
 
 
 
+function edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -2263,7 +3142,7 @@ function useDropCapMinimumHeight(isDropCap, deps) {
     var element = querySelector(PARAGRAPH_DROP_CAP_SELECTOR);
 
     if (isDropCap && element) {
-      setMinimumHeight(getComputedStyle(element, 'first-letter').height);
+      setMinimumHeight(getComputedStyle(element, 'first-letter').lineHeight);
     } else if (minimumHeight) {
       setMinimumHeight(undefined);
     }
@@ -2286,6 +3165,7 @@ function ParagraphBlock(_ref2) {
       dropCap = attributes.dropCap,
       placeholder = attributes.placeholder,
       direction = attributes.direction;
+  var ref = Object(external_this_wp_element_["useRef"])();
   var dropCapMinimumHeight = useDropCapMinimumHeight(dropCap, [fontSize.size]);
 
   var _experimentalUseColo = Object(external_this_wp_blockEditor_["__experimentalUseColors"])([{
@@ -2299,12 +3179,14 @@ function ParagraphBlock(_ref2) {
       backgroundColor: true,
       textColor: true,
       fontSize: fontSize.size
-    }]
+    }],
+    colorDetector: {
+      targetRef: ref
+    }
   }, [fontSize.size]),
       TextColor = _experimentalUseColo.TextColor,
       BackgroundColor = _experimentalUseColo.BackgroundColor,
-      InspectorControlsColorPanel = _experimentalUseColo.InspectorControlsColorPanel,
-      ColorDetector = _experimentalUseColo.ColorDetector;
+      InspectorControlsColorPanel = _experimentalUseColo.InspectorControlsColorPanel;
 
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["AlignmentToolbar"], {
     value: align,
@@ -2321,7 +3203,7 @@ function ParagraphBlock(_ref2) {
       });
     }
   })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Text Settings')
+    title: Object(external_this_wp_i18n_["__"])('Text settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["FontSizePicker"], {
     value: fontSize.size,
     onChange: setFontSize
@@ -2334,9 +3216,8 @@ function ParagraphBlock(_ref2) {
       });
     },
     help: dropCap ? Object(external_this_wp_i18n_["__"])('Showing large initial letter.') : Object(external_this_wp_i18n_["__"])('Toggle to show a large initial letter.')
-  }))), InspectorControlsColorPanel, Object(external_this_wp_element_["createElement"])(BackgroundColor, null, Object(external_this_wp_element_["createElement"])(TextColor, null, Object(external_this_wp_element_["createElement"])(ColorDetector, {
-    querySelector: "[contenteditable=\"true\"]"
-  }), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
+  }))), InspectorControlsColorPanel, Object(external_this_wp_element_["createElement"])(BackgroundColor, null, Object(external_this_wp_element_["createElement"])(TextColor, null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
+    ref: ref,
     identifier: "content",
     tagName: "p",
     className: classnames_default()('wp-block-paragraph', className, (_classnames = {
@@ -2358,7 +3239,7 @@ function ParagraphBlock(_ref2) {
         return Object(external_this_wp_blocks_["createBlock"])(edit_name);
       }
 
-      return Object(external_this_wp_blocks_["createBlock"])(edit_name, Object(objectSpread["a" /* default */])({}, attributes, {
+      return Object(external_this_wp_blocks_["createBlock"])(edit_name, edit_objectSpread({}, attributes, {
         content: value
       }));
     },
@@ -2369,26 +3250,13 @@ function ParagraphBlock(_ref2) {
     } : undefined,
     "aria-label": content ? Object(external_this_wp_i18n_["__"])('Paragraph block') : Object(external_this_wp_i18n_["__"])('Empty block; start writing or type forward slash to choose a block'),
     placeholder: placeholder || Object(external_this_wp_i18n_["__"])('Start writing or type / to choose a block'),
-    __unstableEmbedURLOnPaste: true
+    __unstableEmbedURLOnPaste: true,
+    __unstableAllowPrefixTransformations: true
   }))));
 }
 
 var ParagraphEdit = Object(external_this_wp_compose_["compose"])([Object(external_this_wp_blockEditor_["withFontSizes"])('fontSize')])(ParagraphBlock);
 /* harmony default export */ var paragraph_edit = (ParagraphEdit);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/paragraph/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var paragraph_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M11 5v7H9.5C7.6 12 6 10.4 6 8.5S7.6 5 9.5 5H11m8-2H9.5C6.5 3 4 5.5 4 8.5S6.5 14 9.5 14H11v7h2V5h2v16h2V5h2V3z"
-})));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/paragraph/save.js
 
@@ -2527,13 +3395,18 @@ var transforms_transforms = {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/paragraph/index.js
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
+
 
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -2588,7 +3461,7 @@ var paragraph_name = paragraph_metadata.name;
 var paragraph_settings = {
   title: Object(external_this_wp_i18n_["__"])('Paragraph'),
   description: Object(external_this_wp_i18n_["__"])('Start with the building block of all narrative.'),
-  icon: paragraph_icon,
+  icon: library_paragraph,
   keywords: [Object(external_this_wp_i18n_["__"])('text')],
   example: {
     attributes: {
@@ -2600,6 +3473,14 @@ var paragraph_settings = {
   supports: {
     className: false,
     __unstablePasteTextInline: true
+  },
+  __experimentalLabel: function __experimentalLabel(attributes, _ref) {
+    var context = _ref.context;
+
+    if (context === 'accessibility') {
+      var content = attributes.content;
+      return Object(external_this_lodash_["isEmpty"])(content) ? Object(external_this_wp_i18n_["__"])('Empty') : content;
+    }
   },
   transforms: paragraph_transforms,
   deprecated: paragraph_deprecated,
@@ -2621,8 +3502,25 @@ var paragraph_settings = {
   save: save_save
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/image.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var image_image = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "m19 5v14h-14v-14h14m0-2h-14c-1.1 0-2 0.9-2 2v14c0 1.1 0.9 2 2 2h14c1.1 0 2-0.9 2-2v-14c0-1.1-0.9-2-2-2z"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "m14.14 11.86l-3 3.87-2.14-2.59-3 3.86h12l-3.86-5.14z"
+}));
+/* harmony default export */ var library_image = (image_image);
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(12);
+var esm_extends = __webpack_require__(11);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/image/deprecated.js
 
@@ -2802,31 +3700,31 @@ var deprecated_deprecated = [{
 /* harmony default export */ var image_deprecated = (deprecated_deprecated);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
-var classCallCheck = __webpack_require__(14);
+var classCallCheck = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__(13);
+var createClass = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(15);
+var possibleConstructorReturn = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
-var getPrototypeOf = __webpack_require__(16);
+var getPrototypeOf = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
 var assertThisInitialized = __webpack_require__(7);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(17);
+var inherits = __webpack_require__(16);
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(37);
+var external_this_wp_blob_ = __webpack_require__(39);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(25);
+var external_this_wp_url_ = __webpack_require__(26);
 
 // EXTERNAL MODULE: external {"this":["wp","viewport"]}
-var external_this_wp_viewport_ = __webpack_require__(51);
+var external_this_wp_viewport_ = __webpack_require__(54);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/icons.js
 
@@ -3315,11 +4213,11 @@ var DEFAULT_EMBED_BLOCK = 'core/embed';
 var WORDPRESS_EMBED_BLOCK = 'core-embed/wordpress';
 
 // EXTERNAL MODULE: ./node_modules/classnames/dedupe.js
-var dedupe = __webpack_require__(71);
+var dedupe = __webpack_require__(86);
 var dedupe_default = /*#__PURE__*/__webpack_require__.n(dedupe);
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(42);
+var memize = __webpack_require__(44);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/util.js
@@ -3327,6 +4225,9 @@ var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 
 
+function util_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function util_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { util_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { util_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * Internal dependencies
@@ -3440,7 +4341,7 @@ var util_createUpgradedEmbedBlock = function createUpgradedEmbedBlock(props, att
     if (util_isFromWordPress(html)) {
       // If this is not the WordPress embed block, transform it into one.
       if (WORDPRESS_EMBED_BLOCK !== name) {
-        return Object(external_this_wp_blocks_["createBlock"])(WORDPRESS_EMBED_BLOCK, Object(objectSpread["a" /* default */])({
+        return Object(external_this_wp_blocks_["createBlock"])(WORDPRESS_EMBED_BLOCK, util_objectSpread({
           url: url
         }, attributesFromPreview));
       }
@@ -3550,46 +4451,6 @@ var getAttributesFromPreview = memize_default()(function (preview, title, curren
   attributes.className = getClassNames(html, currentClassNames, isResponsive && allowResponsive);
   return attributes;
 });
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/image/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var image_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M0,0h24v24H0V0z",
-  fill: "none"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "m19 5v14h-14v-14h14m0-2h-14c-1.1 0-2 0.9-2 2v14c0 1.1 0.9 2 2 2h14c1.1 0 2-0.9 2-2v-14c0-1.1-0.9-2-2-2z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "m14.14 11.86l-3 3.87-2.14-2.59-3 3.86h12l-3.86-5.14z"
-})));
-var editImageIcon = Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  width: 20,
-  height: 20,
-  viewBox: "0 0 20 20"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: 11,
-  y: 3,
-  width: 7,
-  height: 5,
-  rx: 1
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: 2,
-  y: 12,
-  width: 7,
-  height: 5,
-  rx: 1
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M13,12h1a3,3,0,0,1-3,3v2a5,5,0,0,0,5-5h1L15,9Z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M4,8H3l2,3L7,8H6A3,3,0,0,1,9,5V3A5,5,0,0,0,4,8Z"
-}));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/image/constants.js
 var MIN_SIZE = 20;
@@ -3802,6 +4663,9 @@ function (_Component) {
 
 
 
+function image_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function image_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { image_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { image_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -3821,10 +4685,10 @@ function (_Component) {
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -3884,9 +4748,6 @@ function (_Component) {
     _this.onSelectImage = _this.onSelectImage.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.onSelectURL = _this.onSelectURL.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.updateImage = _this.updateImage.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.updateWidth = _this.updateWidth.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.updateHeight = _this.updateHeight.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.updateDimensions = _this.updateDimensions.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.onSetHref = _this.onSetHref.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.onSetTitle = _this.onSetTitle.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.getFilename = _this.getFilename.bind(Object(assertThisInitialized["a" /* default */])(_this));
@@ -4020,7 +4881,7 @@ function (_Component) {
         mediaAttributes.href = media.link;
       }
 
-      this.props.setAttributes(Object(objectSpread["a" /* default */])({}, mediaAttributes, additionalAttributes));
+      this.props.setAttributes(image_edit_objectSpread({}, mediaAttributes, {}, additionalAttributes));
     }
   }, {
     key: "onSelectURL",
@@ -4094,7 +4955,7 @@ function (_Component) {
         width: undefined,
         height: undefined
       } : {};
-      this.props.setAttributes(Object(objectSpread["a" /* default */])({}, extraUpdatedAttributes, {
+      this.props.setAttributes(image_edit_objectSpread({}, extraUpdatedAttributes, {
         align: nextAlign
       }));
     }
@@ -4114,34 +4975,6 @@ function (_Component) {
         height: undefined,
         sizeSlug: sizeSlug
       });
-    }
-  }, {
-    key: "updateWidth",
-    value: function updateWidth(width) {
-      this.props.setAttributes({
-        width: parseInt(width, 10)
-      });
-    }
-  }, {
-    key: "updateHeight",
-    value: function updateHeight(height) {
-      this.props.setAttributes({
-        height: parseInt(height, 10)
-      });
-    }
-  }, {
-    key: "updateDimensions",
-    value: function updateDimensions() {
-      var _this3 = this;
-
-      var width = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-      var height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
-      return function () {
-        _this3.props.setAttributes({
-          width: width,
-          height: height
-        });
-      };
     }
   }, {
     key: "getFilename",
@@ -4173,7 +5006,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       var _this$props3 = this.props,
           attributes = _this$props3.attributes,
@@ -4234,7 +5067,7 @@ function (_Component) {
       });
       var mediaPlaceholder = Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaPlaceholder"], {
         icon: Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockIcon"], {
-          icon: image_icon
+          icon: library_image
         }),
         className: className,
         labels: labels,
@@ -4266,61 +5099,30 @@ function (_Component) {
 
       var getInspectorControls = function getInspectorControls(imageWidth, imageHeight) {
         return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-          title: Object(external_this_wp_i18n_["__"])('Image Settings')
+          title: Object(external_this_wp_i18n_["__"])('Image settings')
         }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextareaControl"], {
           label: Object(external_this_wp_i18n_["__"])('Alt Text (Alternative Text)'),
           value: alt,
-          onChange: _this4.updateAlt,
+          onChange: _this3.updateAlt,
           help: Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
             href: "https://www.w3.org/WAI/tutorials/images/decision-tree"
           }, Object(external_this_wp_i18n_["__"])('Describe the purpose of the image')), Object(external_this_wp_i18n_["__"])('Leave empty if the image is purely decorative.'))
-        }), !Object(external_this_lodash_["isEmpty"])(imageSizeOptions) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], {
-          label: Object(external_this_wp_i18n_["__"])('Image Size'),
-          value: sizeSlug,
-          options: imageSizeOptions,
-          onChange: _this4.updateImage
-        }), isResizable && Object(external_this_wp_element_["createElement"])("div", {
-          className: "block-library-image__dimensions"
-        }, Object(external_this_wp_element_["createElement"])("p", {
-          className: "block-library-image__dimensions__row"
-        }, Object(external_this_wp_i18n_["__"])('Image Dimensions')), Object(external_this_wp_element_["createElement"])("div", {
-          className: "block-library-image__dimensions__row"
-        }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
-          type: "number",
-          className: "block-library-image__dimensions__width",
-          label: Object(external_this_wp_i18n_["__"])('Width'),
-          value: width || imageWidth || '',
-          min: 1,
-          onChange: _this4.updateWidth
-        }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
-          type: "number",
-          className: "block-library-image__dimensions__height",
-          label: Object(external_this_wp_i18n_["__"])('Height'),
-          value: height || imageHeight || '',
-          min: 1,
-          onChange: _this4.updateHeight
-        })), Object(external_this_wp_element_["createElement"])("div", {
-          className: "block-library-image__dimensions__row"
-        }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ButtonGroup"], {
-          "aria-label": Object(external_this_wp_i18n_["__"])('Image Size')
-        }, [25, 50, 75, 100].map(function (scale) {
-          var scaledWidth = Math.round(imageWidth * (scale / 100));
-          var scaledHeight = Math.round(imageHeight * (scale / 100));
-          var isCurrent = width === scaledWidth && height === scaledHeight;
-          return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-            key: scale,
-            isSmall: true,
-            isPrimary: isCurrent,
-            isPressed: isCurrent,
-            onClick: _this4.updateDimensions(scaledWidth, scaledHeight)
-          }, scale, "%");
-        })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-          isSmall: true,
-          onClick: _this4.updateDimensions()
-        }, Object(external_this_wp_i18n_["__"])('Reset')))))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorAdvancedControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
+        }), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalImageSizeControl"], {
+          onChangeImage: _this3.updateImage,
+          onChange: function onChange(value) {
+            return setAttributes(value);
+          },
+          slug: sizeSlug,
+          width: width,
+          height: height,
+          imageSizeOptions: imageSizeOptions,
+          isResizable: isResizable,
+          imageWidth: imageWidth,
+          imageHeight: imageHeight
+        }))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorAdvancedControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
           label: Object(external_this_wp_i18n_["__"])('Title Attribute'),
           value: title || '',
-          onChange: _this4.onSetTitle,
+          onChange: _this3.onSetTitle,
           help: Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_i18n_["__"])('Describe the role of this image on the page.'), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
             href: "https://www.w3.org/TR/html52/dom.html#the-title-attribute"
           }, Object(external_this_wp_i18n_["__"])('(Note: many devices and browsers do not display this text.)')))
@@ -4341,7 +5143,7 @@ function (_Component) {
             imageWidth = sizes.imageWidth,
             imageHeight = sizes.imageHeight;
 
-        var filename = _this4.getFilename(url);
+        var filename = _this3.getFilename(url);
 
         var defaultedAlt;
 
@@ -4360,9 +5162,9 @@ function (_Component) {
         Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])("img", {
           src: url,
           alt: defaultedAlt,
-          onClick: _this4.onImageClick,
+          onClick: _this3.onImageClick,
           onError: function onError() {
-            return _this4.onImageError(url);
+            return _this3.onImageError(url);
           }
         }), Object(external_this_wp_blob_["isBlobURL"])(url) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Spinner"], null))
         /* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
@@ -4567,6 +5369,10 @@ function image_save_save(_ref) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/image/transforms.js
 
 
+function transforms_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function transforms_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { transforms_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { transforms_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * WordPress dependencies
  */
@@ -4611,12 +5417,12 @@ var imageSchema = {
   }
 };
 
-var transforms_schema = function schema(_ref2) {
+var schema = function schema(_ref2) {
   var phrasingContentSchema = _ref2.phrasingContentSchema;
   return {
     figure: {
       require: ['img'],
-      children: Object(objectSpread["a" /* default */])({}, imageSchema, {
+      children: transforms_objectSpread({}, imageSchema, {
         a: {
           attributes: ['href', 'rel', 'target'],
           children: imageSchema
@@ -4635,7 +5441,7 @@ var image_transforms_transforms = {
     isMatch: function isMatch(node) {
       return node.nodeName === 'FIGURE' && !!node.querySelector('img');
     },
-    schema: transforms_schema,
+    schema: schema,
     transform: function transform(node) {
       // Search both figure and image classes. Alignment could be
       // set on either. ID is set on the image.
@@ -4740,10 +5546,10 @@ var image_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -4827,7 +5633,7 @@ var image_name = image_metadata.name;
 var image_settings = {
   title: Object(external_this_wp_i18n_["__"])('Image'),
   description: Object(external_this_wp_i18n_["__"])('Insert an image to make a visual statement.'),
-  icon: image_icon,
+  icon: library_image,
   keywords: ['img', // "img" is not translated as it is intended to reflect the HTML <img> tag.
   Object(external_this_wp_i18n_["__"])('photo')],
   example: {
@@ -4846,6 +5652,27 @@ var image_settings = {
     name: 'rounded',
     label: Object(external_this_wp_i18n_["_x"])('Rounded', 'block style')
   }],
+  __experimentalLabel: function __experimentalLabel(attributes, _ref) {
+    var context = _ref.context;
+
+    if (context === 'accessibility') {
+      var caption = attributes.caption,
+          alt = attributes.alt,
+          url = attributes.url;
+
+      if (!url) {
+        return Object(external_this_wp_i18n_["__"])('Empty');
+      }
+
+      if (!alt) {
+        return caption || '';
+      } // This is intended to be read by a screen reader.
+      // A period simply means a pause, no need to translate it.
+
+
+      return alt + (caption ? '. ' + caption : '');
+    }
+  },
   transforms: image_transforms,
   getEditWrapperProps: function getEditWrapperProps(attributes) {
     var align = attributes.align,
@@ -4862,6 +5689,21 @@ var image_settings = {
   save: image_save_save,
   deprecated: image_deprecated
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/heading.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var heading = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "-2 -2 24 24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M12.5 4v5.2h-5V4H5v13h2.5v-5.2h5V17H15V4"
+}));
+/* harmony default export */ var library_heading = (heading);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/heading/deprecated.js
 
@@ -5075,6 +5917,9 @@ function (_Component) {
 
 
 
+function heading_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function heading_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { heading_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { heading_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -5094,12 +5939,14 @@ function (_Component) {
 
 
 
+
 function HeadingEdit(_ref) {
   var attributes = _ref.attributes,
       setAttributes = _ref.setAttributes,
       mergeBlocks = _ref.mergeBlocks,
       onReplace = _ref.onReplace,
       className = _ref.className;
+  var ref = Object(external_this_wp_element_["useRef"])();
 
   var _experimentalUseColo = Object(external_this_wp_blockEditor_["__experimentalUseColors"])([{
     name: 'textColor',
@@ -5108,11 +5955,13 @@ function HeadingEdit(_ref) {
     contrastCheckers: {
       backgroundColor: true,
       textColor: true
+    },
+    colorDetector: {
+      targetRef: ref
     }
   }, []),
       TextColor = _experimentalUseColo.TextColor,
-      InspectorControlsColorPanel = _experimentalUseColo.InspectorControlsColorPanel,
-      ColorDetector = _experimentalUseColo.ColorDetector;
+      InspectorControlsColorPanel = _experimentalUseColo.InspectorControlsColorPanel;
 
   var align = attributes.align,
       content = attributes.content,
@@ -5136,7 +5985,7 @@ function HeadingEdit(_ref) {
       });
     }
   })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Heading Settings')
+    title: Object(external_this_wp_i18n_["__"])('Heading settings')
   }, Object(external_this_wp_element_["createElement"])("p", null, Object(external_this_wp_i18n_["__"])('Level')), Object(external_this_wp_element_["createElement"])(heading_toolbar, {
     isCollapsed: false,
     minLevel: 1,
@@ -5147,9 +5996,8 @@ function HeadingEdit(_ref) {
         level: newLevel
       });
     }
-  }))), InspectorControlsColorPanel, Object(external_this_wp_element_["createElement"])(TextColor, null, Object(external_this_wp_element_["createElement"])(ColorDetector, {
-    querySelector: "[contenteditable=\"true\"]"
-  }), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
+  }))), InspectorControlsColorPanel, Object(external_this_wp_element_["createElement"])(TextColor, null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
+    ref: ref,
     identifier: "content",
     tagName: tagName,
     value: content,
@@ -5164,7 +6012,7 @@ function HeadingEdit(_ref) {
         return Object(external_this_wp_blocks_["createBlock"])('core/paragraph');
       }
 
-      return Object(external_this_wp_blocks_["createBlock"])('core/heading', Object(objectSpread["a" /* default */])({}, attributes, {
+      return Object(external_this_wp_blocks_["createBlock"])('core/heading', heading_edit_objectSpread({}, attributes, {
         content: value
       }));
     },
@@ -5337,8 +6185,14 @@ var heading_transforms_transforms = {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/heading/index.js
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
+
 
 /**
  * Internal dependencies
@@ -5381,7 +6235,7 @@ var heading_name = heading_metadata.name;
 var heading_settings = {
   title: Object(external_this_wp_i18n_["__"])('Heading'),
   description: Object(external_this_wp_i18n_["__"])('Introduce new sections and organize content to help visitors (and search engines) understand the structure of your content.'),
-  icon: 'heading',
+  icon: library_heading,
   keywords: [Object(external_this_wp_i18n_["__"])('title'), Object(external_this_wp_i18n_["__"])('subtitle')],
   supports: {
     className: false,
@@ -5392,6 +6246,19 @@ var heading_settings = {
     attributes: {
       content: Object(external_this_wp_i18n_["__"])('Code is Poetry'),
       level: 2
+    }
+  },
+  __experimentalLabel: function __experimentalLabel(attributes, _ref) {
+    var context = _ref.context;
+
+    if (context === 'accessibility') {
+      var content = attributes.content,
+          level = attributes.level;
+      return Object(external_this_lodash_["isEmpty"])(content) ? Object(external_this_wp_i18n_["sprintf"])(
+      /* translators: accessibility text. %s: heading level. */
+      Object(external_this_wp_i18n_["__"])('Level %s. Empty.'), level) : Object(external_this_wp_i18n_["sprintf"])(
+      /* translators: accessibility text. 1: heading level. 2: heading content. */
+      Object(external_this_wp_i18n_["__"])('Level %1$s. %2$s'), level, content);
     }
   },
   transforms: heading_transforms,
@@ -5405,9 +6272,28 @@ var heading_settings = {
   save: heading_save_save
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/quote.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var quote = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M18.62 18h-5.24l2-4H13V6h8v7.24L18.62 18zm-2-2h.76L19 12.76V8h-4v4h3.62l-2 4zm-8 2H3.38l2-4H3V6h8v7.24L8.62 18zm-2-2h.76L9 12.76V8H5v4h3.62l-2 4z"
+}));
+/* harmony default export */ var library_quote = (quote);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/quote/deprecated.js
 
 
+
+function deprecated_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function deprecated_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { deprecated_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { deprecated_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -5456,7 +6342,7 @@ var quote_deprecated_deprecated = [{
     }));
   }
 }, {
-  attributes: Object(objectSpread["a" /* default */])({}, quote_deprecated_blockAttributes, {
+  attributes: deprecated_objectSpread({}, quote_deprecated_blockAttributes, {
     style: {
       type: 'number',
       default: 1
@@ -5464,7 +6350,7 @@ var quote_deprecated_deprecated = [{
   }),
   migrate: function migrate(attributes) {
     if (attributes.style === 2) {
-      return Object(objectSpread["a" /* default */])({}, Object(external_this_lodash_["omit"])(attributes, ['style']), {
+      return deprecated_objectSpread({}, Object(external_this_lodash_["omit"])(attributes, ['style']), {
         className: attributes.className ? attributes.className + ' is-style-large' : 'is-style-large'
       });
     }
@@ -5491,7 +6377,7 @@ var quote_deprecated_deprecated = [{
     }));
   }
 }, {
-  attributes: Object(objectSpread["a" /* default */])({}, quote_deprecated_blockAttributes, {
+  attributes: deprecated_objectSpread({}, quote_deprecated_blockAttributes, {
     citation: {
       type: 'string',
       source: 'html',
@@ -5529,6 +6415,9 @@ var quote_deprecated_deprecated = [{
 
 
 
+function quote_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function quote_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { quote_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { quote_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -5582,7 +6471,7 @@ function QuoteEdit(_ref) {
     Object(external_this_wp_i18n_["__"])('Write quote…'),
     onReplace: onReplace,
     onSplit: function onSplit(piece) {
-      return Object(external_this_wp_blocks_["createBlock"])('core/quote', Object(objectSpread["a" /* default */])({}, attributes, {
+      return Object(external_this_wp_blocks_["createBlock"])('core/quote', quote_edit_objectSpread({}, attributes, {
         value: piece
       }));
     },
@@ -5603,23 +6492,6 @@ function QuoteEdit(_ref) {
     className: "wp-block-quote__citation"
   })));
 }
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/quote/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var quote_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M18.62 18h-5.24l2-4H13V6h8v7.24L18.62 18zm-2-2h.76L19 12.76V8h-4v4h3.62l-2 4zm-8 2H3.38l2-4H3V6h8v7.24L8.62 18zm-2-2h.76L9 12.76V8H5v4h3.62l-2 4z"
-})));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/quote/save.js
 
@@ -5652,7 +6524,7 @@ function quote_save_save(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(20);
+var objectWithoutProperties = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","richText"]}
 var external_this_wp_richText_ = __webpack_require__(24);
@@ -5661,6 +6533,10 @@ var external_this_wp_richText_ = __webpack_require__(24);
 
 
 
+
+function quote_transforms_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function quote_transforms_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { quote_transforms_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { quote_transforms_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * WordPress dependencies
@@ -5819,7 +6695,7 @@ var quote_transforms_transforms = {
       }
 
       var quotePieces = pieces.slice(1);
-      var quoteBlock = Object(external_this_wp_blocks_["createBlock"])('core/quote', Object(objectSpread["a" /* default */])({}, attrs, {
+      var quoteBlock = Object(external_this_wp_blocks_["createBlock"])('core/quote', quote_transforms_objectSpread({}, attrs, {
         citation: citation,
         value: Object(external_this_wp_richText_["toHTMLString"])({
           value: quotePieces.length ? Object(external_this_wp_richText_["join"])(pieces.slice(1), "\u2028") : Object(external_this_wp_richText_["create"])(),
@@ -5846,14 +6722,18 @@ var quote_transforms_transforms = {
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/quote/index.js
 
 
+function quote_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function quote_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { quote_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { quote_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -5886,7 +6766,7 @@ var quote_name = quote_metadata.name;
 var quote_settings = {
   title: Object(external_this_wp_i18n_["__"])('Quote'),
   description: Object(external_this_wp_i18n_["__"])('Give quoted text visual emphasis. "In quoting others, we cite ourselves." — Julio Cortázar'),
-  icon: quote_icon,
+  icon: library_quote,
   keywords: [Object(external_this_wp_i18n_["__"])('blockquote'), Object(external_this_wp_i18n_["__"])('cite')],
   example: {
     attributes: {
@@ -5917,18 +6797,33 @@ var quote_settings = {
     }
 
     if (!value || value === '<p></p>') {
-      return Object(objectSpread["a" /* default */])({}, attributes, {
+      return quote_objectSpread({}, attributes, {
         citation: citation
       });
     }
 
-    return Object(objectSpread["a" /* default */])({}, attributes, {
+    return quote_objectSpread({}, attributes, {
       value: attributes.value + value,
       citation: citation
     });
   },
   deprecated: quote_deprecated
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/gallery.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var gallery = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M20 4v12H8V4h12m0-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 9.67l1.69 2.26 2.48-3.1L19 15H9zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"
+}));
+/* harmony default export */ var library_gallery = (gallery);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/shared.js
 /**
@@ -5955,6 +6850,10 @@ var shared_pickRelevantMediaFiles = function pickRelevantMediaFiles(image) {
 
 
 
+function gallery_deprecated_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function gallery_deprecated_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { gallery_deprecated_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { gallery_deprecated_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * External dependencies
  */
@@ -5971,6 +6870,134 @@ var shared_pickRelevantMediaFiles = function pickRelevantMediaFiles(image) {
 
 
 var gallery_deprecated_deprecated = [{
+  attributes: {
+    images: {
+      type: 'array',
+      default: [],
+      source: 'query',
+      selector: '.blocks-gallery-item',
+      query: {
+        url: {
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'src'
+        },
+        fullUrl: {
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'data-full-url'
+        },
+        link: {
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'data-link'
+        },
+        alt: {
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'alt',
+          default: ''
+        },
+        id: {
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'data-id'
+        },
+        caption: {
+          type: 'string',
+          source: 'html',
+          selector: '.blocks-gallery-item__caption'
+        }
+      }
+    },
+    ids: {
+      type: 'array',
+      default: []
+    },
+    columns: {
+      type: 'number'
+    },
+    caption: {
+      type: 'string',
+      source: 'html',
+      selector: '.blocks-gallery-caption'
+    },
+    imageCrop: {
+      type: 'boolean',
+      default: true
+    },
+    linkTo: {
+      type: 'string',
+      default: 'none'
+    }
+  },
+  supports: {
+    align: true
+  },
+  isEligible: function isEligible(_ref) {
+    var ids = _ref.ids;
+    return ids && ids.some(function (id) {
+      return typeof id === 'string';
+    });
+  },
+  migrate: function migrate(attributes) {
+    return gallery_deprecated_objectSpread({}, attributes, {
+      ids: Object(external_this_lodash_["map"])(attributes.ids, function (id) {
+        var parsedId = parseInt(id, 10);
+        return Number.isInteger(parsedId) ? parsedId : null;
+      })
+    });
+  },
+  save: function save(_ref2) {
+    var attributes = _ref2.attributes;
+    var images = attributes.images,
+        _attributes$columns = attributes.columns,
+        columns = _attributes$columns === void 0 ? defaultColumnsNumber(attributes) : _attributes$columns,
+        imageCrop = attributes.imageCrop,
+        caption = attributes.caption,
+        linkTo = attributes.linkTo;
+    return Object(external_this_wp_element_["createElement"])("figure", {
+      className: "columns-".concat(columns, " ").concat(imageCrop ? 'is-cropped' : '')
+    }, Object(external_this_wp_element_["createElement"])("ul", {
+      className: "blocks-gallery-grid"
+    }, images.map(function (image) {
+      var href;
+
+      switch (linkTo) {
+        case 'media':
+          href = image.fullUrl || image.url;
+          break;
+
+        case 'attachment':
+          href = image.link;
+          break;
+      }
+
+      var img = Object(external_this_wp_element_["createElement"])("img", {
+        src: image.url,
+        alt: image.alt,
+        "data-id": image.id,
+        "data-full-url": image.fullUrl,
+        "data-link": image.link,
+        className: image.id ? "wp-image-".concat(image.id) : null
+      });
+      return Object(external_this_wp_element_["createElement"])("li", {
+        key: image.id || image.url,
+        className: "blocks-gallery-item"
+      }, Object(external_this_wp_element_["createElement"])("figure", null, href ? Object(external_this_wp_element_["createElement"])("a", {
+        href: href
+      }, img) : img, !external_this_wp_blockEditor_["RichText"].isEmpty(image.caption) && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
+        tagName: "figcaption",
+        className: "blocks-gallery-item__caption",
+        value: image.caption
+      })));
+    })), !external_this_wp_blockEditor_["RichText"].isEmpty(caption) && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
+      tagName: "figcaption",
+      className: "blocks-gallery-caption",
+      value: caption
+    }));
+  }
+}, {
   attributes: {
     images: {
       type: 'array',
@@ -6027,11 +7054,14 @@ var gallery_deprecated_deprecated = [{
       default: 'none'
     }
   },
-  save: function save(_ref) {
-    var attributes = _ref.attributes;
+  supports: {
+    align: true
+  },
+  save: function save(_ref3) {
+    var attributes = _ref3.attributes;
     var images = attributes.images,
-        _attributes$columns = attributes.columns,
-        columns = _attributes$columns === void 0 ? defaultColumnsNumber(attributes) : _attributes$columns,
+        _attributes$columns2 = attributes.columns,
+        columns = _attributes$columns2 === void 0 ? defaultColumnsNumber(attributes) : _attributes$columns2,
         imageCrop = attributes.imageCrop,
         linkTo = attributes.linkTo;
     return Object(external_this_wp_element_["createElement"])("ul", {
@@ -6116,9 +7146,9 @@ var gallery_deprecated_deprecated = [{
       default: 'none'
     }
   },
-  isEligible: function isEligible(_ref2) {
-    var images = _ref2.images,
-        ids = _ref2.ids;
+  isEligible: function isEligible(_ref4) {
+    var images = _ref4.images,
+        ids = _ref4.ids;
     return images && images.length > 0 && (!ids && images || ids && images && ids.length !== images.length || Object(external_this_lodash_["some"])(images, function (id, index) {
       if (!id && ids[index] !== null) {
         return true;
@@ -6128,9 +7158,9 @@ var gallery_deprecated_deprecated = [{
     }));
   },
   migrate: function migrate(attributes) {
-    return Object(objectSpread["a" /* default */])({}, attributes, {
-      ids: Object(external_this_lodash_["map"])(attributes.images, function (_ref3) {
-        var id = _ref3.id;
+    return gallery_deprecated_objectSpread({}, attributes, {
+      ids: Object(external_this_lodash_["map"])(attributes.images, function (_ref5) {
+        var id = _ref5.id;
 
         if (!id) {
           return null;
@@ -6140,11 +7170,14 @@ var gallery_deprecated_deprecated = [{
       })
     });
   },
-  save: function save(_ref4) {
-    var attributes = _ref4.attributes;
+  supports: {
+    align: true
+  },
+  save: function save(_ref6) {
+    var attributes = _ref6.attributes;
     var images = attributes.images,
-        _attributes$columns2 = attributes.columns,
-        columns = _attributes$columns2 === void 0 ? defaultColumnsNumber(attributes) : _attributes$columns2,
+        _attributes$columns3 = attributes.columns,
+        columns = _attributes$columns3 === void 0 ? defaultColumnsNumber(attributes) : _attributes$columns3,
         imageCrop = attributes.imageCrop,
         linkTo = attributes.linkTo;
     return Object(external_this_wp_element_["createElement"])("ul", {
@@ -6219,11 +7252,14 @@ var gallery_deprecated_deprecated = [{
       default: 'none'
     }
   },
-  save: function save(_ref5) {
-    var attributes = _ref5.attributes;
+  supports: {
+    align: true
+  },
+  save: function save(_ref7) {
+    var attributes = _ref7.attributes;
     var images = attributes.images,
-        _attributes$columns3 = attributes.columns,
-        columns = _attributes$columns3 === void 0 ? defaultColumnsNumber(attributes) : _attributes$columns3,
+        _attributes$columns4 = attributes.columns,
+        columns = _attributes$columns4 === void 0 ? defaultColumnsNumber(attributes) : _attributes$columns4,
         align = attributes.align,
         imageCrop = attributes.imageCrop,
         linkTo = attributes.linkTo;
@@ -6262,6 +7298,21 @@ var gallery_deprecated_deprecated = [{
 }];
 /* harmony default export */ var gallery_deprecated = (gallery_deprecated_deprecated);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/shared-icon.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+var sharedIcon = Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockIcon"], {
+  icon: library_gallery
+});
+
+// EXTERNAL MODULE: external {"this":["wp","keycodes"]}
+var external_this_wp_keycodes_ = __webpack_require__(20);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/icons.js
 
 
@@ -6269,15 +7320,6 @@ var gallery_deprecated_deprecated = [{
  * WordPress dependencies
  */
 
-var icons_icon = Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["G"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M20 4v12H8V4h12m0-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 9.67l1.69 2.26 2.48-3.1L19 15H9zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"
-})));
 var leftArrow = Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
   width: "18",
   height: "18",
@@ -6295,25 +7337,6 @@ var rightArrow = Object(external_this_wp_element_["createElement"])(external_thi
   d: "M13 8.7L7.4 3L6 4.5L10.2 8.7L6 12.9L7.4 14.4L13 8.7Z"
 }));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/shared-icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-var sharedIcon = Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockIcon"], {
-  icon: icons_icon
-});
-
-// EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(19);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/gallery-image.js
 
 
@@ -6330,6 +7353,7 @@ var external_this_wp_keycodes_ = __webpack_require__(19);
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -6411,9 +7435,12 @@ function (_Component) {
       var _this$props = this.props,
           isSelected = _this$props.isSelected,
           image = _this$props.image,
-          url = _this$props.url;
+          url = _this$props.url,
+          __unstableMarkNextChangeAsNotPersistent = _this$props.__unstableMarkNextChangeAsNotPersistent;
 
       if (image && !url) {
+        __unstableMarkNextChangeAsNotPersistent();
+
         this.props.setAttributes({
           url: image.source_url,
           alt: image.alt_text
@@ -6526,7 +7553,7 @@ function (_Component) {
   return GalleryImage;
 }(external_this_wp_element_["Component"]);
 
-/* harmony default export */ var gallery_image = (Object(external_this_wp_data_["withSelect"])(function (select, ownProps) {
+/* harmony default export */ var gallery_image = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select, ownProps) {
   var _select = select('core'),
       getMedia = _select.getMedia;
 
@@ -6534,7 +7561,14 @@ function (_Component) {
   return {
     image: id ? getMedia(id) : null
   };
-})(gallery_image_GalleryImage));
+}), Object(external_this_wp_data_["withDispatch"])(function (dispatch) {
+  var _dispatch = dispatch('core/block-editor'),
+      __unstableMarkNextChangeAsNotPersistent = _dispatch.__unstableMarkNextChangeAsNotPersistent;
+
+  return {
+    __unstableMarkNextChangeAsNotPersistent: __unstableMarkNextChangeAsNotPersistent
+  };
+})])(gallery_image_GalleryImage));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/gallery.js
 
@@ -6621,7 +7655,7 @@ var gallery_Gallery = function Gallery(props) {
     inlineToolbar: true
   }));
 };
-/* harmony default export */ var gallery = (gallery_Gallery);
+/* harmony default export */ var gallery_gallery = (gallery_Gallery);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/edit.js
 
@@ -6635,6 +7669,9 @@ var gallery_Gallery = function Gallery(props) {
 
 
 
+function gallery_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function gallery_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { gallery_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { gallery_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -6683,6 +7720,12 @@ var MOBILE_CONTROL_PROPS = external_this_wp_element_["Platform"].select({
     separatorType: 'fullWidth'
   }
 });
+var MOBILE_CONTROL_PROPS_SEPARATOR_NONE = external_this_wp_element_["Platform"].select({
+  web: {},
+  native: {
+    separatorType: 'none'
+  }
+});
 
 var edit_GalleryEdit =
 /*#__PURE__*/
@@ -6725,7 +7768,7 @@ function (_Component) {
       }
 
       if (attributes.images) {
-        attributes = Object(objectSpread["a" /* default */])({}, attributes, {
+        attributes = gallery_edit_objectSpread({}, attributes, {
           ids: Object(external_this_lodash_["map"])(attributes.images, 'id')
         });
       }
@@ -6848,7 +7891,7 @@ function (_Component) {
       });
       this.setAttributes({
         images: newImages.map(function (newImage) {
-          return Object(objectSpread["a" /* default */])({}, shared_pickRelevantMediaFiles(newImage, sizeSlug), {
+          return gallery_edit_objectSpread({}, shared_pickRelevantMediaFiles(newImage, sizeSlug), {
             caption: _this6.selectCaption(newImage, images, attachmentCaptions)
           });
         }),
@@ -6906,7 +7949,7 @@ function (_Component) {
       }
 
       setAttributes({
-        images: [].concat(Object(toConsumableArray["a" /* default */])(images.slice(0, index)), [Object(objectSpread["a" /* default */])({}, images[index], attributes)], Object(toConsumableArray["a" /* default */])(images.slice(index + 1)))
+        images: [].concat(Object(toConsumableArray["a" /* default */])(images.slice(0, index)), [gallery_edit_objectSpread({}, images[index], {}, attributes)], Object(toConsumableArray["a" /* default */])(images.slice(index + 1)))
       });
     }
   }, {
@@ -6941,7 +7984,7 @@ function (_Component) {
         }
 
         var url = Object(external_this_lodash_["get"])(resizedImages, [parseInt(image.id, 10), sizeSlug]);
-        return Object(objectSpread["a" /* default */])({}, image, url && {
+        return gallery_edit_objectSpread({}, image, {}, url && {
           url: url
         });
       });
@@ -7032,8 +8075,11 @@ function (_Component) {
       }
 
       var imageSizeOptions = this.getImagesSizeOptions();
+      var shouldShowSizeOptions = hasImages && !Object(external_this_lodash_["isEmpty"])(imageSizeOptions); // This is needed to fix a separator fence-post issue on mobile.
+
+      var mobileLinkToProps = shouldShowSizeOptions ? MOBILE_CONTROL_PROPS : MOBILE_CONTROL_PROPS_SEPARATOR_NONE;
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Gallery Settings')
+        title: Object(external_this_wp_i18n_["__"])('Gallery settings')
       }, images.length > 1 && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["RangeControl"], Object(esm_extends["a" /* default */])({
         label: Object(external_this_wp_i18n_["__"])('Columns')
       }, MOBILE_CONTROL_PROPS, {
@@ -7050,16 +8096,17 @@ function (_Component) {
         help: this.getImageCropHelp
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], Object(esm_extends["a" /* default */])({
         label: Object(external_this_wp_i18n_["__"])('Link To')
-      }, MOBILE_CONTROL_PROPS, {
+      }, mobileLinkToProps, {
         value: linkTo,
         onChange: this.setLinkTo,
         options: linkOptions
-      })), hasImages && !Object(external_this_lodash_["isEmpty"])(imageSizeOptions) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Images Size'),
+      })), shouldShowSizeOptions && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], Object(esm_extends["a" /* default */])({
+        label: Object(external_this_wp_i18n_["__"])('Images Size')
+      }, MOBILE_CONTROL_PROPS_SEPARATOR_NONE, {
         value: sizeSlug,
         options: imageSizeOptions,
         onChange: this.updateImagesSize
-      }))), noticeUI, Object(external_this_wp_element_["createElement"])(gallery, Object(esm_extends["a" /* default */])({}, this.props, {
+      })))), noticeUI, Object(external_this_wp_element_["createElement"])(gallery_gallery, Object(esm_extends["a" /* default */])({}, this.props, {
         selectedImage: this.state.selectedImage,
         mediaPlaceholder: mediaPlaceholder,
         onMoveBackward: this.onMoveBackward,
@@ -7101,9 +8148,9 @@ function (_Component) {
       var sizes = Object(external_this_lodash_["reduce"])(imageSizes, function (currentSizes, size) {
         var defaultUrl = Object(external_this_lodash_["get"])(image, ['sizes', size.slug, 'url']);
         var mediaDetailsUrl = Object(external_this_lodash_["get"])(image, ['media_details', 'sizes', size.slug, 'source_url']);
-        return Object(objectSpread["a" /* default */])({}, currentSizes, Object(defineProperty["a" /* default */])({}, size.slug, defaultUrl || mediaDetailsUrl));
+        return gallery_edit_objectSpread({}, currentSizes, Object(defineProperty["a" /* default */])({}, size.slug, defaultUrl || mediaDetailsUrl));
       }, {});
-      return Object(objectSpread["a" /* default */])({}, currentResizedImages, Object(defineProperty["a" /* default */])({}, parseInt(id, 10), sizes));
+      return gallery_edit_objectSpread({}, currentResizedImages, Object(defineProperty["a" /* default */])({}, parseInt(id, 10), sizes));
     }, {});
   }
 
@@ -7339,10 +8386,10 @@ var gallery_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -7391,6 +8438,9 @@ var gallery_metadata = {
     },
     ids: {
       type: "array",
+      items: {
+        type: "number"
+      },
       "default": []
     },
     columns: {
@@ -7424,7 +8474,7 @@ var gallery_name = gallery_metadata.name;
 var gallery_settings = {
   title: Object(external_this_wp_i18n_["__"])('Gallery'),
   description: Object(external_this_wp_i18n_["__"])('Display multiple images in a rich gallery.'),
-  icon: icons_icon,
+  icon: library_gallery,
   keywords: [Object(external_this_wp_i18n_["__"])('images'), Object(external_this_wp_i18n_["__"])('photos')],
   example: {
     attributes: {
@@ -7445,8 +8495,23 @@ var gallery_settings = {
   deprecated: gallery_deprecated
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/archive.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var archive = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M21 6V20C21 21.1 20.1 22 19 22H5C3.89 22 3 21.1 3 20L3.01 6C3.01 4.9 3.89 4 5 4H6V2H8V4H16V2H18V4H19C20.1 4 21 4.9 21 6ZM5 8H19V6H5V8ZM19 20V10H5V20H19ZM11 12H17V14H11V12ZM17 16H11V18H17V16ZM7 12H9V14H7V12ZM9 18V16H7V18H9Z"
+}));
+/* harmony default export */ var library_archive = (archive);
+
 // EXTERNAL MODULE: external {"this":["wp","serverSideRender"]}
-var external_this_wp_serverSideRender_ = __webpack_require__(60);
+var external_this_wp_serverSideRender_ = __webpack_require__(65);
 var external_this_wp_serverSideRender_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_serverSideRender_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/archives/edit.js
@@ -7465,7 +8530,7 @@ function ArchivesEdit(_ref) {
   var showPostCounts = attributes.showPostCounts,
       displayAsDropdown = attributes.displayAsDropdown;
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Archives Settings')
+    title: Object(external_this_wp_i18n_["__"])('Archives settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
     label: Object(external_this_wp_i18n_["__"])('Display as Dropdown'),
     checked: displayAsDropdown,
@@ -7488,36 +8553,22 @@ function ArchivesEdit(_ref) {
   })));
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/archives/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var archives_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M21 6V20C21 21.1 20.1 22 19 22H5C3.89 22 3 21.1 3 20L3.01 6C3.01 4.9 3.89 4 5 4H6V2H8V4H16V2H18V4H19C20.1 4 21 4.9 21 6ZM5 8H19V6H5V8ZM19 20V10H5V20H19ZM11 12H17V14H11V12ZM17 16H11V18H17V16ZM7 12H9V14H7V12ZM9 18V16H7V18H9Z"
-})));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/archives/index.js
 /**
  * WordPress dependencies
  */
+
 
 /**
  * Internal dependencies
  */
 
 
-
 var archives_name = 'core/archives';
 var archives_settings = {
   title: Object(external_this_wp_i18n_["__"])('Archives'),
   description: Object(external_this_wp_i18n_["__"])('Display a monthly archive of your posts.'),
-  icon: archives_icon,
+  icon: library_archive,
   category: 'widgets',
   supports: {
     align: true,
@@ -7525,6 +8576,21 @@ var archives_settings = {
   },
   edit: ArchivesEdit
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/audio.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var audio = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "m12 3l0.01 10.55c-0.59-0.34-1.27-0.55-2-0.55-2.22 0-4.01 1.79-4.01 4s1.79 4 4.01 4 3.99-1.79 3.99-4v-10h4v-4h-6zm-1.99 16c-1.1 0-2-0.9-2-2s0.9-2 2-2 2 0.9 2 2-0.9 2-2 2z"
+}));
+/* harmony default export */ var library_audio = (audio);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/audio/deprecated.js
 
@@ -7591,23 +8657,6 @@ var archives_settings = {
   }
 }]);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/audio/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var audio_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M0,0h24v24H0V0z",
-  fill: "none"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "m12 3l0.01 10.55c-0.59-0.34-1.27-0.55-2-0.55-2.22 0-4.01 1.79-4.01 4s1.79 4 4.01 4 3.99-1.79 3.99-4v-10h4v-4h-6zm-1.99 16c-1.1 0-2-0.9-2-2s0.9-2 2-2 2 0.9 2 2-0.9 2-2 2z"
-})));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/audio/edit.js
 
 
@@ -7629,10 +8678,6 @@ var archives_settings = {
 
 
 
-/**
- * Internal dependencies
- */
-
 
 /**
  * Internal dependencies
@@ -7651,12 +8696,7 @@ function (_Component) {
 
     Object(classCallCheck["a" /* default */])(this, AudioEdit);
 
-    _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(AudioEdit).apply(this, arguments)); // edit component has its own src in the state so it can be edited
-    // without setting the actual value outside of the edit UI
-
-    _this.state = {
-      editing: !_this.props.attributes.src
-    };
+    _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(AudioEdit).apply(this, arguments));
     _this.toggleAttribute = _this.toggleAttribute.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.onSelectURL = _this.onSelectURL.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.onUploadError = _this.onUploadError.bind(Object(assertThisInitialized["a" /* default */])(_this));
@@ -7666,8 +8706,6 @@ function (_Component) {
   Object(createClass["a" /* default */])(AudioEdit, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
-
       var _this$props = this.props,
           attributes = _this$props.attributes,
           mediaUpload = _this$props.mediaUpload,
@@ -7699,11 +8737,6 @@ function (_Component) {
                 src: undefined,
                 id: undefined
               });
-
-              _this2.setState({
-                editing: true
-              });
-
               noticeOperations.createErrorNotice(e);
             },
             allowedTypes: audio_edit_ALLOWED_MEDIA_TYPES
@@ -7714,10 +8747,10 @@ function (_Component) {
   }, {
     key: "toggleAttribute",
     value: function toggleAttribute(attribute) {
-      var _this3 = this;
+      var _this2 = this;
 
       return function (newValue) {
-        _this3.props.setAttributes(Object(defineProperty["a" /* default */])({}, attribute, newValue));
+        _this2.props.setAttributes(Object(defineProperty["a" /* default */])({}, attribute, newValue));
       };
     }
   }, {
@@ -7747,10 +8780,6 @@ function (_Component) {
           id: undefined
         });
       }
-
-      this.setState({
-        editing: false
-      });
     }
   }, {
     key: "onUploadError",
@@ -7767,8 +8796,6 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
-
       var _this$props$attribute = this.props.attributes,
           autoplay = _this$props$attribute.autoplay,
           caption = _this$props$attribute.caption,
@@ -7780,13 +8807,6 @@ function (_Component) {
           isSelected = _this$props3.isSelected,
           className = _this$props3.className,
           noticeUI = _this$props3.noticeUI;
-      var editing = this.state.editing;
-
-      var switchToEditing = function switchToEditing() {
-        _this4.setState({
-          editing: true
-        });
-      };
 
       var onSelectAudio = function onSelectAudio(media) {
         if (!media || !media.url) {
@@ -7796,7 +8816,6 @@ function (_Component) {
             src: undefined,
             id: undefined
           });
-          switchToEditing();
           return;
         } // sets the block's attribute and updates the edit component from the
         // selected media, then switches off the editing UI
@@ -7806,17 +8825,12 @@ function (_Component) {
           src: media.url,
           id: media.id
         });
-
-        _this4.setState({
-          src: media.url,
-          editing: false
-        });
       };
 
-      if (editing) {
+      if (!src) {
         return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaPlaceholder"], {
           icon: Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockIcon"], {
-            icon: audio_icon
+            icon: library_audio
           }),
           className: className,
           onSelect: onSelectAudio,
@@ -7829,13 +8843,15 @@ function (_Component) {
         });
       }
 
-      return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-        className: "components-toolbar__control",
-        label: Object(external_this_wp_i18n_["__"])('Edit audio'),
-        onClick: switchToEditing,
-        icon: "edit"
-      }))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Audio Settings')
+      return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaReplaceFlow"], {
+        mediaURL: src,
+        allowedTypes: audio_edit_ALLOWED_MEDIA_TYPES,
+        accept: "audio/*",
+        onSelect: onSelectAudio,
+        onSelectURL: this.onSelectURL,
+        onError: this.onUploadError
+      })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
+        title: Object(external_this_wp_i18n_["__"])('Audio settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
         label: Object(external_this_wp_i18n_["__"])('Autoplay'),
         onChange: this.toggleAttribute('autoplay'),
@@ -7988,10 +9004,10 @@ var audio_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -8041,7 +9057,7 @@ var audio_settings = {
   title: Object(external_this_wp_i18n_["__"])('Audio'),
   description: Object(external_this_wp_i18n_["__"])('Embed a simple audio player.'),
   keywords: [Object(external_this_wp_i18n_["__"])('music'), Object(external_this_wp_i18n_["__"])('sound'), Object(external_this_wp_i18n_["__"])('podcast'), Object(external_this_wp_i18n_["__"])('recording')],
-  icon: audio_icon,
+  icon: library_audio,
   transforms: audio_transforms,
   deprecated: audio_deprecated,
   supports: {
@@ -8051,10 +9067,28 @@ var audio_settings = {
   save: audio_save_save
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/button.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var button_button = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M19 6H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H5V8h14v8z"
+}));
+/* harmony default export */ var library_button = (button_button);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/button/deprecated.js
 
 
 
+function button_deprecated_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function button_deprecated_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { button_deprecated_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { button_deprecated_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -8068,7 +9102,7 @@ var audio_settings = {
 
 
 var deprecated_colorsMigration = function colorsMigration(attributes) {
-  return Object(external_this_lodash_["omit"])(Object(objectSpread["a" /* default */])({}, attributes, {
+  return Object(external_this_lodash_["omit"])(button_deprecated_objectSpread({}, attributes, {
     customTextColor: attributes.textColor && '#' === attributes.textColor[0] ? attributes.textColor : undefined,
     customBackgroundColor: attributes.color && '#' === attributes.color[0] ? attributes.color : undefined
   }), ['color', 'textColor']);
@@ -8094,7 +9128,7 @@ var button_deprecated_blockAttributes = {
   }
 };
 var button_deprecated_deprecated = [{
-  attributes: Object(objectSpread["a" /* default */])({}, button_deprecated_blockAttributes, {
+  attributes: button_deprecated_objectSpread({}, button_deprecated_blockAttributes, {
     align: {
       type: 'string',
       default: 'none'
@@ -8137,7 +9171,7 @@ var button_deprecated_deprecated = [{
       newClassName = newClassName.replace(/is-style-squared[\s]?/, '').trim();
     }
 
-    return Object(objectSpread["a" /* default */])({}, attributes, {
+    return button_deprecated_objectSpread({}, attributes, {
       className: newClassName ? newClassName : undefined,
       borderRadius: 0
     });
@@ -8176,7 +9210,7 @@ var button_deprecated_deprecated = [{
     }));
   }
 }, {
-  attributes: Object(objectSpread["a" /* default */])({}, button_deprecated_blockAttributes, {
+  attributes: button_deprecated_objectSpread({}, button_deprecated_blockAttributes, {
     align: {
       type: 'string',
       default: 'none'
@@ -8225,7 +9259,7 @@ var button_deprecated_deprecated = [{
   },
   migrate: deprecated_colorsMigration
 }, {
-  attributes: Object(objectSpread["a" /* default */])({}, button_deprecated_blockAttributes, {
+  attributes: button_deprecated_objectSpread({}, button_deprecated_blockAttributes, {
     color: {
       type: 'string'
     },
@@ -8263,7 +9297,7 @@ var button_deprecated_deprecated = [{
   },
   migrate: deprecated_colorsMigration
 }, {
-  attributes: Object(objectSpread["a" /* default */])({}, button_deprecated_blockAttributes, {
+  attributes: button_deprecated_objectSpread({}, button_deprecated_blockAttributes, {
     color: {
       type: 'string'
     },
@@ -8307,6 +9341,9 @@ var button_deprecated_deprecated = [{
 
 
 
+function button_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function button_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { button_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { button_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -8352,7 +9389,7 @@ function BorderPanel(_ref) {
     });
   }, [setAttributes]);
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Border Settings')
+    title: Object(external_this_wp_i18n_["__"])('Border settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["RangeControl"], {
     value: borderRadius,
     label: Object(external_this_wp_i18n_["__"])('Border Radius'),
@@ -8363,19 +9400,6 @@ function BorderPanel(_ref) {
     onChange: setBorderRadius
   }));
 }
-
-var edit_handleLinkControlOnKeyDown = function handleLinkControlOnKeyDown(event) {
-  var keyCode = event.keyCode;
-
-  if ([external_this_wp_keycodes_["LEFT"], external_this_wp_keycodes_["DOWN"], external_this_wp_keycodes_["RIGHT"], external_this_wp_keycodes_["UP"], external_this_wp_keycodes_["BACKSPACE"], external_this_wp_keycodes_["ENTER"]].indexOf(keyCode) > -1) {
-    // Stop the key event from propagating up to ObserveTyping.startTypingInTextField.
-    event.stopPropagation();
-  }
-};
-
-var handleLinkControlOnKeyPress = function handleLinkControlOnKeyPress(event) {
-  event.stopPropagation();
-};
 
 function URLPicker(_ref2) {
   var isSelected = _ref2.isSelected,
@@ -8390,48 +9414,38 @@ function URLPicker(_ref2) {
       isURLPickerOpen = _useState2[0],
       setIsURLPickerOpen = _useState2[1];
 
-  Object(external_this_wp_element_["useEffect"])(function () {
-    if (!isSelected) {
-      setIsURLPickerOpen(false);
-    }
-  }, [isSelected]);
-
   var openLinkControl = function openLinkControl() {
     setIsURLPickerOpen(true);
   };
 
-  var linkControl = isURLPickerOpen && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalLinkControl"], {
+  var linkControl = isURLPickerOpen && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], {
+    position: "bottom center",
+    onClose: function onClose() {
+      return setIsURLPickerOpen(false);
+    }
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalLinkControl"], {
     className: "wp-block-navigation-link__inline-link-input",
-    onKeyDown: edit_handleLinkControlOnKeyDown,
-    onKeyPress: handleLinkControlOnKeyPress,
-    currentLink: !url && !title ? null : {
+    value: {
       url: url,
-      title: title
+      title: title,
+      opensInNewTab: opensInNewTab
     },
-    onLinkChange: function onLinkChange(_ref3) {
+    onChange: function onChange(_ref3) {
       var _ref3$title = _ref3.title,
           newTitle = _ref3$title === void 0 ? '' : _ref3$title,
           _ref3$url = _ref3.url,
-          newURL = _ref3$url === void 0 ? '' : _ref3$url;
+          newURL = _ref3$url === void 0 ? '' : _ref3$url,
+          newOpensInNewTab = _ref3.opensInNewTab;
       setAttributes({
         title: Object(external_this_lodash_["escape"])(newTitle),
         url: newURL
       });
-    },
-    currentSettings: [{
-      id: 'opensInNewTab',
-      title: Object(external_this_wp_i18n_["__"])('Open in new tab'),
-      checked: opensInNewTab
-    }],
-    onSettingsChange: function onSettingsChange(setting, value) {
-      if (setting === 'opensInNewTab') {
-        onToggleOpenInNewTab(value);
+
+      if (opensInNewTab !== newOpensInNewTab) {
+        onToggleOpenInNewTab(newOpensInNewTab);
       }
-    },
-    onClose: function onClose() {
-      setIsURLPickerOpen(false);
     }
-  });
+  }));
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarButton"], {
     name: "link",
     icon: "admin-links",
@@ -8505,7 +9519,7 @@ function ButtonEdit(_ref5) {
     className: classnames_default()('wp-block-button__link', (_classnames = {
       'has-background': backgroundColor.color || gradientValue
     }, Object(defineProperty["a" /* default */])(_classnames, backgroundColor.class, !gradientValue && backgroundColor.class), Object(defineProperty["a" /* default */])(_classnames, 'has-text-color', textColor.color), Object(defineProperty["a" /* default */])(_classnames, textColor.class, textColor.class), Object(defineProperty["a" /* default */])(_classnames, gradientClass, gradientClass), Object(defineProperty["a" /* default */])(_classnames, 'no-border-radius', borderRadius === 0), _classnames)),
-    style: Object(objectSpread["a" /* default */])({}, !backgroundColor.color && gradientValue ? {
+    style: button_edit_objectSpread({}, !backgroundColor.color && gradientValue ? {
       background: gradientValue
     } : {
       backgroundColor: backgroundColor.color
@@ -8560,23 +9574,6 @@ function ButtonEdit(_ref5) {
 /* harmony default export */ var button_edit = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_blockEditor_["withColors"])('backgroundColor', {
   textColor: 'color'
 }), applyFallbackStyles])(ButtonEdit));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/button/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var button_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["G"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M19 6H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H5V8h14v8z"
-}))));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/button/save.js
 
@@ -8638,10 +9635,10 @@ function button_save_save(_ref) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -8710,7 +9707,7 @@ var button_name = button_metadata.name;
 var button_settings = {
   title: Object(external_this_wp_i18n_["__"])('Button'),
   description: Object(external_this_wp_i18n_["__"])('Prompt visitors to take action with a button-style link.'),
-  icon: button_icon,
+  icon: library_button,
   keywords: [Object(external_this_wp_i18n_["__"])('link')],
   example: {
     attributes: {
@@ -8769,23 +9766,6 @@ function ButtonsEdit(_ref) {
 
 /* harmony default export */ var buttons_edit = (ButtonsEdit);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/buttons/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var buttons_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["G"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M19 6H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H5V8h14v8z"
-}))));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/buttons/save.js
 
 
@@ -8802,10 +9782,10 @@ function buttons_save_save() {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var buttons_metadata = {
@@ -8819,7 +9799,7 @@ var buttons_name = buttons_metadata.name;
 var buttons_settings = {
   title: Object(external_this_wp_i18n_["__"])('Buttons'),
   description: Object(external_this_wp_i18n_["__"])('Prompt visitors to take action with a group of button-style links.'),
-  icon: buttons_icon,
+  icon: library_button,
   keywords: [Object(external_this_wp_i18n_["__"])('link')],
   supports: {
     align: true,
@@ -8828,6 +9808,21 @@ var buttons_settings = {
   edit: buttons_edit,
   save: buttons_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/calendar.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var calendar = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2l.01-14c0-1.1.88-2 1.99-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"
+}));
+/* harmony default export */ var library_calendar = (calendar);
 
 // EXTERNAL MODULE: external {"this":"moment"}
 var external_this_moment_ = __webpack_require__(30);
@@ -8842,6 +9837,10 @@ var external_this_moment_default = /*#__PURE__*/__webpack_require__.n(external_t
 
 
 
+
+function calendar_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function calendar_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { calendar_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { calendar_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -8893,7 +9892,7 @@ function (_Component) {
   }, {
     key: "getServerSideAttributes",
     value: function getServerSideAttributes(attributes, date) {
-      return Object(objectSpread["a" /* default */])({}, attributes, this.getYearMonth(date));
+      return calendar_edit_objectSpread({}, attributes, {}, this.getYearMonth(date));
     }
   }, {
     key: "render",
@@ -8925,39 +9924,22 @@ function (_Component) {
   };
 })(edit_CalendarEdit));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/calendar/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var calendar_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["G"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2l.01-14c0-1.1.88-2 1.99-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"
-}))));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/calendar/index.js
 /**
  * WordPress dependencies
  */
+
 
 /**
  * Internal dependencies
  */
 
 
-
 var calendar_name = 'core/calendar';
 var calendar_settings = {
   title: Object(external_this_wp_i18n_["__"])('Calendar'),
   description: Object(external_this_wp_i18n_["__"])('A calendar of your site’s posts.'),
-  icon: calendar_icon,
+  icon: library_calendar,
   category: 'widgets',
   keywords: [Object(external_this_wp_i18n_["__"])('posts'), Object(external_this_wp_i18n_["__"])('archive')],
   supports: {
@@ -8966,6 +9948,25 @@ var calendar_settings = {
   example: {},
   edit: calendar_edit
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/category.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var category_category = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M12,2l-5.5,9h11L12,2z M12,5.84L13.93,9h-3.87L12,5.84z"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "m17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "m3 21.5h8v-8h-8v8zm2-6h4v4h-4v-4z"
+}));
+/* harmony default export */ var library_category = (category_category);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/categories/edit.js
 
@@ -9157,7 +10158,7 @@ function (_Component) {
           showHierarchy = attributes.showHierarchy,
           showPostCounts = attributes.showPostCounts;
       var inspectorControls = Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Categories Settings')
+        title: Object(external_this_wp_i18n_["__"])('Categories settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
         label: Object(external_this_wp_i18n_["__"])('Display as Dropdown'),
         checked: displayAsDropdown,
@@ -9205,43 +10206,22 @@ function (_Component) {
   };
 }), external_this_wp_compose_["withInstanceId"])(edit_CategoriesEdit));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/categories/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var categories_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M0,0h24v24H0V0z",
-  fill: "none"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M12,2l-5.5,9h11L12,2z M12,5.84L13.93,9h-3.87L12,5.84z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "m17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "m3 21.5h8v-8h-8v8zm2-6h4v4h-4v-4z"
-})));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/categories/index.js
 /**
  * WordPress dependencies
  */
+
 
 /**
  * Internal dependencies
  */
 
 
-
 var categories_name = 'core/categories';
 var categories_settings = {
   title: Object(external_this_wp_i18n_["__"])('Categories'),
   description: Object(external_this_wp_i18n_["__"])('Display a list of all categories.'),
-  icon: categories_icon,
+  icon: library_category,
   category: 'widgets',
   supports: {
     align: true,
@@ -9249,6 +10229,21 @@ var categories_settings = {
   },
   edit: categories_edit
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/code.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var code = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M9.4,16.6L4.8,12l4.6-4.6L8,6l-6,6l6,6L9.4,16.6z M14.6,16.6l4.6-4.6l-4.6-4.6L16,6l6,6l-6,6L14.6,16.6z"
+}));
+/* harmony default export */ var library_code = (code);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/code/edit.js
 
@@ -9280,25 +10275,8 @@ function CodeEdit(_ref) {
   }));
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/code/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var code_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M0,0h24v24H0V0z",
-  fill: "none"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M9.4,16.6L4.8,12l4.6-4.6L8,6l-6,6l6,6L9.4,16.6z M14.6,16.6l4.6-4.6l-4.6-4.6L16,6l6,6l-6,6L14.6,16.6z"
-})));
-
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
-var external_this_wp_escapeHtml_ = __webpack_require__(61);
+var external_this_wp_escapeHtml_ = __webpack_require__(66);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/code/utils.js
 /**
@@ -9406,10 +10384,10 @@ var code_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var code_metadata = {
@@ -9430,7 +10408,7 @@ var code_name = code_metadata.name;
 var code_settings = {
   title: Object(external_this_wp_i18n_["__"])('Code'),
   description: Object(external_this_wp_i18n_["__"])('Display code snippets that respect your spacing and tabs.'),
-  icon: code_icon,
+  icon: library_code,
   example: {
     attributes: {
       // translators: Preserve \n markers for line breaks
@@ -9444,6 +10422,21 @@ var code_settings = {
   edit: CodeEdit,
   save: code_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/columns.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var columns_columns = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M4,4H20a2,2,0,0,1,2,2V18a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4ZM4 6V18H8V6Zm6 0V18h4V6Zm6 0V18h4V6Z"
+}));
+/* harmony default export */ var library_columns = (columns_columns);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/columns/deprecated.js
 
@@ -9778,8 +10771,18 @@ function ColumnsEditContainer(_ref) {
   }, [clientId]),
       count = _useSelect.count;
 
+  var _experimentalUseColo = Object(external_this_wp_blockEditor_["__experimentalUseColors"])([{
+    name: 'backgroundColor',
+    className: 'has-background'
+  }]),
+      BackgroundColor = _experimentalUseColo.BackgroundColor,
+      InspectorControlsColorPanel = _experimentalUseColo.InspectorControlsColorPanel;
+
   var classes = classnames_default()(className, Object(defineProperty["a" /* default */])({}, "are-vertically-aligned-".concat(verticalAlignment), verticalAlignment));
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["RangeControl"], {
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockVerticalAlignmentToolbar"], {
+    onChange: updateAlignment,
+    value: verticalAlignment
+  })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["RangeControl"], {
     label: Object(external_this_wp_i18n_["__"])('Columns'),
     value: count,
     onChange: function onChange(value) {
@@ -9787,15 +10790,12 @@ function ColumnsEditContainer(_ref) {
     },
     min: 2,
     max: 6
-  }))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockVerticalAlignmentToolbar"], {
-    onChange: updateAlignment,
-    value: verticalAlignment
-  })), Object(external_this_wp_element_["createElement"])("div", {
+  }))), InspectorControlsColorPanel, Object(external_this_wp_element_["createElement"])(BackgroundColor, null, Object(external_this_wp_element_["createElement"])("div", {
     className: classes
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InnerBlocks"], {
     templateLock: "all",
     allowedBlocks: edit_ALLOWED_BLOCKS
-  })));
+  }))));
 }
 
 var ColumnsEditContainerWrapper = Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps, registry) {
@@ -9902,21 +10902,21 @@ var edit_ColumnsEdit = function ColumnsEdit(props) {
 
   var _useSelect2 = Object(external_this_wp_data_["useSelect"])(function (select) {
     var _select = select('core/blocks'),
-        __experimentalGetBlockPatterns = _select.__experimentalGetBlockPatterns,
+        __experimentalGetBlockVariations = _select.__experimentalGetBlockVariations,
         getBlockType = _select.getBlockType,
-        __experimentalGetDefaultBlockPattern = _select.__experimentalGetDefaultBlockPattern;
+        __experimentalGetDefaultBlockVariation = _select.__experimentalGetDefaultBlockVariation;
 
     return {
       blockType: getBlockType(name),
-      defaultPattern: __experimentalGetDefaultBlockPattern(name),
+      defaultVariation: __experimentalGetDefaultBlockVariation(name, 'block'),
       hasInnerBlocks: select('core/block-editor').getBlocks(clientId).length > 0,
-      patterns: __experimentalGetBlockPatterns(name)
+      variations: __experimentalGetBlockVariations(name, 'block')
     };
   }, [clientId, name]),
       blockType = _useSelect2.blockType,
-      defaultPattern = _useSelect2.defaultPattern,
+      defaultVariation = _useSelect2.defaultVariation,
       hasInnerBlocks = _useSelect2.hasInnerBlocks,
-      patterns = _useSelect2.patterns;
+      variations = _useSelect2.variations;
 
   var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/block-editor'),
       replaceInnerBlocks = _useDispatch.replaceInnerBlocks;
@@ -9925,19 +10925,19 @@ var edit_ColumnsEdit = function ColumnsEdit(props) {
     return Object(external_this_wp_element_["createElement"])(ColumnsEditContainerWrapper, props);
   }
 
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalBlockPatternPicker"], {
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalBlockVariationPicker"], {
     icon: Object(external_this_lodash_["get"])(blockType, ['icon', 'src']),
     label: Object(external_this_lodash_["get"])(blockType, ['title']),
-    patterns: patterns,
+    variations: variations,
     onSelect: function onSelect() {
-      var nextPattern = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultPattern;
+      var nextVariation = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultVariation;
 
-      if (nextPattern.attributes) {
-        props.setAttributes(nextPattern.attributes);
+      if (nextVariation.attributes) {
+        props.setAttributes(nextVariation.attributes);
       }
 
-      if (nextPattern.innerBlocks) {
-        replaceInnerBlocks(props.clientId, edit_createBlocksFromInnerBlocksTemplate(nextPattern.innerBlocks));
+      if (nextVariation.innerBlocks) {
+        replaceInnerBlocks(props.clientId, edit_createBlocksFromInnerBlocksTemplate(nextVariation.innerBlocks));
       }
     },
     allowSkip: true
@@ -9945,123 +10945,6 @@ var edit_ColumnsEdit = function ColumnsEdit(props) {
 };
 
 /* harmony default export */ var columns_edit = (edit_ColumnsEdit);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/columns/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var columns_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["G"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M4,4H20a2,2,0,0,1,2,2V18a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4ZM4 6V18H8V6Zm6 0V18h4V6Zm6 0V18h4V6Z"
-}))));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/columns/patterns.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Template option choices for predefined columns layouts.
- *
- * @type {WPBlockPattern[]}
- */
-
-var patterns_patterns = [{
-  name: 'two-columns-equal',
-  label: Object(external_this_wp_i18n_["__"])('Two columns; equal split'),
-  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-    width: "48",
-    height: "48",
-    viewBox: "0 0 48 48",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-    fillRule: "evenodd",
-    clipRule: "evenodd",
-    d: "M39 12C40.1046 12 41 12.8954 41 14V34C41 35.1046 40.1046 36 39 36H9C7.89543 36 7 35.1046 7 34V14C7 12.8954 7.89543 12 9 12H39ZM39 34V14H25V34H39ZM23 34H9V14H23V34Z"
-  })),
-  isDefault: true,
-  innerBlocks: [['core/column'], ['core/column']]
-}, {
-  name: 'two-columns-one-third-two-thirds',
-  label: Object(external_this_wp_i18n_["__"])('Two columns; one-third, two-thirds split'),
-  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-    width: "48",
-    height: "48",
-    viewBox: "0 0 48 48",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-    fillRule: "evenodd",
-    clipRule: "evenodd",
-    d: "M39 12C40.1046 12 41 12.8954 41 14V34C41 35.1046 40.1046 36 39 36H9C7.89543 36 7 35.1046 7 34V14C7 12.8954 7.89543 12 9 12H39ZM39 34V14H20V34H39ZM18 34H9V14H18V34Z"
-  })),
-  innerBlocks: [['core/column', {
-    width: 33.33
-  }], ['core/column', {
-    width: 66.66
-  }]]
-}, {
-  name: 'two-columns-two-thirds-one-third',
-  label: Object(external_this_wp_i18n_["__"])('Two columns; two-thirds, one-third split'),
-  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-    width: "48",
-    height: "48",
-    viewBox: "0 0 48 48",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-    fillRule: "evenodd",
-    clipRule: "evenodd",
-    d: "M39 12C40.1046 12 41 12.8954 41 14V34C41 35.1046 40.1046 36 39 36H9C7.89543 36 7 35.1046 7 34V14C7 12.8954 7.89543 12 9 12H39ZM39 34V14H30V34H39ZM28 34H9V14H28V34Z"
-  })),
-  innerBlocks: [['core/column', {
-    width: 66.66
-  }], ['core/column', {
-    width: 33.33
-  }]]
-}, {
-  name: 'three-columns-equal',
-  label: Object(external_this_wp_i18n_["__"])('Three columns; equal split'),
-  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-    width: "48",
-    height: "48",
-    viewBox: "0 0 48 48",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-    fillRule: "evenodd",
-    d: "M41 14a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h30a2 2 0 0 0 2-2V14zM28.5 34h-9V14h9v20zm2 0V14H39v20h-8.5zm-13 0H9V14h8.5v20z"
-  })),
-  innerBlocks: [['core/column'], ['core/column'], ['core/column']]
-}, {
-  name: 'three-columns-wider-center',
-  label: Object(external_this_wp_i18n_["__"])('Three columns; wide center column'),
-  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-    width: "48",
-    height: "48",
-    viewBox: "0 0 48 48",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-    fillRule: "evenodd",
-    d: "M41 14a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h30a2 2 0 0 0 2-2V14zM31 34H17V14h14v20zm2 0V14h6v20h-6zm-18 0H9V14h6v20z"
-  })),
-  innerBlocks: [['core/column', {
-    width: 25
-  }], ['core/column', {
-    width: 50
-  }], ['core/column', {
-    width: 25
-  }]]
-}];
-/* harmony default export */ var columns_patterns = (patterns_patterns);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/columns/save.js
 
@@ -10077,23 +10960,141 @@ var patterns_patterns = [{
 
 
 function columns_save_save(_ref) {
+  var _classnames;
+
   var attributes = _ref.attributes;
-  var verticalAlignment = attributes.verticalAlignment;
-  var wrapperClasses = classnames_default()(Object(defineProperty["a" /* default */])({}, "are-vertically-aligned-".concat(verticalAlignment), verticalAlignment));
+  var verticalAlignment = attributes.verticalAlignment,
+      backgroundColor = attributes.backgroundColor,
+      customBackgroundColor = attributes.customBackgroundColor;
+  var backgroundClass = Object(external_this_wp_blockEditor_["getColorClassName"])('background-color', backgroundColor);
+  var className = classnames_default()((_classnames = {
+    'has-background': backgroundColor || customBackgroundColor
+  }, Object(defineProperty["a" /* default */])(_classnames, backgroundClass, backgroundClass), Object(defineProperty["a" /* default */])(_classnames, "are-vertically-aligned-".concat(verticalAlignment), verticalAlignment), _classnames));
+  var style = {
+    backgroundColor: backgroundClass ? undefined : customBackgroundColor
+  };
   return Object(external_this_wp_element_["createElement"])("div", {
-    className: wrapperClasses
+    className: className ? className : undefined,
+    style: style
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InnerBlocks"].Content, null));
 }
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/columns/variations.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/** @typedef {import('@wordpress/blocks').WPBlockVariation} WPBlockVariation */
+
+/**
+ * Template option choices for predefined columns layouts.
+ *
+ * @type {WPBlockVariation[]}
+ */
+
+var variations_variations = [{
+  name: 'two-columns-equal',
+  title: Object(external_this_wp_i18n_["__"])('Two columns; equal split'),
+  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
+    width: "48",
+    height: "48",
+    viewBox: "0 0 48 48",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
+    fillRule: "evenodd",
+    clipRule: "evenodd",
+    d: "M39 12C40.1046 12 41 12.8954 41 14V34C41 35.1046 40.1046 36 39 36H9C7.89543 36 7 35.1046 7 34V14C7 12.8954 7.89543 12 9 12H39ZM39 34V14H25V34H39ZM23 34H9V14H23V34Z"
+  })),
+  isDefault: true,
+  innerBlocks: [['core/column'], ['core/column']],
+  scope: ['block']
+}, {
+  name: 'two-columns-one-third-two-thirds',
+  title: Object(external_this_wp_i18n_["__"])('Two columns; one-third, two-thirds split'),
+  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
+    width: "48",
+    height: "48",
+    viewBox: "0 0 48 48",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
+    fillRule: "evenodd",
+    clipRule: "evenodd",
+    d: "M39 12C40.1046 12 41 12.8954 41 14V34C41 35.1046 40.1046 36 39 36H9C7.89543 36 7 35.1046 7 34V14C7 12.8954 7.89543 12 9 12H39ZM39 34V14H20V34H39ZM18 34H9V14H18V34Z"
+  })),
+  innerBlocks: [['core/column', {
+    width: 33.33
+  }], ['core/column', {
+    width: 66.66
+  }]],
+  scope: ['block']
+}, {
+  name: 'two-columns-two-thirds-one-third',
+  title: Object(external_this_wp_i18n_["__"])('Two columns; two-thirds, one-third split'),
+  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
+    width: "48",
+    height: "48",
+    viewBox: "0 0 48 48",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
+    fillRule: "evenodd",
+    clipRule: "evenodd",
+    d: "M39 12C40.1046 12 41 12.8954 41 14V34C41 35.1046 40.1046 36 39 36H9C7.89543 36 7 35.1046 7 34V14C7 12.8954 7.89543 12 9 12H39ZM39 34V14H30V34H39ZM28 34H9V14H28V34Z"
+  })),
+  innerBlocks: [['core/column', {
+    width: 66.66
+  }], ['core/column', {
+    width: 33.33
+  }]],
+  scope: ['block']
+}, {
+  name: 'three-columns-equal',
+  title: Object(external_this_wp_i18n_["__"])('Three columns; equal split'),
+  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
+    width: "48",
+    height: "48",
+    viewBox: "0 0 48 48",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
+    fillRule: "evenodd",
+    d: "M41 14a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h30a2 2 0 0 0 2-2V14zM28.5 34h-9V14h9v20zm2 0V14H39v20h-8.5zm-13 0H9V14h8.5v20z"
+  })),
+  innerBlocks: [['core/column'], ['core/column'], ['core/column']],
+  scope: ['block']
+}, {
+  name: 'three-columns-wider-center',
+  title: Object(external_this_wp_i18n_["__"])('Three columns; wide center column'),
+  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
+    width: "48",
+    height: "48",
+    viewBox: "0 0 48 48",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
+    fillRule: "evenodd",
+    d: "M41 14a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h30a2 2 0 0 0 2-2V14zM31 34H17V14h14v20zm2 0V14h6v20h-6zm-18 0H9V14h6v20z"
+  })),
+  innerBlocks: [['core/column', {
+    width: 25
+  }], ['core/column', {
+    width: 50
+  }], ['core/column', {
+    width: 25
+  }]],
+  scope: ['block']
+}];
+/* harmony default export */ var columns_variations = (variations_variations);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/columns/index.js
 /**
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -10102,6 +11103,12 @@ var columns_metadata = {
   category: "layout",
   attributes: {
     verticalAlignment: {
+      type: "string"
+    },
+    backgroundColor: {
+      type: "string"
+    },
+    customBackgroundColor: {
       type: "string"
     }
   }
@@ -10112,13 +11119,13 @@ var columns_name = columns_metadata.name;
 
 var columns_settings = {
   title: Object(external_this_wp_i18n_["__"])('Columns'),
-  icon: columns_icon,
+  icon: library_columns,
   description: Object(external_this_wp_i18n_["__"])('Add a block that displays content in multiple columns, then add whatever content blocks you’d like.'),
   supports: {
     align: ['wide', 'full'],
     html: false
   },
-  patterns: columns_patterns,
+  variations: columns_variations,
   example: {
     innerBlocks: [{
       name: 'core/column',
@@ -10162,11 +11169,29 @@ var columns_settings = {
   save: columns_save_save
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/column.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var column = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16zm0-11.47L17.74 9 12 13.47 6.26 9 12 4.53z"
+}));
+/* harmony default export */ var library_column = (column);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/column/edit.js
 
 
 
 
+function column_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function column_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { column_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { column_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -10203,7 +11228,7 @@ function ColumnEdit(_ref) {
     onChange: updateAlignment,
     value: verticalAlignment
   })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Column Settings')
+    title: Object(external_this_wp_i18n_["__"])('Column settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["RangeControl"], {
     label: Object(external_this_wp_i18n_["__"])('Percentage width'),
     value: width || '',
@@ -10274,7 +11299,7 @@ function ColumnEdit(_ref) {
       // any explicit widths assigned (include updates to those not
       // part of the adjacent blocks).
 
-      var nextColumnWidths = Object(objectSpread["a" /* default */])({}, getColumnWidths(columns, columns.length), Object(defineProperty["a" /* default */])({}, clientId, toWidthPrecision(width)), getRedistributedColumnWidths(adjacentColumns, 100 - occupiedWidth, columns.length));
+      var nextColumnWidths = column_edit_objectSpread({}, getColumnWidths(columns, columns.length), Object(defineProperty["a" /* default */])({}, clientId, toWidthPrecision(width)), getRedistributedColumnWidths(adjacentColumns, 100 - occupiedWidth, columns.length));
 
       Object(external_this_lodash_["forEach"])(nextColumnWidths, function (nextColumnWidth, columnClientId) {
         updateBlockAttributes(columnClientId, {
@@ -10284,23 +11309,6 @@ function ColumnEdit(_ref) {
     }
   };
 }))(ColumnEdit));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/column/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var column_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16zm0-11.47L17.74 9 12 13.47 6.26 9 12 4.53z"
-})));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/column/save.js
 
@@ -10339,10 +11347,10 @@ function column_save_save(_ref) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var column_metadata = {
@@ -10365,7 +11373,7 @@ var column_name = column_metadata.name;
 var column_settings = {
   title: Object(external_this_wp_i18n_["__"])('Column'),
   parent: ['core/columns'],
-  icon: column_icon,
+  icon: library_column,
   description: Object(external_this_wp_i18n_["__"])('A single column within a columns block.'),
   supports: {
     inserter: false,
@@ -10387,6 +11395,21 @@ var column_settings = {
   save: column_save_save
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/cover.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var cover = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M4 4h7V2H4c-1.1 0-2 .9-2 2v7h2V4zm6 9l-4 5h12l-3-4-2.03 2.71L10 13zm7-4.5c0-.83-.67-1.5-1.5-1.5S14 7.67 14 8.5s.67 1.5 1.5 1.5S17 9.33 17 8.5zM20 2h-7v2h7v7h2V4c0-1.1-.9-2-2-2zm0 18h-7v2h7c1.1 0 2-.9 2-2v-7h-2v7zM4 13H2v7c0 1.1.9 2 2 2h7v-2H4v-7z"
+}));
+/* harmony default export */ var library_cover = (cover);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/cover/shared.js
 var IMAGE_BACKGROUND_TYPE = 'image';
 var VIDEO_BACKGROUND_TYPE = 'video';
@@ -10404,6 +11427,9 @@ function dimRatioToClass(ratio) {
 
 
 
+function cover_deprecated_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function cover_deprecated_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { cover_deprecated_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { cover_deprecated_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -10452,7 +11478,7 @@ var cover_deprecated_blockAttributes = {
   }
 };
 var cover_deprecated_deprecated = [{
-  attributes: Object(objectSpread["a" /* default */])({}, cover_deprecated_blockAttributes, {
+  attributes: cover_deprecated_objectSpread({}, cover_deprecated_blockAttributes, {
     title: {
       type: 'string',
       source: 'html',
@@ -10528,7 +11554,7 @@ var cover_deprecated_deprecated = [{
     }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InnerBlocks"].Content, null)));
   }
 }, {
-  attributes: Object(objectSpread["a" /* default */])({}, cover_deprecated_blockAttributes, {
+  attributes: cover_deprecated_objectSpread({}, cover_deprecated_blockAttributes, {
     title: {
       type: 'string',
       source: 'html',
@@ -10592,7 +11618,7 @@ var cover_deprecated_deprecated = [{
     })]];
   }
 }, {
-  attributes: Object(objectSpread["a" /* default */])({}, cover_deprecated_blockAttributes, {
+  attributes: cover_deprecated_objectSpread({}, cover_deprecated_blockAttributes, {
     title: {
       type: 'string',
       source: 'html',
@@ -10648,7 +11674,7 @@ var cover_deprecated_deprecated = [{
     })]];
   }
 }, {
-  attributes: Object(objectSpread["a" /* default */])({}, cover_deprecated_blockAttributes, {
+  attributes: cover_deprecated_objectSpread({}, cover_deprecated_blockAttributes, {
     title: {
       type: 'string',
       source: 'html',
@@ -10697,35 +11723,21 @@ var cover_deprecated_deprecated = [{
 /* harmony default export */ var cover_deprecated = (cover_deprecated_deprecated);
 
 // EXTERNAL MODULE: ./node_modules/fast-average-color/dist/index.js
-var dist = __webpack_require__(219);
+var dist = __webpack_require__(258);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(49);
+var tinycolor = __webpack_require__(52);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/cover/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var cover_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M4 4h7V2H4c-1.1 0-2 .9-2 2v7h2V4zm6 9l-4 5h12l-3-4-2.03 2.71L10 13zm7-4.5c0-.83-.67-1.5-1.5-1.5S14 7.67 14 8.5s.67 1.5 1.5 1.5S17 9.33 17 8.5zM20 2h-7v2h7v7h2V4c0-1.1-.9-2-2-2zm0 18h-7v2h7c1.1 0 2-.9 2-2v-7h-2v7zM4 13H2v7c0 1.1.9 2 2 2h7v-2H4v-7z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M0 0h24v24H0z",
-  fill: "none"
-})));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/cover/edit.js
 
 
 
 
+function cover_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function cover_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { cover_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { cover_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -10743,10 +11755,10 @@ var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 /**
@@ -10887,7 +11899,7 @@ function onCoverSelectMedia(setAttributes) {
       mediaType = media.type;
     }
 
-    setAttributes(Object(objectSpread["a" /* default */])({
+    setAttributes(cover_edit_objectSpread({
       url: media.url,
       id: media.id,
       backgroundType: mediaType
@@ -10970,7 +11982,6 @@ function CoverEdit(_ref3) {
       dimRatio = attributes.dimRatio,
       focalPoint = attributes.focalPoint,
       hasParallax = attributes.hasParallax,
-      id = attributes.id,
       minHeight = attributes.minHeight,
       url = attributes.url;
 
@@ -10982,7 +11993,7 @@ function CoverEdit(_ref3) {
   var onSelectMedia = onCoverSelectMedia(setAttributes);
 
   var toggleParallax = function toggleParallax() {
-    setAttributes(Object(objectSpread["a" /* default */])({
+    setAttributes(cover_edit_objectSpread({
       hasParallax: !hasParallax
     }, !hasParallax ? {
       focalPoint: undefined
@@ -11000,7 +12011,7 @@ function CoverEdit(_ref3) {
   var removeAllNotices = noticeOperations.removeAllNotices,
       createErrorNotice = noticeOperations.createErrorNotice;
 
-  var style = Object(objectSpread["a" /* default */])({}, backgroundType === IMAGE_BACKGROUND_TYPE ? backgroundImageStyles(url) : {}, {
+  var style = cover_edit_objectSpread({}, backgroundType === IMAGE_BACKGROUND_TYPE ? backgroundImageStyles(url) : {}, {
     backgroundColor: overlayColor.color,
     minHeight: temporaryMinHeight || minHeight
   });
@@ -11014,21 +12025,13 @@ function CoverEdit(_ref3) {
   }
 
   var hasBackground = !!(url || overlayColor.color || gradientValue);
-  var controls = Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, hasBackground && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaUploadCheck"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaUpload"], {
-    onSelect: onSelectMedia,
+  var controls = Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, hasBackground && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaReplaceFlow"], {
+    mediaURL: url,
     allowedTypes: cover_edit_ALLOWED_MEDIA_TYPES,
-    value: id,
-    render: function render(_ref4) {
-      var open = _ref4.open;
-      return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-        className: "components-toolbar__control",
-        label: Object(external_this_wp_i18n_["__"])('Edit media'),
-        icon: "edit",
-        onClick: open
-      });
-    }
-  }))))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, !!url && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Media Settings')
+    accept: "image/*,video/*",
+    onSelect: onSelectMedia
+  })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, !!url && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
+    title: Object(external_this_wp_i18n_["__"])('Media settings')
   }, IMAGE_BACKGROUND_TYPE === backgroundType && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
     label: Object(external_this_wp_i18n_["__"])('Fixed Background'),
     checked: hasParallax,
@@ -11096,7 +12099,7 @@ function CoverEdit(_ref3) {
 
   if (!hasBackground) {
     var placeholderIcon = Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockIcon"], {
-      icon: cover_icon
+      icon: library_cover
     });
 
     var label = Object(external_this_wp_i18n_["__"])('Cover');
@@ -11122,16 +12125,6 @@ function CoverEdit(_ref3) {
       disableCustomColors: true,
       value: overlayColor.color,
       onChange: setOverlayColor,
-      clearable: false
-    }), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalGradientPicker"], {
-      disableCustomGradients: true,
-      onChange: function onChange(newGradient) {
-        setGradient(newGradient);
-        setAttributes({
-          overlayColor: undefined
-        });
-      },
-      value: gradientValue,
       clearable: false
     }))));
   }
@@ -11388,10 +12381,10 @@ var cover_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -11444,7 +12437,7 @@ var cover_name = cover_metadata.name;
 var cover_settings = {
   title: Object(external_this_wp_i18n_["__"])('Cover'),
   description: Object(external_this_wp_i18n_["__"])('Add an image or video with a text overlay — great for headers.'),
-  icon: cover_icon,
+  icon: library_cover,
   supports: {
     align: true,
     html: false
@@ -11494,7 +12487,7 @@ var embed_controls_EmbedControls = function EmbedControls(props) {
     icon: "edit",
     onClick: switchBackToURLInput
   }))), themeSupportsResponsive && blockSupportsResponsive && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Media Settings'),
+    title: Object(external_this_wp_i18n_["__"])('Media settings'),
     className: "blocks-responsive"
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
     label: Object(external_this_wp_i18n_["__"])('Resize for smaller devices'),
@@ -11562,25 +12555,27 @@ var embed_placeholder_EmbedPlaceholder = function EmbedPlaceholder(props) {
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
     isSecondary: true,
     type: "submit"
-  }, Object(external_this_wp_i18n_["_x"])('Embed', 'button label')), cannotEmbed && Object(external_this_wp_element_["createElement"])("p", {
-    className: "components-placeholder__error"
-  }, Object(external_this_wp_i18n_["__"])('Sorry, this content could not be embedded.'), Object(external_this_wp_element_["createElement"])("br", null), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-    isSecondary: true,
-    onClick: tryAgain
-  }, Object(external_this_wp_i18n_["_x"])('Try again', 'button label')), " ", Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-    isSecondary: true,
-    onClick: fallback
-  }, Object(external_this_wp_i18n_["_x"])('Convert to link', 'button label')))), Object(external_this_wp_element_["createElement"])("div", {
+  }, Object(external_this_wp_i18n_["_x"])('Embed', 'button label'))), Object(external_this_wp_element_["createElement"])("div", {
     className: "components-placeholder__learn-more"
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
     href: Object(external_this_wp_i18n_["__"])('https://wordpress.org/support/article/embeds/')
-  }, Object(external_this_wp_i18n_["__"])('Learn more about embeds'))));
+  }, Object(external_this_wp_i18n_["__"])('Learn more about embeds'))), cannotEmbed && Object(external_this_wp_element_["createElement"])("div", {
+    className: "components-placeholder__error"
+  }, Object(external_this_wp_element_["createElement"])("div", {
+    className: "components-placeholder__instructions"
+  }, Object(external_this_wp_i18n_["__"])('Sorry, this content could not be embedded.')), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
+    isSecondary: true,
+    onClick: tryAgain
+  }, Object(external_this_wp_i18n_["_x"])('Try again', 'button label')), ' ', Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
+    isSecondary: true,
+    onClick: fallback
+  }, Object(external_this_wp_i18n_["_x"])('Convert to link', 'button label'))));
 };
 
 /* harmony default export */ var embed_placeholder = (embed_placeholder_EmbedPlaceholder);
 
 // EXTERNAL MODULE: ./node_modules/url/url.js
-var url_url = __webpack_require__(85);
+var url_url = __webpack_require__(109);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/wp-embed-preview.js
 
@@ -11825,6 +12820,10 @@ function (_Component) {
 
 
 
+function embed_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function embed_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { embed_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { embed_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Internal dependencies
  */
@@ -11949,7 +12948,7 @@ function getEmbedEditComponent(title, icon) {
           var _this$props$attribute = this.props.attributes,
               className = _this$props$attribute.className,
               allowResponsive = _this$props$attribute.allowResponsive;
-          return Object(objectSpread["a" /* default */])({}, this.props.attributes, getAttributesFromPreview(preview, title, className, responsive, allowResponsive));
+          return embed_edit_objectSpread({}, this.props.attributes, {}, getAttributesFromPreview(preview, title, className, responsive, allowResponsive));
         }
         /***
          * Sets block attributes based on the current attributes and preview data.
@@ -12077,6 +13076,9 @@ function getEmbedEditComponent(title, icon) {
 
 
 
+function settings_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function settings_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { settings_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { settings_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * Internal dependencies
@@ -12139,7 +13141,7 @@ function getEmbedBlockSettings(_ref) {
     category: category,
     keywords: keywords,
     attributes: embedAttributes,
-    supports: Object(objectSpread["a" /* default */])({
+    supports: settings_objectSpread({
       align: true
     }, supports),
     transforms: transforms,
@@ -12237,6 +13239,10 @@ function getEmbedBlockSettings(_ref) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/index.js
 
 
+function embed_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function embed_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { embed_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { embed_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Internal dependencies
  */
@@ -12271,32 +13277,30 @@ var embed_settings = getEmbedBlockSettings({
   }
 });
 var embed_common = common.map(function (embedDefinition) {
-  return Object(objectSpread["a" /* default */])({}, embedDefinition, {
+  return embed_objectSpread({}, embedDefinition, {
     settings: getEmbedBlockSettings(embedDefinition.settings)
   });
 });
 var embed_others = others.map(function (embedDefinition) {
-  return Object(objectSpread["a" /* default */])({}, embedDefinition, {
+  return embed_objectSpread({}, embedDefinition, {
     settings: getEmbedBlockSettings(embedDefinition.settings)
   });
 });
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/file/icon.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/file.js
 
 
 /**
  * WordPress dependencies
  */
 
-/* harmony default export */ var file_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
+var file_file = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
   d: "M9.17 6l2 2H20v10H4V6h5.17M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
-})));
+}));
+/* harmony default export */ var library_file = (file_file);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/file/inspector.js
 
@@ -12378,10 +13382,10 @@ function FileBlockInspector(_ref) {
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -12544,7 +13548,7 @@ function (_Component) {
       if (!href || hasError) {
         return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaPlaceholder"], {
           icon: Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockIcon"], {
-            icon: file_icon
+            icon: library_file
           }),
           labels: {
             title: Object(external_this_wp_i18n_["__"])('File'),
@@ -12820,10 +13824,10 @@ var file_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var file_metadata = {
@@ -12871,7 +13875,7 @@ var file_name = file_metadata.name;
 var file_settings = {
   title: Object(external_this_wp_i18n_["__"])('File'),
   description: Object(external_this_wp_i18n_["__"])('Add a link to a downloadable file.'),
-  icon: file_icon,
+  icon: library_file,
   keywords: [Object(external_this_wp_i18n_["__"])('document'), Object(external_this_wp_i18n_["__"])('pdf'), Object(external_this_wp_i18n_["__"])('download')],
   supports: {
     align: true
@@ -12880,6 +13884,21 @@ var file_settings = {
   edit: file_edit,
   save: file_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/html.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var html_html = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M4.5,11h-2V9H1v6h1.5v-2.5h2V15H6V9H4.5V11z M7,10.5h1.5V15H10v-4.5h1.5V9H7V10.5z M14.5,10l-1-1H12v6h1.5v-3.9  l1,1l1-1V15H17V9h-1.5L14.5,10z M19.5,13.5V9H18v6h5v-1.5H19.5z"
+}));
+/* harmony default export */ var library_html = (html_html);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/html/edit.js
 
@@ -12994,20 +14013,6 @@ function (_Component) {
   };
 })(edit_HTMLEdit));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/html/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var html_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M4.5,11h-2V9H1v6h1.5v-2.5h2V15H6V9H4.5V11z M7,10.5h1.5V15H10v-4.5h1.5V9H7V10.5z M14.5,10l-1-1H12v6h1.5v-3.9  l1,1l1-1V15H17V9h-1.5L14.5,10z M19.5,13.5V9H18v6h5v-1.5H19.5z"
-})));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/html/save.js
 
 
@@ -13052,10 +14057,10 @@ var html_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var html_metadata = {
@@ -13075,7 +14080,7 @@ var html_name = html_metadata.name;
 var html_settings = {
   title: Object(external_this_wp_i18n_["__"])('Custom HTML'),
   description: Object(external_this_wp_i18n_["__"])('Add custom HTML code and preview it as you edit.'),
-  icon: html_icon,
+  icon: library_html,
   keywords: [Object(external_this_wp_i18n_["__"])('embed')],
   example: {
     attributes: {
@@ -13091,6 +14096,21 @@ var html_settings = {
   edit: html_edit,
   save: html_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/media-and-text.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var mediaAndText = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M13 17h8v-2h-8v2zM3 19h8V5H3v14zM13 9h8V7h-8v2zm0 4h8v-2h-8v2z"
+}));
+/* harmony default export */ var media_and_text = (mediaAndText);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/media-text/media-container-icon.js
 
@@ -13171,22 +14191,14 @@ function (_Component) {
     key: "renderToolbarEditButton",
     value: function renderToolbarEditButton() {
       var _this$props = this.props,
-          mediaId = _this$props.mediaId,
-          onSelectMedia = _this$props.onSelectMedia;
-      return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaUpload"], {
-        onSelect: onSelectMedia,
+          onSelectMedia = _this$props.onSelectMedia,
+          mediaUrl = _this$props.mediaUrl;
+      return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaReplaceFlow"], {
+        mediaURL: mediaUrl,
         allowedTypes: media_container_ALLOWED_MEDIA_TYPES,
-        value: mediaId,
-        render: function render(_ref) {
-          var open = _ref.open;
-          return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-            className: "components-toolbar__control",
-            label: Object(external_this_wp_i18n_["__"])('Edit media'),
-            icon: "edit",
-            onClick: open
-          });
-        }
-      })));
+        accept: "image/*,video/*",
+        onSelect: onSelectMedia
+      }));
     }
   }, {
     key: "renderImage",
@@ -13318,6 +14330,9 @@ function (_Component) {
 
 
 
+function media_text_deprecated_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function media_text_deprecated_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { media_text_deprecated_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { media_text_deprecated_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -13379,7 +14394,7 @@ var baseAttributes = {
   }
 };
 /* harmony default export */ var media_text_deprecated = ([{
-  attributes: Object(objectSpread["a" /* default */])({}, baseAttributes, {
+  attributes: media_text_deprecated_objectSpread({}, baseAttributes, {
     verticalAlignment: {
       type: 'string'
     },
@@ -13617,7 +14632,6 @@ function (_Component) {
         mediaUrl: src || media.url,
         mediaLink: media.link || undefined,
         href: newHref,
-        imageFill: undefined,
         focalPoint: undefined
       });
     }
@@ -13750,7 +14764,7 @@ function (_Component) {
       };
 
       var mediaTextGeneralSettings = Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Media & Text Settings')
+        title: Object(external_this_wp_i18n_["__"])('Media & Text settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
         label: Object(external_this_wp_i18n_["__"])('Stack on mobile'),
         checked: isStackedOnMobile,
@@ -13785,7 +14799,7 @@ function (_Component) {
         }, Object(external_this_wp_i18n_["__"])('Describe the purpose of the image')), Object(external_this_wp_i18n_["__"])('Leave empty if the image is purely decorative.'))
       }));
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, mediaTextGeneralSettings, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["PanelColorSettings"], {
-        title: Object(external_this_wp_i18n_["__"])('Color Settings'),
+        title: Object(external_this_wp_i18n_["__"])('Color settings'),
         initialOpen: false,
         colorSettings: colorSettings
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], {
@@ -13826,20 +14840,6 @@ function (_Component) {
     image: mediaId && isSelected ? getMedia(mediaId) : null
   };
 })])(edit_MediaTextEdit));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/media-text/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var media_text_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M13 17h8v-2h-8v2zM3 19h8V5H3v14zM13 9h8V7h-8v2zm0 4h8v-2h-8v2z"
-})));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/media-text/save.js
 
@@ -14012,10 +15012,10 @@ var media_text_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -14112,7 +15112,7 @@ var media_text_name = media_text_metadata.name;
 var media_text_settings = {
   title: Object(external_this_wp_i18n_["__"])('Media & Text'),
   description: Object(external_this_wp_i18n_["__"])('Set media and words side-by-side for a richer layout.'),
-  icon: media_text_icon,
+  icon: media_and_text,
   keywords: [Object(external_this_wp_i18n_["__"])('image'), Object(external_this_wp_i18n_["__"])('video')],
   supports: {
     align: ['wide', 'full'],
@@ -14140,6 +15140,21 @@ var media_text_settings = {
   save: media_text_save_save,
   deprecated: media_text_deprecated
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/menu.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var menu = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "-2 -2 24 24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M17 7V5H3v2h14zm0 4V9H3v2h14zm0 4v-2H3v2h14z"
+}));
+/* harmony default export */ var library_menu = (menu);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/block-navigation-list.js
 
@@ -14234,14 +15249,8 @@ function useBlockNavigator(clientId) {
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -14263,14 +15272,13 @@ var block_colors_selector_ColorSelectorSVGIcon = function ColorSelectorSVGIcon()
 
 
 var block_colors_selector_ColorSelectorIcon = function ColorSelectorIcon(_ref) {
-  var color = _ref.color;
+  var style = _ref.style,
+      className = _ref.className;
   return Object(external_this_wp_element_["createElement"])("div", {
     className: "block-library-colors-selector__icon-container"
   }, Object(external_this_wp_element_["createElement"])("div", {
-    className: "block-library-colors-selector__state-selection",
-    style: Object(objectSpread["a" /* default */])({}, color && {
-      color: color
-    })
+    className: "".concat(className, " block-library-colors-selector__state-selection"),
+    style: style
   }, Object(external_this_wp_element_["createElement"])(block_colors_selector_ColorSelectorSVGIcon, null)));
 };
 /**
@@ -14282,7 +15290,8 @@ var block_colors_selector_ColorSelectorIcon = function ColorSelectorIcon(_ref) {
 
 
 var block_colors_selector_renderToggleComponent = function renderToggleComponent(_ref2) {
-  var value = _ref2.value;
+  var TextColor = _ref2.TextColor,
+      BackgroundColor = _ref2.BackgroundColor;
   return function (_ref3) {
     var onToggle = _ref3.onToggle,
         isOpen = _ref3.isOpen;
@@ -14300,37 +15309,27 @@ var block_colors_selector_renderToggleComponent = function renderToggleComponent
       label: Object(external_this_wp_i18n_["__"])('Open Colors Selector'),
       onClick: onToggle,
       onKeyDown: openOnArrowDown,
-      icon: Object(external_this_wp_element_["createElement"])(block_colors_selector_ColorSelectorIcon, {
-        color: value
-      })
+      icon: Object(external_this_wp_element_["createElement"])(BackgroundColor, null, Object(external_this_wp_element_["createElement"])(TextColor, null, Object(external_this_wp_element_["createElement"])(block_colors_selector_ColorSelectorIcon, null)))
     }));
   };
 };
 
-var block_colors_selector_renderContent = function renderContent(_ref4) {
-  var value = _ref4.value,
-      _ref4$onChange = _ref4.onChange,
-      onChange = _ref4$onChange === void 0 ? external_this_lodash_["noop"] : _ref4$onChange;
-  return function () {
-    return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])("div", {
-      className: "color-palette-controller-container"
-    }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["ColorPaletteControl"], {
-      value: value,
-      onChange: onChange,
-      label: Object(external_this_wp_i18n_["__"])('Text Color')
-    })));
-  };
-};
+var block_colors_selector_BlockColorsStyleSelector = function BlockColorsStyleSelector(_ref4) {
+  var children = _ref4.children,
+      other = Object(objectWithoutProperties["a" /* default */])(_ref4, ["children"]);
 
-/* harmony default export */ var block_colors_selector = (function (colorControlProps) {
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Dropdown"], {
     position: "bottom right",
     className: "block-library-colors-selector",
     contentClassName: "block-library-colors-selector__popover",
-    renderToggle: block_colors_selector_renderToggleComponent(colorControlProps),
-    renderContent: block_colors_selector_renderContent(colorControlProps)
+    renderToggle: block_colors_selector_renderToggleComponent(other),
+    renderContent: function renderContent() {
+      return children;
+    }
   });
-});
+};
+
+/* harmony default export */ var block_colors_selector = (block_colors_selector_BlockColorsStyleSelector);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/icons.js
 
@@ -14406,17 +15405,39 @@ function Navigation(_ref) {
       setAttributes = _ref.setAttributes,
       setFontSize = _ref.setFontSize,
       updateNavItemBlocks = _ref.updateNavItemBlocks;
-
   //
   // HOOKS
   //
 
   /* eslint-disable @wordpress/no-unused-vars-before-return */
+  var ref = Object(external_this_wp_element_["useRef"])();
+
+  var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/block-editor'),
+      selectBlock = _useDispatch.selectBlock;
+
   var _experimentalUseColo = Object(external_this_wp_blockEditor_["__experimentalUseColors"])([{
     name: 'textColor',
     property: 'color'
-  }]),
-      TextColor = _experimentalUseColo.TextColor;
+  }, {
+    name: 'backgroundColor',
+    className: 'background-color'
+  }], {
+    contrastCheckers: [{
+      backgroundColor: true,
+      textColor: true,
+      fontSize: fontSize.size
+    }],
+    colorDetector: {
+      targetRef: ref
+    },
+    colorPanelProps: {
+      initialOpen: true
+    }
+  }, [fontSize.size]),
+      TextColor = _experimentalUseColo.TextColor,
+      BackgroundColor = _experimentalUseColo.BackgroundColor,
+      InspectorControlsColorPanel = _experimentalUseColo.InspectorControlsColorPanel,
+      ColorPanel = _experimentalUseColo.ColorPanel;
   /* eslint-enable @wordpress/no-unused-vars-before-return */
 
 
@@ -14439,8 +15460,8 @@ function Navigation(_ref) {
         type: type,
         id: id,
         url: url,
-        label: Object(external_this_lodash_["escape"])(title.rendered),
-        title: Object(external_this_lodash_["escape"])(title.raw),
+        label: !title.rendered ? Object(external_this_wp_i18n_["__"])('(no title)') : Object(external_this_lodash_["escape"])(title.rendered),
+        title: !title.raw ? Object(external_this_wp_i18n_["__"])('(no title)') : Object(external_this_lodash_["escape"])(title.raw),
         opensInNewTab: false
       });
     });
@@ -14464,6 +15485,7 @@ function Navigation(_ref) {
 
   function handleCreateFromExistingPages() {
     updateNavItemBlocks(defaultPagesNavigationItems);
+    selectBlock(clientId);
   }
 
   var hasPages = hasResolvedPages && pages && pages.length;
@@ -14481,6 +15503,7 @@ function Navigation(_ref) {
       label: Object(external_this_wp_i18n_["__"])('Navigation'),
       instructions: Object(external_this_wp_i18n_["__"])('Create a Navigation from all existing pages, or create an empty one.')
     }, Object(external_this_wp_element_["createElement"])("div", {
+      ref: ref,
       className: "wp-block-navigation-placeholder__buttons"
     }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
       isSecondary: true,
@@ -14516,25 +15539,36 @@ function Navigation(_ref) {
       onClick: handleItemsAlignment('right')
     }]
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], null, navigatorToolbarButton), Object(external_this_wp_element_["createElement"])(block_colors_selector, {
-    value: TextColor.color,
-    onChange: TextColor.setColor
-  })), navigatorModal, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
+    TextColor: TextColor,
+    BackgroundColor: BackgroundColor
+  }, ColorPanel)), navigatorModal, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
     title: Object(external_this_wp_i18n_["__"])('Navigation Structure')
   }, Object(external_this_wp_element_["createElement"])(BlockNavigationList, {
     clientId: clientId
   })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Text Settings')
+    title: Object(external_this_wp_i18n_["__"])('Text settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["FontSizePicker"], {
     value: fontSize.size,
     onChange: setFontSize
-  }))), Object(external_this_wp_element_["createElement"])(TextColor, null, Object(external_this_wp_element_["createElement"])("div", {
+  }))), InspectorControlsColorPanel, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
+    title: Object(external_this_wp_i18n_["__"])('Display settings')
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
+    checked: attributes.showSubmenuIcon,
+    onChange: function onChange(value) {
+      setAttributes({
+        showSubmenuIcon: value
+      });
+    },
+    label: Object(external_this_wp_i18n_["__"])('Show submenu icon for top-level items')
+  }))), Object(external_this_wp_element_["createElement"])(TextColor, null, Object(external_this_wp_element_["createElement"])(BackgroundColor, null, Object(external_this_wp_element_["createElement"])("div", {
+    ref: ref,
     className: blockClassNames,
     style: blockInlineStyles
-  }, !hasExistingNavItems && isRequestingPages && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Spinner"], null), " ", Object(external_this_wp_i18n_["__"])('Loading Navigation…'), " "), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InnerBlocks"], {
+  }, !hasExistingNavItems && isRequestingPages && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Spinner"], null), " ", Object(external_this_wp_i18n_["__"])('Loading Navigation…'), ' '), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InnerBlocks"], {
     allowedBlocks: ['core/navigation-link'],
     templateInsertUpdatesSelection: false,
     __experimentalMoverDirection: 'horizontal'
-  }))));
+  })))));
 }
 
 /* harmony default export */ var navigation_edit = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_blockEditor_["withFontSizes"])('fontSize'), Object(external_this_wp_data_["withSelect"])(function (select, _ref3) {
@@ -14579,6 +15613,7 @@ function navigation_save_save() {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
@@ -14588,7 +15623,7 @@ function navigation_save_save() {
 var navigation_name = 'core/navigation';
 var navigation_settings = {
   title: Object(external_this_wp_i18n_["__"])('Navigation'),
-  icon: 'menu',
+  icon: library_menu,
   description: Object(external_this_wp_i18n_["__"])('Add a navigation block to your site.'),
   keywords: [Object(external_this_wp_i18n_["__"])('menu'), Object(external_this_wp_i18n_["__"])('navigation'), Object(external_this_wp_i18n_["__"])('links')],
   category: 'layout',
@@ -14609,6 +15644,50 @@ var navigation_settings = {
   edit: navigation_edit,
   save: navigation_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/navigation.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var navigation = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M12 7.27l4.28 10.43-3.47-1.53-.81-.36-.81.36-3.47 1.53L12 7.27M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"
+}));
+/* harmony default export */ var library_navigation = (navigation);
+
+// EXTERNAL MODULE: external {"this":["wp","dom"]}
+var external_this_wp_dom_ = __webpack_require__(27);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation-link/icons.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var toolbarSubmenuIcon = Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: "24",
+  height: "24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
+  d: "M14 5h8v2h-8zm0 5.5h8v2h-8zm0 5.5h8v2h-8zM2 11.5C2 15.08 4.92 18 8.5 18H9v2l3-3-3-3v2h-.5C6.02 16 4 13.98 4 11.5S6.02 7 8.5 7H12V5H8.5C4.92 5 2 7.92 2 11.5z"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
+  fill: "none",
+  d: "M0 0h24v24H0z"
+}));
+var itemSubmenuIcon = Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
+  width: "18",
+  height: "18",
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 18 18"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Polygon"], {
+  points: "9,13.5 14.7,7.9 13.2,6.5 9,10.7 4.8,6.5 3.3,7.9 "
+}));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation-link/edit.js
 
@@ -14632,157 +15711,110 @@ var navigation_settings = {
 
 
 
-/**
- * It updates the link attribute when the
- * link settings changes.
- *
- * @param {Function} setter Setter attribute function.
- */
 
-var edit_updateLinkSetting = function updateLinkSetting(setter) {
-  return function (setting, value) {
-    setter(Object(defineProperty["a" /* default */])({}, setting, value));
-  };
-};
+
 /**
- * Updates the link attribute when it changes
- * through of the `onLinkChange` LinkControl callback.
- *
- * @param {Function} setter Setter attribute function.
- * @param {string} label Link label.
+ * Internal dependencies
  */
 
 
-var edit_updateLink = function updateLink(setter, label) {
-  return function () {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref$title = _ref.title,
-        newTitle = _ref$title === void 0 ? '' : _ref$title,
-        _ref$url = _ref.url,
-        newURL = _ref$url === void 0 ? '' : _ref$url;
 
-    setter({
-      title: Object(external_this_lodash_["escape"])(newTitle),
-      url: newURL
-    }); // Set the item label as well if it isn't already defined.
-
-    if (!label) {
-      setter({
-        label: Object(external_this_lodash_["escape"])(newTitle)
-      });
-    }
-  };
-};
-
-function NavigationLinkEdit(_ref2) {
-  var attributes = _ref2.attributes,
-      hasDescendants = _ref2.hasDescendants,
-      isSelected = _ref2.isSelected,
-      isParentOfSelectedBlock = _ref2.isParentOfSelectedBlock,
-      setAttributes = _ref2.setAttributes,
-      insertLinkBlock = _ref2.insertLinkBlock;
+function NavigationLinkEdit(_ref) {
+  var attributes = _ref.attributes,
+      hasDescendants = _ref.hasDescendants,
+      isSelected = _ref.isSelected,
+      isParentOfSelectedBlock = _ref.isParentOfSelectedBlock,
+      setAttributes = _ref.setAttributes,
+      showSubmenuIcon = _ref.showSubmenuIcon,
+      insertLinkBlock = _ref.insertLinkBlock;
   var label = attributes.label,
       opensInNewTab = attributes.opensInNewTab,
       title = attributes.title,
       url = attributes.url,
       nofollow = attributes.nofollow,
       description = attributes.description;
-  var link = title ? {
-    title: Object(external_this_lodash_["unescape"])(title),
-    url: url
-  } : null;
+  var link = {
+    title: title ? Object(external_this_lodash_["unescape"])(title) : '',
+    url: url,
+    opensInNewTab: opensInNewTab
+  };
 
-  var _useState = Object(external_this_wp_element_["useState"])(!label && isSelected),
+  var _useState = Object(external_this_wp_element_["useState"])(false),
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
       isLinkOpen = _useState2[0],
       setIsLinkOpen = _useState2[1];
 
-  var onCloseTimerId = null;
+  var itemLabelPlaceholder = Object(external_this_wp_i18n_["__"])('Add link…');
+
+  var ref = Object(external_this_wp_element_["useRef"])(); // Show the LinkControl on mount if the URL is empty
+  // ( When adding a new menu item)
+  // This can't be done in the useState call because it cconflicts
+  // with the autofocus behavior of the BlockListBlock component.
+
+  Object(external_this_wp_element_["useEffect"])(function () {
+    if (!url) {
+      setIsLinkOpen(true);
+    }
+  }, []);
   /**
-   * It's a kind of hack to handle closing the LinkControl popover
-   * clicking on the ToolbarButton link.
+   * The hook shouldn't be necessary but due to a focus loss happening
+   * when selecting a suggestion in the link popover, we force close on block unselection.
    */
 
   Object(external_this_wp_element_["useEffect"])(function () {
     if (!isSelected) {
       setIsLinkOpen(false);
     }
+  }, [isSelected]); // If the LinkControl popover is open and the URL has changed, close the LinkControl and focus the label text.
 
-    return function () {
-      // Clear LinkControl.OnClose timeout.
-      if (onCloseTimerId) {
-        clearTimeout(onCloseTimerId);
+  Object(external_this_wp_element_["useEffect"])(function () {
+    if (isLinkOpen && url) {
+      // Close the link.
+      setIsLinkOpen(false); // Does this look like a URL and have something TLD-ish?
+
+      if (Object(external_this_wp_url_["isURL"])(Object(external_this_wp_url_["prependHTTP"])(label)) && /^.+\.[a-z]+/.test(label)) {
+        // Focus and select the label text.
+        selectLabelText();
+      } else {
+        // Focus it (but do not select).
+        Object(external_this_wp_dom_["placeCaretAtHorizontalEdge"])(ref.current, true);
       }
-    };
-  }, [isSelected]);
+    }
+  }, [url]);
   /**
-   * Opens the LinkControl popup
+   * Focus the navigation link label text and select it.
    */
 
-  var openLinkControl = function openLinkControl() {
-    if (isLinkOpen) {
-      return;
-    }
+  function selectLabelText() {
+    ref.current.focus();
+    var selection = window.getSelection();
+    var range = document.createRange(); // Get the range of the current ref contents so we can add this range to the selection.
 
-    setIsLinkOpen(!isLinkOpen);
-  };
-  /**
-   * `onKeyDown` LinkControl handler.
-   * It takes over to stop the event propagation to make the
-   * navigation work, avoiding undesired behaviors.
-   * For instance, it will block to move between link blocks
-   * when the LinkControl is focused.
-   *
-   * @param {Event} event
-   */
-
-
-  var handleLinkControlOnKeyDown = function handleLinkControlOnKeyDown(event) {
-    var keyCode = event.keyCode;
-
-    if ([external_this_wp_keycodes_["LEFT"], external_this_wp_keycodes_["DOWN"], external_this_wp_keycodes_["RIGHT"], external_this_wp_keycodes_["UP"], external_this_wp_keycodes_["BACKSPACE"], external_this_wp_keycodes_["ENTER"]].indexOf(keyCode) > -1) {
-      // Stop the key event from propagating up to ObserveTyping.startTypingInTextField.
-      event.stopPropagation();
-    }
-  };
-
-  var itemLabelPlaceholder = Object(external_this_wp_i18n_["__"])('Add link…');
+    range.selectNodeContents(ref.current);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
 
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["KeyboardShortcuts"], {
     bindGlobal: true,
-    shortcuts: Object(defineProperty["a" /* default */])({}, external_this_wp_keycodes_["rawShortcut"].primary('k'), openLinkControl)
+    shortcuts: Object(defineProperty["a" /* default */])({}, external_this_wp_keycodes_["rawShortcut"].primary('k'), function () {
+      return setIsLinkOpen(true);
+    })
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarButton"], {
     name: "link",
     icon: "admin-links",
     title: Object(external_this_wp_i18n_["__"])('Link'),
     shortcut: external_this_wp_keycodes_["displayShortcut"].primary('k'),
-    onClick: openLinkControl
+    onClick: function onClick() {
+      return setIsLinkOpen(true);
+    }
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarButton"], {
     name: "submenu",
-    icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-      xmlns: "http://www.w3.org/2000/svg",
-      width: "24",
-      height: "24"
-    }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-      d: "M14 5h8v2h-8zm0 5.5h8v2h-8zm0 5.5h8v2h-8zM2 11.5C2 15.08 4.92 18 8.5 18H9v2l3-3-3-3v2h-.5C6.02 16 4 13.98 4 11.5S6.02 7 8.5 7H12V5H8.5C4.92 5 2 7.92 2 11.5z"
-    }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-      fill: "none",
-      d: "M0 0h24v24H0z"
-    })),
+    icon: toolbarSubmenuIcon,
     title: Object(external_this_wp_i18n_["__"])('Add submenu'),
     onClick: insertLinkBlock
   }))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Link Settings')
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextareaControl"], {
-    value: description || '',
-    onChange: function onChange(descriptionValue) {
-      setAttributes({
-        description: descriptionValue
-      });
-    },
-    label: Object(external_this_wp_i18n_["__"])('Description')
-  })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('SEO Settings')
+    title: Object(external_this_wp_i18n_["__"])('SEO settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
     value: title || '',
     onChange: function onChange(titleValue) {
@@ -14800,18 +15832,33 @@ function NavigationLinkEdit(_ref2) {
       });
     },
     label: Object(external_this_wp_i18n_["__"])('Add nofollow to link'),
-    help: Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_i18n_["__"])('Don\'t let search engines follow this link.'), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
+    help: Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_i18n_["__"])("Don't let search engines follow this link."), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
       className: "wp-block-navigation-link__nofollow-external-link",
       href: Object(external_this_wp_i18n_["__"])('https://codex.wordpress.org/Nofollow')
-    }, Object(external_this_wp_i18n_["__"])('What\'s this?')))
+    }, Object(external_this_wp_i18n_["__"])("What's this?")))
+  })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
+    title: Object(external_this_wp_i18n_["__"])('Link settings')
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextareaControl"], {
+    value: description || '',
+    onChange: function onChange(descriptionValue) {
+      setAttributes({
+        description: descriptionValue
+      });
+    },
+    label: Object(external_this_wp_i18n_["__"])('Description'),
+    help: Object(external_this_wp_i18n_["__"])('The description will be displayed in the menu if the current theme supports it.')
   }))), Object(external_this_wp_element_["createElement"])("div", {
     className: classnames_default()('wp-block-navigation-link', {
       'is-editing': isSelected || isParentOfSelectedBlock,
       'is-selected': isSelected,
       'has-link': !!url
     })
-  }, Object(external_this_wp_element_["createElement"])("div", null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
-    className: "wp-block-navigation-link__content",
+  }, Object(external_this_wp_element_["createElement"])("div", {
+    className: "wp-block-navigation-link__content"
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
+    ref: ref,
+    tagName: "span",
+    className: "wp-block-navigation-link__label",
     value: label,
     onChange: function onChange(labelValue) {
       return setAttributes({
@@ -14819,41 +15866,74 @@ function NavigationLinkEdit(_ref2) {
       });
     },
     placeholder: itemLabelPlaceholder,
-    withoutInteractiveFormatting: true
-  }), isLinkOpen && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalLinkControl"], {
-    className: "wp-block-navigation-link__inline-link-input",
-    onKeyDown: handleLinkControlOnKeyDown,
-    onKeyPress: function onKeyPress(event) {
-      return event.stopPropagation();
-    },
-    currentLink: link,
-    onLinkChange: edit_updateLink(setAttributes, label),
+    withoutInteractiveFormatting: true,
+    allowedFormats: ['core/bold', 'core/italic', 'core/image', 'core/strikethrough']
+  }), showSubmenuIcon && Object(external_this_wp_element_["createElement"])("span", {
+    className: "wp-block-navigation-link__submenu-icon"
+  }, itemSubmenuIcon), isLinkOpen && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], {
+    position: "bottom center",
     onClose: function onClose() {
-      onCloseTimerId = setTimeout(function () {
-        return setIsLinkOpen(false);
-      }, 100);
-    },
-    currentSettings: [{
-      id: 'opensInNewTab',
-      title: Object(external_this_wp_i18n_["__"])('Open in new tab'),
-      checked: opensInNewTab
-    }],
-    onSettingsChange: edit_updateLinkSetting(setAttributes)
-  })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InnerBlocks"], {
+      return setIsLinkOpen(false);
+    }
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalLinkControl"], {
+    className: "wp-block-navigation-link__inline-link-input",
+    value: link,
+    showInitialSuggestions: true,
+    onChange: function onChange() {
+      var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          _ref3$title = _ref3.title,
+          newTitle = _ref3$title === void 0 ? '' : _ref3$title,
+          _ref3$url = _ref3.url,
+          newURL = _ref3$url === void 0 ? '' : _ref3$url,
+          newOpensInNewTab = _ref3.opensInNewTab,
+          id = _ref3.id;
+
+      return setAttributes({
+        title: Object(external_this_lodash_["escape"])(newTitle),
+        url: encodeURI(newURL),
+        label: function () {
+          var normalizedTitle = newTitle.replace(/http(s?):\/\//gi, '');
+          var normalizedURL = newURL.replace(/http(s?):\/\//gi, '');
+
+          if (newTitle !== '' && normalizedTitle !== normalizedURL && label !== newTitle) {
+            return Object(external_this_lodash_["escape"])(newTitle);
+          } else if (label) {
+            return label;
+          } // If there's no label, add the URL.
+
+
+          return Object(external_this_lodash_["escape"])(normalizedURL);
+        }(),
+        opensInNewTab: newOpensInNewTab,
+        id: id
+      });
+    }
+  }))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InnerBlocks"], {
     allowedBlocks: ['core/navigation-link'],
-    renderAppender: hasDescendants ? external_this_wp_blockEditor_["InnerBlocks"].ButtonBlockAppender : false
+    renderAppender: hasDescendants && isSelected || isParentOfSelectedBlock ? external_this_wp_blockEditor_["InnerBlocks"].DefaultAppender : false
   })));
 }
 
 /* harmony default export */ var navigation_link_edit = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select, ownProps) {
   var _select = select('core/block-editor'),
+      getBlockName = _select.getBlockName,
+      getBlockAttributes = _select.getBlockAttributes,
+      getBlockParents = _select.getBlockParents,
       getClientIdsOfDescendants = _select.getClientIdsOfDescendants,
       hasSelectedInnerBlock = _select.hasSelectedInnerBlock;
 
   var clientId = ownProps.clientId;
+  var rootBlock = getBlockParents(clientId)[0];
+  var parentBlock = getBlockParents(clientId, true)[0];
+  var rootBlockAttributes = getBlockAttributes(rootBlock);
+  var hasDescendants = !!getClientIdsOfDescendants([clientId]).length;
+  var isLevelZero = getBlockName(parentBlock) === 'core/navigation';
+  var showSubmenuIcon = rootBlockAttributes.showSubmenuIcon && isLevelZero && hasDescendants;
+  var isParentOfSelectedBlock = hasSelectedInnerBlock(clientId, true);
   return {
-    isParentOfSelectedBlock: hasSelectedInnerBlock(clientId, true),
-    hasDescendants: !!getClientIdsOfDescendants([clientId]).length
+    isParentOfSelectedBlock: isParentOfSelectedBlock,
+    hasDescendants: hasDescendants,
+    showSubmenuIcon: showSubmenuIcon
   };
 }), Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps, registry) {
   return {
@@ -14886,8 +15966,6 @@ function navigation_link_save_save() {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation-link/index.js
-
-
 /**
  * WordPress dependencies
  */
@@ -14936,21 +16014,34 @@ var navigation_link_name = navigation_link_metadata.name;
 var navigation_link_settings = {
   title: Object(external_this_wp_i18n_["__"])('Navigation Link'),
   parent: ['core/navigation'],
-  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-    d: "M12 7.27l4.28 10.43-3.47-1.53-.81-.36-.81.36-3.47 1.53L12 7.27M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"
-  })),
+  icon: library_navigation,
   description: Object(external_this_wp_i18n_["__"])('Add a page, link, or another item to your navigation.'),
   supports: {
-    reusable: false
+    reusable: false,
+    html: false
   },
-  __experimentalDisplayName: 'label',
+  __experimentalLabel: function __experimentalLabel(_ref) {
+    var label = _ref.label;
+    return label;
+  },
   edit: navigation_link_edit,
   save: navigation_link_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/comment.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var comment = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM20 4v13.17L18.83 16H4V4h16zM6 12h12v2H6zm0-3h12v2H6zm0-3h12v2H6z"
+}));
+/* harmony default export */ var library_comment = (comment);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/latest-comments/edit.js
 
@@ -15033,7 +16124,7 @@ function (_Component) {
           displayDate = _this$props$attribute.displayDate,
           displayExcerpt = _this$props$attribute.displayExcerpt;
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Latest Comments Settings')
+        title: Object(external_this_wp_i18n_["__"])('Latest comments settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
         label: Object(external_this_wp_i18n_["__"])('Display Avatar'),
         checked: displayAvatar,
@@ -15065,39 +16156,22 @@ function (_Component) {
 
 /* harmony default export */ var latest_comments_edit = (edit_LatestComments);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/latest-comments/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var latest_comments_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["G"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM20 4v13.17L18.83 16H4V4h16zM6 12h12v2H6zm0-3h12v2H6zm0-3h12v2H6z"
-}))));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/latest-comments/index.js
 /**
  * WordPress dependencies
  */
+
 
 /**
  * Internal dependencies
  */
 
 
-
 var latest_comments_name = 'core/latest-comments';
 var latest_comments_settings = {
   title: Object(external_this_wp_i18n_["__"])('Latest Comments'),
   description: Object(external_this_wp_i18n_["__"])('Display a list of your most recent comments.'),
-  icon: latest_comments_icon,
+  icon: library_comment,
   category: 'widgets',
   keywords: [Object(external_this_wp_i18n_["__"])('recent comments')],
   supports: {
@@ -15107,12 +16181,57 @@ var latest_comments_settings = {
   edit: latest_comments_edit
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/post-list.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var postList = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "11",
+  y: "7",
+  width: "6",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "11",
+  y: "11",
+  width: "6",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "11",
+  y: "15",
+  width: "6",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "7",
+  y: "7",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "7",
+  y: "11",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "7",
+  y: "15",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M20.1,3H3.9C3.4,3,3,3.4,3,3.9v16.2C3,20.5,3.4,21,3.9,21h16.2c0.4,0,0.9-0.5,0.9-0.9V3.9C21,3.4,20.5,3,20.1,3z M19,19H5V5h14V19z"
+}));
+/* harmony default export */ var post_list = (postList);
+
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(38);
+var external_this_wp_apiFetch_ = __webpack_require__(40);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // EXTERNAL MODULE: external {"this":["wp","date"]}
-var external_this_wp_date_ = __webpack_require__(55);
+var external_this_wp_date_ = __webpack_require__(58);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/latest-posts/edit.js
 
@@ -15213,7 +16332,7 @@ function (_Component) {
           postsToShow = attributes.postsToShow,
           excerptLength = attributes.excerptLength;
       var inspectorControls = Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Post Content Settings')
+        title: Object(external_this_wp_i18n_["__"])('Post content settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
         label: Object(external_this_wp_i18n_["__"])('Post Content'),
         checked: displayPostContent,
@@ -15248,7 +16367,7 @@ function (_Component) {
         min: 10,
         max: 100
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Post Meta Settings')
+        title: Object(external_this_wp_i18n_["__"])('Post meta settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
         label: Object(external_this_wp_i18n_["__"])('Display post date'),
         checked: displayPostDate,
@@ -15258,7 +16377,7 @@ function (_Component) {
           });
         }
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Sorting and Filtering')
+        title: Object(external_this_wp_i18n_["__"])('Sorting and filtering')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["QueryControls"], Object(esm_extends["a" /* default */])({
         order: order,
         orderBy: orderBy
@@ -15398,69 +16517,22 @@ function (_Component) {
   };
 })(edit_LatestPostsEdit));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/latest-posts/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var latest_posts_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M0,0h24v24H0V0z",
-  fill: "none"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "11",
-  y: "7",
-  width: "6",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "11",
-  y: "11",
-  width: "6",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "11",
-  y: "15",
-  width: "6",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "7",
-  y: "7",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "7",
-  y: "11",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "7",
-  y: "15",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M20.1,3H3.9C3.4,3,3,3.4,3,3.9v16.2C3,20.5,3.4,21,3.9,21h16.2c0.4,0,0.9-0.5,0.9-0.9V3.9C21,3.4,20.5,3,20.1,3z M19,19H5V5h14V19z"
-})));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/latest-posts/index.js
 /**
  * WordPress dependencies
  */
+
 
 /**
  * Internal dependencies
  */
 
 
-
 var latest_posts_name = 'core/latest-posts';
 var latest_posts_settings = {
   title: Object(external_this_wp_i18n_["__"])('Latest Posts'),
   description: Object(external_this_wp_i18n_["__"])('Display a list of your most recent posts.'),
-  icon: latest_posts_icon,
+  icon: post_list,
   category: 'widgets',
   keywords: [Object(external_this_wp_i18n_["__"])('recent posts')],
   supports: {
@@ -15469,6 +16541,21 @@ var latest_posts_settings = {
   },
   edit: latest_posts_edit
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/list.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var list = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M9 19h12v-2H9v2zm0-6h12v-2H9v2zm0-8v2h12V5H9zm-4-.5c-.828 0-1.5.672-1.5 1.5S4.172 7.5 5 7.5 6.5 6.828 6.5 6 5.828 4.5 5 4.5zm0 6c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5zm0 6c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5z"
+}));
+/* harmony default export */ var library_list = (list);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/list/ordered-list-settings.js
 
@@ -15485,7 +16572,7 @@ var ordered_list_settings_OrderedListSettings = function OrderedListSettings(_re
       reversed = _ref.reversed,
       start = _ref.start;
   return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Ordered List Settings')
+    title: Object(external_this_wp_i18n_["__"])('Ordered list settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
     label: Object(external_this_wp_i18n_["__"])('Start Value'),
     type: "number",
@@ -15517,6 +16604,10 @@ var ordered_list_settings_OrderedListSettings = function OrderedListSettings(_re
 
 
 
+function list_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function list_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { list_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { list_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * WordPress dependencies
  */
@@ -15547,7 +16638,8 @@ function ListEdit(_ref) {
 
   var controls = function controls(_ref2) {
     var value = _ref2.value,
-        onChange = _ref2.onChange;
+        onChange = _ref2.onChange,
+        onFocus = _ref2.onFocus;
     return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, isSelected && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichTextShortcut"], {
       type: "primary",
       character: "[",
@@ -15585,6 +16677,7 @@ function ListEdit(_ref) {
           onChange(Object(external_this_wp_richText_["__unstableChangeListType"])(value, {
             type: 'ul'
           }));
+          onFocus();
 
           if (Object(external_this_wp_richText_["__unstableIsListRootSelected"])(value)) {
             setAttributes({
@@ -15600,6 +16693,7 @@ function ListEdit(_ref) {
           onChange(Object(external_this_wp_richText_["__unstableChangeListType"])(value, {
             type: 'ol'
           }));
+          onFocus();
 
           if (Object(external_this_wp_richText_["__unstableIsListRootSelected"])(value)) {
             setAttributes({
@@ -15614,6 +16708,7 @@ function ListEdit(_ref) {
         isDisabled: !Object(external_this_wp_richText_["__unstableCanOutdentListItems"])(value),
         onClick: function onClick() {
           onChange(Object(external_this_wp_richText_["__unstableOutdentListItems"])(value));
+          onFocus();
         }
       }, {
         icon: 'editor-indent',
@@ -15624,6 +16719,7 @@ function ListEdit(_ref) {
           onChange(Object(external_this_wp_richText_["__unstableIndentListItems"])(value, {
             type: tagName
           }));
+          onFocus();
         }
       }]
     })));
@@ -15643,7 +16739,7 @@ function ListEdit(_ref) {
     placeholder: Object(external_this_wp_i18n_["__"])('Write list…'),
     onMerge: mergeBlocks,
     onSplit: function onSplit(value) {
-      return Object(external_this_wp_blocks_["createBlock"])(list_name, Object(objectSpread["a" /* default */])({}, attributes, {
+      return Object(external_this_wp_blocks_["createBlock"])(list_name, list_edit_objectSpread({}, attributes, {
         values: value
       }));
     },
@@ -15664,20 +16760,6 @@ function ListEdit(_ref) {
     start: start
   }));
 }
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/list/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var list_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["G"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M9 19h12v-2H9v2zm0-6h12v-2H9v2zm0-8v2h12V5H9zm-4-.5c-.828 0-1.5.672-1.5 1.5S4.172 7.5 5 7.5 6.5 6.828 6.5 6 5.828 4.5 5 4.5zm0 6c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5zm0 6c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5z"
-}))));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/list/save.js
 
@@ -15708,6 +16790,10 @@ function list_save_save(_ref) {
 
 
 
+function list_transforms_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function list_transforms_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { list_transforms_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { list_transforms_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * WordPress dependencies
  */
@@ -15717,7 +16803,7 @@ function list_save_save(_ref) {
 function getListContentSchema(_ref) {
   var phrasingContentSchema = _ref.phrasingContentSchema;
 
-  var listContentSchema = Object(objectSpread["a" /* default */])({}, phrasingContentSchema, {
+  var listContentSchema = list_transforms_objectSpread({}, phrasingContentSchema, {
     ul: {},
     ol: {
       attributes: ['type', 'start', 'reversed']
@@ -15811,7 +16897,7 @@ var list_transforms_transforms = {
         }
       }
 
-      return Object(external_this_wp_blocks_["createBlock"])('core/list', Object(objectSpread["a" /* default */])({}, Object(external_this_wp_blocks_["getBlockAttributes"])('core/list', node.outerHTML), attributes));
+      return Object(external_this_wp_blocks_["createBlock"])('core/list', list_transforms_objectSpread({}, Object(external_this_wp_blocks_["getBlockAttributes"])('core/list', node.outerHTML), {}, attributes));
     }
   }].concat(Object(toConsumableArray["a" /* default */])(['*', '-'].map(function (prefix) {
     return {
@@ -15875,14 +16961,18 @@ var list_transforms_transforms = {
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/list/index.js
 
 
+function list_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function list_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { list_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { list_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var list_metadata = {
@@ -15919,7 +17009,7 @@ var list_name = list_metadata.name;
 var list_settings = {
   title: Object(external_this_wp_i18n_["__"])('List'),
   description: Object(external_this_wp_i18n_["__"])('Create a bulleted or numbered list.'),
-  icon: list_icon,
+  icon: library_list,
   keywords: [Object(external_this_wp_i18n_["__"])('bullet list'), Object(external_this_wp_i18n_["__"])('ordered list'), Object(external_this_wp_i18n_["__"])('numbered list')],
   supports: {
     className: false,
@@ -15938,7 +17028,7 @@ var list_settings = {
       return attributes;
     }
 
-    return Object(objectSpread["a" /* default */])({}, attributes, {
+    return list_objectSpread({}, attributes, {
       values: attributes.values + values
     });
   },
@@ -16021,6 +17111,7 @@ function missing_save_save(_ref) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
@@ -16047,7 +17138,7 @@ var missing_name = missing_metadata.name;
 
 var missing_settings = {
   name: missing_name,
-  title: Object(external_this_wp_i18n_["__"])('Unrecognized Block'),
+  title: Object(external_this_wp_i18n_["__"])('Unsupported'),
   description: Object(external_this_wp_i18n_["__"])('Your site doesn’t include support for this block.'),
   supports: {
     className: false,
@@ -16056,9 +17147,38 @@ var missing_settings = {
     html: false,
     reusable: false
   },
+  __experimentalLabel: function __experimentalLabel(attributes, _ref) {
+    var context = _ref.context;
+
+    if (context === 'accessibility') {
+      var originalName = attributes.originalName;
+      var originalBlockType = originalName ? Object(external_this_wp_blocks_["getBlockType"])(originalName) : undefined;
+
+      if (originalBlockType) {
+        return originalBlockType.settings.title || originalName;
+      }
+
+      return '';
+    }
+  },
   edit: missing_edit,
   save: missing_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/more.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var more = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M2 9v2h19V9H2zm0 6h5v-2H2v2zm7 0h5v-2H9v2zm7 0h5v-2h-5v2z"
+}));
+/* harmony default export */ var library_more = (more);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/more/edit.js
 
@@ -16141,7 +17261,10 @@ function (_Component) {
 
       var defaultText = this.state.defaultText;
       var value = customText !== undefined ? customText : defaultText;
-      var inputLength = value.length + 1;
+      var inputLength = value.length + 1.2;
+      var currentWidth = {
+        width: inputLength + 'em'
+      };
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
         label: Object(external_this_wp_i18n_["__"])('Hide the excerpt on the full content page'),
         checked: !!noTeaser,
@@ -16152,9 +17275,9 @@ function (_Component) {
       }, Object(external_this_wp_element_["createElement"])("input", {
         type: "text",
         value: value,
-        size: inputLength,
         onChange: this.onChangeInput,
-        onKeyDown: this.onKeyDown
+        onKeyDown: this.onKeyDown,
+        style: currentWidth
       })));
     }
   }]);
@@ -16163,23 +17286,6 @@ function (_Component) {
 }(external_this_wp_element_["Component"]);
 
 
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/more/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var more_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["G"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M2 9v2h19V9H2zm0 6h5v-2H2v2zm7 0h5v-2H9v2zm7 0h5v-2h-5v2z"
-}))));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/more/save.js
 
@@ -16244,10 +17350,10 @@ var more_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var more_metadata = {
@@ -16270,7 +17376,7 @@ var more_name = more_metadata.name;
 var more_settings = {
   title: Object(external_this_wp_i18n_["_x"])('More', 'block name'),
   description: Object(external_this_wp_i18n_["__"])('Content before this block will be shown in the excerpt on your archives page.'),
-  icon: more_icon,
+  icon: library_more,
   supports: {
     customClassName: false,
     className: false,
@@ -16278,10 +17384,32 @@ var more_settings = {
     multiple: false
   },
   example: {},
+  __experimentalLabel: function __experimentalLabel(attributes, _ref) {
+    var context = _ref.context;
+
+    if (context === 'accessibility') {
+      return attributes.customText;
+    }
+  },
   transforms: more_transforms,
   edit: edit_MoreEdit,
   save: more_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/page-break.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var pageBreak = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M9 11h6v2H9zM2 11h5v2H2zM17 11h5v2h-5zM6 4h7v5h7V8l-6-6H6a2 2 0 0 0-2 2v5h2zM18 20H6v-5H4v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5h-2z"
+}));
+/* harmony default export */ var page_break = (pageBreak);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/nextpage/edit.js
 
@@ -16295,25 +17423,6 @@ function NextPageEdit() {
     className: "wp-block-nextpage"
   }, Object(external_this_wp_element_["createElement"])("span", null, Object(external_this_wp_i18n_["__"])('Page break')));
 }
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/nextpage/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var nextpage_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  width: "24px",
-  height: "24px",
-  viewBox: "0 0 24 24"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M0 0h24v24H0z",
-  fill: "none"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M9 11h6v2H9zM2 11h5v2H2zM17 11h5v2h-5zM6 4h7v5h7V8l-6-6H6a2 2 0 0 0-2 2v5h2zM18 20H6v-5H4v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5h-2z"
-})));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/nextpage/save.js
 
@@ -16354,10 +17463,10 @@ var nextpage_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var nextpage_metadata = {
@@ -16372,7 +17481,7 @@ var nextpage_settings = {
   title: Object(external_this_wp_i18n_["__"])('Page Break'),
   parent: ['core/post-content'],
   description: Object(external_this_wp_i18n_["__"])('Separate your content into a multi-page experience.'),
-  icon: nextpage_icon,
+  icon: page_break,
   keywords: [Object(external_this_wp_i18n_["__"])('next page'), Object(external_this_wp_i18n_["__"])('pagination')],
   supports: {
     customClassName: false,
@@ -16384,6 +17493,41 @@ var nextpage_settings = {
   edit: NextPageEdit,
   save: nextpage_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/preformatted.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var preformatted = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M20,4H4C2.9,4,2,4.9,2,6v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,18H4V6h16V18z"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "6",
+  y: "10",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "6",
+  y: "14",
+  width: "8",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "16",
+  y: "14",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "10",
+  y: "10",
+  width: "8",
+  height: "2"
+}));
+/* harmony default export */ var library_preformatted = (preformatted);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/preformatted/edit.js
 
@@ -16416,43 +17560,6 @@ function PreformattedEdit(_ref) {
     onMerge: mergeBlocks
   });
 }
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/preformatted/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var preformatted_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M0,0h24v24H0V0z",
-  fill: "none"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M20,4H4C2.9,4,2,4.9,2,6v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,18H4V6h16V18z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "6",
-  y: "10",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "6",
-  y: "14",
-  width: "8",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "16",
-  y: "14",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "10",
-  y: "10",
-  width: "8",
-  height: "2"
-})));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/preformatted/save.js
 
@@ -16514,10 +17621,10 @@ var preformatted_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var preformatted_metadata = {
@@ -16540,7 +17647,7 @@ var preformatted_name = preformatted_metadata.name;
 var preformatted_settings = {
   title: Object(external_this_wp_i18n_["__"])('Preformatted'),
   description: Object(external_this_wp_i18n_["__"])('Add text that respects your spacing and tabs, and also allows styling.'),
-  icon: preformatted_icon,
+  icon: library_preformatted,
   example: {
     attributes: {
       // translators: Sample content for the Preformatted block. Can be replaced with a more locale-adequate work.
@@ -16557,6 +17664,25 @@ var preformatted_settings = {
   }
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/pullquote.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var pullquote = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Polygon"], {
+  points: "21 18 2 18 2 20 21 20"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "m19 10v4h-15v-4h15m1-2h-17c-0.55 0-1 0.45-1 1v6c0 0.55 0.45 1 1 1h17c0.55 0 1-0.45 1-1v-6c0-0.55-0.45-1-1-1z"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Polygon"], {
+  points: "21 4 2 4 2 6 21 6"
+}));
+/* harmony default export */ var library_pullquote = (pullquote);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/pullquote/shared.js
 var SOLID_COLOR_STYLE_NAME = 'solid-color';
 var SOLID_COLOR_CLASS = "is-style-".concat(SOLID_COLOR_STYLE_NAME);
@@ -16566,6 +17692,9 @@ var SOLID_COLOR_CLASS = "is-style-".concat(SOLID_COLOR_STYLE_NAME);
 
 
 
+function pullquote_deprecated_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function pullquote_deprecated_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { pullquote_deprecated_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { pullquote_deprecated_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -16623,7 +17752,7 @@ function parseBorderColor(styleString) {
 }
 
 var pullquote_deprecated_deprecated = [{
-  attributes: Object(objectSpread["a" /* default */])({}, pullquote_deprecated_blockAttributes, {
+  attributes: pullquote_deprecated_objectSpread({}, pullquote_deprecated_blockAttributes, {
     // figureStyle is an attribute that never existed.
     // We are using it as a way to access the styles previously applied to the figure.
     figureStyle: {
@@ -16703,14 +17832,14 @@ var pullquote_deprecated_deprecated = [{
       var borderColor = parseBorderColor(figureStyle);
 
       if (borderColor) {
-        return Object(objectSpread["a" /* default */])({}, attributes, {
+        return pullquote_deprecated_objectSpread({}, attributes, {
           className: className,
           customMainColor: borderColor
         });
       }
     }
 
-    return Object(objectSpread["a" /* default */])({
+    return pullquote_deprecated_objectSpread({
       className: className,
       mainColor: mainColor
     }, attributes);
@@ -16771,7 +17900,7 @@ var pullquote_deprecated_deprecated = [{
     })));
   }
 }, {
-  attributes: Object(objectSpread["a" /* default */])({}, pullquote_deprecated_blockAttributes),
+  attributes: pullquote_deprecated_objectSpread({}, pullquote_deprecated_blockAttributes),
   save: function save(_ref4) {
     var attributes = _ref4.attributes;
     var value = attributes.value,
@@ -16785,7 +17914,7 @@ var pullquote_deprecated_deprecated = [{
     }));
   }
 }, {
-  attributes: Object(objectSpread["a" /* default */])({}, pullquote_deprecated_blockAttributes, {
+  attributes: pullquote_deprecated_objectSpread({}, pullquote_deprecated_blockAttributes, {
     citation: {
       type: 'string',
       source: 'html',
@@ -16969,7 +18098,7 @@ function (_Component) {
         },
         className: "wp-block-pullquote__citation"
       }))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["PanelColorSettings"], {
-        title: Object(external_this_wp_i18n_["__"])('Color Settings'),
+        title: Object(external_this_wp_i18n_["__"])('Color settings'),
         colorSettings: [{
           value: mainColor.color,
           onChange: this.pullQuoteMainColorSetter,
@@ -16995,27 +18124,6 @@ function (_Component) {
   mainColor: 'background-color',
   textColor: 'color'
 })(edit_PullQuoteEdit));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/pullquote/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var pullquote_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M0,0h24v24H0V0z",
-  fill: "none"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Polygon"], {
-  points: "21 18 2 18 2 20 21 20"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "m19 10v4h-15v-4h15m1-2h-17c-0.55 0-1 0.45-1 1v6c0 0.55 0.45 1 1 1h17c0.55 0 1-0.45 1-1v-6c0-0.55-0.45-1-1-1z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Polygon"], {
-  points: "21 4 2 4 2 6 21 6"
-})));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/pullquote/save.js
 
@@ -17087,10 +18195,10 @@ function pullquote_save_save(_ref) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -17131,7 +18239,7 @@ var pullquote_name = pullquote_metadata.name;
 var pullquote_settings = {
   title: Object(external_this_wp_i18n_["__"])('Pullquote'),
   description: Object(external_this_wp_i18n_["__"])('Give special visual emphasis to a quote from your text.'),
-  icon: pullquote_icon,
+  icon: library_pullquote,
   example: {
     attributes: {
       value: '<p>' + // translators: Quote serving as example for the Pullquote block. Attributed to Matt Mullenweg.
@@ -17529,6 +18637,21 @@ var block_settings = {
   edit: block_edit
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/rss.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var rss = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "-2 -2 24 24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M14.92 18H18C18 9.32 10.82 2.25 2 2.25v3.02c7.12 0 12.92 5.71 12.92 12.73zm-5.44 0h3.08C12.56 12.27 7.82 7.6 2 7.6v3.02c2 0 3.87.77 5.29 2.16C8.7 14.17 9.48 16.03 9.48 18zm-5.35-.02c1.17 0 2.13-.93 2.13-2.09 0-1.15-.96-2.09-2.13-2.09-1.18 0-2.13.94-2.13 2.09 0 1.16.95 2.09 2.13 2.09z"
+}));
+/* harmony default export */ var library_rss = (rss);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/rss/edit.js
 
 
@@ -17659,7 +18782,7 @@ function (_Component) {
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], {
         controls: toolbarControls
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('RSS Settings')
+        title: Object(external_this_wp_i18n_["__"])('RSS settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["RangeControl"], {
         label: Object(external_this_wp_i18n_["__"])('Number of items'),
         value: itemsToShow,
@@ -17722,6 +18845,7 @@ function (_Component) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
@@ -17731,7 +18855,7 @@ var rss_name = 'core/rss';
 var rss_settings = {
   title: Object(external_this_wp_i18n_["__"])('RSS'),
   description: Object(external_this_wp_i18n_["__"])('Display entries from any RSS or Atom feed.'),
-  icon: 'rss',
+  icon: library_rss,
   category: 'widgets',
   keywords: [Object(external_this_wp_i18n_["__"])('atom'), Object(external_this_wp_i18n_["__"])('feed')],
   supports: {
@@ -17745,6 +18869,21 @@ var rss_settings = {
   },
   edit: rss_edit
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/search.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var search = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "-2 -2 24 24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M12.14 4.18c1.87 1.87 2.11 4.75.72 6.89.12.1.22.21.36.31.2.16.47.36.81.59.34.24.56.39.66.47.42.31.73.57.94.78.32.32.6.65.84 1 .25.35.44.69.59 1.04.14.35.21.68.18 1-.02.32-.14.59-.36.81s-.49.34-.81.36c-.31.02-.65-.04-.99-.19-.35-.14-.7-.34-1.04-.59-.35-.24-.68-.52-1-.84-.21-.21-.47-.52-.77-.93-.1-.13-.25-.35-.47-.66-.22-.32-.4-.57-.56-.78-.16-.2-.29-.35-.44-.5-2.07 1.09-4.69.76-6.44-.98-2.14-2.15-2.14-5.64 0-7.78 2.15-2.15 5.63-2.15 7.78 0zm-1.41 6.36c1.36-1.37 1.36-3.58 0-4.95-1.37-1.37-3.59-1.37-4.95 0-1.37 1.37-1.37 3.58 0 4.95 1.36 1.37 3.58 1.37 4.95 0z"
+}));
+/* harmony default export */ var library_search = (search);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/search/edit.js
 
@@ -17806,6 +18945,7 @@ function SearchEdit(_ref) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
@@ -17815,7 +18955,7 @@ var search_name = 'core/search';
 var search_settings = {
   title: Object(external_this_wp_i18n_["__"])('Search'),
   description: Object(external_this_wp_i18n_["__"])('Help visitors find your content.'),
-  icon: 'search',
+  icon: library_search,
   category: 'widgets',
   keywords: [Object(external_this_wp_i18n_["__"])('find')],
   supports: {
@@ -17824,6 +18964,27 @@ var search_settings = {
   example: {},
   edit: SearchEdit
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/group.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var group = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  fillRule: "evenodd",
+  clipRule: "evenodd",
+  d: "M9 8a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-1v3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h1V8zm2 3h4V9h-4v2zm2 2H9v2h4v-2z"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  fillRule: "evenodd",
+  clipRule: "evenodd",
+  d: "M2 4.732A2 2 0 1 1 4.732 2h14.536A2 2 0 1 1 22 4.732v14.536A2 2 0 1 1 19.268 22H4.732A2 2 0 1 1 2 19.268V4.732zM4.732 4h14.536c.175.304.428.557.732.732v14.536a2.01 2.01 0 0 0-.732.732H4.732A2.01 2.01 0 0 0 4 19.268V4.732A2.01 2.01 0 0 0 4.732 4z"
+}));
+/* harmony default export */ var library_group = (group);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/group/deprecated.js
 
@@ -17875,10 +19036,6 @@ var group_deprecated_deprecated = [// v1 of group block. Deprecated to add an in
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
 
@@ -17886,40 +19043,40 @@ var group_deprecated_deprecated = [// v1 of group block. Deprecated to add an in
 
 
 
-
 function GroupEdit(_ref) {
-  var className = _ref.className,
-      setBackgroundColor = _ref.setBackgroundColor,
-      backgroundColor = _ref.backgroundColor,
-      hasInnerBlocks = _ref.hasInnerBlocks;
-  var styles = {
-    backgroundColor: backgroundColor.color
-  };
-  var classes = classnames_default()(className, backgroundColor.class, {
-    'has-background': !!backgroundColor.color
-  });
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["PanelColorSettings"], {
-    title: Object(external_this_wp_i18n_["__"])('Color Settings'),
-    colorSettings: [{
-      value: backgroundColor.color,
-      onChange: setBackgroundColor,
-      label: Object(external_this_wp_i18n_["__"])('Background Color')
-    }]
-  })), Object(external_this_wp_element_["createElement"])("div", {
-    className: classes,
-    style: styles
+  var hasInnerBlocks = _ref.hasInnerBlocks;
+  var ref = Object(external_this_wp_element_["useRef"])();
+
+  var _experimentalUseColo = Object(external_this_wp_blockEditor_["__experimentalUseColors"])([{
+    name: 'textColor',
+    property: 'color'
+  }, {
+    name: 'backgroundColor',
+    className: 'has-background'
+  }], {
+    contrastCheckers: {
+      backgroundColor: true,
+      textColor: true
+    },
+    colorDetector: {
+      targetRef: ref
+    }
+  }),
+      TextColor = _experimentalUseColo.TextColor,
+      BackgroundColor = _experimentalUseColo.BackgroundColor,
+      InspectorControlsColorPanel = _experimentalUseColo.InspectorControlsColorPanel;
+
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, InspectorControlsColorPanel, Object(external_this_wp_element_["createElement"])(BackgroundColor, null, Object(external_this_wp_element_["createElement"])(TextColor, null, Object(external_this_wp_element_["createElement"])("div", {
+    className: "wp-block-group",
+    ref: ref
   }, Object(external_this_wp_element_["createElement"])("div", {
     className: "wp-block-group__inner-container"
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InnerBlocks"], {
-    renderAppender: !hasInnerBlocks && external_this_wp_blockEditor_["InnerBlocks"].ButtonBlockAppender,
-    __experimentalUIParts: {
-      hasSelectedUI: false,
-      hasMovers: false
-    }
-  }))));
+    renderAppender: !hasInnerBlocks && external_this_wp_blockEditor_["InnerBlocks"].ButtonBlockAppender
+  }))))));
 }
 
-/* harmony default export */ var group_edit = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_blockEditor_["withColors"])('backgroundColor'), Object(external_this_wp_data_["withSelect"])(function (select, _ref2) {
+/* harmony default export */ var group_edit = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select, _ref2) {
   var clientId = _ref2.clientId;
 
   var _select = select('core/block-editor'),
@@ -17930,28 +19087,6 @@ function GroupEdit(_ref) {
     hasInnerBlocks: !!(block && block.innerBlocks.length)
   };
 })])(GroupEdit));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/group/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var group_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  width: "24",
-  height: "24",
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fillRule: "evenodd",
-  clipRule: "evenodd",
-  d: "M9 8a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-1v3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h1V8zm2 3h4V9h-4v2zm2 2H9v2h4v-2z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fillRule: "evenodd",
-  clipRule: "evenodd",
-  d: "M2 4.732A2 2 0 1 1 4.732 2h14.536A2 2 0 1 1 22 4.732v14.536A2 2 0 1 1 19.268 22H4.732A2 2 0 1 1 2 19.268V4.732zM4.732 4h14.536c.175.304.428.557.732.732v14.536a2.01 2.01 0 0 0-.732.732H4.732A2.01 2.01 0 0 0 4 19.268V4.732A2.01 2.01 0 0 0 4.732 4z"
-})));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/group/save.js
 
@@ -17968,13 +19103,18 @@ function GroupEdit(_ref) {
 function group_save_save(_ref) {
   var attributes = _ref.attributes;
   var backgroundColor = attributes.backgroundColor,
-      customBackgroundColor = attributes.customBackgroundColor;
+      customBackgroundColor = attributes.customBackgroundColor,
+      textColor = attributes.textColor,
+      customTextColor = attributes.customTextColor;
   var backgroundClass = Object(external_this_wp_blockEditor_["getColorClassName"])('background-color', backgroundColor);
+  var textClass = Object(external_this_wp_blockEditor_["getColorClassName"])('color', textColor);
   var className = classnames_default()(backgroundClass, {
+    'has-text-color': textColor || customTextColor,
     'has-background': backgroundColor || customBackgroundColor
   });
   var styles = {
-    backgroundColor: backgroundClass ? undefined : customBackgroundColor
+    backgroundColor: backgroundClass ? undefined : customBackgroundColor,
+    color: textClass ? undefined : customTextColor
   };
   return Object(external_this_wp_element_["createElement"])("div", {
     className: className,
@@ -17990,10 +19130,10 @@ function group_save_save(_ref) {
  */
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -18006,6 +19146,12 @@ var group_metadata = {
     },
     customBackgroundColor: {
       type: "string"
+    },
+    textColor: {
+      type: "string"
+    },
+    customTextColor: {
+      type: "string"
     }
   }
 };
@@ -18014,12 +19160,13 @@ var group_name = group_metadata.name;
 
 var group_settings = {
   title: Object(external_this_wp_i18n_["__"])('Group'),
-  icon: group_icon,
+  icon: library_group,
   description: Object(external_this_wp_i18n_["__"])('A block that groups other blocks.'),
   keywords: [Object(external_this_wp_i18n_["__"])('container'), Object(external_this_wp_i18n_["__"])('wrapper'), Object(external_this_wp_i18n_["__"])('row'), Object(external_this_wp_i18n_["__"])('section')],
   example: {
     attributes: {
-      customBackgroundColor: '#ffffff'
+      customBackgroundColor: '#ffffff',
+      customTextColor: '#000000'
     },
     innerBlocks: [{
       name: 'core/paragraph',
@@ -18106,6 +19253,21 @@ var group_settings = {
   deprecated: group_deprecated
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/separator.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var separator = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M19 13H5v-2h14v2z"
+}));
+/* harmony default export */ var library_separator = (separator);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/separator/separator-settings.js
 
 
@@ -18119,7 +19281,7 @@ var separator_settings_SeparatorSettings = function SeparatorSettings(_ref) {
   var color = _ref.color,
       setColor = _ref.setColor;
   return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["PanelColorSettings"], {
-    title: Object(external_this_wp_i18n_["__"])('Color Settings'),
+    title: Object(external_this_wp_i18n_["__"])('Color settings'),
     colorSettings: [{
       value: color.color,
       onChange: setColor,
@@ -18171,23 +19333,6 @@ function SeparatorEdit(_ref) {
 /* harmony default export */ var separator_edit = (Object(external_this_wp_blockEditor_["withColors"])('color', {
   textColor: 'color'
 })(SeparatorEdit));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/separator/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var separator_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M19 13H5v-2h14v2z"
-})));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/separator/save.js
 
@@ -18254,10 +19399,10 @@ var separator_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var separator_metadata = {
@@ -18279,7 +19424,7 @@ var separator_name = separator_metadata.name;
 var build_module_separator_settings = {
   title: Object(external_this_wp_i18n_["__"])('Separator'),
   description: Object(external_this_wp_i18n_["__"])('Create a break between ideas or sections with a horizontal separator.'),
-  icon: separator_icon,
+  icon: library_separator,
   keywords: [Object(external_this_wp_i18n_["__"])('horizontal-line'), 'hr', Object(external_this_wp_i18n_["__"])('divider')],
   example: {
     attributes: {
@@ -18302,6 +19447,21 @@ var build_module_separator_settings = {
   edit: separator_edit,
   save: separatorSave
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/shortcode.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var shortcode_shortcode = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M8.5,21.4l1.9,0.5l5.2-19.3l-1.9-0.5L8.5,21.4z M3,19h4v-2H5V7h2V5H3V19z M17,5v2h2v10h-2v2h4V5H17z"
+}));
+/* harmony default export */ var library_shortcode = (shortcode_shortcode);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/shortcode/edit.js
 
@@ -18338,20 +19498,6 @@ function ShortcodeEdit(_ref) {
   }));
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/shortcode/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var shortcode_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M8.5,21.4l1.9,0.5l5.2-19.3l-1.9-0.5L8.5,21.4z M3,19h4v-2H5V7h2V5H3V19z M17,5v2h2v10h-2v2h4V5H17z"
-})));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/shortcode/save.js
 
 
@@ -18365,7 +19511,7 @@ function shortcode_save_save(_ref) {
 }
 
 // EXTERNAL MODULE: external {"this":["wp","autop"]}
-var external_this_wp_autop_ = __webpack_require__(70);
+var external_this_wp_autop_ = __webpack_require__(83);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/shortcode/transforms.js
 /**
@@ -18402,6 +19548,7 @@ var shortcode_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
@@ -18409,13 +19556,22 @@ var shortcode_transforms_transforms = {
 
 
 
+var shortcode_metadata = {
+  name: "core/shortcode",
+  category: "widgets",
+  attributes: {
+    text: {
+      type: "string",
+      source: "html"
+    }
+  }
+};
+var shortcode_name = shortcode_metadata.name;
 
-var shortcode_name = 'core/shortcode';
 var shortcode_settings = {
   title: Object(external_this_wp_i18n_["__"])('Shortcode'),
   description: Object(external_this_wp_i18n_["__"])('Insert additional custom elements with a WordPress shortcode.'),
-  icon: shortcode_icon,
-  category: 'widgets',
+  icon: library_shortcode,
   transforms: shortcode_transforms,
   supports: {
     customClassName: false,
@@ -18425,6 +19581,21 @@ var shortcode_settings = {
   edit: ShortcodeEdit,
   save: shortcode_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/resize-corner-n-e.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var resizeCornerNE = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M13 4v2h3.59L6 16.59V13H4v7h7v-2H7.41L18 7.41V11h2V4h-7"
+}));
+/* harmony default export */ var resize_corner_n_e = (resizeCornerNE);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/spacer/edit.js
 
@@ -18489,7 +19660,7 @@ var edit_SpacerEdit = function SpacerEdit(_ref) {
       setInputHeightValue(spacerHeight);
     }
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-    title: Object(external_this_wp_i18n_["__"])('Spacer Settings')
+    title: Object(external_this_wp_i18n_["__"])('Spacer settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["BaseControl"], {
     label: Object(external_this_wp_i18n_["__"])('Height in pixels'),
     id: id
@@ -18533,20 +19704,6 @@ var edit_SpacerEdit = function SpacerEdit(_ref) {
   };
 }), external_this_wp_compose_["withInstanceId"]])(edit_SpacerEdit));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/spacer/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var spacer_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["G"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M13 4v2h3.59L6 16.59V13H4v7h7v-2H7.41L18 7.41V11h2V4h-7"
-}))));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/spacer/save.js
 
 function spacer_save_save(_ref) {
@@ -18564,10 +19721,10 @@ function spacer_save_save(_ref) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var spacer_metadata = {
@@ -18586,13 +19743,13 @@ var spacer_name = spacer_metadata.name;
 var spacer_settings = {
   title: Object(external_this_wp_i18n_["__"])('Spacer'),
   description: Object(external_this_wp_i18n_["__"])('Add white space between blocks and customize its height.'),
-  icon: spacer_icon,
+  icon: resize_corner_n_e,
   edit: spacer_edit,
   save: spacer_save_save
 };
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(33);
+var external_this_wp_deprecated_ = __webpack_require__(35);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/subhead/edit.js
@@ -18638,20 +19795,6 @@ function SubheadEdit(_ref) {
   }));
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/subhead/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var subhead_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M7.1 6l-.5 3h4.5L9.4 19h3l1.8-10h4.5l.5-3H7.1z"
-})));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/subhead/save.js
 
 
@@ -18689,14 +19832,16 @@ var subhead_transforms_transforms = {
 /* harmony default export */ var subhead_transforms = (subhead_transforms_transforms);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/subhead/index.js
+
+
 /**
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var subhead_metadata = {
@@ -18720,7 +19865,12 @@ var subhead_name = subhead_metadata.name;
 var subhead_settings = {
   title: Object(external_this_wp_i18n_["__"])('Subheading (deprecated)'),
   description: Object(external_this_wp_i18n_["__"])('This block is deprecated. Please use the Paragraph block instead.'),
-  icon: subhead_icon,
+  icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 24 24"
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
+    d: "M7.1 6l-.5 3h4.5L9.4 19h3l1.8-10h4.5l.5-3H7.1z"
+  })),
   supports: {
     // Hide from inserter as this block is deprecated.
     inserter: false,
@@ -18730,6 +19880,21 @@ var subhead_settings = {
   edit: SubheadEdit,
   save: subhead_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/table.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var table = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M20 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 2v3H5V5h15zm-5 14h-5v-9h5v9zM5 10h3v9H5v-9zm12 9v-9h3v9h-3z"
+}));
+/* harmony default export */ var library_table = (table);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/table/deprecated.js
 
@@ -18909,10 +20074,22 @@ var table_deprecated_deprecated = [{
 }];
 /* harmony default export */ var table_deprecated = (table_deprecated_deprecated);
 
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-left.js
+var align_left = __webpack_require__(275);
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-center.js
+var align_center = __webpack_require__(276);
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-right.js
+var align_right = __webpack_require__(277);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/table/state.js
 
 
 
+function state_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function state_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { state_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { state_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -19076,7 +20253,7 @@ function insertRow(state, _ref2) {
     cells: Object(external_this_lodash_["times"])(cellCount, function (index) {
       var firstCellInColumn = Object(external_this_lodash_["get"])(firstRow, ['cells', index], {});
       var inheritedAttributes = Object(external_this_lodash_["pick"])(firstCellInColumn, INHERITED_COLUMN_ATTRIBUTES);
-      return Object(objectSpread["a" /* default */])({}, inheritedAttributes, {
+      return state_objectSpread({}, inheritedAttributes, {
         content: '',
         tag: sectionName === 'head' ? 'th' : 'td'
       });
@@ -19213,23 +20390,6 @@ function isEmptyRow(row) {
   return !(row.cells && row.cells.length);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/table/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var table_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["G"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M20 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 2v3H5V5h15zm-5 14h-5v-9h5v9zM5 10h3v9H5v-9zm12 9v-9h3v9h-3z"
-}))));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/table/edit.js
 
 
@@ -19240,6 +20400,9 @@ function isEmptyRow(row) {
 
 
 
+function table_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function table_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { table_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { table_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * External dependencies
@@ -19253,10 +20416,10 @@ function isEmptyRow(row) {
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var BACKGROUND_COLORS = [{
@@ -19277,15 +20440,15 @@ var BACKGROUND_COLORS = [{
   slug: 'subtle-pale-pink'
 }];
 var ALIGNMENT_CONTROLS = [{
-  icon: 'editor-alignleft',
+  icon: align_left["a" /* default */],
   title: Object(external_this_wp_i18n_["__"])('Align Column Left'),
   align: 'left'
 }, {
-  icon: 'editor-aligncenter',
+  icon: align_center["a" /* default */],
   title: Object(external_this_wp_i18n_["__"])('Align Column Center'),
   align: 'center'
 }, {
-  icon: 'editor-alignright',
+  icon: align_right["a" /* default */],
   title: Object(external_this_wp_i18n_["__"])('Align Column Right'),
   align: 'right'
 }];
@@ -19409,7 +20572,7 @@ function (_Component) {
           attributes = _this$props2.attributes,
           setAttributes = _this$props2.setAttributes;
       setAttributes(updateSelectedCell(attributes, selectedCell, function (cellAttributes) {
-        return Object(objectSpread["a" /* default */])({}, cellAttributes, {
+        return table_edit_objectSpread({}, cellAttributes, {
           content: content
         });
       }));
@@ -19439,7 +20602,7 @@ function (_Component) {
           attributes = _this$props3.attributes,
           setAttributes = _this$props3.setAttributes;
       var newAttributes = updateSelectedCell(attributes, columnSelection, function (cellAttributes) {
-        return Object(objectSpread["a" /* default */])({}, cellAttributes, {
+        return table_edit_objectSpread({}, cellAttributes, {
           align: align
         });
       });
@@ -19646,7 +20809,7 @@ function (_Component) {
 
       return function () {
         _this2.setState({
-          selectedCell: Object(objectSpread["a" /* default */])({}, cellLocation, {
+          selectedCell: table_edit_objectSpread({}, cellLocation, {
             type: 'cell'
           })
         });
@@ -19732,6 +20895,14 @@ function (_Component) {
             columnIndex: columnIndex
           };
           var cellClasses = classnames_default()(Object(defineProperty["a" /* default */])({}, "has-text-align-".concat(align), align), 'wp-block-table__cell-content');
+          var placeholder = '';
+
+          if (name === 'head') {
+            placeholder = Object(external_this_wp_i18n_["__"])('Header label');
+          } else if (name === 'foot') {
+            placeholder = Object(external_this_wp_i18n_["__"])('Footer label');
+          }
+
           return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
             tagName: CellTag,
             key: columnIndex,
@@ -19739,7 +20910,8 @@ function (_Component) {
             scope: CellTag === 'th' ? scope : undefined,
             value: content,
             onChange: _this3.onChange,
-            unstableOnFocus: _this3.createOnFocus(cellLocation)
+            unstableOnFocus: _this3.createOnFocus(cellLocation),
+            placeholder: placeholder
           });
         }));
       }));
@@ -19782,7 +20954,7 @@ function (_Component) {
         return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Placeholder"], {
           label: Object(external_this_wp_i18n_["__"])('Table'),
           icon: Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockIcon"], {
-            icon: table_icon,
+            icon: library_table,
             showColors: true
           }),
           instructions: Object(external_this_wp_i18n_["__"])('Insert a table for sharing data.')
@@ -19828,7 +21000,7 @@ function (_Component) {
         },
         onHover: this.onHoverAlignment
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Table Settings'),
+        title: Object(external_this_wp_i18n_["__"])('Table settings'),
         className: "blocks-table-settings"
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
         label: Object(external_this_wp_i18n_["__"])('Fixed width table cells'),
@@ -19843,7 +21015,7 @@ function (_Component) {
         checked: !!(foot && foot.length),
         onChange: this.onToggleFooterSection
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["PanelColorSettings"], {
-        title: Object(external_this_wp_i18n_["__"])('Color Settings'),
+        title: Object(external_this_wp_i18n_["__"])('Color settings'),
         initialOpen: false,
         colorSettings: [{
           value: backgroundColor.color,
@@ -20026,10 +21198,10 @@ var table_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -20164,7 +21336,7 @@ var table_name = table_metadata.name;
 var table_settings = {
   title: Object(external_this_wp_i18n_["__"])('Table'),
   description: Object(external_this_wp_i18n_["__"])('Insert a table — perfect for sharing charts and data.'),
-  icon: table_icon,
+  icon: library_table,
   example: {
     attributes: {
       head: [{
@@ -20419,6 +21591,21 @@ var text_columns_settings = {
   save: text_columns_save_save
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/verse.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var verse = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M21 11.01L3 11V13H21V11.01ZM3 16H17V18H3V16ZM15 6H3V8.01L15 8V6Z"
+}));
+/* harmony default export */ var library_verse = (verse);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/verse/deprecated.js
 
 
@@ -20497,20 +21684,6 @@ function VerseEdit(_ref) {
   }));
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/verse/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var verse_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M21 11.01L3 11V13H21V11.01ZM3 16H17V18H3V16ZM15 6H3V8.01L15 8V6Z"
-})));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/verse/save.js
 
 
@@ -20564,10 +21737,10 @@ var verse_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -20594,7 +21767,7 @@ var verse_name = verse_metadata.name;
 var verse_settings = {
   title: Object(external_this_wp_i18n_["__"])('Verse'),
   description: Object(external_this_wp_i18n_["__"])('Insert poetry. Use special spacing formats. Or quote song lyrics.'),
-  icon: verse_icon,
+  icon: library_verse,
   example: {
     attributes: {
       // translators: Sample content for the Verse block. Can be replaced with a more locale-adequate work.
@@ -20613,22 +21786,20 @@ var verse_settings = {
   save: verse_save_save
 };
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/video/icon.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/video.js
 
 
 /**
  * WordPress dependencies
  */
 
-/* harmony default export */ var video_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
+var video_video = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  fill: "none",
-  d: "M0 0h24v24H0V0z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
   d: "M4 6.47L5.76 10H20v8H4V6.47M22 4h-4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4z"
-})));
+}));
+/* harmony default export */ var library_video = (video_video);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/video/edit-common-settings.js
 
@@ -20724,10 +21895,10 @@ var edit_common_settings_VideoSettings = function VideoSettings(_ref) {
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -20744,12 +21915,7 @@ function (_Component) {
 
     Object(classCallCheck["a" /* default */])(this, VideoEdit);
 
-    _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(VideoEdit).apply(this, arguments)); // edit component has its own src in the state so it can be edited
-    // without setting the actual value outside of the edit UI
-
-    _this.state = {
-      editing: !_this.props.attributes.src
-    };
+    _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(VideoEdit).apply(this, arguments));
     _this.videoPlayer = Object(external_this_wp_element_["createRef"])();
     _this.posterImageButton = Object(external_this_wp_element_["createRef"])();
     _this.onSelectURL = _this.onSelectURL.bind(Object(assertThisInitialized["a" /* default */])(_this));
@@ -20762,8 +21928,6 @@ function (_Component) {
   Object(createClass["a" /* default */])(VideoEdit, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
-
       var _this$props = this.props,
           attributes = _this$props.attributes,
           mediaUpload = _this$props.mediaUpload,
@@ -20788,10 +21952,6 @@ function (_Component) {
               });
             },
             onError: function onError(message) {
-              _this2.setState({
-                editing: true
-              });
-
               noticeOperations.createErrorNotice(message);
             },
             allowedTypes: video_edit_ALLOWED_MEDIA_TYPES
@@ -20812,8 +21972,7 @@ function (_Component) {
       var _this$props2 = this.props,
           attributes = _this$props2.attributes,
           setAttributes = _this$props2.setAttributes;
-      var src = attributes.src; // Set the block's src from the edit component's state, and switch off
-      // the editing UI.
+      var src = attributes.src;
 
       if (newSrc !== src) {
         // Check if there's an embed block that handles this URL.
@@ -20833,10 +21992,6 @@ function (_Component) {
           id: undefined
         });
       }
-
-      this.setState({
-        editing: false
-      });
     }
   }, {
     key: "onSelectPoster",
@@ -20866,7 +22021,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var _this$props$attribute = this.props.attributes,
           caption = _this$props$attribute.caption,
@@ -20880,43 +22035,31 @@ function (_Component) {
           noticeUI = _this$props3.noticeUI,
           attributes = _this$props3.attributes,
           setAttributes = _this$props3.setAttributes;
-      var editing = this.state.editing;
-
-      var switchToEditing = function switchToEditing() {
-        _this3.setState({
-          editing: true
-        });
-      };
 
       var onSelectVideo = function onSelectVideo(media) {
         if (!media || !media.url) {
-          // in this case there was an error and we should continue in the editing state
-          // previous attributes should be removed because they may be temporary blob urls
+          // in this case there was an error
+          // previous attributes should be removed
+          // because they may be temporary blob urls
           setAttributes({
             src: undefined,
             id: undefined
           });
-          switchToEditing();
           return;
         } // sets the block's attribute and updates the edit component from the
-        // selected media, then switches off the editing UI
+        // selected media
 
 
         setAttributes({
           src: media.url,
           id: media.id
         });
-
-        _this3.setState({
-          src: media.url,
-          editing: false
-        });
       };
 
-      if (editing) {
+      if (!src) {
         return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaPlaceholder"], {
           icon: Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockIcon"], {
-            icon: video_icon
+            icon: library_video
           }),
           className: className,
           onSelect: onSelectVideo,
@@ -20930,13 +22073,15 @@ function (_Component) {
       }
 
       var videoPosterDescription = "video-block__poster-image-description-".concat(instanceId);
-      return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-        className: "components-toolbar__control",
-        label: Object(external_this_wp_i18n_["__"])('Edit video'),
-        onClick: switchToEditing,
-        icon: "edit"
-      }))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Video Settings')
+      return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaReplaceFlow"], {
+        mediaURL: src,
+        allowedTypes: video_edit_ALLOWED_MEDIA_TYPES,
+        accept: "video/*",
+        onSelect: onSelectVideo,
+        onSelectURL: this.onSelectURL,
+        onError: this.onUploadError
+      })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
+        title: Object(external_this_wp_i18n_["__"])('Video settings')
       }, Object(external_this_wp_element_["createElement"])(edit_common_settings, {
         setAttributes: setAttributes,
         attributes: attributes
@@ -20951,9 +22096,9 @@ function (_Component) {
           return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
             isSecondary: true,
             onClick: open,
-            ref: _this3.posterImageButton,
+            ref: _this2.posterImageButton,
             "aria-describedby": videoPosterDescription
-          }, !_this3.props.attributes.poster ? Object(external_this_wp_i18n_["__"])('Select Poster Image') : Object(external_this_wp_i18n_["__"])('Replace image'));
+          }, !_this2.props.attributes.poster ? Object(external_this_wp_i18n_["__"])('Select Poster Image') : Object(external_this_wp_i18n_["__"])('Replace image'));
         }
       }), Object(external_this_wp_element_["createElement"])("p", {
         id: videoPosterDescription,
@@ -21108,10 +22253,10 @@ var video_transforms_transforms = {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var video_metadata = {
@@ -21185,7 +22330,7 @@ var video_name = video_metadata.name;
 var video_settings = {
   title: Object(external_this_wp_i18n_["__"])('Video'),
   description: Object(external_this_wp_i18n_["__"])('Embed a video from your media library or upload a new one.'),
-  icon: video_icon,
+  icon: library_video,
   keywords: [Object(external_this_wp_i18n_["__"])('movie')],
   transforms: video_transforms,
   supports: {
@@ -21194,6 +22339,21 @@ var video_settings = {
   edit: video_edit,
   save: video_save_save
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/tag.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var tag_tag = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "-2 -2 24 24"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M11 2h7v7L8 19l-7-7zm3 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
+}));
+/* harmony default export */ var library_tag = (tag_tag);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/tag-cloud/edit.js
 
@@ -21283,7 +22443,7 @@ function (_Component) {
           showTagCounts = attributes.showTagCounts;
       var taxonomyOptions = this.getTaxonomyOptions();
       var inspectorControls = Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Tag Cloud Settings')
+        title: Object(external_this_wp_i18n_["__"])('Tag Cloud settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], {
         label: Object(external_this_wp_i18n_["__"])('Taxonomy'),
         options: taxonomyOptions,
@@ -21316,6 +22476,7 @@ function (_Component) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
@@ -21325,7 +22486,7 @@ var tag_cloud_name = 'core/tag-cloud';
 var tag_cloud_settings = {
   title: Object(external_this_wp_i18n_["__"])('Tag Cloud'),
   description: Object(external_this_wp_i18n_["__"])('A cloud of your most used tags.'),
-  icon: 'tag',
+  icon: library_tag,
   category: 'widgets',
   supports: {
     html: false,
@@ -21333,6 +22494,76 @@ var tag_cloud_settings = {
   },
   edit: tag_cloud_edit
 };
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/classic.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+var classic = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "m20 7v10h-16v-10h16m0-2h-16c-1.1 0-1.99 0.9-1.99 2l-0.01 10c0 1.1 0.9 2 2 2h16c1.1 0 2-0.9 2-2v-10c0-1.1-0.9-2-2-2z"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "11",
+  y: "8",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "11",
+  y: "11",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "8",
+  y: "8",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "8",
+  y: "11",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "5",
+  y: "11",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "5",
+  y: "8",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "8",
+  y: "14",
+  width: "8",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "14",
+  y: "11",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "14",
+  y: "8",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "17",
+  y: "11",
+  width: "2",
+  height: "2"
+}), Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Rect"], {
+  x: "17",
+  y: "8",
+  width: "2",
+  height: "2"
+}));
+/* harmony default export */ var library_classic = (classic);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/classic/edit.js
 
@@ -21343,6 +22574,10 @@ var tag_cloud_settings = {
 
 
 
+
+function classic_edit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function classic_edit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { classic_edit_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { classic_edit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
  * WordPress dependencies
@@ -21430,7 +22665,7 @@ function (_Component) {
       var clientId = this.props.clientId;
       var settings = window.wpEditorL10n.tinymce.settings;
       wp.oldEditor.initialize("editor-".concat(clientId), {
-        tinymce: Object(objectSpread["a" /* default */])({}, settings, {
+        tinymce: classic_edit_objectSpread({}, settings, {
           inline: true,
           content_css: false,
           fixed_toolbar_container: "#toolbar-".concat(clientId),
@@ -21576,78 +22811,6 @@ function (_Component) {
 
 
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/classic/icon.js
-
-
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var classic_icon = (Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "M0,0h24v24H0V0z M0,0h24v24H0V0z",
-  fill: "none"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Path"], {
-  d: "m20 7v10h-16v-10h16m0-2h-16c-1.1 0-1.99 0.9-1.99 2l-0.01 10c0 1.1 0.9 2 2 2h16c1.1 0 2-0.9 2-2v-10c0-1.1-0.9-2-2-2z"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "11",
-  y: "8",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "11",
-  y: "11",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "8",
-  y: "8",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "8",
-  y: "11",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "5",
-  y: "11",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "5",
-  y: "8",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "8",
-  y: "14",
-  width: "8",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "14",
-  y: "11",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "14",
-  y: "8",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "17",
-  y: "11",
-  width: "2",
-  height: "2"
-}), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Rect"], {
-  x: "17",
-  y: "8",
-  width: "2",
-  height: "2"
-})));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/classic/save.js
 
 
@@ -21666,10 +22829,10 @@ function classic_save_save(_ref) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 
 var classic_metadata = {
@@ -21688,7 +22851,7 @@ var classic_name = classic_metadata.name;
 var classic_settings = {
   title: Object(external_this_wp_i18n_["_x"])('Classic', 'block title'),
   description: Object(external_this_wp_i18n_["__"])('Use the classic WordPress editor.'),
-  icon: classic_icon,
+  icon: library_classic,
   supports: {
     className: false,
     customClassName: false,
@@ -21709,7 +22872,6 @@ var classic_settings = {
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -21768,6 +22930,9 @@ var classic_settings = {
 
 
 
+
+
+
 /**
  * Function to register an individual block.
  *
@@ -21805,9 +22970,9 @@ var build_module_registerBlock = function registerBlock(block) {
 var build_module_registerCoreBlocks = function registerCoreBlocks() {
   [// Common blocks are grouped at the top to prioritize their display
   // in various contexts — like the inserter and auto-complete components.
-  paragraph_namespaceObject, image_namespaceObject, heading_namespaceObject, build_module_gallery_namespaceObject, list_namespaceObject, quote_namespaceObject, // Register all remaining core blocks.
-  shortcode_namespaceObject, archives_namespaceObject, audio_namespaceObject, button_namespaceObject, buttons_namespaceObject, calendar_namespaceObject, categories_namespaceObject, code_namespaceObject, columns_namespaceObject, column_namespaceObject, cover_namespaceObject, embed_namespaceObject].concat(Object(toConsumableArray["a" /* default */])(embed_common), Object(toConsumableArray["a" /* default */])(embed_others), [file_namespaceObject, group_namespaceObject, window.wp && window.wp.oldEditor ? classic_namespaceObject : null, // Only add the classic block in WP Context
-  html_namespaceObject, media_text_namespaceObject, latest_comments_namespaceObject, latest_posts_namespaceObject, missing_namespaceObject, more_namespaceObject, navigation_namespaceObject, navigation_link_namespaceObject, nextpage_namespaceObject, preformatted_namespaceObject, pullquote_namespaceObject, rss_namespaceObject, search_namespaceObject, separator_namespaceObject, block_namespaceObject, spacer_namespaceObject, subhead_namespaceObject, table_namespaceObject, tag_cloud_namespaceObject, text_columns_namespaceObject, verse_namespaceObject, video_namespaceObject]).forEach(build_module_registerBlock);
+  build_module_paragraph_namespaceObject, build_module_image_namespaceObject, build_module_heading_namespaceObject, build_module_gallery_namespaceObject, build_module_list_namespaceObject, build_module_quote_namespaceObject, // Register all remaining core blocks.
+  build_module_shortcode_namespaceObject, archives_namespaceObject, build_module_audio_namespaceObject, build_module_button_namespaceObject, buttons_namespaceObject, build_module_calendar_namespaceObject, categories_namespaceObject, build_module_code_namespaceObject, build_module_columns_namespaceObject, build_module_column_namespaceObject, build_module_cover_namespaceObject, embed_namespaceObject].concat(Object(toConsumableArray["a" /* default */])(embed_common), Object(toConsumableArray["a" /* default */])(embed_others), [build_module_file_namespaceObject, build_module_group_namespaceObject, window.wp && window.wp.oldEditor ? build_module_classic_namespaceObject : null, // Only add the classic block in WP Context
+  build_module_html_namespaceObject, media_text_namespaceObject, latest_comments_namespaceObject, latest_posts_namespaceObject, missing_namespaceObject, build_module_more_namespaceObject, navigation_namespaceObject, navigation_link_namespaceObject, nextpage_namespaceObject, build_module_preformatted_namespaceObject, build_module_pullquote_namespaceObject, build_module_rss_namespaceObject, build_module_search_namespaceObject, build_module_separator_namespaceObject, block_namespaceObject, spacer_namespaceObject, subhead_namespaceObject, build_module_table_namespaceObject, tag_cloud_namespaceObject, text_columns_namespaceObject, build_module_verse_namespaceObject, build_module_video_namespaceObject]).forEach(build_module_registerBlock);
   Object(external_this_wp_blocks_["setDefaultBlockName"])(paragraph_name);
 
   if (window.wp && window.wp.oldEditor) {
@@ -21816,7 +22981,7 @@ var build_module_registerCoreBlocks = function registerCoreBlocks() {
 
   Object(external_this_wp_blocks_["setUnregisteredTypeHandlerName"])(missing_name);
 
-  if (group_namespaceObject) {
+  if (build_module_group_namespaceObject) {
     Object(external_this_wp_blocks_["setGroupingBlockName"])(group_name);
   }
 };
@@ -21838,50 +23003,7 @@ var __experimentalRegisterExperimentalCoreBlocks =  false ? undefined : undefine
 
 /***/ }),
 
-/***/ 37:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blob"]; }());
-
-/***/ }),
-
-/***/ 38:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["apiFetch"]; }());
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ 40:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 42:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function memize( fn, options ) {
@@ -21999,7 +23121,29 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ 49:
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+/***/ }),
+
+/***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
@@ -23200,21 +24344,14 @@ else {}
 
 /***/ }),
 
-/***/ 5:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blockEditor"]; }());
-
-/***/ }),
-
-/***/ 51:
+/***/ 54:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["viewport"]; }());
 
 /***/ }),
 
-/***/ 55:
+/***/ 58:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["date"]; }());
@@ -23222,48 +24359,42 @@ else {}
 /***/ }),
 
 /***/ 6:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? Object(arguments[i]) : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
+(function() { module.exports = this["wp"]["blockEditor"]; }());
 
 /***/ }),
 
-/***/ 60:
+/***/ 65:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["serverSideRender"]; }());
 
 /***/ }),
 
-/***/ 61:
+/***/ 66:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["escapeHtml"]; }());
 
 /***/ }),
 
-/***/ 63:
+/***/ 7:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+/***/ }),
+
+/***/ 71:
 /***/ (function(module, exports) {
 
 var g;
@@ -23290,36 +24421,28 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 64:
+/***/ 73:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["coreData"]; }());
 
 /***/ }),
 
-/***/ 7:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 8:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
+(function() { module.exports = this["wp"]["compose"]; }());
 
 /***/ }),
 
-/***/ 70:
+/***/ 83:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["autop"]; }());
 
 /***/ }),
 
-/***/ 71:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -23435,772 +24558,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 8:
+/***/ 9:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ 85:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-var punycode = __webpack_require__(121);
-var util = __webpack_require__(123);
-
-exports.parse = urlParse;
-exports.resolve = urlResolve;
-exports.resolveObject = urlResolveObject;
-exports.format = urlFormat;
-
-exports.Url = Url;
-
-function Url() {
-  this.protocol = null;
-  this.slashes = null;
-  this.auth = null;
-  this.host = null;
-  this.port = null;
-  this.hostname = null;
-  this.hash = null;
-  this.search = null;
-  this.query = null;
-  this.pathname = null;
-  this.path = null;
-  this.href = null;
-}
-
-// Reference: RFC 3986, RFC 1808, RFC 2396
-
-// define these here so at least they only have to be
-// compiled once on the first module load.
-var protocolPattern = /^([a-z0-9.+-]+:)/i,
-    portPattern = /:[0-9]*$/,
-
-    // Special case for a simple path URL
-    simplePathPattern = /^(\/\/?(?!\/)[^\?\s]*)(\?[^\s]*)?$/,
-
-    // RFC 2396: characters reserved for delimiting URLs.
-    // We actually just auto-escape these.
-    delims = ['<', '>', '"', '`', ' ', '\r', '\n', '\t'],
-
-    // RFC 2396: characters not allowed for various reasons.
-    unwise = ['{', '}', '|', '\\', '^', '`'].concat(delims),
-
-    // Allowed by RFCs, but cause of XSS attacks.  Always escape these.
-    autoEscape = ['\''].concat(unwise),
-    // Characters that are never ever allowed in a hostname.
-    // Note that any invalid chars are also handled, but these
-    // are the ones that are *expected* to be seen, so we fast-path
-    // them.
-    nonHostChars = ['%', '/', '?', ';', '#'].concat(autoEscape),
-    hostEndingChars = ['/', '?', '#'],
-    hostnameMaxLen = 255,
-    hostnamePartPattern = /^[+a-z0-9A-Z_-]{0,63}$/,
-    hostnamePartStart = /^([+a-z0-9A-Z_-]{0,63})(.*)$/,
-    // protocols that can allow "unsafe" and "unwise" chars.
-    unsafeProtocol = {
-      'javascript': true,
-      'javascript:': true
-    },
-    // protocols that never have a hostname.
-    hostlessProtocol = {
-      'javascript': true,
-      'javascript:': true
-    },
-    // protocols that always contain a // bit.
-    slashedProtocol = {
-      'http': true,
-      'https': true,
-      'ftp': true,
-      'gopher': true,
-      'file': true,
-      'http:': true,
-      'https:': true,
-      'ftp:': true,
-      'gopher:': true,
-      'file:': true
-    },
-    querystring = __webpack_require__(124);
-
-function urlParse(url, parseQueryString, slashesDenoteHost) {
-  if (url && util.isObject(url) && url instanceof Url) return url;
-
-  var u = new Url;
-  u.parse(url, parseQueryString, slashesDenoteHost);
-  return u;
-}
-
-Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
-  if (!util.isString(url)) {
-    throw new TypeError("Parameter 'url' must be a string, not " + typeof url);
-  }
-
-  // Copy chrome, IE, opera backslash-handling behavior.
-  // Back slashes before the query string get converted to forward slashes
-  // See: https://code.google.com/p/chromium/issues/detail?id=25916
-  var queryIndex = url.indexOf('?'),
-      splitter =
-          (queryIndex !== -1 && queryIndex < url.indexOf('#')) ? '?' : '#',
-      uSplit = url.split(splitter),
-      slashRegex = /\\/g;
-  uSplit[0] = uSplit[0].replace(slashRegex, '/');
-  url = uSplit.join(splitter);
-
-  var rest = url;
-
-  // trim before proceeding.
-  // This is to support parse stuff like "  http://foo.com  \n"
-  rest = rest.trim();
-
-  if (!slashesDenoteHost && url.split('#').length === 1) {
-    // Try fast path regexp
-    var simplePath = simplePathPattern.exec(rest);
-    if (simplePath) {
-      this.path = rest;
-      this.href = rest;
-      this.pathname = simplePath[1];
-      if (simplePath[2]) {
-        this.search = simplePath[2];
-        if (parseQueryString) {
-          this.query = querystring.parse(this.search.substr(1));
-        } else {
-          this.query = this.search.substr(1);
-        }
-      } else if (parseQueryString) {
-        this.search = '';
-        this.query = {};
-      }
-      return this;
-    }
-  }
-
-  var proto = protocolPattern.exec(rest);
-  if (proto) {
-    proto = proto[0];
-    var lowerProto = proto.toLowerCase();
-    this.protocol = lowerProto;
-    rest = rest.substr(proto.length);
-  }
-
-  // figure out if it's got a host
-  // user@server is *always* interpreted as a hostname, and url
-  // resolution will treat //foo/bar as host=foo,path=bar because that's
-  // how the browser resolves relative URLs.
-  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
-    var slashes = rest.substr(0, 2) === '//';
-    if (slashes && !(proto && hostlessProtocol[proto])) {
-      rest = rest.substr(2);
-      this.slashes = true;
-    }
-  }
-
-  if (!hostlessProtocol[proto] &&
-      (slashes || (proto && !slashedProtocol[proto]))) {
-
-    // there's a hostname.
-    // the first instance of /, ?, ;, or # ends the host.
-    //
-    // If there is an @ in the hostname, then non-host chars *are* allowed
-    // to the left of the last @ sign, unless some host-ending character
-    // comes *before* the @-sign.
-    // URLs are obnoxious.
-    //
-    // ex:
-    // http://a@b@c/ => user:a@b host:c
-    // http://a@b?@c => user:a host:c path:/?@c
-
-    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
-    // Review our test case against browsers more comprehensively.
-
-    // find the first instance of any hostEndingChars
-    var hostEnd = -1;
-    for (var i = 0; i < hostEndingChars.length; i++) {
-      var hec = rest.indexOf(hostEndingChars[i]);
-      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
-        hostEnd = hec;
-    }
-
-    // at this point, either we have an explicit point where the
-    // auth portion cannot go past, or the last @ char is the decider.
-    var auth, atSign;
-    if (hostEnd === -1) {
-      // atSign can be anywhere.
-      atSign = rest.lastIndexOf('@');
-    } else {
-      // atSign must be in auth portion.
-      // http://a@b/c@d => host:b auth:a path:/c@d
-      atSign = rest.lastIndexOf('@', hostEnd);
-    }
-
-    // Now we have a portion which is definitely the auth.
-    // Pull that off.
-    if (atSign !== -1) {
-      auth = rest.slice(0, atSign);
-      rest = rest.slice(atSign + 1);
-      this.auth = decodeURIComponent(auth);
-    }
-
-    // the host is the remaining to the left of the first non-host char
-    hostEnd = -1;
-    for (var i = 0; i < nonHostChars.length; i++) {
-      var hec = rest.indexOf(nonHostChars[i]);
-      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
-        hostEnd = hec;
-    }
-    // if we still have not hit it, then the entire thing is a host.
-    if (hostEnd === -1)
-      hostEnd = rest.length;
-
-    this.host = rest.slice(0, hostEnd);
-    rest = rest.slice(hostEnd);
-
-    // pull out port.
-    this.parseHost();
-
-    // we've indicated that there is a hostname,
-    // so even if it's empty, it has to be present.
-    this.hostname = this.hostname || '';
-
-    // if hostname begins with [ and ends with ]
-    // assume that it's an IPv6 address.
-    var ipv6Hostname = this.hostname[0] === '[' &&
-        this.hostname[this.hostname.length - 1] === ']';
-
-    // validate a little.
-    if (!ipv6Hostname) {
-      var hostparts = this.hostname.split(/\./);
-      for (var i = 0, l = hostparts.length; i < l; i++) {
-        var part = hostparts[i];
-        if (!part) continue;
-        if (!part.match(hostnamePartPattern)) {
-          var newpart = '';
-          for (var j = 0, k = part.length; j < k; j++) {
-            if (part.charCodeAt(j) > 127) {
-              // we replace non-ASCII char with a temporary placeholder
-              // we need this to make sure size of hostname is not
-              // broken by replacing non-ASCII by nothing
-              newpart += 'x';
-            } else {
-              newpart += part[j];
-            }
-          }
-          // we test again with ASCII char only
-          if (!newpart.match(hostnamePartPattern)) {
-            var validParts = hostparts.slice(0, i);
-            var notHost = hostparts.slice(i + 1);
-            var bit = part.match(hostnamePartStart);
-            if (bit) {
-              validParts.push(bit[1]);
-              notHost.unshift(bit[2]);
-            }
-            if (notHost.length) {
-              rest = '/' + notHost.join('.') + rest;
-            }
-            this.hostname = validParts.join('.');
-            break;
-          }
-        }
-      }
-    }
-
-    if (this.hostname.length > hostnameMaxLen) {
-      this.hostname = '';
-    } else {
-      // hostnames are always lower case.
-      this.hostname = this.hostname.toLowerCase();
-    }
-
-    if (!ipv6Hostname) {
-      // IDNA Support: Returns a punycoded representation of "domain".
-      // It only converts parts of the domain name that
-      // have non-ASCII characters, i.e. it doesn't matter if
-      // you call it with a domain that already is ASCII-only.
-      this.hostname = punycode.toASCII(this.hostname);
-    }
-
-    var p = this.port ? ':' + this.port : '';
-    var h = this.hostname || '';
-    this.host = h + p;
-    this.href += this.host;
-
-    // strip [ and ] from the hostname
-    // the host field still retains them, though
-    if (ipv6Hostname) {
-      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
-      if (rest[0] !== '/') {
-        rest = '/' + rest;
-      }
-    }
-  }
-
-  // now rest is set to the post-host stuff.
-  // chop off any delim chars.
-  if (!unsafeProtocol[lowerProto]) {
-
-    // First, make 100% sure that any "autoEscape" chars get
-    // escaped, even if encodeURIComponent doesn't think they
-    // need to be.
-    for (var i = 0, l = autoEscape.length; i < l; i++) {
-      var ae = autoEscape[i];
-      if (rest.indexOf(ae) === -1)
-        continue;
-      var esc = encodeURIComponent(ae);
-      if (esc === ae) {
-        esc = escape(ae);
-      }
-      rest = rest.split(ae).join(esc);
-    }
-  }
-
-
-  // chop off from the tail first.
-  var hash = rest.indexOf('#');
-  if (hash !== -1) {
-    // got a fragment string.
-    this.hash = rest.substr(hash);
-    rest = rest.slice(0, hash);
-  }
-  var qm = rest.indexOf('?');
-  if (qm !== -1) {
-    this.search = rest.substr(qm);
-    this.query = rest.substr(qm + 1);
-    if (parseQueryString) {
-      this.query = querystring.parse(this.query);
-    }
-    rest = rest.slice(0, qm);
-  } else if (parseQueryString) {
-    // no query string, but parseQueryString still requested
-    this.search = '';
-    this.query = {};
-  }
-  if (rest) this.pathname = rest;
-  if (slashedProtocol[lowerProto] &&
-      this.hostname && !this.pathname) {
-    this.pathname = '/';
-  }
-
-  //to support http.request
-  if (this.pathname || this.search) {
-    var p = this.pathname || '';
-    var s = this.search || '';
-    this.path = p + s;
-  }
-
-  // finally, reconstruct the href based on what has been validated.
-  this.href = this.format();
-  return this;
-};
-
-// format a parsed object into a url string
-function urlFormat(obj) {
-  // ensure it's an object, and not a string url.
-  // If it's an obj, this is a no-op.
-  // this way, you can call url_format() on strings
-  // to clean up potentially wonky urls.
-  if (util.isString(obj)) obj = urlParse(obj);
-  if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
-  return obj.format();
-}
-
-Url.prototype.format = function() {
-  var auth = this.auth || '';
-  if (auth) {
-    auth = encodeURIComponent(auth);
-    auth = auth.replace(/%3A/i, ':');
-    auth += '@';
-  }
-
-  var protocol = this.protocol || '',
-      pathname = this.pathname || '',
-      hash = this.hash || '',
-      host = false,
-      query = '';
-
-  if (this.host) {
-    host = auth + this.host;
-  } else if (this.hostname) {
-    host = auth + (this.hostname.indexOf(':') === -1 ?
-        this.hostname :
-        '[' + this.hostname + ']');
-    if (this.port) {
-      host += ':' + this.port;
-    }
-  }
-
-  if (this.query &&
-      util.isObject(this.query) &&
-      Object.keys(this.query).length) {
-    query = querystring.stringify(this.query);
-  }
-
-  var search = this.search || (query && ('?' + query)) || '';
-
-  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
-
-  // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
-  // unless they had them to begin with.
-  if (this.slashes ||
-      (!protocol || slashedProtocol[protocol]) && host !== false) {
-    host = '//' + (host || '');
-    if (pathname && pathname.charAt(0) !== '/') pathname = '/' + pathname;
-  } else if (!host) {
-    host = '';
-  }
-
-  if (hash && hash.charAt(0) !== '#') hash = '#' + hash;
-  if (search && search.charAt(0) !== '?') search = '?' + search;
-
-  pathname = pathname.replace(/[?#]/g, function(match) {
-    return encodeURIComponent(match);
-  });
-  search = search.replace('#', '%23');
-
-  return protocol + host + pathname + search + hash;
-};
-
-function urlResolve(source, relative) {
-  return urlParse(source, false, true).resolve(relative);
-}
-
-Url.prototype.resolve = function(relative) {
-  return this.resolveObject(urlParse(relative, false, true)).format();
-};
-
-function urlResolveObject(source, relative) {
-  if (!source) return relative;
-  return urlParse(source, false, true).resolveObject(relative);
-}
-
-Url.prototype.resolveObject = function(relative) {
-  if (util.isString(relative)) {
-    var rel = new Url();
-    rel.parse(relative, false, true);
-    relative = rel;
-  }
-
-  var result = new Url();
-  var tkeys = Object.keys(this);
-  for (var tk = 0; tk < tkeys.length; tk++) {
-    var tkey = tkeys[tk];
-    result[tkey] = this[tkey];
-  }
-
-  // hash is always overridden, no matter what.
-  // even href="" will remove it.
-  result.hash = relative.hash;
-
-  // if the relative url is empty, then there's nothing left to do here.
-  if (relative.href === '') {
-    result.href = result.format();
-    return result;
-  }
-
-  // hrefs like //foo/bar always cut to the protocol.
-  if (relative.slashes && !relative.protocol) {
-    // take everything except the protocol from relative
-    var rkeys = Object.keys(relative);
-    for (var rk = 0; rk < rkeys.length; rk++) {
-      var rkey = rkeys[rk];
-      if (rkey !== 'protocol')
-        result[rkey] = relative[rkey];
-    }
-
-    //urlParse appends trailing / to urls like http://www.example.com
-    if (slashedProtocol[result.protocol] &&
-        result.hostname && !result.pathname) {
-      result.path = result.pathname = '/';
-    }
-
-    result.href = result.format();
-    return result;
-  }
-
-  if (relative.protocol && relative.protocol !== result.protocol) {
-    // if it's a known url protocol, then changing
-    // the protocol does weird things
-    // first, if it's not file:, then we MUST have a host,
-    // and if there was a path
-    // to begin with, then we MUST have a path.
-    // if it is file:, then the host is dropped,
-    // because that's known to be hostless.
-    // anything else is assumed to be absolute.
-    if (!slashedProtocol[relative.protocol]) {
-      var keys = Object.keys(relative);
-      for (var v = 0; v < keys.length; v++) {
-        var k = keys[v];
-        result[k] = relative[k];
-      }
-      result.href = result.format();
-      return result;
-    }
-
-    result.protocol = relative.protocol;
-    if (!relative.host && !hostlessProtocol[relative.protocol]) {
-      var relPath = (relative.pathname || '').split('/');
-      while (relPath.length && !(relative.host = relPath.shift()));
-      if (!relative.host) relative.host = '';
-      if (!relative.hostname) relative.hostname = '';
-      if (relPath[0] !== '') relPath.unshift('');
-      if (relPath.length < 2) relPath.unshift('');
-      result.pathname = relPath.join('/');
-    } else {
-      result.pathname = relative.pathname;
-    }
-    result.search = relative.search;
-    result.query = relative.query;
-    result.host = relative.host || '';
-    result.auth = relative.auth;
-    result.hostname = relative.hostname || relative.host;
-    result.port = relative.port;
-    // to support http.request
-    if (result.pathname || result.search) {
-      var p = result.pathname || '';
-      var s = result.search || '';
-      result.path = p + s;
-    }
-    result.slashes = result.slashes || relative.slashes;
-    result.href = result.format();
-    return result;
-  }
-
-  var isSourceAbs = (result.pathname && result.pathname.charAt(0) === '/'),
-      isRelAbs = (
-          relative.host ||
-          relative.pathname && relative.pathname.charAt(0) === '/'
-      ),
-      mustEndAbs = (isRelAbs || isSourceAbs ||
-                    (result.host && relative.pathname)),
-      removeAllDots = mustEndAbs,
-      srcPath = result.pathname && result.pathname.split('/') || [],
-      relPath = relative.pathname && relative.pathname.split('/') || [],
-      psychotic = result.protocol && !slashedProtocol[result.protocol];
-
-  // if the url is a non-slashed url, then relative
-  // links like ../.. should be able
-  // to crawl up to the hostname, as well.  This is strange.
-  // result.protocol has already been set by now.
-  // Later on, put the first path part into the host field.
-  if (psychotic) {
-    result.hostname = '';
-    result.port = null;
-    if (result.host) {
-      if (srcPath[0] === '') srcPath[0] = result.host;
-      else srcPath.unshift(result.host);
-    }
-    result.host = '';
-    if (relative.protocol) {
-      relative.hostname = null;
-      relative.port = null;
-      if (relative.host) {
-        if (relPath[0] === '') relPath[0] = relative.host;
-        else relPath.unshift(relative.host);
-      }
-      relative.host = null;
-    }
-    mustEndAbs = mustEndAbs && (relPath[0] === '' || srcPath[0] === '');
-  }
-
-  if (isRelAbs) {
-    // it's absolute.
-    result.host = (relative.host || relative.host === '') ?
-                  relative.host : result.host;
-    result.hostname = (relative.hostname || relative.hostname === '') ?
-                      relative.hostname : result.hostname;
-    result.search = relative.search;
-    result.query = relative.query;
-    srcPath = relPath;
-    // fall through to the dot-handling below.
-  } else if (relPath.length) {
-    // it's relative
-    // throw away the existing file, and take the new path instead.
-    if (!srcPath) srcPath = [];
-    srcPath.pop();
-    srcPath = srcPath.concat(relPath);
-    result.search = relative.search;
-    result.query = relative.query;
-  } else if (!util.isNullOrUndefined(relative.search)) {
-    // just pull out the search.
-    // like href='?foo'.
-    // Put this after the other two cases because it simplifies the booleans
-    if (psychotic) {
-      result.hostname = result.host = srcPath.shift();
-      //occationaly the auth can get stuck only in host
-      //this especially happens in cases like
-      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
-      var authInHost = result.host && result.host.indexOf('@') > 0 ?
-                       result.host.split('@') : false;
-      if (authInHost) {
-        result.auth = authInHost.shift();
-        result.host = result.hostname = authInHost.shift();
-      }
-    }
-    result.search = relative.search;
-    result.query = relative.query;
-    //to support http.request
-    if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
-      result.path = (result.pathname ? result.pathname : '') +
-                    (result.search ? result.search : '');
-    }
-    result.href = result.format();
-    return result;
-  }
-
-  if (!srcPath.length) {
-    // no path at all.  easy.
-    // we've already handled the other stuff above.
-    result.pathname = null;
-    //to support http.request
-    if (result.search) {
-      result.path = '/' + result.search;
-    } else {
-      result.path = null;
-    }
-    result.href = result.format();
-    return result;
-  }
-
-  // if a url ENDs in . or .., then it must get a trailing slash.
-  // however, if it ends in anything else non-slashy,
-  // then it must NOT get a trailing slash.
-  var last = srcPath.slice(-1)[0];
-  var hasTrailingSlash = (
-      (result.host || relative.host || srcPath.length > 1) &&
-      (last === '.' || last === '..') || last === '');
-
-  // strip single dots, resolve double dots to parent dir
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = srcPath.length; i >= 0; i--) {
-    last = srcPath[i];
-    if (last === '.') {
-      srcPath.splice(i, 1);
-    } else if (last === '..') {
-      srcPath.splice(i, 1);
-      up++;
-    } else if (up) {
-      srcPath.splice(i, 1);
-      up--;
-    }
-  }
-
-  // if the path is allowed to go above the root, restore leading ..s
-  if (!mustEndAbs && !removeAllDots) {
-    for (; up--; up) {
-      srcPath.unshift('..');
-    }
-  }
-
-  if (mustEndAbs && srcPath[0] !== '' &&
-      (!srcPath[0] || srcPath[0].charAt(0) !== '/')) {
-    srcPath.unshift('');
-  }
-
-  if (hasTrailingSlash && (srcPath.join('/').substr(-1) !== '/')) {
-    srcPath.push('');
-  }
-
-  var isAbsolute = srcPath[0] === '' ||
-      (srcPath[0] && srcPath[0].charAt(0) === '/');
-
-  // put the host back
-  if (psychotic) {
-    result.hostname = result.host = isAbsolute ? '' :
-                                    srcPath.length ? srcPath.shift() : '';
-    //occationaly the auth can get stuck only in host
-    //this especially happens in cases like
-    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
-    var authInHost = result.host && result.host.indexOf('@') > 0 ?
-                     result.host.split('@') : false;
-    if (authInHost) {
-      result.auth = authInHost.shift();
-      result.host = result.hostname = authInHost.shift();
-    }
-  }
-
-  mustEndAbs = mustEndAbs || (result.host && srcPath.length);
-
-  if (mustEndAbs && !isAbsolute) {
-    srcPath.unshift('');
-  }
-
-  if (!srcPath.length) {
-    result.pathname = null;
-    result.path = null;
-  } else {
-    result.pathname = srcPath.join('/');
-  }
-
-  //to support request.http
-  if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
-    result.path = (result.pathname ? result.pathname : '') +
-                  (result.search ? result.search : '');
-  }
-  result.auth = relative.auth || result.auth;
-  result.slashes = result.slashes || relative.slashes;
-  result.href = result.format();
-  return result;
-};
-
-Url.prototype.parseHost = function() {
-  var host = this.host;
-  var port = portPattern.exec(host);
-  if (port) {
-    port = port[0];
-    if (port !== ':') {
-      this.port = port.substr(1);
-    }
-    host = host.substr(0, host.length - port.length);
-  }
-  if (host) this.hostname = host;
-};
-
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
+(function() { module.exports = this["wp"]["blocks"]; }());
 
 /***/ })
 
