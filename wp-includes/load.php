@@ -139,7 +139,7 @@ function wp_check_php_mysql_versions() {
 	}
 
 	if ( ! extension_loaded( 'mysql' ) && ! extension_loaded( 'mysqli' ) && ! extension_loaded( 'mysqlnd' ) && ! file_exists( WP_CONTENT_DIR . '/db.php' ) ) {
-		require_once( ABSPATH . WPINC . '/functions.php' );
+		require_once ABSPATH . WPINC . '/functions.php';
 		wp_load_translations_early();
 		$args = array(
 			'exit' => false,
@@ -192,7 +192,7 @@ function wp_maintenance() {
 
 	global $upgrading;
 
-	include( ABSPATH . '.maintenance' );
+	require ABSPATH . '.maintenance';
 	// If the $upgrading timestamp is older than 10 minutes, don't die.
 	if ( ( time() - $upgrading ) >= 600 ) {
 		return;
@@ -216,11 +216,11 @@ function wp_maintenance() {
 	}
 
 	if ( file_exists( WP_CONTENT_DIR . '/maintenance.php' ) ) {
-		require_once( WP_CONTENT_DIR . '/maintenance.php' );
+		require_once WP_CONTENT_DIR . '/maintenance.php';
 		die();
 	}
 
-	require_once( ABSPATH . WPINC . '/functions.php' );
+	require_once ABSPATH . WPINC . '/functions.php';
 	wp_load_translations_early();
 
 	header( 'Retry-After: 600' );
@@ -409,9 +409,9 @@ function wp_set_lang_dir() {
 function require_wp_db() {
 	global $wpdb;
 
-	require_once( ABSPATH . WPINC . '/wp-db.php' );
+	require_once ABSPATH . WPINC . '/wp-db.php';
 	if ( file_exists( WP_CONTENT_DIR . '/db.php' ) ) {
-		require_once( WP_CONTENT_DIR . '/db.php' );
+		require_once WP_CONTENT_DIR . '/db.php';
 	}
 
 	if ( isset( $wpdb ) ) {
@@ -544,7 +544,7 @@ function wp_start_object_cache() {
 			 * that an external object cache is being used.
 			 */
 			if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
-				require_once( WP_CONTENT_DIR . '/object-cache.php' );
+				require_once WP_CONTENT_DIR . '/object-cache.php';
 				if ( function_exists( 'wp_cache_init' ) ) {
 					wp_using_ext_object_cache( true );
 				}
@@ -566,7 +566,7 @@ function wp_start_object_cache() {
 	}
 
 	if ( ! wp_using_ext_object_cache() ) {
-		require_once( ABSPATH . WPINC . '/cache.php' );
+		require_once ABSPATH . WPINC . '/cache.php';
 	}
 
 	/*
@@ -606,8 +606,8 @@ function wp_not_installed() {
 	} elseif ( ! is_blog_installed() && ! wp_installing() ) {
 		nocache_headers();
 
-		require( ABSPATH . WPINC . '/kses.php' );
-		require( ABSPATH . WPINC . '/pluggable.php' );
+		require ABSPATH . WPINC . '/kses.php';
+		require ABSPATH . WPINC . '/pluggable.php';
 
 		$link = wp_guess_url() . '/wp-admin/install.php';
 

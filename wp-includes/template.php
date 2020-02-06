@@ -720,8 +720,8 @@ function load_template( $_template_file, $require_once = true ) {
 	}
 
 	if ( $require_once ) {
-		require_once( $_template_file );
+		require_once $_template_file;
 	} else {
-		require( $_template_file );
+		require $_template_file;
 	}
 }

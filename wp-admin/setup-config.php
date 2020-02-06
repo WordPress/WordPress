@@ -27,16 +27,16 @@ define( 'WP_SETUP_CONFIG', true );
 error_reporting( 0 );
 
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', dirname( dirname( __FILE__ ) ) . '/' );
+	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 }
 
-require( ABSPATH . 'wp-settings.php' );
+require ABSPATH . 'wp-settings.php';
 
 /** Load WordPress Administration Upgrade API */
-require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 /** Load WordPress Translation Installation API */
-require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 
 nocache_headers();
 

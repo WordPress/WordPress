@@ -130,7 +130,7 @@ add_action( 'after_setup_theme', 'twentytwelve_setup' );
 /**
  * Add support for a custom header image.
  */
-require( get_template_directory() . '/inc/custom-header.php' );
+require get_template_directory() . '/inc/custom-header.php';
 
 /**
  * Return the Google font stylesheet URL if available.

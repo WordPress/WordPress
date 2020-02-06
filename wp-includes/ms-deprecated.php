@@ -610,7 +610,7 @@ function install_blog( $blog_id, $blog_title = '' ) {
 	// Cast for security.
 	$blog_id = (int) $blog_id;
 
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 	$suppress = $wpdb->suppress_errors();
 	if ( $wpdb->get_results( "DESCRIBE {$wpdb->posts}" ) ) {
@@ -677,7 +677,7 @@ function install_blog_defaults( $blog_id, $user_id ) {
 
 	_deprecated_function( __FUNCTION__, 'MU' );
 
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 	$suppress = $wpdb->suppress_errors();
 

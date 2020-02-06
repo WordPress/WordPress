@@ -218,7 +218,7 @@ final class _WP_Editors {
 				self::$has_medialib = true;
 
 				if ( ! function_exists( 'media_buttons' ) ) {
-					include( ABSPATH . 'wp-admin/includes/media.php' );
+					require ABSPATH . 'wp-admin/includes/media.php';
 				}
 
 				echo '<div id="wp-' . $editor_id_attr . '-media-buttons" class="wp-media-buttons">';
@@ -489,7 +489,7 @@ final class _WP_Editors {
 						if ( ! empty( $mce_external_languages ) ) {
 							foreach ( $mce_external_languages as $name => $path ) {
 								if ( @is_file( $path ) && @is_readable( $path ) ) {
-									include_once( $path );
+									include_once $path;
 									$ext_plugins   .= $strings . "\n";
 									$loaded_langs[] = $name;
 								}

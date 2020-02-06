@@ -5,7 +5,7 @@
  * @package WordPress
  */
 
-require( ABSPATH . WPINC . '/option.php' );
+require ABSPATH . WPINC . '/option.php';
 
 /**
  * Convert given MySQL date string into a different format.
@@ -835,7 +835,7 @@ function do_enclose( $content = null, $post ) {
 	global $wpdb;
 
 	// @todo Tidy this code and make the debug code optional.
-	include_once( ABSPATH . WPINC . '/class-IXR.php' );
+	include_once ABSPATH . WPINC . '/class-IXR.php';
 
 	$post = get_post( $post );
 	if ( ! $post ) {
@@ -4572,7 +4572,7 @@ function wp_maybe_load_widgets() {
 		return;
 	}
 
-	require_once( ABSPATH . WPINC . '/default-widgets.php' );
+	require_once ABSPATH . WPINC . '/default-widgets.php';
 
 	add_action( '_admin_menu', 'wp_widgets_add_menu' );
 }
@@ -4634,7 +4634,7 @@ function dead_db() {
 
 	// Load custom DB error template, if present.
 	if ( file_exists( WP_CONTENT_DIR . '/db-error.php' ) ) {
-		require_once( WP_CONTENT_DIR . '/db-error.php' );
+		require_once WP_CONTENT_DIR . '/db-error.php';
 		die();
 	}
 
@@ -7259,7 +7259,7 @@ function wp_privacy_delete_old_export_files() {
 		return;
 	}
 
-	require_once( ABSPATH . 'wp-admin/includes/file.php' );
+	require_once ABSPATH . 'wp-admin/includes/file.php';
 	$export_files = list_files( $exports_dir, 100, array( 'index.html' ) );
 
 	/**

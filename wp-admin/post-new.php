@@ -7,7 +7,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 /**
  * @global string  $post_type
@@ -69,10 +69,10 @@ $post_ID = $post->ID;
 /** This filter is documented in wp-admin/post.php */
 if ( apply_filters( 'replace_editor', false, $post ) !== true ) {
 	if ( use_block_editor_for_post( $post ) ) {
-		include( ABSPATH . 'wp-admin/edit-form-blocks.php' );
+		require ABSPATH . 'wp-admin/edit-form-blocks.php';
 	} else {
 		wp_enqueue_script( 'autosave' );
-		include( ABSPATH . 'wp-admin/edit-form-advanced.php' );
+		require ABSPATH . 'wp-admin/edit-form-advanced.php';
 	}
 } else {
 	// Flag that we're not loading the block editor.
@@ -80,4 +80,4 @@ if ( apply_filters( 'replace_editor', false, $post ) !== true ) {
 	$current_screen->is_block_editor( false );
 }
 
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

@@ -656,7 +656,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		if ( ! defined( 'WP_SANDBOX_SCRAPING' ) ) {
 			define( 'WP_SANDBOX_SCRAPING', true );
 		}
-		include_once( WP_PLUGIN_DIR . '/' . $plugin );
+		include_once WP_PLUGIN_DIR . '/' . $plugin;
 		$plugin = $_wp_plugin_file; // Avoid stomping of the $plugin variable in a plugin.
 
 		if ( ! $silent ) {
@@ -907,9 +907,9 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 
 	if ( false === $credentials ) {
 		if ( ! empty( $data ) ) {
-			include_once( ABSPATH . 'wp-admin/admin-header.php' );
+			require_once ABSPATH . 'wp-admin/admin-header.php';
 			echo $data;
-			include( ABSPATH . 'wp-admin/admin-footer.php' );
+			require_once ABSPATH . 'wp-admin/admin-footer.php';
 			exit;
 		}
 		return;
@@ -922,9 +922,9 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 		$data = ob_get_clean();
 
 		if ( ! empty( $data ) ) {
-			include_once( ABSPATH . 'wp-admin/admin-header.php' );
+			require_once ABSPATH . 'wp-admin/admin-header.php';
 			echo $data;
-			include( ABSPATH . 'wp-admin/admin-footer.php' );
+			require_once ABSPATH . 'wp-admin/admin-footer.php';
 			exit;
 		}
 		return;
@@ -1219,7 +1219,7 @@ function uninstall_plugin( $plugin ) {
 
 		define( 'WP_UNINSTALL_PLUGIN', $file );
 		wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $file );
-		include( WP_PLUGIN_DIR . '/' . dirname( $file ) . '/uninstall.php' );
+		include WP_PLUGIN_DIR . '/' . dirname( $file ) . '/uninstall.php';
 
 		return true;
 	}
@@ -1231,7 +1231,7 @@ function uninstall_plugin( $plugin ) {
 		unset( $uninstallable_plugins );
 
 		wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $file );
-		include( WP_PLUGIN_DIR . '/' . $file );
+		include WP_PLUGIN_DIR . '/' . $file;
 
 		add_action( "uninstall_{$file}", $callable );
 
@@ -2252,7 +2252,7 @@ function plugin_sandbox_scrape( $plugin ) {
 		define( 'WP_SANDBOX_SCRAPING', true );
 	}
 	wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
-	include( WP_PLUGIN_DIR . '/' . $plugin );
+	include WP_PLUGIN_DIR . '/' . $plugin;
 }
 
 /**
@@ -2307,7 +2307,7 @@ function wp_add_privacy_policy_content( $plugin_name, $policy_text ) {
 	}
 
 	if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php' );
+		require_once ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php';
 	}
 
 	WP_Privacy_Policy_Content::add( $plugin_name, $policy_text );

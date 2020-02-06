@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 if ( ! current_user_can( 'manage_privacy_options' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to manage privacy on this site.' ) );
@@ -49,7 +49,7 @@ if ( ! empty( $action ) ) {
 	} elseif ( 'create-privacy-page' === $action ) {
 
 		if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php' );
+			require_once ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php';
 		}
 
 		$privacy_policy_page_content = WP_Privacy_Policy_Content::get_default_content();
@@ -115,7 +115,7 @@ if ( ! empty( $privacy_policy_page_id ) ) {
 $title       = __( 'Privacy Settings' );
 $parent_file = 'options-general.php';
 
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 
 ?>
 <div class="wrap">
@@ -252,4 +252,4 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 </div>
 <?php
 
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 if ( is_multisite() && ! is_network_admin() ) {
 	wp_redirect( network_admin_url( 'plugin-editor.php' ) );
@@ -24,14 +24,14 @@ $parent_file = 'plugins.php';
 $plugins = get_plugins();
 
 if ( empty( $plugins ) ) {
-	include( ABSPATH . 'wp-admin/admin-header.php' );
+	require_once ABSPATH . 'wp-admin/admin-header.php';
 	?>
 	<div class="wrap">
 		<h1><?php echo esc_html( $title ); ?></h1>
 		<div id="message" class="error"><p><?php _e( 'You do not appear to have any plugins available at this time.' ); ?></p></div>
 	</div>
 	<?php
-	include( ABSPATH . 'wp-admin/admin-footer.php' );
+	require_once ABSPATH . 'wp-admin/admin-footer.php';
 	exit;
 }
 
@@ -151,7 +151,7 @@ wp_enqueue_script( 'wp-theme-plugin-editor' );
 wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode( $settings ) ) );
 wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'wp.themePluginEditor.themeOrPlugin = "plugin";' ) );
 
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 
 update_recently_edited( WP_PLUGIN_DIR . '/' . $file );
 
@@ -336,4 +336,4 @@ if ( ! in_array( 'plugin_editor_notice', $dismissed_pointers, true ) ) :
 	<?php
 endif; // Editor warning notice.
 
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

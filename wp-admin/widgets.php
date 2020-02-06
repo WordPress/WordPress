@@ -7,10 +7,10 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 /** WordPress Administration Widgets API */
-require_once( ABSPATH . 'wp-admin/includes/widgets.php' );
+require_once ABSPATH . 'wp-admin/includes/widgets.php';
 
 if ( ! current_user_can( 'edit_theme_options' ) ) {
 	wp_die(
@@ -288,7 +288,7 @@ if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 	$width = ' style="width:' . max( $control['width'], 350 ) . 'px"';
 	$key   = isset( $_GET['key'] ) ? (int) $_GET['key'] : 0;
 
-	require_once( ABSPATH . 'wp-admin/admin-header.php' ); ?>
+	require_once ABSPATH . 'wp-admin/admin-header.php'; ?>
 	<div class="wrap">
 	<h1><?php echo esc_html( $title ); ?></h1>
 	<div class="editwidget"<?php echo $width; ?>>
@@ -366,7 +366,7 @@ if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 	</div>
 	</div>
 	<?php
-	require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+	require_once ABSPATH . 'wp-admin/admin-footer.php';
 	exit;
 }
 
@@ -379,7 +379,7 @@ $errors = array(
 	__( 'Error in displaying the widget settings form.' ),
 );
 
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 
 <div class="wrap">
@@ -575,4 +575,4 @@ foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
  * @since 2.2.0
  */
 do_action( 'sidebar_admin_page' );
-require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

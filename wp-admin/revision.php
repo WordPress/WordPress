@@ -10,7 +10,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 require ABSPATH . 'wp-admin/includes/revision.php';
 
@@ -147,7 +147,7 @@ $revisions_sidebar .= '<p>' . __( '<a href="https://wordpress.org/support/">Supp
 
 get_current_screen()->set_help_sidebar( $revisions_sidebar );
 
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 
 ?>
 
@@ -158,4 +158,4 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <?php
 wp_print_revision_templates();
 
-require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 if ( ! current_user_can( 'manage_sites' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to manage themes for this site.' ) );
@@ -172,7 +172,7 @@ $title = sprintf( __( 'Edit Site: %s' ), esc_html( $details->blogname ) );
 $parent_file  = 'sites.php';
 $submenu_file = 'sites.php';
 
-require( ABSPATH . 'wp-admin/admin-header.php' ); ?>
+require_once ABSPATH . 'wp-admin/admin-header.php'; ?>
 
 <div class="wrap">
 <h1 id="edit-site"><?php echo $title; ?></h1>
@@ -226,4 +226,4 @@ if ( isset( $_GET['enabled'] ) ) {
 </form>
 
 </div>
-<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>
+<?php require_once ABSPATH . 'wp-admin/admin-footer.php'; ?>

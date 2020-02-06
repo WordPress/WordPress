@@ -234,7 +234,7 @@ function wp_ajax_imgedit_preview() {
 
 	check_ajax_referer( "image_editor-$post_id" );
 
-	include_once( ABSPATH . 'wp-admin/includes/image-edit.php' );
+	include_once ABSPATH . 'wp-admin/includes/image-edit.php';
 
 	if ( ! stream_preview_image( $post_id ) ) {
 		wp_die( -1 );
@@ -336,7 +336,7 @@ function wp_ajax_autocomplete_user() {
  * @since 4.8.0
  */
 function wp_ajax_get_community_events() {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-community-events.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-community-events.php';
 
 	check_ajax_referer( 'community_events' );
 
@@ -1345,7 +1345,7 @@ function wp_ajax_replyto_comment( $action ) {
 
 	ob_start();
 	if ( isset( $_REQUEST['mode'] ) && 'dashboard' == $_REQUEST['mode'] ) {
-		require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
+		require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 		_wp_dashboard_recent_comments_row( $comment );
 	} else {
 		if ( isset( $_REQUEST['mode'] ) && 'single' == $_REQUEST['mode'] ) {
@@ -1855,7 +1855,7 @@ function wp_ajax_wp_link_ajax() {
 	$args['pagenum'] = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
 	if ( ! class_exists( '_WP_Editors', false ) ) {
-		require( ABSPATH . WPINC . '/class-wp-editor.php' );
+		require ABSPATH . WPINC . '/class-wp-editor.php';
 	}
 
 	$results = _WP_Editors::wp_link_query( $args );
@@ -2597,7 +2597,7 @@ function wp_ajax_image_editor() {
 	}
 
 	check_ajax_referer( "image_editor-$attachment_id" );
-	include_once( ABSPATH . 'wp-admin/includes/image-edit.php' );
+	include_once ABSPATH . 'wp-admin/includes/image-edit.php';
 
 	$msg = false;
 	switch ( $_POST['do'] ) {
@@ -4004,8 +4004,8 @@ function wp_ajax_install_theme() {
 		wp_send_json_error( $status );
 	}
 
-	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-	include_once( ABSPATH . 'wp-admin/includes/theme.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	include_once ABSPATH . 'wp-admin/includes/theme.php';
 
 	$api = themes_api(
 		'theme_information',
@@ -4133,7 +4133,7 @@ function wp_ajax_update_theme() {
 		$status['oldVersion'] = $theme->get( 'Version' );
 	}
 
-	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 	$current = get_site_transient( 'update_themes' );
 	if ( empty( $current ) ) {
@@ -4247,7 +4247,7 @@ function wp_ajax_delete_theme() {
 		wp_send_json_error( $status );
 	}
 
-	include_once( ABSPATH . 'wp-admin/includes/theme.php' );
+	include_once ABSPATH . 'wp-admin/includes/theme.php';
 
 	$result = delete_theme( $stylesheet );
 
@@ -4294,8 +4294,8 @@ function wp_ajax_install_plugin() {
 		wp_send_json_error( $status );
 	}
 
-	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-	include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 
 	$api = plugins_api(
 		'plugin_information',
@@ -4416,7 +4416,7 @@ function wp_ajax_update_plugin() {
 		$status['oldVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
 	}
 
-	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 	wp_update_plugins();
 
@@ -5119,7 +5119,7 @@ function wp_ajax_health_check_dotorg_communication() {
 	}
 
 	if ( ! class_exists( 'WP_Site_Health' ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+		require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
 	}
 
 	$site_health = WP_Site_Health::get_instance();
@@ -5139,7 +5139,7 @@ function wp_ajax_health_check_is_in_debug_mode() {
 	}
 
 	if ( ! class_exists( 'WP_Site_Health' ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+		require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
 	}
 
 	$site_health = WP_Site_Health::get_instance();
@@ -5159,7 +5159,7 @@ function wp_ajax_health_check_background_updates() {
 	}
 
 	if ( ! class_exists( 'WP_Site_Health' ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+		require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
 	}
 
 	$site_health = WP_Site_Health::get_instance();
@@ -5180,7 +5180,7 @@ function wp_ajax_health_check_loopback_requests() {
 	}
 
 	if ( ! class_exists( 'WP_Site_Health' ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+		require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
 	}
 
 	$site_health = WP_Site_Health::get_instance();
@@ -5217,7 +5217,7 @@ function wp_ajax_health_check_get_sizes() {
 	}
 
 	if ( ! class_exists( 'WP_Debug_Data' ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-debug-data.php' );
+		require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
 	}
 
 	$sizes_data = WP_Debug_Data::get_sizes();

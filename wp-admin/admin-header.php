@@ -8,7 +8,7 @@
 
 header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 if ( ! defined( 'WP_ADMIN' ) ) {
-	require_once( dirname( __FILE__ ) . '/admin.php' );
+	require_once __DIR__ . '/admin.php';
 }
 
 /**
@@ -233,7 +233,7 @@ if ( current_user_can( 'customize' ) ) {
 ?>
 
 <div id="wpwrap">
-<?php require( ABSPATH . 'wp-admin/menu-header.php' ); ?>
+<?php require ABSPATH . 'wp-admin/menu-header.php'; ?>
 <div id="wpcontent">
 
 <?php
@@ -289,5 +289,5 @@ if ( is_network_admin() ) {
 do_action( 'all_admin_notices' );
 
 if ( $parent_file == 'options-general.php' ) {
-	require( ABSPATH . 'wp-admin/options-head.php' );
+	require ABSPATH . 'wp-admin/options-head.php';
 }

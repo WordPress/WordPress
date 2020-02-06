@@ -33,7 +33,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		$this->errors = new WP_Error();
 
 		// Check if possible to use ftp functions.
-		if ( ! include_once( ABSPATH . 'wp-admin/includes/class-ftp.php' ) ) {
+		if ( ! include_once ABSPATH . 'wp-admin/includes/class-ftp.php' ) {
 			return;
 		}
 		$this->ftp = new ftp();

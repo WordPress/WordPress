@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 if ( ! current_user_can( 'erase_others_personal_data' ) || ! current_user_can( 'delete_users' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to erase data on this site.' ) );
@@ -47,7 +47,7 @@ $requests_table->screen->set_screen_reader_content(
 $requests_table->process_bulk_action();
 $requests_table->prepare_items();
 
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 
 <div class="wrap nosubsub">
@@ -89,4 +89,4 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 </div>
 
 <?php
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

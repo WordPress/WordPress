@@ -7,7 +7,7 @@
  * @subpackage po
  */
 
-require_once dirname( __FILE__ ) . '/translations.php';
+require_once __DIR__ . '/translations.php';
 
 if ( ! defined( 'PO_MAX_LINE_LEN' ) ) {
 	define( 'PO_MAX_LINE_LEN', 79 );

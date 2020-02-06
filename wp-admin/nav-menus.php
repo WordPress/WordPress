@@ -10,10 +10,10 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 // Load all the nav menu interface functions.
-require_once( ABSPATH . 'wp-admin/includes/nav-menu.php' );
+require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
 if ( ! current_theme_supports( 'menus' ) && ! current_theme_supports( 'widgets' ) ) {
 	wp_die( __( 'Your theme does not support navigation menus or widgets.' ) );
@@ -606,7 +606,7 @@ get_current_screen()->set_help_sidebar(
 );
 
 // Get the admin header.
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 <div class="wrap">
 	<h1 class="wp-heading-inline"><?php echo esc_html( __( 'Menus' ) ); ?></h1>
@@ -1035,4 +1035,4 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	</div><!-- /#nav-menus-frame -->
 	<?php endif; ?>
 </div><!-- /.wrap-->
-<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>
+<?php require_once ABSPATH . 'wp-admin/admin-footer.php'; ?>

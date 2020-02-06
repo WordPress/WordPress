@@ -90,7 +90,7 @@ function find_core_auto_update() {
 		return false;
 	}
 
-	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 	$auto_update = false;
 	$upgrader    = new WP_Automatic_Updater;
@@ -724,7 +724,7 @@ function wp_theme_update_row( $theme_key, $theme ) {
  */
 function maintenance_nag() {
 	// Include an unmodified $wp_version.
-	include( ABSPATH . WPINC . '/version.php' );
+	require ABSPATH . WPINC . '/version.php';
 	global $upgrading;
 	$nag = isset( $upgrading );
 	if ( ! $nag ) {

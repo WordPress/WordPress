@@ -717,7 +717,7 @@ function wp_initialize_site( $site_id, array $args = array() ) {
 		switch_to_blog( $site->id );
 	}
 
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 	// Set up the database tables.
 	make_db_current_silent( 'blog' );

@@ -16,7 +16,7 @@
  */
 function wp_credits() {
 	// Include an unmodified $wp_version.
-	include( ABSPATH . WPINC . '/version.php' );
+	require ABSPATH . WPINC . '/version.php';
 
 	$locale = get_user_locale();
 

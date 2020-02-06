@@ -10,12 +10,12 @@
 
 if ( ! class_exists( 'Text_Diff', false ) ) {
 	/** Text_Diff class */
-	require( ABSPATH . WPINC . '/Text/Diff.php' );
+	require ABSPATH . WPINC . '/Text/Diff.php';
 	/** Text_Diff_Renderer class */
-	require( ABSPATH . WPINC . '/Text/Diff/Renderer.php' );
+	require ABSPATH . WPINC . '/Text/Diff/Renderer.php';
 	/** Text_Diff_Renderer_inline class */
-	require( ABSPATH . WPINC . '/Text/Diff/Renderer/inline.php' );
+	require ABSPATH . WPINC . '/Text/Diff/Renderer/inline.php';
 }
 
-require( ABSPATH . WPINC . '/class-wp-text-diff-renderer-table.php' );
-require( ABSPATH . WPINC . '/class-wp-text-diff-renderer-inline.php' );
+require ABSPATH . WPINC . '/class-wp-text-diff-renderer-table.php';
+require ABSPATH . WPINC . '/class-wp-text-diff-renderer-inline.php';

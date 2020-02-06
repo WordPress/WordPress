@@ -15,11 +15,11 @@
 define( 'WP_INSTALLING', true );
 
 /** Load WordPress Bootstrap */
-require( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
+require dirname( __DIR__ ) . '/wp-load.php';
 
 nocache_headers();
 
-require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 delete_site_transient( 'update_core' );
 

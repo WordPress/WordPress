@@ -693,100 +693,100 @@ class WP_Customize_Control {
 /**
  * WP_Customize_Color_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-color-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-color-control.php';
 
 /**
  * WP_Customize_Media_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-media-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-media-control.php';
 
 /**
  * WP_Customize_Upload_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-upload-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-upload-control.php';
 
 /**
  * WP_Customize_Image_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-image-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-image-control.php';
 
 /**
  * WP_Customize_Background_Image_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-image-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-background-image-control.php';
 
 /**
  * WP_Customize_Background_Position_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-position-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-background-position-control.php';
 
 /**
  * WP_Customize_Cropped_Image_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-cropped-image-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-cropped-image-control.php';
 
 /**
  * WP_Customize_Site_Icon_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-site-icon-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-site-icon-control.php';
 
 /**
  * WP_Customize_Header_Image_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-header-image-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-header-image-control.php';
 
 /**
  * WP_Customize_Theme_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-theme-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-theme-control.php';
 
 /**
  * WP_Widget_Area_Customize_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-widget-area-customize-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-widget-area-customize-control.php';
 
 /**
  * WP_Widget_Form_Customize_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-widget-form-customize-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-widget-form-customize-control.php';
 
 /**
  * WP_Customize_Nav_Menu_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-control.php';
 
 /**
  * WP_Customize_Nav_Menu_Item_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-item-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-item-control.php';
 
 /**
  * WP_Customize_Nav_Menu_Location_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-location-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-location-control.php';
 
 /**
  * WP_Customize_Nav_Menu_Name_Control class.
  *
  * As this file is deprecated, it will trigger a deprecation notice if instantiated. In a subsequent
- * release, the require_once() here will be removed and _deprecated_file() will be called if file is
+ * release, the require_once here will be removed and _deprecated_file() will be called if file is
  * required at all.
  *
  * @deprecated 4.9.0 This file is no longer used due to new menu creation UX.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-name-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-name-control.php';
 
 /**
  * WP_Customize_Nav_Menu_Locations_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-locations-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-locations-control.php';
 
 /**
  * WP_Customize_Nav_Menu_Auto_Add_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-auto-add-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-auto-add-control.php';
 
 /**
  * WP_Customize_Date_Time_Control class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-date-time-control.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-date-time-control.php';

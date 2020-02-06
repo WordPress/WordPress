@@ -1632,7 +1632,7 @@ class WP_Site_Health {
 		);
 
 		if ( ! class_exists( 'WP_Site_Health_Auto_Updates' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health-auto-updates.php' );
+			require_once ABSPATH . 'wp-admin/includes/class-wp-site-health-auto-updates.php';
 		}
 
 		// Run the auto-update tests in a separate class,
@@ -2223,7 +2223,7 @@ class WP_Site_Health {
 	 */
 	public function wp_cron_scheduled_check() {
 		// Bootstrap wp-admin, as WP_Cron doesn't do this for us.
-		require_once( trailingslashit( ABSPATH ) . 'wp-admin/includes/admin.php' );
+		require_once trailingslashit( ABSPATH ) . 'wp-admin/includes/admin.php';
 
 		$tests = WP_Site_Health::get_tests();
 

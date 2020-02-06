@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 // This file was used to also display the Privacy tab on the About screen from 4.9.6 until 5.3.0.
 if ( isset( $_GET['privacy-notice'] ) ) {
@@ -19,7 +19,7 @@ $title = __( 'Freedoms' );
 
 list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
 
-include( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 <div class="wrap about__container">
 
@@ -123,4 +123,4 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 
 </div>
-<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>
+<?php require_once ABSPATH . 'wp-admin/admin-footer.php'; ?>

@@ -8,10 +8,10 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 /** WordPress Translation Installation API */
-require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 
 if ( ! current_user_can( 'create_sites' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to add sites to this network.' ) );
@@ -202,7 +202,7 @@ $parent_file = 'sites.php';
 
 wp_enqueue_script( 'user-suggest' );
 
-require( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 
 ?>
 
@@ -300,4 +300,4 @@ printf(
 	</form>
 </div>
 <?php
-require( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

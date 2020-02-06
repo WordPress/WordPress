@@ -137,7 +137,7 @@ function wp_import_handle_upload() {
  */
 function wp_get_popular_importers() {
 	// Include an unmodified $wp_version.
-	include( ABSPATH . WPINC . '/version.php' );
+	require ABSPATH . WPINC . '/version.php';
 
 	$locale            = get_user_locale();
 	$cache_key         = 'popular_importers_' . md5( $locale . $wp_version );

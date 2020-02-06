@@ -11,7 +11,7 @@
  */
 error_reporting( 0 );
 
-$basepath = dirname( __FILE__ );
+$basepath = __DIR__;
 
 function get_file( $path ) {
 

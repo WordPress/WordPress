@@ -2638,7 +2638,7 @@ function _custom_header_background_just_in_time() {
 		}
 
 		if ( is_admin() ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-custom-image-header.php' );
+			require_once ABSPATH . 'wp-admin/includes/class-custom-image-header.php';
 			$custom_image_header = new Custom_Image_Header( $args[0]['admin-head-callback'], $args[0]['admin-preview-callback'] );
 		}
 	}
@@ -2651,7 +2651,7 @@ function _custom_header_background_just_in_time() {
 		add_action( 'wp_head', $args[0]['wp-head-callback'] );
 
 		if ( is_admin() ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-custom-background.php' );
+			require_once ABSPATH . 'wp-admin/includes/class-custom-background.php';
 			$custom_background = new Custom_Background( $args[0]['admin-head-callback'], $args[0]['admin-preview-callback'] );
 		}
 	}
@@ -2897,7 +2897,7 @@ function current_theme_supports( $feature, ...$args ) {
  */
 function require_if_theme_supports( $feature, $include ) {
 	if ( current_theme_supports( $feature ) ) {
-		require( $include );
+		require $include;
 		return true;
 	}
 	return false;

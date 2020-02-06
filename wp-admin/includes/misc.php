@@ -254,7 +254,7 @@ function save_mod_rewrite_rules() {
 	global $wp_rewrite;
 
 	// Ensure get_home_path() is declared.
-	require_once( ABSPATH . 'wp-admin/includes/file.php' );
+	require_once ABSPATH . 'wp-admin/includes/file.php';
 
 	$home_path     = get_home_path();
 	$htaccess_file = $home_path . '.htaccess';
@@ -291,7 +291,7 @@ function iis7_save_url_rewrite_rules() {
 	global $wp_rewrite;
 
 	// Ensure get_home_path() is declared.
-	require_once( ABSPATH . 'wp-admin/includes/file.php' );
+	require_once ABSPATH . 'wp-admin/includes/file.php';
 
 	$home_path       = get_home_path();
 	$web_config_file = $home_path . 'web.config';

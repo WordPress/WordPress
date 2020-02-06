@@ -27,7 +27,7 @@ if ( isset( $HTTP_RAW_POST_DATA ) ) {
 }
 
 /** Include the bootstrap for setting up WordPress environment */
-include( dirname( __FILE__ ) . '/wp-load.php' );
+require_once __DIR__ . '/wp-load.php';
 
 if ( isset( $_GET['rsd'] ) ) { // http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html
 	header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
@@ -60,9 +60,9 @@ if ( isset( $_GET['rsd'] ) ) { // http://cyber.law.harvard.edu/blogs/gems/tech/r
 	exit;
 }
 
-include_once( ABSPATH . 'wp-admin/includes/admin.php' );
-include_once( ABSPATH . WPINC . '/class-IXR.php' );
-include_once( ABSPATH . WPINC . '/class-wp-xmlrpc-server.php' );
+require_once ABSPATH . 'wp-admin/includes/admin.php';
+require_once ABSPATH . WPINC . '/class-IXR.php';
+require_once ABSPATH . WPINC . '/class-wp-xmlrpc-server.php';
 
 /**
  * Posts submitted via the XML-RPC interface get that title

@@ -8,8 +8,8 @@
  * @since MU (3.0.0)
  */
 
-require_once( ABSPATH . WPINC . '/ms-site.php' );
-require_once( ABSPATH . WPINC . '/ms-network.php' );
+require_once ABSPATH . WPINC . '/ms-site.php';
+require_once ABSPATH . WPINC . '/ms-network.php';
 
 /**
  * Update the last_updated field for the current site.

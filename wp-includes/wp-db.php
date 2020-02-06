@@ -1667,7 +1667,7 @@ class wpdb {
 
 			// Load custom DB error template, if present.
 			if ( file_exists( WP_CONTENT_DIR . '/db-error.php' ) ) {
-				require_once( WP_CONTENT_DIR . '/db-error.php' );
+				require_once WP_CONTENT_DIR . '/db-error.php';
 				die();
 			}
 

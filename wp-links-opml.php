@@ -12,7 +12,7 @@
  * @package WordPress
  */
 
-require_once( dirname( __FILE__ ) . '/wp-load.php' );
+require_once __DIR__ . '/wp-load.php';
 
 header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
 $link_cat = '';

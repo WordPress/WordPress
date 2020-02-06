@@ -7,10 +7,10 @@
  */
 
 /** Load WordPress Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 /** Load WordPress dashboard API */
-require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
+require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
 wp_dashboard_setup();
 
@@ -108,7 +108,7 @@ $screen->set_help_sidebar(
 	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
 );
 
-include( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 
 <div class="wrap">
@@ -153,4 +153,4 @@ if ( has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) )
 <?php
 wp_print_community_events_templates();
 
-require( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

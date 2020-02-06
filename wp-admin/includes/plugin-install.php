@@ -101,7 +101,7 @@
  */
 function plugins_api( $action, $args = array() ) {
 	// Include an unmodified $wp_version.
-	include( ABSPATH . WPINC . '/version.php' );
+	require ABSPATH . WPINC . '/version.php';
 
 	if ( is_array( $args ) ) {
 		$args = (object) $args;

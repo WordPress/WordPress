@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 if ( ! current_user_can( 'upload_files' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to upload files.' ) );
@@ -79,7 +79,7 @@ if ( 'grid' === $mode ) {
 	$title       = __( 'Media Library' );
 	$parent_file = 'upload.php';
 
-	require_once( ABSPATH . 'wp-admin/admin-header.php' );
+	require_once ABSPATH . 'wp-admin/admin-header.php';
 	?>
 	<div class="wrap" id="wp-media-grid" data-search="<?php _admin_search_query(); ?>">
 		<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
@@ -107,7 +107,7 @@ if ( 'grid' === $mode ) {
 		</div>
 	</div>
 	<?php
-	include( ABSPATH . 'wp-admin/admin-footer.php' );
+	require_once ABSPATH . 'wp-admin/admin-footer.php';
 	exit;
 }
 
@@ -261,7 +261,7 @@ get_current_screen()->set_screen_reader_content(
 	)
 );
 
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 
 <div class="wrap">
@@ -378,4 +378,4 @@ if ( ! empty( $message ) ) {
 </div>
 
 <?php
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

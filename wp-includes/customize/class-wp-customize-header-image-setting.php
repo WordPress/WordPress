@@ -31,7 +31,7 @@ final class WP_Customize_Header_Image_Setting extends WP_Customize_Setting {
 
 		// If _custom_header_background_just_in_time() fails to initialize $custom_image_header when not is_admin().
 		if ( empty( $custom_image_header ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-custom-image-header.php' );
+			require_once ABSPATH . 'wp-admin/includes/class-custom-image-header.php';
 			$args                   = get_theme_support( 'custom-header' );
 			$admin_head_callback    = isset( $args[0]['admin-head-callback'] ) ? $args[0]['admin-head-callback'] : null;
 			$admin_preview_callback = isset( $args[0]['admin-preview-callback'] ) ? $args[0]['admin-preview-callback'] : null;

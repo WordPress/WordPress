@@ -1523,11 +1523,11 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	 */
 	$include = apply_filters( 'comments_template', $theme_template );
 	if ( file_exists( $include ) ) {
-		require( $include );
+		require $include;
 	} elseif ( file_exists( TEMPLATEPATH . $file ) ) {
-		require( TEMPLATEPATH . $file );
+		require TEMPLATEPATH . $file;
 	} else { // Backward compat code will be removed in a future release.
-		require( ABSPATH . WPINC . '/theme-compat/comments.php' );
+		require ABSPATH . WPINC . '/theme-compat/comments.php';
 	}
 }
 

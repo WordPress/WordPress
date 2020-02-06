@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 if ( is_multisite() ) {
 	if ( ! current_user_can( 'create_users' ) && ! current_user_can( 'promote_users' ) ) {
@@ -285,7 +285,7 @@ if ( is_multisite() && current_user_can( 'promote_users' ) && ! wp_is_large_netw
 	wp_enqueue_script( 'user-suggest' );
 }
 
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 
 if ( isset( $_GET['update'] ) ) {
 	$messages = array();
@@ -582,4 +582,4 @@ if ( current_user_can( 'create_users' ) ) {
 <?php } // End if current_user_can( 'create_users' ). ?>
 </div>
 <?php
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

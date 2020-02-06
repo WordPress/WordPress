@@ -9,7 +9,7 @@
 
 define( 'WP_USER_ADMIN', true );
 
-require_once( dirname( dirname( __FILE__ ) ) . '/admin.php' );
+require_once dirname( __DIR__ ) . '/admin.php';
 
 if ( ! is_multisite() ) {
 	wp_redirect( admin_url() );

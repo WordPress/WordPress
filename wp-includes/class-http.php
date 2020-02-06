@@ -8,7 +8,7 @@
  */
 
 if ( ! class_exists( 'Requests' ) ) {
-	require( ABSPATH . WPINC . '/class-requests.php' );
+	require ABSPATH . WPINC . '/class-requests.php';
 
 	Requests::register_autoloader();
 	Requests::set_certificate_path( ABSPATH . WPINC . '/certificates/ca-bundle.crt' );

@@ -255,7 +255,7 @@ function get_search_form( $args = array() ) {
 	$search_form_template = locate_template( 'searchform.php' );
 	if ( '' != $search_form_template ) {
 		ob_start();
-		require( $search_form_template );
+		require $search_form_template;
 		$form = ob_get_clean();
 	} else {
 		// Build a string containing an aria-label to use for the search form.
@@ -3408,7 +3408,7 @@ function wp_default_editor() {
  */
 function wp_editor( $content, $editor_id, $settings = array() ) {
 	if ( ! class_exists( '_WP_Editors', false ) ) {
-		require( ABSPATH . WPINC . '/class-wp-editor.php' );
+		require ABSPATH . WPINC . '/class-wp-editor.php';
 	}
 	_WP_Editors::editor( $content, $editor_id, $settings );
 }
@@ -3424,7 +3424,7 @@ function wp_editor( $content, $editor_id, $settings = array() ) {
  */
 function wp_enqueue_editor() {
 	if ( ! class_exists( '_WP_Editors', false ) ) {
-		require( ABSPATH . WPINC . '/class-wp-editor.php' );
+		require ABSPATH . WPINC . '/class-wp-editor.php';
 	}
 
 	_WP_Editors::enqueue_default_editor();

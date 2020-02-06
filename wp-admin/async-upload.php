@@ -15,17 +15,17 @@ if ( ! defined( 'WP_ADMIN' ) ) {
 }
 
 if ( defined( 'ABSPATH' ) ) {
-	require_once( ABSPATH . 'wp-load.php' );
+	require_once ABSPATH . 'wp-load.php';
 } else {
-	require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
+	require_once dirname( __DIR__ ) . '/wp-load.php';
 }
 
-require_once( ABSPATH . 'wp-admin/admin.php' );
+require_once ABSPATH . 'wp-admin/admin.php';
 
 header( 'Content-Type: text/plain; charset=' . get_option( 'blog_charset' ) );
 
 if ( isset( $_REQUEST['action'] ) && 'upload-attachment' === $_REQUEST['action'] ) {
-	include( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
+	require ABSPATH . 'wp-admin/includes/ajax-actions.php';
 
 	send_nosniff_header();
 	nocache_headers();

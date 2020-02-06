@@ -93,7 +93,7 @@ class WP_Community_Events {
 		}
 
 		// Include an unmodified $wp_version.
-		include( ABSPATH . WPINC . '/version.php' );
+		require ABSPATH . WPINC . '/version.php';
 
 		$api_url                    = 'http://api.wordpress.org/events/1.0/';
 		$request_args               = $this->get_request_args( $location_search, $timezone );

@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 $title = __( 'Site Health Info' );
 
@@ -19,15 +19,15 @@ wp_enqueue_style( 'site-health' );
 wp_enqueue_script( 'site-health' );
 
 if ( ! class_exists( 'WP_Debug_Data' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-debug-data.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
 }
 if ( ! class_exists( 'WP_Site_Health' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
 }
 
 $health_check_site_status = WP_Site_Health::get_instance();
 
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 <div class="health-check-header">
 	<div class="health-check-title-section">
@@ -181,4 +181,4 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 </div>
 
 <?php
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

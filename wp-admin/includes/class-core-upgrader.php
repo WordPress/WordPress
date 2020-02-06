@@ -62,7 +62,7 @@ class Core_Upgrader extends WP_Upgrader {
 	public function upgrade( $current, $args = array() ) {
 		global $wp_filesystem;
 
-		include( ABSPATH . WPINC . '/version.php' ); // $wp_version;
+		require ABSPATH . WPINC . '/version.php'; // $wp_version;
 
 		$start_time = time();
 
@@ -161,7 +161,7 @@ class Core_Upgrader extends WP_Upgrader {
 		}
 		$wp_filesystem->chmod( $wp_dir . 'wp-admin/includes/update-core.php', FS_CHMOD_FILE );
 
-		require_once( ABSPATH . 'wp-admin/includes/update-core.php' );
+		require_once ABSPATH . 'wp-admin/includes/update-core.php';
 
 		if ( ! function_exists( 'update_core' ) ) {
 			WP_Upgrader::release_lock( 'core_updater' );
@@ -270,7 +270,7 @@ class Core_Upgrader extends WP_Upgrader {
 	 * @return bool True if we should update to the offered version, otherwise false.
 	 */
 	public static function should_update_to_version( $offered_ver ) {
-		include( ABSPATH . WPINC . '/version.php' ); // $wp_version; // x.y.z
+		require ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
 
 		$current_branch = implode( '.', array_slice( preg_split( '/[.-]/', $wp_version ), 0, 2 ) ); // x.y
 		$new_branch     = implode( '.', array_slice( preg_split( '/[.-]/', $offered_ver ), 0, 2 ) ); // x.y

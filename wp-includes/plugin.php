@@ -22,7 +22,7 @@
  */
 
 // Initialize the filter globals.
-require( dirname( __FILE__ ) . '/class-wp-hook.php' );
+require __DIR__ . '/class-wp-hook.php';
 
 /** @var WP_Hook[] $wp_filter */
 global $wp_filter, $wp_actions, $wp_current_filter;

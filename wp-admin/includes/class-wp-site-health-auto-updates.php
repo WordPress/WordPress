@@ -13,7 +13,7 @@ class WP_Site_Health_Auto_Updates {
 	 * @since 5.2.0
 	 */
 	public function __construct() {
-		include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 	}
 
 
@@ -166,7 +166,7 @@ class WP_Site_Health_Auto_Updates {
 	 */
 	public function test_wp_automatic_updates_disabled() {
 		if ( ! class_exists( 'WP_Automatic_Updater' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-automatic-updates.php' );
+			require_once ABSPATH . 'wp-admin/includes/class-wp-automatic-updates.php';
 		}
 
 		$auto_updates = new WP_Automatic_Updater();
@@ -336,7 +336,7 @@ class WP_Site_Health_Auto_Updates {
 	function test_all_files_writable() {
 		global $wp_filesystem;
 
-		include ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
+		require ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
 
 		$skin    = new Automatic_Upgrader_Skin;
 		$success = $skin->request_filesystem_credentials( false, ABSPATH );
@@ -414,7 +414,7 @@ class WP_Site_Health_Auto_Updates {
 	 * @return array|bool The test results. False if it isn't a development version.
 	 */
 	function test_accepts_dev_updates() {
-		include ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
+		require ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
 		// Only for dev versions.
 		if ( false === strpos( $wp_version, '-' ) ) {
 			return false;

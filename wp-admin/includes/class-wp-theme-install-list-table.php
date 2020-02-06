@@ -34,7 +34,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 * @global array  $theme_field_defaults
 	 */
 	public function prepare_items() {
-		include( ABSPATH . 'wp-admin/includes/theme-install.php' );
+		require ABSPATH . 'wp-admin/includes/theme-install.php';
 
 		global $tabs, $tab, $paged, $type, $theme_field_defaults;
 		wp_reset_vars( array( 'tab' ) );

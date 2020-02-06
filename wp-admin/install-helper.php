@@ -3,7 +3,7 @@
  * Plugins may load this file to gain access to special helper functions for
  * plugin installation. This file is not included by WordPress and it is
  * recommended, to prevent fatal errors, that this file is included using
- * require_once().
+ * require_once.
  *
  * These functions are not optimized for speed, but they should only be used
  * once in a while, so speed shouldn't be a concern. If it is and you are
@@ -35,7 +35,7 @@
  */
 
 /** Load WordPress Bootstrap */
-require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
+require_once dirname( __DIR__ ) . '/wp-load.php';
 
 if ( ! function_exists( 'maybe_create_table' ) ) :
 	/**

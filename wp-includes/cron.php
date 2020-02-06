@@ -682,7 +682,7 @@ function spawn_cron( $gmt_time = 0 ) {
 		wp_ob_end_flush_all();
 		flush();
 
-		include_once( ABSPATH . 'wp-cron.php' );
+		include_once ABSPATH . 'wp-cron.php';
 		return true;
 	}
 

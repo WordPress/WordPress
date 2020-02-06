@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 if ( ! current_user_can( 'manage_sites' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
@@ -108,7 +108,7 @@ if ( isset( $_GET['action'] ) ) {
 		$site_details = get_site( $id );
 		$site_address = untrailingslashit( $site_details->domain . $site_details->path );
 
-		require_once( ABSPATH . 'wp-admin/admin-header.php' );
+		require_once ABSPATH . 'wp-admin/admin-header.php';
 		?>
 			<div class="wrap">
 				<h1><?php _e( 'Confirm your action' ); ?></h1>
@@ -122,7 +122,7 @@ if ( isset( $_GET['action'] ) ) {
 				</form>
 			</div>
 		<?php
-		require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+		require_once ABSPATH . 'wp-admin/admin-footer.php';
 		exit();
 	} elseif ( array_key_exists( $_GET['action'], $manage_actions ) ) {
 		$action = $_GET['action'];
@@ -184,7 +184,7 @@ if ( isset( $_GET['action'] ) ) {
 					if ( $val != '0' && $val != get_network()->site_id ) {
 						switch ( $doaction ) {
 							case 'delete':
-								require_once( ABSPATH . 'wp-admin/admin-header.php' );
+								require_once ABSPATH . 'wp-admin/admin-header.php';
 								?>
 								<div class="wrap">
 									<h1><?php _e( 'Confirm your action' ); ?></h1>
@@ -209,7 +209,7 @@ if ( isset( $_GET['action'] ) ) {
 									</form>
 								</div>
 								<?php
-								require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+								require_once ABSPATH . 'wp-admin/admin-footer.php';
 								exit();
 							break;
 
@@ -354,7 +354,7 @@ if ( isset( $_GET['updated'] ) ) {
 
 $wp_list_table->prepare_items();
 
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 
 <div class="wrap">
@@ -388,4 +388,4 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 </div>
 <?php
 
-require_once( ABSPATH . 'wp-admin/admin-footer.php' ); ?>
+require_once ABSPATH . 'wp-admin/admin-footer.php'; ?>

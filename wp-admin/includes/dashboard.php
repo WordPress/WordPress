@@ -45,7 +45,7 @@ function wp_dashboard_setup() {
 	// Site Health.
 	if ( current_user_can( 'view_site_health_checks' ) ) {
 		if ( ! class_exists( 'WP_Site_Health' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+			require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
 		}
 
 		WP_Site_Health::get_instance();
@@ -1665,7 +1665,7 @@ function wp_check_browser_version() {
 	$response = get_site_transient( 'browser_' . $key );
 	if ( false === $response ) {
 		// Include an unmodified $wp_version.
-		include( ABSPATH . WPINC . '/version.php' );
+		require ABSPATH . WPINC . '/version.php';
 
 		$url     = 'http://api.wordpress.org/core/browse-happy/1.1/';
 		$options = array(

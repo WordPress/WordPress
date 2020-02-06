@@ -8,7 +8,7 @@
  */
 
 if ( ! class_exists( 'WP_Privacy_Requests_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-requests-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-privacy-requests-table.php';
 }
 
 /**

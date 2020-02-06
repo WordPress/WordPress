@@ -7,7 +7,7 @@
  */
 
 /** Load WordPress Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 $parent_file  = 'edit-comments.php';
 $submenu_file = 'edit-comments.php';
@@ -58,7 +58,7 @@ switch ( $action ) {
 		);
 
 		wp_enqueue_script( 'comment' );
-		require_once( ABSPATH . 'wp-admin/admin-header.php' );
+		require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		$comment_id = absint( $_GET['c'] );
 
@@ -77,7 +77,7 @@ switch ( $action ) {
 
 		$comment = get_comment_to_edit( $comment_id );
 
-		include( ABSPATH . 'wp-admin/edit-form-comment.php' );
+		require ABSPATH . 'wp-admin/edit-form-comment.php';
 
 		break;
 
@@ -106,7 +106,7 @@ switch ( $action ) {
 			die();
 		}
 
-		require_once( ABSPATH . 'wp-admin/admin-header.php' );
+		require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		$formaction    = $action . 'comment';
 		$nonce_action  = 'approve' == $action ? 'approve-comment_' : 'delete-comment_';
@@ -357,4 +357,4 @@ switch ( $action ) {
 
 } // End switch.
 
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-footer.php';

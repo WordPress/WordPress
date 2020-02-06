@@ -132,10 +132,10 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 		);
 
 		// Load up our theme options page and related code.
-		require( get_template_directory() . '/inc/theme-options.php' );
+		require get_template_directory() . '/inc/theme-options.php';
 
 		// Grab Twenty Eleven's Ephemera widget.
-		require( get_template_directory() . '/inc/widgets.php' );
+		require get_template_directory() . '/inc/widgets.php';
 
 		// Add default posts and comments RSS feed links to <head>.
 		add_theme_support( 'automatic-feed-links' );
