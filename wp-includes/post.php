@@ -3843,7 +3843,20 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 	// If a trashed post has the desired slug, change it and let this post have it.
 	if ( 'trash' !== $post_status && $post_name ) {
-		wp_add_trashed_suffix_to_post_name_for_trashed_posts( $post_name, $post_ID );
+		/**
+		 * Filters whether or not to add a `__trashed` suffix to trashed posts that match the name of the updated post.
+		 *
+		 * @since 5.4.0
+		 *
+		 * @param bool   $add_trashed_suffix Whether to attempt to add the suffix.
+		 * @param string $post_name          The name of the post being updated.
+		 * @param int    $post_ID            Post ID.
+		 */
+		$add_trashed_suffix = apply_filters( 'add_trashed_suffix_to_trashed_posts', true, $post_name, $post_ID );
+
+		if ( $add_trashed_suffix ) {
+			wp_add_trashed_suffix_to_post_name_for_trashed_posts( $post_name, $post_ID );
+		}
 	}
 
 	// When trashing an existing post, change its slug to allow non-trashed posts to use it.
