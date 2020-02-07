@@ -1738,10 +1738,12 @@ function _admin_notice_post_locked() {
 		 * Fires inside the post locked dialog before the buttons are displayed.
 		 *
 		 * @since 3.6.0
+		 * @since 5.4.0 The $user parameter was added.
 		 *
 		 * @param WP_Post $post Post object.
+		 * @param WP_User $user The user with the lock for the post.
 		 */
-		do_action( 'post_locked_dialog', $post );
+		do_action( 'post_locked_dialog', $post, $user );
 		?>
 		<p>
 		<a class="button" href="<?php echo esc_url( $sendback ); ?>"><?php echo $sendback_text; ?></a>
