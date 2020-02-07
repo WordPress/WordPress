@@ -120,16 +120,14 @@
 
 .iris-picker .ui-square-handle:focus,
 .iris-picker .iris-strip .ui-slider-handle:focus {
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
+	border-color: #007cba;
+	border-style: solid;
+	box-shadow: 0 0 0 1px #007cba;
+	outline: 2px solid transparent;
 }
 
 .iris-picker .iris-palette:focus {
-	box-shadow:
-		inset 0 0 5px rgba(0, 0, 0, 0.4),
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
+	box-shadow: 0 0 0 2px #007cba;
 }
 
 @media screen and (max-width: 782px) {

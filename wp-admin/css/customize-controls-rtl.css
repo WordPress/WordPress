@@ -1393,12 +1393,10 @@ p.customize-section-description {
 
 .customize-control .attachment-media-view .button-add-media:focus {
 	background-color: #fbfbfc;
+	border-color: #007cba;
 	border-style: solid;
-	border-color: #5b9dd9;
-	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
-	/* Only visible in Windows High Contrast mode */
+	box-shadow: 0 0 0 1px #007cba;
 	outline: 2px solid transparent;
-	outline-offset: -2px;
 }
 
 .customize-control-header .inner {
