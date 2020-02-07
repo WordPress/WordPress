@@ -3560,6 +3560,11 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		}
 
 		if ( 'image' === $type ) {
+			if ( ! empty( $meta['original_image'] ) ) {
+				$response['originalImageURL']  = wp_get_original_image_url( $attachment->ID );
+				$response['originalImageName'] = wp_basename( wp_get_original_image_path( $attachment->ID ) );
+			}
+
 			$sizes['full'] = array( 'url' => $attachment_url );
 
 			if ( isset( $meta['height'], $meta['width'] ) ) {
