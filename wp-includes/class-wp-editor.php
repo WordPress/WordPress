@@ -36,7 +36,8 @@ final class _WP_Editors {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $editor_id ID for the current editor instance.
+	 * @param string $editor_id HTML ID for the textarea and TinyMCE and Quicktags instances.
+	 *                          Should not contain square brackets.
 	 * @param array  $settings {
 	 *     Array of editor arguments.
 	 *
@@ -75,7 +76,7 @@ final class _WP_Editors {
 		 * @see _WP_Editors::parse_settings()
 		 *
 		 * @param array  $settings  Array of editor arguments.
-		 * @param string $editor_id ID for the current editor instance. Accepts 'classic-block'
+		 * @param string $editor_id Unique editor identifier, e.g. 'content'. Accepts 'classic-block'
 		 *                          when called from block editor's Classic block.
 		 */
 		$settings = apply_filters( 'wp_editor_settings', $settings, $editor_id );
@@ -147,9 +148,10 @@ final class _WP_Editors {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $content The initial content of the editor.
-	 * @param string $editor_id ID for the textarea and TinyMCE and Quicktags instances (can contain only ASCII letters and numbers).
-	 * @param array $settings See _WP_Editors::parse_settings() for description.
+	 * @param string $content   Initial content for the editor.
+	 * @param string $editor_id HTML ID for the textarea and TinyMCE and Quicktags instances.
+	 *                          Should not contain square brackets.
+	 * @param array  $settings  See _WP_Editors::parse_settings() for description.
 	 */
 	public static function editor( $content, $editor_id, $settings = array() ) {
 		$set            = self::parse_settings( $editor_id, $settings );
@@ -310,8 +312,8 @@ final class _WP_Editors {
 	 *
 	 * @global string $tinymce_version
 	 *
-	 * @param string $editor_id
-	 * @param array  $set
+	 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+	 * @param array  $set       Array of editor arguments.
 	 */
 	public static function editor_settings( $editor_id, $set ) {
 		global $tinymce_version;
@@ -353,7 +355,7 @@ final class _WP_Editors {
 			 * @since 3.3.0
 			 *
 			 * @param array  $qtInit    Quicktags settings.
-			 * @param string $editor_id The unique editor ID, e.g. 'content'.
+			 * @param string $editor_id Unique editor identifier, e.g. 'content'.
 			 */
 			$qtInit = apply_filters( 'quicktags_settings', $qtInit, $editor_id );
 

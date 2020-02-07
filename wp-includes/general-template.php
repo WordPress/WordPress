@@ -3400,11 +3400,13 @@ function wp_default_editor() {
  * See https://core.trac.wordpress.org/ticket/19173 for more information.
  *
  * @see _WP_Editors::editor()
+ * @see _WP_Editors::parse_settings()
  * @since 3.3.0
  *
  * @param string $content   Initial content for the editor.
- * @param string $editor_id HTML ID attribute value for the textarea and TinyMCE. Can only be /[a-z]+/.
- * @param array  $settings  See _WP_Editors::editor().
+ * @param string $editor_id HTML ID attribute value for the textarea and TinyMCE.
+ *                          Should not contain square brackets.
+ * @param array  $settings  See _WP_Editors::parse_settings() for description.
  */
 function wp_editor( $content, $editor_id, $settings = array() ) {
 	if ( ! class_exists( '_WP_Editors', false ) ) {
