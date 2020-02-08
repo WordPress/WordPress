@@ -1270,6 +1270,7 @@ function wp_remote_fopen( $uri ) {
  */
 function wp( $query_vars = '' ) {
 	global $wp, $wp_query, $wp_the_query;
+
 	$wp->main( $query_vars );
 
 	if ( ! isset( $wp_the_query ) ) {
