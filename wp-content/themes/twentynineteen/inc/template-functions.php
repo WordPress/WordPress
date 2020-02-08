@@ -96,20 +96,6 @@ function twentynineteen_get_the_archive_title() {
 add_filter( 'get_the_archive_title', 'twentynineteen_get_the_archive_title' );
 
 /**
- * Determines if post thumbnail can be displayed.
- */
-function twentynineteen_can_show_post_thumbnail() {
-	return apply_filters( 'twentynineteen_can_show_post_thumbnail', ! post_password_required() && ! is_attachment() && has_post_thumbnail() );
-}
-
-/**
- * Returns true if image filters are enabled on the theme options.
- */
-function twentynineteen_image_filters_enabled() {
-	return 0 !== get_theme_mod( 'image_filter', 1 );
-}
-
-/**
  * Add custom sizes attribute to responsive image functionality for post thumbnails.
  *
  * @origin Twenty Nineteen 1.0
@@ -130,66 +116,6 @@ function twentynineteen_post_thumbnail_sizes_attr( $attr ) {
 	return $attr;
 }
 add_filter( 'wp_get_attachment_image_attributes', 'twentynineteen_post_thumbnail_sizes_attr', 10, 1 );
-
-/**
- * Returns the size for avatars used in the theme.
- */
-function twentynineteen_get_avatar_size() {
-	return 60;
-}
-
-/**
- * Returns true if comment is by author of the post.
- *
- * @see get_comment_class()
- */
-function twentynineteen_is_comment_by_post_author( $comment = null ) {
-	if ( is_object( $comment ) && $comment->user_id > 0 ) {
-		$user = get_userdata( $comment->user_id );
-		$post = get_post( $comment->comment_post_ID );
-		if ( ! empty( $user ) && ! empty( $post ) ) {
-			return $comment->user_id === $post->post_author;
-		}
-	}
-	return false;
-}
-
-/**
- * Returns information about the current post's discussion, with cache support.
- */
-function twentynineteen_get_discussion_data() {
-	static $discussion, $post_id;
-
-	$current_post_id = get_the_ID();
-	if ( $current_post_id === $post_id ) {
-		return $discussion; /* If we have discussion information for post ID, return cached object */
-	} else {
-		$post_id = $current_post_id;
-	}
-
-	$comments = get_comments(
-		array(
-			'post_id' => $current_post_id,
-			'orderby' => 'comment_date_gmt',
-			'order'   => get_option( 'comment_order', 'asc' ), /* Respect comment order from Settings » Discussion. */
-			'status'  => 'approve',
-			'number'  => 20, /* Only retrieve the last 20 comments, as the end goal is just 6 unique authors */
-		)
-	);
-
-	$authors = array();
-	foreach ( $comments as $comment ) {
-		$authors[] = ( (int) $comment->user_id > 0 ) ? (int) $comment->user_id : $comment->comment_author_email;
-	}
-
-	$authors    = array_unique( $authors );
-	$discussion = (object) array(
-		'authors'   => array_slice( $authors, 0, 6 ),           /* Six unique authors commenting on the post. */
-		'responses' => get_comments_number( $current_post_id ), /* Number of responses. */
-	);
-
-	return $discussion;
-}
 
 /**
  * Add an extra menu to our nav for our priority+ navigation to use
@@ -250,62 +176,6 @@ function twentynineteen_nav_menu_link_attributes( $atts, $item, $args, $depth ) 
 add_filter( 'nav_menu_link_attributes', 'twentynineteen_nav_menu_link_attributes', 10, 4 );
 
 /**
- * Add a dropdown icon to top-level menu items.
- *
- * @param string $output Nav menu item start element.
- * @param object $item   Nav menu item.
- * @param int    $depth  Depth.
- * @param object $args   Nav menu args.
- * @return string Nav menu item start element.
- * Add a dropdown icon to top-level menu items
- */
-function twentynineteen_add_dropdown_icons( $output, $item, $depth, $args ) {
-
-	// Only add class to 'top level' items on the 'primary' menu.
-	if ( ! isset( $args->theme_location ) || 'menu-1' !== $args->theme_location ) {
-		return $output;
-	}
-
-	if ( in_array( 'mobile-parent-nav-menu-item', $item->classes, true ) && isset( $item->original_id ) ) {
-		// Inject the keyboard_arrow_left SVG inside the parent nav menu item, and let the item link to the parent item.
-		// @todo Only do this for nested submenus? If on a first-level submenu, then really the link could be "#" since the desire is to remove the target entirely.
-		$link = sprintf(
-			'<button class="menu-item-link-return" tabindex="-1">%s',
-			twentynineteen_get_icon_svg( 'chevron_left', 24 )
-		);
-
-		// Replace opening <a> with <button>.
-		$output = preg_replace(
-			'/<a\s.*?>/',
-			$link,
-			$output,
-			1 // Limit.
-		);
-
-		// Replace closing </a> with </button>.
-		$output = preg_replace(
-			'#</a>#i',
-			'</button>',
-			$output,
-			1 // Limit.
-		);
-
-	} elseif ( in_array( 'menu-item-has-children', $item->classes, true ) ) {
-
-		// Add SVG icon to parent items.
-		$icon = twentynineteen_get_icon_svg( 'keyboard_arrow_down', 24 );
-
-		$output .= sprintf(
-			'<button class="submenu-expand" tabindex="-1">%s</button>',
-			$icon
-		);
-	}
-
-	return $output;
-}
-add_filter( 'walker_nav_menu_start_el', 'twentynineteen_add_dropdown_icons', 10, 4 );
-
-/**
  * Create a nav menu item to be displayed on mobile to navigate from submenu back to the parent.
  *
  * This duplicates each parent nav menu item and makes it the first child of itself.
@@ -339,84 +209,3 @@ function twentynineteen_add_mobile_parent_nav_menu_items( $sorted_menu_items, $a
 	return $amended_menu_items;
 }
 add_filter( 'wp_nav_menu_objects', 'twentynineteen_add_mobile_parent_nav_menu_items', 10, 2 );
-
-/**
- * Convert HSL to HEX colors
- */
-function twentynineteen_hsl_hex( $h, $s, $l, $to_hex = true ) {
-
-	$h /= 360;
-	$s /= 100;
-	$l /= 100;
-
-	$r = $l;
-	$g = $l;
-	$b = $l;
-	$v = ( $l <= 0.5 ) ? ( $l * ( 1.0 + $s ) ) : ( $l + $s - $l * $s );
-	if ( $v > 0 ) {
-		$m;
-		$sv;
-		$sextant;
-		$fract;
-		$vsf;
-		$mid1;
-		$mid2;
-
-		$m       = $l + $l - $v;
-		$sv      = ( $v - $m ) / $v;
-		$h      *= 6.0;
-		$sextant = floor( $h );
-		$fract   = $h - $sextant;
-		$vsf     = $v * $sv * $fract;
-		$mid1    = $m + $vsf;
-		$mid2    = $v - $vsf;
-
-		switch ( $sextant ) {
-			case 0:
-				$r = $v;
-				$g = $mid1;
-				$b = $m;
-				break;
-			case 1:
-				$r = $mid2;
-				$g = $v;
-				$b = $m;
-				break;
-			case 2:
-				$r = $m;
-				$g = $v;
-				$b = $mid1;
-				break;
-			case 3:
-				$r = $m;
-				$g = $mid2;
-				$b = $v;
-				break;
-			case 4:
-				$r = $mid1;
-				$g = $m;
-				$b = $v;
-				break;
-			case 5:
-				$r = $v;
-				$g = $m;
-				$b = $mid2;
-				break;
-		}
-	}
-	$r = round( $r * 255, 0 );
-	$g = round( $g * 255, 0 );
-	$b = round( $b * 255, 0 );
-
-	if ( $to_hex ) {
-
-		$r = ( $r < 15 ) ? '0' . dechex( $r ) : dechex( $r );
-		$g = ( $g < 15 ) ? '0' . dechex( $g ) : dechex( $g );
-		$b = ( $b < 15 ) ? '0' . dechex( $b ) : dechex( $b );
-
-		return "#$r$g$b";
-
-	}
-
-	return "rgb($r, $g, $b)";
-}
