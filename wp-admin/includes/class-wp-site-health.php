@@ -33,8 +33,6 @@ class WP_Site_Health {
 	public function __construct() {
 		$this->maybe_create_scheduled_event();
 
-		$this->prepare_sql_data();
-
 		$this->timeout_late_cron   = 0;
 		$this->timeout_missed_cron = - 5 * MINUTE_IN_SECONDS;
 
@@ -1095,6 +1093,10 @@ class WP_Site_Health {
 	 * @return array The test results.
 	 */
 	public function get_test_sql_server() {
+		if ( ! $this->mysql_server_version ) {
+			$this->prepare_sql_data();
+		}
+
 		$result = array(
 			'label'       => __( 'SQL server is up to date' ),
 			'status'      => 'good',
@@ -1181,6 +1183,10 @@ class WP_Site_Health {
 	 */
 	public function get_test_utf8mb4_support() {
 		global $wpdb;
+
+		if ( ! $this->mysql_server_version ) {
+			$this->prepare_sql_data();
+		}
 
 		$result = array(
 			'label'       => __( 'UTF8MB4 is supported' ),
