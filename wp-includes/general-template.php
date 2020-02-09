@@ -2890,6 +2890,14 @@ function wp_head() {
  */
 function wp_footer() {
 	/**
+	 * Sets up the Admin Bar if the current theme does not use `wp_body_open`.
+	 *
+	 * @since 5.4.0
+	 */
+	if ( ! did_action( 'wp_body_open' ) ) {
+		add_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
+	}
+	/**
 	 * Prints scripts or data before the closing body tag on the front end.
 	 *
 	 * @since 1.5.1

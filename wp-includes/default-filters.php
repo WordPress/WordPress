@@ -537,7 +537,7 @@ add_action( 'template_redirect', '_wp_admin_bar_init', 0 );
 add_action( 'admin_init', '_wp_admin_bar_init' );
 add_action( 'before_signup_header', '_wp_admin_bar_init' );
 add_action( 'activate_header', '_wp_admin_bar_init' );
-add_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
+add_action( 'wp_body_open', 'wp_admin_bar_render', 0 );
 add_action( 'in_admin_header', 'wp_admin_bar_render', 0 );
 
 // Former admin filters that can also be hooked on the front end.
