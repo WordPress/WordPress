@@ -494,7 +494,7 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 do_action( 'edit_form_top', $post );
 ?>
 
-<div id="poststuff">
+<div class="poststuff">
 <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 <div id="post-body-content">
 
@@ -671,7 +671,7 @@ do_meta_boxes( $post_type, 'side', $post );
 
 ?>
 </div>
-<div id="postbox-container-2" class="postbox-container">
+<div class="postbox-container-2 postbox-container">
 <?php
 
 do_meta_boxes( null, 'normal', $post );

@@ -6,7 +6,7 @@
 	width: 49.5%;
 }
 
-#wpbody-content #dashboard-widgets.columns-2 #postbox-container-2,
+#wpbody-content #dashboard-widgets.columns-2 .postbox-container-2,
 #wpbody-content #dashboard-widgets.columns-2 #postbox-container-3,
 #wpbody-content #dashboard-widgets.columns-2 #postbox-container-4 {
 	float: right;
@@ -42,7 +42,7 @@
 	width: 49.5%;
 }
 
-.ie8 #wpbody-content #dashboard-widgets #postbox-container-2,
+.ie8 #wpbody-content #dashboard-widgets .postbox-container-2,
 .ie8 #wpbody-content #dashboard-widgets #postbox-container-3,
 .ie8 #wpbody-content #dashboard-widgets #postbox-container-4 {
 	float: right;
@@ -1112,7 +1112,7 @@ a.rsswidget {
 		width: 49.5%;
 	}
 
-	#wpbody-content #dashboard-widgets #postbox-container-2,
+	#wpbody-content #dashboard-widgets .postbox-container-2,
 	#wpbody-content #dashboard-widgets #postbox-container-3,
 	#wpbody-content #dashboard-widgets #postbox-container-4 {
 		float: right;

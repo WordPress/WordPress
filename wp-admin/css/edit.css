@@ -1,17 +1,17 @@
-#poststuff {
+.poststuff {
 	padding-top: 10px;
 	min-width: 763px;
 }
 
-#poststuff #post-body {
+.poststuff #post-body {
 	padding: 0;
 }
 
-#poststuff .postbox-container {
+.poststuff .postbox-container {
 	width: 100%;
 }
 
-#poststuff #post-body.columns-2 {
+.poststuff #post-body.columns-2 {
 	margin-right: 300px;
 }
 
@@ -51,7 +51,7 @@
 	margin: 0;
 }
 
-#poststuff #titlewrap {
+.poststuff #titlewrap {
 	border: 0;
 	padding: 0;
 }
@@ -414,7 +414,7 @@ form#tags-filter {
 	padding-top: 20px;
 }
 
-#poststuff #post-body.columns-2 #side-sortables {
+.poststuff #post-body.columns-2 #side-sortables {
 	width: 280px;
 }
 
@@ -596,34 +596,34 @@ form#tags-filter {
 	text-indent: 0;
 }
 
-#poststuff h3.hndle, /* Back-compat for pre-4.4 */
-#poststuff .stuffbox > h3, /* Back-compat for pre-4.4 */
-#poststuff h2 {
+.poststuff h3.hndle, /* Back-compat for pre-4.4 */
+.poststuff .stuffbox > h3, /* Back-compat for pre-4.4 */
+.poststuff h2 {
 	font-size: 14px;
 	padding: 8px 12px;
 	margin: 0;
 	line-height: 1.4;
 }
 
-#poststuff .stuffbox h2 {
+.poststuff .stuffbox h2 {
 	padding: 8px 10px;
 }
 
-#poststuff .inside {
+.poststuff .inside {
 	margin: 6px 0 0 0;
 }
 
-#poststuff .stuffbox .inside {
+.poststuff .stuffbox .inside {
 	margin: 0;
 }
 
-#poststuff .inside #parent_id,
-#poststuff .inside #page_template {
+.poststuff .inside #parent_id,
+.poststuff .inside #page_template {
 	max-width: 100%;
 }
 
-.ie8 #poststuff .inside #parent_id,
-.ie8 #poststuff .inside #page_template {
+.ie8 .poststuff .inside #parent_id,
+.ie8 .poststuff .inside #page_template {
 	width: 250px;
 }
 
@@ -642,7 +642,7 @@ form#tags-filter {
 }
 
 #linksubmitdiv .inside, /* Old Link Manager back-compat. */
-#poststuff #submitdiv .inside {
+.poststuff #submitdiv .inside {
 	margin: 0;
 	padding: 0;
 }
@@ -1091,11 +1091,11 @@ p.description code {
   13.0 - Tags
 ------------------------------------------------------------------------------*/
 
-#poststuff .tagsdiv .ajaxtag {
+.poststuff .tagsdiv .ajaxtag {
 	margin-top: 1em;
 }
 
-#poststuff .tagsdiv .howto {
+.poststuff .tagsdiv .howto {
 	margin: 1em 0 6px 0;
 }
 
@@ -1140,7 +1140,7 @@ p.popular-tags a {
 	margin: 2px 0 12px;
 }
 
-#poststuff .inside .the-tagcloud {
+.poststuff .inside .the-tagcloud {
 	margin: 5px 0 10px;
 	padding: 8px;
 	border: 1px solid #ddd;
@@ -1412,11 +1412,11 @@ table.links-table {
 
 /* one column on the post write/edit screen */
 @media only screen and (max-width: 850px) {
-	#poststuff {
+	.poststuff {
 		min-width: 0;
 	}
 
-	#wpbody-content #poststuff #post-body {
+	#wpbody-content .poststuff #post-body {
 		margin: 0;
 	}
 
@@ -1425,14 +1425,14 @@ table.links-table {
 		width: 100%;
 	}
 
-	#poststuff #postbox-container-1 .empty-container,
-	#poststuff #postbox-container-1 #side-sortables:empty {
+	.poststuff #postbox-container-1 .empty-container,
+	.poststuff #postbox-container-1 #side-sortables:empty {
 		border: 0 none;
 		height: 0;
 		min-height: 0;
 	}
 
-	#poststuff #post-body.columns-2 #side-sortables {
+	.poststuff #post-body.columns-2 #side-sortables {
 		min-height: 0;
 		width: auto;
 	}
@@ -1457,13 +1457,13 @@ table.links-table {
 		padding: 10px 10px;
 	}
 
-	#poststuff .stuffbox .inside {
+	.poststuff .stuffbox .inside {
 		padding: 0 2px 4px 0;
 	}
 
-	#poststuff h3.hndle, /* Back-compat for pre-4.4 */
-	#poststuff .stuffbox > h3, /* Back-compat for pre-4.4 */
-	#poststuff h2 {
+	.poststuff h3.hndle, /* Back-compat for pre-4.4 */
+	.poststuff .stuffbox > h3, /* Back-compat for pre-4.4 */
+	.poststuff h2 {
 		padding: 12px;
 	}
 

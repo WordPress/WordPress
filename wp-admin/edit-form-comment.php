@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="wrap">
 <h1><?php _e( 'Edit Comment' ); ?></h1>
 
-<div id="poststuff">
+<div class="poststuff">
 <input type="hidden" name="action" value="editedcomment" />
 <input type="hidden" name="comment_ID" value="<?php echo esc_attr( $comment->comment_ID ); ?>" />
 <input type="hidden" name="comment_post_ID" value="<?php echo esc_attr( $comment->comment_post_ID ); ?>" />
@@ -196,7 +196,7 @@ endif;
 </div><!-- /submitdiv -->
 </div>
 
-<div id="postbox-container-2" class="postbox-container">
+<div class="postbox-container-2 postbox-container">
 <?php
 /** This action is documented in wp-admin/includes/meta-boxes.php */
 do_action( 'add_meta_boxes', 'comment', $comment );
