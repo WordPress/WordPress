@@ -113,6 +113,7 @@ class WP_oEmbed {
 			'#https?://www\.someecards\.com/.+-cards/.+#i' => array( 'https://www.someecards.com/v2/oembed/', true ),
 			'#https?://www\.someecards\.com/usercards/viewcard/.+#i' => array( 'https://www.someecards.com/v2/oembed/', true ),
 			'#https?://some\.ly\/.+#i'                     => array( 'https://www.someecards.com/v2/oembed/', true ),
+			'#https?://(www\.)?tiktok\.com/.*/video/.*#i'  => array( 'https://www.tiktok.com/oembed', true ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
@@ -195,6 +196,7 @@ class WP_oEmbed {
 		 * | Crowdsignal  | survey.fm                                 | 5.1.0   |
 		 * | Instagram TV | instagram.com                             | 5.1.0   |
 		 * | Instagram TV | instagr.am                                | 5.1.0   |
+		 * | TikTok       | tiktok.com                                | 5.4.0   |
 		 *
 		 * No longer supported providers:
 		 *
