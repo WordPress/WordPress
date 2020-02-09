@@ -8037,17 +8037,25 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 		}
 
 		/*
-		 * For accessibility reasons, place the Inline Uploader before other sections.
-		 * This way, in the Media Library, it's right after the Add New button, see ticket #37188.
+		 * In the grid mode (the Media Library), place the Inline Uploader before
+		 * other sections so that the visual order and the DOM order match. This way,
+		 * the Inline Uploader in the Media Library is right after the "Add New"
+		 * button, see ticket #37188.
 		 */
-		this.createUploader();
+		if ( this.controller.isModeActive( 'grid' ) ) {
+			this.createUploader();
 
-		/*
-		 * Create a multi-purpose toolbar. Used as main toolbar in the Media Library
-		 * and also for other things, for example the "Drag and drop to reorder" and
-		 * "Suggested dimensions" info in the media modal.
-		 */
-		this.createToolbar();
+			/*
+			 * Create a multi-purpose toolbar. Used as main toolbar in the Media Library
+			 * and also for other things, for example the "Drag and drop to reorder" and
+			 * "Suggested dimensions" info in the media modal.
+			 */
+			this.createToolbar();
+		} else {
+			this.createToolbar();
+			this.createUploader();
+		}
+
 
 		// Add a heading before the attachments list.
 		this.createAttachmentsHeading();
