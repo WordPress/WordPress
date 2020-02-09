@@ -2167,32 +2167,6 @@ function get_calendar( $initial = true, $echo = true ) {
 	$calendar_output .= '
 	</tr>
 	</thead>
-
-	<tfoot>
-	<tr>';
-
-	if ( $previous ) {
-		$calendar_output .= "\n\t\t" . '<td colspan="3" id="prev"><a href="' . get_month_link( $previous->year, $previous->month ) . '">&laquo; ' .
-			$wp_locale->get_month_abbrev( $wp_locale->get_month( $previous->month ) ) .
-		'</a></td>';
-	} else {
-		$calendar_output .= "\n\t\t" . '<td colspan="3" id="prev" class="pad">&nbsp;</td>';
-	}
-
-	$calendar_output .= "\n\t\t" . '<td class="pad">&nbsp;</td>';
-
-	if ( $next ) {
-		$calendar_output .= "\n\t\t" . '<td colspan="3" id="next"><a href="' . get_month_link( $next->year, $next->month ) . '">' .
-			$wp_locale->get_month_abbrev( $wp_locale->get_month( $next->month ) ) .
-		' &raquo;</a></td>';
-	} else {
-		$calendar_output .= "\n\t\t" . '<td colspan="3" id="next" class="pad">&nbsp;</td>';
-	}
-
-	$calendar_output .= '
-	</tr>
-	</tfoot>
-
 	<tbody>
 	<tr>';
 
@@ -2260,7 +2234,32 @@ function get_calendar( $initial = true, $echo = true ) {
 	if ( 0 != $pad && 7 != $pad ) {
 		$calendar_output .= "\n\t\t" . '<td class="pad" colspan="' . esc_attr( $pad ) . '">&nbsp;</td>';
 	}
-	$calendar_output .= "\n\t</tr>\n\t</tbody>\n\t</table>";
+	$calendar_output .= "\n\t</tr>\n\t</tbody>";
+
+	$calendar_output .= "\n\t</table>";
+
+	$calendar_output .= '<nav aria-label="' . __( 'Previous and next months' ) . '">';
+
+	if ( $previous ) {
+		$calendar_output .= "\n\t\t" . '<span id="prev"><a href="' . get_month_link( $previous->year, $previous->month ) . '">&laquo; ' .
+			$wp_locale->get_month_abbrev( $wp_locale->get_month( $previous->month ) ) .
+		'</a></span>';
+	} else {
+		$calendar_output .= "\n\t\t" . '<span id="prev">&nbsp;</span>';
+	}
+
+	$calendar_output .= "\n\t\t" . '<span class="pad">&nbsp;</span>';
+
+	if ( $next ) {
+		$calendar_output .= "\n\t\t" . '<span id="next"><a href="' . get_month_link( $next->year, $next->month ) . '">' .
+			$wp_locale->get_month_abbrev( $wp_locale->get_month( $next->month ) ) .
+		' &raquo;</a></span>';
+	} else {
+		$calendar_output .= "\n\t\t" . '<span id="next" class="pad">&nbsp;</span>';
+	}
+
+	$calendar_output .= '
+	</nav>';
 
 	$cache[ $key ] = $calendar_output;
 	wp_cache_set( 'get_calendar', $cache, 'calendar' );
