@@ -335,7 +335,7 @@ $options = $wpdb->get_results( "SELECT * FROM $wpdb->options ORDER BY option_nam
 
 foreach ( (array) $options as $option ) :
 	$disabled = false;
-	if ( $option->option_name == '' ) {
+	if ( '' == $option->option_name ) {
 		continue;
 	}
 	if ( is_serialized( $option->option_value ) ) {

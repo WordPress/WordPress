@@ -72,7 +72,7 @@ if ( get_option( 'db_upgraded' ) ) {
 		 * If there are 50 or fewer sites, run every time. Otherwise, throttle to reduce load:
 		 * attempt to do no more than threshold value, with some +/- allowed.
 		 */
-		if ( $c <= 50 || ( $c > 50 && mt_rand( 0, (int) ( $c / 50 ) ) == 1 ) ) {
+		if ( $c <= 50 || ( $c > 50 && mt_rand( 0, (int) ( $c / 50 ) ) === 1 ) ) {
 			require_once ABSPATH . WPINC . '/http.php';
 			$response = wp_remote_get(
 				admin_url( 'upgrade.php?step=1' ),
@@ -181,7 +181,7 @@ if ( isset( $plugin_page ) ) {
 		$page_hook = get_plugin_page_hook( $plugin_page, $plugin_page );
 
 		// Back-compat for plugins using add_management_page().
-		if ( empty( $page_hook ) && 'edit.php' == $pagenow && '' != get_plugin_page_hook( $plugin_page, 'tools.php' ) ) {
+		if ( empty( $page_hook ) && 'edit.php' === $pagenow && '' !== get_plugin_page_hook( $plugin_page, 'tools.php' ) ) {
 			// There could be plugin specific params on the URL, so we need the whole query string.
 			if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
 				$query_string = $_SERVER['QUERY_STRING'];
@@ -370,16 +370,16 @@ if ( isset( $plugin_page ) ) {
 	 * The following hooks are fired to ensure backward compatibility.
 	 * In all other cases, 'load-' . $pagenow should be used instead.
 	 */
-	if ( $typenow == 'page' ) {
-		if ( $pagenow == 'post-new.php' ) {
+	if ( 'page' === $typenow ) {
+		if ( 'post-new.php' === $pagenow ) {
 			do_action( 'load-page-new.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-		} elseif ( $pagenow == 'post.php' ) {
+		} elseif ( 'post.php' === $pagenow ) {
 			do_action( 'load-page.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		}
-	} elseif ( $pagenow == 'edit-tags.php' ) {
-		if ( $taxnow == 'category' ) {
+	} elseif ( 'edit-tags.php' === $pagenow ) {
+		if ( 'category' === $taxnow ) {
 			do_action( 'load-categories.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-		} elseif ( $taxnow == 'link_category' ) {
+		} elseif ( 'link_category' === $taxnow ) {
 			do_action( 'load-edit-link-categories.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		}
 	} elseif ( 'term.php' === $pagenow ) {

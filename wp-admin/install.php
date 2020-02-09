@@ -369,7 +369,7 @@ switch ( $step ) {
 			// TODO: Poka-yoke.
 			display_setup_form( __( 'Please provide a valid username.' ) );
 			$error = true;
-		} elseif ( $user_name != sanitize_user( $user_name, true ) ) {
+		} elseif ( sanitize_user( $user_name, true ) != $user_name ) {
 			display_setup_form( __( 'The username you provided has invalid characters.' ) );
 			$error = true;
 		} elseif ( $admin_password != $admin_password_check ) {
@@ -386,7 +386,7 @@ switch ( $step ) {
 			$error = true;
 		}
 
-		if ( $error === false ) {
+		if ( false === $error ) {
 			$wpdb->show_errors();
 			$result = wp_install( $weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ), $loaded_language );
 			?>

@@ -33,7 +33,7 @@ $ID      = isset( $ID ) ? (int) $ID : 0;
 $post_id = isset( $post_id ) ? (int) $post_id : 0;
 
 // Require an ID for the edit screen.
-if ( isset( $action ) && $action == 'edit' && ! $ID ) {
+if ( isset( $action ) && 'edit' == $action && ! $ID ) {
 	wp_die(
 		'<h1>' . __( 'Something went wrong.' ) . '</h1>' .
 		'<p>' . __( 'Invalid item ID.' ) . '</p>',
@@ -81,7 +81,7 @@ if ( isset( $_GET['tab'] ) ) {
 $body_id = 'media-upload';
 
 // Let the action code decide how to handle the request.
-if ( $tab == 'type' || $tab == 'type_url' || ! array_key_exists( $tab, media_upload_tabs() ) ) {
+if ( 'type' == $tab || 'type_url' == $tab || ! array_key_exists( $tab, media_upload_tabs() ) ) {
 	/**
 	 * Fires inside specific upload-type views in the legacy (pre-3.5.0)
 	 * media popup based on the current tab.
