@@ -1138,11 +1138,11 @@ class WP_Comment_Query {
 		}
 
 		$parsed = false;
-		if ( $orderby == $this->query_vars['meta_key'] || $orderby == 'meta_value' ) {
+		if ( $this->query_vars['meta_key'] === $orderby || 'meta_value' === $orderby ) {
 			$parsed = "$wpdb->commentmeta.meta_value";
-		} elseif ( $orderby == 'meta_value_num' ) {
+		} elseif ( 'meta_value_num' === $orderby ) {
 			$parsed = "$wpdb->commentmeta.meta_value+0";
-		} elseif ( $orderby == 'comment__in' ) {
+		} elseif ( 'comment__in' === $orderby ) {
 			$comment__in = implode( ',', array_map( 'absint', $this->query_vars['comment__in'] ) );
 			$parsed      = "FIELD( {$wpdb->comments}.comment_ID, $comment__in )";
 		} elseif ( in_array( $orderby, $allowed_keys ) ) {

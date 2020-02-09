@@ -34,7 +34,7 @@ if ( 'post' == $post_type ) {
 	}
 } else {
 	$submenu_file = "post-new.php?post_type=$post_type";
-	if ( isset( $post_type_object ) && $post_type_object->show_in_menu && $post_type_object->show_in_menu !== true ) {
+	if ( isset( $post_type_object ) && $post_type_object->show_in_menu && true !== $post_type_object->show_in_menu ) {
 		$parent_file = $post_type_object->show_in_menu;
 		// What if there isn't a post-new.php item for this post type?
 		if ( ! isset( $_registered_pages[ get_plugin_page_hookname( "post-new.php?post_type=$post_type", $post_type_object->show_in_menu ) ] ) ) {

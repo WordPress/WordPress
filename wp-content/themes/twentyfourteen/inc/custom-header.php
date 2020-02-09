@@ -63,7 +63,7 @@ if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
 		$text_color = get_header_textcolor();
 
 		// If no custom color for text is set, let's bail.
-		if ( display_header_text() && $text_color === get_theme_support( 'custom-header', 'default-text-color' ) ) {
+		if ( display_header_text() && get_theme_support( 'custom-header', 'default-text-color' ) === $text_color ) {
 			return;
 		}
 
@@ -82,7 +82,7 @@ if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
 		}
 			<?php
 			// If the user has set a custom color for the text, use that.
-		elseif ( $text_color != get_theme_support( 'custom-header', 'default-text-color' ) ) :
+		elseif ( get_theme_support( 'custom-header', 'default-text-color' ) != $text_color ) :
 			?>
 		.site-title a {
 			color: #<?php echo esc_attr( $text_color ); ?>;

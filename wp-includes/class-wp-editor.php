@@ -243,7 +243,7 @@ final class _WP_Editors {
 		$quicktags_toolbar = '';
 
 		if ( self::$this_quicktags ) {
-			if ( 'content' === $editor_id && ! empty( $GLOBALS['current_screen'] ) && $GLOBALS['current_screen']->base === 'post' ) {
+			if ( 'content' === $editor_id && ! empty( $GLOBALS['current_screen'] ) && 'post' === $GLOBALS['current_screen']->base ) {
 				$toolbar_id = 'ed_toolbar';
 			} else {
 				$toolbar_id = 'qt_' . $editor_id_attr . '_toolbar';
@@ -743,7 +743,7 @@ final class _WP_Editors {
 
 				$page_template = get_page_template_slug( $post );
 
-				if ( $page_template !== false ) {
+				if ( false !== $page_template ) {
 					$page_template = empty( $page_template ) ? 'default' : str_replace( '.', '-', basename( $page_template, '.php' ) );
 					$body_class   .= ' page-template-' . sanitize_html_class( $page_template );
 				}

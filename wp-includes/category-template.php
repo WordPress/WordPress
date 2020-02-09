@@ -836,7 +836,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$translate_nooped_plural = $args['topic_count_text'];
 	} elseif ( ! empty( $args['topic_count_text_callback'] ) ) {
 		// Look for the alternative callback style. Ignore the previous default.
-		if ( $args['topic_count_text_callback'] === 'default_topic_count_text' ) {
+		if ( 'default_topic_count_text' === $args['topic_count_text_callback'] ) {
 			/* translators: %s: Number of items (tags). */
 			$translate_nooped_plural = _n_noop( '%s item', '%s items' );
 		} else {

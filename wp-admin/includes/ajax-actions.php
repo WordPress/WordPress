@@ -149,7 +149,7 @@ function wp_ajax_ajax_tag_search() {
 	 * Require $term_search_min_chars chars for matching (default: 2)
 	 * ensure it's a non-negative, non-zero integer.
 	 */
-	if ( ( $term_search_min_chars == 0 ) || ( strlen( $s ) < $term_search_min_chars ) ) {
+	if ( ( 0 == $term_search_min_chars ) || ( strlen( $s ) < $term_search_min_chars ) ) {
 		wp_die();
 	}
 
@@ -295,14 +295,14 @@ function wp_ajax_autocomplete_user() {
 		$id = get_current_blog_id();
 	}
 
-	$include_blog_users = ( $type == 'search' ? get_users(
+	$include_blog_users = ( 'search' === $type ? get_users(
 		array(
 			'blog_id' => $id,
 			'fields'  => 'ID',
 		)
 	) : array() );
 
-	$exclude_blog_users = ( $type == 'add' ? get_users(
+	$exclude_blog_users = ( 'add' === $type ? get_users(
 		array(
 			'blog_id' => $id,
 			'fields'  => 'ID',
@@ -391,7 +391,7 @@ function wp_ajax_dashboard_widgets() {
 	require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
 	$pagenow = $_GET['pagenow'];
-	if ( $pagenow === 'dashboard-user' || $pagenow === 'dashboard-network' || $pagenow === 'dashboard' ) {
+	if ( 'dashboard-user' === $pagenow || 'dashboard-network' === $pagenow || 'dashboard' === $pagenow ) {
 		set_current_screen( $pagenow );
 	}
 
@@ -573,7 +573,7 @@ function _wp_ajax_add_hierarchical_term() {
 		$parent = 0;
 	}
 
-	if ( $taxonomy->name == 'category' ) {
+	if ( 'category' === $taxonomy->name ) {
 		$post_category = isset( $_POST['post_category'] ) ? (array) $_POST['post_category'] : array();
 	} else {
 		$post_category = ( isset( $_POST['tax_input'] ) && isset( $_POST['tax_input'][ $taxonomy->name ] ) ) ? (array) $_POST['tax_input'][ $taxonomy->name ] : array();
@@ -717,7 +717,7 @@ function wp_ajax_delete_comment() {
 		$r = wp_untrash_comment( $comment );
 
 		// Undo trash, not in trash.
-		if ( ! isset( $_POST['comment_status'] ) || $_POST['comment_status'] != 'trash' ) {
+		if ( ! isset( $_POST['comment_status'] ) || 'trash' !== $_POST['comment_status'] ) {
 			$delta = 1;
 		}
 	} elseif ( isset( $_POST['spam'] ) && 1 == $_POST['spam'] ) {
@@ -734,7 +734,7 @@ function wp_ajax_delete_comment() {
 		$r = wp_unspam_comment( $comment );
 
 		// Undo spam, not in spam.
-		if ( ! isset( $_POST['comment_status'] ) || $_POST['comment_status'] != 'spam' ) {
+		if ( ! isset( $_POST['comment_status'] ) || 'spam' !== $_POST['comment_status'] ) {
 			$delta = 1;
 		}
 	} elseif ( isset( $_POST['delete'] ) && 1 == $_POST['delete'] ) {
@@ -1318,7 +1318,7 @@ function wp_ajax_replyto_comment( $action ) {
 	if ( ! empty( $_POST['approve_parent'] ) ) {
 		$parent = get_comment( $comment_parent );
 
-		if ( $parent && $parent->comment_approved === '0' && $parent->comment_post_ID == $comment_post_ID ) {
+		if ( $parent && '0' === $parent->comment_approved && $parent->comment_post_ID == $comment_post_ID ) {
 			if ( ! current_user_can( 'edit_comment', $parent->comment_ID ) ) {
 				wp_die( -1 );
 			}
@@ -1549,7 +1549,7 @@ function wp_ajax_add_meta() {
 		}
 
 		// If the post is an autodraft, save the post as a draft and then attempt to save the meta.
-		if ( $post->post_status == 'auto-draft' ) {
+		if ( 'auto-draft' === $post->post_status ) {
 			$post_data                = array();
 			$post_data['action']      = 'draft'; // Warning fix.
 			$post_data['post_ID']     = $pid;
@@ -1720,7 +1720,7 @@ function wp_ajax_closed_postboxes() {
 
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
-	if ( $page != sanitize_key( $page ) ) {
+	if ( sanitize_key( $page ) != $page ) {
 		wp_die( 0 );
 	}
 
@@ -1751,7 +1751,7 @@ function wp_ajax_hidden_columns() {
 	check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
-	if ( $page != sanitize_key( $page ) ) {
+	if ( sanitize_key( $page ) != $page ) {
 		wp_die( 0 );
 	}
 
@@ -1900,13 +1900,13 @@ function wp_ajax_meta_box_order() {
 	$order        = isset( $_POST['order'] ) ? (array) $_POST['order'] : false;
 	$page_columns = isset( $_POST['page_columns'] ) ? $_POST['page_columns'] : 'auto';
 
-	if ( $page_columns != 'auto' ) {
+	if ( 'auto' !== $page_columns ) {
 		$page_columns = (int) $page_columns;
 	}
 
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
-	if ( $page != sanitize_key( $page ) ) {
+	if ( sanitize_key( $page ) != $page ) {
 		wp_die( 0 );
 	}
 
@@ -2003,7 +2003,7 @@ function wp_ajax_inline_save() {
 		/* translators: %s: User's display name. */
 		$msg_template = __( 'Saving is disabled: %s is currently editing this post.' );
 
-		if ( $_POST['post_type'] == 'page' ) {
+		if ( 'page' === $_POST['post_type'] ) {
 			/* translators: %s: User's display name. */
 			$msg_template = __( 'Saving is disabled: %s is currently editing this page.' );
 		}
@@ -2067,7 +2067,7 @@ function wp_ajax_inline_save() {
 
 	$wp_list_table = _get_list_table( 'WP_Posts_List_Table', array( 'screen' => $_POST['screen'] ) );
 
-	$mode = $_POST['post_view'] === 'excerpt' ? 'excerpt' : 'list';
+	$mode = 'excerpt' === $_POST['post_view'] ? 'excerpt' : 'list';
 
 	$level = 0;
 	if ( is_post_type_hierarchical( $wp_list_table->screen->post_type ) ) {
@@ -2639,7 +2639,7 @@ function wp_ajax_set_post_thumbnail() {
 		check_ajax_referer( "set_post_thumbnail-$post_ID" );
 	}
 
-	if ( $thumbnail_id == '-1' ) {
+	if ( '-1' == $thumbnail_id ) {
 		if ( delete_post_thumbnail( $post_ID ) ) {
 			$return = _wp_post_thumbnail_html( null, $post_ID );
 			$json ? wp_send_json_success( $return ) : wp_die( $return );
@@ -2819,7 +2819,7 @@ function wp_ajax_wp_remove_post_lock() {
 
 	$active_lock = array_map( 'absint', explode( ':', $_POST['active_post_lock'] ) );
 
-	if ( $active_lock[1] != get_current_user_id() ) {
+	if ( get_current_user_id() != $active_lock[1] ) {
 		wp_die( 0 );
 	}
 
@@ -2844,7 +2844,7 @@ function wp_ajax_wp_remove_post_lock() {
 function wp_ajax_dismiss_wp_pointer() {
 	$pointer = $_POST['pointer'];
 
-	if ( $pointer != sanitize_key( $pointer ) ) {
+	if ( sanitize_key( $pointer ) != $pointer ) {
 		wp_die( 0 );
 	}
 
@@ -3022,7 +3022,7 @@ function wp_ajax_save_attachment() {
 
 	if ( isset( $changes['alt'] ) ) {
 		$alt = wp_unslash( $changes['alt'] );
-		if ( $alt != get_post_meta( $id, '_wp_attachment_image_alt', true ) ) {
+		if ( get_post_meta( $id, '_wp_attachment_image_alt', true ) !== $alt ) {
 			$alt = wp_strip_all_tags( $alt, true );
 			update_post_meta( $id, '_wp_attachment_image_alt', wp_slash( $alt ) );
 		}
@@ -3816,7 +3816,7 @@ function wp_ajax_destroy_sessions() {
 
 	$sessions = WP_Session_Tokens::get_instance( $user->ID );
 
-	if ( $user->ID === get_current_user_id() ) {
+	if ( get_current_user_id() === $user->ID ) {
 		$sessions->destroy_others( wp_get_session_token() );
 		$message = __( 'You are now logged out everywhere else.' );
 	} else {

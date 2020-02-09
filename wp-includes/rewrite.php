@@ -158,7 +158,7 @@ function add_rewrite_rule( $regex, $query, $after = 'bottom' ) {
  */
 function add_rewrite_tag( $tag, $regex, $query = '' ) {
 	// Validate the tag's name.
-	if ( strlen( $tag ) < 3 || $tag[0] != '%' || $tag[ strlen( $tag ) - 1 ] != '%' ) {
+	if ( strlen( $tag ) < 3 || '%' !== $tag[0] || '%' !== $tag[ strlen( $tag ) - 1 ] ) {
 		return;
 	}
 

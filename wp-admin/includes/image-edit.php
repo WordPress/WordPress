@@ -33,7 +33,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 	$backup_sizes = get_post_meta( $post_id, '_wp_attachment_backup_sizes', true );
 	$can_restore  = false;
 	if ( ! empty( $backup_sizes ) && isset( $backup_sizes['full-orig'], $meta['file'] ) ) {
-		$can_restore = $backup_sizes['full-orig']['file'] != wp_basename( $meta['file'] );
+		$can_restore = wp_basename( $meta['file'] ) !== $backup_sizes['full-orig']['file'];
 	}
 
 	if ( $msg ) {
@@ -576,7 +576,7 @@ function image_edit_apply_changes( $image, $changes ) {
 	foreach ( $changes as $operation ) {
 		switch ( $operation->type ) {
 			case 'rotate':
-				if ( $operation->angle != 0 ) {
+				if ( 0 != $operation->angle ) {
 					if ( $image instanceof WP_Image_Editor ) {
 						$image->rotate( $operation->angle );
 					} else {
@@ -585,7 +585,7 @@ function image_edit_apply_changes( $image, $changes ) {
 				}
 				break;
 			case 'flip':
-				if ( $operation->axis != 0 ) {
+				if ( 0 != $operation->axis ) {
 					if ( $image instanceof WP_Image_Editor ) {
 						$image->flip( ( $operation->axis & 1 ) != 0, ( $operation->axis & 2 ) != 0 );
 					} else {
@@ -954,7 +954,7 @@ function wp_save_image( $post_id ) {
 		wp_update_attachment_metadata( $post_id, $meta );
 		update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes );
 
-		if ( $target == 'thumbnail' || $target == 'all' || $target == 'full' ) {
+		if ( 'thumbnail' === $target || 'all' === $target || 'full' === $target ) {
 			// Check if it's an image edit from attachment edit screen.
 			if ( ! empty( $_REQUEST['context'] ) && 'edit-attachment' == $_REQUEST['context'] ) {
 				$thumb_url         = wp_get_attachment_image_src( $post_id, array( 900, 600 ), true );

@@ -55,9 +55,9 @@ class WP_Http_Streams {
 
 		$connect_host = $arrURL['host'];
 
-		$secure_transport = ( $arrURL['scheme'] == 'ssl' || $arrURL['scheme'] == 'https' );
+		$secure_transport = ( 'ssl' === $arrURL['scheme'] || 'https' === $arrURL['scheme'] );
 		if ( ! isset( $arrURL['port'] ) ) {
-			if ( $arrURL['scheme'] == 'ssl' || $arrURL['scheme'] == 'https' ) {
+			if ( 'ssl' === $arrURL['scheme'] || 'https' === $arrURL['scheme'] ) {
 				$arrURL['port']   = 443;
 				$secure_transport = true;
 			} else {
@@ -390,7 +390,7 @@ class WP_Http_Streams {
 			$match_against = preg_split( '/,\s*/', $cert['extensions']['subjectAltName'] );
 			foreach ( $match_against as $match ) {
 				list( $match_type, $match_host ) = explode( ':', $match );
-				if ( $host_type == strtolower( trim( $match_type ) ) ) { // IP: or DNS:
+				if ( strtolower( trim( $match_type ) ) === $host_type ) { // IP: or DNS:
 					$certificate_hostnames[] = strtolower( trim( $match_host ) );
 				}
 			}

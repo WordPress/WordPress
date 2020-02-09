@@ -338,7 +338,7 @@ function get_the_content( $more_link_text = null, $strip_teaser = false, $post =
 		$content = array( $content );
 	}
 
-	if ( false !== strpos( $_post->post_content, '<!--noteaser-->' ) && ( ! $elements['multipage'] || $elements['page'] == 1 ) ) {
+	if ( false !== strpos( $_post->post_content, '<!--noteaser-->' ) && ( ! $elements['multipage'] || 1 == $elements['page'] ) ) {
 		$strip_teaser = true;
 	}
 
@@ -1654,7 +1654,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 function prepend_attachment( $content ) {
 	$post = get_post();
 
-	if ( empty( $post->post_type ) || $post->post_type != 'attachment' ) {
+	if ( empty( $post->post_type ) || 'attachment' !== $post->post_type ) {
 		return $content;
 	}
 

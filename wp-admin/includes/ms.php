@@ -20,7 +20,7 @@ function check_upload_size( $file ) {
 		return $file;
 	}
 
-	if ( $file['error'] != '0' ) { // There's already an error.
+	if ( '0' != $file['error'] ) { // There's already an error.
 		return $file;
 	}
 
@@ -45,7 +45,7 @@ function check_upload_size( $file ) {
 		$file['error'] = __( 'You have used your space quota. Please delete files before uploading.' );
 	}
 
-	if ( $file['error'] != '0' && ! isset( $_POST['html-upload'] ) && ! wp_doing_ajax() ) {
+	if ( '0' != $file['error'] && ! isset( $_POST['html-upload'] ) && ! wp_doing_ajax() ) {
 		wp_die( $file['error'] . ' <a href="javascript:history.go(-1)">' . __( 'Back' ) . '</a>' );
 	}
 
@@ -548,7 +548,7 @@ function format_code_lang( $code = '' ) {
  *                       if `$taxonomy` is 'category' or 'post_tag'.
  */
 function sync_category_tag_slugs( $term, $taxonomy ) {
-	if ( global_terms_enabled() && ( $taxonomy == 'category' || $taxonomy == 'post_tag' ) ) {
+	if ( global_terms_enabled() && ( 'category' === $taxonomy || 'post_tag' === $taxonomy ) ) {
 		if ( is_object( $term ) ) {
 			$term->slug = sanitize_title( $term->name );
 		} else {
@@ -644,11 +644,11 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 	foreach ( (array) $lang_files as $val ) {
 		$code_lang = basename( $val, '.mo' );
 
-		if ( $code_lang == 'en_US' ) { // American English.
+		if ( 'en_US' === $code_lang ) { // American English.
 			$flag          = true;
 			$ae            = __( 'American English' );
 			$output[ $ae ] = '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang, false ) . '> ' . $ae . '</option>';
-		} elseif ( $code_lang == 'en_GB' ) { // British English.
+		} elseif ( 'en_GB' === $code_lang ) { // British English.
 			$flag          = true;
 			$be            = __( 'British English' );
 			$output[ $be ] = '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang, false ) . '> ' . $be . '</option>';
@@ -658,7 +658,7 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 		}
 	}
 
-	if ( $flag === false ) { // WordPress English.
+	if ( false === $flag ) { // WordPress English.
 		$output[] = '<option value=""' . selected( $current, '', false ) . '>' . __( 'English' ) . '</option>';
 	}
 
@@ -725,10 +725,10 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
 	if ( is_subdomain_install() ) {
 		return $data;
 	}
-	if ( $data['post_type'] != 'page' ) {
+	if ( 'page' !== $data['post_type'] ) {
 		return $data;
 	}
-	if ( ! isset( $data['post_name'] ) || $data['post_name'] == '' ) {
+	if ( ! isset( $data['post_name'] ) || '' === $data['post_name'] ) {
 		return $data;
 	}
 	if ( ! is_main_site() ) {
@@ -813,7 +813,7 @@ function choose_primary_blog() {
  * @return bool True if network can be edited, otherwise false.
  */
 function can_edit_network( $network_id ) {
-	if ( $network_id == get_current_network_id() ) {
+	if ( get_current_network_id() == $network_id ) {
 		$result = true;
 	} else {
 		$result = false;
@@ -873,7 +873,7 @@ function confirm_delete_users( $users ) {
 	<?php
 	$allusers = (array) $_POST['allusers'];
 	foreach ( $allusers as $user_id ) {
-		if ( $user_id != '' && $user_id != '0' ) {
+		if ( '' != $user_id && '0' != $user_id ) {
 			$delete_user = get_userdata( $user_id );
 
 			if ( ! current_user_can( 'delete_user', $delete_user->ID ) ) {

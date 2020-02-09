@@ -1046,10 +1046,10 @@ function wp_kses_split2( $string, $allowed_html, $allowed_protocols ) {
 	// Allow HTML comments.
 	if ( '<!--' == substr( $string, 0, 4 ) ) {
 		$string = str_replace( array( '<!--', '-->' ), '', $string );
-		while ( $string != ( $newstring = wp_kses( $string, $allowed_html, $allowed_protocols ) ) ) {
+		while ( ( $newstring = wp_kses( $string, $allowed_html, $allowed_protocols ) ) != $string ) {
 			$string = $newstring;
 		}
-		if ( $string == '' ) {
+		if ( '' == $string ) {
 			return '';
 		}
 		// Prevent multiple dashes in comments.
@@ -1078,7 +1078,7 @@ function wp_kses_split2( $string, $allowed_html, $allowed_protocols ) {
 	}
 
 	// No attributes are allowed for closing elements.
-	if ( $slash != '' ) {
+	if ( '' != $slash ) {
 		return "</$elem>";
 	}
 
@@ -1348,13 +1348,13 @@ function wp_kses_hair( $attr, $allowed_protocols ) {
 				break;
 		} // End switch.
 
-		if ( $working == 0 ) { // Not well-formed, remove and try again.
+		if ( 0 == $working ) { // Not well-formed, remove and try again.
 			$attr = wp_kses_html_error( $attr );
 			$mode = 0;
 		}
 	} // End while.
 
-	if ( $mode == 1 && false === array_key_exists( $attrname, $attrarr ) ) {
+	if ( 1 == $mode && false === array_key_exists( $attrname, $attrarr ) ) {
 		// Special case, for when the attribute list ends with a valueless
 		// attribute like "selected".
 		$attrarr[ $attrname ] = array(
@@ -1845,10 +1845,10 @@ function wp_kses_normalize_entities3( $matches ) {
  * @return bool Whether or not the codepoint is a valid Unicode codepoint.
  */
 function valid_unicode( $i ) {
-	return ( $i == 0x9 || $i == 0xa || $i == 0xd ||
-			( $i >= 0x20 && $i <= 0xd7ff ) ||
-			( $i >= 0xe000 && $i <= 0xfffd ) ||
-			( $i >= 0x10000 && $i <= 0x10ffff ) );
+	return ( 0x9 == $i || 0xa == $i || 0xd == $i ||
+			( 0x20 <= $i && $i <= 0xd7ff ) ||
+			( 0xe000 <= $i && $i <= 0xfffd ) ||
+			( 0x10000 <= $i && $i <= 0x10ffff ) );
 }
 
 /**
@@ -2244,7 +2244,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 
 	$css = '';
 	foreach ( $css_array as $css_item ) {
-		if ( $css_item == '' ) {
+		if ( '' == $css_item ) {
 			continue;
 		}
 
@@ -2282,7 +2282,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 
 				$url = trim( $url_pieces[2] );
 
-				if ( empty( $url ) || $url !== wp_kses_bad_protocol( $url, $allowed_protocols ) ) {
+				if ( empty( $url ) || wp_kses_bad_protocol( $url, $allowed_protocols ) !== $url ) {
 					$found = false;
 					break;
 				} else {
@@ -2302,7 +2302,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 
 		// Remove any CSS containing containing \ ( & } = or comments, except for url() useage checked above.
 		if ( $found && ! preg_match( '%[\\\(&=}]|/\*%', $css_test_string ) ) {
-			if ( $css != '' ) {
+			if ( '' != $css ) {
 				$css .= ';';
 			}
 

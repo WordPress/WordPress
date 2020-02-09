@@ -9,10 +9,10 @@
 if ( isset( $_GET['page'] ) && ! empty( $_POST ) ) {
 	// Ensure POST-ing to `tools.php?page=export_personal_data` and `tools.php?page=remove_personal_data`
 	// continues to work after creating the new files for exporting and erasing of personal data.
-	if ( $_GET['page'] === 'export_personal_data' ) {
+	if ( 'export_personal_data' === $_GET['page'] ) {
 		require_once ABSPATH . 'wp-admin/export-personal-data.php';
 		return;
-	} elseif ( $_GET['page'] === 'remove_personal_data' ) {
+	} elseif ( 'remove_personal_data' === $_GET['page'] ) {
 		require_once ABSPATH . 'wp-admin/erase-personal-data.php';
 		return;
 	}
@@ -27,10 +27,10 @@ if ( isset( $_GET['wp-privacy-policy-guide'] ) ) {
 	exit;
 } elseif ( isset( $_GET['page'] ) ) {
 	// These were also moved to files in WP 5.3.
-	if ( $_GET['page'] === 'export_personal_data' ) {
+	if ( 'export_personal_data' === $_GET['page'] ) {
 		wp_redirect( admin_url( 'export-personal-data.php' ), 301 );
 		exit;
-	} elseif ( $_GET['page'] === 'remove_personal_data' ) {
+	} elseif ( 'remove_personal_data' === $_GET['page'] ) {
 		wp_redirect( admin_url( 'erase-personal-data.php' ), 301 );
 		exit;
 	}

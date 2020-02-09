@@ -1735,7 +1735,7 @@ class wpdb {
 
 		// First peel off the socket parameter from the right, if it exists.
 		$socket_pos = strpos( $host, ':/' );
-		if ( $socket_pos !== false ) {
+		if ( false !== $socket_pos ) {
 			$socket = substr( $host, $socket_pos + 1 );
 			$host   = substr( $host, 0, $socket_pos );
 		}
@@ -2536,7 +2536,7 @@ class wpdb {
 		}
 
 		// If there is a value return it else return null.
-		return ( isset( $values[ $x ] ) && $values[ $x ] !== '' ) ? $values[ $x ] : null;
+		return ( isset( $values[ $x ] ) && '' !== $values[ $x ] ) ? $values[ $x ] : null;
 	}
 
 	/**
@@ -2569,13 +2569,13 @@ class wpdb {
 			return null;
 		}
 
-		if ( $output == OBJECT ) {
+		if ( OBJECT == $output ) {
 			return $this->last_result[ $y ] ? $this->last_result[ $y ] : null;
-		} elseif ( $output == ARRAY_A ) {
+		} elseif ( ARRAY_A == $output ) {
 			return $this->last_result[ $y ] ? get_object_vars( $this->last_result[ $y ] ) : null;
-		} elseif ( $output == ARRAY_N ) {
+		} elseif ( ARRAY_N == $output ) {
 			return $this->last_result[ $y ] ? array_values( get_object_vars( $this->last_result[ $y ] ) ) : null;
-		} elseif ( strtoupper( $output ) === OBJECT ) {
+		} elseif ( OBJECT === strtoupper( $output ) ) {
 			// Back compat for OBJECT being previously case-insensitive.
 			return $this->last_result[ $y ] ? $this->last_result[ $y ] : null;
 		} else {
@@ -2644,10 +2644,10 @@ class wpdb {
 		}
 
 		$new_array = array();
-		if ( $output == OBJECT ) {
+		if ( OBJECT == $output ) {
 			// Return an integer-keyed array of row objects.
 			return $this->last_result;
-		} elseif ( $output == OBJECT_K ) {
+		} elseif ( OBJECT_K == $output ) {
 			// Return an array of row objects with keys from column 1.
 			// (Duplicates are discarded.)
 			if ( $this->last_result ) {
@@ -2660,11 +2660,11 @@ class wpdb {
 				}
 			}
 			return $new_array;
-		} elseif ( $output == ARRAY_A || $output == ARRAY_N ) {
+		} elseif ( ARRAY_A == $output || ARRAY_N == $output ) {
 			// Return an integer-keyed array of...
 			if ( $this->last_result ) {
 				foreach ( (array) $this->last_result as $row ) {
-					if ( $output == ARRAY_N ) {
+					if ( ARRAY_N == $output ) {
 						// ...integer-keyed row arrays.
 						$new_array[] = array_values( get_object_vars( $row ) );
 					} else {
@@ -3373,7 +3373,7 @@ class wpdb {
 		$this->load_col_info();
 
 		if ( $this->col_info ) {
-			if ( $col_offset == -1 ) {
+			if ( -1 == $col_offset ) {
 				$i         = 0;
 				$new_array = array();
 				foreach ( (array) $this->col_info as $col ) {

@@ -70,7 +70,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		global $s, $mode, $wpdb;
 
 		if ( ! empty( $_REQUEST['mode'] ) ) {
-			$mode = $_REQUEST['mode'] === 'excerpt' ? 'excerpt' : 'list';
+			$mode = 'excerpt' === $_REQUEST['mode'] ? 'excerpt' : 'list';
 			set_user_setting( 'sites_list_mode', $mode );
 		} else {
 			$mode = get_user_setting( 'sites_list_mode', 'list' );
@@ -263,7 +263,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		$url              = 'sites.php';
 
 		foreach ( $statuses as $status => $label_count ) {
-			$current_link_attributes = $requested_status === $status || ( $requested_status === '' && 'all' === $status )
+			$current_link_attributes = $requested_status === $status || ( '' === $requested_status && 'all' === $status )
 				? ' class="current" aria-current="page"'
 				: '';
 			if ( (int) $counts[ $status ] > 0 ) {
@@ -476,7 +476,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			$date = __( 'Y/m/d g:i:s a' );
 		}
 
-		echo ( $blog['last_updated'] === '0000-00-00 00:00:00' ) ? __( 'Never' ) : mysql2date( $date, $blog['last_updated'] );
+		echo ( '0000-00-00 00:00:00' === $blog['last_updated'] ) ? __( 'Never' ) : mysql2date( $date, $blog['last_updated'] );
 	}
 
 	/**
@@ -497,7 +497,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			$date = __( 'Y/m/d g:i:s a' );
 		}
 
-		if ( $blog['registered'] === '0000-00-00 00:00:00' ) {
+		if ( '0000-00-00 00:00:00' === $blog['registered'] ) {
 			echo '&#x2014;';
 		} else {
 			echo mysql2date( $date, $blog['registered'] );
@@ -585,7 +585,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			reset( $this->status_list );
 
 			foreach ( $this->status_list as $status => $col ) {
-				if ( $blog[ $status ] == 1 ) {
+				if ( 1 == $blog[ $status ] ) {
 					$class = " class='{$col[0]}'";
 				}
 			}
@@ -693,19 +693,19 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		$actions['edit']    = '<a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ) . '">' . __( 'Edit' ) . '</a>';
 		$actions['backend'] = "<a href='" . esc_url( get_admin_url( $blog['blog_id'] ) ) . "' class='edit'>" . __( 'Dashboard' ) . '</a>';
 		if ( get_network()->site_id != $blog['blog_id'] ) {
-			if ( $blog['deleted'] == '1' ) {
+			if ( '1' == $blog['deleted'] ) {
 				$actions['activate'] = '<a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=activateblog&amp;id=' . $blog['blog_id'] ), 'activateblog_' . $blog['blog_id'] ) ) . '">' . __( 'Activate' ) . '</a>';
 			} else {
 				$actions['deactivate'] = '<a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=deactivateblog&amp;id=' . $blog['blog_id'] ), 'deactivateblog_' . $blog['blog_id'] ) ) . '">' . __( 'Deactivate' ) . '</a>';
 			}
 
-			if ( $blog['archived'] == '1' ) {
+			if ( '1' == $blog['archived'] ) {
 				$actions['unarchive'] = '<a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=unarchiveblog&amp;id=' . $blog['blog_id'] ), 'unarchiveblog_' . $blog['blog_id'] ) ) . '">' . __( 'Unarchive' ) . '</a>';
 			} else {
 				$actions['archive'] = '<a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] ), 'archiveblog_' . $blog['blog_id'] ) ) . '">' . _x( 'Archive', 'verb; site' ) . '</a>';
 			}
 
-			if ( $blog['spam'] == '1' ) {
+			if ( '1' == $blog['spam'] ) {
 				$actions['unspam'] = '<a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] ), 'unspamblog_' . $blog['blog_id'] ) ) . '">' . _x( 'Not Spam', 'site' ) . '</a>';
 			} else {
 				$actions['spam'] = '<a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] ), 'spamblog_' . $blog['blog_id'] ) ) . '">' . _x( 'Spam', 'site' ) . '</a>';

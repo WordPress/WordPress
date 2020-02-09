@@ -574,7 +574,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			} else {
 				$lucifer[3] += 1900; // 4-digit year fix.
 			}
-			$b['isdir'] = ( $lucifer[7] == '<DIR>' );
+			$b['isdir'] = ( '<DIR>' === $lucifer[7] );
 			if ( $b['isdir'] ) {
 				$b['type'] = 'd';
 			} else {
@@ -598,8 +598,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 					return '';
 				}
 				$b           = array();
-				$b['isdir']  = $lucifer[0][0] === 'd';
-				$b['islink'] = $lucifer[0][0] === 'l';
+				$b['isdir']  = 'd' === $lucifer[0][0];
+				$b['islink'] = 'l' === $lucifer[0][0];
 				if ( $b['isdir'] ) {
 					$b['type'] = 'd';
 				} elseif ( $b['islink'] ) {
@@ -613,7 +613,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 				$b['owner']  = $lucifer[2];
 				$b['group']  = $lucifer[3];
 				$b['size']   = $lucifer[4];
-				if ( $lcount == 8 ) {
+				if ( 8 == $lcount ) {
 					sscanf( $lucifer[5], '%d-%d-%d', $b['year'], $b['month'], $b['day'] );
 					sscanf( $lucifer[6], '%d:%d', $b['hour'], $b['minute'] );
 					$b['time'] = mktime( $b['hour'], $b['minute'], 0, $b['month'], $b['day'], $b['year'] );

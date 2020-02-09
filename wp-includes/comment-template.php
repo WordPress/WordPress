@@ -192,8 +192,8 @@ function get_comment_author_email_link( $linktext = '', $before = '', $after = '
 	 */
 	$email = apply_filters( 'comment_email', $comment->comment_author_email, $comment );
 
-	if ( ( ! empty( $email ) ) && ( $email != '@' ) ) {
-		$display = ( $linktext != '' ) ? $linktext : $email;
+	if ( ( ! empty( $email ) ) && ( '@' !== $email ) ) {
+		$display = ( '' != $linktext ) ? $linktext : $email;
 		$return  = $before;
 		$return .= sprintf( '<a href="%1$s">%2$s</a>', esc_url( 'mailto:' . $email ), esc_html( $display ) );
 		$return .= $after;
@@ -376,7 +376,7 @@ function comment_author_url( $comment_ID = 0 ) {
  */
 function get_comment_author_url_link( $linktext = '', $before = '', $after = '', $comment = 0 ) {
 	$url     = get_comment_author_url( $comment );
-	$display = ( $linktext != '' ) ? $linktext : $url;
+	$display = ( '' != $linktext ) ? $linktext : $url;
 	$display = str_replace( 'http://www.', '', $display );
 	$display = str_replace( 'http://', '', $display );
 
@@ -925,7 +925,7 @@ function get_comments_number_text( $zero = false, $one = false, $more = false ) 
 
 			$output = str_replace( '%', number_format_i18n( $number ), $more );
 		}
-	} elseif ( $number == 0 ) {
+	} elseif ( 0 == $number ) {
 		$output = ( false === $zero ) ? __( 'No Comments' ) : $zero;
 	} else { // Must be one.
 		$output = ( false === $one ) ? __( '1 Comment' ) : $one;
@@ -2138,7 +2138,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
 					* When first page shows oldest comments, post permalink is the same as
 					* the comment permalink.
 					*/
-				} elseif ( $cpage == 1 ) {
+				} elseif ( 1 == $cpage ) {
 					$parsed_args['cpage'] = '';
 				} else {
 					$parsed_args['cpage'] = $cpage;

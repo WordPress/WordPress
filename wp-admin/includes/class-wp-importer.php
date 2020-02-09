@@ -312,7 +312,7 @@ function get_cli_args( $param, $required = false ) {
 			}
 
 			$last_arg = $key;
-		} elseif ( $last_arg !== null ) {
+		} elseif ( null !== $last_arg ) {
 			$out[ $last_arg ] = $args[ $i ];
 		}
 	}

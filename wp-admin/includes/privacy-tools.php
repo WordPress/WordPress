@@ -694,7 +694,7 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 	// If we are not yet on the last page of the last exporter, return now.
 	/** This filter is documented in wp-admin/includes/ajax-actions.php */
 	$exporters        = apply_filters( 'wp_privacy_personal_data_exporters', array() );
-	$is_last_exporter = $exporter_index === count( $exporters );
+	$is_last_exporter = count( $exporters ) === $exporter_index;
 	$exporter_done    = $response['done'];
 	if ( ! $is_last_exporter || ! $exporter_done ) {
 		return $response;

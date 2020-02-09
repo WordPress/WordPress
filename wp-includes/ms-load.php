@@ -115,7 +115,7 @@ function ms_site_check() {
 		}
 	}
 
-	if ( $blog->archived == '1' || $blog->spam == '1' ) {
+	if ( '1' == $blog->archived || '1' == $blog->spam ) {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-suspended.php' ) ) {
 			return WP_CONTENT_DIR . '/blog-suspended.php';
 		} else {

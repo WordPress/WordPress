@@ -114,7 +114,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			);
 		}
 
-		if ( $this->type == 'web' ) {
+		if ( 'web' === $this->type ) {
 			$install_actions['themes_page'] = sprintf(
 				'<a href="%s" target="_parent">%s</a>',
 				self_admin_url( 'theme-install.php' ),

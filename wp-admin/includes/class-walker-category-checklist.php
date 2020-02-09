@@ -75,7 +75,7 @@ class Walker_Category_Checklist extends Walker {
 			$taxonomy = $args['taxonomy'];
 		}
 
-		if ( $taxonomy == 'category' ) {
+		if ( 'category' === $taxonomy ) {
 			$name = 'post_category';
 		} else {
 			$name = 'tax_input[' . $taxonomy . ']';

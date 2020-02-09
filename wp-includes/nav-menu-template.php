@@ -28,7 +28,7 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  *     @type string             $container       Whether to wrap the ul, and what to wrap it with. Default 'div'.
  *     @type string             $container_class Class that is applied to the container. Default 'menu-{menu slug}-container'.
  *     @type string             $container_id    The ID that is applied to the container. Default empty.
- *     @type callable|bool      $fallback_cb     If the menu doesn't exists, a callback function will fire.
+ *     @type callable|bool      $fallback_cb     If the menu doesn't exist, a callback function will fire.
  *                                               Default is 'wp_page_menu'. Set to false for no fallback.
  *     @type string             $before          Text before the link markup. Default empty.
  *     @type string             $after           Text after the link markup. Default empty.

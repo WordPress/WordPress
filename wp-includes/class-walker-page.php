@@ -130,7 +130,7 @@ class Walker_Page extends Walker {
 			} elseif ( $_current_page && $page->ID == $_current_page->post_parent ) {
 				$css_class[] = 'current_page_parent';
 			}
-		} elseif ( $page->ID == get_option( 'page_for_posts' ) ) {
+		} elseif ( get_option( 'page_for_posts' ) == $page->ID ) {
 			$css_class[] = 'current_page_parent';
 		}
 

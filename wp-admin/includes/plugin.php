@@ -1834,7 +1834,7 @@ function get_admin_page_parent( $parent = '' ) {
 		return $parent;
 	}
 
-	if ( $pagenow == 'admin.php' && isset( $plugin_page ) ) {
+	if ( 'admin.php' === $pagenow && isset( $plugin_page ) ) {
 		foreach ( (array) $menu as $parent_menu ) {
 			if ( $parent_menu[2] == $plugin_page ) {
 				$parent_file = $plugin_page;
@@ -1866,7 +1866,7 @@ function get_admin_page_parent( $parent = '' ) {
 			if ( isset( $_wp_real_parent_file[ $parent ] ) ) {
 				$parent = $_wp_real_parent_file[ $parent ];
 			}
-			if ( ! empty( $typenow ) && ( $submenu_array[2] == "$pagenow?post_type=$typenow" ) ) {
+			if ( ! empty( $typenow ) && ( "$pagenow?post_type=$typenow" === $submenu_array[2] ) ) {
 				$parent_file = $parent;
 				return $parent;
 			} elseif ( $submenu_array[2] == $pagenow && empty( $typenow ) && ( empty( $parent_file ) || false === strpos( $parent_file, '?' ) ) ) {
@@ -1935,7 +1935,7 @@ function get_admin_page_title() {
 						( $parent == $pagenow ) ||
 						( $parent == $plugin_page ) ||
 						( $plugin_page == $hook ) ||
-						( $pagenow == 'admin.php' && $parent1 != $submenu_array[2] ) ||
+						( 'admin.php' === $pagenow && $parent1 != $submenu_array[2] ) ||
 						( ! empty( $typenow ) && $parent == $pagenow . '?post_type=' . $typenow )
 					)
 					) {
@@ -1960,7 +1960,7 @@ function get_admin_page_title() {
 			foreach ( $menu as $menu_array ) {
 				if ( isset( $plugin_page ) &&
 					( $plugin_page == $menu_array[2] ) &&
-					( $pagenow == 'admin.php' ) &&
+					( 'admin.php' === $pagenow ) &&
 					( $parent1 == $menu_array[2] ) ) {
 						$title = $menu_array[3];
 						return $menu_array[3];
@@ -2156,7 +2156,7 @@ function option_update_filter( $options ) {
  * @return array
  */
 function add_option_whitelist( $new_options, $options = '' ) {
-	if ( $options == '' ) {
+	if ( '' == $options ) {
 		global $whitelist_options;
 	} else {
 		$whitelist_options = $options;
@@ -2169,7 +2169,7 @@ function add_option_whitelist( $new_options, $options = '' ) {
 				$whitelist_options[ $page ][] = $key;
 			} else {
 				$pos = array_search( $key, $whitelist_options[ $page ] );
-				if ( $pos === false ) {
+				if ( false === $pos ) {
 					$whitelist_options[ $page ][] = $key;
 				}
 			}
@@ -2191,7 +2191,7 @@ function add_option_whitelist( $new_options, $options = '' ) {
  * @return array
  */
 function remove_option_whitelist( $del_options, $options = '' ) {
-	if ( $options == '' ) {
+	if ( '' == $options ) {
 		global $whitelist_options;
 	} else {
 		$whitelist_options = $options;
@@ -2201,7 +2201,7 @@ function remove_option_whitelist( $del_options, $options = '' ) {
 		foreach ( $keys as $key ) {
 			if ( isset( $whitelist_options[ $page ] ) && is_array( $whitelist_options[ $page ] ) ) {
 				$pos = array_search( $key, $whitelist_options[ $page ] );
-				if ( $pos !== false ) {
+				if ( false !== $pos ) {
 					unset( $whitelist_options[ $page ][ $pos ] );
 				}
 			}

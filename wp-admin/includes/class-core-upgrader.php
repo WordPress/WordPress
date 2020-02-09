@@ -78,7 +78,7 @@ class Core_Upgrader extends WP_Upgrader {
 		$this->upgrade_strings();
 
 		// Is an update available?
-		if ( ! isset( $current->response ) || $current->response == 'latest' ) {
+		if ( ! isset( $current->response ) || 'latest' === $current->response ) {
 			return new WP_Error( 'up_to_date', $this->strings['up_to_date'] );
 		}
 

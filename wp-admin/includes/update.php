@@ -56,7 +56,7 @@ function get_core_updates( $options = array() ) {
 	$updates = $from_api->updates;
 	$result  = array();
 	foreach ( $updates as $update ) {
-		if ( $update->response == 'autoupdate' ) {
+		if ( 'autoupdate' === $update->response ) {
 			continue;
 		}
 
@@ -291,7 +291,7 @@ function update_nag() {
 
 	$cur = get_preferred_from_update_core();
 
-	if ( ! isset( $cur->response ) || $cur->response != 'upgrade' ) {
+	if ( ! isset( $cur->response ) || 'upgrade' !== $cur->response ) {
 		return false;
 	}
 
@@ -337,7 +337,7 @@ function update_right_now_message() {
 	if ( current_user_can( 'update_core' ) ) {
 		$cur = get_preferred_from_update_core();
 
-		if ( isset( $cur->response ) && $cur->response == 'upgrade' ) {
+		if ( isset( $cur->response ) && 'upgrade' === $cur->response ) {
 			$msg .= sprintf(
 				'<a href="%s" class="button" aria-describedby="wp-version">%s</a> ',
 				network_admin_url( 'update-core.php' ),

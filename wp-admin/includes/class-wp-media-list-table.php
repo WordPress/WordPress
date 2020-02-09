@@ -626,8 +626,8 @@ class WP_Media_List_Table extends WP_List_Table {
 		while ( have_posts() ) :
 			the_post();
 			if (
-				( $this->is_trash && $post->post_status != 'trash' )
-				|| ( ! $this->is_trash && $post->post_status === 'trash' )
+				( $this->is_trash && 'trash' !== $post->post_status )
+				|| ( ! $this->is_trash && 'trash' === $post->post_status )
 			) {
 				continue;
 			}

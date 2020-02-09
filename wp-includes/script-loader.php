@@ -596,7 +596,7 @@ function wp_default_packages( &$scripts ) {
 function wp_scripts_get_suffix( $type = '' ) {
 	static $suffixes;
 
-	if ( $suffixes === null ) {
+	if ( null === $suffixes ) {
 		// Include an unmodified $wp_version.
 		require ABSPATH . WPINC . '/version.php';
 
@@ -614,7 +614,7 @@ function wp_scripts_get_suffix( $type = '' ) {
 		);
 	}
 
-	if ( $type === 'dev' ) {
+	if ( 'dev' === $type ) {
 		return $suffixes['dev_suffix'];
 	}
 

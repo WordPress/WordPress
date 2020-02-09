@@ -156,7 +156,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * @return array Instance data.
 	 */
 	public function value() {
-		if ( $this->is_previewed && $this->_previewed_blog_id === get_current_blog_id() ) {
+		if ( $this->is_previewed && get_current_blog_id() === $this->_previewed_blog_id ) {
 			$undefined  = new stdClass(); // Symbol.
 			$post_value = $this->post_value( $undefined );
 
@@ -384,7 +384,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * @return array (Maybe) modified nav menu options.
 	 */
 	public function filter_nav_menu_options( $nav_menu_options ) {
-		if ( $this->_previewed_blog_id !== get_current_blog_id() ) {
+		if ( get_current_blog_id() !== $this->_previewed_blog_id ) {
 			return $nav_menu_options;
 		}
 
@@ -555,7 +555,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 				}
 
 				$post_value = $setting->post_value( null );
-				if ( ! is_null( $post_value ) && $this->previous_term_id === intval( $post_value ) ) {
+				if ( ! is_null( $post_value ) && intval( $post_value ) === $this->previous_term_id ) {
 					$this->manager->set_post_value( $setting->id, $this->term_id );
 					$setting->save();
 				}

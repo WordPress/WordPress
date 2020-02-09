@@ -632,7 +632,7 @@ function ms_allowed_http_request_hosts( $is_external, $host ) {
 	if ( $is_external ) {
 		return $is_external;
 	}
-	if ( $host === get_network()->domain ) {
+	if ( get_network()->domain === $host ) {
 		return true;
 	}
 	if ( isset( $queried[ $host ] ) ) {

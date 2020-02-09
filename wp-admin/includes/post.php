@@ -109,7 +109,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 	if ( isset( $post_data['saveasprivate'] ) && '' != $post_data['saveasprivate'] ) {
 		$post_data['post_status'] = 'private';
 	}
-	if ( isset( $post_data['publish'] ) && ( '' != $post_data['publish'] ) && ( ! isset( $post_data['post_status'] ) || $post_data['post_status'] != 'private' ) ) {
+	if ( isset( $post_data['publish'] ) && ( '' != $post_data['publish'] ) && ( ! isset( $post_data['post_status'] ) || 'private' !== $post_data['post_status'] ) ) {
 		$post_data['post_status'] = 'publish';
 	}
 	if ( isset( $post_data['advanced'] ) && '' != $post_data['advanced'] ) {
@@ -377,7 +377,7 @@ function edit_post( $post_data = null ) {
 		if ( isset( $post_data['_wp_attachment_image_alt'] ) ) {
 			$image_alt = wp_unslash( $post_data['_wp_attachment_image_alt'] );
 
-			if ( $image_alt != get_post_meta( $post_ID, '_wp_attachment_image_alt', true ) ) {
+			if ( get_post_meta( $post_ID, '_wp_attachment_image_alt', true ) !== $image_alt ) {
 				$image_alt = wp_strip_all_tags( $image_alt, true );
 
 				// update_post_meta() expects slashed.
@@ -1452,7 +1452,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 		}
 
 		// Encourage a pretty permalink setting.
-		if ( '' == get_option( 'permalink_structure' ) && current_user_can( 'manage_options' ) && ! ( 'page' == get_option( 'show_on_front' ) && $id == get_option( 'page_on_front' ) ) ) {
+		if ( '' == get_option( 'permalink_structure' ) && current_user_can( 'manage_options' ) && ! ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) == $id ) ) {
 			$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button button-small" target="_blank">' . __( 'Change Permalinks' ) . "</a></span>\n";
 		}
 	} else {
@@ -1596,7 +1596,7 @@ function wp_check_post_lock( $post_id ) {
 	/** This filter is documented in wp-admin/includes/ajax-actions.php */
 	$time_window = apply_filters( 'wp_check_post_lock_window', 150 );
 
-	if ( $time && $time > time() - $time_window && $user != get_current_user_id() ) {
+	if ( $time && $time > time() - $time_window && get_current_user_id() != $user ) {
 		return $user;
 	}
 
@@ -1951,7 +1951,7 @@ function wp_autosave( $post_data ) {
 		$post_data['post_status'] = 'draft';
 	}
 
-	if ( $post_data['post_type'] != 'page' && ! empty( $post_data['catslist'] ) ) {
+	if ( 'page' !== $post_data['post_type'] && ! empty( $post_data['catslist'] ) ) {
 		$post_data['post_category'] = explode( ',', $post_data['catslist'] );
 	}
 

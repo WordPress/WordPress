@@ -70,7 +70,7 @@ function edit_user( $user_id = 0 ) {
 		 */
 		if (
 			( is_multisite() && current_user_can( 'manage_network_users' ) ) ||
-			$user_id !== get_current_user_id() ||
+			get_current_user_id() !== $user_id ||
 			( $potential_role && $potential_role->has_cap( 'promote_users' ) )
 		) {
 			$user->role = $new_role;
@@ -81,7 +81,7 @@ function edit_user( $user_id = 0 ) {
 		$user->user_email = sanitize_text_field( wp_unslash( $_POST['email'] ) );
 	}
 	if ( isset( $_POST['url'] ) ) {
-		if ( empty( $_POST['url'] ) || $_POST['url'] == 'http://' ) {
+		if ( empty( $_POST['url'] ) || 'http://' === $_POST['url'] ) {
 			$user->user_url = '';
 		} else {
 			$user->user_url = esc_url_raw( $_POST['url'] );
@@ -143,7 +143,7 @@ function edit_user( $user_id = 0 ) {
 	$errors = new WP_Error();
 
 	/* checking that username has been typed */
-	if ( $user->user_login == '' ) {
+	if ( '' == $user->user_login ) {
 		$errors->add( 'user_login', __( '<strong>Error</strong>: Please enter a username.' ) );
 	}
 

@@ -306,7 +306,7 @@ function do_shortcode_tag( $m ) {
 	global $shortcode_tags;
 
 	// Allow [[foo]] syntax for escaping a tag.
-	if ( $m[1] == '[' && $m[6] == ']' ) {
+	if ( '[' === $m[1] && ']' === $m[6] ) {
 		return substr( $m[0], 1, -1 );
 	}
 
@@ -663,7 +663,7 @@ function strip_shortcodes( $content ) {
  */
 function strip_shortcode_tag( $m ) {
 	// Allow [[foo]] syntax for escaping a tag.
-	if ( $m[1] == '[' && $m[6] == ']' ) {
+	if ( '[' === $m[1] && ']' === $m[6] ) {
 		return substr( $m[0], 1, -1 );
 	}
 

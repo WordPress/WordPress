@@ -110,7 +110,7 @@ while ( have_comments() ) :
 
 		<?php
 		// Return comment threading information (https://www.ietf.org/rfc/rfc4685.txt).
-		if ( $comment->comment_parent == 0 ) : // This comment is top-level.
+		if ( 0 == $comment->comment_parent ) : // This comment is top-level.
 			?>
 			<thr:in-reply-to ref="<?php the_guid(); ?>" href="<?php the_permalink_rss(); ?>" type="<?php bloginfo_rss( 'html_type' ); ?>" />
 			<?php

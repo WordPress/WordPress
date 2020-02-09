@@ -255,7 +255,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 						// Mainly for legacy -- process a "From:" header if it's there.
 						case 'from':
 							$bracket_pos = strpos( $content, '<' );
-							if ( $bracket_pos !== false ) {
+							if ( false !== $bracket_pos ) {
 								// Text before the bracketed email is the "From" name.
 								if ( $bracket_pos > 0 ) {
 									$from_name = substr( $content, 0, $bracket_pos - 1 );
@@ -538,7 +538,7 @@ if ( ! function_exists( 'wp_authenticate' ) ) :
 		 */
 		$user = apply_filters( 'authenticate', null, $username, $password );
 
-		if ( $user == null ) {
+		if ( null == $user ) {
 			// TODO: What should the error message be? (Or would these even happen?)
 			// Only needed if all authentication handlers fail to return anything.
 			$user = new WP_Error( 'authentication_failed', __( '<strong>Error</strong>: Invalid username, email address or incorrect password.' ) );
@@ -1465,7 +1465,7 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 		 */
 		$allowed_hosts = (array) apply_filters( 'allowed_redirect_hosts', array( $wpp['host'] ), isset( $lp['host'] ) ? $lp['host'] : '' );
 
-		if ( isset( $lp['host'] ) && ( ! in_array( $lp['host'], $allowed_hosts ) && $lp['host'] != strtolower( $wpp['host'] ) ) ) {
+		if ( isset( $lp['host'] ) && ( ! in_array( $lp['host'], $allowed_hosts ) && strtolower( $wpp['host'] ) !== $lp['host'] ) ) {
 			$location = $default;
 		}
 
@@ -1544,7 +1544,7 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 		}
 
 		// The author moderated a comment on their own post.
-		if ( $author && ! $notify_author && $post->post_author == get_current_user_id() ) {
+		if ( $author && ! $notify_author && get_current_user_id() == $post->post_author ) {
 			unset( $emails[ $author->user_email ] );
 		}
 
@@ -1957,7 +1957,7 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 	 *                           string (admin only), 'user', or 'both' (admin and user). Default empty.
 	 */
 	function wp_new_user_notification( $user_id, $deprecated = null, $notify = '' ) {
-		if ( $deprecated !== null ) {
+		if ( null !== $deprecated ) {
 			_deprecated_argument( __FUNCTION__, '4.3.1' );
 		}
 
@@ -2527,7 +2527,7 @@ if ( ! function_exists( 'wp_rand' ) ) :
 		$value = abs( hexdec( $value ) );
 
 		// Reduce the value to be within the min - max range.
-		if ( $max != 0 ) {
+		if ( 0 != $max ) {
 			$value = $min + ( $max - $min + 1 ) * $value / ( $max_random_number + 1 );
 		}
 

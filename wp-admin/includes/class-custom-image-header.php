@@ -812,7 +812,7 @@ endif;
 
 		// If flexible height isn't supported and the image is the exact right size.
 		if ( ! current_theme_supports( 'custom-header', 'flex-height' ) && ! current_theme_supports( 'custom-header', 'flex-width' )
-			&& $width == get_theme_support( 'custom-header', 'width' ) && $height == get_theme_support( 'custom-header', 'height' ) ) {
+			&& get_theme_support( 'custom-header', 'width' ) == $width && get_theme_support( 'custom-header', 'height' ) == $height ) {
 			// Add the metadata.
 			if ( file_exists( $file ) ) {
 				wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );

@@ -247,7 +247,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 	}
 
 	// Do not scale (large) PNG images. May result in sub-sizes that have greater file size than the original. See #48736.
-	if ( $imagesize['mime'] !== 'image/png' ) {
+	if ( 'image/png' !== $imagesize['mime'] ) {
 
 		/**
 		 * Filters the "BIG image" threshold value.
@@ -310,7 +310,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 			} else {
 				// TODO: Log errors.
 			}
-		} elseif ( ! empty( $exif_meta['orientation'] ) && (int) $exif_meta['orientation'] !== 1 ) {
+		} elseif ( ! empty( $exif_meta['orientation'] ) && 1 !== (int) $exif_meta['orientation'] ) {
 			// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
 
 			$editor = wp_get_image_editor( $file );

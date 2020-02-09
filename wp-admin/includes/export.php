@@ -168,7 +168,7 @@ function export_wp( $args = array() ) {
 
 		// Put categories in order with no child going before its parent.
 		while ( $cat = array_shift( $categories ) ) {
-			if ( $cat->parent == 0 || isset( $cats[ $cat->parent ] ) ) {
+			if ( 0 == $cat->parent || isset( $cats[ $cat->parent ] ) ) {
 				$cats[ $cat->term_id ] = $cat;
 			} else {
 				$categories[] = $cat;
@@ -177,7 +177,7 @@ function export_wp( $args = array() ) {
 
 		// Put terms in order with no child going before its parent.
 		while ( $t = array_shift( $custom_terms ) ) {
-			if ( $t->parent == 0 || isset( $terms[ $t->parent ] ) ) {
+			if ( 0 == $t->parent || isset( $terms[ $t->parent ] ) ) {
 				$terms[ $t->term_id ] = $t;
 			} else {
 				$custom_terms[] = $t;
@@ -585,7 +585,7 @@ function export_wp( $args = array() ) {
 		<wp:post_type><?php echo wxr_cdata( $post->post_type ); ?></wp:post_type>
 		<wp:post_password><?php echo wxr_cdata( $post->post_password ); ?></wp:post_password>
 		<wp:is_sticky><?php echo intval( $is_sticky ); ?></wp:is_sticky>
-				<?php	if ( $post->post_type == 'attachment' ) : ?>
+				<?php	if ( 'attachment' === $post->post_type ) : ?>
 		<wp:attachment_url><?php echo wxr_cdata( wp_get_attachment_url( $post->ID ) ); ?></wp:attachment_url>
 	<?php endif; ?>
 				<?php wxr_post_taxonomy(); ?>

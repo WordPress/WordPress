@@ -485,7 +485,7 @@ class WP_Http {
 	 */
 	public static function browser_redirect_compatibility( $location, $headers, $data, &$options, $original ) {
 		// Browser compatibility.
-		if ( $original->status_code === 302 ) {
+		if ( 302 === $original->status_code ) {
 			$options['type'] = Requests::GET;
 		}
 	}

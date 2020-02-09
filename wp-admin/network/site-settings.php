@@ -43,7 +43,7 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] && is_
 	foreach ( (array) $_POST['option'] as $key => $val ) {
 		$key = wp_unslash( $key );
 		$val = wp_unslash( $val );
-		if ( $key === 0 || is_array( $val ) || in_array( $key, $skip_options ) ) {
+		if ( 0 === $key || is_array( $val ) || in_array( $key, $skip_options ) ) {
 			continue; // Avoids "0 is a protected WP option and may not be modified" error when edit blog options.
 		}
 		update_option( $key, $val );
@@ -124,7 +124,7 @@ if ( ! empty( $messages ) ) {
 		);
 		$options     = $wpdb->get_results( $query );
 		foreach ( $options as $option ) {
-			if ( $option->option_name == 'default_role' ) {
+			if ( 'default_role' === $option->option_name ) {
 				$editblog_default_role = $option->option_value;
 			}
 			$disabled = false;

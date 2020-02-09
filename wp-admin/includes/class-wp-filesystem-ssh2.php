@@ -238,7 +238,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			fclose( $stream );
 
 			if ( $returnbool ) {
-				return ( $data === false ) ? false : '' != trim( $data );
+				return ( false === $data ) ? false : '' != trim( $data );
 			} else {
 				return $data;
 			}
@@ -285,7 +285,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	public function put_contents( $file, $contents, $mode = false ) {
 		$ret = file_put_contents( $this->sftp_path( $file ), $contents );
 
-		if ( $ret !== strlen( $contents ) ) {
+		if ( strlen( $contents ) !== $ret ) {
 			return false;
 		}
 

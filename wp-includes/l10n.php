@@ -62,12 +62,12 @@ function get_locale() {
 			}
 		}
 
-		if ( $ms_locale !== false ) {
+		if ( false !== $ms_locale ) {
 			$locale = $ms_locale;
 		}
 	} else {
 		$db_locale = get_option( 'WPLANG' );
-		if ( $db_locale !== false ) {
+		if ( false !== $db_locale ) {
 			$locale = $db_locale;
 		}
 	}
@@ -940,7 +940,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = null ) {
 	$locale = determine_locale();
 
 	// If a path was given and the handle file exists simply return it.
-	$file_base       = $domain === 'default' ? $locale : $domain . '-' . $locale;
+	$file_base       = 'default' === $domain ? $locale : $domain . '-' . $locale;
 	$handle_filename = $file_base . '-' . $handle . '.json';
 
 	if ( $path ) {
@@ -1335,7 +1335,7 @@ function get_available_languages( $dir = null ) {
  * @return array Array of language data.
  */
 function wp_get_installed_translations( $type ) {
-	if ( $type !== 'themes' && $type !== 'plugins' && $type !== 'core' ) {
+	if ( 'themes' !== $type && 'plugins' !== $type && 'core' !== $type ) {
 		return array();
 	}
 

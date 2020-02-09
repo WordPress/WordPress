@@ -319,7 +319,7 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
 		$text_color = get_header_textcolor();
 
 		// If no custom options for text are set, let's bail.
-		if ( $text_color == HEADER_TEXTCOLOR ) {
+		if ( HEADER_TEXTCOLOR == $text_color ) {
 			return;
 		}
 
@@ -416,7 +416,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 			$color = get_header_textcolor();
 			$image = get_header_image();
 			$style = 'display: none;';
-			if ( $color && $color != 'blank' ) {
+			if ( $color && 'blank' !== $color ) {
 				$style = 'color: #' . $color . ';';
 			}
 			?>

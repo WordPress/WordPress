@@ -165,7 +165,7 @@ if ( isset( $_GET['updated'] ) ) {
 					</p>
 					<?php
 					$new_admin_email = get_site_option( 'new_admin_email' );
-					if ( $new_admin_email && $new_admin_email != get_site_option( 'admin_email' ) ) :
+					if ( $new_admin_email && get_site_option( 'admin_email' ) !== $new_admin_email ) :
 						?>
 						<div class="updated inline">
 						<p>
@@ -257,7 +257,7 @@ if ( isset( $_GET['updated'] ) ) {
 					$limited_email_domains = str_replace( ' ', "\n", $limited_email_domains );
 					?>
 					<textarea name="limited_email_domains" id="limited_email_domains" aria-describedby="limited-email-domains-desc" cols="45" rows="5">
-<?php echo esc_textarea( $limited_email_domains == '' ? '' : implode( "\n", (array) $limited_email_domains ) ); ?></textarea>
+<?php echo esc_textarea( '' == $limited_email_domains ? '' : implode( "\n", (array) $limited_email_domains ) ); ?></textarea>
 					<p class="description" id="limited-email-domains-desc">
 						<?php _e( 'If you want to limit site registrations to certain domains. One domain per line.' ); ?>
 					</p>

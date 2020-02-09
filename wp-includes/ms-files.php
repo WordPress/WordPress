@@ -19,7 +19,7 @@ ms_file_constants();
 
 error_reporting( 0 );
 
-if ( $current_blog->archived == '1' || $current_blog->spam == '1' || $current_blog->deleted == '1' ) {
+if ( '1' == $current_blog->archived || '1' == $current_blog->spam || '1' == $current_blog->deleted ) {
 	status_header( 404 );
 	die( '404 &#8212; File not found.' );
 }

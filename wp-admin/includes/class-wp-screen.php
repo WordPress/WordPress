@@ -373,7 +373,7 @@ final class WP_Screen {
 
 		if ( isset( self::$_registry[ $id ] ) ) {
 			$screen = self::$_registry[ $id ];
-			if ( $screen === get_current_screen() ) {
+			if ( get_current_screen() === $screen ) {
 				return $screen;
 			}
 		} else {
@@ -454,7 +454,7 @@ final class WP_Screen {
 	 * @return bool True if the block editor is being loaded, false otherwise.
 	 */
 	public function is_block_editor( $set = null ) {
-		if ( $set !== null ) {
+		if ( null !== $set ) {
 			$this->is_block_editor = (bool) $set;
 		}
 

@@ -471,7 +471,7 @@ function rss_enclosure() {
 	}
 
 	foreach ( (array) get_post_custom() as $key => $val ) {
-		if ( $key == 'enclosure' ) {
+		if ( 'enclosure' === $key ) {
 			foreach ( (array) $val as $enc ) {
 				$enclosure = explode( "\n", $enc );
 
@@ -511,7 +511,7 @@ function atom_enclosure() {
 	}
 
 	foreach ( (array) get_post_custom() as $key => $val ) {
-		if ( $key == 'enclosure' ) {
+		if ( 'enclosure' === $key ) {
 			foreach ( (array) $val as $enc ) {
 				$enclosure = explode( "\n", $enc );
 				/**

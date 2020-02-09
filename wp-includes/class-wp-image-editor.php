@@ -418,7 +418,7 @@ abstract class WP_Image_Editor {
 		 */
 		$orientation = apply_filters( 'wp_image_maybe_exif_rotate', $orientation, $this->file );
 
-		if ( ! $orientation || $orientation === 1 ) {
+		if ( ! $orientation || 1 === $orientation ) {
 			return false;
 		}
 

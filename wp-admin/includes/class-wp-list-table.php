@@ -830,18 +830,18 @@ class WP_List_Table {
 		$disable_prev  = false;
 		$disable_next  = false;
 
-		if ( $current == 1 ) {
+		if ( 1 == $current ) {
 			$disable_first = true;
 			$disable_prev  = true;
 		}
-		if ( $current == 2 ) {
+		if ( 2 == $current ) {
 			$disable_first = true;
 		}
-		if ( $current == $total_pages ) {
+		if ( $total_pages == $current ) {
 			$disable_last = true;
 			$disable_next = true;
 		}
-		if ( $current == $total_pages - 1 ) {
+		if ( $total_pages - 1 == $current ) {
 			$disable_last = true;
 		}
 

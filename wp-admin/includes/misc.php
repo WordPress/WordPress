@@ -649,7 +649,7 @@ function set_screen_options() {
 		$option = $_POST['wp_screen_options']['option'];
 		$value  = $_POST['wp_screen_options']['value'];
 
-		if ( $option != sanitize_key( $option ) ) {
+		if ( sanitize_key( $option ) != $option ) {
 			return;
 		}
 
@@ -744,7 +744,7 @@ function iis7_rewrite_rule_exists( $filename ) {
 	}
 	$xpath = new DOMXPath( $doc );
 	$rules = $xpath->query( '/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]' );
-	if ( $rules->length == 0 ) {
+	if ( 0 == $rules->length ) {
 		return false;
 	} else {
 		return true;
@@ -1289,7 +1289,7 @@ function wp_page_reload_on_back_button_js() {
  * @param string $value     The proposed new site admin email address.
  */
 function update_option_new_admin_email( $old_value, $value ) {
-	if ( $value == get_option( 'admin_email' ) || ! is_email( $value ) ) {
+	if ( get_option( 'admin_email' ) === $value || ! is_email( $value ) ) {
 		return;
 	}
 

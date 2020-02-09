@@ -54,7 +54,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			$args['search'] = '*' . $args['search'] . '*';
 		}
 
-		if ( $role === 'super' ) {
+		if ( 'super' === $role ) {
 			$args['login__in'] = get_super_admins();
 		}
 
@@ -84,7 +84,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		}
 
 		if ( ! empty( $_REQUEST['mode'] ) ) {
-			$mode = $_REQUEST['mode'] === 'excerpt' ? 'excerpt' : 'list';
+			$mode = 'excerpt' === $_REQUEST['mode'] ? 'excerpt' : 'list';
 			set_user_setting( 'network_users_list_mode', $mode );
 		} else {
 			$mode = get_user_setting( 'network_users_list_mode', 'list' );
@@ -137,7 +137,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		$super_admins = get_super_admins();
 		$total_admins = count( $super_admins );
 
-		$current_link_attributes = $role !== 'super' ? ' class="current" aria-current="page"' : '';
+		$current_link_attributes = 'super' !== $role ? ' class="current" aria-current="page"' : '';
 		$role_links              = array();
 		$role_links['all']       = sprintf(
 			'<a href="%s"%s>%s</a>',
@@ -154,7 +154,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 				number_format_i18n( $total_users )
 			)
 		);
-		$current_link_attributes = $role === 'super' ? ' class="current" aria-current="page"' : '';
+		$current_link_attributes = 'super' === $role ? ' class="current" aria-current="page"' : '';
 		$role_links['super']     = sprintf(
 			'<a href="%s"%s>%s</a>',
 			network_admin_url( 'users.php?role=super' ),
@@ -371,7 +371,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 				continue;
 			}
 
-			$path         = ( $val->path === '/' ) ? '' : $val->path;
+			$path         = ( '/' === $val->path ) ? '' : $val->path;
 			$site_classes = array( 'site-' . $val->site_id );
 			/**
 			 * Filters the span class for a site listing on the mulisite user list table.
@@ -396,16 +396,16 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			$actions['edit'] = '<a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) . '">' . __( 'Edit' ) . '</a>';
 
 			$class = '';
-			if ( $val->spam == 1 ) {
+			if ( 1 == $val->spam ) {
 				$class .= 'site-spammed ';
 			}
-			if ( $val->mature == 1 ) {
+			if ( 1 == $val->mature ) {
 				$class .= 'site-mature ';
 			}
-			if ( $val->deleted == 1 ) {
+			if ( 1 == $val->deleted ) {
 				$class .= 'site-deleted ';
 			}
-			if ( $val->archived == 1 ) {
+			if ( 1 == $val->archived ) {
 				$class .= 'site-archived ';
 			}
 

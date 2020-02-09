@@ -103,7 +103,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 		// setIteratorIndex is optional unless mime is an animated format.
 		// Here, we just say no if you are missing it and aren't loading a jpeg.
-		if ( ! method_exists( 'Imagick', 'setIteratorIndex' ) && $mime_type !== 'image/jpeg' ) {
+		if ( ! method_exists( 'Imagick', 'setIteratorIndex' ) && 'image/jpeg' !== $mime_type ) {
 				return false;
 		}
 

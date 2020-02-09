@@ -354,12 +354,12 @@ function wp_get_post_revision( &$post, $output = OBJECT, $filter = 'raw' ) {
 		return null;
 	}
 
-	if ( $output == OBJECT ) {
+	if ( OBJECT == $output ) {
 		return $revision;
-	} elseif ( $output == ARRAY_A ) {
+	} elseif ( ARRAY_A == $output ) {
 		$_revision = get_object_vars( $revision );
 		return $_revision;
-	} elseif ( $output == ARRAY_N ) {
+	} elseif ( ARRAY_N == $output ) {
 		$_revision = array_values( get_object_vars( $revision ) );
 		return $_revision;
 	}

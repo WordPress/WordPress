@@ -76,7 +76,7 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 		 */
 		$args['headers'] = apply_filters( 'wp_http_ixr_client_headers', $args['headers'] );
 
-		if ( $this->timeout !== false ) {
+		if ( false !== $this->timeout ) {
 			$args['timeout'] = $this->timeout;
 		}
 
@@ -112,7 +112,7 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 		}
 
 		// Is the message a fault?
-		if ( $this->message->messageType == 'fault' ) {
+		if ( 'fault' === $this->message->messageType ) {
 			$this->error = new IXR_Error( $this->message->faultCode, $this->message->faultString );
 			return false;
 		}

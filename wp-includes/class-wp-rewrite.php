@@ -920,7 +920,7 @@ class WP_Rewrite {
 
 		// Get the structure, minus any cruft (stuff that isn't tags) at the front.
 		$structure = $permalink_structure;
-		if ( $front != '/' ) {
+		if ( '/' !== $front ) {
 			$structure = str_replace( $front, '', $structure );
 		}
 
@@ -1909,7 +1909,7 @@ class WP_Rewrite {
 	 * @param string $category_base Category permalink structure base.
 	 */
 	public function set_category_base( $category_base ) {
-		if ( $category_base != get_option( 'category_base' ) ) {
+		if ( get_option( 'category_base' ) !== $category_base ) {
 			update_option( 'category_base', $category_base );
 			$this->init();
 		}
@@ -1927,7 +1927,7 @@ class WP_Rewrite {
 	 * @param string $tag_base Tag permalink structure base.
 	 */
 	public function set_tag_base( $tag_base ) {
-		if ( $tag_base != get_option( 'tag_base' ) ) {
+		if ( get_option( 'tag_base' ) !== $tag_base ) {
 			update_option( 'tag_base', $tag_base );
 			$this->init();
 		}

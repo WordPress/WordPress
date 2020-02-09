@@ -175,19 +175,19 @@ function check_column( $table_name, $col_name, $col_type, $is_null = null, $key 
 		if ( $row->Field == $col_name ) {
 
 			// Got our column, check the params.
-			if ( ( $col_type != null ) && ( $row->Type != $col_type ) ) {
+			if ( ( null != $col_type ) && ( $row->Type != $col_type ) ) {
 				++$diffs;
 			}
-			if ( ( $is_null != null ) && ( $row->Null != $is_null ) ) {
+			if ( ( null != $is_null ) && ( $row->Null != $is_null ) ) {
 				++$diffs;
 			}
-			if ( ( $key != null ) && ( $row->Key != $key ) ) {
+			if ( ( null != $key ) && ( $row->Key != $key ) ) {
 				++$diffs;
 			}
-			if ( ( $default != null ) && ( $row->Default != $default ) ) {
+			if ( ( null != $default ) && ( $row->Default != $default ) ) {
 				++$diffs;
 			}
-			if ( ( $extra != null ) && ( $row->Extra != $extra ) ) {
+			if ( ( null != $extra ) && ( $row->Extra != $extra ) ) {
 				++$diffs;
 			}
 			if ( $diffs > 0 ) {

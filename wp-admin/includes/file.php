@@ -1886,7 +1886,7 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
 				$temp_file_owner = @fileowner( $temp_file_name );
 			}
 
-			if ( $wp_file_owner !== false && $wp_file_owner === $temp_file_owner ) {
+			if ( false !== $wp_file_owner && $wp_file_owner === $temp_file_owner ) {
 				/*
 				 * WordPress is creating files as the same owner as the WordPress files,
 				 * this means it's safe to modify & create new files via PHP.
@@ -2234,7 +2234,7 @@ function wp_print_request_filesystem_credentials_modal() {
 	ob_start();
 	$filesystem_credentials_are_stored = request_filesystem_credentials( self_admin_url() );
 	ob_end_clean();
-	$request_filesystem_credentials = ( $filesystem_method != 'direct' && ! $filesystem_credentials_are_stored );
+	$request_filesystem_credentials = ( 'direct' !== $filesystem_method && ! $filesystem_credentials_are_stored );
 	if ( ! $request_filesystem_credentials ) {
 		return;
 	}

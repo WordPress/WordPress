@@ -2227,7 +2227,7 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 	}
 
 	$pos = array_search( $option_name, (array) $new_whitelist_options[ $option_group ] );
-	if ( $pos !== false ) {
+	if ( false !== $pos ) {
 		unset( $new_whitelist_options[ $option_group ][ $pos ] );
 	}
 	if ( '' !== $deprecated ) {

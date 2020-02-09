@@ -475,7 +475,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * @return bool True on success, false on failure.
 	 */
 	public function localize( $handle, $object_name, $l10n ) {
-		if ( $handle === 'jquery' ) {
+		if ( 'jquery' === $handle ) {
 			$handle = 'jquery-core';
 		}
 
@@ -521,7 +521,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * @return bool Not already in the group or a lower group.
 	 */
 	public function set_group( $handle, $recursion, $group = false ) {
-		if ( isset( $this->registered[ $handle ]->args ) && $this->registered[ $handle ]->args === 1 ) {
+		if ( isset( $this->registered[ $handle ]->args ) && 1 === $this->registered[ $handle ]->args ) {
 			$grp = 1;
 		} else {
 			$grp = (int) $this->get_data( $handle, 'group' );
