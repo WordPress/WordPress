@@ -642,9 +642,15 @@
 		var t = this,
 			selW = $('#imgedit-sel-width-' + postid),
 			selH = $('#imgedit-sel-height-' + postid),
+			$image = $( image ),
 			$img;
 
-		t.iasapi = $(image).imgAreaSelect({
+		// Already initialized?
+		if ( $image.data( 'imgAreaSelect' ) ) {
+			return;
+		}
+
+		t.iasapi = $image.imgAreaSelect({
 			parent: parent,
 			instance: true,
 			handles: true,
