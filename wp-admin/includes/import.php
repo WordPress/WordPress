@@ -210,12 +210,6 @@ function wp_get_popular_importers() {
 			'plugin-slug' => 'movabletype-importer',
 			'importer-id' => 'mt',
 		),
-		'opml'        => array(
-			'name'        => __( 'Blogroll' ),
-			'description' => __( 'Import links in OPML format.' ),
-			'plugin-slug' => 'opml-importer',
-			'importer-id' => 'opml',
-		),
 		'rss'         => array(
 			'name'        => __( 'RSS' ),
 			'description' => __( 'Import posts from an RSS feed.' ),
