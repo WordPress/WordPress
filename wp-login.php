@@ -62,7 +62,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	$shake_error_codes = apply_filters( 'shake_error_codes', $shake_error_codes );
 
 	if ( $shake_error_codes && $wp_error->has_errors() && in_array( $wp_error->get_error_code(), $shake_error_codes, true ) ) {
-		add_action( 'login_head', 'wp_shake_js', 12 );
+		add_action( 'login_footer', 'wp_shake_js', 12 );
 	}
 
 	$login_title = get_bloginfo( 'name', 'display' );
@@ -335,11 +335,7 @@ function login_footer( $input_id = '' ) {
 function wp_shake_js() {
 	?>
 	<script type="text/javascript">
-	addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
-	function s(id,pos){g(id).left=pos+'px';}
-	function g(id){return document.getElementById(id).style;}
-	function shake(id,a,d){c=a.shift();s(id,c);if(a.length>0){setTimeout(function(){shake(id,a,d);},d);}else{try{g(id).position='static';wp_attempt_focus();}catch(e){}}}
-	addLoadEvent(function(){ var p=new Array(15,30,15,0,-15,-30,-15,0);p=p.concat(p.concat(p));var i=document.forms[0].id;g(i).position='relative';shake(i,p,20);});
+	document.querySelector('form').classList.add('shake');
 	</script>
 	<?php
 }

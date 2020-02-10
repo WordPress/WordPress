@@ -139,6 +139,24 @@ p {
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
+.login form.shake {
+	animation: shake 0.2s cubic-bezier(.19,.49,.38,.79) both;
+	animation-iteration-count: 3;
+	transform: translateX(0);
+}
+
+@keyframes shake {
+	25% {
+		transform: translateX(-20px);
+	}
+	75% {
+		transform: translateX(20px);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+
 .login-action-confirm_admin_email #login {
 	width: 60vw;
 	margin-top: -2vh;
