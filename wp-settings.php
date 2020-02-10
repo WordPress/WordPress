@@ -15,10 +15,19 @@
  */
 define( 'WPINC', 'wp-includes' );
 
-/*
+/**
+ * Version information for the current WordPress release.
+ *
  * These can't be directly globalized in version.php. When updating,
  * we're including version.php from another installation and don't want
  * these values to be overridden if already set.
+ *
+ * @global string $wp_version             The WordPress version string.
+ * @global int    $wp_db_version          WordPress database version.
+ * @global string $tinymce_version        TinyMCE version.
+ * @global string $required_php_version   The required PHP version string.
+ * @global string $required_mysql_version The required MySQL version string.
+ * @global string $wp_local_package       Locale code of the package.
  */
 global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version, $wp_local_package;
 require ABSPATH . WPINC . '/version.php';
@@ -108,8 +117,12 @@ require ABSPATH . WPINC . '/class-wp.php';
 require ABSPATH . WPINC . '/class-wp-error.php';
 require ABSPATH . WPINC . '/pomo/mo.php';
 
-// Include the wpdb class and, if present, a db.php database drop-in.
+/**
+ * @global wpdb $wpdb WordPress database abstraction object.
+ * @since 0.71
+ */
 global $wpdb;
+// Include the wpdb class and, if present, a db.php database drop-in.
 require_wp_db();
 
 // Set the database table prefix and the format specifiers for database table columns.
@@ -486,7 +499,7 @@ unset( $locale_file );
 $GLOBALS['wp_locale'] = new WP_Locale();
 
 /**
- *  WordPress Locale Switcher object for switching locales.
+ * WordPress Locale Switcher object for switching locales.
  *
  * @since 4.7.0
  *
