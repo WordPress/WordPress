@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["primitives"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 437);
+/******/ 	return __webpack_require__(__webpack_require__.s = 445);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["primitives"] =
 
 /***/ }),
 
-/***/ 10:
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -202,7 +202,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 437:
+/***/ 445:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -215,7 +215,7 @@ var defineProperty = __webpack_require__(5);
 var objectWithoutProperties = __webpack_require__(19);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(10);
+var classnames = __webpack_require__(11);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external {"this":["wp","element"]}
@@ -253,6 +253,18 @@ var svg_Polygon = function Polygon(props) {
 var svg_Rect = function Rect(props) {
   return Object(external_this_wp_element_["createElement"])('rect', props);
 };
+var svg_Defs = function Defs(props) {
+  return Object(external_this_wp_element_["createElement"])('defs', props);
+};
+var svg_RadialGradient = function RadialGradient(props) {
+  return Object(external_this_wp_element_["createElement"])('radialGradient', props);
+};
+var svg_LinearGradient = function LinearGradient(props) {
+  return Object(external_this_wp_element_["createElement"])('linearGradient', props);
+};
+var svg_Stop = function Stop(props) {
+  return Object(external_this_wp_element_["createElement"])('stop', props);
+};
 var svg_SVG = function SVG(_ref) {
   var className = _ref.className,
       isPressed = _ref.isPressed,
@@ -284,6 +296,10 @@ var BlockQuotation = 'blockquote';
 /* concated harmony reexport Path */__webpack_require__.d(__webpack_exports__, "Path", function() { return svg_Path; });
 /* concated harmony reexport Polygon */__webpack_require__.d(__webpack_exports__, "Polygon", function() { return svg_Polygon; });
 /* concated harmony reexport Rect */__webpack_require__.d(__webpack_exports__, "Rect", function() { return svg_Rect; });
+/* concated harmony reexport Defs */__webpack_require__.d(__webpack_exports__, "Defs", function() { return svg_Defs; });
+/* concated harmony reexport RadialGradient */__webpack_require__.d(__webpack_exports__, "RadialGradient", function() { return svg_RadialGradient; });
+/* concated harmony reexport LinearGradient */__webpack_require__.d(__webpack_exports__, "LinearGradient", function() { return svg_LinearGradient; });
+/* concated harmony reexport Stop */__webpack_require__.d(__webpack_exports__, "Stop", function() { return svg_Stop; });
 /* concated harmony reexport SVG */__webpack_require__.d(__webpack_exports__, "SVG", function() { return svg_SVG; });
 /* concated harmony reexport HorizontalRule */__webpack_require__.d(__webpack_exports__, "HorizontalRule", function() { return HorizontalRule; });
 /* concated harmony reexport BlockQuotation */__webpack_require__.d(__webpack_exports__, "BlockQuotation", function() { return BlockQuotation; });

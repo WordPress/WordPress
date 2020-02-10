@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 424);
+/******/ 	return __webpack_require__(__webpack_require__.s = 432);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -129,7 +129,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 26:
+/***/ 28:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
@@ -158,7 +158,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 424:
+/***/ 432:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -349,7 +349,7 @@ var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.
 var asyncToGenerator = __webpack_require__(47);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(26);
+var external_this_wp_url_ = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
 

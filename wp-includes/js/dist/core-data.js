@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 418);
+/******/ 	return __webpack_require__(__webpack_require__.s = 426);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,14 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 
 /***/ }),
 
-/***/ 17:
+/***/ 10:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blocks"]; }());
+
+/***/ }),
+
+/***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -140,7 +147,7 @@ function _toConsumableArray(arr) {
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(37);
+var arrayWithHoles = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
@@ -173,7 +180,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(38);
+var nonIterableRest = __webpack_require__(37);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
@@ -193,7 +200,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 26:
+/***/ 28:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
@@ -219,6 +226,28 @@ function _iterableToArray(iter) {
 /***/ }),
 
 /***/ 36:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+/***/ }),
+
+/***/ 37:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+
+/***/ }),
+
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -500,28 +529,6 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 37:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-/***/ }),
-
-/***/ 38:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-}
-
-/***/ }),
-
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -536,7 +543,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 418:
+/***/ 426:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -553,7 +560,7 @@ __webpack_require__.d(build_module_actions_namespaceObject, "editEntityRecord", 
 __webpack_require__.d(build_module_actions_namespaceObject, "undo", function() { return undo; });
 __webpack_require__.d(build_module_actions_namespaceObject, "redo", function() { return redo; });
 __webpack_require__.d(build_module_actions_namespaceObject, "__unstableCreateUndoLevel", function() { return __unstableCreateUndoLevel; });
-__webpack_require__.d(build_module_actions_namespaceObject, "saveEntityRecord", function() { return actions_saveEntityRecord; });
+__webpack_require__.d(build_module_actions_namespaceObject, "saveEntityRecord", function() { return saveEntityRecord; });
 __webpack_require__.d(build_module_actions_namespaceObject, "saveEditedEntityRecord", function() { return saveEditedEntityRecord; });
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveUploadPermissions", function() { return receiveUploadPermissions; });
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveUserPermission", function() { return receiveUserPermission; });
@@ -567,7 +574,7 @@ __webpack_require__.d(build_module_selectors_namespaceObject, "getUserQueryResul
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEntitiesByKind", function() { return getEntitiesByKind; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEntity", function() { return selectors_getEntity; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEntityRecord", function() { return getEntityRecord; });
-__webpack_require__.d(build_module_selectors_namespaceObject, "getEntityRecordNoResolver", function() { return getEntityRecordNoResolver; });
+__webpack_require__.d(build_module_selectors_namespaceObject, "__experimentalGetEntityRecordNoResolver", function() { return __experimentalGetEntityRecordNoResolver; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getRawEntityRecord", function() { return getRawEntityRecord; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEntityRecords", function() { return getEntityRecords; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEntityRecordChangesByRecord", function() { return getEntityRecordChangesByRecord; });
@@ -614,7 +621,7 @@ var external_this_wp_data_ = __webpack_require__(4);
 var slicedToArray = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(17);
+var toConsumableArray = __webpack_require__(18);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
@@ -837,14 +844,14 @@ function receiveQueriedItems(items) {
 }
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(36);
+var rememo = __webpack_require__(38);
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
 var equivalent_key_map = __webpack_require__(62);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(26);
+var external_this_wp_url_ = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/get-query-parts.js
 
@@ -1123,7 +1130,7 @@ external_this_regeneratorRuntime_default.a.mark(undo),
 external_this_regeneratorRuntime_default.a.mark(redo),
     _marked4 =
 /*#__PURE__*/
-external_this_regeneratorRuntime_default.a.mark(actions_saveEntityRecord),
+external_this_regeneratorRuntime_default.a.mark(saveEntityRecord),
     _marked5 =
 /*#__PURE__*/
 external_this_regeneratorRuntime_default.a.mark(saveEditedEntityRecord);
@@ -1451,7 +1458,7 @@ function __unstableCreateUndoLevel() {
  * @param {Object} options Saving options.
  */
 
-function actions_saveEntityRecord(kind, name, record) {
+function saveEntityRecord(kind, name, record) {
   var _ref,
       _ref$isAutosave,
       isAutosave,
@@ -1662,7 +1669,7 @@ function actions_saveEntityRecord(kind, name, record) {
 
 
           _context4.next = 59;
-          return controls_select('getEntityRecordNoResolver', kind, name, recordId);
+          return controls_select('__experimentalGetEntityRecordNoResolver', kind, name, recordId);
 
         case 59:
           persistedEntity = _context4.sent;
@@ -1782,7 +1789,7 @@ function saveEditedEntityRecord(kind, name, recordId, options) {
           record = build_module_actions_objectSpread({
             id: recordId
           }, edits);
-          return _context5.delegateYield(actions_saveEntityRecord(kind, name, record, options), "t0", 9);
+          return _context5.delegateYield(saveEntityRecord(kind, name, record, options), "t0", 9);
 
         case 9:
         case "end":
@@ -2852,7 +2859,7 @@ function getEntityRecord(state, kind, name, key) {
  * @return {Object?} Record.
  */
 
-function getEntityRecordNoResolver(state, kind, name, key) {
+function __experimentalGetEntityRecordNoResolver(state, kind, name, key) {
   return getEntityRecord(state, kind, name, key);
 }
 /**
@@ -3769,7 +3776,7 @@ function resolvers_getAutosave(postType, postId) {
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external {"this":["wp","blocks"]}
-var external_this_wp_blocks_ = __webpack_require__(9);
+var external_this_wp_blocks_ = __webpack_require__(10);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/entity-provider.js
 
@@ -3872,9 +3879,9 @@ function useEntityId(kind, type) {
 function useEntityProp(kind, type, prop) {
   var id = useEntityId(kind, type);
   var value = Object(external_this_wp_data_["useSelect"])(function (select) {
-    var _select2 = select('core'),
-        getEntityRecord = _select2.getEntityRecord,
-        getEditedEntityRecord = _select2.getEditedEntityRecord;
+    var _select = select('core'),
+        getEntityRecord = _select.getEntityRecord,
+        getEditedEntityRecord = _select.getEditedEntityRecord;
 
     getEntityRecord(kind, type, id); // Trigger resolver.
 
@@ -3889,69 +3896,6 @@ function useEntityProp(kind, type, prop) {
     editEntityRecord(kind, type, id, Object(defineProperty["a" /* default */])({}, prop, newValue));
   }, [kind, type, id, prop]);
   return [value, setValue];
-}
-/**
- * Hook that returns whether the nearest provided
- * entity of the specified type is dirty, saving,
- * and a function to save it.
- *
- * The last, optional parameter is for scoping the
- * selection to a single property or a list properties.
- *
- * By default, dirtyness detection and saving considers
- * and handles all properties of an entity, but this
- * last parameter lets you scope it to a single property
- * or a list of properties for each instance of this hook.
- *
- * @param {string}          kind    The entity kind.
- * @param {string}          type    The entity type.
- * @param {string|[string]} [props] The property name or list of property names.
- */
-
-function __experimentalUseEntitySaving(kind, type, props) {
-  var id = useEntityId(kind, type);
-
-  var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
-    var _select3 = select('core'),
-        getEntityRecordNonTransientEdits = _select3.getEntityRecordNonTransientEdits,
-        isSavingEntityRecord = _select3.isSavingEntityRecord;
-
-    var editKeys = Object.keys(getEntityRecordNonTransientEdits(kind, type, id));
-    return [props ? editKeys.some(function (key) {
-      return typeof props === 'string' ? key === props : props.includes(key);
-    }) : editKeys.length > 0, isSavingEntityRecord(kind, type, id), select];
-  }, [kind, type, id, props]),
-      _useSelect2 = Object(slicedToArray["a" /* default */])(_useSelect, 3),
-      isDirty = _useSelect2[0],
-      isSaving = _useSelect2[1],
-      _select = _useSelect2[2];
-
-  var _useDispatch2 = Object(external_this_wp_data_["useDispatch"])('core'),
-      saveEntityRecord = _useDispatch2.saveEntityRecord;
-
-  var save = Object(external_this_wp_element_["useCallback"])(function () {
-    // We use the `select` from `useSelect` here instead of importing it from
-    // the data module so that we get the one bound to the provided registry,
-    // and not the default one.
-    var filteredEdits = _select('core').getEntityRecordNonTransientEdits(kind, type, id);
-
-    if (typeof props === 'string') {
-      filteredEdits = Object(defineProperty["a" /* default */])({}, props, filteredEdits[props]);
-    } else if (props) {
-      filteredEdits = Object.keys(filteredEdits).reduce(function (acc, key) {
-        if (props.includes(key)) {
-          acc[key] = filteredEdits[key];
-        }
-
-        return acc;
-      }, {});
-    }
-
-    saveEntityRecord(kind, type, entity_provider_objectSpread({
-      id: id
-    }, filteredEdits));
-  }, [kind, type, id, props, _select]);
-  return [isDirty, isSaving, save];
 }
 /**
  * Hook that returns block content getters and setters for
@@ -3987,8 +3931,8 @@ function useEntityBlockEditor(kind, type) {
       content = _useEntityProp2[0],
       setContent = _useEntityProp2[1];
 
-  var _useDispatch3 = Object(external_this_wp_data_["useDispatch"])('core'),
-      editEntityRecord = _useDispatch3.editEntityRecord;
+  var _useDispatch2 = Object(external_this_wp_data_["useDispatch"])('core'),
+      editEntityRecord = _useDispatch2.editEntityRecord;
 
   var id = useEntityId(kind, type);
   var initialBlocks = Object(external_this_wp_element_["useMemo"])(function () {
@@ -4027,7 +3971,6 @@ function useEntityBlockEditor(kind, type) {
 /* concated harmony reexport EntityProvider */__webpack_require__.d(__webpack_exports__, "EntityProvider", function() { return EntityProvider; });
 /* concated harmony reexport useEntityId */__webpack_require__.d(__webpack_exports__, "useEntityId", function() { return useEntityId; });
 /* concated harmony reexport useEntityProp */__webpack_require__.d(__webpack_exports__, "useEntityProp", function() { return useEntityProp; });
-/* concated harmony reexport __experimentalUseEntitySaving */__webpack_require__.d(__webpack_exports__, "__experimentalUseEntitySaving", function() { return __experimentalUseEntitySaving; });
 /* concated harmony reexport useEntityBlockEditor */__webpack_require__.d(__webpack_exports__, "useEntityBlockEditor", function() { return useEntityBlockEditor; });
 
 
@@ -4107,7 +4050,7 @@ var entityActions = defaultEntities.reduce(function (result, entity) {
       name = entity.name;
 
   result[entities_getMethodName(kind, name, 'save')] = function (key) {
-    return actions_saveEntityRecord(kind, name, key);
+    return saveEntityRecord(kind, name, key);
   };
 
   return result;
@@ -4466,13 +4409,6 @@ function () {
 
 module.exports = EquivalentKeyMap;
 
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blocks"]; }());
 
 /***/ })
 

@@ -38,134 +38,6 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-html {
-  position: fixed;
-  width: 100%; }
-  @media (min-width: 782px) {
-    html {
-      position: initial;
-      width: initial; } }
-
-.edit-post-editor-regions {
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  max-height: 100%;
-  position: fixed;
-  top: 46px;
-  right: 0;
-  left: 0;
-  bottom: 0; }
-  @media (min-width: 782px) {
-    .edit-post-editor-regions {
-      top: 32px; }
-      .is-fullscreen-mode .edit-post-editor-regions {
-        top: 0; } }
-
-.edit-post-editor-regions {
-  /* Set left position when auto-fold is not on the body element. */
-  right: 0; }
-  @media (min-width: 782px) {
-    .edit-post-editor-regions {
-      right: 160px; } }
-
-.auto-fold .edit-post-editor-regions {
-  /* Auto fold is when on smaller breakpoints, nav menu auto collapses. */ }
-  @media (min-width: 782px) {
-    .auto-fold .edit-post-editor-regions {
-      right: 36px; } }
-  @media (min-width: 961px) {
-    .auto-fold .edit-post-editor-regions {
-      right: 160px; } }
-
-/* Sidebar manually collapsed. */
-.folded .edit-post-editor-regions {
-  right: 0; }
-  @media (min-width: 782px) {
-    .folded .edit-post-editor-regions {
-      right: 36px; } }
-
-/* Mobile menu opened. */
-@media (max-width: 782px) {
-  .auto-fold .wp-responsive-open .edit-post-editor-regions {
-    right: 190px; } }
-
-/* In small screens with responsive menu expanded there is small white space. */
-@media (max-width: 600px) {
-  .auto-fold .wp-responsive-open .edit-post-editor-regions {
-    margin-right: -18px; } }
-
-body.is-fullscreen-mode .edit-post-editor-regions {
-  right: 0 !important; }
-
-.edit-post-editor-regions__body {
-  flex-grow: 1;
-  display: flex;
-  overflow: auto;
-  overscroll-behavior-y: none; }
-
-.edit-post-editor-regions__content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column; }
-  @media (min-width: 782px) {
-    .edit-post-editor-regions__content {
-      overflow: auto; } }
-
-.edit-post-editor-regions__sidebar {
-  width: auto;
-  flex-shrink: 0;
-  position: absolute;
-  z-index: 100000;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: #fff; }
-  .edit-post-editor-regions__sidebar:empty {
-    display: none; }
-  @media (min-width: 782px) {
-    .edit-post-editor-regions__sidebar {
-      overflow: auto;
-      border-right: 1px solid #e2e4e7;
-      position: relative !important;
-      z-index: 90; } }
-
-.edit-post-editor-regions__header {
-  flex-shrink: 0;
-  height: auto;
-  border-bottom: 1px solid #e2e4e7;
-  z-index: 30;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0; }
-  @media (min-width: 600px) {
-    .edit-post-editor-regions__header {
-      position: initial;
-      top: 0; } }
-
-.edit-post-editor-regions__footer {
-  height: auto;
-  flex-shrink: 0;
-  overflow: auto;
-  border-top: 1px solid #e2e4e7;
-  display: none; }
-  @media (min-width: 782px) {
-    .edit-post-editor-regions__footer {
-      display: block; } }
-
-.edit-post-editor-regions__publish {
-  z-index: 100000;
-  position: fixed !important;
-  top: -9999em;
-  bottom: auto;
-  right: auto;
-  left: 0;
-  width: 280px; }
-  .edit-post-editor-regions__publish:focus {
-    top: auto;
-    bottom: 0; }
-
 @media (min-width: 782px) {
   body.js.is-fullscreen-mode {
     margin-top: -46px;
@@ -322,12 +194,12 @@ body.is-fullscreen-mode .edit-post-editor-regions {
   margin-right: -4px; }
   .edit-post-more-menu .components-button {
     width: auto;
-    padding: 8px 2px; }
+    padding: 0 2px; }
   @media (min-width: 600px) {
     .edit-post-more-menu {
       margin-right: 4px; }
       .edit-post-more-menu .components-button {
-        padding: 8px 4px; } }
+        padding: 0 4px; } }
   .edit-post-more-menu .components-button svg {
     transform: rotate(-90deg); }
 
@@ -505,42 +377,53 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 .edit-post-layout .editor-post-publish-panel__header-publish-button {
   justify-content: center; }
 
-.edit-post-toggle-publish-panel {
+.edit-post-layout__toogle-publish-panel,
+.edit-post-layout__toogle-sidebar-panel {
   background-color: #fff;
   padding: 10px 0 10px 10px; }
-  .edit-post-toggle-publish-panel .edit-post-toggle-publish-panel__button {
-    width: auto;
-    height: auto;
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin: 0 auto 0 0;
-    padding: 15px 23px 14px;
-    line-height: normal;
-    text-decoration: none;
-    outline: none;
-    background: #f1f1f1;
-    color: #11a0d2; }
-  body.admin-color-sunrise .edit-post-toggle-publish-panel .edit-post-toggle-publish-panel__button {
-    color: #c8b03c; }
-  body.admin-color-ocean .edit-post-toggle-publish-panel .edit-post-toggle-publish-panel__button {
-    color: #a89d8a; }
-  body.admin-color-midnight .edit-post-toggle-publish-panel .edit-post-toggle-publish-panel__button {
-    color: #77a6b9; }
-  body.admin-color-ectoplasm .edit-post-toggle-publish-panel .edit-post-toggle-publish-panel__button {
-    color: #c77430; }
-  body.admin-color-coffee .edit-post-toggle-publish-panel .edit-post-toggle-publish-panel__button {
-    color: #9fa47b; }
-  body.admin-color-blue .edit-post-toggle-publish-panel .edit-post-toggle-publish-panel__button {
-    color: #d9ab59; }
-  body.admin-color-light .edit-post-toggle-publish-panel .edit-post-toggle-publish-panel__button {
-    color: #c75726; }
-    .edit-post-toggle-publish-panel .edit-post-toggle-publish-panel__button:focus {
-      position: fixed;
-      top: auto;
-      left: 10px;
-      bottom: 10px;
-      right: auto; }
+
+.edit-post-layout__toogle-publish-panel-button,
+.edit-post-layout__toogle-sidebar-panel-button {
+  width: auto;
+  height: auto;
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 auto 0 0;
+  padding: 15px 23px 14px;
+  line-height: normal;
+  text-decoration: none;
+  outline: none;
+  background: #f1f1f1;
+  color: #11a0d2; }
+
+body.admin-color-sunrise .edit-post-layout__toogle-publish-panel-button, body.admin-color-sunrise .edit-post-layout__toogle-sidebar-panel-button {
+  color: #c8b03c; }
+
+body.admin-color-ocean .edit-post-layout__toogle-publish-panel-button, body.admin-color-ocean .edit-post-layout__toogle-sidebar-panel-button {
+  color: #a89d8a; }
+
+body.admin-color-midnight .edit-post-layout__toogle-publish-panel-button, body.admin-color-midnight .edit-post-layout__toogle-sidebar-panel-button {
+  color: #77a6b9; }
+
+body.admin-color-ectoplasm .edit-post-layout__toogle-publish-panel-button, body.admin-color-ectoplasm .edit-post-layout__toogle-sidebar-panel-button {
+  color: #c77430; }
+
+body.admin-color-coffee .edit-post-layout__toogle-publish-panel-button, body.admin-color-coffee .edit-post-layout__toogle-sidebar-panel-button {
+  color: #9fa47b; }
+
+body.admin-color-blue .edit-post-layout__toogle-publish-panel-button, body.admin-color-blue .edit-post-layout__toogle-sidebar-panel-button {
+  color: #d9ab59; }
+
+body.admin-color-light .edit-post-layout__toogle-publish-panel-button, body.admin-color-light .edit-post-layout__toogle-sidebar-panel-button {
+  color: #c75726; }
+  .edit-post-layout__toogle-publish-panel-button:focus,
+  .edit-post-layout__toogle-sidebar-panel-button:focus {
+    position: fixed;
+    top: auto;
+    left: 10px;
+    bottom: 10px;
+    right: auto; }
 
 .edit-post-layout__footer {
   display: none;

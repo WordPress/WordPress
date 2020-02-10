@@ -113,8 +113,7 @@
 	 * Block border layout
 	 */ }
   .block-editor-block-list__layout .block-editor-block-list__block .components-placeholder .components-with-notices-ui {
-    margin: -10px 20px 12px 20px;
-    width: calc(100% - 40px); }
+    margin: -10px 0 12px 0; }
   .block-editor-block-list__layout .block-editor-block-list__block .components-with-notices-ui {
     margin: 0 0 12px 0;
     width: 100%; }
@@ -837,7 +836,7 @@ body.admin-color-light .block-list-appender.is-drop-target > div::before {
   .block-editor-block-preview__content .block-list-appender {
     display: none; }
 
-.block-editor-block-settings-menu .components-dropdown-menu__toggle .dashicon {
+.block-editor-block-settings-menu .components-dropdown-menu__toggle svg {
   transform: rotate(-90deg); }
 
 .block-editor-block-settings-menu__popover .components-dropdown-menu__menu {
@@ -1123,8 +1122,12 @@ body.admin-color-light .block-list-appender.is-drop-target > div::before {
     .is-dark-theme .block-editor-button-block-appender:hover, .is-dark-theme .block-editor-button-block-appender:focus {
       outline: 1px dashed #fff; }
 
+.block-editor-color-gradient-control__color-indicator {
+  margin-bottom: 8px; }
+
 .block-editor-color-gradient-control__button-tabs {
-  display: block; }
+  display: block;
+  margin-bottom: 8px; }
 
 .block-editor-panel-color-gradient-settings .component-color-indicator {
   vertical-align: text-bottom; }
@@ -1221,6 +1224,149 @@ body.admin-color-light .block-list-appender.is-drop-target > div::before {
   .block-editor-default-block-appender .block-editor-inserter {
     align-items: center; } }
 
+html {
+  position: fixed;
+  width: 100%; }
+  @media (min-width: 782px) {
+    html {
+      position: initial;
+      width: initial; } }
+
+.block-editor-editor-skeleton {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  max-height: 100%;
+  position: fixed;
+  top: 46px;
+  right: 0;
+  left: 0;
+  bottom: 0; }
+  @media (min-width: 782px) {
+    .block-editor-editor-skeleton {
+      top: 32px; }
+      .is-fullscreen-mode .block-editor-editor-skeleton {
+        top: 0; } }
+
+.block-editor-editor-skeleton {
+  /* Set left position when auto-fold is not on the body element. */
+  right: 0; }
+  @media (min-width: 782px) {
+    .block-editor-editor-skeleton {
+      right: 160px; } }
+
+.auto-fold .block-editor-editor-skeleton {
+  /* Auto fold is when on smaller breakpoints, nav menu auto collapses. */ }
+  @media (min-width: 782px) {
+    .auto-fold .block-editor-editor-skeleton {
+      right: 36px; } }
+  @media (min-width: 961px) {
+    .auto-fold .block-editor-editor-skeleton {
+      right: 160px; } }
+
+/* Sidebar manually collapsed. */
+.folded .block-editor-editor-skeleton {
+  right: 0; }
+  @media (min-width: 782px) {
+    .folded .block-editor-editor-skeleton {
+      right: 36px; } }
+
+/* Mobile menu opened. */
+@media (max-width: 782px) {
+  .auto-fold .wp-responsive-open .block-editor-editor-skeleton {
+    right: 190px; } }
+
+/* In small screens with responsive menu expanded there is small white space. */
+@media (max-width: 600px) {
+  .auto-fold .wp-responsive-open .block-editor-editor-skeleton {
+    margin-right: -18px; } }
+
+body.is-fullscreen-mode .block-editor-editor-skeleton {
+  right: 0 !important; }
+
+.block-editor-editor-skeleton__body {
+  flex-grow: 1;
+  display: flex;
+  overflow: auto;
+  overscroll-behavior-y: none; }
+
+.block-editor-editor-skeleton__content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; }
+  @media (min-width: 782px) {
+    .block-editor-editor-skeleton__content {
+      overflow: auto; } }
+
+.block-editor-editor-skeleton__sidebar {
+  display: none; }
+  @media (min-width: 782px) {
+    .block-editor-editor-skeleton__sidebar {
+      display: block;
+      z-index: 100000;
+      position: fixed !important;
+      top: -9999em;
+      bottom: auto;
+      right: auto;
+      left: 0;
+      width: 280px; }
+      .block-editor-editor-skeleton__sidebar:focus {
+        top: auto;
+        bottom: 0; } }
+
+.is-sidebar-opened .block-editor-editor-skeleton__sidebar {
+  display: block;
+  width: auto;
+  flex-shrink: 0;
+  position: absolute;
+  z-index: 100000;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #fff; }
+  @media (min-width: 782px) {
+    .is-sidebar-opened .block-editor-editor-skeleton__sidebar {
+      overflow: auto;
+      border-right: 1px solid #e2e4e7;
+      position: relative !important;
+      z-index: 90; } }
+
+.block-editor-editor-skeleton__header {
+  flex-shrink: 0;
+  height: auto;
+  border-bottom: 1px solid #e2e4e7;
+  z-index: 30;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0; }
+  @media (min-width: 600px) {
+    .block-editor-editor-skeleton__header {
+      position: initial;
+      top: 0; } }
+
+.block-editor-editor-skeleton__footer {
+  height: auto;
+  flex-shrink: 0;
+  overflow: auto;
+  border-top: 1px solid #e2e4e7;
+  display: none; }
+  @media (min-width: 782px) {
+    .block-editor-editor-skeleton__footer {
+      display: block; } }
+
+.block-editor-editor-skeleton__publish {
+  z-index: 100000;
+  position: fixed !important;
+  top: -9999em;
+  bottom: auto;
+  right: auto;
+  left: 0;
+  width: 280px; }
+  .block-editor-editor-skeleton__publish:focus {
+    top: auto;
+    bottom: 0; }
+
 .block-editor-link-control {
   position: relative;
   min-width: 360px; }
@@ -1230,9 +1376,8 @@ body.admin-color-light .block-list-appender.is-drop-target > div::before {
   display: block;
   padding: 11px 16px;
   margin: 16px;
-  padding-left: 38px;
+  padding-left: 36px;
   position: relative;
-  z-index: 1;
   border: 1px solid #e1e1e1;
   border-radius: 4px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
@@ -1246,11 +1391,22 @@ body.admin-color-light .block-list-appender.is-drop-target > div::before {
     box-shadow: 0 0 0 1px #007cba;
     outline: 2px solid transparent; }
 
-.block-editor-link-control__search-reset {
+.block-editor-link-control__search-actions {
   position: absolute;
+  /*
+	 * Actions must be positioned on top of URLInput, since the input will grow
+	 * when suggestions are rendered.
+	 *
+	 * Compensate for:
+	 *  - Input margin ($grid-size-large)
+	 *  - Border (1px)
+	 *  - Vertically, for the difference in height between the input (40px) and
+	 *    the icon buttons.
+	 *  - Horizontally, pad to the minimum of: default input padding, or the
+	 *    equivalent of the vertical padding.
+	 */
   top: 19px;
-  left: 19px;
-  z-index: 10; }
+  left: 19px; }
 
 .block-editor-link-control__search-results-wrapper {
   position: relative;
@@ -1364,14 +1520,25 @@ body.admin-color-light .block-list-appender.is-drop-target > div::before {
     margin-bottom: 0; }
 
 .block-editor-link-control .block-editor-link-control__search-input .components-spinner {
-  display: block;
-  z-index: 100; }
+  display: block; }
   .block-editor-link-control .block-editor-link-control__search-input .components-spinner.components-spinner {
     position: absolute;
-    top: 27px;
     right: auto;
-    left: 60px;
-    bottom: 0; }
+    bottom: auto;
+    /*
+		 * Position spinner to the left of the actions.
+		 *
+		 * Compensate for:
+		 *  - Input margin ($grid-size-large)
+		 *  - Border (1px)
+		 *  - Vertically, for the difference in height between the input (40px)
+		 *    and the spinner.
+		 *  - Horizontally, adjust for the width occupied by the icon buttons,
+		 *    then artificially create spacing that mimics as if the spinner
+		 *    were center-padded to the same width as an icon button.
+		 */
+    top: 28px;
+    left: 62px; }
 
 .block-editor-link-control__search-item-action {
   margin-right: auto;
@@ -2156,12 +2323,12 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   height: 36px; }
   .block-editor-warning__secondary .components-button.has-icon {
     width: auto;
-    padding: 8px 2px; }
+    padding: 0 2px; }
   @media (min-width: 600px) {
     .block-editor-warning__secondary {
       margin-right: 4px; }
       .block-editor-warning__secondary .components-button.has-icon {
-        padding: 8px 4px; } }
+        padding: 0 4px; } }
   .block-editor-warning__secondary .components-button svg {
     transform: rotate(-90deg); }
 

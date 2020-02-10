@@ -175,10 +175,12 @@ div[data-type="core/button"] {
       flex-basis: 100%; }
       @media (min-width: 600px) {
         .wp-block-columns > .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type="core/column"] {
-          flex-basis: calc(50% - (16px));
-          flex-grow: 0;
+          flex-grow: 1;
+          flex-basis: auto;
           margin-left: 0;
-          margin-right: 0; } }
+          margin-right: 0; }
+          .wp-block-columns > .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type="core/column"][data-has-explicit-width] {
+            flex-grow: 0; } }
       @media (min-width: 600px) {
         .wp-block-columns > .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type="core/column"]:nth-child(even) {
           margin-left: calc(32px); } }
@@ -1040,15 +1042,6 @@ figure.block-library-media-text__media-container {
 [data-type="core/navigation"] .wp-block-navigation.items-justification-right .block-editor-inner-blocks > .block-editor-block-list__layout {
   justify-content: flex-end; }
 
-[data-type="core/navigation"] .wp-block-navigation .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
-  width: auto;
-  padding-left: 0;
-  padding-right: 0;
-  margin: 0; }
-
-[data-type="core/navigation"] .wp-block-navigation .block-editor-inner-blocks > .block-editor-block-list__layout .wp-block > [data-block] {
-  min-height: 46px; }
-
 [data-type="core/navigation"] .wp-block-navigation .block-editor-block-list__block::before {
   left: 0;
   right: 0; }
@@ -1061,11 +1054,8 @@ figure.block-library-media-text__media-container {
   display: none; }
 
 [data-type="core/navigation"] .wp-block-navigation .block-list-appender {
-  margin: 0;
   width: 28px;
-  height: 28px;
-  margin-top: 4px;
-  margin-left: 10px; }
+  height: 28px; }
   [data-type="core/navigation"] .wp-block-navigation .block-list-appender .block-editor-button-block-appender {
     padding: 8px;
     padding-bottom: 4px;
@@ -1073,16 +1063,8 @@ figure.block-library-media-text__media-container {
     outline: none;
     background: none; }
 
-.wp-block-navigation .block-editor-block-list__layout,
-.wp-block-navigation {
-  display: flex;
-  flex-wrap: wrap; }
-
-.wp-block-navigation {
-  min-height: 60px;
-  padding-top: 7px;
-  padding-bottom: 7px;
-  align-items: center; }
+[data-type="core/navigation"] .wp-block-navigation .wp-block-navigation-link.is-selected .block-editor-rich-text__editable:focus {
+  min-width: 20px; }
 
 .wp-block-navigation__inserter-content {
   padding: 16px; }
@@ -1153,26 +1135,22 @@ figure.block-library-media-text__media-container {
 /*
  * Adjust Navigation Item.
  */
-.wp-block-navigation-link {
-  margin-left: 8px;
-  margin-right: 8px;
-  padding: 0 8px; }
-  .wp-block-navigation-link .block-editor-block-list__layout {
-    display: block;
-    margin: 8px; }
-  .wp-block-navigation-link .block-editor-inner-blocks {
-    display: none; }
-  .wp-block-navigation-link.is-editing, .wp-block-navigation-link.is-selected {
-    min-width: 20px; }
-  .wp-block-navigation-link.is-editing .block-editor-inner-blocks {
-    display: block; }
-  .wp-block-navigation-link .wp-block-navigation-link__content {
-    display: flex;
-    align-items: center; }
-  .wp-block-navigation-link.has-link .wp-block-navigation-link__label {
-    text-decoration: underline; }
-  .wp-block-navigation-link .wp-block-navigation-link__submenu-icon {
-    margin-left: 4px; }
+.wp-block-navigation-link .block-editor-block-list__layout {
+  display: block; }
+
+.wp-block-navigation-link.is-editing, .wp-block-navigation-link.is-selected {
+  min-width: 20px; }
+
+.wp-block-navigation-link.has-link .wp-block-navigation-link__label {
+  text-decoration: underline; }
+
+.wp-block-navigation-link .block-editor-rich-text__editable.is-selected:not(.keep-placeholder-on-focus):not(:focus) [data-rich-text-placeholder]::after {
+  display: inline-block; }
+
+.wp-block-navigation-link .block-list-appender {
+  margin: 16px;
+  margin-left: 10px;
+  margin-top: 10px; }
 
 [data-type="core/navigation-link"] .block-editor-block-toolbar {
   left: 14px; }

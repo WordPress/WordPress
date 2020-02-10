@@ -29,15 +29,42 @@ function render_block_core_latest_posts( $attributes ) {
 
 	$list_items_markup = '';
 
-	$excerpt_length = $attributes['excerptLength'];
-
 	foreach ( $recent_posts as $post ) {
+		$list_items_markup .= '<li>';
+
+		if ( $attributes['displayFeaturedImage'] && has_post_thumbnail( $post ) ) {
+			$image_style = '';
+			if ( isset( $attributes['featuredImageSizeWidth'] ) ) {
+				$image_style .= sprintf( 'max-width:%spx;', $attributes['featuredImageSizeWidth'] );
+			}
+			if ( isset( $attributes['featuredImageSizeHeight'] ) ) {
+				$image_style .= sprintf( 'max-height:%spx;', $attributes['featuredImageSizeHeight'] );
+			}
+
+			$image_classes = 'wp-block-latest-posts__featured-image';
+			if ( isset( $attributes['featuredImageAlign'] ) ) {
+				$image_classes .= ' align' . $attributes['featuredImageAlign'];
+			}
+
+			$list_items_markup .= sprintf(
+				'<div class="%1$s">%2$s</div>',
+				$image_classes,
+				get_the_post_thumbnail(
+					$post,
+					$attributes['featuredImageSizeSlug'],
+					array(
+						'style' => $image_style,
+					)
+				)
+			);
+		}
+
 		$title = get_the_title( $post );
 		if ( ! $title ) {
 			$title = __( '(no title)' );
 		}
 		$list_items_markup .= sprintf(
-			'<li><a href="%1$s">%2$s</a>',
+			'<a href="%1$s">%2$s</a>',
 			esc_url( get_permalink( $post ) ),
 			$title
 		);
@@ -52,11 +79,8 @@ function render_block_core_latest_posts( $attributes ) {
 
 		if ( isset( $attributes['displayPostContent'] ) && $attributes['displayPostContent']
 			&& isset( $attributes['displayPostContentRadio'] ) && 'excerpt' === $attributes['displayPostContentRadio'] ) {
-			$post_excerpt = $post->post_excerpt;
-			if ( ! ( $post_excerpt ) ) {
-				$post_excerpt = $post->post_content;
-			}
-			$trimmed_excerpt = esc_html( wp_trim_words( $post_excerpt, $excerpt_length, ' &hellip; ' ) );
+
+			$trimmed_excerpt = get_the_excerpt( $post );
 
 			$list_items_markup .= sprintf(
 				'<div class="wp-block-latest-posts__post-excerpt">%1$s',
@@ -168,6 +192,26 @@ function register_block_core_latest_posts() {
 				'orderBy'                 => array(
 					'type'    => 'string',
 					'default' => 'date',
+				),
+				'displayFeaturedImage'    => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+				'featuredImageAlign'      => array(
+					'type' => 'string',
+					'enum' => array( 'left', 'center', 'right' ),
+				),
+				'featuredImageSizeSlug'   => array(
+					'type'    => 'string',
+					'default' => 'thumbnail',
+				),
+				'featuredImageSizeWidth'  => array(
+					'type'    => 'number',
+					'default' => null,
+				),
+				'featuredImageSizeHeight' => array(
+					'type'    => 'number',
+					'default' => null,
 				),
 			),
 			'render_callback' => 'render_block_core_latest_posts',

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 417);
+/******/ 	return __webpack_require__(__webpack_require__.s = 425);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 
 /***/ }),
 
-/***/ 250:
+/***/ 253:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -332,7 +332,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 251:
+/***/ 254:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -358,14 +358,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 407:
+/***/ 415:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(250);
-var formats = __webpack_require__(251);
+var utils = __webpack_require__(253);
+var formats = __webpack_require__(254);
 var has = Object.prototype.hasOwnProperty;
 
 var arrayPrefixGenerators = {
@@ -635,13 +635,13 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 408:
+/***/ 416:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(250);
+var utils = __webpack_require__(253);
 
 var has = Object.prototype.hasOwnProperty;
 
@@ -885,14 +885,13 @@ module.exports = function (str, opts) {
 
 /***/ }),
 
-/***/ 417:
+/***/ 425:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-url.js
-var URL_REGEXP = /^(?:https?:)?\/\/\S+$/i;
 /**
  * Determines whether the given string looks like a URL.
  *
@@ -903,11 +902,20 @@ var URL_REGEXP = /^(?:https?:)?\/\/\S+$/i;
  * const isURL = isURL( 'https://wordpress.org' ); // true
  * ```
  *
+ * @see https://url.spec.whatwg.org/
+ * @see https://url.spec.whatwg.org/#valid-url-string
+ *
  * @return {boolean} Whether or not it looks like a URL.
  */
-
 function isURL(url) {
-  return URL_REGEXP.test(url);
+  // A URL can be considered value if the `URL` constructor is able to parse
+  // it. The constructor throws an error for an invalid URL.
+  try {
+    new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-email.js
@@ -1150,7 +1158,7 @@ function isValidFragment(fragment) {
 }
 
 // EXTERNAL MODULE: ./node_modules/qs/lib/index.js
-var lib = __webpack_require__(92);
+var lib = __webpack_require__(91);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/add-query-args.js
 /**
@@ -1463,15 +1471,15 @@ function cleanForSlug(string) {
 
 /***/ }),
 
-/***/ 92:
+/***/ 91:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(407);
-var parse = __webpack_require__(408);
-var formats = __webpack_require__(251);
+var stringify = __webpack_require__(415);
+var parse = __webpack_require__(416);
+var formats = __webpack_require__(254);
 
 module.exports = {
     formats: formats,

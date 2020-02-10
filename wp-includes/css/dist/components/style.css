@@ -83,16 +83,16 @@
   100% {
     opacity: 0.5; } }
 
-.components-angle-picker {
+.components-angle-picker-control {
   width: 50%; }
-  .components-angle-picker.components-base-control .components-base-control__label {
+  .components-angle-picker-control.components-base-control .components-base-control__label {
     display: block; }
 
-.components-angle-picker__input-field {
+.components-angle-picker-control__input-field {
   width: calc(100% - 36px);
   max-width: 100px; }
 
-.components-angle-picker__angle-circle {
+.components-angle-picker-control__angle-circle {
   width: 28px;
   height: 28px;
   border: 2px solid #555d66;
@@ -101,12 +101,12 @@
   margin-right: 4px;
   cursor: grab; }
 
-.components-angle-picker__angle-circle-indicator-wrapper {
+.components-angle-picker-control__angle-circle-indicator-wrapper {
   position: relative;
   width: 100%;
   height: 100%; }
 
-.components-angle-picker__angle-circle-indicator {
+.components-angle-picker-control__angle-circle-indicator {
   width: 1px;
   height: 1px;
   border-radius: 50%;
@@ -982,33 +982,36 @@ svg.components-checkbox-control__checked {
   height: 30px;
   padding: 0 5px; }
 
-.components-custom-gradient-picker:not(.has-gradient) {
+.components-custom-gradient-picker {
+  margin-top: 8px; }
+
+.components-custom-gradient-picker__gradient-bar:not(.has-gradient) {
   opacity: 0.4; }
 
-.components-custom-gradient-picker {
+.components-custom-gradient-picker__gradient-bar {
   width: 100%;
   height: 24px;
   border-radius: 24px;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   padding-left: 3px;
   padding-right: 21px; }
-  .components-custom-gradient-picker .components-custom-gradient-picker__markers-container {
+  .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__markers-container {
     position: relative; }
-  .components-custom-gradient-picker .components-custom-gradient-picker__insert-point {
+  .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__insert-point {
     border-radius: 50%;
     background: #fff;
     padding: 2px;
     width: 24px;
     height: 24px;
     position: relative; }
-  .components-custom-gradient-picker .components-custom-gradient-picker__control-point-button {
+  .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__control-point-button {
     border: 2px solid #fff;
     border-radius: 50%;
     height: 18px;
     position: absolute;
     width: 18px;
     top: 3px; }
-    .components-custom-gradient-picker .components-custom-gradient-picker__control-point-button.is-active {
+    .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__control-point-button.is-active {
       background: #fafafa;
       color: #23282d;
       border-color: #999;
@@ -1022,6 +1025,29 @@ svg.components-checkbox-control__checked {
 
 .components-custom-gradient-picker__inserter {
   width: 100%; }
+
+.components-custom-gradient-picker__liner-gradient-indicator {
+  display: inline-block;
+  flex: 0 auto;
+  width: 20px;
+  height: 20px; }
+
+.components-custom-gradient-picker__ui-line {
+  display: flex;
+  justify-content: space-between; }
+
+.components-custom-gradient-picker .components-custom-gradient-picker__ui-line .components-base-control.components-angle-picker,
+.components-custom-gradient-picker .components-custom-gradient-picker__ui-line .components-base-control.components-custom-gradient-picker__type-picker {
+  margin-bottom: 0; }
+
+.components-custom-gradient-picker .components-custom-gradient-picker__toolbar {
+  border: none; }
+  .components-custom-gradient-picker .components-custom-gradient-picker__toolbar > div + div {
+    margin-left: 1px; }
+  .components-custom-gradient-picker .components-custom-gradient-picker__toolbar button.is-pressed > svg {
+    background: #fff;
+    border: 1px solid #7e8993;
+    border-radius: 2px; }
 
 .components-custom-select-control {
   color: #555d66;
@@ -2168,7 +2194,8 @@ body.is-dragging-components-draggable {
 
 .components-drop-zone__content-icon {
   margin: 0 auto;
-  line-height: 0; }
+  line-height: 0;
+  fill: currentColor; }
 
 .components-drop-zone__content-text {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }

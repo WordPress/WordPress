@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["notices"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 425);
+/******/ 	return __webpack_require__(__webpack_require__.s = 436);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 17:
+/***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -127,13 +127,6 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 23:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["regeneratorRuntime"]; }());
-
-/***/ }),
-
 /***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -152,7 +145,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 425:
+/***/ 436:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -173,7 +166,7 @@ __webpack_require__.d(selectors_namespaceObject, "getNotices", function() { retu
 var external_this_wp_data_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(17);
+var toConsumableArray = __webpack_require__(18);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
@@ -266,10 +259,6 @@ var notices = on_sub_key('context')(function () {
 });
 /* harmony default export */ var store_reducer = (notices);
 
-// EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
-var external_this_regeneratorRuntime_ = __webpack_require__(23);
-var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/constants.js
 /**
  * Default context to use for notice grouping when not otherwise specified. Its
@@ -288,12 +277,6 @@ var DEFAULT_CONTEXT = 'global';
 var DEFAULT_STATUS = 'info';
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/actions.js
-
-
-var _marked =
-/*#__PURE__*/
-external_this_regeneratorRuntime_default.a.mark(createNotice);
-
 /**
  * External dependencies
  */
@@ -315,7 +298,7 @@ external_this_regeneratorRuntime_default.a.mark(createNotice);
  */
 
 /**
- * Yields action objects used in signalling that a notice is to be created.
+ * Returns an action object used in signalling that a notice is to be created.
  *
  * @param {string}                [status='info']              Notice status.
  * @param {string}                content                      Notice message.
@@ -335,74 +318,45 @@ external_this_regeneratorRuntime_default.a.mark(createNotice);
  *                                                             readers.
  * @param {Array<WPNoticeAction>} [options.actions]            User actions to be
  *                                                             presented with notice.
+ *
+ * @return {Object} Action object.
  */
 
 function createNotice() {
-  var status,
-      content,
-      options,
-      _options$speak,
-      speak,
-      _options$isDismissibl,
-      isDismissible,
-      _options$context,
-      context,
-      _options$id,
-      id,
-      _options$actions,
-      actions,
-      _options$type,
-      type,
-      __unstableHTML,
-      _args = arguments;
+  var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_STATUS;
+  var content = arguments.length > 1 ? arguments[1] : undefined;
+  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var _options$speak = options.speak,
+      speak = _options$speak === void 0 ? true : _options$speak,
+      _options$isDismissibl = options.isDismissible,
+      isDismissible = _options$isDismissibl === void 0 ? true : _options$isDismissibl,
+      _options$context = options.context,
+      context = _options$context === void 0 ? DEFAULT_CONTEXT : _options$context,
+      _options$id = options.id,
+      id = _options$id === void 0 ? Object(external_this_lodash_["uniqueId"])(context) : _options$id,
+      _options$actions = options.actions,
+      actions = _options$actions === void 0 ? [] : _options$actions,
+      _options$type = options.type,
+      type = _options$type === void 0 ? 'default' : _options$type,
+      __unstableHTML = options.__unstableHTML; // The supported value shape of content is currently limited to plain text
+  // strings. To avoid setting expectation that e.g. a WPElement could be
+  // supported, cast to a string.
 
-  return external_this_regeneratorRuntime_default.a.wrap(function createNotice$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          status = _args.length > 0 && _args[0] !== undefined ? _args[0] : DEFAULT_STATUS;
-          content = _args.length > 1 ? _args[1] : undefined;
-          options = _args.length > 2 && _args[2] !== undefined ? _args[2] : {};
-          _options$speak = options.speak, speak = _options$speak === void 0 ? true : _options$speak, _options$isDismissibl = options.isDismissible, isDismissible = _options$isDismissibl === void 0 ? true : _options$isDismissibl, _options$context = options.context, context = _options$context === void 0 ? DEFAULT_CONTEXT : _options$context, _options$id = options.id, id = _options$id === void 0 ? Object(external_this_lodash_["uniqueId"])(context) : _options$id, _options$actions = options.actions, actions = _options$actions === void 0 ? [] : _options$actions, _options$type = options.type, type = _options$type === void 0 ? 'default' : _options$type, __unstableHTML = options.__unstableHTML; // The supported value shape of content is currently limited to plain text
-          // strings. To avoid setting expectation that e.g. a WPElement could be
-          // supported, cast to a string.
-
-          content = String(content);
-
-          if (!speak) {
-            _context.next = 8;
-            break;
-          }
-
-          _context.next = 8;
-          return {
-            type: 'SPEAK',
-            message: content,
-            ariaLive: type === 'snackbar' ? 'polite' : 'assertive'
-          };
-
-        case 8:
-          _context.next = 10;
-          return {
-            type: 'CREATE_NOTICE',
-            context: context,
-            notice: {
-              id: id,
-              status: status,
-              content: content,
-              __unstableHTML: __unstableHTML,
-              isDismissible: isDismissible,
-              actions: actions,
-              type: type
-            }
-          };
-
-        case 10:
-        case "end":
-          return _context.stop();
-      }
+  content = String(content);
+  return {
+    type: 'CREATE_NOTICE',
+    context: context,
+    notice: {
+      id: id,
+      status: status,
+      content: content,
+      spokenMessage: speak ? content : null,
+      __unstableHTML: __unstableHTML,
+      isDismissible: isDismissible,
+      actions: actions,
+      type: type
     }
-  }, _marked);
+  };
 }
 /**
  * Returns an action object used in signalling that a success notice is to be
@@ -509,6 +463,8 @@ var DEFAULT_NOTICES = [];
  *                                      `info`, `error`, or `warning`. Defaults
  *                                      to `info`.
  * @property {string}  content          Notice message.
+ * @property {string}  spokenMessage    Audibly announced message text used by
+ *                                      assistive technologies.
  * @property {string}  __unstableHTML   Notice message as raw HTML. Intended to
  *                                      serve primarily for compatibility of
  *                                      server-rendered notices, and SHOULD NOT
@@ -540,20 +496,6 @@ function getNotices(state) {
   return state[context] || DEFAULT_NOTICES;
 }
 
-// EXTERNAL MODULE: external {"this":["wp","a11y"]}
-var external_this_wp_a11y_ = __webpack_require__(48);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/controls.js
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ var controls = ({
-  SPEAK: function SPEAK(action) {
-    Object(external_this_wp_a11y_["speak"])(action.message, action.ariaLive || 'assertive');
-  }
-});
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/index.js
 /**
  * WordPress dependencies
@@ -566,12 +508,10 @@ var external_this_wp_a11y_ = __webpack_require__(48);
 
 
 
-
 /* harmony default export */ var store = (Object(external_this_wp_data_["registerStore"])('core/notices', {
   reducer: store_reducer,
   actions: actions_namespaceObject,
-  selectors: selectors_namespaceObject,
-  controls: controls
+  selectors: selectors_namespaceObject
 }));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/index.js
@@ -580,13 +520,6 @@ var external_this_wp_a11y_ = __webpack_require__(48);
  */
 
 
-
-/***/ }),
-
-/***/ 48:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["a11y"]; }());
 
 /***/ }),
 

@@ -227,6 +227,9 @@
     .editor-post-featured-image__preview {
       transition-duration: 0s; } }
 
+.editor-post-featured-image__preview {
+  height: auto; }
+
 .editor-post-featured-image__preview:not(:disabled):not([aria-disabled="true"]):focus {
   box-shadow: 0 0 0 4px #00a0d2; }
 

@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["isShallowEqual"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 397);
+/******/ 	return __webpack_require__(__webpack_require__.s = 405);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 397:
+/***/ 405:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -96,8 +96,8 @@ this["wp"] = this["wp"] || {}; this["wp"]["isShallowEqual"] =
 /**
  * Internal dependencies;
  */
-var isShallowEqualObjects = __webpack_require__( 398 );
-var isShallowEqualArrays = __webpack_require__( 399 );
+var isShallowEqualObjects = __webpack_require__( 406 );
+var isShallowEqualArrays = __webpack_require__( 407 );
 
 var isArray = Array.isArray;
 
@@ -133,7 +133,7 @@ module.exports.isShallowEqualArrays = isShallowEqualArrays;
 
 /***/ }),
 
-/***/ 398:
+/***/ 406:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -192,7 +192,7 @@ module.exports = isShallowEqualObjects;
 
 /***/ }),
 
-/***/ 399:
+/***/ 407:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
