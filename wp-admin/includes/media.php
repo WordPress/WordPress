@@ -967,11 +967,14 @@ function wp_media_upload_handler() {
  * @since 4.2.0 Introduced the `$return` parameter.
  * @since 4.8.0 Introduced the 'id' option within the `$return` parameter.
  * @since 5.3.0 The `$post_id` parameter was made optional.
+ * @since 5.4.0 The original URL of the attachment is stored in the `_source_url`
+ *              post meta value.
  *
  * @param string $file    The URL of the image to download.
  * @param int    $post_id Optional. The post ID the media is to be associated with.
  * @param string $desc    Optional. Description of the image.
- * @param string $return  Optional. Accepts 'html' (image tag html) or 'src' (URL), or 'id' (attachment ID). Default 'html'.
+ * @param string $return  Optional. Accepts 'html' (image tag html) or 'src' (URL),
+ *                        or 'id' (attachment ID). Default 'html'.
  * @return string|WP_Error Populated HTML img tag on success, WP_Error object otherwise.
  */
 function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'html' ) {
@@ -1002,8 +1005,13 @@ function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'htm
 		if ( is_wp_error( $id ) ) {
 			@unlink( $file_array['tmp_name'] );
 			return $id;
-			// If attachment id was requested, return it early.
-		} elseif ( 'id' === $return ) {
+		}
+
+		// Store the original attachment source in meta.
+		add_post_meta( $id, '_source_url', $file );
+
+		// If attachment id was requested, return it.
+		if ( 'id' === $return ) {
 			return $id;
 		}
 
