@@ -840,7 +840,7 @@ switch ( $action ) {
 		 */
 		do_action( 'lost_password', $errors );
 
-		login_header( __( 'Lost Password' ), '<p class="message">' . __( 'Please enter your username or email address. You will receive a link to create a new password via email.' ) . '</p>', $errors );
+		login_header( __( 'Lost Password' ), '<p class="message">' . __( 'Please enter your username or email address. You will receive an email message with instructions on how to reset your password.' ) . '</p>', $errors );
 
 		$user_login = '';
 
