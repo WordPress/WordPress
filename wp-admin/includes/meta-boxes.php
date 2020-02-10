@@ -949,7 +949,7 @@ function page_attributes_meta_box( $post ) {
 		$pages         = wp_dropdown_pages( $dropdown_args );
 		if ( ! empty( $pages ) ) :
 			?>
-<p class="post-attributes-label-wrapper"><label class="post-attributes-label" for="parent_id"><?php _e( 'Parent' ); ?></label></p>
+<p class="post-attributes-label-wrapper parent-id-label-wrapper"><label class="post-attributes-label" for="parent_id"><?php _e( 'Parent' ); ?></label></p>
 			<?php echo $pages; ?>
 			<?php
 		endif; // End empty pages check.
@@ -958,7 +958,7 @@ function page_attributes_meta_box( $post ) {
 	if ( count( get_page_templates( $post ) ) > 0 && get_option( 'page_for_posts' ) != $post->ID ) :
 		$template = ! empty( $post->page_template ) ? $post->page_template : false;
 		?>
-<p class="post-attributes-label-wrapper"><label class="post-attributes-label" for="page_template"><?php _e( 'Template' ); ?></label>
+<p class="post-attributes-label-wrapper page-template-label-wrapper"><label class="post-attributes-label" for="page_template"><?php _e( 'Template' ); ?></label>
 		<?php
 		/**
 		 * Fires immediately after the label inside the 'Template' section
@@ -990,7 +990,7 @@ function page_attributes_meta_box( $post ) {
 </select>
 <?php endif; ?>
 	<?php if ( post_type_supports( $post->post_type, 'page-attributes' ) ) : ?>
-<p class="post-attributes-label-wrapper"><label class="post-attributes-label" for="menu_order"><?php _e( 'Order' ); ?></label></p>
+<p class="post-attributes-label-wrapper menu-order-label-wrapper"><label class="post-attributes-label" for="menu_order"><?php _e( 'Order' ); ?></label></p>
 <input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr( $post->menu_order ); ?>" />
 		<?php
 		/**
@@ -1003,7 +1003,7 @@ function page_attributes_meta_box( $post ) {
 		do_action( 'page_attributes_misc_attributes', $post );
 		?>
 		<?php if ( 'page' == $post->post_type && get_current_screen()->get_help_tabs() ) : ?>
-<p><?php _e( 'Need help? Use the Help tab above the screen title.' ); ?></p>
+<p class="post-attributes-help-text"><?php _e( 'Need help? Use the Help tab above the screen title.' ); ?></p>
 			<?php
 	endif;
 	endif;
