@@ -1380,6 +1380,12 @@ class WP_REST_Server {
 		foreach ( $server as $key => $value ) {
 			if ( strpos( $key, 'HTTP_' ) === 0 ) {
 				$headers[ substr( $key, 5 ) ] = $value;
+			} elseif ( 'REDIRECT_HTTP_AUTHORIZATION' === $key && empty( $server['HTTP_AUTHORIZATION'] ) ) {
+				/*
+				 * In some server configurations, the authorization header is passed in this alternate location.
+				 * Since it would not be passed in in both places we do not check for both headers and resolve.
+				 */
+				$headers['AUTHORIZATION'] = $value;
 			} elseif ( isset( $additional[ $key ] ) ) {
 				$headers[ $key ] = $value;
 			}
