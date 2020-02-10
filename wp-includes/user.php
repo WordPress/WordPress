@@ -2959,7 +2959,7 @@ function wp_user_personal_data_exporter( $email_address ) {
 
 	$user_meta = get_user_meta( $user->ID );
 
-	$user_prop_to_export = array(
+	$user_props_to_export = array(
 		'ID'              => __( 'User ID' ),
 		'user_login'      => __( 'User Login Name' ),
 		'user_nicename'   => __( 'User Nice Name' ),
@@ -2975,7 +2975,7 @@ function wp_user_personal_data_exporter( $email_address ) {
 
 	$user_data_to_export = array();
 
-	foreach ( $user_prop_to_export as $key => $name ) {
+	foreach ( $user_props_to_export as $key => $name ) {
 		$value = '';
 
 		switch ( $key ) {
@@ -3011,6 +3011,42 @@ function wp_user_personal_data_exporter( $email_address ) {
 		'item_id'           => "user-{$user->ID}",
 		'data'              => $user_data_to_export,
 	);
+
+	/**
+	 * Introduce any Community Events Location data that is available.
+	 *
+	 * @since 5.4.0
+	 */
+	if ( isset( $user_meta['community-events-location'] ) ) {
+		$location = maybe_unserialize( $user_meta['community-events-location'][0] );
+
+		$location_props_to_export = array(
+			'description' => __( 'City' ),
+			'country'     => __( 'Country' ),
+			'latitude'    => __( 'Latitude' ),
+			'longitude'   => __( 'Longitude' ),
+			'ip'          => __( 'IP' ),
+		);
+
+		$location_data_to_export = array();
+
+		foreach ( $location_props_to_export as $key => $name ) {
+			if ( ! empty( $location[ $key ] ) ) {
+				$location_data_to_export[] = array(
+					'name'  => $name,
+					'value' => $location[ $key ],
+				);
+			}
+		}
+
+		$data_to_export[] = array(
+			'group_id'          => 'community-events-location',
+			'group_label'       => __( 'Community Events Location' ),
+			'group_description' => __( 'User&#8217;s location data used for the Community Events in the WordPress Events and News dashboard widget.' ),
+			'item_id'           => "community-events-location-{$user->ID}",
+			'data'              => $location_data_to_export,
+		);
+	}
 
 	return array(
 		'data' => $data_to_export,
