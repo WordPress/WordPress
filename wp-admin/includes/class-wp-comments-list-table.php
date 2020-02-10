@@ -200,6 +200,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		if ( 'moderated' === $comment_status ) {
 			_e( 'No comments awaiting moderation.' );
+		} elseif ( 'trash' === $comment_status ) {
+			_e( 'No comments found in Trash.' );
 		} else {
 			_e( 'No comments found.' );
 		}
