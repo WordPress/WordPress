@@ -695,7 +695,7 @@ function bloginfo( $show = '' ) {
  *
  * @since 0.71
  *
- * @global string $wp_version
+ * @global string $wp_version The WordPress version string.
  *
  * @param string $show   Optional. Site info to retrieve. Default empty (site name).
  * @param string $filter Optional. How to filter what is retrieved. Default 'raw'.

@@ -36,9 +36,9 @@ if ( 'upgrade_db' === $step ) {
 }
 
 /**
- * @global string $wp_version
- * @global string $required_php_version
- * @global string $required_mysql_version
+ * @global string $wp_version             The WordPress version string.
+ * @global string $required_php_version   The required PHP version string.
+ * @global string $required_mysql_version The required MySQL version string.
  */
 global $wp_version, $required_php_version, $required_mysql_version;
 

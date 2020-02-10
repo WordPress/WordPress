@@ -28,7 +28,7 @@ if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' 
  *
  * @since 2.7.0
  *
- * @global string $wp_local_package
+ * @global string $wp_local_package Locale code of the package.
  * @global wpdb   $wpdb             WordPress database abstraction object.
  *
  * @staticvar bool $first_pass
@@ -216,8 +216,8 @@ function dismissed_updates() {
  *
  * @since 2.7.0
  *
- * @global string $required_php_version
- * @global string $required_mysql_version
+ * @global string $required_php_version   The required PHP version string.
+ * @global string $required_mysql_version The required MySQL version string.
  */
 function core_upgrade_preamble() {
 	global $required_php_version, $required_mysql_version;

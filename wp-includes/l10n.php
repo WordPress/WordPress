@@ -22,8 +22,8 @@
  *
  * @since 1.5.0
  *
- * @global string $locale
- * @global string $wp_local_package
+ * @global string $locale           The current locale.
+ * @global string $wp_local_package Locale code of the package.
  *
  * @return string The locale of the blog or from the {@see 'locale'} hook.
  */
