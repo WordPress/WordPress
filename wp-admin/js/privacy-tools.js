@@ -59,7 +59,7 @@ jQuery( document ).ready( function( $ ) {
 		var $this          = $( this ),
 			$action        = $this.parents( '.export-personal-data' ),
 			$requestRow    = $this.parents( 'tr' ),
-			$progress      = $requestRow.find( '.export-progress' );
+			$progress      = $requestRow.find( '.export-progress' ),
 			requestID      = $action.data( 'request-id' ),
 			nonce          = $action.data( 'nonce' ),
 			exportersCount = $action.data( 'exporters-count' ),
@@ -150,7 +150,7 @@ jQuery( document ).ready( function( $ ) {
 		var $this         = $( this ),
 			$action       = $this.parents( '.remove-personal-data' ),
 			$requestRow   = $this.parents( 'tr' ),
-			$progress     = $requestRow.find( '.erasure-progress' );
+			$progress     = $requestRow.find( '.erasure-progress' ),
 			requestID     = $action.data( 'request-id' ),
 			nonce         = $action.data( 'nonce' ),
 			erasersCount  = $action.data( 'erasers-count' ),
