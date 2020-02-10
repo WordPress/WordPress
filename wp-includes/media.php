@@ -363,8 +363,8 @@ function set_post_thumbnail_size( $width = 0, $height = 0, $crop = false ) {
  * @since 2.5.0
  *
  * @param int          $id    Attachment ID.
- * @param string       $alt   Image Description for the alt attribute.
- * @param string       $title Image Description for the title attribute.
+ * @param string       $alt   Image description for the alt attribute.
+ * @param string       $title Image description for the title attribute.
  * @param string       $align Part of the class name for aligning the image.
  * @param string|array $size  Optional. Registered image size to retrieve a tag for. Accepts any
  *                            valid image size, or an array of width and height values in pixels
@@ -402,8 +402,8 @@ function get_image_tag( $id, $alt, $title, $align, $size = 'medium' ) {
 	 *
 	 * @param string       $html  HTML content for the image.
 	 * @param int          $id    Attachment ID.
-	 * @param string       $alt   Alternate text.
-	 * @param string       $title Attachment title.
+	 * @param string       $alt   Image description for the alt attribute.
+	 * @param string       $title Image description for the title attribute.
 	 * @param string       $align Part of the class name for aligning the image.
 	 * @param string|array $size  Size of image. Image size or array of width and height values (in that order).
 	 *                            Default 'medium'.
@@ -999,16 +999,26 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
  * @param string|array $size          Optional. Image size. Accepts any valid image size, or an array of width
  *                                    and height values in pixels (in that order). Default 'thumbnail'.
  * @param bool         $icon          Optional. Whether the image should be treated as an icon. Default false.
- * @param string|array $attr          Optional. Attributes for the image markup. Default empty.
+ * @param string|array $attr {
+ *     Optional. Attributes for the image markup.
+ *
+ *     @type string $src    Image attachment URL.
+ *     @type string $class  CSS class name or space-separated list of classes.
+ *                          Default `attachment-$size_class size-$size_class`,
+ *                          where `$size_class` is the image size being requested.
+ *     @type string $alt    Image description for the alt attribute.
+ *     @type string $srcset The 'srcset' attribute value.
+ *     @type string $sizes  The 'sizes' attribute value.
+ * }
  * @return string HTML img element or empty string on failure.
  */
 function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = false, $attr = '' ) {
 	$html  = '';
 	$image = wp_get_attachment_image_src( $attachment_id, $size, $icon );
 	if ( $image ) {
-		list($src, $width, $height) = $image;
-		$hwstring                   = image_hwstring( $width, $height );
-		$size_class                 = $size;
+		list( $src, $width, $height ) = $image;
+		$hwstring                     = image_hwstring( $width, $height );
+		$size_class                   = $size;
 		if ( is_array( $size_class ) ) {
 			$size_class = join( 'x', $size_class );
 		}
@@ -1046,6 +1056,7 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 		 * @since 2.8.0
 		 *
 		 * @param string[]     $attr       Array of attribute values for the image markup, keyed by attribute name.
+		 *                                 See wp_get_attachment_image().
 		 * @param WP_Post      $attachment Image attachment post.
 		 * @param string|array $size       Requested size. Image size or array of width and height values
 		 *                                 (in that order). Default 'thumbnail'.
