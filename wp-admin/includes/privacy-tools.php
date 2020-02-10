@@ -41,11 +41,12 @@ function _wp_privacy_resend_request( $request_id ) {
  * @access private
  *
  * @param  int          $request_id Request ID.
- * @return int|WP_Error $result Request ID on success or WP_Error.
+ * @return int|WP_Error $result     Request ID on success or WP_Error.
  */
 function _wp_privacy_completed_request( $request_id ) {
+	// Get the request.
 	$request_id = absint( $request_id );
-	$request    = wp_get_user_request_data( $request_id );
+	$request    = wp_get_user_request( $request_id );
 
 	if ( ! $request ) {
 		return new WP_Error( 'privacy_request_error', __( 'Invalid request.' ) );
@@ -288,8 +289,8 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 		wp_send_json_error( __( 'Unable to generate export file. ZipArchive not available.' ) );
 	}
 
-	// Get the request data.
-	$request = wp_get_user_request_data( $request_id );
+	// Get the request.
+	$request = wp_get_user_request( $request_id );
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
 		wp_send_json_error( __( 'Invalid request ID when generating export file.' ) );
@@ -501,8 +502,8 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
  * @return true|WP_Error True on success or `WP_Error` on failure.
  */
 function wp_privacy_send_personal_data_export_email( $request_id ) {
-	// Get the request data.
-	$request = wp_get_user_request_data( $request_id );
+	// Get the request.
+	$request = wp_get_user_request( $request_id );
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
 		return new WP_Error( 'invalid_request', __( 'Invalid request ID when sending personal data export email.' ) );
@@ -671,8 +672,8 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 		return $response;
 	}
 
-	// Get the request data.
-	$request = wp_get_user_request_data( $request_id );
+	// Get the request.
+	$request = wp_get_user_request( $request_id );
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
 		wp_send_json_error( __( 'Invalid request ID when merging exporter data.' ) );
@@ -815,7 +816,8 @@ function wp_privacy_process_personal_data_erasure_page( $response, $eraser_index
 		return $response;
 	}
 
-	$request = wp_get_user_request_data( $request_id );
+	// Get the request.
+	$request = wp_get_user_request( $request_id );
 
 	if ( ! $request || 'remove_personal_data' !== $request->action_name ) {
 		wp_send_json_error( __( 'Invalid request ID when processing eraser data.' ) );

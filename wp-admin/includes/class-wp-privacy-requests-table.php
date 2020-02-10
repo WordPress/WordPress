@@ -302,7 +302,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		$requests       = $requests_query->posts;
 
 		foreach ( $requests as $request ) {
-			$this->items[] = wp_get_user_request_data( $request->ID );
+			$this->items[] = wp_get_user_request( $request->ID );
 		}
 
 		$this->items = array_filter( $this->items );

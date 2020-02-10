@@ -4710,8 +4710,8 @@ function wp_ajax_wp_privacy_export_personal_data() {
 
 	check_ajax_referer( 'wp-privacy-export-personal-data-' . $request_id, 'security' );
 
-	// Get the request data.
-	$request = wp_get_user_request_data( $request_id );
+	// Get the request.
+	$request = wp_get_user_request( $request_id );
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
 		wp_send_json_error( __( 'Invalid request type.' ) );
@@ -4901,8 +4901,8 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 
 	check_ajax_referer( 'wp-privacy-erase-personal-data-' . $request_id, 'security' );
 
-	// Get the request data.
-	$request = wp_get_user_request_data( $request_id );
+	// Get the request.
+	$request = wp_get_user_request( $request_id );
 
 	if ( ! $request || 'remove_personal_data' !== $request->action_name ) {
 		wp_send_json_error( __( 'Invalid request type.' ) );

@@ -3096,7 +3096,7 @@ function wp_user_personal_data_exporter( $email_address ) {
  * @param int $request_id ID of the request.
  */
 function _wp_privacy_account_request_confirmed( $request_id ) {
-	$request = wp_get_user_request_data( $request_id );
+	$request = wp_get_user_request( $request_id );
 
 	if ( ! $request ) {
 		return;
@@ -3126,7 +3126,7 @@ function _wp_privacy_account_request_confirmed( $request_id ) {
  * @param int $request_id The ID of the request.
  */
 function _wp_privacy_send_request_confirmation_notification( $request_id ) {
-	$request = wp_get_user_request_data( $request_id );
+	$request = wp_get_user_request( $request_id );
 
 	if ( ! is_a( $request, 'WP_User_Request' ) || 'request-confirmed' !== $request->status ) {
 		return;
@@ -3265,7 +3265,7 @@ All at ###SITENAME###
  * @param int $request_id The privacy request post ID associated with this request.
  */
 function _wp_privacy_send_erasure_fulfillment_notification( $request_id ) {
-	$request = wp_get_user_request_data( $request_id );
+	$request = wp_get_user_request( $request_id );
 
 	if ( ! is_a( $request, 'WP_User_Request' ) || 'request-completed' !== $request->status ) {
 		return;
@@ -3415,7 +3415,7 @@ All at ###SITENAME###
  * @return string $message The confirmation message.
  */
 function _wp_privacy_account_request_confirmed_message( $request_id ) {
-	$request = wp_get_user_request_data( $request_id );
+	$request = wp_get_user_request( $request_id );
 
 	$message  = '<p class="success">' . __( 'Action has been confirmed.' ) . '</p>';
 	$message .= '<p>' . __( 'The site administrator has been notified and will fulfill your request as soon as possible.' ) . '</p>';
@@ -3551,7 +3551,7 @@ function wp_user_request_action_description( $action_name ) {
  */
 function wp_send_user_request( $request_id ) {
 	$request_id = absint( $request_id );
-	$request    = wp_get_user_request_data( $request_id );
+	$request    = wp_get_user_request( $request_id );
 
 	if ( ! $request ) {
 		return new WP_Error( 'invalid_request', __( 'Invalid user request.' ) );
@@ -3713,7 +3713,7 @@ function wp_validate_user_request_key( $request_id, $key ) {
 	global $wp_hasher;
 
 	$request_id = absint( $request_id );
-	$request    = wp_get_user_request_data( $request_id );
+	$request    = wp_get_user_request( $request_id );
 
 	if ( ! $request ) {
 		return new WP_Error( 'invalid_request', __( 'Invalid request.' ) );
@@ -3765,14 +3765,14 @@ function wp_validate_user_request_key( $request_id, $key ) {
 }
 
 /**
- * Return data about a user request.
+ * Return the user request object for the specified request ID.
  *
  * @since 4.9.6
  *
- * @param int $request_id Request ID to get data about.
+ * @param int $request_id The ID of the user request.
  * @return WP_User_Request|false
  */
-function wp_get_user_request_data( $request_id ) {
+function wp_get_user_request( $request_id ) {
 	$request_id = absint( $request_id );
 	$post       = get_post( $request_id );
 
