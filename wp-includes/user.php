@@ -2939,6 +2939,8 @@ function wp_register_user_personal_data_exporter( $exporters ) {
  * Finds and exports personal data associated with an email address from the user and user_meta table.
  *
  * @since 4.9.6
+ * @since 5.4.0 Added 'Community Events Location' group to the export data.
+ * @since 5.4.0 Added 'Session Tokens' group to the export data.
  *
  * @param string $email_address  The users email address.
  * @return array An array of personal data.
@@ -3012,11 +3014,6 @@ function wp_user_personal_data_exporter( $email_address ) {
 		'data'              => $user_data_to_export,
 	);
 
-	/**
-	 * Introduce any Community Events Location data that is available.
-	 *
-	 * @since 5.4.0
-	 */
 	if ( isset( $user_meta['community-events-location'] ) ) {
 		$location = maybe_unserialize( $user_meta['community-events-location'][0] );
 
@@ -3046,6 +3043,42 @@ function wp_user_personal_data_exporter( $email_address ) {
 			'item_id'           => "community-events-location-{$user->ID}",
 			'data'              => $location_data_to_export,
 		);
+	}
+
+	if ( isset( $user_meta['session_tokens'] ) ) {
+		$session_tokens = maybe_unserialize( $user_meta['session_tokens'][0] );
+
+		$session_tokens_props_to_export = array(
+			'expiration' => __( 'Expiration' ),
+			'ip'         => __( 'IP' ),
+			'ua'         => __( 'User Agent' ),
+			'login'      => __( 'Last Login' ),
+		);
+
+		foreach ( $session_tokens as $token_key => $session_token ) {
+			$session_tokens_data_to_export = array();
+
+			foreach ( $session_tokens_props_to_export as $key => $name ) {
+				if ( ! empty( $session_token[ $key ] ) ) {
+					$value = $session_token[ $key ];
+					if ( in_array( $key, array( 'expiration', 'login' ) ) ) {
+						$value = date_i18n( 'F d, Y H:i A', $value );
+					}
+					$session_tokens_data_to_export[] = array(
+						'name'  => $name,
+						'value' => $value,
+					);
+				}
+			}
+
+			$data_to_export[] = array(
+				'group_id'          => 'session-tokens',
+				'group_label'       => __( 'Session Tokens' ),
+				'group_description' => __( 'User&#8217;s Session Tokens data.' ),
+				'item_id'           => "session-tokens-{$user->ID}-{$token_key}",
+				'data'              => $session_tokens_data_to_export,
+			);
+		}
 	}
 
 	return array(
