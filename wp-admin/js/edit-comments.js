@@ -538,7 +538,7 @@ window.setCommentsList = function() {
 			// The comment is currently pending.
 			} else if ( unapproved ) {
 				pendingDiff = -1;
-			// The comment was in the trash.
+			// The comment was in the Trash.
 			} else if ( trashed ) {
 				trashDiff = -1;
 			}

@@ -206,7 +206,7 @@ printf(
 <tr>
 <th scope="row"><?php _e( 'Comment Blocklist' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Comment Blocklist' ); ?></span></legend>
-<p><label for="blacklist_keys"><?php _e( 'When a comment contains any of these words in its content, name, URL, email, or IP address, it will be put in the trash. One word or IP address per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;.' ); ?></label></p>
+<p><label for="blacklist_keys"><?php _e( 'When a comment contains any of these words in its content, name, URL, email, or IP address, it will be put in the Trash. One word or IP address per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;.' ); ?></label></p>
 <p>
 <textarea name="blacklist_keys" rows="10" cols="50" id="blacklist_keys" class="large-text code"><?php echo esc_textarea( get_option( 'blacklist_keys' ) ); ?></textarea>
 </p>

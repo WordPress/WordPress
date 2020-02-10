@@ -1864,7 +1864,7 @@
 							removedControl.container.remove();
 						}
 
-						// Move widget to inactive widgets sidebar (move it to trash) if has been previously saved.
+						// Move widget to inactive widgets sidebar (move it to Trash) if has been previously saved.
 						// This prevents the inactive widgets sidebar from overflowing with throwaway widgets.
 						if ( api.Widgets.savedWidgetIds[removedWidgetId] ) {
 							inactiveWidgets = api.value( 'sidebars_widgets[wp_inactive_widgets]' )().slice();

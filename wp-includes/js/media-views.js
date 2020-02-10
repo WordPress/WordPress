@@ -9113,7 +9113,7 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 	},
 
 	/**
-	 * Sets the trash state on an attachment, or destroys the model itself.
+	 * Sets the Trash state on an attachment, or destroys the model itself.
 	 *
 	 * If the mediaTrash setting is set to true, trashes the attachment.
 	 * Otherwise, the model itself is destroyed.
@@ -9131,7 +9131,7 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 
 		this.getFocusableElements();
 
-		// When in the Media Library and the Media trash is enabled.
+		// When in the Media Library and the Media Trash is enabled.
 		if ( wp.media.view.settings.mediaTrash &&
 			'edit-metadata' === this.controller.content.mode() ) {
 

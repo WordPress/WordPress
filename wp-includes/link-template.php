@@ -1448,7 +1448,7 @@ function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $clas
  *
  * @param int|WP_Post $id           Optional. Post ID or post object. Default is the global `$post`.
  * @param string      $deprecated   Not used.
- * @param bool        $force_delete Optional. Whether to bypass trash and force deletion. Default false.
+ * @param bool        $force_delete Optional. Whether to bypass Trash and force deletion. Default false.
  * @return string|void The delete post link URL for the given post.
  */
 function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false ) {
@@ -1481,7 +1481,7 @@ function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false 
 	 *
 	 * @param string $link         The delete link.
 	 * @param int    $post_id      Post ID.
-	 * @param bool   $force_delete Whether to bypass the trash and force deletion. Default false.
+	 * @param bool   $force_delete Whether to bypass the Trash and force deletion. Default false.
 	 */
 	return apply_filters( 'get_delete_post_link', wp_nonce_url( $delete_link, "$action-post_{$post->ID}" ), $post->ID, $force_delete );
 }

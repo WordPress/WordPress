@@ -250,7 +250,7 @@ final class WP_Post_Type {
 	/**
 	 * Whether to delete posts of this type when deleting a user.
 	 *
-	 * If true, posts of this type belonging to the user will be moved to trash when then user is deleted.
+	 * If true, posts of this type belonging to the user will be moved to Trash when then user is deleted.
 	 * If false, posts of this type belonging to the user will *not* be trashed or deleted.
 	 * If not set (the default), posts are trashed if post_type_supports( 'author' ).
 	 * Otherwise posts are not trashed or deleted. Default null.

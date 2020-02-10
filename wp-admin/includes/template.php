@@ -525,7 +525,7 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 }
 
 /**
- * Output 'undo move to trash' text for comments
+ * Output 'undo move to Trash' text for comments
  *
  * @since 2.9.0
  */
@@ -535,7 +535,7 @@ function wp_comment_trashnotice() {
 	<div class="trash-undo-inside">
 		<?php
 		/* translators: %s: Comment author, filled by AJAX. */
-		printf( __( 'Comment by %s moved to the trash.' ), '<strong></strong>' );
+		printf( __( 'Comment by %s moved to the Trash.' ), '<strong></strong>' );
 		?>
 		<span class="undo untrash"><a href="#"><?php _e( 'Undo' ); ?></a></span>
 	</div>

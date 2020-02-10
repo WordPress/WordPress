@@ -493,7 +493,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		/*
 		 * Return if the post type doesn't have post formats, or there are no posts using formats,
-		 * or if we're in the trash.
+		 * or if we're in the Trash.
 		 */
 		if ( ! is_object_in_taxonomy( $post_type, 'post_format' ) || ! $used_post_formats || $this->is_trash ) {
 			return;

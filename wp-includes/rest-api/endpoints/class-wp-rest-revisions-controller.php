@@ -475,8 +475,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param WP_Post|false|null $result The revision object (if it was deleted or moved to the trash successfully)
-		 *                                   or false or null (failure). If the revision was moved to the trash, $result represents
+		 * @param WP_Post|false|null $result The revision object (if it was deleted or moved to the Trash successfully)
+		 *                                   or false or null (failure). If the revision was moved to the Trash, $result represents
 		 *                                   its new state; if it was deleted, $result represents its state before deletion.
 		 * @param WP_REST_Request $request The request sent to the API.
 		 */

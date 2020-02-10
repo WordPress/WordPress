@@ -716,7 +716,7 @@ function wp_ajax_delete_comment() {
 
 		$r = wp_untrash_comment( $comment );
 
-		// Undo trash, not in trash.
+		// Undo trash, not in Trash.
 		if ( ! isset( $_POST['comment_status'] ) || 'trash' !== $_POST['comment_status'] ) {
 			$delta = 1;
 		}
@@ -861,7 +861,7 @@ function wp_ajax_delete_post( $action ) {
 }
 
 /**
- * Ajax handler for sending a post to the trash.
+ * Ajax handler for sending a post to the Trash.
  *
  * @since 3.1.0
  *
@@ -897,7 +897,7 @@ function wp_ajax_trash_post( $action ) {
 }
 
 /**
- * Ajax handler to restore a post from the trash.
+ * Ajax handler to restore a post from the Trash.
  *
  * @since 3.1.0
  *

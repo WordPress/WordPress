@@ -3644,7 +3644,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Delete a comment.
 	 *
-	 * By default, the comment will be moved to the trash instead of deleted.
+	 * By default, the comment will be moved to the Trash instead of deleted.
 	 * See wp_delete_comment() for more information on this behavior.
 	 *
 	 * @since 2.7.0

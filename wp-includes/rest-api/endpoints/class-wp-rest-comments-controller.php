@@ -99,7 +99,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 						'force'    => array(
 							'type'        => 'boolean',
 							'default'     => false,
-							'description' => __( 'Whether to bypass trash and force deletion.' ),
+							'description' => __( 'Whether to bypass Trash and force deletion.' ),
 						),
 						'password' => array(
 							'description' => __( 'The password for the parent post of the comment (if the post is password protected).' ),
@@ -955,7 +955,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		/**
 		 * Filters whether a comment can be trashed.
 		 *
-		 * Return false to disable trash support for the post.
+		 * Return false to disable Trash support for the post.
 		 *
 		 * @since 4.7.0
 		 *

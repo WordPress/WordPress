@@ -93,7 +93,7 @@ require_once ABSPATH . 'wp-admin/includes/admin.php';
 
 auth_redirect();
 
-// Schedule trash collection.
+// Schedule Trash collection.
 if ( ! wp_next_scheduled( 'wp_scheduled_delete' ) && ! wp_installing() ) {
 	wp_schedule_event( time(), 'daily', 'wp_scheduled_delete' );
 }

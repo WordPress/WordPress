@@ -116,7 +116,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 						'force' => array(
 							'type'        => 'boolean',
 							'default'     => false,
-							'description' => __( 'Whether to bypass trash and force deletion.' ),
+							'description' => __( 'Whether to bypass Trash and force deletion.' ),
 						),
 					),
 				),
@@ -886,7 +886,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 *
 		 * The dynamic portion of the hook name, `$this->post_type`, refers to the post type slug.
 		 *
-		 * Pass false to disable trash support for the post.
+		 * Pass false to disable Trash support for the post.
 		 *
 		 * @since 4.7.0
 		 *
@@ -937,7 +937,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 
 			// (Note that internally this falls through to `wp_delete_post()`
-			// if the trash is disabled.)
+			// if the Trash is disabled.)
 			$result   = wp_trash_post( $id );
 			$post     = get_post( $id );
 			$response = $this->prepare_item_for_response( $post, $request );
