@@ -99,16 +99,16 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
 					'">';
 
 				?>
-				<span class="export-personal-data-idle"><button type="button" class="button export-personal-data-handle"><?php _e( 'Send Export Link' ); ?></button></span>
-				<span class="export-personal-data-processing button updating-message hidden"><?php _e( 'Sending Email...' ); ?> <span class="export-progress"></span></span>
+				<span class="export-personal-data-idle"><button type="button" class="button-link export-personal-data-handle"><?php _e( 'Send Export Link' ); ?></button></span>
+				<span class="export-personal-data-processing hidden"><?php _e( 'Sending Email...' ); ?> <span class="export-progress"></span></span>
 				<span class="export-personal-data-success success-message hidden"><?php _e( 'Email sent.' ); ?></span>
-				<span class="export-personal-data-failed hidden"><?php _e( 'Email could not be sent.' ); ?> <button type="button" class="button export-personal-data-handle"><?php _e( 'Retry' ); ?></button></span>
+				<span class="export-personal-data-failed hidden"><?php _e( 'Email could not be sent.' ); ?> <button type="button" class="button-link export-personal-data-handle"><?php _e( 'Retry' ); ?></button></span>
 				<?php
 
 				echo '</div>';
 				break;
 			case 'request-failed':
-				submit_button( __( 'Retry' ), 'secondary', 'privacy_action_email_retry[' . $item->ID . ']', false );
+				echo '<button type="submit" class="button-link" name="privacy_action_email_retry[' . $item->ID . ']" id="privacy_action_email_retry[' . $item->ID . ']">' . __( 'Retry' ) . '</button>';
 				break;
 			case 'request-completed':
 				echo '<a href="' . esc_url(
@@ -122,7 +122,7 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
 						),
 						'bulk-privacy_requests'
 					)
-				) . '" class="button">' . esc_html__( 'Remove request' ) . '</a>';
+				) . '">' . esc_html__( 'Remove request' ) . '</a>';
 				break;
 		}
 	}
