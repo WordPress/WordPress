@@ -505,7 +505,6 @@ Description: Used to style blocks in the editor.
 }
 
 .wp-block-pullquote blockquote > .editor-rich-text p {
-	color: #686868;
 	font-size: 19px;
 	font-size: 1.1875rem;
 }
