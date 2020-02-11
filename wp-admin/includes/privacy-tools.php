@@ -216,6 +216,7 @@ function _wp_personal_data_cleanup_requests() {
  * Generate a single group for the personal data export report.
  *
  * @since 4.9.6
+ * @since 5.4.0 Added the `$group_id` and `$groups_count` parameters.
  *
  * @param array $group_data {
  *     The group data to render.
@@ -232,10 +233,14 @@ function _wp_personal_data_cleanup_requests() {
  *         }
  *     }
  * }
- * @return string The HTML for this group and its items.
+ * @param string  $group_id     The group identifier.
+ * @param int     $groups_count The number of all groups
+ * @return string $group_html   The HTML for this group and its items.
  */
-function wp_privacy_generate_personal_data_export_group_html( $group_data ) {
-	$group_html  = '<h2>';
+function wp_privacy_generate_personal_data_export_group_html( $group_data, $group_id = '', $groups_count = 1 ) {
+	$group_id_attr = sanitize_title_with_dashes( $group_data['group_label'] . '-' . $group_id );
+
+	$group_html  = '<h2 id="' . esc_attr( $group_id_attr ) . '">';
 	$group_html .= esc_html( $group_data['group_label'] );
 
 	$items_count = count( (array) $group_data['items'] );
@@ -270,6 +275,12 @@ function wp_privacy_generate_personal_data_export_group_html( $group_data ) {
 
 		$group_html .= '</tbody>';
 		$group_html .= '</table>';
+	}
+
+	if ( 1 < $groups_count ) {
+		$group_html .= '<div class="return_to_top">';
+		$group_html .= '<a href="#top">' . esc_html__( '&uarr; Return to top' ) . '</a>';
+		$group_html .= '</div>';
 	}
 
 	$group_html .= '</div>';
@@ -373,6 +384,8 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	// Merge in the special about group.
 	$groups = array_merge( array( 'about' => $about_group ), $groups );
 
+	$groups_count = count( $groups );
+
 	// Convert the groups to JSON format.
 	$groups_json = wp_json_encode( $groups );
 
@@ -410,17 +423,38 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	fwrite( $file, 'th { padding: 5px; text-align: left; width: 20%; }' );
 	fwrite( $file, 'td { padding: 5px; }' );
 	fwrite( $file, 'tr:nth-child(odd) { background-color: #fafafa; }' );
+	fwrite( $file, '.return_to_top { text-align:right; }' );
 	fwrite( $file, '</style>' );
 	fwrite( $file, '<title>' );
 	fwrite( $file, esc_html( $title ) );
 	fwrite( $file, '</title>' );
 	fwrite( $file, "</head>\n" );
 	fwrite( $file, "<body>\n" );
-	fwrite( $file, '<h1>' . esc_html__( 'Personal Data Export' ) . '</h1>' );
+	fwrite( $file, '<h1 id="top">' . esc_html__( 'Personal Data Export' ) . '</h1>' );
+
+	// Create TOC.
+	if ( 1 < $groups_count ) {
+		fwrite( $file, '<div id="table_of_contents">' );
+		fwrite( $file, '<h2>' . esc_html__( 'Table of Contents' ) . '</h2>' );
+		fwrite( $file, '<ul>' );
+		foreach ( (array) $groups as $group_id => $group_data ) {
+			$group_label       = esc_html( $group_data['group_label'] );
+			$group_id_attr     = sanitize_title_with_dashes( $group_data['group_label'] . '-' . $group_id );
+			$group_items_count = count( (array) $group_data['items'] );
+			if ( $group_items_count > 1 ) {
+				$group_label .= sprintf( ' <span class="count">(%d)</span>', $group_items_count );
+			}
+			fwrite( $file, '<li>' );
+			fwrite( $file, '<a href="#' . esc_attr( $group_id_attr ) . '">' . $group_label . '</a>' );
+			fwrite( $file, '</li>' );
+		}
+		fwrite( $file, '</ul>' );
+		fwrite( $file, '</div>' );
+	}
 
 	// Now, iterate over every group in $groups and have the formatter render it in HTML.
 	foreach ( (array) $groups as $group_id => $group_data ) {
-		fwrite( $file, wp_privacy_generate_personal_data_export_group_html( $group_data ) );
+		fwrite( $file, wp_privacy_generate_personal_data_export_group_html( $group_data, $group_id, $groups_count ) );
 	}
 
 	fwrite( $file, "</body>\n" );
