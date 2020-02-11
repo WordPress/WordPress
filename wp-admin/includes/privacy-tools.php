@@ -658,7 +658,34 @@ All at ###SITENAME###
 	$content = str_replace( '###SITENAME###', $site_name, $content );
 	$content = str_replace( '###SITEURL###', esc_url_raw( $site_url ), $content );
 
-	$mail_success = wp_mail( $request_email, $subject, $content );
+	$headers = '';
+
+	/**
+	 * Filters the headers of the email sent with a personal data export file.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @param string|array $headers    The email headers.
+	 * @param string       $subject    The email subject.
+	 * @param string       $content    The email content.
+	 * @param int          $request_id The request ID.
+	 * @param array        $email_data {
+	 *     Data relating to the account action email.
+	 *
+	 *     @type WP_User_Request $request           User request object.
+	 *     @type int             $expiration        The time in seconds until the export file expires.
+	 *     @type string          $expiration_date   The localized date and time when the export file expires.
+	 *     @type string          $message_recipient The address that the email will be sent to. Defaults
+	 *                                              to the value of `$request->email`, but can be changed
+	 *                                              by the `wp_privacy_personal_data_email_to` filter.
+	 *     @type string          $export_file_url   The export file URL.
+	 *     @type string          $sitename          The site name sending the mail.
+	 *     @type string          $siteurl           The site URL sending the mail.
+	 * }
+	 */
+	$headers = apply_filters( 'wp_privacy_personal_data_email_headers', $headers, $subject, $content, $request_id, $email_data );
+
+	$mail_success = wp_mail( $request_email, $subject, $content, $headers );
 
 	if ( $switched_locale ) {
 		restore_previous_locale();
