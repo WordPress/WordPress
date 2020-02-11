@@ -1113,6 +1113,10 @@
 			h = $('#image-preview-' + postid).height();
 
 		if ( false === this.validateNumeric( el ) ) {
+			this.iasapi.setOptions({
+				aspectRatio: null
+			});
+
 			return;
 		}
 
