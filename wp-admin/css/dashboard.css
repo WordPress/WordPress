@@ -821,7 +821,7 @@ body #dashboard-widgets .postbox form .submit {
 	top: 12px;
 }
 
-#activity-widget #the-comment-list .dashboard-comment-wrap {
+#activity-widget #the-comment-list .dashboard-comment-wrap.has-avatar {
 	padding-left: 63px;
 }
 

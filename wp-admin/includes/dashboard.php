@@ -775,11 +775,18 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 		<li id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class( array( 'comment-item', wp_get_comment_status( $comment ) ), $comment ); ?>>
 
-			<?php echo get_avatar( $comment, 50, 'mystery' ); ?>
+			<?php
+			$comment_row_class = '';
+
+			if ( get_option( 'show_avatars' ) ) {
+				echo get_avatar( $comment, 50, 'mystery' );
+				$comment_row_class .= ' has-avatar';
+			}
+			?>
 
 			<?php if ( ! $comment->comment_type || 'comment' == $comment->comment_type ) : ?>
 
-			<div class="dashboard-comment-wrap has-row-actions">
+			<div class="dashboard-comment-wrap <?php echo $comment_row_class; ?> has-row-actions">
 			<p class="comment-meta">
 				<?php
 				// Comments might not have a post they relate to, e.g. programmatically created ones.
