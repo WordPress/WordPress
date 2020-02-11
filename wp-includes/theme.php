@@ -1427,12 +1427,13 @@ function has_header_video() {
  * @return string|false Header video URL or false if there is no video.
  */
 function get_header_video_url() {
-	$id  = absint( get_theme_mod( 'header_video' ) );
-	$url = esc_url( get_theme_mod( 'external_header_video' ) );
+	$id = absint( get_theme_mod( 'header_video' ) );
 
 	if ( $id ) {
 		// Get the file URL from the attachment ID.
 		$url = wp_get_attachment_url( $id );
+	} else {
+		$url = get_theme_mod( 'external_header_video' );
 	}
 
 	/**
