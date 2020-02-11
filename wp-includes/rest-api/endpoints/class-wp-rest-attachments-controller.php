@@ -141,12 +141,22 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			return $insert;
 		}
 
+		$schema = $this->get_item_schema();
+
 		// Extract by name.
 		$attachment_id = $insert['attachment_id'];
 		$file          = $insert['file'];
 
 		if ( isset( $request['alt_text'] ) ) {
 			update_post_meta( $attachment_id, '_wp_attachment_image_alt', sanitize_text_field( $request['alt_text'] ) );
+		}
+
+		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
+			$meta_update = $this->meta->update_value( $request['meta'], $attachment_id );
+
+			if ( is_wp_error( $meta_update ) ) {
+				return $meta_update;
+			}
 		}
 
 		$attachment    = get_post( $attachment_id );
