@@ -3006,6 +3006,52 @@ function wp_user_personal_data_exporter( $email_address ) {
 		}
 	}
 
+	// Get the list of reserved names.
+	$reserved_names = array_values( $user_props_to_export );
+
+	/**
+	 * Filter to extend the Users profile data for the privacy exporter.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @param array    $additional_user_profile_data {
+	 *     An array of name-value pairs of additional user data items. Default empty array.
+	 *
+	 *     @type string $name  The user-facing name of an item name-value pair,e.g. 'IP Address'.
+	 *     @type string $value The user-facing value of an item data pair, e.g. '50.60.70.0'.
+	 * }
+	 * @param WP_User  $user           The user whose data is being exported.
+	 * @param string[] $reserved_names An array of reserved names. Any item in `$additional_user_data`
+	 *                                 that uses one of these for its `name` will not be included in the export.
+	 */
+	$_extra_data = apply_filters( 'wp_privacy_additional_user_profile_data', array(), $user, $reserved_names );
+
+	if ( is_array( $_extra_data ) && ! empty( $_extra_data ) ) {
+		// Remove items that use reserved names.
+		$extra_data = array_filter(
+			$_extra_data,
+			function( $item ) use ( $reserved_names ) {
+				return ! in_array( $item['name'], $reserved_names );
+			}
+		);
+
+		if ( count( $extra_data ) !== count( $_extra_data ) ) {
+			_doing_it_wrong(
+				__FUNCTION__,
+				sprintf(
+					/* translators: %s: wp_privacy_additional_user_profile_data */
+					__( 'Filter %s returned items with reserved names.' ),
+					'<code>wp_privacy_additional_user_profile_data</code>'
+				),
+				'5.4.0'
+			);
+		}
+
+		if ( ! empty( $extra_data ) ) {
+			$user_data_to_export = array_merge( $user_data_to_export, $extra_data );
+		}
+	}
+
 	$data_to_export[] = array(
 		'group_id'          => 'user',
 		'group_label'       => __( 'User' ),
