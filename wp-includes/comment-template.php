@@ -870,30 +870,35 @@ function get_comments_number( $post_id = 0 ) {
  * Displays the language string for the number of comments the current post has.
  *
  * @since 0.71
+ * @since 5.4.0 Added the `$post_id` parameter.
  *
- * @param string $zero       Optional. Text for no comments. Default false.
- * @param string $one        Optional. Text for one comment. Default false.
- * @param string $more       Optional. Text for more than one comment. Default false.
- * @param string $deprecated Not used.
+ * @param string      $zero       Optional. Text for no comments. Default false.
+ * @param string      $one        Optional. Text for one comment. Default false.
+ * @param string      $more       Optional. Text for more than one comment. Default false.
+ * @param string      $deprecated Not used.
+ * @param int|WP_Post $post_id    Optional. Post ID or WP_Post object. Default is the global `$post`.
  */
-function comments_number( $zero = false, $one = false, $more = false, $deprecated = '' ) {
+function comments_number( $zero = false, $one = false, $more = false, $deprecated = '', $post_id = 0 ) {
 	if ( ! empty( $deprecated ) ) {
 		_deprecated_argument( __FUNCTION__, '1.3.0' );
 	}
-	echo get_comments_number_text( $zero, $one, $more );
+	echo get_comments_number_text( $zero, $one, $more, $post_id );
 }
 
 /**
  * Displays the language string for the number of comments the current post has.
  *
  * @since 4.0.0
+ * @since 5.4.0 Added the `$post_id` parameter to allow using the function outside of the loop.
  *
- * @param string $zero Optional. Text for no comments. Default false.
- * @param string $one  Optional. Text for one comment. Default false.
- * @param string $more Optional. Text for more than one comment. Default false.
+ * @param string      $zero    Optional. Text for no comments. Default false.
+ * @param string      $one     Optional. Text for one comment. Default false.
+ * @param string      $more    Optional. Text for more than one comment. Default false.
+ * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is the global `$post`.
+ * @return string Language string for the number of comments a post has.
  */
-function get_comments_number_text( $zero = false, $one = false, $more = false ) {
-	$number = get_comments_number();
+function get_comments_number_text( $zero = false, $one = false, $more = false, $post_id = 0 ) {
+	$number = get_comments_number( $post_id );
 
 	if ( $number > 1 ) {
 		if ( false === $more ) {
