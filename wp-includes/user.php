@@ -2942,7 +2942,7 @@ function wp_register_user_personal_data_exporter( $exporters ) {
  * @since 5.4.0 Added 'Community Events Location' group to the export data.
  * @since 5.4.0 Added 'Session Tokens' group to the export data.
  *
- * @param string $email_address  The users email address.
+ * @param string $email_address  The user's email address.
  * @return array An array of personal data.
  */
 function wp_user_personal_data_exporter( $email_address ) {
@@ -3010,7 +3010,7 @@ function wp_user_personal_data_exporter( $email_address ) {
 	$reserved_names = array_values( $user_props_to_export );
 
 	/**
-	 * Filter to extend the Users profile data for the privacy exporter.
+	 * Filter to extend the user's profile data for the privacy exporter.
 	 *
 	 * @since 5.4.0
 	 *
@@ -3031,7 +3031,7 @@ function wp_user_personal_data_exporter( $email_address ) {
 		$extra_data = array_filter(
 			$_extra_data,
 			function( $item ) use ( $reserved_names ) {
-				return ! in_array( $item['name'], $reserved_names );
+				return ! in_array( $item['name'], $reserved_names, true );
 			}
 		);
 
