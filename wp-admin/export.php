@@ -180,7 +180,7 @@ function export_date_options( $post_type = 'post' ) {
 <p><label><input type="radio" name="content" value="all" checked="checked" aria-describedby="all-content-desc" /> <?php _e( 'All content' ); ?></label></p>
 <p class="description" id="all-content-desc"><?php _e( 'This will contain all of your posts, pages, comments, custom fields, terms, navigation menus, and custom posts.' ); ?></p>
 
-<p><label><input type="radio" name="content" value="posts" /> <?php _e( 'Posts' ); ?></label></p>
+<p><label><input type="radio" name="content" value="posts" /> <?php _ex( 'Posts', 'post type general name' ); ?></label></p>
 <ul id="post-filters" class="export-filters">
 	<li>
 		<label><span class="label-responsive"><?php _e( 'Categories:' ); ?></span>
