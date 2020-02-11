@@ -834,10 +834,6 @@ function upgrade_all() {
 		upgrade_530();
 	}
 
-	if ( $wp_current_db_version < 47269 ) {
-		upgrade_540();
-	}
-
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -2155,22 +2151,6 @@ function upgrade_530() {
 	 */
 	if ( function_exists( 'current_user_can' ) && ! current_user_can( 'manage_options' ) ) {
 		update_option( 'admin_email_lifespan', 0 );
-	}
-}
-
-/**
- * Executes changes made in WordPress 5.4.0.
- *
- * @ignore
- * @since 5.4.0
- *
- * @global int $wp_current_db_version The old (current) database version.
- */
-function upgrade_540() {
-	global $wp_current_db_version;
-
-	if ( $wp_current_db_version < 47269 ) {
-		populate_roles_540();
 	}
 }
 

@@ -132,7 +132,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			 * so deleting it should require that too.
 			 */
 			if ( (int) get_option( 'wp_page_for_privacy_policy' ) === $post->ID ) {
-				$caps[] = 'manage_privacy_options';
+				$caps = array_merge( $caps, map_meta_cap( 'manage_privacy_options', $user_id ) );
 			}
 
 			break;
@@ -203,7 +203,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			 * so editing it should require that too.
 			 */
 			if ( (int) get_option( 'wp_page_for_privacy_policy' ) === $post->ID ) {
-				$caps[] = 'manage_privacy_options';
+				$caps = array_merge( $caps, map_meta_cap( 'manage_privacy_options', $user_id ) );
 			}
 
 			break;
@@ -579,6 +579,11 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			} else {
 				$caps[] = 'update_core';
 			}
+			break;
+		case 'export_others_personal_data':
+		case 'erase_others_personal_data':
+		case 'manage_privacy_options':
+			$caps[] = is_multisite() ? 'manage_network' : 'manage_options';
 			break;
 		default:
 			// Handle meta capabilities for custom post types.
