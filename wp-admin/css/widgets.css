@@ -6,6 +6,13 @@
 	box-sizing: border-box;
 }
 
+.widget.open {
+	z-index: 99;
+}
+.widget.open:focus-within {
+	z-index: 100;
+}
+
 .widget-top {
 	font-size: 13px;
 	font-weight: 600;

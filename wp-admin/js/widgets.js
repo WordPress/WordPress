@@ -127,8 +127,7 @@ window.wpWidgets = {
 		});
 
 		$(document.body).bind('click.widgets-toggle', function(e) {
-			var target = $(e.target),
-				css = { 'z-index': 100 },
+			var target = $(e.target), css = {},
 				widget, inside, targetWidth, widgetWidth, margin, saveButton, widgetId,
 				toggleBtn = target.closest( '.widget' ).find( '.widget-top button.widget-action' );
 
@@ -212,7 +211,7 @@ window.wpWidgets = {
 			handle: '> .widget-top > .widget-title',
 			distance: 2,
 			helper: 'clone',
-			zIndex: 100,
+			zIndex: 101,
 			containment: '#wpwrap',
 			refreshPositions: true,
 			start: function( event, ui ) {
