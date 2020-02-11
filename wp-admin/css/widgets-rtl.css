@@ -134,6 +134,9 @@
 .media-widget-control .media-widget-preview img {
 	max-width: 100%;
 	vertical-align: middle;
+	background-image: linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
+	background-position: 100% 0, 10px 10px;
+	background-size: 20px 20px;
 }
 .media-widget-control .media-widget-preview .wp-video-shortcode {
 	background: #000;
