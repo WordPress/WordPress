@@ -307,7 +307,7 @@
 
 .media-frame-toolbar .media-toolbar {
 	top: auto;
-	bottom: -45px;
+	bottom: -47px;
 	height: auto;
 	overflow: visible;
 	border-top: 1px solid #ddd;
@@ -346,12 +346,23 @@
 	right: 0;
 	bottom: 0;
 	width: 267px;
-	padding: 0 16px 24px;
+	padding: 0 16px;
 	z-index: 75;
 	background: #f3f3f3;
 	border-left: 1px solid #ddd;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
+}
+
+/*
+ * Implementation of bottom padding in overflow content differs across browsers.
+ * We need a different method. See https://github.com/w3c/csswg-drafts/issues/129
+ */
+.media-sidebar::after {
+	content: "";
+	display: flex;
+	clear: both;
+	height: 24px;
 }
 
 .hide-toolbar .media-sidebar {
@@ -746,8 +757,6 @@
 	position: absolute;
 	left: 200px;
 	right: 0;
-	bottom: 0;
-	height: 60px;
 	z-index: 100;
 	bottom: 60px;
 	height: auto;
@@ -1850,7 +1859,7 @@
 }
 
 .media-modal .imgedit-wrap .imgedit-panel-content {
-	padding: 16px;
+	padding: 16px 16px 0 16px;
 	position: absolute;
 	top: 0;
 	right: 282px;
@@ -1859,16 +1868,32 @@
 	overflow: auto;
 }
 
+/*
+ * Implementation of bottom padding in overflow content differs across browsers.
+ * We need a different method. See https://github.com/w3c/csswg-drafts/issues/129
+ */
+.media-modal .imgedit-wrap .imgedit-submit {
+	margin-bottom: 16px;
+}
+
 .media-modal .imgedit-wrap .imgedit-settings {
 	background: #f3f3f3;
 	border-left: 1px solid #ddd;
-	padding: 20px 16px 16px;
+	padding: 20px 16px 0;
 	position: absolute;
 	top: 0;
 	right: 0;
 	bottom: 0;
 	width: 250px;
 	overflow: auto;
+}
+
+/*
+ * Implementation of bottom padding in overflow content differs across browsers.
+ * We need a different method. See https://github.com/w3c/csswg-drafts/issues/129
+ */
+.media-modal .imgedit-wrap .imgedit-save-target {
+	margin: 8px 0 24px;
 }
 
 .media-modal .imgedit-group {
@@ -2001,8 +2026,20 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	padding: 0 16px 32px;
+	padding: 0 16px;
 	overflow: auto;
+}
+
+/*
+ * Implementation of bottom padding in overflow content differs across browsers.
+ * We need a different method. See https://github.com/w3c/csswg-drafts/issues/129
+ */
+.embed-link-settings::after,
+.embed-media-settings::after {
+	content: "";
+	display: flex;
+	clear: both;
+	height: 24px;
 }
 
 .media-embed .embed-link-settings {
@@ -2047,6 +2084,10 @@
 	top: 0;
 	overflow: visible;
 	padding: 0;
+}
+
+.image-details .embed-media-settings::after {
+	content: none;
 }
 
 .image-details .embed-media-settings,
@@ -2669,7 +2710,7 @@
 	}
 
 	.media-frame-toolbar .media-toolbar {
-		bottom: -48px;
+		bottom: -54px;
 	}
 }
 

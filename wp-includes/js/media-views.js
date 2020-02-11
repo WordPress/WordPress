@@ -8935,6 +8935,9 @@ AttachmentDisplay = Settings.extend(/** @lends wp.media.view.Settings.Attachment
 		}
 
 		$input.closest( '.setting' ).removeClass( 'hidden' );
+		if ( $input.length ) {
+			$input[0].scrollIntoView();
+		}
 	}
 });
 
