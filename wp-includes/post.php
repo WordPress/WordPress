@@ -7177,17 +7177,19 @@ function get_available_post_mime_types( $type = 'attachment' ) {
  * to the originally uploaded image file.
  *
  * @since 5.3.0
+ * @since 5.4.0 Added the `$unfiltered` parameter.
  *
- * @param int $attachment_id Attachment ID.
+ * @param int  $attachment_id Attachment ID.
+ * @param bool $unfiltered Optional. Passed through to `get_attached_file()`. Default false.
  * @return string|false Path to the original image file or false if the attachment is not an image.
  */
-function wp_get_original_image_path( $attachment_id ) {
+function wp_get_original_image_path( $attachment_id, $unfiltered = false ) {
 	if ( ! wp_attachment_is_image( $attachment_id ) ) {
 		return false;
 	}
 
 	$image_meta = wp_get_attachment_metadata( $attachment_id );
-	$image_file = get_attached_file( $attachment_id );
+	$image_file = get_attached_file( $attachment_id, $unfiltered );
 
 	if ( empty( $image_meta['original_image'] ) ) {
 		$original_image = $image_file;
