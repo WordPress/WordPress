@@ -752,7 +752,7 @@ class WP_Debug_Data {
 		);
 
 		$info['wp-database']['fields']['database_user'] = array(
-			'label'   => __( 'Database user' ),
+			'label'   => __( 'Database username' ),
 			'value'   => $wpdb->dbuser,
 			'private' => true,
 		);
@@ -770,7 +770,7 @@ class WP_Debug_Data {
 		);
 
 		$info['wp-database']['fields']['database_prefix'] = array(
-			'label'   => __( 'Database prefix' ),
+			'label'   => __( 'Table prefix' ),
 			'value'   => $wpdb->prefix,
 			'private' => true,
 		);
