@@ -167,7 +167,9 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$r = $current->response[ $plugin ];
 
 		add_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ), 10, 2 );
+		add_filter( 'upgrader_pre_install', array( $this, 'active_before' ), 10, 2 );
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
+		add_filter( 'upgrader_post_install', array( $this, 'active_after' ), 10, 2 );
 		// There's a Trac ticket to move up the directory for zips which are made a bit differently, useful for non-.org plugins.
 		// 'source_selection' => array( $this, 'source_selection' ),
 		if ( $parsed_args['clear_update_cache'] ) {
@@ -192,7 +194,9 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
 		remove_action( 'upgrader_process_complete', 'wp_clean_plugins_cache', 9 );
 		remove_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ) );
+		remove_filter( 'upgrader_pre_install', array( $this, 'active_before' ) );
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ) );
+		remove_filter( 'upgrader_post_install', array( $this, 'active_after' ) );
 
 		if ( ! $this->result || is_wp_error( $this->result ) ) {
 			return $this->result;
@@ -434,6 +438,76 @@ class Plugin_Upgrader extends WP_Upgrader {
 		if ( is_plugin_active( $plugin ) ) {
 			// Deactivate the plugin silently, Prevent deactivation hooks from running.
 			deactivate_plugins( $plugin, true );
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Turn on maintenance mode before attempting to background update an active plugin.
+	 *
+	 * Hooked to the {@see 'upgrader_pre_install'} filter by Plugin_Upgrader::upgrade().
+	 *
+	 * @since 5.4.0
+	 *
+	 * @param bool|WP_Error  $return
+	 * @param array          $plugin
+	 * @return bool|WP_Error
+	 */
+	public function active_before( $return, $plugin ) {
+		if ( is_wp_error( $return ) ) {
+			return $return;
+		}
+
+		// Only enable maintenance mode when in cron (background update).
+		if ( ! wp_doing_cron() ) {
+			return $return;
+		}
+
+		$plugin = isset( $plugin['plugin'] ) ? $plugin['plugin'] : '';
+
+		if ( ! is_plugin_active( $plugin ) ) { // If not active.
+			return $return;
+		}
+
+		// Bulk edit handles maintenance mode separately.
+		if ( ! $this->bulk ) {
+			$this->maintenance_mode( true );
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Turn off maintenance mode after upgrading an active plugin.
+	 *
+	 * Hooked to the {@see 'upgrader_post_install'} filter by Plugin_Upgrader::upgrade().
+	 *
+	 * @since 5.4.0
+	 *
+	 * @param bool|WP_Error  $return
+	 * @param array          $plugin
+	 * @return bool|WP_Error
+	 */
+	public function active_after( $return, $plugin ) {
+		if ( is_wp_error( $return ) ) {
+			return $return;
+		}
+
+		// Only disable maintenance mode when in cron (background update).
+		if ( ! wp_doing_cron() ) {
+			return $return;
+		}
+
+		$plugin = isset( $plugin['plugin'] ) ? $plugin['plugin'] : '';
+
+		if ( ! is_plugin_active( $plugin ) ) { // If not active.
+			return $return;
+		}
+
+		// Bulk edit handles maintenance mode separately.
+		if ( ! $this->bulk ) {
+			$this->maintenance_mode( false );
 		}
 
 		return $return;
