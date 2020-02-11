@@ -744,11 +744,18 @@ class WP_REST_Server {
 	 * used as the delimiter with preg_match()
 	 *
 	 * @since 4.4.0
+	 * @since 5.4.0 Add $namespace parameter.
 	 *
+	 * @param string $namespace Optionally, only return routes in the given namespace.
 	 * @return array `'/path/regex' => array( $callback, $bitmask )` or
 	 *               `'/path/regex' => array( array( $callback, $bitmask ), ...)`.
 	 */
-	public function get_routes() {
+	public function get_routes( $namespace = '' ) {
+		$endpoints = $this->endpoints;
+
+		if ( $namespace ) {
+			$endpoints = wp_list_filter( $endpoints, array( 'namespace' => $namespace ) );
+		}
 
 		/**
 		 * Filters the array of available endpoints.
@@ -760,7 +767,7 @@ class WP_REST_Server {
 		 *                         `'/path/regex' => array( $callback, $bitmask )` or
 		 *                         `'/path/regex' => array( array( $callback, $bitmask ).
 		 */
-		$endpoints = apply_filters( 'rest_endpoints', $this->endpoints );
+		$endpoints = apply_filters( 'rest_endpoints', $endpoints );
 
 		// Normalise the endpoints.
 		$defaults = array(
@@ -872,7 +879,20 @@ class WP_REST_Server {
 		$method = $request->get_method();
 		$path   = $request->get_route();
 
-		foreach ( $this->get_routes() as $route => $handlers ) {
+		$routes = array();
+
+		foreach ( $this->get_namespaces() as $namespace ) {
+			if ( 0 === strpos( ltrim( $path, '/' ), $namespace ) ) {
+				$routes = $this->get_routes( $namespace );
+				break;
+			}
+		}
+
+		if ( ! $routes ) {
+			$routes = $this->get_routes();
+		}
+
+		foreach ( $routes as $route => $handlers ) {
 			$match = preg_match( '@^' . $route . '$@i', $path, $matches );
 
 			if ( ! $match ) {
