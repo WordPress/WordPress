@@ -87,20 +87,38 @@ if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_
 
 <div id="postbox-container-1" class="postbox-container">
 <div id="submitdiv" class="stuffbox" >
-<h2><?php _e( 'Status' ); ?></h2>
+<h2><?php _e( 'Save' ); ?></h2>
 <div class="inside">
 <div class="submitbox" id="submitcomment">
 <div id="minor-publishing">
 
 <div id="misc-publishing-actions">
 
-<fieldset class="misc-pub-section misc-pub-comment-status" id="comment-status-radio">
+<div class="misc-pub-section misc-pub-comment-status" id="comment-status">
+<?php _e( 'Status:' ); ?> <span id="comment-status-display">
+<?php
+switch ( $comment->comment_approved ) {
+	case '1':
+		_e( 'Approved' );
+		break;
+	case '0':
+		_e( 'Pending' );
+		break;
+	case 'spam':
+		_e( 'Spam' );
+		break;
+}
+?>
+</span>
+
+<fieldset id="comment-status-radio">
 <legend class="screen-reader-text"><?php _e( 'Comment status' ); ?></legend>
 <label><input type="radio"<?php checked( $comment->comment_approved, '1' ); ?> name="comment_status" value="1" /><?php _ex( 'Approved', 'comment status' ); ?></label><br />
 <label><input type="radio"<?php checked( $comment->comment_approved, '0' ); ?> name="comment_status" value="0" /><?php _ex( 'Pending', 'comment status' ); ?></label><br />
 <label><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php _ex( 'Spam', 'comment status' ); ?></label>
 </fieldset>
-
+</div><!-- .misc-pub-section -->
+	
 <div class="misc-pub-section curtime misc-pub-curtime">
 <?php
 $submitted = sprintf(

@@ -448,14 +448,18 @@ form#tags-filter {
 #post-body .misc-pub-post-status:before,
 #post-body #visibility:before,
 .curtime #timestamp:before,
-#post-body .misc-pub-revisions:before {
+#post-body .misc-pub-revisions:before,
+#post-body .misc-pub-response-to:before, 
+#post-body .misc-pub-comment-status:before {
 	color: #82878c;
 }
 
 #post-body .misc-pub-post-status:before,
 #post-body #visibility:before,
 .curtime #timestamp:before,
-#post-body .misc-pub-revisions:before {
+#post-body .misc-pub-revisions:before,
+#post-body .misc-pub-response-to:before, 
+#post-body .misc-pub-comment-status:before {
 	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
@@ -466,7 +470,8 @@ form#tags-filter {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-#post-body .misc-pub-post-status:before {
+#post-body .misc-pub-post-status:before, 
+#post-body .misc-pub-comment-status:before {
 	content: "\f173";
 }
 
@@ -482,6 +487,10 @@ form#tags-filter {
 
 #post-body .misc-pub-revisions:before {
 	content: "\f321";
+}
+
+#post-body .misc-pub-response-to:before {
+	content: "\f101";
 }
 
 #timestampdiv {
@@ -610,6 +619,10 @@ form#tags-filter {
 	padding: 8px 10px;
 }
 
+.poststuff .stuffbox > h2 {
+	border-bottom: 1px solid #eee;
+}
+
 .poststuff .inside {
 	margin: 6px 0 0 0;
 }
@@ -637,7 +650,8 @@ form#tags-filter {
 	font-weight: 600;
 }
 
-#post-visibility-select {
+#post-visibility-select,
+#comment-status-radio {
 	line-height: 1.5;
 	margin-top: 3px;
 }

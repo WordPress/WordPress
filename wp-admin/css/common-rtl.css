@@ -2152,7 +2152,8 @@ html.wp-toolbar {
 #pass-strength-result.short,
 #ed_reply_toolbar #ed_reply_strong,
 .item-controls .item-order a,
-.feature-filter .feature-name {
+.feature-filter .feature-name,
+#comment-status-display {
 	font-weight: 600;
 }
 
