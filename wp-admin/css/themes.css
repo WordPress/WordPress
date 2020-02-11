@@ -1049,7 +1049,14 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	padding: 30px;
 	margin: 30px auto;
 	max-width: 380px;
+	display: flex;
 }
+
+.upload-theme .wp-upload-form > input[type="file"],
+.upload-plugin .wp-upload-form > input[type="file"] {
+	padding: 5px 1em 0 0;
+}
+
 .upload-theme .install-help,
 .upload-plugin .install-help {
 	color: #555d66; /* #f1f1f1 background */
