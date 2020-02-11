@@ -786,7 +786,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 			<?php if ( ! $comment->comment_type || 'comment' == $comment->comment_type ) : ?>
 
-			<div class="dashboard-comment-wrap <?php echo $comment_row_class; ?> has-row-actions">
+			<div class="dashboard-comment-wrap has-row-actions <?php echo $comment_row_class; ?>">
 			<p class="comment-meta">
 				<?php
 				// Comments might not have a post they relate to, e.g. programmatically created ones.
