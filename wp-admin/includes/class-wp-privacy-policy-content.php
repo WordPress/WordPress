@@ -318,9 +318,10 @@ final class WP_Privacy_Policy_Content {
 			return;
 		}
 
+		$current_screen = get_current_screen();
 		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
 
-		if ( ! $policy_page_id || $policy_page_id !== $post->ID ) {
+		if ( 'post' !== $current_screen->base || $policy_page_id !== $post->ID ) {
 			return;
 		}
 
