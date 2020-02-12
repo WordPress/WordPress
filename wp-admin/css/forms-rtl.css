@@ -1630,6 +1630,13 @@ table.form-table td .updated p {
 	.wp-list-table.privacy_requests.widefat thead td input {
 		margin-right: 5px;
 	}
+
+	.wp-privacy-request-form-field input[type="text"] {
+		width: 100%;
+		margin-bottom: 10px;
+		vertical-align: middle;
+	}
+
 	.regular-text {
 		max-width: 100%;
 	}
