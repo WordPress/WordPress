@@ -651,7 +651,7 @@ function sanitize_comment_cookies() {
  * @param bool  $avoid_die   When true, a disallowed comment will result in the function
  *                           returning a WP_Error object, rather than executing wp_die().
  *                           Default false.
- * @return int|string|WP_Error Allowed comments return the approval status (0|1|'spam').
+ * @return int|string|WP_Error Allowed comments return the approval status (0|1|'spam'|'trash').
  *                             If `$avoid_die` is true, disallowed comments return a WP_Error.
  */
 function wp_allow_comment( $commentdata, $avoid_die = false ) {
@@ -817,14 +817,14 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	 * Filters a comment's approval status before it is set.
 	 *
 	 * @since 2.1.0
-	 * @since 4.9.0 Returning a WP_Error value from the filter will shortcircuit comment insertion and
-	 *              allow skipping further processing.
+	 * @since 4.9.0 Returning a WP_Error value from the filter will shortcircuit comment insertion
+	 *              and allow skipping further processing.
 	 *
-	 * @param int|string|WP_Error $approved    The approval status. Accepts 1, 0, 'spam' or WP_Error.
+	 * @param int|string|WP_Error $approved    The approval status. Accepts 1, 0, 'spam', 'trash',
+	 *                                         or WP_Error.
 	 * @param array               $commentdata Comment data.
 	 */
-	$approved = apply_filters( 'pre_comment_approved', $approved, $commentdata );
-	return $approved;
+	return apply_filters( 'pre_comment_approved', $approved, $commentdata );
 }
 
 /**
