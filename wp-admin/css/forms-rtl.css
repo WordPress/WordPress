@@ -396,6 +396,10 @@ input[type="radio"].disabled:checked:before {
 	max-width: 100%;
 }
 
+.meta-box-sortables input {
+	vertical-align: middle;
+}
+
 .misc-pub-post-status select {
 	margin-top: 0;
 }
