@@ -136,7 +136,10 @@
 									 *
 									 * Node type 3 is a TEXT_NODE.
 									 */
-									while( node.nextSibling && 3 === node.nextSibling.nodeType ) {
+									while (
+										node.nodeValue && node.nextSibling &&
+										node.nextSibling.nodeValue && 3 === node.nextSibling.nodeType
+									) {
 										node.nodeValue = node.nodeValue + node.nextSibling.nodeValue;
 										node.parentNode.removeChild( node.nextSibling );
 									}
