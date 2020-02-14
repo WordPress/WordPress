@@ -638,9 +638,9 @@ function wp_exif_frac2dec( $str ) {
 		return $str;
 	}
 
-	list( $n, $d ) = explode( '/', $str );
-	if ( ! empty( $d ) ) {
-		return $n / $d;
+	list( $numerator, $denominator ) = explode( '/', $str );
+	if ( ! empty( $denominator ) ) {
+		return $numerator / $denominator;
 	}
 	return $str;
 }
