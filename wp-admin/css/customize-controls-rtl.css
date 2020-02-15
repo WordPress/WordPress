@@ -1632,7 +1632,7 @@ p.customize-section-description {
 
 .theme-browser .theme.active .theme-actions,
 .wp-customizer .theme-browser .theme .theme-actions {
-	padding: 10px 15px;
+	padding: 9px 15px;
 	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -2938,21 +2938,9 @@ body.adding-widget .add-new-widget:before,
 	.wp-core-ui .themes-filter-bar .feature-filter-toggle {
 		margin: 0;
 	}
-
-	.theme-browser .theme.active .theme-actions,
-	.wp-customizer .theme-browser .theme .theme-actions {
-		padding: 9px 15px;
-		box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
-	}
 }
 
 @media screen and (max-width: 600px) {
-	.theme-browser .theme.active .theme-actions,
-	.wp-customizer .theme-browser .theme .theme-actions {
-		padding: 8px 15px;
-		box-shadow: none;
-	}
-
 	.wp-full-overlay.expanded {
 		margin-right: 0;
 	}

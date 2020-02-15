@@ -230,7 +230,7 @@ body.js .theme-browser.search-loading {
 	top: 50%;
 	transform: translateY(-50%);
 	left: 0;
-	padding: 10px 15px;
+	padding: 9px 15px;
 	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -1911,8 +1911,8 @@ body.full-overlay-active {
 
 	.theme-browser .theme.active .theme-actions,
 	.theme-browser .theme .theme-actions {
-		padding-top: 8px;
-		padding-bottom: 8px;
+		padding-top: 4px;
+		padding-bottom: 4px;
 	}
 }
 
