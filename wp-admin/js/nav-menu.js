@@ -1162,6 +1162,7 @@
 		eventOnClickEditLink : function(clickedEl) {
 			var settings, item,
 			matchedSection = /#(.*)$/.exec(clickedEl.href);
+
 			if ( matchedSection && matchedSection[1] ) {
 				settings = $('#'+matchedSection[1]);
 				item = settings.parent();
@@ -1186,8 +1187,12 @@
 		eventOnClickCancelLink : function(clickedEl) {
 			var settings = $( clickedEl ).closest( '.menu-item-settings' ),
 				thisMenuItem = $( clickedEl ).closest( '.menu-item' );
-			thisMenuItem.removeClass('menu-item-edit-active').addClass('menu-item-edit-inactive');
-			settings.setItemData( settings.data('menu-item-data') ).hide();
+
+			thisMenuItem.removeClass( 'menu-item-edit-active' ).addClass( 'menu-item-edit-inactive' );
+			settings.setItemData( settings.data( 'menu-item-data' ) ).hide();
+			// Restore the title of the currently active/expanded menu item.
+			thisMenuItem.find( '.menu-item-title' ).text( settings.data( 'menu-item-data' )['menu-item-title'] );
+
 			return false;
 		},
 
@@ -1195,6 +1200,7 @@
 			var locs = '',
 			menuName = $('#menu-name'),
 			menuNameVal = menuName.val();
+
 			// Cancel and warn if invalid menu name.
 			if ( ! menuNameVal || ! menuNameVal.replace( /\s+/, '' ) ) {
 				menuName.parent().addClass( 'form-invalid' );
@@ -1223,6 +1229,7 @@
 
 		eventOnClickMenuItemDelete : function(clickedEl) {
 			var itemID = parseInt(clickedEl.id.replace('delete-', ''), 10);
+
 			api.removeMenuItem( $('#menu-item-' + itemID) );
 			api.registerChange();
 			return false;
