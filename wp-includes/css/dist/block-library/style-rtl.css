@@ -140,13 +140,19 @@
     .wp-block-column {
       flex-basis: 100% !important; } }
   @media (min-width: 600px) {
-    .wp-block-column[style] {
+    .wp-block-column {
+      flex-basis: calc(50% - 16px);
       flex-grow: 0; }
-    .wp-block-column:nth-child(even) {
-      margin-right: 32px; } }
+      .wp-block-column:nth-child(even) {
+        margin-right: 32px; } }
   @media (min-width: 782px) {
-    .wp-block-column:not(:first-child) {
-      margin-right: 32px; } }
+    .wp-block-column {
+      flex-basis: 0;
+      flex-grow: 1; }
+      .wp-block-column[style] {
+        flex-grow: 0; }
+      .wp-block-column:not(:first-child) {
+        margin-right: 32px; } }
 
 /**
  * All Columns Alignment

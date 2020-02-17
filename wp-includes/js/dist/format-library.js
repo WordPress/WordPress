@@ -766,6 +766,7 @@ var image_image = {
       _this.onKeyDown = _this.onKeyDown.bind(Object(assertThisInitialized["a" /* default */])(_this));
       _this.openModal = _this.openModal.bind(Object(assertThisInitialized["a" /* default */])(_this));
       _this.closeModal = _this.closeModal.bind(Object(assertThisInitialized["a" /* default */])(_this));
+      _this.anchorRef = null;
       _this.state = {
         modal: false
       };
@@ -800,6 +801,20 @@ var image_image = {
         this.setState({
           modal: false
         });
+      }
+    }, {
+      key: "componentDidMount",
+      value: function componentDidMount() {
+        this.anchorRef = getRange();
+      }
+    }, {
+      key: "componentDidUpdate",
+      value: function componentDidUpdate(prevProps) {
+        // When the popover is open or when the selected image changes,
+        // update the anchorRef.
+        if (!prevProps.isObjectActive && this.props.isObjectActive || prevProps.activeObjectAttributes.url !== this.props.activeObjectAttributes.url) {
+          this.anchorRef = getRange();
+        }
       }
     }, {
       key: "render",
@@ -852,7 +867,7 @@ var image_image = {
         }), isObjectActive && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], {
           position: "bottom center",
           focusOnMount: false,
-          anchorRef: getRange()
+          anchorRef: this.anchorRef
         }, Object(external_this_wp_element_["createElement"])("form", {
           className: "block-editor-format-toolbar__image-container-content",
           onKeyPress: stopKeyPropagation,
@@ -1020,7 +1035,6 @@ var external_this_lodash_ = __webpack_require__(2);
  */
 
 
-
 /**
  * Check for issues with the provided href.
  *
@@ -1099,8 +1113,7 @@ function isValidHref(href) {
 
 function createLinkFormat(_ref) {
   var url = _ref.url,
-      opensInNewWindow = _ref.opensInNewWindow,
-      text = _ref.text;
+      opensInNewWindow = _ref.opensInNewWindow;
   var format = {
     type: 'core/link',
     attributes: {
@@ -1109,11 +1122,8 @@ function createLinkFormat(_ref) {
   };
 
   if (opensInNewWindow) {
-    // translators: accessibility label for external links, where the argument is the link text
-    var label = Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('%s (opens in a new tab)'), text);
     format.attributes.target = '_blank';
     format.attributes.rel = 'noreferrer noopener';
-    format.attributes['aria-label'] = label;
   }
 
   return format;
@@ -1235,11 +1245,9 @@ function InlineLinkUI(_ref) {
     }
 
     var newUrl = Object(external_this_wp_url_["prependHTTP"])(nextValue.url);
-    var selectedText = Object(external_this_wp_richText_["getTextContent"])(Object(external_this_wp_richText_["slice"])(value));
     var format = createLinkFormat({
       url: newUrl,
-      opensInNewWindow: nextValue.opensInNewTab,
-      text: selectedText
+      opensInNewWindow: nextValue.opensInNewTab
     });
 
     if (Object(external_this_wp_richText_["isCollapsed"])(value) && !isActive) {
@@ -1717,6 +1725,7 @@ var inline_InlineColorUI = function InlineColorUI(_ref3) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -1733,16 +1742,24 @@ function TextColorEdit(_ref) {
       onChange = _ref.onChange,
       isActive = _ref.isActive,
       activeAttributes = _ref.activeAttributes;
-  var colors = Object(external_this_wp_data_["useSelect"])(function (select) {
-    var _select = select('core/block-editor'),
-        getSettings = _select.getSettings;
 
-    if (getSettings) {
-      return Object(external_this_lodash_["get"])(getSettings(), ['colors'], EMPTY_ARRAY);
+  var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
+    var blockEditorSelect = select('core/block-editor');
+    var settings;
+
+    if (blockEditorSelect && blockEditorSelect.getSettings) {
+      settings = blockEditorSelect.getSettings();
+    } else {
+      settings = {};
     }
 
-    return EMPTY_ARRAY;
-  });
+    return {
+      colors: Object(external_this_lodash_["get"])(settings, ['colors'], EMPTY_ARRAY),
+      disableCustomColors: settings.disableCustomColors
+    };
+  }),
+      colors = _useSelect.colors,
+      disableCustomColors = _useSelect.disableCustomColors;
 
   var _useState = Object(external_this_wp_element_["useState"])(false),
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
@@ -1766,6 +1783,12 @@ function TextColorEdit(_ref) {
       backgroundColor: activeColor
     };
   }, [value, colors]);
+  var hasColorsToChoose = !Object(external_this_lodash_["isEmpty"])(colors) || disableCustomColors !== true;
+
+  if (!hasColorsToChoose && !isActive) {
+    return null;
+  }
+
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichTextToolbarButton"], {
     key: isActive ? 'text-color' : 'text-color-not-active',
     className: "format-library-text-color-button",
@@ -1776,8 +1799,11 @@ function TextColorEdit(_ref) {
       className: "format-library-text-color-button__indicator",
       style: colorIndicatorStyle
     })),
-    title: text_color_title,
-    onClick: enableIsAddingColor
+    title: text_color_title // If has no colors to choose but a color is active remove the color onClick
+    ,
+    onClick: hasColorsToChoose ? enableIsAddingColor : function () {
+      return onChange(Object(external_this_wp_richText_["removeFormat"])(value, text_color_name));
+    }
   }), isAddingColor && Object(external_this_wp_element_["createElement"])(text_color_inline, {
     name: text_color_name,
     addingColor: isAddingColor,

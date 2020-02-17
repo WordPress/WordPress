@@ -18449,7 +18449,8 @@ var group_deprecated_deprecated = [// Version of the group block with a bug that
 
 
 function GroupEdit(_ref) {
-  var hasInnerBlocks = _ref.hasInnerBlocks;
+  var hasInnerBlocks = _ref.hasInnerBlocks,
+      className = _ref.className;
   var ref = Object(external_this_wp_element_["useRef"])();
 
   var _experimentalUseColo = Object(external_this_wp_blockEditor_["__experimentalUseColors"])([{
@@ -18472,7 +18473,7 @@ function GroupEdit(_ref) {
       InspectorControlsColorPanel = _experimentalUseColo.InspectorControlsColorPanel;
 
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, InspectorControlsColorPanel, Object(external_this_wp_element_["createElement"])(BackgroundColor, null, Object(external_this_wp_element_["createElement"])(TextColor, null, Object(external_this_wp_element_["createElement"])("div", {
-    className: "wp-block-group",
+    className: className,
     ref: ref
   }, Object(external_this_wp_element_["createElement"])("div", {
     className: "wp-block-group__inner-container"

@@ -37253,12 +37253,12 @@ var custom_gradient_picker_GradientTypePicker = function GradientTypePicker(_ref
     className: "components-custom-gradient-picker__toolbar",
     controls: [{
       icon: Object(external_this_wp_element_["createElement"])(LinearGradientIcon, null),
-      title: 'Linear Gradient',
+      title: Object(external_this_wp_i18n_["__"])('Linear Gradient'),
       isActive: hasGradient && type === 'linear-gradient',
       onClick: onSetLinearGradient
     }, {
       icon: Object(external_this_wp_element_["createElement"])(RadialGradientIcon, null),
-      title: 'Radial Gradient',
+      title: Object(external_this_wp_i18n_["__"])('Radial Gradient'),
       isActive: hasGradient && type === 'radial-gradient',
       onClick: onSetRadialGradient
     }]

@@ -1224,11 +1224,11 @@ body.admin-color-light .block-list-appender.is-drop-target > div::before {
   .block-editor-default-block-appender .block-editor-inserter {
     align-items: center; } }
 
-html {
+html.block-editor-editor-skeleton__html-container {
   position: fixed;
   width: 100%; }
   @media (min-width: 782px) {
-    html {
+    html.block-editor-editor-skeleton__html-container {
       position: initial;
       width: initial; } }
 

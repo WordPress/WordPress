@@ -18912,6 +18912,22 @@ function ColorPaletteControl(_ref) {
 
 
 
+
+function useHTMLClass(className) {
+  Object(external_this_wp_element_["useEffect"])(function () {
+    var element = document && document.querySelector("html:not(.".concat(className));
+
+    if (!element) {
+      return;
+    }
+
+    element.classList.toggle(className);
+    return function () {
+      element.classList.toggle(className);
+    };
+  }, [className]);
+}
+
 function EditorSkeleton(_ref) {
   var footer = _ref.footer,
       header = _ref.header,
@@ -18919,6 +18935,7 @@ function EditorSkeleton(_ref) {
       content = _ref.content,
       publish = _ref.publish,
       className = _ref.className;
+  useHTMLClass('block-editor-editor-skeleton__html-container');
   return Object(external_this_wp_element_["createElement"])("div", {
     className: classnames_default()(className, 'block-editor-editor-skeleton')
   }, !!header && Object(external_this_wp_element_["createElement"])("div", {
@@ -19588,7 +19605,7 @@ function settings_drawer_objectSpread(target) { for (var i = 1; i < arguments.le
 
 var defaultSettings = [{
   id: 'opensInNewTab',
-  title: Object(external_this_wp_i18n_["__"])('Open in New Tab')
+  title: Object(external_this_wp_i18n_["__"])('Open in new tab')
 }];
 
 var settings_drawer_LinkControlSettingsDrawer = function LinkControlSettingsDrawer(_ref) {
@@ -22854,7 +22871,7 @@ var image_url_input_ui_ImageURLInputUI = function ImageURLInputUI(_ref) {
   };
 
   var advancedOptions = Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Open in New Tab'),
+    label: Object(external_this_wp_i18n_["__"])('Open in new tab'),
     onChange: onSetNewTab,
     checked: linkTarget === '_blank'
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {

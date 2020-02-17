@@ -174,10 +174,14 @@ div[data-type="core/button"] {
       flex-basis: 100%; }
       @media (min-width: 600px) {
         .wp-block-columns > .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type="core/column"] {
-          flex-grow: 1;
-          flex-basis: auto;
+          flex-basis: calc(50% - (16px));
+          flex-grow: 0;
           margin-right: 0;
-          margin-left: 0; }
+          margin-left: 0; } }
+      @media (min-width: 782px) {
+        .wp-block-columns > .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type="core/column"] {
+          flex-basis: 0;
+          flex-grow: 1; }
           .wp-block-columns > .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type="core/column"][data-has-explicit-width] {
             flex-grow: 0; } }
       @media (min-width: 600px) {
