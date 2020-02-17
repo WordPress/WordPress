@@ -185,8 +185,9 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			header( 'X-WP-Upload-Attachment-ID: ' . $attachment_id );
 		}
 
-		// Include media functions to get access to wp_generate_attachment_metadata().
+		// Include media and image functions to get access to wp_generate_attachment_metadata().
 		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
 
 		// Post-process the upload (create image sub-sizes, make PDF thumbnalis, etc.) and insert attachment meta.
 		// At this point the server may run out of resources and post-processing of uploaded images may fail.
