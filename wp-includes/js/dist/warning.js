@@ -326,4 +326,4 @@ function warning(message) {
 
 /***/ })
 
-/******/ });
+/******/ })["default"];
