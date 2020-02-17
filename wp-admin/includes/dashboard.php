@@ -43,7 +43,7 @@ function wp_dashboard_setup() {
 	}
 
 	// Site Health.
-	if ( current_user_can( 'view_site_health_checks' ) ) {
+	if ( current_user_can( 'view_site_health_checks' ) && ! is_network_admin() ) {
 		if ( ! class_exists( 'WP_Site_Health' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
 		}
