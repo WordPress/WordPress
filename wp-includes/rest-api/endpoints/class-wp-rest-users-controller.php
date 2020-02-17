@@ -896,7 +896,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		$previous = $this->prepare_item_for_response( $user, $request );
 
-		/** Include admin user functions to get access to wp_delete_user() */
+		// Include user admin functions to get access to wp_delete_user().
 		require_once ABSPATH . 'wp-admin/includes/user.php';
 
 		$result = wp_delete_user( $id, $reassign );
@@ -1210,7 +1210,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				);
 			}
 
-			/** Include admin functions to get access to get_editable_roles() */
+			// Include admin functions to get access to get_editable_roles().
 			require_once ABSPATH . 'wp-admin/includes/admin.php';
 
 			// The new role must be editable by the logged-in user.
