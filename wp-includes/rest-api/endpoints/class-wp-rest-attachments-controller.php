@@ -189,7 +189,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 
-		// Post-process the upload (create image sub-sizes, make PDF thumbnalis, etc.) and insert attachment meta.
+		// Post-process the upload (create image sub-sizes, make PDF thumbnails, etc.) and insert attachment meta.
 		// At this point the server may run out of resources and post-processing of uploaded images may fail.
 		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
 
