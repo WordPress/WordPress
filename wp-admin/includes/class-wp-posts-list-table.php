@@ -1608,12 +1608,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 							<span class="input-text-wrap"><input type="text" name="post_password" class="inline-edit-password-input" value="" /></span>
 						</label>
 
-						<em class="alignleft inline-edit-or">
+						<span class="alignleft inline-edit-or">
 							<?php
 							/* translators: Between password field and private checkbox on post quick edit interface. */
 							_e( '&ndash;OR&ndash;' );
 							?>
-						</em>
+						</span>
 						<label class="alignleft inline-edit-private">
 							<input type="checkbox" name="keep_private" value="private" />
 							<span class="checkbox-title"><?php _e( 'Private' ); ?></span>

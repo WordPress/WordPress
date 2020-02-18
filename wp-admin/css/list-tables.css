@@ -436,7 +436,6 @@ table.media .column-title .filename {
 #commentsdiv .comments-box thead td {
 	background: transparent;
 	padding: 0 7px 4px;
-	font-style: italic;
 }
 
 #commentsdiv .comments-box tr:last-child td {
@@ -1020,11 +1019,6 @@ tr.inline-edit-row td,
 	text-transform: uppercase;
 }
 
-.inline-edit-row fieldset span.title,
-.inline-edit-row fieldset span.checkbox-title {
-	font-style: italic;
-}
-
 /*	Specific Elements */
 .inline-edit-row fieldset .inline-edit-date {
 	float: left;
@@ -1318,7 +1312,6 @@ ul.cat-checklist {
 .plugins .paused .error-display p,
 .plugins .paused .error-display code {
 	font-size: 90%;
-	font-style: italic;
 	color: rgba( 0, 0, 0, 0.7 );
 }
 
