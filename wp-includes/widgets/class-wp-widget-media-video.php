@@ -129,7 +129,7 @@ class WP_Widget_Media_Video extends WP_Widget_Media {
 		$youtube_pattern = '#^https?://(?:www\.)?(?:youtube\.com/watch|youtu\.be/)#';
 		$vimeo_pattern   = '#^https?://(.+\.)?vimeo\.com/.*#';
 
-		if ( preg_match( $youtube_pattern, $src ) || preg_match( $vimeo_pattern, $src ) ) {
+		if ( $attachment || preg_match( $youtube_pattern, $src ) || preg_match( $vimeo_pattern, $src ) ) {
 			add_filter( 'wp_video_shortcode', array( $this, 'inject_video_max_width_style' ) );
 
 			echo wp_video_shortcode(
