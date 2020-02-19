@@ -4217,6 +4217,20 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 		return wp_insert_attachment( $postarr, false, 0, $wp_error );
 	}
 
+	// Discard 'tags_input' parameter if it's the same as existing post tags.
+	if ( isset( $postarr['tags_input'] ) && is_object_in_taxonomy( $postarr['post_type'], 'post_tag' ) ) {
+		$tags      = get_the_terms( $postarr['ID'], 'post_tag' );
+		$tag_names = array();
+
+		if ( $tags && ! is_wp_error( $tags ) ) {
+			$tag_names = wp_list_pluck( $tags, 'name' );
+		}
+
+		if ( $postarr['tags_input'] === $tag_names ) {
+			unset( $postarr['tags_input'] );
+		}
+	}
+
 	return wp_insert_post( $postarr, $wp_error );
 }
 
