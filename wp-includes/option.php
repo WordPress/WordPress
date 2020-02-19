@@ -2104,12 +2104,14 @@ function register_initial_settings() {
  * @param array  $args {
  *     Data used to describe the setting when registered.
  *
- *     @type string   $type              The type of data associated with this setting.
- *                                       Valid values are 'string', 'boolean', 'integer', and 'number'.
- *     @type string   $description       A description of the data attached to this setting.
- *     @type callable $sanitize_callback A callback function that sanitizes the option's value.
- *     @type bool     $show_in_rest      Whether data associated with this setting should be included in the REST API.
- *     @type mixed    $default           Default value when calling `get_option()`.
+ *     @type string     $type              The type of data associated with this setting.
+ *                                         Valid values are 'string', 'boolean', 'integer', 'number', 'array', and 'object'.
+ *     @type string     $description       A description of the data attached to this setting.
+ *     @type callable   $sanitize_callback A callback function that sanitizes the option's value.
+ *     @type bool|array $show_in_rest      Whether data associated with this setting should be included in the REST API.
+ *                                         When registering complex settings, this argument may optionally be an
+ *                                         array with a 'schema' key.
+ *     @type mixed      $default           Default value when calling `get_option()`.
  * }
  */
 function register_setting( $option_group, $option_name, $args = array() ) {
@@ -2142,6 +2144,11 @@ function register_setting( $option_group, $option_name, $args = array() ) {
 	 */
 	$args = apply_filters( 'register_setting_args', $args, $defaults, $option_group, $option_name );
 	$args = wp_parse_args( $args, $defaults );
+
+	// Require an item schema when registering settings with an array type.
+	if ( false !== $args['show_in_rest'] && 'array' === $args['type'] && ( ! is_array( $args['show_in_rest'] ) || ! isset( $args['show_in_rest']['schema']['items'] ) ) ) {
+		_doing_it_wrong( __FUNCTION__, __( 'When registering an "array" setting to show in the REST API, you must specify the schema for each array item in "show_in_rest.schema.items".' ), '5.4.0' );
+	}
 
 	if ( ! is_array( $wp_registered_settings ) ) {
 		$wp_registered_settings = array();
