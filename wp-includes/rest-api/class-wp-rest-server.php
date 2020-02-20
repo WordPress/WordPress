@@ -1288,7 +1288,11 @@ class WP_REST_Server {
 			// For non-variable routes, generate links.
 			if ( strpos( $route, '{' ) === false ) {
 				$data['_links'] = array(
-					'self' => rest_url( $route ),
+					'self' => array(
+						array(
+							'href' => rest_url( $route ),
+						),
+					),
 				);
 			}
 		}
