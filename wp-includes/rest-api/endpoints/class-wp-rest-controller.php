@@ -344,8 +344,10 @@ abstract class WP_REST_Controller {
 
 		$schema = $this->get_item_schema();
 
-		foreach ( $schema['properties'] as &$property ) {
-			unset( $property['arg_options'] );
+		if ( ! empty( $schema['properties'] ) ) {
+			foreach ( $schema['properties'] as &$property ) {
+				unset( $property['arg_options'] );
+			}
 		}
 
 		return $schema;
