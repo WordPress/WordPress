@@ -765,8 +765,17 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 		// Courtesy of php.net, the strings that describe the error indicated in $_FILES[{form field}]['error'].
 		$upload_error_strings = array(
 			false,
-			__( 'The uploaded file exceeds the upload_max_filesize directive in php.ini.' ),
-			__( 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.' ),
+			sprintf(
+				/* translators: 1: upload_max_filesize, 2: php.ini */
+				__( 'The uploaded file exceeds the %1$s directive in %2$s.' ),
+				'upload_max_filesize',
+				'php.ini'
+			),
+			sprintf(
+				/* translators: %s: MAX_FILE_SIZE */
+				__( 'The uploaded file exceeds the %s directive that was specified in the HTML form.' ),
+				'MAX_FILE_SIZE'
+			),
 			__( 'The uploaded file was only partially uploaded.' ),
 			__( 'No file was uploaded.' ),
 			'',
