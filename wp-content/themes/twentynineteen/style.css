@@ -6295,12 +6295,14 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .has-primary-color,
+.entry .entry-content .wp-block-pullquote blockquote.has-primary-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-primary-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-primary-color > p {
   color: #0073aa;
 }
 
 .entry .entry-content .has-secondary-color,
+.entry .entry-content .wp-block-pullquote blockquote.has-secondary-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-secondary-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-secondary-color > p {
   color: #005177;
@@ -6313,12 +6315,14 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .has-light-gray-color,
+.entry .entry-content .wp-block-pullquote blockquote.has-light-gray-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-light-gray-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-light-gray-color > p {
   color: #767676;
 }
 
 .entry .entry-content .has-white-color,
+.entry .entry-content .wp-block-pullquote blockquote.has-white-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-white-color {
   color: #FFF;
 }

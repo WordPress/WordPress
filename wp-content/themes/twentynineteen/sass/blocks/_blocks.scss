@@ -998,12 +998,14 @@
 
 	//! Custom foreground colors
 	.has-primary-color,
+	.wp-block-pullquote blockquote.has-primary-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-primary-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-primary-color > p {
 		color: $color__link;
 	}
 
 	.has-secondary-color,
+	.wp-block-pullquote blockquote.has-secondary-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-secondary-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-secondary-color > p {
 		color: $color__border-link-hover;
@@ -1016,12 +1018,14 @@
 	}
 
 	.has-light-gray-color,
+	.wp-block-pullquote blockquote.has-light-gray-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-light-gray-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-light-gray-color > p {
 		color: $color__text-light;
 	}
 
 	.has-white-color,
+	.wp-block-pullquote blockquote.has-white-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-white-color {
 		color: #FFF;
 	}
