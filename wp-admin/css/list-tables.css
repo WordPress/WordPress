@@ -1767,7 +1767,6 @@ div.action-links,
 	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td:not(.check-column) {
 		position: relative;
 		clear: both;
-		display: block;
 		width: auto !important; /* needs to override some columns that are more specifically targeted */
 	}
 
