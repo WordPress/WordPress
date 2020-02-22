@@ -560,6 +560,8 @@ class WP_Http {
 	 * @deprecated 5.1.0 Use WP_Http::request()
 	 * @see WP_Http::request()
 	 *
+	 * @staticvar array $transports
+	 *
 	 * @param string $url URL to Request.
 	 * @param array $args Request arguments.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
