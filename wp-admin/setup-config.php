@@ -396,7 +396,7 @@ switch ( $step ) {
 	<p>
 			<?php
 			/* translators: %s: wp-config.php */
-			printf( __( 'Sorry, but I can&#8217;t write the %s file.' ), '<code>wp-config.php</code>' );
+			printf( __( 'Unable to write to %s file.' ), '<code>wp-config.php</code>' );
 			?>
 </p>
 <p>
