@@ -164,8 +164,9 @@
 			var shortcode, html, extension;
 
 			props = wp.media.string.props( props, attachment );
-			if ( props.link !== 'embed' )
+			if ( props.link !== 'embed' ) {
 				return wp.media.string.link( props );
+			}
 
 			shortcode = {};
 
@@ -446,7 +447,7 @@
 
 				if ( attrs._orderbyRandom ) {
 					attrs.orderby = 'rand';
-				} else if ( attrs._orderByField && attrs._orderByField != 'rand' ) {
+				} else if ( attrs._orderByField && 'rand' !== attrs._orderByField ) {
 					attrs.orderby = attrs._orderByField;
 				}
 
@@ -625,7 +626,7 @@
 				thumbnail_id: settings.post.featuredImageId,
 				_wpnonce:     settings.post.nonce
 			}).done( function( html ) {
-				if ( html == '0' ) {
+				if ( '0' === html ) {
 					window.alert( window.setPostThumbnailL10n.error );
 					return;
 				}
@@ -801,8 +802,9 @@
 
 				selection = selection || state.get('selection');
 
-				if ( ! selection )
+				if ( ! selection ) {
 					return;
+				}
 
 				$.when.apply( $, selection.map( function( attachment ) {
 					var display = state.display( attachment ).toJSON();
@@ -965,8 +967,9 @@
 						size:  'image-size',
 						alt:   'image_alt'
 					}, function( option, prop ) {
-						if ( props[ prop ] )
+						if ( props[ prop ] ) {
 							options[ option ] = props[ prop ];
+						}
 					});
 				} else if ( 'video' === attachment.type ) {
 					html = wp.media.string.video( props, attachment );
