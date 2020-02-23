@@ -153,7 +153,7 @@ function get_option( $option, $default = false ) {
 }
 
 /**
- * Protect WordPress special option from being modified.
+ * Protects WordPress special option from being modified.
  *
  * Will die if $option is in protected list. Protected options are 'alloptions'
  * and 'notoptions' options.
@@ -175,7 +175,7 @@ function wp_protect_special_option( $option ) {
 }
 
 /**
- * Print option value after sanitizing for forms.
+ * Prints option value after sanitizing for forms.
  *
  * @since 1.5.0
  *
@@ -277,11 +277,11 @@ function wp_load_core_site_options( $network_id = null ) {
 }
 
 /**
- * Update the value of an option that was already added.
+ * Updates the value of an option that was already added.
  *
- * You do not need to serialize values. If the value needs to be serialized, then
- * it will be serialized before it is inserted into the database. Remember,
- * resources can not be serialized or added as an option.
+ * You do not need to serialize values. If the value needs to be serialized,
+ * then it will be serialized before it is inserted into the database.
+ * Remember, resources cannot be serialized or added as an option.
  *
  * If the option does not exist, then the option will be added with the option value,
  * with an `$autoload` value of 'yes'.
@@ -437,11 +437,11 @@ function update_option( $option, $value, $autoload = null ) {
 }
 
 /**
- * Add a new option.
+ * Adds a new option.
  *
- * You do not need to serialize values. If the value needs to be serialized, then
- * it will be serialized before it is inserted into the database. Remember,
- * resources can not be serialized or added as an option.
+ * You do not need to serialize values. If the value needs to be serialized,
+ * then it will be serialized before it is inserted into the database.
+ * Remember, resources cannot be serialized or added as an option.
  *
  * You can create options without values and then update the values later.
  * Existing options will not be updated and checks are performed to ensure that you
@@ -623,7 +623,7 @@ function delete_option( $option ) {
 }
 
 /**
- * Delete a transient.
+ * Deletes a transient.
  *
  * @since 2.8.0
  *
@@ -670,7 +670,7 @@ function delete_transient( $transient ) {
 }
 
 /**
- * Get the value of a transient.
+ * Retrieves the value of a transient.
  *
  * If the transient does not exist, does not have a value, or has expired,
  * then the return value will be false.
@@ -741,10 +741,10 @@ function get_transient( $transient ) {
 }
 
 /**
- * Set/update the value of a transient.
+ * Sets/updates the value of a transient.
  *
- * You do not need to serialize values. If the value needs to be serialized, then
- * it will be serialized before it is set.
+ * You do not need to serialize values. If the value needs to be serialized,
+ * then it will be serialized before it is set.
  *
  * @since 2.8.0
  *
@@ -965,7 +965,7 @@ function wp_user_settings() {
 }
 
 /**
- * Retrieve user interface setting value based on setting name.
+ * Retrieves user interface setting value based on setting name.
  *
  * @since 2.7.0
  *
@@ -980,7 +980,7 @@ function get_user_setting( $name, $default = false ) {
 }
 
 /**
- * Add or update user interface setting.
+ * Adds or updates user interface setting.
  *
  * Both $name and $value can contain only ASCII letters, numbers, hyphens, and underscores.
  *
@@ -1004,7 +1004,7 @@ function set_user_setting( $name, $value ) {
 }
 
 /**
- * Delete user interface settings.
+ * Deletes user interface settings.
  *
  * Deleting settings would reset them to the defaults.
  *
@@ -1039,7 +1039,7 @@ function delete_user_setting( $names ) {
 }
 
 /**
- * Retrieve all user interface settings.
+ * Retrieves all user interface settings.
  *
  * @since 2.7.0
  *
@@ -1080,7 +1080,7 @@ function get_all_user_settings() {
 }
 
 /**
- * Private. Set all user interface settings.
+ * Private. Sets all user interface settings.
  *
  * @since 2.8.0
  * @access private
@@ -1123,7 +1123,7 @@ function wp_set_all_user_settings( $user_settings ) {
 }
 
 /**
- * Delete the user settings of the current user.
+ * Deletes the user settings of the current user.
  *
  * @since 2.7.0
  */
@@ -1156,7 +1156,7 @@ function get_site_option( $option, $default = false, $deprecated = true ) {
 }
 
 /**
- * Add a new option for the current network.
+ * Adds a new option for the current network.
  *
  * Existing options will not be updated. Note that prior to 3.3 this wasn't the case.
  *
@@ -1189,7 +1189,7 @@ function delete_site_option( $option ) {
 }
 
 /**
- * Update the value of an option that was already added for the current network.
+ * Updates the value of an option that was already added for the current network.
  *
  * @since 2.8.0
  * @since 4.4.0 Modified into wrapper for update_network_option()
@@ -1205,7 +1205,7 @@ function update_site_option( $option, $value ) {
 }
 
 /**
- * Retrieve a network's option value based on the option name.
+ * Retrieves a network's option value based on the option name.
  *
  * @since 4.4.0
  *
@@ -1336,7 +1336,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 }
 
 /**
- * Add a new network option.
+ * Adds a new network option.
  *
  * Existing options will not be updated.
  *
@@ -1554,7 +1554,7 @@ function delete_network_option( $network_id, $option ) {
 }
 
 /**
- * Update the value of a network option that was already added.
+ * Updates the value of a network option that was already added.
  *
  * @since 4.4.0
  *
@@ -1685,7 +1685,7 @@ function update_network_option( $network_id, $option, $value ) {
 }
 
 /**
- * Delete a site transient.
+ * Deletes a site transient.
  *
  * @since 2.9.0
  *
@@ -1731,7 +1731,7 @@ function delete_site_transient( $transient ) {
 }
 
 /**
- * Get the value of a site transient.
+ * Retrieves the value of a site transient.
  *
  * If the transient does not exist, does not have a value, or has expired,
  * then the return value will be false.
@@ -1803,10 +1803,10 @@ function get_site_transient( $transient ) {
 }
 
 /**
- * Set/update the value of a site transient.
+ * Sets/updates the value of a site transient.
  *
- * You do not need to serialize values, if the value needs to be serialize, then
- * it will be serialized before it is set.
+ * You do not need to serialize values. If the value needs to be serialized,
+ * then it will be serialized before it is set.
  *
  * @since 2.9.0
  *
@@ -1896,7 +1896,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 }
 
 /**
- * Register default settings available in WordPress.
+ * Registers default settings available in WordPress.
  *
  * The settings registered here are primarily useful for the REST API, so this
  * does not encompass all settings available in WordPress.
@@ -2089,7 +2089,7 @@ function register_initial_settings() {
 }
 
 /**
- * Register a setting and its data.
+ * Registers a setting and its data.
  *
  * @since 2.7.0
  * @since 4.7.0 `$args` can be passed to set flags on the setting, similar to `register_meta()`.
@@ -2192,7 +2192,7 @@ function register_setting( $option_group, $option_name, $args = array() ) {
 }
 
 /**
- * Unregister a setting.
+ * Unregisters a setting.
  *
  * @since 2.7.0
  * @since 4.7.0 `$sanitize_callback` was deprecated. The callback from `register_setting()` is now used instead.
@@ -2286,7 +2286,7 @@ function get_registered_settings() {
 }
 
 /**
- * Filter the default value for the option.
+ * Filters the default value for the option.
  *
  * For settings which register a default setting in `register_setting()`, this
  * function is added as a filter to `default_option_{$option}`.
