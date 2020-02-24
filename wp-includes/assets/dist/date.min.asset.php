@@ -1,1 +1,0 @@
-<?php return array('dependencies' => array('moment', 'wp-polyfill'), 'version' => 'cc37d1833eb901a0aa6f9f2eb7d85555');
