@@ -314,7 +314,7 @@ function get_the_content( $more_link_text = null, $strip_teaser = false, $post =
 	}
 
 	// If the requested page doesn't exist.
-	if ( $elements['page'] > count( $elements['pages'] ) ) {
+	if ( is_countable( $elements['pages'] ) && $elements['page'] > count( $elements['pages'] ) ) {
 		// Give them the highest numbered page that DOES exist.
 		$elements['page'] = count( $elements['pages'] );
 	}
