@@ -879,16 +879,17 @@ class WP_REST_Server {
 		$method = $request->get_method();
 		$path   = $request->get_route();
 
-		$routes = array();
+		$with_namespace = array();
 
 		foreach ( $this->get_namespaces() as $namespace ) {
-			if ( 0 === strpos( ltrim( $path, '/' ), $namespace ) ) {
-				$routes = $this->get_routes( $namespace );
-				break;
+			if ( 0 === strpos( trailingslashit( ltrim( $path, '/' ) ), $namespace ) ) {
+				$with_namespace[] = $this->get_routes( $namespace );
 			}
 		}
 
-		if ( ! $routes ) {
+		if ( $with_namespace ) {
+			$routes = array_merge( ...$with_namespace );
+		} else {
 			$routes = $this->get_routes();
 		}
 
