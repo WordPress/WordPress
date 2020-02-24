@@ -132,6 +132,17 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 				</label>
 			</p>
 
+			<?php
+			/**
+			 * Fires at the end of the form field template for nav menu items in the customizer.
+			 *
+			 * Additional fields can be rendered here and managed in JavaScript.
+			 *
+			 * @since 5.4.0
+			 */
+			do_action( 'wp_nav_menu_item_custom_fields_customize_template' );
+			?>
+
 			<div class="menu-item-actions description-thin submitbox">
 				<# if ( ( 'post_type' === data.item_type || 'taxonomy' === data.item_type ) && '' !== data.original_title ) { #>
 				<p class="link-to-original">
