@@ -34,6 +34,8 @@ class WP_Widget_Categories extends WP_Widget {
 	 * Outputs the content for the current Categories widget instance.
 	 *
 	 * @since 2.8.0
+	 * @since 4.2.0 Creates a unique HTML ID for the `<select>` element
+	 *              if more than one instance is displayed on the page.
 	 *
 	 * @staticvar bool $first_dropdown
 	 *
