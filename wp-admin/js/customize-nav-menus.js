@@ -1795,7 +1795,11 @@
 
 			$removeBtn.on( 'click', function() {
 				// Find an adjacent element to add focus to when this menu item goes away.
-				var addingItems = true, $adjacentFocusTarget, $next, $prev;
+				var addingItems = true, $adjacentFocusTarget, $next, $prev,
+					instanceCounter = 0, // Instance count of the menu item deleted.
+					deleteItemOriginalItemId = control.params.original_item_id,
+					addedItems = control.getMenuControl().$sectionContent.find( '.menu-item' ),
+					availableMenuItem;
 
 				if ( ! $( 'body' ).hasClass( 'adding-menu-items' ) ) {
 					addingItems = false;
@@ -1810,6 +1814,39 @@
 					$adjacentFocusTarget = $prev.find( false === addingItems ? '.item-edit' : '.item-delete' ).first();
 				} else {
 					$adjacentFocusTarget = control.container.nextAll( '.customize-control-nav_menu' ).find( '.add-new-menu-item' ).first();
+				}
+
+				/*
+				 * If the menu item deleted is the only of its instance left,
+				 * remove the check icon of this menu item in the right panel.
+				 */ 
+				_.each( addedItems, function( addedItem ) {
+					var menuItemId, menuItemControl, matches;
+						
+					// This is because menu item that's deleted is just hidden.
+					if ( ! $( addedItem ).is( ':visible' ) ) {
+						return;
+					}
+
+					matches = addedItem.getAttribute( 'id' ).match( /^customize-control-nav_menu_item-(-?\d+)$/, '' );
+					if ( ! matches ) {
+						return;
+					}
+
+					menuItemId      = parseInt( matches[1], 10 );
+					menuItemControl = api.control( 'nav_menu_item[' + String( menuItemId ) + ']' );
+
+					// Check for duplicate menu items.
+					if ( menuItemControl && deleteItemOriginalItemId == menuItemControl.params.original_item_id ) {
+						instanceCounter++;
+					}
+				} );
+
+				if ( instanceCounter <= 1 ) {
+					// Revert the check icon to add icon.
+					availableMenuItem = $( '#menu-item-tpl-' + control.params.original_item_id );
+					availableMenuItem.removeClass( 'selected' );
+					availableMenuItem.find( '.menu-item-handle' ).removeClass( 'item-added' );
 				}
 
 				control.container.slideUp( function() {
@@ -2961,7 +2998,8 @@
 		 * @return {wp.customize.Menus.controlConstructor.nav_menu_item} The newly-created nav_menu_item control instance.
 		 */
 		addItemToMenu: function( item ) {
-			var menuControl = this, customizeId, settingArgs, setting, menuItemControl, placeholderId, position = 0, priority = 10;
+			var menuControl = this, customizeId, settingArgs, setting, menuItemControl, placeholderId, position = 0, priority = 10,
+				originalItemId = item.id || '';
 
 			_.each( menuControl.getMenuItemControls(), function( control ) {
 				if ( false === control.setting() ) {
@@ -3005,7 +3043,8 @@
 				settings: {
 					'default': customizeId
 				},
-				menu_item_id: placeholderId
+				menu_item_id: placeholderId,
+				original_item_id: originalItemId
 			} );
 
 			api.control.add( menuItemControl );
