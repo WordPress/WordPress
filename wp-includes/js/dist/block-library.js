@@ -3322,7 +3322,7 @@ function ParagraphBlock(_ref2) {
     value: fontSize.size,
     onChange: setFontSize
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Drop Cap'),
+    label: Object(external_this_wp_i18n_["__"])('Drop cap'),
     checked: !!dropCap,
     onChange: function onChange() {
       return setAttributes({
@@ -5226,7 +5226,7 @@ function (_Component) {
         return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
           title: Object(external_this_wp_i18n_["__"])('Image settings')
         }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextareaControl"], {
-          label: Object(external_this_wp_i18n_["__"])('Alt Text (Alternative Text)'),
+          label: Object(external_this_wp_i18n_["__"])('Alt text (alternative text)'),
           value: alt,
           onChange: _this3.updateAlt,
           help: Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
@@ -5245,7 +5245,7 @@ function (_Component) {
           imageWidth: imageWidth,
           imageHeight: imageHeight
         }))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorAdvancedControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
-          label: Object(external_this_wp_i18n_["__"])('Title Attribute'),
+          label: Object(external_this_wp_i18n_["__"])('Title attribute'),
           value: title || '',
           onChange: _this3.onSetTitle,
           help: Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_i18n_["__"])('Describe the role of this image on the page.'), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
@@ -6028,7 +6028,8 @@ function (_Component) {
         }),
         controls: Object(external_this_lodash_["range"])(minLevel, maxLevel).map(function (index) {
           return _this.createLevelControl(index, selectedLevel, onChange);
-        })
+        }),
+        label: Object(external_this_wp_i18n_["__"])('Change heading level')
       });
     }
   }]);
@@ -8218,19 +8219,19 @@ function (_Component) {
         max: Math.min(MAX_COLUMNS, images.length),
         required: true
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], Object(esm_extends["a" /* default */])({
-        label: Object(external_this_wp_i18n_["__"])('Crop Images')
+        label: Object(external_this_wp_i18n_["__"])('Crop images')
       }, MOBILE_CONTROL_PROPS, {
         checked: !!imageCrop,
         onChange: this.toggleImageCrop,
         help: this.getImageCropHelp
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], Object(esm_extends["a" /* default */])({
-        label: Object(external_this_wp_i18n_["__"])('Link To')
+        label: Object(external_this_wp_i18n_["__"])('Link to')
       }, mobileLinkToProps, {
         value: linkTo,
         onChange: this.setLinkTo,
         options: linkOptions
       })), shouldShowSizeOptions && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], Object(esm_extends["a" /* default */])({
-        label: Object(external_this_wp_i18n_["__"])('Images Size')
+        label: Object(external_this_wp_i18n_["__"])('Images size')
       }, MOBILE_CONTROL_PROPS_SEPARATOR_NONE, {
         value: sizeSlug,
         options: imageSizeOptions,
@@ -8661,7 +8662,7 @@ function ArchivesEdit(_ref) {
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
     title: Object(external_this_wp_i18n_["__"])('Archives settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Display as Dropdown'),
+    label: Object(external_this_wp_i18n_["__"])('Display as dropdown'),
     checked: displayAsDropdown,
     onChange: function onChange() {
       return setAttributes({
@@ -8669,7 +8670,7 @@ function ArchivesEdit(_ref) {
       });
     }
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Show Post Counts'),
+    label: Object(external_this_wp_i18n_["__"])('Show post counts'),
     checked: showPostCounts,
     onChange: function onChange() {
       return setAttributes({
@@ -9560,7 +9561,7 @@ function BorderPanel(_ref) {
     title: Object(external_this_wp_i18n_["__"])('Border settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["RangeControl"], {
     value: borderRadius,
-    label: Object(external_this_wp_i18n_["__"])('Border Radius'),
+    label: Object(external_this_wp_i18n_["__"])('Border radius'),
     min: MIN_BORDER_RADIUS_VALUE,
     max: MAX_BORDER_RADIUS_VALUE,
     initialPosition: INITIAL_BORDER_RADIUS_POSITION,
@@ -9699,7 +9700,7 @@ function ButtonEdit(_ref5) {
     settings: [{
       colorValue: textColor.color,
       onColorChange: setTextColor,
-      label: Object(external_this_wp_i18n_["__"])('Text Color')
+      label: Object(external_this_wp_i18n_["__"])('Text color')
     }, {
       colorValue: backgroundColor.color,
       onColorChange: setBackgroundColor,
@@ -10331,15 +10332,15 @@ function (_Component) {
       var inspectorControls = Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
         title: Object(external_this_wp_i18n_["__"])('Categories settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Display as Dropdown'),
+        label: Object(external_this_wp_i18n_["__"])('Display as dropdown'),
         checked: displayAsDropdown,
         onChange: this.toggleDisplayAsDropdown
       }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Show Hierarchy'),
+        label: Object(external_this_wp_i18n_["__"])('Show hierarchy'),
         checked: showHierarchy,
         onChange: this.toggleShowHierarchy
       }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Show Post Counts'),
+        label: Object(external_this_wp_i18n_["__"])('Show post counts'),
         checked: showPostCounts,
         onChange: this.toggleShowPostCounts
       })));
@@ -12167,11 +12168,11 @@ function CoverEdit(_ref3) {
   })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, !!url && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
     title: Object(external_this_wp_i18n_["__"])('Media settings')
   }, IMAGE_BACKGROUND_TYPE === backgroundType && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Fixed Background'),
+    label: Object(external_this_wp_i18n_["__"])('Fixed background'),
     checked: hasParallax,
     onChange: toggleParallax
   }), IMAGE_BACKGROUND_TYPE === backgroundType && !hasParallax && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["FocalPointPicker"], {
-    label: Object(external_this_wp_i18n_["__"])('Focal Point Picker'),
+    label: Object(external_this_wp_i18n_["__"])('Focal point picker'),
     url: url,
     value: focalPoint,
     onChange: function onChange(newFocalPoint) {
@@ -12218,7 +12219,7 @@ function CoverEdit(_ref3) {
       label: Object(external_this_wp_i18n_["__"])('Color')
     }]
   }, !!url && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["RangeControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Background Opacity'),
+    label: Object(external_this_wp_i18n_["__"])('Background opacity'),
     value: dimRatio,
     onChange: function onChange(newDimRation) {
       return setAttributes({
@@ -13467,7 +13468,7 @@ function FileBlockInspector(_ref) {
   if (attachmentPage) {
     linkDestinationOptions = [{
       value: href,
-      label: Object(external_this_wp_i18n_["__"])('Media File')
+      label: Object(external_this_wp_i18n_["__"])('Media file')
     }, {
       value: attachmentPage,
       label: Object(external_this_wp_i18n_["__"])('Attachment page')
@@ -13477,7 +13478,7 @@ function FileBlockInspector(_ref) {
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
     title: Object(external_this_wp_i18n_["__"])('Text link settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Link To'),
+    label: Object(external_this_wp_i18n_["__"])('Link to'),
     value: textLinkHref,
     options: linkDestinationOptions,
     onChange: changeLinkDestinationOption
@@ -14871,7 +14872,7 @@ function (_Component) {
       var colorSettings = [{
         value: backgroundColor.color,
         onChange: setBackgroundColor,
-        label: Object(external_this_wp_i18n_["__"])('Background Color')
+        label: Object(external_this_wp_i18n_["__"])('Background color')
       }];
       var toolbarControls = [{
         icon: 'align-pull-left',
@@ -14924,7 +14925,7 @@ function (_Component) {
           });
         }
       }), imageFill && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["FocalPointPicker"], {
-        label: Object(external_this_wp_i18n_["__"])('Focal Point Picker'),
+        label: Object(external_this_wp_i18n_["__"])('Focal point picker'),
         url: mediaUrl,
         value: focalPoint,
         onChange: function onChange(value) {
@@ -14933,7 +14934,7 @@ function (_Component) {
           });
         }
       }), mediaType === 'image' && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextareaControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Alt Text (Alternative Text)'),
+        label: Object(external_this_wp_i18n_["__"])('Alt text (alternative text)'),
         value: mediaAlt,
         onChange: onMediaAltChange,
         help: Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
@@ -15381,19 +15382,19 @@ function (_Component) {
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
         title: Object(external_this_wp_i18n_["__"])('Latest comments settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Display Avatar'),
+        label: Object(external_this_wp_i18n_["__"])('Display avatar'),
         checked: displayAvatar,
         onChange: this.toggleDisplayAvatar
       }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Display Date'),
+        label: Object(external_this_wp_i18n_["__"])('Display date'),
         checked: displayDate,
         onChange: this.toggleDisplayDate
       }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Display Excerpt'),
+        label: Object(external_this_wp_i18n_["__"])('Display excerpt'),
         checked: displayExcerpt,
         onChange: this.toggleDisplayExcerpt
       }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["RangeControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Number of Comments'),
+        label: Object(external_this_wp_i18n_["__"])('Number of comments'),
         value: commentsToShow,
         onChange: this.setCommentsToShow,
         min: MIN_COMMENTS,
@@ -15601,7 +15602,7 @@ function (_Component) {
       var inspectorControls = Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
         title: Object(external_this_wp_i18n_["__"])('Post content settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Post Content'),
+        label: Object(external_this_wp_i18n_["__"])('Post content'),
         checked: displayPostContent,
         onChange: function onChange(value) {
           return setAttributes({
@@ -15615,7 +15616,7 @@ function (_Component) {
           label: Object(external_this_wp_i18n_["__"])('Excerpt'),
           value: 'excerpt'
         }, {
-          label: Object(external_this_wp_i18n_["__"])('Full Post'),
+          label: Object(external_this_wp_i18n_["__"])('Full post'),
           value: 'full_post'
         }],
         onChange: function onChange(value) {
@@ -15644,7 +15645,7 @@ function (_Component) {
           });
         }
       })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
-        title: Object(external_this_wp_i18n_["__"])('Featured Image Settings')
+        title: Object(external_this_wp_i18n_["__"])('Featured image settings')
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
         label: Object(external_this_wp_i18n_["__"])('Display featured image'),
         checked: displayFeaturedImage,
@@ -15680,7 +15681,7 @@ function (_Component) {
             featuredImageSizeHeight: undefined
           });
         }
-      }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["BaseControl"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["BaseControl"].VisualLabel, null, Object(external_this_wp_i18n_["__"])('Image Alignment')), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockAlignmentToolbar"], {
+      }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["BaseControl"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["BaseControl"].VisualLabel, null, Object(external_this_wp_i18n_["__"])('Image alignment')), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockAlignmentToolbar"], {
         value: featuredImageAlign,
         onChange: function onChange(value) {
           return setAttributes({
@@ -15772,7 +15773,7 @@ function (_Component) {
           'has-dates': displayPostDate
         }, "columns-".concat(columns), postLayout === 'grid'))
       }, displayPosts.map(function (post, i) {
-        var titleTrimmed = post.title.rendered.trim();
+        var titleTrimmed = Object(external_this_lodash_["invoke"])(post, ['title', 'rendered', 'trim']);
         var excerpt = post.excerpt.rendered;
         var excerptElement = document.createElement('div');
         excerptElement.innerHTML = excerpt;
@@ -15934,7 +15935,7 @@ var ordered_list_settings_OrderedListSettings = function OrderedListSettings(_re
   return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
     title: Object(external_this_wp_i18n_["__"])('Ordered list settings')
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Start Value'),
+    label: Object(external_this_wp_i18n_["__"])('Start value'),
     type: "number",
     onChange: function onChange(value) {
       var int = parseInt(value, 10);
@@ -15947,7 +15948,7 @@ var ordered_list_settings_OrderedListSettings = function OrderedListSettings(_re
     value: Number.isInteger(start) ? start.toString(10) : '',
     step: "1"
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Reverse List Numbering'),
+    label: Object(external_this_wp_i18n_["__"])('Reverse list numbering'),
     checked: reversed || false,
     onChange: function onChange(value) {
       setAttributes({
@@ -17462,11 +17463,11 @@ function (_Component) {
         colorSettings: [{
           value: mainColor.color,
           onChange: this.pullQuoteMainColorSetter,
-          label: Object(external_this_wp_i18n_["__"])('Main Color')
+          label: Object(external_this_wp_i18n_["__"])('Main color')
         }, {
           value: textColor.color,
           onChange: this.pullQuoteTextColorSetter,
-          label: Object(external_this_wp_i18n_["__"])('Text Color')
+          label: Object(external_this_wp_i18n_["__"])('Text color')
         }]
       }, isSolidColorStyle && Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["ContrastChecker"], Object(esm_extends["a" /* default */])({
         textColor: textColor.color,
@@ -17613,7 +17614,7 @@ var pullquote_settings = {
     isDefault: true
   }, {
     name: SOLID_COLOR_STYLE_NAME,
-    label: Object(external_this_wp_i18n_["__"])('Solid Color')
+    label: Object(external_this_wp_i18n_["__"])('Solid color')
   }],
   supports: {
     align: ['left', 'right', 'wide', 'full']
@@ -20426,7 +20427,7 @@ function (_Component) {
         colorSettings: [{
           value: backgroundColor.color,
           onChange: setBackgroundColor,
-          label: Object(external_this_wp_i18n_["__"])('Background Color'),
+          label: Object(external_this_wp_i18n_["__"])('Background color'),
           disableCustomColors: true,
           colors: BACKGROUND_COLORS
         }]
@@ -21251,7 +21252,7 @@ var edit_common_settings_VideoSettings = function VideoSettings(_ref) {
     onChange: toggleAttribute('muted'),
     checked: muted
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Playback Controls'),
+    label: Object(external_this_wp_i18n_["__"])('Playback controls'),
     onChange: toggleAttribute('controls'),
     checked: controls
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
@@ -21495,8 +21496,8 @@ function (_Component) {
         attributes: attributes
       }), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaUploadCheck"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["BaseControl"], {
         className: "editor-video-poster-control"
-      }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["BaseControl"].VisualLabel, null, Object(external_this_wp_i18n_["__"])('Poster Image')), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaUpload"], {
-        title: Object(external_this_wp_i18n_["__"])('Select Poster Image'),
+      }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["BaseControl"].VisualLabel, null, Object(external_this_wp_i18n_["__"])('Poster image')), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MediaUpload"], {
+        title: Object(external_this_wp_i18n_["__"])('Select poster image'),
         onSelect: this.onSelectPoster,
         allowedTypes: VIDEO_POSTER_ALLOWED_MEDIA_TYPES,
         render: function render(_ref3) {
@@ -22342,7 +22343,7 @@ var social_links_name = social_links_metadata.name;
 
 var social_links_settings = {
   title: Object(external_this_wp_i18n_["__"])('Social Icons'),
-  description: Object(external_this_wp_i18n_["__"])('Create a block of links to your social media or external sites.'),
+  description: Object(external_this_wp_i18n_["__"])('Display icons linking to your social media profiles or websites.'),
   keywords: [Object(external_this_wp_i18n_["_x"])('links', 'block keywords')],
   supports: {
     align: ['left', 'center', 'right']
@@ -23462,7 +23463,7 @@ var edit_SocialLinkEdit = function SocialLinkEdit(_ref) {
     title: Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('%s label'), socialLinkName),
     initialOpen: false
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelRow"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Link Label'),
+    label: Object(external_this_wp_i18n_["__"])('Link label'),
     help: Object(external_this_wp_i18n_["__"])('Briefly describe the link to help screen reader users.'),
     value: label,
     onChange: function onChange(value) {
@@ -23494,7 +23495,7 @@ var edit_SocialLinkEdit = function SocialLinkEdit(_ref) {
         url: nextURL
       });
     },
-    placeholder: Object(external_this_wp_i18n_["__"])('Enter Address'),
+    placeholder: Object(external_this_wp_i18n_["__"])('Enter address'),
     disableSuggestions: true
   })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
     icon: keyboard_return["a" /* default */],
@@ -23518,6 +23519,7 @@ var edit_SocialLinkEdit = function SocialLinkEdit(_ref) {
 var social_link_metadata = {
   name: "core/social-link",
   category: "widgets",
+  icon: "share",
   attributes: {
     url: {
       type: "string"

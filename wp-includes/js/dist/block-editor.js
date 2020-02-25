@@ -19172,7 +19172,7 @@ function (_Component) {
           _this$props$onChangeI = _this$props.onChangeImage,
           onChangeImage = _this$props$onChangeI === void 0 ? external_this_lodash_["noop"] : _this$props$onChangeI;
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, !Object(external_this_lodash_["isEmpty"])(imageSizeOptions) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Image Size'),
+        label: Object(external_this_wp_i18n_["__"])('Image size'),
         value: slug,
         options: imageSizeOptions,
         onChange: onChangeImage
@@ -19180,7 +19180,7 @@ function (_Component) {
         className: "block-editor-image-size-control"
       }, Object(external_this_wp_element_["createElement"])("p", {
         className: "block-editor-image-size-control__row"
-      }, Object(external_this_wp_i18n_["__"])('Image Dimensions')), Object(external_this_wp_element_["createElement"])("div", {
+      }, Object(external_this_wp_i18n_["__"])('Image dimensions')), Object(external_this_wp_element_["createElement"])("div", {
         className: "block-editor-image-size-control__row"
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
         type: "number",
@@ -26220,8 +26220,8 @@ var withInspectorControl = Object(external_this_wp_compose_["createHigherOrderCo
     if (hasAnchor && props.isSelected) {
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(BlockEdit, props), Object(external_this_wp_element_["createElement"])(inspector_advanced_controls, null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
         className: "html-anchor-control",
-        label: Object(external_this_wp_i18n_["__"])('HTML Anchor'),
-        help: Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_i18n_["__"])('Enter a word or two — without spaces — to make a unique web address just for this heading, called an “anchor.” Then, you’ll be able to link directly to this section of your page.'), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
+        label: Object(external_this_wp_i18n_["__"])('HTML anchor'),
+        help: Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_i18n_["__"])('Enter a word or two — without spaces — to make a unique web address just for this heading, called an “anchor.” Then, you’ll be able to link directly to this section of your page.'), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ExternalLink"], {
           href: 'https://wordpress.org/support/article/page-jumps/'
         }, Object(external_this_wp_i18n_["__"])('Learn more about anchors'))),
         value: props.attributes.anchor || '',
@@ -26318,7 +26318,7 @@ var custom_class_name_withInspectorControl = Object(external_this_wp_compose_["c
 
     if (hasCustomClassName && props.isSelected) {
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(BlockEdit, props), Object(external_this_wp_element_["createElement"])(inspector_advanced_controls, null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
-        label: Object(external_this_wp_i18n_["__"])('Additional CSS Class(es)'),
+        label: Object(external_this_wp_i18n_["__"])('Additional CSS class(es)'),
         value: props.attributes.className || '',
         onChange: function onChange(nextValue) {
           props.setAttributes({

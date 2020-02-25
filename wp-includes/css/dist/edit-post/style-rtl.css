@@ -374,6 +374,9 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   100% {
     transform: translateX(0%); } }
 
+.block-editor-editor-skeleton__sidebar > div {
+  height: 100%; }
+
 .edit-post-layout .editor-post-publish-panel__header-publish-button {
   justify-content: center; }
 
@@ -614,7 +617,7 @@ body.admin-color-light .edit-post-layout__toogle-publish-panel-button, body.admi
     .edit-post-sidebar {
       z-index: auto;
       height: 100%;
-      overflow: visible;
+      overflow: auto;
       -webkit-overflow-scrolling: touch; } }
   @media (min-width: 782px) {
     .edit-post-sidebar {
@@ -976,7 +979,7 @@ body.admin-color-light .edit-post-layout__toogle-publish-panel-button, body.admi
   height: 100%; }
 
 .edit-post-visual-editor .block-editor-writing-flow__click-redirect {
-  min-height: 50vh;
+  min-height: 40vh;
   width: 100%; }
 
 .has-metaboxes .edit-post-visual-editor .block-editor-writing-flow__click-redirect {

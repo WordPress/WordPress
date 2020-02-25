@@ -481,7 +481,7 @@ var getFeaturedImageMediaFrame = function getFeaturedImageMediaFrame() {
 /**
  * Prepares the Gallery toolbars and frames.
  *
- * @return {wp.media.view.MediaFrame.Select} The default media workflow.
+ * @return {wp.media.view.MediaFrame.Post} The default media workflow.
  */
 
 
@@ -493,7 +493,7 @@ var media_upload_getGalleryDetailsMediaFrame = function getGalleryDetailsMediaFr
    * @class GalleryDetailsMediaFrame
    * @class
    */
-  return wp.media.view.MediaFrame.Select.extend({
+  return wp.media.view.MediaFrame.Post.extend({
     /**
      * Set up gallery toolbar.
      *

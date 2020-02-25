@@ -28526,7 +28526,7 @@ function ColorPalette(_ref) {
       buttonProps: {
         'aria-label': Object(external_this_wp_i18n_["__"])('Custom color picker')
       },
-      linkText: Object(external_this_wp_i18n_["__"])('Custom Color')
+      linkText: Object(external_this_wp_i18n_["__"])('Custom color')
     }), !!clearable && Object(external_this_wp_element_["createElement"])(CircularOptionPicker.ButtonAction, {
       onClick: clearColor
     }, Object(external_this_wp_i18n_["__"])('Clear')))
@@ -34561,7 +34561,7 @@ function (_Component) {
       }))))), Object(external_this_wp_element_["createElement"])("div", {
         className: "components-focal-point-picker_position-display-container"
       }, Object(external_this_wp_element_["createElement"])(base_control, {
-        label: Object(external_this_wp_i18n_["__"])('Horizontal Pos.'),
+        label: Object(external_this_wp_i18n_["__"])('Horizontal pos.'),
         id: horizontalPositionId
       }, Object(external_this_wp_element_["createElement"])("input", {
         className: "components-text-control__input",
@@ -34572,7 +34572,7 @@ function (_Component) {
         type: "number",
         value: this.fractionToPercentage(percentages.x)
       }), Object(external_this_wp_element_["createElement"])("span", null, "%")), Object(external_this_wp_element_["createElement"])(base_control, {
-        label: Object(external_this_wp_i18n_["__"])('Vertical Pos.'),
+        label: Object(external_this_wp_i18n_["__"])('Vertical pos.'),
         id: verticalPositionId
       }, Object(external_this_wp_element_["createElement"])("input", {
         className: "components-text-control__input",
@@ -34916,11 +34916,11 @@ function FontSizePicker(_ref) {
     className: "components-font-size-picker"
   }, Object(external_this_wp_element_["createElement"])("legend", {
     className: "screen-reader-text"
-  }, Object(external_this_wp_i18n_["__"])('Font Size')), Object(external_this_wp_element_["createElement"])("div", {
+  }, Object(external_this_wp_i18n_["__"])('Font size')), Object(external_this_wp_element_["createElement"])("div", {
     className: "components-font-size-picker__controls"
   }, fontSizes.length > 0 && Object(external_this_wp_element_["createElement"])(CustomSelectControl, {
     className: 'components-font-size-picker__select',
-    label: Object(external_this_wp_i18n_["__"])('Preset Size'),
+    label: Object(external_this_wp_i18n_["__"])('Preset size'),
     options: options,
     value: options.find(function (option) {
       return option.key === currentSelectValue;
@@ -38879,10 +38879,10 @@ function QueryControls(_ref) {
     label: Object(external_this_wp_i18n_["__"])('Order by'),
     value: "".concat(orderBy, "/").concat(order),
     options: [{
-      label: Object(external_this_wp_i18n_["__"])('Newest to Oldest'),
+      label: Object(external_this_wp_i18n_["__"])('Newest to oldest'),
       value: 'date/desc'
     }, {
-      label: Object(external_this_wp_i18n_["__"])('Oldest to Newest'),
+      label: Object(external_this_wp_i18n_["__"])('Oldest to newest'),
       value: 'date/asc'
     }, {
       /* translators: label for ordering posts by title in ascending order */

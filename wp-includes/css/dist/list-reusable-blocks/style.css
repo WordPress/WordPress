@@ -54,6 +54,8 @@
 
 .list-reusable-blocks__container {
   display: inline-flex;
-  padding: 9px 0 4px;
   align-items: center;
-  vertical-align: top; }
+  position: relative;
+  top: -3px; }
+  .list-reusable-blocks__container .components-button {
+    height: 26px; }
