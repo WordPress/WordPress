@@ -58,15 +58,21 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access for the item, otherwise WP_Error object.
 	 */
 	public function get_items_permissions_check( $request ) {
-		if ( ! is_user_logged_in() || ! current_user_can( 'edit_posts' ) ) {
-			return new WP_Error(
-				'rest_user_cannot_view',
-				__( 'Sorry, you are not allowed to view themes.' ),
-				array( 'status' => rest_authorization_required_code() )
-			);
+		if ( current_user_can( 'edit_posts' ) ) {
+			return true;
 		}
 
-		return true;
+		foreach ( get_post_types( array( 'show_in_rest' => true ), 'objects' ) as $post_type ) {
+			if ( current_user_can( $post_type->cap->edit_posts ) ) {
+				return true;
+			}
+		}
+
+		return new WP_Error(
+			'rest_user_cannot_view',
+			__( 'Sorry, you are not allowed to view themes.' ),
+			array( 'status' => rest_authorization_required_code() )
+		);
 	}
 
 	/**
