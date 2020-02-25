@@ -135,9 +135,8 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 			setup_postdata( $post );
 		}
 		$registry = WP_Block_Type_Registry::get_instance();
-		$block    = $registry->get_registered( $request['name'] );
 
-		if ( null === $block ) {
+		if ( null === $registry->get_registered( $request['name'] ) ) {
 			return new WP_Error(
 				'block_invalid',
 				__( 'Invalid block.' ),
@@ -147,8 +146,19 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 			);
 		}
 
+		$attributes = $request->get_param( 'attributes' );
+
+		// Create an array representation simulating the output of parse_blocks.
+		$block = array(
+			'blockName'    => $request['name'],
+			'attrs'        => $attributes,
+			'innerHTML'    => '',
+			'innerContent' => array(),
+		);
+
+		// Render using render_block to ensure all relevant filters are used.
 		$data = array(
-			'rendered' => $block->render( $request->get_param( 'attributes' ) ),
+			'rendered' => render_block( $block ),
 		);
 
 		return rest_ensure_response( $data );
