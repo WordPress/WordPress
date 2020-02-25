@@ -1250,6 +1250,10 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 	}
 
 	if ( 'object' === $args['type'] ) {
+		if ( '' === $value ) {
+			$value = array();
+		}
+
 		if ( $value instanceof stdClass ) {
 			$value = (array) $value;
 		}
