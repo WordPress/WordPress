@@ -1545,6 +1545,7 @@ function unregister_post_type( $post_type ) {
  * argument set to true (default is false).
  *
  * @since 3.0.0
+ * @since 5.4.0 'delete_posts' is included in default capabilities.
  *
  * @see register_post_type()
  * @see map_meta_cap()
