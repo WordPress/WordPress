@@ -283,8 +283,7 @@ function wp_load_core_site_options( $network_id = null ) {
  * then it will be serialized before it is inserted into the database.
  * Remember, resources cannot be serialized or added as an option.
  *
- * If the option does not exist, then the option will be added with the option value,
- * with an `$autoload` value of 'yes'.
+ * If the option does not exist, it will be created.
 
  * This function is designed to work with or without a logged-in user. In terms of security,
  * plugin developers should check the current user's capabilities before updating any options.
