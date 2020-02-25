@@ -3799,6 +3799,8 @@ final class WP_Customize_Manager {
 	/**
 	 * Remove a customize setting.
 	 *
+	 * Note that removing the setting doesn't destroy the WP_Customize_Setting instance or remove its filters.
+	 *
 	 * @since 3.4.0
 	 *
 	 * @param string $id Customize Setting ID.
@@ -3854,6 +3856,8 @@ final class WP_Customize_Manager {
 
 	/**
 	 * Remove a customize panel.
+	 *
+	 * Note that removing the panel doesn't destroy the WP_Customize_Panel instance or remove its filters.
 	 *
 	 * @since 4.0.0
 	 *
@@ -3951,6 +3955,8 @@ final class WP_Customize_Manager {
 	/**
 	 * Remove a customize section.
 	 *
+	 * Note that removing the section doesn't destroy the WP_Customize_Section instance or remove its filters.
+	 *
 	 * @since 3.4.0
 	 *
 	 * @param string $id Section ID.
@@ -4025,6 +4031,8 @@ final class WP_Customize_Manager {
 
 	/**
 	 * Remove a customize control.
+	 *
+	 * Note that removing the control doesn't destroy the WP_Customize_Control instance or remove its filters.
 	 *
 	 * @since 3.4.0
 	 *
