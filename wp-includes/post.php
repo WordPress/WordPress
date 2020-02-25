@@ -1509,7 +1509,7 @@ function unregister_post_type( $post_type ) {
  * Otherwise, an 's' will be added to the value for the plural form. After
  * registration, capability_type will always be a string of the singular value.
  *
- * By default, seven keys are accepted as part of the capabilities array:
+ * By default, eight keys are accepted as part of the capabilities array:
  *
  * - edit_post, read_post, and delete_post are meta capabilities, which are then
  *   generally mapped to corresponding primitive capabilities depending on the
@@ -1521,17 +1521,17 @@ function unregister_post_type( $post_type ) {
  * - edit_others_posts - Controls whether objects of this type owned by other users
  *   can be edited. If the post type does not support an author, then this will
  *   behave like edit_posts.
+ * - delete_posts - Controls whether objects of this post type can be deleted.
  * - publish_posts - Controls publishing objects of this post type.
  * - read_private_posts - Controls whether private objects can be read.
  *
- * These four primitive capabilities are checked in core in various locations.
- * There are also seven other primitive capabilities which are not referenced
+ * These five primitive capabilities are checked in core in various locations.
+ * There are also six other primitive capabilities which are not referenced
  * directly in core, except in map_meta_cap(), which takes the three aforementioned
  * meta capabilities and translates them into one or more primitive capabilities
  * that must then be checked against the user or role, depending on the context.
  *
  * - read - Controls whether objects of this post type can be read.
- * - delete_posts - Controls whether objects of this post type can be deleted.
  * - delete_private_posts - Controls whether private objects can be deleted.
  * - delete_published_posts - Controls whether published objects can be deleted.
  * - delete_others_posts - Controls whether objects owned by other users can be
@@ -1568,6 +1568,7 @@ function get_post_type_capabilities( $args ) {
 		// Primitive capabilities used outside of map_meta_cap():
 		'edit_posts'         => 'edit_' . $plural_base,
 		'edit_others_posts'  => 'edit_others_' . $plural_base,
+		'delete_posts'       => 'delete_' . $plural_base,
 		'publish_posts'      => 'publish_' . $plural_base,
 		'read_private_posts' => 'read_private_' . $plural_base,
 	);
@@ -1576,7 +1577,6 @@ function get_post_type_capabilities( $args ) {
 	if ( $args->map_meta_cap ) {
 		$default_capabilities_for_mapping = array(
 			'read'                   => 'read',
-			'delete_posts'           => 'delete_' . $plural_base,
 			'delete_private_posts'   => 'delete_private_' . $plural_base,
 			'delete_published_posts' => 'delete_published_' . $plural_base,
 			'delete_others_posts'    => 'delete_others_' . $plural_base,
