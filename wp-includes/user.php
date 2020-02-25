@@ -1502,11 +1502,14 @@ function validate_username( $username ) {
  *                                             if `$display_name` is not specified.
  *     @type string      $description          The user's biographical description.
  *     @type string|bool $rich_editing         Whether to enable the rich-editor for the user.
- *                                             False if not empty.
+ *                                             Accepts 'true' or 'false' as a string literal,
+ *                                             not boolean. Default 'true'.
  *     @type string|bool $syntax_highlighting  Whether to enable the rich code editor for the user.
- *                                             False if not empty.
+ *                                             Accepts 'true' or 'false' as a string literal,
+ *                                             not boolean. Default 'true'.
  *     @type string|bool $comment_shortcuts    Whether to enable comment moderation keyboard
- *                                             shortcuts for the user. Default false.
+ *                                             shortcuts for the user. Accepts 'true' or 'false'
+ *                                             as a string literal, not boolean. Default 'false'.
  *     @type string      $admin_color          Admin color scheme for the user. Default 'fresh'.
  *     @type bool        $use_ssl              Whether the user should always access the admin over
  *                                             https. Default false.
@@ -1514,8 +1517,9 @@ function validate_username( $username ) {
  *     @type string      $user_activation_key  Password reset key. Default empty.
  *     @type bool        $spam                 Multisite only. Whether the user is marked as spam.
  *                                             Default false.
- *     @type string|bool $show_admin_bar_front Whether to display the Admin Bar for the user on the
- *                                             site's front end. Default true.
+ *     @type string|bool $show_admin_bar_front Whether to display the Admin Bar for the user
+ *                                             on the site's front end. Accepts 'true' or 'false'
+ *                                             as a string literal, not boolean. Default 'true'.
  *     @type string      $role                 User's role.
  *     @type string      $locale               User's locale. Default empty.
  * }
@@ -1826,14 +1830,14 @@ function wp_insert_user( $userdata ) {
 	 *     @type string   $first_name           The user's first name.
 	 *     @type string   $last_name            The user's last name.
 	 *     @type string   $description          The user's description.
-	 *     @type bool     $rich_editing         Whether to enable the rich-editor for the user. False if not empty.
-	 *     @type bool     $syntax_highlighting  Whether to enable the rich code editor for the user. False if not empty.
-	 *     @type bool     $comment_shortcuts    Whether to enable keyboard shortcuts for the user. Default false.
+	 *     @type bool     $rich_editing         Whether to enable the rich-editor for the user. Default 'true'.
+	 *     @type bool     $syntax_highlighting  Whether to enable the rich code editor for the user. Default 'true'.
+	 *     @type bool     $comment_shortcuts    Whether to enable keyboard shortcuts for the user. Default 'false'.
 	 *     @type string   $admin_color          The color scheme for a user's admin screen. Default 'fresh'.
 	 *     @type int|bool $use_ssl              Whether to force SSL on the user's admin area. 0|false if SSL is
 	 *                                          not forced.
 	 *     @type bool     $show_admin_bar_front Whether to show the admin bar on the front end for the user.
-	 *                                          Default true.
+	 *                                          Default 'true'.
 	 *     @type string   $locale               User's locale. Default empty.
 	 * }
 	 * @param WP_User $user   User object.
