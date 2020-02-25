@@ -184,6 +184,8 @@ class WP_Customize_Control {
 	 *                                                 be used.
 	 *     @type string               $setting         The primary setting for the control (if there is one).
 	 *                                                 Default 'default'.
+	 *     @type string               $capability      Capability required to use this control. Normally this is empty
+	 *                                                 and the capability is derived from `$settings`.
 	 *     @type int                  $priority        Order priority to load the control. Default 10.
 	 *     @type string               $section         Section the control belongs to. Default empty.
 	 *     @type string               $label           Label for the control. Default empty.
@@ -195,11 +197,14 @@ class WP_Customize_Control {
 	 *                                                 attribute names are the keys and values are the values. Not
 	 *                                                 used for 'checkbox', 'radio', 'select', 'textarea', or
 	 *                                                 'dropdown-pages' control types. Default empty array.
+	 *     @type bool                 $allow_addition  Show UI for adding new content, currently only used for the
+	 *                                                 dropdown-pages control. Default false.
 	 *     @type array                $json            Deprecated. Use WP_Customize_Control::json() instead.
 	 *     @type string               $type            Control type. Core controls include 'text', 'checkbox',
 	 *                                                 'textarea', 'radio', 'select', and 'dropdown-pages'. Additional
 	 *                                                 input types such as 'email', 'url', 'number', 'hidden', and
 	 *                                                 'date' are supported implicitly. Default 'text'.
+	 *     @type callback             $active_callback Active callback.
 	 * }
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
