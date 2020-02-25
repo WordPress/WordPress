@@ -76,6 +76,14 @@ class WP_Dependencies {
 	public $group = 0;
 
 	/**
+	 * Cached lookup array of flattened queued items and dependencies.
+	 *
+	 * @since 5.4.0
+	 * @var array
+	 */
+	private $all_queued_deps;
+
+	/**
 	 * Processes the items and dependencies.
 	 *
 	 * Processes the items passed to it or the queue, and their dependencies.
@@ -302,8 +310,13 @@ class WP_Dependencies {
 	public function enqueue( $handles ) {
 		foreach ( (array) $handles as $handle ) {
 			$handle = explode( '?', $handle );
-			if ( ! in_array( $handle[0], $this->queue ) && isset( $this->registered[ $handle[0] ] ) ) {
+
+			if ( ! in_array( $handle[0], $this->queue, true ) && isset( $this->registered[ $handle[0] ] ) ) {
 				$this->queue[] = $handle[0];
+
+				// Reset all dependencies so they must be recalculated in recurse_deps().
+				$this->all_queued_deps = null;
+
 				if ( isset( $handle[1] ) ) {
 					$this->args[ $handle[0] ] = $handle[1];
 				}
@@ -325,8 +338,12 @@ class WP_Dependencies {
 	public function dequeue( $handles ) {
 		foreach ( (array) $handles as $handle ) {
 			$handle = explode( '?', $handle );
-			$key    = array_search( $handle[0], $this->queue );
+			$key    = array_search( $handle[0], $this->queue, true );
+
 			if ( false !== $key ) {
+				// Reset all dependencies so they must be recalculated in recurse_deps().
+				$this->all_queued_deps = null;
+
 				unset( $this->queue[ $key ] );
 				unset( $this->args[ $handle[0] ] );
 			}
@@ -334,7 +351,7 @@ class WP_Dependencies {
 	}
 
 	/**
-	 * Recursively search the passed dependency tree for $handle
+	 * Recursively search the passed dependency tree for $handle.
 	 *
 	 * @since 4.0.0
 	 *
@@ -343,19 +360,31 @@ class WP_Dependencies {
 	 * @return bool Whether the handle is found after recursively searching the dependency tree.
 	 */
 	protected function recurse_deps( $queue, $handle ) {
-		foreach ( $queue as $queued ) {
-			if ( ! isset( $this->registered[ $queued ] ) ) {
-				continue;
-			}
-
-			if ( in_array( $handle, $this->registered[ $queued ]->deps ) ) {
-				return true;
-			} elseif ( $this->recurse_deps( $this->registered[ $queued ]->deps, $handle ) ) {
-				return true;
-			}
+		if ( isset( $this->all_queued_deps ) ) {
+			return isset( $this->all_queued_deps[ $handle ] );
 		}
 
-		return false;
+		$all_deps = array_fill_keys( $queue, true );
+		$queues   = array();
+		$done     = array();
+
+		while ( $queue ) {
+			foreach ( $queue as $queued ) {
+				if ( ! isset( $done[ $queued ] ) && isset( $this->registered[ $queued ] ) ) {
+					$deps = $this->registered[ $queued ]->deps;
+					if ( $deps ) {
+						$all_deps += array_fill_keys( $deps, true );
+						array_push( $queues, $deps );
+					}
+					$done[ $queued ] = true;
+				}
+			}
+			$queue = array_pop( $queues );
+		}
+
+		$this->all_queued_deps = $all_deps;
+
+		return isset( $this->all_queued_deps[ $handle ] );
 	}
 
 	/**
@@ -379,18 +408,18 @@ class WP_Dependencies {
 
 			case 'enqueued':
 			case 'queue':
-				if ( in_array( $handle, $this->queue ) ) {
+				if ( in_array( $handle, $this->queue, true ) ) {
 					return true;
 				}
 				return $this->recurse_deps( $this->queue, $handle );
 
 			case 'to_do':
 			case 'to_print': // Back compat.
-				return in_array( $handle, $this->to_do );
+				return in_array( $handle, $this->to_do, true );
 
 			case 'done':
 			case 'printed': // Back compat.
-				return in_array( $handle, $this->done );
+				return in_array( $handle, $this->done, true );
 		}
 		return false;
 	}
