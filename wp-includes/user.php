@@ -1484,44 +1484,44 @@ function validate_username( $username ) {
  * @param array|object|WP_User $userdata {
  *     An array, object, or WP_User object of user data arguments.
  *
- *     @type int         $ID                   User ID. If supplied, the user will be updated.
- *     @type string      $user_pass            The plain-text user password.
- *     @type string      $user_login           The user's login username.
- *     @type string      $user_nicename        The URL-friendly user name.
- *     @type string      $user_url             The user URL.
- *     @type string      $user_email           The user email address.
- *     @type string      $display_name         The user's display name.
- *                                             Default is the user's username.
- *     @type string      $nickname             The user's nickname.
- *                                             Default is the user's username.
- *     @type string      $first_name           The user's first name. For new users, will be used
- *                                             to build the first part of the user's display name
- *                                             if `$display_name` is not specified.
- *     @type string      $last_name            The user's last name. For new users, will be used
- *                                             to build the second part of the user's display name
- *                                             if `$display_name` is not specified.
- *     @type string      $description          The user's biographical description.
- *     @type string|bool $rich_editing         Whether to enable the rich-editor for the user.
- *                                             Accepts 'true' or 'false' as a string literal,
- *                                             not boolean. Default 'true'.
- *     @type string|bool $syntax_highlighting  Whether to enable the rich code editor for the user.
- *                                             Accepts 'true' or 'false' as a string literal,
- *                                             not boolean. Default 'true'.
- *     @type string|bool $comment_shortcuts    Whether to enable comment moderation keyboard
- *                                             shortcuts for the user. Accepts 'true' or 'false'
- *                                             as a string literal, not boolean. Default 'false'.
- *     @type string      $admin_color          Admin color scheme for the user. Default 'fresh'.
- *     @type bool        $use_ssl              Whether the user should always access the admin over
- *                                             https. Default false.
- *     @type string      $user_registered      Date the user registered. Format is 'Y-m-d H:i:s'.
- *     @type string      $user_activation_key  Password reset key. Default empty.
- *     @type bool        $spam                 Multisite only. Whether the user is marked as spam.
- *                                             Default false.
- *     @type string|bool $show_admin_bar_front Whether to display the Admin Bar for the user
- *                                             on the site's front end. Accepts 'true' or 'false'
- *                                             as a string literal, not boolean. Default 'true'.
- *     @type string      $role                 User's role.
- *     @type string      $locale               User's locale. Default empty.
+ *     @type int    $ID                   User ID. If supplied, the user will be updated.
+ *     @type string $user_pass            The plain-text user password.
+ *     @type string $user_login           The user's login username.
+ *     @type string $user_nicename        The URL-friendly user name.
+ *     @type string $user_url             The user URL.
+ *     @type string $user_email           The user email address.
+ *     @type string $display_name         The user's display name.
+ *                                        Default is the user's username.
+ *     @type string $nickname             The user's nickname.
+ *                                        Default is the user's username.
+ *     @type string $first_name           The user's first name. For new users, will be used
+ *                                        to build the first part of the user's display name
+ *                                        if `$display_name` is not specified.
+ *     @type string $last_name            The user's last name. For new users, will be used
+ *                                        to build the second part of the user's display name
+ *                                        if `$display_name` is not specified.
+ *     @type string $description          The user's biographical description.
+ *     @type string $rich_editing         Whether to enable the rich-editor for the user.
+ *                                        Accepts 'true' or 'false' as a string literal,
+ *                                        not boolean. Default 'true'.
+ *     @type string $syntax_highlighting  Whether to enable the rich code editor for the user.
+ *                                        Accepts 'true' or 'false' as a string literal,
+ *                                        not boolean. Default 'true'.
+ *     @type string $comment_shortcuts    Whether to enable comment moderation keyboard
+ *                                        shortcuts for the user. Accepts 'true' or 'false'
+ *                                        as a string literal, not boolean. Default 'false'.
+ *     @type string $admin_color          Admin color scheme for the user. Default 'fresh'.
+ *     @type bool   $use_ssl              Whether the user should always access the admin over
+ *                                        https. Default false.
+ *     @type string $user_registered      Date the user registered. Format is 'Y-m-d H:i:s'.
+ *     @type string $user_activation_key  Password reset key. Default empty.
+ *     @type bool   $spam                 Multisite only. Whether the user is marked as spam.
+ *                                        Default false.
+ *     @type string $show_admin_bar_front Whether to display the Admin Bar for the user
+ *                                        on the site's front end. Accepts 'true' or 'false'
+ *                                        as a string literal, not boolean. Default 'true'.
+ *     @type string $role                 User's role.
+ *     @type string $locale               User's locale. Default empty.
  * }
  * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not
  *                      be created.
@@ -1830,13 +1830,13 @@ function wp_insert_user( $userdata ) {
 	 *     @type string   $first_name           The user's first name.
 	 *     @type string   $last_name            The user's last name.
 	 *     @type string   $description          The user's description.
-	 *     @type bool     $rich_editing         Whether to enable the rich-editor for the user. Default 'true'.
-	 *     @type bool     $syntax_highlighting  Whether to enable the rich code editor for the user. Default 'true'.
-	 *     @type bool     $comment_shortcuts    Whether to enable keyboard shortcuts for the user. Default 'false'.
+	 *     @type string   $rich_editing         Whether to enable the rich-editor for the user. Default 'true'.
+	 *     @type string   $syntax_highlighting  Whether to enable the rich code editor for the user. Default 'true'.
+	 *     @type string   $comment_shortcuts    Whether to enable keyboard shortcuts for the user. Default 'false'.
 	 *     @type string   $admin_color          The color scheme for a user's admin screen. Default 'fresh'.
-	 *     @type int|bool $use_ssl              Whether to force SSL on the user's admin area. 0|false if SSL is
-	 *                                          not forced.
-	 *     @type bool     $show_admin_bar_front Whether to show the admin bar on the front end for the user.
+	 *     @type int|bool $use_ssl              Whether to force SSL on the user's admin area. 0|false if SSL
+	 *                                          is not forced.
+	 *     @type string   $show_admin_bar_front Whether to show the admin bar on the front end for the user.
 	 *                                          Default 'true'.
 	 *     @type string   $locale               User's locale. Default empty.
 	 * }
