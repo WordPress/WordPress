@@ -1224,8 +1224,8 @@ table.form-table td .updated p {
 }
 
 .privacy_requests .next_steps .button {
-	word-break: break-all;
-	white-space: unset;
+	word-wrap: break-word;
+	white-space: normal;
 }
 
 .privacy_requests .status-request-confirmed th,
