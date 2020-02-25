@@ -46,6 +46,8 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      Control ID.
 	 * @param array                $args    Optional. Arguments to override class property defaults.
+	 *                                      See WP_Customize_Control::__construct() for information
+	 *                                      on accepted arguments.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		$this->statuses = array( '' => __( 'Default' ) );

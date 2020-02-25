@@ -41,7 +41,9 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      The control ID.
-	 * @param array                $args    Optional. Overrides class property defaults.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
+	 *                                      See WP_Customize_Control::__construct() for information
+	 *                                      on accepted arguments.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
