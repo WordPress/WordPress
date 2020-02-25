@@ -607,6 +607,10 @@ div#widgets-right .closed .widgets-sortables {
 	background: #fff;
 }
 
+.widget-inside select {
+	max-width: 100%;
+}
+
 /* Dragging widgets over the available widget area show's a "Deactivate" message */
 #removing-widget {
 	display: none;
