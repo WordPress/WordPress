@@ -39,7 +39,7 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param WP_Customize_Manager $manager An instance of the WP_Customize_Manager class.
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 */
 	public function __construct( $manager ) {
 		$this->manager                     = $manager;

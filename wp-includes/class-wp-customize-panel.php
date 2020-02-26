@@ -138,7 +138,7 @@ class WP_Customize_Panel {
 	 * @since 4.0.0
 	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
-	 * @param string               $id      An specific ID for the panel.
+	 * @param string               $id      A specific ID for the panel.
 	 * @param array                $args    Panel arguments.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {

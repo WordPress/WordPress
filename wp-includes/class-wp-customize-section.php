@@ -149,7 +149,7 @@ class WP_Customize_Section {
 	 * @since 3.4.0
 	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
-	 * @param string               $id      An specific ID of the section.
+	 * @param string               $id      A specific ID of the section.
 	 * @param array                $args    Section arguments.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {

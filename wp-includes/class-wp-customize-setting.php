@@ -153,9 +153,9 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string               $id      An specific ID of the setting. Can be a
-	 *                                      theme mod or option name.
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      A specific ID of the setting.
+	 *                                      Can be a theme mod or option name.
 	 * @param array                $args    Setting arguments.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {

@@ -57,9 +57,9 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 *
 	 * @throws Exception If the setting ID does not match the pattern `custom_css[$stylesheet]`.
 	 *
-	 * @param WP_Customize_Manager $manager The Customize Manager class.
-	 * @param string               $id      An specific ID of the setting. Can be a
-	 *                                      theme mod or option name.
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      A specific ID of the setting.
+	 *                                      Can be a theme mod or option name.
 	 * @param array                $args    Setting arguments.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {

@@ -58,7 +58,7 @@ final class WP_Customize_Selective_Refresh {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @param WP_Customize_Manager $manager Manager instance.
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 */
 	public function __construct( WP_Customize_Manager $manager ) {
 		$this->manager = $manager;
