@@ -3998,6 +3998,8 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 * @since 4.5.0 Return added WP_Customize_Control instance.
 	 *
+	 * @see WP_Customize_Control::__construct()
+	 *
 	 * @param WP_Customize_Control|string $id   Customize Control object, or ID.
 	 * @param array                       $args Optional. Array of properties for the new Control object.
 	 *                                          See WP_Customize_Control::__construct() for information

@@ -41,7 +41,8 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	 * Constructor.
 	 *
 	 * @since 3.4.0
-	 * @uses WP_Customize_Control::__construct()
+	 *
+	 * @see WP_Customize_Control::__construct()
 	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      Control ID.
