@@ -3899,25 +3899,12 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 * @since 4.5.0 Return added WP_Customize_Section instance.
 	 *
-	 * @param WP_Customize_Section|string $id   Customize Section object, or Section ID.
-	 * @param array                     $args {
-	 *  Optional. Array of properties for the new Section object. Default empty array.
+	 * @see WP_Customize_Section::__construct()
 	 *
-	 *     @type int             $priority           Priority of the section, defining the display order
-	 *                                               of panels and sections. Default 160.
-	 *     @type string          $panel              The panel this section belongs to (if any).
-	 *                                               Default empty.
-	 *     @type string          $capability         Capability required for the section.
-	 *                                               Default 'edit_theme_options'
-	 *     @type string|string[] $theme_supports     Theme features required to support the section.
-	 *     @type string          $title              Title of the section to show in UI.
-	 *     @type string          $description        Description to show in the UI.
-	 *     @type string          $type               Type of the section.
-	 *     @type callable        $active_callback    Active callback.
-	 *     @type bool            $description_hidden Hide the description behind a help icon,
-	 *                                               instead of inline above the first control.
-	 *                                               Default false.
-	 * }
+	 * @param WP_Customize_Section|string $id   Customize Section object, or Section ID.
+	 * @param array                       $args Optional. Array of properties for the new Section object.
+	 *                                          See WP_Customize_Section::__construct() for information
+	 *                                          on accepted arguments. Default empty array.
 	 * @return WP_Customize_Section The instance of the section that was added.
 	 */
 	public function add_section( $id, $args = array() ) {

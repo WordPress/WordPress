@@ -150,7 +150,24 @@ class WP_Customize_Section {
 	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      A specific ID of the section.
-	 * @param array                $args    Section arguments.
+	 * @param array                $args    {
+	 *     Optional. Array of properties for the new Section object. Default empty array.
+	 *
+	 *     @type int             $priority           Priority of the section, defining the display order
+	 *                                               of panels and sections. Default 160.
+	 *     @type string          $panel              The panel this section belongs to (if any).
+	 *                                               Default empty.
+	 *     @type string          $capability         Capability required for the section.
+	 *                                               Default 'edit_theme_options'
+	 *     @type string|string[] $theme_supports     Theme features required to support the section.
+	 *     @type string          $title              Title of the section to show in UI.
+	 *     @type string          $description        Description to show in the UI.
+	 *     @type string          $type               Type of the section.
+	 *     @type callable        $active_callback    Active callback.
+	 *     @type bool            $description_hidden Hide the description behind a help icon,
+	 *                                               instead of inline above the first control.
+	 *                                               Default false.
+	 * }
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_object_vars( $this ) );
