@@ -126,7 +126,7 @@ function twentytwenty_get_starter_content() {
 						'<!-- /wp:image -->',
 						'<!-- wp:group {"align":"wide"} -->',
 						'<div class="wp-block-group alignwide"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center","textColor":"accent"} -->',
-						'<h2 class="has-accent-color has-text-align-center">' . __( '”Cyborgs, as the philosopher Donna Haraway established, are not reverent. They do not remember the cosmos.”', 'twentytwenty' ) . '</h2>',
+						'<h2 class="has-accent-color has-text-align-center">' . __( '&#8220;Cyborgs, as the philosopher Donna Haraway established, are not reverent. They do not remember the cosmos.&#8221;', 'twentytwenty' ) . '</h2>',
 						'<!-- /wp:heading --></div></div>',
 						'<!-- /wp:group -->',
 						'<!-- wp:paragraph {"dropCap":true} -->',
