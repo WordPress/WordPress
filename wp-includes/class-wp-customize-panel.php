@@ -69,10 +69,10 @@ class WP_Customize_Panel {
 	public $capability = 'edit_theme_options';
 
 	/**
-	 * Theme feature support for the panel.
+	 * Theme features required to support the panel.
 	 *
 	 * @since 4.0.0
-	 * @var string|array
+	 * @var string|string[]
 	 */
 	public $theme_supports = '';
 

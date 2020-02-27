@@ -77,10 +77,10 @@ class WP_Customize_Section {
 	public $capability = 'edit_theme_options';
 
 	/**
-	 * Theme feature support for the section.
+	 * Theme features required to support the section.
 	 *
 	 * @since 3.4.0
-	 * @var string|array
+	 * @var string|string[]
 	 */
 	public $theme_supports = '';
 

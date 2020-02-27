@@ -3803,15 +3803,17 @@ final class WP_Customize_Manager {
 	 *
 	 * @param WP_Customize_Panel|string $id   Customize Panel object, or Panel ID.
 	 * @param array                     $args {
-	 *  Optional. Array of properties for the new Panel object. Default empty array.
-	 *  @type int          $priority              Priority of the panel, defining the display order of panels and sections.
-	 *                                            Default 160.
-	 *  @type string       $capability            Capability required for the panel. Default `edit_theme_options`
-	 *  @type string|array $theme_supports        Theme features required to support the panel.
-	 *  @type string       $title                 Title of the panel to show in UI.
-	 *  @type string       $description           Description to show in the UI.
-	 *  @type string       $type                  Type of the panel.
-	 *  @type callable     $active_callback       Active callback.
+	 *     Optional. Array of properties for the new Panel object. Default empty array.
+	 *
+	 *     @type int             $priority        Priority of the panel, defining the display order
+	 *                                            of panels and sections. Default 160.
+	 *     @type string          $capability      Capability required for the panel.
+	 *                                            Default `edit_theme_options`.
+	 *     @type string|string[] $theme_supports  Theme features required to support the panel.
+	 *     @type string          $title           Title of the panel to show in UI.
+	 *     @type string          $description     Description to show in the UI.
+	 *     @type string          $type            Type of the panel.
+	 *     @type callable        $active_callback Active callback.
 	 * }
 	 * @return WP_Customize_Panel The instance of the panel that was added.
 	 */
@@ -3900,16 +3902,21 @@ final class WP_Customize_Manager {
 	 * @param WP_Customize_Section|string $id   Customize Section object, or Section ID.
 	 * @param array                     $args {
 	 *  Optional. Array of properties for the new Section object. Default empty array.
-	 *  @type int          $priority              Priority of the section, defining the display order of panels and sections.
-	 *                                            Default 160.
-	 *  @type string       $panel                 The panel this section belongs to (if any). Default empty.
-	 *  @type string       $capability            Capability required for the section. Default 'edit_theme_options'
-	 *  @type string|array $theme_supports        Theme features required to support the section.
-	 *  @type string       $title                 Title of the section to show in UI.
-	 *  @type string       $description           Description to show in the UI.
-	 *  @type string       $type                  Type of the section.
-	 *  @type callable     $active_callback       Active callback.
-	 *  @type bool         $description_hidden    Hide the description behind a help icon, instead of inline above the first control. Default false.
+	 *
+	 *     @type int             $priority           Priority of the section, defining the display order
+	 *                                               of panels and sections. Default 160.
+	 *     @type string          $panel              The panel this section belongs to (if any).
+	 *                                               Default empty.
+	 *     @type string          $capability         Capability required for the section.
+	 *                                               Default 'edit_theme_options'
+	 *     @type string|string[] $theme_supports     Theme features required to support the section.
+	 *     @type string          $title              Title of the section to show in UI.
+	 *     @type string          $description        Description to show in the UI.
+	 *     @type string          $type               Type of the section.
+	 *     @type callable        $active_callback    Active callback.
+	 *     @type bool            $description_hidden Hide the description behind a help icon,
+	 *                                               instead of inline above the first control.
+	 *                                               Default false.
 	 * }
 	 * @return WP_Customize_Section The instance of the section that was added.
 	 */

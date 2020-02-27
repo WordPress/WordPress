@@ -51,10 +51,10 @@ class WP_Customize_Setting {
 	public $capability = 'edit_theme_options';
 
 	/**
-	 * Feature a theme is required to support to enable this setting.
+	 * Theme features required to support the setting.
 	 *
 	 * @since 3.4.0
-	 * @var string
+	 * @var string|string[]
 	 */
 	public $theme_supports = '';
 
@@ -157,21 +157,21 @@ class WP_Customize_Setting {
 	 * @param string               $id      A specific ID of the setting.
 	 *                                      Can be a theme mod or option name.
 	 * @param array                $args    {
-	 *  Optional. Array of properties for the new Setting object. Default empty array.
+	 *     Optional. Array of properties for the new Setting object. Default empty array.
 	 *
-	 *  @type string       $type                  Type of the setting. Default 'theme_mod'.
-	 *  @type string       $capability            Capability required for the setting. Default 'edit_theme_options'
-	 *  @type string|array $theme_supports        Theme features required to support the panel. Default is none.
-	 *  @type string       $default               Default value for the setting. Default is empty string.
-	 *  @type string       $transport             Options for rendering the live preview of changes in Customizer.
-	 *                                            Using 'refresh' makes the change visible by reloading the whole preview.
-	 *                                            Using 'postMessage' allows a custom JavaScript to handle live changes.
-	 *                                            Default is 'refresh'.
-	 *  @type callable     $validate_callback     Server-side validation callback for the setting's value.
-	 *  @type callable     $sanitize_callback     Callback to filter a Customize setting value in un-slashed form.
-	 *  @type callable     $sanitize_js_callback  Callback to convert a Customize PHP setting value to a value that is
-	 *                                            JSON serializable.
-	 *  @type bool         $dirty                 Whether or not the setting is initially dirty when created.
+	 *     @type string          $type                 Type of the setting. Default 'theme_mod'.
+	 *     @type string          $capability           Capability required for the setting. Default 'edit_theme_options'
+	 *     @type string|string[] $theme_supports       Theme features required to support the panel. Default is none.
+	 *     @type string          $default              Default value for the setting. Default is empty string.
+	 *     @type string          $transport            Options for rendering the live preview of changes in Customizer.
+	 *                                                 Using 'refresh' makes the change visible by reloading the whole preview.
+	 *                                                 Using 'postMessage' allows a custom JavaScript to handle live changes.
+	 *                                                 Default is 'refresh'.
+	 *     @type callable        $validate_callback    Server-side validation callback for the setting's value.
+	 *     @type callable        $sanitize_callback    Callback to filter a Customize setting value in un-slashed form.
+	 *     @type callable        $sanitize_js_callback Callback to convert a Customize PHP setting value to a value that is
+	 *                                                 JSON serializable.
+	 *     @type bool            $dirty                Whether or not the setting is initially dirty when created.
 	 * }
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
