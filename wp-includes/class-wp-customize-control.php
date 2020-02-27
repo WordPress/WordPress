@@ -174,7 +174,7 @@ class WP_Customize_Control {
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      Control ID.
 	 * @param array                $args    {
-	 *     Optional. Arguments to override class property defaults.
+	 *     Optional. Array of properties for the new Control object. Default empty array.
 	 *
 	 *     @type int                  $instance_number Order in which this instance was created in relation
 	 *                                                 to other instances.
