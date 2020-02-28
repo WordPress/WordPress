@@ -2583,6 +2583,22 @@ footer.entry-meta {
 	background-color: transparent;
 }
 
+.wp-calendar-table {
+	margin-bottom: 0;
+}
+
+.wp-calendar-nav {
+	display: table;
+	line-height: 2;
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.wp-calendar-nav span {
+	display: table-cell;
+	text-align: center;
+}
+
 /* Text widget */
 .widget_text ul,
 .widget_text ol {
