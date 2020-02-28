@@ -16,6 +16,13 @@
  */
 class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
+	/**
+	 * Registers the routes for attachments.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @see register_rest_route()
+	 */
 	public function register_routes() {
 		parent::register_routes();
 		register_rest_route(
@@ -344,8 +351,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param WP_REST_Request $request
-	 * @return WP_REST_Response|WP_Error
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Response|WP_Error Response object on success, WP_Error object on failure.
 	 */
 	public function post_process_item( $request ) {
 		switch ( $request['action'] ) {

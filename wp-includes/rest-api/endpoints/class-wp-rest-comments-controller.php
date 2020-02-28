@@ -40,6 +40,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * Registers the routes for the objects of the controller.
 	 *
 	 * @since 4.7.0
+	 *
+	 * @see register_rest_route()
 	 */
 	public function register_routes() {
 

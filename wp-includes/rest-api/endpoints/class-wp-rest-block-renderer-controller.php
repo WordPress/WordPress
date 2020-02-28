@@ -30,6 +30,8 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 	 * Registers the necessary REST API routes, one for each dynamic block.
 	 *
 	 * @since 5.0.0
+	 *
+	 * @see register_rest_route()
 	 */
 	public function register_routes() {
 		$block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
