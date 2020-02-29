@@ -6087,7 +6087,7 @@ function wp_attachment_is_image( $post = null ) {
 }
 
 /**
- * Retrieve the icon for a MIME type.
+ * Retrieve the icon for a MIME type or attachment.
  *
  * @since 2.1.0
  *

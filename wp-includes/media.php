@@ -166,27 +166,28 @@ function image_hwstring( $width, $height ) {
 /**
  * Scale an image to fit a particular size (such as 'thumb' or 'medium').
  *
- * Array with image url, width, height, and whether is intermediate size, in
- * that order is returned on success is returned. $is_intermediate is true if
- * $url is a resized image, false if it is the original.
- *
  * The URL might be the original image, or it might be a resized version. This
  * function won't create a new resized copy, it will just return an already
  * resized one if it exists.
  *
  * A plugin may use the {@see 'image_downsize'} filter to hook into and offer image
  * resizing services for images. The hook must return an array with the same
- * elements that are returned in the function. The first element being the URL
- * to the new image that was resized.
+ * elements that are normally returned from the function.
  *
  * @since 2.5.0
  *
  * @param int          $id   Attachment ID for image.
- * @param array|string $size Optional. Image size to scale to. Accepts any valid image size,
+ * @param string|int[] $size Optional. Image size to scale to. Accepts any valid image size name,
  *                           or an array of width and height values in pixels (in that order).
  *                           Default 'medium'.
- * @return array|false Array containing the image URL, width, height, and boolean for whether
- *                     the image is an intermediate size. False on failure.
+ * @return array|false {
+ *     Array of image data, or boolean false if no image is available.
+ *
+ *     @type string $0 Image source URL.
+ *     @type int    $1 Image width in pixels.
+ *     @type int    $2 Image height in pixels.
+ *     @type bool   $3 Whether the image is a resized image.
+ * }
  */
 function image_downsize( $id, $size = 'medium' ) {
 	$is_image = wp_attachment_is_image( $id );
@@ -194,15 +195,15 @@ function image_downsize( $id, $size = 'medium' ) {
 	/**
 	 * Filters whether to preempt the output of image_downsize().
 	 *
-	 * Passing a truthy value to the filter will effectively short-circuit
-	 * down-sizing the image, returning that value as output instead.
+	 * Returning a truthy value from the filter will effectively short-circuit
+	 * down-sizing the image, returning that value instead.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param bool         $downsize Whether to short-circuit the image downsize. Default false.
+	 * @param bool|array   $downsize Whether to short-circuit the image downsize.
 	 * @param int          $id       Attachment ID for image.
-	 * @param array|string $size     Size of image. Image size or array of width and height values (in that order).
-	 *                               Default 'medium'.
+	 * @param array|string $size     Requested size of image. Image size name, or array of width
+	 *                               and height values (in that order).
 	 */
 	$out = apply_filters( 'image_downsize', false, $id, $size );
 
@@ -932,22 +933,21 @@ function wp_get_registered_image_subsizes() {
 }
 
 /**
- * Retrieve an image to represent an attachment.
- *
- * A mime icon for files, thumbnail or intermediate size for images.
- *
- * The returned array contains four values: the URL of the attachment image src,
- * the width of the image file, the height of the image file, and a boolean
- * representing whether the returned array describes an intermediate (generated)
- * image size or the original, full-sized upload.
+ * Retrieves an image to represent an attachment.
  *
  * @since 2.5.0
  *
  * @param int          $attachment_id Image attachment ID.
- * @param string|array $size          Optional. Image size. Accepts any valid image size, or an array of width
+ * @param string|int[] $size          Optional. Image size. Accepts any valid image size name, or an array of width
  *                                    and height values in pixels (in that order). Default 'thumbnail'.
- * @param bool         $icon          Optional. Whether the image should be treated as an icon. Default false.
- * @return array|false Returns an array (url, width, height, is_intermediate), or false if no image is available.
+ * @param bool         $icon          Optional. Whether the image should fall back to a mime type icon. Default false.
+ * @return array|false {
+ *     Array of image data, or boolean false if no image is available.
+ *
+ *     @type string $0 Image source URL.
+ *     @type int    $1 Image width in pixels.
+ *     @type int    $2 Image height in pixels.
+ * }
  */
 function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon = false ) {
 	// Get a thumbnail or intermediate image if there is one.
@@ -972,15 +972,21 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 		}
 	}
 	/**
-	 * Filters the image src result.
+	 * Filters the attachment image source result.
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param array|false  $image         Either array with src, width & height, icon src, or false.
+	 * @param array|false  $image         {
+	 *     Array of image data, or boolean false if no image is available.
+	 *
+	 *     @type string $0 Image source URL.
+	 *     @type int    $1 Image width in pixels.
+	 *     @type int    $2 Image height in pixels.
+	 * }
 	 * @param int          $attachment_id Image attachment ID.
-	 * @param string|array $size          Size of image. Image size or array of width and height values
-	 *                                    (in that order). Default 'thumbnail'.
-	 * @param bool         $icon          Whether the image should be treated as an icon. Default false.
+	 * @param string|int[] $size          Requested size of image. Image size name, or array of width
+	 *                                    and height values (in that order).
+	 * @param bool         $icon          Whether the image should be treated as an icon.
 	 */
 	return apply_filters( 'wp_get_attachment_image_src', $image, $attachment_id, $size, $icon );
 }
