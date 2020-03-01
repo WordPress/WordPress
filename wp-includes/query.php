@@ -172,7 +172,8 @@ function is_archive() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param string|array $post_types Optional. Post type or array of posts types to check against.
+ * @param string|string[] $post_types Optional. Post type or array of posts types
+ *                                    to check against. Default empty.
  * @return bool
  */
 function is_post_type_archive( $post_types = '' ) {
@@ -197,7 +198,8 @@ function is_post_type_archive( $post_types = '' ) {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param int|string|array|object $attachment Attachment ID, title, slug, or array of such.
+ * @param int|string|int[]|string[] $attachment Optional. Attachment ID, title, slug, or array of such
+ *                                              to check against. Default empty.
  * @return bool
  */
 function is_attachment( $attachment = '' ) {
@@ -225,7 +227,8 @@ function is_attachment( $attachment = '' ) {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param int|string|int[]|string[] $author Optional. User ID, nickname, nicename, or array of such to check against.
+ * @param int|string|int[]|string[] $author Optional. User ID, nickname, nicename, or array of such
+ *                                          to check against. Default empty.
  * @return bool
  */
 function is_author( $author = '' ) {
@@ -253,7 +256,8 @@ function is_author( $author = '' ) {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param int|string|int[]|string[] $category Optional. Category ID, name, slug, or array of such to check against.
+ * @param int|string|int[]|string[] $category Optional. Category ID, name, slug, or array of such
+ *                                            to check against. Default empty.
  * @return bool
  */
 function is_category( $category = '' ) {
@@ -281,7 +285,8 @@ function is_category( $category = '' ) {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param int|string|int[]|string[] $tag Optional. Tag ID, name, slug, or array of such to check against.
+ * @param int|string|int[]|string[] $tag Optional. Tag ID, name, slug, or array of such
+ *                                       to check against. Default empty.
  * @return bool
  */
 function is_tag( $tag = '' ) {
@@ -314,8 +319,11 @@ function is_tag( $tag = '' ) {
  * @global WP_Query $wp_query WordPress Query object.
  *
  * @param string|string[]           $taxonomy Optional. Taxonomy slug or slugs to check against.
- * @param int|string|int[]|string[] $term     Optional. Term ID, name, slug, or array of such to check against.
- * @return bool True for custom taxonomy archive pages, false for built-in taxonomies (category and tag archives).
+ *                                            Default empty.
+ * @param int|string|int[]|string[] $term     Optional. Term ID, name, slug, or array of such
+ *                                            to check against. Default empty.
+ * @return bool True for custom taxonomy archive pages, false for built-in taxonomies
+ *              (category and tag archives).
  */
 function is_tax( $taxonomy = '', $term = '' ) {
 	global $wp_query;
@@ -389,7 +397,8 @@ function is_day() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param string|array $feeds Optional feed types to check.
+ * @param string|string[] $feeds Optional. Feed type or array of feed types
+ *                                         to check against. Default empty.
  * @return bool
  */
 function is_feed( $feeds = '' ) {
@@ -560,7 +569,8 @@ function is_month() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param int|string|array $page Optional. Page ID, title, slug, or array of such. Default empty.
+ * @param int|string|array $page Optional. Page ID, title, slug, or array of such
+ *                               to check against. Default empty.
  * @return bool Whether the query is for an existing single page.
  */
 function is_page( $page = '' ) {
@@ -705,7 +715,8 @@ function is_search() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param int|string|array $post Optional. Post ID, title, slug, or array of such. Default empty.
+ * @param int|string|array $post Optional. Post ID, title, slug, or array of such
+ *                               to check against. Default empty.
  * @return bool Whether the query is for an existing single post.
  */
 function is_single( $post = '' ) {
@@ -737,8 +748,10 @@ function is_single( $post = '' ) {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param string|array $post_types Optional. Post type or array of post types. Default empty.
- * @return bool Whether the query is for an existing single post of any of the given post types.
+ * @param string|array $post_types Optional. Post type or array of post types
+ *                                 to check against. Default empty.
+ * @return bool Whether the query is for an existing single post
+ *              or any of the given post types.
  */
 function is_singular( $post_types = '' ) {
 	global $wp_query;
