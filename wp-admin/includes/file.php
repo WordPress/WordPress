@@ -1987,8 +1987,8 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	 *                                                    or an error object.
 	 * @param string        $context                      Full path to the directory that is tested for
 	 *                                                    being writable.
-	 * @param bool          $allow_relaxed_file_ownership Whether to allow Group/World writable.
 	 * @param array         $extra_fields                 Extra POST fields.
+	 * @param bool          $allow_relaxed_file_ownership Whether to allow Group/World writable.
 	 */
 	$req_cred = apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership );
 	if ( '' !== $req_cred ) {
