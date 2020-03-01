@@ -5473,8 +5473,8 @@ function wp_slash( $value ) {
  *
  * @since 3.6.0
  *
- * @param string|array $value String or array of strings to unslash.
- * @return string|array Unslashed $value
+ * @param string|string[] $value String or array of strings to unslash.
+ * @return string|string[] Unslashed $value
  */
 function wp_unslash( $value ) {
 	return stripslashes_deep( $value );
