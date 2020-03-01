@@ -37,7 +37,7 @@ class _WP_Dependency {
 	 * An array of handle dependencies.
 	 *
 	 * @since 2.6.0
-	 * @var array
+	 * @var string[]
 	 */
 	public $deps = array();
 
