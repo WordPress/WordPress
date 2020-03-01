@@ -569,8 +569,8 @@ function is_month() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param int|string|array $page Optional. Page ID, title, slug, or array of such
- *                               to check against. Default empty.
+ * @param int|string|int[]|string[] $page Optional. Page ID, title, slug, or array of such
+ *                                        to check against. Default empty.
  * @return bool Whether the query is for an existing single page.
  */
 function is_page( $page = '' ) {
@@ -715,8 +715,8 @@ function is_search() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param int|string|array $post Optional. Post ID, title, slug, or array of such
- *                               to check against. Default empty.
+ * @param int|string|int[]|string[] $post Optional. Post ID, title, slug, or array of such
+ *                                        to check against. Default empty.
  * @return bool Whether the query is for an existing single post.
  */
 function is_single( $post = '' ) {
@@ -748,8 +748,8 @@ function is_single( $post = '' ) {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param string|array $post_types Optional. Post type or array of post types
- *                                 to check against. Default empty.
+ * @param string|string[] $post_types Optional. Post type or array of post types
+ *                                    to check against. Default empty.
  * @return bool Whether the query is for an existing single post
  *              or any of the given post types.
  */

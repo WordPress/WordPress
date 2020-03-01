@@ -3978,8 +3978,8 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param int|string|array $page Optional. Page ID, title, slug, path, or array of such
-	 *                               to check against. Default empty.
+	 * @param int|string|int[]|string[] $page Optional. Page ID, title, slug, path, or array of such
+	 *                                        to check against. Default empty.
 	 * @return bool Whether the query is for an existing single page.
 	 */
 	public function is_page( $page = '' ) {
@@ -4085,8 +4085,8 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param int|string|array $post Optional. Post ID, title, slug, path, or array of such
-	 *                               to check against. Default empty.
+	 * @param int|string|int[]|string[] $post Optional. Post ID, title, slug, path, or array of such
+	 *                                        to check against. Default empty.
 	 * @return bool Whether the query is for an existing single post.
 	 */
 	public function is_single( $post = '' ) {
@@ -4135,8 +4135,8 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param string|array $post_types Optional. Post type or array of post types
-	 *                                 to check against. Default empty.
+	 * @param string|string[] $post_types Optional. Post type or array of post types
+	 *                                    to check against. Default empty.
 	 * @return bool Whether the query is for an existing single post
 	 *              or any of the given post types.
 	 */
