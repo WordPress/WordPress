@@ -855,27 +855,27 @@ if ( ! function_exists( 'wp_set_auth_cookie' ) ) :
 			$secure = is_ssl();
 		}
 
-		// Front-end cookie is secure when the auth cookie is secure and the site's home URL is forced HTTPS.
+		// Front-end cookie is secure when the auth cookie is secure and the site's home URL uses HTTPS.
 		$secure_logged_in_cookie = $secure && 'https' === parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 
 		/**
-		 * Filters whether the connection is secure.
+		 * Filters whether the auth cookie should only be sent over HTTPS.
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param bool $secure  Whether the connection is secure.
+		 * @param bool $secure  Whether the cookie should only be sent over HTTPS.
 		 * @param int  $user_id User ID.
 		 */
 		$secure = apply_filters( 'secure_auth_cookie', $secure, $user_id );
 
 		/**
-		 * Filters whether to use a secure cookie when logged-in.
+		 * Filters whether the logged in cookie should only be sent over HTTPS.
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param bool $secure_logged_in_cookie Whether to use a secure cookie when logged-in.
+		 * @param bool $secure_logged_in_cookie Whether the logged in cookie should only be sent over HTTPS.
 		 * @param int  $user_id                 User ID.
-		 * @param bool $secure                  Whether the connection is secure.
+		 * @param bool $secure                  Whether the auth cookie should only be sent over HTTPS.
 		 */
 		$secure_logged_in_cookie = apply_filters( 'secure_logged_in_cookie', $secure_logged_in_cookie, $user_id, $secure );
 

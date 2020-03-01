@@ -1966,21 +1966,25 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
  *                                                    the post. Default null.
  * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
  *
- * @return bool True on success, false on failure.
+ * @return bool|array True if no filesystem credentials are required, false if they are required but have not been
+ *                    provided, array of credentials if they are required and have been provided.
  */
 function request_filesystem_credentials( $form_post, $type = '', $error = false, $context = '', $extra_fields = null, $allow_relaxed_file_ownership = false ) {
 	global $pagenow;
 
 	/**
-	 * Filters the filesystem credentials form output.
+	 * Filters the filesystem credentials.
 	 *
 	 * Returning anything other than an empty string will effectively short-circuit
 	 * output of the filesystem credentials form, returning that value instead.
 	 *
+	 * A filter should return true if no filesystem credentials are required, false if they are required but have not been
+	 * provided, or an array of credentials if they are required and have been provided.
+	 *
 	 * @since 2.5.0
 	 * @since 4.6.0 The `$context` parameter default changed from `false` to an empty string.
 	 *
-	 * @param mixed         $output                       Form output to return instead. Default empty.
+	 * @param mixed         $credentials                  Credentials to return instead. Default empty string.
 	 * @param string        $form_post                    The URL to post the form to.
 	 * @param string        $type                         Chosen type of filesystem.
 	 * @param bool|WP_Error $error                        Whether the current request has failed to connect,
