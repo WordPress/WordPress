@@ -823,8 +823,8 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			 *
 			 * @since 2.0.5
 			 *
-			 * @param mixed $output The URL returned by bloginfo().
-			 * @param mixed $show   Type of information requested.
+			 * @param string $output The URL returned by bloginfo().
+			 * @param string $show   Type of information requested.
 			 */
 			$output = apply_filters( 'bloginfo_url', $output, $show );
 		} else {
@@ -833,8 +833,8 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			 *
 			 * @since 0.71
 			 *
-			 * @param mixed $output The requested non-URL site information.
-			 * @param mixed $show   Type of information requested.
+			 * @param mixed  $output The requested non-URL site information.
+			 * @param string $show   Type of information requested.
 			 */
 			$output = apply_filters( 'bloginfo', $output, $show );
 		}

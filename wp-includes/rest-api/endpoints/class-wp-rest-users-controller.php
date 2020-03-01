@@ -1235,7 +1235,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param mixed           $value   The username submitted in the request.
+	 * @param string          $value   The username submitted in the request.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @param string          $param   The parameter name.
 	 * @return string|WP_Error The sanitized username, if valid, otherwise an error.
@@ -1272,7 +1272,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param mixed           $value   The password submitted in the request.
+	 * @param string          $value   The password submitted in the request.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @param string          $param   The parameter name.
 	 * @return string|WP_Error The sanitized password, if valid, otherwise an error.

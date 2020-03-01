@@ -821,11 +821,11 @@ if ( ! function_exists( 'wp_set_auth_cookie' ) ) :
 	 * @since 2.5.0
 	 * @since 4.3.0 Added the `$token` parameter.
 	 *
-	 * @param int    $user_id  User ID.
-	 * @param bool   $remember Whether to remember the user.
-	 * @param mixed  $secure   Whether the admin cookies should only be sent over HTTPS.
-	 *                         Default is the value of is_ssl().
-	 * @param string $token    Optional. User's session token to use for this cookie.
+	 * @param int         $user_id  User ID.
+	 * @param bool        $remember Whether to remember the user.
+	 * @param bool|string $secure   Whether the auth cookie should only be sent over HTTPS. Default is an empty
+	 *                              string which means the value of `is_ssl()` will be used.
+	 * @param string      $token    Optional. User's session token to use for this cookie.
 	 */
 	function wp_set_auth_cookie( $user_id, $remember = false, $secure = '', $token = '' ) {
 		if ( $remember ) {

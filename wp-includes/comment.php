@@ -213,7 +213,7 @@ function get_comment( &$comment = null, $output = OBJECT ) {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param mixed $_comment Comment data.
+	 * @param WP_Comment $_comment Comment data.
 	 */
 	$_comment = apply_filters( 'get_comment', $_comment );
 

@@ -3630,7 +3630,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $attachment Attachment ID, title, slug, or array of such.
+	 * @param int|string|int[]|string[] $attachment Optional. Attachment ID, title, slug, or array of such to check against.
 	 * @return bool
 	 */
 	public function is_attachment( $attachment = '' ) {
@@ -3664,7 +3664,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $author Optional. User ID, nickname, nicename, or array of User IDs, nicknames, and nicenames
+	 * @param int|string|int[]|string[] $author Optional. User ID, nickname, nicename, or array of such to check against.
 	 * @return bool
 	 */
 	public function is_author( $author = '' ) {
@@ -3699,7 +3699,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $category Optional. Category ID, name, slug, or array of Category IDs, names, and slugs.
+	 * @param int|string|int[]|string[] $category Optional. Category ID, name, slug, or array of such to check against.
 	 * @return bool
 	 */
 	public function is_category( $category = '' ) {
@@ -3734,7 +3734,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $tag Optional. Tag ID, name, slug, or array of Tag IDs, names, and slugs.
+	 * @param int|string|int[]|string[] $tag Optional. Tag ID, name, slug, or array of such to check against.
 	 * @return bool
 	 */
 	public function is_tag( $tag = '' ) {
@@ -3775,8 +3775,8 @@ class WP_Query {
 	 *
 	 * @global array $wp_taxonomies
 	 *
-	 * @param mixed $taxonomy Optional. Taxonomy slug or slugs.
-	 * @param mixed $term     Optional. Term ID, name, slug or array of Term IDs, names, and slugs.
+	 * @param string|string[]           $taxonomy Optional. Taxonomy slug or slugs to check against.
+	 * @param int|string|int[]|string[] $term     Optional. Term ID, name, slug, or array of such to check against.
 	 * @return bool True for custom taxonomy archive pages, false for built-in taxonomies (category and tag archives).
 	 */
 	public function is_tax( $taxonomy = '', $term = '' ) {

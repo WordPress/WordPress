@@ -1164,9 +1164,11 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param mixed $type Optional. Array of extensions to return. Defaults to all files (null).
-	 * @param int $depth Optional. How deep to search for files. Defaults to a flat scan (0 depth). -1 depth is infinite.
-	 * @param bool $search_parent Optional. Whether to return parent files. Defaults to false.
+	 * @param string[]|string $type       Optional. Array of extensions to find, string of a single extension,
+	 *                                    or null for all extensions. Default null.
+	 * @param int          $depth         Optional. How deep to search for files. Defaults to a flat scan (0 depth).
+	 *                                    -1 depth is infinite.
+	 * @param bool         $search_parent Optional. Whether to return parent files. Default false.
 	 * @return string[] Array of files, keyed by the path to the file relative to the theme's directory, with the values
 	 *                  being absolute paths.
 	 */

@@ -342,7 +342,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param mixed $post_data Associative array containing the post data.
+	 * @param array $post_data Associative array containing the post data.
 	 * @return mixed The autosave revision ID or WP_Error.
 	 */
 	public function create_post_autosave( $post_data ) {

@@ -2645,7 +2645,7 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param mixed $upload_bits_error An array of upload bits data, or a non-array error to return.
+	 * @param array|string $upload_bits_error An array of upload bits data, or error message to return.
 	 */
 	$upload_bits_error = apply_filters(
 		'wp_upload_bits',

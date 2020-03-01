@@ -337,7 +337,7 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param mixed           $override  Value to return instead of saving. Default null.
+		 * @param bool|null       $override  Value to return instead of saving. Default null.
 		 * @param string          $filename  Name of the file to be saved.
 		 * @param WP_Image_Editor $image     The image editor instance.
 		 * @param string          $mime_type The mime type of the image.
