@@ -173,6 +173,7 @@ label ~ span.required {
 #wp-calendar caption {
 	text-align: right;
 }
+.wp-calendar-nav-next,
 #wp-calendar #next {
 	padding-left: 24px;
 	padding-left: 1.714285714rem;

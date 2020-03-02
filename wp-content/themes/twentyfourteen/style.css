@@ -2563,10 +2563,23 @@ a.post-thumbnail:hover {
 	color: #fff;
 }
 
-.widget_calendar #prev {
-	padding-left: 5px;
+.widget_calendar .wp-calendar-nav {
+	display: table;
+	width: 100%;
+	line-height: 2;
 }
 
+.widget_calendar .wp-calendar-nav span {
+	display: table-cell;
+}
+
+.widget_calendar .wp-calendar-nav-prev,
+.widget_calendar #prev {
+	padding-left: 5px;
+	text-align: left;
+}
+
+.widget_calendar .wp-calendar-nav-next,
 .widget_calendar #next {
 	padding-right: 5px;
 	text-align: right;

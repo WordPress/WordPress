@@ -78,4 +78,20 @@
 	a {
 		text-decoration: underline;
 	}
+
+	.wp-calendar-table {
+		margin-bottom: 0;
+	}
+
+	.wp-calendar-nav {
+		margin: 0 0 $size__spacing-unit;
+		display: table;
+		width: 100%;
+		@include font-family( $font__heading );
+
+		span {
+			display: table-cell;
+			padding: 0.5em;
+		}
+	}
 }

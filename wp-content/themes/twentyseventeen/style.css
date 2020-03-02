@@ -2804,8 +2804,28 @@ h2.widget-title {
 
 /* Calendar widget */
 
+.widget_calendar .wp-calendar-table {
+	margin-bottom: 0;
+}
+
+.widget_calendar .wp-calendar-nav {
+	display: table;
+	width: 100%;
+	margin: 0 0 1.5em;
+	padding: 0.4em 0;
+}
+
+.widget_calendar .wp-calendar-nav span {
+	display: table-cell;
+}
+
+.widget_calendar .wp-calendar-nav .pad {
+	width: 15%;
+}
+
 .widget_calendar th,
-.widget_calendar td {
+.widget_calendar td,
+.widget_calendar .wp-calendar-nav span {
 	text-align: center;
 }
 

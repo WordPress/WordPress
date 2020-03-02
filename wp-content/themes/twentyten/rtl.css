@@ -51,6 +51,7 @@ h3#reply-title,
 #site-info,
 #site-title,
 #wp-calendar,
+.calendar_wrap,
 .comment-meta,
 .comment-body tr th,
 .comment-body thead th,
@@ -255,6 +256,7 @@ div.menu li{
 #wp-calendar caption {
 	text-align: right;
 }
+.wp-calendar-nav-next,
 #wp-calendar tfoot #next {
 	text-align: left;
 }

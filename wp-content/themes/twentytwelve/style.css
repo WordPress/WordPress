@@ -1433,6 +1433,7 @@ a.comment-edit-link:hover {
 	margin-left: 12px;
 	margin-left: 0.857142857rem;
 }
+.wp-calendar-nav,
 #wp-calendar {
 	margin: 0;
 	width: 100%;
@@ -1446,6 +1447,13 @@ a.comment-edit-link:hover {
 #wp-calendar caption {
 	text-align: left;
 }
+.wp-calendar-nav {
+	display: table;
+}
+.wp-calendar-nav span {
+	display: table-cell;
+}
+.wp-calendar-nav-next,
 #wp-calendar #next {
 	padding-right: 24px;
 	padding-right: 1.714285714rem;

@@ -130,6 +130,7 @@ h3#reply-title,
 #site-info,
 #site-title,
 #wp-calendar,
+.calendar_wrap,
 .comment-meta,
 .comment-body tr th,
 .comment-body thead th,
@@ -1215,6 +1216,14 @@ h3#reply-title {
 #wp-calendar tbody .pad {
 	background: none;
 }
+.wp-calendar-nav {
+	display: table;
+	width: 100%;
+}
+.wp-calendar-nav span {
+	display: table-cell;
+}
+.wp-calendar-nav-next,
 #wp-calendar tfoot #next {
 	text-align: right;
 }

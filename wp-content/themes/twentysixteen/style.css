@@ -1440,8 +1440,22 @@ blockquote:after,
 	margin: 0;
 }
 
+.widget_calendar .wp-calendar-nav {
+	display: table;
+	width: 100%;
+}
+
+.widget_calendar .wp-calendar-nav span {
+	display: table-cell;
+}
+
+.widget_calendar .wp-calendar-nav .pad {
+	width: 15%;
+}
+
 .widget_calendar td,
-.widget_calendar th {
+.widget_calendar th,
+.widget_calendar .wp-calendar-nav span {
 	line-height: 2.5625;
 	padding: 0;
 	text-align: center;
@@ -3304,7 +3318,8 @@ p > video {
 	}
 
 	.widget_calendar td,
-	.widget_calendar th {
+	.widget_calendar th,
+	.widget_calendar .wp-calendar-nav span {
 		line-height: 2.6923076923;
 		padding: 0;
 	}
