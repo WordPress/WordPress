@@ -3046,12 +3046,6 @@ function feed_links_extra( $args = array() ) {
 	} elseif ( is_search() ) {
 		$title = sprintf( $args['searchtitle'], get_bloginfo( 'name' ), $args['separator'], get_search_query( false ) );
 		$href  = get_search_feed_link();
-	} elseif ( is_post_type_archive() ) {
-		$title         = sprintf( $args['posttypetitle'], get_bloginfo( 'name' ), $args['separator'], post_type_archive_title( '', false ) );
-		$post_type_obj = get_queried_object();
-		if ( $post_type_obj ) {
-			$href = get_post_type_archive_feed_link( $post_type_obj->name );
-		}
 	}
 
 	if ( isset( $title ) && isset( $href ) ) {
