@@ -218,7 +218,7 @@ function _classCallCheck(instance, Constructor) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
 /* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
@@ -296,7 +296,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(33);
+var iterableToArray = __webpack_require__(32);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -331,6 +331,17 @@ function _toConsumableArray(arr) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+/***/ }),
+
+/***/ 34:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
 function _typeof(obj) {
   "@babel/helpers - typeof";
@@ -346,17 +357,6 @@ function _typeof(obj) {
   }
 
   return _typeof(obj);
-}
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
 
 /***/ }),
@@ -1054,7 +1054,7 @@ function applyFormat(value, format) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
-var esm_typeof = __webpack_require__(32);
+var esm_typeof = __webpack_require__(34);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/create-element.js
 /**
@@ -3209,8 +3209,26 @@ function applySelection(_ref7, current) {
     selection.removeAllRanges();
   }
 
-  selection.addRange(range);
-  activeElement.focus();
+  selection.addRange(range); // This function is not intended to cause a shift in focus. Since the above
+  // selection manipulations may shift focus, ensure that focus is restored to
+  // its previous state. `activeElement` can be `null` or the body element if
+  // there is no focus, which is accounted for here in the explicit `blur` to
+  // restore to a state of non-focus.
+
+  if (activeElement !== document.activeElement) {
+    // The `instanceof` checks protect against edge cases where the focused
+    // element is not of the interface HTMLElement (does not have a `focus`
+    // or `blur` property).
+    //
+    // See: https://github.com/Microsoft/TypeScript/issues/5901#issuecomment-431649653
+    if (activeElement) {
+      if (activeElement instanceof window.HTMLElement) {
+        activeElement.focus();
+      }
+    } else if (document.activeElement instanceof window.HTMLElement) {
+      document.activeElement.blur();
+    }
+  }
 }
 
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}

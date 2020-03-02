@@ -142,9 +142,9 @@
   @media (max-width: 599px) {
     .wp-block-column {
       flex-basis: 100% !important; } }
-  @media (min-width: 600px) {
+  @media (min-width: 600px) and (max-width: 781px) {
     .wp-block-column {
-      flex-basis: calc(50% - 16px);
+      flex-basis: calc(50% - 16px) !important;
       flex-grow: 0; }
       .wp-block-column:nth-child(even) {
         margin-left: 32px; } }

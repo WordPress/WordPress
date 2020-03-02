@@ -6,6 +6,26 @@
  */
 
 /**
+ * The excerpt length set by the Latest Posts core block
+ * set at render time and used by the block itself.
+ *
+ * @var int
+ */
+$block_core_latest_posts_excerpt_length = 0;
+
+/**
+ * Callback for the excerpt_length filter used by
+ * the Latest Posts block at render time.
+ *
+ * @return int Returns the global $block_core_latest_posts_excerpt_length variable
+ *             to allow the excerpt_length filter respect the Latest Block setting.
+ */
+function block_core_latest_posts_get_excerpt_length() {
+	global $block_core_latest_posts_excerpt_length;
+	return $block_core_latest_posts_excerpt_length;
+}
+
+/**
  * Renders the `core/latest-posts` block on server.
  *
  * @param array $attributes The block attributes.
@@ -13,6 +33,8 @@
  * @return string Returns the post content with latest posts added.
  */
 function render_block_core_latest_posts( $attributes ) {
+	global $block_core_latest_posts_excerpt_length;
+
 	$args = array(
 		'posts_per_page'   => $attributes['postsToShow'],
 		'post_status'      => 'publish',
@@ -20,6 +42,9 @@ function render_block_core_latest_posts( $attributes ) {
 		'orderby'          => $attributes['orderBy'],
 		'suppress_filters' => false,
 	);
+
+	$block_core_latest_posts_excerpt_length = $attributes['excerptLength'];
+	add_filter( 'excerpt_length', 'block_core_latest_posts_get_excerpt_length', 20 );
 
 	if ( isset( $attributes['categories'] ) ) {
 		$args['category'] = $attributes['categories'];
@@ -110,6 +135,8 @@ function render_block_core_latest_posts( $attributes ) {
 
 		$list_items_markup .= "</li>\n";
 	}
+
+	remove_filter( 'excerpt_length', 'block_core_latest_posts_get_excerpt_length', 20 );
 
 	$class = 'wp-block-latest-posts wp-block-latest-posts__list';
 	if ( isset( $attributes['align'] ) ) {

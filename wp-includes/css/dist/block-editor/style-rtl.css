@@ -1471,16 +1471,18 @@ body.is-fullscreen-mode .block-editor-editor-skeleton {
     padding-right: 24px; }
   .block-editor-link-control__search-item .block-editor-link-control__search-item-header {
     display: block;
-    margin-left: 24px; }
+    margin-left: 24px;
+    overflow: hidden;
+    white-space: nowrap; }
   .block-editor-link-control__search-item .block-editor-link-control__search-item-icon {
     margin-left: 1em;
     min-width: 24px; }
   .block-editor-link-control__search-item .block-editor-link-control__search-item-info,
   .block-editor-link-control__search-item .block-editor-link-control__search-item-title {
-    text-overflow: ellipsis;
     max-width: 230px;
     overflow: hidden;
-    white-space: nowrap; }
+    white-space: nowrap;
+    text-overflow: ellipsis; }
   .block-editor-link-control__search-item .block-editor-link-control__search-item-title {
     display: block;
     margin-bottom: 0.2em;

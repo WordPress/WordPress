@@ -71,7 +71,6 @@
   background: #fff;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
   max-width: 100vw; }

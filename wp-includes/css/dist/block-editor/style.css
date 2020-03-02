@@ -1475,16 +1475,18 @@ body.is-fullscreen-mode .block-editor-editor-skeleton {
     padding-left: 24px; }
   .block-editor-link-control__search-item .block-editor-link-control__search-item-header {
     display: block;
-    margin-right: 24px; }
+    margin-right: 24px;
+    overflow: hidden;
+    white-space: nowrap; }
   .block-editor-link-control__search-item .block-editor-link-control__search-item-icon {
     margin-right: 1em;
     min-width: 24px; }
   .block-editor-link-control__search-item .block-editor-link-control__search-item-info,
   .block-editor-link-control__search-item .block-editor-link-control__search-item-title {
-    text-overflow: ellipsis;
     max-width: 230px;
     overflow: hidden;
-    white-space: nowrap; }
+    white-space: nowrap;
+    text-overflow: ellipsis; }
   .block-editor-link-control__search-item .block-editor-link-control__search-item-title {
     display: block;
     margin-bottom: 0.2em;

@@ -111,7 +111,7 @@ div[data-type="core/button"] {
   justify-content: flex-end; }
 
 .wp-block-buttons .block-list-appender {
-  display: inline-block !important;
+  display: inline-block;
   margin: 0; }
 
 .wp-block-buttons .block-editor-block-list__layout > div:last-child {

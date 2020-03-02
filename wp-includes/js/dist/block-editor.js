@@ -2281,7 +2281,7 @@ module.exports = computedStyle;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
 /* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
@@ -3223,7 +3223,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(33);
+var iterableToArray = __webpack_require__(32);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -5895,6 +5895,17 @@ var chevronUp = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEl
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+/***/ }),
+
+/***/ 34:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
 function _typeof(obj) {
   "@babel/helpers - typeof";
@@ -5910,17 +5921,6 @@ function _typeof(obj) {
   }
 
   return _typeof(obj);
-}
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
 
 /***/ }),
@@ -10251,7 +10251,7 @@ var redux_multi_lib = __webpack_require__(258);
 var redux_multi_lib_default = /*#__PURE__*/__webpack_require__.n(redux_multi_lib);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
-var esm_typeof = __webpack_require__(32);
+var esm_typeof = __webpack_require__(34);
 
 // EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
 var external_this_regeneratorRuntime_ = __webpack_require__(23);
@@ -18915,7 +18915,7 @@ function ColorPaletteControl(_ref) {
 
 function useHTMLClass(className) {
   Object(external_this_wp_element_["useEffect"])(function () {
-    var element = document && document.querySelector("html:not(.".concat(className));
+    var element = document && document.querySelector("html:not(.".concat(className, ")"));
 
     if (!element) {
       return;
@@ -25804,16 +25804,10 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      // There are some issues with Internet Explorer, which are probably not
-      // worth spending time on. Let's disable it.
-      if (isIE) {
-        return this.props.children;
-      } // Disable reason: Wrapper itself is non-interactive, but must capture
+      // Disable reason: Wrapper itself is non-interactive, but must capture
       // bubbling events from children to determine focus transition intents.
 
       /* eslint-disable jsx-a11y/no-static-element-interactions */
-
-
       return Object(external_this_wp_element_["createElement"])("div", {
         ref: this.ref,
         onKeyDown: this.onKeyDown,
@@ -25829,20 +25823,31 @@ function (_Component) {
   return Typewriter;
 }(external_this_wp_element_["Component"]);
 /**
- * Ensures that the text selection keeps the same vertical distance from the
- * viewport during keyboard events within this component. The vertical distance
- * can vary. It is the last clicked or scrolled to position.
+ * The exported component. The implementation of Typewriter faced technical
+ * challenges in Internet Explorer, and is simply skipped, rendering the given
+ * props children instead.
+ *
+ * @type {WPComponent}
  */
 
 
-/* harmony default export */ var typewriter = (Object(external_this_wp_data_["withSelect"])(function (select) {
+var TypewriterOrIEBypass = isIE ? function (props) {
+  return props.children;
+} : Object(external_this_wp_data_["withSelect"])(function (select) {
   var _select = select('core/block-editor'),
       getSelectedBlockClientId = _select.getSelectedBlockClientId;
 
   return {
     selectedBlockClientId: getSelectedBlockClientId()
   };
-})(typewriter_Typewriter));
+})(typewriter_Typewriter);
+/**
+ * Ensures that the text selection keeps the same vertical distance from the
+ * viewport during keyboard events within this component. The vertical distance
+ * can vary. It is the last clicked or scrolled to position.
+ */
+
+/* harmony default export */ var typewriter = (TypewriterOrIEBypass);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/index.js
 /*
