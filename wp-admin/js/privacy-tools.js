@@ -274,6 +274,9 @@ jQuery( document ).ready( function( $ ) {
 
 			if ( $container.length ) {
 				try {
+					var documentPosition = document.documentElement.scrollTop,
+						bodyPosition     = document.body.scrollTop;
+
 					window.getSelection().removeAllRanges();
 					range = document.createRange();
 					$container.addClass( 'hide-privacy-policy-tutorial' );
@@ -284,6 +287,12 @@ jQuery( document ).ready( function( $ ) {
 
 					$container.removeClass( 'hide-privacy-policy-tutorial' );
 					window.getSelection().removeAllRanges();
+
+					if ( documentPosition > 0 && documentPosition !== document.documentElement.scrollTop ) {
+						document.documentElement.scrollTop = documentPosition;
+					} else if ( bodyPosition > 0 && bodyPosition !== document.body.scrollTop ) {
+						document.body.scrollTop = bodyPosition;
+					}
 				} catch ( er ) {}
 			}
 		}
