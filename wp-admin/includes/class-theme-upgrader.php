@@ -528,9 +528,9 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param bool|WP_Error  $return
-	 * @param array          $theme
-	 * @return bool|WP_Error
+	 * @param bool|WP_Error $return Upgrade offer return.
+	 * @param array         $theme Theme arguments.
+	 * @return bool|WP_Error The passed in $return param or WP_Error.
 	 */
 	public function current_before( $return, $theme ) {
 		if ( is_wp_error( $return ) ) {
@@ -539,11 +539,12 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$theme = isset( $theme['theme'] ) ? $theme['theme'] : '';
 
-		if ( get_stylesheet() !== $theme ) { // If not current.
+		// Only run if current theme
+		if ( get_stylesheet() !== $theme ) {
 			return $return;
 		}
 
-		// Change to maintenance mode now.
+		// Change to maintenance mode. Bulk edit handles this separately.
 		if ( ! $this->bulk ) {
 			$this->maintenance_mode( true );
 		}
@@ -559,9 +560,9 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param bool|WP_Error  $return
-	 * @param array          $theme
-	 * @return bool|WP_Error
+	 * @param bool|WP_Error $return Upgrade offer return.
+	 * @param array         $theme Theme arguments.
+	 * @return bool|WP_Error The passed in $return param or WP_Error.
 	 */
 	public function current_after( $return, $theme ) {
 		if ( is_wp_error( $return ) ) {
@@ -570,7 +571,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$theme = isset( $theme['theme'] ) ? $theme['theme'] : '';
 
-		if ( get_stylesheet() !== $theme ) { // If not current.
+		// Only run if current theme
+		if ( get_stylesheet() !== $theme ) {
 			return $return;
 		}
 
@@ -581,7 +583,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			switch_theme( $stylesheet );
 		}
 
-		// Time to remove maintenance mode.
+		// Time to remove maintenance mode. Bulk edit handles this separately.
 		if ( ! $this->bulk ) {
 			$this->maintenance_mode( false );
 		}

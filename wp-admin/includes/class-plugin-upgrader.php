@@ -444,15 +444,15 @@ class Plugin_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Turn on maintenance mode before attempting to background update an active plugin.
+	 * Turns on maintenance mode before attempting to background update an active plugin.
 	 *
 	 * Hooked to the {@see 'upgrader_pre_install'} filter by Plugin_Upgrader::upgrade().
 	 *
 	 * @since 5.4.0
 	 *
-	 * @param bool|WP_Error  $return
-	 * @param array          $plugin
-	 * @return bool|WP_Error
+	 * @param bool|WP_Error $return Upgrade offer return.
+	 * @param array         $plugin Plugin package arguments.
+	 * @return bool|WP_Error The passed in $return param or WP_Error.
 	 */
 	public function active_before( $return, $plugin ) {
 		if ( is_wp_error( $return ) ) {
@@ -466,11 +466,12 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$plugin = isset( $plugin['plugin'] ) ? $plugin['plugin'] : '';
 
-		if ( ! is_plugin_active( $plugin ) ) { // If not active.
+		// Only run if plugin is active
+		if ( ! is_plugin_active( $plugin ) ) {
 			return $return;
 		}
 
-		// Bulk edit handles maintenance mode separately.
+		// Change to maintenance mode. Bulk edit handles this separately.
 		if ( ! $this->bulk ) {
 			$this->maintenance_mode( true );
 		}
@@ -479,15 +480,15 @@ class Plugin_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Turn off maintenance mode after upgrading an active plugin.
+	 * Turns off maintenance mode after upgrading an active plugin.
 	 *
 	 * Hooked to the {@see 'upgrader_post_install'} filter by Plugin_Upgrader::upgrade().
 	 *
 	 * @since 5.4.0
 	 *
-	 * @param bool|WP_Error  $return
-	 * @param array          $plugin
-	 * @return bool|WP_Error
+	 * @param bool|WP_Error  $return Upgrade offer return.
+	 * @param array          $plugin Plugin package arguments.
+	 * @return bool|WP_Error The passed in $return param or WP_Error.
 	 */
 	public function active_after( $return, $plugin ) {
 		if ( is_wp_error( $return ) ) {
@@ -501,11 +502,12 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$plugin = isset( $plugin['plugin'] ) ? $plugin['plugin'] : '';
 
-		if ( ! is_plugin_active( $plugin ) ) { // If not active.
+		// Only run if plugin is active
+		if ( ! is_plugin_active( $plugin ) ) {
 			return $return;
 		}
 
-		// Bulk edit handles maintenance mode separately.
+		// Time to remove maintenance mode. Bulk edit handles this separately.
 		if ( ! $this->bulk ) {
 			$this->maintenance_mode( false );
 		}
@@ -514,7 +516,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Delete the old plugin during an upgrade.
+	 * Deletes the old plugin during an upgrade.
 	 *
 	 * Hooked to the {@see 'upgrader_clear_destination'} filter by
 	 * Plugin_Upgrader::upgrade() and Plugin_Upgrader::bulk_upgrade().
@@ -523,10 +525,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
-	 * @param bool|WP_Error $removed
-	 * @param string        $local_destination
-	 * @param string        $remote_destination
-	 * @param array         $plugin
+	 * @param bool|WP_Error $removed            Whether the destination was cleared. true on success, WP_Error on failure.
+	 * @param string        $local_destination  The local package destination.
+	 * @param string        $remote_destination The remote package destination.
+	 * @param array         $plugin             Extra arguments passed to hooked filters.
 	 * @return bool|WP_Error
 	 */
 	public function delete_old_plugin( $removed, $local_destination, $remote_destination, $plugin ) {
