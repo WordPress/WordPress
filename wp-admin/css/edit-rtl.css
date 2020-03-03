@@ -753,13 +753,17 @@ form#tags-filter {
 	display: none;
 }
 
-.wp-suggested-text p:not(.privacy-policy-tutorial):not(.wp-policy-help) {
+.policy-text {
+	margin-bottom: 1em;
+}
+
+.policy-text p:not(.privacy-policy-tutorial):not(.wp-policy-help) {
 	background-color: #fff;
 	margin: 0;
 	padding: 1em;
 }
 
-.wp-suggested-text p:not(.privacy-policy-tutorial):not(.wp-policy-help) + p:not(.privacy-policy-tutorial):not(.wp-policy-help) {
+.policy-text p:not(.privacy-policy-tutorial):not(.wp-policy-help) + p:not(.privacy-policy-tutorial):not(.wp-policy-help) {
 	padding-top: 0;
 }
 
