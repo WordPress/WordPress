@@ -29,13 +29,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__header-text">
 			<p>
-				<?php
-				printf(
-					/* translators: %s: The current WordPress version number. */
-					__( 'Introducing our most refined user experience with the improved block editor in WordPress %s!' ),
-					$display_version
-				);
-				?>
+				<?php _e( 'Building more with blocks, faster and easier.' ); ?>
 			</p>
 		</div>
 
