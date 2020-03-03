@@ -421,7 +421,7 @@
 					break;
 				case 0:
 				case 180:
-					if ( $( '.poststuff' ).length ) {
+					if ( $( '#poststuff' ).length ) {
 						this._pb_edit(1);
 					} else {
 						if ( !check.length || !check.is(':checked') )

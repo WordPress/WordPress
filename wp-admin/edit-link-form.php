@@ -106,7 +106,7 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 ?>
 
-<div class="poststuff">
+<div id="poststuff">
 
 <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 <div id="post-body-content">
@@ -144,7 +144,7 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 
 ?>
 </div>
-<div class="postbox-container-2 postbox-container">
+<div id="postbox-container-2" class="postbox-container">
 <?php
 
 do_meta_boxes( null, 'normal', $link );

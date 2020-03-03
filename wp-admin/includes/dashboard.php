@@ -245,7 +245,7 @@ function wp_dashboard() {
 	<div id="postbox-container-1" class="postbox-container">
 	<?php do_meta_boxes( $screen->id, 'normal', '' ); ?>
 	</div>
-	<div class="postbox-container-2 postbox-container">
+	<div id="postbox-container-2" class="postbox-container">
 	<?php do_meta_boxes( $screen->id, 'side', '' ); ?>
 	</div>
 	<div id="postbox-container-3" class="postbox-container">

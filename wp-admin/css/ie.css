@@ -13,7 +13,7 @@
 	width: 49.5%;
 }
 
-#wpbody-content #dashboard-widgets .postbox-container-2,
+#wpbody-content #dashboard-widgets #postbox-container-2,
 #wpbody-content #dashboard-widgets #postbox-container-3,
 #wpbody-content #dashboard-widgets #postbox-container-4 {
 	float: right;
@@ -367,7 +367,7 @@ a.button.button-small {
 #wrap,
 #postdivrich,
 #postdiv,
-.poststuff,
+#poststuff,
 .metabox-holder,
 #titlediv,
 #post-body,
@@ -414,12 +414,12 @@ form#template div {
 	padding: 0 4px;
 }
 
-.poststuff h2 {
+#poststuff h2 {
 	font-size: 1.6em;
 }
 
-.poststuff .inside #parent_id,
-.poststuff .inside #page_template,
+#poststuff .inside #parent_id,
+#poststuff .inside #page_template,
 .inline-edit-row #post_parent,
 .inline-edit-row select[name="page_template"] {
 	width: 250px;
@@ -677,7 +677,7 @@ input[type="password"],
 	padding: 0;
 }
 
-* html .poststuff h2 {
+* html #poststuff h2 {
 	margin-left: 0;
 }
 

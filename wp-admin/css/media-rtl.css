@@ -1034,7 +1034,7 @@ border color while dragging a file over the uploader drop area */
 	display: block;
 }
 
-.poststuff .imgedit-group-top h2 {
+#poststuff .imgedit-group-top h2 {
 	display: inline-block;
 	margin: 0;
 	padding: 0;
@@ -1042,7 +1042,7 @@ border color while dragging a file over the uploader drop area */
 	line-height: 1.4;
 }
 
-.poststuff .imgedit-group-top .button-link {
+#poststuff .imgedit-group-top .button-link {
 	text-decoration: none;
 	color: #23282d;
 }

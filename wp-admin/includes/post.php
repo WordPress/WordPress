@@ -2275,8 +2275,8 @@ function the_block_editor_meta_boxes() {
 	</form>
 	<?php foreach ( $locations as $location ) : ?>
 		<form class="metabox-location-<?php echo esc_attr( $location ); ?>" onsubmit="return false;">
-			<div class="poststuff" class="sidebar-open">
-				<div class="postbox-container-2 postbox-container">
+			<div id="poststuff" class="sidebar-open">
+				<div id="postbox-container-2" class="postbox-container">
 					<?php
 					do_meta_boxes(
 						$current_screen,
