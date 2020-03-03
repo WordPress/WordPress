@@ -1818,7 +1818,7 @@ function wp_dashboard_site_health() {
 			<?php
 			printf(
 				/* translators: %s: URL to Site Health screen. */
-				__( 'Site health checks will automatically run periodically to gather information about your site. You can also <a href="%s">visit the Site Health screen</a> to gather information on about your site now.' ),
+				__( 'Site health checks will automatically run periodically to gather information about your site. You can also <a href="%s">visit the Site Health screen</a> to gather information about your site now.' ),
 				esc_url( admin_url( 'site-health.php' ) )
 			);
 			?>
