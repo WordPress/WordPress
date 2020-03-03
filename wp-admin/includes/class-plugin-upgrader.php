@@ -415,8 +415,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * @since 2.8.0
 	 * @since 4.1.0 Added a return value.
 	 *
-	 * @param bool|WP_Error  $return Upgrade offer return.
-	 * @param array          $plugin Plugin package arguments.
+	 * @param bool|WP_Error $return Upgrade offer return.
+	 * @param array         $plugin Plugin package arguments.
 	 * @return bool|WP_Error The passed in $return param or WP_Error.
 	 */
 	public function deactivate_plugin_before_upgrade( $return, $plugin ) {
@@ -466,7 +466,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$plugin = isset( $plugin['plugin'] ) ? $plugin['plugin'] : '';
 
-		// Only run if plugin is active
+		// Only run if plugin is active.
 		if ( ! is_plugin_active( $plugin ) ) {
 			return $return;
 		}
@@ -486,8 +486,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 5.4.0
 	 *
-	 * @param bool|WP_Error  $return Upgrade offer return.
-	 * @param array          $plugin Plugin package arguments.
+	 * @param bool|WP_Error $return Upgrade offer return.
+	 * @param array         $plugin Plugin package arguments.
 	 * @return bool|WP_Error The passed in $return param or WP_Error.
 	 */
 	public function active_after( $return, $plugin ) {
@@ -525,7 +525,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
-	 * @param bool|WP_Error $removed            Whether the destination was cleared. true on success, WP_Error on failure.
+	 * @param bool|WP_Error $removed            Whether the destination was cleared.
+	 *                                          True on success, WP_Error on failure.
 	 * @param string        $local_destination  The local package destination.
 	 * @param string        $remote_destination The remote package destination.
 	 * @param array         $plugin             Extra arguments passed to hooked filters.

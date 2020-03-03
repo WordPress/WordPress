@@ -529,7 +529,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * @since 2.8.0
 	 *
 	 * @param bool|WP_Error $return Upgrade offer return.
-	 * @param array         $theme Theme arguments.
+	 * @param array         $theme  Theme arguments.
 	 * @return bool|WP_Error The passed in $return param or WP_Error.
 	 */
 	public function current_before( $return, $theme ) {
@@ -561,7 +561,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * @since 2.8.0
 	 *
 	 * @param bool|WP_Error $return Upgrade offer return.
-	 * @param array         $theme Theme arguments.
+	 * @param array         $theme  Theme arguments.
 	 * @return bool|WP_Error The passed in $return param or WP_Error.
 	 */
 	public function current_after( $return, $theme ) {
@@ -571,7 +571,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$theme = isset( $theme['theme'] ) ? $theme['theme'] : '';
 
-		// Only run if current theme
+		// Only run if current theme.
 		if ( get_stylesheet() !== $theme ) {
 			return $return;
 		}
