@@ -1815,27 +1815,22 @@ function wp_dashboard_site_health() {
 
 	<?php if ( false === $get_issues ) : ?>
 		<p>
-			<?php _e( 'No Site Health information has been gathered yet, you can do so by visiting the Site Health screen, alternatively the checks will run periodically.' ); ?>
-		</p>
-
-		<p>
 			<?php
 			printf(
 				/* translators: %s: URL to Site Health screen. */
-				__( '<a href="%s">Visit the Site Health screen</a> to gather information on about your site.' ),
+				__( 'Site health checks will automatically run periodically to gather information about your site. You can also <a href="%s">visit the Site Health screen</a> to gather information on about your site now.' ),
 				esc_url( admin_url( 'site-health.php' ) )
 			);
 			?>
 		</p>
-
 	<?php else : ?>
 		<p>
 			<?php if ( $issue_counts['critical'] > 0 ) : ?>
-				<?php _e( 'Your site has critical issues that should be addressed as soon as possible to improve the performance or security of your website.' ); ?>
+				<?php _e( 'Your site has critical issues that should be addressed as soon as possible to improve its performance and security.' ); ?>
 			<?php elseif ( $issues_total <= 0 ) : ?>
 				<?php _e( 'Great job! Your site currently passes all site health checks.' ); ?>
 			<?php else : ?>
-				<?php _e( 'Your site health is looking quite good, but there are still some things you can do to improve the performance and security of your website.' ); ?>
+				<?php _e( 'Your site&#8217;s health is looking good, but there are still some things you can do to improve its performance and security.' ); ?>
 			<?php endif; ?>
 		</p>
 	<?php endif; ?>
@@ -1845,7 +1840,11 @@ function wp_dashboard_site_health() {
 			<?php
 			printf(
 				/* translators: 1: Number of issues. 2: URL to Site Health screen. */
-				__( 'Take a look at the <strong>%1$d items</strong> on the <a href="%2$s">Site Health Status screen</a>.' ),
+				_n(
+					'Take a look at the <strong>%1$d item</strong> on the <a href="%2$s">Site Health screen</a>.',
+					'Take a look at the <strong>%1$d items</strong> on the <a href="%2$s">Site Health screen</a>.',
+					$issues_total
+				),
 				$issues_total,
 				esc_url( admin_url( 'site-health.php' ) )
 			);
