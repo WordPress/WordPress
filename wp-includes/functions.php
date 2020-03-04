@@ -3899,6 +3899,8 @@ function wp_json_encode( $data, $options = 0, $depth = 512 ) {
  *
  * @see wp_json_encode()
  *
+ * @throws Exception If depth limit is reached.
+ *
  * @param mixed $data  Variable (usually an array or object) to encode as JSON.
  * @param int   $depth Maximum depth to walk through $data. Must be greater than 0.
  * @return mixed The sanitized data that shall be encoded to JSON.
