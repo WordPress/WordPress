@@ -349,7 +349,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 							'type'        => 'boolean',
 						),
 						'disable-custom-gradients'  => array(
-							'description' => __( 'Whether the theme disables custom graidients.' ),
+							'description' => __( 'Whether the theme disables custom gradients.' ),
 							'type'        => 'boolean',
 						),
 						'editor-color-palette'      => array(
