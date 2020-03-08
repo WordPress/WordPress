@@ -897,6 +897,15 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	.theme-browser .theme:nth-child(3n) {
 		margin-left: 0;
 	}
+	
+	.theme-overlay .theme-about {
+		bottom: 105px;
+	}
+
+	.theme-overlay .theme-actions {
+		padding-right: 4%;
+		padding-left: 4%;
+	}
 }
 
 @media only screen and (max-width: 650px) {
