@@ -3533,17 +3533,35 @@ figure.wp-block-table.is-style-stripes {
 	letter-spacing: normal;
 }
 
+.entry-content h1,
+.entry-content h2,
+.entry-content h3,
+.entry-content h4,
+.entry-content h5,
+.entry-content h6,
 .entry-content cite,
 .entry-content figcaption,
-.entry-content .wp-caption-text {
+.entry-content table,
+.entry-content address,
+.entry-content .wp-caption-text,
+.entry-content .wp-block-file {
 	font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 @supports ( font-variation-settings: normal ) {
 
+	.entry-content h1,
+	.entry-content h2,
+	.entry-content h3,
+	.entry-content h4,
+	.entry-content h5,
+	.entry-content h6,
 	.entry-content cite,
 	.entry-content figcaption,
-	.entry-content .wp-caption-text {
+	.entry-content table,
+	.entry-content address,
+	.entry-content .wp-caption-text,
+	.entry-content .wp-block-file {
 		font-family: "Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
 	}
 }
