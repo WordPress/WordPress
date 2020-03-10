@@ -5620,6 +5620,20 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 		return wp_trash_post( $post_id );
 	}
 
+	/**
+	 * Filters whether an attachment deletion should take place.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param bool|null $delete       Whether to go forward with deletion.
+	 * @param WP_Post   $post         Post object.
+	 * @param bool      $force_delete Whether to bypass the Trash.
+	 */
+	$check = apply_filters( 'pre_delete_attachment', null, $post, $force_delete );
+	if ( null !== $check ) {
+		return $check;
+	}
+
 	delete_post_meta( $post_id, '_wp_trash_meta_status' );
 	delete_post_meta( $post_id, '_wp_trash_meta_time' );
 
