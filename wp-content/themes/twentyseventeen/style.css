@@ -2819,8 +2819,9 @@ h2.widget-title {
 	display: table-cell;
 }
 
-.widget_calendar .wp-calendar-nav .pad {
-	width: 15%;
+.widget_calendar .wp-calendar-nav-prev,
+.widget_calendar .wp-calendar-nav-next {
+	width: 40%;
 }
 
 .widget_calendar th,

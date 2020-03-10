@@ -5186,6 +5186,11 @@ body.page .main-navigation {
   padding: 0.5em;
 }
 
+.widget_calendar .calendar_wrap .wp-calendar-nav-prev,
+.widget_calendar .calendar_wrap .wp-calendar-nav-next {
+  width: 40%;
+}
+
 /* Blocks */
 /* !Block styles */
 .entry .entry-content > *,

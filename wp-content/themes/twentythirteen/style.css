@@ -2599,6 +2599,11 @@ footer.entry-meta {
 	text-align: center;
 }
 
+.wp-calendar-nav-prev,
+.wp-calendar-nav-next {
+	width: 40%;
+}
+
 /* Text widget */
 .widget_text ul,
 .widget_text ol {
