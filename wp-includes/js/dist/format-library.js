@@ -380,7 +380,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 27:
+/***/ 26:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["dom"]; }());
@@ -1568,7 +1568,7 @@ var external_this_wp_data_ = __webpack_require__(4);
 var esm_extends = __webpack_require__(12);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(27);
+var external_this_wp_dom_ = __webpack_require__(26);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/text-color/inline.js
 
@@ -1611,11 +1611,12 @@ function getActiveColor(formatName, formatValue, colors) {
 }
 
 var inline_ColorPopoverAtLink = function ColorPopoverAtLink(_ref) {
-  var isActive = _ref.isActive,
-      addingColor = _ref.addingColor,
-      value = _ref.value,
-      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["isActive", "addingColor", "value"]);
+  var addingColor = _ref.addingColor,
+      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["addingColor"]);
 
+  // There is no way to open a text formatter popover when another one is mounted.
+  // The first popover will always be dismounted when a click outside happens, so we can store the
+  // anchor Rect during the lifetime of the component.
   var anchorRect = Object(external_this_wp_element_["useMemo"])(function () {
     var selection = window.getSelection();
     var range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
@@ -1641,7 +1642,7 @@ var inline_ColorPopoverAtLink = function ColorPopoverAtLink(_ref) {
     if (closest) {
       return closest.getBoundingClientRect();
     }
-  }, [isActive, addingColor, value.start, value.end]);
+  }, []);
 
   if (!anchorRect) {
     return null;

@@ -333,6 +333,13 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
+/***/ 26:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["dom"]; }());
+
+/***/ }),
+
 /***/ 262:
 /***/ (function(module, exports) {
 
@@ -5484,13 +5491,6 @@ if (true) {
 
 /***/ }),
 
-/***/ 27:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["dom"]; }());
-
-/***/ }),
-
 /***/ 30:
 /***/ (function(module, exports) {
 
@@ -6658,7 +6658,7 @@ var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(27);
+var external_this_wp_dom_ = __webpack_require__(26);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/utils.js
 

@@ -67,19 +67,14 @@
 
 .edit-post-header {
   height: 56px;
-  padding: 4px 2px;
   background: #fff;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
   max-width: 100vw; }
   @media (min-width: 280px) {
     .edit-post-header {
       flex-wrap: nowrap; } }
-  @media (min-width: 600px) {
-    .edit-post-header {
-      padding: 8px; } }
   .edit-post-header > .edit-post-header__settings {
     order: 1; }
     @supports ((position: -webkit-sticky) or (position: sticky)) {
@@ -87,12 +82,15 @@
         order: initial; } }
 
 .edit-post-header__toolbar {
-  display: flex; }
+  display: flex;
+  flex-grow: 1;
+  padding-left: 16px; }
 
 .edit-post-header__settings {
   display: inline-flex;
   align-items: center;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  padding-right: 8px; }
 
 .edit-post-header .components-button.is-pressed {
   color: #fff;
@@ -127,16 +125,28 @@
   .edit-post-header .components-button.editor-post-publish-button, .edit-post-header .components-button.editor-post-publish-panel__toggle {
     margin: 0 12px 0 3px; } }
 
-.edit-post-fullscreen-mode-close__toolbar {
+.edit-post-fullscreen-mode-close.has-icon {
   display: none; }
   @media (min-width: 782px) {
-    .edit-post-fullscreen-mode-close__toolbar {
+    .edit-post-fullscreen-mode-close.has-icon {
       display: flex;
-      border-top: 0;
-      border-bottom: 0;
-      border-left: 0;
-      margin: -9px 10px -8px -10px;
-      padding: 9px 10px; } }
+      align-items: center;
+      align-self: stretch;
+      border: none;
+      background: #23282e;
+      color: #fff;
+      border-radius: 0;
+      height: auto;
+      width: 56px; }
+      .edit-post-fullscreen-mode-close.has-icon:hover {
+        background: #32373d !important;
+        color: #fff !important;
+        box-shadow: none !important; }
+      .edit-post-fullscreen-mode-close.has-icon:active {
+        color: #fff; } }
+  .edit-post-fullscreen-mode-close.has-icon svg {
+    margin-left: auto;
+    margin-right: auto; }
 
 .edit-post-header-toolbar {
   display: inline-flex;

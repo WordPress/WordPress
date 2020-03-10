@@ -329,13 +329,55 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 /***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function memize( fn, options ) {
-	var size = 0,
-		maxSize, head, tail;
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
 
-	if ( options && options.maxSize ) {
-		maxSize = options.maxSize;
-	}
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {Function} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {F & MemizeMemoizedFunction} Memoized function.
+ */
+function memize( fn, options ) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
 
 	function memoized( /* ...args */ ) {
 		var node = head,
@@ -375,14 +417,14 @@ module.exports = function memize( fn, options ) {
 
 				// Adjust siblings to point to each other. If node was tail,
 				// this also handles new tail's empty `next` assignment.
-				node.prev.next = node.next;
+				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
 				if ( node.next ) {
 					node.next.prev = node.prev;
 				}
 
 				node.next = head;
 				node.prev = null;
-				head.prev = node;
+				/** @type {MemizeCacheNode} */ ( head ).prev = node;
 				head = node;
 			}
 
@@ -402,7 +444,7 @@ module.exports = function memize( fn, options ) {
 			args: args,
 
 			// Generate the result from original function
-			val: fn.apply( null, args )
+			val: fn.apply( null, args ),
 		};
 
 		// Don't need to check whether node is already head, since it would
@@ -418,9 +460,9 @@ module.exports = function memize( fn, options ) {
 		}
 
 		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === maxSize ) {
-			tail = tail.prev;
-			tail.next = null;
+		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
+			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
+			/** @type {MemizeCacheNode} */ ( tail ).next = null;
 		} else {
 			size++;
 		}
@@ -438,8 +480,16 @@ module.exports = function memize( fn, options ) {
 
 	if ( false ) {}
 
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
 	return memoized;
-};
+}
+
+module.exports = memize;
 
 
 /***/ }),
@@ -712,7 +762,7 @@ function evaluate_evaluate( postfix, variables ) {
  *
  * @param {string} expression C expression.
  *
- * @return {Function} Compiled evaluator.
+ * @return {(variables?:{[variable:string]:*})=>*} Compiled evaluator.
  */
 function compile( expression ) {
 	var terms = postfix( expression );
@@ -769,13 +819,7 @@ function pluralForms( expression ) {
  * Domain translation pair respectively representing the singular and plural
  * translation.
  *
- * @typedef {Array<string,string>} TanninTranslation
- */
-
-/**
- * Locale domain entry.
- *
- * @typedef {(TanninDomainMetadata|TanninTranslation)} LocaleDomainEntry
+ * @typedef {[string,string]} TanninTranslation
  */
 
 /**
@@ -783,7 +827,7 @@ function pluralForms( expression ) {
  * array of two string entries respectively representing the singular and plural
  * translation.
  *
- * @typedef {Object<string,LocaleDomainEntry>} TanninLocaleDomain
+ * @typedef {{[key:string]:TanninDomainMetadata|TanninTranslation,'':TanninDomainMetadata|TanninTranslation}} TanninLocaleDomain
  */
 
 /**
@@ -791,7 +835,7 @@ function pluralForms( expression ) {
  *
  * @see http://messageformat.github.io/Jed/
  *
- * @typedef {Object<string,TanninLocaleDomain>} TanninLocaleData
+ * @typedef {{[domain:string]:TanninLocaleDomain}} TanninLocaleData
  */
 
 /**
@@ -867,9 +911,9 @@ function Tannin( data, options ) {
 	this.options = {};
 
 	for ( key in DEFAULT_OPTIONS ) {
-		this.options[ key ] = options !== undefined && key in options ?
-			options[ key ] :
-			DEFAULT_OPTIONS[ key ];
+		this.options[ key ] = options !== undefined && key in options
+			? options[ key ]
+			: DEFAULT_OPTIONS[ key ];
 	}
 }
 
@@ -919,11 +963,12 @@ Tannin.prototype.getPluralForm = function( domain, n ) {
 /**
  * Translate a string.
  *
- * @param {string} domain   Translation domain.
- * @param {string} context  Context distinguishing terms of the same name.
- * @param {string} singular Primary key for translation lookup.
- * @param {string} plural   Fallback value used for non-zero plural form index.
- * @param {number} n        Value to use in calculating plural form.
+ * @param {string}      domain   Translation domain.
+ * @param {string|void} context  Context distinguishing terms of the same name.
+ * @param {string}      singular Primary key for translation lookup.
+ * @param {string=}     plural   Fallback value used for non-zero plural
+ *                               form index.
+ * @param {number=}     n        Value to use in calculating plural form.
  *
  * @return {string} Translated string.
  */
