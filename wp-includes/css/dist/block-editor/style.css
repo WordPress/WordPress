@@ -205,7 +205,6 @@
 .block-editor-block-list__layout .block-editor-block-list__block.has-warning > * {
   pointer-events: none;
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none; }
 
@@ -1180,23 +1179,24 @@ body.admin-color-light .block-list-appender.is-drop-target > div::before {
   min-height: 28px;
   line-height: 1.8; }
 
-.block-editor-block-list__empty-block-inserter,
+.block-editor-block-list__empty-block-inserter.block-editor-block-list__empty-block-inserter,
 .block-editor-default-block-appender .block-editor-inserter {
   position: absolute;
-  top: 0; }
-  .block-editor-block-list__empty-block-inserter .components-button.has-icon,
+  top: 0;
+  height: 28px; }
+  .block-editor-block-list__empty-block-inserter.block-editor-block-list__empty-block-inserter .components-button.has-icon,
   .block-editor-default-block-appender .block-editor-inserter .components-button.has-icon {
     width: 28px;
     height: 28px;
     padding: 0; }
-  .block-editor-block-list__empty-block-inserter .components-button svg,
+  .block-editor-block-list__empty-block-inserter.block-editor-block-list__empty-block-inserter .components-button svg,
   .block-editor-default-block-appender .block-editor-inserter .components-button svg {
     display: block;
     margin: auto; }
-  .block-editor-block-list__empty-block-inserter .block-editor-inserter__toggle,
+  .block-editor-block-list__empty-block-inserter.block-editor-block-list__empty-block-inserter .block-editor-inserter__toggle,
   .block-editor-default-block-appender .block-editor-inserter .block-editor-inserter__toggle {
     margin-right: 0; }
-    .block-editor-block-list__empty-block-inserter .block-editor-inserter__toggle:not(:disabled):not([aria-disabled="true"]):not(.is-secondary):hover,
+    .block-editor-block-list__empty-block-inserter.block-editor-block-list__empty-block-inserter .block-editor-inserter__toggle:not(:disabled):not([aria-disabled="true"]):not(.is-secondary):hover,
     .block-editor-default-block-appender .block-editor-inserter .block-editor-inserter__toggle:not(:disabled):not([aria-disabled="true"]):not(.is-secondary):hover {
       box-shadow: none; }
 

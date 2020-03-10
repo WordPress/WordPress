@@ -4106,21 +4106,6 @@ function (_Component) {
   };
 })(browser_url_BrowserURL));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-left.js
-
-
-/**
- * WordPress dependencies
- */
-
-var chevronLeft = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "-2 -2 24 24"
-}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
-  d: "M14 5l-5 5 5 5-1 2-7-7 7-7z"
-}));
-/* harmony default export */ var chevron_left = (chevronLeft);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/header/fullscreen-mode-close/index.js
 
 
@@ -4137,41 +4122,50 @@ var chevronLeft = Object(external_this_wp_element_["createElement"])(external_th
 
 
 
+var wordPressLogo = Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["SVG"], {
+  width: "28",
+  height: "28",
+  viewBox: "0 0 128 128",
+  version: "1.1"
+}, Object(external_this_wp_element_["createElement"])(external_this_wp_primitives_["Path"], {
+  d: "M100 61.3c0-6.6-2.4-11.2-4.4-14.7-2.7-4.4-5.2-8.1-5.2-12.5 0-4.9 3.7-9.5 9-9.5h.7c-9.5-8.7-22.1-14-36-14-18.6 0-35 9.6-44.6 24 1.3 0 2.4.1 3.4.1 5.6 0 14.2-.7 14.2-.7 2.9-.2 3.2 4.1.3 4.4 0 0-2.9.3-6.1.5l19.4 57.8 11.7-35L54.1 39c-2.9-.2-5.6-.5-5.6-.5-2.9-.2-2.5-4.6.3-4.4 0 0 8.8.7 14 .7 5.6 0 14.2-.7 14.2-.7 2.9-.2 3.2 4.1.3 4.4 0 0-2.9.3-6.1.5l19.3 57.3L96 78.9c2.6-7.6 4-13 4-17.6zM10.7 64c0 21.1 12.3 39.4 30.1 48L15.3 42.3c-3 6.6-4.6 14-4.6 21.7zm54.2 4.7l-16 46.5c4.8 1.4 9.8 2.2 15.1 2.2 6.2 0 12.2-1.1 17.7-3-.1-.2-.3-.5-.4-.7l-16.4-45zM64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm49.9 97.6c-2.2 3.2-4.6 6.2-7.3 8.9s-5.7 5.2-8.9 7.3c-3.2 2.2-6.7 4-10.2 5.5-7.4 3.1-15.3 4.7-23.4 4.7s-16-1.6-23.4-4.7c-3.6-1.5-7-3.4-10.2-5.5-3.2-2.2-6.2-4.6-8.9-7.3s-5.2-5.7-7.3-8.9c-2.2-3.2-4-6.7-5.5-10.2-3.4-7.4-5-15.3-5-23.4s1.6-16 4.7-23.4c1.5-3.6 3.4-7 5.5-10.2 2.2-3.2 4.6-6.2 7.3-8.9s5.7-5.2 8.9-7.3c3.2-2.2 6.7-4 10.2-5.5C48 5.4 55.9 3.8 64 3.8s16 1.6 23.4 4.7c3.6 1.5 7 3.4 10.2 5.5 3.2 2.2 6.2 4.6 8.9 7.3s5.2 5.7 7.3 8.9c2.2 3.2 4 6.7 5.5 10.2 3.1 7.4 4.7 15.3 4.7 23.4s-1.6 16-4.7 23.4c-1.4 3.8-3.2 7.2-5.4 10.4zm-2.7-53.7c0 5.4-1 11.5-4.1 19.1l-16.3 47.1c15.9-9.2 26.5-26.4 26.5-46.1 0-9.3-2.4-18-6.5-25.6.2 1.7.4 3.5.4 5.5z"
+}));
 
-function FullscreenModeClose(_ref) {
-  var isActive = _ref.isActive,
-      postType = _ref.postType;
+function FullscreenModeClose() {
+  var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
+    var _select = select('core/editor'),
+        getCurrentPostType = _select.getCurrentPostType;
+
+    var _select2 = select('core/edit-post'),
+        isFeatureActive = _select2.isFeatureActive;
+
+    var _select3 = select('core'),
+        getPostType = _select3.getPostType;
+
+    return {
+      isActive: isFeatureActive('fullscreenMode'),
+      postType: getPostType(getCurrentPostType())
+    };
+  }, []),
+      isActive = _useSelect.isActive,
+      postType = _useSelect.postType;
 
   if (!isActive || !postType) {
     return null;
   }
 
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Toolbar"], {
-    className: "edit-post-fullscreen-mode-close__toolbar"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-    icon: chevron_left,
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
+    className: "edit-post-fullscreen-mode-close",
+    icon: wordPressLogo,
+    iconSize: 36,
     href: Object(external_this_wp_url_["addQueryArgs"])('edit.php', {
       post_type: postType.slug
     }),
     label: Object(external_this_lodash_["get"])(postType, ['labels', 'view_items'], Object(external_this_wp_i18n_["__"])('Back'))
-  }));
+  });
 }
 
-/* harmony default export */ var fullscreen_mode_close = (Object(external_this_wp_data_["withSelect"])(function (select) {
-  var _select = select('core/editor'),
-      getCurrentPostType = _select.getCurrentPostType;
-
-  var _select2 = select('core/edit-post'),
-      isFeatureActive = _select2.isFeatureActive;
-
-  var _select3 = select('core'),
-      getPostType = _select3.getPostType;
-
-  return {
-    isActive: isFeatureActive('fullscreenMode'),
-    postType: getPostType(getCurrentPostType())
-  };
-})(FullscreenModeClose));
+/* harmony default export */ var fullscreen_mode_close = (FullscreenModeClose);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/header/header-toolbar/index.js
 
@@ -4673,9 +4667,9 @@ function Header() {
   };
   return Object(external_this_wp_element_["createElement"])("div", {
     className: "edit-post-header"
-  }, Object(external_this_wp_element_["createElement"])("div", {
+  }, Object(external_this_wp_element_["createElement"])(fullscreen_mode_close, null), Object(external_this_wp_element_["createElement"])("div", {
     className: "edit-post-header__toolbar"
-  }, Object(external_this_wp_element_["createElement"])(fullscreen_mode_close, null), Object(external_this_wp_element_["createElement"])(header_toolbar, null)), Object(external_this_wp_element_["createElement"])("div", {
+  }, Object(external_this_wp_element_["createElement"])(header_toolbar, null)), Object(external_this_wp_element_["createElement"])("div", {
     className: "edit-post-header__settings"
   }, !isPublishSidebarOpened && // This button isn't completely hidden by the publish sidebar.
   // We can't hide the whole toolbar when the publish sidebar is open because
@@ -7394,13 +7388,55 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
 /***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function memize( fn, options ) {
-	var size = 0,
-		maxSize, head, tail;
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
 
-	if ( options && options.maxSize ) {
-		maxSize = options.maxSize;
-	}
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {Function} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {F & MemizeMemoizedFunction} Memoized function.
+ */
+function memize( fn, options ) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
 
 	function memoized( /* ...args */ ) {
 		var node = head,
@@ -7440,14 +7476,14 @@ module.exports = function memize( fn, options ) {
 
 				// Adjust siblings to point to each other. If node was tail,
 				// this also handles new tail's empty `next` assignment.
-				node.prev.next = node.next;
+				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
 				if ( node.next ) {
 					node.next.prev = node.prev;
 				}
 
 				node.next = head;
 				node.prev = null;
-				head.prev = node;
+				/** @type {MemizeCacheNode} */ ( head ).prev = node;
 				head = node;
 			}
 
@@ -7467,7 +7503,7 @@ module.exports = function memize( fn, options ) {
 			args: args,
 
 			// Generate the result from original function
-			val: fn.apply( null, args )
+			val: fn.apply( null, args ),
 		};
 
 		// Don't need to check whether node is already head, since it would
@@ -7483,9 +7519,9 @@ module.exports = function memize( fn, options ) {
 		}
 
 		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === maxSize ) {
-			tail = tail.prev;
-			tail.next = null;
+		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
+			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
+			/** @type {MemizeCacheNode} */ ( tail ).next = null;
 		} else {
 			size++;
 		}
@@ -7503,8 +7539,16 @@ module.exports = function memize( fn, options ) {
 
 	if ( false ) {}
 
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
 	return memoized;
-};
+}
+
+module.exports = memize;
 
 
 /***/ }),

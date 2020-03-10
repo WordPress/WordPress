@@ -5317,6 +5317,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 
+/***/ 26:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["dom"]; }());
+
+/***/ }),
+
 /***/ 260:
 /***/ (function(module, exports) {
 
@@ -5635,13 +5642,6 @@ var hasOwnProperty = Object.hasOwnProperty || function (obj, key) {
     return key in obj;
 };
 
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["dom"]; }());
 
 /***/ }),
 
@@ -13694,7 +13694,7 @@ function (_Component) {
 var web_cjs = __webpack_require__(75);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(27);
+var external_this_wp_dom_ = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/more-horizontal.js
 var more_horizontal = __webpack_require__(282);
@@ -24017,19 +24017,19 @@ function (_Component) {
         return null;
       };
 
-      var getMovementDirection = function getMovementDirection(moveDirection) {
+      var getMovementDirectionLabel = function getMovementDirectionLabel(moveDirection) {
         if (moveDirection === 'up') {
           if (orientation === 'horizontal') {
-            return isRTL ? 'right' : 'left';
+            return isRTL ? Object(external_this_wp_i18n_["__"])('Move right') : Object(external_this_wp_i18n_["__"])('Move left');
           }
 
-          return 'up';
+          return Object(external_this_wp_i18n_["__"])('Move up');
         } else if (moveDirection === 'down') {
           if (orientation === 'horizontal') {
-            return isRTL ? 'left' : 'right';
+            return isRTL ? Object(external_this_wp_i18n_["__"])('Move left') : Object(external_this_wp_i18n_["__"])('Move right');
           }
 
-          return 'down';
+          return Object(external_this_wp_i18n_["__"])('Move down');
         }
 
         return null;
@@ -24047,9 +24047,8 @@ function (_Component) {
       }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
         className: "block-editor-block-mover__control",
         onClick: isFirst ? null : onMoveUp,
-        icon: getArrowIcon('up') // translators: %s: Horizontal direction of block movement ( left, right )
-        ,
-        label: Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('Move %s'), getMovementDirection('up')),
+        icon: getArrowIcon('up'),
+        label: getMovementDirectionLabel('up'),
         "aria-describedby": "block-editor-block-mover__up-description-".concat(instanceId),
         "aria-disabled": isFirst,
         onFocus: this.onFocus,
@@ -24073,9 +24072,8 @@ function (_Component) {
       }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
         className: "block-editor-block-mover__control",
         onClick: isLast ? null : onMoveDown,
-        icon: getArrowIcon('down') // translators: %s: Horizontal direction of block movement ( left, right )
-        ,
-        label: Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('Move %s'), getMovementDirection('down')),
+        icon: getArrowIcon('down'),
+        label: getMovementDirectionLabel('down'),
         "aria-describedby": "block-editor-block-mover__down-description-".concat(instanceId),
         "aria-disabled": isLast,
         onFocus: this.onFocus,
@@ -28026,13 +28024,55 @@ var transform_styles_transformStyles = function transformStyles(styles) {
 /***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function memize( fn, options ) {
-	var size = 0,
-		maxSize, head, tail;
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
 
-	if ( options && options.maxSize ) {
-		maxSize = options.maxSize;
-	}
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {Function} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {F & MemizeMemoizedFunction} Memoized function.
+ */
+function memize( fn, options ) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
 
 	function memoized( /* ...args */ ) {
 		var node = head,
@@ -28072,14 +28112,14 @@ module.exports = function memize( fn, options ) {
 
 				// Adjust siblings to point to each other. If node was tail,
 				// this also handles new tail's empty `next` assignment.
-				node.prev.next = node.next;
+				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
 				if ( node.next ) {
 					node.next.prev = node.prev;
 				}
 
 				node.next = head;
 				node.prev = null;
-				head.prev = node;
+				/** @type {MemizeCacheNode} */ ( head ).prev = node;
 				head = node;
 			}
 
@@ -28099,7 +28139,7 @@ module.exports = function memize( fn, options ) {
 			args: args,
 
 			// Generate the result from original function
-			val: fn.apply( null, args )
+			val: fn.apply( null, args ),
 		};
 
 		// Don't need to check whether node is already head, since it would
@@ -28115,9 +28155,9 @@ module.exports = function memize( fn, options ) {
 		}
 
 		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === maxSize ) {
-			tail = tail.prev;
-			tail.next = null;
+		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
+			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
+			/** @type {MemizeCacheNode} */ ( tail ).next = null;
 		} else {
 			size++;
 		}
@@ -28135,8 +28175,16 @@ module.exports = function memize( fn, options ) {
 
 	if ( false ) {}
 
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
 	return memoized;
-};
+}
+
+module.exports = memize;
 
 
 /***/ }),
