@@ -1964,6 +1964,10 @@ section.ephemera .entry-title a span {
 	display: table-cell;
 	text-align: center;
 }
+.widget_calendar .wp-calendar-nav-prev,
+.widget_calendar .wp-calendar-nav-next {
+	width: 40%;
+}
 
 /* Text Widget */
 .widget_text ul,
