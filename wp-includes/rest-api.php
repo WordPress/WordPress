@@ -971,6 +971,23 @@ function rest_parse_date( $date, $force_utc = false ) {
 }
 
 /**
+ * Parses a 3 or 6 digit hex color (with #).
+ *
+ * @since 5.4.0
+ *
+ * @param string $color 3 or 6 digit hex color (with #).
+ * @return string|false
+ */
+function rest_parse_hex_color( $color ) {
+	$regex = '|^#([A-Fa-f0-9]{3}){1,2}$|';
+	if ( ! preg_match( $regex, $color, $matches ) ) {
+		return false;
+	}
+
+	return $color;
+}
+
+/**
  * Parses a date into both its local and UTC equivalent, in MySQL datetime format.
  *
  * @since 4.4.0
@@ -1327,6 +1344,12 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 
 	if ( isset( $args['format'] ) ) {
 		switch ( $args['format'] ) {
+			case 'hex-color':
+				if ( ! rest_parse_hex_color( $value ) ) {
+					return new WP_Error( 'rest_invalid_hex_color', __( 'Invalid hex color.' ) );
+				}
+				break;
+
 			case 'date-time':
 				if ( ! rest_parse_date( $value ) ) {
 					return new WP_Error( 'rest_invalid_date', __( 'Invalid date.' ) );
@@ -1485,6 +1508,9 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 
 	if ( isset( $args['format'] ) ) {
 		switch ( $args['format'] ) {
+			case 'hex-color':
+				return (string) sanitize_hex_color( $value );
+
 			case 'date-time':
 				return sanitize_text_field( $value );
 
