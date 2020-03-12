@@ -3610,14 +3610,26 @@ class wpdb {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @return null|string Null on failure, version number on success.
+	 * @return string|null Version number on success, null on failure.
 	 */
 	public function db_version() {
+		return preg_replace( '/[^0-9.].*/', '', $this->db_server_info() );
+	}
+
+	/**
+	 * Retrieves full MySQL server information.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return string|false Server info on success, false on failure.
+	 */
+	public function db_server_info() {
 		if ( $this->use_mysqli ) {
 			$server_info = mysqli_get_server_info( $this->dbh );
 		} else {
 			$server_info = mysql_get_server_info( $this->dbh );
 		}
-		return preg_replace( '/[^0-9.].*/', '', $server_info );
+
+		return $server_info;
 	}
 }
