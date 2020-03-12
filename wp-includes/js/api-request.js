@@ -1,3 +1,6 @@
++ 12fcc1d567ec
++
+
 /**
  * Thin jQuery.ajax wrapper for WP REST API requests.
  *
