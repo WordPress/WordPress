@@ -616,7 +616,7 @@ function maybe_serialize( $data ) {
  */
 function maybe_unserialize( $data ) {
 	if ( is_serialized( $data ) ) { // Don't attempt to unserialize data that wasn't serialized going in.
-		return @unserialize( $data );
+		return @unserialize( trim( $data ) );
 	}
 
 	return $data;
