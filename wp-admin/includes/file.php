@@ -550,6 +550,13 @@ function wp_edit_theme_plugin_file( $args ) {
 		} else {
 			$url = admin_url();
 		}
+
+		if ( PHP_SESSION_ACTIVE === session_status() ) {
+			// Close any active session to prevent HTTP requests from timing out
+			// when attempting to connect back to the site.
+			session_write_close();
+		}
+
 		$url                    = add_query_arg( $scrape_params, $url );
 		$r                      = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
 		$body                   = wp_remote_retrieve_body( $r );
