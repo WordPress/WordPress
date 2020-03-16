@@ -515,8 +515,8 @@ function get_attached_file( $attachment_id, $unfiltered = false ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $file          Path to attached file.
-	 * @param int    $attachment_id Attachment ID.
+	 * @param string|false $file          The file path to where the attached file should be, false otherwise.
+	 * @param int          $attachment_id Attachment ID.
 	 */
 	return apply_filters( 'get_attached_file', $file, $attachment_id );
 }

@@ -2643,7 +2643,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		}
 
 		/**
-		 * Filters whether to retrieve the avatar URL early.
+		 * Allows the HTML for a user's avatar to be returned early.
 		 *
 		 * Passing a non-null value will effectively short-circuit get_avatar(), passing
 		 * the value through the {@see 'get_avatar'} filter and returning early.
@@ -2651,7 +2651,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		 * @since 4.2.0
 		 *
 		 * @param string|null $avatar      HTML for the user's avatar. Default null.
-		 * @param mixed       $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+		 * @param mixed       $id_or_email The avatar to retrieve. Accepts a user_id, Gravatar MD5 hash,
 		 *                                 user email, WP_User object, WP_Post object, or WP_Comment object.
 		 * @param array       $args        Arguments passed to get_avatar_url(), after processing.
 		 */
@@ -2702,17 +2702,17 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		);
 
 		/**
-		 * Filters the avatar to retrieve.
+		 * Filters the HTML for a user's avatar.
 		 *
 		 * @since 2.5.0
 		 * @since 4.2.0 The `$args` parameter was added.
 		 *
-		 * @param string $avatar      &lt;img&gt; tag for the user's avatar.
-		 * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+		 * @param string $avatar      HTML for the user's avatar.
+		 * @param mixed  $id_or_email The avatar to retrieve. Accepts a user_id, Gravatar MD5 hash,
 		 *                            user email, WP_User object, WP_Post object, or WP_Comment object.
 		 * @param int    $size        Square avatar width and height in pixels to retrieve.
 		 * @param string $default     URL for the default image or a default type. Accepts '404', 'retro', 'monsterid',
-		 *                            'wavatar', 'indenticon','mystery' (or 'mm', or 'mysteryman'), 'blank', or 'gravatar_default'.
+		 *                            'wavatar', 'indenticon', 'mystery', 'mm', 'mysteryman', 'blank', or 'gravatar_default'.
 		 *                            Default is the value of the 'avatar_default' option, with a fallback of 'mystery'.
 		 * @param string $alt         Alternative text to use in the avatar image tag. Default empty.
 		 * @param array  $args        Arguments passed to get_avatar_data(), after processing.

@@ -2616,7 +2616,14 @@ function _wp_check_existing_file_names( $filename, $files ) {
  * @param null|string  $deprecated Never used. Set to null.
  * @param string       $bits       File content
  * @param string       $time       Optional. Time formatted in 'yyyy/mm'. Default null.
- * @return array
+ * @return array {
+ *     Information about the newly-uploaded file.
+ *
+ *     @type string       $file  Filename of the newly-uploaded file.
+ *     @type string       $url   URL of the uploaded file.
+ *     @type string       $type  File type.
+ *     @type string|false $error Error message, if there has been an error.
+ * }
  */
 function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	if ( ! empty( $deprecated ) ) {

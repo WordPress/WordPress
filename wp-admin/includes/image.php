@@ -533,7 +533,13 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 				 *
 				 * @param array $image_attachment An array of parameters to create the thumbnail.
 				 * @param array $metadata         Current attachment metadata.
-				 * @param array $uploaded         An array containing the thumbnail path and url.
+				 * @param array $uploaded         {
+				 *     Information about the newly-uploaded file.
+				 *
+				 *     @type string $file  Filename of the newly-uploaded file.
+				 *     @type string $url   URL of the uploaded file.
+				 *     @type string $type  File type.
+				 * }
 				 */
 				$image_attachment = apply_filters( 'attachment_thumbnail_args', $image_attachment, $metadata, $uploaded );
 

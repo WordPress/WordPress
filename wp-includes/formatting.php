@@ -3499,7 +3499,7 @@ function _wp_iso_convert( $match ) {
 }
 
 /**
- * Given a date in the timezone of the site, returns that date in UTC timezone.
+ * Given a date in the timezone of the site, returns that date in UTC.
  *
  * Requires and returns a date in the Y-m-d H:i:s format.
  * Return format can be overridden using the $format parameter.
@@ -3508,7 +3508,7 @@ function _wp_iso_convert( $match ) {
  *
  * @param string $string The date to be converted, in the timezone of the site.
  * @param string $format The format string for the returned date. Default 'Y-m-d H:i:s'.
- * @return string Formatted version of the date, in UTC timezone.
+ * @return string Formatted version of the date, in UTC.
  */
 function get_gmt_from_date( $string, $format = 'Y-m-d H:i:s' ) {
 	$datetime = date_create( $string, wp_timezone() );
@@ -3521,14 +3521,14 @@ function get_gmt_from_date( $string, $format = 'Y-m-d H:i:s' ) {
 }
 
 /**
- * Given a date in UTC timezone, returns that date in the timezone of the site.
+ * Given a date in UTC or GMT timezone, returns that date in the timezone of the site.
  *
  * Requires and returns a date in the Y-m-d H:i:s format.
  * Return format can be overridden using the $format parameter.
  *
  * @since 1.2.0
  *
- * @param string $string The date to be converted, in UTC timezone.
+ * @param string $string The date to be converted, in UTC or GMT timezone.
  * @param string $format The format string for the returned date. Default 'Y-m-d H:i:s'.
  * @return string Formatted version of the date, in the site's timezone.
  */
@@ -3543,7 +3543,7 @@ function get_date_from_gmt( $string, $format = 'Y-m-d H:i:s' ) {
 }
 
 /**
- * Computes an offset in seconds from an iso8601 timezone.
+ * Given an ISO 8601 timezone, returns its UTC offset in seconds.
  *
  * @since 1.5.0
  *
@@ -3564,7 +3564,7 @@ function iso8601_timezone_to_offset( $timezone ) {
 }
 
 /**
- * Converts an iso8601 (Ymd\TH:i:sO) date to MySQL DateTime (Y-m-d H:i:s) format used by post_date[_gmt].
+ * Given an ISO 8601 (Ymd\TH:i:sO) date, returns a MySQL DateTime (Y-m-d H:i:s) format used by post_date[_gmt].
  *
  * @since 1.5.0
  *

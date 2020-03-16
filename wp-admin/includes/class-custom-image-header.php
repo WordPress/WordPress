@@ -1244,7 +1244,7 @@ endif;
 	 * @since 3.9.0
 	 *
 	 * @param array  $object  Attachment object.
-	 * @param string $cropped Cropped image URL.
+	 * @param string $cropped File path to cropped image.
 	 * @return int Attachment ID.
 	 */
 	final public function insert_attachment( $object, $cropped ) {
