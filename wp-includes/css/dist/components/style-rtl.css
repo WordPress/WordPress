@@ -659,7 +659,6 @@ svg.components-checkbox-control__checked {
   width: 31px;
   height: 31px;
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   pointer-events: none; }
@@ -1460,7 +1459,6 @@ svg.dashicon {
   text-align: center;
   vertical-align: top;
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
 
@@ -1536,7 +1534,6 @@ svg.dashicon {
 .DayPickerNavigation_button {
   cursor: pointer;
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   border: 0;
@@ -1733,7 +1730,6 @@ svg.dashicon {
 
 .DateInput_input__readOnly {
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
 
@@ -2309,7 +2305,6 @@ body.is-dragging-components-draggable {
     max-width: 100%;
     width: auto;
     -webkit-user-select: none;
-       -moz-user-select: none;
         -ms-user-select: none;
             user-select: none; }
 
@@ -3680,7 +3675,8 @@ body.admin-color-light .components-resizable-box__side-handle::before {
   bottom: 0;
   right: 0;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  margin: auto; }
 
 .components-sandbox {
   overflow: hidden; }
@@ -3723,7 +3719,6 @@ body.lockscroll {
   cursor: pointer; }
   @media (min-width: 600px) {
     .components-snackbar {
-      width: -webkit-fit-content;
       width: fit-content; } }
   .components-snackbar:hover {
     background-color: #191e23; }
