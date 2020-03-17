@@ -269,7 +269,7 @@ function add_feed( $feedname, $function ) {
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param bool $hard Whether to update .htaccess (hard flush) or just update
- *                   rewrite_rules transient (soft flush). Default is true (hard).
+ *                   rewrite_rules option (soft flush). Default is true (hard).
  */
 function flush_rewrite_rules( $hard = true ) {
 	global $wp_rewrite;
