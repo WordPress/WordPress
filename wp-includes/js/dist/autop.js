@@ -87,7 +87,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["autop"] =
 /************************************************************************/
 /******/ ({
 
-/***/ 22:
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -146,7 +146,7 @@ function _slicedToArray(arr, i) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autop", function() { return autop; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removep", function() { return removep; });
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
 
 
 /**

@@ -87,7 +87,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /************************************************************************/
 /******/ ({
 
-/***/ 257:
+/***/ 258:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["domReady"]; }());
@@ -101,7 +101,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external {"this":["wp","domReady"]}
-var external_this_wp_domReady_ = __webpack_require__(257);
+var external_this_wp_domReady_ = __webpack_require__(258);
 var external_this_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_domReady_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/addContainer.js

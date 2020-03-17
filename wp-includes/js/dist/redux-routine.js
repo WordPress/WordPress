@@ -87,7 +87,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["reduxRoutine"] =
 /************************************************************************/
 /******/ ({
 
-/***/ 124:
+/***/ 127:
 /***/ (function(module, exports) {
 
 module.exports = isPromise;
@@ -99,7 +99,7 @@ function isPromise(obj) {
 
 /***/ }),
 
-/***/ 134:
+/***/ 137:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -111,7 +111,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _keys = __webpack_require__(252);
+var _keys = __webpack_require__(253);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -171,7 +171,7 @@ exports.default = is;
 
 /***/ }),
 
-/***/ 251:
+/***/ 252:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -182,7 +182,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createChannel = exports.subscribe = exports.cps = exports.apply = exports.call = exports.invoke = exports.delay = exports.race = exports.join = exports.fork = exports.error = exports.all = undefined;
 
-var _keys = __webpack_require__(252);
+var _keys = __webpack_require__(253);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -312,7 +312,7 @@ var createChannel = exports.createChannel = function createChannel(callback) {
 
 /***/ }),
 
-/***/ 252:
+/***/ 253:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -347,7 +347,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.wrapControls = exports.asyncControls = exports.create = undefined;
 
-var _helpers = __webpack_require__(251);
+var _helpers = __webpack_require__(252);
 
 Object.keys(_helpers).forEach(function (key) {
   if (key === "default") return;
@@ -393,7 +393,7 @@ var _builtin = __webpack_require__(409);
 
 var _builtin2 = _interopRequireDefault(_builtin);
 
-var _is = __webpack_require__(134);
+var _is = __webpack_require__(137);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -476,7 +476,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.iterator = exports.array = exports.object = exports.error = exports.any = undefined;
 
-var _is = __webpack_require__(134);
+var _is = __webpack_require__(137);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -577,11 +577,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.race = exports.join = exports.fork = exports.promise = undefined;
 
-var _is = __webpack_require__(134);
+var _is = __webpack_require__(137);
 
 var _is2 = _interopRequireDefault(_is);
 
-var _helpers = __webpack_require__(251);
+var _helpers = __webpack_require__(252);
 
 var _dispatcher = __webpack_require__(411);
 
@@ -732,7 +732,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.cps = exports.call = undefined;
 
-var _is = __webpack_require__(134);
+var _is = __webpack_require__(137);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -793,7 +793,7 @@ var dist = __webpack_require__(274);
 var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(124);
+var is_promise = __webpack_require__(127);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-action.js
