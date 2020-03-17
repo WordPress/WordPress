@@ -2218,7 +2218,7 @@ class WP_Site_Health {
 	 */
 	public function maybe_create_scheduled_event() {
 		if ( ! wp_next_scheduled( 'wp_site_health_scheduled_check' ) && ! wp_installing() ) {
-			wp_schedule_event( time(), 'weekly', 'wp_site_health_scheduled_check' );
+			wp_schedule_event( time() + DAY_IN_SECONDS, 'weekly', 'wp_site_health_scheduled_check' );
 		}
 	}
 
