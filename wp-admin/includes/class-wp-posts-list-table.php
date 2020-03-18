@@ -469,17 +469,19 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @since 5.2.0
 	 * @access protected
 	 *
-	 * @param string $post_type Post type key.
+	 * @param string $post_type Post type slug.
 	 */
 	protected function formats_dropdown( $post_type ) {
 		/**
 		 * Filters whether to remove the 'Formats' drop-down from the post list table.
 		 *
 		 * @since 5.2.0
+		 * @since 5.5.0 The `$post_type` parameter was added.
 		 *
-		 * @param bool $disable Whether to disable the drop-down. Default false.
+		 * @param bool   $disable   Whether to disable the drop-down. Default false.
+		 * @param string $post_type Post type slug.
 		 */
-		if ( apply_filters( 'disable_formats_dropdown', false ) ) {
+		if ( apply_filters( 'disable_formats_dropdown', false, $post_type ) ) {
 			return;
 		}
 
