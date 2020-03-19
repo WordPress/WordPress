@@ -448,7 +448,7 @@ form#tags-filter {
 #post-body #visibility:before,
 .curtime #timestamp:before,
 #post-body .misc-pub-revisions:before,
-#post-body .misc-pub-response-to:before, 
+#post-body .misc-pub-response-to:before,
 #post-body .misc-pub-comment-status:before {
 	color: #82878c;
 }
@@ -457,7 +457,7 @@ form#tags-filter {
 #post-body #visibility:before,
 .curtime #timestamp:before,
 #post-body .misc-pub-revisions:before,
-#post-body .misc-pub-response-to:before, 
+#post-body .misc-pub-response-to:before,
 #post-body .misc-pub-comment-status:before {
 	font: normal 20px/1 dashicons;
 	speak: none;
@@ -469,7 +469,7 @@ form#tags-filter {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-#post-body .misc-pub-post-status:before, 
+#post-body .misc-pub-post-status:before,
 #post-body .misc-pub-comment-status:before {
 	content: "\f173";
 }
@@ -1738,6 +1738,8 @@ table.links-table {
 		float: none;
 		width: auto;
 		height: 100%;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.privacy-text-section a.return-to-top {
