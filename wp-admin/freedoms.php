@@ -26,12 +26,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<div class="about__header">
 		<div class="about__header-title">
 			<h1>
-				<span><?php echo $display_version; ?></span>
 				<?php _e( 'WordPress' ); ?>
+				<span><?php echo $display_version; ?></span>
 			</h1>
 		</div>
-
-		<div class="about__header-badge"></div>
 
 		<div class="about__header-text">
 			<p>
