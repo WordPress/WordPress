@@ -50,11 +50,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns has-subtle-background-color">
 			<h2 class="is-section-header">
 				<?php
-					printf(
-						/* translators: %s: The current WordPress version number. */
-						__( 'Welcome to WordPress %s.' ),
-						$display_version
-					);
+				printf(
+					/* translators: %s: The current WordPress version number. */
+					__( 'Welcome to WordPress %s.' ),
+					$display_version
+				);
 				?>
 			</h2>
 			<div class="column">
