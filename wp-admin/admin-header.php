@@ -32,14 +32,14 @@ if ( empty( $current_screen ) ) {
 }
 
 get_admin_page_title();
-$title = esc_html( strip_tags( $title ) );
+$title = strip_tags( $title );
 
 if ( is_network_admin() ) {
 	/* translators: Network admin screen title. %s: Network title. */
-	$admin_title = sprintf( __( 'Network Admin: %s' ), esc_html( get_network()->site_name ) );
+	$admin_title = sprintf( __( 'Network Admin: %s' ), get_network()->site_name );
 } elseif ( is_user_admin() ) {
 	/* translators: User dashboard screen title. %s: Network title. */
-	$admin_title = sprintf( __( 'User Dashboard: %s' ), esc_html( get_network()->site_name ) );
+	$admin_title = sprintf( __( 'User Dashboard: %s' ), get_network()->site_name );
 } else {
 	$admin_title = get_bloginfo( 'name' );
 }
@@ -71,7 +71,7 @@ wp_user_settings();
 
 _wp_admin_html_begin();
 ?>
-<title><?php echo $admin_title; ?></title>
+<title><?php echo esc_html( $admin_title ); ?></title>
 <?php
 
 wp_enqueue_style( 'colors' );
