@@ -20,17 +20,19 @@
 
 .about__container {
 	/* Section backgrounds */
-	--background: #f4efe1;
-	--subtle-background: #d7d2c5;
+	--background: #f3f4f5;
+	--subtle-background: #bde7f0;
 	/* Main text color */
-	--text: #413e38;
+	--text: #32373c;
+	--text-light: #f3f4f5;
 	/* Navigation colors. */
-	--nav-background: #fefcf7;
-	--nav-color: #716d64;
+	--nav-background: #216bce;
+	--nav-border: #1730e5;
+	--nav-color: #f3f4f5;
 	/* Reds, used as accents & in header. */
-	--accent-1: #bd3854;
-	--accent-2: #5f1b29;
-	--accent-3: #321017;
+	--accent-1: #1730e5;
+	--accent-2: #216bce;
+	--accent-3: #bde7f0;
 }
 
 /*------------------------------------------------------------------------------
@@ -95,17 +97,19 @@
 }
 
 .about__section {
-	background: #F4EFE1;
+	background: #f3f4f5;
 	background: var(--background);
 }
 
 .about__container .has-accent-background-color {
-	background-color: #BD3854;
+	color: #f3f4f5;
+	color: var(--text-light);
+	background-color: #1730e5;
 	background-color: var(--accent-1);
 }
 
 .about__container .has-subtle-background-color {
-	background-color: #D7D2C5;
+	background-color: #bde7f0;
 	background-color: var(--subtle-background);
 }
 
@@ -123,6 +127,10 @@
 	padding: 0;
 }
 
+.about__section .column p:first-of-type {
+	margin-top: 0;
+}
+
 .about__section .column p:last-of-type {
 	margin-bottom: 0;
 }
@@ -132,12 +140,21 @@
 	padding: 32px 32px 0;
 }
 
+/* Section header is alone in a container. */
+.about__section .is-section-header:first-child:last-child {
+	padding: 0;
+}
+
 .about__section.is-feature {
 	padding: 32px;
 }
 
 .about__section.is-feature p {
 	margin: 0;
+}
+
+.about__section.is-feature p + p {
+	margin-top: 1rem;
 }
 
 .about__section.has-2-columns,
@@ -306,7 +323,8 @@
 }
 
 .about__section a {
-	color: #5f1b29;
+	color: #1730e5;
+	color: var(--accent-1);
 	text-decoration: underline;
 }
 
@@ -342,6 +360,7 @@
 	align-items: center;
 	justify-content: center;
 	height: 100%;
+	overflow: hidden;
 }
 
 .about__container .about__image img {
@@ -354,6 +373,10 @@
 	margin: 0;
 	height: 32px;
 	border: none;
+}
+
+.about__container hr.is-small {
+	height: 8px;
 }
 
 .about__container div.updated,
@@ -369,6 +392,7 @@
 .about__section.is-feature {
 	font-size: 1.6em;
 	font-weight: 600;
+	text-align: center;
 }
 
 @media screen and (max-width: 782px) {
@@ -397,10 +421,16 @@
 	grid-template-columns: 1fr 1fr;
 	-ms-grid-rows: 1fr 1fr;
 	grid-template-rows: 1fr 1fr;
-	min-height: 28em;
-	max-height: 36em;
+	min-height: 30em;
+	max-height: 42em;
 	height: 90vh;
 	margin-bottom: 32px;
+	background-color: #f3f4f5;
+	background-color: var(--background);
+	background-repeat: no-repeat;
+	background-position: top center;
+	background-size: contain;
+	background-image: url('https://wordpress.org/images/core/5.4/header.svg');
 }
 
 .about__header > div {
@@ -418,15 +448,22 @@
 	-ms-grid-row-span: 2;
 	grid-row: 1/span 2;
 	padding: 32px;
-	background-color: #BD3854;
-	background-color: var(--accent-1);
-	color: white;
-	padding: 32px;
+	-webkit-writing-mode: vertical-rl;
+	-ms-writing-mode: tb-rl;
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+}
+
+/* Needs to be inline-block to use vertical-align, needs specificity to override flex. */
+.about__header .about__header-title {
+	display: inline-block;
+	vertical-align: top;
 }
 
 .about__header-title h1 {
 	padding: 0;
-	color: inherit;
+	color: #1730e5;
+	color: var(--accent-1);
 }
 
 .about__header-title h1 span {
@@ -434,23 +471,8 @@
 	font-weight: 600;
 	font-size: 1.2em;
 	line-height: 1;
-}
-
-.about__header-badge {
-	-ms-grid-column: 2;
-	grid-column: 2;
-	-ms-grid-row: 1;
-	grid-row: 1;
-	background-color: #5f1b29;
-	background-color: var(--accent-2);
-	margin: 0;
-	padding: 32px;
-	justify-content: flex-end;
-}
-
-.about__header-badge img {
-	align-self: flex-start;
-	max-width: 100%;
+	color: #216bce;
+	color: var(--accent-2);
 }
 
 .about__header-text {
@@ -459,11 +481,10 @@
 	-ms-grid-row: 2;
 	grid-row: 2;
 	padding: 32px;
-	background-color: #321017;
-	background-color: var(--accent-3);
-	color: white;
 	font-size: 1.5em;
 	line-height: 1.4;
+	text-align: right;
+	justify-self: flex-end;
 }
 
 .about__header-text p {
@@ -477,11 +498,12 @@
 	-ms-grid-row: 3;
 	grid-row: 3;
 	padding-top: 0;
-	background: #FEFCF7;
+	background: #216bce;
 	background: var(--nav-background);
-	color: #716d64;
+	color: #f3f4f5;
 	color: var(--nav-color);
-	border-bottom: 3px solid currentColor;
+	border-bottom: 3px solid #1730e5;
+	border-bottom: 3px solid var(--nav-border);
 }
 
 .about__header-navigation .nav-tab {
@@ -498,22 +520,23 @@
 
 .about__header-navigation .nav-tab:hover,
 .about__header-navigation .nav-tab:active {
-	background-color: #F4EFE1;
-	background-color: var(--background);
+	background-color: #1730e5;
+	background-color: var(--accent-1);
 }
 
 .about__header-navigation .nav-tab-active {
 	margin-bottom: -3px;
 	border-width: 0 0 6px;
-	color: #BD3854;
-	color: var(--accent-1);
-	border-color: currentColor;
+	border-color: #bde7f0;
+	border-color: var(--accent-3);
 }
 
 .about__header-navigation .nav-tab-active:hover,
 .about__header-navigation .nav-tab-active:active {
-	background-color: transparent;
-	border-color: currentColor;
+	background-color: #1730e5;
+	background-color: var(--accent-1);
+	border-color: #bde7f0;
+	border-color: var(--accent-3);
 }
 
 @media screen and (max-width: 782px) {
@@ -530,8 +553,21 @@
 		height: auto;
 	}
 
-	.about__header-badge {
-		justify-content: flex-start;
+	.about__header-title {
+		/*
+		 * 80% is a "magic" number to create a top offset approx-equal to the height of the background image,
+		 * which scales to match the container width.
+		 */
+		padding-top: 80%;
+		padding-bottom: 0;
+		-webkit-writing-mode: initial;
+		-ms-writing-mode: initial;
+		writing-mode: initial;
+		transform: none;
+	}
+
+	.about__header-text {
+		text-align: left;
 	}
 
 	.about__header-navigation .nav-tab {
@@ -547,15 +583,13 @@
 		display: block;
 		margin-bottom: 0;
 		padding: 16px 16px;
-		border-left-width: 3px;
+		border-left-width: 6px;
 		border-bottom: none;
 	}
 
 	.about__header-navigation .nav-tab-active {
 		border-bottom: none;
-		border-left-width: 3px;
-		background: #F4EFE1;
-		background: var(--background);
+		border-left-width: 6px;
 	}
 }
 
@@ -603,7 +637,7 @@
 	font-size: 1.4em;
 	font-weight: 600;
 	text-decoration: none;
-	color: #413E38;
+	color: #32373c;
 	color: var(--text);
 }
 
