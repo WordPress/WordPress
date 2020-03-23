@@ -698,7 +698,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					<h3>
 						<a href="<?php echo esc_url( $details_link ); ?>" class="thickbox open-plugin-details-modal">
 						<?php echo $title; ?>
-						<img src="<?php echo esc_attr( $plugin_icon_url ); ?>" class="plugin-icon" alt="">
+						<img src="<?php echo esc_attr( $plugin_icon_url ); ?>" class="plugin-icon" alt="" />
 						</a>
 					</h3>
 				</div>
