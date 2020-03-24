@@ -197,8 +197,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<?php
 					printf(
 						/* translators: %s: WordPress 5.4 Field Guide link. */
-						__( 'There&#8217;s lots more for developers to love in WordPress 5.4. To discover more and learn how to make these changes shine on your on your sites, themes, plugins and more, check the <a href="%s">WordPress 5.4 Field Guide</a>.' ),
-						'https://make.wordpress.org/core/?p=80034'
+						__( 'There&#8217;s lots more for developers to love in WordPress 5.4. To discover more and learn how to make these changes shine on your sites, themes, plugins and more, check the <a href="%s">WordPress 5.4 Field Guide</a>.' ),
+						'https://make.wordpress.org/core/2020/03/03/wordpress-5-4-field-guide/'
 					);
 					?>
 				</p>
