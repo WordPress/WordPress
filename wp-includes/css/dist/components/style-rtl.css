@@ -996,13 +996,18 @@ svg.components-checkbox-control__checked {
     border-radius: 50%;
     background: #fff;
     padding: 2px;
+    min-width: 24px;
     width: 24px;
     height: 24px;
     position: relative; }
+    .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__insert-point svg {
+      height: 100%;
+      width: 100%; }
   .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__control-point-button {
     border: 2px solid #fff;
     border-radius: 50%;
     height: 18px;
+    padding: 0;
     position: absolute;
     width: 18px;
     top: 3px; }
@@ -1010,7 +1015,7 @@ svg.components-checkbox-control__checked {
       background: #fafafa;
       color: #23282d;
       border-color: #999;
-      box-shadow: inset 0 -1px 0 #999, 0 0 0 1px #fff, 0 0 0 3px #007cba; }
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba; }
 
 .components-custom-gradient-picker__color-picker-popover .components-custom-gradient-picker__remove-control-point {
   margin-right: auto;
