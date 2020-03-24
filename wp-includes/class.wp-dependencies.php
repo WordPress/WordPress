@@ -246,7 +246,7 @@ class WP_Dependencies {
 	 *
 	 * @param string $handle Name of the item. Should be unique.
 	 * @param string $key    The data key.
-	 * @param string $value  The data value.
+	 * @param mixed  $value  The data value.
 	 * @return bool True on success, false on failure.
 	 */
 	public function add_data( $handle, $key, $value ) {
@@ -266,7 +266,7 @@ class WP_Dependencies {
 	 *
 	 * @param string $handle Name of the item. Should be unique.
 	 * @param string $key    The data key.
-	 * @return string|false Extra item data (string), false otherwise.
+	 * @return mixed Extra item data (string), false otherwise.
 	 */
 	public function get_data( $handle, $key ) {
 		if ( ! isset( $this->registered[ $handle ] ) ) {
