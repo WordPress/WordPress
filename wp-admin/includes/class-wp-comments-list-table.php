@@ -55,6 +55,15 @@ class WP_Comments_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 * Adds avatars to comment author names.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $name       Comment author name.
+	 * @param int    $comment_ID Comment ID.
+	 * @return string Avatar with the user name.
+	 */
 	public function floated_admin_avatar( $name, $comment_ID ) {
 		$comment = get_comment( $comment_ID );
 		$avatar  = get_avatar( $comment, 32, 'mystery' );
