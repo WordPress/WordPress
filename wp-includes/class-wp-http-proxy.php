@@ -198,7 +198,7 @@ class WP_HTTP_Proxy {
 			return $result;
 		}
 
-		if ( 'localhost' == $check['host'] || ( isset( $home['host'] ) && $home['host'] == $check['host'] ) ) {
+		if ( 'localhost' === $check['host'] || ( isset( $home['host'] ) && $home['host'] === $check['host'] ) ) {
 			return false;
 		}
 
@@ -223,7 +223,7 @@ class WP_HTTP_Proxy {
 		if ( ! empty( $wildcard_regex ) ) {
 			return ! preg_match( $wildcard_regex, $check['host'] );
 		} else {
-			return ! in_array( $check['host'], $bypass_hosts );
+			return ! in_array( $check['host'], $bypass_hosts, true );
 		}
 	}
 }
