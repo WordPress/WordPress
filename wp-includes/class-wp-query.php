@@ -1711,6 +1711,15 @@ class WP_Query {
 		$this->is_404 = true;
 
 		$this->is_feed = $is_feed;
+
+		/**
+		 * Fires after a 404 is triggered.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param WP_Query $this The WP_Query instance (passed by reference).
+		 */
+		do_action_ref_array( 'set_404', array( $this ) );
 	}
 
 	/**
