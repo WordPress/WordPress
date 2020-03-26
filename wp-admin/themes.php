@@ -377,7 +377,7 @@ foreach ( $themes as $theme ) :
 <?php
 // List broken themes, if any.
 $broken_themes = wp_get_themes( array( 'errors' => true ) );
-if ( ! is_multisite() && current_user_can( 'edit_themes' ) && $broken_themes ) {
+if ( ! is_multisite() && $broken_themes ) {
 	?>
 
 <div class="broken-themes">
