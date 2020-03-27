@@ -1176,14 +1176,15 @@ var external_this_wp_hooks_ = __webpack_require__(32);
 
 var block_addAnnotationClassName = function addAnnotationClassName(OriginalComponent) {
   return Object(external_this_wp_data_["withSelect"])(function (select, _ref) {
-    var clientId = _ref.clientId;
+    var clientId = _ref.clientId,
+        className = _ref.className;
 
     var annotations = select('core/annotations').__experimentalGetAnnotationsForBlock(clientId);
 
     return {
       className: annotations.map(function (annotation) {
         return 'is-annotated-by-' + annotation.source;
-      }).join(' ')
+      }).concat(className).filter(Boolean).join(' ')
     };
   })(OriginalComponent);
 };
