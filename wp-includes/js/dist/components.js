@@ -9461,7 +9461,7 @@ function useSlotRegistry() {
       // See https://github.com/WordPress/gutenberg/pull/19242#issuecomment-590295412
 
 
-      if (slot.ref === ref) {
+      if ((slot === null || slot === void 0 ? void 0 : slot.ref) === ref) {
         return nextSlots;
       }
 

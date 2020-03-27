@@ -10846,9 +10846,6 @@ var embeddedContentSchema = {
   embed: {
     attributes: ['src', 'type', 'width', 'height']
   },
-  iframe: {
-    attributes: ['src', 'srcdoc', 'name', 'sandbox', 'seamless', 'width', 'height']
-  },
   img: {
     attributes: ['alt', 'src', 'srcset', 'usemap', 'ismap', 'width', 'height']
   },
