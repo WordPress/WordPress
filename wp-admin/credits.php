@@ -22,10 +22,10 @@ $credits = wp_credits();
 
 	<div class="about__header">
 		<div class="about__header-title">
-			<h1>
+			<p>
 				<?php _e( 'WordPress' ); ?>
 				<span><?php echo $display_version; ?></span>
-			</h1>
+			</p>
 		</div>
 
 		<div class="about__header-text">
@@ -42,28 +42,39 @@ $credits = wp_credits();
 		</nav>
 	</div>
 
-	<div class="about__section">
+	<div class="about__section is-feature">
 		<div class="column">
-			<h2><?php _e( 'WordPress is created by a worldwide team of passionate individuals.' ); ?></h2>
+			<h1><?php _e( 'Credits' ); ?></h1>
+
+			<?php if ( ! $credits ) : ?>
 
 			<p>
 				<?php
-				if ( ! $credits ) {
-					printf(
-						/* translators: 1: https://wordpress.org/about/, 2: https://make.wordpress.org/ */
-						__( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
-						__( 'https://wordpress.org/about/' ),
-						__( 'https://make.wordpress.org/' )
-					);
-				} else {
-					printf(
-						/* translators: %s: https://make.wordpress.org/ */
-						__( 'Want to see your name in lights on this page? <a href="%s">Get involved in WordPress</a>.' ),
-						__( 'https://make.wordpress.org/' )
-					);
-				}
+				printf(
+					/* translators: 1: https://wordpress.org/about/, 2: https://make.wordpress.org/ */
+					__( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
+					__( 'https://wordpress.org/about/' ),
+					__( 'https://make.wordpress.org/' )
+				);
 				?>
 			</p>
+
+			<?php else : ?>
+
+			<p>
+				<?php _e( 'WordPress is created by a worldwide team of passionate individuals.' ); ?>
+			</p>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: https://make.wordpress.org/ */
+					__( 'Want to see your name in lights on this page? <a href="%s">Get involved in WordPress</a>.' ),
+					__( 'https://make.wordpress.org/' )
+				);
+				?>
+			</p>
+
+			<?php endif; ?>
 		</div>
 
 		<div class="about__image aligncenter">

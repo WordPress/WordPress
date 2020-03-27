@@ -20,10 +20,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__header">
 			<div class="about__header-title">
-				<h1>
+				<p>
 					<?php _e( 'WordPress' ); ?>
 					<span><?php echo $display_version; ?></span>
-				</h1>
+				</p>
 			</div>
 
 			<div class="about__header-text">
@@ -41,7 +41,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		</div>
 
 		<div class="about__section is-feature has-accent-background-color">
-			<p><?php _e( 'Say hello to more and better.' ); ?></p>
+			<h1><?php _e( 'Say hello to more and better.' ); ?></h1>
+
 			<p><?php _e( 'More ways to make your pages come alive. With easier ways to get it all done and looking better than ever&mdash;and boosts in speed you can feel.' ); ?></p>
 		</div>
 
@@ -105,7 +106,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<li><?php _e( 'Tips are gone. In their place, a Welcome Guide window you can bring up when you need it&mdash;and only when you need it&mdash;again and again.' ); ?></li>
 					<li><?php _e( 'Know at a glance whether you&#8217;re in a block&#8217;s Edit or Navigation mode. Or, if you have restricted vision, your screen reader will tell you which mode you&#8217;re in.' ); ?></li>
 				</ul>
-				<p><em><?php _e( 'Of course, if you want to work with the very latest tools and features, install the <a href="https://wordpress.org/plugins/gutenberg/">Gutenberg plugin</a>. You&#8217;ll get to be the first to use new and exciting features in the block editor, before anyone else has seen them!' ); ?></em></p>
+				<p><?php _e( 'Of course, if you want to work with the very latest tools and features, install the <a href="https://wordpress.org/plugins/gutenberg/">Gutenberg plugin</a>. You&#8217;ll get to be the first to use new and exciting features in the block editor, before anyone else has seen them!' ); ?></p>
 			</div>
 			<div class="column is-edge-to-edge">
 				<div class="about__image aligncenter">

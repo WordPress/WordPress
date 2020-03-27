@@ -100,6 +100,7 @@
 .about__section {
 	background: #f3f4f5;
 	background: var(--background);
+	clear: both;
 }
 
 .about__container .has-accent-background-color {
@@ -304,13 +305,17 @@
 }
 
 .about__container h1 {
-	font-size: 5em;
-	line-height: 1;
+	margin: 0 0 1em;
+	padding: 0;
+	font-weight: 600;
+	color: inherit;
 }
 
+.about__container h1,
 .about__container h2 {
 	margin-top: 0;
 	font-size: 1.4em;
+	line-height: 1.4;
 }
 
 .about__container h3 {
@@ -396,17 +401,7 @@
 	text-align: center;
 }
 
-@media screen and (max-width: 782px) {
-	.about__container h1 {
-		font-size: 4em;
-	}
-}
-
 @media screen and (max-width: 480px) {
-	.about__container h1 {
-		font-size: 3.2em;
-	}
-
 	.about__section.is-feature {
 		font-size: 1.4em;
 		font-weight: 500;
@@ -416,22 +411,17 @@
 /* 1.3 - Header */
 
 .about__header {
-	display: -ms-grid;
-	display: grid;
-	-ms-grid-columns: 1fr 1fr;
-	grid-template-columns: 1fr 1fr;
-	-ms-grid-rows: 1fr 1fr;
-	grid-template-rows: 1fr 1fr;
-	min-height: 30em;
-	max-height: 42em;
-	height: 90vh;
 	margin-bottom: 32px;
 	background-color: #f3f4f5;
 	background-color: var(--background);
 	background-repeat: no-repeat;
-	background-position: top center;
+	background-position: top left;
 	background-size: contain;
-	background-image: url('https://wordpress.org/images/core/5.4/header.svg');
+	background-image: url('https://wordpress.org/images/core/5.4/header-diagonal.svg');
+}
+
+.rtl .about__header {
+	background-image: url('https://wordpress.org/images/core/5.4/header-diagonal-rtl.svg');
 }
 
 .about__header > div {
@@ -443,49 +433,32 @@
 }
 
 .about__header-title {
-	-ms-grid-column: 1;
-	grid-column: 1;
-	-ms-grid-row: 1;
-	-ms-grid-row-span: 2;
-	grid-row: 1/span 2;
-	padding: 32px;
-	-webkit-writing-mode: vertical-rl;
-	-ms-writing-mode: tb-rl;
-	writing-mode: vertical-rl;
-	transform: rotate(-180deg);
+	min-height: 24em;
+	max-height: 32em;
+	height: 80vh;
+	padding: 0 32px;
 }
 
-/* Needs to be inline-block to use vertical-align, needs specificity to override flex. */
-.about__header .about__header-title {
-	display: inline-block;
-	vertical-align: top;
-}
-
-.about__header-title h1 {
+.about__header-title p {
+	margin: 0;
 	padding: 0;
+	font-size: 4em;
+	line-height: 1;
+	font-weight: 500;
 	color: #1730e5;
 	color: var(--accent-1);
 }
 
-.about__header-title h1 span {
-	display: block;
-	font-weight: 600;
-	font-size: 1.2em;
-	line-height: 1;
+.about__header-title p span {
+	display: inline-block;
 	color: #216bce;
 	color: var(--accent-2);
 }
 
 .about__header-text {
-	-ms-grid-column: 2;
-	grid-column: 2;
-	-ms-grid-row: 2;
-	grid-row: 2;
-	padding: 32px;
+	padding: 16px 32px 32px;
 	font-size: 1.5em;
 	line-height: 1.4;
-	text-align: left;
-	justify-self: flex-end;
 }
 
 .about__header-text p {
@@ -493,11 +466,6 @@
 }
 
 .about__header-navigation {
-	-ms-grid-column: 1;
-	-ms-grid-column-span: 2;
-	grid-column: 1/span 2;
-	-ms-grid-row: 3;
-	grid-row: 3;
 	padding-top: 0;
 	background: #216bce;
 	background: var(--nav-background);
@@ -544,31 +512,16 @@
 	.about__container .about__header-text {
 		font-size: 1.4em;
 	}
-}
-
-@media screen and (max-width: 600px) {
-	.about__header {
-		display: block;
-		min-height: unset;
-		max-height: unset;
-		height: auto;
-	}
 
 	.about__header-title {
+		min-height: 0;
+		max-height: none;
+		height: auto;
 		/*
-		 * 80% is a "magic" number to create a top offset approx-equal to the height of the background image,
+		 * 60% is a "magic" number to create a top offset approx-equal to the height of the background image,
 		 * which scales to match the container width.
 		 */
-		padding-top: 80%;
-		padding-bottom: 0;
-		-webkit-writing-mode: initial;
-		-ms-writing-mode: initial;
-		writing-mode: initial;
-		transform: none;
-	}
-
-	.about__header-text {
-		text-align: right;
+		padding-top: 60%;
 	}
 
 	.about__header-navigation .nav-tab {
@@ -579,6 +532,10 @@
 }
 
 @media screen and (max-width: 480px) {
+	.about__header-title p {
+		font-size: 3.2em;
+	}
+
 	.about__header-navigation .nav-tab {
 		float: none;
 		display: block;

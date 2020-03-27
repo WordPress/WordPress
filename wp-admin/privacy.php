@@ -19,10 +19,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 	<div class="about__header">
 		<div class="about__header-title">
-			<h1>
+			<p>
 				<?php _e( 'WordPress' ); ?>
 				<span><?php echo $display_version; ?></span>
-			</h1>
+			</p>
 		</div>
 
 		<div class="about__header-text">
@@ -41,7 +41,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 	<div class="about__section">
 		<div class="column">
-			<h2><?php _e( 'Privacy' ); ?></h2>
+			<h1><?php _e( 'Privacy' ); ?></h1>
 
 			<p><?php _e( 'From time to time, your WordPress site may send data to WordPress.org &#8212; including, but not limited to &#8212; the version of WordPress you are using, and a list of installed plugins and themes.' ); ?></p>
 
