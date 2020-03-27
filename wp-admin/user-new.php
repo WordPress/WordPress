@@ -427,7 +427,7 @@ if ( is_multisite() && current_user_can( 'promote_users' ) ) {
 			<label for="adduser-noconfirmation"><?php _e( 'Add the user without sending an email that requires their confirmation.' ); ?></label>
 		</td>
 	</tr>
-<?php } ?>
+	<?php } ?>
 </table>
 	<?php
 	/**
@@ -505,23 +505,23 @@ if ( current_user_can( 'create_users' ) ) {
 		<tr class="form-field user-language-wrap">
 			<th scope="row">
 				<label for="locale">
-						<?php /* translators: The user language selection field label. */ ?>
-						<?php _e( 'Language' ); ?><span class="dashicons dashicons-translation" aria-hidden="true"></span>
+					<?php /* translators: The user language selection field label. */ ?>
+					<?php _e( 'Language' ); ?><span class="dashicons dashicons-translation" aria-hidden="true"></span>
 				</label>
 			</th>
 			<td>
-					<?php
-					wp_dropdown_languages(
-						array(
-							'name'                        => 'locale',
-							'id'                          => 'locale',
-							'selected'                    => 'site-default',
-							'languages'                   => $languages,
-							'show_available_translations' => false,
-							'show_option_site_default'    => true,
-						)
-					);
-					?>
+				<?php
+				wp_dropdown_languages(
+					array(
+						'name'                        => 'locale',
+						'id'                          => 'locale',
+						'selected'                    => 'site-default',
+						'languages'                   => $languages,
+						'show_available_translations' => false,
+						'show_option_site_default'    => true,
+					)
+				);
+				?>
 			</td>
 		</tr>
 		<?php endif; ?>
