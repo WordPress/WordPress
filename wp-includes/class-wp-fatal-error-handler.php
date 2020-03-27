@@ -187,7 +187,7 @@ class WP_Fatal_Error_Handler {
 			'<p>%s</p><p><a href="%s">%s</a></p>',
 			$message,
 			/* translators: Documentation explaining debugging in WordPress. */
-			esc_url( __( 'https://wordpress.org/support/article/debugging-in-wordpress/' ) ),
+			__( 'https://wordpress.org/support/article/debugging-in-wordpress/' ),
 			__( 'Learn more about debugging in WordPress.' )
 		);
 
