@@ -23,6 +23,9 @@ class WP_Debug_Data {
 	 * Static function for generating site debug data when required.
 	 *
 	 * @since 5.2.0
+	 * @since 5.3.0 Added database charset, database collation,
+	 *              and timezone information.
+	 * @since 5.5.0 Added pretty permalinks support information.
 	 *
 	 * @throws ImagickException
 	 * @global wpdb $wpdb WordPress database abstraction object.
@@ -693,6 +696,15 @@ class WP_Debug_Data {
 			'label' => __( 'Is the Imagick library available?' ),
 			'value' => ( $imagick_loaded ? __( 'Yes' ) : __( 'No' ) ),
 			'debug' => $imagick_loaded,
+		);
+
+		// Pretty permalinks.
+		$pretty_permalinks_supported = got_url_rewrite();
+
+		$info['wp-server']['fields']['pretty_permalinks'] = array(
+			'label' => __( 'Are pretty permalinks supported?' ),
+			'value' => ( $pretty_permalinks_supported ? __( 'Yes' ) : __( 'No' ) ),
+			'debug' => $pretty_permalinks_supported,
 		);
 
 		// Check if a .htaccess file exists.
