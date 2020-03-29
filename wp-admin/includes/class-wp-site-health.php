@@ -1036,10 +1036,7 @@ class WP_Site_Health {
 				$result['label'] = __( 'One or more required modules are missing' );
 			}
 
-			$result['description'] .= sprintf(
-				'<p>%s</p>',
-				$output
-			);
+			$result['description'] .= $output;
 		}
 
 		return $result;
@@ -1064,6 +1061,7 @@ class WP_Site_Health {
 				'<p>%s</p>',
 				__( 'PHP default timezone was configured by WordPress on loading. This is necessary for correct calculations of dates and times.' )
 			),
+			'actions'     => '',
 			'test'        => 'php_default_timezone',
 		);
 
@@ -1678,10 +1676,7 @@ class WP_Site_Health {
 		$output .= '</ul>';
 
 		if ( 'good' !== $result['status'] ) {
-			$result['description'] .= sprintf(
-				'<p>%s</p>',
-				$output
-			);
+			$result['description'] .= $output;
 		}
 
 		return $result;
