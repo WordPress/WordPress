@@ -844,7 +844,6 @@ input[type="submit"] {
 	padding: 1.1em 1.44em;
 	text-align: center;
 	text-decoration: none;
-	text-transform: uppercase;
 	transition: opacity 0.15s linear;
 }
 

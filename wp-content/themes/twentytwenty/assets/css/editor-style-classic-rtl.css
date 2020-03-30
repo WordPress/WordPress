@@ -527,7 +527,6 @@ body#tinymce.wp-editor.content input[type="submit"] {
 	padding: 1.1em 1.44em;
 	text-align: center;
 	text-decoration: none;
-	text-transform: uppercase;
 }
 
 body#tinymce.wp-editor.content button:focus,

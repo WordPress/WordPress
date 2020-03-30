@@ -899,7 +899,6 @@ hr.wp-block-separator.is-style-dots::before {
 	letter-spacing: 0.0333em;
 	line-height: 1.25;
 	padding: 1.1em 1.44em;
-	text-transform: uppercase;
 }
 
 .editor-styles-wrapper .wp-block-button .wp-block-button__link.mce-content-body {
