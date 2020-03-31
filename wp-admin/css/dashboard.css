@@ -1207,6 +1207,10 @@ a.rsswidget {
 }
 
 @media screen and (max-width: 782px) {
+	#dashboard-widgets h2 {
+		padding: 12px;
+	}
+
 	#dashboard_recent_comments #the-comment-list .comment-item .avatar {
 		height: 30px;
 		width: 30px;
