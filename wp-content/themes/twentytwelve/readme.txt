@@ -1,7 +1,7 @@
 === Twenty Twelve ===
 Contributors: wordpressdotorg
 Tested up to: 5.0
-Stable tag: 3.0
+Stable tag: 3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
@@ -41,6 +41,11 @@ Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
 == Changelog ==
+
+= 3.1 =
+* Released: March 31, 2020
+
+https://codex.wordpress.org/Twenty_Twelve_Theme_Changelog#Version_3.1
 
 = 3.0 =
 * Released: May 7, 2019
