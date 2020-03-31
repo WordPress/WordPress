@@ -1,7 +1,7 @@
 === Twenty Twenty ===
 Contributors: the WordPress team
 Tested up to: 5.3
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,10 +22,15 @@ you pick, ensuring a high, accessible color contrast for your visitors.
 
 == Changelog ==
 
+= 1.2 =
+* Released: March 31, 2020
+
+https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.2
+
 = 1.1 =
 * Released: December 12, 2019
 
-https://wordpress.org/support/article/twenty-twenty-changelog/
+https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.1
 
 = 1.0 =
 * Released: November 12, 2019
