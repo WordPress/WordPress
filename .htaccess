@@ -1,0 +1,9 @@
+# BEGIN WordPress
+# The directives (lines) between `BEGIN WordPress` and `END WordPress` are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+php_value post_max_size 24M
+php_value upload_max_filesize 8M
+php_value max_input_vars 1500
+php_value max_execution_time 180
+# END WordPress
