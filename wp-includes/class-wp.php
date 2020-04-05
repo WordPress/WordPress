@@ -90,7 +90,7 @@ class WP {
 	 * @param string $qv Query variable name.
 	 */
 	public function add_query_var( $qv ) {
-		if ( ! in_array( $qv, $this->public_query_vars ) ) {
+		if ( ! in_array( $qv, $this->public_query_vars, true ) ) {
 			$this->public_query_vars[] = $qv;
 		}
 	}
@@ -348,7 +348,7 @@ class WP {
 		if ( isset( $this->query_vars['post_type'] ) ) {
 			$queryable_post_types = get_post_types( array( 'publicly_queryable' => true ) );
 			if ( ! is_array( $this->query_vars['post_type'] ) ) {
-				if ( ! in_array( $this->query_vars['post_type'], $queryable_post_types ) ) {
+				if ( ! in_array( $this->query_vars['post_type'], $queryable_post_types, true ) ) {
 					unset( $this->query_vars['post_type'] );
 				}
 			} else {
@@ -412,7 +412,7 @@ class WP {
 					$headers = array_merge( $headers, wp_get_nocache_headers() );
 				}
 				$headers['Content-Type'] = get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' );
-			} elseif ( in_array( $status, array( 403, 500, 502, 503 ) ) ) {
+			} elseif ( in_array( $status, array( 403, 500, 502, 503 ), true ) ) {
 				$exit_required = true;
 			}
 		} elseif ( empty( $this->query_vars['feed'] ) ) {

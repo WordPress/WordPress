@@ -590,7 +590,7 @@ function wp_list_categories( $args = '' ) {
 
 			// For taxonomies that belong only to custom post types, point to a valid archive.
 			$taxonomy_object = get_taxonomy( $parsed_args['taxonomy'] );
-			if ( ! in_array( 'post', $taxonomy_object->object_type ) && ! in_array( 'page', $taxonomy_object->object_type ) ) {
+			if ( ! in_array( 'post', $taxonomy_object->object_type, true ) && ! in_array( 'page', $taxonomy_object->object_type, true ) ) {
 				foreach ( $taxonomy_object->object_type as $object_type ) {
 					$_object_type = get_post_type_object( $object_type );
 

@@ -400,7 +400,7 @@ class WP_Http_Streams {
 		}
 
 		// Exact hostname/IP matches.
-		if ( in_array( strtolower( $host ), $certificate_hostnames ) ) {
+		if ( in_array( strtolower( $host ), $certificate_hostnames, true ) ) {
 			return true;
 		}
 
@@ -417,7 +417,7 @@ class WP_Http_Streams {
 		// Wildcard subdomains certs (*.example.com) are valid for a.example.com but not a.b.example.com.
 		$wildcard_host = preg_replace( '/^[^.]+\./', '*.', $host );
 
-		return in_array( strtolower( $wildcard_host ), $certificate_hostnames );
+		return in_array( strtolower( $wildcard_host ), $certificate_hostnames, true );
 	}
 
 	/**

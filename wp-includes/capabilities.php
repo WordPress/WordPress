@@ -879,7 +879,7 @@ function is_super_admin( $user_id = false ) {
 
 	if ( is_multisite() ) {
 		$super_admins = get_super_admins();
-		if ( is_array( $super_admins ) && in_array( $user->user_login, $super_admins ) ) {
+		if ( is_array( $super_admins ) && in_array( $user->user_login, $super_admins, true ) ) {
 			return true;
 		}
 	} else {
@@ -921,7 +921,7 @@ function grant_super_admin( $user_id ) {
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
 
 	$user = get_userdata( $user_id );
-	if ( $user && ! in_array( $user->user_login, $super_admins ) ) {
+	if ( $user && ! in_array( $user->user_login, $super_admins, true ) ) {
 		$super_admins[] = $user->user_login;
 		update_site_option( 'site_admins', $super_admins );
 
@@ -969,7 +969,7 @@ function revoke_super_admin( $user_id ) {
 
 	$user = get_userdata( $user_id );
 	if ( $user && 0 !== strcasecmp( $user->user_email, get_site_option( 'admin_email' ) ) ) {
-		$key = array_search( $user->user_login, $super_admins );
+		$key = array_search( $user->user_login, $super_admins, true );
 		if ( false !== $key ) {
 			unset( $super_admins[ $key ] );
 			update_site_option( 'site_admins', $super_admins );

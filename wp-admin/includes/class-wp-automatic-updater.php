@@ -577,7 +577,7 @@ class WP_Automatic_Updater {
 		 */
 		$send               = true;
 		$transient_failures = array( 'incompatible_archive', 'download_failed', 'insane_distro', 'locked' );
-		if ( in_array( $error_code, $transient_failures ) && ! get_site_option( 'auto_core_update_failed' ) ) {
+		if ( in_array( $error_code, $transient_failures, true ) && ! get_site_option( 'auto_core_update_failed' ) ) {
 			wp_schedule_single_event( time() + HOUR_IN_SECONDS, 'wp_maybe_auto_update' );
 			$send = false;
 		}
@@ -596,7 +596,7 @@ class WP_Automatic_Updater {
 				'error_code' => $error_code,
 				'error_data' => $result->get_error_data(),
 				'timestamp'  => time(),
-				'retry'      => in_array( $error_code, $transient_failures ),
+				'retry'      => in_array( $error_code, $transient_failures, true ),
 			)
 		);
 

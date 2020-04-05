@@ -247,7 +247,7 @@ function remove_permastruct( $name ) {
 function add_feed( $feedname, $function ) {
 	global $wp_rewrite;
 
-	if ( ! in_array( $feedname, $wp_rewrite->feeds ) ) {
+	if ( ! in_array( $feedname, $wp_rewrite->feeds, true ) ) {
 		$wp_rewrite->feeds[] = $feedname;
 	}
 
@@ -364,7 +364,7 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 
 	// Identify the 'postname' position in the permastruct array.
 	$permastructs   = array_values( array_filter( explode( '/', get_option( 'permalink_structure' ) ) ) );
-	$postname_index = array_search( '%postname%', $permastructs );
+	$postname_index = array_search( '%postname%', $permastructs, true );
 
 	if ( false === $postname_index ) {
 		return $query_vars;
@@ -596,7 +596,7 @@ function url_to_postid( $url ) {
 			parse_str( $query, $query_vars );
 			$query = array();
 			foreach ( (array) $query_vars as $key => $value ) {
-				if ( in_array( $key, $wp->public_query_vars ) ) {
+				if ( in_array( $key, $wp->public_query_vars, true ) ) {
 					$query[ $key ] = $value;
 					if ( isset( $post_type_query_vars[ $key ] ) ) {
 						$query['post_type'] = $post_type_query_vars[ $key ];

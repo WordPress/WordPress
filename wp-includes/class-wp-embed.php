@@ -370,6 +370,7 @@ class WP_Embed {
 		$post = get_post( $post_ID );
 
 		$post_types = get_post_types( array( 'show_ui' => true ) );
+
 		/**
 		 * Filters the array of post types to cache oEmbed results for.
 		 *
@@ -377,7 +378,9 @@ class WP_Embed {
 		 *
 		 * @param string[] $post_types Array of post type names to cache oEmbed results for. Defaults to post types with `show_ui` set to true.
 		 */
-		if ( empty( $post->ID ) || ! in_array( $post->post_type, apply_filters( 'embed_cache_oembed_types', $post_types ) ) ) {
+		$cache_oembed_types = apply_filters( 'embed_cache_oembed_types', $post_types );
+
+		if ( empty( $post->ID ) || ! in_array( $post->post_type, $cache_oembed_types, true ) ) {
 			return;
 		}
 

@@ -1238,7 +1238,7 @@ function wp_dropdown_users( $args = '' ) {
  */
 function sanitize_user_field( $field, $value, $user_id, $context ) {
 	$int_fields = array( 'ID' );
-	if ( in_array( $field, $int_fields ) ) {
+	if ( in_array( $field, $int_fields, true ) ) {
 		$value = (int) $value;
 	}
 
@@ -3111,7 +3111,7 @@ function wp_user_personal_data_exporter( $email_address ) {
 			foreach ( $session_tokens_props_to_export as $key => $name ) {
 				if ( ! empty( $session_token[ $key ] ) ) {
 					$value = $session_token[ $key ];
-					if ( in_array( $key, array( 'expiration', 'login' ) ) ) {
+					if ( in_array( $key, array( 'expiration', 'login' ), true ) ) {
 						$value = date_i18n( 'F d, Y H:i A', $value );
 					}
 					$session_tokens_data_to_export[] = array(

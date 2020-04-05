@@ -801,7 +801,7 @@ function _oembed_create_xml( $data, $node = null ) {
  * @return string The filtered oEmbed result.
  */
 function wp_filter_oembed_iframe_title_attribute( $result, $data, $url ) {
-	if ( false === $result || ! in_array( $data->type, array( 'rich', 'video' ) ) ) {
+	if ( false === $result || ! in_array( $data->type, array( 'rich', 'video' ), true ) ) {
 		return $result;
 	}
 
@@ -855,7 +855,7 @@ function wp_filter_oembed_iframe_title_attribute( $result, $data, $url ) {
  * @return string The filtered and sanitized oEmbed result.
  */
 function wp_filter_oembed_result( $result, $data, $url ) {
-	if ( false === $result || ! in_array( $data->type, array( 'rich', 'video' ) ) ) {
+	if ( false === $result || ! in_array( $data->type, array( 'rich', 'video' ), true ) ) {
 		return $result;
 	}
 

@@ -206,7 +206,9 @@ final class WP_Theme implements ArrayAccess {
 		$this->stylesheet = $theme_dir;
 
 		// Correct a situation where the theme is 'some-directory/some-theme' but 'some-directory' was passed in as part of the theme root instead.
-		if ( ! in_array( $theme_root, (array) $wp_theme_directories ) && in_array( dirname( $theme_root ), (array) $wp_theme_directories ) ) {
+		if ( ! in_array( $theme_root, (array) $wp_theme_directories, true )
+			&& in_array( dirname( $theme_root ), (array) $wp_theme_directories, true )
+		) {
 			$this->stylesheet = basename( $this->theme_root ) . '/' . $this->stylesheet;
 			$this->theme_root = dirname( $theme_root );
 		}
@@ -475,7 +477,7 @@ final class WP_Theme implements ArrayAccess {
 			'theme_root_uri',
 		);
 
-		return in_array( $offset, $properties );
+		return in_array( $offset, $properties, true );
 	}
 
 	/**
@@ -574,7 +576,7 @@ final class WP_Theme implements ArrayAccess {
 			'Parent Theme',
 		);
 
-		return in_array( $offset, $keys );
+		return in_array( $offset, $keys, true );
 	}
 
 	/**
@@ -661,7 +663,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @return bool Whether the theme exists.
 	 */
 	public function exists() {
-		return ! ( $this->errors() && in_array( 'theme_not_found', $this->errors()->get_error_codes() ) );
+		return ! ( $this->errors() && in_array( 'theme_not_found', $this->errors()->get_error_codes(), true ) );
 	}
 
 	/**
@@ -1029,7 +1031,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @return string Absolute path of the stylesheet directory.
 	 */
 	public function get_stylesheet_directory() {
-		if ( $this->errors() && in_array( 'theme_root_missing', $this->errors()->get_error_codes() ) ) {
+		if ( $this->errors() && in_array( 'theme_root_missing', $this->errors()->get_error_codes(), true ) ) {
 			return '';
 		}
 

@@ -1157,7 +1157,7 @@ final class WP_Screen {
 
 		foreach ( $columns as $column => $title ) {
 			// Can't hide these for they are special.
-			if ( in_array( $column, $special ) ) {
+			if ( in_array( $column, $special, true ) ) {
 				continue;
 			}
 
@@ -1174,7 +1174,7 @@ final class WP_Screen {
 
 			$id = "$column-hide";
 			echo '<label>';
-			echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked( ! in_array( $column, $hidden ), true, false ) . ' />';
+			echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked( ! in_array( $column, $hidden, true ), true, false ) . ' />';
 			echo "$title</label>\n";
 		}
 		?>
@@ -1310,7 +1310,7 @@ final class WP_Screen {
 		 */
 		$view_mode_post_types = apply_filters( 'view_mode_post_types', $view_mode_post_types );
 
-		if ( ! in_array( $this->post_type, $view_mode_post_types ) ) {
+		if ( ! in_array( $this->post_type, $view_mode_post_types, true ) ) {
 			return;
 		}
 

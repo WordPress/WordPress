@@ -302,14 +302,14 @@ class WP_Themes_List_Table extends WP_List_Table {
 	public function search_theme( $theme ) {
 		// Search the features.
 		foreach ( $this->features as $word ) {
-			if ( ! in_array( $word, $theme->get( 'Tags' ) ) ) {
+			if ( ! in_array( $word, $theme->get( 'Tags' ), true ) ) {
 				return false;
 			}
 		}
 
 		// Match all phrases.
 		foreach ( $this->search_terms as $word ) {
-			if ( in_array( $word, $theme->get( 'Tags' ) ) ) {
+			if ( in_array( $word, $theme->get( 'Tags' ), true ) ) {
 				continue;
 			}
 

@@ -797,7 +797,7 @@ class WP_Rewrite {
 	 * @param string $query String to append to the rewritten query. Must end in '='.
 	 */
 	public function add_rewrite_tag( $tag, $regex, $query ) {
-		$position = array_search( $tag, $this->rewritecode );
+		$position = array_search( $tag, $this->rewritecode, true );
 		if ( false !== $position && null !== $position ) {
 			$this->rewritereplace[ $position ] = $regex;
 			$this->queryreplace[ $position ]   = $query;
@@ -821,7 +821,7 @@ class WP_Rewrite {
 	 * @param string $tag Name of the rewrite tag to remove.
 	 */
 	public function remove_rewrite_tag( $tag ) {
-		$position = array_search( $tag, $this->rewritecode );
+		$position = array_search( $tag, $this->rewritecode, true );
 		if ( false !== $position && null !== $position ) {
 			unset( $this->rewritecode[ $position ] );
 			unset( $this->rewritereplace[ $position ] );

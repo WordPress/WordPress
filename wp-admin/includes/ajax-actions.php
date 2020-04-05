@@ -976,7 +976,7 @@ function wp_ajax_dim_comment() {
 
 	check_ajax_referer( "approve-comment_$id" );
 
-	if ( in_array( $current, array( 'unapproved', 'spam' ) ) ) {
+	if ( in_array( $current, array( 'unapproved', 'spam' ), true ) ) {
 		$result = wp_set_comment_status( $comment, 'approve', true );
 	} else {
 		$result = wp_set_comment_status( $comment, 'hold', true );
@@ -1271,7 +1271,7 @@ function wp_ajax_replyto_comment( $action ) {
 
 	if ( empty( $post->post_status ) ) {
 		wp_die( 1 );
-	} elseif ( in_array( $post->post_status, array( 'draft', 'pending', 'trash' ) ) ) {
+	} elseif ( in_array( $post->post_status, array( 'draft', 'pending', 'trash' ), true ) ) {
 		wp_die( __( 'Error: You are replying to a comment on a draft post.' ) );
 	}
 
@@ -2057,7 +2057,7 @@ function wp_ajax_inline_save() {
 	}
 
 	// Hack: wp_unique_post_slug() doesn't work for drafts, so we will fake that our post is published.
-	if ( ! empty( $data['post_name'] ) && in_array( $post['post_status'], array( 'draft', 'pending' ) ) ) {
+	if ( ! empty( $data['post_name'] ) && in_array( $post['post_status'], array( 'draft', 'pending' ), true ) ) {
 		$post['post_status'] = 'publish';
 		$data['post_name']   = wp_unique_post_slug( $data['post_name'], $post['ID'], $post['post_status'], $post['post_type'], $post['post_parent'] );
 	}
@@ -2525,7 +2525,7 @@ function wp_ajax_upload_attachment() {
 	}
 
 	// If the context is custom header or background, make sure the uploaded file is an image.
-	if ( isset( $post_data['context'] ) && in_array( $post_data['context'], array( 'custom-header', 'custom-background' ) ) ) {
+	if ( isset( $post_data['context'] ) && in_array( $post_data['context'], array( 'custom-header', 'custom-background' ), true ) ) {
 		$wp_filetype = wp_check_filetype_and_ext( $_FILES['async-upload']['tmp_name'], $_FILES['async-upload']['name'] );
 
 		if ( ! wp_match_mime_types( 'image', $wp_filetype['type'] ) ) {
@@ -2852,7 +2852,7 @@ function wp_ajax_dismiss_wp_pointer() {
 
 	$dismissed = array_filter( explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) ) );
 
-	if ( in_array( $pointer, $dismissed ) ) {
+	if ( in_array( $pointer, $dismissed, true ) ) {
 		wp_die( 0 );
 	}
 

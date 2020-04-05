@@ -48,7 +48,7 @@ function wp_get_themes( $args = array() ) {
 		$current_theme = get_stylesheet();
 		if ( isset( $theme_directories[ $current_theme ] ) ) {
 			$root_of_current_theme = get_raw_theme_root( $current_theme );
-			if ( ! in_array( $root_of_current_theme, $wp_theme_directories ) ) {
+			if ( ! in_array( $root_of_current_theme, $wp_theme_directories, true ) ) {
 				$root_of_current_theme = WP_CONTENT_DIR . $root_of_current_theme;
 			}
 			$theme_directories[ $current_theme ]['theme_root'] = $root_of_current_theme;
@@ -119,7 +119,7 @@ function wp_get_theme( $stylesheet = '', $theme_root = '' ) {
 		$theme_root = get_raw_theme_root( $stylesheet );
 		if ( false === $theme_root ) {
 			$theme_root = WP_CONTENT_DIR . '/themes';
-		} elseif ( ! in_array( $theme_root, (array) $wp_theme_directories ) ) {
+		} elseif ( ! in_array( $theme_root, (array) $wp_theme_directories, true ) ) {
 			$theme_root = WP_CONTENT_DIR . $theme_root;
 		}
 	}
@@ -411,7 +411,7 @@ function register_theme_directory( $directory ) {
 	}
 
 	$untrailed = untrailingslashit( $directory );
-	if ( ! empty( $untrailed ) && ! in_array( $untrailed, $wp_theme_directories ) ) {
+	if ( ! empty( $untrailed ) && ! in_array( $untrailed, $wp_theme_directories, true ) ) {
 		$wp_theme_directories[] = $untrailed;
 	}
 
@@ -583,7 +583,7 @@ function get_theme_root( $stylesheet_or_template = '' ) {
 		if ( $theme_root ) {
 			// Always prepend WP_CONTENT_DIR unless the root currently registered as a theme directory.
 			// This gives relative theme roots the benefit of the doubt when things go haywire.
-			if ( ! in_array( $theme_root, (array) $wp_theme_directories ) ) {
+			if ( ! in_array( $theme_root, (array) $wp_theme_directories, true ) ) {
 				$theme_root = WP_CONTENT_DIR . $theme_root;
 			}
 		}
@@ -626,7 +626,7 @@ function get_theme_root_uri( $stylesheet_or_template = '', $theme_root = '' ) {
 	}
 
 	if ( $stylesheet_or_template && $theme_root ) {
-		if ( in_array( $theme_root, (array) $wp_theme_directories ) ) {
+		if ( in_array( $theme_root, (array) $wp_theme_directories, true ) ) {
 			// Absolute path. Make an educated guess. YMMV -- but note the filter below.
 			if ( 0 === strpos( $theme_root, WP_CONTENT_DIR ) ) {
 				$theme_root_uri = content_url( str_replace( WP_CONTENT_DIR, '', $theme_root ) );
@@ -2738,7 +2738,7 @@ function get_theme_support( $feature, ...$args ) {
  */
 function remove_theme_support( $feature ) {
 	// Blacklist: for internal registrations not used directly by themes.
-	if ( in_array( $feature, array( 'editor-style', 'widgets', 'menus' ) ) ) {
+	if ( in_array( $feature, array( 'editor-style', 'widgets', 'menus' ), true ) ) {
 		return false;
 	}
 
@@ -2846,11 +2846,11 @@ function current_theme_supports( $feature, ...$args ) {
 			 * by passing an array of types to add_theme_support().
 			 * If no array was passed, then any type is accepted.
 			 */
-			if ( true === $_wp_theme_features[ $feature ] ) {  // Registered for all types
+			if ( true === $_wp_theme_features[ $feature ] ) {  // Registered for all types.
 				return true;
 			}
 			$content_type = $args[0];
-			return in_array( $content_type, $_wp_theme_features[ $feature ][0] );
+			return in_array( $content_type, $_wp_theme_features[ $feature ][0], true );
 
 		case 'html5':
 		case 'post-formats':
@@ -2861,7 +2861,7 @@ function current_theme_supports( $feature, ...$args ) {
 			 * Specific areas of HTML5 support *must* be passed via an array to add_theme_support().
 			 */
 			$type = $args[0];
-			return in_array( $type, $_wp_theme_features[ $feature ][0] );
+			return in_array( $type, $_wp_theme_features[ $feature ][0], true );
 
 		case 'custom-logo':
 		case 'custom-header':

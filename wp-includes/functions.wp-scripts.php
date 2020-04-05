@@ -249,7 +249,7 @@ function wp_deregister_script( $handle ) {
 	if ( ( is_admin() && 'admin_enqueue_scripts' !== $current_filter ) ||
 		( 'wp-login.php' === $GLOBALS['pagenow'] && 'login_enqueue_scripts' !== $current_filter )
 	) {
-		$no = array(
+		$not_allowed = array(
 			'jquery',
 			'jquery-core',
 			'jquery-migrate',
@@ -277,7 +277,7 @@ function wp_deregister_script( $handle ) {
 			'backbone',
 		);
 
-		if ( in_array( $handle, $no ) ) {
+		if ( in_array( $handle, $not_allowed, true ) ) {
 			$message = sprintf(
 				/* translators: 1: Script name, 2: wp_enqueue_scripts */
 				__( 'Do not deregister the %1$s script in the administration area. To target the front-end theme, use the %2$s hook.' ),

@@ -127,7 +127,7 @@ function twentyfourteen_customize_partial_blogdescription() {
  * @return string Filtered layout type (grid|slider).
  */
 function twentyfourteen_sanitize_layout( $layout ) {
-	if ( ! in_array( $layout, array( 'grid', 'slider' ) ) ) {
+	if ( ! in_array( $layout, array( 'grid', 'slider' ), true ) ) {
 		$layout = 'grid';
 	}
 

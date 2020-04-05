@@ -523,7 +523,7 @@ function _get_dropins() {
  * @return bool True, if in the active plugins list. False, not in the list.
  */
 function is_plugin_active( $plugin ) {
-	return in_array( $plugin, (array) get_option( 'active_plugins', array() ) ) || is_plugin_active_for_network( $plugin );
+	return in_array( $plugin, (array) get_option( 'active_plugins', array() ), true ) || is_plugin_active_for_network( $plugin );
 }
 
 /**
@@ -644,7 +644,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		return $requirements;
 	}
 
-	if ( ( $network_wide && ! isset( $current[ $plugin ] ) ) || ( ! $network_wide && ! in_array( $plugin, $current ) ) ) {
+	if ( ( $network_wide && ! isset( $current[ $plugin ] ) ) || ( ! $network_wide && ! in_array( $plugin, $current, true ) ) ) {
 		if ( ! empty( $redirect ) ) {
 			// We'll override this later if the plugin can be included without fatal error.
 			wp_redirect( add_query_arg( '_error_nonce', wp_create_nonce( 'plugin-activation-error_' . $plugin ), $redirect ) );
@@ -783,7 +783,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 		}
 
 		if ( true !== $network_wide ) {
-			$key = array_search( $plugin, $current );
+			$key = array_search( $plugin, $current, true );
 			if ( false !== $key ) {
 				$do_blog = true;
 				unset( $current[ $key ] );

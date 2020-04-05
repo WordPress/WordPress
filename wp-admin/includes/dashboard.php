@@ -195,7 +195,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 	$side_widgets = array( 'dashboard_quick_press', 'dashboard_primary' );
 
 	$location = 'normal';
-	if ( in_array( $widget_id, $side_widgets ) ) {
+	if ( in_array( $widget_id, $side_widgets, true ) ) {
 		$location = 'side';
 	}
 

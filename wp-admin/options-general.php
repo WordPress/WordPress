@@ -157,7 +157,7 @@ if ( $new_admin_email && get_option( 'admin_email' ) !== $new_admin_email ) :
 
 $languages    = get_available_languages();
 $translations = wp_get_available_translations();
-if ( ! is_multisite() && defined( 'WPLANG' ) && '' !== WPLANG && 'en_US' !== WPLANG && ! in_array( WPLANG, $languages ) ) {
+if ( ! is_multisite() && defined( 'WPLANG' ) && '' !== WPLANG && 'en_US' !== WPLANG && ! in_array( WPLANG, $languages, true ) ) {
 	$languages[] = WPLANG;
 }
 if ( ! empty( $languages ) || ! empty( $translations ) ) {
@@ -167,7 +167,7 @@ if ( ! empty( $languages ) || ! empty( $translations ) ) {
 		<td>
 			<?php
 			$locale = get_locale();
-			if ( ! in_array( $locale, $languages ) ) {
+			if ( ! in_array( $locale, $languages, true ) ) {
 				$locale = '';
 			}
 
@@ -276,7 +276,7 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists.
 	?>
 	<br />
 	<?php
-	if ( in_array( $tzstring, timezone_identifiers_list() ) ) {
+	if ( in_array( $tzstring, timezone_identifiers_list(), true ) ) {
 		$transitions = timezone_transitions_get( timezone_open( $tzstring ), time() );
 
 		// 0 index is the state at current time, 1 index is the next transition, if any.

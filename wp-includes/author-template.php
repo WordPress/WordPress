@@ -167,7 +167,7 @@ function get_the_author_meta( $field = '', $user_id = false ) {
 		$authordata = get_userdata( $user_id );
 	}
 
-	if ( in_array( $field, array( 'login', 'pass', 'nicename', 'email', 'url', 'registered', 'activation_key', 'status' ) ) ) {
+	if ( in_array( $field, array( 'login', 'pass', 'nicename', 'email', 'url', 'registered', 'activation_key', 'status' ), true ) ) {
 		$field = 'user_' . $field;
 	}
 

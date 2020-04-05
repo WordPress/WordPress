@@ -459,7 +459,7 @@ final class _WP_Editors {
 					 */
 					$plugins = array_unique( apply_filters( 'tiny_mce_plugins', $plugins, $editor_id ) );
 
-					$key = array_search( 'spellchecker', $plugins );
+					$key = array_search( 'spellchecker', $plugins, true );
 					if ( false !== $key ) {
 						// Remove 'spellchecker' from the internal plugins if added with 'tiny_mce_plugins' filter to prevent errors.
 						// It can be added with 'mce_external_plugins'.

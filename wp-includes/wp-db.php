@@ -865,7 +865,7 @@ class wpdb {
 		$incompatible_modes = (array) apply_filters( 'incompatible_sql_modes', $this->incompatible_modes );
 
 		foreach ( $modes as $i => $mode ) {
-			if ( in_array( $mode, $incompatible_modes ) ) {
+			if ( in_array( $mode, $incompatible_modes, true ) ) {
 				unset( $modes[ $i ] );
 			}
 		}
@@ -1039,7 +1039,7 @@ class wpdb {
 			$base_prefix   = $this->base_prefix;
 			$global_tables = array_merge( $this->global_tables, $this->ms_global_tables );
 			foreach ( $tables as $k => $table ) {
-				if ( in_array( $table, $global_tables ) ) {
+				if ( in_array( $table, $global_tables, true ) ) {
 					$tables[ $table ] = $base_prefix . $table;
 				} else {
 					$tables[ $table ] = $blog_prefix . $table;
@@ -2209,7 +2209,7 @@ class wpdb {
 	function _insert_replace_helper( $table, $data, $format = null, $type = 'INSERT' ) {
 		$this->insert_id = 0;
 
-		if ( ! in_array( strtoupper( $type ), array( 'REPLACE', 'INSERT' ) ) ) {
+		if ( ! in_array( strtoupper( $type ), array( 'REPLACE', 'INSERT' ), true ) ) {
 			return false;
 		}
 
@@ -2743,7 +2743,7 @@ class wpdb {
 			list( $type ) = explode( '(', $column->Type );
 
 			// A binary/blob means the whole query gets treated like this.
-			if ( in_array( strtoupper( $type ), array( 'BINARY', 'VARBINARY', 'TINYBLOB', 'MEDIUMBLOB', 'BLOB', 'LONGBLOB' ) ) ) {
+			if ( in_array( strtoupper( $type ), array( 'BINARY', 'VARBINARY', 'TINYBLOB', 'MEDIUMBLOB', 'BLOB', 'LONGBLOB' ), true ) ) {
 				$this->table_charset[ $tablekey ] = 'binary';
 				return 'binary';
 			}

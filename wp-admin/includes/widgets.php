@@ -192,7 +192,7 @@ function wp_widget_control( $sidebar_args ) {
 
 	$widget_id  = $sidebar_args['widget_id'];
 	$sidebar_id = isset( $sidebar_args['id'] ) ? $sidebar_args['id'] : false;
-	$key        = $sidebar_id ? array_search( $widget_id, $sidebars_widgets[ $sidebar_id ] ) : '-1'; // Position of widget in sidebar.
+	$key        = $sidebar_id ? array_search( $widget_id, $sidebars_widgets[ $sidebar_id ], true ) : '-1'; // Position of widget in sidebar.
 	$control    = isset( $wp_registered_widget_controls[ $widget_id ] ) ? $wp_registered_widget_controls[ $widget_id ] : array();
 	$widget     = $wp_registered_widgets[ $widget_id ];
 

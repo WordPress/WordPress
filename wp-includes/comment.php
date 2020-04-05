@@ -1385,7 +1385,7 @@ function wp_delete_comment( $comment_id, $force_delete = false ) {
 		return false;
 	}
 
-	if ( ! $force_delete && EMPTY_TRASH_DAYS && ! in_array( wp_get_comment_status( $comment ), array( 'trash', 'spam' ) ) ) {
+	if ( ! $force_delete && EMPTY_TRASH_DAYS && ! in_array( wp_get_comment_status( $comment ), array( 'trash', 'spam' ), true ) ) {
 		return wp_trash_comment( $comment_id );
 	}
 
@@ -2752,7 +2752,7 @@ function do_trackbacks( $post_id ) {
 	if ( $to_ping ) {
 		foreach ( (array) $to_ping as $tb_ping ) {
 			$tb_ping = trim( $tb_ping );
-			if ( ! in_array( $tb_ping, $pinged ) ) {
+			if ( ! in_array( $tb_ping, $pinged, true ) ) {
 				trackback( $tb_ping, $post_title, $excerpt, $post->ID );
 				$pinged[] = $tb_ping;
 			} else {
@@ -2836,7 +2836,7 @@ function pingback( $content, $post_id ) {
 	 */
 	foreach ( (array) $post_links_temp as $link_test ) {
 		// If we haven't pung it already and it isn't a link to itself.
-		if ( ! in_array( $link_test, $pung ) && ( url_to_postid( $link_test ) != $post->ID )
+		if ( ! in_array( $link_test, $pung, true ) && ( url_to_postid( $link_test ) != $post->ID )
 				// Also, let's never ping local attachments.
 				&& ! is_local_attachment( $link_test ) ) {
 			$test = @parse_url( $link_test );
@@ -3117,7 +3117,7 @@ function _close_comments_for_old_posts( $posts, $query ) {
 	 * @param string[] $post_types An array of post type names.
 	 */
 	$post_types = apply_filters( 'close_comments_for_post_types', array( 'post' ) );
-	if ( ! in_array( $posts[0]->post_type, $post_types ) ) {
+	if ( ! in_array( $posts[0]->post_type, $post_types, true ) ) {
 		return $posts;
 	}
 
@@ -3162,7 +3162,7 @@ function _close_comments_for_old_post( $open, $post_id ) {
 
 	/** This filter is documented in wp-includes/comment.php */
 	$post_types = apply_filters( 'close_comments_for_post_types', array( 'post' ) );
-	if ( ! in_array( $post->post_type, $post_types ) ) {
+	if ( ! in_array( $post->post_type, $post_types, true ) ) {
 		return $open;
 	}
 

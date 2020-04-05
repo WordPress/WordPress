@@ -1045,7 +1045,7 @@ function update_core( $from, $to ) {
 				if ( ! file_exists( $working_dir_local . $file ) ) {
 					continue;
 				}
-				if ( '.' === dirname( $file ) && in_array( pathinfo( $file, PATHINFO_EXTENSION ), array( 'html', 'txt' ) ) ) {
+				if ( '.' === dirname( $file ) && in_array( pathinfo( $file, PATHINFO_EXTENSION ), array( 'html', 'txt' ), true ) ) {
 					continue;
 				}
 				if ( md5_file( ABSPATH . $file ) === $checksum ) {
@@ -1115,7 +1115,7 @@ function update_core( $from, $to ) {
 			if ( ! file_exists( $working_dir_local . $file ) ) {
 				continue;
 			}
-			if ( '.' === dirname( $file ) && in_array( pathinfo( $file, PATHINFO_EXTENSION ), array( 'html', 'txt' ) ) ) {
+			if ( '.' === dirname( $file ) && in_array( pathinfo( $file, PATHINFO_EXTENSION ), array( 'html', 'txt' ), true ) ) {
 				$skip[] = $file;
 				continue;
 			}

@@ -1097,7 +1097,7 @@ endif;
 			return;
 		}
 
-		if ( in_array( $choice, array( 'remove-header', 'random-default-image', 'random-uploaded-image' ) ) ) {
+		if ( in_array( $choice, array( 'remove-header', 'random-default-image', 'random-uploaded-image' ), true ) ) {
 			set_theme_mod( 'header_image', $choice );
 			remove_theme_mod( 'header_image_data' );
 			return;

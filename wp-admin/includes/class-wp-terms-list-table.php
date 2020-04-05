@@ -61,7 +61,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$tax = get_taxonomy( $taxonomy );
 
 		// @todo Still needed? Maybe just the show_ui part.
-		if ( empty( $post_type ) || ! in_array( $post_type, get_post_types( array( 'show_ui' => true ) ) ) ) {
+		if ( empty( $post_type ) || ! in_array( $post_type, get_post_types( array( 'show_ui' => true ) ), true ) ) {
 			$post_type = 'post';
 		}
 

@@ -134,8 +134,11 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	// Posts 'submitted for approval' are submitted to $_POST the same as if they were being published.
 	// Change status from 'publish' to 'pending' if user lacks permissions to publish or to resave published posts.
-	if ( isset( $post_data['post_status'] ) && ( in_array( $post_data['post_status'], $published_statuses ) && ! current_user_can( $ptype->cap->publish_posts ) ) ) {
-		if ( ! in_array( $previous_status, $published_statuses ) || ! current_user_can( 'edit_post', $post_id ) ) {
+	if ( isset( $post_data['post_status'] )
+		&& ( in_array( $post_data['post_status'], $published_statuses, true )
+		&& ! current_user_can( $ptype->cap->publish_posts ) )
+	) {
+		if ( ! in_array( $previous_status, $published_statuses, true ) || ! current_user_can( 'edit_post', $post_id ) ) {
 			$post_data['post_status'] = 'pending';
 		}
 	}
@@ -564,7 +567,10 @@ function bulk_edit_posts( $post_data = null ) {
 
 		$post_type_object = get_post_type_object( get_post_type( $post_ID ) );
 
-		if ( ! isset( $post_type_object ) || ( isset( $children ) && in_array( $post_ID, $children ) ) || ! current_user_can( 'edit_post', $post_ID ) ) {
+		if ( ! isset( $post_type_object )
+			|| ( isset( $children ) && in_array( $post_ID, $children ) )
+			|| ! current_user_can( 'edit_post', $post_ID )
+		) {
 			$skipped[] = $post_ID;
 			continue;
 		}
@@ -593,7 +599,7 @@ function bulk_edit_posts( $post_data = null ) {
 			$post_data['tax_input'][ $tax_name ] = array_merge( $current_terms, $new_terms );
 		}
 
-		if ( isset( $new_cats ) && in_array( 'category', $tax_names ) ) {
+		if ( isset( $new_cats ) && in_array( 'category', $tax_names, true ) ) {
 			$cats                       = (array) wp_get_post_categories( $post_ID );
 			$post_data['post_category'] = array_unique( array_merge( $cats, $new_cats ) );
 			unset( $post_data['tax_input']['category'] );
@@ -1037,7 +1043,7 @@ function _fix_attachment_links( $post ) {
 	$content = $post['post_content'];
 
 	// Don't run if no pretty permalinks or post is not published, scheduled, or privately published.
-	if ( ! get_option( 'permalink_structure' ) || ! in_array( $post['post_status'], array( 'publish', 'future', 'private' ) ) ) {
+	if ( ! get_option( 'permalink_structure' ) || ! in_array( $post['post_status'], array( 'publish', 'future', 'private' ), true ) ) {
 		return;
 	}
 
@@ -1110,7 +1116,7 @@ function wp_edit_posts_query( $q = false ) {
 	$q['cat']   = isset( $q['cat'] ) ? (int) $q['cat'] : 0;
 	$post_stati = get_post_stati();
 
-	if ( isset( $q['post_type'] ) && in_array( $q['post_type'], get_post_types() ) ) {
+	if ( isset( $q['post_type'] ) && in_array( $q['post_type'], get_post_types(), true ) ) {
 		$post_type = $q['post_type'];
 	} else {
 		$post_type = 'post';
@@ -1120,7 +1126,7 @@ function wp_edit_posts_query( $q = false ) {
 	$post_status      = '';
 	$perm             = '';
 
-	if ( isset( $q['post_status'] ) && in_array( $q['post_status'], $post_stati ) ) {
+	if ( isset( $q['post_status'] ) && in_array( $q['post_status'], $post_stati, true ) ) {
 		$post_status = $q['post_status'];
 		$perm        = 'readable';
 	}
@@ -1129,7 +1135,7 @@ function wp_edit_posts_query( $q = false ) {
 
 	if ( isset( $q['orderby'] ) ) {
 		$orderby = $q['orderby'];
-	} elseif ( isset( $q['post_status'] ) && in_array( $q['post_status'], array( 'pending', 'draft' ) ) ) {
+	} elseif ( isset( $q['post_status'] ) && in_array( $q['post_status'], array( 'pending', 'draft' ), true ) ) {
 		$orderby = 'modified';
 	}
 
@@ -1294,7 +1300,7 @@ function postbox_classes( $box_id, $screen_id ) {
 		if ( ! is_array( $closed ) ) {
 			$classes = array( '' );
 		} else {
-			$classes = in_array( $box_id, $closed ) ? array( 'closed' ) : array( '' );
+			$classes = in_array( $box_id, $closed, true ) ? array( 'closed' ) : array( '' );
 		}
 	} else {
 		$classes = array( '' );
@@ -1342,7 +1348,7 @@ function get_sample_permalink( $id, $title = null, $name = null ) {
 	$original_name   = $post->post_name;
 
 	// Hack: get_permalink() would return ugly permalink for drafts, so we will fake that our post is published.
-	if ( in_array( $post->post_status, array( 'draft', 'pending', 'future' ) ) ) {
+	if ( in_array( $post->post_status, array( 'draft', 'pending', 'future' ), true ) ) {
 		$post->post_status = 'publish';
 		$post->post_name   = sanitize_title( $post->post_name ? $post->post_name : $post->post_title, $post->ID );
 	}

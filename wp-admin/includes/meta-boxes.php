@@ -334,7 +334,7 @@ endif;
 <div id="publishing-action">
 <span class="spinner"></span>
 	<?php
-	if ( ! in_array( $post->post_status, array( 'publish', 'future', 'private' ) ) || 0 == $post->ID ) {
+	if ( ! in_array( $post->post_status, array( 'publish', 'future', 'private' ), true ) || 0 == $post->ID ) {
 		if ( $can_publish ) :
 			if ( ! empty( $post->post_date_gmt ) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) :
 				?>
@@ -471,7 +471,7 @@ function post_format_meta_box( $post, $box ) {
 				$post_format = '0';
 			}
 			// Add in the current one if it isn't there yet, in case the current theme doesn't support it.
-			if ( $post_format && ! in_array( $post_format, $post_formats[0] ) ) {
+			if ( $post_format && ! in_array( $post_format, $post_formats[0], true ) ) {
 				$post_formats[0][] = $post_format;
 			}
 			?>
@@ -847,7 +847,7 @@ function post_comment_meta_box( $post ) {
 		echo '<p id="no-comments">' . __( 'No comments yet.' ) . '</p>';
 	} else {
 		$hidden = get_hidden_meta_boxes( get_current_screen() );
-		if ( ! in_array( 'commentsdiv', $hidden ) ) {
+		if ( ! in_array( 'commentsdiv', $hidden, true ) ) {
 			?>
 			<script type="text/javascript">jQuery(document).ready(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
 			<?php
@@ -1182,7 +1182,7 @@ function xfn_check( $class, $value = '', $deprecated = '' ) {
 	$link_rel = isset( $link->link_rel ) ? $link->link_rel : ''; // In PHP 5.3: $link_rel = $link->link_rel ?: '';
 	$rels     = preg_split( '/\s+/', $link_rel );
 
-	if ( '' != $value && in_array( $value, $rels ) ) {
+	if ( '' != $value && in_array( $value, $rels, true ) ) {
 		echo ' checked="checked"';
 	}
 
@@ -1196,7 +1196,7 @@ function xfn_check( $class, $value = '', $deprecated = '' ) {
 		if ( 'geographical' == $class && strpos( $link_rel, 'co-resident' ) === false && strpos( $link_rel, 'neighbor' ) === false ) {
 			echo ' checked="checked"';
 		}
-		if ( 'identity' == $class && in_array( 'me', $rels ) ) {
+		if ( 'identity' == $class && in_array( 'me', $rels, true ) ) {
 			echo ' checked="checked"';
 		}
 	}
@@ -1535,7 +1535,7 @@ function register_and_do_post_meta_boxes( $post ) {
 	}
 	$stati[] = 'private';
 
-	if ( in_array( get_post_status( $post ), $stati ) ) {
+	if ( in_array( get_post_status( $post ), $stati, true ) ) {
 		// If the post type support comments, or the post has comments,
 		// allow the Comments meta box.
 		if ( comments_open( $post ) || pings_open( $post ) || $post->comment_count > 0 || post_type_supports( $post_type, 'comments' ) ) {

@@ -16,7 +16,7 @@ if ( ! current_user_can( 'upload_files' ) ) {
 $mode  = get_user_option( 'media_library_mode', get_current_user_id() ) ? get_user_option( 'media_library_mode', get_current_user_id() ) : 'grid';
 $modes = array( 'grid', 'list' );
 
-if ( isset( $_GET['mode'] ) && in_array( $_GET['mode'], $modes ) ) {
+if ( isset( $_GET['mode'] ) && in_array( $_GET['mode'], $modes, true ) ) {
 	$mode = $_GET['mode'];
 	update_user_option( get_current_user_id(), 'media_library_mode', $mode );
 }
@@ -34,7 +34,7 @@ if ( 'grid' === $mode ) {
 	$vars   = wp_edit_attachments_query_vars( $q );
 	$ignore = array( 'mode', 'post_type', 'post_status', 'posts_per_page' );
 	foreach ( $vars as $key => $value ) {
-		if ( ! $value || in_array( $key, $ignore ) ) {
+		if ( ! $value || in_array( $key, $ignore, true ) ) {
 			unset( $vars[ $key ] );
 		}
 	}

@@ -815,7 +815,7 @@ function get_post_ancestors( $post ) {
 
 	while ( $ancestor = get_post( $id ) ) {
 		// Loop detection: If the ancestor has been seen before, break.
-		if ( empty( $ancestor->post_parent ) || ( $ancestor->post_parent == $post->ID ) || in_array( $ancestor->post_parent, $ancestors ) ) {
+		if ( empty( $ancestor->post_parent ) || ( $ancestor->post_parent == $post->ID ) || in_array( $ancestor->post_parent, $ancestors, true ) ) {
 			break;
 		}
 
@@ -1616,7 +1616,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
 	global $post_type_meta_caps;
 
 	foreach ( $capabilities as $core => $custom ) {
-		if ( in_array( $core, array( 'read_post', 'delete_post', 'edit_post' ) ) ) {
+		if ( in_array( $core, array( 'read_post', 'delete_post', 'edit_post' ), true ) ) {
 			$post_type_meta_caps[ $custom ] = $core;
 		}
 	}
@@ -2362,13 +2362,13 @@ function sanitize_post( $post, $context = 'display' ) {
  */
 function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 	$int_fields = array( 'ID', 'post_parent', 'menu_order' );
-	if ( in_array( $field, $int_fields ) ) {
+	if ( in_array( $field, $int_fields, true ) ) {
 		$value = (int) $value;
 	}
 
 	// Fields which contain arrays of integers.
 	$array_int_fields = array( 'ancestors' );
-	if ( in_array( $field, $array_int_fields ) ) {
+	if ( in_array( $field, $array_int_fields, true ) ) {
 		$value = array_map( 'absint', $value );
 		return $value;
 	}
@@ -2417,7 +2417,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 			$value = apply_filters( "edit_post_{$field}", $value, $post_id );
 		}
 
-		if ( in_array( $field, $format_to_edit ) ) {
+		if ( in_array( $field, $format_to_edit, true ) ) {
 			if ( 'post_content' == $field ) {
 				$value = format_to_edit( $value, user_can_richedit() );
 			} else {
@@ -2778,7 +2778,7 @@ function get_post_mime_types() {
 	$mime_types = wp_get_mime_types();
 
 	foreach ( $post_mime_types as $group => $labels ) {
-		if ( in_array( $group, array( 'image', 'audio', 'video' ) ) ) {
+		if ( in_array( $group, array( 'image', 'audio', 'video' ), true ) ) {
 			continue;
 		}
 
@@ -2904,7 +2904,7 @@ function wp_post_mime_type_where( $post_mime_types, $table_alias = '' ) {
 
 		$mime_pattern = preg_replace( '/\*+/', '%', $mime_pattern );
 
-		if ( in_array( $mime_type, $wildcards ) ) {
+		if ( in_array( $mime_type, $wildcards, true ) ) {
 			return '';
 		}
 
@@ -3697,7 +3697,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 * an empty post name.
 	 */
 	if ( empty( $post_name ) ) {
-		if ( ! in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) ) {
+		if ( ! in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ), true ) ) {
 			$post_name = sanitize_title( $post_title );
 		} else {
 			$post_name = '';
@@ -3946,7 +3946,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		$where = array( 'ID' => $post_ID );
 	}
 
-	if ( empty( $data['post_name'] ) && ! in_array( $data['post_status'], array( 'draft', 'pending', 'auto-draft' ) ) ) {
+	if ( empty( $data['post_name'] ) && ! in_array( $data['post_status'], array( 'draft', 'pending', 'auto-draft' ), true ) ) {
 		$data['post_name'] = wp_unique_post_slug( sanitize_title( $data['post_title'], $post_ID ), $post_ID, $data['post_status'], $post_type, $post_parent );
 		$wpdb->update( $wpdb->posts, array( 'post_name' => $data['post_name'] ), $where );
 		clean_post_cache( $post_ID );
@@ -4199,8 +4199,10 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 	}
 
 	// Drafts shouldn't be assigned a date unless explicitly done so by the user.
-	if ( isset( $post['post_status'] ) && in_array( $post['post_status'], array( 'draft', 'pending', 'auto-draft' ) ) && empty( $postarr['edit_date'] ) &&
-			( '0000-00-00 00:00:00' == $post['post_date_gmt'] ) ) {
+	if ( isset( $post['post_status'] )
+		&& in_array( $post['post_status'], array( 'draft', 'pending', 'auto-draft' ), true )
+		&& empty( $postarr['edit_date'] ) && ( '0000-00-00 00:00:00' == $post['post_date_gmt'] )
+	) {
 		$clear_date = true;
 	} else {
 		$clear_date = false;
@@ -4330,7 +4332,9 @@ function check_and_publish_future_post( $post_id ) {
  * @return string Unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
  */
 function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent ) {
-	if ( in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) || ( 'inherit' == $post_status && 'revision' == $post_type ) || 'user_request' === $post_type ) {
+	if ( in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ), true )
+		|| ( 'inherit' == $post_status && 'revision' == $post_type ) || 'user_request' === $post_type
+	) {
 		return $slug;
 	}
 
@@ -4376,7 +4380,12 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		 * @param bool   $bad_slug Whether the slug would be bad as an attachment slug.
 		 * @param string $slug     The post slug.
 		 */
-		if ( $post_name_check || in_array( $slug, $feeds ) || 'embed' === $slug || apply_filters( 'wp_unique_post_slug_is_bad_attachment_slug', false, $slug ) ) {
+		$is_bad_attachment_slug = apply_filters( 'wp_unique_post_slug_is_bad_attachment_slug', false, $slug );
+
+		if ( $post_name_check
+			|| in_array( $slug, $feeds, true ) || 'embed' === $slug
+			|| $is_bad_attachment_slug
+		) {
 			$suffix = 2;
 			do {
 				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
@@ -4407,7 +4416,13 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		 * @param string $post_type   Post type.
 		 * @param int    $post_parent Post parent ID.
 		 */
-		if ( $post_name_check || in_array( $slug, $feeds ) || 'embed' === $slug || preg_match( "@^($wp_rewrite->pagination_base)?\d+$@", $slug ) || apply_filters( 'wp_unique_post_slug_is_bad_hierarchical_slug', false, $slug, $post_type, $post_parent ) ) {
+		$is_bad_hierarchical_slug = apply_filters( 'wp_unique_post_slug_is_bad_hierarchical_slug', false, $slug, $post_type, $post_parent );
+
+		if ( $post_name_check
+			|| in_array( $slug, $feeds, true ) || 'embed' === $slug
+			|| preg_match( "@^($wp_rewrite->pagination_base)?\d+$@", $slug )
+			|| $is_bad_hierarchical_slug
+		) {
 			$suffix = 2;
 			do {
 				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
@@ -4456,7 +4471,13 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		 * @param string $slug      The post slug.
 		 * @param string $post_type Post type.
 		 */
-		if ( $post_name_check || in_array( $slug, $feeds ) || 'embed' === $slug || $conflicts_with_date_archive || apply_filters( 'wp_unique_post_slug_is_bad_flat_slug', false, $slug, $post_type ) ) {
+		$is_bad_flat_slug = apply_filters( 'wp_unique_post_slug_is_bad_flat_slug', false, $slug, $post_type );
+
+		if ( $post_name_check
+			|| in_array( $slug, $feeds, true ) || 'embed' === $slug
+			|| $conflicts_with_date_archive
+			|| $is_bad_flat_slug
+		) {
 			$suffix = 2;
 			do {
 				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
@@ -5265,7 +5286,7 @@ function get_pages( $args = array() ) {
 
 	// Make sure the post type is hierarchical.
 	$hierarchical_post_types = get_post_types( array( 'hierarchical' => true ) );
-	if ( ! in_array( $parsed_args['post_type'], $hierarchical_post_types ) ) {
+	if ( ! in_array( $parsed_args['post_type'], $hierarchical_post_types, true ) ) {
 		return false;
 	}
 
@@ -5403,7 +5424,7 @@ function get_pages( $args = array() ) {
 
 	foreach ( explode( ',', $parsed_args['sort_column'] ) as $orderby ) {
 		$orderby = trim( $orderby );
-		if ( ! in_array( $orderby, $allowed_keys ) ) {
+		if ( ! in_array( $orderby, $allowed_keys, true ) ) {
 			continue;
 		}
 
@@ -5433,7 +5454,7 @@ function get_pages( $args = array() ) {
 	$sort_column = ! empty( $orderby_array ) ? implode( ',', $orderby_array ) : "$wpdb->posts.post_title";
 
 	$sort_order = strtoupper( $parsed_args['sort_order'] );
-	if ( '' !== $sort_order && ! in_array( $sort_order, array( 'ASC', 'DESC' ) ) ) {
+	if ( '' !== $sort_order && ! in_array( $sort_order, array( 'ASC', 'DESC' ), true ) ) {
 		$sort_order = 'ASC';
 	}
 
@@ -6069,13 +6090,13 @@ function wp_attachment_is( $type, $post = null ) {
 	switch ( $type ) {
 		case 'image':
 			$image_exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
-			return in_array( $ext, $image_exts );
+			return in_array( $ext, $image_exts, true );
 
 		case 'audio':
-			return in_array( $ext, wp_get_audio_extensions() );
+			return in_array( $ext, wp_get_audio_extensions(), true );
 
 		case 'video':
-			return in_array( $ext, wp_get_video_extensions() );
+			return in_array( $ext, wp_get_video_extensions(), true );
 
 		default:
 			return $type === $ext;
@@ -6179,7 +6200,9 @@ function wp_mime_type_icon( $mime = 0 ) {
 						if ( substr( $file, 0, 1 ) == '.' ) {
 							continue;
 						}
-						if ( ! in_array( strtolower( substr( $file, -4 ) ), array( '.png', '.gif', '.jpg' ) ) ) {
+
+						$ext = strtolower( substr( $file, -4 ) );
+						if ( ! in_array( $ext, array( '.png', '.gif', '.jpg' ), true ) ) {
 							if ( is_dir( "$dir/$file" ) ) {
 								$dirs[ "$dir/$file" ] = "$uri/$file";
 							}
@@ -6269,12 +6292,12 @@ function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
 	$old_slugs = (array) get_post_meta( $post_id, '_wp_old_slug' );
 
 	// If we haven't added this old slug before, add it now.
-	if ( ! empty( $post_before->post_name ) && ! in_array( $post_before->post_name, $old_slugs ) ) {
+	if ( ! empty( $post_before->post_name ) && ! in_array( $post_before->post_name, $old_slugs, true ) ) {
 		add_post_meta( $post_id, '_wp_old_slug', $post_before->post_name );
 	}
 
 	// If the new slug was used previously, delete it from the list.
-	if ( in_array( $post->post_name, $old_slugs ) ) {
+	if ( in_array( $post->post_name, $old_slugs, true ) ) {
 		delete_post_meta( $post_id, '_wp_old_slug', $post->post_name );
 	}
 }
@@ -6301,21 +6324,26 @@ function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
 function wp_check_for_changed_dates( $post_id, $post, $post_before ) {
 	$previous_date = gmdate( 'Y-m-d', strtotime( $post_before->post_date ) );
 	$new_date      = gmdate( 'Y-m-d', strtotime( $post->post_date ) );
+
 	// Don't bother if it hasn't changed.
 	if ( $new_date == $previous_date ) {
 		return;
 	}
+
 	// We're only concerned with published, non-hierarchical objects.
 	if ( ! ( 'publish' === $post->post_status || ( 'attachment' === get_post_type( $post ) && 'inherit' === $post->post_status ) ) || is_post_type_hierarchical( $post->post_type ) ) {
 		return;
 	}
+
 	$old_dates = (array) get_post_meta( $post_id, '_wp_old_date' );
+
 	// If we haven't added this old date before, add it now.
-	if ( ! empty( $previous_date ) && ! in_array( $previous_date, $old_dates ) ) {
+	if ( ! empty( $previous_date ) && ! in_array( $previous_date, $old_dates, true ) ) {
 		add_post_meta( $post_id, '_wp_old_date', $previous_date );
 	}
+
 	// If the new slug was used previously, delete it from the list.
-	if ( in_array( $new_date, $old_dates ) ) {
+	if ( in_array( $new_date, $old_dates, true ) ) {
 		delete_post_meta( $post_id, '_wp_old_date', $new_date );
 	}
 }
@@ -6524,7 +6552,7 @@ function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
 function _get_last_post_time( $timezone, $field, $post_type = 'any' ) {
 	global $wpdb;
 
-	if ( ! in_array( $field, array( 'date', 'modified' ) ) ) {
+	if ( ! in_array( $field, array( 'date', 'modified' ), true ) ) {
 		return false;
 	}
 

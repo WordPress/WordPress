@@ -544,7 +544,7 @@ function twentyfourteen_body_classes( $classes ) {
 
 	if ( get_header_image() ) {
 		$classes[] = 'header-image';
-	} elseif ( ! in_array( $GLOBALS['pagenow'], array( 'wp-activate.php', 'wp-signup.php' ) ) ) {
+	} elseif ( ! in_array( $GLOBALS['pagenow'], array( 'wp-activate.php', 'wp-signup.php' ), true ) ) {
 		$classes[] = 'masthead-fixed';
 	}
 

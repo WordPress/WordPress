@@ -177,7 +177,7 @@ if ( ! empty( $posted_content ) ) {
 }
 
 $file_description = get_file_description( $relative_file );
-$file_show        = array_search( $file, array_filter( $allowed_files ) );
+$file_show        = array_search( $file, array_filter( $allowed_files ), true );
 $description      = esc_html( $file_description );
 if ( $file_description != $file_show ) {
 	$description .= ' <span>(' . esc_html( $file_show ) . ')</span>';

@@ -466,7 +466,7 @@ class WP_Community_Events {
 			$trimmed_event_types     = wp_list_pluck( $response_body['events'], 'type' );
 
 			// Make sure the soonest upcoming WordCamp is pinned in the list.
-			if ( ! in_array( 'wordcamp', $trimmed_event_types ) && $wordcamps ) {
+			if ( ! in_array( 'wordcamp', $trimmed_event_types, true ) && $wordcamps ) {
 				array_pop( $response_body['events'] );
 				array_push( $response_body['events'], $wordcamps[0] );
 			}

@@ -235,7 +235,7 @@ class WP_oEmbed {
 	 * @return mixed|bool Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
-		if ( in_array( $name, $this->compat_methods ) ) {
+		if ( in_array( $name, $this->compat_methods, true ) ) {
 			return $this->$name( ...$arguments );
 		}
 		return false;

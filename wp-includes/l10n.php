@@ -1208,12 +1208,12 @@ function _get_path_to_translation_from_lang_dir( $domain ) {
 	$mofile = "{$domain}-{$locale}.mo";
 
 	$path = WP_LANG_DIR . '/plugins/' . $mofile;
-	if ( in_array( $path, $cached_mofiles ) ) {
+	if ( in_array( $path, $cached_mofiles, true ) ) {
 		return $path;
 	}
 
 	$path = WP_LANG_DIR . '/themes/' . $mofile;
-	if ( in_array( $path, $cached_mofiles ) ) {
+	if ( in_array( $path, $cached_mofiles, true ) ) {
 		return $path;
 	}
 
@@ -1366,7 +1366,7 @@ function wp_get_installed_translations( $type ) {
 		if ( ! preg_match( '/(?:(.+)-)?([a-z]{2,3}(?:_[A-Z]{2})?(?:_[a-z0-9]+)?).po/', $file, $match ) ) {
 			continue;
 		}
-		if ( ! in_array( substr( $file, 0, -3 ) . '.mo', $files ) ) {
+		if ( ! in_array( substr( $file, 0, -3 ) . '.mo', $files, true ) ) {
 			continue;
 		}
 

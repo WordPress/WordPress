@@ -578,7 +578,7 @@ function twentytwelve_body_class( $classes ) {
 	if ( empty( $background_image ) ) {
 		if ( empty( $background_color ) ) {
 			$classes[] = 'custom-background-empty';
-		} elseif ( in_array( $background_color, array( 'fff', 'ffffff' ) ) ) {
+		} elseif ( in_array( $background_color, array( 'fff', 'ffffff' ), true ) ) {
 			$classes[] = 'custom-background-white';
 		}
 	}

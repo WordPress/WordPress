@@ -45,7 +45,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		);
 
 		$status = isset( $_REQUEST['theme_status'] ) ? $_REQUEST['theme_status'] : 'all';
-		if ( ! in_array( $status, array( 'all', 'enabled', 'disabled', 'upgrade', 'search', 'broken' ) ) ) {
+		if ( ! in_array( $status, array( 'all', 'enabled', 'disabled', 'upgrade', 'search', 'broken' ), true ) ) {
 			$status = 'all';
 		}
 
@@ -143,7 +143,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$totals[ $type ] = count( $list );
 		}
 
-		if ( empty( $themes[ $status ] ) && ! in_array( $status, array( 'all', 'search' ) ) ) {
+		if ( empty( $themes[ $status ] ) && ! in_array( $status, array( 'all', 'search' ), true ) ) {
 			$status = 'all';
 		}
 
@@ -674,7 +674,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$extra_classes = '';
-			if ( in_array( $column_name, $hidden ) ) {
+			if ( in_array( $column_name, $hidden, true ) ) {
 				$extra_classes .= ' hidden';
 			}
 

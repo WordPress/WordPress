@@ -132,7 +132,7 @@ function get_option( $option, $default = false ) {
 		return get_option( 'siteurl' );
 	}
 
-	if ( in_array( $option, array( 'siteurl', 'home', 'category_base', 'tag_base' ) ) ) {
+	if ( in_array( $option, array( 'siteurl', 'home', 'category_base', 'tag_base' ), true ) ) {
 		$value = untrailingslashit( $value );
 	}
 
@@ -1772,7 +1772,7 @@ function get_site_transient( $transient ) {
 		// Core transients that do not have a timeout. Listed here so querying timeouts can be avoided.
 		$no_timeout       = array( 'update_core', 'update_plugins', 'update_themes' );
 		$transient_option = '_site_transient_' . $transient;
-		if ( ! in_array( $transient, $no_timeout ) ) {
+		if ( ! in_array( $transient, $no_timeout, true ) ) {
 			$transient_timeout = '_site_transient_timeout_' . $transient;
 			$timeout           = get_site_option( $transient_timeout );
 			if ( false !== $timeout && $timeout < time() ) {
@@ -2232,7 +2232,7 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 		$option_group = 'reading';
 	}
 
-	$pos = array_search( $option_name, (array) $new_whitelist_options[ $option_group ] );
+	$pos = array_search( $option_name, (array) $new_whitelist_options[ $option_group ], true );
 	if ( false !== $pos ) {
 		unset( $new_whitelist_options[ $option_group ][ $pos ] );
 	}

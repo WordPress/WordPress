@@ -42,7 +42,7 @@
 function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	global $wp_rewrite, $is_IIS, $wp_query, $wpdb, $wp;
 
-	if ( isset( $_SERVER['REQUEST_METHOD'] ) && ! in_array( strtoupper( $_SERVER['REQUEST_METHOD'] ), array( 'GET', 'HEAD' ) ) ) {
+	if ( isset( $_SERVER['REQUEST_METHOD'] ) && ! in_array( strtoupper( $_SERVER['REQUEST_METHOD'] ), array( 'GET', 'HEAD' ), true ) ) {
 		return;
 	}
 
@@ -331,7 +331,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 
 			$addl_path = '';
-			if ( is_feed() && in_array( get_query_var( 'feed' ), $wp_rewrite->feeds ) ) {
+			if ( is_feed() && in_array( get_query_var( 'feed' ), $wp_rewrite->feeds, true ) ) {
 				$addl_path = ! empty( $addl_path ) ? trailingslashit( $addl_path ) : '';
 				if ( ! is_singular() && get_query_var( 'withcomments' ) ) {
 					$addl_path .= 'comments/';
@@ -751,7 +751,7 @@ function wp_redirect_admin_locations() {
 		site_url( 'dashboard', 'relative' ),
 		site_url( 'admin', 'relative' ),
 	);
-	if ( in_array( untrailingslashit( $_SERVER['REQUEST_URI'] ), $admins ) ) {
+	if ( in_array( untrailingslashit( $_SERVER['REQUEST_URI'] ), $admins, true ) ) {
 		wp_redirect( admin_url() );
 		exit;
 	}
@@ -761,7 +761,7 @@ function wp_redirect_admin_locations() {
 		home_url( 'login', 'relative' ),
 		site_url( 'login', 'relative' ),
 	);
-	if ( in_array( untrailingslashit( $_SERVER['REQUEST_URI'] ), $logins ) ) {
+	if ( in_array( untrailingslashit( $_SERVER['REQUEST_URI'] ), $logins, true ) ) {
 		wp_redirect( wp_login_url() );
 		exit;
 	}

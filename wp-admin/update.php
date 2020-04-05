@@ -6,7 +6,9 @@
  * @subpackage Administration
  */
 
-if ( ! defined( 'IFRAME_REQUEST' ) && isset( $_GET['action'] ) && in_array( $_GET['action'], array( 'update-selected', 'activate-plugin', 'update-selected-themes' ) ) ) {
+if ( ! defined( 'IFRAME_REQUEST' )
+	&& isset( $_GET['action'] ) && in_array( $_GET['action'], array( 'update-selected', 'activate-plugin', 'update-selected-themes' ), true )
+) {
 	define( 'IFRAME_REQUEST', true );
 }
 

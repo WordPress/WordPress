@@ -281,7 +281,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			<?php
 			echo $edit;
 
-			if ( in_array( $user->user_login, $super_admins ) ) {
+			if ( in_array( $user->user_login, $super_admins, true ) ) {
 				echo ' &mdash; ' . __( 'Super Admin' );
 			}
 			?>

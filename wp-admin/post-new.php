@@ -18,7 +18,7 @@ global $post_type, $post_type_object, $post;
 
 if ( ! isset( $_GET['post_type'] ) ) {
 	$post_type = 'post';
-} elseif ( in_array( $_GET['post_type'], get_post_types( array( 'show_ui' => true ) ) ) ) {
+} elseif ( in_array( $_GET['post_type'], get_post_types( array( 'show_ui' => true ) ), true ) ) {
 	$post_type = $_GET['post_type'];
 } else {
 	wp_die( __( 'Invalid post type.' ) );

@@ -105,7 +105,7 @@ class WP_Widget_Links extends WP_Widget {
 		}
 
 		$instance['orderby'] = 'name';
-		if ( in_array( $new_instance['orderby'], array( 'name', 'rating', 'id', 'rand' ) ) ) {
+		if ( in_array( $new_instance['orderby'], array( 'name', 'rating', 'id', 'rand' ), true ) ) {
 			$instance['orderby'] = $new_instance['orderby'];
 		}
 

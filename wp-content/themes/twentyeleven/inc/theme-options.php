@@ -493,7 +493,7 @@ function twentyeleven_layout_classes( $existing_classes ) {
 	$options        = twentyeleven_get_theme_options();
 	$current_layout = $options['theme_layout'];
 
-	if ( in_array( $current_layout, array( 'content-sidebar', 'sidebar-content' ) ) ) {
+	if ( in_array( $current_layout, array( 'content-sidebar', 'sidebar-content' ), true ) ) {
 		$classes = array( 'two-column' );
 	} else {
 		$classes = array( 'one-column' );

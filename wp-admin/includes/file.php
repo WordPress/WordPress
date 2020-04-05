@@ -1215,7 +1215,7 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
 	}
 
 	// Check we can process signatures.
-	if ( ! function_exists( 'sodium_crypto_sign_verify_detached' ) || ! in_array( 'sha384', array_map( 'strtolower', hash_algos() ) ) ) {
+	if ( ! function_exists( 'sodium_crypto_sign_verify_detached' ) || ! in_array( 'sha384', array_map( 'strtolower', hash_algos() ), true ) ) {
 		return new WP_Error(
 			'signature_verification_unsupported',
 			sprintf(
@@ -1540,7 +1540,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 		}
 
 		$parent_folder = dirname( $dir );
-		while ( ! empty( $parent_folder ) && untrailingslashit( $to ) != $parent_folder && ! in_array( $parent_folder, $needed_dirs ) ) {
+		while ( ! empty( $parent_folder ) && untrailingslashit( $to ) != $parent_folder && ! in_array( $parent_folder, $needed_dirs, true ) ) {
 			$needed_dirs[] = $parent_folder;
 			$parent_folder = dirname( $parent_folder );
 		}
@@ -1666,7 +1666,7 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 		}
 
 		$parent_folder = dirname( $dir );
-		while ( ! empty( $parent_folder ) && untrailingslashit( $to ) != $parent_folder && ! in_array( $parent_folder, $needed_dirs ) ) {
+		while ( ! empty( $parent_folder ) && untrailingslashit( $to ) != $parent_folder && ! in_array( $parent_folder, $needed_dirs, true ) ) {
 			$needed_dirs[] = $parent_folder;
 			$parent_folder = dirname( $parent_folder );
 		}

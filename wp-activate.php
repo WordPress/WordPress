@@ -57,7 +57,7 @@ if ( null === $result || ( is_wp_error( $result ) && 'invalid_key' === $result->
 } elseif ( is_wp_error( $result ) ) {
 	$error_code = $result->get_error_code();
 
-	if ( ! in_array( $error_code, $valid_error_codes ) ) {
+	if ( ! in_array( $error_code, $valid_error_codes, true ) ) {
 		status_header( 400 );
 	}
 }
@@ -136,7 +136,7 @@ get_header( 'wp-activate' );
 
 		<?php
 	} else {
-		if ( is_wp_error( $result ) && in_array( $result->get_error_code(), $valid_error_codes ) ) {
+		if ( is_wp_error( $result ) && in_array( $result->get_error_code(), $valid_error_codes, true ) ) {
 			$signup = $result->get_error_data();
 			?>
 			<h2><?php _e( 'Your account is now active!' ); ?></h2>

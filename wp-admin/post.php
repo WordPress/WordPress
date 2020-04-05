@@ -131,7 +131,7 @@ switch ( $action ) {
 			wp_die( __( 'Invalid post type.' ) );
 		}
 
-		if ( ! in_array( $typenow, get_post_types( array( 'show_ui' => true ) ) ) ) {
+		if ( ! in_array( $typenow, get_post_types( array( 'show_ui' => true ) ), true ) ) {
 			wp_die( __( 'Sorry, you are not allowed to edit posts in this post type.' ) );
 		}
 

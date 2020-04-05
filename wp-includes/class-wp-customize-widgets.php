@@ -450,7 +450,7 @@ final class WP_Customize_Widgets {
 					$section_args = array(
 						'title'       => $wp_registered_sidebars[ $sidebar_id ]['name'],
 						'description' => $wp_registered_sidebars[ $sidebar_id ]['description'],
-						'priority'    => array_search( $sidebar_id, array_keys( $wp_registered_sidebars ) ),
+						'priority'    => array_search( $sidebar_id, array_keys( $wp_registered_sidebars ), true ),
 						'panel'       => 'widgets',
 						'sidebar_id'  => $sidebar_id,
 					);
@@ -577,7 +577,7 @@ final class WP_Customize_Widgets {
 
 		$parsed_widget_id = $this->parse_widget_id( $widget_id );
 		$width            = $wp_registered_widget_controls[ $widget_id ]['width'];
-		$is_core          = in_array( $parsed_widget_id['id_base'], $this->core_widget_id_bases );
+		$is_core          = in_array( $parsed_widget_id['id_base'], $this->core_widget_id_bases, true );
 		$is_wide          = ( $width > 250 && ! $is_core );
 
 		/**
@@ -1220,7 +1220,7 @@ final class WP_Customize_Widgets {
 	 * @return bool Whether the widget is rendered.
 	 */
 	public function is_widget_rendered( $widget_id ) {
-		return in_array( $widget_id, $this->rendered_widgets );
+		return in_array( $widget_id, $this->rendered_widgets, true );
 	}
 
 	/**
@@ -1232,7 +1232,7 @@ final class WP_Customize_Widgets {
 	 * @return bool Whether the sidebar is rendered.
 	 */
 	public function is_sidebar_rendered( $sidebar_id ) {
-		return in_array( $sidebar_id, $this->rendered_sidebars );
+		return in_array( $sidebar_id, $this->rendered_sidebars, true );
 	}
 
 	/**

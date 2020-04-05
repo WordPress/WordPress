@@ -517,7 +517,7 @@ class WP_Users_List_Table extends WP_List_Table {
 				$classes .= ' num'; // Special case for that column.
 			}
 
-			if ( in_array( $column_name, $hidden ) ) {
+			if ( in_array( $column_name, $hidden, true ) ) {
 				$classes .= ' hidden';
 			}
 

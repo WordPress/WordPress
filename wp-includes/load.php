@@ -14,7 +14,7 @@
  */
 function wp_get_server_protocol() {
 	$protocol = isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : '';
-	if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ) ) ) {
+	if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ), true ) ) {
 		$protocol = 'HTTP/1.0';
 	}
 	return $protocol;
@@ -40,7 +40,7 @@ function wp_unregister_GLOBALS() {  // phpcs:ignore WordPress.NamingConventions.
 
 	$input = array_merge( $_GET, $_POST, $_COOKIE, $_SERVER, $_ENV, $_FILES, isset( $_SESSION ) && is_array( $_SESSION ) ? $_SESSION : array() );
 	foreach ( $input as $k => $v ) {
-		if ( ! in_array( $k, $no_unset ) && isset( $GLOBALS[ $k ] ) ) {
+		if ( ! in_array( $k, $no_unset, true ) && isset( $GLOBALS[ $k ] ) ) {
 			unset( $GLOBALS[ $k ] );
 		}
 	}
@@ -683,7 +683,7 @@ function wp_get_active_and_valid_plugins() {
 			&& '.php' == substr( $plugin, -4 )              // $plugin must end with '.php'.
 			&& file_exists( WP_PLUGIN_DIR . '/' . $plugin ) // $plugin must exist.
 			// Not already included as a network plugin.
-			&& ( ! $network_plugins || ! in_array( WP_PLUGIN_DIR . '/' . $plugin, $network_plugins ) )
+			&& ( ! $network_plugins || ! in_array( WP_PLUGIN_DIR . '/' . $plugin, $network_plugins, true ) )
 			) {
 			$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
 		}

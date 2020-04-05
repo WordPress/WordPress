@@ -7,7 +7,7 @@
  * @since 3.1.0
  */
 
-if ( isset( $_GET['action'] ) && in_array( $_GET['action'], array( 'update-selected', 'activate-plugin', 'update-selected-themes' ) ) ) {
+if ( isset( $_GET['action'] ) && in_array( $_GET['action'], array( 'update-selected', 'activate-plugin', 'update-selected-themes' ), true ) ) {
 	define( 'IFRAME_REQUEST', true );
 }
 

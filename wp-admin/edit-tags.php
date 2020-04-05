@@ -19,7 +19,7 @@ if ( ! $tax ) {
 	wp_die( __( 'Invalid taxonomy.' ) );
 }
 
-if ( ! in_array( $tax->name, get_taxonomies( array( 'show_ui' => true ) ) ) ) {
+if ( ! in_array( $tax->name, get_taxonomies( array( 'show_ui' => true ) ), true ) ) {
 	wp_die( __( 'Sorry, you are not allowed to edit terms in this taxonomy.' ) );
 }
 

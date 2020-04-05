@@ -240,7 +240,7 @@ $structures = array(
 	</tr>
 	<tr>
 		<th scope="row">
-			<label><input name="selection" id="custom_selection" type="radio" value="custom" <?php checked( ! in_array( $permalink_structure, $structures ) ); ?> />
+			<label><input name="selection" id="custom_selection" type="radio" value="custom" <?php checked( ! in_array( $permalink_structure, $structures, true ) ); ?> />
 			<?php _e( 'Custom Structure' ); ?>
 			</label>
 		</th>

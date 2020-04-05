@@ -459,7 +459,7 @@ function is_allowed_http_origin( $origin = null ) {
 		$origin = get_http_origin();
 	}
 
-	if ( $origin && ! in_array( $origin, get_allowed_http_origins() ) ) {
+	if ( $origin && ! in_array( $origin, get_allowed_http_origins(), true ) ) {
 		$origin = '';
 	}
 

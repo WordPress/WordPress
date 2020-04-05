@@ -545,7 +545,7 @@ class WP_Upgrader {
 			$protected_directories = array_merge( $protected_directories, $wp_theme_directories );
 		}
 
-		if ( in_array( $destination, $protected_directories ) ) {
+		if ( in_array( $destination, $protected_directories, true ) ) {
 			$remote_destination = trailingslashit( $remote_destination ) . trailingslashit( basename( $source ) );
 			$destination        = trailingslashit( $destination ) . trailingslashit( basename( $source ) );
 		}

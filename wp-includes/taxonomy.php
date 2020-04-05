@@ -620,7 +620,7 @@ function register_taxonomy_for_object_type( $taxonomy, $object_type ) {
 		return false;
 	}
 
-	if ( ! in_array( $object_type, $wp_taxonomies[ $taxonomy ]->object_type ) ) {
+	if ( ! in_array( $object_type, $wp_taxonomies[ $taxonomy ]->object_type, true ) ) {
 		$wp_taxonomies[ $taxonomy ]->object_type[] = $object_type;
 	}
 
@@ -1526,7 +1526,7 @@ function sanitize_term( $term, $taxonomy, $context = 'display' ) {
  */
 function sanitize_term_field( $field, $value, $term_id, $taxonomy, $context ) {
 	$int_fields = array( 'parent', 'term_id', 'count', 'term_group', 'term_taxonomy_id', 'object_id' );
-	if ( in_array( $field, $int_fields ) ) {
+	if ( in_array( $field, $int_fields, true ) ) {
 		$value = (int) $value;
 		if ( $value < 0 ) {
 			$value = 0;
@@ -2236,9 +2236,12 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 				);
 
 				$existing_term = null;
-				if ( ( ! $slug_provided || $name_match->slug === $slug ) && in_array( $name, wp_list_pluck( $siblings, 'name' ) ) ) {
+				$sibling_names = wp_list_pluck( $siblings, 'name' );
+				$sibling_slugs = wp_list_pluck( $siblings, 'slug' );
+
+				if ( ( ! $slug_provided || $name_match->slug === $slug ) && in_array( $name, $sibling_names, true ) ) {
 					$existing_term = $name_match;
-				} elseif ( $slug_match && in_array( $slug, wp_list_pluck( $siblings, 'slug' ) ) ) {
+				} elseif ( $slug_match && in_array( $slug, $sibling_slugs, true ) ) {
 					$existing_term = $slug_match;
 				}
 
@@ -3700,7 +3703,7 @@ function _update_post_term_count( $terms, $taxonomy ) {
 
 	$object_types = array_unique( $object_types );
 
-	$check_attachments = array_search( 'attachment', $object_types );
+	$check_attachments = array_search( 'attachment', $object_types, true );
 	if ( false !== $check_attachments ) {
 		unset( $object_types[ $check_attachments ] );
 		$check_attachments = true;
@@ -4445,7 +4448,7 @@ function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
 
 	foreach ( $object_terms as $object_term ) {
 		// If term is an int, check against term_ids only.
-		if ( $ints && in_array( $object_term->term_id, $ints ) ) {
+		if ( $ints && in_array( $object_term->term_id, $ints, true ) ) {
 			return true;
 		}
 
@@ -4456,10 +4459,10 @@ function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
 				return true;
 			}
 
-			if ( in_array( $object_term->name, $strs ) ) {
+			if ( in_array( $object_term->name, $strs, true ) ) {
 				return true;
 			}
-			if ( in_array( $object_term->slug, $strs ) ) {
+			if ( in_array( $object_term->slug, $strs, true ) ) {
 				return true;
 			}
 		}
@@ -4482,7 +4485,7 @@ function is_object_in_taxonomy( $object_type, $taxonomy ) {
 	if ( empty( $taxonomies ) ) {
 		return false;
 	}
-	return in_array( $taxonomy, $taxonomies );
+	return in_array( $taxonomy, $taxonomies, true );
 }
 
 /**

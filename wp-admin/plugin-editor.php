@@ -112,7 +112,7 @@ if ( ! is_file( $real_file ) ) {
 	if ( preg_match( '/\.([^.]+)$/', $real_file, $matches ) ) {
 		$ext = strtolower( $matches[1] );
 		// If extension is not in the acceptable list, skip it.
-		if ( ! in_array( $ext, $editable_extensions ) ) {
+		if ( ! in_array( $ext, $editable_extensions, true ) ) {
 			wp_die( sprintf( '<p>%s</p>', __( 'Files of this type are not editable.' ) ) );
 		}
 	}
@@ -244,7 +244,7 @@ $content = esc_textarea( $content );
 	<?php
 	$plugin_editable_files = array();
 	foreach ( $plugin_files as $plugin_file ) {
-		if ( preg_match( '/\.([^.]+)$/', $plugin_file, $matches ) && in_array( $matches[1], $editable_extensions ) ) {
+		if ( preg_match( '/\.([^.]+)$/', $plugin_file, $matches ) && in_array( $matches[1], $editable_extensions, true ) ) {
 			$plugin_editable_files[] = $plugin_file;
 		}
 	}
@@ -277,7 +277,7 @@ $content = esc_textarea( $content );
 
 	<?php if ( is_writeable( $real_file ) ) : ?>
 		<div class="editor-notices">
-		<?php if ( in_array( $plugin, (array) get_option( 'active_plugins', array() ) ) ) { ?>
+		<?php if ( in_array( $plugin, (array) get_option( 'active_plugins', array() ), true ) ) { ?>
 			<div class="notice notice-warning inline active-plugin-edit-warning">
 				<p><?php _e( '<strong>Warning:</strong> Making changes to active plugins is not recommended.' ); ?></p>
 			</div>

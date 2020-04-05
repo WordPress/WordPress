@@ -43,7 +43,7 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] && is_
 	foreach ( (array) $_POST['option'] as $key => $val ) {
 		$key = wp_unslash( $key );
 		$val = wp_unslash( $val );
-		if ( 0 === $key || is_array( $val ) || in_array( $key, $skip_options ) ) {
+		if ( 0 === $key || is_array( $val ) || in_array( $key, $skip_options, true ) ) {
 			continue; // Avoids "0 is a protected WP option and may not be modified" error when edit blog options.
 		}
 		update_option( $key, $val );
@@ -149,7 +149,7 @@ if ( ! empty( $messages ) ) {
 				?>
 				<tr class="form-field">
 					<th scope="row"><label for="<?php echo esc_attr( $option->option_name ); ?>"><?php echo esc_html( ucwords( str_replace( '_', ' ', $option->option_name ) ) ); ?></label></th>
-					<?php if ( $is_main_site && in_array( $option->option_name, array( 'siteurl', 'home' ) ) ) { ?>
+					<?php if ( $is_main_site && in_array( $option->option_name, array( 'siteurl', 'home' ), true ) ) { ?>
 					<td><code><?php echo esc_html( $option->option_value ); ?></code></td>
 					<?php } else { ?>
 					<td><input class="<?php echo $class; ?>" name="option[<?php echo esc_attr( $option->option_name ); ?>]" type="text" id="<?php echo esc_attr( $option->option_name ); ?>" value="<?php echo esc_attr( $option->option_value ); ?>" size="40" <?php disabled( $disabled ); ?> /></td>

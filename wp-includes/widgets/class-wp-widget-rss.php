@@ -57,7 +57,7 @@ class WP_Widget_RSS extends WP_Widget {
 		}
 
 		// Self-URL destruction sequence.
-		if ( in_array( untrailingslashit( $url ), array( site_url(), home_url() ) ) ) {
+		if ( in_array( untrailingslashit( $url ), array( site_url(), home_url() ), true ) ) {
 			return;
 		}
 

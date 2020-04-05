@@ -165,7 +165,7 @@ add_filter( 'wp_nav_menu', 'twentynineteen_add_ellipses_to_nav', 10, 2 );
 function twentynineteen_nav_menu_link_attributes( $atts, $item, $args, $depth ) {
 
 	// Add [aria-haspopup] and [aria-expanded] to menu items that have children.
-	$item_has_children = in_array( 'menu-item-has-children', $item->classes );
+	$item_has_children = in_array( 'menu-item-has-children', $item->classes, true );
 	if ( $item_has_children ) {
 		$atts['aria-haspopup'] = 'true';
 		$atts['aria-expanded'] = 'false';

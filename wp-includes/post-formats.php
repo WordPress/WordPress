@@ -75,7 +75,7 @@ function set_post_format( $post, $format ) {
 
 	if ( ! empty( $format ) ) {
 		$format = sanitize_key( $format );
-		if ( 'standard' === $format || ! in_array( $format, get_post_format_slugs() ) ) {
+		if ( 'standard' === $format || ! in_array( $format, get_post_format_slugs(), true ) ) {
 			$format = '';
 		} else {
 			$format = 'post-format-' . $format;
@@ -231,7 +231,7 @@ function _post_format_get_term( $term ) {
  * @return array
  */
 function _post_format_get_terms( $terms, $taxonomies, $args ) {
-	if ( in_array( 'post_format', (array) $taxonomies ) ) {
+	if ( in_array( 'post_format', (array) $taxonomies, true ) ) {
 		if ( isset( $args['fields'] ) && 'names' == $args['fields'] ) {
 			foreach ( $terms as $order => $name ) {
 				$terms[ $order ] = get_post_format_string( str_replace( 'post-format-', '', $name ) );

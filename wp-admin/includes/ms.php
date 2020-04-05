@@ -886,7 +886,7 @@ function confirm_delete_users( $users ) {
 				);
 			}
 
-			if ( in_array( $delete_user->user_login, $site_admins ) ) {
+			if ( in_array( $delete_user->user_login, $site_admins, true ) ) {
 				wp_die(
 					sprintf(
 						/* translators: %s: User login. */

@@ -599,7 +599,9 @@ function wp_doc_link_parse( $content ) {
 
 		if ( T_STRING == $tokens[ $t ][0] && ( '(' == $tokens[ $t + 1 ] || '(' == $tokens[ $t + 2 ] ) ) {
 			// If it's a function or class defined locally, there's not going to be any docs available.
-			if ( ( isset( $tokens[ $t - 2 ][1] ) && in_array( $tokens[ $t - 2 ][1], array( 'function', 'class' ) ) ) || ( isset( $tokens[ $t - 2 ][0] ) && T_OBJECT_OPERATOR == $tokens[ $t - 1 ][0] ) ) {
+			if ( ( isset( $tokens[ $t - 2 ][1] ) && in_array( $tokens[ $t - 2 ][1], array( 'function', 'class' ), true ) )
+				|| ( isset( $tokens[ $t - 2 ][0] ) && T_OBJECT_OPERATOR == $tokens[ $t - 1 ][0] )
+			) {
 				$ignore_functions[] = $tokens[ $t ][1];
 			}
 			// Add this to our stack of unique references.
@@ -623,7 +625,7 @@ function wp_doc_link_parse( $content ) {
 
 	$out = array();
 	foreach ( $functions as $function ) {
-		if ( in_array( $function, $ignore_functions ) ) {
+		if ( in_array( $function, $ignore_functions, true ) ) {
 			continue;
 		}
 		$out[] = $function;
@@ -656,9 +658,9 @@ function set_screen_options() {
 		$map_option = $option;
 		$type       = str_replace( 'edit_', '', $map_option );
 		$type       = str_replace( '_per_page', '', $type );
-		if ( in_array( $type, get_taxonomies() ) ) {
+		if ( in_array( $type, get_taxonomies(), true ) ) {
 			$map_option = 'edit_tags_per_page';
-		} elseif ( in_array( $type, get_post_types() ) ) {
+		} elseif ( in_array( $type, get_post_types(), true ) ) {
 			$map_option = 'edit_per_page';
 		} else {
 			$option = str_replace( '-', '_', $option );

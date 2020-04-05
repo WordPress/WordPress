@@ -111,7 +111,7 @@ class WP_Widget_Pages extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance          = $old_instance;
 		$instance['title'] = sanitize_text_field( $new_instance['title'] );
-		if ( in_array( $new_instance['sortby'], array( 'post_title', 'menu_order', 'ID' ) ) ) {
+		if ( in_array( $new_instance['sortby'], array( 'post_title', 'menu_order', 'ID' ), true ) ) {
 			$instance['sortby'] = $new_instance['sortby'];
 		} else {
 			$instance['sortby'] = 'menu_order';

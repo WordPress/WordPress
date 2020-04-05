@@ -477,7 +477,7 @@ endif;
 			$public_display['display_lastfirst'] = $profileuser->last_name . ' ' . $profileuser->first_name;
 		}
 
-		if ( ! in_array( $profileuser->display_name, $public_display ) ) { // Only add this if it isn't duplicated elsewhere.
+		if ( ! in_array( $profileuser->display_name, $public_display, true ) ) { // Only add this if it isn't duplicated elsewhere.
 			$public_display = array( 'display_displayname' => $profileuser->display_name ) + $public_display;
 		}
 

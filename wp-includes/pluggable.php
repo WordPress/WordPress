@@ -454,7 +454,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		if ( ! empty( $headers ) ) {
 			foreach ( (array) $headers as $name => $content ) {
 				// Only add custom headers not added automatically by PHPMailer.
-				if ( ! in_array( $name, array( 'MIME-Version', 'X-Mailer' ) ) ) {
+				if ( ! in_array( $name, array( 'MIME-Version', 'X-Mailer' ), true ) ) {
 					$phpmailer->addCustomHeader( sprintf( '%1$s: %2$s', $name, $content ) );
 				}
 			}
@@ -546,7 +546,7 @@ if ( ! function_exists( 'wp_authenticate' ) ) :
 
 		$ignore_codes = array( 'empty_username', 'empty_password' );
 
-		if ( is_wp_error( $user ) && ! in_array( $user->get_error_code(), $ignore_codes ) ) {
+		if ( is_wp_error( $user ) && ! in_array( $user->get_error_code(), $ignore_codes, true ) ) {
 			$error = $user;
 
 			/**
@@ -1465,7 +1465,7 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 		 */
 		$allowed_hosts = (array) apply_filters( 'allowed_redirect_hosts', array( $wpp['host'] ), isset( $lp['host'] ) ? $lp['host'] : '' );
 
-		if ( isset( $lp['host'] ) && ( ! in_array( $lp['host'], $allowed_hosts ) && strtolower( $wpp['host'] ) !== $lp['host'] ) ) {
+		if ( isset( $lp['host'] ) && ( ! in_array( $lp['host'], $allowed_hosts, true ) && strtolower( $wpp['host'] ) !== $lp['host'] ) ) {
 			$location = $default;
 		}
 
@@ -2271,7 +2271,7 @@ if ( ! function_exists( 'wp_salt' ) ) :
 			$values['salt'] = SECRET_SALT;
 		}
 
-		if ( in_array( $scheme, array( 'auth', 'secure_auth', 'logged_in', 'nonce' ) ) ) {
+		if ( in_array( $scheme, array( 'auth', 'secure_auth', 'logged_in', 'nonce' ), true ) ) {
 			foreach ( array( 'key', 'salt' ) as $type ) {
 				$const = strtoupper( "{$scheme}_{$type}" );
 				if ( defined( $const ) && constant( $const ) && empty( $duplicated_keys[ constant( $const ) ] ) ) {

@@ -146,11 +146,11 @@ $core_actions_post_deprecated = array( 'wp-fullscreen-save-post', 'press-this-sa
 $core_actions_post            = array_merge( $core_actions_post, $core_actions_post_deprecated );
 
 // Register core Ajax calls.
-if ( ! empty( $_GET['action'] ) && in_array( $_GET['action'], $core_actions_get ) ) {
+if ( ! empty( $_GET['action'] ) && in_array( $_GET['action'], $core_actions_get, true ) ) {
 	add_action( 'wp_ajax_' . $_GET['action'], 'wp_ajax_' . str_replace( '-', '_', $_GET['action'] ), 1 );
 }
 
-if ( ! empty( $_POST['action'] ) && in_array( $_POST['action'], $core_actions_post ) ) {
+if ( ! empty( $_POST['action'] ) && in_array( $_POST['action'], $core_actions_post, true ) ) {
 	add_action( 'wp_ajax_' . $_POST['action'], 'wp_ajax_' . str_replace( '-', '_', $_POST['action'] ), 1 );
 }
 
