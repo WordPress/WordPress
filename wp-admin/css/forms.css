@@ -76,6 +76,7 @@ input[type="week"] {
 	line-height: 2; /* 28px */
 	/* Only necessary for IE11 */
 	min-height: 30px;
+	vertical-align: middle;
 }
 
 ::-webkit-datetime-edit {
