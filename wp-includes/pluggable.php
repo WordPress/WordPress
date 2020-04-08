@@ -2606,6 +2606,8 @@ if ( ! function_exists( 'get_avatar' ) ) :
 	 *                                       Default null.
 	 *     @type bool         $force_display Whether to always show the avatar - ignores the show_avatars option.
 	 *                                       Default false.
+	 *     @type string       $loading       Value for the `loading` attribute.
+	 *                                       Default null.
 	 *     @type string       $extra_attr    HTML attributes to insert in the IMG element. Is not sanitized. Default empty.
 	 * }
 	 * @return string|false `<img>` tag for the user's avatar. False on failure.
@@ -2623,8 +2625,13 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			'alt'           => '',
 			'class'         => null,
 			'force_display' => false,
+			'loading'       => null,
 			'extra_attr'    => '',
 		);
+
+		if ( wp_lazy_loading_enabled( 'img', 'get_avatar' ) ) {
+			$defaults['loading'] = 'lazy';
+		}
 
 		if ( empty( $args ) ) {
 			$args = array();
@@ -2695,6 +2702,18 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			}
 		}
 
+		// Add `loading` attribute.
+		$extra_attr = $args['extra_attr'];
+		$loading    = $args['loading'];
+
+		if ( in_array( $loading, array( 'lazy', 'eager' ), true ) && ! preg_match( '/\bloading\s*=/', $extra_attr ) ) {
+			if ( ! empty( $extra_attr ) ) {
+				$extra_attr .= ' ';
+			}
+
+			$extra_attr .= "loading='{$loading}'";
+		}
+
 		$avatar = sprintf(
 			"<img alt='%s' src='%s' srcset='%s' class='%s' height='%d' width='%d' %s/>",
 			esc_attr( $args['alt'] ),
@@ -2703,7 +2722,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			esc_attr( join( ' ', $class ) ),
 			(int) $args['height'],
 			(int) $args['width'],
-			$args['extra_attr']
+			$extra_attr
 		);
 
 		/**
