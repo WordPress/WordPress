@@ -122,12 +122,14 @@ class Walker_Page extends Walker {
 
 		if ( ! empty( $current_page ) ) {
 			$_current_page = get_post( $current_page );
-			if ( $_current_page && in_array( $page->ID, $_current_page->ancestors ) ) {
+
+			if ( $_current_page && in_array( $page->ID, $_current_page->ancestors, true ) ) {
 				$css_class[] = 'current_page_ancestor';
 			}
+
 			if ( $page->ID == $current_page ) {
 				$css_class[] = 'current_page_item';
-			} elseif ( $_current_page && $page->ID == $_current_page->post_parent ) {
+			} elseif ( $_current_page && $page->ID === $_current_page->post_parent ) {
 				$css_class[] = 'current_page_parent';
 			}
 		} elseif ( get_option( 'page_for_posts' ) == $page->ID ) {

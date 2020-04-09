@@ -548,8 +548,8 @@ function bulk_edit_posts( $post_data = null ) {
 			$children[] = $parent;
 
 			foreach ( $pages as $page ) {
-				if ( $page->ID == $parent ) {
-					$parent = $page->post_parent;
+				if ( (int) $page->ID === $parent ) {
+					$parent = (int) $page->post_parent;
 					break;
 				}
 			}
@@ -568,7 +568,7 @@ function bulk_edit_posts( $post_data = null ) {
 		$post_type_object = get_post_type_object( get_post_type( $post_ID ) );
 
 		if ( ! isset( $post_type_object )
-			|| ( isset( $children ) && in_array( $post_ID, $children ) )
+			|| ( isset( $children ) && in_array( $post_ID, $children, true ) )
 			|| ! current_user_can( 'edit_post', $post_ID )
 		) {
 			$skipped[] = $post_ID;

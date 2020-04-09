@@ -596,7 +596,7 @@ function url_to_postid( $url ) {
 			parse_str( $query, $query_vars );
 			$query = array();
 			foreach ( (array) $query_vars as $key => $value ) {
-				if ( in_array( $key, $wp->public_query_vars, true ) ) {
+				if ( in_array( (string) $key, $wp->public_query_vars, true ) ) {
 					$query[ $key ] = $value;
 					if ( isset( $post_type_query_vars[ $key ] ) ) {
 						$query['post_type'] = $post_type_query_vars[ $key ];

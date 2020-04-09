@@ -2170,7 +2170,7 @@ function add_option_whitelist( $new_options, $options = '' ) {
 				$whitelist_options[ $page ]   = array();
 				$whitelist_options[ $page ][] = $key;
 			} else {
-				$pos = array_search( $key, $whitelist_options[ $page ] );
+				$pos = array_search( $key, $whitelist_options[ $page ], true );
 				if ( false === $pos ) {
 					$whitelist_options[ $page ][] = $key;
 				}
@@ -2202,7 +2202,7 @@ function remove_option_whitelist( $del_options, $options = '' ) {
 	foreach ( $del_options as $page => $keys ) {
 		foreach ( $keys as $key ) {
 			if ( isset( $whitelist_options[ $page ] ) && is_array( $whitelist_options[ $page ] ) ) {
-				$pos = array_search( $key, $whitelist_options[ $page ] );
+				$pos = array_search( $key, $whitelist_options[ $page ], true );
 				if ( false !== $pos ) {
 					unset( $whitelist_options[ $page ][ $pos ] );
 				}

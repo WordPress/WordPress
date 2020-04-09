@@ -922,19 +922,23 @@ function confirm_delete_users( $users ) {
 							'fields'  => array( 'ID', 'user_login' ),
 						)
 					);
+
 					if ( is_array( $blog_users ) && ! empty( $blog_users ) ) {
 						$user_site      = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
 						$user_dropdown  = '<label for="reassign_user" class="screen-reader-text">' . __( 'Select a user' ) . '</label>';
 						$user_dropdown .= "<select name='blog[$user_id][$key]' id='reassign_user'>";
 						$user_list      = '';
+
 						foreach ( $blog_users as $user ) {
-							if ( ! in_array( $user->ID, $allusers ) ) {
+							if ( ! in_array( (int) $user->ID, $allusers, true ) ) {
 								$user_list .= "<option value='{$user->ID}'>{$user->user_login}</option>";
 							}
 						}
+
 						if ( '' == $user_list ) {
 							$user_list = $admin_out;
 						}
+
 						$user_dropdown .= $user_list;
 						$user_dropdown .= "</select>\n";
 						?>

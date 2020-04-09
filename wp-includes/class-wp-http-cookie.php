@@ -192,7 +192,7 @@ class WP_Http_Cookie {
 		}
 
 		// Port - supports "port-lists" in the format: "80,8000,8080".
-		if ( ! empty( $port ) && ! in_array( $url['port'], explode( ',', $port ) ) ) {
+		if ( ! empty( $port ) && ! in_array( $url['port'], array_map( 'intval', explode( ',', $port ) ), true ) ) {
 			return false;
 		}
 

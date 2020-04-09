@@ -2284,7 +2284,12 @@ function is_sticky( $post_id = 0 ) {
 
 	$stickies = get_option( 'sticky_posts' );
 
-	$is_sticky = is_array( $stickies ) && in_array( $post_id, $stickies );
+	if ( is_array( $stickies ) ) {
+		$stickies  = array_map( 'intval', $stickies );
+		$is_sticky = in_array( $post_id, $stickies, true );
+	} else {
+		$is_sticky = false;
+	}
 
 	/**
 	 * Filters whether a post is sticky.
@@ -2511,13 +2516,16 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
  * @param int $post_id Post ID.
  */
 function stick_post( $post_id ) {
+	$post_id  = (int) $post_id;
 	$stickies = get_option( 'sticky_posts' );
 
 	if ( ! is_array( $stickies ) ) {
-		$stickies = array( $post_id );
+		$stickies = array();
 	}
 
-	if ( ! in_array( $post_id, $stickies ) ) {
+	$stickies = array_map( 'intval', $stickies );
+
+	if ( ! in_array( $post_id, $stickies, true ) ) {
 		$stickies[] = $post_id;
 	}
 
@@ -2545,17 +2553,20 @@ function stick_post( $post_id ) {
  * @param int $post_id Post ID.
  */
 function unstick_post( $post_id ) {
+	$post_id  = (int) $post_id;
 	$stickies = get_option( 'sticky_posts' );
 
 	if ( ! is_array( $stickies ) ) {
 		return;
 	}
 
-	if ( ! in_array( $post_id, $stickies ) ) {
+	$stickies = array_map( 'intval', $stickies );
+
+	if ( ! in_array( $post_id, $stickies, true ) ) {
 		return;
 	}
 
-	$offset = array_search( $post_id, $stickies );
+	$offset = array_search( $post_id, $stickies, true );
 	if ( false === $offset ) {
 		return;
 	}
@@ -2841,8 +2852,10 @@ function wp_match_mime_types( $wildcard_mime_types, $real_mime_types ) {
 	foreach ( (array) $wildcard_mime_types as $type ) {
 		$mimes = array_map( 'trim', explode( ',', $type ) );
 		foreach ( $mimes as $mime ) {
-			$regex                 = str_replace( '__wildcard__', $wild, preg_quote( str_replace( '*', '__wildcard__', $mime ) ) );
+			$regex = str_replace( '__wildcard__', $wild, preg_quote( str_replace( '*', '__wildcard__', $mime ) ) );
+
 			$patternses[][ $type ] = "^$regex$";
+
 			if ( false === strpos( $mime, '/' ) ) {
 				$patternses[][ $type ] = "^$regex/";
 				$patternses[][ $type ] = $regex;
@@ -2854,12 +2867,15 @@ function wp_match_mime_types( $wildcard_mime_types, $real_mime_types ) {
 	foreach ( $patternses as $patterns ) {
 		foreach ( $patterns as $type => $pattern ) {
 			foreach ( (array) $real_mime_types as $real ) {
-				if ( preg_match( "#$pattern#", $real ) && ( empty( $matches[ $type ] ) || false === array_search( $real, $matches[ $type ] ) ) ) {
+				if ( preg_match( "#$pattern#", $real )
+					&& ( empty( $matches[ $type ] ) || false === array_search( $real, $matches[ $type ], true ) )
+				) {
 					$matches[ $type ][] = $real;
 				}
 			}
 		}
 	}
+
 	return $matches;
 }
 
@@ -2914,9 +2930,11 @@ function wp_post_mime_type_where( $post_mime_types, $table_alias = '' ) {
 			$wheres[] = empty( $table_alias ) ? "post_mime_type = '$mime_pattern'" : "$table_alias.post_mime_type = '$mime_pattern'";
 		}
 	}
+
 	if ( ! empty( $wheres ) ) {
 		$where = ' AND (' . join( ' OR ', $wheres ) . ') ';
 	}
+
 	return $where;
 }
 
@@ -4436,15 +4454,16 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		$check_sql       = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d LIMIT 1";
 		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID ) );
 
+		$post = get_post( $post_ID );
+
 		// Prevent new post slugs that could result in URLs that conflict with date archives.
-		$post                        = get_post( $post_ID );
 		$conflicts_with_date_archive = false;
 		if ( 'post' === $post_type && ( ! $post || $post->post_name !== $slug ) && preg_match( '/^[0-9]+$/', $slug ) ) {
 			$slug_num = intval( $slug );
 
 			if ( $slug_num ) {
 				$permastructs   = array_values( array_filter( explode( '/', get_option( 'permalink_structure' ) ) ) );
-				$postname_index = array_search( '%postname%', $permastructs );
+				$postname_index = array_search( '%postname%', $permastructs, true );
 
 				/*
 				* Potential date clashes are as follows:
@@ -5500,7 +5519,7 @@ function get_pages( $args = array() ) {
 
 		$num_pages = count( $pages );
 		for ( $i = 0; $i < $num_pages; $i++ ) {
-			if ( in_array( $pages[ $i ]->ID, $exclude ) ) {
+			if ( in_array( $pages[ $i ]->ID, $exclude, true ) ) {
 				unset( $pages[ $i ] );
 			}
 		}
@@ -5811,7 +5830,8 @@ function wp_delete_attachment_files( $post_id, $meta, $backup_sizes, $file ) {
  */
 function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
 	$attachment_id = (int) $attachment_id;
-	$post          = get_post( $attachment_id );
+
+	$post = get_post( $attachment_id );
 	if ( ! $post ) {
 		return false;
 	}
@@ -5845,7 +5865,8 @@ function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
  */
 function wp_update_attachment_metadata( $attachment_id, $data ) {
 	$attachment_id = (int) $attachment_id;
-	$post          = get_post( $attachment_id );
+
+	$post = get_post( $attachment_id );
 	if ( ! $post ) {
 		return false;
 	}
@@ -5878,7 +5899,8 @@ function wp_update_attachment_metadata( $attachment_id, $data ) {
  */
 function wp_get_attachment_url( $attachment_id = 0 ) {
 	$attachment_id = (int) $attachment_id;
-	$post          = get_post( $attachment_id );
+
+	$post = get_post( $attachment_id );
 	if ( ! $post ) {
 		return false;
 	}

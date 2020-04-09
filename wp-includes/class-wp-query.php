@@ -3137,7 +3137,7 @@ class WP_Query {
 			$sticky_offset = 0;
 			// Loop over posts and relocate stickies to the front.
 			for ( $i = 0; $i < $num_posts; $i++ ) {
-				if ( in_array( $this->posts[ $i ]->ID, $sticky_posts ) ) {
+				if ( in_array( $this->posts[ $i ]->ID, $sticky_posts, true ) ) {
 					$sticky_post = $this->posts[ $i ];
 					// Remove sticky from current position.
 					array_splice( $this->posts, $i, 1 );
@@ -3146,7 +3146,7 @@ class WP_Query {
 					// Increment the sticky offset. The next sticky will be placed at this offset.
 					$sticky_offset++;
 					// Remove post from sticky posts array.
-					$offset = array_search( $sticky_post->ID, $sticky_posts );
+					$offset = array_search( $sticky_post->ID, $sticky_posts, true );
 					unset( $sticky_posts[ $offset ] );
 				}
 			}

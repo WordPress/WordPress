@@ -1041,7 +1041,7 @@ class WP_Http {
 
 		// POST requests should not POST to a redirected location.
 		if ( 'POST' == $args['method'] ) {
-			if ( in_array( $response['response']['code'], array( 302, 303 ) ) ) {
+			if ( in_array( $response['response']['code'], array( 302, 303 ), true ) ) {
 				$args['method'] = 'GET';
 			}
 		}
