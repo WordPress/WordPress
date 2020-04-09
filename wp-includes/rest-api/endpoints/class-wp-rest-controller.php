@@ -451,7 +451,7 @@ abstract class WP_REST_Controller {
 				continue;
 			}
 
-			if ( ! in_array( $field_name, $requested_fields, true ) ) {
+			if ( ! rest_is_field_included( $field_name, $requested_fields ) ) {
 				continue;
 			}
 
