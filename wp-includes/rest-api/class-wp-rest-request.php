@@ -420,14 +420,29 @@ class WP_REST_Request implements ArrayAccess {
 	/**
 	 * Sets a parameter on the request.
 	 *
+	 * If the given parameter key exists in any parameter type an update will take place,
+	 * otherwise a new param will be created in the first parameter type (respecting
+	 * get_parameter_order()).
+	 *
 	 * @since 4.4.0
 	 *
 	 * @param string $key   Parameter name.
 	 * @param mixed  $value Parameter value.
 	 */
 	public function set_param( $key, $value ) {
-		$order                             = $this->get_parameter_order();
-		$this->params[ $order[0] ][ $key ] = $value;
+		$order     = $this->get_parameter_order();
+		$found_key = false;
+
+		foreach ( $order as $type ) {
+			if ( 'defaults' !== $type && array_key_exists( $key, $this->params[ $type ] ) ) {
+				$this->params[ $type ][ $key ] = $value;
+				$found_key                     = true;
+			}
+		}
+
+		if ( ! $found_key ) {
+			$this->params[ $order[0] ][ $key ] = $value;
+		}
 	}
 
 	/**
