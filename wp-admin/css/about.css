@@ -317,7 +317,8 @@
 	line-height: 1.4;
 }
 
-.about__container h3 {
+.about__container h3,
+.about__container h2.is-smaller-heading {
 	margin-top: 0;
 	font-size: 1em;
 }
