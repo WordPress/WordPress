@@ -1564,18 +1564,3 @@ class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Data_Removal_Req
 function _wp_privacy_requests_screen_options() {
 	_deprecated_function( __FUNCTION__, '5.3.0' );
 }
-
-/**
- * Return the user request object for the specified request ID.
- *
- * @since 4.9.6
- * @deprecated 5.4.0 Use wp_get_user_request()
- * @see wp_get_user_request()
- *
- * @param int $request_id The ID of the user request.
- * @return WP_User_Request|false
- */
-function wp_get_user_request_data( $request_id ) {
-	_deprecated_function( __FUNCTION__, '5.4.0', 'wp_get_user_request()' );
-	return wp_get_user_request( $request_id );
-}

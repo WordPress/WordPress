@@ -3950,3 +3950,18 @@ function wp_ajax_press_this_add_category() {
 		wp_send_json_error( array( 'errorMessage' => __( 'The Press This plugin is required.' ) ) );
 	}
 }
+
+/**
+ * Return the user request object for the specified request ID.
+ *
+ * @since 4.9.6
+ * @deprecated 5.4.0 Use wp_get_user_request()
+ * @see wp_get_user_request()
+ *
+ * @param int $request_id The ID of the user request.
+ * @return WP_User_Request|false
+ */
+function wp_get_user_request_data( $request_id ) {
+	_deprecated_function( __FUNCTION__, '5.4.0', 'wp_get_user_request()' );
+	return wp_get_user_request( $request_id );
+}
