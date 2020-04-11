@@ -134,7 +134,7 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 	$instructions = sprintf(
 		/* translators: 1: Marker. */
 		__(
-			'The directives (lines) between `BEGIN %1$s` and `END %1$s` are
+			'The directives (lines) between "BEGIN %1$s" and "END %1$s" are
 dynamically generated, and should only be modified via WordPress filters.
 Any changes to the directives between these markers will be overwritten.'
 		),
