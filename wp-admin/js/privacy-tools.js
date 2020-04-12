@@ -259,10 +259,14 @@ jQuery( document ).ready( function( $ ) {
 		doNextErasure( 1, 1 );
 	});
 
-	// Privacy policy page, copy button.
+	// Privacy Policy page, copy action.
 	$( document ).on( 'click', function( event ) {
-		var $target = $( event.target );
-		var $parent, $container, range;
+		var $parent,
+			$container,
+			range,
+			__ = wp.i18n.__,
+			$target = $( event.target ),
+			copiedNotice = $target.siblings( '.success' );
 
 		if ( $target.is( 'button.privacy-text-copy' ) ) {
 			$parent = $target.parent().parent();
@@ -277,22 +281,35 @@ jQuery( document ).ready( function( $ ) {
 					var documentPosition = document.documentElement.scrollTop,
 						bodyPosition     = document.body.scrollTop;
 
+					// Setup copy.
 					window.getSelection().removeAllRanges();
+
+					// Hide tutorial content to remove from copied content.
 					range = document.createRange();
 					$container.addClass( 'hide-privacy-policy-tutorial' );
 
+					// Copy action.
 					range.selectNodeContents( $container[0] );
 					window.getSelection().addRange( range );
 					document.execCommand( 'copy' );
 
+					// Reset section.
 					$container.removeClass( 'hide-privacy-policy-tutorial' );
 					window.getSelection().removeAllRanges();
 
+					// Return scroll position - see #49540.
 					if ( documentPosition > 0 && documentPosition !== document.documentElement.scrollTop ) {
 						document.documentElement.scrollTop = documentPosition;
 					} else if ( bodyPosition > 0 && bodyPosition !== document.body.scrollTop ) {
 						document.body.scrollTop = bodyPosition;
 					}
+
+					// Display and speak notice to indicate action complete.
+					copiedNotice.addClass( 'visible' );
+					wp.a11y.speak( __( 'The section has been copied to your clipboard.' ) );
+
+					// Delay notice dismissal.
+					setTimeout( function(){ copiedNotice.removeClass( 'visible' ); }, 3000 );
 				} catch ( er ) {}
 			}
 		}
