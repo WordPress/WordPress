@@ -733,6 +733,11 @@ function locale_stylesheet() {
 function switch_theme( $stylesheet ) {
 	global $wp_theme_directories, $wp_customize, $sidebars_widgets;
 
+	$requirements = validate_theme_requirements( $stylesheet );
+	if ( is_wp_error( $requirements ) ) {
+		wp_die( $requirements );
+	}
+
 	$_sidebars_widgets = null;
 	if ( 'wp_ajax_customize_save' === current_action() ) {
 		$old_sidebars_widgets_data_setting = $wp_customize->get_setting( 'old_sidebars_widgets_data' );
@@ -878,6 +883,78 @@ function validate_current_theme() {
 
 	switch_theme( $default->get_stylesheet() );
 	return false;
+}
+
+/**
+ * Validates the theme requirements for WordPress version and PHP version.
+ *
+ * Uses the information from `Requires at least` and `Requires PHP` headers
+ * defined in the theme's `style.css` file.
+ *
+ * If the headers are not present in the theme's stylesheet file,
+ * `readme.txt` is also checked as a fallback.
+ *
+ * @since 5.5.0
+ *
+ * @param string $stylesheet Directory name for the theme.
+ * @return true|WP_Error True if requirements are met, WP_Error on failure.
+ */
+function validate_theme_requirements( $stylesheet ) {
+	$theme = wp_get_theme( $stylesheet );
+
+	$requirements = array(
+		'requires'     => ! empty( $theme->get( 'RequiresWP' ) ) ? $theme->get( 'RequiresWP' ) : '',
+		'requires_php' => ! empty( $theme->get( 'RequiresPHP' ) ) ? $theme->get( 'RequiresPHP' ) : '',
+	);
+
+	$readme_file = $theme->theme_root . '/' . $stylesheet . '/readme.txt';
+
+	if ( file_exists( $readme_file ) ) {
+		$readme_headers = get_file_data(
+			$readme_file,
+			array(
+				'requires'     => 'Requires at least',
+				'requires_php' => 'Requires PHP',
+			),
+			'theme'
+		);
+
+		$requirements = array_merge( $readme_headers, $requirements );
+	}
+
+	$compatible_wp  = is_wp_version_compatible( $requirements['requires'] );
+	$compatible_php = is_php_version_compatible( $requirements['requires_php'] );
+
+	if ( ! $compatible_wp && ! $compatible_php ) {
+		return new WP_Error(
+			'theme_wp_php_incompatible',
+			sprintf(
+				/* translators: %s: Theme name. */
+				_x( '<strong>Error:</strong> Current WordPress and PHP versions do not meet minimum requirements for %s.', 'theme' ),
+				$theme->display( 'Name' )
+			)
+		);
+	} elseif ( ! $compatible_php ) {
+		return new WP_Error(
+			'theme_php_incompatible',
+			sprintf(
+				/* translators: %s: Theme name. */
+				_x( '<strong>Error:</strong> Current PHP version does not meet minimum requirements for %s.', 'theme' ),
+				$theme->display( 'Name' )
+			)
+		);
+	} elseif ( ! $compatible_wp ) {
+		return new WP_Error(
+			'theme_wp_incompatible',
+			sprintf(
+				/* translators: %s: Theme name. */
+				_x( '<strong>Error:</strong> Current WordPress version does not meet minimum requirements for %s.', 'theme' ),
+				$theme->display( 'Name' )
+			)
+		);
+	}
+
+	return true;
 }
 
 /**
