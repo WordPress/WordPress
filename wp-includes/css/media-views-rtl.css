@@ -1527,11 +1527,6 @@
 	display: inline-block !important;
 }
 
-div.moxie-shim.moxie-shim-html5,
-div.moxie-shim.moxie-shim-html5 input[type="file"] {
-	display: none;
-}
-
 /**
  * Selection
  */
