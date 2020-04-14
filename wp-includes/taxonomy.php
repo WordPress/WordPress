@@ -4266,6 +4266,8 @@ function get_term_link( $term, $taxonomy = '' ) {
 		 * Filters the tag link.
 		 *
 		 * @since 2.3.0
+		 * @since 2.5.0 Deprecated in favor of {@see 'term_link'} filter.
+		 * @since 5.4.1 Restored (un-deprecated).
 		 *
 		 * @param string $termlink Tag link URL.
 		 * @param int    $term_id  Term ID.
@@ -4277,6 +4279,8 @@ function get_term_link( $term, $taxonomy = '' ) {
 		 * Filters the category link.
 		 *
 		 * @since 1.5.0
+		 * @since 2.5.0 Deprecated in favor of {@see 'term_link'} filter.
+		 * @since 5.4.1 Restored (un-deprecated).
 		 *
 		 * @param string $termlink Category link URL.
 		 * @param int    $term_id  Term ID.
