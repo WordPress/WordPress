@@ -213,7 +213,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 
 	$post_title = xmlrpc_getposttitle( $content );
 
-	if ( '' === $post_title ) {
+	if ( '' === trim( $post_title ) ) {
 		$post_title = $subject;
 	}
 
