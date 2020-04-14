@@ -4266,24 +4266,22 @@ function get_term_link( $term, $taxonomy = '' ) {
 		 * Filters the tag link.
 		 *
 		 * @since 2.3.0
-		 * @deprecated 2.5.0 Use {@see 'term_link'} instead.
 		 *
 		 * @param string $termlink Tag link URL.
 		 * @param int    $term_id  Term ID.
 		 */
-		$termlink = apply_filters_deprecated( 'tag_link', array( $termlink, $term->term_id ), '2.5.0', 'term_link' );
+		$termlink = apply_filters( 'tag_link', $termlink, $term->term_id );
 	} elseif ( 'category' === $taxonomy ) {
 
 		/**
 		 * Filters the category link.
 		 *
 		 * @since 1.5.0
-		 * @deprecated 2.5.0 Use {@see 'term_link'} instead.
 		 *
 		 * @param string $termlink Category link URL.
 		 * @param int    $term_id  Term ID.
 		 */
-		$termlink = apply_filters_deprecated( 'category_link', array( $termlink, $term->term_id ), '2.5.0', 'term_link' );
+		$termlink = apply_filters( 'category_link', $termlink, $term->term_id );
 	}
 
 	/**
