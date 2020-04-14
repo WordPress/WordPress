@@ -506,6 +506,12 @@ $GLOBALS['wp_locale_switcher']->init();
 // Load the functions for the active theme, for both parent and child theme if applicable.
 foreach ( wp_get_active_and_valid_themes() as $theme ) {
 	if ( file_exists( $theme . '/functions.php' ) ) {
+
+		/**
+		 * Fires before load the theme functions.php.
+		 */
+		do_action( 'before_load_theme_functions', $theme );		
+		
 		include $theme . '/functions.php';
 	}
 }
