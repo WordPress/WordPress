@@ -6,7 +6,7 @@
  *
  * @contrib http://kevin.vanzonneveld.net/techblog/article/make_ssh_connections_with_php/ - Installation Notes
  *
- * Complie libssh2 (Note: Only 0.14 is officaly working with PHP 5.2.6+ right now, But many users have found the latest versions work)
+ * Compile libssh2 (Note: Only 0.14 is officaly working with PHP 5.2.6+ right now, But many users have found the latest versions work)
  *
  * cd /usr/src
  * wget https://www.libssh2.org/download/libssh2-0.14.tar.gz
@@ -26,7 +26,7 @@
  * Restart Apache!
  * Check phpinfo() streams to confirm that: ssh2.shell, ssh2.exec, ssh2.tunnel, ssh2.scp, ssh2.sftp  exist.
  *
- * Note: as of WordPress 2.8, This utilises the PHP5+ function 'stream_get_contents'
+ * Note: As of WordPress 2.8, this utilises the PHP5+ function `stream_get_contents()`.
  *
  * @since 2.7.0
  *
@@ -67,17 +67,6 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		// Check if possible to use ssh2 functions.
 		if ( ! extension_loaded( 'ssh2' ) ) {
 			$this->errors->add( 'no_ssh2_ext', __( 'The ssh2 PHP extension is not available' ) );
-			return;
-		}
-		if ( ! function_exists( 'stream_get_contents' ) ) {
-			$this->errors->add(
-				'ssh2_php_requirement',
-				sprintf(
-					/* translators: %s: stream_get_contents() */
-					__( 'The ssh2 PHP extension is available, however, we require the PHP5 function %s' ),
-					'<code>stream_get_contents()</code>'
-				)
-			);
 			return;
 		}
 

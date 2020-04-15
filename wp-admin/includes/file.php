@@ -1924,7 +1924,7 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
 		}
 	}
 
-	if ( ! $method && isset( $args['connection_type'] ) && 'ssh' == $args['connection_type'] && extension_loaded( 'ssh2' ) && function_exists( 'stream_get_contents' ) ) {
+	if ( ! $method && isset( $args['connection_type'] ) && 'ssh' == $args['connection_type'] && extension_loaded( 'ssh2' ) ) {
 		$method = 'ssh2';
 	}
 	if ( ! $method && extension_loaded( 'ftp' ) ) {
@@ -2108,7 +2108,7 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	if ( extension_loaded( 'ftp' ) ) { // Only this supports FTPS.
 		$types['ftps'] = __( 'FTPS (SSL)' );
 	}
-	if ( extension_loaded( 'ssh2' ) && function_exists( 'stream_get_contents' ) ) {
+	if ( extension_loaded( 'ssh2' ) ) {
 		$types['ssh'] = __( 'SSH2' );
 	}
 
