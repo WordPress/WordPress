@@ -5077,6 +5077,10 @@ body.page .main-navigation {
   /* Make sure select elements fit in widgets. */
 }
 
+.widget .widget-title {
+  font-size: 1.6875em;
+}
+
 .widget select {
   max-width: 100%;
 }
