@@ -62,7 +62,7 @@ body {
 
 	// Only the top level blocks need specific widths, therefore override for every nested block.
 	.wp-block {
-		width: 100%;
+		width: initial;
 	}
 }
 

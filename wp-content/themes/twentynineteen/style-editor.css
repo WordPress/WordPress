@@ -598,7 +598,7 @@ body .wp-block[data-align="full"] {
 }
 
 .wp-block .wp-block {
-  width: 100%;
+  width: initial;
 }
 
 /** === Base Typography === */
