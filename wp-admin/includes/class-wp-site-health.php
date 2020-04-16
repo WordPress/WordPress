@@ -1084,6 +1084,52 @@ class WP_Site_Health {
 	}
 
 	/**
+	 * Test if there's an active PHP session that can affect loopback requests.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return array The test results.
+	 */
+	public function get_test_php_sessions() {
+		$result = array(
+			'label'       => __( 'No PHP sessions detected' ),
+			'status'      => 'good',
+			'badge'       => array(
+				'label' => __( 'Performance' ),
+				'color' => 'blue',
+			),
+			'description' => sprintf(
+				'<p>%s</p>',
+				sprintf(
+					/* translators: 1: session_start(), 2: session_write_close() */
+					__( 'PHP sessions created by a %1$s function call may interfere with REST API and loopback requests. An active session should be closed by %2$s before making any HTTP requests.' ),
+					'<code>session_start()</code>',
+					'<code>session_write_close()</code>'
+				)
+			),
+			'test'        => 'php_sessions',
+		);
+
+		if ( PHP_SESSION_ACTIVE === session_status() ) {
+			$result['status'] = 'critical';
+
+			$result['label'] = __( 'An active PHP session was detected' );
+
+			$result['description'] = sprintf(
+				'<p>%s</p>',
+				sprintf(
+					/* translators: 1: session_start(), 2: session_write_close() */
+					__( 'A PHP session was created by a %1$s function call. This interferes with REST API and loopback requests. The session should be closed by %2$s before making any HTTP requests.' ),
+					'<code>session_start()</code>',
+					'<code>session_write_close()</code>'
+				)
+			);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Test if the SQL server is up to date.
 	 *
 	 * @since 5.2.0
@@ -1938,6 +1984,10 @@ class WP_Site_Health {
 				'php_default_timezone' => array(
 					'label' => __( 'PHP Default Timezone' ),
 					'test'  => 'php_default_timezone',
+				),
+				'php_sessions'         => array(
+					'label' => __( 'PHP Sessions' ),
+					'test'  => 'php_sessions',
 				),
 				'sql_server'           => array(
 					'label' => __( 'Database Server version' ),
