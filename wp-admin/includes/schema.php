@@ -111,7 +111,7 @@ CREATE TABLE $wpdb->comments (
 	comment_karma int(11) NOT NULL default '0',
 	comment_approved varchar(20) NOT NULL default '1',
 	comment_agent varchar(255) NOT NULL default '',
-	comment_type varchar(20) NOT NULL default '',
+	comment_type varchar(20) NOT NULL default 'comment',
 	comment_parent bigint(20) unsigned NOT NULL default '0',
 	user_id bigint(20) unsigned NOT NULL default '0',
 	PRIMARY KEY  (comment_ID),

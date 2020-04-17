@@ -114,9 +114,10 @@ final class WP_Comment {
 	 * Comment type.
 	 *
 	 * @since 4.4.0
+	 * @since 5.5.0 Default value changed to `comment`.
 	 * @var string
 	 */
-	public $comment_type = '';
+	public $comment_type = 'comment';
 
 	/**
 	 * Parent comment ID.

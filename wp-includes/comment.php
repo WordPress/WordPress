@@ -1853,7 +1853,8 @@ function wp_get_unapproved_comment_author_email() {
  * Inserts a comment into the database.
  *
  * @since 2.0.0
- * @since 4.4.0 Introduced `$comment_meta` argument.
+ * @since 4.4.0 Introduced the `$comment_meta` argument.
+ * @since 5.5.0 Default value for `$comment_type` argument changed to `comment`.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1877,7 +1878,7 @@ function wp_get_unapproved_comment_author_email() {
  *     @type int        $comment_parent       ID of this comment's parent, if any. Default 0.
  *     @type int        $comment_post_ID      ID of the post that relates to the comment, if any.
  *                                            Default 0.
- *     @type string     $comment_type         Comment type. Default empty.
+ *     @type string     $comment_type         Comment type. Default 'comment'.
  *     @type array      $comment_meta         Optional. Array of key/value pairs to be stored in commentmeta for the
  *                                            new comment.
  *     @type int        $user_id              ID of the user who submitted the comment. Default 0.
@@ -1901,7 +1902,7 @@ function wp_insert_comment( $commentdata ) {
 	$comment_karma    = ! isset( $data['comment_karma'] ) ? 0 : $data['comment_karma'];
 	$comment_approved = ! isset( $data['comment_approved'] ) ? 1 : $data['comment_approved'];
 	$comment_agent    = ! isset( $data['comment_agent'] ) ? '' : $data['comment_agent'];
-	$comment_type     = ! isset( $data['comment_type'] ) ? '' : $data['comment_type'];
+	$comment_type     = ! isset( $data['comment_type'] ) ? 'comment' : $data['comment_type'];
 	$comment_parent   = ! isset( $data['comment_parent'] ) ? 0 : $data['comment_parent'];
 
 	$user_id = ! isset( $data['user_id'] ) ? 0 : $data['user_id'];
@@ -2043,9 +2044,10 @@ function wp_throttle_comment_flood( $block, $time_lastcomment, $time_newcomment 
  * See {@link https://core.trac.wordpress.org/ticket/9235}
  *
  * @since 1.5.0
- * @since 4.3.0 'comment_agent' and 'comment_author_IP' can be set via `$commentdata`.
+ * @since 4.3.0 Introduced the `comment_agent` and `comment_author_IP` arguments.
  * @since 4.7.0 The `$avoid_die` parameter was added, allowing the function to
  *              return a WP_Error object instead of dying.
+ * @since 5.5.0 Introduced the `comment_type` argument.
  *
  * @see wp_insert_comment()
  * @global wpdb $wpdb WordPress database abstraction object.
@@ -2060,6 +2062,7 @@ function wp_throttle_comment_flood( $block, $time_lastcomment, $time_newcomment 
  *     @type string $comment_date         The date the comment was submitted. Default is the current time.
  *     @type string $comment_date_gmt     The date the comment was submitted in the GMT timezone.
  *                                        Default is `$comment_date` in the GMT timezone.
+ *     @type string $comment_type         Comment type. Default 'comment'.
  *     @type int    $comment_parent       The ID of this comment's parent, if any. Default 0.
  *     @type int    $comment_post_ID      The ID of the post that relates to the comment.
  *     @type int    $user_id              The ID of the user who submitted the comment. Default 0.
@@ -2120,6 +2123,10 @@ function wp_new_comment( $commentdata, $avoid_die = false ) {
 
 	if ( empty( $commentdata['comment_date_gmt'] ) ) {
 		$commentdata['comment_date_gmt'] = current_time( 'mysql', 1 );
+	}
+
+	if ( empty( $commentdata['comment_type'] ) ) {
+		$commentdata['comment_type'] = 'comment';
 	}
 
 	$commentdata = wp_filter_comment( $commentdata );
@@ -3348,7 +3355,7 @@ function wp_handle_comment_submission( $comment_data ) {
 		}
 	}
 
-	$comment_type = '';
+	$comment_type = 'comment';
 
 	if ( get_option( 'require_name_email' ) && ! $user->exists() ) {
 		if ( '' == $comment_author_email || '' == $comment_author ) {
@@ -3635,4 +3642,74 @@ function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
  */
 function wp_cache_set_comments_last_changed() {
 	wp_cache_set( 'last_changed', microtime(), 'comment' );
+}
+
+/**
+ * Updates the comment type for a batch of comments.
+ *
+ * @since 5.5.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ */
+function _wp_batch_update_comment_type() {
+	global $wpdb;
+
+	$lock_name = 'update_comment_type.lock';
+
+	// Try to lock.
+	$lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
+
+	if ( ! $lock_result ) {
+		$lock_result = get_option( $lock_name );
+
+		// Bail if we were unable to create a lock, or if the existing lock is still valid.
+		if ( ! $lock_result || ( $lock_result > ( time() - HOUR_IN_SECONDS ) ) ) {
+			wp_schedule_single_event( time() + ( 5 * MINUTE_IN_SECONDS ), 'wp_update_comment_type_batch' );
+			return;
+		}
+	}
+
+	// Update the lock, as by this point we've definitely got a lock, just need to fire the actions.
+	update_option( $lock_name, time() );
+
+	// Check if there's still an empty comment type.
+	$empty_comment_type = $wpdb->get_var(
+		"SELECT comment_ID FROM $wpdb->comments
+		WHERE comment_type = ''
+		LIMIT 1"
+	);
+
+	// No empty comment type, we're done here.
+	if ( ! $empty_comment_type ) {
+		update_option( 'finished_updating_comment_type', true );
+		delete_option( $lock_name );
+		return;
+	}
+
+	// Empty comment type found? We'll need to run this script again.
+	wp_schedule_single_event( time() + ( 2 * MINUTE_IN_SECONDS ), 'wp_update_comment_type_batch' );
+
+	// Update the `comment_type` field value to be `comment` for the next 100 rows of comments.
+	$wpdb->query(
+		"UPDATE {$wpdb->comments}
+		SET comment_type = 'comment'
+		WHERE comment_type = ''
+		ORDER BY comment_ID DESC
+		LIMIT 100"
+	);
+
+	delete_option( $lock_name );
+}
+
+/**
+ * In order to avoid the _wp_batch_update_comment_type() job being accidentally removed,
+ * check that it's still scheduled while we haven't finished updating comment types.
+ *
+ * @ignore
+ * @since 5.5.0
+ */
+function _wp_check_for_scheduled_update_comment_type() {
+	if ( ! get_option( 'finished_updating_comment_type' ) && ! wp_next_scheduled( 'wp_update_comment_type_batch' ) ) {
+		wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'wp_update_comment_type_batch' );
+	}
 }

@@ -741,7 +741,7 @@ class WP_Comment_Query {
 
 					case 'comment':
 					case 'comments':
-						$comment_types[ $operator ][] = "''";
+						$comment_types[ $operator ][] = "'comment'";
 						break;
 
 					case 'pings':

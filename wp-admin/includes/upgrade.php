@@ -283,6 +283,7 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.'
 				'comment_date'         => $now,
 				'comment_date_gmt'     => $now_gmt,
 				'comment_content'      => $first_comment,
+				'comment_type'         => 'comment',
 			)
 		);
 
@@ -832,6 +833,10 @@ function upgrade_all() {
 
 	if ( $wp_current_db_version < 45744 ) {
 		upgrade_530();
+	}
+
+	if ( $wp_current_db_version < 47597 ) {
+		upgrade_550();
 	}
 
 	maybe_disable_link_manager();
@@ -2152,6 +2157,17 @@ function upgrade_530() {
 	if ( function_exists( 'current_user_can' ) && ! current_user_can( 'manage_options' ) ) {
 		update_option( 'admin_email_lifespan', 0 );
 	}
+}
+
+/**
+ * Executes changes made in WordPress 5.5.0.
+ *
+ * @ignore
+ * @since 5.5.0
+ */
+function upgrade_550() {
+	update_option( 'finished_updating_comment_type', 0 );
+	wp_schedule_single_event( time() + ( 1 * MINUTE_IN_SECONDS ), 'wp_update_comment_type_batch' );
 }
 
 /**
