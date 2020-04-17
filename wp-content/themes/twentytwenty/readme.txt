@@ -80,7 +80,7 @@ Used for post meta icons, and the link icon in the social menu.
 Flaticon Icons
 License: Creative Commons BY 3.0, http://creativecommons.org/licenses/by/3.0/
 Source: Made by Freepik (https://www.flaticon.com/authors/freepik) for Flaticon (http://www.flaticon.com)
-Used for Tik Tok social icon.
+Used for TikTok social icon.
 
 Social Icons
 License: GNU General Public License v2 or later
