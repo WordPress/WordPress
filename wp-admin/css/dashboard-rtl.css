@@ -729,31 +729,13 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_activity .no-activity {
 	overflow: hidden;
-	padding: 0 0 12px;
+	padding: 12px 0;
 	text-align: center;
 }
 
 #dashboard_activity .no-activity p {
 	color: #72777c;
 	font-size: 16px;
-}
-
-#dashboard_activity .no-activity .smiley {
-	margin-top: 0;
-}
-
-#dashboard_activity .no-activity .smiley:before {
-	content: "\f328";
-	font: normal 120px/1 dashicons;
-	speak: none;
-	display: block;
-	margin: 0 0 0 5px;
-	padding: 0;
-	text-indent: 0;
-	text-align: center;
-	position: relative;
-	-webkit-font-smoothing: antialiased;
-	text-decoration: none !important;
 }
 
 #dashboard_activity .subsubsub {
