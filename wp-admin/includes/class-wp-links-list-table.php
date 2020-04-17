@@ -102,7 +102,7 @@ class WP_Links_List_Table extends WP_List_Table {
 		}
 		?>
 		<div class="alignleft actions">
-		<?php
+			<?php
 			$dropdown_options = array(
 				'selected'        => $cat_id,
 				'name'            => 'cat_id',
@@ -117,7 +117,7 @@ class WP_Links_List_Table extends WP_List_Table {
 			echo '<label class="screen-reader-text" for="cat_id">' . __( 'Filter by category' ) . '</label>';
 			wp_dropdown_categories( $dropdown_options );
 			submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
-		?>
+			?>
 		</div>
 		<?php
 	}
