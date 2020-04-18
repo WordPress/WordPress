@@ -49,6 +49,11 @@
 	line-height: 1.23076923;
 }
 
+.widgets-holder-wrap .widget-inside label {
+	margin: 0.25em 0 0.5em;
+	display: inline-block;
+}
+
 .widget.widget-dirty .widget-control-close-wrapper {
 	display: none;
 }
