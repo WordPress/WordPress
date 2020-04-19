@@ -1060,11 +1060,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	margin: 30px auto;
 	max-width: 380px;
 	display: flex;
-}
-
-.upload-theme .wp-upload-form > input[type="file"],
-.upload-plugin .wp-upload-form > input[type="file"] {
-	padding: 5px 0 0 1em;
+	justify-content: space-between;
 }
 
 .upload-theme .install-help,
