@@ -127,7 +127,7 @@ switch ( $action ) {
 
 		if ( IS_PROFILE_PAGE ) {
 			/**
-			 * Fires before the page loads on the 'Your Profile' editing screen.
+			 * Fires before the page loads on the 'Profile' editing screen.
 			 *
 			 * The action only fires if the current user is editing their own profile.
 			 *
@@ -386,7 +386,7 @@ endif;
 		<?php
 		if ( IS_PROFILE_PAGE ) {
 			/**
-			 * Fires after the 'Personal Options' settings table on the 'Your Profile' editing screen.
+			 * Fires after the 'Personal Options' settings table on the 'Profile' editing screen.
 			 *
 			 * The action only fires if the current user is editing their own profile.
 			 *
@@ -705,7 +705,7 @@ endif;
 		<?php
 		if ( IS_PROFILE_PAGE ) {
 			/**
-			 * Fires after the 'About Yourself' settings table on the 'Your Profile' editing screen.
+			 * Fires after the 'About Yourself' settings table on the 'Profile' editing screen.
 			 *
 			 * The action only fires if the current user is editing their own profile.
 			 *

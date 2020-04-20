@@ -313,7 +313,7 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 			array(
 				'parent' => 'user-actions',
 				'id'     => 'edit-profile',
-				'title'  => __( 'Edit My Profile' ),
+				'title'  => __( 'Edit Profile' ),
 				'href'   => $profile_url,
 			)
 		);
