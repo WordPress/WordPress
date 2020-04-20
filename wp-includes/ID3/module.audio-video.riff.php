@@ -203,7 +203,7 @@ class getid3_riff extends getid3_handler
 					unset($thisfile_riff_audio[$streamindex]['raw']);
 					$thisfile_audio['streams'][$streamindex] = $thisfile_riff_audio[$streamindex];
 
-					$thisfile_audio = getid3_lib::array_merge_noclobber($thisfile_audio, $thisfile_riff_audio[$streamindex]);
+					$thisfile_audio = (array) getid3_lib::array_merge_noclobber($thisfile_audio, $thisfile_riff_audio[$streamindex]);
 					if (substr($thisfile_audio['codec'], 0, strlen('unknown: 0x')) == 'unknown: 0x') {
 						$this->warning('Audio codec = '.$thisfile_audio['codec']);
 					}

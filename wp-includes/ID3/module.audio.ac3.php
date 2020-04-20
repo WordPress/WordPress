@@ -485,7 +485,7 @@ class getid3_ac3 extends getid3_handler
 	/**
 	 * @param int $length
 	 *
-	 * @return float|int
+	 * @return int
 	 */
 	private function readHeaderBSI($length) {
 		$data = substr($this->AC3header['bsi'], $this->BSIoffset, $length);

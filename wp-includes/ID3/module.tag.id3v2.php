@@ -3723,12 +3723,10 @@ class getid3_id3v2 extends getid3_handler
 		switch ($id3v2majorversion) {
 			case 2:
 				return preg_match('#[A-Z][A-Z0-9]{2}#', $framename);
-				break;
 
 			case 3:
 			case 4:
 				return preg_match('#[A-Z][A-Z0-9]{3}#', $framename);
-				break;
 		}
 		return false;
 	}

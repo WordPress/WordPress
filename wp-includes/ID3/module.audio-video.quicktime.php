@@ -112,47 +112,44 @@ class getid3_quicktime extends getid3_handler
 		if (!empty($info['quicktime']['comments']['location.ISO6709'])) {
 			// https://en.wikipedia.org/wiki/ISO_6709
 			foreach ($info['quicktime']['comments']['location.ISO6709'] as $ISO6709string) {
-				$latitude  = false;
-				$longitude = false;
-				$altitude  = false;
+				$ISO6709parsed = array('latitude'=>false, 'longitude'=>false, 'altitude'=>false);
 				if (preg_match('#^([\\+\\-])([0-9]{2}|[0-9]{4}|[0-9]{6})(\\.[0-9]+)?([\\+\\-])([0-9]{3}|[0-9]{5}|[0-9]{7})(\\.[0-9]+)?(([\\+\\-])([0-9]{3}|[0-9]{5}|[0-9]{7})(\\.[0-9]+)?)?/$#', $ISO6709string, $matches)) {
 					@list($dummy, $lat_sign, $lat_deg, $lat_deg_dec, $lon_sign, $lon_deg, $lon_deg_dec, $dummy, $alt_sign, $alt_deg, $alt_deg_dec) = $matches;
 
 					if (strlen($lat_deg) == 2) {        // [+-]DD.D
-						$latitude = floatval(ltrim($lat_deg, '0').$lat_deg_dec);
+						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * floatval(ltrim($lat_deg, '0').$lat_deg_dec);
 					} elseif (strlen($lat_deg) == 4) {  // [+-]DDMM.M
-						$latitude = floatval(ltrim(substr($lat_deg, 0, 2), '0')) + floatval(ltrim(substr($lat_deg, 2, 2), '0').$lat_deg_dec / 60);
+						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lat_deg, 0, 2), '0')) + floatval(ltrim(substr($lat_deg, 2, 2), '0').$lat_deg_dec / 60);
 					} elseif (strlen($lat_deg) == 6) {  // [+-]DDMMSS.S
-						$latitude = floatval(ltrim(substr($lat_deg, 0, 2), '0')) + floatval(ltrim(substr($lat_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($lat_deg, 4, 2), '0').$lat_deg_dec / 3600);
+						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lat_deg, 0, 2), '0')) + floatval(ltrim(substr($lat_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($lat_deg, 4, 2), '0').$lat_deg_dec / 3600);
 					}
 
 					if (strlen($lon_deg) == 3) {        // [+-]DDD.D
-						$longitude = floatval(ltrim($lon_deg, '0').$lon_deg_dec);
+						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * floatval(ltrim($lon_deg, '0').$lon_deg_dec);
 					} elseif (strlen($lon_deg) == 5) {  // [+-]DDDMM.M
-						$longitude = floatval(ltrim(substr($lon_deg, 0, 2), '0')) + floatval(ltrim(substr($lon_deg, 2, 2), '0').$lon_deg_dec / 60);
+						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lon_deg, 0, 2), '0')) + floatval(ltrim(substr($lon_deg, 2, 2), '0').$lon_deg_dec / 60);
 					} elseif (strlen($lon_deg) == 7) {  // [+-]DDDMMSS.S
-						$longitude = floatval(ltrim(substr($lon_deg, 0, 2), '0')) + floatval(ltrim(substr($lon_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($lon_deg, 4, 2), '0').$lon_deg_dec / 3600);
+						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lon_deg, 0, 2), '0')) + floatval(ltrim(substr($lon_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($lon_deg, 4, 2), '0').$lon_deg_dec / 3600);
 					}
 
 					if (strlen($alt_deg) == 3) {        // [+-]DDD.D
-						$altitude = floatval(ltrim($alt_deg, '0').$alt_deg_dec);
+						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * floatval(ltrim($alt_deg, '0').$alt_deg_dec);
 					} elseif (strlen($alt_deg) == 5) {  // [+-]DDDMM.M
-						$altitude = floatval(ltrim(substr($alt_deg, 0, 2), '0')) + floatval(ltrim(substr($alt_deg, 2, 2), '0').$alt_deg_dec / 60);
+						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * floatval(ltrim(substr($alt_deg, 0, 2), '0')) + floatval(ltrim(substr($alt_deg, 2, 2), '0').$alt_deg_dec / 60);
 					} elseif (strlen($alt_deg) == 7) {  // [+-]DDDMMSS.S
-						$altitude = floatval(ltrim(substr($alt_deg, 0, 2), '0')) + floatval(ltrim(substr($alt_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($alt_deg, 4, 2), '0').$alt_deg_dec / 3600);
+						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * floatval(ltrim(substr($alt_deg, 0, 2), '0')) + floatval(ltrim(substr($alt_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($alt_deg, 4, 2), '0').$alt_deg_dec / 3600);
 					}
 
-					if ($latitude !== false) {
-						$info['quicktime']['comments']['gps_latitude'][]  = (($lat_sign == '-') ? -1 : 1) * floatval($latitude);
-					}
-					if ($longitude !== false) {
-						$info['quicktime']['comments']['gps_longitude'][] = (($lon_sign == '-') ? -1 : 1) * floatval($longitude);
-					}
-					if ($altitude !== false) {
-						$info['quicktime']['comments']['gps_altitude'][]  = (($alt_sign == '-') ? -1 : 1) * floatval($altitude);
+					foreach (array('latitude', 'longitude', 'altitude') as $key) {
+						if ($ISO6709parsed[$key] !== false) {
+							$value = (($lat_sign == '-') ? -1 : 1) * floatval($ISO6709parsed[$key]);
+							if (!in_array($value, $info['quicktime']['comments']['gps_'.$key])) {
+								$info['quicktime']['comments']['gps_'.$key][]  = (($lat_sign == '-') ? -1 : 1) * floatval($ISO6709parsed[$key]);
+							}
+						}
 					}
 				}
-				if ($latitude === false) {
+				if ($ISO6709parsed['latitude'] === false) {
 					$this->warning('location.ISO6709 string not parsed correctly: "'.$ISO6709string.'", please submit as a bug');
 				}
 				break;
@@ -224,6 +221,7 @@ class getid3_quicktime extends getid3_handler
 
 		$atom_parent = end($atomHierarchy); // not array_pop($atomHierarchy); see https://www.getid3.org/phpBB3/viewtopic.php?t=1717
 		array_push($atomHierarchy, $atomname);
+		$atom_structure              = array();
 		$atom_structure['hierarchy'] = implode(' ', $atomHierarchy);
 		$atom_structure['name']      = $atomname;
 		$atom_structure['size']      = $atomsize;
@@ -244,6 +242,7 @@ class getid3_quicktime extends getid3_handler
 				case 'mdia': // MeDIA container atom
 				case 'minf': // Media INFormation container atom
 				case 'dinf': // Data INFormation container atom
+				case 'nmhd': // Null Media HeaDer container atom
 				case 'udta': // User DaTA container atom
 				case 'cmov': // Compressed MOVie container atom
 				case 'rmra': // Reference Movie Record Atom
@@ -1044,6 +1043,7 @@ class getid3_quicktime extends getid3_handler
 
 
 				case 'stco': // Sample Table Chunk Offset atom
+//					if (true) {
 					if ($ParseAllPossibleAtoms) {
 						$atom_structure['version']        = getid3_lib::BigEndian2Int(substr($atom_data,  0, 1));
 						$atom_structure['flags_raw']      = getid3_lib::BigEndian2Int(substr($atom_data,  1, 3)); // hardcoded: 0x0000
@@ -1639,6 +1639,124 @@ class getid3_quicktime extends getid3_handler
 					}
 					break;
 
+				case 'uuid': // Atom holding 360fly spatial data??
+					/* code in this block by Paul Lewis 2019-Oct-31 */
+					/*	Sensor Timestamps need to be calculated using the recordings base time at ['quicktime']['moov']['subatoms'][0]['creation_time_unix']. */
+					$atom_structure['title'] = '360Fly Sensor Data';
+
+					//Get the UUID ID in first 16 bytes
+					$uuid_bytes_read = unpack('H8time_low/H4time_mid/H4time_hi/H4clock_seq_hi/H12clock_seq_low', substr($atom_data, 0, 16));
+					$atom_structure['uuid_field_id'] = print_r(implode('-', $uuid_bytes_read), true);
+
+					//Get the UUID HEADER data
+					$uuid_bytes_read = unpack('Sheader_size/Sheader_version/Stimescale/Shardware_version/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/', substr($atom_data, 16, 32));
+					$atom_structure['uuid_header'] = json_encode($uuid_bytes_read, true);
+
+					$start_byte = 48;
+					$atom_SENSOR_data = substr($atom_data, $start_byte);
+					$atom_structure['sensor_data']['data_type'] = array(
+							'fusion_count'   => 0,       // ID 250
+							'fusion_data'    => array(),
+							'accel_count'    => 0,       // ID 1
+							'accel_data'     => array(),
+							'gyro_count'     => 0,       // ID 2
+							'gyro_data'      => array(),
+							'magno_count'    => 0,       // ID 3
+							'magno_data'     => array(),
+							'gps_count'      => 0,       // ID 5
+							'gps_data'       => array(),
+							'rotation_count' => 0,       // ID 6
+							'rotation_data'  => array(),
+							'unknown_count'  => 0,       // ID ??
+							'unknown_data'   => array(),
+							'debug_list'     => '',      // Used to debug variables stored as comma delimited strings
+					);
+					$debug_structure['debug_items'] = array();
+					// Can start loop here to decode all sensor data in 32 Byte chunks:
+					foreach (str_split($atom_SENSOR_data, 32) as $sensor_key => $sensor_data) {
+						// This gets me a data_type code to work out what data is in the next 31 bytes.
+						$sensor_data_type = substr($sensor_data, 0, 1);
+						$sensor_data_content = substr($sensor_data, 1);
+						$uuid_bytes_read = unpack('C*', $sensor_data_type);
+						$sensor_data_array = array();
+						switch ($uuid_bytes_read[1]) {
+							case 250:
+								$atom_structure['sensor_data']['data_type']['fusion_count']++;
+								$uuid_bytes_read = unpack('cmode/Jtimestamp/Gyaw/Gpitch/Groll/x*', $sensor_data_content);
+								$sensor_data_array['mode']      = $uuid_bytes_read['mode'];
+								$sensor_data_array['timestamp'] = $uuid_bytes_read['timestamp'];
+								$sensor_data_array['yaw']       = $uuid_bytes_read['yaw'];
+								$sensor_data_array['pitch']     = $uuid_bytes_read['pitch'];
+								$sensor_data_array['roll']      = $uuid_bytes_read['roll'];
+								array_push($atom_structure['sensor_data']['data_type']['fusion_data'], $sensor_data_array);
+								break;
+							case 1:
+								$atom_structure['sensor_data']['data_type']['accel_count']++;
+								$uuid_bytes_read = unpack('cmode/Jtimestamp/Gyaw/Gpitch/Groll/x*', $sensor_data_content);
+								$sensor_data_array['mode']      = $uuid_bytes_read['mode'];
+								$sensor_data_array['timestamp'] = $uuid_bytes_read['timestamp'];
+								$sensor_data_array['yaw']       = $uuid_bytes_read['yaw'];
+								$sensor_data_array['pitch']     = $uuid_bytes_read['pitch'];
+								$sensor_data_array['roll']      = $uuid_bytes_read['roll'];
+								array_push($atom_structure['sensor_data']['data_type']['accel_data'], $sensor_data_array);
+								break;
+							case 2:
+								$atom_structure['sensor_data']['data_type']['gyro_count']++;
+								$uuid_bytes_read = unpack('cmode/Jtimestamp/Gyaw/Gpitch/Groll/x*', $sensor_data_content);
+								$sensor_data_array['mode']      = $uuid_bytes_read['mode'];
+								$sensor_data_array['timestamp'] = $uuid_bytes_read['timestamp'];
+								$sensor_data_array['yaw']       = $uuid_bytes_read['yaw'];
+								$sensor_data_array['pitch']     = $uuid_bytes_read['pitch'];
+								$sensor_data_array['roll']      = $uuid_bytes_read['roll'];
+								array_push($atom_structure['sensor_data']['data_type']['gyro_data'], $sensor_data_array);
+								break;
+							case 3:
+								$atom_structure['sensor_data']['data_type']['magno_count']++;
+								$uuid_bytes_read = unpack('cmode/Jtimestamp/Gmagx/Gmagy/Gmagz/x*', $sensor_data_content);
+								$sensor_data_array['mode']      = $uuid_bytes_read['mode'];
+								$sensor_data_array['timestamp'] = $uuid_bytes_read['timestamp'];
+								$sensor_data_array['magx']      = $uuid_bytes_read['magx'];
+								$sensor_data_array['magy']      = $uuid_bytes_read['magy'];
+								$sensor_data_array['magz']      = $uuid_bytes_read['magz'];
+								array_push($atom_structure['sensor_data']['data_type']['magno_data'], $sensor_data_array);
+								break;
+							case 5:
+								$atom_structure['sensor_data']['data_type']['gps_count']++;
+								$uuid_bytes_read = unpack('cmode/Jtimestamp/Glat/Glon/Galt/Gspeed/nbearing/nacc/x*', $sensor_data_content);
+								$sensor_data_array['mode']      = $uuid_bytes_read['mode'];
+								$sensor_data_array['timestamp'] = $uuid_bytes_read['timestamp'];
+								$sensor_data_array['lat']       = $uuid_bytes_read['lat'];
+								$sensor_data_array['lon']       = $uuid_bytes_read['lon'];
+								$sensor_data_array['alt']       = $uuid_bytes_read['alt'];
+								$sensor_data_array['speed']     = $uuid_bytes_read['speed'];
+								$sensor_data_array['bearing']   = $uuid_bytes_read['bearing'];
+								$sensor_data_array['acc']       = $uuid_bytes_read['acc'];
+								//$sensor_data_array = print_r($uuid_bytes_read, true);
+								array_push($atom_structure['sensor_data']['data_type']['gps_data'], $sensor_data_array);
+								//array_push($debug_structure['debug_items'], $uuid_bytes_read['timestamp']);
+								break;
+							case 6:
+								$atom_structure['sensor_data']['data_type']['rotation_count']++;
+								$uuid_bytes_read = unpack('cmode/Jtimestamp/Grotx/Groty/Grotz/x*', $sensor_data_content);
+								$sensor_data_array['mode']      = $uuid_bytes_read['mode'];
+								$sensor_data_array['timestamp'] = $uuid_bytes_read['timestamp'];
+								$sensor_data_array['rotx']      = $uuid_bytes_read['rotx'];
+								$sensor_data_array['roty']      = $uuid_bytes_read['roty'];
+								$sensor_data_array['rotz']      = $uuid_bytes_read['rotz'];
+								array_push($atom_structure['sensor_data']['data_type']['rotation_data'], $sensor_data_array);
+								break;
+							default:
+								$atom_structure['sensor_data']['data_type']['unknown_count']++;
+								break;
+						}
+					}
+//					if (isset($debug_structure['debug_items']) && count($debug_structure['debug_items']) > 0) {
+//						$atom_structure['sensor_data']['data_type']['debug_list'] = implode(',', $debug_structure['debug_items']);
+//					} else {
+						$atom_structure['sensor_data']['data_type']['debug_list'] = 'No debug items in list!';
+//					}
+					break;
+
 				case 'gps ':
 					// https://dashcamtalk.com/forum/threads/script-to-extract-gps-data-from-novatek-mp4.20808/page-2#post-291730
 					// The 'gps ' contains simple look up table made up of 8byte rows, that point to the 'free' atoms that contains the actual GPS data.
@@ -1683,22 +1801,24 @@ class getid3_quicktime extends getid3_handler
 								// $GPRMC,094347.000,A,5342.0061,N,00737.9908,W,0.01,156.75,140217,,,A*7D
 								if (preg_match('#\\$GPRMC,([0-9\\.]*),([AV]),([0-9\\.]*),([NS]),([0-9\\.]*),([EW]),([0-9\\.]*),([0-9\\.]*),([0-9]*),([0-9\\.]*),([EW]?)(,[A])?(\\*[0-9A-F]{2})#', $GPS_free_data, $matches)) {
 									$GPS_this_GPRMC = array();
+									$GPS_this_GPRMC_raw = array();
 									list(
-										$GPS_this_GPRMC['raw']['gprmc'],
-										$GPS_this_GPRMC['raw']['timestamp'],
-										$GPS_this_GPRMC['raw']['status'],
-										$GPS_this_GPRMC['raw']['latitude'],
-										$GPS_this_GPRMC['raw']['latitude_direction'],
-										$GPS_this_GPRMC['raw']['longitude'],
-										$GPS_this_GPRMC['raw']['longitude_direction'],
-										$GPS_this_GPRMC['raw']['knots'],
-										$GPS_this_GPRMC['raw']['angle'],
-										$GPS_this_GPRMC['raw']['datestamp'],
-										$GPS_this_GPRMC['raw']['variation'],
-										$GPS_this_GPRMC['raw']['variation_direction'],
+										$GPS_this_GPRMC_raw['gprmc'],
+										$GPS_this_GPRMC_raw['timestamp'],
+										$GPS_this_GPRMC_raw['status'],
+										$GPS_this_GPRMC_raw['latitude'],
+										$GPS_this_GPRMC_raw['latitude_direction'],
+										$GPS_this_GPRMC_raw['longitude'],
+										$GPS_this_GPRMC_raw['longitude_direction'],
+										$GPS_this_GPRMC_raw['knots'],
+										$GPS_this_GPRMC_raw['angle'],
+										$GPS_this_GPRMC_raw['datestamp'],
+										$GPS_this_GPRMC_raw['variation'],
+										$GPS_this_GPRMC_raw['variation_direction'],
 										$dummy,
-										$GPS_this_GPRMC['raw']['checksum'],
+										$GPS_this_GPRMC_raw['checksum'],
 									) = $matches;
+									$GPS_this_GPRMC['raw'] = $GPS_this_GPRMC_raw;
 
 									$hour   = substr($GPS_this_GPRMC['raw']['timestamp'], 0, 2);
 									$minute = substr($GPS_this_GPRMC['raw']['timestamp'], 2, 2);
@@ -1706,7 +1826,7 @@ class getid3_quicktime extends getid3_handler
 									$ms     = substr($GPS_this_GPRMC['raw']['timestamp'], 6);    // may contain decimal seconds
 									$day    = substr($GPS_this_GPRMC['raw']['datestamp'], 0, 2);
 									$month  = substr($GPS_this_GPRMC['raw']['datestamp'], 2, 2);
-									$year   = substr($GPS_this_GPRMC['raw']['datestamp'], 4, 2);
+									$year   = (int) substr($GPS_this_GPRMC['raw']['datestamp'], 4, 2);
 									$year += (($year > 90) ? 1900 : 2000); // complete lack of foresight: datestamps are stored with 2-digit years, take best guess
 									$GPS_this_GPRMC['timestamp'] = $year.'-'.$month.'-'.$day.' '.$hour.':'.$minute.':'.$second.$ms;
 
@@ -2740,6 +2860,10 @@ class getid3_quicktime extends getid3_handler
 				$gooddata = explode(';', $data);
 			}
 			foreach ($gooddata as $data) {
+				if (is_array($data) || (!empty($info['quicktime']['comments'][$comment_key]) && in_array($data, $info['quicktime']['comments'][$comment_key]))) {
+					// avoid duplicate copies of identical data
+					continue;
+				}
 				$info['quicktime']['comments'][$comment_key][] = $data;
 			}
 		}

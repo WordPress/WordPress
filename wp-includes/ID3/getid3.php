@@ -250,7 +250,7 @@ class getID3
 	 */
 	protected $startup_warning = '';
 
-	const VERSION           = '1.9.18-201907240906';
+	const VERSION           = '1.9.19-201912131005';
 	const FREAD_BUFFER_SIZE = 32768;
 
 	const ATTACHMENTS_NONE   = false;
@@ -266,14 +266,16 @@ class getID3
 		}
 
 		// Check memory
-		$this->memory_limit = ini_get('memory_limit');
-		if (preg_match('#([0-9]+) ?M#i', $this->memory_limit, $matches)) {
+		$memoryLimit = ini_get('memory_limit');
+		if (preg_match('#([0-9]+) ?M#i', $memoryLimit, $matches)) {
 			// could be stored as "16M" rather than 16777216 for example
-			$this->memory_limit = $matches[1] * 1048576;
-		} elseif (preg_match('#([0-9]+) ?G#i', $this->memory_limit, $matches)) { // The 'G' modifier is available since PHP 5.1.0
+			$memoryLimit = $matches[1] * 1048576;
+		} elseif (preg_match('#([0-9]+) ?G#i', $memoryLimit, $matches)) { // The 'G' modifier is available since PHP 5.1.0
 			// could be stored as "2G" rather than 2147483648 for example
-			$this->memory_limit = $matches[1] * 1073741824;
+			$memoryLimit = $matches[1] * 1073741824;
 		}
+		$this->memory_limit = $memoryLimit;
+
 		if ($this->memory_limit <= 0) {
 			// memory limits probably disabled
 		} elseif ($this->memory_limit <= 4194304) {
@@ -287,30 +289,28 @@ class getID3
 			$this->warning('WARNING: Safe mode is on, shorten support disabled, md5data/sha1data for ogg vorbis disabled, ogg vorbos/flac tag writing disabled.');
 		}
 
-		if (($mbstring_func_overload = ini_get('mbstring.func_overload')) && ($mbstring_func_overload & 0x02)) {
+		if (($mbstring_func_overload = (int) ini_get('mbstring.func_overload')) && ($mbstring_func_overload & 0x02)) {
 			// http://php.net/manual/en/mbstring.overload.php
 			// "mbstring.func_overload in php.ini is a positive value that represents a combination of bitmasks specifying the categories of functions to be overloaded. It should be set to 1 to overload the mail() function. 2 for string functions, 4 for regular expression functions"
 			// getID3 cannot run when string functions are overloaded. It doesn't matter if mail() or ereg* functions are overloaded since getID3 does not use those.
 			$this->startup_error .= 'WARNING: php.ini contains "mbstring.func_overload = '.ini_get('mbstring.func_overload').'", getID3 cannot run with this setting (bitmask 2 (string functions) cannot be set). Recommended to disable entirely.'."\n";
 		}
 
-		// WORDPRESS CHANGE FROM UPSTREAM
-		// Comment out deprecated function
-		/*
-		// Check for magic_quotes_runtime
-		if (function_exists('get_magic_quotes_runtime')) {
-			if (get_magic_quotes_runtime()) {
-				$this->startup_error .= 'magic_quotes_runtime must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_runtime(0) and set_magic_quotes_runtime(1).'."\n";
+		// check for magic quotes in PHP < 7.4.0 (when these functions became deprecated)
+		if (version_compare(PHP_VERSION, '7.4.0', '<')) {
+			// Check for magic_quotes_runtime
+			if (function_exists('get_magic_quotes_runtime')) {
+				if (get_magic_quotes_runtime()) {
+					$this->startup_error .= 'magic_quotes_runtime must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_runtime(0) and set_magic_quotes_runtime(1).'."\n";
+				}
+			}
+			// Check for magic_quotes_gpc
+			if (function_exists('get_magic_quotes_gpc')) {
+				if (get_magic_quotes_gpc()) {
+					$this->startup_error .= 'magic_quotes_gpc must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_gpc(0) and set_magic_quotes_gpc(1).'."\n";
+				}
 			}
 		}
-
-		// Check for magic_quotes_gpc
-		if (function_exists('magic_quotes_gpc')) {
-			if (get_magic_quotes_gpc()) {
-				$this->startup_error .= 'magic_quotes_gpc must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_gpc(0) and set_magic_quotes_gpc(1).'."\n";
-			}
-		}
-		**/
 
 		// Load support library
 		if (!include_once(GETID3_INCLUDEPATH.'getid3.lib.php')) {
@@ -402,8 +402,9 @@ class getID3
 	}
 
 	/**
-	 * @param string $filename
-	 * @param int    $filesize
+	 * @param string   $filename
+	 * @param int      $filesize
+	 * @param resource $fp
 	 *
 	 * @return bool
 	 *
@@ -513,9 +514,10 @@ class getID3
 	/**
 	 * analyze file
 	 *
-	 * @param string $filename
-	 * @param int    $filesize
-	 * @param string $original_filename
+	 * @param string   $filename
+	 * @param int      $filesize
+	 * @param string   $original_filename
+	 * @param resource $fp
 	 *
 	 * @return array
 	 */
@@ -1106,6 +1108,14 @@ class getID3
 							'mime_type' => 'video/MP2T',
 						),
 
+				// WTV - audio/video - Windows Recorded TV Show
+				'wtv' => array(
+							'pattern'   => '^\\xB7\\xD8\\x00\\x20\\x37\\x49\\xDA\\x11\\xA6\\x4E\\x00\\x07\\xE9\\x5E\\xAD\\x8D',
+							'group'     => 'audio-video',
+							'module'    => 'wtv',
+							'mime_type' => 'video/x-ms-wtv',
+						),
+
 
 				// Still-Image formats
 
@@ -1528,7 +1538,6 @@ class getID3
 
 			default:
 				return $this->error('bad algorithm "'.$algorithm.'" in getHashdata()');
-				break;
 		}
 
 		if (!empty($this->info['fileformat']) && !empty($this->info['dataformat']) && ($this->info['fileformat'] == 'ogg') && ($this->info['audio']['dataformat'] == 'vorbis')) {

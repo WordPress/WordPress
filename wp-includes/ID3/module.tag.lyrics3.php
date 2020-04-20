@@ -32,7 +32,7 @@ class getid3_lyrics3 extends getid3_handler
 
 		$this->fseek((0 - 128 - 9 - 6), SEEK_END);          // end - ID3v1 - "LYRICSEND" - [Lyrics3size]
 		$lyrics3_id3v1 = $this->fread(128 + 9 + 6);
-		$lyrics3lsz    = substr($lyrics3_id3v1,  0,   6); // Lyrics3size
+		$lyrics3lsz    = (int) substr($lyrics3_id3v1, 0, 6); // Lyrics3size
 		$lyrics3end    = substr($lyrics3_id3v1,  6,   9); // LYRICSEND or LYRICS200
 		$id3v1tag      = substr($lyrics3_id3v1, 15, 128); // ID3v1
 
@@ -240,7 +240,6 @@ class getid3_lyrics3 extends getid3_handler
 			default:
 				$this->error('Cannot process Lyrics3 version '.$version.' (only v1 and v2)');
 				return false;
-				break;
 		}
 
 

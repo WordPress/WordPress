@@ -149,7 +149,7 @@ class getid3_dts extends getid3_handler
 	 * @param string $bin
 	 * @param int $length
 	 *
-	 * @return float|int
+	 * @return int
 	 */
 	private function readBinData($bin, $length) {
 		$data = substr($bin, $this->readBinDataOffset, $length);
@@ -252,36 +252,28 @@ class getid3_dts extends getid3_handler
 		switch ($index) {
 			case 0:
 				return 1;
-				break;
 			case 1:
 			case 2:
 			case 3:
 			case 4:
 				return 2;
-				break;
 			case 5:
 			case 6:
 				return 3;
-				break;
 			case 7:
 			case 8:
 				return 4;
-				break;
 			case 9:
 				return 5;
-				break;
 			case 10:
 			case 11:
 			case 12:
 				return 6;
-				break;
 			case 13:
 				return 7;
-				break;
 			case 14:
 			case 15:
 				return 8;
-				break;
 		}
 		return false;
 	}
@@ -323,10 +315,8 @@ class getid3_dts extends getid3_handler
 		switch ($version) {
 			case 7:
 				return 0 - $index;
-				break;
 			case 6:
 				return 0 - 16 - $index;
-				break;
 		}
 		return false;
 	}
