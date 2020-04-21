@@ -555,6 +555,8 @@ function twentytwenty_block_editor_settings() {
 		)
 	);
 
+	add_theme_support( 'editor-styles' );
+
 	// If we have a dark background color then add support for dark editor style.
 	// We can determine if the background color is dark by checking if the text-color is white.
 	if ( '#ffffff' === strtolower( twentytwenty_get_color_for_area( 'content', 'text' ) ) ) {
