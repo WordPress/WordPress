@@ -352,7 +352,6 @@ switch ( $action ) {
 						set_theme_mod( 'nav_menu_locations', $menu_locations );
 					}
 
-					// $messages[] = '<div id="message" class="updated"><p>' . sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ) . '</p></div>';
 					wp_redirect( admin_url( 'nav-menus.php?menu=' . $_nav_menu_selected_id ) );
 					exit();
 				}
