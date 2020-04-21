@@ -5598,7 +5598,7 @@ a.to-the-top > * {
 	/* Site Header --------------------------- */
 
 	#site-header {
-		z-index: 1;
+		z-index: 2;
 	}
 
 	.header-inner {
