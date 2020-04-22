@@ -1246,8 +1246,8 @@ function delete_term_meta( $term_id, $meta_key, $meta_value = '' ) {
  *
  * @param int    $term_id Term ID.
  * @param string $key     Optional. The meta key to retrieve. If no key is provided, fetches all metadata for the term.
- * @param bool   $single  Whether to return a single value. If false, an array of all values matching the
- *                        `$term_id`/`$key` pair will be returned. Default: false.
+ * @param bool   $single  Optional. Whether to return a single value. If false, an array of all values matching the
+ *                        `$term_id`/`$key` pair will be returned. Default false.
  * @return mixed If `$single` is false, an array of metadata values. If `$single` is true, a single metadata value.
  */
 function get_term_meta( $term_id, $key = '', $single = false ) {
@@ -1266,7 +1266,7 @@ function get_term_meta( $term_id, $key = '', $single = false ) {
  * @param int    $term_id    Term ID.
  * @param string $meta_key   Metadata key.
  * @param mixed  $meta_value Metadata value.
- * @param mixed  $prev_value Optional. Previous value to check before removing.
+ * @param mixed  $prev_value Optional. Previous value to check before updating. Default empty.
  * @return int|WP_Error|bool Meta ID if the key didn't previously exist. True on successful update.
  *                           WP_Error when term_id is ambiguous between taxonomies. False on failure.
  */

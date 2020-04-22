@@ -149,7 +149,7 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
  * @param string $meta_key   Metadata key.
  * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
  * @param mixed  $prev_value Optional. If specified, only update existing metadata entries
- *                           with this value. Otherwise, update all entries.
+ *                           with this value. Otherwise, update all entries. Default empty.
  * @return int|bool The new meta field ID if a field with the given key didn't exist and was
  *                  therefore added, true on successful update, false on failure.
  */

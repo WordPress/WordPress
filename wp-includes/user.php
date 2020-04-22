@@ -821,7 +821,7 @@ function delete_user_meta( $user_id, $meta_key, $meta_value = '' ) {
  *
  * @param int    $user_id User ID.
  * @param string $key     Optional. The meta key to retrieve. By default, returns data for all keys.
- * @param bool   $single  Whether to return a single value.
+ * @param bool   $single  Optional. Whether to return a single value. Default false.
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
  */
 function get_user_meta( $user_id, $key = '', $single = false ) {
@@ -842,7 +842,7 @@ function get_user_meta( $user_id, $key = '', $single = false ) {
  * @param int    $user_id    User ID.
  * @param string $meta_key   Metadata key.
  * @param mixed  $meta_value Metadata value.
- * @param mixed  $prev_value Optional. Previous value to check before removing.
+ * @param mixed  $prev_value Optional. Previous value to check before updating. Default empty.
  * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
  */
 function update_user_meta( $user_id, $meta_key, $meta_value, $prev_value = '' ) {

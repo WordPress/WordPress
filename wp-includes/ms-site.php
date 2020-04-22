@@ -1096,7 +1096,7 @@ function get_site_meta( $site_id, $key = '', $single = false ) {
  * @param int    $site_id    Site ID.
  * @param string $meta_key   Metadata key.
  * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
- * @param mixed  $prev_value Optional. Previous value to check before removing.
+ * @param mixed  $prev_value Optional. Previous value to check before updating.
  *                           Default empty.
  * @return int|bool Meta ID if the key didn't exist, true on successful update,
  *                  false on failure.

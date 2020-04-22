@@ -2136,7 +2136,7 @@ function get_post_meta( $post_id, $key = '', $single = false ) {
  * @param int    $post_id    Post ID.
  * @param string $meta_key   Metadata key.
  * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
- * @param mixed  $prev_value Optional. Previous value to check before updating.
+ * @param mixed  $prev_value Optional. Previous value to check before updating. Default empty.
  * @return int|bool The new meta field ID if a field with the given key didn't exist and was
  *                  therefore added, true on successful update, false on failure.
  */
