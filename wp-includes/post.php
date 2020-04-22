@@ -2090,8 +2090,9 @@ function add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
  *
  * @param int    $post_id    Post ID.
  * @param string $meta_key   Metadata name.
- * @param mixed  $meta_value Optional. Metadata value. Must be serializable if
- *                           non-scalar. Default empty.
+ * @param mixed  $meta_value Optional. Metadata value. If provided,
+ *                           rows will only be removed that match the value.
+ *                           Must be serializable if non-scalar. Default empty.
  * @return bool True on success, false on failure.
  */
 function delete_post_meta( $post_id, $meta_key, $meta_value = '' ) {
@@ -2110,12 +2111,13 @@ function delete_post_meta( $post_id, $meta_key, $meta_value = '' ) {
  * @since 1.5.0
  *
  * @param int    $post_id Post ID.
- * @param string $key     Optional. The meta key to retrieve. By default, returns
- *                        data for all keys. Default empty.
- * @param bool   $single  Optional. If true, returns only the first value for the specified meta key.
- *                        This parameter has no effect if $key is not specified. Default false.
- * @return mixed Will be an array if $single is false. Will be value of the meta
- *               field if $single is true.
+ * @param string $key     Optional. The meta key to retrieve. By default,
+ *                        returns data for all keys. Default empty.
+ * @param bool   $single  Optional. Whether to return a single value.
+ *                        This parameter has no effect if $key is not specified.
+ *                        Default false.
+ * @return mixed An array if $single is false. The value of the meta field
+ *               if $single is true.
  */
 function get_post_meta( $post_id, $key = '', $single = false ) {
 	return get_metadata( 'post', $post_id, $key, $single );
@@ -2136,9 +2138,10 @@ function get_post_meta( $post_id, $key = '', $single = false ) {
  * @param int    $post_id    Post ID.
  * @param string $meta_key   Metadata key.
  * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
- * @param mixed  $prev_value Optional. Previous value to check before updating. Default empty.
- * @return int|bool The new meta field ID if a field with the given key didn't exist and was
- *                  therefore added, true on successful update, false on failure.
+ * @param mixed  $prev_value Optional. Previous value to check before updating.
+ *                           Default empty.
+ * @return int|bool Meta ID if the key didn't exist, true on successful update,
+ *                  false on failure.
  */
 function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) {
 	// Make sure meta is added to the post, not a revision.
@@ -6766,8 +6769,7 @@ function update_post_caches( &$posts, $post_type = 'post', $update_term_cache = 
  * @since 2.1.0
  *
  * @param int[] $post_ids Array of post IDs.
- * @return array|false Returns false if there is nothing to update or an array
- *                     of metadata.
+ * @return array|false An array of metadata on success, false if there is nothing to update.
  */
 function update_postmeta_cache( $post_ids ) {
 	return update_meta_cache( 'post', $post_ids );

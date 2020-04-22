@@ -452,7 +452,8 @@ function update_option( $option, $value, $autoload = null ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string         $option      Name of option to add. Expected to not be SQL-escaped.
- * @param mixed          $value       Optional. Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
+ * @param mixed          $value       Optional. Option value. Must be serializable if non-scalar.
+ *                                    Expected to not be SQL-escaped.
  * @param string         $deprecated  Optional. Description. Not used anymore.
  * @param string|bool    $autoload    Optional. Whether to load the option when WordPress starts up.
  *                                    Default is enabled. Accepts 'no' to disable for legacy reasons.
@@ -747,8 +748,8 @@ function get_transient( $transient ) {
  *
  * @since 2.8.0
  *
- * @param string $transient  Transient name. Expected to not be SQL-escaped. Must be
- *                           172 characters or fewer in length.
+ * @param string $transient  Transient name. Expected to not be SQL-escaped.
+ *                           Must be 172 characters or fewer in length.
  * @param mixed  $value      Transient value. Must be serializable if non-scalar.
  *                           Expected to not be SQL-escaped.
  * @param int    $expiration Optional. Time until expiration in seconds. Default 0 (no expiration).

@@ -2211,7 +2211,7 @@ function unregister_widget_control($id) {
  *
  * @param int $user_id User ID.
  * @param string $meta_key Metadata key.
- * @param mixed $meta_value Metadata value.
+ * @param mixed $meta_value Optional. Metadata value. Default empty.
  * @return bool True deletion completed and false if user_id is not a number.
  */
 function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
@@ -2257,7 +2257,7 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
  * @see get_user_meta()
  *
  * @param int $user_id User ID
- * @param string $meta_key Optional. Metadata key.
+ * @param string $meta_key Optional. Metadata key. Default empty.
  * @return mixed
  */
 function get_usermeta( $user_id, $meta_key = '' ) {
