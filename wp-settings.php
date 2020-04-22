@@ -67,9 +67,6 @@ wp_register_fatal_error_handler();
 // phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 date_default_timezone_set( 'UTC' );
 
-// Turn register_globals off.
-wp_unregister_GLOBALS();
-
 // Standardize $_SERVER variables across setups.
 wp_fix_server_vars();
 
