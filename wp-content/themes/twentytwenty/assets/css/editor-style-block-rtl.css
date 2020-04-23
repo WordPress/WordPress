@@ -902,7 +902,8 @@ hr.wp-block-separator.is-style-dots::before {
 
 /* BUTTON STYLE: OUTLINE */
 
-.editor-styles-wrapper .is-style-outline .wp-block-button__link {
+.editor-styles-wrapper .is-style-outline .wp-block-button__link,
+.editor-styles-wrapper .is-style-outline.wp-block-button__link {
 	background: none;
 	border-color: currentColor;
 	color: #cd2653;
@@ -911,7 +912,8 @@ hr.wp-block-separator.is-style-dots::before {
 
 /* BUTTON STYLE: SQUARED */
 
-.editor-styles-wrapper .is-style-squared .wp-block-button__link {
+.editor-styles-wrapper .is-style-squared .wp-block-button__link,
+.editor-styles-wrapper .is-style-squared.wp-block-button__link {
 	border-radius: 0;
 }
 
