@@ -438,41 +438,47 @@ if ( isset( $_GET['updated'] ) ) {
 		}
 		?>
 
-		<h2><?php _e( 'Menu Settings' ); ?></h2>
-		<table id="menu" class="form-table">
-			<tr>
-				<th scope="row"><?php _e( 'Enable administration menus' ); ?></th>
-				<td>
-			<?php
-			$menu_perms = get_site_option( 'menu_items' );
-			/**
-			 * Filters available network-wide administration menu options.
-			 *
-			 * Options returned to this filter are output as individual checkboxes that, when selected,
-			 * enable site administrator access to the specified administration menu in certain contexts.
-			 *
-			 * Adding options for specific menus here hinges on the appropriate checks and capabilities
-			 * being in place in the site dashboard on the other side. For instance, when the single
-			 * default option, 'plugins' is enabled, site administrators are granted access to the Plugins
-			 * screen in their individual sites' dashboards.
-			 *
-			 * @since MU (3.0.0)
-			 *
-			 * @param string[] $admin_menus Associative array of the menu items available.
-			 */
-			$menu_items = apply_filters( 'mu_menu_items', array( 'plugins' => __( 'Plugins' ) ) );
+		<?php
+		$menu_perms = get_site_option( 'menu_items' );
+		/**
+		 * Filters available network-wide administration menu options.
+		 *
+		 * Options returned to this filter are output as individual checkboxes that, when selected,
+		 * enable site administrator access to the specified administration menu in certain contexts.
+		 *
+		 * Adding options for specific menus here hinges on the appropriate checks and capabilities
+		 * being in place in the site dashboard on the other side. For instance, when the single
+		 * default option, 'plugins' is enabled, site administrators are granted access to the Plugins
+		 * screen in their individual sites' dashboards.
+		 *
+		 * @since MU (3.0.0)
+		 *
+		 * @param string[] $admin_menus Associative array of the menu items available.
+		 */
+		$menu_items = apply_filters( 'mu_menu_items', array( 'plugins' => __( 'Plugins' ) ) );
 
-			echo '<fieldset><legend class="screen-reader-text">' . __( 'Enable menus' ) . '</legend>';
-
-			foreach ( (array) $menu_items as $key => $val ) {
-				echo "<label><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . ( isset( $menu_perms[ $key ] ) ? checked( $menu_perms[ $key ], '1', false ) : '' ) . ' /> ' . esc_html( $val ) . '</label><br/>';
-			}
-
-			echo '</fieldset>';
+		if ( $menu_items ) :
 			?>
-				</td>
-			</tr>
-		</table>
+			<h2><?php _e( 'Menu Settings' ); ?></h2>
+			<table id="menu" class="form-table">
+				<tr>
+					<th scope="row"><?php _e( 'Enable administration menus' ); ?></th>
+					<td>
+						<?php
+						echo '<fieldset><legend class="screen-reader-text">' . __( 'Enable menus' ) . '</legend>';
+
+						foreach ( (array) $menu_items as $key => $val ) {
+							echo "<label><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . ( isset( $menu_perms[ $key ] ) ? checked( $menu_perms[ $key ], '1', false ) : '' ) . ' /> ' . esc_html( $val ) . '</label><br/>';
+						}
+
+						echo '</fieldset>';
+						?>
+					</td>
+				</tr>
+			</table>
+			<?php
+		endif;
+		?>
 
 		<?php
 		/**
