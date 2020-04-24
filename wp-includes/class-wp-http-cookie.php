@@ -93,7 +93,7 @@ class WP_Http_Cookie {
 	 */
 	public function __construct( $data, $requested_url = '' ) {
 		if ( $requested_url ) {
-			$arrURL = @parse_url( $requested_url );
+			$arrURL = parse_url( $requested_url );
 		}
 		if ( isset( $arrURL['host'] ) ) {
 			$this->domain = $arrURL['host'];

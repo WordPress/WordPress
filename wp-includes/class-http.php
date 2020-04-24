@@ -269,7 +269,7 @@ class WP_Http {
 			}
 		}
 
-		$arrURL = @parse_url( $url );
+		$arrURL = parse_url( $url );
 
 		if ( empty( $url ) || empty( $arrURL['scheme'] ) ) {
 			$response = new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );

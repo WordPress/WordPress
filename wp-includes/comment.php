@@ -580,7 +580,9 @@ function wp_set_comment_cookies( $comment, $user, $cookies_consent = true ) {
 	 * @param int $seconds Comment cookie lifetime. Default 30000000.
 	 */
 	$comment_cookie_lifetime = time() + apply_filters( 'comment_cookie_lifetime', 30000000 );
-	$secure                  = ( 'https' === parse_url( home_url(), PHP_URL_SCHEME ) );
+
+	$secure = ( 'https' === parse_url( home_url(), PHP_URL_SCHEME ) );
+
 	setcookie( 'comment_author_' . COOKIEHASH, $comment->comment_author, $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN, $secure );
 	setcookie( 'comment_author_email_' . COOKIEHASH, $comment->comment_author_email, $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN, $secure );
 	setcookie( 'comment_author_url_' . COOKIEHASH, esc_url( $comment->comment_author_url ), $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN, $secure );
@@ -2852,9 +2854,10 @@ function pingback( $content, $post_id ) {
 	foreach ( (array) $post_links_temp as $link_test ) {
 		// If we haven't pung it already and it isn't a link to itself.
 		if ( ! in_array( $link_test, $pung, true ) && ( url_to_postid( $link_test ) != $post->ID )
-				// Also, let's never ping local attachments.
-				&& ! is_local_attachment( $link_test ) ) {
-			$test = @parse_url( $link_test );
+			// Also, let's never ping local attachments.
+			&& ! is_local_attachment( $link_test )
+		) {
+			$test = parse_url( $link_test );
 			if ( $test ) {
 				if ( isset( $test['query'] ) ) {
 					$post_links[] = $link_test;

@@ -1423,8 +1423,7 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 		$cut  = strpos( $location, '?' );
 		$test = $cut ? substr( $location, 0, $cut ) : $location;
 
-		// @-operator is used to prevent possible warnings in PHP < 5.3.3.
-		$lp = @parse_url( $test );
+		$lp = parse_url( $test );
 
 		// Give up if malformed URL.
 		if ( false === $lp ) {

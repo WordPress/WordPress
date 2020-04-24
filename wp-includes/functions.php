@@ -866,7 +866,7 @@ function do_enclose( $content = null, $post ) {
 	foreach ( (array) $post_links_temp as $link_test ) {
 		// If we haven't pung it already.
 		if ( ! in_array( $link_test, $pung, true ) ) {
-			$test = @parse_url( $link_test );
+			$test = parse_url( $link_test );
 			if ( false === $test ) {
 				continue;
 			}
@@ -901,7 +901,7 @@ function do_enclose( $content = null, $post ) {
 				$allowed_types = array( 'video', 'audio' );
 
 				// Check to see if we can figure out the mime type from the extension.
-				$url_parts = @parse_url( $url );
+				$url_parts = parse_url( $url );
 				if ( false !== $url_parts ) {
 					$extension = pathinfo( $url_parts['path'], PATHINFO_EXTENSION );
 					if ( ! empty( $extension ) ) {
@@ -1240,7 +1240,7 @@ function add_magic_quotes( $array ) {
  * @return string|false HTTP content. False on failure.
  */
 function wp_remote_fopen( $uri ) {
-	$parsed_url = @parse_url( $uri );
+	$parsed_url = parse_url( $uri );
 
 	if ( ! $parsed_url || ! is_array( $parsed_url ) ) {
 		return false;

@@ -522,7 +522,7 @@ function wp_http_validate_url( $url ) {
 		return false;
 	}
 
-	$parsed_url = @parse_url( $url );
+	$parsed_url = parse_url( $url );
 	if ( ! $parsed_url || empty( $parsed_url['host'] ) ) {
 		return false;
 	}
@@ -535,7 +535,7 @@ function wp_http_validate_url( $url ) {
 		return false;
 	}
 
-	$parsed_home = @parse_url( get_option( 'home' ) );
+	$parsed_home = parse_url( get_option( 'home' ) );
 
 	if ( isset( $parsed_home['host'] ) ) {
 		$same_host = strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] );
@@ -654,9 +654,6 @@ function ms_allowed_http_request_hosts( $is_external, $host ) {
  * in the query are being handled inconsistently. This function works around those
  * differences as well.
  *
- * Error suppression is used as prior to PHP 5.3.3, an E_WARNING would be generated
- * when URL parsing failed.
- *
  * @since 4.4.0
  * @since 4.7.0 The `$component` parameter was added for parity with PHP's `parse_url()`.
  *
@@ -684,7 +681,7 @@ function wp_parse_url( $url, $component = -1 ) {
 		$url        = 'placeholder://placeholder' . $url;
 	}
 
-	$parts = @parse_url( $url );
+	$parts = parse_url( $url );
 
 	if ( false === $parts ) {
 		// Parsing failure.

@@ -67,7 +67,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$requested_url .= $_SERVER['REQUEST_URI'];
 	}
 
-	$original = @parse_url( $requested_url );
+	$original = parse_url( $requested_url );
 	if ( false === $original ) {
 		return;
 	}
@@ -407,7 +407,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	$redirect['query'] = preg_replace( '#^\??&*?#', '', $redirect['query'] );
 	if ( $redirect_url && ! empty( $redirect['query'] ) ) {
 		parse_str( $redirect['query'], $_parsed_query );
-		$redirect = @parse_url( $redirect_url );
+		$redirect = parse_url( $redirect_url );
 
 		if ( ! empty( $_parsed_query['name'] ) && ! empty( $redirect['query'] ) ) {
 			parse_str( $redirect['query'], $_parsed_redirect_query );
@@ -425,11 +425,11 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	}
 
 	if ( $redirect_url ) {
-		$redirect = @parse_url( $redirect_url );
+		$redirect = parse_url( $redirect_url );
 	}
 
 	// www.example.com vs. example.com
-	$user_home = @parse_url( home_url() );
+	$user_home = parse_url( home_url() );
 	if ( ! empty( $user_home['host'] ) ) {
 		$redirect['host'] = $user_home['host'];
 	}
@@ -637,7 +637,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
  * @return string The altered query string
  */
 function _remove_qs_args_if_not_in_url( $query_string, array $args_to_check, $url ) {
-	$parsed_url = @parse_url( $url );
+	$parsed_url = parse_url( $url );
 	if ( ! empty( $parsed_url['query'] ) ) {
 		parse_str( $parsed_url['query'], $parsed_query );
 		foreach ( $args_to_check as $qv ) {
@@ -660,7 +660,7 @@ function _remove_qs_args_if_not_in_url( $query_string, array $args_to_check, $ur
  * @return string The altered URL.
  */
 function strip_fragment_from_url( $url ) {
-	$parsed_url = @parse_url( $url );
+	$parsed_url = parse_url( $url );
 	if ( ! empty( $parsed_url['host'] ) ) {
 		// This mirrors code in redirect_canonical(). It does not handle every case.
 		$url = $parsed_url['scheme'] . '://' . $parsed_url['host'];

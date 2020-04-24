@@ -622,7 +622,7 @@ function rss2_site_icon() {
  * @return string Correct link for the atom:self element.
  */
 function get_self_link() {
-	$host = @parse_url( home_url() );
+	$host = parse_url( home_url() );
 	return set_url_scheme( 'http://' . $host['host'] . wp_unslash( $_SERVER['REQUEST_URI'] ) );
 }
 
