@@ -15949,8 +15949,8 @@ function (_Component) {
     };
   });
   return {
-    defaultImageWidth: imageDimensions[featuredImageSizeSlug].width,
-    defaultImageHeight: imageDimensions[featuredImageSizeSlug].height,
+    defaultImageWidth: Object(external_this_lodash_["get"])(imageDimensions, [featuredImageSizeSlug, 'width'], 0),
+    defaultImageHeight: Object(external_this_lodash_["get"])(imageDimensions, [featuredImageSizeSlug, 'height'], 0),
     imageSizeOptions: imageSizeOptions,
     latestPosts: !Array.isArray(posts) ? posts : posts.map(function (post) {
       if (post.featured_media) {

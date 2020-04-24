@@ -11,6 +11,10 @@
  * Often re-used variables
  */
 /**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
  * Breakpoint mixins
  */
 /**
@@ -87,7 +91,12 @@
 
 .wp-block-buttons .wp-block-button {
   display: inline-block;
-  margin: 4px; }
+  margin-left: 8px;
+  margin-bottom: 8px; }
+
+.wp-block-buttons.alignright .wp-block-button {
+  margin-left: none;
+  margin-right: 8px; }
 
 .wp-block-buttons.aligncenter {
   text-align: center; }
