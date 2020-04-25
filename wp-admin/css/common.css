@@ -3998,6 +3998,11 @@ img {
 		float: none;
 	}
 
+	#screen-meta,
+	#screen-meta-links {
+		margin-right: 10px;
+	}
+
 	#screen-meta-links {
 		margin-bottom: 20px; /* Add margins beneath links for better spacing between boxes and elements */
 	}

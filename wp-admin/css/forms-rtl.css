@@ -1501,16 +1501,13 @@ table.form-table td .updated p {
 	}
 
 	.form-table th {
-		padding-top: 10px;
-		padding-bottom: 0;
+		padding: 10px 0 0 0;
 		border-bottom: 0;
 	}
 
 	.form-table td {
 		margin-bottom: 0;
-		padding-bottom: 6px;
-		padding-top: 4px;
-		padding-right: 0;
+		padding: 4px 0 6px 0;
 	}
 
 	.form-table.permalink-structure td code {
