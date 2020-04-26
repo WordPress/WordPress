@@ -1912,7 +1912,7 @@ function wp_insert_comment( $commentdata ) {
 	$comment_karma    = ! isset( $data['comment_karma'] ) ? 0 : $data['comment_karma'];
 	$comment_approved = ! isset( $data['comment_approved'] ) ? 1 : $data['comment_approved'];
 	$comment_agent    = ! isset( $data['comment_agent'] ) ? '' : $data['comment_agent'];
-	$comment_type     = ! isset( $data['comment_type'] ) ? 'comment' : $data['comment_type'];
+	$comment_type     = empty( $data['comment_type'] ) ? 'comment' : $data['comment_type'];
 	$comment_parent   = ! isset( $data['comment_parent'] ) ? 0 : $data['comment_parent'];
 
 	$user_id = ! isset( $data['user_id'] ) ? 0 : $data['user_id'];
