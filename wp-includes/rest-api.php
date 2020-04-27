@@ -1337,9 +1337,35 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'boolean' ) );
 	}
 
-	if ( 'string' === $args['type'] && ! is_string( $value ) ) {
-		/* translators: 1: Parameter, 2: Type name. */
-		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'string' ) );
+	if ( 'string' === $args['type'] ) {
+		if ( ! is_string( $value ) ) {
+			/* translators: 1: Parameter, 2: Type name. */
+			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'string' ) );
+		}
+
+		if ( isset( $args['minLength'] ) && mb_strlen( $value ) < $args['minLength'] ) {
+			return new WP_Error(
+				'rest_invalid_param',
+				sprintf(
+					/* translators: 1: Parameter, 2: Number of characters. */
+					_n( '%1$s must be at least %2$s character long.', '%1$s must be at least %2$s characters long.', $args['minLength'] ),
+					$param,
+					number_format_i18n( $args['minLength'] )
+				)
+			);
+		}
+
+		if ( isset( $args['maxLength'] ) && mb_strlen( $value ) > $args['maxLength'] ) {
+			return new WP_Error(
+				'rest_invalid_param',
+				sprintf(
+					/* translators: 1: Parameter, 2: Number of characters. */
+					_n( '%1$s must be at most %2$s character long.', '%1$s must be at most %2$s characters long.', $args['maxLength'] ),
+					$param,
+					number_format_i18n( $args['maxLength'] )
+				)
+			);
+		}
 	}
 
 	if ( isset( $args['format'] ) ) {
