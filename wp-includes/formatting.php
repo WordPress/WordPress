@@ -977,6 +977,24 @@ function remove_accents($string) {
 function sanitize_file_name( $filename ) {
 	$filename_raw = $filename;
 	$special_chars = array("?", "[", "]", "/", "\\", "=", "<", ">", ":", ";", ",", "'", "\"", "&", "$", "#", "*", "(", ")", "|", "~", "`", "!", "{", "}", chr(0));
+
+	// Check for support for utf8 in the installed PCRE library once and store the result in a static.
+	static $utf8_pcre = null;
+	if ( ! isset( $utf8_pcre ) ) {
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		$utf8_pcre = @preg_match( '/^./u', 'a' );
+	}
+
+	if ( ! seems_utf8( $filename ) ) {
+		$_ext     = pathinfo( $filename, PATHINFO_EXTENSION );
+		$_name    = pathinfo( $filename, PATHINFO_FILENAME );
+		$filename = sanitize_title_with_dashes( $_name ) . '.' . $_ext;
+	}
+
+	if ( $utf8_pcre ) {
+		$filename = preg_replace( "#\x{00a0}#siu", ' ', $filename );
+	}
+
 	/**
 	 * Filter the list of characters to remove from a filename.
 	 *
