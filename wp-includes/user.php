@@ -1803,7 +1803,7 @@ function wp_insert_user( $userdata ) {
 	}
 
 	if ( $update ) {
-		if ( $user_email !== $old_user_data->user_email ) {
+		if ( $user_email !== $old_user_data->user_email || $user_pass !== $old_user_data->user_pass ) {
 			$data['user_activation_key'] = '';
 		}
 		$wpdb->update( $wpdb->users, $data, compact( 'ID' ) );
