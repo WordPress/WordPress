@@ -441,7 +441,7 @@ class WP_Object_Cache {
 		echo '</p>';
 		echo '<ul>';
 		foreach ( $this->cache as $group => $cache ) {
-			echo "<li><strong>Group:</strong> $group - ( " . number_format( strlen( serialize( $cache ) ) / KB_IN_BYTES, 2 ) . 'k )</li>';
+			echo '<li><strong>Group:</strong> ' . esc_html( $group ) . ' - ( ' . number_format( strlen( serialize( $cache ) ) / KB_IN_BYTES, 2 ) . 'k )</li>';
 		}
 		echo '</ul>';
 	}
