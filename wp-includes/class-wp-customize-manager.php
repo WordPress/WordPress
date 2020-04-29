@@ -2923,12 +2923,6 @@ final class WP_Customize_Manager {
 		add_filter( 'wp_save_post_revision_post_has_changed', array( $this, '_filter_revision_post_has_changed' ), 5, 3 );
 
 		/*
-		 * Update the changeset post. The publish_customize_changeset action
-		 * will cause the settings in the changeset to be saved via
-		 * WP_Customize_Setting::save().
-		 */
-
-		/*
 		 * Update the changeset post. The publish_customize_changeset action will cause the settings in the
 		 * changeset to be saved via WP_Customize_Setting::save(). Updating a post with publish status will
 		 * trigger WP_Customize_Manager::publish_changeset_values().
