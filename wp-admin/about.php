@@ -54,9 +54,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p>
 					<?php
 					printf(
-						/* translators: %s: WordPress version number */
-						__( '<strong>Version %s</strong> addressed some security issues.' ),
-						'5.3.3'
+						/* translators: 1: WordPress version number, 2: plural number of bugs. More than one security issue. */
+						_n(
+							'<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
+							'<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.',
+							10
+						),
+						'5.3.3',
+						number_format_i18n( 10 )
 					);
 					?>
 					<?php
