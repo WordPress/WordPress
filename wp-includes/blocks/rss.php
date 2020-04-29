@@ -80,7 +80,7 @@ function render_block_core_rss( $attributes ) {
 	}
 
 	$classes           = 'grid' === $attributes['blockLayout'] ? ' is-grid columns-' . $attributes['columns'] : '';
-	$list_items_markup = "<ul class='wp-block-rss{$classes}'>{$list_items}</ul>";
+	$list_items_markup = sprintf( "<ul class='%s'>%s</ul>", esc_attr( 'wp-block-rss' . $classes ), $list_items );
 
 	// PHP 5.2 compatibility. See: http://simplepie.org/wiki/faq/i_m_getting_memory_leaks.
 	$rss->__destruct();
@@ -93,7 +93,8 @@ function render_block_core_rss( $attributes ) {
  * Registers the `core/rss` block on server.
  */
 function register_block_core_rss() {
-	register_block_type( 'core/rss',
+	register_block_type(
+		'core/rss',
 		array(
 			'attributes'      => array(
 				'columns'        => array(
