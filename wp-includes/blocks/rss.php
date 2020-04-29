@@ -96,7 +96,7 @@ function render_block_core_rss( $attributes ) {
 		$class .= ' ' . $attributes['className'];
 	}
 
-	$list_items_markup = "<ul class='{$class}'>{$list_items}</ul>";
+	$list_items_markup = sprintf( "<ul class='%s'>%s</ul>", esc_attr( $class ), $list_items );
 
 	// PHP 5.2 compatibility. See: http://simplepie.org/wiki/faq/i_m_getting_memory_leaks.
 	$rss->__destruct();

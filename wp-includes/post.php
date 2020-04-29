@@ -3554,6 +3554,9 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 function wp_insert_post( $postarr, $wp_error = false ) {
 	global $wpdb;
 
+	// Capture original pre-sanitized array for passing into filters.
+	$unsanitized_postarr = $postarr;
+
 	$user_id = get_current_user_id();
 
 	$defaults = array(
@@ -3865,21 +3868,27 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		 * Filters attachment post data before it is updated in or added to the database.
 		 *
 		 * @since 3.9.0
+		 * @since 5.4.1 `$unsanitized_postarr` argument added.
 		 *
-		 * @param array $data    An array of sanitized attachment post data.
-		 * @param array $postarr An array of unsanitized attachment post data.
+		 * @param array $data                An array of slashed, sanitized, and processed attachment post data.
+		 * @param array $postarr             An array of slashed and sanitized attachment post data, but not processed.
+		 * @param array $unsanitized_postarr An array of slashed yet *unsanitized* and unprocessed attachment post data
+		 *                                   as originally passed to wp_insert_post().
 		 */
-		$data = apply_filters( 'wp_insert_attachment_data', $data, $postarr );
+		$data = apply_filters( 'wp_insert_attachment_data', $data, $postarr, $unsanitized_postarr );
 	} else {
 		/**
 		 * Filters slashed post data just before it is inserted into the database.
 		 *
 		 * @since 2.7.0
+		 * @since 5.4.1 `$unsanitized_postarr` argument added.
 		 *
-		 * @param array $data    An array of slashed post data.
-		 * @param array $postarr An array of sanitized, but otherwise unmodified post data.
+		 * @param array $data                An array of slashed, sanitized, and processed post data.
+		 * @param array $postarr             An array of sanitized (and slashed) but otherwise unmodified post data.
+		 * @param array $unsanitized_postarr An array of slashed yet *unsanitized* and unprocessed post data as
+		 *                                   originally passed to wp_insert_post().
 		 */
-		$data = apply_filters( 'wp_insert_post_data', $data, $postarr );
+		$data = apply_filters( 'wp_insert_post_data', $data, $postarr, $unsanitized_postarr );
 	}
 	$data  = wp_unslash( $data );
 	$where = array( 'ID' => $post_ID );

@@ -2923,22 +2923,11 @@ final class WP_Customize_Manager {
 		add_filter( 'wp_save_post_revision_post_has_changed', array( $this, '_filter_revision_post_has_changed' ), 5, 3 );
 
 		/*
-		 * Update the changeset post. The publish_customize_changeset action
-		 * will cause the settings in the changeset to be saved via
-		 * WP_Customize_Setting::save().
+		 * Update the changeset post. The publish_customize_changeset action will cause the settings in the
+		 * changeset to be saved via WP_Customize_Setting::save(). Updating a post with publish status will
+		 * trigger WP_Customize_Manager::publish_changeset_values().
 		 */
-
-		// Prevent content filters from corrupting JSON in post_content.
-		$has_kses = ( false !== has_filter( 'content_save_pre', 'wp_filter_post_kses' ) );
-		if ( $has_kses ) {
-			kses_remove_filters();
-		}
-		$has_targeted_link_rel_filters = ( false !== has_filter( 'content_save_pre', 'wp_targeted_link_rel' ) );
-		if ( $has_targeted_link_rel_filters ) {
-			wp_remove_targeted_link_rel_filters();
-		}
-
-		// Note that updating a post with publish status will trigger WP_Customize_Manager::publish_changeset_values().
+		add_filter( 'wp_insert_post_data', array( $this, 'preserve_insert_changeset_post_content' ), 5, 3 );
 		if ( $changeset_post_id ) {
 			if ( $args['autosave'] && 'auto-draft' !== get_post_status( $changeset_post_id ) ) {
 				// See _wp_translate_postdata() for why this is required as it will use the edit_post meta capability.
@@ -2965,14 +2954,7 @@ final class WP_Customize_Manager {
 				$this->_changeset_post_id = $r; // Update cached post ID for the loaded changeset.
 			}
 		}
-
-		// Restore removed content filters.
-		if ( $has_kses ) {
-			kses_init_filters();
-		}
-		if ( $has_targeted_link_rel_filters ) {
-			wp_init_targeted_link_rel_filters();
-		}
+		remove_filter( 'wp_insert_post_data', array( $this, 'preserve_insert_changeset_post_content' ), 5 );
 
 		$this->_changeset_data = null; // Reset so WP_Customize_Manager::changeset_data() will re-populate with updated contents.
 
@@ -2988,6 +2970,51 @@ final class WP_Customize_Manager {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Preserve the initial JSON post_content passed to save into the post.
+	 *
+	 * This is needed to prevent KSES and other {@see 'content_save_pre'} filters
+	 * from corrupting JSON data.
+	 *
+	 * Note that WP_Customize_Manager::validate_setting_values() have already
+	 * run on the setting values being serialized as JSON into the post content
+	 * so it is pre-sanitized.
+	 *
+	 * Also, the sanitization logic is re-run through the respective
+	 * WP_Customize_Setting::sanitize() method when being read out of the
+	 * changeset, via WP_Customize_Manager::post_value(), and this sanitized
+	 * value will also be sent into WP_Customize_Setting::update() for
+	 * persisting to the DB.
+	 *
+	 * Multiple users can collaborate on a single changeset, where one user may
+	 * have the unfiltered_html capability but another may not. A user with
+	 * unfiltered_html may add a script tag to some field which needs to be kept
+	 * intact even when another user updates the changeset to modify another field
+	 * when they do not have unfiltered_html.
+	 *
+	 * @since 5.4.1
+	 *
+	 * @param array $data                An array of slashed and processed post data.
+	 * @param array $postarr             An array of sanitized (and slashed) but otherwise unmodified post data.
+	 * @param array $unsanitized_postarr An array of slashed yet *unsanitized* and unprocessed post data as originally passed to wp_insert_post().
+	 * @return array Filtered post data.
+	 */
+	public function preserve_insert_changeset_post_content( $data, $postarr, $unsanitized_postarr ) {
+		if (
+			isset( $data['post_type'] ) &&
+			isset( $unsanitized_postarr['post_content'] ) &&
+			'customize_changeset' === $data['post_type'] ||
+			(
+				'revision' === $data['post_type'] &&
+				! empty( $data['post_parent'] ) &&
+				'customize_changeset' === get_post_type( $data['post_parent'] )
+			)
+		) {
+			$data['post_content'] = $unsanitized_postarr['post_content'];
+		}
+		return $data;
 	}
 
 	/**
