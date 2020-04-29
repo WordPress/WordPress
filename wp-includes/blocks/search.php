@@ -46,7 +46,7 @@ function render_block_core_search( $attributes ) {
 
 	return sprintf(
 		'<form class="%s" role="search" method="get" action="%s">%s</form>',
-		esc_attr( $class ),
+		$class,
 		esc_url( home_url( '/' ) ),
 		$label_markup . $input_markup . $button_markup
 	);
