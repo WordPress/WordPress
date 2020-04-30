@@ -157,8 +157,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 		}
 
-		if ( get_query_var( 'page' ) && $wp_query->post &&
-			false !== strpos( $wp_query->post->post_content, '<!--nextpage-->' ) ) {
+		if ( get_query_var( 'page' ) && $wp_query->post ) {
 			$redirect['path']  = rtrim( $redirect['path'], (int) get_query_var( 'page' ) . '/' );
 			$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
 			$redirect_url      = get_permalink( $wp_query->post->ID );
