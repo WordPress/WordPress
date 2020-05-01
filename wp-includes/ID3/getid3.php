@@ -285,15 +285,15 @@ class getID3
 		}
 
 		// Check safe_mode off
-		if (preg_match('#(1|ON)#i', ini_get('safe_mode'))) { // phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.get_magic_quotes_runtimeDeprecated
+		if (preg_match('#(1|ON)#i', ini_get('safe_mode'))) { // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.safe_modeDeprecatedRemoved
 			$this->warning('WARNING: Safe mode is on, shorten support disabled, md5data/sha1data for ogg vorbis disabled, ogg vorbos/flac tag writing disabled.');
 		}
 
-		if (($mbstring_func_overload = (int) ini_get('mbstring.func_overload')) && ($mbstring_func_overload & 0x02)) {
+		if (($mbstring_func_overload = (int) ini_get('mbstring.func_overload')) && ($mbstring_func_overload & 0x02)) { // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.mbstring_func_overloadDeprecated
 			// http://php.net/manual/en/mbstring.overload.php
 			// "mbstring.func_overload in php.ini is a positive value that represents a combination of bitmasks specifying the categories of functions to be overloaded. It should be set to 1 to overload the mail() function. 2 for string functions, 4 for regular expression functions"
 			// getID3 cannot run when string functions are overloaded. It doesn't matter if mail() or ereg* functions are overloaded since getID3 does not use those.
-			$this->startup_error .= 'WARNING: php.ini contains "mbstring.func_overload = '.ini_get('mbstring.func_overload').'", getID3 cannot run with this setting (bitmask 2 (string functions) cannot be set). Recommended to disable entirely.'."\n";
+			$this->startup_error .= 'WARNING: php.ini contains "mbstring.func_overload = '.ini_get('mbstring.func_overload').'", getID3 cannot run with this setting (bitmask 2 (string functions) cannot be set). Recommended to disable entirely.'."\n"; // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.mbstring_func_overloadDeprecated
 		}
 
 		// check for magic quotes in PHP < 7.4.0 (when these functions became deprecated)
@@ -1560,7 +1560,7 @@ class getID3
 			// page sequence numbers likely happens for OggSpeex and OggFLAC as well, but
 			// currently vorbiscomment only works on OggVorbis files.
 
-			if (preg_match('#(1|ON)#i', ini_get('safe_mode'))) { // phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.get_magic_quotes_runtimeDeprecated
+			if (preg_match('#(1|ON)#i', ini_get('safe_mode'))) { // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.safe_modeDeprecatedRemoved
 
 				$this->warning('Failed making system call to vorbiscomment.exe - '.$algorithm.'_data is incorrect - error returned: PHP running in Safe Mode (backtick operator not available)');
 				$this->info[$algorithm.'_data'] = false;

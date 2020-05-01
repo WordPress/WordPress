@@ -114,7 +114,7 @@ class getid3_lib
 			}
 		}
 		// if integers are 64-bit - no other check required
-		if ($hasINT64 || (($num <= PHP_INT_MAX) && ($num >= PHP_INT_MIN))) {
+		if ($hasINT64 || (($num <= PHP_INT_MAX) && ($num >= PHP_INT_MIN))) { // phpcs:ignore PHPCompatibility.Constants.NewConstants.php_int_minFound
 			return true;
 		}
 		return false;

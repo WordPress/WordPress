@@ -59,8 +59,7 @@ class POP3 {
         if(!empty($timeout)) {
             settype($timeout,"integer");
             $this->TIMEOUT = $timeout;
-            if (!ini_get('safe_mode'))
-                set_time_limit($timeout);
+            set_time_limit($timeout);
         }
         return true;
     }
@@ -73,8 +72,7 @@ class POP3 {
 	}
 
     function update_timer () {
-        if (!ini_get('safe_mode'))
-            set_time_limit($this->TIMEOUT);
+        set_time_limit($this->TIMEOUT);
         return true;
     }
 
