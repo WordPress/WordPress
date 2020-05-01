@@ -507,13 +507,14 @@ class WP_Terms_List_Table extends WP_List_Table {
 		 * Filters the action links displayed for each term in the Tags list table.
 		 *
 		 * @since 2.8.0
-		 * @deprecated 3.0.0 Use {@see '{$taxonomy}_row_actions'} instead.
+		 * @since 3.0.0 Deprecated in favor of {@see '{$taxonomy}_row_actions'} filter.
+		 * @since 5.4.2 Restored (un-deprecated).
 		 *
 		 * @param string[] $actions An array of action links to be displayed. Default
 		 *                          'Edit', 'Quick Edit', 'Delete', and 'View'.
 		 * @param WP_Term  $tag     Term object.
 		 */
-		$actions = apply_filters_deprecated( 'tag_row_actions', array( $actions, $tag ), '3.0.0', '{$taxonomy}_row_actions' );
+		$actions = apply_filters( 'tag_row_actions', $actions, $tag );
 
 		/**
 		 * Filters the action links displayed for each term in the terms list table.
