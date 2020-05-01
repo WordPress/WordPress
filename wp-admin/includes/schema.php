@@ -369,13 +369,6 @@ function populate_options( array $options = array() ) {
 	 */
 	do_action( 'populate_options' );
 
-	if ( ini_get( 'safe_mode' ) ) {
-		// Safe mode can break mkdir() so use a flat structure by default.
-		$uploads_use_yearmonth_folders = 0;
-	} else {
-		$uploads_use_yearmonth_folders = 1;
-	}
-
 	// If WP_DEFAULT_THEME doesn't exist, fall back to the latest core default theme.
 	$stylesheet = WP_DEFAULT_THEME;
 	$template   = WP_DEFAULT_THEME;
@@ -466,7 +459,7 @@ function populate_options( array $options = array() ) {
 		'db_version'                      => $wp_db_version,
 
 		// 2.0.1
-		'uploads_use_yearmonth_folders'   => $uploads_use_yearmonth_folders,
+		'uploads_use_yearmonth_folders'   => 1,
 		'upload_path'                     => '',
 
 		// 2.1
