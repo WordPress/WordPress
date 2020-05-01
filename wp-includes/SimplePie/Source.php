@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2012, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
+ * Copyright (c) 2004-2016, Ryan Parman, Sam Sneddon, Ryan McCue, and contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -33,10 +33,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3.1
- * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
+ * @copyright 2004-2016 Ryan Parman, Sam Sneddon, Ryan McCue
  * @author Ryan Parman
- * @author Geoffrey Sneddon
+ * @author Sam Sneddon
  * @author Ryan McCue
  * @link http://simplepie.org/ SimplePie
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
@@ -80,10 +79,8 @@ class SimplePie_Source
 		{
 			return $this->data['child'][$namespace][$tag];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_base($element = array())
@@ -131,10 +128,8 @@ class SimplePie_Source
 		{
 			return $this->sanitize($return[0]['data'], SIMPLEPIE_CONSTRUCT_TEXT);
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_category($key = 0)
@@ -144,10 +139,8 @@ class SimplePie_Source
 		{
 			return $categories[$key];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_categories()
@@ -201,10 +194,8 @@ class SimplePie_Source
 		{
 			return array_unique($categories);
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_author($key = 0)
@@ -214,10 +205,8 @@ class SimplePie_Source
 		{
 			return $authors[$key];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_authors()
@@ -284,10 +273,8 @@ class SimplePie_Source
 		{
 			return array_unique($authors);
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_contributor($key = 0)
@@ -297,10 +284,8 @@ class SimplePie_Source
 		{
 			return $contributors[$key];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_contributors()
@@ -355,10 +340,8 @@ class SimplePie_Source
 		{
 			return array_unique($contributors);
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_link($key = 0, $rel = 'alternate')
@@ -368,10 +351,8 @@ class SimplePie_Source
 		{
 			return $links[$key];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	/**
@@ -450,10 +431,8 @@ class SimplePie_Source
 		{
 			return $this->data['links'][$rel];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_description()
@@ -494,10 +473,8 @@ class SimplePie_Source
 		{
 			return $this->sanitize($return[0]['data'], SIMPLEPIE_CONSTRUCT_HTML, $this->get_base($return[0]));
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_copyright()
@@ -522,10 +499,8 @@ class SimplePie_Source
 		{
 			return $this->sanitize($return[0]['data'], SIMPLEPIE_CONSTRUCT_TEXT);
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_language()
@@ -546,10 +521,8 @@ class SimplePie_Source
 		{
 			return $this->sanitize($this->data['xml_lang'], SIMPLEPIE_CONSTRUCT_TEXT);
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_latitude()
@@ -562,10 +535,8 @@ class SimplePie_Source
 		{
 			return (float) $match[1];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_longitude()
@@ -582,10 +553,8 @@ class SimplePie_Source
 		{
 			return (float) $match[2];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	public function get_image_url()
@@ -602,10 +571,7 @@ class SimplePie_Source
 		{
 			return $this->sanitize($return[0]['data'], SIMPLEPIE_CONSTRUCT_IRI, $this->get_base($return[0]));
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 }
-

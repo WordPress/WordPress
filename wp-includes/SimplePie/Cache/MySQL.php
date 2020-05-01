@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2012, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
+ * Copyright (c) 2004-2016, Ryan Parman, Sam Sneddon, Ryan McCue, and contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -33,10 +33,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3.1
- * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
+ * @copyright 2004-2016 Ryan Parman, Sam Sneddon, Ryan McCue
  * @author Ryan Parman
- * @author Geoffrey Sneddon
+ * @author Sam Sneddon
  * @author Ryan McCue
  * @link http://simplepie.org/ SimplePie
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
@@ -94,9 +93,11 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 			'path' => '',
 			'extras' => array(
 				'prefix' => '',
+				'cache_purge_time' => 2592000
 			),
 		);
-		$this->options = array_merge_recursive($this->options, SimplePie_Cache::parse_URL($location));
+
+		$this->options = SimplePie_Misc::array_merge_recursive($this->options, SimplePie_Cache::parse_URL($location));
 
 		// Path is prefixed with a "/"
 		$this->options['dbname'] = substr($this->options['path'], 1);
@@ -130,16 +131,20 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 			$query = $this->mysql->exec('CREATE TABLE `' . $this->options['extras']['prefix'] . 'cache_data` (`id` TEXT CHARACTER SET utf8 NOT NULL, `items` SMALLINT NOT NULL DEFAULT 0, `data` BLOB NOT NULL, `mtime` INT UNSIGNED NOT NULL, UNIQUE (`id`(125)))');
 			if ($query === false)
 			{
+				trigger_error("Can't create " . $this->options['extras']['prefix'] . "cache_data table, check permissions", E_USER_WARNING);
 				$this->mysql = null;
+				return;
 			}
 		}
 
 		if (!in_array($this->options['extras']['prefix'] . 'items', $db))
 		{
-			$query = $this->mysql->exec('CREATE TABLE `' . $this->options['extras']['prefix'] . 'items` (`feed_id` TEXT CHARACTER SET utf8 NOT NULL, `id` TEXT CHARACTER SET utf8 NOT NULL, `data` TEXT CHARACTER SET utf8 NOT NULL, `posted` INT UNSIGNED NOT NULL, INDEX `feed_id` (`feed_id`(125)))');
+			$query = $this->mysql->exec('CREATE TABLE `' . $this->options['extras']['prefix'] . 'items` (`feed_id` TEXT CHARACTER SET utf8 NOT NULL, `id` TEXT CHARACTER SET utf8 NOT NULL, `data` MEDIUMBLOB NOT NULL, `posted` INT UNSIGNED NOT NULL, INDEX `feed_id` (`feed_id`(125)))');
 			if ($query === false)
 			{
+				trigger_error("Can't create " . $this->options['extras']['prefix'] . "items table, check permissions", E_USER_WARNING);
 				$this->mysql = null;
+				return;
 			}
 		}
 	}
@@ -153,6 +158,17 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 	public function save($data)
 	{
 		if ($this->mysql === null)
+		{
+			return false;
+		}
+
+		$query = $this->mysql->prepare('DELETE i, cd FROM `' . $this->options['extras']['prefix'] . 'cache_data` cd, ' .
+			'`' . $this->options['extras']['prefix'] . 'items` i ' .
+			'WHERE cd.id = i.feed_id ' .
+			'AND cd.mtime < (unix_timestamp() - :purge_time)');
+		$query->bindValue(':purge_time', $this->options['extras']['cache_purge_time']);
+
+		if (!$query->execute())
 		{
 			return false;
 		}
@@ -379,10 +395,8 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 		{
 			return $time;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -400,14 +414,8 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 		$query = $this->mysql->prepare('UPDATE `' . $this->options['extras']['prefix'] . 'cache_data` SET `mtime` = :time WHERE `id` = :id');
 		$query->bindValue(':time', time());
 		$query->bindValue(':id', $this->id);
-		if ($query->execute() && $query->rowCount() > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+
+		return $query->execute() && $query->rowCount() > 0;
 	}
 
 	/**
@@ -426,13 +434,7 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 		$query->bindValue(':id', $this->id);
 		$query2 = $this->mysql->prepare('DELETE FROM `' . $this->options['extras']['prefix'] . 'items` WHERE `feed_id` = :id');
 		$query2->bindValue(':id', $this->id);
-		if ($query->execute() && $query2->execute())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+
+		return $query->execute() && $query2->execute();
 	}
 }
