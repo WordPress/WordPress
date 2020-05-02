@@ -369,6 +369,7 @@ final class WP_Customize_Nav_Menus {
 				'taxonomies' => $taxonomies,
 				'name__like' => $args['s'],
 				'number'     => 20,
+				'hide_empty' => false,
 				'offset'     => 20 * ( $args['pagenum'] - 1 ),
 			)
 		);

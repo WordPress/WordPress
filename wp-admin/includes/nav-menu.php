@@ -113,6 +113,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 					'taxonomy'   => $matches[2],
 					'name__like' => $query,
 					'number'     => 10,
+					'hide_empty' => false,
 				)
 			);
 			if ( empty( $terms ) || is_wp_error( $terms ) ) {
