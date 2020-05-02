@@ -392,6 +392,7 @@
 				events: {
 					onReady: function( e ) {
 						e.target.mute();
+						e.target.playVideo();
 						handler.showControls();
 					},
 					onStateChange: function( e ) {
@@ -405,7 +406,7 @@
 					}
 				},
 				playerVars: {
-					autoplay: 1,
+					autoplay: 0,
 					controls: 0,
 					disablekb: 1,
 					fs: 0,
