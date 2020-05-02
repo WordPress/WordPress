@@ -74,7 +74,7 @@ function display_header( $body_classes = '' ) {
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
 <body class="wp-core-ui<?php echo $body_classes; ?>">
-<p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></p>
+<p id="logo"><?php _e( 'WordPress' ); ?></p>
 
 	<?php
 } // End display_header().
