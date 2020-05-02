@@ -14,6 +14,15 @@
 	z-index: 1; /* positive z-index to avoid elastic scrolling woes in Safari */
 }
 
+.php-error #adminmenuback {
+	position: absolute;
+}
+
+.php-error #adminmenuback,
+.php-error #adminmenuwrap {
+	margin-top: 2em;
+}
+
 #adminmenu {
 	clear: right;
 	margin: 12px 0;

@@ -200,6 +200,11 @@ if ( $current_screen->is_block_editor() ) {
 	}
 }
 
+// Print a CSS class to make PHP errors visible.
+if ( error_get_last() && WP_DEBUG && WP_DEBUG_DISPLAY && ini_get( 'display_errors' ) ) {
+	$admin_body_class .= ' php-error';
+}
+
 ?>
 </head>
 <?php
