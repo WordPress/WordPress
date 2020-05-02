@@ -947,6 +947,7 @@ function wp_get_registered_image_subsizes() {
  *     @type string $0 Image source URL.
  *     @type int    $1 Image width in pixels.
  *     @type int    $2 Image height in pixels.
+ *     @type bool   $3 Whether the image is a resized image.
  * }
  */
 function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon = false ) {
@@ -968,7 +969,7 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 		}
 
 		if ( $src && $width && $height ) {
-			$image = array( $src, $width, $height );
+			$image = array( $src, $width, $height, false );
 		}
 	}
 	/**
@@ -982,6 +983,7 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 	 *     @type string $0 Image source URL.
 	 *     @type int    $1 Image width in pixels.
 	 *     @type int    $2 Image height in pixels.
+	 *     @type bool   $3 Whether the image is a resized image.
 	 * }
 	 * @param int          $attachment_id Image attachment ID.
 	 * @param string|int[] $size          Requested size of image. Image size name, or array of width
