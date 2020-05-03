@@ -43,6 +43,7 @@ final class WP_Block_Type_Registry {
 	 *
 	 *     @type callable $render_callback Callback used to render blocks of this block type.
 	 *     @type array    $attributes      Block attributes mapping, property name to schema.
+	 *                                     Accepts any public property of `WP_Block_Type`.
 	 * }
 	 * @return WP_Block_Type|false The registered block type on success, or false on failure.
 	 */

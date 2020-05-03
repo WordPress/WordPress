@@ -130,8 +130,8 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param stdClass $event {
-	 *     An object containing an event's data.
+	 * @param stdClass|false $event {
+	 *     An object containing an event's data, or boolean false to prevent the event from being scheduled.
 	 *
 	 *     @type string       $hook      Action hook to execute when the event is run.
 	 *     @type int          $timestamp Unix timestamp (UTC) for when to next run the event.

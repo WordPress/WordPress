@@ -176,8 +176,8 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param bool|WP_Error $retval  True if the user should be added to the site, false
-	 *                               or error object otherwise.
+	 * @param true|WP_Error $retval  True if the user should be added to the site, error
+	 *                               object otherwise.
 	 * @param int           $user_id User ID.
 	 * @param string        $role    User role.
 	 * @param int           $blog_id Site ID.
