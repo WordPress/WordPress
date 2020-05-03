@@ -896,7 +896,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	.theme-browser .theme:nth-child(3n) {
 		margin-right: 0;
 	}
-	
+
 	.theme-overlay .theme-about {
 		bottom: 105px;
 	}
@@ -1060,6 +1060,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	max-width: 380px;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .upload-theme .install-help,
@@ -1917,6 +1918,11 @@ body.full-overlay-active {
 	.theme-browser .theme .theme-actions {
 		padding-top: 4px;
 		padding-bottom: 4px;
+	}
+
+	.upload-theme .wp-upload-form,
+	.upload-plugin .wp-upload-form {
+		display: block;
 	}
 }
 
