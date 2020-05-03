@@ -1393,6 +1393,12 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 					return new WP_Error( 'rest_invalid_param', sprintf( __( '%s is not a valid IP address.' ), $param ) );
 				}
 				break;
+			case 'uuid':
+				if ( ! wp_is_uuid( $value ) ) {
+					/* translators: %s is the name of a JSON field expecting a valid uuid. */
+					return new WP_Error( 'rest_invalid_uuid', sprintf( __( '%s is not a valid UUID.' ), $param ) );
+				}
+				break;
 		}
 	}
 
@@ -1548,6 +1554,9 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 				return esc_url_raw( $value );
 
 			case 'ip':
+				return sanitize_text_field( $value );
+
+			case 'uuid':
 				return sanitize_text_field( $value );
 		}
 	}
