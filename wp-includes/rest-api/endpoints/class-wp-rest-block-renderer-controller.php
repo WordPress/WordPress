@@ -52,7 +52,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 						),
 					),
 					array(
-						'methods'             => WP_REST_Server::READABLE,
+						'methods'             => array( WP_REST_Server::READABLE, WP_REST_Server::CREATABLE ),
 						'callback'            => array( $this, 'get_item' ),
 						'permission_callback' => array( $this, 'get_item_permissions_check' ),
 						'args'                => array(
