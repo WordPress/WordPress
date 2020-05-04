@@ -196,10 +196,12 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$post_id = $wp_query->post->ID;
 			}
 
-			$redirect_url = get_permalink( $post_id );
+			if ( $post_id ) {
+				$redirect_url = get_permalink( $post_id );
 
-			$redirect['path']  = rtrim( $redirect['path'], (int) get_query_var( 'page' ) . '/' );
-			$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
+				$redirect['path']  = rtrim( $redirect['path'], (int) get_query_var( 'page' ) . '/' );
+				$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
+			}
 		}
 
 		if ( ! $redirect_url ) {
