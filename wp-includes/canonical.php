@@ -186,6 +186,22 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			);
 		}
 
+		// Strip off non-existing <!--nextpage--> links from single posts or pages.
+		if ( get_query_var( 'page' ) ) {
+			$post_id = 0;
+
+			if ( $wp_query->queried_object instanceof WP_Post ) {
+				$post_id = $wp_query->queried_object->ID;
+			} elseif ( $wp_query->post ) {
+				$post_id = $wp_query->post->ID;
+			}
+
+			$redirect_url = get_permalink( $post_id );
+
+			$redirect['path']  = rtrim( $redirect['path'], (int) get_query_var( 'page' ) . '/' );
+			$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
+		}
+
 		if ( ! $redirect_url ) {
 			$redirect_url = redirect_guess_404_permalink();
 
@@ -196,14 +212,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 					$redirect_url
 				);
 			}
-		}
-
-		// Strip off non-existing page links from single posts or pages.
-		if ( get_query_var( 'page' ) && $wp_query->post ) {
-			$redirect['path']  = rtrim( $redirect['path'], (int) get_query_var( 'page' ) . '/' );
-			$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
-
-			$redirect_url = get_permalink( $wp_query->post->ID );
 		}
 	} elseif ( is_object( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
 

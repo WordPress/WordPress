@@ -670,15 +670,15 @@ class WP {
 		} elseif ( $wp_query->posts ) {
 			$content_found = true;
 
-			$post = isset( $wp_query->post ) ? $wp_query->post : null;
-
-			// Only set X-Pingback for single posts that allow pings.
-			if ( is_singular() && $post && pings_open( $post ) && ! headers_sent() ) {
-				header( 'X-Pingback: ' . get_bloginfo( 'pingback_url', 'display' ) );
-			}
-
-			// Check for paged content that exceeds the max number of pages.
 			if ( is_singular() ) {
+				$post = isset( $wp_query->post ) ? $wp_query->post : null;
+
+				// Only set X-Pingback for single posts that allow pings.
+				if ( $post && pings_open( $post ) && ! headers_sent() ) {
+					header( 'X-Pingback: ' . get_bloginfo( 'pingback_url', 'display' ) );
+				}
+
+				// Check for paged content that exceeds the max number of pages.
 				$next = '<!--nextpage-->';
 				if ( $post && ! empty( $this->query_vars['page'] ) ) {
 					// Check if content is actually intended to be paged.
@@ -689,6 +689,11 @@ class WP {
 						$content_found = false;
 					}
 				}
+			}
+
+			// The posts page does not support the <!--nextpage--> pagination.
+			if ( $wp_query->is_posts_page && ! empty( $this->query_vars['page'] ) ) {
+				$content_found = false;
 			}
 
 			if ( $content_found ) {
