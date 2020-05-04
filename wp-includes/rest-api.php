@@ -1658,3 +1658,63 @@ function rest_parse_embed_param( $embed ) {
 
 	return $rels;
 }
+
+/**
+ * Filters the response to remove any fields not available in the given context.
+ *
+ * @since 5.5.0
+ *
+ * @param array|object $data    The response data to modify.
+ * @param array        $schema  The schema for the endpoint used to filter the response.
+ * @param string       $context The requested context.
+ * @return array|object The filtered response data.
+ */
+function rest_filter_response_by_context( $data, $schema, $context ) {
+	if ( ! is_array( $data ) && ! is_object( $data ) ) {
+		return $data;
+	}
+
+	if ( isset( $schema['type'] ) ) {
+		$type = $schema['type'];
+	} elseif ( isset( $schema['properties'] ) ) {
+		$type = 'object'; // Back compat if a developer accidentally omitted the type.
+	} else {
+		return $data;
+	}
+
+	foreach ( $data as $key => $value ) {
+		$check = array();
+
+		if ( 'array' === $type || ( is_array( $type ) && in_array( 'array', $type, true ) ) ) {
+			$check = isset( $schema['items'] ) ? $schema['items'] : array();
+		} elseif ( 'object' === $type || ( is_array( $type ) && in_array( 'object', $type, true ) ) ) {
+			if ( isset( $schema['properties'][ $key ] ) ) {
+				$check = $schema['properties'][ $key ];
+			} elseif ( isset( $schema['additionalProperties'] ) && is_array( $schema['additionalProperties'] ) ) {
+				$check = $schema['additionalProperties'];
+			}
+		}
+
+		if ( ! isset( $check['context'] ) ) {
+			continue;
+		}
+
+		if ( ! in_array( $context, $check['context'], true ) ) {
+			if ( is_object( $data ) ) {
+				unset( $data->$key );
+			} else {
+				unset( $data[ $key ] );
+			}
+		} elseif ( is_array( $value ) || is_object( $value ) ) {
+			$new_value = rest_filter_response_by_context( $value, $check, $context );
+
+			if ( is_object( $data ) ) {
+				$data->$key = $new_value;
+			} else {
+				$data[ $key ] = $new_value;
+			}
+		}
+	}
+
+	return $data;
+}

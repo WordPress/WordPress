@@ -288,7 +288,7 @@ abstract class WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array  $data    Response data to fiter.
+	 * @param array  $data    Response data to filter.
 	 * @param string $context Context defined in the schema.
 	 * @return array Filtered response.
 	 */
@@ -296,32 +296,7 @@ abstract class WP_REST_Controller {
 
 		$schema = $this->get_item_schema();
 
-		foreach ( $data as $key => $value ) {
-			if ( empty( $schema['properties'][ $key ] ) || empty( $schema['properties'][ $key ]['context'] ) ) {
-				continue;
-			}
-
-			if ( ! in_array( $context, $schema['properties'][ $key ]['context'], true ) ) {
-				unset( $data[ $key ] );
-				continue;
-			}
-
-			if ( 'object' === $schema['properties'][ $key ]['type'] && ! empty( $schema['properties'][ $key ]['properties'] ) ) {
-				foreach ( $schema['properties'][ $key ]['properties'] as $attribute => $details ) {
-					if ( empty( $details['context'] ) ) {
-						continue;
-					}
-
-					if ( ! in_array( $context, $details['context'], true ) ) {
-						if ( isset( $data[ $key ][ $attribute ] ) ) {
-							unset( $data[ $key ][ $attribute ] );
-						}
-					}
-				}
-			}
-		}
-
-		return $data;
+		return rest_filter_response_by_context( $data, $schema, $context );
 	}
 
 	/**
