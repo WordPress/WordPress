@@ -188,7 +188,6 @@ final class WP_Customize_Nav_Menus {
 						$suppress_page_ids[] = $privacy_policy_page->ID;
 					}
 				}
-
 			} elseif ( 'post' !== $object && 0 === $page && $post_type->has_archive ) {
 				// Add a post type archive link.
 				$items[] = array(
