@@ -18,6 +18,8 @@ class WP_Site_Health {
 	private $health_check_mysql_required_version = '5.5';
 	private $health_check_mysql_rec_version      = '';
 
+	public $php_memory_limit;
+
 	public $schedules;
 	public $crons;
 	public $last_missed_cron     = null;
@@ -32,6 +34,9 @@ class WP_Site_Health {
 	 */
 	public function __construct() {
 		$this->maybe_create_scheduled_event();
+
+		// Save memory limit before it's affected by wp_raise_memory_limit( 'admin' ).
+		$this->php_memory_limit = ini_get( 'memory_limit' );
 
 		$this->timeout_late_cron   = 0;
 		$this->timeout_missed_cron = - 5 * MINUTE_IN_SECONDS;
