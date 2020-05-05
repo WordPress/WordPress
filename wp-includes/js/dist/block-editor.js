@@ -14577,7 +14577,7 @@ function useMultiSelection(ref) {
             startContainer = _selection$getRangeAt.startContainer,
             endContainer = _selection$getRangeAt.endContainer;
 
-        if (!blockNode.contains(startContainer) || !blockNode.contains(endContainer)) {
+        if (!!blockNode && (!blockNode.contains(startContainer) || !blockNode.contains(endContainer))) {
           _selection.removeAllRanges();
         }
       }
@@ -14683,15 +14683,6 @@ function useMultiSelection(ref) {
 
     startClientId.current = clientId;
     anchorElement.current = document.activeElement;
-
-    if (anchorElement.current) {
-      var blockInspector = document.querySelector('.block-editor-block-inspector');
-
-      if (blockInspector && blockInspector.contains(anchorElement.current)) {
-        return;
-      }
-    }
-
     startMultiSelect(); // `onSelectionStart` is called after `mousedown` and `mouseleave`
     // (from a block). The selection ends when `mouseup` happens anywhere
     // in the window.
@@ -25355,20 +25346,23 @@ function MultiSelectScrollIntoView() {
   var selector = function selector(select) {
     var _select = select('core/block-editor'),
         getBlockSelectionEnd = _select.getBlockSelectionEnd,
+        hasMultiSelection = _select.hasMultiSelection,
         isMultiSelecting = _select.isMultiSelecting;
 
     return {
       selectionEnd: getBlockSelectionEnd(),
+      isMultiSelection: hasMultiSelection(),
       isMultiSelecting: isMultiSelecting()
     };
   };
 
   var _useSelect = Object(external_this_wp_data_["useSelect"])(selector, []),
+      isMultiSelection = _useSelect.isMultiSelection,
       selectionEnd = _useSelect.selectionEnd,
       isMultiSelecting = _useSelect.isMultiSelecting;
 
   Object(external_this_wp_element_["useEffect"])(function () {
-    if (!selectionEnd || isMultiSelecting) {
+    if (!selectionEnd || isMultiSelecting || !isMultiSelection) {
       return;
     }
 
@@ -25388,7 +25382,7 @@ function MultiSelectScrollIntoView() {
     lib_default()(extentNode, scrollContainer, {
       onlyScrollIfNeeded: true
     });
-  }, [selectionEnd, isMultiSelecting]);
+  }, [isMultiSelection, selectionEnd, isMultiSelecting]);
   return null;
 }
 
@@ -25434,6 +25428,7 @@ function isKeyDownEligibleForStartTyping(event) {
 function ObserveTyping(_ref) {
   var children = _ref.children,
       setSafeTimeout = _ref.setTimeout;
+  var typingContainer = Object(external_this_wp_element_["useRef"])();
   var lastMouseMove = Object(external_this_wp_element_["useRef"])();
   var isTyping = Object(external_this_wp_data_["useSelect"])(function (select) {
     return select('core/block-editor').isTyping();
@@ -25525,9 +25520,9 @@ function ObserveTyping(_ref) {
     var type = event.type,
         target = event.target; // Abort early if already typing, or key press is incurred outside a
     // text field (e.g. arrow-ing through toolbar buttons).
-    // Ignore typing in a block toolbar
+    // Ignore typing if outside the current DOM container
 
-    if (isTyping || !Object(external_this_wp_dom_["isTextField"])(target) || target.closest('.block-editor-block-toolbar')) {
+    if (isTyping || !Object(external_this_wp_dom_["isTextField"])(target) || !typingContainer.current.contains(target)) {
       return;
     } // Special-case keydown because certain keys do not emit a keypress
     // event. Conversely avoid keydown as the canonical event since there
@@ -25564,6 +25559,7 @@ function ObserveTyping(_ref) {
 
 
   return Object(external_this_wp_element_["createElement"])("div", {
+    ref: typingContainer,
     onFocus: stopTypingOnNonTextField,
     onKeyPress: startTypingInTextField,
     onKeyDown: Object(external_this_lodash_["over"])([startTypingInTextField, stopTypingOnEscapeKey])
