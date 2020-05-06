@@ -86,12 +86,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	$login_title = apply_filters( 'login_title', $login_title, $title );
 
 	?><!DOCTYPE html>
-	<!--[if IE 8]>
-		<html xmlns="http://www.w3.org/1999/xhtml" class="ie8" <?php language_attributes(); ?>>
-	<![endif]-->
-	<!--[if !(IE 8) ]><!-->
-		<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
-	<!--<![endif]-->
+	<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 	<head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo( 'html_type' ); ?>; charset=<?php bloginfo( 'charset' ); ?>" />
 	<title><?php echo $login_title; ?></title>

@@ -75,7 +75,6 @@ _wp_admin_html_begin();
 <?php
 
 wp_enqueue_style( 'colors' );
-wp_enqueue_style( 'ie' );
 wp_enqueue_script( 'utils' );
 wp_enqueue_script( 'svg-painter' );
 

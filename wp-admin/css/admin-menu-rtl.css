@@ -392,11 +392,6 @@ div.wp-menu-image:before {
 	color: #00b9eb;
 }
 
-/* IE8 doesn't redraw the pseudo elements unless you make a change to the content, this restore the initial color after hover */
-.ie8 #adminmenu li.opensub div.wp-menu-image:before {
-	color: #a0a5aa;
-}
-
 .folded #adminmenu div.wp-menu-image {
 	width: 35px;
 	height: 30px;
@@ -407,20 +402,6 @@ div.wp-menu-image:before {
 .folded #adminmenu a.menu-top {
 	height: 34px;
 }
-
-/* No @font-face support */
-.no-font-face #adminmenu .wp-menu-image {
-	display: none;
-}
-
-.no-font-face #adminmenu div.wp-menu-name {
-	padding: 8px 12px;
-}
-
-.no-font-face.auto-fold #adminmenu .wp-menu-name {
-	margin-right: 0;
-}
-/* End no @font-face support */
 
 /* Sticky admin menu */
 .sticky-menu #adminmenuwrap {

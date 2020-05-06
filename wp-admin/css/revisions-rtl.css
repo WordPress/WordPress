@@ -80,7 +80,6 @@
 	top: 50%;
 	top: calc( 50% - 10px );
 	transition: opacity 0.5s;
-	filter: alpha(opacity=0); /* ie8 and earlier */
 }
 
 body.folded .revisions .loading-indicator {
@@ -95,7 +94,6 @@ body.folded .revisions .loading-indicator {
 
 .revisions.loading .loading-indicator {
 	opacity: 1;
-	filter: alpha(opacity=100); /* ie8 and earlier */
 }
 
 .revisions .diff {
@@ -104,7 +102,6 @@ body.folded .revisions .loading-indicator {
 
 .revisions.loading .diff {
 	opacity: 0.5;
-	filter: alpha(opacity=50); /* ie8 and earlier */
 }
 
 .revisions.diff-error .diff {
@@ -384,16 +381,6 @@ table.diff .diff-addedline ins {
 .revisions-tooltip.flipped .revisions-tooltip-arrow > span {
 	right: auto;
 	left: 20px;
-}
-
-.ie8 .revisions-tooltip-arrow > span {
-	right: 15px;
-	top: -25px;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)";
-}
-
-.ie8 .revisions-tooltip.flipped .revisions-tooltip-arrow > span {
-	left: 25px;
 }
 
 .revisions-tooltip,

@@ -280,10 +280,6 @@ a:focus .media-icon img,
 		outline: 1px solid transparent;
 }
 
-.ie8 a:focus {
-	outline: #5b9dd9 solid 1px;
-}
-
 #adminmenu a:focus {
 	box-shadow: none;
 	/* Only visible in Windows High Contrast mode */
@@ -1442,10 +1438,6 @@ div.error p,
 		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
-.ie8 .notice-dismiss:focus {
-	outline: 1px solid #5b9dd9;
-}
-
 .notice-success,
 div.updated {
 	border-right-color: #46b450;
@@ -1765,10 +1757,6 @@ form.upgrade .hint {
 	padding: 8px 0;
 	font-size: 13px;
 	font-weight: 600;
-}
-
-.ie8 #screen-options-wrap legend {
-	color: inherit;
 }
 
 .metabox-prefs label {
@@ -2246,13 +2234,6 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 	content: "";
 	display: table;
 	clear: both;
-}
-
-.ie8 .nav-tab-wrapper {
-	/* contain floats establishing a new block formatting context */
-	display: inline-block;
-	width: 100%;
-	vertical-align: top;
 }
 
 /*------------------------------------------------------------------------------

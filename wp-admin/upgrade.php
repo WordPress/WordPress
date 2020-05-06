@@ -62,10 +62,7 @@ header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option
 	<meta http-equiv="Content-Type" content="<?php bloginfo( 'html_type' ); ?>; charset=<?php echo get_option( 'blog_charset' ); ?>" />
 	<meta name="robots" content="noindex,nofollow" />
 	<title><?php _e( 'WordPress &rsaquo; Update' ); ?></title>
-	<?php
-	wp_admin_css( 'install', true );
-	wp_admin_css( 'ie', true );
-	?>
+	<?php wp_admin_css( 'install', true ); ?>
 </head>
 <body class="wp-core-ui">
 <p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></p>

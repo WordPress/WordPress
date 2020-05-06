@@ -475,10 +475,6 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.ie8 .menu-item-bar .item-delete:before {
-	top: -10px;
-}
-
 .menu-item-bar .item-delete:hover,
 .menu-item-bar .item-delete:focus {
 	box-shadow: none;

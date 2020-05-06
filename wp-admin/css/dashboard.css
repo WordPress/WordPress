@@ -38,24 +38,6 @@
 	border: none !important;
 }
 
-.ie8 #wpbody-content #dashboard-widgets .postbox-container {
-	width: 49.5%;
-}
-
-.ie8 #wpbody-content #dashboard-widgets #postbox-container-2,
-.ie8 #wpbody-content #dashboard-widgets #postbox-container-3,
-.ie8 #wpbody-content #dashboard-widgets #postbox-container-4 {
-	float: right;
-	width: 50.5%;
-}
-
-.ie8 #dashboard-widgets #postbox-container-3 .empty-container,
-.ie8 #dashboard-widgets #postbox-container-4 .empty-container {
-	border: 0 none;
-	height: 0;
-	min-height: 0;
-}
-
 #dashboard-widgets-wrap {
 	overflow: hidden;
 	margin: 0 -8px;
@@ -178,10 +160,6 @@
 	width: 32%;
 	min-width: 200px;
 	float: left;
-}
-
-.ie8 .welcome-panel .welcome-panel-column {
-	min-width: 230px;
 }
 
 .welcome-panel .welcome-panel-column:first-child {

@@ -31,10 +31,6 @@ a:focus {
 		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
-.ie8 a:focus {
-	outline: #5b9dd9 solid 1px;
-}
-
 h1, h2 {
 	border-bottom: 1px solid #ddd;
 	clear: both;

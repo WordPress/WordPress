@@ -62,11 +62,6 @@ body.js .theme-browser.search-loading {
 	box-sizing: border-box;
 }
 
-.ie8 .theme-browser .theme {
-	width: 30%;
-	margin: 0 0 4% 3%;
-}
-
 .theme-browser .theme:nth-child(3n) {
 	margin-left: 0;
 }
@@ -503,10 +498,6 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	z-index: 30;
 	box-sizing: border-box;
 	border-top: 1px solid #eee;
-}
-
-.ie8 .theme-overlay .theme-actions {
-	border: 1px solid #eee;
 }
 
 .theme-overlay .theme-actions a {

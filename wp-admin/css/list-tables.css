@@ -62,13 +62,6 @@
 	text-align: center;
 }
 
-.ie8 .column-response .comment-count-no-comments,
-.ie8 .column-response .comment-count-approved,
-.ie8 .column-comments .comment-count-no-comments,
-.ie8 .column-comments .comment-count-approved {
-	min-width: 0;
-}
-
 .column-response .post-com-count-no-comments:after,
 .column-response .post-com-count-approved:after,
 .column-comments .post-com-count-no-comments:after,
@@ -511,10 +504,6 @@ th.asc a:focus span.sorting-indicator:before {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, 0.8);
-}
-
-.ie8 .wp-list-table .toggle-row:focus:before {
-	outline: #5b9dd9 solid 1px;
 }
 
 .wp-list-table .toggle-row:active {
@@ -1078,11 +1067,6 @@ ul.cat-checklist {
 .inline-edit-row #post_parent,
 .inline-edit-row select[name="page_template"] {
 	max-width: 80%;
-}
-
-.ie8 .inline-edit-row #post_parent,
-.ie8 .inline-edit-row select[name="page_template"] {
-	width: 250px;
 }
 
 .quick-edit-row-post fieldset label.inline-edit-status {

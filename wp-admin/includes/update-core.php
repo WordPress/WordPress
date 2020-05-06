@@ -792,6 +792,11 @@ $_old_files = array(
 	// 5.4
 	'wp-admin/js/wp-fullscreen-stub.js',
 	'wp-admin/js/wp-fullscreen-stub.min.js',
+	// 5.5
+	'wp-admin/css/ie.css',
+	'wp-admin/css/ie.min.css',
+	'wp-admin/css/ie-rtl.css',
+	'wp-admin/css/ie-rtl.min.css',
 );
 
 /**

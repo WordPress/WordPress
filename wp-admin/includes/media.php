@@ -526,7 +526,6 @@ function wp_iframe( $content_func, ...$args ) {
 	) {
 		wp_enqueue_style( 'deprecated-media' );
 	}
-	wp_enqueue_style( 'ie' );
 
 	?>
 	<script type="text/javascript">

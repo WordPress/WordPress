@@ -270,8 +270,7 @@ ul#adminmenu > li.current > a.current:after {
 #adminmenu li.wp-has-current-submenu.opensub div.wp-menu-image:before,
 #adminmenu li:hover div.wp-menu-image:before,
 #adminmenu li a:focus div.wp-menu-image:before,
-#adminmenu li.opensub div.wp-menu-image:before,
-.ie8 #adminmenu li.opensub div.wp-menu-image:before {
+#adminmenu li.opensub div.wp-menu-image:before {
 	color: $menu-current-icon;
 }
 
