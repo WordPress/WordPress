@@ -887,7 +887,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div id="menu-management">
 			<form id="update-nav-menu" method="post" enctype="multipart/form-data">
 			<?php
-				$new_screen_class = '';
+			$new_screen_class = '';
 			if ( $add_new_screen ) {
 				$new_screen_class = 'blank-slate';
 			}
@@ -925,6 +925,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<div id="post-body">
 						<div id="post-body-content" class="wp-clearfix">
 							<?php if ( ! $add_new_screen ) : ?>
+
 								<?php
 								$hide_style = '';
 								if ( isset( $menu_items ) && 0 == count( $menu_items ) ) {
@@ -937,26 +938,30 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 									$starter_copy = __( 'Drag the items into the order you prefer. Click the arrow on the right of the item to reveal additional configuration options.' );
 								}
 								?>
-							<div class="drag-instructions post-body-plain" <?php echo $hide_style; ?>>
-								<p><?php echo $starter_copy; ?></p>
-							</div>
+								<div class="drag-instructions post-body-plain" <?php echo $hide_style; ?>>
+									<p><?php echo $starter_copy; ?></p>
+								</div>
+
 								<?php
 								if ( isset( $edit_markup ) && ! is_wp_error( $edit_markup ) ) {
 									echo $edit_markup;
 								} else {
 									?>
-							<ul class="menu" id="menu-to-edit"></ul>
+									<ul class="menu" id="menu-to-edit"></ul>
 								<?php } ?>
+
 							<?php endif; ?>
+
 							<?php if ( $add_new_screen ) : ?>
 								<p class="post-body-plain" id="menu-name-desc"><?php _e( 'Give your menu a name, then click Create Menu.' ); ?></p>
 								<?php if ( isset( $_GET['use-location'] ) ) : ?>
 									<input type="hidden" name="use-location" value="<?php echo esc_attr( $_GET['use-location'] ); ?>" />
 								<?php endif; ?>
-								<?php
-								endif;
 
-								$no_menus_style = '';
+								<?php
+							endif;
+
+							$no_menus_style = '';
 							if ( $one_theme_location_no_menus ) {
 								$no_menus_style = 'style="display: none;"';
 							}
@@ -1014,25 +1019,33 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					</div><!-- /#post-body -->
 					<div id="nav-menu-footer">
 						<div class="major-publishing-actions wp-clearfix">
-							<?php if ( 0 != $menu_count && ! $add_new_screen ) : ?>
-							<span class="delete-action">
-								<a class="submitdelete deletion menu-delete" href="
-								<?php
-								echo esc_url(
-									wp_nonce_url(
-										add_query_arg(
-											array(
-												'action' => 'delete',
-												'menu'   => $nav_menu_selected_id,
+							<?php if ( $menu_count > 0 ) : ?>
+
+								<?php if ( $add_new_screen ) : ?>
+								<span class="cancel-action">
+									<a class="submitcancel cancellation menu-cancel" href="<?php echo esc_url( admin_url( 'nav-menus.php' ) ); ?>"><?php _e( 'Cancel' ); ?></a>
+								</span><!-- END .cancel-action -->
+								<?php else : ?>
+								<span class="delete-action">
+									<a class="submitdelete deletion menu-delete" href="
+									<?php
+									echo esc_url(
+										wp_nonce_url(
+											add_query_arg(
+												array(
+													'action' => 'delete',
+													'menu' => $nav_menu_selected_id,
+												),
+												admin_url( 'nav-menus.php' )
 											),
-											admin_url( 'nav-menus.php' )
-										),
-										'delete-nav_menu-' . $nav_menu_selected_id
-									)
-								);
-								?>
-								"><?php _e( 'Delete Menu' ); ?></a>
-							</span><!-- END .delete-action -->
+											'delete-nav_menu-' . $nav_menu_selected_id
+										)
+									);
+									?>
+									"><?php _e( 'Delete Menu' ); ?></a>
+								</span><!-- END .delete-action -->
+								<?php endif; ?>
+
 							<?php endif; ?>
 							<div class="publishing-action">
 								<?php submit_button( empty( $nav_menu_selected_id ) ? __( 'Create Menu' ) : __( 'Save Menu' ), 'primary large menu-save', 'save_menu', false, array( 'id' => 'save_menu_footer' ) ); ?>
