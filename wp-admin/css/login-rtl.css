@@ -160,11 +160,16 @@ p {
 
 .login-action-confirm_admin_email #login {
 	width: 60vw;
+	max-width: 650px;
 	margin-top: -2vh;
 }
 
 @media screen and (max-width: 782px) {
 	.login-action-confirm_admin_email #login {
+		box-sizing: border-box;
+		margin-top: 0;
+		padding-right: 4vw;
+		padding-left: 4vw;
 		width: 100vw;
 	}
 }
