@@ -40,6 +40,14 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</nav>
 		</div>
 
+		<div class="about__section is-feature has-accent-background-color">
+			<h1><?php _e( 'Say hello to more and better.' ); ?></h1>
+
+			<p><?php _e( 'More ways to make your pages come alive. With easier ways to get it all done and looking better than ever&mdash;and boosts in speed you can feel.' ); ?></p>
+		</div>
+
+		<hr />
+
 		<div class="about__section changelog">
 			<div class="column">
 				<h2><?php _e( 'Maintenance and Security Releases' ); ?></h2>
@@ -69,14 +77,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					?>
 				</p>
 			</div>
-		</div>
-
-		<hr />
-
-		<div class="about__section is-feature has-accent-background-color">
-			<h1><?php _e( 'Say hello to more and better.' ); ?></h1>
-
-			<p><?php _e( 'More ways to make your pages come alive. With easier ways to get it all done and looking better than ever&mdash;and boosts in speed you can feel.' ); ?></p>
 		</div>
 
 		<hr />
