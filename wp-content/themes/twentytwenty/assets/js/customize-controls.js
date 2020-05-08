@@ -35,6 +35,17 @@
 				} );
 			} );
 		} );
+
+		// Show or hide retina_logo setting on the first load.
+		twentyTwentySetRetineLogoVisibility( !! wp.customize( 'custom_logo' )() );
+
+		// Add a listener for custom_logo changes.
+		wp.customize( 'custom_logo', function( value ) {
+			value.bind( function( to ) {
+				// Show or hide retina_logo setting on changing custom_logo.
+				twentyTwentySetRetineLogoVisibility( !! to );
+			} );
+		} );
 	} );
 
 	/**
@@ -86,5 +97,18 @@
 
 		// Small hack to save the option.
 		wp.customize( 'accent_accessible_colors' )._dirty = true;
+	}
+
+	/**
+	 * Shows or hides the "retina_logo" setting based on the given value.
+	 *
+	 * @since Twenty Twenty 1.3
+	 *
+	 * @param {boolean} visible The visible value.
+	 *
+	 * @return {void}
+	 */
+	function twentyTwentySetRetineLogoVisibility( visible ) {
+		wp.customize.control( 'retina_logo' ).container.toggle( visible );
 	}
 }( jQuery ) );
