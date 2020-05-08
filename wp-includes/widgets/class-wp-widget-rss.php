@@ -48,7 +48,7 @@ class WP_Widget_RSS extends WP_Widget {
 		}
 
 		$url = ! empty( $instance['url'] ) ? $instance['url'] : '';
-		while ( stristr( $url, 'http' ) != $url ) {
+		while ( stristr( $url, 'http' ) !== $url ) {
 			$url = substr( $url, 1 );
 		}
 
@@ -72,7 +72,7 @@ class WP_Widget_RSS extends WP_Widget {
 				$title = strip_tags( $rss->get_title() );
 			}
 			$link = strip_tags( $rss->get_permalink() );
-			while ( stristr( $link, 'http' ) != $link ) {
+			while ( stristr( $link, 'http' ) !== $link ) {
 				$link = substr( $link, 1 );
 			}
 		}
@@ -114,7 +114,7 @@ class WP_Widget_RSS extends WP_Widget {
 	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$testurl = ( isset( $new_instance['url'] ) && ( ! isset( $old_instance['url'] ) || ( $new_instance['url'] != $old_instance['url'] ) ) );
+		$testurl = ( isset( $new_instance['url'] ) && ( ! isset( $old_instance['url'] ) || ( $new_instance['url'] !== $old_instance['url'] ) ) );
 		return wp_widget_rss_process( $new_instance, $testurl );
 	}
 
