@@ -1063,16 +1063,18 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 				continue;
 			}
 
-			// If a core box was previously added or removed by a plugin, don't add.
-			if ( 'core' === $priority ) {
-				// If core box previously deleted, don't add.
-				if ( false === $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ] ) {
-					return;
-				}
+			// If a core box was previously removed, don't add.
+			if ( ( 'core' === $priority || 'sorted' === $priority )
+				&& false === $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ]
+			) {
+				return;
+			}
 
+			// If a core box was previously added by a plugin, don't add.
+			if ( 'core' === $priority ) {
 				/*
-				 * If box was added with default priority, give it core priority to
-				 * maintain sort order.
+				 * If the box was added with default priority, give it core priority
+				 * to maintain sort order.
 				 */
 				if ( 'default' === $a_priority ) {
 					$wp_meta_boxes[ $page ][ $a_context ]['core'][ $id ] = $wp_meta_boxes[ $page ][ $a_context ]['default'][ $id ];
@@ -1080,13 +1082,14 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 				}
 				return;
 			}
+
 			// If no priority given and ID already present, use existing priority.
 			if ( empty( $priority ) ) {
 				$priority = $a_priority;
 				/*
-				* Else, if we're adding to the sorted priority, we don't know the title
-				* or callback. Grab them from the previously added context/priority.
-				*/
+				 * Else, if we're adding to the sorted priority, we don't know the title
+				 * or callback. Grab them from the previously added context/priority.
+				 */
 			} elseif ( 'sorted' === $priority ) {
 				$title         = $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ]['title'];
 				$callback      = $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ]['callback'];
