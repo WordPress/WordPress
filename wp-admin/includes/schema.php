@@ -441,7 +441,7 @@ function populate_options( array $options = array() ) {
 		'comment_max_links'               => 2,
 		'gmt_offset'                      => $gmt_offset,
 
-		// 1.5
+		// 1.5.0
 		'default_email_category'          => 1,
 		'recently_edited'                 => '',
 		'template'                        => $template,
@@ -454,7 +454,7 @@ function populate_options( array $options = array() ) {
 		// 1.5.1
 		'use_trackback'                   => 0,
 
-		// 2.0
+		// 2.0.0
 		'default_role'                    => 'subscriber',
 		'db_version'                      => $wp_db_version,
 
@@ -462,15 +462,15 @@ function populate_options( array $options = array() ) {
 		'uploads_use_yearmonth_folders'   => 1,
 		'upload_path'                     => '',
 
-		// 2.1
+		// 2.1.0
 		'blog_public'                     => '1',
 		'default_link_category'           => 2,
 		'show_on_front'                   => 'posts',
 
-		// 2.2
+		// 2.2.0
 		'tag_base'                        => '',
 
-		// 2.5
+		// 2.5.0
 		'show_avatars'                    => '1',
 		'avatar_rating'                   => 'G',
 		'upload_url_path'                 => '',
@@ -480,10 +480,10 @@ function populate_options( array $options = array() ) {
 		'medium_size_w'                   => 300,
 		'medium_size_h'                   => 300,
 
-		// 2.6
+		// 2.6.0
 		'avatar_default'                  => 'mystery',
 
-		// 2.7
+		// 2.7.0
 		'large_size_w'                    => 1024,
 		'large_size_h'                    => 1024,
 		'image_default_link_type'         => 'none',
@@ -503,17 +503,17 @@ function populate_options( array $options = array() ) {
 		'widget_rss'                      => array(),
 		'uninstall_plugins'               => array(),
 
-		// 2.8
+		// 2.8.0
 		'timezone_string'                 => $timezone_string,
 
-		// 3.0
+		// 3.0.0
 		'page_for_posts'                  => 0,
 		'page_on_front'                   => 0,
 
-		// 3.1
+		// 3.1.0
 		'default_post_format'             => 0,
 
-		// 3.5
+		// 3.5.0
 		'link_manager_enabled'            => 0,
 
 		// 4.3.0
@@ -534,13 +534,13 @@ function populate_options( array $options = array() ) {
 		'admin_email_lifespan'            => ( time() + 6 * MONTH_IN_SECONDS ),
 	);
 
-	// 3.3
+	// 3.3.0
 	if ( ! is_multisite() ) {
 		$defaults['initial_db_version'] = ! empty( $wp_current_db_version ) && $wp_current_db_version < $wp_db_version
 			? $wp_current_db_version : $wp_db_version;
 	}
 
-	// 3.0 multisite.
+	// 3.0.0 multisite.
 	if ( is_multisite() ) {
 		/* translators: %s: Network title. */
 		$defaults['blogdescription']     = sprintf( __( 'Just another %s site' ), get_network()->site_name );
