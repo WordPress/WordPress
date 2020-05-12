@@ -42,7 +42,7 @@ if ( ! current_user_can( 'upload_files' ) ) {
 if ( isset( $_REQUEST['attachment_id'] ) && intval( $_REQUEST['attachment_id'] ) && $_REQUEST['fetch'] ) {
 	$id   = intval( $_REQUEST['attachment_id'] );
 	$post = get_post( $id );
-	if ( 'attachment' != $post->post_type ) {
+	if ( 'attachment' !== $post->post_type ) {
 		wp_die( __( 'Invalid post type.' ) );
 	}
 	if ( ! current_user_can( 'edit_post', $id ) ) {

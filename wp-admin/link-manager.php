@@ -23,7 +23,7 @@ if ( $doaction && isset( $_REQUEST['linkcheck'] ) ) {
 	$redirect_to = admin_url( 'link-manager.php' );
 	$bulklinks   = (array) $_REQUEST['linkcheck'];
 
-	if ( 'delete' == $doaction ) {
+	if ( 'delete' === $doaction ) {
 		foreach ( $bulklinks as $link_id ) {
 			$link_id = (int) $link_id;
 

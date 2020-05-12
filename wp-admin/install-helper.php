@@ -51,20 +51,23 @@ if ( ! function_exists( 'maybe_create_table' ) ) :
 	 */
 	function maybe_create_table( $table_name, $create_ddl ) {
 		global $wpdb;
+
 		foreach ( $wpdb->get_col( 'SHOW TABLES', 0 ) as $table ) {
-			if ( $table == $table_name ) {
+			if ( $table === $table_name ) {
 				return true;
 			}
 		}
+
 		// Didn't find it, so try to create it.
 		$wpdb->query( $create_ddl );
 
 		// We cannot directly tell that whether this succeeded!
 		foreach ( $wpdb->get_col( 'SHOW TABLES', 0 ) as $table ) {
-			if ( $table == $table_name ) {
+			if ( $table === $table_name ) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 endif;
@@ -84,9 +87,9 @@ if ( ! function_exists( 'maybe_add_column' ) ) :
 	 */
 	function maybe_add_column( $table_name, $column_name, $create_ddl ) {
 		global $wpdb;
-		foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
 
-			if ( $column == $column_name ) {
+		foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
+			if ( $column === $column_name ) {
 				return true;
 			}
 		}
@@ -96,10 +99,11 @@ if ( ! function_exists( 'maybe_add_column' ) ) :
 
 		// We cannot directly tell that whether this succeeded!
 		foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
-			if ( $column == $column_name ) {
+			if ( $column === $column_name ) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 endif;
@@ -118,20 +122,22 @@ endif;
  */
 function maybe_drop_column( $table_name, $column_name, $drop_ddl ) {
 	global $wpdb;
+
 	foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
-		if ( $column == $column_name ) {
+		if ( $column === $column_name ) {
 
 			// Found it, so try to drop it.
 			$wpdb->query( $drop_ddl );
 
 			// We cannot directly tell that whether this succeeded!
 			foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
-				if ( $column == $column_name ) {
+				if ( $column === $column_name ) {
 					return false;
 				}
 			}
 		}
 	}
+
 	// Else didn't find it.
 	return true;
 }
@@ -167,34 +173,38 @@ function maybe_drop_column( $table_name, $column_name, $drop_ddl ) {
  */
 function check_column( $table_name, $col_name, $col_type, $is_null = null, $key = null, $default = null, $extra = null ) {
 	global $wpdb;
+
 	$diffs   = 0;
 	$results = $wpdb->get_results( "DESC $table_name" );
 
 	foreach ( $results as $row ) {
 
-		if ( $row->Field == $col_name ) {
+		if ( $row->Field === $col_name ) {
 
 			// Got our column, check the params.
-			if ( ( null != $col_type ) && ( $row->Type != $col_type ) ) {
+			if ( ( null !== $col_type ) && ( $row->Type !== $col_type ) ) {
 				++$diffs;
 			}
-			if ( ( null != $is_null ) && ( $row->Null != $is_null ) ) {
+			if ( ( null !== $is_null ) && ( $row->Null !== $is_null ) ) {
 				++$diffs;
 			}
-			if ( ( null != $key ) && ( $row->Key != $key ) ) {
+			if ( ( null !== $key ) && ( $row->Key !== $key ) ) {
 				++$diffs;
 			}
-			if ( ( null != $default ) && ( $row->Default != $default ) ) {
+			if ( ( null !== $default ) && ( $row->Default !== $default ) ) {
 				++$diffs;
 			}
-			if ( ( null != $extra ) && ( $row->Extra != $extra ) ) {
+			if ( ( null !== $extra ) && ( $row->Extra !== $extra ) ) {
 				++$diffs;
 			}
+
 			if ( $diffs > 0 ) {
 				return false;
 			}
+
 			return true;
 		} // End if found our column.
 	}
+
 	return false;
 }

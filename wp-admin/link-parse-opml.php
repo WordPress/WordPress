@@ -27,14 +27,14 @@ global $opml;
  * @global array $descriptions
  * @global array $feeds
  *
- * @param resource $parser XML Parser resource.
- * @param string $tagName XML element name.
- * @param array $attrs XML element attributes.
+ * @param resource $parser   XML Parser resource.
+ * @param string   $tag_name XML element name.
+ * @param array    $attrs    XML element attributes.
  */
-function startElement( $parser, $tagName, $attrs ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function startElement( $parser, $tag_name, $attrs ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	global $names, $urls, $targets, $descriptions, $feeds;
 
-	if ( 'OUTLINE' === $tagName ) {
+	if ( 'OUTLINE' === $tag_name ) {
 		$name = '';
 		if ( isset( $attrs['TEXT'] ) ) {
 			$name = $attrs['TEXT'];
@@ -65,10 +65,10 @@ function startElement( $parser, $tagName, $attrs ) { // phpcs:ignore WordPress.N
  * @since 0.71
  * @access private
  *
- * @param resource $parser XML Parser resource.
- * @param string $tagName XML tag name.
+ * @param resource $parser   XML Parser resource.
+ * @param string   $tag_name XML tag name.
  */
-function endElement( $parser, $tagName ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function endElement( $parser, $tag_name ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	// Nothing to do.
 }
 

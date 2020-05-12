@@ -2346,7 +2346,7 @@ function maybe_create_table( $table_name, $create_ddl ) {
 
 	$query = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) );
 
-	if ( $wpdb->get_var( $query ) == $table_name ) {
+	if ( $wpdb->get_var( $query ) === $table_name ) {
 		return true;
 	}
 
@@ -2354,9 +2354,10 @@ function maybe_create_table( $table_name, $create_ddl ) {
 	$wpdb->query( $create_ddl );
 
 	// We cannot directly tell that whether this succeeded!
-	if ( $wpdb->get_var( $query ) == $table_name ) {
+	if ( $wpdb->get_var( $query ) === $table_name ) {
 		return true;
 	}
+
 	return false;
 }
 
@@ -2373,13 +2374,18 @@ function maybe_create_table( $table_name, $create_ddl ) {
  */
 function drop_index( $table, $index ) {
 	global $wpdb;
+
 	$wpdb->hide_errors();
+
 	$wpdb->query( "ALTER TABLE `$table` DROP INDEX `$index`" );
+
 	// Now we need to take out all the extra ones we may have created.
 	for ( $i = 0; $i < 25; $i++ ) {
 		$wpdb->query( "ALTER TABLE `$table` DROP INDEX `{$index}_$i`" );
 	}
+
 	$wpdb->show_errors();
+
 	return true;
 }
 
@@ -2396,8 +2402,10 @@ function drop_index( $table, $index ) {
  */
 function add_clean_index( $table, $index ) {
 	global $wpdb;
+
 	drop_index( $table, $index );
 	$wpdb->query( "ALTER TABLE `$table` ADD INDEX ( `$index` )" );
+
 	return true;
 }
 
@@ -2415,8 +2423,9 @@ function add_clean_index( $table, $index ) {
  */
 function maybe_add_column( $table_name, $column_name, $create_ddl ) {
 	global $wpdb;
+
 	foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
-		if ( $column == $column_name ) {
+		if ( $column === $column_name ) {
 			return true;
 		}
 	}
@@ -2426,10 +2435,11 @@ function maybe_add_column( $table_name, $column_name, $create_ddl ) {
 
 	// We cannot directly tell that whether this succeeded!
 	foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
-		if ( $column == $column_name ) {
+		if ( $column === $column_name ) {
 			return true;
 		}
 	}
+
 	return false;
 }
 

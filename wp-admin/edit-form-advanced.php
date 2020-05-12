@@ -76,7 +76,7 @@ $post_ID = isset( $post_ID ) ? (int) $post_ID : 0;
 $user_ID = isset( $user_ID ) ? (int) $user_ID : 0;
 $action  = isset( $action ) ? $action : '';
 
-if ( get_option( 'page_for_posts' ) == $post_ID && empty( $post->post_content ) ) {
+if ( (int) get_option( 'page_for_posts' ) === $post_ID && empty( $post->post_content ) ) {
 	add_action( 'edit_form_after_title', '_wp_posts_page_notice' );
 	remove_post_type_support( $post_type, 'editor' );
 }
@@ -228,8 +228,8 @@ if ( isset( $_GET['message'] ) ) {
 
 $notice     = false;
 $form_extra = '';
-if ( 'auto-draft' == $post->post_status ) {
-	if ( 'edit' == $action ) {
+if ( 'auto-draft' === $post->post_status ) {
+	if ( 'edit' === $action ) {
 		$post->post_title = '';
 	}
 	$autosave    = false;
@@ -276,7 +276,7 @@ add_screen_option(
 	)
 );
 
-if ( 'post' == $post_type ) {
+if ( 'post' === $post_type ) {
 	$customize_display = '<p>' . __( 'The title field and the big Post Editing Area are fixed in place, but you can reposition all the other boxes using drag and drop. You can also minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to unhide more boxes (Excerpt, Send Trackbacks, Custom Fields, Discussion, Slug, Author) or to choose a 1- or 2-column layout for this screen.' ) . '</p>';
 
 	get_current_screen()->add_help_tab(
@@ -313,7 +313,7 @@ if ( 'post' == $post_type ) {
 			'<p>' . __( '<a href="https://wordpress.org/support/article/wordpress-editor/">Documentation on Writing and Editing Posts</a>' ) . '</p>' .
 			'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
 	);
-} elseif ( 'page' == $post_type ) {
+} elseif ( 'page' === $post_type ) {
 	$about_pages = '<p>' . __( 'Pages are similar to posts in that they have a title, body text, and associated metadata, but they are different in that they are not part of the chronological blog stream, kind of like permanent posts. Pages are not categorized or tagged, but can have a hierarchy. You can nest pages under other pages by making one the &#8220;Parent&#8221; of the other, creating a group of pages.' ) . '</p>' .
 		'<p>' . __( 'Creating a Page is very similar to creating a Post, and the screens can be customized in the same way using drag and drop, the Screen Options tab, and expanding/collapsing boxes as you choose. This screen also has the distraction-free writing space, available in both the Visual and Text modes via the Fullscreen buttons. The Page editor mostly works the same as the Post editor, but there are some Page-specific features in the Page Attributes box.' ) . '</p>';
 
@@ -331,7 +331,7 @@ if ( 'post' == $post_type ) {
 			'<p>' . __( '<a href="https://wordpress.org/support/article/pages-screen/">Documentation on Editing Pages</a>' ) . '</p>' .
 			'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
 	);
-} elseif ( 'attachment' == $post_type ) {
+} elseif ( 'attachment' === $post_type ) {
 	get_current_screen()->add_help_tab(
 		array(
 			'id'      => 'overview',
@@ -351,7 +351,7 @@ if ( 'post' == $post_type ) {
 	);
 }
 
-if ( 'post' == $post_type || 'page' == $post_type ) {
+if ( 'post' === $post_type || 'page' === $post_type ) {
 	$inserting_media  = '<p>' . __( 'You can upload and insert media (images, audio, documents, etc.) by clicking the Add Media button. You can select from the images and files already uploaded to the Media Library, or upload new media to add to your page or post. To create an image gallery, select the images to add and click the &#8220;Create a new gallery&#8221; button.' ) . '</p>';
 	$inserting_media .= '<p>' . __( 'You can also embed media from many popular websites including Twitter, YouTube, Flickr and others by pasting the media URL on its own line into the content of your post/page. <a href="https://wordpress.org/support/article/embeds/">Learn more about embeds</a>.' ) . '</p>';
 
@@ -364,7 +364,7 @@ if ( 'post' == $post_type || 'page' == $post_type ) {
 	);
 }
 
-if ( 'post' == $post_type ) {
+if ( 'post' === $post_type ) {
 	$publish_box  = '<p>' . __( 'Several boxes on this screen contain settings for how your content will be published, including:' ) . '</p>';
 	$publish_box .= '<ul><li>' .
 		__( '<strong>Publish</strong> &mdash; You can set the terms of publishing your post in the Publish box. For Status, Visibility, and Publish (immediately), click on the Edit link to reveal more options. Visibility includes options for password-protecting a post or making it stay at the top of your blog indefinitely (sticky). The Password protected option allows you to set an arbitrary password for each post. The Private option hides the post from everyone except editors and administrators. Publish (immediately) allows you to set a future or past date and time, so you can schedule a post to be published in the future or backdate a post.' ) .
@@ -402,7 +402,7 @@ if ( 'post' == $post_type ) {
 			'content' => $discussion_settings,
 		)
 	);
-} elseif ( 'page' == $post_type ) {
+} elseif ( 'page' === $post_type ) {
 	$page_attributes = '<p>' . __( '<strong>Parent</strong> &mdash; You can arrange your pages in hierarchies. For example, you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how many levels you can nest pages.' ) . '</p>' .
 		'<p>' . __( '<strong>Template</strong> &mdash; Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them in this dropdown menu.' ) . '</p>' .
 		'<p>' . __( '<strong>Order</strong> &mdash; Pages are usually ordered alphabetically, but you can choose your own order by entering a number (1 for first, etc.) in this field.' ) . '</p>';
@@ -471,7 +471,7 @@ $referer = wp_get_referer();
 <input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
 	<?php
 }
-if ( 'draft' != get_post_status( $post ) ) {
+if ( 'draft' !== get_post_status( $post ) ) {
 	wp_original_referer_field( true, 'previous' );
 }
 
@@ -495,7 +495,7 @@ do_action( 'edit_form_top', $post );
 ?>
 
 <div id="poststuff">
-<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
+<div id="post-body" class="metabox-holder columns-<?php echo ( 1 === get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
 <div id="post-body-content">
 
 <?php if ( post_type_supports( $post_type, 'title' ) ) { ?>
@@ -535,12 +535,17 @@ do_action( 'edit_form_top', $post );
 			$shortlink = wp_get_shortlink( $post->ID, 'post' );
 
 			if ( ! empty( $shortlink ) && $shortlink !== $permalink && home_url( '?page_id=' . $post->ID ) !== $permalink ) {
-				$sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr( $shortlink ) . '" /><button type="button" class="button button-small" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val());">' . __( 'Get Shortlink' ) . '</button>';
+				$sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr( $shortlink ) . '" />' .
+					'<button type="button" class="button button-small" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val());">' .
+					__( 'Get Shortlink' ) .
+					'</button>';
 			}
 		}
 
-		if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && ! current_user_can( $post_type_object->cap->publish_posts ) ) ) {
-			$has_sample_permalink = $sample_permalink_html && 'auto-draft' != $post->post_status;
+		if ( $post_type_object->public
+			&& ! ( 'pending' === get_post_status( $post ) && ! current_user_can( $post_type_object->cap->publish_posts ) )
+		) {
+			$has_sample_permalink = $sample_permalink_html && 'auto-draft' !== $post->post_status;
 			?>
 	<div id="edit-slug-box" class="hide-if-no-js">
 			<?php
@@ -608,7 +613,7 @@ if ( post_type_supports( $post_type, 'editor' ) ) {
 	<td class="autosave-info">
 	<span class="autosave-message">&nbsp;</span>
 	<?php
-	if ( 'auto-draft' != $post->post_status ) {
+	if ( 'auto-draft' !== $post->post_status ) {
 		echo '<span id="last-edit">';
 		$last_user = get_userdata( get_post_meta( $post_ID, '_edit_last', true ) );
 		if ( $last_user ) {
@@ -642,7 +647,7 @@ do_action( 'edit_form_after_editor', $post );
 <div id="postbox-container-1" class="postbox-container">
 <?php
 
-if ( 'page' == $post_type ) {
+if ( 'page' === $post_type ) {
 	/**
 	 * Fires before meta boxes with 'side' context are output for the 'page' post type.
 	 *
@@ -676,7 +681,7 @@ do_meta_boxes( $post_type, 'side', $post );
 
 do_meta_boxes( null, 'normal', $post );
 
-if ( 'page' == $post_type ) {
+if ( 'page' === $post_type ) {
 	/**
 	 * Fires after 'normal' context meta boxes have been output for the 'page' post type.
 	 *

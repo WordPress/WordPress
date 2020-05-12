@@ -35,7 +35,7 @@ switch ( $action ) {
 		check_admin_referer( 'bulk-bookmarks' );
 
 		// For each link id (in $linkcheck[]) change category to selected value.
-		if ( count( $linkcheck ) == 0 ) {
+		if ( count( $linkcheck ) === 0 ) {
 			wp_redirect( $this_file );
 			exit;
 		}
@@ -56,7 +56,7 @@ switch ( $action ) {
 		check_admin_referer( 'bulk-bookmarks' );
 
 		// For each link id (in $linkcheck[]) change category to selected value.
-		if ( count( $linkcheck ) == 0 ) {
+		if ( count( $linkcheck ) === 0 ) {
 			wp_redirect( $this_file );
 			exit;
 		}

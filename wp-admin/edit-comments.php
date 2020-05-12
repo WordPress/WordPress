@@ -24,14 +24,14 @@ $doaction = $wp_list_table->current_action();
 if ( $doaction ) {
 	check_admin_referer( 'bulk-comments' );
 
-	if ( 'delete_all' == $doaction && ! empty( $_REQUEST['pagegen_timestamp'] ) ) {
+	if ( 'delete_all' === $doaction && ! empty( $_REQUEST['pagegen_timestamp'] ) ) {
 		$comment_status = wp_unslash( $_REQUEST['comment_status'] );
 		$delete_time    = wp_unslash( $_REQUEST['pagegen_timestamp'] );
 		$comment_ids    = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_approved = %s AND %s > comment_date_gmt", $comment_status, $delete_time ) );
 		$doaction       = 'delete';
 	} elseif ( isset( $_REQUEST['delete_comments'] ) ) {
 		$comment_ids = $_REQUEST['delete_comments'];
-		$doaction    = ( -1 != $_REQUEST['action'] ) ? $_REQUEST['action'] : $_REQUEST['action2'];
+		$doaction    = ( '-1' !== $_REQUEST['action'] ) ? $_REQUEST['action'] : $_REQUEST['action2'];
 	} elseif ( isset( $_REQUEST['ids'] ) ) {
 		$comment_ids = array_map( 'absint', explode( ',', $_REQUEST['ids'] ) );
 	} elseif ( wp_get_referer() ) {

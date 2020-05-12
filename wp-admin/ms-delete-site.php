@@ -17,7 +17,7 @@ if ( ! current_user_can( 'delete_site' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to delete this site.' ) );
 }
 
-if ( isset( $_GET['h'] ) && '' != $_GET['h'] && false != get_option( 'delete_blog_hash' ) ) {
+if ( isset( $_GET['h'] ) && '' !== $_GET['h'] && false !== get_option( 'delete_blog_hash' ) ) {
 	if ( hash_equals( get_option( 'delete_blog_hash' ), $_GET['h'] ) ) {
 		wpmu_delete_blog( get_current_blog_id() );
 		wp_die(
@@ -42,7 +42,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 echo '<div class="wrap">';
 echo '<h1>' . esc_html( $title ) . '</h1>';
 
-if ( isset( $_POST['action'] ) && 'deleteblog' == $_POST['action'] && isset( $_POST['confirmdelete'] ) && '1' == $_POST['confirmdelete'] ) {
+if ( isset( $_POST['action'] ) && 'deleteblog' === $_POST['action'] && isset( $_POST['confirmdelete'] ) && '1' === $_POST['confirmdelete'] ) {
 	check_admin_referer( 'delete-blog' );
 
 	$hash = wp_generate_password( 20, false );

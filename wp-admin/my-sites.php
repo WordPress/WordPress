@@ -22,7 +22,7 @@ $action = isset( $_POST['action'] ) ? $_POST['action'] : 'splash';
 $blogs = get_blogs_of_user( $current_user->ID );
 
 $updated = false;
-if ( 'updateblogsettings' == $action && isset( $_POST['primary_blog'] ) ) {
+if ( 'updateblogsettings' === $action && isset( $_POST['primary_blog'] ) ) {
 	check_admin_referer( 'update-my-sites' );
 
 	$blog = get_site( (int) $_POST['primary_blog'] );
@@ -107,10 +107,12 @@ else :
 	 * @param string $context       Context of the setting (global or site-specific). Default 'global'.
 	 */
 	$settings_html = apply_filters( 'myblogs_options', '', 'global' );
-	if ( '' != $settings_html ) {
+
+	if ( $settings_html ) {
 		echo '<h3>' . __( 'Global Settings' ) . '</h3>';
 		echo $settings_html;
 	}
+
 	reset( $blogs );
 
 	foreach ( $blogs as $user_blog ) {
@@ -134,10 +136,12 @@ else :
 		 * @param object $user_blog An object containing the site data.
 		 */
 		$actions = apply_filters( 'myblogs_blog_actions', $actions, $user_blog );
+
 		echo "<p class='my-sites-actions'>" . $actions . '</p>';
 
 		/** This filter is documented in wp-admin/my-sites.php */
 		echo apply_filters( 'myblogs_options', '', $user_blog );
+
 		echo '</li>';
 
 		restore_current_blog();

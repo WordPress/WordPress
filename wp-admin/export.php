@@ -62,9 +62,9 @@ get_current_screen()->set_help_sidebar(
 if ( isset( $_GET['download'] ) ) {
 	$args = array();
 
-	if ( ! isset( $_GET['content'] ) || 'all' == $_GET['content'] ) {
+	if ( ! isset( $_GET['content'] ) || 'all' === $_GET['content'] ) {
 		$args['content'] = 'all';
-	} elseif ( 'posts' == $_GET['content'] ) {
+	} elseif ( 'posts' === $_GET['content'] ) {
 		$args['content'] = 'post';
 
 		if ( $_GET['cat'] ) {
@@ -83,7 +83,7 @@ if ( isset( $_GET['download'] ) ) {
 		if ( $_GET['post_status'] ) {
 			$args['status'] = $_GET['post_status'];
 		}
-	} elseif ( 'pages' == $_GET['content'] ) {
+	} elseif ( 'pages' === $_GET['content'] ) {
 		$args['content'] = 'page';
 
 		if ( $_GET['page_author'] ) {
@@ -98,7 +98,7 @@ if ( isset( $_GET['download'] ) ) {
 		if ( $_GET['page_status'] ) {
 			$args['status'] = $_GET['page_status'];
 		}
-	} elseif ( 'attachment' == $_GET['content'] ) {
+	} elseif ( 'attachment' === $_GET['content'] ) {
 		$args['content'] = 'attachment';
 
 		if ( $_GET['attachment_start_date'] || $_GET['attachment_end_date'] ) {
@@ -144,18 +144,18 @@ function export_date_options( $post_type = 'post' ) {
 		FROM $wpdb->posts
 		WHERE post_type = %s AND post_status != 'auto-draft'
 		ORDER BY post_date DESC
-	",
+			",
 			$post_type
 		)
 	);
 
 	$month_count = count( $months );
-	if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) ) {
+	if ( ! $month_count || ( 1 === $month_count && 0 === (int) $months[0]->month ) ) {
 		return;
 	}
 
 	foreach ( $months as $date ) {
-		if ( 0 == $date->year ) {
+		if ( 0 === (int) $date->year ) {
 			continue;
 		}
 
