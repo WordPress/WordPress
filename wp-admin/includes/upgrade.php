@@ -2184,7 +2184,7 @@ function upgrade_network() {
 	// Always clear expired transients.
 	delete_expired_transients( true );
 
-	// 2.8
+	// 2.8.0
 	if ( $wp_current_db_version < 11549 ) {
 		$wpmu_sitewide_plugins   = get_site_option( 'wpmu_sitewide_plugins' );
 		$active_sitewide_plugins = get_site_option( 'active_sitewide_plugins' );
@@ -2215,12 +2215,12 @@ function upgrade_network() {
 		}
 	}
 
-	// 3.0
+	// 3.0.0
 	if ( $wp_current_db_version < 13576 ) {
 		update_site_option( 'global_terms_enabled', '1' );
 	}
 
-	// 3.3
+	// 3.3.0
 	if ( $wp_current_db_version < 19390 ) {
 		update_site_option( 'initial_db_version', $wp_current_db_version );
 	}
@@ -2231,7 +2231,7 @@ function upgrade_network() {
 		}
 	}
 
-	// 3.4
+	// 3.4.0
 	if ( $wp_current_db_version < 20148 ) {
 		// 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
 		$allowedthemes  = get_site_option( 'allowedthemes' );
@@ -2249,7 +2249,7 @@ function upgrade_network() {
 		}
 	}
 
-	// 3.5
+	// 3.5.0
 	if ( $wp_current_db_version < 21823 ) {
 		update_site_option( 'ms_files_rewriting', '1' );
 	}
@@ -2264,7 +2264,7 @@ function upgrade_network() {
 		}
 	}
 
-	// 4.2
+	// 4.2.0
 	if ( $wp_current_db_version < 31351 && 'utf8mb4' === $wpdb->charset ) {
 		if ( wp_should_upgrade_global_tables() ) {
 			$wpdb->query( "ALTER TABLE $wpdb->usermeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
@@ -2285,7 +2285,7 @@ function upgrade_network() {
 		}
 	}
 
-	// 4.3
+	// 4.3.0
 	if ( $wp_current_db_version < 33055 && 'utf8mb4' === $wpdb->charset ) {
 		if ( wp_should_upgrade_global_tables() ) {
 			$upgrade = false;
@@ -2314,7 +2314,7 @@ function upgrade_network() {
 		}
 	}
 
-	// 5.1
+	// 5.1.0
 	if ( $wp_current_db_version < 44467 ) {
 		$network_id = get_main_network_id();
 		delete_network_option( $network_id, 'site_meta_supported' );
@@ -2327,7 +2327,7 @@ function upgrade_network() {
 //
 
 /**
- * Creates a table in the database if it doesn't already exist.
+ * Creates a table in the database, if it doesn't already exist.
  *
  * This method checks for an existing database and creates a new one if it's not
  * already present. It doesn't rely on MySQL's "IF NOT EXISTS" statement, but chooses
@@ -2337,9 +2337,9 @@ function upgrade_network() {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $table_name Database table name to create.
+ * @param string $table_name Database table name.
  * @param string $create_ddl SQL statement to create table.
- * @return bool If table already exists or was created by function.
+ * @return bool True on success or if the table already exists. False on failure.
  */
 function maybe_create_table( $table_name, $create_ddl ) {
 	global $wpdb;
@@ -2410,16 +2410,16 @@ function add_clean_index( $table, $index ) {
 }
 
 /**
- * Adds column to a database table if it doesn't already exist.
+ * Adds column to a database table, if it doesn't already exist.
  *
  * @since 1.3.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $table_name  The table name to modify.
- * @param string $column_name The column name to add to the table.
- * @param string $create_ddl  The SQL statement used to add the column.
- * @return bool True if already exists or on successful completion, false on error.
+ * @param string $table_name  Database table name.
+ * @param string $column_name Table column name.
+ * @param string $create_ddl  SQL statement to add column.
+ * @return bool True on success or if the column already exists. False on failure.
  */
 function maybe_add_column( $table_name, $column_name, $create_ddl ) {
 	global $wpdb;
@@ -2451,7 +2451,7 @@ function maybe_add_column( $table_name, $column_name, $create_ddl ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $table The table to convert.
- * @return bool true if the table was converted, false if it wasn't.
+ * @return bool True if the table was converted, false if it wasn't.
  */
 function maybe_convert_table_to_utf8mb4( $table ) {
 	global $wpdb;

@@ -39,15 +39,15 @@ require_once dirname( __DIR__ ) . '/wp-load.php';
 
 if ( ! function_exists( 'maybe_create_table' ) ) :
 	/**
-	 * Create database table, if it doesn't already exist.
+	 * Creates a table in the database if it doesn't already exist.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $table_name Database table name.
-	 * @param string $create_ddl Create database table SQL.
-	 * @return bool False on error, true if already exists or success.
+	 * @param string $create_ddl SQL statement to create table.
+	 * @return bool True on success or if the table already exists. False on failure.
 	 */
 	function maybe_create_table( $table_name, $create_ddl ) {
 		global $wpdb;
@@ -74,16 +74,16 @@ endif;
 
 if ( ! function_exists( 'maybe_add_column' ) ) :
 	/**
-	 * Add column to database table, if column doesn't already exist in table.
+	 * Adds column to database table, if it doesn't already exist.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param string $table_name Database table name
-	 * @param string $column_name Table column name
-	 * @param string $create_ddl SQL to add column to table.
-	 * @return bool False on failure. True, if already exists or was successful.
+	 * @param string $table_name  Database table name.
+	 * @param string $column_name Table column name.
+	 * @param string $create_ddl  SQL statement to add column.
+	 * @return bool True on success or if the column already exists. False on failure.
 	 */
 	function maybe_add_column( $table_name, $column_name, $create_ddl ) {
 		global $wpdb;
@@ -109,16 +109,16 @@ if ( ! function_exists( 'maybe_add_column' ) ) :
 endif;
 
 /**
- * Drop column from database table, if it exists.
+ * Drops column from database table, if it exists.
  *
  * @since 1.0.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $table_name Table name
- * @param string $column_name Column name
- * @param string $drop_ddl SQL statement to drop column.
- * @return bool True on success or if the column doesn't exist, false on failure.
+ * @param string $table_name  Database table name.
+ * @param string $column_name Table column name.
+ * @param string $drop_ddl    SQL statement to drop column.
+ * @return bool True on success or if the column doesn't exist. False on failure.
  */
 function maybe_drop_column( $table_name, $column_name, $drop_ddl ) {
 	global $wpdb;
@@ -143,7 +143,7 @@ function maybe_drop_column( $table_name, $column_name, $drop_ddl ) {
 }
 
 /**
- * Check column matches criteria.
+ * Checks that database table column matches the criteria.
  *
  * Uses the SQL DESC for retrieving the table info for the column. It will help
  * understand the parameters, if you do more research on what column information
@@ -162,9 +162,9 @@ function maybe_drop_column( $table_name, $column_name, $drop_ddl ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $table_name Table name
- * @param string $col_name   Column name
- * @param string $col_type   Column type
+ * @param string $table_name Database table name.
+ * @param string $col_name   Table column name.
+ * @param string $col_type   Table column type.
  * @param bool   $is_null    Optional. Check is null.
  * @param mixed  $key        Optional. Key info.
  * @param mixed  $default    Optional. Default value.
