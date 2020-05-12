@@ -137,6 +137,17 @@ twentytwenty.coverModals = {
 			var target = event.target;
 			var modal = document.querySelector( '.cover-modal.active' );
 
+			// if target onclick is <a> with # within the href attribute
+			if ( event.target.tagName.toLowerCase() === 'a' && event.target.hash.includes( '#' ) && modal !== null ) {
+				// untoggle the modal
+				this.untoggleModal( modal );
+				// wait 550 and scroll to the anchor
+				setTimeout( function() {
+					var anchor = document.getElementById( event.target.hash.slice( 1 ) );
+					anchor.scrollIntoView();
+				}, 550 );
+			}
+
 			if ( target === modal ) {
 				this.untoggleModal( target );
 			}
