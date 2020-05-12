@@ -36,6 +36,7 @@ require_once dirname( __DIR__ ) . '/wp-load.php';
 nocache_headers();
 
 if ( get_option( 'db_upgraded' ) ) {
+
 	flush_rewrite_rules();
 	update_option( 'db_upgraded', false );
 
@@ -45,7 +46,9 @@ if ( get_option( 'db_upgraded' ) ) {
 	 * @since 2.8.0
 	 */
 	do_action( 'after_db_upgrade' );
-} elseif ( get_option( 'db_version' ) !== $wp_db_version && empty( $_POST ) ) {
+
+} elseif ( (int) get_option( 'db_version' ) !== $wp_db_version && empty( $_POST ) ) {
+
 	if ( ! is_multisite() ) {
 		wp_redirect( admin_url( 'upgrade.php?_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) );
 		exit;
