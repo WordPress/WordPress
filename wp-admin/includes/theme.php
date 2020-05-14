@@ -277,7 +277,9 @@ function get_theme_update_available( $theme ) {
  * @since 4.9.0 Removed 'BuddyPress', 'Custom Menu', 'Flexible Header',
  *              'Front Page Posting', 'Microformats', 'RTL Language Support',
  *              'Threaded Comments', and 'Translation Ready' features.
- * @since 5.5.0 Added 'Block Editor Styles' and 'Wide Blocks' features.
+ * @since 5.5.0 Added 'Block Editor Patterns', 'Block Editor Styles',
+ *              and 'Full Site Editing' features.
+ * @since 5.5.0 Added 'Wide Blocks' layout option.
  *
  * @param bool $api Optional. Whether try to fetch tags from the WordPress.org API. Defaults to true.
  * @return array Array of features keyed by category with translations keyed by slug.
@@ -300,6 +302,7 @@ function get_theme_feature_list( $api = true ) {
 
 		__( 'Features' ) => array(
 			'accessibility-ready'   => __( 'Accessibility Ready' ),
+			'block-patterns'        => __( 'Block Editor Patterns' ),
 			'block-styles'          => __( 'Block Editor Styles' ),
 			'custom-background'     => __( 'Custom Background' ),
 			'custom-colors'         => __( 'Custom Colors' ),
@@ -309,6 +312,7 @@ function get_theme_feature_list( $api = true ) {
 			'featured-image-header' => __( 'Featured Image Header' ),
 			'featured-images'       => __( 'Featured Images' ),
 			'footer-widgets'        => __( 'Footer Widgets' ),
+			'full-site-editing'     => __( 'Full Site Editing' ),
 			'full-width-template'   => __( 'Full Width Template' ),
 			'post-formats'          => __( 'Post Formats' ),
 			'sticky-post'           => __( 'Sticky Post' ),
