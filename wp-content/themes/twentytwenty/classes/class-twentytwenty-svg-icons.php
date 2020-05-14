@@ -152,6 +152,9 @@ if ( ! class_exists( 'TwentyTwenty_SVG_Icons' ) ) {
 			'feed'      => array(
 				'feed',
 			),
+			'google'    => array(
+				'g.page',
+			),
 			'lastfm'    => array(
 				'last.fm',
 			),
