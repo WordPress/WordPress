@@ -934,8 +934,10 @@ final class WP_Theme implements ArrayAccess {
 				if ( isset( $this->name_translated ) ) {
 					return $this->name_translated;
 				}
+
 				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain
 				$this->name_translated = translate( $value, $this->get( 'TextDomain' ) );
+
 				return $this->name_translated;
 			case 'Tags':
 				if ( empty( $value ) || ! function_exists( 'get_theme_feature_list' ) ) {
@@ -970,6 +972,7 @@ final class WP_Theme implements ArrayAccess {
 					);
 
 					$feature_list = get_theme_feature_list( false ); // No API.
+
 					foreach ( $feature_list as $tags ) {
 						$tags_list += $tags;
 					}

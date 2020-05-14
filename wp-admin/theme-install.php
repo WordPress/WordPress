@@ -208,7 +208,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<button type="button" class="clear-filters button" aria-label="<?php esc_attr_e( 'Clear current filters' ); ?>"><?php _e( 'Clear' ); ?></button>
 			</div>
 		<?php
-		$feature_list = get_theme_feature_list( false ); // Use the core list, rather than the .org API, due to inconsistencies and to ensure tags are translated.
+		// Use the core list, rather than the .org API, due to inconsistencies
+		// and to ensure tags are translated.
+		$feature_list = get_theme_feature_list( false );
+
 		foreach ( $feature_list as $feature_name => $features ) {
 			echo '<fieldset class="filter-group">';
 			$feature_name = esc_html( $feature_name );
