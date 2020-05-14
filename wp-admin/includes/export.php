@@ -501,7 +501,7 @@ function export_wp( $args = array() ) {
 	<?php endforeach; ?>
 	<?php foreach ( $terms as $t ) : ?>
 	<wp:term>
-		<wp:term_id><?php echo wxr_cdata( $t->term_id ); ?></wp:term_id>
+		<wp:term_id><?php echo intval( $t->term_id ); ?></wp:term_id>
 		<wp:term_taxonomy><?php echo wxr_cdata( $t->taxonomy ); ?></wp:term_taxonomy>
 		<wp:term_slug><?php echo wxr_cdata( $t->slug ); ?></wp:term_slug>
 		<wp:term_parent><?php echo wxr_cdata( $t->parent ? $terms[ $t->parent ]->slug : '' ); ?></wp:term_parent>
