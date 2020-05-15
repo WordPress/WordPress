@@ -636,6 +636,15 @@ h1:before {
   width: 1em;
 }
 
+h1.has-text-align-center:before {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1.has-text-align-right:before {
+  margin-left: auto;
+}
+
 @media only screen and (min-width: 768px) {
   h1 {
     font-size: 2.8125em;
@@ -653,6 +662,15 @@ h2:before {
   height: 2px;
   margin: 1rem 0;
   width: 1em;
+}
+
+h2.has-text-align-center:before {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h2.has-text-align-right:before {
+  margin-left: auto;
 }
 
 @media only screen and (min-width: 768px) {
@@ -766,6 +784,15 @@ figcaption,
   height: 2px;
   margin: 1rem 0;
   width: 1em;
+}
+
+.editor-post-title__block.has-text-align-center:before {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.editor-post-title__block.has-text-align-right:before {
+  margin-left: auto;
 }
 
 .editor-post-title__block:before {

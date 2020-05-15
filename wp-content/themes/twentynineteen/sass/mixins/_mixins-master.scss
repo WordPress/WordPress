@@ -74,6 +74,15 @@
 		margin: $size__spacing-unit 0;
 		width: 1em;
 	}
+
+	&.has-text-align-center:before {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	&.has-text-align-right:before {
+		margin-left: auto;
+	}
 }
 
 /* If we add the border using a regular CSS border, it won't look good on non-retina devices,
