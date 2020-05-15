@@ -3506,6 +3506,10 @@ figure.wp-block-table.is-style-stripes {
 	line-height: 1.4;
 }
 
+.entry-content li img {
+	display: inline-block;
+}
+
 .entry-content h1,
 .entry-content h2,
 .entry-content h3,
