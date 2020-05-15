@@ -1417,6 +1417,9 @@ a.comment-edit-link:hover {
 /* =Widgets
 -------------------------------------------------------------- */
 
+.widget select {
+	max-width: 100%;
+ }
 .widget-area .widget ul ul {
 	margin-left: 12px;
 	margin-left: 0.857142857rem;
