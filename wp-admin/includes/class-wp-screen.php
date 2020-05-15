@@ -228,27 +228,27 @@ final class WP_Screen {
 			$post_type = $id;
 			$id        = 'post'; // Changes later. Ends up being $base.
 		} else {
-			if ( '.php' == substr( $id, -4 ) ) {
+			if ( '.php' === substr( $id, -4 ) ) {
 				$id = substr( $id, 0, -4 );
 			}
 
-			if ( 'post-new' == $id || 'link-add' == $id || 'media-new' == $id || 'user-new' == $id ) {
+			if ( in_array( $id, array( 'post-new', 'link-add', 'media-new', 'user-new' ), true ) ) {
 				$id     = substr( $id, 0, -4 );
 				$action = 'add';
 			}
 		}
 
 		if ( ! $post_type && $hook_name ) {
-			if ( '-network' == substr( $id, -8 ) ) {
+			if ( '-network' === substr( $id, -8 ) ) {
 				$id       = substr( $id, 0, -8 );
 				$in_admin = 'network';
-			} elseif ( '-user' == substr( $id, -5 ) ) {
+			} elseif ( '-user' === substr( $id, -5 ) ) {
 				$id       = substr( $id, 0, -5 );
 				$in_admin = 'user';
 			}
 
 			$id = sanitize_key( $id );
-			if ( 'edit-comments' != $id && 'edit-tags' != $id && 'edit-' == substr( $id, 0, 5 ) ) {
+			if ( 'edit-comments' !== $id && 'edit-tags' !== $id && 'edit-' === substr( $id, 0, 5 ) ) {
 				$maybe = substr( $id, 5 );
 				if ( taxonomy_exists( $maybe ) ) {
 					$id       = 'edit-tags';
@@ -272,9 +272,9 @@ final class WP_Screen {
 			}
 		}
 
-		if ( 'index' == $id ) {
+		if ( 'index' === $id ) {
 			$id = 'dashboard';
-		} elseif ( 'front' == $id ) {
+		} elseif ( 'front' === $id ) {
 			$in_admin = false;
 		}
 
@@ -363,10 +363,10 @@ final class WP_Screen {
 				break;
 		}
 
-		if ( 'network' == $in_admin ) {
+		if ( 'network' === $in_admin ) {
 			$id   .= '-network';
 			$base .= '-network';
-		} elseif ( 'user' == $in_admin ) {
+		} elseif ( 'user' === $in_admin ) {
 			$id   .= '-user';
 			$base .= '-user';
 		}
@@ -385,8 +385,8 @@ final class WP_Screen {
 		$screen->action          = $action;
 		$screen->post_type       = (string) $post_type;
 		$screen->taxonomy        = (string) $taxonomy;
-		$screen->is_user         = ( 'user' == $in_admin );
-		$screen->is_network      = ( 'network' == $in_admin );
+		$screen->is_user         = ( 'user' === $in_admin );
+		$screen->is_network      = ( 'network' === $in_admin );
 		$screen->in_admin        = $in_admin;
 		$screen->is_block_editor = $is_block_editor;
 
@@ -442,7 +442,7 @@ final class WP_Screen {
 			return (bool) $this->in_admin;
 		}
 
-		return ( $admin == $this->in_admin );
+		return ( $admin === $this->in_admin );
 	}
 
 	/**
@@ -1120,8 +1120,8 @@ final class WP_Screen {
 				$welcome_checked = empty( $_GET['welcome'] ) ? 0 : 1;
 				update_user_meta( get_current_user_id(), 'show_welcome_panel', $welcome_checked );
 			} else {
-				$welcome_checked = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
-				if ( 2 == $welcome_checked && wp_get_current_user()->user_email != get_option( 'admin_email' ) ) {
+				$welcome_checked = (int) get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
+				if ( 2 === $welcome_checked && wp_get_current_user()->user_email !== get_option( 'admin_email' ) ) {
 					$welcome_checked = false;
 				}
 			}
@@ -1242,12 +1242,12 @@ final class WP_Screen {
 			}
 		}
 
-		if ( 'edit_comments_per_page' == $option ) {
+		if ( 'edit_comments_per_page' === $option ) {
 			$comment_status = isset( $_REQUEST['comment_status'] ) ? $_REQUEST['comment_status'] : 'all';
 
 			/** This filter is documented in wp-admin/includes/class-wp-comments-list-table.php */
 			$per_page = apply_filters( 'comments_per_page', $per_page, $comment_status );
-		} elseif ( 'categories_per_page' == $option ) {
+		} elseif ( 'categories_per_page' === $option ) {
 			/** This filter is documented in wp-admin/includes/class-wp-terms-list-table.php */
 			$per_page = apply_filters( 'edit_categories_per_page', $per_page );
 		} else {
