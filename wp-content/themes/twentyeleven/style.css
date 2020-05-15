@@ -1846,6 +1846,9 @@ video {
 .widget a:active {
 	text-decoration: underline;
 }
+.widget select {
+	max-width: 100%;
+ }
 
 /* Search Widget */
 .widget_search form {
