@@ -158,6 +158,13 @@ p {
 	}
 }
 
+@media (prefers-reduced-motion: reduce) {
+	.login form.shake {
+		animation: none;
+		transform: none;
+	}
+}
+
 .login-action-confirm_admin_email #login {
 	width: 60vw;
 	max-width: 650px;
