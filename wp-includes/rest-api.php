@@ -1233,7 +1233,7 @@ function rest_get_avatar_sizes() {
  * @since 5.4.0 Convert an empty string to an empty object.
  * @since 5.5.0 Add the "uuid" and "hex-color" formats.
  *              Support the "minLength", "maxLength" and "pattern" keywords for strings.
- * 				Validate required properties.
+ *              Validate required properties.
  *
  * @param mixed  $value The value to validate.
  * @param array  $args  Schema array to use for validation.
