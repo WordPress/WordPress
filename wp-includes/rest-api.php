@@ -1382,6 +1382,14 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 				)
 			);
 		}
+
+		if ( isset( $args['pattern'] ) ) {
+			$pattern = str_replace( '#', '\\#', $args['pattern'] );
+			if ( ! preg_match( '#' . $pattern . '#u', $value ) ) {
+				/* translators: 1: Parameter, 2: Pattern. */
+				return new WP_Error( 'rest_invalid_pattern', sprintf( __( '%1$s does not match pattern %2$s.' ), $param, $args['pattern'] ) );
+			}
+		}
 	}
 
 	if ( isset( $args['format'] ) ) {
