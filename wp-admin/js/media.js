@@ -147,11 +147,14 @@
 		if ( $mediaGridWrap.length && window.wp && window.wp.media ) {
 			settings = _wpMediaGridSettings;
 
-			window.wp.media({
+			var frame = window.wp.media({
 				frame: 'manage',
 				container: $mediaGridWrap,
 				library: settings.queryVars
 			}).open();
+
+			// Fire a global ready event.
+			$mediaGridWrap.trigger( 'wp-media-grid-ready', frame );
 		}
 
 		// Prevents form submission if no post has been selected.
