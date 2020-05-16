@@ -147,7 +147,7 @@ do_action( "admin_head-{$hook_suffix}" ); // phpcs:ignore WordPress.NamingConven
  */
 do_action( 'admin_head' );
 
-if ( get_user_setting( 'mfold' ) === 'f' ) {
+if ( 'f' === get_user_setting( 'mfold' ) ) {
 	$admin_body_class .= ' folded';
 }
 

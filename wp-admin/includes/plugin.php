@@ -91,7 +91,7 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 		_deprecated_argument( __FUNCTION__, '3.0.0', sprintf( __( 'The %1$s plugin header is deprecated. Use %2$s instead.' ), '<code>Site Wide Only: true</code>', '<code>Network: true</code>' ) );
 		$plugin_data['Network'] = $plugin_data['_sitewide'];
 	}
-	$plugin_data['Network'] = ( 'true' == strtolower( $plugin_data['Network'] ) );
+	$plugin_data['Network'] = ( 'true' === strtolower( $plugin_data['Network'] ) );
 	unset( $plugin_data['_sitewide'] );
 
 	// If no text domain is defined fall back to the plugin slug.
@@ -156,7 +156,7 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 					load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) );
 				}
 			}
-		} elseif ( 'hello.php' == basename( $plugin_file ) ) {
+		} elseif ( 'hello.php' === basename( $plugin_file ) ) {
 			$textdomain = 'default';
 		}
 		if ( $textdomain ) {
@@ -295,30 +295,36 @@ function get_plugins( $plugin_folder = '' ) {
 	// Files in wp-content/plugins directory.
 	$plugins_dir  = @ opendir( $plugin_root );
 	$plugin_files = array();
+
 	if ( $plugins_dir ) {
 		while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
-			if ( substr( $file, 0, 1 ) == '.' ) {
+			if ( '.' === substr( $file, 0, 1 ) ) {
 				continue;
 			}
+
 			if ( is_dir( $plugin_root . '/' . $file ) ) {
 				$plugins_subdir = @ opendir( $plugin_root . '/' . $file );
+
 				if ( $plugins_subdir ) {
 					while ( ( $subfile = readdir( $plugins_subdir ) ) !== false ) {
-						if ( substr( $subfile, 0, 1 ) == '.' ) {
+						if ( '.' === substr( $subfile, 0, 1 ) ) {
 							continue;
 						}
-						if ( substr( $subfile, -4 ) == '.php' ) {
+
+						if ( '.php' === substr( $subfile, -4 ) ) {
 							$plugin_files[] = "$file/$subfile";
 						}
 					}
+
 					closedir( $plugins_subdir );
 				}
 			} else {
-				if ( substr( $file, -4 ) == '.php' ) {
+				if ( '.php' === substr( $file, -4 ) ) {
 					$plugin_files[] = $file;
 				}
 			}
 		}
+
 		closedir( $plugins_dir );
 	}
 
@@ -369,7 +375,7 @@ function get_mu_plugins() {
 	$plugins_dir = @opendir( WPMU_PLUGIN_DIR );
 	if ( $plugins_dir ) {
 		while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
-			if ( substr( $file, -4 ) == '.php' ) {
+			if ( '.php' === substr( $file, -4 ) ) {
 				$plugin_files[] = $file;
 			}
 		}
@@ -1444,7 +1450,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
 	 * Backward-compatibility for plugins using add_management_page().
 	 * See wp-admin/admin.php for redirect from edit.php to tools.php.
 	 */
-	if ( 'tools.php' == $parent_slug ) {
+	if ( 'tools.php' === $parent_slug ) {
 		$_registered_pages[ get_plugin_page_hookname( $menu_slug, 'edit.php' ) ] = true;
 	}
 
@@ -1836,7 +1842,7 @@ function get_admin_page_parent( $parent = '' ) {
 	global $parent_file, $menu, $submenu, $pagenow, $typenow,
 		$plugin_page, $_wp_real_parent_file, $_wp_menu_nopriv, $_wp_submenu_nopriv;
 
-	if ( ! empty( $parent ) && 'admin.php' != $parent ) {
+	if ( ! empty( $parent ) && 'admin.php' !== $parent ) {
 		if ( isset( $_wp_real_parent_file[ $parent ] ) ) {
 			$parent = $_wp_real_parent_file[ $parent ];
 		}
@@ -2018,7 +2024,7 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 	$parent = get_admin_page_parent( $parent_page );
 
 	$page_type = 'admin';
-	if ( empty( $parent_page ) || 'admin.php' == $parent_page || isset( $admin_page_hooks[ $plugin_page ] ) ) {
+	if ( empty( $parent_page ) || 'admin.php' === $parent_page || isset( $admin_page_hooks[ $plugin_page ] ) ) {
 		if ( isset( $admin_page_hooks[ $plugin_page ] ) ) {
 			$page_type = 'toplevel';
 		} elseif ( isset( $admin_page_hooks[ $parent ] ) ) {
@@ -2165,7 +2171,7 @@ function option_update_filter( $options ) {
  * @return array
  */
 function add_option_whitelist( $new_options, $options = '' ) {
-	if ( '' == $options ) {
+	if ( '' === $options ) {
 		global $whitelist_options;
 	} else {
 		$whitelist_options = $options;
@@ -2200,7 +2206,7 @@ function add_option_whitelist( $new_options, $options = '' ) {
  * @return array
  */
 function remove_option_whitelist( $del_options, $options = '' ) {
-	if ( '' == $options ) {
+	if ( '' === $options ) {
 		global $whitelist_options;
 	} else {
 		$whitelist_options = $options;

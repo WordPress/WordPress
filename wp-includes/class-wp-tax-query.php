@@ -400,7 +400,7 @@ class WP_Tax_Query {
 		$terms    = $clause['terms'];
 		$operator = strtoupper( $clause['operator'] );
 
-		if ( 'IN' == $operator ) {
+		if ( 'IN' === $operator ) {
 
 			if ( empty( $terms ) ) {
 				return self::$no_results;
@@ -430,7 +430,7 @@ class WP_Tax_Query {
 
 			$where = "$alias.term_taxonomy_id $operator ($terms)";
 
-		} elseif ( 'NOT IN' == $operator ) {
+		} elseif ( 'NOT IN' === $operator ) {
 
 			if ( empty( $terms ) ) {
 				return $sql;
@@ -444,7 +444,7 @@ class WP_Tax_Query {
 				WHERE term_taxonomy_id IN ($terms)
 			)";
 
-		} elseif ( 'AND' == $operator ) {
+		} elseif ( 'AND' === $operator ) {
 
 			if ( empty( $terms ) ) {
 				return $sql;
@@ -641,7 +641,7 @@ class WP_Tax_Query {
 			return;
 		}
 
-		if ( 'AND' == $query['operator'] && count( $term_list ) < count( $query['terms'] ) ) {
+		if ( 'AND' === $query['operator'] && count( $term_list ) < count( $query['terms'] ) ) {
 			$query = new WP_Error( 'inexistent_terms', __( 'Inexistent terms.' ) );
 			return;
 		}

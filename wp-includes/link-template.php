@@ -131,7 +131,7 @@ function get_permalink( $post = 0, $leavename = false ) {
 		$leavename ? '' : '%pagename%',
 	);
 
-	if ( is_object( $post ) && isset( $post->filter ) && 'sample' == $post->filter ) {
+	if ( is_object( $post ) && isset( $post->filter ) && 'sample' === $post->filter ) {
 		$sample = true;
 	} else {
 		$post   = get_post( $post );
@@ -165,7 +165,7 @@ function get_permalink( $post = 0, $leavename = false ) {
 	 */
 	$permalink = apply_filters( 'pre_post_link', $permalink, $post, $leavename );
 
-	if ( '' != $permalink && ! in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft', 'future' ), true ) ) {
+	if ( $permalink && ! in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft', 'future' ), true ) ) {
 
 		$category = '';
 		if ( strpos( $permalink, '%category%' ) !== false ) {
@@ -620,7 +620,8 @@ function get_feed_link( $feed = '' ) {
 	global $wp_rewrite;
 
 	$permalink = $wp_rewrite->get_feed_permastruct();
-	if ( '' != $permalink ) {
+
+	if ( '' !== $permalink ) {
 		if ( false !== strpos( $feed, 'comments_' ) ) {
 			$feed      = str_replace( 'comments_', '', $feed );
 			$permalink = $wp_rewrite->get_comment_feed_permastruct();
@@ -681,7 +682,7 @@ function get_post_comments_feed_link( $post_id = 0, $feed = '' ) {
 	$post       = get_post( $post_id );
 	$unattached = 'attachment' === $post->post_type && 0 === (int) $post->post_parent;
 
-	if ( '' != get_option( 'permalink_structure' ) ) {
+	if ( get_option( 'permalink_structure' ) ) {
 		if ( 'page' === get_option( 'show_on_front' ) && get_option( 'page_on_front' ) == $post_id ) {
 			$url = _get_page_link( $post_id );
 		} else {
@@ -794,7 +795,7 @@ function get_author_feed_link( $author_id, $feed = '' ) {
 		$feed = get_default_feed();
 	}
 
-	if ( '' == $permalink_structure ) {
+	if ( ! $permalink_structure ) {
 		$link = home_url( "?feed=$feed&amp;author=" . $author_id );
 	} else {
 		$link = get_author_posts_url( $author_id );
@@ -866,10 +867,10 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
 
 	$permalink_structure = get_option( 'permalink_structure' );
 
-	if ( '' == $permalink_structure ) {
-		if ( 'category' == $taxonomy ) {
+	if ( ! $permalink_structure ) {
+		if ( 'category' === $taxonomy ) {
 			$link = home_url( "?feed=$feed&amp;cat=$term_id" );
-		} elseif ( 'post_tag' == $taxonomy ) {
+		} elseif ( 'post_tag' === $taxonomy ) {
 			$link = home_url( "?feed=$feed&amp;tag=$term->slug" );
 		} else {
 			$t    = get_taxonomy( $taxonomy );
@@ -886,7 +887,7 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
 		$link = trailingslashit( $link ) . user_trailingslashit( $feed_link, 'feed' );
 	}
 
-	if ( 'category' == $taxonomy ) {
+	if ( 'category' === $taxonomy ) {
 		/**
 		 * Filters the category feed link.
 		 *
@@ -896,7 +897,7 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
 		 * @param string $feed Feed type. Possible values include 'rss2', 'atom'.
 		 */
 		$link = apply_filters( 'category_feed_link', $link, $feed );
-	} elseif ( 'post_tag' == $taxonomy ) {
+	} elseif ( 'post_tag' === $taxonomy ) {
 		/**
 		 * Filters the post tag feed link.
 		 *
@@ -1364,7 +1365,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 
 	if ( 'revision' === $post->post_type ) {
 		$action = '';
-	} elseif ( 'display' == $context ) {
+	} elseif ( 'display' === $context ) {
 		$action = '&amp;action=edit';
 	} else {
 		$action = '&action=edit';
@@ -2268,7 +2269,7 @@ function get_pagenum_link( $pagenum = 1, $escape = true ) {
 
 		$base = trailingslashit( get_bloginfo( 'url' ) );
 
-		if ( $wp_rewrite->using_index_permalinks() && ( $pagenum > 1 || '' != $request ) ) {
+		if ( $wp_rewrite->using_index_permalinks() && ( $pagenum > 1 || '' !== $request ) ) {
 			$base .= $wp_rewrite->index . '/';
 		}
 
@@ -2728,7 +2729,7 @@ function get_the_posts_pagination( $args = array() ) {
 		);
 
 		// Make sure we get a string back. Plain is the next best thing.
-		if ( isset( $args['type'] ) && 'array' == $args['type'] ) {
+		if ( isset( $args['type'] ) && 'array' === $args['type'] ) {
 			$args['type'] = 'plain';
 		}
 
@@ -2823,7 +2824,7 @@ function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
 
 	$result = get_permalink();
 
-	if ( 'newest' == get_option( 'default_comments_page' ) ) {
+	if ( 'newest' === get_option( 'default_comments_page' ) ) {
 		if ( $pagenum != $max_page ) {
 			if ( $wp_rewrite->using_permalinks() ) {
 				$result = user_trailingslashit( trailingslashit( $result ) . $wp_rewrite->comments_pagination_base . '-' . $pagenum, 'commentpaged' );
@@ -3110,7 +3111,7 @@ function get_the_comments_pagination( $args = array() ) {
 	$args['echo'] = false;
 
 	// Make sure we get a string back. Plain is the next best thing.
-	if ( isset( $args['type'] ) && 'array' == $args['type'] ) {
+	if ( isset( $args['type'] ) && 'array' === $args['type'] ) {
 		$args['type'] = 'plain';
 	}
 
@@ -3405,7 +3406,7 @@ function plugins_url( $path = '', $plugin = '' ) {
 
 	if ( ! empty( $plugin ) && is_string( $plugin ) ) {
 		$folder = dirname( plugin_basename( $plugin ) );
-		if ( '.' != $folder ) {
+		if ( '.' !== $folder ) {
 			$url .= '/' . ltrim( $folder, '/' );
 		}
 	}
@@ -3451,7 +3452,7 @@ function network_site_url( $path = '', $scheme = null ) {
 
 	$current_network = get_network();
 
-	if ( 'relative' == $scheme ) {
+	if ( 'relative' === $scheme ) {
 		$url = $current_network->path;
 	} else {
 		$url = set_url_scheme( 'http://' . $current_network->domain . $current_network->path, $scheme );
@@ -3501,7 +3502,7 @@ function network_home_url( $path = '', $scheme = null ) {
 		$scheme = is_ssl() && ! is_admin() ? 'https' : 'http';
 	}
 
-	if ( 'relative' == $scheme ) {
+	if ( 'relative' === $scheme ) {
 		$url = $current_network->path;
 	} else {
 		$url = set_url_scheme( 'http://' . $current_network->domain . $current_network->path, $scheme );
@@ -3645,7 +3646,7 @@ function set_url_scheme( $url, $scheme = null ) {
 		$url = 'http:' . $url;
 	}
 
-	if ( 'relative' == $scheme ) {
+	if ( 'relative' === $scheme ) {
 		$url = ltrim( preg_replace( '#^\w+://[^/]*#', '', $url ) );
 		if ( '' !== $url && '/' === $url[0] ) {
 			$url = '/' . ltrim( $url, "/ \t\n\r\0\x0B" );
@@ -3784,7 +3785,7 @@ function wp_get_canonical_url( $post = null ) {
 	if ( get_queried_object_id() === $post->ID ) {
 		$page = get_query_var( 'page', 0 );
 		if ( $page >= 2 ) {
-			if ( '' == get_option( 'permalink_structure' ) ) {
+			if ( ! get_option( 'permalink_structure' ) ) {
 				$canonical_url = add_query_arg( 'page', $page, $canonical_url );
 			} else {
 				$canonical_url = trailingslashit( $canonical_url ) . user_trailingslashit( $page, 'single_paged' );
@@ -3873,10 +3874,10 @@ function wp_get_shortlink( $id = 0, $context = 'post', $allow_slugs = true ) {
 	}
 
 	$post_id = 0;
-	if ( 'query' == $context && is_singular() ) {
+	if ( 'query' === $context && is_singular() ) {
 		$post_id = get_queried_object_id();
 		$post    = get_post( $post_id );
-	} elseif ( 'post' == $context ) {
+	} elseif ( 'post' === $context ) {
 		$post = get_post( $id );
 		if ( ! empty( $post->ID ) ) {
 			$post_id = $post->ID;

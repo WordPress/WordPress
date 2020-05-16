@@ -125,11 +125,11 @@ printf( __( 'Enable threaded (nested) comments %s levels deep' ), $thread_commen
 <input name="page_comments" type="checkbox" id="page_comments" value="1" <?php checked( '1', get_option( 'page_comments' ) ); ?> />
 <?php
 $default_comments_page = '</label> <label for="default_comments_page"><select name="default_comments_page" id="default_comments_page"><option value="newest"';
-if ( 'newest' == get_option( 'default_comments_page' ) ) {
+if ( 'newest' === get_option( 'default_comments_page' ) ) {
 	$default_comments_page .= ' selected="selected"';
 }
 $default_comments_page .= '>' . __( 'last' ) . '</option><option value="oldest"';
-if ( 'oldest' == get_option( 'default_comments_page' ) ) {
+if ( 'oldest' === get_option( 'default_comments_page' ) ) {
 	$default_comments_page .= ' selected="selected"';
 }
 $default_comments_page .= '>' . __( 'first' ) . '</option></select>';
@@ -146,11 +146,11 @@ printf(
 <?php
 
 $comment_order = '<select name="comment_order" id="comment_order"><option value="asc"';
-if ( 'asc' == get_option( 'comment_order' ) ) {
+if ( 'asc' === get_option( 'comment_order' ) ) {
 	$comment_order .= ' selected="selected"';
 }
 $comment_order .= '>' . __( 'older' ) . '</option><option value="desc"';
-if ( 'desc' == get_option( 'comment_order' ) ) {
+if ( 'desc' === get_option( 'comment_order' ) ) {
 	$comment_order .= ' selected="selected"';
 }
 $comment_order .= '>' . __( 'newer' ) . '</option></select>';

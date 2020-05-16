@@ -769,7 +769,7 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 		if ( empty( $post->filter ) ) {
 			$_post = sanitize_post( $post, 'raw' );
 			$_post = new WP_Post( $_post );
-		} elseif ( 'raw' == $post->filter ) {
+		} elseif ( 'raw' === $post->filter ) {
 			$_post = new WP_Post( $post );
 		} else {
 			$_post = WP_Post::get_instance( $post->ID );
@@ -899,20 +899,20 @@ function get_post_status( $post = null ) {
 		return false;
 	}
 
-	if ( 'attachment' == $post->post_type ) {
-		if ( 'private' == $post->post_status ) {
+	if ( 'attachment' === $post->post_type ) {
+		if ( 'private' === $post->post_status ) {
 			return 'private';
 		}
 
 		// Unattached attachments are assumed to be published.
-		if ( ( 'inherit' == $post->post_status ) && ( 0 == $post->post_parent ) ) {
+		if ( ( 'inherit' === $post->post_status ) && ( 0 == $post->post_parent ) ) {
 			return 'publish';
 		}
 
 		// Inherit status from the parent.
 		if ( $post->post_parent && ( $post->ID != $post->post_parent ) ) {
 			$parent_post_status = get_post_status( $post->post_parent );
-			if ( 'trash' == $parent_post_status ) {
+			if ( 'trash' === $parent_post_status ) {
 				return get_post_meta( $post->post_parent, '_wp_trash_meta_status', true );
 			} else {
 				return $parent_post_status;
@@ -1160,7 +1160,7 @@ function get_post_status_object( $post_status ) {
 function get_post_stati( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_statuses;
 
-	$field = ( 'names' == $output ) ? 'name' : false;
+	$field = ( 'names' === $output ) ? 'name' : false;
 
 	return wp_filter_object_list( $wp_post_statuses, $args, $operator, $field );
 }
@@ -1265,7 +1265,7 @@ function get_post_type_object( $post_type ) {
 function get_post_types( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_types;
 
-	$field = ( 'names' == $output ) ? 'name' : false;
+	$field = ( 'names' === $output ) ? 'name' : false;
 
 	return wp_filter_object_list( $wp_post_types, $args, $operator, $field );
 }
@@ -2027,7 +2027,7 @@ function get_posts( $args = null ) {
 
 	$parsed_args = wp_parse_args( $args, $defaults );
 	if ( empty( $parsed_args['post_status'] ) ) {
-		$parsed_args['post_status'] = ( 'attachment' == $parsed_args['post_type'] ) ? 'inherit' : 'publish';
+		$parsed_args['post_status'] = ( 'attachment' === $parsed_args['post_type'] ) ? 'inherit' : 'publish';
 	}
 	if ( ! empty( $parsed_args['numberposts'] ) && empty( $parsed_args['posts_per_page'] ) ) {
 		$parsed_args['posts_per_page'] = $parsed_args['numberposts'];
@@ -2381,7 +2381,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 		return $value;
 	}
 
-	if ( 'raw' == $context ) {
+	if ( 'raw' === $context ) {
 		return $value;
 	}
 
@@ -2391,7 +2391,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 		$field_no_prefix = str_replace( 'post_', '', $field );
 	}
 
-	if ( 'edit' == $context ) {
+	if ( 'edit' === $context ) {
 		$format_to_edit = array( 'post_content', 'post_excerpt', 'post_title', 'post_password' );
 
 		if ( $prefixed ) {
@@ -2426,7 +2426,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 		}
 
 		if ( in_array( $field, $format_to_edit, true ) ) {
-			if ( 'post_content' == $field ) {
+			if ( 'post_content' === $field ) {
 				$value = format_to_edit( $value, user_can_richedit() );
 			} else {
 				$value = format_to_edit( $value );
@@ -2434,7 +2434,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 		} else {
 			$value = esc_attr( $value );
 		}
-	} elseif ( 'db' == $context ) {
+	} elseif ( 'db' === $context ) {
 		if ( $prefixed ) {
 
 			/**
@@ -2499,9 +2499,9 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 			$value = apply_filters( "post_{$field}", $value, $post_id, $context );
 		}
 
-		if ( 'attribute' == $context ) {
+		if ( 'attribute' === $context ) {
 			$value = esc_attr( $value );
-		} elseif ( 'js' == $context ) {
+		} elseif ( 'js' === $context ) {
 			$value = esc_js( $value );
 		}
 	}
@@ -2602,12 +2602,15 @@ function unstick_post( $post_id ) {
  */
 function _count_posts_cache_key( $type = 'post', $perm = '' ) {
 	$cache_key = 'posts-' . $type;
-	if ( 'readable' == $perm && is_user_logged_in() ) {
+
+	if ( 'readable' === $perm && is_user_logged_in() ) {
 		$post_type_object = get_post_type_object( $type );
+
 		if ( $post_type_object && ! current_user_can( $post_type_object->cap->read_private_posts ) ) {
 			$cache_key .= '_' . $perm . '_' . get_current_user_id();
 		}
 	}
+
 	return $cache_key;
 }
 
@@ -2646,7 +2649,8 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	}
 
 	$query = "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s";
-	if ( 'readable' == $perm && is_user_logged_in() ) {
+
+	if ( 'readable' === $perm && is_user_logged_in() ) {
 		$post_type_object = get_post_type_object( $type );
 		if ( ! current_user_can( $post_type_object->cap->read_private_posts ) ) {
 			$query .= $wpdb->prepare(
@@ -2655,6 +2659,7 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 			);
 		}
 	}
+
 	$query .= ' GROUP BY post_status';
 
 	$results = (array) $wpdb->get_results( $wpdb->prepare( $query, $type ), ARRAY_A );
@@ -3114,7 +3119,8 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
  */
 function _reset_front_page_settings_for_post( $post_id ) {
 	$post = get_post( $post_id );
-	if ( 'page' == $post->post_type ) {
+
+	if ( 'page' === $post->post_type ) {
 		/*
 		 * If the page is defined in option page_on_front or post_for_posts,
 		 * adjust the corresponding options.
@@ -3127,6 +3133,7 @@ function _reset_front_page_settings_for_post( $post_id ) {
 			update_option( 'page_for_posts', 0 );
 		}
 	}
+
 	unstick_post( $post->ID );
 }
 
@@ -3381,7 +3388,7 @@ function wp_untrash_post_comments( $post = null ) {
 
 	foreach ( $group_by_status as $status => $comments ) {
 		// Sanity check. This shouldn't happen.
-		if ( 'post-trashed' == $status ) {
+		if ( 'post-trashed' === $status ) {
 			$status = '0';
 		}
 		$comments_in = implode( ', ', array_map( 'intval', $comments ) );
@@ -3704,7 +3711,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	// Make sure we set a valid category.
 	if ( empty( $post_category ) || 0 == count( $post_category ) || ! is_array( $post_category ) ) {
 		// 'post' requires at least one category.
-		if ( 'post' == $post_type && 'auto-draft' != $post_status ) {
+		if ( 'post' === $post_type && 'auto-draft' !== $post_status ) {
 			$post_category = array( get_option( 'default_category' ) );
 		} else {
 			$post_category = array();
@@ -3748,8 +3755,8 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 * If the post date is empty (due to having been new or a draft) and status
 	 * is not 'draft' or 'pending', set date to now.
 	 */
-	if ( empty( $postarr['post_date'] ) || '0000-00-00 00:00:00' == $postarr['post_date'] ) {
-		if ( empty( $postarr['post_date_gmt'] ) || '0000-00-00 00:00:00' == $postarr['post_date_gmt'] ) {
+	if ( empty( $postarr['post_date'] ) || '0000-00-00 00:00:00' === $postarr['post_date'] ) {
+		if ( empty( $postarr['post_date_gmt'] ) || '0000-00-00 00:00:00' === $postarr['post_date_gmt'] ) {
 			$post_date = current_time( 'mysql' );
 		} else {
 			$post_date = get_date_from_gmt( $postarr['post_date_gmt'] );
@@ -3771,7 +3778,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		}
 	}
 
-	if ( empty( $postarr['post_date_gmt'] ) || '0000-00-00 00:00:00' == $postarr['post_date_gmt'] ) {
+	if ( empty( $postarr['post_date_gmt'] ) || '0000-00-00 00:00:00' === $postarr['post_date_gmt'] ) {
 		if ( ! in_array( $post_status, get_post_stati( array( 'date_floating' => true ) ), true ) ) {
 			$post_date_gmt = get_gmt_from_date( $post_date );
 		} else {
@@ -3781,7 +3788,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		$post_date_gmt = $postarr['post_date_gmt'];
 	}
 
-	if ( $update || '0000-00-00 00:00:00' == $post_date ) {
+	if ( $update || '0000-00-00 00:00:00' === $post_date ) {
 		$post_modified     = current_time( 'mysql' );
 		$post_modified_gmt = current_time( 'mysql', 1 );
 	} else {
@@ -3833,7 +3840,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	}
 
 	$post_password = isset( $postarr['post_password'] ) ? $postarr['post_password'] : '';
-	if ( 'private' == $post_status ) {
+	if ( 'private' === $post_status ) {
 		$post_password = '';
 	}
 
@@ -4027,7 +4034,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	$current_guid = get_post_field( 'guid', $post_ID );
 
 	// Set GUID.
-	if ( ! $update && '' == $current_guid ) {
+	if ( ! $update && '' === $current_guid ) {
 		$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post_ID ) ), $where );
 	}
 
@@ -4069,7 +4076,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	if ( ! empty( $postarr['page_template'] ) ) {
 		$post->page_template = $postarr['page_template'];
 		$page_templates      = wp_get_theme()->get_page_templates( $post );
-		if ( 'default' != $postarr['page_template'] && ! isset( $page_templates[ $postarr['page_template'] ] ) ) {
+		if ( 'default' !== $postarr['page_template'] && ! isset( $page_templates[ $postarr['page_template'] ] ) ) {
 			if ( $wp_error ) {
 				return new WP_Error( 'invalid_page_template', __( 'Invalid page template.' ) );
 			}
@@ -4239,7 +4246,7 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 	// Drafts shouldn't be assigned a date unless explicitly done so by the user.
 	if ( isset( $post['post_status'] )
 		&& in_array( $post['post_status'], array( 'draft', 'pending', 'auto-draft' ), true )
-		&& empty( $postarr['edit_date'] ) && ( '0000-00-00 00:00:00' == $post['post_date_gmt'] )
+		&& empty( $postarr['edit_date'] ) && ( '0000-00-00 00:00:00' === $post['post_date_gmt'] )
 	) {
 		$clear_date = true;
 	} else {
@@ -4292,7 +4299,7 @@ function wp_publish_post( $post ) {
 		return;
 	}
 
-	if ( 'publish' == $post->post_status ) {
+	if ( 'publish' === $post->post_status ) {
 		return;
 	}
 
@@ -4337,7 +4344,7 @@ function check_and_publish_future_post( $post_id ) {
 		return;
 	}
 
-	if ( 'future' != $post->post_status ) {
+	if ( 'future' !== $post->post_status ) {
 		return;
 	}
 
@@ -4371,7 +4378,7 @@ function check_and_publish_future_post( $post_id ) {
  */
 function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent ) {
 	if ( in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ), true )
-		|| ( 'inherit' == $post_status && 'revision' == $post_type ) || 'user_request' === $post_type
+		|| ( 'inherit' === $post_status && 'revision' === $post_type ) || 'user_request' === $post_type
 	) {
 		return $slug;
 	}
@@ -4405,7 +4412,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		$feeds = array();
 	}
 
-	if ( 'attachment' == $post_type ) {
+	if ( 'attachment' === $post_type ) {
 		// Attachment slugs must be unique across all types.
 		$check_sql       = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND ID != %d LIMIT 1";
 		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_ID ) );
@@ -4433,7 +4440,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 			$slug = $alt_post_name;
 		}
 	} elseif ( is_post_type_hierarchical( $post_type ) ) {
-		if ( 'nav_menu_item' == $post_type ) {
+		if ( 'nav_menu_item' === $post_type ) {
 			return $slug;
 		}
 
@@ -4671,13 +4678,13 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
 	// If $post_categories isn't already an array, make it one:
 	$post_categories = (array) $post_categories;
 	if ( empty( $post_categories ) ) {
-		if ( 'post' == $post_type && 'auto-draft' != $post_status ) {
+		if ( 'post' === $post_type && 'auto-draft' !== $post_status ) {
 			$post_categories = array( get_option( 'default_category' ) );
 			$append          = false;
 		} else {
 			$post_categories = array();
 		}
-	} elseif ( 1 == count( $post_categories ) && '' == reset( $post_categories ) ) {
+	} elseif ( 1 == count( $post_categories ) && '' === reset( $post_categories ) ) {
 		return true;
 	}
 
@@ -4816,7 +4823,7 @@ function get_enclosed( $post_id ) {
 	}
 
 	foreach ( $custom_fields as $key => $val ) {
-		if ( 'enclosure' != $key || ! is_array( $val ) ) {
+		if ( 'enclosure' !== $key || ! is_array( $val ) ) {
 			continue;
 		}
 		foreach ( $val as $enc ) {
@@ -5395,13 +5402,13 @@ function get_pages( $args = array() ) {
 					$post_author = $post_author->ID;
 				}
 
-				if ( '' == $author_query ) {
+				if ( '' === $author_query ) {
 					$author_query = $wpdb->prepare( ' post_author = %d ', $post_author );
 				} else {
 					$author_query .= $wpdb->prepare( ' OR post_author = %d ', $post_author );
 				}
 			}
-			if ( '' != $author_query ) {
+			if ( '' !== $author_query ) {
 				$author_query = " AND ($author_query)";
 			}
 		}
@@ -5593,7 +5600,7 @@ function is_local_attachment( $url ) {
 	$id = url_to_postid( $url );
 	if ( $id ) {
 		$post = get_post( $id );
-		if ( 'attachment' == $post->post_type ) {
+		if ( 'attachment' === $post->post_type ) {
 			return true;
 		}
 	}
@@ -5925,7 +5932,7 @@ function wp_get_attachment_url( $attachment_id = 0 ) {
 		return false;
 	}
 
-	if ( 'attachment' != $post->post_type ) {
+	if ( 'attachment' !== $post->post_type ) {
 		return false;
 	}
 
@@ -6239,7 +6246,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 				if ( $dh ) {
 					while ( false !== $file = readdir( $dh ) ) {
 						$file = wp_basename( $file );
-						if ( substr( $file, 0, 1 ) == '.' ) {
+						if ( '.' === substr( $file, 0, 1 ) ) {
 							continue;
 						}
 
@@ -6701,7 +6708,7 @@ function clean_post_cache( $post ) {
 	 */
 	do_action( 'clean_post_cache', $post->ID, $post );
 
-	if ( 'page' == $post->post_type ) {
+	if ( 'page' === $post->post_type ) {
 		wp_cache_delete( 'all_page_ids', 'posts' );
 
 		/**
@@ -6747,7 +6754,7 @@ function update_post_caches( &$posts, $post_type = 'post', $update_term_cache = 
 	if ( $update_term_cache ) {
 		if ( is_array( $post_type ) ) {
 			$ptypes = $post_type;
-		} elseif ( 'any' == $post_type ) {
+		} elseif ( 'any' === $post_type ) {
 			$ptypes = array();
 			// Just use the post_types in the supplied posts.
 			foreach ( $posts as $post ) {
@@ -6847,7 +6854,7 @@ function _transition_post_status( $new_status, $old_status, $post ) {
 
 	if ( 'publish' !== $old_status && 'publish' === $new_status ) {
 		// Reset GUID if transitioning to publish and it is empty.
-		if ( '' == get_the_guid( $post->ID ) ) {
+		if ( '' === get_the_guid( $post->ID ) ) {
 			$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post->ID ) ), array( 'ID' => $post->ID ) );
 		}
 
@@ -6863,7 +6870,7 @@ function _transition_post_status( $new_status, $old_status, $post ) {
 	}
 
 	// If published posts changed clear the lastpostmodified cache.
-	if ( 'publish' == $new_status || 'publish' == $old_status ) {
+	if ( 'publish' === $new_status || 'publish' === $old_status ) {
 		foreach ( array( 'server', 'gmt', 'blog' ) as $timezone ) {
 			wp_cache_delete( "lastpostmodified:$timezone", 'timeinfo' );
 			wp_cache_delete( "lastpostdate:$timezone", 'timeinfo' );

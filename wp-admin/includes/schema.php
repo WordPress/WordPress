@@ -958,10 +958,10 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	global $wpdb, $current_site, $wp_rewrite;
 
 	$errors = new WP_Error();
-	if ( '' == $domain ) {
+	if ( '' === $domain ) {
 		$errors->add( 'empty_domain', __( 'You must provide a domain name.' ) );
 	}
-	if ( '' == $site_name ) {
+	if ( '' === $site_name ) {
 		$errors->add( 'empty_sitename', __( 'You must provide a name for your network of sites.' ) );
 	}
 

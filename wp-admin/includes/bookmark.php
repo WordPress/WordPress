@@ -39,7 +39,7 @@ function edit_link( $link_id = 0 ) {
 	$_POST['link_name']  = esc_html( $_POST['link_name'] );
 	$_POST['link_image'] = esc_html( $_POST['link_image'] );
 	$_POST['link_rss']   = esc_url( $_POST['link_rss'] );
-	if ( ! isset( $_POST['link_visible'] ) || 'N' != $_POST['link_visible'] ) {
+	if ( ! isset( $_POST['link_visible'] ) || 'N' !== $_POST['link_visible'] ) {
 		$_POST['link_visible'] = 'Y';
 	}
 
@@ -174,15 +174,15 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 		$update = true;
 	}
 
-	if ( trim( $link_name ) == '' ) {
-		if ( trim( $link_url ) != '' ) {
+	if ( '' === trim( $link_name ) ) {
+		if ( '' !== trim( $link_url ) ) {
 			$link_name = $link_url;
 		} else {
 			return 0;
 		}
 	}
 
-	if ( trim( $link_url ) == '' ) {
+	if ( '' === trim( $link_url ) ) {
 		return 0;
 	}
 
@@ -309,7 +309,8 @@ function wp_update_link( $linkdata ) {
  */
 function wp_link_manager_disabled_message() {
 	global $pagenow;
-	if ( 'link-manager.php' != $pagenow && 'link-add.php' != $pagenow && 'link.php' != $pagenow ) {
+
+	if ( ! in_array( $pagenow, array( 'link-manager.php', 'link-add.php', 'link.php' ), true ) ) {
 		return;
 	}
 

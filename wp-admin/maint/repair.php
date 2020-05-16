@@ -96,7 +96,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 		$check = $wpdb->get_row( "CHECK TABLE $table" );
 
 		echo '<p>';
-		if ( 'OK' == $check->Msg_text ) {
+		if ( 'OK' === $check->Msg_text ) {
 			/* translators: %s: Table name. */
 			printf( __( 'The %s table is okay.' ), "<code>$table</code>" );
 		} else {
@@ -106,7 +106,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 			$repair = $wpdb->get_row( "REPAIR TABLE $table" );
 
 			echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;';
-			if ( 'OK' == $check->Msg_text ) {
+			if ( 'OK' === $check->Msg_text ) {
 				/* translators: %s: Table name. */
 				printf( __( 'Successfully repaired the %s table.' ), "<code>$table</code>" );
 			} else {
@@ -121,14 +121,14 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 			$check = $wpdb->get_row( "ANALYZE TABLE $table" );
 
 			echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;';
-			if ( 'Table is already up to date' == $check->Msg_text ) {
+			if ( 'Table is already up to date' === $check->Msg_text ) {
 				/* translators: %s: Table name. */
 				printf( __( 'The %s table is already optimized.' ), "<code>$table</code>" );
 			} else {
 				$check = $wpdb->get_row( "OPTIMIZE TABLE $table" );
 
 				echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;';
-				if ( 'OK' == $check->Msg_text || 'Table is already up to date' == $check->Msg_text ) {
+				if ( 'OK' === $check->Msg_text || 'Table is already up to date' === $check->Msg_text ) {
 					/* translators: %s: Table name. */
 					printf( __( 'Successfully optimized the %s table.' ), "<code>$table</code>" );
 				} else {
@@ -158,7 +158,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 
 	echo '<h1 class="screen-reader-text">' . __( 'WordPress database repair' ) . '</h1>';
 
-	if ( isset( $_GET['referrer'] ) && 'is_blog_installed' == $_GET['referrer'] ) {
+	if ( isset( $_GET['referrer'] ) && 'is_blog_installed' === $_GET['referrer'] ) {
 		echo '<p>' . __( 'One or more database tables are unavailable. To allow WordPress to attempt to repair these tables, press the &#8220;Repair Database&#8221; button. Repairing can take a while, so please be patient.' ) . '</p>';
 	} else {
 		echo '<p>' . __( 'WordPress can automatically look for some common database problems and repair them. Repairing can take a while, so please be patient.' ) . '</p>';

@@ -276,7 +276,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		$link = admin_url( 'edit-comments.php' );
-		if ( ! empty( $comment_type ) && 'all' != $comment_type ) {
+		if ( ! empty( $comment_type ) && 'all' !== $comment_type ) {
 			$link = add_query_arg( 'comment_type', $comment_type, $link );
 		}
 
@@ -634,7 +634,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		);
 
 		// Not looking at all comments.
-		if ( $comment_status && 'all' != $comment_status ) {
+		if ( $comment_status && 'all' !== $comment_status ) {
 			if ( 'approved' === $the_comment_status ) {
 				$actions['unapprove'] = sprintf(
 					'<a href="%s" data-wp-lists="%s" class="vim-u vim-destructive aria-button-if-js" aria-label="%s">%s</a>',

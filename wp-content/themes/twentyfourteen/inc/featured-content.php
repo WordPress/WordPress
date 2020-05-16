@@ -302,7 +302,7 @@ class Featured_Content {
 		}
 
 		// Bail if term objects are unavailable.
-		if ( 'all' != $args['fields'] ) {
+		if ( 'all' !== $args['fields'] ) {
 			return $terms;
 		}
 
@@ -339,7 +339,7 @@ class Featured_Content {
 		}
 
 		// Make sure we are in the correct taxonomy.
-		if ( 'post_tag' != $taxonomy ) {
+		if ( 'post_tag' !== $taxonomy ) {
 			return $terms;
 		}
 
@@ -466,7 +466,7 @@ class Featured_Content {
 		$options = wp_parse_args( $saved, $defaults );
 		$options = array_intersect_key( $options, $defaults );
 
-		if ( 'all' != $key ) {
+		if ( 'all' !== $key ) {
 			return isset( $options[ $key ] ) ? $options[ $key ] : false;
 		}
 

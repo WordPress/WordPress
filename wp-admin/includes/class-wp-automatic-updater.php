@@ -143,20 +143,20 @@ class WP_Automatic_Updater {
 
 		// Only relax the filesystem checks when the update doesn't include new files.
 		$allow_relaxed_file_ownership = false;
-		if ( 'core' == $type && isset( $item->new_files ) && ! $item->new_files ) {
+		if ( 'core' === $type && isset( $item->new_files ) && ! $item->new_files ) {
 			$allow_relaxed_file_ownership = true;
 		}
 
 		// If we can't do an auto core update, we may still be able to email the user.
 		if ( ! $skin->request_filesystem_credentials( false, $context, $allow_relaxed_file_ownership ) || $this->is_vcs_checkout( $context ) ) {
-			if ( 'core' == $type ) {
+			if ( 'core' === $type ) {
 				$this->send_core_update_notification_email( $item );
 			}
 			return false;
 		}
 
 		// Next up, is this an item we can update?
-		if ( 'core' == $type ) {
+		if ( 'core' === $type ) {
 			$update = Core_Upgrader::should_update_to_version( $item->current );
 		} else {
 			$update = ! empty( $item->autoupdate );
@@ -184,14 +184,14 @@ class WP_Automatic_Updater {
 		$update = apply_filters( "auto_update_{$type}", $update, $item );
 
 		if ( ! $update ) {
-			if ( 'core' == $type ) {
+			if ( 'core' === $type ) {
 				$this->send_core_update_notification_email( $item );
 			}
 			return false;
 		}
 
 		// If it's a core update, are we actually compatible with its requirements?
-		if ( 'core' == $type ) {
+		if ( 'core' === $type ) {
 			global $wpdb;
 
 			$php_compat = version_compare( phpversion(), $item->php_version, '>=' );
@@ -344,7 +344,7 @@ class WP_Automatic_Updater {
 		}
 
 		$allow_relaxed_file_ownership = false;
-		if ( 'core' == $type && isset( $item->new_files ) && ! $item->new_files ) {
+		if ( 'core' === $type && isset( $item->new_files ) && ! $item->new_files ) {
 			$allow_relaxed_file_ownership = true;
 		}
 
@@ -367,9 +367,13 @@ class WP_Automatic_Updater {
 			$upgrade_result = new WP_Error( 'fs_unavailable', __( 'Could not access filesystem.' ) );
 		}
 
-		if ( 'core' == $type ) {
-			if ( is_wp_error( $upgrade_result ) && ( 'up_to_date' == $upgrade_result->get_error_code() || 'locked' == $upgrade_result->get_error_code() ) ) {
-				// These aren't actual errors, treat it as a skipped-update instead to avoid triggering the post-core update failure routines.
+		if ( 'core' === $type ) {
+			if ( is_wp_error( $upgrade_result )
+				&& ( 'up_to_date' === $upgrade_result->get_error_code()
+					|| 'locked' === $upgrade_result->get_error_code() )
+			) {
+				// These aren't actual errors, treat it as a skipped-update instead
+				// to avoid triggering the post-core update failure routines.
 				return false;
 			}
 
@@ -626,11 +630,13 @@ class WP_Automatic_Updater {
 		);
 
 		$next_user_core_update = get_preferred_from_update_core();
+
 		// If the update transient is empty, use the update we just performed.
 		if ( ! $next_user_core_update ) {
 			$next_user_core_update = $core_update;
 		}
-		$newer_version_available = ( 'upgrade' == $next_user_core_update->response && version_compare( $next_user_core_update->version, $core_update->version, '>' ) );
+
+		$newer_version_available = ( 'upgrade' === $next_user_core_update->response && version_compare( $next_user_core_update->version, $core_update->version, '>' ) );
 
 		/**
 		 * Filters whether to send an email following an automatic background core update.
@@ -715,7 +721,7 @@ class WP_Automatic_Updater {
 
 				// Don't show this message if there is a newer version available.
 				// Potential for confusion, and also not useful for them to know at this point.
-				if ( 'fail' == $type && ! $newer_version_available ) {
+				if ( 'fail' === $type && ! $newer_version_available ) {
 					$body .= __( 'We tried but were unable to update your site automatically.' ) . ' ';
 				}
 
@@ -778,7 +784,7 @@ class WP_Automatic_Updater {
 
 		$body .= "\n\n" . __( 'The WordPress Team' ) . "\n";
 
-		if ( 'critical' == $type && is_wp_error( $result ) ) {
+		if ( 'critical' === $type && is_wp_error( $result ) ) {
 			$body .= "\n***\n\n";
 			/* translators: %s: WordPress version. */
 			$body .= sprintf( __( 'Your site was running version %s.' ), get_bloginfo( 'version' ) );
@@ -787,7 +793,7 @@ class WP_Automatic_Updater {
 
 			// If we had a rollback and we're still critical, then the rollback failed too.
 			// Loop through all errors (the main WP_Error, the update result, the rollback result) for code, data, etc.
-			if ( 'rollback_was_required' == $result->get_error_code() ) {
+			if ( 'rollback_was_required' === $result->get_error_code() ) {
 				$errors = array( $result, $result->get_error_data()->update, $result->get_error_data()->rollback );
 			} else {
 				$errors = array( $result );
@@ -797,20 +803,25 @@ class WP_Automatic_Updater {
 				if ( ! is_wp_error( $error ) ) {
 					continue;
 				}
+
 				$error_code = $error->get_error_code();
 				/* translators: %s: Error code. */
 				$body .= "\n\n" . sprintf( __( 'Error code: %s' ), $error_code );
-				if ( 'rollback_was_required' == $error_code ) {
+
+				if ( 'rollback_was_required' === $error_code ) {
 					continue;
 				}
+
 				if ( $error->get_error_message() ) {
 					$body .= "\n" . $error->get_error_message();
 				}
+
 				$error_data = $error->get_error_data();
 				if ( $error_data ) {
 					$body .= "\n" . implode( ', ', (array) $error_data );
 				}
 			}
+
 			$body .= "\n";
 		}
 

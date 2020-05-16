@@ -421,7 +421,7 @@ $menu_count = count( $nav_menus );
 // Are we on the add new screen?
 $add_new_screen = ( isset( $_GET['menu'] ) && 0 == $_GET['menu'] ) ? true : false;
 
-$locations_screen = ( isset( $_GET['action'] ) && 'locations' == $_GET['action'] ) ? true : false;
+$locations_screen = ( isset( $_GET['action'] ) && 'locations' === $_GET['action'] ) ? true : false;
 
 /*
  * If we have one theme location, and zero menus, we take them right
@@ -470,7 +470,7 @@ if ( empty( $nav_menu_selected_id ) && ! isset( $_GET['menu'] ) && is_nav_menu( 
 }
 
 // On deletion of menu, if another menu exists, show it.
-if ( ! $add_new_screen && 0 < $menu_count && isset( $_GET['action'] ) && 'delete' == $_GET['action'] ) {
+if ( ! $add_new_screen && 0 < $menu_count && isset( $_GET['action'] ) && 'delete' === $_GET['action'] ) {
 	$nav_menu_selected_id = $nav_menus[0]->term_id;
 }
 

@@ -418,7 +418,7 @@ function twentyeleven_enqueue_color_scheme() {
 	$options      = twentyeleven_get_theme_options();
 	$color_scheme = $options['color_scheme'];
 
-	if ( 'dark' == $color_scheme ) {
+	if ( 'dark' === $color_scheme ) {
 		wp_enqueue_style( 'dark', get_template_directory_uri() . '/colors/dark.css', array(), '20190404' );
 	}
 
@@ -499,9 +499,9 @@ function twentyeleven_layout_classes( $existing_classes ) {
 		$classes = array( 'one-column' );
 	}
 
-	if ( 'content-sidebar' == $current_layout ) {
+	if ( 'content-sidebar' === $current_layout ) {
 		$classes[] = 'right-sidebar';
-	} elseif ( 'sidebar-content' == $current_layout ) {
+	} elseif ( 'sidebar-content' === $current_layout ) {
 		$classes[] = 'left-sidebar';
 	} else {
 		$classes[] = $current_layout;

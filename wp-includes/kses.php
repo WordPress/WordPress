@@ -775,12 +775,12 @@ function wp_kses_one_attr( $string, $element ) {
 
 		// Remove quotes surrounding $value.
 		// Also guarantee correct quoting in $string for this one attribute.
-		if ( '' == $value ) {
+		if ( '' === $value ) {
 			$quote = '';
 		} else {
 			$quote = $value[0];
 		}
-		if ( '"' == $quote || "'" == $quote ) {
+		if ( '"' === $quote || "'" === $quote ) {
 			if ( substr( $value, -1 ) != $quote ) {
 				return '';
 			}
@@ -1039,17 +1039,17 @@ function wp_kses_split2( $string, $allowed_html, $allowed_protocols ) {
 	$string = wp_kses_stripslashes( $string );
 
 	// It matched a ">" character.
-	if ( substr( $string, 0, 1 ) != '<' ) {
+	if ( '<' !== substr( $string, 0, 1 ) ) {
 		return '&gt;';
 	}
 
 	// Allow HTML comments.
-	if ( '<!--' == substr( $string, 0, 4 ) ) {
+	if ( '<!--' === substr( $string, 0, 4 ) ) {
 		$string = str_replace( array( '<!--', '-->' ), '', $string );
 		while ( ( $newstring = wp_kses( $string, $allowed_html, $allowed_protocols ) ) != $string ) {
 			$string = $newstring;
 		}
-		if ( '' == $string ) {
+		if ( '' === $string ) {
 			return '';
 		}
 		// Prevent multiple dashes in comments.
@@ -1078,7 +1078,7 @@ function wp_kses_split2( $string, $allowed_html, $allowed_protocols ) {
 	}
 
 	// No attributes are allowed for closing elements.
-	if ( '' != $slash ) {
+	if ( '' !== $slash ) {
 		return "</$elem>";
 	}
 
@@ -1164,7 +1164,7 @@ function wp_kses_attr_check( &$name, &$value, &$whole, $vless, $element, $allowe
 
 	$allowed_attr = $allowed_html[ $element_low ];
 
-	if ( ! isset( $allowed_attr[ $name_low ] ) || '' == $allowed_attr[ $name_low ] ) {
+	if ( ! isset( $allowed_attr[ $name_low ] ) || '' === $allowed_attr[ $name_low ] ) {
 		/*
 		 * Allow `data-*` attributes.
 		 *
@@ -1189,7 +1189,7 @@ function wp_kses_attr_check( &$name, &$value, &$whole, $vless, $element, $allowe
 		}
 	}
 
-	if ( 'style' == $name_low ) {
+	if ( 'style' === $name_low ) {
 		$new_value = safecss_filter_attr( $value );
 
 		if ( empty( $new_value ) ) {
@@ -1609,7 +1609,7 @@ function wp_kses_no_null( $string, $options = null ) {
 	}
 
 	$string = preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $string );
-	if ( 'remove' == $options['slash_zero'] ) {
+	if ( 'remove' === $options['slash_zero'] ) {
 		$string = preg_replace( '/\\\\+0+/', '', $string );
 	}
 
@@ -1688,7 +1688,7 @@ function wp_kses_bad_protocol_once( $string, $allowed_protocols, $count = 1 ) {
 	if ( isset( $string2[1] ) && ! preg_match( '%/\?%', $string2[0] ) ) {
 		$string   = trim( $string2[1] );
 		$protocol = wp_kses_bad_protocol_once2( $string2[0], $allowed_protocols );
-		if ( 'feed:' == $protocol ) {
+		if ( 'feed:' === $protocol ) {
 			if ( $count > 2 ) {
 				return '';
 			}
@@ -2244,7 +2244,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 
 	$css = '';
 	foreach ( $css_array as $css_item ) {
-		if ( '' == $css_item ) {
+		if ( '' === $css_item ) {
 			continue;
 		}
 
@@ -2302,7 +2302,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 
 		// Remove any CSS containing containing \ ( & } = or comments, except for url() useage checked above.
 		if ( $found && ! preg_match( '%[\\\(&=}]|/\*%', $css_test_string ) ) {
-			if ( '' != $css ) {
+			if ( '' !== $css ) {
 				$css .= ';';
 			}
 

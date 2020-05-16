@@ -59,7 +59,7 @@ if ( post_type_supports( $post_type, 'editor' ) && ! wp_is_mobile() &&
 
 	wp_enqueue_script( 'editor-expand' );
 	$_content_editor_dfw = true;
-	$_wp_editor_expand   = ( get_user_setting( 'editor_expand', 'on' ) === 'on' );
+	$_wp_editor_expand   = ( 'on' === get_user_setting( 'editor_expand', 'on' ) );
 }
 
 if ( wp_is_mobile() ) {

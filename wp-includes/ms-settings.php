@@ -55,10 +55,10 @@ ms_subdomain_constants();
 if ( ! isset( $current_site ) || ! isset( $current_blog ) ) {
 
 	$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
-	if ( substr( $domain, -3 ) == ':80' ) {
+	if ( ':80' === substr( $domain, -3 ) ) {
 		$domain               = substr( $domain, 0, -3 );
 		$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
-	} elseif ( substr( $domain, -4 ) == ':443' ) {
+	} elseif ( ':443' === substr( $domain, -4 ) ) {
 		$domain               = substr( $domain, 0, -4 );
 		$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
 	}

@@ -2330,7 +2330,7 @@ function compression_test() {
 			}
 
 			if ( 2 == test ) {
-				if ( '"wpCompressionTest' == r )
+				if ( '"wpCompressionTest' === r )
 					this.get('yes');
 				else
 					this.get('no');

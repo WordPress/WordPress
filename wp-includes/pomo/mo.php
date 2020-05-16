@@ -221,7 +221,7 @@ if ( ! class_exists( 'MO', false ) ) :
 			}
 			$reader->setEndian( $endian_string );
 
-			$endian = ( 'big' == $endian_string ) ? 'N' : 'V';
+			$endian = ( 'big' === $endian_string ) ? 'N' : 'V';
 
 			$header = $reader->read( 24 );
 			if ( $reader->strlen( $header ) != 24 ) {

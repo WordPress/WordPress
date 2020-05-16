@@ -240,7 +240,7 @@ abstract class WP_Image_Editor {
 			 */
 			$quality = apply_filters( 'wp_editor_set_quality', $this->default_quality, $this->mime_type );
 
-			if ( 'image/jpeg' == $this->mime_type ) {
+			if ( 'image/jpeg' === $this->mime_type ) {
 				/**
 				 * Filters the JPEG compression quality for backward-compatibility.
 				 *

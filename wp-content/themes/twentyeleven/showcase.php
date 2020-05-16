@@ -33,7 +33,7 @@ get_header(); ?>
 					 * We are using a heading by rendering the_content
 					 * If we have content for this page, let's display it.
 					 */
-					if ( '' != get_the_content() ) {
+					if ( '' !== get_the_content() ) {
 						get_template_part( 'content', 'intro' );
 					}
 					?>

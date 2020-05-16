@@ -25,10 +25,10 @@ if ( ! isset( $_GET['post_type'] ) ) {
 }
 $post_type_object = get_post_type_object( $post_type );
 
-if ( 'post' == $post_type ) {
+if ( 'post' === $post_type ) {
 	$parent_file  = 'edit.php';
 	$submenu_file = 'post-new.php';
-} elseif ( 'attachment' == $post_type ) {
+} elseif ( 'attachment' === $post_type ) {
 	if ( wp_redirect( admin_url( 'media-new.php' ) ) ) {
 		exit;
 	}

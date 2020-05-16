@@ -111,7 +111,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 				$ephemera->the_post();
 				?>
 
-				<?php if ( 'link' != get_post_format() ) : ?>
+				<?php if ( 'link' !== get_post_format() ) : ?>
 
 				<li class="widget-entry-title">
 					<a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark"><?php the_title(); ?></a>

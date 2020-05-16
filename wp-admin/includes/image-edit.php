@@ -776,7 +776,7 @@ function wp_save_image( $post_id ) {
 	$fwidth  = ! empty( $_REQUEST['fwidth'] ) ? intval( $_REQUEST['fwidth'] ) : 0;
 	$fheight = ! empty( $_REQUEST['fheight'] ) ? intval( $_REQUEST['fheight'] ) : 0;
 	$target  = ! empty( $_REQUEST['target'] ) ? preg_replace( '/[^a-z0-9_-]+/i', '', $_REQUEST['target'] ) : '';
-	$scale   = ! empty( $_REQUEST['do'] ) && 'scale' == $_REQUEST['do'];
+	$scale   = ! empty( $_REQUEST['do'] ) && 'scale' === $_REQUEST['do'];
 
 	if ( $scale && $fwidth > 0 && $fheight > 0 ) {
 		$size = $img->get_size();
@@ -830,7 +830,7 @@ function wp_save_image( $post_id ) {
 	if ( defined( 'IMAGE_EDIT_OVERWRITE' ) && IMAGE_EDIT_OVERWRITE &&
 		isset( $backup_sizes['full-orig'] ) && $backup_sizes['full-orig']['file'] != $basename ) {
 
-		if ( 'thumbnail' == $target ) {
+		if ( 'thumbnail' === $target ) {
 			$new_path = "{$dirname}/{$filename}-temp.{$ext}";
 		} else {
 			$new_path = $path;
@@ -880,16 +880,16 @@ function wp_save_image( $post_id ) {
 		$meta['width']  = $size['width'];
 		$meta['height'] = $size['height'];
 
-		if ( $success && ( 'nothumb' == $target || 'all' == $target ) ) {
+		if ( $success && ( 'nothumb' === $target || 'all' === $target ) ) {
 			$sizes = get_intermediate_image_sizes();
-			if ( 'nothumb' == $target ) {
+			if ( 'nothumb' === $target ) {
 				$sizes = array_diff( $sizes, array( 'thumbnail' ) );
 			}
 		}
 
 		$return->fw = $meta['width'];
 		$return->fh = $meta['height'];
-	} elseif ( 'thumbnail' == $target ) {
+	} elseif ( 'thumbnail' === $target ) {
 		$sizes   = array( 'thumbnail' );
 		$success = true;
 		$delete  = true;
@@ -958,7 +958,7 @@ function wp_save_image( $post_id ) {
 
 		if ( 'thumbnail' === $target || 'all' === $target || 'full' === $target ) {
 			// Check if it's an image edit from attachment edit screen.
-			if ( ! empty( $_REQUEST['context'] ) && 'edit-attachment' == $_REQUEST['context'] ) {
+			if ( ! empty( $_REQUEST['context'] ) && 'edit-attachment' === $_REQUEST['context'] ) {
 				$thumb_url         = wp_get_attachment_image_src( $post_id, array( 900, 600 ), true );
 				$return->thumbnail = $thumb_url[0];
 			} else {

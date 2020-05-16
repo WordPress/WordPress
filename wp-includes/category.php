@@ -37,7 +37,7 @@ function get_categories( $args = '' ) {
 	$args['taxonomy'] = apply_filters( 'get_categories_taxonomy', $args['taxonomy'], $args );
 
 	// Back compat.
-	if ( isset( $args['type'] ) && 'link' == $args['type'] ) {
+	if ( isset( $args['type'] ) && 'link' === $args['type'] ) {
 		_deprecated_argument(
 			__FUNCTION__,
 			'3.0.0',
@@ -126,9 +126,11 @@ function get_category_by_path( $category_path, $full_match = true, $output = OBJ
 	$leaf_path      = sanitize_title( basename( $category_paths ) );
 	$category_paths = explode( '/', $category_paths );
 	$full_path      = '';
+
 	foreach ( (array) $category_paths as $pathdir ) {
-		$full_path .= ( '' != $pathdir ? '/' : '' ) . sanitize_title( $pathdir );
+		$full_path .= ( '' !== $pathdir ? '/' : '' ) . sanitize_title( $pathdir );
 	}
+
 	$categories = get_terms(
 		array(
 			'taxonomy' => 'category',

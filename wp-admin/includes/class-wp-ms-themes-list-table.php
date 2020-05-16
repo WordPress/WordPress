@@ -352,7 +352,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				$url = 'themes.php';
 			}
 
-			if ( 'search' != $type ) {
+			if ( 'search' !== $type ) {
 				$status_links[ $type ] = sprintf(
 					"<a href='%s'%s>%s</a>",
 					esc_url( add_query_arg( 'theme_status', $type, $url ) ),
@@ -374,10 +374,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		global $status;
 
 		$actions = array();
-		if ( 'enabled' != $status ) {
+		if ( 'enabled' !== $status ) {
 			$actions['enable-selected'] = $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' );
 		}
-		if ( 'disabled' != $status ) {
+		if ( 'disabled' !== $status ) {
 			$actions['disable-selected'] = $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' );
 		}
 		if ( ! $this->is_site_themes ) {

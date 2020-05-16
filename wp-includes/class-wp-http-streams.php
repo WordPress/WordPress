@@ -84,7 +84,7 @@ class WP_Http_Streams {
 		 * to ::1, which fails when the server is not set up for it. For compatibility, always
 		 * connect to the IPv4 address.
 		 */
-		if ( 'localhost' == strtolower( $connect_host ) ) {
+		if ( 'localhost' === strtolower( $connect_host ) ) {
 			$connect_host = '127.0.0.1';
 		}
 
@@ -186,8 +186,8 @@ class WP_Http_Streams {
 
 		$include_port_in_host_header = (
 			( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) ||
-			( 'http' == $arrURL['scheme'] && 80 != $arrURL['port'] ) ||
-			( 'https' == $arrURL['scheme'] && 443 != $arrURL['port'] )
+			( 'http' === $arrURL['scheme'] && 80 != $arrURL['port'] ) ||
+			( 'https' === $arrURL['scheme'] && 443 != $arrURL['port'] )
 		);
 
 		if ( $include_port_in_host_header ) {
@@ -334,7 +334,9 @@ class WP_Http_Streams {
 		}
 
 		// If the body was chunk encoded, then decode it.
-		if ( ! empty( $process['body'] ) && isset( $arrHeaders['headers']['transfer-encoding'] ) && 'chunked' == $arrHeaders['headers']['transfer-encoding'] ) {
+		if ( ! empty( $process['body'] ) && isset( $arrHeaders['headers']['transfer-encoding'] )
+			&& 'chunked' === $arrHeaders['headers']['transfer-encoding']
+		) {
 			$process['body'] = WP_Http::chunkTransferDecode( $process['body'] );
 		}
 
@@ -405,7 +407,7 @@ class WP_Http_Streams {
 		}
 
 		// IP's can't be wildcards, Stop processing.
-		if ( 'ip' == $host_type ) {
+		if ( 'ip' === $host_type ) {
 			return false;
 		}
 

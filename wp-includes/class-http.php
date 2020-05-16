@@ -216,7 +216,7 @@ class WP_Http {
 		$args = wp_parse_args( $args );
 
 		// By default, HEAD requests do not cause redirections.
-		if ( isset( $args['method'] ) && 'HEAD' == $args['method'] ) {
+		if ( isset( $args['method'] ) && 'HEAD' === $args['method'] ) {
 			$defaults['redirection'] = 0;
 		}
 
@@ -739,7 +739,7 @@ class WP_Http {
 			} else {
 				$newheaders[ $key ] = $value;
 			}
-			if ( 'set-cookie' == $key ) {
+			if ( 'set-cookie' === $key ) {
 				$cookies[] = new WP_Http_Cookie( $value, $url );
 			}
 		}
@@ -870,7 +870,7 @@ class WP_Http {
 		$home = parse_url( get_option( 'siteurl' ) );
 
 		// Don't block requests back to ourselves by default.
-		if ( 'localhost' == $check['host'] || ( isset( $home['host'] ) && $home['host'] == $check['host'] ) ) {
+		if ( 'localhost' === $check['host'] || ( isset( $home['host'] ) && $home['host'] == $check['host'] ) ) {
 			/**
 			 * Filters whether to block local HTTP API requests.
 			 *
@@ -975,7 +975,7 @@ class WP_Http {
 		$path = ! empty( $url_parts['path'] ) ? $url_parts['path'] : '/';
 
 		// If it's a root-relative path, then great.
-		if ( ! empty( $relative_url_parts['path'] ) && '/' == $relative_url_parts['path'][0] ) {
+		if ( ! empty( $relative_url_parts['path'] ) && '/' === $relative_url_parts['path'][0] ) {
 			$path = $relative_url_parts['path'];
 
 			// Else it's a relative path.
@@ -1040,7 +1040,7 @@ class WP_Http {
 		$redirect_location = WP_Http::make_absolute_url( $redirect_location, $url );
 
 		// POST requests should not POST to a redirected location.
-		if ( 'POST' == $args['method'] ) {
+		if ( 'POST' === $args['method'] ) {
 			if ( in_array( $response['response']['code'], array( 302, 303 ), true ) ) {
 				$args['method'] = 'GET';
 			}

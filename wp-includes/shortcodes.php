@@ -63,7 +63,7 @@ $shortcode_tags = array();
 function add_shortcode( $tag, $callback ) {
 	global $shortcode_tags;
 
-	if ( '' == trim( $tag ) ) {
+	if ( '' === trim( $tag ) ) {
 		$message = __( 'Invalid shortcode name: Empty name given.' );
 		_doing_it_wrong( __FUNCTION__, $message, '4.4.0' );
 		return;
@@ -386,7 +386,7 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 	$textarr = wp_html_split( $content );
 
 	foreach ( $textarr as &$element ) {
-		if ( '' == $element || '<' !== $element[0] ) {
+		if ( '' === $element || '<' !== $element[0] ) {
 			continue;
 		}
 
@@ -511,8 +511,8 @@ function get_shortcode_atts_regex() {
  *
  * @param string $text
  * @return array|string List of attribute values.
- *                      Returns empty array if trim( $text ) == '""'.
- *                      Returns empty string if trim( $text ) == ''.
+ *                      Returns empty array if '""' === trim( $text ).
+ *                      Returns empty string if '' === trim( $text ).
  *                      All other matches are checked for not empty().
  */
 function shortcode_parse_atts( $text ) {

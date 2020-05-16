@@ -388,7 +388,7 @@ class WP_Comment_Query {
 		 *
 		 * The expected return type from this filter depends on the value passed in the request query_vars.
 		 * When `$this->query_vars['count']` is set, the filter should return the comment count as an int.
-		 * When `'ids' == $this->query_vars['fields']`, the filter should return an array of comment ids.
+		 * When `'ids' === $this->query_vars['fields']`, the filter should return an array of comment ids.
 		 * Otherwise the filter should return an array of WP_Comment objects.
 		 *
 		 * @since 5.3.0
@@ -444,7 +444,7 @@ class WP_Comment_Query {
 
 		$comment_ids = array_map( 'intval', $comment_ids );
 
-		if ( 'ids' == $this->query_vars['fields'] ) {
+		if ( 'ids' === $this->query_vars['fields'] ) {
 			$this->comments = $comment_ids;
 			return $this->comments;
 		}
@@ -570,7 +570,7 @@ class WP_Comment_Query {
 			}
 		}
 
-		$order = ( 'ASC' == strtoupper( $this->query_vars['order'] ) ) ? 'ASC' : 'DESC';
+		$order = ( 'ASC' === strtoupper( $this->query_vars['order'] ) ) ? 'ASC' : 'DESC';
 
 		// Disable ORDER BY with 'none', an empty array, or boolean false.
 		if ( in_array( $this->query_vars['orderby'], array( 'none', array(), false ), true ) ) {

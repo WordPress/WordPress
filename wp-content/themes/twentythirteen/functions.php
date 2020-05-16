@@ -478,7 +478,7 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
 			echo '<span class="featured-post">' . esc_html__( 'Sticky', 'twentythirteen' ) . '</span>';
 		}
 
-		if ( ! has_post_format( 'link' ) && 'post' == get_post_type() ) {
+		if ( ! has_post_format( 'link' ) && 'post' === get_post_type() ) {
 			twentythirteen_entry_date();
 		}
 
@@ -495,7 +495,7 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
 		}
 
 		// Post author.
-		if ( 'post' == get_post_type() ) {
+		if ( 'post' === get_post_type() ) {
 			printf(
 				'<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
 				esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),

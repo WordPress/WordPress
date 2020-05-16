@@ -84,7 +84,7 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
 			);
 		}
 
-		if ( 'post' == get_post_type() ) {
+		if ( 'post' === get_post_type() ) {
 			if ( is_singular() || is_multi_author() ) {
 				printf(
 					'<span class="byline"><span class="author vcard"><span class="screen-reader-text">%1$s </span><a class="url fn n" href="%2$s">%3$s</a></span></span>',

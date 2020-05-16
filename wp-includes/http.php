@@ -375,7 +375,7 @@ function wp_http_supports( $capabilities = array(), $url = null ) {
 
 	if ( $url && ! isset( $capabilities['ssl'] ) ) {
 		$scheme = parse_url( $url, PHP_URL_SCHEME );
-		if ( 'https' == $scheme || 'ssl' == $scheme ) {
+		if ( 'https' === $scheme || 'ssl' === $scheme ) {
 			$capabilities['ssl'] = true;
 		}
 	}

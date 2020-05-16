@@ -379,7 +379,7 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
 			$sentence = preg_replace( $prime_pattern, $prime, $sentence );
 			$sentence = preg_replace( $quote_pattern, $close_quote, $sentence );
 		}
-		if ( '"' == $needle && false !== strpos( $sentence, '"' ) ) {
+		if ( '"' === $needle && false !== strpos( $sentence, '"' ) ) {
 			$sentence = str_replace( '"', $close_quote, $sentence );
 		}
 	}
@@ -1938,7 +1938,7 @@ function remove_accents( $string ) {
 		// Used for locale-specific rules.
 		$locale = get_locale();
 
-		if ( 'de_DE' == $locale || 'de_DE_formal' == $locale || 'de_CH' == $locale || 'de_CH_informal' == $locale ) {
+		if ( in_array( $locale, array( 'de_DE', 'de_DE_formal', 'de_CH', 'de_CH_informal' ), true ) ) {
 			$chars['Ä'] = 'Ae';
 			$chars['ä'] = 'ae';
 			$chars['Ö'] = 'Oe';
@@ -2179,7 +2179,7 @@ function sanitize_key( $key ) {
 function sanitize_title( $title, $fallback_title = '', $context = 'save' ) {
 	$raw_title = $title;
 
-	if ( 'save' == $context ) {
+	if ( 'save' === $context ) {
 		$title = remove_accents( $title );
 	}
 
@@ -2246,7 +2246,7 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 
 	$title = strtolower( $title );
 
-	if ( 'save' == $context ) {
+	if ( 'save' === $context ) {
 		// Convert &nbsp, &ndash, and &mdash to hyphens.
 		$title = str_replace( array( '%c2%a0', '%e2%80%93', '%e2%80%94' ), '-', $title );
 		// Convert &nbsp, &ndash, and &mdash HTML entities to hyphens.
@@ -2354,7 +2354,7 @@ function sanitize_html_class( $class, $fallback = '' ) {
 	// Limit to A-Z, a-z, 0-9, '_', '-'.
 	$sanitized = preg_replace( '/[^A-Za-z0-9_-]/', '', $sanitized );
 
-	if ( '' == $sanitized && $fallback ) {
+	if ( '' === $sanitized && $fallback ) {
 		return sanitize_html_class( $fallback );
 	}
 	/**
@@ -2836,7 +2836,7 @@ function antispambot( $email_address, $hex_encoding = 0 ) {
 function _make_url_clickable_cb( $matches ) {
 	$url = $matches[2];
 
-	if ( ')' == $matches[3] && strpos( $url, '(' ) ) {
+	if ( ')' === $matches[3] && strpos( $url, '(' ) ) {
 		// If the trailing character is a closing parethesis, and the URL has an opening parenthesis in it,
 		// add the closing parenthesis to the URL. Then we can let the parenthesis balancer do its thing below.
 		$url   .= $matches[3];
@@ -3370,17 +3370,17 @@ function convert_smilies( $text ) {
 			$content = $textarr[ $i ];
 
 			// If we're in an ignore block, wait until we find its closing tag.
-			if ( '' == $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')[^>]*>/', $content, $matches ) ) {
+			if ( '' === $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')[^>]*>/', $content, $matches ) ) {
 				$ignore_block_element = $matches[1];
 			}
 
 			// If it's not a tag and not in ignore block.
-			if ( '' == $ignore_block_element && strlen( $content ) > 0 && '<' != $content[0] ) {
+			if ( '' === $ignore_block_element && strlen( $content ) > 0 && '<' !== $content[0] ) {
 				$content = preg_replace_callback( $wp_smiliessearch, 'translate_smiley', $content );
 			}
 
 			// Did we exit ignore block?
-			if ( '' != $ignore_block_element && '</' . $ignore_block_element . '>' == $content ) {
+			if ( '' !== $ignore_block_element && '</' . $ignore_block_element . '>' === $content ) {
 				$ignore_block_element = '';
 			}
 
@@ -3573,7 +3573,7 @@ function iso8601_timezone_to_offset( $timezone ) {
 	if ( 'Z' === $timezone ) {
 		$offset = 0;
 	} else {
-		$sign    = ( substr( $timezone, 0, 1 ) == '+' ) ? 1 : -1;
+		$sign    = ( '+' === substr( $timezone, 0, 1 ) ) ? 1 : -1;
 		$hours   = intval( substr( $timezone, 1, 2 ) );
 		$minutes = intval( substr( $timezone, 3, 4 ) ) / 60;
 		$offset  = $sign * HOUR_IN_SECONDS * ( $hours + $minutes );
@@ -3813,7 +3813,8 @@ function human_time_diff( $from, $to = 0 ) {
  */
 function wp_trim_excerpt( $text = '', $post = null ) {
 	$raw_excerpt = $text;
-	if ( '' == $text ) {
+
+	if ( '' === $text ) {
 		$post = get_post( $post );
 		$text = get_the_content( '', false, $post );
 
@@ -4307,7 +4308,7 @@ function esc_sql( $data ) {
 function esc_url( $url, $protocols = null, $_context = 'display' ) {
 	$original_url = $url;
 
-	if ( '' == $url ) {
+	if ( '' === $url ) {
 		return $url;
 	}
 
@@ -4335,7 +4336,7 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 	}
 
 	// Replace ampersands and single quotes only when displaying.
-	if ( 'display' == $_context ) {
+	if ( 'display' === $_context ) {
 		$url = wp_kses_normalize_entities( $url );
 		$url = str_replace( '&amp;', '&#038;', $url );
 		$url = str_replace( "'", '&#039;', $url );
@@ -4645,7 +4646,7 @@ function sanitize_option( $option, $value ) {
 		case 'default_ping_status':
 		case 'default_comment_status':
 			// Options that if not there have 0 value but need to be something like "closed".
-			if ( '0' == $value || '' == $value ) {
+			if ( '0' == $value || '' === $value ) {
 				$value = 'closed';
 			}
 			break;
@@ -4977,7 +4978,7 @@ function wp_sprintf( $pattern, ...$args ) {
 		}
 
 		// Literal %: append and continue.
-		if ( substr( $pattern, $start, 2 ) == '%%' ) {
+		if ( '%%' === substr( $pattern, $start, 2 ) ) {
 			$start  += 2;
 			$result .= '%';
 			continue;
@@ -5043,7 +5044,7 @@ function wp_sprintf( $pattern, ...$args ) {
  */
 function wp_sprintf_l( $pattern, $args ) {
 	// Not a match.
-	if ( substr( $pattern, 0, 2 ) != '%l' ) {
+	if ( '%l' !== substr( $pattern, 0, 2 ) ) {
 		return $pattern;
 	}
 
@@ -5807,12 +5808,12 @@ function wp_staticize_emoji( $text ) {
 		$content = $textarr[ $i ];
 
 		// If we're in an ignore block, wait until we find its closing tag.
-		if ( '' == $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')>/', $content, $matches ) ) {
+		if ( '' === $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')>/', $content, $matches ) ) {
 			$ignore_block_element = $matches[1];
 		}
 
 		// If it's not a tag and not in ignore block.
-		if ( '' == $ignore_block_element && strlen( $content ) > 0 && '<' != $content[0] && false !== strpos( $content, '&#x' ) ) {
+		if ( '' === $ignore_block_element && strlen( $content ) > 0 && '<' !== $content[0] && false !== strpos( $content, '&#x' ) ) {
 			foreach ( $possible_emoji as $emojum => $emoji_char ) {
 				if ( false === strpos( $content, $emojum ) ) {
 					continue;
@@ -5828,7 +5829,7 @@ function wp_staticize_emoji( $text ) {
 		}
 
 		// Did we exit ignore block?
-		if ( '' != $ignore_block_element && '</' . $ignore_block_element . '>' == $content ) {
+		if ( '' !== $ignore_block_element && '</' . $ignore_block_element . '>' === $content ) {
 			$ignore_block_element = '';
 		}
 

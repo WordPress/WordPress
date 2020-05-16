@@ -83,7 +83,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 		$title = $desc;
 
 		if ( $parsed_args['show_updated'] ) {
-			if ( '00' != substr( $bookmark->link_updated_f, 0, 2 ) ) {
+			if ( '00' !== substr( $bookmark->link_updated_f, 0, 2 ) ) {
 				$title .= ' (';
 				$title .= sprintf(
 					/* translators: %s: Date and time of last update. */
@@ -98,15 +98,15 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 		}
 		$alt = ' alt="' . $name . ( $parsed_args['show_description'] ? ' ' . $title : '' ) . '"';
 
-		if ( '' != $title ) {
+		if ( '' !== $title ) {
 			$title = ' title="' . $title . '"';
 		}
 		$rel = $bookmark->link_rel;
-		if ( '' != $rel ) {
+		if ( '' !== $rel ) {
 			$rel = ' rel="' . esc_attr( $rel ) . '"';
 		}
 		$target = $bookmark->link_target;
-		if ( '' != $target ) {
+		if ( '' !== $target ) {
 			$target = ' target="' . $target . '"';
 		}
 		$output .= '<a href="' . $the_link . '"' . $rel . $title . $target . '>';
@@ -134,7 +134,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 			$output .= '</em>';
 		}
 
-		if ( $parsed_args['show_description'] && '' != $desc ) {
+		if ( $parsed_args['show_description'] && '' !== $desc ) {
 			$output .= $parsed_args['between'] . $desc;
 		}
 

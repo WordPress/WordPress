@@ -54,7 +54,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 		case 'edit_user':
 		case 'edit_users':
 			// Allow user to edit themselves.
-			if ( 'edit_user' == $cap && isset( $args[0] ) && $user_id == $args[0] ) {
+			if ( 'edit_user' === $cap && isset( $args[0] ) && $user_id == $args[0] ) {
 				break;
 			}
 
@@ -73,7 +73,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				break;
 			}
 
-			if ( 'revision' == $post->post_type ) {
+			if ( 'revision' === $post->post_type ) {
 				$caps[] = 'do_not_allow';
 				break;
 			}
@@ -94,7 +94,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			if ( ! $post_type->map_meta_cap ) {
 				$caps[] = $post_type->cap->$cap;
 				// Prior to 3.1 we would re-call map_meta_cap here.
-				if ( 'delete_post' == $cap ) {
+				if ( 'delete_post' === $cap ) {
 					$cap = $post_type->cap->$cap;
 				}
 				break;
@@ -105,7 +105,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				// If the post is published or scheduled...
 				if ( in_array( $post->post_status, array( 'publish', 'future' ), true ) ) {
 					$caps[] = $post_type->cap->delete_published_posts;
-				} elseif ( 'trash' == $post->post_status ) {
+				} elseif ( 'trash' === $post->post_status ) {
 					$status = get_post_meta( $post->ID, '_wp_trash_meta_status', true );
 					if ( in_array( $status, array( 'publish', 'future' ), true ) ) {
 						$caps[] = $post_type->cap->delete_published_posts;
@@ -122,7 +122,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				// The post is published or scheduled, extra cap required.
 				if ( in_array( $post->post_status, array( 'publish', 'future' ), true ) ) {
 					$caps[] = $post_type->cap->delete_published_posts;
-				} elseif ( 'private' == $post->post_status ) {
+				} elseif ( 'private' === $post->post_status ) {
 					$caps[] = $post_type->cap->delete_private_posts;
 				}
 			}
@@ -146,7 +146,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				break;
 			}
 
-			if ( 'revision' == $post->post_type ) {
+			if ( 'revision' === $post->post_type ) {
 				$post = get_post( $post->post_parent );
 				if ( ! $post ) {
 					$caps[] = 'do_not_allow';
@@ -165,7 +165,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			if ( ! $post_type->map_meta_cap ) {
 				$caps[] = $post_type->cap->$cap;
 				// Prior to 3.1 we would re-call map_meta_cap here.
-				if ( 'edit_post' == $cap ) {
+				if ( 'edit_post' === $cap ) {
 					$cap = $post_type->cap->$cap;
 				}
 				break;
@@ -176,7 +176,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				// If the post is published or scheduled...
 				if ( in_array( $post->post_status, array( 'publish', 'future' ), true ) ) {
 					$caps[] = $post_type->cap->edit_published_posts;
-				} elseif ( 'trash' == $post->post_status ) {
+				} elseif ( 'trash' === $post->post_status ) {
 					$status = get_post_meta( $post->ID, '_wp_trash_meta_status', true );
 					if ( in_array( $status, array( 'publish', 'future' ), true ) ) {
 						$caps[] = $post_type->cap->edit_published_posts;
@@ -193,7 +193,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				// The post is published or scheduled, extra cap required.
 				if ( in_array( $post->post_status, array( 'publish', 'future' ), true ) ) {
 					$caps[] = $post_type->cap->edit_published_posts;
-				} elseif ( 'private' == $post->post_status ) {
+				} elseif ( 'private' === $post->post_status ) {
 					$caps[] = $post_type->cap->edit_private_posts;
 				}
 			}
@@ -215,7 +215,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				break;
 			}
 
-			if ( 'revision' == $post->post_type ) {
+			if ( 'revision' === $post->post_type ) {
 				$post = get_post( $post->post_parent );
 				if ( ! $post ) {
 					$caps[] = 'do_not_allow';
@@ -234,7 +234,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			if ( ! $post_type->map_meta_cap ) {
 				$caps[] = $post_type->cap->$cap;
 				// Prior to 3.1 we would re-call map_meta_cap here.
-				if ( 'read_post' == $cap ) {
+				if ( 'read_post' === $cap ) {
 					$cap = $post_type->cap->$cap;
 				}
 				break;

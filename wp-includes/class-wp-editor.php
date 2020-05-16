@@ -524,7 +524,7 @@ final class _WP_Editors {
 									$strings .= @file_get_contents( $path . $mce_locale . '_dlg.js' ) . "\n";
 								}
 
-								if ( 'en' != $mce_locale && empty( $strings ) ) {
+								if ( 'en' !== $mce_locale && empty( $strings ) ) {
 									if ( @is_file( $path . 'en.js' ) ) {
 										$str1     = @file_get_contents( $path . 'en.js' );
 										$strings .= preg_replace( '/([\'"])en\./', '$1' . $mce_locale . '.', $str1, 1 ) . "\n";
@@ -834,8 +834,8 @@ final class _WP_Editors {
 				$options .= $key . ':' . $val . ',';
 				continue;
 			} elseif ( ! empty( $value ) && is_string( $value ) && (
-				( '{' == $value[0] && '}' == $value[ strlen( $value ) - 1 ] ) ||
-				( '[' == $value[0] && ']' == $value[ strlen( $value ) - 1 ] ) ||
+				( '{' === $value[0] && '}' === $value[ strlen( $value ) - 1 ] ) ||
+				( '[' === $value[0] && ']' === $value[ strlen( $value ) - 1 ] ) ||
 				preg_match( '/^\(?function ?\(/', $value ) ) ) {
 
 				$options .= $key . ':' . $value . ',';
@@ -1776,7 +1776,7 @@ final class _WP_Editors {
 		// Build results.
 		$results = array();
 		foreach ( $posts as $post ) {
-			if ( 'post' == $post->post_type ) {
+			if ( 'post' === $post->post_type ) {
 				$info = mysql2date( __( 'Y/m/d' ), $post->post_date );
 			} else {
 				$info = $pts[ $post->post_type ]->labels->singular_name;

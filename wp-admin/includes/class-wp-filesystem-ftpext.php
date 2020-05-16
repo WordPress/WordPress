@@ -69,7 +69,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		}
 
 		$this->options['ssl'] = false;
-		if ( isset( $opt['connection_type'] ) && 'ftps' == $opt['connection_type'] ) {
+		if ( isset( $opt['connection_type'] ) && 'ftps' === $opt['connection_type'] ) {
 			$this->options['ssl'] = true;
 		}
 	}
@@ -373,7 +373,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		if ( empty( $file ) ) {
 			return false;
 		}
-		if ( 'f' == $type || $this->is_file( $file ) ) {
+		if ( 'f' === $type || $this->is_file( $file ) ) {
 			return ftp_delete( $this->link, $file );
 		}
 		if ( ! $recursive ) {
@@ -695,11 +695,11 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 				continue;
 			}
 
-			if ( '.' == $entry['name'] || '..' == $entry['name'] ) {
+			if ( '.' === $entry['name'] || '..' === $entry['name'] ) {
 				continue;
 			}
 
-			if ( ! $include_hidden && '.' == $entry['name'][0] ) {
+			if ( ! $include_hidden && '.' === $entry['name'][0] ) {
 				continue;
 			}
 
@@ -712,7 +712,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		$ret = array();
 		foreach ( (array) $dirlist as $struc ) {
-			if ( 'd' == $struc['type'] ) {
+			if ( 'd' === $struc['type'] ) {
 				if ( $recursive ) {
 					$struc['files'] = $this->dirlist( $path . '/' . $struc['name'], $include_hidden, $recursive );
 				} else {

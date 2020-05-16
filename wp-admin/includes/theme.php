@@ -471,7 +471,7 @@ function themes_api( $action, $args = array() ) {
 		$args = (object) $args;
 	}
 
-	if ( 'query_themes' == $action ) {
+	if ( 'query_themes' === $action ) {
 		if ( ! isset( $args->per_page ) ) {
 			$args->per_page = 24;
 		}
@@ -583,13 +583,13 @@ function themes_api( $action, $args = array() ) {
 		}
 
 		// Back-compat for info/1.2 API, upgrade the theme objects in query_themes to objects.
-		if ( 'query_themes' == $action ) {
+		if ( 'query_themes' === $action ) {
 			foreach ( $res->themes as $i => $theme ) {
 				$res->themes[ $i ] = (object) $theme;
 			}
 		}
 		// Back-compat for info/1.2 API, downgrade the feature_list result back to an array.
-		if ( 'feature_list' == $action ) {
+		if ( 'feature_list' === $action ) {
 			$res = (array) $res;
 		}
 	}

@@ -101,7 +101,7 @@ class WP_Http_Encoding {
 	public static function compatible_gzinflate( $gzData ) {
 
 		// Compressed data might contain a full header, if so strip it for gzinflate().
-		if ( substr( $gzData, 0, 3 ) == "\x1f\x8b\x08" ) {
+		if ( "\x1f\x8b\x08" === substr( $gzData, 0, 3 ) ) {
 			$i   = 10;
 			$flg = ord( substr( $gzData, 3, 1 ) );
 			if ( $flg > 0 ) {

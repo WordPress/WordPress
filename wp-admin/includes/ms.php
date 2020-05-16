@@ -696,7 +696,7 @@ function site_admin_notice() {
 		return false;
 	}
 
-	if ( 'upgrade.php' == $pagenow ) {
+	if ( 'upgrade.php' === $pagenow ) {
 		return;
 	}
 
@@ -873,7 +873,7 @@ function confirm_delete_users( $users ) {
 	<?php
 	$allusers = (array) $_POST['allusers'];
 	foreach ( $allusers as $user_id ) {
-		if ( '' != $user_id && '0' != $user_id ) {
+		if ( '' !== $user_id && '0' != $user_id ) {
 			$delete_user = get_userdata( $user_id );
 
 			if ( ! current_user_can( 'delete_user', $delete_user->ID ) ) {
@@ -935,7 +935,7 @@ function confirm_delete_users( $users ) {
 							}
 						}
 
-						if ( '' == $user_list ) {
+						if ( '' === $user_list ) {
 							$user_list = $admin_out;
 						}
 

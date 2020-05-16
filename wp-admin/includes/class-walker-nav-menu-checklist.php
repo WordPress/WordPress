@@ -75,7 +75,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		global $_nav_menu_placeholder, $nav_menu_selected_id;
 
 		$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval( $_nav_menu_placeholder ) - 1 : -1;
-		$possible_object_id    = isset( $item->post_type ) && 'nav_menu_item' == $item->post_type ? $item->object_id : $_nav_menu_placeholder;
+		$possible_object_id    = isset( $item->post_type ) && 'nav_menu_item' === $item->post_type ? $item->object_id : $_nav_menu_placeholder;
 		$possible_db_id        = ( ! empty( $item->ID ) ) && ( 0 < $possible_object_id ) ? (int) $item->ID : 0;
 
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';

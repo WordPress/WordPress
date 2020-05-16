@@ -204,7 +204,7 @@ switch ( $action ) {
 		<?php endif; ?>
 		<?php if ( isset( $_GET['error'] ) ) : ?>
 <div class="notice notice-error">
-			<?php if ( 'new-email' == $_GET['error'] ) : ?>
+			<?php if ( 'new-email' === $_GET['error'] ) : ?>
 	<p><?php _e( 'Error while saving the new email address. Please try again.' ); ?></p>
 	<?php endif; ?>
 </div>

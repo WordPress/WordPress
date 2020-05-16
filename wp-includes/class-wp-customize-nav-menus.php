@@ -154,7 +154,7 @@ final class WP_Customize_Nav_Menus {
 			$suppress_page_ids = array();
 			if ( 0 === $page && 'page' === $object ) {
 				// Insert Front Page or custom "Home" link.
-				$front_page = 'page' == get_option( 'show_on_front' ) ? (int) get_option( 'page_on_front' ) : 0;
+				$front_page = 'page' === get_option( 'show_on_front' ) ? (int) get_option( 'page_on_front' ) : 0;
 				if ( ! empty( $front_page ) ) {
 					$front_page_obj      = get_post( $front_page );
 					$important_pages[]   = $front_page_obj;
@@ -172,7 +172,7 @@ final class WP_Customize_Nav_Menus {
 				}
 
 				// Insert Posts Page.
-				$posts_page = 'page' == get_option( 'show_on_front' ) ? (int) get_option( 'page_for_posts' ) : 0;
+				$posts_page = 'page' === get_option( 'show_on_front' ) ? (int) get_option( 'page_for_posts' ) : 0;
 				if ( ! empty( $posts_page ) ) {
 					$posts_page_obj      = get_post( $posts_page );
 					$important_pages[]   = $posts_page_obj;
@@ -445,7 +445,7 @@ final class WP_Customize_Nav_Menus {
 		// Add "Home" link if search term matches. Treat as a page, but switch to custom on add.
 		if ( isset( $args['s'] ) ) {
 			// Only insert custom "Home" link if there's no Front Page
-			$front_page = 'page' == get_option( 'show_on_front' ) ? (int) get_option( 'page_on_front' ) : 0;
+			$front_page = 'page' === get_option( 'show_on_front' ) ? (int) get_option( 'page_on_front' ) : 0;
 			if ( empty( $front_page ) ) {
 				$title   = _x( 'Home', 'nav menu home label' );
 				$matches = function_exists( 'mb_stripos' ) ? false !== mb_stripos( $title, $args['s'] ) : false !== stripos( $title, $args['s'] );

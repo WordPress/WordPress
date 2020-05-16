@@ -95,7 +95,7 @@ function find_core_auto_update() {
 	$auto_update = false;
 	$upgrader    = new WP_Automatic_Updater;
 	foreach ( $updates->updates as $update ) {
-		if ( 'autoupdate' != $update->response ) {
+		if ( 'autoupdate' !== $update->response ) {
 			continue;
 		}
 
@@ -285,7 +285,7 @@ function update_nag() {
 
 	global $pagenow;
 
-	if ( 'update-core.php' == $pagenow ) {
+	if ( 'update-core.php' === $pagenow ) {
 		return;
 	}
 

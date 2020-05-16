@@ -129,7 +129,7 @@ function wp_insert_category( $catarr, $wp_error = false ) {
 	);
 	$catarr       = wp_parse_args( $catarr, $cat_defaults );
 
-	if ( trim( $catarr['cat_name'] ) == '' ) {
+	if ( '' === trim( $catarr['cat_name'] ) ) {
 		if ( ! $wp_error ) {
 			return 0;
 		} else {

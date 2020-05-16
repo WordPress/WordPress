@@ -576,7 +576,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			);
 		}
 
-		if ( 'post' != $this->screen->post_type ) {
+		if ( 'post' !== $this->screen->post_type ) {
 			$args['post_type'] = $this->screen->post_type;
 		}
 

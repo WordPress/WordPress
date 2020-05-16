@@ -320,13 +320,13 @@ if ( ! function_exists( 'twentyfifteen_fonts_url' ) ) :
 		 */
 		$subset = _x( 'no-subset', 'Add new subset (greek, cyrillic, devanagari, vietnamese)', 'twentyfifteen' );
 
-		if ( 'cyrillic' == $subset ) {
+		if ( 'cyrillic' === $subset ) {
 			$subsets .= ',cyrillic,cyrillic-ext';
-		} elseif ( 'greek' == $subset ) {
+		} elseif ( 'greek' === $subset ) {
 			$subsets .= ',greek,greek-ext';
-		} elseif ( 'devanagari' == $subset ) {
+		} elseif ( 'devanagari' === $subset ) {
 			$subsets .= ',devanagari';
-		} elseif ( 'vietnamese' == $subset ) {
+		} elseif ( 'vietnamese' === $subset ) {
 			$subsets .= ',vietnamese';
 		}
 
@@ -460,7 +460,7 @@ function twentyfifteen_post_nav_background() {
 	$next     = get_adjacent_post( false, '', false );
 	$css      = '';
 
-	if ( is_attachment() && 'attachment' == $previous->post_type ) {
+	if ( is_attachment() && 'attachment' === $previous->post_type ) {
 		return;
 	}
 
@@ -498,7 +498,7 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_post_nav_background' );
  * @return string Menu item with possible description.
  */
 function twentyfifteen_nav_description( $item_output, $item, $depth, $args ) {
-	if ( 'primary' == $args->theme_location && $item->description ) {
+	if ( 'primary' === $args->theme_location && $item->description ) {
 		$item_output = str_replace( $args->link_after . '</a>', '<div class="menu-item-description">' . $item->description . '</div>' . $args->link_after . '</a>', $item_output );
 	}
 

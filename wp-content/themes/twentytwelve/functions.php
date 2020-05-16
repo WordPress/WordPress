@@ -158,11 +158,11 @@ function twentytwelve_get_font_url() {
 		 */
 		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)', 'twentytwelve' );
 
-		if ( 'cyrillic' == $subset ) {
+		if ( 'cyrillic' === $subset ) {
 			$subsets .= ',cyrillic,cyrillic-ext';
-		} elseif ( 'greek' == $subset ) {
+		} elseif ( 'greek' === $subset ) {
 			$subsets .= ',greek,greek-ext';
-		} elseif ( 'vietnamese' == $subset ) {
+		} elseif ( 'vietnamese' === $subset ) {
 			$subsets .= ',vietnamese';
 		}
 

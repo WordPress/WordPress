@@ -340,7 +340,7 @@ function twentyfourteen_scripts() {
 		wp_enqueue_script( 'jquery-masonry' );
 	}
 
-	if ( is_front_page() && 'slider' == get_theme_mod( 'featured_content_layout' ) ) {
+	if ( is_front_page() && 'slider' === get_theme_mod( 'featured_content_layout' ) ) {
 		wp_enqueue_script( 'twentyfourteen-slider', get_template_directory_uri() . '/js/slider.js', array( 'jquery' ), '20150120', true );
 		wp_localize_script(
 			'twentyfourteen-slider',
@@ -567,7 +567,7 @@ function twentyfourteen_body_classes( $classes ) {
 		$classes[] = 'singular';
 	}
 
-	if ( is_front_page() && 'slider' == get_theme_mod( 'featured_content_layout' ) ) {
+	if ( is_front_page() && 'slider' === get_theme_mod( 'featured_content_layout' ) ) {
 		$classes[] = 'slider';
 	} elseif ( is_front_page() ) {
 		$classes[] = 'grid';

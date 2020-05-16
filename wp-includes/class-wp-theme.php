@@ -340,7 +340,8 @@ final class WP_Theme implements ArrayAccess {
 			// wp-content/themes/directory-of-themes/*
 			$parent_dir  = dirname( $this->stylesheet );
 			$directories = search_theme_directories();
-			if ( '.' != $parent_dir && file_exists( $this->theme_root . '/' . $parent_dir . '/' . $this->template . '/index.php' ) ) {
+
+			if ( '.' !== $parent_dir && file_exists( $this->theme_root . '/' . $parent_dir . '/' . $this->template . '/index.php' ) ) {
 				$this->template = $parent_dir . '/' . $this->template;
 			} elseif ( $directories && isset( $directories[ $this->template ] ) ) {
 				// Look for the template in the search_theme_directories() results, in case it is in another theme root.
@@ -1142,7 +1143,7 @@ final class WP_Theme implements ArrayAccess {
 	public function get_screenshot( $uri = 'uri' ) {
 		$screenshot = $this->cache_get( 'screenshot' );
 		if ( $screenshot ) {
-			if ( 'relative' == $uri ) {
+			if ( 'relative' === $uri ) {
 				return $screenshot;
 			}
 			return $this->get_stylesheet_directory_uri() . '/' . $screenshot;
@@ -1153,7 +1154,7 @@ final class WP_Theme implements ArrayAccess {
 		foreach ( array( 'png', 'gif', 'jpg', 'jpeg' ) as $ext ) {
 			if ( file_exists( $this->get_stylesheet_directory() . "/screenshot.$ext" ) ) {
 				$this->cache_add( 'screenshot', 'screenshot.' . $ext );
-				if ( 'relative' == $uri ) {
+				if ( 'relative' === $uri ) {
 					return 'screenshot.' . $ext;
 				}
 				return $this->get_stylesheet_directory_uri() . '/' . 'screenshot.' . $ext;
@@ -1319,7 +1320,7 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		$relative_path = trailingslashit( $relative_path );
-		if ( '/' == $relative_path ) {
+		if ( '/' === $relative_path ) {
 			$relative_path = '';
 		}
 
@@ -1336,7 +1337,7 @@ final class WP_Theme implements ArrayAccess {
 		$exclusions = (array) apply_filters( 'theme_scandir_exclusions', array( 'CVS', 'node_modules', 'vendor', 'bower_components' ) );
 
 		foreach ( $results as $result ) {
-			if ( '.' == $result[0] || in_array( $result, $exclusions, true ) ) {
+			if ( '.' === $result[0] || in_array( $result, $exclusions, true ) ) {
 				continue;
 			}
 			if ( is_dir( $path . '/' . $result ) ) {
@@ -1407,14 +1408,14 @@ final class WP_Theme implements ArrayAccess {
 			return true;
 		}
 
-		if ( 'both' == $check || 'network' == $check ) {
+		if ( 'both' === $check || 'network' === $check ) {
 			$allowed = self::get_allowed_on_network();
 			if ( ! empty( $allowed[ $this->get_stylesheet() ] ) ) {
 				return true;
 			}
 		}
 
-		if ( 'both' == $check || 'site' == $check ) {
+		if ( 'both' === $check || 'site' === $check ) {
 			$allowed = self::get_allowed_on_site( $blog_id );
 			if ( ! empty( $allowed[ $this->get_stylesheet() ] ) ) {
 				return true;

@@ -85,7 +85,8 @@ function get_default_feed() {
 	 *                          Default 'rss2'.
 	 */
 	$default_feed = apply_filters( 'default_feed', 'rss2' );
-	return 'rss' == $default_feed ? 'rss2' : $default_feed;
+
+	return ( 'rss' === $default_feed ) ? 'rss2' : $default_feed;
 }
 
 /**
@@ -160,8 +161,7 @@ function get_the_title_rss() {
 	 *
 	 * @param string $title The current post title.
 	 */
-	$title = apply_filters( 'the_title_rss', $title );
-	return $title;
+	return apply_filters( 'the_title_rss', $title );
 }
 
 /**
@@ -190,6 +190,7 @@ function get_the_content_feed( $feed_type = null ) {
 	/** This filter is documented in wp-includes/post-template.php */
 	$content = apply_filters( 'the_content', get_the_content() );
 	$content = str_replace( ']]>', ']]&gt;', $content );
+
 	/**
 	 * Filters the post content for use in feeds.
 	 *
@@ -382,7 +383,7 @@ function get_the_category_rss( $type = null ) {
 	$cat_names  = array();
 
 	$filter = 'rss';
-	if ( 'atom' == $type ) {
+	if ( 'atom' === $type ) {
 		$filter = 'raw';
 	}
 
@@ -401,9 +402,9 @@ function get_the_category_rss( $type = null ) {
 	$cat_names = array_unique( $cat_names );
 
 	foreach ( $cat_names as $cat_name ) {
-		if ( 'rdf' == $type ) {
+		if ( 'rdf' === $type ) {
 			$the_list .= "\t\t<dc:subject><![CDATA[$cat_name]]></dc:subject>\n";
-		} elseif ( 'atom' == $type ) {
+		} elseif ( 'atom' === $type ) {
 			$the_list .= sprintf( '<category scheme="%1$s" term="%2$s" />', esc_attr( get_bloginfo_rss( 'url' ) ), esc_attr( $cat_name ) );
 		} else {
 			$the_list .= "\t\t<category><![CDATA[" . html_entity_decode( $cat_name, ENT_COMPAT, get_option( 'blog_charset' ) ) . "]]></category>\n";

@@ -122,7 +122,7 @@ function wp_save_post_revision( $post_id ) {
 		return;
 	}
 
-	if ( 'auto-draft' == $post->post_status ) {
+	if ( 'auto-draft' === $post->post_status ) {
 		return;
 	}
 
@@ -308,7 +308,7 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 		return new WP_Error( 'invalid_post', __( 'Invalid post ID.' ) );
 	}
 
-	if ( isset( $post['post_type'] ) && 'revision' == $post['post_type'] ) {
+	if ( isset( $post['post_type'] ) && 'revision' === $post['post_type'] ) {
 		return new WP_Error( 'post_type', __( 'Cannot create a revision of a revision' ) );
 	}
 
@@ -616,11 +616,13 @@ function _wp_preview_terms_filter( $terms, $post_id, $taxonomy ) {
 		return $terms;
 	}
 
-	if ( empty( $_REQUEST['post_format'] ) || $post->ID != $post_id || 'post_format' != $taxonomy || 'revision' == $post->post_type ) {
+	if ( empty( $_REQUEST['post_format'] ) || $post->ID != $post_id
+		|| 'post_format' !== $taxonomy || 'revision' === $post->post_type
+	) {
 		return $terms;
 	}
 
-	if ( 'standard' == $_REQUEST['post_format'] ) {
+	if ( 'standard' === $_REQUEST['post_format'] ) {
 		$terms = array();
 	} else {
 		$term = get_term_by( 'slug', 'post-format-' . sanitize_key( $_REQUEST['post_format'] ), 'post_format' );
@@ -652,8 +654,8 @@ function _wp_preview_post_thumbnail_filter( $value, $post_id, $meta_key ) {
 	if ( empty( $_REQUEST['_thumbnail_id'] ) ||
 		empty( $_REQUEST['preview_id'] ) ||
 		$post->ID != $post_id ||
-		'_thumbnail_id' != $meta_key ||
-		'revision' == $post->post_type ||
+		'_thumbnail_id' !== $meta_key ||
+		'revision' === $post->post_type ||
 		$post_id != $_REQUEST['preview_id'] ) {
 
 		return $value;

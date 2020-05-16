@@ -107,7 +107,7 @@ function plugins_api( $action, $args = array() ) {
 		$args = (object) $args;
 	}
 
-	if ( 'query_plugins' == $action ) {
+	if ( 'query_plugins' === $action ) {
 		if ( ! isset( $args->per_page ) ) {
 			$args->per_page = 24;
 		}
@@ -462,7 +462,7 @@ function install_plugin_install_status( $api, $loop = false ) {
 		}
 	}
 
-	if ( 'install' == $status ) {
+	if ( 'install' === $status ) {
 		if ( is_dir( WP_PLUGIN_DIR . '/' . $api->slug ) ) {
 			$installed_plugin = get_plugins( '/' . $api->slug );
 			if ( empty( $installed_plugin ) ) {

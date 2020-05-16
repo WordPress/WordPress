@@ -418,29 +418,29 @@ function sanitize_bookmark_field( $field, $value, $bookmark_id, $context ) {
 			break;
 	}
 
-	if ( 'raw' == $context ) {
+	if ( 'raw' === $context ) {
 		return $value;
 	}
 
-	if ( 'edit' == $context ) {
+	if ( 'edit' === $context ) {
 		/** This filter is documented in wp-includes/post.php */
 		$value = apply_filters( "edit_{$field}", $value, $bookmark_id );
 
-		if ( 'link_notes' == $field ) {
+		if ( 'link_notes' === $field ) {
 			$value = esc_html( $value ); // textarea_escaped
 		} else {
 			$value = esc_attr( $value );
 		}
-	} elseif ( 'db' == $context ) {
+	} elseif ( 'db' === $context ) {
 		/** This filter is documented in wp-includes/post.php */
 		$value = apply_filters( "pre_{$field}", $value );
 	} else {
 		/** This filter is documented in wp-includes/post.php */
 		$value = apply_filters( "{$field}", $value, $bookmark_id, $context );
 
-		if ( 'attribute' == $context ) {
+		if ( 'attribute' === $context ) {
 			$value = esc_attr( $value );
-		} elseif ( 'js' == $context ) {
+		} elseif ( 'js' === $context ) {
 			$value = esc_js( $value );
 		}
 	}

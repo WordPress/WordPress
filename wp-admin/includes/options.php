@@ -49,16 +49,17 @@ function options_general_add_js() {
 			$siteName.text( title );
 		});
 
-		$("input[name='date_format']").click(function(){
-			if ( "date_format_custom_radio" != $(this).attr("id") )
+		$( 'input[name="date_format"]' ).click( function() {
+			if ( 'date_format_custom_radio' !== $(this).attr( 'id' ) )
 				$( 'input[name="date_format_custom"]' ).val( $( this ).val() ).closest( 'fieldset' ).find( '.example' ).text( $( this ).parent( 'label' ).children( '.format-i18n' ).text() );
 		});
+
 		$( 'input[name="date_format_custom"]' ).on( 'click input', function() {
 			$( '#date_format_custom_radio' ).prop( 'checked', true );
 		});
 
-		$("input[name='time_format']").click(function(){
-			if ( "time_format_custom_radio" != $(this).attr("id") )
+		$( 'input[name="time_format"]' ).click( function() {
+			if ( 'time_format_custom_radio' !== $(this).attr( 'id' ) )
 				$( 'input[name="time_format_custom"]' ).val( $( this ).val() ).closest( 'fieldset' ).find( '.example' ).text( $( this ).parent( 'label' ).children( '.format-i18n' ).text() );
 		});
 
@@ -80,7 +81,7 @@ function options_general_add_js() {
 					spinner.addClass( 'is-active' );
 
 					$.post( ajaxurl, {
-						action: 'date_format_custom' == format.attr( 'name' ) ? 'date_format' : 'time_format',
+						action: 'date_format_custom' === format.attr( 'name' ) ? 'date_format' : 'time_format',
 						date 	: format.val()
 					}, function( d ) { spinner.removeClass( 'is-active' ); example.text( d ); } );
 				}

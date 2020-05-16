@@ -297,7 +297,7 @@ class WP_Site_Query {
 		 *
 		 * The expected return type from this filter depends on the value passed in the request query_vars:
 		 * When `$this->query_vars['count']` is set, the filter should return the site count as an int.
-		 * When `'ids' == $this->query_vars['fields']`, the filter should return an array of site ids.
+		 * When `'ids' === $this->query_vars['fields']`, the filter should return an array of site ids.
 		 * Otherwise the filter should return an array of WP_Site objects.
 		 *
 		 * @since 5.2.0
@@ -353,7 +353,7 @@ class WP_Site_Query {
 
 		$site_ids = array_map( 'intval', $site_ids );
 
-		if ( 'ids' == $this->query_vars['fields'] ) {
+		if ( 'ids' === $this->query_vars['fields'] ) {
 			$this->sites = $site_ids;
 
 			return $this->sites;

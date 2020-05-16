@@ -281,7 +281,7 @@ class Custom_Image_Header {
 	 *                     or 'uploaded' (for the Uploaded Images control).
 	 */
 	public function show_header_selector( $type = 'default' ) {
-		if ( 'default' == $type ) {
+		if ( 'default' === $type ) {
 			$headers = $this->default_headers;
 		} else {
 			$headers = get_uploaded_header_images();
@@ -359,7 +359,7 @@ class Custom_Image_Header {
 		if ( ! checked )
 			return;
 		text_color = $('#text-color');
-		if ( '' == text_color.val().replace('#', '') ) {
+		if ( '' === text_color.val().replace('#', '') ) {
 			text_color.val( default_color );
 			pickColor( default_color );
 		} else {

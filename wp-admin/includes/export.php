@@ -96,7 +96,7 @@ function export_wp( $args = array() ) {
 	header( 'Content-Disposition: attachment; filename=' . $filename );
 	header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
 
-	if ( 'all' != $args['content'] && post_type_exists( $args['content'] ) ) {
+	if ( 'all' !== $args['content'] && post_type_exists( $args['content'] ) ) {
 		$ptype = get_post_type_object( $args['content'] );
 		if ( ! $ptype->can_export ) {
 			$args['content'] = 'post';
@@ -111,14 +111,14 @@ function export_wp( $args = array() ) {
 		$where = $wpdb->prepare( "{$wpdb->posts}.post_type IN (" . implode( ',', $esses ) . ')', $post_types );
 	}
 
-	if ( $args['status'] && ( 'post' == $args['content'] || 'page' == $args['content'] ) ) {
+	if ( $args['status'] && ( 'post' === $args['content'] || 'page' === $args['content'] ) ) {
 		$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_status = %s", $args['status'] );
 	} else {
 		$where .= " AND {$wpdb->posts}.post_status != 'auto-draft'";
 	}
 
 	$join = '';
-	if ( $args['category'] && 'post' == $args['content'] ) {
+	if ( $args['category'] && 'post' === $args['content'] ) {
 		$term = term_exists( $args['category'], 'category' );
 		if ( $term ) {
 			$join   = "INNER JOIN {$wpdb->term_relationships} ON ({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
@@ -126,7 +126,7 @@ function export_wp( $args = array() ) {
 		}
 	}
 
-	if ( 'post' == $args['content'] || 'page' == $args['content'] || 'attachment' == $args['content'] ) {
+	if ( in_array( $args['content'], array( 'post', 'page', 'attachment' ), true ) ) {
 		if ( $args['author'] ) {
 			$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_author = %d", $args['author'] );
 		}
@@ -154,7 +154,7 @@ function export_wp( $args = array() ) {
 		$cat  = get_term( $term['term_id'], 'category' );
 		$cats = array( $cat->term_id => $cat );
 		unset( $term, $cat );
-	} elseif ( 'all' == $args['content'] ) {
+	} elseif ( 'all' === $args['content'] ) {
 		$categories = (array) get_categories( array( 'get' => 'all' ) );
 		$tags       = (array) get_tags( array( 'get' => 'all' ) );
 
@@ -428,7 +428,7 @@ function export_wp( $args = array() ) {
 	 * @return bool
 	 */
 	function wxr_filter_postmeta( $return_me, $meta_key ) {
-		if ( '_edit_lock' == $meta_key ) {
+		if ( '_edit_lock' === $meta_key ) {
 			$return_me = true;
 		}
 		return $return_me;
@@ -513,7 +513,7 @@ function export_wp( $args = array() ) {
 	</wp:term>
 	<?php endforeach; ?>
 	<?php
-	if ( 'all' == $args['content'] ) {
+	if ( 'all' === $args['content'] ) {
 		wxr_nav_menu_terms();}
 	?>
 

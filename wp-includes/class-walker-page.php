@@ -201,7 +201,7 @@ class Walker_Page extends Walker {
 		);
 
 		if ( ! empty( $args['show_date'] ) ) {
-			if ( 'modified' == $args['show_date'] ) {
+			if ( 'modified' === $args['show_date'] ) {
 				$time = $page->post_modified;
 			} else {
 				$time = $page->post_date;

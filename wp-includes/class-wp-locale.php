@@ -214,7 +214,7 @@ class WP_Locale {
 			$this->text_direction = $GLOBALS['text_direction'];
 
 			/* translators: 'rtl' or 'ltr'. This sets the text direction for WordPress. */
-		} elseif ( 'rtl' == _x( 'ltr', 'text direction' ) ) {
+		} elseif ( 'rtl' === _x( 'ltr', 'text direction' ) ) {
 			$this->text_direction = 'rtl';
 		}
 	}
@@ -346,7 +346,7 @@ class WP_Locale {
 	 * @return bool Whether locale is RTL.
 	 */
 	public function is_rtl() {
-		return 'rtl' == $this->text_direction;
+		return 'rtl' === $this->text_direction;
 	}
 
 	/**

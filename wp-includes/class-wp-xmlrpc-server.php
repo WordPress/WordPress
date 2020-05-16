@@ -1131,7 +1131,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( '0' == $comment->comment_approved ) {
 			$comment_status = 'hold';
-		} elseif ( 'spam' == $comment->comment_approved ) {
+		} elseif ( 'spam' === $comment->comment_approved ) {
 			$comment_status = 'spam';
 		} elseif ( '1' == $comment->comment_approved ) {
 			$comment_status = 'approve';
@@ -3379,7 +3379,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$cat_id = wp_insert_category( $new_category, true );
 		if ( is_wp_error( $cat_id ) ) {
-			if ( 'term_exists' == $cat_id->get_error_code() ) {
+			if ( 'term_exists' === $cat_id->get_error_code() ) {
 				return (int) $cat_id->get_error_data();
 			} else {
 				return new IXR_Error( 500, __( 'Sorry, the category could not be created.' ) );
@@ -3912,7 +3912,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$comment['user_ID'] = 0;
 
 			if ( get_option( 'require_name_email' ) ) {
-				if ( 6 > strlen( $comment['comment_author_email'] ) || '' == $comment['comment_author'] ) {
+				if ( strlen( $comment['comment_author_email'] < 6 ) || '' === $comment['comment_author'] ) {
 					return new IXR_Error( 403, __( 'Comment author name and email are required.' ) );
 				} elseif ( ! is_email( $comment['comment_author_email'] ) ) {
 					return new IXR_Error( 403, __( 'A valid email address is required.' ) );
@@ -5720,7 +5720,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		$page_template = null;
-		if ( ! empty( $content_struct['wp_page_template'] ) && 'page' == $post_type ) {
+		if ( ! empty( $content_struct['wp_page_template'] ) && 'page' === $post_type ) {
 			$page_template = $content_struct['wp_page_template'];
 		}
 
@@ -5847,7 +5847,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$tags_input = isset( $content_struct['mt_keywords'] ) ? $content_struct['mt_keywords'] : null;
 
 		if ( 'publish' === $post_status || 'private' === $post_status ) {
-			if ( 'page' == $post_type && ! current_user_can( 'publish_pages' ) ) {
+			if ( 'page' === $post_type && ! current_user_can( 'publish_pages' ) ) {
 				return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish this page.' ) );
 			} elseif ( ! current_user_can( 'publish_posts' ) ) {
 				return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish this post.' ) );
@@ -5991,7 +5991,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'metaWeblog.getPost' );
 
-		if ( '' != $postdata['post_date'] ) {
+		if ( '' !== $postdata['post_date'] ) {
 			$post_date         = $this->_convert_date( $postdata['post_date'] );
 			$post_date_gmt     = $this->_convert_date_gmt( $postdata['post_date_gmt'], $postdata['post_date'] );
 			$post_modified     = $this->_convert_date( $postdata['post_modified'] );
@@ -6020,8 +6020,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			// Get the author info.
 			$author = get_userdata( $postdata['post_author'] );
 
-			$allow_comments = ( 'open' == $postdata['comment_status'] ) ? 1 : 0;
-			$allow_pings    = ( 'open' == $postdata['ping_status'] ) ? 1 : 0;
+			$allow_comments = ( 'open' === $postdata['comment_status'] ) ? 1 : 0;
+			$allow_pings    = ( 'open' === $postdata['ping_status'] ) ? 1 : 0;
 
 			// Consider future posts as published.
 			if ( 'future' === $postdata['post_status'] ) {
@@ -6172,8 +6172,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			// Get the post author info.
 			$author = get_userdata( $entry['post_author'] );
 
-			$allow_comments = ( 'open' == $entry['comment_status'] ) ? 1 : 0;
-			$allow_pings    = ( 'open' == $entry['ping_status'] ) ? 1 : 0;
+			$allow_comments = ( 'open' === $entry['comment_status'] ) ? 1 : 0;
+			$allow_pings    = ( 'open' === $entry['ping_status'] ) ? 1 : 0;
 
 			// Consider future posts as published.
 			if ( 'future' === $entry['post_status'] ) {
@@ -6681,7 +6681,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$trackback_pings = array();
 		foreach ( $comments as $comment ) {
-			if ( 'trackback' == $comment->comment_type ) {
+			if ( 'trackback' === $comment->comment_type ) {
 				$content           = $comment->comment_content;
 				$title             = substr( $content, 8, ( strpos( $content, '</strong>' ) - 8 ) );
 				$trackback_pings[] = array(
@@ -7028,7 +7028,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$pingbacks = array();
 		foreach ( $comments as $comment ) {
-			if ( 'pingback' == $comment->comment_type ) {
+			if ( 'pingback' === $comment->comment_type ) {
 				$pingbacks[] = $comment->comment_author_url;
 			}
 		}

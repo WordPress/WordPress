@@ -515,7 +515,7 @@ function url_to_postid( $url ) {
 		$url = str_replace( '://www.', '://', $url );
 	}
 
-	if ( trim( $url, '/' ) === home_url() && 'page' == get_option( 'show_on_front' ) ) {
+	if ( trim( $url, '/' ) === home_url() && 'page' === get_option( 'show_on_front' ) ) {
 		$page_on_front = get_option( 'page_on_front' );
 
 		if ( $page_on_front && get_post( $page_on_front ) instanceof WP_Post ) {

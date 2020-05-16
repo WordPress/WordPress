@@ -1041,7 +1041,7 @@ function update_core( $from, $to ) {
 		}
 		if ( is_array( $checksums ) ) {
 			foreach ( $checksums as $file => $checksum ) {
-				if ( 'wp-content' == substr( $file, 0, 10 ) ) {
+				if ( 'wp-content' === substr( $file, 0, 10 ) ) {
 					continue;
 				}
 				if ( ! file_exists( ABSPATH . $file ) ) {
@@ -1114,7 +1114,7 @@ function update_core( $from, $to ) {
 	$failed = array();
 	if ( isset( $checksums ) && is_array( $checksums ) ) {
 		foreach ( $checksums as $file => $checksum ) {
-			if ( 'wp-content' == substr( $file, 0, 10 ) ) {
+			if ( 'wp-content' === substr( $file, 0, 10 ) ) {
 				continue;
 			}
 			if ( ! file_exists( $working_dir_local . $file ) ) {
@@ -1187,7 +1187,7 @@ function update_core( $from, $to ) {
 	$wp_filesystem->delete( $maintenance_file );
 
 	// 3.5 -> 3.5+ - an empty twentytwelve directory was created upon upgrade to 3.5 for some users, preventing installation of Twenty Twelve.
-	if ( '3.5' == $old_wp_version ) {
+	if ( '3.5' === $old_wp_version ) {
 		if ( is_dir( WP_CONTENT_DIR . '/themes/twentytwelve' ) && ! file_exists( WP_CONTENT_DIR . '/themes/twentytwelve/style.css' ) ) {
 			$wp_filesystem->delete( $wp_filesystem->wp_themes_dir() . 'twentytwelve/' );
 		}
@@ -1203,17 +1203,18 @@ function update_core( $from, $to ) {
 		foreach ( (array) $_new_bundled_files as $file => $introduced_version ) {
 			// If a $development_build or if $introduced version is greater than what the site was previously running.
 			if ( $development_build || version_compare( $introduced_version, $old_wp_version, '>' ) ) {
-				$directory             = ( '/' == $file[ strlen( $file ) - 1 ] );
-				list($type, $filename) = explode( '/', $file, 2 );
+				$directory = ( '/' === $file[ strlen( $file ) - 1 ] );
+
+				list( $type, $filename ) = explode( '/', $file, 2 );
 
 				// Check to see if the bundled items exist before attempting to copy them.
 				if ( ! $wp_filesystem->exists( $from . $distro . 'wp-content/' . $file ) ) {
 					continue;
 				}
 
-				if ( 'plugins' == $type ) {
+				if ( 'plugins' === $type ) {
 					$dest = $wp_filesystem->wp_plugins_dir();
-				} elseif ( 'themes' == $type ) {
+				} elseif ( 'themes' === $type ) {
 					// Back-compat, ::wp_themes_dir() did not return trailingslash'd pre-3.2.
 					$dest = trailingslashit( $wp_filesystem->wp_themes_dir() );
 				} else {
@@ -1343,7 +1344,7 @@ function _copy_dir( $from, $to, $skip_list = array() ) {
 			continue;
 		}
 
-		if ( 'f' == $fileinfo['type'] ) {
+		if ( 'f' === $fileinfo['type'] ) {
 			if ( ! $wp_filesystem->copy( $from . $filename, $to . $filename, true, FS_CHMOD_FILE ) ) {
 				// If copy failed, chmod file to 0644 and try again.
 				$wp_filesystem->chmod( $to . $filename, FS_CHMOD_FILE );
@@ -1351,7 +1352,7 @@ function _copy_dir( $from, $to, $skip_list = array() ) {
 					return new WP_Error( 'copy_failed__copy_dir', __( 'Could not copy file.' ), $to . $filename );
 				}
 			}
-		} elseif ( 'd' == $fileinfo['type'] ) {
+		} elseif ( 'd' === $fileinfo['type'] ) {
 			if ( ! $wp_filesystem->is_dir( $to . $filename ) ) {
 				if ( ! $wp_filesystem->mkdir( $to . $filename, FS_CHMOD_DIR ) ) {
 					return new WP_Error( 'mkdir_failed__copy_dir', __( 'Could not create directory.' ), $to . $filename );
@@ -1399,11 +1400,11 @@ function _redirect_to_about_wordpress( $new_version ) {
 	}
 
 	// Ensure we only run this on the update-core.php page. The Core_Upgrader may be used in other contexts.
-	if ( 'update-core.php' != $pagenow ) {
+	if ( 'update-core.php' !== $pagenow ) {
 		return;
 	}
 
-	if ( 'do-core-upgrade' != $action && 'do-core-reinstall' != $action ) {
+	if ( 'do-core-upgrade' !== $action && 'do-core-reinstall' !== $action ) {
 		return;
 	}
 

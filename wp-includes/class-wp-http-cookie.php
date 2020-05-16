@@ -99,7 +99,7 @@ class WP_Http_Cookie {
 			$this->domain = $arrURL['host'];
 		}
 		$this->path = isset( $arrURL['path'] ) ? $arrURL['path'] : '/';
-		if ( '/' != substr( $this->path, -1 ) ) {
+		if ( '/' !== substr( $this->path, -1 ) ) {
 			$this->path = dirname( $this->path ) . '/';
 		}
 
@@ -127,7 +127,7 @@ class WP_Http_Cookie {
 
 				list( $key, $val ) = strpos( $pair, '=' ) ? explode( '=', $pair ) : array( $pair, '' );
 				$key               = strtolower( trim( $key ) );
-				if ( 'expires' == $key ) {
+				if ( 'expires' === $key ) {
 					$val = strtotime( $val );
 				}
 				$this->$key = $val;
@@ -174,7 +174,7 @@ class WP_Http_Cookie {
 
 		// Get details on the URL we're thinking about sending to.
 		$url         = parse_url( $url );
-		$url['port'] = isset( $url['port'] ) ? $url['port'] : ( 'https' == $url['scheme'] ? 443 : 80 );
+		$url['port'] = isset( $url['port'] ) ? $url['port'] : ( 'https' === $url['scheme'] ? 443 : 80 );
 		$url['path'] = isset( $url['path'] ) ? $url['path'] : '/';
 
 		// Values to use for comparison against the URL.
@@ -186,7 +186,7 @@ class WP_Http_Cookie {
 		}
 
 		// Host - very basic check that the request URL ends with the domain restriction (minus leading dot).
-		$domain = substr( $domain, 0, 1 ) == '.' ? substr( $domain, 1 ) : $domain;
+		$domain = ( '.' === substr( $domain, 0, 1 ) ) ? substr( $domain, 1 ) : $domain;
 		if ( substr( $url['host'], -strlen( $domain ) ) != $domain ) {
 			return false;
 		}

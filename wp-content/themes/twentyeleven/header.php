@@ -128,7 +128,7 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 
 			<?php
 				// Has the text been hidden?
-			if ( 'blank' == get_header_textcolor() ) :
+			if ( 'blank' === get_header_textcolor() ) :
 				$header_image_class = '';
 				if ( $header_image ) {
 					$header_image_class = ' with-image';

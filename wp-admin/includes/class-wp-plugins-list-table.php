@@ -517,11 +517,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$actions = array();
 
-		if ( 'active' != $status ) {
+		if ( 'active' !== $status ) {
 			$actions['activate-selected'] = $this->screen->in_admin( 'network' ) ? __( 'Network Activate' ) : __( 'Activate' );
 		}
 
-		if ( 'inactive' != $status && 'recent' != $status ) {
+		if ( 'inactive' !== $status && 'recent' !== $status ) {
 			$actions['deactivate-selected'] = $this->screen->in_admin( 'network' ) ? __( 'Network Deactivate' ) : __( 'Deactivate' );
 		}
 
@@ -530,7 +530,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				$actions['update-selected'] = __( 'Update' );
 			}
 
-			if ( current_user_can( 'delete_plugins' ) && ( 'active' != $status ) ) {
+			if ( current_user_can( 'delete_plugins' ) && ( 'active' !== $status ) ) {
 				$actions['delete-selected'] = __( 'Delete' );
 			}
 		}
@@ -565,7 +565,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		echo '<div class="alignleft actions">';
 
-		if ( 'recently_activated' == $status ) {
+		if ( 'recently_activated' === $status ) {
 			submit_button( __( 'Clear List' ), '', 'clear-recent-list', false );
 		} elseif ( 'top' === $which && 'mustuse' === $status ) {
 			echo '<p>' . sprintf(
@@ -858,7 +858,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				esc_attr( $plugin_file )
 			);
 		}
-		if ( 'dropins' != $context ) {
+		if ( 'dropins' !== $context ) {
 			$description = '<p>' . ( $plugin_data['Description'] ? $plugin_data['Description'] : '&nbsp;' ) . '</p>';
 			$plugin_name = $plugin_data['Name'];
 		}

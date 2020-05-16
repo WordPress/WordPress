@@ -262,7 +262,7 @@ class WP_Network_Query {
 
 		$network_ids = array_map( 'intval', $network_ids );
 
-		if ( 'ids' == $this->query_vars['fields'] ) {
+		if ( 'ids' === $this->query_vars['fields'] ) {
 			$this->networks = $network_ids;
 			return $this->networks;
 		}

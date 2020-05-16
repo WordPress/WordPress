@@ -120,7 +120,7 @@ $doaction = $wp_list_table->current_action();
 if ( $doaction ) {
 	check_admin_referer( 'bulk-media' );
 
-	if ( 'delete_all' == $doaction ) {
+	if ( 'delete_all' === $doaction ) {
 		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND post_status = 'trash'" );
 		$doaction = 'delete';
 	} elseif ( isset( $_REQUEST['media'] ) ) {

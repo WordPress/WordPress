@@ -329,7 +329,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		if ( ! isset( $from_email ) ) {
 			// Get the site domain and get rid of www.
 			$sitename = strtolower( $_SERVER['SERVER_NAME'] );
-			if ( substr( $sitename, 0, 4 ) == 'www.' ) {
+			if ( 'www.' === substr( $sitename, 0, 4 ) ) {
 				$sitename = substr( $sitename, 4 );
 			}
 
@@ -432,7 +432,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		$phpmailer->ContentType = $content_type;
 
 		// Set whether it's plaintext, depending on $content_type.
-		if ( 'text/html' == $content_type ) {
+		if ( 'text/html' === $content_type ) {
 			$phpmailer->isHTML( true );
 		}
 
@@ -633,7 +633,7 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 		$expiration = $cookie_elements['expiration'];
 
 		// Allow a grace period for POST and Ajax requests.
-		if ( wp_doing_ajax() || 'POST' == $_SERVER['REQUEST_METHOD'] ) {
+		if ( wp_doing_ajax() || 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 			$expired += HOUR_IN_SECONDS;
 		}
 
@@ -1266,7 +1266,7 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 
 		$location = wp_sanitize_redirect( $location );
 
-		if ( ! $is_IIS && PHP_SAPI != 'cgi-fcgi' ) {
+		if ( ! $is_IIS && 'cgi-fcgi' !== PHP_SAPI ) {
 			status_header( $status ); // This causes problems on IIS and some FastCGI setups.
 		}
 
@@ -1414,7 +1414,7 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 	function wp_validate_redirect( $location, $default = '' ) {
 		$location = trim( $location, " \t\n\r\0\x08\x0B" );
 		// Browsers will assume 'http' is your protocol, and will obey a redirect to a URL starting with '//'.
-		if ( substr( $location, 0, 2 ) == '//' ) {
+		if ( '//' === substr( $location, 0, 2 ) ) {
 			$location = 'http:' . $location;
 		}
 
@@ -1431,7 +1431,7 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 		}
 
 		// Allow only 'http' and 'https' schemes. No 'data:', etc.
-		if ( isset( $lp['scheme'] ) && ! ( 'http' == $lp['scheme'] || 'https' == $lp['scheme'] ) ) {
+		if ( isset( $lp['scheme'] ) && ! ( 'http' === $lp['scheme'] || 'https' === $lp['scheme'] ) ) {
 			return $default;
 		}
 
@@ -1646,14 +1646,14 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 
 		$wp_email = 'wordpress@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
 
-		if ( '' == $comment->comment_author ) {
+		if ( '' === $comment->comment_author ) {
 			$from = "From: \"$blogname\" <$wp_email>";
-			if ( '' != $comment->comment_author_email ) {
+			if ( '' !== $comment->comment_author_email ) {
 				$reply_to = "Reply-To: $comment->comment_author_email";
 			}
 		} else {
 			$from = "From: \"$comment->comment_author\" <$wp_email>";
-			if ( '' != $comment->comment_author_email ) {
+			if ( '' !== $comment->comment_author_email ) {
 				$reply_to = "Reply-To: \"$comment->comment_author_email\" <$comment->comment_author_email>";
 			}
 		}
@@ -2271,7 +2271,7 @@ if ( ! function_exists( 'wp_salt' ) ) :
 		if ( defined( 'SECRET_KEY' ) && SECRET_KEY && empty( $duplicated_keys[ SECRET_KEY ] ) ) {
 			$values['key'] = SECRET_KEY;
 		}
-		if ( 'auth' == $scheme && defined( 'SECRET_SALT' ) && SECRET_SALT && empty( $duplicated_keys[ SECRET_SALT ] ) ) {
+		if ( 'auth' === $scheme && defined( 'SECRET_SALT' ) && SECRET_SALT && empty( $duplicated_keys[ SECRET_SALT ] ) ) {
 			$values['salt'] = SECRET_SALT;
 		}
 

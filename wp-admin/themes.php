@@ -18,7 +18,7 @@ if ( ! current_user_can( 'switch_themes' ) && ! current_user_can( 'edit_theme_op
 }
 
 if ( current_user_can( 'switch_themes' ) && isset( $_GET['action'] ) ) {
-	if ( 'activate' == $_GET['action'] ) {
+	if ( 'activate' === $_GET['action'] ) {
 		check_admin_referer( 'switch-theme_' . $_GET['stylesheet'] );
 		$theme = wp_get_theme( $_GET['stylesheet'] );
 
@@ -53,7 +53,7 @@ if ( current_user_can( 'switch_themes' ) && isset( $_GET['action'] ) ) {
 
 		wp_redirect( admin_url( 'themes.php?resumed=true' ) );
 		exit;
-	} elseif ( 'delete' == $_GET['action'] ) {
+	} elseif ( 'delete' === $_GET['action'] ) {
 		check_admin_referer( 'delete-theme_' . $_GET['stylesheet'] );
 		$theme = wp_get_theme( $_GET['stylesheet'] );
 
@@ -247,7 +247,7 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 if ( is_array( $submenu ) && isset( $submenu['themes.php'] ) ) {
 	foreach ( (array) $submenu['themes.php'] as $item ) {
 		$class = '';
-		if ( 'themes.php' == $item[2] || 'theme-editor.php' == $item[2] || 0 === strpos( $item[2], 'customize.php' ) ) {
+		if ( 'themes.php' === $item[2] || 'theme-editor.php' === $item[2] || 0 === strpos( $item[2], 'customize.php' ) ) {
 			continue;
 		}
 		// 0 = name, 1 = capability, 2 = file.

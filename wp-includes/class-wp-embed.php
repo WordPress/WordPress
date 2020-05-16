@@ -355,7 +355,7 @@ class WP_Embed {
 		}
 
 		foreach ( $post_metas as $post_meta_key ) {
-			if ( '_oembed_' == substr( $post_meta_key, 0, 8 ) ) {
+			if ( '_oembed_' === substr( $post_meta_key, 0, 8 ) ) {
 				delete_post_meta( $post_ID, $post_meta_key );
 			}
 		}

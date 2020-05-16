@@ -147,7 +147,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 		add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote', 'image' ) );
 
 		$theme_options = twentyeleven_get_theme_options();
-		if ( 'dark' == $theme_options['color_scheme'] ) {
+		if ( 'dark' === $theme_options['color_scheme'] ) {
 			$default_background_color = '1d1d1d';
 		} else {
 			$default_background_color = 'e2e2e2';
@@ -328,7 +328,7 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
 		<style type="text/css" id="twentyeleven-header-css">
 		<?php
 		// Has the text been hidden?
-		if ( 'blank' == $text_color ) :
+		if ( 'blank' === $text_color ) :
 			?>
 		#site-title,
 		#site-description {
@@ -719,28 +719,29 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 			<footer class="comment-meta">
 				<div class="comment-author vcard">
 					<?php
-						$avatar_size = 68;
+					$avatar_size = 68;
+
 					if ( '0' != $comment->comment_parent ) {
 						$avatar_size = 39;
 					}
 
-						echo get_avatar( $comment, $avatar_size );
+					echo get_avatar( $comment, $avatar_size );
 
-						printf(
-							/* translators: 1: Comment author, 2: Date and time. */
-							__( '%1$s on %2$s <span class="says">said:</span>', 'twentyeleven' ),
-							sprintf( '<span class="fn">%s</span>', get_comment_author_link() ),
-							sprintf(
-								'<a href="%1$s"><time datetime="%2$s">%3$s</time></a>',
-								esc_url( get_comment_link( $comment->comment_ID ) ),
-								get_comment_time( 'c' ),
-								/* translators: 1: Date, 2: Time. */
-								sprintf( __( '%1$s at %2$s', 'twentyeleven' ), get_comment_date(), get_comment_time() )
-							)
-						);
+					printf(
+						/* translators: 1: Comment author, 2: Date and time. */
+						__( '%1$s on %2$s <span class="says">said:</span>', 'twentyeleven' ),
+						sprintf( '<span class="fn">%s</span>', get_comment_author_link() ),
+						sprintf(
+							'<a href="%1$s"><time datetime="%2$s">%3$s</time></a>',
+							esc_url( get_comment_link( $comment->comment_ID ) ),
+							get_comment_time( 'c' ),
+							/* translators: 1: Date, 2: Time. */
+							sprintf( __( '%1$s at %2$s', 'twentyeleven' ), get_comment_date(), get_comment_time() )
+						)
+					);
 					?>
 
-						<?php edit_comment_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
+					<?php edit_comment_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
 					</div><!-- .comment-author .vcard -->
 
 					<?php

@@ -25,9 +25,9 @@ class TwentyNineteen_SVG_Icons {
 	 * Gets the SVG code for a given icon.
 	 */
 	public static function get_svg( $group, $icon, $size ) {
-		if ( 'ui' == $group ) {
+		if ( 'ui' === $group ) {
 			$arr = self::$ui_icons;
-		} elseif ( 'social' == $group ) {
+		} elseif ( 'social' === $group ) {
 			$arr = self::$social_icons;
 		} else {
 			$arr = array();

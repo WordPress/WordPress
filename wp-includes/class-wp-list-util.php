@@ -112,9 +112,9 @@ class WP_List_Util {
 			}
 
 			if (
-				( 'AND' == $operator && $matched == $count ) ||
-				( 'OR' == $operator && $matched > 0 ) ||
-				( 'NOT' == $operator && 0 == $matched )
+				( 'AND' === $operator && $matched == $count ) ||
+				( 'OR' === $operator && $matched > 0 ) ||
+				( 'NOT' === $operator && 0 == $matched )
 			) {
 				$filtered[ $key ] = $obj;
 			}

@@ -420,7 +420,7 @@ class WP {
 		} else {
 			// Set the correct content type for feeds.
 			$type = $this->query_vars['feed'];
-			if ( 'feed' == $this->query_vars['feed'] ) {
+			if ( 'feed' === $this->query_vars['feed'] ) {
 				$type = get_default_feed();
 			}
 			$headers['Content-Type'] = feed_content_type( $type ) . '; charset=' . get_option( 'blog_charset' );

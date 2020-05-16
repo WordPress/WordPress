@@ -347,7 +347,7 @@ class WP_Site_Health_Auto_Updates {
 
 		WP_Filesystem();
 
-		if ( 'direct' != $wp_filesystem->method ) {
+		if ( 'direct' !== $wp_filesystem->method ) {
 			return false;
 		}
 
@@ -378,7 +378,7 @@ class WP_Site_Health_Auto_Updates {
 
 		$unwritable_files = array();
 		foreach ( array_keys( $checksums ) as $file ) {
-			if ( 'wp-content' == substr( $file, 0, 10 ) ) {
+			if ( 'wp-content' === substr( $file, 0, 10 ) ) {
 				continue;
 			}
 			if ( ! file_exists( ABSPATH . $file ) ) {
