@@ -577,7 +577,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		}
 
 		// Ensure stylesheet name hasn't changed after the upgrade:
-		if ( get_stylesheet() === $theme && $theme != $this->result['destination_name'] ) {
+		if ( get_stylesheet() === $theme && $theme !== $this->result['destination_name'] ) {
 			wp_clean_themes_cache();
 			$stylesheet = $this->result['destination_name'];
 			switch_theme( $stylesheet );

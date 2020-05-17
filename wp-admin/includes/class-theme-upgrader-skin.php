@@ -65,7 +65,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 				admin_url( 'customize.php' )
 			);
 
-			if ( get_stylesheet() == $stylesheet ) {
+			if ( get_stylesheet() === $stylesheet ) {
 				if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) {
 					$update_actions['preview'] = sprintf(
 						'<a href="%s" class="hide-if-no-customize load-customize">' .
