@@ -3530,6 +3530,11 @@ figure.wp-block-table.is-style-stripes {
 	margin: 4rem auto;
 }
 
+.post-inner .entry-content > .wp-block-cover.alignwide:first-child,
+.post-inner .entry-content > .wp-block-cover.alignfull:first-child {
+	margin-top: 0;
+}
+
 /* Font Families ----------------------------- */
 
 .entry-content {
@@ -5408,6 +5413,11 @@ a.to-the-top > * {
 		margin-right: 4rem;
 	}
 
+	.entry-content > .alignwide:first-child,
+	.entry-content > .alignfull:first-child {
+		margin-bottom: 8rem;
+	}
+
 	/* ENTRY MEDIA */
 
 	.alignfull > figcaption,
@@ -5917,7 +5927,7 @@ a.to-the-top > * {
 		/*rtl:ignore*/
 		margin-left: 0;
 	}
-  
+
     .wp-block-image .aligncenter figcaption {
         text-align: center;
     }
