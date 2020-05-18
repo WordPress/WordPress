@@ -282,7 +282,6 @@ if ( $tab ) {
 		<h3 class="theme-name">{{ data.name }}</h3>
 
 		<div class="theme-actions">
-			<# console.log( data ); #>
 			<# if ( data.installed ) { #>
 				<# if ( data.compatible_wp && data.compatible_php ) { #>
 					<?php
