@@ -596,7 +596,7 @@ class WP_Site_Health {
 		if ( $has_unused_themes && $show_unused_themes && ! is_multisite() ) {
 
 			// This is a child theme, so we want to be a bit more explicit in our messages.
-			if ( is_child_theme() ) {
+			if ( $active_theme->parent() ) {
 				// Recommend removing inactive themes, except a default theme, your current one, and the parent theme.
 				$result['status'] = 'recommended';
 
