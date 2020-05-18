@@ -5853,9 +5853,11 @@ final class WP_Customize_Manager {
 				$theme->active = ( isset( $_POST['customized_theme'] ) && $_POST['customized_theme'] === $theme->slug );
 
 				// Map available theme properties to installed theme properties.
-				$theme->id           = $theme->slug;
-				$theme->screenshot   = array( $theme->screenshot_url );
-				$theme->authorAndUri = wp_kses( $theme->author['display_name'], $themes_allowedtags );
+				$theme->id            = $theme->slug;
+				$theme->screenshot    = array( $theme->screenshot_url );
+				$theme->authorAndUri  = wp_kses( $theme->author['display_name'], $themes_allowedtags );
+				$theme->compatibleWP  = is_wp_version_compatible( $theme->requires );
+				$theme->compatiblePHP = is_php_version_compatible( $theme->requires_php );
 
 				if ( isset( $theme->parent ) ) {
 					$theme->parent = $theme->parent['slug'];

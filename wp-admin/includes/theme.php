@@ -827,8 +827,13 @@ function customize_themes_print_templates() {
 						<button class="button button-primary disabled"><?php _e( 'Live Preview' ); ?></button>
 					<# } #>
 				<# } else { #>
-					<button type="button" class="button theme-install" data-slug="{{ data.id }}"><?php _e( 'Install' ); ?></button>
-					<button type="button" class="button button-primary theme-install preview" data-slug="{{ data.id }}"><?php _e( 'Install &amp; Preview' ); ?></button>
+					<# if ( data.compatibleWP && data.compatiblePHP ) { #>
+						<button type="button" class="button theme-install" data-slug="{{ data.id }}"><?php _e( 'Install' ); ?></button>
+						<button type="button" class="button button-primary theme-install preview" data-slug="{{ data.id }}"><?php _e( 'Install &amp; Preview' ); ?></button>
+					<# } else { #>
+						<button type="button" class="button disabled"><?php _ex( 'Cannot Install', 'theme' ); ?></button>
+						<button type="button" class="button button-primary disabled"><?php _e( 'Install &amp; Preview' ); ?></button>
+					<# } #>
 				<# } #>
 			</div>
 		</div>
