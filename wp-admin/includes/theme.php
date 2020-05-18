@@ -684,20 +684,22 @@ function wp_prepare_themes_for_js( $themes = null ) {
 		}
 
 		$prepared_themes[ $slug ] = array(
-			'id'           => $slug,
-			'name'         => $theme->display( 'Name' ),
-			'screenshot'   => array( $theme->get_screenshot() ), // @todo Multiple screenshots.
-			'description'  => $theme->display( 'Description' ),
-			'author'       => $theme->display( 'Author', false, true ),
-			'authorAndUri' => $theme->display( 'Author' ),
-			'version'      => $theme->display( 'Version' ),
-			'tags'         => $theme->display( 'Tags' ),
-			'parent'       => $parent,
-			'active'       => $slug === $current_theme,
-			'hasUpdate'    => isset( $updates[ $slug ] ),
-			'hasPackage'   => isset( $updates[ $slug ] ) && ! empty( $updates[ $slug ]['package'] ),
-			'update'       => get_theme_update_available( $theme ),
-			'actions'      => array(
+			'id'            => $slug,
+			'name'          => $theme->display( 'Name' ),
+			'screenshot'    => array( $theme->get_screenshot() ), // @todo Multiple screenshots.
+			'description'   => $theme->display( 'Description' ),
+			'author'        => $theme->display( 'Author', false, true ),
+			'authorAndUri'  => $theme->display( 'Author' ),
+			'tags'          => $theme->display( 'Tags' ),
+			'version'       => $theme->get( 'Version' ),
+ 			'compatibleWP'  => is_wp_version_compatible( $theme->get( 'RequiresWP' ) ),
+ 			'compatiblePHP' => is_php_version_compatible( $theme->get( 'RequiresPHP' ) ),
+			'parent'        => $parent,
+			'active'        => $slug === $current_theme,
+			'hasUpdate'     => isset( $updates[ $slug ] ),
+			'hasPackage'    => isset( $updates[ $slug ] ) && ! empty( $updates[ $slug ]['package'] ),
+			'update'        => get_theme_update_available( $theme ),
+			'actions'       => array(
 				'activate'  => current_user_can( 'switch_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug ), 'switch-theme_' . $slug ) : null,
 				'customize' => $customize_action,
 				'delete'    => current_user_can( 'delete_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=delete&amp;stylesheet=' . $encoded_slug ), 'delete-theme_' . $slug ) : null,
@@ -818,7 +820,12 @@ function customize_themes_print_templates() {
 							<a href="{{{ data.actions['delete'] }}}" data-slug="{{ data.id }}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
 						<# } #>
 					<?php } ?>
-					<button type="button" class="button button-primary preview-theme" data-slug="{{ data.id }}"><?php _e( 'Live Preview' ); ?></button>
+
+					<# if ( data.compatibleWP && data.compatiblePHP ) { #>
+						<button type="button" class="button button-primary preview-theme" data-slug="{{ data.id }}"><?php _e( 'Live Preview' ); ?></button>
+					<# } else { #>
+						<button class="button button-primary disabled"><?php _e( 'Live Preview' ); ?></button>
+					<# } #>
 				<# } else { #>
 					<button type="button" class="button theme-install" data-slug="{{ data.id }}"><?php _e( 'Install' ); ?></button>
 					<button type="button" class="button button-primary theme-install preview" data-slug="{{ data.id }}"><?php _e( 'Install &amp; Preview' ); ?></button>

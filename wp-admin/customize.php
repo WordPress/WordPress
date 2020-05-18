@@ -177,11 +177,22 @@ do_action( 'customize_controls_print_scripts' );
 <div class="wp-full-overlay expanded">
 	<form id="customize-controls" class="wrap wp-full-overlay-sidebar">
 		<div id="customize-header-actions" class="wp-full-overlay-header">
-			<?php $save_text = $wp_customize->is_theme_active() ? __( 'Publish' ) : __( 'Activate &amp; Publish' ); ?>
-			<div id="customize-save-button-wrapper" class="customize-save-button-wrapper" >
-				<?php submit_button( $save_text, 'primary save', 'save', false ); ?>
-				<button id="publish-settings" class="publish-settings button-primary button dashicons dashicons-admin-generic" aria-label="<?php esc_attr_e( 'Publish Settings' ); ?>" aria-expanded="false" disabled></button>
-			</div>
+			<?php
+			$compatible_wp  = is_wp_version_compatible( $wp_customize->theme()->get( 'RequiresWP' ) );
+			$compatible_php = is_php_version_compatible( $wp_customize->theme()->get( 'RequiresPHP' ) );
+			?>
+			<?php if ( $compatible_wp && $compatible_php ) : ?>
+				<?php $save_text = $wp_customize->is_theme_active() ? __( 'Publish' ) : __( 'Activate &amp; Publish' ); ?>
+				<div id="customize-save-button-wrapper" class="customize-save-button-wrapper" >
+					<?php submit_button( $save_text, 'primary save', 'save', false ); ?>
+					<button id="publish-settings" class="publish-settings button-primary button dashicons dashicons-admin-generic" aria-label="<?php esc_attr_e( 'Publish Settings' ); ?>" aria-expanded="false" disabled></button>
+				</div>
+			<?php else : ?>
+				<?php $save_text = _x( 'Cannot Activate', 'theme' ); ?>
+				<div id="customize-save-button-wrapper" class="customize-save-button-wrapper disabled" >
+					<button class="button button-primary disabled" aria-label="<?php esc_attr_e( 'Publish Settings' ); ?>" aria-expanded="false" disabled><?php echo $save_text; ?></button>
+				</div>
+			<?php endif; ?>
 			<span class="spinner"></span>
 			<button type="button" class="customize-controls-preview-toggle">
 				<span class="controls"><?php _e( 'Customize' ); ?></span>

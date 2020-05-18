@@ -282,18 +282,34 @@ if ( $tab ) {
 		<h3 class="theme-name">{{ data.name }}</h3>
 
 		<div class="theme-actions">
+			<# console.log( data ); #>
 			<# if ( data.installed ) { #>
-				<?php
-				/* translators: %s: Theme name. */
-				$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
-				?>
-				<# if ( data.activate_url ) { #>
-					<a class="button button-primary activate" href="{{ data.activate_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
-				<# } #>
-				<# if ( data.customize_url ) { #>
-					<a class="button load-customize" href="{{ data.customize_url }}"><?php _e( 'Live Preview' ); ?></a>
+				<# if ( data.compatible_wp && data.compatible_php ) { #>
+					<?php
+					/* translators: %s: Theme name. */
+					$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
+					?>
+					<# if ( data.activate_url ) { #>
+						<a class="button button-primary activate" href="{{ data.activate_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
+					<# } #>
+					<# if ( data.customize_url ) { #>
+						<a class="button load-customize" href="{{ data.customize_url }}"><?php _e( 'Live Preview' ); ?></a>
+					<# } else { #>
+						<button class="button preview install-theme-preview"><?php _e( 'Preview' ); ?></button>
+					<# } #>
 				<# } else { #>
-					<button class="button preview install-theme-preview"><?php _e( 'Preview' ); ?></button>
+					<?php
+					/* translators: %s: Theme name. */
+					$aria_label = sprintf( _x( 'Cannot Activate %s', 'theme' ), '{{ data.name }}' );
+					?>
+					<# if ( data.activate_url ) { #>
+						<a class="button button-primary disabled" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _ex( 'Cannot Activate', 'theme' ); ?></a>
+					<# } #>
+					<# if ( data.customize_url ) { #>
+						<a class="button disabled"><?php _e( 'Live Preview' ); ?></a>
+					<# } else { #>
+						<button class="button disabled"><?php _e( 'Preview' ); ?></button>
+					<# } #>
 				<# } #>
 			<# } else { #>
 				<?php
