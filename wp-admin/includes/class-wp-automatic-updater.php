@@ -1026,6 +1026,8 @@ class WP_Automatic_Updater {
 		/**
 		 * Filters the email sent following an automatic background plugin update.
 		 *
+		 * @since 5.5.0
+		 *
 		 * @param array $email {
 		 *     Array of email arguments that will be passed to wp_mail().
 		 *
@@ -1041,6 +1043,7 @@ class WP_Automatic_Updater {
 		 * @param object $failed_updates     The updates that failed.
 		 */
 		$email = apply_filters( 'auto_plugin_theme_update_email', $email, $type, $successful_updates, $failed_updates );
+
 		wp_mail( $email['to'], wp_specialchars_decode( $email['subject'] ), $email['body'], $email['headers'] );
 	}
 
