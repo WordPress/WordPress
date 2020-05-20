@@ -22,7 +22,15 @@ $action = $wp_list_table->current_action();
 $s = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$temp_args              = array( 'enabled', 'disabled', 'deleted', 'error' );
+$temp_args = array(
+	'enabled',
+	'disabled',
+	'deleted',
+	'error',
+	'enabled-auto-update',
+	'disabled-auto-update',
+);
+
 $_SERVER['REQUEST_URI'] = remove_query_arg( $temp_args, $_SERVER['REQUEST_URI'] );
 $referer                = remove_query_arg( $temp_args, wp_get_referer() );
 
@@ -123,8 +131,8 @@ if ( $action ) {
 				require_once ABSPATH . 'wp-admin/admin-header.php';
 				$themes_to_delete = count( $themes );
 				?>
-			<div class="wrap">
-				<?php if ( 1 == $themes_to_delete ) : ?>
+				<div class="wrap">
+				<?php if ( 1 === $themes_to_delete ) : ?>
 					<h1><?php _e( 'Delete Theme' ); ?></h1>
 					<div class="error"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php _e( 'This theme may be active on other sites in the network.' ); ?></p></div>
 					<p><?php _e( 'You are about to remove the following theme:' ); ?></p>
@@ -145,7 +153,7 @@ if ( $action ) {
 					}
 					?>
 					</ul>
-				<?php if ( 1 == $themes_to_delete ) : ?>
+				<?php if ( 1 === $themes_to_delete ) : ?>
 					<p><?php _e( 'Are you sure you want to delete this theme?' ); ?></p>
 				<?php else : ?>
 					<p><?php _e( 'Are you sure you want to delete these themes?' ); ?></p>
@@ -154,27 +162,28 @@ if ( $action ) {
 					<input type="hidden" name="verify-delete" value="1" />
 					<input type="hidden" name="action" value="delete-selected" />
 					<?php
+
 					foreach ( (array) $themes as $theme ) {
 						echo '<input type="hidden" name="checked[]" value="' . esc_attr( $theme ) . '" />';
 					}
 
-						wp_nonce_field( 'bulk-themes' );
+					wp_nonce_field( 'bulk-themes' );
 
-					if ( 1 == $themes_to_delete ) {
+					if ( 1 === $themes_to_delete ) {
 						submit_button( __( 'Yes, delete this theme' ), '', 'submit', false );
 					} else {
 						submit_button( __( 'Yes, delete these themes' ), '', 'submit', false );
 					}
+
 					?>
 				</form>
-				<?php
-				$referer = wp_get_referer();
-				?>
+				<?php $referer = wp_get_referer(); ?>
 				<form method="post" action="<?php echo $referer ? esc_url( $referer ) : ''; ?>" style="display:inline;">
 					<?php submit_button( __( 'No, return me to the theme list' ), '', 'submit', false ); ?>
 				</form>
-			</div>
+				</div>
 				<?php
+
 				require_once ABSPATH . 'wp-admin/admin-footer.php';
 				exit;
 			} // End if verify-delete.
@@ -207,6 +216,58 @@ if ( $action ) {
 					network_admin_url( 'themes.php' )
 				)
 			);
+			exit;
+		case 'enable-auto-update':
+		case 'disable-auto-update':
+		case 'enable-auto-update-selected':
+		case 'disable-auto-update-selected':
+			if ( ! ( current_user_can( 'update_themes' ) && wp_is_auto_update_enabled_for_type( 'theme' ) ) ) {
+				wp_die( __( 'Sorry, you are not allowed to change themes automatic update settings.' ) );
+			}
+
+			if ( 'enable-auto-update' === $action || 'disable-auto-update' === $action ) {
+				check_admin_referer( 'updates' );
+			} else {
+				if ( empty( $_POST['checked'] ) ) {
+					// Nothing to do.
+					wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
+					exit;
+				}
+
+				check_admin_referer( 'bulk-themes' );
+			}
+
+			$auto_updates = (array) get_site_option( 'auto_update_themes', array() );
+
+			if ( 'enable-auto-update' === $action ) {
+				$auto_updates[] = $_GET['theme'];
+				$auto_updates   = array_unique( $auto_updates );
+				$referer        = add_query_arg( 'enabled-auto-update', 1, $referer );
+			} elseif ( 'disable-auto-update' === $action ) {
+				$auto_updates = array_diff( $auto_updates, array( $_GET['theme'] ) );
+				$referer      = add_query_arg( 'disabled-auto-update', 1, $referer );
+			} else {
+				// Bulk enable/disable.
+				$themes = (array) wp_unslash( $_POST['checked'] );
+
+				if ( 'enable-auto-update-selected' === $action ) {
+					$auto_updates = array_merge( $auto_updates, $themes );
+					$auto_updates = array_unique( $auto_updates );
+					$referer      = add_query_arg( 'enabled-auto-update', count( $themes ), $referer );
+				} else {
+					$auto_updates = array_diff( $auto_updates, $themes );
+					$referer      = add_query_arg( 'disabled-auto-update', count( $themes ), $referer );
+				}
+			}
+
+			$all_items = wp_get_themes();
+
+			// Remove themes that don't exist or have been deleted since the option was last updated.
+			$auto_updates = array_intersect( $auto_updates, array_keys( $all_items ) );
+
+			update_site_option( 'auto_update_themes', $auto_updates );
+
+			wp_safe_redirect( $referer );
 			exit;
 		default:
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
@@ -284,7 +345,7 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 <?php
 if ( isset( $_GET['enabled'] ) ) {
 	$enabled = absint( $_GET['enabled'] );
-	if ( 1 == $enabled ) {
+	if ( 1 === $enabled ) {
 		$message = __( 'Theme enabled.' );
 	} else {
 		/* translators: %s: Number of themes. */
@@ -293,7 +354,7 @@ if ( isset( $_GET['enabled'] ) ) {
 	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['disabled'] ) ) {
 	$disabled = absint( $_GET['disabled'] );
-	if ( 1 == $disabled ) {
+	if ( 1 === $disabled ) {
 		$message = __( 'Theme disabled.' );
 	} else {
 		/* translators: %s: Number of themes. */
@@ -302,16 +363,34 @@ if ( isset( $_GET['enabled'] ) ) {
 	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['deleted'] ) ) {
 	$deleted = absint( $_GET['deleted'] );
-	if ( 1 == $deleted ) {
+	if ( 1 === $deleted ) {
 		$message = __( 'Theme deleted.' );
 	} else {
 		/* translators: %s: Number of themes. */
 		$message = _n( '%s theme deleted.', '%s themes deleted.', $deleted );
 	}
 	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $deleted ) ) . '</p></div>';
-} elseif ( isset( $_GET['error'] ) && 'none' == $_GET['error'] ) {
+} elseif ( isset( $_GET['enabled-auto-update'] ) ) {
+	$enabled = absint( $_GET['enabled-auto-update'] );
+	if ( 1 === $enabled ) {
+		$message = __( 'Theme will be auto-updated.' );
+	} else {
+		/* translators: %s: Number of themes. */
+		$message = _n( '%s theme will be auto-updated.', '%s themes will be auto-updated.', $enabled );
+	}
+	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
+} elseif ( isset( $_GET['disabled-auto-update'] ) ) {
+	$disabled = absint( $_GET['disabled-auto-update'] );
+	if ( 1 === $disabled ) {
+		$message = __( 'Theme will no longer be auto-updated.' );
+	} else {
+		/* translators: %s: Number of themes. */
+		$message = _n( '%s theme will no longer be auto-updated.', '%s themes will no longer be auto-updated.', $disabled );
+	}
+	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
+} elseif ( isset( $_GET['error'] ) && 'none' === $_GET['error'] ) {
 	echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'No theme selected.' ) . '</p></div>';
-} elseif ( isset( $_GET['error'] ) && 'main' == $_GET['error'] ) {
+} elseif ( isset( $_GET['error'] ) && 'main' === $_GET['error'] ) {
 	echo '<div class="error notice is-dismissible"><p>' . __( 'You cannot delete a theme while it is active on the main site.' ) . '</p></div>';
 }
 
@@ -324,7 +403,7 @@ if ( isset( $_GET['enabled'] ) ) {
 <?php
 $wp_list_table->views();
 
-if ( 'broken' == $status ) {
+if ( 'broken' === $status ) {
 	echo '<p class="clear">' . __( 'The following themes are installed but incomplete.' ) . '</p>';
 }
 ?>

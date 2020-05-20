@@ -660,6 +660,8 @@ function wp_prepare_themes_for_js( $themes = null ) {
 
 	$parents = array();
 
+	$auto_updates = (array) get_site_option( 'auto_update_themes', array() );
+
 	foreach ( $themes as $theme ) {
 		$slug         = $theme->get_stylesheet();
 		$encoded_slug = urlencode( $slug );
@@ -683,6 +685,9 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			);
 		}
 
+		$auto_update        = in_array( $slug, $auto_updates, true );
+		$auto_update_action = $auto_update ? 'disable-auto-update' : 'enable-auto-update';
+
 		$prepared_themes[ $slug ] = array(
 			'id'            => $slug,
 			'name'          => $theme->display( 'Name' ),
@@ -699,10 +704,14 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			'hasUpdate'     => isset( $updates[ $slug ] ),
 			'hasPackage'    => isset( $updates[ $slug ] ) && ! empty( $updates[ $slug ]['package'] ),
 			'update'        => get_theme_update_available( $theme ),
+			'autoupdate'    => $auto_update,
 			'actions'       => array(
-				'activate'  => current_user_can( 'switch_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug ), 'switch-theme_' . $slug ) : null,
-				'customize' => $customize_action,
-				'delete'    => current_user_can( 'delete_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=delete&amp;stylesheet=' . $encoded_slug ), 'delete-theme_' . $slug ) : null,
+				'activate'   => current_user_can( 'switch_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug ), 'switch-theme_' . $slug ) : null,
+				'customize'  => $customize_action,
+				'delete'     => current_user_can( 'delete_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=delete&amp;stylesheet=' . $encoded_slug ), 'delete-theme_' . $slug ) : null,
+				'autoupdate' => wp_is_auto_update_enabled_for_type( 'theme' ) && ! is_multisite() && current_user_can( 'update_themes' )
+					? wp_nonce_url( admin_url( 'themes.php?action=' . $auto_update_action . '&amp;stylesheet=' . $encoded_slug ), 'updates' )
+					: null,
 			),
 		);
 	}

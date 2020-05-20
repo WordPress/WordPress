@@ -1520,6 +1520,13 @@ function wp_default_scripts( $scripts ) {
 					/* translators: %s: Number of plugins. */
 					'pluginsFound'             => __( 'Number of plugins found: %d' ),
 					'noPluginsFound'           => __( 'No plugins found. Try a different search.' ),
+					'autoUpdatesEnable'        => __( 'Enable auto-updates' ),
+					'autoUpdatesEnabling'      => __( 'Enabling...' ),
+					'autoUpdatesEnabled'       => __( 'Auto-updates enabled' ),
+					'autoUpdatesDisable'       => __( 'Disable auto-updates' ),
+					'autoUpdatesDisabling'     => __( 'Disabling...' ),
+					'autoUpdatesDisabled'      => __( 'Auto-updates disabled' ),
+					'autoUpdatesError'         => __( 'The request could not be completed.' ),
 				),
 			)
 		);

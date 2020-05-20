@@ -158,6 +158,14 @@ class WP_Automatic_Updater {
 		// Next up, is this an item we can update?
 		if ( 'core' === $type ) {
 			$update = Core_Upgrader::should_update_to_version( $item->current );
+		} elseif ( 'plugin' === $type || 'theme' === $type ) {
+			$update = ! empty( $item->autoupdate );
+
+			if ( ! $update && wp_is_auto_update_enabled_for_type( $type ) ) {
+				// Check if the site admin has enabled auto-updates by default for the specific item.
+				$auto_updates = (array) get_site_option( "auto_update_{$type}s", array() );
+				$update       = in_array( $item->{$type}, $auto_updates, true );
+			}
 		} else {
 			$update = ! empty( $item->autoupdate );
 		}
@@ -501,6 +509,8 @@ class WP_Automatic_Updater {
 
 			if ( ! empty( $this->update_results['core'] ) ) {
 				$this->after_core_update( $this->update_results['core'][0] );
+			} elseif ( ! empty( $this->update_results['plugin'] ) || ! empty( $this->update_results['theme'] ) ) {
+				$this->after_plugin_theme_update( $this->update_results );
 			}
 
 			/**
@@ -851,6 +861,186 @@ class WP_Automatic_Updater {
 		 */
 		$email = apply_filters( 'auto_core_update_email', $email, $type, $core_update, $result );
 
+		wp_mail( $email['to'], wp_specialchars_decode( $email['subject'] ), $email['body'], $email['headers'] );
+	}
+
+
+	/**
+	 * If we tried to perform plugin or theme updates, check if we should send an email.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param object $results The result of updates tasks.
+	 */
+	protected function after_plugin_theme_update( $update_results ) {
+		$successful_updates = array();
+		$failed_updates     = array();
+
+		/**
+		 * Filters whether to send an email following an automatic background plugin update.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param bool $enabled True if plugins notifications are enabled, false otherwise.
+		 */
+		$notifications_enabled = apply_filters( 'auto_plugin_update_send_email', true );
+
+		if ( ! empty( $update_results['plugin'] ) && $notifications_enabled ) {
+			foreach ( $update_results['plugin'] as $update_result ) {
+				if ( true === $update_result->result ) {
+					$successful_updates['plugin'][] = $update_result;
+				} else {
+					$failed_updates['plugin'][] = $update_result;
+				}
+			}
+		}
+
+		/**
+		 * Filters whether to send an email following an automatic background theme update.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param bool $enabled True if notifications are enabled, false otherwise.
+		 */
+		$notifications_enabled = apply_filters( 'send_theme_auto_update_email', true );
+
+		if ( ! empty( $update_results['theme'] ) && $notifications_enabled ) {
+			foreach ( $update_results['theme'] as $update_result ) {
+				if ( true === $update_result->result ) {
+					$successful_updates['theme'][] = $update_result;
+				} else {
+					$failed_updates['theme'][] = $update_result;
+				}
+			}
+		}
+
+		if ( empty( $successful_updates ) && empty( $failed_updates ) ) {
+			return;
+		}
+
+		if ( empty( $failed_updates ) ) {
+			$this->send_plugin_theme_email( 'success', $successful_updates, $failed_updates );
+		} elseif ( empty( $successful_updates ) ) {
+			$this->send_plugin_theme_email( 'fail', $successful_updates, $failed_updates );
+		} else {
+			$this->send_plugin_theme_email( 'mixed', $successful_updates, $failed_updates );
+		}
+	}
+
+	/**
+	 * Sends an email upon the completion or failure of a plugin or theme background update.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $type               The type of email to send. Can be one of 'success', 'failure', 'mixed'.
+	 * @param array  $successful_updates A list of updates that succeeded.
+	 * @param array  $failed_updates     A list of updates that failed.
+	 */
+	protected function send_plugin_theme_email( $type, $successful_updates, $failed_updates ) {
+		// No updates were attempted.
+		if ( empty( $successful_updates ) && empty( $failed_updates ) ) {
+			return;
+		}
+		$body = array();
+
+		switch ( $type ) {
+			case 'success':
+				/* translators: %s: Site title. */
+				$subject = __( '[%s] Some plugins or themes were automatically updated' );
+				break;
+			case 'fail':
+				/* translators: %s: Site title. */
+				$subject = __( '[%s] Some plugins or themes have failed to update' );
+				$body[]  = sprintf(
+					/* translators: %s: Home URL. */
+					__( 'Howdy! Failures occurred when attempting to update plugins/themes on your site at %s.' ),
+					home_url()
+				);
+				$body[] = "\n";
+				$body[] = __( 'Please check out your site now. It’s possible that everything is working. If it says you need to update, you should do so.' );
+				break;
+			case 'mixed':
+				/* translators: %s: Site title. */
+				$subject = __( '[%s] Some plugins or themes were automatically updated' );
+				$body[]  = sprintf(
+					/* translators: %s: Home URL. */
+					__( 'Howdy! Failures occurred when attempting to update plugins/themes on your site at %s.' ),
+					home_url()
+				);
+				$body[] = "\n";
+				$body[] = __( 'Please check out your site now. It’s possible that everything is working. If it says you need to update, you should do so.' );
+				$body[] = "\n";
+				break;
+		}
+
+		// Get failed plugin updates.
+		if ( in_array( $type, array( 'fail', 'mixed' ), true ) && ! empty( $failed_updates['plugin'] ) ) {
+			$body[] = __( 'The following plugins failed to update:' );
+			// List failed updates.
+			foreach ( $failed_updates['plugin'] as $item ) {
+				$body[] = "- {$item->name}";
+			}
+			$body[] = "\n";
+		}
+		// Get failed theme updates.
+		if ( in_array( $type, array( 'fail', 'mixed' ), true ) && ! empty( $failed_updates['theme'] ) ) {
+			$body[] = __( 'The following themes failed to update:' );
+			// List failed updates.
+			foreach ( $failed_updates['theme'] as $item ) {
+				$body[] = "- {$item->name}";
+			}
+			$body[] = "\n";
+		}
+		// Get successful plugin updates.
+		if ( in_array( $type, array( 'success', 'mixed' ), true ) && ! empty( $successful_updates['plugin'] ) ) {
+			$body[] = __( 'The following plugins were successfully updated:' );
+			// List successful updates.
+			foreach ( $successful_updates['plugin'] as $item ) {
+				$body[] = "- {$item->name}";
+			}
+			$body[] = "\n";
+		}
+		// Get successful theme updates.
+		if ( in_array( $type, array( 'success', 'mixed' ), true ) && ! empty( $successful_updates['theme'] ) ) {
+			$body[] = __( 'The following themes were successfully updated:' );
+			// List successful updates.
+			foreach ( $successful_updates['theme'] as $item ) {
+				$body[] = "- {$item->name}";
+			}
+			$body[] = "\n";
+		}
+		$body[] = "\n";
+
+		// Add a note about the support forums.
+		$body[] = __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
+		$body[] = __( 'https://wordpress.org/support/forums/' );
+		$body[] = "\n" . __( 'The WordPress Team' );
+
+		$body    = implode( "\n", $body );
+		$to      = get_site_option( 'admin_email' );
+		$subject = sprintf( $subject, wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ) );
+		$headers = '';
+
+		$email = compact( 'to', 'subject', 'body', 'headers' );
+
+		/**
+		 * Filters the email sent following an automatic background plugin update.
+		 *
+		 * @param array $email {
+		 *     Array of email arguments that will be passed to wp_mail().
+		 *
+		 *     @type string $to      The email recipient. An array of emails
+		 *                           can be returned, as handled by wp_mail().
+		 *     @type string $subject The email's subject.
+		 *     @type string $body    The email message body.
+		 *     @type string $headers Any email headers, defaults to no headers.
+		 * }
+		 * @param string $type               The type of email being sent. Can be one of
+		 *                                   'success', 'fail', 'mixed'.
+		 * @param object $successful_updates The updates that succeeded.
+		 * @param object $failed_updates     The updates that failed.
+		 */
+		$email = apply_filters( 'auto_plugin_theme_update_email', $email, $type, $successful_updates, $failed_updates );
 		wp_mail( $email['to'], wp_specialchars_decode( $email['subject'] ), $email['body'], $email['headers'] );
 	}
 

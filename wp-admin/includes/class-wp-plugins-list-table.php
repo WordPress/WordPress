@@ -16,6 +16,14 @@
  * @see WP_List_Table
  */
 class WP_Plugins_List_Table extends WP_List_Table {
+	/**
+	 * Whether to show the auto-updates UI.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @var bool True if auto-updates UI is to be shown, false otherwise.
+	 */
+	protected $show_autoupdates = true;
 
 	/**
 	 * Constructor.
@@ -39,7 +47,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			)
 		);
 
-		$status_whitelist = array( 'active', 'inactive', 'recently_activated', 'upgrade', 'mustuse', 'dropins', 'search', 'paused' );
+		$status_whitelist = array( 'active', 'inactive', 'recently_activated', 'upgrade', 'mustuse', 'dropins', 'search', 'paused', 'auto-update-enabled', 'auto-update-disabled' );
 
 		$status = 'all';
 		if ( isset( $_REQUEST['plugin_status'] ) && in_array( $_REQUEST['plugin_status'], $status_whitelist, true ) ) {
@@ -51,6 +59,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		}
 
 		$page = $this->get_pagenum();
+
+		$this->show_autoupdates = wp_is_auto_update_enabled_for_type( 'plugin' ) &&
+			current_user_can( 'update_plugins' ) &&
+			( ! is_multisite() || $this->screen->in_admin( 'network' ) );
 	}
 
 	/**
@@ -103,6 +115,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			'dropins'            => array(),
 			'paused'             => array(),
 		);
+		if ( $this->show_autoupdates ) {
+			$auto_updates = (array) get_site_option( 'auto_update_plugins', array() );
+
+			$plugins['auto-update-enabled']  = array();
+			$plugins['auto-update-disabled'] = array();
+		}
 
 		$screen = $this->screen;
 
@@ -232,6 +250,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				}
 				// Populate the inactive list with plugins that aren't activated.
 				$plugins['inactive'][ $plugin_file ] = $plugin_data;
+			}
+
+			if ( $this->show_autoupdates ) {
+				if ( in_array( $plugin_file, $auto_updates, true ) ) {
+					$plugins['auto-update-enabled'][ $plugin_file ] = $plugins['all'][ $plugin_file ];
+				} else {
+					$plugins['auto-update-disabled'][ $plugin_file ] = $plugins['all'][ $plugin_file ];
+				}
 			}
 		}
 
@@ -399,11 +425,17 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	public function get_columns() {
 		global $status;
 
-		return array(
+		$columns = array(
 			'cb'          => ! in_array( $status, array( 'mustuse', 'dropins' ), true ) ? '<input type="checkbox" />' : '',
 			'name'        => __( 'Plugin' ),
 			'description' => __( 'Description' ),
 		);
+
+		if ( $this->show_autoupdates ) {
+			$columns['auto-updates'] = __( 'Automatic Updates' );
+		}
+
+		return $columns;
 	}
 
 	/**
@@ -493,6 +525,22 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						$count
 					);
 					break;
+				case 'auto-update-enabled':
+					/* translators: %s: Number of plugins. */
+					$text = _n(
+						'Auto-updates Enabled <span class="count">(%s)</span>',
+						'Auto-updates Enabled <span class="count">(%s)</span>',
+						$count
+					);
+					break;
+				case 'auto-update-disabled':
+					/* translators: %s: Number of plugins. */
+					$text = _n(
+						'Auto-updates Disabled <span class="count">(%s)</span>',
+						'Auto-updates Disabled <span class="count">(%s)</span>',
+						$count
+					);
+					break;
 			}
 
 			if ( 'search' !== $type ) {
@@ -532,6 +580,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 			if ( current_user_can( 'delete_plugins' ) && ( 'active' !== $status ) ) {
 				$actions['delete-selected'] = __( 'Delete' );
+			}
+
+			if ( $this->show_autoupdates ) {
+				if ( 'auto-update-enabled' !== $status ) {
+					$actions['enable-auto-update-selected'] = __( 'Enable Auto-updates' );
+				}
+				if ( 'auto-update-disabled' !== $status ) {
+					$actions['disable-auto-update-selected'] = __( 'Disable Auto-updates' );
+				}
 			}
 		}
 
@@ -882,6 +939,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
+		$auto_updates      = (array) get_site_option( 'auto_update_plugins', array() );
+		$available_updates = get_site_transient( 'update_plugins' );
+
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$extra_classes = '';
 			if ( in_array( $column_name, $hidden, true ) ) {
@@ -974,6 +1034,56 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 					echo '</td>';
 					break;
+				case 'auto-updates':
+					if ( ! $this->show_autoupdates ) {
+						break;
+					}
+
+					echo "<td class='column-auto-updates{$extra_classes}'>";
+
+					if ( in_array( $plugin_file, $auto_updates, true ) ) {
+						$text       = __( 'Disable auto-updates' );
+						$action     = 'disable';
+						$time_class = '';
+					} else {
+						$text       = __( 'Enable auto-updates' );
+						$action     = 'enable';
+						$time_class = ' hidden';
+					}
+
+					$query_args = array(
+						'action'        => "{$action}-auto-update",
+						'plugin'        => $plugin_file,
+						'paged'         => $page,
+						'plugin_status' => $status,
+					);
+
+					$url = add_query_arg( $query_args, 'plugins.php' );
+
+					printf(
+						'<a href="%s" class="toggle-auto-update" data-wp-action="%s">',
+						wp_nonce_url( $url, 'updates' ),
+						$action
+					);
+
+					echo '<span class="dashicons dashicons-update spin hidden"></span>';
+					echo '<span class="label">' . $text . '</span>';
+					echo '</a>';
+
+					$available_updates = get_site_transient( 'update_plugins' );
+
+					if ( isset( $available_updates->response[ $plugin_file ] ) ) {
+						printf(
+							'<div class="auto-update-time%s">%s</div>',
+							$time_class,
+							wp_get_auto_update_message()
+						);
+					}
+
+					echo '<div class="inline notice error hidden"><p></p></div>';
+					echo '</td>';
+
+					break;
 				default:
 					$classes = "$column_name column-$column_name $class";
 
@@ -1000,12 +1110,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		 * Fires after each row in the Plugins list table.
 		 *
 		 * @since 2.3.0
+		 * @since 5.5.0 Added 'Auto-updates Enabled' and 'Auto-updates Disabled' `$status`.
 		 *
 		 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
 		 * @param array  $plugin_data An array of plugin data.
 		 * @param string $status      Status of the plugin. Defaults are 'All', 'Active',
 		 *                            'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
-		 *                            'Drop-ins', 'Search', 'Paused'.
+		 *                            'Drop-ins', 'Search', 'Paused', 'Auto-updates Enabled',
+		 *                            'Auto-updates Disabled'.
 		 */
 		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $status );
 
@@ -1016,12 +1128,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		 * to the plugin file, relative to the plugins directory.
 		 *
 		 * @since 2.7.0
+		 * @since 5.5.0 Added 'Auto-updates Enabled' and 'Auto-updates Disabled' `$status`.
 		 *
 		 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
 		 * @param array  $plugin_data An array of plugin data.
 		 * @param string $status      Status of the plugin. Defaults are 'All', 'Active',
 		 *                            'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
-		 *                            'Drop-ins', 'Search', 'Paused'.
+		 *                            'Drop-ins', 'Search', 'Paused', 'Auto-updates Enabled',
+		 *                            'Auto-updates Disabled'.
 		 */
 		do_action( "after_plugin_row_{$plugin_file}", $plugin_file, $plugin_data, $status );
 	}

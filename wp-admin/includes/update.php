@@ -435,7 +435,12 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	$details_url = self_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $response->slug . '&section=changelog&TB_iframe=true&width=600&height=800' );
 
 	/** @var WP_Plugins_List_Table $wp_list_table */
-	$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
+	$wp_list_table = _get_list_table(
+		'WP_Plugins_List_Table',
+		array(
+			'screen' => get_current_screen(),
+		)
+	);
 
 	if ( is_network_admin() || ! is_multisite() ) {
 		if ( is_network_admin() ) {
@@ -932,4 +937,77 @@ function wp_recovery_mode_nag() {
 		</p>
 	</div>
 	<?php
+}
+
+/**
+ * Checks whether auto-updates are enabled.
+ *
+ * @since 5.5.0
+ *
+ * @param string $type    The type of update being checked: 'theme' or 'plugin'.
+ * @return bool True if auto-updates are enabled for `$type`, false otherwise.
+ */
+function wp_is_auto_update_enabled_for_type( $type ) {
+	switch ( $type ) {
+		case 'plugin':
+			/**
+			 * Filters whether plugins manual auto-update is enabled.
+			 *
+			 * @since 5.5.0
+			 *
+			 * @param bool $enabled True if plugins auto-update is enabled, false otherwise.
+			 */
+			return apply_filters( 'wp_plugins_auto_update_enabled', true );
+		case 'theme':
+			/**
+			 * Filters whether plugins manual auto-update is enabled.
+			 *
+			 * @since 5.5.0
+			 *
+			 * @param bool True if themes auto-update is enabled, false otherwise.
+			 */
+			return apply_filters( 'wp_themes_auto_update_enabled', true );
+	}
+
+	return false;
+}
+
+/**
+ * Determines the appropriate update message to be displayed.
+ *
+ * @since 5.5.0
+ *
+ * @return string The update message to be shown.
+ */
+function wp_get_auto_update_message() {
+	$next_update_time = wp_next_scheduled( 'wp_version_check' );
+
+	// Check if event exists.
+	if ( false === $next_update_time ) {
+		return __( 'There may be a problem with WP-Cron. Automatic update not scheduled.' );
+	}
+
+	// See if cron is disabled
+	$cron_disabled = defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON;
+	if ( $cron_disabled ) {
+		return __( 'WP-Cron is disabled. Automatic updates not available.' );
+	}
+
+	$time_to_next_update = human_time_diff( intval( $next_update_time ) );
+
+	// See if cron is overdue.
+	$overdue = ( time() - $next_update_time ) > 0;
+	if ( $overdue ) {
+		return sprintf(
+			/* translators: Duration that WP-Cron has been overdue. */
+			__( 'There may be a problem with WP-Cron. Automatic update overdue by %s.' ),
+			$time_to_next_update
+		);
+	} else {
+		return sprintf(
+			/* translators: Time until the next update. */
+			__( 'Auto-update scheduled in %s.' ),
+			$time_to_next_update
+		);
+	}
 }

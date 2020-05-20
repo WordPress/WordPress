@@ -1525,7 +1525,9 @@ div.error {
 .updating-message p:before,
 .import-php .updating-message:before,
 .button.updating-message:before,
-.button.installing:before {
+.button.installing:before,
+.plugins .column-auto-updates .dashicons-update.spin,
+.theme-overlay .theme-autoupdate .dashicons-update.spin {
 	animation: rotation 2s infinite linear;
 }
 

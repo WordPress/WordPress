@@ -679,7 +679,8 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	line-height: inherit;
 }
 
-.theme-overlay .theme-author a {
+.theme-overlay .theme-author a,
+.theme-overlay .theme-autoupdate a {
 	text-decoration: none;
 }
 

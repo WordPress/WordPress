@@ -328,6 +328,13 @@ function list_plugin_updates() {
 
 	<tbody class="plugins">
 	<?php
+
+	$auto_updates = array();
+	if ( wp_is_auto_update_enabled_for_type( 'plugin' ) ) {
+		$auto_updates       = (array) get_site_option( 'auto_update_plugins', array() );
+		$auto_update_notice = ' | ' . wp_get_auto_update_message();
+	}
+
 	foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
 		$plugin_data = (object) _get_plugin_data_markup_translate( $plugin_file, (array) $plugin_data, false, true );
 
@@ -419,6 +426,9 @@ function list_plugin_updates() {
 				$plugin_data->update->new_version
 			);
 			echo ' ' . $details . $compat . $upgrade_notice;
+			if ( in_array( $plugin_file, $auto_updates, true ) ) {
+				echo $auto_update_notice;
+			}
 			?>
 		</p></td>
 	</tr>
@@ -478,8 +488,15 @@ function list_theme_updates() {
 
 	<tbody class="plugins">
 	<?php
+	$auto_updates = array();
+	if ( wp_is_auto_update_enabled_for_type( 'theme' ) ) {
+		$auto_updates       = (array) get_site_option( 'auto_update_themes', array() );
+		$auto_update_notice = ' | ' . wp_get_auto_update_message();
+	}
+
 	foreach ( $themes as $stylesheet => $theme ) {
 		$checkbox_id = 'checkbox_' . md5( $theme->get( 'Name' ) );
+
 		?>
 	<tr>
 		<td class="check-column">
@@ -501,6 +518,9 @@ function list_theme_updates() {
 				$theme->display( 'Version' ),
 				$theme->update['new_version']
 			);
+			if ( in_array( $stylesheet, $auto_updates, true ) ) {
+				echo $auto_update_notice;
+			}
 			?>
 		</p></td>
 	</tr>

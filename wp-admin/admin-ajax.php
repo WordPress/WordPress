@@ -139,6 +139,7 @@ $core_actions_post = array(
 	'health-check-background-updates',
 	'health-check-loopback-requests',
 	'health-check-get-sizes',
+	'toggle-auto-updates',
 );
 
 // Deprecated.

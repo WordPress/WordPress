@@ -4567,6 +4567,9 @@ function wp_ajax_delete_plugin() {
 function wp_ajax_search_plugins() {
 	check_ajax_referer( 'updates' );
 
+	// Ensure after_plugin_row_{$plugin_file} gets hooked.
+	wp_plugin_update_rows();
+
 	$pagenow = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
 	if ( 'plugins-network' === $pagenow || 'plugins' === $pagenow ) {
 		set_current_screen( $pagenow );
@@ -5266,4 +5269,74 @@ function wp_ajax_health_check_get_sizes() {
  */
 function wp_ajax_rest_nonce() {
 	exit( wp_create_nonce( 'wp_rest' ) );
+}
+
+/**
+ * Ajax handler to enable or disable plugin and theme auto-updates.
+ *
+ * @since 5.5.0
+ */
+function wp_ajax_toggle_auto_updates() {
+	check_ajax_referer( 'updates' );
+
+	if ( empty( $_POST['type'] ) || empty( $_POST['asset'] ) || empty( $_POST['state'] ) ) {
+		wp_send_json_error( array( 'error' => __( 'Invalid data. No selected item.' ) ) );
+	}
+
+	$asset = sanitize_text_field( urldecode( $_POST['asset'] ) );
+
+	if ( 'enable' !== $_POST['state'] && 'disable' !== $_POST['state'] ) {
+		wp_send_json_error( array( 'error' => __( 'Invalid data. Unknown state.' ) ) );
+	}
+	$state = $_POST['state'];
+
+	if ( 'plugin' !== $_POST['type'] && 'theme' !== $_POST['type'] ) {
+		wp_send_json_error( array( 'error' => __( 'Invalid data. Unknown type.' ) ) );
+	}
+	$type = $_POST['type'];
+
+	switch ( $type ) {
+		case 'plugin':
+			if ( ! current_user_can( 'update_plugins' ) ) {
+				$error_message = __( 'You do not have permission to modify plugins.' );
+				wp_send_json_error( array( 'error' => $error_message ) );
+			}
+
+			$option = 'auto_update_plugins';
+			/** This filter is documented in wp-admin/includes/class-wp-plugins-list-table.php */
+			$all_items = apply_filters( 'all_plugins', get_plugins() );
+			break;
+		case 'theme':
+			if ( ! current_user_can( 'update_themes' ) ) {
+				$error_message = __( 'You do not have permission to modify themes.' );
+				wp_send_json_error( array( 'error' => $error_message ) );
+			}
+
+			$option    = 'auto_update_themes';
+			$all_items = wp_get_themes();
+			break;
+		default:
+			wp_send_json_error( array( 'error' => __( 'Invalid data. Unknown type.' ) ) );
+	}
+
+	if ( ! array_key_exists( $asset, $all_items ) ) {
+		$error_message = __( 'Invalid data. The item does not exist.' );
+		wp_send_json_error( array( 'error' => $error_message ) );
+	}
+
+	$auto_updates = (array) get_site_option( $option, array() );
+
+	if ( 'disable' === $state ) {
+		$auto_updates = array_diff( $auto_updates, array( $asset ) );
+	} else {
+		$auto_updates[] = $asset;
+		$auto_updates   = array_unique( $auto_updates );
+	}
+
+	// Remove items that have been deleted since the site option was last updated.
+	$auto_updates = array_intersect( $auto_updates, array_keys( $all_items ) );
+
+	update_site_option( $option, $auto_updates );
+
+	wp_send_json_success();
 }
