@@ -1006,7 +1006,7 @@ class WP_Debug_Data {
 			),
 		);
 		if ( $auto_updates_enabled ) {
-			if ( in_array( $active_theme->stylesheet, $auto_updates ) ) {
+			if ( in_array( $active_theme->stylesheet, $auto_updates, true ) ) {
 				$theme_auto_update_string = __( 'Enabled' );
 			} else {
 				$theme_auto_update_string = __( 'Disabled' );
@@ -1064,7 +1064,7 @@ class WP_Debug_Data {
 				),
 			);
 			if ( $auto_updates_enabled ) {
-				if ( in_array( $parent_theme->stylesheet, $auto_updates ) ) {
+				if ( in_array( $parent_theme->stylesheet, $auto_updates, true ) ) {
 					$parent_theme_auto_update_string = __( 'Enabled' );
 				} else {
 					$parent_theme_auto_update_string = __( 'Disabled' );
@@ -1126,7 +1126,7 @@ class WP_Debug_Data {
 			}
 
 			if ( $auto_updates_enabled ) {
-				if ( in_array( $theme_slug, $auto_updates ) ) {
+				if ( in_array( $theme_slug, $auto_updates, true ) ) {
 					$theme_version_string       .= ' | ' . $auto_updates_enabled_str;
 					$theme_version_string_debug .= ',' . $auto_updates_enabled_str;
 				} else {
