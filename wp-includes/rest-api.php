@@ -44,6 +44,12 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 		return false;
 	}
 
+	$clean_namespace = trim( $namespace, '/' );
+
+	if ( $clean_namespace !== $namespace ) {
+		_doing_it_wrong( __FUNCTION__, __( 'Namespace must not start or end with a slash.' ), '5.4.2' );
+	}
+
 	if ( ! did_action( 'rest_api_init' ) ) {
 		_doing_it_wrong(
 			'register_rest_route',
@@ -84,8 +90,8 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 		$arg_group['args'] = array_merge( $common_args, $arg_group['args'] );
 	}
 
-	$full_route = '/' . trim( $namespace, '/' ) . '/' . trim( $route, '/' );
-	rest_get_server()->register_route( $namespace, $full_route, $args, $override );
+	$full_route = '/' . $clean_namespace . '/' . trim( $route, '/' );
+	rest_get_server()->register_route( $clean_namespace, $full_route, $args, $override );
 	return true;
 }
 
