@@ -75,7 +75,6 @@ if ( $theme->errors() && 'theme_no_stylesheet' === $theme->errors()->get_error_c
 
 $allowed_files = array();
 $style_files   = array();
-$has_templates = false;
 
 $file_types = wp_get_theme_file_editable_extensions( $theme );
 
@@ -83,7 +82,6 @@ foreach ( $file_types as $type ) {
 	switch ( $type ) {
 		case 'php':
 			$allowed_files += $theme->get_files( 'php', -1 );
-			$has_templates  = ! empty( $allowed_files );
 			break;
 		case 'css':
 			$style_files                = $theme->get_files( 'css', -1 );
@@ -252,7 +250,7 @@ if ( $theme->errors() ) {
 <div id="templateside">
 	<h2 id="theme-files-label"><?php _e( 'Theme Files' ); ?></h2>
 	<ul role="tree" aria-labelledby="theme-files-label">
-		<?php if ( ( $has_templates || $theme->parent() ) && $theme->parent() ) : ?>
+		<?php if ( $theme->parent() ) : ?>
 			<li class="howto">
 				<?php
 				printf(
