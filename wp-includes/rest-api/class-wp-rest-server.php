@@ -969,9 +969,9 @@ class WP_REST_Server {
 				 *
 				 * @since 4.7.0
 				 *
-				 * @param WP_HTTP_Response|WP_Error $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
-				 * @param array                     $handler  Route handler used for the request.
-				 * @param WP_REST_Request           $request  Request used to generate the response.
+				 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
+				 * @param array                                            $handler  Route handler used for the request.
+				 * @param WP_REST_Request                                  $request  Request used to generate the response.
 				 */
 				$response = apply_filters( 'rest_request_before_callbacks', $response, $handler, $request );
 
@@ -1032,9 +1032,9 @@ class WP_REST_Server {
 				 *
 				 * @since 4.7.0
 				 *
-				 * @param WP_HTTP_Response|WP_Error $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
-				 * @param array                     $handler  Route handler used for the request.
-				 * @param WP_REST_Request           $request  Request used to generate the response.
+				 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
+				 * @param array                                            $handler  Route handler used for the request.
+				 * @param WP_REST_Request                                  $request  Request used to generate the response.
 				 */
 				$response = apply_filters( 'rest_request_after_callbacks', $response, $handler, $request );
 
