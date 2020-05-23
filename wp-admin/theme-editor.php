@@ -177,7 +177,7 @@ if ( ! empty( $posted_content ) ) {
 $file_description = get_file_description( $relative_file );
 $file_show        = array_search( $file, array_filter( $allowed_files ), true );
 $description      = esc_html( $file_description );
-if ( $file_description != $file_show ) {
+if ( $file_description !== $file_show ) {
 	$description .= ' <span>(' . esc_html( $file_show ) . ')</span>';
 }
 ?>
@@ -230,7 +230,7 @@ if ( $file_description != $file_show ) {
 				continue;
 			}
 
-			$selected = $a_stylesheet == $stylesheet ? ' selected="selected"' : '';
+			$selected = ( $a_stylesheet === $stylesheet ) ? ' selected="selected"' : '';
 			echo "\n\t" . '<option value="' . esc_attr( $a_stylesheet ) . '"' . $selected . '>' . $a_theme->display( 'Name' ) . '</option>';
 		}
 		?>
@@ -298,7 +298,7 @@ else :
 
 		<div>
 			<div class="editor-notices">
-				<?php if ( is_child_theme() && $theme->get_stylesheet() == get_template() ) : ?>
+				<?php if ( is_child_theme() && $theme->get_stylesheet() === get_template() ) : ?>
 					<div class="notice notice-warning inline">
 						<p>
 							<?php if ( is_writeable( $file ) ) : ?>
