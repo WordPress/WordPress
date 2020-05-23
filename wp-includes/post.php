@@ -4237,7 +4237,8 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 
 	// Passed post category list overwrites existing category list if not empty.
 	if ( isset( $postarr['post_category'] ) && is_array( $postarr['post_category'] )
-			&& 0 != count( $postarr['post_category'] ) ) {
+		&& count( $postarr['post_category'] ) > 0
+	) {
 		$post_cats = $postarr['post_category'];
 	} else {
 		$post_cats = $post['post_category'];

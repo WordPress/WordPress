@@ -824,7 +824,7 @@ class WP_Date_Query {
 
 			case 'BETWEEN':
 			case 'NOT BETWEEN':
-				if ( ! is_array( $value ) || 2 != count( $value ) ) {
+				if ( ! is_array( $value ) || 2 !== count( $value ) ) {
 					$value = array( $value, $value );
 				} else {
 					$value = array_values( $value );
