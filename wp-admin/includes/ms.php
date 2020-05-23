@@ -856,7 +856,7 @@ function confirm_delete_users( $users ) {
 	?>
 	<h1><?php esc_html_e( 'Users' ); ?></h1>
 
-	<?php if ( 1 == count( $users ) ) : ?>
+	<?php if ( 1 === count( $users ) ) : ?>
 		<p><?php _e( 'You have chosen to delete the user from all networks and sites.' ); ?></p>
 	<?php else : ?>
 		<p><?php _e( 'You have chosen to delete the following users from all networks and sites.' ); ?></p>
@@ -974,7 +974,7 @@ function confirm_delete_users( $users ) {
 	/** This action is documented in wp-admin/users.php */
 	do_action( 'delete_user_form', $current_user, $allusers );
 
-	if ( 1 == count( $users ) ) :
+	if ( 1 === count( $users ) ) :
 		?>
 		<p><?php _e( 'Once you hit &#8220;Confirm Deletion&#8221;, the user will be permanently removed.' ); ?></p>
 	<?php else : ?>

@@ -46,7 +46,7 @@ function list_core_update( $update ) {
 		$version_string = $update->current;
 	} elseif ( 'en_US' === $update->locale && $update->packages->partial && $wp_version == $update->partial_version ) {
 		$updates = get_core_updates();
-		if ( $updates && 1 == count( $updates ) ) {
+		if ( $updates && 1 === count( $updates ) ) {
 			// If the only available update is a partial builds, it doesn't need a language-specific version string.
 			$version_string = $update->current;
 		}

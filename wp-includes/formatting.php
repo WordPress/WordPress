@@ -406,7 +406,7 @@ function _wptexturize_pushpop_element( $text, &$stack, $disabled_elements ) {
 	if ( isset( $text[1] ) && '/' !== $text[1] ) {
 		$opening_tag = true;
 		$name_offset = 1;
-	} elseif ( 0 == count( $stack ) ) {
+	} elseif ( 0 === count( $stack ) ) {
 		// Stack is empty. Just stop.
 		return;
 	} else {

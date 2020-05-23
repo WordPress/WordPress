@@ -1072,7 +1072,7 @@ function post_custom( $key = '' ) {
 
 	if ( ! isset( $custom[ $key ] ) ) {
 		return false;
-	} elseif ( 1 == count( $custom[ $key ] ) ) {
+	} elseif ( 1 === count( $custom[ $key ] ) ) {
 		return $custom[ $key ][0];
 	} else {
 		return $custom[ $key ];

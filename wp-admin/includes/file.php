@@ -1627,7 +1627,7 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 		return new WP_Error( 'incompatible_archive', __( 'Incompatible Archive.' ), $archive->errorInfo( true ) );
 	}
 
-	if ( 0 == count( $archive_files ) ) {
+	if ( 0 === count( $archive_files ) ) {
 		return new WP_Error( 'empty_archive_pclzip', __( 'Empty archive.' ) );
 	}
 

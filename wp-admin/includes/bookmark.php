@@ -198,7 +198,7 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 	$link_category    = ( ! empty( $parsed_args['link_category'] ) ) ? $parsed_args['link_category'] : array();
 
 	// Make sure we set a valid category.
-	if ( ! is_array( $link_category ) || 0 == count( $link_category ) ) {
+	if ( ! is_array( $link_category ) || 0 === count( $link_category ) ) {
 		$link_category = array( get_option( 'default_link_category' ) );
 	}
 
@@ -257,7 +257,7 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
  */
 function wp_set_link_cats( $link_id = 0, $link_categories = array() ) {
 	// If $link_categories isn't already an array, make it one:
-	if ( ! is_array( $link_categories ) || 0 == count( $link_categories ) ) {
+	if ( ! is_array( $link_categories ) || 0 === count( $link_categories ) ) {
 		$link_categories = array( get_option( 'default_link_category' ) );
 	}
 

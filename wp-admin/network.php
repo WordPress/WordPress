@@ -99,7 +99,7 @@ if ( $_POST ) {
 	if ( ! network_domain_check() ) {
 		$result = populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), wp_unslash( $_POST['sitename'] ), $base, $subdomain_install );
 		if ( is_wp_error( $result ) ) {
-			if ( 1 == count( $result->get_error_codes() ) && 'no_wildcard_dns' === $result->get_error_code() ) {
+			if ( 1 === count( $result->get_error_codes() ) && 'no_wildcard_dns' === $result->get_error_code() ) {
 				network_step2( $result );
 			} else {
 				network_step1( $result );

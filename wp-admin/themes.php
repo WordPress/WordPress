@@ -285,7 +285,7 @@ if ( $ct->errors() && ( ! is_multisite() || current_user_can( 'manage_network_th
 
 /*
 // Certain error codes are less fatal than others. We can still display theme information in most cases.
-if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
+if ( ! $ct->errors() || ( 1 === count( $ct->errors()->get_error_codes() )
 	&& in_array( $ct->errors()->get_error_code(), array( 'theme_no_parent', 'theme_parent_invalid', 'theme_no_index' ) ) ) ) : ?>
 */
 

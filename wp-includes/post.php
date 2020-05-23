@@ -3709,7 +3709,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	}
 
 	// Make sure we set a valid category.
-	if ( empty( $post_category ) || 0 == count( $post_category ) || ! is_array( $post_category ) ) {
+	if ( empty( $post_category ) || 0 === count( $post_category ) || ! is_array( $post_category ) ) {
 		// 'post' requires at least one category.
 		if ( 'post' === $post_type && 'auto-draft' !== $post_status ) {
 			$post_category = array( get_option( 'default_category' ) );
@@ -4684,7 +4684,7 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
 		} else {
 			$post_categories = array();
 		}
-	} elseif ( 1 == count( $post_categories ) && '' === reset( $post_categories ) ) {
+	} elseif ( 1 === count( $post_categories ) && '' === reset( $post_categories ) ) {
 		return true;
 	}
 
@@ -5439,7 +5439,7 @@ function get_pages( $args = array() ) {
 		$where .= $wpdb->prepare( ' AND post_parent = %d ', $parent );
 	}
 
-	if ( 1 == count( $post_status ) ) {
+	if ( 1 === count( $post_status ) ) {
 		$where_post_type = $wpdb->prepare( 'post_type = %s AND post_status = %s', $parsed_args['post_type'], reset( $post_status ) );
 	} else {
 		$post_status     = implode( "', '", $post_status );
