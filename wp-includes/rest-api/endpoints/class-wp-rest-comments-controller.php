@@ -1774,7 +1774,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( post_password_required( $post ) ) {
-			$result = current_user_can( $post_type->cap->edit_post, $post->ID );
+			$result = current_user_can( 'edit_post', $post->ID );
 		} else {
 			$result = $posts_controller->check_read_permission( $post );
 		}

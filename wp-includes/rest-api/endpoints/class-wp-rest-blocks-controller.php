@@ -28,9 +28,8 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 	 * @return bool Whether the block can be read.
 	 */
 	public function check_read_permission( $post ) {
-		// Ensure that the user is logged in and has the read_blocks capability.
-		$post_type = get_post_type_object( $post->post_type );
-		if ( ! current_user_can( $post_type->cap->read_post, $post->ID ) ) {
+		// By default the read_post capability is mapped to edit_posts.
+		if ( ! current_user_can( 'read_post', $post->ID ) ) {
 			return false;
 		}
 
