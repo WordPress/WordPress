@@ -223,11 +223,14 @@ if ( isset( $_GET['action'] ) ) {
 						wp_die( __( 'Sorry, you are not allowed to change the current site.' ) );
 					}
 				}
+
 				if ( ! in_array( $doaction, array( 'delete', 'spam', 'notspam' ), true ) ) {
 					$redirect_to = wp_get_referer();
 					$blogs       = (array) $_POST['allblogs'];
+
 					/** This action is documented in wp-admin/network/site-themes.php */
 					$redirect_to = apply_filters( 'handle_network_bulk_actions-' . get_current_screen()->id, $redirect_to, $doaction, $blogs, $id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
 					wp_safe_redirect( $redirect_to );
 					exit();
 				}
@@ -237,6 +240,7 @@ if ( isset( $_GET['action'] ) ) {
 					array( '_wp_http_referer', '_wpnonce' ),
 					add_query_arg( $_POST, network_admin_url( 'sites.php' ) )
 				);
+
 				wp_redirect( $location );
 				exit;
 			}
@@ -270,6 +274,7 @@ if ( isset( $_GET['action'] ) ) {
 			 * @param string $id The ID of the site being deactivated.
 			 */
 			do_action( 'deactivate_blog', $id );
+
 			update_blog_status( $id, 'deleted', '1' );
 			break;
 

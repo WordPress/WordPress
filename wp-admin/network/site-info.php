@@ -35,7 +35,7 @@ if ( ! can_edit_network( $details->site_id ) ) {
 $parsed_scheme = parse_url( $details->siteurl, PHP_URL_SCHEME );
 $is_main_site  = is_main_site( $id );
 
-if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
+if ( isset( $_REQUEST['action'] ) && 'update-site' === $_REQUEST['action'] ) {
 	check_admin_referer( 'edit-site' );
 
 	switch_to_blog( $id );
@@ -117,7 +117,7 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
 
 if ( isset( $_GET['update'] ) ) {
 	$messages = array();
-	if ( 'updated' == $_GET['update'] ) {
+	if ( 'updated' === $_GET['update'] ) {
 		$messages[] = __( 'Site info updated.' );
 	}
 }

@@ -33,7 +33,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __( '<a href="https://wordpress.org/support/forum/multisite/">Support Forums</a>' ) . '</p>'
 );
 
-if ( isset( $_REQUEST['action'] ) && 'add-site' == $_REQUEST['action'] ) {
+if ( isset( $_REQUEST['action'] ) && 'add-site' === $_REQUEST['action'] ) {
 	check_admin_referer( 'add-blog', '_wpnonce_add-blog' );
 
 	if ( ! is_array( $_POST['blog'] ) ) {
@@ -139,6 +139,7 @@ if ( isset( $_REQUEST['action'] ) && 'add-site' == $_REQUEST['action'] ) {
 	$wpdb->hide_errors();
 	$id = wpmu_create_blog( $newdomain, $path, $title, $user_id, $meta, get_current_network_id() );
 	$wpdb->show_errors();
+
 	if ( ! is_wp_error( $id ) ) {
 		if ( ! is_super_admin( $user_id ) && ! get_user_option( 'primary_blog', $user_id ) ) {
 			update_user_option( $user_id, 'primary_blog', $id, true );
@@ -187,7 +188,7 @@ Name: %3$s'
 
 if ( isset( $_GET['update'] ) ) {
 	$messages = array();
-	if ( 'added' == $_GET['update'] ) {
+	if ( 'added' === $_GET['update'] ) {
 		$messages[] = sprintf(
 			/* translators: 1: Dashboard URL, 2: Network admin edit URL. */
 			__( 'Site added. <a href="%1$s">Visit Dashboard</a> or <a href="%2$s">Edit Site</a>' ),

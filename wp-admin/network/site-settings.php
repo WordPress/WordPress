@@ -34,7 +34,7 @@ if ( ! can_edit_network( $details->site_id ) ) {
 
 $is_main_site = is_main_site( $id );
 
-if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] && is_array( $_POST['option'] ) ) {
+if ( isset( $_REQUEST['action'] ) && 'update-site' === $_REQUEST['action'] && is_array( $_POST['option'] ) ) {
 	check_admin_referer( 'edit-site' );
 
 	switch_to_blog( $id );
@@ -44,7 +44,7 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] && is_
 		$key = wp_unslash( $key );
 		$val = wp_unslash( $val );
 		if ( 0 === $key || is_array( $val ) || in_array( $key, $skip_options, true ) ) {
-			continue; // Avoids "0 is a protected WP option and may not be modified" error when edit blog options.
+			continue; // Avoids "0 is a protected WP option and may not be modified" error when editing blog options.
 		}
 		update_option( $key, $val );
 	}
@@ -74,7 +74,7 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] && is_
 
 if ( isset( $_GET['update'] ) ) {
 	$messages = array();
-	if ( 'updated' == $_GET['update'] ) {
+	if ( 'updated' === $_GET['update'] ) {
 		$messages[] = __( 'Site options updated.' );
 	}
 }
@@ -123,12 +123,15 @@ if ( ! empty( $messages ) ) {
 			'%' . $wpdb->esc_like( 'user_roles' )
 		);
 		$options     = $wpdb->get_results( $query );
+
 		foreach ( $options as $option ) {
 			if ( 'default_role' === $option->option_name ) {
 				$editblog_default_role = $option->option_value;
 			}
+
 			$disabled = false;
 			$class    = 'all-options';
+
 			if ( is_serialized( $option->option_value ) ) {
 				if ( is_serialized_string( $option->option_value ) ) {
 					$option->option_value = esc_html( maybe_unserialize( $option->option_value ) );
@@ -138,6 +141,7 @@ if ( ! empty( $messages ) ) {
 					$class                = 'all-options disabled';
 				}
 			}
+
 			if ( strpos( $option->option_value, "\n" ) !== false ) {
 				?>
 				<tr class="form-field">
@@ -158,6 +162,7 @@ if ( ! empty( $messages ) ) {
 				<?php
 			}
 		} // End foreach.
+
 		/**
 		 * Fires at the end of the Edit Site form, before the submit button.
 		 *

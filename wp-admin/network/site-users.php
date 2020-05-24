@@ -77,6 +77,7 @@ if ( $action ) {
 						$update = 'err_add_fail';
 					} else {
 						$update = 'newuser';
+
 						/**
 						 * Fires after a user has been created via the network site-users.php page.
 						 *
@@ -178,9 +179,11 @@ if ( $action ) {
 			}
 			check_admin_referer( 'bulk-users' );
 			$userids = $_REQUEST['users'];
+
 			/** This action is documented in wp-admin/network/site-themes.php */
 			$referer = apply_filters( 'handle_network_bulk_actions-' . get_current_screen()->id, $referer, $action, $userids, $id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-			$update  = $action;
+
+			$update = $action;
 			break;
 	}
 
@@ -190,7 +193,7 @@ if ( $action ) {
 
 restore_current_blog();
 
-if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
+if ( isset( $_GET['action'] ) && 'update-site' === $_GET['action'] ) {
 	wp_safe_redirect( $referer );
 	exit();
 }

@@ -32,7 +32,7 @@ if ( ! empty( $_GET['network_admin_hash'] ) ) {
 	}
 	wp_redirect( network_admin_url( $redirect ) );
 	exit;
-} elseif ( ! empty( $_GET['dismiss'] ) && 'new_network_admin_email' == $_GET['dismiss'] ) {
+} elseif ( ! empty( $_GET['dismiss'] ) && 'new_network_admin_email' === $_GET['dismiss'] ) {
 	check_admin_referer( 'dismiss_new_network_admin_email' );
 	delete_site_option( 'network_admin_hash' );
 	delete_site_option( 'new_admin_email' );
@@ -255,9 +255,13 @@ if ( isset( $_GET['updated'] ) ) {
 					<?php
 					$limited_email_domains = get_site_option( 'limited_email_domains' );
 					$limited_email_domains = str_replace( ' ', "\n", $limited_email_domains );
+
+					if ( $limited_email_domains ) {
+						$limited_email_domains = implode( "\n", (array) $limited_email_domains );
+					}
 					?>
 					<textarea name="limited_email_domains" id="limited_email_domains" aria-describedby="limited-email-domains-desc" cols="45" rows="5">
-<?php echo esc_textarea( '' == $limited_email_domains ? '' : implode( "\n", (array) $limited_email_domains ) ); ?></textarea>
+<?php echo esc_textarea( $limited_email_domains ); ?></textarea>
 					<p class="description" id="limited-email-domains-desc">
 						<?php _e( 'If you want to limit site registrations to certain domains. One domain per line.' ); ?>
 					</p>
@@ -267,8 +271,15 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="banned_email_domains"><?php _e( 'Banned Email Domains' ); ?></label></th>
 				<td>
+					<?php
+					$banned_email_domains = get_site_option( 'banned_email_domains' );
+
+					if ( $banned_email_domains ) {
+						$banned_email_domains = implode( "\n", (array) $banned_email_domains );
+					}
+					?>
 					<textarea name="banned_email_domains" id="banned_email_domains" aria-describedby="banned-email-domains-desc" cols="45" rows="5">
-<?php echo esc_textarea( get_site_option( 'banned_email_domains' ) == '' ? '' : implode( "\n", (array) get_site_option( 'banned_email_domains' ) ) ); ?></textarea>
+<?php echo esc_textarea( $banned_email_domains ); ?></textarea>
 					<p class="description" id="banned-email-domains-desc">
 						<?php _e( 'If you want to ban domains from site registrations. One domain per line.' ); ?>
 					</p>
