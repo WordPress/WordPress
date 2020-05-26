@@ -957,7 +957,7 @@ function wp_is_auto_update_enabled_for_type( $type ) {
 			 *
 			 * @param bool $enabled True if plugins auto-update is enabled, false otherwise.
 			 */
-			return apply_filters( 'wp_plugins_auto_update_enabled', true );
+			return apply_filters( 'plugins_auto_update_enabled', true );
 		case 'theme':
 			/**
 			 * Filters whether plugins manual auto-update is enabled.
@@ -966,7 +966,7 @@ function wp_is_auto_update_enabled_for_type( $type ) {
 			 *
 			 * @param bool True if themes auto-update is enabled, false otherwise.
 			 */
-			return apply_filters( 'wp_themes_auto_update_enabled', true );
+			return apply_filters( 'themes_auto_update_enabled', true );
 	}
 
 	return false;

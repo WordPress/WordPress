@@ -902,7 +902,7 @@ class WP_Automatic_Updater {
 		 *
 		 * @param bool $enabled True if notifications are enabled, false otherwise.
 		 */
-		$notifications_enabled = apply_filters( 'send_theme_auto_update_email', true );
+		$notifications_enabled = apply_filters( 'auto_theme_update_send_email', true );
 
 		if ( ! empty( $update_results['theme'] ) && $notifications_enabled ) {
 			foreach ( $update_results['theme'] as $update_result ) {
