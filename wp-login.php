@@ -15,10 +15,10 @@ require __DIR__ . '/wp-load.php';
 if ( force_ssl_admin() && ! is_ssl() ) {
 	if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
 		wp_safe_redirect( set_url_scheme( $_SERVER['REQUEST_URI'], 'https' ) );
-		exit();
+		exit;
 	} else {
 		wp_safe_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-		exit();
+		exit;
 	}
 }
 
@@ -756,7 +756,7 @@ switch ( $action ) {
 		setcookie( 'wp-postpass_' . COOKIEHASH, $hasher->HashPassword( wp_unslash( $_POST['post_password'] ) ), $expire, COOKIEPATH, COOKIE_DOMAIN, $secure );
 
 		wp_safe_redirect( wp_get_referer() );
-		exit();
+		exit;
 
 	case 'logout':
 		check_admin_referer( 'log-out' );
@@ -792,7 +792,7 @@ switch ( $action ) {
 		$redirect_to = apply_filters( 'logout_redirect', $redirect_to, $requested_redirect_to, $user );
 
 		wp_safe_redirect( $redirect_to );
-		exit();
+		exit;
 
 	case 'lostpassword':
 	case 'retrievepassword':
@@ -802,7 +802,7 @@ switch ( $action ) {
 			if ( ! is_wp_error( $errors ) ) {
 				$redirect_to = ! empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : 'wp-login.php?checkemail=confirm';
 				wp_safe_redirect( $redirect_to );
-				exit();
+				exit;
 			}
 		}
 
@@ -1036,7 +1036,7 @@ switch ( $action ) {
 
 		if ( ! get_option( 'users_can_register' ) ) {
 			wp_redirect( site_url( 'wp-login.php?registration=disabled' ) );
-			exit();
+			exit;
 		}
 
 		$user_login = '';
@@ -1056,7 +1056,7 @@ switch ( $action ) {
 			if ( ! is_wp_error( $errors ) ) {
 				$redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : 'wp-login.php?checkemail=registered';
 				wp_safe_redirect( $redirect_to );
-				exit();
+				exit;
 			}
 		}
 

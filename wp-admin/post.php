@@ -113,14 +113,14 @@ switch ( $action ) {
 		check_admin_referer( 'add-' . $post_type );
 		$post_id = 'postajaxpost' === $action ? edit_post() : write_post();
 		redirect_post( $post_id );
-		exit();
+		exit;
 
 	case 'edit':
 		$editing = true;
 
 		if ( empty( $post_id ) ) {
 			wp_redirect( admin_url( 'post.php' ) );
-			exit();
+			exit;
 		}
 
 		if ( ! $post ) {
@@ -147,7 +147,7 @@ switch ( $action ) {
 			check_admin_referer( 'lock-post_' . $post_id );
 			wp_set_post_lock( $post_id );
 			wp_redirect( get_edit_post_link( $post_id, 'url' ) );
-			exit();
+			exit;
 		}
 
 		$post_type = $post->post_type;
@@ -233,7 +233,7 @@ switch ( $action ) {
 
 		redirect_post( $post_id ); // Send user on their way while we keep working.
 
-		exit();
+		exit;
 
 	case 'trash':
 		check_admin_referer( 'trash-post_' . $post_id );
@@ -270,7 +270,7 @@ switch ( $action ) {
 				$sendback
 			)
 		);
-		exit();
+		exit;
 
 	case 'untrash':
 		check_admin_referer( 'untrash-post_' . $post_id );
@@ -292,7 +292,7 @@ switch ( $action ) {
 		}
 
 		wp_redirect( add_query_arg( 'untrashed', 1, $sendback ) );
-		exit();
+		exit;
 
 	case 'delete':
 		check_admin_referer( 'delete-post_' . $post_id );
@@ -321,7 +321,7 @@ switch ( $action ) {
 		}
 
 		wp_redirect( add_query_arg( 'deleted', 1, $sendback ) );
-		exit();
+		exit;
 
 	case 'preview':
 		check_admin_referer( 'update-post_' . $post_id );
@@ -329,7 +329,7 @@ switch ( $action ) {
 		$url = post_preview();
 
 		wp_redirect( $url );
-		exit();
+		exit;
 
 	case 'toggle-custom-fields':
 		check_admin_referer( 'toggle-custom-fields' );
@@ -341,7 +341,7 @@ switch ( $action ) {
 		}
 
 		wp_safe_redirect( wp_get_referer() );
-		exit();
+		exit;
 
 	default:
 		/**
@@ -356,7 +356,7 @@ switch ( $action ) {
 		do_action( "post_action_{$action}", $post_id );
 
 		wp_redirect( admin_url( 'edit.php' ) );
-		exit();
+		exit;
 } // End switch.
 
 require_once ABSPATH . 'wp-admin/admin-footer.php';

@@ -188,14 +188,14 @@ if ( $action ) {
 	}
 
 	wp_safe_redirect( add_query_arg( 'update', $update, $referer ) );
-	exit();
+	exit;
 }
 
 restore_current_blog();
 
 if ( isset( $_GET['action'] ) && 'update-site' === $_GET['action'] ) {
 	wp_safe_redirect( $referer );
-	exit();
+	exit;
 }
 
 add_screen_option( 'per_page' );

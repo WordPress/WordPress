@@ -292,7 +292,7 @@ if ( isset( $plugin_page ) ) {
 
 	require_once ABSPATH . 'wp-admin/admin-footer.php';
 
-	exit();
+	exit;
 } elseif ( isset( $_GET['import'] ) ) {
 
 	$importer = $_GET['import'];
@@ -353,7 +353,7 @@ if ( isset( $plugin_page ) ) {
 	// Make sure rules are flushed.
 	flush_rewrite_rules( false );
 
-	exit();
+	exit;
 } else {
 	/**
 	 * Fires before a particular screen is loaded.

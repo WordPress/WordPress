@@ -134,7 +134,7 @@ class WP_Importer {
 			$parsed = parse_url( $blog );
 			if ( ! $parsed || empty( $parsed['host'] ) ) {
 				fwrite( STDERR, "Error: can not determine blog_id from $blog_id\n" );
-				exit();
+				exit;
 			}
 			if ( empty( $parsed['path'] ) ) {
 				$parsed['path'] = '/';
@@ -148,7 +148,7 @@ class WP_Importer {
 			);
 			if ( ! $blogs ) {
 				fwrite( STDERR, "Error: Could not find blog\n" );
-				exit();
+				exit;
 			}
 			$blog    = array_shift( $blogs );
 			$blog_id = (int) $blog->blog_id;
@@ -176,7 +176,7 @@ class WP_Importer {
 
 		if ( ! $user_id || ! wp_set_current_user( $user_id ) ) {
 			fwrite( STDERR, "Error: can not find user\n" );
-			exit();
+			exit;
 		}
 
 		return $user_id;
@@ -327,7 +327,7 @@ function get_cli_args( $param, $required = false ) {
 	if ( ! isset( $out[ $param ] ) && $required ) {
 		// Display message and exit.
 		echo "\"$param\" parameter is required but was not specified\n";
-		exit();
+		exit;
 	}
 
 	return $return;

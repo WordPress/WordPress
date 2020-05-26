@@ -2099,12 +2099,14 @@ function maybe_redirect_404() {
 		 * @param string $no_blog_redirect The redirect URL defined in NOBLOGREDIRECT.
 		 */
 		$destination = apply_filters( 'blog_redirect_404', NOBLOGREDIRECT );
+
 		if ( $destination ) {
 			if ( '%siteurl%' === $destination ) {
 				$destination = network_home_url();
 			}
+
 			wp_redirect( $destination );
-			exit();
+			exit;
 		}
 	}
 }

@@ -132,7 +132,7 @@ if ( $_POST ) {
 	do_action( 'update_wpmu_options' );
 
 	wp_redirect( add_query_arg( 'updated', 'true', network_admin_url( 'settings.php' ) ) );
-	exit();
+	exit;
 }
 
 require_once ABSPATH . 'wp-admin/admin-header.php';

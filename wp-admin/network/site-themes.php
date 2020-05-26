@@ -160,7 +160,7 @@ if ( $action ) {
 
 if ( isset( $_GET['action'] ) && 'update-site' === $_GET['action'] ) {
 	wp_safe_redirect( $referer );
-	exit();
+	exit;
 }
 
 add_thickbox();

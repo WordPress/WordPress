@@ -21,7 +21,7 @@ if ( ! current_user_can( 'install_plugins' ) ) {
 
 if ( is_multisite() && ! is_network_admin() ) {
 	wp_redirect( network_admin_url( 'plugin-install.php' ) );
-	exit();
+	exit;
 }
 
 $wp_list_table = _get_list_table( 'WP_Plugin_Install_List_Table' );

@@ -1440,7 +1440,7 @@ window.location = 'about.php?updated';
 
 	// Include admin-footer.php and exit.
 	require_once ABSPATH . 'wp-admin/admin-footer.php';
-	exit();
+	exit;
 }
 
 /**

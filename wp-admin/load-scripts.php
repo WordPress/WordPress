@@ -47,7 +47,7 @@ wp_default_packages_scripts( $wp_scripts );
 
 if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) && stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] ) === $wp_version ) {
 	header( "$protocol 304 Not Modified" );
-	exit();
+	exit;
 }
 
 foreach ( $load as $handle ) {

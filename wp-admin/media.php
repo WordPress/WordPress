@@ -53,7 +53,7 @@ switch ( $action ) {
 
 		if ( empty( $_GET['attachment_id'] ) ) {
 			wp_redirect( admin_url( 'upload.php' ) );
-			exit();
+			exit;
 		}
 		$att_id = (int) $_GET['attachment_id'];
 
