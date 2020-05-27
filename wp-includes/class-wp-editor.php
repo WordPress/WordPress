@@ -1535,9 +1535,7 @@ final class _WP_Editors {
 	 *
 	 * @since 4.8.0
 	 *
-	 * @global string $tinymce_version
-	 * @global bool   $concatenate_scripts
-	 * @global bool   $compress_scripts
+	 * @global bool $concatenate_scripts
 	 */
 	public static function print_tinymce_scripts() {
 		global $concatenate_scripts;
