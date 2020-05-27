@@ -310,14 +310,10 @@ final class _WP_Editors {
 	/**
 	 * @since 3.3.0
 	 *
-	 * @global string $tinymce_version
-	 *
 	 * @param string $editor_id Unique editor identifier, e.g. 'content'.
 	 * @param array  $set       Array of editor arguments.
 	 */
 	public static function editor_settings( $editor_id, $set ) {
-		global $tinymce_version;
-
 		if ( empty( self::$first_init ) ) {
 			if ( is_admin() ) {
 				add_action( 'admin_print_footer_scripts', array( __CLASS__, 'editor_js' ), 50 );
