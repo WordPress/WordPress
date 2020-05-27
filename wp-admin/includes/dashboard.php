@@ -346,7 +346,7 @@ function wp_dashboard_right_now() {
 	if ( ! is_network_admin() && ! is_user_admin() && current_user_can( 'manage_options' ) && '0' == get_option( 'blog_public' ) ) {
 
 		/**
-		 * Filters the link title attribute for the 'Search Engines Discouraged'
+		 * Filters the link title attribute for the 'Search engines discouraged'
 		 * message displayed in the 'At a Glance' dashboard widget.
 		 *
 		 * Prior to 3.8.0, the widget was named 'Right Now'.
@@ -359,7 +359,7 @@ function wp_dashboard_right_now() {
 		$title = apply_filters( 'privacy_on_link_title', '' );
 
 		/**
-		 * Filters the link label for the 'Search Engines Discouraged' message
+		 * Filters the link label for the 'Search engines discouraged' message
 		 * displayed in the 'At a Glance' dashboard widget.
 		 *
 		 * Prior to 3.8.0, the widget was named 'Right Now'.
@@ -368,10 +368,10 @@ function wp_dashboard_right_now() {
 		 *
 		 * @param string $content Default text.
 		 */
-		$content    = apply_filters( 'privacy_on_link_text', __( 'Search Engines Discouraged' ) );
+		$content    = apply_filters( 'privacy_on_link_text', __( 'Search engines discouraged' ) );
 		$title_attr = '' === $title ? '' : " title='$title'";
 
-		echo "<p><a href='options-reading.php'$title_attr>$content</a></p>";
+		echo "<p class='search-engines-info'><a href='options-reading.php'$title_attr>$content</a></p>";
 	}
 	?>
 	</div>

@@ -40,9 +40,9 @@ get_current_screen()->add_help_tab(
 get_current_screen()->add_help_tab(
 	array(
 		'id'      => 'site-visibility',
-		'title'   => has_action( 'blog_privacy_selector' ) ? __( 'Site Visibility' ) : __( 'Search Engine Visibility' ),
+		'title'   => has_action( 'blog_privacy_selector' ) ? __( 'Site visibility' ) : __( 'Search engine visibility' ),
 		'content' => '<p>' . __( 'You can choose whether or not your site will be crawled by robots, ping services, and spiders. If you want those services to ignore your site, click the checkbox next to &#8220;Discourage search engines from indexing this site&#8221; and click the Save Changes button at the bottom of the screen. Note that your privacy is not complete; your site is still visible on the web.' ) . '</p>' .
-			'<p>' . __( 'When this setting is in effect, a reminder is shown in the At a Glance box of the Dashboard that says, &#8220;Search Engines Discouraged,&#8221; to remind you that your site is not being crawled.' ) . '</p>',
+			'<p>' . __( 'When this setting is in effect, a reminder is shown in the At a Glance box of the Dashboard that says, &#8220;Search engines discouraged,&#8221; to remind you that your site is not being crawled.' ) . '</p>',
 	)
 );
 
@@ -175,8 +175,8 @@ else :
 </tr>
 
 <tr class="option-site-visibility">
-<th scope="row"><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </th>
-<td><fieldset><legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </span></legend>
+<th scope="row"><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site visibility' ) : _e( 'Search engine visibility' ); ?> </th>
+<td><fieldset><legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site visibility' ) : _e( 'Search engine visibility' ); ?> </span></legend>
 <?php if ( has_action( 'blog_privacy_selector' ) ) : ?>
 	<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked( '1', get_option( 'blog_public' ) ); ?> />
 	<label for="blog-public"><?php _e( 'Allow search engines to index this site' ); ?></label><br/>
@@ -185,15 +185,15 @@ else :
 	<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
 	<?php
 	/**
-	 * Enable the legacy 'Site Visibility' privacy options.
+	 * Enable the legacy 'Site visibility' privacy options.
 	 *
 	 * By default the privacy options form displays a single checkbox to 'discourage' search
 	 * engines from indexing the site. Hooking to this action serves a dual purpose:
 	 * 1. Disable the single checkbox in favor of a multiple-choice list of radio buttons.
 	 * 2. Open the door to adding additional radio button choices to the list.
 	 *
-	 * Hooking to this action also converts the 'Search Engine Visibility' heading to the more
-	 * open-ended 'Site Visibility' heading.
+	 * Hooking to this action also converts the 'Search engine visibility' heading to the more
+	 * open-ended 'Site visibility' heading.
 	 *
 	 * @since 2.1.0
 	 */
