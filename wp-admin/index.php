@@ -118,9 +118,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 if ( has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) :
 	$classes = 'welcome-panel';
 
-	$option = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
+	$option = (int) get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
 	// 0 = hide, 1 = toggled to show or single site creator, 2 = multisite site owner.
-	$hide = 0 == $option || ( 2 == $option && wp_get_current_user()->user_email != get_option( 'admin_email' ) );
+	$hide = ( 0 === $option || ( 2 === $option && wp_get_current_user()->user_email !== get_option( 'admin_email' ) ) );
 	if ( $hide ) {
 		$classes .= ' hidden';
 	}
