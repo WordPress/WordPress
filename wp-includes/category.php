@@ -175,10 +175,11 @@ function get_category_by_path( $category_path, $full_match = true, $output = OBJ
  * @since 2.3.0
  *
  * @param string $slug The category slug.
- * @return object Category data object
+ * @return object|false Category data object on success, false if not found.
  */
 function get_category_by_slug( $slug ) {
 	$category = get_term_by( 'slug', $slug, 'category' );
+
 	if ( $category ) {
 		_make_cat_compat( $category );
 	}
