@@ -70,6 +70,26 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			return;
 		}
 
+		// Load default options from constants when none provided to constructor:
+		if ($opt === '') {
+			$opt = [];
+			if ( defined( 'FTP_HOST') ) {
+				$opt['hostname'] = FTP_HOST;
+				// Split host:port into two options
+				if ( strpos( $opt['hostname'], ':' ) ) {
+					list( $opt['hostname'], $opt['port'] ) = explode( ':', $opt['hostname'], 2 );
+					if ( ! is_numeric( $opt['port'] ) ) {
+						unset( $opt['port'] );
+					}
+				}
+			}
+
+			if ( defined( 'FTP_USER') )   $opt['username']    = FTP_USER;
+			if ( defined( 'FTP_PASS') )   $opt['password']    = FTP_PASS;
+			if ( defined( 'FTP_PUBKEY') ) $opt['public_key']  = FTP_PUBKEY;
+			if ( defined( 'FTP_PRIKEY') ) $opt['private_key'] = FTP_PRIKEY;
+		}
+
 		// Set defaults:
 		if ( empty( $opt['port'] ) ) {
 			$this->options['port'] = 22;
