@@ -154,7 +154,7 @@ function wp_favicon_request() {
  */
 function wp_maintenance() {
 	// Return if maintenance mode is disabled.
-	if ( ! wp_in_maintenance_mode() ) {
+	if ( ! wp_is_maintenance_mode() ) {
 		return;
 	}
 
@@ -189,7 +189,7 @@ function wp_maintenance() {
  *
  * @return bool True if maintenance mode is enabled, false otherwise.
  */
-function wp_in_maintenance_mode() {
+function wp_is_maintenance_mode() {
 	global $upgrading;
 
 	if ( ! file_exists( ABSPATH . '.maintenance' ) || wp_installing() ) {
