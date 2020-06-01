@@ -15,6 +15,7 @@
  * @see register_block_type()
  */
 class WP_Block_Type {
+
 	/**
 	 * Block type key.
 	 *
@@ -24,20 +25,80 @@ class WP_Block_Type {
 	public $name;
 
 	/**
+	 * @since 5.5.0
+	 * @var string
+	 */
+	public $title = '';
+
+	/**
+	 * @since 5.5.0
+	 * @var string
+	 */
+	public $category = '';
+
+	/**
+	 * @since 5.5.0
+	 * @var array|null
+	 */
+	public $parent = null;
+
+	/**
+	 * @since 5.5.0
+	 * @var string
+	 */
+	public $icon = '';
+
+	/**
+	 * @since 5.5.0
+	 * @var string
+	 */
+	public $description = '';
+
+	/**
+	 * @since 5.5.0
+	 * @var array
+	 */
+	public $keywords = array();
+
+	/**
+	 * @since 5.5.0
+	 * @var string|null
+	 */
+	public $textdomain = null;
+
+	/**
+	 * @since 5.5.0
+	 * @var array
+	 */
+	public $styles = array();
+
+	/**
+	 * @since 5.5.0
+	 * @var array
+	 */
+	public $supports = array();
+
+	/**
+	 * @since 5.5.0
+	 * @var array|null
+	 */
+	public $example = null;
+
+	/**
 	 * Block type render callback.
 	 *
 	 * @since 5.0.0
 	 * @var callable
 	 */
-	public $render_callback;
+	public $render_callback = null;
 
 	/**
 	 * Block type attributes property schemas.
 	 *
 	 * @since 5.0.0
-	 * @var array
+	 * @var array|null
 	 */
-	public $attributes;
+	public $attributes = null;
 
 	/**
 	 * Block type editor script handle.
@@ -45,7 +106,7 @@ class WP_Block_Type {
 	 * @since 5.0.0
 	 * @var string
 	 */
-	public $editor_script;
+	public $editor_script = '';
 
 	/**
 	 * Block type front end script handle.
@@ -53,7 +114,7 @@ class WP_Block_Type {
 	 * @since 5.0.0
 	 * @var string
 	 */
-	public $script;
+	public $script = '';
 
 	/**
 	 * Block type editor style handle.
@@ -61,7 +122,7 @@ class WP_Block_Type {
 	 * @since 5.0.0
 	 * @var string
 	 */
-	public $editor_style;
+	public $editor_style = '';
 
 	/**
 	 * Block type front end style handle.
@@ -69,20 +130,21 @@ class WP_Block_Type {
 	 * @since 5.0.0
 	 * @var string
 	 */
-	public $style;
+	public $style = '';
 
 	/**
 	 * Constructor.
 	 *
 	 * Will populate object properties from the provided arguments.
 	 *
-	 * @since 5.0.0
-	 *
-	 * @see register_block_type()
-	 *
 	 * @param string       $block_type Block type name including namespace.
 	 * @param array|string $args       Optional. Array or string of arguments for registering a block type.
 	 *                                 Default empty array.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @see   register_block_type()
+	 *
 	 */
 	public function __construct( $block_type, $args = array() ) {
 		$this->name = $block_type;
