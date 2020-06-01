@@ -137,14 +137,13 @@ class WP_Block_Type {
 	 *
 	 * Will populate object properties from the provided arguments.
 	 *
+	 * @since 5.0.0
+	 *
+	 * @see register_block_type()
+	 *
 	 * @param string       $block_type Block type name including namespace.
 	 * @param array|string $args       Optional. Array or string of arguments for registering a block type.
 	 *                                 Default empty array.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @see   register_block_type()
-	 *
 	 */
 	public function __construct( $block_type, $args = array() ) {
 		$this->name = $block_type;
