@@ -2599,6 +2599,8 @@
 						$parent.find( '.auto-update-time' ).addClass( 'hidden' );
 						wp.a11y.speak( wp.updates.l10n.autoUpdatesDisabled, 'polite' );
 					}
+
+					$document.trigger( 'wp-auto-update-setting-changed', { state: action, type: type, asset: asset } );
 				} )
 				.fail( function() {
 					$parent.find( '.notice.error' ).removeClass( 'hidden' ).find( 'p' ).text( wp.updates.l10n.autoUpdatesError );
