@@ -295,12 +295,15 @@ table.fixed {
 }
 
 .fixed .column-posts,
-.fixed .column-date,
 .fixed .column-parent,
 .fixed .column-links,
 .fixed .column-author,
 .fixed .column-format {
 	width: 10%;
+}
+
+.fixed .column-date {
+	width: 14%;
 }
 
 .column-date span[title] {
@@ -388,10 +391,6 @@ table.media .column-title .filename {
 
 #comments-form .fixed .column-author {
 	width: 20%;
-}
-
-#comments-form .fixed .column-date {
-	width: 14%;
 }
 
 #commentsdiv.postbox .inside {
@@ -1633,10 +1632,6 @@ div.action-links,
 
 	.plugin-card .desc p:first-of-type {
 		margin-top: 0;
-	}
-
-	.fixed .column-date {
-		width: 14%;
 	}
 }
 
