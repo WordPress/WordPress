@@ -799,7 +799,7 @@ themes.view.Details = wp.Backbone.View.extend({
 				_this.model.set( { autoupdate: 'enable' === data.state } );
 				$( document ).off( 'wp-auto-update-setting-changed', callback );
 			}
-		}
+		};
 
 		// Triggered in updates.js
 		$( document ).on( 'wp-auto-update-setting-changed', callback );
