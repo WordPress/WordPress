@@ -56,8 +56,8 @@ do_action( 'set_comment_cookies', $comment, $user, $cookies_consent );
 
 $location = empty( $_POST['redirect_to'] ) ? get_comment_link( $comment ) : $_POST['redirect_to'] . '#comment-' . $comment->comment_ID;
 
-// Add specific query arguments to display the awaiting moderation message.
-if ( 'unapproved' === wp_get_comment_status( $comment ) && ! empty( $comment->comment_author_email ) ) {
+// If user didn't consent to cookies, add specific query arguments to display the awaiting moderation message.
+if ( ! $cookies_consent && 'unapproved' === wp_get_comment_status( $comment ) && ! empty( $comment->comment_author_email ) ) {
 	$location = add_query_arg(
 		array(
 			'unapproved'      => $comment->comment_ID,
