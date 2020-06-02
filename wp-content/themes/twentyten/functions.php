@@ -630,8 +630,9 @@ if ( ! function_exists( 'twentyten_posted_in' ) ) :
 	 */
 	function twentyten_posted_in() {
 		// Retrieves tag list of current post, separated by commas.
-		$tag_list = get_the_tag_list( '', ', ' );
-		if ( $tag_list && ! is_wp_error( $tag_list ) ) {
+		$tags_list = get_the_tag_list( '', ', ' );
+
+		if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 			/* translators: 1: Category name, 2: Tag name, 3: Post permalink, 4: Post title. */
 			$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 		} elseif ( is_object_in_taxonomy( get_post_type(), 'category' ) ) {
@@ -641,11 +642,12 @@ if ( ! function_exists( 'twentyten_posted_in' ) ) :
 			/* translators: 3: Post permalink, 4: Post title. */
 			$posted_in = __( 'Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 		}
+
 		// Prints the string, replacing the placeholders.
 		printf(
 			$posted_in,
 			get_the_category_list( ', ' ),
-			$tag_list,
+			$tags_list,
 			get_permalink(),
 			the_title_attribute( 'echo=0' )
 		);

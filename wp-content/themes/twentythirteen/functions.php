@@ -489,9 +489,9 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
 		}
 
 		/* translators: Used between list items, there is a space after the comma. */
-		$tag_list = get_the_tag_list( '', __( ', ', 'twentythirteen' ) );
-		if ( $tag_list ) {
-			echo '<span class="tags-links">' . $tag_list . '</span>';
+		$tags_list = get_the_tag_list( '', __( ', ', 'twentythirteen' ) );
+		if ( $tags_list && ! is_wp_error( $tags_list ) ) {
+			echo '<span class="tags-links">' . $tags_list . '</span>';
 		}
 
 		// Post author.

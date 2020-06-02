@@ -33,9 +33,9 @@ global $feature_class;
 	<footer class="entry-meta">
 		<?php
 		/* translators: Used between list items, there is a space after the comma. */
-		$tag_list = get_the_tag_list( '', __( ', ', 'twentyeleven' ) );
+		$tags_list = get_the_tag_list( '', __( ', ', 'twentyeleven' ) );
 
-		if ( '' !== $tag_list ) {
+		if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 			/* translators: 1: Category list, 2: Tag list, 3: Post permalink, 4: Post title. */
 			$utility_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
 		} else {
@@ -47,7 +47,7 @@ global $feature_class;
 			$utility_text,
 			/* translators: Used between list items, there is a space after the comma. */
 			get_the_category_list( __( ', ', 'twentyeleven' ) ),
-			$tag_list,
+			$tags_list,
 			esc_url( get_permalink() ),
 			the_title_attribute( 'echo=0' )
 		);
