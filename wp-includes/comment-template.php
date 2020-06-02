@@ -1018,7 +1018,7 @@ function comment_text( $comment_ID = 0, $args = array() ) {
 	 * @see Walker_Comment::comment()
 	 *
 	 * @param string          $comment_text Text of the current comment.
-	 * @param WP_Comment|null $comment      The comment object.
+	 * @param WP_Comment|null $comment      The comment object. Null if not found.
 	 * @param array           $args         An array of arguments.
 	 */
 	echo apply_filters( 'comment_text', $comment_text, $comment, $args );

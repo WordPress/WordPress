@@ -182,7 +182,7 @@ class Walker_Comment extends Walker {
 		}
 
 		if ( 'comment' === $comment->comment_type ) {
-			add_filter( 'comment_text', array( $this, 'comment_text' ), 40, 2 );
+			add_filter( 'comment_text', array( $this, 'filter_comment_text' ), 40, 2 );
 		}
 
 		if ( ( 'pingback' === $comment->comment_type || 'trackback' === $comment->comment_type ) && $args['short_ping'] ) {
@@ -200,7 +200,7 @@ class Walker_Comment extends Walker {
 		}
 
 		if ( 'comment' === $comment->comment_type ) {
-			remove_filter( 'comment_text', array( $this, 'comment_text' ), 40, 2 );
+			remove_filter( 'comment_text', array( $this, 'filter_comment_text' ), 40, 2 );
 		}
 	}
 
@@ -253,20 +253,23 @@ class Walker_Comment extends Walker {
 	}
 
 	/**
-	 * Remove links from the pending comment's text if the commenter has not consent to the comment cookie.
+	 * Filters the comment text.
+	 *
+	 * Removes links from the pending comment's text if the commenter did not consent
+	 * to the comment cookies.
 	 *
 	 * @since 5.4.2
 	 *
 	 * @param string          $comment_text Text of the current comment.
-	 * @param WP_Comment|null $comment      The comment object.
-	 * @return string                       Text of the current comment.
+	 * @param WP_Comment|null $comment      The comment object. Null if not found.
+	 * @return string Filtered text of the current comment.
 	 */
-	function comment_text( $comment_text, $comment ) {
+	public function filter_comment_text( $comment_text, $comment ) {
 		$commenter          = wp_get_current_commenter();
 		$show_pending_links = ! empty( $commenter['comment_author'] );
 
-		if ( '0' == $comment->comment_approved && ! $show_pending_links ) {
-			return wp_kses( $comment_text, array() );
+		if ( $comment && '0' == $comment->comment_approved && ! $show_pending_links ) {
+			$comment_text = wp_kses( $comment_text, array() );
 		}
 
 		return $comment_text;
@@ -294,12 +297,12 @@ class Walker_Comment extends Walker {
 
 		$commenter          = wp_get_current_commenter();
 		$show_pending_links = isset( $commenter['comment_author'] ) && $commenter['comment_author'];
+
 		if ( $commenter['comment_author_email'] ) {
 			$moderation_note = __( 'Your comment is awaiting moderation.' );
 		} else {
 			$moderation_note = __( 'Your comment is awaiting moderation. This is a preview, your comment will be visible after it has been approved.' );
 		}
-
 		?>
 		<<?php echo $tag; ?> <?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?> id="comment-<?php comment_ID(); ?>">
 		<?php if ( 'div' !== $args['style'] ) : ?>
@@ -313,9 +316,11 @@ class Walker_Comment extends Walker {
 			?>
 			<?php
 			$comment_author = get_comment_author_link( $comment );
+
 			if ( '0' == $comment->comment_approved && ! $show_pending_links ) {
 				$comment_author = get_comment_author( $comment );
 			}
+
 			printf(
 				/* translators: %s: Comment author link. */
 				__( '%s <span class="says">says:</span>' ),
@@ -390,12 +395,12 @@ class Walker_Comment extends Walker {
 
 		$commenter          = wp_get_current_commenter();
 		$show_pending_links = ! empty( $commenter['comment_author'] );
+
 		if ( $commenter['comment_author_email'] ) {
 			$moderation_note = __( 'Your comment is awaiting moderation.' );
 		} else {
 			$moderation_note = __( 'Your comment is awaiting moderation. This is a preview, your comment will be visible after it has been approved.' );
 		}
-
 		?>
 		<<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?>>
 			<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
@@ -408,9 +413,11 @@ class Walker_Comment extends Walker {
 						?>
 						<?php
 						$comment_author = get_comment_author_link( $comment );
+
 						if ( '0' == $comment->comment_approved && ! $show_pending_links ) {
 							$comment_author = get_comment_author( $comment );
 						}
+
 						printf(
 							/* translators: %s: Comment author link. */
 							__( '%s <span class="says">says:</span>' ),
