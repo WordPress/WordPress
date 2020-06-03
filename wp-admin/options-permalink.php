@@ -276,7 +276,7 @@ $structures = array(
 				/**
 				 * Filters the list of available permalink structure tags on the Permalinks settings page.
 				 *
-				 * @since 4.8.0
+				 * @since 4.9.0
 				 *
 				 * @param string[] $available_tags An array of key => value pairs of available permalink structure tags.
 				 */
