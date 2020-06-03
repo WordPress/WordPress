@@ -941,7 +941,7 @@
 				$views.find( '.all' ).remove();
 
 				if ( ! $form.find( 'tr.no-items' ).length ) {
-					$form.find( '#the-list' ).append( '<tr class="no-items"><td class="colspanchange" colspan="' + columnCount + '">' + __( 'You do not appear to have any plugins available at this time.' ) + '</td></tr>' );
+					$form.find( '#the-list' ).append( '<tr class="no-items"><td class="colspanchange" colspan="' + columnCount + '">' + __( 'No plugins are currently available.' ) + '</td></tr>' );
 				}
 			}
 		} );

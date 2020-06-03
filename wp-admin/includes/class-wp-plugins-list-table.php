@@ -384,7 +384,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		} elseif ( ! empty( $plugins['all'] ) ) {
 			_e( 'No plugins found.' );
 		} else {
-			_e( 'You do not appear to have any plugins available at this time.' );
+			_e( 'No plugins are currently available.' );
 		}
 	}
 
