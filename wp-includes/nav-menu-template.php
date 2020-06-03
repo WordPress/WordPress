@@ -91,7 +91,7 @@ function wp_nav_menu( $args = array() ) {
 	/**
 	 * Filters whether to short-circuit the wp_nav_menu() output.
 	 *
-	 * Returning a non-null value to the filter will short-circuit
+	 * Passing a non-null value to the filter will short-circuit
 	 * wp_nav_menu(), echoing that value if $args->echo is true,
 	 * returning that value otherwise.
 	 *

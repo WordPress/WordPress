@@ -165,7 +165,7 @@ function is_main_blog() {
  *
  * @param string $email        Email address to verify.
  * @param bool   $check_domain Deprecated.
- * @return string|bool Either false or the valid email address.
+ * @return string|false Valid email address on success, false on failure.
  */
 function validate_email( $email, $check_domain = true) {
 	_deprecated_function( __FUNCTION__, '3.0.0', 'is_email()' );

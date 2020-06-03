@@ -3862,10 +3862,10 @@ function wp_get_shortlink( $id = 0, $context = 'post', $allow_slugs = true ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param bool|string $return      Short-circuit return value. Either false or a URL string.
-	 * @param int         $id          Post ID, or 0 for the current post.
-	 * @param string      $context     The context for the link. One of 'post' or 'query',
-	 * @param bool        $allow_slugs Whether to allow post slugs in the shortlink.
+	 * @param false|string $return      Short-circuit return value. Either false or a URL string.
+	 * @param int          $id          Post ID, or 0 for the current post.
+	 * @param string       $context     The context for the link. One of 'post' or 'query',
+	 * @param bool         $allow_slugs Whether to allow post slugs in the shortlink.
 	 */
 	$shortlink = apply_filters( 'pre_get_shortlink', false, $id, $context, $allow_slugs );
 
