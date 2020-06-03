@@ -96,13 +96,17 @@ class WP_Term_Query {
 	 *                                                be limited.
 	 *     @type int|array    $object_ids             Optional. Object ID, or array of object IDs. Results will be
 	 *                                                limited to terms associated with these objects.
-	 *     @type string       $orderby                Field(s) to order terms by. Accepts term fields ('name',
-	 *                                                'slug', 'term_group', 'term_id', 'id', 'description', 'parent'),
-	 *                                                'count' for term taxonomy count, 'include' to match the
-	 *                                                'order' of the $include param, 'slug__in' to match the
-	 *                                                'order' of the $slug param, 'meta_value', 'meta_value_num',
-	 *                                                the value of `$meta_key`, the array keys of `$meta_query`, or
-	 *                                                'none' to omit the ORDER BY clause. Defaults to 'name'.
+	 *     @type string       $orderby                Field(s) to order terms by. Accepts:
+	 *                                                - term fields ('name', 'slug', 'term_group', 'term_id', 'id',
+	 *                                                  'description', 'parent').
+	 *                                                - 'count' for term taxonomy count.
+	 *                                                - 'include' to match the 'order' of the $include param.
+	 *                                                - 'slug__in' to match the 'order' of the $slug param.
+	 *                                                - 'meta_value', 'meta_value_num'.
+	 *                                                - the value of `$meta_key`.
+	 *                                                - the array keys of `$meta_query`.
+	 *                                                - 'none' to omit the ORDER BY clause.
+	 *                                                Defaults to 'name'.
 	 *     @type string       $order                  Whether to order terms in ascending or descending order.
 	 *                                                Accepts 'ASC' (ascending) or 'DESC' (descending).
 	 *                                                Default 'ASC'.
@@ -142,8 +146,8 @@ class WP_Term_Query {
 	 *                                                Default empty.
 	 *     @type int|array    $term_taxonomy_id       Optional. Term taxonomy ID, or array of term taxonomy IDs,
 	 *                                                to match when querying terms.
-	 *     @type bool         $hierarchical           Whether to include terms that have non-empty descendants (even
-	 *                                                if $hide_empty is set to true). Default true.
+	 *     @type bool         $hierarchical           Whether to include terms that have non-empty descendants
+	 *                                                (even if $hide_empty is set to true). Default true.
 	 *     @type string       $search                 Search criteria to match terms. Will be SQL-formatted with
 	 *                                                wildcards before and after. Default empty.
 	 *     @type string       $name__like             Retrieve terms with criteria by which a term is LIKE
@@ -396,6 +400,7 @@ class WP_Term_Query {
 		if ( 'term_order' === $_orderby && empty( $this->query_vars['object_ids'] ) ) {
 			$_orderby = 'term_id';
 		}
+
 		$orderby = $this->parse_orderby( $_orderby );
 
 		if ( $orderby ) {
