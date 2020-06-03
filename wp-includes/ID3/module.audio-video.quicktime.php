@@ -114,7 +114,7 @@ class getid3_quicktime extends getid3_handler
 			foreach ($info['quicktime']['comments']['location.ISO6709'] as $ISO6709string) {
 				$ISO6709parsed = array('latitude'=>false, 'longitude'=>false, 'altitude'=>false);
 				if (preg_match('#^([\\+\\-])([0-9]{2}|[0-9]{4}|[0-9]{6})(\\.[0-9]+)?([\\+\\-])([0-9]{3}|[0-9]{5}|[0-9]{7})(\\.[0-9]+)?(([\\+\\-])([0-9]{3}|[0-9]{5}|[0-9]{7})(\\.[0-9]+)?)?/$#', $ISO6709string, $matches)) {
-					@list($dummy, $lat_sign, $lat_deg, $lat_deg_dec, $lon_sign, $lon_deg, $lon_deg_dec, $dummy, $alt_sign, $alt_deg, $alt_deg_dec) = $matches;
+					@list($dummy, $lat_sign, $lat_deg, $lat_deg_dec, $lon_sign, $lon_deg, $lon_deg_dec, $dummy, $alt_sign, $alt_deg, $alt_deg_dec) = $matches; // phpcs:ignore PHPCompatibility.Lists.AssignmentOrder.Affected
 
 					if (strlen($lat_deg) == 2) {        // [+-]DD.D
 						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * floatval(ltrim($lat_deg, '0').$lat_deg_dec);

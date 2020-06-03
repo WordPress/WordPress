@@ -290,8 +290,8 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 		case 'edit_user_meta':
 		case 'delete_user_meta':
 		case 'add_user_meta':
-			list( $_, $object_type, $_ ) = explode( '_', $cap );
-			$object_id                   = (int) $args[0];
+			$object_type = explode( '_', $cap )[1];
+			$object_id   = (int) $args[0];
 
 			$object_subtype = get_object_subtype( $object_type, $object_id );
 
