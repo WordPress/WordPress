@@ -98,7 +98,8 @@ class WP_Term_Query {
 	 *                                                limited to terms associated with these objects.
 	 *     @type string       $orderby                Field(s) to order terms by. Accepts:
 	 *                                                - term fields ('name', 'slug', 'term_group', 'term_id', 'id',
-	 *                                                  'description', 'parent').
+	 *                                                  'description', 'parent', 'term_order'). Unless `$object_ids`
+	 *                                                  is not empty, 'term_order' is treated the same as 'term_id'.
 	 *                                                - 'count' for term taxonomy count.
 	 *                                                - 'include' to match the 'order' of the $include param.
 	 *                                                - 'slug__in' to match the 'order' of the $slug param.
