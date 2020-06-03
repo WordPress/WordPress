@@ -586,7 +586,7 @@ function wp_edit_theme_plugin_file( $args ) {
 		if ( true === $result ) {
 			$url                    = home_url( '/' );
 			$url                    = add_query_arg( $scrape_params, $url );
-			$r                      = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );
+			$r                      = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
 			$body                   = wp_remote_retrieve_body( $r );
 			$scrape_result_position = strpos( $body, $needle_start );
 
