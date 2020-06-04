@@ -32,9 +32,9 @@ class WP_Block_Type {
 
 	/**
 	 * @since 5.5.0
-	 * @var string
+	 * @var string|null
 	 */
-	public $category = '';
+	public $category = null;
 
 	/**
 	 * @since 5.5.0
@@ -44,9 +44,9 @@ class WP_Block_Type {
 
 	/**
 	 * @since 5.5.0
-	 * @var string
+	 * @var string|null
 	 */
-	public $icon = '';
+	public $icon = null;
 
 	/**
 	 * @since 5.5.0
@@ -104,25 +104,25 @@ class WP_Block_Type {
 	 * Block type editor script handle.
 	 *
 	 * @since 5.0.0
-	 * @var string
+	 * @var string|null
 	 */
-	public $editor_script = '';
+	public $editor_script = null;
 
 	/**
 	 * Block type front end script handle.
 	 *
 	 * @since 5.0.0
-	 * @var string
+	 * @var string|null
 	 */
-	public $script = '';
+	public $script = null;
 
 	/**
 	 * Block type editor style handle.
 	 *
 	 * @since 5.0.0
-	 * @var string
+	 * @var string|null
 	 */
-	public $editor_style = '';
+	public $editor_style = null;
 
 	/**
 	 * Block type front end style handle.
@@ -130,7 +130,7 @@ class WP_Block_Type {
 	 * @since 5.0.0
 	 * @var string
 	 */
-	public $style = '';
+	public $style = null;
 
 	/**
 	 * Constructor.
