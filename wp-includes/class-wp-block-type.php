@@ -128,7 +128,7 @@ class WP_Block_Type {
 	 * Block type front end style handle.
 	 *
 	 * @since 5.0.0
-	 * @var string
+	 * @var string|null
 	 */
 	public $style = null;
 
