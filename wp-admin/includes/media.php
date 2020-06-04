@@ -3724,13 +3724,24 @@ function wp_media_attach_action( $parent_id, $action = 'attach' ) {
 		} else {
 			$result = $wpdb->query( "UPDATE $wpdb->posts SET post_parent = 0 WHERE post_type = 'attachment' AND ID IN ( $ids_string )" );
 		}
-
-		foreach ( $ids as $att_id ) {
-			clean_attachment_cache( $att_id );
-		}
 	}
 
 	if ( isset( $result ) ) {
+		foreach ( $ids as $att_id ) {
+			/**
+			 * Fires when media is attached/detached from a post.
+			 *
+			 * @since 5.5
+			 *
+			 * @param string $action    Attach/detach action.
+			 * @param int    $att_id    The attachment ID.
+			 * @param int    $parent_id Attachment parent ID.
+			 */
+			do_action( 'wp_media_attach_action', $action, $att_id, $parent_id );
+
+			clean_attachment_cache( $att_id );
+		}
+
 		$location = 'upload.php';
 		$referer  = wp_get_referer();
 
