@@ -632,12 +632,12 @@ if ( ! is_multisite() && $broken_themes ) {
 				<p class="theme-autoupdate">
 				<# if ( data.autoupdate ) { #>
 					<a href="{{{ data.actions.autoupdate }}}" class="toggle-auto-update" data-slug="{{ data.id }}" data-wp-action="disable">
-						<span class="dashicons dashicons-update spin hidden"></span>
+						<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>
 						<span class="label"><?php _e( 'Disable auto-updates' ); ?></span>
 					</a>
 				<# } else { #>
 					<a href="{{{ data.actions.autoupdate }}}" class="toggle-auto-update" data-slug="{{ data.id }}" data-wp-action="enable">
-						<span class="dashicons dashicons-update spin hidden"></span>
+						<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>
 						<span class="label"><?php _e( 'Enable auto-updates' ); ?></span>
 					</a>
 				<# } #>
