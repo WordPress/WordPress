@@ -626,9 +626,24 @@ abstract class WP_REST_Controller {
 	 */
 	public function get_endpoint_args_for_item_schema( $method = WP_REST_Server::CREATABLE ) {
 
-		$schema            = $this->get_item_schema();
-		$schema_properties = ! empty( $schema['properties'] ) ? $schema['properties'] : array();
-		$endpoint_args     = array();
+		$schema                  = $this->get_item_schema();
+		$schema_properties       = ! empty( $schema['properties'] ) ? $schema['properties'] : array();
+		$endpoint_args           = array();
+		$valid_schema_properties = array(
+			'type',
+			'format',
+			'enum',
+			'items',
+			'properties',
+			'additionalProperties',
+			'minimum',
+			'maximum',
+			'exclusiveMinimum',
+			'exclusiveMaximum',
+			'minLength',
+			'maxLength',
+			'pattern',
+		);
 
 		foreach ( $schema_properties as $field_id => $params ) {
 
@@ -654,7 +669,7 @@ abstract class WP_REST_Controller {
 				$endpoint_args[ $field_id ]['required'] = true;
 			}
 
-			foreach ( array( 'type', 'format', 'enum', 'items', 'properties', 'additionalProperties' ) as $schema_prop ) {
+			foreach ( $valid_schema_properties as $schema_prop ) {
 				if ( isset( $params[ $schema_prop ] ) ) {
 					$endpoint_args[ $field_id ][ $schema_prop ] = $params[ $schema_prop ];
 				}
