@@ -640,7 +640,7 @@ class WP_List_Table {
 			}
 			printf(
 				"<a href='%s' class='%s' id='view-switch-$mode'$aria_current><span class='screen-reader-text'>%s</span></a>\n",
-				esc_url( add_query_arg( 'mode', $mode ) ),
+				esc_url( remove_query_arg( 'attachment-filter', add_query_arg( 'mode', $mode ) ) ),
 				implode( ' ', $classes ),
 				$title
 			);
