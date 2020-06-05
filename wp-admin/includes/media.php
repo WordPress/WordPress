@@ -3683,7 +3683,7 @@ function wp_get_media_creation_timestamp( $metadata ) {
 }
 
 /**
- * Encapsulate logic for Attach/Detach actions
+ * Encapsulates the logic for Attach/Detach actions.
  *
  * @since 4.2.0
  *
@@ -3706,14 +3706,14 @@ function wp_media_attach_action( $parent_id, $action = 'attach' ) {
 
 	$ids = array();
 
-	foreach ( (array) $_REQUEST['media'] as $att_id ) {
-		$att_id = (int) $att_id;
+	foreach ( (array) $_REQUEST['media'] as $attachment_id ) {
+		$attachment_id = (int) $attachment_id;
 
-		if ( ! current_user_can( 'edit_post', $att_id ) ) {
+		if ( ! current_user_can( 'edit_post', $attachment_id ) ) {
 			continue;
 		}
 
-		$ids[] = $att_id;
+		$ids[] = $attachment_id;
 	}
 
 	if ( ! empty( $ids ) ) {
@@ -3727,19 +3727,19 @@ function wp_media_attach_action( $parent_id, $action = 'attach' ) {
 	}
 
 	if ( isset( $result ) ) {
-		foreach ( $ids as $att_id ) {
+		foreach ( $ids as $attachment_id ) {
 			/**
-			 * Fires when media is attached/detached from a post.
+			 * Fires when media is attached or detached from a post.
 			 *
-			 * @since 5.5
+			 * @since 5.5.0
 			 *
-			 * @param string $action    Attach/detach action.
-			 * @param int    $att_id    The attachment ID.
-			 * @param int    $parent_id Attachment parent ID.
+			 * @param string $action        Attach/detach action. Accepts 'attach' or 'detach'.
+			 * @param int    $attachment_id The attachment ID.
+			 * @param int    $parent_id     Attachment parent ID.
 			 */
-			do_action( 'wp_media_attach_action', $action, $att_id, $parent_id );
+			do_action( 'wp_media_attach_action', $action, $attachment_id, $parent_id );
 
-			clean_attachment_cache( $att_id );
+			clean_attachment_cache( $attachment_id );
 		}
 
 		$location = 'upload.php';
