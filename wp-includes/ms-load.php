@@ -494,7 +494,7 @@ function ms_not_installed( $domain, $path ) {
 	$msg .= '<p><strong>' . __( 'What do I do now?' ) . '</strong> ';
 	$msg .= sprintf(
 		/* translators: %s: Documentation URL. */
-		__( 'Read the <a href="%s" target="_blank">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' ),
+		__( 'Read the <a href="%s" target="_blank">Debugging a WordPress Network</a> article. Some of the suggestions there may help you figure out what went wrong.' ),
 		__( 'https://wordpress.org/support/article/debugging-a-wordpress-network/' )
 	);
 	$msg .= ' ' . __( 'If you&#8217;re still stuck with this message, then check that your database contains the following tables:' ) . '</p><ul>';
