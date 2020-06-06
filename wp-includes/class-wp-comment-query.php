@@ -553,10 +553,15 @@ class WP_Comment_Query {
 				// Numeric values are assumed to be user ids.
 				if ( is_numeric( $unapproved_identifier ) ) {
 					$approved_clauses[] = $wpdb->prepare( "( user_id = %d AND comment_approved = '0' )", $unapproved_identifier );
-
-					// Otherwise we match against email addresses.
 				} else {
-					$approved_clauses[] = $wpdb->prepare( "( comment_author_email = %s AND comment_approved = '0' )", $unapproved_identifier );
+					// Otherwise we match against email addresses.
+					if ( ! empty( $_GET['unapproved'] ) && ! empty( $_GET['moderation-hash'] ) ) {
+						// Only include requested comment.
+						$approved_clauses[] = $wpdb->prepare( "( comment_author_email = %s AND comment_approved = '0' AND comment_ID = %d )", $unapproved_identifier, (int) $_GET['unapproved'] );
+					} else {
+						// Include all of the author's unapproved comments.
+						$approved_clauses[] = $wpdb->prepare( "( comment_author_email = %s AND comment_approved = '0' )", $unapproved_identifier );
+					}
 				}
 			}
 		}

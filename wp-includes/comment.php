@@ -1831,7 +1831,12 @@ function wp_get_unapproved_comment_author_email() {
 		$comment    = get_comment( $comment_id );
 
 		if ( $comment && hash_equals( $_GET['moderation-hash'], wp_hash( $comment->comment_date_gmt ) ) ) {
-			$commenter_email = $comment->comment_author_email;
+			// The comment will only be viewable by the comment author for 1 minute.
+			$comment_preview_expires = strtotime( $comment->comment_date_gmt . '+1 minute' );
+
+			if ( time() < $comment_preview_expires ) {
+				$commenter_email = $comment->comment_author_email;
+			}
 		}
 	}
 
