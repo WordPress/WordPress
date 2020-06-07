@@ -1250,6 +1250,7 @@ function rest_get_avatar_sizes() {
  * @since 5.5.0 Add the "uuid" and "hex-color" formats.
  *              Support the "minLength", "maxLength" and "pattern" keywords for strings.
  *              Validate required properties.
+ *              Support the "minItems" and "maxItems" keywords for arrays.
  *
  * @param mixed  $value The value to validate.
  * @param array  $args  Schema array to use for validation.
@@ -1286,6 +1287,16 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 			if ( is_wp_error( $is_valid ) ) {
 				return $is_valid;
 			}
+		}
+
+		if ( isset( $args['minItems'] ) && count( $value ) < $args['minItems'] ) {
+			/* translators: 1: Parameter, 2: number. */
+			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must contain at least %2$s items.' ), $param, number_format_i18n( $args['minItems'] ) ) );
+		}
+
+		if ( isset( $args['maxItems'] ) && count( $value ) > $args['maxItems'] ) {
+			/* translators: 1: Parameter, 2: number. */
+			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must contain at most %2$s items.' ), $param, number_format_i18n( $args['maxItems'] ) ) );
 		}
 	}
 
