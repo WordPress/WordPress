@@ -3643,6 +3643,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		// Get the post ID and GUID.
 		$post_ID     = $postarr['ID'];
 		$post_before = get_post( $post_ID );
+
 		if ( is_null( $post_before ) ) {
 			if ( $wp_error ) {
 				return new WP_Error( 'invalid_post', __( 'Invalid post ID.' ) );
@@ -3661,6 +3662,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	$post_title   = $postarr['post_title'];
 	$post_content = $postarr['post_content'];
 	$post_excerpt = $postarr['post_excerpt'];
+
 	if ( isset( $postarr['post_name'] ) ) {
 		$post_name = $postarr['post_name'];
 	} elseif ( $update ) {
@@ -3699,6 +3701,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	}
 
 	$post_status = empty( $postarr['post_status'] ) ? 'draft' : $postarr['post_status'];
+
 	if ( 'attachment' === $post_type && ! in_array( $post_status, array( 'inherit', 'private', 'trash', 'auto-draft' ), true ) ) {
 		$post_status = 'inherit';
 	}
@@ -3744,6 +3747,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	} else {
 		// On updates, we need to check to see if it's using the old, fixed sanitization context.
 		$check_name = sanitize_title( $post_name, '', 'old-save' );
+
 		if ( $update && strtolower( urlencode( $post_name ) ) == $check_name && get_post_field( 'post_name', $post_ID ) == $check_name ) {
 			$post_name = $check_name;
 		} else { // new post, or slug has changed.
@@ -3875,6 +3879,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 */
 	if ( 'trash' === $previous_status && 'trash' !== $post_status ) {
 		$desired_post_slug = get_post_meta( $post_ID, '_wp_desired_post_slug', true );
+
 		if ( $desired_post_slug ) {
 			delete_post_meta( $post_ID, '_wp_desired_post_slug' );
 			$post_name = $desired_post_slug;
@@ -3917,6 +3922,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	foreach ( $emoji_fields as $emoji_field ) {
 		if ( isset( $data[ $emoji_field ] ) ) {
 			$charset = $wpdb->get_col_charset( $wpdb->posts, $emoji_field );
+
 			if ( 'utf8' === $charset ) {
 				$data[ $emoji_field ] = wp_encode_emoji( $data[ $emoji_field ] );
 			}
@@ -3950,6 +3956,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		 */
 		$data = apply_filters( 'wp_insert_post_data', $data, $postarr, $unsanitized_postarr );
 	}
+
 	$data  = wp_unslash( $data );
 	$where = array( 'ID' => $post_ID );
 
@@ -3963,9 +3970,16 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		 * @param array $data    Array of unslashed post data.
 		 */
 		do_action( 'pre_post_update', $post_ID, $data );
+
 		if ( false === $wpdb->update( $wpdb->posts, $data, $where ) ) {
 			if ( $wp_error ) {
-				return new WP_Error( 'db_update_error', __( 'Could not update post in the database' ), $wpdb->last_error );
+				if ( 'attachment' === $post_type ) {
+					$message = __( 'Could not update attachment in the database.' );
+				} else {
+					$message = __( 'Could not update post in the database.' );
+				}
+
+				return new WP_Error( 'db_update_error', $message, $wpdb->last_error );
 			} else {
 				return 0;
 			}
@@ -3974,17 +3988,26 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		// If there is a suggested ID, use it if not already present.
 		if ( ! empty( $import_id ) ) {
 			$import_id = (int) $import_id;
+
 			if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE ID = %d", $import_id ) ) ) {
 				$data['ID'] = $import_id;
 			}
 		}
+
 		if ( false === $wpdb->insert( $wpdb->posts, $data ) ) {
 			if ( $wp_error ) {
-				return new WP_Error( 'db_insert_error', __( 'Could not insert post into the database' ), $wpdb->last_error );
+				if ( 'attachment' === $post_type ) {
+					$message = __( 'Could not insert attachment into the database.' );
+				} else {
+					$message = __( 'Could not insert post into the database.' );
+				}
+
+				return new WP_Error( 'db_insert_error', $message, $wpdb->last_error );
 			} else {
 				return 0;
 			}
 		}
+
 		$post_ID = (int) $wpdb->insert_id;
 
 		// Use the newly generated $post_ID.
@@ -3993,6 +4016,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 	if ( empty( $data['post_name'] ) && ! in_array( $data['post_status'], array( 'draft', 'pending', 'auto-draft' ), true ) ) {
 		$data['post_name'] = wp_unique_post_slug( sanitize_title( $data['post_title'], $post_ID ), $post_ID, $data['post_status'], $post_type, $post_parent );
+
 		$wpdb->update( $wpdb->posts, array( 'post_name' => $data['post_name'] ), $where );
 		clean_post_cache( $post_ID );
 	}
@@ -4009,6 +4033,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	if ( ! empty( $postarr['tax_input'] ) ) {
 		foreach ( $postarr['tax_input'] as $taxonomy => $tags ) {
 			$taxonomy_obj = get_taxonomy( $taxonomy );
+
 			if ( ! $taxonomy_obj ) {
 				/* translators: %s: Taxonomy name. */
 				_doing_it_wrong( __FUNCTION__, sprintf( __( 'Invalid taxonomy: %s.' ), $taxonomy ), '4.4.0' );
@@ -4019,6 +4044,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 			if ( is_array( $tags ) ) {
 				$tags = array_filter( $tags );
 			}
+
 			if ( current_user_can( $taxonomy_obj->cap->assign_terms ) ) {
 				wp_set_post_terms( $post_ID, $tags, $taxonomy );
 			}
@@ -4051,6 +4077,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	// Set or remove featured image.
 	if ( isset( $postarr['_thumbnail_id'] ) ) {
 		$thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' ) || 'revision' === $post_type;
+
 		if ( ! $thumbnail_support && 'attachment' === $post_type && $post_mime_type ) {
 			if ( wp_attachment_is( 'audio', $post_ID ) ) {
 				$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
@@ -4076,10 +4103,12 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	if ( ! empty( $postarr['page_template'] ) ) {
 		$post->page_template = $postarr['page_template'];
 		$page_templates      = wp_get_theme()->get_page_templates( $post );
+
 		if ( 'default' !== $postarr['page_template'] && ! isset( $page_templates[ $postarr['page_template'] ] ) ) {
 			if ( $wp_error ) {
 				return new WP_Error( 'invalid_page_template', __( 'Invalid page template.' ) );
 			}
+
 			update_post_meta( $post_ID, '_wp_page_template', 'default' );
 		} else {
 			update_post_meta( $post_ID, '_wp_page_template', $postarr['page_template'] );
@@ -4098,6 +4127,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 			 * @param int $post_ID Attachment ID.
 			 */
 			do_action( 'edit_attachment', $post_ID );
+
 			$post_after = get_post( $post_ID );
 
 			/**
