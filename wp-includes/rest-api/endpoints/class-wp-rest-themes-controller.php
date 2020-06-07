@@ -115,10 +115,65 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 		$data   = array();
 		$fields = $this->get_fields_for_response( $request );
 
-		if ( in_array( 'theme_supports', $fields, true ) ) {
+		if ( rest_is_field_included( 'stylesheet', $fields ) ) {
+			$data['stylesheet'] = $theme->get_stylesheet();
+		}
+
+		if ( rest_is_field_included( 'template', $fields ) ) {
+			/**
+			 * Use the get_template() method, not the 'Template' header, for finding the template.
+			 * The 'Template' header is only good for what was written in the style.css, while
+			 * get_template() takes into account where WordPress actually located the theme and
+			 * whether it is actually valid.
+			 */
+			$data['template'] = $theme->get_template();
+		}
+
+		$plain_field_mappings = array(
+			'requires_php' => 'RequiresPHP',
+			'requires_wp'  => 'RequiresWP',
+			'textdomain'   => 'TextDomain',
+			'version'      => 'Version',
+		);
+
+		foreach ( $plain_field_mappings as $field => $header ) {
+			if ( rest_is_field_included( $field, $fields ) ) {
+				$data[ $field ] = $theme->get( $header );
+			}
+		}
+
+		if ( rest_is_field_included( 'screenshot', $fields ) ) {
+			// Using $theme->get_screenshot() with no args to get absolute URL.
+			$data['screenshot'] = $theme->get_screenshot() ?: '';
+		}
+
+		$rich_field_mappings = array(
+			'author'      => 'Author',
+			'author_uri'  => 'AuthorURI',
+			'description' => 'Description',
+			'name'        => 'Name',
+			'tags'        => 'Tags',
+			'theme_uri'   => 'ThemeURI',
+		);
+
+		foreach ( $rich_field_mappings as $field => $header ) {
+			if ( rest_is_field_included( "{$field}.raw", $fields ) ) {
+				$data[ $field ]['raw'] = $theme->display( $header, false, true );
+			}
+
+			if ( rest_is_field_included( "{$field}.rendered", $fields ) ) {
+				$data[ $field ]['rendered'] = $theme->display( $header );
+			}
+		}
+
+		if ( rest_is_field_included( 'theme_supports', $fields ) ) {
 			$item_schemas   = $this->get_item_schema();
 			$theme_supports = $item_schemas['properties']['theme_supports']['properties'];
 			foreach ( $theme_supports as $name => $schema ) {
+				if ( ! rest_is_field_included( "theme_supports.{$name}", $fields ) ) {
+					continue;
+				}
+
 				if ( 'formats' === $name ) {
 					continue;
 				}
@@ -192,6 +247,117 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 			'title'      => 'theme',
 			'type'       => 'object',
 			'properties' => array(
+				'stylesheet'     => array(
+					'description' => __( 'The theme\'s stylesheet. This uniquely identifies the theme.' ),
+					'type'        => 'string',
+					'readonly'    => true,
+				),
+				'template'       => array(
+					'description' => __( 'The theme\'s template. If this is a child theme, this refers to the parent theme, otherwise this is the same as the theme\'s stylesheet.' ),
+					'type'        => 'string',
+					'readonly'    => true,
+				),
+				'author'         => array(
+					'description' => __( 'The theme author.' ),
+					'type'        => 'object',
+					'readonly'    => true,
+					'properties'  => array(
+						'raw'      => array(
+							'description' => __( 'The theme author\'s name, as found in the theme header.' ),
+							'type'        => 'string',
+						),
+						'rendered' => array(
+							'description' => __( 'HTML for the theme author, transformed for display.' ),
+							'type'        => 'string',
+						),
+					),
+				),
+				'author_uri'     => array(
+					'description' => __( 'The website of the theme author.' ),
+					'type'        => 'object',
+					'readonly'    => true,
+					'properties'  => array(
+						'raw'      => array(
+							'description' => __( 'The website of the theme author, as found in the theme header.' ),
+							'type'        => 'string',
+							'format'      => 'uri',
+						),
+						'rendered' => array(
+							'description' => __( 'The website of the theme author, transformed for display.' ),
+							'type'        => 'string',
+							'format'      => 'uri',
+						),
+					),
+				),
+				'description'    => array(
+					'description' => __( 'A description of the theme.' ),
+					'type'        => 'object',
+					'readonly'    => true,
+					'properties'  => array(
+						'raw'      => array(
+							'description' => __( 'The theme description, as found in the theme header.' ),
+							'type'        => 'string',
+						),
+						'rendered' => array(
+							'description' => __( 'The theme description, transformed for display.' ),
+							'type'        => 'string',
+						),
+					),
+				),
+				'name'           => array(
+					'description' => __( 'The name of the theme.' ),
+					'type'        => 'object',
+					'readonly'    => true,
+					'properties'  => array(
+						'raw'      => array(
+							'description' => __( 'The theme name, as found in the theme header.' ),
+							'type'        => 'string',
+						),
+						'rendered' => array(
+							'description' => __( 'The theme name, transformed for display.' ),
+							'type'        => 'string',
+						),
+					),
+				),
+				'requires_php'   => array(
+					'description' => __( 'The minimum PHP version required for the theme to work.' ),
+					'type'        => 'string',
+					'readonly'    => true,
+				),
+				'requires_wp'    => array(
+					'description' => __( 'The minimum WordPress version required for the theme to work.' ),
+					'type'        => 'string',
+					'readonly'    => true,
+				),
+				'screenshot'     => array(
+					'description' => __( 'The theme\'s screenshot URL.' ),
+					'type'        => 'string',
+					'format'      => 'uri',
+					'readonly'    => true,
+				),
+				'tags'           => array(
+					'description' => __( 'Tags indicating styles and features of the theme.' ),
+					'type'        => 'object',
+					'readonly'    => true,
+					'properties'  => array(
+						'raw'      => array(
+							'description' => __( 'The theme tags, as found in the theme header.' ),
+							'type'        => 'array',
+							'items'       => array(
+								'type' => 'string',
+							),
+						),
+						'rendered' => array(
+							'description' => __( 'The theme tags, transformed for display.' ),
+							'type'        => 'string',
+						),
+					),
+				),
+				'textdomain'     => array(
+					'description' => __( 'The theme\'s textdomain.' ),
+					'type'        => 'string',
+					'readonly'    => true,
+				),
 				'theme_supports' => array(
 					'description' => __( 'Features supported by this theme.' ),
 					'type'        => 'object',
@@ -457,6 +623,28 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 							'type'        => 'boolean',
 						),
 					),
+				),
+				'theme_uri'      => array(
+					'description' => __( 'The URI of the theme\'s webpage.' ),
+					'type'        => 'object',
+					'readonly'    => true,
+					'properties'  => array(
+						'raw'      => array(
+							'description' => __( 'The URI of the theme\'s webpage, as found in the theme header.' ),
+							'type'        => 'string',
+							'format'      => 'uri',
+						),
+						'rendered' => array(
+							'description' => __( 'The URI of the theme\'s webpage, transformed for display.' ),
+							'type'        => 'string',
+							'format'      => 'uri',
+						),
+					),
+				),
+				'version'        => array(
+					'description' => __( 'The theme\'s current version.' ),
+					'type'        => 'string',
+					'readonly'    => true,
 				),
 			),
 		);
