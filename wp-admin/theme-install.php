@@ -72,6 +72,7 @@ wp_localize_script(
 			'selectFeatureFilter' => __( 'Select one or more Theme features to filter by' ),
 		),
 		'installedThemes' => array_keys( $installed_themes ),
+		'activeTheme'     => get_stylesheet(),
 	)
 );
 
@@ -289,10 +290,18 @@ if ( $tab ) {
 					$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 					?>
 					<# if ( data.activate_url ) { #>
-						<a class="button button-primary activate" href="{{ data.activate_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
+						<# if ( ! data.active ) { #>
+							<a class="button button-primary activate" href="{{ data.activate_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
+						<# } else { #>
+							<button class="button button-primary disabled"><?php _ex( 'Activated', 'theme' ); ?></button>
+						<# } #>
 					<# } #>
 					<# if ( data.customize_url ) { #>
-						<a class="button load-customize" href="{{ data.customize_url }}"><?php _e( 'Live Preview' ); ?></a>
+						<# if ( ! data.active ) { #>
+							<a class="button load-customize" href="{{ data.customize_url }}"><?php _e( 'Live Preview' ); ?></a>
+						<# } else { #>
+							<a class="button load-customize" href="{{ data.customize_url }}"><?php _e( 'Customize' ); ?></a>
+						<# } #>
 					<# } else { #>
 						<button class="button preview install-theme-preview"><?php _e( 'Preview' ); ?></button>
 					<# } #>
@@ -343,7 +352,15 @@ if ( $tab ) {
 			<button class="next-theme"><span class="screen-reader-text"><?php _e( 'Next theme' ); ?></span></button>
 			<# if ( data.installed ) { #>
 				<# if ( data.compatible_wp && data.compatible_php ) { #>
-					<a class="button button-primary activate" href="{{ data.activate_url }}"><?php _e( 'Activate' ); ?></a>
+					<?php
+					/* translators: %s: Theme name. */
+					$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
+					?>
+					<# if ( ! data.active ) { #>
+						<a class="button button-primary activate" href="{{ data.activate_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
+					<# } else { #>
+						<button class="button button-primary disabled"><?php _ex( 'Activated', 'theme' ); ?></button>
+					<# } #>
 				<# } else { #>
 					<a class="button button-primary disabled" ><?php _ex( 'Cannot Activate', 'theme' ); ?></a>
 				<# } #>
