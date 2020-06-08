@@ -144,7 +144,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 
 		if ( rest_is_field_included( 'screenshot', $fields ) ) {
 			// Using $theme->get_screenshot() with no args to get absolute URL.
-			$data['screenshot'] = $theme->get_screenshot() ?: '';
+			$data['screenshot'] = $theme->get_screenshot() ? $theme->get_screenshot() : '';
 		}
 
 		$rich_field_mappings = array(
