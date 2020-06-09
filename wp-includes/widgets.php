@@ -900,11 +900,13 @@ function is_active_widget( $callback = false, $widget_id = false, $id_base = fal
  * @global array $wp_registered_widgets
  * @global array $wp_registered_sidebars Registered sidebars.
  *
- * @return bool True, if using widgets. False, if not using widgets.
+ * @return bool True if using widgets, false otherwise.
  */
 function is_dynamic_sidebar() {
 	global $wp_registered_widgets, $wp_registered_sidebars;
+
 	$sidebars_widgets = get_option( 'sidebars_widgets' );
+
 	foreach ( (array) $wp_registered_sidebars as $index => $sidebar ) {
 		if ( ! empty( $sidebars_widgets[ $index ] ) ) {
 			foreach ( (array) $sidebars_widgets[ $index ] as $widget ) {
@@ -914,11 +916,12 @@ function is_dynamic_sidebar() {
 			}
 		}
 	}
+
 	return false;
 }
 
 /**
- * Determines whether a sidebar is in use.
+ * Determines whether a sidebar contains widgets.
  *
  * For more information on this and similar theme functions, check out
  * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
@@ -927,7 +930,7 @@ function is_dynamic_sidebar() {
  * @since 2.8.0
  *
  * @param string|int $index Sidebar name, id or number to check.
- * @return bool true if the sidebar is in use, false otherwise.
+ * @return bool True if the sidebar has widgets, false otherwise.
  */
 function is_active_sidebar( $index ) {
 	$index             = ( is_int( $index ) ) ? "sidebar-$index" : sanitize_title( $index );
