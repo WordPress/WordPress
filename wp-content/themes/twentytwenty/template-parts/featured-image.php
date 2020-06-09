@@ -29,7 +29,7 @@ if ( has_post_thumbnail() && ! post_password_required() ) {
 			if ( $caption ) {
 				?>
 
-				<figcaption class="wp-caption-text"><?php echo esc_html( $caption ); ?></figcaption>
+				<figcaption class="wp-caption-text"><?php echo wp_kses_post( $caption ); ?></figcaption>
 
 				<?php
 			}
