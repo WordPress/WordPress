@@ -1133,11 +1133,11 @@ function get_term_to_edit( $id, $taxonomy ) {
  *
  * @param array|string $args       Optional. Array or string of arguments. See WP_Term_Query::__construct()
  *                                 for information on accepted arguments. Default empty.
- * @param array|string $deprecated Argument array, when using the legacy function parameter format. If present, this
- *                                 parameter will be interpreted as `$args`, and the first function parameter will
- *                                 be parsed as a taxonomy or array of taxonomies.
- * @return WP_Term[]|int|WP_Error List of WP_Term instances and their children. Will return WP_Error, if any of taxonomies
- *                                do not exist.
+ * @param array|string $deprecated Argument array, when using the legacy function parameter format. If present,
+ *                                 this parameter will be interpreted as `$args`, and the first function parameter
+ *                                 will be parsed as a taxonomy or array of taxonomies.
+ * @return WP_Term[]|int|WP_Error Array of WP_Term instances, a count thereof,
+ *                                or WP_Error if any of the taxonomies do not exist.
  */
 function get_terms( $args = array(), $deprecated = '' ) {
 	$term_query = new WP_Term_Query();
