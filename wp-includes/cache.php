@@ -127,6 +127,24 @@ function wp_cache_get( $key, $group = '', $force = false, &$found = null ) {
 }
 
 /**
+ * Gets multiple values from cache in one call.
+ *
+ * @since 5.5.0
+ * @see WP_Object_Cache::get_multiple()
+ *
+ * @param array       $keys   Array of keys to get from group.
+ * @param string      $group  Optional. Where the cache contents are grouped. Default empty.
+ * @param bool        $force  Optional. Whether to force an update of the local cache from the persistent
+ *                            cache. Default false.
+ * @return array|bool Array of values.
+ */
+function wp_cache_get_multiple( $keys, $group = '', $force = false ) {
+	global $wp_object_cache;
+
+	return $wp_object_cache->get_multiple( $keys, $group, $force );
+}
+
+/**
  * Increment numeric cache item's value
  *
  * @since 3.3.0

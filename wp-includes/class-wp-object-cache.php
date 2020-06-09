@@ -303,6 +303,27 @@ class WP_Object_Cache {
 	}
 
 	/**
+	 * Retrieves multiple values from the cache.
+	 *
+	 * @since  5.5.0
+	 *
+	 * @param array $keys        Array of keys to fetch.
+	 * @param bool  $force       Optional. Unused. Whether to force a refetch rather than relying on the local
+	 *                           cache. Default false.
+	 *
+	 * @return array Array of values organized into groups.
+	 */
+	public function get_multiple( $keys, $group = 'default', $force = false ) {
+		$values = array();
+
+		foreach ( $keys as $key ) {
+			$values[ $key ] = $this->get( $key, $group, $force );
+		}
+
+		return $values;
+	}
+
+	/**
 	 * Increments numeric cache item's value.
 	 *
 	 * @since 3.3.0

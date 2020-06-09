@@ -628,6 +628,8 @@ function wp_start_object_cache() {
 		require_once ABSPATH . WPINC . '/cache.php';
 	}
 
+	require_once( ABSPATH . WPINC . '/cache-compat.php' );
+
 	/*
 	 * If cache supports reset, reset instead of init if already
 	 * initialized. Reset signals to the cache that global IDs
