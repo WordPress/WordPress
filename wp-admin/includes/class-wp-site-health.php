@@ -719,7 +719,7 @@ class WP_Site_Health {
 				sprintf(
 					/* translators: %s: The minimum recommended PHP version. */
 					__( 'PHP is the programming language used to build and maintain WordPress. Newer versions of PHP are faster and more secure, so staying up to date will help your site&#8217;s overall performance and security. The minimum recommended version of PHP is %s.' ),
-					$response['recommended_version']
+					$response ? $response['recommended_version'] : ''
 				)
 			),
 			'actions'     => sprintf(
@@ -2289,7 +2289,13 @@ class WP_Site_Health {
 				}
 
 				if ( ! is_wp_error( $result_fetch ) ) {
-					$results[] = json_decode( wp_remote_retrieve_body( $result_fetch ) );
+					$result = json_decode( wp_remote_retrieve_body( $result_fetch ), true );
+				} else {
+					$result = false;
+				}
+
+				if ( is_array( $result ) ) {
+					$results[] = $result;
 				} else {
 					$results[] = array(
 						'status' => 'recommended',
