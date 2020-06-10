@@ -39,6 +39,11 @@ GNU General Public License for more details.
 
 == Changelog ==
 
+= 1.6 =
+* Released: June 10, 2020
+
+https://codex.wordpress.org/Twenty_Nineteen_Theme_Changelog#Version_1.6
+
 = 1.5 =
 * Released: March 31, 2020
 
