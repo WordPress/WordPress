@@ -251,7 +251,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	foreach ( $broken_themes as $broken_theme ) {
 		echo "
 		<tr>
-			 <td>" . ( $broken_theme->get( 'Name' ) ? $broken_theme->get( 'Name' ) : $broken_theme->get_stylesheet() ) . "</td>
+			 <td><?php echo $broken_theme->get( 'Name' ) ? $broken_theme->display( 'Name' ) : esc_html( $broken_theme->get_stylesheet() ); ?></td>
 			 <td>" . $broken_theme->errors()->get_error_message() . "</td>
 		</tr>";
 	}
