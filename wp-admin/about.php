@@ -45,6 +45,26 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				printf(
 					/* translators: %s: WordPress version number */
 					__( '<strong>Version %s</strong> addressed some security issues.' ),
+					'4.5.22'
+				);
+				?>
+				<?php
+				printf(
+					/* translators: %s: HelpHub URL */
+					__( 'For more information, see <a href="%s">the release notes</a>.' ),
+					sprintf(
+						/* translators: %s: WordPress version */
+						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+						sanitize_title( '4.5.22' )
+					)
+				);
+				?>
+			</p>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: WordPress version number */
+					__( '<strong>Version %s</strong> addressed some security issues.' ),
 					'4.5.21'
 				);
 				?>
@@ -110,10 +130,10 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				?>
 				<?php
 				printf(
-				/* translators: %s: HelpHub URL */
+					/* translators: %s: HelpHub URL */
 					__( 'For more information, see <a href="%s">the release notes</a>.' ),
 					sprintf(
-					/* translators: %s: WordPress version */
+						/* translators: %s: WordPress version */
 						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
 						sanitize_title( '4.5.18' )
 					)
