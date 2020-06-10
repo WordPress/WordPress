@@ -577,42 +577,40 @@ function comment_date( $d = '', $comment_ID = 0 ) {
 }
 
 /**
- * Retrieve the excerpt of the current comment.
+ * Retrieves the excerpt of the given comment.
  *
- * Will cut each word and only output the first 20 words with '&hellip;' at the end.
- * If the word count is less than 20, then no truncating is done and no '&hellip;'
- * will appear.
+ * Returns a maximum of 20 words with an ellipsis appended if necessary.
  *
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
  *
  * @param int|WP_Comment $comment_ID  WP_Comment or ID of the comment for which to get the excerpt.
  *                                    Default current comment.
- * @return string The maybe truncated comment with 20 words or less.
+ * @return string The possibly truncated comment excerpt.
  */
 function get_comment_excerpt( $comment_ID = 0 ) {
-	$comment      = get_comment( $comment_ID );
-	$comment_text = strip_tags( str_replace( array( "\n", "\r" ), ' ', $comment->comment_content ) );
-	$words        = explode( ' ', $comment_text );
+	$comment = get_comment( $comment_ID );
+
+	if ( ! post_password_required( $comment->comment_post_ID ) ) {
+		$comment_text = strip_tags( str_replace( array( "\n", "\r" ), ' ', $comment->comment_content ) );
+	} else {
+		$comment_text = __( 'Password protected' );
+	}
+
+	/* translators: Maximum number of words used in a comment excerpt. */
+	$comment_excerpt_length = intval( _x( '20', 'comment_excerpt_length' ) );
 
 	/**
-	 * Filters the amount of words used in the comment excerpt.
+	 * Filters the maximum number of words used in the comment excerpt.
 	 *
 	 * @since 4.4.0
 	 *
 	 * @param int $comment_excerpt_length The amount of words you want to display in the comment excerpt.
 	 */
-	$comment_excerpt_length = apply_filters( 'comment_excerpt_length', 20 );
+	$comment_excerpt_length = apply_filters( 'comment_excerpt_length', $comment_excerpt_length );
 
-	$use_ellipsis = count( $words ) > $comment_excerpt_length;
-	if ( $use_ellipsis ) {
-		$words = array_slice( $words, 0, $comment_excerpt_length );
-	}
+	$excerpt = wp_trim_words( $comment_text, $comment_excerpt_length, '&hellip;' );
 
-	$excerpt = trim( join( ' ', $words ) );
-	if ( $use_ellipsis ) {
-		$excerpt .= '&hellip;';
-	}
 	/**
 	 * Filters the retrieved comment excerpt.
 	 *
@@ -2311,13 +2309,13 @@ function comment_form( $args = array(), $post_id = null ) {
 		/** This filter is documented in wp-includes/link-template.php */
 		'must_log_in'          => '<p class="must-log-in">' . sprintf(
 			/* translators: %s: login URL */
-									__( 'You must be <a href="%s">logged in</a> to post a comment.' ),
+			__( 'You must be <a href="%s">logged in</a> to post a comment.' ),
 			wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ), $post_id ) )
 		) . '</p>',
 		/** This filter is documented in wp-includes/link-template.php */
 		'logged_in_as'         => '<p class="logged-in-as">' . sprintf(
 			/* translators: 1: edit user link, 2: accessibility text, 3: user name, 4: logout URL */
-									__( '<a href="%1$s" aria-label="%2$s">Logged in as %3$s</a>. <a href="%4$s">Log out?</a>' ),
+			__( '<a href="%1$s" aria-label="%2$s">Logged in as %3$s</a>. <a href="%4$s">Log out?</a>' ),
 			get_edit_user_link(),
 			/* translators: %s: user name */
 									esc_attr( sprintf( __( 'Logged in as %s. Edit your profile.' ), $user_identity ) ),
