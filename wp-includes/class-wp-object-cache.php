@@ -270,12 +270,12 @@ class WP_Object_Cache {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int|string $key    What the contents in the cache are called.
-	 * @param string     $group  Optional. Where the cache contents are grouped. Default 'default'.
-	 * @param bool       $force  Optional. Unused. Whether to force a refetch rather than relying on the local
-	 *                           cache. Default false.
-	 * @param bool       $found  Optional. Whether the key was found in the cache (passed by reference).
-	 *                           Disambiguates a return of false, a storable value. Default null.
+	 * @param int|string $key   The key under which the cache contents are stored.
+	 * @param string     $group Optional. Where the cache contents are grouped. Default 'default'.
+	 * @param bool       $force Optional. Unused. Whether to force an update of the local cache
+	 *                          from the persistent cache. Default false.
+	 * @param bool       $found Optional. Whether the key was found in the cache (passed by reference).
+	 *                          Disambiguates a return of false, a storable value. Default null.
 	 * @return mixed|false The cache contents on success, false on failure to retrieve contents.
 	 */
 	public function get( $key, $group = 'default', $force = false, &$found = null ) {
@@ -303,14 +303,14 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Retrieves multiple values from the cache.
+	 * Retrieves multiple values from the cache in one call.
 	 *
-	 * @since  5.5.0
+	 * @since 5.5.0
 	 *
-	 * @param array $keys        Array of keys to fetch.
-	 * @param bool  $force       Optional. Unused. Whether to force a refetch rather than relying on the local
-	 *                           cache. Default false.
-	 *
+	 * @param array  $keys  Array of keys under which the cache contents are stored.
+	 * @param string $group Optional. Where the cache contents are grouped. Default empty.
+	 * @param bool   $force Optional. Whether to force an update of the local cache
+	 *                      from the persistent cache. Default false.
 	 * @return array Array of values organized into groups.
 	 */
 	public function get_multiple( $keys, $group = 'default', $force = false ) {
