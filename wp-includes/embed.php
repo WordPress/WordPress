@@ -781,6 +781,68 @@ function _oembed_create_xml( $data, $node = null ) {
 }
 
 /**
+ * Filters the given oEmbed HTML to make sure iframes have a title attribute.
+ *
+ * @since 5.2.0
+ *
+ * @param string $result The oEmbed HTML result.
+ * @param object $data   A data object result from an oEmbed provider.
+ * @param string $url    The URL of the content to be embedded.
+ * @return string The filtered oEmbed result.
+ */
+function wp_filter_oembed_iframe_title_attribute( $result, $data, $url ) {
+	if ( false === $result || ! in_array( $data->type, array( 'rich', 'video' ), true ) ) {
+		return $result;
+	}
+
+	$title = ! empty( $data->title ) ? $data->title : '';
+
+	$pattern = '`<iframe([^>]*)>`i';
+	if ( preg_match( $pattern, $result, $matches ) ) {
+		$attrs = wp_kses_hair( $matches[1], wp_allowed_protocols() );
+
+		foreach ( $attrs as $attr => $item ) {
+			$lower_attr = strtolower( $attr );
+			if ( $lower_attr === $attr ) {
+				continue;
+			}
+			if ( ! isset( $attrs[ $lower_attr ] ) ) {
+				$attrs[ $lower_attr ] = $item;
+				unset( $attrs[ $attr ] );
+			}
+		}
+	}
+
+	if ( ! empty( $attrs['title']['value'] ) ) {
+		$title = $attrs['title']['value'];
+	}
+
+	/**
+	 * Filters the title attribute of the given oEmbed HTML iframe.
+	 *
+	 * @since 5.2.0
+	 *
+	 * @param string $title  The title attribute.
+	 * @param string $result The oEmbed HTML result.
+	 * @param object $data   A data object result from an oEmbed provider.
+	 * @param string $url    The URL of the content to be embedded.
+	 */
+	$title = apply_filters( 'oembed_iframe_title_attribute', $title, $result, $data, $url );
+
+	if ( '' === $title ) {
+		return $result;
+	}
+
+	if ( isset( $attrs['title'] ) ) {
+		unset( $attrs['title'] );
+		$attr_string = join( ' ', wp_list_pluck( $attrs, 'whole' ) );
+		$result      = str_replace( $matches[0], '<iframe ' . trim( $attr_string ) . '>', $result );
+	}
+	return str_ireplace( '<iframe ', sprintf( '<iframe title="%s" ', esc_attr( $title ) ), $result );
+}
+
+
+/**
  * Filters the given oEmbed HTML.
  *
  * If the `$url` isn't on the trusted providers list,
