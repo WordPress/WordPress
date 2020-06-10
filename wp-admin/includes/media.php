@@ -2407,7 +2407,7 @@ function edit_form_image_editor( $post ) {
 	?>
 
 	<label for="content"><strong><?php _e( 'Description' ); ?></strong></label>
-	<?php wp_editor( $post->post_content, 'attachment_content', $editor_args ); ?>
+	<?php wp_editor( format_to_edit( $post->post_content ), 'attachment_content', $editor_args ); ?>
 
 	</div>
 	<?php
