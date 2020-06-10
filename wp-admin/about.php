@@ -48,17 +48,37 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p>
 				<?php
 				printf(
-				/* translators: %s: WordPress version number */
+					/* translators: %s: WordPress version number */
+					__( '<strong>Version %s</strong> addressed some security issues.' ),
+					'4.7.18'
+				);
+				?>
+				<?php
+				printf(
+					/* translators: %s: HelpHub URL */
+					__( 'For more information, see <a href="%s">the release notes</a>.' ),
+					sprintf(
+						/* translators: %s: WordPress version */
+						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+						sanitize_title( '4.7.18' )
+					)
+				);
+				?>
+			</p>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: WordPress version number */
 					__( '<strong>Version %s</strong> addressed some security issues.' ),
 					'4.7.17'
 				);
 				?>
 				<?php
 				printf(
-				/* translators: %s: HelpHub URL */
+					/* translators: %s: HelpHub URL */
 					__( 'For more information, see <a href="%s">the release notes</a>.' ),
 					sprintf(
-					/* translators: %s: WordPress version */
+						/* translators: %s: WordPress version */
 						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
 						sanitize_title( '4.7.17' )
 					)
@@ -68,17 +88,17 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p>
 				<?php
 				printf(
-				/* translators: %s: WordPress version number */
+					/* translators: %s: WordPress version number */
 					__( '<strong>Version %s</strong> addressed some security issues.' ),
 					'4.7.16'
 				);
 				?>
 				<?php
 				printf(
-				/* translators: %s: HelpHub URL */
+					/* translators: %s: HelpHub URL */
 					__( 'For more information, see <a href="%s">the release notes</a>.' ),
 					sprintf(
-					/* translators: %s: WordPress version */
+						/* translators: %s: WordPress version */
 						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
 						sanitize_title( '4.7.16' )
 					)
@@ -88,17 +108,17 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p>
 				<?php
 				printf(
-				/* translators: %s: WordPress version number */
+					/* translators: %s: WordPress version number */
 					__( '<strong>Version %s</strong> addressed some security issues.' ),
 					'4.7.15'
 				);
 				?>
 				<?php
 				printf(
-				/* translators: %s: HelpHub URL */
+					/* translators: %s: HelpHub URL */
 					__( 'For more information, see <a href="%s">the release notes</a>.' ),
 					sprintf(
-					/* translators: %s: WordPress version */
+						/* translators: %s: WordPress version */
 						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
 						sanitize_title( '4.7.15' )
 					)
@@ -108,17 +128,17 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p>
 				<?php
 				printf(
-				/* translators: %s: WordPress version number */
+					/* translators: %s: WordPress version number */
 					__( '<strong>Version %s</strong> addressed some security issues.' ),
 					'4.7.14'
 				);
 				?>
 				<?php
 				printf(
-				/* translators: %s: HelpHub URL */
+					/* translators: %s: HelpHub URL */
 					__( 'For more information, see <a href="%s">the release notes</a>.' ),
 					sprintf(
-					/* translators: %s: WordPress version */
+						/* translators: %s: WordPress version */
 						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
 						sanitize_title( '4.7.14' )
 					)
