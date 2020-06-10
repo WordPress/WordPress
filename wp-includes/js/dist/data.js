@@ -198,7 +198,7 @@ if (typeof self !== 'undefined') {
 var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(root);
 /* harmony default export */ __webpack_exports__["a"] = (result);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(65), __webpack_require__(318)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(65), __webpack_require__(317)(module)))
 
 /***/ }),
 
@@ -374,7 +374,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 318:
+/***/ 317:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
