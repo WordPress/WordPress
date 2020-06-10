@@ -2831,8 +2831,11 @@ function edit_form_image_editor( $post ) {
 	<label for="attachment_content"><strong><?php _e( 'Description' ); ?></strong><?php
 	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ) {
 		echo ': ' . __( 'Displayed on attachment pages.' );
-	} ?></label>
-	<?php wp_editor( $post->post_content, 'attachment_content', $editor_args ); ?>
+	}
+
+	?>
+	</label>
+	<?php wp_editor( format_to_edit( $post->post_content ), 'attachment_content', $editor_args ); ?>
 
 	</div>
 	<?php
