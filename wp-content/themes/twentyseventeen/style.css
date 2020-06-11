@@ -1152,6 +1152,8 @@ td {
 	padding: 0.4em;
 }
 
+th,
+td,
 th:first-child,
 td:first-child {
 	padding-left: 0;
