@@ -2958,7 +2958,7 @@ body.page .main-navigation {
   line-height: 1.2;
   text-shadow: none;
   padding: calc( .5 * 1rem) calc( 24px + 1rem) calc( .5 * 1rem) 1rem;
-  white-space: nowrap;
+  max-width: 20rem;
 }
 
 .main-navigation .sub-menu > li > a:hover, .main-navigation .sub-menu > li > a:focus,
