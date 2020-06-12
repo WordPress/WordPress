@@ -5,8 +5,6 @@ name: CI
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -29,15 +27,12 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_DEPLOYMENT_KEY }}
         script: |
-          whoami
+          sudo apt-get -y install mysql-client
+          sudo mkdir -p /var/www/wordpress/
+          sudo chmod -R 775 /var/www/wordpress/
+          sudo chown -R www-data: /var/www/wordpress/
+          sudo usermod -aG www-data ubuntu
+          cd /var/www/wordpress/
+          git clone https://github.com/dextacy10-13/WordPress.git .
+          wp config create --dbname=${{ secrets.WP_DB_NAME_PRODUCTION }} --dbprefix=${{ secrets.WP_DB_PREFIX_PRODUCTION }} --dbhost=${{ secrets.WP_DB_HOST_PRODUCTION }} --dbuser=${{ secrets.WP_DB_USERNAME_STAGING }} --dbpass=${{ secrets.WP_DB_PASSWORD_PRODUCTION }}
           ls -al
-        
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
-
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
