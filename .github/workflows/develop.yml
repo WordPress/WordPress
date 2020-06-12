@@ -12,12 +12,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -29,9 +25,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_DEPLOYMENT_KEY }}
           script: |
+            cd /var/www/wordpress
+            git clone https://github.com/dextacy10-13/WordPress.git .
+            wp config create --dbname=${{ secrets.WP_DB_NAME_DEVELOP }} --dbhost=${{ secrets.WP_DB_HOST_DEVELOP }} --dbuser=${{ secrets.WP_DB_USERNAME_DEVELOP }} --dbpass=${{ secrets.WP_DB_PASSWORD_DEVELOP }}
             whoami
             ls -al
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
