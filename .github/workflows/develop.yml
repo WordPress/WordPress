@@ -25,6 +25,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_DEPLOYMENT_KEY }}
           script: |
+            sudo apt-get install mysql-client
             sudo mkdir -p /var/www/wordpress/
             sudo chmod -R 775 /var/www/wordpress/
             sudo chown -R www-data: /var/www/wordpress/
