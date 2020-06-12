@@ -26,6 +26,7 @@ jobs:
           key: ${{ secrets.SSH_DEPLOYMENT_KEY }}
           script: |
             sudo mkdir -p /var/www/wordpress/
+            sudp chmod -R 775 /var/www/wordpress/
             sudo chown -R www-data: /var/www/wordpress/
             sudo usermod -aG www-data ubuntu
             cd /var/www/wordpress/
