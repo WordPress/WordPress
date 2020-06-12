@@ -7,8 +7,6 @@ name: CI
 on:
   push:
     branches: [ feature/** ]
-  pull_request:
-    branches: [ feature/** ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
