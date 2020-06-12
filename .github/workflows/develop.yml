@@ -27,6 +27,7 @@ jobs:
           script: |
             sudo mkdir -p /var/www/wordpress/
             sudo chown -R www-data: /var/www/wordpress/
+            sudo usermod -aG www-data ubuntu
             cd /var/www/wordpress/
             git clone https://github.com/dextacy10-13/WordPress.git .
             wp config create --dbname=${{ secrets.WP_DB_NAME_DEVELOP }} --dbhost=${{ secrets.WP_DB_HOST_DEVELOP }} --dbuser=${{ secrets.WP_DB_USERNAME_DEVELOP }} --dbpass=${{ secrets.WP_DB_PASSWORD_DEVELOP }}
