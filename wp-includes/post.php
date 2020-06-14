@@ -4689,8 +4689,7 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
 /**
  * Set categories for a post.
  *
- * If the post categories parameter is not set, then the default category is
- * going used.
+ * If no categories are provided, the default category is used.
  *
  * @since 2.1.0
  *
@@ -4706,10 +4705,27 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
 	$post_ID     = (int) $post_ID;
 	$post_type   = get_post_type( $post_ID );
 	$post_status = get_post_status( $post_ID );
-	// If $post_categories isn't already an array, make it one:
+
+	// If $post_categories isn't already an array, make it one.
 	$post_categories = (array) $post_categories;
+
 	if ( empty( $post_categories ) ) {
-		if ( 'post' === $post_type && 'auto-draft' !== $post_status ) {
+		/**
+		 * Filters post types (in addition to 'post') that require a default category.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array $post_types An array of post types. Default empty array.
+		 */
+		$default_category_post_types = apply_filters( 'default_category_post_types', array() );
+
+		// Regular posts always require a default category.
+		$default_category_post_types = array_merge( $default_category_post_types, array( 'post' ) );
+
+		if ( in_array( $post_type, $default_category_post_types, true )
+			&& is_object_in_taxonomy( $post_type, 'category' )
+			&& 'auto-draft' !== $post_status
+		) {
 			$post_categories = array( get_option( 'default_category' ) );
 			$append          = false;
 		} else {
