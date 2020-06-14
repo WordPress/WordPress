@@ -575,6 +575,7 @@ if ( current_user_can( 'create_users' ) ) {
 		</td>
 	</tr>
 	<?php } // End if ! is_multisite(). ?>
+	<?php if ( current_user_can( 'promote_users' ) ) { ?>
 	<tr class="form-field">
 		<th scope="row"><label for="role"><?php _e( 'Role' ); ?></label></th>
 		<td><select name="role" id="role">
@@ -587,6 +588,7 @@ if ( current_user_can( 'create_users' ) ) {
 			</select>
 		</td>
 	</tr>
+	<?php } ?>
 	<?php if ( is_multisite() && current_user_can( 'manage_network_users' ) ) { ?>
 	<tr>
 		<th scope="row"><?php _e( 'Skip Confirmation Email' ); ?></th>
