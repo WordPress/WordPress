@@ -36,6 +36,16 @@ if ( isset( $_GET['dt'] ) ) {
 	}
 }
 
+// Prevent actions on a comment associated with a trashed post.
+$comment_id = absint( $_GET['c'] );
+$comment = get_comment( $comment_id );
+
+if ( 'trash' === get_post_status( $comment->comment_post_ID ) ) {
+	wp_die(
+		__( 'You can&#8217;t edit this comment because the associated post is in the Trash. Please restore the post first, then try again.' )
+	);
+}
+
 switch ( $action ) {
 
 	case 'editcomment':
@@ -60,9 +70,6 @@ switch ( $action ) {
 		wp_enqueue_script( 'comment' );
 		require_once ABSPATH . 'wp-admin/admin-header.php';
 
-		$comment_id = absint( $_GET['c'] );
-
-		$comment = get_comment( $comment_id );
 		if ( ! $comment ) {
 			comment_footer_die( __( 'Invalid comment ID.' ) . sprintf( ' <a href="%s">' . __( 'Go back' ) . '</a>.', 'javascript:history.go(-1)' ) );
 		}
@@ -87,9 +94,6 @@ switch ( $action ) {
 	case 'spam':
 		$title = __( 'Moderate Comment' );
 
-		$comment_id = absint( $_GET['c'] );
-
-		$comment = get_comment( $comment_id );
 		if ( ! $comment ) {
 			wp_redirect( admin_url( 'edit-comments.php?error=1' ) );
 			die();

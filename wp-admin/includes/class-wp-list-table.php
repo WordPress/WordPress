@@ -682,14 +682,21 @@ class WP_List_Table {
 			$pending_comments_number
 		);
 
-		// No comments at all.
 		if ( ! $approved_comments && ! $pending_comments ) {
+			// No comments at all.
 			printf(
 				'<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">%s</span>',
 				__( 'No comments' )
 			);
-			// Approved comments have different display depending on some conditions.
+		} elseif ( $approved_comments && 'trash' === get_post_status( $post_id ) ) {
+			// Don't link the comment bubble for a trashed post.
+			printf(
+				'<span class="post-com-count post-com-count-approved"><span class="comment-count-approved" aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></span>',
+				$approved_comments_number,
+				$pending_comments ? $approved_phrase : $approved_only_phrase
+			);
 		} elseif ( $approved_comments ) {
+			// Link the comment bubble to approved comments.
 			printf(
 				'<a href="%s" class="post-com-count post-com-count-approved"><span class="comment-count-approved" aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
 				esc_url(
@@ -705,6 +712,7 @@ class WP_List_Table {
 				$pending_comments ? $approved_phrase : $approved_only_phrase
 			);
 		} else {
+			// Don't link the comment bubble when there are no approved comments.
 			printf(
 				'<span class="post-com-count post-com-count-no-comments"><span class="comment-count comment-count-no-comments" aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></span>',
 				$approved_comments_number,
