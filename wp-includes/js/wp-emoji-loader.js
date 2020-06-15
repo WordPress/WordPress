@@ -115,17 +115,23 @@
 				return ! isIdentical;
 			case 'emoji':
 				/*
-				 * Love is love.
+				 * So easy, even a baby could do it!
 				 *
-				 * To test for Emoji 12 support, try to render a new emoji: men holding hands, with different skin
-				 * tone modifiers.
+				 *  To test for Emoji 13 support, try to render a new emoji: Man Feeding Baby.
+				 *
+				 * The Man Feeding Baby emoji is a ZWJ sequence combining 👨 Man, a Zero Width Joiner and 🍼 Baby Bottle.
+				 *
+				 * 0xD83D, 0xDC68 == Man emoji.
+				 * 0x200D == Zero-Width Joiner (ZWJ) that links the two code points for the new emoji or
+				 * 0x200B == Zero-Width Space (ZWS) that is rendered for clients not supporting the new emoji.
+				 * 0xD83C, 0xDF7C == Baby Bottle.
 				 *
 				 * When updating this test for future Emoji releases, ensure that individual emoji that make up the
 				 * sequence come from older emoji standards.
 				 */
 				isIdentical = emojiSetsRenderIdentically(
-					[0xD83D, 0xDC68, 0xD83C, 0xDFFE, 0x200D, 0xD83E, 0xDD1D, 0x200D, 0xD83D, 0xDC68, 0xD83C, 0xDFFC],
-					[0xD83D, 0xDC68, 0xD83C, 0xDFFE, 0x200B, 0xD83E, 0xDD1D, 0x200B, 0xD83D, 0xDC68, 0xD83C, 0xDFFC]
+					[0xD83D, 0xDC68, 0x200D, 0xD83C, 0xDF7C],
+					[0xD83D, 0xDC68, 0x200B, 0xD83C, 0xDF7C]
 				);
 
 				return ! isIdentical;
