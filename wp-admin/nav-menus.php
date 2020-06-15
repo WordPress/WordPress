@@ -300,21 +300,11 @@ switch ( $action ) {
 	case 'update':
 		check_admin_referer( 'update-nav_menu', 'update-nav-menu-nonce' );
 
-		// Remove menu locations that have been unchecked.
-		foreach ( $locations as $location => $description ) {
-			if ( ( empty( $_POST['menu-locations'] ) || empty( $_POST['menu-locations'][ $location ] ) ) && isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == $nav_menu_selected_id ) {
-				unset( $menu_locations[ $location ] );
-			}
-		}
-
 		// Merge new and existing menu locations if any new ones are set.
 		if ( isset( $_POST['menu-locations'] ) ) {
 			$new_menu_locations = array_map( 'absint', $_POST['menu-locations'] );
 			$menu_locations     = array_merge( $menu_locations, $new_menu_locations );
 		}
-
-		// Set menu locations.
-		set_theme_mod( 'nav_menu_locations', $menu_locations );
 
 		// Add Menu.
 		if ( 0 == $nav_menu_selected_id ) {
@@ -332,9 +322,18 @@ switch ( $action ) {
 					if ( isset( $_REQUEST['menu-item'] ) ) {
 						wp_save_nav_menu_items( $nav_menu_selected_id, absint( $_REQUEST['menu-item'] ) );
 					}
-					if ( isset( $_REQUEST['zero-menu-state'] ) ) {
+					// Set the menu_location value correctly for the newly created menu.
+					foreach ( $menu_locations as $location => $id ) {
+						if ( 0 === $id ) {
+							$menu_locations[ $location ] = $nav_menu_selected_id;
+						}
+					}
+					set_theme_mod( 'nav_menu_locations', $menu_locations );
+					if ( isset( $_REQUEST['zero-menu-state'] ) || ! empty( $_POST['auto-add-pages'] ) ) {
 						// If there are menu items, add them.
 						wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title );
+					}
+					if ( isset( $_REQUEST['zero-menu-state'] ) ) {
 						// Auto-save nav_menu_locations.
 						$locations = get_nav_menu_locations();
 						foreach ( $locations as $location => $menu_id ) {
@@ -359,8 +358,17 @@ switch ( $action ) {
 				$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . __( 'Please enter a valid menu name.' ) . '</p></div>';
 			}
 
-			// Update existing menu.
+		// Update existing menu.
 		} else {
+			// Remove menu locations that have been unchecked.
+			foreach ( $locations as $location => $description ) {
+				if ( ( empty( $_POST['menu-locations'] ) || empty( $_POST['menu-locations'][ $location ] ) ) && isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == $nav_menu_selected_id ) {
+					unset( $menu_locations[ $location ] );
+				}
+			}
+
+			// Set menu locations.
+			set_theme_mod( 'nav_menu_locations', $menu_locations );
 
 			$_menu_object = wp_get_nav_menu_object( $nav_menu_selected_id );
 
@@ -893,14 +901,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<div id="menu-management-liquid">
 		<div id="menu-management">
 			<form id="update-nav-menu" method="post" enctype="multipart/form-data">
-			<?php
-			$new_screen_class = '';
-			if ( $add_new_screen ) {
-				$new_screen_class = 'blank-slate';
-			}
-			?>
 				<h2><?php _e( 'Menu structure' ); ?></h2>
-				<div class="menu-edit <?php echo $new_screen_class; ?>">
+				<div class="menu-edit">
 					<input type="hidden" name="nav-menu-data">
 					<?php
 					wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
