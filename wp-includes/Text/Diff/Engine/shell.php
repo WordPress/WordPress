@@ -83,7 +83,7 @@ class Text_Diff_Engine_shell {
 
             if ($from_line_no < $match[1] || $to_line_no < $match[4]) {
                 // copied lines
-                assert('$match[1] - $from_line_no == $match[4] - $to_line_no');
+                assert($match[1] - $from_line_no == $match[4] - $to_line_no);
                 array_push($edits,
                     new Text_Diff_Op_copy(
                         $this->_getLines($from_lines, $from_line_no, $match[1] - 1),
