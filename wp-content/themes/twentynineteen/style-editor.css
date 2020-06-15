@@ -836,6 +836,12 @@ figcaption,
   margin: 0 0.25em 0 0;
 }
 
+@-moz-document url-prefix() {
+  .wp-block-paragraph.has-drop-cap:not(:focus)::first-letter {
+    margin-top: 0.2em;
+  }
+}
+
 /** === Table === */
 .wp-block-table {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
