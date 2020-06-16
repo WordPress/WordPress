@@ -450,15 +450,21 @@ function number_format_i18n( $number, $decimals = 0 ) {
  */
 function size_format( $bytes, $decimals = 0 ) {
 	$quant = array(
-		'TB' => TB_IN_BYTES,
-		'GB' => GB_IN_BYTES,
-		'MB' => MB_IN_BYTES,
-		'KB' => KB_IN_BYTES,
-		'B'  => 1,
+		/* translators: Unit symbol for terabyte. */
+		_x( 'TB', 'unit symbol' ) => TB_IN_BYTES,
+		/* translators: Unit symbol for gigabyte. */
+		_x( 'GB', 'unit symbol' ) => GB_IN_BYTES,
+		/* translators: Unit symbol for megabyte. */
+		_x( 'MB', 'unit symbol' ) => MB_IN_BYTES,
+		/* translators: Unit symbol for kilobyte. */
+		_x( 'KB', 'unit symbol' ) => KB_IN_BYTES,
+		/* translators: Unit symbol for byte. */
+		_x( 'B', 'unit symbol' )  => 1,
 	);
 
 	if ( 0 === $bytes ) {
-		return number_format_i18n( 0, $decimals ) . ' B';
+		/* translators: Unit symbol for byte. */
+		return number_format_i18n( 0, $decimals ) . ' ' . _x( 'B', 'unit symbol' );
 	}
 
 	foreach ( $quant as $unit => $mag ) {
