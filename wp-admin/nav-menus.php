@@ -358,7 +358,7 @@ switch ( $action ) {
 				$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . __( 'Please enter a valid menu name.' ) . '</p></div>';
 			}
 
-		// Update existing menu.
+			// Update existing menu.
 		} else {
 			// Remove menu locations that have been unchecked.
 			foreach ( $locations as $location => $description ) {

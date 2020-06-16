@@ -38,7 +38,7 @@ if ( isset( $_GET['dt'] ) ) {
 
 // Prevent actions on a comment associated with a trashed post.
 $comment_id = absint( $_GET['c'] );
-$comment = get_comment( $comment_id );
+$comment    = get_comment( $comment_id );
 
 if ( 'trash' === get_post_status( $comment->comment_post_ID ) ) {
 	wp_die(
