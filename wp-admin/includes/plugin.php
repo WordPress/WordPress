@@ -542,6 +542,7 @@ function is_plugin_active( $plugin ) {
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.1.0
+ *
  * @see is_plugin_active()
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.

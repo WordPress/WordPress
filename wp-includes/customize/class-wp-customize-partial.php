@@ -97,10 +97,11 @@ class WP_Customize_Partial {
 	 * Render callback.
 	 *
 	 * @since 4.5.0
+	 *
 	 * @see WP_Customize_Partial::render()
 	 * @var callable Callback is called with one argument, the instance of
-	 *                 WP_Customize_Partial. The callback can either echo the
-	 *                 partial or return the partial as a string, or return false if error.
+	 *               WP_Customize_Partial. The callback can either echo the
+	 *               partial or return the partial as a string, or return false if error.
 	 */
 	public $render_callback;
 

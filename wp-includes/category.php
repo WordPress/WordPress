@@ -13,6 +13,7 @@
  * will be returned instead.
  *
  * @since 2.1.0
+ *
  * @see get_terms() Type of arguments that can be changed.
  *
  * @param string|array $args {

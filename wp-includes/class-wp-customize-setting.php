@@ -13,9 +13,9 @@
  * Handles saving and sanitizing of settings.
  *
  * @since 3.4.0
- * @link https://developer.wordpress.org/themes/customize-api
  *
  * @see WP_Customize_Manager
+ * @link https://developer.wordpress.org/themes/customize-api
  */
 class WP_Customize_Setting {
 	/**

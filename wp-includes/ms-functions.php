@@ -2200,6 +2200,7 @@ function add_existing_user_to_blog( $details = false ) {
  * is specifically hooked into the {@see 'wpmu_activate_user'} action.
  *
  * @since MU (3.0.0)
+ *
  * @see add_user_to_blog()
  *
  * @param int    $user_id  User ID.

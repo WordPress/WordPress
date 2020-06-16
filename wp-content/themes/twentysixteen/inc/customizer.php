@@ -251,6 +251,7 @@ add_action( 'customize_register', 'twentysixteen_customize_register', 11 );
  * Render the site title for the selective refresh partial.
  *
  * @since Twenty Sixteen 1.2
+ *
  * @see twentysixteen_customize_register()
  *
  * @return void
@@ -263,6 +264,7 @@ function twentysixteen_customize_partial_blogname() {
  * Render the site tagline for the selective refresh partial.
  *
  * @since Twenty Sixteen 1.2
+ *
  * @see twentysixteen_customize_register()
  *
  * @return void

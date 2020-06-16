@@ -146,6 +146,7 @@ function _get_template_edit_filename( $fullpath, $containingfolder ) {
  * Will display link, if there is an update available.
  *
  * @since 2.7.0
+ *
  * @see get_theme_update_available()
  *
  * @param WP_Theme $theme Theme data object.

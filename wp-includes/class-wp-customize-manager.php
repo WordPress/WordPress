@@ -606,6 +606,7 @@ final class WP_Customize_Manager {
 	 * enabled, then a new UUID will be generated.
 	 *
 	 * @since 4.9.0
+	 *
 	 * @global string $pagenow
 	 */
 	public function establish_loaded_changeset() {
@@ -737,6 +738,7 @@ final class WP_Customize_Manager {
 	 * Gets whether settings are or will be previewed.
 	 *
 	 * @since 4.9.0
+	 *
 	 * @see WP_Customize_Setting::preview()
 	 *
 	 * @return bool
@@ -749,6 +751,7 @@ final class WP_Customize_Manager {
 	 * Gets whether data from a changeset's autosaved revision should be loaded if it exists.
 	 *
 	 * @since 4.9.0
+	 *
 	 * @see WP_Customize_Manager::changeset_data()
 	 *
 	 * @return bool Is using autosaved changeset revision.
@@ -761,6 +764,7 @@ final class WP_Customize_Manager {
 	 * Whether the changeset branching is allowed.
 	 *
 	 * @since 4.9.0
+	 *
 	 * @see WP_Customize_Manager::establish_loaded_changeset()
 	 *
 	 * @return bool Is changeset branching.
@@ -801,6 +805,7 @@ final class WP_Customize_Manager {
 	 * Get the changeset UUID.
 	 *
 	 * @since 4.7.0
+	 *
 	 * @see WP_Customize_Manager::establish_loaded_changeset()
 	 *
 	 * @return string UUID.
@@ -1946,6 +1951,7 @@ final class WP_Customize_Manager {
 	 * Add customize state query params to a given URL if preview is allowed.
 	 *
 	 * @since 4.7.0
+	 *
 	 * @see wp_redirect()
 	 * @see WP_Customize_Manager::get_allowed_url()
 	 *
@@ -3030,8 +3036,9 @@ final class WP_Customize_Manager {
 	 * untouched.
 	 *
 	 * @since 4.9.0
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @see wp_trash_post()
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int|WP_Post $post The changeset post.
 	 * @return mixed A WP_Post object for the trashed post or an empty value on failure.
@@ -3179,6 +3186,7 @@ final class WP_Customize_Manager {
 	 * This should be able to be removed once #40922 is addressed in core.
 	 *
 	 * @since 4.9.0
+	 *
 	 * @link https://core.trac.wordpress.org/ticket/40922
 	 * @see WP_Customize_Manager::save_changeset_post()
 	 * @see _wp_translate_postdata()
@@ -3407,6 +3415,7 @@ final class WP_Customize_Manager {
 	 * invoking this method.
 	 *
 	 * @since 4.7.0
+	 *
 	 * @see _wp_customize_publish_changeset()
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *

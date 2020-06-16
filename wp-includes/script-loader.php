@@ -1971,6 +1971,7 @@ function wp_localize_community_events() {
  * the $_wp_admin_css_colors array value URL.
  *
  * @since 2.6.0
+ *
  * @global array $_wp_admin_css_colors
  *
  * @param string $src    Source URL.
@@ -2183,7 +2184,7 @@ function wp_print_footer_scripts() {
 }
 
 /**
- * Wrapper for do_action('wp_enqueue_scripts')
+ * Wrapper for do_action( 'wp_enqueue_scripts' ).
  *
  * Allows plugins to queue scripts for the front end using wp_enqueue_script().
  * Runs first in wp_head() where all is_home(), is_page(), etc. functions are available.

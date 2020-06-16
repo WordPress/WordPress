@@ -17,6 +17,7 @@ if ( ! function_exists( 'wp_set_current_user' ) ) :
 	 * actions on users who aren't signed in.
 	 *
 	 * @since 2.0.3
+	 *
 	 * @global WP_User $current_user The current user object which holds the user data.
 	 *
 	 * @param int    $id   User ID
@@ -2370,7 +2371,7 @@ if ( ! function_exists( 'wp_check_password' ) ) :
 	 * @since 2.5.0
 	 *
 	 * @global PasswordHash $wp_hasher PHPass object used for checking the password
-	 *  against the $hash + $password
+	 *                                 against the $hash + $password
 	 * @uses PasswordHash::CheckPassword
 	 *
 	 * @param string     $password Plaintext user's password

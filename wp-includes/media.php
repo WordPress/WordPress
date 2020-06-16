@@ -3277,6 +3277,7 @@ function get_attachment_taxonomies( $attachment, $output = 'names' ) {
  * Handles mime-type-specific taxonomies such as attachment:image and attachment:video.
  *
  * @since 3.5.0
+ *
  * @see get_taxonomies()
  *
  * @param string $output Optional. The type of taxonomy output to return. Accepts 'names' or 'objects'.

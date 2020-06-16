@@ -1409,6 +1409,7 @@ final class WP_Customize_Nav_Menus {
 	 * Keep track of the arguments that are being passed to wp_nav_menu().
 	 *
 	 * @since 4.3.0
+	 *
 	 * @see wp_nav_menu()
 	 * @see WP_Customize_Widgets::filter_dynamic_sidebar_params()
 	 *

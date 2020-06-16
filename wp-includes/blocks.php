@@ -48,6 +48,7 @@ function unregister_block_type( $name ) {
  * you should use the block parser on post content.
  *
  * @since 5.0.0
+ *
  * @see parse_blocks()
  *
  * @param int|string|WP_Post|null $post Optional. Post content, post ID, or post object. Defaults to global $post.
@@ -72,6 +73,7 @@ function has_blocks( $post = null ) {
  * you should use the block parser on post content.
  *
  * @since 5.0.0
+ *
  * @see parse_blocks()
  *
  * @param string                  $block_name Full Block type to look for.

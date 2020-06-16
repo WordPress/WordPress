@@ -847,6 +847,7 @@ class WP_Http {
 	 * are supported, eg `*.wordpress.org` will allow for all subdomains of `wordpress.org` to be contacted.
 	 *
 	 * @since 2.8.0
+	 *
 	 * @link https://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
 	 * @link https://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_ACCESSIBLE_HOSTS
 	 *

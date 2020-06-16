@@ -18,6 +18,7 @@ class WP_Ajax_Response {
 	 * Constructor - Passes args to WP_Ajax_Response::add().
 	 *
 	 * @since 2.1.0
+	 *
 	 * @see WP_Ajax_Response::add()
 	 *
 	 * @param string|array $args Optional. Will be passed to add() method.

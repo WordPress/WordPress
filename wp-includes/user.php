@@ -803,6 +803,7 @@ function add_user_meta( $user_id, $meta_key, $meta_value, $unique = false ) {
  * allows removing all metadata matching key, if needed.
  *
  * @since 3.0.0
+ *
  * @link https://developer.wordpress.org/reference/functions/delete_user_meta/
  *
  * @param int    $user_id    User ID
@@ -820,6 +821,7 @@ function delete_user_meta( $user_id, $meta_key, $meta_value = '' ) {
  * Retrieve user meta field for a user.
  *
  * @since 3.0.0
+ *
  * @link https://developer.wordpress.org/reference/functions/get_user_meta/
  *
  * @param int    $user_id User ID.
@@ -844,6 +846,7 @@ function get_user_meta( $user_id, $key = '', $single = false ) {
  * If the meta field for the user does not exist, it will be added.
  *
  * @since 3.0.0
+ *
  * @link https://developer.wordpress.org/reference/functions/update_user_meta/
  *
  * @param int    $user_id    User ID.
@@ -1554,7 +1557,7 @@ function wp_insert_user( $userdata ) {
 			return new WP_Error( 'invalid_user_id', __( 'Invalid user ID.' ) );
 		}
 
-		// hashed in wp_update_user(), plaintext if called directly.
+		// Hashed in wp_update_user(), plaintext if called directly.
 		$user_pass = ! empty( $userdata['user_pass'] ) ? $userdata['user_pass'] : $old_user_data->user_pass;
 	} else {
 		$update = false;
@@ -2163,7 +2166,8 @@ All at ###SITENAME###
  * complex user creation use wp_insert_user() to specify more information.
  *
  * @since 2.0.0
- * @see wp_insert_user() More complete way to create a new user
+ *
+ * @see wp_insert_user() More complete way to create a new user.
  *
  * @param string $username The user's username.
  * @param string $password The user's password.
@@ -2629,6 +2633,7 @@ function wp_get_session_token() {
  * Retrieve a list of sessions for the current user.
  *
  * @since 4.0.0
+ *
  * @return array Array of sessions.
  */
 function wp_get_all_sessions() {

@@ -999,6 +999,7 @@ function _wp_privacy_statuses() {
  * Arguments prefixed with an _underscore shouldn't be used by plugins and themes.
  *
  * @since 3.0.0
+ *
  * @global array $wp_post_statuses Inserts new post status object into the list
  *
  * @param string $post_status Name of the post status.

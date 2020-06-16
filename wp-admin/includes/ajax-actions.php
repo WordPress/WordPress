@@ -421,8 +421,8 @@ function wp_ajax_logged_in() {
  *
  * Contrary to normal success Ajax response ("1"), die with time() on success.
  *
- * @access private
  * @since 2.7.0
+ * @access private
  *
  * @param int $comment_id
  * @param int $delta
@@ -554,8 +554,8 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 /**
  * Ajax handler for adding a hierarchical term.
  *
- * @access private
  * @since 3.1.0
+ * @access private
  */
 function _wp_ajax_add_hierarchical_term() {
 	$action   = $_POST['action'];
@@ -4668,6 +4668,7 @@ function wp_ajax_search_install_plugins() {
  * Ajax handler for editing a theme or plugin file.
  *
  * @since 4.9.0
+ *
  * @see wp_edit_theme_plugin_file()
  */
 function wp_ajax_edit_theme_plugin_file() {

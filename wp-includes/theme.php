@@ -834,6 +834,7 @@ function switch_theme( $stylesheet ) {
  * disable this functionality.
  *
  * @since 1.5.0
+ *
  * @see WP_DEFAULT_THEME
  *
  * @return bool
@@ -2817,7 +2818,9 @@ function get_theme_support( $feature, ...$args ) {
  * be used for child themes to override support from the parent theme.
  *
  * @since 3.0.0
+ *
  * @see add_theme_support()
+ *
  * @param string $feature The feature being removed.
  * @return bool|void Whether feature was removed.
  */
@@ -3240,6 +3243,7 @@ function _wp_customize_publish_changeset( $new_status, $old_status, $changeset_p
  * transitioned into pending status by a contributor.
  *
  * @since 4.7.0
+ *
  * @see wp_insert_post()
  *
  * @param array $post_data          An array of slashed post data.

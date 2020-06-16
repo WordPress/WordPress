@@ -11,6 +11,7 @@
  * Retrieves category link URL.
  *
  * @since 1.0.0
+ *
  * @see get_term_link()
  *
  * @param int|object $category Category ID or object.
@@ -1117,6 +1118,7 @@ function walk_category_dropdown_tree( ...$args ) {
  * Retrieves the link to the tag.
  *
  * @since 2.3.0
+ *
  * @see get_term_link()
  *
  * @param int|object $tag Tag ID or object.

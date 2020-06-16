@@ -2123,6 +2123,7 @@ function get_next_post_link( $format = '%link &raquo;', $link = '%title', $in_sa
  * Displays the next post link that is adjacent to the current post.
  *
  * @since 1.5.0
+ *
  * @see get_next_post_link()
  *
  * @param string       $format         Optional. Link anchor format. Default '&laquo; %link'.
