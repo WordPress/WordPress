@@ -3268,14 +3268,17 @@ function clean_term_cache( $ids, $taxonomy = '', $clean_taxonomy = true ) {
 		$tt_ids = implode( ', ', $tt_ids );
 		$terms  = $wpdb->get_results( "SELECT term_id, taxonomy FROM $wpdb->term_taxonomy WHERE term_taxonomy_id IN ($tt_ids)" );
 		$ids    = array();
+
 		foreach ( (array) $terms as $term ) {
 			$taxonomies[] = $term->taxonomy;
 			$ids[]        = $term->term_id;
 			wp_cache_delete( $term->term_id, 'terms' );
 		}
+
 		$taxonomies = array_unique( $taxonomies );
 	} else {
 		$taxonomies = array( $taxonomy );
+
 		foreach ( $taxonomies as $taxonomy ) {
 			foreach ( $ids as $id ) {
 				wp_cache_delete( $id, 'terms' );
@@ -3405,27 +3408,28 @@ function update_object_term_cache( $object_ids, $object_type ) {
 		$object_ids = explode( ',', $object_ids );
 	}
 
-	$object_ids = array_map( 'intval', $object_ids );
+	$object_ids     = array_map( 'intval', $object_ids );
+	$non_cached_ids = array();
 
 	$taxonomies = get_object_taxonomies( $object_type );
 
-	$ids = array();
 	foreach ( $taxonomies as $taxonomy ) {
 		$cache_values = wp_cache_get_multiple( (array) $object_ids, "{$taxonomy}_relationships" );
-		foreach ( $cache_values as $key => $value ) {
+
+		foreach ( $cache_values as $id => $value ) {
 			if ( false === $value ) {
-				$ids[] = $key;
+				$non_cached_ids[] = $id;
 				break;
 			}
 		}
 	}
 
-	if ( empty( $ids ) ) {
+	if ( empty( $non_cached_ids ) ) {
 		return false;
 	}
 
 	$terms = wp_get_object_terms(
-		$ids,
+		$non_cached_ids,
 		$taxonomies,
 		array(
 			'fields'                 => 'all_with_object_id',
@@ -3439,7 +3443,7 @@ function update_object_term_cache( $object_ids, $object_type ) {
 		$object_terms[ $term->object_id ][ $term->taxonomy ][] = $term->term_id;
 	}
 
-	foreach ( $ids as $id ) {
+	foreach ( $non_cached_ids as $id ) {
 		foreach ( $taxonomies as $taxonomy ) {
 			if ( ! isset( $object_terms[ $id ][ $taxonomy ] ) ) {
 				if ( ! isset( $object_terms[ $id ] ) ) {
