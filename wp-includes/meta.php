@@ -926,11 +926,11 @@ function update_meta_cache( $meta_type, $object_ids ) {
 		return (bool) $check;
 	}
 
-	$cache_key = $meta_type . '_meta';
-	$ids       = array();
-	$cache     = array();
-	foreach ( $object_ids as $id ) {
-		$cached_object = wp_cache_get( $id, $cache_key );
+	$cache_key    = $meta_type . '_meta';
+	$ids          = array();
+	$cache        = array();
+	$cache_values = wp_cache_get_multiple( $object_ids, $cache_key );
+	foreach ( $cache_values as $id => $cached_object ) {
 		if ( false === $cached_object ) {
 			$ids[] = $id;
 		} else {
