@@ -2574,7 +2574,7 @@ function register_new_user( $user_login, $user_email ) {
 			'registerfail',
 			sprintf(
 				/* translators: %s: Admin email address. */
-				__( 'Couldn&#8217;t register you&hellip; please contact the <a href="mailto:%s">webmaster</a>!' ),
+				__( 'Couldn&#8217;t register you&hellip; please contact the <a href="mailto:%s">site admin</a>!' ),
 				get_option( 'admin_email' )
 			)
 		);
