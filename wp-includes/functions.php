@@ -446,7 +446,7 @@ function number_format_i18n( $number, $decimals = 0 ) {
  *
  * @param int|string $bytes    Number of bytes. Note max integer size for integers.
  * @param int        $decimals Optional. Precision of number of decimal places. Default 0.
- * @return string|false False on failure. Number string on success.
+ * @return string|false Number string on success, false on failure.
  */
 function size_format( $bytes, $decimals = 0 ) {
 	$quant = array(
@@ -1928,12 +1928,13 @@ function wp_get_raw_referer() {
  *
  * @since 2.0.4
  *
- * @return string|false False if no original referer or original referer if set.
+ * @return string|false Original referer URL on success, false on failure.
  */
 function wp_get_original_referer() {
 	if ( ! empty( $_REQUEST['_wp_original_http_referer'] ) && function_exists( 'wp_validate_redirect' ) ) {
 		return wp_validate_redirect( wp_unslash( $_REQUEST['_wp_original_http_referer'] ), false );
 	}
+
 	return false;
 }
 
