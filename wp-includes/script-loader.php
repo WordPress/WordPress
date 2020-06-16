@@ -719,16 +719,6 @@ function wp_default_scripts( $scripts ) {
 		'authcheckL10n',
 		array(
 			'beforeunload' => __( 'Your session has expired. You can log in again from this page or go to the login page.' ),
-
-			/**
-			 * Filters the authentication check interval.
-			 *
-			 * @since 3.6.0
-			 *
-			 * @param int $interval The interval in which to check a user's authentication.
-			 *                      Default 3 minutes in seconds, or 180.
-			 */
-			'interval'     => apply_filters( 'wp_auth_check_interval', 3 * MINUTE_IN_SECONDS ),
 		)
 	);
 
