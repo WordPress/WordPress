@@ -401,7 +401,7 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 
 	// Check if the domain has been used already. We should return an error message.
 	if ( domain_exists($domain, $path, $site_id) )
-		return __( '<strong>Error</strong>: Site URL already taken.' );
+		return __( 'Site URL you&#8217;ve entered is already taken.' );
 
 	/*
 	 * Need to back up wpdb table names, and create a new wp_blogs entry for new blog.
@@ -410,7 +410,7 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 	 */
 
 	if ( ! $blog_id = insert_blog($domain, $path, $site_id) )
-		return __( '<strong>Error</strong>: Problem creating site entry.' );
+		return __( 'There was a problem creating site entry.' );
 
 	switch_to_blog($blog_id);
 	install_blog($blog_id);

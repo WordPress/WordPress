@@ -1152,7 +1152,7 @@ function validate_plugin_requirements( $plugin ) {
 			'plugin_wp_php_incompatible',
 			sprintf(
 				/* translators: %s: Plugin name. */
-				_x( '<strong>Error:</strong> Current WordPress and PHP versions do not meet minimum requirements for %s.', 'plugin' ),
+				_x( 'Current WordPress and PHP versions do not meet minimum requirements for %s.', 'plugin' ),
 				$plugin_headers['Name']
 			)
 		);
@@ -1161,7 +1161,7 @@ function validate_plugin_requirements( $plugin ) {
 			'plugin_php_incompatible',
 			sprintf(
 				/* translators: %s: Plugin name. */
-				_x( '<strong>Error:</strong> Current PHP version does not meet minimum requirements for %s.', 'plugin' ),
+				_x( 'Current PHP version does not meet minimum requirements for %s.', 'plugin' ),
 				$plugin_headers['Name']
 			)
 		);
@@ -1170,7 +1170,7 @@ function validate_plugin_requirements( $plugin ) {
 			'plugin_wp_incompatible',
 			sprintf(
 				/* translators: %s: Plugin name. */
-				_x( '<strong>Error:</strong> Current WordPress version does not meet minimum requirements for %s.', 'plugin' ),
+				_x( 'Current WordPress version does not meet minimum requirements for %s.', 'plugin' ),
 				$plugin_headers['Name']
 			)
 		);

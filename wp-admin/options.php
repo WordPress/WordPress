@@ -221,7 +221,7 @@ if ( 'update' === $action ) { // We are saving settings sent from a settings pag
 		wp_die(
 			sprintf(
 				/* translators: %s: The options page name. */
-				__( '<strong>Error</strong>: Options page %s not found in the options whitelist.' ),
+				__( 'Options page %s not found in the options whitelist.' ),
 				'<code>' . esc_html( $option_page ) . '</code>'
 			)
 		);
