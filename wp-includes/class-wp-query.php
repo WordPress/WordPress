@@ -965,7 +965,7 @@ class WP_Query {
 		}
 
 		if ( ! ( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed
-				|| ( defined( 'REST_REQUEST' ) && REST_REQUEST )
+				|| ( defined( 'REST_REQUEST' ) && REST_REQUEST && $this->is_main_query() )
 				|| $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_robots || $this->is_favicon ) ) {
 			$this->is_home = true;
 		}
