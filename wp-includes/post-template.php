@@ -454,7 +454,7 @@ function has_excerpt( $post = 0 ) {
  */
 function post_class( $class = '', $post_id = null ) {
 	// Separates classes with a single space, collates classes for post DIV.
-	echo 'class="' . join( ' ', get_post_class( $class, $post_id ) ) . '"';
+	echo 'class="' . esc_attr( join( ' ', get_post_class( $class, $post_id ) ) ) . '"';
 }
 
 /**
@@ -590,7 +590,7 @@ function get_post_class( $class = '', $post_id = null ) {
  */
 function body_class( $class = '' ) {
 	// Separates class names with a single space, collates class names for body element.
-	echo 'class="' . join( ' ', get_body_class( $class ) ) . '"';
+	echo 'class="' . esc_attr( join( ' ', get_body_class( $class ) ) ) . '"';
 }
 
 /**
