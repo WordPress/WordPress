@@ -95,7 +95,7 @@ function wp_default_packages_vendor( $scripts ) {
 	$vendor_scripts_versions = array(
 		'react'                       => '16.9.0',
 		'react-dom'                   => '16.9.0',
-		'moment'                      => '2.22.2',
+		'moment'                      => '2.26.0',
 		'lodash'                      => '4.17.15',
 		'wp-polyfill-fetch'           => '3.0.0',
 		'wp-polyfill-formdata'        => '3.0.12',
@@ -139,7 +139,7 @@ function wp_default_packages_vendor( $scripts ) {
 	did_action( 'init' ) && $scripts->add_inline_script(
 		'moment',
 		sprintf(
-			"moment.locale( '%s', %s );",
+			"moment.updateLocale( '%s', %s );",
 			get_user_locale(),
 			wp_json_encode(
 				array(
