@@ -5652,7 +5652,7 @@ body.page .main-navigation {
 }
 
 @-moz-document url-prefix() {
-  .entry .entry-content .has-drop-cap:not(:focus)::first-letter {
+  .entry .entry-content .has-drop-cap:not(:focus):first-letter {
     margin-top: 0.2em;
   }
 }
@@ -6033,6 +6033,25 @@ body.page .main-navigation {
   text-align: left;
   /* Remove duplicate rule-line when a separator
 		 * is followed by an H1, or H2 */
+}
+
+.entry .entry-content .wp-block-separator:not(.wp-block-separator),
+.entry .entry-content hr:not(.wp-block-separator) {
+  max-width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .entry .entry-content .wp-block-separator:not(.wp-block-separator),
+  .entry .entry-content hr:not(.wp-block-separator) {
+    max-width: calc(8 * (100vw / 12) - 28px);
+  }
+}
+
+@media only screen and (min-width: 1168px) {
+  .entry .entry-content .wp-block-separator:not(.wp-block-separator),
+  .entry .entry-content hr:not(.wp-block-separator) {
+    max-width: calc(6 * (100vw / 12) - 28px);
+  }
 }
 
 .entry .entry-content .wp-block-separator.is-style-wide,

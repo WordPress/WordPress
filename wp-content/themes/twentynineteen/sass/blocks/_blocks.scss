@@ -684,6 +684,11 @@
 		max-width: 2.25em;
 		text-align: left;
 
+		&:not(.wp-block-separator) {
+			max-width: 100%;
+			@include postContentMaxWidth();
+		}
+
 		&.is-style-wide {
 			max-width: 100%;
 			@include postContentMaxWidth();

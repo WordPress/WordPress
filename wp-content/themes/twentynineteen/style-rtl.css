@@ -2958,7 +2958,7 @@ body.page .main-navigation {
   line-height: 1.2;
   text-shadow: none;
   padding: calc( .5 * 1rem) 1rem calc( .5 * 1rem) calc( 24px + 1rem);
-  white-space: nowrap;
+  max-width: 20rem;
 }
 
 .main-navigation .sub-menu > li > a:hover, .main-navigation .sub-menu > li > a:focus,
@@ -5637,6 +5637,12 @@ body.page .main-navigation {
   line-height: 1;
   font-weight: bold;
   margin: 0 0 0 0.25em;
+}
+
+@-moz-document url-prefix() {
+  .entry .entry-content .has-drop-cap:not(:focus)::first-letter {
+    margin-top: 0.2em;
+  }
 }
 
 .entry .entry-content .wp-block-pullquote {
