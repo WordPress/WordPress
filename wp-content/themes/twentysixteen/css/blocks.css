@@ -200,7 +200,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 .wp-block-table {
 	border-collapse: separate;
 	border-spacing: 0;
-	border-width: 1px 0 0 1px;
+	border-width: 0;
 	margin: 0 0 1.75em;
 	table-layout: fixed;
 	width: 100%;
