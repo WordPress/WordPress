@@ -456,6 +456,9 @@ add_action( 'rest_api_init', 'register_initial_settings', 10 );
 add_action( 'rest_api_init', 'create_initial_rest_routes', 99 );
 add_action( 'parse_request', 'rest_api_loaded' );
 
+// Sitemaps actions.
+add_action( 'init', 'wp_sitemaps_get_server' );
+
 /**
  * Filters formerly mixed into wp-includes.
  */
