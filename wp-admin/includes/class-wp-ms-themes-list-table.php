@@ -742,24 +742,39 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$url = add_query_arg( $query_args, 'themes.php' );
 
-		printf(
+		$html[] = sprintf(
 			'<a href="%s" class="toggle-auto-update" data-wp-action="%s">',
 			wp_nonce_url( $url, 'updates' ),
 			$action
 		);
 
-		echo '<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>';
-		echo '<span class="label">' . $text . '</span>';
-		echo '</a>';
+		$html[] = '<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>';
+		$html[] = '<span class="label">' . $text . '</span>';
+		$html[] = '</a>';
 
 		$available_updates = get_site_transient( 'update_themes' );
 		if ( isset( $available_updates->response[ $stylesheet ] ) ) {
-			printf(
+			$html[] = sprintf(
 				'<div class="auto-update-time%s">%s</div>',
 				$time_class,
 				wp_get_auto_update_message()
 			);
 		}
+
+		$html = implode( '', $html );
+
+		/**
+		 * Filters the HTML of the auto-updates setting for each theme in the Themes list table.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string   $html       The HTML for theme’s auto-update setting including toggle auto-update action link
+		 *                             and time to next update.
+		 * @param string   $stylesheet Directory name of the theme.
+		 * @param WP_Theme $theme      WP_Theme object.
+		 */
+		echo apply_filters( 'theme_auto_update_setting_html', $html, $stylesheet, $theme );
+
 		echo '<div class="auto-updates-error inline notice error hidden"><p></p></div>';
 	}
 
