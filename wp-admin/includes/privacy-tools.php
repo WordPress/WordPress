@@ -468,17 +468,47 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	 * filename, to avoid breaking any URLs that may have been previously sent
 	 * via email.
 	 */
-	$error            = false;
+	$error = false;
+
+	// This postmeta is used from version 5.4.
+	$archive_filename = get_post_meta( $request_id, '_export_file_name', true );
+
+	// These are used for backwards compatibility.
 	$archive_url      = get_post_meta( $request_id, '_export_file_url', true );
 	$archive_pathname = get_post_meta( $request_id, '_export_file_path', true );
 
-	if ( empty( $archive_pathname ) || empty( $archive_url ) ) {
-		$archive_filename = $file_basename . '.zip';
+	// If archive_filename exists make sure to remove  deprecated postmeta.
+	if ( ! empty( $archive_filename ) ) {
 		$archive_pathname = $exports_dir . $archive_filename;
 		$archive_url      = $exports_url . $archive_filename;
 
-		update_post_meta( $request_id, '_export_file_url', $archive_url );
-		update_post_meta( $request_id, '_export_file_path', wp_normalize_path( $archive_pathname ) );
+		// Remove the deprecated postmeta.
+		delete_post_meta( $request_id, '_export_file_url' );
+		delete_post_meta( $request_id, '_export_file_path' );
+	} elseif ( ! empty( $archive_pathname ) ) {
+		// Check if archive_pathname exists create the new postmeta and remove the deprecated.
+
+		$archive_filename = basename( $archive_pathname );
+		$archive_url      = $exports_url . $archive_filename;
+
+		// Add the new postmeta that is used since version 5.4.
+		update_post_meta( $request_id, '_export_file_name', wp_normalize_path( $archive_filename ) );
+
+		// Remove the deprecated postmeta.
+		delete_post_meta( $request_id, '_export_file_url' );
+		delete_post_meta( $request_id, '_export_file_path' );
+	} else {
+		// If there's no archive_filename or archive_pathname create a new one.
+		$archive_filename = $file_basename . '.zip';
+		$archive_url      = $exports_url . $archive_filename;
+		$archive_pathname = $exports_dir . $archive_filename;
+
+		// Add the new postmeta that is used since version 5.4.
+		update_post_meta( $request_id, '_export_file_name', wp_normalize_path( $archive_filename ) );
+
+		// Remove the deprecated postmeta.
+		delete_post_meta( $request_id, '_export_file_url' );
+		delete_post_meta( $request_id, '_export_file_path' );
 	}
 
 	if ( ! empty( $archive_pathname ) && file_exists( $archive_pathname ) ) {
@@ -539,6 +569,10 @@ function wp_privacy_send_personal_data_export_email( $request_id ) {
 	// Get the request.
 	$request = wp_get_user_request( $request_id );
 
+	// Get the export file URL.
+	$exports_url      = wp_privacy_exports_url();
+	$export_file_name = get_post_meta( $request_id, '_export_file_name', true );
+
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
 		return new WP_Error( 'invalid_request', __( 'Invalid request ID when sending personal data export email.' ) );
 	}
@@ -556,7 +590,7 @@ function wp_privacy_send_personal_data_export_email( $request_id ) {
 	$expiration      = apply_filters( 'wp_privacy_export_expiration', 3 * DAY_IN_SECONDS );
 	$expiration_date = date_i18n( get_option( 'date_format' ), time() + $expiration );
 
-	$export_file_url = get_post_meta( $request_id, '_export_file_url', true );
+	$export_file_url = $exports_url . $export_file_name;
 	$site_name       = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	$site_url        = home_url();
 
@@ -820,7 +854,10 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 		_wp_privacy_completed_request( $request_id );
 	} else {
 		// Modify the response to include the URL of the export file so the browser can fetch it.
-		$export_file_url = get_post_meta( $request_id, '_export_file_url', true );
+		$exports_url      = wp_privacy_exports_url();
+		$export_file_name = get_post_meta( $request_id, '_export_file_name', true );
+		$export_file_url  = $exports_url . $export_file_name;
+
 		if ( ! empty( $export_file_url ) ) {
 			$response['url'] = $export_file_url;
 		}
