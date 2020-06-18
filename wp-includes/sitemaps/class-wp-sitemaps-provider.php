@@ -107,7 +107,6 @@ abstract class WP_Sitemaps_Provider {
 
 		foreach ( $sitemap_types as $type ) {
 			for ( $page = 1; $page <= $type['pages']; $page ++ ) {
-				$loc        = $this->get_sitemap_url( $type['name'], $page );
 				$sitemap_entry = array(
 					'loc' => $this->get_sitemap_url( $type['name'], $page ),
 				);
