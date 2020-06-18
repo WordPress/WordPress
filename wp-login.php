@@ -376,9 +376,9 @@ function retrieve_password() {
 	 * @since 4.4.0 Added the `$errors` parameter.
 	 * @since 5.4.0 Added the `$user_data` parameter.
 	 *
-	 * @param WP_Error $errors A WP_Error object containing any errors generated
-	 *                         by using invalid credentials.
-	 * @param WP_User|false    WP_User object if found, false if the user does not exist.
+	 * @param WP_Error      $errors    A WP_Error object containing any errors generated
+	 *                                 by using invalid credentials.
+	 * @param WP_User|false $user_data WP_User object if found, false if the user does not exist.
 	 */
 	do_action( 'lostpassword_post', $errors, $user_data );
 
@@ -393,9 +393,9 @@ function retrieve_password() {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param WP_Error $errors A WP_Error object containing any errors generated
-	 *                         by using invalid credentials.
-	 * @param WP_User|false    WP_User object if found, false if the user does not exist.
+	 * @param WP_Error      $errors    A WP_Error object containing any errors generated
+	 *                                 by using invalid credentials.
+	 * @param WP_User|false $user_data WP_User object if found, false if the user does not exist.
 	 */
 	$errors = apply_filters( 'lostpassword_errors', $errors, $user_data );
 
