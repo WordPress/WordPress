@@ -207,8 +207,9 @@ class WP_Sitemaps {
 		}
 
 		// 'pagename' is for most permalink types, name is for when the %postname% is used as a top-level field.
-		if ( 'sitemap-xml' === $query->get( 'pagename' ) ||
-			 'sitemap-xml' === $query->get( 'name' ) ) {
+		if ( 'sitemap-xml' === $query->get( 'pagename' )
+			|| 'sitemap-xml' === $query->get( 'name' )
+		) {
 			wp_safe_redirect( $this->index->get_index_url() );
 			exit();
 		}

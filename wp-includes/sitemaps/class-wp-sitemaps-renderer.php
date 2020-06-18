@@ -40,10 +40,13 @@ class WP_Sitemaps_Renderer {
 	 */
 	public function __construct() {
 		$stylesheet_url = $this->get_sitemap_stylesheet_url();
+
 		if ( $stylesheet_url ) {
 			$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '" ?>';
 		}
-		$stylesheet_index_url   = $this->get_sitemap_index_stylesheet_url();
+
+		$stylesheet_index_url = $this->get_sitemap_index_stylesheet_url();
+
 		if ( $stylesheet_index_url ) {
 			$this->stylesheet_index = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_index_url ) . '" ?>';
 		}
@@ -160,8 +163,8 @@ class WP_Sitemaps_Renderer {
 				} else {
 					_doing_it_wrong(
 						__METHOD__,
-						/* translators: %s: list of element names */
 						sprintf(
+							/* translators: %s: List of element names. */
 							__( 'Fields other than %s are not currently supported for the sitemap index.' ),
 							implode( ',', array( 'loc', 'lastmod' ) )
 						),
@@ -225,8 +228,8 @@ class WP_Sitemaps_Renderer {
 				} else {
 					_doing_it_wrong(
 						__METHOD__,
-						/* translators: %s: list of element names */
 						sprintf(
+							/* translators: %s: List of element names. */
 							__( 'Fields other than %s are not currently supported for sitemaps.' ),
 							implode( ',', array( 'loc', 'lastmod', 'changefreq', 'priority' ) )
 						),
