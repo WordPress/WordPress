@@ -2553,7 +2553,7 @@ function register_new_user( $user_login, $user_email ) {
 	 * Filters the errors encountered when a new user is being registered.
 	 *
 	 * The filtered WP_Error object may, for example, contain errors for an invalid
-	 * or existing username or email address. A WP_Error object should always returned,
+	 * or existing username or email address. A WP_Error object should always be returned,
 	 * but may or may not contain errors.
 	 *
 	 * If any errors are present in $errors, this will abort the user's registration.
