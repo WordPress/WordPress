@@ -81,7 +81,7 @@ wp_enqueue_script( 'svg-painter' );
 $admin_body_class = preg_replace( '/[^a-z0-9_-]+/i', '-', $hook_suffix );
 ?>
 <script type="text/javascript">
-addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
+addLoadEvent = function(func){if(typeof jQuery!=='undefined')jQuery(document).ready(func);else if(typeof wpOnload!=='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
 	pagenow = '<?php echo $current_screen->id; ?>',
 	typenow = '<?php echo $current_screen->post_type; ?>',
