@@ -305,7 +305,8 @@ q:after {
 	content: none;
 }
 
-p {
+p,
+.wp-die-message {
 	font-size: 13px;
 	line-height: 1.5;
 	margin: 1em 0;
@@ -455,12 +456,6 @@ code {
 	margin: 0;
 	padding: 0;
 	white-space: nowrap;
-}
-
-.wp-die-message {
-	font-size: 13px;
-	line-height: 1.5;
-	margin: 1em 0;
 }
 
 /* .widefat - main style for tables */
