@@ -870,7 +870,7 @@ class WP_Automatic_Updater {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param object $results The result of updates tasks.
+	 * @param array $update_results The result of updates tasks.
 	 */
 	protected function after_plugin_theme_update( $update_results ) {
 		$successful_updates = array();
@@ -932,7 +932,7 @@ class WP_Automatic_Updater {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $type               The type of email to send. Can be one of 'success', 'failure', 'mixed'.
+	 * @param string $type               The type of email to send. Can be one of 'success', 'fail', 'mixed'.
 	 * @param array  $successful_updates A list of updates that succeeded.
 	 * @param array  $failed_updates     A list of updates that failed.
 	 */
@@ -1024,11 +1024,11 @@ class WP_Automatic_Updater {
 		$email = compact( 'to', 'subject', 'body', 'headers' );
 
 		/**
-		 * Filters the email sent following an automatic background plugin update.
+		 * Filters the email sent following an automatic background update for plugins and themes.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $email {
+		 * @param array  $email {
 		 *     Array of email arguments that will be passed to wp_mail().
 		 *
 		 *     @type string $to      The email recipient. An array of emails
@@ -1039,8 +1039,8 @@ class WP_Automatic_Updater {
 		 * }
 		 * @param string $type               The type of email being sent. Can be one of
 		 *                                   'success', 'fail', 'mixed'.
-		 * @param object $successful_updates The updates that succeeded.
-		 * @param object $failed_updates     The updates that failed.
+		 * @param array  $successful_updates The updates that succeeded.
+		 * @param array  $failed_updates     The updates that failed.
 		 */
 		$email = apply_filters( 'auto_plugin_theme_update_email', $email, $type, $successful_updates, $failed_updates );
 
