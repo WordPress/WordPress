@@ -57,10 +57,11 @@ class WP_Sitemaps_Renderer {
 	 *
 	 * @since 5.5.0
 	 *
+	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+	 *
 	 * @return string The sitemap stylesheet url.
 	 */
 	public function get_sitemap_stylesheet_url() {
-		/* @var WP_Rewrite $wp_rewrite */
 		global $wp_rewrite;
 
 		$sitemap_url = home_url( '/wp-sitemap.xsl' );
@@ -87,10 +88,11 @@ class WP_Sitemaps_Renderer {
 	 *
 	 * @since 5.5.0
 	 *
+	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+	 *
 	 * @return string The sitemap index stylesheet url.
 	 */
 	public function get_sitemap_index_stylesheet_url() {
-		/* @var WP_Rewrite $wp_rewrite */
 		global $wp_rewrite;
 
 		$sitemap_url = home_url( '/wp-sitemap-index.xsl' );

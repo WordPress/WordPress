@@ -67,10 +67,11 @@ class WP_Sitemaps_Index {
 	 *
 	 * @since 5.5.0
 	 *
+	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+	 *
 	 * @return string The sitemap index url.
 	 */
 	public function get_index_url() {
-		/* @var WP_Rewrite $wp_rewrite */
 		global $wp_rewrite;
 
 		if ( ! $wp_rewrite->using_permalinks() ) {

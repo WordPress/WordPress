@@ -136,12 +136,13 @@ abstract class WP_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
+	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+	 *
 	 * @param string $name The name of the sitemap.
 	 * @param int    $page The page of the sitemap.
 	 * @return string The composed URL for a sitemap entry.
 	 */
 	public function get_sitemap_url( $name, $page ) {
-		/* @var WP_Rewrite $wp_rewrite */
 		global $wp_rewrite;
 
 		if ( ! $wp_rewrite->using_permalinks() ) {

@@ -15,16 +15,11 @@
  *
  * @since 5.5.0
  *
+ * @global WP_Sitemaps $wp_sitemaps Global Core Sitemaps instance.
+ *
  * @return WP_Sitemaps|null Sitemaps instance, or null if sitemaps are disabled.
  */
 function wp_sitemaps_get_server() {
-	/**
-	 * Global Core Sitemaps instance.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @var WP_Sitemaps $wp_sitemaps
-	 */
 	global $wp_sitemaps;
 
 	$is_enabled = (bool) get_option( 'blog_public' );
