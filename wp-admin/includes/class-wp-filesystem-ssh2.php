@@ -695,6 +695,9 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			return false;
 		}
 
+		// Set directory permissions.
+		ssh2_sftp_chmod( $this->sftp_link, $path, $chmod );
+
 		if ( $chown ) {
 			$this->chown( $path, $chown );
 		}
