@@ -4716,7 +4716,7 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $post_types An array of post types. Default empty array.
+		 * @param string[] $post_types An array of post type names. Default empty array.
 		 */
 		$default_category_post_types = apply_filters( 'default_category_post_types', array() );
 

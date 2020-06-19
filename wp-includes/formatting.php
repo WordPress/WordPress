@@ -935,7 +935,7 @@ function seems_utf8( $str ) {
  * &quot;, or ENT_QUOTES to do both. Default is ENT_NOQUOTES where no quotes are encoded.
  *
  * @since 1.2.2
- * @since 5.5.0 `$quote_style` also accepts '`ENT_XML1`.
+ * @since 5.5.0 `$quote_style` also accepts `ENT_XML1`.
  * @access private
  *
  * @staticvar string $_charset

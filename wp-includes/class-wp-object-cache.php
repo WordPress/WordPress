@@ -308,7 +308,7 @@ class WP_Object_Cache {
 	 * @since 5.5.0
 	 *
 	 * @param array  $keys  Array of keys under which the cache contents are stored.
-	 * @param string $group Optional. Where the cache contents are grouped. Default empty.
+	 * @param string $group Optional. Where the cache contents are grouped. Default 'default'.
 	 * @param bool   $force Optional. Whether to force an update of the local cache
 	 *                      from the persistent cache. Default false.
 	 * @return array Array of values organized into groups.

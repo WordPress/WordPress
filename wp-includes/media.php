@@ -1586,7 +1586,7 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
  * @since 5.5.0
  *
  * @param string $tag_name The tag name.
- * @param string $context Additional context, like the current filter name or the function name from where this was called.
+ * @param string $context  Additional context, like the current filter name or the function name from where this was called.
  * @return bool Whether to add the attribute.
  */
 function wp_lazy_loading_enabled( $tag_name, $context ) {
@@ -1599,9 +1599,9 @@ function wp_lazy_loading_enabled( $tag_name, $context ) {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param bool   $default Default value.
+	 * @param bool   $default  Default value.
 	 * @param string $tag_name The tag name.
-	 * @param string $context Additional context, like the current filter name or the function name from where this was called.
+	 * @param string $context  Additional context, like the current filter name or the function name from where this was called.
 	 */
 	return (bool) apply_filters( 'wp_lazy_loading_enabled', $default, $tag_name, $context );
 }
