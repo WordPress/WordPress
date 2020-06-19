@@ -4753,7 +4753,7 @@ function __checked_selected_helper( $helper, $current, $echo, $type ) { // phpcs
  * @since 3.6.0
  *
  * @param array $settings
- * @return array $settings
+ * @return array Heartbeat settings.
  */
 function wp_heartbeat_settings( $settings ) {
 	if ( ! is_admin() ) {

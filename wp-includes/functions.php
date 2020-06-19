@@ -6981,7 +6981,7 @@ function wp_unique_id( $prefix = '' ) {
  *
  * @param string $group Where the cache contents are grouped.
  *
- * @return string $last_changed UNIX timestamp with microseconds representing when the group was last changed.
+ * @return string UNIX timestamp with microseconds representing when the group was last changed.
  */
 function wp_cache_get_last_changed( $group ) {
 	$last_changed = wp_cache_get( 'last_changed', $group );
@@ -7395,7 +7395,7 @@ function wp_update_php_annotation( $before = '<p class="description">', $after =
  *
  * @since 5.2.0
  *
- * @return string $message Update PHP page annotation. An empty string if no custom URLs are provided.
+ * @return string Update PHP page annotation. An empty string if no custom URLs are provided.
  */
 function wp_get_update_php_annotation() {
 	$update_url  = wp_get_update_php_url();

@@ -42,7 +42,7 @@ abstract class WP_Sitemaps_Provider {
 	 *
 	 * @param int    $page_num       Page of results.
 	 * @param string $object_subtype Optional. Object subtype name. Default empty.
-	 * @return array $url_list Array of URLs for a sitemap.
+	 * @return array Array of URLs for a sitemap.
 	 */
 	abstract public function get_url_list( $page_num, $object_subtype = '' );
 

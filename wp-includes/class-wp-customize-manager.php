@@ -1814,7 +1814,7 @@ final class WP_Customize_Manager {
 	 * @param WP_Customize_Setting $setting A WP_Customize_Setting derived object.
 	 * @param mixed                $default Value returned $setting has no post value (added in 4.2.0)
 	 *                                      or the post value is invalid (added in 4.6.0).
-	 * @return string|mixed $post_value Sanitized value or the $default provided.
+	 * @return string|mixed Sanitized value or the $default provided.
 	 */
 	public function post_value( $setting, $default = null ) {
 		$post_values = $this->unsanitized_post_values();

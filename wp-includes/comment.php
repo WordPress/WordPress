@@ -156,8 +156,8 @@ function check_comment( $author, $email, $url, $comment, $user_ip, $user_agent, 
  *
  * @param  int   $post_id The ID of the post.
  * @param  array $args    Optional. See WP_Comment_Query::__construct() for information on accepted arguments.
- * @return int|array $comments The approved comments, or number of comments if `$count`
- *                             argument is true.
+ * @return int|array The approved comments, or number of comments if `$count`
+ *                   argument is true.
  */
 function get_approved_comments( $post_id, $args = array() ) {
 	if ( ! $post_id ) {

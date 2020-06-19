@@ -3530,7 +3530,7 @@ All at ###SITENAME###
  * @access private
  *
  * @param int $request_id The request ID being confirmed.
- * @return string $message The confirmation message.
+ * @return string The confirmation message.
  */
 function _wp_privacy_account_request_confirmed_message( $request_id ) {
 	$request = wp_get_user_request( $request_id );

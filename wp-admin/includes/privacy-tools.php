@@ -40,8 +40,8 @@ function _wp_privacy_resend_request( $request_id ) {
  * @since 4.9.6
  * @access private
  *
- * @param  int          $request_id Request ID.
- * @return int|WP_Error $result     Request ID on success or WP_Error.
+ * @param int $request_id Request ID.
+ * @return int|WP_Error Request ID on success, or a WP_Error on failure.
  */
 function _wp_privacy_completed_request( $request_id ) {
 	// Get the request.
@@ -233,9 +233,9 @@ function _wp_personal_data_cleanup_requests() {
  *         }
  *     }
  * }
- * @param string  $group_id     The group identifier.
- * @param int     $groups_count The number of all groups
- * @return string $group_html   The HTML for this group and its items.
+ * @param string $group_id     The group identifier.
+ * @param int    $groups_count The number of all groups
+ * @return string The HTML for this group and its items.
  */
 function wp_privacy_generate_personal_data_export_group_html( $group_data, $group_id = '', $groups_count = 1 ) {
 	$group_id_attr = sanitize_title_with_dashes( $group_data['group_label'] . '-' . $group_id );

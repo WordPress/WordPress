@@ -205,7 +205,7 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @return int $quality Compression Quality. Range: [1,100]
+	 * @return int Compression Quality. Range: [1,100]
 	 */
 	public function get_quality() {
 		if ( ! $this->quality ) {

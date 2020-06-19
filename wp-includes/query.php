@@ -1090,7 +1090,7 @@ function wp_old_slug_redirect() {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $post_type The current post type based on the query vars.
- * @return int $id The Post ID.
+ * @return int The Post ID.
  */
 function _find_post_by_old_slug( $post_type ) {
 	global $wpdb;
@@ -1125,7 +1125,7 @@ function _find_post_by_old_slug( $post_type ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $post_type The current post type based on the query vars.
- * @return int $id The Post ID.
+ * @return int The Post ID.
  */
 function _find_post_by_old_date( $post_type ) {
 	global $wpdb;

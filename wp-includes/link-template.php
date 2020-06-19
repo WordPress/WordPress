@@ -3629,7 +3629,7 @@ function self_admin_url( $path = '', $scheme = 'admin' ) {
  * @param string      $url    Absolute URL that includes a scheme
  * @param string|null $scheme Optional. Scheme to give $url. Currently 'http', 'https', 'login',
  *                            'login_post', 'admin', 'relative', 'rest', 'rpc', or null. Default null.
- * @return string $url URL with chosen scheme.
+ * @return string URL with chosen scheme.
  */
 function set_url_scheme( $url, $scheme = null ) {
 	$orig_scheme = $scheme;

@@ -4294,7 +4294,7 @@ class WP_Query {
 	 * @since 5.2.0
 	 *
 	 * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
-	 * @return array|bool $elements Elements of post or false on failure.
+	 * @return array|bool Elements of post or false on failure.
 	 */
 	public function generate_postdata( $post ) {
 

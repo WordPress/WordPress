@@ -127,7 +127,7 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return array $args Array of WP_User_Query arguments.
+	 * @return array Array of WP_User_Query arguments.
 	 */
 	protected function get_users_query_args() {
 		$public_post_types = get_post_types(

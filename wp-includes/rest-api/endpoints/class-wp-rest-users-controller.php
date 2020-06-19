@@ -1095,7 +1095,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 *
 	 * @param WP_REST_Request $request Request object.
-	 * @return object $prepared_user User object.
+	 * @return object User object.
 	 */
 	protected function prepare_item_for_database( $request ) {
 		$prepared_user = new stdClass;

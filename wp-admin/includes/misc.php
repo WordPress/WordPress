@@ -1419,7 +1419,7 @@ function _wp_privacy_settings_filter_draft_page_titles( $title, $page ) {
  * @since 5.1.0
  * @since 5.1.1 Added the {@see 'wp_is_php_version_acceptable'} filter.
  *
- * @return array|false $response Array of PHP version data. False on failure.
+ * @return array|false Array of PHP version data. False on failure.
  */
 function wp_check_php_version() {
 	$version = phpversion();

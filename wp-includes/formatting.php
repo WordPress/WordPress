@@ -2761,7 +2761,7 @@ function stripslashes_deep( $value ) {
  * @since 4.4.0
  *
  * @param mixed $value The array or string to be stripped.
- * @return mixed $value The stripped value.
+ * @return mixed The stripped value.
  */
 function stripslashes_from_strings_only( $value ) {
 	return is_string( $value ) ? stripslashes( $value ) : $value;
@@ -2773,7 +2773,7 @@ function stripslashes_from_strings_only( $value ) {
  * @since 2.2.0
  *
  * @param mixed $value The array or string to be encoded.
- * @return mixed $value The encoded value.
+ * @return mixed The encoded value.
  */
 function urlencode_deep( $value ) {
 	return map_deep( $value, 'urlencode' );
@@ -2785,7 +2785,7 @@ function urlencode_deep( $value ) {
  * @since 3.4.0
  *
  * @param mixed $value The array or string to be encoded.
- * @return mixed $value The encoded value.
+ * @return mixed The encoded value.
  */
 function rawurlencode_deep( $value ) {
 	return map_deep( $value, 'rawurlencode' );
@@ -2797,7 +2797,7 @@ function rawurlencode_deep( $value ) {
  * @since 4.4.0
  *
  * @param mixed $value The array or string to be decoded.
- * @return mixed $value The decoded value.
+ * @return mixed The decoded value.
  */
 function urldecode_deep( $value ) {
 	return map_deep( $value, 'urldecode' );
