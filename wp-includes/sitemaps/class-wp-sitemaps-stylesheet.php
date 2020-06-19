@@ -16,7 +16,7 @@
  */
 class WP_Sitemaps_Stylesheet {
 	/**
-	 * Renders the xsl stylesheet depending on whether its the sitemap index or not.
+	 * Renders the XSL stylesheet depending on whether it's the sitemap index or not.
 	 *
 	 * @param string $type Stylesheet type. Either 'sitemap' or 'index'.
 	 */
@@ -37,7 +37,7 @@ class WP_Sitemaps_Stylesheet {
 	}
 
 	/**
-	 * Returns the escaped xsl for all sitemaps, except index.
+	 * Returns the escaped XSL for all sitemaps, except index.
 	 *
 	 * @since 5.5.0
 	 */
@@ -141,13 +141,13 @@ XSL;
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string $xsl Full content for the xml stylesheet.
+		 * @param string $xsl_content Full content for the XML stylesheet.
 		 */
 		return apply_filters( 'wp_sitemaps_stylesheet_content', $xsl_content );
 	}
 
 	/**
-	 * Returns the escaped xsl for the index sitemaps.
+	 * Returns the escaped XSL for the index sitemaps.
 	 *
 	 * @since 5.5.0
 	 */
@@ -235,7 +235,7 @@ XSL;
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string $xsl Full content for the xml stylesheet.
+		 * @param string $xsl_content Full content for the XML stylesheet.
 		 */
 		return apply_filters( 'wp_sitemaps_stylesheet_index_content', $xsl_content );
 	}
@@ -277,11 +277,11 @@ XSL;
 			}';
 
 		/**
-		 * Filters the css only for the sitemap stylesheet.
+		 * Filters the CSS only for the sitemap stylesheet.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string $css CSS to be applied to default xsl file.
+		 * @param string $css CSS to be applied to default XSL file.
 		 */
 		return apply_filters( 'wp_sitemaps_stylesheet_css', $css );
 	}

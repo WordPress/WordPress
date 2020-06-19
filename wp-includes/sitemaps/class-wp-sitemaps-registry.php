@@ -20,7 +20,7 @@ class WP_Sitemaps_Registry {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var array Array of registered sitemaps.
+	 * @var WP_Sitemaps_Provider[] Array of registered sitemaps.
 	 */
 	private $sitemaps = array();
 
@@ -73,7 +73,7 @@ class WP_Sitemaps_Registry {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return array List of sitemaps.
+	 * @return WP_Sitemaps_Provider[] Array of sitemap providers.
 	 */
 	public function get_sitemaps() {
 		$total_sitemaps = count( $this->sitemaps );

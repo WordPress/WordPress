@@ -31,7 +31,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return array Map of registered post type objects (WP_Post_Type) keyed by their name.
+	 * @return WP_Post_Type[] Array of registered post type objects keyed by their name.
 	 */
 	public function get_object_subtypes() {
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
@@ -42,7 +42,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $post_types Map of registered post type objects (WP_Post_Type) keyed by their name.
+		 * @param WP_Post_Type[] $post_types Array of registered post type objects keyed by their name.
 		 */
 		return apply_filters( 'wp_sitemaps_post_types', $post_types );
 	}
@@ -54,7 +54,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 *
 	 * @param int    $page_num  Page of results.
 	 * @param string $post_type Optional. Post type name. Default empty.
-	 * @return array $url_list Array of URLs for a sitemap.
+	 * @return array Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $post_type = '' ) {
 		// Bail early if the queried post type is not supported.
@@ -159,13 +159,13 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		/**
 		 * Filters the max number of pages before it is generated.
 		 *
-		 * Passing a non-null value will effectively short-circuit the generation,
+		 * Passing a non-null value will short-circuit the generation,
 		 * returning that value instead.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param int $max_num_pages The maximum number of pages. Default null.
-		 * @param string $post_type Post type name.
+		 * @param null|int $max_num_pages The maximum number of pages. Default null.
+		 * @param string   $post_type     Post type name.
 		 */
 		$max_num_pages = apply_filters( 'wp_sitemaps_posts_pre_max_num_pages', null, $post_type );
 
@@ -188,7 +188,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 * @since 5.5.0
 	 *
 	 * @param string $post_type Post type name.
-	 * @return array $args Array of WP_Query arguments.
+	 * @return array Array of WP_Query arguments.
 	 */
 	protected function get_posts_query_args( $post_type ) {
 		/**

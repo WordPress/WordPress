@@ -30,7 +30,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return array Map of registered taxonomy objects keyed by their name.
+	 * @return WP_Taxonomy[] Array of registered taxonomy objects keyed by their name.
 	 */
 	public function get_object_subtypes() {
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
@@ -40,7 +40,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $taxonomies Map of registered taxonomy objects keyed by their name.
+		 * @param WP_Taxonomy[] $taxonomies Array of registered taxonomy objects keyed by their name.
 		 */
 		return apply_filters( 'wp_sitemaps_taxonomies', $taxonomies );
 	}
@@ -52,7 +52,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $taxonomy Optional. Taxonomy name. Default empty.
-	 * @return array $url_list Array of URLs for a sitemap.
+	 * @return array Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $taxonomy = '' ) {
 		$supported_types = $this->get_object_subtypes();
@@ -134,13 +134,13 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 		/**
 		 * Filters the max number of pages before it is generated.
 		 *
-		 * Passing a non-null value will effectively short-circuit the generation,
+		 * Passing a non-null value will short-circuit the generation,
 		 * returning that value instead.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param int $max_num_pages The maximum number of pages. Default null.
-		 * @param string $taxonomy Taxonomy name.
+		 * @param int    $max_num_pages The maximum number of pages. Default null.
+		 * @param string $taxonomy      Taxonomy name.
 		 */
 		$max_num_pages = apply_filters( 'wp_sitemaps_taxonomies_pre_max_num_pages', null, $taxonomy );
 
@@ -159,7 +159,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 * @since 5.5.0
 	 *
 	 * @param string $taxonomy Taxonomy name.
-	 * @return array $args Array of WP_Term_Query arguments.
+	 * @return array Array of WP_Term_Query arguments.
 	 */
 	protected function get_taxonomies_query_args( $taxonomy ) {
 		/**

@@ -49,7 +49,7 @@ function wp_sitemaps_get_server() {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param WP_Sitemaps $sitemaps Server object.
+		 * @param WP_Sitemaps $wp_sitemaps Sitemaps object.
 		 */
 		do_action( 'wp_sitemaps_init', $wp_sitemaps );
 	}
@@ -58,11 +58,11 @@ function wp_sitemaps_get_server() {
 }
 
 /**
- * Gets a list of sitemap providers.
+ * Gets an array of sitemap providers.
  *
  * @since 5.5.0
  *
- * @return array $sitemaps A list of registered sitemap providers.
+ * @return WP_Sitemaps_Provider[] Array of sitemap providers.
  */
 function wp_get_sitemaps() {
 	$sitemaps = wp_sitemaps_get_server();

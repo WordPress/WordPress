@@ -83,9 +83,9 @@ class WP_Sitemaps {
 		 * @param array $providers {
 		 *     Array of WP_Sitemaps_Provider objects keyed by their name.
 		 *
-		 *     @type object $posts      The WP_Sitemaps_Posts object.
-		 *     @type object $taxonomies The WP_Sitemaps_Taxonomies object.
-		 *     @type object $users      The WP_Sitemaps_Users object.
+		 *     @type WP_Sitemaps_Posts      $posts      The WP_Sitemaps_Posts object.
+		 *     @type WP_Sitemaps_Taxonomies $taxonomies The WP_Sitemaps_Taxonomies object.
+		 *     @type WP_Sitemaps_Users      $users      The WP_Sitemaps_Users object.
 		 * }
 		 */
 		$providers = apply_filters(
