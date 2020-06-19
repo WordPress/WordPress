@@ -2844,6 +2844,8 @@ function remove_theme_support( $feature ) {
  * @global Custom_Background   $custom_background
  *
  * @param string $feature
+ *
+ * @return bool Returns true when support is removed, false when the feature was not registered.
  */
 function _remove_theme_support( $feature ) {
 	global $_wp_theme_features;
