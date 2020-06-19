@@ -31,7 +31,7 @@ function wp_sitemaps_get_server() {
 	 *
 	 * @param bool $is_enabled Whether XML Sitemaps are enabled or not. Defaults to true for public sites.
 	 */
-	$is_enabled = (bool) apply_filters( 'wp_sitemaps_is_enabled', $is_enabled );
+	$is_enabled = (bool) apply_filters( 'wp_sitemaps_enabled', $is_enabled );
 
 	if ( ! $is_enabled ) {
 		return null;
