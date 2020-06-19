@@ -775,7 +775,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		 */
 		echo apply_filters( 'theme_auto_update_setting_html', $html, $stylesheet, $theme );
 
-		echo '<div class="auto-updates-error inline notice error hidden"><p></p></div>';
+		echo '<div class="notice notice-error notice-alt inline hidden"><p></p></div>';
 	}
 
 	/**

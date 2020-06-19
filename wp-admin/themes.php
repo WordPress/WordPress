@@ -559,7 +559,7 @@ if ( ! is_multisite() && $broken_themes ) {
  */
 function wp_theme_auto_update_setting_template() {
 	$template = '
-		<p class="theme-autoupdate">
+		<div class="theme-autoupdate">
 			<# if ( data.autoupdate ) { #>
 				<a href="{{{ data.actions.autoupdate }}}" class="toggle-auto-update" data-slug="{{ data.id }}" data-wp-action="disable">
 					<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>
@@ -579,8 +579,8 @@ function wp_theme_auto_update_setting_template() {
 				<# } #>
 				<br />' . wp_get_auto_update_message() . '</span>
 			<# } #>
-			<span class="auto-updates-error hidden"><p></p></span>
-		</p>
+			<div class="notice notice-error notice-alt inline hidden"><p></p></div>
+		</div>
 	';
 
 	/**

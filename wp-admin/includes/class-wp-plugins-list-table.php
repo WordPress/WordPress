@@ -1096,7 +1096,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 */
 					echo apply_filters( 'plugin_auto_update_setting_html', $html, $plugin_file, $plugin_data );
 
-					echo '<div class="inline notice error hidden"><p></p></div>';
+					echo '<div class="notice notice-error notice-alt inline hidden"><p></p></div>';
 					echo '</td>';
 
 					break;
