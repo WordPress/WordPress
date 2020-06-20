@@ -270,7 +270,7 @@ themes.Collection = Backbone.Collection.extend({
 		// it means we have a paginated request.
 		isPaginated = _.has( request, 'page' );
 
-		// Reset the internal api page counter for non paginated queries.
+		// Reset the internal api page counter for non-paginated queries.
 		if ( ! isPaginated ) {
 			this.currentQuery.page = 1;
 		}

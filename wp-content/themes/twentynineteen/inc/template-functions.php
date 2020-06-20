@@ -19,7 +19,7 @@ function twentynineteen_body_classes( $classes ) {
 		// Adds `singular` to singular pages.
 		$classes[] = 'singular';
 	} else {
-		// Adds `hfeed` to non singular pages.
+		// Adds `hfeed` to non-singular pages.
 		$classes[] = 'hfeed';
 	}
 

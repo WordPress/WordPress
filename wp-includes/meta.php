@@ -1464,7 +1464,7 @@ function get_object_subtype( $object_type, $object_id ) {
 	}
 
 	/**
-	 * Filters the object subtype identifier for a non standard object type.
+	 * Filters the object subtype identifier for a non-standard object type.
 	 *
 	 * The dynamic portion of the hook, `$object_type`, refers to the object
 	 * type (post, comment, term, or user).

@@ -120,7 +120,7 @@
 			var format;
 			var zero;
 
-			// We need a non empty text node with an offset greater than zero.
+			// We need a non-empty text node with an offset greater than zero.
 			if ( ! node || node.nodeType !== 3 || ! node.data.length || ! offset ) {
 				return;
 			}

@@ -248,7 +248,7 @@
 			// Add post and edit endpoints as model args.
 			if ( _.includes( routeEndpoint.methods, 'POST' ) || _.includes( routeEndpoint.methods, 'PUT' ) ) {
 
-				// Add any non empty args, merging them into the args object.
+				// Add any non-empty args, merging them into the args object.
 				if ( ! _.isEmpty( routeEndpoint.args ) ) {
 
 					// Set as default if no args yet.
@@ -265,7 +265,7 @@
 				// Add GET method as model options.
 				if ( _.includes( routeEndpoint.methods, 'GET' ) ) {
 
-					// Add any non empty args, merging them into the defaults object.
+					// Add any non-empty args, merging them into the defaults object.
 					if ( ! _.isEmpty( routeEndpoint.args ) ) {
 
 						// Set as default if no defaults yet.
@@ -327,7 +327,7 @@
 				setDate: function( date, field ) {
 					var theField = field || 'date';
 
-					// Don't alter non parsable date fields.
+					// Don't alter non-parsable date fields.
 					if ( _.indexOf( parseableDates, theField ) < 0 ) {
 						return false;
 					}
@@ -348,7 +348,7 @@
 					var theField   = field || 'date',
 						theISODate = this.get( theField );
 
-					// Only get date fields and non null values.
+					// Only get date fields and non-null values.
 					if ( _.indexOf( parseableDates, theField ) < 0 || _.isNull( theISODate ) ) {
 						return false;
 					}
