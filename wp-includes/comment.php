@@ -2466,8 +2466,6 @@ function wp_update_comment( $commentarr ) {
  *
  * @since 2.5.0
  *
- * @staticvar bool $_defer
- *
  * @param bool $defer
  * @return bool
  */
@@ -2499,8 +2497,6 @@ function wp_defer_comment_counting( $defer = null ) {
  * @since 2.1.0
  *
  * @see wp_update_comment_count_now() For what could cause a false return value
- *
- * @staticvar array $_deferred
  *
  * @param int|null $post_id     Post ID.
  * @param bool     $do_deferred Optional. Whether to process previously deferred

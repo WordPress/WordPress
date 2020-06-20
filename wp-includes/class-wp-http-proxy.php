@@ -160,9 +160,6 @@ class WP_HTTP_Proxy {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @staticvar array|null $bypass_hosts
-	 * @staticvar array      $wildcard_regex
-	 *
 	 * @param string $uri URI to check.
 	 * @return bool True, to send through the proxy and false if, the proxy should not be used.
 	 */

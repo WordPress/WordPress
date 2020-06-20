@@ -173,8 +173,6 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @staticvar array $cache
-	 *
 	 * @param string $setting_id Setting ID.
 	 * @return string|void Setting type.
 	 */
@@ -936,7 +934,6 @@ final class WP_Customize_Widgets {
 	 *
 	 * @global array $wp_registered_widgets
 	 * @global array $wp_registered_widget_controls
-	 * @staticvar array $available_widgets
 	 *
 	 * @see wp_list_widgets()
 	 *

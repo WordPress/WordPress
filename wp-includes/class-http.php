@@ -559,8 +559,6 @@ class WP_Http {
 	 * @deprecated 5.1.0 Use WP_Http::request()
 	 * @see WP_Http::request()
 	 *
-	 * @staticvar array $transports
-	 *
 	 * @param string $url URL to Request.
 	 * @param array $args Request arguments.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
@@ -849,9 +847,6 @@ class WP_Http {
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
 	 * @link https://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_ACCESSIBLE_HOSTS
-	 *
-	 * @staticvar array|null $accessible_hosts
-	 * @staticvar array      $wildcard_regex
 	 *
 	 * @param string $uri URI of url.
 	 * @return bool True to block, false to allow.

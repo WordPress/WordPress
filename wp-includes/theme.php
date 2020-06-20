@@ -15,7 +15,6 @@
  * @since 3.4.0
  *
  * @global array $wp_theme_directories
- * @staticvar array $_themes
  *
  * @param array $args {
  *     Optional. The search arguments.
@@ -424,7 +423,6 @@ function register_theme_directory( $directory ) {
  * @since 2.9.0
  *
  * @global array $wp_theme_directories
- * @staticvar array $found_themes
  *
  * @param bool $force Optional. Whether to force a new directory scan. Defaults to false.
  * @return array|false Valid themes found
@@ -1254,7 +1252,6 @@ function the_header_image_tag( $attr = array() ) {
  * @access private
  *
  * @global array  $_wp_default_headers
- * @staticvar object $_wp_random_header
  *
  * @return object
  */

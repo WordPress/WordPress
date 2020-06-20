@@ -70,8 +70,6 @@ function _wp_admin_bar_init() {
  * @since 5.4.0 Called on 'wp_body_open' action first, with 'wp_footer' as a fallback.
  *
  * @global WP_Admin_Bar $wp_admin_bar
- *
- * @staticvar bool $rendered
  */
 function wp_admin_bar_render() {
 	global $wp_admin_bar;

@@ -69,8 +69,6 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 	 * @since 5.4.0 Creates a unique HTML ID for the `<ul>` element
 	 *              if more than one instance is displayed on the page.
 	 *
-	 * @staticvar bool $first_instance
-	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance Settings for the current Recent Comments widget instance.

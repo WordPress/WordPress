@@ -1929,7 +1929,6 @@ function wpmu_log_new_registrations( $blog_id, $user_id ) {
  * @see term_id_filter
  *
  * @global wpdb $wpdb WordPress database abstraction object.
- * @staticvar int $global_terms_recurse
  *
  * @param int    $term_id    An ID for a term on the current blog.
  * @param string $deprecated Not used.
@@ -2317,8 +2316,6 @@ Thanks!
  * Whether to force SSL on content.
  *
  * @since 2.8.5
- *
- * @staticvar bool $forced_content
  *
  * @param bool $force
  * @return bool True if forced, false if not forced.

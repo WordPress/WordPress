@@ -2235,9 +2235,6 @@ if ( ! function_exists( 'wp_salt' ) ) :
 	 *
 	 * @link https://api.wordpress.org/secret-key/1.1/salt/ Create secrets for wp-config.php
 	 *
-	 * @staticvar array $cached_salts
-	 * @staticvar array $duplicated_keys
-	 *
 	 * @param string $scheme Authentication scheme (auth, secure_auth, logged_in, nonce)
 	 * @return string Salt value
 	 */
@@ -2472,8 +2469,6 @@ if ( ! function_exists( 'wp_rand' ) ) :
 	 * @since 4.4.0 Uses PHP7 random_int() or the random_compat library if available.
 	 *
 	 * @global string $rnd_value
-	 * @staticvar string $seed
-	 * @staticvar bool $use_random_int_functionality
 	 *
 	 * @param int $min Lower limit for the generated number
 	 * @param int $max Upper limit for the generated number

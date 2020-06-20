@@ -649,8 +649,6 @@ function _is_valid_nav_menu_item( $item ) {
  *
  * @since 3.0.0
  *
- * @staticvar array $fetched
- *
  * @param int|string|WP_Term $menu Menu ID, slug, name, or object.
  * @param array              $args {
  *     Optional. Arguments to pass to get_posts().

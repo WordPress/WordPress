@@ -754,8 +754,6 @@ function wp_dashboard_quick_press_output() {
  * @since 2.7.0
  * @deprecated 3.3.0 Use wp_editor()
  * @see wp_editor()
- *
- * @staticvar int $num
  */
 function wp_tiny_mce( $teeny = false, $settings = false ) {
 	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_editor()' );

@@ -3086,8 +3086,6 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
  *
  * @since 2.5.0
  *
- * @staticvar bool $_defer
- *
  * @param bool $defer Optional. Enable if true, disable if false.
  * @return bool Whether term counting is enabled or disabled.
  */
@@ -3115,8 +3113,6 @@ function wp_defer_term_counting( $defer = null ) {
  * of term ID. Once that is done, then update the database.
  *
  * @since 2.3.0
- *
- * @staticvar array $_deferred
  *
  * @param int|array $terms       The term_taxonomy_id of the terms.
  * @param string    $taxonomy    The context of the term.

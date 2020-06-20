@@ -1982,8 +1982,6 @@ add_shortcode( 'gallery', 'gallery_shortcode' );
  *
  * @since 2.5.0
  *
- * @staticvar int $instance
- *
  * @param array $attr {
  *     Attributes of the gallery shortcode.
  *
@@ -2312,7 +2310,6 @@ function wp_playlist_scripts( $type ) {
  * @since 3.9.0
  *
  * @global int $content_width
- * @staticvar int $instance
  *
  * @param array $attr {
  *     Array of default playlist attributes.
@@ -2646,8 +2643,6 @@ function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
  *
  * @since 3.6.0
  *
- * @staticvar int $instance
- *
  * @param array  $attr {
  *     Attributes of the audio shortcode.
  *
@@ -2860,7 +2855,6 @@ function wp_get_video_extensions() {
  * @since 3.6.0
  *
  * @global int $content_width
- * @staticvar int $instance
  *
  * @param array  $attr {
  *     Attributes of the shortcode.

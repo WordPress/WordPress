@@ -628,8 +628,6 @@ add_filter( 'widget_tag_cloud_args', 'twentyseventeen_widget_tag_cloud_args' );
  *
  * @see wp_unique_id() Themes requiring WordPress 5.0.3 and greater should use this instead.
  *
- * @staticvar int $id_counter
- *
  * @param string $prefix Prefix for the returned ID.
  * @return string Unique ID.
  */

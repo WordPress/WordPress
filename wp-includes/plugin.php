@@ -709,9 +709,6 @@ function plugin_basename( $file ) {
  *
  * @global array $wp_plugin_paths
  *
- * @staticvar string $wp_plugin_path
- * @staticvar string $wpmu_plugin_path
- *
  * @param string $file Known path to the file.
  * @return bool Whether the path was able to be registered.
  */

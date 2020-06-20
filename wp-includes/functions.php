@@ -2125,8 +2125,6 @@ function wp_normalize_path( $path ) {
  *
  * @since 2.5.0
  *
- * @staticvar string $temp
- *
  * @return string Writable temporary directory.
  */
 function get_temp_dir() {
@@ -2259,9 +2257,6 @@ function wp_get_upload_dir() {
  *
  * @since 2.0.0
  * @uses _wp_upload_dir()
- *
- * @staticvar array $cache
- * @staticvar array $tested_paths
  *
  * @param string $time Optional. Time formatted in 'yyyy/mm'. Default null.
  * @param bool   $create_dir Optional. Whether to check and create the uploads directory.
@@ -3985,8 +3980,6 @@ function _wp_json_sanity_check( $data, $depth ) {
  *
  * @see _wp_json_sanity_check()
  *
- * @staticvar bool $use_mb
- *
  * @param string $string The string which is to be converted.
  * @return string The checked string.
  */
@@ -5349,8 +5342,6 @@ function validate_file( $file, $allowed_files = array() ) {
  *
  * @since 2.6.0
  *
- * @staticvar bool $forced
- *
  * @param string|bool $force Optional. Whether to force SSL in admin screens. Default null.
  * @return bool True if forced, false if not forced.
  */
@@ -5426,8 +5417,6 @@ function wp_guess_url() {
  * function again if you wish to re-enable cache adds earlier.
  *
  * @since 3.3.0
- *
- * @staticvar bool $_suspend
  *
  * @param bool $suspend Optional. Suspends additions if true, re-enables them if false.
  * @return bool The current suspend setting
@@ -5578,8 +5567,6 @@ function get_main_network_id() {
  *
  * @since 3.0.0
  *
- * @staticvar bool $global_terms
- *
  * @return bool True if multisite and global terms enabled.
  */
 function global_terms_enabled() {
@@ -5718,9 +5705,6 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
  *
  * @since 2.9.0
  * @since 4.7.0 Added the `$locale` parameter.
- *
- * @staticvar bool $mo_loaded
- * @staticvar string $locale_loaded
  *
  * @param string $selected_zone Selected timezone.
  * @param string $locale        Optional. Locale to load the timezones in. Default current site locale.
@@ -6258,8 +6242,6 @@ function send_frame_options_header() {
  * @see wp_kses()
  * @see esc_url()
  *
- * @staticvar array $protocols
- *
  * @return string[] Array of allowed protocols. Defaults to an array containing 'http', 'https',
  *                  'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet',
  *                  'mms', 'rtsp', 'sms', 'svn', 'tel', 'fax', 'xmpp', 'webcal', and 'urn'.
@@ -6294,8 +6276,6 @@ function wp_allowed_protocols() {
  * @since 3.4.0
  *
  * @see https://core.trac.wordpress.org/ticket/19589
- *
- * @staticvar array $truncate_paths Array of paths to truncate.
  *
  * @param string $ignore_class Optional. A class to ignore all function calls within - useful
  *                             when you want to just give info about the callee. Default null.
@@ -6622,9 +6602,6 @@ function _canonical_charset( $charset ) {
  * @since 3.7.0
  *
  * @see reset_mbstring_encoding()
- *
- * @staticvar array $encodings
- * @staticvar bool  $overloaded
  *
  * @param bool $reset Optional. Whether to reset the encoding back to a previously-set encoding.
  *                    Default false.
@@ -6962,8 +6939,6 @@ function wp_is_uuid( $uuid, $version = null ) {
  * but it is unique across the life of the PHP process.
  *
  * @since 5.0.3
- *
- * @staticvar int $id_counter
  *
  * @param string $prefix Prefix for the returned ID.
  * @return string Unique ID.

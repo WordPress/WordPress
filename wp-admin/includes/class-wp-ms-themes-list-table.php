@@ -217,7 +217,6 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @staticvar string $term
 	 * @param WP_Theme $theme
 	 * @return bool
 	 */

@@ -581,7 +581,6 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
-	 * @staticvar bool $is_windows
 	 * @param string $line
 	 * @return array
 	 */

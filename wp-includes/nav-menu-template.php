@@ -16,8 +16,6 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  * @since 3.0.0
  * @since 4.7.0 Added the `item_spacing` argument.
  *
- * @staticvar array $menu_id_slugs
- *
  * @param array $args {
  *     Optional. Array of nav menu arguments.
  *
@@ -605,7 +603,6 @@ function walk_nav_menu_tree( $items, $depth, $r ) {
  * @since 3.0.1
  * @access private
  *
- * @staticvar array $used_ids
  * @param string $id
  * @param object $item
  * @return string
