@@ -47,8 +47,8 @@ jQuery(document).ready(function($) {
 					/**
 					 * Removes the term from the parent box and the tag cloud.
 					 *
-					 * `data.match(/tag_ID=(\d+)/)[1]` matches the term id from the data variable.
-					 * This term id is then used to select the relevant HTML elements:
+					 * `data.match(/tag_ID=(\d+)/)[1]` matches the term ID from the data variable.
+					 * This term ID is then used to select the relevant HTML elements:
 					 * The parent box and the tag cloud.
 					 */
 					$('select#parent option[value="' + data.match(/tag_ID=(\d+)/)[1] + '"]').remove();

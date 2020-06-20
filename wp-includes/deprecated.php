@@ -732,7 +732,7 @@ function wp_get_post_cats($blogid = '1', $post_ID = 0) {
 }
 
 /**
- * Sets the categories that the post id belongs to.
+ * Sets the categories that the post ID belongs to.
  *
  * @since 1.0.1
  * @deprecated 2.1.0
@@ -2498,7 +2498,7 @@ function is_taxonomy( $taxonomy ) {
  * @param int|string $term The term to check
  * @param string $taxonomy The taxonomy name to use
  * @param int $parent ID of parent term under which to confine the exists search.
- * @return mixed Get the term id or Term Object, if exists.
+ * @return mixed Get the term ID or term object, if exists.
  */
 function is_term( $term, $taxonomy = '', $parent = 0 ) {
 	_deprecated_function( __FUNCTION__, '3.0.0', 'term_exists()' );

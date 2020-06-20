@@ -1077,7 +1077,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Get the changeset post id for the loaded changeset.
+	 * Get the changeset post ID for the loaded changeset.
 	 *
 	 * @since 4.7.0
 	 *
@@ -3210,8 +3210,8 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param int  $changeset_post_id Changeset post id.
-	 * @param bool $take_over Take over the changeset, default is false.
+	 * @param int  $changeset_post_id Changeset post ID.
+	 * @param bool $take_over Whether to take over the changeset. Default false.
 	 */
 	public function set_changeset_lock( $changeset_post_id, $take_over = false ) {
 		if ( $changeset_post_id ) {
@@ -3235,7 +3235,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param int $changeset_post_id Changeset post id.
+	 * @param int $changeset_post_id Changeset post ID.
 	 */
 	public function refresh_changeset_lock( $changeset_post_id ) {
 		if ( ! $changeset_post_id ) {

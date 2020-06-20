@@ -101,7 +101,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 *
 	 * @return {void}
 	 */
@@ -145,7 +145,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 * @param {number} toggle Is 0 or 1, fades the icon in then 1 and out when 0.
 	 *
 	 * @return {void}
@@ -190,7 +190,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 *
 	 * @return {string} The value from the imagedit-save-target input field when available,
 	 *                  or 'full' when not available.
@@ -208,7 +208,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number}         postid The current post id.
+	 * @param {number}         postid The current post ID.
 	 * @param {number}         x      Is 0 when it applies the y-axis
 	 *                                and 1 when applicable for the x-axis.
 	 * @param {jQuery}         el     Element.
@@ -245,7 +245,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 *
 	 * @return {string} The aspect ratio.
 	 */
@@ -273,7 +273,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid  The post id.
+	 * @param {number} postid  The post ID.
 	 * @param {number} setSize 0 or 1, when 1 the image resets to its original size.
 	 *
 	 * @return {string} JSON string containing the history or an empty string if no history exists.
@@ -339,7 +339,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number}   postid   The post id.
+	 * @param {number}   postid   The post ID.
 	 * @param {string}   nonce    The nonce to verify the request.
 	 * @param {function} callback Function to execute when the image is loaded.
 	 *
@@ -413,7 +413,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param  {number}  postid The post id.
+	 * @param  {number}  postid The post ID.
 	 * @param  {string}  nonce  The nonce to verify the request.
 	 * @param  {string}  action The action to perform on the image.
 	 *                          The possible actions are: "scale" and "restore".
@@ -481,7 +481,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number}  postid   The post id to get the image from the database.
+	 * @param {number}  postid   The post ID to get the image from the database.
 	 * @param {string}  nonce    The nonce to verify the request.
 	 *
 	 * @return {boolean|void}  If the actions are successfully saved a response message is shown.
@@ -547,7 +547,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid   The post id for the image.
+	 * @param {number} postid   The post ID for the image.
 	 * @param {string} nonce    The nonce to verify the request.
 	 * @param {object} view     The image editor view to be used for the editing.
 	 *
@@ -605,7 +605,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 *
 	 * @return {void}
 	 */
@@ -632,7 +632,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number}      postid The post id.
+	 * @param {number}      postid The post ID.
 	 * @param {HTMLElement} image  The preview image.
 	 * @param {HTMLElement} parent The preview image container.
 	 *
@@ -740,7 +740,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 * @param {object} c      The selection.
 	 *
 	 * @return {boolean}
@@ -772,7 +772,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number}  postid The post id.
+	 * @param {number}  postid The post ID.
 	 * @param {bool}    warn   Warning message.
 	 *
 	 * @return {void|bool} Returns false if there is a warning.
@@ -815,7 +815,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 *
 	 * @return {boolean} Returns true if the history is not saved.
 	 */
@@ -841,7 +841,7 @@
 	 * @memberof imageEdit
 	 *
 	 * @param {object} op     The original position.
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 * @param {string} nonce  The nonce.
 	 *
 	 * @return {void}
@@ -875,7 +875,7 @@
 	 * @memberof imageEdit
 	 *
 	 * @param {string} angle  The angle the image is rotated with.
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 * @param {string} nonce  The nonce.
 	 * @param {object} t      The target element.
 	 *
@@ -897,7 +897,7 @@
 	 * @memberof imageEdit
 	 *
 	 * @param {number} axis   The axle the image is flipped on.
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 * @param {string} nonce  The nonce.
 	 * @param {object} t      The target element.
 	 *
@@ -918,7 +918,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 * @param {string} nonce  The nonce.
 	 * @param {object} t      The target object.
 	 *
@@ -948,7 +948,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid   The post id.
+	 * @param {number} postid   The post ID.
 	 * @param {string} nonce    The nonce.
 	 *
 	 * @return {void|false} Returns false if the undo button is disabled.
@@ -982,7 +982,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 * @param {string} nonce  The nonce.
 	 *
 	 * @return {void}
@@ -1013,7 +1013,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post id.
+	 * @param {number} postid The post ID.
 	 * @param {jQuery} el     The element containing the values.
 	 *
 	 * @return {void|boolean} Returns false when the x or y value is lower than 1,
@@ -1101,7 +1101,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid     The post id.
+	 * @param {number} postid     The post ID.
 	 * @param {number} n          The ratio to set.
 	 * @param {jQuery} el         The element containing the values.
 	 *

@@ -939,8 +939,8 @@ window.commentReply = {
 	 *
 	 * @memberof commentReply
 	 *
-	 * @param {number} comment_id The comment id to open an editor for.
-	 * @param {number} post_id The post id to open an editor for.
+	 * @param {number} comment_id The comment ID to open an editor for.
+	 * @param {number} post_id The post ID to open an editor for.
 	 * @param {string} action The action to perform. Either 'edit' or 'replyto'.
 	 *
 	 * @return {boolean} Always false.
@@ -1186,7 +1186,7 @@ window.commentReply = {
 	 *
 	 * @memberof commentReply
 	 *
-	 * @param {number} post_id The post id.
+	 * @param {number} post_id The post ID.
 	 *
 	 * @return {void}
 	 */

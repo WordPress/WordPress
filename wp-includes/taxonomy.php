@@ -705,7 +705,7 @@ function unregister_taxonomy_for_object_type( $taxonomy, $object_type ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int|array    $term_ids   Term id or array of term ids of terms that will be used.
+ * @param int|array    $term_ids   Term ID or array of term IDs of terms that will be used.
  * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names.
  * @param array|string $args       Change the order of the object_ids, either ASC or DESC.
  * @return WP_Error|array If the taxonomy does not exist, then WP_Error will be returned. On success.
@@ -1437,7 +1437,7 @@ function term_exists( $term, $taxonomy = '', $parent = null ) {
 /**
  * Check if a term is an ancestor of another term.
  *
- * You can use either an id or the term object for both parameters.
+ * You can use either an ID or the term object for both parameters.
  *
  * @since 3.4.0
  *
@@ -1895,6 +1895,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	 * @param int $tt_id Term taxonomy ID.
 	 */
 	do_action( 'delete_term_taxonomy', $tt_id );
+
 	$wpdb->delete( $wpdb->term_taxonomy, array( 'term_taxonomy_id' => $tt_id ) );
 
 	/**
@@ -2432,7 +2433,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int              $object_id The object to relate to.
- * @param string|int|array $terms     A single term slug, single term id, or array of either term slugs or ids.
+ * @param string|int|array $terms     A single term slug, single term ID, or array of either term slugs or IDs.
  *                                    Will replace all existing related terms in this taxonomy. Passing an
  *                                    empty value will remove all related terms.
  * @param string           $taxonomy  The context in which to relate the term to the object.
@@ -2675,6 +2676,7 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 		 * @param string $taxonomy  Taxonomy slug.
 		 */
 		do_action( 'delete_term_relationships', $object_id, $tt_ids, $taxonomy );
+
 		$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id ) );
 
 		wp_cache_delete( $object_id, $taxonomy . '_relationships' );
@@ -2982,6 +2984,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	$data = apply_filters( 'wp_update_term_data', $data, $term_id, $taxonomy, $args );
 
 	$wpdb->update( $wpdb->terms, $data, compact( 'term_id' ) );
+
 	if ( empty( $slug ) ) {
 		$slug = sanitize_title( $name, $term_id );
 		$wpdb->update( $wpdb->terms, compact( 'slug' ), compact( 'term_id' ) );
@@ -3237,7 +3240,7 @@ function clean_object_term_cache( $object_ids, $object_type ) {
 }
 
 /**
- * Will remove all of the term ids from the cache.
+ * Will remove all of the term IDs from the cache.
  *
  * @since 2.3.0
  *
@@ -3636,7 +3639,7 @@ function _pad_term_counts( &$terms, $taxonomy ) {
 		$term_ids[ $term->term_taxonomy_id ] = $term->term_id;
 	}
 
-	// Get the object and term ids and stick them in a lookup table.
+	// Get the object and term IDs and stick them in a lookup table.
 	$tax_obj      = get_taxonomy( $taxonomy );
 	$object_types = esc_sql( $tax_obj->object_type );
 	$results      = $wpdb->get_results( "SELECT object_id, term_taxonomy_id FROM $wpdb->term_relationships INNER JOIN $wpdb->posts ON object_id = ID WHERE term_taxonomy_id IN (" . implode( ',', array_keys( $term_ids ) ) . ") AND post_type IN ('" . implode( "', '", $object_types ) . "') AND post_status = 'publish'" );
@@ -4602,7 +4605,6 @@ function wp_get_term_taxonomy_parent_id( $term_id, $taxonomy ) {
  * @param int    $parent   `term_id` of the parent for the term we're checking.
  * @param int    $term_id  The term we're checking.
  * @param string $taxonomy The taxonomy of the term we're checking.
- *
  * @return int The new parent for the term.
  */
 function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {

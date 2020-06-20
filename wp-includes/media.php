@@ -4329,7 +4329,7 @@ function get_post_galleries( $post, $html = true ) {
 					$shortcode_attrs = array();
 				}
 
-				// Specify the post id of the gallery we're viewing if the shortcode doesn't reference another post already.
+				// Specify the post ID of the gallery we're viewing if the shortcode doesn't reference another post already.
 				if ( ! isset( $shortcode_attrs['id'] ) ) {
 					$shortcode[3] .= ' id="' . intval( $post->ID ) . '"';
 				}
@@ -4502,7 +4502,7 @@ function attachment_url_to_postid( $url ) {
 	}
 
 	/**
-	 * Filters an attachment id found by URL.
+	 * Filters an attachment ID found by URL.
 	 *
 	 * @since 4.2.0
 	 *

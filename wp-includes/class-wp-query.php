@@ -718,9 +718,9 @@ class WP_Query {
 	 *     @type bool         $sentence                Whether to search by phrase. Default false.
 	 *     @type bool         $suppress_filters        Whether to suppress filters. Default false.
 	 *     @type string       $tag                     Tag slug. Comma-separated (either), Plus-separated (all).
-	 *     @type array        $tag__and                An array of tag ids (AND in).
-	 *     @type array        $tag__in                 An array of tag ids (OR in).
-	 *     @type array        $tag__not_in             An array of tag ids (NOT in).
+	 *     @type array        $tag__and                An array of tag IDs (AND in).
+	 *     @type array        $tag__in                 An array of tag IDs (OR in).
+	 *     @type array        $tag__not_in             An array of tag IDs (NOT in).
 	 *     @type int          $tag_id                  Tag id or comma-separated list of IDs.
 	 *     @type array        $tag_slug__and           An array of tag slugs (AND in).
 	 *     @type array        $tag_slug__in            An array of tag slugs (OR in). unless 'ignore_sticky_posts' is

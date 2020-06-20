@@ -1366,9 +1366,9 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                              will store revisions, and the 'comments' feature dictates whether the
  *                                              comments count will show on the edit screen. A feature can also be
  *                                              specified as an array of arguments to provide additional information
- *                                              about supporting that feature. Example: `array( 'my_feature', array(
- *                                              'field' => 'value' ) )`. Default is an array containing 'title' and
- *                                              'editor'.
+ *                                              about supporting that feature.
+ *                                              Example: `array( 'my_feature', array( 'field' => 'value' ) )`.
+ *                                              Default is an array containing 'title' and 'editor'.
  *     @type callable    $register_meta_box_cb  Provide a callback function that sets up the meta boxes for the
  *                                              edit form. Do remove_meta_box() and add_meta_box() calls in the
  *                                              callback. Default null.
@@ -3065,6 +3065,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	 * @param WP_Post $post   Post object.
 	 */
 	do_action( 'delete_post', $postid, $post );
+
 	$result = $wpdb->delete( $wpdb->posts, array( 'ID' => $postid ) );
 	if ( ! $result ) {
 		return false;
@@ -3426,7 +3427,7 @@ function wp_untrash_post_comments( $post = null ) {
  *                       See WP_Term_Query::__construct() for supported arguments.
  * @return array|WP_Error List of categories. If the `$fields` argument passed via `$args` is 'all' or
  *                        'all_with_object_id', an array of WP_Term objects will be returned. If `$fields`
- *                        is 'ids', an array of category ids. If `$fields` is 'names', an array of category names.
+ *                        is 'ids', an array of category IDs. If `$fields` is 'names', an array of category names.
  *                        WP_Error object if 'category' taxonomy doesn't exist.
  */
 function wp_get_post_categories( $post_id = 0, $args = array() ) {
@@ -7182,7 +7183,7 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
 }
 
 /**
- * Adds any posts from the given ids to the cache that do not already exist in cache
+ * Adds any posts from the given IDs to the cache that do not already exist in cache
  *
  * @since 3.4.0
  * @access private

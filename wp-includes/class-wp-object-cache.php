@@ -414,7 +414,7 @@ class WP_Object_Cache {
 	 * Sets the data contents into the cache.
 	 *
 	 * The cache contents are grouped by the $group parameter followed by the
-	 * $key. This allows for duplicate ids in unique groups. Therefore, naming of
+	 * $key. This allows for duplicate IDs in unique groups. Therefore, naming of
 	 * the group should be used with care and should follow normal function
 	 * naming guidelines outside of core WordPress usage.
 	 *

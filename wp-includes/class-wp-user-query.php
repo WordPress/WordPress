@@ -25,7 +25,7 @@ class WP_User_Query {
 	public $query_vars = array();
 
 	/**
-	 * List of found user ids
+	 * List of found user IDs.
 	 *
 	 * @since 3.1.0
 	 * @var array

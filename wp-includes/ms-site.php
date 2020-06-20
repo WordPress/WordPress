@@ -240,7 +240,7 @@ function wp_delete_site( $site_id ) {
 	 * @deprecated 5.1.0
 	 *
 	 * @param int  $site_id The site ID.
-	 * @param bool $drop    True if site's table should be dropped. Default is false.
+	 * @param bool $drop    True if site's table should be dropped. Default false.
 	 */
 	do_action_deprecated( 'delete_blog', array( $old_site->id, true ), '5.1.0' );
 
@@ -282,7 +282,7 @@ function wp_delete_site( $site_id ) {
 	 * @deprecated 5.1.0
 	 *
 	 * @param int  $site_id The site ID.
-	 * @param bool $drop    True if site's tables should be dropped. Default is false.
+	 * @param bool $drop    True if site's tables should be dropped. Default false.
 	 */
 	do_action_deprecated( 'deleted_blog', array( $old_site->id, true ), '5.1.0' );
 
@@ -330,7 +330,7 @@ function get_site( $site = null ) {
 }
 
 /**
- * Adds any sites from the given ids to the cache that do not already exist in cache.
+ * Adds any sites from the given IDs to the cache that do not already exist in cache.
  *
  * @since 4.6.0
  * @since 5.1.0 Introduced the `$update_meta_cache` parameter.
@@ -450,7 +450,7 @@ function update_sitemeta_cache( $site_ids ) {
  *                                           Default empty array.
  *     @type bool         $update_site_cache Whether to prime the cache for found sites. Default true.
  * }
- * @return array|int List of WP_Site objects, a list of site ids when 'fields' is set to 'ids',
+ * @return array|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
  *                   or the number of sites when 'count' is passed as a query var.
  */
 function get_sites( $args = array() ) {

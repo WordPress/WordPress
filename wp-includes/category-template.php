@@ -37,11 +37,11 @@ function get_category_link( $category ) {
  * @since 1.2.0
  * @since 4.8.0 The `$visited` parameter was deprecated and renamed to `$deprecated`.
  *
- * @param int $id Category ID.
- * @param bool $link Optional, default is false. Whether to format with link.
- * @param string $separator Optional, default is '/'. How to separate categories.
- * @param bool $nicename Optional, default is false. Whether to use nice name for display.
- * @param array $deprecated Not used.
+ * @param int    $id         Category ID.
+ * @param bool   $link       Optional. Whether to format with link. Default false.
+ * @param string $separator  Optional. How to separate categories. Default '/'.
+ * @param bool   $nicename   Optional. Whether to use nice name for display. Default false.
+ * @param array  $deprecated Not used.
  * @return string|WP_Error A list of category parents on success, WP_Error on failure.
  */
 function get_category_parents( $id, $link = false, $separator = '/', $nicename = false, $deprecated = array() ) {
@@ -64,7 +64,7 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
 /**
  * Retrieves post categories.
  *
- * This tag may be used outside The Loop by passing a post id as the parameter.
+ * This tag may be used outside The Loop by passing a post ID as the parameter.
  *
  * Note: This function only returns results from the default "category" taxonomy.
  * For custom taxonomies use get_the_terms().

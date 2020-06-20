@@ -1111,7 +1111,7 @@ class WP_List_Table {
 	 *
 	 * @staticvar int $cb_counter
 	 *
-	 * @param bool $with_id Whether to set the id attribute or not
+	 * @param bool $with_id Whether to set the ID attribute or not
 	 */
 	public function print_column_headers( $with_id = true ) {
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();

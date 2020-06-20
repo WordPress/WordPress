@@ -42,7 +42,7 @@ $wp_registered_sidebars = array();
 $wp_registered_widgets = array();
 
 /**
- * Stores the registered widget control (options).
+ * Stores the registered widget controls (options).
  *
  * @global array $wp_registered_widget_controls
  * @since 2.2.0
@@ -155,7 +155,7 @@ function unregister_widget( $widget ) {
  *     Optional. Array or string of arguments for building a sidebar.
  *
  *     @type string $id   The base string of the unique identifier for each sidebar. If provided, and multiple
- *                        sidebars are being defined, the id will have "-2" appended, and so on.
+ *                        sidebars are being defined, the ID will have "-2" appended, and so on.
  *                        Default 'sidebar-' followed by the number the sidebar creation is currently at.
  *     @type string $name The name or title for the sidebars displayed in the admin dashboard. If registering
  *                        more than one sidebar, include '%d' in the string as a placeholder for the uniquely
@@ -220,7 +220,7 @@ function register_sidebars( $number = 1, $args = array() ) {
  *
  * @since 2.2.0
  *
- * @global array $wp_registered_sidebars Stores the new sidebar in this array by sidebar ID.
+ * @global array $wp_registered_sidebars Registered sidebars.
  *
  * @param array|string $args {
  *     Optional. Array or string of arguments for the sidebar being registered.
@@ -309,7 +309,7 @@ function register_sidebar( $args = array() ) {
  *
  * @since 2.2.0
  *
- * @global array $wp_registered_sidebars Removes the sidebar from this array by sidebar ID.
+ * @global array $wp_registered_sidebars Registered sidebars.
  *
  * @param string|int $sidebar_id The ID of the sidebar when it was registered.
  */
@@ -655,13 +655,13 @@ function wp_unregister_widget_control( $id ) {
  * Display dynamic sidebar.
  *
  * By default this displays the default sidebar or 'sidebar-1'. If your theme specifies the 'id' or
- * 'name' parameter for its registered sidebars you can pass an id or name as the $index parameter.
+ * 'name' parameter for its registered sidebars you can pass an ID or name as the $index parameter.
  * Otherwise, you can pass in a numerical index to display the sidebar at that index.
  *
  * @since 2.2.0
  *
  * @global array $wp_registered_sidebars Registered sidebars.
- * @global array $wp_registered_widgets
+ * @global array $wp_registered_widgets  Registered widgets.
  *
  * @param int|string $index Optional, default is 1. Index, name or ID of dynamic sidebar.
  * @return bool True, if widget sidebar was found and called. False if not found or not called.
@@ -897,7 +897,7 @@ function is_active_widget( $callback = false, $widget_id = false, $id_base = fal
  *
  * @since 2.2.0
  *
- * @global array $wp_registered_widgets
+ * @global array $wp_registered_widgets  Registered widgets.
  * @global array $wp_registered_sidebars Registered sidebars.
  *
  * @return bool True if using widgets, false otherwise.
@@ -1226,7 +1226,7 @@ function _wp_sidebars_changed() {
  *
  * @global array $wp_registered_sidebars Registered sidebars.
  * @global array $sidebars_widgets
- * @global array $wp_registered_widgets
+ * @global array $wp_registered_widgets  Registered widgets.
  *
  * @param string|bool $theme_changed Whether the theme was changed as a boolean. A value
  *                                   of 'customize' defers updates for the Customizer.
@@ -1676,7 +1676,7 @@ foreach ( array_keys( $default_inputs ) as $input ) :
  * @since 2.5.0
  *
  * @param array $widget_rss RSS widget feed data. Expects unescaped data.
- * @param bool $check_feed Optional, default is true. Whether to check feed for errors.
+ * @param bool  $check_feed Optional. Whether to check feed for errors. Default true.
  * @return array
  */
 function wp_widget_rss_process( $widget_rss, $check_feed = true ) {

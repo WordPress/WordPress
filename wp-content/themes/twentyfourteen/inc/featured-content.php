@@ -190,7 +190,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Delete featured content ids transient.
+	 * Delete featured content IDs transient.
 	 *
 	 * Hooks in the "save_post" action.
 	 *
@@ -233,7 +233,7 @@ class Featured_Content {
 			return;
 		}
 
-		// We need to respect post ids already in the blacklist.
+		// We need to respect post IDs already in the blacklist.
 		$post__not_in = $query->get( 'post__not_in' );
 
 		if ( ! empty( $post__not_in ) ) {
@@ -508,7 +508,7 @@ class Featured_Content {
 
 		$output['hide-tag'] = isset( $input['hide-tag'] ) && $input['hide-tag'] ? 1 : 0;
 
-		// Delete the featured post ids transient.
+		// Delete the featured post IDs transient.
 		self::delete_transient();
 
 		return $output;

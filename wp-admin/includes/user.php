@@ -25,7 +25,7 @@ function add_user() {
  * @since 2.0.0
  *
  * @param int $user_id Optional. User ID.
- * @return int|WP_Error user id of the updated user.
+ * @return int|WP_Error User ID of the updated user.
  */
 function edit_user( $user_id = 0 ) {
 	$wp_roles = wp_roles();
@@ -214,7 +214,7 @@ function edit_user( $user_id = 0 ) {
 	 * @since 2.8.0
 	 *
 	 * @param WP_Error $errors WP_Error object (passed by reference).
-	 * @param bool     $update  Whether this is a user update.
+	 * @param bool     $update Whether this is a user update.
 	 * @param stdClass $user   User object (passed by reference).
 	 */
 	do_action_ref_array( 'user_profile_update_errors', array( &$errors, $update, &$user ) );

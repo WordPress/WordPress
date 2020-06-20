@@ -1552,7 +1552,7 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
  *
  * @since 2.7.0
  *
- * @param int|stdClass $link Optional. Bookmark ID. Default is the id of the current bookmark.
+ * @param int|stdClass $link Optional. Bookmark ID. Default is the ID of the current bookmark.
  * @return string|void The edit bookmark link URL.
  */
 function get_edit_bookmark_link( $link = 0 ) {
@@ -3844,10 +3844,10 @@ function rel_canonical() {
  *
  * @since 3.0.0
  *
- * @param int    $id          Optional. A post or site id. Default is 0, which means the current post or site.
- * @param string $context     Optional. Whether the id is a 'site' id, 'post' id, or 'media' id. If 'post',
+ * @param int    $id          Optional. A post or site ID. Default is 0, which means the current post or site.
+ * @param string $context     Optional. Whether the ID is a 'site' id, 'post' id, or 'media' id. If 'post',
  *                            the post_type of the post is consulted. If 'query', the current query is consulted
- *                            to determine the id and context. Default 'post'.
+ *                            to determine the ID and context. Default 'post'.
  * @param bool   $allow_slugs Optional. Whether to allow post slugs in the shortlink. It is up to the plugin how
  *                            and whether to honor this. Default true.
  * @return string A shortlink or an empty string if no shortlink exists for the requested resource or if shortlinks

@@ -439,7 +439,7 @@
 				postId    = parentModel.get( 'id' );
 				embeddeds = parentModel.get( '_embedded' ) || {};
 
-				// Verify that we have a valid post id.
+				// Verify that we have a valid post ID.
 				if ( ! _.isNumber( postId ) || 0 === postId ) {
 					deferred.reject();
 					return deferred;
@@ -640,7 +640,7 @@
 				 */
 				setTagsWithCollection: function( tags ) {
 
-					// Pluck out the category ids.
+					// Pluck out the category IDs.
 					this.set( 'tags', tags.pluck( 'id' ) );
 					return this.save();
 				}
@@ -725,7 +725,7 @@
 				 */
 				setCategoriesWithCollection: function( categories ) {
 
-					// Pluck out the category ids.
+					// Pluck out the category IDs.
 					this.set( 'categories', categories.pluck( 'id' ) );
 					return this.save();
 				}
@@ -1347,7 +1347,7 @@
 					modelClassName = mapping.models[ modelClassName ] || modelClassName;
 					loadingObjects.models[ modelClassName ] = wp.api.WPApiBaseModel.extend( {
 
-						// Function that returns a constructed url based on the id.
+						// Function that returns a constructed url based on the ID.
 						url: function() {
 							var url = routeModel.get( 'apiRoot' ) +
 								routeModel.get( 'versionString' ) +

@@ -19,7 +19,7 @@ window.wp = window.wp || {};
  * @type {Object}
  *
  * @property {string} type The type of inline editor.
- * @property {string} what The prefix before the post id.
+ * @property {string} what The prefix before the post ID.
  *
  */
 ( function( $, wp ) {
@@ -249,7 +249,7 @@ window.wp = window.wp || {};
 	 *
 	 * @memberof inlineEditPost
 	 *
-	 * @param {number|Object} id The id of the clicked post or an element within a post
+	 * @param {number|Object} id The ID of the clicked post or an element within a post
 	 *                           table row.
 	 * @return {boolean} Always returns false at the end of execution.
 	 */
@@ -389,7 +389,7 @@ window.wp = window.wp || {};
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param  {int}     id The id for the post that has been changed.
+	 * @param  {int}     id The ID for the post that has been changed.
 	 * @return {boolean}    False, so the form does not submit when pressing
 	 *                      Enter on a focused field.
 	 */
@@ -496,15 +496,15 @@ window.wp = window.wp || {};
 	},
 
 	/**
-	 * Gets the id for a the post that you want to quick edit from the row in the quick
+	 * Gets the ID for a the post that you want to quick edit from the row in the quick
 	 * edit table.
 	 *
 	 * @since 2.7.0
 	 *
 	 * @memberof inlineEditPost
 	 *
-	 * @param  {Object} o DOM row object to get the id for.
-	 * @return {string}   The post id extracted from the table row in the object.
+	 * @param  {Object} o DOM row object to get the ID for.
+	 * @return {string}   The post ID extracted from the table row in the object.
 	 */
 	getId : function(o) {
 		var id = $(o).closest('tr').attr('id'),

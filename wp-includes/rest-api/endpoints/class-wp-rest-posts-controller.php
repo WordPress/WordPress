@@ -245,7 +245,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				$args['post__in'] = $args['post__in'] ? array_intersect( $sticky_posts, $args['post__in'] ) : $sticky_posts;
 
 				/*
-				 * If we intersected, but there are no post ids in common,
+				 * If we intersected, but there are no post IDs in common,
 				 * WP_Query won't return "no posts" for post__in = array()
 				 * so we have to fake it a bit.
 				 */

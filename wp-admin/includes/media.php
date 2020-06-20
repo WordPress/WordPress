@@ -119,7 +119,7 @@ function the_media_upload_tabs() {
  *
  * @since 2.5.0
  *
- * @param int          $id      Image attachment id.
+ * @param int          $id      Image attachment ID.
  * @param string       $caption Image caption.
  * @param string       $title   Image title attribute.
  * @param string       $align   Image CSS alignment property.
@@ -154,7 +154,7 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
 	 * @since 2.5.0
 	 *
 	 * @param string       $html    The image HTML markup to send.
-	 * @param int          $id      The attachment id.
+	 * @param int          $id      The attachment ID.
 	 * @param string       $caption The image caption.
 	 * @param string       $title   The image title.
 	 * @param string       $align   The image alignment.
@@ -1009,7 +1009,7 @@ function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'htm
 		// Store the original attachment source in meta.
 		add_post_meta( $id, '_source_url', $file );
 
-		// If attachment id was requested, return it.
+		// If attachment ID was requested, return it.
 		if ( 'id' === $return ) {
 			return $id;
 		}
