@@ -2047,6 +2047,7 @@ All at ###SITENAME###
 			 *
 			 * @param array $pass_change_email {
 			 *            Used to build wp_mail().
+			 *
 			 *            @type string $to      The intended recipients. Add emails in a comma separated string.
 			 *            @type string $subject The subject of the email.
 			 *            @type string $message The content of the email.
@@ -2104,6 +2105,7 @@ All at ###SITENAME###
 			 *
 			 * @param array $email_change_email {
 			 *            Used to build wp_mail().
+			 *
 			 *            @type string $to      The intended recipients.
 			 *            @type string $subject The subject of the email.
 			 *            @type string $message The content of the email.
@@ -2116,7 +2118,7 @@ All at ###SITENAME###
 			 *                - ###SITEURL###     The URL to the site.
 			 *            @type string $headers Headers.
 			 *        }
-			 * @param array $user The original user array.
+			 * @param array $user     The original user array.
 			 * @param array $userdata The updated user array.
 			 */
 			$email_change_email = apply_filters( 'email_change_email', $email_change_email, $user, $userdata );
@@ -2275,7 +2277,6 @@ function wp_get_password_hint() {
  * @global PasswordHash $wp_hasher Portable PHP password hashing framework.
  *
  * @param WP_User $user User to retrieve password reset key for.
- *
  * @return string|WP_Error Password reset key on success. WP_Error on error.
  */
 function get_password_reset_key( $user ) {
@@ -2868,11 +2869,11 @@ All at ###SITENAME###
 		 * Filters the text of the email sent when a change of user email address is attempted.
 		 *
 		 * The following strings have a special meaning and will get replaced dynamically:
-		 * ###USERNAME###  The current user's username.
-		 * ###ADMIN_URL### The link to click on to confirm the email change.
-		 * ###EMAIL###     The new email.
-		 * ###SITENAME###  The name of the site.
-		 * ###SITEURL###   The URL to the site.
+		 * - ###USERNAME###  The current user's username.
+		 * - ###ADMIN_URL### The link to click on to confirm the email change.
+		 * - ###EMAIL###     The new email.
+		 * - ###SITENAME###  The name of the site.
+		 * - ###SITEURL###   The URL to the site.
 		 *
 		 * @since MU (3.0.0)
 		 * @since 4.9.0 This filter is no longer Multisite specific.
