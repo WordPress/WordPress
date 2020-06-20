@@ -311,9 +311,9 @@ function twentyseventeen_fonts_url() {
  *
  * @since Twenty Seventeen 1.0
  *
- * @param array  $urls           URLs to print for resource hints.
- * @param string $relation_type  The relation type the URLs are printed.
- * @return array $urls           URLs to print for resource hints.
+ * @param array  $urls          URLs to print for resource hints.
+ * @param string $relation_type The relation type the URLs are printed.
+ * @return array URLs to print for resource hints.
  */
 function twentyseventeen_resource_hints( $urls, $relation_type ) {
 	if ( wp_style_is( 'twentyseventeen-fonts', 'queue' ) && 'preconnect' === $relation_type ) {

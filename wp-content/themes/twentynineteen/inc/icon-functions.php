@@ -34,8 +34,8 @@ function twentynineteen_get_social_link_svg( $uri, $size = 24 ) {
  * @param  string  $item_output The menu item output.
  * @param  WP_Post $item        Menu item object.
  * @param  int     $depth       Depth of the menu.
- * @param  array   $args        wp_nav_menu() arguments.
- * @return string  $item_output The menu item output with social icon.
+ * @param  object  $args        wp_nav_menu() arguments.
+ * @return string The menu item output with social icon.
  */
 function twentynineteen_nav_menu_social_icons( $item_output, $item, $depth, $args ) {
 	// Change SVG icon inside social links menu if there is supported URL.
