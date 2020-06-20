@@ -389,9 +389,9 @@ window.wp = window.wp || {};
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param  {int}     id The ID for the post that has been changed.
-	 * @return {boolean}    False, so the form does not submit when pressing
-	 *                      Enter on a focused field.
+	 * @param {int} id The ID for the post that has been changed.
+	 * @return {boolean} False, so the form does not submit when pressing
+	 *                   Enter on a focused field.
 	 */
 	save : function(id) {
 		var params, fields, page = $('.post_status_page').val() || '';
@@ -503,8 +503,8 @@ window.wp = window.wp || {};
 	 *
 	 * @memberof inlineEditPost
 	 *
-	 * @param  {Object} o DOM row object to get the ID for.
-	 * @return {string}   The post ID extracted from the table row in the object.
+	 * @param {Object} o DOM row object to get the ID for.
+	 * @return {string} The post ID extracted from the table row in the object.
 	 */
 	getId : function(o) {
 		var id = $(o).closest('tr').attr('id'),

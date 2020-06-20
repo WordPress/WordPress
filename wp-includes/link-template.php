@@ -3144,9 +3144,9 @@ function the_comments_pagination( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param  string      $path   Optional. Path relative to the home URL. Default empty.
- * @param  string|null $scheme Optional. Scheme to give the home URL context. Accepts
- *                             'http', 'https', 'relative', 'rest', or null. Default null.
+ * @param string      $path   Optional. Path relative to the home URL. Default empty.
+ * @param string|null $scheme Optional. Scheme to give the home URL context. Accepts
+ *                            'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home URL link with optional path appended.
  */
 function home_url( $path = '', $scheme = null ) {
@@ -3164,10 +3164,10 @@ function home_url( $path = '', $scheme = null ) {
  *
  * @global string $pagenow
  *
- * @param  int         $blog_id Optional. Site ID. Default null (current site).
- * @param  string      $path    Optional. Path relative to the home URL. Default empty.
- * @param  string|null $scheme  Optional. Scheme to give the home URL context. Accepts
- *                              'http', 'https', 'relative', 'rest', or null. Default null.
+ * @param int         $blog_id Optional. Site ID. Default null (current site).
+ * @param string      $path    Optional. Path relative to the home URL. Default empty.
+ * @param string|null $scheme  Optional. Scheme to give the home URL context. Accepts
+ *                             'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home URL link with optional path appended.
  */
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
@@ -3383,11 +3383,11 @@ function content_url( $path = '' ) {
  *
  * @since 2.6.0
  *
- * @param  string $path   Optional. Extra path appended to the end of the URL, including
- *                        the relative directory if $plugin is supplied. Default empty.
- * @param  string $plugin Optional. A full path to a file inside a plugin or mu-plugin.
- *                        The URL will be relative to its directory. Default empty.
- *                        Typically this is done by passing `__FILE__` as the argument.
+ * @param string $path   Optional. Extra path appended to the end of the URL, including
+ *                       the relative directory if $plugin is supplied. Default empty.
+ * @param string $plugin Optional. A full path to a file inside a plugin or mu-plugin.
+ *                       The URL will be relative to its directory. Default empty.
+ *                       Typically this is done by passing `__FILE__` as the argument.
  * @return string Plugins URL link with optional paths appended.
  */
 function plugins_url( $path = '', $plugin = '' ) {
@@ -3485,9 +3485,9 @@ function network_site_url( $path = '', $scheme = null ) {
  *
  * @since 3.0.0
  *
- * @param  string $path   Optional. Path relative to the home URL. Default empty.
- * @param  string $scheme Optional. Scheme to give the home URL context. Accepts
- *                        'http', 'https', or 'relative'. Default null.
+ * @param string $path   Optional. Path relative to the home URL. Default empty.
+ * @param string $scheme Optional. Scheme to give the home URL context. Accepts
+ *                       'http', 'https', or 'relative'. Default null.
  * @return string Home URL link with optional path appended.
  */
 function network_home_url( $path = '', $scheme = null ) {

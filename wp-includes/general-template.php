@@ -2415,8 +2415,8 @@ function the_date( $format = '', $before = '', $after = '', $echo = true ) {
  *
  * @since 3.0.0
  *
- * @param  string      $format Optional. PHP date format defaults to the date_format option if not specified.
- * @param  int|WP_Post $post   Optional. Post ID or WP_Post object. Default current post.
+ * @param string      $format Optional. PHP date format defaults to the date_format option if not specified.
+ * @param int|WP_Post $post   Optional. Post ID or WP_Post object. Default current post.
  * @return string|false Date the current post was written. False on failure.
  */
 function get_the_date( $format = '', $post = null ) {

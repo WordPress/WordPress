@@ -497,8 +497,8 @@ class WP_Tax_Query {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param array       $clause       Query clause.
-	 * @param array       $parent_query Parent query of $clause.
+	 * @param array $clause       Query clause.
+	 * @param array $parent_query Parent query of $clause.
 	 * @return string|false Table alias if found, otherwise false.
 	 */
 	protected function find_compatible_table_alias( $clause, $parent_query ) {

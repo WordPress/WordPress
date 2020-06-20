@@ -1100,7 +1100,7 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param  array $nonces Array of nonces.
+	 * @param array $nonces Array of nonces.
 	 * @return array Array of nonces.
 	 */
 	public function refresh_nonces( $nonces ) {
@@ -1388,7 +1388,7 @@ final class WP_Customize_Widgets {
 	 * @global array $wp_registered_widget_updates
 	 * @global array $wp_registered_widget_controls
 	 *
-	 * @param  string $widget_id Widget ID.
+	 * @param string $widget_id Widget ID.
 	 * @return array|WP_Error Array containing the updated widget information.
 	 *                        A WP_Error object, otherwise.
 	 */

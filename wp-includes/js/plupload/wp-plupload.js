@@ -115,9 +115,9 @@ window.wp = window.wp || {};
 		 *
 		 * @since 5.3.0
 		 *
-		 * @param  {string}        message  Error message.
-		 * @param  {object}        data     Error data from Plupload.
-		 * @param  {plupload.File} file     File that was uploaded.
+		 * @param {string}        message Error message.
+		 * @param {object}        data    Error data from Plupload.
+		 * @param {plupload.File} file    File that was uploaded.
 		 */
 		tryAgain = function( message, data, file ) {
 			var times, id;
@@ -203,10 +203,10 @@ window.wp = window.wp || {};
 		 * Add a new error to the errors collection, so other modules can track
 		 * and display errors. @see wp.Uploader.errors.
 		 *
-		 * @param  {string}        message  Error message.
-		 * @param  {object}        data     Error data from Plupload.
-		 * @param  {plupload.File} file     File that was uploaded.
-		 * @param  {string}        retry    Whether to try again to create image sub-sizes. Passing 'no-retry' will prevent it.
+		 * @param {string}        message Error message.
+		 * @param {object}        data    Error data from Plupload.
+		 * @param {plupload.File} file    File that was uploaded.
+		 * @param {string}        retry   Whether to try again to create image sub-sizes. Passing 'no-retry' will prevent it.
 		 */
 		error = function( message, data, file, retry ) {
 			var isImage = file.type && file.type.indexOf( 'image/' ) === 0,

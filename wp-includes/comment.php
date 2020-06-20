@@ -154,8 +154,8 @@ function check_comment( $author, $email, $url, $comment, $user_ip, $user_agent, 
  * @since 2.0.0
  * @since 4.1.0 Refactored to leverage WP_Comment_Query over a direct query.
  *
- * @param  int   $post_id The ID of the post.
- * @param  array $args    Optional. See WP_Comment_Query::__construct() for information on accepted arguments.
+ * @param int   $post_id The ID of the post.
+ * @param array $args    Optional. See WP_Comment_Query::__construct() for information on accepted arguments.
  * @return int|array The approved comments, or number of comments if `$count`
  *                   argument is true.
  */
@@ -3560,7 +3560,7 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
  *
  * @since 4.9.6
  *
- * @param  array $erasers An array of personal data erasers.
+ * @param array $erasers An array of personal data erasers.
  * @return array An array of personal data erasers.
  */
 function wp_register_comment_personal_data_eraser( $erasers ) {
@@ -3577,8 +3577,8 @@ function wp_register_comment_personal_data_eraser( $erasers ) {
  *
  * @since 4.9.6
  *
- * @param  string $email_address The comment author email address.
- * @param  int    $page          Comment page.
+ * @param string $email_address The comment author email address.
+ * @param int    $page          Comment page.
  * @return array
  */
 function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {

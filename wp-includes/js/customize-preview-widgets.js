@@ -631,7 +631,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 	 * @memberOf wp.customize.widgetsPreview
 	 *
 	 * @since 3.9.0
-	 * @param  {string} widgetId ID of the widget.
+	 * @param {string} widgetId ID of the widget.
 	 *
 	 * @return {void}
 	 */

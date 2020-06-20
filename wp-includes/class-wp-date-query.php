@@ -240,7 +240,7 @@ class WP_Date_Query {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param  array $query Query clause.
+	 * @param array $query Query clause.
 	 * @return bool True if this is a first-order clause.
 	 */
 	protected function is_first_order_clause( $query ) {
@@ -275,7 +275,7 @@ class WP_Date_Query {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param  array $date_query The date_query array.
+	 * @param array $date_query The date_query array.
 	 * @return bool  True if all values in the query are valid, false if one or more fail.
 	 */
 	public function validate_date_values( $date_query = array() ) {
@@ -677,7 +677,7 @@ class WP_Date_Query {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param  array $query Date query arguments.
+	 * @param array $query Date query arguments.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
 	 *
@@ -694,8 +694,8 @@ class WP_Date_Query {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param  array $query        Date query clause.
-	 * @param  array $parent_query Parent query of the current date query.
+	 * @param array $query        Date query clause.
+	 * @param array $parent_query Parent query of the current date query.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
 	 *

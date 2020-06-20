@@ -300,7 +300,7 @@ class WP_Community_Events {
 	 *
 	 * @since 4.8.0
 	 *
-	 * @param  array $location Should contain 'latitude' and 'longitude' indexes.
+	 * @param array $location Should contain 'latitude' and 'longitude' indexes.
 	 * @return bool|string false on failure, or a string on success.
 	 */
 	protected function get_events_transient_key( $location ) {
@@ -361,7 +361,7 @@ class WP_Community_Events {
 	 *
 	 * @since 4.8.0
 	 *
-	 * @param  array $response_body The response which contains the events.
+	 * @param array $response_body The response which contains the events.
 	 * @return array The response with dates and times formatted.
 	 */
 	protected function format_event_data_time( $response_body ) {
@@ -436,7 +436,7 @@ class WP_Community_Events {
 	 * @since 4.8.0
 	 * @since 4.9.7 Stick a WordCamp to the final list.
 	 *
-	 * @param  array $response_body The response body which contains the events.
+	 * @param array $response_body The response body which contains the events.
 	 * @return array The response body with events trimmed.
 	 */
 	protected function trim_events( $response_body ) {

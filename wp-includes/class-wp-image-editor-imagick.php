@@ -241,9 +241,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param  int|null $max_w Image width.
-	 * @param  int|null $max_h Image height.
-	 * @param  bool     $crop
+	 * @param int|null $max_w Image width.
+	 * @param int|null $max_h Image height.
+	 * @param bool     $crop
 	 * @return bool|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {

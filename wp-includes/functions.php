@@ -2832,7 +2832,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 			 *
 			 * @since 3.0.0
 			 *
-			 * @param  array $mime_to_ext Array of image mime types and their matching extensions.
+			 * @param array $mime_to_ext Array of image mime types and their matching extensions.
 			 */
 			$mime_to_ext = apply_filters(
 				'getimagesize_mimes_to_exts',
@@ -4417,7 +4417,7 @@ function wp_parse_id_list( $list ) {
  *
  * @since 4.7.0
  *
- * @param  array|string $list List of slugs.
+ * @param array|string $list List of slugs.
  * @return string[] Sanitized array of slugs.
  */
 function wp_parse_slug_list( $list ) {
@@ -6403,10 +6403,10 @@ function wp_is_stream( $path ) {
  *
  * @link https://www.php.net/manual/en/function.checkdate.php
  *
- * @param  int    $month       Month number.
- * @param  int    $day         Day number.
- * @param  int    $year        Year number.
- * @param  string $source_date The date to filter.
+ * @param int    $month       Month number.
+ * @param int    $day         Day number.
+ * @param int    $year        Year number.
+ * @param string $source_date The date to filter.
  * @return bool True if valid date, false if not valid date.
  */
 function wp_checkdate( $month, $day, $year, $source_date ) {
@@ -7069,9 +7069,9 @@ All at ###SITENAME###
  *
  * @since 4.9.6 Abstracted from `WP_Community_Events::get_unsafe_client_ip()`.
  *
- * @param  string $ip_addr        The IPv4 or IPv6 address to be anonymized.
- * @param  bool   $ipv6_fallback  Optional. Whether to return the original IPv6 address if the needed functions
- *                                to anonymize it are not present. Default false, return `::` (unspecified address).
+ * @param string $ip_addr       The IPv4 or IPv6 address to be anonymized.
+ * @param bool   $ipv6_fallback Optional. Whether to return the original IPv6 address if the needed functions
+ *                              to anonymize it are not present. Default false, return `::` (unspecified address).
  * @return string  The anonymized IP address.
  */
 function wp_privacy_anonymize_ip( $ip_addr, $ipv6_fallback = false ) {
@@ -7139,8 +7139,8 @@ function wp_privacy_anonymize_ip( $ip_addr, $ipv6_fallback = false ) {
  *
  * @since 4.9.6
  *
- * @param  string $type The type of data to be anonymized.
- * @param  string $data Optional The data to be anonymized.
+ * @param string $type The type of data to be anonymized.
+ * @param string $data Optional The data to be anonymized.
  * @return string The anonymous data for the requested type.
  */
 function wp_privacy_anonymize_data( $type, $data = '' ) {

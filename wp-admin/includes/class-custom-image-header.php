@@ -1490,7 +1490,7 @@ endif;
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param  array $object A crop attachment object.
+	 * @param array $object A crop attachment object.
 	 * @return int|false An attachment ID if one exists. False if none.
 	 */
 	public function get_previous_crop( $object ) {

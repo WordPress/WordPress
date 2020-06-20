@@ -420,8 +420,8 @@ function display_plugins_table() {
  *
  * @since 3.0.0
  *
- * @param  array|object $api  Data about the plugin retrieved from the API.
- * @param  bool         $loop Optional. Disable further loops. Default false.
+ * @param array|object $api  Data about the plugin retrieved from the API.
+ * @param bool         $loop Optional. Disable further loops. Default false.
  * @return array {
  *     Plugin installation status data.
  *

@@ -413,10 +413,10 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param  {number}  postid The post ID.
-	 * @param  {string}  nonce  The nonce to verify the request.
-	 * @param  {string}  action The action to perform on the image.
-	 *                          The possible actions are: "scale" and "restore".
+	 * @param {number} postid The post ID.
+	 * @param {string} nonce  The nonce to verify the request.
+	 * @param {string} action The action to perform on the image.
+	 *                        The possible actions are: "scale" and "restore".
 	 *
 	 * @return {boolean|void} Executes a post request that refreshes the page
 	 *                        when the action is performed.

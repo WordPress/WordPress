@@ -717,8 +717,8 @@ function rest_send_allow_header( $response, $server, $request ) {
  *
  * @since 5.3.0
  *
- * @param  array $array1 The array with master keys to check.
- * @param  array $array2 An array to compare keys against.
+ * @param array $array1 The array with master keys to check.
+ * @param array $array2 An array to compare keys against.
  * @return array An associative array containing all the entries of array1 which have keys
  *               that are present in all arguments.
  */
@@ -1062,9 +1062,9 @@ function rest_authorization_required_code() {
  *
  * @since 4.7.0
  *
- * @param  mixed            $value
- * @param  WP_REST_Request  $request
- * @param  string           $param
+ * @param mixed           $value
+ * @param WP_REST_Request $request
+ * @param string          $param
  * @return true|WP_Error
  */
 function rest_validate_request_arg( $value, $request, $param ) {
@@ -1082,9 +1082,9 @@ function rest_validate_request_arg( $value, $request, $param ) {
  *
  * @since 4.7.0
  *
- * @param  mixed            $value
- * @param  WP_REST_Request  $request
- * @param  string           $param
+ * @param mixed           $value
+ * @param WP_REST_Request $request
+ * @param string          $param
  * @return mixed
  */
 function rest_sanitize_request_arg( $value, $request, $param ) {
@@ -1105,9 +1105,9 @@ function rest_sanitize_request_arg( $value, $request, $param ) {
  *
  * @since 4.7.0
  *
- * @param  mixed            $value
- * @param  WP_REST_Request  $request
- * @param  string           $param
+ * @param mixed           $value
+ * @param WP_REST_Request $request
+ * @param string          $param
  * @return mixed
  */
 function rest_parse_request_arg( $value, $request, $param ) {
@@ -1129,7 +1129,7 @@ function rest_parse_request_arg( $value, $request, $param ) {
  *
  * @since 4.7.0
  *
- * @param  string $ip IP address.
+ * @param string $ip IP address.
  * @return string|false The valid IP address, otherwise false.
  */
 function rest_is_ip_address( $ip ) {
@@ -1633,9 +1633,9 @@ function rest_sanitize_value_from_schema( $value, $args ) {
  *
  * @since 5.0.0
  *
- * @param  array  $memo Reduce accumulator.
- * @param  string $path REST API path to preload.
- * @return array        Modified reduce accumulator.
+ * @param array  $memo Reduce accumulator.
+ * @param string $path REST API path to preload.
+ * @return array Modified reduce accumulator.
  */
 function rest_preload_api_request( $memo, $path ) {
 	// array_reduce() doesn't support passing an array in PHP 5.2,

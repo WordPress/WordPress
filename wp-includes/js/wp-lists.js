@@ -235,8 +235,8 @@ wpList = {
 	 * data[3] - 66cc66
 	 * data[4] - unspam=1
 	 *
-	 * @param  {HTMLElement} element The DOM element.
-	 * @param  {string}      type    The type of data to look for: 'list', 'add', 'delete', or 'dim'.
+	 * @param {HTMLElement} element The DOM element.
+	 * @param {string}      type    The type of data to look for: 'list', 'add', 'delete', or 'dim'.
 	 * @return {Array} Extracted list item data.
 	 */
 	parseData: function( element, type ) {
