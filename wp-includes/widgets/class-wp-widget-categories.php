@@ -66,7 +66,7 @@ class WP_Widget_Categories extends WP_Widget {
 		);
 
 		if ( $dropdown ) {
-			echo sprintf( '<form action="%s" method="get">', esc_url( home_url() ) );
+			printf( '<form action="%s" method="get">', esc_url( home_url() ) );
 			$dropdown_id    = ( $first_dropdown ) ? 'cat' : "{$this->id_base}-dropdown-{$this->number}";
 			$first_dropdown = false;
 

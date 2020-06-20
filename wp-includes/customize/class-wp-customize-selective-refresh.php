@@ -208,7 +208,7 @@ final class WP_Customize_Selective_Refresh {
 		);
 
 		// Export data to JS.
-		echo sprintf( '<script>var _customizePartialRefreshExports = %s;</script>', wp_json_encode( $exports ) );
+		printf( '<script>var _customizePartialRefreshExports = %s;</script>', wp_json_encode( $exports ) );
 	}
 
 	/**

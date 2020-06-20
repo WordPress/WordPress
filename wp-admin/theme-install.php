@@ -391,7 +391,7 @@ if ( $tab ) {
 								<a class="num-ratings" href="{{ data.reviews_url }}">
 									<?php
 									/* translators: %s: Number of ratings. */
-									echo sprintf( __( '(%s ratings)' ), '{{ data.num_ratings }}' );
+									printf( __( '(%s ratings)' ), '{{ data.num_ratings }}' );
 									?>
 								</a>
 							</div>

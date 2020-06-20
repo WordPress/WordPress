@@ -824,7 +824,7 @@ final class WP_Customize_Widgets {
 					<span class="customize-action">
 					<?php
 						/* translators: &#9656; is the unicode right-pointing triangle. %s: Section title in the Customizer. */
-						echo sprintf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'widgets' )->title ) );
+						printf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'widgets' )->title ) );
 					?>
 					</span>
 					<?php _e( 'Add a Widget' ); ?>
