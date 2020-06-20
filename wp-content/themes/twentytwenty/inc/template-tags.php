@@ -499,14 +499,14 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
  * Filter the class applied to wp_list_pages() items with children to match the menu class, to simplify.
  * styling of sub levels in the fallback. Only applied if the match_menu_classes argument is set.
  *
- * @param array  $css_class CSS Class names.
- * @param string $item Comment.
- * @param int    $depth Depth of the current comment.
- * @param array  $args An array of arguments.
- * @param string $current_page Whether or not the item is the current item.
- * @return array $css_class CSS Class names.
+ * @param string[] $css_class    An array of CSS classes to be applied to each list item.
+ * @param WP_Post  $page         Page data object.
+ * @param int      $depth        Depth of page, used for padding.
+ * @param array    $args         An array of arguments.
+ * @param int      $current_page ID of the current page.
+ * @return array CSS class names.
  */
-function twentytwenty_filter_wp_list_pages_item_classes( $css_class, $item, $depth, $args, $current_page ) {
+function twentytwenty_filter_wp_list_pages_item_classes( $css_class, $page, $depth, $args, $current_page ) {
 
 	// Only apply to wp_list_pages() calls with match_menu_classes set to true.
 	$match_menu_classes = isset( $args['match_menu_classes'] );
@@ -534,10 +534,10 @@ add_filter( 'page_css_class', 'twentytwenty_filter_wp_list_pages_item_classes', 
 /**
  * Adds a Sub Nav Toggle to the Expanded Menu and Mobile Menu.
  *
- * @param stdClass $args An array of arguments.
- * @param string   $item Menu item.
- * @param int      $depth Depth of the current menu item.
- * @return stdClass $args An object of wp_nav_menu() arguments.
+ * @param stdClass $args  An object of wp_nav_menu() arguments.
+ * @param WP_Post  $item  Menu item data object.
+ * @param int      $depth Depth of menu item. Used for padding.
+ * @return stdClass An object of wp_nav_menu() arguments.
  */
 function twentytwenty_add_sub_toggles_to_main_menu( $args, $item, $depth ) {
 
@@ -580,11 +580,11 @@ add_filter( 'nav_menu_item_args', 'twentytwenty_add_sub_toggles_to_main_menu', 1
 /**
  * Displays SVG icons in social links menu.
  *
- * @param  string  $item_output The menu item output.
- * @param  WP_Post $item        Menu item object.
- * @param  int     $depth       Depth of the menu.
- * @param  array   $args        wp_nav_menu() arguments.
- * @return string  $item_output The menu item output with social icon.
+ * @param string   $item_output The menu item's starting HTML output.
+ * @param WP_Post  $item        Menu item data object.
+ * @param int      $depth       Depth of the menu. Used for padding.
+ * @param stdClass $args        An object of wp_nav_menu() arguments.
+ * @return string The menu item output with social icon.
  */
 function twentytwenty_nav_menu_social_icons( $item_output, $item, $depth, $args ) {
 	// Change SVG icon inside social links menu if there is supported URL.

@@ -117,10 +117,10 @@ function twentyseventeen_get_svg( $args = array() ) {
 /**
  * Display SVG icons in social links menu.
  *
- * @param  string  $item_output The menu item output.
- * @param  WP_Post $item        Menu item object.
- * @param  int     $depth       Depth of the menu.
- * @param  object  $args        wp_nav_menu() arguments.
+ * @param string   $item_output The menu item's starting HTML output.
+ * @param WP_Post  $item        Menu item data object.
+ * @param int      $depth       Depth of the menu. Used for padding.
+ * @param stdClass $args        An object of wp_nav_menu() arguments.
  * @return string The menu item output with social icon.
  */
 function twentyseventeen_nav_menu_social_icons( $item_output, $item, $depth, $args ) {
@@ -143,10 +143,10 @@ add_filter( 'walker_nav_menu_start_el', 'twentyseventeen_nav_menu_social_icons',
 /**
  * Add dropdown icon if menu item has children.
  *
- * @param  string  $title The menu item's title.
- * @param  WP_Post $item  The current menu item.
- * @param  object  $args  An array of wp_nav_menu() arguments.
- * @param  int     $depth Depth of menu item. Used for padding.
+ * @param string   $title The menu item's title.
+ * @param WP_Post  $item  The current menu item.
+ * @param stdClass $args  An object of wp_nav_menu() arguments.
+ * @param int      $depth Depth of menu item. Used for padding.
  * @return string The menu item's title with dropdown icon.
  */
 function twentyseventeen_dropdown_icon_to_menu_link( $title, $item, $args, $depth ) {
