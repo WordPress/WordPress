@@ -117,21 +117,21 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$nonmenu_tabs = array( 'plugin-information' ); // Valid actions to perform which do not have a Menu item.
 
 		/**
-		 * Filters the tabs shown on the Plugin Install screen.
+		 * Filters the tabs shown on the Add Plugins screen.
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param string[] $tabs The tabs shown on the Plugin Install screen. Defaults include 'featured', 'popular',
-		 *                      'recommended', 'favorites', and 'upload'.
+		 * @param string[] $tabs The tabs shown on the Add Plugins screen. Defaults include
+		 *                       'featured', 'popular', 'recommended', 'favorites', and 'upload'.
 		 */
 		$tabs = apply_filters( 'install_plugins_tabs', $tabs );
 
 		/**
-		 * Filters tabs not associated with a menu item on the Plugin Install screen.
+		 * Filters tabs not associated with a menu item on the Add Plugins screen.
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param string[] $nonmenu_tabs The tabs that don't have a menu item on the Plugin Install screen.
+		 * @param string[] $nonmenu_tabs The tabs that don't have a menu item on the Add Plugins screen.
 		 */
 		$nonmenu_tabs = apply_filters( 'install_plugins_nonmenu_tabs', $nonmenu_tabs );
 
@@ -207,14 +207,14 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filters API request arguments for each Plugin Install screen tab.
+		 * Filters API request arguments for each Add Plugins screen tab.
 		 *
 		 * The dynamic portion of the hook name, `$tab`, refers to the plugin install tabs.
 		 * Default tabs include 'featured', 'popular', 'recommended', 'favorites', and 'upload'.
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param array|bool $args Plugin Install API arguments.
+		 * @param array|false $args Plugin install API arguments.
 		 */
 		$args = apply_filters( "install_plugins_table_api_args_{$tab}", $args );
 

@@ -639,6 +639,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 */
 	public function column_description( $theme ) {
 		global $status, $totals;
+
 		if ( $theme->errors() ) {
 			$pre = 'broken' === $status ? __( 'Broken Theme:' ) . ' ' : '';
 			echo '<p><strong class="error-message">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
@@ -680,20 +681,21 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				__( 'Visit Theme Site' )
 			);
 		}
+
 		/**
 		 * Filters the array of row meta for each theme in the Multisite themes
 		 * list table.
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param string[] $theme_meta An array of the theme's metadata,
-		 *                             including the version, author, and
-		 *                             theme URI.
+		 * @param string[] $theme_meta An array of the theme's metadata, including
+		 *                             the version, author, and theme URI.
 		 * @param string   $stylesheet Directory name of the theme.
 		 * @param WP_Theme $theme      WP_Theme object.
 		 * @param string   $status     Status of the theme.
 		 */
 		$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $stylesheet, $theme, $status );
+
 		echo implode( ' | ', $theme_meta );
 
 		echo '</div>';
@@ -768,8 +770,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string   $html       The HTML for theme’s auto-update setting including toggle auto-update action link
-		 *                             and time to next update.
+		 * @param string   $html       The HTML for theme's auto-update setting, including
+		 *                             toggle auto-update action link and time to next update.
 		 * @param string   $stylesheet Directory name of the theme.
 		 * @param WP_Theme $theme      WP_Theme object.
 		 */

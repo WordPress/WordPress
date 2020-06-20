@@ -677,7 +677,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			 *
 			 * @param string $plugin       Path to the plugin file relative to the plugins directory.
 			 * @param bool   $network_wide Whether to enable the plugin for all sites in the network
-			 *                             or just the current site. Multisite only. Default is false.
+			 *                             or just the current site. Multisite only. Default false.
 			 */
 			do_action( 'activate_plugin', $plugin, $network_wide );
 
@@ -692,7 +692,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			 * @since 2.0.0
 			 *
 			 * @param bool $network_wide Whether to enable the plugin for all sites in the network
-			 *                           or just the current site. Multisite only. Default is false.
+			 *                           or just the current site. Multisite only. Default false.
 			 */
 			do_action( "activate_{$plugin}", $network_wide );
 		}
@@ -719,7 +719,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			 *
 			 * @param string $plugin       Path to the plugin file relative to the plugins directory.
 			 * @param bool   $network_wide Whether to enable the plugin for all sites in the network
-			 *                             or just the current site. Multisite only. Default is false.
+			 *                             or just the current site. Multisite only. Default false.
 			 */
 			do_action( 'activated_plugin', $plugin, $network_wide );
 		}

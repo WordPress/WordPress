@@ -276,7 +276,6 @@ class WP_Automatic_Updater {
 	 *
 	 * @param string $type The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
 	 * @param object $item The update offer.
-	 *
 	 * @return null|WP_Error
 	 */
 	public function update( $type, $item ) {
@@ -1037,10 +1036,9 @@ class WP_Automatic_Updater {
 		 *     @type string $body    The email message body.
 		 *     @type string $headers Any email headers, defaults to no headers.
 		 * }
-		 * @param string $type               The type of email being sent. Can be one of
-		 *                                   'success', 'fail', 'mixed'.
-		 * @param array  $successful_updates The updates that succeeded.
-		 * @param array  $failed_updates     The updates that failed.
+		 * @param string $type               The type of email being sent. Can be one of 'success', 'fail', 'mixed'.
+		 * @param array  $successful_updates A list of updates that succeeded.
+		 * @param array  $failed_updates     A list of updates that failed.
 		 */
 		$email = apply_filters( 'auto_plugin_theme_update_email', $email, $type, $successful_updates, $failed_updates );
 

@@ -1006,9 +1006,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 *
 					 * @since 2.8.0
 					 *
-					 * @param string[] $plugin_meta An array of the plugin's metadata,
-					 *                              including the version, author,
-					 *                              author URI, and plugin URI.
+					 * @param string[] $plugin_meta An array of the plugin's metadata, including
+					 *                              the version, author, author URI, and plugin URI.
 					 * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
 					 * @param array    $plugin_data An array of plugin data.
 					 * @param string   $status      Status of the plugin. Defaults are 'All', 'Active',
@@ -1016,6 +1015,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 *                              'Drop-ins', 'Search', 'Paused'.
 					 */
 					$plugin_meta = apply_filters( 'plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $status );
+
 					echo implode( ' | ', $plugin_meta );
 
 					echo '</div>';
@@ -1089,8 +1089,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 *
 					 * @since 5.5.0
 					 *
-					 * @param string $html        The HTML of the plugin's auto-update column content,
-					 *                            including toggle auto-update action links and time to next update.
+					 * @param string $html        The HTML of the plugin's auto-update column content, including
+					 *                            toggle auto-update action links and time to next update.
 					 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
 					 * @param array  $plugin_data An array of plugin data.
 					 */

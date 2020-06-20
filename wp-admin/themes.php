@@ -552,7 +552,7 @@ if ( ! is_multisite() && $broken_themes ) {
 <?php
 
 /**
- * Returns the template for displaying the auto-update setting for a theme.
+ * Returns the JavaScript template used to display the auto-update setting for a theme.
  *
  * @since 5.5.0
  *
@@ -585,7 +585,7 @@ function wp_theme_auto_update_setting_template() {
 	';
 
 	/**
-	 * Filters the JavaScript template used in Backbone to display the auto-update setting for a theme (in the overlay).
+	 * Filters the JavaScript template used to display the auto-update setting for a theme (in the overlay).
 	 *
 	 * See {@see wp_prepare_themes_for_js()} for the properties of the `data` object.
 	 *
