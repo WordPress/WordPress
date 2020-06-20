@@ -177,14 +177,12 @@ class WP_Date_Query {
 	 * Recursive-friendly query sanitizer.
 	 *
 	 * Ensures that each query-level clause has a 'relation' key, and that
-	 * each first-order clause contains all the necessary keys from
-	 * `$defaults`.
+	 * each first-order clause contains all the necessary keys from `$defaults`.
 	 *
 	 * @since 4.1.0
 	 *
 	 * @param array $queries
 	 * @param array $parent_query
-	 *
 	 * @return array Sanitized queries.
 	 */
 	public function sanitize_query( $queries, $parent_query = null ) {

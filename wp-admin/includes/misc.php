@@ -1401,7 +1401,6 @@ All at ###SITENAME###
  *
  * @param string  $title Page title.
  * @param WP_Post $page  Page data object.
- *
  * @return string Page title.
  */
 function _wp_privacy_settings_filter_draft_page_titles( $title, $page ) {

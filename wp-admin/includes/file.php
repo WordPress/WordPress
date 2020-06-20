@@ -1976,7 +1976,6 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
  * @param array         $extra_fields                 Optional. Extra `POST` fields to be checked for inclusion in
  *                                                    the post. Default null.
  * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
- *
  * @return bool|array True if no filesystem credentials are required, false if they are required but have not been
  *                    provided, array of credentials if they are required and have been provided.
  */

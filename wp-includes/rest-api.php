@@ -715,10 +715,12 @@ function rest_send_allow_header( $response, $server, $request ) {
 /**
  * Recursively computes the intersection of arrays using keys for comparison.
  *
+ * @since 5.3.0
+ *
  * @param  array $array1 The array with master keys to check.
  * @param  array $array2 An array to compare keys against.
- *
- * @return array An associative array containing all the entries of array1 which have keys that are present in all arguments.
+ * @return array An associative array containing all the entries of array1 which have keys
+ *               that are present in all arguments.
  */
 function _rest_array_intersect_key_recursive( $array1, $array2 ) {
 	$array1 = array_intersect_key( $array1, $array2 );
@@ -738,7 +740,6 @@ function _rest_array_intersect_key_recursive( $array1, $array2 ) {
  * @param WP_REST_Response $response Current response being served.
  * @param WP_REST_Server   $server   ResponseHandler instance (usually WP_REST_Server).
  * @param WP_REST_Request  $request  The request that was used to make current response.
- *
  * @return WP_REST_Response Response to be served, trimmed down to contain a subset of fields.
  */
 function rest_filter_response_fields( $response, $server, $request ) {

@@ -589,8 +589,8 @@ add_filter( 'wp_get_attachment_image_attributes', 'twentyseventeen_post_thumbnai
  * @since Twenty Seventeen 1.0
  *
  * @param string $template front-page.php.
- *
- * @return string The template to be used: blank if is_home() is true (defaults to index.php), else $template.
+ * @return string The template to be used: blank if is_home() is true (defaults to index.php),
+ *                otherwise $template.
  */
 function twentyseventeen_front_page_template( $template ) {
 	return is_home() ? '' : $template;
@@ -617,7 +617,7 @@ function twentyseventeen_widget_tag_cloud_args( $args ) {
 add_filter( 'widget_tag_cloud_args', 'twentyseventeen_widget_tag_cloud_args' );
 
 /**
- * Get unique ID.
+ * Gets unique ID.
  *
  * This is a PHP implementation of Underscore's uniqueId method. A static variable
  * contains an integer that is incremented with each call. This number is returned

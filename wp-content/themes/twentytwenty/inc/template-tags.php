@@ -21,13 +21,13 @@
 /**
  * Logo & Description
  */
+
 /**
  * Displays the site logo, either text or image.
  *
  * @param array   $args Arguments for displaying the site logo either as an image or text.
  * @param boolean $echo Echo or return the HTML.
- *
- * @return string $html Compiled HTML based on our arguments.
+ * @return string Compiled HTML based on our arguments.
  */
 function twentytwenty_site_logo( $args = array(), $echo = true ) {
 	$logo       = get_custom_logo();
@@ -89,8 +89,7 @@ function twentytwenty_site_logo( $args = array(), $echo = true ) {
  * Displays the site description.
  *
  * @param boolean $echo Echo or return the html.
- *
- * @return string $html The HTML to display.
+ * @return string The HTML to display.
  */
 function twentytwenty_site_description( $echo = true ) {
 	$description = get_bloginfo( 'description' );
@@ -124,11 +123,11 @@ function twentytwenty_site_description( $echo = true ) {
 /**
  * Comments
  */
+
 /**
- * Check if the specified comment is written by the author of the post commented on.
+ * Checks if the specified comment is written by the author of the post commented on.
  *
  * @param object $comment Comment data.
- *
  * @return bool
  */
 function twentytwenty_is_comment_by_post_author( $comment = null ) {
@@ -149,13 +148,13 @@ function twentytwenty_is_comment_by_post_author( $comment = null ) {
 }
 
 /**
- * Filter comment reply link to not JS scroll.
+ * Filters comment reply link to not JS scroll.
+ *
  * Filter the comment reply link to add a class indicating it should not use JS slow-scroll, as it
  * makes it scroll to the wrong position on the page.
  *
  * @param string $link Link to the top of the page.
- *
- * @return string $link Link to the top of the page.
+ * @return string Link to the top of the page.
  */
 function twentytwenty_filter_comment_reply_link( $link ) {
 
@@ -169,11 +168,13 @@ add_filter( 'comment_reply_link', 'twentytwenty_filter_comment_reply_link' );
 /**
  * Post Meta
  */
+
 /**
- * Get and Output Post Meta.
- * If it's a single post, output the post meta values specified in the Customizer settings.
+ * Retrieves and displays the post meta.
  *
- * @param int    $post_id The ID of the post for which the post meta should be output.
+ * If it's a single post, outputs the post meta values specified in the Customizer settings.
+ *
+ * @param int    $post_id  The ID of the post for which the post meta should be output.
  * @param string $location Which post meta location to output – single or preview.
  */
 function twentytwenty_the_post_meta( $post_id = null, $location = 'single-top' ) {
@@ -220,7 +221,7 @@ function twentytwenty_edit_post_link( $link, $post_id, $text ) {
 add_filter( 'edit_post_link', 'twentytwenty_edit_post_link', 10, 3 );
 
 /**
- * Get the post meta.
+ * Retrieves the post meta.
  *
  * @param int    $post_id The ID of the post.
  * @param string $location The location where the meta is shown.
@@ -233,15 +234,17 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 	}
 
 	/**
-	 * Filters post types array
+	 * Filters post types array.
 	 *
-	 * This filter can be used to hide post meta information of post, page or custom post type registerd by child themes or plugins
+	 * This filter can be used to hide post meta information of post, page or custom post type
+	 * registered by child themes or plugins.
 	 *
 	 * @since Twenty Twenty 1.0
 	 *
 	 * @param array Array of post types
 	 */
 	$disallowed_post_types = apply_filters( 'twentytwenty_disallowed_post_types_for_meta_output', array( 'page' ) );
+
 	// Check whether the post type is allowed to output post meta.
 	if ( in_array( get_post_type( $post_id ), $disallowed_post_types, true ) ) {
 		return;
@@ -253,19 +256,19 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 	// Get the post meta settings for the location specified.
 	if ( 'single-top' === $location ) {
 		/**
-		* Filters post meta info visibility
-		*
-		* Use this filter to hide post meta information like Author, Post date, Comments, Is sticky status
-		*
-		* @since Twenty Twenty 1.0
-		*
-		* @param array $args {
-		*  @type string 'author'
-		*  @type string 'post-date'
-		*  @type string 'comments'
-		*  @type string 'sticky'
-		* }
-		*/
+		 * Filters post meta info visibility.
+		 *
+		 * Use this filter to hide post meta information like Author, Post date, Comments, Is sticky status.
+		 *
+		 * @since Twenty Twenty 1.0
+		 *
+		 * @param array $args {
+		 *  @type string 'author'
+		 *  @type string 'post-date'
+		 *  @type string 'comments'
+		 *  @type string 'sticky'
+		 * }
+		 */
 		$post_meta = apply_filters(
 			'twentytwenty_post_meta_location_single_top',
 			array(
@@ -281,16 +284,16 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 	} elseif ( 'single-bottom' === $location ) {
 
 		/**
-		* Filters post tags visibility
-		*
-		* Use this filter to hide post tags
-		*
-		* @since Twenty Twenty 1.0
-		*
-		* @param array $args {
-		*   @type string 'tags'
-		* }
-		*/
+		 * Filters post tags visibility.
+		 *
+		 * Use this filter to hide post tags.
+		 *
+		 * @since Twenty Twenty 1.0
+		 *
+		 * @param array $args {
+		 *   @type string 'tags'
+		 * }
+		 */
 		$post_meta = apply_filters(
 			'twentytwenty_post_meta_location_single_bottom',
 			array(
@@ -489,8 +492,10 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 /**
  * Menus
  */
+
 /**
- * Filter Classes of wp_list_pages items to match menu items.
+ * Filters classes of wp_list_pages items to match menu items.
+ *
  * Filter the class applied to wp_list_pages() items with children to match the menu class, to simplify.
  * styling of sub levels in the fallback. Only applied if the match_menu_classes argument is set.
  *
@@ -499,7 +504,6 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
  * @param int    $depth Depth of the current comment.
  * @param array  $args An array of arguments.
  * @param string $current_page Whether or not the item is the current item.
- *
  * @return array $css_class CSS Class names.
  */
 function twentytwenty_filter_wp_list_pages_item_classes( $css_class, $item, $depth, $args, $current_page ) {
@@ -528,12 +532,11 @@ function twentytwenty_filter_wp_list_pages_item_classes( $css_class, $item, $dep
 add_filter( 'page_css_class', 'twentytwenty_filter_wp_list_pages_item_classes', 10, 5 );
 
 /**
- * Add a Sub Nav Toggle to the Expanded Menu and Mobile Menu.
+ * Adds a Sub Nav Toggle to the Expanded Menu and Mobile Menu.
  *
  * @param stdClass $args An array of arguments.
  * @param string   $item Menu item.
  * @param int      $depth Depth of the current menu item.
- *
  * @return stdClass $args An object of wp_nav_menu() arguments.
  */
 function twentytwenty_add_sub_toggles_to_main_menu( $args, $item, $depth ) {
@@ -575,7 +578,7 @@ function twentytwenty_add_sub_toggles_to_main_menu( $args, $item, $depth ) {
 add_filter( 'nav_menu_item_args', 'twentytwenty_add_sub_toggles_to_main_menu', 10, 3 );
 
 /**
- * Display SVG icons in social links menu.
+ * Displays SVG icons in social links menu.
  *
  * @param  string  $item_output The menu item output.
  * @param  WP_Post $item        Menu item object.
@@ -601,9 +604,11 @@ add_filter( 'walker_nav_menu_start_el', 'twentytwenty_nav_menu_social_icons', 10
 /**
  * Classes
  */
+
 /**
- * Add No-JS Class.
- * If we're missing JavaScript support, the HTML element will have a no-js class.
+ * Adds 'no-js' class.
+ *
+ * If we're missing JavaScript support, the HTML element will have a 'no-js' class.
  */
 function twentytwenty_no_js_class() {
 
@@ -616,11 +621,10 @@ function twentytwenty_no_js_class() {
 add_action( 'wp_head', 'twentytwenty_no_js_class' );
 
 /**
- * Add conditional body classes.
+ * Adds conditional body classes.
  *
  * @param array $classes Classes added to the body tag.
- *
- * @return array $classes Classes added to the body tag.
+ * @return array Classes added to the body tag.
  */
 function twentytwenty_body_classes( $classes ) {
 
@@ -716,12 +720,12 @@ add_filter( 'body_class', 'twentytwenty_body_classes' );
 /**
  * Archives
  */
+
 /**
  * Filters the archive title and styles the word before the first colon.
  *
  * @param string $title Current archive title.
- *
- * @return string $title Current archive title.
+ * @return string Current archive title.
  */
 function twentytwenty_get_the_archive_title( $title ) {
 
@@ -748,10 +752,11 @@ add_filter( 'get_the_archive_title', 'twentytwenty_get_the_archive_title' );
 /**
  * Miscellaneous
  */
+
 /**
- * Toggle animation duration in milliseconds.
+ * Toggles animation duration in milliseconds.
  *
- * @return integer Duration in milliseconds
+ * @return int Duration in milliseconds
  */
 function twentytwenty_toggle_duration() {
 	/**
@@ -759,7 +764,7 @@ function twentytwenty_toggle_duration() {
 	 *
 	 * @since Twenty Twenty 1.0
 	 *
-	 * @param integer $duration Duration in milliseconds.
+	 * @param int $duration Duration in milliseconds.
 	 */
 	$duration = apply_filters( 'twentytwenty_toggle_duration', 250 );
 
@@ -767,7 +772,7 @@ function twentytwenty_toggle_duration() {
 }
 
 /**
- * Get unique ID.
+ * Gets unique ID.
  *
  * This is a PHP implementation of Underscore's uniqueId method. A static variable
  * contains an integer that is incremented with each call. This number is returned

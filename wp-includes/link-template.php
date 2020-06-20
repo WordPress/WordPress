@@ -100,7 +100,6 @@ function permalink_anchor( $mode = 'id' ) {
  *
  * @param int|WP_Post $post      Optional. Post ID or post object. Default is the global `$post`.
  * @param bool        $leavename Optional. Whether to keep post name or page name. Default false.
- *
  * @return string|false The permalink URL or false if post does not exist.
  */
 function get_the_permalink( $post = 0, $leavename = false ) {
@@ -4437,7 +4436,6 @@ function the_privacy_policy_link( $before = '', $after = '' ) {
  *
  * @param string $before Optional. Display before privacy policy link. Default empty.
  * @param string $after  Optional. Display after privacy policy link. Default empty.
- *
  * @return string Markup for the link and surrounding elements. Empty string if it
  *                doesn't exist.
  */

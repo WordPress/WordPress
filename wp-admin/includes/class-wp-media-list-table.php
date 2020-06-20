@@ -658,7 +658,6 @@ class WP_Media_List_Table extends WP_List_Table {
 	/**
 	 * @param WP_Post $post
 	 * @param string  $att_title
-	 *
 	 * @return array
 	 */
 	private function _get_row_actions( $post, $att_title ) {

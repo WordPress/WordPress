@@ -57,7 +57,6 @@ function wp_embed_unregister_handler( $id, $priority = 10 ) {
  * @global int $content_width
  *
  * @param string $url Optional. The URL that should be embedded. Default empty.
- *
  * @return array {
  *     Indexed array of the embed width and height in pixels.
  *

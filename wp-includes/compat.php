@@ -345,7 +345,6 @@ if ( ! function_exists( 'is_countable' ) ) {
 	 * @since 4.9.6
 	 *
 	 * @param mixed $var The value to check.
-	 *
 	 * @return bool True if `$var` is countable, false otherwise.
 	 */
 	function is_countable( $var ) {
@@ -367,7 +366,6 @@ if ( ! function_exists( 'is_iterable' ) ) {
 	 * @since 4.9.6
 	 *
 	 * @param mixed $var The value to check.
-	 *
 	 * @return bool True if `$var` is iterable, false otherwise.
 	 */
 	function is_iterable( $var ) {

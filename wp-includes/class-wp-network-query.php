@@ -509,7 +509,6 @@ class WP_Network_Query {
 	 *
 	 * @param string   $string  Search string.
 	 * @param string[] $columns Array of columns to search.
-	 *
 	 * @return string Search SQL.
 	 */
 	protected function get_search_sql( $string, $columns ) {

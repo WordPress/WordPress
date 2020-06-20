@@ -80,7 +80,6 @@ class WP_Paused_Extensions_Storage {
 	 * @since 5.2.0
 	 *
 	 * @param string $extension Plugin or theme directory name.
-	 *
 	 * @return bool True on success, false on failure.
 	 */
 	public function delete( $extension ) {
@@ -121,7 +120,6 @@ class WP_Paused_Extensions_Storage {
 	 * @since 5.2.0
 	 *
 	 * @param string $extension Plugin or theme directory name.
-	 *
 	 * @return array|null Error that is stored, or null if the extension is not paused.
 	 */
 	public function get( $extension ) {
