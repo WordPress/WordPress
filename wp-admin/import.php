@@ -61,7 +61,7 @@ $parent_file = 'tools.php';
 <h1><?php echo esc_html( $title ); ?></h1>
 <?php if ( ! empty( $_GET['invalid'] ) ) : ?>
 	<div class="error">
-		<p>
+		<p><strong><?php _e( 'Error:' ); ?></strong>
 			<?php
 			/* translators: %s: Importer slug. */
 			printf( __( 'The %s importer is invalid or is not installed.' ), '<strong>' . esc_html( $_GET['invalid'] ) . '</strong>' );

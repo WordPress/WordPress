@@ -113,7 +113,7 @@ function network_step1( $errors = false ) {
 	global $is_apache;
 
 	if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
-		echo '<div class="error"><p>' . sprintf(
+		echo '<div class="error"><p><strong>' . __( 'Error:' ) . '</strong> ' . sprintf(
 			/* translators: %s: DO_NOT_UPGRADE_GLOBAL_TABLES */
 			__( 'The constant %s cannot be defined when creating a network.' ),
 			'<code>DO_NOT_UPGRADE_GLOBAL_TABLES</code>'
@@ -139,7 +139,7 @@ function network_step1( $errors = false ) {
 	$hostname  = get_clean_basedomain();
 	$has_ports = strstr( $hostname, ':' );
 	if ( ( false !== $has_ports && ! in_array( $has_ports, array( ':80', ':443' ), true ) ) ) {
-		echo '<div class="error"><p><strong>' . __( 'You cannot install a network of sites with your server address.' ) . '</p></div>';
+		echo '<div class="error"><p><strong>' . __( 'Error:' ) . '</strong> ' . __( 'You cannot install a network of sites with your server address.' ) . '</p></div>';
 		echo '<p>' . sprintf(
 			/* translators: %s: Port number. */
 			__( 'You cannot use port numbers such as %s.' ),
@@ -157,7 +157,7 @@ function network_step1( $errors = false ) {
 
 	$error_codes = array();
 	if ( is_wp_error( $errors ) ) {
-		echo '<div class="error"><p><strong>' . __( 'The network could not be created.' ) . '</strong></p>';
+		echo '<div class="error"><p><strong>' . __( 'Error: The network could not be created.' ) . '</strong></p>';
 		foreach ( $errors->get_error_messages() as $error ) {
 			echo "<p>$error</p>";
 		}

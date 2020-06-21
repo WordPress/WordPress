@@ -358,11 +358,11 @@ function retrieve_password() {
 	$user_data = false;
 
 	if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
-		$errors->add( 'empty_username', __( 'Please enter a username or email address.' ) );
+		$errors->add( 'empty_username', __( '<strong>Error</strong>: Please enter a username or email address.' ) );
 	} elseif ( strpos( $_POST['user_login'], '@' ) ) {
 		$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
 		if ( empty( $user_data ) ) {
-			$errors->add( 'invalid_email', __( 'There is no account with that username or email address.' ) );
+			$errors->add( 'invalid_email', __( '<strong>Error</strong>: There is no account with that username or email address.' ) );
 		}
 	} else {
 		$login     = trim( wp_unslash( $_POST['user_login'] ) );
@@ -404,7 +404,7 @@ function retrieve_password() {
 	}
 
 	if ( ! $user_data ) {
-		$errors->add( 'invalidcombo', __( 'There is no account with that username or email address.' ) );
+		$errors->add( 'invalidcombo', __( '<strong>Error</strong>: There is no account with that username or email address.' ) );
 		return $errors;
 	}
 
@@ -471,7 +471,7 @@ function retrieve_password() {
 			'retrieve_password_email_failure',
 			sprintf(
 				/* translators: %s: Documentation URL. */
-				__( 'The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
+				__( '<strong>Error</strong>: The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
 				esc_url( __( 'https://wordpress.org/support/article/resetting-your-password/' ) )
 			)
 		);
@@ -1214,7 +1214,7 @@ switch ( $action ) {
 					'test_cookie',
 					sprintf(
 						/* translators: 1: Browser cookie documentation URL, 2: Support forums URL. */
-						__( 'Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
+						__( '<strong>Error</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
 						__( 'https://wordpress.org/support/article/cookies/' ),
 						__( 'https://wordpress.org/support/forums/' )
 					)
@@ -1225,7 +1225,7 @@ switch ( $action ) {
 					'test_cookie',
 					sprintf(
 						/* translators: %s: Browser cookie documentation URL. */
-						__( 'Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
+						__( '<strong>Error</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
 						__( 'https://wordpress.org/support/article/cookies/#enable-cookies-in-your-browser' )
 					)
 				);
