@@ -4275,7 +4275,7 @@ class WP_Query {
 		$numpages     = $elements['numpages'];
 
 		/**
-		 * Fires once the post data has been setup.
+		 * Fires once the post data has been set up.
 		 *
 		 * @since 2.8.0
 		 * @since 4.1.0 Introduced `$this` parameter.
