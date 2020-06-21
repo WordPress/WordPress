@@ -182,7 +182,6 @@ ul.add-menu-item-tabs li {
 	display: inline-block;
 	vertical-align: middle;
 	margin-right: 7px;
-	font-style: italic;
 }
 
 .nav-menus-php #post-body div.updated,
@@ -657,13 +656,11 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .field-move-visual-label {
 	float: left;
 	margin-right: 4px;
-	font-style: italic;
 }
 
 .menu-item-settings .field-move .button-link {
 	display: none;
 	margin: 0 2px;
-	font-style: italic;
 }
 
 .menu-item-edit-active .menu-item-settings {
@@ -695,7 +692,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	border: 1px solid #ddd;
 	color: #72777c;
 	font-size: 12px;
-	font-style: italic;
 }
 
 .link-to-original a {
