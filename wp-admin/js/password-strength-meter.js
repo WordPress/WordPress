@@ -53,13 +53,12 @@ window.wp = window.wp || {};
 		 * as username, first name, email etc.
 		 *
 		 * @since 3.7.0
-		 * @deprecated 5.5.0 Use {@see 'userInputBlockList()'} instead.
+		 * @deprecated 5.5.0 Use {@see 'userInputDisallowedList()'} instead.
 		 *
 		 * @return {string[]} The array of words to be disallowed.
 		 */
 		userInputBlacklist : function() {
 			wp.deprecated( 'wp.passwordStrength.userInputBlacklist()', {
-				version: '5.5.0',
 				alternative: 'wp.passwordStrength.userInputDisallowedList()',
 				plugin: 'WordPress',
 				hint: wp.i18n.__( 'Please consider writing more inclusive code.' )
