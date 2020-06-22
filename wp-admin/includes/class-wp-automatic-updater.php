@@ -940,75 +940,141 @@ class WP_Automatic_Updater {
 		if ( empty( $successful_updates ) && empty( $failed_updates ) ) {
 			return;
 		}
-		$body = array();
+
+		$body               = array();
+		$successful_plugins = ( ! empty( $successful_updates['plugin'] ) );
+		$successful_themes  = ( ! empty( $successful_updates['theme'] ) );
+		$failed_plugins     = ( ! empty( $failed_updates['plugin'] ) );
+		$failed_themes      = ( ! empty( $failed_updates['theme'] ) );
 
 		switch ( $type ) {
 			case 'success':
-				/* translators: %s: Site title. */
-				$subject = __( '[%s] Some plugins or themes were automatically updated' );
+				if ( $successful_plugins && $successful_themes ) {
+					/* translators: %s: Site title. */
+					$subject = __( '[%s] Some plugins and themes have automatically updated' );
+					$body[]  = sprintf(
+						/* translators: %s: Home URL. */
+						__( 'Howdy! Some plugins and themes have automatically updated to their latest versions on your site at %s. No further action is needed on your part.' ),
+						home_url()
+					);
+				} elseif ( $successful_plugins ) {
+					/* translators: %s: Site title. */
+					$subject = __( '[%s] Some plugins were automatically updated' );
+					$body[]  = sprintf(
+						/* translators: %s: Home URL. */
+						__( 'Howdy! Some plugins have automatically updated to their latest versions on your site at %s. No further action is needed on your part.' ),
+						home_url()
+					);
+				} else {
+					/* translators: %s: Site title. */
+					$subject = __( '[%s] Some themes were automatically updated' );
+					$body[]  = sprintf(
+						/* translators: %s: Home URL. */
+						__( 'Howdy! Some themes have automatically updated to their latest versions on your site at %s. No further action is needed on your part.' ),
+						home_url()
+					);
+				}
+
 				break;
 			case 'fail':
-				/* translators: %s: Site title. */
-				$subject = __( '[%s] Some plugins or themes have failed to update' );
-				$body[]  = sprintf(
-					/* translators: %s: Home URL. */
-					__( 'Howdy! Failures occurred when attempting to update plugins/themes on your site at %s.' ),
-					home_url()
-				);
-				$body[] = "\n";
-				$body[] = __( 'Please check out your site now. It’s possible that everything is working. If it says you need to update, you should do so.' );
-				break;
 			case 'mixed':
-				/* translators: %s: Site title. */
-				$subject = __( '[%s] Some plugins or themes were automatically updated' );
-				$body[]  = sprintf(
-					/* translators: %s: Home URL. */
-					__( 'Howdy! Failures occurred when attempting to update plugins/themes on your site at %s.' ),
-					home_url()
-				);
-				$body[] = "\n";
-				$body[] = __( 'Please check out your site now. It’s possible that everything is working. If it says you need to update, you should do so.' );
-				$body[] = "\n";
+				if ( $failed_plugins && $failed_themes ) {
+					/* translators: %s: Site title. */
+					$subject = __( '[%s] Some plugins and themes have failed to update' );
+					$body[]  = sprintf(
+						/* translators: %s: Home URL. */
+						__( 'Howdy! Plugins and themes failed to update on your site at %s.' ),
+						home_url()
+					);
+				} elseif ( $failed_plugins ) {
+					/* translators: %s: Site title. */
+					$subject = __( '[%s] Some plugins have failed to update' );
+					$body[]  = sprintf(
+						/* translators: %s: Home URL. */
+						__( 'Howdy! Plugins failed to update on your site at %s.' ),
+						home_url()
+					);
+				} else {
+					/* translators: %s: Site title. */
+					$subject = __( '[%s] Some themes have failed to update' );
+					$body[]  = sprintf(
+						/* translators: %s: Home URL. */
+						__( 'Howdy! Themes failed to update on your site at %s.' ),
+						home_url()
+					);
+				}
+
 				break;
 		}
 
-		// Get failed plugin updates.
-		if ( in_array( $type, array( 'fail', 'mixed' ), true ) && ! empty( $failed_updates['plugin'] ) ) {
-			$body[] = __( 'The following plugins failed to update:' );
-			// List failed updates.
-			foreach ( $failed_updates['plugin'] as $item ) {
-				$body[] = "- {$item->name}";
+		if ( in_array( $type, array( 'fail', 'mixed' ), true ) ) {
+			$body[] = "\n";
+			$body[] = __( 'Please check your site now. It’s possible that everything is working. If there are updates available, you should update.' );
+			$body[] = "\n";
+
+			// List failed plugin updates.
+			if ( ! empty( $failed_updates['plugin'] ) ) {
+				$body[] = __( 'These plugins failed to update:' );
+
+				foreach ( $failed_updates['plugin'] as $item ) {
+					$body[] = "- {$item->name}";
+				}
+				$body[] = "\n";
 			}
+
+			// List failed theme updates.
+			if ( ! empty( $failed_updates['theme'] ) ) {
+				$body[] = __( 'These themes failed to update:' );
+
+				foreach ( $failed_updates['theme'] as $item ) {
+					$body[] = "- {$item->name}";
+				}
+				$body[] = "\n";
+			}
+		}
+
+		// List successful updates.
+		if ( in_array( $type, array( 'success', 'mixed' ), true ) ) {
+			$body[] = "\n";
+
+			// List successful plugin updates.
+			if ( ! empty( $successful_updates['plugin'] ) ) {
+				$body[] = __( 'These plugins are now up to date:' );
+
+				foreach ( $successful_updates['plugin'] as $item ) {
+					$body[] = "- {$item->name}";
+				}
+				$body[] = "\n";
+			}
+
+			// List successful theme updates.
+			if ( ! empty( $successful_updates['theme'] ) ) {
+				$body[] = __( 'These themes are now up to date:' );
+				// List successful updates.
+				foreach ( $successful_updates['theme'] as $item ) {
+					$body[] = "- {$item->name}";
+				}
+				$body[] = "\n";
+			}
+		}
+
+		if ( $failed_plugins ) {
+			$body[] = sprintf(
+				/* translators: %s: Plugins screen URL. */
+				__( 'To manage plugins on your site, visit the Plugins page: %s' ),
+				admin_url( 'plugins.php' )
+			);
 			$body[] = "\n";
 		}
-		// Get failed theme updates.
-		if ( in_array( $type, array( 'fail', 'mixed' ), true ) && ! empty( $failed_updates['theme'] ) ) {
-			$body[] = __( 'The following themes failed to update:' );
-			// List failed updates.
-			foreach ( $failed_updates['theme'] as $item ) {
-				$body[] = "- {$item->name}";
-			}
+
+		if ( $failed_themes ) {
+			$body[] = sprintf(
+				/* translators: %s: Themes screen URL. */
+				__( 'To manage themes on your site, visit the Themes page: %s' ),
+				admin_url( 'themes.php' )
+			);
 			$body[] = "\n";
 		}
-		// Get successful plugin updates.
-		if ( in_array( $type, array( 'success', 'mixed' ), true ) && ! empty( $successful_updates['plugin'] ) ) {
-			$body[] = __( 'The following plugins were successfully updated:' );
-			// List successful updates.
-			foreach ( $successful_updates['plugin'] as $item ) {
-				$body[] = "- {$item->name}";
-			}
-			$body[] = "\n";
-		}
-		// Get successful theme updates.
-		if ( in_array( $type, array( 'success', 'mixed' ), true ) && ! empty( $successful_updates['theme'] ) ) {
-			$body[] = __( 'The following themes were successfully updated:' );
-			// List successful updates.
-			foreach ( $successful_updates['theme'] as $item ) {
-				$body[] = "- {$item->name}";
-			}
-			$body[] = "\n";
-		}
-		$body[] = "\n";
 
 		// Add a note about the support forums.
 		$body[] = __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
