@@ -328,7 +328,7 @@ class WP_Debug_Data {
 		$is_writable_wp_content_dir     = wp_is_writable( WP_CONTENT_DIR );
 		$is_writable_upload_dir         = wp_is_writable( $upload_dir['basedir'] );
 		$is_writable_wp_plugin_dir      = wp_is_writable( WP_PLUGIN_DIR );
-		$is_writable_template_directory = wp_is_writable( get_template_directory() . '/..' );
+		$is_writable_template_directory = wp_is_writable( get_theme_root( get_template() ) );
 
 		$info['wp-filesystem'] = array(
 			'label'       => __( 'Filesystem Permissions' ),
