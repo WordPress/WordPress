@@ -331,7 +331,6 @@ Description: Used to style blocks in the editor.
 .edit-post-visual-editor ol,
 .editor-block-list__block ol,
 .block-library-list ol {
-	margin: 0 0 1.6em 1.3333em;
 	padding: 0;
 }
 

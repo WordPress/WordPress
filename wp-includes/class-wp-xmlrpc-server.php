@@ -1515,7 +1515,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( isset( $post_data['terms'] ) && is_array( $post_data['terms'] ) ) {
 				$taxonomies = array_keys( $post_data['terms'] );
 
-				// Validating term ids.
+				// Validating term IDs.
 				foreach ( $taxonomies as $taxonomy ) {
 					if ( ! array_key_exists( $taxonomy, $post_type_taxonomies ) ) {
 						return new IXR_Error( 401, __( 'Sorry, one of the given taxonomies is not supported by the post type.' ) );
@@ -5656,7 +5656,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$postdata = get_post( $post_ID, ARRAY_A );
 
 		/*
-		 * If there is no post data for the give post id, stop now and return an error.
+		 * If there is no post data for the give post ID, stop now and return an error.
 		 * Otherwise a new post will be created (which was the old behavior).
 		 */
 		if ( ! $postdata || empty( $postdata['ID'] ) ) {

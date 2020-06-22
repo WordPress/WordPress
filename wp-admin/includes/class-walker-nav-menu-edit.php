@@ -74,7 +74,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 
 		if ( 'taxonomy' === $item->type ) {
 			$original_object = get_term( (int) $item->object_id, $item->object );
-			if ( $original_object && ! is_wp_error( $original_title ) ) {
+			if ( $original_object && ! is_wp_error( $original_object ) ) {
 				$original_title = $original_object->name;
 			}
 		} elseif ( 'post_type' === $item->type ) {

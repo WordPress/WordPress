@@ -95,7 +95,7 @@ function wp_default_packages_vendor( $scripts ) {
 	$vendor_scripts_versions = array(
 		'react'                       => '16.9.0',
 		'react-dom'                   => '16.9.0',
-		'moment'                      => '2.22.2',
+		'moment'                      => '2.26.0',
 		'lodash'                      => '4.17.15',
 		'wp-polyfill-fetch'           => '3.0.0',
 		'wp-polyfill-formdata'        => '3.0.12',
@@ -139,7 +139,7 @@ function wp_default_packages_vendor( $scripts ) {
 	did_action( 'init' ) && $scripts->add_inline_script(
 		'moment',
 		sprintf(
-			"moment.locale( '%s', %s );",
+			"moment.updateLocale( '%s', %s );",
 			get_user_locale(),
 			wp_json_encode(
 				array(
@@ -719,16 +719,6 @@ function wp_default_scripts( $scripts ) {
 		'authcheckL10n',
 		array(
 			'beforeunload' => __( 'Your session has expired. You can log in again from this page or go to the login page.' ),
-
-			/**
-			 * Filters the authentication check interval.
-			 *
-			 * @since 3.6.0
-			 *
-			 * @param int $interval The interval in which to check a user's authentication.
-			 *                      Default 3 minutes in seconds, or 180.
-			 */
-			'interval'     => apply_filters( 'wp_auth_check_interval', 3 * MINUTE_IN_SECONDS ),
 		)
 	);
 
@@ -825,8 +815,8 @@ function wp_default_scripts( $scripts ) {
 
 	// Masonry v2 depended on jQuery. v3 does not. The older jquery-masonry handle is a shiv.
 	// It sets jQuery as a dependency, as the theme may have been implicitly loading it this way.
-	$scripts->add( 'imagesloaded', '/wp-includes/js/imagesloaded.min.js', array(), '3.2.0', 1 );
-	$scripts->add( 'masonry', '/wp-includes/js/masonry.min.js', array( 'imagesloaded' ), '3.3.2', 1 );
+	$scripts->add( 'imagesloaded', '/wp-includes/js/imagesloaded.min.js', array(), '4.1.4', 1 );
+	$scripts->add( 'masonry', '/wp-includes/js/masonry.min.js', array( 'imagesloaded' ), '4.2.2', 1 );
 	$scripts->add( 'jquery-masonry', "/wp-includes/js/jquery/jquery.masonry$dev_suffix.js", array( 'jquery', 'masonry' ), '3.1.2b', 1 );
 
 	$scripts->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.js', array( 'jquery' ), '3.1-20121105', 1 );
@@ -1981,6 +1971,7 @@ function wp_localize_community_events() {
  * the $_wp_admin_css_colors array value URL.
  *
  * @since 2.6.0
+ *
  * @global array $_wp_admin_css_colors
  *
  * @param string $src    Source URL.
@@ -2193,7 +2184,7 @@ function wp_print_footer_scripts() {
 }
 
 /**
- * Wrapper for do_action('wp_enqueue_scripts')
+ * Wrapper for do_action( 'wp_enqueue_scripts' ).
  *
  * Allows plugins to queue scripts for the front end using wp_enqueue_script().
  * Runs first in wp_head() where all is_home(), is_page(), etc. functions are available.

@@ -603,8 +603,6 @@ function list_meta( $meta ) {
  *
  * @since 2.5.0
  *
- * @staticvar string $update_nonce
- *
  * @param array $entry
  * @param int   $count
  * @return string
@@ -1235,8 +1233,6 @@ function _get_plugin_from_callback( $callback ) {
  * @since 2.5.0
  *
  * @global array $wp_meta_boxes
- *
- * @staticvar bool $already_sorted
  *
  * @param string|WP_Screen $screen  The screen identifier. If you have used add_menu_page() or
  *                                  add_submenu_page() to create a new screen (and hence screen_id)

@@ -926,24 +926,25 @@ function update_meta_cache( $meta_type, $object_ids ) {
 		return (bool) $check;
 	}
 
-	$cache_key = $meta_type . '_meta';
-	$ids       = array();
-	$cache     = array();
-	foreach ( $object_ids as $id ) {
-		$cached_object = wp_cache_get( $id, $cache_key );
+	$cache_key      = $meta_type . '_meta';
+	$non_cached_ids = array();
+	$cache          = array();
+	$cache_values   = wp_cache_get_multiple( $object_ids, $cache_key );
+
+	foreach ( $cache_values as $id => $cached_object ) {
 		if ( false === $cached_object ) {
-			$ids[] = $id;
+			$non_cached_ids[] = $id;
 		} else {
 			$cache[ $id ] = $cached_object;
 		}
 	}
 
-	if ( empty( $ids ) ) {
+	if ( empty( $non_cached_ids ) ) {
 		return $cache;
 	}
 
 	// Get meta info.
-	$id_list   = join( ',', $ids );
+	$id_list   = join( ',', $non_cached_ids );
 	$id_column = ( 'user' === $meta_type ) ? 'umeta_id' : 'meta_id';
 
 	$meta_list = $wpdb->get_results( "SELECT $column, meta_key, meta_value FROM $table WHERE $column IN ($id_list) ORDER BY $id_column ASC", ARRAY_A );
@@ -967,7 +968,7 @@ function update_meta_cache( $meta_type, $object_ids ) {
 		}
 	}
 
-	foreach ( $ids as $id ) {
+	foreach ( $non_cached_ids as $id ) {
 		if ( ! isset( $cache[ $id ] ) ) {
 			$cache[ $id ] = array();
 		}
@@ -982,7 +983,7 @@ function update_meta_cache( $meta_type, $object_ids ) {
  *
  * @since 4.5.0
  *
- * @return WP_Metadata_Lazyloader $lazyloader Metadata lazyloader queue.
+ * @return WP_Metadata_Lazyloader Metadata lazyloader queue.
  */
 function wp_metadata_lazyloader() {
 	static $wp_metadata_lazyloader;
@@ -1463,7 +1464,7 @@ function get_object_subtype( $object_type, $object_id ) {
 	}
 
 	/**
-	 * Filters the object subtype identifier for a non standard object type.
+	 * Filters the object subtype identifier for a non-standard object type.
 	 *
 	 * The dynamic portion of the hook, `$object_type`, refers to the object
 	 * type (post, comment, term, or user).

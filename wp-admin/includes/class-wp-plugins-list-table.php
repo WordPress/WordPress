@@ -1006,9 +1006,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 *
 					 * @since 2.8.0
 					 *
-					 * @param string[] $plugin_meta An array of the plugin's metadata,
-					 *                              including the version, author,
-					 *                              author URI, and plugin URI.
+					 * @param string[] $plugin_meta An array of the plugin's metadata, including
+					 *                              the version, author, author URI, and plugin URI.
 					 * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
 					 * @param array    $plugin_data An array of plugin data.
 					 * @param string   $status      Status of the plugin. Defaults are 'All', 'Active',
@@ -1016,6 +1015,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 *                              'Drop-ins', 'Search', 'Paused'.
 					 */
 					$plugin_meta = apply_filters( 'plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $status );
+
 					echo implode( ' | ', $plugin_meta );
 
 					echo '</div>';
@@ -1041,6 +1041,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 					echo "<td class='column-auto-updates{$extra_classes}'>";
 
+					$html = array();
+
 					if ( in_array( $plugin_file, $auto_updates, true ) ) {
 						$text       = __( 'Disable auto-updates' );
 						$action     = 'disable';
@@ -1060,27 +1062,41 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 					$url = add_query_arg( $query_args, 'plugins.php' );
 
-					printf(
+					$html[] = sprintf(
 						'<a href="%s" class="toggle-auto-update" data-wp-action="%s">',
 						wp_nonce_url( $url, 'updates' ),
 						$action
 					);
 
-					echo '<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>';
-					echo '<span class="label">' . $text . '</span>';
-					echo '</a>';
+					$html[] = '<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>';
+					$html[] = '<span class="label">' . $text . '</span>';
+					$html[] = '</a>';
 
 					$available_updates = get_site_transient( 'update_plugins' );
 
 					if ( isset( $available_updates->response[ $plugin_file ] ) ) {
-						printf(
+						$html[] = sprintf(
 							'<div class="auto-update-time%s">%s</div>',
 							$time_class,
 							wp_get_auto_update_message()
 						);
 					}
 
-					echo '<div class="inline notice error hidden"><p></p></div>';
+					$html = implode( '', $html );
+
+					/**
+					 * Filters the HTML of the auto-updates setting for each plugin in the Plugins list table.
+					 *
+					 * @since 5.5.0
+					 *
+					 * @param string $html        The HTML of the plugin's auto-update column content, including
+					 *                            toggle auto-update action links and time to next update.
+					 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
+					 * @param array  $plugin_data An array of plugin data.
+					 */
+					echo apply_filters( 'plugin_auto_update_setting_html', $html, $plugin_file, $plugin_data );
+
+					echo '<div class="notice notice-error notice-alt inline hidden"><p></p></div>';
 					echo '</td>';
 
 					break;

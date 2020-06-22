@@ -124,9 +124,6 @@ function ms_file_constants() {
  * we will have translations loaded and can trigger warnings easily.
  *
  * @since 3.0.0
- *
- * @staticvar bool $subdomain_error
- * @staticvar bool $subdomain_error_warn
  */
 function ms_subdomain_constants() {
 	static $subdomain_error      = null;

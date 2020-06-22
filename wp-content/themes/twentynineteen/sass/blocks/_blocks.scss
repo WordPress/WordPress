@@ -339,6 +339,12 @@
 			line-height: 1;
 			font-weight: bold;
 			margin: 0 0.25em 0 0;
+
+			@-moz-document url-prefix()  {
+				& {
+					margin-top: 0.2em;
+				}
+			}
 		}
 	}
 
@@ -677,6 +683,11 @@
 		margin-top: (2 * $size__spacing-unit);
 		max-width: 2.25em;
 		text-align: left;
+
+		&:not(.wp-block-separator) {
+			max-width: 100%;
+			@include postContentMaxWidth();
+		}
 
 		&.is-style-wide {
 			max-width: 100%;

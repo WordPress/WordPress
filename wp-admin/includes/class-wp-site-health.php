@@ -148,7 +148,6 @@ class WP_Site_Health {
 	 * @since 5.4.0
 	 *
 	 * @param $callback
-	 *
 	 * @return mixed|void
 	 */
 	private function perform_test( $callback ) {
@@ -790,7 +789,6 @@ class WP_Site_Health {
 	 * @param string $function  Optional. The function name to test. Default null.
 	 * @param string $constant  Optional. The constant name to test for. Default null.
 	 * @param string $class     Optional. The class name to test for. Default null.
-	 *
 	 * @return bool Whether or not the extension and function are available.
 	 */
 	private function test_php_extension_availability( $extension = null, $function = null, $constant = null, $class = null ) {

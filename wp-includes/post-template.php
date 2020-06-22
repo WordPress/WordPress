@@ -282,7 +282,9 @@ function get_the_content( $more_link_text = null, $strip_teaser = false, $post =
 		return '';
 	}
 
-	if ( null === $post ) {
+	// Use the globals if the $post parameter was not specified,
+	// but only after they have been set up in setup_postdata().
+	if ( null === $post && did_action( 'the_post' ) ) {
 		$elements = compact( 'page', 'more', 'preview', 'pages', 'multipage' );
 	} else {
 		$elements = generate_postdata( $_post );
@@ -454,7 +456,7 @@ function has_excerpt( $post = 0 ) {
  */
 function post_class( $class = '', $post_id = null ) {
 	// Separates classes with a single space, collates classes for post DIV.
-	echo 'class="' . join( ' ', get_post_class( $class, $post_id ) ) . '"';
+	echo 'class="' . esc_attr( join( ' ', get_post_class( $class, $post_id ) ) ) . '"';
 }
 
 /**
@@ -590,7 +592,7 @@ function get_post_class( $class = '', $post_id = null ) {
  */
 function body_class( $class = '' ) {
 	// Separates class names with a single space, collates class names for body element.
-	echo 'class="' . join( ' ', get_body_class( $class ) ) . '"';
+	echo 'class="' . esc_attr( join( ' ', get_body_class( $class ) ) ) . '"';
 }
 
 /**

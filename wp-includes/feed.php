@@ -18,6 +18,7 @@
  * are retrieved for use in the feeds.
  *
  * @since 1.5.1
+ *
  * @see get_bloginfo() For the list of possible values to display.
  *
  * @param string $show See get_bloginfo() for possible values.
@@ -47,6 +48,7 @@ function get_bloginfo_rss( $show = '' ) {
  * are retrieved for use in the feeds.
  *
  * @since 0.71
+ *
  * @see get_bloginfo() For the list of possible values to display.
  *
  * @param string $show See get_bloginfo() for possible values.
@@ -177,6 +179,7 @@ function the_title_rss() {
  * Retrieve the post content for feeds.
  *
  * @since 2.9.0
+ *
  * @see get_the_content()
  *
  * @param string $feed_type The type of feed. rss2 | atom | rss | rdf
@@ -427,6 +430,7 @@ function get_the_category_rss( $type = null ) {
  * Display the post categories in the feed.
  *
  * @since 0.71
+ *
  * @see get_the_category_rss() For better explanation.
  *
  * @param string $type Optional, default is the type returned by get_default_feed().
@@ -772,6 +776,7 @@ function fetch_feed( $url ) {
 	$feed->set_feed_url( $url );
 	/** This filter is documented in wp-includes/class-wp-feed-cache-transient.php */
 	$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
+
 	/**
 	 * Fires just before processing the SimplePie feed object.
 	 *
@@ -781,6 +786,7 @@ function fetch_feed( $url ) {
 	 * @param string|string[] $url  URL of feed or array of URLs of feeds to retrieve.
 	 */
 	do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
+
 	$feed->init();
 	$feed->set_output_encoding( get_option( 'blog_charset' ) );
 

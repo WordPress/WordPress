@@ -91,6 +91,7 @@ class WP_Http_Encoding {
 	 * https://core.trac.wordpress.org/ticket/18273
 	 *
 	 * @since 2.8.1
+	 *
 	 * @link https://core.trac.wordpress.org/ticket/18273
 	 * @link https://www.php.net/manual/en/function.gzinflate.php#70875
 	 * @link https://www.php.net/manual/en/function.gzinflate.php#77336

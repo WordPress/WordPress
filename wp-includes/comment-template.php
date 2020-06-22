@@ -530,7 +530,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	 *
 	 * @param string[]    $classes    An array of comment classes.
 	 * @param string      $class      A comma-separated list of additional classes added to the list.
-	 * @param int         $comment_id The comment id.
+	 * @param int         $comment_id The comment ID.
 	 * @param WP_Comment  $comment    The comment object.
 	 * @param int|WP_Post $post_id    The post ID or WP_Post object.
 	 */
@@ -596,8 +596,13 @@ function comment_date( $format = '', $comment_ID = 0 ) {
  * @return string The possibly truncated comment excerpt.
  */
 function get_comment_excerpt( $comment_ID = 0 ) {
-	$comment      = get_comment( $comment_ID );
-	$comment_text = strip_tags( str_replace( array( "\n", "\r" ), ' ', $comment->comment_content ) );
+	$comment = get_comment( $comment_ID );
+
+	if ( ! post_password_required( $comment->comment_post_ID ) ) {
+		$comment_text = strip_tags( str_replace( array( "\n", "\r" ), ' ', $comment->comment_content ) );
+	} else {
+		$comment_text = __( 'Password protected' );
+	}
 
 	/* translators: Maximum number of words used in a comment excerpt. */
 	$comment_excerpt_length = intval( _x( '20', 'comment_excerpt_length' ) );
@@ -652,7 +657,7 @@ function comment_excerpt( $comment_ID = 0 ) {
 }
 
 /**
- * Retrieves the comment id of the current comment.
+ * Retrieves the comment ID of the current comment.
  *
  * @since 1.5.0
  *
@@ -674,7 +679,7 @@ function get_comment_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFun
 }
 
 /**
- * Displays the comment id of the current comment.
+ * Displays the comment ID of the current comment.
  *
  * @since 0.71
  */
@@ -1917,7 +1922,7 @@ function get_comment_id_fields( $id = 0 ) {
 	$result   .= "<input type='hidden' name='comment_parent' id='comment_parent' value='$replytoid' />\n";
 
 	/**
-	 * Filters the returned comment id fields.
+	 * Filters the returned comment ID fields.
 	 *
 	 * @since 3.0.0
 	 *

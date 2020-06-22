@@ -1786,8 +1786,6 @@ class WP_Rewrite {
 	 *
 	 * @since 2.0.1
 	 *
-	 * @staticvar bool $do_hard_later
-	 *
 	 * @param bool $hard Whether to update .htaccess (hard flush) or just update rewrite_rules option (soft flush). Default is true (hard).
 	 */
 	public function flush_rules( $hard = true ) {

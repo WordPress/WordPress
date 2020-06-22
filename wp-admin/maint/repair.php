@@ -111,7 +111,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 				printf( __( 'Successfully repaired the %s table.' ), "<code>$table</code>" );
 			} else {
 				/* translators: 1: Table name, 2: Error message. */
-				echo sprintf( __( 'Failed to repair the %1$s table. Error: %2$s' ), "<code>$table</code>", "<code>$check->Msg_text</code>" ) . '<br />';
+				printf( __( 'Failed to repair the %1$s table. Error: %2$s' ), "<code>$table</code>", "<code>$check->Msg_text</code>" ) . '<br />';
 				$problems[ $table ] = $check->Msg_text;
 				$okay               = false;
 			}

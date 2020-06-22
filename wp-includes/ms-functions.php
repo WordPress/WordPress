@@ -1213,6 +1213,7 @@ function wpmu_activate_signup( $key ) {
 		 * @param array  $meta     Signup meta data.
 		 */
 		do_action( 'wpmu_activate_user', $user_id, $password, $meta );
+
 		return array(
 			'user_id'  => $user_id,
 			'password' => $password,
@@ -1251,6 +1252,7 @@ function wpmu_activate_signup( $key ) {
 		),
 		array( 'activation_key' => $key )
 	);
+
 	/**
 	 * Fires immediately after a site is activated.
 	 *
@@ -1927,7 +1929,6 @@ function wpmu_log_new_registrations( $blog_id, $user_id ) {
  * @see term_id_filter
  *
  * @global wpdb $wpdb WordPress database abstraction object.
- * @staticvar int $global_terms_recurse
  *
  * @param int    $term_id    An ID for a term on the current blog.
  * @param string $deprecated Not used.
@@ -2200,6 +2201,7 @@ function add_existing_user_to_blog( $details = false ) {
  * is specifically hooked into the {@see 'wpmu_activate_user'} action.
  *
  * @since MU (3.0.0)
+ *
  * @see add_user_to_blog()
  *
  * @param int    $user_id  User ID.
@@ -2314,8 +2316,6 @@ Thanks!
  * Whether to force SSL on content.
  *
  * @since 2.8.5
- *
- * @staticvar bool $forced_content
  *
  * @param bool $force
  * @return bool True if forced, false if not forced.
@@ -2577,8 +2577,8 @@ function is_upload_space_available() {
  *
  * @since 3.0.0
  *
- * @param  int $size Upload size limit in bytes.
- * @return int       Upload size limit in bytes.
+ * @param int $size Upload size limit in bytes.
+ * @return int Upload size limit in bytes.
  */
 function upload_size_limit_filter( $size ) {
 	$fileupload_maxk = KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 );

@@ -7,7 +7,7 @@ Author URI: https://wordpress.org/
 Description: Our 2019 default theme is designed to show off the power of the block editor. It features custom styles for all the default blocks, and is built so that what you see in the editor looks like what you'll see on your website. Twenty Nineteen is designed to be adaptable to a wide range of websites, whether you’re running a photo blog, launching a new business, or supporting a non-profit. Featuring ample whitespace and modern sans-serif headlines paired with classic serif body text, it's built to be beautiful on all screen sizes.
 Requires at least: 4.9.6
 Requires PHP: 5.2.4
-Version: 1.5
+Version: 1.6
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: twentynineteen
@@ -2797,8 +2797,7 @@ body.page .main-navigation {
   background: transparent;
   color: inherit;
   cursor: pointer;
-  transition: background 250ms ease-in-out,
- transform 150ms ease;
+  transition: background 250ms ease-in-out, transform 150ms ease;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -2959,7 +2958,7 @@ body.page .main-navigation {
   line-height: 1.2;
   text-shadow: none;
   padding: calc( .5 * 1rem) 1rem calc( .5 * 1rem) calc( 24px + 1rem);
-  white-space: nowrap;
+  max-width: 20rem;
 }
 
 .main-navigation .sub-menu > li > a:hover, .main-navigation .sub-menu > li > a:focus,
@@ -5638,6 +5637,12 @@ body.page .main-navigation {
   line-height: 1;
   font-weight: bold;
   margin: 0 0 0 0.25em;
+}
+
+@-moz-document url-prefix() {
+  .entry .entry-content .has-drop-cap:not(:focus)::first-letter {
+    margin-top: 0.2em;
+  }
 }
 
 .entry .entry-content .wp-block-pullquote {

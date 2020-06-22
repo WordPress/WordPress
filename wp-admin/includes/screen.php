@@ -11,8 +11,6 @@
  *
  * @since 2.7.0
  *
- * @staticvar array $column_headers
- *
  * @param string|WP_Screen $screen The screen you want the headers for
  * @return string[] The column header labels keyed by column ID.
  */

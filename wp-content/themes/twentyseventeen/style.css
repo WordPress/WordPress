@@ -1152,6 +1152,8 @@ td {
 	padding: 0.4em;
 }
 
+th,
+td,
 th:first-child,
 td:first-child {
 	padding-left: 0;
@@ -3527,7 +3529,7 @@ p > object:only-child {
 		right: 0;
 		top: 0;
 		width: 100%;
-		z-index: 7;
+		z-index: 1000;
 	}
 
 	.admin-bar .site-navigation-fixed.navigation-top {

@@ -200,7 +200,7 @@ if ( $file_description !== $file_show ) {
 		<p><strong><?php _e( 'Did you know?' ); ?></strong></p>
 		<p>
 			<?php
-			echo sprintf(
+			printf(
 				/* translators: %s: Link to Custom CSS section in the Customizer. */
 				__( 'There&#8217;s no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
 				esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
@@ -362,7 +362,7 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 						<?php
 						if ( ! $theme->parent() ) {
 							echo '<p>';
-							echo sprintf(
+							printf(
 								/* translators: %s: Link to documentation on child themes. */
 								__( 'If you need to tweak more than your theme&#8217;s CSS, you might want to try <a href="%s">making a child theme</a>.' ),
 								esc_url( __( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' ) )

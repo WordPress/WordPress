@@ -21,7 +21,6 @@ if ( ! class_exists( 'TwentyTwenty_Non_Latin_Languages' ) ) {
 		 * Return CSS for non-latin language, if available, or null
 		 *
 		 * @param string $type Whether to return CSS for the "front-end", "block-editor" or "classic-editor".
-		 *
 		 * @return void
 		 */
 		public static function get_non_latin_css( $type = 'front-end' ) {

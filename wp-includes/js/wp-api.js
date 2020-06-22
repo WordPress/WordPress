@@ -248,7 +248,7 @@
 			// Add post and edit endpoints as model args.
 			if ( _.includes( routeEndpoint.methods, 'POST' ) || _.includes( routeEndpoint.methods, 'PUT' ) ) {
 
-				// Add any non empty args, merging them into the args object.
+				// Add any non-empty args, merging them into the args object.
 				if ( ! _.isEmpty( routeEndpoint.args ) ) {
 
 					// Set as default if no args yet.
@@ -265,7 +265,7 @@
 				// Add GET method as model options.
 				if ( _.includes( routeEndpoint.methods, 'GET' ) ) {
 
-					// Add any non empty args, merging them into the defaults object.
+					// Add any non-empty args, merging them into the defaults object.
 					if ( ! _.isEmpty( routeEndpoint.args ) ) {
 
 						// Set as default if no defaults yet.
@@ -327,7 +327,7 @@
 				setDate: function( date, field ) {
 					var theField = field || 'date';
 
-					// Don't alter non parsable date fields.
+					// Don't alter non-parsable date fields.
 					if ( _.indexOf( parseableDates, theField ) < 0 ) {
 						return false;
 					}
@@ -348,7 +348,7 @@
 					var theField   = field || 'date',
 						theISODate = this.get( theField );
 
-					// Only get date fields and non null values.
+					// Only get date fields and non-null values.
 					if ( _.indexOf( parseableDates, theField ) < 0 || _.isNull( theISODate ) ) {
 						return false;
 					}
@@ -360,11 +360,11 @@
 			/**
 			 * Build a helper function to retrieve related model.
 			 *
-			 * @param  {string} parentModel      The parent model.
-			 * @param  {int}    modelId          The model ID if the object to request
-			 * @param  {string} modelName        The model name to use when constructing the model.
-			 * @param  {string} embedSourcePoint Where to check the embedds object for _embed data.
-			 * @param  {string} embedCheckField  Which model field to check to see if the model has data.
+			 * @param {string} parentModel      The parent model.
+			 * @param {int}    modelId          The model ID if the object to request
+			 * @param {string} modelName        The model name to use when constructing the model.
+			 * @param {string} embedSourcePoint Where to check the embedds object for _embed data.
+			 * @param {string} embedCheckField  Which model field to check to see if the model has data.
 			 *
 			 * @return {Deferred.promise}        A promise which resolves to the constructed model.
 			 */
@@ -414,12 +414,12 @@
 			/**
 			 * Build a helper to retrieve a collection.
 			 *
-			 * @param  {string} parentModel      The parent model.
-			 * @param  {string} collectionName   The name to use when constructing the collection.
-			 * @param  {string} embedSourcePoint Where to check the embedds object for _embed data.
-			 * @param  {string} embedIndex       An addiitonal optional index for the _embed data.
+			 * @param {string} parentModel      The parent model.
+			 * @param {string} collectionName   The name to use when constructing the collection.
+			 * @param {string} embedSourcePoint Where to check the embedds object for _embed data.
+			 * @param {string} embedIndex       An addiitonal optional index for the _embed data.
 			 *
-			 * @return {Deferred.promise}        A promise which resolves to the constructed collection.
+			 * @return {Deferred.promise} A promise which resolves to the constructed collection.
 			 */
 			buildCollectionGetter = function( parentModel, collectionName, embedSourcePoint, embedIndex ) {
 				/**
@@ -439,7 +439,7 @@
 				postId    = parentModel.get( 'id' );
 				embeddeds = parentModel.get( '_embedded' ) || {};
 
-				// Verify that we have a valid post id.
+				// Verify that we have a valid post ID.
 				if ( ! _.isNumber( postId ) || 0 === postId ) {
 					deferred.reject();
 					return deferred;
@@ -640,7 +640,7 @@
 				 */
 				setTagsWithCollection: function( tags ) {
 
-					// Pluck out the category ids.
+					// Pluck out the category IDs.
 					this.set( 'tags', tags.pluck( 'id' ) );
 					return this.save();
 				}
@@ -725,7 +725,7 @@
 				 */
 				setCategoriesWithCollection: function( categories ) {
 
-					// Pluck out the category ids.
+					// Pluck out the category IDs.
 					this.set( 'categories', categories.pluck( 'id' ) );
 					return this.save();
 				}
@@ -1347,7 +1347,7 @@
 					modelClassName = mapping.models[ modelClassName ] || modelClassName;
 					loadingObjects.models[ modelClassName ] = wp.api.WPApiBaseModel.extend( {
 
-						// Function that returns a constructed url based on the id.
+						// Function that returns a constructed url based on the ID.
 						url: function() {
 							var url = routeModel.get( 'apiRoot' ) +
 								routeModel.get( 'versionString' ) +

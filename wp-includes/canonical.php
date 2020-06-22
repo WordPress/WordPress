@@ -509,6 +509,11 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$redirect['path'] = trailingslashit( $redirect['path'] ) . $addl_path;
 			}
 
+			// Remove trailing slash for sitemaps requests.
+			if ( ! empty( get_query_var( 'sitemap' ) ) ) {
+				$redirect['path'] = untrailingslashit( $redirect['path'] );
+			}
+
 			$redirect_url = $redirect['scheme'] . '://' . $redirect['host'] . $redirect['path'];
 		}
 
@@ -649,6 +654,11 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$redirect['path'] = user_trailingslashit( $redirect['path'], $user_ts_type );
 	} elseif ( is_front_page() ) {
 		$redirect['path'] = trailingslashit( $redirect['path'] );
+	}
+
+	// Remove trailing slash for sitemaps requests.
+	if ( ! empty( get_query_var( 'sitemap' ) ) || ! empty( get_query_var( 'sitemap-stylesheet' ) ) ) {
+		$redirect['path'] = untrailingslashit( $redirect['path'] );
 	}
 
 	// Strip multiple slashes out of the URL.

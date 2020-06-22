@@ -14,8 +14,6 @@
  * @since 4.5.0 The optional `$autosave` parameter was deprecated and renamed to `$deprecated`.
  * @access private
  *
- * @staticvar array $fields
- *
  * @param array|WP_Post $post       Optional. A post array or a WP_Post object being processed
  *                                  for insertion as a post revision. Default empty array.
  * @param bool          $deprecated Not used.

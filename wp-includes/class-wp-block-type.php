@@ -188,8 +188,8 @@ class WP_Block_Type {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param  array $attributes Original block attributes.
-	 * @return array             Prepared block attributes.
+	 * @param array $attributes Original block attributes.
+	 * @return array Prepared block attributes.
 	 */
 	public function prepare_attributes_for_render( $attributes ) {
 		// If there are no attribute definitions for the block type, skip

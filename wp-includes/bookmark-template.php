@@ -173,7 +173,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
  *                                      Accepts 'ASC' (ascending) or 'DESC' (descending). Default 'ASC'.
  *     @type int      $limit            Amount of bookmarks to display. Accepts 1+ or -1 for all.
  *                                      Default -1.
- *     @type string   $category         Comma-separated list of category ids to include links from.
+ *     @type string   $category         Comma-separated list of category IDs to include links from.
  *                                      Default empty.
  *     @type string   $category_name    Category to retrieve links for by name. Default empty.
  *     @type int|bool $hide_invisible   Whether to show or hide links marked as 'invisible'. Accepts

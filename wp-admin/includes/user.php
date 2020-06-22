@@ -25,7 +25,7 @@ function add_user() {
  * @since 2.0.0
  *
  * @param int $user_id Optional. User ID.
- * @return int|WP_Error user id of the updated user.
+ * @return int|WP_Error User ID of the updated user.
  */
 function edit_user( $user_id = 0 ) {
 	$wp_roles = wp_roles();
@@ -174,7 +174,7 @@ function edit_user( $user_id = 0 ) {
 
 	// Checking the password has been typed twice the same.
 	if ( ( $update || ! empty( $pass1 ) ) && $pass1 != $pass2 ) {
-		$errors->add( 'pass', __( '<strong>Error</strong>: Please enter the same password in both password fields.' ), array( 'form-field' => 'pass1' ) );
+		$errors->add( 'pass', __( '<strong>Error</strong>: Passwords don&#8217;t match. Please enter the same password in both password fields.' ), array( 'form-field' => 'pass1' ) );
 	}
 
 	if ( ! empty( $pass1 ) ) {
@@ -204,7 +204,7 @@ function edit_user( $user_id = 0 ) {
 	} else {
 		$owner_id = email_exists( $user->user_email );
 		if ( $owner_id && ( ! $update || ( $owner_id != $user->ID ) ) ) {
-			$errors->add( 'email_exists', __( '<strong>Error</strong>: This email is already registered, please choose another one.' ), array( 'form-field' => 'email' ) );
+			$errors->add( 'email_exists', __( '<strong>Error</strong>: This email is already registered. Please choose another one.' ), array( 'form-field' => 'email' ) );
 		}
 	}
 
@@ -214,7 +214,7 @@ function edit_user( $user_id = 0 ) {
 	 * @since 2.8.0
 	 *
 	 * @param WP_Error $errors WP_Error object (passed by reference).
-	 * @param bool     $update  Whether this is a user update.
+	 * @param bool     $update Whether this is a user update.
 	 * @param stdClass $user   User object (passed by reference).
 	 */
 	do_action_ref_array( 'user_profile_update_errors', array( &$errors, $update, &$user ) );

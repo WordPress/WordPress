@@ -236,6 +236,12 @@ figcaption,
 		line-height: 1;
 		font-weight: bold;
 		margin: 0 0.25em 0 0;
+
+		@-moz-document url-prefix()  {
+			& {
+				margin-top: 0.2em;
+			}
+		}
 	}
 }
 

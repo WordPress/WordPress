@@ -205,7 +205,7 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 	if ( $update ) {
 		if ( false === $wpdb->update( $wpdb->links, compact( 'link_url', 'link_name', 'link_image', 'link_target', 'link_description', 'link_visible', 'link_owner', 'link_rating', 'link_rel', 'link_notes', 'link_rss' ), compact( 'link_id' ) ) ) {
 			if ( $wp_error ) {
-				return new WP_Error( 'db_update_error', __( 'Could not update link in the database' ), $wpdb->last_error );
+				return new WP_Error( 'db_update_error', __( 'Could not update link in the database.' ), $wpdb->last_error );
 			} else {
 				return 0;
 			}
@@ -213,7 +213,7 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 	} else {
 		if ( false === $wpdb->insert( $wpdb->links, compact( 'link_url', 'link_name', 'link_image', 'link_target', 'link_description', 'link_visible', 'link_owner', 'link_rating', 'link_rel', 'link_notes', 'link_rss' ) ) ) {
 			if ( $wp_error ) {
-				return new WP_Error( 'db_insert_error', __( 'Could not insert link into the database' ), $wpdb->last_error );
+				return new WP_Error( 'db_insert_error', __( 'Could not insert link into the database.' ), $wpdb->last_error );
 			} else {
 				return 0;
 			}

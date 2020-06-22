@@ -182,9 +182,29 @@ if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' )
 	);
 } // End if 'edit_theme_options' && 'customize'.
 
+$help_sidebar_autoupdates = '';
+
+// Help tab: Auto-updates.
+if ( current_user_can( 'update_themes' ) && wp_is_auto_update_enabled_for_type( 'theme' ) ) {
+	$help_tab_autoupdates =
+		'<p>' . __( 'Auto-updates can be enabled or disabled for each individual theme. Themes with auto-updates enabled will display the estimated date of the next auto-update. Auto-updates depends on the WP-Cron task scheduling system.' ) . '</p>' .
+		'<p>' . __( 'Please note: Third-party themes and plugins, or custom code, may override WordPress scheduling.' ) . '</p>';
+
+	get_current_screen()->add_help_tab(
+		array(
+			'id'      => 'plugins-themes-auto-updates',
+			'title'   => __( 'Auto-updates' ),
+			'content' => $help_tab_autoupdates,
+		)
+	);
+
+	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://wordpress.org/support/article/plugins-themes-auto-updates/">Learn more: Auto-updates documentation</a>' ) . '</p>';
+} // End if 'update_themes' && 'wp_is_auto_update_enabled_for_type'.
+
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="https://wordpress.org/support/article/using-themes/">Documentation on Using Themes</a>' ) . '</p>' .
+	$help_sidebar_autoupdates .
 	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
 );
 
@@ -461,7 +481,7 @@ if ( ! is_multisite() && $broken_themes ) {
 	</tr>
 	<?php foreach ( $broken_themes as $broken_theme ) : ?>
 		<tr>
-			<td><?php echo $broken_theme->get( 'Name' ) ? $broken_theme->display( 'Name' ) : $broken_theme->get_stylesheet(); ?></td>
+			<td><?php echo $broken_theme->get( 'Name' ) ? $broken_theme->display( 'Name' ) : esc_html( $broken_theme->get_stylesheet() ); ?></td>
 			<td><?php echo $broken_theme->errors()->get_error_message(); ?></td>
 			<?php
 			if ( $can_resume ) {
@@ -530,6 +550,52 @@ if ( ! is_multisite() && $broken_themes ) {
 </div><!-- .wrap -->
 
 <?php
+
+/**
+ * Returns the JavaScript template used to display the auto-update setting for a theme.
+ *
+ * @since 5.5.0
+ *
+ * @return string The template for displaying the auto-update setting link.
+ */
+function wp_theme_auto_update_setting_template() {
+	$template = '
+		<div class="theme-autoupdate">
+			<# if ( data.autoupdate ) { #>
+				<a href="{{{ data.actions.autoupdate }}}" class="toggle-auto-update" data-slug="{{ data.id }}" data-wp-action="disable">
+					<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>
+					<span class="label">' . __( 'Disable auto-updates' ) . '</span>
+				</a>
+			<# } else { #>
+				<a href="{{{ data.actions.autoupdate }}}" class="toggle-auto-update" data-slug="{{ data.id }}" data-wp-action="enable">
+					<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>
+					<span class="label">' . __( 'Enable auto-updates' ) . '</span>
+				</a>
+			<# } #>
+			<# if ( data.hasUpdate ) { #>
+				<# if ( data.autoupdate ) { #>
+					<span class="auto-update-time">
+				<# } else { #>
+					<span class="auto-update-time hidden">
+				<# } #>
+				<br />' . wp_get_auto_update_message() . '</span>
+			<# } #>
+			<div class="notice notice-error notice-alt inline hidden"><p></p></div>
+		</div>
+	';
+
+	/**
+	 * Filters the JavaScript template used to display the auto-update setting for a theme (in the overlay).
+	 *
+	 * See {@see wp_prepare_themes_for_js()} for the properties of the `data` object.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $template The template for displaying the auto-update setting link.
+	 */
+	return apply_filters( 'theme_auto_update_setting_template', $template );
+}
+
 /*
  * The tmpl-theme template is synchronized with PHP above!
  */
@@ -629,27 +695,7 @@ if ( ! is_multisite() && $broken_themes ) {
 				</p>
 
 				<# if ( data.actions.autoupdate ) { #>
-				<p class="theme-autoupdate">
-				<# if ( data.autoupdate ) { #>
-					<a href="{{{ data.actions.autoupdate }}}" class="toggle-auto-update" data-slug="{{ data.id }}" data-wp-action="disable">
-						<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>
-						<span class="label"><?php _e( 'Disable auto-updates' ); ?></span>
-					</a>
-				<# } else { #>
-					<a href="{{{ data.actions.autoupdate }}}" class="toggle-auto-update" data-slug="{{ data.id }}" data-wp-action="enable">
-						<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>
-						<span class="label"><?php _e( 'Enable auto-updates' ); ?></span>
-					</a>
-				<# } #>
-				<# if ( data.hasUpdate ) { #>
-					<# if ( data.autoupdate) { #>
-					<span class="auto-update-time"><br /><?php echo wp_get_auto_update_message(); ?></span>
-					<# } else { #>
-					<span class="auto-update-time hidden"><br /><?php echo wp_get_auto_update_message(); ?></span>
-					<# } #>
-				<# } #>
-					<span class="auto-updates-error hidden"><p></p></span>
-				</p>
+					<?php echo wp_theme_auto_update_setting_template(); ?>
 				<# } #>
 
 				<# if ( data.hasUpdate ) { #>

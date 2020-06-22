@@ -754,8 +754,6 @@ function wp_dashboard_quick_press_output() {
  * @since 2.7.0
  * @deprecated 3.3.0 Use wp_editor()
  * @see wp_editor()
- *
- * @staticvar int $num
  */
 function wp_tiny_mce( $teeny = false, $settings = false ) {
 	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_editor()' );
@@ -1119,7 +1117,7 @@ function get_default_page_to_edit() {
  * @deprecated 3.5.0 Use image_resize()
  * @see image_resize()
  *
- * @param mixed $file Filename of the original image, Or attachment id.
+ * @param mixed $file Filename of the original image, Or attachment ID.
  * @param int $max_side Maximum length of a single side for the thumbnail.
  * @param mixed $deprecated Never used.
  * @return string Thumbnail path on success, Error string on failure.

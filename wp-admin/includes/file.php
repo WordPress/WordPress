@@ -1468,8 +1468,9 @@ function unzip_file( $file, $to ) {
  * Assumes that WP_Filesystem() has already been called and set up.
  *
  * @since 3.0.0
- * @see unzip_file()
  * @access private
+ *
+ * @see unzip_file()
  *
  * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
@@ -1599,8 +1600,9 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
  * Assumes that WP_Filesystem() has already been called and set up.
  *
  * @since 3.0.0
- * @see unzip_file()
  * @access private
+ *
+ * @see unzip_file()
  *
  * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
@@ -1974,7 +1976,6 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
  * @param array         $extra_fields                 Optional. Extra `POST` fields to be checked for inclusion in
  *                                                    the post. Default null.
  * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
- *
  * @return bool|array True if no filesystem credentials are required, false if they are required but have not been
  *                    provided, array of credentials if they are required and have been provided.
  */
@@ -2099,7 +2100,7 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	$connection_type = isset( $credentials['connection_type'] ) ? $credentials['connection_type'] : '';
 
 	if ( $error ) {
-		$error_string = __( '<strong>Error</strong>: There was an error connecting to the server. Please verify the settings are correct.' );
+		$error_string = __( '<strong>Error</strong>: Could not connect to the server. Please verify the settings are correct.' );
 		if ( is_wp_error( $error ) ) {
 			$error_string = esc_html( $error->get_error_message() );
 		}

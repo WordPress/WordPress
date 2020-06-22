@@ -95,6 +95,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * This is used in the preview when `wp_get_custom_css()` is called for rendering the styles.
 	 *
 	 * @since 4.7.0
+	 *
 	 * @see wp_get_custom_css()
 	 *
 	 * @param string $css        Original CSS.
@@ -115,6 +116,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * Fetch the value of the setting. Will return the previewed value when `preview()` is called.
 	 *
 	 * @since 4.7.0
+	 *
 	 * @see WP_Customize_Setting::value()
 	 *
 	 * @return string

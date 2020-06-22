@@ -197,18 +197,18 @@ $content = esc_textarea( $content );
 	if ( is_plugin_active( $plugin ) ) {
 		if ( is_writeable( $real_file ) ) {
 			/* translators: %s: Plugin file name. */
-			echo sprintf( __( 'Editing %s (active)' ), '<strong>' . esc_html( $file ) . '</strong>' );
+			printf( __( 'Editing %s (active)' ), '<strong>' . esc_html( $file ) . '</strong>' );
 		} else {
 			/* translators: %s: Plugin file name. */
-			echo sprintf( __( 'Browsing %s (active)' ), '<strong>' . esc_html( $file ) . '</strong>' );
+			printf( __( 'Browsing %s (active)' ), '<strong>' . esc_html( $file ) . '</strong>' );
 		}
 	} else {
 		if ( is_writeable( $real_file ) ) {
 			/* translators: %s: Plugin file name. */
-			echo sprintf( __( 'Editing %s (inactive)' ), '<strong>' . esc_html( $file ) . '</strong>' );
+			printf( __( 'Editing %s (inactive)' ), '<strong>' . esc_html( $file ) . '</strong>' );
 		} else {
 			/* translators: %s: Plugin file name. */
-			echo sprintf( __( 'Browsing %s (inactive)' ), '<strong>' . esc_html( $file ) . '</strong>' );
+			printf( __( 'Browsing %s (inactive)' ), '<strong>' . esc_html( $file ) . '</strong>' );
 		}
 	}
 	?>

@@ -37,8 +37,6 @@ class WP_Widget_Categories extends WP_Widget {
 	 * @since 4.2.0 Creates a unique HTML ID for the `<select>` element
 	 *              if more than one instance is displayed on the page.
 	 *
-	 * @staticvar bool $first_dropdown
-	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance Settings for the current Categories widget instance.
@@ -68,7 +66,7 @@ class WP_Widget_Categories extends WP_Widget {
 		);
 
 		if ( $dropdown ) {
-			echo sprintf( '<form action="%s" method="get">', esc_url( home_url() ) );
+			printf( '<form action="%s" method="get">', esc_url( home_url() ) );
 			$dropdown_id    = ( $first_dropdown ) ? 'cat' : "{$this->id_base}-dropdown-{$this->number}";
 			$first_dropdown = false;
 

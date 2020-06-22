@@ -715,10 +715,12 @@ function rest_send_allow_header( $response, $server, $request ) {
 /**
  * Recursively computes the intersection of arrays using keys for comparison.
  *
- * @param  array $array1 The array with master keys to check.
- * @param  array $array2 An array to compare keys against.
+ * @since 5.3.0
  *
- * @return array An associative array containing all the entries of array1 which have keys that are present in all arguments.
+ * @param array $array1 The array with master keys to check.
+ * @param array $array2 An array to compare keys against.
+ * @return array An associative array containing all the entries of array1 which have keys
+ *               that are present in all arguments.
  */
 function _rest_array_intersect_key_recursive( $array1, $array2 ) {
 	$array1 = array_intersect_key( $array1, $array2 );
@@ -738,7 +740,6 @@ function _rest_array_intersect_key_recursive( $array1, $array2 ) {
  * @param WP_REST_Response $response Current response being served.
  * @param WP_REST_Server   $server   ResponseHandler instance (usually WP_REST_Server).
  * @param WP_REST_Request  $request  The request that was used to make current response.
- *
  * @return WP_REST_Response Response to be served, trimmed down to contain a subset of fields.
  */
 function rest_filter_response_fields( $response, $server, $request ) {
@@ -1061,9 +1062,9 @@ function rest_authorization_required_code() {
  *
  * @since 4.7.0
  *
- * @param  mixed            $value
- * @param  WP_REST_Request  $request
- * @param  string           $param
+ * @param mixed           $value
+ * @param WP_REST_Request $request
+ * @param string          $param
  * @return true|WP_Error
  */
 function rest_validate_request_arg( $value, $request, $param ) {
@@ -1081,9 +1082,9 @@ function rest_validate_request_arg( $value, $request, $param ) {
  *
  * @since 4.7.0
  *
- * @param  mixed            $value
- * @param  WP_REST_Request  $request
- * @param  string           $param
+ * @param mixed           $value
+ * @param WP_REST_Request $request
+ * @param string          $param
  * @return mixed
  */
 function rest_sanitize_request_arg( $value, $request, $param ) {
@@ -1104,9 +1105,9 @@ function rest_sanitize_request_arg( $value, $request, $param ) {
  *
  * @since 4.7.0
  *
- * @param  mixed            $value
- * @param  WP_REST_Request  $request
- * @param  string           $param
+ * @param mixed           $value
+ * @param WP_REST_Request $request
+ * @param string          $param
  * @return mixed
  */
 function rest_parse_request_arg( $value, $request, $param ) {
@@ -1128,7 +1129,7 @@ function rest_parse_request_arg( $value, $request, $param ) {
  *
  * @since 4.7.0
  *
- * @param  string $ip IP address.
+ * @param string $ip IP address.
  * @return string|false The valid IP address, otherwise false.
  */
 function rest_is_ip_address( $ip ) {
@@ -1250,6 +1251,7 @@ function rest_get_avatar_sizes() {
  * @since 5.5.0 Add the "uuid" and "hex-color" formats.
  *              Support the "minLength", "maxLength" and "pattern" keywords for strings.
  *              Validate required properties.
+ *              Support the "minItems" and "maxItems" keywords for arrays.
  *
  * @param mixed  $value The value to validate.
  * @param array  $args  Schema array to use for validation.
@@ -1286,6 +1288,16 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 			if ( is_wp_error( $is_valid ) ) {
 				return $is_valid;
 			}
+		}
+
+		if ( isset( $args['minItems'] ) && count( $value ) < $args['minItems'] ) {
+			/* translators: 1: Parameter, 2: number. */
+			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must contain at least %2$s items.' ), $param, number_format_i18n( $args['minItems'] ) ) );
+		}
+
+		if ( isset( $args['maxItems'] ) && count( $value ) > $args['maxItems'] ) {
+			/* translators: 1: Parameter, 2: number. */
+			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must contain at most %2$s items.' ), $param, number_format_i18n( $args['maxItems'] ) ) );
 		}
 	}
 
@@ -1621,9 +1633,9 @@ function rest_sanitize_value_from_schema( $value, $args ) {
  *
  * @since 5.0.0
  *
- * @param  array  $memo Reduce accumulator.
- * @param  string $path REST API path to preload.
- * @return array        Modified reduce accumulator.
+ * @param array  $memo Reduce accumulator.
+ * @param string $path REST API path to preload.
+ * @return array Modified reduce accumulator.
  */
 function rest_preload_api_request( $memo, $path ) {
 	// array_reduce() doesn't support passing an array in PHP 5.2,

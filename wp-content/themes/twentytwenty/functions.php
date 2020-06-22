@@ -271,8 +271,7 @@ add_action( 'init', 'twentytwenty_menus' );
  * Get the information about the logo.
  *
  * @param string $html The HTML output from get_custom_logo (core function).
- *
- * @return string $html
+ * @return string
  */
 function twentytwenty_get_custom_logo( $html ) {
 
@@ -427,8 +426,7 @@ add_action( 'init', 'twentytwenty_classic_editor_styles' );
  * Adds styles to the head of the TinyMCE iframe. Kudos to @Otto42 for the original solution.
  *
  * @param array $mce_init TinyMCE styles.
- *
- * @return array $mce_init TinyMCE styles.
+ * @return array TinyMCE styles.
  */
 function twentytwenty_add_classic_editor_customizer_styles( $mce_init ) {
 
@@ -451,8 +449,7 @@ add_filter( 'tiny_mce_before_init', 'twentytwenty_add_classic_editor_customizer_
  * Adds styles to the head of the TinyMCE iframe. Kudos to @Otto42 for the original solution.
  *
  * @param array $mce_init TinyMCE styles.
- *
- * @return array $mce_init TinyMCE styles.
+ * @return array TinyMCE styles.
  */
 function twentytwenty_add_classic_editor_non_latin_styles( $mce_init ) {
 
@@ -569,8 +566,7 @@ add_action( 'after_setup_theme', 'twentytwenty_block_editor_settings' );
  * Overwrite default more tag with styling and screen reader markup.
  *
  * @param string $html The default output HTML for the more tag.
- *
- * @return string $html
+ * @return string
  */
 function twentytwenty_read_more_tag( $html ) {
 	return preg_replace( '/<a(.*)>(.*)<\/a>/iU', sprintf( '<div class="read-more-button-wrap"><a$1><span class="faux-button">$2</span> <span class="screen-reader-text">"%1$s"</span></a></div>', get_the_title( get_the_ID() ) ), $html );
@@ -701,7 +697,7 @@ function twentytwenty_get_elements_array() {
 			'accent'     => array(
 				'color'            => array( '.color-accent', '.color-accent-hover:hover', '.color-accent-hover:focus', ':root .has-accent-color', '.has-drop-cap:not(:focus):first-letter', '.wp-block-button.is-style-outline', 'a' ),
 				'border-color'     => array( 'blockquote', '.border-color-accent', '.border-color-accent-hover:hover', '.border-color-accent-hover:focus' ),
-				'background-color' => array( 'button:not(.toggle)', '.button', '.faux-button', '.wp-block-button__link', '.wp-block-file .wp-block-file__button', 'input[type="button"]', 'input[type="reset"]', 'input[type="submit"]', '.bg-accent', '.bg-accent-hover:hover', '.bg-accent-hover:focus', ':root .has-accent-background-color', '.comment-reply-link' ),
+				'background-color' => array( 'button', '.button', '.faux-button', '.wp-block-button__link', '.wp-block-file .wp-block-file__button', 'input[type="button"]', 'input[type="reset"]', 'input[type="submit"]', '.bg-accent', '.bg-accent-hover:hover', '.bg-accent-hover:focus', ':root .has-accent-background-color', '.comment-reply-link' ),
 				'fill'             => array( '.fill-children-accent', '.fill-children-accent *' ),
 			),
 			'background' => array(

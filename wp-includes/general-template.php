@@ -940,9 +940,10 @@ function has_custom_logo( $blog_id = 0 ) {
 }
 
 /**
- * Returns a custom logo, linked to home.
+ * Returns a custom logo, linked to home when on another page.
  *
  * @since 4.5.0
+ * @since 5.5.0 Removed the link on the home page.
  *
  * @param int $blog_id Optional. ID of the blog in question. Default is the ID of the current blog.
  * @return string Custom logo markup.
@@ -965,23 +966,44 @@ function get_custom_logo( $blog_id = 0 ) {
 		);
 
 		/*
-		 * If the logo alt attribute is empty, get the site title and explicitly
-		 * pass it to the attributes used by wp_get_attachment_image().
+		 * If the logo alt attribute is empty, get the site title and explicitly pass it
+		 * to the attributes used by wp_get_attachment_image().
 		 */
 		$image_alt = get_post_meta( $custom_logo_id, '_wp_attachment_image_alt', true );
 		if ( empty( $image_alt ) ) {
 			$custom_logo_attr['alt'] = get_bloginfo( 'name', 'display' );
 		}
 
-		/*
-		 * If the alt attribute is not empty, there's no need to explicitly pass
-		 * it because wp_get_attachment_image() already adds the alt attribute.
+		/**
+		 * Filters the list of custom logo image attributes.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array $custom_logo_attr Custom logo image attributes.
+		 * @param int   $custom_logo_id   Custom logo attachment ID.
+		 * @param int   $blog_id          ID of the blog to get the custom logo for.
 		 */
-		$html = sprintf(
-			'<a href="%1$s" class="custom-logo-link" rel="home">%2$s</a>',
-			esc_url( home_url( '/' ) ),
-			wp_get_attachment_image( $custom_logo_id, 'full', false, $custom_logo_attr )
-		);
+		$custom_logo_attr = apply_filters( 'get_custom_logo_image_attributes', $custom_logo_attr, $custom_logo_id, $blog_id );
+
+		/*
+		 * If the alt attribute is not empty, there's no need to explicitly pass it
+		 * because wp_get_attachment_image() already adds the alt attribute.
+		 */
+		$image = wp_get_attachment_image( $custom_logo_id, 'full', false, $custom_logo_attr );
+
+		if ( is_front_page() ) {
+			// If on the home page, don't link the logo to home.
+			$html = sprintf(
+				'<span class="custom-logo-link">%1$s</span>',
+				$image
+			);
+		} else {
+			$html = sprintf(
+				'<a href="%1$s" class="custom-logo-link" rel="home">%2$s</a>',
+				esc_url( home_url( '/' ) ),
+				$image
+			);
+		}
 	} elseif ( is_customize_preview() ) {
 		// If no logo is set but we're in the Customizer, leave a placeholder (needed for the live preview).
 		$html = sprintf(
@@ -1007,7 +1029,7 @@ function get_custom_logo( $blog_id = 0 ) {
 }
 
 /**
- * Displays a custom logo, linked to home.
+ * Displays a custom logo, linked to home when on another page.
  *
  * @since 4.5.0
  *
@@ -2393,8 +2415,8 @@ function the_date( $format = '', $before = '', $after = '', $echo = true ) {
  *
  * @since 3.0.0
  *
- * @param  string      $format Optional. PHP date format defaults to the date_format option if not specified.
- * @param  int|WP_Post $post   Optional. Post ID or WP_Post object. Default current post.
+ * @param string      $format Optional. PHP date format defaults to the date_format option if not specified.
+ * @param int|WP_Post $post   Optional. Post ID or WP_Post object. Default current post.
  * @return string|false Date the current post was written. False on failure.
  */
 function get_the_date( $format = '', $post = null ) {
@@ -3201,7 +3223,7 @@ function wp_resource_hints() {
 	 * The path is removed in the foreach loop below.
 	 */
 	/** This filter is documented in wp-includes/formatting.php */
-	$hints['dns-prefetch'][] = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/12.0.0-1/svg/' );
+	$hints['dns-prefetch'][] = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/13.0.0/svg/' );
 
 	foreach ( $hints as $relation_type => $urls ) {
 		$unique_urls = array();
@@ -4731,7 +4753,7 @@ function __checked_selected_helper( $helper, $current, $echo, $type ) { // phpcs
  * @since 3.6.0
  *
  * @param array $settings
- * @return array $settings
+ * @return array Heartbeat settings.
  */
 function wp_heartbeat_settings( $settings ) {
 	if ( ! is_admin() ) {

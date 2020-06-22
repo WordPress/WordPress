@@ -15,7 +15,6 @@
  * @since 3.4.0
  *
  * @global array $wp_theme_directories
- * @staticvar array $_themes
  *
  * @param array $args {
  *     Optional. The search arguments.
@@ -424,7 +423,6 @@ function register_theme_directory( $directory ) {
  * @since 2.9.0
  *
  * @global array $wp_theme_directories
- * @staticvar array $found_themes
  *
  * @param bool $force Optional. Whether to force a new directory scan. Defaults to false.
  * @return array|false Valid themes found
@@ -824,7 +822,7 @@ function switch_theme( $stylesheet ) {
 }
 
 /**
- * Checks that current theme files 'index.php' and 'style.css' exists.
+ * Checks that the current theme has 'index.php' and 'style.css' files.
  *
  * Does not initially check the default theme, which is the fallback and should always exist.
  * But if it doesn't exist, it'll fall back to the latest core default theme that does exist.
@@ -834,6 +832,7 @@ function switch_theme( $stylesheet ) {
  * disable this functionality.
  *
  * @since 1.5.0
+ *
  * @see WP_DEFAULT_THEME
  *
  * @return bool
@@ -1253,7 +1252,6 @@ function the_header_image_tag( $attr = array() ) {
  * @access private
  *
  * @global array  $_wp_default_headers
- * @staticvar object $_wp_random_header
  *
  * @return object
  */
@@ -1453,7 +1451,8 @@ function get_custom_header() {
  *
  * @global array $_wp_default_headers
  *
- * @param array $headers Array of headers keyed by a string id. The ids point to arrays containing 'url', 'thumbnail_url', and 'description' keys.
+ * @param array $headers Array of headers keyed by a string ID. The IDs point to arrays
+ *                       containing 'url', 'thumbnail_url', and 'description' keys.
  */
 function register_default_headers( $headers ) {
 	global $_wp_default_headers;
@@ -2817,7 +2816,9 @@ function get_theme_support( $feature, ...$args ) {
  * be used for child themes to override support from the parent theme.
  *
  * @since 3.0.0
+ *
  * @see add_theme_support()
+ *
  * @param string $feature The feature being removed.
  * @return bool|void Whether feature was removed.
  */
@@ -2841,6 +2842,7 @@ function remove_theme_support( $feature ) {
  * @global Custom_Background   $custom_background
  *
  * @param string $feature
+ * @return bool True if support was removed, false if the feature was not registered.
  */
 function _remove_theme_support( $feature ) {
 	global $_wp_theme_features;
@@ -2887,6 +2889,7 @@ function _remove_theme_support( $feature ) {
 	}
 
 	unset( $_wp_theme_features[ $feature ] );
+
 	return true;
 }
 
@@ -3000,7 +3003,7 @@ function require_if_theme_supports( $feature, $include ) {
  * @since 4.3.0 Also removes `header_image_data`.
  * @since 4.5.0 Also removes custom logo theme mods.
  *
- * @param int $id The attachment id.
+ * @param int $id The attachment ID.
  */
 function _delete_attachment_theme_mod( $id ) {
 	$attachment_image = wp_get_attachment_url( $id );
@@ -3240,6 +3243,7 @@ function _wp_customize_publish_changeset( $new_status, $old_status, $changeset_p
  * transitioned into pending status by a contributor.
  *
  * @since 4.7.0
+ *
  * @see wp_insert_post()
  *
  * @param array $post_data          An array of slashed post data.

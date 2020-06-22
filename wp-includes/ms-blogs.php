@@ -238,12 +238,21 @@ function get_blog_details( $fields = null, $get_all = true ) {
 		return $details;
 	}
 
-	switch_to_blog( $blog_id );
+	$switched_blog = false;
+
+	if ( get_current_blog_id() !== $blog_id ) {
+		switch_to_blog( $blog_id );
+		$switched_blog = true;
+	}
+
 	$details->blogname   = get_option( 'blogname' );
 	$details->siteurl    = get_option( 'siteurl' );
 	$details->post_count = get_option( 'post_count' );
 	$details->home       = get_option( 'home' );
-	restore_current_blog();
+
+	if ( $switched_blog ) {
+		restore_current_blog();
+	}
 
 	/**
 	 * Filters a blog's details.
@@ -516,7 +525,9 @@ function switch_to_blog( $new_blog_id, $deprecated = null ) {
 		 *                             or 'restore' when called from restore_current_blog().
 		 */
 		do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'switch' );
+
 		$GLOBALS['switched'] = true;
+
 		return true;
 	}
 
@@ -534,6 +545,7 @@ function switch_to_blog( $new_blog_id, $deprecated = null ) {
 		} else {
 			$global_groups = false;
 		}
+
 		wp_cache_init();
 
 		if ( function_exists( 'wp_cache_add_global_groups' ) ) {
@@ -542,12 +554,14 @@ function switch_to_blog( $new_blog_id, $deprecated = null ) {
 			} else {
 				wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'useremail', 'userslugs', 'site-transient', 'site-options', 'blog-lookup', 'blog-details', 'rss', 'global-posts', 'blog-id-cache', 'networks', 'sites', 'site-details', 'blog_meta' ) );
 			}
+
 			wp_cache_add_non_persistent_groups( array( 'counts', 'plugins' ) );
 		}
 	}
 
 	/** This filter is documented in wp-includes/ms-blogs.php */
 	do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'switch' );
+
 	$GLOBALS['switched'] = true;
 
 	return true;
@@ -581,8 +595,10 @@ function restore_current_blog() {
 	if ( $new_blog_id == $prev_blog_id ) {
 		/** This filter is documented in wp-includes/ms-blogs.php */
 		do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'restore' );
+
 		// If we still have items in the switched stack, consider ourselves still 'switched'.
 		$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
+
 		return true;
 	}
 
@@ -609,6 +625,7 @@ function restore_current_blog() {
 			} else {
 				wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'useremail', 'userslugs', 'site-transient', 'site-options', 'blog-lookup', 'blog-details', 'rss', 'global-posts', 'blog-id-cache', 'networks', 'sites', 'site-details', 'blog_meta' ) );
 			}
+
 			wp_cache_add_non_persistent_groups( array( 'counts', 'plugins' ) );
 		}
 	}

@@ -22,6 +22,11 @@ you pick, ensuring a high, accessible color contrast for your visitors.
 
 == Changelog ==
 
+= 1.4 =
+* Released: June 10, 2020
+
+https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.4
+
 = 1.3 =
 * Released: May 14, 2020
 

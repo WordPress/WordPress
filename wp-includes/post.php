@@ -999,6 +999,7 @@ function _wp_privacy_statuses() {
  * Arguments prefixed with an _underscore shouldn't be used by plugins and themes.
  *
  * @since 3.0.0
+ *
  * @global array $wp_post_statuses Inserts new post status object into the list
  *
  * @param string $post_status Name of the post status.
@@ -1365,9 +1366,9 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                              will store revisions, and the 'comments' feature dictates whether the
  *                                              comments count will show on the edit screen. A feature can also be
  *                                              specified as an array of arguments to provide additional information
- *                                              about supporting that feature. Example: `array( 'my_feature', array(
- *                                              'field' => 'value' ) )`. Default is an array containing 'title' and
- *                                              'editor'.
+ *                                              about supporting that feature.
+ *                                              Example: `array( 'my_feature', array( 'field' => 'value' ) )`.
+ *                                              Default is an array containing 'title' and 'editor'.
  *     @type callable    $register_meta_box_cb  Provide a callback function that sets up the meta boxes for the
  *                                              edit form. Do remove_meta_box() and add_meta_box() calls in the
  *                                              callback. Default null.
@@ -3064,6 +3065,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	 * @param WP_Post $post   Post object.
 	 */
 	do_action( 'delete_post', $postid, $post );
+
 	$result = $wpdb->delete( $wpdb->posts, array( 'ID' => $postid ) );
 	if ( ! $result ) {
 		return false;
@@ -3425,7 +3427,7 @@ function wp_untrash_post_comments( $post = null ) {
  *                       See WP_Term_Query::__construct() for supported arguments.
  * @return array|WP_Error List of categories. If the `$fields` argument passed via `$args` is 'all' or
  *                        'all_with_object_id', an array of WP_Term objects will be returned. If `$fields`
- *                        is 'ids', an array of category ids. If `$fields` is 'names', an array of category names.
+ *                        is 'ids', an array of category IDs. If `$fields` is 'names', an array of category names.
  *                        WP_Error object if 'category' taxonomy doesn't exist.
  */
 function wp_get_post_categories( $post_id = 0, $args = array() ) {
@@ -3643,6 +3645,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		// Get the post ID and GUID.
 		$post_ID     = $postarr['ID'];
 		$post_before = get_post( $post_ID );
+
 		if ( is_null( $post_before ) ) {
 			if ( $wp_error ) {
 				return new WP_Error( 'invalid_post', __( 'Invalid post ID.' ) );
@@ -3661,6 +3664,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	$post_title   = $postarr['post_title'];
 	$post_content = $postarr['post_content'];
 	$post_excerpt = $postarr['post_excerpt'];
+
 	if ( isset( $postarr['post_name'] ) ) {
 		$post_name = $postarr['post_name'];
 	} elseif ( $update ) {
@@ -3699,6 +3703,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	}
 
 	$post_status = empty( $postarr['post_status'] ) ? 'draft' : $postarr['post_status'];
+
 	if ( 'attachment' === $post_type && ! in_array( $post_status, array( 'inherit', 'private', 'trash', 'auto-draft' ), true ) ) {
 		$post_status = 'inherit';
 	}
@@ -3744,6 +3749,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	} else {
 		// On updates, we need to check to see if it's using the old, fixed sanitization context.
 		$check_name = sanitize_title( $post_name, '', 'old-save' );
+
 		if ( $update && strtolower( urlencode( $post_name ) ) == $check_name && get_post_field( 'post_name', $post_ID ) == $check_name ) {
 			$post_name = $check_name;
 		} else { // new post, or slug has changed.
@@ -3875,6 +3881,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 */
 	if ( 'trash' === $previous_status && 'trash' !== $post_status ) {
 		$desired_post_slug = get_post_meta( $post_ID, '_wp_desired_post_slug', true );
+
 		if ( $desired_post_slug ) {
 			delete_post_meta( $post_ID, '_wp_desired_post_slug' );
 			$post_name = $desired_post_slug;
@@ -3917,6 +3924,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	foreach ( $emoji_fields as $emoji_field ) {
 		if ( isset( $data[ $emoji_field ] ) ) {
 			$charset = $wpdb->get_col_charset( $wpdb->posts, $emoji_field );
+
 			if ( 'utf8' === $charset ) {
 				$data[ $emoji_field ] = wp_encode_emoji( $data[ $emoji_field ] );
 			}
@@ -3950,6 +3958,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		 */
 		$data = apply_filters( 'wp_insert_post_data', $data, $postarr, $unsanitized_postarr );
 	}
+
 	$data  = wp_unslash( $data );
 	$where = array( 'ID' => $post_ID );
 
@@ -3963,9 +3972,16 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		 * @param array $data    Array of unslashed post data.
 		 */
 		do_action( 'pre_post_update', $post_ID, $data );
+
 		if ( false === $wpdb->update( $wpdb->posts, $data, $where ) ) {
 			if ( $wp_error ) {
-				return new WP_Error( 'db_update_error', __( 'Could not update post in the database' ), $wpdb->last_error );
+				if ( 'attachment' === $post_type ) {
+					$message = __( 'Could not update attachment in the database.' );
+				} else {
+					$message = __( 'Could not update post in the database.' );
+				}
+
+				return new WP_Error( 'db_update_error', $message, $wpdb->last_error );
 			} else {
 				return 0;
 			}
@@ -3974,17 +3990,26 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		// If there is a suggested ID, use it if not already present.
 		if ( ! empty( $import_id ) ) {
 			$import_id = (int) $import_id;
+
 			if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE ID = %d", $import_id ) ) ) {
 				$data['ID'] = $import_id;
 			}
 		}
+
 		if ( false === $wpdb->insert( $wpdb->posts, $data ) ) {
 			if ( $wp_error ) {
-				return new WP_Error( 'db_insert_error', __( 'Could not insert post into the database' ), $wpdb->last_error );
+				if ( 'attachment' === $post_type ) {
+					$message = __( 'Could not insert attachment into the database.' );
+				} else {
+					$message = __( 'Could not insert post into the database.' );
+				}
+
+				return new WP_Error( 'db_insert_error', $message, $wpdb->last_error );
 			} else {
 				return 0;
 			}
 		}
+
 		$post_ID = (int) $wpdb->insert_id;
 
 		// Use the newly generated $post_ID.
@@ -3993,6 +4018,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 	if ( empty( $data['post_name'] ) && ! in_array( $data['post_status'], array( 'draft', 'pending', 'auto-draft' ), true ) ) {
 		$data['post_name'] = wp_unique_post_slug( sanitize_title( $data['post_title'], $post_ID ), $post_ID, $data['post_status'], $post_type, $post_parent );
+
 		$wpdb->update( $wpdb->posts, array( 'post_name' => $data['post_name'] ), $where );
 		clean_post_cache( $post_ID );
 	}
@@ -4009,6 +4035,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	if ( ! empty( $postarr['tax_input'] ) ) {
 		foreach ( $postarr['tax_input'] as $taxonomy => $tags ) {
 			$taxonomy_obj = get_taxonomy( $taxonomy );
+
 			if ( ! $taxonomy_obj ) {
 				/* translators: %s: Taxonomy name. */
 				_doing_it_wrong( __FUNCTION__, sprintf( __( 'Invalid taxonomy: %s.' ), $taxonomy ), '4.4.0' );
@@ -4019,6 +4046,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 			if ( is_array( $tags ) ) {
 				$tags = array_filter( $tags );
 			}
+
 			if ( current_user_can( $taxonomy_obj->cap->assign_terms ) ) {
 				wp_set_post_terms( $post_ID, $tags, $taxonomy );
 			}
@@ -4051,6 +4079,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	// Set or remove featured image.
 	if ( isset( $postarr['_thumbnail_id'] ) ) {
 		$thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' ) || 'revision' === $post_type;
+
 		if ( ! $thumbnail_support && 'attachment' === $post_type && $post_mime_type ) {
 			if ( wp_attachment_is( 'audio', $post_ID ) ) {
 				$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
@@ -4076,10 +4105,12 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	if ( ! empty( $postarr['page_template'] ) ) {
 		$post->page_template = $postarr['page_template'];
 		$page_templates      = wp_get_theme()->get_page_templates( $post );
+
 		if ( 'default' !== $postarr['page_template'] && ! isset( $page_templates[ $postarr['page_template'] ] ) ) {
 			if ( $wp_error ) {
 				return new WP_Error( 'invalid_page_template', __( 'Invalid page template.' ) );
 			}
+
 			update_post_meta( $post_ID, '_wp_page_template', 'default' );
 		} else {
 			update_post_meta( $post_ID, '_wp_page_template', $postarr['page_template'] );
@@ -4098,6 +4129,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 			 * @param int $post_ID Attachment ID.
 			 */
 			do_action( 'edit_attachment', $post_ID );
+
 			$post_after = get_post( $post_ID );
 
 			/**
@@ -4659,8 +4691,7 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
 /**
  * Set categories for a post.
  *
- * If the post categories parameter is not set, then the default category is
- * going used.
+ * If no categories are provided, the default category is used.
  *
  * @since 2.1.0
  *
@@ -4676,10 +4707,27 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
 	$post_ID     = (int) $post_ID;
 	$post_type   = get_post_type( $post_ID );
 	$post_status = get_post_status( $post_ID );
-	// If $post_categories isn't already an array, make it one:
+
+	// If $post_categories isn't already an array, make it one.
 	$post_categories = (array) $post_categories;
+
 	if ( empty( $post_categories ) ) {
-		if ( 'post' === $post_type && 'auto-draft' !== $post_status ) {
+		/**
+		 * Filters post types (in addition to 'post') that require a default category.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string[] $post_types An array of post type names. Default empty array.
+		 */
+		$default_category_post_types = apply_filters( 'default_category_post_types', array() );
+
+		// Regular posts always require a default category.
+		$default_category_post_types = array_merge( $default_category_post_types, array( 'post' ) );
+
+		if ( in_array( $post_type, $default_category_post_types, true )
+			&& is_object_in_taxonomy( $post_type, 'category' )
+			&& 'auto-draft' !== $post_status
+		) {
 			$post_categories = array( get_option( 'default_category' ) );
 			$append          = false;
 		} else {
@@ -7135,7 +7183,7 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
 }
 
 /**
- * Adds any posts from the given ids to the cache that do not already exist in cache
+ * Adds any posts from the given IDs to the cache that do not already exist in cache
  *
  * @since 3.4.0
  * @access private

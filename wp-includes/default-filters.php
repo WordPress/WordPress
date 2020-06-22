@@ -456,6 +456,9 @@ add_action( 'rest_api_init', 'register_initial_settings', 10 );
 add_action( 'rest_api_init', 'create_initial_rest_routes', 99 );
 add_action( 'parse_request', 'rest_api_loaded' );
 
+// Sitemaps actions.
+add_action( 'init', 'wp_sitemaps_get_server' );
+
 /**
  * Filters formerly mixed into wp-includes.
  */
@@ -582,8 +585,8 @@ add_filter( 'the_excerpt_embed', 'wpautop' );
 add_filter( 'the_excerpt_embed', 'shortcode_unautop' );
 add_filter( 'the_excerpt_embed', 'wp_embed_excerpt_attachment' );
 
+add_filter( 'oembed_dataparse', 'wp_filter_oembed_iframe_title_attribute', 5, 3 );
 add_filter( 'oembed_dataparse', 'wp_filter_oembed_result', 10, 3 );
-add_filter( 'oembed_dataparse', 'wp_filter_oembed_iframe_title_attribute', 20, 3 );
 add_filter( 'oembed_response_data', 'get_oembed_response_data_rich', 10, 4 );
 add_filter( 'pre_oembed_result', 'wp_filter_pre_oembed_result', 10, 3 );
 

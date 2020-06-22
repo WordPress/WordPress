@@ -49,6 +49,7 @@ function get_the_author( $deprecated = '' ) {
  * return it. However, backward compatibility has to be maintained.
  *
  * @since 0.71
+ *
  * @see get_the_author()
  * @link https://developer.wordpress.org/reference/functions/the_author/
  *

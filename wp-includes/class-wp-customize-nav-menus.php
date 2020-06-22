@@ -76,7 +76,7 @@ final class WP_Customize_Nav_Menus {
 	 * @since 4.5.0
 	 *
 	 * @param string[] $nonces Array of nonces.
-	 * @return string[] $nonces Modified array of nonces.
+	 * @return string[] Modified array of nonces.
 	 */
 	public function filter_nonces( $nonces ) {
 		$nonces['customize-menus'] = wp_create_nonce( 'customize-menus' );
@@ -1409,6 +1409,7 @@ final class WP_Customize_Nav_Menus {
 	 * Keep track of the arguments that are being passed to wp_nav_menu().
 	 *
 	 * @since 4.3.0
+	 *
 	 * @see wp_nav_menu()
 	 * @see WP_Customize_Widgets::filter_dynamic_sidebar_params()
 	 *

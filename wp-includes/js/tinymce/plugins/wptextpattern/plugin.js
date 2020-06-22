@@ -52,9 +52,9 @@
 	/**
 	 * Escapes characters for use in a Regular Expression.
 	 *
-	 * @param  {String} string Characters to escape
+	 * @param {String} string Characters to escape
 	 *
-	 * @return {String}        Escaped characters
+	 * @return {String} Escaped characters
 	 */
 	function escapeRegExp( string ) {
 		return string.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&' );
@@ -120,7 +120,7 @@
 			var format;
 			var zero;
 
-			// We need a non empty text node with an offset greater than zero.
+			// We need a non-empty text node with an offset greater than zero.
 			if ( ! node || node.nodeType !== 3 || ! node.data.length || ! offset ) {
 				return;
 			}

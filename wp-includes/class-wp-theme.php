@@ -453,8 +453,6 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * __isset() magic method for properties formerly returned by current_theme_info()
 	 *
-	 * @staticvar array $properties
-	 *
 	 * @since 3.4.0
 	 *
 	 * @param string $offset Property to check if set.
@@ -546,8 +544,6 @@ final class WP_Theme implements ArrayAccess {
 
 	/**
 	 * Method to implement ArrayAccess for keys formerly returned by get_themes()
-	 *
-	 * @staticvar array $keys
 	 *
 	 * @since 3.4.0
 	 *
@@ -810,9 +806,6 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 * @since 5.4.0 Added support for `Requires at least` and `Requires PHP` headers.
 	 *
-	 * @staticvar array $header_tags
-	 * @staticvar array $header_tags_with_a
-	 *
 	 * @param string $header Theme header. Accepts 'Name', 'Description', 'Author', 'Version',
 	 *                       'ThemeURI', 'AuthorURI', 'Status', 'Tags', 'RequiresWP', 'RequiresPHP'.
 	 * @param string $value  Value to sanitize.
@@ -876,8 +869,6 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @staticvar string $comma
-	 *
 	 * @param string       $header    Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
 	 * @param string|array $value     Value to mark up. An array for Tags header, string otherwise.
 	 * @param string       $translate Whether the header has been translated.
@@ -921,8 +912,6 @@ final class WP_Theme implements ArrayAccess {
 	 * Translate a theme header.
 	 *
 	 * @since 3.4.0
-	 *
-	 * @staticvar array $tags_list
 	 *
 	 * @param string       $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
 	 * @param string|array $value  Value to translate. An array for Tags header, string otherwise.
@@ -1473,8 +1462,6 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @staticvar array $allowed_themes
-	 *
 	 * @return string[] Array of stylesheet names.
 	 */
 	public static function get_allowed_on_network() {
@@ -1499,8 +1486,6 @@ final class WP_Theme implements ArrayAccess {
 	 * Returns array of stylesheet names of themes allowed on the site.
 	 *
 	 * @since 3.4.0
-	 *
-	 * @staticvar array $allowed_themes
 	 *
 	 * @param int $blog_id Optional. ID of the site. Defaults to the current site.
 	 * @return string[] Array of stylesheet names.

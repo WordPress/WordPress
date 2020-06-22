@@ -2719,7 +2719,7 @@
 			}
 
 			// Clear any previous errors.
-			$parent.find( '.notice.error' ).addClass( 'hidden' );
+			$parent.find( '.notice.notice-error' ).addClass( 'hidden' );
 
 			// Show loading status.
 			if ( 'enable' === action ) {
@@ -2752,7 +2752,7 @@
 							errorMessage = __( 'The request could not be completed.' );
 						}
 
-						$parent.find( '.notice.error' ).removeClass( 'hidden' ).find( 'p' ).text( errorMessage );
+						$parent.find( '.notice.notice-error' ).removeClass( 'hidden' ).find( 'p' ).text( errorMessage );
 						wp.a11y.speak( errorMessage, 'polite' );
 						return;
 					}
@@ -2808,7 +2808,7 @@
 					$document.trigger( 'wp-auto-update-setting-changed', { state: action, type: type, asset: asset } );
 				} )
 				.fail( function() {
-					$parent.find( '.notice.error' )
+					$parent.find( '.notice.notice-error' )
 						.removeClass( 'hidden' )
 						.find( 'p' )
 						.text( __( 'The request could not be completed.' ) );

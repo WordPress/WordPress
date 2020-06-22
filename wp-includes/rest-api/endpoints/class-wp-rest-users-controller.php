@@ -161,7 +161,6 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @param int|bool        $value   The value passed to the reassign parameter.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @param string          $param   The parameter that is being sanitized.
-	 *
 	 * @return int|bool|WP_Error
 	 */
 	public function check_reassign( $value, $request, $param ) {
@@ -1095,7 +1094,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 *
 	 * @param WP_REST_Request $request Request object.
-	 * @return object $prepared_user User object.
+	 * @return object User object.
 	 */
 	protected function prepare_item_for_database( $request ) {
 		$prepared_user = new stdClass;

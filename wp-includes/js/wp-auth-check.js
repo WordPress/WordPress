@@ -6,7 +6,7 @@
 
 /* global adminpage */
 (function($){
-	var wrap, next;
+	var wrap;
 
 	/**
 	 * Shows the authentication form popup.
@@ -111,18 +111,6 @@
 	}
 
 	/**
-	 * Schedules when the next time the authentication check will be done.
-	 *
-	 * @since 3.6.0
-	 * @private
-	 */
-	function schedule() {
-		// In seconds, default 3 min.
-		var interval = parseInt( window.authcheckL10n.interval, 10 ) || 180;
-		next = ( new Date() ).getTime() + ( interval * 1000 );
-	}
-
-	/**
 	 * Binds to the Heartbeat Tick event.
 	 *
 	 * - Shows the authentication form popup if user is not logged in.
@@ -138,31 +126,13 @@
 	 */
 	$( document ).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {
 		if ( 'wp-auth-check' in data ) {
-			schedule();
 			if ( ! data['wp-auth-check'] && wrap.hasClass('hidden') ) {
 				show();
 			} else if ( data['wp-auth-check'] && ! wrap.hasClass('hidden') ) {
 				hide();
 			}
 		}
-
-	/**
-	 * Binds to the Heartbeat Send event.
-	 *
-	 * @ignore
-	 *
-	 * @since 3.6.0
-	 *
-	 * @param {Object} e The heartbeat-send event that has been triggered.
-	 * @param {Object} data Response data.
-	 */
-	}).on( 'heartbeat-send.wp-auth-check', function( e, data ) {
-		if ( ( new Date() ).getTime() > next ) {
-			data['wp-auth-check'] = true;
-		}
-
 	}).ready( function() {
-		schedule();
 
 		/**
 		 * Hides the authentication form popup when the close icon is clicked.

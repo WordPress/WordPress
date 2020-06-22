@@ -217,7 +217,6 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @staticvar string $term
 	 * @param WP_Theme $theme
 	 * @return bool
 	 */
@@ -639,6 +638,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 */
 	public function column_description( $theme ) {
 		global $status, $totals;
+
 		if ( $theme->errors() ) {
 			$pre = 'broken' === $status ? __( 'Broken Theme:' ) . ' ' : '';
 			echo '<p><strong class="error-message">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
@@ -680,20 +680,21 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				__( 'Visit Theme Site' )
 			);
 		}
+
 		/**
 		 * Filters the array of row meta for each theme in the Multisite themes
 		 * list table.
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param string[] $theme_meta An array of the theme's metadata,
-		 *                             including the version, author, and
-		 *                             theme URI.
+		 * @param string[] $theme_meta An array of the theme's metadata, including
+		 *                             the version, author, and theme URI.
 		 * @param string   $stylesheet Directory name of the theme.
 		 * @param WP_Theme $theme      WP_Theme object.
 		 * @param string   $status     Status of the theme.
 		 */
 		$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $stylesheet, $theme, $status );
+
 		echo implode( ' | ', $theme_meta );
 
 		echo '</div>';
@@ -742,25 +743,40 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$url = add_query_arg( $query_args, 'themes.php' );
 
-		printf(
+		$html[] = sprintf(
 			'<a href="%s" class="toggle-auto-update" data-wp-action="%s">',
 			wp_nonce_url( $url, 'updates' ),
 			$action
 		);
 
-		echo '<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>';
-		echo '<span class="label">' . $text . '</span>';
-		echo '</a>';
+		$html[] = '<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>';
+		$html[] = '<span class="label">' . $text . '</span>';
+		$html[] = '</a>';
 
 		$available_updates = get_site_transient( 'update_themes' );
 		if ( isset( $available_updates->response[ $stylesheet ] ) ) {
-			printf(
+			$html[] = sprintf(
 				'<div class="auto-update-time%s">%s</div>',
 				$time_class,
 				wp_get_auto_update_message()
 			);
 		}
-		echo '<div class="auto-updates-error inline notice error hidden"><p></p></div>';
+
+		$html = implode( '', $html );
+
+		/**
+		 * Filters the HTML of the auto-updates setting for each theme in the Themes list table.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string   $html       The HTML for theme's auto-update setting, including
+		 *                             toggle auto-update action link and time to next update.
+		 * @param string   $stylesheet Directory name of the theme.
+		 * @param WP_Theme $theme      WP_Theme object.
+		 */
+		echo apply_filters( 'theme_auto_update_setting_html', $html, $stylesheet, $theme );
+
+		echo '<div class="notice notice-error notice-alt inline hidden"><p></p></div>';
 	}
 
 	/**

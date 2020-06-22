@@ -65,13 +65,6 @@ ul.add-menu-item-tabs li {
 	position: relative;
 }
 
-.blank-slate .menu-settings {
-	border: none;
-	margin-top: 0;
-	padding-top: 0;
-	overflow: hidden;
-}
-
 .is-submenu {
 	color: #555d66; /* #fafafa background */
 	font-style: italic;
@@ -189,7 +182,6 @@ ul.add-menu-item-tabs li {
 	display: inline-block;
 	vertical-align: middle;
 	margin-right: 7px;
-	font-style: italic;
 }
 
 .nav-menus-php #post-body div.updated,
@@ -664,13 +656,11 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .field-move-visual-label {
 	float: left;
 	margin-right: 4px;
-	font-style: italic;
 }
 
 .menu-item-settings .field-move .button-link {
 	display: none;
 	margin: 0 2px;
-	font-style: italic;
 }
 
 .menu-item-edit-active .menu-item-settings {
@@ -702,7 +692,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	border: 1px solid #ddd;
 	color: #72777c;
 	font-size: 12px;
-	font-style: italic;
 }
 
 .link-to-original a {
@@ -747,10 +736,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .nav-menus-php .major-publishing-actions .publishing-action {
 	text-align: right;
 	float: right;
-}
-
-.nav-menus-php .blank-slate .menu-settings {
-	display: none;
 }
 
 /* Same as the Publish Meta Box #delete-action */

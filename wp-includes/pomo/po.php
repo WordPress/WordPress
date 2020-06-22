@@ -450,11 +450,8 @@ if ( ! class_exists( 'PO', false ) ) :
 		}
 
 		/**
-		 * @staticvar string   $last_line
-		 * @staticvar boolean  $use_last_line
-		 *
-		 * @param     resource $f
-		 * @param     string   $action
+		 * @param resource $f
+		 * @param string   $action
 		 * @return boolean
 		 */
 		function read_line( $f, $action = 'read' ) {

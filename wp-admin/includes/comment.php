@@ -21,7 +21,6 @@
  * @param string $comment_author Author of the comment.
  * @param string $comment_date   Date of the comment.
  * @param string $timezone       Timezone. Accepts 'blog' or 'gmt'. Default 'blog'.
- *
  * @return mixed Comment post ID on success.
  */
 function comment_exists( $comment_author, $comment_date, $timezone = 'blog' ) {

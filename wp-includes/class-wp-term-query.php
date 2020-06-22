@@ -113,12 +113,12 @@ class WP_Term_Query {
 	 *                                                Default 'ASC'.
 	 *     @type bool|int     $hide_empty             Whether to hide terms not assigned to any posts. Accepts
 	 *                                                1|true or 0|false. Default 1|true.
-	 *     @type array|string $include                Array or comma/space-separated string of term ids to include.
+	 *     @type array|string $include                Array or comma/space-separated string of term IDs to include.
 	 *                                                Default empty array.
-	 *     @type array|string $exclude                Array or comma/space-separated string of term ids to exclude.
+	 *     @type array|string $exclude                Array or comma/space-separated string of term IDs to exclude.
 	 *                                                If $include is non-empty, $exclude is ignored.
 	 *                                                Default empty array.
-	 *     @type array|string $exclude_tree           Array or comma/space-separated string of term ids to exclude
+	 *     @type array|string $exclude_tree           Array or comma/space-separated string of term IDs to exclude
 	 *                                                along with all of their descendant terms. If $include is
 	 *                                                non-empty, $exclude_tree is ignored. Default empty array.
 	 *     @type int|string   $number                 Maximum number of terms to return. Accepts ''|0 (all) or any

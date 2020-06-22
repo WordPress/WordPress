@@ -3296,7 +3296,7 @@ class wpdb {
 	 * @since 4.2.0
 	 *
 	 * @param string $query The query to search.
-	 * @return string|false $table The table name found, or false if a table couldn't be found.
+	 * @return string|false The table name found, or false if a table couldn't be found.
 	 */
 	protected function get_table_from_query( $query ) {
 		// Remove characters that can legally trail the table name.

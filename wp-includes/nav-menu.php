@@ -106,6 +106,7 @@ function register_nav_menus( $locations = array() ) {
  * Unregisters a navigation menu location for a theme.
  *
  * @since 3.1.0
+ *
  * @global array $_wp_registered_nav_menus
  *
  * @param string $location The menu location identifier.
@@ -648,8 +649,6 @@ function _is_valid_nav_menu_item( $item ) {
  *
  * @since 3.0.0
  *
- * @staticvar array $fetched
- *
  * @param int|string|WP_Term $menu Menu ID, slug, name, or object.
  * @param array              $args {
  *     Optional. Arguments to pass to get_posts().
@@ -667,7 +666,7 @@ function _is_valid_nav_menu_item( $item ) {
  *                               processed in this function. Default 'menu_order'.
  *     @type bool   $nopaging    Whether to retrieve all menu items (true) or paginate (false). Default true.
  * }
- * @return array|false $items Array of menu items, otherwise false.
+ * @return array|false Array of menu items, otherwise false.
  */
 function wp_get_nav_menu_items( $menu, $args = array() ) {
 	$menu = wp_get_nav_menu_object( $menu );
@@ -802,7 +801,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
  * @since 3.0.0
  *
  * @param object $menu_item The menu item to modify.
- * @return object $menu_item The menu item with standard menu item properties.
+ * @return object The menu item with standard menu item properties.
  */
 function wp_setup_nav_menu_item( $menu_item ) {
 	if ( isset( $menu_item->post_type ) ) {

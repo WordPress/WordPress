@@ -944,14 +944,14 @@ function wp_recovery_mode_nag() {
  *
  * @since 5.5.0
  *
- * @param string $type    The type of update being checked: 'theme' or 'plugin'.
+ * @param string $type The type of update being checked: 'theme' or 'plugin'.
  * @return bool True if auto-updates are enabled for `$type`, false otherwise.
  */
 function wp_is_auto_update_enabled_for_type( $type ) {
 	switch ( $type ) {
 		case 'plugin':
 			/**
-			 * Filters whether plugins manual auto-update is enabled.
+			 * Filters whether plugins auto-update is enabled.
 			 *
 			 * @since 5.5.0
 			 *
@@ -960,11 +960,11 @@ function wp_is_auto_update_enabled_for_type( $type ) {
 			return apply_filters( 'plugins_auto_update_enabled', true );
 		case 'theme':
 			/**
-			 * Filters whether plugins manual auto-update is enabled.
+			 * Filters whether themes auto-update is enabled.
 			 *
 			 * @since 5.5.0
 			 *
-			 * @param bool True if themes auto-update is enabled, false otherwise.
+			 * @param bool $enabled True if themes auto-update is enabled, false otherwise.
 			 */
 			return apply_filters( 'themes_auto_update_enabled', true );
 	}
@@ -973,7 +973,7 @@ function wp_is_auto_update_enabled_for_type( $type ) {
 }
 
 /**
- * Determines the appropriate update message to be displayed.
+ * Determines the appropriate auto-update message to be displayed.
  *
  * @since 5.5.0
  *

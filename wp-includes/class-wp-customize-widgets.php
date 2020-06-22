@@ -173,8 +173,6 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @staticvar array $cache
-	 *
 	 * @param string $setting_id Setting ID.
 	 * @return string|void Setting type.
 	 */
@@ -826,7 +824,7 @@ final class WP_Customize_Widgets {
 					<span class="customize-action">
 					<?php
 						/* translators: &#9656; is the unicode right-pointing triangle. %s: Section title in the Customizer. */
-						echo sprintf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'widgets' )->title ) );
+						printf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'widgets' )->title ) );
 					?>
 					</span>
 					<?php _e( 'Add a Widget' ); ?>
@@ -936,7 +934,6 @@ final class WP_Customize_Widgets {
 	 *
 	 * @global array $wp_registered_widgets
 	 * @global array $wp_registered_widget_controls
-	 * @staticvar array $available_widgets
 	 *
 	 * @see wp_list_widgets()
 	 *
@@ -1103,7 +1100,7 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param  array $nonces Array of nonces.
+	 * @param array $nonces Array of nonces.
 	 * @return array Array of nonces.
 	 */
 	public function refresh_nonces( $nonces ) {
@@ -1391,7 +1388,7 @@ final class WP_Customize_Widgets {
 	 * @global array $wp_registered_widget_updates
 	 * @global array $wp_registered_widget_controls
 	 *
-	 * @param  string $widget_id Widget ID.
+	 * @param string $widget_id Widget ID.
 	 * @return array|WP_Error Array containing the updated widget information.
 	 *                        A WP_Error object, otherwise.
 	 */

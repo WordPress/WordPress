@@ -20,8 +20,6 @@ if ( ! function_exists( '_' ) ) {
  * @since 4.2.2
  * @access private
  *
- * @staticvar string $utf8_pcre
- *
  * @param bool $set - Used for testing only
  *             null   : default - get PCRE/u capability
  *             false  : Used for testing - return false for future calls to this function
@@ -345,7 +343,6 @@ if ( ! function_exists( 'is_countable' ) ) {
 	 * @since 4.9.6
 	 *
 	 * @param mixed $var The value to check.
-	 *
 	 * @return bool True if `$var` is countable, false otherwise.
 	 */
 	function is_countable( $var ) {
@@ -367,7 +364,6 @@ if ( ! function_exists( 'is_iterable' ) ) {
 	 * @since 4.9.6
 	 *
 	 * @param mixed $var The value to check.
-	 *
 	 * @return bool True if `$var` is iterable, false otherwise.
 	 */
 	function is_iterable( $var ) {

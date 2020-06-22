@@ -28,9 +28,16 @@ themes.Model = Backbone.Model.extend({
 	initialize: function() {
 		var description;
 
-		// If theme is already installed, set an attribute.
-		if ( _.indexOf( themes.data.installedThemes, this.get( 'slug' ) ) !== -1 ) {
-			this.set({ installed: true });
+		if ( this.get( 'slug' ) ) {
+			// If the theme is already installed, set an attribute.
+			if ( _.indexOf( themes.data.installedThemes, this.get( 'slug' ) ) !== -1 ) {
+				this.set({ installed: true });
+			}
+
+			// If the theme is active, set an attribute.
+			if ( themes.data.activeTheme === this.get( 'slug' ) ) {
+				this.set({ active: true });
+			}
 		}
 
 		// Set the attributes.
@@ -263,7 +270,7 @@ themes.Collection = Backbone.Collection.extend({
 		// it means we have a paginated request.
 		isPaginated = _.has( request, 'page' );
 
-		// Reset the internal api page counter for non paginated queries.
+		// Reset the internal api page counter for non-paginated queries.
 		if ( ! isPaginated ) {
 			this.currentQuery.page = 1;
 		}

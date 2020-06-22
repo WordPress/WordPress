@@ -100,7 +100,6 @@ function permalink_anchor( $mode = 'id' ) {
  *
  * @param int|WP_Post $post      Optional. Post ID or post object. Default is the global `$post`.
  * @param bool        $leavename Optional. Whether to keep post name or page name. Default false.
- *
  * @return string|false The permalink URL or false if post does not exist.
  */
 function get_the_permalink( $post = 0, $leavename = false ) {
@@ -1553,7 +1552,7 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
  *
  * @since 2.7.0
  *
- * @param int|stdClass $link Optional. Bookmark ID. Default is the id of the current bookmark.
+ * @param int|stdClass $link Optional. Bookmark ID. Default is the ID of the current bookmark.
  * @return string|void The edit bookmark link URL.
  */
 function get_edit_bookmark_link( $link = 0 ) {
@@ -2123,6 +2122,7 @@ function get_next_post_link( $format = '%link &raquo;', $link = '%title', $in_sa
  * Displays the next post link that is adjacent to the current post.
  *
  * @since 1.5.0
+ *
  * @see get_next_post_link()
  *
  * @param string       $format         Optional. Link anchor format. Default '&laquo; %link'.
@@ -3144,9 +3144,9 @@ function the_comments_pagination( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param  string      $path   Optional. Path relative to the home URL. Default empty.
- * @param  string|null $scheme Optional. Scheme to give the home URL context. Accepts
- *                             'http', 'https', 'relative', 'rest', or null. Default null.
+ * @param string      $path   Optional. Path relative to the home URL. Default empty.
+ * @param string|null $scheme Optional. Scheme to give the home URL context. Accepts
+ *                            'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home URL link with optional path appended.
  */
 function home_url( $path = '', $scheme = null ) {
@@ -3164,10 +3164,10 @@ function home_url( $path = '', $scheme = null ) {
  *
  * @global string $pagenow
  *
- * @param  int         $blog_id Optional. Site ID. Default null (current site).
- * @param  string      $path    Optional. Path relative to the home URL. Default empty.
- * @param  string|null $scheme  Optional. Scheme to give the home URL context. Accepts
- *                              'http', 'https', 'relative', 'rest', or null. Default null.
+ * @param int         $blog_id Optional. Site ID. Default null (current site).
+ * @param string      $path    Optional. Path relative to the home URL. Default empty.
+ * @param string|null $scheme  Optional. Scheme to give the home URL context. Accepts
+ *                             'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home URL link with optional path appended.
  */
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
@@ -3383,11 +3383,11 @@ function content_url( $path = '' ) {
  *
  * @since 2.6.0
  *
- * @param  string $path   Optional. Extra path appended to the end of the URL, including
- *                        the relative directory if $plugin is supplied. Default empty.
- * @param  string $plugin Optional. A full path to a file inside a plugin or mu-plugin.
- *                        The URL will be relative to its directory. Default empty.
- *                        Typically this is done by passing `__FILE__` as the argument.
+ * @param string $path   Optional. Extra path appended to the end of the URL, including
+ *                       the relative directory if $plugin is supplied. Default empty.
+ * @param string $plugin Optional. A full path to a file inside a plugin or mu-plugin.
+ *                       The URL will be relative to its directory. Default empty.
+ *                       Typically this is done by passing `__FILE__` as the argument.
  * @return string Plugins URL link with optional paths appended.
  */
 function plugins_url( $path = '', $plugin = '' ) {
@@ -3485,9 +3485,9 @@ function network_site_url( $path = '', $scheme = null ) {
  *
  * @since 3.0.0
  *
- * @param  string $path   Optional. Path relative to the home URL. Default empty.
- * @param  string $scheme Optional. Scheme to give the home URL context. Accepts
- *                        'http', 'https', or 'relative'. Default null.
+ * @param string $path   Optional. Path relative to the home URL. Default empty.
+ * @param string $scheme Optional. Scheme to give the home URL context. Accepts
+ *                       'http', 'https', or 'relative'. Default null.
  * @return string Home URL link with optional path appended.
  */
 function network_home_url( $path = '', $scheme = null ) {
@@ -3628,7 +3628,7 @@ function self_admin_url( $path = '', $scheme = 'admin' ) {
  * @param string      $url    Absolute URL that includes a scheme
  * @param string|null $scheme Optional. Scheme to give $url. Currently 'http', 'https', 'login',
  *                            'login_post', 'admin', 'relative', 'rest', 'rpc', or null. Default null.
- * @return string $url URL with chosen scheme.
+ * @return string URL with chosen scheme.
  */
 function set_url_scheme( $url, $scheme = null ) {
 	$orig_scheme = $scheme;
@@ -3844,10 +3844,10 @@ function rel_canonical() {
  *
  * @since 3.0.0
  *
- * @param int    $id          Optional. A post or site id. Default is 0, which means the current post or site.
- * @param string $context     Optional. Whether the id is a 'site' id, 'post' id, or 'media' id. If 'post',
+ * @param int    $id          Optional. A post or site ID. Default is 0, which means the current post or site.
+ * @param string $context     Optional. Whether the ID is a 'site' id, 'post' id, or 'media' id. If 'post',
  *                            the post_type of the post is consulted. If 'query', the current query is consulted
- *                            to determine the id and context. Default 'post'.
+ *                            to determine the ID and context. Default 'post'.
  * @param bool   $allow_slugs Optional. Whether to allow post slugs in the shortlink. It is up to the plugin how
  *                            and whether to honor this. Default true.
  * @return string A shortlink or an empty string if no shortlink exists for the requested resource or if shortlinks
@@ -4436,7 +4436,6 @@ function the_privacy_policy_link( $before = '', $after = '' ) {
  *
  * @param string $before Optional. Display before privacy policy link. Default empty.
  * @param string $after  Optional. Display after privacy policy link. Default empty.
- *
  * @return string Markup for the link and surrounding elements. Empty string if it
  *                doesn't exist.
  */

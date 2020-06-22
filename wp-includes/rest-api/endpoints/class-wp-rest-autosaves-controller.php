@@ -399,7 +399,6 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 	 *
 	 * @param WP_Post         $post    Post revision object.
 	 * @param WP_REST_Request $request Request object.
-	 *
 	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $post, $request ) {

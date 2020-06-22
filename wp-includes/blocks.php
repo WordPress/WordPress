@@ -48,6 +48,7 @@ function unregister_block_type( $name ) {
  * you should use the block parser on post content.
  *
  * @since 5.0.0
+ *
  * @see parse_blocks()
  *
  * @param int|string|WP_Post|null $post Optional. Post content, post ID, or post object. Defaults to global $post.
@@ -72,6 +73,7 @@ function has_blocks( $post = null ) {
  * you should use the block parser on post content.
  *
  * @since 5.0.0
+ *
  * @see parse_blocks()
  *
  * @param string                  $block_name Full Block type to look for.
@@ -587,8 +589,9 @@ function block_version( $content ) {
  * @since 5.3.0
  *
  * @param string $block_name       Block type name including namespace.
- * @param array  $style_properties Array containing the properties of the style name, label, style (name of the stylesheet to be enqueued), inline_style (string containing the CSS to be added).
- *
+ * @param array  $style_properties Array containing the properties of the style name,
+ *                                 label, style (name of the stylesheet to be enqueued),
+ *                                 inline_style (string containing the CSS to be added).
  * @return boolean True if the block style was registered with success and false otherwise.
  */
 function register_block_style( $block_name, $style_properties ) {
@@ -602,7 +605,6 @@ function register_block_style( $block_name, $style_properties ) {
  *
  * @param string $block_name       Block type name including namespace.
  * @param array  $block_style_name Block style name.
- *
  * @return boolean True if the block style was unregistered with success and false otherwise.
  */
 function unregister_block_style( $block_name, $block_style_name ) {
