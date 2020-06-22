@@ -1448,7 +1448,7 @@ div.action-links,
 .plugin-card .name,
 .plugin-card .desc {
 	margin-left: 148px; /* icon + margin */
-	margin-right: 120px; /* action links */
+	margin-right: 128px; /* action links + margin */
 }
 
 .plugin-card .action-links {
@@ -1461,7 +1461,6 @@ div.action-links,
 .plugin-action-buttons {
 	clear: right;
 	float: right;
-	margin-left: 2em;
 	margin-bottom: 1em;
 	text-align: right;
 }
