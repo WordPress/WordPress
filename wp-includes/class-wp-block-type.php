@@ -276,18 +276,7 @@ class WP_Block_Type {
 	 */
 	public function get_attributes() {
 		return is_array( $this->attributes ) ?
-			array_merge(
-				$this->attributes,
-				array(
-					'layout' => array(
-						'type' => 'string',
-					),
-				)
-			) :
-			array(
-				'layout' => array(
-					'type' => 'string',
-				),
-			);
+			$this->attributes :
+			array();
 	}
 }
