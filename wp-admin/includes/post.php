@@ -2234,11 +2234,25 @@ function get_block_categories( $post ) {
 function get_block_editor_server_block_settings() {
 	$block_registry = WP_Block_Type_Registry::get_instance();
 	$blocks         = array();
-	$keys_to_pick   = array( 'title', 'description', 'icon', 'category', 'keywords', 'parent', 'supports', 'attributes', 'styles', 'textdomain', 'example' );
+	$fields_to_pick   = array(
+		'title'            => 'title',
+		'description'      => 'description',
+		'icon'             => 'icon',
+		'category'         => 'category',
+		'keywords'         => 'keywords',
+		'parent'           => 'parent',
+		'supports'         => 'supports',
+		'attributes'       => 'attributes',
+		'provides_context' => 'providesContext',
+		'uses_context'     => 'usesContext',
+		'styles'           => 'styles',
+		'textdomain'       => 'textdomain',
+		'example'          => 'example',
+	);
 
 	foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {
-		foreach ( $keys_to_pick as $key ) {
-			if ( ! isset( $block_type->{ $key } ) ) {
+		foreach ( $fields_to_pick as $field => $key ) {
+			if ( ! isset( $block_type->{ $field } ) ) {
 				continue;
 			}
 
@@ -2246,7 +2260,7 @@ function get_block_editor_server_block_settings() {
 				$blocks[ $block_name ] = array();
 			}
 
-			$blocks[ $block_name ][ $key ] = $block_type->{ $key };
+			$blocks[ $block_name ][ $key ] = $block_type->{ $field };
 		}
 	}
 
