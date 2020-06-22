@@ -2823,7 +2823,7 @@ function get_theme_support( $feature, ...$args ) {
  * @return bool|void Whether feature was removed.
  */
 function remove_theme_support( $feature ) {
-	// Blacklist: for internal registrations not used directly by themes.
+	// Do not remove internal registrations that are not used directly by themes.
 	if ( in_array( $feature, array( 'editor-style', 'widgets', 'menus' ), true ) ) {
 		return false;
 	}
@@ -2832,11 +2832,11 @@ function remove_theme_support( $feature ) {
 }
 
 /**
- * Do not use. Removes theme support internally, ignorant of the blacklist.
+ * Do not use. Removes theme support internally without knowledge of those not used by
+ * themes directly.
  *
  * @access private
  * @since 3.1.0
- *
  * @global array               $_wp_theme_features
  * @global Custom_Image_Header $custom_image_header
  * @global Custom_Background   $custom_background

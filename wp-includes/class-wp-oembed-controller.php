@@ -94,7 +94,7 @@ final class WP_oEmbed_Controller {
 							'sanitize_callback' => 'absint',
 						),
 						'discover'  => array(
-							'description' => __( 'Whether to perform an oEmbed discovery request for non-whitelisted providers.' ),
+							'description' => __( 'Whether to perform an oEmbed discovery request for unsanctioned providers.' ),
 							'type'        => 'boolean',
 							'default'     => true,
 						),

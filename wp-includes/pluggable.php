@@ -1466,7 +1466,7 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 		$wpp = parse_url( home_url() );
 
 		/**
-		 * Filters the whitelist of hosts to redirect to.
+		 * Filters the list of allowed hosts to redirect to.
 		 *
 		 * @since 2.3.0
 		 *

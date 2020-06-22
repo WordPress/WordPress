@@ -2136,12 +2136,12 @@ function user_can_access_admin_page() {
 	return true;
 }
 
-/* Whitelist functions */
+/* Allowed list functions */
 
 /**
- * Refreshes the value of the options whitelist available via the 'whitelist_options' hook.
+ * Refreshes the value of the allowed options list available via the 'allowed_options' hook.
  *
- * See the {@see 'whitelist_options'} filter.
+ * See the {@see 'allowed_options'} filter.
  *
  * @since 2.7.0
  *
@@ -2154,77 +2154,77 @@ function option_update_filter( $options ) {
 	global $new_whitelist_options;
 
 	if ( is_array( $new_whitelist_options ) ) {
-		$options = add_option_whitelist( $new_whitelist_options, $options );
+		$options = add_option_allowed_list( $new_whitelist_options, $options );
 	}
 
 	return $options;
 }
 
 /**
- * Adds an array of options to the options whitelist.
+ * Adds an array of options to the list of allowed options.
  *
  * @since 2.7.0
  *
- * @global array $whitelist_options
+ * @global array $allowed_options
  *
  * @param array        $new_options
  * @param string|array $options
  * @return array
  */
-function add_option_whitelist( $new_options, $options = '' ) {
+function add_option_allowed_list( $new_options, $options = '' ) {
 	if ( '' === $options ) {
-		global $whitelist_options;
+		global $allowed_options;
 	} else {
-		$whitelist_options = $options;
+		$allowed_options = $options;
 	}
 
 	foreach ( $new_options as $page => $keys ) {
 		foreach ( $keys as $key ) {
-			if ( ! isset( $whitelist_options[ $page ] ) || ! is_array( $whitelist_options[ $page ] ) ) {
-				$whitelist_options[ $page ]   = array();
-				$whitelist_options[ $page ][] = $key;
+			if ( ! isset( $allowed_options[ $page ] ) || ! is_array( $allowed_options[ $page ] ) ) {
+				$allowed_options[ $page ]   = array();
+				$allowed_options[ $page ][] = $key;
 			} else {
-				$pos = array_search( $key, $whitelist_options[ $page ], true );
+				$pos = array_search( $key, $allowed_options[ $page ], true );
 				if ( false === $pos ) {
-					$whitelist_options[ $page ][] = $key;
+					$allowed_options[ $page ][] = $key;
 				}
 			}
 		}
 	}
 
-	return $whitelist_options;
+	return $allowed_options;
 }
 
 /**
- * Removes a list of options from the options whitelist.
+ * Removes a list of options from the allowed options list.
  *
- * @since 2.7.0
+ * @since 5.5.0
  *
- * @global array $whitelist_options
+ * @global array $allowed_options
  *
  * @param array        $del_options
  * @param string|array $options
  * @return array
  */
-function remove_option_whitelist( $del_options, $options = '' ) {
+function remove_option_allowed_list( $del_options, $options = '' ) {
 	if ( '' === $options ) {
-		global $whitelist_options;
+		global $allowed_options;
 	} else {
-		$whitelist_options = $options;
+		$allowed_options = $options;
 	}
 
 	foreach ( $del_options as $page => $keys ) {
 		foreach ( $keys as $key ) {
-			if ( isset( $whitelist_options[ $page ] ) && is_array( $whitelist_options[ $page ] ) ) {
-				$pos = array_search( $key, $whitelist_options[ $page ], true );
+			if ( isset( $allowed_options[ $page ] ) && is_array( $allowed_options[ $page ] ) ) {
+				$pos = array_search( $key, $allowed_options[ $page ], true );
 				if ( false !== $pos ) {
-					unset( $whitelist_options[ $page ][ $pos ] );
+					unset( $allowed_options[ $page ][ $pos ] );
 				}
 			}
 		}
 	}
 
-	return $whitelist_options;
+	return $allowed_options;
 }
 
 /**

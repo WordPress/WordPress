@@ -2048,7 +2048,7 @@ function sanitize_file_name( $filename ) {
 
 	/*
 	 * Loop over any intermediate extensions. Postfix them with a trailing underscore
-	 * if they are a 2 - 5 character long alpha string not in the extension whitelist.
+	 * if they are a 2 - 5 character long alpha string not in the allowed extension list.
 	 */
 	foreach ( (array) $parts as $part ) {
 		$filename .= '.' . $part;
@@ -4852,7 +4852,7 @@ function sanitize_option( $option, $value ) {
 			break;
 
 		case 'moderation_keys':
-		case 'blacklist_keys':
+		case 'blocklist_keys':
 			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			if ( is_wp_error( $value ) ) {
 				$error = $value->get_error_message();

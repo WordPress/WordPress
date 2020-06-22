@@ -1684,7 +1684,7 @@ final class WP_Customize_Widgets {
 	 * List of the tag names seen for before_widget strings.
 	 *
 	 * This is used in the {@see 'filter_wp_kses_allowed_html'} filter to ensure that the
-	 * data-* attributes can be whitelisted.
+	 * data-* attributes can be allowed.
 	 *
 	 * @since 4.5.0
 	 * @var array

@@ -1593,11 +1593,11 @@ function wp_insert_user( $userdata ) {
 	}
 
 	/**
-	 * Filters the list of blacklisted usernames.
+	 * Filters the list of disallowed usernames.
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $usernames Array of blacklisted usernames.
+	 * @param array $usernames Array of disallowed usernames.
 	 */
 	$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
 

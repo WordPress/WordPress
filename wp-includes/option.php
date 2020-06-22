@@ -2097,8 +2097,8 @@ function register_initial_settings() {
  * @global array $new_whitelist_options
  * @global array $wp_registered_settings
  *
- * @param string $option_group A settings group name. Should correspond to a whitelisted option key name.
- *                             Default whitelisted option key names include 'general', 'discussion', 'media',
+ * @param string $option_group A settings group name. Should correspond to an allowed option key name.
+ *                             Default allowed option key names include 'general', 'discussion', 'media',
  *                             'reading', 'writing', 'misc', 'options', and 'privacy'.
  * @param string $option_name The name of an option to sanitize and save.
  * @param array  $args {

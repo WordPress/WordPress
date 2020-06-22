@@ -125,7 +125,7 @@ class Requests_SSL {
 	 * @return boolean Does the domain match?
 	 */
 	public static function match_domain($host, $reference) {
-		// Check if the reference is blacklisted first
+		// Check if the reference is blocklisted first
 		if (self::verify_reference_name($reference) !== true) {
 			return false;
 		}

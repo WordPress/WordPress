@@ -378,7 +378,7 @@ abstract class ParagonIE_Sodium_Core32_Ed25519 extends ParagonIE_Sodium_Core32_C
      */
     public static function small_order($R)
     {
-        static $blacklist = array(
+        static $blocklist = array(
             /* 0 (order 4) */
             array(
                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -464,13 +464,13 @@ abstract class ParagonIE_Sodium_Core32_Ed25519 extends ParagonIE_Sodium_Core32_C
                 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
             )
         );
-        /** @var array<int, array<int, int>> $blacklist */
-        $countBlacklist = count($blacklist);
+        /** @var array<int, array<int, int>> $blocklist */
+        $countBlocklist = count($blocklist);
 
-        for ($i = 0; $i < $countBlacklist; ++$i) {
+        for ($i = 0; $i < $countBlocklist; ++$i) {
             $c = 0;
             for ($j = 0; $j < 32; ++$j) {
-                $c |= self::chrToInt($R[$j]) ^ $blacklist[$i][$j];
+                $c |= self::chrToInt($R[$j]) ^ $blocklist[$i][$j];
             }
             if ($c === 0) {
                 return true;

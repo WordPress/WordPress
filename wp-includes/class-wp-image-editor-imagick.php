@@ -305,8 +305,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		);
 
 		/**
-		 * Set the filter value if '$filter_name' name is in our whitelist and the related
-		 * Imagick constant is defined or fall back to our default filter.
+		 * Set the filter value if '$filter_name' name is in the allowed list and the related
+		 * Imagick constant is defined or fall back to the default filter.
 		 */
 		if ( in_array( $filter_name, $allowed_filters, true ) && defined( 'Imagick::' . $filter_name ) ) {
 			$filter = constant( 'Imagick::' . $filter_name );

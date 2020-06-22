@@ -233,7 +233,7 @@ class Featured_Content {
 			return;
 		}
 
-		// We need to respect post IDs already in the blacklist.
+		// We need to respect post IDs already in the exclude list.
 		$post__not_in = $query->get( 'post__not_in' );
 
 		if ( ! empty( $post__not_in ) ) {

@@ -3995,3 +3995,83 @@ function wp_unregister_GLOBALS() {  // phpcs:ignore WordPress.NamingConventions.
 	// register_globals was deprecated in PHP 5.3 and removed entirely in PHP 5.4.
 	_deprecated_function( __FUNCTION__, '5.5.0' );
 }
+
+/**
+ * Does comment contain disallowed characters or words.
+ *
+ * @since 1.5.0
+ * @deprecated 5.5.0 Use wp_blocklist_check() instead.
+ *                   Please consider writing more inclusive code.
+ *
+ * @param string $author The author of the comment
+ * @param string $email The email of the comment
+ * @param string $url The url used in the comment
+ * @param string $comment The comment content
+ * @param string $user_ip The comment author's IP address
+ * @param string $user_agent The author's browser user agent
+ * @return bool True if comment contains disallowed content, false if comment does not
+ */
+function wp_blacklist_check( $author, $email, $url, $comment, $user_ip, $user_agent ) {
+	_deprecated_function( __FUNCTION__, '5.5.0', 'wp_blocklist_check()' );
+
+	return wp_blocklist_check( $author, $email, $url, $comment, $user_ip, $user_agent );
+}
+
+/**
+ * Filters out `register_meta()` args based on an allowed list.
+ *
+ * `register_meta()` args may change over time, so requiring the allowed list
+ * to be explicitly turned off is a warranty seal of sorts.
+ *
+ * @access private
+ * @since 4.6.0
+ * @deprecated 5.5.0 Use _wp_register_meta_args_allowed_list() instead.
+ *                   Please consider writing more inclusive code.
+ *
+ * @param array $args         Arguments from `register_meta()`.
+ * @param array $default_args Default arguments for `register_meta()`.
+ * @return array Filtered arguments.
+ */
+function _wp_register_meta_args_whitelist( $args, $default_args ) {
+	_deprecated_function( __FUNCTION__, '5.5.0', '_wp_register_meta_args_allowed_list()' );
+
+	return _wp_register_meta_args_allowed_list( $args, $default_args );
+}
+
+/**
+ * Adds an array of options to the list of allowed options.
+ *
+ * @since 2.7.0
+ * @deprecated 5.5.0 Use add_option_allowed_list() instead.
+ *                   Please consider writing more inclusive code.
+ *
+ * @global array $allowed_options
+ *
+ * @param array        $new_options
+ * @param string|array $options
+ * @return array
+ */
+function add_option_whitelist( $new_options, $options = '' ) {
+	_deprecated_function( __FUNCTION__, '5.5.0', 'add_option_allowed_list()' );
+
+	return add_option_allowed_list( $new_options, $options );
+}
+
+/**
+ * Removes a list of options from the allowed options list.
+ *
+ * @since 2.7.0
+ * @deprecated 5.5.0 Use remove_option_allowed_list() instead.
+ *                   Please consider writing more inclusive code.
+ *
+ * @global array $allowed_options
+ *
+ * @param array        $del_options
+ * @param string|array $options
+ * @return array
+ */
+function remove_option_whitelist( $del_options, $options = '' ) {
+	_deprecated_function( __FUNCTION__, '5.5.0', 'remove_option_allowed_list()' );
+
+	return remove_option_allowed_list( $del_options, $options );
+}

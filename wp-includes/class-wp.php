@@ -275,7 +275,7 @@ class WP {
 		}
 
 		/**
-		 * Filters the query variables whitelist before processing.
+		 * Filters the query variables allowed before processing.
 		 *
 		 * Allows (publicly allowed) query vars to be added, removed, or changed prior
 		 * to executing the query. Needed to allow custom rewrite rules using your own arguments
@@ -283,7 +283,7 @@ class WP {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param string[] $public_query_vars The array of whitelisted query variable names.
+		 * @param string[] $public_query_vars The array of allowed query variable names.
 		 */
 		$this->public_query_vars = apply_filters( 'query_vars', $this->public_query_vars );
 
