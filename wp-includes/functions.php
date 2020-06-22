@@ -3426,7 +3426,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		}
 		?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" <?php echo $dir_attr; ?>>
+<html <?php echo $dir_attr; ?>>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $parsed_args['charset']; ?>" />
 	<meta name="viewport" content="width=device-width">
