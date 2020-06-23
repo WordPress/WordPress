@@ -1330,7 +1330,6 @@ function wp_comment_form_unfiltered_html_nonce() {
  * Will not try to get the comments if the post has none.
  *
  * @since 1.5.0
- * @since 5.5.0 Removed the need to use the $user_ID global.
  *
  * @global WP_Query   $wp_query         WordPress Query object.
  * @global WP_Post    $post             Global post object.
@@ -1396,9 +1395,14 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		$comment_args['hierarchical'] = false;
 	}
 
-	$include_unapproved = wp_get_include_unapproved_comments_argument();
-	if ( $include_unapproved ) {
-		$comment_args['include_unapproved'] = $include_unapproved;
+	if ( is_user_logged_in() ) {
+		$comment_args['include_unapproved'] = array( get_current_user_id() );
+	} else {
+		$unapproved_email = wp_get_unapproved_comment_author_email();
+
+		if ( $unapproved_email ) {
+			$comment_args['include_unapproved'] = array( $unapproved_email );
+		}
 	}
 
 	$per_page = 0;
@@ -2097,7 +2101,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
 				);
 
 				if ( is_user_logged_in() ) {
-					$comment_args['include_unapproved'] = get_current_user_id();
+					$comment_args['include_unapproved'] = array( get_current_user_id() );
 				} else {
 					$unapproved_email = wp_get_unapproved_comment_author_email();
 
