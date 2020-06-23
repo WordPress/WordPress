@@ -349,6 +349,10 @@
 	border-right: 4px solid #00a0d2;
 }
 
+#dashboard-widgets .community-events li.event-none a {
+	text-decoration: underline;
+}
+
 .community-events-form label {
 	display: inline-block;
 	vertical-align: top;
