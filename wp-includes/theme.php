@@ -154,7 +154,7 @@ function is_child_theme() {
 }
 
 /**
- * Retrieve name of the current stylesheet.
+ * Retrieves name of the current stylesheet.
  *
  * The theme name that the administrator has currently set the front end theme
  * as.
@@ -178,11 +178,11 @@ function get_stylesheet() {
 }
 
 /**
- * Retrieve stylesheet directory path for current theme.
+ * Retrieves stylesheet directory path for current theme.
  *
  * @since 1.5.0
  *
- * @return string Path to current theme directory.
+ * @return string Path to current theme stylesheet directory.
  */
 function get_stylesheet_directory() {
 	$stylesheet     = get_stylesheet();
@@ -202,7 +202,7 @@ function get_stylesheet_directory() {
 }
 
 /**
- * Retrieve stylesheet directory URI.
+ * Retrieves stylesheet directory URI for current theme.
  *
  * @since 1.5.0
  *
@@ -226,7 +226,7 @@ function get_stylesheet_directory_uri() {
 }
 
 /**
- * Retrieves the URI of current theme stylesheet.
+ * Retrieves stylesheet URI for current theme.
  *
  * The stylesheet file name is 'style.css' which is appended to the stylesheet directory URI path.
  * See get_stylesheet_directory_uri().
@@ -294,7 +294,7 @@ function get_locale_stylesheet_uri() {
 }
 
 /**
- * Retrieve name of the current theme.
+ * Retrieves name of the current theme.
  *
  * @since 1.5.0
  *
@@ -312,11 +312,11 @@ function get_template() {
 }
 
 /**
- * Retrieve current theme directory.
+ * Retrieves template directory path for current theme.
  *
  * @since 1.5.0
  *
- * @return string Template directory path.
+ * @return string Path to current theme template directory.
  */
 function get_template_directory() {
 	$template     = get_template();
@@ -328,7 +328,7 @@ function get_template_directory() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $template_dir The URI of the current theme directory.
+	 * @param string $template_dir The path of the current theme directory.
 	 * @param string $template     Directory name of the current theme.
 	 * @param string $theme_root   Absolute path to the themes directory.
 	 */
@@ -336,11 +336,11 @@ function get_template_directory() {
 }
 
 /**
- * Retrieve theme directory URI.
+ * Retrieves template directory URI for current theme.
  *
  * @since 1.5.0
  *
- * @return string Template directory URI.
+ * @return string URI to current theme template directory.
  */
 function get_template_directory_uri() {
 	$template         = str_replace( '%2F', '/', rawurlencode( get_template() ) );
