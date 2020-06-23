@@ -1132,6 +1132,36 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 			),
 		);
 
+		$include_unapproved = wp_get_include_unapproved_comments_argument();
+		if ( $include_unapproved ) {
+			$comment_args['include_unapproved'] = $include_unapproved;
+		}
+
+		/**
+		 * Filters the arguments used to query comments in get_page_of_comment().
+		 *
+		 * @since 5.5.0
+		 *
+		 * @see WP_Comment_Query::__construct()
+		 *
+		 * @param array $comment_args {
+		 *     Array of WP_Comment_Query arguments.
+		 *
+		 *     @type string $type               Limit paginated comments to those matching a given type. Accepts 'comment',
+		 *                                      'trackback', 'pingback', 'pings' (trackbacks and pingbacks), or 'all'.
+		 *                                      Default is 'all'.
+		 *     @type int    $post_id            ID of the post.
+		 *     @type string $fields             Comment fields to return.
+		 *     @type bool   $count              Whether to return a comment count (true) or array of
+		 *                                      comment objects (false)
+		 *     @type string $status             Comment status.
+		 *     @type int    $parent             Parent ID of comment to retrieve children of.
+		 *     @type array  $date_query         Date query clauses to limit comments by. See WP_Date_Query.
+		 *     @type array  $include_unapproved Array of IDs or email addresses whose unapproved comments
+		 *                                      will be included in paginated comments.
+		 * }
+		 */
+		$comment_args        = apply_filters( 'get_page_of_comment_query_args', $comment_args );
 		$comment_query       = new WP_Comment_Query();
 		$older_comment_count = $comment_query->query( $comment_args );
 
@@ -1894,6 +1924,33 @@ function wp_get_unapproved_comment_author_email() {
 	}
 
 	return $commenter_email;
+}
+
+/**
+ * Get include unapproved comments query argument.
+ *
+ * Used to include unapproved comments of currrent commenters to
+ * keep them informed their comments were successfully saved.
+ *
+ * @since 5.5.0
+ *
+ * @return array The unapproved comments query argument.
+ */
+function wp_get_include_unapproved_comments_argument() {
+	$user_id            = get_current_user_id();
+	$include_unapproved = array();
+
+	if ( $user_id ) {
+		$include_unapproved = array( $user_id );
+	} else {
+		$unapproved_email = wp_get_unapproved_comment_author_email();
+
+		if ( $unapproved_email ) {
+			$include_unapproved = array( $unapproved_email );
+		}
+	}
+
+	return $include_unapproved;
 }
 
 /**
