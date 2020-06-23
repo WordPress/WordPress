@@ -58,8 +58,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	}
 
 	if ( is_admin() || is_search() || is_preview() || is_trackback()
-		|| is_robots() || is_favicon()
-		|| ( $is_IIS && ! iis7_supports_permalinks() )
+		|| is_favicon() || ( $is_IIS && ! iis7_supports_permalinks() )
 	) {
 		return;
 	}
@@ -681,6 +680,11 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			&& 'www.' . $redirect_host_low !== $original_host_low )
 	) {
 		$redirect['host'] = $original['host'];
+	}
+
+	// Even if the permalink structure ends with a slash, remove slash robots.txt.
+	if ( is_robots() ) {
+		$redirect['path'] = untrailingslashit( $redirect['path'] );
 	}
 
 	$compare_original = array( $original['host'], $original['path'] );
