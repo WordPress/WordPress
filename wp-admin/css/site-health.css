@@ -304,6 +304,10 @@
 	width: 100%;
 	align-items: center;
 	justify-content: space-between;
+	-webkit-user-select: auto;
+	-moz-user-select: auto;
+	-ms-user-select: auto;
+	user-select: auto;
 }
 
 .wp-core-ui .button.site-health-view-passed {
