@@ -129,6 +129,7 @@ function determine_locale() {
 	 * @param string|null $locale The locale to return and short-circuit. Default null.
 	 */
 	$determined_locale = apply_filters( 'pre_determine_locale', null );
+
 	if ( ! empty( $determined_locale ) && is_string( $determined_locale ) ) {
 		return $determined_locale;
 	}
@@ -181,21 +182,26 @@ function translate( $text, $domain = 'default' ) {
 	 *
 	 * @since 2.0.11
 	 *
-	 * @param string $translation  Translated text.
-	 * @param string $text         Text to translate.
-	 * @param string $domain       Text domain. Unique identifier for retrieving translated strings.
+	 * @param string $translation Translated text.
+	 * @param string $text        Text to translate.
+	 * @param string $domain      Text domain. Unique identifier for retrieving translated strings.
 	 */
 	$translation = apply_filters( 'gettext', $translation, $text, $domain );
 
 	/**
 	 * Filters text with its translation for a domain.
 	 *
+	 * The dynamic portion of the hook, `$domain`, refers to the text domain.
+	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $translation  Translated text.
-	 * @param string $text         Text to translate.
+	 * @param string $translation Translated text.
+	 * @param string $text        Text to translate.
+	 * @param string $domain      Text domain. Unique identifier for retrieving translated strings.
 	 */
-	return apply_filters( 'gettext-' . $domain, $translation, $text );
+	$translation = apply_filters( "gettext_{$domain}", $translation, $text, $domain );
+
+	return $translation;
 }
 
 /**
@@ -243,23 +249,28 @@ function translate_with_gettext_context( $text, $context, $domain = 'default' ) 
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param string $translation  Translated text.
-	 * @param string $text         Text to translate.
-	 * @param string $context      Context information for the translators.
-	 * @param string $domain       Text domain. Unique identifier for retrieving translated strings.
+	 * @param string $translation Translated text.
+	 * @param string $text        Text to translate.
+	 * @param string $context     Context information for the translators.
+	 * @param string $domain      Text domain. Unique identifier for retrieving translated strings.
 	 */
 	$translation = apply_filters( 'gettext_with_context', $translation, $text, $context, $domain );
 
 	/**
 	 * Filters text with its translation based on context information for a domain.
 	 *
+	 * The dynamic portion of the hook, `$domain`, refers to the text domain.
+	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $translation  Translated text.
-	 * @param string $text         Text to translate.
-	 * @param string $context      Context information for the translators.
+	 * @param string $translation Translated text.
+	 * @param string $text        Text to translate.
+	 * @param string $context     Context information for the translators.
+	 * @param string $domain      Text domain. Unique identifier for retrieving translated strings.
 	 */
-	return apply_filters( 'gettext_with_context-' . $domain, $translation, $text, $context );
+	$translation = apply_filters( "gettext_with_context_{$domain}", $translation, $text, $context, $domain );
+
+	return $translation;
 }
 
 /**
@@ -472,14 +483,19 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
 	/**
 	 * Filters the singular or plural form of a string for a domain.
 	 *
+	 * The dynamic portion of the hook, `$domain`, refers to the text domain.
+	 *
 	 * @since 5.5.0
 	 *
 	 * @param string $translation Translated text.
 	 * @param string $single      The text to be used if the number is singular.
 	 * @param string $plural      The text to be used if the number is plural.
 	 * @param string $number      The number to compare against to use either the singular or plural form.
+	 * @param string $domain      Text domain. Unique identifier for retrieving translated strings.
 	 */
-	return apply_filters( 'ngettext-' . $domain, $translation, $single, $plural, $number );
+	$translation = apply_filters( "ngettext_{$domain}", $translation, $single, $plural, $number, $domain );
+
+	return $translation;
 }
 
 /**
@@ -527,6 +543,8 @@ function _nx( $single, $plural, $number, $context, $domain = 'default' ) {
 	/**
 	 * Filters the singular or plural form of a string with gettext context for a domain.
 	 *
+	 * The dynamic portion of the hook, `$domain`, refers to the text domain.
+	 *
 	 * @since 5.5.0
 	 *
 	 * @param string $translation Translated text.
@@ -534,8 +552,11 @@ function _nx( $single, $plural, $number, $context, $domain = 'default' ) {
 	 * @param string $plural      The text to be used if the number is plural.
 	 * @param string $number      The number to compare against to use either the singular or plural form.
 	 * @param string $context     Context information for the translators.
+	 * @param string $domain      Text domain. Unique identifier for retrieving translated strings.
 	 */
-	return apply_filters( 'ngettext_with_context-' . $domain, $translation, $single, $plural, $number, $context );
+	$translation = apply_filters( "ngettext_with_context_{$domain}", $translation, $single, $plural, $number, $context, $domain );
+
+	return $translation;
 }
 
 /**
@@ -691,7 +712,7 @@ function load_textdomain( $domain, $mofile ) {
 	 */
 	$plugin_override = apply_filters( 'override_load_textdomain', false, $domain, $mofile );
 
-	if ( true == $plugin_override ) {
+	if ( true === (bool) $plugin_override ) {
 		unset( $l10n_unloaded[ $domain ] );
 
 		return true;
