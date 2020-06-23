@@ -389,7 +389,7 @@ final class WP_Privacy_Policy_Content {
 
 				/* translators: %s: Date of plugin deactivation. */
 				$removed = __( 'You deactivated this plugin on %s and may no longer need this policy.' );
-				$removed = '<div class="error inline"><p>' . sprintf( $removed, $date ) . '</p></div>';
+				$removed = '<div class="notice notice-info inline"><p>' . sprintf( $removed, $date ) . '</p></div>';
 			} elseif ( ! empty( $section['updated'] ) ) {
 				$class = 'text-updated';
 				$date  = date_i18n( $date_format, $section['updated'] );
