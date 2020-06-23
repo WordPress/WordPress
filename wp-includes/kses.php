@@ -1452,9 +1452,9 @@ function wp_kses_hair_parse( $attr ) {
 	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 	$regex =
 		'(?:'
-		.     '[_a-zA-Z][-_a-zA-Z0-9:.]*'   // Attribute name.
+		.     '[_a-zA-Z][-_a-zA-Z0-9:.]*' // Attribute name.
 		. '|'
-		.     '\[\[?[^\[\]]+\]\]?' // Shortcode in the name position implies unfiltered_html.
+		.     '\[\[?[^\[\]]+\]\]?'        // Shortcode in the name position implies unfiltered_html.
 		. ')'
 		. '(?:'               // Attribute value.
 		.     '\s*=\s*'       // All values begin with '='.
