@@ -1812,8 +1812,6 @@ body.full-overlay-active {
 .theme-install-overlay .wp-full-overlay-header .button {
 	float: left;
 	margin: 8px 0 0 10px;
-	/* For when .theme-install is a span rather than a.button-primary (already installed theme) */
-	line-height: 2;
 }
 
 .theme-install-overlay .wp-full-overlay-sidebar {
@@ -1898,9 +1896,10 @@ body.full-overlay-active {
 		width: 100%;
 	}
 
-	.theme-install-overlay .wp-full-overlay-header .theme-install {
-		margin-top: 6px;
-		line-height: normal;
+	.theme-install-overlay .wp-full-overlay-header .button {
+		font-size: 13px;
+		line-height: 2.15384615;
+		min-height: 30px;
 	}
 
 	.theme-browser .theme .theme-actions .button {
