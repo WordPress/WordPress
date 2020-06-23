@@ -4042,7 +4042,7 @@ function _wp_register_meta_args_whitelist( $args, $default_args ) {
  * Adds an array of options to the list of allowed options.
  *
  * @since 2.7.0
- * @deprecated 5.5.0 Use add_option_allowed_list() instead.
+ * @deprecated 5.5.0 Use add_allowed_options() instead.
  *                   Please consider writing more inclusive code.
  *
  * @global array $allowed_options
@@ -4052,9 +4052,9 @@ function _wp_register_meta_args_whitelist( $args, $default_args ) {
  * @return array
  */
 function add_option_whitelist( $new_options, $options = '' ) {
-	_deprecated_function( __FUNCTION__, '5.5.0', 'add_option_allowed_list()' );
+	_deprecated_function( __FUNCTION__, '5.5.0', 'add_allowed_options()' );
 
-	return add_option_allowed_list( $new_options, $options );
+	return add_allowed_options( $new_options, $options );
 }
 
 /**

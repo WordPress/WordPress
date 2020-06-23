@@ -1064,7 +1064,7 @@ function wp_default_scripts( $scripts ) {
 		)
 	);
 
-	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array( 'jquery', 'wp-deprecated', 'zxcvbn-async' ), false, 1 );
+	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array( 'jquery', 'zxcvbn-async' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
 		'password-strength-meter',
 		'pwsL10n',

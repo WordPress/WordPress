@@ -2154,7 +2154,7 @@ function option_update_filter( $options ) {
 	global $new_whitelist_options;
 
 	if ( is_array( $new_whitelist_options ) ) {
-		$options = add_option_allowed_list( $new_whitelist_options, $options );
+		$options = add_allowed_options( $new_whitelist_options, $options );
 	}
 
 	return $options;
@@ -2171,7 +2171,7 @@ function option_update_filter( $options ) {
  * @param string|array $options
  * @return array
  */
-function add_option_allowed_list( $new_options, $options = '' ) {
+function add_allowed_options( $new_options, $options = '' ) {
 	if ( '' === $options ) {
 		global $allowed_options;
 	} else {
