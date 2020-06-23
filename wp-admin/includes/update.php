@@ -984,30 +984,26 @@ function wp_get_auto_update_message() {
 
 	// Check if event exists.
 	if ( false === $next_update_time ) {
-		return __( 'There may be a problem with WP-Cron. Automatic update not scheduled.' );
-	}
-
-	// See if cron is disabled
-	$cron_disabled = defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON;
-	if ( $cron_disabled ) {
-		return __( 'WP-Cron is disabled. Automatic updates not available.' );
-	}
-
-	$time_to_next_update = human_time_diff( intval( $next_update_time ) );
-
-	// See if cron is overdue.
-	$overdue = ( time() - $next_update_time ) > 0;
-	if ( $overdue ) {
-		return sprintf(
-			/* translators: Duration that WP-Cron has been overdue. */
-			__( 'There may be a problem with WP-Cron. Automatic update overdue by %s.' ),
-			$time_to_next_update
-		);
+		$message = __( 'Auto-update update not scheduled. There may be a problem with WP-Cron.' );
 	} else {
-		return sprintf(
-			/* translators: Time until the next update. */
-			__( 'Auto-update scheduled in %s.' ),
-			$time_to_next_update
-		);
+		$time_to_next_update = human_time_diff( intval( $next_update_time ) );
+
+		// See if cron is overdue.
+		$overdue = ( time() - $next_update_time ) > 0;
+		if ( $overdue ) {
+			$message = sprintf(
+				/* translators: Duration that WP-Cron has been overdue. */
+				__( 'Auto-update update overdue by %s. There may be a problem with WP-Cron.' ),
+				$time_to_next_update
+			);
+		} else {
+			$message = sprintf(
+				/* translators: Time until the next update. */
+				__( 'Auto-update update scheduled in %s.' ),
+				$time_to_next_update
+			);
+		}
 	}
+
+	return $message;
 }
