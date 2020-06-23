@@ -26,7 +26,7 @@
 	padding-bottom: 65px;
 	float: left;
 	width: 100%;
-	overflow: visible !important;
+	overflow: visible;
 }
 
 /* inner 2 column liquid layout */
@@ -1270,7 +1270,7 @@ th.action-links {
 .filters-applied .filter-group,
 .filters-applied .filter-drawer .buttons,
 .filters-applied .filter-drawer br {
-	display: none !important;
+	display: none;
 }
 
 .filters-applied .filtered-by {
@@ -1651,7 +1651,7 @@ form.upgrade .hint {
 
 #contextual-help-wrap {
 	overflow: auto;
-	margin-left: 0 !important;
+	margin-left: 0;
 }
 
 #screen-meta-links {
@@ -1722,7 +1722,7 @@ form.upgrade .hint {
 	vertical-align: bottom;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-decoration: none !important;
+	text-decoration: none;
 	color: #72777c;
 }
 
@@ -2098,7 +2098,7 @@ html.wp-toolbar {
 
 .postbox .inside > p:last-child,
 .rss-widget ul li:last-child {
-	margin-bottom: 1px !important;
+	margin-bottom: 1px;
 }
 
 .postbox.closed h3 {
@@ -2404,10 +2404,6 @@ body.iframe {
 
 #namediv p {
 	margin: 10px 0;
-}
-
-#submitdiv h3 {
-	margin-bottom: 0 !important;
 }
 
 /* - Used - but could/should be deprecated with a CSS reset
@@ -3016,7 +3012,7 @@ img {
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-decoration: none !important;
+	text-decoration: none;
 }
 
 .js .widgets-holder-wrap.closed .toggle-indicator:before,
@@ -3341,7 +3337,7 @@ img {
 	display: block;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-decoration: none !important;
+	text-decoration: none;
 }
 
 .widget-top .widget-action .toggle-indicator:before {
@@ -3663,19 +3659,6 @@ img {
 
 	.spinner {
 		background-image: url(../images/spinner-2x.gif);
-	}
-
-	/* @todo: evaluate - most of these were likely replaced by dashicons */
-	.curtime #timestamp,
-	#screen-meta-links a.show-settings,
-	.widget-top .widget-action,
-	.widget-top .widget-action:hover,
-	.sidebar-name .toggle-indicator,
-	.sidebar-name:hover .toggle-indicator,
-	.meta-box-sortables .postbox:hover .handlediv,
-	#bulk-titles div a,
-	#bulk-titles div a:hover {
-		background: none !important;
 	}
 
 }
