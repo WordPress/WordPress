@@ -193,6 +193,28 @@ final class WP_oEmbed_Controller {
 		$data = _wp_oembed_get_object()->get_data( $url, $args );
 
 		if ( false === $data ) {
+			// Try using a classic embed, instead.
+			global $wp_embed;
+
+			/* @var WP_Embed $wp_embed */
+			$html = $wp_embed->get_embed_handler_html( $args, $url );
+
+			if ( $html ) {
+				global $wp_scripts;
+				// Check if any scripts were enqueued by the shortcode, and include them in the response.
+				$enqueued_scripts = array();
+
+				foreach ( $wp_scripts->queue as $script ) {
+					$enqueued_scripts[] = $wp_scripts->registered[ $script ]->src;
+				}
+
+				return (object) array(
+					'provider_name' => __( 'Embed Handler' ),
+					'html'          => $html,
+					'scripts'       => $enqueued_scripts,
+				);
+			}
+
 			return new WP_Error( 'oembed_invalid_url', get_status_header_desc( 404 ), array( 'status' => 404 ) );
 		}
 
