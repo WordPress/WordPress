@@ -982,7 +982,7 @@ function wp_is_auto_update_enabled_for_type( $type ) {
 function wp_get_auto_update_message() {
 	$next_update_time = wp_next_scheduled( 'wp_version_check' );
 
-	// Check if event exists.
+	// Check if the event exists.
 	if ( false === $next_update_time ) {
 		$message = __( 'Auto-update update not scheduled. There may be a problem with WP-Cron.' );
 	} else {
@@ -990,15 +990,16 @@ function wp_get_auto_update_message() {
 
 		// See if cron is overdue.
 		$overdue = ( time() - $next_update_time ) > 0;
+
 		if ( $overdue ) {
 			$message = sprintf(
-				/* translators: Duration that WP-Cron has been overdue. */
+				/* translators: %s: Duration that WP-Cron has been overdue. */
 				__( 'Auto-update update overdue by %s. There may be a problem with WP-Cron.' ),
 				$time_to_next_update
 			);
 		} else {
 			$message = sprintf(
-				/* translators: Time until the next update. */
+				/* translators: %s: Time until the next update. */
 				__( 'Auto-update update scheduled in %s.' ),
 				$time_to_next_update
 			);
