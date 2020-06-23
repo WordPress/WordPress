@@ -178,11 +178,13 @@ function rest_api_register_rewrites() {
  * @since 4.4.0
  */
 function rest_api_default_filters() {
-	// Deprecated reporting.
-	add_action( 'deprecated_function_run', 'rest_handle_deprecated_function', 10, 3 );
-	add_filter( 'deprecated_function_trigger_error', '__return_false' );
-	add_action( 'deprecated_argument_run', 'rest_handle_deprecated_argument', 10, 3 );
-	add_filter( 'deprecated_argument_trigger_error', '__return_false' );
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		// Deprecated reporting.
+		add_action( 'deprecated_function_run', 'rest_handle_deprecated_function', 10, 3 );
+		add_filter( 'deprecated_function_trigger_error', '__return_false' );
+		add_action( 'deprecated_argument_run', 'rest_handle_deprecated_argument', 10, 3 );
+		add_filter( 'deprecated_argument_trigger_error', '__return_false' );
+	}
 
 	// Default serving.
 	add_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
