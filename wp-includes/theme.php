@@ -182,7 +182,7 @@ function get_stylesheet() {
  *
  * @since 1.5.0
  *
- * @return string Path to current theme stylesheet directory.
+ * @return string Path to current theme's stylesheet directory.
  */
 function get_stylesheet_directory() {
 	$stylesheet     = get_stylesheet();
@@ -206,7 +206,7 @@ function get_stylesheet_directory() {
  *
  * @since 1.5.0
  *
- * @return string
+ * @return string URI to current theme's stylesheet directory.
  */
 function get_stylesheet_directory_uri() {
 	$stylesheet         = str_replace( '%2F', '/', rawurlencode( get_stylesheet() ) );
@@ -233,7 +233,7 @@ function get_stylesheet_directory_uri() {
  *
  * @since 1.5.0
  *
- * @return string
+ * @return string URI to current theme's stylesheet.
  */
 function get_stylesheet_uri() {
 	$stylesheet_dir_uri = get_stylesheet_directory_uri();
@@ -268,7 +268,7 @@ function get_stylesheet_uri() {
  *
  * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
- * @return string
+ * @return string URI to current theme's localized stylesheet.
  */
 function get_locale_stylesheet_uri() {
 	global $wp_locale;
@@ -316,7 +316,7 @@ function get_template() {
  *
  * @since 1.5.0
  *
- * @return string Path to current theme template directory.
+ * @return string Path to current theme's template directory.
  */
 function get_template_directory() {
 	$template     = get_template();
@@ -340,7 +340,7 @@ function get_template_directory() {
  *
  * @since 1.5.0
  *
- * @return string URI to current theme template directory.
+ * @return string URI to current theme's template directory.
  */
 function get_template_directory_uri() {
 	$template         = str_replace( '%2F', '/', rawurlencode( get_template() ) );
