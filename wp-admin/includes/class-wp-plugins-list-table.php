@@ -60,9 +60,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$page = $this->get_pagenum();
 
-		$this->show_autoupdates = wp_is_auto_update_enabled_for_type( 'plugin' ) &&
-			current_user_can( 'update_plugins' ) &&
-			( ! is_multisite() || $this->screen->in_admin( 'network' ) );
+		$this->show_autoupdates = wp_is_auto_update_enabled_for_type( 'plugin' )
+			&& current_user_can( 'update_plugins' )
+			&& ( ! is_multisite() || $this->screen->in_admin( 'network' ) )
+			&& ! in_array( $status, array( 'mustuse', 'dropins' ), true );
 	}
 
 	/**
