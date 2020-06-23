@@ -1261,11 +1261,11 @@ function wp_kses_hair( $attr, $allowed_protocols ) {
 
 		switch ( $mode ) {
 			case 0:
-				if ( preg_match( '/^([-a-zA-Z:]+)/', $attr, $match ) ) {
+				if ( preg_match( '/^([_a-zA-Z][-_a-zA-Z0-9:.]*)/', $attr, $match ) ) {
 					$attrname = $match[1];
 					$working  = 1;
 					$mode     = 1;
-					$attr     = preg_replace( '/^[-a-zA-Z:]+/', '', $attr );
+					$attr     = preg_replace( '/^[_a-zA-Z][-_a-zA-Z0-9:.]*/', '', $attr );
 				}
 
 				break;
@@ -1451,25 +1451,25 @@ function wp_kses_hair_parse( $attr ) {
 
 	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 	$regex =
-	'(?:'
-	.     '[-a-zA-Z:]+'   // Attribute name.
-	. '|'
-	.     '\[\[?[^\[\]]+\]\]?' // Shortcode in the name position implies unfiltered_html.
-	. ')'
-	. '(?:'               // Attribute value.
-	.     '\s*=\s*'       // All values begin with '='.
-	.     '(?:'
-	.         '"[^"]*"'   // Double-quoted.
-	.     '|'
-	.         "'[^']*'"   // Single-quoted.
-	.     '|'
-	.         '[^\s"\']+' // Non-quoted.
-	.         '(?:\s|$)'  // Must have a space.
-	.     ')'
-	. '|'
-	.     '(?:\s|$)'      // If attribute has no value, space is required.
-	. ')'
-	. '\s*';              // Trailing space is optional except as mentioned above.
+		'(?:'
+		.     '[_a-zA-Z][-_a-zA-Z0-9:.]*'   // Attribute name.
+		. '|'
+		.     '\[\[?[^\[\]]+\]\]?' // Shortcode in the name position implies unfiltered_html.
+		. ')'
+		. '(?:'               // Attribute value.
+		.     '\s*=\s*'       // All values begin with '='.
+		.     '(?:'
+		.         '"[^"]*"'   // Double-quoted.
+		.     '|'
+		.         "'[^']*'"   // Single-quoted.
+		.     '|'
+		.         '[^\s"\']+' // Non-quoted.
+		.         '(?:\s|$)'  // Must have a space.
+		.     ')'
+		. '|'
+		.     '(?:\s|$)'      // If attribute has no value, space is required.
+		. ')'
+		. '\s*';              // Trailing space is optional except as mentioned above.
 	// phpcs:enable
 
 	// Although it is possible to reduce this procedure to a single regexp,
