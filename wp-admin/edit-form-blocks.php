@@ -283,34 +283,36 @@ if ( $user_id ) {
 $body_placeholder = apply_filters( 'write_your_story', __( 'Start writing or type / to choose a block' ), $post );
 
 $editor_settings = array(
-	'alignWide'              => $align_wide,
-	'availableTemplates'     => $available_templates,
-	'allowedBlockTypes'      => $allowed_block_types,
-	'disableCustomColors'    => get_theme_support( 'disable-custom-colors' ),
-	'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
-	'disableCustomGradients' => get_theme_support( 'disable-custom-gradients' ),
-	'disablePostFormats'     => ! current_theme_supports( 'post-formats' ),
+	'alignWide'                            => $align_wide,
+	'availableTemplates'                   => $available_templates,
+	'allowedBlockTypes'                    => $allowed_block_types,
+	'disableCustomColors'                  => get_theme_support( 'disable-custom-colors' ),
+	'disableCustomFontSizes'               => get_theme_support( 'disable-custom-font-sizes' ),
+	'disableCustomGradients'               => get_theme_support( 'disable-custom-gradients' ),
+	'disablePostFormats'                   => ! current_theme_supports( 'post-formats' ),
 	/** This filter is documented in wp-admin/edit-form-advanced.php */
-	'titlePlaceholder'       => apply_filters( 'enter_title_here', __( 'Add title' ), $post ),
-	'bodyPlaceholder'        => $body_placeholder,
-	'isRTL'                  => is_rtl(),
-	'autosaveInterval'       => AUTOSAVE_INTERVAL,
-	'maxUploadFileSize'      => $max_upload_size,
-	'allowedMimeTypes'       => get_allowed_mime_types(),
-	'styles'                 => $styles,
-	'imageSizes'             => $available_image_sizes,
-	'imageDimensions'        => $image_dimensions,
-	'richEditingEnabled'     => user_can_richedit(),
-	'postLock'               => $lock_details,
-	'postLockUtils'          => array(
+	'titlePlaceholder'                     => apply_filters( 'enter_title_here', __( 'Add title' ), $post ),
+	'bodyPlaceholder'                      => $body_placeholder,
+	'isRTL'                                => is_rtl(),
+	'autosaveInterval'                     => AUTOSAVE_INTERVAL,
+	'maxUploadFileSize'                    => $max_upload_size,
+	'allowedMimeTypes'                     => get_allowed_mime_types(),
+	'styles'                               => $styles,
+	'imageSizes'                           => $available_image_sizes,
+	'imageDimensions'                      => $image_dimensions,
+	'richEditingEnabled'                   => user_can_richedit(),
+	'postLock'                             => $lock_details,
+	'postLockUtils'                        => array(
 		'nonce'       => wp_create_nonce( 'lock-post_' . $post->ID ),
 		'unlockNonce' => wp_create_nonce( 'update-post_' . $post->ID ),
 		'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
 	),
+	'__experimentalBlockPatterns'          => WP_Block_Patterns_Registry::get_instance()->get_all_registered(),
+	'__experimentalBlockPatternCategories' => WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered(),
 
 	// Whether or not to load the 'postcustom' meta box is stored as a user meta
 	// field so that we're not always loading its assets.
-	'enableCustomFields'     => (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true ),
+	'enableCustomFields'                   => (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true ),
 );
 
 $autosave = wp_get_post_autosave( $post_ID );
