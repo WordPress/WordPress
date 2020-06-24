@@ -159,8 +159,6 @@ var modern = (function (domGlobals) {
     var never = constant(false);
     var always = constant(true);
 
-    var never$1 = never;
-    var always$1 = always;
     var none = function () {
       return NONE;
     };
@@ -174,37 +172,27 @@ var modern = (function (domGlobals) {
       var id = function (n) {
         return n;
       };
-      var noop = function () {
-      };
-      var nul = function () {
-        return null;
-      };
-      var undef = function () {
-        return undefined;
-      };
       var me = {
         fold: function (n, s) {
           return n();
         },
-        is: never$1,
-        isSome: never$1,
-        isNone: always$1,
+        is: never,
+        isSome: never,
+        isNone: always,
         getOr: id,
         getOrThunk: call,
         getOrDie: function (msg) {
           throw new Error(msg || 'error: getOrDie called on none.');
         },
-        getOrNull: nul,
-        getOrUndefined: undef,
+        getOrNull: constant(null),
+        getOrUndefined: constant(undefined),
         or: id,
         orThunk: call,
         map: none,
-        ap: none,
         each: noop,
         bind: none,
-        flatten: none,
-        exists: never$1,
-        forall: always$1,
+        exists: never,
+        forall: always,
         filter: none,
         equals: eq,
         equals_: eq,
@@ -219,14 +207,9 @@ var modern = (function (domGlobals) {
       return me;
     }();
     var some = function (a) {
-      var constant_a = function () {
-        return a;
-      };
+      var constant_a = constant(a);
       var self = function () {
         return me;
-      };
-      var map = function (f) {
-        return some(f(a));
       };
       var bind = function (f) {
         return f(a);
@@ -238,8 +221,8 @@ var modern = (function (domGlobals) {
         is: function (v) {
           return a === v;
         },
-        isSome: always$1,
-        isNone: never$1,
+        isSome: always,
+        isNone: never,
         getOr: constant_a,
         getOrThunk: constant_a,
         getOrDie: constant_a,
@@ -247,35 +230,31 @@ var modern = (function (domGlobals) {
         getOrUndefined: constant_a,
         or: self,
         orThunk: self,
-        map: map,
-        ap: function (optfab) {
-          return optfab.fold(none, function (fab) {
-            return some(fab(a));
-          });
+        map: function (f) {
+          return some(f(a));
         },
         each: function (f) {
           f(a);
         },
         bind: bind,
-        flatten: constant_a,
         exists: bind,
         forall: bind,
         filter: function (f) {
           return f(a) ? me : NONE;
-        },
-        equals: function (o) {
-          return o.is(a);
-        },
-        equals_: function (o, elementEq) {
-          return o.fold(never$1, function (b) {
-            return elementEq(a, b);
-          });
         },
         toArray: function () {
           return [a];
         },
         toString: function () {
           return 'some(' + a + ')';
+        },
+        equals: function (o) {
+          return o.is(a);
+        },
+        equals_: function (o, elementEq) {
+          return o.fold(never, function (b) {
+            return elementEq(a, b);
+          });
         }
       };
       return me;
@@ -685,44 +664,45 @@ var modern = (function (domGlobals) {
     var isFunction = isType('function');
     var isNumber = isType('number');
 
-    var slice = Array.prototype.slice;
-    var rawIndexOf = function () {
-      var pIndexOf = Array.prototype.indexOf;
-      var fastIndex = function (xs, x) {
-        return pIndexOf.call(xs, x);
-      };
-      var slowIndex = function (xs, x) {
-        return slowIndexOf(xs, x);
-      };
-      return pIndexOf === undefined ? slowIndex : fastIndex;
-    }();
+    var nativeSlice = Array.prototype.slice;
+    var nativeIndexOf = Array.prototype.indexOf;
+    var nativePush = Array.prototype.push;
+    var rawIndexOf = function (ts, t) {
+      return nativeIndexOf.call(ts, t);
+    };
     var indexOf = function (xs, x) {
       var r = rawIndexOf(xs, x);
       return r === -1 ? Option.none() : Option.some(r);
     };
     var exists = function (xs, pred) {
-      return findIndex(xs, pred).isSome();
+      for (var i = 0, len = xs.length; i < len; i++) {
+        var x = xs[i];
+        if (pred(x, i)) {
+          return true;
+        }
+      }
+      return false;
     };
     var map = function (xs, f) {
       var len = xs.length;
       var r = new Array(len);
       for (var i = 0; i < len; i++) {
         var x = xs[i];
-        r[i] = f(x, i, xs);
+        r[i] = f(x, i);
       }
       return r;
     };
     var each = function (xs, f) {
       for (var i = 0, len = xs.length; i < len; i++) {
         var x = xs[i];
-        f(x, i, xs);
+        f(x, i);
       }
     };
     var filter = function (xs, pred) {
       var r = [];
       for (var i = 0, len = xs.length; i < len; i++) {
         var x = xs[i];
-        if (pred(x, i, xs)) {
+        if (pred(x, i)) {
           r.push(x);
         }
       }
@@ -737,7 +717,7 @@ var modern = (function (domGlobals) {
     var find = function (xs, pred) {
       for (var i = 0, len = xs.length; i < len; i++) {
         var x = xs[i];
-        if (pred(x, i, xs)) {
+        if (pred(x, i)) {
           return Option.some(x);
         }
       }
@@ -746,33 +726,24 @@ var modern = (function (domGlobals) {
     var findIndex = function (xs, pred) {
       for (var i = 0, len = xs.length; i < len; i++) {
         var x = xs[i];
-        if (pred(x, i, xs)) {
+        if (pred(x, i)) {
           return Option.some(i);
         }
       }
       return Option.none();
     };
-    var slowIndexOf = function (xs, x) {
-      for (var i = 0, len = xs.length; i < len; ++i) {
-        if (xs[i] === x) {
-          return i;
-        }
-      }
-      return -1;
-    };
-    var push = Array.prototype.push;
     var flatten = function (xs) {
       var r = [];
       for (var i = 0, len = xs.length; i < len; ++i) {
         if (!isArray(xs[i])) {
           throw new Error('Arr.flatten item ' + i + ' was not an array, input: ' + xs);
         }
-        push.apply(r, xs[i]);
+        nativePush.apply(r, xs[i]);
       }
       return r;
     };
     var from$1 = isFunction(Array.from) ? Array.from : function (x) {
-      return slice.call(x);
+      return nativeSlice.call(x);
     };
 
     var defaultMenus = {
@@ -828,11 +799,11 @@ var modern = (function (domGlobals) {
       var menuItemsPass1 = filter(namedMenuItems, function (namedMenuItem) {
         return removedMenuItems.hasOwnProperty(namedMenuItem.name) === false;
       });
-      var menuItemsPass2 = filter(menuItemsPass1, function (namedMenuItem, i, namedMenuItems) {
-        return !isSeparator(namedMenuItem) || !isSeparator(namedMenuItems[i - 1]);
+      var menuItemsPass2 = filter(menuItemsPass1, function (namedMenuItem, i) {
+        return !isSeparator(namedMenuItem) || !isSeparator(menuItemsPass1[i - 1]);
       });
-      return filter(menuItemsPass2, function (namedMenuItem, i, namedMenuItems) {
-        return !isSeparator(namedMenuItem) || i > 0 && i < namedMenuItems.length - 1;
+      return filter(menuItemsPass2, function (namedMenuItem, i) {
+        return !isSeparator(namedMenuItem) || i > 0 && i < menuItemsPass2.length - 1;
       });
     };
     var createMenu = function (editorMenuItems, menus, removedMenuItems, context) {
@@ -1771,7 +1742,7 @@ var modern = (function (domGlobals) {
     });
 
     var Collection$1, proto;
-    var push$1 = Array.prototype.push, slice$1 = Array.prototype.slice;
+    var push = Array.prototype.push, slice = Array.prototype.slice;
     proto = {
       length: 0,
       init: function (items) {
@@ -1785,10 +1756,10 @@ var modern = (function (domGlobals) {
           if (items instanceof Collection$1) {
             self.add(items.toArray());
           } else {
-            push$1.call(self, items);
+            push.call(self, items);
           }
         } else {
-          push$1.apply(self, items);
+          push.apply(self, items);
         }
         return self;
       },
@@ -1825,7 +1796,7 @@ var modern = (function (domGlobals) {
         return new Collection$1(matches);
       },
       slice: function () {
-        return new Collection$1(slice$1.apply(this, arguments));
+        return new Collection$1(slice.apply(this, arguments));
       },
       eq: function (index) {
         return index === -1 ? this.slice(index) : this.slice(index, +index + 1);
@@ -7679,11 +7650,11 @@ var modern = (function (domGlobals) {
       return menuItem && menuItem.text === '-';
     };
     var trimMenuItems = function (menuItems) {
-      var menuItems2 = filter(menuItems, function (menuItem, i, menuItems) {
+      var menuItems2 = filter(menuItems, function (menuItem, i) {
         return !isSeparator$1(menuItem) || !isSeparator$1(menuItems[i - 1]);
       });
-      return filter(menuItems2, function (menuItem, i, menuItems) {
-        return !isSeparator$1(menuItem) || i > 0 && i < menuItems.length - 1;
+      return filter(menuItems2, function (menuItem, i) {
+        return !isSeparator$1(menuItem) || i > 0 && i < menuItems2.length - 1;
       });
     };
     var createContextMenuItems = function (editor, context) {
