@@ -3788,8 +3788,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$comment['comment_author_email'] = $content_struct['author_email'];
 		}
 
-		$result = wp_update_comment( $comment );
-		if ( is_wp_error( $result ) ) {
+		$result = wp_update_comment( $comment, true );
+		if ( is_wp_error( $result ) || false === $result ) {
 			return new IXR_Error( 500, $result->get_error_message() );
 		}
 

@@ -92,7 +92,7 @@ function edit_comment() {
 		$_POST['comment_date'] = "$aa-$mm-$jj $hh:$mn:$ss";
 	}
 
-	wp_update_comment( $_POST );
+	return wp_update_comment( $_POST, true );
 }
 
 /**

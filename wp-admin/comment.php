@@ -339,7 +339,10 @@ switch ( $action ) {
 
 		check_admin_referer( 'update-comment_' . $comment_id );
 
-		edit_comment();
+		$updated = edit_comment();
+		if ( is_wp_error( $updated ) ) {
+			wp_die( $updated->get_error_message() );
+		}
 
 		$location = ( empty( $_POST['referredby'] ) ? "edit-comments.php?p=$comment_post_id" : $_POST['referredby'] ) . '#comment-' . $comment_id;
 

@@ -1410,7 +1410,11 @@ function wp_ajax_edit_comment() {
 	if ( isset( $_POST['status'] ) ) {
 		$_POST['comment_status'] = $_POST['status'];
 	}
-	edit_comment();
+
+	$updated = edit_comment();
+	if ( is_wp_error( $updated ) ) {
+		wp_die( $updated->get_error_message() );
+	}
 
 	$position      = ( isset( $_POST['position'] ) && (int) $_POST['position'] ) ? (int) $_POST['position'] : '-1';
 	$checkbox      = ( isset( $_POST['checkbox'] ) && true == $_POST['checkbox'] ) ? 1 : 0;
