@@ -174,7 +174,7 @@ function list_files( $folder = '', $levels = 100, $exclusions = array() ) {
 }
 
 /**
- * Get list of file extensions that are editable in plugins.
+ * Gets the list of file extensions that are editable in plugins.
  *
  * @since 4.9.0
  *
@@ -183,7 +183,7 @@ function list_files( $folder = '', $levels = 100, $exclusions = array() ) {
  */
 function wp_get_plugin_file_editable_extensions( $plugin ) {
 
-	$editable_extensions = array(
+	$default_types = array(
 		'bash',
 		'conf',
 		'css',
@@ -219,21 +219,23 @@ function wp_get_plugin_file_editable_extensions( $plugin ) {
 	);
 
 	/**
-	 * Filters file type extensions editable in the plugin editor.
+	 * Filters the list of file types allowed for editing in the plugin editor.
 	 *
 	 * @since 2.8.0
 	 * @since 4.9.0 Added the `$plugin` parameter.
 	 *
-	 * @param string[] $editable_extensions An array of editable plugin file extensions.
-	 * @param string   $plugin              Path to the plugin file relative to the plugins directory.
+	 * @param string[] $default_types An array of editable plugin file extensions.
+	 * @param string   $plugin        Path to the plugin file relative to the plugins directory.
 	 */
-	$editable_extensions = (array) apply_filters( 'editable_extensions', $editable_extensions, $plugin );
+	$file_types = (array) apply_filters( 'editable_extensions', $default_types, $plugin );
 
-	return $editable_extensions;
+	return $file_types;
 }
 
 /**
- * Get list of file extensions that are editable for a given theme.
+ * Gets the list of file extensions that are editable for a given theme.
+ *
+ * @since 4.9.0
  *
  * @param WP_Theme $theme Theme object.
  * @return string[] Array of editable file extensions.
@@ -276,12 +278,12 @@ function wp_get_theme_file_editable_extensions( $theme ) {
 	);
 
 	/**
-	 * Filters the list of file types allowed for editing in the Theme editor.
+	 * Filters the list of file types allowed for editing in the theme editor.
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string[] $default_types List of allowed file types.
-	 * @param WP_Theme $theme         The current Theme object.
+	 * @param string[] $default_types An array of editable theme file extensions.
+	 * @param WP_Theme $theme         The current theme object.
 	 */
 	$file_types = apply_filters( 'wp_theme_editor_filetypes', $default_types, $theme );
 
