@@ -284,8 +284,8 @@
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param {number|string} r The response message from the AJAX call.
-			 * @param {string} stat The status of the AJAX request.
+			 * @param {number|string} r The response message from the Ajax call.
+			 * @param {string} stat The status of the Ajax request.
 			 *
 			 * @return {void}
 			 */

@@ -920,7 +920,7 @@
 				q = input.val();
 
 			/*
-			 * Minimum characters for a search. Also avoid a new AJAX search when
+			 * Minimum characters for a search. Also avoid a new Ajax search when
 			 * the pressed key (e.g. arrows) doesn't change the searched term.
 			 */
 			if ( q.length < minSearchLength || api.lastSearch == q ) {

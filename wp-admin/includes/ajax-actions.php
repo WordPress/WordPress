@@ -331,7 +331,7 @@ function wp_ajax_autocomplete_user() {
 }
 
 /**
- * Handles AJAX requests for community events
+ * Handles Ajax requests for community events
  *
  * @since 4.8.0
  */

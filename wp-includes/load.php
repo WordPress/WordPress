@@ -891,7 +891,7 @@ function is_protected_endpoint() {
 		return true;
 	}
 
-	// Protect AJAX actions that could help resolve a fatal error should be available.
+	// Protect Ajax actions that could help resolve a fatal error should be available.
 	if ( is_protected_ajax_action() ) {
 		return true;
 	}
@@ -901,21 +901,22 @@ function is_protected_endpoint() {
 	 *
 	 * This filter is only fired when an endpoint is requested which is not already protected by
 	 * WordPress core. As such, it exclusively allows providing further protected endpoints in
-	 * addition to the admin backend, login pages and protected AJAX actions.
+	 * addition to the admin backend, login pages and protected Ajax actions.
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param bool $is_protected_endpoint Whether the currently requested endpoint is protected. Default false.
+	 * @param bool $is_protected_endpoint Whether the currently requested endpoint is protected.
+	 *                                    Default false.
 	 */
 	return (bool) apply_filters( 'is_protected_endpoint', false );
 }
 
 /**
- * Determines whether we are currently handling an AJAX action that should be protected against WSODs.
+ * Determines whether we are currently handling an Ajax action that should be protected against WSODs.
  *
  * @since 5.2.0
  *
- * @return bool True if the current AJAX action should be protected.
+ * @return bool True if the current Ajax action should be protected.
  */
 function is_protected_ajax_action() {
 	if ( ! wp_doing_ajax() ) {
@@ -938,13 +939,13 @@ function is_protected_ajax_action() {
 	);
 
 	/**
-	 * Filters the array of protected AJAX actions.
+	 * Filters the array of protected Ajax actions.
 	 *
-	 * This filter is only fired when doing AJAX and the AJAX request has an 'action' property.
+	 * This filter is only fired when doing Ajax and the Ajax request has an 'action' property.
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param string[] $actions_to_protect Array of strings with AJAX actions to protect.
+	 * @param string[] $actions_to_protect Array of strings with Ajax actions to protect.
 	 */
 	$actions_to_protect = (array) apply_filters( 'wp_protected_ajax_actions', $actions_to_protect );
 

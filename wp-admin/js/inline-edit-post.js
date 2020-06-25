@@ -385,7 +385,7 @@ window.wp = window.wp || {};
 
 	/**
 	 * Saves the changes made in the quick edit window to the post.
-	 * AJAX saving is only for Quick Edit and not for bulk edit.
+	 * Ajax saving is only for Quick Edit and not for bulk edit.
 	 *
 	 * @since 2.7.0
 	 *

@@ -4440,7 +4440,7 @@
 
 		/**
 		 * Callback handler for when an attachment is selected in the media modal.
-		 * Does an additional AJAX request for setting the background context.
+		 * Does an additional Ajax request for setting the background context.
 		 */
 		select: function() {
 			api.UploadControl.prototype.select.apply( this, arguments );

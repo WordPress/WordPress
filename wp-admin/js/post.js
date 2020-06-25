@@ -29,7 +29,7 @@ window.wp = window.wp || {};
 		st : 0,
 
 		/**
-		 * Fetch comments using AJAX and display them in the box.
+		 * Fetch comments using Ajax and display them in the box.
 		 *
 		 * @memberof commentsBox
 		 *
@@ -938,7 +938,7 @@ jQuery(document).ready( function($) {
 
 	/**
 	 * Handle the editing of the post_name. Create the required HTML elements and
-	 * update the changes via AJAX.
+	 * update the changes via Ajax.
 	 *
 	 * @global
 	 *

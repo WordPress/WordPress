@@ -148,7 +148,7 @@ function prepareMediaItemInit( fileObj ) {
 	// Replace the original filename with the new (unique) one assigned during upload.
 	jQuery( '.filename.original', item ).replaceWith( jQuery( '.filename.new', item ) );
 
-	// Bind AJAX to the new Delete button.
+	// Bind Ajax to the new Delete button.
 	jQuery( 'a.delete', item ).click( function(){
 		// Tell the server to delete it. TODO: Handle exceptions.
 		jQuery.ajax({
@@ -166,7 +166,7 @@ function prepareMediaItemInit( fileObj ) {
 		return false;
 	});
 
-	// Bind AJAX to the new Undo button.
+	// Bind Ajax to the new Undo button.
 	jQuery( 'a.undo', item ).click( function(){
 		// Tell the server to untrash it. TODO: Handle exceptions.
 		jQuery.ajax({

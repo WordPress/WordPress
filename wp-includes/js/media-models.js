@@ -882,7 +882,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		return this.mirroring ? this.mirroring.hasMore() : false;
 	},
 	/**
-	 * A custom AJAX-response parser.
+	 * A custom Ajax-response parser.
 	 *
 	 * See trac ticket #24753
 	 *

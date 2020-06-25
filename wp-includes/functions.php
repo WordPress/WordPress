@@ -3575,7 +3575,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
-	// Set default 'response' to 200 for AJAX requests.
+	// Set default 'response' to 200 for Ajax requests.
 	$args = wp_parse_args(
 		$args,
 		array( 'response' => 200 )

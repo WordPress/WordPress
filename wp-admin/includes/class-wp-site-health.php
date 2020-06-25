@@ -178,8 +178,8 @@ class WP_Site_Health {
 	/**
 	 * Run the SQL version checks.
 	 *
-	 * These values are used in later tests, but the part of preparing them is more easily managed early
-	 * in the class for ease of access and discovery.
+	 * These values are used in later tests, but the part of preparing them is more easily managed
+	 * early in the class for ease of access and discovery.
 	 *
 	 * @since 5.2.0
 	 *
@@ -212,11 +212,11 @@ class WP_Site_Health {
 	/**
 	 * Test if `wp_version_check` is blocked.
 	 *
-	 * It's possible to block updates with the `wp_version_check` filter, but this can't be checked during an
-	 * AJAX call, as the filter is never introduced then.
+	 * It's possible to block updates with the `wp_version_check` filter, but this can't be checked
+	 * during an Ajax call, as the filter is never introduced then.
 	 *
-	 * This filter overrides a normal page request if it's made by an admin through the AJAX call with the
-	 * right query argument to check for this.
+	 * This filter overrides a normal page request if it's made by an admin through the Ajax call
+	 * with the right query argument to check for this.
 	 *
 	 * @since 5.2.0
 	 */
@@ -233,8 +233,8 @@ class WP_Site_Health {
 	/**
 	 * Tests for WordPress version and outputs it.
 	 *
-	 * Gives various results depending on what kind of updates are available, if any, to encourage the
-	 * user to install security updates as a priority.
+	 * Gives various results depending on what kind of updates are available, if any, to encourage
+	 * the user to install security updates as a priority.
 	 *
 	 * @since 5.2.0
 	 *
@@ -334,7 +334,8 @@ class WP_Site_Health {
 	/**
 	 * Test if plugins are outdated, or unnecessary.
 	 *
-	 * The tests checks if your plugins are up to date, and encourages you to remove any that are not in use.
+	 * The tests checks if your plugins are up to date, and encourages you to remove any
+	 * that are not in use.
 	 *
 	 * @since 5.2.0
 	 *
@@ -465,8 +466,9 @@ class WP_Site_Health {
 	/**
 	 * Test if themes are outdated, or unnecessary.
 	 *
-	 * The tests checks if your site has a default theme (to fall back on if there is a need), if your themes
-	 * are up to date and, finally, encourages you to remove any themes that are not needed.
+	 * Сhecks if your site has a default theme (to fall back on if there is a need),
+	 * if your themes are up to date and, finally, encourages you to remove any themes
+	 * that are not needed.
 	 *
 	 * @since 5.2.0
 	 *
@@ -1408,11 +1410,11 @@ class WP_Site_Health {
 	/**
 	 * Test if debug information is enabled.
 	 *
-	 * When WP_DEBUG is enabled, errors and information may be disclosed to site visitors, or it may be
-	 * logged to a publicly accessible file.
+	 * When WP_DEBUG is enabled, errors and information may be disclosed to site visitors,
+	 * or logged to a publicly accessible file.
 	 *
-	 * Debugging is also frequently left enabled after looking for errors on a site, as site owners do
-	 * not understand the implications of this.
+	 * Debugging is also frequently left enabled after looking for errors on a site,
+	 * as site owners do not understand the implications of this.
 	 *
 	 * @since 5.2.0
 	 *
@@ -1589,8 +1591,8 @@ class WP_Site_Health {
 	/**
 	 * Test if scheduled events run as intended.
 	 *
-	 * If scheduled events are not running, this may indicate something with WP_Cron is not working as intended,
-	 * or that there are orphaned events hanging around from older code.
+	 * If scheduled events are not running, this may indicate something with WP_Cron is not working
+	 * as intended, or that there are orphaned events hanging around from older code.
 	 *
 	 * @since 5.2.0
 	 *
@@ -1661,8 +1663,9 @@ class WP_Site_Health {
 	/**
 	 * Test if WordPress can run automated background updates.
 	 *
-	 * Background updates in WordPress are primarily used for minor releases and security updates. It's important
-	 * to either have these working, or be aware that they are intentionally disabled for whatever reason.
+	 * Background updates in WordPress are primarily used for minor releases and security updates.
+	 * It's important to either have these working, or be aware that they are intentionally disabled
+	 * for whatever reason.
 	 *
 	 * @since 5.2.0
 	 *
@@ -1734,8 +1737,9 @@ class WP_Site_Health {
 	/**
 	 * Test if loopbacks work as expected.
 	 *
-	 * A loopback is when WordPress queries itself, for example to start a new WP_Cron instance, or when editing a
-	 * plugin or theme. This has shown itself to be a recurring issue as code can very easily break this interaction.
+	 * A loopback is when WordPress queries itself, for example to start a new WP_Cron instance,
+	 * or when editing a plugin or theme. This has shown itself to be a recurring issue,
+	 * as code can very easily break this interaction.
 	 *
 	 * @since 5.2.0
 	 *
@@ -2063,7 +2067,7 @@ class WP_Site_Health {
 		 *
 		 * @param array $test_type {
 		 *     An associative array, where the `$test_type` is either `direct` or
-		 *     `async`, to declare if the test should run via AJAX calls after page load.
+		 *     `async`, to declare if the test should run via Ajax calls after page load.
 		 *
 		 *     @type array $identifier {
 		 *         `$identifier` should be a unique identifier for the test that should run.
@@ -2071,7 +2075,7 @@ class WP_Site_Health {
 		 *         to avoid any collisions between tests.
 		 *
 		 *         @type string $label A friendly label for your test to identify it by.
-		 *         @type mixed  $test  A callable to perform a direct test, or a string AJAX action to be called
+		 *         @type mixed  $test  A callable to perform a direct test, or a string Ajax action to be called
 		 *                             to perform an async test.
 		 *     }
 		 * }
@@ -2148,8 +2152,9 @@ class WP_Site_Health {
 	/**
 	 * Check if any scheduled tasks have been missed.
 	 *
-	 * Returns a boolean value of `true` if a scheduled task has been missed and ends processing. If the list of
-	 * crons is an instance of WP_Error, return the instance instead of a boolean value.
+	 * Returns a boolean value of `true` if a scheduled task has been missed and ends processing.
+	 *
+	 * If the list of crons is an instance of WP_Error, return the instance instead of a boolean value.
 	 *
 	 * @since 5.2.0
 	 *
@@ -2173,8 +2178,9 @@ class WP_Site_Health {
 	/**
 	 * Check if any scheduled tasks are late.
 	 *
-	 * Returns a boolean value of `true` if a scheduled task is late and ends processing. If the list of
-	 * crons is an instance of WP_Error, return the instance instead of a boolean value.
+	 * Returns a boolean value of `true` if a scheduled task is late and ends processing.
+	 *
+	 * If the list of crons is an instance of WP_Error, return the instance instead of a boolean value.
 	 *
 	 * @since 5.3.0
 	 *

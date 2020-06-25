@@ -68,7 +68,7 @@
 				// Used when the interval is reset.
 				originalInterval: 0,
 
-				// Used to limit the number of AJAX requests.
+				// Used to limit the number of Ajax requests.
 				minimalInterval: 0,
 
 				// Used together with tempInterval.
@@ -146,7 +146,7 @@
 				}
 
 				/*
-				 * Used to limit the number of AJAX requests. Overrides all other intervals
+				 * Used to limit the number of Ajax requests. Overrides all other intervals
 				 * if they are shorter. Needed for some hosts that cannot handle frequent requests
 				 * and the user may exceed the allocated server CPU time, etc. The minimal interval
 				 * can be up to 600 seconds, however setting it to longer than 120 seconds
