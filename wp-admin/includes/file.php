@@ -2316,7 +2316,7 @@ function wp_opcache_invalidate( $filepath, $force = false ) {
 	 * - https://www.php.net/manual/en/reserved.variables.server.php
 	 * - https://core.trac.wordpress.org/ticket/36455
 	 */
-	if ( $can_invalidate === null ) {
+	if ( null === $can_invalidate ) {
 		$can_invalidate = function_exists( 'opcache_invalidate' ) &&
 			( ! ini_get( 'opcache.restrict_api' ) ||
 				stripos( realpath( $_SERVER['SCRIPT_FILENAME'] ), ini_get( 'opcache.restrict_api' ) ) === 0 );
