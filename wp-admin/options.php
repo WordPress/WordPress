@@ -207,7 +207,13 @@ if ( ! is_multisite() ) {
  *
  * @param array $allowed_options The allowed options list.
  */
-$allowed_options = apply_filters_deprecated( 'whitelist_options', array( $allowed_options ), '5.5.0', 'apply_filters_deprecated', __( 'Please consider writing more inclusive code.' ) );
+$allowed_options = apply_filters_deprecated(
+	'whitelist_options',
+	array( $allowed_options ),
+	'5.5.0',
+	'apply_filters_deprecated',
+	__( 'Please consider writing more inclusive code.' )
+);
 
 /**
  * Filters the allowed options list.

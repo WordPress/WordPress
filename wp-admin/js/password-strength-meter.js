@@ -62,7 +62,7 @@ window.wp = window.wp || {};
 		userInputBlacklist : function() {
 			window.console.log(
 				sprintf(
-					/* translators: 1: Deprecated  JSfunction name, 2: Version number, 3: Alternative function name. */
+					/* translators: 1: Deprecated function name, 2: Version number, 3: Alternative function name. */
 					__( '%1$s is deprecated since version %2$s! Use %3$s instead. Please consider writing more inclusive code.' ),
 					'wp.passwordStrength.userInputBlacklist()',
 					'5.5.0',
