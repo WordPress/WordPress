@@ -2449,6 +2449,7 @@ function get_theme_starter_content() {
  *     ) );
  *
  * @since 2.9.0
+ * @since 3.4.0 The `custom-header-uploads` feature was deprecated.
  * @since 3.6.0 The `html5` feature was added.
  * @since 3.9.0 The `html5` feature now also accepts 'gallery' and 'caption'.
  * @since 4.1.0 The `title-tag` feature was added.
@@ -2464,8 +2465,8 @@ function get_theme_starter_content() {
  * @global array $_wp_theme_features
  *
  * @param string $feature The feature being added. Likely core values include 'post-formats',
- *                        'post-thumbnails', 'html5', 'custom-logo', 'custom-header-uploads',
- *                        'custom-header', 'custom-background', 'title-tag', 'starter-content',
+ *                        'post-thumbnails', 'html5', 'custom-logo', 'custom-header',
+ *                        'custom-background', 'title-tag', 'starter-content',
  *                        'responsive-embeds', etc.
  * @param mixed  ...$args Optional extra arguments to pass along with certain features.
  * @return void|bool False on failure, void otherwise.
