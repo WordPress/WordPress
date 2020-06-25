@@ -372,8 +372,10 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get an associative array ( id => link ) with the list
-	 * of views available on this table.
+	 * Gets the list of views available on this table.
+	 *
+	 * The format is an associative array:
+	 * - `'id' => 'link'`
 	 *
 	 * @since 3.1.0
 	 *
@@ -384,7 +386,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Display the list of views available on this table.
+	 * Displays the list of views available on this table.
 	 *
 	 * @since 3.1.0
 	 */
@@ -417,8 +419,10 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get an associative array ( option_name => option_title ) with the list
-	 * of bulk actions available on this table.
+	 * Gets the list of bulk actions available on this table.
+	 *
+	 * The format is an associative array:
+	 * - `'option_name' => 'option_title'`
 	 *
 	 * @since 3.1.0
 	 *
@@ -429,7 +433,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Display the bulk actions dropdown.
+	 * Displays the bulk actions dropdown.
 	 *
 	 * @since 3.1.0
 	 *
@@ -439,6 +443,7 @@ class WP_List_Table {
 	protected function bulk_actions( $which = '' ) {
 		if ( is_null( $this->_actions ) ) {
 			$this->_actions = $this->get_bulk_actions();
+
 			/**
 			 * Filters the list table Bulk Actions drop-down.
 			 *
@@ -452,7 +457,8 @@ class WP_List_Table {
 			 * @param string[] $actions An array of the available bulk actions.
 			 */
 			$this->_actions = apply_filters( "bulk_actions-{$this->screen->id}", $this->_actions ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-			$two            = '';
+
+			$two = '';
 		} else {
 			$two = '2';
 		}
@@ -478,11 +484,11 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get the current action selected from the bulk actions dropdown.
+	 * Gets the current action selected from the bulk actions dropdown.
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return string|false The action name or False if no action was selected
+	 * @return string|false The action name. False if no action was selected.
 	 */
 	public function current_action() {
 		if ( isset( $_REQUEST['filter_action'] ) && ! empty( $_REQUEST['filter_action'] ) ) {
@@ -619,7 +625,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Display a view switcher
+	 * Displays a view switcher.
 	 *
 	 * @since 3.1.0
 	 *
@@ -651,7 +657,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Display a comment count bubble
+	 * Displays a comment count bubble.
 	 *
 	 * @since 3.1.0
 	 *
@@ -745,7 +751,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get the current page number
+	 * Gets the current page number.
 	 *
 	 * @since 3.1.0
 	 *
@@ -762,7 +768,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get number of items to display on a single page
+	 * Gets the number of items to display on a single page.
 	 *
 	 * @since 3.1.0
 	 *
@@ -793,7 +799,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Display the pagination.
+	 * Displays the pagination.
 	 *
 	 * @since 3.1.0
 	 *
@@ -933,8 +939,10 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of columns. The format is:
-	 * 'internal-name' => 'Title'
+	 * Gets a list of columns.
+	 *
+	 * The format is:
+	 * - `'internal-name' => 'Title'`
 	 *
 	 * @since 3.1.0
 	 * @abstract
@@ -946,12 +954,12 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of sortable columns.
+	 * Gets a list of sortable columns.
 	 *
 	 * The format is:
 	 * - `'internal-name' => 'orderby'`
-	 * - `'internal-name' => array( 'orderby', 'asc' )` - The second element set the initial sorting order.
-	 * - `'internal-name' => array( 'orderby', true )` - The second element will make the initial sorting order be descending.
+	 * - `'internal-name' => array( 'orderby', 'asc' )` - The second element sets the initial sorting order.
+	 * - `'internal-name' => array( 'orderby', true )`  - The second element makes the initial order descending.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1036,7 +1044,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of all, hidden and sortable columns, with filter applied
+	 * Gets a list of all, hidden and sortable columns, with filter applied.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1092,7 +1100,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Return number of visible columns
+	 * Returns the number of visible columns.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1105,7 +1113,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Print column headers, accounting for hidden and sortable columns.
+	 * Prints column headers, accounting for hidden and sortable columns.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1157,7 +1165,8 @@ class WP_List_Table {
 				list( $orderby, $desc_first ) = $sortable[ $column_key ];
 
 				if ( $current_orderby === $orderby ) {
-					$order   = 'asc' === $current_order ? 'desc' : 'asc';
+					$order = 'asc' === $current_order ? 'desc' : 'asc';
+
 					$class[] = 'sorted';
 					$class[] = $current_order;
 				} else {
@@ -1166,6 +1175,7 @@ class WP_List_Table {
 					} else {
 						$order = $desc_first ? 'desc' : 'asc';
 					}
+
 					$class[] = 'sortable';
 					$class[] = 'desc' === $order ? 'asc' : 'desc';
 				}
@@ -1226,7 +1236,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of CSS classes for the WP_List_Table table tag.
+	 * Gets a list of CSS classes for the WP_List_Table table tag.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1237,7 +1247,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Generate the table navigation above or below the table
+	 * Generates the table navigation above or below the table
 	 *
 	 * @since 3.1.0
 	 * @param string $which
@@ -1265,7 +1275,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Extra controls to be displayed between bulk actions and pagination
+	 * Extra controls to be displayed between bulk actions and pagination.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1274,7 +1284,7 @@ class WP_List_Table {
 	protected function extra_tablenav( $which ) {}
 
 	/**
-	 * Generate the tbody element for the list table.
+	 * Generates the tbody element for the list table.
 	 *
 	 * @since 3.1.0
 	 */
@@ -1289,7 +1299,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Generate the table rows
+	 * Generates the table rows.
 	 *
 	 * @since 3.1.0
 	 */
@@ -1300,7 +1310,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Generates content for a single row of the table
+	 * Generates content for a single row of the table.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1324,11 +1334,11 @@ class WP_List_Table {
 	protected function column_cb( $item ) {}
 
 	/**
-	 * Generates the columns for a single row of the table
+	 * Generates the columns for a single row of the table.
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param object $item The current item
+	 * @param object $item The current item.
 	 */
 	protected function single_row_columns( $item ) {
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
@@ -1391,7 +1401,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Handle an incoming ajax request (called from admin-ajax.php)
+	 * Handles an incoming ajax request (called from admin-ajax.php)
 	 *
 	 * @since 3.1.0
 	 */
@@ -1425,7 +1435,9 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Send required variables to JavaScript land
+	 * Sends required variables to JavaScript land.
+	 *
+	 * @since 3.1.0
 	 */
 	public function _js_vars() {
 		$args = array(
