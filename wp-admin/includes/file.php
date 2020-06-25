@@ -498,9 +498,7 @@ function wp_edit_theme_plugin_file( $args ) {
 	if ( false === $written ) {
 		return new WP_Error( 'unable_to_write', __( 'Unable to write to file.' ) );
 	}
-	if ( 'php' === $extension && function_exists( 'opcache_invalidate' ) ) {
-		opcache_invalidate( $real_file, true );
-	}
+	wp_opcache_invalidate( $real_file, true );
 
 	if ( $is_active && 'php' === $extension ) {
 
@@ -608,9 +606,7 @@ function wp_edit_theme_plugin_file( $args ) {
 
 			// Roll-back file change.
 			file_put_contents( $real_file, $previous_content );
-			if ( function_exists( 'opcache_invalidate' ) ) {
-				opcache_invalidate( $real_file, true );
-			}
+			wp_opcache_invalidate( $real_file, true );
 
 			if ( ! isset( $result['message'] ) ) {
 				$message = __( 'Something went wrong.' );
@@ -1743,6 +1739,7 @@ function copy_dir( $from, $to, $skip_list = array() ) {
 					return new WP_Error( 'copy_failed_copy_dir', __( 'Could not copy file.' ), $to . $filename );
 				}
 			}
+			wp_opcache_invalidate( $to . $filename );
 		} elseif ( 'd' === $fileinfo['type'] ) {
 			if ( ! $wp_filesystem->is_dir( $to . $filename ) ) {
 				if ( ! $wp_filesystem->mkdir( $to . $filename, FS_CHMOD_DIR ) ) {
@@ -2276,4 +2273,76 @@ function wp_print_request_filesystem_credentials_modal() {
 		</div>
 	</div>
 	<?php
+}
+
+/**
+ * Attempt to clear the opcode cache for an individual PHP file.
+ *
+ * This function can be called safely without having to check the file extension
+ * or availability of the OPcache extension.
+ *
+ * Whether or not invalidation is possible is cached to improve performance.
+ *
+ * @since 5.5
+ *
+ * @link https://www.php.net/manual/en/function.opcache-invalidate.php
+ *
+ * @param string $filepath Path to the file, including extension, for which the opcode cache is to be cleared.
+ * @param bool   $force    Invalidate even if the modification time is not newer than the file in cache. Default `false`.
+ *
+ * @return bool `true` if opcache was invalidated for `$filepath`, or there was nothing to invalidate.
+ *              `false` if opcache invalidation is not available, or is disabled via filter.
+ */
+function wp_opcache_invalidate( $filepath, $force = false ) {
+	static $can_invalidate = null;
+
+	/*
+	 * Check to see if WordPress is able to run `opcache_invalidate()` or not, and cache the value.
+	 *
+	 * First, check to see if the function is available to call, then if the host has restricted
+	 * the ability to run the function to avoid a PHP warning.
+	 *
+	 * `opcache.restrict_api` can specify the path for files allowed to call `opcache_invalidate()`.
+	 *
+	 * If the host has this set, check whether the path in `opcache.restrict_api` matches
+	 * the beginning of the path of the origin file.
+	 *
+	 * `$_SERVER['SCRIPT_FILENAME']` approximates the origin file's path, but
+	 * `realpath()` is necessary because `SCRIPT_FILENAME` can be a relative path
+	 * when run from CLI.
+	 *
+	 * For more details, see:
+	 * - https://www.php.net/manual/en/opcache.configuration.php
+	 * - https://www.php.net/manual/en/reserved.variables.server.php
+	 * - https://core.trac.wordpress.org/ticket/36455
+	 */
+	if ( $can_invalidate === null ) {
+		$can_invalidate = function_exists( 'opcache_invalidate' ) &&
+			( ! ini_get( 'opcache.restrict_api' ) ||
+				stripos( realpath( $_SERVER['SCRIPT_FILENAME'] ), ini_get( 'opcache.restrict_api' ) ) === 0 );
+	}
+
+	// If invalidation is not available, return early.
+	if ( ! $can_invalidate ) {
+		return false;
+	}
+
+	// Verify that file to be invalidated has a PHP extension.
+	if ( ! preg_match( '/\.(?:php)$/i', $filepath ) ) {
+		return false;
+	}
+
+	/**
+	 * Filters whether to invalidate a file from the opcode cache.
+	 *
+	 * @since 5.5
+	 *
+	 * @param bool   $will_invalidate Whether WordPress will invalidate `$filename`. Default `true`.
+	 * @param string $filename        The PHP filename to invalidate.
+	 */
+	if ( apply_filters( 'wp_opcache_invalidate_file', true, $filepath ) ) {
+		return opcache_invalidate( $filepath, $force );
+	}
+
+	return false;
 }

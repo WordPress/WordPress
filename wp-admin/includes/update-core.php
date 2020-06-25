@@ -1318,14 +1318,18 @@ function update_core( $from, $to ) {
  *
  * Assumes that WP_Filesystem() has already been called and setup.
  *
- * This is a temporary function for the 3.1 -> 3.2 upgrade, as well as for those
- * upgrading to 3.7+.
+ * This is a standalone copy of the `copy_dir()` function that is used to
+ * upgrade the core files. It is placed here so that the version of this
+ * function from the *new* WordPress version will be called.
+ *
+ * It was initially added for the 3.1 -> 3.2 upgrade.
  *
  * @ignore
  * @since 3.2.0
  * @since 3.7.0 Updated not to use a regular expression for the skip list.
  *
  * @see copy_dir()
+ * @link https://core.trac.wordpress.org/ticket/17173
  *
  * @global WP_Filesystem_Base $wp_filesystem
  *
@@ -1354,6 +1358,11 @@ function _copy_dir( $from, $to, $skip_list = array() ) {
 				if ( ! $wp_filesystem->copy( $from . $filename, $to . $filename, true, FS_CHMOD_FILE ) ) {
 					return new WP_Error( 'copy_failed__copy_dir', __( 'Could not copy file.' ), $to . $filename );
 				}
+			}
+
+			// `wp_opcache_invalidate()` only exists in WordPress 5.5, so don't run it when upgrading to 5.5.
+			if ( function_exists( 'wp_opcache_invalidate' ) ) {
+				wp_opcache_invalidate( $to . $filename );
 			}
 		} elseif ( 'd' === $fileinfo['type'] ) {
 			if ( ! $wp_filesystem->is_dir( $to . $filename ) ) {
