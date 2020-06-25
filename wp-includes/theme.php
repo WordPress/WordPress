@@ -2994,6 +2994,156 @@ function require_if_theme_supports( $feature, $include ) {
 }
 
 /**
+ * Registers a theme feature for use in {@see add_theme_support}.
+ *
+ * This does not indicate that the current theme supports the feature, it only describes the feature's supported options.
+ *
+ * @since 5.5.0
+ *
+ * @global $_wp_registered_theme_features
+ *
+ * @param string $feature The name uniquely identifying the feature.
+ * @param array $args {
+ *      Data used to describe the theme
+ *
+ *      @type string     $type         The type of data associated with this feature. Defaults to 'boolean'.
+ *                                     Valid values are 'string', 'boolean', 'integer', 'number', 'array', and 'object'.
+ *      @type boolean    $variadic     Does this feature utilize the variadic support of {@see add_theme_support()},
+ *                                     or are all arguments specified as the second parameter. Must be used with the "array" type.
+ *      @type string     $description  A short description of the feature. Included in the Themes REST API schema. Intended for developers.
+ *      @type bool|array $show_in_rest {
+ *          Whether this feature should be included in the Themes REST API endpoint. Defaults to not being included.
+ *          When registering an 'array' or 'object' type, this argument must be an array with the 'schema' key.
+ *
+ *          @type array    $schema           Specifies the JSON Schema definition describing the feature. If any objects in the schema
+ *                                           do not include the 'additionalProperties' keyword, it is set to false.
+ *          @type string   $name             An alternate name to be use as the property name in the REST API.
+ *          @type callable $prepare_callback A function used to format the theme support in the REST API. Receives the raw theme support value.
+ *      }
+ * }
+ * @return true|WP_Error True if the theme feature was successfully registered, a WP_Error object if not.
+ */
+function register_theme_feature( $feature, $args = array() ) {
+	global $_wp_registered_theme_features;
+
+	if ( ! is_array( $_wp_registered_theme_features ) ) {
+		$_wp_registered_theme_features = array();
+	}
+
+	$defaults = array(
+		'type'         => 'boolean',
+		'variadic'     => false,
+		'description'  => '',
+		'show_in_rest' => false,
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	if ( true === $args['show_in_rest'] ) {
+		$args['show_in_rest'] = array();
+	}
+
+	if ( is_array( $args['show_in_rest'] ) ) {
+		$args['show_in_rest'] = wp_parse_args(
+			$args['show_in_rest'],
+			array(
+				'schema'           => array(),
+				'name'             => $feature,
+				'prepare_callback' => null,
+			)
+		);
+	}
+
+	if ( ! in_array( $args['type'], array( 'string', 'boolean', 'integer', 'number', 'array', 'object' ), true ) ) {
+		return new WP_Error( 'invalid_type', __( 'The feature "type" is not valid JSON Schema type.' ) );
+	}
+
+	if ( true === $args['variadic'] && 'array' !== $args['type'] ) {
+		return new WP_Error( 'variadic_must_be_array', __( 'When registering a "variadic" theme feature, the "type" must be an "array".' ) );
+	}
+
+	if ( false !== $args['show_in_rest'] && in_array( $args['type'], array( 'array', 'object' ), true ) ) {
+		if ( ! is_array( $args['show_in_rest'] ) || empty( $args['show_in_rest']['schema'] ) ) {
+			return new WP_Error( 'missing_schema', __( 'When registering an "array" or "object" feature to show in the REST API, the feature\'s schema must also be defined.' ) );
+		}
+
+		if ( 'array' === $args['type'] && ! isset( $args['show_in_rest']['schema']['items'] ) ) {
+			return new WP_Error( 'missing_schema_items', __( 'When registering an "array" feature, the feature\'s schema must include the "items" keyword.' ) );
+		}
+
+		if ( 'object' === $args['type'] && ! isset( $args['show_in_rest']['schema']['properties'] ) ) {
+			return new WP_Error( 'missing_schema_properties', __( 'When registering an "object" feature, the feature\'s schema must include the "properties" keyword.' ) );
+		}
+	}
+
+	if ( is_array( $args['show_in_rest'] ) ) {
+		if ( isset( $args['show_in_rest']['prepare_callback'] ) && ! is_callable( $args['show_in_rest']['prepare_callback'] ) ) {
+			return new WP_Error( 'invalid_rest_prepare_callback', __( 'The prepare_callback must be a callable function.' ) );
+		}
+
+		$args['show_in_rest']['schema'] = wp_parse_args(
+			$args['show_in_rest']['schema'],
+			array(
+				'description' => $args['description'],
+				'type'        => $args['type'],
+				'default'     => false,
+			)
+		);
+
+		if ( is_bool( $args['show_in_rest']['schema']['default'] ) && ! in_array( 'boolean', (array) $args['show_in_rest']['schema']['type'], true ) ) {
+			// Automatically include the "boolean" type when the default value is a boolean.
+			$args['show_in_rest']['schema']['type'] = (array) $args['show_in_rest']['schema']['type'];
+			array_unshift( $args['show_in_rest']['schema']['type'], 'boolean' );
+		}
+
+		$args['show_in_rest']['schema'] = rest_default_additional_properties_to_false( $args['show_in_rest']['schema'] );
+	}
+
+	$_wp_registered_theme_features[ $feature ] = $args;
+
+	return true;
+}
+
+/**
+ * Gets the list of registered theme features.
+ *
+ * @since 5.5.0
+ *
+ * @global $_wp_registered_theme_features
+ *
+ * @return array[] List of theme features, keyed by their name.
+ */
+function get_registered_theme_features() {
+	global $_wp_registered_theme_features;
+
+	if ( ! is_array( $_wp_registered_theme_features ) ) {
+		return array();
+	}
+
+	return $_wp_registered_theme_features;
+}
+
+/**
+ * Gets the registration config for a theme feature.
+ *
+ * @since 5.5.0
+ *
+ * @global $_wp_registered_theme_features
+ *
+ * @param string $feature The feature name.
+ * @return array|null The registration args, or null if the feature was not registered.
+ */
+function get_registered_theme_feature( $feature ) {
+	global $_wp_registered_theme_features;
+
+	if ( ! is_array( $_wp_registered_theme_features ) ) {
+		return null;
+	}
+
+	return isset( $_wp_registered_theme_features[ $feature ] ) ? $_wp_registered_theme_features[ $feature ] : null;
+}
+
+/**
  * Checks an attachment being deleted to see if it's a header or background image.
  *
  * If true it removes the theme modification which would be pointing at the deleted
@@ -3461,4 +3611,372 @@ function _wp_keep_alive_customize_changeset_dependent_auto_drafts( $new_status, 
 		);
 		clean_post_cache( $post_id );
 	}
+}
+
+/**
+ * Creates the initial theme features when the 'setup_theme' action is fired.
+ *
+ * See {@see 'setup_theme'}.
+ *
+ * @since 5.5.0
+ */
+function create_initial_theme_features() {
+	register_theme_feature(
+		'align-wide',
+		array(
+			'description'  => __( 'Whether theme opts in to wide alignment CSS class.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
+		'automatic-feed-links',
+		array(
+			'description'  => __( 'Whether posts and comments RSS feed links are added to head.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
+		'custom-background',
+		array(
+			'description'  => __( 'Custom background if defined by the theme.' ),
+			'type'         => 'object',
+			'show_in_rest' => array(
+				'schema' => array(
+					'properties' => array(
+						'default-image'      => array(
+							'type'   => 'string',
+							'format' => 'uri',
+						),
+						'default-preset'     => array(
+							'type' => 'string',
+							'enum' => array(
+								'default',
+								'fill',
+								'fit',
+								'repeat',
+								'custom',
+							),
+						),
+						'default-position-x' => array(
+							'type' => 'string',
+							'enum' => array(
+								'left',
+								'center',
+								'right',
+							),
+						),
+						'default-position-y' => array(
+							'type' => 'string',
+							'enum' => array(
+								'left',
+								'center',
+								'right',
+							),
+						),
+						'default-size'       => array(
+							'type' => 'string',
+							'enum' => array(
+								'auto',
+								'contain',
+								'cover',
+							),
+						),
+						'default-repeat'     => array(
+							'type' => 'string',
+							'enum' => array(
+								'repeat-x',
+								'repeat-y',
+								'repeat',
+								'no-repeat',
+							),
+						),
+						'default-attachment' => array(
+							'type' => 'string',
+							'enum' => array(
+								'scroll',
+								'fixed',
+							),
+						),
+						'default-color'      => array(
+							'type' => 'string',
+						),
+					),
+				),
+			),
+		)
+	);
+	register_theme_feature(
+		'custom-header',
+		array(
+			'description'  => __( 'Custom header if defined by the theme.' ),
+			'type'         => 'object',
+			'show_in_rest' => array(
+				'schema' => array(
+					'properties' => array(
+						'default-image'      => array(
+							'type'   => 'string',
+							'format' => 'uri',
+						),
+						'random-default'     => array(
+							'type' => 'boolean',
+						),
+						'width'              => array(
+							'type' => 'integer',
+						),
+						'height'             => array(
+							'type' => 'integer',
+						),
+						'flex-height'        => array(
+							'type' => 'boolean',
+						),
+						'flex-width'         => array(
+							'type' => 'boolean',
+						),
+						'default-text-color' => array(
+							'type' => 'string',
+						),
+						'header-text'        => array(
+							'type' => 'boolean',
+						),
+						'uploads'            => array(
+							'type' => 'boolean',
+						),
+						'video'              => array(
+							'type' => 'boolean',
+						),
+					),
+				),
+			),
+		)
+	);
+	register_theme_feature(
+		'custom-logo',
+		array(
+			'type'         => 'object',
+			'description'  => __( 'Custom logo if defined by the theme.' ),
+			'show_in_rest' => array(
+				'schema' => array(
+					'properties' => array(
+						'width'       => array(
+							'type' => 'integer',
+						),
+						'height'      => array(
+							'type' => 'integer',
+						),
+						'flex-width'  => array(
+							'type' => 'boolean',
+						),
+						'flex-height' => array(
+							'type' => 'boolean',
+						),
+						'header-text' => array(
+							'type'  => 'array',
+							'items' => array(
+								'type' => 'string',
+							),
+						),
+					),
+				),
+			),
+		)
+	);
+	register_theme_feature(
+		'customize-selective-refresh-widgets',
+		array(
+			'description'  => __( 'Whether the theme enables Selective Refresh for Widgets being managed with the Customizer.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
+		'dark-editor-style',
+		array(
+			'description'  => __( 'Whether theme opts in to the dark editor style UI.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
+		'disable-custom-colors',
+		array(
+			'description'  => __( 'Whether the theme disables custom colors.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
+		'disable-custom-font-sizes',
+		array(
+			'description'  => __( 'Whether the theme disables custom font sizes.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
+		'disable-custom-gradients',
+		array(
+			'description'  => __( 'Whether the theme disables custom gradients.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
+		'editor-color-palette',
+		array(
+			'type'         => 'array',
+			'description'  => __( 'Custom color palette if defined by the theme.' ),
+			'show_in_rest' => array(
+				'schema' => array(
+					'items' => array(
+						'type'       => 'object',
+						'properties' => array(
+							'name'  => array(
+								'type' => 'string',
+							),
+							'slug'  => array(
+								'type' => 'string',
+							),
+							'color' => array(
+								'type' => 'string',
+							),
+						),
+					),
+				),
+			),
+		)
+	);
+	register_theme_feature(
+		'editor-font-sizes',
+		array(
+			'type'         => 'array',
+			'description'  => __( 'Custom font sizes if defined by the theme.' ),
+			'show_in_rest' => array(
+				'schema' => array(
+					'items' => array(
+						'type'       => 'object',
+						'properties' => array(
+							'name' => array(
+								'type' => 'string',
+							),
+							'size' => array(
+								'type' => 'number',
+							),
+							'slug' => array(
+								'type' => 'string',
+							),
+						),
+					),
+				),
+			),
+		)
+	);
+	register_theme_feature(
+		'editor-gradient-presets',
+		array(
+			'type'         => 'array',
+			'description'  => __( 'Custom gradient presets if defined by the theme.' ),
+			'show_in_rest' => array(
+				'schema' => array(
+					'items' => array(
+						'type'       => 'object',
+						'properties' => array(
+							'name'     => array(
+								'type' => 'string',
+							),
+							'gradient' => array(
+								'type' => 'string',
+							),
+							'slug'     => array(
+								'type' => 'string',
+							),
+						),
+					),
+				),
+			),
+		)
+	);
+	register_theme_feature(
+		'editor-styles',
+		array(
+			'description'  => __( 'Whether theme opts in to the editor styles CSS wrapper.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
+		'html5',
+		array(
+			'type'         => 'array',
+			'description'  => __( 'Allows use of HTML5 markup for search forms, comment forms, comment lists, gallery, and caption.' ),
+			'show_in_rest' => array(
+				'schema' => array(
+					'items' => array(
+						'type' => 'string',
+						'enum' => array(
+							'search-form',
+							'comment-form',
+							'comment-list',
+							'gallery',
+							'caption',
+							'script',
+							'style',
+						),
+					),
+				),
+			),
+		)
+	);
+	register_theme_feature(
+		'post-formats',
+		array(
+			'type'         => 'array',
+			'description'  => __( 'Post formats supported.' ),
+			'show_in_rest' => array(
+				'name'             => 'formats',
+				'schema'           => array(
+					'items'   => array(
+						'type' => 'string',
+						'enum' => get_post_format_slugs(),
+					),
+					'default' => array( 'standard' ),
+				),
+				'prepare_callback' => static function ( $formats ) {
+					$formats = is_array( $formats ) ? array_values( $formats[0] ) : array();
+					$formats = array_merge( array( 'standard' ), $formats );
+
+					return $formats;
+				},
+			),
+		)
+	);
+	register_theme_feature(
+		'post-thumbnails',
+		array(
+			'type'         => 'array',
+			'description'  => __( 'The post types that support thumbnails or true if all post types are supported.' ),
+			'show_in_rest' => array(
+				'type'   => array( 'boolean', 'array' ),
+				'schema' => array(
+					'items' => array(
+						'type' => 'string',
+					),
+				),
+			),
+		)
+	);
+	register_theme_feature(
+		'responsive-embeds',
+		array(
+			'description'  => __( 'Whether the theme supports responsive embedded content.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
+		'title-tag',
+		array(
+			'description'  => __( 'Whether the theme can manage the document title tag.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
+		'wp-block-styles',
+		array(
+			'description'  => __( 'Whether theme opts in to default WordPress block styles for viewing.' ),
+			'show_in_rest' => true,
+		)
+	);
 }
