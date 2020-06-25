@@ -1170,9 +1170,9 @@ class WP_List_Table {
 					$class[] = 'sorted';
 					$class[] = $current_order;
 				} else {
-					if ( in_array( strtolower( $desc_first ), array( 'desc', 'asc' ), true ) ) {
-						$order = 'asc' === strtolower( $desc_first ) ? 'desc' : 'asc';
-					} else {
+					$order = strtolower( $desc_first );
+
+					if ( ! in_array( $order, array( 'desc', 'asc' ), true ) ) {
 						$order = $desc_first ? 'desc' : 'asc';
 					}
 
@@ -1180,7 +1180,11 @@ class WP_List_Table {
 					$class[] = 'desc' === $order ? 'asc' : 'desc';
 				}
 
-				$column_display_name = '<a href="' . esc_url( add_query_arg( compact( 'orderby', 'order' ), $current_url ) ) . '"><span>' . $column_display_name . '</span><span class="sorting-indicator"></span></a>';
+				$column_display_name = sprintf(
+					'<a href="%s"><span>%s</span><span class="sorting-indicator"></span></a>',
+					esc_url( add_query_arg( compact( 'orderby', 'order' ), $current_url ) ),
+					$column_display_name
+				);
 			}
 
 			$tag   = ( 'cb' === $column_key ) ? 'td' : 'th';
