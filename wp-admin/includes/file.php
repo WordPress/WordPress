@@ -65,27 +65,28 @@ $wp_file_descriptions = array(
 );
 
 /**
- * Get the description for standard WordPress theme files and other various standard
- * WordPress files
+ * Gets the description for standard WordPress theme files.
  *
  * @since 1.5.0
  *
  * @global array $wp_file_descriptions Theme file descriptions.
  * @global array $allowed_files        List of allowed files.
- * @param string $file Filesystem path or filename
+ *
+ * @param string $file Filesystem path or filename.
  * @return string Description of file from $wp_file_descriptions or basename of $file if description doesn't exist.
- *                Appends 'Page Template' to basename of $file if the file is a page template
+ *                Appends 'Page Template' to basename of $file if the file is a page template.
  */
 function get_file_description( $file ) {
 	global $wp_file_descriptions, $allowed_files;
 
-	$dirname = pathinfo( $file, PATHINFO_DIRNAME );
-
+	$dirname   = pathinfo( $file, PATHINFO_DIRNAME );
 	$file_path = $allowed_files[ $file ];
+
 	if ( isset( $wp_file_descriptions[ basename( $file ) ] ) && '.' === $dirname ) {
 		return $wp_file_descriptions[ basename( $file ) ];
 	} elseif ( file_exists( $file_path ) && is_file( $file_path ) ) {
 		$template_data = implode( '', file( $file_path ) );
+
 		if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ) ) {
 			/* translators: %s: Template name. */
 			return sprintf( __( '%s Page Template' ), _cleanup_header_comment( $name[1] ) );
@@ -96,15 +97,16 @@ function get_file_description( $file ) {
 }
 
 /**
- * Get the absolute filesystem path to the root of the WordPress installation
+ * Gets the absolute filesystem path to the root of the WordPress installation.
  *
  * @since 1.5.0
  *
- * @return string Full filesystem path to the root of the WordPress installation
+ * @return string Full filesystem path to the root of the WordPress installation.
  */
 function get_home_path() {
 	$home    = set_url_scheme( get_option( 'home' ), 'http' );
 	$siteurl = set_url_scheme( get_option( 'siteurl' ), 'http' );
+
 	if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
 		$wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
 		$pos                 = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), trailingslashit( $wp_path_rel_to_home ) );
@@ -119,6 +121,7 @@ function get_home_path() {
 
 /**
  * Returns a listing of all files in the specified folder and all subdirectories up to 100 levels deep.
+ *
  * The depth of the recursiveness can be controlled by the $levels param.
  *
  * @since 2.6.0
@@ -292,7 +295,7 @@ function wp_get_theme_file_editable_extensions( $theme ) {
 }
 
 /**
- * Print file editor templates (for plugins and themes).
+ * Prints file editor templates (for plugins and themes).
  *
  * @since 4.9.0
  */
@@ -342,7 +345,7 @@ function wp_print_file_editor_templates() {
 }
 
 /**
- * Attempt to edit a file for a theme or plugin.
+ * Attempts to edit a file for a theme or plugin.
  *
  * When editing a PHP file, loopback requests will be made to the admin and the homepage
  * to attempt to see if there is a fatal error introduced. If so, the PHP change will be
@@ -500,6 +503,7 @@ function wp_edit_theme_plugin_file( $args ) {
 	if ( false === $written ) {
 		return new WP_Error( 'unable_to_write', __( 'Unable to write to file.' ) );
 	}
+
 	wp_opcache_invalidate( $real_file, true );
 
 	if ( $is_active && 'php' === $extension ) {
@@ -629,17 +633,19 @@ function wp_edit_theme_plugin_file( $args ) {
 
 
 /**
- * Returns a filename of a Temporary unique file.
+ * Returns a filename of a temporary unique file.
+ *
  * Please note that the calling function must unlink() this itself.
  *
  * The filename is based off the passed parameter or defaults to the current unix timestamp,
- * while the directory can either be passed as well, or by leaving it blank, default to a writable temporary directory.
+ * while the directory can either be passed as well, or by leaving it blank, default to a writable
+ * temporary directory.
  *
  * @since 2.6.0
  *
  * @param string $filename Optional. Filename to base the Unique file off. Default empty.
  * @param string $dir      Optional. Directory to store the file in. Default empty.
- * @return string a writable filename
+ * @return string A writable filename.
  */
 function wp_tempnam( $filename = '', $dir = '' ) {
 	if ( empty( $dir ) ) {
@@ -683,7 +689,8 @@ function wp_tempnam( $filename = '', $dir = '' ) {
  * @since 1.5.0
  *
  * @param string   $file          File the user is attempting to edit.
- * @param string[] $allowed_files Optional. Array of allowed files to edit. `$file` must match an entry exactly.
+ * @param string[] $allowed_files Optional. Array of allowed files to edit.
+ *                                `$file` must match an entry exactly.
  * @return string|void Returns the file name on success, dies on failure.
  */
 function validate_file_to_edit( $file, $allowed_files = array() ) {
@@ -706,20 +713,25 @@ function validate_file_to_edit( $file, $allowed_files = array() ) {
 }
 
 /**
- * Handle PHP uploads in WordPress, sanitizing file names, checking extensions for mime type,
- * and moving the file to the appropriate directory within the uploads directory.
+ * Handles PHP uploads in WordPress.
+ *
+ * Sanitizes file names, checks extensions for mime type, and moves the file
+ * to the appropriate directory within the uploads directory.
  *
  * @access private
  * @since 4.0.0
  *
  * @see wp_handle_upload_error
  *
- * @param string[]       $file      Reference to a single element of `$_FILES`. Call the function once for each uploaded file.
- * @param string[]|false $overrides An associative array of names => values to override default variables. Default false.
+ * @param string[]       $file      Reference to a single element of `$_FILES`.
+ *                                  Call the function once for each uploaded file.
+ * @param string[]|false $overrides An associative array of names => values
+ *                                  to override default variables. Default false.
  * @param string         $time      Time formatted in 'yyyy/mm'.
  * @param string         $action    Expected value for `$_POST['action']`.
- * @return string[] On success, returns an associative array of file attributes. On failure, returns
- *                  `$overrides['upload_error_handler']( &$file, $message )` or `array( 'error' => $message )`.
+ * @return string[] On success, returns an associative array of file attributes.
+ *                  On failure, returns `$overrides['upload_error_handler']( &$file, $message )`
+ *                  or `array( 'error' => $message )`.
  */
 function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	// The default error handler.
@@ -953,13 +965,14 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
  *
  * @see _wp_handle_upload()
  *
- * @param array      $file      Reference to a single element of `$_FILES`. Call the function once for
- *                              each uploaded file.
- * @param array|bool $overrides Optional. An associative array of names=>values to override default
- *                              variables. Default false.
+ * @param array      $file      Reference to a single element of `$_FILES`.
+ *                              Call the function once for each uploaded file.
+ * @param array|bool $overrides Optional. An associative array of names => values
+ *                              to override default variables. Default false.
  * @param string     $time      Optional. Time formatted in 'yyyy/mm'. Default null.
- * @return array On success, returns an associative array of file attributes. On failure, returns
- *               $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).
+ * @return array On success, returns an associative array of file attributes.
+ *               On failure, returns `$overrides['upload_error_handler']( &$file, $message )`
+ *               or `array( 'error' => $message )`.
  */
 function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	/*
@@ -983,12 +996,14 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
  *
  * @see _wp_handle_upload()
  *
- * @param array      $file      An array similar to that of a PHP `$_FILES` POST array
- * @param array|bool $overrides Optional. An associative array of names=>values to override default
- *                              variables. Default false.
+ * @param array      $file      Reference to a single element of `$_FILES`.
+ *                              Call the function once for each uploaded file.
+ * @param array|bool $overrides Optional. An associative array of names => values
+ *                              to override default variables. Default false.
  * @param string     $time      Optional. Time formatted in 'yyyy/mm'. Default null.
- * @return array On success, returns an associative array of file attributes. On failure, returns
- *               $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).
+ * @return array On success, returns an associative array of file attributes.
+ *               On failure, returns `$overrides['upload_error_handler']( &$file, $message )`
+ *               or `array( 'error' => $message )`.
  */
 function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 	/*
@@ -999,6 +1014,7 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 	if ( isset( $overrides['action'] ) ) {
 		$action = $overrides['action'];
 	}
+
 	return _wp_handle_upload( $file, $overrides, $time, $action );
 }
 
@@ -1011,8 +1027,10 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
  * @since 5.2.0 Signature Verification with SoftFail was added.
  *
  * @param string $url                    The URL of the file to download.
- * @param int    $timeout                The timeout for the request to download the file. Default 300 seconds.
- * @param bool   $signature_verification Whether to perform Signature Verification. Default false.
+ * @param int    $timeout                The timeout for the request to download the file.
+ *                                       Default 300 seconds.
+ * @param bool   $signature_verification Whether to perform Signature Verification.
+ *                                       Default false.
  * @return string|WP_Error Filename on success, WP_Error on failure.
  */
 function download_url( $url, $timeout = 300, $signature_verification = false ) {
@@ -1359,7 +1377,7 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
 }
 
 /**
- * Retrieve the list of signing keys trusted by WordPress.
+ * Retrieves the list of signing keys trusted by WordPress.
  *
  * @since 5.2.0
  *
@@ -1741,6 +1759,7 @@ function copy_dir( $from, $to, $skip_list = array() ) {
 					return new WP_Error( 'copy_failed_copy_dir', __( 'Could not copy file.' ), $to . $filename );
 				}
 			}
+
 			wp_opcache_invalidate( $to . $filename );
 		} elseif ( 'd' === $fileinfo['type'] ) {
 			if ( ! $wp_filesystem->is_dir( $to . $filename ) ) {
@@ -1779,11 +1798,15 @@ function copy_dir( $from, $to, $skip_list = array() ) {
  *
  * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
- * @param array|false  $args                         Optional. Connection args, These are passed directly to
- *                                                   the `WP_Filesystem_*()` classes. Default false.
- * @param string|false $context                      Optional. Context for get_filesystem_method(). Default false.
- * @param bool         $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
- * @return bool|null True on success, false on failure, null if the filesystem method class file does not exist.
+ * @param array|false  $args                         Optional. Connection args, These are passed
+ *                                                   directly to the `WP_Filesystem_*()` classes.
+ *                                                   Default false.
+ * @param string|false $context                      Optional. Context for get_filesystem_method().
+ *                                                   Default false.
+ * @param bool         $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable.
+ *                                                   Default false.
+ * @return bool|null True on success, false on failure,
+ *                   null if the filesystem method class file does not exist.
  */
 function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_ownership = false ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	global $wp_filesystem;
@@ -1942,9 +1965,9 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param string $method  Filesystem method to return.
-	 * @param array  $args    An array of connection details for the method.
-	 * @param string $context Full path to the directory that is tested for being writable.
+	 * @param string $method                       Filesystem method to return.
+	 * @param array  $args                         An array of connection details for the method.
+	 * @param string $context                      Full path to the directory that is tested for being writable.
 	 * @param bool   $allow_relaxed_file_ownership Whether to allow Group/World writable.
 	 */
 	return apply_filters( 'filesystem_method', $method, $args, $context, $allow_relaxed_file_ownership );
@@ -1968,15 +1991,17 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
  *
  * @param string        $form_post                    The URL to post the form to.
  * @param string        $type                         Optional. Chosen type of filesystem. Default empty.
- * @param bool|WP_Error $error                        Optional. Whether the current request has failed to connect,
- *                                                    or an error object. Default false.
- * @param string        $context                      Optional. Full path to the directory that is tested for being
- *                                                    writable. Default empty.
- * @param array         $extra_fields                 Optional. Extra `POST` fields to be checked for inclusion in
- *                                                    the post. Default null.
- * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
- * @return bool|array True if no filesystem credentials are required, false if they are required but have not been
- *                    provided, array of credentials if they are required and have been provided.
+ * @param bool|WP_Error $error                        Optional. Whether the current request has failed
+ *                                                    to connect, or an error object. Default false.
+ * @param string        $context                      Optional. Full path to the directory that is tested
+ *                                                    for being writable. Default empty.
+ * @param array         $extra_fields                 Optional. Extra `POST` fields to be checked
+ *                                                    for inclusion in the post. Default null.
+ * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable.
+ *                                                    Default false.
+ * @return bool|array True if no filesystem credentials are required,
+ *                    false if they are required but have not been provided,
+ *                    array of credentials if they are required and have been provided.
  */
 function request_filesystem_credentials( $form_post, $type = '', $error = false, $context = '', $extra_fields = null, $allow_relaxed_file_ownership = false ) {
 	global $pagenow;
@@ -2250,7 +2275,7 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 }
 
 /**
- * Print the filesystem credentials modal when needed.
+ * Prints the filesystem credentials modal when needed.
  *
  * @since 4.2.0
  */
@@ -2278,22 +2303,22 @@ function wp_print_request_filesystem_credentials_modal() {
 }
 
 /**
- * Attempt to clear the opcode cache for an individual PHP file.
+ * Attempts to clear the opcode cache for an individual PHP file.
  *
  * This function can be called safely without having to check the file extension
  * or availability of the OPcache extension.
  *
  * Whether or not invalidation is possible is cached to improve performance.
  *
- * @since 5.5
+ * @since 5.5.0
  *
  * @link https://www.php.net/manual/en/function.opcache-invalidate.php
  *
  * @param string $filepath Path to the file, including extension, for which the opcode cache is to be cleared.
- * @param bool   $force    Invalidate even if the modification time is not newer than the file in cache. Default `false`.
- *
- * @return bool `true` if opcache was invalidated for `$filepath`, or there was nothing to invalidate.
- *              `false` if opcache invalidation is not available, or is disabled via filter.
+ * @param bool   $force    Invalidate even if the modification time is not newer than the file in cache.
+ *                         Default false.
+ * @return bool True if opcache was invalidated for `$filepath`, or there was nothing to invalidate.
+ *              False if opcache invalidation is not available, or is disabled via filter.
  */
 function wp_opcache_invalidate( $filepath, $force = false ) {
 	static $can_invalidate = null;
@@ -2309,19 +2334,20 @@ function wp_opcache_invalidate( $filepath, $force = false ) {
 	 * If the host has this set, check whether the path in `opcache.restrict_api` matches
 	 * the beginning of the path of the origin file.
 	 *
-	 * `$_SERVER['SCRIPT_FILENAME']` approximates the origin file's path, but
-	 * `realpath()` is necessary because `SCRIPT_FILENAME` can be a relative path
-	 * when run from CLI.
+	 * `$_SERVER['SCRIPT_FILENAME']` approximates the origin file's path, but `realpath()`
+	 * is necessary because `SCRIPT_FILENAME` can be a relative path when run from CLI.
 	 *
 	 * For more details, see:
 	 * - https://www.php.net/manual/en/opcache.configuration.php
 	 * - https://www.php.net/manual/en/reserved.variables.server.php
 	 * - https://core.trac.wordpress.org/ticket/36455
 	 */
-	if ( null === $can_invalidate ) {
-		$can_invalidate = function_exists( 'opcache_invalidate' ) &&
-			( ! ini_get( 'opcache.restrict_api' ) ||
-				stripos( realpath( $_SERVER['SCRIPT_FILENAME'] ), ini_get( 'opcache.restrict_api' ) ) === 0 );
+	if ( null === $can_invalidate
+		&& function_exists( 'opcache_invalidate' )
+		&& ( ! ini_get( 'opcache.restrict_api' )
+			|| stripos( realpath( $_SERVER['SCRIPT_FILENAME'] ), ini_get( 'opcache.restrict_api' ) ) === 0 )
+	) {
+		$can_invalidate = true;
 	}
 
 	// If invalidation is not available, return early.
@@ -2337,9 +2363,9 @@ function wp_opcache_invalidate( $filepath, $force = false ) {
 	/**
 	 * Filters whether to invalidate a file from the opcode cache.
 	 *
-	 * @since 5.5
+	 * @since 5.5.0
 	 *
-	 * @param bool   $will_invalidate Whether WordPress will invalidate `$filename`. Default `true`.
+	 * @param bool   $will_invalidate Whether WordPress will invalidate `$filename`. Default true.
 	 * @param string $filename        The PHP filename to invalidate.
 	 */
 	if ( apply_filters( 'wp_opcache_invalidate_file', true, $filepath ) ) {
