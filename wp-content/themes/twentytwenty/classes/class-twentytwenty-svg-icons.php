@@ -17,7 +17,7 @@ if ( ! class_exists( 'TwentyTwenty_SVG_Icons' ) ) {
 		 * GET SVG CODE
 		 * Get the SVG code for the specified icon
 		 *
-		 * @param string $icon Icon name.
+		 * @param string $icon  Icon name.
 		 * @param string $group Icon group.
 		 * @param string $color Color.
 		 */
@@ -36,7 +36,7 @@ if ( ! class_exists( 'TwentyTwenty_SVG_Icons' ) ) {
 			 * The dynamic portion of the hook name, `$group`, refers to
 			 * the name of the group of icons, either "ui" or "social".
 			 *
-			 * @since 1.5.0
+			 * @since Twenty Twenty 1.5
 			 *
 			 * @param array $arr Array of icons.
 			 */
@@ -45,11 +45,11 @@ if ( ! class_exists( 'TwentyTwenty_SVG_Icons' ) ) {
 			/**
 			 * Filters an SVG icon's color.
 			 *
-			 * @since 1.5.0
+			 * @since Twenty Twenty 1.5
 			 *
-			 * @param array $color The icon color.
-			 * @param array $icon  The icon name.
-			 * @param array $group The icon group.
+			 * @param string $color The icon color.
+			 * @param string $icon  The icon name.
+			 * @param string $group The icon group.
 			 */
 			$color = apply_filters( 'twentytwenty_svg_icon_color', $color, $icon, $group );
 
@@ -82,7 +82,7 @@ if ( ! class_exists( 'TwentyTwenty_SVG_Icons' ) ) {
 				 * By default, each Icon ID is matched against a .com TLD. To override this behavior,
 				 * specify all the domains it covers (including the .com TLD too, if applicable).
 				 *
-				 * @since 1.5.0
+				 * @since Twenty Twenty 1.5
 				 *
 				 * @param array $social_icons_map Array of default social icons.
 				 */
@@ -91,7 +91,7 @@ if ( ! class_exists( 'TwentyTwenty_SVG_Icons' ) ) {
 				/**
 				 * Filters Twenty Twenty's array of social icons.
 				 *
-				 * @since 1.5.0
+				 * @since Twenty Twenty 1.5
 				 *
 				 * @param array $social_icons Array of default social icons.
 				 */
