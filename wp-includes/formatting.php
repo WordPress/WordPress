@@ -64,8 +64,8 @@ function wptexturize( $text, $reset = false ) {
 		/**
 		 * Filters whether to skip running wptexturize().
 		 *
-		 * Passing false to the filter will effectively short-circuit wptexturize().
-		 * returning the original text passed to the function instead.
+		 * Returning false from the filter will effectively short-circuit wptexturize()
+		 * and return the original text passed to the function instead.
 		 *
 		 * The filter runs only once, the first time wptexturize() is called.
 		 *

@@ -2654,8 +2654,8 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	/**
 	 * Filters whether to treat the upload bits as an error.
 	 *
-	 * Returning a non-array from the filter will effectively short-circuit preparing the upload
-	 * bits, returning that value instead. An error message should be returned as a string.
+	 * Returning a non-array from the filter will effectively short-circuit preparing the upload bits
+	 * and return that value instead. An error message should be returned as a string.
 	 *
 	 * @since 3.0.0
 	 *
@@ -4578,7 +4578,7 @@ function wp_maybe_load_widgets() {
 	/**
 	 * Filters whether to load the Widgets library.
 	 *
-	 * Passing a falsey value to the filter will effectively short-circuit
+	 * Returning a falsey value from the filter will effectively short-circuit
 	 * the Widgets library from loading.
 	 *
 	 * @since 2.8.0
@@ -5580,8 +5580,8 @@ function global_terms_enabled() {
 		/**
 		 * Filters whether global terms are enabled.
 		 *
-		 * Passing a non-null value to the filter will effectively short-circuit the function,
-		 * returning the value of the 'global_terms_enabled' site option instead.
+		 * Returning a non-null value from the filter will effectively short-circuit the function
+		 * and return the value of the 'global_terms_enabled' site option instead.
 		 *
 		 * @since 3.0.0
 		 *
@@ -6448,7 +6448,7 @@ function wp_auth_check_load() {
 	/**
 	 * Filters whether to load the authentication check.
 	 *
-	 * Passing a falsey value to the filter will effectively short-circuit
+	 * Returning a falsey value from the filter will effectively short-circuit
 	 * loading the authentication check.
 	 *
 	 * @since 3.6.0

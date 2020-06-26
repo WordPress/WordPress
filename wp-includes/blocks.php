@@ -658,7 +658,7 @@ function render_block( $block ) {
 	global $post;
 
 	/**
-	 * Allows render_block() to be shortcircuited, by returning a non-null value.
+	 * Allows render_block() to be short-circuited, by returning a non-null value.
 	 *
 	 * @since 5.1.0
 	 *

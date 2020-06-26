@@ -381,8 +381,8 @@ class WP_oEmbed {
 		 * This allows one to short-circuit the default logic, perhaps by
 		 * replacing it with a routine that is more optimal for your setup.
 		 *
-		 * Passing a non-null value to the filter will effectively short-circuit retrieval,
-		 * returning the passed value instead.
+		 * Returning a non-null value from the filter will effectively short-circuit retrieval
+		 * and return the passed value instead.
 		 *
 		 * @since 4.5.3
 		 *

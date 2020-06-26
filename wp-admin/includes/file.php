@@ -880,8 +880,8 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	/**
 	 * Filters whether to short-circuit moving the uploaded file after passing all checks.
 	 *
-	 * If a non-null value is passed to the filter, moving the file and any related error
-	 * reporting will be completely skipped.
+	 * If a non-null value is returned from the filter, moving the file and any related
+	 * error reporting will be completely skipped.
 	 *
 	 * @since 4.9.0
 	 *

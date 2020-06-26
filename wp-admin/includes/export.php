@@ -328,7 +328,7 @@ function export_wp( $args = array() ) {
 			/**
 			 * Filters whether to selectively skip term meta used for WXR exports.
 			 *
-			 * Returning a truthy value to the filter will skip the current meta
+			 * Returning a truthy value from the filter will skip the current meta
 			 * object from being exported.
 			 *
 			 * @since 4.6.0
@@ -595,7 +595,7 @@ function export_wp( $args = array() ) {
 					/**
 					 * Filters whether to selectively skip post meta used for WXR exports.
 					 *
-					 * Returning a truthy value to the filter will skip the current meta
+					 * Returning a truthy value from the filter will skip the current meta
 					 * object from being exported.
 					 *
 					 * @since 3.3.0
@@ -638,7 +638,7 @@ function export_wp( $args = array() ) {
 						/**
 						 * Filters whether to selectively skip comment meta used for WXR exports.
 						 *
-						 * Returning a truthy value to the filter will skip the current meta
+						 * Returning a truthy value from the filter will skip the current meta
 						 * object from being exported.
 						 *
 						 * @since 4.0.0

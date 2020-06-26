@@ -40,7 +40,7 @@ function get_option( $option, $default = false ) {
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
-	 * Passing a truthy value to the filter will short-circuit retrieving
+	 * Returning a truthy value from the filter will short-circuit retrieving
 	 * the option value, returning the passed value instead.
 	 *
 	 * @since 1.5.0
@@ -687,7 +687,7 @@ function get_transient( $transient ) {
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
-	 * Passing a truthy value to the filter will effectively short-circuit retrieval
+	 * Returning a truthy value from the filter will effectively short-circuit retrieval
 	 * of the transient, returning the passed value instead.
 	 *
 	 * @since 2.8.0
@@ -1237,8 +1237,8 @@ function get_network_option( $network_id, $option, $default = false ) {
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
-	 * Passing a truthy value to the filter will effectively short-circuit retrieval,
-	 * returning the passed value instead.
+	 * Returning a truthy value from the filter will effectively short-circuit retrieval
+	 * and return the passed value instead.
 	 *
 	 * @since 2.9.0 As 'pre_site_option_' . $key
 	 * @since 3.0.0
@@ -1750,8 +1750,8 @@ function get_site_transient( $transient ) {
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
-	 * Passing a truthy value to the filter will effectively short-circuit retrieval,
-	 * returning the passed value instead.
+	 * Returning a truthy value from the filter will effectively short-circuit retrieval
+	 * and return the passed value instead.
 	 *
 	 * @since 2.9.0
 	 * @since 4.4.0 The `$transient` parameter was added.

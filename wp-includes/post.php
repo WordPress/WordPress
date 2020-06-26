@@ -3685,8 +3685,8 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 * 1. The post type supports the title, editor, and excerpt fields
 	 * 2. The title, editor, and excerpt fields are all empty
 	 *
-	 * Passing a truthy value to the filter will effectively short-circuit
-	 * the new post being inserted, returning 0. If $wp_error is true, a WP_Error
+	 * Returning a truthy value from the filter will effectively short-circuit
+	 * the new post being inserted and return 0. If $wp_error is true, a WP_Error
 	 * will be returned instead.
 	 *
 	 * @since 3.3.0
