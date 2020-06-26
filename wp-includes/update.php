@@ -251,7 +251,9 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 }
 
 /**
- * Check plugin versions against the latest versions hosted on WordPress.org.
+ * Checks for available updates to plugins based on the latest versions hosted on WordPress.org.
+ *
+ * Despite its name this function does not actually perform any updates, it only checks for available updates.
  *
  * A list of all plugins installed is sent to WP, along with the site locale.
  *
@@ -444,7 +446,9 @@ function wp_update_plugins( $extra_stats = array() ) {
 }
 
 /**
- * Check theme versions against the latest versions hosted on WordPress.org.
+ * Checks for available updates to themes based on the latest versions hosted on WordPress.org.
+ *
+ * Despite its name this function does not actually perform any updates, it only checks for available updates.
  *
  * A list of all themes installed is sent to WP, along with the site locale.
  *
@@ -625,6 +629,8 @@ function wp_update_themes( $extra_stats = array() ) {
 
 /**
  * Performs WordPress automatic background updates.
+ *
+ * Updates WordPress core plus any plugins and themes that have automatic updates enabled.
  *
  * @since 3.7.0
  */
