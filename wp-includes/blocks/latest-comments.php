@@ -152,42 +152,9 @@ function render_block_core_latest_comments( $attributes = array() ) {
  * Registers the `core/latest-comments` block.
  */
 function register_block_core_latest_comments() {
-	register_block_type(
-		'core/latest-comments',
+	register_block_type_from_metadata(
+		__DIR__ . '/latest-comments',
 		array(
-			'attributes'      => array(
-				'align'          => array(
-					'type' => 'string',
-					'enum' => array(
-						'left',
-						'center',
-						'right',
-						'wide',
-						'full',
-					),
-				),
-				'className'      => array(
-					'type' => 'string',
-				),
-				'commentsToShow' => array(
-					'type'    => 'number',
-					'default' => 5,
-					'minimum' => 1,
-					'maximum' => 100,
-				),
-				'displayAvatar'  => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-				'displayDate'    => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-				'displayExcerpt' => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-			),
 			'render_callback' => 'render_block_core_latest_comments',
 		)
 	);

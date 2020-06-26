@@ -13,12 +13,9 @@
  * @return string Rendered HTML of the referenced block.
  */
 function render_block_core_social_link( $attributes ) {
-	$service = ( isset( $attributes['service'] ) ) ? $attributes['service'] : 'Icon';
-	$url     = ( isset( $attributes['url'] ) ) ? $attributes['url'] : false;
-	$label   = ( isset( $attributes['label'] ) ) ?
-		$attributes['label'] :
-		/* translators: %s: Social Link service name */
-		sprintf( __( 'Link to %s' ), block_core_social_link_get_name( $service ) );
+	$service    = ( isset( $attributes['service'] ) ) ? $attributes['service'] : 'Icon';
+	$url        = ( isset( $attributes['url'] ) ) ? $attributes['url'] : false;
+	$label      = ( isset( $attributes['label'] ) ) ? $attributes['label'] : block_core_social_link_get_name( $service );
 	$class_name = isset( $attributes['className'] ) ? ' ' . $attributes['className'] : false;
 
 	// Don't render a link if there is no URL set.
@@ -34,16 +31,10 @@ function render_block_core_social_link( $attributes ) {
  * Registers the `core/social-link` blocks.
  */
 function register_block_core_social_link() {
-	$path     = __DIR__ . '/social-link/block.json';
-	$metadata = json_decode( file_get_contents( $path ), true );
-
-	register_block_type(
-		$metadata['name'],
-		array_merge(
-			$metadata,
-			array(
-				'render_callback' => 'render_block_core_social_link',
-			)
+	register_block_type_from_metadata(
+		__DIR__ . '/social-link',
+		array(
+			'render_callback' => 'render_block_core_social_link',
 		)
 	);
 }
@@ -218,7 +209,7 @@ function block_core_social_link_services( $service = '', $field = '' ) {
 		),
 		'tumblr'        => array(
 			'name' => 'Tumblr',
-			'icon' => '<svg width="24" height="24" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><path d="M16.749,17.396c-0.357,0.17-1.041,0.319-1.551,0.332c-1.539,0.041-1.837-1.081-1.85-1.896V9.847h3.861V6.937h-3.847V2.039 c0,0-2.77,0-2.817,0c-0.046,0-0.127,0.041-0.138,0.144c-0.165,1.499-0.867,4.13-3.783,5.181v2.484h1.945v6.282 c0,2.151,1.587,5.206,5.775,5.135c1.413-0.024,2.982-0.616,3.329-1.126L16.749,17.396z"></path></svg>',
+			'icon' => '<svg width="24" height="24" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><path d="M17.04 21.28h-3.28c-2.84 0-4.94-1.37-4.94-5.02v-5.67H6.08V7.5c2.93-.73 4.11-3.3 4.3-5.48h3.01v4.93h3.47v3.65H13.4v4.93c0 1.47.73 2.01 1.92 2.01h1.73v3.75z" /></path></svg>',
 		),
 		'twitch'        => array(
 			'name' => 'Twitch',
@@ -250,7 +241,7 @@ function block_core_social_link_services( $service = '', $field = '' ) {
 		),
 		'share'         => array(
 			'name' => 'Share Icon',
-			'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img" aria-hidden="true" focusable="false"><rect x="0" fill="none" width="20" height="20"/><g><path d="M14.5 12c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3c0-.24.03-.46.09-.69l-4.38-2.3c-.55.61-1.33.99-2.21.99-1.66 0-3-1.34-3-3s1.34-3 3-3c.88 0 1.66.39 2.21.99l4.38-2.3c-.06-.23-.09-.45-.09-.69 0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3c-.88 0-1.66-.39-2.21-.99l-4.38 2.3c.06.23.09.45.09.69s-.03.46-.09.69l4.38 2.3c.55-.61 1.33-.99 2.21-.99z"/></g></svg>',
+			'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 11.8l6.1-4.5c.1.4.4.7.9.7h2c.6 0 1-.4 1-1V5c0-.6-.4-1-1-1h-2c-.6 0-1 .4-1 1v.4l-6.4 4.8c-.2-.1-.4-.2-.6-.2H6c-.6 0-1 .4-1 1v2c0 .6.4 1 1 1h2c.2 0 .4-.1.6-.2l6.4 4.8v.4c0 .6.4 1 1 1h2c.6 0 1-.4 1-1v-2c0-.6-.4-1-1-1h-2c-.5 0-.8.3-.9.7L9 12.2v-.4z"/></svg>',
 		),
 	);
 

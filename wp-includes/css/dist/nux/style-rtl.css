@@ -8,7 +8,26 @@
  * Colors
  */
 /**
- * Often re-used variables
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block UI.
+ */
+/**
+ * Border radii.
  */
 /**
  * Breakpoint mixins
@@ -20,7 +39,7 @@
  * than the space allows.
  */
 /**
- * Button states and focus styles
+ * Focus styles.
  */
 /**
  * Applies editor left position to the selector passed as argument
@@ -38,6 +57,11 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+:root {
+  --wp-admin-theme-color: #007cba;
+  --wp-admin-theme-color-darker-10: #006ba1;
+  --wp-admin-theme-color-darker-20: #005a87; }
+
 .nux-dot-tip::before, .nux-dot-tip::after {
   border-radius: 100%;
   content: " ";
@@ -66,8 +90,9 @@
     transform: scale(1); } }
 
 .nux-dot-tip .components-popover__content {
-  padding: 5px 20px 5px 41px;
   width: 350px; }
+  .nux-dot-tip .components-popover__content > div {
+    padding: 20px 18px; }
   @media (min-width: 600px) {
     .nux-dot-tip .components-popover__content {
       width: 450px; } }

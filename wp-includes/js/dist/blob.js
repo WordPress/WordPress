@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["blob"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 280);
+/******/ 	return __webpack_require__(__webpack_require__.s = 278);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 280:
+/***/ 278:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -103,7 +103,7 @@ var _window$URL = window.URL,
     createObjectURL = _window$URL.createObjectURL,
     revokeObjectURL = _window$URL.revokeObjectURL;
 /**
- * @type {{[key: string]: File|undefined}}
+ * @type {Record<string, File|undefined>}
  */
 
 var cache = {};

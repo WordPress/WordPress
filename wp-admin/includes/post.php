@@ -2179,33 +2179,33 @@ function use_block_editor_for_post_type( $post_type ) {
 function get_block_categories( $post ) {
 	$default_categories = array(
 		array(
-			'slug'  => 'common',
-			'title' => __( 'Common Blocks' ),
+			'slug'  => 'text',
+			'title' => _x( 'Text', 'block category' ),
 			'icon'  => null,
 		),
 		array(
-			'slug'  => 'formatting',
-			'title' => __( 'Formatting' ),
+			'slug'  => 'media',
+			'title' => _x( 'Media', 'block category' ),
 			'icon'  => null,
 		),
 		array(
-			'slug'  => 'layout',
-			'title' => __( 'Layout Elements' ),
+			'slug'  => 'design',
+			'title' => _x( 'Design', 'block category' ),
 			'icon'  => null,
 		),
 		array(
 			'slug'  => 'widgets',
-			'title' => __( 'Widgets' ),
+			'title' => _x( 'Widgets', 'block category' ),
 			'icon'  => null,
 		),
 		array(
 			'slug'  => 'embed',
-			'title' => __( 'Embeds' ),
+			'title' => _x( 'Embeds', 'block category' ),
 			'icon'  => null,
 		),
 		array(
 			'slug'  => 'reusable',
-			'title' => __( 'Reusable Blocks' ),
+			'title' => _x( 'Reusable Blocks', 'block category' ),
 			'icon'  => null,
 		),
 	);

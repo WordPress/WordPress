@@ -1,0 +1,14 @@
+{
+	"name": "core/block",
+	"category": "reusable",
+	"attributes": {
+		"ref": {
+			"type": "number"
+		}
+	},
+	"supports": {
+		"customClassName": false,
+		"html": false,
+		"inserter": false
+	}
+}

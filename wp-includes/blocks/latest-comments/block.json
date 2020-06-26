@@ -1,0 +1,41 @@
+{
+	"name": "core/latest-comments",
+	"category": "widgets",
+	"attributes": {
+		"align": {
+			"type": "string",
+			"enum": [
+				"left",
+				"center",
+				"right",
+				"wide",
+				"full"
+			]
+		},
+		"className": {
+			"type": "string"
+		},
+		"commentsToShow": {
+			"type": "number",
+			"default": 5,
+			"minimum": 1,
+			"maximum": 100
+		},
+		"displayAvatar": {
+			"type": "boolean",
+			"default": true
+		},
+		"displayDate": {
+			"type": "boolean",
+			"default": true
+		},
+		"displayExcerpt": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"align": true,
+		"html": false
+	}
+}

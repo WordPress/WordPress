@@ -67,30 +67,9 @@ function render_block_core_search( $attributes ) {
  * Registers the `core/search` block on the server.
  */
 function register_block_core_search() {
-	register_block_type(
-		'core/search',
+	register_block_type_from_metadata(
+		__DIR__ . '/search',
 		array(
-			'attributes'      => array(
-				'align'       => array(
-					'type' => 'string',
-					'enum' => array( 'left', 'center', 'right', 'wide', 'full' ),
-				),
-				'className'   => array(
-					'type' => 'string',
-				),
-				'label'       => array(
-					'type'    => 'string',
-					'default' => __( 'Search' ),
-				),
-				'placeholder' => array(
-					'type'    => 'string',
-					'default' => '',
-				),
-				'buttonText'  => array(
-					'type'    => 'string',
-					'default' => __( 'Search' ),
-				),
-			),
 			'render_callback' => 'render_block_core_search',
 		)
 	);

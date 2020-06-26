@@ -8,11 +8,26 @@
  * Colors
  */
 /**
- * Often re-used variables
+ * Fonts & basic variables.
  */
 /**
  * Grid System.
  * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block UI.
+ */
+/**
+ * Border radii.
  */
 /**
  * Breakpoint mixins
@@ -24,7 +39,7 @@
  * than the space allows.
  */
 /**
- * Button states and focus styles
+ * Focus styles.
  */
 /**
  * Applies editor left position to the selector passed as argument
@@ -42,6 +57,14 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+:root {
+  --wp-admin-theme-color: #007cba;
+  --wp-admin-theme-color-darker-10: #006ba1;
+  --wp-admin-theme-color-darker-20: #005a87; }
+
+#start-resizable-editor-section {
+  display: none; }
+
 .wp-block-audio figcaption {
   color: #555d66;
   font-size: 13px;
@@ -49,7 +72,7 @@
 
 .wp-block-code {
   font-family: Menlo, Consolas, monaco, monospace;
-  font-size: 14px;
+  font-size: 15px;
   color: #23282d;
   padding: 0.8em 1em;
   border: 1px solid #e2e4e7;
@@ -85,6 +108,9 @@
 .wp-block-navigation ul,
 .wp-block-navigation ul li {
   list-style: none; }
+
+.wp-block-navigation-link.wp-block-navigation-link {
+  margin: 0; }
 
 .wp-block-quote {
   border-right: 4px solid #000;
@@ -149,3 +175,6 @@
   color: #555d66;
   font-size: 13px;
   text-align: center; }
+
+#end-resizable-editor-section {
+  display: none; }
