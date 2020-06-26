@@ -88,6 +88,7 @@ function list_core_update( $update ) {
 			);
 
 			$annotation = wp_get_update_php_annotation();
+
 			if ( $annotation ) {
 				$php_update_message .= '</p><p><em>' . $annotation . '</em>';
 			}

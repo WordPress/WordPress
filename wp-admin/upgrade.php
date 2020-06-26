@@ -82,9 +82,13 @@ elseif ( ! $php_compat || ! $mysql_compat ) :
 	);
 
 	/* translators: %s: URL to Update PHP page. */
-	$php_update_message = '</p><p>' . sprintf( __( '<a href="%s">Learn more about updating PHP</a>.' ), esc_url( wp_get_update_php_url() ) );
+	$php_update_message = '</p><p>' . sprintf(
+		__( '<a href="%s">Learn more about updating PHP</a>.' ),
+		esc_url( wp_get_update_php_url() )
+	);
 
 	$annotation = wp_get_update_php_annotation();
+
 	if ( $annotation ) {
 		$php_update_message .= '</p><p><em>' . $annotation . '</em>';
 	}

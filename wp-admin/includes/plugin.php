@@ -1148,32 +1148,52 @@ function validate_plugin_requirements( $plugin ) {
 	$compatible_wp  = is_wp_version_compatible( $requirements['requires'] );
 	$compatible_php = is_php_version_compatible( $requirements['requires_php'] );
 
+	/* translators: %s: URL to Update PHP page. */
+	$php_update_message = '</p><p>' . sprintf(
+		__( '<a href="%s">Learn more about updating PHP</a>.' ),
+		esc_url( wp_get_update_php_url() )
+	);
+
+	$annotation = wp_get_update_php_annotation();
+
+	if ( $annotation ) {
+		$php_update_message .= '</p><p><em>' . $annotation . '</em>';
+	}
+
 	if ( ! $compatible_wp && ! $compatible_php ) {
 		return new WP_Error(
 			'plugin_wp_php_incompatible',
-			sprintf(
-				/* translators: %s: Plugin name. */
-				_x( '<strong>Error:</strong> Current WordPress and PHP versions do not meet minimum requirements for %s.', 'plugin' ),
-				$plugin_headers['Name']
-			)
+			'<p>' . sprintf(
+				/* translators: 1: Current WordPress version, 2: Current PHP version, 3: Plugin name, 4: Required WordPress version, 5: Required PHP version. */
+				_x( '<strong>Error:</strong> Current versions of WordPress (%1$s) and PHP (%2$s) do not meet minimum requirements for %3$s. The plugin requires WordPress %4$s and PHP %5$s.', 'plugin' ),
+				get_bloginfo( 'version' ),
+				phpversion(),
+				$plugin_headers['Name'],
+				$requirements['requires'],
+				$requirements['requires_php']
+			) . $php_update_message . '</p>'
 		);
 	} elseif ( ! $compatible_php ) {
 		return new WP_Error(
 			'plugin_php_incompatible',
-			sprintf(
-				/* translators: %s: Plugin name. */
-				_x( '<strong>Error:</strong> Current PHP version does not meet minimum requirements for %s.', 'plugin' ),
-				$plugin_headers['Name']
-			)
+			'<p>' . sprintf(
+				/* translators: 1: Current PHP version, 2: Plugin name, 3: Required PHP version. */
+				_x( '<strong>Error:</strong> Current PHP version (%1$s) does not meet minimum requirements for %2$s. The plugin requires PHP %3$s.', 'plugin' ),
+				phpversion(),
+				$plugin_headers['Name'],
+				$requirements['requires_php']
+			) . $php_update_message . '</p>'
 		);
 	} elseif ( ! $compatible_wp ) {
 		return new WP_Error(
 			'plugin_wp_incompatible',
-			sprintf(
-				/* translators: %s: Plugin name. */
-				_x( '<strong>Error:</strong> Current WordPress version does not meet minimum requirements for %s.', 'plugin' ),
-				$plugin_headers['Name']
-			)
+			'<p>' . sprintf(
+				/* translators: 1: Current WordPress version, 2: Plugin name, 3: Required WordPress version. */
+				_x( '<strong>Error:</strong> Current WordPress version (%1$s) does not meet minimum requirements for %2$s. The plugin requires WordPress %3$s.', 'plugin' ),
+				get_bloginfo( 'version' ),
+				$plugin_headers['Name'],
+				$requirements['requires']
+			) . '</p>'
 		);
 	}
 
