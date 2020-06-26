@@ -435,7 +435,8 @@ function _wptexturize_pushpop_element( $text, &$stack, $disabled_elements ) {
  *
  * @param string $pee The text which has to be formatted.
  * @param bool   $br  Optional. If set, this will convert all remaining line-breaks
- *                    after paragraphing. Default true.
+ *                    after paragraphing. Line breaks within `<script>`, `<style>`,
+ *                    and `<svg>` tags are not affected. Default true.
  * @return string Text which has been converted into correct paragraph tags.
  */
 function wpautop( $pee, $br = true ) {
