@@ -160,8 +160,8 @@ class WP_HTTP_Proxy {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param string $uri URI to check.
-	 * @return bool True, to send through the proxy and false if, the proxy should not be used.
+	 * @param string $uri URL of the request.
+	 * @return bool Whether to send the request through the proxy.
 	 */
 	public function send_through_proxy( $uri ) {
 		$check = parse_url( $uri );
@@ -181,10 +181,10 @@ class WP_HTTP_Proxy {
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param bool|null $override Whether to override the request result. Default null.
-		 * @param string    $uri      URL to check.
-		 * @param array     $check    Associative array result of parsing the request URI.
-		 * @param array     $home     Associative array result of parsing the site URL.
+		 * @param bool|null $override Whether to send the request through the proxy. Default null.
+		 * @param string    $uri      URL of the request.
+		 * @param array     $check    Associative array result of parsing the request URL with `parse_url()`.
+		 * @param array     $home     Associative array result of parsing the site URL with `parse_url()`.
 		 */
 		$result = apply_filters( 'pre_http_send_through_proxy', null, $uri, $check, $home );
 		if ( ! is_null( $result ) ) {

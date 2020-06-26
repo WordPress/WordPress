@@ -850,7 +850,7 @@ function redirect_guess_404_permalink() {
 	 * Filters whether to attempt to guess a redirect URL for a 404 request.
 	 *
 	 * Passing a false value to the filter will disable the URL guessing
-	 * and return early.
+	 * and return early without performing a redirect.
 	 *
 	 * @since 5.5.0
 	 *
@@ -862,15 +862,15 @@ function redirect_guess_404_permalink() {
 	}
 
 	/**
-	 * Filters whether to short-circuit redirect URL guessing for 404 requests.
+	 * Short-circuits the redirect URL guessing for 404 requests.
 	 *
 	 * Passing a non-null value to the filter will effectively short-circuit
 	 * the URL guessing, returning the passed value instead.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param null|string $pre Whether to short-circuit redirect guess 404 permalink.
-	 *                         Default null to continue with the URL guessing.
+	 * @param null|string|false $pre Whether to short-circuit guessing the redirect for a 404.
+	 *                               Default null to continue with the URL guessing.
 	 */
 	$pre = apply_filters( 'pre_redirect_guess_404_permalink', null );
 	if ( null !== $pre ) {
@@ -879,13 +879,13 @@ function redirect_guess_404_permalink() {
 
 	if ( get_query_var( 'name' ) ) {
 		/**
-		 * Filters whether to perform a strict or loose guess.
+		 * Filters whether to perform a strict guess for a 404 redirect.
 		 *
 		 * Passing a truthy value to the filter will redirect only exact post_name matches.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param bool $strict_guess Whether to perform a strict/exact guess. Default false (loose guess).
+		 * @param bool $strict_guess Whether to perform a strict guess. Default false (loose guess).
 		 */
 		$strict_guess = apply_filters( 'strict_redirect_guess_404_permalink', false );
 

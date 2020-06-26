@@ -888,7 +888,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	 * @param mixed    $move_new_file If null (default) move the file after the upload.
 	 * @param string[] $file          An array of data for a single file.
 	 * @param string   $new_file      Filename of the newly-uploaded file.
-	 * @param string   $type          File type.
+	 * @param string   $type          Mime type of the newly-uploaded file.
 	 */
 	$move_new_file = apply_filters( 'pre_move_uploaded_file', null, $file, $new_file, $type );
 
@@ -940,8 +940,8 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	 *     Array of upload data.
 	 *
 	 *     @type string $file Filename of the newly-uploaded file.
-	 *     @type string $url  URL of the uploaded file.
-	 *     @type string $type File type.
+	 *     @type string $url  URL of the newly-uploaded file.
+	 *     @type string $type Mime type of the newly-uploaded file.
 	 * }
 	 * @param string $context The type of upload action. Values include 'upload' or 'sideload'.
 	 */

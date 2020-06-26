@@ -1011,9 +1011,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 *                              the version, author, author URI, and plugin URI.
 					 * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
 					 * @param array    $plugin_data An array of plugin data.
-					 * @param string   $status      Status of the plugin. Defaults are 'All', 'Active',
-					 *                              'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
-					 *                              'Drop-ins', 'Search', 'Paused'.
+					 * @param string   $status      Status filter currently applied to the plugin list. Possible
+					 *                              values are: 'all', 'active', 'inactive', 'recently_activated',
+					 *                              'upgrade', 'mustuse', 'dropins', 'search', 'paused',
+					 *                              'auto-update-enabled', 'auto-update-disabled'.
 					 */
 					$plugin_meta = apply_filters( 'plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $status );
 
@@ -1131,10 +1132,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		 *
 		 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
 		 * @param array  $plugin_data An array of plugin data.
-		 * @param string $status      Status of the plugin. Defaults are 'All', 'Active',
-		 *                            'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
-		 *                            'Drop-ins', 'Search', 'Paused', 'Auto-updates Enabled',
-		 *                            'Auto-updates Disabled'.
+		 * @param string $status      Status filter currently applied to the plugin list. Possible
+		 *                            values are: 'all', 'active', 'inactive', 'recently_activated',
+		 *                            'upgrade', 'mustuse', 'dropins', 'search', 'paused',
+		 *                            'auto-update-enabled', 'auto-update-disabled'.
 		 */
 		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $status );
 
@@ -1149,10 +1150,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		 *
 		 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
 		 * @param array  $plugin_data An array of plugin data.
-		 * @param string $status      Status of the plugin. Defaults are 'All', 'Active',
-		 *                            'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
-		 *                            'Drop-ins', 'Search', 'Paused', 'Auto-updates Enabled',
-		 *                            'Auto-updates Disabled'.
+		 * @param string $status      Status filter currently applied to the plugin list. Possible
+		 *                            values are: 'all', 'active', 'inactive', 'recently_activated',
+		 *                            'upgrade', 'mustuse', 'dropins', 'search', 'paused',
+		 *                            'auto-update-enabled', 'auto-update-disabled'.
 		 */
 		do_action( "after_plugin_row_{$plugin_file}", $plugin_file, $plugin_data, $status );
 	}
