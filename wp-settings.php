@@ -253,6 +253,7 @@ require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-users-controller.ph
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-comments-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-search-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-blocks-controller.php';
+require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-block-types-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-block-renderer-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-settings-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-themes-controller.php';
