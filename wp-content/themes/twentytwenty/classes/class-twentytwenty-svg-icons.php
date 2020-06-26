@@ -29,6 +29,30 @@ if ( ! class_exists( 'TwentyTwenty_SVG_Icons' ) ) {
 			} else {
 				$arr = array();
 			}
+
+			/**
+			 * Filters Twenty Twenty's array of icons.
+			 *
+			 * The dynamic portion of the hook name, `$group`, refers to
+			 * the name of the group of icons, either "ui" or "social".
+			 *
+			 * @since 1.5.0
+			 *
+			 * @param array $arr Array of icons.
+			 */
+			$arr = apply_filters( "twentytwenty_svg_icons_{$group}", $arr );
+
+			/**
+			 * Filters an SVG icon's color.
+			 *
+			 * @since 1.5.0
+			 *
+			 * @param array $color The icon color.
+			 * @param array $icon  The icon name.
+			 * @param array $group The icon group.
+			 */
+			$color = apply_filters( 'twentytwenty_svg_icon_color', $color, $icon, $group );
+
 			if ( array_key_exists( $icon, $arr ) ) {
 				$repl = '<svg class="svg-icon" aria-hidden="true" role="img" focusable="false" ';
 				$svg  = preg_replace( '/^<svg /', $repl, trim( $arr[ $icon ] ) ); // Add extra attributes to SVG code.
@@ -51,8 +75,29 @@ if ( ! class_exists( 'TwentyTwenty_SVG_Icons' ) ) {
 			static $regex_map; // Only compute regex map once, for performance.
 			if ( ! isset( $regex_map ) ) {
 				$regex_map = array();
-				$map       = &self::$social_icons_map; // Use reference instead of copy, to save memory.
-				foreach ( array_keys( self::$social_icons ) as $icon ) {
+
+				/**
+				 * Filters Twenty Twenty's array of domain mappings for social icons.
+				 *
+				 * By default, each Icon ID is matched against a .com TLD. To override this behavior,
+				 * specify all the domains it covers (including the .com TLD too, if applicable).
+				 *
+				 * @since 1.5.0
+				 *
+				 * @param array $social_icons_map Array of default social icons.
+				 */
+				$map = apply_filters( 'twentytwenty_social_icons_map', self::$social_icons_map );
+
+				/**
+				 * Filters Twenty Twenty's array of social icons.
+				 *
+				 * @since 1.5.0
+				 *
+				 * @param array $social_icons Array of default social icons.
+				 */
+				$social_icons = apply_filters( 'twentytwenty_svg_icons_social', self::$social_icons );
+
+				foreach ( array_keys( $social_icons ) as $icon ) {
 					$domains            = array_key_exists( $icon, $map ) ? $map[ $icon ] : array( sprintf( '%s.com', $icon ) );
 					$domains            = array_map( 'trim', $domains ); // Remove leading/trailing spaces, to prevent regex from failing to match.
 					$domains            = array_map( 'preg_quote', $domains );
