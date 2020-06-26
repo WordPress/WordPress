@@ -3418,7 +3418,6 @@ function update_object_term_cache( $object_ids, $object_type ) {
 		foreach ( $cache_values as $id => $value ) {
 			if ( false === $value ) {
 				$non_cached_ids[] = $id;
-				break;
 			}
 		}
 	}
@@ -3426,6 +3425,8 @@ function update_object_term_cache( $object_ids, $object_type ) {
 	if ( empty( $non_cached_ids ) ) {
 		return false;
 	}
+
+	$non_cached_ids = array_unique( $non_cached_ids );
 
 	$terms = wp_get_object_terms(
 		$non_cached_ids,
