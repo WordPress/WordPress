@@ -40,20 +40,20 @@ function get_option( $option, $default = false ) {
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
-	 * Returning a truthy value from the filter will short-circuit retrieving
-	 * the option value, returning the passed value instead.
+	 * Returning a truthy value from the filter will effectively short-circuit retrieval
+	 * and return the passed value instead.
 	 *
 	 * @since 1.5.0
 	 * @since 4.4.0 The `$option` parameter was added.
 	 * @since 4.9.0 The `$default` parameter was added.
 	 *
-	 * @param bool|mixed $pre_option The value to return instead of the option value. This differs from
-	 *                               `$default`, which is used as the fallback value in the event the option
-	 *                               doesn't exist elsewhere in get_option(). Default false (to skip past the
-	 *                               short-circuit).
-	 * @param string     $option     Option name.
-	 * @param mixed      $default    The fallback value to return if the option does not exist.
-	 *                               Default is false.
+	 * @param mixed  $pre_option The value to return instead of the option value. This differs
+	 *                           from `$default`, which is used as the fallback value in the event
+	 *                           the option doesn't exist elsewhere in get_option().
+	 *                           Default false (to skip past the short-circuit).
+	 * @param string $option     Option name.
+	 * @param mixed  $default    The fallback value to return if the option does not exist.
+	 *                           Default false.
 	 */
 	$pre = apply_filters( "pre_option_{$option}", false, $option, $default );
 
@@ -71,6 +71,7 @@ function get_option( $option, $default = false ) {
 	if ( ! wp_installing() ) {
 		// Prevent non-existent options from triggering multiple queries.
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
+
 		if ( isset( $notoptions[ $option ] ) ) {
 			/**
 			 * Filters the default value for an option.
@@ -107,6 +108,7 @@ function get_option( $option, $default = false ) {
 					if ( ! is_array( $notoptions ) ) {
 						$notoptions = array();
 					}
+
 					$notoptions[ $option ] = true;
 					wp_cache_set( 'notoptions', $notoptions, 'options' );
 
@@ -119,6 +121,7 @@ function get_option( $option, $default = false ) {
 		$suppress = $wpdb->suppress_errors();
 		$row      = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
 		$wpdb->suppress_errors( $suppress );
+
 		if ( is_object( $row ) ) {
 			$value = $row->option_value;
 		} else {
@@ -228,6 +231,7 @@ function wp_load_alloptions( $force_cache = false ) {
 			 * @param array $alloptions Array with all options.
 			 */
 			$alloptions = apply_filters( 'pre_cache_alloptions', $alloptions );
+
 			wp_cache_add( 'alloptions', $alloptions, 'options' );
 		}
 	}
@@ -393,6 +397,7 @@ function update_option( $option, $value, $autoload = null ) {
 	}
 
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
+
 	if ( is_array( $notoptions ) && isset( $notoptions[ $option ] ) ) {
 		unset( $notoptions[ $option ] );
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
@@ -432,6 +437,7 @@ function update_option( $option, $value, $autoload = null ) {
 	 * @param mixed  $value     The new option value.
 	 */
 	do_action( 'updated_option', $option, $old_value, $value );
+
 	return true;
 }
 
@@ -482,6 +488,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	// Make sure the option doesn't already exist.
 	// We can check the 'notoptions' cache before we ask for a DB query.
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
+
 	if ( ! is_array( $notoptions ) || ! isset( $notoptions[ $option ] ) ) {
 		/** This filter is documented in wp-includes/option.php */
 		if ( apply_filters( "default_option_{$option}", false, $option, false ) !== get_option( $option ) ) {
@@ -519,6 +526,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 
 	// This option exists now.
 	$notoptions = wp_cache_get( 'notoptions', 'options' ); // Yes, again... we need it to be fresh.
+
 	if ( is_array( $notoptions ) && isset( $notoptions[ $option ] ) ) {
 		unset( $notoptions[ $option ] );
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
@@ -546,6 +554,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	 * @param mixed  $value  Value of the option.
 	 */
 	do_action( 'added_option', $option, $value );
+
 	return true;
 }
 
@@ -585,6 +594,7 @@ function delete_option( $option ) {
 	do_action( 'delete_option', $option );
 
 	$result = $wpdb->delete( $wpdb->options, array( 'option_name' => $option ) );
+
 	if ( ! wp_installing() ) {
 		if ( 'yes' === $row->autoload ) {
 			$alloptions = wp_load_alloptions( true );
@@ -596,6 +606,7 @@ function delete_option( $option ) {
 			wp_cache_delete( $option, 'options' );
 		}
 	}
+
 	if ( $result ) {
 
 		/**
@@ -617,8 +628,10 @@ function delete_option( $option ) {
 		 * @param string $option Name of the deleted option.
 		 */
 		do_action( 'deleted_option', $option );
+
 		return true;
 	}
+
 	return false;
 }
 
@@ -649,6 +662,7 @@ function delete_transient( $transient ) {
 		$option_timeout = '_transient_timeout_' . $transient;
 		$option         = '_transient_' . $transient;
 		$result         = delete_option( $option );
+
 		if ( $result ) {
 			delete_option( $option_timeout );
 		}
@@ -683,22 +697,23 @@ function delete_transient( $transient ) {
 function get_transient( $transient ) {
 
 	/**
-	 * Filters the value of an existing transient.
+	 * Filters the value of an existing transient before it is retrieved.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * Returning a truthy value from the filter will effectively short-circuit retrieval
-	 * of the transient, returning the passed value instead.
+	 * and return the passed value instead.
 	 *
 	 * @since 2.8.0
 	 * @since 4.4.0 The `$transient` parameter was added
 	 *
 	 * @param mixed  $pre_transient The default value to return if the transient does not exist.
 	 *                              Any value other than false will short-circuit the retrieval
-	 *                              of the transient, and return the returned value.
+	 *                              of the transient, and return that value.
 	 * @param string $transient     Transient name.
 	 */
 	$pre = apply_filters( "pre_transient_{$transient}", false, $transient );
+
 	if ( false !== $pre ) {
 		return $pre;
 	}
@@ -792,6 +807,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 	} else {
 		$transient_timeout = '_transient_timeout_' . $transient;
 		$transient_option  = '_transient_' . $transient;
+
 		if ( false === get_option( $transient_option ) ) {
 			$autoload = 'yes';
 			if ( $expiration ) {
@@ -803,6 +819,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 			// If expiration is requested, but the transient has no timeout option,
 			// delete, then re-create transient rather than update.
 			$update = true;
+
 			if ( $expiration ) {
 				if ( false === get_option( $transient_timeout ) ) {
 					delete_option( $transient_option );
@@ -813,6 +830,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 					update_option( $transient_timeout, time() + $expiration );
 				}
 			}
+
 			if ( $update ) {
 				$result = update_option( $transient_option, $value );
 			}
@@ -848,6 +866,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 		 */
 		do_action( 'setted_transient', $transient, $value, $expiration );
 	}
+
 	return $result;
 }
 
@@ -1233,7 +1252,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 	}
 
 	/**
-	 * Filters an existing network option before it is retrieved.
+	 * Filters the value of an existing network option before it is retrieved.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -1246,14 +1265,14 @@ function get_network_option( $network_id, $option, $default = false ) {
 	 * @since 4.7.0 The `$network_id` parameter was added.
 	 * @since 4.9.0 The `$default` parameter was added.
 	 *
-	 * @param mixed  $pre_option The value to return instead of the option value. This differs from
-	 *                           `$default`, which is used as the fallback value in the event the
-	 *                           option doesn't exist elsewhere in get_network_option(). Default
-	 *                           is false (to skip past the short-circuit).
+	 * @param mixed  $pre_option The value to return instead of the option value. This differs
+	 *                           from `$default`, which is used as the fallback value in the event
+	 *                           the option doesn't exist elsewhere in get_network_option().
+	 *                           Default false (to skip past the short-circuit).
 	 * @param string $option     Option name.
 	 * @param int    $network_id ID of the network.
 	 * @param mixed  $default    The fallback value to return if the option does not exist.
-	 *                           Default is false.
+	 *                           Default false.
 	 */
 	$pre = apply_filters( "pre_site_option_{$option}", false, $option, $network_id, $default );
 
@@ -1304,6 +1323,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 				if ( ! is_array( $notoptions ) ) {
 					$notoptions = array();
 				}
+
 				$notoptions[ $option ] = true;
 				wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
 
@@ -1393,6 +1413,7 @@ function add_network_option( $network_id, $option, $value ) {
 		// Make sure the option doesn't already exist.
 		// We can check the 'notoptions' cache before we ask for a DB query.
 		$notoptions = wp_cache_get( $notoptions_key, 'site-options' );
+
 		if ( ! is_array( $notoptions ) || ! isset( $notoptions[ $option ] ) ) {
 			if ( false !== get_network_option( $network_id, $option, false ) ) {
 				return false;
@@ -1419,6 +1440,7 @@ function add_network_option( $network_id, $option, $value ) {
 
 		// This option exists now.
 		$notoptions = wp_cache_get( $notoptions_key, 'site-options' ); // Yes, again... we need it to be fresh.
+
 		if ( is_array( $notoptions ) && isset( $notoptions[ $option ] ) ) {
 			unset( $notoptions[ $option ] );
 			wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
@@ -1621,6 +1643,7 @@ function update_network_option( $network_id, $option, $value ) {
 
 	$notoptions_key = "$network_id:notoptions";
 	$notoptions     = wp_cache_get( $notoptions_key, 'site-options' );
+
 	if ( is_array( $notoptions ) && isset( $notoptions[ $option ] ) ) {
 		unset( $notoptions[ $option ] );
 		wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
@@ -1711,10 +1734,12 @@ function delete_site_transient( $transient ) {
 		$option_timeout = '_site_transient_timeout_' . $transient;
 		$option         = '_site_transient_' . $transient;
 		$result         = delete_site_option( $option );
+
 		if ( $result ) {
 			delete_site_option( $option_timeout );
 		}
 	}
+
 	if ( $result ) {
 
 		/**
@@ -1746,7 +1771,7 @@ function delete_site_transient( $transient ) {
 function get_site_transient( $transient ) {
 
 	/**
-	 * Filters the value of an existing site transient.
+	 * Filters the value of an existing site transient before it is retrieved.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
@@ -1758,7 +1783,7 @@ function get_site_transient( $transient ) {
 	 *
 	 * @param mixed  $pre_site_transient The default value to return if the site transient does not exist.
 	 *                                   Any value other than false will short-circuit the retrieval
-	 *                                   of the transient, and return the returned value.
+	 *                                   of the transient, and return that value.
 	 * @param string $transient          Transient name.
 	 */
 	$pre = apply_filters( "pre_site_transient_{$transient}", false, $transient );
@@ -1853,6 +1878,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 	} else {
 		$transient_timeout = '_site_transient_timeout_' . $transient;
 		$option            = '_site_transient_' . $transient;
+
 		if ( false === get_site_option( $option ) ) {
 			if ( $expiration ) {
 				add_site_option( $transient_timeout, time() + $expiration );
@@ -1865,6 +1891,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 			$result = update_site_option( $option, $value );
 		}
 	}
+
 	if ( $result ) {
 
 		/**
@@ -1892,6 +1919,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 		 */
 		do_action( 'setted_site_transient', $transient, $value, $expiration );
 	}
+
 	return $result;
 }
 
@@ -2143,6 +2171,7 @@ function register_setting( $option_group, $option_name, $args = array() ) {
 	 * @param string $option_name  Setting name.
 	 */
 	$args = apply_filters( 'register_setting_args', $args, $defaults, $option_group, $option_name );
+
 	$args = wp_parse_args( $args, $defaults );
 
 	// Require an item schema when registering settings with an array type.
