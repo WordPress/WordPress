@@ -293,7 +293,11 @@ if ( 'post' === $post_type ) {
 	$title_and_editor .= '<p>' . __( 'The Text mode allows you to enter HTML along with your post text. Note that &lt;p&gt; and &lt;br&gt; tags are converted to line breaks when switching to the Text editor to make it less cluttered. When you type, a single line break can be used instead of typing &lt;br&gt;, and two line breaks instead of paragraph tags. The line breaks are converted back to tags automatically.' ) . '</p>';
 	$title_and_editor .= '<p>' . __( 'You can insert media files by clicking the button above the post editor and following the directions. You can align or edit images using the inline formatting toolbar available in Visual mode.' ) . '</p>';
 	$title_and_editor .= '<p>' . __( 'You can enable distraction-free writing mode using the icon to the right. This feature is not available for old browsers or devices with small screens, and requires that the full-height editor be enabled in Screen Options.' ) . '</p>';
-	$title_and_editor .= '<p>' . __( 'Keyboard users: When you&#8217;re working in the visual editor, you can use <kbd>Alt + F10</kbd> to access the toolbar.' ) . '</p>';
+	$title_and_editor .= '<p>' . sprintf(
+		/* translators: %s: Alt + F10 */
+		__( 'Keyboard users: When you&#8217;re working in the visual editor, you can use %s to access the toolbar.' ),
+		'<kbd>Alt + F10</kbd>'
+	) . '</p>';
 
 	get_current_screen()->add_help_tab(
 		array(
