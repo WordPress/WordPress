@@ -223,7 +223,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param mixed           $support The raw value from {@see get_theme_support()}
+	 * @param mixed           $support The raw value from get_theme_support().
 	 * @param array           $args    The feature's registration args.
 	 * @param string          $feature The feature name.
 	 * @param WP_REST_Request $request The request object.

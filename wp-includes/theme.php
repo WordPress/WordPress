@@ -19,13 +19,16 @@
  * @param array $args {
  *     Optional. The search arguments.
  *
- *     @type mixed $errors  True to return themes with errors, false to return themes without errors, null to return all themes.
- *                          Defaults to false.
- *     @type mixed $allowed (Multisite) True to return only allowed themes for a site. False to return only disallowed themes for a site.
- *                          'site' to return only site-allowed themes. 'network' to return only network-allowed themes.
- *                          Null to return all themes. Defaults to null.
- *     @type int   $blog_id (Multisite) The blog ID used to calculate which themes are allowed.
- *                          Defaults to 0, synonymous for the current blog.
+ *     @type mixed $errors  True to return themes with errors, false to return
+ *                          themes without errors, null to return all themes.
+ *                          Default false.
+ *     @type mixed $allowed (Multisite) True to return only allowed themes for a site.
+ *                          False to return only disallowed themes for a site.
+ *                          'site' to return only site-allowed themes.
+ *                          'network' to return only network-allowed themes.
+ *                          Null to return all themes. Default null.
+ *     @type int   $blog_id (Multisite) The blog ID used to calculate which themes
+ *                          are allowed. Default 0, synonymous for the current blog.
  * }
  * @return WP_Theme[] Array of WP_Theme objects.
  */
@@ -102,10 +105,12 @@ function wp_get_themes( $args = array() ) {
  *
  * @global array $wp_theme_directories
  *
- * @param string $stylesheet Directory name for the theme. Optional. Defaults to current theme.
- * @param string $theme_root Absolute path of the theme root to look in. Optional. If not specified, get_raw_theme_root()
- *                           is used to calculate the theme root for the $stylesheet provided (or current theme).
- * @return WP_Theme Theme object. Be sure to check the object's exists() method if you need to confirm the theme's existence.
+ * @param string $stylesheet Optional. Directory name for the theme. Defaults to current theme.
+ * @param string $theme_root Optional. Absolute path of the theme root to look in.
+ *                           If not specified, get_raw_theme_root() is used to calculate
+ *                           the theme root for the $stylesheet provided (or current theme).
+ * @return WP_Theme Theme object. Be sure to check the object's exists() method
+ *                  if you need to confirm the theme's existence.
  */
 function wp_get_theme( $stylesheet = '', $theme_root = '' ) {
 	global $wp_theme_directories;
@@ -130,7 +135,7 @@ function wp_get_theme( $stylesheet = '', $theme_root = '' ) {
  * Clears the cache held by get_theme_roots() and WP_Theme.
  *
  * @since 3.5.0
- * @param bool $clear_update_cache Whether to clear the Theme updates cache
+ * @param bool $clear_update_cache Whether to clear the theme updates cache.
  */
 function wp_clean_themes_cache( $clear_update_cache = true ) {
 	if ( $clear_update_cache ) {
@@ -147,7 +152,7 @@ function wp_clean_themes_cache( $clear_update_cache = true ) {
  *
  * @since 3.0.0
  *
- * @return bool true if a child theme is in use, false otherwise.
+ * @return bool True if a child theme is in use, false otherwise.
  */
 function is_child_theme() {
 	return ( TEMPLATEPATH !== STYLESHEETPATH );
@@ -156,11 +161,10 @@ function is_child_theme() {
 /**
  * Retrieves name of the current stylesheet.
  *
- * The theme name that the administrator has currently set the front end theme
- * as.
+ * The theme name that is currently set as the front end theme.
  *
- * For all intents and purposes, the template name and the stylesheet name are
- * going to be the same for most cases.
+ * For all intents and purposes, the template name and the stylesheet name
+ * are going to be the same for most cases.
  *
  * @since 1.5.0
  *
@@ -360,13 +364,14 @@ function get_template_directory_uri() {
 }
 
 /**
- * Retrieve theme roots.
+ * Retrieves theme roots.
  *
  * @since 2.9.0
  *
  * @global array $wp_theme_directories
  *
- * @return array|string An array of theme roots keyed by template/stylesheet or a single theme root if all themes have the same root.
+ * @return array|string An array of theme roots keyed by template/stylesheet
+ *                      or a single theme root if all themes have the same root.
  */
 function get_theme_roots() {
 	global $wp_theme_directories;
@@ -384,13 +389,14 @@ function get_theme_roots() {
 }
 
 /**
- * Register a directory that contains themes.
+ * Registers a directory that contains themes.
  *
  * @since 2.9.0
  *
  * @global array $wp_theme_directories
  *
- * @param string $directory Either the full filesystem path to a theme folder or a folder within WP_CONTENT_DIR
+ * @param string $directory Either the full filesystem path to a theme folder
+ *                          or a folder within WP_CONTENT_DIR.
  * @return bool
  */
 function register_theme_directory( $directory ) {
@@ -418,14 +424,14 @@ function register_theme_directory( $directory ) {
 }
 
 /**
- * Search all registered theme directories for complete and valid themes.
+ * Searches all registered theme directories for complete and valid themes.
  *
  * @since 2.9.0
  *
  * @global array $wp_theme_directories
  *
- * @param bool $force Optional. Whether to force a new directory scan. Defaults to false.
- * @return array|false Valid themes found
+ * @param bool $force Optional. Whether to force a new directory scan. Default false.
+ * @return array|false Valid themes found on success, false on failure.
  */
 function search_theme_directories( $force = false ) {
 	global $wp_theme_directories;
@@ -463,9 +469,10 @@ function search_theme_directories( $force = false ) {
 	 * @since 3.4.0
 	 *
 	 * @param bool   $cache_expiration Whether to get the cache of the theme directories. Default false.
-	 * @param string $cache_directory  Directory to be searched for the cache.
+	 * @param string $context          The class or function name calling the filter.
 	 */
 	$cache_expiration = apply_filters( 'wp_cache_themes_persistently', false, 'search_theme_directories' );
+
 	if ( $cache_expiration ) {
 		$cached_roots = get_site_transient( 'theme_roots' );
 		if ( is_array( $cached_roots ) ) {
@@ -559,7 +566,7 @@ function search_theme_directories( $force = false ) {
 }
 
 /**
- * Retrieve path to themes directory.
+ * Retrieves path to themes directory.
  *
  * Does not have trailing slash.
  *
@@ -602,7 +609,7 @@ function get_theme_root( $stylesheet_or_template = '' ) {
 }
 
 /**
- * Retrieve URI for themes directory.
+ * Retrieves URI for themes directory.
  *
  * Does not have trailing slash.
  *
@@ -655,7 +662,7 @@ function get_theme_root_uri( $stylesheet_or_template = '', $theme_root = '' ) {
 }
 
 /**
- * Get the raw theme root relative to the content directory with no filters applied.
+ * Gets the raw theme root relative to the content directory with no filters applied.
  *
  * @since 3.1.0
  *
@@ -695,7 +702,7 @@ function get_raw_theme_root( $stylesheet_or_template, $skip_cache = false ) {
 }
 
 /**
- * Display localized stylesheet link element.
+ * Displays localized stylesheet link element.
  *
  * @since 2.1.0
  */
@@ -726,7 +733,7 @@ function locale_stylesheet() {
  * @global WP_Customize_Manager $wp_customize
  * @global array                $sidebars_widgets
  *
- * @param string $stylesheet Stylesheet name
+ * @param string $stylesheet Stylesheet name.
  */
 function switch_theme( $stylesheet ) {
 	global $wp_theme_directories, $wp_customize, $sidebars_widgets;
@@ -828,8 +835,8 @@ function switch_theme( $stylesheet ) {
  * But if it doesn't exist, it'll fall back to the latest core default theme that does exist.
  * Will switch theme to the fallback theme if current theme does not validate.
  *
- * You can use the {@see 'validate_current_theme'} filter to return false to
- * disable this functionality.
+ * You can use the {@see 'validate_current_theme'} filter to return false to disable
+ * this functionality.
  *
  * @since 1.5.0
  *
@@ -869,6 +876,7 @@ function validate_current_theme() {
 	/**
 	 * If we're in an invalid state but WP_DEFAULT_THEME doesn't exist,
 	 * switch to the latest core default theme that's installed.
+	 *
 	 * If it turns out that this latest core default theme is our current
 	 * theme, then there's nothing we can do about that, so we have to bail,
 	 * rather than going into an infinite loop. (This is why there are
@@ -957,7 +965,7 @@ function validate_theme_requirements( $stylesheet ) {
 }
 
 /**
- * Retrieve all theme modifications.
+ * Retrieves all theme modifications.
  *
  * @since 3.1.0
  *
@@ -981,7 +989,7 @@ function get_theme_mods() {
 }
 
 /**
- * Retrieve theme modification value for the current theme.
+ * Retrieves theme modification value for the current theme.
  *
  * If the modification name does not exist, then the $default will be passed
  * through {@link https://www.php.net/sprintf sprintf()} PHP function with
@@ -1024,7 +1032,7 @@ function get_theme_mod( $name, $default = false ) {
 }
 
 /**
- * Update theme modification value for the current theme.
+ * Updates theme modification value for the current theme.
  *
  * @since 2.1.0
  *
@@ -1054,10 +1062,10 @@ function set_theme_mod( $name, $value ) {
 }
 
 /**
- * Remove theme modification name from current theme list.
+ * Removes theme modification name from current theme list.
  *
- * If removing the name also removes all elements, then the entire option will
- * be removed.
+ * If removing the name also removes all elements, then the entire option
+ * will be removed.
  *
  * @since 2.1.0
  *
@@ -1081,7 +1089,7 @@ function remove_theme_mod( $name ) {
 }
 
 /**
- * Remove theme modifications option for current theme.
+ * Removes theme modifications option for current theme.
  *
  * @since 2.1.0
  */
@@ -1133,7 +1141,7 @@ function display_header_text() {
 }
 
 /**
- * Check whether a header image is set or not.
+ * Checks whether a header image is set or not.
  *
  * @since 4.2.0
  *
@@ -1146,7 +1154,7 @@ function has_header_image() {
 }
 
 /**
- * Retrieve header image for custom header.
+ * Retrieves header image for custom header.
  *
  * @since 2.1.0
  *
@@ -1167,7 +1175,7 @@ function get_header_image() {
 }
 
 /**
- * Create image tag markup for a custom header image.
+ * Creates image tag markup for a custom header image.
  *
  * @since 4.4.0
  *
@@ -1234,7 +1242,7 @@ function get_header_image_tag( $attr = array() ) {
 }
 
 /**
- * Display the image markup for a custom header image.
+ * Displays the image markup for a custom header image.
  *
  * @since 4.4.0
  *
@@ -1245,13 +1253,13 @@ function the_header_image_tag( $attr = array() ) {
 }
 
 /**
- * Get random header image data from registered images in theme.
+ * Gets random header image data from registered images in theme.
  *
  * @since 3.4.0
  *
  * @access private
  *
- * @global array  $_wp_default_headers
+ * @global array $_wp_default_headers
  *
  * @return object
  */
@@ -1289,11 +1297,11 @@ function _get_random_header_data() {
 }
 
 /**
- * Get random header image url from registered images in theme.
+ * Gets random header image URL from registered images in theme.
  *
  * @since 3.2.0
  *
- * @return string Path to header image
+ * @return string Path to header image.
  */
 function get_random_header_image() {
 	$random_image = _get_random_header_data();
@@ -1306,7 +1314,7 @@ function get_random_header_image() {
 }
 
 /**
- * Check if random header image is in use.
+ * Checks if random header image is in use.
  *
  * Always true if user expressly chooses the option in Appearance > Header.
  * Also true if theme has multiple header images registered, no specific header image
@@ -1314,7 +1322,8 @@ function get_random_header_image() {
  *
  * @since 3.2.0
  *
- * @param string $type The random pool to use. any|default|uploaded
+ * @param string $type The random pool to use. Possible values include 'any',
+ *                     'default', 'uploaded'. Default 'any'.
  * @return bool
  */
 function is_random_header_image( $type = 'any' ) {
@@ -1339,7 +1348,7 @@ function is_random_header_image( $type = 'any' ) {
 }
 
 /**
- * Display header image URL.
+ * Displays header image URL.
  *
  * @since 2.1.0
  */
@@ -1352,7 +1361,7 @@ function header_image() {
 }
 
 /**
- * Get the header images uploaded for the current theme.
+ * Gets the header images uploaded for the current theme.
  *
  * @since 3.2.0
  *
@@ -1400,7 +1409,7 @@ function get_uploaded_header_images() {
 }
 
 /**
- * Get the header image data.
+ * Gets the header image data.
  *
  * @since 3.4.0
  *
@@ -1445,7 +1454,7 @@ function get_custom_header() {
 }
 
 /**
- * Register a selection of default headers to be displayed by the custom header admin UI.
+ * Registers a selection of default headers to be displayed by the custom header admin UI.
  *
  * @since 3.0.0
  *
@@ -1461,7 +1470,7 @@ function register_default_headers( $headers ) {
 }
 
 /**
- * Unregister default headers.
+ * Unregisters default headers.
  *
  * This function must be called after register_default_headers() has already added the
  * header you want to remove.
@@ -1488,7 +1497,7 @@ function unregister_default_headers( $header ) {
 }
 
 /**
- * Check whether a header video is set or not.
+ * Checks whether a header video is set or not.
  *
  * @since 4.7.0
  *
@@ -1501,7 +1510,7 @@ function has_header_video() {
 }
 
 /**
- * Retrieve header video URL for custom header.
+ * Retrieves header video URL for custom header.
  *
  * Uses a local video if present, or falls back to an external video.
  *
@@ -1536,7 +1545,7 @@ function get_header_video_url() {
 }
 
 /**
- * Display header video URL.
+ * Displays header video URL.
  *
  * @since 4.7.0
  */
@@ -1549,7 +1558,7 @@ function the_header_video_url() {
 }
 
 /**
- * Retrieve header video settings.
+ * Retrieves header video settings.
  *
  * @since 4.7.0
  *
@@ -1593,7 +1602,7 @@ function get_header_video_settings() {
 }
 
 /**
- * Check whether a custom header is set or not.
+ * Checks whether a custom header is set or not.
  *
  * @since 4.7.0
  *
@@ -1628,7 +1637,7 @@ function is_header_video_active() {
 	}
 
 	/**
-	 * Modify whether the custom header video is eligible to show on the current page.
+	 * Filters whether the custom header video is eligible to show on the current page.
 	 *
 	 * @since 4.7.0
 	 *
@@ -1640,7 +1649,7 @@ function is_header_video_active() {
 }
 
 /**
- * Retrieve the markup for a custom header.
+ * Retrieves the markup for a custom header.
  *
  * The container div will always be returned in the Customizer preview.
  *
@@ -1660,7 +1669,7 @@ function get_custom_header_markup() {
 }
 
 /**
- * Print the markup for a custom header.
+ * Prints the markup for a custom header.
  *
  * A container div will always be printed in the Customizer preview.
  *
@@ -1681,7 +1690,7 @@ function the_custom_header_markup() {
 }
 
 /**
- * Retrieve background image for custom background.
+ * Retrieves background image for custom background.
  *
  * @since 3.0.0
  *
@@ -1692,7 +1701,7 @@ function get_background_image() {
 }
 
 /**
- * Display background image path.
+ * Displays background image path.
  *
  * @since 3.0.0
  */
@@ -1701,7 +1710,7 @@ function background_image() {
 }
 
 /**
- * Retrieve value for custom background color.
+ * Retrieves value for custom background color.
  *
  * @since 3.0.0
  *
@@ -1712,7 +1721,7 @@ function get_background_color() {
 }
 
 /**
- * Display background color value.
+ * Displays background color value.
  *
  * @since 3.0.0
  */
@@ -1802,7 +1811,7 @@ body.custom-background { <?php echo trim( $style ); ?> }
 }
 
 /**
- * Render the Custom CSS style element.
+ * Renders the Custom CSS style element.
  *
  * @since 4.7.0
  */
@@ -1819,7 +1828,7 @@ function wp_custom_css_cb() {
 }
 
 /**
- * Fetch the `custom_css` post for a given theme.
+ * Fetches the `custom_css` post for a given theme.
  *
  * @since 4.7.0
  *
@@ -1870,7 +1879,7 @@ function wp_get_custom_css_post( $stylesheet = '' ) {
 }
 
 /**
- * Fetch the saved Custom CSS content for rendering.
+ * Fetches the saved Custom CSS content for rendering.
  *
  * @since 4.7.0
  *
@@ -1903,7 +1912,7 @@ function wp_get_custom_css( $stylesheet = '' ) {
 }
 
 /**
- * Update the `custom_css` post for a given theme.
+ * Updates the `custom_css` post for a given theme.
  *
  * Inserts a `custom_css` post when one doesn't yet exist.
  *
@@ -2003,7 +2012,7 @@ function wp_update_custom_css_post( $css, $args = array() ) {
 }
 
 /**
- * Add callback for custom TinyMCE editor stylesheets.
+ * Adds callback for custom TinyMCE editor stylesheets.
  *
  * The parameter $stylesheet is the name of the stylesheet, relative to
  * the theme root. It also accepts an array of stylesheets.
@@ -2061,7 +2070,7 @@ function remove_editor_styles() {
 }
 
 /**
- * Retrieve any registered editor stylesheet URLs.
+ * Retrieves any registered editor stylesheet URLs.
  *
  * @since 4.0.0
  *
@@ -2117,7 +2126,7 @@ function get_editor_stylesheets() {
 }
 
 /**
- * Expand a theme's starter content configuration using core-provided data.
+ * Expands a theme's starter content configuration using core-provided data.
  *
  * @since 4.7.0
  *
@@ -2833,8 +2842,8 @@ function remove_theme_support( $feature ) {
 }
 
 /**
- * Do not use. Removes theme support internally without knowledge of those not used by
- * themes directly.
+ * Do not use. Removes theme support internally without knowledge of those not used
+ * by themes directly.
  *
  * @access private
  * @since 3.1.0
@@ -2994,31 +3003,41 @@ function require_if_theme_supports( $feature, $include ) {
 }
 
 /**
- * Registers a theme feature for use in {@see add_theme_support}.
+ * Registers a theme feature for use in add_theme_support().
  *
- * This does not indicate that the current theme supports the feature, it only describes the feature's supported options.
+ * This does not indicate that the current theme supports the feature, it only describes
+ * the feature's supported options.
  *
  * @since 5.5.0
+ *
+ * @see add_theme_support()
  *
  * @global $_wp_registered_theme_features
  *
  * @param string $feature The name uniquely identifying the feature.
  * @param array $args {
- *      Data used to describe the theme
+ *      Data used to describe the theme.
  *
- *      @type string     $type         The type of data associated with this feature. Defaults to 'boolean'.
- *                                     Valid values are 'string', 'boolean', 'integer', 'number', 'array', and 'object'.
- *      @type boolean    $variadic     Does this feature utilize the variadic support of {@see add_theme_support()},
- *                                     or are all arguments specified as the second parameter. Must be used with the "array" type.
- *      @type string     $description  A short description of the feature. Included in the Themes REST API schema. Intended for developers.
+ *      @type string     $type         The type of data associated with this feature.
+ *                                     Valid values are 'string', 'boolean', 'integer',
+ *                                     'number', 'array', and 'object'. Defaults to 'boolean'.
+ *      @type boolean    $variadic     Does this feature utilize the variadic support
+ *                                     of add_theme_support(), or are all arguments specified
+ *                                     as the second parameter. Must be used with the "array" type.
+ *      @type string     $description  A short description of the feature. Included in
+ *                                     the Themes REST API schema. Intended for developers.
  *      @type bool|array $show_in_rest {
- *          Whether this feature should be included in the Themes REST API endpoint. Defaults to not being included.
- *          When registering an 'array' or 'object' type, this argument must be an array with the 'schema' key.
+ *          Whether this feature should be included in the Themes REST API endpoint.
+ *          Defaults to not being included. When registering an 'array' or 'object' type,
+ *          this argument must be an array with the 'schema' key.
  *
- *          @type array    $schema           Specifies the JSON Schema definition describing the feature. If any objects in the schema
- *                                           do not include the 'additionalProperties' keyword, it is set to false.
- *          @type string   $name             An alternate name to be use as the property name in the REST API.
- *          @type callable $prepare_callback A function used to format the theme support in the REST API. Receives the raw theme support value.
+ *          @type array    $schema           Specifies the JSON Schema definition describing
+ *                                           the feature. If any objects in the schema do not include
+ *                                           the 'additionalProperties' keyword, it is set to false.
+ *          @type string   $name             An alternate name to be used as the property name
+ *                                           in the REST API.
+ *          @type callable $prepare_callback A function used to format the theme support in the REST API.
+ *                                           Receives the raw theme support value.
  *      }
  * }
  * @return true|WP_Error True if the theme feature was successfully registered, a WP_Error object if not.
@@ -3055,30 +3074,48 @@ function register_theme_feature( $feature, $args = array() ) {
 	}
 
 	if ( ! in_array( $args['type'], array( 'string', 'boolean', 'integer', 'number', 'array', 'object' ), true ) ) {
-		return new WP_Error( 'invalid_type', __( 'The feature "type" is not valid JSON Schema type.' ) );
+		return new WP_Error(
+			'invalid_type',
+			__( 'The feature "type" is not valid JSON Schema type.' )
+		);
 	}
 
 	if ( true === $args['variadic'] && 'array' !== $args['type'] ) {
-		return new WP_Error( 'variadic_must_be_array', __( 'When registering a "variadic" theme feature, the "type" must be an "array".' ) );
+		return new WP_Error(
+			'variadic_must_be_array',
+			__( 'When registering a "variadic" theme feature, the "type" must be an "array".' )
+		);
 	}
 
 	if ( false !== $args['show_in_rest'] && in_array( $args['type'], array( 'array', 'object' ), true ) ) {
 		if ( ! is_array( $args['show_in_rest'] ) || empty( $args['show_in_rest']['schema'] ) ) {
-			return new WP_Error( 'missing_schema', __( 'When registering an "array" or "object" feature to show in the REST API, the feature\'s schema must also be defined.' ) );
+			return new WP_Error(
+				'missing_schema',
+				__( 'When registering an "array" or "object" feature to show in the REST API, the feature\'s schema must also be defined.' )
+			);
 		}
 
 		if ( 'array' === $args['type'] && ! isset( $args['show_in_rest']['schema']['items'] ) ) {
-			return new WP_Error( 'missing_schema_items', __( 'When registering an "array" feature, the feature\'s schema must include the "items" keyword.' ) );
+			return new WP_Error(
+				'missing_schema_items',
+				__( 'When registering an "array" feature, the feature\'s schema must include the "items" keyword.' )
+			);
 		}
 
 		if ( 'object' === $args['type'] && ! isset( $args['show_in_rest']['schema']['properties'] ) ) {
-			return new WP_Error( 'missing_schema_properties', __( 'When registering an "object" feature, the feature\'s schema must include the "properties" keyword.' ) );
+			return new WP_Error(
+				'missing_schema_properties',
+				__( 'When registering an "object" feature, the feature\'s schema must include the "properties" keyword.' )
+			);
 		}
 	}
 
 	if ( is_array( $args['show_in_rest'] ) ) {
 		if ( isset( $args['show_in_rest']['prepare_callback'] ) && ! is_callable( $args['show_in_rest']['prepare_callback'] ) ) {
-			return new WP_Error( 'invalid_rest_prepare_callback', __( 'The prepare_callback must be a callable function.' ) );
+			return new WP_Error(
+				'invalid_rest_prepare_callback',
+				__( 'The prepare_callback must be a callable function.' )
+			);
 		}
 
 		$args['show_in_rest']['schema'] = wp_parse_args(
@@ -3090,7 +3127,9 @@ function register_theme_feature( $feature, $args = array() ) {
 			)
 		);
 
-		if ( is_bool( $args['show_in_rest']['schema']['default'] ) && ! in_array( 'boolean', (array) $args['show_in_rest']['schema']['type'], true ) ) {
+		if ( is_bool( $args['show_in_rest']['schema']['default'] )
+			&& ! in_array( 'boolean', (array) $args['show_in_rest']['schema']['type'], true )
+		) {
 			// Automatically include the "boolean" type when the default value is a boolean.
 			$args['show_in_rest']['schema']['type'] = (array) $args['show_in_rest']['schema']['type'];
 			array_unshift( $args['show_in_rest']['schema']['type'], 'boolean' );
@@ -3522,7 +3561,7 @@ function is_customize_preview() {
 }
 
 /**
- * Make sure that auto-draft posts get their post_date bumped or status changed to draft to prevent premature garbage-collection.
+ * Makes sure that auto-draft posts get their post_date bumped or status changed to draft to prevent premature garbage-collection.
  *
  * When a changeset is updated but remains an auto-draft, ensure the post_date
  * for the auto-draft posts remains the same so that it will be
