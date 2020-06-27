@@ -134,7 +134,7 @@ function wp_check_php_mysql_versions() {
  * The type can be set via the `WP_ENVIRONMENT_TYPE` global system variable,
  * a constant of the same name, or the {@see 'wp_get_environment_type'} filter.
  *
- * Possible values include 'development', 'stage', 'production'. If not set,
+ * Possible values include 'development', 'staging', 'production'. If not set,
  * the type defaults to 'production'.
  *
  * @since 5.5.0
@@ -142,27 +142,44 @@ function wp_check_php_mysql_versions() {
  * @return string The current environment type.
  */
 function wp_get_environment_type() {
-	$approved_environments = array(
+	static $current_env = '';
+
+	if ( $current_env ) {
+		return $current_env;
+	}
+
+	$wp_environments = array(
 		'development',
-		'stage',
+		'staging',
 		'production',
 	);
 
+	// Check if the environment variable has been set, if `getenv` is available on the system.
+	if ( function_exists( 'getenv' ) ) {
+		$has_env = getenv( 'WP_ENVIRONMENT_TYPES' );
+		if ( false !== $has_env ) {
+			$wp_environments = explode( ',', $has_env );
+		}
+	}
+
+	// Fetch the environment types from a constant, this overrides the global system variable.
+	if ( defined( 'WP_ENVIRONMENT_TYPES' ) ) {
+		$wp_environments = WP_ENVIRONMENT_TYPES;
+	}
+
 	/**
-	 * Filters the list of approved environment types.
+	 * Filters the list of supported environment types.
 	 *
 	 * This filter runs before it can be used by plugins. It is designed for non-web runtimes.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $approved_environments The list of approved environment types. Possible values
-	 *                                      include 'development', 'stage', 'production'.
+	 * @param array $wp_environments The list of environment types. Possible values
+	 *                               include 'development', 'staging', 'production'.
 	 */
-	$approved_environments = apply_filters( 'wp_approved_environment_types', $approved_environments );
+	$wp_environments = apply_filters( 'wp_environment_types', $wp_environments );
 
-	$current_env = '';
-
-	// Check if a environment variable has been set for max flexibility, if `getenv` is available on the system.
+	// Check if the environment variable has been set, if `getenv` is available on the system.
 	if ( function_exists( 'getenv' ) ) {
 		$has_env = getenv( 'WP_ENVIRONMENT_TYPE' );
 		if ( false !== $has_env ) {
@@ -185,12 +202,12 @@ function wp_get_environment_type() {
 	 * @since 5.5.0
 	 *
 	 * @param string $current_env The current environment type. Possible values
-	 *                            include 'development', 'stage', 'production'.
+	 *                            include 'development', 'staging', 'production'.
 	 */
 	$current_env = apply_filters( 'wp_get_environment_type', $current_env );
 
 	// Make sure the environment is an allowed one, and not accidentally set to an invalid value.
-	if ( ! in_array( $current_env, $approved_environments, true ) ) {
+	if ( ! in_array( $current_env, $wp_environments, true ) ) {
 		$current_env = 'production';
 	}
 
@@ -267,7 +284,7 @@ function wp_is_maintenance_mode() {
 
 	require ABSPATH . '.maintenance';
 	// If the $upgrading timestamp is older than 10 minutes, consider maintenance over.
-	if ( ( time() - $upgrading ) >= 600 ) {
+	if ( ( time() - $upgrading ) >= 10 * MINUTE_IN_SECONDS ) {
 		return false;
 	}
 
