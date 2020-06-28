@@ -1202,9 +1202,9 @@ function _wp_render_title_tag() {
  *
  * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
- * @param string $sep         Optional, default is '&raquo;'. How to separate the various items
- *                            within the page title.
- * @param bool   $display     Optional, default is true. Whether to display or retrieve title.
+ * @param string $sep         Optional. How to separate the various items within the page title.
+ *                            Default '&raquo;'.
+ * @param bool   $display     Optional. Whether to display or retrieve title. Default true.
  * @param string $seplocation Optional. Location of the separator ('left' or 'right').
  * @return string|null String on retrieve, null when displaying.
  */
@@ -1348,7 +1348,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
  * @since 0.71
  *
  * @param string $prefix  Optional. What to display before the title.
- * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @param bool   $display Optional. Whether to display or retrieve title. Default true.
  * @return string|void Title when retrieving.
  */
 function single_post_title( $prefix = '', $display = true ) {
@@ -1383,7 +1383,7 @@ function single_post_title( $prefix = '', $display = true ) {
  * @since 3.1.0
  *
  * @param string $prefix  Optional. What to display before the title.
- * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @param bool   $display Optional. Whether to display or retrieve title. Default true.
  * @return string|void Title when retrieving, null when displaying or failure.
  */
 function post_type_archive_title( $prefix = '', $display = true ) {
@@ -1425,7 +1425,7 @@ function post_type_archive_title( $prefix = '', $display = true ) {
  * @since 0.71
  *
  * @param string $prefix  Optional. What to display before the title.
- * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @param bool   $display Optional. Whether to display or retrieve title. Default true.
  * @return string|void Title when retrieving.
  */
 function single_cat_title( $prefix = '', $display = true ) {
@@ -1442,7 +1442,7 @@ function single_cat_title( $prefix = '', $display = true ) {
  * @since 2.3.0
  *
  * @param string $prefix  Optional. What to display before the title.
- * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @param bool   $display Optional. Whether to display or retrieve title. Default true.
  * @return string|void Title when retrieving.
  */
 function single_tag_title( $prefix = '', $display = true ) {
@@ -1459,7 +1459,7 @@ function single_tag_title( $prefix = '', $display = true ) {
  * @since 3.1.0
  *
  * @param string $prefix  Optional. What to display before the title.
- * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @param bool   $display Optional. Whether to display or retrieve title. Default true.
  * @return string|void Title when retrieving.
  */
 function single_term_title( $prefix = '', $display = true ) {
@@ -1524,7 +1524,7 @@ function single_term_title( $prefix = '', $display = true ) {
  * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
  * @param string $prefix  Optional. What to display before the title.
- * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @param bool   $display Optional. Whether to display or retrieve title. Default true.
  * @return string|void Title when retrieving.
  */
 function single_month_title( $prefix = '', $display = true ) {
@@ -1752,7 +1752,7 @@ function get_the_post_type_description() {
  *
  * @param string $url      URL to archive.
  * @param string $text     Archive text description.
- * @param string $format   Optional, default is 'html'. Can be 'link', 'option', 'html', or custom.
+ * @param string $format   Optional. Can be 'link', 'option', 'html', or custom. Default 'html'.
  * @param string $before   Optional. Content to prepend to the description. Default empty.
  * @param string $after    Optional. Content to append to the description. Default empty.
  * @param bool   $selected Optional. Set to true if the current page is the selected archive page.
@@ -2080,8 +2080,8 @@ function calendar_week_mod( $num ) {
  * @global WP_Locale $wp_locale WordPress date and time locale object.
  * @global array     $posts
  *
- * @param bool $initial Optional, default is true. Use initial calendar names.
- * @param bool $echo    Optional, default is true. Set to false for return.
+ * @param bool $initial Optional. Whether to use initial calendar names. Default true.
+ * @param bool $display Optional. Whether to display or return the calendar. Default true.
  * @return void|string Void if `$echo` argument is true, calendar HTML if `$echo` is false.
  */
 function get_calendar( $initial = true, $echo = true ) {
@@ -2374,7 +2374,7 @@ function the_date_xml() {
  * @param string $format Optional. PHP date format defaults to the date_format option if not specified.
  * @param string $before Optional. Output before the date.
  * @param string $after  Optional. Output after the date.
- * @param bool   $echo   Optional, default is display. Whether to echo the date or return it.
+ * @param bool   $echo   Optional. Whether to echo the date or return it. Default true.
  * @return string|void String if retrieving.
  */
 function the_date( $format = '', $before = '', $after = '', $echo = true ) {
@@ -2453,7 +2453,7 @@ function get_the_date( $format = '', $post = null ) {
  * @param string $format Optional. PHP date format defaults to the date_format option if not specified.
  * @param string $before Optional. Output before the date.
  * @param string $after  Optional. Output after the date.
- * @param bool   $echo   Optional, default is display. Whether to echo the date or return it.
+ * @param bool   $echo   Optional. Whether to echo the date or return it. Default true.
  * @return string|void String if retrieving.
  */
 function the_modified_date( $format = '', $before = '', $after = '', $echo = true ) {

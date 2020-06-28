@@ -23,9 +23,10 @@ class WP_Http_Encoding {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param string $raw String to compress.
-	 * @param int $level Optional, default is 9. Compression level, 9 is highest.
-	 * @param string $supports Optional, not used. When implemented it will choose the right compression based on what the server supports.
+	 * @param string $raw      String to compress.
+	 * @param int    $level    Optional. Compression level, 9 is highest. Default 9.
+	 * @param string $supports Optional, not used. When implemented it will choose
+	 *                         the right compression based on what the server supports.
 	 * @return string|false False on failure.
 	 */
 	public static function compress( $raw, $level = 9, $supports = null ) {
@@ -43,7 +44,7 @@ class WP_Http_Encoding {
 	 * @since 2.8.0
 	 *
 	 * @param string $compressed String to decompress.
-	 * @param int $length The optional length of the compressed data.
+	 * @param int    $length     The optional length of the compressed data.
 	 * @return string|bool False on failure.
 	 */
 	public static function decompress( $compressed, $length = null ) {

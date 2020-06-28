@@ -546,7 +546,7 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param mixed $default A default value which is used as a fallback. Default is null.
+	 * @param mixed $default A default value which is used as a fallback. Default null.
 	 * @return mixed The default value on failure, otherwise the sanitized and validated value.
 	 */
 	final public function post_value( $default = null ) {
@@ -848,7 +848,7 @@ class WP_Customize_Setting {
 	 *
 	 * @param $root
 	 * @param $keys
-	 * @param bool $create Default is false.
+	 * @param bool $create Default false.
 	 * @return array|void Keys are 'root', 'node', and 'key'.
 	 */
 	final protected function multidimensional( &$root, $keys, $create = false ) {
@@ -929,7 +929,7 @@ class WP_Customize_Setting {
 	 *
 	 * @param $root
 	 * @param $keys
-	 * @param mixed $default A default value which is used as a fallback. Default is null.
+	 * @param mixed $default A default value which is used as a fallback. Default null.
 	 * @return mixed The requested value or the default value.
 	 */
 	final protected function multidimensional_get( $root, $keys, $default = null ) {

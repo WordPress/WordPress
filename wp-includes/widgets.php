@@ -663,7 +663,7 @@ function wp_unregister_widget_control( $id ) {
  * @global array $wp_registered_sidebars Registered sidebars.
  * @global array $wp_registered_widgets  Registered widgets.
  *
- * @param int|string $index Optional, default is 1. Index, name or ID of dynamic sidebar.
+ * @param int|string $index Optional. Index, name or ID of dynamic sidebar. Default 1.
  * @return bool True, if widget sidebar was found and called. False if not found or not called.
  */
 function dynamic_sidebar( $index = 1 ) {

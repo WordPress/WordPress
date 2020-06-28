@@ -11,7 +11,7 @@
  *
  * @since 3.1.0
  *
- * @param int|object|null $post Post ID or post object. Optional, default is the current post from the loop.
+ * @param int|object|null $post Optional. Post ID or post object. Defaults to the current post in the loop.
  * @return string|false The format if successful. False otherwise.
  */
 function get_post_format( $post = null ) {
@@ -42,8 +42,9 @@ function get_post_format( $post = null ) {
  * @since 3.1.0
  *
  * @param string|array     $format Optional. The format or formats to check.
- * @param WP_Post|int|null $post   Optional. The post to check. If not supplied, defaults to the current post if used in the loop.
- * @return bool True if the post has any of the given formats (or any format, if no format specified), false otherwise.
+ * @param WP_Post|int|null $post   Optional. The post to check. Defaults to the current post in the loop.
+ * @return bool True if the post has any of the given formats (or any format, if no format specified),
+ *              false otherwise.
  */
 function has_post_format( $format = array(), $post = null ) {
 	$prefixed = array();
@@ -64,7 +65,7 @@ function has_post_format( $format = array(), $post = null ) {
  *
  * @param int|object $post   The post for which to assign a format.
  * @param string     $format A format to assign. Use an empty string or array to remove all formats from the post.
- * @return array|WP_Error|false WP_Error on error. Array of affected term IDs on success.
+ * @return array|WP_Error|false Array of affected term IDs on success. WP_Error on error.
  */
 function set_post_format( $post, $format ) {
 	$post = get_post( $post );

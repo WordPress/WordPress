@@ -71,7 +71,7 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
  *
  * @since 0.71
  *
- * @param int $id Optional, default to current post ID. The post ID.
+ * @param int $id Optional. The post ID. Defaults to current post ID.
  * @return WP_Term[] Array of WP_Term objects, one for each category assigned to the post.
  */
 function get_the_category( $id = false ) {

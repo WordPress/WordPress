@@ -1242,10 +1242,11 @@ function get_catname( $cat_ID ) {
  * @deprecated 2.8.0 Use get_term_children()
  * @see get_term_children()
  *
- * @param int $id Category ID to retrieve children.
- * @param string $before Optional. Prepend before category term ID.
- * @param string $after Optional, default is empty string. Append after category term ID.
- * @param array $visited Optional. Category Term IDs that have already been added.
+ * @param int    $id      Category ID to retrieve children.
+ * @param string $before  Optional. Prepend before category term ID. Default '/'.
+ * @param string $after   Optional. Append after category term ID. Default empty string.
+ * @param array  $visited Optional. Category Term IDs that have already been added.
+ *                        Default empty array.
  * @return string
  */
 function get_category_children( $id, $before = '/', $after = '', $visited = array() ) {
@@ -1834,10 +1835,10 @@ function get_alloptions() {
  * @deprecated 2.5.0 Use wp_get_attachment_link()
  * @see wp_get_attachment_link()
  *
- * @param int $id Optional. Post ID.
- * @param bool $fullsize Optional, default is false. Whether to use full size image.
+ * @param int   $id       Optional. Post ID.
+ * @param bool  $fullsize Optional. Whether to use full size image. Default false.
  * @param array $max_dims Optional. Max image dimensions.
- * @param bool $permalink Optional, default is false. Whether to include permalink to image.
+ * @param bool $permalink Optional. Whether to include permalink to image. Default false.
  * @return string
  */
 function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, $permalink = false) {
@@ -1864,8 +1865,8 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, 
  * @deprecated 2.5.0 Use wp_get_attachment_image_src()
  * @see wp_get_attachment_image_src()
  *
- * @param int $id Optional. Post ID.
- * @param bool $fullsize Optional, default to false. Whether to have full image.
+ * @param int  $id       Optional. Post ID.
+ * @param bool $fullsize Optional. Whether to have full image. Default false.
  * @return array Icon URL and full path to file, respectively.
  */
 function get_attachment_icon_src( $id = 0, $fullsize = false ) {
@@ -1905,8 +1906,8 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
  * @deprecated 2.5.0 Use wp_get_attachment_image()
  * @see wp_get_attachment_image()
  *
- * @param int $id Optional. Post ID.
- * @param bool $fullsize Optional, default to false. Whether to have full size image.
+ * @param int   $id       Optional. Post ID.
+ * @param bool  $fullsize Optional. Whether to have full size image. Default false.
  * @param array $max_dims Optional. Dimensions of image.
  * @return string|false HTML content.
  */
@@ -1961,8 +1962,8 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
  * @deprecated 2.5.0 Use wp_get_attachment_image()
  * @see wp_get_attachment_image()
  *
- * @param int $id Optional. Post ID.
- * @param bool $fullsize Optional, default to false. Whether to have full size image.
+ * @param int   $id       Optional. Post ID.
+ * @param bool  $fullsize Optional. Whether to have full size image. Default false.
  * @param array $max_dims Optional. Dimensions of image.
  * @return string|false
  */
@@ -2386,7 +2387,7 @@ function get_users_of_blog( $id = '' ) {
  * @deprecated 3.0.0 Use add_theme_support()
  * @see add_theme_support()
  *
- * @param bool $add Optional, default is true. Add or remove links. Defaults to true.
+ * @param bool $add Optional. Add or remove links. Default true.
  */
 function automatic_feed_links( $add = true ) {
 	_deprecated_function( __FUNCTION__, '3.0.0', "add_theme_support( 'automatic-feed-links' )" );
@@ -2405,7 +2406,7 @@ function automatic_feed_links( $add = true ) {
  * @see get_the_author_meta()
  *
  * @param string    $field User meta field.
- * @param false|int $user Optional. User ID to retrieve the field for. Default false (current user).
+ * @param false|int $user  Optional. User ID to retrieve the field for. Default false (current user).
  * @return string The author's field from the current author's DB object.
  */
 function get_profile( $field, $user = false ) {
@@ -2623,9 +2624,9 @@ function get_user_metavalues($ids) {
  * @since 2.3.0
  * @deprecated 3.3.0
  *
- * @param object|array $user The User Object or Array
- * @param string $context Optional, default is 'display'. How to sanitize user fields.
- * @return object|array The now sanitized User Object or Array (will be the same type as $user)
+ * @param object|array $user    The user object or array.
+ * @param string       $context Optional. How to sanitize user fields. Default 'display'.
+ * @return object|array The now sanitized user object or array (will be the same type as $user).
  */
 function sanitize_user_object($user, $context = 'display') {
 	_deprecated_function( __FUNCTION__, '3.3.0' );
@@ -2660,10 +2661,12 @@ function sanitize_user_object($user, $context = 'display') {
  * @since 2.8.0
  * @deprecated 3.3.0
  *
- * @param string $title Optional. Link title format.
- * @param bool $in_same_cat Optional. Whether link should be in a same category.
- * @param string $excluded_categories Optional. Excluded categories IDs.
- * @param bool $start Optional, default is true. Whether to display link to first or last post.
+ * @param string $title               Optional. Link title format. Default '%title'.
+ * @param bool   $in_same_cat         Optional. Whether link should be in a same category.
+ *                                    Default false.
+ * @param string $excluded_categories Optional. Excluded categories IDs. Default empty.
+ * @param bool   $start               Optional. Whether to display link to first or last post.
+ *                                    Default true.
  * @return string
  */
 function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $start = true) {
@@ -3215,13 +3218,13 @@ function wp_load_image( $file ) {
  * @deprecated 3.5.0 Use wp_get_image_editor()
  * @see wp_get_image_editor()
  *
- * @param string $file Image file path.
- * @param int $max_w Maximum width to resize to.
- * @param int $max_h Maximum height to resize to.
- * @param bool $crop Optional. Whether to crop image or resize.
- * @param string $suffix Optional. File suffix.
- * @param string $dest_path Optional. New image file path.
- * @param int $jpeg_quality Optional, default is 90. Image quality percentage.
+ * @param string $file         Image file path.
+ * @param int    $max_w        Maximum width to resize to.
+ * @param int    $max_h        Maximum height to resize to.
+ * @param bool   $crop         Optional. Whether to crop image or resize. Default false.
+ * @param string $suffix       Optional. File suffix. Default null.
+ * @param string $dest_path    Optional. New image file path. Default null.
+ * @param int    $jpeg_quality Optional. Image quality percentage. Default 90.
  * @return mixed WP_Error on failure. String with new destination path.
  */
 function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $dest_path = null, $jpeg_quality = 90 ) {

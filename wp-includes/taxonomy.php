@@ -811,7 +811,7 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
  * @param string     $taxonomy Optional. Taxonomy name that $term is part of.
  * @param string     $output   Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
  *                             a WP_Term object, an associative array, or a numeric array, respectively. Default OBJECT.
- * @param string     $filter   Optional, default is raw or no WordPress defined filter will applied.
+ * @param string     $filter   Optional. How to sanitize term fields. Default 'raw'.
  * @return WP_Term|array|WP_Error|null Object of the type specified by `$output` on success. When `$output` is 'OBJECT',
  *                                     a WP_Term instance is returned. If taxonomy does not exist, a WP_Error is
  *                                     returned. Returns null for miscellaneous failure.
@@ -922,7 +922,7 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
  * @param string     $taxonomy Taxonomy name. Optional, if `$field` is 'term_taxonomy_id'.
  * @param string     $output   Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
  *                             a WP_Term object, an associative array, or a numeric array, respectively. Default OBJECT.
- * @param string     $filter   Optional, default is raw or no WordPress defined filter will applied.
+ * @param string     $filter   Optional. How to sanitize term fields. Default 'raw'.
  * @return WP_Term|array|false WP_Term instance (or array) on success. Will return false if `$taxonomy` does not exist
  *                             or `$term` was not found.
  */
@@ -1044,7 +1044,8 @@ function get_term_children( $term_id, $taxonomy ) {
  * @param string      $field    Term field to fetch.
  * @param int|WP_Term $term     Term ID or object.
  * @param string      $taxonomy Optional. Taxonomy Name. Default empty.
- * @param string      $context  Optional, default is display. Look at sanitize_term_field() for available options.
+ * @param string      $context  Optional. How to sanitize term fields. Look at sanitize_term_field() for available options.
+ *                              Default 'display'.
  * @return string|int|null|WP_Error Will return an empty string if $term is not an object or if $field is not set in $term.
  */
 function get_term_field( $field, $term, $taxonomy = '', $context = 'display' ) {
