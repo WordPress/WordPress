@@ -656,19 +656,20 @@ function sanitize_comment_cookies() {
  * Validates whether this comment is allowed to be made.
  *
  * @since 2.0.0
- * @since 4.7.0 The `$avoid_die` parameter was added, allowing the function to
- *              return a WP_Error object instead of dying.
+ * @since 4.7.0 The `$avoid_die` parameter was added, allowing the function
+ *              to return a WP_Error object instead of dying.
+ * @since 5.5.0 The `$avoid_die` parameter was renamed to `$wp_error`.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $commentdata Contains information on the comment.
- * @param bool  $avoid_die   When true, a disallowed comment will result in the function
+ * @param bool  $wp_error    When true, a disallowed comment will result in the function
  *                           returning a WP_Error object, rather than executing wp_die().
  *                           Default false.
  * @return int|string|WP_Error Allowed comments return the approval status (0|1|'spam'|'trash').
- *                             If `$avoid_die` is true, disallowed comments return a WP_Error.
+ *                             If `$wp_error` is true, disallowed comments return a WP_Error.
  */
-function wp_allow_comment( $commentdata, $avoid_die = false ) {
+function wp_allow_comment( $commentdata, $wp_error = false ) {
 	global $wpdb;
 
 	// Simple duplicate check.
@@ -723,7 +724,7 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 		 */
 		$comment_duplicate_message = apply_filters( 'comment_duplicate_message', __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ) );
 
-		if ( true === $avoid_die ) {
+		if ( $wp_error ) {
 			return new WP_Error( 'comment_duplicate', $comment_duplicate_message, 409 );
 		} else {
 			if ( wp_doing_ajax() ) {
@@ -741,19 +742,20 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	 *
 	 * @since 2.3.0
 	 * @since 4.7.0 The `$avoid_die` parameter was added.
+	 * @since 5.5.0 The `$avoid_die` parameter was renamed to `$wp_error`.
 	 *
 	 * @param string $comment_author_IP    Comment author's IP address.
 	 * @param string $comment_author_email Comment author's email.
 	 * @param string $comment_date_gmt     GMT date the comment was posted.
-	 * @param bool   $avoid_die            Whether to prevent executing wp_die()
-	 *                                     or die() if a comment flood is occurring.
+	 * @param bool   $wp_error             Whether to return a WP_Error object instead of executing
+	 *                                     wp_die() or die() if a comment flood is occurring.
 	 */
 	do_action(
 		'check_comment_flood',
 		$commentdata['comment_author_IP'],
 		$commentdata['comment_author_email'],
 		$commentdata['comment_date_gmt'],
-		$avoid_die
+		$wp_error
 	);
 
 	/**
@@ -762,13 +764,14 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	 * The default check is wp_check_comment_flood(). See check_comment_flood_db().
 	 *
 	 * @since 4.7.0
+	 * @since 5.5.0 The `$avoid_die` parameter was renamed to `$wp_error`.
 	 *
 	 * @param bool   $is_flood             Is a comment flooding occurring? Default false.
 	 * @param string $comment_author_IP    Comment author's IP address.
 	 * @param string $comment_author_email Comment author's email.
 	 * @param string $comment_date_gmt     GMT date the comment was posted.
-	 * @param bool   $avoid_die            Whether to prevent executing wp_die()
-	 *                                     or die() if a comment flood is occurring.
+	 * @param bool   $wp_error             Whether to return a WP_Error object instead of executing
+	 *                                     wp_die() or die() if a comment flood is occurring.
 	 */
 	$is_flood = apply_filters(
 		'wp_is_comment_flood',
@@ -776,7 +779,7 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 		$commentdata['comment_author_IP'],
 		$commentdata['comment_author_email'],
 		$commentdata['comment_date_gmt'],
-		$avoid_die
+		$wp_error
 	);
 
 	if ( $is_flood ) {
@@ -2139,8 +2142,9 @@ function wp_throttle_comment_flood( $block, $time_lastcomment, $time_newcomment 
  *
  * @since 1.5.0
  * @since 4.3.0 Introduced the `comment_agent` and `comment_author_IP` arguments.
- * @since 4.7.0 The `$avoid_die` parameter was added, allowing the function to
- *              return a WP_Error object instead of dying.
+ * @since 4.7.0 The `$avoid_die` parameter was added, allowing the function
+ *              to return a WP_Error object instead of dying.
+ * @since 5.5.0 The `$avoid_die` parameter was renamed to `$wp_error`.
  * @since 5.5.0 Introduced the `comment_type` argument.
  *
  * @see wp_insert_comment()
@@ -2166,11 +2170,11 @@ function wp_throttle_comment_flood( $block, $time_lastcomment, $time_newcomment 
  *     @type string $comment_author_IP    Comment author IP address in IPv4 format. Default is the value of
  *                                        'REMOTE_ADDR' in the `$_SERVER` superglobal sent in the original request.
  * }
- * @param bool $avoid_die Should errors be returned as WP_Error objects instead of
- *                        executing wp_die()? Default false.
+ * @param bool $wp_error Should errors be returned as WP_Error objects instead of
+ *                       executing wp_die()? Default false.
  * @return int|false|WP_Error The ID of the comment on success, false or WP_Error on failure.
  */
-function wp_new_comment( $commentdata, $avoid_die = false ) {
+function wp_new_comment( $commentdata, $wp_error = false ) {
 	global $wpdb;
 
 	if ( isset( $commentdata['user_ID'] ) ) {
@@ -2227,7 +2231,7 @@ function wp_new_comment( $commentdata, $avoid_die = false ) {
 
 	$commentdata = wp_filter_comment( $commentdata );
 
-	$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $avoid_die );
+	$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $wp_error );
 	if ( is_wp_error( $commentdata['comment_approved'] ) ) {
 		return $commentdata['comment_approved'];
 	}
@@ -2244,7 +2248,7 @@ function wp_new_comment( $commentdata, $avoid_die = false ) {
 
 		$commentdata = wp_filter_comment( $commentdata );
 
-		$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $avoid_die );
+		$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $wp_error );
 		if ( is_wp_error( $commentdata['comment_approved'] ) ) {
 			return $commentdata['comment_approved'];
 		}
@@ -2415,7 +2419,7 @@ function wp_set_comment_status( $comment_id, $comment_status, $wp_error = false 
  *
  * @since 2.0.0
  * @since 4.9.0 Add updating comment meta during comment update.
- * @since 5.5.0 Allow returning a WP_Error object on failure.
+ * @since 5.5.0 The `$wp_error` parameter was added.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -2488,7 +2492,7 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 	 * WP_Error object is preventing the comment to be updated.
 	 *
 	 * @since 4.7.0
-	 * @since 5.5.0 Allow returning a WP_Error object on failure.
+	 * @since 5.5.0 The `$wp_error` parameter was added.
 	 *
 	 * @param array $data       The new, processed comment data.
 	 * @param array $comment    The old, unslashed comment data.
