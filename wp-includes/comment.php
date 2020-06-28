@@ -870,8 +870,7 @@ function check_comment_flood_db() {
  * @param string $email     Comment author's email address.
  * @param string $date      MySQL time string.
  * @param bool   $avoid_die When true, a disallowed comment will result in the function
- *                          returning a WP_Error object, rather than executing wp_die().
- *                          Default false.
+ *                          returning without executing wp_die() or die(). Default false.
  * @return bool Whether comment flooding is occurring.
  */
 function wp_check_comment_flood( $is_flood, $ip, $email, $date, $avoid_die = false ) {
@@ -887,6 +886,7 @@ function wp_check_comment_flood( $is_flood, $ip, $email, $date, $avoid_die = fal
 	if ( current_user_can( 'manage_options' ) || current_user_can( 'moderate_comments' ) ) {
 		return false;
 	}
+
 	$hour_ago = gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS );
 
 	if ( is_user_logged_in() ) {
@@ -897,16 +897,19 @@ function wp_check_comment_flood( $is_flood, $ip, $email, $date, $avoid_die = fal
 		$check_column = '`comment_author_IP`';
 	}
 
-	$sql      = $wpdb->prepare(
+	$sql = $wpdb->prepare(
 		"SELECT `comment_date_gmt` FROM `$wpdb->comments` WHERE `comment_date_gmt` >= %s AND ( $check_column = %s OR `comment_author_email` = %s ) ORDER BY `comment_date_gmt` DESC LIMIT 1",
 		$hour_ago,
 		$user,
 		$email
 	);
+
 	$lasttime = $wpdb->get_var( $sql );
+
 	if ( $lasttime ) {
 		$time_lastcomment = mysql2date( 'U', $lasttime, false );
 		$time_newcomment  = mysql2date( 'U', $date, false );
+
 		/**
 		 * Filters the comment flood status.
 		 *
@@ -917,6 +920,7 @@ function wp_check_comment_flood( $is_flood, $ip, $email, $date, $avoid_die = fal
 		 * @param int  $time_newcomment  Timestamp of when the new comment was posted.
 		 */
 		$flood_die = apply_filters( 'comment_flood_filter', false, $time_lastcomment, $time_newcomment );
+
 		if ( $flood_die ) {
 			/**
 			 * Fires before the comment flood message is triggered.
@@ -928,7 +932,7 @@ function wp_check_comment_flood( $is_flood, $ip, $email, $date, $avoid_die = fal
 			 */
 			do_action( 'comment_flood_trigger', $time_lastcomment, $time_newcomment );
 
-			if ( true === $avoid_die ) {
+			if ( $avoid_die ) {
 				return true;
 			} else {
 				/**
