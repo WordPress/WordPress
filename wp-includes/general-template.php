@@ -16,8 +16,10 @@
  * "special".
  *
  * @since 1.5.0
+ * @since 5.5.0 A return value was added.
  *
  * @param string $name The name of the specialised header.
+ * @return void|false Void on success, false if the template does not exist.
  */
 function get_header( $name = null ) {
 	/**
@@ -38,7 +40,9 @@ function get_header( $name = null ) {
 
 	$templates[] = 'header.php';
 
-	locate_template( $templates, true );
+	if ( ! locate_template( $templates, true ) ) {
+		return false;
+	}
 }
 
 /**
@@ -51,8 +55,10 @@ function get_header( $name = null ) {
  * "special".
  *
  * @since 1.5.0
+ * @since 5.5.0 A return value was added.
  *
  * @param string $name The name of the specialised footer.
+ * @return void|false Void on success, false if the template does not exist.
  */
 function get_footer( $name = null ) {
 	/**
@@ -73,7 +79,9 @@ function get_footer( $name = null ) {
 
 	$templates[] = 'footer.php';
 
-	locate_template( $templates, true );
+	if ( ! locate_template( $templates, true ) ) {
+		return false;
+	}
 }
 
 /**
@@ -86,8 +94,10 @@ function get_footer( $name = null ) {
  * "special".
  *
  * @since 1.5.0
+ * @since 5.5.0 A return value was added.
  *
  * @param string $name The name of the specialised sidebar.
+ * @return void|false Void on success, false if the template does not exist.
  */
 function get_sidebar( $name = null ) {
 	/**
@@ -108,7 +118,9 @@ function get_sidebar( $name = null ) {
 
 	$templates[] = 'sidebar.php';
 
-	locate_template( $templates, true );
+	if ( ! locate_template( $templates, true ) ) {
+		return false;
+	}
 }
 
 /**
@@ -128,9 +140,11 @@ function get_sidebar( $name = null ) {
  * "special".
  *
  * @since 3.0.0
+ * @since 5.5.0 A return value was added.
  *
  * @param string $slug The slug name for the generic template.
  * @param string $name The name of the specialised template.
+ * @return void|false Void on success, false if the template does not exist.
  */
 function get_template_part( $slug, $name = null ) {
 	/**
@@ -165,7 +179,9 @@ function get_template_part( $slug, $name = null ) {
 	 */
 	do_action( 'get_template_part', $slug, $name, $templates );
 
-	locate_template( $templates, true, false );
+	if ( ! locate_template( $templates, true, false ) ) {
+		return false;
+	}
 }
 
 /**
