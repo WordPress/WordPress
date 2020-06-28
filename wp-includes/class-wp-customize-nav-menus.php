@@ -1127,7 +1127,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Print the html template used to render the add-menu-item frame.
+	 * Print the HTML template used to render the add-menu-item frame.
 	 *
 	 * @since 4.3.0
 	 */

@@ -70,7 +70,7 @@ function twentytwenty_site_logo( $args = array(), $echo = true ) {
 	/**
 	 * Filters the arguments for `twentytwenty_site_logo()`.
 	 *
-	 * @param string $html      Compiled html based on our arguments.
+	 * @param string $html      Compiled HTML based on our arguments.
 	 * @param array  $args      Parsed arguments.
 	 * @param string $classname Class name based on current view, home or single.
 	 * @param string $contents  HTML for site title or logo.
@@ -103,7 +103,7 @@ function twentytwenty_site_description( $echo = true ) {
 	$html = sprintf( $wrapper, esc_html( $description ) );
 
 	/**
-	 * Filters the html for the site description.
+	 * Filters the HTML for the site description.
 	 *
 	 * @since Twenty Twenty 1.0
 	 *
@@ -326,7 +326,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 				<?php
 
 				/**
-				 * Fires before post meta html display.
+				 * Fires before post meta HTML display.
 				 *
 				 * Allow output of additional post meta info to be added by child themes and plugins.
 				 *
@@ -453,7 +453,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 				}
 
 				/**
-				 * Fires after post meta html display.
+				 * Fires after post meta HTML display.
 				 *
 				 * Allow output of additional post meta info to be added by child themes and plugins.
 				 *

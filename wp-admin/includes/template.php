@@ -923,7 +923,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0, $post = null ) 
 }
 
 /**
- * Print out option html elements for role selectors.
+ * Print out option HTML elements for role selectors.
  *
  * @since 2.1.0
  *
@@ -1566,7 +1566,7 @@ function add_settings_section( $id, $title, $callback, $page ) {
  * do_settings_fields() in do_settings-sections()
  *
  * The $callback argument should be the name of a function that echoes out the
- * html input tags for this setting field. Use get_option() to retrieve existing
+ * HTML input tags for this setting field. Use get_option() to retrieve existing
  * values to show.
  *
  * @since 2.7.0
@@ -1918,7 +1918,7 @@ function find_posts_div( $found_action = '' ) {
 /**
  * Displays the post password.
  *
- * The password is passed through esc_attr() to ensure that it is safe for placing in an html attribute.
+ * The password is passed through esc_attr() to ensure that it is safe for placing in an HTML attribute.
  *
  * @since 2.7.0
  */

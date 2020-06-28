@@ -55,7 +55,7 @@ class WP_Ajax_Response {
 	 *     @type int|false       $old_id       The previous response ID. Used as the value for the response type
 	 *                                         `old_id` attribute. False hides the attribute. Default false.
 	 *     @type string          $position     Value of the response type `position` attribute. Accepts 1 (bottom),
-	 *                                         -1 (top), html ID (after), or -html ID (before). Default 1 (bottom).
+	 *                                         -1 (top), HTML ID (after), or -HTML ID (before). Default 1 (bottom).
 	 *     @type string|WP_Error $data         The response content/message. Also accepts a WP_Error object if the
 	 *                                         ID does not exist. Default empty.
 	 *     @type array           $supplemental An array of extra strings that will be output within a `<supplemental>`

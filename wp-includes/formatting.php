@@ -928,7 +928,7 @@ function seems_utf8( $str ) {
  *                                    double if set to 'double' or both if otherwise set.
  *                                    Default is ENT_NOQUOTES.
  * @param false|string $charset       Optional. The character encoding of the string. Default false.
- * @param bool         $double_encode Optional. Whether to encode existing html entities. Default false.
+ * @param bool         $double_encode Optional. Whether to encode existing HTML entities. Default false.
  * @return string The encoded text with HTML entities.
  */
 function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
@@ -5136,7 +5136,7 @@ function wp_sprintf_l( $pattern, $args ) {
 }
 
 /**
- * Safely extracts not more than the first $count characters from html string.
+ * Safely extracts not more than the first $count characters from HTML string.
  *
  * UTF-8, tags and entities safe prefix extraction. Entities inside will *NOT*
  * be counted as one character. For example &amp; will be counted as 4, &lt; as
@@ -6013,7 +6013,7 @@ function sanitize_hex_color( $color ) {
  *
  * Saving hex colors without a hash puts the burden of adding the hash on the
  * UI, which makes it difficult to use or upgrade to other color types such as
- * rgba, hsl, rgb, and html color names.
+ * rgba, hsl, rgb, and HTML color names.
  *
  * Returns either '', a 3 or 6 digit hex color (without a #), or null.
  *
