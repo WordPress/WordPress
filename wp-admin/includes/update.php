@@ -984,7 +984,7 @@ function wp_get_auto_update_message() {
 
 	// Check if the event exists.
 	if ( false === $next_update_time ) {
-		$message = __( 'Auto-update update not scheduled. There may be a problem with WP-Cron.' );
+		$message = __( 'Automatic update not scheduled. There may be a problem with WP-Cron.' );
 	} else {
 		$time_to_next_update = human_time_diff( intval( $next_update_time ) );
 
@@ -994,13 +994,13 @@ function wp_get_auto_update_message() {
 		if ( $overdue ) {
 			$message = sprintf(
 				/* translators: %s: Duration that WP-Cron has been overdue. */
-				__( 'Auto-update update overdue by %s. There may be a problem with WP-Cron.' ),
+				__( 'Automatic update overdue by %s. There may be a problem with WP-Cron.' ),
 				$time_to_next_update
 			);
 		} else {
 			$message = sprintf(
 				/* translators: %s: Time until the next update. */
-				__( 'Auto-update update scheduled in %s.' ),
+				__( 'Automatic update scheduled in %s.' ),
 				$time_to_next_update
 			);
 		}
