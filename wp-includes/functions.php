@@ -1219,6 +1219,7 @@ function wp_removable_query_args() {
  * Walks the array while sanitizing the contents.
  *
  * @since 0.71
+ * @since 5.5.0 Non-string values are left untouched.
  *
  * @param array $array Array to walk while sanitizing contents.
  * @return array Sanitized $array.
@@ -1227,10 +1228,13 @@ function add_magic_quotes( $array ) {
 	foreach ( (array) $array as $k => $v ) {
 		if ( is_array( $v ) ) {
 			$array[ $k ] = add_magic_quotes( $v );
+		} elseif ( ! is_string( $v ) ) {
+			continue;
 		} else {
 			$array[ $k ] = addslashes( $v );
 		}
 	}
+
 	return $array;
 }
 
