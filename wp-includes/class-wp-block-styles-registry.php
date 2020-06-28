@@ -34,7 +34,7 @@ final class WP_Block_Styles_Registry {
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param string $block_name       Block ty name including namespace.
+	 * @param string $block_name       Block type name including namespace.
 	 * @param array  $style_properties Array containing the properties of the style name, label,
 	 *                                 style (name of the stylesheet to be enqueued),
 	 *                                 inline_style (string containing the CSS to be added).

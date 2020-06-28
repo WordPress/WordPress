@@ -2154,7 +2154,7 @@ class WP_Site_Health {
 	 *
 	 * Returns a boolean value of `true` if a scheduled task has been missed and ends processing.
 	 *
-	 * If the list of crons is an instance of WP_Error, return the instance instead of a boolean value.
+	 * If the list of crons is an instance of WP_Error, returns the instance instead of a boolean value.
 	 *
 	 * @since 5.2.0
 	 *
@@ -2180,7 +2180,7 @@ class WP_Site_Health {
 	 *
 	 * Returns a boolean value of `true` if a scheduled task is late and ends processing.
 	 *
-	 * If the list of crons is an instance of WP_Error, return the instance instead of a boolean value.
+	 * If the list of crons is an instance of WP_Error, returns the instance instead of a boolean value.
 	 *
 	 * @since 5.3.0
 	 *

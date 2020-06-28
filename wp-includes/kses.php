@@ -2146,7 +2146,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	 * @since 4.6.0 Added support for `list-style-type`.
 	 * @since 5.0.0 Added support for `background-image`.
 	 * @since 5.1.0 Added support for `text-transform`.
-	 * @since 5.2.0 Added support for `background-position` and `grid-template-columns`
+	 * @since 5.2.0 Added support for `background-position` and `grid-template-columns`.
 	 * @since 5.3.0 Added support for `grid`, `flex` and `column` layout properties.
 	 *              Extend `background-*` support of individual properties.
 	 * @since 5.3.1 Added support for gradient backgrounds.
@@ -2262,9 +2262,9 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'cursor',
 			'direction',
 			'float',
+			'list-style-type',
 			'overflow',
 			'vertical-align',
-			'list-style-type',
 		)
 	);
 

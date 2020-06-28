@@ -1723,8 +1723,7 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 			$value = 'lazy';
 		}
 
-		// Images should have dimension attributes for the `loading` attribute
-		// to be added.
+		// Images should have dimension attributes for the `loading` attribute to be added.
 		if ( false === strpos( $image, ' width=' ) || false === strpos( $image, ' height=' ) ) {
 			return $image;
 		}
