@@ -123,7 +123,7 @@ All at ###SITENAME###
 		<?php
 			printf(
 				/* translators: %s: Site address. */
-				__( "I'm sure I want to permanently disable my site, and I am aware I can never get it back or use %s again." ),
+				__( "I'm sure I want to permanently delete my site, and I am aware I can never get it back or use %s again." ),
 				$blog->domain . $blog->path
 			);
 		?>
