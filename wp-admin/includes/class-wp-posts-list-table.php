@@ -485,6 +485,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 			return;
 		}
 
+		// Return if the post type doesn't have post formats or if we're in the Trash.
+		if ( ! is_object_in_taxonomy( $post_type, 'post_format' ) || $this->is_trash ) {
+			return;
+		}
+
 		// Make sure the dropdown shows only formats with a post count greater than 0.
 		$used_post_formats = get_terms(
 			array(
@@ -493,11 +498,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 			)
 		);
 
-		/*
-		 * Return if the post type doesn't have post formats, or there are no posts using formats,
-		 * or if we're in the Trash.
-		 */
-		if ( ! is_object_in_taxonomy( $post_type, 'post_format' ) || ! $used_post_formats || $this->is_trash ) {
+		// Return if there are no posts using formats.
+		if ( ! $used_post_formats ) {
 			return;
 		}
 
