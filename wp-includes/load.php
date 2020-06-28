@@ -1008,18 +1008,6 @@ function wp_magic_quotes() {
 	$_COOKIE = add_magic_quotes( $_COOKIE );
 	$_SERVER = add_magic_quotes( $_SERVER );
 
-	/*
-	 * Revert the type change to string for two indexes which should retain their proper type.
-	 * Among other things, this preserves compatibility of WP with PHPUnit Code Coverage generation.
-	 */
-	if ( isset( $_SERVER['REQUEST_TIME'] ) ) {
-		$_SERVER['REQUEST_TIME'] = (int) $_SERVER['REQUEST_TIME'];
-	}
-
-	if ( isset( $_SERVER['REQUEST_TIME_FLOAT'] ) ) {
-		$_SERVER['REQUEST_TIME_FLOAT'] = (float) $_SERVER['REQUEST_TIME_FLOAT'];
-	}
-
 	// Force REQUEST to be GET + POST.
 	$_REQUEST = array_merge( $_GET, $_POST );
 }
