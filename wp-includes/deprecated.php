@@ -916,7 +916,7 @@ function wp_get_links($args = '') {
 }
 
 /**
- * Gets the links associated with category by id.
+ * Gets the links associated with category by ID.
  *
  * @since 0.71
  * @deprecated 2.1.0 Use get_bookmarks()
@@ -1100,7 +1100,7 @@ function get_linkrating( $link ) {
 }
 
 /**
- * Gets the name of category by id.
+ * Gets the name of category by ID.
  *
  * @since 0.71
  * @deprecated 2.1.0 Use get_category()

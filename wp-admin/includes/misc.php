@@ -1028,7 +1028,7 @@ function _ipad_meta() {
  *
  * @param array  $response  The Heartbeat response.
  * @param array  $data      The $_POST data sent.
- * @param string $screen_id The screen id.
+ * @param string $screen_id The screen ID.
  * @return array The Heartbeat response.
  */
 function wp_check_locked_posts( $response, $data, $screen_id ) {
@@ -1075,7 +1075,7 @@ function wp_check_locked_posts( $response, $data, $screen_id ) {
  *
  * @param array  $response  The Heartbeat response.
  * @param array  $data      The $_POST data sent.
- * @param string $screen_id The screen id.
+ * @param string $screen_id The screen ID.
  * @return array The Heartbeat response.
  */
 function wp_refresh_post_lock( $response, $data, $screen_id ) {
@@ -1128,7 +1128,7 @@ function wp_refresh_post_lock( $response, $data, $screen_id ) {
  *
  * @param array  $response  The Heartbeat response.
  * @param array  $data      The $_POST data sent.
- * @param string $screen_id The screen id.
+ * @param string $screen_id The screen ID.
  * @return array The Heartbeat response.
  */
 function wp_refresh_post_nonces( $response, $data, $screen_id ) {

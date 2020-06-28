@@ -925,13 +925,13 @@ class wpdb {
 	}
 
 	/**
-	 * Sets blog id.
+	 * Sets blog ID.
 	 *
 	 * @since 3.0.0
 	 *
 	 * @param int $blog_id
 	 * @param int $network_id Optional.
-	 * @return int Previous blog id.
+	 * @return int Previous blog ID.
 	 */
 	public function set_blog_id( $blog_id, $network_id = 0 ) {
 		if ( ! empty( $network_id ) ) {

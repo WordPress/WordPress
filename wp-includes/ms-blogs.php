@@ -31,7 +31,7 @@ function wpmu_update_blogs_date() {
 }
 
 /**
- * Get a full blog URL, given a blog id.
+ * Get a full blog URL, given a blog ID.
  *
  * @since MU (3.0.0)
  *
@@ -289,7 +289,7 @@ function refresh_blog_details( $blog_id = 0 ) {
 }
 
 /**
- * Update the details for a blog. Updates the blogs table for a given blog id.
+ * Update the details for a blog. Updates the blogs table for a given blog ID.
  *
  * @since MU (3.0.0)
  *
@@ -382,7 +382,7 @@ function get_blog_option( $id, $option, $default = false ) {
 }
 
 /**
- * Add a new option for a given blog id.
+ * Add a new option for a given blog ID.
  *
  * You do not need to serialize values. If the value needs to be serialized, then
  * it will be serialized before it is inserted into the database. Remember,
@@ -419,7 +419,7 @@ function add_blog_option( $id, $option, $value ) {
 }
 
 /**
- * Removes option by name for a given blog id. Prevents removal of protected WordPress options.
+ * Removes option by name for a given blog ID. Prevents removal of protected WordPress options.
  *
  * @since MU (3.0.0)
  *
@@ -450,7 +450,7 @@ function delete_blog_option( $id, $option ) {
  *
  * @since MU (3.0.0)
  *
- * @param int    $id         The blog id.
+ * @param int    $id         The blog ID.
  * @param string $option     The option key.
  * @param mixed  $value      The option value.
  * @param mixed  $deprecated Not used.

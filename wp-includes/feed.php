@@ -272,7 +272,7 @@ function comments_link_feed() {
  *
  * @since 2.5.0
  *
- * @param int|WP_Comment $comment_id Optional comment object or id. Defaults to global comment object.
+ * @param int|WP_Comment $comment_id Optional comment object or ID. Defaults to global comment object.
  */
 function comment_guid( $comment_id = null ) {
 	echo esc_url( get_comment_guid( $comment_id ) );
@@ -283,7 +283,7 @@ function comment_guid( $comment_id = null ) {
  *
  * @since 2.5.0
  *
- * @param int|WP_Comment $comment_id Optional comment object or id. Defaults to global comment object.
+ * @param int|WP_Comment $comment_id Optional comment object or ID. Defaults to global comment object.
  * @return string|false GUID for comment on success, false on failure.
  */
 function get_comment_guid( $comment_id = null ) {
@@ -302,7 +302,7 @@ function get_comment_guid( $comment_id = null ) {
  * @since 1.5.0
  * @since 4.4.0 Introduced the `$comment` argument.
  *
- * @param int|WP_Comment $comment Optional. Comment object or id. Defaults to global comment object.
+ * @param int|WP_Comment $comment Optional. Comment object or ID. Defaults to global comment object.
  */
 function comment_link( $comment = null ) {
 	/**
