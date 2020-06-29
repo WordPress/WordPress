@@ -2503,9 +2503,17 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 	 */
 	$data = apply_filters( 'wp_update_comment_data', $data, $comment, $commentarr, $wp_error );
 
+	if ( ! $data ) {
+		$data = new WP_Error( 'comment_update_canceled', __( 'Comment update canceled.' ) );
+	}
+
 	// Do not carry on on failure.
-	if ( is_wp_error( $data ) || ! $data ) {
-		return $data;
+	if ( is_wp_error( $data ) ) {
+		if ( $wp_error ) {
+			return $data;
+		} else {
+			return false;
+		}
 	}
 
 	$keys = array( 'comment_post_ID', 'comment_content', 'comment_author', 'comment_author_email', 'comment_approved', 'comment_karma', 'comment_author_url', 'comment_date', 'comment_date_gmt', 'comment_type', 'comment_parent', 'user_id', 'comment_agent', 'comment_author_IP' );
