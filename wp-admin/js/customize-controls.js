@@ -8128,6 +8128,7 @@
 					_code = code || 'changeset_locked';
 					_params = _.extend(
 						{
+							message: '',
 							type: 'warning',
 							containerClasses: '',
 							lockUser: {}
