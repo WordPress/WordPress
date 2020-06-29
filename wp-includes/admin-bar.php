@@ -425,7 +425,9 @@ function wp_admin_bar_customize_menu( $wp_admin_bar ) {
 	}
 
 	// Don't show if the user cannot edit a given customize_changeset post currently being previewed.
-	if ( is_customize_preview() && $wp_customize->changeset_post_id() && ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->edit_post, $wp_customize->changeset_post_id() ) ) {
+	if ( is_customize_preview() && $wp_customize->changeset_post_id()
+		&& ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->edit_post, $wp_customize->changeset_post_id() )
+	) {
 		return;
 	}
 

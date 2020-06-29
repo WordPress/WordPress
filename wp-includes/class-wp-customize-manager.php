@@ -3139,13 +3139,27 @@ final class WP_Customize_Manager {
 			return;
 		}
 
-		if ( $changeset_post_id && ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->delete_post, $changeset_post_id ) ) {
-			wp_send_json_error(
-				array(
-					'code'    => 'changeset_trash_unauthorized',
-					'message' => __( 'Unable to trash changes.' ),
-				)
-			);
+		if ( $changeset_post_id ) {
+			if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->delete_post, $changeset_post_id ) ) {
+				wp_send_json_error(
+					array(
+						'code'    => 'changeset_trash_unauthorized',
+						'message' => __( 'Unable to trash changes.' ),
+					)
+				);
+			}
+
+			$lock_user = (int) wp_check_post_lock( $changeset_post_id );
+
+			if ( $lock_user && get_current_user_id() !== $lock_user ) {
+				wp_send_json_error(
+					array(
+						'code'     => 'changeset_locked',
+						'message'  => __( 'Changeset is being edited by other user.' ),
+						'lockUser' => $this->get_lock_user_data( $lock_user ),
+					)
+				);
+			}
 		}
 
 		if ( 'trash' === get_post_status( $changeset_post_id ) ) {
