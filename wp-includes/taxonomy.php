@@ -1274,10 +1274,12 @@ function get_term_meta( $term_id, $key = '', $single = false ) {
  * @param string $meta_key   Metadata key.
  * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
  * @param mixed  $prev_value Optional. Previous value to check before updating.
- *                           Default empty.
+ *                           If specified, only update existing metadata entries with
+ *                           this value. Otherwise, update all entries. Default empty.
  * @return int|bool|WP_Error Meta ID if the key didn't exist. true on successful update,
- *                           false on failure. WP_Error when term_id is ambiguous
- *                           between taxonomies.
+ *                           false on failure or if the value passed to the function
+ *                           is the same as the one that is already in the database.
+ *                           WP_Error when term_id is ambiguous between taxonomies.
  */
 function update_term_meta( $term_id, $meta_key, $meta_value, $prev_value = '' ) {
 	if ( wp_term_is_shared( $term_id ) ) {
