@@ -2427,8 +2427,8 @@ function wp_set_comment_status( $comment_id, $comment_status, $wp_error = false 
  *
  * @param array $commentarr Contains information on the comment.
  * @param bool  $wp_error   Optional. Whether to return a WP_Error on failure. Default false.
- * @return int|bool|WP_Error Comment was updated if value is 1, or was not updated if value is 0,
- *                           false, or a WP_Error object.
+ * @return int|false|WP_Error The value 1 if the comment was updated, 0 if not updated.
+ *                            False or a WP_Error object on failure.
  */
 function wp_update_comment( $commentarr, $wp_error = false ) {
 	global $wpdb;
@@ -2436,20 +2436,20 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 	// First, get all of the original fields.
 	$comment = get_comment( $commentarr['comment_ID'], ARRAY_A );
 	if ( empty( $comment ) ) {
-		if ( ! $wp_error ) {
+		if ( $wp_error ) {
+			return new WP_Error( 'invalid_comment_id', __( 'Invalid comment ID.' ) );
+		} else {
 			return 0;
 		}
-
-		return new WP_Error( 'invalid_comment_id', __( 'Invalid comment ID.' ) );
 	}
 
 	// Make sure that the comment post ID is valid (if specified).
 	if ( ! empty( $commentarr['comment_post_ID'] ) && ! get_post( $commentarr['comment_post_ID'] ) ) {
-		if ( ! $wp_error ) {
+		if ( $wp_error ) {
+			return new WP_Error( 'invalid_post_id', __( 'Invalid post ID.' ) );
+		} else {
 			return 0;
 		}
-
-		return new WP_Error( 'invalid_post_id', __( 'Invalid post ID.' ) );
 	}
 
 	// Escape data pulled from DB.
@@ -2490,8 +2490,8 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 	/**
 	 * Filters the comment data immediately before it is updated in the database.
 	 *
-	 * Note: data being passed to the filter is already unslashed. Returning 0 or a
-	 * WP_Error object is preventing the comment to be updated.
+	 * Note: data being passed to the filter is already unslashed. Returning false
+	 * or a WP_Error object would prevent the comment from being updated.
 	 *
 	 * @since 4.7.0
 	 * @since 5.5.0 The `$wp_error` parameter was added.
@@ -2499,13 +2499,12 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 	 * @param array $data       The new, processed comment data.
 	 * @param array $comment    The old, unslashed comment data.
 	 * @param array $commentarr The new, raw comment data.
-	 * @param bool  $wp_error   Optional. Whether to return a WP_Error on failure.
-	 *                          Default false.
+	 * @param bool  $wp_error   Whether to return a WP_Error on failure.
 	 */
 	$data = apply_filters( 'wp_update_comment_data', $data, $comment, $commentarr, $wp_error );
 
 	// Do not carry on on failure.
-	if ( is_wp_error( $data ) || 0 === $data ) {
+	if ( is_wp_error( $data ) || ! $data ) {
 		return $data;
 	}
 
