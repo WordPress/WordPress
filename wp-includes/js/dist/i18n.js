@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 448);
+/******/ 	return __webpack_require__(__webpack_require__.s = 449);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -326,11 +326,22 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 448:
+/***/ 449:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "sprintf", function() { return /* reexport */ sprintf_sprintf; });
+__webpack_require__.d(__webpack_exports__, "createI18n", function() { return /* reexport */ create_i18n_createI18n; });
+__webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return /* reexport */ default_i18n_setLocaleData; });
+__webpack_require__.d(__webpack_exports__, "__", function() { return /* reexport */ default_i18n_; });
+__webpack_require__.d(__webpack_exports__, "_x", function() { return /* reexport */ default_i18n_x; });
+__webpack_require__.d(__webpack_exports__, "_n", function() { return /* reexport */ default_i18n_n; });
+__webpack_require__.d(__webpack_exports__, "_nx", function() { return /* reexport */ default_i18n_nx; });
+__webpack_require__.d(__webpack_exports__, "isRTL", function() { return /* reexport */ default_i18n_isRTL; });
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
 var memize = __webpack_require__(50);
@@ -1193,14 +1204,6 @@ var default_i18n_nx = i18n._nx.bind(i18n);
 var default_i18n_isRTL = i18n.isRTL.bind(i18n);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/index.js
-/* concated harmony reexport sprintf */__webpack_require__.d(__webpack_exports__, "sprintf", function() { return sprintf_sprintf; });
-/* concated harmony reexport createI18n */__webpack_require__.d(__webpack_exports__, "createI18n", function() { return create_i18n_createI18n; });
-/* concated harmony reexport setLocaleData */__webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return default_i18n_setLocaleData; });
-/* concated harmony reexport __ */__webpack_require__.d(__webpack_exports__, "__", function() { return default_i18n_; });
-/* concated harmony reexport _x */__webpack_require__.d(__webpack_exports__, "_x", function() { return default_i18n_x; });
-/* concated harmony reexport _n */__webpack_require__.d(__webpack_exports__, "_n", function() { return default_i18n_n; });
-/* concated harmony reexport _nx */__webpack_require__.d(__webpack_exports__, "_nx", function() { return default_i18n_nx; });
-/* concated harmony reexport isRTL */__webpack_require__.d(__webpack_exports__, "isRTL", function() { return default_i18n_isRTL; });
 
 
 

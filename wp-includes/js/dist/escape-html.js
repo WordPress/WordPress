@@ -82,16 +82,26 @@ this["wp"] = this["wp"] || {}; this["wp"]["escapeHtml"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 461);
+/******/ 	return __webpack_require__(__webpack_require__.s = 463);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 461:
+/***/ 463:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "escapeAmpersand", function() { return /* binding */ escapeAmpersand; });
+__webpack_require__.d(__webpack_exports__, "escapeQuotationMark", function() { return /* binding */ escapeQuotationMark; });
+__webpack_require__.d(__webpack_exports__, "escapeLessThan", function() { return /* binding */ escapeLessThan; });
+__webpack_require__.d(__webpack_exports__, "escapeAttribute", function() { return /* binding */ escapeAttribute; });
+__webpack_require__.d(__webpack_exports__, "escapeHTML", function() { return /* binding */ escapeHTML; });
+__webpack_require__.d(__webpack_exports__, "escapeEditableHTML", function() { return /* binding */ escapeEditableHTML; });
+__webpack_require__.d(__webpack_exports__, "isValidAttributeName", function() { return /* binding */ isValidAttributeName; });
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/escape-html/build-module/escape-greater.js
 /**
@@ -111,13 +121,6 @@ function __unstableEscapeGreaterThan(value) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/escape-html/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "escapeAmpersand", function() { return escapeAmpersand; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "escapeQuotationMark", function() { return escapeQuotationMark; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "escapeLessThan", function() { return escapeLessThan; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "escapeAttribute", function() { return escapeAttribute; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "escapeHTML", function() { return escapeHTML; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "escapeEditableHTML", function() { return escapeEditableHTML; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidAttributeName", function() { return isValidAttributeName; });
 /**
  * Internal dependencies
  */

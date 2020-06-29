@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 436);
+/******/ 	return __webpack_require__(__webpack_require__.s = 438);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -185,6 +185,9 @@ function _objectWithoutProperties(source, excluded) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(38);
 
@@ -222,7 +225,6 @@ var unsupportedIterableToArray = __webpack_require__(28);
 var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 
@@ -237,6 +239,9 @@ function _slicedToArray(arr, i) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
 var arrayLikeToArray = __webpack_require__(26);
@@ -257,7 +262,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -691,17 +695,59 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 436:
+/***/ 438:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "applyFormat", function() { return /* reexport */ applyFormat; });
+__webpack_require__.d(__webpack_exports__, "concat", function() { return /* reexport */ concat; });
+__webpack_require__.d(__webpack_exports__, "create", function() { return /* reexport */ create; });
+__webpack_require__.d(__webpack_exports__, "getActiveFormat", function() { return /* reexport */ getActiveFormat; });
+__webpack_require__.d(__webpack_exports__, "getActiveObject", function() { return /* reexport */ getActiveObject; });
+__webpack_require__.d(__webpack_exports__, "getTextContent", function() { return /* reexport */ getTextContent; });
+__webpack_require__.d(__webpack_exports__, "__unstableIsListRootSelected", function() { return /* reexport */ isListRootSelected; });
+__webpack_require__.d(__webpack_exports__, "__unstableIsActiveListType", function() { return /* reexport */ isActiveListType; });
+__webpack_require__.d(__webpack_exports__, "isCollapsed", function() { return /* reexport */ isCollapsed; });
+__webpack_require__.d(__webpack_exports__, "isEmpty", function() { return /* reexport */ isEmpty; });
+__webpack_require__.d(__webpack_exports__, "__unstableIsEmptyLine", function() { return /* reexport */ isEmptyLine; });
+__webpack_require__.d(__webpack_exports__, "join", function() { return /* reexport */ join; });
+__webpack_require__.d(__webpack_exports__, "registerFormatType", function() { return /* reexport */ registerFormatType; });
+__webpack_require__.d(__webpack_exports__, "removeFormat", function() { return /* reexport */ removeFormat; });
+__webpack_require__.d(__webpack_exports__, "remove", function() { return /* reexport */ remove_remove; });
+__webpack_require__.d(__webpack_exports__, "replace", function() { return /* reexport */ replace_replace; });
+__webpack_require__.d(__webpack_exports__, "insert", function() { return /* reexport */ insert; });
+__webpack_require__.d(__webpack_exports__, "__unstableInsertLineSeparator", function() { return /* reexport */ insertLineSeparator; });
+__webpack_require__.d(__webpack_exports__, "__unstableRemoveLineSeparator", function() { return /* reexport */ removeLineSeparator; });
+__webpack_require__.d(__webpack_exports__, "insertObject", function() { return /* reexport */ insertObject; });
+__webpack_require__.d(__webpack_exports__, "slice", function() { return /* reexport */ slice; });
+__webpack_require__.d(__webpack_exports__, "split", function() { return /* reexport */ split; });
+__webpack_require__.d(__webpack_exports__, "__unstableToDom", function() { return /* reexport */ toDom; });
+__webpack_require__.d(__webpack_exports__, "toHTMLString", function() { return /* reexport */ toHTMLString; });
+__webpack_require__.d(__webpack_exports__, "toggleFormat", function() { return /* reexport */ toggleFormat; });
+__webpack_require__.d(__webpack_exports__, "__UNSTABLE_LINE_SEPARATOR", function() { return /* reexport */ LINE_SEPARATOR; });
+__webpack_require__.d(__webpack_exports__, "unregisterFormatType", function() { return /* reexport */ unregisterFormatType; });
+__webpack_require__.d(__webpack_exports__, "__unstableCanIndentListItems", function() { return /* reexport */ canIndentListItems; });
+__webpack_require__.d(__webpack_exports__, "__unstableCanOutdentListItems", function() { return /* reexport */ canOutdentListItems; });
+__webpack_require__.d(__webpack_exports__, "__unstableIndentListItems", function() { return /* reexport */ indentListItems; });
+__webpack_require__.d(__webpack_exports__, "__unstableOutdentListItems", function() { return /* reexport */ outdentListItems; });
+__webpack_require__.d(__webpack_exports__, "__unstableChangeListType", function() { return /* reexport */ changeListType; });
+__webpack_require__.d(__webpack_exports__, "__unstableCreateElement", function() { return /* reexport */ createElement; });
+__webpack_require__.d(__webpack_exports__, "__experimentalRichText", function() { return /* reexport */ component; });
+__webpack_require__.d(__webpack_exports__, "__unstableFormatEdit", function() { return /* reexport */ FormatEdit; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/rich-text/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "getFormatTypes", function() { return getFormatTypes; });
 __webpack_require__.d(selectors_namespaceObject, "getFormatType", function() { return getFormatType; });
 __webpack_require__.d(selectors_namespaceObject, "getFormatTypeForBareElement", function() { return getFormatTypeForBareElement; });
 __webpack_require__.d(selectors_namespaceObject, "getFormatTypeForClassName", function() { return getFormatTypeForClassName; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/rich-text/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "addFormatTypes", function() { return addFormatTypes; });
@@ -5199,41 +5245,6 @@ var RichTextWrapper = withFormatTypes(component_RichText);
 }));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/index.js
-/* concated harmony reexport applyFormat */__webpack_require__.d(__webpack_exports__, "applyFormat", function() { return applyFormat; });
-/* concated harmony reexport concat */__webpack_require__.d(__webpack_exports__, "concat", function() { return concat; });
-/* concated harmony reexport create */__webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* concated harmony reexport getActiveFormat */__webpack_require__.d(__webpack_exports__, "getActiveFormat", function() { return getActiveFormat; });
-/* concated harmony reexport getActiveObject */__webpack_require__.d(__webpack_exports__, "getActiveObject", function() { return getActiveObject; });
-/* concated harmony reexport getTextContent */__webpack_require__.d(__webpack_exports__, "getTextContent", function() { return getTextContent; });
-/* concated harmony reexport __unstableIsListRootSelected */__webpack_require__.d(__webpack_exports__, "__unstableIsListRootSelected", function() { return isListRootSelected; });
-/* concated harmony reexport __unstableIsActiveListType */__webpack_require__.d(__webpack_exports__, "__unstableIsActiveListType", function() { return isActiveListType; });
-/* concated harmony reexport isCollapsed */__webpack_require__.d(__webpack_exports__, "isCollapsed", function() { return isCollapsed; });
-/* concated harmony reexport isEmpty */__webpack_require__.d(__webpack_exports__, "isEmpty", function() { return isEmpty; });
-/* concated harmony reexport __unstableIsEmptyLine */__webpack_require__.d(__webpack_exports__, "__unstableIsEmptyLine", function() { return isEmptyLine; });
-/* concated harmony reexport join */__webpack_require__.d(__webpack_exports__, "join", function() { return join; });
-/* concated harmony reexport registerFormatType */__webpack_require__.d(__webpack_exports__, "registerFormatType", function() { return registerFormatType; });
-/* concated harmony reexport removeFormat */__webpack_require__.d(__webpack_exports__, "removeFormat", function() { return removeFormat; });
-/* concated harmony reexport remove */__webpack_require__.d(__webpack_exports__, "remove", function() { return remove_remove; });
-/* concated harmony reexport replace */__webpack_require__.d(__webpack_exports__, "replace", function() { return replace_replace; });
-/* concated harmony reexport insert */__webpack_require__.d(__webpack_exports__, "insert", function() { return insert; });
-/* concated harmony reexport __unstableInsertLineSeparator */__webpack_require__.d(__webpack_exports__, "__unstableInsertLineSeparator", function() { return insertLineSeparator; });
-/* concated harmony reexport __unstableRemoveLineSeparator */__webpack_require__.d(__webpack_exports__, "__unstableRemoveLineSeparator", function() { return removeLineSeparator; });
-/* concated harmony reexport insertObject */__webpack_require__.d(__webpack_exports__, "insertObject", function() { return insertObject; });
-/* concated harmony reexport slice */__webpack_require__.d(__webpack_exports__, "slice", function() { return slice; });
-/* concated harmony reexport split */__webpack_require__.d(__webpack_exports__, "split", function() { return split; });
-/* concated harmony reexport __unstableToDom */__webpack_require__.d(__webpack_exports__, "__unstableToDom", function() { return toDom; });
-/* concated harmony reexport toHTMLString */__webpack_require__.d(__webpack_exports__, "toHTMLString", function() { return toHTMLString; });
-/* concated harmony reexport toggleFormat */__webpack_require__.d(__webpack_exports__, "toggleFormat", function() { return toggleFormat; });
-/* concated harmony reexport __UNSTABLE_LINE_SEPARATOR */__webpack_require__.d(__webpack_exports__, "__UNSTABLE_LINE_SEPARATOR", function() { return LINE_SEPARATOR; });
-/* concated harmony reexport unregisterFormatType */__webpack_require__.d(__webpack_exports__, "unregisterFormatType", function() { return unregisterFormatType; });
-/* concated harmony reexport __unstableCanIndentListItems */__webpack_require__.d(__webpack_exports__, "__unstableCanIndentListItems", function() { return canIndentListItems; });
-/* concated harmony reexport __unstableCanOutdentListItems */__webpack_require__.d(__webpack_exports__, "__unstableCanOutdentListItems", function() { return canOutdentListItems; });
-/* concated harmony reexport __unstableIndentListItems */__webpack_require__.d(__webpack_exports__, "__unstableIndentListItems", function() { return indentListItems; });
-/* concated harmony reexport __unstableOutdentListItems */__webpack_require__.d(__webpack_exports__, "__unstableOutdentListItems", function() { return outdentListItems; });
-/* concated harmony reexport __unstableChangeListType */__webpack_require__.d(__webpack_exports__, "__unstableChangeListType", function() { return changeListType; });
-/* concated harmony reexport __unstableCreateElement */__webpack_require__.d(__webpack_exports__, "__unstableCreateElement", function() { return createElement; });
-/* concated harmony reexport __experimentalRichText */__webpack_require__.d(__webpack_exports__, "__experimentalRichText", function() { return component; });
-/* concated harmony reexport __unstableFormatEdit */__webpack_require__.d(__webpack_exports__, "__unstableFormatEdit", function() { return FormatEdit; });
 /**
  * Internal dependencies
  */

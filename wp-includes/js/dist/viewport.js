@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["viewport"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 450);
+/******/ 	return __webpack_require__(__webpack_require__.s = 452);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -98,6 +98,9 @@ this["wp"] = this["wp"] || {}; this["wp"]["viewport"] =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(38);
@@ -136,7 +139,6 @@ var unsupportedIterableToArray = __webpack_require__(28);
 var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 
@@ -218,14 +220,23 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 450:
+/***/ 452:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "ifViewportMatches", function() { return /* reexport */ if_viewport_matches; });
+__webpack_require__.d(__webpack_exports__, "withViewportMatch", function() { return /* reexport */ with_viewport_match; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/viewport/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "setIsMatching", function() { return actions_setIsMatching; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/viewport/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "isViewportMatch", function() { return isViewportMatch; });
@@ -495,8 +506,6 @@ var if_viewport_matches_ifViewportMatches = function ifViewportMatches(query) {
 /* harmony default export */ var if_viewport_matches = (if_viewport_matches_ifViewportMatches);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/viewport/build-module/index.js
-/* concated harmony reexport ifViewportMatches */__webpack_require__.d(__webpack_exports__, "ifViewportMatches", function() { return if_viewport_matches; });
-/* concated harmony reexport withViewportMatch */__webpack_require__.d(__webpack_exports__, "withViewportMatch", function() { return with_viewport_match; });
 /**
  * Internal dependencies
  */

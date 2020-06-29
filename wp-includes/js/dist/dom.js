@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 458);
+/******/ 	return __webpack_require__(__webpack_require__.s = 460);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,14 +94,43 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 
 /***/ }),
 
-/***/ 458:
+/***/ 460:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "focus", function() { return /* binding */ build_module_focus; });
+__webpack_require__.d(__webpack_exports__, "isHorizontalEdge", function() { return /* reexport */ isHorizontalEdge; });
+__webpack_require__.d(__webpack_exports__, "isVerticalEdge", function() { return /* reexport */ isVerticalEdge; });
+__webpack_require__.d(__webpack_exports__, "getRectangleFromRange", function() { return /* reexport */ getRectangleFromRange; });
+__webpack_require__.d(__webpack_exports__, "computeCaretRect", function() { return /* reexport */ computeCaretRect; });
+__webpack_require__.d(__webpack_exports__, "placeCaretAtHorizontalEdge", function() { return /* reexport */ placeCaretAtHorizontalEdge; });
+__webpack_require__.d(__webpack_exports__, "placeCaretAtVerticalEdge", function() { return /* reexport */ placeCaretAtVerticalEdge; });
+__webpack_require__.d(__webpack_exports__, "isTextField", function() { return /* reexport */ isTextField; });
+__webpack_require__.d(__webpack_exports__, "isNumberInput", function() { return /* reexport */ isNumberInput; });
+__webpack_require__.d(__webpack_exports__, "documentHasTextSelection", function() { return /* reexport */ documentHasTextSelection; });
+__webpack_require__.d(__webpack_exports__, "documentHasUncollapsedSelection", function() { return /* reexport */ documentHasUncollapsedSelection; });
+__webpack_require__.d(__webpack_exports__, "documentHasSelection", function() { return /* reexport */ documentHasSelection; });
+__webpack_require__.d(__webpack_exports__, "isEntirelySelected", function() { return /* reexport */ isEntirelySelected; });
+__webpack_require__.d(__webpack_exports__, "getScrollContainer", function() { return /* reexport */ getScrollContainer; });
+__webpack_require__.d(__webpack_exports__, "getOffsetParent", function() { return /* reexport */ getOffsetParent; });
+__webpack_require__.d(__webpack_exports__, "replace", function() { return /* reexport */ replace; });
+__webpack_require__.d(__webpack_exports__, "remove", function() { return /* reexport */ remove; });
+__webpack_require__.d(__webpack_exports__, "insertAfter", function() { return /* reexport */ insertAfter; });
+__webpack_require__.d(__webpack_exports__, "unwrap", function() { return /* reexport */ unwrap; });
+__webpack_require__.d(__webpack_exports__, "replaceTag", function() { return /* reexport */ replaceTag; });
+__webpack_require__.d(__webpack_exports__, "wrap", function() { return /* reexport */ wrap; });
+__webpack_require__.d(__webpack_exports__, "__unstableStripHTML", function() { return /* reexport */ __unstableStripHTML; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/dom/build-module/focusable.js
 var focusable_namespaceObject = {};
 __webpack_require__.r(focusable_namespaceObject);
 __webpack_require__.d(focusable_namespaceObject, "find", function() { return find; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/dom/build-module/tabbable.js
 var tabbable_namespaceObject = {};
 __webpack_require__.r(tabbable_namespaceObject);
 __webpack_require__.d(tabbable_namespaceObject, "isTabbableIndex", function() { return isTabbableIndex; });
@@ -1091,28 +1120,6 @@ function __unstableStripHTML(html) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "focus", function() { return build_module_focus; });
-/* concated harmony reexport isHorizontalEdge */__webpack_require__.d(__webpack_exports__, "isHorizontalEdge", function() { return isHorizontalEdge; });
-/* concated harmony reexport isVerticalEdge */__webpack_require__.d(__webpack_exports__, "isVerticalEdge", function() { return isVerticalEdge; });
-/* concated harmony reexport getRectangleFromRange */__webpack_require__.d(__webpack_exports__, "getRectangleFromRange", function() { return getRectangleFromRange; });
-/* concated harmony reexport computeCaretRect */__webpack_require__.d(__webpack_exports__, "computeCaretRect", function() { return computeCaretRect; });
-/* concated harmony reexport placeCaretAtHorizontalEdge */__webpack_require__.d(__webpack_exports__, "placeCaretAtHorizontalEdge", function() { return placeCaretAtHorizontalEdge; });
-/* concated harmony reexport placeCaretAtVerticalEdge */__webpack_require__.d(__webpack_exports__, "placeCaretAtVerticalEdge", function() { return placeCaretAtVerticalEdge; });
-/* concated harmony reexport isTextField */__webpack_require__.d(__webpack_exports__, "isTextField", function() { return isTextField; });
-/* concated harmony reexport isNumberInput */__webpack_require__.d(__webpack_exports__, "isNumberInput", function() { return isNumberInput; });
-/* concated harmony reexport documentHasTextSelection */__webpack_require__.d(__webpack_exports__, "documentHasTextSelection", function() { return documentHasTextSelection; });
-/* concated harmony reexport documentHasUncollapsedSelection */__webpack_require__.d(__webpack_exports__, "documentHasUncollapsedSelection", function() { return documentHasUncollapsedSelection; });
-/* concated harmony reexport documentHasSelection */__webpack_require__.d(__webpack_exports__, "documentHasSelection", function() { return documentHasSelection; });
-/* concated harmony reexport isEntirelySelected */__webpack_require__.d(__webpack_exports__, "isEntirelySelected", function() { return isEntirelySelected; });
-/* concated harmony reexport getScrollContainer */__webpack_require__.d(__webpack_exports__, "getScrollContainer", function() { return getScrollContainer; });
-/* concated harmony reexport getOffsetParent */__webpack_require__.d(__webpack_exports__, "getOffsetParent", function() { return getOffsetParent; });
-/* concated harmony reexport replace */__webpack_require__.d(__webpack_exports__, "replace", function() { return replace; });
-/* concated harmony reexport remove */__webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-/* concated harmony reexport insertAfter */__webpack_require__.d(__webpack_exports__, "insertAfter", function() { return insertAfter; });
-/* concated harmony reexport unwrap */__webpack_require__.d(__webpack_exports__, "unwrap", function() { return unwrap; });
-/* concated harmony reexport replaceTag */__webpack_require__.d(__webpack_exports__, "replaceTag", function() { return replaceTag; });
-/* concated harmony reexport wrap */__webpack_require__.d(__webpack_exports__, "wrap", function() { return wrap; });
-/* concated harmony reexport __unstableStripHTML */__webpack_require__.d(__webpack_exports__, "__unstableStripHTML", function() { return __unstableStripHTML; });
 /**
  * Internal dependencies
  */

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 440);
+/******/ 	return __webpack_require__(__webpack_require__.s = 442);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -93,9 +93,9 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 "use strict";
 
 
-var stringify = __webpack_require__(429);
-var parse = __webpack_require__(430);
-var formats = __webpack_require__(250);
+var stringify = __webpack_require__(431);
+var parse = __webpack_require__(432);
+var formats = __webpack_require__(251);
 
 module.exports = {
     formats: formats,
@@ -113,7 +113,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 249:
+/***/ 250:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -351,7 +351,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 250:
+/***/ 251:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -377,14 +377,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 429:
+/***/ 431:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(249);
-var formats = __webpack_require__(250);
+var utils = __webpack_require__(250);
+var formats = __webpack_require__(251);
 var has = Object.prototype.hasOwnProperty;
 
 var arrayPrefixGenerators = {
@@ -654,13 +654,13 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 430:
+/***/ 432:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(249);
+var utils = __webpack_require__(250);
 
 var has = Object.prototype.hasOwnProperty;
 
@@ -904,11 +904,36 @@ module.exports = function (str, opts) {
 
 /***/ }),
 
-/***/ 440:
+/***/ 442:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "isURL", function() { return /* reexport */ isURL; });
+__webpack_require__.d(__webpack_exports__, "isEmail", function() { return /* reexport */ isEmail; });
+__webpack_require__.d(__webpack_exports__, "getProtocol", function() { return /* reexport */ getProtocol; });
+__webpack_require__.d(__webpack_exports__, "isValidProtocol", function() { return /* reexport */ isValidProtocol; });
+__webpack_require__.d(__webpack_exports__, "getAuthority", function() { return /* reexport */ getAuthority; });
+__webpack_require__.d(__webpack_exports__, "isValidAuthority", function() { return /* reexport */ isValidAuthority; });
+__webpack_require__.d(__webpack_exports__, "getPath", function() { return /* reexport */ getPath; });
+__webpack_require__.d(__webpack_exports__, "isValidPath", function() { return /* reexport */ isValidPath; });
+__webpack_require__.d(__webpack_exports__, "getQueryString", function() { return /* reexport */ getQueryString; });
+__webpack_require__.d(__webpack_exports__, "isValidQueryString", function() { return /* reexport */ isValidQueryString; });
+__webpack_require__.d(__webpack_exports__, "getPathAndQueryString", function() { return /* reexport */ getPathAndQueryString; });
+__webpack_require__.d(__webpack_exports__, "getFragment", function() { return /* reexport */ getFragment; });
+__webpack_require__.d(__webpack_exports__, "isValidFragment", function() { return /* reexport */ isValidFragment; });
+__webpack_require__.d(__webpack_exports__, "addQueryArgs", function() { return /* reexport */ addQueryArgs; });
+__webpack_require__.d(__webpack_exports__, "getQueryArg", function() { return /* reexport */ getQueryArg; });
+__webpack_require__.d(__webpack_exports__, "hasQueryArg", function() { return /* reexport */ hasQueryArg; });
+__webpack_require__.d(__webpack_exports__, "removeQueryArgs", function() { return /* reexport */ removeQueryArgs; });
+__webpack_require__.d(__webpack_exports__, "prependHTTP", function() { return /* reexport */ prependHTTP; });
+__webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return /* reexport */ safeDecodeURI; });
+__webpack_require__.d(__webpack_exports__, "safeDecodeURIComponent", function() { return /* reexport */ safeDecodeURIComponent; });
+__webpack_require__.d(__webpack_exports__, "filterURLForDisplay", function() { return /* reexport */ filterURLForDisplay; });
+__webpack_require__.d(__webpack_exports__, "cleanForSlug", function() { return /* reexport */ cleanForSlug; });
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-url.js
 /**
@@ -1479,28 +1504,6 @@ function cleanForSlug(string) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/index.js
-/* concated harmony reexport isURL */__webpack_require__.d(__webpack_exports__, "isURL", function() { return isURL; });
-/* concated harmony reexport isEmail */__webpack_require__.d(__webpack_exports__, "isEmail", function() { return isEmail; });
-/* concated harmony reexport getProtocol */__webpack_require__.d(__webpack_exports__, "getProtocol", function() { return getProtocol; });
-/* concated harmony reexport isValidProtocol */__webpack_require__.d(__webpack_exports__, "isValidProtocol", function() { return isValidProtocol; });
-/* concated harmony reexport getAuthority */__webpack_require__.d(__webpack_exports__, "getAuthority", function() { return getAuthority; });
-/* concated harmony reexport isValidAuthority */__webpack_require__.d(__webpack_exports__, "isValidAuthority", function() { return isValidAuthority; });
-/* concated harmony reexport getPath */__webpack_require__.d(__webpack_exports__, "getPath", function() { return getPath; });
-/* concated harmony reexport isValidPath */__webpack_require__.d(__webpack_exports__, "isValidPath", function() { return isValidPath; });
-/* concated harmony reexport getQueryString */__webpack_require__.d(__webpack_exports__, "getQueryString", function() { return getQueryString; });
-/* concated harmony reexport isValidQueryString */__webpack_require__.d(__webpack_exports__, "isValidQueryString", function() { return isValidQueryString; });
-/* concated harmony reexport getPathAndQueryString */__webpack_require__.d(__webpack_exports__, "getPathAndQueryString", function() { return getPathAndQueryString; });
-/* concated harmony reexport getFragment */__webpack_require__.d(__webpack_exports__, "getFragment", function() { return getFragment; });
-/* concated harmony reexport isValidFragment */__webpack_require__.d(__webpack_exports__, "isValidFragment", function() { return isValidFragment; });
-/* concated harmony reexport addQueryArgs */__webpack_require__.d(__webpack_exports__, "addQueryArgs", function() { return addQueryArgs; });
-/* concated harmony reexport getQueryArg */__webpack_require__.d(__webpack_exports__, "getQueryArg", function() { return getQueryArg; });
-/* concated harmony reexport hasQueryArg */__webpack_require__.d(__webpack_exports__, "hasQueryArg", function() { return hasQueryArg; });
-/* concated harmony reexport removeQueryArgs */__webpack_require__.d(__webpack_exports__, "removeQueryArgs", function() { return removeQueryArgs; });
-/* concated harmony reexport prependHTTP */__webpack_require__.d(__webpack_exports__, "prependHTTP", function() { return prependHTTP; });
-/* concated harmony reexport safeDecodeURI */__webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return safeDecodeURI; });
-/* concated harmony reexport safeDecodeURIComponent */__webpack_require__.d(__webpack_exports__, "safeDecodeURIComponent", function() { return safeDecodeURIComponent; });
-/* concated harmony reexport filterURLForDisplay */__webpack_require__.d(__webpack_exports__, "filterURLForDisplay", function() { return filterURLForDisplay; });
-/* concated harmony reexport cleanForSlug */__webpack_require__.d(__webpack_exports__, "cleanForSlug", function() { return cleanForSlug; });
 
 
 

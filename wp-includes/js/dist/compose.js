@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 443);
+/******/ 	return __webpack_require__(__webpack_require__.s = 445);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -375,6 +375,9 @@ function _getPrototypeOf(o) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(38);
 
@@ -412,7 +415,6 @@ var unsupportedIterableToArray = __webpack_require__(28);
 var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 
@@ -427,6 +429,9 @@ function _slicedToArray(arr, i) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
 var arrayLikeToArray = __webpack_require__(26);
@@ -447,7 +452,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -513,6 +517,9 @@ function _classCallCheck(instance, Constructor) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 function _setPrototypeOf(o, p) {
   _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
@@ -523,7 +530,6 @@ function _setPrototypeOf(o, p) {
   return _setPrototypeOf(o, p);
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _inherits; });
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
@@ -561,7 +567,7 @@ function _possibleConstructorReturn(self, call) {
 
 /***/ }),
 
-/***/ 245:
+/***/ 246:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -611,7 +617,7 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 263:
+/***/ 265:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -1585,7 +1591,7 @@ function getAttributeValue(suffix, element) {
 
 /***/ }),
 
-/***/ 264:
+/***/ 266:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -2651,7 +2657,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
 
 /***/ }),
 
-/***/ 265:
+/***/ 267:
 /***/ (function(module, exports, __webpack_require__) {
 
 var e=__webpack_require__(17),n={display:"block",opacity:0,position:"absolute",top:0,left:0,height:"100%",width:"100%",overflow:"hidden",pointerEvents:"none",zIndex:-1},t=function(t){var r=t.onResize,u=e.useRef();return function(n,t){var r=function(){return n.current&&n.current.contentDocument&&n.current.contentDocument.defaultView};function u(){t();var e=r();e&&e.addEventListener("resize",t)}e.useEffect((function(){return r()?u():n.current&&n.current.addEventListener&&n.current.addEventListener("load",u),function(){var e=r();e&&"function"==typeof e.removeEventListener&&e.removeEventListener("resize",t)}}),[])}(u,(function(){return r(u)})),e.createElement("iframe",{style:n,src:"about:blank",ref:u,"aria-hidden":!0,tabIndex:-1,frameBorder:0})},r=function(e){return{width:null!=e?e.offsetWidth:null,height:null!=e?e.offsetHeight:null}};module.exports=function(n){void 0===n&&(n=r);var u=e.useState(n(null)),o=u[0],i=u[1],c=e.useCallback((function(e){return i(n(e.current))}),[n]);return[e.useMemo((function(){return e.createElement(t,{onResize:c})}),[c]),o]};
@@ -2733,7 +2739,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 406:
+/***/ 408:
 /***/ (function(module, exports) {
 
 /**
@@ -2786,11 +2792,32 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 443:
+/***/ 445:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "createHigherOrderComponent", function() { return /* reexport */ create_higher_order_component; });
+__webpack_require__.d(__webpack_exports__, "compose", function() { return /* reexport */ compose; });
+__webpack_require__.d(__webpack_exports__, "ifCondition", function() { return /* reexport */ if_condition; });
+__webpack_require__.d(__webpack_exports__, "pure", function() { return /* reexport */ higher_order_pure; });
+__webpack_require__.d(__webpack_exports__, "withGlobalEvents", function() { return /* reexport */ with_global_events; });
+__webpack_require__.d(__webpack_exports__, "withInstanceId", function() { return /* reexport */ with_instance_id; });
+__webpack_require__.d(__webpack_exports__, "withSafeTimeout", function() { return /* reexport */ with_safe_timeout; });
+__webpack_require__.d(__webpack_exports__, "withState", function() { return /* reexport */ withState; });
+__webpack_require__.d(__webpack_exports__, "useCopyOnClick", function() { return /* reexport */ useCopyOnClick; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseDragging", function() { return /* reexport */ useDragging; });
+__webpack_require__.d(__webpack_exports__, "useInstanceId", function() { return /* reexport */ useInstanceId; });
+__webpack_require__.d(__webpack_exports__, "useKeyboardShortcut", function() { return /* reexport */ use_keyboard_shortcut; });
+__webpack_require__.d(__webpack_exports__, "useMediaQuery", function() { return /* reexport */ use_media_query["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "usePrevious", function() { return /* reexport */ usePrevious; });
+__webpack_require__.d(__webpack_exports__, "useReducedMotion", function() { return /* reexport */ use_reduced_motion["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "useViewportMatch", function() { return /* reexport */ use_viewport_match; });
+__webpack_require__.d(__webpack_exports__, "useResizeObserver", function() { return /* reexport */ use_resize_observer; });
+__webpack_require__.d(__webpack_exports__, "useAsyncList", function() { return /* reexport */ use_async_list; });
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
@@ -3417,7 +3444,7 @@ function withState() {
 var slicedToArray = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/clipboard/dist/clipboard.js
-var dist_clipboard = __webpack_require__(263);
+var dist_clipboard = __webpack_require__(265);
 var clipboard_default = /*#__PURE__*/__webpack_require__.n(dist_clipboard);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-copy-on-click/index.js
@@ -3557,11 +3584,11 @@ function useDragging(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/mousetrap.js
-var mousetrap_mousetrap = __webpack_require__(264);
+var mousetrap_mousetrap = __webpack_require__(266);
 var mousetrap_default = /*#__PURE__*/__webpack_require__.n(mousetrap_mousetrap);
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
-var mousetrap_global_bind = __webpack_require__(406);
+var mousetrap_global_bind = __webpack_require__(408);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-keyboard-shortcut/index.js
 /**
@@ -3691,7 +3718,7 @@ function usePrevious(value) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-reduced-motion/index.js
-var use_reduced_motion = __webpack_require__(245);
+var use_reduced_motion = __webpack_require__(246);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-viewport-match/index.js
 /**
@@ -3785,7 +3812,7 @@ use_viewport_match_useViewportMatch.__experimentalWidthProvider = ViewportMatchW
 /* harmony default export */ var use_viewport_match = (use_viewport_match_useViewportMatch);
 
 // EXTERNAL MODULE: ./node_modules/react-resize-aware/dist/index.js
-var dist = __webpack_require__(265);
+var dist = __webpack_require__(267);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/index.js
@@ -3926,24 +3953,6 @@ function useAsyncList(list) {
 /* harmony default export */ var use_async_list = (useAsyncList);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/index.js
-/* concated harmony reexport createHigherOrderComponent */__webpack_require__.d(__webpack_exports__, "createHigherOrderComponent", function() { return create_higher_order_component; });
-/* concated harmony reexport compose */__webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
-/* concated harmony reexport ifCondition */__webpack_require__.d(__webpack_exports__, "ifCondition", function() { return if_condition; });
-/* concated harmony reexport pure */__webpack_require__.d(__webpack_exports__, "pure", function() { return higher_order_pure; });
-/* concated harmony reexport withGlobalEvents */__webpack_require__.d(__webpack_exports__, "withGlobalEvents", function() { return with_global_events; });
-/* concated harmony reexport withInstanceId */__webpack_require__.d(__webpack_exports__, "withInstanceId", function() { return with_instance_id; });
-/* concated harmony reexport withSafeTimeout */__webpack_require__.d(__webpack_exports__, "withSafeTimeout", function() { return with_safe_timeout; });
-/* concated harmony reexport withState */__webpack_require__.d(__webpack_exports__, "withState", function() { return withState; });
-/* concated harmony reexport useCopyOnClick */__webpack_require__.d(__webpack_exports__, "useCopyOnClick", function() { return useCopyOnClick; });
-/* concated harmony reexport __experimentalUseDragging */__webpack_require__.d(__webpack_exports__, "__experimentalUseDragging", function() { return useDragging; });
-/* concated harmony reexport useInstanceId */__webpack_require__.d(__webpack_exports__, "useInstanceId", function() { return useInstanceId; });
-/* concated harmony reexport useKeyboardShortcut */__webpack_require__.d(__webpack_exports__, "useKeyboardShortcut", function() { return use_keyboard_shortcut; });
-/* concated harmony reexport useMediaQuery */__webpack_require__.d(__webpack_exports__, "useMediaQuery", function() { return use_media_query["a" /* default */]; });
-/* concated harmony reexport usePrevious */__webpack_require__.d(__webpack_exports__, "usePrevious", function() { return usePrevious; });
-/* concated harmony reexport useReducedMotion */__webpack_require__.d(__webpack_exports__, "useReducedMotion", function() { return use_reduced_motion["a" /* default */]; });
-/* concated harmony reexport useViewportMatch */__webpack_require__.d(__webpack_exports__, "useViewportMatch", function() { return use_viewport_match; });
-/* concated harmony reexport useResizeObserver */__webpack_require__.d(__webpack_exports__, "useResizeObserver", function() { return use_resize_observer; });
-/* concated harmony reexport useAsyncList */__webpack_require__.d(__webpack_exports__, "useAsyncList", function() { return use_async_list; });
 // Utils
  // Compose helper (aliased flowRight from Lodash)
 
