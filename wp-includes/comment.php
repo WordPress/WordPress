@@ -2513,6 +2513,14 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 
 	$rval = $wpdb->update( $wpdb->comments, $data, compact( 'comment_ID' ) );
 
+	if ( false === $rval ) {
+		if ( $wp_error ) {
+			return new WP_Error( 'db_update_error', __( 'Could not update comment in the database.' ), $wpdb->last_error );
+		} else {
+			return false;
+		}
+	}
+
 	// If metadata is provided, store it.
 	if ( isset( $commentarr['comment_meta'] ) && is_array( $commentarr['comment_meta'] ) ) {
 		foreach ( $commentarr['comment_meta'] as $meta_key => $meta_value ) {
