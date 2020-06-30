@@ -534,7 +534,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		?>
 		<div class="alignleft actions">
 		<?php
-		if ( 'top' === $which && ! is_singular() ) {
+		if ( 'top' === $which ) {
 			ob_start();
 
 			$this->months_dropdown( $this->screen->post_type );
