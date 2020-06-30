@@ -6,7 +6,8 @@
 
 // Privacy request action handling.
 jQuery( document ).ready( function( $ ) {
-	var strings = window.privacyToolsL10n || {};
+	var strings = window.privacyToolsL10n || {},
+		copiedNoticeTimeout;
 
 	function setActionState( $action, state ) {
 		$action.children().addClass( 'hidden' );
@@ -88,7 +89,7 @@ jQuery( document ).ready( function( $ ) {
 				onExportFailure( strings.noExportFile );
 			}
 
-			setTimeout( function(){ $rowActions.removeClass( 'processing' ); }, 500 );
+			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
 		}
 
 		function onExportFailure( errorMessage ) {
@@ -97,12 +98,13 @@ jQuery( document ).ready( function( $ ) {
 				appendResultsAfterRow( $requestRow, 'notice-error', strings.exportError, [ errorMessage ] );
 			}
 
-			setTimeout( function(){ $rowActions.removeClass( 'processing' ); }, 500 );
+			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
 		}
 
 		function setExportProgress( exporterIndex ) {
-			var progress       = ( exportersCount > 0 ? exporterIndex / exportersCount : 0 );
-			var progressString = Math.round( progress * 100 ).toString() + '%';
+			var progress       = ( exportersCount > 0 ? exporterIndex / exportersCount : 0 ),
+				progressString = Math.round( progress * 100 ).toString() + '%';
+
 			$progress.html( progressString );
 		}
 
@@ -125,7 +127,7 @@ jQuery( document ).ready( function( $ ) {
 
 				if ( ! response.success ) {
 					// e.g. invalid request ID.
-					setTimeout( function(){ onExportFailure( response.data ); }, 500 );
+					setTimeout( function() { onExportFailure( response.data ); }, 500 );
 					return;
 				}
 
@@ -136,12 +138,12 @@ jQuery( document ).ready( function( $ ) {
 					if ( exporterIndex < exportersCount ) {
 						setTimeout( doNextExport( exporterIndex + 1, 1 ) );
 					} else {
-						setTimeout( function(){ onExportDoneSuccess( responseData.url ); }, 500 );
+						setTimeout( function() { onExportDoneSuccess( responseData.url ); }, 500 );
 					}
 				}
 			}).fail( function( jqxhr, textStatus, error ) {
 				// e.g. Nonce failure.
-				setTimeout( function(){ onExportFailure( error ); }, 500 );
+				setTimeout( function() { onExportFailure( error ); }, 500 );
 			});
 		}
 
@@ -173,8 +175,8 @@ jQuery( document ).ready( function( $ ) {
 		setErasureProgress( 0 );
 
 		function onErasureDoneSuccess() {
-			var summaryMessage = strings.noDataFound;
-			var classes = 'notice-success';
+			var summaryMessage = strings.noDataFound,
+				classes = 'notice-success';
 
 			setActionState( $action, 'remove-personal-data-success' );
 
@@ -195,19 +197,20 @@ jQuery( document ).ready( function( $ ) {
 			}
 			appendResultsAfterRow( $requestRow, classes, summaryMessage, messages );
 
-			setTimeout( function(){ $rowActions.removeClass( 'processing' ); }, 500 );
+			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
 		}
 
 		function onErasureFailure() {
 			setActionState( $action, 'remove-personal-data-failed' );
 			appendResultsAfterRow( $requestRow, 'notice-error', strings.removalError, [] );
 
-			setTimeout( function(){ $rowActions.removeClass( 'processing' ); }, 500 );
+			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
 		}
 
 		function setErasureProgress( eraserIndex ) {
-			var progress       = ( erasersCount > 0 ? eraserIndex / erasersCount : 0 );
-			var progressString = Math.round( progress * 100 ).toString() + '%';
+			var progress       = ( erasersCount > 0 ? eraserIndex / erasersCount : 0 ),
+				progressString = Math.round( progress * 100 ).toString() + '%';
+
 			$progress.html( progressString );
 		}
 
@@ -226,7 +229,7 @@ jQuery( document ).ready( function( $ ) {
 				var responseData = response.data;
 
 				if ( ! response.success ) {
-					setTimeout( function(){ onErasureFailure(); }, 500 );
+					setTimeout( function() { onErasureFailure(); }, 500 );
 					return;
 				}
 				if ( responseData.items_removed ) {
@@ -245,11 +248,11 @@ jQuery( document ).ready( function( $ ) {
 					if ( eraserIndex < erasersCount ) {
 						setTimeout( doNextErasure( eraserIndex + 1, 1 ) );
 					} else {
-						setTimeout( function(){ onErasureDoneSuccess(); }, 500 );
+						setTimeout( function() { onErasureDoneSuccess(); }, 500 );
 					}
 				}
 			}).fail( function() {
-				setTimeout( function(){ onErasureFailure(); }, 500 );
+				setTimeout( function() { onErasureFailure(); }, 500 );
 			});
 		}
 
@@ -267,6 +270,8 @@ jQuery( document ).ready( function( $ ) {
 			__ = wp.i18n.__,
 			$target = $( event.target ),
 			copiedNotice = $target.siblings( '.success' );
+
+		clearTimeout( copiedNoticeTimeout );
 
 		if ( $target.is( 'button.privacy-text-copy' ) ) {
 			$parent = $target.parent().parent();
@@ -309,10 +314,11 @@ jQuery( document ).ready( function( $ ) {
 					wp.a11y.speak( __( 'The section has been copied to your clipboard.' ) );
 
 					// Delay notice dismissal.
-					setTimeout( function(){ copiedNotice.removeClass( 'visible' ); }, 3000 );
+					copiedNoticeTimeout = setTimeout( function() {
+						copiedNotice.removeClass( 'visible' );
+					}, 3000 );
 				} catch ( er ) {}
 			}
 		}
 	});
 });
-

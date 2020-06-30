@@ -412,20 +412,17 @@ final class WP_Privacy_Policy_Content {
 			$content .= $removed;
 
 			$content .= '<div class="policy-text">' . $section['policy_text'] . '</div>';
-			$content .= '<a href="#" class="return-to-top">' . __( '&uarr; Return to Top' ) . '</a>';
 
 			if ( empty( $section['removed'] ) ) {
 				$content .= '<div class="privacy-text-actions">';
 				$content .= '<button type="button" class="privacy-text-copy button">';
 				$content .= __( 'Copy this section to clipboard' );
-				$content .= '<span class="screen-reader-text">';
-				/* translators: %s: Plugin name. */
-				$content .= sprintf( __( 'Copy suggested policy text from %s.' ), $plugin_name );
-				$content .= '</span>';
 				$content .= '</button>';
 				$content .= '<span class="success" aria-hidden="true">' . __( 'Copied!' ) . '</span>';
 				$content .= '</div>';
 			}
+
+			$content .= '<a href="#wpbody" class="return-to-top"><span aria-hidden="true">&uarr; </span> ' . __( 'Return to Top' ) . '</a>';
 
 			$content .= '</div>'; // End of .privacy-text-section.
 		}

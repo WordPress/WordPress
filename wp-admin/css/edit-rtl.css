@@ -718,6 +718,8 @@ form#tags-filter {
 }
 
 .privacy-text-actions {
+	display: inline-block;
+	width: 100%;
 	height: 32px;
 	line-height: 2.46153846;
 	padding-bottom: 6px;
@@ -744,10 +746,17 @@ form#tags-filter {
 	font-style: italic;
 }
 
-.privacy-text-section a.return-to-top {
+.privacy-text-section .return-to-top {
 	float: left;
 	margin-left: -250px;
 	margin-top: 6px;
+}
+
+#wpbody:target:before {
+	content: "";
+	display: block;
+	padding-top: 50px;
+	margin-top: -50px;
 }
 
 .hide-privacy-policy-tutorial {
@@ -1759,8 +1768,7 @@ table.links-table {
 		flex-direction: column;
 	}
 
-	.privacy-text-section a.return-to-top {
-		float: none;
-		margin: 0;
+	.privacy-text-section .return-to-top {
+		margin: 2em 0 0;
 	}
 }
