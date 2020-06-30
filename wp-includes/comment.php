@@ -3847,9 +3847,9 @@ function _wp_batch_update_comment_type() {
 			SET comment_type = 'comment'
 			WHERE comment_type = ''
 			ORDER BY comment_ID DESC
-			LIMIT %d"
-		),
-		$comment_batch_size
+			LIMIT %d",
+			$comment_batch_size
+		)
 	);
 
 	delete_option( $lock_name );
