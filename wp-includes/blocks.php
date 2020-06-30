@@ -649,67 +649,74 @@ function _excerpt_render_inner_columns_blocks( $columns, $allowed_blocks ) {
  *
  * @since 5.0.0
  *
- * @global WP_Post $post The post to edit.
+ * @global WP_Post  $post         The post to edit.
+ * @global WP_Query $wp_the_query WordPress Query object.
  *
- * @param array $block A single parsed block object.
+ * @param array $parsed_block A single parsed block object.
  * @return string String of rendered HTML.
  */
-function render_block( $block ) {
-	global $post;
+function render_block( $parsed_block ) {
+	global $post, $wp_query;
 
 	/**
 	 * Allows render_block() to be short-circuited, by returning a non-null value.
 	 *
 	 * @since 5.1.0
 	 *
-	 * @param string|null $pre_render The pre-rendered content. Default null.
-	 * @param array       $block      The block being rendered.
+	 * @param string|null $pre_render   The pre-rendered content. Default null.
+	 * @param array       $parsed_block The block being rendered.
 	 */
-	$pre_render = apply_filters( 'pre_render_block', null, $block );
+	$pre_render = apply_filters( 'pre_render_block', null, $parsed_block );
 	if ( ! is_null( $pre_render ) ) {
 		return $pre_render;
 	}
 
-	$source_block = $block;
+	$source_block = $parsed_block;
 
 	/**
 	 * Filters the block being rendered in render_block(), before it's processed.
 	 *
 	 * @since 5.1.0
 	 *
-	 * @param array $block        The block being rendered.
-	 * @param array $source_block An un-modified copy of $block, as it appeared in the source content.
+	 * @param array $parsed_block The block being rendered.
+	 * @param array $source_block An un-modified copy of $parsed_block, as it appeared in the source content.
 	 */
-	$block = apply_filters( 'render_block_data', $block, $source_block );
+	$parsed_block = apply_filters( 'render_block_data', $parsed_block, $source_block );
 
-	$block_type    = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
-	$is_dynamic    = $block['blockName'] && null !== $block_type && $block_type->is_dynamic();
-	$block_content = '';
-	$index         = 0;
+	$context = array();
 
-	foreach ( $block['innerContent'] as $chunk ) {
-		$block_content .= is_string( $chunk ) ? $chunk : render_block( $block['innerBlocks'][ $index++ ] );
+	if ( ! empty( $post ) ) {
+		$context['postId'] = $post->ID;
+
+		/*
+		* The `postType` context is largely unnecessary server-side, since the
+		* ID is usually sufficient on its own. That being said, since a block's
+		* manifest is expected to be shared between the server and the client,
+		* it should be included to consistently fulfill the expectation.
+		*/
+		$context['postType'] = $post->post_type;
 	}
 
-	if ( ! is_array( $block['attrs'] ) ) {
-		$block['attrs'] = array();
-	}
-
-	if ( $is_dynamic ) {
-		$global_post   = $post;
-		$block_content = $block_type->render( $block['attrs'], $block_content );
-		$post          = $global_post;
+	if ( isset( $wp_query->tax_query->queried_terms['category'] ) ) {
+		$context['query'] = array( 'categoryIds' => array() );
+		foreach ( $wp_query->tax_query->queried_terms['category']['terms'] as $category_slug_or_id ) {
+			$context['query']['categoryIds'][] = 'slug' === $wp_query->tax_query->queried_terms['category']['field'] ? get_cat_ID( $category_slug_or_id ) : $category_slug_or_id;
+		}
 	}
 
 	/**
-	 * Filters the content of a single block.
+	 * Filters the default context provided to a rendered block.
 	 *
-	 * @since 5.0.0
+	 * @since 5.5.0
 	 *
-	 * @param string $block_content The block content about to be appended.
-	 * @param array  $block         The full block, including name and attributes.
+	 * @param array $context      Default context.
+	 * @param array $parsed_block Block being rendered, filtered by `render_block_data`.
 	 */
-	return apply_filters( 'render_block', $block_content, $block );
+	$context = apply_filters( 'render_block_context', $context, $parsed_block );
+
+	$block = new WP_Block( $parsed_block, $context );
+
+	return $block->render();
 }
 
 /**

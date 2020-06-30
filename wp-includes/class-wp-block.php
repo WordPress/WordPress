@@ -226,7 +226,14 @@ class WP_Block {
 			wp_enqueue_style( $this->block_type->style );
 		}
 
-		/** This filter is documented in src/wp-includes/blocks.php */
+		/**
+		 * Filters the content of a single block.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param string $block_content The block content about to be appended.
+		 * @param array  $block         The full block, including name and attributes.
+		 */
 		return apply_filters( 'render_block', $block_content, $this->parsed_block );
 	}
 
