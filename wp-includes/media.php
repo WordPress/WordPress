@@ -1588,7 +1588,7 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 			$attr .= sprintf( ' sizes="%s"', esc_attr( $sizes ) );
 		}
 
-		// Add extra attributes to the image markup.
+		// Add the srcset and sizes attributes to the image markup.
 		return preg_replace( '/<img ([^>]+?)[\/ ]*>/', '<img $1' . $attr . ' />', $image );
 	}
 
@@ -1737,7 +1737,7 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 		}
 
 		// Images should have source and dimension attributes for the `loading` attribute to be added.
-		if ( false === strpos( $image, ' src=' ) || false === strpos( $image, ' width=' ) || false === strpos( $image, ' height=' ) ) {
+		if ( false === strpos( $image, ' src="' ) || false === strpos( $image, ' width="' ) || false === strpos( $image, ' height="' ) ) {
 			return $image;
 		}
 
