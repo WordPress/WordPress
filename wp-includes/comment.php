@@ -2490,22 +2490,17 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 	/**
 	 * Filters the comment data immediately before it is updated in the database.
 	 *
-	 * Note: data being passed to the filter is already unslashed. Returning false
-	 * or a WP_Error object would prevent the comment from being updated.
+	 * Note: data being passed to the filter is already unslashed.
 	 *
 	 * @since 4.7.0
-	 * @since 5.5.0 The `$wp_error` parameter was added.
+	 * @since 5.5.0 Returning a WP_Error value from the filter will short-circuit comment update
+	 *              and allow skipping further processing.
 	 *
-	 * @param array $data       The new, processed comment data.
-	 * @param array $comment    The old, unslashed comment data.
-	 * @param array $commentarr The new, raw comment data.
-	 * @param bool  $wp_error   Whether to return a WP_Error on failure.
+	 * @param array|WP_Error $data       The new, processed comment data, or WP_Error.
+	 * @param array          $comment    The old, unslashed comment data.
+	 * @param array          $commentarr The new, raw comment data.
 	 */
-	$data = apply_filters( 'wp_update_comment_data', $data, $comment, $commentarr, $wp_error );
-
-	if ( ! $data ) {
-		$data = new WP_Error( 'comment_update_canceled', __( 'Comment update canceled.' ) );
-	}
+	$data = apply_filters( 'wp_update_comment_data', $data, $comment, $commentarr );
 
 	// Do not carry on on failure.
 	if ( is_wp_error( $data ) ) {
