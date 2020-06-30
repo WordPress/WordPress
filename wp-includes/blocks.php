@@ -649,8 +649,8 @@ function _excerpt_render_inner_columns_blocks( $columns, $allowed_blocks ) {
  *
  * @since 5.0.0
  *
- * @global WP_Post  $post         The post to edit.
- * @global WP_Query $wp_the_query WordPress Query object.
+ * @global WP_Post  $post     The post to edit.
+ * @global WP_Query $wp_query WordPress Query object.
  *
  * @param array $parsed_block A single parsed block object.
  * @return string String of rendered HTML.
@@ -689,11 +689,11 @@ function render_block( $parsed_block ) {
 		$context['postId'] = $post->ID;
 
 		/*
-		* The `postType` context is largely unnecessary server-side, since the
-		* ID is usually sufficient on its own. That being said, since a block's
-		* manifest is expected to be shared between the server and the client,
-		* it should be included to consistently fulfill the expectation.
-		*/
+		 * The `postType` context is largely unnecessary server-side, since the ID
+		 * is usually sufficient on its own. That being said, since a block's
+		 * manifest is expected to be shared between the server and the client,
+		 * it should be included to consistently fulfill the expectation.
+		 */
 		$context['postType'] = $post->post_type;
 	}
 
