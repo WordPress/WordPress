@@ -2422,6 +2422,8 @@ function wp_set_comment_status( $comment_id, $comment_status, $wp_error = false 
  * @since 2.0.0
  * @since 4.9.0 Add updating comment meta during comment update.
  * @since 5.5.0 The `$wp_error` parameter was added.
+ * @since 5.5.0 The return values for an invalid comment or post ID
+ *              were changed to false instead of 0.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -2439,7 +2441,7 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 		if ( $wp_error ) {
 			return new WP_Error( 'invalid_comment_id', __( 'Invalid comment ID.' ) );
 		} else {
-			return 0;
+			return false;
 		}
 	}
 
@@ -2448,7 +2450,7 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 		if ( $wp_error ) {
 			return new WP_Error( 'invalid_post_id', __( 'Invalid post ID.' ) );
 		} else {
-			return 0;
+			return false;
 		}
 	}
 
