@@ -46,10 +46,13 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 	}
 
 	/**
+	 * @since 3.1.0
+	 * @since 5.5.0 Formalized the existing `...$args` parameter by adding it
+	 *              to the function signature.
+	 *
 	 * @return bool
 	 */
-	public function query() {
-		$args    = func_get_args();
+	public function query( ...$args ) {
 		$method  = array_shift( $args );
 		$request = new IXR_Request( $method, $args );
 		$xml     = $request->getXml();
