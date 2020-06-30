@@ -204,20 +204,14 @@
 }
 
 .site-health-copy-buttons .copy-button-wrapper {
+	display: inline-flex;
+	align-items: center;
 	margin: 0.5rem 0 1rem;
 }
 
 .site-health-copy-buttons .success {
-	display: none;
 	color: #40860a;
-	line-height: 1.8;
 	margin-right: 0.5rem;
-}
-
-.site-health-copy-buttons .success.visible {
-	display: inline-block;
-	height: 30px;
-	line-height: 2.30769231;
 }
 
 .site-status-has-issues.hide {
@@ -456,6 +450,10 @@
 		width: 100%;
 		padding-bottom: 0;
 		font-weight: 600;
+	}
+
+	.wp-core-ui .site-health-copy-buttons .copy-button {
+		margin-bottom: 0;
 	}
 }
 

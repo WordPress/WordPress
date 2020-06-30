@@ -10,19 +10,38 @@ jQuery( document ).ready( function( $ ) {
 
 	var __ = wp.i18n.__,
 		_n = wp.i18n._n,
-		sprintf = wp.i18n.sprintf;
-
-	var data;
-	var clipboard = new ClipboardJS( '.site-health-copy-buttons .copy-button' );
-	var isDebugTab = $( '.health-check-body.health-check-debug-tab' ).length;
-	var pathsSizesSection = $( '#health-check-accordion-block-wp-paths-sizes' );
+		sprintf = wp.i18n.sprintf,
+		data,
+		clipboard = new ClipboardJS( '.site-health-copy-buttons .copy-button' ),
+		isDebugTab = $( '.health-check-body.health-check-debug-tab' ).length,
+		pathsSizesSection = $( '#health-check-accordion-block-wp-paths-sizes' ),
+		successTimeout;
 
 	// Debug information copy section.
 	clipboard.on( 'success', function( e ) {
-		var $wrapper = $( e.trigger ).closest( 'div' );
-		$( '.success', $wrapper ).addClass( 'visible' );
+		var triggerElement = $( e.trigger ),
+			successElement = $( '.success', triggerElement.closest( 'div' ) );
 
-		wp.a11y.speak( __( 'Site information has been added to your clipboard.' ) );
+		// Clear the selection and move focus back to the trigger.
+		e.clearSelection();
+		// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
+		triggerElement.focus();
+
+		// Show success visual feedback.
+		clearTimeout( successTimeout );
+		successElement.removeClass( 'hidden' );
+
+		// Hide success visual feedback after 3 seconds since last success.
+		successTimeout = setTimeout( function() {
+			successElement.addClass( 'hidden' );
+			// Remove the visually hidden textarea so that it isn't perceived by assistive technologies.
+			if ( clipboard.clipboardAction.fakeElem && clipboard.clipboardAction.removeFake ) {
+				clipboard.clipboardAction.removeFake();
+			}
+		}, 3000 );
+
+		// Handle success audible feedback.
+		wp.a11y.speak( __( 'Site information has been copied to your clipboard.' ) );
 	} );
 
 	// Accordion handling in various areas.
