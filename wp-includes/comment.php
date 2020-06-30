@@ -3831,13 +3831,25 @@ function _wp_batch_update_comment_type() {
 	// Empty comment type found? We'll need to run this script again.
 	wp_schedule_single_event( time() + ( 2 * MINUTE_IN_SECONDS ), 'wp_update_comment_type_batch' );
 
-	// Update the `comment_type` field value to be `comment` for the next 100 rows of comments.
+	/**
+	 * Filters the comment batch size for updating the comment type.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param int $comment_batch_size The comment batch size. Default 100.
+	 */
+	$comment_batch_size = (int) apply_filters( 'wp_update_comment_type_batch_size', 100 );
+
+	// Update the `comment_type` field value to be `comment` for the next batch of comments.
 	$wpdb->query(
-		"UPDATE {$wpdb->comments}
-		SET comment_type = 'comment'
-		WHERE comment_type = ''
-		ORDER BY comment_ID DESC
-		LIMIT 100"
+		$wpdb->prepare(
+			"UPDATE {$wpdb->comments}
+			SET comment_type = 'comment'
+			WHERE comment_type = ''
+			ORDER BY comment_ID DESC
+			LIMIT %d"
+		),
+		$comment_batch_size
 	);
 
 	delete_option( $lock_name );
