@@ -798,6 +798,16 @@ border color while dragging a file over the uploader drop area */
 	text-decoration: none;
 }
 
+.copy-to-clipboard-container {
+	display: flex;
+	align-items: center;
+	margin-top: 8px;
+	clear: both;
+}
+
+.copy-to-clipboard-container .success {
+	margin-right: 8px;
+}
 
 /*------------------------------------------------------------------------------
   14.2 - Image Editor
@@ -1215,6 +1225,10 @@ audio, video {
 		float: none;
 		width: auto;
 		max-width: none;
+	}
+
+	.copy-to-clipboard-container .success {
+		font-size: 14px;
 	}
 }
 

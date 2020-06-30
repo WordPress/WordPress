@@ -354,6 +354,11 @@ TABLE OF CONTENTS:
 		margin-bottom: 4px;
 	}
 
+	/* Copy attachment URL button in the legacy edit media page. */
+	.wp-core-ui .copy-to-clipboard-container .copy-attachment-url {
+		margin-bottom: 0;
+	}
+
 	#media-upload.wp-core-ui .button {
 		padding: 0 10px 1px;
 		min-height: 24px;

@@ -458,6 +458,26 @@
 	font-size: 12px;
 }
 
+.media-sidebar .copy-to-clipboard-container,
+.attachment-details .copy-to-clipboard-container {
+	flex-wrap: wrap;
+	margin-top: 10px;
+	margin-right: calc( 35% - 1px );
+	padding-top: 10px;
+}
+
+/* Needs high specificity. */
+.attachment-details .attachment-info .copy-to-clipboard-container {
+	float: none;
+}
+
+.media-sidebar .copy-to-clipboard-container .success,
+.attachment-details .copy-to-clipboard-container .success {
+	padding: 0;
+	min-height: 0;
+	text-align: right;
+}
+
 .compat-item label span {
 	text-align: left;
 }
@@ -2540,6 +2560,18 @@
 		padding: 8px 2px 2px;
 	}
 
+	/* Needs high specificity. */
+	.media-sidebar .setting .copy-to-clipboard-container,
+	.attachment-details .attachment-info .copy-to-clipboard-container {
+		margin-right: 0;
+		padding-top: 0;
+	}
+
+	.media-sidebar .setting .copy-attachment-url,
+	.attachment-details .attachment-info .copy-attachment-url {
+		margin: 0 1px;
+	}
+
 	.media-sidebar .setting .value,
 	.attachment-details .setting .value {
 		float: none;
@@ -2713,11 +2745,15 @@
 	.media-frame-toolbar .media-toolbar {
 		bottom: -54px;
 	}
-}
 
-@media screen and (max-width: 782px) {
 	.mode-grid .attachments-browser .media-toolbar-primary {
 		display: block;
+	}
+
+	.media-sidebar .copy-to-clipboard-container .success,
+	.attachment-details .copy-to-clipboard-container .success {
+		font-size: 14px;
+		line-height: 2.71428571;
 	}
 }
 
