@@ -1492,10 +1492,41 @@ function wp_calculate_image_sizes( $size, $image_src = null, $image_meta = null,
 }
 
 /**
+ * Determines an image's width and height dimensions based on the source file.
+ *
+ * @since 5.5.0
+ *
+ * @param string $image_src  The image source file.
+ * @param array  $image_meta The image meta data as returned by 'wp_get_attachment_metadata()'.
+ * @return array|false Array with first element being the width and second element being the height,
+ *                     or false if dimensions cannot be determined.
+ */
+function wp_image_src_get_dimensions( $image_src, $image_meta ) {
+	$image_filename = wp_basename( $image_src );
+
+	if ( wp_basename( $image_meta['file'] ) === $image_filename ) {
+		return array(
+			(int) $image_meta['width'],
+			(int) $image_meta['height'],
+		);
+	}
+
+	foreach ( $image_meta['sizes'] as $image_size_data ) {
+		if ( $image_filename === $image_size_data['file'] ) {
+			return array(
+				(int) $image_size_data['width'],
+				(int) $image_size_data['height'],
+			);
+		}
+	}
+
+	return false;
+}
+
+/**
  * Adds 'srcset' and 'sizes' attributes to an existing 'img' element.
  *
  * @since 4.4.0
- * @since 5.5.0 `width` and `height` are now added if not already present.
  *
  * @see wp_calculate_image_srcset()
  * @see wp_calculate_image_sizes()
@@ -1526,41 +1557,19 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 		return $image;
 	}
 
-	$attr = '';
-
 	$width  = preg_match( '/ width="([0-9]+)"/', $image, $match_width ) ? (int) $match_width[1] : 0;
 	$height = preg_match( '/ height="([0-9]+)"/', $image, $match_height ) ? (int) $match_height[1] : 0;
 
-	if ( ! $width || ! $height ) {
-		/*
-		 * If attempts to parse the size value failed, attempt to use the image meta data to match
-		 * the image file name from 'src' against the available sizes for an attachment.
-		 */
-		$image_filename = wp_basename( $image_src );
-
-		if ( wp_basename( $image_meta['file'] ) === $image_filename ) {
-			$width  = (int) $image_meta['width'];
-			$height = (int) $image_meta['height'];
-		} else {
-			foreach ( $image_meta['sizes'] as $image_size_data ) {
-				if ( $image_filename === $image_size_data['file'] ) {
-					$width  = (int) $image_size_data['width'];
-					$height = (int) $image_size_data['height'];
-					break;
-				}
-			}
-		}
-
-		if ( ! $width || ! $height ) {
+	if ( $width && $height ) {
+		$size_array = array( $width, $height );
+	} else {
+		$size_array = wp_image_src_get_dimensions( $image_src, $image_meta );
+		if ( ! $size_array ) {
 			return $image;
 		}
-
-		// Add width and height if not present.
-		$attr .= ' ' . trim( image_hwstring( $width, $height ) );
 	}
 
-	$size_array = array( $width, $height );
-	$srcset     = wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attachment_id );
+	$srcset = wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attachment_id );
 
 	if ( $srcset ) {
 		// Check if there is already a 'sizes' attribute.
@@ -1573,19 +1582,17 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 
 	if ( $srcset && $sizes ) {
 		// Format the 'srcset' and 'sizes' string and escape attributes.
-		$attr .= sprintf( ' srcset="%s"', esc_attr( $srcset ) );
+		$attr = sprintf( ' srcset="%s"', esc_attr( $srcset ) );
 
 		if ( is_string( $sizes ) ) {
 			$attr .= sprintf( ' sizes="%s"', esc_attr( $sizes ) );
 		}
+
+		// Add extra attributes to the image markup.
+		return preg_replace( '/<img ([^>]+?)[\/ ]*>/', '<img $1' . $attr . ' />', $image );
 	}
 
-	if ( empty( $attr ) ) {
-		return $image;
-	}
-
-	// Add extra attributes to the image markup.
-	return preg_replace( '/<img ([^>]+?)[\/ ]*>/', '<img $1' . $attr . ' />', $image );
+	return $image;
 }
 
 /**
@@ -1621,8 +1628,9 @@ function wp_lazy_loading_enabled( $tag_name, $context ) {
  *
  * @since 5.5.0
  *
- * @see wp_img_tag_add_loading_attr()
+ * @see wp_img_tag_add_width_and_height_attr()
  * @see wp_img_tag_add_srcset_and_sizes_attr()
+ * @see wp_img_tag_add_loading_attr()
  *
  * @param string $content The HTML content to be filtered.
  * @param string $context Optional. Additional context to pass to the filters.
@@ -1676,6 +1684,11 @@ function wp_filter_content_tags( $content, $context = null ) {
 	foreach ( $images as $image => $attachment_id ) {
 		$filtered_image = $image;
 
+		// Add 'width' and 'height' attributes if applicable.
+		if ( $attachment_id > 0 && false === strpos( $filtered_image, ' width=' ) && false === strpos( $filtered_image, ' height=' ) ) {
+			$filtered_image = wp_img_tag_add_width_and_height_attr( $filtered_image, $context, $attachment_id );
+		}
+
 		// Add 'srcset' and 'sizes' attributes if applicable.
 		if ( $attachment_id > 0 && false === strpos( $filtered_image, ' srcset=' ) ) {
 			$filtered_image = wp_img_tag_add_srcset_and_sizes_attr( $filtered_image, $context, $attachment_id );
@@ -1723,25 +1736,57 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 			$value = 'lazy';
 		}
 
-		// Images should have dimension attributes for the `loading` attribute to be added.
-		if ( false === strpos( $image, ' width=' ) || false === strpos( $image, ' height=' ) ) {
+		// Images should have source and dimension attributes for the `loading` attribute to be added.
+		if ( false === strpos( $image, ' src=' ) || false === strpos( $image, ' width=' ) || false === strpos( $image, ' height=' ) ) {
 			return $image;
 		}
 
-		$quote = null;
+		return str_replace( '<img', '<img loading="' . esc_attr( $value ) . '"', $image );
+	}
 
-		// Check if the img tag is valid (has `src` attribute) and get the quote character.
-		// In almost all cases it will have src and a double quote.
-		if ( false !== strpos( $image, ' src="' ) ) {
-			$quote = '"';
-		} elseif ( preg_match( '/\ssrc\s*=(["\'])/', $image, $matches ) ) {
-			$quote = $matches[1];
-		}
+	return $image;
+}
 
-		if ( $quote ) {
-			$loading = "loading={$quote}{$value}{$quote}";
+/**
+ * Adds `width` and `height` attributes to an `img` HTML tag.
+ *
+ * @since 5.5.0
+ *
+ * @param string $image         The HTML `img` tag where the attribute should be added.
+ * @param string $context       Additional context to pass to the filters.
+ * @param int    $attachment_id Image attachment ID.
+ * @return string Converted 'img' element with 'width' and 'height' attributes added.
+ */
+function wp_img_tag_add_width_and_height_attr( $image, $context, $attachment_id ) {
+	$image_src         = preg_match( '/src="([^"]+)"/', $image, $match_src ) ? $match_src[1] : '';
+	list( $image_src ) = explode( '?', $image_src );
 
-			return str_replace( '<img', "<img {$loading}", $image );
+	// Return early if we couldn't get the image source.
+	if ( ! $image_src ) {
+		return $image;
+	}
+
+	/**
+	 * Filters whether to add the missing `width` and `height` HTML attributes to the img tag. Default `true`.
+	 *
+	 * Returning anything else than `true` will not add the attributes.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param bool   $value         The filtered value, defaults to `true`.
+	 * @param string $image         The HTML `img` tag where the attribute should be added.
+	 * @param string $context       Additional context about how the function was called or where the img tag is.
+	 * @param int    $attachment_id The image attachment ID.
+	 */
+	$add = apply_filters( 'wp_img_tag_add_width_and_height_attr', true, $image, $context, $attachment_id );
+
+	if ( true === $add ) {
+		$image_meta = wp_get_attachment_metadata( $attachment_id );
+		$size_array = wp_image_src_get_dimensions( $image_src, $image_meta );
+
+		if ( $size_array ) {
+			$hw = trim( image_hwstring( $size_array[0], $size_array[1] ) );
+			return str_replace( '<img', "<img {$hw}", $image );
 		}
 	}
 
