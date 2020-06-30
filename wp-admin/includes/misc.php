@@ -688,6 +688,8 @@ function set_screen_options() {
 				}
 				break;
 			default:
+				$screen_option = false;
+
 				if ( '_page' === substr( $option, -5 ) || 'layout_columns' === $option ) {
 					/**
 					 * Filters a screen option value before it is set.
@@ -703,12 +705,12 @@ function set_screen_options() {
 					 *
 					 * @see set_screen_options()
 					 *
-					 * @param bool   $keep   Whether to save or skip saving the screen option value.
-					 *                       Default false.
-					 * @param string $option The option name.
-					 * @param int    $value  The number of rows to use.
+					 * @param mixed  $screen_option The value to save instead of the option value.
+					 *                              Default false (to skip saving the current option).
+					 * @param string $option        The option name.
+					 * @param int    $value         The option value.
 					 */
-					$value = apply_filters( 'set-screen-option', false, $option, $value ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+					$screen_option = apply_filters( 'set-screen-option', $screen_option, $option, $value ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 				}
 
 				/**
@@ -722,12 +724,12 @@ function set_screen_options() {
 				 *
 				 * @see set_screen_options()
 				 *
-				 * @param bool   $keep   Whether to save or skip saving the screen option value.
-				 *                       Default false.
-				 * @param string $option The option name.
-				 * @param int    $value  The number of rows to use.
+				 * @param mixed   $screen_option The value to save instead of the option value.
+				 *                               Default false (to skip saving the current option).
+				 * @param string  $option        The option name.
+				 * @param int     $value         The option value.
 				 */
-				$value = apply_filters( "set_screen_option_{$option}", false, $option, $value );
+				$value = apply_filters( "set_screen_option_{$option}", $screen_option, $option, $value );
 
 				if ( false === $value ) {
 					return;
