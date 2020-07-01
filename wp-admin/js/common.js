@@ -2,7 +2,7 @@
  * @output wp-admin/js/common.js
  */
 
-/* global setUserSetting, ajaxurl, commonL10n, alert, confirm, pagenow */
+/* global setUserSetting, ajaxurl, alert, confirm, pagenow */
 /* global columns, screenMeta */
 
 /**
@@ -15,7 +15,8 @@
 ( function( $, window, undefined ) {
 	var $document = $( document ),
 		$window = $( window ),
-		$body = $( document.body );
+		$body = $( document.body ),
+		__ = wp.i18n.__;
 
 /**
  * Removed in 3.3.0, needed for back-compatibility.
@@ -188,8 +189,7 @@ window.showNotice = {
 	 * @return {boolean} Returns true if the message is confirmed.
 	 */
 	warn : function() {
-		var msg = commonL10n.warnDelete || '';
-		if ( confirm(msg) ) {
+		if ( confirm( __( 'You are about to permanently delete these items from your site.\nThis action cannot be undone.\n\'Cancel\' to stop, \'OK\' to delete.' ) ) ) {
 			return true;
 		}
 
@@ -757,11 +757,10 @@ $document.ready( function() {
 	function makeNoticesDismissible() {
 		$( '.notice.is-dismissible' ).each( function() {
 			var $el = $( this ),
-				$button = $( '<button type="button" class="notice-dismiss"><span class="screen-reader-text"></span></button>' ),
-				btnText = commonL10n.dismiss || '';
+				$button = $( '<button type="button" class="notice-dismiss"><span class="screen-reader-text"></span></button>' );
 
 			// Ensure plain text.
-			$button.find( '.screen-reader-text' ).text( btnText );
+			$button.find( '.screen-reader-text' ).text( __( 'Dismiss this notice.' ) );
 			$button.on( 'click.wp-dismiss-notice', function( event ) {
 				event.preventDefault();
 				$el.fadeTo( 100, 0, function() {
@@ -1559,12 +1558,14 @@ $document.ready( function() {
 	 */
 	$document.on( 'wp-menu-state-set wp-collapse-menu', function( event, eventData ) {
 		var $collapseButton = $( '#collapse-button' ),
-			ariaExpanded = 'true',
-			ariaLabelText = commonL10n.collapseMenu;
+			ariaExpanded, ariaLabelText;
 
 		if ( 'folded' === eventData.state ) {
 			ariaExpanded = 'false';
-			ariaLabelText = commonL10n.expandMenu;
+			ariaLabelText = __( 'Expand Main menu' );
+		} else {
+			ariaExpanded = 'true';
+			ariaLabelText = __( 'Collapse Main menu' );
 		}
 
 		$collapseButton.attr({
