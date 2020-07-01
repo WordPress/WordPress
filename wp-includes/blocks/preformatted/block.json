@@ -1,0 +1,16 @@
+{
+	"name": "core/preformatted",
+	"category": "text",
+	"attributes": {
+		"content": {
+			"type": "string",
+			"source": "html",
+			"selector": "pre",
+			"default": "",
+			"__unstablePreserveWhiteSpace": true
+		}
+	},
+	"supports": {
+		"lightBlockWrapper": true
+	}
+}

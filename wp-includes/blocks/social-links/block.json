@@ -1,0 +1,12 @@
+{
+	"name": "core/social-links",
+	"category": "widgets",
+	"supports": {
+		"align": [
+			"left",
+			"center",
+			"right"
+		],
+		"lightBlockWrapper": true
+	}
+}

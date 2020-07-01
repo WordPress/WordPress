@@ -1,0 +1,19 @@
+{
+	"name": "core/more",
+	"category": "design",
+	"attributes": {
+		"customText": {
+			"type": "string"
+		},
+		"noTeaser": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"customClassName": false,
+		"className": false,
+		"html": false,
+		"multiple": false
+	}
+}

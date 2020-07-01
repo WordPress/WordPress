@@ -1,0 +1,41 @@
+{
+	"name": "core/file",
+	"category": "media",
+	"attributes": {
+		"id": {
+			"type": "number"
+		},
+		"href": {
+			"type": "string"
+		},
+		"fileName": {
+			"type": "string",
+			"source": "html",
+			"selector": "a:not([download])"
+		},
+		"textLinkHref": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a:not([download])",
+			"attribute": "href"
+		},
+		"textLinkTarget": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a:not([download])",
+			"attribute": "target"
+		},
+		"showDownloadButton": {
+			"type": "boolean",
+			"default": true
+		},
+		"downloadButtonText": {
+			"type": "string",
+			"source": "html",
+			"selector": "a[download]"
+		}
+	},
+	"supports": {
+		"align": true
+	}
+}

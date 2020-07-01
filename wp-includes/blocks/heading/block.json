@@ -1,0 +1,41 @@
+{
+	"name": "core/heading",
+	"category": "text",
+	"attributes": {
+		"align": {
+			"type": "string"
+		},
+		"content": {
+			"type": "string",
+			"source": "html",
+			"selector": "h1,h2,h3,h4,h5,h6",
+			"default": ""
+		},
+		"level": {
+			"type": "number",
+			"default": 2
+		},
+		"placeholder": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"className": false,
+		"lightBlockWrapper": true,
+		"__experimentalColor": {
+			"linkColor": true
+		},
+		"__experimentalFontSize": true,
+		"__experimentalLineHeight": true,
+		"__experimentalSelector": {
+			"core/heading/h1": "h1",
+			"core/heading/h2": "h2",
+			"core/heading/h3": "h3",
+			"core/heading/h4": "h4",
+			"core/heading/h5": "h5",
+			"core/heading/h6": "h6"
+		},
+		"__unstablePasteTextInline": true
+	}
+}

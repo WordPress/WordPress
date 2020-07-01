@@ -1,0 +1,92 @@
+{
+	"name": "core/media-text",
+	"category": "media",
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "wide"
+		},
+		"mediaAlt": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure img",
+			"attribute": "alt",
+			"default": ""
+		},
+		"mediaPosition": {
+			"type": "string",
+			"default": "left"
+		},
+		"mediaId": {
+			"type": "number"
+		},
+		"mediaUrl": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure video,figure img",
+			"attribute": "src"
+		},
+		"mediaLink": {
+			"type": "string"
+		},
+		"linkDestination": {
+			"type": "string"
+		},
+		"linkTarget": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "target"
+		},
+		"href": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "href"
+		},
+		"rel": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "rel"
+		},
+		"linkClass": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "class"
+		},
+		"mediaType": {
+			"type": "string"
+		},
+		"mediaWidth": {
+			"type": "number",
+			"default": 50
+		},
+		"isStackedOnMobile": {
+			"type": "boolean",
+			"default": true
+		},
+		"verticalAlignment": {
+			"type": "string"
+		},
+		"imageFill": {
+			"type": "boolean"
+		},
+		"focalPoint": {
+			"type": "object"
+		}
+	},
+	"supports": {
+		"align": [
+			"wide",
+			"full"
+		],
+		"html": false,
+		"lightBlockWrapper": true,
+		"__experimentalColor": {
+			"gradients": true,
+			"linkColor": true
+		}
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"name": "core/html",
+	"category": "widgets",
+	"attributes": {
+		"content": {
+			"type": "string",
+			"source": "html"
+		}
+	},
+	"supports": {
+		"customClassName": false,
+		"className": false,
+		"html": false
+	}
+}

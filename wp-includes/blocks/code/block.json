@@ -1,0 +1,15 @@
+{
+	"name": "core/code",
+	"category": "text",
+	"attributes": {
+		"content": {
+			"type": "string",
+			"source": "text",
+			"selector": "code"
+		}
+	},
+	"supports": {
+		"html": false,
+		"lightBlockWrapper": true
+	}
+}

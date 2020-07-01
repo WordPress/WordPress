@@ -1,0 +1,10 @@
+{
+	"name": "core/spacer",
+	"category": "design",
+	"attributes": {
+		"height": {
+			"type": "number",
+			"default": 100
+		}
+	}
+}

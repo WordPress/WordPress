@@ -1,0 +1,62 @@
+{
+	"name": "core/button",
+	"category": "design",
+	"parent": [
+		"core/buttons"
+	],
+	"attributes": {
+		"url": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a",
+			"attribute": "href"
+		},
+		"title": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a",
+			"attribute": "title"
+		},
+		"text": {
+			"type": "string",
+			"source": "html",
+			"selector": "a"
+		},
+		"linkTarget": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a",
+			"attribute": "target"
+		},
+		"rel": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a",
+			"attribute": "rel"
+		},
+		"placeholder": {
+			"type": "string"
+		},
+		"borderRadius": {
+			"type": "number"
+		},
+		"style": {
+			"type": "object"
+		},
+		"backgroundColor": {
+			"type": "string"
+		},
+		"textColor": {
+			"type": "string"
+		},
+		"gradient": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"align": true,
+		"alignWide": false,
+		"reusable": false,
+		"lightBlockWrapper": true
+	}
+}

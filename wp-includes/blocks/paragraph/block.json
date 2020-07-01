@@ -1,0 +1,45 @@
+{
+	"name": "core/paragraph",
+	"category": "text",
+	"attributes": {
+		"align": {
+			"type": "string"
+		},
+		"content": {
+			"type": "string",
+			"source": "html",
+			"selector": "p",
+			"default": ""
+		},
+		"dropCap": {
+			"type": "boolean",
+			"default": false
+		},
+		"placeholder": {
+			"type": "string"
+		},
+		"direction": {
+			"type": "string",
+			"enum": [
+				"ltr",
+				"rtl"
+			]
+		}
+	},
+	"supports": {
+		"className": false,
+		"lightBlockWrapper": true,
+		"__experimentalColor": {
+			"linkColor": true
+		},
+		"__experimentalFontSize": true,
+		"__experimentalLineHeight": true,
+		"__experimentalFeatures": {
+			"typography": {
+				"dropCap": true
+			}
+		},
+		"__experimentalSelector": "p",
+		"__unstablePasteTextInline": true
+	}
+}

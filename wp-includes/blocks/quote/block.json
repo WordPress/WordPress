@@ -1,0 +1,22 @@
+{
+	"name": "core/quote",
+	"category": "text",
+	"attributes": {
+		"value": {
+			"type": "string",
+			"source": "html",
+			"selector": "blockquote",
+			"multiline": "p",
+			"default": ""
+		},
+		"citation": {
+			"type": "string",
+			"source": "html",
+			"selector": "cite",
+			"default": ""
+		},
+		"align": {
+			"type": "string"
+		}
+	}
+}

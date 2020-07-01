@@ -1,0 +1,22 @@
+{
+	"name": "core/column",
+	"category": "text",
+	"parent": [
+		"core/columns"
+	],
+	"attributes": {
+		"verticalAlignment": {
+			"type": "string"
+		},
+		"width": {
+			"type": "number",
+			"min": 0,
+			"max": 100
+		}
+	},
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"lightBlockWrapper": true
+	}
+}

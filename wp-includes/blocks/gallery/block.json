@@ -1,0 +1,82 @@
+{
+	"name": "core/gallery",
+	"category": "media",
+	"attributes": {
+		"images": {
+			"type": "array",
+			"default": [],
+			"source": "query",
+			"selector": ".blocks-gallery-item",
+			"query": {
+				"url": {
+					"type": "string",
+					"source": "attribute",
+					"selector": "img",
+					"attribute": "src"
+				},
+				"fullUrl": {
+					"type": "string",
+					"source": "attribute",
+					"selector": "img",
+					"attribute": "data-full-url"
+				},
+				"link": {
+					"type": "string",
+					"source": "attribute",
+					"selector": "img",
+					"attribute": "data-link"
+				},
+				"alt": {
+					"type": "string",
+					"source": "attribute",
+					"selector": "img",
+					"attribute": "alt",
+					"default": ""
+				},
+				"id": {
+					"type": "string",
+					"source": "attribute",
+					"selector": "img",
+					"attribute": "data-id"
+				},
+				"caption": {
+					"type": "string",
+					"source": "html",
+					"selector": ".blocks-gallery-item__caption"
+				}
+			}
+		},
+		"ids": {
+			"type": "array",
+			"items": {
+				"type": "number"
+			},
+			"default": []
+		},
+		"columns": {
+			"type": "number",
+			"minimum": 1,
+			"maximum": 8
+		},
+		"caption": {
+			"type": "string",
+			"source": "html",
+			"selector": ".blocks-gallery-caption"
+		},
+		"imageCrop": {
+			"type": "boolean",
+			"default": true
+		},
+		"linkTo": {
+			"type": "string",
+			"default": "none"
+		},
+		"sizeSlug": {
+			"type": "string",
+			"default": "large"
+		}
+	},
+	"supports": {
+		"align": true
+	}
+}
