@@ -1465,7 +1465,7 @@ function wp_default_scripts( $scripts ) {
 			)
 		);
 
-		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array( 'jquery', 'json2', 'imgareaselect' ), false, 1 );
+		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array( 'jquery', 'jquery-ui-core', 'json2', 'imgareaselect' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
 			'image-edit',
 			'imageEditL10n',

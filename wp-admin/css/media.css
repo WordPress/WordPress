@@ -1224,6 +1224,7 @@ audio, video {
 		float: none;
 		width: auto;
 		max-width: none;
+		padding-bottom: 16px;
 	}
 
 	.copy-to-clipboard-container .success {

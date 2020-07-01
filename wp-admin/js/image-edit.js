@@ -136,6 +136,8 @@
 				return false;
 			}
 		});
+
+		$( document ).on( 'image-editor-image-loaded', this.focusManager );
 	},
 
 	/**
@@ -621,8 +623,26 @@
 		this.setCropSelection( postid, { 'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0, 'width': img.innerWidth(), 'height': img.innerHeight() } );
 
 		this.toggleEditor(postid, 0);
-		// Editor is ready, move focus to the first focusable element.
-		$( '.imgedit-wrap .imgedit-help-toggle' ).eq( 0 ).focus();
+
+		$( document ).trigger( 'image-editor-image-loaded' );
+	},
+
+	/**
+	 * Manages keyboard focus in the Image Editor user interface.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return {void}
+	 */
+	focusManager: function() {
+		/*
+		 * Editor is ready, move focus to the first focusable element. Since the
+		 * DOM update is pretty large, the timeout helps browsers update their
+		 * accessibility tree to better support assistive technologies.
+		 */
+		setTimeout( function() {
+			$( '.imgedit-wrap' ).find( ':tabbable:first' ).focus();
+		}, 100 );
 	},
 
 	/**
