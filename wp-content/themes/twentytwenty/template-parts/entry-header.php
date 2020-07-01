@@ -20,13 +20,13 @@ if ( is_singular() ) {
 	<div class="entry-header-inner section-inner medium">
 
 		<?php
-			/**
-			 * Allow child themes and plugins to filter the display of the categories in the entry header.
-			 *
-			 * @since Twenty Twenty 1.0
-			 *
-			 * @param bool   Whether to show the categories in header, Default true.
-			 */
+		/**
+		 * Allow child themes and plugins to filter the display of the categories in the entry header.
+		 *
+		 * @since Twenty Twenty 1.0
+		 *
+		 * @param bool   Whether to show the categories in header, Default true.
+		 */
 		$show_categories = apply_filters( 'twentytwenty_show_categories_in_entry_header', true );
 
 		if ( true === $show_categories && has_category() ) {

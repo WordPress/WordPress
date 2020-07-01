@@ -144,20 +144,20 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 
 		// Setup the WordPress core custom background feature.
 
-		/**
-		 * Filter Twenty Fifteen custom-header support arguments.
-		 *
-		 * @since Twenty Fifteen 1.0
-		 *
-		 * @param array $args {
-		 *     An array of custom-header support arguments.
-		 *
-		 *     @type string $default-color          Default color of the header.
-		 *     @type string $default-attachment     Default attachment of the header.
-		 * }
-		 */
 		add_theme_support(
 			'custom-background',
+			/**
+			 * Filter Twenty Fifteen custom-background support arguments.
+			 *
+			 * @since Twenty Fifteen 1.0
+			 *
+			 * @param array $args {
+			 *     An array of custom-background support arguments.
+			 *
+			 *     @type string $default-color      Default color of the background.
+			 *     @type string $default-attachment Default attachment of the background.
+			 * }
+			 */
 			apply_filters(
 				'twentyfifteen_custom_background_args',
 				array(

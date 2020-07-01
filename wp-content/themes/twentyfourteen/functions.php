@@ -169,6 +169,17 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 		// This theme allows users to set a custom background.
 		add_theme_support(
 			'custom-background',
+			/**
+			 * Filter Twenty Fourteen custom-background support arguments.
+			 *
+			 * @since Twenty Fourteen 1.0
+			 *
+			 * @param array $args {
+			 *     An array of custom-background support arguments.
+			 *
+			 *     @type string $default-color Default color of the background.
+			 * }
+			 */
 			apply_filters(
 				'twentyfourteen_custom_background_args',
 				array(
