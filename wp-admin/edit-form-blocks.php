@@ -361,12 +361,14 @@ wp_enqueue_media(
 );
 wp_tinymce_inline_scripts();
 wp_enqueue_editor();
+wp_enqueue_script( 'wp-block-directory' );
 
 /**
  * Styles
  */
 wp_enqueue_style( 'wp-edit-post' );
 wp_enqueue_style( 'wp-format-library' );
+wp_enqueue_style( 'wp-block-directory' );
 
 /**
  * Fires after block assets have been enqueued for the editing interface.
