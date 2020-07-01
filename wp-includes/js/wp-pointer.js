@@ -2,8 +2,6 @@
  * @output wp-includes/js/wp-pointer.js
  */
 
-/* global wpPointerL10n */
-
 /**
  * Initializes the wp-pointer widget using jQuery UI Widget Factory.
  */
@@ -19,8 +17,7 @@
 				return $(this).text();
 			},
 			buttons: function( event, t ) {
-				var close  = ( wpPointerL10n ) ? wpPointerL10n.dismiss : 'Dismiss',
-					button = $('<a class="close" href="#">' + close + '</a>');
+				var button = $('<a class="close" href="#"></a>').text( wp.i18n.__( 'Dismiss' ) );
 
 				return button.bind( 'click.pointer', function(e) {
 					e.preventDefault();
