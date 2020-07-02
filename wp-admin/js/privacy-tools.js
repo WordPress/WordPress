@@ -6,7 +6,7 @@
 
 // Privacy request action handling.
 jQuery( document ).ready( function( $ ) {
-	var strings = window.privacyToolsL10n || {},
+	var __ = wp.i18n.__,
 		copiedNoticeTimeout;
 
 	function setActionState( $action, state ) {
@@ -77,7 +77,7 @@ jQuery( document ).ready( function( $ ) {
 		setExportProgress( 0 );
 
 		function onExportDoneSuccess( zipUrl ) {
-			var summaryMessage = strings.emailSent;
+			var summaryMessage = __( 'The personal data export link for this user was sent.' );
 
 			setActionState( $action, 'export-personal-data-success' );
 
@@ -86,16 +86,19 @@ jQuery( document ).ready( function( $ ) {
 			if ( 'undefined' !== typeof zipUrl ) {
 				window.location = zipUrl;
 			} else if ( ! sendAsEmail ) {
-				onExportFailure( strings.noExportFile );
+				onExportFailure( __( 'No personal data export file was generated.' ) );
 			}
 
 			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
 		}
 
 		function onExportFailure( errorMessage ) {
+			var summaryMessage = __( 'An error occurred while attempting to export personal data.' );
+
 			setActionState( $action, 'export-personal-data-failed' );
+
 			if ( errorMessage ) {
-				appendResultsAfterRow( $requestRow, 'notice-error', strings.exportError, [ errorMessage ] );
+				appendResultsAfterRow( $requestRow, 'notice-error', summaryMessage, [ errorMessage ] );
 			}
 
 			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
@@ -175,23 +178,23 @@ jQuery( document ).ready( function( $ ) {
 		setErasureProgress( 0 );
 
 		function onErasureDoneSuccess() {
-			var summaryMessage = strings.noDataFound,
+			var summaryMessage = __( 'No personal data was found for this user.' ),
 				classes = 'notice-success';
 
 			setActionState( $action, 'remove-personal-data-success' );
 
 			if ( false === hasRemoved ) {
 				if ( false === hasRetained ) {
-					summaryMessage = strings.noDataFound;
+					summaryMessage = __( 'No personal data was found for this user.' );
 				} else {
-					summaryMessage = strings.noneRemoved;
+					summaryMessage = __( 'Personal data was found for this user but was not erased.' );
 					classes = 'notice-warning';
 				}
 			} else {
 				if ( false === hasRetained ) {
-					summaryMessage = strings.foundAndRemoved;
+					summaryMessage = __( 'All of the personal data found for this user was erased.' );
 				} else {
-					summaryMessage = strings.someNotRemoved;
+					summaryMessage = __( 'Personal data was found for this user but some of the personal data found was not erased.' );
 					classes = 'notice-warning';
 				}
 			}
@@ -201,8 +204,11 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 		function onErasureFailure() {
+			var summaryMessage = __( 'An error occurred while attempting to find and erase personal data.' );
+
 			setActionState( $action, 'remove-personal-data-failed' );
-			appendResultsAfterRow( $requestRow, 'notice-error', strings.removalError, [] );
+
+			appendResultsAfterRow( $requestRow, 'notice-error', summaryMessage, [] );
 
 			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
 		}
@@ -267,7 +273,6 @@ jQuery( document ).ready( function( $ ) {
 		var $parent,
 			$container,
 			range,
-			__ = wp.i18n.__,
 			$target = $( event.target ),
 			copiedNotice = $target.siblings( '.success' );
 
