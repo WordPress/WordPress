@@ -681,10 +681,10 @@ class getid3_lib
 	 */
 	public static function array_max($arraydata, $returnkey=false) {
 		$maxvalue = false;
-		$maxkey = false;
+		$maxkey   = false;
 		foreach ($arraydata as $key => $value) {
 			if (!is_array($value)) {
-				if ($value > $maxvalue) {
+				if (($maxvalue === false) || ($value > $maxvalue)) {
 					$maxvalue = $value;
 					$maxkey = $key;
 				}
@@ -701,10 +701,10 @@ class getid3_lib
 	 */
 	public static function array_min($arraydata, $returnkey=false) {
 		$minvalue = false;
-		$minkey = false;
+		$minkey   = false;
 		foreach ($arraydata as $key => $value) {
 			if (!is_array($value)) {
-				if ($value > $minvalue) {
+				if (($minvalue === false) || ($value < $minvalue)) {
 					$minvalue = $value;
 					$minkey = $key;
 				}
@@ -1529,13 +1529,20 @@ class getid3_lib
 
 	/**
 	 * @param array $ThisFileInfo
+	 * @param bool  $option_tags_html default true (just as in the main getID3 class)
 	 *
 	 * @return bool
 	 */
-	public static function CopyTagsToComments(&$ThisFileInfo) {
-
+	public static function CopyTagsToComments(&$ThisFileInfo, $option_tags_html=true) {
 		// Copy all entries from ['tags'] into common ['comments']
 		if (!empty($ThisFileInfo['tags'])) {
+			if (isset($ThisFileInfo['tags']['id3v1'])) {
+				// bubble ID3v1 to the end, if present to aid in detecting bad ID3v1 encodings
+				$ID3v1 = $ThisFileInfo['tags']['id3v1'];
+				unset($ThisFileInfo['tags']['id3v1']);
+				$ThisFileInfo['tags']['id3v1'] = $ID3v1;
+				unset($ID3v1);
+			}
 			foreach ($ThisFileInfo['tags'] as $tagtype => $tagarray) {
 				foreach ($tagarray as $tagname => $tagdata) {
 					foreach ($tagdata as $key => $value) {
@@ -1554,6 +1561,13 @@ class getid3_lib
 										break 2;
 									}
 								}
+								if (function_exists('mb_convert_encoding')) {
+									if (trim($value) == trim(substr(mb_convert_encoding($existingvalue, $ThisFileInfo['id3v1']['encoding'], $ThisFileInfo['encoding']), 0, 30))) {
+										// value stored in ID3v1 appears to be probably the multibyte value transliterated (badly) into ISO-8859-1 in ID3v1.
+										// As an example, Foobar2000 will do this if you tag a file with Chinese or Arabic or Cyrillic or something that doesn't fit into ISO-8859-1 the ID3v1 will consist of mostly "?" characters, one per multibyte unrepresentable character
+										break 2;
+									}
+								}
 
 							} elseif (!is_array($value)) {
 
@@ -1562,7 +1576,6 @@ class getid3_lib
 									$oldvaluelength = strlen(trim($existingvalue));
 									if ((strlen($existingvalue) > 10) && ($newvaluelength > $oldvaluelength) && (substr(trim($value), 0, strlen($existingvalue)) == $existingvalue)) {
 										$ThisFileInfo['comments'][$tagname][$existingkey] = trim($value);
-										//break 2;
 										break;
 									}
 								}
@@ -1597,19 +1610,21 @@ class getid3_lib
 				}
 			}
 
-			// Copy to ['comments_html']
-			if (!empty($ThisFileInfo['comments'])) {
-				foreach ($ThisFileInfo['comments'] as $field => $values) {
-					if ($field == 'picture') {
-						// pictures can take up a lot of space, and we don't need multiple copies of them
-						// let there be a single copy in [comments][picture], and not elsewhere
-						continue;
-					}
-					foreach ($values as $index => $value) {
-						if (is_array($value)) {
-							$ThisFileInfo['comments_html'][$field][$index] = $value;
-						} else {
-							$ThisFileInfo['comments_html'][$field][$index] = str_replace('&#0;', '', self::MultiByteCharString2HTML($value, $ThisFileInfo['encoding']));
+			if ($option_tags_html) {
+				// Copy ['comments'] to ['comments_html']
+				if (!empty($ThisFileInfo['comments'])) {
+					foreach ($ThisFileInfo['comments'] as $field => $values) {
+						if ($field == 'picture') {
+							// pictures can take up a lot of space, and we don't need multiple copies of them
+							// let there be a single copy in [comments][picture], and not elsewhere
+							continue;
+						}
+						foreach ($values as $index => $value) {
+							if (is_array($value)) {
+								$ThisFileInfo['comments_html'][$field][$index] = $value;
+							} else {
+								$ThisFileInfo['comments_html'][$field][$index] = str_replace('&#0;', '', self::MultiByteCharString2HTML($value, $ThisFileInfo['encoding']));
+							}
 						}
 					}
 				}
