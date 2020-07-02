@@ -1,0 +1,14 @@
+$base-color: #1e1e1e;
+$highlight-color: #3858e9;
+$menu-submenu-focus-text: #33f078;
+$notification-color: $highlight-color;
+
+$link: $highlight-color;
+$link-focus: darken($highlight-color, 10%);
+
+
+@import "../_admin.scss";
+
+#adminmenu .wp-submenu, #adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu .wp-has-current-submenu.opensub .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu a.wp-has-current-submenu:focus + .wp-submenu {
+	padding-bottom: 12px;
+}
