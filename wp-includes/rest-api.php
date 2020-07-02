@@ -234,13 +234,9 @@ function create_initial_rest_routes() {
 
 	// Terms.
 	foreach ( get_taxonomies( array( 'show_in_rest' => true ), 'object' ) as $taxonomy ) {
-		$class = ! empty( $taxonomy->rest_controller_class ) ? $taxonomy->rest_controller_class : 'WP_REST_Terms_Controller';
+		$controller = $taxonomy->get_rest_controller();
 
-		if ( ! class_exists( $class ) ) {
-			continue;
-		}
-		$controller = new $class( $taxonomy->name );
-		if ( ! is_subclass_of( $controller, 'WP_REST_Controller' ) ) {
+		if ( ! $controller ) {
 			continue;
 		}
 
@@ -873,7 +869,13 @@ function rest_output_link_wp_head() {
 		return;
 	}
 
-	echo "<link rel='https://api.w.org/' href='" . esc_url( $api_root ) . "' />\n";
+	printf( '<link rel="https://api.w.org/" href="%s" />', esc_url( $api_root ) );
+
+	$resource = rest_get_queried_resource_route();
+
+	if ( $resource ) {
+		printf( '<link rel="alternate" type="application/json" href="%s" />', esc_url( rest_url( $resource ) ) );
+	}
 }
 
 /**
@@ -892,7 +894,13 @@ function rest_output_link_header() {
 		return;
 	}
 
-	header( 'Link: <' . esc_url_raw( $api_root ) . '>; rel="https://api.w.org/"', false );
+	header( sprintf( 'Link: <%s>; rel="https://api.w.org/"', esc_url_raw( $api_root ) ), false );
+
+	$resource = rest_get_queried_resource_route();
+
+	if ( $resource ) {
+		header( sprintf( 'Link: <%s>; rel="alternate"; type="application/json"', esc_url_raw( rest_url( $resource ) ) ), false );
+	}
 }
 
 /**
@@ -1822,4 +1830,122 @@ function rest_default_additional_properties_to_false( $schema ) {
 	}
 
 	return $schema;
+}
+
+/**
+ * Gets the REST API route for a post.
+ *
+ * @since 5.5.0
+ *
+ * @param int|WP_Post $post Post ID or post object.
+ * @return string The route path with a leading slash for the given post, or an empty string if there is not a route.
+ */
+function rest_get_route_for_post( $post ) {
+	$post = get_post( $post );
+
+	if ( ! $post instanceof WP_Post ) {
+		return '';
+	}
+
+	$post_type = get_post_type_object( $post->post_type );
+	if ( ! $post_type ) {
+		return '';
+	}
+
+	$controller = $post_type->get_rest_controller();
+	if ( ! $controller ) {
+		return '';
+	}
+
+	$route = '';
+
+	// The only two controllers that we can detect are the Attachments and Posts controllers.
+	if ( in_array( get_class( $controller ), array( 'WP_REST_Attachments_Controller', 'WP_REST_Posts_Controller' ), true ) ) {
+		$namespace = 'wp/v2';
+		$rest_base = ! empty( $post_type->rest_base ) ? $post_type->rest_base : $post_type->name;
+		$route     = sprintf( '/%s/%s/%d', $namespace, $rest_base, $post->ID );
+	}
+
+	/**
+	 * Filters the REST API route for a post.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string  $route The route path.
+	 * @param WP_Post $post  The post object.
+	 */
+	return apply_filters( 'rest_route_for_post', $route, $post );
+}
+
+/**
+ * Gets the REST API route for a term.
+ *
+ * @since 5.5.0
+ *
+ * @param int|WP_Term $term Term ID or term object.
+ * @return string The route path with a leading slash for the given term, or an empty string if there is not a route.
+ */
+function rest_get_route_for_term( $term ) {
+	$term = get_term( $term );
+
+	if ( ! $term instanceof WP_Term ) {
+		return '';
+	}
+
+	$taxonomy = get_taxonomy( $term->taxonomy );
+	if ( ! $taxonomy ) {
+		return '';
+	}
+
+	$controller = $taxonomy->get_rest_controller();
+	if ( ! $controller ) {
+		return '';
+	}
+
+	$route = '';
+
+	// The only controller that works is the Terms controller.
+	if ( 'WP_REST_Terms_Controller' === get_class( $controller ) ) {
+		$namespace = 'wp/v2';
+		$rest_base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
+		$route     = sprintf( '/%s/%s/%d', $namespace, $rest_base, $term->term_id );
+	}
+
+	/**
+	 * Filters the REST API route for a term.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string  $route The route path.
+	 * @param WP_Term $term  The term object.
+	 */
+	return apply_filters( 'rest_route_for_term', $route, $term );
+}
+
+/**
+ * Gets the REST route for the currently queried object.
+ *
+ * @since 5.5.0
+ *
+ * @return string The REST route of the resource, or an empty string if no resource identified.
+ */
+function rest_get_queried_resource_route() {
+	if ( is_singular() ) {
+		$route = rest_get_route_for_post( get_queried_object() );
+	} elseif ( is_category() || is_tag() || is_tax() ) {
+		$route = rest_get_route_for_term( get_queried_object() );
+	} elseif ( is_author() ) {
+		$route = '/wp/v2/users/' . get_queried_object_id();
+	} else {
+		$route = '';
+	}
+
+	/**
+	 * Filters the REST route for the currently queried object.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $link The route with a leading slash, or an empty string.
+	 */
+	return apply_filters( 'rest_queried_resource_route', $route );
 }
