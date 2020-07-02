@@ -1048,6 +1048,12 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 
 		$attr = wp_parse_args( $attr, $default_attr );
 
+		// If `loading` attribute default of `lazy` is overridden for this
+		// image to omit the attribute, ensure it is not included.
+		if ( array_key_exists( 'loading', $attr ) && ! $attr['loading'] ) {
+			unset( $attr['loading'] );
+		}
+
 		// Generate 'srcset' and 'sizes' if not already present.
 		if ( empty( $attr['srcset'] ) ) {
 			$image_meta = wp_get_attachment_metadata( $attachment_id );
@@ -1725,9 +1731,10 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $value   The `loading` attribute value, defaults to `lazy`.
-	 * @param string $image   The HTML `img` tag to be filtered.
-	 * @param string $context Additional context about how the function was called or where the img tag is.
+	 * @param string|bool $value   The `loading` attribute value. Returning a false-y value will result in the
+	 *                             attribute being omitted for the image. Default is `lazy`.
+	 * @param string      $image   The HTML `img` tag to be filtered.
+	 * @param string      $context Additional context about how the function was called or where the img tag is.
 	 */
 	$value = apply_filters( 'wp_img_tag_add_loading_attr', 'lazy', $image, $context );
 
