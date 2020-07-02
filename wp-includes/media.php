@@ -1731,8 +1731,8 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string|bool $value   The `loading` attribute value. Returning a false-y value will result in the
-	 *                             attribute being omitted for the image. Default is `lazy`.
+	 * @param string|bool $value   The `loading` attribute value. Returning a falsey value will result in
+	 *                             the attribute being omitted for the image. Default is `lazy`.
 	 * @param string      $image   The HTML `img` tag to be filtered.
 	 * @param string      $context Additional context about how the function was called or where the img tag is.
 	 */

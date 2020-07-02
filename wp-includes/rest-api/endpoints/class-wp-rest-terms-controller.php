@@ -265,7 +265,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		$total_terms = wp_count_terms( $this->taxonomy, $count_args );
 
-		// wp_count_terms() can return a falsy value when the term has no children.
+		// wp_count_terms() can return a falsey value when the term has no children.
 		if ( ! $total_terms ) {
 			$total_terms = 0;
 		}

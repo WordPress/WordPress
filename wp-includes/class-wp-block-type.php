@@ -267,8 +267,7 @@ class WP_Block_Type {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $args       Array of arguments for registering a
-		 *                           block type.
+		 * @param array  $args       Array of arguments for registering a block type.
 		 * @param string $block_type Block type name including namespace.
 		 */
 		$args = apply_filters( 'register_block_type_args', $args, $this->name );
