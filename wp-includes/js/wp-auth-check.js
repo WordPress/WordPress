@@ -23,7 +23,7 @@
 		if ( form.length ) {
 			// Add unload confirmation to counter (frame-busting) JS redirects.
 			$(window).on( 'beforeunload.wp-auth-check', function(e) {
-				e.originalEvent.returnValue = window.authcheckL10n.beforeunload;
+				e.originalEvent.returnValue = wp.i18n.__( 'Your session has expired. You can log in again from this page or go to the login page.' );
 			});
 
 			frame = $('<iframe id="wp-auth-check-frame" frameborder="0">').attr( 'title', noframe.text() );

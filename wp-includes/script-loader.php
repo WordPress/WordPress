@@ -699,13 +699,7 @@ function wp_default_scripts( $scripts ) {
 	);
 
 	$scripts->add( 'wp-auth-check', "/wp-includes/js/wp-auth-check$suffix.js", array( 'heartbeat' ), false, 1 );
-	did_action( 'init' ) && $scripts->localize(
-		'wp-auth-check',
-		'authcheckL10n',
-		array(
-			'beforeunload' => __( 'Your session has expired. You can log in again from this page or go to the login page.' ),
-		)
-	);
+	$scripts->set_translations( 'wp-auth-check' );
 
 	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array( 'wp-ajax-response', 'jquery-color' ), false, 1 );
 
