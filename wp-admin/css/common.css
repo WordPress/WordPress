@@ -1078,7 +1078,7 @@ th.action-links {
 .filter-links li > a:focus,
 .show-filters .filter-links a.current:hover,
 .show-filters .filter-links a.current:focus {
-	color: #00a0d2;
+	color: #0073aa;
 }
 
 .wp-filter .search-form {
@@ -1174,7 +1174,7 @@ th.action-links {
 
 .show-filters .wp-filter .drawer-toggle:hover,
 .show-filters .wp-filter .drawer-toggle:focus {
-	background: rgb(46, 162, 204);
+	background: #0073aa;
 }
 
 .show-filters .wp-filter .drawer-toggle:before {
