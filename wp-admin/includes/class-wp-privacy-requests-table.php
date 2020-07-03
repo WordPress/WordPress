@@ -179,6 +179,10 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 			$current_link_attributes = $status === $current_status ? ' class="current" aria-current="page"' : '';
 			$total_status_requests   = absint( $counts->{$status} );
 
+			if ( ! $total_status_requests ) {
+				continue;
+			}
+
 			$status_label = sprintf(
 				translate_nooped_plural( $post_status->label_count, $total_status_requests ),
 				number_format_i18n( $total_status_requests )
