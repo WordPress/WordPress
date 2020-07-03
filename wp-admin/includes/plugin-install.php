@@ -334,9 +334,8 @@ function install_search_form( $deprecated = true ) {
 			<option value="author"<?php selected( 'author', $type ); ?>><?php _e( 'Author' ); ?></option>
 			<option value="tag"<?php selected( 'tag', $type ); ?>><?php _ex( 'Tag', 'Plugin Installer' ); ?></option>
 		</select>
-		<label><span class="screen-reader-text"><?php _e( 'Search Plugins' ); ?></span>
-			<input type="search" name="s" value="<?php echo esc_attr( $term ); ?>" class="wp-filter-search" placeholder="<?php esc_attr_e( 'Search plugins...' ); ?>" />
-		</label>
+		<label class="screen-reader-text" for="search-plugins"><?php _e( 'Search Plugins' ); ?></label>
+		<input type="search" name="s" id="search-plugins" value="<?php echo esc_attr( $term ); ?>" class="wp-filter-search" placeholder="<?php esc_attr_e( 'Search plugins...' ); ?>" />
 		<?php submit_button( __( 'Search Plugins' ), 'hide-if-js', false, false, array( 'id' => 'search-submit' ) ); ?>
 	</form>
 	<?php
@@ -370,7 +369,7 @@ function install_plugins_favorites_form() {
 	$user   = get_user_option( 'wporg_favorites' );
 	$action = 'save_wporg_username_' . get_current_user_id();
 	?>
-	<p class="install-help"><?php _e( 'If you have marked plugins as favorites on WordPress.org, you can browse them here.' ); ?></p>
+	<p><?php _e( 'If you have marked plugins as favorites on WordPress.org, you can browse them here.' ); ?></p>
 	<form method="get">
 		<input type="hidden" name="tab" value="favorites" />
 		<p>

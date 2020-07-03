@@ -2095,6 +2095,16 @@ div.action-links,
 		line-height: 1.5;
 	}
 
+	.plugins tbody th.check-column {
+		padding: 8px 5px 0 0;
+	}
+
+	.plugins thead td.check-column,
+	.plugins tfoot td.check-column,
+	.plugins .inactive th.check-column {
+		padding-right: 9px;
+	}
+
 	/* Add New plugins page */
 	table.plugin-install .column-name,
 	table.plugin-install .column-version,

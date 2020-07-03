@@ -1087,8 +1087,24 @@ th.action-links {
 	margin: 0;
 }
 
+/* Use flexbox only on the plugins install page. The `filter-links` and search form children will become flex items. */
+.plugin-install-php .wp-filter {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+
 .wp-filter .search-form.search-plugins {
+	/* This element is a flex item: the inherited float won't have any effect. */
+	margin-top: 0;
+}
+
+.wp-filter .search-form.search-plugins select,
+.wp-filter .search-form.search-plugins .wp-filter-search {
 	display: inline-block;
+	margin-top: 10px;
+	vertical-align: top;
 }
 
 .wp-filter .button.drawer-toggle {
@@ -3968,6 +3984,11 @@ img {
 
 	.wp-filter .search-form input[type="search"] {
 		font-size: 1rem;
+	}
+
+	.wp-filter .search-form.search-plugins {
+		/* This element is a flex item. */
+		min-width: 100%;
 	}
 }
 

@@ -158,7 +158,6 @@ if ( 'upload' !== $tab ) {
 	</div>
 	<?php
 	$wp_list_table->views();
-	echo '<br class="clear" />';
 }
 
 /**
