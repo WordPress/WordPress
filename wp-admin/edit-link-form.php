@@ -122,7 +122,7 @@ wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 <h2><label for="link_url"><?php _e( 'Web Address' ); ?></label></h2>
 <div class="inside">
 	<input type="text" name="link_url" size="30" maxlength="255" class="code" value="<?php echo esc_attr( $link->link_url ); ?>" id="link_url" />
-	<p><?php _e( 'Example: <code>http://wordpress.org/</code> &#8212; don&#8217;t forget the <code>http://</code>' ); ?></p>
+	<p><?php _e( 'Example: <code>https://wordpress.org/</code> &#8212; don&#8217;t forget the <code>https://</code>' ); ?></p>
 </div>
 </div>
 
