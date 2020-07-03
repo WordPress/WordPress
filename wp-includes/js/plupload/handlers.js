@@ -568,6 +568,11 @@ jQuery( document ).ready( function( $ ) {
 			uploadStart();
 
 			plupload.each( files, function( file ) {
+				if ( file.type === 'image/heic' && up.settings.heic_upload_error ) {
+					// Show error but do not block uploading.
+					wpQueueError( pluploadL10n.unsupported_image )
+				}
+
 				fileQueued( file );
 			});
 

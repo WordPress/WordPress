@@ -3599,8 +3599,10 @@ function wp_plupload_default_settings() {
 	 *
 	 * @param array $params Default Plupload parameters array.
 	 */
-	$params                       = apply_filters( 'plupload_default_params', $params );
-	$params['_wpnonce']           = wp_create_nonce( 'media-form' );
+	$params = apply_filters( 'plupload_default_params', $params );
+
+	$params['_wpnonce'] = wp_create_nonce( 'media-form' );
+
 	$defaults['multipart_params'] = $params;
 
 	$settings = array(
@@ -4685,4 +4687,17 @@ function _wp_add_additional_image_sizes() {
 	add_image_size( '1536x1536', 1536, 1536 );
 	// 2x large size.
 	add_image_size( '2048x2048', 2048, 2048 );
+}
+
+/**
+ * Callback to enable showig of the user error when uploading .heic images.
+ *
+ * @since 5.5.0
+ *
+ * @param array[] $plupload_settings The settings for Plupload.js.
+ * @return array[] Modified settings for Plupload.js.
+ */
+function wp_show_heic_upload_error( $plupload_settings ) {
+	$plupload_settings['heic_upload_error'] = true;
+	return $plupload_settings;
 }

@@ -351,6 +351,15 @@ window.wp = window.wp || {};
 					return;
 				}
 
+				if ( file.type === 'image/heic' && up.settings.heic_upload_error ) {
+					// Show error but do not block uploading.
+					Uploader.errors.unshift({
+						message: pluploadL10n.unsupported_image,
+						data:    {},
+						file:    file
+					});
+				}
+
 				// Generate attributes for a new `Attachment` model.
 				attributes = _.extend({
 					file:      file,

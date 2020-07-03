@@ -3046,6 +3046,7 @@ function wp_get_mime_types() {
 			'bmp'                          => 'image/bmp',
 			'tiff|tif'                     => 'image/tiff',
 			'ico'                          => 'image/x-icon',
+			'heic'                         => 'image/heic',
 			// Video formats.
 			'asf|asx'                      => 'video/x-ms-asf',
 			'wmv'                          => 'video/x-ms-wmv',
