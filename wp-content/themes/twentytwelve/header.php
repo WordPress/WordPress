@@ -22,7 +22,7 @@
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width" />
 <title><?php wp_title( '|', true, 'right' ); ?></title>
-<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="profile" href="https://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php echo esc_url( get_bloginfo( 'pingback_url' ) ); ?>">
 <?php // Loads HTML5 JavaScript file to add support for HTML5 elements in older IE versions. ?>
 <!--[if lt IE 9]>
