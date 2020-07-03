@@ -981,13 +981,21 @@ function get_custom_logo( $blog_id = 0 ) {
 			'class' => 'custom-logo',
 		);
 
-		/*
-		 * If the logo alt attribute is empty, get the site title and explicitly pass it
-		 * to the attributes used by wp_get_attachment_image().
-		 */
-		$image_alt = get_post_meta( $custom_logo_id, '_wp_attachment_image_alt', true );
-		if ( empty( $image_alt ) ) {
-			$custom_logo_attr['alt'] = get_bloginfo( 'name', 'display' );
+		if ( is_front_page() ) {
+			/*
+			 * If on the home page, set the logo alt attribute to an empty string,
+			 * as the image is decorative and doesn't need its purpose to be described.
+			 */
+			$custom_logo_attr['alt'] = '';
+		} else {
+			/*
+			 * If the logo alt attribute is empty, get the site title and explicitly pass it
+			 * to the attributes used by wp_get_attachment_image().
+			 */
+			$image_alt = get_post_meta( $custom_logo_id, '_wp_attachment_image_alt', true );
+			if ( empty( $image_alt ) ) {
+				$custom_logo_attr['alt'] = get_bloginfo( 'name', 'display' );
+			}
 		}
 
 		/**
