@@ -215,7 +215,7 @@ class WP_Site_Health {
 	 * It's possible to block updates with the `wp_version_check` filter, but this can't be checked
 	 * during an Ajax call, as the filter is never introduced then.
 	 *
-	 * This filter overrides a normal page request if it's made by an admin through the Ajax call
+	 * This filter overrides a standard page request if it's made by an admin through the Ajax call
 	 * with the right query argument to check for this.
 	 *
 	 * @since 5.2.0
@@ -692,7 +692,7 @@ class WP_Site_Health {
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
-				__( 'Your site does not have any default theme. Default themes are used by WordPress automatically if anything is wrong with your normal theme.' )
+				__( 'Your site does not have any default theme. Default themes are used by WordPress automatically if anything is wrong with your chosen theme.' )
 			);
 		}
 
@@ -981,7 +981,7 @@ class WP_Site_Health {
 			// If this module is a fallback for another function, check if that other function passed.
 			if ( isset( $module['fallback_for'] ) ) {
 				/*
-				 * If that other function has a failure, mark this module as required for normal operations.
+				 * If that other function has a failure, mark this module as required for usual operations.
 				 * If that other function hasn't failed, skip this test as it's only a fallback.
 				 */
 				if ( isset( $failures[ $module['fallback_for'] ] ) ) {
@@ -1453,7 +1453,7 @@ class WP_Site_Health {
 					'<p>%s</p>',
 					sprintf(
 						/* translators: %s: WP_DEBUG_LOG */
-						__( 'The value, %s, has been added to this website&#8217;s configuration file. This means any errors on the site will be written to a file which is potentially available to normal users.' ),
+						__( 'The value, %s, has been added to this website&#8217;s configuration file. This means any errors on the site will be written to a file which is potentially available to all users.' ),
 						'<code>WP_DEBUG_LOG</code>'
 					)
 				);
