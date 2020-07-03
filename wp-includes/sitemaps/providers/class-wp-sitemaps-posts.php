@@ -92,13 +92,6 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 
 		$query = new WP_Query( $args );
 
-		/**
-		 * Returns an array of posts.
-		 *
-		 * @var array<int, \WP_Post> $posts
-		 */
-		$posts = $query->get_posts();
-
 		$url_list = array();
 
 		/*
@@ -122,7 +115,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 			$url_list[]    = $sitemap_entry;
 		}
 
-		foreach ( $posts as $post ) {
+		foreach ( $query->posts as $post ) {
 			$sitemap_entry = array(
 				'loc' => get_permalink( $post ),
 			);
