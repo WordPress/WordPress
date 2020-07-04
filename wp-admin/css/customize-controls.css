@@ -842,10 +842,16 @@ h3.customize-section-title {
 	background: #fff;
 	color: #0073aa;
 	border-top-color: #0073aa;
-	outline: none;
 	box-shadow: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
+#customize-theme-controls .accordion-section-title:focus .customize-action {
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
+	outline-offset: 1px;
+}
 
 .customize-panel-back:hover,
 .customize-panel-back:focus,
@@ -854,8 +860,10 @@ h3.customize-section-title {
 	color: #0073aa;
 	background: #f3f3f5;
 	border-left-color: #0073aa;
-	outline: none;
 	box-shadow: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+	outline-offset: -2px;
 }
 
 .customize-controls-close:before {
@@ -1395,6 +1403,7 @@ p.customize-section-description {
 	border-color: #007cba;
 	border-style: solid;
 	box-shadow: 0 0 0 1px #007cba;
+	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
 
@@ -2212,8 +2221,10 @@ p.customize-section-description {
 		color: #0073aa;
 		background: #f3f3f5;
 		border-left-color: #0073aa;
-		outline: none;
 		box-shadow: none;
+		/* Only visible in Windows High Contrast mode */
+		outline: 2px solid transparent;
+		outline-offset: -2px;
 	}
 
 	.showing-themes #customize-header-actions {

@@ -270,7 +270,8 @@
 
 .customize-screen-options-toggle:focus,
 #customize-controls .customize-info .customize-help-toggle:focus {
-	outline: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 .customize-screen-options-toggle:before {

@@ -3057,13 +3057,16 @@ img {
 
 .js .postbox .handlediv:focus {
 	box-shadow: none;
-	outline: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 .js .postbox .handlediv:focus .toggle-indicator:before {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, 0.8);
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 /* @todo: appears to be Press This only and overridden */
@@ -3384,6 +3387,8 @@ img {
 .sidebar-name:hover .toggle-indicator,
 .accordion-section-title:hover:after {
 	color: #23282d;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 .widget-top .widget-action:focus .toggle-indicator:before {
@@ -3466,12 +3471,15 @@ img {
 }
 
 .accordion-section-title:focus {
-	outline: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 .accordion-section-title:hover:after,
 .accordion-section-title:focus:after {
 	border-color: #a0a5aa transparent;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 .cannot-expand .accordion-section-title {
