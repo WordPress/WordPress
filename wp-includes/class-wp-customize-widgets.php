@@ -1170,22 +1170,28 @@ final class WP_Customize_Widgets {
 		global $wp_registered_sidebars, $wp_registered_widgets;
 
 		$switched_locale = switch_to_locale( get_user_locale() );
-		$l10n            = array(
+
+		$l10n = array(
 			'widgetTooltip' => __( 'Shift-click to edit this widget.' ),
 		);
+
 		if ( $switched_locale ) {
 			restore_previous_locale();
 		}
 
+		$rendered_sidebars = array_filter( $this->rendered_sidebars );
+		$rendered_widgets  = array_filter( $this->rendered_widgets );
+
 		// Prepare Customizer settings to pass to JavaScript.
 		$settings = array(
-			'renderedSidebars'            => array_fill_keys( array_unique( $this->rendered_sidebars ), true ),
-			'renderedWidgets'             => array_fill_keys( array_keys( $this->rendered_widgets ), true ),
+			'renderedSidebars'            => array_fill_keys( array_keys( $rendered_sidebars ), true ),
+			'renderedWidgets'             => array_fill_keys( array_keys( $rendered_widgets ), true ),
 			'registeredSidebars'          => array_values( $wp_registered_sidebars ),
 			'registeredWidgets'           => $wp_registered_widgets,
 			'l10n'                        => $l10n,
 			'selectiveRefreshableWidgets' => $this->get_selective_refreshable_widgets(),
 		);
+
 		foreach ( $settings['registeredWidgets'] as &$registered_widget ) {
 			unset( $registered_widget['callback'] ); // May not be JSON-serializeable.
 		}
@@ -1217,7 +1223,7 @@ final class WP_Customize_Widgets {
 	 * @return bool Whether the widget is rendered.
 	 */
 	public function is_widget_rendered( $widget_id ) {
-		return in_array( $widget_id, $this->rendered_widgets, true );
+		return ! empty( $this->rendered_widgets[ $widget_id ] );
 	}
 
 	/**
@@ -1229,7 +1235,7 @@ final class WP_Customize_Widgets {
 	 * @return bool Whether the sidebar is rendered.
 	 */
 	public function is_sidebar_rendered( $sidebar_id ) {
-		return in_array( $sidebar_id, $this->rendered_sidebars, true );
+		return ! empty( $this->rendered_sidebars[ $sidebar_id ] );
 	}
 
 	/**
@@ -1247,8 +1253,9 @@ final class WP_Customize_Widgets {
 	 */
 	public function tally_sidebars_via_is_active_sidebar_calls( $is_active, $sidebar_id ) {
 		if ( is_registered_sidebar( $sidebar_id ) ) {
-			$this->rendered_sidebars[] = $sidebar_id;
+			$this->rendered_sidebars[ $sidebar_id ] = true;
 		}
+
 		/*
 		 * We may need to force this to true, and also force-true the value
 		 * for 'dynamic_sidebar_has_widgets' if we want to ensure that there
@@ -1272,7 +1279,7 @@ final class WP_Customize_Widgets {
 	 */
 	public function tally_sidebars_via_dynamic_sidebar_calls( $has_widgets, $sidebar_id ) {
 		if ( is_registered_sidebar( $sidebar_id ) ) {
-			$this->rendered_sidebars[] = $sidebar_id;
+			$this->rendered_sidebars[ $sidebar_id ] = true;
 		}
 
 		/*
