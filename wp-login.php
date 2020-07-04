@@ -492,6 +492,10 @@ if ( isset( $_GET['key'] ) ) {
 	$action = 'resetpass';
 }
 
+if ( isset( $_GET['checkemail'] ) ) {
+	$action = 'checkemail';
+}
+
 $default_actions = array(
 	'confirm_admin_email',
 	'postpass',
@@ -501,6 +505,7 @@ $default_actions = array(
 	'resetpass',
 	'rp',
 	'register',
+	'checkemail',
 	'login',
 	'confirmaction',
 	WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED,
@@ -1130,6 +1135,39 @@ switch ( $action ) {
 		login_footer( 'user_login' );
 		break;
 
+	case 'checkemail':
+		$redirect_to = admin_url();
+		$errors      = new WP_Error();
+
+		if ( 'confirm' === $_GET['checkemail'] ) {
+			$errors->add(
+				'confirm',
+				sprintf(
+					/* translators: %s: Link to the login page. */
+					__( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ),
+					wp_login_url()
+				),
+				'message'
+			);
+		} elseif ( 'registered' === $_GET['checkemail'] ) {
+			$errors->add(
+				'registered',
+				sprintf(
+					/* translators: %s: Link to the login page. */
+					__( 'Registration complete. Please check your email, then visit the <a href="%s">login page</a>.' ),
+					wp_login_url()
+				),
+				'message'
+			);
+		}
+
+		/** This action is documented in wp-login.php */
+		$errors = apply_filters( 'wp_login_errors', $errors, $redirect_to );
+
+		login_header( __( 'Log In' ), '', $errors );
+		login_footer();
+		break;
+
 	case 'confirmaction':
 		if ( ! isset( $_GET['request_id'] ) ) {
 			wp_die( __( 'Missing request ID.' ) );
@@ -1328,10 +1366,6 @@ switch ( $action ) {
 				$errors->add( 'loggedout', __( 'You are now logged out.' ), 'message' );
 			} elseif ( isset( $_GET['registration'] ) && 'disabled' === $_GET['registration'] ) {
 				$errors->add( 'registerdisabled', __( 'User registration is currently not allowed.' ) );
-			} elseif ( isset( $_GET['checkemail'] ) && 'confirm' === $_GET['checkemail'] ) {
-				$errors->add( 'confirm', __( 'Check your email for the confirmation link.' ), 'message' );
-			} elseif ( isset( $_GET['checkemail'] ) && 'registered' === $_GET['checkemail'] ) {
-				$errors->add( 'registered', __( 'Registration complete. Please check your email.' ), 'message' );
 			} elseif ( strpos( $redirect_to, 'about.php?updated' ) ) {
 				$errors->add( 'updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new.' ), 'message' );
 			} elseif ( WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED === $action ) {
@@ -1429,22 +1463,17 @@ switch ( $action ) {
 			<p id="nav">
 				<?php
 
-				if ( ! isset( $_GET['checkemail'] ) || 'confirm' !== $_GET['checkemail'] ) {
-					if ( get_option( 'users_can_register' ) ) {
-						$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
+				if ( get_option( 'users_can_register' ) ) {
+					$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
 
-						/** This filter is documented in wp-includes/general-template.php */
-						echo apply_filters( 'register', $registration_url );
+					/** This filter is documented in wp-includes/general-template.php */
+					echo apply_filters( 'register', $registration_url );
 
-						echo esc_html( $login_link_separator );
-					}
-
-					?>
-					<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Lost your password?' ); ?></a>
-					<?php
+					echo esc_html( $login_link_separator );
 				}
 
 				?>
+				<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Lost your password?' ); ?></a>
 			</p>
 			<?php
 		}
