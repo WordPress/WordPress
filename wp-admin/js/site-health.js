@@ -67,18 +67,18 @@ jQuery( document ).ready( function( $ ) {
 	} );
 
 	/**
-	 * Append a new issue to the issue list.
+	 * Appends a new issue to the issue list.
 	 *
 	 * @since 5.2.0
 	 *
 	 * @param {Object} issue The issue data.
 	 */
-	function AppendIssue( issue ) {
+	function appendIssue( issue ) {
 		var template = wp.template( 'health-check-issue' ),
 			issueWrapper = $( '#health-check-issues-' + issue.status ),
 			heading,
 			count;
-
+		
 		SiteHealth.site_status.issues[ issue.status ]++;
 
 		count = SiteHealth.site_status.issues[ issue.status ];
@@ -99,11 +99,11 @@ jQuery( document ).ready( function( $ ) {
 	}
 
 	/**
-	 * Update site health status indicator as asynchronous tests are run and returned.
+	 * Updates site health status indicator as asynchronous tests are run and returned.
 	 *
 	 * @since 5.2.0
 	 */
-	function RecalculateProgression() {
+	function recalculateProgression() {
 		var r, c, pct;
 		var $progress = $( '.site-health-progress' );
 		var $wrapper = $progress.closest( '.site-health-progress-wrapper' );
@@ -172,7 +172,7 @@ jQuery( document ).ready( function( $ ) {
 	}
 
 	/**
-	 * Queue the next asynchronous test when we're ready to run it.
+	 * Queues the next asynchronous test when we're ready to run it.
 	 *
 	 * @since 5.2.0
 	 */
@@ -199,7 +199,7 @@ jQuery( document ).ready( function( $ ) {
 					data,
 					function( response ) {
 						/** This filter is documented in wp-admin/includes/class-wp-site-health.php */
-						AppendIssue( wp.hooks.applyFilters( 'site_status_test_result', response.data ) );
+						appendIssue( wp.hooks.applyFilters( 'site_status_test_result', response.data ) );
 						maybeRunNextAsyncTest();
 					}
 				);
@@ -209,13 +209,13 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 		if ( doCalculation ) {
-			RecalculateProgression();
+			recalculateProgression();
 		}
 	}
 
 	if ( 'undefined' !== typeof SiteHealth && ! isDebugTab ) {
 		if ( 0 === SiteHealth.site_status.direct.length && 0 === SiteHealth.site_status.async.length ) {
-			RecalculateProgression();
+			recalculateProgression();
 		} else {
 			SiteHealth.site_status.issues = {
 				'good': 0,
@@ -226,7 +226,7 @@ jQuery( document ).ready( function( $ ) {
 
 		if ( 0 < SiteHealth.site_status.direct.length ) {
 			$.each( SiteHealth.site_status.direct, function() {
-				AppendIssue( this );
+				appendIssue( this );
 			} );
 		}
 
@@ -242,12 +242,12 @@ jQuery( document ).ready( function( $ ) {
 				ajaxurl,
 				data,
 				function( response ) {
-					AppendIssue( response.data );
+					appendIssue( response.data );
 					maybeRunNextAsyncTest();
 				}
 			);
 		} else {
-			RecalculateProgression();
+			recalculateProgression();
 		}
 	}
 
@@ -275,7 +275,7 @@ jQuery( document ).ready( function( $ ) {
 			var delay = ( new Date().getTime() ) - timestamp;
 
 			$( '.health-check-wp-paths-sizes.spinner' ).css( 'visibility', 'hidden' );
-			RecalculateProgression();
+			recalculateProgression();
 
 			if ( delay > 3000  ) {
 				/*
@@ -329,7 +329,7 @@ jQuery( document ).ready( function( $ ) {
 		if ( pathsSizesSection.length ) {
 			getDirectorySizes();
 		} else {
-			RecalculateProgression();
+			recalculateProgression();
 		}
 	}
 } );
