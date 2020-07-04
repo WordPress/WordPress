@@ -506,8 +506,8 @@ $default_actions = array(
 	'rp',
 	'register',
 	'checkemail',
-	'login',
 	'confirmaction',
+	'login',
 	WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED,
 );
 
@@ -1164,7 +1164,7 @@ switch ( $action ) {
 		/** This action is documented in wp-login.php */
 		$errors = apply_filters( 'wp_login_errors', $errors, $redirect_to );
 
-		login_header( __( 'Log In' ), '', $errors );
+		login_header( __( 'Check your email' ), '', $errors );
 		login_footer();
 		break;
 
