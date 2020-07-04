@@ -1281,6 +1281,12 @@ function rest_get_avatar_sizes() {
  * @return true|WP_Error
  */
 function rest_validate_value_from_schema( $value, $args, $param = '' ) {
+	$allowed_types = array( 'array', 'object', 'string', 'number', 'integer', 'boolean', 'null' );
+
+	if ( ! isset( $args['type'] ) ) {
+		_doing_it_wrong( __FUNCTION__, __( 'The "type" schema keyword is required.' ), '5.5.0' );
+	}
+
 	if ( is_array( $args['type'] ) ) {
 		foreach ( $args['type'] as $type ) {
 			$type_args         = $args;
@@ -1293,6 +1299,15 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 
 		/* translators: 1: Parameter, 2: List of types. */
 		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, implode( ',', $args['type'] ) ) );
+	}
+
+	if ( ! in_array( $args['type'], $allowed_types, true ) ) {
+		_doing_it_wrong(
+			__FUNCTION__,
+			/* translators: 1. The list of allowed types. */
+			wp_sprintf( __( 'The "type" schema keyword can only be on of the built-in types: %l.' ), $allowed_types ),
+			'5.5.0'
+		);
 	}
 
 	if ( 'array' === $args['type'] ) {
@@ -1449,7 +1464,9 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		}
 	}
 
-	if ( isset( $args['format'] ) ) {
+	// The "format" keyword should only be applied to strings. However, for backwards compatibility,
+	// we allow the "format" keyword if the type keyword was not specified, or was set to an invalid value.
+	if ( isset( $args['format'] ) && ( ! isset( $args['type'] ) || 'string' === $args['type'] || ! in_array( $args['type'], $allowed_types, true ) ) ) {
 		switch ( $args['format'] ) {
 			case 'hex-color':
 				if ( ! rest_parse_hex_color( $value ) ) {
@@ -1538,6 +1555,12 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
  * @return true|WP_Error
  */
 function rest_sanitize_value_from_schema( $value, $args ) {
+	$allowed_types = array( 'array', 'object', 'string', 'number', 'integer', 'boolean', 'null' );
+
+	if ( ! isset( $args['type'] ) ) {
+		_doing_it_wrong( __FUNCTION__, __( 'The "type" schema keyword is required.' ), '5.5.0' );
+	}
+
 	if ( is_array( $args['type'] ) ) {
 		// Determine which type the value was validated against,
 		// and use that type when performing sanitization.
@@ -1558,6 +1581,15 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 		}
 
 		$args['type'] = $validated_type;
+	}
+
+	if ( ! in_array( $args['type'], $allowed_types, true ) ) {
+		_doing_it_wrong(
+			__FUNCTION__,
+			/* translators: 1. The list of allowed types. */
+			wp_sprintf( __( 'The "type" schema keyword can only be on of the built-in types: %l.' ), $allowed_types ),
+			'5.5.0'
+		);
 	}
 
 	if ( 'array' === $args['type'] ) {
@@ -1619,7 +1651,8 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 		return rest_sanitize_boolean( $value );
 	}
 
-	if ( isset( $args['format'] ) ) {
+	// This behavior matches rest_validate_value_from_schema().
+	if ( isset( $args['format'] ) && ( ! isset( $args['type'] ) || 'string' === $args['type'] || ! in_array( $args['type'], $allowed_types, true ) ) ) {
 		switch ( $args['format'] ) {
 			case 'hex-color':
 				return (string) sanitize_hex_color( $value );
