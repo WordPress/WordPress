@@ -1464,9 +1464,11 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		}
 	}
 
-	// The "format" keyword should only be applied to strings. However, for backwards compatibility,
+	// The "format" keyword should only be applied to strings. However, for backward compatibility,
 	// we allow the "format" keyword if the type keyword was not specified, or was set to an invalid value.
-	if ( isset( $args['format'] ) && ( ! isset( $args['type'] ) || 'string' === $args['type'] || ! in_array( $args['type'], $allowed_types, true ) ) ) {
+	if ( isset( $args['format'] )
+		&& ( ! isset( $args['type'] ) || 'string' === $args['type'] || ! in_array( $args['type'], $allowed_types, true ) )
+	) {
 		switch ( $args['format'] ) {
 			case 'hex-color':
 				if ( ! rest_parse_hex_color( $value ) ) {
@@ -1652,7 +1654,9 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 	}
 
 	// This behavior matches rest_validate_value_from_schema().
-	if ( isset( $args['format'] ) && ( ! isset( $args['type'] ) || 'string' === $args['type'] || ! in_array( $args['type'], $allowed_types, true ) ) ) {
+	if ( isset( $args['format'] )
+		&& ( ! isset( $args['type'] ) || 'string' === $args['type'] || ! in_array( $args['type'], $allowed_types, true ) )
+	) {
 		switch ( $args['format'] ) {
 			case 'hex-color':
 				return (string) sanitize_hex_color( $value );

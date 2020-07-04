@@ -473,7 +473,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	// This postmeta is used from version 5.4.
 	$archive_filename = get_post_meta( $request_id, '_export_file_name', true );
 
-	// These are used for backwards compatibility.
+	// These are used for backward compatibility.
 	$archive_url      = get_post_meta( $request_id, '_export_file_url', true );
 	$archive_pathname = get_post_meta( $request_id, '_export_file_path', true );
 

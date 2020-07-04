@@ -8,7 +8,7 @@
  /* global theList:true, theExtraList:true, getUserSetting, setUserSetting, commentReply, commentsBox */
  /* global WPSetThumbnailHTML, wptitlehint */
 
-// Backwards compatibility: prevent fatal errors.
+// Backward compatibility: prevent fatal errors.
 window.makeSlugeditClickable = window.editPermalink = function(){};
 
 // Make sure the wp object exists.
