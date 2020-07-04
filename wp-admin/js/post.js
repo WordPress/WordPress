@@ -1228,7 +1228,7 @@ jQuery(document).ready( function($) {
 	 *
 	 * @param {MouseEvent} event A click event.
 	 *
-	 * @returns {void}
+	 * @return {void}
 	 */
 	copyAttachmentURLClipboard.on( 'success', function( event ) {
 		var triggerElement = $( event.trigger ),
