@@ -1718,7 +1718,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
  * @param mixed  $value The value to sanitize.
  * @param array  $args  Schema array to use for sanitization.
  * @param string $param The parameter name, used in error messages.
- * @return true|WP_Error
+ * @return mixed The sanitized value.
  */
 function rest_sanitize_value_from_schema( $value, $args, $param = '' ) {
 	$allowed_types = array( 'array', 'object', 'string', 'number', 'integer', 'boolean', 'null' );
