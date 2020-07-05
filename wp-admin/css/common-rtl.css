@@ -1567,11 +1567,7 @@ div.error {
 	line-height: 1.4;
 	padding: 11px 15px;
 	font-size: 14px;
-	text-align: right;
 	margin: 25px 2px 0 20px;
-	background-color: #fff;
-	border-right: 4px solid #ffba00;
-	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 ul#dismissed-updates {

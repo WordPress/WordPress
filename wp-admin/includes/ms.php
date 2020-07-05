@@ -703,7 +703,7 @@ function site_admin_notice() {
 	}
 
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version ) {
-		echo "<div class='update-nag'>" . sprintf(
+		echo "<div class='update-nag notice notice-warning inline'>" . sprintf(
 			/* translators: %s: URL to Upgrade Network screen. */
 			__( 'Thank you for Updating! Please visit the <a href="%s">Upgrade Network</a> page to update all your sites.' ),
 			esc_url( network_admin_url( 'upgrade.php' ) )

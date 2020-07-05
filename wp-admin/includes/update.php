@@ -318,7 +318,8 @@ function update_nag() {
 			$cur->current
 		);
 	}
-	echo "<div class='update-nag'>$msg</div>";
+
+	echo "<div class='update-nag notice notice-warning inline'>$msg</div>";
 }
 
 /**
@@ -764,7 +765,7 @@ function maintenance_nag() {
 		$msg = __( 'An automated WordPress update has failed to complete! Please notify the site administrator.' );
 	}
 
-	echo "<div class='update-nag'>$msg</div>";
+	echo "<div class='update-nag notice notice-warning inline'>$msg</div>";
 }
 
 /**
