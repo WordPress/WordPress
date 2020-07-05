@@ -236,18 +236,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 			return true;
 		}
 
-		if ( is_array( $support ) ) {
-			if ( ! $args['variadic'] ) {
-				$support = $support[0];
-			}
-
-			// Multi-type theme-support schema definitions always list boolean first.
-			if ( is_array( $schema['type'] ) && 'boolean' === $schema['type'][0] ) {
-				// Pass the non-boolean type through to the sanitizer, which cannot itself
-				// determine the intended type if the value is invalid (for example if an
-				// object includes non-safelisted properties). See #50300.
-				$schema['type'] = $schema['type'][1];
-			}
+		if ( is_array( $support ) && ! $args['variadic'] ) {
+			$support = $support[0];
 		}
 
 		return rest_sanitize_value_from_schema( $support, $schema );
