@@ -1498,6 +1498,65 @@ function wp_calculate_image_sizes( $size, $image_src = null, $image_meta = null,
 }
 
 /**
+ * Determines if the image meta data is for the image source file.
+ *
+ * The image meta data is retrieved by attachment post ID. In some cases the post IDs may change.
+ * For example when the website is exported and imported at another website. Then the
+ * attachment post IDs that are in post_content for the exported website may not match
+ * the same attachments at the new website.
+ *
+ * @since 5.5.0
+ *
+ * @param string $image_location  The full path or URI to the image file.
+ * @param array  $image_meta      The attachment meta data as returned by 'wp_get_attachment_metadata()'.
+ * @return bool Whether the image meta is for this image file.
+ */
+function wp_image_file_matches_image_meta( $image_location, $image_meta ) {
+	$match = false;
+
+	// Ensure the $image_meta is valid.
+	if ( isset( $image_meta['file'] ) && strlen( $image_meta['file'] ) > 4 ) {
+		// Remove quiery args if image URI.
+		list( $image_location ) = explode( '?', $image_location );
+
+		// Check if the relative image path from the image meta is at the end of $image_location.
+		if ( strrpos( $image_location, $image_meta['file'] ) === strlen( $image_location ) - strlen( $image_meta['file'] ) ) {
+			$match = true;
+		}
+
+		if ( ! empty( $image_meta['sizes'] ) ) {
+			// Retrieve the uploads sub-directory from the full size image.
+			$dirname = _wp_get_attachment_relative_path( $image_meta['file'] );
+
+			if ( $dirname ) {
+				$dirname = trailingslashit( $dirname );
+			}
+
+			foreach ( $image_meta['sizes'] as $image_size_data ) {
+				$relative_path = $dirname . $image_size_data['file'];
+
+				if ( strrpos( $image_location, $relative_path ) === strlen( $image_location ) - strlen( $relative_path ) ) {
+					$match = true;
+					break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Filter whether an image path or URI matches image meta.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param bool   $match          Whether the image relative path from the image meta
+	 *                               matches the end of the URI or path to the image file.
+	 * @param string $image_location Full path or URI to the tested image file.
+	 * @param array  $image_meta     The image meta data being tested.
+	 */
+	return apply_filters( 'wp_image_file_matches_image_meta', $match, $image_location, $image_meta );
+}
+
+/**
  * Determines an image's width and height dimensions based on the source file.
  *
  * @since 5.5.0
@@ -1508,21 +1567,28 @@ function wp_calculate_image_sizes( $size, $image_src = null, $image_meta = null,
  *                     or false if dimensions cannot be determined.
  */
 function wp_image_src_get_dimensions( $image_src, $image_meta ) {
-	$image_filename = wp_basename( $image_src );
+	if ( ! wp_image_file_matches_image_meta( $image_src, $image_meta ) ) {
+		return false;
+	}
 
-	if ( wp_basename( $image_meta['file'] ) === $image_filename ) {
+	// Is it a full size image?
+	if ( strpos( $image_src, $image_meta['file'] ) !== false ) {
 		return array(
 			(int) $image_meta['width'],
 			(int) $image_meta['height'],
 		);
 	}
 
-	foreach ( $image_meta['sizes'] as $image_size_data ) {
-		if ( $image_filename === $image_size_data['file'] ) {
-			return array(
-				(int) $image_size_data['width'],
-				(int) $image_size_data['height'],
-			);
+	if ( ! empty( $image_meta['sizes'] ) ) {
+		$src_filename = wp_basename( $image_src );
+
+		foreach ( $image_meta['sizes'] as $image_size_data ) {
+			if ( $src_filename === $image_size_data['file'] ) {
+				return array(
+					(int) $image_size_data['width'],
+					(int) $image_size_data['height'],
+				);
+			}
 		}
 	}
 
