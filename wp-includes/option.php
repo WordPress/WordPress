@@ -2212,12 +2212,24 @@ function register_setting( $option_group, $option_name, $args = array() ) {
 	}
 
 	$new_whitelist_options[ $option_group ][] = $option_name;
+
 	if ( ! empty( $args['sanitize_callback'] ) ) {
 		add_filter( "sanitize_option_{$option_name}", $args['sanitize_callback'] );
 	}
 	if ( array_key_exists( 'default', $args ) ) {
 		add_filter( "default_option_{$option_name}", 'filter_default_option', 10, 3 );
 	}
+
+	/**
+	 * Fires immediately before the setting is registered but after its filters are in place.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $option_group Setting group.
+	 * @param string $option_name  Setting name.
+	 * @param array  $args         Array of setting registration arguments.
+	 */
+	do_action( 'register_setting', $option_group, $option_name, $args );
 
 	$wp_registered_settings[ $option_name ] = $args;
 }
@@ -2231,9 +2243,9 @@ function register_setting( $option_group, $option_name, $args = array() ) {
  * @global array $new_whitelist_options
  * @global array $wp_registered_settings
  *
- * @param string   $option_group      The settings group name used during registration.
- * @param string   $option_name       The name of the option to unregister.
- * @param callable $deprecated        Deprecated.
+ * @param string   $option_group The settings group name used during registration.
+ * @param string   $option_name  The name of the option to unregister.
+ * @param callable $deprecated   Deprecated.
  */
 function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 	global $new_whitelist_options, $wp_registered_settings;
@@ -2265,9 +2277,11 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 	}
 
 	$pos = array_search( $option_name, (array) $new_whitelist_options[ $option_group ], true );
+
 	if ( false !== $pos ) {
 		unset( $new_whitelist_options[ $option_group ][ $pos ] );
 	}
+
 	if ( '' !== $deprecated ) {
 		_deprecated_argument(
 			__FUNCTION__,
@@ -2292,6 +2306,16 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 		if ( array_key_exists( 'default', $wp_registered_settings[ $option_name ] ) ) {
 			remove_filter( "default_option_{$option_name}", 'filter_default_option', 10 );
 		}
+
+		/**
+		 * Fires immediately before the setting is unregistered and after its filters have been removed.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string $option_group Setting group.
+		 * @param string $option_name  Setting name.
+		 */
+		do_action( 'unregister_setting', $option_group, $option_name );
 
 		unset( $wp_registered_settings[ $option_name ] );
 	}
