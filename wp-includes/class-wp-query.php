@@ -3235,10 +3235,12 @@ class WP_Query {
 			 *
 			 * @since 2.1.0
 			 *
-			 * @param string   $found_posts The query to run to find the found posts.
-			 * @param WP_Query $this        The WP_Query instance (passed by reference).
+			 * @param string   $found_posts_query The query to run to find the found posts.
+			 * @param WP_Query $this              The WP_Query instance (passed by reference).
 			 */
-			$this->found_posts = $wpdb->get_var( apply_filters_ref_array( 'found_posts_query', array( 'SELECT FOUND_ROWS()', &$this ) ) );
+			$found_posts_query = apply_filters_ref_array( 'found_posts_query', array( 'SELECT FOUND_ROWS()', &$this ) );
+
+			$this->found_posts = (int) $wpdb->get_var( $found_posts_query );
 		} else {
 			if ( is_array( $this->posts ) ) {
 				$this->found_posts = count( $this->posts );
@@ -3259,7 +3261,7 @@ class WP_Query {
 		 * @param int      $found_posts The number of posts found.
 		 * @param WP_Query $this        The WP_Query instance (passed by reference).
 		 */
-		$this->found_posts = apply_filters_ref_array( 'found_posts', array( $this->found_posts, &$this ) );
+		$this->found_posts = (int) apply_filters_ref_array( 'found_posts', array( $this->found_posts, &$this ) );
 
 		if ( ! empty( $limits ) ) {
 			$this->max_num_pages = ceil( $this->found_posts / $q['posts_per_page'] );
