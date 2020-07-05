@@ -358,12 +358,14 @@ function wp_delete_user( $id, $reassign = null ) {
 	 * Fires immediately before a user is deleted from the database.
 	 *
 	 * @since 2.0.0
+	 * @since 5.5.0 Added the `$user` parameter.
 	 *
 	 * @param int      $id       ID of the user to delete.
 	 * @param int|null $reassign ID of the user to reassign posts and links to.
 	 *                           Default null, for no reassignment.
+	 * @param WP_User  $user     WP_User object of the user to delete.
 	 */
-	do_action( 'delete_user', $id, $reassign );
+	do_action( 'delete_user', $id, $reassign, $user );
 
 	if ( null === $reassign ) {
 		$post_types_to_delete = array();
@@ -435,12 +437,14 @@ function wp_delete_user( $id, $reassign = null ) {
 	 * Fires immediately after a user is deleted from the database.
 	 *
 	 * @since 2.9.0
+	 * @since 5.5.0 Added the `$user` parameter.
 	 *
 	 * @param int      $id       ID of the deleted user.
 	 * @param int|null $reassign ID of the user to reassign posts and links to.
 	 *                           Default null, for no reassignment.
+	 * @param WP_User  $user     WP_User object of the deleted user.
 	 */
-	do_action( 'deleted_user', $id, $reassign );
+	do_action( 'deleted_user', $id, $reassign, $user );
 
 	return true;
 }
