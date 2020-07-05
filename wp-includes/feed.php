@@ -564,6 +564,7 @@ function prep_atom_text_construct( $data ) {
 	xml_parse( $parser, '<div>' . $data . '</div>', true );
 	$code = xml_get_error_code( $parser );
 	xml_parser_free( $parser );
+	unset( $parser );
 
 	if ( ! $code ) {
 		if ( strpos( $data, '<' ) === false ) {
