@@ -398,7 +398,7 @@ function get_blog_option( $id, $option, $default = false ) {
  * @param int    $id     A blog ID. Can be null to refer to the current blog.
  * @param string $option Name of option to add. Expected to not be SQL-escaped.
  * @param mixed  $value  Optional. Option value, can be anything. Expected to not be SQL-escaped.
- * @return bool False if option was not added and true if option was added.
+ * @return bool True if the option was added, false otherwise.
  */
 function add_blog_option( $id, $option, $value ) {
 	$id = (int) $id;
@@ -425,7 +425,7 @@ function add_blog_option( $id, $option, $value ) {
  *
  * @param int    $id     A blog ID. Can be null to refer to the current blog.
  * @param string $option Name of option to remove. Expected to not be SQL-escaped.
- * @return bool True, if option is successfully deleted. False on failure.
+ * @return bool True if the option was deleted, false otherwise.
  */
 function delete_blog_option( $id, $option ) {
 	$id = (int) $id;
@@ -454,7 +454,7 @@ function delete_blog_option( $id, $option ) {
  * @param string $option     The option key.
  * @param mixed  $value      The option value.
  * @param mixed  $deprecated Not used.
- * @return bool True on success, false on failure.
+ * @return bool True if the value was updated, false otherwise.
  */
 function update_blog_option( $id, $option, $value, $deprecated = null ) {
 	$id = (int) $id;
