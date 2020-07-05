@@ -156,7 +156,7 @@ if ( $doaction ) {
 				}
 
 				if ( ! wp_trash_post( $post_id ) ) {
-					wp_die( __( 'Error in moving to Trash.' ) );
+					wp_die( __( 'Error in moving the item to Trash.' ) );
 				}
 			}
 			$location = add_query_arg(
@@ -177,7 +177,7 @@ if ( $doaction ) {
 				}
 
 				if ( ! wp_untrash_post( $post_id ) ) {
-					wp_die( __( 'Error in restoring from Trash.' ) );
+					wp_die( __( 'Error in restoring the item from Trash.' ) );
 				}
 			}
 			$location = add_query_arg( 'untrashed', count( $post_ids ), $location );
@@ -192,7 +192,7 @@ if ( $doaction ) {
 				}
 
 				if ( ! wp_delete_attachment( $post_id_del ) ) {
-					wp_die( __( 'Error in deleting.' ) );
+					wp_die( __( 'Error in deleting the attachment.' ) );
 				}
 			}
 			$location = add_query_arg( 'deleted', count( $post_ids ), $location );

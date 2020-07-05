@@ -117,7 +117,7 @@ if ( $doaction ) {
 				}
 
 				if ( ! wp_trash_post( $post_id ) ) {
-					wp_die( __( 'Error in moving to Trash.' ) );
+					wp_die( __( 'Error in moving the item to Trash.' ) );
 				}
 
 				$trashed++;
@@ -140,7 +140,7 @@ if ( $doaction ) {
 				}
 
 				if ( ! wp_untrash_post( $post_id ) ) {
-					wp_die( __( 'Error in restoring from Trash.' ) );
+					wp_die( __( 'Error in restoring the item from Trash.' ) );
 				}
 
 				$untrashed++;
@@ -158,11 +158,11 @@ if ( $doaction ) {
 
 				if ( 'attachment' === $post_del->post_type ) {
 					if ( ! wp_delete_attachment( $post_id ) ) {
-						wp_die( __( 'Error in deleting.' ) );
+						wp_die( __( 'Error in deleting the attachment.' ) );
 					}
 				} else {
 					if ( ! wp_delete_post( $post_id ) ) {
-						wp_die( __( 'Error in deleting.' ) );
+						wp_die( __( 'Error in deleting the item.' ) );
 					}
 				}
 				$deleted++;
