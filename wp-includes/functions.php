@@ -1183,6 +1183,7 @@ function wp_removable_query_args() {
 		'activated',
 		'approved',
 		'deactivate',
+		'delete_count',
 		'deleted',
 		'disabled',
 		'doing_wp_cron',
