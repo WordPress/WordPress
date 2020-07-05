@@ -2414,6 +2414,32 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 */
 	do_action( "created_{$taxonomy}", $term_id, $tt_id );
 
+	/**
+	 * Fires after a term has been saved, and the term cache has been cleared.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param int    $term_id  Term ID.
+	 * @param int    $tt_id    Term taxonomy ID.
+	 * @param string $taxonomy Taxonomy slug.
+	 * @param bool   $update   Whether this is an existing term being updated.
+	 */
+	do_action( 'saved_term', $term_id, $tt_id, $taxonomy, false );
+
+	/**
+	 * Fires after a term in a specific taxonomy has been saved, and the term
+	 * cache has been cleared.
+	 *
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param int  $term_id Term ID.
+	 * @param int  $tt_id   Term taxonomy ID.
+	 * @param bool $update  Whether this is an existing term being updated.
+	 */
+	do_action( "saved_{$taxonomy}", $term_id, $tt_id, false );
+
 	return array(
 		'term_id'          => $term_id,
 		'term_taxonomy_id' => $tt_id,
@@ -3077,6 +3103,12 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 * @param int $tt_id   Term taxonomy ID.
 	 */
 	do_action( "edited_{$taxonomy}", $term_id, $tt_id );
+
+	/** This action is documented in wp-includes/taxonomy.php */
+	do_action( 'saved_term', $term_id, $tt_id, $taxonomy, true );
+
+	/** This action is documented in wp-includes/taxonomy.php */
+	do_action( "saved_{$taxonomy}", $term_id, $tt_id, true );
 
 	return array(
 		'term_id'          => $term_id,

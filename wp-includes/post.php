@@ -4207,7 +4207,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 *
 	 * @param int     $post_ID Post ID.
 	 * @param WP_Post $post    Post object.
-	 * @param bool    $update  Whether this is an existing post being updated or not.
+	 * @param bool    $update  Whether this is an existing post being updated.
 	 */
 	do_action( "save_post_{$post->post_type}", $post_ID, $post, $update );
 
@@ -4218,7 +4218,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 *
 	 * @param int     $post_ID Post ID.
 	 * @param WP_Post $post    Post object.
-	 * @param bool    $update  Whether this is an existing post being updated or not.
+	 * @param bool    $update  Whether this is an existing post being updated.
 	 */
 	do_action( 'save_post', $post_ID, $post, $update );
 
@@ -4229,7 +4229,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 *
 	 * @param int     $post_ID Post ID.
 	 * @param WP_Post $post    Post object.
-	 * @param bool    $update  Whether this is an existing post being updated or not.
+	 * @param bool    $update  Whether this is an existing post being updated.
 	 */
 	do_action( 'wp_insert_post', $post_ID, $post, $update );
 
