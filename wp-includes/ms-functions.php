@@ -1277,6 +1277,21 @@ function wpmu_activate_signup( $key ) {
 }
 
 /**
+ * Deletes am associated signup entry when a user is deleted from the database.
+ *
+ * @since 5.5.0
+ *
+ * @param int      $id       ID of the user to delete.
+ * @param int|null $reassign ID of the user to reassign posts and links to.
+ * @param WP_User  $user     User object.
+ */
+function wp_delete_signup_on_user_delete( $id, $reassign, $user ) {
+	global $wpdb;
+
+	$wpdb->delete( $wpdb->signups, array( 'user_login' => $user->user_login ) );
+}
+
+/**
  * Create a user.
  *
  * This function runs when a user self-registers as well as when
