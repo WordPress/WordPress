@@ -4384,11 +4384,6 @@ function register_admin_color_schemes() {
 		)
 	);
 
-	// Other color schemes are not available when running out of src.
-	if ( false !== strpos( get_bloginfo( 'version' ), '-src' ) ) {
-		return;
-	}
-
 	wp_admin_css_color(
 		'light',
 		_x( 'Light', 'admin color scheme' ),
