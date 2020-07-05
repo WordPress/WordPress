@@ -9031,7 +9031,7 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 	 *
 	 * @param {MouseEvent} event A click event.
 	 *
-	 * @returns {void}
+	 * @return {void}
 	 */
 	 copyAttachmentDetailsURLClipboard: function() {
 		var clipboard = new ClipboardJS( '.copy-attachment-url' ),
