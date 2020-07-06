@@ -6,7 +6,7 @@
 /* global ajaxurl, tagBox, array_unique_noempty */
 
 ( function( $ ) {
-	var tagDelimiter = ( window.tagsSuggestL10n && window.tagsSuggestL10n.tagDelimiter ) || ',';
+	var tagDelimiter = wp.i18n._x( ',', 'tag delimiter' ) || ',';
 
 	/**
 	 * Filters unique items and returns a new array.
@@ -164,7 +164,7 @@
 					 */
 					xbutton = $( '<button type="button" id="' + id + '-check-num-' + key + '" class="ntdelbutton">' +
 						'<span class="remove-tag-icon" aria-hidden="true"></span>' +
-						'<span class="screen-reader-text">' + window.tagsSuggestL10n.removeTerm + ' ' + listItem.html() + '</span>' +
+						'<span class="screen-reader-text">' + wp.i18n.__( 'Remove term:' ) + ' ' + listItem.html() + '</span>' +
 						'</button>' );
 
 					/**
@@ -334,11 +334,11 @@
 
 			switch ( this.userAction ) {
 				case 'remove':
-					message = window.tagsSuggestL10n.termRemoved;
+					message = wp.i18n.__( 'Term removed.' );
 					break;
 
 				case 'add':
-					message = window.tagsSuggestL10n.termAdded;
+					message = wp.i18n.__( 'Term added.' );
 					break;
 
 				default:

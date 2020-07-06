@@ -4,12 +4,12 @@
  * @output wp-admin/js/tags-suggest.js
  */
 ( function( $ ) {
-	if ( typeof window.tagsSuggestL10n === 'undefined' || typeof window.uiAutocompleteL10n === 'undefined' ) {
+	if ( typeof window.uiAutocompleteL10n === 'undefined' ) {
 		return;
 	}
 
 	var tempID = 0;
-	var separator = window.tagsSuggestL10n.tagDelimiter || ',';
+	var separator = wp.i18n._x( ',', 'tag delimiter' ) || ',';
 
 	function split( val ) {
 		return val.split( new RegExp( separator + '\\s*' ) );
@@ -104,7 +104,7 @@
 
 				if ( $.ui.keyCode.TAB === event.keyCode ) {
 					// Audible confirmation message when a tag has been selected.
-					window.wp.a11y.speak( window.tagsSuggestL10n.termSelected, 'assertive' );
+					window.wp.a11y.speak( wp.i18n.__( 'Term selected.' ), 'assertive' );
 					event.preventDefault();
 				} else if ( $.ui.keyCode.ENTER === event.keyCode ) {
 					// If we're in the edit post Tags meta box, add the tag.
