@@ -332,9 +332,9 @@ function post_submit_meta_box( $post, $args = array() ) {
 		<?php
 		if ( current_user_can( 'delete_post', $post_id ) ) {
 			if ( ! EMPTY_TRASH_DAYS ) {
-				$delete_text = __( 'Delete Permanently' );
+				$delete_text = __( 'Delete permanently' );
 			} else {
-				$delete_text = __( 'Move to Trash' );
+				$delete_text = __( 'Move to trash' );
 			}
 			?>
 			<a class="submitdelete deletion" href="<?php echo get_delete_post_link( $post_id ); ?>"><?php echo $delete_text; ?></a>
@@ -438,10 +438,10 @@ function attachment_submit_meta_box( $post ) {
 	<?php
 	if ( current_user_can( 'delete_post', $post->ID ) ) {
 		if ( EMPTY_TRASH_DAYS && MEDIA_TRASH ) {
-			echo "<a class='submitdelete deletion' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Move to Trash' ) . '</a>';
+			echo "<a class='submitdelete deletion' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Move to trash' ) . '</a>';
 		} else {
 			$delete_ays = ! MEDIA_TRASH ? " onclick='return showNotice.warn();'" : '';
-			echo "<a class='submitdelete deletion'$delete_ays href='" . get_delete_post_link( $post->ID, null, true ) . "'>" . __( 'Delete Permanently' ) . '</a>';
+			echo "<a class='submitdelete deletion'$delete_ays href='" . get_delete_post_link( $post->ID, null, true ) . "'>" . __( 'Delete permanently' ) . '</a>';
 		}
 	}
 	?>
@@ -1115,7 +1115,7 @@ function link_categories_meta_box( $link ) {
 	?>
 <div id="taxonomy-linkcategory" class="categorydiv">
 	<ul id="category-tabs" class="category-tabs">
-		<li class="tabs"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
+		<li class="tabs"><a href="#categories-all"><?php _e( 'All categories' ); ?></a></li>
 		<li class="hide-if-no-js"><a href="#categories-pop"><?php _ex( 'Most Used', 'categories' ); ?></a></li>
 	</ul>
 

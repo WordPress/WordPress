@@ -125,19 +125,19 @@ switch ( $action ) {
 		switch ( $action ) {
 			case 'spam':
 				$caution_msg = __( 'You are about to mark the following comment as spam:' );
-				$button      = _x( 'Mark as Spam', 'comment' );
+				$button      = _x( 'Mark as spam', 'comment' );
 				break;
 			case 'trash':
 				$caution_msg = __( 'You are about to move the following comment to the Trash:' );
-				$button      = __( 'Move to Trash' );
+				$button      = __( 'Move to trash' );
 				break;
 			case 'delete':
 				$caution_msg = __( 'You are about to delete the following comment:' );
-				$button      = __( 'Permanently Delete Comment' );
+				$button      = __( 'Permanently delete comment' );
 				break;
 			default:
 				$caution_msg = __( 'You are about to approve the following comment:' );
-				$button      = __( 'Approve Comment' );
+				$button      = __( 'Approve comment' );
 				break;
 		}
 
@@ -179,7 +179,7 @@ switch ( $action ) {
 </tr>
 <?php } ?>
 <tr>
-	<th scope="row"><?php /* translators: Column name or table row header. */ _e( 'In Response To' ); ?></th>
+	<th scope="row"><?php /* translators: Column name or table row header. */ _e( 'In response to' ); ?></th>
 	<td>
 		<?php
 		$post_id = $comment->comment_post_ID;

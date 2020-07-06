@@ -351,19 +351,19 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$actions['approve'] = __( 'Approve' );
 		}
 		if ( in_array( $comment_status, array( 'all', 'moderated', 'approved', 'trash' ), true ) ) {
-			$actions['spam'] = _x( 'Mark as Spam', 'comment' );
+			$actions['spam'] = _x( 'Mark as spam', 'comment' );
 		}
 
 		if ( 'trash' === $comment_status ) {
 			$actions['untrash'] = __( 'Restore' );
 		} elseif ( 'spam' === $comment_status ) {
-			$actions['unspam'] = _x( 'Not Spam', 'comment' );
+			$actions['unspam'] = _x( 'Not spam', 'comment' );
 		}
 
 		if ( in_array( $comment_status, array( 'trash', 'spam' ), true ) || ! EMPTY_TRASH_DAYS ) {
-			$actions['delete'] = __( 'Delete Permanently' );
+			$actions['delete'] = __( 'Delete permanently' );
 		} else {
-			$actions['trash'] = __( 'Move to Trash' );
+			$actions['trash'] = __( 'Move to trash' );
 		}
 
 		return $actions;
@@ -467,10 +467,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		if ( ! $post_id ) {
 			/* translators: Column name or table row header. */
-			$columns['response'] = __( 'In Response To' );
+			$columns['response'] = __( 'In response to' );
 		}
 
-		$columns['date'] = _x( 'Submitted On', 'column name' );
+		$columns['date'] = _x( 'Submitted on', 'column name' );
 
 		return $columns;
 	}
