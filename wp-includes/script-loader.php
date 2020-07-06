@@ -1013,25 +1013,7 @@ function wp_default_scripts( $scripts ) {
 	$scripts->add( 'htmlhint-kses', '/wp-includes/js/codemirror/htmlhint-kses.js', array( 'htmlhint' ) );
 	$scripts->add( 'code-editor', "/wp-admin/js/code-editor$suffix.js", array( 'jquery', 'wp-codemirror', 'underscore' ) );
 	$scripts->add( 'wp-theme-plugin-editor', "/wp-admin/js/theme-plugin-editor$suffix.js", array( 'wp-util', 'wp-sanitize', 'jquery', 'jquery-ui-core', 'wp-a11y', 'underscore' ) );
-	did_action( 'init' ) && $scripts->add_inline_script(
-		'wp-theme-plugin-editor',
-		sprintf(
-			'wp.themePluginEditor.l10n = %s;',
-			wp_json_encode(
-				array(
-					'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
-					'saveError' => __( 'Something went wrong. Your change may not have been saved. Please try again. There is also a chance that you may need to manually fix and upload the file over FTP.' ),
-					'lintError' => array(
-						/* translators: %d: Error count. */
-						'singular' => _n( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.', 1 ),
-						/* translators: %d: Error count. */
-						'plural'   => _n( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.', 2 ),
-						// @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
-					),
-				)
-			)
-		)
-	);
+	$scripts->set_translations( 'wp-theme-plugin-editor' );
 
 	$scripts->add( 'wp-playlist', "/wp-includes/js/mediaelement/wp-playlist$suffix.js", array( 'wp-util', 'backbone', 'mediaelement' ), false, 1 );
 
