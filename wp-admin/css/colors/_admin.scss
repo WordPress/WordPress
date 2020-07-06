@@ -31,6 +31,25 @@ span.wp-media-buttons-icon:before {
 	color: currentColor;
 }
 
+.wp-core-ui .button-link {
+	color: $link;
+
+	&:hover,
+	&:active,
+	&:focus {
+		color: $link-focus;
+	}
+}
+
+.wp-core-ui .button-link {
+	color: $link;
+
+	&:hover,
+	&:active,
+	&:focus {
+		color: $link-focus;
+	}
+}
 
 /* Forms */
 

@@ -910,11 +910,6 @@ p.customize-section-description {
 	text-align: left;
 }
 
-.section-description-buttons button.button-link {
-	color: #0073aa;
-	text-decoration: underline;
-}
-
 .customize-control {
 	width: 100%;
 	float: right;
