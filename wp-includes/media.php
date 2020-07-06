@@ -4756,7 +4756,7 @@ function _wp_add_additional_image_sizes() {
 }
 
 /**
- * Callback to enable showig of the user error when uploading .heic images.
+ * Callback to enable showing of the user error when uploading .heic images.
  *
  * @since 5.5.0
  *
