@@ -7,7 +7,7 @@
  * @output wp-admin/js/tags.js
  */
 
- /* global ajaxurl, wpAjax, tagsl10n, showNotice, validateForm */
+ /* global ajaxurl, wpAjax, showNotice, validateForm */
 
 jQuery(document).ready(function($) {
 
@@ -55,11 +55,11 @@ jQuery(document).ready(function($) {
 					$('a.tag-link-' + data.match(/tag_ID=(\d+)/)[1]).remove();
 
 				} else if ( '-1' == r ) {
-					$('#ajax-response').empty().append('<div class="error"><p>' + tagsl10n.noPerm + '</p></div>');
+					$('#ajax-response').empty().append('<div class="error"><p>' + wp.i18n.__( 'Sorry, you are not allowed to do that.' ) + '</p></div>');
 					tr.children().css('backgroundColor', '');
 
 				} else {
-					$('#ajax-response').empty().append('<div class="error"><p>' + tagsl10n.broken + '</p></div>');
+					$('#ajax-response').empty().append('<div class="error"><p>' + wp.i18n.__( 'Something went wrong.' ) + '</p></div>');
 					tr.children().css('backgroundColor', '');
 				}
 			});
