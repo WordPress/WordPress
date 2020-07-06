@@ -932,8 +932,8 @@ function admin_color_scheme_picker( $user_id ) {
 		$_wp_admin_css_colors = array_filter(
 			array_merge(
 				array(
-					'fresh' => '',
-					'light' => '',
+					'fresh'  => '',
+					'light'  => '',
 					'modern' => '',
 				),
 				$_wp_admin_css_colors

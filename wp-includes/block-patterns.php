@@ -21,7 +21,7 @@ $core_block_patterns = array(
 foreach ( $core_block_patterns as $core_block_pattern ) {
 	register_block_pattern(
 		'core/' . $core_block_pattern,
-		require( __DIR__ . '/block-patterns/' . $core_block_pattern . '.php' )
+		require __DIR__ . '/block-patterns/' . $core_block_pattern . '.php'
 	);
 }
 
