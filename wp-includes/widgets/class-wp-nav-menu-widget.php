@@ -46,7 +46,8 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 			return;
 		}
 
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
+		$default_title = __( 'Menu' );
+		$title         = ! empty( $instance['title'] ) ? $instance['title'] : '';
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -57,10 +58,36 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
 
-		$nav_menu_args = array(
-			'fallback_cb' => '',
-			'menu'        => $nav_menu,
-		);
+		$format = current_theme_supports( 'html5', 'navigation-widgets' ) ? 'html5' : 'xhtml';
+
+		/**
+		 * Filters the HTML format of widgets with navigation links.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string $format The type of markup to use in widgets with navigation links.
+		 *                       Accepts 'html5', 'xhtml'.
+		 */
+		$format = apply_filters( 'navigation_widgets_format', $format );
+
+		if ( 'html5' === $format ) {
+			// The title may be filtered: Strip out HTML and make sure the aria-label is never empty.
+			$title      = trim( strip_tags( $title ) );
+			$aria_label = $title ? $title : $default_title;
+
+			$nav_menu_args = array(
+				'fallback_cb'          => '',
+				'menu'                 => $nav_menu,
+				'container'            => 'nav',
+				'container_aria_label' => $aria_label,
+				'items_wrap'           => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+			);
+		} else {
+			$nav_menu_args = array(
+				'fallback_cb' => '',
+				'menu'        => $nav_menu,
+			);
+		}
 
 		/**
 		 * Filters the arguments for the Navigation Menu widget.

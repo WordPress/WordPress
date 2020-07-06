@@ -82,7 +82,8 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 
 		$output = '';
 
-		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Comments' );
+		$default_title = __( 'Recent Comments' );
+		$title         = ( ! empty( $instance['title'] ) ) ? $instance['title'] : $default_title;
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -123,6 +124,25 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		$recent_comments_id = ( $first_instance ) ? 'recentcomments' : "recentcomments-{$this->number}";
 		$first_instance     = false;
 
+		$format = current_theme_supports( 'html5', 'navigation-widgets' ) ? 'html5' : 'xhtml';
+
+		/**
+		 * Filters the HTML format of widgets with navigation links.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string $format The type of markup to use in widgets with navigation links.
+		 *                       Accepts 'html5', 'xhtml'.
+		 */
+		$format = apply_filters( 'navigation_widgets_format', $format );
+
+		if ( 'html5' === $format ) {
+			// The title may be filtered: Strip out HTML and make sure the aria-label is never empty.
+			$title      = trim( strip_tags( $title ) );
+			$aria_label = $title ? $title : $default_title;
+			$output    .= '<nav role="navigation" aria-label="' . esc_attr( $aria_label ) . '">';
+		}
+
 		$output .= '<ul id="' . esc_attr( $recent_comments_id ) . '">';
 		if ( is_array( $comments ) && $comments ) {
 			// Prime cache for associated posts. (Prime post term cache if we need it for permalinks.)
@@ -141,6 +161,11 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			}
 		}
 		$output .= '</ul>';
+
+		if ( 'html5' === $format ) {
+			$output .= '</nav>';
+		}
+
 		$output .= $args['after_widget'];
 
 		echo $output;

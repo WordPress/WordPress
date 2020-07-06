@@ -44,7 +44,8 @@ class WP_Widget_Categories extends WP_Widget {
 	public function widget( $args, $instance ) {
 		static $first_dropdown = true;
 
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Categories' );
+		$default_title = __( 'Categories' );
+		$title         = ! empty( $instance['title'] ) ? $instance['title'] : $default_title;
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -109,23 +110,47 @@ class WP_Widget_Categories extends WP_Widget {
 
 			<?php
 		} else {
-			?>
-		<ul>
-			<?php
-			$cat_args['title_li'] = '';
+			$format = current_theme_supports( 'html5', 'navigation-widgets' ) ? 'html5' : 'xhtml';
 
 			/**
-			 * Filters the arguments for the Categories widget.
+			 * Filters the HTML format of widgets with navigation links.
 			 *
-			 * @since 2.8.0
-			 * @since 4.9.0 Added the `$instance` parameter.
+			 * @since 5.5.0
 			 *
-			 * @param array $cat_args An array of Categories widget options.
-			 * @param array $instance Array of settings for the current widget.
+			 * @param string $format The type of markup to use in widgets with navigation links.
+			 *                       Accepts 'html5', 'xhtml'.
 			 */
-			wp_list_categories( apply_filters( 'widget_categories_args', $cat_args, $instance ) );
+			$format = apply_filters( 'navigation_widgets_format', $format );
+
+			if ( 'html5' === $format ) {
+				// The title may be filtered: Strip out HTML and make sure the aria-label is never empty.
+				$title      = trim( strip_tags( $title ) );
+				$aria_label = $title ? $title : $default_title;
+				echo '<nav role="navigation" aria-label="' . esc_attr( $aria_label ) . '">';
+			}
 			?>
-		</ul>
+
+			<ul>
+				<?php
+				$cat_args['title_li'] = '';
+
+				/**
+				 * Filters the arguments for the Categories widget.
+				 *
+				 * @since 2.8.0
+				 * @since 4.9.0 Added the `$instance` parameter.
+				 *
+				 * @param array $cat_args An array of Categories widget options.
+				 * @param array $instance Array of settings for the current widget.
+				 */
+				wp_list_categories( apply_filters( 'widget_categories_args', $cat_args, $instance ) );
+				?>
+			</ul>
+
+			<?php if ( 'html5' === $format ) : ?>
+				</nav>
+			<?php endif; ?>
+
 			<?php
 		}
 

@@ -40,7 +40,8 @@ class WP_Widget_Archives extends WP_Widget {
 	 * @param array $instance Settings for the current Archives widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Archives' );
+		$default_title = __( 'Archives' );
+		$title         = ! empty( $instance['title'] ) ? $instance['title'] : $default_title;
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -120,37 +121,60 @@ class WP_Widget_Archives extends WP_Widget {
 })();
 /* ]]> */
 </script>
-
-		<?php } else { ?>
-		<ul>
 			<?php
-			wp_get_archives(
-				/**
-				 * Filters the arguments for the Archives widget.
-				 *
-				 * @since 2.8.0
-				 * @since 4.9.0 Added the `$instance` parameter.
-				 *
-				 * @see wp_get_archives()
-				 *
-				 * @param array $args     An array of Archives option arguments.
-				 * @param array $instance Array of settings for the current widget.
-				 */
-				apply_filters(
-					'widget_archives_args',
-					array(
-						'type'            => 'monthly',
-						'show_post_count' => $count,
-					),
-					$instance
-				)
-			);
+		} else {
+			$format = current_theme_supports( 'html5', 'navigation-widgets' ) ? 'html5' : 'xhtml';
+
+			/**
+			 * Filters the HTML format of widgets with navigation links.
+			 *
+			 * @since 5.5.0
+			 *
+			 * @param string $format The type of markup to use in widgets with navigation links.
+			 *                       Accepts 'html5', 'xhtml'.
+			 */
+			$format = apply_filters( 'navigation_widgets_format', $format );
+
+			if ( 'html5' === $format ) {
+				// The title may be filtered: Strip out HTML and make sure the aria-label is never empty.
+				$title      = trim( strip_tags( $title ) );
+				$aria_label = $title ? $title : $default_title;
+				echo '<nav role="navigation" aria-label="' . esc_attr( $aria_label ) . '">';
+			}
 			?>
-		</ul>
-			<?php
-		}
 
-		echo $args['after_widget'];
+			<ul>
+				<?php
+				wp_get_archives(
+					/**
+					 * Filters the arguments for the Archives widget.
+					 *
+					 * @since 2.8.0
+					 * @since 4.9.0 Added the `$instance` parameter.
+					 *
+					 * @see wp_get_archives()
+					 *
+					 * @param array $args     An array of Archives option arguments.
+					 * @param array $instance Array of settings for the current widget.
+					 */
+					apply_filters(
+						'widget_archives_args',
+						array(
+							'type'            => 'monthly',
+							'show_post_count' => $count,
+						),
+						$instance
+					)
+				);
+				?>
+			</ul>
+			<?php if ( 'html5' === $format ) : ?>
+				</nav>
+			<?php endif; ?>
+
+			<?php
+			echo $args['after_widget'];
+		}
 	}
 
 	/**

@@ -40,7 +40,8 @@ class WP_Widget_Pages extends WP_Widget {
 	 * @param array $instance Settings for the current Pages widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Pages' );
+		$default_title = __( 'Pages' );
+		$title         = ! empty( $instance['title'] ) ? $instance['title'] : $default_title;
 
 		/**
 		 * Filters the widget title.
@@ -89,10 +90,35 @@ class WP_Widget_Pages extends WP_Widget {
 			if ( $title ) {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
+
+			$format = current_theme_supports( 'html5', 'navigation-widgets' ) ? 'html5' : 'xhtml';
+
+			/**
+			 * Filters the HTML format of widgets with navigation links.
+			 *
+			 * @since 5.5.0
+			 *
+			 * @param string $format The type of markup to use in widgets with navigation links.
+			 *                       Accepts 'html5', 'xhtml'.
+			 */
+			$format = apply_filters( 'navigation_widgets_format', $format );
+
+			if ( 'html5' === $format ) {
+				// The title may be filtered: Strip out HTML and make sure the aria-label is never empty.
+				$title      = trim( strip_tags( $title ) );
+				$aria_label = $title ? $title : $default_title;
+				echo '<nav role="navigation" aria-label="' . esc_attr( $aria_label ) . '">';
+			}
 			?>
-		<ul>
-			<?php echo $out; ?>
-		</ul>
+
+			<ul>
+				<?php echo $out; ?>
+			</ul>
+
+			<?php if ( 'html5' === $format ) : ?>
+				</nav>
+			<?php endif; ?>
+
 			<?php
 			echo $args['after_widget'];
 		}
