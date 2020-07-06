@@ -4,7 +4,6 @@
  * @output wp-includes/js/wp-auth-check.js
  */
 
-/* global adminpage */
 ( function( $ ) {
 	var wrap,
 		tempHidden,
