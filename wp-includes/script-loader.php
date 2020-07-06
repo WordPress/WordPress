@@ -1196,19 +1196,13 @@ function wp_default_scripts( $scripts ) {
 		$scripts->set_translations( 'admin-tags' );
 
 		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array( 'wp-lists', 'quicktags', 'jquery-query' ), false, 1 );
+		$scripts->set_translations( 'admin-comments' );
 		did_action( 'init' ) && $scripts->localize(
 			'admin-comments',
-			'adminCommentsL10n',
+			'adminCommentsSettings',
 			array(
 				'hotkeys_highlight_first' => isset( $_GET['hotkeys_highlight_first'] ),
 				'hotkeys_highlight_last'  => isset( $_GET['hotkeys_highlight_last'] ),
-				'replyApprove'            => __( 'Approve and Reply' ),
-				'reply'                   => __( 'Reply' ),
-				'warnQuickEdit'           => __( "Are you sure you want to edit this comment?\nThe changes you made will be lost." ),
-				'warnCommentChanges'      => __( "Are you sure you want to do this?\nThe comment changes you made will be lost." ),
-				'docTitleComments'        => __( 'Comments' ),
-				/* translators: %s: Comments count. */
-				'docTitleCommentsCount'   => __( 'Comments (%s)' ),
 			)
 		);
 

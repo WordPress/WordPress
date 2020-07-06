@@ -6,14 +6,15 @@
  * @output wp-admin/js/edit-comments.js
  */
 
-/* global adminCommentsL10n, thousandsSeparator, list_args, QTags, ajaxurl, wpAjax */
+/* global adminCommentsSettings, thousandsSeparator, list_args, QTags, ajaxurl, wpAjax */
 /* global commentReply, theExtraList, theList, setCommentsList */
 
 (function($) {
 var getCount, updateCount, updateCountText, updatePending, updateApproved,
 	updateHtmlTitle, updateDashboardText, updateInModerationText, adminTitle = document.title,
 	isDashboard = $('#dashboard_right_now').length,
-	titleDiv, titleRegEx;
+	titleDiv, titleRegEx,
+	__ = wp.i18n.__;
 
 	/**
 	 * Extracts a number from the content of a jQuery element.
@@ -191,7 +192,8 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 	updateHtmlTitle = function( diff ) {
 		var newTitle, regExMatch, titleCount, commentFrag;
 
-		titleRegEx = titleRegEx || new RegExp( adminCommentsL10n.docTitleCommentsCount.replace( '%s', '\\([0-9' + thousandsSeparator + ']+\\)' ) + '?' );
+		/* translators: %s: Comments count. */
+		titleRegEx = titleRegEx || new RegExp( __( 'Comments (%s)' ).replace( '%s', '\\([0-9' + thousandsSeparator + ']+\\)' ) + '?' );
 		// Count funcs operate on a $'d element.
 		titleDiv = titleDiv || $( '<div />' );
 		newTitle = adminTitle;
@@ -210,12 +212,13 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 			updateCount( titleDiv, titleCount );
 			regExMatch = titleRegEx.exec( document.title );
 			if ( regExMatch ) {
-				newTitle = document.title.replace( regExMatch[0], adminCommentsL10n.docTitleCommentsCount.replace( '%s', titleDiv.text() ) + ' ' );
+				/* translators: %s: Comments count. */
+				newTitle = document.title.replace( regExMatch[0], __( 'Comments (%s)' ).replace( '%s', titleDiv.text() ) + ' ' );
 			}
 		} else {
 			regExMatch = titleRegEx.exec( newTitle );
 			if ( regExMatch ) {
-				newTitle = newTitle.replace( regExMatch[0], adminCommentsL10n.docTitleComments );
+				newTitle = newTitle.replace( regExMatch[0], __( 'Comments11' ) );
 			}
 		}
 		document.title = newTitle;
@@ -360,14 +363,14 @@ window.setCommentsList = function() {
 
 		if ( c.is('.unapproved') ) {
 			if ( settings.data.id == replyID )
-				replyButton.text(adminCommentsL10n.replyApprove);
+				replyButton.text( __( 'Approve and Reply' ) );
 
 			c.find( '.row-actions span.view' ).addClass( 'hidden' ).end()
 				.find( 'div.comment_status' ).html( '0' );
 
 		} else {
 			if ( settings.data.id == replyID )
-				replyButton.text(adminCommentsL10n.reply);
+				replyButton.text( __( 'Reply' ) );
 
 			c.find( '.row-actions span.view' ).removeClass( 'hidden' ).end()
 				.find( 'div.comment_status' ).html( '1' );
@@ -846,7 +849,7 @@ window.commentReply = {
 	 * @return {void}
 	 */
 	toggle : function(el) {
-		if ( 'none' !== $( el ).css( 'display' ) && ( $( '#replyrow' ).parent().is('#com-reply') || window.confirm( adminCommentsL10n.warnQuickEdit ) ) ) {
+		if ( 'none' !== $( el ).css( 'display' ) && ( $( '#replyrow' ).parent().is('#com-reply') || window.confirm( __( 'Are you sure you want to edit this comment?\nThe changes you made will be lost.' ) ) ) ) {
 			$( el ).find( 'button.vim-q' ).click();
 		}
 	},
@@ -1007,9 +1010,9 @@ window.commentReply = {
 			c.after(editRow);
 
 			if ( c.hasClass('unapproved') ) {
-				replyButton.text(adminCommentsL10n.replyApprove);
+				replyButton.text( __( 'Approve and Reply' ) );
 			} else {
-				replyButton.text(adminCommentsL10n.reply);
+				replyButton.text( __( 'Reply' ) );
 			}
 
 			$('#replyrow').fadeIn(300, function(){ $(this).show(); });
@@ -1217,7 +1220,7 @@ window.commentReply = {
 			return true;
 		}
 
-		return window.confirm( adminCommentsL10n.warnCommentChanges );
+		return window.confirm( __( 'Are you sure you want to do this?\nThe comment changes you made will be lost.' ) );
 	}
 };
 
@@ -1312,8 +1315,8 @@ $(document).ready(function(){
 				['shift+u', make_bulk('unapprove')]
 			],
 			{
-				highlight_first: adminCommentsL10n.hotkeys_highlight_first,
-				highlight_last: adminCommentsL10n.hotkeys_highlight_last,
+				highlight_first: adminCommentsSettings.hotkeys_highlight_first,
+				highlight_last: adminCommentsSettings.hotkeys_highlight_last,
 				prev_page_link_cb: make_hotkeys_redirect('prev'),
 				next_page_link_cb: make_hotkeys_redirect('next'),
 				hotkeys_opts: {
