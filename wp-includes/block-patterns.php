@@ -16,7 +16,6 @@ $core_block_patterns = array(
 	'large-header-paragraph',
 	'three-buttons',
 	'quote',
-	'testimonials',
 );
 
 foreach ( $core_block_patterns as $core_block_pattern ) {
