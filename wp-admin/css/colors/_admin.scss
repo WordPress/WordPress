@@ -41,16 +41,6 @@ span.wp-media-buttons-icon:before {
 	}
 }
 
-.wp-core-ui .button-link {
-	color: $link;
-
-	&:hover,
-	&:active,
-	&:focus {
-		color: $link-focus;
-	}
-}
-
 /* Forms */
 
 input[type=checkbox]:checked::before {
@@ -132,6 +122,35 @@ textarea:focus {
 		box-shadow: 0 0 0 1px #32373c;
 	}
 
+	@if ( $low-contrast-theme != "true" ) {
+		.button,
+		.button-secondary {
+			color: $highlight-color;
+			border-color: $highlight-color;
+		}
+
+		.button.hover,
+		.button:hover,
+		.button-secondary:hover{
+			border-color: darken($highlight-color, 10);
+			color: darken($highlight-color, 10);
+		}
+
+		.button.focus,
+		.button:focus,
+		.button-secondary:focus {
+			border-color: lighten($highlight-color, 10);
+			color: darken($highlight-color, 20);;
+			box-shadow: 0 0 0 1px lighten($highlight-color, 10);
+		}
+
+		.button-primary {
+			&:hover {
+				color: #fff;
+			}
+		}
+	}
+
 	.button-primary {
 		@include button( $button-color );
 	}
@@ -171,11 +190,28 @@ textarea:focus {
 
 
 /* List tables */
+@if $low-contrast-theme == "true" {
+	.wrap .page-title-action:hover {
+		color: $menu-text;
+		background-color: $menu-background;
+	}
+} @else {
+	.wrap .page-title-action,
+	.wrap .page-title-action:active {
+		border: 1px solid $highlight-color;
+		color: $highlight-color;
+	}
 
-.wrap .add-new-h2:hover, /* deprecated */
-.wrap .page-title-action:hover {
-	color: $menu-text;
-	background-color: $menu-background;
+	.wrap .page-title-action:hover {
+		color: darken($highlight-color, 10);
+		border-color: darken($highlight-color, 10);
+	}
+
+	.wrap .page-title-action:focus {
+		border-color: lighten($highlight-color, 10);
+		color: darken($highlight-color, 20);;
+		box-shadow: 0 0 0 1px lighten($highlight-color, 10);
+	}
 }
 
 .view-switch a.current:before {

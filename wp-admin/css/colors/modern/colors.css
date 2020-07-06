@@ -32,14 +32,6 @@ span.wp-media-buttons-icon:before {
   color: #183ad6;
 }
 
-.wp-core-ui .button-link {
-  color: #3858e9;
-}
-
-.wp-core-ui .button-link:hover, .wp-core-ui .button-link:active, .wp-core-ui .button-link:focus {
-  color: #183ad6;
-}
-
 /* Forms */
 input[type=checkbox]:checked::before {
   content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%237e8993%27%2F%3E%3C%2Fsvg%3E");
@@ -116,6 +108,31 @@ textarea:focus {
   box-shadow: 0 0 0 1px #32373c;
 }
 
+.wp-core-ui .button,
+.wp-core-ui .button-secondary {
+  color: #3858e9;
+  border-color: #3858e9;
+}
+
+.wp-core-ui .button.hover,
+.wp-core-ui .button:hover,
+.wp-core-ui .button-secondary:hover {
+  border-color: #183ad6;
+  color: #183ad6;
+}
+
+.wp-core-ui .button.focus,
+.wp-core-ui .button:focus,
+.wp-core-ui .button-secondary:focus {
+  border-color: #667fee;
+  color: #132ea8;
+  box-shadow: 0 0 0 1px #667fee;
+}
+
+.wp-core-ui .button-primary:hover {
+  color: #fff;
+}
+
 .wp-core-ui .button-primary {
   background: #3858e9;
   border-color: #3858e9;
@@ -188,10 +205,21 @@ textarea:focus {
 }
 
 /* List tables */
-.wrap .add-new-h2:hover,
+.wrap .page-title-action,
+.wrap .page-title-action:active {
+  border: 1px solid #3858e9;
+  color: #3858e9;
+}
+
 .wrap .page-title-action:hover {
-  color: #fff;
-  background-color: #1e1e1e;
+  color: #183ad6;
+  border-color: #183ad6;
+}
+
+.wrap .page-title-action:focus {
+  border-color: #667fee;
+  color: #132ea8;
+  box-shadow: 0 0 0 1px #667fee;
 }
 
 .view-switch a.current:before {
