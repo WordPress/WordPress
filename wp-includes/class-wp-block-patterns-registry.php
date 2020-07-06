@@ -38,7 +38,7 @@ final class WP_Block_Patterns_Registry {
 	 */
 	public function register( $pattern_name, $pattern_properties ) {
 		if ( ! isset( $pattern_name ) || ! is_string( $pattern_name ) ) {
-			_doing_it_wrong( __METHOD__, s__( 'Pattern name must be a string.' ), '5.5.0' );
+			_doing_it_wrong( __METHOD__, __( 'Pattern name must be a string.' ), '5.5.0' );
 			return false;
 		}
 

@@ -286,6 +286,7 @@ require ABSPATH . WPINC . '/class-wp-block-list.php';
 require ABSPATH . WPINC . '/class-wp-block-parser.php';
 require ABSPATH . WPINC . '/blocks.php';
 require ABSPATH . WPINC . '/blocks/index.php';
+require ABSPATH . WPINC . '/block-patterns.php';
 
 $GLOBALS['wp_embed'] = new WP_Embed();
 
