@@ -218,7 +218,7 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 		} else {
 			regExMatch = titleRegEx.exec( newTitle );
 			if ( regExMatch ) {
-				newTitle = newTitle.replace( regExMatch[0], __( 'Comments11' ) );
+				newTitle = newTitle.replace( regExMatch[0], __( 'Comments' ) );
 			}
 		}
 		document.title = newTitle;
