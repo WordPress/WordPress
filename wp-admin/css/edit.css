@@ -147,8 +147,37 @@ body.post-new-php .submitbox .submitdelete {
 }
 
 /* Post Screen */
-#post-body #normal-sortables {
-	min-height: 50px;
+
+/* Only target the sortables in the post screen excluding the ones in the Dashboard. */
+#post-body .meta-box-sortables {
+	/* Required min-height to make the jQuery UI Sortable drop zone work. */
+	min-height: 1px;
+}
+
+/* Resets height and outline inherited from common.css. */
+#post-body.columns-1 #side-sortables.empty-container,
+#post-body #normal-sortables.empty-container,
+#post-body #advanced-sortables.empty-container {
+	/* Sortables need some initial height to work correctly. */
+	height: 1px;
+	outline: none;
+}
+
+/* Only highlight drop zones when dragging and only in the 2 columns layout. */
+.is-dragging-metaboxes #post-body.columns-2 #side-sortables,
+.is-dragging-metaboxes #post-body #normal-sortables,
+.is-dragging-metaboxes #post-body #advanced-sortables {
+	outline: 3px dashed #606a73;
+	/* Prevent margin on the child from collapsing with margin on the parent. */
+	display: flow-root;
+	/*
+	 * This min-height is meant to limit jumpiness while dragging. It's equivalent
+	 * to the minimum height of the sortable-placeholder which is given by the height
+	 * of a collapsed post box (36px + 1px top and bottom borders) + the placeholder
+	 * bottom margin (20px) + 2 additional pixels to compensate browsers rounding.
+	 */
+	min-height: 60px;
+	margin-bottom: 20px;
 }
 
 .postbox {
@@ -1453,7 +1482,10 @@ table.links-table {
 	}
 }
 
-/* one column on the attachment editor screen */
+/*
+ * The edit attachment screen auto-switches to one column layout when the
+ * viewport is smaller than 1200 pixels.
+ */
 @media only screen and (max-width: 1200px) {
 	.post-type-attachment #poststuff {
 		min-width: 0;
@@ -1470,7 +1502,7 @@ table.links-table {
 
 	.post-type-attachment #poststuff #postbox-container-1 .empty-container,
 	.post-type-attachment #poststuff #postbox-container-1 #side-sortables:empty {
-		border: 0 none;
+		outline: none;
 		height: 0;
 		min-height: 0;
 	}
@@ -1478,6 +1510,12 @@ table.links-table {
 	.post-type-attachment #poststuff #post-body.columns-2 #side-sortables {
 		min-height: 0;
 		width: auto;
+	}
+
+	.is-dragging-metaboxes.post-type-attachment #post-body .meta-box-sortables {
+		outline: none;
+		min-height: 0;
+		margin-bottom: 0;
 	}
 
 	/* hide the radio buttons for column prefs */
@@ -1504,7 +1542,7 @@ table.links-table {
 
 	#poststuff #postbox-container-1 .empty-container,
 	#poststuff #postbox-container-1 #side-sortables:empty {
-		border: 0 none;
+		outline: none;
 		height: 0;
 		min-height: 0;
 	}

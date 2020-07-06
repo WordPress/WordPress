@@ -7,10 +7,11 @@
  * @output wp-admin/js/postbox.js
  */
 
-/* global ajaxurl, postBoxL10n, postboxes */
+/* global ajaxurl, postboxes */
 
 (function($) {
-	var $document = $( document );
+	var $document = $( document ),
+		__ = wp.i18n.__;
 
 	/**
 	 * This object contains all function to handle the behaviour of the post boxes. The post boxes are the boxes you see
@@ -235,14 +236,18 @@
 						.end();
 				},
 				opacity: 0.65,
+				start: function() {
+					$( 'body' ).addClass( 'is-dragging-metaboxes' );
+				},
 				stop: function() {
 					var $el = $( this );
+
+					$( 'body' ).removeClass( 'is-dragging-metaboxes' );
 
 					if ( $el.find( '#dashboard_browser_nag' ).is( ':visible' ) && 'dashboard_browser_nag' != this.firstChild.id ) {
 						$el.sortable('cancel');
 						return;
 					}
-
 					postboxes.save_order(page);
 				},
 				receive: function(e,ui) {
@@ -345,26 +350,44 @@
 		 * @return {void}
 		 */
 		_mark_area : function() {
-			var visible = $('div.postbox:visible').length, side = $('#post-body #side-sortables');
+			var visibleSortables = $( '#dashboard-widgets .meta-box-sortables:visible, #post-body .meta-box-sortables:visible' ),
+				areAllVisibleSortablesEmpty = true;
 
-			$( '#dashboard-widgets .meta-box-sortables:visible' ).each( function() {
+			visibleSortables.each( function() {
 				var t = $(this);
 
-				if ( visible == 1 || t.children('.postbox:visible').length ) {
+				if ( t.children('.postbox:visible').length ) {
 					t.removeClass('empty-container');
+					areAllVisibleSortablesEmpty = false;
 				}
 				else {
 					t.addClass('empty-container');
-					t.attr('data-emptyString', postBoxL10n.postBoxEmptyString);
 				}
 			});
 
-			if ( side.length ) {
-				if ( side.children('.postbox:visible').length )
-					side.removeClass('empty-container');
-				else if ( $('#postbox-container-1').css('width') == '280px' )
-					side.addClass('empty-container');
+			postboxes.updateEmptySortablesText( visibleSortables, areAllVisibleSortablesEmpty );
+		},
+
+		/**
+		 * Updates the text for the empty sortable areas on the Dashboard.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @return {void}
+		 */
+		updateEmptySortablesText: function( visibleSortables, areAllVisibleSortablesEmpty ) {
+			var isDashboard = $( '#dashboard-widgets' ).length,
+				emptySortableText = areAllVisibleSortablesEmpty ?  __( 'Add boxes from the Screen Options menu' ) : __( 'Drag boxes here' );
+
+			if ( ! isDashboard ) {
+				return;
 			}
+
+			visibleSortables.each( function() {
+				if ( $( this ).hasClass( 'empty-container' ) ) {
+					$( this ).attr( 'data-emptyString', emptySortableText );
+				}
+			} );
 		},
 
 		/**
