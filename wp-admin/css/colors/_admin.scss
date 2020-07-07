@@ -41,6 +41,15 @@ span.wp-media-buttons-icon:before {
 	}
 }
 
+.wp-core-ui .button-link-delete {
+	color: #a00;
+}
+
+.wp-core-ui .button-link-delete:hover,
+.wp-core-ui .button-link-delete:focus {
+	color: #dc3232;
+}
+
 /* Forms */
 
 input[type=checkbox]:checked::before {
