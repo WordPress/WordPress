@@ -2485,7 +2485,11 @@ function _wp_admin_html_begin() {
 <!DOCTYPE html>
 <html class="<?php echo $admin_html_class; ?>"
 	<?php
-	/** This action is documented in wp-admin/includes/template.php */
+	/**
+	 * Fires inside the HTML tag in the admin header.
+	 *
+	 * @since 2.2.0
+	 */
 	do_action( 'admin_xml_ns' );
 
 	language_attributes();
