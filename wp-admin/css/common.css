@@ -727,7 +727,6 @@ img.emoji {
 	color: #23282d;
 }
 
-.postbox .hndle,
 .stuffbox .hndle {
 	border-bottom: 1px solid #ccd0d4;
 }
@@ -1983,14 +1982,34 @@ html.wp-toolbar {
 	cursor: auto;
 }
 
+/* Configurable dashboard widgets "Configure" edit-box link. */
 .hndle a {
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: 400;
 }
 
+.postbox-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid #ccd0d4;
+}
+
+.postbox-header .hndle {
+	flex-grow: 1;
+	/* Handle the alignment for the configurable dashboard widgets "Configure" edit-box link. */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.postbox-header .handle-actions {
+	flex-shrink: 0;
+}
+
+.postbox .handle-order-higher,
+.postbox .handle-order-lower,
 .postbox .handlediv {
-	display: none;
-	float: right;
 	width: 36px;
 	height: 36px;
 	margin: 0;
@@ -2000,8 +2019,15 @@ html.wp-toolbar {
 	cursor: pointer;
 }
 
-.js .postbox .handlediv {
-	display: block;
+.postbox .handle-order-higher,
+.postbox .handle-order-lower {
+	color: #72777c;
+}
+
+.postbox .handle-order-higher[aria-disabled="true"],
+.postbox .handle-order-lower[aria-disabled="true"] {
+	cursor: default;
+	color: #a0a5aa;
 }
 
 .sortable-placeholder {
@@ -2949,10 +2975,12 @@ img {
 }
 
 /* Metabox collapse arrow indicators */
-.sidebar-name .toggle-indicator:before,
-.js .meta-box-sortables .postbox .toggle-indicator:before,
-.bulk-action-notice .toggle-indicator:before,
-.privacy-text-box .toggle-indicator:before {
+.sidebar-name .toggle-indicator::before,
+.meta-box-sortables .postbox .toggle-indicator::before,
+.meta-box-sortables .postbox .order-higher-indicator::before,
+.meta-box-sortables .postbox .order-lower-indicator::before,
+.bulk-action-notice .toggle-indicator::before,
+.privacy-text-box .toggle-indicator::before {
 	content: "\f142";
 	display: inline-block;
 	font: normal 20px/1 dashicons;
@@ -2962,37 +2990,55 @@ img {
 	text-decoration: none;
 }
 
-.js .widgets-holder-wrap.closed .toggle-indicator:before,
-.js .meta-box-sortables .postbox.closed .handlediv .toggle-indicator:before,
-.bulk-action-notice .bulk-action-errors-collapsed .toggle-indicator:before,
-.privacy-text-box.closed .toggle-indicator:before {
+.js .widgets-holder-wrap.closed .toggle-indicator::before,
+.meta-box-sortables .postbox.closed .handlediv .toggle-indicator::before,
+.bulk-action-notice .bulk-action-errors-collapsed .toggle-indicator::before,
+.privacy-text-box.closed .toggle-indicator::before {
 	content: "\f140";
 }
 
-.js .postbox .handlediv .toggle-indicator:before {
-	margin-top: 4px;
+.postbox .handle-order-higher .order-higher-indicator::before {
+	content: "\f343";
+	color: inherit;
+}
+
+.postbox .handle-order-lower .order-lower-indicator::before {
+	content: "\f347";
+	color: inherit;
+}
+
+.postbox .handle-order-higher .order-higher-indicator::before,
+.postbox .handle-order-lower .order-lower-indicator::before,
+.postbox .handlediv .toggle-indicator::before {
 	width: 20px;
 	border-radius: 50%;
-	text-indent: -1px; /* account for the dashicon alignment */
 }
 
-.rtl.js .postbox .handlediv .toggle-indicator:before {
-	text-indent: 1px; /* account for the dashicon alignment */
+.postbox .handlediv .toggle-indicator::before {
+	text-indent: -1px; /* account for the dashicon glyph uneven horizontal alignment */
 }
 
-.bulk-action-notice .toggle-indicator:before {
+.rtl .postbox .handlediv .toggle-indicator::before {
+	text-indent: 1px; /* account for the dashicon glyph uneven horizontal alignment */
+}
+
+.bulk-action-notice .toggle-indicator::before {
 	line-height: 16px;
 	vertical-align: top;
 	color: #72777c;
 }
 
-.js .postbox .handlediv:focus {
+.postbox .handle-order-higher:focus,
+.postbox .handle-order-lower:focus,
+.postbox .handlediv:focus {
 	box-shadow: none;
 	/* Only visible in Windows High Contrast mode */
 	outline: 1px solid transparent;
 }
 
-.js .postbox .handlediv:focus .toggle-indicator:before {
+.postbox .handle-order-higher:focus .order-higher-indicator::before,
+.postbox .handle-order-lower:focus .order-lower-indicator::before,
+.postbox .handlediv:focus .toggle-indicator::before {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, 0.8);

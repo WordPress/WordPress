@@ -1314,6 +1314,16 @@ function do_meta_boxes( $screen, $context, $object ) {
 					// get_hidden_meta_boxes() doesn't apply in the block editor.
 					$hidden_class = ( ! $screen->is_block_editor() && in_array( $box['id'], $hidden, true ) ) ? ' hide-if-js' : '';
 					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes( $box['id'], $page ) . $hidden_class . '" ' . '>' . "\n";
+
+					echo '<div class="postbox-header">';
+					echo '<h2 class="hndle">';
+					if ( 'dashboard_php_nag' === $box['id'] ) {
+						echo '<span aria-hidden="true" class="dashicons dashicons-warning"></span>';
+						echo '<span class="screen-reader-text">' . __( 'Warning:' ) . ' </span>';
+					}
+					echo "{$box['title']}";
+					echo "</h2>\n";
+
 					if ( 'dashboard_browser_nag' !== $box['id'] ) {
 						$widget_title = $box['title'];
 
@@ -1323,6 +1333,28 @@ function do_meta_boxes( $screen, $context, $object ) {
 							unset( $box['args']['__widget_basename'] );
 						}
 
+						echo '<div class="handle-actions hide-if-no-js">';
+
+						echo '<button type="button" class="handle-order-higher" aria-disabled="false" aria-describedby="' . $box['id'] . '-handle-order-higher-description">';
+						echo '<span class="screen-reader-text">' . __( 'Move up' ) . '</span>';
+						echo '<span class="order-higher-indicator" aria-hidden="true"></span>';
+						echo '</button>';
+						echo '<span class="hidden" id="' . $box['id'] . '-handle-order-higher-description">' . sprintf(
+							/* translators: %s: Meta box title. */
+							__( 'Move %s box up' ),
+							$widget_title
+						) . '</span>';
+
+						echo '<button type="button" class="handle-order-lower" aria-disabled="false" aria-describedby="' . $box['id'] . '-handle-order-lower-description">';
+						echo '<span class="screen-reader-text">' . __( 'Move down' ) . '</span>';
+						echo '<span class="order-lower-indicator" aria-hidden="true"></span>';
+						echo '</button>';
+						echo '<span class="hidden" id="' . $box['id'] . '-handle-order-lower-description">' . sprintf(
+							/* translators: %s: Meta box title. */
+							__( 'Move %s box down' ),
+							$widget_title
+						) . '</span>';
+
 						echo '<button type="button" class="handlediv" aria-expanded="true">';
 						echo '<span class="screen-reader-text">' . sprintf(
 							/* translators: %s: Meta box title. */
@@ -1331,14 +1363,11 @@ function do_meta_boxes( $screen, $context, $object ) {
 						) . '</span>';
 						echo '<span class="toggle-indicator" aria-hidden="true"></span>';
 						echo '</button>';
+
+						echo '</div>';
 					}
-					echo '<h2 class="hndle">';
-					if ( 'dashboard_php_nag' === $box['id'] ) {
-						echo '<span aria-hidden="true" class="dashicons dashicons-warning"></span>';
-						echo '<span class="screen-reader-text">' . __( 'Warning:' ) . ' </span>';
-					}
-					echo "<span>{$box['title']}</span>";
-					echo "</h2>\n";
+					echo '</div>';
+
 					echo '<div class="inside">' . "\n";
 
 					if ( WP_DEBUG && ! $block_compatible && 'edit' === $screen->parent_base && ! $screen->is_block_editor() && ! isset( $_GET['meta-box-loader'] ) ) {

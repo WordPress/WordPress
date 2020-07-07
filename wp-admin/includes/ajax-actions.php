@@ -1927,7 +1927,7 @@ function wp_ajax_meta_box_order() {
 		update_user_option( $user->ID, "screen_layout_$page", $page_columns, true );
 	}
 
-	wp_die( 1 );
+	wp_send_json_success();
 }
 
 /**

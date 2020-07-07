@@ -49,6 +49,7 @@
 }
 
 #dashboard-widgets .meta-box-sortables {
+	display: flow-root; /* avoid margin collapsing between parent and first/last child elements */
 	/* Required min-height to make the jQuery UI Sortable drop zone work. */
 	min-height: 100px;
 	margin: 0 8px 20px;

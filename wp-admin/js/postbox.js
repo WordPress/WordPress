@@ -42,7 +42,7 @@
 		 */
 		handle_click : function () {
 			var $el = $( this ),
-				p = $el.parent( '.postbox' ),
+				p = $el.closest( '.postbox' ),
 				id = p.attr( 'id' ),
 				ariaExpandedValue;
 
@@ -51,7 +51,6 @@
 			}
 
 			p.toggleClass( 'closed' );
-
 			ariaExpandedValue = ! p.hasClass( 'closed' );
 
 			if ( $el.hasClass( 'handlediv' ) ) {
@@ -90,6 +89,143 @@
 		},
 
 		/**
+		 * Handles clicks on the move up/down buttons.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @return {void}
+		 */
+		handleOrder: function() {
+			var button = $( this ),
+				postbox = button.closest( '.postbox' ),
+				postboxId = postbox.attr( 'id' ),
+				postboxesWithinSortables = postbox.closest( '.meta-box-sortables' ).find( '.postbox:visible' ),
+				postboxesWithinSortablesCount = postboxesWithinSortables.length,
+				postboxWithinSortablesIndex = postboxesWithinSortables.index( postbox ),
+				firstOrLastPositionMessage;
+
+			if ( 'dashboard_browser_nag' === postboxId ) {
+				return;
+			}
+
+			// If on the first or last position, do nothing and send an audible message to screen reader users.
+			if ( 'true' === button.attr( 'aria-disabled' ) ) {
+				firstOrLastPositionMessage = button.hasClass( 'handle-order-higher' ) ?
+					__( 'The box is on the first position' ) :
+					__( 'The box is on the last position' );
+
+				wp.a11y.speak( firstOrLastPositionMessage );
+				return;
+			}
+
+			// Move a postbox up.
+			if ( button.hasClass( 'handle-order-higher' ) ) {
+				// If the box is first within a sortable area, move it to the previous sortable area.
+				if ( 0 === postboxWithinSortablesIndex ) {
+					postboxes.handleOrderBetweenSortables( 'previous', button, postbox );
+					return;
+				}
+
+				postbox.prevAll( '.postbox:visible' ).eq( 0 ).before( postbox );
+				button.focus();
+				postboxes.updateOrderButtonsProperties();
+				postboxes.save_order( postboxes.page );
+			}
+
+			// Move a postbox down.
+			if ( button.hasClass( 'handle-order-lower' ) ) {
+				// If the box is last within a sortable area, move it to the next sortable area.
+				if ( postboxWithinSortablesIndex + 1 === postboxesWithinSortablesCount ) {
+					postboxes.handleOrderBetweenSortables( 'next', button, postbox );
+					return;
+				}
+
+				postbox.nextAll( '.postbox:visible' ).eq( 0 ).after( postbox );
+				button.focus();
+				postboxes.updateOrderButtonsProperties();
+				postboxes.save_order( postboxes.page );
+			}
+
+		},
+
+		/**
+		 * Moves postboxes between the sortables areas.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param {string} position The "previous" or "next" sortables area.
+		 * @param {object} button   The jQuery object representing the button that was clicked.
+		 * @param {object} postbox  The jQuery object representing the postbox to be moved.
+		 *
+		 * @return {void}
+		 */
+		handleOrderBetweenSortables: function( position, button, postbox ) {
+			var closestSortablesId = button.closest( '.meta-box-sortables' ).attr( 'id' ),
+				sortablesIds = [],
+				sortablesIndex,
+				detachedPostbox;
+
+			// Get the list of sortables within the page.
+			$( '.meta-box-sortables:visible' ).each( function() {
+				sortablesIds.push( $( this ).attr( 'id' ) );
+			});
+
+			// Return if there's only one visible sortables area, e.g. in the block editor page.
+			if ( 1 === sortablesIds.length ) {
+				return;
+			}
+
+			// Find the index of the current sortables area within all the sortable areas.
+			sortablesIndex = $.inArray( closestSortablesId, sortablesIds );
+			// Detach the postbox to be moved.
+			detachedPostbox = postbox.detach();
+
+			// Move the detached postbox to its new position.
+			if ( 'previous' === position ) {
+				$( detachedPostbox ).appendTo( '#' + sortablesIds[ sortablesIndex - 1 ] );
+			}
+
+			if ( 'next' === position ) {
+				$( detachedPostbox ).prependTo( '#' + sortablesIds[ sortablesIndex + 1 ] );
+			}
+
+			postboxes._mark_area();
+			button.focus();
+			postboxes.updateOrderButtonsProperties();
+			postboxes.save_order( postboxes.page );
+		},
+
+		/**
+		 * Update the move buttons properties depending on the postbox position.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @return {void}
+		 */
+		updateOrderButtonsProperties: function() {
+			var firstSortablesId = $( '.meta-box-sortables:first' ).attr( 'id' ),
+				lastSortablesId = $( '.meta-box-sortables:last' ).attr( 'id' ),
+				firstPostbox = $( '.postbox:visible:first' ),
+				lastPostbox = $( '.postbox:visible:last' ),
+				firstPostboxSortablesId = firstPostbox.closest( '.meta-box-sortables' ).attr( 'id' ),
+				lastPostboxSortablesId = lastPostbox.closest( '.meta-box-sortables' ).attr( 'id' );
+
+			// Enable all buttons as a reset first.
+			$( '.handle-order-higher' ).attr( 'aria-disabled', 'false' );
+			$( '.handle-order-lower' ).attr( 'aria-disabled', 'false' );
+
+			// Set an aria-disabled=true attribute on the first visible "move" buttons.
+			if ( firstSortablesId === firstPostboxSortablesId ) {
+				$( firstPostbox ).find( '.handle-order-higher' ).attr( 'aria-disabled', 'true' );
+			}
+
+			// Set an aria-disabled=true attribute on the last visible "move" buttons.
+			if ( lastSortablesId === lastPostboxSortablesId ) {
+				$( '.postbox:visible .handle-order-lower' ).last().attr( 'aria-disabled', 'true' );
+			}
+		},
+
+		/**
 		 * Adds event handlers to all postboxes and screen option on the current page.
 		 *
 		 * @since 2.7.0
@@ -103,12 +239,16 @@
 		 * @return {void}
 		 */
 		add_postbox_toggles : function (page, args) {
-			var $handles = $( '.postbox .hndle, .postbox .handlediv' );
+			var $handles = $( '.postbox .hndle, .postbox .handlediv' ),
+				$orderButtons = $( '.postbox .handle-order-higher, .postbox .handle-order-lower' );
 
 			this.page = page;
 			this.init( page, args );
 
 			$handles.on( 'click.postboxes', this.handle_click );
+
+			// Handle the order of the postboxes.
+			$orderButtons.on( 'click.postboxes', this.handleOrder );
 
 			/**
 			 * @since 2.7.0
@@ -122,6 +262,8 @@
 			 *
 			 * Event handler for the postbox dismiss button. After clicking the button
 			 * the postbox will be hidden.
+			 *
+			 * As of WordPress 5.5, this is only used for the browser update nag.
 			 *
 			 * @since 3.2.0
 			 *
@@ -248,6 +390,8 @@
 						$el.sortable('cancel');
 						return;
 					}
+
+					postboxes.updateOrderButtonsProperties();
 					postboxes.save_order(page);
 				},
 				receive: function(e,ui) {
@@ -266,10 +410,14 @@
 
 			this._mark_area();
 
+			// Update the "move" buttons properties.
+			this.updateOrderButtonsProperties();
+			$document.on( 'postbox-toggled', this.updateOrderButtonsProperties );
+
 			// Set the handle buttons `aria-expanded` attribute initial value on page load.
 			$handleButtons.each( function () {
 				var $el = $( this );
-				$el.attr( 'aria-expanded', ! $el.parent( '.postbox' ).hasClass( 'closed' ) );
+				$el.attr( 'aria-expanded', ! $el.closest( '.postbox' ).hasClass( 'closed' ) );
 			});
 		},
 
@@ -332,7 +480,15 @@
 				postVars[ 'order[' + this.id.split( '-' )[0] + ']' ] = $( this ).sortable( 'toArray' ).join( ',' );
 			} );
 
-			$.post( ajaxurl, postVars );
+			$.post(
+				ajaxurl,
+				postVars,
+				function( response ) {
+					if ( response.success ) {
+						wp.a11y.speak( __( 'The boxes order has been saved.' ) );
+					}
+				}
+			);
 		},
 
 		/**
