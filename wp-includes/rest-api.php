@@ -588,7 +588,7 @@ function rest_handle_deprecated_argument( $function, $message, $version ) {
 	if ( ! WP_DEBUG || headers_sent() ) {
 		return;
 	}
-	if ( ! empty( $message ) ) {
+	if ( $message ) {
 		/* translators: 1: Function name, 2: WordPress version number, 3: Error message. */
 		$string = sprintf( __( '%1$s (since %2$s; %3$s)' ), $function, $version, $message );
 	} else {
@@ -613,14 +613,14 @@ function rest_handle_doing_it_wrong( $function, $message, $version ) {
 		return;
 	}
 
-	if ( is_null( $version ) ) {
-		/* translators: Developer debugging message. 1: PHP function name, 2: Explanatory message */
-		$string = __( '%1$s (%2$s)' );
-		$string = sprintf( $string, $function, $message );
-	} else {
-		/* translators: Developer debugging message. 1: PHP function name, 2: Version information message, 3: Explanatory message. */
+	if ( $version ) {
+		/* translators: Developer debugging message. 1: PHP function name, 2: WordPress version number, 3: Explanatory message. */
 		$string = __( '%1$s (since %2$s; %3$s)' );
 		$string = sprintf( $string, $function, $version, $message );
+	} else {
+		/* translators: Developer debugging message. 1: PHP function name, 2: Explanatory message. */
+		$string = __( '%1$s (%2$s)' );
+		$string = sprintf( $string, $function, $message );
 	}
 
 	header( sprintf( 'X-WP-DoingItWrong: %s', $string ) );
