@@ -124,17 +124,21 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		 * Calculate how many seconds it's been since the reminder was postponed.
 		 * This allows us to not show it if the query arg is set, but visited due to caches, bookmarks or similar.
 		 */
-		$time_passed = $postponed_time - $remind_interval - time();
+		$time_passed = time() - ( $postponed_time - $remind_interval );
 
 		// Only show the dashboard notice if it's been less than a minute since the message was postponed.
-		if ( $time_passed > -60 ) :
+		if ( $time_passed < MINUTE_IN_SECONDS ) :
 			?>
 		<div class="notice notice-success is-dismissible">
 			<p>
 				<?php
 				printf(
-					/* translators: %1$s: The number of comments. %2$s: The post title. */
-					_n( 'The admin email verification page will reappear after %d day.', 'The admin email verification page will reappear after %d days.', 3 ),
+					/* translators: %d: The number of days. */
+					_n(
+						'The admin email verification page will reappear after %d day.',
+						'The admin email verification page will reappear after %d days.',
+						3
+					),
 					number_format_i18n( 3 )
 				);
 				?>
