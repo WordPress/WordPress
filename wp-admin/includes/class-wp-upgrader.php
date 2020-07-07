@@ -798,7 +798,10 @@ class WP_Upgrader {
 		$this->skin->set_result( $result );
 		if ( is_wp_error( $result ) ) {
 			$this->skin->error( $result );
-			$this->skin->feedback( 'process_failed' );
+
+			if ( ! method_exists( $this->skin, 'hide_process_failed' ) || ! $this->skin->hide_process_failed( $result ) ) {
+				$this->skin->feedback( 'process_failed' );
+			}
 		} else {
 			// Installation succeeded.
 			$this->skin->feedback( 'process_success' );

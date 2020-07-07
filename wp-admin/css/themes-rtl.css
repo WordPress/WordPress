@@ -985,10 +985,15 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
   16.2 - Install Themes
 ------------------------------------------------------------------------------*/
 
+.update-php .wrap {
+	max-width: 40rem;
+}
+
 /* Already installed theme */
 .theme-browser .theme .theme-installed {
 	background: #0073aa;
 }
+
 .theme-browser .theme .notice-success p:before {
 	color: #79ba49;
 	content: "\f147";
@@ -1031,10 +1036,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	overflow: hidden;
 	position: relative;
 	top: 10px;
-}
-
-.upload-plugin-wrap {
-	display: none;
+	text-align: center;
 }
 
 .show-upload-view .upload-theme,
@@ -1050,10 +1052,14 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	border: 1px solid #ccd0d4;
 	padding: 30px;
 	margin: 30px auto;
-	max-width: 380px;
-	display: flex;
+	display: inline-flex;
 	justify-content: space-between;
 	align-items: center;
+}
+
+.upload-theme .wp-upload-form input[type="file"],
+.upload-plugin .wp-upload-form input[type="file"] {
+	margin-left: 10px;
 }
 
 .upload-theme .install-help,
@@ -1094,7 +1100,6 @@ p.no-themes-local {
 	.upload-theme .install-help {
 		font-size: 15px;
 		padding: 20px 0 0;
-		text-align: right;
 	}
 }
 
@@ -1115,6 +1120,43 @@ p.no-themes-local {
 .theme-details .no-rating {
 	display: block;
 	line-height: 1.9;
+}
+
+.update-from-upload-comparison {
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	text-align: right;
+	margin: 1rem 0 1.4rem;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.update-from-upload-comparison tr:last-child td {
+	height: 1.4rem;
+    vertical-align: top;
+}
+
+.update-from-upload-comparison tr:first-child th {
+	font-weight: bold;
+	height: 1.4rem;
+    vertical-align: bottom;
+}
+
+.update-from-upload-comparison td.name-label {
+	text-align: left;
+}
+
+.update-from-upload-comparison td,
+.update-from-upload-comparison th {
+	padding: 0.4rem 1.4rem;
+}
+
+.update-from-upload-comparison td.warning {
+	color: #a00;
+}
+
+.update-from-upload-actions {
+	margin-top: 1.4rem;
 }
 
 /*------------------------------------------------------------------------------

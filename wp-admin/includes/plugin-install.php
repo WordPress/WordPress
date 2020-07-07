@@ -353,7 +353,7 @@ function install_plugins_upload() {
 	<form method="post" enctype="multipart/form-data" class="wp-upload-form" action="<?php echo self_admin_url( 'update.php?action=upload-plugin' ); ?>">
 		<?php wp_nonce_field( 'plugin-upload' ); ?>
 		<label class="screen-reader-text" for="pluginzip"><?php _e( 'Plugin zip file' ); ?></label>
-		<input type="file" id="pluginzip" name="pluginzip" />
+		<input type="file" id="pluginzip" name="pluginzip" accept=".zip" />
 		<?php submit_button( __( 'Install Now' ), '', 'install-plugin-submit', false ); ?>
 	</form>
 </div>

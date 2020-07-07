@@ -18,22 +18,29 @@
 class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	public $api;
 	public $type;
+	public $url;
+	public $overwrite;
+
+	private $is_downgrading = false;
 
 	/**
 	 * @param array $args
 	 */
 	public function __construct( $args = array() ) {
 		$defaults = array(
-			'type'  => 'web',
-			'url'   => '',
-			'theme' => '',
-			'nonce' => '',
-			'title' => '',
+			'type'      => 'web',
+			'url'       => '',
+			'theme'     => '',
+			'nonce'     => '',
+			'title'     => '',
+			'overwrite' => '',
 		);
 		$args     = wp_parse_args( $args, $defaults );
 
-		$this->type = $args['type'];
-		$this->api  = isset( $args['api'] ) ? $args['api'] : array();
+		$this->type      = $args['type'];
+		$this->url       = $args['url'];
+		$this->api       = isset( $args['api'] ) ? $args['api'] : array();
+		$this->overwrite = $args['overwrite'];
 
 		parent::__construct( $args );
 	}
@@ -51,8 +58,32 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Hides the `process_failed` error when updating a theme by uploading a zip file.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param $wp_error WP_Error.
+	 * @return bool
+	 */
+	public function hide_process_failed( $wp_error ) {
+		if (
+			'upload' === $this->type &&
+			'' === $this->overwrite &&
+			$wp_error->get_error_code() === 'folder_exists'
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 */
 	public function after() {
+		if ( $this->do_overwrite() ) {
+			return;
+		}
+
 		if ( empty( $this->upgrader->result['destination_name'] ) ) {
 			return;
 		}
@@ -130,6 +161,8 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 
 		if ( ! $this->result || is_wp_error( $this->result ) || is_network_admin() || ! current_user_can( 'switch_themes' ) ) {
 			unset( $install_actions['activate'], $install_actions['preview'] );
+		} elseif ( get_option( 'template' ) === $stylesheet ) {
+			unset( $install_actions['activate'] );
 		}
 
 		/**
@@ -147,4 +180,177 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			$this->feedback( implode( ' | ', (array) $install_actions ) );
 		}
 	}
+
+	/**
+	 * Check if the theme can be overwritten and output the HTML for overwriting a theme on upload.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return bool Whether the theme can be overwritten and HTML was outputted.
+	 */
+	private function do_overwrite() {
+		if ( 'upload' !== $this->type || ! is_wp_error( $this->result ) || 'folder_exists' !== $this->result->get_error_code() ) {
+			return false;
+		}
+
+		$folder = $this->result->get_error_data( 'folder_exists' );
+		$folder = rtrim( $folder, '/' );
+
+		$current_theme_data = false;
+		$all_themes         = wp_get_themes( array( 'errors' => null ) );
+
+		foreach ( $all_themes as $theme ) {
+			if ( rtrim( $theme->get_stylesheet_directory(), '/' ) !== $folder ) {
+				continue;
+			}
+
+			$current_theme_data = $theme;
+		}
+
+		if ( empty( $current_theme_data ) || empty( $this->upgrader->new_theme_data ) ) {
+			return false;
+		}
+
+		echo '<h2 class="update-from-upload-heading">' . esc_html( __( 'This theme is already installed.' ) ) . '</h2>';
+
+		// Check errors for current theme
+		if ( is_wp_error( $current_theme_data->errors() ) ) {
+			$this->feedback( 'current_theme_has_errors', $current_theme_data->errors()->get_error_message() );
+		}
+
+		$this->is_downgrading = version_compare( $current_theme_data['Version'], $this->upgrader->new_theme_data['Version'], '>' );
+
+		$is_invalid_parent = false;
+		if ( ! empty( $this->upgrader->new_theme_data['Template'] ) ) {
+			$is_invalid_parent = ! in_array( $this->upgrader->new_theme_data['Template'], array_keys( $all_themes ), true );
+		}
+
+		$rows = array(
+			'Name'        => __( 'Theme name' ),
+			'Version'     => __( 'Version' ),
+			'Author'      => __( 'Author' ),
+			'RequiresWP'  => __( 'Required WordPress version' ),
+			'RequiresPHP' => __( 'Required PHP version' ),
+			'Template'    => __( 'Parent theme' ),
+		);
+
+		$table  = '<table class="update-from-upload-comparison"><tbody>';
+		$table .= '<tr><th></th><th>' . esc_html( __( 'Current' ) ) . '</th><th>' . esc_html( __( 'Uploaded' ) ) . '</th></tr>';
+
+		$is_same_theme = true; // Let's consider only these rows
+		foreach ( $rows as $field => $label ) {
+			$old_value = $current_theme_data->display( $field, false );
+			$old_value = $old_value ? $old_value : '-';
+
+			$new_value = ! empty( $this->upgrader->new_theme_data[ $field ] ) ? $this->upgrader->new_theme_data[ $field ] : '-';
+
+			if ( $old_value === $new_value && '-' === $new_value && 'Template' === $field ) {
+				continue;
+			}
+
+			$is_same_theme = $is_same_theme && ( $old_value === $new_value );
+
+			$diff_field     = ( 'Version' !== $field && $new_value !== $old_value );
+			$diff_version   = ( 'Version' === $field && $this->is_downgrading );
+			$invalid_parent = false;
+
+			if ( 'Template' === $field && $is_invalid_parent ) {
+				$invalid_parent = true;
+				$new_value     .= ' ' . __( '(not found)' );
+			}
+
+			$table .= '<tr><td class="name-label">' . $label . '</td><td>' . esc_html( $old_value ) . '</td>';
+			$table .= ( $diff_field || $diff_version || $invalid_parent ) ? '<td class="warning">' : '<td>';
+			$table .= esc_html( $new_value ) . '</td></tr>';
+		}
+
+		$table .= '</tbody></table>';
+
+		/**
+		 * Filters the compare table output for overwrite a theme package on upload.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string   $table               The output table with Name, Version, Author, RequiresWP and RequiresPHP info.
+		 * @param array    $current_theme_data  Array with current theme data.
+		 * @param array    $new_theme_data      Array with uploaded theme data.
+		 */
+		echo apply_filters( 'install_theme_overwrite_comparison', $table, $current_theme_data, $this->upgrader->new_theme_data );
+
+		$install_actions = array();
+		$can_update      = true;
+
+		$blocked_message  = '<p>' . esc_html( __( 'The theme cannot be updated due to the following:' ) ) . '</p>';
+		$blocked_message .= '<ul class="ul-disc">';
+
+		if ( ! empty( $this->upgrader->new_theme_data['RequiresPHP'] ) && version_compare( phpversion(), $this->upgrader->new_theme_data['RequiresPHP'], '<' ) ) {
+			$error = sprintf(
+				/* translators: 1: Current PHP version, 2: Version required by the uploaded theme. */
+				__( 'The PHP version on your server is %1$s, however the uploaded theme requires %2$s.' ),
+				phpversion(),
+				$this->upgrader->new_theme_data['RequiresPHP']
+			);
+
+			$blocked_message .= '<li>' . esc_html( $error ) . '</li>';
+			$can_update       = false;
+		}
+
+		if ( ! empty( $this->upgrader->new_theme_data['RequiresWP'] ) && version_compare( $GLOBALS['wp_version'], $this->upgrader->new_theme_data['RequiresWP'], '<' ) ) {
+			$error = sprintf(
+				/* translators: 1: Current WordPress version, 2: Version required by the uploaded theme. */
+				__( 'Your WordPress version is %1$s, however the uploaded theme requires %2$s.' ),
+				$GLOBALS['wp_version'],
+				$this->upgrader->new_theme_data['RequiresWP']
+			);
+
+			$blocked_message .= '<li>' . esc_html( $error ) . '</li>';
+			$can_update       = false;
+		}
+
+		$blocked_message .= '</ul>';
+
+		if ( $can_update ) {
+			if ( $this->is_downgrading ) {
+				$warning = __( 'You are uploading an older version of a current theme. You can continue to install the older version, but be sure to <a href="https://wordpress.org/support/article/wordpress-backups/">backup your database and files</a> first.' );
+			} else {
+				$warning = __( 'You are updating a theme. Be sure to <a href="https://wordpress.org/support/article/wordpress-backups/">backup your database and files</a> first.' );
+			}
+
+			echo '<p class="update-from-upload-notice">' . $warning . '</p>';
+
+			$overwrite = $this->is_downgrading ? 'downgrade-theme' : 'update-theme';
+
+			$install_actions['ovewrite_theme'] = sprintf(
+				'<a class="button button-primary" href="%s" target="_parent">%s</a>',
+				wp_nonce_url( add_query_arg( 'overwrite', $overwrite, $this->url ), 'theme-upload' ),
+				esc_html( __( 'Replace current with uploaded' ) )
+			);
+		} else {
+			echo $blocked_message;
+		}
+
+		$install_actions['themes_page'] = sprintf(
+			'<a class="button" href="%s" target="_parent">%s</a>',
+			self_admin_url( 'theme-install.php' ),
+			__( 'Cancel and go back' )
+		);
+
+		/**
+		 * Filters the list of action links available following a single theme installation failed but ovewrite is allowed.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string[] $install_actions Array of theme action links.
+		 * @param object   $api             Object containing WordPress.org API theme data.
+		 * @param array    $new_theme_data  Array with uploaded theme data.
+		 */
+		$install_actions = apply_filters( 'install_theme_ovewrite_actions', $install_actions, $this->api, $this->upgrader->new_theme_data );
+
+		if ( ! empty( $install_actions ) ) {
+			echo '<p class="update-from-upload-actions">' . implode( ' ', (array) $install_actions ) . '</p>';
+		}
+
+		return true;
+	}
+
 }
