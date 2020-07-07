@@ -1186,6 +1186,7 @@ function wp_default_scripts( $scripts ) {
 	$scripts->set_translations( 'media-views' );
 
 	$scripts->add( 'media-editor', "/wp-includes/js/media-editor$suffix.js", array( 'shortcode', 'media-views' ), false, 1 );
+	$scripts->set_translations( 'media-editor' );
 	$scripts->add( 'media-audiovideo', "/wp-includes/js/media-audiovideo$suffix.js", array( 'media-editor' ), false, 1 );
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'jquery', 'media-views', 'media-audiovideo' ), false, 1 );
 
@@ -1287,16 +1288,7 @@ function wp_default_scripts( $scripts ) {
 		$scripts->set_translations( 'image-edit' );
 
 		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), false, 1 );
-		did_action( 'init' ) && $scripts->localize(
-			'set-post-thumbnail',
-			'setPostThumbnailL10n',
-			array(
-				'setThumbnail' => __( 'Use as featured image' ),
-				'saving'       => __( 'Saving...' ), // No ellipsis.
-				'error'        => __( 'Could not set that as the thumbnail image. Try a different attachment.' ),
-				'done'         => __( 'Done' ),
-			)
-		);
+		$scripts->set_translations( 'set-post-thumbnail' );
 
 		/*
 		 * Navigation Menus: Adding underscore as a dependency to utilize _.debounce

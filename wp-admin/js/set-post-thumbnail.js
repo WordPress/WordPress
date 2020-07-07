@@ -2,23 +2,23 @@
  * @output wp-admin/js/set-post-thumbnail.js
  */
 
-/* global setPostThumbnailL10n, ajaxurl, post_id, alert */
+/* global ajaxurl, post_id, alert */
 /* exported WPSetAsThumbnail */
 
 window.WPSetAsThumbnail = function( id, nonce ) {
 	var $link = jQuery('a#wp-post-thumbnail-' + id);
 
-	$link.text( setPostThumbnailL10n.saving );
+	$link.text( wp.i18n.__( 'Saving…' ) );
 	jQuery.post(ajaxurl, {
 		action: 'set-post-thumbnail', post_id: post_id, thumbnail_id: id, _ajax_nonce: nonce, cookie: encodeURIComponent( document.cookie )
 	}, function(str){
 		var win = window.dialogArguments || opener || parent || top;
-		$link.text( setPostThumbnailL10n.setThumbnail );
+		$link.text( wp.i18n.__( 'Use as featured image' ) );
 		if ( str == '0' ) {
-			alert( setPostThumbnailL10n.error );
+			alert( wp.i18n.__( 'Could not set that as the thumbnail image. Try a different attachment.' ) );
 		} else {
 			jQuery('a.wp-post-thumbnail').show();
-			$link.text( setPostThumbnailL10n.done );
+			$link.text( wp.i18n.__( 'Done' ) );
 			$link.fadeOut( 2000 );
 			win.WPSetThumbnailID(id);
 			win.WPSetThumbnailHTML(str);

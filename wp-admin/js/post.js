@@ -4,7 +4,7 @@
  * @output wp-admin/js/post.js
  */
 
- /* global ajaxurl, wpAjax, setPostThumbnailL10n, postboxes, pagenow, tinymce, alert, deleteUserSetting, ClipboardJS */
+ /* global ajaxurl, wpAjax, postboxes, pagenow, tinymce, alert, deleteUserSetting, ClipboardJS */
  /* global theList:true, theExtraList:true, getUserSetting, setUserSetting, commentReply, commentsBox */
  /* global WPSetThumbnailHTML, wptitlehint */
 
@@ -145,7 +145,7 @@ window.wp = window.wp || {};
 			 */
 			function(str){
 			if ( str == '0' ) {
-				alert( setPostThumbnailL10n.error );
+				alert( __( 'Could not set that as the thumbnail image. Try a different attachment.' ) );
 			} else {
 				WPSetThumbnailHTML(str);
 			}
