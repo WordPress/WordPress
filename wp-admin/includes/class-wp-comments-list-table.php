@@ -124,6 +124,13 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$start += $_REQUEST['offset'];
 		}
 
+		if ( ! empty( $_REQUEST['mode'] ) ) {
+			$mode = 'extended' === $_REQUEST['mode'] ? 'extended' : 'list';
+			set_user_setting( 'posts_list_mode', $mode );
+		} else {
+			$mode = get_user_setting( 'posts_list_mode', 'list' );
+		}
+
 		$status_map = array(
 			'mine'      => '',
 			'moderated' => 'hold',
@@ -751,8 +758,14 @@ class WP_Comments_List_Table extends WP_List_Table {
 		/** This filter is documented in wp-admin/includes/dashboard.php */
 		$actions = apply_filters( 'comment_row_actions', array_filter( $actions ), $comment );
 
+		$always_visible = false;
+		$mode = get_user_setting( 'posts_list_mode', 'list' );
+		if ( 'extended' === $mode ) {
+			$always_visible = true;
+		}
+
 		$i    = 0;
-		$out .= '<div class="row-actions">';
+		$out .= '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( ( ( 'approve' === $action || 'unapprove' === $action ) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';

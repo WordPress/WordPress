@@ -166,8 +166,8 @@ class WP_List_Table {
 
 		if ( empty( $this->modes ) ) {
 			$this->modes = array(
-				'list'    => __( 'List View' ),
-				'excerpt' => __( 'Excerpt View' ),
+				'list'     => __( 'Compact View' ),
+				'extended' => __( 'Extended View' ),
 			);
 		}
 	}
@@ -521,6 +521,11 @@ class WP_List_Table {
 
 		if ( ! $action_count ) {
 			return '';
+		}
+
+		$mode = get_user_setting( 'posts_list_mode', 'list' );
+		if ( 'extended' === $mode ) {
+			$always_visible = true;
 		}
 
 		$out = '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
@@ -1247,7 +1252,22 @@ class WP_List_Table {
 	 * @return string[] Array of CSS classes for the table tag.
 	 */
 	protected function get_table_classes() {
-		return array( 'widefat', 'fixed', 'striped', $this->_args['plural'] );
+		$mode       = get_user_setting( 'posts_list_mode', 'list' );
+		$mode_class = 'extended' === $mode ? 'table-view-extended' : 'table-view-list';
+		$mode = get_user_setting( 'posts_list_mode', 'list' );
+		/**
+		 * Filters the current view mode.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string $mode The current selected mode. Default value of
+		 *                     posts_list_mode user setting.
+		 */
+		$mode = apply_filters( 'table_view_mode', $mode );
+
+		$mode_class = 'extended' === $mode ? 'table-view-extended' : 'table-view-' . $mode;
+
+		return array( 'widefat', 'fixed', 'striped', $mode_class, $this->_args['plural'] );
 	}
 
 	/**

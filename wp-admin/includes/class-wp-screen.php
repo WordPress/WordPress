@@ -1288,17 +1288,12 @@ final class WP_Screen {
 	public function render_view_mode() {
 		$screen = get_current_screen();
 
-		// Currently only enabled for posts lists.
-		if ( 'edit' !== $screen->base ) {
+		// Currently only enabled for posts and comments lists.
+		if ( 'edit' !== $screen->base && 'edit-comments' !== $screen->base ) {
 			return;
 		}
 
-		$view_mode_post_types = get_post_types(
-			array(
-				'hierarchical' => false,
-				'show_ui'      => true,
-			)
-		);
+		$view_mode_post_types = get_post_types( array( 'show_ui' => true ) );
 
 		/**
 		 * Filters the post types that have different view mode options.
@@ -1306,15 +1301,28 @@ final class WP_Screen {
 		 * @since 4.4.0
 		 *
 		 * @param string[] $view_mode_post_types Array of post types that can change view modes.
-		 *                                       Default non-hierarchical post types with show_ui on.
+		 *                                       Default post types with show_ui on.
 		 */
 		$view_mode_post_types = apply_filters( 'view_mode_post_types', $view_mode_post_types );
 
-		if ( ! in_array( $this->post_type, $view_mode_post_types, true ) ) {
+		if ( 'edit' === $screen->base && ! in_array( $this->post_type, $view_mode_post_types, true ) ) {
 			return;
 		}
 
-		global $mode;
+		$mode = get_user_setting( 'posts_list_mode', 'list' );
+
+		// Set 'list' as default value if $mode is not set.
+		$mode = ( isset( $mode ) && 'extended' === $mode ) ? 'extended' : 'list';
+
+		/**
+		 * Filters the current view mode.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string $mode The current selected mode. Default value of
+		 *                     posts_list_mode user setting.
+		 */
+		$mode = apply_filters( 'table_view_mode', $mode );
 
 		// This needs a submit button.
 		add_filter( 'screen_options_show_submit', '__return_true' );
@@ -1323,12 +1331,22 @@ final class WP_Screen {
 		<legend><?php _e( 'View Mode' ); ?></legend>
 				<label for="list-view-mode">
 					<input id="list-view-mode" type="radio" name="mode" value="list" <?php checked( 'list', $mode ); ?> />
-					<?php _e( 'List View' ); ?>
+					<?php _e( 'Compact view' ); ?>
 				</label>
 				<label for="excerpt-view-mode">
-					<input id="excerpt-view-mode" type="radio" name="mode" value="excerpt" <?php checked( 'excerpt', $mode ); ?> />
-					<?php _e( 'Excerpt View' ); ?>
+					<input id="excerpt-view-mode" type="radio" name="mode" value="extended" <?php checked( 'extended', $mode ); ?> />
+					<?php _e( 'Extended View' ); ?>
 				</label>
+				<?php
+				/**
+				 * Fires at the end of the table view modes screen option.
+				 *
+				 * @since 5.5.0
+				 *
+				 * @param string $mode The currently selected mode.
+				 */
+				do_action( 'wp_table_view_modes', $mode );
+				?>
 		</fieldset>
 		<?php
 	}
