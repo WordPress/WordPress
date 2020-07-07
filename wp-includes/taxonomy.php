@@ -442,7 +442,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 	// Add default term.
 	if ( ! empty( $taxonomy_object->default_term ) ) {
-		if ( $term = term_exists( $taxonomy_object->default_term['name'], $taxonomy ) ) {
+		$term = term_exists( $taxonomy_object->default_term['name'], $taxonomy );
+		if ( $term ) {
 			update_option( 'default_taxonomy_' . $taxonomy_object->name, $term['term_id'] );
 		} else {
 			$term = wp_insert_term(
@@ -2515,7 +2516,8 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	$taxonomy_obj = get_taxonomy( $taxonomy );
 
 	// Default term for this taxonomy.
-	if ( empty( $terms ) && ! empty( $taxonomy_obj->default_term ) && ! empty( $default_term_id = get_option( 'default_taxonomy_' . $taxonomy ) ) ) {
+	$default_term_id = get_option( 'default_taxonomy_' . $taxonomy );
+	if ( empty( $terms ) && ! empty( $taxonomy_obj->default_term ) && ! empty( $default_term_id ) ) {
 		$terms[] = (int) $default_term_id;
 	}
 
