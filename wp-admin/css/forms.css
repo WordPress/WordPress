@@ -142,7 +142,7 @@ input[type="radio"]:checked + label:before {
 
 .wp-core-ui input[type="reset"]:hover,
 .wp-core-ui input[type="reset"]:active {
-	color: #00a0d2;
+	color: #006799;
 }
 
 td > input[type="checkbox"],

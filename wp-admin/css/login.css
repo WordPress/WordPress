@@ -27,7 +27,7 @@ a {
 
 a:hover,
 a:active {
-	color: #00a0d2;
+	color: #006799;
 }
 
 a:focus {
@@ -296,7 +296,7 @@ p {
 .login #nav a:hover,
 .login #backtoblog a:hover,
 .login h1 a:hover {
-	color: #00a0d2;
+	color: #006799;
 }
 
 .login #nav a:focus,

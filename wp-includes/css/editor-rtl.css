@@ -83,7 +83,7 @@
 
 .mce-window-head .mce-close:hover .mce-i-remove:before,
 .mce-window-head .mce-close:focus .mce-i-remove:before {
-	color: #00a0d2;
+	color: #006799;
 }
 
 .mce-window-head .mce-close:focus .mce-i-remove,
@@ -1447,7 +1447,7 @@ i.mce-i-wp_code:before {
 
 #wp-link-close:hover,
 #wp-link-close:focus {
-	color: #00a0d2;
+	color: #006799;
 }
 
 #wp-link-close:focus {

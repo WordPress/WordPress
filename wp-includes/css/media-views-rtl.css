@@ -42,7 +42,7 @@
 
 .media-frame a:hover,
 .media-frame a:active {
-	color: #00a0d2;
+	color: #006799;
 }
 
 .media-frame a:focus {
@@ -237,11 +237,11 @@
 
 .media-modal-close:hover,
 .media-modal-close:active {
-	color: #00a0d2;
+	color: #006799;
 }
 
 .media-modal-close:focus {
-	color: #00a0d2;
+	color: #006799;
 	border-color: #5b9dd9;
 	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 	/* Only visible in Windows High Contrast mode */
@@ -1598,7 +1598,7 @@
 
 .media-selection .button-link:hover,
 .media-selection .button-link:focus {
-	color: #00a0d2;
+	color: #006799;
 }
 
 .media-selection .button-link:last-child {

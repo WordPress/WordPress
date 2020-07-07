@@ -3487,7 +3487,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		}
 		a:hover,
 		a:active {
-			color: #00a0d2;
+			color: #006799;
 		}
 		a:focus {
 			color: #124964;
