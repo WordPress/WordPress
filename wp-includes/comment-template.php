@@ -2237,6 +2237,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *              and 200 characters, respectively.
  * @since 4.6.0 Introduced the 'action' argument.
  * @since 4.9.6 Introduced the 'cookies' default comment field.
+ * @since 5.5.0 Introduced the 'class_container' argument.
  *
  * @param array       $args {
  *     Optional. Default arguments and form fields to override.
@@ -2259,6 +2260,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *     @type string $action               The comment form element action attribute. Default '/wp-comments-post.php'.
  *     @type string $id_form              The comment form element id attribute. Default 'commentform'.
  *     @type string $id_submit            The comment submit element id attribute. Default 'submit'.
+ *     @type string $class_container      The comment form container class attribute. Default 'comment-respond'.
  *     @type string $class_form           The comment form element class attribute. Default 'comment-form'.
  *     @type string $class_submit         The comment submit element class attribute. Default 'submit'.
  *     @type string $name_submit          The comment submit element name attribute. Default 'submit'.
@@ -2434,6 +2436,7 @@ function comment_form( $args = array(), $post_id = null ) {
 		'action'               => site_url( '/wp-comments-post.php' ),
 		'id_form'              => 'commentform',
 		'id_submit'            => 'submit',
+		'class_container'      => 'comment-respond',
 		'class_form'           => 'comment-form',
 		'class_submit'         => 'submit',
 		'name_submit'          => 'submit',
@@ -2481,7 +2484,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	 */
 	do_action( 'comment_form_before' );
 	?>
-	<div id="respond" class="comment-respond">
+	<div id="respond" class="<?php echo esc_attr( $args['class_container'] ); ?>">
 		<?php
 		echo $args['title_reply_before'];
 
