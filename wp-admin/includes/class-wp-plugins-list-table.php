@@ -677,10 +677,21 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 */
 	public function single_row( $item ) {
 		global $status, $page, $s, $totals;
+		static $plugin_id_attrs = array();
 
 		list( $plugin_file, $plugin_data ) = $item;
 
-		$plugin_slug = isset( $plugin_data['slug'] ) ? $plugin_data['slug'] : sanitize_title( $plugin_data['Name'] );
+		$plugin_slug    = isset( $plugin_data['slug'] ) ? $plugin_data['slug'] : sanitize_title( $plugin_data['Name'] );
+		$plugin_id_attr = $plugin_slug;
+
+		// Ensure the ID attribute is unique.
+		$suffix = 2;
+		while ( in_array( $plugin_id_attr, $plugin_id_attrs, true ) ) {
+			$plugin_id_attr = "$plugin_slug-$suffix";
+			$suffix++;
+		}
+
+		$plugin_id_attrs[] = $plugin_id_attr;
 
 		$context = $status;
 		$screen  = $this->screen;
@@ -739,7 +750,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						$actions['deactivate'] = sprintf(
 							'<a href="%s" id="deactivate-%s" aria-label="%s">%s</a>',
 							wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file ),
-							esc_attr( $plugin_slug ),
+							esc_attr( $plugin_id_attr ),
 							/* translators: %s: Plugin name. */
 							esc_attr( sprintf( _x( 'Network Deactivate %s', 'plugin' ), $plugin_data['Name'] ) ),
 							__( 'Network Deactivate' )
@@ -750,7 +761,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						$actions['activate'] = sprintf(
 							'<a href="%s" id="activate-%s" class="edit" aria-label="%s">%s</a>',
 							wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file ),
-							esc_attr( $plugin_slug ),
+							esc_attr( $plugin_id_attr ),
 							/* translators: %s: Plugin name. */
 							esc_attr( sprintf( _x( 'Network Activate %s', 'plugin' ), $plugin_data['Name'] ) ),
 							__( 'Network Activate' )
@@ -761,7 +772,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						$actions['delete'] = sprintf(
 							'<a href="%s" id="delete-%s" class="delete" aria-label="%s">%s</a>',
 							wp_nonce_url( 'plugins.php?action=delete-selected&amp;checked[]=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins' ),
-							esc_attr( $plugin_slug ),
+							esc_attr( $plugin_id_attr ),
 							/* translators: %s: Plugin name. */
 							esc_attr( sprintf( _x( 'Delete %s', 'plugin' ), $plugin_data['Name'] ) ),
 							__( 'Delete' )
@@ -782,7 +793,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						$actions['deactivate'] = sprintf(
 							'<a href="%s" id="deactivate-%s" aria-label="%s">%s</a>',
 							wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file ),
-							esc_attr( $plugin_slug ),
+							esc_attr( $plugin_id_attr ),
 							/* translators: %s: Plugin name. */
 							esc_attr( sprintf( _x( 'Deactivate %s', 'plugin' ), $plugin_data['Name'] ) ),
 							__( 'Deactivate' )
@@ -793,7 +804,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						$actions['resume'] = sprintf(
 							'<a href="%s" id="resume-%s" class="resume-link" aria-label="%s">%s</a>',
 							wp_nonce_url( 'plugins.php?action=resume&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'resume-plugin_' . $plugin_file ),
-							esc_attr( $plugin_slug ),
+							esc_attr( $plugin_id_attr ),
 							/* translators: %s: Plugin name. */
 							esc_attr( sprintf( _x( 'Resume %s', 'plugin' ), $plugin_data['Name'] ) ),
 							__( 'Resume' )
@@ -804,7 +815,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						$actions['activate'] = sprintf(
 							'<a href="%s" id="activate-%s" class="edit" aria-label="%s">%s</a>',
 							wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file ),
-							esc_attr( $plugin_slug ),
+							esc_attr( $plugin_id_attr ),
 							/* translators: %s: Plugin name. */
 							esc_attr( sprintf( _x( 'Activate %s', 'plugin' ), $plugin_data['Name'] ) ),
 							__( 'Activate' )
@@ -815,7 +826,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						$actions['delete'] = sprintf(
 							'<a href="%s" id="delete-%s" class="delete" aria-label="%s">%s</a>',
 							wp_nonce_url( 'plugins.php?action=delete-selected&amp;checked[]=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins' ),
-							esc_attr( $plugin_slug ),
+							esc_attr( $plugin_id_attr ),
 							/* translators: %s: Plugin name. */
 							esc_attr( sprintf( _x( 'Delete %s', 'plugin' ), $plugin_data['Name'] ) ),
 							__( 'Delete' )
