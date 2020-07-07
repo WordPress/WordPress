@@ -1181,6 +1181,7 @@ function wp_removable_query_args() {
 	$removable_query_args = array(
 		'activate',
 		'activated',
+		'admin_email_remind_later',
 		'approved',
 		'deactivate',
 		'delete_count',

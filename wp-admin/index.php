@@ -114,6 +114,35 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <div class="wrap">
 	<h1><?php echo esc_html( $title ); ?></h1>
 
+	<?php
+	if ( ! empty( $_GET['admin_email_remind_later'] ) ) :
+		/** This filter is documented in wp-login.php */
+		$remind_interval = (int) apply_filters( 'admin_email_remind_interval', 3 * DAY_IN_SECONDS );
+		$postponed_time  = get_option( 'admin_email_lifespan' );
+
+		/*
+		 * Calculate how many seconds it's been since the reminder was postponed.
+		 * This allows us to not show it if the query arg is set, but visited due to caches, bookmarks or similar.
+		 */
+		$time_passed = $postponed_time - $remind_interval - time();
+
+		// Only show the dashboard notice if it's been less than a minute since the message was postponed.
+		if ( $time_passed > -60 ) :
+			?>
+		<div class="notice notice-success is-dismissible">
+			<p>
+				<?php
+				printf(
+					/* translators: %1$s: The number of comments. %2$s: The post title. */
+					_n( 'The admin email verification page will reappear after %d day.', 'The admin email verification page will reappear after %d days.', 3 ),
+					number_format_i18n( 3 )
+				);
+				?>
+			</p>
+		</div>
+		<?php endif; ?>
+	<?php endif; ?>
+
 <?php
 if ( has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) :
 	$classes = 'welcome-panel';
