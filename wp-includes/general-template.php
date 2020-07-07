@@ -17,20 +17,25 @@
  *
  * @since 1.5.0
  * @since 5.5.0 A return value was added.
+ * @since 5.5.0 The `$args` parameter was added.
  *
  * @param string $name The name of the specialised header.
+ * @param array  $args Optional. Additional arguments passed to the header template.
+ *                     Default empty array.
  * @return void|false Void on success, false if the template does not exist.
  */
-function get_header( $name = null ) {
+function get_header( $name = null, $args = array() ) {
 	/**
 	 * Fires before the header template file is loaded.
 	 *
 	 * @since 2.1.0
-	 * @since 2.8.0 $name parameter added.
+	 * @since 2.8.0 The `$name` parameter was added.
+	 * @since 5.5.0 The `$args` parameter was added.
 	 *
-	 * @param string|null $name Name of the specific header file to use. null for the default header.
+	 * @param string|null $name Name of the specific header file to use. Null for the default header.
+	 * @param array       $args Additional arguments passed to the header template.
 	 */
-	do_action( 'get_header', $name );
+	do_action( 'get_header', $name, $args );
 
 	$templates = array();
 	$name      = (string) $name;
@@ -40,7 +45,7 @@ function get_header( $name = null ) {
 
 	$templates[] = 'header.php';
 
-	if ( ! locate_template( $templates, true ) ) {
+	if ( ! locate_template( $templates, true, true, $args ) ) {
 		return false;
 	}
 }
@@ -56,20 +61,25 @@ function get_header( $name = null ) {
  *
  * @since 1.5.0
  * @since 5.5.0 A return value was added.
+ * @since 5.5.0 The `$args` parameter was added.
  *
  * @param string $name The name of the specialised footer.
+ * @param array  $args Optional. Additional arguments passed to the footer template.
+ *                     Default empty array.
  * @return void|false Void on success, false if the template does not exist.
  */
-function get_footer( $name = null ) {
+function get_footer( $name = null, $args = array() ) {
 	/**
 	 * Fires before the footer template file is loaded.
 	 *
 	 * @since 2.1.0
-	 * @since 2.8.0 $name parameter added.
+	 * @since 2.8.0 The `$name` parameter was added.
+	 * @since 5.5.0 The `$args` parameter was added.
 	 *
-	 * @param string|null $name Name of the specific footer file to use. null for the default footer.
+	 * @param string|null $name Name of the specific footer file to use. Null for the default footer.
+	 * @param array       $args Additional arguments passed to the footer template.
 	 */
-	do_action( 'get_footer', $name );
+	do_action( 'get_footer', $name, $args );
 
 	$templates = array();
 	$name      = (string) $name;
@@ -79,7 +89,7 @@ function get_footer( $name = null ) {
 
 	$templates[] = 'footer.php';
 
-	if ( ! locate_template( $templates, true ) ) {
+	if ( ! locate_template( $templates, true, true, $args ) ) {
 		return false;
 	}
 }
@@ -95,20 +105,25 @@ function get_footer( $name = null ) {
  *
  * @since 1.5.0
  * @since 5.5.0 A return value was added.
+ * @since 5.5.0 The `$args` parameter was added.
  *
  * @param string $name The name of the specialised sidebar.
+ * @param array  $args Optional. Additional arguments passed to the sidebar template.
+ *                     Default empty array.
  * @return void|false Void on success, false if the template does not exist.
  */
-function get_sidebar( $name = null ) {
+function get_sidebar( $name = null, $args = array() ) {
 	/**
 	 * Fires before the sidebar template file is loaded.
 	 *
 	 * @since 2.2.0
-	 * @since 2.8.0 $name parameter added.
+	 * @since 2.8.0 The `$name` parameter was added.
+	 * @since 5.5.0 The `$args` parameter was added.
 	 *
-	 * @param string|null $name Name of the specific sidebar file to use. null for the default sidebar.
+	 * @param string|null $name Name of the specific sidebar file to use. Null for the default sidebar.
+	 * @param array       $args Additional arguments passed to the sidebar template.
 	 */
-	do_action( 'get_sidebar', $name );
+	do_action( 'get_sidebar', $name, $args );
 
 	$templates = array();
 	$name      = (string) $name;
@@ -118,7 +133,7 @@ function get_sidebar( $name = null ) {
 
 	$templates[] = 'sidebar.php';
 
-	if ( ! locate_template( $templates, true ) ) {
+	if ( ! locate_template( $templates, true, true, $args ) ) {
 		return false;
 	}
 }
@@ -141,12 +156,15 @@ function get_sidebar( $name = null ) {
  *
  * @since 3.0.0
  * @since 5.5.0 A return value was added.
+ * @since 5.5.0 The `$args` parameter was added.
  *
  * @param string $slug The slug name for the generic template.
  * @param string $name The name of the specialised template.
+ * @param array  $args Optional. Additional arguments passed to the template.
+ *                     Default empty array.
  * @return void|false Void on success, false if the template does not exist.
  */
-function get_template_part( $slug, $name = null ) {
+function get_template_part( $slug, $name = null, $args = array() ) {
 	/**
 	 * Fires before the specified template part file is loaded.
 	 *
@@ -154,11 +172,13 @@ function get_template_part( $slug, $name = null ) {
 	 * for the generic template part.
 	 *
 	 * @since 3.0.0
+	 * @since 5.5.0 The `$args` parameter was added.
 	 *
 	 * @param string      $slug The slug name for the generic template.
 	 * @param string|null $name The name of the specialized template.
+	 * @param array       $args Additional arguments passed to the template.
 	 */
-	do_action( "get_template_part_{$slug}", $slug, $name );
+	do_action( "get_template_part_{$slug}", $slug, $name, $args );
 
 	$templates = array();
 	$name      = (string) $name;
@@ -172,14 +192,16 @@ function get_template_part( $slug, $name = null ) {
 	 * Fires before a template part is loaded.
 	 *
 	 * @since 5.2.0
+	 * @since 5.5.0 The `$args` parameter was added.
 	 *
 	 * @param string   $slug      The slug name for the generic template.
 	 * @param string   $name      The name of the specialized template.
 	 * @param string[] $templates Array of template files to search for, in order.
+	 * @param array    $args      Additional arguments passed to the template.
 	 */
-	do_action( 'get_template_part', $slug, $name, $templates );
+	do_action( 'get_template_part', $slug, $name, $templates, $args );
 
-	if ( ! locate_template( $templates, true, false ) ) {
+	if ( ! locate_template( $templates, true, false, $args ) ) {
 		return false;
 	}
 }
@@ -202,7 +224,7 @@ function get_template_part( $slug, $name = null ) {
  * search. To give a few examples of what it can be used for.
  *
  * @since 2.7.0
- * @since 5.2.0 The $args array parameter was added in place of an $echo boolean flag.
+ * @since 5.2.0 The `$args` array parameter was added in place of an `$echo` boolean flag.
  *
  * @param array $args {
  *     Optional. Array of display arguments.
@@ -220,10 +242,13 @@ function get_search_form( $args = array() ) {
 	 *
 	 * @since 2.7.0 as 'get_search_form' action.
 	 * @since 3.6.0
+	 * @since 5.5.0 The `$args` parameter was added.
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/19321
+	 *
+	 * @param array $args The array of arguments for building the search form.
 	 */
-	do_action( 'pre_get_search_form' );
+	do_action( 'pre_get_search_form', $args );
 
 	$echo = true;
 
@@ -262,11 +287,13 @@ function get_search_form( $args = array() ) {
 	 * Filters the HTML format of the search form.
 	 *
 	 * @since 3.6.0
+	 * @since 5.5.0 The `$args` parameter was added.
 	 *
 	 * @param string $format The type of markup to use in the search form.
 	 *                       Accepts 'html5', 'xhtml'.
+	 * @param array  $args   The array of arguments for building the search form.
 	 */
-	$format = apply_filters( 'search_form_format', $format );
+	$format = apply_filters( 'search_form_format', $format, $args );
 
 	$search_form_template = locate_template( 'searchform.php' );
 
@@ -308,10 +335,12 @@ function get_search_form( $args = array() ) {
 	 * Filters the HTML output of the search form.
 	 *
 	 * @since 2.7.0
+	 * @since 5.5.0 The `$args` parameter was added.
 	 *
 	 * @param string $form The search form HTML output.
+	 * @param array  $args The array of arguments for building the search form.
 	 */
-	$result = apply_filters( 'get_search_form', $form );
+	$result = apply_filters( 'get_search_form', $form, $args );
 
 	if ( null === $result ) {
 		$result = $form;
