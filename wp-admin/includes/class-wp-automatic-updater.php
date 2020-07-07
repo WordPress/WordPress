@@ -941,6 +941,32 @@ class WP_Automatic_Updater {
 			return;
 		}
 
+		$unique_failures     = false;
+		$past_failure_emails = get_option( 'auto_plugin_theme_update_emails', array() );
+
+		// When only failures have occurred, an email should only be sent if there are unique failures.
+		// A failure is considered unique if an email has not been sent for an update attempt failure
+		// to a plugin or theme with the same new_version.
+		if ( 'fail' === $type ) {
+			foreach ( $failed_updates as $update_type => $failures ) {
+				foreach ( $failures as $failed_update ) {
+					if ( ! isset( $past_failure_emails[ $failed_update->item->{$update_type} ] ) ) {
+						$unique_failures = true;
+						continue;
+					}
+
+					// Check that the failure represents a new failure based on the new_version.
+					if ( version_compare( $past_failure_emails[ $failed_update->item->{$update_type} ], $failed_update->item->new_version, '<' ) ) {
+						$unique_failures = true;
+					}
+				}
+			}
+
+			if ( ! $unique_failures ) {
+				return;
+			}
+		}
+
 		$body               = array();
 		$successful_plugins = ( ! empty( $successful_updates['plugin'] ) );
 		$successful_themes  = ( ! empty( $successful_updates['theme'] ) );
@@ -1017,7 +1043,8 @@ class WP_Automatic_Updater {
 				$body[] = __( 'These plugins failed to update:' );
 
 				foreach ( $failed_updates['plugin'] as $item ) {
-					$body[] = "- {$item->name}";
+					$body[]                                     = "- {$item->name}";
+					$past_failure_emails[ $item->item->plugin ] = $item->item->new_version;
 				}
 				$body[] = "\n";
 			}
@@ -1027,7 +1054,8 @@ class WP_Automatic_Updater {
 				$body[] = __( 'These themes failed to update:' );
 
 				foreach ( $failed_updates['theme'] as $item ) {
-					$body[] = "- {$item->name}";
+					$body[]                                    = "- {$item->name}";
+					$past_failure_emails[ $item->item->theme ] = $item->item->new_version;
 				}
 				$body[] = "\n";
 			}
@@ -1043,6 +1071,7 @@ class WP_Automatic_Updater {
 
 				foreach ( $successful_updates['plugin'] as $item ) {
 					$body[] = "- {$item->name}";
+					unset( $past_failure_emails[ $item->item->plugin ] );
 				}
 				$body[] = "\n";
 			}
@@ -1053,6 +1082,7 @@ class WP_Automatic_Updater {
 				// List successful updates.
 				foreach ( $successful_updates['theme'] as $item ) {
 					$body[] = "- {$item->name}";
+					unset( $past_failure_emails[ $item->item->theme ] );
 				}
 				$body[] = "\n";
 			}
@@ -1108,7 +1138,11 @@ class WP_Automatic_Updater {
 		 */
 		$email = apply_filters( 'auto_plugin_theme_update_email', $email, $type, $successful_updates, $failed_updates );
 
-		wp_mail( $email['to'], wp_specialchars_decode( $email['subject'] ), $email['body'], $email['headers'] );
+		$result = wp_mail( $email['to'], wp_specialchars_decode( $email['subject'] ), $email['body'], $email['headers'] );
+
+		if ( $result ) {
+			update_option( 'auto_plugin_theme_update_emails', $past_failure_emails );
+		}
 	}
 
 	/**
