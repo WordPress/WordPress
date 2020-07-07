@@ -48,11 +48,6 @@
 	line-height: 1.23076923;
 }
 
-.widgets-holder-wrap .widget-inside label {
-	margin: 0.25em 0 0.5em;
-	display: inline-block;
-}
-
 .widget.widget-dirty .widget-control-close-wrapper {
 	display: none;
 }
@@ -795,6 +790,15 @@ ul.CodeMirror-hints {
 
 /* =Media Queries
 -------------------------------------------------------------- */
+
+@media screen and (max-width: 782px) {
+	.widgets-holder-wrap .widget-inside input[type="checkbox"],
+	.widgets-holder-wrap .widget-inside input[type="radio"],
+	.editwidget .widget-inside input[type="checkbox"], /* Selectors for the "accessibility mode" page. */
+	.editwidget .widget-inside input[type="radio"] {
+		margin: 0.25rem 0.25rem 0.25rem 0;
+	}
+}
 
 @media screen and (max-width: 480px) {
 	div.widget-liquid-left {
