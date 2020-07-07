@@ -1998,7 +1998,8 @@
 	display: block;
 }
 
-.media-modal .imgedit-wrap div.updated {
+.media-modal .imgedit-wrap div.updated, /* Back-compat for pre-5.5 */
+.media-modal .imgedit-wrap .notice {
 	margin: 0;
 	margin-bottom: 16px;
 }

@@ -5,9 +5,10 @@
  * @output wp-admin/js/image-edit.js
  */
 
- /* global imageEditL10n, ajaxurl, confirm */
+ /* global ajaxurl, confirm */
 
 (function($) {
+	var __ = wp.i18n.__;
 
 	/**
 	 * Contains all the methods to initialise and control the image editor.
@@ -137,28 +138,34 @@
 			}
 		});
 
-		$( document ).on( 'image-editor-image-loaded', this.focusManager );
+		$( document ).on( 'image-editor-ui-ready', this.focusManager );
 	},
 
 	/**
 	 * Toggles the wait/load icon in the editor.
 	 *
 	 * @since 2.9.0
+	 * @since 5.5.0 Added the triggerUIReady parameter.
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid The post ID.
-	 * @param {number} toggle Is 0 or 1, fades the icon in then 1 and out when 0.
+	 * @param {number}  postid         The post ID.
+	 * @param {number}  toggle         Is 0 or 1, fades the icon in when 1 and out when 0.
+	 * @param {boolean} triggerUIReady Whether to trigger a custom event when the UI is ready. Default false.
 	 *
 	 * @return {void}
 	 */
-	toggleEditor : function(postid, toggle) {
+	toggleEditor: function( postid, toggle, triggerUIReady ) {
 		var wait = $('#imgedit-wait-' + postid);
 
 		if ( toggle ) {
 			wait.fadeIn( 'fast' );
 		} else {
-			wait.fadeOut('fast');
+			wait.fadeOut( 'fast', function() {
+				if ( triggerUIReady ) {
+					$( document ).trigger( 'image-editor-ui-ready' );
+				}
+			} );
 		}
 	},
 
@@ -402,10 +409,16 @@
 
 				t.toggleEditor(postid, 0);
 			})
-			.on('error', function() {
-				$('#imgedit-crop-' + postid).empty().append('<div class="error"><p>' + imageEditL10n.error + '</p></div>');
-				t.toggleEditor(postid, 0);
-			})
+			.on( 'error', function() {
+				var errorMessage = __( 'Could not load the preview image. Please reload the page and try again.' );
+
+				$( '#imgedit-crop-' + postid )
+					.empty()
+					.append( '<div class="notice notice-error" tabindex="-1" role="alert"><p>' + errorMessage + '</p></div>' );
+
+				t.toggleEditor( postid, 0, true );
+				wp.a11y.speak( errorMessage, 'assertive' );
+			} )
 			.attr('src', ajaxurl + '?' + $.param(data));
 	},
 	/**
@@ -466,14 +479,24 @@
 		}
 
 		t.toggleEditor(postid, 1);
-		$.post(ajaxurl, data, function(r) {
-			$('#image-editor-' + postid).empty().append(r);
-			t.toggleEditor(postid, 0);
+		$.post( ajaxurl, data, function( response ) {
+			$( '#image-editor-' + postid ).empty().append( response.data.html );
+			t.toggleEditor( postid, 0, true );
 			// Refresh the attachment model so that changes propagate.
 			if ( t._view ) {
 				t._view.refresh();
 			}
-		});
+		} ).done( function( response ) {
+			// Whether the executed action was `scale` or `restore`, the response does have a message.
+			if ( response && response.data.message.msg ) {
+				wp.a11y.speak( response.data.message.msg );
+				return;
+			}
+
+			if ( response && response.data.message.error ) {
+				wp.a11y.speak( response.data.message.error );
+			}
+		} );
 	},
 
 	/**
@@ -511,27 +534,30 @@
 			'do': 'save'
 		};
 		// Post the image edit data to the backend.
-		$.post(ajaxurl, data, function(r) {
-			// Read the response.
-			var ret = JSON.parse(r);
-
+		$.post( ajaxurl, data, function( response ) {
 			// If a response is returned, close the editor and show an error.
-			if ( ret.error ) {
-				$('#imgedit-response-' + postid).html('<div class="error"><p>' + ret.error + '</p></div>');
+			if ( response.data.error ) {
+				$( '#imgedit-response-' + postid )
+					.html( '<div class="notice notice-error" tabindex="-1" role="alert"><p>' + response.data.error + '</p></div>' );
+
 				imageEdit.close(postid);
+				wp.a11y.speak( response.data.error );
 				return;
 			}
 
-			if ( ret.fw && ret.fh ) {
-				$('#media-dims-' + postid).html( ret.fw + ' &times; ' + ret.fh );
+			if ( response.data.fw && response.data.fh ) {
+				$( '#media-dims-' + postid ).html( response.data.fw + ' &times; ' + response.data.fh );
 			}
 
-			if ( ret.thumbnail ) {
-				$('.thumbnail', '#thumbnail-head-' + postid).attr('src', ''+ret.thumbnail);
+			if ( response.data.thumbnail ) {
+				$( '.thumbnail', '#thumbnail-head-' + postid ).attr( 'src', '' + response.data.thumbnail );
 			}
 
-			if ( ret.msg ) {
-				$('#imgedit-response-' + postid).html('<div class="updated"><p>' + ret.msg + '</p></div>');
+			if ( response.data.msg ) {
+				$( '#imgedit-response-' + postid )
+					.html( '<div class="notice notice-success" tabindex="-1" role="alert"><p>' + response.data.msg + '</p></div>' );
+
+				wp.a11y.speak( response.data.msg );
 			}
 
 			if ( self._view ) {
@@ -559,8 +585,11 @@
 	open : function( postid, nonce, view ) {
 		this._view = view;
 
-		var dfd, data, elem = $('#image-editor-' + postid), head = $('#media-head-' + postid),
-			btn = $('#imgedit-open-btn-' + postid), spin = btn.siblings('.spinner');
+		var dfd, data,
+			elem = $( '#image-editor-' + postid ),
+			head = $( '#media-head-' + postid ),
+			btn = $( '#imgedit-open-btn-' + postid ),
+			spin = btn.siblings( '.spinner' );
 
 		/*
 		 * Instead of disabling the button, which causes a focus loss and makes screen
@@ -579,23 +608,37 @@
 			'do': 'open'
 		};
 
-		dfd = $.ajax({
+		dfd = $.ajax( {
 			url:  ajaxurl,
 			type: 'post',
 			data: data,
 			beforeSend: function() {
 				btn.addClass( 'button-activated' );
 			}
-		}).done(function( html ) {
-			elem.html( html );
-			head.fadeOut('fast', function(){
-				elem.fadeIn('fast');
+		} ).done( function( response ) {
+			var errorMessage;
+
+			if ( '-1' === response ) {
+				errorMessage = __( 'Could not load the preview image.' );
+				elem.html( '<div class="notice notice-error" tabindex="-1" role="alert"><p>' + errorMessage + '</p></div>' );
+			}
+
+			if ( response.data && response.data.html ) {
+				elem.html( response.data.html );
+			}
+
+			head.fadeOut( 'fast', function() {
+				elem.fadeIn( 'fast', function() {
+					if ( errorMessage ) {
+						$( document ).trigger( 'image-editor-ui-ready' );
+					}
+				} );
 				btn.removeClass( 'button-activated' );
 				spin.removeClass( 'is-active' );
-			});
+			} );
 			// Initialise the Image Editor now that everything is ready.
 			imageEdit.init( postid );
-		});
+		} );
 
 		return dfd;
 	},
@@ -622,9 +665,7 @@
 		this.initCrop(postid, img, parent);
 		this.setCropSelection( postid, { 'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0, 'width': img.innerWidth(), 'height': img.innerHeight() } );
 
-		this.toggleEditor(postid, 0);
-
-		$( document ).trigger( 'image-editor-image-loaded' );
+		this.toggleEditor( postid, 0, true );
 	},
 
 	/**
@@ -636,12 +677,19 @@
 	 */
 	focusManager: function() {
 		/*
-		 * Editor is ready, move focus to the first focusable element. Since the
-		 * DOM update is pretty large, the timeout helps browsers update their
+		 * Editor is ready. Move focus to one of the admin alert notices displayed
+		 * after a user action or to the first focusable element. Since the DOM
+		 * update is pretty large, the timeout helps browsers update their
 		 * accessibility tree to better support assistive technologies.
 		 */
 		setTimeout( function() {
-			$( '.imgedit-wrap' ).find( ':tabbable:first' ).focus();
+			var elementToSetFocusTo = $( '.notice[role="alert"]' );
+
+			if ( ! elementToSetFocusTo.length ) {
+				elementToSetFocusTo = $( '.imgedit-wrap' ).find( ':tabbable:first' );
+			}
+
+			elementToSetFocusTo.focus();
 		}, 100 );
 	},
 
