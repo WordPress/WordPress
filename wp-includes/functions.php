@@ -2533,8 +2533,25 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 
 		// The (resized) image files would have name and extension, and will be in the uploads dir.
 		if ( $name && $ext && @is_dir( $dir ) && false !== strpos( $dir, $upload_dir['basedir'] ) ) {
-			// List of all files and directories contained in $dir.
-			$files = @scandir( $dir );
+			/**
+			 * Filters the file list used for calculating a unique filename for a newly added file.
+			 *
+			 * Returning an array from the filter will effectively short-circuit retrieval
+			 * from the filesystem and return the passed value instead.
+			 *
+			 * @since 5.5.0
+			 *
+			 * @param array|null $files    The list of files to use for filename comparisons.
+			 *                             Default null (to retrieve the list from the filesystem).
+			 * @param string     $dir      The directory for the new file.
+			 * @param string     $filename The proposed filename for the new file.
+			 */
+			$files = apply_filters( 'pre_wp_unique_filename_file_list', null, $dir, $filename );
+
+			if ( null === $files ) {
+				// List of all files and directories contained in $dir.
+				$files = @scandir( $dir );
+			}
 
 			if ( ! empty( $files ) ) {
 				// Remove "dot" dirs.
