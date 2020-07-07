@@ -2166,17 +2166,21 @@ function upgrade_530() {
  * @since 5.5.0
  */
 function upgrade_550() {
+	global $wp_current_db_version;
+
 	update_option( 'finished_updating_comment_type', 0 );
 	wp_schedule_single_event( time() + ( 1 * MINUTE_IN_SECONDS ), 'wp_update_comment_type_batch' );
 
-	// Use more clear and inclusive language.
-	$blocklist = get_option( 'blacklist_keys', '' );
-	update_option( 'blocklist_keys', $blocklist );
-	delete_option( 'blacklist_keys' );
+	if ( $wp_current_db_version < 48121 ) {
+		// Use more clear and inclusive language.
+		$blocklist = get_option( 'blacklist_keys', '' );
+		update_option( 'blocklist_keys', $blocklist );
+		delete_option( 'blacklist_keys' );
 
-	$comment_previously_approved = get_option( 'comment_whitelist', '' );
-	update_option( 'comment_previously_approved', $comment_previously_approved );
-	delete_option( 'comment_whitelist' );
+		$comment_previously_approved = get_option( 'comment_whitelist', '' );
+		update_option( 'comment_previously_approved', $comment_previously_approved );
+		delete_option( 'comment_whitelist' );
+	}
 }
 
 /**
