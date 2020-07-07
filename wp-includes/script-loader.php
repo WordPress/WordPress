@@ -1357,13 +1357,7 @@ function wp_default_scripts( $scripts ) {
 
 		$scripts->add( 'media-grid', "/wp-includes/js/media-grid$suffix.js", array( 'media-editor' ), false, 1 );
 		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery' ), false, 1 );
-		did_action( 'init' ) && $scripts->localize(
-			'media',
-			'attachMediaBoxL10n',
-			array(
-				'error' => __( 'An error has occurred. Please reload the page and try again.' ),
-			)
-		);
+		$scripts->set_translations( 'media' );
 
 		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array( 'jquery', 'jquery-ui-core', 'json2', 'imgareaselect', 'wp-a11y' ), false, 1 );
 		$scripts->set_translations( 'image-edit' );

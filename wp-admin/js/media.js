@@ -10,7 +10,7 @@
  * @requires jQuery
  */
 
-/* global ajaxurl, attachMediaBoxL10n, _wpMediaGridSettings, showNotice, findPosts */
+/* global ajaxurl, _wpMediaGridSettings, showNotice, findPosts */
 
 ( function( $ ){
 	window.findPosts = {
@@ -124,12 +124,12 @@
 				spinner.removeClass( 'is-active' );
 			}).done( function( x ) {
 				if ( ! x.success ) {
-					$( '#find-posts-response' ).text( attachMediaBoxL10n.error );
+					$( '#find-posts-response' ).text( wp.i18n.__( 'An error has occurred. Please reload the page and try again.' ) );
 				}
 
 				$( '#find-posts-response' ).html( x.data );
 			}).fail( function() {
-				$( '#find-posts-response' ).text( attachMediaBoxL10n.error );
+				$( '#find-posts-response' ).text( wp.i18n.__( 'An error has occurred. Please reload the page and try again.' ) );
 			});
 		}
 	};
