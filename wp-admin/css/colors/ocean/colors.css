@@ -137,13 +137,6 @@ textarea:focus {
   box-shadow: inset 0 2px 5px -3px #253426;
 }
 
-.wp-core-ui .button-primary[disabled], .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary.button-primary-disabled, .wp-core-ui .button-primary.disabled {
-  color: #c7d1c8 !important;
-  background: #86a989 !important;
-  border-color: #86a989 !important;
-  text-shadow: none !important;
-}
-
 .wp-core-ui .button-group > .button.active {
   border-color: #9ebaa0;
 }
