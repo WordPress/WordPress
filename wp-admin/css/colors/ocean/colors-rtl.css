@@ -578,3 +578,107 @@ div#wp-responsive-toggle a:before {
 .mce-container.mce-menu .mce-menu-item-preview.mce-active {
   background: #9ebaa0;
 }
+
+/* Customizer */
+#customize-controls .control-section:hover > .accordion-section-title,
+#customize-controls .control-section .accordion-section-title:hover,
+#customize-controls .control-section.open .accordion-section-title,
+#customize-controls .control-section .accordion-section-title:focus {
+  color: #9ebaa0;
+  border-right-color: #9ebaa0;
+}
+
+.customize-controls-close:focus,
+.customize-controls-close:hover,
+.customize-controls-preview-toggle:focus,
+.customize-controls-preview-toggle:hover {
+  color: #9ebaa0;
+  border-top-color: #9ebaa0;
+}
+
+.customize-panel-back:hover,
+.customize-panel-back:focus,
+.customize-section-back:hover,
+.customize-section-back:focus {
+  color: #9ebaa0;
+  border-right-color: #9ebaa0;
+}
+
+.customize-screen-options-toggle:hover,
+.customize-screen-options-toggle:active,
+.customize-screen-options-toggle:focus,
+.active-menu-screen-options .customize-screen-options-toggle,
+#customize-controls .customize-info.open.active-menu-screen-options .customize-help-toggle:hover,
+#customize-controls .customize-info.open.active-menu-screen-options .customize-help-toggle:active,
+#customize-controls .customize-info.open.active-menu-screen-options .customize-help-toggle:focus {
+  color: #9ebaa0;
+}
+
+.wp-customizer .menu-item .submitbox .submitdelete:focus,
+.customize-screen-options-toggle:focus:before,
+#customize-controls .customize-info .customize-help-toggle:focus:before,
+.wp-customizer button:focus .toggle-indicator:before,
+.menu-delete:focus,
+.menu-item-bar .item-delete:focus:before,
+#available-menu-items .item-add:focus:before {
+  box-shadow: 0 0 0 1px #bccfbd, 0 0 2px 1px #9ebaa0;
+}
+
+#customize-controls .customize-info.open .customize-help-toggle,
+#customize-controls .customize-info .customize-help-toggle:focus,
+#customize-controls .customize-info .customize-help-toggle:hover {
+  color: #9ebaa0;
+}
+
+.control-panel-themes .customize-themes-section-title:focus,
+.control-panel-themes .customize-themes-section-title:hover {
+  border-right-color: #9ebaa0;
+  color: #9ebaa0;
+}
+
+.control-panel-themes .theme-section .customize-themes-section-title.selected:after {
+  background: #9ebaa0;
+}
+
+.control-panel-themes .customize-themes-section-title.selected {
+  color: #9ebaa0;
+}
+
+#customize-theme-controls .control-section:hover > .accordion-section-title:after,
+#customize-theme-controls .control-section .accordion-section-title:hover:after,
+#customize-theme-controls .control-section.open .accordion-section-title:after,
+#customize-theme-controls .control-section .accordion-section-title:focus:after,
+#customize-outer-theme-controls .control-section:hover > .accordion-section-title:after,
+#customize-outer-theme-controls .control-section .accordion-section-title:hover:after,
+#customize-outer-theme-controls .control-section.open .accordion-section-title:after,
+#customize-outer-theme-controls .control-section .accordion-section-title:focus:after {
+  color: #9ebaa0;
+}
+
+.customize-control .attachment-media-view .button-add-media:focus {
+  background-color: #fbfbfc;
+  border-color: #9ebaa0;
+  border-style: solid;
+  box-shadow: 0 0 0 1px #9ebaa0;
+  outline: 2px solid transparent;
+}
+
+.wp-full-overlay-footer .devices button:focus,
+.wp-full-overlay-footer .devices button.active:hover {
+  border-bottom-color: #9ebaa0;
+}
+
+.wp-core-ui .wp-full-overlay .collapse-sidebar:hover,
+.wp-core-ui .wp-full-overlay .collapse-sidebar:focus {
+  color: #9ebaa0;
+}
+
+.wp-full-overlay .collapse-sidebar:hover .collapse-sidebar-arrow,
+.wp-full-overlay .collapse-sidebar:focus .collapse-sidebar-arrow {
+  box-shadow: 0 0 0 1px #bccfbd, 0 0 2px 1px #9ebaa0;
+}
+
+.wp-full-overlay-footer .devices button:hover:before,
+.wp-full-overlay-footer .devices button:focus:before {
+  color: #9ebaa0;
+}
