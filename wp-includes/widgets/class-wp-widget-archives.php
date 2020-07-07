@@ -125,14 +125,7 @@ class WP_Widget_Archives extends WP_Widget {
 		} else {
 			$format = current_theme_supports( 'html5', 'navigation-widgets' ) ? 'html5' : 'xhtml';
 
-			/**
-			 * Filters the HTML format of widgets with navigation links.
-			 *
-			 * @since 5.5.0
-			 *
-			 * @param string $format The type of markup to use in widgets with navigation links.
-			 *                       Accepts 'html5', 'xhtml'.
-			 */
+			/** This filter is documented in wp-includes/widgets/class-wp-nav-menu-widget.php */
 			$format = apply_filters( 'navigation_widgets_format', $format );
 
 			if ( 'html5' === $format ) {
