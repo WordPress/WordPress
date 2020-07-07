@@ -1260,15 +1260,7 @@ function wp_default_scripts( $scripts ) {
 		$scripts->set_translations( 'inline-edit-tax' );
 
 		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery', 'jquery-ui-core', 'thickbox' ), false, 1 );
-		did_action( 'init' ) && $scripts->localize(
-			'plugin-install',
-			'plugininstallL10n',
-			array(
-				'plugin_information' => __( 'Plugin:' ),
-				'plugin_modal_label' => __( 'Plugin details' ),
-				'ays'                => __( 'Are you sure you want to install this plugin?' ),
-			)
-		);
+		$scripts->set_translations( 'plugin-install' );
 
 		$scripts->add( 'site-health', "/wp-admin/js/site-health$suffix.js", array( 'clipboard', 'jquery', 'wp-util', 'wp-a11y' ), false, 1 );
 		$scripts->set_translations( 'site-health' );
