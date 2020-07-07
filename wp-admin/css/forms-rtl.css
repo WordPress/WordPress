@@ -325,7 +325,7 @@ input[type="radio"].disabled:checked:before {
 	background-size: 16px 16px;
 	cursor: pointer;
 	vertical-align: middle;
-}e
+}
 
 .wp-core-ui select:hover {
 	color: #007cba;
