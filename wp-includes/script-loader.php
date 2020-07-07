@@ -1312,16 +1312,7 @@ function wp_default_scripts( $scripts ) {
 		 * see https://core.trac.wordpress.org/ticket/42321
 		 */
 		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-lists', 'postbox', 'json2', 'underscore' ) );
-		did_action( 'init' ) && $scripts->localize(
-			'nav-menu',
-			'navMenuL10n',
-			array(
-				'noResultsFound' => __( 'No results found.' ),
-				'warnDeleteMenu' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
-				'saveAlert'      => __( 'The changes you made will be lost if you navigate away from this page.' ),
-				'untitled'       => _x( '(no label)', 'missing menu item navigation label' ),
-			)
-		);
+		$scripts->set_translations( 'nav-menu' );
 
 		$scripts->add( 'custom-header', '/wp-admin/js/custom-header.js', array( 'jquery-masonry' ), false, 1 );
 		$scripts->add( 'custom-background', "/wp-admin/js/custom-background$suffix.js", array( 'wp-color-picker', 'media-views' ), false, 1 );
