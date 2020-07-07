@@ -210,6 +210,15 @@ final class WP_Taxonomy {
 	public $rest_controller_class;
 
 	/**
+	 * The default term name for this taxonomy. If you pass an array you have
+	 * to set 'name' and optionally 'slug' and 'description'.
+	 *
+	 * @since 5.5.0
+	 * @var array|string
+	 */
+	public $default_term;
+
+	/**
 	 * The controller instance for this taxonomy's REST API endpoints.
 	 *
 	 * Lazily computed. Should be accessed using {@see WP_Taxonomy::get_rest_controller()}.
@@ -288,6 +297,7 @@ final class WP_Taxonomy {
 			'show_in_rest'          => false,
 			'rest_base'             => false,
 			'rest_controller_class' => false,
+			'default_term'          => null,
 			'_builtin'              => false,
 		);
 
@@ -384,6 +394,21 @@ final class WP_Taxonomy {
 					$args['meta_box_sanitize_cb'] = 'taxonomy_meta_box_sanitize_cb_input';
 					break;
 			}
+		}
+
+		// Default taxonomy term.
+		if ( ! empty( $args['default_term'] ) ) {
+			if ( ! is_array( $args['default_term'] ) ) {
+				$args['default_term'] = array( 'name' => $args['default_term'] );
+			}
+			$args['default_term'] = wp_parse_args(
+				$args['default_term'],
+				array(
+					'name'        => '',
+					'slug'        => '',
+					'description' => '',
+				)
+			);
 		}
 
 		foreach ( $args as $property_name => $property_value ) {

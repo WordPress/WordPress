@@ -4033,6 +4033,15 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		wp_set_post_tags( $post_ID, $postarr['tags_input'] );
 	}
 
+	// Add default term for all associated custom taxonomies.
+	if ( 'auto-draft' !== $post_status ) {
+		foreach ( get_object_taxonomies( $post_type, 'object' ) as $taxonomy => $tax_object ) {
+			if ( ! empty( $tax_object->default_term ) && ( empty( $postarr['tax_input'] ) || ! isset( $postarr['tax_input'][ $taxonomy ] ) ) ) {
+				$postarr['tax_input'][ $taxonomy ] = array();
+			}
+		}
+	}
+
 	// New-style support for all custom taxonomies.
 	if ( ! empty( $postarr['tax_input'] ) ) {
 		foreach ( $postarr['tax_input'] as $taxonomy => $tags ) {

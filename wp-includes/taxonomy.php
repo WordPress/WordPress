@@ -335,6 +335,7 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  *              arguments to register the Taxonomy in REST API.
  * @since 5.1.0 Introduced `meta_box_sanitize_cb` argument.
  * @since 5.4.0 Added the registered taxonomy object as a return value.
+ * @since 5.5.0 Introduced `default_term` argument.
  *
  * @global array $wp_taxonomies Registered taxonomies.
  *
@@ -406,6 +407,13 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  *                                                to post types, which confirms that the objects are published before
  *                                                counting them. Default _update_generic_term_count() for taxonomies
  *                                                attached to other object types, such as users.
+ *     @type string|array  $default_term {
+ *         Default term to be used for the taxonomy.
+ *
+ *         @type string $name         Name of default term.
+ *         @type string $slug         Slug for default term. Default empty.
+ *         @type string $description  Description for default term. Default empty.
+ *     }
  *     @type bool          $_builtin              This taxonomy is a "built-in" taxonomy. INTERNAL USE ONLY!
  *                                                Default false.
  * }
@@ -431,6 +439,27 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	$wp_taxonomies[ $taxonomy ] = $taxonomy_object;
 
 	$taxonomy_object->add_hooks();
+
+	// Add default term.
+	if ( ! empty( $taxonomy_object->default_term ) ) {
+		if ( $term = term_exists( $taxonomy_object->default_term['name'], $taxonomy ) ) {
+			update_option( 'default_taxonomy_' . $taxonomy_object->name, $term['term_id'] );
+		} else {
+			$term = wp_insert_term(
+				$taxonomy_object->default_term['name'],
+				$taxonomy,
+				array(
+					'slug'        => sanitize_title( $taxonomy_object->default_term['slug'] ),
+					'description' => $taxonomy_object->default_term['description'],
+				)
+			);
+
+			// Update term id in options.
+			if ( ! is_wp_error( $term ) ) {
+				update_option( 'default_taxonomy_' . $taxonomy_object->name, $term['term_id'] );
+			}
+		}
+	}
 
 	/**
 	 * Fires after a taxonomy is registered.
@@ -2480,6 +2509,14 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 
 	if ( ! is_array( $terms ) ) {
 		$terms = array( $terms );
+	}
+
+	// Add default term.
+	$taxonomy_obj = get_taxonomy( $taxonomy );
+
+	// Default term for this taxonomy.
+	if ( empty( $terms ) && ! empty( $taxonomy_obj->default_term ) && ! empty( $default_term_id = get_option( 'default_taxonomy_' . $taxonomy ) ) ) {
+		$terms[] = (int) $default_term_id;
 	}
 
 	if ( ! $append ) {
