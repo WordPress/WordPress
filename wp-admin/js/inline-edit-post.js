@@ -5,7 +5,7 @@
  * @output wp-admin/js/inline-edit-post.js
  */
 
-/* global inlineEditL10n, ajaxurl, typenow, inlineEditPost */
+/* global ajaxurl, typenow, inlineEditPost */
 
 window.wp = window.wp || {};
 
@@ -198,8 +198,8 @@ window.wp = window.wp || {};
 			if ( $(this).prop('checked') ) {
 				c = false;
 				var id = $(this).val(), theTitle;
-				theTitle = $('#inline_'+id+' .post_title').html() || inlineEditL10n.notitle;
-				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton" title="'+inlineEditL10n.ntdeltitle+'">X</a>'+theTitle+'</div>';
+				theTitle = $('#inline_'+id+' .post_title').html() || wp.i18n.__( '(no title)' );
+				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton" title="'+ wp.i18n.__( 'Remove From Bulk Edit' ) +'">X</a>'+theTitle+'</div>';
 			}
 		});
 
@@ -327,7 +327,7 @@ window.wp = window.wp || {};
 			var terms = $(this),
 				taxname = $(this).attr('id').replace('_' + id, ''),
 				textarea = $('textarea.tax_input_' + taxname, editRow),
-				comma = inlineEditL10n.comma;
+				comma = wp.i18n._x( ',', 'tag delimiter' ).trim();
 
 			terms.find( 'img' ).replaceWith( function() { return this.alt; } );
 			terms = terms.text();
@@ -431,7 +431,7 @@ window.wp = window.wp || {};
 							$( this ).find( '.editinline' )
 								.attr( 'aria-expanded', 'false' )
 								.focus();
-							wp.a11y.speak( inlineEditL10n.saved );
+							wp.a11y.speak( wp.i18n.__( 'Changes saved.' ) );
 						});
 					} else {
 						r = r.replace( /<.[^<>]*?>/g, '' );
@@ -441,8 +441,8 @@ window.wp = window.wp || {};
 					}
 				} else {
 					$errorNotice.removeClass( 'hidden' );
-					$error.html( inlineEditL10n.error );
-					wp.a11y.speak( inlineEditL10n.error );
+					$error.text( wp.i18n.__( 'Error while saving the changes.' ) );
+					wp.a11y.speak( wp.i18n.__( 'Error while saving the changes.' ) );
 				}
 			},
 		'html');

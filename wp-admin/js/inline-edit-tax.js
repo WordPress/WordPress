@@ -4,7 +4,7 @@
  * @output wp-admin/js/inline-edit-tax.js
  */
 
-/* global inlineEditL10n, ajaxurl, inlineEditTax */
+/* global ajaxurl, inlineEditTax */
 
 window.wp = window.wp || {};
 
@@ -224,7 +224,7 @@ window.inlineEditTax = {
 							row.find( '.editinline' )
 								.attr( 'aria-expanded', 'false' )
 								.focus();
-							wp.a11y.speak( inlineEditL10n.saved );
+							wp.a11y.speak( wp.i18n.__( 'Changes saved.' ) );
 						});
 
 					} else {
@@ -238,8 +238,8 @@ window.inlineEditTax = {
 					}
 				} else {
 					$errorNotice.removeClass( 'hidden' );
-					$error.html( inlineEditL10n.error );
-					wp.a11y.speak( inlineEditL10n.error );
+					$error.text( wp.i18n.__( 'Error while saving the changes.' ) );
+					wp.a11y.speak( wp.i18n.__( 'Error while saving the changes.' ) );
 				}
 			}
 		);

@@ -1254,27 +1254,10 @@ function wp_default_scripts( $scripts ) {
 		$scripts->add( 'theme', "/wp-admin/js/theme$suffix.js", array( 'wp-backbone', 'wp-a11y', 'customize-base' ), false, 1 );
 
 		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'tags-suggest', 'wp-a11y' ), false, 1 );
-		did_action( 'init' ) && $scripts->localize(
-			'inline-edit-post',
-			'inlineEditL10n',
-			array(
-				'error'      => __( 'Error while saving the changes.' ),
-				'ntdeltitle' => __( 'Remove From Bulk Edit' ),
-				'notitle'    => __( '(no title)' ),
-				'comma'      => trim( _x( ',', 'tag delimiter' ) ),
-				'saved'      => __( 'Changes saved.' ),
-			)
-		);
+		$scripts->set_translations( 'inline-edit-post' );
 
 		$scripts->add( 'inline-edit-tax', "/wp-admin/js/inline-edit-tax$suffix.js", array( 'jquery', 'wp-a11y' ), false, 1 );
-		did_action( 'init' ) && $scripts->localize(
-			'inline-edit-tax',
-			'inlineEditL10n',
-			array(
-				'error' => __( 'Error while saving the changes.' ),
-				'saved' => __( 'Changes saved.' ),
-			)
-		);
+		$scripts->set_translations( 'inline-edit-tax' );
 
 		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery', 'jquery-ui-core', 'thickbox' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
