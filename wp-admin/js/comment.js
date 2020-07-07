@@ -2,7 +2,7 @@
  * @output wp-admin/js/comment.js
  */
 
-/* global postboxes, commentL10n */
+/* global postboxes */
 
 /**
  * Binds to the document ready event.
@@ -84,8 +84,9 @@ jQuery(document).ready( function($) {
 		}
 
 		$timestamp.html(
-			commentL10n.submittedOn + ' <b>' +
-			commentL10n.dateFormat
+			wp.i18n.__( 'Submitted on:' ) + ' <b>' +
+			/* translators: 1: Month, 2: Day, 3: Year, 4: Hour, 5: Minute. */
+			wp.i18n.__( '%1$s %2$s, %3$s at %4$s:%5$s' )
 				.replace( '%1$s', $( 'option[value="' + mm + '"]', '#mm' ).attr( 'data-text' ) )
 				.replace( '%2$s', parseInt( jj, 10 ) )
 				.replace( '%3$s', aa )

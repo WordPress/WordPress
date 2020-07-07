@@ -1224,17 +1224,8 @@ function wp_default_scripts( $scripts ) {
 
 		$scripts->add( 'link', "/wp-admin/js/link$suffix.js", array( 'wp-lists', 'postbox' ), false, 1 );
 
-		$scripts->add( 'comment', "/wp-admin/js/comment$suffix.js", array( 'jquery', 'postbox' ) );
-		$scripts->add_data( 'comment', 'group', 1 );
-		did_action( 'init' ) && $scripts->localize(
-			'comment',
-			'commentL10n',
-			array(
-				'submittedOn' => __( 'Submitted on:' ),
-				/* translators: 1: Month, 2: Day, 3: Year, 4: Hour, 5: Minute. */
-				'dateFormat'  => __( '%1$s %2$s, %3$s at %4$s:%5$s' ),
-			)
-		);
+		$scripts->add( 'comment', "/wp-admin/js/comment$suffix.js", array( 'jquery', 'postbox' ), false, 1 );
+		$scripts->set_translations( 'comment' );
 
 		$scripts->add( 'admin-gallery', "/wp-admin/js/gallery$suffix.js", array( 'jquery-ui-sortable' ) );
 
