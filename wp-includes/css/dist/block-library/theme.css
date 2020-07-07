@@ -2,10 +2,18 @@
  * Colors
  */
 /**
+ * Deprecated colors.
+ * Please avoid using these.
+ */
+/**
  * Breakpoints & Media Queries
  */
 /**
  * Colors
+ */
+/**
+ * Deprecated colors.
+ * Please avoid using these.
  */
 /**
  * Fonts & basic variables.
@@ -73,9 +81,9 @@
 .wp-block-code {
   font-family: Menlo, Consolas, monaco, monospace;
   font-size: 15px;
-  color: #23282d;
+  color: #1e1e1e;
   padding: 0.8em 1em;
-  border: 1px solid #e2e4e7;
+  border: 1px solid #ddd;
   border-radius: 4px; }
 
 .wp-block-embed figcaption {

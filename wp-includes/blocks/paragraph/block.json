@@ -27,6 +27,7 @@
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"className": false,
 		"lightBlockWrapper": true,
 		"__experimentalColor": {

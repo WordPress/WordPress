@@ -6,5 +6,8 @@
 			"type": "number",
 			"default": 100
 		}
+	},
+	"supports": {
+		"anchor": true
 	}
 }

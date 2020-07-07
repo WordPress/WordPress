@@ -78,6 +78,7 @@
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"align": [
 			"wide",
 			"full"

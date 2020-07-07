@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockDirectory"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 441);
+/******/ 	return __webpack_require__(__webpack_require__.s = 443);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -101,14 +101,69 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockDirectory"] =
 
 /***/ }),
 
-/***/ 12:
+/***/ 10:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blocks"]; }());
 
 /***/ }),
 
-/***/ 130:
+/***/ 13:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
+var arrayWithHoles = __webpack_require__(38);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
+function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__(29);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
+var nonIterableRest = __webpack_require__(39);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
+
+
+
+
+function _slicedToArray(arr, i) {
+  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
+}
+
+/***/ }),
+
+/***/ 131:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -166,7 +221,7 @@ function Icon(_ref) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(42);
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
@@ -189,62 +244,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(38);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(39);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
-}
-
-/***/ }),
-
-/***/ 16:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -264,7 +264,7 @@ function _arrayWithoutHoles(arr) {
 var iterableToArray = __webpack_require__(35);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
+var unsupportedIterableToArray = __webpack_require__(29);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -295,13 +295,6 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 255:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["editPost"]; }());
-
-/***/ }),
-
 /***/ 26:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -319,25 +312,14 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 28:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 260:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
+(function() { module.exports = this["wp"]["editPost"]; }());
 
 /***/ }),
 
-/***/ 281:
+/***/ 285:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -362,7 +344,7 @@ var starFilled = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createE
 
 /***/ }),
 
-/***/ 282:
+/***/ 286:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -389,10 +371,35 @@ var starEmpty = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEl
 
 /***/ }),
 
+/***/ 29:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
+/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+}
+
+/***/ }),
+
 /***/ 3:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["components"]; }());
+
+/***/ }),
+
+/***/ 30:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
@@ -443,7 +450,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 42:
+/***/ 41:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -465,7 +472,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 441:
+/***/ 443:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -477,7 +484,6 @@ var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "isRequestingDownloadableBlocks", function() { return isRequestingDownloadableBlocks; });
 __webpack_require__.d(selectors_namespaceObject, "getDownloadableBlocks", function() { return selectors_getDownloadableBlocks; });
-__webpack_require__.d(selectors_namespaceObject, "hasInstallBlocksPermission", function() { return selectors_hasInstallBlocksPermission; });
 __webpack_require__.d(selectors_namespaceObject, "getInstalledBlockTypes", function() { return getInstalledBlockTypes; });
 __webpack_require__.d(selectors_namespaceObject, "getNewBlockTypes", function() { return getNewBlockTypes; });
 __webpack_require__.d(selectors_namespaceObject, "getUnusedBlockTypes", function() { return getUnusedBlockTypes; });
@@ -490,7 +496,6 @@ var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "fetchDownloadableBlocks", function() { return fetchDownloadableBlocks; });
 __webpack_require__.d(actions_namespaceObject, "receiveDownloadableBlocks", function() { return receiveDownloadableBlocks; });
-__webpack_require__.d(actions_namespaceObject, "setInstallBlocksPermission", function() { return setInstallBlocksPermission; });
 __webpack_require__.d(actions_namespaceObject, "installBlockType", function() { return actions_installBlockType; });
 __webpack_require__.d(actions_namespaceObject, "uninstallBlockType", function() { return actions_uninstallBlockType; });
 __webpack_require__.d(actions_namespaceObject, "addInstalledBlockType", function() { return addInstalledBlockType; });
@@ -498,6 +503,9 @@ __webpack_require__.d(actions_namespaceObject, "removeInstalledBlockType", funct
 __webpack_require__.d(actions_namespaceObject, "setIsInstalling", function() { return setIsInstalling; });
 __webpack_require__.d(actions_namespaceObject, "setErrorNotice", function() { return setErrorNotice; });
 __webpack_require__.d(actions_namespaceObject, "clearErrorNotice", function() { return clearErrorNotice; });
+
+// EXTERNAL MODULE: external {"this":["wp","notices"]}
+var external_this_wp_notices_ = __webpack_require__(92);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(5);
@@ -509,7 +517,10 @@ var external_this_wp_data_ = __webpack_require__(4);
 var external_this_wp_dataControls_ = __webpack_require__(36);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(16);
+var toConsumableArray = __webpack_require__(17);
+
+// EXTERNAL MODULE: external {"this":"lodash"}
+var external_this_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/reducer.js
 
@@ -520,8 +531,13 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
 
 /**
  * Reducer returning an array of downloadable blocks.
@@ -589,25 +605,6 @@ var reducer_blockManagement = function blockManagement() {
   return state;
 };
 /**
- * Reducer returning an array of downloadable blocks.
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Object} Updated state.
- */
-
-function reducer_hasPermission() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  if (action.type === 'SET_INSTALL_BLOCKS_PERMISSION') {
-    return action.hasPermission;
-  }
-
-  return state;
-}
-/**
  * Reducer returning an object of error notices.
  *
  * @param {Object} state  Current state.
@@ -622,7 +619,13 @@ var reducer_errorNotices = function errorNotices() {
 
   switch (action.type) {
     case 'SET_ERROR_NOTICE':
-      return _objectSpread({}, state, Object(defineProperty["a" /* default */])({}, action.blockId, action.notice));
+      return _objectSpread({}, state, Object(defineProperty["a" /* default */])({}, action.blockId, {
+        message: action.message,
+        isFatal: action.isFatal
+      }));
+
+    case 'CLEAR_ERROR_NOTICE':
+      return Object(external_this_lodash_["omit"])(state, action.blockId);
   }
 
   return state;
@@ -630,7 +633,6 @@ var reducer_errorNotices = function errorNotices() {
 /* harmony default export */ var reducer = (Object(external_this_wp_data_["combineReducers"])({
   downloadableBlocks: reducer_downloadableBlocks,
   blockManagement: reducer_blockManagement,
-  hasPermission: reducer_hasPermission,
   errorNotices: reducer_errorNotices
 }));
 
@@ -709,17 +711,6 @@ function selectors_getDownloadableBlocks(state, filterValue) {
   }
 
   return state.downloadableBlocks[filterValue].results;
-}
-/**
- * Returns true if user has permission to install blocks.
- *
- * @param {Object} state Global application state.
- *
- * @return {boolean} User has permission to install blocks.
- */
-
-function selectors_hasInstallBlocksPermission(state) {
-  return state.hasPermission;
 }
 /**
  * Returns the block types that have been installed on the server.
@@ -809,7 +800,7 @@ function getErrorNotices(state) {
  */
 
 function getErrorNoticeForBlock(state, blockId) {
-  return state.errorNotices[blockId] || false;
+  return state.errorNotices[blockId];
 }
 
 // EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
@@ -819,7 +810,14 @@ var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
 var external_this_wp_i18n_ = __webpack_require__(1);
 
+// EXTERNAL MODULE: external {"this":["wp","url"]}
+var external_this_wp_url_ = __webpack_require__(30);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/controls.js
+/**
+ * WordPress dependencies
+ */
+
 /**
  * Loads a JavaScript file.
  *
@@ -827,8 +825,9 @@ var external_this_wp_i18n_ = __webpack_require__(1);
  *
  * @return {Promise} Promise which will resolve when the asset is loaded.
  */
-var loadScript = function loadScript(asset) {
-  if (!asset || !/\.js$/.test(asset)) {
+
+var controls_loadScript = function loadScript(asset) {
+  if (!asset || !/\.js$/.test(Object(external_this_wp_url_["getPath"])(asset))) {
     return Promise.reject(new Error('No script found.'));
   }
 
@@ -861,8 +860,8 @@ var loadScript = function loadScript(asset) {
  * @return {Promise} Promise which will resolve when the asset is added.
  */
 
-var loadStyle = function loadStyle(asset) {
-  if (!asset || !/\.css$/.test(asset)) {
+var controls_loadStyle = function loadStyle(asset) {
+  if (!asset || !/\.css$/.test(Object(external_this_wp_url_["getPath"])(asset))) {
     return Promise.reject(new Error('No style found.'));
   }
 
@@ -900,12 +899,34 @@ var controls = {
   LOAD_ASSETS: function LOAD_ASSETS(_ref) {
     var assets = _ref.assets;
     var scripts = assets.map(function (asset) {
-      return asset.match(/\.js$/) !== null ? loadScript(asset) : loadStyle(asset);
+      return Object(external_this_wp_url_["getPath"])(asset).match(/\.js$/) !== null ? controls_loadScript(asset) : controls_loadStyle(asset);
     });
     return Promise.all(scripts);
   }
 };
 /* harmony default export */ var store_controls = (controls);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/utils/get-plugin-url.js
+/**
+ * Get the plugin's direct API link out of a block-directory response.
+ *
+ * @param {Object} block The block object
+ *
+ * @return {string} The plugin URL, if exists.
+ */
+function getPluginUrl(block) {
+  if (!block) {
+    return false;
+  }
+
+  var link = block.links['wp:plugin'] || block.links.self;
+
+  if (link && link.length) {
+    return link[0].href;
+  }
+
+  return false;
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/actions.js
 
@@ -926,6 +947,7 @@ function actions_objectSpread(target) { for (var i = 1; i < arguments.length; i+
 /**
  * Internal dependencies
  */
+
 
 
 /**
@@ -961,21 +983,6 @@ function receiveDownloadableBlocks(downloadableBlocks, filterValue) {
   };
 }
 /**
- * Returns an action object used in signalling that the user does not have
- * permission to install blocks.
- *
- * @param {boolean} hasPermission User has permission to install blocks.
- *
- * @return {Object} Action object.
- */
-
-function setInstallBlocksPermission(hasPermission) {
-  return {
-    type: 'SET_INSTALL_BLOCKS_PERMISSION',
-    hasPermission: hasPermission
-  };
-}
-/**
  * Action triggered to install a block plugin.
  *
  * @param {Object} block The block item returned by search.
@@ -984,8 +991,7 @@ function setInstallBlocksPermission(hasPermission) {
  */
 
 function actions_installBlockType(block) {
-  var id, assets, success, _response$_links, _response$_links$self, response, endpoint, registeredBlocks;
-
+  var id, assets, success, url, links, response, registeredBlocks, message, isFatal, fatalAPIErrors;
   return external_this_regeneratorRuntime_default.a.wrap(function installBlockType$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
@@ -1010,9 +1016,32 @@ function actions_installBlockType(block) {
           return setIsInstalling(block.id, true);
 
         case 9:
-          _context.next = 11;
+          // If we have a wp:plugin link, the plugin is installed but inactive.
+          url = getPluginUrl(block);
+          links = {};
+
+          if (!url) {
+            _context.next = 16;
+            break;
+          }
+
+          _context.next = 14;
           return Object(external_this_wp_dataControls_["apiFetch"])({
-            path: '__experimental/plugins',
+            url: url,
+            data: {
+              status: 'active'
+            },
+            method: 'PUT'
+          });
+
+        case 14:
+          _context.next = 20;
+          break;
+
+        case 16:
+          _context.next = 18;
+          return Object(external_this_wp_dataControls_["apiFetch"])({
+            path: 'wp/v2/plugins',
             data: {
               slug: block.id,
               status: 'active'
@@ -1020,56 +1049,75 @@ function actions_installBlockType(block) {
             method: 'POST'
           });
 
-        case 11:
+        case 18:
           response = _context.sent;
-          endpoint = response === null || response === void 0 ? void 0 : (_response$_links = response._links) === null || _response$_links === void 0 ? void 0 : (_response$_links$self = _response$_links.self[0]) === null || _response$_links$self === void 0 ? void 0 : _response$_links$self.href;
-          _context.next = 15;
+          // Add the `self` link for newly-installed blocks.
+          links = response._links;
+
+        case 20:
+          _context.next = 22;
           return addInstalledBlockType(actions_objectSpread({}, block, {
-            endpoint: endpoint
+            links: actions_objectSpread({}, block.links, {}, links)
           }));
 
-        case 15:
-          _context.next = 17;
+        case 22:
+          _context.next = 24;
           return loadAssets(assets);
 
-        case 17:
-          _context.next = 19;
+        case 24:
+          _context.next = 26;
           return Object(external_this_wp_dataControls_["select"])('core/blocks', 'getBlockTypes');
 
-        case 19:
+        case 26:
           registeredBlocks = _context.sent;
 
-          if (registeredBlocks.length) {
-            _context.next = 22;
+          if (!(!registeredBlocks.length || !registeredBlocks.filter(function (i) {
+            return i.name === block.name;
+          }).length)) {
+            _context.next = 29;
             break;
           }
 
-          throw new Error(Object(external_this_wp_i18n_["__"])('Unable to get block types.'));
-
-        case 22:
-          success = true;
-          _context.next = 29;
-          break;
-
-        case 25:
-          _context.prev = 25;
-          _context.t0 = _context["catch"](4);
-          _context.next = 29;
-          return setErrorNotice(id, _context.t0.message || Object(external_this_wp_i18n_["__"])('An error occurred.'));
+          throw new Error(Object(external_this_wp_i18n_["__"])('Error registering block. Try reloading the page.'));
 
         case 29:
-          _context.next = 31;
-          return setIsInstalling(block.id, false);
-
-        case 31:
-          return _context.abrupt("return", success);
+          success = true;
+          _context.next = 40;
+          break;
 
         case 32:
+          _context.prev = 32;
+          _context.t0 = _context["catch"](4);
+          message = _context.t0.message || Object(external_this_wp_i18n_["__"])('An error occurred.'); // Errors we throw are fatal
+
+          isFatal = _context.t0 instanceof Error; // Specific API errors that are fatal
+
+          fatalAPIErrors = {
+            folder_exists: Object(external_this_wp_i18n_["__"])('This block is already installed. Try reloading the page.'),
+            unable_to_connect_to_filesystem: Object(external_this_wp_i18n_["__"])('Error installing block. You can reload the page and try again.')
+          };
+
+          if (fatalAPIErrors[_context.t0.code]) {
+            isFatal = true;
+            message = fatalAPIErrors[_context.t0.code];
+          }
+
+          _context.next = 40;
+          return setErrorNotice(id, message, isFatal);
+
+        case 40:
+          _context.next = 42;
+          return setIsInstalling(block.id, false);
+
+        case 42:
+          return _context.abrupt("return", success);
+
+        case 43:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, null, [[4, 25]]);
+  }, _marked, null, [[4, 32]]);
 }
 /**
  * Action triggered to uninstall a block plugin.
@@ -1085,7 +1133,7 @@ function actions_uninstallBlockType(block) {
           _context2.prev = 0;
           _context2.next = 3;
           return Object(external_this_wp_dataControls_["apiFetch"])({
-            url: block.endpoint,
+            url: getPluginUrl(block),
             data: {
               status: 'inactive'
             },
@@ -1095,7 +1143,7 @@ function actions_uninstallBlockType(block) {
         case 3:
           _context2.next = 5;
           return Object(external_this_wp_dataControls_["apiFetch"])({
-            url: block.endpoint,
+            url: getPluginUrl(block),
             method: 'DELETE'
           });
 
@@ -1168,16 +1216,19 @@ function setIsInstalling(blockId, isInstalling) {
  * Sets an error notice string to be displayed to the user
  *
  * @param {string} blockId The ID of the block plugin. eg: my-block
- * @param {string} notice  The message shown in the notice.
+ * @param {string} message  The message shown in the notice.
+ * @param {boolean} isFatal Whether the user can recover from the error
  *
  * @return {Object} Action object.
  */
 
-function setErrorNotice(blockId, notice) {
+function setErrorNotice(blockId, message) {
+  var isFatal = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   return {
     type: 'SET_ERROR_NOTICE',
     blockId: blockId,
-    notice: notice
+    message: message,
+    isFatal: isFatal
   };
 }
 /**
@@ -1190,14 +1241,10 @@ function setErrorNotice(blockId, notice) {
 
 function clearErrorNotice(blockId) {
   return {
-    type: 'SET_ERROR_NOTICE',
-    blockId: blockId,
-    notice: false
+    type: 'CLEAR_ERROR_NOTICE',
+    blockId: blockId
   };
 }
-
-// EXTERNAL MODULE: external {"this":"lodash"}
-var external_this_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/resolvers.js
 
@@ -1238,7 +1285,7 @@ var external_this_lodash_ = __webpack_require__(2);
           case 5:
             _context.next = 7;
             return Object(external_this_wp_dataControls_["apiFetch"])({
-              path: "__experimental/block-directory/search?term=".concat(filterValue)
+              path: "wp/v2/block-directory/search?term=".concat(filterValue)
             });
 
           case 7:
@@ -1252,75 +1299,19 @@ var external_this_lodash_ = __webpack_require__(2);
             return receiveDownloadableBlocks(blocks, filterValue);
 
           case 11:
-            _context.next = 18;
+            _context.next = 15;
             break;
 
           case 13:
             _context.prev = 13;
             _context.t0 = _context["catch"](2);
 
-            if (!(_context.t0.code === 'rest_block_directory_cannot_view')) {
-              _context.next = 18;
-              break;
-            }
-
-            _context.next = 18;
-            return setInstallBlocksPermission(false);
-
-          case 18:
+          case 15:
           case "end":
             return _context.stop();
         }
       }
     }, getDownloadableBlocks, null, [[2, 13]]);
-  }),
-  hasInstallBlocksPermission: /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(function hasInstallBlocksPermission() {
-    var response, allowHeader, isAllowed;
-    return external_this_regeneratorRuntime_default.a.wrap(function hasInstallBlocksPermission$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return Object(external_this_wp_dataControls_["apiFetch"])({
-              method: 'OPTIONS',
-              path: "__experimental/block-directory/search",
-              parse: false
-            });
-
-          case 3:
-            response = _context2.sent;
-
-            if (Object(external_this_lodash_["hasIn"])(response, ['headers', 'get'])) {
-              // If the request is fetched using the fetch api, the header can be
-              // retrieved using the 'get' method.
-              allowHeader = response.headers.get('allow');
-            } else {
-              // If the request was preloaded server-side and is returned by the
-              // preloading middleware, the header will be a simple property.
-              allowHeader = Object(external_this_lodash_["get"])(response, ['headers', 'Allow'], '');
-            }
-
-            isAllowed = Object(external_this_lodash_["includes"])(allowHeader, 'GET');
-            _context2.next = 8;
-            return setInstallBlocksPermission(isAllowed);
-
-          case 8:
-            _context2.next = 14;
-            break;
-
-          case 10:
-            _context2.prev = 10;
-            _context2.t0 = _context2["catch"](0);
-            _context2.next = 14;
-            return setInstallBlocksPermission(false);
-
-          case 14:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, hasInstallBlocksPermission, null, [[0, 10]]);
   })
 });
 
@@ -1375,7 +1366,7 @@ var external_this_wp_element_ = __webpack_require__(0);
 var external_this_wp_plugins_ = __webpack_require__(63);
 
 // EXTERNAL MODULE: external {"this":["wp","blocks"]}
-var external_this_wp_blocks_ = __webpack_require__(12);
+var external_this_wp_blocks_ = __webpack_require__(10);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/auto-block-uninstaller/index.js
 /**
@@ -1394,10 +1385,10 @@ function AutoBlockUninstaller() {
         isSavingPost = _select.isSavingPost;
 
     return isSavingPost() && !isAutosavingPost();
-  });
+  }, []);
   var unusedBlockTypes = Object(external_this_wp_data_["useSelect"])(function (select) {
     return select('core/block-directory').getUnusedBlockTypes();
-  });
+  }, []);
   Object(external_this_wp_element_["useEffect"])(function () {
     if (shouldRemoveBlockTypes && unusedBlockTypes.length) {
       unusedBlockTypes.forEach(function (blockType) {
@@ -1410,7 +1401,7 @@ function AutoBlockUninstaller() {
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(15);
+var slicedToArray = __webpack_require__(13);
 
 // EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
 var external_this_wp_blockEditor_ = __webpack_require__(7);
@@ -1450,10 +1441,10 @@ function DownloadableBlockAuthorInfo(_ref) {
 /* harmony default export */ var downloadable_block_author_info = (DownloadableBlockAuthorInfo);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__(130);
+var build_module_icon = __webpack_require__(131);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-filled.js
-var star_filled = __webpack_require__(281);
+var star_filled = __webpack_require__(285);
 
 // EXTERNAL MODULE: external {"this":["wp","primitives"]}
 var external_this_wp_primitives_ = __webpack_require__(6);
@@ -1474,7 +1465,7 @@ var starHalf = Object(external_this_wp_element_["createElement"])(external_this_
 /* harmony default export */ var star_half = (starHalf);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-empty.js
-var star_empty = __webpack_require__(282);
+var star_empty = __webpack_require__(286);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/block-ratings/stars.js
 
@@ -1564,7 +1555,7 @@ function DownloadableBlockIcon(_ref) {
       title = _ref.title;
   return Object(external_this_wp_element_["createElement"])("div", {
     className: "block-directory-downloadable-block-icon"
-  }, icon.match(/\.(jpeg|jpg|gif|png)(?:\?.*)?$/) !== null ? Object(external_this_wp_element_["createElement"])("img", {
+  }, icon.match(/\.(jpeg|jpg|gif|png|svg)(?:\?.*)?$/) !== null ? Object(external_this_wp_element_["createElement"])("img", {
     src: icon,
     alt: Object(external_this_wp_i18n_["sprintf"])( // translators: %s: Name of the plugin e.g: "Akismet".
     Object(external_this_wp_i18n_["__"])('%s block icon'), title)
@@ -1596,7 +1587,10 @@ function DownloadableBlockHeader(_ref) {
       title = _ref.title,
       rating = _ref.rating,
       ratingCount = _ref.ratingCount,
-      isLoading = _ref.isLoading,
+      _ref$isLoading = _ref.isLoading,
+      isLoading = _ref$isLoading === void 0 ? false : _ref$isLoading,
+      _ref$isInstallable = _ref.isInstallable,
+      isInstallable = _ref$isInstallable === void 0 ? true : _ref$isInstallable,
       _onClick = _ref.onClick;
   return Object(external_this_wp_element_["createElement"])("div", {
     className: "block-directory-downloadable-block-header__row"
@@ -1613,11 +1607,11 @@ function DownloadableBlockHeader(_ref) {
   })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
     isSecondary: true,
     isBusy: isLoading,
-    disabled: isLoading,
+    disabled: isLoading || !isInstallable,
     onClick: function onClick(event) {
       event.preventDefault();
 
-      if (!isLoading) {
+      if (!isLoading && isInstallable) {
         _onClick();
       }
     }
@@ -1716,13 +1710,18 @@ var downloadable_block_notice_DownloadableBlockNotice = function DownloadableBlo
     className: "block-directory-downloadable-block-notice"
   }, Object(external_this_wp_element_["createElement"])("div", {
     className: "block-directory-downloadable-block-notice__content"
-  }, errorNotice), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
+  }, errorNotice.message), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
     isSmall: true,
     isPrimary: true,
     onClick: function onClick() {
+      if (errorNotice.isFatal) {
+        window.location.reload();
+        return false;
+      }
+
       _onClick(block);
     }
-  }, Object(external_this_wp_i18n_["__"])('Retry')));
+  }, errorNotice.isFatal ? Object(external_this_wp_i18n_["__"])('Reload') : Object(external_this_wp_i18n_["__"])('Retry')));
 };
 /* harmony default export */ var downloadable_block_notice = (downloadable_block_notice_DownloadableBlockNotice);
 
@@ -1744,9 +1743,22 @@ var downloadable_block_notice_DownloadableBlockNotice = function DownloadableBlo
 function DownloadableBlockListItem(_ref) {
   var item = _ref.item,
       onClick = _ref.onClick;
-  var isLoading = Object(external_this_wp_data_["useSelect"])(function (select) {
-    return select('core/block-directory').isInstalling(item.id);
-  }, [item]);
+
+  var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
+    var _select = select('core/block-directory'),
+        isInstalling = _select.isInstalling,
+        getErrorNoticeForBlock = _select.getErrorNoticeForBlock;
+
+    var notice = getErrorNoticeForBlock(item.id);
+    var hasFatal = notice && notice.isFatal;
+    return {
+      isLoading: isInstalling(item.id),
+      isInstallable: !hasFatal
+    };
+  }, [item]),
+      isLoading = _useSelect.isLoading,
+      isInstallable = _useSelect.isInstallable;
+
   var icon = item.icon,
       title = item.title,
       description = item.description,
@@ -1769,7 +1781,8 @@ function DownloadableBlockListItem(_ref) {
     title: title,
     rating: rating,
     ratingCount: ratingCount,
-    isLoading: isLoading
+    isLoading: isLoading,
+    isInstallable: isInstallable
   })), Object(external_this_wp_element_["createElement"])("section", {
     className: "block-directory-downloadable-block-list-item__body"
   }, Object(external_this_wp_element_["createElement"])(downloadable_block_notice, {
@@ -1876,14 +1889,14 @@ function DownloadableBlocksPanel(_ref) {
       isWaiting = _ref.isWaiting,
       debouncedSpeak = _ref.debouncedSpeak;
 
-  if (!hasPermission) {
+  if (false === hasPermission) {
     debouncedSpeak(Object(external_this_wp_i18n_["__"])('No blocks found in your library. Please contact your site administrator to install new blocks.'));
     return Object(external_this_wp_element_["createElement"])("p", {
       className: "block-directory-downloadable-blocks-panel__description has-no-results"
     }, Object(external_this_wp_i18n_["__"])('No blocks found in your library.'), Object(external_this_wp_element_["createElement"])("br", null), Object(external_this_wp_i18n_["__"])('Please contact your site administrator to install new blocks.'));
   }
 
-  if (isLoading || isWaiting) {
+  if (typeof hasPermission === 'undefined' || isLoading || isWaiting) {
     return Object(external_this_wp_element_["createElement"])("p", {
       className: "block-directory-downloadable-blocks-panel__description has-no-results"
     }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Spinner"], null));
@@ -1913,10 +1926,9 @@ function DownloadableBlocksPanel(_ref) {
 
   var _select = select('core/block-directory'),
       getDownloadableBlocks = _select.getDownloadableBlocks,
-      hasInstallBlocksPermission = _select.hasInstallBlocksPermission,
       isRequestingDownloadableBlocks = _select.isRequestingDownloadableBlocks;
 
-  var hasPermission = hasInstallBlocksPermission();
+  var hasPermission = select('core').canUser('read', 'block-directory/search');
   var downloadableItems = hasPermission ? getDownloadableBlocks(filterValue) : [];
   var isLoading = isRequestingDownloadableBlocks(filterValue);
   return {
@@ -1979,7 +1991,7 @@ function InserterMenuDownloadableBlocksPanel() {
 /* harmony default export */ var inserter_menu_downloadable_blocks_panel = (InserterMenuDownloadableBlocksPanel);
 
 // EXTERNAL MODULE: external {"this":["wp","editPost"]}
-var external_this_wp_editPost_ = __webpack_require__(255);
+var external_this_wp_editPost_ = __webpack_require__(260);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/compact-list/index.js
 
@@ -2042,7 +2054,7 @@ function CompactList(_ref) {
 function InstalledBlocksPrePublishPanel() {
   var newBlockTypes = Object(external_this_wp_data_["useSelect"])(function (select) {
     return select('core/block-directory').getNewBlockTypes();
-  });
+  }, []);
 
   if (!newBlockTypes.length) {
     return null;
@@ -2082,8 +2094,13 @@ Object(external_this_wp_plugins_["registerPlugin"])('block-directory', {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/index.js
 /**
+ * WordPress dependencies
+ */
+
+/**
  * Internal dependencies
  */
+
 
 
 
@@ -2137,6 +2154,13 @@ function _defineProperty(obj, key, value) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ 92:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["notices"]; }());
 
 /***/ })
 

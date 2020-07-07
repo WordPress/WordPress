@@ -7,6 +7,7 @@
 			"center",
 			"right"
 		],
-		"lightBlockWrapper": true
+		"lightBlockWrapper": true,
+		"anchor": true
 	}
 }

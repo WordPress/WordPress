@@ -2,10 +2,18 @@
  * Colors
  */
 /**
+ * Deprecated colors.
+ * Please avoid using these.
+ */
+/**
  * Breakpoints & Media Queries
  */
 /**
  * Colors
+ */
+/**
+ * Deprecated colors.
+ * Please avoid using these.
  */
 /**
  * Fonts & basic variables.
@@ -71,6 +79,7 @@
 .nux-dot-tip::before {
   animation: nux-pulse 1.6s infinite cubic-bezier(0.17, 0.67, 0.92, 0.62);
   background: rgba(0, 115, 156, 0.9);
+  opacity: 0.9;
   height: 24px;
   right: -12px;
   top: -12px;

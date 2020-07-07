@@ -2,10 +2,18 @@
  * Colors
  */
 /**
+ * Deprecated colors.
+ * Please avoid using these.
+ */
+/**
  * Breakpoints & Media Queries
  */
 /**
  * Colors
+ */
+/**
+ * Deprecated colors.
+ * Please avoid using these.
  */
 /**
  * Fonts & basic variables.
@@ -88,6 +96,11 @@ body.admin-color-light {
   --wp-admin-theme-color: #0085ba;
   --wp-admin-theme-color-darker-10: #0073a1;
   --wp-admin-theme-color-darker-20: #006187; }
+
+body.admin-color-modern {
+  --wp-admin-theme-color: #3858e9;
+  --wp-admin-theme-color-darker-10: #2145e6;
+  --wp-admin-theme-color-darker-20: #183ad6; }
 
 body.admin-color-blue {
   --wp-admin-theme-color: #096484;

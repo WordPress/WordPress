@@ -8,5 +8,8 @@
 		"customColor": {
 			"type": "string"
 		}
+	},
+	"supports": {
+		"anchor": true
 	}
 }

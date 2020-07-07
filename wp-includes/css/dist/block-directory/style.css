@@ -2,10 +2,18 @@
  * Colors
  */
 /**
+ * Deprecated colors.
+ * Please avoid using these.
+ */
+/**
  * Breakpoints & Media Queries
  */
 /**
  * Colors
+ */
+/**
+ * Deprecated colors.
+ * Please avoid using these.
  */
 /**
  * Fonts & basic variables.
@@ -124,7 +132,7 @@
     width: 36px;
     height: 36px;
     font-size: 36px;
-    background-color: #edeff0; }
+    background-color: #ddd; }
 
 .block-directory-downloadable-block-info__content {
   margin: 0 0 16px;
@@ -156,8 +164,8 @@
   justify-content: center;
   background: transparent;
   word-break: break-word;
-  border-top: 1px solid #e2e4e7;
-  border-bottom: 1px solid #e2e4e7;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   transition: all 0.05s ease-in-out;
   position: relative;
   text-align: left;
@@ -165,6 +173,8 @@
   @media (prefers-reduced-motion: reduce) {
     .block-directory-downloadable-block-list-item {
       transition-duration: 0s; } }
+  .block-directory-downloadable-block-list-item + .block-directory-downloadable-block-list-item {
+    border-top: none; }
 
 .block-directory-downloadable-block-list-item:last-child:not(:only-of-type) {
   border-top: 0; }
@@ -191,7 +201,7 @@
   display: flex;
   flex-direction: column;
   padding: 16px;
-  background-color: #f3f4f5; }
+  background-color: #f0f0f0; }
 
 .block-directory-downloadable-block-list-item__content {
   color: #606a73; }

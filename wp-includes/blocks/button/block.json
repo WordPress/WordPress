@@ -54,6 +54,7 @@
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"align": true,
 		"alignWide": false,
 		"reusable": false,

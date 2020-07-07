@@ -62,6 +62,7 @@
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"align": true,
 		"lightBlockWrapper": true
 	}

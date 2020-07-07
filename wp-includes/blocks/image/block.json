@@ -71,6 +71,7 @@
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"lightBlockWrapper": true
 	}
 }

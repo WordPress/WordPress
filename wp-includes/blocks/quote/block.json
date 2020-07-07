@@ -18,5 +18,8 @@
 		"align": {
 			"type": "string"
 		}
+	},
+	"supports": {
+		"anchor": true
 	}
 }

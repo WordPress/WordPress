@@ -77,6 +77,7 @@
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"align": true
 	}
 }
