@@ -33,7 +33,8 @@ final class WP_Block_Patterns_Registry {
 	 * @since 5.5.0
 	 *
 	 * @param string $pattern_name       Pattern name including namespace.
-	 * @param array  $pattern_properties Array containing the properties of the pattern: title, content, description, viewportWidth, categories, keywords.
+	 * @param array  $pattern_properties Array containing the properties of the pattern: title,
+	 *                                   content, description, viewportWidth, categories, keywords.
 	 * @return bool True if the pattern was registered with success and false otherwise.
 	 */
 	public function register( $pattern_name, $pattern_properties ) {
