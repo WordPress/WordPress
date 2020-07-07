@@ -4038,6 +4038,10 @@ function _wp_json_prepare_data( $data ) {
  * @param int   $status_code The HTTP status code to output.
  */
 function wp_send_json( $response, $status_code = null ) {
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		_doing_it_wrong( __FUNCTION__, __( 'Return a WP_REST_Response or WP_Error object from your callback when using the REST API.' ), '5.5.0' );
+	}
+
 	if ( ! headers_sent() ) {
 		header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
 		if ( null !== $status_code ) {

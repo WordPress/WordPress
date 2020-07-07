@@ -184,6 +184,8 @@ function rest_api_default_filters() {
 		add_filter( 'deprecated_function_trigger_error', '__return_false' );
 		add_action( 'deprecated_argument_run', 'rest_handle_deprecated_argument', 10, 3 );
 		add_filter( 'deprecated_argument_trigger_error', '__return_false' );
+		add_action( 'doing_it_wrong_run', 'rest_handle_doing_it_wrong', 10, 3 );
+		add_filter( 'doing_it_wrong_trigger_error', '__return_false' );
 	}
 
 	// Default serving.
@@ -595,6 +597,33 @@ function rest_handle_deprecated_argument( $function, $message, $version ) {
 	}
 
 	header( sprintf( 'X-WP-DeprecatedParam: %s', $string ) );
+}
+
+/**
+ * Handles _doing_it_wrong errors.
+ *
+ * @since 5.5.0
+ *
+ * @param string      $function The function that was called.
+ * @param string      $message  A message explaining what has been done incorrectly.
+ * @param string|null $version  The version of WordPress where the message was added.
+ */
+function rest_handle_doing_it_wrong( $function, $message, $version ) {
+	if ( ! WP_DEBUG || headers_sent() ) {
+		return;
+	}
+
+	if ( is_null( $version ) ) {
+		/* translators: Developer debugging message. 1: PHP function name, 2: Explanatory message */
+		$string = __( '%1$s (%2$s)' );
+		$string = sprintf( $string, $function, $message );
+	} else {
+		/* translators: Developer debugging message. 1: PHP function name, 2: Version information message, 3: Explanatory message. */
+		$string = __( '%1$s (since %2$s; %3$s)' );
+		$string = sprintf( $string, $function, $version, $message );
+	}
+
+	header( sprintf( 'X-WP-DoingItWrong: %s', $string ) );
 }
 
 /**
