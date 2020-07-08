@@ -161,13 +161,15 @@ class WP_Widget_Archives extends WP_Widget {
 				);
 				?>
 			</ul>
+
 			<?php if ( 'html5' === $format ) : ?>
 				</nav>
 			<?php endif; ?>
 
 			<?php
-			echo $args['after_widget'];
 		}
+
+		echo $args['after_widget'];
 	}
 
 	/**

@@ -67,7 +67,6 @@ class WP_Widget_Meta extends WP_Widget {
 		}
 		?>
 
-
 		<ul>
 			<?php wp_register(); ?>
 			<li><?php wp_loginout(); ?></li>

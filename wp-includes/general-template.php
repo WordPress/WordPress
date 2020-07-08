@@ -312,6 +312,7 @@ function get_search_form( $args = array() ) {
 			 */
 			$aria_label = '';
 		}
+
 		if ( 'html5' === $format ) {
 			$form = '<form role="search" ' . $aria_label . 'method="get" class="search-form" action="' . esc_url( home_url( '/' ) ) . '">
 				<label>
