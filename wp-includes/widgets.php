@@ -1656,7 +1656,7 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 	<?php endif; ?>
 	</p>
 	<?php
-	endif; // end of display options
+	endif; // End of display options.
 foreach ( array_keys( $default_inputs ) as $input ) :
 	if ( 'hidden' === $inputs[ $input ] ) :
 		$id = str_replace( '_', '-', $input );

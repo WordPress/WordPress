@@ -944,9 +944,11 @@ class WP_Automatic_Updater {
 		$unique_failures     = false;
 		$past_failure_emails = get_option( 'auto_plugin_theme_update_emails', array() );
 
-		// When only failures have occurred, an email should only be sent if there are unique failures.
-		// A failure is considered unique if an email has not been sent for an update attempt failure
-		// to a plugin or theme with the same new_version.
+		/*
+		 * When only failures have occurred, an email should only be sent if there are unique failures.
+		 * A failure is considered unique if an email has not been sent for an update attempt failure
+		 * to a plugin or theme with the same new_version.
+		 */
 		if ( 'fail' === $type ) {
 			foreach ( $failed_updates as $update_type => $failures ) {
 				foreach ( $failures as $failed_update ) {
@@ -1043,9 +1045,11 @@ class WP_Automatic_Updater {
 				$body[] = __( 'These plugins failed to update:' );
 
 				foreach ( $failed_updates['plugin'] as $item ) {
-					$body[]                                     = "- {$item->name}";
+					$body[] = "- {$item->name}";
+
 					$past_failure_emails[ $item->item->plugin ] = $item->item->new_version;
 				}
+
 				$body[] = "\n";
 			}
 
@@ -1054,9 +1058,11 @@ class WP_Automatic_Updater {
 				$body[] = __( 'These themes failed to update:' );
 
 				foreach ( $failed_updates['theme'] as $item ) {
-					$body[]                                    = "- {$item->name}";
+					$body[] = "- {$item->name}";
+
 					$past_failure_emails[ $item->item->theme ] = $item->item->new_version;
 				}
+
 				$body[] = "\n";
 			}
 		}
@@ -1071,19 +1077,23 @@ class WP_Automatic_Updater {
 
 				foreach ( $successful_updates['plugin'] as $item ) {
 					$body[] = "- {$item->name}";
+
 					unset( $past_failure_emails[ $item->item->plugin ] );
 				}
+
 				$body[] = "\n";
 			}
 
 			// List successful theme updates.
 			if ( ! empty( $successful_updates['theme'] ) ) {
 				$body[] = __( 'These themes are now up to date:' );
-				// List successful updates.
+
 				foreach ( $successful_updates['theme'] as $item ) {
 					$body[] = "- {$item->name}";
+
 					unset( $past_failure_emails[ $item->item->theme ] );
 				}
+
 				$body[] = "\n";
 			}
 		}

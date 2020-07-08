@@ -301,7 +301,7 @@ function wp_nav_menu( $args = array() ) {
 }
 
 /**
- * Add the class property classes for the current context, if applicable.
+ * Adds the class property classes for the current context, if applicable.
  *
  * @access private
  * @since 3.0.0
@@ -592,7 +592,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 }
 
 /**
- * Retrieve the HTML list content for nav menu items.
+ * Retrieves the HTML list content for nav menu items.
  *
  * @uses Walker_Nav_Menu to create HTML list content.
  * @since 3.0.0
