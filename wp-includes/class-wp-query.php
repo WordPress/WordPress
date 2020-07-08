@@ -3319,7 +3319,7 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return bool True if posts are available, false if end of loop.
+	 * @return bool True if posts are available, false if end of the loop.
 	 */
 	public function have_posts() {
 		if ( $this->current_post + 1 < $this->post_count ) {
@@ -3405,7 +3405,7 @@ class WP_Query {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @return bool True, if more comments. False, if no more posts.
+	 * @return bool True if comments are available, false if no more comments.
 	 */
 	public function have_comments() {
 		if ( $this->current_comment + 1 < $this->comment_count ) {
