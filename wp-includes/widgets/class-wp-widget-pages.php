@@ -108,11 +108,11 @@ class WP_Widget_Pages extends WP_Widget {
 				<?php echo $out; ?>
 			</ul>
 
-			<?php if ( 'html5' === $format ) : ?>
-				</nav>
-			<?php endif; ?>
-
 			<?php
+			if ( 'html5' === $format ) {
+				echo '</nav>';
+			}
+
 			echo $args['after_widget'];
 		}
 	}

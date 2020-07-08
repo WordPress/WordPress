@@ -162,11 +162,10 @@ class WP_Widget_Archives extends WP_Widget {
 				?>
 			</ul>
 
-			<?php if ( 'html5' === $format ) : ?>
-				</nav>
-			<?php endif; ?>
-
 			<?php
+			if ( 'html5' === $format ) {
+				echo '</nav>';
+			}
 		}
 
 		echo $args['after_widget'];
