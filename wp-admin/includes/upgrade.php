@@ -700,6 +700,7 @@ endif;
  */
 function upgrade_all() {
 	global $wp_current_db_version, $wp_db_version;
+
 	$wp_current_db_version = __get_option( 'db_version' );
 
 	// We are up to date. Nothing to do.
@@ -1870,6 +1871,7 @@ function upgrade_350() {
  */
 function upgrade_370() {
 	global $wp_current_db_version;
+
 	if ( $wp_current_db_version < 25824 ) {
 		wp_clear_scheduled_hook( 'wp_auto_updates_maybe_update' );
 	}
@@ -1886,6 +1888,7 @@ function upgrade_370() {
  */
 function upgrade_372() {
 	global $wp_current_db_version;
+
 	if ( $wp_current_db_version < 26148 ) {
 		wp_clear_scheduled_hook( 'wp_maybe_auto_update' );
 	}
@@ -1901,6 +1904,7 @@ function upgrade_372() {
  */
 function upgrade_380() {
 	global $wp_current_db_version;
+
 	if ( $wp_current_db_version < 26691 ) {
 		deactivate_plugins( array( 'mp6/mp6.php' ), true );
 	}
@@ -1916,6 +1920,7 @@ function upgrade_380() {
  */
 function upgrade_400() {
 	global $wp_current_db_version;
+
 	if ( $wp_current_db_version < 29630 ) {
 		if ( ! is_multisite() && false === get_option( 'WPLANG' ) ) {
 			if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && in_array( WPLANG, get_available_languages(), true ) ) {
@@ -2168,10 +2173,10 @@ function upgrade_530() {
 function upgrade_550() {
 	global $wp_current_db_version;
 
-	update_option( 'finished_updating_comment_type', 0 );
-	wp_schedule_single_event( time() + ( 1 * MINUTE_IN_SECONDS ), 'wp_update_comment_type_batch' );
-
 	if ( $wp_current_db_version < 48121 ) {
+		update_option( 'finished_updating_comment_type', 0 );
+		wp_schedule_single_event( time() + ( 1 * MINUTE_IN_SECONDS ), 'wp_update_comment_type_batch' );
+
 		// Use more clear and inclusive language.
 		$blocklist = get_option( 'blacklist_keys', '' );
 		update_option( 'blocklist_keys', $blocklist );
