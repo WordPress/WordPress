@@ -1014,14 +1014,34 @@ function wp_color_scheme_settings() {
 }
 
 /**
- * @since 3.3.0
+ * Displays the viewport meta in the admin.
+ *
+ * @since 5.5.0
  */
-function _ipad_meta() {
-	if ( wp_is_mobile() ) {
-		?>
-		<meta name="viewport" id="viewport-meta" content="width=device-width, initial-scale=1">
-		<?php
+function wp_admin_viewport_meta() {
+	/**
+	 * Filters the viewport meta in the admin.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $viewport_meta The viewport meta.
+	 */
+	$viewport_meta = apply_filters( 'admin_viewport_meta', 'width=device-width,initial-scale=1.0' );
+	if ( empty( $viewport_meta ) ) {
+		return;
 	}
+	echo '<meta name="viewport" content="' . esc_attr( $viewport_meta ) . '">';
+}
+
+/**
+ * Viewport meta for mobile in customize.
+ *
+ * Hooked to the {@see 'admin_viewport_meta'} filter.
+ *
+ * @since 5.5.0
+ */
+function _customizer_mobile_viewport_meta( $content ) {
+	return trim( $content, ',' ) . ',minimum-scale=0.5,maximum-scale=1.2';
 }
 
 /**

@@ -132,10 +132,7 @@ $body_class = 'wp-core-ui wp-customizer js';
 
 if ( wp_is_mobile() ) :
 	$body_class .= ' mobile';
-
-	?>
-	<meta name="viewport" id="viewport-meta" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.2" />
-	<?php
+	add_filter( 'admin_viewport_meta', '_customizer_mobile_viewport_meta' );
 endif;
 
 if ( $wp_customize->is_ios() ) {
@@ -171,6 +168,13 @@ do_action( 'customize_controls_print_styles' );
  * @since 3.4.0
  */
 do_action( 'customize_controls_print_scripts' );
+
+/**
+ * Fires when Customizer control scripts are printed.
+ *
+ * @since 5.5.0
+ */
+do_action( 'customize_controls_head' );
 ?>
 </head>
 <body class="<?php echo esc_attr( $body_class ); ?>">
