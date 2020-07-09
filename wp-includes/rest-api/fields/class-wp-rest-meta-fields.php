@@ -79,6 +79,7 @@ abstract class WP_REST_Meta_Fields {
 		foreach ( $fields as $meta_key => $args ) {
 			$name       = $args['name'];
 			$all_values = get_metadata( $this->get_meta_type(), $object_id, $meta_key, false );
+
 			if ( $args['single'] ) {
 				if ( empty( $all_values ) ) {
 					$value = $args['schema']['default'];
