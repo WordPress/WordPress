@@ -1606,8 +1606,14 @@ $document.ready( function() {
 	});
 });
 
-// On the "Update plugin/theme from uploaded zip" screen
-// hide the "Replace current with uploaded" button and show a warning in 1 hour and 59 minutes.
+/**
+ * Hides the update button for expired plugin or theme uploads.
+ *
+ * On the "Update plugin/theme from uploaded zip" screen, once the upload has expired,
+ * hides the "Replace current with uploaded" button and displays a warning.
+ *
+ * @since 5.5.0
+ */
 $document.ready( function( $ ) {
 	var $overwrite, $warning;
 
