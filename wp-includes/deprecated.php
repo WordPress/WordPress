@@ -3749,7 +3749,7 @@ function get_comments_popup_template() {
  * @since 1.5.0
  * @deprecated 4.5.0
  *
- * @return bool
+ * @return false Always returns false.
  */
 function is_comments_popup() {
 	_deprecated_function( __FUNCTION__, '4.5.0' );

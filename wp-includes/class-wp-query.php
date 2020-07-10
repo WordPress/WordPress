@@ -3605,7 +3605,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for an existing archive page.
 	 */
 	public function is_archive() {
 		return (bool) $this->is_archive;
@@ -3618,7 +3618,7 @@ class WP_Query {
 	 *
 	 * @param string|string[] $post_types Optional. Post type or array of posts types
 	 *                                    to check against. Default empty.
-	 * @return bool
+	 * @return bool Whether the query is for an existing post type archive page.
 	 */
 	public function is_post_type_archive( $post_types = '' ) {
 		if ( empty( $post_types ) || ! $this->is_post_type_archive ) {
@@ -3641,7 +3641,7 @@ class WP_Query {
 	 *
 	 * @param int|string|int[]|string[] $attachment Optional. Attachment ID, title, slug, or array of such
 	 *                                              to check against. Default empty.
-	 * @return bool
+	 * @return bool Whether the query is for an existing attachment page.
 	 */
 	public function is_attachment( $attachment = '' ) {
 		if ( ! $this->is_attachment ) {
@@ -3676,7 +3676,7 @@ class WP_Query {
 	 *
 	 * @param int|string|int[]|string[] $author Optional. User ID, nickname, nicename, or array of such
 	 *                                          to check against. Default empty.
-	 * @return bool
+	 * @return bool Whether the query is for an existing author archive page.
 	 */
 	public function is_author( $author = '' ) {
 		if ( ! $this->is_author ) {
@@ -3712,7 +3712,7 @@ class WP_Query {
 	 *
 	 * @param int|string|int[]|string[] $category Optional. Category ID, name, slug, or array of such
 	 *                                            to check against. Default empty.
-	 * @return bool
+	 * @return bool Whether the query is for an existing category archive page.
 	 */
 	public function is_category( $category = '' ) {
 		if ( ! $this->is_category ) {
@@ -3748,7 +3748,7 @@ class WP_Query {
 	 *
 	 * @param int|string|int[]|string[] $tag Optional. Tag ID, name, slug, or array of such
 	 *                                       to check against. Default empty.
-	 * @return bool
+	 * @return bool Whether the query is for an existing tag archive page.
 	 */
 	public function is_tag( $tag = '' ) {
 		if ( ! $this->is_tag ) {
@@ -3792,7 +3792,8 @@ class WP_Query {
 	 *                                            Default empty.
 	 * @param int|string|int[]|string[] $term     Optional. Term ID, name, slug, or array of such
 	 *                                            to check against. Default empty.
-	 * @return bool True for custom taxonomy archive pages, false for built-in taxonomies
+	 * @return bool Whether the query is for an existing custom taxonomy archive page.
+	 *              True for custom taxonomy archive pages, false for built-in taxonomies
 	 *              (category and tag archives).
 	 */
 	public function is_tax( $taxonomy = '', $term = '' ) {
@@ -3835,7 +3836,7 @@ class WP_Query {
 	 * @since 3.1.0
 	 * @deprecated 4.5.0
 	 *
-	 * @return bool
+	 * @return false Always returns false.
 	 */
 	public function is_comments_popup() {
 		_deprecated_function( __FUNCTION__, '4.5.0' );
@@ -3848,7 +3849,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for an existing date archive.
 	 */
 	public function is_date() {
 		return (bool) $this->is_date;
@@ -3859,7 +3860,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for an existing day archive.
 	 */
 	public function is_day() {
 		return (bool) $this->is_day;
@@ -3872,16 +3873,18 @@ class WP_Query {
 	 *
 	 * @param string|string[] $feeds Optional. Feed type or array of feed types
 	 *                                         to check against. Default empty.
-	 * @return bool
+	 * @return bool Whether the query is for a feed.
 	 */
 	public function is_feed( $feeds = '' ) {
 		if ( empty( $feeds ) || ! $this->is_feed ) {
 			return (bool) $this->is_feed;
 		}
+
 		$qv = $this->get( 'feed' );
 		if ( 'feed' === $qv ) {
 			$qv = get_default_feed();
 		}
+
 		return in_array( $qv, (array) $feeds, true );
 	}
 
@@ -3890,7 +3893,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for a comments feed.
 	 */
 	public function is_comment_feed() {
 		return (bool) $this->is_comment_feed;
@@ -3910,7 +3913,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool True, if front of site.
+	 * @return bool Whether the query is for the front page of the site.
 	 */
 	public function is_front_page() {
 		// Most likely case.
@@ -3939,7 +3942,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool True if blog view homepage.
+	 * @return bool Whether the query is for the blog homepage.
 	 */
 	public function is_home() {
 		return (bool) $this->is_home;
@@ -3956,7 +3959,7 @@ class WP_Query {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @return bool True, if Privacy Policy page.
+	 * @return bool Whether the query is for the Privacy Policy page.
 	 */
 	public function is_privacy_policy() {
 		if ( get_option( 'wp_page_for_privacy_policy' )
@@ -3973,7 +3976,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for an existing month archive.
 	 */
 	public function is_month() {
 		return (bool) $this->is_month;
@@ -4030,11 +4033,11 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for paged result and not for the first page?
+	 * Is the query for a paged result and not for the first page?
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for a paged result.
 	 */
 	public function is_paged() {
 		return (bool) $this->is_paged;
@@ -4045,7 +4048,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for a post or page preview.
 	 */
 	public function is_preview() {
 		return (bool) $this->is_preview;
@@ -4056,7 +4059,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for the robots.txt file.
 	 */
 	public function is_robots() {
 		return (bool) $this->is_robots;
@@ -4067,7 +4070,7 @@ class WP_Query {
 	 *
 	 * @since 5.4.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for the favicon.ico file.
 	 */
 	public function is_favicon() {
 		return (bool) $this->is_favicon;
@@ -4078,7 +4081,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for a search.
 	 */
 	public function is_search() {
 		return (bool) $this->is_search;
@@ -4167,7 +4170,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for a specific time.
 	 */
 	public function is_time() {
 		return (bool) $this->is_time;
@@ -4178,7 +4181,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for a trackback endpoint call.
 	 */
 	public function is_trackback() {
 		return (bool) $this->is_trackback;
@@ -4189,7 +4192,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for an existing year archive.
 	 */
 	public function is_year() {
 		return (bool) $this->is_year;
@@ -4200,7 +4203,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is a 404 error.
 	 */
 	public function is_404() {
 		return (bool) $this->is_404;
@@ -4211,7 +4214,7 @@ class WP_Query {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @return bool
+	 * @return bool Whether the query is for an embedded post.
 	 */
 	public function is_embed() {
 		return (bool) $this->is_embed;
@@ -4224,7 +4227,7 @@ class WP_Query {
 	 *
 	 * @global WP_Query $wp_query WordPress Query object.
 	 *
-	 * @return bool
+	 * @return bool Whether the query is the main query.
 	 */
 	public function is_main_query() {
 		global $wp_the_query;
