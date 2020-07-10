@@ -170,7 +170,7 @@ do_action( 'customize_controls_print_styles' );
 do_action( 'customize_controls_print_scripts' );
 
 /**
- * Fires when Customizer control scripts are printed.
+ * Fires in head section of Customizer controls.
  *
  * @since 5.5.0
  */
