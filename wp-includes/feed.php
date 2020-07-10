@@ -519,6 +519,35 @@ function atom_enclosure() {
 		if ( 'enclosure' === $key ) {
 			foreach ( (array) $val as $enc ) {
 				$enclosure = explode( "\n", $enc );
+
+				$url    = '';
+				$type   = '';
+				$length = 0;
+
+				$mimes = get_allowed_mime_types();
+
+				// Parse url
+				if ( isset( $enclosure[0] ) && is_string( $enclosure[0] ) ) {
+					$url = trim( $enclosure[0] );
+				}
+
+				// Parse length and type
+				foreach ( range( 1, 2 ) as $i ) {
+					if ( isset( $enclosure[ $i ] ) ) {
+						if ( is_numeric( $enclosure[ $i ] ) ) {
+							$length = trim( $enclosure[ $i ] );
+						} elseif ( in_array( $enclosure[ $i ], $mimes ) ) {
+							$type = trim( $enclosure[ $i ] );
+						}
+					}
+				}
+
+				$html_link_tag = sprintf(
+					"<link href=\"%s\" rel=\"enclosure\" length=\"%d\" type=\"%s\" />\n",
+					esc_url( $url ),
+					esc_attr( $length ),
+					esc_attr( $type )
+				);
 				/**
 				 * Filters the atom enclosure HTML link tag for the current post.
 				 *
@@ -526,7 +555,7 @@ function atom_enclosure() {
 				 *
 				 * @param string $html_link_tag The HTML link tag with a URI and other attributes.
 				 */
-				echo apply_filters( 'atom_enclosure', '<link href="' . esc_url( trim( $enclosure[0] ) ) . '" rel="enclosure" length="' . absint( trim( $enclosure[1] ) ) . '" type="' . esc_attr( trim( $enclosure[2] ) ) . '" />' . "\n" );
+				echo apply_filters( 'atom_enclosure', $html_link_tag );
 			}
 		}
 	}
