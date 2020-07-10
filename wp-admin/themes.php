@@ -568,7 +568,7 @@ function wp_theme_auto_update_setting_template() {
 			<# } else { #>
 				<button type="button" class="toggle-auto-update button-link" data-slug="{{ data.id }}" data-wp-action="enable">
 					<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span><span class="label">' . __( 'Enable auto-updates' ) . '</span>
-				</a>
+				</button>
 			<# } #>
 			<# if ( data.hasUpdate ) { #>
 				<# if ( data.autoupdate ) { #>
