@@ -467,6 +467,10 @@ input.small-text {
 	padding: 0 6px;
 }
 
+label input.small-text {
+	margin-top: -4px;
+}
+
 input[type="number"].small-text {
 	width: 65px;
 	padding-left: 0;
@@ -749,8 +753,12 @@ ul#add-to-blog-users {
 }
 
 .form-table td fieldset label {
-	margin: 0.25em 0 0.5em !important;
+	margin: 0.35em 0 0.5em !important;
 	display: inline-block;
+}
+
+.form-table td fieldset p label { 
+	margin-top: 0 !important;
 }
 
 .form-table td fieldset label,
