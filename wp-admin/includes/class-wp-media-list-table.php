@@ -61,13 +61,15 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * @global string   $mode                  List table view mode.
 	 * @global WP_Query $wp_query              WordPress Query object.
 	 * @global array    $post_mime_types
 	 * @global array    $avail_post_mime_types
-	 * @global string   $mode
 	 */
 	public function prepare_items() {
-		global $wp_query, $post_mime_types, $avail_post_mime_types, $mode;
+		global $mode, $wp_query, $post_mime_types, $avail_post_mime_types;
+
+		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
 
 		// Exclude attachments scheduled for deletion in the next two hours
 		// if they are for zip packages for interrupted or failed updates.
@@ -95,8 +97,6 @@ class WP_Media_List_Table extends WP_List_Table {
 		list( $post_mime_types, $avail_post_mime_types ) = wp_edit_attachments_query( $_REQUEST );
 
 		$this->is_trash = isset( $_REQUEST['attachment-filter'] ) && 'trash' === $_REQUEST['attachment-filter'];
-
-		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
 
 		$this->set_pagination_args(
 			array(

@@ -166,8 +166,8 @@ class WP_List_Table {
 
 		if ( empty( $this->modes ) ) {
 			$this->modes = array(
-				'list'     => __( 'Compact View' ),
-				'extended' => __( 'Extended View' ),
+				'list'     => __( 'Compact view' ),
+				'extended' => __( 'Extended view' ),
 			);
 		}
 	}
@@ -517,23 +517,29 @@ class WP_List_Table {
 	 */
 	protected function row_actions( $actions, $always_visible = false ) {
 		$action_count = count( $actions );
-		$i            = 0;
 
 		if ( ! $action_count ) {
 			return '';
 		}
 
 		$mode = get_user_setting( 'posts_list_mode', 'list' );
+
 		if ( 'extended' === $mode ) {
 			$always_visible = true;
 		}
 
 		$out = '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
+
+		$i = 0;
+
 		foreach ( $actions as $action => $link ) {
 			++$i;
-			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-			$out                          .= "<span class='$action'>$link$sep</span>";
+
+			$sep = ( $i < $action_count ) ? ' | ' : '';
+
+			$out .= "<span class='$action'>$link$sep</span>";
 		}
+
 		$out .= '</div>';
 
 		$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
@@ -1252,20 +1258,12 @@ class WP_List_Table {
 	 * @return string[] Array of CSS classes for the table tag.
 	 */
 	protected function get_table_classes() {
-		$mode       = get_user_setting( 'posts_list_mode', 'list' );
-		$mode_class = 'extended' === $mode ? 'table-view-extended' : 'table-view-list';
-		$mode       = get_user_setting( 'posts_list_mode', 'list' );
-		/**
-		 * Filters the current view mode.
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param string $mode The current selected mode. Default value of
-		 *                     posts_list_mode user setting.
-		 */
+		$mode = get_user_setting( 'posts_list_mode', 'list' );
+
+		/** This filter is documented in wp-admin/includes/class-wp-screen.php */
 		$mode = apply_filters( 'table_view_mode', $mode );
 
-		$mode_class = 'extended' === $mode ? 'table-view-extended' : 'table-view-' . $mode;
+		$mode_class = esc_attr( 'table-view-' . $mode );
 
 		return array( 'widefat', 'fixed', 'striped', $mode_class, $this->_args['plural'] );
 	}

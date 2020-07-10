@@ -80,11 +80,16 @@ class WP_Comments_List_Table extends WP_List_Table {
 	/**
 	 * @global int    $post_id
 	 * @global string $comment_status
-	 * @global string $search
 	 * @global string $comment_type
+	 * @global string $search
 	 */
 	public function prepare_items() {
-		global $post_id, $comment_status, $search, $comment_type;
+		global $post_id, $comment_status, $comment_type, $search;
+
+		if ( ! empty( $_REQUEST['mode'] ) ) {
+			$mode = 'extended' === $_REQUEST['mode'] ? 'extended' : 'list';
+			set_user_setting( 'posts_list_mode', $mode );
+		}
 
 		$comment_status = isset( $_REQUEST['comment_status'] ) ? $_REQUEST['comment_status'] : 'all';
 		if ( ! in_array( $comment_status, array( 'all', 'mine', 'moderated', 'approved', 'spam', 'trash' ), true ) ) {
@@ -122,13 +127,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		if ( $doing_ajax && isset( $_REQUEST['offset'] ) ) {
 			$start += $_REQUEST['offset'];
-		}
-
-		if ( ! empty( $_REQUEST['mode'] ) ) {
-			$mode = 'extended' === $_REQUEST['mode'] ? 'extended' : 'list';
-			set_user_setting( 'posts_list_mode', $mode );
-		} else {
-			$mode = get_user_setting( 'posts_list_mode', 'list' );
 		}
 
 		$status_map = array(
@@ -759,21 +757,34 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$actions = apply_filters( 'comment_row_actions', array_filter( $actions ), $comment );
 
 		$always_visible = false;
-		$mode           = get_user_setting( 'posts_list_mode', 'list' );
+
+		$mode = get_user_setting( 'posts_list_mode', 'list' );
+
 		if ( 'extended' === $mode ) {
 			$always_visible = true;
 		}
 
-		$i    = 0;
 		$out .= '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
+
+		$i = 0;
+
 		foreach ( $actions as $action => $link ) {
 			++$i;
-			( ( ( 'approve' === $action || 'unapprove' === $action ) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
 
-			// Reply and quickedit need a hide-if-no-js span when not added with ajax.
+			if ( ( ( 'approve' === $action || 'unapprove' === $action ) && 2 === $i )
+				|| 1 === $i
+			) {
+				$sep = '';
+			} else {
+				$sep = ' | ';
+			}
+
+			// Reply and quickedit need a hide-if-no-js span when not added with Ajax.
 			if ( ( 'reply' === $action || 'quickedit' === $action ) && ! wp_doing_ajax() ) {
 				$action .= ' hide-if-no-js';
-			} elseif ( ( 'untrash' === $action && 'trash' === $the_comment_status ) || ( 'unspam' === $action && 'spam' === $the_comment_status ) ) {
+			} elseif ( ( 'untrash' === $action && 'trash' === $the_comment_status )
+				|| ( 'unspam' === $action && 'spam' === $the_comment_status )
+			) {
 				if ( '1' == get_comment_meta( $comment->comment_ID, '_wp_trash_meta_status', true ) ) {
 					$action .= ' approve';
 				} else {
@@ -783,6 +794,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 			$out .= "<span class='$action'>$sep$link</span>";
 		}
+
 		$out .= '</div>';
 
 		$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';

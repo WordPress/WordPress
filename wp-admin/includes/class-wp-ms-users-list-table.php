@@ -24,12 +24,19 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * @global string $mode       List table view mode.
 	 * @global string $usersearch
 	 * @global string $role
-	 * @global string $mode
 	 */
 	public function prepare_items() {
-		global $usersearch, $role, $mode;
+		global $mode, $usersearch, $role;
+
+		if ( ! empty( $_REQUEST['mode'] ) ) {
+			$mode = 'excerpt' === $_REQUEST['mode'] ? 'excerpt' : 'list';
+			set_user_setting( 'network_users_list_mode', $mode );
+		} else {
+			$mode = get_user_setting( 'network_users_list_mode', 'list' );
+		}
 
 		$usersearch = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
 
@@ -81,13 +88,6 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 		if ( isset( $_REQUEST['order'] ) ) {
 			$args['order'] = $_REQUEST['order'];
-		}
-
-		if ( ! empty( $_REQUEST['mode'] ) ) {
-			$mode = 'excerpt' === $_REQUEST['mode'] ? 'excerpt' : 'list';
-			set_user_setting( 'network_users_list_mode', $mode );
-		} else {
-			$mode = get_user_setting( 'network_users_list_mode', 'list' );
 		}
 
 		/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */
@@ -422,13 +422,18 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			 */
 			$actions = apply_filters( 'ms_user_list_site_actions', $actions, $val->userblog_id );
 
-			$i            = 0;
 			$action_count = count( $actions );
+
+			$i = 0;
+
 			foreach ( $actions as $action => $link ) {
 				++$i;
-				$sep = ( $i == $action_count ) ? '' : ' | ';
+
+				$sep = ( $i < $action_count ) ? ' | ' : '';
+
 				echo "<span class='$action'>$link$sep</span>";
 			}
+
 			echo '</small></span><br/>';
 		}
 	}

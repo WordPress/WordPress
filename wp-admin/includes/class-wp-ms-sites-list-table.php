@@ -62,12 +62,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
+	 * @global string $mode List table view mode.
 	 * @global string $s
-	 * @global string $mode
 	 * @global wpdb   $wpdb WordPress database abstraction object.
 	 */
 	public function prepare_items() {
-		global $s, $mode, $wpdb;
+		global $mode, $s, $wpdb;
 
 		if ( ! empty( $_REQUEST['mode'] ) ) {
 			$mode = 'excerpt' === $_REQUEST['mode'] ? 'excerpt' : 'list';
@@ -576,7 +576,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global string $mode
+	 * @global string $mode List table view mode.
 	 */
 	public function display_rows() {
 		foreach ( $this->items as $blog ) {
