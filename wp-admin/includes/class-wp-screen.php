@@ -1286,6 +1286,8 @@ final class WP_Screen {
 	 * @global string $mode List table view mode.
 	 */
 	public function render_view_mode() {
+		global $mode;
+
 		$screen = get_current_screen();
 
 		// Currently only enabled for posts and comments lists.
@@ -1311,16 +1313,13 @@ final class WP_Screen {
 
 		$mode = get_user_setting( 'posts_list_mode', 'list' );
 
-		// Set 'list' as default value if $mode is not set.
-		$mode = ( isset( $mode ) && 'extended' === $mode ) ? 'extended' : 'list';
-
 		/**
 		 * Filters the current view mode.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string $mode The current selected mode. Default value of
-		 *                     posts_list_mode user setting.
+		 * @param string $mode The current selected mode. Defaults to the value
+		 *                     of 'posts_list_mode' user setting.
 		 */
 		$mode = apply_filters( 'table_view_mode', $mode );
 
@@ -1328,14 +1327,14 @@ final class WP_Screen {
 		add_filter( 'screen_options_show_submit', '__return_true' );
 		?>
 		<fieldset class="metabox-prefs view-mode">
-		<legend><?php _e( 'View Mode' ); ?></legend>
+		<legend><?php _e( 'View mode' ); ?></legend>
 				<label for="list-view-mode">
 					<input id="list-view-mode" type="radio" name="mode" value="list" <?php checked( 'list', $mode ); ?> />
 					<?php _e( 'Compact view' ); ?>
 				</label>
 				<label for="excerpt-view-mode">
 					<input id="excerpt-view-mode" type="radio" name="mode" value="extended" <?php checked( 'extended', $mode ); ?> />
-					<?php _e( 'Extended View' ); ?>
+					<?php _e( 'Extended view' ); ?>
 				</label>
 				<?php
 				/**
