@@ -600,7 +600,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	protected function get_table_classes() {
 		$mode       = get_user_setting( 'posts_list_mode', 'list' );
 		$mode_class = 'extended' === $mode ? 'table-view-extended' : 'table-view-list';
-		$mode = get_user_setting( 'posts_list_mode', 'list' );
+		$mode       = get_user_setting( 'posts_list_mode', 'list' );
 		/**
 		 * Filters the current view mode.
 		 *

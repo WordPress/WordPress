@@ -112,7 +112,6 @@ class WP_List_Util {
 					if ( array_key_exists( $m_key, $obj ) && ( $m_value == $obj[ $m_key ] ) ) {
 						$matched++;
 					}
-
 				} elseif ( is_object( $obj ) ) {
 
 					// Treat object as an object

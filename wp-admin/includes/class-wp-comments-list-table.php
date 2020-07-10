@@ -759,7 +759,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$actions = apply_filters( 'comment_row_actions', array_filter( $actions ), $comment );
 
 		$always_visible = false;
-		$mode = get_user_setting( 'posts_list_mode', 'list' );
+		$mode           = get_user_setting( 'posts_list_mode', 'list' );
 		if ( 'extended' === $mode ) {
 			$always_visible = true;
 		}
