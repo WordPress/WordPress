@@ -1522,9 +1522,7 @@ function wp_image_file_matches_image_meta( $image_location, $image_meta ) {
 		// Check if the relative image path from the image meta is at the end of $image_location.
 		if ( strrpos( $image_location, $image_meta['file'] ) === strlen( $image_location ) - strlen( $image_meta['file'] ) ) {
 			$match = true;
-		}
-
-		if ( ! empty( $image_meta['sizes'] ) ) {
+		} elseif ( ! empty( $image_meta['sizes'] ) ) {
 			// Retrieve the uploads sub-directory from the full size image.
 			$dirname = _wp_get_attachment_relative_path( $image_meta['file'] );
 
