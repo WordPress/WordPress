@@ -2677,44 +2677,63 @@
 		$( window ).on( 'beforeunload', wp.updates.beforeunload );
 
 		/**
-		 * Click handler for enabling and disabling plugin and theme auto-updates.
+		 * Prevents the page form scrolling when activating auto-updates with the Spacebar key.
 		 *
 		 * @since 5.5.0
 		 */
-		$document.on( 'click', '.column-auto-updates a.toggle-auto-update, .theme-overlay a.toggle-auto-update', function( event ) {
-			var data, asset, type, $parent;
-			var $anchor = $( this ),
-				action = $anchor.attr( 'data-wp-action' ),
-				$label = $anchor.find( '.label' );
+		$document.on( 'keydown', '.column-auto-updates .toggle-auto-update, .theme-overlay .toggle-auto-update', function( event ) {
+			if ( 32 === event.which ) {
+				event.preventDefault();
+			}
+		} );
+
+		/**
+		 * Click and keyup handler for enabling and disabling plugin and theme auto-updates.
+		 *
+		 * These controls can be either links or buttons. When JavaScript is enabled,
+		 * we want them to behave like buttons. An ARIA role `button` is added via
+		 * the JavaScript that targets elements with the CSS class `aria-button-if-js`.
+		 *
+		 * @since 5.5.0
+		 */
+		$document.on( 'click keyup', '.column-auto-updates .toggle-auto-update, .theme-overlay .toggle-auto-update', function( event ) {
+			var data, asset, type, $parent,
+				$toggler = $( this ),
+				action = $toggler.attr( 'data-wp-action' ),
+				$label = $toggler.find( '.label' );
+
+			if ( 'keyup' === event.type && 32 !== event.which ) {
+				return;
+			}
 
 			if ( 'themes' !== pagenow ) {
-				$parent = $anchor.closest( '.column-auto-updates' );
+				$parent = $toggler.closest( '.column-auto-updates' );
 			} else {
-				$parent = $anchor.closest( '.theme-autoupdate' );
+				$parent = $toggler.closest( '.theme-autoupdate' );
 			}
 
 			event.preventDefault();
 
 			// Prevent multiple simultaneous requests.
-			if ( $anchor.attr( 'data-doing-ajax' ) === 'yes' ) {
+			if ( $toggler.attr( 'data-doing-ajax' ) === 'yes' ) {
 				return;
 			}
 
-			$anchor.attr( 'data-doing-ajax', 'yes' );
+			$toggler.attr( 'data-doing-ajax', 'yes' );
 
 			switch ( pagenow ) {
 				case 'plugins':
 				case 'plugins-network':
 					type = 'plugin';
-					asset = $anchor.closest( 'tr' ).attr( 'data-plugin' );
+					asset = $toggler.closest( 'tr' ).attr( 'data-plugin' );
 					break;
 				case 'themes-network':
 					type = 'theme';
-					asset = $anchor.closest( 'tr' ).attr( 'data-slug' );
+					asset = $toggler.closest( 'tr' ).attr( 'data-slug' );
 					break;
 				case 'themes':
 					type = 'theme';
-					asset = $anchor.attr( 'data-slug' );
+					asset = $toggler.attr( 'data-slug' );
 					break;
 			}
 
@@ -2728,7 +2747,7 @@
 				$label.text( __( 'Disabling...' ) );
 			}
 
-			$anchor.find( '.dashicons-update' ).removeClass( 'hidden' );
+			$toggler.find( '.dashicons-update' ).removeClass( 'hidden' );
 
 			data = {
 				action: 'toggle-auto-updates',
@@ -2740,8 +2759,8 @@
 
 			$.post( window.ajaxurl, data )
 				.done( function( response ) {
-					var $enabled, $disabled, enabledNumber, disabledNumber, errorMessage;
-					var href = $anchor.attr( 'href' );
+					var $enabled, $disabled, enabledNumber, disabledNumber, errorMessage,
+						href = $toggler.attr( 'href' );
 
 					if ( ! response.success ) {
 						// if WP returns 0 for response (which can happen in a few cases),
@@ -2784,25 +2803,27 @@
 					}
 
 					if ( 'enable' === action ) {
-						href = href.replace( 'action=enable-auto-update', 'action=disable-auto-update' );
-						$anchor.attr( {
-							'data-wp-action': 'disable',
-							href: href
-						} );
+						// The toggler control can be either a link or a button.
+						if ( $toggler[ 0 ].hasAttribute( 'href' ) ) {
+							href = href.replace( 'action=enable-auto-update', 'action=disable-auto-update' );
+							$toggler.attr( 'href', href );
+						}
+						$toggler.attr( 'data-wp-action', 'disable' );
 
 						$label.text( __( 'Disable auto-updates' ) );
 						$parent.find( '.auto-update-time' ).removeClass( 'hidden' );
-						wp.a11y.speak( __( 'Enable auto-updates' ), 'polite' );
+						wp.a11y.speak( __( 'Auto-updates enabled' ) );
 					} else {
-						href = href.replace( 'action=disable-auto-update', 'action=enable-auto-update' );
-						$anchor.attr( {
-							'data-wp-action': 'enable',
-							href: href
-						} );
+						// The toggler control can be either a link or a button.
+						if ( $toggler[ 0 ].hasAttribute( 'href' ) ) {
+							href = href.replace( 'action=disable-auto-update', 'action=enable-auto-update' );
+							$toggler.attr( 'href', href );
+						}
+						$toggler.attr( 'data-wp-action', 'enable' );
 
 						$label.text( __( 'Enable auto-updates' ) );
 						$parent.find( '.auto-update-time' ).addClass( 'hidden' );
-						wp.a11y.speak( __( 'Auto-updates disabled' ), 'polite' );
+						wp.a11y.speak( __( 'Auto-updates disabled' ) );
 					}
 
 					$document.trigger( 'wp-auto-update-setting-changed', { state: action, type: type, asset: asset } );
@@ -2816,7 +2837,7 @@
 					wp.a11y.speak( __( 'The request could not be completed.' ), 'polite' );
 				} )
 				.always( function() {
-					$anchor.removeAttr( 'data-doing-ajax' ).find( '.dashicons-update' ).addClass( 'hidden' );
+					$toggler.removeAttr( 'data-doing-ajax' ).find( '.dashicons-update' ).addClass( 'hidden' );
 				} );
 			}
 		);

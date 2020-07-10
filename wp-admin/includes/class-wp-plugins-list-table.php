@@ -1076,7 +1076,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					$url = add_query_arg( $query_args, 'plugins.php' );
 
 					$html[] = sprintf(
-						'<a href="%s" class="toggle-auto-update" data-wp-action="%s">',
+						'<a href="%s" class="toggle-auto-update aria-button-if-js" data-wp-action="%s">',
 						wp_nonce_url( $url, 'updates' ),
 						$action
 					);

@@ -1500,6 +1500,10 @@ div.error {
 	animation: rotation 2s infinite linear;
 }
 
+.theme-overlay .theme-autoupdate .dashicons-update.spin {
+	margin-left: 3px;
+}
+
 /* Updated icon (check mark). */
 .updated-message p:before,
 .installed p:before,

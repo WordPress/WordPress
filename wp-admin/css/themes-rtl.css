@@ -685,6 +685,15 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	text-decoration: none;
 }
 
+.theme-overlay .toggle-auto-update {
+	/* Better align spin icon and text. */
+	display: inline-flex;
+	align-items: center;
+	/* Prevents content after the auto-update toggler from jumping down and up. */
+	min-height: 20px; /* Same height as the spinning dashicon. */
+	vertical-align: top;
+}
+
 .theme-overlay .theme-description {
 	color: #555;
 	font-size: 15px;

@@ -562,14 +562,12 @@ function wp_theme_auto_update_setting_template() {
 	$template = '
 		<div class="theme-autoupdate">
 			<# if ( data.autoupdate ) { #>
-				<a href="{{{ data.actions.autoupdate }}}" class="toggle-auto-update" data-slug="{{ data.id }}" data-wp-action="disable">
-					<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>
-					<span class="label">' . __( 'Disable auto-updates' ) . '</span>
-				</a>
+				<button type="button" class="toggle-auto-update button-link" data-slug="{{ data.id }}" data-wp-action="disable">
+					<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span><span class="label">' . __( 'Disable auto-updates' ) . '</span>
+				</button>
 			<# } else { #>
-				<a href="{{{ data.actions.autoupdate }}}" class="toggle-auto-update" data-slug="{{ data.id }}" data-wp-action="enable">
-					<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>
-					<span class="label">' . __( 'Enable auto-updates' ) . '</span>
+				<button type="button" class="toggle-auto-update button-link" data-slug="{{ data.id }}" data-wp-action="enable">
+					<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span><span class="label">' . __( 'Enable auto-updates' ) . '</span>
 				</a>
 			<# } #>
 			<# if ( data.hasUpdate ) { #>
