@@ -69,6 +69,29 @@ class WP_Media_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		global $wp_query, $post_mime_types, $avail_post_mime_types, $mode;
 
+		// Exclude attachments scheduled for deletion in the next two hours
+		// if they are for zip packages for interrupted or failed updates.
+		// See File_Upload_Upgrader class.
+		$not_in = array();
+
+		foreach ( _get_cron_array() as $cron ) {
+			if ( isset( $cron['upgrader_scheduled_cleanup'] ) ) {
+				$details = reset( $cron['upgrader_scheduled_cleanup'] );
+
+				if ( ! empty( $details['args'][0] ) ) {
+					$not_in[] = (int) $details['args'][0];
+				}
+			}
+		}
+
+		if ( ! empty( $_REQUEST['post__not_in'] ) && is_array( $_REQUEST['post__not_in'] ) ) {
+			$not_in = array_merge( array_values( $_REQUEST['post__not_in'] ), $not_in );
+		}
+
+		if ( ! empty( $not_in ) ) {
+			$_REQUEST['post__not_in'] = $not_in;
+		}
+
 		list( $post_mime_types, $avail_post_mime_types ) = wp_edit_attachments_query( $_REQUEST );
 
 		$this->is_trash = isset( $_REQUEST['attachment-filter'] ) && 'trash' === $_REQUEST['attachment-filter'];

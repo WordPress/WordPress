@@ -321,17 +321,19 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			$overwrite = $this->is_downgrading ? 'downgrade-theme' : 'update-theme';
 
 			$install_actions['ovewrite_theme'] = sprintf(
-				'<a class="button button-primary" href="%s" target="_parent">%s</a>',
+				'<a class="button button-primary update-from-upload-overwrite" href="%s" target="_parent">%s</a>',
 				wp_nonce_url( add_query_arg( 'overwrite', $overwrite, $this->url ), 'theme-upload' ),
-				esc_html( __( 'Replace current with uploaded' ) )
+				__( 'Replace current with uploaded' )
 			);
 		} else {
 			echo $blocked_message;
 		}
 
+		$cancel_url = add_query_arg( 'action', 'upload-theme-cancel-overwrite', $this->url );
+
 		$install_actions['themes_page'] = sprintf(
 			'<a class="button" href="%s" target="_parent">%s</a>',
-			self_admin_url( 'theme-install.php' ),
+			wp_nonce_url( $cancel_url, 'theme-upload-cancel-overwrite' ),
 			__( 'Cancel and go back' )
 		);
 
@@ -347,6 +349,10 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		$install_actions = apply_filters( 'install_theme_ovewrite_actions', $install_actions, $this->api, $this->upgrader->new_theme_data );
 
 		if ( ! empty( $install_actions ) ) {
+			printf(
+				'<p class="update-from-upload-expired hidden">%s</p>',
+				__( 'The uploaded file has expired. Please go back and upload it again.' )
+			);
 			echo '<p class="update-from-upload-actions">' . implode( ' ', (array) $install_actions ) . '</p>';
 		}
 

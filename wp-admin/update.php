@@ -17,6 +17,8 @@ require_once __DIR__ . '/admin.php';
 
 require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
+wp_enqueue_script( 'wp-a11y' );
+
 if ( isset( $_GET['action'] ) ) {
 	$plugin = isset( $_REQUEST['plugin'] ) ? trim( $_REQUEST['plugin'] ) : '';
 	$theme  = isset( $_REQUEST['theme'] ) ? urldecode( $_REQUEST['theme'] ) : '';
@@ -174,6 +176,26 @@ if ( isset( $_GET['action'] ) ) {
 
 		require_once ABSPATH . 'wp-admin/admin-footer.php';
 
+	} elseif ( 'upload-plugin-cancel-overwrite' === $action ) {
+		if ( ! current_user_can( 'upload_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to install plugins on this site.' ) );
+		}
+
+		check_admin_referer( 'plugin-upload-cancel-overwrite' );
+
+		// Make sure the attachment still exists, or File_Upload_Upgrader will call wp_die()
+		// that shows a generic "Please select a file" error.
+		if ( ! empty( $_GET['package'] ) ) {
+			$attachment_id = (int) $_GET['package'];
+
+			if ( get_post( $attachment_id ) ) {
+				$file_upload = new File_Upload_Upgrader( 'pluginzip', 'package' );
+				$file_upload->cleanup();
+			}
+		}
+
+		wp_redirect( self_admin_url( 'plugin-install.php' ) );
+		exit;
 	} elseif ( 'upgrade-theme' === $action ) {
 
 		if ( ! current_user_can( 'update_themes' ) ) {
@@ -297,6 +319,26 @@ if ( isset( $_GET['action'] ) ) {
 
 		require_once ABSPATH . 'wp-admin/admin-footer.php';
 
+	} elseif ( 'upload-theme-cancel-overwrite' === $action ) {
+		if ( ! current_user_can( 'upload_themes' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to install themes on this site.' ) );
+		}
+
+		check_admin_referer( 'theme-upload-cancel-overwrite' );
+
+		// Make sure the attachment still exists, or File_Upload_Upgrader will call wp_die()
+		// that shows a generic "Please select a file" error.
+		if ( ! empty( $_GET['package'] ) ) {
+			$attachment_id = (int) $_GET['package'];
+
+			if ( get_post( $attachment_id ) ) {
+				$file_upload = new File_Upload_Upgrader( 'themezip', 'package' );
+				$file_upload->cleanup();
+			}
+		}
+
+		wp_redirect( self_admin_url( 'theme-install.php' ) );
+		exit;
 	} else {
 		/**
 		 * Fires when a custom plugin or theme update request is received.

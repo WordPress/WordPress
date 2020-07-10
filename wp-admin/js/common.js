@@ -1606,6 +1606,35 @@ $document.ready( function() {
 	});
 });
 
+// On the "Update plugin/theme from uploaded zip" screen
+// hide the "Replace current with uploaded" button and show a warning in 1 hour and 59 minutes.
+$document.ready( function( $ ) {
+	var $overwrite, $warning;
+
+	if ( ! $body.hasClass( 'update-php' ) ) {
+		return;
+	}
+
+	$overwrite = $( 'a.update-from-upload-overwrite' );
+	$warning   = $( '.update-from-upload-expired' );
+
+	if ( ! $overwrite.length || ! $warning.length ) {
+		return;
+	}
+
+	window.setTimeout(
+		function() {
+			$overwrite.hide();
+			$warning.removeClass( 'hidden' );
+
+			if ( window.wp && window.wp.a11y ) {
+				window.wp.a11y.speak( $warning.text() );
+			}
+		},
+		7140000 // 119 minutes. The uploaded file is deleted after 2 hours.
+	);
+} );
+
 // Fire a custom jQuery event at the end of window resize.
 ( function() {
 	var timeout;
