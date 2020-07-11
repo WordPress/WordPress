@@ -492,7 +492,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 			}
 		}
 
-		if ( wp_unslash( $args['menu-item-title'] ) == wp_specialchars_decode( $original_title ) ) {
+		if ( wp_unslash( $args['menu-item-title'] ) === wp_specialchars_decode( $original_title ) ) {
 			$args['menu-item-title'] = '';
 		}
 
