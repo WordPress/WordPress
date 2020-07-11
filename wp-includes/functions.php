@@ -1230,10 +1230,10 @@ function add_magic_quotes( $array ) {
 	foreach ( (array) $array as $k => $v ) {
 		if ( is_array( $v ) ) {
 			$array[ $k ] = add_magic_quotes( $v );
-		} elseif ( ! is_string( $v ) ) {
-			continue;
-		} else {
+		} elseif ( is_string( $v ) ) {
 			$array[ $k ] = addslashes( $v );
+		} else {
+			continue;
 		}
 	}
 
