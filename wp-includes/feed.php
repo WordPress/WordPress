@@ -526,17 +526,17 @@ function atom_enclosure() {
 
 				$mimes = get_allowed_mime_types();
 
-				// Parse url
+				// Parse URL.
 				if ( isset( $enclosure[0] ) && is_string( $enclosure[0] ) ) {
 					$url = trim( $enclosure[0] );
 				}
 
-				// Parse length and type
-				foreach ( range( 1, 2 ) as $i ) {
+				// Parse length and type.
+				for ( $i = 1; $i <= 2; $i++ ) {
 					if ( isset( $enclosure[ $i ] ) ) {
 						if ( is_numeric( $enclosure[ $i ] ) ) {
 							$length = trim( $enclosure[ $i ] );
-						} elseif ( in_array( $enclosure[ $i ], $mimes ) ) {
+						} elseif ( in_array( $enclosure[ $i ], $mimes, true ) ) {
 							$type = trim( $enclosure[ $i ] );
 						}
 					}
@@ -548,6 +548,7 @@ function atom_enclosure() {
 					esc_attr( $length ),
 					esc_attr( $type )
 				);
+
 				/**
 				 * Filters the atom enclosure HTML link tag for the current post.
 				 *
