@@ -1436,17 +1436,18 @@ function register_and_do_post_meta_boxes( $post ) {
 	}
 
 	$publish_callback_args = array( '__back_compat_meta_box' => true );
+
 	if ( post_type_supports( $post_type, 'revisions' ) && 'auto-draft' !== $post->post_status ) {
 		$revisions = wp_get_post_revisions( $post->ID, array( 'fields' => 'ids' ) );
 
 		// We should aim to show the revisions meta box only when there are revisions.
 		if ( count( $revisions ) > 1 ) {
-			reset( $revisions ); // Reset pointer for key().
 			$publish_callback_args = array(
 				'revisions_count'        => count( $revisions ),
-				'revision_id'            => array_shift( $revisions ),
+				'revision_id'            => reset( $revisions ),
 				'__back_compat_meta_box' => true,
 			);
+
 			add_meta_box( 'revisionsdiv', __( 'Revisions' ), 'post_revisions_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
 		}
 	}
