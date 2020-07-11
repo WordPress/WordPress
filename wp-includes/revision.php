@@ -221,9 +221,9 @@ function wp_save_post_revision( $post_id ) {
 /**
  * Retrieve the autosaved data of the specified post.
  *
- * Returns an object containing the information that was autosaved for the
- * specified post. If the optional $user_id is passed, returns the autosave for that user
- * otherwise returns the latest autosave.
+ * Returns a post object with the information that was autosaved for the specified post.
+ * If the optional $user_id is passed, returns the autosave for that user, otherwise
+ * returns the latest autosave.
  *
  * @since 2.6.0
  *
@@ -237,7 +237,7 @@ function wp_get_post_autosave( $post_id, $user_id = 0 ) {
 	$autosave_name = $post_id . '-autosave-v1';
 	$user_id_query = ( 0 !== $user_id ) ? "AND post_author = $user_id" : null;
 
-	// Construct the autosave query
+	// Construct the autosave query.
 	$autosave_query = "
 		SELECT *
 		FROM $wpdb->posts
@@ -260,7 +260,7 @@ function wp_get_post_autosave( $post_id, $user_id = 0 ) {
 		return false;
 	}
 
-	return $autosave[0];
+	return get_post( $autosave[0] );
 }
 
 /**
