@@ -282,9 +282,17 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 
 		if ( $can_update ) {
 			if ( $this->is_downgrading ) {
-				$warning = __( 'You are uploading an older version of a current plugin. You can continue to install the older version, but be sure to <a href="https://wordpress.org/support/article/wordpress-backups/">backup your database and files</a> first.' );
+				$warning = sprintf(
+					/* translators: %s: Documentation URL. */
+					__( 'You are uploading an older version of a current plugin. You can continue to install the older version, but be sure to <a href="%s">back up your database and files</a> first.' ),
+					__( 'https://wordpress.org/support/article/wordpress-backups/' )
+				);
 			} else {
-				$warning = __( 'You are updating a plugin. Be sure to <a href="https://wordpress.org/support/article/wordpress-backups/">backup your database and files</a> first.' );
+				$warning = sprintf(
+					/* translators: %s: Documentation URL. */
+					__( 'You are updating a plugin. Be sure to <a href="%s">back up your database and files</a> first.' ),
+					__( 'https://wordpress.org/support/article/wordpress-backups/' )
+				);
 			}
 
 			echo '<p class="update-from-upload-notice">' . $warning . '</p>';
