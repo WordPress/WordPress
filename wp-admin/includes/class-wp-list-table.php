@@ -166,8 +166,8 @@ class WP_List_Table {
 
 		if ( empty( $this->modes ) ) {
 			$this->modes = array(
-				'list'     => __( 'Compact view' ),
-				'extended' => __( 'Extended view' ),
+				'list'    => __( 'Compact view' ),
+				'excerpt' => __( 'Extended view' ),
 			);
 		}
 	}
@@ -524,7 +524,7 @@ class WP_List_Table {
 
 		$mode = get_user_setting( 'posts_list_mode', 'list' );
 
-		if ( 'extended' === $mode ) {
+		if ( 'excerpt' === $mode ) {
 			$always_visible = true;
 		}
 
@@ -655,6 +655,7 @@ class WP_List_Table {
 				$classes[]    = 'current';
 				$aria_current = ' aria-current="page"';
 			}
+
 			printf(
 				"<a href='%s' class='%s' id='view-switch-$mode'$aria_current><span class='screen-reader-text'>%s</span></a>\n",
 				esc_url( remove_query_arg( 'attachment-filter', add_query_arg( 'mode', $mode ) ) ),

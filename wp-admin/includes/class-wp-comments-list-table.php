@@ -87,7 +87,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		global $post_id, $comment_status, $comment_type, $search;
 
 		if ( ! empty( $_REQUEST['mode'] ) ) {
-			$mode = 'extended' === $_REQUEST['mode'] ? 'extended' : 'list';
+			$mode = 'excerpt' === $_REQUEST['mode'] ? 'excerpt' : 'list';
 			set_user_setting( 'posts_list_mode', $mode );
 		}
 
@@ -760,7 +760,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		$mode = get_user_setting( 'posts_list_mode', 'list' );
 
-		if ( 'extended' === $mode ) {
+		if ( 'excerpt' === $mode ) {
 			$always_visible = true;
 		}
 

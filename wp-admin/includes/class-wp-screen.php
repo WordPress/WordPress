@@ -1333,7 +1333,7 @@ final class WP_Screen {
 					<?php _e( 'Compact view' ); ?>
 				</label>
 				<label for="excerpt-view-mode">
-					<input id="excerpt-view-mode" type="radio" name="mode" value="extended" <?php checked( 'extended', $mode ); ?> />
+					<input id="excerpt-view-mode" type="radio" name="mode" value="excerpt" <?php checked( 'excerpt', $mode ); ?> />
 					<?php _e( 'Extended view' ); ?>
 				</label>
 				<?php
