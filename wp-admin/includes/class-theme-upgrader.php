@@ -500,8 +500,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 			unset( $past_failure_emails[ $theme ] );
 		}
+
 		update_option( 'auto_plugin_theme_update_emails', $past_failure_emails );
-		reset( $results );
 
 		return $results;
 	}

@@ -4462,18 +4462,18 @@ function wp_ajax_update_plugin() {
 		$status['errorMessage'] = $skin->get_error_messages();
 		wp_send_json_error( $status );
 	} elseif ( is_array( $result ) && ! empty( $result[ $plugin ] ) ) {
-		$plugin_update_data = current( $result );
 
 		/*
-		 * If the `update_plugins` site transient is empty (e.g. when you update
-		 * two plugins in quick succession before the transient repopulates),
-		 * this may be the return.
+		 * Plugin is already at the latest version.
+		 *
+		 * This may also be the return value If the `update_plugins` site transient is empty,
+		 * e.g. when you update two plugins in quick succession before the transient repopulates.
 		 *
 		 * Preferably something can be done to ensure `update_plugins` isn't empty.
 		 * For now, surface some sort of error here.
 		 */
-		if ( true === $plugin_update_data ) {
-			$status['errorMessage'] = __( 'Plugin update failed.' );
+		if ( true === $result[ $plugin ] ) {
+			$status['errorMessage'] = $upgrader->strings['up_to_date'];
 			wp_send_json_error( $status );
 		}
 
@@ -4484,6 +4484,7 @@ function wp_ajax_update_plugin() {
 			/* translators: %s: Plugin version. */
 			$status['newVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
 		}
+
 		wp_send_json_success( $status );
 	} elseif ( false === $result ) {
 		global $wp_filesystem;

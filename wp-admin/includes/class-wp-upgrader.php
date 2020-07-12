@@ -660,7 +660,7 @@ class WP_Upgrader {
 	 *     @type array  $hook_extra                  Extra arguments to pass to the filter hooks called by
 	 *                                               WP_Upgrader::run().
 	 * }
-	 * @return array|false|WP_error The result from self::install_package() on success, otherwise a WP_Error,
+	 * @return array|false|WP_Error The result from self::install_package() on success, otherwise a WP_Error,
 	 *                              or false if unable to connect to the filesystem.
 	 */
 	public function run( $options ) {
