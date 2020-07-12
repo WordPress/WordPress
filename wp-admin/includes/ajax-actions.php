@@ -4466,7 +4466,7 @@ function wp_ajax_update_plugin() {
 		/*
 		 * Plugin is already at the latest version.
 		 *
-		 * This may also be the return value If the `update_plugins` site transient is empty,
+		 * This may also be the return value if the `update_plugins` site transient is empty,
 		 * e.g. when you update two plugins in quick succession before the transient repopulates.
 		 *
 		 * Preferably something can be done to ensure `update_plugins` isn't empty.

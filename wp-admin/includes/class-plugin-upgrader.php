@@ -247,8 +247,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Force refresh of plugin update information.
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
 
-		// Ensure any future auto-update failures trigger a failure email by removing the last
-		// failure notification from the list when plugins update successfully.
+		// Ensure any future auto-update failures trigger a failure email by removing
+		// the last failure notification from the list when plugins update successfully.
 		$past_failure_emails = get_option( 'auto_plugin_theme_update_emails', array() );
 
 		if ( isset( $past_failure_emails[ $plugin ] ) ) {
@@ -379,8 +379,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ) );
 
-		// Ensure any future auto-update failures trigger a failure email by removing the last
-		// failure notification from the list when plugins update successfully.
+		// Ensure any future auto-update failures trigger a failure email by removing
+		// the last failure notification from the list when plugins update successfully.
 		$past_failure_emails = get_option( 'auto_plugin_theme_update_emails', array() );
 
 		foreach ( $results as $plugin => $result ) {

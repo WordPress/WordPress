@@ -267,13 +267,13 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		$table .= '</tbody></table>';
 
 		/**
-		 * Filters the compare table output for overwrite a theme package on upload.
+		 * Filters the compare table output for overwriting a theme package on upload.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string   $table               The output table with Name, Version, Author, RequiresWP and RequiresPHP info.
-		 * @param array    $current_theme_data  Array with current theme data.
-		 * @param array    $new_theme_data      Array with uploaded theme data.
+		 * @param string $table              The output table with Name, Version, Author, RequiresWP, and RequiresPHP info.
+		 * @param array  $current_theme_data Array with current theme data.
+		 * @param array  $new_theme_data     Array with uploaded theme data.
 		 */
 		echo apply_filters( 'install_theme_overwrite_comparison', $table, $current_theme_data, $this->upgrader->new_theme_data );
 

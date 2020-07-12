@@ -352,8 +352,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
 
-		// Ensure any future auto-update failures trigger a failure email by removing the last
-		// failure notification from the list when themes update successfully.
+		// Ensure any future auto-update failures trigger a failure email by removing
+		// the last failure notification from the list when themes update successfully.
 		$past_failure_emails = get_option( 'auto_plugin_theme_update_emails', array() );
 
 		if ( isset( $past_failure_emails[ $theme ] ) ) {
@@ -488,8 +488,8 @@ class Theme_Upgrader extends WP_Upgrader {
 		remove_filter( 'upgrader_post_install', array( $this, 'current_after' ) );
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_theme' ) );
 
-		// Ensure any future auto-update failures trigger a failure email by removing the last
-		// failure notification from the list when themes update successfully.
+		// Ensure any future auto-update failures trigger a failure email by removing
+		// the last failure notification from the list when themes update successfully.
 		$past_failure_emails = get_option( 'auto_plugin_theme_update_emails', array() );
 
 		foreach ( $results as $theme => $result ) {

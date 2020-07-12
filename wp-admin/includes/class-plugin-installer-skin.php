@@ -232,13 +232,13 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		$table .= '</tbody></table>';
 
 		/**
-		 * Filters the compare table output for overwrite a plugin package on upload.
+		 * Filters the compare table output for overwriting a plugin package on upload.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string   $table                The output table with Name, Version, Author, RequiresWP and RequiresPHP info.
-		 * @param array    $current_plugin_data  Array with current plugin data.
-		 * @param array    $new_plugin_data      Array with uploaded plugin data.
+		 * @param string $table               The output table with Name, Version, Author, RequiresWP, and RequiresPHP info.
+		 * @param array  $current_plugin_data Array with current plugin data.
+		 * @param array  $new_plugin_data     Array with uploaded plugin data.
 		 */
 		echo apply_filters( 'install_plugin_ovewrite_comparison', $table, $current_plugin_data, $this->upgrader->new_plugin_data );
 
