@@ -2084,7 +2084,8 @@ function sanitize_file_name( $filename ) {
  * @since 2.0.0
  *
  * @param string $username The username to be sanitized.
- * @param bool   $strict   If set limits $username to specific characters. Default false.
+ * @param bool   $strict   Optional. If set limits $username to specific characters.
+ *                         Default false.
  * @return string The sanitized username, after passing through filters.
  */
 function sanitize_user( $username, $strict = false ) {
@@ -2112,7 +2113,7 @@ function sanitize_user( $username, $strict = false ) {
 	 *
 	 * @param string $username     Sanitized username.
 	 * @param string $raw_username The username prior to sanitization.
-	 * @param bool   $strict       Whether to limit the sanitization to specific characters. Default false.
+	 * @param bool   $strict       Whether to limit the sanitization to specific characters.
 	 */
 	return apply_filters( 'sanitize_user', $username, $raw_username, $strict );
 }
@@ -2120,7 +2121,8 @@ function sanitize_user( $username, $strict = false ) {
 /**
  * Sanitizes a string key.
  *
- * Keys are used as internal identifiers. Lowercase alphanumeric characters, dashes and underscores are allowed.
+ * Keys are used as internal identifiers. Lowercase alphanumeric characters,
+ * dashes, and underscores are allowed.
  *
  * @since 3.0.0
  *
@@ -2144,18 +2146,20 @@ function sanitize_key( $key ) {
 }
 
 /**
- * Sanitizes a string into a slug, which can be used in places such as URLs or HTML attributes.
+ * Sanitizes a string into a slug, which can be used in URLs or HTML attributes.
  *
- * In a save context, converts accents to ASCII characters. By default, output is
- * further limited to alphanumeric characters, underscore (_) and dash (-) through the
- * 'sanitize_title' filter. If $title is empty and $fallback_title is set, the latter
- * will be used.
+ * By default, converts accent characters to ASCII characters and further
+ * limits the output to alphanumeric characters, underscore (_) and dash (-)
+ * through the {@see 'sanitize_title'} filter.
+ *
+ * If `$title` is empty and `$fallback_title` is set, the latter will be used.
  *
  * @since 1.0.0
  *
  * @param string $title          The string to be sanitized.
- * @param string $fallback_title Optional. A title to use if $title is empty.
- * @param string $context        Optional. The operation for which the string is sanitized
+ * @param string $fallback_title Optional. A title to use if $title is empty. Default empty.
+ * @param string $context        Optional. The operation for which the string is sanitized.
+ *                               Default 'save'.
  * @return string The sanitized string.
  */
 function sanitize_title( $title, $fallback_title = '', $context = 'save' ) {
@@ -2206,8 +2210,9 @@ function sanitize_title_for_query( $title ) {
  * @since 1.2.0
  *
  * @param string $title     The title to be sanitized.
- * @param string $raw_title Optional. Not used.
+ * @param string $raw_title Optional. Not used. Default empty.
  * @param string $context   Optional. The operation for which the string is sanitized.
+ *                          Default 'display'.
  * @return string The sanitized title.
  */
 function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'display' ) {
