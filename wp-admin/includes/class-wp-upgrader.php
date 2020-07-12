@@ -244,6 +244,7 @@ class WP_Upgrader {
 	 * Download a package.
 	 *
 	 * @since 2.8.0
+	 * @since 5.5.0 Added the `$hook_extra` parameter.
 	 *
 	 * @param string $package          The URI of the package. If this is the full path to an
 	 *                                 existing local file, it will be returned untouched.
@@ -256,6 +257,7 @@ class WP_Upgrader {
 		 * Filters whether to return the package.
 		 *
 		 * @since 3.7.0
+		 * @since 5.5.0 Added the `$hook_extra` parameter.
 		 *
 		 * @param bool        $reply      Whether to bail without returning the package.
 		 *                                Default false.
