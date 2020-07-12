@@ -255,7 +255,30 @@ class WP_REST_Server {
 		$expose_headers = apply_filters( 'rest_exposed_cors_headers', $expose_headers );
 
 		$this->send_header( 'Access-Control-Expose-Headers', implode( ', ', $expose_headers ) );
-		$this->send_header( 'Access-Control-Allow-Headers', 'Authorization, Content-Type' );
+
+		$allow_headers = array(
+			'Authorization',
+			'X-WP-Nonce',
+			'Content-Disposition',
+			'Content-MD5',
+			'Content-Type',
+		);
+
+		/**
+		 * Filters the list of request headers that are allowed for CORS requests.
+		 *
+		 * The allowed headers are passed to the browser to specify which
+		 * headers can be passed to the REST API. By default, we allow the
+		 * Content-* headers needed to upload files to the media endpoints.
+		 * As well as the Authorization and Nonce headers for allowing authentication.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string[] $allow_headers The list of headers to allow.
+		 */
+		$allow_headers = apply_filters( 'rest_allowed_cors_headers', $allow_headers );
+
+		$this->send_header( 'Access-Control-Allow-Headers', implode( ', ', $allow_headers ) );
 
 		/**
 		 * Send nocache headers on authenticated requests.
