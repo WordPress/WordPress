@@ -942,6 +942,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$class .= ' paused';
 		}
 
+		if ( is_uninstallable_plugin( $plugin_file ) ) {
+			$class .= ' is-uninstallable';
+		}
+
 		printf(
 			'<tr class="%s" data-slug="%s" data-plugin="%s">',
 			esc_attr( $class ),

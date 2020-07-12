@@ -2138,11 +2138,21 @@
 		 */
 		$bulkActionForm.on( 'click', '[data-plugin] a.delete', function( event ) {
 			var $pluginRow = $( event.target ).parents( 'tr' ),
+				confirmMessage;
+
+			if ( $pluginRow.hasClass( 'is-uninstallable' ) ) {
 				confirmMessage = sprintf(
 					/* translators: %s: Plugin name. */
 					__( 'Are you sure you want to delete %s and its data?' ),
 					$pluginRow.find( '.plugin-title strong' ).text()
 				);
+			} else {
+				confirmMessage = sprintf(
+					/* translators: %s: Plugin name. */
+					__( 'Are you sure you want to delete %s?' ),
+					$pluginRow.find( '.plugin-title strong' ).text()
+				);
+			}
 
 			event.preventDefault();
 
