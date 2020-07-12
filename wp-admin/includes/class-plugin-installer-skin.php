@@ -217,17 +217,17 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		$is_same_plugin = true; // Let's consider only these rows.
 
 		foreach ( $rows as $field => $label ) {
-			$old_value = ! empty( $current_plugin_data[ $field ] ) ? $current_plugin_data[ $field ] : '-';
-			$new_value = ! empty( $this->upgrader->new_plugin_data[ $field ] ) ? $this->upgrader->new_plugin_data[ $field ] : '-';
+			$old_value = ! empty( $current_plugin_data[ $field ] ) ? (string) $current_plugin_data[ $field ] : '-';
+			$new_value = ! empty( $this->upgrader->new_plugin_data[ $field ] ) ? (string) $this->upgrader->new_plugin_data[ $field ] : '-';
 
 			$is_same_plugin = $is_same_plugin && ( $old_value === $new_value );
 
 			$diff_field   = ( 'Version' !== $field && $new_value !== $old_value );
 			$diff_version = ( 'Version' === $field && $this->is_downgrading );
 
-			$table .= '<tr><td class="name-label">' . $label . '</td><td>' . esc_html( $old_value ) . '</td>';
+			$table .= '<tr><td class="name-label">' . $label . '</td><td>' . wp_strip_all_tags( $old_value ) . '</td>';
 			$table .= ( $diff_field || $diff_version ) ? '<td class="warning">' : '<td>';
-			$table .= esc_html( $new_value ) . '</td></tr>';
+			$table .= wp_strip_all_tags( $new_value ) . '</td></tr>';
 		}
 
 		$table .= '</tbody></table>';

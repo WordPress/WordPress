@@ -241,9 +241,9 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 
 		foreach ( $rows as $field => $label ) {
 			$old_value = $current_theme_data->display( $field, false );
-			$old_value = $old_value ? $old_value : '-';
+			$old_value = $old_value ? (string) $old_value : '-';
 
-			$new_value = ! empty( $this->upgrader->new_theme_data[ $field ] ) ? $this->upgrader->new_theme_data[ $field ] : '-';
+			$new_value = ! empty( $this->upgrader->new_theme_data[ $field ] ) ? (string) $this->upgrader->new_theme_data[ $field ] : '-';
 
 			if ( $old_value === $new_value && '-' === $new_value && 'Template' === $field ) {
 				continue;
@@ -260,9 +260,9 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 				$new_value     .= ' ' . __( '(not found)' );
 			}
 
-			$table .= '<tr><td class="name-label">' . $label . '</td><td>' . esc_html( $old_value ) . '</td>';
+			$table .= '<tr><td class="name-label">' . $label . '</td><td>' . wp_strip_all_tags( $old_value ) . '</td>';
 			$table .= ( $diff_field || $diff_version || $invalid_parent ) ? '<td class="warning">' : '<td>';
-			$table .= esc_html( $new_value ) . '</td></tr>';
+			$table .= wp_strip_all_tags( $new_value ) . '</td></tr>';
 		}
 
 		$table .= '</tbody></table>';
