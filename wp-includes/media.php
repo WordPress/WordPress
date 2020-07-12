@@ -1522,7 +1522,7 @@ function wp_image_file_matches_image_meta( $image_location, $image_meta ) {
 		// Check if the relative image path from the image meta is at the end of $image_location.
 		if ( strrpos( $image_location, $image_meta['file'] ) === strlen( $image_location ) - strlen( $image_meta['file'] ) ) {
 			$match = true;
-		} elseif ( ! empty( $image_meta['sizes'] ) ) {
+		} else {
 			// Retrieve the uploads sub-directory from the full size image.
 			$dirname = _wp_get_attachment_relative_path( $image_meta['file'] );
 
@@ -1530,12 +1530,22 @@ function wp_image_file_matches_image_meta( $image_location, $image_meta ) {
 				$dirname = trailingslashit( $dirname );
 			}
 
-			foreach ( $image_meta['sizes'] as $image_size_data ) {
-				$relative_path = $dirname . $image_size_data['file'];
+			if ( ! empty( $image_meta['original_image'] ) ) {
+				$relative_path = $dirname . $image_meta['original_image'];
 
 				if ( strrpos( $image_location, $relative_path ) === strlen( $image_location ) - strlen( $relative_path ) ) {
 					$match = true;
-					break;
+				}
+			}
+
+			if ( ! $match && ! empty( $image_meta['sizes'] ) ) {
+				foreach ( $image_meta['sizes'] as $image_size_data ) {
+					$relative_path = $dirname . $image_size_data['file'];
+
+					if ( strrpos( $image_location, $relative_path ) === strlen( $image_location ) - strlen( $relative_path ) ) {
+						$match = true;
+						break;
+					}
 				}
 			}
 		}
