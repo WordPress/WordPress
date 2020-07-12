@@ -214,7 +214,8 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		$table .= '<tr><th></th><th>' . esc_html( __( 'Current' ) ) . '</th>';
 		$table .= '<th>' . esc_html( __( 'Uploaded' ) ) . '</th></tr>';
 
-		$is_same_plugin = true; // Let's consider only these rows
+		$is_same_plugin = true; // Let's consider only these rows.
+
 		foreach ( $rows as $field => $label ) {
 			$old_value = ! empty( $current_plugin_data[ $field ] ) ? $current_plugin_data[ $field ] : '-';
 			$new_value = ! empty( $this->upgrader->new_plugin_data[ $field ] ) ? $this->upgrader->new_plugin_data[ $field ] : '-';
@@ -248,9 +249,8 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		$blocked_message  = '<p>' . esc_html( __( 'The plugin cannot be updated due to the following:' ) ) . '</p>';
 		$blocked_message .= '<ul class="ul-disc">';
 
-		if (
-			! empty( $this->upgrader->new_plugin_data['RequiresPHP'] ) &&
-			version_compare( phpversion(), $this->upgrader->new_plugin_data['RequiresPHP'], '<' )
+		if ( ! empty( $this->upgrader->new_plugin_data['RequiresPHP'] )
+			&& ! is_php_version_compatible( $this->upgrader->new_plugin_data['RequiresPHP'] )
 		) {
 			$error = sprintf(
 				/* translators: 1: Current PHP version, 2: Version required by the uploaded plugin. */
@@ -263,9 +263,8 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 			$can_update       = false;
 		}
 
-		if (
-			! empty( $this->upgrader->new_plugin_data['RequiresWP'] ) &&
-			version_compare( $GLOBALS['wp_version'], $this->upgrader->new_plugin_data['RequiresWP'], '<' )
+		if ( ! empty( $this->upgrader->new_plugin_data['RequiresWP'] )
+			&& ! is_wp_version_compatible( $this->upgrader->new_plugin_data['RequiresWP'] )
 		) {
 			$error = sprintf(
 				/* translators: 1: Current WordPress version, 2: Version required by the uploaded plugin. */
