@@ -273,9 +273,9 @@ class Theme_Upgrader extends WP_Upgrader {
 			 *
 			 * @since 5.5.0
 			 *
-			 * @param string  $package          The package file.
-			 * @param array   $new_plugin_data  The new theme data.
-			 * @param string  $package_type     The package type (plugin or theme).
+			 * @param string  $package        The package file.
+			 * @param array   $new_theme_data The new theme data.
+			 * @param string  $package_type   The package type (plugin or theme).
 			 */
 			do_action( 'upgrader_overwrote_package', $package, $this->new_theme_data, 'theme' );
 		}
