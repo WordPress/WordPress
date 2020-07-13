@@ -12,6 +12,7 @@ Description: Used to style blocks in the editor.
 4.0 Blocks - Formatting
 5.0 Blocks - Layout Elements
 6.0 Blocks - Widgets
+7.0 Blocks - Colors
 --------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
@@ -435,4 +436,96 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .edit-post-visual-editor .wp-block-latest-posts.is-grid li {
 	margin-bottom: 1em;
+}
+
+/*--------------------------------------------------------------
+7.0 Blocks - Colors
+--------------------------------------------------------------*/
+
+:root .editor-styles-wrapper .has-dark-gray-color {
+	color: #141412;
+}
+
+:root .editor-styles-wrapper .has-dark-gray-background-color {
+	background-color: #141412;
+}
+
+:root .editor-styles-wrapper .has-red-color {
+	color: #bc360a;
+}
+
+:root .editor-styles-wrapper .has-red-background-color {
+	background-color: #bc360a;
+}
+
+:root .editor-styles-wrapper .has-medium-orange-color {
+	color: #db572f;
+}
+
+:root .editor-styles-wrapper .has-medium-orange-background-color {
+	background-color: #db572f;
+}
+
+:root .editor-styles-wrapper .has-light-orange-color {
+	color: #ea9629;
+}
+
+:root .editor-styles-wrapper .has-light-orange-background-color {
+	background-color: #ea9629;
+}
+
+:root .editor-styles-wrapper .has-yellow-color {
+	color: #fbca3c;
+}
+
+:root .editor-styles-wrapper .has-yellow-background-color {
+	background-color: #fbca3c;
+}
+
+:root .editor-styles-wrapper .has-white-color {
+	color: #fff;
+}
+
+:root .editor-styles-wrapper .has-white-background-color {
+	background-color: #fff;
+}
+
+:root .editor-styles-wrapper .has-dark-brown-color {
+	color: #220e10;
+}
+
+:root .editor-styles-wrapper .has-dark-brown-background-color {
+	background-color: #220e10;
+}
+
+:root .editor-styles-wrapper .has-medium-brown-color {
+	color: #722d19;
+}
+
+:root .editor-styles-wrapper .has-medium-brown-background-color {
+	background-color: #722d19;
+}
+
+:root .editor-styles-wrapper .has-light-brown-color {
+	color: #eadaa6;
+}
+
+:root .editor-styles-wrapper .has-light-brown-background-color {
+	background-color: #eadaa6;
+}
+
+:root .editor-styles-wrapper .has-beige-color {
+	color: #e8e5ce;
+}
+
+:root .editor-styles-wrapper .has-beige-background-color {
+	background-color: #e8e5ce;
+}
+
+:root .editor-styles-wrapper .has-off-white-color {
+	color: #f7f5e7;
+}
+
+:root .editor-styles-wrapper .has-off-white-background-color {
+	background-color: #f7f5e7;
 }

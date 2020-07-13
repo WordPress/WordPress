@@ -12,6 +12,7 @@ Description: Used to style blocks in the editor.
 4.0 Blocks - Formatting
 5.0 Blocks - Layout Elements
 6.0 Blocks - Widgets
+7.0 Blocks - Colors
 --------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
@@ -481,4 +482,56 @@ p.has-drop-cap:not(:focus)::first-letter {
 	list-style: none;
 	margin-left: 0;
 	margin-right: 0;
+}
+
+/*--------------------------------------------------------------
+7.0 Blocks - Colors
+--------------------------------------------------------------*/
+
+:root .editor-styles-wrapper .has-green-color {
+	color: #24890d;
+}
+
+:root .editor-styles-wrapper .has-green-background-color {
+	background-color: #24890d;
+}
+
+:root .editor-styles-wrapper .has-black-color {
+	color: #000;
+}
+
+:root .editor-styles-wrapper .has-black-background-color {
+	background-color: #000;
+}
+
+:root .editor-styles-wrapper .has-dark-gray-color {
+	color: #2b2b2b;
+}
+
+:root .editor-styles-wrapper .has-dark-gray-background-color {
+	background-color: #2b2b2b;
+}
+
+:root .editor-styles-wrapper .has-medium-gray-color {
+	color: #767676;
+}
+
+:root .editor-styles-wrapper .has-medium-gray-background-color {
+	background-color: #767676;
+}
+
+:root .editor-styles-wrapper .has-light-gray-color {
+	color: #f5f5f5;
+}
+
+:root .editor-styles-wrapper .has-light-gray-background-color {
+	background-color: #f5f5f5;
+}
+
+:root .editor-styles-wrapper .has-white-color {
+	color: #fff;
+}
+
+:root .editor-styles-wrapper .has-white-background-color {
+	background-color: #fff;
 }

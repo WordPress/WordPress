@@ -11,6 +11,7 @@ Description: Used to style blocks in the editor.
 3.0 Blocks - Common Blocks
 4.0 Blocks - Formatting
 5.0 Blocks - Widgets
+6.0 Blocks - Colors
 --------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
@@ -305,4 +306,58 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .edit-post-visual-editor .wp-block-latest-posts.is-grid li {
 	margin-bottom: 1em;
+}
+
+/*--------------------------------------------------------------
+6.0 Blocks - Colors
+--------------------------------------------------------------*/
+
+:root .editor-styles-wrapper .has-blue-color,
+:root .editor-styles-wrapper .has-blue-color:visited {
+	color: #0066cc;
+}
+
+:root .editor-styles-wrapper .has-blue-background-color,
+:root .editor-styles-wrapper .has-blue-background-color:visited {
+	background-color: #0066cc;
+}
+
+:root .editor-styles-wrapper .has-black-color,
+:root .editor-styles-wrapper .has-black-color:visited {
+	color: #000;
+}
+
+:root .editor-styles-wrapper .has-black-background-color,
+:root .editor-styles-wrapper .has-black-background-color:visited {
+	background-color: #000;
+}
+
+:root .editor-styles-wrapper .has-medium-gray-color,
+:root .editor-styles-wrapper .has-medium-gray-color:visited {
+	color: #666;
+}
+
+:root .editor-styles-wrapper .has-medium-gray-background-color,
+:root .editor-styles-wrapper .has-medium-gray-background-color:visited {
+	background-color: #666;
+}
+
+:root .editor-styles-wrapper .has-light-gray-color,
+:root .editor-styles-wrapper .has-light-gray-color:visited {
+	color: #f1f1f1;
+}
+
+:root .editor-styles-wrapper .has-light-gray-background-color,
+:root .editor-styles-wrapper .has-light-gray-background-color:visited {
+	background-color: #f1f1f1;
+}
+
+:root .editor-styles-wrapper .has-white-color,
+:root .editor-styles-wrapper .has-white-color:visited {
+	color: #fff;
+}
+
+:root .editor-styles-wrapper .has-white-background-color,
+:root .editor-styles-wrapper .has-white-background-color:visited {
+	background-color: #fff;
 }

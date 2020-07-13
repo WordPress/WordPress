@@ -12,6 +12,7 @@ Description: Used to style blocks in the editor.
 4.0 Blocks - Formatting
 5.0 Blocks - Layout Elements
 6.0 Blocks - Widgets
+7.0 Blocks - Colors
 --------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
@@ -867,4 +868,104 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .edit-post-visual-editor .wp-block-latest-posts.is-grid li {
 	margin-bottom: 16px;
+}
+
+/*--------------------------------------------------------------
+7.0 Blocks - Colors
+--------------------------------------------------------------*/
+
+:root .editor-styles-wrapper .has-dark-gray-color {
+	color: #111;
+}
+
+:root .editor-styles-wrapper .has-dark-gray-background-color {
+	background-color: #111;
+}
+
+:root .editor-styles-wrapper .has-light-gray-color {
+	color: #f1f1f1;
+}
+
+:root .editor-styles-wrapper .has-light-gray-background-color {
+	background-color: #f1f1f1;
+}
+
+:root .editor-styles-wrapper .has-white-color {
+	color: #fff;
+}
+
+:root .editor-styles-wrapper .has-white-background-color {
+	background-color: #fff;
+}
+
+:root .editor-styles-wrapper .has-yellow-color {
+	color: #f4ca16;
+}
+
+:root .editor-styles-wrapper .has-yellow-background-color {
+	background-color: #f4ca16;
+}
+
+:root .editor-styles-wrapper .has-dark-brown-color {
+	color: #352712;
+}
+
+:root .editor-styles-wrapper .has-dark-brown-background-color {
+	background-color: #352712;
+}
+
+:root .editor-styles-wrapper .has-medium-pink-color {
+	color: #e53b51;
+}
+
+:root .editor-styles-wrapper .has-medium-pink-background-color {
+	background-color: #e53b51;
+}
+
+:root .editor-styles-wrapper .has-light-pink-color {
+	color: #ffe5d1;
+}
+
+:root .editor-styles-wrapper .has-light-pink-background-color {
+	background-color: #ffe5d1;
+}
+
+:root .editor-styles-wrapper .has-dark-purple-color {
+	color: #2e2256;
+}
+
+:root .editor-styles-wrapper .has-dark-purple-background-color {
+	background-color: #2e2256;
+}
+
+:root .editor-styles-wrapper .has-purple-color {
+	color: #674970;
+}
+
+:root .editor-styles-wrapper .has-purple-background-color {
+	background-color: #674970;
+}
+
+:root .editor-styles-wrapper .has-blue-gray-color {
+	color: #22313f;
+}
+
+:root .editor-styles-wrapper .has-blue-gray-background-color {
+	background-color: #22313f;
+}
+
+:root .editor-styles-wrapper .has-bright-blue-color {
+	color: #55c3dc;
+}
+
+:root .editor-styles-wrapper .has-bright-blue-background-color {
+	background-color: #55c3dc;
+}
+
+:root .editor-styles-wrapper .has-light-blue-color {
+	color: #e9f2f9;
+}
+
+:root .editor-styles-wrapper .has-light-blue-background-color {
+	background-color: #e9f2f9;
 }
