@@ -203,16 +203,30 @@
 		 * @return {void}
 		 */
 		updateOrderButtonsProperties: function() {
-			var firstSortablesId = $( '.meta-box-sortables:first' ).attr( 'id' ),
-				lastSortablesId = $( '.meta-box-sortables:last' ).attr( 'id' ),
+			var firstSortablesId = $( '.meta-box-sortables:visible:first' ).attr( 'id' ),
+				lastSortablesId = $( '.meta-box-sortables:visible:last' ).attr( 'id' ),
 				firstPostbox = $( '.postbox:visible:first' ),
 				lastPostbox = $( '.postbox:visible:last' ),
+				firstPostboxId = firstPostbox.attr( 'id' ),
+				lastPostboxId = lastPostbox.attr( 'id' ),
 				firstPostboxSortablesId = firstPostbox.closest( '.meta-box-sortables' ).attr( 'id' ),
-				lastPostboxSortablesId = lastPostbox.closest( '.meta-box-sortables' ).attr( 'id' );
+				lastPostboxSortablesId = lastPostbox.closest( '.meta-box-sortables' ).attr( 'id' ),
+				moveUpButtons = $( '.handle-order-higher' ),
+				moveDownButtons = $( '.handle-order-lower' );
 
 			// Enable all buttons as a reset first.
-			$( '.handle-order-higher' ).attr( 'aria-disabled', 'false' );
-			$( '.handle-order-lower' ).attr( 'aria-disabled', 'false' );
+			moveUpButtons
+				.attr( 'aria-disabled', 'false' )
+				.removeClass( 'hidden' );
+			moveDownButtons
+				.attr( 'aria-disabled', 'false' )
+				.removeClass( 'hidden' );
+
+			// When there's only one "sortables" area (e.g. in the block editor) and only one visible postbox, hide the buttons.
+			if ( firstSortablesId === lastSortablesId && firstPostboxId === lastPostboxId ) {
+				moveUpButtons.addClass( 'hidden' );
+				moveDownButtons.addClass( 'hidden' );
+			}
 
 			// Set an aria-disabled=true attribute on the first visible "move" buttons.
 			if ( firstSortablesId === firstPostboxSortablesId ) {

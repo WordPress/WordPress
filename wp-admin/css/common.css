@@ -2011,6 +2011,7 @@ html.wp-toolbar {
 	flex-shrink: 0;
 }
 
+/* Post box order and toggle buttons. */
 .postbox .handle-order-higher,
 .postbox .handle-order-lower,
 .postbox .handlediv {
@@ -2026,6 +2027,14 @@ html.wp-toolbar {
 .postbox .handle-order-higher,
 .postbox .handle-order-lower {
 	color: #72777c;
+}
+
+/* Post box order buttons in the block editor meta boxes area. */
+.edit-post-meta-boxes-area .postbox .handle-order-higher,
+.edit-post-meta-boxes-area .postbox .handle-order-lower {
+	width: 44px;
+	height: 44px;
+	color: #191e23
 }
 
 .postbox .handle-order-higher[aria-disabled="true"],
