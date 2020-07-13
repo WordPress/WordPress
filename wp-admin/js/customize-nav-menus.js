@@ -216,9 +216,9 @@
 				}
 			} );
 
-			// Clear the search results and trigger a `keyup` event to fire a new search.
+			// Clear the search results and trigger an `input` event to fire a new search.
 			this.$clearResults.on( 'click', function() {
-				self.$search.val( '' ).focus().trigger( 'keyup' );
+				self.$search.val( '' ).focus().trigger( 'input' );
 			} );
 
 			this.$el.on( 'input', '#custom-menu-item-name.invalid, #custom-menu-item-url.invalid', function() {
@@ -733,7 +733,7 @@
 			$( 'body' ).removeClass( 'adding-menu-items' );
 			$( '#available-menu-items .menu-item-handle.item-added' ).removeClass( 'item-added' );
 
-			this.$search.val( '' ).trigger( 'keyup' );
+			this.$search.val( '' ).trigger( 'input' );
 		},
 
 		// Add a few keyboard enhancements to the panel.
@@ -1819,10 +1819,10 @@
 				/*
 				 * If the menu item deleted is the only of its instance left,
 				 * remove the check icon of this menu item in the right panel.
-				 */ 
+				 */
 				_.each( addedItems, function( addedItem ) {
 					var menuItemId, menuItemControl, matches;
-						
+
 					// This is because menu item that's deleted is just hidden.
 					if ( ! $( addedItem ).is( ':visible' ) ) {
 						return;
