@@ -237,20 +237,20 @@ class WP_Http {
 		}
 
 		/**
-		 * Filters whether to preempt an HTTP request's return value.
+		 * Filters the preemptive return value of an HTTP request.
 		 *
 		 * Returning a non-false value from the filter will short-circuit the HTTP request and return
-		 * early with that value. A filter should return either:
+		 * early with that value. A filter should return one of:
 		 *
 		 *  - An array containing 'headers', 'body', 'response', 'cookies', and 'filename' elements
 		 *  - A WP_Error instance
-		 *  - boolean false (to avoid short-circuiting the response)
+		 *  - boolean false to avoid short-circuiting the response
 		 *
 		 * Returning any other value may result in unexpected behaviour.
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param false|array|WP_Error $preempt     Whether to preempt an HTTP request's return value. Default false.
+		 * @param false|array|WP_Error $preempt     A preemptive return value of an HTTP request. Default false.
 		 * @param array                $parsed_args HTTP request arguments.
 		 * @param string               $url         The request URL.
 		 */

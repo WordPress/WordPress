@@ -655,7 +655,7 @@ class WP_Query {
 	 *     @type int          $hour                    Hour of the day. Default empty. Accepts numbers 0-23.
 	 *     @type int|bool     $ignore_sticky_posts     Whether to ignore sticky posts or not. Setting this to false
 	 *                                                 excludes stickies from 'post__in'. Accepts 1|true, 0|false.
-	 *                                                 Default 0|false.
+	 *                                                 Default false.
 	 *     @type int          $m                       Combination YearMonth. Accepts any four-digit year and month
 	 *                                                 numbers 1-12. Default empty.
 	 *     @type string       $meta_compare            Comparison operator to test the 'meta_value'.
@@ -685,7 +685,6 @@ class WP_Query {
 	 *                                                 'post_name__in', 'post_parent__in', and the array keys
 	 *                                                 of `$meta_query`. Default is 'date', except when a search
 	 *                                                 is being performed, when the default is 'relevance'.
-	 *
 	 *     @type int          $p                       Post ID.
 	 *     @type int          $page                    Show the number of posts that would show up on page X of a
 	 *                                                 static front page.
@@ -3434,6 +3433,8 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 *
+	 * @see WP_Query::parse_query() for all available arguments.
+	 *
 	 * @param string|array $query URL query string or array of query arguments.
 	 * @return WP_Post[]|int[] Array of post objects or post IDs.
 	 */
@@ -3545,6 +3546,8 @@ class WP_Query {
 	 * Sets up the WordPress query, if parameter is not empty.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @see WP_Query::parse_query() for all available arguments.
 	 *
 	 * @param string|array $query URL query string or array of vars.
 	 */

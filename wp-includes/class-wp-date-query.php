@@ -45,7 +45,7 @@ class WP_Date_Query {
 	 * The value comparison operator. Can be changed via the query arguments.
 	 *
 	 * @since 3.7.0
-	 * @var array
+	 * @var string
 	 */
 	public $compare = '=';
 

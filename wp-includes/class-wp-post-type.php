@@ -200,7 +200,7 @@ final class WP_Post_Type {
 	 * Do `remove_meta_box()` and `add_meta_box()` calls in the callback. Default null.
 	 *
 	 * @since 4.6.0
-	 * @var string $register_meta_box_cb
+	 * @var callable $register_meta_box_cb
 	 */
 	public $register_meta_box_cb = null;
 

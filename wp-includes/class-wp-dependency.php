@@ -21,7 +21,7 @@ class _WP_Dependency {
 	 * The handle name.
 	 *
 	 * @since 2.6.0
-	 * @var null
+	 * @var string
 	 */
 	public $handle;
 
@@ -29,7 +29,7 @@ class _WP_Dependency {
 	 * The handle source.
 	 *
 	 * @since 2.6.0
-	 * @var null
+	 * @var string
 	 */
 	public $src;
 
@@ -55,7 +55,7 @@ class _WP_Dependency {
 	 * Additional arguments for the handle.
 	 *
 	 * @since 2.6.0
-	 * @var null
+	 * @var array
 	 */
 	public $args = null;  // Custom property, such as $in_footer or $media.
 
