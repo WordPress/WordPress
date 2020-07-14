@@ -3422,7 +3422,8 @@ body.is-dragging-components-draggable {
     width: 7px;
     height: 7px;
     margin: 8px 0 0 8px;
-    background-color: #fff; }
+    background-color: #fff;
+    border: 3px solid #fff; }
     @media (min-width: 782px) {
       .components-radio-control__input[type="radio"]:checked::before {
         width: 6px;

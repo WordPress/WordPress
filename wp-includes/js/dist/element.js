@@ -142,7 +142,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 137:
+/***/ 138:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["ReactDOM"]; }());
@@ -989,7 +989,7 @@ function switchChildrenNodeName(children, nodeName) {
 }
 
 // EXTERNAL MODULE: external {"this":"ReactDOM"}
-var external_this_ReactDOM_ = __webpack_require__(137);
+var external_this_ReactDOM_ = __webpack_require__(138);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react-platform.js
 /**

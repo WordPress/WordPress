@@ -955,7 +955,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   justify-content: left; }
   .edit-post-post-schedule span {
     display: block;
-    width: 35%; }
+    width: 45%; }
 
 .components-button.edit-post-post-schedule__toggle {
   text-align: left; }
@@ -974,7 +974,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   justify-content: left; }
   .edit-post-post-visibility span {
     display: block;
-    width: 35%; }
+    width: 45%; }
 
 @media (min-width: 782px) {
   .edit-post-post-visibility__dialog .components-popover__content {
@@ -1231,7 +1231,8 @@ body.block-editor-page {
 .edit-post-sidebar,
 .editor-post-publish-panel,
 .components-popover,
-.components-modal__frame {
+.components-modal__frame,
+.edit-post-layout__inserter-panel {
   box-sizing: border-box; }
   .edit-post-header *,
   .edit-post-header *::before,
@@ -1253,7 +1254,10 @@ body.block-editor-page {
   .components-popover *::after,
   .components-modal__frame *,
   .components-modal__frame *::before,
-  .components-modal__frame *::after {
+  .components-modal__frame *::after,
+  .edit-post-layout__inserter-panel *,
+  .edit-post-layout__inserter-panel *::before,
+  .edit-post-layout__inserter-panel *::after {
     box-sizing: inherit; }
 
 @media (min-width: 600px) {

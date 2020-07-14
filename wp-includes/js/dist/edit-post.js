@@ -545,7 +545,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 144:
+/***/ 145:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["mediaUtils"]; }());
@@ -907,6 +907,13 @@ function _inherits(subClass, superClass) {
 /***/ }),
 
 /***/ 21:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -922,13 +929,6 @@ function _possibleConstructorReturn(self, call) {
 
   return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -1649,7 +1649,7 @@ var external_this_wp_blockLibrary_ = __webpack_require__(271);
 var external_this_wp_hooks_ = __webpack_require__(32);
 
 // EXTERNAL MODULE: external {"this":["wp","mediaUtils"]}
-var external_this_wp_mediaUtils_ = __webpack_require__(144);
+var external_this_wp_mediaUtils_ = __webpack_require__(145);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/hooks/components/index.js
 /**
@@ -1903,7 +1903,7 @@ function ManageBlocksMenuItem(_ref) {
 })(ManageBlocksMenuItem));
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/plugins/keyboard-shortcuts-help-menu-item/index.js
 
@@ -3296,7 +3296,7 @@ var classCallCheck = __webpack_require__(19);
 var createClass = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(21);
+var possibleConstructorReturn = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(15);

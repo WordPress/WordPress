@@ -236,7 +236,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 130:
+/***/ 131:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -605,6 +605,13 @@ function _inherits(subClass, superClass) {
 /***/ }),
 
 /***/ 21:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -620,13 +627,6 @@ function _possibleConstructorReturn(self, call) {
 
   return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -4751,6 +4751,7 @@ function ImageEditor(_ref5) {
       attrs.rotation = rotation;
     }
 
+    attrs.src = url;
     external_this_wp_apiFetch_default()({
       path: "wp/v2/media/".concat(id, "/edit"),
       method: 'POST',
@@ -6193,7 +6194,7 @@ var heading_deprecated_deprecated = [{
 /* harmony default export */ var heading_deprecated = (heading_deprecated_deprecated);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/heading/heading-level-icon.js
 
@@ -7740,7 +7741,7 @@ var createClass = __webpack_require__(18);
 var assertThisInitialized = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(21);
+var possibleConstructorReturn = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(15);
@@ -10414,8 +10415,11 @@ function BorderPanel(_ref) {
   var _ref$borderRadius = _ref.borderRadius,
       borderRadius = _ref$borderRadius === void 0 ? '' : _ref$borderRadius,
       setAttributes = _ref.setAttributes;
+  var initialBorderRadius = borderRadius;
   var setBorderRadius = Object(external_this_wp_element_["useCallback"])(function (newBorderRadius) {
-    setAttributes({
+    if (newBorderRadius === undefined) setAttributes({
+      borderRadius: initialBorderRadius
+    });else setAttributes({
       borderRadius: newBorderRadius
     });
   }, [setAttributes]);
@@ -20791,7 +20795,7 @@ var shortcode_shortcode = Object(external_this_wp_element_["createElement"])(ext
 /* harmony default export */ var library_shortcode = (shortcode_shortcode);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__(130);
+var build_module_icon = __webpack_require__(131);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/shortcode/edit.js
 
@@ -22111,13 +22115,20 @@ var edit_TableEdit = /*#__PURE__*/function (_Component) {
           setAttributes = _this$props6.setAttributes;
       var sectionName = selectedCell.sectionName,
           rowIndex = selectedCell.rowIndex;
-      this.setState({
-        selectedCell: null
-      });
+      var newRowIndex = rowIndex + delta;
       setAttributes(insertRow(attributes, {
         sectionName: sectionName,
-        rowIndex: rowIndex + delta
-      }));
+        rowIndex: newRowIndex
+      })); // Select the first cell of the new row
+
+      this.setState({
+        selectedCell: {
+          sectionName: sectionName,
+          rowIndex: newRowIndex,
+          columnIndex: 0,
+          type: 'cell'
+        }
+      });
     }
     /**
      * Inserts a row before the currently selected row.
@@ -22183,12 +22194,18 @@ var edit_TableEdit = /*#__PURE__*/function (_Component) {
           attributes = _this$props8.attributes,
           setAttributes = _this$props8.setAttributes;
       var columnIndex = selectedCell.columnIndex;
-      this.setState({
-        selectedCell: null
-      });
+      var newColumnIndex = columnIndex + delta;
       setAttributes(insertColumn(attributes, {
-        columnIndex: columnIndex + delta
-      }));
+        columnIndex: newColumnIndex
+      })); // Select the first cell of the new column
+
+      this.setState({
+        selectedCell: {
+          rowIndex: 0,
+          columnIndex: newColumnIndex,
+          type: 'cell'
+        }
+      });
     }
     /**
      * Inserts a column before the currently selected column.

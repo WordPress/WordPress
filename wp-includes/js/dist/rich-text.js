@@ -279,7 +279,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 22:
+/***/ 21:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["keycodes"]; }());
@@ -3840,7 +3840,7 @@ var classnames = __webpack_require__(11);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
 var external_this_wp_deprecated_ = __webpack_require__(37);

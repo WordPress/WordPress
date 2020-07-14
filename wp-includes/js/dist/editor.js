@@ -300,7 +300,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 130:
+/***/ 131:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -353,7 +353,7 @@ function Icon(_ref) {
 
 /***/ }),
 
-/***/ 131:
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -366,7 +366,7 @@ function Icon(_ref) {
 
 
 
-var ReactPropTypesSecret = __webpack_require__(132);
+var ReactPropTypesSecret = __webpack_require__(133);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -425,7 +425,7 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 132:
+/***/ 133:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -473,14 +473,14 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 140:
+/***/ 141:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["wordcount"]; }());
 
 /***/ }),
 
-/***/ 144:
+/***/ 145:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["mediaUtils"]; }());
@@ -1281,6 +1281,13 @@ function _inherits(subClass, superClass) {
 /***/ }),
 
 /***/ 21:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1296,13 +1303,6 @@ function _possibleConstructorReturn(self, call) {
 
   return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -1350,7 +1350,7 @@ function _arrayLikeToArray(arr, len) {
 if (false) { var throwOnDirectAccess, ReactIs; } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(131)();
+  module.exports = __webpack_require__(132)();
 }
 
 
@@ -6686,7 +6686,7 @@ var classCallCheck = __webpack_require__(19);
 var createClass = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(21);
+var possibleConstructorReturn = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(15);
@@ -7212,7 +7212,7 @@ function EditorKeyboardShortcutsRegister() {
 var external_this_wp_components_ = __webpack_require__(3);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // EXTERNAL MODULE: external {"this":["wp","primitives"]}
 var external_this_wp_primitives_ = __webpack_require__(6);
@@ -11302,7 +11302,7 @@ var post_publish_panel_PostPublishPanel = /*#__PURE__*/function (_Component) {
 }), external_this_wp_components_["withFocusReturn"], external_this_wp_components_["withConstrainedTabbing"]])(post_publish_panel_PostPublishPanel));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__(130);
+var build_module_icon = __webpack_require__(131);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/cloud.js
 
@@ -11424,7 +11424,6 @@ function post_saved_state_isNativeReflectConstruct() { if (typeof Reflect === "u
  * External dependencies
  */
 
-
 /**
  * WordPress dependencies
  */
@@ -11485,7 +11484,7 @@ var post_saved_state_PostSavedState = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       var _this$props = this.props,
-          post = _this$props.post,
+          hasPublishAction = _this$props.hasPublishAction,
           isNew = _this$props.isNew,
           isScheduled = _this$props.isScheduled,
           isPublished = _this$props.isPublished,
@@ -11535,8 +11534,6 @@ var post_saved_state_PostSavedState = /*#__PURE__*/function (_Component) {
       // is not needed for the contributor role.
 
 
-      var hasPublishAction = Object(external_this_lodash_["get"])(post, ['_links', 'wp:action-publish'], false);
-
       if (!hasPublishAction && isPending) {
         return null;
       }
@@ -11569,6 +11566,8 @@ var post_saved_state_PostSavedState = /*#__PURE__*/function (_Component) {
   return PostSavedState;
 }(external_this_wp_element_["Component"]);
 /* harmony default export */ var post_saved_state = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select, _ref2) {
+  var _getCurrentPost$_link, _getCurrentPost, _getCurrentPost$_link2;
+
   var forceIsDirty = _ref2.forceIsDirty,
       forceIsSaving = _ref2.forceIsSaving;
 
@@ -11584,7 +11583,7 @@ var post_saved_state_PostSavedState = /*#__PURE__*/function (_Component) {
       getEditedPostAttribute = _select.getEditedPostAttribute;
 
   return {
-    post: getCurrentPost(),
+    hasPublishAction: (_getCurrentPost$_link = (_getCurrentPost = getCurrentPost()) === null || _getCurrentPost === void 0 ? void 0 : (_getCurrentPost$_link2 = _getCurrentPost['_links']) === null || _getCurrentPost$_link2 === void 0 ? void 0 : _getCurrentPost$_link2['wp:action-publish']) !== null && _getCurrentPost$_link !== void 0 ? _getCurrentPost$_link : false,
     isNew: isEditedPostNew(),
     isPublished: isCurrentPostPublished(),
     isScheduled: isCurrentPostScheduled(),
@@ -12983,7 +12982,7 @@ var info_info = Object(external_this_wp_element_["createElement"])(external_this
 /* harmony default export */ var library_info = (info_info);
 
 // EXTERNAL MODULE: external {"this":["wp","wordcount"]}
-var external_this_wp_wordcount_ = __webpack_require__(140);
+var external_this_wp_wordcount_ = __webpack_require__(141);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/word-count/index.js
 
@@ -13284,7 +13283,7 @@ var withRegistryProvider = Object(external_this_wp_compose_["createHigherOrderCo
 /* harmony default export */ var with_registry_provider = (withRegistryProvider);
 
 // EXTERNAL MODULE: external {"this":["wp","mediaUtils"]}
-var external_this_wp_mediaUtils_ = __webpack_require__(144);
+var external_this_wp_mediaUtils_ = __webpack_require__(145);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/utils/media-upload/index.js
 

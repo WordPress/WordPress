@@ -442,6 +442,12 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 /* 21 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -457,12 +463,6 @@ function _possibleConstructorReturn(self, call) {
 
   return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 /* 23 */
@@ -624,7 +624,7 @@ function _arrayLikeToArray(arr, len) {
 if (false) { var throwOnDirectAccess, ReactIs; } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(131)();
+  module.exports = __webpack_require__(132)();
 }
 
 
@@ -4267,7 +4267,7 @@ module.exports =  true ? __webpack_require__(352) : undefined;
 "use strict";
 /* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
 /* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
-/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
+/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
 /* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
 /* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(20);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
@@ -4513,7 +4513,7 @@ var ToolbarContext = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["cre
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
 /* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _dashicon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(141);
+/* harmony import */ var _dashicon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(142);
 
 
 
@@ -6118,7 +6118,7 @@ var unstable_Id = Object(reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_
 /* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
 /* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
 /* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(12);
-/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(21);
+/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(22);
 /* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(15);
 /* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(20);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(0);
@@ -6447,7 +6447,7 @@ var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 var external_this_wp_dom_ = __webpack_require__(31);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
 var external_this_wp_deprecated_ = __webpack_require__(37);
@@ -6719,7 +6719,7 @@ var classCallCheck = __webpack_require__(19);
 var createClass = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(21);
+var possibleConstructorReturn = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(15);
@@ -7352,7 +7352,7 @@ var _extends = _interopDefault(__webpack_require__(164));
 var _objectWithoutPropertiesLoose = _interopDefault(__webpack_require__(165));
 var React = __webpack_require__(16);
 var React__default = _interopDefault(React);
-var _inheritsLoose = _interopDefault(__webpack_require__(138));
+var _inheritsLoose = _interopDefault(__webpack_require__(139));
 var _assertThisInitialized = _interopDefault(__webpack_require__(166));
 
 var is = {
@@ -10132,7 +10132,7 @@ function get_get(target, property, receiver) {
   return get_get(target, property, receiver || target);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(21);
+var possibleConstructorReturn = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
 var inherits = __webpack_require__(20);
@@ -10553,7 +10553,7 @@ var createClass = __webpack_require__(18);
 var assertThisInitialized = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(21);
+var possibleConstructorReturn = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(15);
@@ -10967,14 +10967,14 @@ module.exports = function IsPropertyKey(argument) {
 /* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
 /* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
 /* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
-/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(21);
+/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
 /* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(15);
 /* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(20);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(0);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(9);
 /* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(22);
+/* harmony import */ var _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(21);
 /* harmony import */ var _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(31);
 /* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_9__);
@@ -11075,7 +11075,7 @@ var withConstrainedTabbing = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_
 /* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
 /* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
 /* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
-/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(21);
+/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
 /* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(15);
 /* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(20);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(0);
@@ -11740,7 +11740,8 @@ var SlotFillContext = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["cr
 
 /***/ }),
 /* 129 */,
-/* 130 */
+/* 130 */,
+/* 131 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11792,7 +11793,7 @@ function Icon(_ref) {
 
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11805,7 +11806,7 @@ function Icon(_ref) {
 
 
 
-var ReactPropTypesSecret = __webpack_require__(132);
+var ReactPropTypesSecret = __webpack_require__(133);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -11863,7 +11864,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11882,7 +11883,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11904,7 +11905,7 @@ module.exports = function callBoundIntrinsic(name, allowMissing) {
 
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var moment = __webpack_require__(43);
@@ -11950,7 +11951,7 @@ module.exports = {
 
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11971,7 +11972,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 exports['default'] = _propTypes2['default'].oneOf([_constants.HORIZONTAL_ORIENTATION, _constants.VERTICAL_ORIENTATION, _constants.VERTICAL_SCROLLABLE]);
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12004,8 +12005,8 @@ module.exports = shallowCompare;
 
 
 /***/ }),
-/* 137 */,
-/* 138 */
+/* 138 */,
+/* 139 */
 /***/ (function(module, exports) {
 
 function _inheritsLoose(subClass, superClass) {
@@ -12017,9 +12018,9 @@ function _inheritsLoose(subClass, superClass) {
 module.exports = _inheritsLoose;
 
 /***/ }),
-/* 139 */,
 /* 140 */,
-/* 141 */
+/* 141 */,
+/* 142 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12028,7 +12029,7 @@ module.exports = _inheritsLoose;
 /* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
 /* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(19);
 /* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(18);
-/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(21);
+/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(22);
 /* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(15);
 /* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(20);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(0);
@@ -13265,14 +13266,13 @@ var Dashicon = /*#__PURE__*/function (_Component) {
 
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var e=__webpack_require__(16),n={display:"block",opacity:0,position:"absolute",top:0,left:0,height:"100%",width:"100%",overflow:"hidden",pointerEvents:"none",zIndex:-1},t=function(t){var r=t.onResize,u=e.useRef();return function(n,t){var r=function(){return n.current&&n.current.contentDocument&&n.current.contentDocument.defaultView};function u(){t();var e=r();e&&e.addEventListener("resize",t)}e.useEffect((function(){return r()?u():n.current&&n.current.addEventListener&&n.current.addEventListener("load",u),function(){var e=r();e&&"function"==typeof e.removeEventListener&&e.removeEventListener("resize",t)}}),[])}(u,(function(){return r(u)})),e.createElement("iframe",{style:n,src:"about:blank",ref:u,"aria-hidden":!0,tabIndex:-1,frameBorder:0})},r=function(e){return{width:null!=e?e.offsetWidth:null,height:null!=e?e.offsetHeight:null}};module.exports=function(n){void 0===n&&(n=r);var u=e.useState(n(null)),o=u[0],i=u[1],c=e.useCallback((function(e){return i(n(e.current))}),[n]);return[e.useMemo((function(){return e.createElement(t,{onResize:c})}),[c]),o]};
 
 
 /***/ }),
-/* 143 */,
 /* 144 */,
 /* 145 */,
 /* 146 */,
@@ -13538,7 +13538,7 @@ function Animate(_ref) {
 /* unused harmony export createScrollLockComponent */
 /* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
 /* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
-/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
+/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
 /* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
 /* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(20);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
@@ -14679,7 +14679,7 @@ var GetIntrinsic = __webpack_require__(49);
 var $Array = GetIntrinsic('%Array%');
 
 // eslint-disable-next-line global-require
-var toStr = !$Array.isArray && __webpack_require__(133)('Object.prototype.toString');
+var toStr = !$Array.isArray && __webpack_require__(134)('Object.prototype.toString');
 
 // https://www.ecma-international.org/ecma-262/6.0/#sec-isarray
 
@@ -15128,7 +15128,7 @@ module.exports = isObject;
 /* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
 /* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
 /* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(12);
-/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(21);
+/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(22);
 /* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(15);
 /* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(20);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(0);
@@ -15739,7 +15739,7 @@ if ($defineProperty) {
 	}
 }
 
-var callBound = __webpack_require__(133);
+var callBound = __webpack_require__(134);
 
 var $isEnumerable = callBound('Object.prototype.propertyIsEnumerable');
 
@@ -17290,11 +17290,11 @@ var _propTypes = __webpack_require__(28);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactAddonsShallowCompare = __webpack_require__(136);
+var _reactAddonsShallowCompare = __webpack_require__(137);
 
 var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
 
-var _reactMomentProptypes = __webpack_require__(134);
+var _reactMomentProptypes = __webpack_require__(135);
 
 var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
@@ -18840,7 +18840,7 @@ var is_prop_valid_browser_esm_index = memoize_browser_esm(function (prop) {
 /* harmony default export */ var is_prop_valid_browser_esm = (is_prop_valid_browser_esm_index);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/inheritsLoose.js
-var inheritsLoose = __webpack_require__(138);
+var inheritsLoose = __webpack_require__(139);
 var inheritsLoose_default = /*#__PURE__*/__webpack_require__.n(inheritsLoose);
 
 // CONCATENATED MODULE: ./node_modules/@emotion/sheet/dist/sheet.browser.esm.js
@@ -21526,7 +21526,7 @@ var assertThisInitialized = __webpack_require__(12);
 var createClass = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(21);
+var possibleConstructorReturn = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(15);
@@ -21538,7 +21538,7 @@ var inherits = __webpack_require__(20);
 var toConsumableArray = __webpack_require__(17);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // EXTERNAL MODULE: external {"this":["wp","richText"]}
 var external_this_wp_richText_ = __webpack_require__(24);
@@ -22042,7 +22042,8 @@ var autocomplete_Autocomplete = /*#__PURE__*/function (_Component) {
 
         case external_this_wp_keycodes_["ESCAPE"]:
           this.setState({
-            autocompleter: null
+            autocompleter: null,
+            AutocompleterUI: null
           });
           break;
 
@@ -22062,6 +22063,7 @@ var autocomplete_Autocomplete = /*#__PURE__*/function (_Component) {
 
 
       event.preventDefault();
+      event.stopPropagation();
     }
   }, {
     key: "componentDidUpdate",
@@ -26852,6 +26854,82 @@ function UnitSelectControl(_ref) {
   }));
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/hooks/use-controlled-state.js
+
+
+
+function use_controlled_state_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function use_controlled_state_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { use_controlled_state_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { use_controlled_state_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+var defaultOptions = {
+  initial: undefined,
+
+  /**
+   * Defaults to empty string, as that is preferred for usage with
+   * <input />, <textarea />, and <select /> form elements.
+   */
+  fallback: ''
+};
+/**
+ * Custom hooks for "controlled" components to track and consolidate internal
+ * state and incoming values. This is useful for components that render
+ * `input`, `textarea`, or `select` HTML elements.
+ *
+ * https://reactjs.org/docs/forms.html#controlled-components
+ *
+ * At first, a component using useControlledState receives an initial prop
+ * value, which is used as initial internal state.
+ *
+ * This internal state can be maintained and updated without
+ * relying on new incoming prop values.
+ *
+ * Unlike the basic useState hook, useControlledState's state can
+ * be updated if a new incoming prop value is changed.
+ *
+ * @param {any} currentState The current value.
+ * @param {Object} options Additional options for the hook.
+ * @param {any} options.initial The initial state.
+ * @param {any} options.fallback The state to use when no state is defined.
+ *
+ * @return {[*, Function]} The controlled value and the value setter.
+ */
+
+function useControlledState(currentState) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultOptions;
+
+  var _defaultOptions$optio = use_controlled_state_objectSpread({}, defaultOptions, {}, options),
+      initial = _defaultOptions$optio.initial,
+      fallback = _defaultOptions$optio.fallback;
+
+  var _useState = Object(external_this_wp_element_["useState"])(currentState),
+      _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
+      internalState = _useState2[0],
+      setInternalState = _useState2[1];
+
+  var hasCurrentState = isValueDefined(currentState);
+  var state = getDefinedValue([currentState, internalState, initial], fallback);
+
+  var setState = function setState(nextState) {
+    if (!hasCurrentState) {
+      setInternalState(nextState);
+    }
+  };
+
+  return [state, setState];
+}
+
+/* harmony default export */ var use_controlled_state = (useControlledState);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/unit-control/index.js
 
 
@@ -26871,6 +26949,7 @@ function UnitSelectControl(_ref) {
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -26914,10 +26993,12 @@ function UnitControl(_ref, ref) {
       value = _getParsedValue2[0],
       initialUnit = _getParsedValue2[1];
 
-  var _useState = Object(external_this_wp_element_["useState"])(initialUnit),
-      _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
-      unit = _useState2[0],
-      setUnit = _useState2[1];
+  var _useControlledState = use_controlled_state(unitProp, {
+    initial: initialUnit
+  }),
+      _useControlledState2 = Object(slicedToArray["a" /* default */])(_useControlledState, 2),
+      unit = _useControlledState2[0],
+      setUnit = _useControlledState2[1];
 
   var classes = classnames_default()('components-unit-control', className);
 
@@ -27911,82 +27992,6 @@ function useSideAnimation(value) {
   };
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/hooks/use-controlled-state.js
-
-
-
-function use_controlled_state_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function use_controlled_state_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { use_controlled_state_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { use_controlled_state_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-var defaultOptions = {
-  initial: undefined,
-
-  /**
-   * Defaults to empty string, as that is preferred for usage with
-   * <input />, <textarea />, and <select /> form elements.
-   */
-  fallback: ''
-};
-/**
- * Custom hooks for "controlled" components to track and consolidate internal
- * state and incoming values. This is useful for components that render
- * `input`, `textarea`, or `select` HTML elements.
- *
- * https://reactjs.org/docs/forms.html#controlled-components
- *
- * At first, a component using useControlledState receives an initial prop
- * value, which is used as initial internal state.
- *
- * This internal state can be maintained and updated without
- * relying on new incoming prop values.
- *
- * Unlike the basic useState hook, useControlledState's state can
- * be updated if a new incoming prop value is changed.
- *
- * @param {any} currentState The current value.
- * @param {Object} options Additional options for the hook.
- * @param {any} options.initial The initial state.
- * @param {any} options.fallback The state to use when no state is defined.
- *
- * @return {[*, Function]} The controlled value and the value setter.
- */
-
-function useControlledState(currentState) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultOptions;
-
-  var _defaultOptions$optio = use_controlled_state_objectSpread({}, defaultOptions, {}, options),
-      initial = _defaultOptions$optio.initial,
-      fallback = _defaultOptions$optio.fallback;
-
-  var _useState = Object(external_this_wp_element_["useState"])(currentState),
-      _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
-      internalState = _useState2[0],
-      setInternalState = _useState2[1];
-
-  var hasCurrentState = isValueDefined(currentState);
-  var state = getDefinedValue([currentState, internalState, initial], fallback);
-
-  var setState = function setState(nextState) {
-    if (!hasCurrentState) {
-      setInternalState(nextState);
-    }
-  };
-
-  return [state, setState];
-}
-
-/* harmony default export */ var use_controlled_state = (useControlledState);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/box-control/index.js
 
 
@@ -28468,7 +28473,7 @@ function CardMedia(props) {
 /* harmony default export */ var media = (CardMedia);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__(130);
+var build_module_icon = __webpack_require__(131);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
 var check = __webpack_require__(148);
@@ -31475,7 +31480,7 @@ function () {
         // See https://github.com/downshift-js/downshift/issues/217 for more info.
 
         if (!isStateToSetFunction && stateToSet.hasOwnProperty('inputValue')) {
-          _this.props.onInputValueChange(stateToSet.inputValue, Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, _this.getStateAndHelpers()), stateToSet));
+          _this.props.onInputValueChange(stateToSet.inputValue, Object(esm_extends["a" /* default */])({}, _this.getStateAndHelpers(), stateToSet));
         }
 
         return _this.setState(function (state) {
@@ -31525,7 +31530,7 @@ function () {
           // earlier, so we'll call it now that we know what the inputValue state will be.
 
           if (isStateToSetFunction && newStateToSet.hasOwnProperty('inputValue')) {
-            _this.props.onInputValueChange(newStateToSet.inputValue, Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, _this.getStateAndHelpers()), newStateToSet));
+            _this.props.onInputValueChange(newStateToSet.inputValue, Object(esm_extends["a" /* default */])({}, _this.getStateAndHelpers(), newStateToSet));
           }
 
           return nextState;
@@ -31680,7 +31685,7 @@ function () {
           });
         }
       };
-      _this.buttonKeyDownHandlers = Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, _this.keyDownHandlers), {}, {
+      _this.buttonKeyDownHandlers = Object(esm_extends["a" /* default */])({}, _this.keyDownHandlers, {
         ' ': function _(event) {
           event.preventDefault();
           this.toggleMenu({
@@ -31688,7 +31693,7 @@ function () {
           });
         }
       });
-      _this.inputKeyDownHandlers = Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, _this.keyDownHandlers), {}, {
+      _this.inputKeyDownHandlers = Object(esm_extends["a" /* default */])({}, _this.keyDownHandlers, {
         Home: function Home(event) {
           var _this4 = this;
 
@@ -31752,13 +31757,13 @@ function () {
           onBlur: callAllEventHandlers(onBlur, _this.buttonHandleBlur)
         };
         var eventHandlers = rest.disabled ? {} : enabledEventHandlers;
-        return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({
+        return Object(esm_extends["a" /* default */])({
           type: 'button',
           role: 'button',
           'aria-label': isOpen ? 'close menu' : 'open menu',
           'aria-haspopup': true,
           'data-toggle': true
-        }, eventHandlers), rest);
+        }, eventHandlers, rest);
       };
 
       _this.buttonHandleKeyUp = function (event) {
@@ -31846,7 +31851,7 @@ function () {
         /* istanbul ignore if (react-native) */
 
 
-        return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({
+        return Object(esm_extends["a" /* default */])({
           'aria-autocomplete': 'list',
           'aria-activedescendant': isOpen && typeof highlightedIndex === 'number' && highlightedIndex >= 0 ? _this.getItemId(highlightedIndex) : null,
           'aria-controls': isOpen ? _this.menuId : null,
@@ -31856,7 +31861,7 @@ function () {
           autoComplete: 'off',
           value: inputValue,
           id: _this.inputId
-        }, eventHandlers), rest);
+        }, eventHandlers, rest);
       };
 
       _this.inputHandleKeyDown = function (event) {
@@ -31976,11 +31981,11 @@ function () {
         var eventHandlers = rest.disabled ? {
           onMouseDown: enabledEventHandlers.onMouseDown
         } : enabledEventHandlers;
-        return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({
+        return Object(esm_extends["a" /* default */])({
           id: _this.getItemId(index),
           role: 'option',
           'aria-selected': _this.getState().highlightedIndex === index
-        }, eventHandlers), rest);
+        }, eventHandlers, rest);
       };
 
       _this.clearItems = function () {
@@ -32013,11 +32018,11 @@ function () {
 
         _this.internalSetState(function (_ref9) {
           var isOpen = _ref9.isOpen;
-          return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({
+          return Object(esm_extends["a" /* default */])({
             isOpen: !isOpen
           }, isOpen && {
             highlightedIndex: _this.props.defaultHighlightedIndex
-          }), otherStateToSet);
+          }, otherStateToSet);
         }, function () {
           var _this$getState7 = _this.getState(),
               isOpen = _this$getState7.isOpen,
@@ -32602,7 +32607,7 @@ function useEnhancedReducer(reducer, initialState, props) {
     actionRef.current = action;
     state = getState(state, action.props);
     var changes = reducer(state, action);
-    var newState = action.props.stateReducer(state, Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, action), {}, {
+    var newState = action.props.stateReducer(state, Object(esm_extends["a" /* default */])({}, action, {
       changes: changes
     }));
     return newState;
@@ -32802,6 +32807,9 @@ function useMouseAndTouchTracker(isOpen, downshiftElementRefs, environment, hand
  */
 
 function useGetterPropsCalledChecker() {
+  var isNotProduction = "production" !== 'production';
+  var isInitialMountRef = Object(external_this_React_["useRef"])(true);
+
   for (var _len = arguments.length, propKeys = new Array(_len), _key = 0; _key < _len; _key++) {
     propKeys[_key] = arguments[_key];
   }
@@ -32810,11 +32818,32 @@ function useGetterPropsCalledChecker() {
     acc[propKey] = {};
     return acc;
   }, {}));
-
-  if (false) {}
-
   Object(external_this_React_["useEffect"])(function () {
-    if (false) {}
+    if (!isNotProduction) {
+      return;
+    }
+
+    Object.keys(getterPropsCalledRef.current).forEach(function (propKey) {
+      var propCallInfo = getterPropsCalledRef.current[propKey];
+
+      if (isInitialMountRef.current) {
+        if (!Object.keys(propCallInfo).length) {
+          // eslint-disable-next-line no-console
+          console.error("downshift: You forgot to call the " + propKey + " getter function on your component / element.");
+          return;
+        }
+      }
+
+      var suppressRefError = propCallInfo.suppressRefError,
+          refKey = propCallInfo.refKey,
+          elementRef = propCallInfo.elementRef;
+
+      if ((!elementRef || !elementRef.current) && !suppressRefError) {
+        // eslint-disable-next-line no-console
+        console.error("downshift: The ref prop \"" + refKey + "\" from " + propKey + " was not applied correctly on your element.");
+      }
+    });
+    isInitialMountRef.current = false;
   });
   var setGetterPropCallInfo = Object(external_this_React_["useCallback"])(function (propKey, suppressRefError, refKey, elementRef) {
     if (false) {}
@@ -32916,7 +32945,7 @@ function getA11yStatusMessage$1(_ref) {
   return '';
 }
 
-var defaultProps$1 = Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, downshift_esm_defaultProps), {}, {
+var defaultProps$1 = Object(esm_extends["a" /* default */])({}, downshift_esm_defaultProps, {
   getA11yStatusMessage: getA11yStatusMessage$1
 });
 
@@ -33142,7 +33171,7 @@ function downshiftSelectReducer(state, action) {
       throw new Error('Reducer called without proper action type.');
   }
 
-  return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, state), changes);
+  return Object(esm_extends["a" /* default */])({}, state, changes);
 }
 /* eslint-enable complexity */
 
@@ -33160,7 +33189,7 @@ function useSelect(userProps) {
   if (false) {} // Props defaults and destructuring.
 
 
-  var props = Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, defaultProps$1), userProps);
+  var props = Object(esm_extends["a" /* default */])({}, defaultProps$1, userProps);
 
   var items = props.items,
       scrollIntoView = props.scrollIntoView,
@@ -33476,11 +33505,11 @@ function useSelect(userProps) {
 
     var latestState = latest.current.state;
     setGetterPropCallInfo('getMenuProps', suppressRefError, refKey, menuRef);
-    return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])((_extends2 = {}, _extends2[refKey] = handleRefs(ref, function (menuNode) {
+    return Object(esm_extends["a" /* default */])((_extends2 = {}, _extends2[refKey] = handleRefs(ref, function (menuNode) {
       menuRef.current = menuNode;
     }), _extends2.id = elementIdsRef.current.menuId, _extends2.role = 'listbox', _extends2['aria-labelledby'] = elementIdsRef.current.labelId, _extends2.tabIndex = -1, _extends2), latestState.isOpen && latestState.highlightedIndex > -1 && {
       'aria-activedescendant': elementIdsRef.current.getItemId(latestState.highlightedIndex)
-    }), {}, {
+    }, {
       onMouseLeave: callAllEventHandlers(onMouseLeave, function menuHandleMouseLeave() {
         dispatch({
           type: MenuMouseLeave
@@ -33711,7 +33740,7 @@ function getInitialState$1(props) {
     inputValue = props.itemToString(selectedItem);
   }
 
-  return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, initialState), {}, {
+  return Object(esm_extends["a" /* default */])({}, initialState, {
     inputValue: inputValue
   });
 }
@@ -33776,20 +33805,21 @@ function useControlledReducer$1(reducer, initialState, props) {
       dispatch = _useEnhancedReducer[1]; // ToDo: if needed, make same approach as selectedItemChanged from Downshift.
 
 
-  if (isControlledProp(props, 'selectedItem')) {
-    if (previousSelectedItemRef.current !== props.selectedItem) {
-      dispatch({
-        type: ControlledPropUpdatedSelectedItem,
-        inputValue: props.itemToString(props.selectedItem)
-      });
+  Object(external_this_React_["useEffect"])(function () {
+    if (isControlledProp(props, 'selectedItem')) {
+      if (previousSelectedItemRef.current !== props.selectedItem) {
+        dispatch({
+          type: ControlledPropUpdatedSelectedItem,
+          inputValue: props.itemToString(props.selectedItem)
+        });
+      }
+
+      previousSelectedItemRef.current = state.selectedItem === previousSelectedItemRef.current ? props.selectedItem : state.selectedItem;
     }
-
-    previousSelectedItemRef.current = state.selectedItem === previousSelectedItemRef.current ? props.selectedItem : state.selectedItem;
-  }
-
+  });
   return [getState(state, props), dispatch];
 }
-var defaultProps$2 = Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, downshift_esm_defaultProps), {}, {
+var defaultProps$2 = Object(esm_extends["a" /* default */])({}, downshift_esm_defaultProps, {
   getA11yStatusMessage: downshift_esm_getA11yStatusMessage,
   circularNavigation: true
 });
@@ -33954,7 +33984,7 @@ function downshiftUseComboboxReducer(state, action) {
       throw new Error('Reducer called without proper action type.');
   }
 
-  return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, state), changes);
+  return Object(esm_extends["a" /* default */])({}, state, changes);
 }
 /* eslint-enable complexity */
 
@@ -33972,7 +34002,7 @@ function useCombobox(userProps) {
   if (false) {} // Props defaults and destructuring.
 
 
-  var props = Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, defaultProps$2), userProps);
+  var props = Object(esm_extends["a" /* default */])({}, defaultProps$2, userProps);
 
   var initialIsOpen = props.initialIsOpen,
       defaultIsOpen = props.defaultIsOpen,
@@ -34008,8 +34038,7 @@ function useCombobox(userProps) {
 
   var previousResultCountRef = Object(external_this_React_["useRef"])(); // used for checking when props are moving from controlled to uncontrolled.
 
-  var prevPropsRef = Object(external_this_React_["useRef"])(props); // used to store information about getter props being called on render.
-  // utility callback to get item element.
+  var prevPropsRef = Object(external_this_React_["useRef"])(props); // utility callback to get item element.
 
   var latest = useLatestRef({
     state: state,
@@ -34225,7 +34254,7 @@ function useCombobox(userProps) {
 
     var onSelectKey = 'onClick';
     var customClickHandler = onClick;
-    return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])((_extends3 = {}, _extends3[refKey] = handleRefs(ref, function (itemNode) {
+    return Object(esm_extends["a" /* default */])((_extends3 = {}, _extends3[refKey] = handleRefs(ref, function (itemNode) {
       if (itemNode) {
         itemRefs.current[elementIdsRef.current.getItemId(itemIndex)] = itemNode;
       }
@@ -34250,7 +34279,7 @@ function useCombobox(userProps) {
       if (inputRef.current) {
         inputRef.current.focus();
       }
-    }), _ref4)), rest);
+    }), _ref4), rest);
   }, [dispatch, latest]);
   var getToggleButtonProps = Object(external_this_React_["useCallback"])(function (_temp4) {
     var _extends4;
@@ -34273,11 +34302,11 @@ function useCombobox(userProps) {
       }
     };
 
-    return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])((_extends4 = {}, _extends4[refKey] = handleRefs(ref, function (toggleButtonNode) {
+    return Object(esm_extends["a" /* default */])((_extends4 = {}, _extends4[refKey] = handleRefs(ref, function (toggleButtonNode) {
       toggleButtonRef.current = toggleButtonNode;
     }), _extends4.id = elementIdsRef.current.toggleButtonId, _extends4.tabIndex = -1, _extends4), !rest.disabled && Object(esm_extends["a" /* default */])({}, {
       onClick: callAllEventHandlers(onClick, toggleButtonHandleClick)
-    })), rest);
+    }), rest);
   }, [dispatch, latest]);
   var getInputProps = Object(external_this_React_["useCallback"])(function (_temp5, _temp6) {
     var _extends5;
@@ -34337,17 +34366,17 @@ function useCombobox(userProps) {
     /* istanbul ignore if (react-native) */
 
 
-    return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])((_extends5 = {}, _extends5[refKey] = handleRefs(ref, function (inputNode) {
+    return Object(esm_extends["a" /* default */])((_extends5 = {}, _extends5[refKey] = handleRefs(ref, function (inputNode) {
       inputRef.current = inputNode;
     }), _extends5.id = elementIdsRef.current.inputId, _extends5['aria-autocomplete'] = 'list', _extends5['aria-controls'] = elementIdsRef.current.menuId, _extends5), latestState.isOpen && latestState.highlightedIndex > -1 && {
       'aria-activedescendant': elementIdsRef.current.getItemId(latestState.highlightedIndex)
-    }), {}, {
+    }, {
       'aria-labelledby': elementIdsRef.current.labelId,
       // https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
       // revert back since autocomplete="nope" is ignored on latest Chrome and Opera
       autoComplete: 'off',
       value: latestState.inputValue
-    }, eventHandlers), rest);
+    }, eventHandlers, rest);
   }, [dispatch, inputKeyDownHandlers, latest, mouseAndTouchTrackersRef, setGetterPropCallInfo]);
   var getComboboxProps = Object(external_this_React_["useCallback"])(function (_temp7, _temp8) {
     var _extends6;
@@ -34700,7 +34729,7 @@ function downshiftMultipleSelectionReducer(state, action) {
       throw new Error('Reducer called without proper action type.');
   }
 
-  return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, state), changes);
+  return Object(esm_extends["a" /* default */])({}, state, changes);
 }
 
 useMultipleSelection.stateChangeTypes = stateChangeTypes$3;
@@ -34711,7 +34740,7 @@ function useMultipleSelection(userProps) {
   }
 
   // Props defaults and destructuring.
-  var props = Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])({}, defaultProps$3), userProps);
+  var props = Object(esm_extends["a" /* default */])({}, defaultProps$3, userProps);
 
   var getA11yRemovalMessage = props.getA11yRemovalMessage,
       itemToString = props.itemToString,
@@ -34880,7 +34909,7 @@ function useMultipleSelection(userProps) {
         suppressRefError = _ref5$suppressRefErro === void 0 ? false : _ref5$suppressRefErro;
 
     setGetterPropCallInfo('getDropdownProps', suppressRefError, refKey, dropdownRef);
-    return Object(esm_extends["a" /* default */])(Object(esm_extends["a" /* default */])((_extends3 = {}, _extends3[refKey] = handleRefs(ref, function (dropdownNode) {
+    return Object(esm_extends["a" /* default */])((_extends3 = {}, _extends3[refKey] = handleRefs(ref, function (dropdownNode) {
       if (dropdownNode) {
         dropdownRef.current = dropdownNode;
       }
@@ -34897,7 +34926,7 @@ function useMultipleSelection(userProps) {
           type: DropdownClick
         });
       })
-    }), rest);
+    }, rest);
   }, [dispatch, dropdownKeyDownHandlers, setGetterPropCallInfo]); // returns
 
   var addSelectedItem = Object(external_this_React_["useCallback"])(function (selectedItem) {
@@ -35069,7 +35098,7 @@ function CustomSelectControl(_ref3) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/dashicon/index.js
-var dashicon = __webpack_require__(141);
+var dashicon = __webpack_require__(142);
 
 // EXTERNAL MODULE: ./node_modules/react-dates/initialize.js
 var initialize = __webpack_require__(301);
@@ -44100,7 +44129,7 @@ var lib_Resizable = /** @class */ (function (_super) {
         if (!this.state.isResizing || !this.resizable || !this.window) {
             return;
         }
-        if (event instanceof TouchEvent) {
+        if (this.window.TouchEvent && event instanceof this.window.TouchEvent) {
             try {
                 event.preventDefault();
                 event.stopPropagation();
@@ -44275,7 +44304,7 @@ var lib_Resizable = /** @class */ (function (_super) {
 
 
 // EXTERNAL MODULE: ./node_modules/react-resize-aware/dist/index.js
-var dist = __webpack_require__(142);
+var dist = __webpack_require__(143);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/resizable-box/resize-tooltip/utils.js
@@ -45249,6 +45278,8 @@ var tab_panel_TabButton = function TabButton(_ref) {
 };
 
 function TabPanel(_ref2) {
+  var _selectedTab$name;
+
   var className = _ref2.className,
       children = _ref2.children,
       tabs = _ref2.tabs,
@@ -45261,7 +45292,7 @@ function TabPanel(_ref2) {
       onSelect = _ref2$onSelect === void 0 ? external_this_lodash_["noop"] : _ref2$onSelect;
   var instanceId = Object(external_this_wp_compose_["useInstanceId"])(TabPanel, 'tab-panel');
 
-  var _useState = Object(external_this_wp_element_["useState"])(initialTabName || (tabs.length > 0 ? tabs[0].name : null)),
+  var _useState = Object(external_this_wp_element_["useState"])(null),
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
       selected = _useState2[0],
       setSelected = _useState2[1];
@@ -45278,7 +45309,16 @@ function TabPanel(_ref2) {
   var selectedTab = Object(external_this_lodash_["find"])(tabs, {
     name: selected
   });
-  var selectedId = "".concat(instanceId, "-").concat(selectedTab.name);
+  var selectedId = "".concat(instanceId, "-").concat((_selectedTab$name = selectedTab === null || selectedTab === void 0 ? void 0 : selectedTab.name) !== null && _selectedTab$name !== void 0 ? _selectedTab$name : 'none');
+  Object(external_this_wp_element_["useEffect"])(function () {
+    var newSelectedTab = Object(external_this_lodash_["find"])(tabs, {
+      name: selected
+    });
+
+    if (!newSelectedTab) {
+      setSelected(initialTabName || (tabs.length > 0 ? tabs[0].name : null));
+    }
+  }, [tabs]);
   return Object(external_this_wp_element_["createElement"])("div", {
     className: className
   }, Object(external_this_wp_element_["createElement"])(menu, {
@@ -46679,7 +46719,7 @@ var _propTypes = __webpack_require__(28);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactMomentProptypes = __webpack_require__(134);
+var _reactMomentProptypes = __webpack_require__(135);
 
 var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
@@ -46727,7 +46767,7 @@ var _toISOMonthString = __webpack_require__(185);
 
 var _toISOMonthString2 = _interopRequireDefault(_toISOMonthString);
 
-var _ScrollableOrientationShape = __webpack_require__(135);
+var _ScrollableOrientationShape = __webpack_require__(136);
 
 var _ScrollableOrientationShape2 = _interopRequireDefault(_ScrollableOrientationShape);
 
@@ -48889,7 +48929,7 @@ module.exports = function FlattenIntoArray(target, source, sourceLen, start, dep
 
 
 var GetIntrinsic = __webpack_require__(49);
-var callBound = __webpack_require__(133);
+var callBound = __webpack_require__(134);
 
 var $apply = GetIntrinsic('%Reflect.apply%', true) || callBound('%Function.prototype.apply%');
 
@@ -48997,7 +49037,7 @@ var GetIntrinsic = __webpack_require__(49);
 var $gOPD = __webpack_require__(325);
 var $TypeError = GetIntrinsic('%TypeError%');
 
-var callBound = __webpack_require__(133);
+var callBound = __webpack_require__(134);
 
 var $isEnumerable = callBound('Object.prototype.propertyIsEnumerable');
 
@@ -49268,7 +49308,7 @@ var $Number = GetIntrinsic('%Number%');
 var $RegExp = GetIntrinsic('%RegExp%');
 var $parseInteger = GetIntrinsic('%parseInt%');
 
-var callBound = __webpack_require__(133);
+var callBound = __webpack_require__(134);
 var regexTester = __webpack_require__(334);
 var isPrimitive = __webpack_require__(212);
 
@@ -51393,7 +51433,7 @@ var _propTypes = __webpack_require__(28);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactAddonsShallowCompare = __webpack_require__(136);
+var _reactAddonsShallowCompare = __webpack_require__(137);
 
 var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
 
@@ -51459,7 +51499,7 @@ var _ModifiersShape = __webpack_require__(151);
 
 var _ModifiersShape2 = _interopRequireDefault(_ModifiersShape);
 
-var _ScrollableOrientationShape = __webpack_require__(135);
+var _ScrollableOrientationShape = __webpack_require__(136);
 
 var _ScrollableOrientationShape2 = _interopRequireDefault(_ScrollableOrientationShape);
 
@@ -54100,11 +54140,11 @@ var _propTypes = __webpack_require__(28);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactAddonsShallowCompare = __webpack_require__(136);
+var _reactAddonsShallowCompare = __webpack_require__(137);
 
 var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
 
-var _reactMomentProptypes = __webpack_require__(134);
+var _reactMomentProptypes = __webpack_require__(135);
 
 var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
@@ -54156,7 +54196,7 @@ var _ModifiersShape = __webpack_require__(151);
 
 var _ModifiersShape2 = _interopRequireDefault(_ModifiersShape);
 
-var _ScrollableOrientationShape = __webpack_require__(135);
+var _ScrollableOrientationShape = __webpack_require__(136);
 
 var _ScrollableOrientationShape2 = _interopRequireDefault(_ScrollableOrientationShape);
 
@@ -54666,11 +54706,11 @@ var _propTypes = __webpack_require__(28);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactAddonsShallowCompare = __webpack_require__(136);
+var _reactAddonsShallowCompare = __webpack_require__(137);
 
 var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
 
-var _reactMomentProptypes = __webpack_require__(134);
+var _reactMomentProptypes = __webpack_require__(135);
 
 var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
@@ -54716,7 +54756,7 @@ var _ModifiersShape = __webpack_require__(151);
 
 var _ModifiersShape2 = _interopRequireDefault(_ModifiersShape);
 
-var _ScrollableOrientationShape = __webpack_require__(135);
+var _ScrollableOrientationShape = __webpack_require__(136);
 
 var _ScrollableOrientationShape2 = _interopRequireDefault(_ScrollableOrientationShape);
 
@@ -55137,11 +55177,11 @@ var _propTypes = __webpack_require__(28);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactAddonsShallowCompare = __webpack_require__(136);
+var _reactAddonsShallowCompare = __webpack_require__(137);
 
 var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
 
-var _reactMomentProptypes = __webpack_require__(134);
+var _reactMomentProptypes = __webpack_require__(135);
 
 var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
@@ -55823,7 +55863,7 @@ var _ChevronDown = __webpack_require__(399);
 
 var _ChevronDown2 = _interopRequireDefault(_ChevronDown);
 
-var _ScrollableOrientationShape = __webpack_require__(135);
+var _ScrollableOrientationShape = __webpack_require__(136);
 
 var _ScrollableOrientationShape2 = _interopRequireDefault(_ScrollableOrientationShape);
 

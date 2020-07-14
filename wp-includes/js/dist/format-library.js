@@ -171,7 +171,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 130:
+/***/ 131:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -421,6 +421,13 @@ function _inherits(subClass, superClass) {
 /***/ }),
 
 /***/ 21:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -436,13 +443,6 @@ function _possibleConstructorReturn(self, call) {
 
   return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -817,7 +817,7 @@ var createClass = __webpack_require__(18);
 var assertThisInitialized = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(21);
+var possibleConstructorReturn = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(15);
@@ -829,7 +829,7 @@ var inherits = __webpack_require__(20);
 var external_this_wp_components_ = __webpack_require__(3);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/keyboard-return.js
 var keyboard_return = __webpack_require__(197);
@@ -1710,7 +1710,7 @@ var underline = {
 var external_this_wp_data_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var icon = __webpack_require__(130);
+var icon = __webpack_require__(131);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/text-color.js
 var text_color = __webpack_require__(406);

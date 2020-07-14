@@ -15,6 +15,18 @@
 function render_block_core_search( $attributes ) {
 	static $instance_id = 0;
 
+	// Older versions of the Search block defaulted the label and buttonText
+	// attributes to `__( 'Search' )` meaning that many posts contain `<!--
+	// wp:search /-->`. Support these by defaulting an undefined label and
+	// buttonText to `__( 'Search' )`.
+	$attributes = wp_parse_args(
+		$attributes,
+		array(
+			'label'      => __( 'Search' ),
+			'buttonText' => __( 'Search' ),
+		)
+	);
+
 	$input_id      = 'wp-block-search__input-' . ++$instance_id;
 	$label_markup  = '';
 	$button_markup = '';

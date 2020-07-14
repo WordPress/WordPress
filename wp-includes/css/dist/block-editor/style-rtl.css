@@ -1074,7 +1074,8 @@
   width: 100%;
   overflow: hidden; }
   .block-editor-block-preview__container.editor-styles-wrapper {
-    padding: 0; }
+    padding: 0;
+    margin: 0; }
 
 .block-editor-block-preview__content {
   position: absolute;
@@ -2589,7 +2590,10 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   padding: 16px; }
 
 .block-editor-inserter__quick-inserter {
-  width: 350px; }
+  width: 100%; }
+  @media (min-width: 782px) {
+    .block-editor-inserter__quick-inserter {
+      width: 350px; } }
 
 .block-editor-inserter__quick-inserter-results {
   padding-bottom: 16px; }
@@ -2608,9 +2612,8 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 .block-editor-inserter__quick-inserter-separator {
   border-top: 1px solid #ddd; }
 
-@media (min-width: 782px) {
-  .block-editor-inserter__popover.is-quick > .components-popover__content > div {
-    padding: 0; } }
+.block-editor-inserter__popover.is-quick > .components-popover__content > div {
+  padding: 0; }
 
 .block-editor-inserter__quick-inserter-expand.components-button {
   display: block;

@@ -163,7 +163,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 130:
+/***/ 131:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1441,7 +1441,7 @@ function DownloadableBlockAuthorInfo(_ref) {
 /* harmony default export */ var downloadable_block_author_info = (DownloadableBlockAuthorInfo);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__(130);
+var build_module_icon = __webpack_require__(131);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-filled.js
 var star_filled = __webpack_require__(281);

@@ -633,7 +633,8 @@
       width: 7px;
       height: 7px;
       margin: 8px 0 0 8px;
-      background-color: #fff; }
+      background-color: #fff;
+      border: 3px solid #fff; }
       @media (min-width: 782px) {
         .edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type="radio"]:checked::before,
         .editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type="radio"]:checked::before {

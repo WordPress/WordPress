@@ -186,7 +186,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 22:
+/***/ 21:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["keycodes"]; }());
@@ -698,7 +698,7 @@ var toConsumableArray = __webpack_require__(17);
 var rememo = __webpack_require__(42);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/selectors.js
 

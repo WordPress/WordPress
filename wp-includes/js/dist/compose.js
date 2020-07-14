@@ -164,7 +164,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 142:
+/***/ 143:
 /***/ (function(module, exports, __webpack_require__) {
 
 var e=__webpack_require__(16),n={display:"block",opacity:0,position:"absolute",top:0,left:0,height:"100%",width:"100%",overflow:"hidden",pointerEvents:"none",zIndex:-1},t=function(t){var r=t.onResize,u=e.useRef();return function(n,t){var r=function(){return n.current&&n.current.contentDocument&&n.current.contentDocument.defaultView};function u(){t();var e=r();e&&e.addEventListener("resize",t)}e.useEffect((function(){return r()?u():n.current&&n.current.addEventListener&&n.current.addEventListener("load",u),function(){var e=r();e&&"function"==typeof e.removeEventListener&&e.removeEventListener("resize",t)}}),[])}(u,(function(){return r(u)})),e.createElement("iframe",{style:n,src:"about:blank",ref:u,"aria-hidden":!0,tabIndex:-1,frameBorder:0})},r=function(e){return{width:null!=e?e.offsetWidth:null,height:null!=e?e.offsetHeight:null}};module.exports=function(n){void 0===n&&(n=r);var u=e.useState(n(null)),o=u[0],i=u[1],c=e.useCallback((function(e){return i(n(e.current))}),[n]);return[e.useMemo((function(){return e.createElement(t,{onResize:c})}),[c]),o]};
@@ -172,7 +172,7 @@ var e=__webpack_require__(16),n={display:"block",opacity:0,position:"absolute",t
 
 /***/ }),
 
-/***/ 143:
+/***/ 144:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["priorityQueue"]; }());
@@ -316,7 +316,7 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
-/***/ 21:
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2545,6 +2545,7 @@ __webpack_require__.d(__webpack_exports__, "useReducedMotion", function() { retu
 __webpack_require__.d(__webpack_exports__, "useViewportMatch", function() { return /* reexport */ use_viewport_match; });
 __webpack_require__.d(__webpack_exports__, "useResizeObserver", function() { return /* reexport */ use_resize_observer; });
 __webpack_require__.d(__webpack_exports__, "useAsyncList", function() { return /* reexport */ use_async_list; });
+__webpack_require__.d(__webpack_exports__, "useWarnOnChange", function() { return /* reexport */ use_warn_on_change; });
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
@@ -2634,7 +2635,7 @@ var classCallCheck = __webpack_require__(19);
 var createClass = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(21);
+var possibleConstructorReturn = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(15);
@@ -3603,7 +3604,7 @@ use_viewport_match_useViewportMatch.__experimentalWidthProvider = ViewportMatchW
 /* harmony default export */ var use_viewport_match = (use_viewport_match_useViewportMatch);
 
 // EXTERNAL MODULE: ./node_modules/react-resize-aware/dist/index.js
-var dist = __webpack_require__(142);
+var dist = __webpack_require__(143);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/index.js
@@ -3640,7 +3641,7 @@ var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 var toConsumableArray = __webpack_require__(17);
 
 // EXTERNAL MODULE: external {"this":["wp","priorityQueue"]}
-var external_this_wp_priorityQueue_ = __webpack_require__(143);
+var external_this_wp_priorityQueue_ = __webpack_require__(144);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-async-list/index.js
 
@@ -3743,6 +3744,49 @@ function useAsyncList(list) {
 
 /* harmony default export */ var use_async_list = (useAsyncList);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-warn-on-change/index.js
+
+
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Hook that performs a shallow comparison between the preview value of an object
+ * and the new one, if there's a difference, it prints it to the console.
+ * this is useful in performance related work, to check why a component re-renders.
+ *
+ *  @example
+ *
+ * ```jsx
+ * function MyComponent(props) {
+ *    useWarnOnChange(props);
+ *
+ *    return "Something";
+ * }
+ * ```
+ *
+ * @param {Object} object Object which changes to compare.
+ * @param {string} prefix Just a prefix to show when console logging.
+ */
+
+function useWarnOnChange(object) {
+  var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Change detection';
+  var previousValues = usePrevious(object);
+  Object.entries(previousValues !== null && previousValues !== void 0 ? previousValues : []).forEach(function (_ref) {
+    var _ref2 = Object(slicedToArray["a" /* default */])(_ref, 2),
+        key = _ref2[0],
+        value = _ref2[1];
+
+    if (value !== object[key]) {
+      // eslint-disable-next-line no-console
+      console.warn("".concat(prefix, ": ").concat(key, " key changed:"), value, object[key]);
+    }
+  });
+}
+
+/* harmony default export */ var use_warn_on_change = (useWarnOnChange);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/index.js
 // Utils
  // Compose helper (aliased flowRight from Lodash)
@@ -3755,6 +3799,7 @@ function useAsyncList(list) {
 
 
  // Hooks
+
 
 
 

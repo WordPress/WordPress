@@ -491,7 +491,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 143:
+/***/ 144:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["priorityQueue"]; }());
@@ -3026,7 +3026,7 @@ var useCallback = useCallbackOne;
 
 
 // EXTERNAL MODULE: external {"this":["wp","priorityQueue"]}
-var external_this_wp_priorityQueue_ = __webpack_require__(143);
+var external_this_wp_priorityQueue_ = __webpack_require__(144);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
 var external_this_wp_isShallowEqual_ = __webpack_require__(55);
