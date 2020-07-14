@@ -91,45 +91,47 @@ class WP_Sitemaps_Stylesheet {
 				</style>
 			</head>
 			<body>
-				<div id="sitemap__header">
-					<h1>{$title}</h1>
-					<p>{$description}</p>
-					<p>{$learn_more}</p>
-				</div>
-				<div id="sitemap__content">
-					<p class="text">{$text}</p>
-					<table id="sitemap__table">
-						<thead>
-							<tr>
-								<th class="loc">{$url}</th>
-								<xsl:if test="\$has-lastmod">
-									<th class="lastmod">{$lastmod}</th>
-								</xsl:if>
-								<xsl:if test="\$has-changefreq">
-									<th class="changefreq">{$changefreq}</th>
-								</xsl:if>
-								<xsl:if test="\$has-priority">
-									<th class="priority">{$priority}</th>
-								</xsl:if>
-							</tr>
-						</thead>
-						<tbody>
-							<xsl:for-each select="sitemap:urlset/sitemap:url">
+				<div id="sitemap">
+					<div id="sitemap__header">
+						<h1>{$title}</h1>
+						<p>{$description}</p>
+						<p>{$learn_more}</p>
+					</div>
+					<div id="sitemap__content">
+						<p class="text">{$text}</p>
+						<table id="sitemap__table">
+							<thead>
 								<tr>
-									<td class="loc"><a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc" /></a></td>
+									<th class="loc">{$url}</th>
 									<xsl:if test="\$has-lastmod">
-										<td class="lastmod"><xsl:value-of select="sitemap:lastmod" /></td>
+										<th class="lastmod">{$lastmod}</th>
 									</xsl:if>
 									<xsl:if test="\$has-changefreq">
-										<td class="changefreq"><xsl:value-of select="sitemap:changefreq" /></td>
+										<th class="changefreq">{$changefreq}</th>
 									</xsl:if>
 									<xsl:if test="\$has-priority">
-										<td class="priority"><xsl:value-of select="sitemap:priority" /></td>
+										<th class="priority">{$priority}</th>
 									</xsl:if>
 								</tr>
-							</xsl:for-each>
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								<xsl:for-each select="sitemap:urlset/sitemap:url">
+									<tr>
+										<td class="loc"><a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc" /></a></td>
+										<xsl:if test="\$has-lastmod">
+											<td class="lastmod"><xsl:value-of select="sitemap:lastmod" /></td>
+										</xsl:if>
+										<xsl:if test="\$has-changefreq">
+											<td class="changefreq"><xsl:value-of select="sitemap:changefreq" /></td>
+										</xsl:if>
+										<xsl:if test="\$has-priority">
+											<td class="priority"><xsl:value-of select="sitemap:priority" /></td>
+										</xsl:if>
+									</tr>
+								</xsl:for-each>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</body>
 		</html>
@@ -199,33 +201,35 @@ XSL;
 				</style>
 			</head>
 			<body>
-				<div id="sitemap__header">
-					<h1>{$title}</h1>
-					<p>{$description}</p>
-					<p>{$learn_more}</p>
-				</div>
-				<div id="sitemap__content">
-					<p class="text">{$text}</p>
-					<table id="sitemap__table">
-						<thead>
-							<tr>
-								<th class="loc">{$url}</th>
-								<xsl:if test="\$has-lastmod">
-									<th class="lastmod">{$lastmod}</th>
-								</xsl:if>
-							</tr>
-						</thead>
-						<tbody>
-							<xsl:for-each select="sitemap:sitemapindex/sitemap:sitemap">
+				<div id="sitemap">
+					<div id="sitemap__header">
+						<h1>{$title}</h1>
+						<p>{$description}</p>
+						<p>{$learn_more}</p>
+					</div>
+					<div id="sitemap__content">
+						<p class="text">{$text}</p>
+						<table id="sitemap__table">
+							<thead>
 								<tr>
-									<td class="loc"><a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc" /></a></td>
+									<th class="loc">{$url}</th>
 									<xsl:if test="\$has-lastmod">
-										<td class="lastmod"><xsl:value-of select="sitemap:lastmod" /></td>
+										<th class="lastmod">{$lastmod}</th>
 									</xsl:if>
 								</tr>
-							</xsl:for-each>
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								<xsl:for-each select="sitemap:sitemapindex/sitemap:sitemap">
+									<tr>
+										<td class="loc"><a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc" /></a></td>
+										<xsl:if test="\$has-lastmod">
+											<td class="lastmod"><xsl:value-of select="sitemap:lastmod" /></td>
+										</xsl:if>
+									</tr>
+								</xsl:for-each>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</body>
 		</html>
