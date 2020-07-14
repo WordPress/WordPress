@@ -1240,8 +1240,8 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  *                                         When using a non-single meta key, the default value is for the first entry.
  *                                         In other words, when calling get_metadata() with `$single` set to `false`,
  *                                         the default value given here will be wrapped in an array.
- *     @type string     $sanitize_callback A function or method to call when sanitizing `$meta_key` data.
- *     @type string     $auth_callback     Optional. A function or method to call when performing edit_post_meta,
+ *     @type callable   $sanitize_callback A function or method to call when sanitizing `$meta_key` data.
+ *     @type callable   $auth_callback     Optional. A function or method to call when performing edit_post_meta,
  *                                         add_post_meta, and delete_post_meta capability checks.
  *     @type bool|array $show_in_rest      Whether data associated with this meta key can be considered public and
  *                                         should be accessible via the REST API. A custom post type must also declare

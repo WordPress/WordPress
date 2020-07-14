@@ -332,7 +332,7 @@ function wp_nav_menu_item_link_meta_box() {
  *
  *     @type string       $id       Meta box 'id' attribute.
  *     @type string       $title    Meta box title.
- *     @type string       $callback Meta box display callback.
+ *     @type callable     $callback Meta box display callback.
  *     @type WP_Post_Type $args     Extra meta box arguments (the post type object for this meta box).
  * }
  */
@@ -684,10 +684,10 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
  * @param array  $box {
  *     Taxonomy menu item meta box arguments.
  *
- *     @type string $id       Meta box 'id' attribute.
- *     @type string $title    Meta box title.
- *     @type string $callback Meta box display callback.
- *     @type object $args     Extra meta box arguments (the taxonomy object for this meta box).
+ *     @type string   $id       Meta box 'id' attribute.
+ *     @type string   $title    Meta box title.
+ *     @type callable $callback Meta box display callback.
+ *     @type object   $args     Extra meta box arguments (the taxonomy object for this meta box).
  * }
  */
 function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {

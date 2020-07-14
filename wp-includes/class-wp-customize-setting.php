@@ -97,7 +97,7 @@ class WP_Customize_Setting {
 	 * Callback to convert a Customize PHP setting value to a value that is JSON serializable.
 	 *
 	 * @since 3.4.0
-	 * @var string
+	 * @var callable
 	 */
 	public $sanitize_js_callback = '';
 

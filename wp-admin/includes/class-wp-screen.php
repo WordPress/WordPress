@@ -620,12 +620,12 @@ final class WP_Screen {
 	 * @param array $args {
 	 *     Array of arguments used to display the help tab.
 	 *
-	 *     @type string $title    Title for the tab. Default false.
-	 *     @type string $id       Tab ID. Must be HTML-safe and should be unique for this menu.
-	 *                            It is NOT allowed to contain any empty spaces. Default false.
-	 *     @type string $content  Optional. Help tab content in plain text or HTML. Default empty string.
-	 *     @type string $callback Optional. A callback to generate the tab content. Default false.
-	 *     @type int    $priority Optional. The priority of the tab, used for ordering. Default 10.
+	 *     @type string   $title    Title for the tab. Default false.
+	 *     @type string   $id       Tab ID. Must be HTML-safe and should be unique for this menu.
+	 *                              It is NOT allowed to contain any empty spaces. Default false.
+	 *     @type string   $content  Optional. Help tab content in plain text or HTML. Default empty string.
+	 *     @type callable $callback Optional. A callback to generate the tab content. Default false.
+	 *     @type int      $priority Optional. The priority of the tab, used for ordering. Default 10.
 	 * }
 	 */
 	public function add_help_tab( $args ) {
