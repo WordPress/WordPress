@@ -2123,8 +2123,10 @@ function register_initial_settings() {
  *
  * @since 2.7.0
  * @since 4.7.0 `$args` can be passed to set flags on the setting, similar to `register_meta()`.
+ * @since 5.5.0 `$new_whitelist_options` was renamed to `$new_allowed_options`.
+ *              Please consider writing more inclusive code.
  *
- * @global array $new_whitelist_options
+ * @global array $new_allowed_options
  * @global array $wp_registered_settings
  *
  * @param string $option_group A settings group name. Should correspond to an allowed option key name.
@@ -2145,7 +2147,13 @@ function register_initial_settings() {
  * }
  */
 function register_setting( $option_group, $option_name, $args = array() ) {
-	global $new_whitelist_options, $wp_registered_settings;
+	global $new_allowed_options, $wp_registered_settings;
+
+	/*
+	 * In 5.5.0, the `$new_whitelist_options` global variable was renamed to `$new_allowed_options`.
+	 * Please consider writing more inclusive code.
+	 */
+	$GLOBALS['new_whitelist_options'] = &$new_allowed_options;
 
 	$defaults = array(
 		'type'              => 'string',
@@ -2211,7 +2219,7 @@ function register_setting( $option_group, $option_name, $args = array() ) {
 		$option_group = 'reading';
 	}
 
-	$new_whitelist_options[ $option_group ][] = $option_name;
+	$new_allowed_options[ $option_group ][] = $option_name;
 
 	if ( ! empty( $args['sanitize_callback'] ) ) {
 		add_filter( "sanitize_option_{$option_name}", $args['sanitize_callback'] );
@@ -2239,8 +2247,10 @@ function register_setting( $option_group, $option_name, $args = array() ) {
  *
  * @since 2.7.0
  * @since 4.7.0 `$sanitize_callback` was deprecated. The callback from `register_setting()` is now used instead.
+ * @since 5.5.0 `$new_whitelist_options` was renamed to `$new_allowed_options`.
+ *              Please consider writing more inclusive code.
  *
- * @global array $new_whitelist_options
+ * @global array $new_allowed_options
  * @global array $wp_registered_settings
  *
  * @param string   $option_group The settings group name used during registration.
@@ -2248,7 +2258,13 @@ function register_setting( $option_group, $option_name, $args = array() ) {
  * @param callable $deprecated   Deprecated.
  */
 function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
-	global $new_whitelist_options, $wp_registered_settings;
+	global $new_allowed_options, $wp_registered_settings;
+
+	/*
+	 * In 5.5.0, the `$new_whitelist_options` global variable was renamed to `$new_allowed_options`.
+	 * Please consider writing more inclusive code.
+	 */
+	$GLOBALS['new_whitelist_options'] = &$new_allowed_options;
 
 	if ( 'misc' === $option_group ) {
 		_deprecated_argument(
@@ -2276,10 +2292,10 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 		$option_group = 'reading';
 	}
 
-	$pos = array_search( $option_name, (array) $new_whitelist_options[ $option_group ], true );
+	$pos = array_search( $option_name, (array) $new_allowed_options[ $option_group ], true );
 
 	if ( false !== $pos ) {
-		unset( $new_whitelist_options[ $option_group ][ $pos ] );
+		unset( $new_allowed_options[ $option_group ][ $pos ] );
 	}
 
 	if ( '' !== $deprecated ) {
