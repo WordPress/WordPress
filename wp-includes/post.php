@@ -4036,8 +4036,26 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	// Add default term for all associated custom taxonomies.
 	if ( 'auto-draft' !== $post_status ) {
 		foreach ( get_object_taxonomies( $post_type, 'object' ) as $taxonomy => $tax_object ) {
-			if ( ! empty( $tax_object->default_term ) && ( empty( $postarr['tax_input'] ) || ! isset( $postarr['tax_input'][ $taxonomy ] ) ) ) {
-				$postarr['tax_input'][ $taxonomy ] = array();
+
+			if ( ! empty( $tax_object->default_term ) ) {
+
+				// Filter out empty terms.
+				if ( isset( $postarr['tax_input'] ) && is_array( $postarr['tax_input'][ $taxonomy ] ) ) {
+					$postarr['tax_input'][ $taxonomy ] = array_filter( $postarr['tax_input'][ $taxonomy ] );
+				}
+
+				// Passed custom taxonomy list overwrites existing list if not empty.
+				$terms = wp_get_object_terms( $post_ID, $taxonomy, array( 'fields' => 'ids' ) );
+				if ( ! empty( $terms ) && empty( $postarr['tax_input'][ $taxonomy ] ) ) {
+					$postarr['tax_input'][ $taxonomy ] = $terms;
+				}
+
+				if ( empty( $postarr['tax_input'][ $taxonomy ] ) ) {
+					$default_term_id = get_option( 'default_taxonomy_' . $taxonomy );
+					if ( ! empty( $default_term_id ) ) {
+						$postarr['tax_input'][ $taxonomy ] = array( (int) $default_term_id );
+					}
+				}
 			}
 		}
 	}
