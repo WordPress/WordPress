@@ -2028,6 +2028,7 @@ html.wp-toolbar {
 .postbox .handle-order-higher,
 .postbox .handle-order-lower {
 	color: #72777c;
+	width: 1.62rem;
 }
 
 /* Post box order buttons in the block editor meta boxes area. */
@@ -2054,6 +2055,10 @@ html.wp-toolbar {
 	margin-bottom: 20px;
 	padding: 0;
 	line-height: 1;
+}
+
+.postbox.closed {
+	border-bottom: 0;
 }
 
 /* user-select is not a part of the CSS standard - may change behavior in the future */
@@ -3022,13 +3027,21 @@ img {
 }
 
 .postbox .handle-order-higher .order-higher-indicator::before,
-.postbox .handle-order-lower .order-lower-indicator::before,
+.postbox .handle-order-lower .order-lower-indicator::before {
+	position: relative;
+    top: 0.11rem;
+	width: 20px;
+	height: 20px;
+}
+
 .postbox .handlediv .toggle-indicator::before {
 	width: 20px;
 	border-radius: 50%;
 }
 
 .postbox .handlediv .toggle-indicator::before {
+	position: relative;
+	top: 0.05rem;
 	text-indent: -1px; /* account for the dashicon glyph uneven horizontal alignment */
 }
 
@@ -3045,7 +3058,9 @@ img {
 .postbox .handle-order-higher:focus,
 .postbox .handle-order-lower:focus,
 .postbox .handlediv:focus {
-	box-shadow: none;
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 1px solid transparent;
 }
@@ -3053,9 +3068,7 @@ img {
 .postbox .handle-order-higher:focus .order-higher-indicator::before,
 .postbox .handle-order-lower:focus .order-lower-indicator::before,
 .postbox .handlediv:focus .toggle-indicator::before {
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
+	box-shadow: none;
 	/* Only visible in Windows High Contrast mode */
 	outline: 1px solid transparent;
 }
