@@ -145,34 +145,23 @@ abstract class WP_Sitemaps_Provider {
 	public function get_sitemap_url( $name, $page ) {
 		global $wp_rewrite;
 
-		if ( ! $wp_rewrite->using_permalinks() ) {
-			return add_query_arg(
-				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
-				array_filter(
-					array(
-						'sitemap'         => $this->name,
-						'sitemap-subtype' => $name,
-						'paged'           => $page,
-					)
-				),
-				home_url( '/' )
-			);
-		}
+		// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
+		$params = array_filter(
+			array(
+				'sitemap'         => $this->name,
+				'sitemap-subtype' => $name,
+				'paged'           => $page,
+			)
+		);
 
 		$basename = sprintf(
 			'/wp-sitemap-%1$s.xml',
-			implode(
-				'-',
-				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
-				array_filter(
-					array(
-						$this->name,
-						$name,
-						(string) $page,
-					)
-				)
-			)
+			implode( '-', $params )
 		);
+
+		if ( ! $wp_rewrite->using_permalinks() ) {
+			$basename = '/?' . http_build_query( $params, null, '&' );
+		}
 
 		return home_url( $basename );
 	}

@@ -67,7 +67,7 @@ class WP_Sitemaps_Renderer {
 		$sitemap_url = home_url( '/wp-sitemap.xsl' );
 
 		if ( ! $wp_rewrite->using_permalinks() ) {
-			$sitemap_url = add_query_arg( 'sitemap-stylesheet', 'sitemap', home_url( '/' ) );
+			$sitemap_url = home_url( '/?sitemap-stylesheet=sitemap' );
 		}
 
 		/**
@@ -98,7 +98,7 @@ class WP_Sitemaps_Renderer {
 		$sitemap_url = home_url( '/wp-sitemap-index.xsl' );
 
 		if ( ! $wp_rewrite->using_permalinks() ) {
-			$sitemap_url = add_query_arg( 'sitemap-stylesheet', 'index', home_url( '/' ) );
+			$sitemap_url = home_url( '/?sitemap-stylesheet=index' );
 		}
 
 		/**
