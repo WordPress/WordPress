@@ -453,7 +453,7 @@
 			)
 			.text( _x( 'Updated!', 'plugin' ) );
 
-		wp.a11y.speak( __( 'Update completed successfully.' ), 'polite' );
+		wp.a11y.speak( __( 'Update completed successfully.' ) );
 
 		wp.updates.decrementCount( 'plugin' );
 
@@ -598,7 +598,7 @@
 			)
 			.text( __( 'Installing...' ) );
 
-		wp.a11y.speak( __( 'Installing... please wait.' ), 'polite' );
+		wp.a11y.speak( __( 'Installing... please wait.' ) );
 
 		// Remove previous error messages, if any.
 		$card.removeClass( 'plugin-card-install-failed' ).find( '.notice.notice-error' ).remove();
@@ -634,7 +634,7 @@
 			)
 			.text( _x( 'Installed!', 'plugin' ) );
 
-		wp.a11y.speak( __( 'Installation completed successfully.' ), 'polite' );
+		wp.a11y.speak( __( 'Installation completed successfully.' ) );
 
 		$document.trigger( 'wp-plugin-install-success', response );
 
@@ -768,7 +768,7 @@
 			})
 			.text( __( 'Run Importer' ) );
 
-		wp.a11y.speak( __( 'Installation completed successfully.' ), 'polite' );
+		wp.a11y.speak( __( 'Installation completed successfully.' ) );
 
 		$document.trigger( 'wp-importer-install-success', response );
 	};
@@ -851,7 +851,7 @@
 				.text( __( 'Deleting...' ) );
 		}
 
-		wp.a11y.speak( __( 'Deleting...' ), 'polite' );
+		wp.a11y.speak( __( 'Deleting...' ) );
 
 		$document.trigger( 'wp-plugin-deleting', args );
 
@@ -946,7 +946,7 @@
 			}
 		} );
 
-		wp.a11y.speak( _x( 'Deleted!', 'plugin' ), 'polite' );
+		wp.a11y.speak( _x( 'Deleted!', 'plugin' ) );
 
 		$document.trigger( 'wp-plugin-delete-success', response );
 	};
@@ -1055,7 +1055,7 @@
 			$notice.data( 'originaltext', $notice.html() );
 		}
 
-		wp.a11y.speak( __( 'Updating... please wait.' ), 'polite' );
+		wp.a11y.speak( __( 'Updating... please wait.' ) );
 		$notice.text( __( 'Updating...' ) );
 
 		$document.trigger( 'wp-theme-updating', args );
@@ -1117,7 +1117,7 @@
 		}
 
 		wp.updates.addAdminNotice( _.extend( { selector: $notice }, updatedMessage ) );
-		wp.a11y.speak( __( 'Update completed successfully.' ), 'polite' );
+		wp.a11y.speak( __( 'Update completed successfully.' ) );
 
 		wp.updates.decrementCount( 'theme' );
 
@@ -1174,7 +1174,7 @@
 			message:   errorMessage
 		} );
 
-		wp.a11y.speak( errorMessage, 'polite' );
+		wp.a11y.speak( errorMessage );
 
 		$document.trigger( 'wp-theme-update-error', response );
 	};
@@ -1216,7 +1216,7 @@
 			)
 			.text( __( 'Installing...' ) );
 
-		wp.a11y.speak( __( 'Installing... please wait.' ), 'polite' );
+		wp.a11y.speak( __( 'Installing... please wait.' ) );
 
 		// Remove previous error messages, if any.
 		$( '.install-theme-info, [data-slug="' + args.slug + '"]' ).removeClass( 'theme-install-failed' ).find( '.notice.notice-error' ).remove();
@@ -1255,7 +1255,7 @@
 			)
 			.text( _x( 'Installed!', 'theme' ) );
 
-		wp.a11y.speak( __( 'Installation completed successfully.' ), 'polite' );
+		wp.a11y.speak( __( 'Installation completed successfully.' ) );
 
 		setTimeout( function() {
 
@@ -1403,7 +1403,7 @@
 				.text( __( 'Deleting...' ) );
 		}
 
-		wp.a11y.speak( __( 'Deleting...' ), 'polite' );
+		wp.a11y.speak( __( 'Deleting...' ) );
 
 		// Remove previous error messages, if any.
 		$( '.theme-info .update-message' ).remove();
@@ -1466,7 +1466,7 @@
 			} );
 		}
 
-		wp.a11y.speak( _x( 'Deleted!', 'theme' ), 'polite' );
+		wp.a11y.speak( _x( 'Deleted!', 'theme' ) );
 
 		$document.trigger( 'wp-theme-delete-success', response );
 	};
@@ -1996,7 +1996,7 @@
 				}
 			}
 
-			wp.a11y.speak( __( 'Update canceled.' ), 'polite' );
+			wp.a11y.speak( __( 'Update canceled.' ) );
 		} );
 
 		/**
@@ -2074,7 +2074,7 @@
 						.removeClass( 'updating-message' )
 						.text( __( 'Install Now' ) );
 
-					wp.a11y.speak( __( 'Update canceled.' ), 'polite' );
+					wp.a11y.speak( __( 'Update canceled.' ) );
 				} );
 			}
 
@@ -2117,7 +2117,7 @@
 						)
 						.text( __( 'Install Now' ) );
 
-					wp.a11y.speak( __( 'Update canceled.' ), 'polite' );
+					wp.a11y.speak( __( 'Update canceled.' ) );
 				} );
 			}
 
@@ -2782,7 +2782,7 @@
 						}
 
 						$parent.find( '.notice.notice-error' ).removeClass( 'hidden' ).find( 'p' ).text( errorMessage );
-						wp.a11y.speak( errorMessage, 'polite' );
+						wp.a11y.speak( errorMessage, 'assertive' );
 						return;
 					}
 
@@ -2844,7 +2844,7 @@
 						.find( 'p' )
 						.text( __( 'The request could not be completed.' ) );
 
-					wp.a11y.speak( __( 'The request could not be completed.' ), 'polite' );
+					wp.a11y.speak( __( 'The request could not be completed.' ), 'assertive' );
 				} )
 				.always( function() {
 					$toggler.removeAttr( 'data-doing-ajax' ).find( '.dashicons-update' ).addClass( 'hidden' );
