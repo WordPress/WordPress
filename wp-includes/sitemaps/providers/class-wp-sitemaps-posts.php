@@ -101,7 +101,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		if ( 'page' === $post_type && 1 === $page_num && 'posts' === get_option( 'show_on_front' ) ) {
 			// Extract the data needed for home URL to add to the array.
 			$sitemap_entry = array(
-				'loc' => home_url(),
+				'loc' => home_url( '/' ),
 			);
 
 			/**
