@@ -109,7 +109,7 @@ class WP_Meta_Query {
 	 *
 	 *     @type string $relation Optional. The MySQL keyword used to join
 	 *                            the clauses of the query. Accepts 'AND', or 'OR'. Default 'AND'.
-	 *     @type array {
+	 *     @type array  ...$0 {
 	 *         Optional. An array of first-order clause parameters, or another fully-formed meta query.
 	 *
 	 *         @type string $key         Meta key to filter by.

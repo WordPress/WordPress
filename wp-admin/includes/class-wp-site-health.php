@@ -157,10 +157,10 @@ class WP_Site_Health {
 		 * @since 5.3.0
 		 *
 		 * @param array $test_result {
-		 *     An associated array of test result data.
+		 *     An associative array of test result data.
 		 *
-		 *     @param string $label  A label describing the test, and is used as a header in the output.
-		 *     @param string $status The status of the test, which can be a value of `good`, `recommended` or `critical`.
+		 *     @param string $label       A label describing the test, and is used as a header in the output.
+		 *     @param string $status      The status of the test, which can be a value of `good`, `recommended` or `critical`.
 		 *     @param array  $badge {
 		 *         Tests are put into categories which have an associated badge shown, these can be modified and assigned here.
 		 *

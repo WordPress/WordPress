@@ -96,8 +96,8 @@ class WP_Tax_Query {
 	 *
 	 *     @type string $relation Optional. The MySQL keyword used to join
 	 *                            the clauses of the query. Accepts 'AND', or 'OR'. Default 'AND'.
-	 *     @type array {
-	 *         Optional. An array of first-order clause parameters, or another fully-formed tax query.
+	 *     @type array  ...$0 {
+	 *         An array of first-order clause parameters, or another fully-formed tax query.
 	 *
 	 *         @type string           $taxonomy         Taxonomy being queried. Optional when field=term_taxonomy_id.
 	 *         @type string|int|array $terms            Term or terms to filter by.

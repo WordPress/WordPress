@@ -4775,7 +4775,7 @@ function wp_ajax_wp_privacy_export_personal_data() {
 	 * @param array $args {
 	 *     An array of callable exporters of personal data. Default empty array.
 	 *
-	 *     @type array {
+	 *     @type array ...$0 {
 	 *         Array of personal data exporters.
 	 *
 	 *         @type callable $callback               Callable exporter function that accepts an
@@ -4965,7 +4965,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	 * @param array $args {
 	 *     An array of callable erasers of personal data. Default empty array.
 	 *
-	 *     @type array {
+	 *     @type array ...$0 {
 	 *         Array of personal data exporters.
 	 *
 	 *         @type callable $callback               Callable eraser that accepts an email address and

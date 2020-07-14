@@ -1794,9 +1794,9 @@ final class _WP_Editors {
 		 * @see 'wp_link_query_args' filter
 		 *
 		 * @param array $results {
-		 *     An associative array of query results.
+		 *     An array of associative arrays of query results.
 		 *
-		 *     @type array {
+		 *     @type array ...$0 {
 		 *         @type int    $ID        Post ID.
 		 *         @type string $title     The trimmed, escaped post title.
 		 *         @type string $permalink Post permalink.
