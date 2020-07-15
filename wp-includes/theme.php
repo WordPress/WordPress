@@ -2473,10 +2473,12 @@ function get_theme_starter_content() {
  *
  * @global array $_wp_theme_features
  *
- * @param string $feature The feature being added. Likely core values include 'post-formats',
- *                        'post-thumbnails', 'html5', 'custom-logo', 'custom-header',
- *                        'custom-background', 'title-tag', 'starter-content',
- *                        'responsive-embeds', etc.
+ * @param string $feature The feature being added. Likely core values include 'post-formats', 'post-thumbnails',
+ *                        'custom-header', 'custom-background', 'custom-logo', 'menus', 'automatic-feed-links',
+ *                        'html5', 'title-tag', 'customize-selective-refresh-widgets', 'starter-content',
+ *                        'responsive-embeds', 'align-wide', 'dark-editor-style', 'disable-custom-colors',
+ *                        'disable-custom-font-sizes', 'editor-color-palette', 'editor-font-sizes',
+ *                        'editor-styles', and 'wp-block-styles'.
  * @param mixed  ...$args Optional extra arguments to pass along with certain features.
  * @return void|bool False on failure, void otherwise.
  */
@@ -2778,7 +2780,7 @@ function _custom_logo_header_styles() {
 }
 
 /**
- * Gets the theme support arguments passed when registering that support
+ * Gets the theme support arguments passed when registering that support.
  *
  * Example usage:
  *
@@ -2791,7 +2793,8 @@ function _custom_logo_header_styles() {
  *
  * @global array $_wp_theme_features
  *
- * @param string $feature The feature to check.
+ * @param string $feature The feature to check. See add_theme_support() for the list
+ *                        of possible values.
  * @param mixed  ...$args Optional extra arguments to be checked against certain features.
  * @return mixed The array of extra arguments or the value for the registered feature.
  */
@@ -2829,7 +2832,8 @@ function get_theme_support( $feature, ...$args ) {
  *
  * @see add_theme_support()
  *
- * @param string $feature The feature being removed.
+ * @param string $feature The feature being removed. See add_theme_support() for the list
+ *                        of possible values.
  * @return bool|void Whether feature was removed.
  */
 function remove_theme_support( $feature ) {
@@ -2851,7 +2855,8 @@ function remove_theme_support( $feature ) {
  * @global Custom_Image_Header $custom_image_header
  * @global Custom_Background   $custom_background
  *
- * @param string $feature
+ * @param string $feature The feature being removed. See add_theme_support() for the list
+ *                        of possible values.
  * @return bool True if support was removed, false if the feature was not registered.
  */
 function _remove_theme_support( $feature ) {
@@ -2917,7 +2922,8 @@ function _remove_theme_support( $feature ) {
  *
  * @global array $_wp_theme_features
  *
- * @param string $feature The feature being checked.
+ * @param string $feature The feature being checked. See add_theme_support() for the list
+ *                        of possible values.
  * @param mixed  ...$args Optional extra arguments to be checked against certain features.
  * @return bool True if the current theme supports the feature, false otherwise.
  */
@@ -2971,10 +2977,8 @@ function current_theme_supports( $feature, ...$args ) {
 	/**
 	 * Filters whether the current theme supports a specific feature.
 	 *
-	 * The dynamic portion of the hook name, `$feature`, refers to the specific theme
-	 * feature. Possible values include 'post-formats', 'post-thumbnails', 'custom-background',
-	 * 'custom-header', 'menus', 'automatic-feed-links', 'html5',
-	 * 'starter-content', and 'customize-selective-refresh-widgets'.
+	 * The dynamic portion of the hook name, `$feature`, refers to the specific
+	 * theme feature. See add_theme_support() for the list of possible values.
 	 *
 	 * @since 3.4.0
 	 *
@@ -2990,7 +2994,8 @@ function current_theme_supports( $feature, ...$args ) {
  *
  * @since 2.9.0
  *
- * @param string $feature The feature being checked.
+ * @param string $feature The feature being checked. See add_theme_support() for the list
+ *                        of possible values.
  * @param string $include Path to the file.
  * @return bool True if the current theme supports the supplied feature, false otherwise.
  */
@@ -3014,7 +3019,8 @@ function require_if_theme_supports( $feature, $include ) {
  *
  * @global $_wp_registered_theme_features
  *
- * @param string $feature The name uniquely identifying the feature.
+ * @param string $feature The name uniquely identifying the feature. See add_theme_support()
+ *                        for the list of possible values.
  * @param array $args {
  *      Data used to describe the theme.
  *
@@ -3169,7 +3175,8 @@ function get_registered_theme_features() {
  *
  * @global $_wp_registered_theme_features
  *
- * @param string $feature The feature name.
+ * @param string $feature The feature name. See add_theme_support() for the list
+ *                        of possible values.
  * @return array|null The registration args, or null if the feature was not registered.
  */
 function get_registered_theme_feature( $feature ) {
