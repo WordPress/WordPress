@@ -397,7 +397,8 @@ function get_theme_roots() {
  *
  * @param string $directory Either the full filesystem path to a theme folder
  *                          or a folder within WP_CONTENT_DIR.
- * @return bool
+ * @return bool True if successfully registered a directory that contains themes,
+ *              false if the directory does not exist.
  */
 function register_theme_directory( $directory ) {
 	global $wp_theme_directories;
