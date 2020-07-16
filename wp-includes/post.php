@@ -2647,6 +2647,13 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 
 	$counts = wp_cache_get( $cache_key, 'counts' );
 	if ( false !== $counts ) {
+		// We may have cached this before every status was registered.
+		foreach ( get_post_stati() as $status ) {
+			if ( ! isset( $counts->{$status} ) ) {
+				$counts->{$status} = 0;
+			}
+		}
+
 		/** This filter is documented in wp-includes/post.php */
 		return apply_filters( 'wp_count_posts', $counts, $type, $perm );
 	}
