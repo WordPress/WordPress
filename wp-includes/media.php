@@ -2250,7 +2250,16 @@ function gallery_shortcode( $attr ) {
 	if ( is_feed() ) {
 		$output = "\n";
 		foreach ( $attachments as $att_id => $attachment ) {
-			$output .= wp_get_attachment_link( $att_id, $atts['size'], true ) . "\n";
+			if ( ! empty( $atts['link'] ) ) {
+				if ( 'none' === $atts['link'] ) {
+					$output .= wp_get_attachment_image( $att_id, $atts['size'], false, $attr );
+				} else {
+					$output .= wp_get_attachment_link( $att_id, $atts['size'], false );
+				}
+			} else {
+				$output .= wp_get_attachment_link( $att_id, $atts['size'], true );
+			}
+			$output .= "\n";
 		}
 		return $output;
 	}
