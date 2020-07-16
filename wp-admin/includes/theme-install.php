@@ -55,7 +55,7 @@ $theme_field_defaults = array(
  *
  * @since 2.8.0
  *
- * @deprecated since 3.1.0 Use get_theme_feature_list() instead.
+ * @deprecated 3.1.0 Use get_theme_feature_list() instead.
  *
  * @return array
  */
