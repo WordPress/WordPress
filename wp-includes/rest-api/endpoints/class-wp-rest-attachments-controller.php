@@ -421,7 +421,11 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		$image_file = wp_get_original_image_path( $attachment_id );
 		$image_meta = wp_get_attachment_metadata( $attachment_id );
 
-		if ( ! $image_meta || ! $image_file ) {
+		if (
+			! $image_meta ||
+			! $image_file ||
+			! wp_image_file_matches_image_meta( $request['src'], $image_meta )
+		) {
 			return new WP_Error(
 				'rest_unknown_attachment',
 				__( 'Unable to get meta information for file.' ),
@@ -1288,6 +1292,12 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				'type'        => 'number',
 				'minimum'     => 0,
 				'maximum'     => 100,
+			),
+			'src'      => array(
+				'description' => __( 'URL to the edited image file.' ),
+				'type'        => 'string',
+				'format'      => 'uri',
+				'required'    => true,
 			),
 		);
 	}
