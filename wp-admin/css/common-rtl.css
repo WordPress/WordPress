@@ -2638,7 +2638,7 @@ div.action-links {
 	margin-top: 10px;
 	margin-left: 250px; /* FYI box */
 	padding: 10px 26px;
-	margin-bottom: -99939px; /* 60px less than the padding below to accommodate footer */
+	margin-bottom: -99932px; /* 67px less than the padding below to accommodate footer height */
 	padding-bottom: 99999px; /* equal height column trick */
 }
 
@@ -2656,7 +2656,7 @@ div.action-links {
 	top: 0;
 	left: 0;
 	padding: 16px;
-	margin-bottom: -99939px; /* 60px less than the padding below to accommodate footer */
+	margin-bottom: -99932px; /* 67px less than the padding below to accommodate footer height */
 	padding-bottom: 99999px; /* equal height column trick */
 	width: 217px;
 	border-right: 1px solid #ddd;
@@ -2750,7 +2750,7 @@ div.action-links {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	height: 33px; /* 33+13+13+1=60 */
+	height: 40px; /* actual height: 40+13+13+1=67 */
 	border-top: 1px solid #ddd;
 	background: #f3f3f3;
 }
