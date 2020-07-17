@@ -508,7 +508,7 @@ function get_metadata( $meta_type, $object_id, $meta_key = '', $single = false )
 		return $value;
 	}
 
-	return get_metadata_default( $meta_type, $meta_key, $single, $object_id );
+	return get_metadata_default( $meta_type, $object_id, $meta_key, $single );
 }
 
 /**
@@ -595,13 +595,14 @@ function get_metadata_raw( $meta_type, $object_id, $meta_key = '', $single = fal
  *
  * @param string $meta_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
  *                          or any other object type with an associated meta table.
- * @param string $meta_key  Metadata key.
+ * @param int    $object_id ID of the object metadata is for.
+ * @param string $meta_key  Metadata key. If not specified, retrieve all metadata for
+ *                          the specified object. Default empty.
  * @param bool   $single    Optional. If true, return only the first value of the specified meta_key.
  *                          This parameter has no effect if meta_key is not specified. Default false.
- * @param int    $object_id Optional. ID of the object metadata is for. Default 0.
  * @return mixed Single metadata value, or array of values.
  */
-function get_metadata_default( $meta_type, $meta_key, $single = false, $object_id = 0 ) {
+function get_metadata_default( $meta_type, $object_id, $meta_key, $single = false ) {
 	if ( $single ) {
 		$value = '';
 	} else {
