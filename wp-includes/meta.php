@@ -544,14 +544,17 @@ function get_metadata_raw( $meta_type, $object_id, $meta_key = '', $single = fal
 	 * Returning a non-null value will effectively short-circuit the function.
 	 *
 	 * @since 3.1.0
+	 * @since 5.5.0 Added the `$meta_type` parameter.
 	 *
 	 * @param mixed  $value     The value to return, either a single metadata value or an array
 	 *                          of values depending on the value of `$single`. Default null.
 	 * @param int    $object_id ID of the object metadata is for.
 	 * @param string $meta_key  Metadata key.
 	 * @param bool   $single    Whether to return only the first value of the specified `$meta_key`.
+	 * @param string $meta_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
+	 *                          or any other object type with an associated meta table.
 	 */
-	$check = apply_filters( "get_{$meta_type}_metadata", null, $object_id, $meta_key, $single );
+	$check = apply_filters( "get_{$meta_type}_metadata", null, $object_id, $meta_key, $single, $meta_type );
 	if ( null !== $check ) {
 		if ( $single && is_array( $check ) ) {
 			return $check[0];
@@ -618,13 +621,13 @@ function get_metadata_default( $meta_type, $object_id, $meta_key, $single = fals
 	 *
 	 * @param mixed  $value     The value to return, either a single metadata value or an array
 	 *                          of values depending on the value of `$single`.
-	 * @param string $meta_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
-	 *                          or any other object type with an associated meta table.
+	 * @param int    $object_id ID of the object metadata is for.
 	 * @param string $meta_key  Metadata key.
 	 * @param bool   $single    Whether to return only the first value of the specified `$meta_key`.
-	 * @param int    $object_id ID of the object metadata is for.
+	 * @param string $meta_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
+	 *                          or any other object type with an associated meta table.
 	 */
-	$value = apply_filters( "default_{$meta_type}_metadata", $value, $meta_type, $meta_key, $single, $object_id );
+	$value = apply_filters( "default_{$meta_type}_metadata", $value, $object_id, $meta_key, $single, $meta_type );
 
 	if ( ! $single && ! wp_is_numeric_array( $value ) ) {
 		$value = array( $value );
@@ -1379,15 +1382,15 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
  * @since 5.5.0
  *
  * @param mixed  $value     Current value passed to filter.
- * @param string $meta_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
- *                          or any other object type with an associated meta table.
+ * @param int    $object_id ID of the object metadata is for.
  * @param string $meta_key  Metadata key.
  * @param bool   $single    If true, return only the first value of the specified meta_key.
  *                          This parameter has no effect if meta_key is not specified.
- * @param int    $object_id ID of the object metadata is for.
+ * @param string $meta_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
+ *                          or any other object type with an associated meta table.
  * @return mixed Single metadata default, or array of defaults.
  */
-function filter_default_metadata( $value, $meta_type, $meta_key, $single, $object_id ) {
+function filter_default_metadata( $value, $object_id, $meta_key, $single, $meta_type ) {
 	global $wp_meta_keys;
 
 	if ( wp_installing() ) {
