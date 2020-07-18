@@ -967,8 +967,10 @@ class wpdb {
 			if ( null === $blog_id ) {
 				$blog_id = $this->blogid;
 			}
+
 			$blog_id = (int) $blog_id;
-			if ( defined( 'MULTISITE' ) && ( 0 == $blog_id || 1 == $blog_id ) ) {
+
+			if ( defined( 'MULTISITE' ) && ( 0 === $blog_id || 1 === $blog_id ) ) {
 				return $this->base_prefix;
 			} else {
 				return $this->base_prefix . $blog_id . '_';
@@ -1314,7 +1316,7 @@ class wpdb {
 
 		// If args were passed as an array (as in vsprintf), move them up.
 		$passed_as_array = false;
-		if ( is_array( $args[0] ) && count( $args ) == 1 ) {
+		if ( is_array( $args[0] ) && count( $args ) === 1 ) {
 			$passed_as_array = true;
 			$args            = $args[0];
 		}
@@ -1939,7 +1941,7 @@ class wpdb {
 			}
 		}
 
-		if ( empty( $this->dbh ) || 2006 == $mysql_errno ) {
+		if ( empty( $this->dbh ) || 2006 === $mysql_errno ) {
 			if ( $this->check_connection() ) {
 				$this->_do_query( $query );
 			} else {
@@ -2597,11 +2599,11 @@ class wpdb {
 			return null;
 		}
 
-		if ( OBJECT == $output ) {
+		if ( OBJECT === $output ) {
 			return $this->last_result[ $y ] ? $this->last_result[ $y ] : null;
-		} elseif ( ARRAY_A == $output ) {
+		} elseif ( ARRAY_A === $output ) {
 			return $this->last_result[ $y ] ? get_object_vars( $this->last_result[ $y ] ) : null;
-		} elseif ( ARRAY_N == $output ) {
+		} elseif ( ARRAY_N === $output ) {
 			return $this->last_result[ $y ] ? array_values( get_object_vars( $this->last_result[ $y ] ) ) : null;
 		} elseif ( OBJECT === strtoupper( $output ) ) {
 			// Back compat for OBJECT being previously case-insensitive.
@@ -2675,10 +2677,10 @@ class wpdb {
 		}
 
 		$new_array = array();
-		if ( OBJECT == $output ) {
+		if ( OBJECT === $output ) {
 			// Return an integer-keyed array of row objects.
 			return $this->last_result;
-		} elseif ( OBJECT_K == $output ) {
+		} elseif ( OBJECT_K === $output ) {
 			// Return an array of row objects with keys from column 1.
 			// (Duplicates are discarded.)
 			if ( $this->last_result ) {
@@ -2691,11 +2693,11 @@ class wpdb {
 				}
 			}
 			return $new_array;
-		} elseif ( ARRAY_A == $output || ARRAY_N == $output ) {
+		} elseif ( ARRAY_A === $output || ARRAY_N === $output ) {
 			// Return an integer-keyed array of...
 			if ( $this->last_result ) {
 				foreach ( (array) $this->last_result as $row ) {
-					if ( ARRAY_N == $output ) {
+					if ( ARRAY_N === $output ) {
 						// ...integer-keyed row arrays.
 						$new_array[] = array_values( get_object_vars( $row ) );
 					} else {
@@ -3404,7 +3406,7 @@ class wpdb {
 		$this->load_col_info();
 
 		if ( $this->col_info ) {
-			if ( -1 == $col_offset ) {
+			if ( -1 === $col_offset ) {
 				$i         = 0;
 				$new_array = array();
 				foreach ( (array) $this->col_info as $col ) {
