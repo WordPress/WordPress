@@ -1018,7 +1018,7 @@ jQuery(document).ready( function($) {
  *
  * @since 4.6.0
  *
- * @param $args {
+ * @param array $args {
  *     Optional. Array or string of Query parameters. Default empty array.
  *
  *     @type int    $blog_id  The site ID. Default is the current site.

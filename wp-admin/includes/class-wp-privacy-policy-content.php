@@ -155,6 +155,8 @@ final class WP_Privacy_Policy_Content {
 	 *
 	 * @since 4.9.6
 	 * @access private
+	 *
+	 * @param int $post_id The ID of the updated post.
 	 */
 	public static function _policy_page_updated( $post_id ) {
 		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );

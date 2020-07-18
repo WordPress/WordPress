@@ -133,7 +133,7 @@ final class WP_Recovery_Mode_Email_Service {
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param $message string The Message to include in the email.
+		 * @param string $message The Message to include in the email.
 		 */
 		$support = apply_filters( 'recovery_email_support_info', __( 'Please contact your host for assistance with investigating this issue further.' ) );
 
@@ -142,7 +142,7 @@ final class WP_Recovery_Mode_Email_Service {
 		 *
 		 * @since 5.3.0
 		 *
-		 * @param $message array An associated array of debug information.
+		 * @param array $message An associative array of debug information.
 		 */
 		$debug = apply_filters( 'recovery_email_debug_info', $this->get_debug( $extension ) );
 

@@ -1041,7 +1041,9 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 *
 	 * @param array $options {
-	 *     @type bool $wrap  Whether the screen-options-wrap div will be included. Defaults to true.
+	 *     Options for the tab.
+	 *
+	 *     @type bool $wrap Whether the screen-options-wrap div will be included. Defaults to true.
 	 * }
 	 */
 	public function render_screen_options( $options = array() ) {
