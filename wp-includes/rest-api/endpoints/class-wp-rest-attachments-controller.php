@@ -545,14 +545,23 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		}
 
 		// Create new attachment post.
-		$attachment_post = array(
+		$new_attachment_post = array(
 			'post_mime_type' => $saved['mime-type'],
 			'guid'           => $uploads['url'] . "/$filename",
-			'post_title'     => $filename,
+			'post_title'     => $image_name,
 			'post_content'   => '',
 		);
 
-		$new_attachment_id = wp_insert_attachment( wp_slash( $attachment_post ), $saved['path'], 0, true );
+		// Copy post_content, post_excerpt, and post_title from the edited image's attachment post.
+		$attachment_post = get_post( $attachment_id );
+
+		if ( $attachment_post ) {
+			$new_attachment_post['post_content'] = $attachment_post->post_content;
+			$new_attachment_post['post_excerpt'] = $attachment_post->post_excerpt;
+			$new_attachment_post['post_title']   = $attachment_post->post_title;
+		}
+
+		$new_attachment_id = wp_insert_attachment( wp_slash( $new_attachment_post ), $saved['path'], 0, true );
 
 		if ( is_wp_error( $new_attachment_id ) ) {
 			if ( 'db_update_error' === $new_attachment_id->get_error_code() ) {
@@ -564,19 +573,24 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			return $new_attachment_id;
 		}
 
+		// Copy the image alt text from the edited image.
+		$image_alt = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+
+		if ( ! empty( $image_alt ) ) {
+			// update_post_meta() expects slashed.
+			update_post_meta( $new_attachment_id, '_wp_attachment_image_alt', wp_slash( $image_alt ) );
+		}
+
 		// Generate image sub-sizes and meta.
 		$new_image_meta = wp_generate_attachment_metadata( $new_attachment_id, $saved['path'] );
 
 		// Copy the EXIF metadata from the original attachment if not generated for the edited image.
-		if ( ! empty( $image_meta['image_meta'] ) ) {
-			$empty_image_meta = true;
-
-			if ( isset( $new_image_meta['image_meta'] ) && is_array( $new_image_meta['image_meta'] ) ) {
-				$empty_image_meta = empty( array_filter( array_values( $new_image_meta['image_meta'] ) ) );
-			}
-
-			if ( $empty_image_meta ) {
-				$new_image_meta['image_meta'] = $image_meta['image_meta'];
+		if ( isset( $image_meta['image_meta'] ) && isset( $new_image_meta['image_meta'] ) && is_array( $new_image_meta['image_meta'] ) ) {
+			// Merge but skip empty values.
+			foreach ( (array) $image_meta['image_meta'] as $key => $value ) {
+				if ( empty( $new_image_meta['image_meta'][ $key ] ) && ! empty( $value ) ) {
+					$new_image_meta['image_meta'][ $key ] = $value;
+				}
 			}
 		}
 
