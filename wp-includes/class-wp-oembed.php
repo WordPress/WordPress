@@ -59,7 +59,6 @@ class WP_oEmbed {
 			'#https?://(www\.)?flickr\.com/.*#i'           => array( 'https://www.flickr.com/services/oembed/', true ),
 			'#https?://flic\.kr/.*#i'                      => array( 'https://www.flickr.com/services/oembed/', true ),
 			'#https?://(.+\.)?smugmug\.com/.*#i'           => array( 'https://api.smugmug.com/services/oembed/', true ),
-			'#https?://(www\.)?hulu\.com/watch/.*#i'       => array( 'https://www.hulu.com/api/oembed.{format}', true ),
 			'#https?://(www\.)?scribd\.com/(doc|document)/.*#i' => array( 'https://www.scribd.com/services/oembed', true ),
 			'#https?://wordpress\.tv/.*#i'                 => array( 'https://wordpress.tv/oembed/', true ),
 			'#https?://(.+\.)?polldaddy\.com/.*#i'         => array( 'https://api.crowdsignal.com/oembed', true ),
@@ -143,7 +142,6 @@ class WP_oEmbed {
 		 * | ------------ | ----------------------------------------- | ------- |
 		 * | Dailymotion  | dailymotion.com                           | 2.9.0   |
 		 * | Flickr       | flickr.com                                | 2.9.0   |
-		 * | Hulu         | hulu.com                                  | 2.9.0   |
 		 * | Scribd       | scribd.com                                | 2.9.0   |
 		 * | Vimeo        | vimeo.com                                 | 2.9.0   |
 		 * | WordPress.tv | wordpress.tv                              | 2.9.0   |
@@ -212,6 +210,7 @@ class WP_oEmbed {
 		 * | Photobucket  | photobucket.com      | 2.9.0     | 5.1.0     |
 		 * | Funny or Die | funnyordie.com       | 3.0.0     | 5.1.0     |
 		 * | CollegeHumor | collegehumor.com     | 4.0.0     | 5.3.1     |
+		 * | Hulu         | hulu.com             | 2.9.0     | 5.4.2     |
 		 *
 		 * @see wp_oembed_add_provider()
 		 *
