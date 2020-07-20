@@ -813,8 +813,8 @@
 				'aria-label',
 				sprintf(
 					/* translators: %s: Plugin name. */
-					 _x( 'Install %s now', 'plugin' ),
-					 pluginName
+					_x( 'Install %s now', 'plugin' ),
+					pluginName
 				)
 			)
 			.text( __( 'Install Now' ) );

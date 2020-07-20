@@ -240,7 +240,7 @@ function get_theme_update_available( $theme ) {
 					sprintf(
 						'aria-label="%s" id="update-theme" data-slug="%s"',
 						/* translators: %s: Theme name. */
-						esc_attr( sprintf( __( 'Update %s now' ), $theme_name ) ),
+						esc_attr( sprintf( _x( 'Update %s now', 'theme' ), $theme_name ) ),
 						$stylesheet
 					)
 				);

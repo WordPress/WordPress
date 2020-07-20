@@ -528,7 +528,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 									esc_attr( $plugin['slug'] ),
 									esc_url( $status['url'] ),
 									/* translators: %s: Plugin name and version. */
-									esc_attr( sprintf( __( 'Install %s now' ), $name ) ),
+									esc_attr( sprintf( _x( 'Install %s now', 'plugin' ), $name ) ),
 									esc_attr( $name ),
 									__( 'Install Now' )
 								);
@@ -550,7 +550,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 									esc_attr( $plugin['slug'] ),
 									esc_url( $status['url'] ),
 									/* translators: %s: Plugin name and version. */
-									esc_attr( sprintf( __( 'Update %s now' ), $name ) ),
+									esc_attr( sprintf( _x( 'Update %s now', 'plugin' ), $name ) ),
 									esc_attr( $name ),
 									__( 'Update Now' )
 								);

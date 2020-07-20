@@ -323,14 +323,14 @@ if ( $tab ) {
 				<# if ( data.compatible_wp && data.compatible_php ) { #>
 					<?php
 					/* translators: %s: Theme name. */
-					$aria_label = sprintf( __( 'Install %s' ), '{{ data.name }}' );
+					$aria_label = sprintf( _x( 'Install %s', 'theme' ), '{{ data.name }}' );
 					?>
 					<a class="button button-primary theme-install" data-name="{{ data.name }}" data-slug="{{ data.id }}" href="{{ data.install_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Install' ); ?></a>
 					<button class="button preview install-theme-preview"><?php _e( 'Preview' ); ?></button>
 				<# } else { #>
 					<?php
 					/* translators: %s: Theme name. */
-					$aria_label = sprintf( __( 'Cannot Install %s' ), '{{ data.name }}' );
+					$aria_label = sprintf( _x( 'Cannot Install %s', 'theme' ), '{{ data.name }}' );
 					?>
 					<a class="button button-primary disabled" data-name="{{ data.name }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _ex( 'Cannot Install', 'theme' ); ?></a>
 					<button class="button disabled"><?php _e( 'Preview' ); ?></button>

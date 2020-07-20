@@ -509,7 +509,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 					sprintf(
 						'class="update-link" aria-label="%s"',
 						/* translators: %s: Plugin name. */
-						esc_attr( sprintf( __( 'Update %s now' ), $plugin_name ) )
+						esc_attr( sprintf( _x( 'Update %s now', 'plugin' ), $plugin_name ) )
 					)
 				);
 			} else {
@@ -694,7 +694,7 @@ function wp_theme_update_row( $theme_key, $theme ) {
 			sprintf(
 				'class="update-link" aria-label="%s"',
 				/* translators: %s: Theme name. */
-				esc_attr( sprintf( __( 'Update %s now' ), $theme['Name'] ) )
+				esc_attr( sprintf( _x( 'Update %s now', 'theme' ), $theme['Name'] ) )
 			)
 		);
 	}
