@@ -116,9 +116,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			'/' . $this->rest_base . '/me',
 			array(
 				array(
-					'methods'  => WP_REST_Server::READABLE,
-					'callback' => array( $this, 'get_current_item' ),
-					'args'     => array(
+					'methods'             => WP_REST_Server::READABLE,
+					'permission_callback' => '__return_true',
+					'callback'            => array( $this, 'get_current_item' ),
+					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 					),
 				),

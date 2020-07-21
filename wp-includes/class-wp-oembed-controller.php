@@ -36,9 +36,10 @@ final class WP_oEmbed_Controller {
 			'/embed',
 			array(
 				array(
-					'methods'  => WP_REST_Server::READABLE,
-					'callback' => array( $this, 'get_item' ),
-					'args'     => array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_item' ),
+					'permission_callback' => '__return_true',
+					'args'                => array(
 						'url'      => array(
 							'description' => __( 'The URL of the resource for which to fetch oEmbed data.' ),
 							'required'    => true,

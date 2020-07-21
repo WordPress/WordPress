@@ -88,6 +88,20 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 
 		$arg_group         = array_merge( $defaults, $arg_group );
 		$arg_group['args'] = array_merge( $common_args, $arg_group['args'] );
+
+		if ( ! isset( $arg_group['permission_callback'] ) ) {
+			_doing_it_wrong(
+				__FUNCTION__,
+				sprintf(
+					/* translators: 1. The REST API route being registered. 2. The argument name. 3. The suggested function name. */
+					__( 'The REST API route definition for %1$s is missing the required %2$s argument. For REST API routes that are intended to be public, use %3$s as the permission callback.', 'LION' ),
+					'<code>' . $clean_namespace . '/' . trim( $route, '/' ) . '</code>',
+					'<code>permission_callback</code>',
+					'<code>__return_true</code>'
+				),
+				'5.5.0'
+			);
+		}
 	}
 
 	$full_route = '/' . $clean_namespace . '/' . trim( $route, '/' );
