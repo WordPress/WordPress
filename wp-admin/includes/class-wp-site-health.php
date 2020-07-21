@@ -1956,6 +1956,76 @@ class WP_Site_Health {
 	}
 
 	/**
+	 * Test if 'file_uploads' directive in PHP.ini is turned off
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return array The test results.
+	 */
+	public function get_test_file_uploads() {
+		$result = array(
+			'label'       => __( 'Files can be uploaded.' ),
+			'status'      => 'good',
+			'badge'       => array(
+				'label' => __( 'Performance' ),
+				'color' => 'blue',
+			),
+			'description' => sprintf(
+				'<p>%s</p>',
+				sprintf(
+					/* translators: %1$s: file_uploads %2$s: php.ini */
+					__( 'The %1$s directive in %2$s determines if uploading to is allowed in your WordPress.' ),
+					'<code>file_uploads</code>',
+					'<code>php.ini</code>'
+				)
+			),
+			'actions'     => '',
+			'test'        => 'file_uploads',
+		);
+
+		if ( ! function_exists( 'ini_get' ) ) {
+			$result['status']       = 'critical';
+			$result['description'] .= sprintf(
+				/* translators: %s: ini_get() */
+				__( 'The %s function has been disabled, some media settings are unavailable because of this.' ),
+				'<code>ini_get()</code>'
+			);
+			return $result;
+		}
+
+		if ( empty( ini_get( 'file_uploads' ) ) ) {
+			$result['status']       = 'critical';
+			$result['description'] .= sprintf(
+				'<p>%s</p>',
+				sprintf(
+					/* translators: %1$s: file_uploads %2$s: 0 */
+					__( '%1$s is set to %2$s. You won\'t be able to upload files in your WordPress.' ),
+					'<code>file_uploads</code>',
+					'<code>0</code>'
+				)
+			);
+			return $result;
+		}
+
+		if ( parse_ini_size( ini_get( 'post_max_size' ) ) !== parse_ini_size( ini_get( 'upload_max_filesize' ) ) ) {
+			$result['label']       = __( 'Mismatched "post_max_size" and "upload_max_filesize" values.' );
+			$result['status']      = 'recommended';
+			$result['description'] = sprintf(
+				'<p>%s</p>',
+				sprintf(
+					/* translators: %1$s: post_max_size %2$s: upload_max_filesize */
+					__( 'The settings for %1$s and %2$s are not the same, this could cause some problems when trying to upload files.' ),
+					'<code>post_max_size</code>',
+					'<code>upload_max_filesize</code>'
+				)
+			);
+			return $result;
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Return a set of tests that belong to the site status page.
 	 *
 	 * Each site status test is defined here, they may be `direct` tests, that run on page load, or `async` tests
@@ -2024,6 +2094,10 @@ class WP_Site_Health {
 				'debug_enabled'        => array(
 					'label' => __( 'Debugging enabled' ),
 					'test'  => 'is_in_debug_mode',
+				),
+				'file_uploads'         => array(
+					'label' => __( 'File uploads' ),
+					'test'  => 'file_uploads',
 				),
 			),
 			'async'  => array(

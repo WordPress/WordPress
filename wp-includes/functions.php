@@ -477,6 +477,38 @@ function size_format( $bytes, $decimals = 0 ) {
 }
 
 /**
+ * Converts a shorthand byte string to bytes.
+ *
+ * Useful when needing to compare two byte strings for size differences.
+ *
+ * E.g.
+ *  "1G" (1 Gigabyte) = 1073741824
+ *  "10M" (10 Megabytes) = 10485760
+ *  "1K" (1 Kilobyte) = 1024
+ *
+ * @since 5.5.0
+ *
+ * @param  string $size_string Shorthand byte string
+ * @return int                 $size_string converted to numberic bytes.
+ */
+function parse_ini_size( $size_string ) {
+	$size_string = trim( $size_string );
+	$last        = strtolower( substr( $size_string, - 1 ) );
+	$value       = intval( $size_string );
+
+	switch ( $last ) {
+		case 'g':
+			return (int) $value * GB_IN_BYTES;
+		case 'm':
+			return (int) $value * MB_IN_BYTES;
+		case 'k':
+			return (int) $value * KB_IN_BYTES;
+		default:
+			return (int) $value;
+	}
+}
+
+/**
  * Convert a duration to human readable format.
  *
  * @since 5.1.0

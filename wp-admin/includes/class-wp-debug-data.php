@@ -519,6 +519,47 @@ class WP_Debug_Data {
 			'value' => ( is_array( $imagick_version ) ? $imagick_version['versionString'] : $imagick_version ),
 		);
 
+		if ( ! function_exists( 'ini_get' ) ) {
+			$info['wp-media']['fields']['ini_get'] = array(
+				'label' => __( 'File upload settings' ),
+				'value' => sprintf(
+					/* translators: %s: ini_get() */
+					__( 'Unable to determine some settings, as the %s function has been disabled.' ),
+					'ini_get()'
+				),
+				'debug' => 'ini_get() is disabled',
+			);
+		} else {
+			// Get the PHP ini directive values.
+			$post_max_size    = ini_get( 'post_max_size' );
+			$upload_max_size  = ini_get( 'upload_max_filesize' );
+			$max_file_uploads = ini_get( 'max_file_uploads' );
+			$effective        = min( parse_ini_size( $post_max_size ), parse_ini_size( $upload_max_size ) );
+
+			// Add info in Media section.
+			$info['wp-media']['fields']['file_uploads']        = array(
+				'label' => __( 'File uploads' ),
+				'value' => empty( ini_get( 'file_uploads' ) ) ? __( 'Disabled' ) : __( 'Enabled' ),
+				'debug' => 'File uploads is turned off',
+			);
+			$info['wp-media']['fields']['post_max_size']       = array(
+				'label' => __( 'Max size of post data allowed' ),
+				'value' => $post_max_size,
+			);
+			$info['wp-media']['fields']['upload_max_filesize'] = array(
+				'label' => __( 'Max size of an uploaded file' ),
+				'value' => $upload_max_size,
+			);
+			$info['wp-media']['fields']['upload_max']          = array(
+				'label' => __( 'Max effective file size' ),
+				'value' => size_format( $effective ),
+			);
+			$info['wp-media']['fields']['max_file_uploads']    = array(
+				'label' => __( 'Max number of files allowed' ),
+				'value' => number_format( $max_file_uploads ),
+			);
+		}
+
 		// If Imagick is used as our editor, provide some more information about its limitations.
 		if ( 'WP_Image_Editor_Imagick' === _wp_image_editor_choose() && isset( $imagick ) && $imagick instanceof Imagick ) {
 			$limits = array(
