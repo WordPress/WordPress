@@ -49,7 +49,7 @@ function wp_sitemaps_get_server() {
  *
  * @return WP_Sitemaps_Provider[] Array of sitemap providers.
  */
-function wp_get_sitemaps_providers() {
+function wp_get_sitemap_providers() {
 	$sitemaps = wp_sitemaps_get_server();
 	return $sitemaps->registry->get_providers();
 }
