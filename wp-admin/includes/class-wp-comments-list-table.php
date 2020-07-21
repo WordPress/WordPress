@@ -387,43 +387,24 @@ class WP_Comments_List_Table extends WP_List_Table {
 		if ( ! isset( $has_items ) ) {
 			$has_items = $this->has_items();
 		}
-		?>
-		<div class="alignleft actions">
-		<?php
+		echo '<div class="alignleft actions">';
 		if ( 'top' === $which ) {
-			?>
-	<label class="screen-reader-text" for="filter-by-comment-type"><?php _e( 'Filter by comment type' ); ?></label>
-	<select id="filter-by-comment-type" name="comment_type">
-		<option value=""><?php _e( 'All comment types' ); ?></option>
-			<?php
-				/**
-				 * Filters the comment types dropdown menu.
-				 *
-				 * @since 2.7.0
-				 *
-				 * @param string[] $comment_types An array of comment types. Accepts 'Comments', 'Pings'.
-				 */
-				$comment_types = apply_filters(
-					'admin_comment_types_dropdown',
-					array(
-						'comment' => __( 'Comments' ),
-						'pings'   => __( 'Pings' ),
-					)
-				);
+			ob_start();
 
-			foreach ( $comment_types as $type => $label ) {
-				echo "\t" . '<option value="' . esc_attr( $type ) . '"' . selected( $comment_type, $type, false ) . ">$label</option>\n";
-			}
-			?>
-	</select>
-			<?php
+			$this->comment_status_dropdown( $comment_type );
 			/**
 			 * Fires just before the Filter submit button for comment types.
 			 *
 			 * @since 3.5.0
 			 */
 			do_action( 'restrict_manage_comments' );
-			submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
+
+			$output = ob_get_clean();
+
+			if ( ! empty( $output ) && $this->has_items() ) {
+				echo $output;
+				submit_button( esc_html__( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
+			}
 		}
 
 		if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_user_can( 'moderate_comments' ) && $has_items ) {
@@ -481,6 +462,55 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Displays a comment status drop-down for filtering on the Comments list table.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $comment_type The current comment type slug.
+	 */
+	protected function comment_status_dropdown( $comment_type ) {
+		/**
+		 * Filters the comment types dropdown menu.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param array $comment_types An array of comment types. Accepts 'Comments', 'Pings'.
+		 */
+		$comment_types = apply_filters(
+			'admin_comment_types_dropdown',
+			array(
+				'comment' => esc_html__( 'Comments' ),
+				'pings'   => esc_html__( 'Pings' ),
+			)
+		);
+
+		if ( $comment_types && is_array( $comment_types ) ) {
+			printf( '<label class="screen-reader-text" for="filter-by-comment-type">%s</label>', esc_html__( 'Filter by comment type' ) );
+
+			echo '<select id="filter-by-comment-type" name="comment_type">';
+
+			printf( "\t<option value=''>%s</option>", esc_html__( 'All comment types' ) );
+
+			foreach ( $comment_types as $type => $label ) {
+				if ( get_comments(
+					array(
+						'number' => 1,
+						'type'   => $type,
+					)
+				) ) {
+					printf(
+						"\t<option value='%s'%s>%s</option>\n",
+						esc_attr( $type ),
+						selected( $comment_type, $type, false ),
+						esc_html( $label )
+					);
+				}
+			}
+				echo '</select>';
+		}
+	}
+
+	/**
 	 * @return array
 	 */
 	protected function get_sortable_columns() {
@@ -511,8 +541,14 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 */
 	public function display() {
 		wp_nonce_field( 'fetch-list-' . get_class( $this ), '_ajax_fetch_list_nonce' );
+		static $has_items;
 
-		$this->display_tablenav( 'top' );
+		if ( ! isset( $has_items ) ) {
+			$has_items = $this->has_items();
+			if ( $has_items ) {
+				$this->display_tablenav( 'top' );
+			}
+		}
 
 		$this->screen->render_screen_reader_content( 'heading_list' );
 
