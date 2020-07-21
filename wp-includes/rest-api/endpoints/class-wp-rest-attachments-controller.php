@@ -424,7 +424,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		if (
 			! $image_meta ||
 			! $image_file ||
-			! wp_image_file_matches_image_meta( $request['src'], $image_meta )
+			! wp_image_file_matches_image_meta( $request['src'], $image_meta, $attachment_id )
 		) {
 			return new WP_Error(
 				'rest_unknown_attachment',

@@ -1507,11 +1507,12 @@ function wp_calculate_image_sizes( $size, $image_src = null, $image_meta = null,
  *
  * @since 5.5.0
  *
- * @param string $image_location  The full path or URI to the image file.
- * @param array  $image_meta      The attachment meta data as returned by 'wp_get_attachment_metadata()'.
+ * @param string $image_location The full path or URI to the image file.
+ * @param array  $image_meta     The attachment meta data as returned by 'wp_get_attachment_metadata()'.
+ * @param int    $attachment_id  Optional. The image attachment ID. Default 0.
  * @return bool Whether the image meta is for this image file.
  */
-function wp_image_file_matches_image_meta( $image_location, $image_meta ) {
+function wp_image_file_matches_image_meta( $image_location, $image_meta, $attachment_id = 0 ) {
 	$match = false;
 
 	// Ensure the $image_meta is valid.
@@ -1559,9 +1560,10 @@ function wp_image_file_matches_image_meta( $image_location, $image_meta ) {
 	 * @param bool   $match          Whether the image relative path from the image meta
 	 *                               matches the end of the URI or path to the image file.
 	 * @param string $image_location Full path or URI to the tested image file.
-	 * @param array  $image_meta     The image meta data being tested.
+	 * @param array  $image_meta     The image meta data as returned by 'wp_get_attachment_metadata()'.
+	 * @param int    $attachment_id  The image attachment ID or 0 if not supplied.
 	 */
-	return apply_filters( 'wp_image_file_matches_image_meta', $match, $image_location, $image_meta );
+	return apply_filters( 'wp_image_file_matches_image_meta', $match, $image_location, $image_meta, $attachment_id );
 }
 
 /**
@@ -1569,13 +1571,14 @@ function wp_image_file_matches_image_meta( $image_location, $image_meta ) {
  *
  * @since 5.5.0
  *
- * @param string $image_src  The image source file.
- * @param array  $image_meta The image meta data as returned by 'wp_get_attachment_metadata()'.
+ * @param string $image_src     The image source file.
+ * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
+ * @param int    $attachment_id Optional. The image attachment ID. Default 0.
  * @return array|false Array with first element being the width and second element being the height,
  *                     or false if dimensions cannot be determined.
  */
-function wp_image_src_get_dimensions( $image_src, $image_meta ) {
-	if ( ! wp_image_file_matches_image_meta( $image_src, $image_meta ) ) {
+function wp_image_src_get_dimensions( $image_src, $image_meta, $attachment_id = 0 ) {
+	if ( ! wp_image_file_matches_image_meta( $image_src, $image_meta, $attachment_id ) ) {
 		return false;
 	}
 
@@ -1643,7 +1646,7 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 	if ( $width && $height ) {
 		$size_array = array( $width, $height );
 	} else {
-		$size_array = wp_image_src_get_dimensions( $image_src, $image_meta );
+		$size_array = wp_image_src_get_dimensions( $image_src, $image_meta, $attachment_id );
 		if ( ! $size_array ) {
 			return $image;
 		}
@@ -1863,7 +1866,7 @@ function wp_img_tag_add_width_and_height_attr( $image, $context, $attachment_id 
 
 	if ( true === $add ) {
 		$image_meta = wp_get_attachment_metadata( $attachment_id );
-		$size_array = wp_image_src_get_dimensions( $image_src, $image_meta );
+		$size_array = wp_image_src_get_dimensions( $image_src, $image_meta, $attachment_id );
 
 		if ( $size_array ) {
 			$hw = trim( image_hwstring( $size_array[0], $size_array[1] ) );
