@@ -12,8 +12,8 @@ if ( function_exists( '_deprecated_file' ) ) {
 	);
 }
 
-require __DIR__ . '/PHPMailer/PHPMailer.php';
-require __DIR__ . '/PHPMailer/Exception.php';
+require_once __DIR__ . '/PHPMailer/PHPMailer.php';
+require_once __DIR__ . '/PHPMailer/Exception.php';
 
 class_alias( PHPMailer\PHPMailer\PHPMailer::class, 'PHPMailer' );
 class_alias( PHPMailer\PHPMailer\Exception::class, 'phpmailerException' );
