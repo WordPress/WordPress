@@ -25,6 +25,15 @@ class WP_Sitemaps_Index {
 	protected $registry;
 
 	/**
+	 * Maximum number of sitemaps to include in an index.
+	 *
+	 * @sincee 5.5.0
+	 *
+	 * @var int Maximum number of sitemaps.
+	 */
+	private $max_sitemaps = 50000;
+
+	/**
 	 * WP_Sitemaps_Index constructor.
 	 *
 	 * @since 5.5.0
@@ -47,7 +56,7 @@ class WP_Sitemaps_Index {
 
 		$providers = $this->registry->get_sitemaps();
 		/* @var WP_Sitemaps_Provider $provider */
-		foreach ( $providers as $provider ) {
+		foreach ( $providers as $name => $provider ) {
 			$sitemap_entries = $provider->get_sitemap_entries();
 
 			// Prevent issues with array_push and empty arrays on PHP < 7.3.
@@ -57,9 +66,12 @@ class WP_Sitemaps_Index {
 
 			// Using array_push is more efficient than array_merge in a loop.
 			array_push( $sitemaps, ...$sitemap_entries );
+			if ( count( $sitemaps ) >= $this->max_sitemaps ) {
+				break;
+			}
 		}
 
-		return $sitemaps;
+		return array_slice( $sitemaps, 0, $this->max_sitemaps, true );
 	}
 
 	/**

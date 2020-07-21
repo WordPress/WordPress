@@ -25,15 +25,6 @@ class WP_Sitemaps_Registry {
 	private $sitemaps = array();
 
 	/**
-	 * Maximum number of sitemaps to include in an index.
-	 *
-	 * @sincee 5.5.0
-	 *
-	 * @var int Maximum number of sitemaps.
-	 */
-	private $max_sitemaps = 50000;
-
-	/**
 	 * Adds a sitemap with route to the registry.
 	 *
 	 * @since 5.5.0
@@ -69,19 +60,13 @@ class WP_Sitemaps_Registry {
 	}
 
 	/**
-	 * Lists all registered sitemaps.
+	 * Returns all registered sitemap providers.
 	 *
 	 * @since 5.5.0
 	 *
 	 * @return WP_Sitemaps_Provider[] Array of sitemap providers.
 	 */
 	public function get_sitemaps() {
-		$total_sitemaps = count( $this->sitemaps );
-
-		if ( $total_sitemaps > $this->max_sitemaps ) {
-			return array_slice( $this->sitemaps, 0, $this->max_sitemaps, true );
-		}
-
 		return $this->sitemaps;
 	}
 }
