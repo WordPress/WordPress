@@ -1735,6 +1735,45 @@ class WP_Site_Health {
 	}
 
 	/**
+	 * Test if plugin and theme auto-updates appear to be configured correctly.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return array The test results.
+	 */
+	public function get_test_plugin_theme_auto_updates() {
+		$result = array(
+			'label'       => __( 'Plugin and Theme auto-updates appear to be configured correctly' ),
+			'status'      => 'good',
+			'badge'       => array(
+				'label' => __( 'Security' ),
+				'color' => 'blue',
+			),
+			'description' => sprintf(
+				'<p>%s</p>',
+				__( 'Plugin and theme auto updates ensure that the latest versions are always installed.' )
+			),
+			'actions'     => '',
+			'test'        => 'plugin_theme_auto_updates',
+		);
+
+		$check_plugin_theme_updates = $this->detect_plugin_theme_auto_update_issues();
+
+		$result['status'] = $check_plugin_theme_updates->status;
+
+		if ( 'good' !== $check_plugin_theme_updates->status ) {
+			$result['label'] = __( 'Your site may have problems auto-updating plugins and themes' );
+
+			$result['description'] .= sprintf(
+				'<p>%s</p>',
+				$check_plugin_theme_updates->message
+			);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Test if loopbacks work as expected.
 	 *
 	 * A loopback is when WordPress queries itself, for example to start a new WP_Cron instance,
@@ -2285,6 +2324,55 @@ class WP_Site_Health {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check for potential issues with plugin and theme auto-updates.
+	 *
+	 * Though there is no way to 100% determine if plugin and theme auto-updates are configured
+	 * correctly, a few educated guesses could be made to flag any conditions that would
+	 * potentially cause unexpected behaviors.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return object The test results.
+	 */
+	function detect_plugin_theme_auto_update_issues() {
+		$test_plugins_enabled   = apply_filters( 'auto_update_plugin', true );
+		$test_themes_enabled    = apply_filters( 'auto_update_theme', true );
+		$ui_enabled_for_plugins = wp_is_auto_update_enabled_for_type( 'plugin' );
+		$ui_enabled_for_themes  = wp_is_auto_update_enabled_for_type( 'theme' );
+		$plugin_filter_present  = has_filter( 'auto_update_plugin' );
+		$theme_filter_present   = has_filter( 'auto_update_theme' );
+
+		if ( ( ! $test_plugins_enabled && $ui_enabled_for_plugins ) || ( $test_themes_enabled && $ui_enabled_for_themes ) ) {
+			return (object) array(
+				'status'  => 'critical',
+				'message' => __( 'Auto-updates for plugins and/or themes appear to be disabled, but settings are still set to be displayed. This could cause auto-updates to not work as expected.' ),
+			);
+		}
+
+		if ( ( ! $test_plugins_enabled && $plugin_filter_present ) && ( ! $test_themes_enabled && $theme_filter_present ) ) {
+			return (object) array(
+				'status'  => 'recommended',
+				'message' => __( 'Auto-updates for plugins and themes appear to be disabled. This will prevent your sites from receiving new versions automatically when available.' ),
+			);
+		} elseif ( ! $test_plugins_enabled && $plugin_filter_present ) {
+			return (object) array(
+				'status'  => 'recommended',
+				'message' => __( 'Auto-updates for plugins appear to be disabled. This will prevent your sites from receiving new versions automatically when available.' ),
+			);
+		} elseif ( ! $test_themes_enabled && $theme_filter_present ) {
+			return (object) array(
+				'status'  => 'recommended',
+				'message' => __( 'Auto-updates for themes appear to be disabled. This will prevent your sites from receiving new versions automatically when available.' ),
+			);
+		}
+
+		return (object) array(
+			'status'  => 'good',
+			'message' => __( 'There appears to be no issues with plugin and theme auto-updates.' ),
+		);
 	}
 
 	/**
