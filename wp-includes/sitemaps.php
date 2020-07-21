@@ -22,8 +22,6 @@
 function wp_sitemaps_get_server() {
 	global $wp_sitemaps;
 
-	$is_enabled = (bool) get_option( 'blog_public' );
-
 	// If there isn't a global instance, set and bootstrap the sitemaps system.
 	if ( empty( $wp_sitemaps ) ) {
 		$wp_sitemaps = new WP_Sitemaps();
@@ -51,13 +49,8 @@ function wp_sitemaps_get_server() {
  *
  * @return WP_Sitemaps_Provider[] Array of sitemap providers.
  */
-function wp_get_sitemaps() {
+function wp_get_sitemaps_providers() {
 	$sitemaps = wp_sitemaps_get_server();
-
-	if ( ! $sitemaps ) {
-		return array();
-	}
-
 	return $sitemaps->registry->get_providers();
 }
 
@@ -72,11 +65,6 @@ function wp_get_sitemaps() {
  */
 function wp_register_sitemap( $name, WP_Sitemaps_Provider $provider ) {
 	$sitemaps = wp_sitemaps_get_server();
-
-	if ( ! $sitemaps ) {
-		return false;
-	}
-
 	return $sitemaps->registry->add_provider( $name, $provider );
 }
 

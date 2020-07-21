@@ -49,7 +49,7 @@ class WP_Sitemaps_Registry {
 	 * @since 5.5.0
 	 *
 	 * @param string $name Sitemap provider name.
-	 * @return WP_Sitemaps_Provider|null Sitemaps provider if it exists, null otherwise.
+	 * @return WP_Sitemaps_Provider|null Sitemap provider if it exists, null otherwise.
 	 */
 	public function get_provider( $name ) {
 		if ( ! isset( $this->providers[ $name ] ) ) {
