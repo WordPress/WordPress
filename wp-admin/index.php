@@ -139,7 +139,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						'The admin email verification page will reappear after %d days.',
 						3
 					),
-					number_format_i18n( 3 )
+					human_time_diff( ( $postponed_time + $remind_interval ) )
 				);
 				?>
 			</p>
