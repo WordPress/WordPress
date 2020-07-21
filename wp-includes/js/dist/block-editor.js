@@ -82,33 +82,5455 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockEditor"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 433);
+/******/ 	return __webpack_require__(__webpack_require__.s = 438);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["element"]; }());
 
 /***/ }),
-
-/***/ 1:
+/* 1 */
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["i18n"]; }());
 
 /***/ }),
+/* 2 */
+/***/ (function(module, exports) {
 
-/***/ 10:
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["components"]; }());
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["data"]; }());
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["primitives"]; }());
+
+/***/ }),
+/* 7 */,
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["compose"]; }());
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blocks"]; }());
 
 /***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ 104:
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2017 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg) && arg.length) {
+				var inner = classNames.apply(null, arg);
+				if (inner) {
+					classes.push(inner);
+				}
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if ( true && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+}());
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["React"]; }());
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
+var arrayWithHoles = __webpack_require__(38);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
+function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__(29);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
+var nonIterableRest = __webpack_require__(39);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
+
+
+
+
+function _slicedToArray(arr, i) {
+  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
+}
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
+
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
+  var key, i;
+
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
+/***/ }),
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _objectSpread2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return _createForOfIteratorHelperLoose; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+  return arr2;
+}
+
+function _createForOfIteratorHelperLoose(o, allowArrayLike) {
+  var it;
+
+  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+      if (it) o = it;
+      var i = 0;
+      return function () {
+        if (i >= o.length) return {
+          done: true
+        };
+        return {
+          done: false,
+          value: o[i++]
+        };
+      };
+    }
+
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  it = o[Symbol.iterator]();
+  return it.next.bind(it);
+}
+
+
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+var arrayLikeToArray = __webpack_require__(26);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+var iterableToArray = __webpack_require__(35);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__(29);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+}
+
+/***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+/***/ }),
+/* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+/***/ }),
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+}
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["regeneratorRuntime"]; }());
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["richText"]; }());
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+/***/ }),
+/* 27 */,
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (false) { var throwOnDirectAccess, ReactIs; } else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(138)();
+}
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
+/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+}
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["url"]; }());
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["dom"]; }());
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["hooks"]; }());
+
+/***/ }),
+/* 33 */,
+/* 34 */,
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+}
+
+/***/ }),
+/* 36 */,
+/* 37 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["deprecated"]; }());
+
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+/***/ }),
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+/***/ }),
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+
+var LEAF_KEY, hasWeakMap;
+
+/**
+ * Arbitrary value used as key for referencing cache object in WeakMap tree.
+ *
+ * @type {Object}
+ */
+LEAF_KEY = {};
+
+/**
+ * Whether environment supports WeakMap.
+ *
+ * @type {boolean}
+ */
+hasWeakMap = typeof WeakMap !== 'undefined';
+
+/**
+ * Returns the first argument as the sole entry in an array.
+ *
+ * @param {*} value Value to return.
+ *
+ * @return {Array} Value returned as entry in array.
+ */
+function arrayOf( value ) {
+	return [ value ];
+}
+
+/**
+ * Returns true if the value passed is object-like, or false otherwise. A value
+ * is object-like if it can support property assignment, e.g. object or array.
+ *
+ * @param {*} value Value to test.
+ *
+ * @return {boolean} Whether value is object-like.
+ */
+function isObjectLike( value ) {
+	return !! value && 'object' === typeof value;
+}
+
+/**
+ * Creates and returns a new cache object.
+ *
+ * @return {Object} Cache object.
+ */
+function createCache() {
+	var cache = {
+		clear: function() {
+			cache.head = null;
+		},
+	};
+
+	return cache;
+}
+
+/**
+ * Returns true if entries within the two arrays are strictly equal by
+ * reference from a starting index.
+ *
+ * @param {Array}  a         First array.
+ * @param {Array}  b         Second array.
+ * @param {number} fromIndex Index from which to start comparison.
+ *
+ * @return {boolean} Whether arrays are shallowly equal.
+ */
+function isShallowEqual( a, b, fromIndex ) {
+	var i;
+
+	if ( a.length !== b.length ) {
+		return false;
+	}
+
+	for ( i = fromIndex; i < a.length; i++ ) {
+		if ( a[ i ] !== b[ i ] ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Returns a memoized selector function. The getDependants function argument is
+ * called before the memoized selector and is expected to return an immutable
+ * reference or array of references on which the selector depends for computing
+ * its own return value. The memoize cache is preserved only as long as those
+ * dependant references remain the same. If getDependants returns a different
+ * reference(s), the cache is cleared and the selector value regenerated.
+ *
+ * @param {Function} selector      Selector function.
+ * @param {Function} getDependants Dependant getter returning an immutable
+ *                                 reference or array of reference used in
+ *                                 cache bust consideration.
+ *
+ * @return {Function} Memoized selector.
+ */
+/* harmony default export */ __webpack_exports__["a"] = (function( selector, getDependants ) {
+	var rootCache, getCache;
+
+	// Use object source as dependant if getter not provided
+	if ( ! getDependants ) {
+		getDependants = arrayOf;
+	}
+
+	/**
+	 * Returns the root cache. If WeakMap is supported, this is assigned to the
+	 * root WeakMap cache set, otherwise it is a shared instance of the default
+	 * cache object.
+	 *
+	 * @return {(WeakMap|Object)} Root cache object.
+	 */
+	function getRootCache() {
+		return rootCache;
+	}
+
+	/**
+	 * Returns the cache for a given dependants array. When possible, a WeakMap
+	 * will be used to create a unique cache for each set of dependants. This
+	 * is feasible due to the nature of WeakMap in allowing garbage collection
+	 * to occur on entries where the key object is no longer referenced. Since
+	 * WeakMap requires the key to be an object, this is only possible when the
+	 * dependant is object-like. The root cache is created as a hierarchy where
+	 * each top-level key is the first entry in a dependants set, the value a
+	 * WeakMap where each key is the next dependant, and so on. This continues
+	 * so long as the dependants are object-like. If no dependants are object-
+	 * like, then the cache is shared across all invocations.
+	 *
+	 * @see isObjectLike
+	 *
+	 * @param {Array} dependants Selector dependants.
+	 *
+	 * @return {Object} Cache object.
+	 */
+	function getWeakMapCache( dependants ) {
+		var caches = rootCache,
+			isUniqueByDependants = true,
+			i, dependant, map, cache;
+
+		for ( i = 0; i < dependants.length; i++ ) {
+			dependant = dependants[ i ];
+
+			// Can only compose WeakMap from object-like key.
+			if ( ! isObjectLike( dependant ) ) {
+				isUniqueByDependants = false;
+				break;
+			}
+
+			// Does current segment of cache already have a WeakMap?
+			if ( caches.has( dependant ) ) {
+				// Traverse into nested WeakMap.
+				caches = caches.get( dependant );
+			} else {
+				// Create, set, and traverse into a new one.
+				map = new WeakMap();
+				caches.set( dependant, map );
+				caches = map;
+			}
+		}
+
+		// We use an arbitrary (but consistent) object as key for the last item
+		// in the WeakMap to serve as our running cache.
+		if ( ! caches.has( LEAF_KEY ) ) {
+			cache = createCache();
+			cache.isUniqueByDependants = isUniqueByDependants;
+			caches.set( LEAF_KEY, cache );
+		}
+
+		return caches.get( LEAF_KEY );
+	}
+
+	// Assign cache handler by availability of WeakMap
+	getCache = hasWeakMap ? getWeakMapCache : getRootCache;
+
+	/**
+	 * Resets root memoization cache.
+	 */
+	function clear() {
+		rootCache = hasWeakMap ? new WeakMap() : createCache();
+	}
+
+	// eslint-disable-next-line jsdoc/check-param-names
+	/**
+	 * The augmented selector call, considering first whether dependants have
+	 * changed before passing it to underlying memoize function.
+	 *
+	 * @param {Object} source    Source object for derivation.
+	 * @param {...*}   extraArgs Additional arguments to pass to selector.
+	 *
+	 * @return {*} Selector result.
+	 */
+	function callSelector( /* source, ...extraArgs */ ) {
+		var len = arguments.length,
+			cache, node, i, args, dependants;
+
+		// Create copy of arguments (avoid leaking deoptimization).
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		dependants = getDependants.apply( null, args );
+		cache = getCache( dependants );
+
+		// If not guaranteed uniqueness by dependants (primitive type or lack
+		// of WeakMap support), shallow compare against last dependants and, if
+		// references have changed, destroy cache to recalculate result.
+		if ( ! cache.isUniqueByDependants ) {
+			if ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {
+				cache.clear();
+			}
+
+			cache.lastDependants = dependants;
+		}
+
+		node = cache.head;
+		while ( node ) {
+			// Check whether node arguments match arguments
+			if ( ! isShallowEqual( node.args, args, 1 ) ) {
+				node = node.next;
+				continue;
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== cache.head ) {
+				// Adjust siblings to point to each other.
+				node.prev.next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = cache.head;
+				node.prev = null;
+				cache.head.prev = node;
+				cache.head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		node = {
+			// Generate the result from original function
+			val: selector.apply( null, args ),
+		};
+
+		// Avoid including the source object in the cache.
+		args[ 0 ] = null;
+		node.args = args;
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( cache.head ) {
+			cache.head.prev = node;
+			node.next = cache.head;
+		}
+
+		cache.head = node;
+
+		return node.val;
+	}
+
+	callSelector.getDependants = getDependants;
+	callSelector.clear = clear;
+	clear();
+
+	return callSelector;
+});
+
+
+/***/ }),
+/* 43 */,
+/* 44 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blob"]; }());
+
+/***/ }),
+/* 45 */,
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useLiveRef; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _useIsomorphicEffect_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(59);
+
+
+
+/**
+ * A `React.Ref` that keeps track of the passed `value`.
+ */
+
+function useLiveRef(value) {
+  var ref = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(value);
+  Object(_useIsomorphicEffect_js__WEBPACK_IMPORTED_MODULE_1__[/* useIsomorphicEffect */ "a"])(function () {
+    ref.current = value;
+  });
+  return ref;
+}
+
+
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getDocument; });
+/**
+ * Returns `element.ownerDocument || window.document`.
+ */
+function getDocument(element) {
+  return element ? element.ownerDocument || element : window.document;
+}
+
+
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ createHook; });
+
+// EXTERNAL MODULE: external {"this":"React"}
+var external_this_React_ = __webpack_require__(13);
+
+// EXTERNAL MODULE: ./node_modules/reakit-system/es/SystemContext.js
+var SystemContext = __webpack_require__(74);
+
+// CONCATENATED MODULE: ./node_modules/reakit-system/es/useToken.js
+
+
+
+/**
+ * React custom hook that returns the value of any token defined in the
+ * SystemContext. It's mainly used internally in [`useOptions`](#useoptions)
+ * and [`useProps`](#useprops).
+ *
+ * @example
+ * import { SystemProvider, useToken } from "reakit-system";
+ *
+ * const system = {
+ *   token: "value",
+ * };
+ *
+ * function Component(props) {
+ *   const token = useToken("token", "default value");
+ *   return <div {...props}>{token}</div>;
+ * }
+ *
+ * function App() {
+ *   return (
+ *     <SystemProvider unstable_system={system}>
+ *       <Component />
+ *     </SystemProvider>
+ *   );
+ * }
+ */
+
+function useToken(token, defaultValue) {
+  Object(external_this_React_["useDebugValue"])(token);
+  var context = Object(external_this_React_["useContext"])(SystemContext["a" /* SystemContext */]);
+  return context[token] != null ? context[token] : defaultValue;
+}
+
+
+
+// CONCATENATED MODULE: ./node_modules/reakit-system/es/useProps.js
+
+
+
+
+/**
+ * React custom hook that returns the props returned by a given
+ * `use${name}Props` in the SystemContext.
+ *
+ * @example
+ * import { SystemProvider, useProps } from "reakit-system";
+ *
+ * const system = {
+ *   useAProps(options, htmlProps) {
+ *     return {
+ *       ...htmlProps,
+ *       href: options.url,
+ *     };
+ *   },
+ * };
+ *
+ * function A({ url, ...htmlProps }) {
+ *   const props = useProps("A", { url }, htmlProps);
+ *   return <a {...props} />;
+ * }
+ *
+ * function App() {
+ *   return (
+ *     <SystemProvider unstable_system={system}>
+ *       <A url="url">It will convert url into href in useAProps</A>
+ *     </SystemProvider>
+ *   );
+ * }
+ */
+
+function useProps(name, options, htmlProps) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  if (htmlProps === void 0) {
+    htmlProps = {};
+  }
+
+  var hookName = "use" + name + "Props";
+  Object(external_this_React_["useDebugValue"])(hookName);
+  var useHook = useToken(hookName);
+
+  if (useHook) {
+    return useHook(options, htmlProps);
+  }
+
+  return htmlProps;
+}
+
+
+
+// EXTERNAL MODULE: ./node_modules/reakit-system/es/_rollupPluginBabelHelpers-0c84a174.js
+var _rollupPluginBabelHelpers_0c84a174 = __webpack_require__(54);
+
+// CONCATENATED MODULE: ./node_modules/reakit-system/es/useOptions.js
+
+
+
+
+
+/**
+ * React custom hook that returns the options returned by a given
+ * `use${name}Options` in the SystemContext.
+ *
+ * @example
+ * import React from "react";
+ * import { SystemProvider, useOptions } from "reakit-system";
+ *
+ * const system = {
+ *   useAOptions(options, htmlProps) {
+ *     return {
+ *       ...options,
+ *       url: htmlProps.href,
+ *     };
+ *   },
+ * };
+ *
+ * function A({ url, ...htmlProps }) {
+ *   const options = useOptions("A", { url }, htmlProps);
+ *   return <a href={options.url} {...htmlProps} />;
+ * }
+ *
+ * function App() {
+ *   return (
+ *     <SystemProvider unstable_system={system}>
+ *       <A href="url">
+ *         It will convert href into url in useAOptions and then url into href in A
+ *       </A>
+ *     </SystemProvider>
+ *   );
+ * }
+ */
+
+function useOptions(name, options, htmlProps) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  if (htmlProps === void 0) {
+    htmlProps = {};
+  }
+
+  var hookName = "use" + name + "Options";
+  Object(external_this_React_["useDebugValue"])(hookName);
+  var useHook = useToken(hookName);
+
+  if (useHook) {
+    return Object(_rollupPluginBabelHelpers_0c84a174["a" /* _ */])(Object(_rollupPluginBabelHelpers_0c84a174["a" /* _ */])({}, options), useHook(options, htmlProps));
+  }
+
+  return options;
+}
+
+
+
+// EXTERNAL MODULE: ./node_modules/reakit-utils/es/shallowEqual.js
+var shallowEqual = __webpack_require__(55);
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/toArray.js
+/**
+ * Transforms `arg` into an array if it's not already.
+ *
+ * @example
+ * import { toArray } from "reakit-utils";
+ *
+ * toArray("a"); // ["a"]
+ * toArray(["a"]); // ["a"]
+ */
+function toArray(arg) {
+  if (Array.isArray(arg)) {
+    return arg;
+  }
+
+  return typeof arg !== "undefined" ? [arg] : [];
+}
+
+
+
+// CONCATENATED MODULE: ./node_modules/reakit-system/es/createHook.js
+
+
+
+
+
+
+
+
+
+/**
+ * Creates a React custom hook that will return component props.
+ *
+ * @example
+ * import { createHook } from "reakit-system";
+ *
+ * const useA = createHook({
+ *   name: "A",
+ *   keys: ["url"], // custom props/options keys
+ *   useProps(options, htmlProps) {
+ *     return {
+ *       ...htmlProps,
+ *       href: options.url,
+ *     };
+ *   },
+ * });
+ *
+ * function A({ url, ...htmlProps }) {
+ *   const props = useA({ url }, htmlProps);
+ *   return <a {...props} />;
+ * }
+ *
+ * @param options
+ */
+function createHook(options) {
+  var _options$useState, _composedHooks$;
+
+  var composedHooks = toArray(options.compose);
+
+  var __useOptions = function __useOptions(hookOptions, htmlProps) {
+    // Call the current hook's useOptions first
+    if (options.useOptions) {
+      hookOptions = options.useOptions(hookOptions, htmlProps);
+    } // If there's name, call useOptions from the system context
+
+
+    if (options.name) {
+      hookOptions = useOptions(options.name, hookOptions, htmlProps);
+    } // Run composed hooks useOptions
+
+
+    if (options.compose) {
+      for (var _iterator = Object(_rollupPluginBabelHelpers_0c84a174["c" /* b */])(composedHooks), _step; !(_step = _iterator()).done;) {
+        var hook = _step.value;
+        hookOptions = hook.__useOptions(hookOptions, htmlProps);
+      }
+    }
+
+    return hookOptions;
+  };
+
+  var useHook = function useHook(hookOptions, htmlProps, unstable_ignoreUseOptions) {
+    if (hookOptions === void 0) {
+      hookOptions = {};
+    }
+
+    if (htmlProps === void 0) {
+      htmlProps = {};
+    }
+
+    if (unstable_ignoreUseOptions === void 0) {
+      unstable_ignoreUseOptions = false;
+    }
+
+    // This won't execute when useHook was called from within another useHook
+    if (!unstable_ignoreUseOptions) {
+      hookOptions = __useOptions(hookOptions, htmlProps);
+    } // Call the current hook's useProps
+
+
+    if (options.useProps) {
+      htmlProps = options.useProps(hookOptions, htmlProps);
+    } // If there's name, call useProps from the system context
+
+
+    if (options.name) {
+      htmlProps = useProps(options.name, hookOptions, htmlProps);
+    }
+
+    if (options.compose) {
+      if (options.useComposeOptions) {
+        hookOptions = options.useComposeOptions(hookOptions, htmlProps);
+      }
+
+      if (options.useComposeProps) {
+        htmlProps = options.useComposeProps(hookOptions, htmlProps);
+      } else {
+        for (var _iterator2 = Object(_rollupPluginBabelHelpers_0c84a174["c" /* b */])(composedHooks), _step2; !(_step2 = _iterator2()).done;) {
+          var hook = _step2.value;
+          htmlProps = hook(hookOptions, htmlProps, true);
+        }
+      }
+    } // Remove undefined values from htmlProps
+
+
+    var finalHTMLProps = {};
+    var definedHTMLProps = htmlProps || {};
+
+    for (var prop in definedHTMLProps) {
+      if (definedHTMLProps[prop] !== undefined) {
+        finalHTMLProps[prop] = definedHTMLProps[prop];
+      }
+    }
+
+    return finalHTMLProps;
+  };
+
+  useHook.__useOptions = __useOptions;
+  var composedKeys = composedHooks.reduce(function (keys, hook) {
+    keys.push.apply(keys, hook.__keys || []);
+    return keys;
+  }, []); // It's used by createComponent to split option props (keys) and html props
+
+  useHook.__keys = [].concat(composedKeys, ((_options$useState = options.useState) === null || _options$useState === void 0 ? void 0 : _options$useState.__keys) || [], options.keys || []);
+  useHook.unstable_propsAreEqual = options.propsAreEqual || ((_composedHooks$ = composedHooks[0]) === null || _composedHooks$ === void 0 ? void 0 : _composedHooks$.unstable_propsAreEqual) || shallowEqual["a" /* shallowEqual */];
+
+  if (false) {}
+
+  return useHook;
+}
+
+
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ createComponent; });
+
+// EXTERNAL MODULE: external {"this":"React"}
+var external_this_React_ = __webpack_require__(13);
+
+// EXTERNAL MODULE: ./node_modules/reakit-system/es/_rollupPluginBabelHelpers-0c84a174.js
+var _rollupPluginBabelHelpers_0c84a174 = __webpack_require__(54);
+
+// EXTERNAL MODULE: ./node_modules/reakit-system/es/useCreateElement.js
+var useCreateElement = __webpack_require__(78);
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/splitProps.js
+/**
+ * Splits an object (`props`) into a tuple where the first item is an object
+ * with the passed `keys`, and the second item is an object with these keys
+ * omitted.
+ *
+ * @example
+ * import { splitProps } from "reakit-utils";
+ *
+ * splitProps({ a: "a", b: "b" }, ["a"]); // [{ a: "a" }, { b: "b" }]
+ */
+function splitProps(props, keys) {
+  var propsKeys = Object.keys(props);
+  var picked = {};
+  var omitted = {};
+
+  for (var _i = 0, _propsKeys = propsKeys; _i < _propsKeys.length; _i++) {
+    var key = _propsKeys[_i];
+
+    if (keys.indexOf(key) >= 0) {
+      picked[key] = props[key];
+    } else {
+      omitted[key] = props[key];
+    }
+  }
+
+  return [picked, omitted];
+}
+
+
+
+// EXTERNAL MODULE: ./node_modules/reakit-utils/es/shallowEqual.js
+var shallowEqual = __webpack_require__(55);
+
+// CONCATENATED MODULE: ./node_modules/reakit-system/es/createComponent.js
+
+
+
+
+
+
+
+function forwardRef(component) {
+  return /*#__PURE__*/Object(external_this_React_["forwardRef"])(component);
+}
+
+function memo(component, propsAreEqual) {
+  return /*#__PURE__*/Object(external_this_React_["memo"])(component, propsAreEqual);
+}
+
+/**
+ * Creates a React component.
+ *
+ * @example
+ * import { createComponent } from "reakit-system";
+ *
+ * const A = createComponent({ as: "a" });
+ *
+ * @param options
+ */
+function createComponent(_ref) {
+  var type = _ref.as,
+      useHook = _ref.useHook,
+      shouldMemo = _ref.memo,
+      _ref$propsAreEqual = _ref.propsAreEqual,
+      propsAreEqual = _ref$propsAreEqual === void 0 ? useHook === null || useHook === void 0 ? void 0 : useHook.unstable_propsAreEqual : _ref$propsAreEqual,
+      _ref$keys = _ref.keys,
+      keys = _ref$keys === void 0 ? (useHook === null || useHook === void 0 ? void 0 : useHook.__keys) || [] : _ref$keys,
+      _ref$useCreateElement = _ref.useCreateElement,
+      useCreateElement$1 = _ref$useCreateElement === void 0 ? useCreateElement["a" /* useCreateElement */] : _ref$useCreateElement;
+
+  var Comp = function Comp(_ref2, ref) {
+    var _ref2$as = _ref2.as,
+        as = _ref2$as === void 0 ? type : _ref2$as,
+        props = Object(_rollupPluginBabelHelpers_0c84a174["b" /* a */])(_ref2, ["as"]);
+
+    if (useHook) {
+      var _as$render;
+
+      var _splitProps = splitProps(props, keys),
+          _options = _splitProps[0],
+          htmlProps = _splitProps[1];
+
+      var _useHook = useHook(_options, Object(_rollupPluginBabelHelpers_0c84a174["a" /* _ */])({
+        ref: ref
+      }, htmlProps)),
+          wrapElement = _useHook.wrapElement,
+          elementProps = Object(_rollupPluginBabelHelpers_0c84a174["b" /* a */])(_useHook, ["wrapElement"]); // @ts-ignore
+
+
+      var asKeys = ((_as$render = as.render) === null || _as$render === void 0 ? void 0 : _as$render.__keys) || as.__keys;
+      var asOptions = asKeys && splitProps(props, asKeys)[0];
+      var allProps = asOptions ? Object(_rollupPluginBabelHelpers_0c84a174["a" /* _ */])(Object(_rollupPluginBabelHelpers_0c84a174["a" /* _ */])({}, elementProps), asOptions) : elementProps;
+
+      var _element = useCreateElement$1(as, allProps);
+
+      if (wrapElement) {
+        return wrapElement(_element);
+      }
+
+      return _element;
+    }
+
+    return useCreateElement$1(as, Object(_rollupPluginBabelHelpers_0c84a174["a" /* _ */])({
+      ref: ref
+    }, props));
+  };
+
+  if (false) {}
+
+  Comp = forwardRef(Comp);
+
+  if (shouldMemo) {
+    Comp = memo(Comp, propsAreEqual);
+  }
+
+  Comp.__keys = keys;
+  Comp.unstable_propsAreEqual = propsAreEqual || shallowEqual["a" /* shallowEqual */];
+  return Comp;
+}
+
+
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return findFirstEnabledItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return flatten; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return groupItems; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return findEnabledItemById; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getCurrentId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return reverse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return useCompositeState; });
+/* harmony import */ var _rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var reakit_utils_useIsomorphicEffect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(59);
+/* harmony import */ var reakit_utils_useSealedState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(62);
+/* harmony import */ var reakit_utils_applyState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(61);
+/* harmony import */ var _Id_IdState_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(65);
+
+
+
+
+
+
+
+function reverse(array) {
+  return array.slice().reverse();
+}
+
+function isElementPreceding(element1, element2) {
+  return Boolean(element2.compareDocumentPosition(element1) & Node.DOCUMENT_POSITION_PRECEDING);
+}
+
+function findDOMIndex(items, item) {
+  return items.findIndex(function (currentItem) {
+    if (!currentItem.ref.current || !item.ref.current) {
+      return false;
+    }
+
+    return isElementPreceding(item.ref.current, currentItem.ref.current);
+  });
+}
+
+function findFirstEnabledItem(items, excludeId) {
+  if (excludeId) {
+    return items.find(function (item) {
+      return !item.disabled && item.id !== excludeId;
+    });
+  }
+
+  return items.find(function (item) {
+    return !item.disabled;
+  });
+}
+
+function findEnabledItemById(items, id) {
+  if (!id) return undefined;
+  return items === null || items === void 0 ? void 0 : items.find(function (item) {
+    return item.id === id && !item.disabled;
+  });
+}
+
+function groupItems(items) {
+  var groups = [[]];
+
+  var _loop = function _loop() {
+    var item = _step.value;
+    var group = groups.find(function (g) {
+      return !g[0] || g[0].groupId === item.groupId;
+    });
+
+    if (group) {
+      group.push(item);
+    } else {
+      groups.push([item]);
+    }
+  };
+
+  for (var _iterator = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* b */ "c"])(items), _step; !(_step = _iterator()).done;) {
+    _loop();
+  }
+
+  return groups;
+}
+
+function getMaxLength(rows) {
+  var maxLength = 0;
+
+  for (var _iterator = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* b */ "c"])(rows), _step; !(_step = _iterator()).done;) {
+    var length = _step.value.length;
+
+    if (length > maxLength) {
+      maxLength = length;
+    }
+  }
+
+  return maxLength;
+}
+
+/**
+ * Turns [row1, row1, row2, row2] into [row1, row2, row1, row2]
+ */
+
+function verticalizeItems(items) {
+  var groups = groupItems(items);
+  var maxLength = getMaxLength(groups);
+  var verticalized = [];
+
+  for (var i = 0; i < maxLength; i += 1) {
+    for (var _iterator = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* b */ "c"])(groups), _step; !(_step = _iterator()).done;) {
+      var group = _step.value;
+
+      if (group[i]) {
+        verticalized.push(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, group[i]), {}, {
+          // If there's no groupId, it means that it's not a grid composite,
+          // but a single row instead. So, instead of verticalizing it, that
+          // is, assigning a different groupId based on the column index, we
+          // keep it undefined so they will be part of the same group.
+          // It's useful when using up/down on one-dimensional composites.
+          groupId: group[i].groupId ? "" + i : undefined
+        }));
+      }
+    }
+  }
+
+  return verticalized;
+}
+
+function flatten(grid) {
+  var flattened = [];
+
+  for (var _iterator = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* b */ "c"])(grid), _step; !(_step = _iterator()).done;) {
+    var row = _step.value;
+    flattened.push.apply(flattened, row);
+  }
+
+  return flattened;
+}
+
+/**
+ * Turns [[row1, row1], [row2]] into [[row1, row1], [row2, row2]]
+ */
+
+function fillGroups(groups) {
+  var maxLength = getMaxLength(groups);
+
+  for (var _iterator = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* b */ "c"])(groups), _step; !(_step = _iterator()).done;) {
+    var group = _step.value;
+
+    if (group.length < maxLength) {
+      for (var i = 0; i < maxLength; i += 1) {
+        if (!group[i]) {
+          group[i] = {
+            id: "__EMPTY_ITEM__",
+            disabled: true,
+            ref: {
+              current: null
+            },
+            groupId: group[i - 1].groupId
+          };
+        }
+      }
+    }
+  }
+
+  return groups;
+}
+
+function getCurrentId(options, passedId) {
+  var _findFirstEnabledItem;
+
+  if (passedId || passedId === null) {
+    return passedId;
+  }
+
+  if (options.currentId || options.currentId === null) {
+    return options.currentId;
+  }
+
+  return (_findFirstEnabledItem = findFirstEnabledItem(options.items || [])) === null || _findFirstEnabledItem === void 0 ? void 0 : _findFirstEnabledItem.id;
+}
+
+var nullItem = {
+  id: null,
+  ref: {
+    current: null
+  }
+};
+function placeItemsAfter(items, id, shouldInsertNullItem) {
+  var index = items.findIndex(function (item) {
+    return item.id === id;
+  });
+  return [].concat(items.slice(index + 1), shouldInsertNullItem ? [nullItem] : [], items.slice(0, index));
+}
+
+function getItemsInGroup(items, groupId) {
+  return items.filter(function (item) {
+    return item.groupId === groupId;
+  });
+}
+
+var map = {
+  horizontal: "vertical",
+  vertical: "horizontal"
+};
+function getOppositeOrientation(orientation) {
+  return orientation && map[orientation];
+}
+
+function addItemAtIndex(array, item, index) {
+  if (!(index in array)) {
+    return [].concat(array, [item]);
+  }
+
+  return [].concat(array.slice(0, index), [item], array.slice(index));
+}
+
+function sortBasedOnDOMPosition(items) {
+  var copy = items.slice();
+  var isOrderDifferent = false;
+  copy.sort(function (a, b) {
+    var elementA = a.ref.current;
+    var elementB = b.ref.current;
+
+    if (elementA && elementB && isElementPreceding(elementA, elementB)) {
+      isOrderDifferent = true;
+      return -1;
+    }
+
+    return 0;
+  });
+
+  if (isOrderDifferent) {
+    return copy;
+  }
+
+  return items;
+}
+
+function reducer(state, action) {
+  var virtual = state.unstable_virtual,
+      rtl = state.rtl,
+      orientation = state.orientation,
+      items = state.items,
+      groups = state.groups,
+      currentId = state.currentId,
+      loop = state.loop,
+      wrap = state.wrap,
+      pastIds = state.pastIds,
+      moves = state.unstable_moves,
+      initialVirtual = state.initialVirtual,
+      initialRTL = state.initialRTL,
+      initialOrientation = state.initialOrientation,
+      initialCurrentId = state.initialCurrentId,
+      initialLoop = state.initialLoop,
+      initialWrap = state.initialWrap,
+      hasSetCurrentId = state.hasSetCurrentId;
+
+  switch (action.type) {
+    case "registerGroup":
+      {
+        var _group = action.group; // If there are no groups yet, just add it as the first one
+
+        if (groups.length === 0) {
+          return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+            groups: [_group]
+          });
+        } // Finds the group index based on DOM position
+
+
+        var index = findDOMIndex(groups, _group);
+        return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          groups: addItemAtIndex(groups, _group, index)
+        });
+      }
+
+    case "unregisterGroup":
+      {
+        var _id = action.id;
+        var nextGroups = groups.filter(function (group) {
+          return group.id !== _id;
+        }); // The group isn't registered, so do nothing
+
+        if (nextGroups.length === groups.length) {
+          return state;
+        }
+
+        return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          groups: nextGroups
+        });
+      }
+
+    case "registerItem":
+      {
+        var _item = action.item; // Finds the item group based on the DOM hierarchy
+
+        var _group2 = groups.find(function (r) {
+          var _r$ref$current;
+
+          return (_r$ref$current = r.ref.current) === null || _r$ref$current === void 0 ? void 0 : _r$ref$current.contains(_item.ref.current);
+        }); // Group will be null if it's a one-dimensional composite
+
+
+        var nextItem = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({
+          groupId: _group2 === null || _group2 === void 0 ? void 0 : _group2.id
+        }, _item);
+
+        var _index = findDOMIndex(items, nextItem);
+
+        var nextState = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          items: addItemAtIndex(items, nextItem, _index)
+        });
+
+        if (!hasSetCurrentId && !moves && initialCurrentId === undefined) {
+          var _findFirstEnabledItem;
+
+          // Sets currentId to the first enabled item. This runs whenever an item
+          // is registered because the first enabled item may be registered
+          // asynchronously.
+          return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, nextState), {}, {
+            currentId: (_findFirstEnabledItem = findFirstEnabledItem(nextState.items)) === null || _findFirstEnabledItem === void 0 ? void 0 : _findFirstEnabledItem.id
+          });
+        }
+
+        return nextState;
+      }
+
+    case "unregisterItem":
+      {
+        var _id2 = action.id;
+        var nextItems = items.filter(function (item) {
+          return item.id !== _id2;
+        }); // The item isn't registered, so do nothing
+
+        if (nextItems.length === items.length) {
+          return state;
+        } // Filters out the item that is being removed from the pastIds list
+
+
+        var nextPastIds = pastIds.filter(function (pastId) {
+          return pastId !== _id2;
+        });
+
+        var _nextState = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          pastIds: nextPastIds,
+          items: nextItems
+        }); // If the current item is the item that is being removed, focus pastId
+
+
+        if (currentId && currentId === _id2) {
+          var nextId = getCurrentId(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, _nextState), {}, {
+            currentId: nextPastIds[0]
+          }));
+          return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, _nextState), {}, {
+            currentId: nextId
+          });
+        }
+
+        return _nextState;
+      }
+
+    case "move":
+      {
+        var _id3 = action.id; // move() does nothing
+
+        if (_id3 === undefined) {
+          return state;
+        } // Removes the current item and the item that is receiving focus from the
+        // pastIds list
+
+
+        var filteredPastIds = pastIds.filter(function (pastId) {
+          return pastId !== currentId && pastId !== _id3;
+        }); // If there's a currentId, add it to the pastIds list so it can be focused
+        // if the new item gets removed or disabled
+
+        var _nextPastIds = currentId ? [currentId].concat(filteredPastIds) : filteredPastIds;
+
+        var _nextState2 = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          pastIds: _nextPastIds
+        }); // move(null) will focus the composite element itself, not an item
+
+
+        if (_id3 === null) {
+          return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, _nextState2), {}, {
+            unstable_moves: moves + 1,
+            currentId: getCurrentId(_nextState2, _id3)
+          });
+        }
+
+        var _item2 = findEnabledItemById(items, _id3);
+
+        return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, _nextState2), {}, {
+          unstable_moves: _item2 ? moves + 1 : moves,
+          currentId: getCurrentId(_nextState2, _item2 === null || _item2 === void 0 ? void 0 : _item2.id)
+        });
+      }
+
+    case "next":
+      {
+        // If there's no item focused, we just move the first one
+        if (currentId == null) {
+          return reducer(state, Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+            type: "first"
+          }));
+        } // RTL doesn't make sense on vertical navigation
+
+
+        var isHorizontal = orientation !== "vertical";
+        var isRTL = rtl && isHorizontal;
+        var allItems = isRTL ? reverse(items) : items;
+        var currentItem = allItems.find(function (item) {
+          return item.id === currentId;
+        }); // If there's no item focused, we just move the first one
+
+        if (!currentItem) {
+          return reducer(state, Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+            type: "first"
+          }));
+        }
+
+        var isGrid = !!currentItem.groupId;
+        var currentIndex = allItems.indexOf(currentItem);
+
+        var _nextItems = allItems.slice(currentIndex + 1);
+
+        var nextItemsInGroup = getItemsInGroup(_nextItems, currentItem.groupId); // Home, End
+
+        if (action.allTheWay) {
+          // We reverse so we can get the last enabled item in the group. If it's
+          // RTL, nextItems and nextItemsInGroup are already reversed and don't
+          // have the items before the current one anymore. So we have to get
+          // items in group again with allItems.
+          var _nextItem2 = findFirstEnabledItem(isRTL ? getItemsInGroup(allItems, currentItem.groupId) : reverse(nextItemsInGroup));
+
+          return reducer(state, Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+            type: "move",
+            id: _nextItem2 === null || _nextItem2 === void 0 ? void 0 : _nextItem2.id
+          }));
+        }
+
+        var oppositeOrientation = getOppositeOrientation( // If it's a grid and orientation is not set, it's a next/previous
+        // call, which is inherently horizontal. up/down will call next with
+        // orientation set to vertical by default (see below on up/down cases).
+        isGrid ? orientation || "horizontal" : orientation);
+        var canLoop = loop && loop !== oppositeOrientation;
+        var canWrap = isGrid && wrap && wrap !== oppositeOrientation;
+        var hasNullItem = // `previous` and `up` will set action.hasNullItem, but when calling
+        // next directly, hasNullItem will only be true if it's not a grid and
+        // loop is set to true, which means that pressing right or down keys on
+        // grids will never focus the composite element. On one-dimensional
+        // composites that don't loop, pressing right or down keys also doesn't
+        // focus the composite element.
+        action.hasNullItem || !isGrid && canLoop && initialCurrentId === null;
+
+        if (canLoop) {
+          var loopItems = canWrap && !hasNullItem ? allItems : getItemsInGroup(allItems, currentItem.groupId); // Turns [0, 1, current, 3, 4] into [3, 4, 0, 1]
+
+          var sortedItems = placeItemsAfter(loopItems, currentId, hasNullItem);
+
+          var _nextItem3 = findFirstEnabledItem(sortedItems, currentId);
+
+          return reducer(state, Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+            type: "move",
+            id: _nextItem3 === null || _nextItem3 === void 0 ? void 0 : _nextItem3.id
+          }));
+        }
+
+        if (canWrap) {
+          var _nextItem4 = findFirstEnabledItem( // We can use nextItems, which contains all the next items, including
+          // items from other groups, to wrap between groups. However, if there
+          // is a null item (the composite element), we'll only use the next
+          // items in the group. So moving next from the last item will focus
+          // the composite element (null). On grid composites, horizontal
+          // navigation never focuses the composite element, only vertical.
+          hasNullItem ? nextItemsInGroup : _nextItems, currentId);
+
+          var _nextId = hasNullItem ? (_nextItem4 === null || _nextItem4 === void 0 ? void 0 : _nextItem4.id) || null : _nextItem4 === null || _nextItem4 === void 0 ? void 0 : _nextItem4.id;
+
+          return reducer(state, Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+            type: "move",
+            id: _nextId
+          }));
+        }
+
+        var _nextItem = findFirstEnabledItem(nextItemsInGroup, currentId);
+
+        if (!_nextItem && hasNullItem) {
+          return reducer(state, Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+            type: "move",
+            id: null
+          }));
+        }
+
+        return reducer(state, Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+          type: "move",
+          id: _nextItem === null || _nextItem === void 0 ? void 0 : _nextItem.id
+        }));
+      }
+
+    case "previous":
+      {
+        // If currentId is initially set to null, the composite element will be
+        // focusable while navigating with arrow keys. But, if it's a grid, we
+        // don't want to focus the composite element with horizontal navigation.
+        var _isGrid = !!groups.length;
+
+        var _hasNullItem = !_isGrid && initialCurrentId === null;
+
+        var _nextState3 = reducer(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          items: reverse(items)
+        }), Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+          type: "next",
+          hasNullItem: _hasNullItem
+        }));
+
+        return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, _nextState3), {}, {
+          items: items
+        });
+      }
+
+    case "down":
+      {
+        // First, we make sure groups have the same number of items by filling it
+        // with disabled fake items. Then, we reorganize the items list so
+        // [1-1, 1-2, 2-1, 2-2] becomes [1-1, 2-1, 1-2, 2-2].
+        var verticalItems = verticalizeItems(flatten(fillGroups(groupItems(items))));
+
+        var _canLoop = loop && loop !== "horizontal"; // Pressing down arrow key will only focus the composite element if loop
+        // is true or vertical.
+
+
+        var _hasNullItem2 = _canLoop && initialCurrentId === null;
+
+        var _nextState4 = reducer(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          orientation: "vertical",
+          items: verticalItems
+        }), Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+          type: "next",
+          hasNullItem: _hasNullItem2
+        }));
+
+        return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, _nextState4), {}, {
+          orientation: orientation,
+          items: items
+        });
+      }
+
+    case "up":
+      {
+        var _verticalItems = verticalizeItems(reverse(flatten(fillGroups(groupItems(items))))); // If currentId is initially set to null, we'll always focus the
+        // composite element when the up arrow key is pressed in the first row.
+
+
+        var _hasNullItem3 = initialCurrentId === null;
+
+        var _nextState5 = reducer(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          orientation: "vertical",
+          items: _verticalItems
+        }), Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+          type: "next",
+          hasNullItem: _hasNullItem3
+        }));
+
+        return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, _nextState5), {}, {
+          orientation: orientation,
+          items: items
+        });
+      }
+
+    case "first":
+      {
+        var firstItem = findFirstEnabledItem(items);
+        return reducer(state, Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+          type: "move",
+          id: firstItem === null || firstItem === void 0 ? void 0 : firstItem.id
+        }));
+      }
+
+    case "last":
+      {
+        var _nextState6 = reducer(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          items: reverse(items)
+        }), Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, action), {}, {
+          type: "first"
+        }));
+
+        return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, _nextState6), {}, {
+          items: items
+        });
+      }
+
+    case "sort":
+      {
+        return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          items: sortBasedOnDOMPosition(items),
+          groups: sortBasedOnDOMPosition(groups)
+        });
+      }
+
+    case "setVirtual":
+      return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+        unstable_virtual: Object(reakit_utils_applyState__WEBPACK_IMPORTED_MODULE_4__[/* applyState */ "a"])(action.virtual, virtual)
+      });
+
+    case "setRTL":
+      return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+        rtl: Object(reakit_utils_applyState__WEBPACK_IMPORTED_MODULE_4__[/* applyState */ "a"])(action.rtl, rtl)
+      });
+
+    case "setOrientation":
+      return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+        orientation: Object(reakit_utils_applyState__WEBPACK_IMPORTED_MODULE_4__[/* applyState */ "a"])(action.orientation, orientation)
+      });
+
+    case "setCurrentId":
+      {
+        var nextCurrentId = getCurrentId(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          currentId: Object(reakit_utils_applyState__WEBPACK_IMPORTED_MODULE_4__[/* applyState */ "a"])(action.currentId, currentId)
+        }));
+        return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          currentId: nextCurrentId,
+          hasSetCurrentId: true
+        });
+      }
+
+    case "setLoop":
+      return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+        loop: Object(reakit_utils_applyState__WEBPACK_IMPORTED_MODULE_4__[/* applyState */ "a"])(action.loop, loop)
+      });
+
+    case "setWrap":
+      return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+        wrap: Object(reakit_utils_applyState__WEBPACK_IMPORTED_MODULE_4__[/* applyState */ "a"])(action.wrap, wrap)
+      });
+
+    case "reset":
+      return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+        unstable_virtual: initialVirtual,
+        rtl: initialRTL,
+        orientation: initialOrientation,
+        currentId: getCurrentId(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, state), {}, {
+          currentId: initialCurrentId
+        })),
+        loop: initialLoop,
+        wrap: initialWrap,
+        unstable_moves: 0,
+        pastIds: []
+      });
+
+    default:
+      throw new Error();
+  }
+}
+
+function useAction(fn) {
+  return Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(fn, []);
+}
+
+function useIsUnmountedRef() {
+  var isUnmountedRef = Object(react__WEBPACK_IMPORTED_MODULE_1__["useRef"])(false);
+  Object(reakit_utils_useIsomorphicEffect__WEBPACK_IMPORTED_MODULE_2__[/* useIsomorphicEffect */ "a"])(function () {
+    return function () {
+      isUnmountedRef.current = true;
+    };
+  }, []);
+  return isUnmountedRef;
+}
+
+function useCompositeState(initialState) {
+  if (initialState === void 0) {
+    initialState = {};
+  }
+
+  var _useSealedState = Object(reakit_utils_useSealedState__WEBPACK_IMPORTED_MODULE_3__[/* useSealedState */ "a"])(initialState),
+      _useSealedState$unsta = _useSealedState.unstable_virtual,
+      virtual = _useSealedState$unsta === void 0 ? false : _useSealedState$unsta,
+      _useSealedState$rtl = _useSealedState.rtl,
+      rtl = _useSealedState$rtl === void 0 ? false : _useSealedState$rtl,
+      orientation = _useSealedState.orientation,
+      currentId = _useSealedState.currentId,
+      _useSealedState$loop = _useSealedState.loop,
+      loop = _useSealedState$loop === void 0 ? false : _useSealedState$loop,
+      _useSealedState$wrap = _useSealedState.wrap,
+      wrap = _useSealedState$wrap === void 0 ? false : _useSealedState$wrap,
+      sealed = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(_useSealedState, ["unstable_virtual", "rtl", "orientation", "currentId", "loop", "wrap"]);
+
+  var _React$useReducer = Object(react__WEBPACK_IMPORTED_MODULE_1__["useReducer"])(reducer, {
+    unstable_virtual: virtual,
+    rtl: rtl,
+    orientation: orientation,
+    items: [],
+    groups: [],
+    currentId: currentId,
+    loop: loop,
+    wrap: wrap,
+    unstable_moves: 0,
+    pastIds: [],
+    initialVirtual: virtual,
+    initialRTL: rtl,
+    initialOrientation: orientation,
+    initialCurrentId: currentId,
+    initialLoop: loop,
+    initialWrap: wrap
+  }),
+      _React$useReducer$ = _React$useReducer[0],
+      pastIds = _React$useReducer$.pastIds,
+      initialVirtual = _React$useReducer$.initialVirtual,
+      initialRTL = _React$useReducer$.initialRTL,
+      initialOrientation = _React$useReducer$.initialOrientation,
+      initialCurrentId = _React$useReducer$.initialCurrentId,
+      initialLoop = _React$useReducer$.initialLoop,
+      initialWrap = _React$useReducer$.initialWrap,
+      hasSetCurrentId = _React$useReducer$.hasSetCurrentId,
+      state = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(_React$useReducer$, ["pastIds", "initialVirtual", "initialRTL", "initialOrientation", "initialCurrentId", "initialLoop", "initialWrap", "hasSetCurrentId"]),
+      dispatch = _React$useReducer[1];
+
+  var _React$useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      hasActiveWidget = _React$useState[0],
+      setHasActiveWidget = _React$useState[1];
+
+  var idState = Object(_Id_IdState_js__WEBPACK_IMPORTED_MODULE_5__[/* unstable_useIdState */ "a"])(sealed); // register/unregister may be called when this component is unmounted. We
+  // store the unmounted state here so we don't update the state if it's true.
+  // This only happens in a very specific situation.
+  // See https://github.com/reakit/reakit/issues/650
+
+  var isUnmountedRef = useIsUnmountedRef();
+  return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, idState), state), {}, {
+    unstable_hasActiveWidget: hasActiveWidget,
+    unstable_setHasActiveWidget: setHasActiveWidget,
+    registerItem: useAction(function (item) {
+      if (isUnmountedRef.current) return;
+      dispatch({
+        type: "registerItem",
+        item: item
+      });
+    }),
+    unregisterItem: useAction(function (id) {
+      if (isUnmountedRef.current) return;
+      dispatch({
+        type: "unregisterItem",
+        id: id
+      });
+    }),
+    registerGroup: useAction(function (group) {
+      if (isUnmountedRef.current) return;
+      dispatch({
+        type: "registerGroup",
+        group: group
+      });
+    }),
+    unregisterGroup: useAction(function (id) {
+      if (isUnmountedRef.current) return;
+      dispatch({
+        type: "unregisterGroup",
+        id: id
+      });
+    }),
+    move: useAction(function (id) {
+      return dispatch({
+        type: "move",
+        id: id
+      });
+    }),
+    next: useAction(function (allTheWay) {
+      return dispatch({
+        type: "next",
+        allTheWay: allTheWay
+      });
+    }),
+    previous: useAction(function (allTheWay) {
+      return dispatch({
+        type: "previous",
+        allTheWay: allTheWay
+      });
+    }),
+    up: useAction(function (allTheWay) {
+      return dispatch({
+        type: "up",
+        allTheWay: allTheWay
+      });
+    }),
+    down: useAction(function (allTheWay) {
+      return dispatch({
+        type: "down",
+        allTheWay: allTheWay
+      });
+    }),
+    first: useAction(function () {
+      return dispatch({
+        type: "first"
+      });
+    }),
+    last: useAction(function () {
+      return dispatch({
+        type: "last"
+      });
+    }),
+    unstable_sort: useAction(function () {
+      return dispatch({
+        type: "sort"
+      });
+    }),
+    unstable_setVirtual: useAction(function (value) {
+      return dispatch({
+        type: "setVirtual",
+        virtual: value
+      });
+    }),
+    setRTL: useAction(function (value) {
+      return dispatch({
+        type: "setRTL",
+        rtl: value
+      });
+    }),
+    setOrientation: useAction(function (value) {
+      return dispatch({
+        type: "setOrientation",
+        orientation: value
+      });
+    }),
+    setCurrentId: useAction(function (value) {
+      return dispatch({
+        type: "setCurrentId",
+        currentId: value
+      });
+    }),
+    setLoop: useAction(function (value) {
+      return dispatch({
+        type: "setLoop",
+        loop: value
+      });
+    }),
+    setWrap: useAction(function (value) {
+      return dispatch({
+        type: "setWrap",
+        wrap: value
+      });
+    }),
+    reset: useAction(function () {
+      return dispatch({
+        type: "reset"
+      });
+    })
+  });
+}
+var keys = [].concat(_Id_IdState_js__WEBPACK_IMPORTED_MODULE_5__[/* unstable_useIdState */ "a"].__keys, ["unstable_virtual", "rtl", "orientation", "items", "groups", "currentId", "loop", "wrap", "unstable_moves", "unstable_hasActiveWidget", "registerItem", "unregisterItem", "registerGroup", "unregisterGroup", "move", "next", "previous", "up", "down", "first", "last", "unstable_sort", "unstable_setVirtual", "setRTL", "setOrientation", "setCurrentId", "setLoop", "setWrap", "reset", "unstable_setHasActiveWidget"]);
+useCompositeState.__keys = keys;
+
+
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keyboardShortcuts"]; }());
+
+/***/ }),
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isSelfTarget; });
+/**
+ * Returns `true` if `event.target` and `event.currentTarget` are the same.
+ */
+function isSelfTarget(event) {
+  return event.target === event.currentTarget;
+}
+
+
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _objectWithoutPropertiesLoose; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return _createForOfIteratorHelperLoose; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+  return arr2;
+}
+
+function _createForOfIteratorHelperLoose(o, allowArrayLike) {
+  var it;
+
+  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+      if (it) o = it;
+      var i = 0;
+      return function () {
+        if (i >= o.length) return {
+          done: true
+        };
+        return {
+          done: false,
+          value: o[i++]
+        };
+      };
+    }
+
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  it = o[Symbol.iterator]();
+  return it.next.bind(it);
+}
+
+
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return shallowEqual; });
+/**
+ * Compares two objects.
+ *
+ * @example
+ * import { shallowEqual } from "reakit-utils";
+ *
+ * shallowEqual({ a: "a" }, {}); // false
+ * shallowEqual({ a: "a" }, { b: "b" }); // false
+ * shallowEqual({ a: "a" }, { a: "a" }); // true
+ * shallowEqual({ a: "a" }, { a: "a", b: "b" }); // false
+ */
+function shallowEqual(objA, objB) {
+  if (objA === objB) return true;
+  if (!objA) return false;
+  if (!objB) return false;
+  if (typeof objA !== "object") return false;
+  if (typeof objB !== "object") return false;
+  var aKeys = Object.keys(objA);
+  var bKeys = Object.keys(objB);
+  var length = aKeys.length;
+  if (bKeys.length !== length) return false;
+
+  for (var _i = 0, _aKeys = aKeys; _i < _aKeys.length; _i++) {
+    var key = _aKeys[_i];
+
+    if (objA[key] !== objB[key]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getActiveElement; });
+/* harmony import */ var _getDocument_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(47);
+
+
+/**
+ * Returns `element.ownerDocument.activeElement`.
+ */
+
+function getActiveElement(element) {
+  return Object(_getDocument_js__WEBPACK_IMPORTED_MODULE_0__[/* getDocument */ "a"])(element).activeElement;
+}
+
+
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["a11y"]; }());
+
+/***/ }),
+/* 58 */,
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useIsomorphicEffect; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/**
+ * `React.useLayoutEffect` that fallbacks to `React.useEffect` on server side
+ * rendering.
+ */
+
+var useIsomorphicEffect = typeof window === "undefined" ? react__WEBPACK_IMPORTED_MODULE_0__["useEffect"] : react__WEBPACK_IMPORTED_MODULE_0__["useLayoutEffect"];
+
+
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
+
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {Function} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {F & MemizeMemoizedFunction} Memoized function.
+ */
+function memize( fn, options ) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
+
+	function memoized( /* ...args */ ) {
+		var node = head,
+			len = arguments.length,
+			args, i;
+
+		searchCache: while ( node ) {
+			// Perform a shallow equality test to confirm that whether the node
+			// under test is a candidate for the arguments passed. Two arrays
+			// are shallowly equal if their length matches and each entry is
+			// strictly equal between the two sets. Avoid abstracting to a
+			// function which could incur an arguments leaking deoptimization.
+
+			// Check whether node arguments match arguments length
+			if ( node.args.length !== arguments.length ) {
+				node = node.next;
+				continue;
+			}
+
+			// Check whether node arguments match arguments values
+			for ( i = 0; i < len; i++ ) {
+				if ( node.args[ i ] !== arguments[ i ] ) {
+					node = node.next;
+					continue searchCache;
+				}
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== head ) {
+				// As tail, shift to previous. Must only shift if not also
+				// head, since if both head and tail, there is no previous.
+				if ( node === tail ) {
+					tail = node.prev;
+				}
+
+				// Adjust siblings to point to each other. If node was tail,
+				// this also handles new tail's empty `next` assignment.
+				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = head;
+				node.prev = null;
+				/** @type {MemizeCacheNode} */ ( head ).prev = node;
+				head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		// Create a copy of arguments (avoid leaking deoptimization)
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		node = {
+			args: args,
+
+			// Generate the result from original function
+			val: fn.apply( null, args ),
+		};
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( head ) {
+			head.prev = node;
+			node.next = head;
+		} else {
+			// If no head, follows that there's no tail (at initial or reset)
+			tail = node;
+		}
+
+		// Trim tail if we're reached max size and are pending cache insertion
+		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
+			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
+			/** @type {MemizeCacheNode} */ ( tail ).next = null;
+		} else {
+			size++;
+		}
+
+		head = node;
+
+		return node.val;
+	}
+
+	memoized.clear = function() {
+		head = null;
+		tail = null;
+		size = 0;
+	};
+
+	if ( false ) {}
+
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
+	return memoized;
+}
+
+module.exports = memize;
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return applyState; });
+function isUpdater(argument) {
+  return typeof argument === "function";
+}
+/**
+ * Receives a `setState` argument and calls it with `currentValue` if it's a
+ * function. Otherwise return the argument as the new value.
+ *
+ * @example
+ * import { applyState } from "reakit-utils";
+ *
+ * applyState((value) => value + 1, 1); // 2
+ * applyState(2, 1); // 2
+ */
+
+
+function applyState(argument, currentValue) {
+  if (isUpdater(argument)) {
+    return argument(currentValue);
+  }
+
+  return argument;
+}
+
+
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useSealedState; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/**
+ * React custom hook that returns the very first value passed to `initialState`,
+ * even if it changes between re-renders.
+ */
+function useSealedState(initialState) {
+  var _React$useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(initialState),
+      sealed = _React$useState[0];
+
+  return sealed;
+}
+
+
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useForkRef; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+// https://github.com/mui-org/material-ui/blob/2bcc874cf07b81202968f769cb9c2398c7c11311/packages/material-ui/src/utils/useForkRef.js
+
+function setRef(ref, value) {
+  if (value === void 0) {
+    value = null;
+  }
+
+  if (!ref) return;
+
+  if (typeof ref === "function") {
+    ref(value);
+  } else {
+    ref.current = value;
+  }
+}
+/**
+ * Merges up to two React Refs into a single memoized function React Ref so you
+ * can pass it to an element.
+ *
+ * @example
+ * import React from "react";
+ * import { useForkRef } from "reakit-utils";
+ *
+ * const Component = React.forwardRef((props, ref) => {
+ *   const internalRef = React.useRef();
+ *   return <div {...props} ref={useForkRef(internalRef, ref)} />;
+ * });
+ */
+
+
+function useForkRef(refA, refB) {
+  return Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(function () {
+    if (refA == null && refB == null) {
+      return null;
+    }
+
+    return function (value) {
+      setRef(refA, value);
+      setRef(refB, value);
+    };
+  }, [refA, refB]);
+}
+
+
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["isShallowEqual"]; }());
+
+/***/ }),
+/* 65 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return unstable_useIdState; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var reakit_utils_useSealedState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(62);
+/* harmony import */ var _IdProvider_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(68);
+
+
+
+
+function unstable_useIdState(initialState) {
+  if (initialState === void 0) {
+    initialState = {};
+  }
+
+  var _useSealedState = Object(reakit_utils_useSealedState__WEBPACK_IMPORTED_MODULE_1__[/* useSealedState */ "a"])(initialState),
+      initialBaseId = _useSealedState.baseId;
+
+  var generateId = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_IdProvider_js__WEBPACK_IMPORTED_MODULE_2__[/* unstable_IdContext */ "a"]);
+  var idCountRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(0);
+
+  var _React$useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
+    return initialBaseId || generateId();
+  }),
+      baseId = _React$useState[0],
+      setBaseId = _React$useState[1];
+
+  return {
+    baseId: baseId,
+    unstable_setBaseId: setBaseId,
+    unstable_idCountRef: idCountRef
+  };
+}
+var keys = ["baseId", "unstable_setBaseId", "unstable_idCountRef"];
+unstable_useIdState.__keys = keys;
+
+
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
+// https://github.com/bgrins/TinyColor
+// Brian Grinstead, MIT License
+
+(function(Math) {
+
+var trimLeft = /^\s+/,
+    trimRight = /\s+$/,
+    tinyCounter = 0,
+    mathRound = Math.round,
+    mathMin = Math.min,
+    mathMax = Math.max,
+    mathRandom = Math.random;
+
+function tinycolor (color, opts) {
+
+    color = (color) ? color : '';
+    opts = opts || { };
+
+    // If input is already a tinycolor, return itself
+    if (color instanceof tinycolor) {
+       return color;
+    }
+    // If we are called as a function, call using new instead
+    if (!(this instanceof tinycolor)) {
+        return new tinycolor(color, opts);
+    }
+
+    var rgb = inputToRGB(color);
+    this._originalInput = color,
+    this._r = rgb.r,
+    this._g = rgb.g,
+    this._b = rgb.b,
+    this._a = rgb.a,
+    this._roundA = mathRound(100*this._a) / 100,
+    this._format = opts.format || rgb.format;
+    this._gradientType = opts.gradientType;
+
+    // Don't let the range of [0,255] come back in [0,1].
+    // Potentially lose a little bit of precision here, but will fix issues where
+    // .5 gets interpreted as half of the total, instead of half of 1
+    // If it was supposed to be 128, this was already taken care of by `inputToRgb`
+    if (this._r < 1) { this._r = mathRound(this._r); }
+    if (this._g < 1) { this._g = mathRound(this._g); }
+    if (this._b < 1) { this._b = mathRound(this._b); }
+
+    this._ok = rgb.ok;
+    this._tc_id = tinyCounter++;
+}
+
+tinycolor.prototype = {
+    isDark: function() {
+        return this.getBrightness() < 128;
+    },
+    isLight: function() {
+        return !this.isDark();
+    },
+    isValid: function() {
+        return this._ok;
+    },
+    getOriginalInput: function() {
+      return this._originalInput;
+    },
+    getFormat: function() {
+        return this._format;
+    },
+    getAlpha: function() {
+        return this._a;
+    },
+    getBrightness: function() {
+        //http://www.w3.org/TR/AERT#color-contrast
+        var rgb = this.toRgb();
+        return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+    },
+    getLuminance: function() {
+        //http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+        var rgb = this.toRgb();
+        var RsRGB, GsRGB, BsRGB, R, G, B;
+        RsRGB = rgb.r/255;
+        GsRGB = rgb.g/255;
+        BsRGB = rgb.b/255;
+
+        if (RsRGB <= 0.03928) {R = RsRGB / 12.92;} else {R = Math.pow(((RsRGB + 0.055) / 1.055), 2.4);}
+        if (GsRGB <= 0.03928) {G = GsRGB / 12.92;} else {G = Math.pow(((GsRGB + 0.055) / 1.055), 2.4);}
+        if (BsRGB <= 0.03928) {B = BsRGB / 12.92;} else {B = Math.pow(((BsRGB + 0.055) / 1.055), 2.4);}
+        return (0.2126 * R) + (0.7152 * G) + (0.0722 * B);
+    },
+    setAlpha: function(value) {
+        this._a = boundAlpha(value);
+        this._roundA = mathRound(100*this._a) / 100;
+        return this;
+    },
+    toHsv: function() {
+        var hsv = rgbToHsv(this._r, this._g, this._b);
+        return { h: hsv.h * 360, s: hsv.s, v: hsv.v, a: this._a };
+    },
+    toHsvString: function() {
+        var hsv = rgbToHsv(this._r, this._g, this._b);
+        var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
+        return (this._a == 1) ?
+          "hsv("  + h + ", " + s + "%, " + v + "%)" :
+          "hsva(" + h + ", " + s + "%, " + v + "%, "+ this._roundA + ")";
+    },
+    toHsl: function() {
+        var hsl = rgbToHsl(this._r, this._g, this._b);
+        return { h: hsl.h * 360, s: hsl.s, l: hsl.l, a: this._a };
+    },
+    toHslString: function() {
+        var hsl = rgbToHsl(this._r, this._g, this._b);
+        var h = mathRound(hsl.h * 360), s = mathRound(hsl.s * 100), l = mathRound(hsl.l * 100);
+        return (this._a == 1) ?
+          "hsl("  + h + ", " + s + "%, " + l + "%)" :
+          "hsla(" + h + ", " + s + "%, " + l + "%, "+ this._roundA + ")";
+    },
+    toHex: function(allow3Char) {
+        return rgbToHex(this._r, this._g, this._b, allow3Char);
+    },
+    toHexString: function(allow3Char) {
+        return '#' + this.toHex(allow3Char);
+    },
+    toHex8: function(allow4Char) {
+        return rgbaToHex(this._r, this._g, this._b, this._a, allow4Char);
+    },
+    toHex8String: function(allow4Char) {
+        return '#' + this.toHex8(allow4Char);
+    },
+    toRgb: function() {
+        return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
+    },
+    toRgbString: function() {
+        return (this._a == 1) ?
+          "rgb("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
+          "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
+    },
+    toPercentageRgb: function() {
+        return { r: mathRound(bound01(this._r, 255) * 100) + "%", g: mathRound(bound01(this._g, 255) * 100) + "%", b: mathRound(bound01(this._b, 255) * 100) + "%", a: this._a };
+    },
+    toPercentageRgbString: function() {
+        return (this._a == 1) ?
+          "rgb("  + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%)" :
+          "rgba(" + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%, " + this._roundA + ")";
+    },
+    toName: function() {
+        if (this._a === 0) {
+            return "transparent";
+        }
+
+        if (this._a < 1) {
+            return false;
+        }
+
+        return hexNames[rgbToHex(this._r, this._g, this._b, true)] || false;
+    },
+    toFilter: function(secondColor) {
+        var hex8String = '#' + rgbaToArgbHex(this._r, this._g, this._b, this._a);
+        var secondHex8String = hex8String;
+        var gradientType = this._gradientType ? "GradientType = 1, " : "";
+
+        if (secondColor) {
+            var s = tinycolor(secondColor);
+            secondHex8String = '#' + rgbaToArgbHex(s._r, s._g, s._b, s._a);
+        }
+
+        return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr="+hex8String+",endColorstr="+secondHex8String+")";
+    },
+    toString: function(format) {
+        var formatSet = !!format;
+        format = format || this._format;
+
+        var formattedString = false;
+        var hasAlpha = this._a < 1 && this._a >= 0;
+        var needsAlphaFormat = !formatSet && hasAlpha && (format === "hex" || format === "hex6" || format === "hex3" || format === "hex4" || format === "hex8" || format === "name");
+
+        if (needsAlphaFormat) {
+            // Special case for "transparent", all other non-alpha formats
+            // will return rgba when there is transparency.
+            if (format === "name" && this._a === 0) {
+                return this.toName();
+            }
+            return this.toRgbString();
+        }
+        if (format === "rgb") {
+            formattedString = this.toRgbString();
+        }
+        if (format === "prgb") {
+            formattedString = this.toPercentageRgbString();
+        }
+        if (format === "hex" || format === "hex6") {
+            formattedString = this.toHexString();
+        }
+        if (format === "hex3") {
+            formattedString = this.toHexString(true);
+        }
+        if (format === "hex4") {
+            formattedString = this.toHex8String(true);
+        }
+        if (format === "hex8") {
+            formattedString = this.toHex8String();
+        }
+        if (format === "name") {
+            formattedString = this.toName();
+        }
+        if (format === "hsl") {
+            formattedString = this.toHslString();
+        }
+        if (format === "hsv") {
+            formattedString = this.toHsvString();
+        }
+
+        return formattedString || this.toHexString();
+    },
+    clone: function() {
+        return tinycolor(this.toString());
+    },
+
+    _applyModification: function(fn, args) {
+        var color = fn.apply(null, [this].concat([].slice.call(args)));
+        this._r = color._r;
+        this._g = color._g;
+        this._b = color._b;
+        this.setAlpha(color._a);
+        return this;
+    },
+    lighten: function() {
+        return this._applyModification(lighten, arguments);
+    },
+    brighten: function() {
+        return this._applyModification(brighten, arguments);
+    },
+    darken: function() {
+        return this._applyModification(darken, arguments);
+    },
+    desaturate: function() {
+        return this._applyModification(desaturate, arguments);
+    },
+    saturate: function() {
+        return this._applyModification(saturate, arguments);
+    },
+    greyscale: function() {
+        return this._applyModification(greyscale, arguments);
+    },
+    spin: function() {
+        return this._applyModification(spin, arguments);
+    },
+
+    _applyCombination: function(fn, args) {
+        return fn.apply(null, [this].concat([].slice.call(args)));
+    },
+    analogous: function() {
+        return this._applyCombination(analogous, arguments);
+    },
+    complement: function() {
+        return this._applyCombination(complement, arguments);
+    },
+    monochromatic: function() {
+        return this._applyCombination(monochromatic, arguments);
+    },
+    splitcomplement: function() {
+        return this._applyCombination(splitcomplement, arguments);
+    },
+    triad: function() {
+        return this._applyCombination(triad, arguments);
+    },
+    tetrad: function() {
+        return this._applyCombination(tetrad, arguments);
+    }
+};
+
+// If input is an object, force 1 into "1.0" to handle ratios properly
+// String input requires "1.0" as input, so 1 will be treated as 1
+tinycolor.fromRatio = function(color, opts) {
+    if (typeof color == "object") {
+        var newColor = {};
+        for (var i in color) {
+            if (color.hasOwnProperty(i)) {
+                if (i === "a") {
+                    newColor[i] = color[i];
+                }
+                else {
+                    newColor[i] = convertToPercentage(color[i]);
+                }
+            }
+        }
+        color = newColor;
+    }
+
+    return tinycolor(color, opts);
+};
+
+// Given a string or object, convert that input to RGB
+// Possible string inputs:
+//
+//     "red"
+//     "#f00" or "f00"
+//     "#ff0000" or "ff0000"
+//     "#ff000000" or "ff000000"
+//     "rgb 255 0 0" or "rgb (255, 0, 0)"
+//     "rgb 1.0 0 0" or "rgb (1, 0, 0)"
+//     "rgba (255, 0, 0, 1)" or "rgba 255, 0, 0, 1"
+//     "rgba (1.0, 0, 0, 1)" or "rgba 1.0, 0, 0, 1"
+//     "hsl(0, 100%, 50%)" or "hsl 0 100% 50%"
+//     "hsla(0, 100%, 50%, 1)" or "hsla 0 100% 50%, 1"
+//     "hsv(0, 100%, 100%)" or "hsv 0 100% 100%"
+//
+function inputToRGB(color) {
+
+    var rgb = { r: 0, g: 0, b: 0 };
+    var a = 1;
+    var s = null;
+    var v = null;
+    var l = null;
+    var ok = false;
+    var format = false;
+
+    if (typeof color == "string") {
+        color = stringInputToObject(color);
+    }
+
+    if (typeof color == "object") {
+        if (isValidCSSUnit(color.r) && isValidCSSUnit(color.g) && isValidCSSUnit(color.b)) {
+            rgb = rgbToRgb(color.r, color.g, color.b);
+            ok = true;
+            format = String(color.r).substr(-1) === "%" ? "prgb" : "rgb";
+        }
+        else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.v)) {
+            s = convertToPercentage(color.s);
+            v = convertToPercentage(color.v);
+            rgb = hsvToRgb(color.h, s, v);
+            ok = true;
+            format = "hsv";
+        }
+        else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.l)) {
+            s = convertToPercentage(color.s);
+            l = convertToPercentage(color.l);
+            rgb = hslToRgb(color.h, s, l);
+            ok = true;
+            format = "hsl";
+        }
+
+        if (color.hasOwnProperty("a")) {
+            a = color.a;
+        }
+    }
+
+    a = boundAlpha(a);
+
+    return {
+        ok: ok,
+        format: color.format || format,
+        r: mathMin(255, mathMax(rgb.r, 0)),
+        g: mathMin(255, mathMax(rgb.g, 0)),
+        b: mathMin(255, mathMax(rgb.b, 0)),
+        a: a
+    };
+}
+
+
+// Conversion Functions
+// --------------------
+
+// `rgbToHsl`, `rgbToHsv`, `hslToRgb`, `hsvToRgb` modified from:
+// <http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript>
+
+// `rgbToRgb`
+// Handle bounds / percentage checking to conform to CSS color spec
+// <http://www.w3.org/TR/css3-color/>
+// *Assumes:* r, g, b in [0, 255] or [0, 1]
+// *Returns:* { r, g, b } in [0, 255]
+function rgbToRgb(r, g, b){
+    return {
+        r: bound01(r, 255) * 255,
+        g: bound01(g, 255) * 255,
+        b: bound01(b, 255) * 255
+    };
+}
+
+// `rgbToHsl`
+// Converts an RGB color value to HSL.
+// *Assumes:* r, g, and b are contained in [0, 255] or [0, 1]
+// *Returns:* { h, s, l } in [0,1]
+function rgbToHsl(r, g, b) {
+
+    r = bound01(r, 255);
+    g = bound01(g, 255);
+    b = bound01(b, 255);
+
+    var max = mathMax(r, g, b), min = mathMin(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if(max == min) {
+        h = s = 0; // achromatic
+    }
+    else {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+
+        h /= 6;
+    }
+
+    return { h: h, s: s, l: l };
+}
+
+// `hslToRgb`
+// Converts an HSL color value to RGB.
+// *Assumes:* h is contained in [0, 1] or [0, 360] and s and l are contained [0, 1] or [0, 100]
+// *Returns:* { r, g, b } in the set [0, 255]
+function hslToRgb(h, s, l) {
+    var r, g, b;
+
+    h = bound01(h, 360);
+    s = bound01(s, 100);
+    l = bound01(l, 100);
+
+    function hue2rgb(p, q, t) {
+        if(t < 0) t += 1;
+        if(t > 1) t -= 1;
+        if(t < 1/6) return p + (q - p) * 6 * t;
+        if(t < 1/2) return q;
+        if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
+    }
+
+    if(s === 0) {
+        r = g = b = l; // achromatic
+    }
+    else {
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+    }
+
+    return { r: r * 255, g: g * 255, b: b * 255 };
+}
+
+// `rgbToHsv`
+// Converts an RGB color value to HSV
+// *Assumes:* r, g, and b are contained in the set [0, 255] or [0, 1]
+// *Returns:* { h, s, v } in [0,1]
+function rgbToHsv(r, g, b) {
+
+    r = bound01(r, 255);
+    g = bound01(g, 255);
+    b = bound01(b, 255);
+
+    var max = mathMax(r, g, b), min = mathMin(r, g, b);
+    var h, s, v = max;
+
+    var d = max - min;
+    s = max === 0 ? 0 : d / max;
+
+    if(max == min) {
+        h = 0; // achromatic
+    }
+    else {
+        switch(max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+    return { h: h, s: s, v: v };
+}
+
+// `hsvToRgb`
+// Converts an HSV color value to RGB.
+// *Assumes:* h is contained in [0, 1] or [0, 360] and s and v are contained in [0, 1] or [0, 100]
+// *Returns:* { r, g, b } in the set [0, 255]
+ function hsvToRgb(h, s, v) {
+
+    h = bound01(h, 360) * 6;
+    s = bound01(s, 100);
+    v = bound01(v, 100);
+
+    var i = Math.floor(h),
+        f = h - i,
+        p = v * (1 - s),
+        q = v * (1 - f * s),
+        t = v * (1 - (1 - f) * s),
+        mod = i % 6,
+        r = [v, q, p, p, t, v][mod],
+        g = [t, v, v, q, p, p][mod],
+        b = [p, p, t, v, v, q][mod];
+
+    return { r: r * 255, g: g * 255, b: b * 255 };
+}
+
+// `rgbToHex`
+// Converts an RGB color to hex
+// Assumes r, g, and b are contained in the set [0, 255]
+// Returns a 3 or 6 character hex
+function rgbToHex(r, g, b, allow3Char) {
+
+    var hex = [
+        pad2(mathRound(r).toString(16)),
+        pad2(mathRound(g).toString(16)),
+        pad2(mathRound(b).toString(16))
+    ];
+
+    // Return a 3 character hex if possible
+    if (allow3Char && hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1)) {
+        return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0);
+    }
+
+    return hex.join("");
+}
+
+// `rgbaToHex`
+// Converts an RGBA color plus alpha transparency to hex
+// Assumes r, g, b are contained in the set [0, 255] and
+// a in [0, 1]. Returns a 4 or 8 character rgba hex
+function rgbaToHex(r, g, b, a, allow4Char) {
+
+    var hex = [
+        pad2(mathRound(r).toString(16)),
+        pad2(mathRound(g).toString(16)),
+        pad2(mathRound(b).toString(16)),
+        pad2(convertDecimalToHex(a))
+    ];
+
+    // Return a 4 character hex if possible
+    if (allow4Char && hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1) && hex[3].charAt(0) == hex[3].charAt(1)) {
+        return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0);
+    }
+
+    return hex.join("");
+}
+
+// `rgbaToArgbHex`
+// Converts an RGBA color to an ARGB Hex8 string
+// Rarely used, but required for "toFilter()"
+function rgbaToArgbHex(r, g, b, a) {
+
+    var hex = [
+        pad2(convertDecimalToHex(a)),
+        pad2(mathRound(r).toString(16)),
+        pad2(mathRound(g).toString(16)),
+        pad2(mathRound(b).toString(16))
+    ];
+
+    return hex.join("");
+}
+
+// `equals`
+// Can be called with any tinycolor input
+tinycolor.equals = function (color1, color2) {
+    if (!color1 || !color2) { return false; }
+    return tinycolor(color1).toRgbString() == tinycolor(color2).toRgbString();
+};
+
+tinycolor.random = function() {
+    return tinycolor.fromRatio({
+        r: mathRandom(),
+        g: mathRandom(),
+        b: mathRandom()
+    });
+};
+
+
+// Modification Functions
+// ----------------------
+// Thanks to less.js for some of the basics here
+// <https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js>
+
+function desaturate(color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
+    var hsl = tinycolor(color).toHsl();
+    hsl.s -= amount / 100;
+    hsl.s = clamp01(hsl.s);
+    return tinycolor(hsl);
+}
+
+function saturate(color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
+    var hsl = tinycolor(color).toHsl();
+    hsl.s += amount / 100;
+    hsl.s = clamp01(hsl.s);
+    return tinycolor(hsl);
+}
+
+function greyscale(color) {
+    return tinycolor(color).desaturate(100);
+}
+
+function lighten (color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
+    var hsl = tinycolor(color).toHsl();
+    hsl.l += amount / 100;
+    hsl.l = clamp01(hsl.l);
+    return tinycolor(hsl);
+}
+
+function brighten(color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
+    var rgb = tinycolor(color).toRgb();
+    rgb.r = mathMax(0, mathMin(255, rgb.r - mathRound(255 * - (amount / 100))));
+    rgb.g = mathMax(0, mathMin(255, rgb.g - mathRound(255 * - (amount / 100))));
+    rgb.b = mathMax(0, mathMin(255, rgb.b - mathRound(255 * - (amount / 100))));
+    return tinycolor(rgb);
+}
+
+function darken (color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
+    var hsl = tinycolor(color).toHsl();
+    hsl.l -= amount / 100;
+    hsl.l = clamp01(hsl.l);
+    return tinycolor(hsl);
+}
+
+// Spin takes a positive or negative amount within [-360, 360] indicating the change of hue.
+// Values outside of this range will be wrapped into this range.
+function spin(color, amount) {
+    var hsl = tinycolor(color).toHsl();
+    var hue = (hsl.h + amount) % 360;
+    hsl.h = hue < 0 ? 360 + hue : hue;
+    return tinycolor(hsl);
+}
+
+// Combination Functions
+// ---------------------
+// Thanks to jQuery xColor for some of the ideas behind these
+// <https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js>
+
+function complement(color) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.h = (hsl.h + 180) % 360;
+    return tinycolor(hsl);
+}
+
+function triad(color) {
+    var hsl = tinycolor(color).toHsl();
+    var h = hsl.h;
+    return [
+        tinycolor(color),
+        tinycolor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
+        tinycolor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
+    ];
+}
+
+function tetrad(color) {
+    var hsl = tinycolor(color).toHsl();
+    var h = hsl.h;
+    return [
+        tinycolor(color),
+        tinycolor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
+        tinycolor({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
+        tinycolor({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
+    ];
+}
+
+function splitcomplement(color) {
+    var hsl = tinycolor(color).toHsl();
+    var h = hsl.h;
+    return [
+        tinycolor(color),
+        tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
+        tinycolor({ h: (h + 216) % 360, s: hsl.s, l: hsl.l})
+    ];
+}
+
+function analogous(color, results, slices) {
+    results = results || 6;
+    slices = slices || 30;
+
+    var hsl = tinycolor(color).toHsl();
+    var part = 360 / slices;
+    var ret = [tinycolor(color)];
+
+    for (hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
+        hsl.h = (hsl.h + part) % 360;
+        ret.push(tinycolor(hsl));
+    }
+    return ret;
+}
+
+function monochromatic(color, results) {
+    results = results || 6;
+    var hsv = tinycolor(color).toHsv();
+    var h = hsv.h, s = hsv.s, v = hsv.v;
+    var ret = [];
+    var modification = 1 / results;
+
+    while (results--) {
+        ret.push(tinycolor({ h: h, s: s, v: v}));
+        v = (v + modification) % 1;
+    }
+
+    return ret;
+}
+
+// Utility Functions
+// ---------------------
+
+tinycolor.mix = function(color1, color2, amount) {
+    amount = (amount === 0) ? 0 : (amount || 50);
+
+    var rgb1 = tinycolor(color1).toRgb();
+    var rgb2 = tinycolor(color2).toRgb();
+
+    var p = amount / 100;
+
+    var rgba = {
+        r: ((rgb2.r - rgb1.r) * p) + rgb1.r,
+        g: ((rgb2.g - rgb1.g) * p) + rgb1.g,
+        b: ((rgb2.b - rgb1.b) * p) + rgb1.b,
+        a: ((rgb2.a - rgb1.a) * p) + rgb1.a
+    };
+
+    return tinycolor(rgba);
+};
+
+
+// Readability Functions
+// ---------------------
+// <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2)
+
+// `contrast`
+// Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
+tinycolor.readability = function(color1, color2) {
+    var c1 = tinycolor(color1);
+    var c2 = tinycolor(color2);
+    return (Math.max(c1.getLuminance(),c2.getLuminance())+0.05) / (Math.min(c1.getLuminance(),c2.getLuminance())+0.05);
+};
+
+// `isReadable`
+// Ensure that foreground and background color combinations meet WCAG2 guidelines.
+// The third argument is an optional Object.
+//      the 'level' property states 'AA' or 'AAA' - if missing or invalid, it defaults to 'AA';
+//      the 'size' property states 'large' or 'small' - if missing or invalid, it defaults to 'small'.
+// If the entire object is absent, isReadable defaults to {level:"AA",size:"small"}.
+
+// *Example*
+//    tinycolor.isReadable("#000", "#111") => false
+//    tinycolor.isReadable("#000", "#111",{level:"AA",size:"large"}) => false
+tinycolor.isReadable = function(color1, color2, wcag2) {
+    var readability = tinycolor.readability(color1, color2);
+    var wcag2Parms, out;
+
+    out = false;
+
+    wcag2Parms = validateWCAG2Parms(wcag2);
+    switch (wcag2Parms.level + wcag2Parms.size) {
+        case "AAsmall":
+        case "AAAlarge":
+            out = readability >= 4.5;
+            break;
+        case "AAlarge":
+            out = readability >= 3;
+            break;
+        case "AAAsmall":
+            out = readability >= 7;
+            break;
+    }
+    return out;
+
+};
+
+// `mostReadable`
+// Given a base color and a list of possible foreground or background
+// colors for that base, returns the most readable color.
+// Optionally returns Black or White if the most readable color is unreadable.
+// *Example*
+//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(); // "#112255"
+//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
+//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
+//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
+tinycolor.mostReadable = function(baseColor, colorList, args) {
+    var bestColor = null;
+    var bestScore = 0;
+    var readability;
+    var includeFallbackColors, level, size ;
+    args = args || {};
+    includeFallbackColors = args.includeFallbackColors ;
+    level = args.level;
+    size = args.size;
+
+    for (var i= 0; i < colorList.length ; i++) {
+        readability = tinycolor.readability(baseColor, colorList[i]);
+        if (readability > bestScore) {
+            bestScore = readability;
+            bestColor = tinycolor(colorList[i]);
+        }
+    }
+
+    if (tinycolor.isReadable(baseColor, bestColor, {"level":level,"size":size}) || !includeFallbackColors) {
+        return bestColor;
+    }
+    else {
+        args.includeFallbackColors=false;
+        return tinycolor.mostReadable(baseColor,["#fff", "#000"],args);
+    }
+};
+
+
+// Big List of Colors
+// ------------------
+// <http://www.w3.org/TR/css3-color/#svg-color>
+var names = tinycolor.names = {
+    aliceblue: "f0f8ff",
+    antiquewhite: "faebd7",
+    aqua: "0ff",
+    aquamarine: "7fffd4",
+    azure: "f0ffff",
+    beige: "f5f5dc",
+    bisque: "ffe4c4",
+    black: "000",
+    blanchedalmond: "ffebcd",
+    blue: "00f",
+    blueviolet: "8a2be2",
+    brown: "a52a2a",
+    burlywood: "deb887",
+    burntsienna: "ea7e5d",
+    cadetblue: "5f9ea0",
+    chartreuse: "7fff00",
+    chocolate: "d2691e",
+    coral: "ff7f50",
+    cornflowerblue: "6495ed",
+    cornsilk: "fff8dc",
+    crimson: "dc143c",
+    cyan: "0ff",
+    darkblue: "00008b",
+    darkcyan: "008b8b",
+    darkgoldenrod: "b8860b",
+    darkgray: "a9a9a9",
+    darkgreen: "006400",
+    darkgrey: "a9a9a9",
+    darkkhaki: "bdb76b",
+    darkmagenta: "8b008b",
+    darkolivegreen: "556b2f",
+    darkorange: "ff8c00",
+    darkorchid: "9932cc",
+    darkred: "8b0000",
+    darksalmon: "e9967a",
+    darkseagreen: "8fbc8f",
+    darkslateblue: "483d8b",
+    darkslategray: "2f4f4f",
+    darkslategrey: "2f4f4f",
+    darkturquoise: "00ced1",
+    darkviolet: "9400d3",
+    deeppink: "ff1493",
+    deepskyblue: "00bfff",
+    dimgray: "696969",
+    dimgrey: "696969",
+    dodgerblue: "1e90ff",
+    firebrick: "b22222",
+    floralwhite: "fffaf0",
+    forestgreen: "228b22",
+    fuchsia: "f0f",
+    gainsboro: "dcdcdc",
+    ghostwhite: "f8f8ff",
+    gold: "ffd700",
+    goldenrod: "daa520",
+    gray: "808080",
+    green: "008000",
+    greenyellow: "adff2f",
+    grey: "808080",
+    honeydew: "f0fff0",
+    hotpink: "ff69b4",
+    indianred: "cd5c5c",
+    indigo: "4b0082",
+    ivory: "fffff0",
+    khaki: "f0e68c",
+    lavender: "e6e6fa",
+    lavenderblush: "fff0f5",
+    lawngreen: "7cfc00",
+    lemonchiffon: "fffacd",
+    lightblue: "add8e6",
+    lightcoral: "f08080",
+    lightcyan: "e0ffff",
+    lightgoldenrodyellow: "fafad2",
+    lightgray: "d3d3d3",
+    lightgreen: "90ee90",
+    lightgrey: "d3d3d3",
+    lightpink: "ffb6c1",
+    lightsalmon: "ffa07a",
+    lightseagreen: "20b2aa",
+    lightskyblue: "87cefa",
+    lightslategray: "789",
+    lightslategrey: "789",
+    lightsteelblue: "b0c4de",
+    lightyellow: "ffffe0",
+    lime: "0f0",
+    limegreen: "32cd32",
+    linen: "faf0e6",
+    magenta: "f0f",
+    maroon: "800000",
+    mediumaquamarine: "66cdaa",
+    mediumblue: "0000cd",
+    mediumorchid: "ba55d3",
+    mediumpurple: "9370db",
+    mediumseagreen: "3cb371",
+    mediumslateblue: "7b68ee",
+    mediumspringgreen: "00fa9a",
+    mediumturquoise: "48d1cc",
+    mediumvioletred: "c71585",
+    midnightblue: "191970",
+    mintcream: "f5fffa",
+    mistyrose: "ffe4e1",
+    moccasin: "ffe4b5",
+    navajowhite: "ffdead",
+    navy: "000080",
+    oldlace: "fdf5e6",
+    olive: "808000",
+    olivedrab: "6b8e23",
+    orange: "ffa500",
+    orangered: "ff4500",
+    orchid: "da70d6",
+    palegoldenrod: "eee8aa",
+    palegreen: "98fb98",
+    paleturquoise: "afeeee",
+    palevioletred: "db7093",
+    papayawhip: "ffefd5",
+    peachpuff: "ffdab9",
+    peru: "cd853f",
+    pink: "ffc0cb",
+    plum: "dda0dd",
+    powderblue: "b0e0e6",
+    purple: "800080",
+    rebeccapurple: "663399",
+    red: "f00",
+    rosybrown: "bc8f8f",
+    royalblue: "4169e1",
+    saddlebrown: "8b4513",
+    salmon: "fa8072",
+    sandybrown: "f4a460",
+    seagreen: "2e8b57",
+    seashell: "fff5ee",
+    sienna: "a0522d",
+    silver: "c0c0c0",
+    skyblue: "87ceeb",
+    slateblue: "6a5acd",
+    slategray: "708090",
+    slategrey: "708090",
+    snow: "fffafa",
+    springgreen: "00ff7f",
+    steelblue: "4682b4",
+    tan: "d2b48c",
+    teal: "008080",
+    thistle: "d8bfd8",
+    tomato: "ff6347",
+    turquoise: "40e0d0",
+    violet: "ee82ee",
+    wheat: "f5deb3",
+    white: "fff",
+    whitesmoke: "f5f5f5",
+    yellow: "ff0",
+    yellowgreen: "9acd32"
+};
+
+// Make it easy to access colors via `hexNames[hex]`
+var hexNames = tinycolor.hexNames = flip(names);
+
+
+// Utilities
+// ---------
+
+// `{ 'name1': 'val1' }` becomes `{ 'val1': 'name1' }`
+function flip(o) {
+    var flipped = { };
+    for (var i in o) {
+        if (o.hasOwnProperty(i)) {
+            flipped[o[i]] = i;
+        }
+    }
+    return flipped;
+}
+
+// Return a valid alpha value [0,1] with all invalid values being set to 1
+function boundAlpha(a) {
+    a = parseFloat(a);
+
+    if (isNaN(a) || a < 0 || a > 1) {
+        a = 1;
+    }
+
+    return a;
+}
+
+// Take input from [0, n] and return it as [0, 1]
+function bound01(n, max) {
+    if (isOnePointZero(n)) { n = "100%"; }
+
+    var processPercent = isPercentage(n);
+    n = mathMin(max, mathMax(0, parseFloat(n)));
+
+    // Automatically convert percentage into number
+    if (processPercent) {
+        n = parseInt(n * max, 10) / 100;
+    }
+
+    // Handle floating point rounding errors
+    if ((Math.abs(n - max) < 0.000001)) {
+        return 1;
+    }
+
+    // Convert into [0, 1] range if it isn't already
+    return (n % max) / parseFloat(max);
+}
+
+// Force a number between 0 and 1
+function clamp01(val) {
+    return mathMin(1, mathMax(0, val));
+}
+
+// Parse a base-16 hex value into a base-10 integer
+function parseIntFromHex(val) {
+    return parseInt(val, 16);
+}
+
+// Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
+// <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
+function isOnePointZero(n) {
+    return typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1;
+}
+
+// Check to see if string passed in is a percentage
+function isPercentage(n) {
+    return typeof n === "string" && n.indexOf('%') != -1;
+}
+
+// Force a hex value to have 2 characters
+function pad2(c) {
+    return c.length == 1 ? '0' + c : '' + c;
+}
+
+// Replace a decimal with it's percentage value
+function convertToPercentage(n) {
+    if (n <= 1) {
+        n = (n * 100) + "%";
+    }
+
+    return n;
+}
+
+// Converts a decimal to a hex value
+function convertDecimalToHex(d) {
+    return Math.round(parseFloat(d) * 255).toString(16);
+}
+// Converts a hex value to a decimal
+function convertHexToDecimal(h) {
+    return (parseIntFromHex(h) / 255);
+}
+
+var matchers = (function() {
+
+    // <http://www.w3.org/TR/css3-values/#integers>
+    var CSS_INTEGER = "[-\\+]?\\d+%?";
+
+    // <http://www.w3.org/TR/css3-values/#number-value>
+    var CSS_NUMBER = "[-\\+]?\\d*\\.\\d+%?";
+
+    // Allow positive/negative integer/number.  Don't capture the either/or, just the entire outcome.
+    var CSS_UNIT = "(?:" + CSS_NUMBER + ")|(?:" + CSS_INTEGER + ")";
+
+    // Actual matching.
+    // Parentheses and commas are optional, but not required.
+    // Whitespace can take the place of commas or opening paren
+    var PERMISSIVE_MATCH3 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
+    var PERMISSIVE_MATCH4 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
+
+    return {
+        CSS_UNIT: new RegExp(CSS_UNIT),
+        rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
+        rgba: new RegExp("rgba" + PERMISSIVE_MATCH4),
+        hsl: new RegExp("hsl" + PERMISSIVE_MATCH3),
+        hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
+        hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
+        hsva: new RegExp("hsva" + PERMISSIVE_MATCH4),
+        hex3: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
+        hex6: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
+        hex4: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
+        hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
+    };
+})();
+
+// `isValidCSSUnit`
+// Take in a single string / number and check to see if it looks like a CSS unit
+// (see `matchers` above for definition).
+function isValidCSSUnit(color) {
+    return !!matchers.CSS_UNIT.exec(color);
+}
+
+// `stringInputToObject`
+// Permissive string parsing.  Take in a number of formats, and output an object
+// based on detected format.  Returns `{ r, g, b }` or `{ h, s, l }` or `{ h, s, v}`
+function stringInputToObject(color) {
+
+    color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
+    var named = false;
+    if (names[color]) {
+        color = names[color];
+        named = true;
+    }
+    else if (color == 'transparent') {
+        return { r: 0, g: 0, b: 0, a: 0, format: "name" };
+    }
+
+    // Try to match string input using regular expressions.
+    // Keep most of the number bounding out of this function - don't worry about [0,1] or [0,100] or [0,360]
+    // Just return an object and let the conversion functions handle that.
+    // This way the result will be the same whether the tinycolor is initialized with string or object.
+    var match;
+    if ((match = matchers.rgb.exec(color))) {
+        return { r: match[1], g: match[2], b: match[3] };
+    }
+    if ((match = matchers.rgba.exec(color))) {
+        return { r: match[1], g: match[2], b: match[3], a: match[4] };
+    }
+    if ((match = matchers.hsl.exec(color))) {
+        return { h: match[1], s: match[2], l: match[3] };
+    }
+    if ((match = matchers.hsla.exec(color))) {
+        return { h: match[1], s: match[2], l: match[3], a: match[4] };
+    }
+    if ((match = matchers.hsv.exec(color))) {
+        return { h: match[1], s: match[2], v: match[3] };
+    }
+    if ((match = matchers.hsva.exec(color))) {
+        return { h: match[1], s: match[2], v: match[3], a: match[4] };
+    }
+    if ((match = matchers.hex8.exec(color))) {
+        return {
+            r: parseIntFromHex(match[1]),
+            g: parseIntFromHex(match[2]),
+            b: parseIntFromHex(match[3]),
+            a: convertHexToDecimal(match[4]),
+            format: named ? "name" : "hex8"
+        };
+    }
+    if ((match = matchers.hex6.exec(color))) {
+        return {
+            r: parseIntFromHex(match[1]),
+            g: parseIntFromHex(match[2]),
+            b: parseIntFromHex(match[3]),
+            format: named ? "name" : "hex"
+        };
+    }
+    if ((match = matchers.hex4.exec(color))) {
+        return {
+            r: parseIntFromHex(match[1] + '' + match[1]),
+            g: parseIntFromHex(match[2] + '' + match[2]),
+            b: parseIntFromHex(match[3] + '' + match[3]),
+            a: convertHexToDecimal(match[4] + '' + match[4]),
+            format: named ? "name" : "hex8"
+        };
+    }
+    if ((match = matchers.hex3.exec(color))) {
+        return {
+            r: parseIntFromHex(match[1] + '' + match[1]),
+            g: parseIntFromHex(match[2] + '' + match[2]),
+            b: parseIntFromHex(match[3] + '' + match[3]),
+            format: named ? "name" : "hex"
+        };
+    }
+
+    return false;
+}
+
+function validateWCAG2Parms(parms) {
+    // return valid WCAG2 parms for isReadable.
+    // If input parms are invalid, return {"level":"AA", "size":"small"}
+    var level, size;
+    parms = parms || {"level":"AA", "size":"small"};
+    level = (parms.level || "AA").toUpperCase();
+    size = (parms.size || "small").toLowerCase();
+    if (level !== "AA" && level !== "AAA") {
+        level = "AA";
+    }
+    if (size !== "small" && size !== "large") {
+        size = "small";
+    }
+    return {"level":level, "size":size};
+}
+
+// Node: Export function
+if ( true && module.exports) {
+    module.exports = tinycolor;
+}
+// AMD/requirejs: Define the module
+else if (true) {
+    !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {return tinycolor;}).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+}
+// Browser: Expose to window
+else {}
+
+})(Math);
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Box */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useBox; });
+/* harmony import */ var _rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
+/* harmony import */ var reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48);
+/* harmony import */ var reakit_utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(55);
+
+
+
+
+
+var useBox = Object(reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__[/* createHook */ "a"])({
+  name: "Box",
+  keys: ["unstable_system"],
+  propsAreEqual: function propsAreEqual(prev, next) {
+    var prevSystem = prev.unstable_system,
+        prevProps = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(prev, ["unstable_system"]);
+
+    var nextSystem = next.unstable_system,
+        nextProps = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(next, ["unstable_system"]);
+
+    if (prevSystem !== nextSystem && !Object(reakit_utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__[/* shallowEqual */ "a"])(prevSystem, nextSystem)) {
+      return false;
+    }
+
+    return Object(reakit_utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__[/* shallowEqual */ "a"])(prevProps, nextProps);
+  }
+});
+var Box = Object(reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__[/* createComponent */ "a"])({
+  as: "div",
+  useHook: useBox
+});
+
+
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return unstable_IdContext; });
+/* unused harmony export unstable_IdProvider */
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var defaultPrefix = "id";
+function generateRandomString(prefix) {
+  if (prefix === void 0) {
+    prefix = defaultPrefix;
+  }
+
+  return "" + (prefix ? prefix + "-" : "") + Math.random().toString(32).substr(2, 6);
+}
+
+var unstable_IdContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])(generateRandomString);
+function unstable_IdProvider(_ref) {
+  var children = _ref.children,
+      _ref$prefix = _ref.prefix,
+      prefix = _ref$prefix === void 0 ? defaultPrefix : _ref$prefix;
+  var count = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(0);
+  var generateId = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (localPrefix) {
+    if (localPrefix === void 0) {
+      localPrefix = prefix;
+    }
+
+    return "" + (localPrefix ? localPrefix + "-" : "") + ++count.current;
+  }, [prefix]);
+  return /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["createElement"])(unstable_IdContext.Provider, {
+    value: generateId
+  }, children);
+}
+
+
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return hasFocusWithin; });
+/* harmony import */ var _getActiveElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(56);
+
+
+
+/**
+ * Checks if `element` has focus.
+ *
+ * @example
+ * import { hasFocusWithin } from "reakit-utils";
+ *
+ * hasFocusWithin(document.getElementById("id"));
+ */
+
+function hasFocusWithin(element) {
+  var activeElement = Object(_getActiveElement_js__WEBPACK_IMPORTED_MODULE_0__[/* getActiveElement */ "a"])(element);
+  if (!activeElement) return false;
+  if (element.contains(activeElement)) return true;
+  var activeDescendant = activeElement.getAttribute("aria-activedescendant");
+  if (!activeDescendant) return false;
+  return activeDescendant === element.id || !!element.querySelector("#" + activeDescendant);
+}
+
+
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isButton; });
+var buttonInputTypes = ["button", "color", "file", "image", "reset", "submit"];
+/**
+ * Checks whether `element` is a native HTML button element or not.
+ *
+ * @example
+ * import { isButton } from "reakit-utils";
+ *
+ * isButton(document.querySelector("button")); // true
+ * isButton(document.querySelector("input[type='button']")); // true
+ * isButton(document.querySelector("div")); // false
+ * isButton(document.querySelector("input[type='text']")); // false
+ *
+ * @returns {boolean}
+ */
+
+function isButton(element) {
+  if (element.tagName === "BUTTON") return true;
+
+  if (element.tagName === "INPUT") {
+    var input = element;
+    return buttonInputTypes.indexOf(input.type) !== -1;
+  }
+
+  return false;
+}
+
+
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ ensureFocus; });
+__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ getClosestFocusable; });
+
+// UNUSED EXPORTS: getAllFocusableIn, getAllTabbableIn, getFirstFocusableIn, getFirstTabbableIn, getLastTabbableIn, getNextTabbableIn, getPreviousTabbableIn, isFocusable, isTabbable
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/matches.js
+/**
+ * Ponyfill for `Element.prototype.matches`
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/matches
+ */
+function matches(element, selectors) {
+  if ("matches" in element) return element.matches(selectors);
+  if ("msMatchesSelector" in element) return element.msMatchesSelector(selectors);
+  return element.webkitMatchesSelector(selectors);
+}
+
+
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/closest.js
+
+
+/**
+ * Ponyfill for `Element.prototype.closest`
+ *
+ * @example
+ * import { closest } from "reakit-utils";
+ *
+ * closest(document.getElementById("id"), "div");
+ * // same as
+ * document.getElementById("id").closest("div");
+ */
+function closest(element, selectors) {
+  if ("closest" in element) return element.closest(selectors);
+
+  do {
+    if (matches(element, selectors)) return element;
+    element = element.parentElement || element.parentNode;
+  } while (element !== null && element.nodeType === 1);
+
+  return null;
+}
+
+
+
+// EXTERNAL MODULE: ./node_modules/reakit-utils/es/getActiveElement.js
+var getActiveElement = __webpack_require__(56);
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/tabbable.js
+
+
+
+
+
+/** @module tabbable */
+var selector = "input:not([type='hidden']):not([disabled]), select:not([disabled]), " + "textarea:not([disabled]), a[href], button:not([disabled]), [tabindex], " + "iframe, object, embed, area[href], audio[controls], video[controls], " + "[contenteditable]:not([contenteditable='false'])";
+
+function isVisible(element) {
+  return element.offsetWidth > 0 || element.offsetHeight > 0 || element.getClientRects().length > 0;
+}
+
+function hasNegativeTabIndex(element) {
+  var tabIndex = parseInt(element.getAttribute("tabindex") || "0", 10);
+  return tabIndex < 0;
+}
+/**
+ * Checks whether `element` is focusable or not.
+ *
+ * @memberof tabbable
+ *
+ * @example
+ * import { isFocusable } from "reakit-utils";
+ *
+ * isFocusable(document.querySelector("input")); // true
+ * isFocusable(document.querySelector("input[tabindex='-1']")); // true
+ * isFocusable(document.querySelector("input[hidden]")); // false
+ * isFocusable(document.querySelector("input:disabled")); // false
+ */
+
+
+function isFocusable(element) {
+  return matches(element, selector) && isVisible(element);
+}
+/**
+ * Checks whether `element` is tabbable or not.
+ *
+ * @memberof tabbable
+ *
+ * @example
+ * import { isTabbable } from "reakit-utils";
+ *
+ * isTabbable(document.querySelector("input")); // true
+ * isTabbable(document.querySelector("input[tabindex='-1']")); // false
+ * isTabbable(document.querySelector("input[hidden]")); // false
+ * isTabbable(document.querySelector("input:disabled")); // false
+ */
+
+function isTabbable(element) {
+  return isFocusable(element) && !hasNegativeTabIndex(element);
+}
+/**
+ * Returns all the focusable elements in `container`.
+ *
+ * @memberof tabbable
+ *
+ * @param {Element} container
+ *
+ * @returns {Element[]}
+ */
+
+function getAllFocusableIn(container) {
+  var allFocusable = Array.from(container.querySelectorAll(selector));
+  allFocusable.unshift(container);
+  return allFocusable.filter(isFocusable);
+}
+/**
+ * Returns the first focusable element in `container`.
+ *
+ * @memberof tabbable
+ *
+ * @param {Element} container
+ *
+ * @returns {Element|null}
+ */
+
+function getFirstFocusableIn(container) {
+  var allFocusable = getAllFocusableIn(container);
+  return allFocusable.length ? allFocusable[0] : null;
+}
+/**
+ * Returns all the tabbable elements in `container`, including the container
+ * itself.
+ *
+ * @memberof tabbable
+ *
+ * @param {Element} container
+ * @param fallbackToFocusable If `true`, it'll return focusable elements if there are no tabbable ones.
+ *
+ * @returns {Element[]}
+ */
+
+function getAllTabbableIn(container, fallbackToFocusable) {
+  var allFocusable = Array.from(container.querySelectorAll(selector));
+  var allTabbable = allFocusable.filter(isTabbable);
+
+  if (isTabbable(container)) {
+    allTabbable.unshift(container);
+  }
+
+  if (!allTabbable.length && fallbackToFocusable) {
+    return allFocusable;
+  }
+
+  return allTabbable;
+}
+/**
+ * Returns the first tabbable element in `container`, including the container
+ * itself if it's tabbable.
+ *
+ * @memberof tabbable
+ *
+ * @param {Element} container
+ * @param fallbackToFocusable If `true`, it'll return the first focusable element if there are no tabbable ones.
+ *
+ * @returns {Element|null}
+ */
+
+function getFirstTabbableIn(container, fallbackToFocusable) {
+  var _getAllTabbableIn = getAllTabbableIn(container, fallbackToFocusable),
+      first = _getAllTabbableIn[0];
+
+  return first || null;
+}
+/**
+ * Returns the last tabbable element in `container`, including the container
+ * itself if it's tabbable.
+ *
+ * @memberof tabbable
+ *
+ * @param {Element} container
+ * @param fallbackToFocusable If `true`, it'll return the last focusable element if there are no tabbable ones.
+ *
+ * @returns {Element|null}
+ */
+
+function getLastTabbableIn(container, fallbackToFocusable) {
+  var allTabbable = getAllTabbableIn(container, fallbackToFocusable);
+  return allTabbable[allTabbable.length - 1] || null;
+}
+/**
+ * Returns the next tabbable element in `container`.
+ *
+ * @memberof tabbable
+ *
+ * @param {Element} container
+ * @param fallbackToFocusable If `true`, it'll return the next focusable element if there are no tabbable ones.
+ *
+ * @returns {Element|null}
+ */
+
+function getNextTabbableIn(container, fallbackToFocusable) {
+  var activeElement = Object(getActiveElement["a" /* getActiveElement */])(container);
+  var allFocusable = getAllFocusableIn(container);
+  var index = allFocusable.indexOf(activeElement);
+  var slice = allFocusable.slice(index + 1);
+  return slice.find(isTabbable) || allFocusable.find(isTabbable) || (fallbackToFocusable ? slice[0] : null);
+}
+/**
+ * Returns the previous tabbable element in `container`.
+ *
+ * @memberof tabbable
+ *
+ * @param {Element} container
+ * @param fallbackToFocusable If `true`, it'll return the previous focusable element if there are no tabbable ones.
+ *
+ * @returns {Element|null}
+ */
+
+function getPreviousTabbableIn(container, fallbackToFocusable) {
+  var activeElement = Object(getActiveElement["a" /* getActiveElement */])(container);
+  var allFocusable = getAllFocusableIn(container).reverse();
+  var index = allFocusable.indexOf(activeElement);
+  var slice = allFocusable.slice(index + 1);
+  return slice.find(isTabbable) || allFocusable.find(isTabbable) || (fallbackToFocusable ? slice[0] : null);
+}
+/**
+ * Returns the closest focusable element.
+ *
+ * @memberof tabbable
+ *
+ * @param {Element} container
+ *
+ * @returns {Element|null}
+ */
+
+function getClosestFocusable(element) {
+  while (element && !isFocusable(element)) {
+    element = closest(element, selector);
+  }
+
+  return element;
+}
+
+function defaultIsActive(element) {
+  return Object(getActiveElement["a" /* getActiveElement */])(element) === element;
+}
+
+/**
+ * Ensures `element` will receive focus if it's not already.
+ *
+ * @memberof tabbable
+ *
+ * @example
+ * import { ensureFocus } from "reakit-utils";
+ *
+ * ensureFocus(document.activeElement); // does nothing
+ *
+ * const element = document.querySelector("input");
+ *
+ * ensureFocus(element); // focuses element
+ * ensureFocus(element, { preventScroll: true }); // focuses element preventing scroll jump
+ *
+ * function isActive(el) {
+ *   return el.dataset.active === "true";
+ * }
+ *
+ * ensureFocus(document.querySelector("[data-active='true']"), { isActive }); // does nothing
+ *
+ * @returns {number} `requestAnimationFrame` call ID so it can be passed to `cancelAnimationFrame` if needed.
+ */
+function ensureFocus(element, _temp) {
+  var _ref = _temp === void 0 ? {} : _temp,
+      _ref$isActive = _ref.isActive,
+      isActive = _ref$isActive === void 0 ? defaultIsActive : _ref$isActive,
+      preventScroll = _ref.preventScroll;
+
+  if (isActive(element)) return -1;
+  element.focus({
+    preventScroll: preventScroll
+  });
+  if (isActive(element)) return -1;
+  return requestAnimationFrame(function () {
+    element.focus({
+      preventScroll: preventScroll
+    });
+  });
+}
+
+
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ isPortalEvent; });
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/contains.js
+/**
+ * Similar to `Element.prototype.contains`.
+ */
+function contains(parent, child) {
+  return parent === child || parent.contains(child);
+}
+
+
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/isPortalEvent.js
+
+
+/**
+ * Returns `true` if `event` has been fired within a React Portal element.
+ */
+
+function isPortalEvent(event) {
+  return !contains(event.currentTarget, event.target);
+}
+
+
+
+
+/***/ }),
+/* 73 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Tabbable */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useTabbable; });
+/* harmony import */ var _rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
+/* harmony import */ var reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48);
+/* harmony import */ var _Box_Box_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(67);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var reakit_utils_useForkRef__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(63);
+/* harmony import */ var reakit_utils_isButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(70);
+/* harmony import */ var reakit_warning__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(80);
+/* harmony import */ var reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(46);
+/* harmony import */ var reakit_utils_useIsomorphicEffect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(59);
+/* harmony import */ var reakit_utils_hasFocusWithin__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(69);
+/* harmony import */ var reakit_utils_isPortalEvent__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(72);
+/* harmony import */ var reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(56);
+/* harmony import */ var reakit_utils_tabbable__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(71);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function isUA(string) {
+  if (typeof window === "undefined") return false;
+  return window.navigator.userAgent.indexOf(string) !== -1;
+}
+
+var isSafariOrFirefoxOnMac = isUA("Mac") && !isUA("Chrome") && (isUA("Safari") || isUA("Firefox"));
+
+function focusIfNeeded(element) {
+  if (!Object(reakit_utils_hasFocusWithin__WEBPACK_IMPORTED_MODULE_10__[/* hasFocusWithin */ "a"])(element)) {
+    element.focus();
+  }
+} // Safari and Firefox on MacOS don't focus on buttons on mouse down like other
+// browsers/platforms. Instead, they focus on the closest focusable ancestor
+// element, which is ultimately the body element. So we make sure to give focus
+// to the tabbable element on mouse down so it works consistently across
+// browsers.
+// istanbul ignore next
+
+
+function useFocusOnMouseDown() {
+  if (!isSafariOrFirefoxOnMac) return undefined;
+
+  var _React$useState = Object(react__WEBPACK_IMPORTED_MODULE_4__["useState"])(null),
+      tabbable = _React$useState[0],
+      scheduleFocus = _React$useState[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_4__["useEffect"])(function () {
+    if (!tabbable) return;
+    focusIfNeeded(tabbable);
+    scheduleFocus(null);
+  }, [tabbable]);
+  var onMouseDown = Object(react__WEBPACK_IMPORTED_MODULE_4__["useCallback"])(function (event) {
+    var element = event.currentTarget;
+    if (Object(reakit_utils_isPortalEvent__WEBPACK_IMPORTED_MODULE_11__[/* isPortalEvent */ "a"])(event)) return;
+    if (!Object(reakit_utils_isButton__WEBPACK_IMPORTED_MODULE_6__[/* isButton */ "a"])(element)) return;
+    var activeElement = Object(reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_12__[/* getActiveElement */ "a"])(element);
+    if (!activeElement) return;
+    var activeElementIsBody = activeElement.tagName === "BODY";
+    var focusableAncestor = Object(reakit_utils_tabbable__WEBPACK_IMPORTED_MODULE_13__[/* getClosestFocusable */ "b"])(element.parentElement);
+
+    if (activeElement === focusableAncestor || activeElementIsBody && !focusableAncestor) {
+      // When the active element is the focusable ancestor, it'll not emit
+      // focus/blur events. After all, it's already focused. So we can't
+      // listen to those events to focus this tabbable element.
+      // When the active element is body and there's no focusable ancestor,
+      // we also don't have any other event to listen to since body never
+      // emits focus/blur events on itself.
+      // In both of these cases, we have to schedule focus on this tabbable
+      // element.
+      scheduleFocus(element);
+    } else if (focusableAncestor) {
+      // Clicking (mouse down) on the tabbable element on Safari and Firefox
+      // on MacOS will fire focus on the focusable ancestor element if
+      // there's any and if it's not the current active element. So we wait
+      // for this event to happen before moving focus to this element.
+      // Instead of moving focus right away, we have to schedule it,
+      // otherwise it's gonna prevent drag events from happening.
+      var onFocus = function onFocus() {
+        return scheduleFocus(element);
+      };
+
+      focusableAncestor.addEventListener("focusin", onFocus, {
+        once: true
+      });
+    } else {
+      // Finally, if there's no focsuable ancestor and there's another
+      // element with focus, we wait for that element to get blurred before
+      // focusing this one.
+      var onBlur = function onBlur() {
+        return focusIfNeeded(element);
+      };
+
+      activeElement.addEventListener("blur", onBlur, {
+        once: true
+      });
+    }
+  }, []);
+  return onMouseDown;
+}
+
+function isNativeTabbable(element) {
+  return element.tagName === "BUTTON" || element.tagName === "INPUT" || element.tagName === "SELECT" || element.tagName === "TEXTAREA" || element.tagName === "A" || element.tagName === "AUDIO" || element.tagName === "VIDEO";
+}
+
+var useTabbable = Object(reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__[/* createHook */ "a"])({
+  name: "Tabbable",
+  compose: _Box_Box_js__WEBPACK_IMPORTED_MODULE_3__[/* useBox */ "a"],
+  keys: ["disabled", "focusable"],
+  useOptions: function useOptions(options, _ref) {
+    var disabled = _ref.disabled;
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({
+      disabled: disabled
+    }, options);
+  },
+  useProps: function useProps(options, _ref2) {
+    var htmlRef = _ref2.ref,
+        htmlTabIndex = _ref2.tabIndex,
+        htmlOnClick = _ref2.onClick,
+        htmlOnMouseDown = _ref2.onMouseDown,
+        htmlStyle = _ref2.style,
+        htmlProps = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(_ref2, ["ref", "tabIndex", "onClick", "onMouseDown", "style"]);
+
+    var ref = Object(react__WEBPACK_IMPORTED_MODULE_4__["useRef"])(null);
+    var onClickRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_8__[/* useLiveRef */ "a"])(htmlOnClick);
+    var onMouseDownRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_8__[/* useLiveRef */ "a"])(htmlOnMouseDown);
+    var trulyDisabled = options.disabled && !options.focusable;
+
+    var _React$useState2 = Object(react__WEBPACK_IMPORTED_MODULE_4__["useState"])(true),
+        nativeTabbable = _React$useState2[0],
+        setNativeTabbable = _React$useState2[1];
+
+    var tabIndex = nativeTabbable ? htmlTabIndex : htmlTabIndex || 0;
+    var style = options.disabled ? Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({
+      pointerEvents: "none"
+    }, htmlStyle) : htmlStyle;
+    var focusOnMouseDown = useFocusOnMouseDown();
+    Object(reakit_utils_useIsomorphicEffect__WEBPACK_IMPORTED_MODULE_9__[/* useIsomorphicEffect */ "a"])(function () {
+      var tabbable = ref.current;
+
+      if (!tabbable) {
+         false ? undefined : void 0;
+        return;
+      }
+
+      if (!isNativeTabbable(tabbable)) {
+        setNativeTabbable(false);
+      }
+    }, []);
+    var onClick = Object(react__WEBPACK_IMPORTED_MODULE_4__["useCallback"])(function (event) {
+      var _onClickRef$current;
+
+      if (options.disabled) {
+        event.stopPropagation();
+        event.preventDefault();
+        return;
+      }
+
+      (_onClickRef$current = onClickRef.current) === null || _onClickRef$current === void 0 ? void 0 : _onClickRef$current.call(onClickRef, event);
+    }, [options.disabled]);
+    var onMouseDown = Object(react__WEBPACK_IMPORTED_MODULE_4__["useCallback"])(function (event) {
+      var _onMouseDownRef$curre;
+
+      if (options.disabled) {
+        event.stopPropagation();
+        event.preventDefault();
+        return;
+      }
+
+      (_onMouseDownRef$curre = onMouseDownRef.current) === null || _onMouseDownRef$curre === void 0 ? void 0 : _onMouseDownRef$curre.call(onMouseDownRef, event);
+      if (event.defaultPrevented) return;
+      focusOnMouseDown === null || focusOnMouseDown === void 0 ? void 0 : focusOnMouseDown(event);
+    }, [options.disabled, focusOnMouseDown]);
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({
+      ref: Object(reakit_utils_useForkRef__WEBPACK_IMPORTED_MODULE_5__[/* useForkRef */ "a"])(ref, htmlRef),
+      style: style,
+      tabIndex: !trulyDisabled ? tabIndex : undefined,
+      disabled: trulyDisabled && nativeTabbable ? true : undefined,
+      "aria-disabled": options.disabled ? true : undefined,
+      onClick: onClick,
+      onMouseDown: onMouseDown
+    }, htmlProps);
+  }
+});
+var Tabbable = Object(reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__[/* createComponent */ "a"])({
+  as: "div",
+  useHook: useTabbable
+});
+
+
+
+
+/***/ }),
+/* 74 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SystemContext; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var SystemContext = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({});
+
+
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["htmlEntities"]; }());
+
+/***/ }),
+/* 76 */,
+/* 77 */,
+/* 78 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useCreateElement; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _SystemContext_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(74);
+/* harmony import */ var _rollupPluginBabelHelpers_0c84a174_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(54);
+
+
+
+
+function isRenderProp(children) {
+  return typeof children === "function";
+}
+
+/**
+ * Custom hook that will call `children` if it's a function. If
+ * `useCreateElement` has been passed to the context, it'll be used instead.
+ *
+ * @example
+ * import React from "react";
+ * import { SystemProvider, useCreateElement } from "reakit-system";
+ *
+ * const system = {
+ *   useCreateElement(type, props, children = props.children) {
+ *     // very similar to what `useCreateElement` does already
+ *     if (typeof children === "function") {
+ *       const { children: _, ...rest } = props;
+ *       return children(rest);
+ *     }
+ *     return React.createElement(type, props, children);
+ *   },
+ * };
+ *
+ * function Component(props) {
+ *   return useCreateElement("div", props);
+ * }
+ *
+ * function App() {
+ *   return (
+ *     <SystemProvider unstable_system={system}>
+ *       <Component url="url">{({ url }) => <a href={url}>link</a>}</Component>
+ *     </SystemProvider>
+ *   );
+ * }
+ */
+
+var useCreateElement = function useCreateElement(type, props, children) {
+  if (children === void 0) {
+    children = props.children;
+  }
+
+  var context = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_SystemContext_js__WEBPACK_IMPORTED_MODULE_1__[/* SystemContext */ "a"]);
+
+  if (context.useCreateElement) {
+    return context.useCreateElement(type, props, children);
+  }
+
+  if (typeof type === "string" && isRenderProp(children)) {
+    var _ = props.children,
+        rest = Object(_rollupPluginBabelHelpers_0c84a174_js__WEBPACK_IMPORTED_MODULE_2__[/* a */ "b"])(props, ["children"]);
+
+    return children(rest);
+  }
+
+  return /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["createElement"])(type, props, children);
+};
+
+
+
+
+/***/ }),
+/* 79 */,
+/* 80 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// UNUSED EXPORTS: warning, useWarning
+
+// EXTERNAL MODULE: ./node_modules/reakit-warning/es/warning.js
+var warning = __webpack_require__(106);
+
+// EXTERNAL MODULE: external {"this":"React"}
+var external_this_React_ = __webpack_require__(13);
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/isObject.js
+/**
+ * Checks whether `arg` is an object or not.
+ *
+ * @returns {boolean}
+ */
+function isObject(arg) {
+  return typeof arg === "object" && arg != null;
+}
+
+
+
+// CONCATENATED MODULE: ./node_modules/reakit-warning/es/useWarning.js
+
+
+
+
+
+function isRefObject(ref) {
+  return isObject(ref) && "current" in ref;
+}
+/**
+ * Logs `messages` to the console using `console.warn` based on a `condition`.
+ * This should be used inside components.
+ */
+
+
+function useWarning(condition) {
+  for (var _len = arguments.length, messages = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    messages[_key - 1] = arguments[_key];
+  }
+
+  if (false) {}
+}
+
+
+
+// CONCATENATED MODULE: ./node_modules/reakit-warning/es/index.js
+
+
+
+
+
+
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["viewport"]; }());
+
+/***/ }),
+/* 82 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createOnKeyDown; });
+/**
+ * Returns an `onKeyDown` handler to be passed to a component.
+ *
+ * @param options
+ */
+function createOnKeyDown(_temp) {
+  var _ref = _temp === void 0 ? {} : _temp,
+      keyMap = _ref.keyMap,
+      onKey = _ref.onKey,
+      stopPropagation = _ref.stopPropagation,
+      onKeyDown = _ref.onKeyDown,
+      _ref$shouldKeyDown = _ref.shouldKeyDown,
+      shouldKeyDown = _ref$shouldKeyDown === void 0 ? function () {
+    return true;
+  } : _ref$shouldKeyDown,
+      _ref$preventDefault = _ref.preventDefault,
+      preventDefault = _ref$preventDefault === void 0 ? true : _ref$preventDefault;
+
+  return function (event) {
+    if (!keyMap) return;
+    var finalKeyMap = typeof keyMap === "function" ? keyMap(event) : keyMap;
+    var shouldPreventDefault = typeof preventDefault === "function" ? preventDefault(event) : preventDefault;
+    var shouldStopPropagation = typeof stopPropagation === "function" ? stopPropagation(event) : stopPropagation;
+
+    if (event.key in finalKeyMap) {
+      var action = finalKeyMap[event.key];
+
+      if (typeof action === "function" && shouldKeyDown(event)) {
+        if (shouldPreventDefault) event.preventDefault();
+        if (shouldStopPropagation) event.stopPropagation();
+        if (onKey) onKey(event);
+        action(event); // Prevent onKeyDown from being called twice for the same keys
+
+        return;
+      }
+    }
+
+    if (onKeyDown && "current" in onKeyDown) {
+      var _onKeyDown$current;
+
+      (_onKeyDown$current = onKeyDown.current) === null || _onKeyDown$current === void 0 ? void 0 : _onKeyDown$current.call(onKeyDown, event);
+    } else {
+      onKeyDown === null || onKeyDown === void 0 ? void 0 : onKeyDown(event);
+    }
+  };
+}
+
+
+
+
+/***/ }),
+/* 83 */,
+/* 84 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Clickable */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useClickable; });
+/* harmony import */ var _rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
+/* harmony import */ var reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var reakit_utils_isButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(70);
+/* harmony import */ var reakit_warning__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(80);
+/* harmony import */ var reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(46);
+/* harmony import */ var reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(53);
+/* harmony import */ var _Tabbable_Tabbable_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(73);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function isNativeClick(event) {
+  var element = event.currentTarget;
+  if (!event.isTrusted) return false; // istanbul ignore next: can't test trusted events yet
+
+  return Object(reakit_utils_isButton__WEBPACK_IMPORTED_MODULE_4__[/* isButton */ "a"])(element) || element.tagName === "INPUT" || element.tagName === "TEXTAREA" || element.tagName === "A" || element.tagName === "SELECT";
+}
+
+var useClickable = Object(reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__[/* createHook */ "a"])({
+  name: "Clickable",
+  compose: _Tabbable_Tabbable_js__WEBPACK_IMPORTED_MODULE_8__[/* useTabbable */ "a"],
+  keys: ["unstable_clickOnEnter", "unstable_clickOnSpace"],
+  useOptions: function useOptions(_ref) {
+    var _ref$unstable_clickOn = _ref.unstable_clickOnEnter,
+        unstable_clickOnEnter = _ref$unstable_clickOn === void 0 ? true : _ref$unstable_clickOn,
+        _ref$unstable_clickOn2 = _ref.unstable_clickOnSpace,
+        unstable_clickOnSpace = _ref$unstable_clickOn2 === void 0 ? true : _ref$unstable_clickOn2,
+        options = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(_ref, ["unstable_clickOnEnter", "unstable_clickOnSpace"]);
+
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({
+      unstable_clickOnEnter: unstable_clickOnEnter,
+      unstable_clickOnSpace: unstable_clickOnSpace
+    }, options);
+  },
+  useProps: function useProps(options, _ref2) {
+    var htmlOnKeyDown = _ref2.onKeyDown,
+        htmlOnKeyUp = _ref2.onKeyUp,
+        htmlProps = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(_ref2, ["onKeyDown", "onKeyUp"]);
+
+    var _React$useState = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])(false),
+        active = _React$useState[0],
+        setActive = _React$useState[1];
+
+    var onKeyDownRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_6__[/* useLiveRef */ "a"])(htmlOnKeyDown);
+    var onKeyUpRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_6__[/* useLiveRef */ "a"])(htmlOnKeyUp);
+    var onKeyDown = Object(react__WEBPACK_IMPORTED_MODULE_3__["useCallback"])(function (event) {
+      var _onKeyDownRef$current;
+
+      (_onKeyDownRef$current = onKeyDownRef.current) === null || _onKeyDownRef$current === void 0 ? void 0 : _onKeyDownRef$current.call(onKeyDownRef, event);
+      if (event.defaultPrevented) return;
+      if (options.disabled) return;
+      if (event.metaKey) return;
+      if (!Object(reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_7__[/* isSelfTarget */ "a"])(event)) return;
+      var isEnter = options.unstable_clickOnEnter && event.key === "Enter";
+      var isSpace = options.unstable_clickOnSpace && event.key === " ";
+
+      if (isEnter || isSpace) {
+        if (isNativeClick(event)) return;
+        event.preventDefault();
+
+        if (isEnter) {
+          event.currentTarget.click();
+        } else if (isSpace) {
+          setActive(true);
+        }
+      }
+    }, [options.disabled, options.unstable_clickOnEnter, options.unstable_clickOnSpace]);
+    var onKeyUp = Object(react__WEBPACK_IMPORTED_MODULE_3__["useCallback"])(function (event) {
+      var _onKeyUpRef$current;
+
+      (_onKeyUpRef$current = onKeyUpRef.current) === null || _onKeyUpRef$current === void 0 ? void 0 : _onKeyUpRef$current.call(onKeyUpRef, event);
+      if (event.defaultPrevented) return;
+      if (options.disabled) return;
+      if (event.metaKey) return;
+      var isSpace = options.unstable_clickOnSpace && event.key === " ";
+
+      if (active && isSpace) {
+        setActive(false);
+        event.currentTarget.click();
+      }
+    }, [options.disabled, options.unstable_clickOnSpace, active]);
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({
+      "data-active": active || undefined,
+      onKeyDown: onKeyDown,
+      onKeyUp: onKeyUp
+    }, htmlProps);
+  }
+});
+var Clickable = Object(reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__[/* createComponent */ "a"])({
+  as: "button",
+  memo: true,
+  useHook: useClickable
+});
+
+
+
+
+/***/ }),
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export unstable_Id */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return unstable_useId; });
+/* harmony import */ var _rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
+/* harmony import */ var reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _IdProvider_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(68);
+/* harmony import */ var _IdState_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(65);
+
+
+
+
+
+
+
+
+var unstable_useId = Object(reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__[/* createHook */ "a"])({
+  useState: _IdState_js__WEBPACK_IMPORTED_MODULE_5__[/* unstable_useIdState */ "a"],
+  keys: ["id"],
+  useOptions: function useOptions(options, htmlProps) {
+    var generateId = Object(react__WEBPACK_IMPORTED_MODULE_3__["useContext"])(_IdProvider_js__WEBPACK_IMPORTED_MODULE_4__[/* unstable_IdContext */ "a"]);
+
+    var _React$useState = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])(function () {
+      // This comes from useIdState
+      if (options.unstable_idCountRef) {
+        options.unstable_idCountRef.current += 1;
+        return "-" + options.unstable_idCountRef.current;
+      } // If there's no useIdState, we check if `baseId` was passed (as a prop,
+      // not from useIdState).
+
+
+      if (options.baseId) {
+        return "-" + generateId("");
+      }
+
+      return "";
+    }),
+        suffix = _React$useState[0]; // `baseId` will be the prop passed directly as a prop or via useIdState.
+    // If there's neither, then it'll fallback to Context's generateId.
+    // This generateId can result in a sequential ID (if there's a Provider)
+    // or a random string (without Provider).
+
+
+    var baseId = Object(react__WEBPACK_IMPORTED_MODULE_3__["useMemo"])(function () {
+      return options.baseId || generateId();
+    }, [options.baseId, generateId]);
+    var id = htmlProps.id || options.id || "" + baseId + suffix;
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, options), {}, {
+      id: id
+    });
+  },
+  useProps: function useProps(options, htmlProps) {
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({
+      id: options.id
+    }, htmlProps);
+  }
+});
+var unstable_Id = Object(reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__[/* createComponent */ "a"])({
+  as: "div",
+  useHook: unstable_useId
+});
+
+
+
+
+/***/ }),
+/* 94 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return fireEvent; });
+/* harmony import */ var _createEvent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(122);
+
+
+
+/**
+ * Creates and dispatches `Event` in a way that also works on IE 11.
+ *
+ * @example
+ * import { fireEvent } from "reakit-utils";
+ *
+ * fireEvent(document.getElementById("id"), "blur", {
+ *   bubbles: true,
+ *   cancelable: true,
+ * });
+ */
+
+function fireEvent(element, type, eventInit) {
+  return element.dispatchEvent(Object(_createEvent_js__WEBPACK_IMPORTED_MODULE_0__[/* createEvent */ "a"])(element, type, eventInit));
+}
+
+
+
+
+/***/ }),
+/* 95 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isTextField; });
+/**
+ * Check whether the given element is a text field, where text field is defined
+ * by the ability to select within the input, or that it is contenteditable.
+ */
+function isTextField(element) {
+  try {
+    var isTextInput = element instanceof HTMLInputElement && element.selectionStart !== null;
+    var isTextArea = element.tagName === "TEXTAREA";
+    var isContentEditable = element.contentEditable === "true";
+    return isTextInput || isTextArea || isContentEditable || false;
+  } catch (error) {
+    // Safari throws an exception when trying to get `selectionStart`
+    // on non-text <input> elements (which, understandably, don't
+    // have the text selection API). We catch this via a try/catch
+    // block, as opposed to a more explicit check of the element's
+    // input types, because of Safari's non-standard behavior. This
+    // also means we don't have to worry about the list of input
+    // types that support `selectionStart` changing as the HTML spec
+    // evolves over time.
+    return false;
+  }
+}
+
+
+
+
+/***/ }),
+/* 96 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return setTextFieldValue; });
+function setTextFieldValue(element, value) {
+  element.value = value;
+}
+
+
+
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var TextareaAutosize_1 = __webpack_require__(172);
+exports["default"] = TextareaAutosize_1["default"];
+
+
+/***/ }),
+/* 98 */,
+/* 99 */,
+/* 100 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["notices"]; }());
+
+/***/ }),
+/* 101 */,
+/* 102 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ fireKeyboardEvent; });
+
+// EXTERNAL MODULE: ./node_modules/reakit-utils/es/getDocument.js
+var getDocument = __webpack_require__(47);
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/getDefaultView.js
+
+
+/**
+ * Returns `element.ownerDocument.defaultView || window`.
+ */
+
+function getDefaultView(element) {
+  return Object(getDocument["a" /* getDocument */])(element).defaultView || window;
+}
+
+
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/createKeyboardEvent.js
+
+
+
+/**
+ * Creates a `KeyboardEvent` in a way that also works on IE 11.
+ *
+ * @example
+ * import { createKeyboardEvent } from "reakit-utils";
+ *
+ * const el = document.getElementById("id");
+ * el.dispatchEvent(createKeyboardEvent(el, "keydown", { key: "ArrowDown" }));
+ */
+
+function createKeyboardEvent(element, type, eventInit) {
+  if (eventInit === void 0) {
+    eventInit = {};
+  }
+
+  if (typeof KeyboardEvent === "function") {
+    return new KeyboardEvent(type, eventInit);
+  } // IE 11 doesn't support Event constructors
+
+
+  var event = Object(getDocument["a" /* getDocument */])(element).createEvent("KeyboardEvent");
+  event.initKeyboardEvent(type, eventInit.bubbles, eventInit.cancelable, getDefaultView(element), eventInit.key, eventInit.location, eventInit.ctrlKey, eventInit.altKey, eventInit.shiftKey, eventInit.metaKey);
+  return event;
+}
+
+
+
+// CONCATENATED MODULE: ./node_modules/reakit-utils/es/fireKeyboardEvent.js
+
+
+
+
+/**
+ * Creates and dispatches `KeyboardEvent` in a way that also works on IE 11.
+ *
+ * @example
+ * import { fireKeyboardEvent } from "reakit-utils";
+ *
+ * fireKeyboardEvent(document.getElementById("id"), "keydown", {
+ *   key: "ArrowDown",
+ *   shiftKey: true,
+ * });
+ */
+
+function fireKeyboardEvent(element, type, eventInit) {
+  return element.dispatchEvent(createKeyboardEvent(element, type, eventInit));
+}
+
+
+
+
+/***/ }),
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export warning */
+
+
+/**
+ * Logs `messages` to the console using `console.warn` based on a `condition`.
+ *
+ * @example
+ * import { warning } from "reakit-warning";
+ *
+ * warning(true, "a", "b"); // console.warn("a", "\n", "b")
+ * warning(false, "a", "b"); // does nothing
+ */
+
+function warning(condition) {
+  if (false) { var warns, _len, messages, _key, _console; }
+}
+
+
+
+
+/***/ }),
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -163,8 +5585,9 @@ module.exports = refx;
 
 
 /***/ }),
-
-/***/ 108:
+/* 111 */,
+/* 112 */,
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -174,12 +5597,12 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var _extends = _interopDefault(__webpack_require__(164));
-var _objectWithoutPropertiesLoose = _interopDefault(__webpack_require__(165));
-var React = __webpack_require__(16);
+var _extends = _interopDefault(__webpack_require__(169));
+var _objectWithoutPropertiesLoose = _interopDefault(__webpack_require__(170));
+var React = __webpack_require__(13);
 var React__default = _interopDefault(React);
-var _inheritsLoose = _interopDefault(__webpack_require__(139));
-var _assertThisInitialized = _interopDefault(__webpack_require__(166));
+var _inheritsLoose = _interopDefault(__webpack_require__(145));
+var _assertThisInitialized = _interopDefault(__webpack_require__(171));
 
 var is = {
   arr: Array.isArray,
@@ -2494,158 +7917,807 @@ exports.useSprings = useSprings;
 
 
 /***/ }),
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/***/ 11:
-/***/ (function(module, exports, __webpack_require__) {
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Composite; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useComposite; });
+/* harmony import */ var _rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
+/* harmony import */ var reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48);
+/* harmony import */ var _Box_Box_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(67);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var reakit_utils_useForkRef__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(63);
+/* harmony import */ var reakit_warning__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(80);
+/* harmony import */ var reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(46);
+/* harmony import */ var reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(53);
+/* harmony import */ var reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(56);
+/* harmony import */ var _Tabbable_Tabbable_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(73);
+/* harmony import */ var reakit_system_useCreateElement__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(78);
+/* harmony import */ var reakit_utils_createOnKeyDown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(82);
+/* harmony import */ var reakit_utils_getDocument__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(47);
+/* harmony import */ var reakit_utils_fireEvent__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(94);
+/* harmony import */ var reakit_utils_fireKeyboardEvent__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(102);
+/* harmony import */ var _CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(50);
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2017 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
-*/
-/* global define */
 
-(function () {
-	'use strict';
 
-	var hasOwn = {}.hasOwnProperty;
 
-	function classNames () {
-		var classes = [];
 
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
 
-			var argType = typeof arg;
 
-			if (argType === 'string' || argType === 'number') {
-				classes.push(arg);
-			} else if (Array.isArray(arg) && arg.length) {
-				var inner = classNames.apply(null, arg);
-				if (inner) {
-					classes.push(inner);
-				}
-			} else if (argType === 'object') {
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(key);
-					}
-				}
-			}
-		}
 
-		return classes.join(' ');
-	}
 
-	if ( true && module.exports) {
-		classNames.default = classNames;
-		module.exports = classNames;
-	} else if (true) {
-		// register as 'classnames', consistent with npm package name
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
-			return classNames;
-		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {}
-}());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var isIE11 = typeof window !== "undefined" && "msCrypto" in window;
+function getNextActiveElementOnBlur(event) {
+  // IE 11 doesn't support event.relatedTarget on blur.
+  // document.activeElement points the the next active element.
+  // On modern browsers, document.activeElement points to the current target.
+  if (isIE11) {
+    var activeElement = Object(reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_9__[/* getActiveElement */ "a"])(event.target);
+    return activeElement;
+  }
+
+  return event.relatedTarget;
+}
+
+var validCompositeRoles = ["combobox", "grid", "tablist", "listbox", "menu", "menubar", "toolbar", "radiogroup", "tree", "treegrid"];
+var isIE11$1 = typeof window !== "undefined" && "msCrypto" in window;
+
+function canProxyKeyboardEvent(event) {
+  if (!Object(reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_8__[/* isSelfTarget */ "a"])(event)) return false;
+  if (event.metaKey) return false;
+  if (event.key === "Tab") return false;
+  return true;
+}
+
+function useKeyboardEventProxy(virtual, currentItem, htmlEventHandler) {
+  var eventHandlerRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_7__[/* useLiveRef */ "a"])(htmlEventHandler);
+  return Object(react__WEBPACK_IMPORTED_MODULE_4__["useCallback"])(function (event) {
+    var _eventHandlerRef$curr;
+
+    if (virtual && canProxyKeyboardEvent(event)) {
+      var currentElement = currentItem === null || currentItem === void 0 ? void 0 : currentItem.ref.current;
+
+      if (currentElement) {
+        Object(reakit_utils_fireKeyboardEvent__WEBPACK_IMPORTED_MODULE_15__[/* fireKeyboardEvent */ "a"])(currentElement, event.type, event); // The event will be triggered on the composite item and then
+        // propagated up to this composite element again, so we can pretend
+        // that it wasn't called on this component in the first place.
+
+        if (event.currentTarget.contains(currentElement)) {
+          event.stopPropagation();
+          event.preventDefault();
+          return;
+        }
+      }
+    }
+
+    (_eventHandlerRef$curr = eventHandlerRef.current) === null || _eventHandlerRef$curr === void 0 ? void 0 : _eventHandlerRef$curr.call(eventHandlerRef, event);
+  }, [virtual, currentItem]);
+} // istanbul ignore next
+
+
+function useActiveElementRef(elementRef) {
+  var activeElementRef = Object(react__WEBPACK_IMPORTED_MODULE_4__["useRef"])(null);
+  Object(react__WEBPACK_IMPORTED_MODULE_4__["useEffect"])(function () {
+    var document = Object(reakit_utils_getDocument__WEBPACK_IMPORTED_MODULE_13__[/* getDocument */ "a"])(elementRef.current);
+
+    var onFocus = function onFocus(event) {
+      var target = event.target;
+      activeElementRef.current = target;
+    };
+
+    document.addEventListener("focus", onFocus, true);
+    return function () {
+      document.removeEventListener("focus", onFocus, true);
+    };
+  }, []);
+  return activeElementRef;
+}
+
+function findFirstEnabledItemInTheLastRow(items) {
+  return Object(_CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_16__["a"])(Object(_CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_16__["b"])(Object(_CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_16__[/* r */ "f"])(Object(_CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_16__["c"])(items))));
+}
+
+function isItem(items, element) {
+  return items === null || items === void 0 ? void 0 : items.some(function (item) {
+    return !!element && item.ref.current === element;
+  });
+}
+
+var useComposite = Object(reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__[/* createHook */ "a"])({
+  name: "Composite",
+  compose: [_Tabbable_Tabbable_js__WEBPACK_IMPORTED_MODULE_10__[/* useTabbable */ "a"]],
+  useState: _CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_16__[/* u */ "g"],
+  useOptions: function useOptions(options) {
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, options), {}, {
+      currentId: Object(_CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_16__[/* g */ "e"])(options)
+    });
+  },
+  useProps: function useProps(options, _ref) {
+    var htmlRef = _ref.ref,
+        htmlOnFocus = _ref.onFocus,
+        htmlOnBlur = _ref.onBlur,
+        htmlOnKeyDown = _ref.onKeyDown,
+        htmlOnKeyUp = _ref.onKeyUp,
+        htmlProps = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(_ref, ["ref", "onFocus", "onBlur", "onKeyDown", "onKeyUp"]);
+
+    var ref = Object(react__WEBPACK_IMPORTED_MODULE_4__["useRef"])(null);
+    var currentItem = Object(_CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_16__[/* f */ "d"])(options.items, options.currentId);
+    var previousItem = Object(react__WEBPACK_IMPORTED_MODULE_4__["useRef"])(undefined);
+    var onFocusRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_7__[/* useLiveRef */ "a"])(htmlOnFocus);
+    var onBlurRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_7__[/* useLiveRef */ "a"])(htmlOnBlur); // IE 11 doesn't support event.relatedTarget, so we use the active element
+    // ref instead.
+
+    var activeElementRef = isIE11$1 ? useActiveElementRef(ref) : undefined;
+    Object(react__WEBPACK_IMPORTED_MODULE_4__["useEffect"])(function () {
+      var element = ref.current;
+
+      if (!element) {
+         false ? undefined : void 0;
+        return;
+      }
+
+      if (options.unstable_moves && !currentItem) {
+        // If composite.move(null) has been called, the composite container
+        // will receive focus.
+        element.focus();
+      }
+    }, [options.unstable_moves, currentItem]);
+    var onKeyDown = useKeyboardEventProxy(options.unstable_virtual, currentItem, htmlOnKeyDown);
+    var onKeyUp = useKeyboardEventProxy(options.unstable_virtual, currentItem, htmlOnKeyUp);
+    var onFocus = Object(react__WEBPACK_IMPORTED_MODULE_4__["useCallback"])(function (event) {
+      var _onFocusRef$current2;
+
+      if (options.unstable_virtual) {
+        // IE11 doesn't support event.relatedTarget, so we use the active
+        // element ref instead.
+        var previousActiveElement = (activeElementRef === null || activeElementRef === void 0 ? void 0 : activeElementRef.current) || event.relatedTarget;
+        var previousActiveElementWasItem = isItem(options.items, previousActiveElement);
+
+        if (Object(reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_8__[/* isSelfTarget */ "a"])(event) && !previousActiveElementWasItem) {
+          var _onFocusRef$current, _currentItem$ref$curr;
+
+          // This means that the composite element has been focused while the
+          // composite item has not. For example, by clicking on the
+          // composite element without touching any item, or by tabbing into
+          // the composite element. In this case, we want to trigger focus on
+          // the item, just like it would happen with roving tabindex.
+          // When it receives focus, the composite item will put focus back
+          // on the composite element, in which case hasItemWithFocus will be
+          // true.
+          (_onFocusRef$current = onFocusRef.current) === null || _onFocusRef$current === void 0 ? void 0 : _onFocusRef$current.call(onFocusRef, event);
+          currentItem === null || currentItem === void 0 ? void 0 : (_currentItem$ref$curr = currentItem.ref.current) === null || _currentItem$ref$curr === void 0 ? void 0 : _currentItem$ref$curr.focus();
+          return;
+        }
+
+        if (previousActiveElementWasItem) {
+          // Composite has been focused as a result of an item receiving
+          // focus. The composite item will move focus back to the composite
+          // container. In this case, we don't want to propagate this
+          // additional event nor call the onFocus handler passed to
+          // <Composite onFocus={...} /> (htmlOnFocus). Unless users add DOM
+          // event handlers to the composite element directly, this will be
+          // like this event has never existed.
+          event.stopPropagation();
+          return;
+        }
+      } else if (Object(reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_8__[/* isSelfTarget */ "a"])(event)) {
+        var _options$setCurrentId;
+
+        // When the roving tabindex composite gets intentionally focused (for
+        // example, by clicking directly on it, and not on an item), we make
+        // sure to set the current id to null (which means the composite
+        // itself is focused).
+        (_options$setCurrentId = options.setCurrentId) === null || _options$setCurrentId === void 0 ? void 0 : _options$setCurrentId.call(options, null);
+      }
+
+      (_onFocusRef$current2 = onFocusRef.current) === null || _onFocusRef$current2 === void 0 ? void 0 : _onFocusRef$current2.call(onFocusRef, event);
+    }, [options.unstable_virtual, options.items, currentItem, options.setCurrentId]);
+    var onBlur = Object(react__WEBPACK_IMPORTED_MODULE_4__["useCallback"])(function (event) {
+      var _onBlurRef$current;
+
+      // When virtual is set to true, we move focus from the composite
+      // container (this component) to the composite item that is being
+      // selected. Then we move focus back to the composite container. This
+      // is so we can provide the same API as the roving tabindex method,
+      // which means people can attach onFocus/onBlur handlers on the
+      // CompositeItem component regardless of whether it's virtual or not.
+      // This sequence of blurring and focusing items and composite may be
+      // confusing, so we ignore intermediate focus and blurs by stopping its
+      // propagation and not calling the passed onBlur handler (htmlOnBlur).
+      if (options.unstable_virtual) {
+        var targetIsItem = isItem(options.items, event.target);
+        var nextActiveElement = getNextActiveElementOnBlur(event);
+        var nextActiveElementIsItem = isItem(options.items, nextActiveElement);
+
+        if (Object(reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_8__[/* isSelfTarget */ "a"])(event) && nextActiveElementIsItem) {
+          var _previousItem$current;
+
+          // This is an intermediate blur event: blurring the composite
+          // container to focus an item (nextActiveElement). We ignore this
+          // event.
+          if ((_previousItem$current = previousItem.current) === null || _previousItem$current === void 0 ? void 0 : _previousItem$current.ref.current) {
+            // If there's a previous active item we fire a blur event on it
+            // so it will work just like if it had DOM focus before (like when
+            // using roving tabindex).
+            Object(reakit_utils_fireEvent__WEBPACK_IMPORTED_MODULE_14__[/* fireEvent */ "a"])(previousItem.current.ref.current, "blur", event);
+          }
+
+          previousItem.current = currentItem;
+          event.stopPropagation();
+          return;
+        }
+
+        if (!targetIsItem) {
+          // If target is another thing (probably something outside of the
+          // composite container), we don't ignore the event, but we should
+          // reset the previousItem reference.
+          if (currentItem === null || currentItem === void 0 ? void 0 : currentItem.ref.current) {
+            Object(reakit_utils_fireEvent__WEBPACK_IMPORTED_MODULE_14__[/* fireEvent */ "a"])(currentItem.ref.current, "blur", event);
+          }
+
+          previousItem.current = undefined;
+        } else {
+          previousItem.current = currentItem;
+        }
+      }
+
+      (_onBlurRef$current = onBlurRef.current) === null || _onBlurRef$current === void 0 ? void 0 : _onBlurRef$current.call(onBlurRef, event);
+    }, [options.unstable_virtual, options.items, currentItem]);
+    var onMove = Object(react__WEBPACK_IMPORTED_MODULE_4__["useMemo"])(function () {
+      return Object(reakit_utils_createOnKeyDown__WEBPACK_IMPORTED_MODULE_12__[/* createOnKeyDown */ "a"])({
+        onKeyDown: onKeyDown,
+        stopPropagation: true,
+        shouldKeyDown: function shouldKeyDown(event) {
+          return Object(reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_8__[/* isSelfTarget */ "a"])(event) && options.currentId === null;
+        },
+        keyMap: function keyMap() {
+          var _options$groups;
+
+          var isVertical = options.orientation !== "horizontal";
+          var isHorizontal = options.orientation !== "vertical";
+          var isGrid = !!((_options$groups = options.groups) === null || _options$groups === void 0 ? void 0 : _options$groups.length);
+
+          var up = function up() {
+            if (isGrid) {
+              var item = findFirstEnabledItemInTheLastRow(options.items);
+
+              if (item === null || item === void 0 ? void 0 : item.id) {
+                var _options$move;
+
+                (_options$move = options.move) === null || _options$move === void 0 ? void 0 : _options$move.call(options, item.id);
+              }
+            } else {
+              var _options$last;
+
+              (_options$last = options.last) === null || _options$last === void 0 ? void 0 : _options$last.call(options);
+            }
+          };
+
+          var first = options.first && function () {
+            return options.first();
+          };
+
+          var last = options.last && function () {
+            return options.last();
+          };
+
+          return {
+            ArrowUp: (isGrid || isVertical) && up,
+            ArrowRight: (isGrid || isHorizontal) && first,
+            ArrowDown: (isGrid || isVertical) && first,
+            ArrowLeft: (isGrid || isHorizontal) && last,
+            Home: first,
+            End: last,
+            PageUp: first,
+            PageDown: last
+          };
+        }
+      });
+    }, [onKeyDown, options.currentId, options.orientation, options.groups, options.items, options.move, options.last, options.first]);
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({
+      ref: Object(reakit_utils_useForkRef__WEBPACK_IMPORTED_MODULE_5__[/* useForkRef */ "a"])(ref, htmlRef),
+      id: options.baseId,
+      onFocus: onFocus,
+      onBlur: onBlur,
+      onKeyDown: onMove,
+      onKeyUp: onKeyUp,
+      "aria-activedescendant": options.unstable_virtual ? (currentItem === null || currentItem === void 0 ? void 0 : currentItem.id) || undefined : undefined
+    }, htmlProps);
+  },
+  useComposeProps: function useComposeProps(options, htmlProps) {
+    htmlProps = Object(_Box_Box_js__WEBPACK_IMPORTED_MODULE_3__[/* useBox */ "a"])(options, htmlProps, true);
+    var tabbableHTMLProps = Object(_Tabbable_Tabbable_js__WEBPACK_IMPORTED_MODULE_10__[/* useTabbable */ "a"])(options, htmlProps, true);
+
+    if (options.unstable_virtual || options.currentId === null) {
+      // Composite will only be tabbable by default if the focus is managed
+      // using aria-activedescendant, which requires DOM focus on the container
+      // element (the composite)
+      return tabbableHTMLProps;
+    }
+
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, htmlProps), {}, {
+      ref: tabbableHTMLProps.ref
+    });
+  }
+});
+var Composite = Object(reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__[/* createComponent */ "a"])({
+  as: "div",
+  useHook: useComposite,
+  useCreateElement: function useCreateElement$1(type, props, children) {
+     false ? undefined : void 0;
+     false ? undefined : void 0;
+    return Object(reakit_system_useCreateElement__WEBPACK_IMPORTED_MODULE_11__[/* useCreateElement */ "a"])(type, props, children);
+  }
+});
+
+
 
 
 /***/ }),
+/* 120 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/***/ 117:
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompositeItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useCompositeItem; });
+/* harmony import */ var _rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
+/* harmony import */ var reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var reakit_utils_useForkRef__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(63);
+/* harmony import */ var reakit_warning__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(80);
+/* harmony import */ var reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(46);
+/* harmony import */ var reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(53);
+/* harmony import */ var reakit_utils_hasFocusWithin__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(69);
+/* harmony import */ var reakit_utils_isPortalEvent__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(72);
+/* harmony import */ var reakit_utils_tabbable__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(71);
+/* harmony import */ var _Clickable_Clickable_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(84);
+/* harmony import */ var reakit_utils_createOnKeyDown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(82);
+/* harmony import */ var reakit_utils_getDocument__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(47);
+/* harmony import */ var _CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(50);
+/* harmony import */ var _Id_Id_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(93);
+/* harmony import */ var reakit_utils_isTextField__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(95);
+/* harmony import */ var _setTextFieldValue_78ab5d56_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(96);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function getWidget(itemElement) {
+  return itemElement.querySelector("[data-composite-item-widget]");
+}
+
+function useItem(options) {
+  return Object(react__WEBPACK_IMPORTED_MODULE_3__["useMemo"])(function () {
+    var _options$items;
+
+    return (_options$items = options.items) === null || _options$items === void 0 ? void 0 : _options$items.find(function (item) {
+      return options.id && item.id === options.id;
+    });
+  }, [options.items, options.id]);
+}
+
+function targetIsAnotherItem(event, items) {
+  if (Object(reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_7__[/* isSelfTarget */ "a"])(event)) return false;
+
+  for (var _iterator = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* b */ "c"])(items), _step; !(_step = _iterator()).done;) {
+    var item = _step.value;
+
+    if (item.ref.current === event.target) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+var useCompositeItem = Object(reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__[/* createHook */ "a"])({
+  name: "CompositeItem",
+  compose: [_Clickable_Clickable_js__WEBPACK_IMPORTED_MODULE_11__[/* useClickable */ "a"], _Id_Id_js__WEBPACK_IMPORTED_MODULE_15__[/* unstable_useId */ "a"]],
+  useState: _CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_14__[/* u */ "g"],
+  propsAreEqual: function propsAreEqual(prev, next) {
+    if (!next.id || prev.id !== next.id) {
+      return _Clickable_Clickable_js__WEBPACK_IMPORTED_MODULE_11__[/* useClickable */ "a"].unstable_propsAreEqual(prev, next);
+    }
+
+    var prevCurrentId = prev.currentId,
+        prevMoves = prev.unstable_moves,
+        prevProps = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(prev, ["currentId", "unstable_moves"]);
+
+    var nextCurrentId = next.currentId,
+        nextMoves = next.unstable_moves,
+        nextProps = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(next, ["currentId", "unstable_moves"]);
+
+    if (nextCurrentId !== prevCurrentId) {
+      if (next.id === nextCurrentId || next.id === prevCurrentId) {
+        return false;
+      }
+    } else if (prevMoves !== nextMoves) {
+      return false;
+    }
+
+    return _Clickable_Clickable_js__WEBPACK_IMPORTED_MODULE_11__[/* useClickable */ "a"].unstable_propsAreEqual(prevProps, nextProps);
+  },
+  useOptions: function useOptions(options) {
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])(Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({}, options), {}, {
+      id: options.id,
+      currentId: Object(_CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_14__[/* g */ "e"])(options),
+      unstable_clickOnSpace: options.unstable_hasActiveWidget ? false : options.unstable_clickOnSpace
+    });
+  },
+  useProps: function useProps(options, _ref) {
+    var _options$items2;
+
+    var htmlRef = _ref.ref,
+        _ref$tabIndex = _ref.tabIndex,
+        htmlTabIndex = _ref$tabIndex === void 0 ? 0 : _ref$tabIndex,
+        htmlOnFocus = _ref.onFocus,
+        htmlOnBlur = _ref.onBlur,
+        htmlOnKeyDown = _ref.onKeyDown,
+        htmlOnClick = _ref.onClick,
+        htmlProps = Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* _ */ "a"])(_ref, ["ref", "tabIndex", "onFocus", "onBlur", "onKeyDown", "onClick"]);
+
+    var ref = Object(react__WEBPACK_IMPORTED_MODULE_3__["useRef"])(null);
+    var id = options.id;
+    var trulyDisabled = options.disabled && !options.focusable;
+    var isCurrentItem = options.currentId === id;
+    var isCurrentItemRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_6__[/* useLiveRef */ "a"])(isCurrentItem);
+    var hasFocusedComposite = Object(react__WEBPACK_IMPORTED_MODULE_3__["useRef"])(false);
+    var item = useItem(options);
+    var onFocusRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_6__[/* useLiveRef */ "a"])(htmlOnFocus);
+    var onBlurRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_6__[/* useLiveRef */ "a"])(htmlOnBlur);
+    var onKeyDownRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_6__[/* useLiveRef */ "a"])(htmlOnKeyDown);
+    var onClickRef = Object(reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_6__[/* useLiveRef */ "a"])(htmlOnClick);
+    var shouldTabIndex = !options.unstable_virtual && !options.unstable_hasActiveWidget && isCurrentItem || // We don't want to set tabIndex="-1" when using CompositeItem as a
+    // standalone component, without state props.
+    !((_options$items2 = options.items) === null || _options$items2 === void 0 ? void 0 : _options$items2.length);
+    Object(react__WEBPACK_IMPORTED_MODULE_3__["useEffect"])(function () {
+      var _options$registerItem;
+
+      if (!id) return undefined;
+      (_options$registerItem = options.registerItem) === null || _options$registerItem === void 0 ? void 0 : _options$registerItem.call(options, {
+        id: id,
+        ref: ref,
+        disabled: !!trulyDisabled
+      });
+      return function () {
+        var _options$unregisterIt;
+
+        (_options$unregisterIt = options.unregisterItem) === null || _options$unregisterIt === void 0 ? void 0 : _options$unregisterIt.call(options, id);
+      };
+    }, [id, trulyDisabled, options.registerItem, options.unregisterItem]);
+    Object(react__WEBPACK_IMPORTED_MODULE_3__["useEffect"])(function () {
+      var element = ref.current;
+
+      if (!element) {
+         false ? undefined : void 0;
+        return;
+      } // `moves` will be incremented whenever next, previous, up, down, first,
+      // last or move have been called. This means that the composite item will
+      // be focused whenever some of these functions are called. We're using
+      // isCurrentItemRef instead of isCurrentItem because we don't want to
+      // focus the item if isCurrentItem changes (and options.moves doesn't).
+
+
+      if (options.unstable_moves && isCurrentItemRef.current) {
+        element.focus();
+      }
+    }, [options.unstable_moves]);
+    var onFocus = Object(react__WEBPACK_IMPORTED_MODULE_3__["useCallback"])(function (event) {
+      var _onFocusRef$current, _options$setCurrentId;
+
+      (_onFocusRef$current = onFocusRef.current) === null || _onFocusRef$current === void 0 ? void 0 : _onFocusRef$current.call(onFocusRef, event);
+      if (event.defaultPrevented) return;
+      if (Object(reakit_utils_isPortalEvent__WEBPACK_IMPORTED_MODULE_9__[/* isPortalEvent */ "a"])(event)) return;
+      if (!id) return;
+      if (targetIsAnotherItem(event, options.items)) return;
+      (_options$setCurrentId = options.setCurrentId) === null || _options$setCurrentId === void 0 ? void 0 : _options$setCurrentId.call(options, id); // When using aria-activedescendant, we want to make sure that the
+      // composite container receives focus, not the composite item.
+      // But we don't want to do this if the target is another focusable
+      // element inside the composite item, such as CompositeItemWidget.
+
+      if (options.unstable_virtual && options.baseId && Object(reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_7__[/* isSelfTarget */ "a"])(event)) {
+        var target = event.target;
+        var composite = Object(reakit_utils_getDocument__WEBPACK_IMPORTED_MODULE_13__[/* getDocument */ "a"])(target).getElementById(options.baseId);
+
+        if (composite) {
+          hasFocusedComposite.current = true;
+          Object(reakit_utils_tabbable__WEBPACK_IMPORTED_MODULE_10__[/* ensureFocus */ "a"])(composite);
+        }
+      }
+    }, [id, options.items, options.setCurrentId, options.unstable_virtual, options.baseId]);
+    var onBlur = Object(react__WEBPACK_IMPORTED_MODULE_3__["useCallback"])(function (event) {
+      var _onBlurRef$current;
+
+      if (options.unstable_virtual) {
+        if (hasFocusedComposite.current) {
+          // When hasFocusedComposite is true, composite has been focused
+          // right after focusing this item. This is an intermediate blur
+          // event, so we ignore it.
+          hasFocusedComposite.current = false;
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+
+      (_onBlurRef$current = onBlurRef.current) === null || _onBlurRef$current === void 0 ? void 0 : _onBlurRef$current.call(onBlurRef, event);
+    }, [options.unstable_virtual]);
+    var onCharacterKeyDown = Object(react__WEBPACK_IMPORTED_MODULE_3__["useCallback"])(function (event) {
+      var _onKeyDownRef$current;
+
+      (_onKeyDownRef$current = onKeyDownRef.current) === null || _onKeyDownRef$current === void 0 ? void 0 : _onKeyDownRef$current.call(onKeyDownRef, event);
+      if (!Object(reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_7__[/* isSelfTarget */ "a"])(event)) return;
+
+      if (event.key.length === 1 && event.key !== " ") {
+        var widget = getWidget(event.currentTarget);
+
+        if (widget && Object(reakit_utils_isTextField__WEBPACK_IMPORTED_MODULE_16__[/* isTextField */ "a"])(widget)) {
+          widget.focus();
+          var key = event.key; // Using RAF here because otherwise the key will be added twice
+          // to the input when using roving tabindex
+
+          window.requestAnimationFrame(function () {
+            Object(_setTextFieldValue_78ab5d56_js__WEBPACK_IMPORTED_MODULE_17__[/* s */ "a"])(widget, key);
+          });
+        }
+      }
+    }, []);
+    var onKeyDown = Object(react__WEBPACK_IMPORTED_MODULE_3__["useMemo"])(function () {
+      return Object(reakit_utils_createOnKeyDown__WEBPACK_IMPORTED_MODULE_12__[/* createOnKeyDown */ "a"])({
+        onKeyDown: onCharacterKeyDown,
+        stopPropagation: true,
+        // We don't want to listen to focusable elements inside the composite
+        // item, such as a CompositeItemWidget.
+        shouldKeyDown: reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_7__[/* isSelfTarget */ "a"],
+        keyMap: function keyMap() {
+          // `options.orientation` can also be undefined, which means that
+          // both `isVertical` and `isHorizontal` will be `true`.
+          var isVertical = options.orientation !== "horizontal";
+          var isHorizontal = options.orientation !== "vertical";
+          var isGrid = !!(item === null || item === void 0 ? void 0 : item.groupId);
+
+          var Delete = function Delete(event) {
+            var widget = getWidget(event.currentTarget);
+
+            if (widget && Object(reakit_utils_isTextField__WEBPACK_IMPORTED_MODULE_16__[/* isTextField */ "a"])(widget)) {
+              Object(_setTextFieldValue_78ab5d56_js__WEBPACK_IMPORTED_MODULE_17__[/* s */ "a"])(widget, "");
+            }
+          };
+
+          var up = options.up && function () {
+            return options.up();
+          };
+
+          var next = options.next && function () {
+            return options.next();
+          };
+
+          var down = options.down && function () {
+            return options.down();
+          };
+
+          var previous = options.previous && function () {
+            return options.previous();
+          };
+
+          return {
+            Delete: Delete,
+            Backspace: Delete,
+            ArrowUp: (isGrid || isVertical) && up,
+            ArrowRight: (isGrid || isHorizontal) && next,
+            ArrowDown: (isGrid || isVertical) && down,
+            ArrowLeft: (isGrid || isHorizontal) && previous,
+            Home: function Home(event) {
+              if (!isGrid || event.ctrlKey) {
+                var _options$first;
+
+                (_options$first = options.first) === null || _options$first === void 0 ? void 0 : _options$first.call(options);
+              } else {
+                var _options$previous;
+
+                (_options$previous = options.previous) === null || _options$previous === void 0 ? void 0 : _options$previous.call(options, true);
+              }
+            },
+            End: function End(event) {
+              if (!isGrid || event.ctrlKey) {
+                var _options$last;
+
+                (_options$last = options.last) === null || _options$last === void 0 ? void 0 : _options$last.call(options);
+              } else {
+                var _options$next;
+
+                (_options$next = options.next) === null || _options$next === void 0 ? void 0 : _options$next.call(options, true);
+              }
+            },
+            PageUp: function PageUp() {
+              if (isGrid) {
+                var _options$up;
+
+                (_options$up = options.up) === null || _options$up === void 0 ? void 0 : _options$up.call(options, true);
+              } else {
+                var _options$first2;
+
+                (_options$first2 = options.first) === null || _options$first2 === void 0 ? void 0 : _options$first2.call(options);
+              }
+            },
+            PageDown: function PageDown() {
+              if (isGrid) {
+                var _options$down;
+
+                (_options$down = options.down) === null || _options$down === void 0 ? void 0 : _options$down.call(options, true);
+              } else {
+                var _options$last2;
+
+                (_options$last2 = options.last) === null || _options$last2 === void 0 ? void 0 : _options$last2.call(options);
+              }
+            }
+          };
+        }
+      });
+    }, [onCharacterKeyDown, options.orientation, item, options.up, options.next, options.down, options.previous, options.first, options.last]);
+    var onClick = Object(react__WEBPACK_IMPORTED_MODULE_3__["useCallback"])(function (event) {
+      var _onClickRef$current;
+
+      (_onClickRef$current = onClickRef.current) === null || _onClickRef$current === void 0 ? void 0 : _onClickRef$current.call(onClickRef, event);
+      if (event.defaultPrevented) return;
+      var element = event.currentTarget;
+      var widget = getWidget(element);
+
+      if (widget && !Object(reakit_utils_hasFocusWithin__WEBPACK_IMPORTED_MODULE_8__[/* hasFocusWithin */ "a"])(widget)) {
+        // If there's a widget inside the composite item, we make sure it's
+        // focused when pressing enter, space or clicking on the composite item.
+        widget.focus();
+      }
+    }, []);
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__[/* a */ "b"])({
+      ref: Object(reakit_utils_useForkRef__WEBPACK_IMPORTED_MODULE_4__[/* useForkRef */ "a"])(ref, htmlRef),
+      id: id,
+      tabIndex: shouldTabIndex ? htmlTabIndex : -1,
+      "aria-selected": options.unstable_virtual && isCurrentItem ? true : undefined,
+      onFocus: onFocus,
+      onBlur: onBlur,
+      onKeyDown: onKeyDown,
+      onClick: onClick
+    }, htmlProps);
+  }
+});
+var CompositeItem = Object(reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__[/* createComponent */ "a"])({
+  as: "button",
+  memo: true,
+  useHook: useCompositeItem
+});
+
+
+
+
+/***/ }),
+/* 121 */,
+/* 122 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createEvent; });
+/* harmony import */ var _getDocument_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(47);
+
+
+/**
+ * Creates an `Event` in a way that also works on IE 11.
+ *
+ * @example
+ * import { createEvent } from "reakit-utils";
+ *
+ * const el = document.getElementById("id");
+ * el.dispatchEvent(createEvent(el, "blur", { bubbles: false }));
+ */
+
+function createEvent(element, type, eventInit) {
+  var _eventInit, _eventInit2;
+
+  if (eventInit === void 0) {
+    eventInit = {};
+  }
+
+  if (typeof Event === "function") {
+    return new Event(type, eventInit);
+  } // IE 11 doesn't support Event constructors
+
+
+  var event = Object(_getDocument_js__WEBPACK_IMPORTED_MODULE_0__[/* getDocument */ "a"])(element).createEvent("Event");
+  event.initEvent(type, (_eventInit = eventInit) === null || _eventInit === void 0 ? void 0 : _eventInit.bubbles, (_eventInit2 = eventInit) === null || _eventInit2 === void 0 ? void 0 : _eventInit2.cancelable);
+  return event;
+}
+
+
+
+
+/***/ }),
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(172);
+module.exports = __webpack_require__(177);
 
 /***/ }),
-
-/***/ 119:
+/* 124 */,
+/* 125 */
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["shortcode"]; }());
 
 /***/ }),
-
-/***/ 12:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(38);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(29);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(39);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
-}
-
-/***/ }),
-
-/***/ 131:
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
 
@@ -2692,8 +8764,7 @@ function Icon(_ref) {
 
 
 /***/ }),
-
-/***/ 132:
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2706,7 +8777,7 @@ function Icon(_ref) {
 
 
 
-var ReactPropTypesSecret = __webpack_require__(133);
+var ReactPropTypesSecret = __webpack_require__(139);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -2764,8 +8835,7 @@ module.exports = function() {
 
 
 /***/ }),
-
-/***/ 133:
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2784,8 +8854,12 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-
-/***/ 139:
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */
 /***/ (function(module, exports) {
 
 function _inheritsLoose(subClass, superClass) {
@@ -2797,36 +8871,7 @@ function _inheritsLoose(subClass, superClass) {
 module.exports = _inheritsLoose;
 
 /***/ }),
-
-/***/ 14:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
-
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
-  var key, i;
-
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 140:
+/* 146 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2844,22 +8889,23 @@ function _toArray(arr) {
 }
 
 /***/ }),
-
-/***/ 141:
+/* 147 */
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["wordcount"]; }());
 
 /***/ }),
-
-/***/ 146:
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["tokenList"]; }());
 
 /***/ }),
-
-/***/ 147:
+/* 153 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2883,8 +8929,7 @@ var close = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElemen
 
 
 /***/ }),
-
-/***/ 148:
+/* 154 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2908,22 +8953,16 @@ var check = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElemen
 
 
 /***/ }),
-
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-/***/ }),
-
-/***/ 159:
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -2956,15 +8995,11 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-
-/***/ 16:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["React"]; }());
-
-/***/ }),
-
-/***/ 164:
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */
 /***/ (function(module, exports) {
 
 function _extends() {
@@ -2988,8 +9023,7 @@ function _extends() {
 module.exports = _extends;
 
 /***/ }),
-
-/***/ 165:
+/* 170 */
 /***/ (function(module, exports) {
 
 function _objectWithoutPropertiesLoose(source, excluded) {
@@ -3010,8 +9044,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 module.exports = _objectWithoutPropertiesLoose;
 
 /***/ }),
-
-/***/ 166:
+/* 171 */
 /***/ (function(module, exports) {
 
 function _assertThisInitialized(self) {
@@ -3025,8 +9058,7 @@ function _assertThisInitialized(self) {
 module.exports = _assertThisInitialized;
 
 /***/ }),
-
-/***/ 167:
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3059,10 +9091,10 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 exports.__esModule = true;
-var React = __webpack_require__(16);
+var React = __webpack_require__(13);
 var PropTypes = __webpack_require__(28);
-var autosize = __webpack_require__(168);
-var _getLineHeight = __webpack_require__(169);
+var autosize = __webpack_require__(173);
+var _getLineHeight = __webpack_require__(174);
 var getLineHeight = _getLineHeight;
 var UPDATE = 'autosize:update';
 var DESTROY = 'autosize:destroy';
@@ -3154,8 +9186,7 @@ exports["default"] = TextareaAutosize;
 
 
 /***/ }),
-
-/***/ 168:
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -3443,12 +9474,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 });
 
 /***/ }),
-
-/***/ 169:
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Load in dependencies
-var computedStyle = __webpack_require__(170);
+var computedStyle = __webpack_require__(175);
 
 /**
  * Calculate the `line-height` of a given node
@@ -3547,45 +9577,7 @@ module.exports = lineHeight;
 
 
 /***/ }),
-
-/***/ 17:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(26);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(35);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(29);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
-}
-
-/***/ }),
-
-/***/ 170:
+/* 175 */
 /***/ (function(module, exports) {
 
 // This code has been refactored for 140 bytes
@@ -3618,8 +9610,7 @@ module.exports = computedStyle;
 
 
 /***/ }),
-
-/***/ 171:
+/* 176 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3643,14 +9634,13 @@ var closeSmall = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createE
 
 
 /***/ }),
-
-/***/ 172:
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var util = __webpack_require__(173);
+var util = __webpack_require__(178);
 
 function scrollIntoView(elem, container, config) {
   config = config || {};
@@ -3779,8 +9769,7 @@ function scrollIntoView(elem, container, config) {
 module.exports = scrollIntoView;
 
 /***/ }),
-
-/***/ 173:
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4225,8 +10214,7 @@ module.exports = _extends({
 }, domUtils);
 
 /***/ }),
-
-/***/ 174:
+/* 179 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4250,44 +10238,28 @@ var link = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 
 
 /***/ }),
-
-/***/ 18:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-/***/ }),
-
-/***/ 196:
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4311,8 +10283,7 @@ var blockDefault = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["creat
 
 
 /***/ }),
-
-/***/ 197:
+/* 202 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4336,8 +10307,7 @@ var keyboardReturn = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["cre
 
 
 /***/ }),
-
-/***/ 198:
+/* 203 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4361,91 +10331,65 @@ var upload = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
 
 
 /***/ }),
-
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-/***/ }),
-
-/***/ 21:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
-/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
-
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
-}
-
-/***/ }),
-
-/***/ 23:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["regeneratorRuntime"]; }());
-
-/***/ }),
-
-/***/ 24:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["richText"]; }());
-
-/***/ }),
-
-/***/ 257:
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4475,8 +10419,7 @@ function multi(_ref) {
 exports.default = multi;
 
 /***/ }),
-
-/***/ 258:
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4492,7 +10435,7 @@ exports.characterDiff = void 0;
 /*istanbul ignore end*/
 var
 /*istanbul ignore start*/
-_base = _interopRequireDefault(__webpack_require__(292))
+_base = _interopRequireDefault(__webpack_require__(297))
 /*istanbul ignore end*/
 ;
 
@@ -4519,8 +10462,7 @@ function diffChars(oldStr, newStr, options) {
 
 
 /***/ }),
-
-/***/ 259:
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4684,25 +10626,7 @@ function toPx(length) {
 
 
 /***/ }),
-
-/***/ 26:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-/***/ }),
-
-/***/ 260:
+/* 265 */
 /***/ (function(module, exports) {
 
 var traverse = module.exports = function (obj) {
@@ -5022,27 +10946,29 @@ var hasOwnProperty = Object.hasOwnProperty || function (obj, key) {
 
 
 /***/ }),
-
-/***/ 28:
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (false) { var throwOnDirectAccess, ReactIs; } else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(132)();
-}
-
-
-/***/ }),
-
-/***/ 283:
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5066,8 +10992,7 @@ var alignLeft = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEl
 
 
 /***/ }),
-
-/***/ 284:
+/* 289 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5091,8 +11016,7 @@ var alignCenter = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["create
 
 
 /***/ }),
-
-/***/ 285:
+/* 290 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5116,8 +11040,7 @@ var alignRight = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createE
 
 
 /***/ }),
-
-/***/ 286:
+/* 291 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5141,8 +11064,7 @@ var plus = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 
 
 /***/ }),
-
-/***/ 287:
+/* 292 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5166,8 +11088,7 @@ var search = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
 
 
 /***/ }),
-
-/***/ 288:
+/* 293 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5191,8 +11112,7 @@ var chevronRight = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["creat
 
 
 /***/ }),
-
-/***/ 289:
+/* 294 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5216,26 +11136,7 @@ var chevronLeft = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["create
 
 
 /***/ }),
-
-/***/ 29:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
-
-/***/ }),
-
-/***/ 290:
+/* 295 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5259,8 +11160,7 @@ var chevronUp = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEl
 
 
 /***/ }),
-
-/***/ 291:
+/* 296 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5284,8 +11184,7 @@ var chevronDown = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["create
 
 
 /***/ }),
-
-/***/ 292:
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5595,8 +11494,7 @@ function clonePath(path) {
 
 
 /***/ }),
-
-/***/ 293:
+/* 298 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5620,8 +11518,7 @@ var moreVertical = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["creat
 
 
 /***/ }),
-
-/***/ 294:
+/* 299 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5645,8 +11542,7 @@ var layout = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
 
 
 /***/ }),
-
-/***/ 295:
+/* 300 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5670,8 +11566,7 @@ var pencil = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
 
 
 /***/ }),
-
-/***/ 296:
+/* 301 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5695,410 +11590,143 @@ var edit = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 
 
 /***/ }),
-
-/***/ 3:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["components"]; }());
-
-/***/ }),
-
-/***/ 30:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["url"]; }());
-
-/***/ }),
-
-/***/ 31:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["dom"]; }());
-
-/***/ }),
-
-/***/ 32:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["hooks"]; }());
-
-/***/ }),
-
-/***/ 35:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-
-/***/ }),
-
-/***/ 37:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
-
-/***/ }),
-
-/***/ 38:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ 40:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-/***/ }),
-
-/***/ 41:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 42:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-
-var LEAF_KEY, hasWeakMap;
-
-/**
- * Arbitrary value used as key for referencing cache object in WeakMap tree.
- *
- * @type {Object}
- */
-LEAF_KEY = {};
-
-/**
- * Whether environment supports WeakMap.
- *
- * @type {boolean}
- */
-hasWeakMap = typeof WeakMap !== 'undefined';
-
-/**
- * Returns the first argument as the sole entry in an array.
- *
- * @param {*} value Value to return.
- *
- * @return {Array} Value returned as entry in array.
- */
-function arrayOf( value ) {
-	return [ value ];
-}
-
-/**
- * Returns true if the value passed is object-like, or false otherwise. A value
- * is object-like if it can support property assignment, e.g. object or array.
- *
- * @param {*} value Value to test.
- *
- * @return {boolean} Whether value is object-like.
- */
-function isObjectLike( value ) {
-	return !! value && 'object' === typeof value;
-}
-
-/**
- * Creates and returns a new cache object.
- *
- * @return {Object} Cache object.
- */
-function createCache() {
-	var cache = {
-		clear: function() {
-			cache.head = null;
-		},
-	};
-
-	return cache;
-}
-
-/**
- * Returns true if entries within the two arrays are strictly equal by
- * reference from a starting index.
- *
- * @param {Array}  a         First array.
- * @param {Array}  b         Second array.
- * @param {number} fromIndex Index from which to start comparison.
- *
- * @return {boolean} Whether arrays are shallowly equal.
- */
-function isShallowEqual( a, b, fromIndex ) {
-	var i;
-
-	if ( a.length !== b.length ) {
-		return false;
-	}
-
-	for ( i = fromIndex; i < a.length; i++ ) {
-		if ( a[ i ] !== b[ i ] ) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-/**
- * Returns a memoized selector function. The getDependants function argument is
- * called before the memoized selector and is expected to return an immutable
- * reference or array of references on which the selector depends for computing
- * its own return value. The memoize cache is preserved only as long as those
- * dependant references remain the same. If getDependants returns a different
- * reference(s), the cache is cleared and the selector value regenerated.
- *
- * @param {Function} selector      Selector function.
- * @param {Function} getDependants Dependant getter returning an immutable
- *                                 reference or array of reference used in
- *                                 cache bust consideration.
- *
- * @return {Function} Memoized selector.
- */
-/* harmony default export */ __webpack_exports__["a"] = (function( selector, getDependants ) {
-	var rootCache, getCache;
-
-	// Use object source as dependant if getter not provided
-	if ( ! getDependants ) {
-		getDependants = arrayOf;
-	}
-
-	/**
-	 * Returns the root cache. If WeakMap is supported, this is assigned to the
-	 * root WeakMap cache set, otherwise it is a shared instance of the default
-	 * cache object.
-	 *
-	 * @return {(WeakMap|Object)} Root cache object.
-	 */
-	function getRootCache() {
-		return rootCache;
-	}
-
-	/**
-	 * Returns the cache for a given dependants array. When possible, a WeakMap
-	 * will be used to create a unique cache for each set of dependants. This
-	 * is feasible due to the nature of WeakMap in allowing garbage collection
-	 * to occur on entries where the key object is no longer referenced. Since
-	 * WeakMap requires the key to be an object, this is only possible when the
-	 * dependant is object-like. The root cache is created as a hierarchy where
-	 * each top-level key is the first entry in a dependants set, the value a
-	 * WeakMap where each key is the next dependant, and so on. This continues
-	 * so long as the dependants are object-like. If no dependants are object-
-	 * like, then the cache is shared across all invocations.
-	 *
-	 * @see isObjectLike
-	 *
-	 * @param {Array} dependants Selector dependants.
-	 *
-	 * @return {Object} Cache object.
-	 */
-	function getWeakMapCache( dependants ) {
-		var caches = rootCache,
-			isUniqueByDependants = true,
-			i, dependant, map, cache;
-
-		for ( i = 0; i < dependants.length; i++ ) {
-			dependant = dependants[ i ];
-
-			// Can only compose WeakMap from object-like key.
-			if ( ! isObjectLike( dependant ) ) {
-				isUniqueByDependants = false;
-				break;
-			}
-
-			// Does current segment of cache already have a WeakMap?
-			if ( caches.has( dependant ) ) {
-				// Traverse into nested WeakMap.
-				caches = caches.get( dependant );
-			} else {
-				// Create, set, and traverse into a new one.
-				map = new WeakMap();
-				caches.set( dependant, map );
-				caches = map;
-			}
-		}
-
-		// We use an arbitrary (but consistent) object as key for the last item
-		// in the WeakMap to serve as our running cache.
-		if ( ! caches.has( LEAF_KEY ) ) {
-			cache = createCache();
-			cache.isUniqueByDependants = isUniqueByDependants;
-			caches.set( LEAF_KEY, cache );
-		}
-
-		return caches.get( LEAF_KEY );
-	}
-
-	// Assign cache handler by availability of WeakMap
-	getCache = hasWeakMap ? getWeakMapCache : getRootCache;
-
-	/**
-	 * Resets root memoization cache.
-	 */
-	function clear() {
-		rootCache = hasWeakMap ? new WeakMap() : createCache();
-	}
-
-	// eslint-disable-next-line jsdoc/check-param-names
-	/**
-	 * The augmented selector call, considering first whether dependants have
-	 * changed before passing it to underlying memoize function.
-	 *
-	 * @param {Object} source    Source object for derivation.
-	 * @param {...*}   extraArgs Additional arguments to pass to selector.
-	 *
-	 * @return {*} Selector result.
-	 */
-	function callSelector( /* source, ...extraArgs */ ) {
-		var len = arguments.length,
-			cache, node, i, args, dependants;
-
-		// Create copy of arguments (avoid leaking deoptimization).
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
-		}
-
-		dependants = getDependants.apply( null, args );
-		cache = getCache( dependants );
-
-		// If not guaranteed uniqueness by dependants (primitive type or lack
-		// of WeakMap support), shallow compare against last dependants and, if
-		// references have changed, destroy cache to recalculate result.
-		if ( ! cache.isUniqueByDependants ) {
-			if ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {
-				cache.clear();
-			}
-
-			cache.lastDependants = dependants;
-		}
-
-		node = cache.head;
-		while ( node ) {
-			// Check whether node arguments match arguments
-			if ( ! isShallowEqual( node.args, args, 1 ) ) {
-				node = node.next;
-				continue;
-			}
-
-			// At this point we can assume we've found a match
-
-			// Surface matched node to head if not already
-			if ( node !== cache.head ) {
-				// Adjust siblings to point to each other.
-				node.prev.next = node.next;
-				if ( node.next ) {
-					node.next.prev = node.prev;
-				}
-
-				node.next = cache.head;
-				node.prev = null;
-				cache.head.prev = node;
-				cache.head = node;
-			}
-
-			// Return immediately
-			return node.val;
-		}
-
-		// No cached value found. Continue to insertion phase:
-
-		node = {
-			// Generate the result from original function
-			val: selector.apply( null, args ),
-		};
-
-		// Avoid including the source object in the cache.
-		args[ 0 ] = null;
-		node.args = args;
-
-		// Don't need to check whether node is already head, since it would
-		// have been returned above already if it was
-
-		// Shift existing head down list
-		if ( cache.head ) {
-			cache.head.prev = node;
-			node.next = cache.head;
-		}
-
-		cache.head = node;
-
-		return node.val;
-	}
-
-	callSelector.getDependants = getDependants;
-	callSelector.clear = clear;
-	clear();
-
-	return callSelector;
-});
-
-
-/***/ }),
-
-/***/ 433:
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */,
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */,
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */,
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */,
+/* 425 */,
+/* 426 */,
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
+/* 433 */,
+/* 434 */,
+/* 435 */,
+/* 436 */,
+/* 437 */,
+/* 438 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6346,16 +11974,16 @@ __webpack_require__.d(selectors_namespaceObject, "areInnerBlocksControlled", fun
 var external_this_wp_blocks_ = __webpack_require__(10);
 
 // EXTERNAL MODULE: external {"this":["wp","richText"]}
-var external_this_wp_richText_ = __webpack_require__(24);
+var external_this_wp_richText_ = __webpack_require__(25);
 
 // EXTERNAL MODULE: external {"this":["wp","viewport"]}
-var external_this_wp_viewport_ = __webpack_require__(72);
+var external_this_wp_viewport_ = __webpack_require__(81);
 
 // EXTERNAL MODULE: external {"this":["wp","keyboardShortcuts"]}
-var external_this_wp_keyboardShortcuts_ = __webpack_require__(47);
+var external_this_wp_keyboardShortcuts_ = __webpack_require__(52);
 
 // EXTERNAL MODULE: external {"this":["wp","notices"]}
-var external_this_wp_notices_ = __webpack_require__(92);
+var external_this_wp_notices_ = __webpack_require__(100);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 var esm_extends = __webpack_require__(8);
@@ -7203,7 +12831,7 @@ Object(external_this_wp_hooks_["addFilter"])('blocks.getSaveContent.extraProps',
 Object(external_this_wp_hooks_["addFilter"])('blocks.getBlockAttributes', 'core/custom-class-name/addParsedDifference', addParsedDifference);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(17);
+var toConsumableArray = __webpack_require__(18);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/generated-class-name.js
 
@@ -7248,13 +12876,13 @@ function addGeneratedClassName(extraProps, blockType) {
 Object(external_this_wp_hooks_["addFilter"])('blocks.getSaveContent.extraProps', 'core/generated-class-name/save-props', addGeneratedClassName);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(13);
+var slicedToArray = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toArray.js
-var toArray = __webpack_require__(140);
+var toArray = __webpack_require__(146);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(56);
+var tinycolor = __webpack_require__(66);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors/utils.js
@@ -7474,7 +13102,7 @@ var utils_cleanEmptyObject = function cleanEmptyObject(object) {
 };
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(14);
+var objectWithoutProperties = __webpack_require__(15);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors-gradients/control.js
 
@@ -7762,7 +13390,7 @@ var panel_color_gradient_settings_PanelColorGradientSettings = function PanelCol
 /* harmony default export */ var panel_color_gradient_settings = (panel_color_gradient_settings_PanelColorGradientSettings);
 
 // EXTERNAL MODULE: external {"this":["wp","a11y"]}
-var external_this_wp_a11y_ = __webpack_require__(48);
+var external_this_wp_a11y_ = __webpack_require__(57);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/contrast-checker/index.js
 
@@ -8396,7 +14024,7 @@ Object(external_this_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/c
 Object(external_this_wp_hooks_["addFilter"])('editor.BlockListBlock', 'core/color/with-color-palette-styles', withColorPaletteStyles);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(21);
+var external_this_wp_keycodes_ = __webpack_require__(22);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/line-height-control/utils.js
 var BASE_DEFAULT_VALUE = 1.5;
@@ -8573,13 +14201,13 @@ function useIsLineHeightDisabled() {
 
   var isDisabled = Object(external_this_wp_data_["useSelect"])(function (select) {
     var editorSettings = select('core/block-editor').getSettings();
-    return editorSettings.__experimentalDisableCustomLineHeight;
+    return !editorSettings.enableCustomLineHeight;
   });
   return !Object(external_this_wp_blocks_["hasBlockSupport"])(blockName, LINE_HEIGHT_SUPPORT_KEY) || isDisabled;
 }
 
 // EXTERNAL MODULE: external {"this":["wp","tokenList"]}
-var external_this_wp_tokenList_ = __webpack_require__(146);
+var external_this_wp_tokenList_ = __webpack_require__(152);
 var external_this_wp_tokenList_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_tokenList_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/font-sizes/utils.js
@@ -8913,58 +14541,6 @@ function useIsTypographyDisabled() {
   return configs.filter(Boolean).length === configs.length;
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/use-editor-feature/index.js
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Hook that retrieves the setting for the given editor feature.
- * It works with nested objects using by finding the value at path.
- *
- * @param {string} featurePath  The path to the feature.
- *
- * @return {any} Returns the value defined for the setting.
- *
- * @example
- * ```js
- * const isEnabled = useEditorFeature( 'typography.dropCap' );
- * ```
- */
-
-function useEditorFeature(featurePath) {
-  var _useBlockEditContext = useBlockEditContext(),
-      blockName = _useBlockEditContext.name;
-
-  var path = "__experimentalFeatures.".concat(featurePath);
-  var setting = Object(external_this_wp_data_["useSelect"])(function (select) {
-    var _select = select('core/blocks'),
-        getBlockSupport = _select.getBlockSupport;
-
-    var blockSupportValue = getBlockSupport(blockName, path);
-
-    if (blockSupportValue !== undefined) {
-      return blockSupportValue;
-    }
-
-    var _select2 = select('core/block-editor'),
-        getSettings = _select2.getSettings;
-
-    return Object(external_this_lodash_["get"])(getSettings(), path);
-  }, [blockName, path]);
-  return setting;
-}
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/unit-control/index.js
 
 
@@ -8972,10 +14548,6 @@ function useEditorFeature(featurePath) {
 
 /**
  * WordPress dependencies
- */
-
-/**
- * Internal dependencies
  */
 
 
@@ -9014,15 +14586,17 @@ function filterUnitsWithSettings() {
 
 
 function useCustomUnits(unitsProp) {
-  var settings = useEditorFeature('__experimentalDisableCustomUnits');
-  var isDisabled = !!settings; // Adjust units based on add_theme_support( 'experimental-custom-units' );
+  var settings = Object(external_this_wp_data_["useSelect"])(function (select) {
+    return select('core/block-editor').getSettings().enableCustomUnits;
+  }, []);
+  var isDisabled = !settings; // Adjust units based on add_theme_support( 'custom-units' );
 
   var units;
   /**
    * Handle extra arguments for add_theme_support
    *
-   * Example: add_theme_support( 'experimental-custom-units', 'rem' );
-   * Or: add_theme_support( 'experimental-custom-units', 'px, 'rem', 'em' );
+   * Example: add_theme_support( 'custom-units', 'rem' );
+   * Or: add_theme_support( 'custom-units', 'px, 'rem', 'em' );
    *
    * Note: If there are unit argument (e.g. 'em'), these units are enabled
    * within the control.
@@ -9354,22 +14928,22 @@ Object(external_this_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/style/wit
 
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
-var classCallCheck = __webpack_require__(19);
+var classCallCheck = __webpack_require__(20);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__(18);
+var createClass = __webpack_require__(19);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
 var assertThisInitialized = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(22);
+var possibleConstructorReturn = __webpack_require__(23);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
-var getPrototypeOf = __webpack_require__(15);
+var getPrototypeOf = __webpack_require__(16);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(20);
+var inherits = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors/with-colors.js
 
@@ -9619,7 +15193,7 @@ function withColors() {
 }
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(50);
+var memize = __webpack_require__(60);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/panel-color-settings/index.js
@@ -10179,13 +15753,13 @@ function with_font_sizes_isNativeReflectConstruct() { if (typeof Reflect === "un
 
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-left.js
-var align_left = __webpack_require__(283);
+var align_left = __webpack_require__(288);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-center.js
-var align_center = __webpack_require__(284);
+var align_center = __webpack_require__(289);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-right.js
-var align_right = __webpack_require__(285);
+var align_right = __webpack_require__(290);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/alignment-toolbar/index.js
 
@@ -10362,7 +15936,9 @@ var search_items_searchBlockItems = function searchBlockItems(items, categories,
  * @return {Array}            Filtered item list.
  */
 
-var search_items_searchItems = function searchItems(items, searchTerm) {
+var search_items_searchItems = function searchItems() {
+  var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var searchTerm = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
   var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var normalizedSearchTerms = search_items_normalizeSearchTerm(searchTerm);
 
@@ -10539,7 +16115,7 @@ function includeVariationsInInserterItems(items) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/block-default.js
-var block_default = __webpack_require__(196);
+var block_default = __webpack_require__(201);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-icon/index.js
 
@@ -11290,17 +16866,17 @@ BlockFormatControls.Slot = BlockFormatControlsSlot;
 /* harmony default export */ var block_format_controls = (BlockFormatControls);
 
 // EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
-var external_this_regeneratorRuntime_ = __webpack_require__(23);
+var external_this_regeneratorRuntime_ = __webpack_require__(24);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(46);
+var asyncToGenerator = __webpack_require__(51);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/more-vertical.js
-var more_vertical = __webpack_require__(293);
+var more_vertical = __webpack_require__(298);
 
 // EXTERNAL MODULE: ./node_modules/react-spring/web.cjs.js
-var web_cjs = __webpack_require__(108);
+var web_cjs = __webpack_require__(113);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
 var external_this_wp_dom_ = __webpack_require__(31);
@@ -11532,16 +17108,16 @@ function BlockNavigationLeaf(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-right.js
-var chevron_right = __webpack_require__(288);
+var chevron_right = __webpack_require__(293);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-left.js
-var chevron_left = __webpack_require__(289);
+var chevron_left = __webpack_require__(294);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-up.js
-var chevron_up = __webpack_require__(290);
+var chevron_up = __webpack_require__(295);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-down.js
-var chevron_down = __webpack_require__(291);
+var chevron_down = __webpack_require__(296);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-mover/mover-description.js
 /**
@@ -11986,7 +17562,7 @@ function Warning(_ref) {
 /* harmony default export */ var warning = (Warning);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/block-editor/node_modules/diff/lib/diff/character.js
-var diff_character = __webpack_require__(258);
+var diff_character = __webpack_require__(263);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-compare/block-view.js
 
@@ -12350,7 +17926,7 @@ var block_crash_boundary_BlockCrashBoundary = /*#__PURE__*/function (_Component)
 /* harmony default export */ var block_crash_boundary = (block_crash_boundary_BlockCrashBoundary);
 
 // EXTERNAL MODULE: ./node_modules/react-autosize-textarea/lib/index.js
-var lib = __webpack_require__(88);
+var lib = __webpack_require__(97);
 var lib_default = /*#__PURE__*/__webpack_require__.n(lib);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-list/block-html.js
@@ -12646,7 +18222,7 @@ function useMultiSelection(ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/plus.js
-var plus = __webpack_require__(286);
+var plus = __webpack_require__(291);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inserter/tips.js
 
@@ -12679,13 +18255,13 @@ function Tips() {
 /* harmony default export */ var tips = (Tips);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close-small.js
-var close_small = __webpack_require__(171);
+var close_small = __webpack_require__(176);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__(131);
+var build_module_icon = __webpack_require__(137);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/search.js
-var search = __webpack_require__(287);
+var search = __webpack_require__(292);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inserter/search-form.js
 
@@ -12794,6 +18370,7 @@ var PREFERENCES_DEFAULTS = {
  * @property {boolean} disableCustomColors Whether or not the custom colors are disabled
  * @property {Array} fontSizes Available font sizes
  * @property {boolean} disableCustomFontSizes Whether or not the custom font sizes are disabled
+ * @property {boolean} imageEditing Image Editing settings set to false to disable.
  * @property {Array} imageSizes Available image sizes
  * @property {number} maxWidth Max width to constraint resizing
  * @property {boolean|Array} allowedBlockTypes Allowed block types
@@ -12898,6 +18475,8 @@ var SETTINGS_DEFAULTS = {
     slug: 'full',
     name: Object(external_this_wp_i18n_["__"])('Full Size')
   }],
+  // Allow plugin to disable Image Editor if need be
+  imageEditing: true,
   // This is current max width of the block inner area
   // It's used to constraint image resizing and this value could be overridden later by themes
   maxWidth: 580,
@@ -14527,15 +20106,24 @@ function automaticChangeStatus(state, action) {
  */
 
 function highlightedBlock(state, action) {
-  var clientId = action.clientId,
-      isHighlighted = action.isHighlighted;
+  switch (action.type) {
+    case 'TOGGLE_BLOCK_HIGHLIGHT':
+      var clientId = action.clientId,
+          isHighlighted = action.isHighlighted;
 
-  if (action.type === 'TOGGLE_BLOCK_HIGHLIGHT') {
-    if (isHighlighted) {
-      return clientId;
-    } else if (state === clientId) {
-      return null;
-    }
+      if (isHighlighted) {
+        return clientId;
+      } else if (state === clientId) {
+        return null;
+      }
+
+      return state;
+
+    case 'SELECT_BLOCK':
+      if (action.clientId !== state) {
+        return null;
+      }
+
   }
 
   return state;
@@ -14564,11 +20152,11 @@ function highlightedBlock(state, action) {
 }));
 
 // EXTERNAL MODULE: ./node_modules/refx/refx.js
-var refx = __webpack_require__(104);
+var refx = __webpack_require__(110);
 var refx_default = /*#__PURE__*/__webpack_require__.n(refx);
 
 // EXTERNAL MODULE: ./node_modules/redux-multi/lib/index.js
-var redux_multi_lib = __webpack_require__(257);
+var redux_multi_lib = __webpack_require__(262);
 var redux_multi_lib_default = /*#__PURE__*/__webpack_require__.n(redux_multi_lib);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
@@ -18225,7 +23813,7 @@ function BlockEditorProvider(props) {
 /* harmony default export */ var provider = (with_registry_provider(BlockEditorProvider));
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
-var external_this_wp_htmlEntities_ = __webpack_require__(62);
+var external_this_wp_htmlEntities_ = __webpack_require__(75);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/default-block-appender/index.js
 
@@ -18551,8 +24139,8 @@ function getNearestBlockIndex(elements, position, orientation) {
   var candidateIndex;
   var candidateDistance;
   elements.forEach(function (element, index) {
-    // Ensure the element is a block. It should have the `data-block` attribute.
-    if (!element.dataset.block) {
+    // Ensure the element is a block. It should have the `wp-block` class.
+    if (!element.classList.contains('wp-block')) {
       return;
     }
 
@@ -18720,7 +24308,7 @@ function useBlockDropZone(_ref) {
       return;
     }
 
-    var sourceBlockIndex = getBlockIndex(sourceClientIds[0]); // If the user is dropping to the same position, return early.
+    var sourceBlockIndex = getBlockIndex(sourceClientIds[0], sourceRootClientId); // If the user is dropping to the same position, return early.
 
     if (sourceRootClientId === targetRootClientId && sourceBlockIndex === targetBlockIndex) {
       return;
@@ -18756,12 +24344,7 @@ function useBlockDropZone(_ref) {
     if (position) {
       var blockElements = Array.from(element.current.children);
       var targetIndex = getNearestBlockIndex(blockElements, position, orientation);
-
-      if (targetIndex === undefined) {
-        return;
-      }
-
-      setTargetBlockIndex(targetIndex);
+      setTargetBlockIndex(targetIndex === undefined ? 0 : targetIndex);
     }
   }, [position]);
 
@@ -19056,7 +24639,7 @@ function InserterPreviewPanel(_ref) {
   var item = _ref.item;
   var hoveredItemBlockType = Object(external_this_wp_blocks_["getBlockType"])(item.name);
   return Object(external_this_wp_element_["createElement"])("div", {
-    className: "block-editor-inserter__menu-preview-panel"
+    className: "block-editor-inserter__preview-container"
   }, Object(external_this_wp_element_["createElement"])("div", {
     className: "block-editor-inserter__preview"
   }, Object(external_this_wp_blocks_["isReusableBlock"])(item) || hoveredItemBlockType.example ? Object(external_this_wp_element_["createElement"])("div", {
@@ -19077,6 +24660,15 @@ function InserterPreviewPanel(_ref) {
 
 /* harmony default export */ var preview_panel = (InserterPreviewPanel);
 
+// EXTERNAL MODULE: ./node_modules/reakit/es/CompositeState-3a25dcee.js
+var CompositeState_3a25dcee = __webpack_require__(50);
+
+// EXTERNAL MODULE: ./node_modules/reakit/es/Composite/Composite.js
+var Composite = __webpack_require__(119);
+
+// EXTERNAL MODULE: ./node_modules/reakit/es/Composite/CompositeItem.js
+var CompositeItem = __webpack_require__(120);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inserter-list-item/index.js
 
 
@@ -19085,6 +24677,7 @@ function InserterPreviewPanel(_ref) {
 /**
  * External dependencies
  */
+
 
 /**
  * WordPress dependencies
@@ -19103,15 +24696,19 @@ function InserterListItem(_ref) {
       isDisabled = _ref.isDisabled,
       title = _ref.title,
       className = _ref.className,
-      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["icon", "onClick", "isDisabled", "title", "className"]);
+      composite = _ref.composite,
+      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["icon", "onClick", "isDisabled", "title", "className", "composite"]);
 
   var itemIconStyle = icon ? {
     backgroundColor: icon.background,
     color: icon.foreground
   } : {};
-  return Object(external_this_wp_element_["createElement"])("li", {
+  return Object(external_this_wp_element_["createElement"])("div", {
     className: "block-editor-block-types-list__list-item"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], Object(esm_extends["a" /* default */])({
+  }, Object(external_this_wp_element_["createElement"])(CompositeItem["a" /* CompositeItem */], Object(esm_extends["a" /* default */])({
+    role: "option",
+    as: external_this_wp_components_["Button"]
+  }, composite, {
     className: classnames_default()('block-editor-block-types-list__item', className),
     onClick: function onClick(event) {
       event.preventDefault();
@@ -19135,9 +24732,16 @@ function InserterListItem(_ref) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-types-list/index.js
 
 
+
+/**
+ * External dependencies
+ */
+
 /**
  * WordPress dependencies
  */
+
+
 
 /**
  * Internal dependencies
@@ -19152,8 +24756,17 @@ function BlockTypesList(_ref) {
       onSelect = _ref.onSelect,
       _ref$onHover = _ref.onHover,
       onHover = _ref$onHover === void 0 ? function () {} : _ref$onHover,
-      children = _ref.children;
+      children = _ref.children,
+      label = _ref.label;
+  var composite = Object(CompositeState_3a25dcee["g" /* u */])();
   var normalizedItems = includeVariationsInInserterItems(items);
+  var orderId = normalizedItems.reduce(function (acc, item) {
+    return acc + '--' + item.id;
+  }, ''); // This ensures the composite state refreshes when the list order changes.
+
+  Object(external_this_wp_element_["useEffect"])(function () {
+    composite.unstable_sort();
+  }, [composite.unstable_sort, orderId]);
   return (
     /*
      * Disable reason: The `list` ARIA role is redundant but
@@ -19161,10 +24774,11 @@ function BlockTypesList(_ref) {
      */
 
     /* eslint-disable jsx-a11y/no-redundant-roles */
-    Object(external_this_wp_element_["createElement"])("ul", {
-      role: "list",
-      className: "block-editor-block-types-list"
-    }, normalizedItems.map(function (item) {
+    Object(external_this_wp_element_["createElement"])(Composite["a" /* Composite */], Object(esm_extends["a" /* default */])({}, composite, {
+      role: "listbox",
+      className: "block-editor-block-types-list",
+      "aria-label": label
+    }), normalizedItems.map(function (item) {
       return Object(external_this_wp_element_["createElement"])(inserter_list_item, {
         key: item.id,
         className: Object(external_this_wp_blocks_["getBlockMenuDefaultClassName"])(item.id),
@@ -19186,7 +24800,8 @@ function BlockTypesList(_ref) {
           return onHover(null);
         },
         isDisabled: item.isDisabled,
-        title: item.title
+        title: item.title,
+        composite: composite
       });
     }), children)
     /* eslint-enable jsx-a11y/no-redundant-roles */
@@ -19419,13 +25034,15 @@ function BlockTypesTab(_ref) {
   , {
     items: filteredItems,
     onSelect: onSelectItem,
-    onHover: onHover
+    onHover: onHover,
+    label: Object(external_this_wp_i18n_["__"])('Child Blocks')
   })), showMostUsedBlocks && !hasChildItems && !!suggestedItems.length && !filterValue && Object(external_this_wp_element_["createElement"])(panel, {
     title: Object(external_this_wp_i18n_["_x"])('Most used', 'blocks')
   }, Object(external_this_wp_element_["createElement"])(block_types_list, {
     items: suggestedItems,
     onSelect: onSelectItem,
-    onHover: onHover
+    onHover: onHover,
+    label: Object(external_this_wp_i18n_["_x"])('Most used', 'blocks')
   })), !hasChildItems && Object(external_this_lodash_["map"])(categories, function (category) {
     var categoryItems = itemsPerCategory[category.slug];
 
@@ -19440,7 +25057,8 @@ function BlockTypesTab(_ref) {
     }, Object(external_this_wp_element_["createElement"])(block_types_list, {
       items: categoryItems,
       onSelect: onSelectItem,
-      onHover: onHover
+      onHover: onHover,
+      label: category.title
     }));
   }), !hasChildItems && !!uncategorizedItems.length && Object(external_this_wp_element_["createElement"])(panel, {
     className: "block-editor-inserter__uncategorized-blocks-panel",
@@ -19448,7 +25066,8 @@ function BlockTypesTab(_ref) {
   }, Object(external_this_wp_element_["createElement"])(block_types_list, {
     items: uncategorizedItems,
     onSelect: onSelectItem,
-    onHover: onHover
+    onHover: onHover,
+    label: Object(external_this_wp_i18n_["__"])('Uncategorized')
   })), !hasChildItems && Object(external_this_lodash_["map"])(collections, function (collection, namespace) {
     var collectionItems = itemsPerCollection[namespace];
 
@@ -19463,7 +25082,8 @@ function BlockTypesTab(_ref) {
     }, Object(external_this_wp_element_["createElement"])(block_types_list, {
       items: collectionItems,
       onSelect: onSelectItem,
-      onHover: onHover
+      onHover: onHover,
+      label: collection.title
     }));
   }), Object(external_this_wp_element_["createElement"])(inserter_menu_extension.Slot, {
     fillProps: {
@@ -19801,7 +25421,8 @@ function ReusableBlocksList(_ref) {
   }, Object(external_this_wp_element_["createElement"])(block_types_list, {
     items: filteredItems,
     onSelect: onSelectItem,
-    onHover: onHover
+    onHover: onHover,
+    label: filterValue ? Object(external_this_wp_i18n_["__"])('Search Results') : Object(external_this_wp_i18n_["__"])('Reusable blocks')
   }));
 } // The unwrapped component is only exported for use by unit tests.
 
@@ -20160,11 +25781,9 @@ function InserterMenu(_ref) {
     }
 
     return reusableBlocksTab;
-  }), !showPatterns && !hasReusableBlocks && blocksTab)), showInserterHelpPanel && hoveredItem && Object(external_this_wp_element_["createElement"])("div", {
-    className: "block-editor-inserter__preview-container"
-  }, Object(external_this_wp_element_["createElement"])(preview_panel, {
+  }), !showPatterns && !hasReusableBlocks && blocksTab)), showInserterHelpPanel && hoveredItem && Object(external_this_wp_element_["createElement"])(preview_panel, {
     item: hoveredItem
-  })));
+  }));
   /* eslint-enable jsx-a11y/no-autofocus, jsx-a11y/no-static-element-interactions */
 }
 
@@ -20234,7 +25853,8 @@ function QuickInserterList(_ref) {
   }, Object(external_this_wp_element_["createElement"])(block_types_list, {
     items: shownBlockTypes,
     onSelect: onSelectBlockType,
-    onHover: onHover
+    onHover: onHover,
+    label: Object(external_this_wp_i18n_["__"])('Blocks')
   })), !!shownBlockTypes.length && !!shownBlockPatterns.length && Object(external_this_wp_element_["createElement"])("div", {
     className: "block-editor-inserter__quick-inserter-separator"
   }), !!shownBlockPatterns.length && Object(external_this_wp_element_["createElement"])(panel, {
@@ -21380,35 +27000,104 @@ function WritingFlow(_ref) {
 
 
 
-function Indicator(_ref) {
-  var clientId = _ref.clientId;
-  var showInsertionPoint = Object(external_this_wp_data_["useSelect"])(function (select) {
-    var _select = select('core/block-editor'),
-        getBlockIndex = _select.getBlockIndex,
-        getBlockInsertionPoint = _select.getBlockInsertionPoint,
-        isBlockInsertionPointVisible = _select.isBlockInsertionPointVisible,
-        getBlockRootClientId = _select.getBlockRootClientId;
+function InsertionPointInserter(_ref) {
+  var clientId = _ref.clientId,
+      setIsInserterForced = _ref.setIsInserterForced,
+      containerRef = _ref.containerRef;
+  var ref = Object(external_this_wp_element_["useRef"])(); // Hide the inserter above the selected block and during multi-selection.
 
-    var rootClientId = getBlockRootClientId(clientId);
-    var blockIndex = getBlockIndex(clientId, rootClientId);
-    var insertionPoint = getBlockInsertionPoint();
-    return isBlockInsertionPointVisible() && insertionPoint.index === blockIndex && insertionPoint.rootClientId === rootClientId;
+  var isInserterHidden = Object(external_this_wp_data_["useSelect"])(function (select) {
+    var _select = select('core/block-editor'),
+        getMultiSelectedBlockClientIds = _select.getMultiSelectedBlockClientIds,
+        getSelectedBlockClientId = _select.getSelectedBlockClientId,
+        hasMultiSelection = _select.hasMultiSelection;
+
+    var multiSelectedBlockClientIds = getMultiSelectedBlockClientIds();
+    var selectedBlockClientId = getSelectedBlockClientId();
+    return hasMultiSelection() ? multiSelectedBlockClientIds.includes(clientId) : clientId === selectedBlockClientId;
   }, [clientId]);
 
-  if (!showInsertionPoint) {
-    return null;
+  function focusClosestTabbable(event) {
+    var clientX = event.clientX,
+        clientY = event.clientY,
+        target = event.target; // Only handle click on the wrapper specifically, and not an event
+    // bubbled from the inserter itself.
+
+    if (target !== ref.current) {
+      return;
+    }
+
+    var targetRect = target.getBoundingClientRect();
+    var isReverse = clientY < targetRect.top + targetRect.height / 2;
+    var blockNode = getBlockDOMNode(clientId);
+    var container = isReverse ? containerRef.current : blockNode;
+    var closest = getClosestTabbable(blockNode, true, container) || blockNode;
+    var rect = new window.DOMRect(clientX, clientY, 0, 16);
+    Object(external_this_wp_dom_["placeCaretAtVerticalEdge"])(closest, isReverse, rect, false);
   }
 
-  return Object(external_this_wp_element_["createElement"])("div", {
-    className: "block-editor-block-list__insertion-point-indicator"
-  });
+  return (
+    /* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
+    Object(external_this_wp_element_["createElement"])("div", {
+      ref: ref,
+      onFocus: function onFocus() {
+        return setIsInserterForced(true);
+      },
+      onBlur: function onBlur() {
+        return setIsInserterForced(false);
+      },
+      onClick: focusClosestTabbable // While ideally it would be enough to capture the
+      // bubbling focus event from the Inserter, due to the
+      // characteristics of click focusing of `button`s in
+      // Firefox and Safari, it is not reliable.
+      //
+      // See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
+      ,
+      tabIndex: -1,
+      className: classnames_default()('block-editor-block-list__insertion-point-inserter', {
+        'is-inserter-hidden': isInserterHidden
+      })
+    }, Object(external_this_wp_element_["createElement"])(inserter, {
+      position: "bottom center",
+      clientId: clientId,
+      __experimentalIsQuick: true
+    }))
+  );
 }
 
-function InsertionPoint(_ref2) {
-  var hasMultiSelection = _ref2.hasMultiSelection,
-      selectedBlockClientId = _ref2.selectedBlockClientId,
-      children = _ref2.children,
-      containerRef = _ref2.containerRef;
+function InsertionPointPopover(_ref2) {
+  var clientId = _ref2.clientId,
+      isInserterShown = _ref2.isInserterShown,
+      isInserterForced = _ref2.isInserterForced,
+      setIsInserterForced = _ref2.setIsInserterForced,
+      containerRef = _ref2.containerRef,
+      showInsertionPoint = _ref2.showInsertionPoint;
+  var element = getBlockDOMNode(clientId);
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], {
+    noArrow: true,
+    animate: false,
+    anchorRef: element,
+    position: "top right left",
+    focusOnMount: false,
+    className: "block-editor-block-list__insertion-point-popover",
+    __unstableSlotName: "block-toolbar"
+  }, Object(external_this_wp_element_["createElement"])("div", {
+    className: "block-editor-block-list__insertion-point",
+    style: {
+      width: element === null || element === void 0 ? void 0 : element.offsetWidth
+    }
+  }, showInsertionPoint && Object(external_this_wp_element_["createElement"])("div", {
+    className: "block-editor-block-list__insertion-point-indicator"
+  }), (isInserterShown || isInserterForced) && Object(external_this_wp_element_["createElement"])(InsertionPointInserter, {
+    clientId: clientId,
+    setIsInserterForced: setIsInserterForced,
+    containerRef: containerRef
+  })));
+}
+
+function InsertionPoint(_ref3) {
+  var children = _ref3.children,
+      containerRef = _ref3.containerRef;
 
   var _useState = Object(external_this_wp_element_["useState"])(false),
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
@@ -21422,28 +27111,27 @@ function InsertionPoint(_ref2) {
 
   var _useState5 = Object(external_this_wp_element_["useState"])(null),
       _useState6 = Object(slicedToArray["a" /* default */])(_useState5, 2),
-      inserterElement = _useState6[0],
-      setInserterElement = _useState6[1];
-
-  var _useState7 = Object(external_this_wp_element_["useState"])(null),
-      _useState8 = Object(slicedToArray["a" /* default */])(_useState7, 2),
-      inserterClientId = _useState8[0],
-      setInserterClientId = _useState8[1];
-
-  var ref = Object(external_this_wp_element_["useRef"])();
+      inserterClientId = _useState6[0],
+      setInserterClientId = _useState6[1];
 
   var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
     var _select2 = select('core/block-editor'),
-        getMultiSelectedBlockClientIds = _select2.getMultiSelectedBlockClientIds,
-        _isMultiSelecting = _select2.isMultiSelecting;
+        _isMultiSelecting = _select2.isMultiSelecting,
+        isBlockInsertionPointVisible = _select2.isBlockInsertionPointVisible,
+        getBlockInsertionPoint = _select2.getBlockInsertionPoint,
+        getBlockOrder = _select2.getBlockOrder;
 
+    var insertionPoint = getBlockInsertionPoint();
+    var order = getBlockOrder(insertionPoint.rootClientId);
     return {
       isMultiSelecting: _isMultiSelecting(),
-      multiSelectedBlockClientIds: getMultiSelectedBlockClientIds()
+      isInserterVisible: isBlockInsertionPointVisible(),
+      selectedClientId: order[insertionPoint.index]
     };
   }, []),
-      multiSelectedBlockClientIds = _useSelect.multiSelectedBlockClientIds,
-      isMultiSelecting = _useSelect.isMultiSelecting;
+      isMultiSelecting = _useSelect.isMultiSelecting,
+      isInserterVisible = _useSelect.isInserterVisible,
+      selectedClientId = _useSelect.selectedClientId;
 
   function onMouseMove(event) {
     if (!event.target.classList.contains('block-editor-block-list__layout')) {
@@ -21481,70 +27169,18 @@ function InsertionPoint(_ref2) {
     }
 
     setIsInserterShown(true);
-    setInserterElement(element);
     setInserterClientId(clientId);
   }
 
-  function focusClosestTabbable(event) {
-    var clientX = event.clientX,
-        clientY = event.clientY,
-        target = event.target; // Only handle click on the wrapper specifically, and not an event
-    // bubbled from the inserter itself.
-
-    if (target !== ref.current) {
-      return;
-    }
-
-    var targetRect = target.getBoundingClientRect();
-    var isReverse = clientY < targetRect.top + targetRect.height / 2;
-    var blockNode = getBlockDOMNode(inserterClientId);
-    var container = isReverse ? containerRef.current : blockNode;
-    var closest = getClosestTabbable(blockNode, true, container) || blockNode;
-    var rect = new window.DOMRect(clientX, clientY, 0, 16);
-    Object(external_this_wp_dom_["placeCaretAtVerticalEdge"])(closest, isReverse, rect, false);
-  } // Hide the inserter above the selected block and during multi-selection.
-
-
-  var isInserterHidden = hasMultiSelection ? multiSelectedBlockClientIds.includes(inserterClientId) : inserterClientId === selectedBlockClientId;
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, !isMultiSelecting && (isInserterShown || isInserterForced) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], {
-    noArrow: true,
-    animate: false,
-    anchorRef: inserterElement,
-    position: "top right left",
-    focusOnMount: false,
-    className: "block-editor-block-list__insertion-point-popover",
-    __unstableSlotName: "block-toolbar"
-  }, Object(external_this_wp_element_["createElement"])("div", {
-    className: "block-editor-block-list__insertion-point",
-    style: {
-      width: inserterElement.offsetWidth
-    }
-  }, Object(external_this_wp_element_["createElement"])(Indicator, {
-    clientId: inserterClientId
+  var isVisible = isInserterShown || isInserterForced || isInserterVisible;
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, !isMultiSelecting && isVisible && Object(external_this_wp_element_["createElement"])(InsertionPointPopover, {
+    clientId: isInserterVisible ? selectedClientId : inserterClientId,
+    isInserterShown: isInserterShown,
+    isInserterForced: isInserterForced,
+    setIsInserterForced: setIsInserterForced,
+    containerRef: containerRef,
+    showInsertionPoint: isInserterVisible
   }), Object(external_this_wp_element_["createElement"])("div", {
-    ref: ref,
-    onFocus: function onFocus() {
-      return setIsInserterForced(true);
-    },
-    onBlur: function onBlur() {
-      return setIsInserterForced(false);
-    },
-    onClick: focusClosestTabbable // While ideally it would be enough to capture the
-    // bubbling focus event from the Inserter, due to the
-    // characteristics of click focusing of `button`s in
-    // Firefox and Safari, it is not reliable.
-    //
-    // See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
-    ,
-    tabIndex: -1,
-    className: classnames_default()('block-editor-block-list__insertion-point-inserter', {
-      'is-inserter-hidden': isInserterHidden
-    })
-  }, Object(external_this_wp_element_["createElement"])(inserter, {
-    position: "bottom center",
-    clientId: inserterClientId,
-    __experimentalIsQuick: true
-  })))), Object(external_this_wp_element_["createElement"])("div", {
     onMouseMove: !isInserterForced && !isMultiSelecting ? onMouseMove : undefined
   }, children));
 }
@@ -21701,11 +27337,24 @@ function focusFirstTabbableIn(container) {
 }
 
 function useIsAccessibleToolbar(ref) {
-  // By default, it's gonna render NavigableMenu. If all the tabbable elements
+  /*
+   * By default, we'll assume the starting accessible state of the Toolbar
+   * is true, as it seems to be the most common case.
+   *
+   * Transitioning from an (initial) false to true state causes the
+   * <Toolbar /> component to mount twice, which is causing undesired
+   * side-effects. These side-effects appear to only affect certain
+   * E2E tests.
+   *
+   * This was initial discovered in this pull-request:
+   * https://github.com/WordPress/gutenberg/pull/23425
+   */
+  var initialAccessibleToolbarState = true; // By default, it's gonna render NavigableMenu. If all the tabbable elements
   // inside the toolbar are ToolbarItem components (or derived components like
   // ToolbarButton), then we can wrap them with the accessible Toolbar
   // component.
-  var _useState = Object(external_this_wp_element_["useState"])(false),
+
+  var _useState = Object(external_this_wp_element_["useState"])(initialAccessibleToolbarState),
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
       isAccessibleToolbar = _useState2[0],
       setIsAccessibleToolbar = _useState2[1];
@@ -23511,13 +29160,10 @@ var block_draggable_BlockDraggable = function BlockDraggable(_ref) {
  */
 
 
-
 var utils_window = window,
     utils_clearTimeout = utils_window.clearTimeout,
-    requestAnimationFrame = utils_window.requestAnimationFrame,
-    cancelAnimationFrame = utils_window.cancelAnimationFrame,
     utils_setTimeout = utils_window.setTimeout;
-var DEBOUNCE_TIMEOUT = 250;
+var DEBOUNCE_TIMEOUT = 200;
 /**
  * Hook that creates a showMover state, as well as debounced show/hide callbacks.
  *
@@ -23682,40 +29328,6 @@ function useShowMoversGestures(_ref2) {
     }
   };
 }
-var requestAnimationFrameId;
-/**
- * Hook that toggles the highlight (outline) state of a block
- *
- * @param {string} clientId The block's clientId
- *
- * @return {Function} Callback function to toggle highlight state.
- */
-
-function useToggleBlockHighlight(clientId) {
-  var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/block-editor'),
-      toggleBlockHighlight = _useDispatch.toggleBlockHighlight;
-
-  var updateBlockHighlight = Object(external_this_wp_element_["useCallback"])(function (isFocused) {
-    toggleBlockHighlight(clientId, isFocused);
-  }, [clientId]);
-  Object(external_this_wp_element_["useEffect"])(function () {
-    // On mount, we make sure to cancel any pending animation frame request
-    // that hasn't been completed yet. Components like NavigableToolbar may
-    // mount and unmount quickly.
-    if (requestAnimationFrameId) {
-      cancelAnimationFrame(requestAnimationFrameId);
-    }
-
-    return function () {
-      // Sequences state change to enable editor updates (e.g. cursor
-      // position) to render correctly.
-      requestAnimationFrameId = requestAnimationFrame(function () {
-        updateBlockHighlight(false);
-      });
-    };
-  }, []);
-  return updateBlockHighlight;
-}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-toolbar/index.js
 
@@ -23781,12 +29393,16 @@ function BlockToolbar(_ref) {
       isValid = _useSelect.isValid,
       isVisual = _useSelect.isVisual;
 
-  var toggleBlockHighlight = useToggleBlockHighlight(blockClientId);
+  var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/block-editor'),
+      toggleBlockHighlight = _useDispatch.toggleBlockHighlight;
+
   var nodeRef = Object(external_this_wp_element_["useRef"])();
 
   var _useShowMoversGesture = useShowMoversGestures({
     ref: nodeRef,
-    onChange: toggleBlockHighlight
+    onChange: function onChange(isFocused) {
+      toggleBlockHighlight(blockClientId, isFocused);
+    }
   }),
       showMovers = _useShowMoversGesture.showMovers,
       showMoversGestures = _useShowMoversGesture.gestures;
@@ -23810,10 +29426,10 @@ function BlockToolbar(_ref) {
   var classes = classnames_default()('block-editor-block-toolbar', shouldShowMovers && 'is-showing-movers');
   return Object(external_this_wp_element_["createElement"])("div", {
     className: classes
-  }, Object(external_this_wp_element_["createElement"])("div", {
+  }, Object(external_this_wp_element_["createElement"])("div", Object(esm_extends["a" /* default */])({
     className: "block-editor-block-toolbar__mover-switcher-container",
     ref: nodeRef
-  }, !isMultiToolbar && Object(external_this_wp_element_["createElement"])("div", {
+  }, showMoversGestures), !isMultiToolbar && Object(external_this_wp_element_["createElement"])("div", {
     className: "block-editor-block-toolbar__block-parent-selector-wrapper"
   }, Object(external_this_wp_element_["createElement"])(BlockParentSelector, {
     clientIds: blockClientIds
@@ -23824,12 +29440,12 @@ function BlockToolbar(_ref) {
     var isDraggable = _ref2.isDraggable,
         onDraggableStart = _ref2.onDraggableStart,
         onDraggableEnd = _ref2.onDraggableEnd;
-    return Object(external_this_wp_element_["createElement"])("div", Object(esm_extends["a" /* default */])({}, showMoversGestures, {
+    return Object(external_this_wp_element_["createElement"])("div", {
       className: "block-editor-block-toolbar__block-switcher-wrapper",
       draggable: isDraggable && !hideDragHandle,
       onDragStart: onDraggableStart,
       onDragEnd: onDraggableEnd
-    }), Object(external_this_wp_element_["createElement"])(block_switcher, {
+    }, Object(external_this_wp_element_["createElement"])(block_switcher, {
       clientIds: blockClientIds
     }), Object(external_this_wp_element_["createElement"])(block_mover, {
       clientIds: blockClientIds
@@ -24252,8 +29868,6 @@ function RootContainer(_ref, ref) {
       setBlockNodes = _useState2[1];
 
   return Object(external_this_wp_element_["createElement"])(InsertionPoint, {
-    hasMultiSelection: hasMultiSelection,
-    selectedBlockClientId: selectedBlockClientId,
     containerRef: ref
   }, Object(external_this_wp_element_["createElement"])(BlockNodes.Provider, {
     value: blockNodes
@@ -24346,7 +29960,8 @@ var BlockComponent = Object(external_this_wp_element_["forwardRef"])(function (_
 
     return {
       shouldFocusFirstElement: isSelected && !_isMultiSelecting() && !_isNavigationMode(),
-      initialPosition: isSelected ? getSelectedBlocksInitialCaretPosition() : undefined
+      initialPosition: isSelected ? getSelectedBlocksInitialCaretPosition() : undefined,
+      isNavigationMode: _isNavigationMode
     };
   }, [isSelected]),
       initialPosition = _useSelect.initialPosition,
@@ -24639,10 +30254,9 @@ function block_BlockListBlock(_ref) {
   var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/block-editor'),
       removeBlock = _useDispatch.removeBlock;
 
-  var onRemove = function onRemove() {
+  var onRemove = Object(external_this_wp_element_["useCallback"])(function () {
     return removeBlock(clientId);
-  }; // Handling the error state
-
+  }, [clientId]); // Handling the error state
 
   var _useState = Object(external_this_wp_element_["useState"])(false),
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
@@ -25660,7 +31274,7 @@ function BlockNavigationDropdown(_ref2, ref) {
 /* harmony default export */ var dropdown = (Object(external_this_wp_element_["forwardRef"])(BlockNavigationDropdown));
 
 // EXTERNAL MODULE: external {"this":["wp","shortcode"]}
-var external_this_wp_shortcode_ = __webpack_require__(119);
+var external_this_wp_shortcode_ = __webpack_require__(125);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/rich-text/remove-browser-shortcuts.js
 
@@ -26433,7 +32047,7 @@ function BlockNavigationEditor(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/layout.js
-var layout = __webpack_require__(294);
+var layout = __webpack_require__(299);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-variation-picker/index.js
 
@@ -26953,7 +32567,7 @@ var inner_blocks_default_block_appender_DefaultBlockAppender = function DefaultB
 })])(inner_blocks_default_block_appender_DefaultBlockAppender));
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(55);
+var external_this_wp_isShallowEqual_ = __webpack_require__(64);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inner-blocks/use-nested-settings-update.js
@@ -27400,10 +33014,10 @@ var search_item_LinkControlSearchItem = function LinkControlSearchItem(_ref) {
 /* harmony default export */ var search_item = (search_item_LinkControlSearchItem);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/keyboard-return.js
-var keyboard_return = __webpack_require__(197);
+var keyboard_return = __webpack_require__(202);
 
 // EXTERNAL MODULE: ./node_modules/dom-scroll-into-view/lib/index.js
-var dom_scroll_into_view_lib = __webpack_require__(117);
+var dom_scroll_into_view_lib = __webpack_require__(123);
 var dom_scroll_into_view_lib_default = /*#__PURE__*/__webpack_require__.n(dom_scroll_into_view_lib);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/url-input/index.js
@@ -27485,7 +33099,7 @@ var url_input_URLInput = /*#__PURE__*/function (_Component) {
       var value = this.props.value; // only have to worry about scrolling selected suggestion into view
       // when already expanded
 
-      if (showSuggestions && selectedSuggestion !== null && !this.scrollingIntoView) {
+      if (showSuggestions && selectedSuggestion !== null && this.suggestionNodes[selectedSuggestion] && !this.scrollingIntoView) {
         this.scrollingIntoView = true;
         dom_scroll_into_view_lib_default()(this.suggestionNodes[selectedSuggestion], this.autocompleteRef.current, {
           onlyScrollIfNeeded: true
@@ -28646,7 +34260,7 @@ var media_media = Object(external_this_wp_element_["createElement"])(external_th
 /* harmony default export */ var library_media = (media_media);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/upload.js
-var upload = __webpack_require__(198);
+var upload = __webpack_require__(203);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/media-upload/index.js
 /**
@@ -28899,7 +34513,7 @@ var media_replace_flow_MediaReplaceFlow = function MediaReplaceFlow(_ref) {
 }), Object(external_this_wp_components_["withFilters"])('editor.MediaReplaceFlow')])(media_replace_flow_MediaReplaceFlow));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/pencil.js
-var pencil = __webpack_require__(295);
+var pencil = __webpack_require__(300);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/url-popover/link-viewer-url.js
 
@@ -29905,7 +35519,7 @@ var input_event_unstableRichTextInputEvent = /*#__PURE__*/function (_Component) 
 }(external_this_wp_element_["Component"]);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/edit.js
-var library_edit = __webpack_require__(296);
+var library_edit = __webpack_require__(301);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/tool-selector/index.js
 
@@ -29979,7 +35593,7 @@ function ToolSelector(props, ref) {
 /* harmony default export */ var tool_selector = (Object(external_this_wp_element_["forwardRef"])(ToolSelector));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/link.js
-var library_link = __webpack_require__(174);
+var library_link = __webpack_require__(179);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/arrow-left.js
 
@@ -30101,7 +35715,7 @@ var button_URLInputButton = /*#__PURE__*/function (_Component) {
 /* harmony default export */ var url_input_button = (button_URLInputButton);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
-var library_close = __webpack_require__(147);
+var library_close = __webpack_require__(153);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/url-popover/image-url-input-ui.js
 
@@ -30403,7 +36017,7 @@ var image_url_input_ui_ImageURLInputUI = function ImageURLInputUI(_ref) {
 
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
-var library_check = __webpack_require__(148);
+var library_check = __webpack_require__(154);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/preview-options/index.js
 
@@ -30469,7 +36083,7 @@ function PreviewOptions(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/css-mediaquery/index.js
-var css_mediaquery = __webpack_require__(259);
+var css_mediaquery = __webpack_require__(264);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/use-simulated-media-query/index.js
 /**
@@ -30718,7 +36332,7 @@ var skip_to_selected_block_SkipToSelectedBlock = function SkipToSelectedBlock(_r
 })(skip_to_selected_block_SkipToSelectedBlock));
 
 // EXTERNAL MODULE: external {"this":["wp","wordcount"]}
-var external_this_wp_wordcount_ = __webpack_require__(141);
+var external_this_wp_wordcount_ = __webpack_require__(147);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/multi-selection-inspector/index.js
 
@@ -31038,7 +36652,7 @@ var block_selection_clearer_BlockSelectionClearer = /*#__PURE__*/function (_Comp
 })])(block_selection_clearer_BlockSelectionClearer));
 
 // EXTERNAL MODULE: ./node_modules/traverse/index.js
-var traverse = __webpack_require__(260);
+var traverse = __webpack_require__(265);
 var traverse_default = /*#__PURE__*/__webpack_require__.n(traverse);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/utils/transform-styles/ast/parse.js
@@ -31738,7 +37352,7 @@ function addParent(obj, parent) {
 /* eslint-enable @wordpress/no-unused-vars-before-return */
 
 // EXTERNAL MODULE: ./node_modules/inherits/inherits_browser.js
-var inherits_browser = __webpack_require__(159);
+var inherits_browser = __webpack_require__(164);
 var inherits_browser_default = /*#__PURE__*/__webpack_require__.n(inherits_browser);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/utils/transform-styles/ast/stringify/compiler.js
@@ -33315,6 +38929,58 @@ var TypewriterOrIEBypass = isIE ? function (props) {
 
 /* harmony default export */ var typewriter = (TypewriterOrIEBypass);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/use-editor-feature/index.js
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Hook that retrieves the setting for the given editor feature.
+ * It works with nested objects using by finding the value at path.
+ *
+ * @param {string} featurePath  The path to the feature.
+ *
+ * @return {any} Returns the value defined for the setting.
+ *
+ * @example
+ * ```js
+ * const isEnabled = useEditorFeature( 'typography.dropCap' );
+ * ```
+ */
+
+function useEditorFeature(featurePath) {
+  var _useBlockEditContext = useBlockEditContext(),
+      blockName = _useBlockEditContext.name;
+
+  var path = "__experimentalFeatures.".concat(featurePath);
+  var setting = Object(external_this_wp_data_["useSelect"])(function (select) {
+    var _select = select('core/blocks'),
+        getBlockSupport = _select.getBlockSupport;
+
+    var blockSupportValue = getBlockSupport(blockName, path);
+
+    if (blockSupportValue !== undefined) {
+      return blockSupportValue;
+    }
+
+    var _select2 = select('core/block-editor'),
+        getSettings = _select2.getSettings;
+
+    return Object(external_this_lodash_["get"])(getSettings(), path);
+  }, [blockName, path]);
+  return setting;
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/index.js
 /*
  * Block Creation Components
@@ -33434,1540 +39100,5 @@ var TypewriterOrIEBypass = isIE ? function (props) {
 
 
 
-/***/ }),
-
-/***/ 44:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blob"]; }());
-
-/***/ }),
-
-/***/ 46:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-/***/ }),
-
-/***/ 47:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keyboardShortcuts"]; }());
-
-/***/ }),
-
-/***/ 48:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["a11y"]; }());
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
-/***/ 50:
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Memize options object.
- *
- * @typedef MemizeOptions
- *
- * @property {number} [maxSize] Maximum size of the cache.
- */
-
-/**
- * Internal cache entry.
- *
- * @typedef MemizeCacheNode
- *
- * @property {?MemizeCacheNode|undefined} [prev] Previous node.
- * @property {?MemizeCacheNode|undefined} [next] Next node.
- * @property {Array<*>}                   args   Function arguments for cache
- *                                               entry.
- * @property {*}                          val    Function result.
- */
-
-/**
- * Properties of the enhanced function for controlling cache.
- *
- * @typedef MemizeMemoizedFunction
- *
- * @property {()=>void} clear Clear the cache.
- */
-
-/**
- * Accepts a function to be memoized, and returns a new memoized function, with
- * optional options.
- *
- * @template {Function} F
- *
- * @param {F}             fn        Function to memoize.
- * @param {MemizeOptions} [options] Options object.
- *
- * @return {F & MemizeMemoizedFunction} Memoized function.
- */
-function memize( fn, options ) {
-	var size = 0;
-
-	/** @type {?MemizeCacheNode|undefined} */
-	var head;
-
-	/** @type {?MemizeCacheNode|undefined} */
-	var tail;
-
-	options = options || {};
-
-	function memoized( /* ...args */ ) {
-		var node = head,
-			len = arguments.length,
-			args, i;
-
-		searchCache: while ( node ) {
-			// Perform a shallow equality test to confirm that whether the node
-			// under test is a candidate for the arguments passed. Two arrays
-			// are shallowly equal if their length matches and each entry is
-			// strictly equal between the two sets. Avoid abstracting to a
-			// function which could incur an arguments leaking deoptimization.
-
-			// Check whether node arguments match arguments length
-			if ( node.args.length !== arguments.length ) {
-				node = node.next;
-				continue;
-			}
-
-			// Check whether node arguments match arguments values
-			for ( i = 0; i < len; i++ ) {
-				if ( node.args[ i ] !== arguments[ i ] ) {
-					node = node.next;
-					continue searchCache;
-				}
-			}
-
-			// At this point we can assume we've found a match
-
-			// Surface matched node to head if not already
-			if ( node !== head ) {
-				// As tail, shift to previous. Must only shift if not also
-				// head, since if both head and tail, there is no previous.
-				if ( node === tail ) {
-					tail = node.prev;
-				}
-
-				// Adjust siblings to point to each other. If node was tail,
-				// this also handles new tail's empty `next` assignment.
-				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
-				if ( node.next ) {
-					node.next.prev = node.prev;
-				}
-
-				node.next = head;
-				node.prev = null;
-				/** @type {MemizeCacheNode} */ ( head ).prev = node;
-				head = node;
-			}
-
-			// Return immediately
-			return node.val;
-		}
-
-		// No cached value found. Continue to insertion phase:
-
-		// Create a copy of arguments (avoid leaking deoptimization)
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
-		}
-
-		node = {
-			args: args,
-
-			// Generate the result from original function
-			val: fn.apply( null, args ),
-		};
-
-		// Don't need to check whether node is already head, since it would
-		// have been returned above already if it was
-
-		// Shift existing head down list
-		if ( head ) {
-			head.prev = node;
-			node.next = head;
-		} else {
-			// If no head, follows that there's no tail (at initial or reset)
-			tail = node;
-		}
-
-		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
-			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
-			/** @type {MemizeCacheNode} */ ( tail ).next = null;
-		} else {
-			size++;
-		}
-
-		head = node;
-
-		return node.val;
-	}
-
-	memoized.clear = function() {
-		head = null;
-		tail = null;
-		size = 0;
-	};
-
-	if ( false ) {}
-
-	// Ignore reason: There's not a clear solution to create an intersection of
-	// the function with additional properties, where the goal is to retain the
-	// function signature of the incoming argument and add control properties
-	// on the return value.
-
-	// @ts-ignore
-	return memoized;
-}
-
-module.exports = memize;
-
-
-/***/ }),
-
-/***/ 55:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["isShallowEqual"]; }());
-
-/***/ }),
-
-/***/ 56:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
-// https://github.com/bgrins/TinyColor
-// Brian Grinstead, MIT License
-
-(function(Math) {
-
-var trimLeft = /^\s+/,
-    trimRight = /\s+$/,
-    tinyCounter = 0,
-    mathRound = Math.round,
-    mathMin = Math.min,
-    mathMax = Math.max,
-    mathRandom = Math.random;
-
-function tinycolor (color, opts) {
-
-    color = (color) ? color : '';
-    opts = opts || { };
-
-    // If input is already a tinycolor, return itself
-    if (color instanceof tinycolor) {
-       return color;
-    }
-    // If we are called as a function, call using new instead
-    if (!(this instanceof tinycolor)) {
-        return new tinycolor(color, opts);
-    }
-
-    var rgb = inputToRGB(color);
-    this._originalInput = color,
-    this._r = rgb.r,
-    this._g = rgb.g,
-    this._b = rgb.b,
-    this._a = rgb.a,
-    this._roundA = mathRound(100*this._a) / 100,
-    this._format = opts.format || rgb.format;
-    this._gradientType = opts.gradientType;
-
-    // Don't let the range of [0,255] come back in [0,1].
-    // Potentially lose a little bit of precision here, but will fix issues where
-    // .5 gets interpreted as half of the total, instead of half of 1
-    // If it was supposed to be 128, this was already taken care of by `inputToRgb`
-    if (this._r < 1) { this._r = mathRound(this._r); }
-    if (this._g < 1) { this._g = mathRound(this._g); }
-    if (this._b < 1) { this._b = mathRound(this._b); }
-
-    this._ok = rgb.ok;
-    this._tc_id = tinyCounter++;
-}
-
-tinycolor.prototype = {
-    isDark: function() {
-        return this.getBrightness() < 128;
-    },
-    isLight: function() {
-        return !this.isDark();
-    },
-    isValid: function() {
-        return this._ok;
-    },
-    getOriginalInput: function() {
-      return this._originalInput;
-    },
-    getFormat: function() {
-        return this._format;
-    },
-    getAlpha: function() {
-        return this._a;
-    },
-    getBrightness: function() {
-        //http://www.w3.org/TR/AERT#color-contrast
-        var rgb = this.toRgb();
-        return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
-    },
-    getLuminance: function() {
-        //http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
-        var rgb = this.toRgb();
-        var RsRGB, GsRGB, BsRGB, R, G, B;
-        RsRGB = rgb.r/255;
-        GsRGB = rgb.g/255;
-        BsRGB = rgb.b/255;
-
-        if (RsRGB <= 0.03928) {R = RsRGB / 12.92;} else {R = Math.pow(((RsRGB + 0.055) / 1.055), 2.4);}
-        if (GsRGB <= 0.03928) {G = GsRGB / 12.92;} else {G = Math.pow(((GsRGB + 0.055) / 1.055), 2.4);}
-        if (BsRGB <= 0.03928) {B = BsRGB / 12.92;} else {B = Math.pow(((BsRGB + 0.055) / 1.055), 2.4);}
-        return (0.2126 * R) + (0.7152 * G) + (0.0722 * B);
-    },
-    setAlpha: function(value) {
-        this._a = boundAlpha(value);
-        this._roundA = mathRound(100*this._a) / 100;
-        return this;
-    },
-    toHsv: function() {
-        var hsv = rgbToHsv(this._r, this._g, this._b);
-        return { h: hsv.h * 360, s: hsv.s, v: hsv.v, a: this._a };
-    },
-    toHsvString: function() {
-        var hsv = rgbToHsv(this._r, this._g, this._b);
-        var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
-        return (this._a == 1) ?
-          "hsv("  + h + ", " + s + "%, " + v + "%)" :
-          "hsva(" + h + ", " + s + "%, " + v + "%, "+ this._roundA + ")";
-    },
-    toHsl: function() {
-        var hsl = rgbToHsl(this._r, this._g, this._b);
-        return { h: hsl.h * 360, s: hsl.s, l: hsl.l, a: this._a };
-    },
-    toHslString: function() {
-        var hsl = rgbToHsl(this._r, this._g, this._b);
-        var h = mathRound(hsl.h * 360), s = mathRound(hsl.s * 100), l = mathRound(hsl.l * 100);
-        return (this._a == 1) ?
-          "hsl("  + h + ", " + s + "%, " + l + "%)" :
-          "hsla(" + h + ", " + s + "%, " + l + "%, "+ this._roundA + ")";
-    },
-    toHex: function(allow3Char) {
-        return rgbToHex(this._r, this._g, this._b, allow3Char);
-    },
-    toHexString: function(allow3Char) {
-        return '#' + this.toHex(allow3Char);
-    },
-    toHex8: function(allow4Char) {
-        return rgbaToHex(this._r, this._g, this._b, this._a, allow4Char);
-    },
-    toHex8String: function(allow4Char) {
-        return '#' + this.toHex8(allow4Char);
-    },
-    toRgb: function() {
-        return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
-    },
-    toRgbString: function() {
-        return (this._a == 1) ?
-          "rgb("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
-          "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
-    },
-    toPercentageRgb: function() {
-        return { r: mathRound(bound01(this._r, 255) * 100) + "%", g: mathRound(bound01(this._g, 255) * 100) + "%", b: mathRound(bound01(this._b, 255) * 100) + "%", a: this._a };
-    },
-    toPercentageRgbString: function() {
-        return (this._a == 1) ?
-          "rgb("  + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%)" :
-          "rgba(" + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%, " + this._roundA + ")";
-    },
-    toName: function() {
-        if (this._a === 0) {
-            return "transparent";
-        }
-
-        if (this._a < 1) {
-            return false;
-        }
-
-        return hexNames[rgbToHex(this._r, this._g, this._b, true)] || false;
-    },
-    toFilter: function(secondColor) {
-        var hex8String = '#' + rgbaToArgbHex(this._r, this._g, this._b, this._a);
-        var secondHex8String = hex8String;
-        var gradientType = this._gradientType ? "GradientType = 1, " : "";
-
-        if (secondColor) {
-            var s = tinycolor(secondColor);
-            secondHex8String = '#' + rgbaToArgbHex(s._r, s._g, s._b, s._a);
-        }
-
-        return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr="+hex8String+",endColorstr="+secondHex8String+")";
-    },
-    toString: function(format) {
-        var formatSet = !!format;
-        format = format || this._format;
-
-        var formattedString = false;
-        var hasAlpha = this._a < 1 && this._a >= 0;
-        var needsAlphaFormat = !formatSet && hasAlpha && (format === "hex" || format === "hex6" || format === "hex3" || format === "hex4" || format === "hex8" || format === "name");
-
-        if (needsAlphaFormat) {
-            // Special case for "transparent", all other non-alpha formats
-            // will return rgba when there is transparency.
-            if (format === "name" && this._a === 0) {
-                return this.toName();
-            }
-            return this.toRgbString();
-        }
-        if (format === "rgb") {
-            formattedString = this.toRgbString();
-        }
-        if (format === "prgb") {
-            formattedString = this.toPercentageRgbString();
-        }
-        if (format === "hex" || format === "hex6") {
-            formattedString = this.toHexString();
-        }
-        if (format === "hex3") {
-            formattedString = this.toHexString(true);
-        }
-        if (format === "hex4") {
-            formattedString = this.toHex8String(true);
-        }
-        if (format === "hex8") {
-            formattedString = this.toHex8String();
-        }
-        if (format === "name") {
-            formattedString = this.toName();
-        }
-        if (format === "hsl") {
-            formattedString = this.toHslString();
-        }
-        if (format === "hsv") {
-            formattedString = this.toHsvString();
-        }
-
-        return formattedString || this.toHexString();
-    },
-    clone: function() {
-        return tinycolor(this.toString());
-    },
-
-    _applyModification: function(fn, args) {
-        var color = fn.apply(null, [this].concat([].slice.call(args)));
-        this._r = color._r;
-        this._g = color._g;
-        this._b = color._b;
-        this.setAlpha(color._a);
-        return this;
-    },
-    lighten: function() {
-        return this._applyModification(lighten, arguments);
-    },
-    brighten: function() {
-        return this._applyModification(brighten, arguments);
-    },
-    darken: function() {
-        return this._applyModification(darken, arguments);
-    },
-    desaturate: function() {
-        return this._applyModification(desaturate, arguments);
-    },
-    saturate: function() {
-        return this._applyModification(saturate, arguments);
-    },
-    greyscale: function() {
-        return this._applyModification(greyscale, arguments);
-    },
-    spin: function() {
-        return this._applyModification(spin, arguments);
-    },
-
-    _applyCombination: function(fn, args) {
-        return fn.apply(null, [this].concat([].slice.call(args)));
-    },
-    analogous: function() {
-        return this._applyCombination(analogous, arguments);
-    },
-    complement: function() {
-        return this._applyCombination(complement, arguments);
-    },
-    monochromatic: function() {
-        return this._applyCombination(monochromatic, arguments);
-    },
-    splitcomplement: function() {
-        return this._applyCombination(splitcomplement, arguments);
-    },
-    triad: function() {
-        return this._applyCombination(triad, arguments);
-    },
-    tetrad: function() {
-        return this._applyCombination(tetrad, arguments);
-    }
-};
-
-// If input is an object, force 1 into "1.0" to handle ratios properly
-// String input requires "1.0" as input, so 1 will be treated as 1
-tinycolor.fromRatio = function(color, opts) {
-    if (typeof color == "object") {
-        var newColor = {};
-        for (var i in color) {
-            if (color.hasOwnProperty(i)) {
-                if (i === "a") {
-                    newColor[i] = color[i];
-                }
-                else {
-                    newColor[i] = convertToPercentage(color[i]);
-                }
-            }
-        }
-        color = newColor;
-    }
-
-    return tinycolor(color, opts);
-};
-
-// Given a string or object, convert that input to RGB
-// Possible string inputs:
-//
-//     "red"
-//     "#f00" or "f00"
-//     "#ff0000" or "ff0000"
-//     "#ff000000" or "ff000000"
-//     "rgb 255 0 0" or "rgb (255, 0, 0)"
-//     "rgb 1.0 0 0" or "rgb (1, 0, 0)"
-//     "rgba (255, 0, 0, 1)" or "rgba 255, 0, 0, 1"
-//     "rgba (1.0, 0, 0, 1)" or "rgba 1.0, 0, 0, 1"
-//     "hsl(0, 100%, 50%)" or "hsl 0 100% 50%"
-//     "hsla(0, 100%, 50%, 1)" or "hsla 0 100% 50%, 1"
-//     "hsv(0, 100%, 100%)" or "hsv 0 100% 100%"
-//
-function inputToRGB(color) {
-
-    var rgb = { r: 0, g: 0, b: 0 };
-    var a = 1;
-    var s = null;
-    var v = null;
-    var l = null;
-    var ok = false;
-    var format = false;
-
-    if (typeof color == "string") {
-        color = stringInputToObject(color);
-    }
-
-    if (typeof color == "object") {
-        if (isValidCSSUnit(color.r) && isValidCSSUnit(color.g) && isValidCSSUnit(color.b)) {
-            rgb = rgbToRgb(color.r, color.g, color.b);
-            ok = true;
-            format = String(color.r).substr(-1) === "%" ? "prgb" : "rgb";
-        }
-        else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.v)) {
-            s = convertToPercentage(color.s);
-            v = convertToPercentage(color.v);
-            rgb = hsvToRgb(color.h, s, v);
-            ok = true;
-            format = "hsv";
-        }
-        else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.l)) {
-            s = convertToPercentage(color.s);
-            l = convertToPercentage(color.l);
-            rgb = hslToRgb(color.h, s, l);
-            ok = true;
-            format = "hsl";
-        }
-
-        if (color.hasOwnProperty("a")) {
-            a = color.a;
-        }
-    }
-
-    a = boundAlpha(a);
-
-    return {
-        ok: ok,
-        format: color.format || format,
-        r: mathMin(255, mathMax(rgb.r, 0)),
-        g: mathMin(255, mathMax(rgb.g, 0)),
-        b: mathMin(255, mathMax(rgb.b, 0)),
-        a: a
-    };
-}
-
-
-// Conversion Functions
-// --------------------
-
-// `rgbToHsl`, `rgbToHsv`, `hslToRgb`, `hsvToRgb` modified from:
-// <http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript>
-
-// `rgbToRgb`
-// Handle bounds / percentage checking to conform to CSS color spec
-// <http://www.w3.org/TR/css3-color/>
-// *Assumes:* r, g, b in [0, 255] or [0, 1]
-// *Returns:* { r, g, b } in [0, 255]
-function rgbToRgb(r, g, b){
-    return {
-        r: bound01(r, 255) * 255,
-        g: bound01(g, 255) * 255,
-        b: bound01(b, 255) * 255
-    };
-}
-
-// `rgbToHsl`
-// Converts an RGB color value to HSL.
-// *Assumes:* r, g, and b are contained in [0, 255] or [0, 1]
-// *Returns:* { h, s, l } in [0,1]
-function rgbToHsl(r, g, b) {
-
-    r = bound01(r, 255);
-    g = bound01(g, 255);
-    b = bound01(b, 255);
-
-    var max = mathMax(r, g, b), min = mathMin(r, g, b);
-    var h, s, l = (max + min) / 2;
-
-    if(max == min) {
-        h = s = 0; // achromatic
-    }
-    else {
-        var d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch(max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-
-        h /= 6;
-    }
-
-    return { h: h, s: s, l: l };
-}
-
-// `hslToRgb`
-// Converts an HSL color value to RGB.
-// *Assumes:* h is contained in [0, 1] or [0, 360] and s and l are contained [0, 1] or [0, 100]
-// *Returns:* { r, g, b } in the set [0, 255]
-function hslToRgb(h, s, l) {
-    var r, g, b;
-
-    h = bound01(h, 360);
-    s = bound01(s, 100);
-    l = bound01(l, 100);
-
-    function hue2rgb(p, q, t) {
-        if(t < 0) t += 1;
-        if(t > 1) t -= 1;
-        if(t < 1/6) return p + (q - p) * 6 * t;
-        if(t < 1/2) return q;
-        if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-        return p;
-    }
-
-    if(s === 0) {
-        r = g = b = l; // achromatic
-    }
-    else {
-        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-        var p = 2 * l - q;
-        r = hue2rgb(p, q, h + 1/3);
-        g = hue2rgb(p, q, h);
-        b = hue2rgb(p, q, h - 1/3);
-    }
-
-    return { r: r * 255, g: g * 255, b: b * 255 };
-}
-
-// `rgbToHsv`
-// Converts an RGB color value to HSV
-// *Assumes:* r, g, and b are contained in the set [0, 255] or [0, 1]
-// *Returns:* { h, s, v } in [0,1]
-function rgbToHsv(r, g, b) {
-
-    r = bound01(r, 255);
-    g = bound01(g, 255);
-    b = bound01(b, 255);
-
-    var max = mathMax(r, g, b), min = mathMin(r, g, b);
-    var h, s, v = max;
-
-    var d = max - min;
-    s = max === 0 ? 0 : d / max;
-
-    if(max == min) {
-        h = 0; // achromatic
-    }
-    else {
-        switch(max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-    }
-    return { h: h, s: s, v: v };
-}
-
-// `hsvToRgb`
-// Converts an HSV color value to RGB.
-// *Assumes:* h is contained in [0, 1] or [0, 360] and s and v are contained in [0, 1] or [0, 100]
-// *Returns:* { r, g, b } in the set [0, 255]
- function hsvToRgb(h, s, v) {
-
-    h = bound01(h, 360) * 6;
-    s = bound01(s, 100);
-    v = bound01(v, 100);
-
-    var i = Math.floor(h),
-        f = h - i,
-        p = v * (1 - s),
-        q = v * (1 - f * s),
-        t = v * (1 - (1 - f) * s),
-        mod = i % 6,
-        r = [v, q, p, p, t, v][mod],
-        g = [t, v, v, q, p, p][mod],
-        b = [p, p, t, v, v, q][mod];
-
-    return { r: r * 255, g: g * 255, b: b * 255 };
-}
-
-// `rgbToHex`
-// Converts an RGB color to hex
-// Assumes r, g, and b are contained in the set [0, 255]
-// Returns a 3 or 6 character hex
-function rgbToHex(r, g, b, allow3Char) {
-
-    var hex = [
-        pad2(mathRound(r).toString(16)),
-        pad2(mathRound(g).toString(16)),
-        pad2(mathRound(b).toString(16))
-    ];
-
-    // Return a 3 character hex if possible
-    if (allow3Char && hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1)) {
-        return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0);
-    }
-
-    return hex.join("");
-}
-
-// `rgbaToHex`
-// Converts an RGBA color plus alpha transparency to hex
-// Assumes r, g, b are contained in the set [0, 255] and
-// a in [0, 1]. Returns a 4 or 8 character rgba hex
-function rgbaToHex(r, g, b, a, allow4Char) {
-
-    var hex = [
-        pad2(mathRound(r).toString(16)),
-        pad2(mathRound(g).toString(16)),
-        pad2(mathRound(b).toString(16)),
-        pad2(convertDecimalToHex(a))
-    ];
-
-    // Return a 4 character hex if possible
-    if (allow4Char && hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1) && hex[3].charAt(0) == hex[3].charAt(1)) {
-        return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0);
-    }
-
-    return hex.join("");
-}
-
-// `rgbaToArgbHex`
-// Converts an RGBA color to an ARGB Hex8 string
-// Rarely used, but required for "toFilter()"
-function rgbaToArgbHex(r, g, b, a) {
-
-    var hex = [
-        pad2(convertDecimalToHex(a)),
-        pad2(mathRound(r).toString(16)),
-        pad2(mathRound(g).toString(16)),
-        pad2(mathRound(b).toString(16))
-    ];
-
-    return hex.join("");
-}
-
-// `equals`
-// Can be called with any tinycolor input
-tinycolor.equals = function (color1, color2) {
-    if (!color1 || !color2) { return false; }
-    return tinycolor(color1).toRgbString() == tinycolor(color2).toRgbString();
-};
-
-tinycolor.random = function() {
-    return tinycolor.fromRatio({
-        r: mathRandom(),
-        g: mathRandom(),
-        b: mathRandom()
-    });
-};
-
-
-// Modification Functions
-// ----------------------
-// Thanks to less.js for some of the basics here
-// <https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js>
-
-function desaturate(color, amount) {
-    amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = tinycolor(color).toHsl();
-    hsl.s -= amount / 100;
-    hsl.s = clamp01(hsl.s);
-    return tinycolor(hsl);
-}
-
-function saturate(color, amount) {
-    amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = tinycolor(color).toHsl();
-    hsl.s += amount / 100;
-    hsl.s = clamp01(hsl.s);
-    return tinycolor(hsl);
-}
-
-function greyscale(color) {
-    return tinycolor(color).desaturate(100);
-}
-
-function lighten (color, amount) {
-    amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = tinycolor(color).toHsl();
-    hsl.l += amount / 100;
-    hsl.l = clamp01(hsl.l);
-    return tinycolor(hsl);
-}
-
-function brighten(color, amount) {
-    amount = (amount === 0) ? 0 : (amount || 10);
-    var rgb = tinycolor(color).toRgb();
-    rgb.r = mathMax(0, mathMin(255, rgb.r - mathRound(255 * - (amount / 100))));
-    rgb.g = mathMax(0, mathMin(255, rgb.g - mathRound(255 * - (amount / 100))));
-    rgb.b = mathMax(0, mathMin(255, rgb.b - mathRound(255 * - (amount / 100))));
-    return tinycolor(rgb);
-}
-
-function darken (color, amount) {
-    amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = tinycolor(color).toHsl();
-    hsl.l -= amount / 100;
-    hsl.l = clamp01(hsl.l);
-    return tinycolor(hsl);
-}
-
-// Spin takes a positive or negative amount within [-360, 360] indicating the change of hue.
-// Values outside of this range will be wrapped into this range.
-function spin(color, amount) {
-    var hsl = tinycolor(color).toHsl();
-    var hue = (hsl.h + amount) % 360;
-    hsl.h = hue < 0 ? 360 + hue : hue;
-    return tinycolor(hsl);
-}
-
-// Combination Functions
-// ---------------------
-// Thanks to jQuery xColor for some of the ideas behind these
-// <https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js>
-
-function complement(color) {
-    var hsl = tinycolor(color).toHsl();
-    hsl.h = (hsl.h + 180) % 360;
-    return tinycolor(hsl);
-}
-
-function triad(color) {
-    var hsl = tinycolor(color).toHsl();
-    var h = hsl.h;
-    return [
-        tinycolor(color),
-        tinycolor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
-        tinycolor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
-    ];
-}
-
-function tetrad(color) {
-    var hsl = tinycolor(color).toHsl();
-    var h = hsl.h;
-    return [
-        tinycolor(color),
-        tinycolor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
-        tinycolor({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
-        tinycolor({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
-    ];
-}
-
-function splitcomplement(color) {
-    var hsl = tinycolor(color).toHsl();
-    var h = hsl.h;
-    return [
-        tinycolor(color),
-        tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
-        tinycolor({ h: (h + 216) % 360, s: hsl.s, l: hsl.l})
-    ];
-}
-
-function analogous(color, results, slices) {
-    results = results || 6;
-    slices = slices || 30;
-
-    var hsl = tinycolor(color).toHsl();
-    var part = 360 / slices;
-    var ret = [tinycolor(color)];
-
-    for (hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
-        hsl.h = (hsl.h + part) % 360;
-        ret.push(tinycolor(hsl));
-    }
-    return ret;
-}
-
-function monochromatic(color, results) {
-    results = results || 6;
-    var hsv = tinycolor(color).toHsv();
-    var h = hsv.h, s = hsv.s, v = hsv.v;
-    var ret = [];
-    var modification = 1 / results;
-
-    while (results--) {
-        ret.push(tinycolor({ h: h, s: s, v: v}));
-        v = (v + modification) % 1;
-    }
-
-    return ret;
-}
-
-// Utility Functions
-// ---------------------
-
-tinycolor.mix = function(color1, color2, amount) {
-    amount = (amount === 0) ? 0 : (amount || 50);
-
-    var rgb1 = tinycolor(color1).toRgb();
-    var rgb2 = tinycolor(color2).toRgb();
-
-    var p = amount / 100;
-
-    var rgba = {
-        r: ((rgb2.r - rgb1.r) * p) + rgb1.r,
-        g: ((rgb2.g - rgb1.g) * p) + rgb1.g,
-        b: ((rgb2.b - rgb1.b) * p) + rgb1.b,
-        a: ((rgb2.a - rgb1.a) * p) + rgb1.a
-    };
-
-    return tinycolor(rgba);
-};
-
-
-// Readability Functions
-// ---------------------
-// <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2)
-
-// `contrast`
-// Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
-tinycolor.readability = function(color1, color2) {
-    var c1 = tinycolor(color1);
-    var c2 = tinycolor(color2);
-    return (Math.max(c1.getLuminance(),c2.getLuminance())+0.05) / (Math.min(c1.getLuminance(),c2.getLuminance())+0.05);
-};
-
-// `isReadable`
-// Ensure that foreground and background color combinations meet WCAG2 guidelines.
-// The third argument is an optional Object.
-//      the 'level' property states 'AA' or 'AAA' - if missing or invalid, it defaults to 'AA';
-//      the 'size' property states 'large' or 'small' - if missing or invalid, it defaults to 'small'.
-// If the entire object is absent, isReadable defaults to {level:"AA",size:"small"}.
-
-// *Example*
-//    tinycolor.isReadable("#000", "#111") => false
-//    tinycolor.isReadable("#000", "#111",{level:"AA",size:"large"}) => false
-tinycolor.isReadable = function(color1, color2, wcag2) {
-    var readability = tinycolor.readability(color1, color2);
-    var wcag2Parms, out;
-
-    out = false;
-
-    wcag2Parms = validateWCAG2Parms(wcag2);
-    switch (wcag2Parms.level + wcag2Parms.size) {
-        case "AAsmall":
-        case "AAAlarge":
-            out = readability >= 4.5;
-            break;
-        case "AAlarge":
-            out = readability >= 3;
-            break;
-        case "AAAsmall":
-            out = readability >= 7;
-            break;
-    }
-    return out;
-
-};
-
-// `mostReadable`
-// Given a base color and a list of possible foreground or background
-// colors for that base, returns the most readable color.
-// Optionally returns Black or White if the most readable color is unreadable.
-// *Example*
-//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(); // "#112255"
-//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
-//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
-//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
-tinycolor.mostReadable = function(baseColor, colorList, args) {
-    var bestColor = null;
-    var bestScore = 0;
-    var readability;
-    var includeFallbackColors, level, size ;
-    args = args || {};
-    includeFallbackColors = args.includeFallbackColors ;
-    level = args.level;
-    size = args.size;
-
-    for (var i= 0; i < colorList.length ; i++) {
-        readability = tinycolor.readability(baseColor, colorList[i]);
-        if (readability > bestScore) {
-            bestScore = readability;
-            bestColor = tinycolor(colorList[i]);
-        }
-    }
-
-    if (tinycolor.isReadable(baseColor, bestColor, {"level":level,"size":size}) || !includeFallbackColors) {
-        return bestColor;
-    }
-    else {
-        args.includeFallbackColors=false;
-        return tinycolor.mostReadable(baseColor,["#fff", "#000"],args);
-    }
-};
-
-
-// Big List of Colors
-// ------------------
-// <http://www.w3.org/TR/css3-color/#svg-color>
-var names = tinycolor.names = {
-    aliceblue: "f0f8ff",
-    antiquewhite: "faebd7",
-    aqua: "0ff",
-    aquamarine: "7fffd4",
-    azure: "f0ffff",
-    beige: "f5f5dc",
-    bisque: "ffe4c4",
-    black: "000",
-    blanchedalmond: "ffebcd",
-    blue: "00f",
-    blueviolet: "8a2be2",
-    brown: "a52a2a",
-    burlywood: "deb887",
-    burntsienna: "ea7e5d",
-    cadetblue: "5f9ea0",
-    chartreuse: "7fff00",
-    chocolate: "d2691e",
-    coral: "ff7f50",
-    cornflowerblue: "6495ed",
-    cornsilk: "fff8dc",
-    crimson: "dc143c",
-    cyan: "0ff",
-    darkblue: "00008b",
-    darkcyan: "008b8b",
-    darkgoldenrod: "b8860b",
-    darkgray: "a9a9a9",
-    darkgreen: "006400",
-    darkgrey: "a9a9a9",
-    darkkhaki: "bdb76b",
-    darkmagenta: "8b008b",
-    darkolivegreen: "556b2f",
-    darkorange: "ff8c00",
-    darkorchid: "9932cc",
-    darkred: "8b0000",
-    darksalmon: "e9967a",
-    darkseagreen: "8fbc8f",
-    darkslateblue: "483d8b",
-    darkslategray: "2f4f4f",
-    darkslategrey: "2f4f4f",
-    darkturquoise: "00ced1",
-    darkviolet: "9400d3",
-    deeppink: "ff1493",
-    deepskyblue: "00bfff",
-    dimgray: "696969",
-    dimgrey: "696969",
-    dodgerblue: "1e90ff",
-    firebrick: "b22222",
-    floralwhite: "fffaf0",
-    forestgreen: "228b22",
-    fuchsia: "f0f",
-    gainsboro: "dcdcdc",
-    ghostwhite: "f8f8ff",
-    gold: "ffd700",
-    goldenrod: "daa520",
-    gray: "808080",
-    green: "008000",
-    greenyellow: "adff2f",
-    grey: "808080",
-    honeydew: "f0fff0",
-    hotpink: "ff69b4",
-    indianred: "cd5c5c",
-    indigo: "4b0082",
-    ivory: "fffff0",
-    khaki: "f0e68c",
-    lavender: "e6e6fa",
-    lavenderblush: "fff0f5",
-    lawngreen: "7cfc00",
-    lemonchiffon: "fffacd",
-    lightblue: "add8e6",
-    lightcoral: "f08080",
-    lightcyan: "e0ffff",
-    lightgoldenrodyellow: "fafad2",
-    lightgray: "d3d3d3",
-    lightgreen: "90ee90",
-    lightgrey: "d3d3d3",
-    lightpink: "ffb6c1",
-    lightsalmon: "ffa07a",
-    lightseagreen: "20b2aa",
-    lightskyblue: "87cefa",
-    lightslategray: "789",
-    lightslategrey: "789",
-    lightsteelblue: "b0c4de",
-    lightyellow: "ffffe0",
-    lime: "0f0",
-    limegreen: "32cd32",
-    linen: "faf0e6",
-    magenta: "f0f",
-    maroon: "800000",
-    mediumaquamarine: "66cdaa",
-    mediumblue: "0000cd",
-    mediumorchid: "ba55d3",
-    mediumpurple: "9370db",
-    mediumseagreen: "3cb371",
-    mediumslateblue: "7b68ee",
-    mediumspringgreen: "00fa9a",
-    mediumturquoise: "48d1cc",
-    mediumvioletred: "c71585",
-    midnightblue: "191970",
-    mintcream: "f5fffa",
-    mistyrose: "ffe4e1",
-    moccasin: "ffe4b5",
-    navajowhite: "ffdead",
-    navy: "000080",
-    oldlace: "fdf5e6",
-    olive: "808000",
-    olivedrab: "6b8e23",
-    orange: "ffa500",
-    orangered: "ff4500",
-    orchid: "da70d6",
-    palegoldenrod: "eee8aa",
-    palegreen: "98fb98",
-    paleturquoise: "afeeee",
-    palevioletred: "db7093",
-    papayawhip: "ffefd5",
-    peachpuff: "ffdab9",
-    peru: "cd853f",
-    pink: "ffc0cb",
-    plum: "dda0dd",
-    powderblue: "b0e0e6",
-    purple: "800080",
-    rebeccapurple: "663399",
-    red: "f00",
-    rosybrown: "bc8f8f",
-    royalblue: "4169e1",
-    saddlebrown: "8b4513",
-    salmon: "fa8072",
-    sandybrown: "f4a460",
-    seagreen: "2e8b57",
-    seashell: "fff5ee",
-    sienna: "a0522d",
-    silver: "c0c0c0",
-    skyblue: "87ceeb",
-    slateblue: "6a5acd",
-    slategray: "708090",
-    slategrey: "708090",
-    snow: "fffafa",
-    springgreen: "00ff7f",
-    steelblue: "4682b4",
-    tan: "d2b48c",
-    teal: "008080",
-    thistle: "d8bfd8",
-    tomato: "ff6347",
-    turquoise: "40e0d0",
-    violet: "ee82ee",
-    wheat: "f5deb3",
-    white: "fff",
-    whitesmoke: "f5f5f5",
-    yellow: "ff0",
-    yellowgreen: "9acd32"
-};
-
-// Make it easy to access colors via `hexNames[hex]`
-var hexNames = tinycolor.hexNames = flip(names);
-
-
-// Utilities
-// ---------
-
-// `{ 'name1': 'val1' }` becomes `{ 'val1': 'name1' }`
-function flip(o) {
-    var flipped = { };
-    for (var i in o) {
-        if (o.hasOwnProperty(i)) {
-            flipped[o[i]] = i;
-        }
-    }
-    return flipped;
-}
-
-// Return a valid alpha value [0,1] with all invalid values being set to 1
-function boundAlpha(a) {
-    a = parseFloat(a);
-
-    if (isNaN(a) || a < 0 || a > 1) {
-        a = 1;
-    }
-
-    return a;
-}
-
-// Take input from [0, n] and return it as [0, 1]
-function bound01(n, max) {
-    if (isOnePointZero(n)) { n = "100%"; }
-
-    var processPercent = isPercentage(n);
-    n = mathMin(max, mathMax(0, parseFloat(n)));
-
-    // Automatically convert percentage into number
-    if (processPercent) {
-        n = parseInt(n * max, 10) / 100;
-    }
-
-    // Handle floating point rounding errors
-    if ((Math.abs(n - max) < 0.000001)) {
-        return 1;
-    }
-
-    // Convert into [0, 1] range if it isn't already
-    return (n % max) / parseFloat(max);
-}
-
-// Force a number between 0 and 1
-function clamp01(val) {
-    return mathMin(1, mathMax(0, val));
-}
-
-// Parse a base-16 hex value into a base-10 integer
-function parseIntFromHex(val) {
-    return parseInt(val, 16);
-}
-
-// Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
-// <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
-function isOnePointZero(n) {
-    return typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1;
-}
-
-// Check to see if string passed in is a percentage
-function isPercentage(n) {
-    return typeof n === "string" && n.indexOf('%') != -1;
-}
-
-// Force a hex value to have 2 characters
-function pad2(c) {
-    return c.length == 1 ? '0' + c : '' + c;
-}
-
-// Replace a decimal with it's percentage value
-function convertToPercentage(n) {
-    if (n <= 1) {
-        n = (n * 100) + "%";
-    }
-
-    return n;
-}
-
-// Converts a decimal to a hex value
-function convertDecimalToHex(d) {
-    return Math.round(parseFloat(d) * 255).toString(16);
-}
-// Converts a hex value to a decimal
-function convertHexToDecimal(h) {
-    return (parseIntFromHex(h) / 255);
-}
-
-var matchers = (function() {
-
-    // <http://www.w3.org/TR/css3-values/#integers>
-    var CSS_INTEGER = "[-\\+]?\\d+%?";
-
-    // <http://www.w3.org/TR/css3-values/#number-value>
-    var CSS_NUMBER = "[-\\+]?\\d*\\.\\d+%?";
-
-    // Allow positive/negative integer/number.  Don't capture the either/or, just the entire outcome.
-    var CSS_UNIT = "(?:" + CSS_NUMBER + ")|(?:" + CSS_INTEGER + ")";
-
-    // Actual matching.
-    // Parentheses and commas are optional, but not required.
-    // Whitespace can take the place of commas or opening paren
-    var PERMISSIVE_MATCH3 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
-    var PERMISSIVE_MATCH4 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
-
-    return {
-        CSS_UNIT: new RegExp(CSS_UNIT),
-        rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
-        rgba: new RegExp("rgba" + PERMISSIVE_MATCH4),
-        hsl: new RegExp("hsl" + PERMISSIVE_MATCH3),
-        hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
-        hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
-        hsva: new RegExp("hsva" + PERMISSIVE_MATCH4),
-        hex3: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-        hex6: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
-        hex4: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-        hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
-    };
-})();
-
-// `isValidCSSUnit`
-// Take in a single string / number and check to see if it looks like a CSS unit
-// (see `matchers` above for definition).
-function isValidCSSUnit(color) {
-    return !!matchers.CSS_UNIT.exec(color);
-}
-
-// `stringInputToObject`
-// Permissive string parsing.  Take in a number of formats, and output an object
-// based on detected format.  Returns `{ r, g, b }` or `{ h, s, l }` or `{ h, s, v}`
-function stringInputToObject(color) {
-
-    color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
-    var named = false;
-    if (names[color]) {
-        color = names[color];
-        named = true;
-    }
-    else if (color == 'transparent') {
-        return { r: 0, g: 0, b: 0, a: 0, format: "name" };
-    }
-
-    // Try to match string input using regular expressions.
-    // Keep most of the number bounding out of this function - don't worry about [0,1] or [0,100] or [0,360]
-    // Just return an object and let the conversion functions handle that.
-    // This way the result will be the same whether the tinycolor is initialized with string or object.
-    var match;
-    if ((match = matchers.rgb.exec(color))) {
-        return { r: match[1], g: match[2], b: match[3] };
-    }
-    if ((match = matchers.rgba.exec(color))) {
-        return { r: match[1], g: match[2], b: match[3], a: match[4] };
-    }
-    if ((match = matchers.hsl.exec(color))) {
-        return { h: match[1], s: match[2], l: match[3] };
-    }
-    if ((match = matchers.hsla.exec(color))) {
-        return { h: match[1], s: match[2], l: match[3], a: match[4] };
-    }
-    if ((match = matchers.hsv.exec(color))) {
-        return { h: match[1], s: match[2], v: match[3] };
-    }
-    if ((match = matchers.hsva.exec(color))) {
-        return { h: match[1], s: match[2], v: match[3], a: match[4] };
-    }
-    if ((match = matchers.hex8.exec(color))) {
-        return {
-            r: parseIntFromHex(match[1]),
-            g: parseIntFromHex(match[2]),
-            b: parseIntFromHex(match[3]),
-            a: convertHexToDecimal(match[4]),
-            format: named ? "name" : "hex8"
-        };
-    }
-    if ((match = matchers.hex6.exec(color))) {
-        return {
-            r: parseIntFromHex(match[1]),
-            g: parseIntFromHex(match[2]),
-            b: parseIntFromHex(match[3]),
-            format: named ? "name" : "hex"
-        };
-    }
-    if ((match = matchers.hex4.exec(color))) {
-        return {
-            r: parseIntFromHex(match[1] + '' + match[1]),
-            g: parseIntFromHex(match[2] + '' + match[2]),
-            b: parseIntFromHex(match[3] + '' + match[3]),
-            a: convertHexToDecimal(match[4] + '' + match[4]),
-            format: named ? "name" : "hex8"
-        };
-    }
-    if ((match = matchers.hex3.exec(color))) {
-        return {
-            r: parseIntFromHex(match[1] + '' + match[1]),
-            g: parseIntFromHex(match[2] + '' + match[2]),
-            b: parseIntFromHex(match[3] + '' + match[3]),
-            format: named ? "name" : "hex"
-        };
-    }
-
-    return false;
-}
-
-function validateWCAG2Parms(parms) {
-    // return valid WCAG2 parms for isReadable.
-    // If input parms are invalid, return {"level":"AA", "size":"small"}
-    var level, size;
-    parms = parms || {"level":"AA", "size":"small"};
-    level = (parms.level || "AA").toUpperCase();
-    size = (parms.size || "small").toLowerCase();
-    if (level !== "AA" && level !== "AAA") {
-        level = "AA";
-    }
-    if (size !== "small" && size !== "large") {
-        size = "small";
-    }
-    return {"level":level, "size":size};
-}
-
-// Node: Export function
-if ( true && module.exports) {
-    module.exports = tinycolor;
-}
-// AMD/requirejs: Define the module
-else if (true) {
-    !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {return tinycolor;}).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-}
-// Browser: Expose to window
-else {}
-
-})(Math);
-
-
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["primitives"]; }());
-
-/***/ }),
-
-/***/ 62:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["htmlEntities"]; }());
-
-/***/ }),
-
-/***/ 72:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["viewport"]; }());
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-/***/ }),
-
-/***/ 88:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var TextareaAutosize_1 = __webpack_require__(167);
-exports["default"] = TextareaAutosize_1["default"];
-
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ 92:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["notices"]; }());
-
 /***/ })
-
-/******/ });
+/******/ ]);

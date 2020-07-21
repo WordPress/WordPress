@@ -4172,8 +4172,7 @@ div.components-toolbar > div + div.has-left-divider::before {
   text-align: center;
   line-height: 1.4;
   font-size: 12px;
-  box-shadow: none;
-  pointer-events: none; }
+  box-shadow: none; }
   .components-tooltip .components-popover__content > div {
     padding: 4px 8px; }
 

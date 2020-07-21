@@ -381,7 +381,7 @@
     .block-editor-block-list__insertion-point-inserter {
       display: flex; } }
   .block-editor-block-list__insertion-point-inserter.is-inserter-hidden .block-editor-inserter__toggle {
-    opacity: 0;
+    visibility: hidden;
     pointer-events: none; }
 
 .block-editor-block-list__block-popover-inserter {
@@ -2360,13 +2360,13 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 
 .block-editor-inserter__popover .block-editor-inserter__menu {
   margin: -12px; }
-  .block-editor-inserter__popover .block-editor-inserter__menu .block-editor-inserter__search {
-    top: -12px; }
   .block-editor-inserter__popover .block-editor-inserter__menu .block-editor-inserter__tabs .components-tab-panel__tabs {
     top: 60px; }
   .block-editor-inserter__popover .block-editor-inserter__menu .block-editor-inserter__main-area {
     overflow: visible;
     height: auto; }
+  .block-editor-inserter__popover .block-editor-inserter__menu .block-editor-inserter__preview-container {
+    display: none; }
 
 .block-editor-inserter__toggle.components-button {
   display: inline-flex;

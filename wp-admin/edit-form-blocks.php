@@ -132,10 +132,12 @@ wp_localize_script( 'wp-editor', '_wpMetaBoxUrl', $meta_box_url );
  * Initialize the editor.
  */
 
-$align_wide       = get_theme_support( 'align-wide' );
-$color_palette    = current( (array) get_theme_support( 'editor-color-palette' ) );
-$font_sizes       = current( (array) get_theme_support( 'editor-font-sizes' ) );
-$gradient_presets = current( (array) get_theme_support( 'editor-gradient-presets' ) );
+$align_wide         = get_theme_support( 'align-wide' );
+$color_palette      = current( (array) get_theme_support( 'editor-color-palette' ) );
+$font_sizes         = current( (array) get_theme_support( 'editor-font-sizes' ) );
+$gradient_presets   = current( (array) get_theme_support( 'editor-gradient-presets' ) );
+$custom_line_height = get_theme_support( 'custom-line-height' );
+$custom_units       = get_theme_support( 'custom-units' );
 
 /**
  * Filters the allowed block types for the editor, defaulting to true (all
@@ -313,6 +315,8 @@ $editor_settings = array(
 	// Whether or not to load the 'postcustom' meta box is stored as a user meta
 	// field so that we're not always loading its assets.
 	'enableCustomFields'                   => (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true ),
+	'enableCustomLineHeight'               => $custom_line_height,
+	'enableCustomUnits'                    => $custom_units,
 );
 
 $autosave = wp_get_post_autosave( $post_ID );
