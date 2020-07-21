@@ -550,7 +550,7 @@ class WP_Debug_Data {
 				'label' => __( 'Max size of an uploaded file' ),
 				'value' => $upload_max_size,
 			);
-			$info['wp-media']['fields']['upload_max']          = array(
+			$info['wp-media']['fields']['max_effective_size']  = array(
 				'label' => __( 'Max effective file size' ),
 				'value' => size_format( $effective ),
 			);
