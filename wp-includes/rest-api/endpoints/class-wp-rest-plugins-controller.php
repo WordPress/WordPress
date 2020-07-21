@@ -640,7 +640,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 		if ( is_multisite() && ( 'network-active' === $current_status || 'network-active' === $new_status ) && ! current_user_can( 'manage_network_plugins' ) ) {
 			return new WP_Error(
 				'rest_cannot_manage_network_plugins',
-				__( 'Sorry, you do not have permission to manage network plugins.' ),
+				__( 'Sorry, you are not allowed to manage network plugins.' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
