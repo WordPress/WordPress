@@ -110,29 +110,12 @@ class WP_Sitemaps {
 	 * @since 5.5.0
 	 */
 	public function register_sitemaps() {
-		/**
-		 * Filters the list of registered sitemap providers.
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param array $providers {
-		 *     Array of WP_Sitemaps_Provider objects keyed by their name.
-		 *
-		 *     @type WP_Sitemaps_Posts      $posts      The WP_Sitemaps_Posts object.
-		 *     @type WP_Sitemaps_Taxonomies $taxonomies The WP_Sitemaps_Taxonomies object.
-		 *     @type WP_Sitemaps_Users      $users      The WP_Sitemaps_Users object.
-		 * }
-		 */
-		$providers = apply_filters(
-			'wp_sitemaps_register_providers',
-			array(
-				'posts'      => new WP_Sitemaps_Posts(),
-				'taxonomies' => new WP_Sitemaps_Taxonomies(),
-				'users'      => new WP_Sitemaps_Users(),
-			)
+		$providers = array(
+			'posts'      => new WP_Sitemaps_Posts(),
+			'taxonomies' => new WP_Sitemaps_Taxonomies(),
+			'users'      => new WP_Sitemaps_Users(),
 		);
 
-		// Register each supported provider.
 		/* @var WP_Sitemaps_Provider $provider */
 		foreach ( $providers as $name => $provider ) {
 			$this->registry->add_provider( $name, $provider );

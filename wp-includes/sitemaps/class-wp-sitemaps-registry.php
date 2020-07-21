@@ -25,16 +25,29 @@ class WP_Sitemaps_Registry {
 	private $providers = array();
 
 	/**
-	 * Adds a sitemap with route to the registry.
+	 * Adds a new sitemap provider.
 	 *
 	 * @since 5.5.0
 	 *
 	 * @param string               $name     Name of the sitemap provider.
 	 * @param WP_Sitemaps_Provider $provider Instance of a WP_Sitemaps_Provider.
-	 * @return bool True if the provider was added, false if it is already registered.
+	 * @return bool Whether the provider was added successfully.
 	 */
 	public function add_provider( $name, WP_Sitemaps_Provider $provider ) {
 		if ( isset( $this->providers[ $name ] ) ) {
+			return false;
+		}
+
+		/**
+		 * Filters the sitemap provider before it is added.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param WP_Sitemaps_Provider $provider Instance of a WP_Sitemaps_Provider.
+		 * @param string               $name     Name of the sitemap provider.
+		 */
+		$provider = apply_filters( 'wp_sitemaps_add_provider', $provider, $name );
+		if ( ! $provider instanceof WP_Sitemaps_Provider ) {
 			return false;
 		}
 
