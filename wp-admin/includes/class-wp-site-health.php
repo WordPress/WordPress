@@ -1956,7 +1956,7 @@ class WP_Site_Health {
 	}
 
 	/**
-	 * Test if 'file_uploads' directive in PHP.ini is turned off
+	 * Test if 'file_uploads' directive in PHP.ini is turned off.
 	 *
 	 * @since 5.5.0
 	 *
@@ -2007,7 +2007,10 @@ class WP_Site_Health {
 			return $result;
 		}
 
-		if ( parse_ini_size( ini_get( 'post_max_size' ) ) !== parse_ini_size( ini_get( 'upload_max_filesize' ) ) ) {
+		$post_max_size   = ini_get( 'post_max_size' );
+		$upload_max_size = ini_get( 'upload_max_filesize' );
+
+		if ( wp_convert_hr_to_bytes( $post_max_size ) !== wp_convert_hr_to_bytes( $upload_max_size ) ) {
 			$result['label']       = __( 'Mismatched "post_max_size" and "upload_max_filesize" values.' );
 			$result['status']      = 'recommended';
 			$result['description'] = sprintf(

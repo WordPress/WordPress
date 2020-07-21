@@ -534,7 +534,7 @@ class WP_Debug_Data {
 			$post_max_size    = ini_get( 'post_max_size' );
 			$upload_max_size  = ini_get( 'upload_max_filesize' );
 			$max_file_uploads = ini_get( 'max_file_uploads' );
-			$effective        = min( parse_ini_size( $post_max_size ), parse_ini_size( $upload_max_size ) );
+			$effective        = min( wp_convert_hr_to_bytes( $post_max_size ), wp_convert_hr_to_bytes( $upload_max_size ) );
 
 			// Add info in Media section.
 			$info['wp-media']['fields']['file_uploads']        = array(
