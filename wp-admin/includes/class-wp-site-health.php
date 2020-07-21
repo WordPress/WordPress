@@ -1973,8 +1973,8 @@ class WP_Site_Health {
 			'description' => sprintf(
 				'<p>%s</p>',
 				sprintf(
-					/* translators: %1$s: file_uploads %2$s: php.ini */
-					__( 'The %1$s directive in %2$s determines if uploading to is allowed in your WordPress.' ),
+					/* translators: 1: file_uploads, 2: php.ini */
+					__( 'The %1$s directive in %2$s determines if uploading files is allowed on your site.' ),
 					'<code>file_uploads</code>',
 					'<code>php.ini</code>'
 				)
@@ -1998,8 +1998,8 @@ class WP_Site_Health {
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
-					/* translators: %1$s: file_uploads %2$s: 0 */
-					__( '%1$s is set to %2$s. You won\'t be able to upload files in your WordPress.' ),
+					/* translators: 1: file_uploads, 2: 0 */
+					__( '%1$s is set to %2$s. You won\'t be able to upload files on your site.' ),
 					'<code>file_uploads</code>',
 					'<code>0</code>'
 				)
@@ -2011,12 +2011,17 @@ class WP_Site_Health {
 		$upload_max_size = ini_get( 'upload_max_filesize' );
 
 		if ( wp_convert_hr_to_bytes( $post_max_size ) !== wp_convert_hr_to_bytes( $upload_max_size ) ) {
-			$result['label']       = __( 'Mismatched "post_max_size" and "upload_max_filesize" values.' );
+			$result['label'] = sprintf(
+				/* translators: 1: post_max_size, 2: upload_max_filesize */
+				__( 'Mismatched "%1$s" and "%2$s" values.' ),
+				'post_max_size',
+				'upload_max_filesize'
+			);
 			$result['status']      = 'recommended';
 			$result['description'] = sprintf(
 				'<p>%s</p>',
 				sprintf(
-					/* translators: %1$s: post_max_size %2$s: upload_max_filesize */
+					/* translators: 1: post_max_size, 2: upload_max_filesize */
 					__( 'The settings for %1$s and %2$s are not the same, this could cause some problems when trying to upload files.' ),
 					'<code>post_max_size</code>',
 					'<code>upload_max_filesize</code>'
