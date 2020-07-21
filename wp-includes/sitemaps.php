@@ -17,25 +17,12 @@
  *
  * @global WP_Sitemaps $wp_sitemaps Global Core Sitemaps instance.
  *
- * @return WP_Sitemaps|null Sitemaps instance, or null if sitemaps are disabled.
+ * @return WP_Sitemaps Sitemaps instance.
  */
 function wp_sitemaps_get_server() {
 	global $wp_sitemaps;
 
 	$is_enabled = (bool) get_option( 'blog_public' );
-
-	/**
-	 * Filters whether XML Sitemaps are enabled or not.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @param bool $is_enabled Whether XML Sitemaps are enabled or not. Defaults to true for public sites.
-	 */
-	$is_enabled = (bool) apply_filters( 'wp_sitemaps_enabled', $is_enabled );
-
-	if ( ! $is_enabled ) {
-		return null;
-	}
 
 	// If there isn't a global instance, set and bootstrap the sitemaps system.
 	if ( empty( $wp_sitemaps ) ) {
