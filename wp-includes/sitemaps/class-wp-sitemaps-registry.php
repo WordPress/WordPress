@@ -2,7 +2,7 @@
 /**
  * Sitemaps: WP_Sitemaps_Registry class
  *
- * Handles registering sitemaps.
+ * Handles registering sitemap providers.
  *
  * @package WordPress
  * @subpackage Sitemaps
@@ -16,47 +16,47 @@
  */
 class WP_Sitemaps_Registry {
 	/**
-	 * Registered sitemaps.
+	 * Registered sitemap providers.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var WP_Sitemaps_Provider[] Array of registered sitemaps.
+	 * @var WP_Sitemaps_Provider[] Array of registered sitemap providers.
 	 */
-	private $sitemaps = array();
+	private $providers = array();
 
 	/**
 	 * Adds a sitemap with route to the registry.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string               $name     Name of the sitemap.
+	 * @param string               $name     Name of the sitemap provider.
 	 * @param WP_Sitemaps_Provider $provider Instance of a WP_Sitemaps_Provider.
-	 * @return bool True if the sitemap was added, false if it is already registered.
+	 * @return bool True if the provider was added, false if it is already registered.
 	 */
-	public function add_sitemap( $name, WP_Sitemaps_Provider $provider ) {
-		if ( isset( $this->sitemaps[ $name ] ) ) {
+	public function add_provider( $name, WP_Sitemaps_Provider $provider ) {
+		if ( isset( $this->providers[ $name ] ) ) {
 			return false;
 		}
 
-		$this->sitemaps[ $name ] = $provider;
+		$this->providers[ $name ] = $provider;
 
 		return true;
 	}
 
 	/**
-	 * Returns a single registered sitemaps provider.
+	 * Returns a single registered sitemap provider.
 	 *
 	 * @since 5.5.0
 	 *
 	 * @param string $name Sitemap provider name.
 	 * @return WP_Sitemaps_Provider|null Sitemaps provider if it exists, null otherwise.
 	 */
-	public function get_sitemap( $name ) {
-		if ( ! isset( $this->sitemaps[ $name ] ) ) {
+	public function get_provider( $name ) {
+		if ( ! isset( $this->providers[ $name ] ) ) {
 			return null;
 		}
 
-		return $this->sitemaps[ $name ];
+		return $this->providers[ $name ];
 	}
 
 	/**
@@ -66,7 +66,7 @@ class WP_Sitemaps_Registry {
 	 *
 	 * @return WP_Sitemaps_Provider[] Array of sitemap providers.
 	 */
-	public function get_sitemaps() {
-		return $this->sitemaps;
+	public function get_providers() {
+		return $this->providers;
 	}
 }

@@ -54,7 +54,7 @@ class WP_Sitemaps_Index {
 	public function get_sitemap_list() {
 		$sitemaps = array();
 
-		$providers = $this->registry->get_sitemaps();
+		$providers = $this->registry->get_providers();
 		/* @var WP_Sitemaps_Provider $provider */
 		foreach ( $providers as $name => $provider ) {
 			$sitemap_entries = $provider->get_sitemap_entries();

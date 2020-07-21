@@ -58,7 +58,7 @@ function wp_get_sitemaps() {
 		return array();
 	}
 
-	return $sitemaps->registry->get_sitemaps();
+	return $sitemaps->registry->get_providers();
 }
 
 /**
@@ -77,7 +77,7 @@ function wp_register_sitemap( $name, WP_Sitemaps_Provider $provider ) {
 		return false;
 	}
 
-	return $sitemaps->registry->add_sitemap( $name, $provider );
+	return $sitemaps->registry->add_provider( $name, $provider );
 }
 
 /**

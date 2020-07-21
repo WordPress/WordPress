@@ -135,7 +135,7 @@ class WP_Sitemaps {
 		// Register each supported provider.
 		/* @var WP_Sitemaps_Provider $provider */
 		foreach ( $providers as $name => $provider ) {
-			$this->registry->add_sitemap( $name, $provider );
+			$this->registry->add_provider( $name, $provider );
 		}
 	}
 
@@ -212,7 +212,7 @@ class WP_Sitemaps {
 			exit;
 		}
 
-		$provider = $this->registry->get_sitemap( $sitemap );
+		$provider = $this->registry->get_provider( $sitemap );
 
 		if ( ! $provider ) {
 			return;
