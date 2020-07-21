@@ -2052,15 +2052,28 @@ function rest_filter_response_by_context( $data, $schema, $context ) {
 		return $data;
 	}
 
+	$is_array_type  = 'array' === $type || ( is_array( $type ) && in_array( 'array', $type, true ) );
+	$is_object_type = 'object' === $type || ( is_array( $type ) && in_array( 'object', $type, true ) );
+
+	if ( $is_array_type && $is_object_type ) {
+		if ( rest_is_array( $data ) ) {
+			$is_object_type = false;
+		} else {
+			$is_array_type = false;
+		}
+	}
+
+	$has_additional_properties = $is_object_type && isset( $schema['additionalProperties'] ) && is_array( $schema['additionalProperties'] );
+
 	foreach ( $data as $key => $value ) {
 		$check = array();
 
-		if ( 'array' === $type || ( is_array( $type ) && in_array( 'array', $type, true ) ) ) {
+		if ( $is_array_type ) {
 			$check = isset( $schema['items'] ) ? $schema['items'] : array();
-		} elseif ( 'object' === $type || ( is_array( $type ) && in_array( 'object', $type, true ) ) ) {
+		} elseif ( $is_object_type ) {
 			if ( isset( $schema['properties'][ $key ] ) ) {
 				$check = $schema['properties'][ $key ];
-			} elseif ( isset( $schema['additionalProperties'] ) && is_array( $schema['additionalProperties'] ) ) {
+			} elseif ( $has_additional_properties ) {
 				$check = $schema['additionalProperties'];
 			}
 		}
@@ -2070,6 +2083,12 @@ function rest_filter_response_by_context( $data, $schema, $context ) {
 		}
 
 		if ( ! in_array( $context, $check['context'], true ) ) {
+			if ( $is_array_type ) {
+				// All array items share schema, so there's no need to check each one.
+				$data = array();
+				break;
+			}
+
 			if ( is_object( $data ) ) {
 				unset( $data->$key );
 			} else {
