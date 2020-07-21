@@ -44,5 +44,3 @@ function _register_core_block_patterns_and_categories() {
 	register_block_pattern_category( 'header', array( 'label' => _x( 'Headers', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'text', array( 'label' => _x( 'Text', 'Block pattern category' ) ) );
 }
-
-add_action( 'init', '_register_core_block_patterns_and_categories' );
