@@ -184,9 +184,11 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 		);
 
 		$attachment = null;
+
 		if ( $this->is_attachment_with_mime_type( $instance['attachment_id'], $this->widget_options['mime_type'] ) ) {
 			$attachment = get_post( $instance['attachment_id'] );
 		}
+
 		if ( $attachment ) {
 			$caption = '';
 			if ( ! isset( $instance['caption'] ) ) {
@@ -208,15 +210,18 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 			}
 
 			$size = $instance['size'];
+
 			if ( 'custom' === $size || ! in_array( $size, array_merge( get_intermediate_image_sizes(), array( 'full' ) ), true ) ) {
-				$size = array( $instance['width'], $instance['height'] );
+				$size  = array( $instance['width'], $instance['height'] );
+				$width = $instance['width'];
+			} else {
+				$caption_size = _wp_get_image_size_from_meta( $instance['size'], wp_get_attachment_metadata( $attachment->ID ) );
+				$width        = empty( $caption_size[0] ) ? 0 : $caption_size[0];
 			}
+
 			$image_attributes['class'] .= sprintf( ' attachment-%1$s size-%1$s', is_array( $size ) ? join( 'x', $size ) : $size );
 
 			$image = wp_get_attachment_image( $attachment->ID, $size, false, $image_attributes );
-
-			$caption_size = _wp_get_image_size_from_meta( $instance['size'], wp_get_attachment_metadata( $attachment->ID ) );
-			$width        = empty( $caption_size[0] ) ? 0 : $caption_size[0];
 
 		} else {
 			if ( empty( $instance['url'] ) ) {
