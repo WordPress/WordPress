@@ -1092,7 +1092,7 @@ class WP_Debug_Data {
 			}
 
 			$info['wp-active-theme']['fields']['auto_update'] = array(
-				'label' => __( 'Auto-update' ),
+				'label' => __( 'Auto-updates' ),
 				'value' => $auto_updates_string,
 				'debug' => $auto_updates_string,
 			);
