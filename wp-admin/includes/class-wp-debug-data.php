@@ -914,9 +914,6 @@ class WP_Debug_Data {
 		}
 
 		foreach ( $plugins as $plugin_path => $plugin ) {
-			$auto_updates_enabled_string  = __( 'Auto-updates enabled' );
-			$auto_updates_disabled_string = __( 'Auto-updates disabled' );
-
 			$plugin_part = ( is_plugin_active( $plugin_path ) ) ? 'wp-plugins-active' : 'wp-plugins-inactive';
 
 			$plugin_version = $plugin['Version'];
@@ -951,31 +948,29 @@ class WP_Debug_Data {
 
 			if ( $auto_updates_enabled ) {
 				if ( in_array( $plugin_path, $auto_updates, true ) ) {
-					$enabled = true;
+					$auto_updates_string = __( 'Auto-updates enabled' );
+					$enabled             = true;
 
 					/**
 					 * Filters the text string of the auto-updates setting for each plugin in the Site Health debug data.
 					 *
 					 * @since 5.5.0
 					 *
-					 * @param string $auto_updates_enabled_string The string output for the auto-updates column.
-					 * @param array  $plugin                      An array of plugin data.
-					 * @param bool   $enabled                     True if auto-updates are enabled for this item,
-					 *                                            false otherwise.
+					 * @param string $auto_updates_string The string output for the auto-updates column.
+					 * @param array  $plugin              An array of plugin data.
+					 * @param bool   $enabled             Whether auto-updates are enabled for this item.
 					 */
-					$auto_updates_enabled_string = apply_filters( 'plugin_auto_update_debug_string', $auto_updates_enabled_string, $plugin, $enabled );
-
-					$plugin_version_string       .= ' | ' . $auto_updates_enabled_string;
-					$plugin_version_string_debug .= ', ' . $auto_updates_enabled_string;
+					$auto_updates_string = apply_filters( 'plugin_auto_update_debug_string', $auto_updates_string, $plugin, $enabled );
 				} else {
-					$enabled = false;
+					$auto_updates_string = __( 'Auto-updates disabled' );
+					$enabled             = false;
 
 					/** This filter is documented in wp-admin/includes/class-wp-debug-data.php */
-					$auto_updates_disabled_string = apply_filters( 'plugin_auto_update_debug_string', $auto_updates_disabled_string, $plugin, $enabled );
-
-					$plugin_version_string       .= ' | ' . $auto_updates_disabled_string;
-					$plugin_version_string_debug .= ', ' . $auto_updates_disabled_string;
+					$auto_updates_string = apply_filters( 'plugin_auto_update_debug_string', $auto_updates_string, $plugin, $enabled );
 				}
+
+				$plugin_version_string       .= ' | ' . $auto_updates_string;
+				$plugin_version_string_debug .= ', ' . $auto_updates_string;
 			}
 
 			$info[ $plugin_part ]['fields'][ sanitize_text_field( $plugin['Name'] ) ] = array(
@@ -1072,39 +1067,37 @@ class WP_Debug_Data {
 				'value' => get_stylesheet_directory(),
 			),
 		);
+
 		if ( $auto_updates_enabled ) {
 			if ( in_array( $active_theme->stylesheet, $auto_updates, true ) ) {
-				$auto_updates_enabled_string = __( 'Enabled' );
-				$enabled                     = true;
+				$auto_updates_string = __( 'Enabled' );
+				$enabled             = true;
 
 				/**
 				 * Filters the text string of the auto-updates setting for each theme in the Site Health debug data.
 				 *
 				 * @since 5.5.0
 				 *
-				 * @param string $auto_updates_enabled_string The string output for the auto-updates column.
-				 * @param object $theme                       An object of theme data.
-				 * @param bool   $enabled                     True if auto-updates are enabled for this item,
-				 *                                            false otherwise.
+				 * @param string $auto_updates_string The string output for the auto-updates column.
+				 * @param object $theme               An object of theme data.
+				 * @param bool   $enabled             Whether auto-updates are enabled for this item.
 				 */
-				$auto_updates_enabled_string = apply_filters( 'theme_auto_update_debug_string', $auto_updates_enabled_string, $active_theme, $enabled );
-
+				$auto_updates_string = apply_filters( 'theme_auto_update_debug_string', $auto_updates_string, $active_theme, $enabled );
 			} else {
-				$auto_updates_disabled_string = __( 'Disabled' );
-				$enabled                      = false;
+				$auto_updates_string = __( 'Disabled' );
+				$enabled             = false;
 
 				/** This filter is documented in wp-admin/includes/class-wp-debug-data.php */
-				$auto_updates_disabled_string = apply_filters( 'theme_auto_update_debug_string', $auto_updates_disabled_string, $active_theme, $enabled );
-
+				$auto_updates_string = apply_filters( 'theme_auto_update_debug_string', $auto_updates_string, $active_theme, $enabled );
 			}
-			$theme_auto_update_string = $enabled ? $auto_updates_enabled_string : $auto_updates_disabled_string;
 
 			$info['wp-active-theme']['fields']['auto_update'] = array(
 				'label' => __( 'Auto-update' ),
-				'value' => $theme_auto_update_string,
-				'debug' => $theme_auto_update_string,
+				'value' => $auto_updates_string,
+				'debug' => $auto_updates_string,
 			);
 		}
+
 		$parent_theme = $active_theme->parent();
 
 		if ( $parent_theme ) {
@@ -1179,9 +1172,6 @@ class WP_Debug_Data {
 				continue;
 			}
 
-			$auto_updates_enabled_string  = __( 'Auto-updates enabled' );
-			$auto_updates_disabled_string = __( 'Auto-updates disabled' );
-
 			$theme_version = $theme->version;
 			$theme_author  = $theme->author;
 
@@ -1217,22 +1207,21 @@ class WP_Debug_Data {
 
 			if ( $auto_updates_enabled ) {
 				if ( in_array( $theme_slug, $auto_updates, true ) ) {
-					$enabled = true;
+					$auto_updates_string = __( 'Auto-updates enabled' );
+					$enabled             = true;
 
 					/** This filter is documented in wp-admin/includes/class-wp-debug-data.php */
-					$auto_updates_enabled_string = apply_filters( 'theme_auto_update_debug_string', $auto_updates_enabled_string, $theme, $enabled );
-
-					$theme_version_string       .= ' | ' . $auto_updates_enabled_string;
-					$theme_version_string_debug .= ',' . $auto_updates_enabled_string;
+					$auto_updates_string = apply_filters( 'theme_auto_update_debug_string', $auto_updates_string, $theme, $enabled );
 				} else {
-					$enabled = false;
+					$auto_updates_string = __( 'Auto-updates disabled' );
+					$enabled             = false;
 
 					/** This filter is documented in wp-admin/includes/class-wp-debug-data.php */
-					$auto_updates_disabled_string = apply_filters( 'theme_auto_update_debug_string', $auto_updates_disabled_string, $theme, $enabled );
-
-					$theme_version_string       .= ' | ' . $auto_updates_disabled_string;
-					$theme_version_string_debug .= ', ' . $auto_updates_disabled_string;
+					$auto_updates_string = apply_filters( 'theme_auto_update_debug_string', $auto_updates_string, $theme, $enabled );
 				}
+
+				$theme_version_string       .= ' | ' . $auto_updates_string;
+				$theme_version_string_debug .= ',' . $auto_updates_string;
 			}
 
 			$info['wp-themes-inactive']['fields'][ sanitize_text_field( $theme->name ) ] = array(
