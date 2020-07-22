@@ -1078,9 +1078,9 @@ class WP_Debug_Data {
 				 *
 				 * @since 5.5.0
 				 *
-				 * @param string $auto_updates_string The string output for the auto-updates column.
-				 * @param object $theme               An object of theme data.
-				 * @param bool   $enabled             Whether auto-updates are enabled for this item.
+				 * @param string   $auto_updates_string The string output for the auto-updates column.
+				 * @param WP_Theme $theme               An object of theme data.
+				 * @param bool     $enabled             Whether auto-updates are enabled for this item.
 				 */
 				$auto_updates_string = apply_filters( 'theme_auto_update_debug_string', $auto_updates_string, $active_theme, $enabled );
 			} else {
