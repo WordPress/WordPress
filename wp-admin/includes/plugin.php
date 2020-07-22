@@ -2231,7 +2231,7 @@ function add_allowed_options( $new_options, $options = '' ) {
  * @param string|array $options
  * @return array
  */
-function remove_option_allowed_list( $del_options, $options = '' ) {
+function remove_allowed_options( $del_options, $options = '' ) {
 	if ( '' === $options ) {
 		global $allowed_options;
 	} else {

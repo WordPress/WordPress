@@ -4086,7 +4086,7 @@ function add_option_whitelist( $new_options, $options = '' ) {
  * Removes a list of options from the allowed options list.
  *
  * @since 2.7.0
- * @deprecated 5.5.0 Use remove_option_allowed_list() instead.
+ * @deprecated 5.5.0 Use remove_allowed_options() instead.
  *                   Please consider writing more inclusive code.
  *
  * @global array $allowed_options
@@ -4096,7 +4096,7 @@ function add_option_whitelist( $new_options, $options = '' ) {
  * @return array
  */
 function remove_option_whitelist( $del_options, $options = '' ) {
-	_deprecated_function( __FUNCTION__, '5.5.0', 'remove_option_allowed_list()' );
+	_deprecated_function( __FUNCTION__, '5.5.0', 'remove_allowed_options()' );
 
-	return remove_option_allowed_list( $del_options, $options );
+	return remove_allowed_options( $del_options, $options );
 }
