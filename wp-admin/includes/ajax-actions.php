@@ -5197,7 +5197,6 @@ function wp_ajax_health_check_background_updates() {
 	wp_send_json_success( $site_health->get_test_background_updates() );
 }
 
-
 /**
  * Ajax handler for site health checks on loopback requests.
  *

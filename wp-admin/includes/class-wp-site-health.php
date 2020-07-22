@@ -1743,7 +1743,7 @@ class WP_Site_Health {
 	 */
 	public function get_test_plugin_theme_auto_updates() {
 		$result = array(
-			'label'       => __( 'Plugin and Theme auto-updates appear to be configured correctly' ),
+			'label'       => __( 'Plugin and theme auto-updates appear to be configured correctly' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Security' ),
@@ -1751,7 +1751,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				__( 'Plugin and theme auto updates ensure that the latest versions are always installed.' )
+				__( 'Plugin and theme auto-updates ensure that the latest versions are always installed.' )
 			),
 			'actions'     => '',
 			'test'        => 'plugin_theme_auto_updates',
@@ -2363,23 +2363,23 @@ class WP_Site_Health {
 		) {
 			return (object) array(
 				'status'  => 'recommended',
-				'message' => __( 'Auto-updates for plugins and themes appear to be disabled. This will prevent your sites from receiving new versions automatically when available.' ),
+				'message' => __( 'Auto-updates for plugins and themes appear to be disabled. This will prevent your site from receiving new versions automatically when available.' ),
 			);
 		} elseif ( ! $test_plugins_enabled && $plugin_filter_present ) {
 			return (object) array(
 				'status'  => 'recommended',
-				'message' => __( 'Auto-updates for plugins appear to be disabled. This will prevent your sites from receiving new versions automatically when available.' ),
+				'message' => __( 'Auto-updates for plugins appear to be disabled. This will prevent your site from receiving new versions automatically when available.' ),
 			);
 		} elseif ( ! $test_themes_enabled && $theme_filter_present ) {
 			return (object) array(
 				'status'  => 'recommended',
-				'message' => __( 'Auto-updates for themes appear to be disabled. This will prevent your sites from receiving new versions automatically when available.' ),
+				'message' => __( 'Auto-updates for themes appear to be disabled. This will prevent your site from receiving new versions automatically when available.' ),
 			);
 		}
 
 		return (object) array(
 			'status'  => 'good',
-			'message' => __( 'There appears to be no issues with plugin and theme auto-updates.' ),
+			'message' => __( 'There appear to be no issues with plugin and theme auto-updates.' ),
 		);
 	}
 
