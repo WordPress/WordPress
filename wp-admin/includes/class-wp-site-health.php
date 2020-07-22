@@ -2319,9 +2319,9 @@ class WP_Site_Health {
 		foreach ( $this->crons as $id => $cron ) {
 			$cron_offset = $cron->time - time();
 			if (
-					$cron_offset >= $this->timeout_missed_cron &&
-					$cron_offset < $this->timeout_late_cron
-				) {
+				$cron_offset >= $this->timeout_missed_cron &&
+				$cron_offset < $this->timeout_late_cron
+			) {
 				$this->last_late_cron = $cron->hook;
 				return true;
 			}
@@ -2349,14 +2349,18 @@ class WP_Site_Health {
 		$plugin_filter_present  = has_filter( 'auto_update_plugin' );
 		$theme_filter_present   = has_filter( 'auto_update_theme' );
 
-		if ( ( ! $test_plugins_enabled && $ui_enabled_for_plugins ) || ( $test_themes_enabled && $ui_enabled_for_themes ) ) {
+		if ( ( ! $test_plugins_enabled && $ui_enabled_for_plugins )
+			|| ( ! $test_themes_enabled && $ui_enabled_for_themes )
+		) {
 			return (object) array(
 				'status'  => 'critical',
 				'message' => __( 'Auto-updates for plugins and/or themes appear to be disabled, but settings are still set to be displayed. This could cause auto-updates to not work as expected.' ),
 			);
 		}
 
-		if ( ( ! $test_plugins_enabled && $plugin_filter_present ) && ( ! $test_themes_enabled && $theme_filter_present ) ) {
+		if ( ( ! $test_plugins_enabled && $plugin_filter_present )
+			&& ( ! $test_themes_enabled && $theme_filter_present )
+		) {
 			return (object) array(
 				'status'  => 'recommended',
 				'message' => __( 'Auto-updates for plugins and themes appear to be disabled. This will prevent your sites from receiving new versions automatically when available.' ),
