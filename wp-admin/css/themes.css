@@ -249,7 +249,6 @@ body.js .theme-browser.search-loading {
 
 .theme-browser .theme.display-author .theme-author a {
 	color: inherit;
-	text-decoration: none;
 }
 
 /**
@@ -679,11 +678,6 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	line-height: inherit;
 }
 
-.theme-overlay .theme-author a,
-.theme-overlay .theme-autoupdate a {
-	text-decoration: none;
-}
-
 .theme-overlay .toggle-auto-update {
 	/* Better align spin icon and text. */
 	display: inline-flex;
@@ -691,6 +685,14 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	/* Prevents content after the auto-update toggler from jumping down and up. */
 	min-height: 20px; /* Same height as the spinning dashicon. */
 	vertical-align: top;
+}
+
+.theme-overlay .theme-autoupdate .toggle-auto-update {
+	text-decoration: none;
+}
+
+.theme-overlay .theme-autoupdate .toggle-auto-update .label {
+	text-decoration: underline;
 }
 
 .theme-overlay .theme-description {
