@@ -727,7 +727,7 @@
 					$button.data( 'name' )
 				)
 			)
-			.text( __( 'Installation Failed!' ) );
+			.text( __( 'Installation failed' ) );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
 
@@ -1364,7 +1364,7 @@
 					$button.data( 'name' )
 				)
 			)
-			.text( __( 'Installation Failed!' ) );
+			.text( __( 'Installation failed' ) );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
 
