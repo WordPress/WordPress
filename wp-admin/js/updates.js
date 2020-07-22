@@ -504,7 +504,7 @@
 						'aria-label',
 						sprintf(
 							/* translators: %s: Plugin name and version. */
-							_x( '%s update failed', 'plugin' ),
+							_x( '%s update failed.', 'plugin' ),
 							response.pluginName
 						)
 					);
@@ -529,7 +529,7 @@
 						'aria-label',
 						sprintf(
 							/* translators: %s: Plugin name and version. */
-							_x( '%s update failed', 'plugin' ),
+							_x( '%s update failed.', 'plugin' ),
 							response.pluginName
 						)
 					);
