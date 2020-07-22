@@ -94,7 +94,7 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 				__FUNCTION__,
 				sprintf(
 					/* translators: 1. The REST API route being registered. 2. The argument name. 3. The suggested function name. */
-					__( 'The REST API route definition for %1$s is missing the required %2$s argument. For REST API routes that are intended to be public, use %3$s as the permission callback.', 'LION' ),
+					__( 'The REST API route definition for %1$s is missing the required %2$s argument. For REST API routes that are intended to be public, use %3$s as the permission callback.' ),
 					'<code>' . $clean_namespace . '/' . trim( $route, '/' ) . '</code>',
 					'<code>permission_callback</code>',
 					'<code>__return_true</code>'
