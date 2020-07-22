@@ -4210,7 +4210,7 @@ function wp_ajax_update_theme() {
 	}
 
 	// An unhandled error occurred.
-	$status['errorMessage'] = __( 'Update failed.' );
+	$status['errorMessage'] = __( 'Update failed' );
 	wp_send_json_error( $status );
 }
 

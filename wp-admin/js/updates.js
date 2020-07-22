@@ -520,7 +520,7 @@
 				} ) );
 
 			$card.find( '.update-now' )
-				.text(  __( 'Update Failed!' ) )
+				.text(  __( 'Update failed' ) )
 				.removeClass( 'updating-message' );
 
 			if ( response.pluginName ) {
@@ -1838,7 +1838,7 @@
 			.removeClass( 'updating-message' )
 			.removeAttr( 'aria-label' )
 			.prop( 'disabled', true )
-			.text( __( 'Update Failed!' ) );
+			.text( __( 'Update failed' ) );
 
 		$( '.updating-message:not(.button):not(.thickbox)' )
 			.removeClass( 'updating-message notice-warning' )
