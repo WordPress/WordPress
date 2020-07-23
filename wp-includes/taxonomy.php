@@ -839,18 +839,18 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
  *
  * @see sanitize_term_field() The $context param lists the available values for get_term_by() $filter param.
  *
- * @param int|WP_Term|object $term     If integer, term data will be fetched from the database, or from the cache if
- *                                     available. If stdClass object (as in the results of a database query), will apply
- *                                     filters and return a `WP_Term` object corresponding to the `$term` data. If
- *                                     `WP_Term`, will return `$term`.
- * @param string             $taxonomy Optional. Taxonomy name that $term is part of.
+ * @param int|WP_Term|object $term     If integer, term data will be fetched from the database,
+ *                                     or from the cache if available.
+ *                                     If stdClass object (as in the results of a database query),
+ *                                     will apply filters and return a `WP_Term` object with the `$term` data.
+ *                                     If `WP_Term`, will return `$term`.
+ * @param string             $taxonomy Optional. Taxonomy name that `$term` is part of.
  * @param string             $output   Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
- *                                     correspond toa WP_Term object, an associative array, or a numeric array
+ *                                     correspond to a WP_Term object, an associative array, or a numeric array,
  *                                     respectively. Default OBJECT.
  * @param string             $filter   Optional. How to sanitize term fields. Default 'raw'.
- * @return WP_Term|array|WP_Error|null Object of the type specified by `$output` on success. When `$output` is 'OBJECT',
- *                                     a WP_Term instance is returned. If taxonomy does not exist, a WP_Error is
- *                                     returned. Returns null for miscellaneous failure.
+ * @return WP_Term|array|WP_Error|null WP_Term instance (or array) on success, depending on the `$output` value.
+ *                                     WP_Error if `$taxonomy` does not exist. Null for miscellaneous failure.
  */
 function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 	if ( empty( $term ) ) {
@@ -956,11 +956,12 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
  * @param string     $field    Either 'slug', 'name', 'id' or 'ID' (term_id), or 'term_taxonomy_id'.
  * @param string|int $value    Search for this term value.
  * @param string     $taxonomy Taxonomy name. Optional, if `$field` is 'term_taxonomy_id'.
- * @param string     $output   Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
- *                             a WP_Term object, an associative array, or a numeric array, respectively. Default OBJECT.
+ * @param string     $output   Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
+ *                             correspond to a WP_Term object, an associative array, or a numeric array,
+ *                             respectively. Default OBJECT.
  * @param string     $filter   Optional. How to sanitize term fields. Default 'raw'.
- * @return WP_Term|array|false WP_Term instance (or array) on success. Will return false if `$taxonomy` does not exist
- *                             or `$term` was not found.
+ * @return WP_Term|array|false WP_Term instance (or array) on success, depending on the `$output` value.
+ *                             False if `$taxonomy` does not exist or `$term` was not found.
  */
 function get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 

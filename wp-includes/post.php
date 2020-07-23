@@ -633,8 +633,9 @@ function _wp_relative_upload_path( $path ) {
  * @global WP_Post $post Global post object.
  *
  * @param mixed  $args   Optional. User defined arguments for replacing the defaults. Default empty.
- * @param string $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
- *                       a WP_Post object, an associative array, or a numeric array, respectively. Default OBJECT.
+ * @param string $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
+ *                       correspond to a WP_Post object, an associative array, or a numeric array,
+ *                       respectively. Default OBJECT.
  * @return WP_Post[]|int[] Array of post objects or post IDs.
  */
 function get_children( $args = '', $output = OBJECT ) {
@@ -751,8 +752,9 @@ function get_extended( $post ) {
  * @global WP_Post $post Global post object.
  *
  * @param int|WP_Post|null $post   Optional. Post ID or post object. Defaults to global $post.
- * @param string           $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
- *                                 a WP_Post object, an associative array, or a numeric array, respectively. Default OBJECT.
+ * @param string           $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
+ *                                 correspond to a WP_Post object, an associative array, or a numeric array,
+ *                                 respectively. Default OBJECT.
  * @param string           $filter Optional. Type of filter to apply. Accepts 'raw', 'edit', 'db',
  *                                 or 'display'. Default 'raw'.
  * @return WP_Post|array|null Type corresponding to $output on success or null on failure.
@@ -3505,10 +3507,11 @@ function wp_get_post_terms( $post_id = 0, $taxonomy = 'post_tag', $args = array(
  * @see get_posts()
  *
  * @param array  $args   Optional. Arguments to retrieve posts. Default empty array.
- * @param string $output Optional. The required return type. One of OBJECT or ARRAY_A, which correspond to
- *                       a WP_Post object or an associative array, respectively. Default ARRAY_A.
- * @return array|false Array of recent posts, where the type of each element is determined by $output parameter.
- *                     Empty array on failure.
+ * @param string $output Optional. The required return type. One of OBJECT or ARRAY_A, which
+ *                       correspond to a WP_Post object or an associative array, respectively.
+ *                       Default ARRAY_A.
+ * @return array|false Array of recent posts, where the type of each element is determined
+ *                     by the `$output` parameter. Empty array on failure.
  */
 function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 
@@ -5048,8 +5051,9 @@ function get_all_page_ids() {
  * @deprecated 3.5.0 Use get_post()
  *
  * @param int|WP_Post $page   Page object or page ID. Passed by reference.
- * @param string      $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
- *                            a WP_Post object, an associative array, or a numeric array, respectively. Default OBJECT.
+ * @param string      $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
+ *                            correspond to a WP_Post object, an associative array, or a numeric array,
+ *                            respectively. Default OBJECT.
  * @param string      $filter Optional. How the return value should be filtered. Accepts 'raw',
  *                            'edit', 'db', 'display'. Default 'raw'.
  * @return WP_Post|array|null WP_Post or array on success, null on failure.
@@ -5066,8 +5070,9 @@ function get_page( $page, $output = OBJECT, $filter = 'raw' ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string       $page_path Page path.
- * @param string       $output    Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
- *                                a WP_Post object, an associative array, or a numeric array, respectively. Default OBJECT.
+ * @param string       $output    Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
+ *                                correspond to a WP_Post object, an associative array, or a numeric array,
+ *                                respectively. Default OBJECT.
  * @param string|array $post_type Optional. Post type or array of post types. Default 'page'.
  * @return WP_Post|array|null WP_Post (or array) on success, or null on failure.
  */
@@ -5168,8 +5173,9 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string       $page_title Page title.
- * @param string       $output     Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
- *                                 a WP_Post object, an associative array, or a numeric array, respectively. Default OBJECT.
+ * @param string       $output     Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
+ *                                 correspond to a WP_Post object, an associative array, or a numeric array,
+ *                                 respectively. Default OBJECT.
  * @param string|array $post_type  Optional. Post type or array of post types. Default 'page'.
  * @return WP_Post|array|null WP_Post (or array) on success, or null on failure.
  */

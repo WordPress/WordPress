@@ -56,8 +56,8 @@ class WP_User {
 	 * Capabilities that the individual user has been granted outside of those inherited from their role.
 	 *
 	 * @since 2.0.0
-	 * @var bool[] Array of key/value pairs where keys represent a capability name and boolean values
-	 *             represent whether the user has that capability.
+	 * @var bool[] Array of key/value pairs where keys represent a capability name
+	 *             and boolean values represent whether the user has that capability.
 	 */
 	public $caps = array();
 
@@ -81,8 +81,8 @@ class WP_User {
 	 * All capabilities the user has, including individual and role based.
 	 *
 	 * @since 2.0.0
-	 * @var bool[] Array of key/value pairs where keys represent a capability name and boolean values
-	 *             represent whether the user has that capability.
+	 * @var bool[] Array of key/value pairs where keys represent a capability name
+	 *             and boolean values represent whether the user has that capability.
 	 */
 	public $allcaps = array();
 
@@ -482,15 +482,17 @@ class WP_User {
 	}
 
 	/**
-	 * Retrieves all of the capabilities of the roles of the user, and merges them with individual user capabilities.
+	 * Retrieves all of the capabilities of the user's roles, and merges them with
+	 * individual user capabilities.
 	 *
-	 * All of the capabilities of the roles of the user are merged with the user's individual capabilities. This means
-	 * that the user can be denied specific capabilities that their role might have, but the user is specifically denied.
+	 * All of the capabilities of the user's roles are merged with the user's individual
+	 * capabilities. This means that the user can be denied specific capabilities that
+	 * their role might have, but the user is specifically denied.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return bool[] Array of key/value pairs where keys represent a capability name and boolean values
-	 *                represent whether the user has that capability.
+	 * @return bool[] Array of key/value pairs where keys represent a capability name
+	 *                and boolean values represent whether the user has that capability.
 	 */
 	public function get_role_caps() {
 		$switch_site = false;
@@ -766,8 +768,8 @@ class WP_User {
 		 * @since 2.0.0
 		 * @since 3.7.0 Added the `$user` parameter.
 		 *
-		 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
-		 *                          represent whether the user has that capability.
+		 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name
+		 *                          and boolean values represent whether the user has that capability.
 		 * @param string[] $caps    Required primitive capabilities for the requested capability.
 		 * @param array    $args {
 		 *     Arguments that accompany the requested capability check.

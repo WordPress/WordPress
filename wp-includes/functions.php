@@ -7524,10 +7524,10 @@ function get_dirsize( $directory, $max_execution_time = null ) {
  * @since 5.2.0 $max_execution_time parameter added.
  *
  * @param string       $directory          Full path of a directory.
- * @param string|array $exclude            Optional. Full path of a subdirectory to exclude from the total, or array of
- *                                         paths. Expected without trailing slash(es).
- * @param int          $max_execution_time Maximum time to run before giving up. In seconds.
- *                                         The timeout is global and is measured from the moment WordPress started to load.
+ * @param string|array $exclude            Optional. Full path of a subdirectory to exclude from the total,
+ *                                         or array of paths. Expected without trailing slash(es).
+ * @param int          $max_execution_time Maximum time to run before giving up. In seconds. The timeout is global
+ *                                         and is measured from the moment WordPress started to load.
  * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.
  */
 function recurse_dirsize( $directory, $exclude = null, $max_execution_time = null ) {

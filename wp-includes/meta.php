@@ -484,7 +484,8 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
  * or an array of values if it's false.
  *
  * If the meta field does not exist, the result depends on get_metadata_default().
- * By default, an empty string is returned if `$single` is true, or an empty array if it's false.
+ * By default, an empty string is returned if `$single` is true, or an empty array
+ * if it's false.
  *
  * @since 2.9.0
  *
@@ -591,7 +592,8 @@ function get_metadata_raw( $meta_type, $object_id, $meta_key = '', $single = fal
 /**
  * Retrieves default metadata value for the specified object.
  *
- * By default, an empty string is returned if `$single` is true, or an empty array if it's false.
+ * By default, an empty string is returned if `$single` is true, or an empty array
+ * if it's false.
  *
  * @since 5.5.0
  *
@@ -1413,7 +1415,7 @@ function filter_default_metadata( $value, $object_id, $meta_key, $single, $meta_
 		return $value;
 	}
 
-	// If this meta type does not have sub types, then the default is keyed as an empty string.
+	// If this meta type does not have subtypes, then the default is keyed as an empty string.
 	if ( isset( $defaults[''] ) ) {
 		$metadata = $defaults[''];
 	} else {

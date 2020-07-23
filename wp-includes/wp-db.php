@@ -2576,9 +2576,9 @@ class wpdb {
 	 * @since 0.71
 	 *
 	 * @param string|null $query  SQL query.
-	 * @param string      $output Optional. The required return type. Possible values include
-	 *                            OBJECT, ARRAY_A, or ARRAY_N, which correspond to an stdClass object,
-	 *                            an associative array, or a numeric array, respectively. Default OBJECT.
+	 * @param string      $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
+	 *                            correspond to an stdClass object, an associative array, or a numeric array,
+	 *                            respectively. Default OBJECT.
 	 * @param int         $y      Optional. Row to return. Indexed from 0.
 	 * @return array|object|null|void Database query result in format specified by $output or null on failure.
 	 */
