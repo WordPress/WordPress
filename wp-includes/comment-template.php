@@ -307,6 +307,7 @@ function get_comment_author_url( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
 	$url     = '';
 	$id      = 0;
+
 	if ( ! empty( $comment ) ) {
 		$author_url = ( 'http://' === $comment->comment_author_url ) ? '' : $comment->comment_author_url;
 		$url        = esc_url( $author_url, array( 'http', 'https' ) );
@@ -1555,29 +1556,29 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
  * @param false|string $none      Optional. String to display when comments have been turned off. Default false.
  */
 function comments_popup_link( $zero = false, $one = false, $more = false, $css_class = '', $none = false ) {
-	$id     = get_the_ID();
-	$title  = get_the_title();
-	$number = get_comments_number( $id );
+	$post_id    = get_the_ID();
+	$post_title = get_the_title();
+	$number     = get_comments_number( $post_id );
 
 	if ( false === $zero ) {
 		/* translators: %s: Post title. */
-		$zero = sprintf( __( 'No Comments<span class="screen-reader-text"> on %s</span>' ), $title );
+		$zero = sprintf( __( 'No Comments<span class="screen-reader-text"> on %s</span>' ), $post_title );
 	}
 
 	if ( false === $one ) {
 		/* translators: %s: Post title. */
-		$one = sprintf( __( '1 Comment<span class="screen-reader-text"> on %s</span>' ), $title );
+		$one = sprintf( __( '1 Comment<span class="screen-reader-text"> on %s</span>' ), $post_title );
 	}
 
 	if ( false === $more ) {
 		/* translators: 1: Number of comments, 2: Post title. */
 		$more = _n( '%1$s Comment<span class="screen-reader-text"> on %2$s</span>', '%1$s Comments<span class="screen-reader-text"> on %2$s</span>', $number );
-		$more = sprintf( $more, number_format_i18n( $number ), $title );
+		$more = sprintf( $more, number_format_i18n( $number ), $post_title );
 	}
 
 	if ( false === $none ) {
 		/* translators: %s: Post title. */
-		$none = sprintf( __( 'Comments Off<span class="screen-reader-text"> on %s</span>' ), $title );
+		$none = sprintf( __( 'Comments Off<span class="screen-reader-text"> on %s</span>' ), $post_title );
 	}
 
 	if ( 0 == $number && ! comments_open() && ! pings_open() ) {
@@ -1599,9 +1600,9 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 		 * @since 4.4.0
 		 *
 		 * @param string $respond_link The default response link.
-		 * @param integer $id The post ID.
+		 * @param int    $post_id      The post ID.
 		 */
-		echo apply_filters( 'respond_link', $respond_link, $id );
+		echo apply_filters( 'respond_link', $respond_link, $post_id );
 	} else {
 		comments_link();
 	}
@@ -1910,16 +1911,16 @@ function cancel_comment_reply_link( $text = '' ) {
  *
  * @since 3.0.0
  *
- * @param int $id Optional. Post ID. Default current post ID.
- * @return string Hidden input HTML for replying to comments
+ * @param int $post_id Optional. Post ID. Defaults to the current post ID.
+ * @return string Hidden input HTML for replying to comments.
  */
-function get_comment_id_fields( $id = 0 ) {
-	if ( empty( $id ) ) {
-		$id = get_the_ID();
+function get_comment_id_fields( $post_id = 0 ) {
+	if ( empty( $post_id ) ) {
+		$post_id = get_the_ID();
 	}
 
 	$replytoid = isset( $_GET['replytocom'] ) ? (int) $_GET['replytocom'] : 0;
-	$result    = "<input type='hidden' name='comment_post_ID' value='$id' id='comment_post_ID' />\n";
+	$result    = "<input type='hidden' name='comment_post_ID' value='$post_id' id='comment_post_ID' />\n";
 	$result   .= "<input type='hidden' name='comment_parent' id='comment_parent' value='$replytoid' />\n";
 
 	/**
@@ -1927,22 +1928,29 @@ function get_comment_id_fields( $id = 0 ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $result    The HTML-formatted hidden id field comment elements.
-	 * @param int    $id        The post ID.
-	 * @param int    $replytoid The id of the comment being replied to.
+	 * @param string $result    The HTML-formatted hidden ID field comment elements.
+	 * @param int    $post_id   The post ID.
+	 * @param int    $replytoid The ID of the comment being replied to.
 	 */
-	return apply_filters( 'comment_id_fields', $result, $id, $replytoid );
+	return apply_filters( 'comment_id_fields', $result, $post_id, $replytoid );
 }
 
 /**
  * Outputs hidden input HTML for replying to comments.
  *
+ * Adds two hidden inputs to the comment form to identify the `comment_post_ID`
+ * and `comment_parent` values for threaded comments.
+ *
+ * This tag must be within the `<form>` section of the `comments.php` template.
+ *
  * @since 2.7.0
  *
- * @param int $id Optional. Post ID. Default current post ID.
+ * @see get_comment_id_fields()
+ *
+ * @param int $post_id Optional. Post ID. Defaults to the current post ID.
  */
-function comment_id_fields( $id = 0 ) {
-	echo get_comment_id_fields( $id );
+function comment_id_fields( $post_id = 0 ) {
+	echo get_comment_id_fields( $post_id );
 }
 
 /**
