@@ -41,9 +41,11 @@ final class WP_Recovery_Mode_Email_Service {
 	 *
 	 * @param int   $rate_limit Number of seconds before another email can be sent.
 	 * @param array $error      Error details from {@see error_get_last()}
-	 * @param array $extension  The extension that caused the error. {
-	 *      @type string $slug The extension slug. The plugin or theme's directory.
-	 *      @type string $type The extension type. Either 'plugin' or 'theme'.
+	 * @param array $extension {
+	 *     The extension that caused the error.
+	 *
+	 *     @type string $slug The extension slug. The plugin or theme's directory.
+	 *     @type string $type The extension type. Either 'plugin' or 'theme'.
 	 * }
 	 * @return true|WP_Error True if email sent, WP_Error otherwise.
 	 */

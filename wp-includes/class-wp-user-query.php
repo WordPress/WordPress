@@ -680,7 +680,7 @@ class WP_User_Query {
 	 * @since 3.5.0
 	 *
 	 * @param string $query_var Query variable key.
-	 * @param mixed $value Query variable value.
+	 * @param mixed  $value     Query variable value.
 	 */
 	public function set( $query_var, $value ) {
 		$this->query_vars[ $query_var ] = $value;
@@ -880,8 +880,8 @@ class WP_User_Query {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param string   $name      Method to call.
-	 * @param array    $arguments Arguments to pass when calling.
+	 * @param string $name      Method to call.
+	 * @param array  $arguments Arguments to pass when calling.
 	 * @return mixed Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {

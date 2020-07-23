@@ -207,7 +207,7 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
  * @param string $handle      Script handle the data will be attached to.
  * @param string $object_name Name for the JavaScript object. Passed directly, so it should be qualified JS variable.
  *                            Example: '/[a-zA-Z0-9_]+/'.
- * @param array $l10n         The data itself. The data can be either a single or multi-dimensional array.
+ * @param array  $l10n        The data itself. The data can be either a single or multi-dimensional array.
  * @return bool True if the script was successfully localized, false otherwise.
  */
 function wp_localize_script( $handle, $object_name, $l10n ) {

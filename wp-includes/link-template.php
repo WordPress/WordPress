@@ -2329,8 +2329,8 @@ function get_next_posts_page_link( $max_page = 0 ) {
  *
  * @since 0.71
  *
- * @param int   $max_page Optional. Max pages. Default 0.
- * @param bool  $echo     Optional. Whether to echo the link. Default true.
+ * @param int  $max_page Optional. Max pages. Default 0.
+ * @param bool $echo     Optional. Whether to echo the link. Default true.
  * @return string|void The link URL for next posts page if `$echo = false`.
  */
 function next_posts( $max_page = 0, $echo = true ) {

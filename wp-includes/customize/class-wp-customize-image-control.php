@@ -30,7 +30,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	 *
 	 * @param string $id
 	 * @param string $label
-	 * @param mixed $callback
+	 * @param mixed  $callback
 	 */
 	public function add_tab( $id, $label, $callback ) {
 		_deprecated_function( __METHOD__, '4.1.0' );

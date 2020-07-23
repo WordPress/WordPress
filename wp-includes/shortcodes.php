@@ -365,9 +365,9 @@ function do_shortcode_tag( $m ) {
  *
  * @since 4.2.3
  *
- * @param string $content Content to search for shortcodes
- * @param bool $ignore_html When true, all square braces inside elements will be encoded.
- * @param array $tagnames List of shortcodes to find.
+ * @param string $content     Content to search for shortcodes.
+ * @param bool   $ignore_html When true, all square braces inside elements will be encoded.
+ * @param array  $tagnames    List of shortcodes to find.
  * @return string Content with shortcodes filtered out.
  */
 function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {

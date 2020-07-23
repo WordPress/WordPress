@@ -155,7 +155,6 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
  *                  and was therefore added, true on successful update,
  *                  false on failure or if the value passed to the function
  *                  is the same as the one that is already in the database.
-
  */
 function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 	global $wpdb;
@@ -1098,7 +1097,7 @@ function wp_metadata_lazyloader() {
  *
  * @see WP_Meta_Query
  *
- * @param array $meta_query         A meta query.
+ * @param array  $meta_query        A meta query.
  * @param string $type              Type of meta.
  * @param string $primary_table     Primary database table name.
  * @param string $primary_id_column Primary ID column name.
@@ -1227,10 +1226,10 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  * @since 4.9.8 The `$object_subtype` argument was added to the arguments array.
  * @since 5.3.0 Valid meta types expanded to include "array" and "object".
  *
- * @param string $object_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
- *                            or any other object type with an associated meta table.
- * @param string $meta_key    Meta key to register.
- * @param array  $args {
+ * @param string       $object_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
+ *                                  or any other object type with an associated meta table.
+ * @param string       $meta_key    Meta key to register.
+ * @param array        $args {
  *     Data used to describe the meta key when registered.
  *
  *     @type string     $object_subtype    A subtype; e.g. if the object type is "post", the post type. If left empty,

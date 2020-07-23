@@ -1002,7 +1002,7 @@ function _wp_privacy_statuses() {
  *
  * @global array $wp_post_statuses Inserts new post status object into the list
  *
- * @param string $post_status Name of the post status.
+ * @param string       $post_status Name of the post status.
  * @param array|string $args {
  *     Optional. Array or string of post status arguments.
  *
@@ -1296,9 +1296,9 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * .
  * @global array $wp_post_types List of post types.
  *
- * @param string $post_type Post type key. Must not exceed 20 characters and may
- *                          only contain lowercase alphanumeric characters, dashes,
- *                          and underscores. See sanitize_key().
+ * @param string       $post_type Post type key. Must not exceed 20 characters and may
+ *                                only contain lowercase alphanumeric characters, dashes,
+ *                                and underscores. See sanitize_key().
  * @param array|string $args {
  *     Array or string of arguments for registering a post type.
  *
@@ -4964,7 +4964,7 @@ function get_pung( $post_id ) {
  * @since 4.7.0 `$post_id` can be a WP_Post object.
  *
  * @param int|WP_Post $post_id Post Object or ID
- * @param string[] List of URLs yet to ping.
+ * @return string[]|false List of URLs yet to ping.
  */
 function get_to_ping( $post_id ) {
 	$post = get_post( $post_id );

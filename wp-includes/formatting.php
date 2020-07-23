@@ -746,8 +746,8 @@ function _get_wptexturize_shortcode_regex( $tagnames ) {
  *
  * @since 4.2.3
  *
- * @param string $haystack The text which has to be formatted.
- * @param array $replace_pairs In the form array('from' => 'to', ...).
+ * @param string $haystack      The text which has to be formatted.
+ * @param array  $replace_pairs In the form array('from' => 'to', ...).
  * @return string The formatted text.
  */
 function wp_replace_in_html_tags( $haystack, $replace_pairs ) {
@@ -1090,8 +1090,8 @@ function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES ) {
  *
  * @since 2.8.0
  *
- * @param string  $string The text which is to be checked.
- * @param bool    $strip  Optional. Whether to attempt to strip out invalid UTF8. Default false.
+ * @param string $string The text which is to be checked.
+ * @param bool   $strip  Optional. Whether to attempt to strip out invalid UTF8. Default false.
  * @return string The checked text.
  */
 function wp_check_invalid_utf8( $string, $strip = false ) {
@@ -4923,7 +4923,6 @@ function map_deep( $value, $callback ) {
 /**
  * Parses a string into variables to be stored in an array.
  *
- *
  * @since 2.2.1
  *
  * @param string $string The string to be parsed.
@@ -5363,8 +5362,8 @@ function sanitize_textarea_field( $str ) {
  * @since 4.7.0
  * @access private
  *
- * @param string $str String to sanitize.
- * @param bool $keep_newlines optional Whether to keep newlines. Default: false.
+ * @param string $str           String to sanitize.
+ * @param bool   $keep_newlines Optional. Whether to keep newlines. Default: false.
  * @return string Sanitized string.
  */
 function _sanitize_text_fields( $str, $keep_newlines = false ) {

@@ -544,9 +544,9 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
  *
- * @param string          $format     Optional. The format of the date. Default user's setting.
- * @param int|WP_Comment  $comment_ID WP_Comment or ID of the comment for which to get the date.
- *                                    Default current comment.
+ * @param string         $format     Optional. The format of the date. Default user's setting.
+ * @param int|WP_Comment $comment_ID WP_Comment or ID of the comment for which to get the date.
+ *                                   Default current comment.
  * @return string The comment's date.
  */
 function get_comment_date( $format = '', $comment_ID = 0 ) {
@@ -962,9 +962,9 @@ function get_comments_number_text( $zero = false, $one = false, $more = false, $
  *
  * @see Walker_Comment::comment()
  *
- * @param int|WP_Comment  $comment_ID WP_Comment or ID of the comment for which to get the text.
- *                                    Default current comment.
- * @param array           $args       Optional. An array of arguments. Default empty array.
+ * @param int|WP_Comment $comment_ID WP_Comment or ID of the comment for which to get the text.
+ *                                   Default current comment.
+ * @param array          $args       Optional. An array of arguments. Default empty array.
  * @return string The comment content.
  */
 function get_comment_text( $comment_ID = 0, $args = array() ) {
@@ -1008,9 +1008,9 @@ function get_comment_text( $comment_ID = 0, $args = array() ) {
  *
  * @see Walker_Comment::comment()
  *
- * @param int|WP_Comment  $comment_ID WP_Comment or ID of the comment for which to print the text.
- *                                    Default current comment.
- * @param array           $args       Optional. An array of arguments. Default empty array.
+ * @param int|WP_Comment $comment_ID WP_Comment or ID of the comment for which to print the text.
+ *                                   Default current comment.
+ * @param array          $args       Optional. An array of arguments. Default empty array.
  */
 function comment_text( $comment_ID = 0, $args = array() ) {
 	$comment = get_comment( $comment_ID );
@@ -1633,7 +1633,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
  * @since 2.7.0
  * @since 4.4.0 Added the ability for `$comment` to also accept a WP_Comment object.
  *
- * @param array $args {
+ * @param array          $args {
  *     Optional. Override default arguments.
  *
  *     @type string $add_below  The first part of the selector used to identify the comment to respond below.
@@ -1778,7 +1778,7 @@ function comment_reply_link( $args = array(), $comment = null, $post = null ) {
  *
  * @since 2.7.0
  *
- * @param array $args {
+ * @param array       $args {
  *     Optional. Override default arguments.
  *
  *     @type string $add_below  The first part of the selector used to identify the comment to respond below.

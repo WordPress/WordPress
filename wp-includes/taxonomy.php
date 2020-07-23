@@ -839,14 +839,15 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
  *
  * @see sanitize_term_field() The $context param lists the available values for get_term_by() $filter param.
  *
- * @param int|WP_Term|object $term If integer, term data will be fetched from the database, or from the cache if
- *                                 available. If stdClass object (as in the results of a database query), will apply
- *                                 filters and return a `WP_Term` object corresponding to the `$term` data. If `WP_Term`,
- *                                 will return `$term`.
- * @param string     $taxonomy Optional. Taxonomy name that $term is part of.
- * @param string     $output   Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
- *                             a WP_Term object, an associative array, or a numeric array, respectively. Default OBJECT.
- * @param string     $filter   Optional. How to sanitize term fields. Default 'raw'.
+ * @param int|WP_Term|object $term     If integer, term data will be fetched from the database, or from the cache if
+ *                                     available. If stdClass object (as in the results of a database query), will apply
+ *                                     filters and return a `WP_Term` object corresponding to the `$term` data. If
+ *                                     `WP_Term`, will return `$term`.
+ * @param string             $taxonomy Optional. Taxonomy name that $term is part of.
+ * @param string             $output   Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
+ *                                     correspond toa WP_Term object, an associative array, or a numeric array
+ *                                     respectively. Default OBJECT.
+ * @param string             $filter   Optional. How to sanitize term fields. Default 'raw'.
  * @return WP_Term|array|WP_Error|null Object of the type specified by `$output` on success. When `$output` is 'OBJECT',
  *                                     a WP_Term instance is returned. If taxonomy does not exist, a WP_Error is
  *                                     returned. Returns null for miscellaneous failure.
@@ -4433,8 +4434,8 @@ function the_taxonomies( $args = array() ) {
  * @since 2.5.0
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
- * @param array $args {
- *     Optional. Arguments about how to format the list of taxonomies. Default empty array.
+ * @param array       $args {
+ *           Optional. Arguments about how to format the list of taxonomies. Default empty array.
  *
  *     @type string $template      Template for displaying a taxonomy label and list of terms.
  *                                 Default is "Label: Terms."

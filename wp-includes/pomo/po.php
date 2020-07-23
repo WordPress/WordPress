@@ -71,8 +71,8 @@ if ( ! class_exists( 'PO', false ) ) :
 		/**
 		 * Same as {@link export}, but writes the result to a file
 		 *
-		 * @param string $filename where to write the PO string
-		 * @param bool $include_headers whether to include tje headers in the export
+		 * @param string $filename        Where to write the PO string.
+		 * @param bool   $include_headers Whether to include the headers in the export.
 		 * @return bool true on success, false on error
 		 */
 		function export_to_file( $filename, $include_headers = true ) {

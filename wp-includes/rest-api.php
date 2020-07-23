@@ -119,8 +119,8 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
  *
  * @param string|array $object_type Object(s) the field is being registered
  *                                  to, "post"|"term"|"comment" etc.
- * @param string $attribute         The attribute name.
- * @param array  $args {
+ * @param string       $attribute   The attribute name.
+ * @param array        $args {
  *     Optional. An array of arguments used to handle the registered field.
  *
  *     @type callable|null $get_callback    Optional. The callback function used to retrieve the field value. Default is

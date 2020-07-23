@@ -115,9 +115,9 @@ class WP_User {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
-	 * @param string $name Optional. User's username
-	 * @param int $site_id Optional Site ID, defaults to current site.
+	 * @param int|string|stdClass|WP_User $id      User's ID, a WP_User object, or a user object from the DB.
+	 * @param string                      $name    Optional. User's username
+	 * @param int                         $site_id Optional Site ID, defaults to current site.
 	 */
 	public function __construct( $id = 0, $name = '', $site_id = '' ) {
 		if ( ! isset( self::$back_compat_keys ) ) {
@@ -181,7 +181,7 @@ class WP_User {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param string $field The field to query against: 'id', 'ID', 'slug', 'email' or 'login'.
+	 * @param string     $field The field to query against: 'id', 'ID', 'slug', 'email' or 'login'.
 	 * @param string|int $value The field value
 	 * @return object|false Raw user object
 	 */
@@ -439,8 +439,8 @@ class WP_User {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param string   $name      Method to call.
-	 * @param array    $arguments Arguments to pass when calling.
+	 * @param string $name      Method to call.
+	 * @param array  $arguments Arguments to pass when calling.
 	 * @return mixed|false Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
@@ -637,7 +637,7 @@ class WP_User {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int $max Max level of user.
+	 * @param int    $max  Max level of user.
 	 * @param string $item Level capability name.
 	 * @return int Max Level.
 	 */
@@ -672,8 +672,8 @@ class WP_User {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $cap Capability name.
-	 * @param bool $grant Whether to grant capability to user.
+	 * @param string $cap   Capability name.
+	 * @param bool   $grant Whether to grant capability to user.
 	 */
 	public function add_cap( $cap, $grant = true ) {
 		$this->caps[ $cap ] = $grant;

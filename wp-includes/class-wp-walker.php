@@ -425,7 +425,7 @@ class Walker {
 	 * @since 2.7.0
 	 *
 	 * @param object $e
-	 * @param array $children_elements
+	 * @param array  $children_elements
 	 */
 	public function unset_children( $e, &$children_elements ) {
 		if ( ! $e || ! $children_elements ) {

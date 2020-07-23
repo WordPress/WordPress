@@ -5945,7 +5945,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param string $value Repeat value.
+	 * @param string               $value   Repeat value.
 	 * @param WP_Customize_Setting $setting Setting.
 	 * @return string|WP_Error Background value or validation error.
 	 */
@@ -5987,9 +5987,9 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array $response Response.
+	 * @param array                          $response          Response.
 	 * @param WP_Customize_Selective_Refresh $selective_refresh Selective refresh component.
-	 * @param array $partials Array of partials.
+	 * @param array                          $partials          Array of partials.
 	 * @return array
 	 */
 	public function export_header_video_settings( $response, $selective_refresh, $partials ) {

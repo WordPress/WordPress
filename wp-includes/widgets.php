@@ -1485,8 +1485,8 @@ function _wp_remove_unregistered_widgets( $sidebars_widgets, $allowed_widget_ids
  *
  * @since 2.5.0
  *
- * @param string|array|object $rss RSS url.
- * @param array $args Widget arguments.
+ * @param string|array|object $rss  RSS url.
+ * @param array               $args Widget arguments.
  */
 function wp_widget_rss_output( $rss, $args = array() ) {
 	if ( is_string( $rss ) ) {
@@ -1596,8 +1596,8 @@ function wp_widget_rss_output( $rss, $args = array() ) {
  *
  * @since 2.5.0
  *
- * @param array|string $args Values for input fields.
- * @param array $inputs Override default display options.
+ * @param array|string $args   Values for input fields.
+ * @param array        $inputs Override default display options.
  */
 function wp_widget_rss_form( $args, $inputs = null ) {
 	$default_inputs = array(

@@ -2463,7 +2463,7 @@ function check_password_reset_key( $key, $login ) {
  * @since 2.5.0
  *
  * @param WP_User $user     The user
- * @param string $new_pass New password for the user in plaintext
+ * @param string  $new_pass New password for the user in plaintext
  */
 function reset_password( $user, $new_pass ) {
 	/**

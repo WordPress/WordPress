@@ -503,12 +503,12 @@ function update_option( $option, $value, $autoload = null ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string         $option      Name of the option to add. Expected to not be SQL-escaped.
- * @param mixed          $value       Optional. Option value. Must be serializable if non-scalar.
- *                                    Expected to not be SQL-escaped.
- * @param string         $deprecated  Optional. Description. Not used anymore.
- * @param string|bool    $autoload    Optional. Whether to load the option when WordPress starts up.
- *                                    Default is enabled. Accepts 'no' to disable for legacy reasons.
+ * @param string      $option     Name of the option to add. Expected to not be SQL-escaped.
+ * @param mixed       $value      Optional. Option value. Must be serializable if non-scalar.
+ *                                Expected to not be SQL-escaped.
+ * @param string      $deprecated Optional. Description. Not used anymore.
+ * @param string|bool $autoload   Optional. Whether to load the option when WordPress starts up.
+ *                                Default is enabled. Accepts 'no' to disable for legacy reasons.
  * @return bool True if the option was added, false otherwise.
  */
 function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' ) {
@@ -1303,9 +1303,9 @@ function update_site_option( $option, $value ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int      $network_id ID of the network. Can be null to default to the current network ID.
- * @param string   $option     Name of the option to retrieve. Expected to not be SQL-escaped.
- * @param mixed    $default    Optional. Value to return if the option doesn't exist. Default false.
+ * @param int    $network_id ID of the network. Can be null to default to the current network ID.
+ * @param string $option     Name of the option to retrieve. Expected to not be SQL-escaped.
+ * @param mixed  $default    Optional. Value to return if the option doesn't exist. Default false.
  * @return mixed Value set for the option.
  */
 function get_network_option( $network_id, $option, $default = false ) {
@@ -1655,9 +1655,9 @@ function delete_network_option( $network_id, $option ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int      $network_id ID of the network. Can be null to default to the current network ID.
- * @param string   $option     Name of the option. Expected to not be SQL-escaped.
- * @param mixed    $value      Option value. Expected to not be SQL-escaped.
+ * @param int    $network_id ID of the network. Can be null to default to the current network ID.
+ * @param string $option     Name of the option. Expected to not be SQL-escaped.
+ * @param mixed  $value      Option value. Expected to not be SQL-escaped.
  * @return bool True if the value was updated, false otherwise.
  */
 function update_network_option( $network_id, $option, $value ) {
@@ -2433,9 +2433,9 @@ function get_registered_settings() {
  *
  * @since 4.7.0
  *
- * @param mixed $default Existing default value to return.
- * @param string $option Option name.
- * @param bool $passed_default Was `get_option()` passed a default value?
+ * @param mixed  $default        Existing default value to return.
+ * @param string $option         Option name.
+ * @param bool   $passed_default Was `get_option()` passed a default value?
  * @return mixed Filtered default value.
  */
 function filter_default_option( $default, $option, $passed_default ) {

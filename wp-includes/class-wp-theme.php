@@ -181,8 +181,8 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @global array $wp_theme_directories
 	 *
-	 * @param string $theme_dir Directory of the theme within the theme_root.
-	 * @param string $theme_root Theme root.
+	 * @param string        $theme_dir  Directory of the theme within the theme_root.
+	 * @param string        $theme_root Theme root.
 	 * @param WP_Theme|null $_child If this theme is a parent theme, the child may be passed for validation purposes.
 	 */
 	public function __construct( $theme_dir, $theme_root, $_child = null ) {
@@ -681,7 +681,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $key Type of data to store (theme, screenshot, headers, post_templates)
+	 * @param string       $key  Type of data to store (theme, screenshot, headers, post_templates)
 	 * @param array|string $data Data to store
 	 * @return bool Return value from wp_cache_add()
 	 */
@@ -773,9 +773,9 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
-	 * @param bool $markup Optional. Whether to mark up the header. Defaults to true.
-	 * @param bool $translate Optional. Whether to translate the header. Defaults to true.
+	 * @param string $header    Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
+	 * @param bool   $markup    Optional. Whether to mark up the header. Defaults to true.
+	 * @param bool   $translate Optional. Whether to translate the header. Defaults to true.
 	 * @return string|array|false Processed header. An array for Tags if `$markup` is false, string otherwise.
 	 *                            False on failure.
 	 */
@@ -1159,11 +1159,11 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string[]|string $type       Optional. Array of extensions to find, string of a single extension,
-	 *                                    or null for all extensions. Default null.
-	 * @param int          $depth         Optional. How deep to search for files. Defaults to a flat scan (0 depth).
-	 *                                    -1 depth is infinite.
-	 * @param bool         $search_parent Optional. Whether to return parent files. Default false.
+	 * @param string[]|string $type          Optional. Array of extensions to find, string of a single extension,
+	 *                                       or null for all extensions. Default null.
+	 * @param int             $depth         Optional. How deep to search for files. Defaults to a flat scan (0 depth).
+	 *                                       -1 depth is infinite.
+	 * @param bool            $search_parent Optional. Whether to return parent files. Default false.
 	 * @return string[] Array of files, keyed by the path to the file relative to the theme's directory, with the values
 	 *                  being absolute paths.
 	 */
@@ -1387,9 +1387,9 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $check Optional. Whether to check only the 'network'-wide settings, the 'site'
-	 *  settings, or 'both'. Defaults to 'both'.
-	 * @param int $blog_id Optional. Ignored if only network-wide settings are checked. Defaults to current site.
+	 * @param string $check   Optional. Whether to check only the 'network'-wide settings, the 'site'
+	 *                        settings, or 'both'. Defaults to 'both'.
+	 * @param int    $blog_id Optional. Ignored if only network-wide settings are checked. Defaults to current site.
 	 * @return bool Whether the theme is allowed for the network. Returns true in single-site.
 	 */
 	public function is_allowed( $check = 'both', $blog_id = null ) {
@@ -1636,8 +1636,8 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $a First name.
-	 * @param string $b Second name.
+	 * @param WP_Theme $a First theme.
+	 * @param WP_Theme $b Second theme.
 	 * @return int Negative if `$a` falls lower in the natural order than `$b`. Zero if they fall equally.
 	 *             Greater than 0 if `$a` falls higher in the natural order than `$b`. Used with usort().
 	 */
@@ -1650,8 +1650,8 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $a First name.
-	 * @param string $b Second name.
+	 * @param WP_Theme $a First theme.
+	 * @param WP_Theme $b Second theme.
 	 * @return int Negative if `$a` falls lower in the natural order than `$b`. Zero if they fall equally.
 	 *             Greater than 0 if `$a` falls higher in the natural order than `$b`. Used with usort().
 	 */

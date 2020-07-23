@@ -298,7 +298,6 @@ function wp_date( $format, $timestamp = null, $timezone = null ) {
 	 * @param string       $format    Format to display the date.
 	 * @param int          $timestamp Unix timestamp.
 	 * @param DateTimeZone $timezone  Timezone.
-	 *
 	 */
 	$date = apply_filters( 'wp_date', $date, $format, $timestamp, $timezone );
 
@@ -834,8 +833,8 @@ function wp_extract_urls( $content ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string         $content Post content. If `null`, the `post_content` field from `$post` is used.
- * @param int|WP_Post    $post    Post ID or post object.
+ * @param string      $content Post content. If `null`, the `post_content` field from `$post` is used.
+ * @param int|WP_Post $post    Post ID or post object.
  * @return null|bool Returns false if post is not found.
  */
 function do_enclose( $content = null, $post ) {
@@ -2641,10 +2640,10 @@ function _wp_check_existing_file_names( $filename, $files ) {
  *
  * @since 2.0.0
  *
- * @param string       $name       Filename.
- * @param null|string  $deprecated Never used. Set to null.
- * @param string       $bits       File content
- * @param string       $time       Optional. Time formatted in 'yyyy/mm'. Default null.
+ * @param string      $name       Filename.
+ * @param null|string $deprecated Never used. Set to null.
+ * @param string      $bits       File content
+ * @param string      $time       Optional. Time formatted in 'yyyy/mm'. Default null.
  * @return array {
  *     Information about the newly-uploaded file.
  *
@@ -7524,11 +7523,11 @@ function get_dirsize( $directory, $max_execution_time = null ) {
  * @since 4.3.0 $exclude parameter added.
  * @since 5.2.0 $max_execution_time parameter added.
  *
- * @param string $directory       Full path of a directory.
- * @param string|array $exclude   Optional. Full path of a subdirectory to exclude from the total, or array of paths.
- *                                Expected without trailing slash(es).
- * @param int $max_execution_time Maximum time to run before giving up. In seconds.
- *                                The timeout is global and is measured from the moment WordPress started to load.
+ * @param string       $directory          Full path of a directory.
+ * @param string|array $exclude            Optional. Full path of a subdirectory to exclude from the total, or array of
+ *                                         paths. Expected without trailing slash(es).
+ * @param int          $max_execution_time Maximum time to run before giving up. In seconds.
+ *                                         The timeout is global and is measured from the moment WordPress started to load.
  * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.
  */
 function recurse_dirsize( $directory, $exclude = null, $max_execution_time = null ) {

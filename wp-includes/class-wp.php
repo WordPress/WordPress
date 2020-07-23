@@ -111,8 +111,8 @@ class WP {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string $key Query variable name.
-	 * @param mixed $value Query variable value.
+	 * @param string $key   Query variable name.
+	 * @param mixed  $value Query variable value.
 	 */
 	public function set_query_var( $key, $value ) {
 		$this->query_vars[ $key ] = $value;

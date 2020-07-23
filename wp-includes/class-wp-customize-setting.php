@@ -848,7 +848,7 @@ class WP_Customize_Setting {
 	 *
 	 * @param array $root
 	 * @param array $keys
-	 * @param bool $create Default false.
+	 * @param bool  $create Default false.
 	 * @return array|void Keys are 'root', 'node', and 'key'.
 	 */
 	final protected function multidimensional( &$root, $keys, $create = false ) {

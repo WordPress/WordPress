@@ -341,8 +341,10 @@ class WP_Recovery_Mode {
 	 *
 	 * @param array $error Error that was triggered.
 	 * @return array|false {
-	 *      @type string  $slug  The extension slug. This is the plugin or theme's directory.
-	 *      @type string  $type  The extension type. Either 'plugin' or 'theme'.
+	 *     Extension details.
+	 *
+	 *     @type string $slug The extension slug. This is the plugin or theme's directory.
+	 *     @type string $type The extension type. Either 'plugin' or 'theme'.
 	 * }
 	 */
 	protected function get_extension_for_error( $error ) {

@@ -77,16 +77,16 @@ class WP_Upgrader {
 	 * @since 2.8.0
 	 *
 	 * @var array|WP_Error $result {
-	 *      @type string $source             The full path to the source the files were installed from.
-	 *      @type string $source_files       List of all the files in the source directory.
-	 *      @type string $destination        The full path to the installation destination folder.
-	 *      @type string $destination_name   The name of the destination folder, or empty if `$destination`
-	 *                                       and `$local_destination` are the same.
-	 *      @type string $local_destination  The full local path to the destination folder. This is usually
-	 *                                       the same as `$destination`.
-	 *      @type string $remote_destination The full remote path to the destination folder
-	 *                                       (i.e., from `$wp_filesystem`).
-	 *      @type bool   $clear_destination  Whether the destination folder was cleared.
+	 *     @type string $source             The full path to the source the files were installed from.
+	 *     @type string $source_files       List of all the files in the source directory.
+	 *     @type string $destination        The full path to the installation destination folder.
+	 *     @type string $destination_name   The name of the destination folder, or empty if `$destination`
+	 *                                      and `$local_destination` are the same.
+	 *     @type string $local_destination  The full local path to the destination folder. This is usually
+	 *                                      the same as `$destination`.
+	 *     @type string $remote_destination The full remote path to the destination folder
+	 *                                      (i.e., from `$wp_filesystem`).
+	 *     @type bool   $clear_destination  Whether the destination folder was cleared.
 	 * }
 	 */
 	public $result = array();

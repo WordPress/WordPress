@@ -2222,7 +2222,7 @@ class wpdb {
 	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
 	 *                             If omitted, all values in $data will be treated as strings unless otherwise
 	 *                             specified in wpdb::$field_types.
-	 * @param string $type         Optional. Type of operation. Possible values include 'INSERT' or 'REPLACE'.
+	 * @param string       $type   Optional. Type of operation. Possible values include 'INSERT' or 'REPLACE'.
 	 *                             Default 'INSERT'.
 	 * @return int|false The number of rows affected, or false on error.
 	 */
@@ -2661,7 +2661,6 @@ class wpdb {
 	 *                       return an associative array of row objects keyed by the value
 	 *                       of each row's first column's value. Duplicate keys are discarded.
 	 * @return array|object|null Database query results.
-	 *
 	 */
 	public function get_results( $query = null, $output = OBJECT ) {
 		$this->func_call = "\$db->get_results(\"$query\", $output)";
@@ -3395,11 +3394,11 @@ class wpdb {
 	 *
 	 * @since 0.71
 	 *
-	 * @param string $info_type Optional. Possible values include 'name', 'table', 'def', 'max_length',
-	 *                          'not_null', 'primary_key', 'multiple_key', 'unique_key', 'numeric',
-	 *                          'blob', 'type', 'unsigned', 'zerofill'. Default 'name'.
-	 * @param int $col_offset   Optional. 0: col name. 1: which table the col's in. 2: col's max length.
-	 *                          3: if the col is numeric. 4: col's type. Default -1.
+	 * @param string $info_type  Optional. Possible values include 'name', 'table', 'def', 'max_length',
+	 *                           'not_null', 'primary_key', 'multiple_key', 'unique_key', 'numeric',
+	 *                           'blob', 'type', 'unsigned', 'zerofill'. Default 'name'.
+	 * @param int    $col_offset Optional. 0: col name. 1: which table the col's in. 2: col's max length.
+	 *                           3: if the col is numeric. 4: col's type. Default -1.
 	 * @return mixed Column results.
 	 */
 	public function get_col_info( $info_type = 'name', $col_offset = -1 ) {
