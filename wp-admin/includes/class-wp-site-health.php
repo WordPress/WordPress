@@ -2342,10 +2342,40 @@ class WP_Site_Health {
 	 * @return object The test results.
 	 */
 	function detect_plugin_theme_auto_update_issues() {
+		$mock_plugin = (object) array(
+			'id'            => 'w.org/plugins/a-fake-plugin',
+			'slug'          => 'a-fake-plugin',
+			'plugin'        => 'a-fake-plugin/a-fake-plugin.php',
+			'new_version'   => '9.9',
+			'url'           => 'https://wordpress.org/plugins/a-fake-plugin',
+			'package'       => 'https://downloads.wordpress.org/plugin/a-fake-plugin.9.9.zip',
+			'icons'         => array(
+				'2x' => 'https://ps.w.org/a-fake-plugin/assets/icon-256x256.png',
+				'1x' => 'https://ps.w.org/a-fake-plugin/assets/icon-128x128.png',
+			),
+			'banners'       => array(
+				'2x' => 'https://ps.w.org/a-fake-plugin/assets/banner-1544x500.png',
+				'1x' => 'https://ps.w.org/a-fake-plugin/assets/banner-772x250.png',
+			),
+			'banners_rtl'   => array(),
+			'tested'        => `5.5.0`,
+			'requires_php'  => '5.6.20',
+			'compatibility' => new stdClass(),
+		);
+
+		$mock_theme = (object) array(
+			'theme'        => 'a-fake-theme',
+			'new_version'  => '9.9',
+			'url'          => 'https://wordpress.org/themes/a-fake-theme/',
+			'package'      => 'https://downloads.wordpress.org/theme/a-fake-theme.9.9.zip',
+			'requires'     => '5.0.0',
+			'requires_php' => '5.6.20',
+		);
+
 		/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
-		$test_plugins_enabled   = apply_filters( 'auto_update_plugin', true );
+		$test_plugins_enabled = apply_filters( 'auto_update_plugin', true, $mock_plugin );
 		/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
-		$test_themes_enabled    = apply_filters( 'auto_update_theme', true );
+		$test_themes_enabled    = apply_filters( 'auto_update_theme', true, $mock_theme );
 		$ui_enabled_for_plugins = wp_is_auto_update_enabled_for_type( 'plugin' );
 		$ui_enabled_for_themes  = wp_is_auto_update_enabled_for_type( 'theme' );
 		$plugin_filter_present  = has_filter( 'auto_update_plugin' );
