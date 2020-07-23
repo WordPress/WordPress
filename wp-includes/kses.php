@@ -230,6 +230,7 @@ if ( ! CUSTOM_TAGS ) {
 			'border'   => true,
 			'height'   => true,
 			'hspace'   => true,
+			'loading'  => true,
 			'longdesc' => true,
 			'vspace'   => true,
 			'src'      => true,
