@@ -467,7 +467,7 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 *
 	 * @param WP_Screen $screen A screen object.
-	 * @param string $help Help text.
+	 * @param string    $help   Help text.
 	 */
 	public static function add_old_compat_help( $screen, $help ) {
 		self::$_old_compat_help[ $screen->id ] = $help;
@@ -496,8 +496,8 @@ final class WP_Screen {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $option Option ID
-	 * @param mixed $args Option-dependent arguments.
+	 * @param string $option Option ID.
+	 * @param mixed  $args   Option-dependent arguments.
 	 */
 	public function add_option( $option, $args = array() ) {
 		$this->_options[ $option ] = $args;

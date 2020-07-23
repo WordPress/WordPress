@@ -1522,6 +1522,9 @@ function walk_page_tree( $pages, $depth, $current_page, $r ) {
 	if ( empty( $r['walker'] ) ) {
 		$walker = new Walker_Page;
 	} else {
+		/**
+		 * @var Walker $walker
+		 */
 		$walker = $r['walker'];
 	}
 
@@ -1551,6 +1554,9 @@ function walk_page_dropdown_tree( ...$args ) {
 	if ( empty( $args[2]['walker'] ) ) { // The user's options are the third parameter.
 		$walker = new Walker_PageDropdown;
 	} else {
+		/**
+		 * @var Walker $walker
+		 */
 		$walker = $args[2]['walker'];
 	}
 

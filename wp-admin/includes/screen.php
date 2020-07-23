@@ -197,7 +197,7 @@ function get_hidden_meta_boxes( $screen ) {
  * @since 3.1.0
  *
  * @param string $option An option name.
- * @param mixed $args Option-dependent arguments.
+ * @param mixed  $args   Option-dependent arguments.
  */
 function add_screen_option( $option, $args = array() ) {
 	$current_screen = get_current_screen();

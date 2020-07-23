@@ -1795,8 +1795,8 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  *
  * @global array $wp_settings_errors Storage array of errors registered during this pageload
  *
- * @param string $setting Optional slug title of a specific setting whose errors you want.
- * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
+ * @param string $setting  Optional. Slug title of a specific setting whose errors you want.
+ * @param bool   $sanitize Optional. Whether to re-sanitize the setting value before returning errors.
  * @return array Array of settings errors.
  */
 function get_settings_errors( $setting = '', $sanitize = false ) {

@@ -7,7 +7,7 @@
  */
 
 /**
- * Crop an Image to a given size.
+ * Crops an image to a given size.
  *
  * @since 2.1.0
  *

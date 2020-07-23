@@ -95,15 +95,15 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 		 * @since 4.2.0
 		 * @since 4.4.0 Added the `$instance` parameter.
 		 *
-		 * @param array    $nav_menu_args {
+		 * @param array   $nav_menu_args {
 		 *     An array of arguments passed to wp_nav_menu() to retrieve a navigation menu.
 		 *
 		 *     @type callable|bool $fallback_cb Callback to fire if the menu doesn't exist. Default empty.
 		 *     @type mixed         $menu        Menu ID, slug, or name.
 		 * }
-		 * @param WP_Term  $nav_menu      Nav menu object for the current menu.
-		 * @param array    $args          Display arguments for the current widget.
-		 * @param array    $instance      Array of settings for the current widget.
+		 * @param WP_Term $nav_menu      Nav menu object for the current menu.
+		 * @param array   $args          Display arguments for the current widget.
+		 * @param array   $instance      Array of settings for the current widget.
 		 */
 		wp_nav_menu( apply_filters( 'widget_nav_menu_args', $nav_menu_args, $nav_menu, $args, $instance ) );
 

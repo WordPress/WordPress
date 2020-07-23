@@ -17,8 +17,8 @@
  *
  * @global string $action
  *
- * @param WP_Post  $post Current post object.
- * @param array    $args {
+ * @param WP_Post $post Current post object.
+ * @param array   $args {
  *     Array of arguments for building the post submit meta box.
  *
  *     @type string   $id       Meta box 'id' attribute.
@@ -1185,7 +1185,7 @@ function link_target_meta_box( $link ) {
  *
  * @param string $class
  * @param string $value
- * @param mixed $deprecated Never used.
+ * @param mixed  $deprecated Never used.
  */
 function xfn_check( $class, $value = '', $deprecated = '' ) {
 	global $link;

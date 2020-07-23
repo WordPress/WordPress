@@ -50,7 +50,7 @@ $cookies_consent = ( isset( $_POST['wp-comment-cookies-consent'] ) );
  *
  * @param WP_Comment $comment         Comment object.
  * @param WP_User    $user            Comment author's user object. The user may not exist.
- * @param boolean    $cookies_consent Comment author's consent to store cookies.
+ * @param bool       $cookies_consent Comment author's consent to store cookies.
  */
 do_action( 'set_comment_cookies', $comment, $user, $cookies_consent );
 

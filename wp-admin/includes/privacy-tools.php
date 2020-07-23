@@ -218,7 +218,7 @@ function _wp_personal_data_cleanup_requests() {
  * @since 4.9.6
  * @since 5.4.0 Added the `$group_id` and `$groups_count` parameters.
  *
- * @param array $group_data {
+ * @param array  $group_data {
  *     The group data to render.
  *
  *     @type string $group_label  The user-facing heading for the group, e.g. 'Comments'.

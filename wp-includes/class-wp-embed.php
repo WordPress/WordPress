@@ -101,10 +101,12 @@ class WP_Embed {
 	 *
 	 * This function should probably also only be used for sites that do not support oEmbed.
 	 *
-	 * @param string $id An internal ID/name for the handler. Needs to be unique.
-	 * @param string $regex The regex that will be used to see if this handler should be used for a URL.
+	 * @param string   $id       An internal ID/name for the handler. Needs to be unique.
+	 * @param string   $regex    The regex that will be used to see if this handler should be used for a URL.
 	 * @param callable $callback The callback function that will be called if the regex is matched.
-	 * @param int $priority Optional. Used to specify the order in which the registered handlers will be tested (default: 10). Lower numbers correspond with earlier testing, and handlers with the same priority are tested in the order in which they were added to the action.
+	 * @param int      $priority Optional. Used to specify the order in which the registered handlers will be tested.
+	 *                           Lower numbers correspond with earlier testing, and handlers with the same priority are
+	 *                           tested in the order in which they were added to the action. Default 10.
 	 */
 	public function register_handler( $id, $regex, $callback, $priority = 10 ) {
 		$this->handlers[ $priority ][ $id ] = array(

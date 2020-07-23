@@ -53,10 +53,11 @@ class WP_User {
 	public $ID = 0;
 
 	/**
-	 * The individual capabilities the user has been given.
+	 * Capabilities that the individual user has been granted outside of those inherited from their role.
 	 *
 	 * @since 2.0.0
-	 * @var array
+	 * @var bool[] Array of key/value pairs where keys represent a capability name and boolean values
+	 *             represent whether the user has that capability.
 	 */
 	public $caps = array();
 
@@ -72,7 +73,7 @@ class WP_User {
 	 * The roles the user is part of.
 	 *
 	 * @since 2.0.0
-	 * @var array
+	 * @var string[]
 	 */
 	public $roles = array();
 

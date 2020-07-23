@@ -1299,8 +1299,8 @@ class WP_Debug_Data {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param array $info_array Information gathered from the `WP_Debug_Data::debug_data` function.
-	 * @param string $type      The data type to return, either 'info' or 'debug'.
+	 * @param array  $info_array Information gathered from the `WP_Debug_Data::debug_data` function.
+	 * @param string $type       The data type to return, either 'info' or 'debug'.
 	 * @return string The formatted data.
 	 */
 	public static function format( $info_array, $type ) {

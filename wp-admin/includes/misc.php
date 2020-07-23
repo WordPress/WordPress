@@ -1190,7 +1190,7 @@ function wp_refresh_post_nonces( $response, $data, $screen_id ) {
  *
  * @since 5.0.0
  *
- * @param array  $response  The Heartbeat response.
+ * @param array $response The Heartbeat response.
  * @return array The Heartbeat response.
  */
 function wp_refresh_heartbeat_nonces( $response ) {

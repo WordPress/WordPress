@@ -247,8 +247,8 @@ switch ( $wp_list_table->current_action() ) {
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param boolean $users_have_additional_content Whether the users have additional content. Default false.
-		 * @param int[]   $userids                       Array of IDs for users being deleted.
+		 * @param bool  $users_have_additional_content Whether the users have additional content. Default false.
+		 * @param int[] $userids                       Array of IDs for users being deleted.
 		 */
 		$users_have_content = (bool) apply_filters( 'users_have_additional_content', false, $userids );
 

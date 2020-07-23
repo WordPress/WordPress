@@ -61,7 +61,7 @@ function wp_get_sitemap_providers() {
  *
  * @param string               $name     Unique name for the sitemap provider.
  * @param WP_Sitemaps_Provider $provider The `Sitemaps_Provider` instance implementing the sitemap.
- * @return bool Returns true if the sitemap was added. False on failure.
+ * @return bool Whether the sitemap was added.
  */
 function wp_register_sitemap_provider( $name, WP_Sitemaps_Provider $provider ) {
 	$sitemaps = wp_sitemaps_get_server();

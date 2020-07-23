@@ -1082,6 +1082,9 @@ function walk_category_tree( ...$args ) {
 	if ( empty( $args[2]['walker'] ) || ! ( $args[2]['walker'] instanceof Walker ) ) {
 		$walker = new Walker_Category;
 	} else {
+		/**
+		 * @var Walker $walker
+		 */
 		$walker = $args[2]['walker'];
 	}
 	return $walker->walk( ...$args );
@@ -1105,6 +1108,9 @@ function walk_category_dropdown_tree( ...$args ) {
 	if ( empty( $args[2]['walker'] ) || ! ( $args[2]['walker'] instanceof Walker ) ) {
 		$walker = new Walker_CategoryDropdown;
 	} else {
+		/**
+		 * @var Walker $walker
+		 */
 		$walker = $args[2]['walker'];
 	}
 	return $walker->walk( ...$args );
