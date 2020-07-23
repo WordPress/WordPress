@@ -1443,7 +1443,7 @@ class WP_Rewrite {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param string[] $this->rules The compiled array of rewrite rules, keyed by their regex pattern.
+		 * @param string[] $rules The compiled array of rewrite rules, keyed by their regex pattern.
 		 */
 		$this->rules = apply_filters( 'rewrite_rules_array', $this->rules );
 

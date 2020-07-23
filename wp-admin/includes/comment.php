@@ -122,7 +122,7 @@ function get_comment_to_edit( $id ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $comment->comment_content Comment content.
+	 * @param string $comment_content Comment content.
 	 */
 	$comment->comment_content = apply_filters( 'comment_edit_pre', $comment->comment_content );
 

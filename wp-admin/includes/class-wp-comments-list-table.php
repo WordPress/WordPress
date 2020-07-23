@@ -1014,8 +1014,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param string $column_name         The custom column's name.
-		 * @param int    $comment->comment_ID The custom column's unique ID number.
+		 * @param string $column_name The custom column's name.
+		 * @param int    $comment_ID  The custom column's unique ID number.
 		 */
 		do_action( 'manage_comments_custom_column', $column_name, $comment->comment_ID );
 	}
