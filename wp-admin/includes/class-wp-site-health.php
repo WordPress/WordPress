@@ -2347,7 +2347,7 @@ class WP_Site_Health {
 			'slug'          => 'a-fake-plugin',
 			'plugin'        => 'a-fake-plugin/a-fake-plugin.php',
 			'new_version'   => '9.9',
-			'url'           => 'https://wordpress.org/plugins/a-fake-plugin',
+			'url'           => 'https://wordpress.org/plugins/a-fake-plugin/',
 			'package'       => 'https://downloads.wordpress.org/plugin/a-fake-plugin.9.9.zip',
 			'icons'         => array(
 				'2x' => 'https://ps.w.org/a-fake-plugin/assets/icon-256x256.png',
@@ -2358,7 +2358,7 @@ class WP_Site_Health {
 				'1x' => 'https://ps.w.org/a-fake-plugin/assets/banner-772x250.png',
 			),
 			'banners_rtl'   => array(),
-			'tested'        => `5.5.0`,
+			'tested'        => '5.5.0',
 			'requires_php'  => '5.6.20',
 			'compatibility' => new stdClass(),
 		);
