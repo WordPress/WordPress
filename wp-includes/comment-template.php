@@ -1919,20 +1919,20 @@ function get_comment_id_fields( $post_id = 0 ) {
 		$post_id = get_the_ID();
 	}
 
-	$replytoid = isset( $_GET['replytocom'] ) ? (int) $_GET['replytocom'] : 0;
-	$result    = "<input type='hidden' name='comment_post_ID' value='$post_id' id='comment_post_ID' />\n";
-	$result   .= "<input type='hidden' name='comment_parent' id='comment_parent' value='$replytoid' />\n";
+	$reply_to_id = isset( $_GET['replytocom'] ) ? (int) $_GET['replytocom'] : 0;
+	$result      = "<input type='hidden' name='comment_post_ID' value='$post_id' id='comment_post_ID' />\n";
+	$result     .= "<input type='hidden' name='comment_parent' id='comment_parent' value='$reply_to_id' />\n";
 
 	/**
 	 * Filters the returned comment ID fields.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $result    The HTML-formatted hidden ID field comment elements.
-	 * @param int    $post_id   The post ID.
-	 * @param int    $replytoid The ID of the comment being replied to.
+	 * @param string $result      The HTML-formatted hidden ID field comment elements.
+	 * @param int    $post_id     The post ID.
+	 * @param int    $reply_to_id The ID of the comment being replied to.
 	 */
-	return apply_filters( 'comment_id_fields', $result, $post_id, $replytoid );
+	return apply_filters( 'comment_id_fields', $result, $post_id, $reply_to_id );
 }
 
 /**
@@ -1965,34 +1965,41 @@ function comment_id_fields( $post_id = 0 ) {
  *
  * @global WP_Comment $comment Global comment object.
  *
- * @param string $noreplytext  Optional. Text to display when not replying to a comment.
- *                             Default false.
- * @param string $replytext    Optional. Text to display when replying to a comment.
- *                             Default false. Accepts "%s" for the author of the comment
- *                             being replied to.
- * @param string $linktoparent Optional. Boolean to control making the author's name a link
- *                             to their comment. Default true.
+ * @param string $no_reply_text  Optional. Text to display when not replying to a comment.
+ *                               Default false.
+ * @param string $reply_text     Optional. Text to display when replying to a comment.
+ *                               Default false. Accepts "%s" for the author of the comment
+ *                               being replied to.
+ * @param string $link_to_parent Optional. Boolean to control making the author's name a link
+ *                               to their comment. Default true.
  */
-function comment_form_title( $noreplytext = false, $replytext = false, $linktoparent = true ) {
+function comment_form_title( $no_reply_text = false, $reply_text = false, $link_to_parent = true ) {
 	global $comment;
 
-	if ( false === $noreplytext ) {
-		$noreplytext = __( 'Leave a Reply' );
+	if ( false === $no_reply_text ) {
+		$no_reply_text = __( 'Leave a Reply' );
 	}
-	if ( false === $replytext ) {
+
+	if ( false === $reply_text ) {
 		/* translators: %s: Author of the comment being replied to. */
-		$replytext = __( 'Leave a Reply to %s' );
+		$reply_text = __( 'Leave a Reply to %s' );
 	}
 
-	$replytoid = isset( $_GET['replytocom'] ) ? (int) $_GET['replytocom'] : 0;
+	$reply_to_id = isset( $_GET['replytocom'] ) ? (int) $_GET['replytocom'] : 0;
 
-	if ( 0 == $replytoid ) {
-		echo $noreplytext;
+	if ( 0 == $reply_to_id ) {
+		echo $no_reply_text;
 	} else {
 		// Sets the global so that template tags can be used in the comment form.
-		$comment = get_comment( $replytoid );
-		$author  = ( $linktoparent ) ? '<a href="#comment-' . get_comment_ID() . '">' . get_comment_author( $comment ) . '</a>' : get_comment_author( $comment );
-		printf( $replytext, $author );
+		$comment = get_comment( $reply_to_id );
+
+		if ( $link_to_parent ) {
+			$author = '<a href="#comment-' . get_comment_ID() . '">' . get_comment_author( $comment ) . '</a>';
+		} else {
+			$author = get_comment_author( $comment );
+		}
+
+		printf( $reply_text, $author );
 	}
 }
 
