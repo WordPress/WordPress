@@ -386,9 +386,9 @@ class WP_Automatic_Updater {
 
 			// Core doesn't output this, so let's append it so we don't get confused.
 			if ( is_wp_error( $upgrade_result ) ) {
-				$skin->error( __( 'Installation failed' ), $upgrade_result );
+				$skin->error( __( 'Installation failed.' ), $upgrade_result );
 			} else {
-				$skin->feedback( __( 'WordPress updated successfully' ) );
+				$skin->feedback( __( 'WordPress updated successfully.' ) );
 			}
 		}
 

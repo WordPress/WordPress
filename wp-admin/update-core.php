@@ -646,13 +646,13 @@ function do_core_upgrade( $reinstall = false ) {
 	if ( is_wp_error( $result ) ) {
 		show_message( $result );
 		if ( 'up_to_date' != $result->get_error_code() && 'locked' != $result->get_error_code() ) {
-			show_message( __( 'Installation failed' ) );
+			show_message( __( 'Installation failed.' ) );
 		}
 		echo '</div>';
 		return;
 	}
 
-	show_message( __( 'WordPress updated successfully' ) );
+	show_message( __( 'WordPress updated successfully.' ) );
 	show_message(
 		'<span class="hide-if-no-js">' . sprintf(
 			/* translators: 1: WordPress version, 2: URL to About screen. */

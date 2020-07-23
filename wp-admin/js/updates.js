@@ -486,7 +486,7 @@
 
 		errorMessage = sprintf(
 			/* translators: %s: Error string for a failed update. */
-			__( 'Update Failed: %s' ),
+			__( 'Update failed: %s' ),
 			response.errorMessage
 		);
 
@@ -520,7 +520,7 @@
 				} ) );
 
 			$card.find( '.update-now' )
-				.text(  __( 'Update failed' ) )
+				.text(  __( 'Update failed.' ) )
 				.removeClass( 'updating-message' );
 
 			if ( response.pluginName ) {
@@ -727,7 +727,7 @@
 					$button.data( 'name' )
 				)
 			)
-			.text( __( 'Installation failed' ) );
+			.text( __( 'Installation failed.' ) );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
 
@@ -1143,7 +1143,7 @@
 		var $theme       = $( '[data-slug="' + response.slug + '"]' ),
 			errorMessage = sprintf(
 				/* translators: %s: Error string for a failed update. */
-				 __( 'Update Failed: %s' ),
+				 __( 'Update failed: %s' ),
 				response.errorMessage
 			),
 			$notice;
@@ -1364,7 +1364,7 @@
 					$button.data( 'name' )
 				)
 			)
-			.text( __( 'Installation failed' ) );
+			.text( __( 'Installation failed.' ) );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
 
@@ -1804,7 +1804,7 @@
 		switch ( action ) {
 			case 'update':
 				/* translators: %s: Error string for a failed update. */
-				errorMessage = __( 'Update Failed: %s' );
+				errorMessage = __( 'Update failed: %s' );
 				break;
 
 			case 'install':
@@ -1838,7 +1838,7 @@
 			.removeClass( 'updating-message' )
 			.removeAttr( 'aria-label' )
 			.prop( 'disabled', true )
-			.text( __( 'Update failed' ) );
+			.text( __( 'Update failed.' ) );
 
 		$( '.updating-message:not(.button):not(.thickbox)' )
 			.removeClass( 'updating-message notice-warning' )
