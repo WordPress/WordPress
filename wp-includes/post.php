@@ -982,10 +982,10 @@ function get_page_statuses() {
  */
 function _wp_privacy_statuses() {
 	return array(
-		'request-pending'   => __( 'Pending' ),      // Pending confirmation from user.
-		'request-confirmed' => __( 'Confirmed' ),    // User has confirmed the action.
-		'request-failed'    => __( 'Failed' ),       // User failed to confirm the action.
-		'request-completed' => __( 'Completed' ),    // Admin has handled the request.
+		'request-pending'   => _x( 'Pending', 'request status' ),      // Pending confirmation from user.
+		'request-confirmed' => _x( 'Confirmed', 'request status' ),    // User has confirmed the action.
+		'request-failed'    => _x( 'Failed', 'request status' ),       // User failed to confirm the action.
+		'request-completed' => _x( 'Completed', 'request status' ),    // Admin has handled the request.
 	);
 }
 
