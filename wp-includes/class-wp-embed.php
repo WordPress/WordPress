@@ -120,8 +120,8 @@ class WP_Embed {
 	 *
 	 * Do not use this function directly, use wp_embed_unregister_handler() instead.
 	 *
-	 * @param string $id The handler ID that should be removed.
-	 * @param int $priority Optional. The priority of the handler to be removed (default: 10).
+	 * @param string $id       The handler ID that should be removed.
+	 * @param int    $priority Optional. The priority of the handler to be removed (default: 10).
 	 */
 	public function unregister_handler( $id, $priority = 10 ) {
 		unset( $this->handlers[ $priority ][ $id ] );
@@ -135,7 +135,7 @@ class WP_Embed {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param array $attr {
+	 * @param array  $attr {
 	 *     Shortcode attributes. Optional.
 	 *
 	 *     @type int $width  Width of the embed in pixels.
@@ -181,7 +181,7 @@ class WP_Embed {
 	 * the registered embed handlers. If none of the regex matches and it's enabled, then the URL
 	 * will be given to the WP_oEmbed class.
 	 *
-	 * @param array $attr {
+	 * @param array  $attr {
 	 *     Shortcode attributes. Optional.
 	 *
 	 *     @type int $width  Width of the embed in pixels.

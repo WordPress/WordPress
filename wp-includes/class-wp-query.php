@@ -3593,8 +3593,8 @@ class WP_Query {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param string   $name      Method to call.
-	 * @param array    $arguments Arguments to pass when calling.
+	 * @param string $name      Method to call.
+	 * @param array  $arguments Arguments to pass when calling.
 	 * @return mixed|false Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {

@@ -207,7 +207,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @since 2.7.0
 	 *
 	 * @param string $command
-	 * @param bool $returnbool
+	 * @param bool   $returnbool
 	 * @return bool|string True on success, false on failure. String if the command was executed, `$returnbool`
 	 *                     is false (default), and data from the resulting stream was retrieved.
 	 */

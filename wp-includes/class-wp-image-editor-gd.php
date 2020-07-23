@@ -171,8 +171,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * @param int $max_w
-	 * @param int $max_h
+	 * @param int        $max_w
+	 * @param int        $max_h
 	 * @param bool|array $crop
 	 * @return resource|WP_Error
 	 */
@@ -415,7 +415,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * @param resource $image
+	 * @param resource    $image
 	 * @param string|null $filename
 	 * @param string|null $mime_type
 	 * @return array|WP_Error
@@ -499,8 +499,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @since 3.5.0
 	 *
 	 * @param string|stream $filename
-	 * @param callable $function
-	 * @param array $arguments
+	 * @param callable      $function
+	 * @param array         $arguments
 	 * @return bool
 	 */
 	protected function make_image( $filename, $function, $arguments ) {

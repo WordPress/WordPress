@@ -443,8 +443,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param WP_User $user       The current WP_User object.
-	 * @param string $column_name The current column name.
+	 * @param WP_User $user        The current WP_User object.
+	 * @param string  $column_name The current column name.
 	 */
 	public function column_default( $user, $column_name ) {
 		/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */

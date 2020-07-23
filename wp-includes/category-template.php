@@ -126,8 +126,8 @@ function get_the_category_by_ID( $cat_ID ) { // phpcs:ignore WordPress.NamingCon
  *
  * @param string $separator Optional. Separator between the categories. By default, the links are placed
  *                          in an unordered list. An empty string will result in the default behavior.
- * @param string $parents Optional. How to display the parents.
- * @param int $post_id Optional. Post ID to retrieve categories.
+ * @param string $parents   Optional. How to display the parents.
+ * @param int    $post_id   Optional. Post ID to retrieve categories.
  * @return string
  */
 function get_the_category_list( $separator = '', $parents = '', $post_id = false ) {
@@ -238,9 +238,10 @@ function get_the_category_list( $separator = '', $parents = '', $post_id = false
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.2.0
+ * @since 2.7.0 The `$post` parameter was added.
  *
  * @param int|string|array $category Category ID, name or slug, or array of said.
- * @param int|object $post Optional. Post to check instead of the current post. (since 2.7.0)
+ * @param int|object       $post     Optional. Post to check instead of the current post.
  * @return bool True if the current post is in any of the given categories.
  */
 function in_category( $category, $post = null ) {
@@ -258,8 +259,8 @@ function in_category( $category, $post = null ) {
  *
  * @param string $separator Optional. Separator between the categories. By default, the links are placed
  *                          in an unordered list. An empty string will result in the default behavior.
- * @param string $parents Optional. How to display the parents.
- * @param int $post_id Optional. Post ID to retrieve categories.
+ * @param string $parents   Optional. How to display the parents.
+ * @param int    $post_id   Optional. Post ID to retrieve categories.
  */
 function the_category( $separator = '', $parents = '', $post_id = false ) {
 	echo get_the_category_list( $separator, $parents, $post_id );
@@ -1161,10 +1162,10 @@ function get_the_tags( $id = 0 ) {
  *
  * @since 2.3.0
  *
- * @param string $before Optional. Before tags.
- * @param string $sep Optional. Between tags.
- * @param string $after Optional. After tags.
- * @param int $id Optional. Post ID. Defaults to the current post.
+ * @param string $before Optional. String to use before tags.
+ * @param string $sep    Optional. String to use between the tags.
+ * @param string $after  Optional. String to use after tags.
+ * @param int    $id     Optional. Post ID. Defaults to the current post.
  * @return string|false|WP_Error A list of tags on success, false if there are no terms, WP_Error on failure.
  */
 function get_the_tag_list( $before = '', $sep = '', $after = '', $id = 0 ) {
@@ -1333,8 +1334,8 @@ function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = ''
  *
  * @since 4.8.0
  *
- * @param int     $term_id  Term ID.
- * @param string  $taxonomy Taxonomy name.
+ * @param int          $term_id  Term ID.
+ * @param string       $taxonomy Taxonomy name.
  * @param string|array $args {
  *     Array of optional arguments.
  *

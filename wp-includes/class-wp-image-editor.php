@@ -473,8 +473,8 @@ abstract class WP_Image_Editor {
 	 * @since 3.5.0
 	 *
 	 * @param string|stream $filename
-	 * @param callable $function
-	 * @param array $arguments
+	 * @param callable      $function
+	 * @param array         $arguments
 	 * @return bool
 	 */
 	protected function make_image( $filename, $function, $arguments ) {

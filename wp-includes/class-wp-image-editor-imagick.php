@@ -662,8 +662,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 	/**
 	 * @param Imagick $image
-	 * @param string $filename
-	 * @param string $mime_type
+	 * @param string  $filename
+	 * @param string  $mime_type
 	 * @return array|WP_Error
 	 */
 	protected function _save( $image, $filename = null, $mime_type = null ) {

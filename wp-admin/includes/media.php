@@ -665,7 +665,7 @@ function media_buttons( $editor_id = 'content' ) {
 /**
  * @global int $post_ID
  * @param string $type
- * @param int $post_id
+ * @param int    $post_id
  * @param string $tab
  * @return string
  */
@@ -1086,7 +1086,7 @@ function media_upload_library() {
  * @since 2.7.0
  *
  * @param WP_Post $post
- * @param string $checked
+ * @param string  $checked
  * @return string
  */
 function image_align_input_fields( $post, $checked = '' ) {
@@ -1123,7 +1123,7 @@ function image_align_input_fields( $post, $checked = '' ) {
  *
  * @since 2.7.0
  *
- * @param WP_Post $post
+ * @param WP_Post     $post
  * @param bool|string $check
  * @return array
  */
@@ -1202,7 +1202,7 @@ function image_size_input_fields( $post, $check = '' ) {
  * @since 2.7.0
  *
  * @param WP_Post $post
- * @param string $url_type
+ * @param string  $url_type
  * @return string
  */
 function image_link_input_fields( $post, $url_type = '' ) {
@@ -1250,7 +1250,7 @@ function wp_caption_input_textarea( $edit_post ) {
  *
  * @since 2.5.0
  *
- * @param array $form_fields
+ * @param array  $form_fields
  * @param object $post
  * @return array
  */
@@ -1316,9 +1316,9 @@ function image_attachment_fields_to_save( $post, $attachment ) {
  *
  * @since 2.5.0
  *
- * @param string $html
+ * @param string  $html
  * @param integer $attachment_id
- * @param array $attachment
+ * @param array   $attachment
  * @return string
  */
 function image_media_send_to_editor( $html, $attachment_id, $attachment ) {
@@ -1343,7 +1343,7 @@ function image_media_send_to_editor( $html, $attachment_id, $attachment ) {
  * @since 2.5.0
  *
  * @param WP_Post $post
- * @param array $errors
+ * @param array   $errors
  * @return array
  */
 function get_attachment_fields_to_edit( $post, $errors = null ) {
@@ -1486,8 +1486,8 @@ function get_attachment_fields_to_edit( $post, $errors = null ) {
  *
  * @global WP_Query $wp_the_query WordPress Query object.
  *
- * @param int $post_id Optional. Post ID.
- * @param array $errors Errors for attachment, if any.
+ * @param int   $post_id Optional. Post ID.
+ * @param array $errors  Errors for attachment, if any.
  * @return string
  */
 function get_media_items( $post_id, $errors ) {
@@ -1539,8 +1539,8 @@ function get_media_items( $post_id, $errors ) {
  *
  * @global string $redir_tab
  *
- * @param int $attachment_id Attachment ID for modification.
- * @param string|array $args Optional. Override defaults.
+ * @param int          $attachment_id Attachment ID for modification.
+ * @param string|array $args          Optional. Override defaults.
  * @return string HTML form for attachment.
  */
 function get_media_item( $attachment_id, $args = null ) {
@@ -2271,8 +2271,8 @@ function media_upload_form( $errors = null ) {
  *
  * @since 2.5.0
  *
- * @param string $type
- * @param object $errors
+ * @param string  $type
+ * @param object  $errors
  * @param integer $id
  */
 function media_upload_type_form( $type = 'file', $errors = null, $id = null ) {
@@ -2345,8 +2345,8 @@ function media_upload_type_form( $type = 'file', $errors = null, $id = null ) {
  *
  * @since 2.7.0
  *
- * @param string $type
- * @param object $errors
+ * @param string  $type
+ * @param object  $errors
  * @param integer $id
  */
 function media_upload_type_url_form( $type = null, $errors = null, $id = null ) {

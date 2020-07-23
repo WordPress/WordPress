@@ -69,7 +69,7 @@ class WP_Date_Query {
 	 * @since 4.0.0 The $inclusive logic was updated to include all times within the date range.
 	 * @since 4.1.0 Introduced 'dayofweek_iso' time type parameter.
 	 *
-	 * @param array $date_query {
+	 * @param array  $date_query {
 	 *     Array of date query clauses.
 	 *
 	 *     @type array ...$0 {
@@ -797,8 +797,8 @@ class WP_Date_Query {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param string $compare The compare operator to use
-	 * @param string|array $value The value
+	 * @param string       $compare The compare operator to use.
+	 * @param string|array $value   The value.
 	 * @return string|false|int The value to be used in SQL or false on error.
 	 */
 	public function build_value( $compare, $value ) {
@@ -956,11 +956,11 @@ class WP_Date_Query {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param string $column The column to query against. Needs to be pre-validated!
-	 * @param string $compare The comparison operator. Needs to be pre-validated!
-	 * @param int|null $hour Optional. An hour value (0-23).
-	 * @param int|null $minute Optional. A minute value (0-59).
-	 * @param int|null $second Optional. A second value (0-59).
+	 * @param string   $column  The column to query against. Needs to be pre-validated!
+	 * @param string   $compare The comparison operator. Needs to be pre-validated!
+	 * @param int|null $hour    Optional. An hour value (0-23).
+	 * @param int|null $minute  Optional. A minute value (0-59).
+	 * @param int|null $second  Optional. A second value (0-59).
 	 * @return string|false A query part or false on failure.
 	 */
 	public function build_time_query( $column, $compare, $hour = null, $minute = null, $second = null ) {

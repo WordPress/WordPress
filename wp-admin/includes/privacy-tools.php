@@ -719,6 +719,7 @@ All at ###SITENAME###
 
 /**
  * Intercept personal data exporter page Ajax responses in order to assemble the personal data export file.
+ *
  * @see wp_privacy_personal_data_export_page
  * @since 4.9.6
  *

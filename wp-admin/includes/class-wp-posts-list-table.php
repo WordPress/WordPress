@@ -714,7 +714,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @global WP_Query $wp_query WordPress Query object.
 	 * @global int $per_page
 	 * @param array $posts
-	 * @param int $level
+	 * @param int   $level
 	 */
 	public function display_rows( $posts = array(), $level = 0 ) {
 		global $wp_query, $per_page;
@@ -734,7 +734,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	/**
 	 * @param array $posts
-	 * @param int $level
+	 * @param int   $level
 	 */
 	private function _display_rows( $posts, $level = 0 ) {
 		$post_type = $this->screen->post_type;
@@ -759,8 +759,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @global wpdb    $wpdb WordPress database abstraction object.
 	 * @global WP_Post $post Global post object.
 	 * @param array $pages
-	 * @param int $pagenum
-	 * @param int $per_page
+	 * @param int   $pagenum
+	 * @param int   $per_page
 	 */
 	private function _display_rows_hierarchical( $pages, $pagenum = 1, $per_page = 20 ) {
 		global $wpdb;
@@ -865,11 +865,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @since 4.2.0 Added the `$to_display` parameter.
 	 *
 	 * @param array $children_pages
-	 * @param int $count
-	 * @param int $parent
-	 * @param int $level
-	 * @param int $pagenum
-	 * @param int $per_page
+	 * @param int   $count
+	 * @param int   $parent
+	 * @param int   $level
+	 * @param int   $pagenum
+	 * @param int   $per_page
 	 * @param array $to_display List of pages to be displayed. Passed by reference.
 	 */
 	private function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page, &$to_display ) {

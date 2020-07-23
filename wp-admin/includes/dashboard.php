@@ -1167,7 +1167,7 @@ function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
  * @since 2.5.0
  *
  * @param string $widget_id
- * @param array $form_inputs
+ * @param array  $form_inputs
  */
 function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 	$widget_options = get_option( 'dashboard_widget_options' );

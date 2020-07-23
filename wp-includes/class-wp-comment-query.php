@@ -118,8 +118,8 @@ class WP_Comment_Query {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param string   $name      Method to call.
-	 * @param array    $arguments Arguments to pass when calling.
+	 * @param string $name      Method to call.
+	 * @param array  $arguments Arguments to pass when calling.
 	 * @return mixed|false Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
@@ -1085,7 +1085,7 @@ class WP_Comment_Query {
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $string
-	 * @param array $cols
+	 * @param array  $cols
 	 * @return string
 	 */
 	protected function get_search_sql( $string, $cols ) {

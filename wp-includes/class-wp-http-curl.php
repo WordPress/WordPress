@@ -63,7 +63,7 @@ class WP_Http_Curl {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $url The request URL.
+	 * @param string       $url  The request URL.
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */

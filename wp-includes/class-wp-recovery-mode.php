@@ -339,7 +339,7 @@ class WP_Recovery_Mode {
 	 *
 	 * @global array $wp_theme_directories
 	 *
-	 * @param array  $error Error that was triggered.
+	 * @param array $error Error that was triggered.
 	 * @return array|false {
 	 *      @type string  $slug  The extension slug. This is the plugin or theme's directory.
 	 *      @type string  $type  The extension type. Either 'plugin' or 'theme'.

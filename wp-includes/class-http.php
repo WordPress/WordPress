@@ -509,8 +509,8 @@ class WP_Http {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param array $args Request arguments.
-	 * @param string $url URL to Request.
+	 * @param array  $args Request arguments.
+	 * @param string $url  URL to request.
 	 * @return string|false Class name for the first transport that claims to support the request.
 	 *                      False if no transport claims to support the request.
 	 */
@@ -559,8 +559,8 @@ class WP_Http {
 	 * @deprecated 5.1.0 Use WP_Http::request()
 	 * @see WP_Http::request()
 	 *
-	 * @param string $url URL to Request.
-	 * @param array $args Request arguments.
+	 * @param string $url  URL to request.
+	 * @param array  $args Request arguments.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
 	 *                        A WP_Error instance upon error.
 	 */
@@ -615,7 +615,7 @@ class WP_Http {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $url The request URL.
+	 * @param string       $url  The request URL.
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
 	 *                        A WP_Error instance upon error.
@@ -633,7 +633,7 @@ class WP_Http {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $url The request URL.
+	 * @param string       $url  The request URL.
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
 	 *                        A WP_Error instance upon error.
@@ -675,7 +675,7 @@ class WP_Http {
 	 * @since 2.7.0
 	 *
 	 * @param string|array $headers
-	 * @param string $url The URL that was requested.
+	 * @param string       $url     The URL that was requested.
 	 * @return array Processed string headers. If duplicate headers are encountered,
 	 *               then a numbered array is returned as the value of that header-key.
 	 */

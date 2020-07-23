@@ -35,8 +35,8 @@
  * @global WP         $wp         Current WordPress environment instance.
  *
  * @param string $requested_url Optional. The URL that was requested, used to
- *      figure if redirect is needed.
- * @param bool $do_redirect Optional. Redirect to the new URL.
+ *                              figure if redirect is needed.
+ * @param bool   $do_redirect   Optional. Redirect to the new URL.
  * @return string|void The string of the URL, if redirect needed.
  */
 function redirect_canonical( $requested_url = null, $do_redirect = true ) {
@@ -782,7 +782,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
  * @access private
  *
  * @param string $query_string
- * @param array $args_to_check
+ * @param array  $args_to_check
  * @param string $url
  * @return string The altered query string
  */

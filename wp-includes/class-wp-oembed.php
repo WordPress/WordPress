@@ -229,8 +229,8 @@ class WP_oEmbed {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param string   $name      Method to call.
-	 * @param array    $arguments Arguments to pass when calling.
+	 * @param string $name      Method to call.
+	 * @param array  $arguments Arguments to pass when calling.
 	 * @return mixed|bool Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
@@ -247,8 +247,8 @@ class WP_oEmbed {
 	 *
 	 * @see WP_oEmbed::discover()
 	 *
-	 * @param string        $url  The URL to the content.
-	 * @param string|array  $args Optional provider arguments.
+	 * @param string       $url  The URL to the content.
+	 * @param string|array $args Optional provider arguments.
 	 * @return string|false The oEmbed provider URL on success, false on failure.
 	 */
 	public function get_provider( $url, $args = '' ) {

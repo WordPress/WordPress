@@ -1449,7 +1449,8 @@ final class _WP_Editors {
 	 * @since 3.9.0
 	 *
 	 * @param string $mce_locale The locale used for the editor.
-	 * @param bool $json_only optional Whether to include the JavaScript calls to tinymce.addI18n() and tinymce.ScriptLoader.markDone().
+	 * @param bool   $json_only  Optional. Whether to include the JavaScript calls to tinymce.addI18n() and
+	 *                           tinymce.ScriptLoader.markDone().
 	 * @return string Translation object, JSON encoded.
 	 */
 	public static function wp_mce_translation( $mce_locale = '', $json_only = false ) {

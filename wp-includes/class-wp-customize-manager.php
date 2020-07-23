@@ -6008,7 +6008,7 @@ final class WP_Customize_Manager {
 	 * @since 4.7.0
 	 *
 	 * @param WP_Error $validity
-	 * @param mixed $value
+	 * @param mixed    $value
 	 * @return mixed
 	 */
 	public function _validate_header_video( $validity, $value ) {
@@ -6044,7 +6044,7 @@ final class WP_Customize_Manager {
 	 * @since 4.7.0
 	 *
 	 * @param WP_Error $validity
-	 * @param mixed $value
+	 * @param mixed    $value
 	 * @return mixed
 	 */
 	public function _validate_external_header_video( $validity, $value ) {

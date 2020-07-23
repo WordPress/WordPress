@@ -22,7 +22,7 @@
  * @since 2.1.0
  * @access private
  *
- * @param array $bookmarks List of bookmarks to traverse.
+ * @param array        $bookmarks List of bookmarks to traverse.
  * @param string|array $args {
  *     Optional. Bookmarks arguments.
  *

@@ -213,7 +213,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * @since 5.3.0
 	 *
 	 * @return array
-	 *
 	 */
 	protected function get_views() {
 		$counts = wp_count_sites();

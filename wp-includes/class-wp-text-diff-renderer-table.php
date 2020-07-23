@@ -100,7 +100,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	/**
 	 * @ignore
 	 *
-	 * @param array $lines
+	 * @param array  $lines
 	 * @param string $prefix
 	 */
 	public function _lines( $lines, $prefix = ' ' ) {
@@ -150,7 +150,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @ignore
 	 *
 	 * @param array $lines
-	 * @param bool $encode
+	 * @param bool  $encode
 	 * @return string
 	 */
 	public function _added( $lines, $encode = true ) {
@@ -188,7 +188,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @ignore
 	 *
 	 * @param array $lines
-	 * @param bool $encode
+	 * @param bool  $encode
 	 * @return string
 	 */
 	public function _deleted( $lines, $encode = true ) {
@@ -213,7 +213,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @ignore
 	 *
 	 * @param array $lines
-	 * @param bool $encode
+	 * @param bool  $encode
 	 * @return string
 	 */
 	public function _context( $lines, $encode = true ) {
