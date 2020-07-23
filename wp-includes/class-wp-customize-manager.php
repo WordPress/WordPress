@@ -4689,9 +4689,9 @@ final class WP_Customize_Manager {
 	 * @param array $autofocus {
 	 *     Mapping of 'panel', 'section', 'control' to the ID which should be autofocused.
 	 *
-	 *     @type string [$control]  ID for control to be autofocused.
-	 *     @type string [$section]  ID for section to be autofocused.
-	 *     @type string [$panel]    ID for panel to be autofocused.
+	 *     @type string $control ID for control to be autofocused.
+	 *     @type string $section ID for section to be autofocused.
+	 *     @type string $panel   ID for panel to be autofocused.
 	 * }
 	 */
 	public function set_autofocus( $autofocus ) {
@@ -4706,9 +4706,9 @@ final class WP_Customize_Manager {
 	 * @return array {
 	 *     Mapping of 'panel', 'section', 'control' to the ID which should be autofocused.
 	 *
-	 *     @type string [$control]  ID for control to be autofocused.
-	 *     @type string [$section]  ID for section to be autofocused.
-	 *     @type string [$panel]    ID for panel to be autofocused.
+	 *     @type string $control ID for control to be autofocused.
+	 *     @type string $section ID for section to be autofocused.
+	 *     @type string $panel   ID for panel to be autofocused.
 	 * }
 	 */
 	public function get_autofocus() {

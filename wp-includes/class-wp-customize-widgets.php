@@ -565,7 +565,7 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @global $wp_registered_widget_controls
+	 * @global array $wp_registered_widget_controls
 	 *
 	 * @param string $widget_id Widget ID.
 	 * @return bool Whether or not the widget is a "wide" widget.

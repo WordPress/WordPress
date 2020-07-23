@@ -37,7 +37,7 @@ class WP_Query {
 	 * Taxonomy query, as passed to get_tax_sql()
 	 *
 	 * @since 3.1.0
-	 * @var object WP_Tax_Query
+	 * @var WP_Tax_Query A taxonomy query instance.
 	 */
 	public $tax_query;
 
@@ -45,7 +45,7 @@ class WP_Query {
 	 * Metadata query container
 	 *
 	 * @since 3.2.0
-	 * @var object WP_Meta_Query
+	 * @var WP_Meta_Query A meta query instance.
 	 */
 	public $meta_query = false;
 
@@ -53,7 +53,7 @@ class WP_Query {
 	 * Date query container
 	 *
 	 * @since 3.7.0
-	 * @var object WP_Date_Query
+	 * @var WP_Date_Query A date query instance.
 	 */
 	public $date_query = false;
 

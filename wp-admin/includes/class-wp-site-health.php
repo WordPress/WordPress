@@ -159,17 +159,17 @@ class WP_Site_Health {
 		 * @param array $test_result {
 		 *     An associative array of test result data.
 		 *
-		 *     @param string $label       A label describing the test, and is used as a header in the output.
-		 *     @param string $status      The status of the test, which can be a value of `good`, `recommended` or `critical`.
-		 *     @param array  $badge {
+		 *     @type string $label       A label describing the test, and is used as a header in the output.
+		 *     @type string $status      The status of the test, which can be a value of `good`, `recommended` or `critical`.
+		 *     @type array  $badge {
 		 *         Tests are put into categories which have an associated badge shown, these can be modified and assigned here.
 		 *
-		 *         @param string $label The test label, for example `Performance`.
-		 *         @param string $color Default `blue`. A string representing a color to use for the label.
+		 *         @type string $label The test label, for example `Performance`.
+		 *         @type string $color Default `blue`. A string representing a color to use for the label.
 		 *     }
-		 *     @param string $description A more descriptive explanation of what the test looks for, and why it is important for the end user.
-		 *     @param string $actions     An action to direct the user to where they can resolve the issue, if one exists.
-		 *     @param string $test        The name of the test being ran, used as a reference point.
+		 *     @type string $description A more descriptive explanation of what the test looks for, and why it is important for the end user.
+		 *     @type string $actions     An action to direct the user to where they can resolve the issue, if one exists.
+		 *     @type string $test        The name of the test being ran, used as a reference point.
 		 * }
 		 */
 		return apply_filters( 'site_status_test_result', call_user_func( $callback ) );
@@ -953,18 +953,18 @@ class WP_Site_Health {
 		 * @since 5.3.0 The `$constant` and `$class` parameters were added.
 		 *
 		 * @param array $modules {
-		 *     An associated array of modules to test for.
+		 *     An associative array of modules to test for.
 		 *
-		 *     array $module {
-		 *         An associated array of module properties used during testing.
+		 *     @type array ...$0 {
+		 *         An associative array of module properties used during testing.
 		 *         One of either `$function` or `$extension` must be provided, or they will fail by default.
 		 *
-		 *         string $function     Optional. A function name to test for the existence of.
-		 *         string $extension    Optional. An extension to check if is loaded in PHP.
-		 *         string $constant     Optional. A constant name to check for to verify an extension exists.
-		 *         string $class        Optional. A class name to check for to verify an extension exists.
-		 *         bool   $required     Is this a required feature or not.
-		 *         string $fallback_for Optional. The module this module replaces as a fallback.
+		 *         @type string $function     Optional. A function name to test for the existence of.
+		 *         @type string $extension    Optional. An extension to check if is loaded in PHP.
+		 *         @type string $constant     Optional. A constant name to check for to verify an extension exists.
+		 *         @type string $class        Optional. A class name to check for to verify an extension exists.
+		 *         @type bool   $required     Is this a required feature or not.
+		 *         @type string $fallback_for Optional. The module this module replaces as a fallback.
 		 *     }
 		 * }
 		 */
@@ -2342,7 +2342,9 @@ class WP_Site_Health {
 	 * @return object The test results.
 	 */
 	function detect_plugin_theme_auto_update_issues() {
+		/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
 		$test_plugins_enabled   = apply_filters( 'auto_update_plugin', true );
+		/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
 		$test_themes_enabled    = apply_filters( 'auto_update_theme', true );
 		$ui_enabled_for_plugins = wp_is_auto_update_enabled_for_type( 'plugin' );
 		$ui_enabled_for_themes  = wp_is_auto_update_enabled_for_type( 'theme' );

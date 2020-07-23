@@ -492,8 +492,8 @@ class WP_REST_Server {
 	 * @return array {
 	 *     Data with sub-requests embedded.
 	 *
-	 *     @type array [$_links]    Links.
-	 *     @type array [$_embedded] Embeddeds.
+	 *     @type array $_links    Links.
+	 *     @type array $_embedded Embeddeds.
 	 * }
 	 */
 	public function response_to_data( $response, $embed ) {
@@ -616,8 +616,8 @@ class WP_REST_Server {
 	 * @return array {
 	 *     Data with sub-requests embedded.
 	 *
-	 *     @type array [$_links]    Links.
-	 *     @type array [$_embedded] Embeddeds.
+	 *     @type array $_links    Links.
+	 *     @type array $_embedded Embeddeds.
 	 * }
 	 */
 	protected function embed_links( $data, $embed = true ) {

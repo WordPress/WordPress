@@ -453,15 +453,15 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		$perms = $stat['mode'] & 0000666; // Same permissions as parent folder, strip off the executable bits.
 		chmod( $filename, $perms );
 
-		/**
-		 * Filters the name of the saved image file.
-		 *
-		 * @since 2.6.0
-		 *
-		 * @param string $filename Name of the file.
-		 */
 		return array(
 			'path'      => $filename,
+			/**
+			 * Filters the name of the saved image file.
+			 *
+			 * @since 2.6.0
+			 *
+			 * @param string $filename Name of the file.
+			 */
 			'file'      => wp_basename( apply_filters( 'image_make_intermediate_size', $filename ) ),
 			'width'     => $this->size['width'],
 			'height'    => $this->size['height'],

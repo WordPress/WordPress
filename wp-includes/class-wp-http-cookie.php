@@ -244,11 +244,11 @@ class WP_Http_Cookie {
 	 * @since 4.6.0
 	 *
 	 * @return array {
-	 *    List of attributes.
+	 *     List of attributes.
 	 *
-	 *    @type string|int|null $expires When the cookie expires. Unix timestamp or formatted date.
-	 *    @type string          $path    Cookie URL path.
-	 *    @type string          $domain  Cookie domain.
+	 *     @type string|int|null $expires When the cookie expires. Unix timestamp or formatted date.
+	 *     @type string          $path    Cookie URL path.
+	 *     @type string          $domain  Cookie domain.
 	 * }
 	 */
 	public function get_attributes() {
