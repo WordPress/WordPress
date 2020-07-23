@@ -2162,7 +2162,7 @@ function calendar_week_mod( $num ) {
  * @global array     $posts
  *
  * @param bool $initial Optional. Whether to use initial calendar names. Default true.
- * @param bool $display Optional. Whether to display or return the calendar. Default true.
+ * @param bool $echo    Optional. Whether to display the calendar output. Default true.
  * @return void|string Void if `$echo` argument is true, calendar HTML if `$echo` is false.
  */
 function get_calendar( $initial = true, $echo = true ) {

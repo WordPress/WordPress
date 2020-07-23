@@ -2471,6 +2471,7 @@ function get_theme_starter_content() {
  * @since 5.3.0 The `html5` feature now also accepts 'script' and 'style'.
  * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
  *              by adding it to the function signature.
+ * @since 5.5.0 The `core-block-patterns` feature was added and is enabled by default.
  *
  * @global array $_wp_theme_features
  *

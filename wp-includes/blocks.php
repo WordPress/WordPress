@@ -359,7 +359,7 @@ function get_dynamic_block_names() {
  *
  * @since 5.3.1
  *
- * @param array $attributes Attributes object.
+ * @param array $block_attributes Attributes object.
  * @return string Serialized attributes.
  */
 function serialize_block_attributes( $block_attributes ) {
@@ -396,9 +396,9 @@ function strip_core_block_namespace( $block_name = null ) {
  *
  * @since 5.3.1
  *
- * @param string $block_name Block name.
- * @param array  $attributes Block attributes.
- * @param string $content    Block save content.
+ * @param string $block_name       Block name.
+ * @param array  $block_attributes Block attributes.
+ * @param string $block_content    Block save content.
  * @return string Comment-delimited block content.
  */
 function get_comment_delimited_block_content( $block_name = null, $block_attributes, $block_content ) {

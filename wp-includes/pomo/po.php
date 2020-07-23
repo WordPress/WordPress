@@ -92,6 +92,8 @@ if ( ! class_exists( 'PO', false ) ) :
 		 * Text to include as a comment before the start of the PO contents
 		 *
 		 * Doesn't need to include # in the beginning of lines, these are added automatically
+		 *
+		 * @param string $text Text to include as a comment.
 		 */
 		function set_comment_before_headers( $text ) {
 			$this->comments_before_headers = $text;

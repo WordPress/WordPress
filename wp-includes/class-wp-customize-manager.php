@@ -2292,7 +2292,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $current_theme {@internal Parameter is not used}
+	 * @param mixed $current_theme {@internal Parameter is not used}
 	 * @return string Theme name.
 	 */
 	public function current_theme( $current_theme ) {

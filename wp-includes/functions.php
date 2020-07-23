@@ -2597,8 +2597,8 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
  * @access private
  *
  * @param string $filename The file name to check.
- * $param array  $files    An array of existing files in the directory.
- * $return bool True if the tested file name could match an existing file, false otherwise.
+ * @param array  $files    An array of existing files in the directory.
+ * @return bool True if the tested file name could match an existing file, false otherwise.
  */
 function _wp_check_existing_file_names( $filename, $files ) {
 	$fname = pathinfo( $filename, PATHINFO_FILENAME );

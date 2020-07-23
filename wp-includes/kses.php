@@ -1034,6 +1034,7 @@ function wp_kses_uri_attributes() {
  *                                                or a context name such as 'post'.
  * @global string[]       $pass_allowed_protocols Array of allowed URL protocols.
  *
+ * @param array $matches preg_replace regexp matches
  * @return string
  */
 function _wp_kses_split_callback( $match ) {
@@ -1712,6 +1713,7 @@ function wp_kses_html_error( $string ) {
  *
  * @param string   $string            Content to check for bad protocols.
  * @param string[] $allowed_protocols Array of allowed URL protocols.
+ * @param int      $count             Depth of call recursion to this function.
  * @return string Sanitized content.
  */
 function wp_kses_bad_protocol_once( $string, $allowed_protocols, $count = 1 ) {

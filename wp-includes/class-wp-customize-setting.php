@@ -846,8 +846,8 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $root
-	 * @param $keys
+	 * @param array $root
+	 * @param array $keys
 	 * @param bool $create Default false.
 	 * @return array|void Keys are 'root', 'node', and 'key'.
 	 */
@@ -901,8 +901,8 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $root
-	 * @param $keys
+	 * @param array $root
+	 * @param array $keys
 	 * @param mixed $value The value to update.
 	 * @return mixed
 	 */
@@ -927,8 +927,8 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $root
-	 * @param $keys
+	 * @param array $root
+	 * @param array $keys
 	 * @param mixed $default A default value which is used as a fallback. Default null.
 	 * @return mixed The requested value or the default value.
 	 */
@@ -946,8 +946,8 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $root
-	 * @param $keys
+	 * @param array $root
+	 * @param array $keys
 	 * @return bool True if value is set, false if not.
 	 */
 	final protected function multidimensional_isset( $root, $keys ) {

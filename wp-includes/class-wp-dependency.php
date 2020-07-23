@@ -90,7 +90,7 @@ class _WP_Dependency {
 	 * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
 	 *              to the function signature.
 	 *
-	 * @param ...$args Dependency information.
+	 * @param mixed ...$args Dependency information.
 	 */
 	public function __construct( ...$args ) {
 		list( $this->handle, $this->src, $this->deps, $this->ver, $this->args ) = $args;

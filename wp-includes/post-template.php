@@ -1544,6 +1544,7 @@ function walk_page_tree( $pages, $depth, $current_page, $r ) {
  * @uses Walker_PageDropdown to create HTML dropdown content.
  * @see Walker_PageDropdown::walk() for parameters and return description.
  *
+ * @param mixed ...$args Elements array, maximum hierarchical depth and optional additional arguments.
  * @return string
  */
 function walk_page_dropdown_tree( ...$args ) {

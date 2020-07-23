@@ -300,8 +300,8 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
  *
  * @since 2.8.0
  *
- * @param int|string $tag_name
- * @param string $taxonomy Optional. The taxonomy for which to retrieve terms. Default 'post_tag'.
+ * @param string $tag_name The term name.
+ * @param string $taxonomy Optional. The taxonomy within which to create the term. Default 'post_tag'.
  * @return array|WP_Error
  */
 function wp_create_term( $tag_name, $taxonomy = 'post_tag' ) {
