@@ -103,7 +103,7 @@ $allowed_options            = array(
 		'comment_previously_approved',
 		'comment_max_links',
 		'moderation_keys',
-		'blocklist_keys',
+		'disallowed_keys',
 		'show_avatars',
 		'avatar_rating',
 		'avatar_default',

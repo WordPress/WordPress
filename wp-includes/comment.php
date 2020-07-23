@@ -820,7 +820,7 @@ function wp_allow_comment( $commentdata, $wp_error = false ) {
 			$approved = 0;
 		}
 
-		if ( wp_blocklist_check(
+		if ( wp_check_comment_disallowed_list(
 			$commentdata['comment_author'],
 			$commentdata['comment_author_email'],
 			$commentdata['comment_author_url'],
@@ -1320,12 +1320,12 @@ function wp_check_comment_data_max_lengths( $comment_data ) {
  * @param string $user_agent The author's browser user agent
  * @return bool True if comment contains disallowed content, false if comment does not
  */
-function wp_blocklist_check( $author, $email, $url, $comment, $user_ip, $user_agent ) {
+function wp_check_comment_disallowed_list( $author, $email, $url, $comment, $user_ip, $user_agent ) {
 	/**
 	 * Fires before the comment is tested for disallowed characters or words.
 	 *
 	 * @since 1.5.0
-	 * @deprecated 5.5.0 Use {@see 'wp_blocklist_check'} instead.
+	 * @deprecated 5.5.0 Use {@see 'wp_check_comment_disallowed_list'} instead.
 	 *
 	 * @param string $author     Comment author.
 	 * @param string $email      Comment author's email.
@@ -1338,7 +1338,7 @@ function wp_blocklist_check( $author, $email, $url, $comment, $user_ip, $user_ag
 		'wp_blacklist_check',
 		array( $author, $email, $url, $comment, $user_ip, $user_agent ),
 		'5.5.0',
-		'wp_blocklist_check',
+		'wp_check_comment_disallowed_list',
 		__( 'Please consider writing more inclusive code.' )
 	);
 
@@ -1354,9 +1354,9 @@ function wp_blocklist_check( $author, $email, $url, $comment, $user_ip, $user_ag
 	 * @param string $user_ip    Comment author's IP address.
 	 * @param string $user_agent Comment author's browser user agent.
 	 */
-	do_action( 'wp_blocklist_check', $author, $email, $url, $comment, $user_ip, $user_agent );
+	do_action( 'wp_check_comment_disallowed_list', $author, $email, $url, $comment, $user_ip, $user_agent );
 
-	$mod_keys = trim( get_option( 'blocklist_keys' ) );
+	$mod_keys = trim( get_option( 'disallowed_keys' ) );
 	if ( '' === $mod_keys ) {
 		return false; // If moderation keys are empty.
 	}

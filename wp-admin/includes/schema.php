@@ -532,7 +532,7 @@ function populate_options( array $options = array() ) {
 		'admin_email_lifespan'            => ( time() + 6 * MONTH_IN_SECONDS ),
 
 		// 5.5.0
-		'blocklist_keys'                  => '',
+		'disallowed_keys'                 => '',
 		'comment_previously_approved'     => 1,
 		'auto_plugin_theme_update_emails' => array(),
 	);
@@ -556,7 +556,7 @@ function populate_options( array $options = array() ) {
 	$fat_options = array(
 		'moderation_keys',
 		'recently_edited',
-		'blocklist_keys',
+		'disallowed_keys',
 		'uninstall_plugins',
 		'auto_plugin_theme_update_emails',
 	);

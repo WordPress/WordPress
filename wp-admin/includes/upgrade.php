@@ -2177,14 +2177,22 @@ function upgrade_550() {
 		update_option( 'finished_updating_comment_type', 0 );
 		wp_schedule_single_event( time() + ( 1 * MINUTE_IN_SECONDS ), 'wp_update_comment_type_batch' );
 
-		// Use more clear and inclusive language.
-		$blocklist = get_option( 'blacklist_keys', '' );
-		update_option( 'blocklist_keys', $blocklist );
-		delete_option( 'blacklist_keys' );
-
 		$comment_previously_approved = get_option( 'comment_whitelist', '' );
 		update_option( 'comment_previously_approved', $comment_previously_approved );
 		delete_option( 'comment_whitelist' );
+	}
+
+	if ( $wp_current_db_version < 48572 ) {
+		// Use more clear and inclusive language.
+		$disallowed_list = get_option( 'blacklist_keys' );
+
+		if ( false === $disallowed_list ) {
+			$disallowed_list = get_option( 'blocklist_keys' );
+		}
+
+		update_option( 'disallowed_keys', $disallowed_list );
+		delete_option( 'blacklist_keys' );
+		delete_option( 'blocklist_keys' );
 	}
 }
 
