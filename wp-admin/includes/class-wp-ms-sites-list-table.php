@@ -289,8 +289,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		if ( current_user_can( 'delete_sites' ) ) {
 			$actions['delete'] = __( 'Delete' );
 		}
-		$actions['spam']    = _x( 'Mark as Spam', 'site' );
-		$actions['notspam'] = _x( 'Not Spam', 'site' );
+		$actions['spam']    = _x( 'Mark as spam', 'site' );
+		$actions['notspam'] = _x( 'Not spam', 'site' );
 
 		return $actions;
 	}
