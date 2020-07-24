@@ -10364,7 +10364,7 @@ CSSLint.addRule({
          * @return {String} The error message.
          */
         readError: function(filename, message) {
-            return "<file name=\"" + xmlEscape(filename) + "\"><error line=\"0\" column=\"0\" severty=\"error\" message=\"" + xmlEscape(message) + "\"></error></file>";
+            return "<file name=\"" + xmlEscape(filename) + "\"><error line=\"0\" column=\"0\" severity=\"error\" message=\"" + xmlEscape(message) + "\"></error></file>";
         },
 
         /**
