@@ -368,7 +368,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		if ( in_array( $comment_status, array( 'trash', 'spam' ), true ) || ! EMPTY_TRASH_DAYS ) {
 			$actions['delete'] = __( 'Delete permanently' );
 		} else {
-			$actions['trash'] = __( 'Move to trash' );
+			$actions['trash'] = __( 'Move to Trash' );
 		}
 
 		return $actions;

@@ -129,7 +129,7 @@ switch ( $action ) {
 				break;
 			case 'trash':
 				$caution_msg = __( 'You are about to move the following comment to the Trash:' );
-				$button      = __( 'Move to trash' );
+				$button      = __( 'Move to Trash' );
 				break;
 			case 'delete':
 				$caution_msg = __( 'You are about to delete the following comment:' );

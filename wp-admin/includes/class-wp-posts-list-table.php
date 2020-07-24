@@ -417,7 +417,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			if ( $this->is_trash || ! EMPTY_TRASH_DAYS ) {
 				$actions['delete'] = __( 'Delete permanently' );
 			} else {
-				$actions['trash'] = __( 'Move to trash' );
+				$actions['trash'] = __( 'Move to Trash' );
 			}
 		}
 
