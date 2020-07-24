@@ -1984,7 +1984,9 @@ function remove_accents( $string ) {
  * @return string The sanitized filename.
  */
 function sanitize_file_name( $filename ) {
-	$filename_raw  = $filename;
+	$filename_raw = $filename;
+	$filename     = remove_accents( $filename );
+
 	$special_chars = array( '?', '[', ']', '/', '\\', '=', '<', '>', ':', ';', ',', "'", '"', '&', '$', '#', '*', '(', ')', '|', '~', '`', '!', '{', '}', '%', '+', '’', '«', '»', '”', '“', chr( 0 ) );
 
 	// Check for support for utf8 in the installed PCRE library once and store the result in a static.
@@ -2013,10 +2015,11 @@ function sanitize_file_name( $filename ) {
 	 * @param string   $filename_raw  The original filename to be sanitized.
 	 */
 	$special_chars = apply_filters( 'sanitize_file_name_chars', $special_chars, $filename_raw );
-	$filename      = str_replace( $special_chars, '', $filename );
-	$filename      = str_replace( array( '%20', '+' ), '-', $filename );
-	$filename      = preg_replace( '/[\r\n\t -]+/', '-', $filename );
-	$filename      = trim( $filename, '.-_' );
+
+	$filename = str_replace( $special_chars, '', $filename );
+	$filename = str_replace( array( '%20', '+' ), '-', $filename );
+	$filename = preg_replace( '/[\r\n\t -]+/', '-', $filename );
+	$filename = trim( $filename, '.-_' );
 
 	if ( false === strpos( $filename, '.' ) ) {
 		$mime_types = wp_get_mime_types();
@@ -2068,7 +2071,9 @@ function sanitize_file_name( $filename ) {
 			}
 		}
 	}
+
 	$filename .= '.' . $extension;
+
 	/** This filter is documented in wp-includes/formatting.php */
 	return apply_filters( 'sanitize_file_name', $filename, $filename_raw );
 }
