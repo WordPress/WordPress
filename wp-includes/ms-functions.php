@@ -952,7 +952,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 	$admin_email = get_site_option( 'admin_email' );
 
 	if ( '' === $admin_email ) {
-		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
+		$admin_email = 'support@' . wp_parse_url( network_home_url(), PHP_URL_HOST );
 	}
 
 	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'WordPress';
@@ -1079,7 +1079,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 	$admin_email = get_site_option( 'admin_email' );
 
 	if ( '' === $admin_email ) {
-		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
+		$admin_email = 'support@' . wp_parse_url( network_home_url(), PHP_URL_HOST );
 	}
 
 	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'WordPress';
@@ -1663,7 +1663,7 @@ We hope you enjoy your new site. Thanks!
 	$admin_email = get_site_option( 'admin_email' );
 
 	if ( '' === $admin_email ) {
-		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
+		$admin_email = 'support@' . wp_parse_url( network_home_url(), PHP_URL_HOST );
 	}
 
 	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'WordPress';
@@ -1755,7 +1755,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	$admin_email = get_site_option( 'admin_email' );
 
 	if ( '' === $admin_email ) {
-		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
+		$admin_email = 'support@' . wp_parse_url( network_home_url(), PHP_URL_HOST );
 	}
 
 	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'WordPress';
