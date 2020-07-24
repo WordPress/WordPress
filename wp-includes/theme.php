@@ -2480,7 +2480,7 @@ function get_theme_starter_content() {
  *                        'html5', 'title-tag', 'customize-selective-refresh-widgets', 'starter-content',
  *                        'responsive-embeds', 'align-wide', 'dark-editor-style', 'disable-custom-colors',
  *                        'disable-custom-font-sizes', 'editor-color-palette', 'editor-font-sizes',
- *                        'editor-styles', and 'wp-block-styles'.
+ *                        'editor-styles', 'wp-block-styles', and 'core-block-patterns'.
  * @param mixed  ...$args Optional extra arguments to pass along with certain features.
  * @return void|bool False on failure, void otherwise.
  */
