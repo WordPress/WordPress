@@ -2263,6 +2263,8 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 				'%e2%80%9b',
 				'%e2%80%9e',
 				'%e2%80%9f',
+				// Bullet.
+				'%e2%80%a2',
 				// &copy, &reg, &deg, &hellip, and &trade.
 				'%c2%a9',
 				'%c2%ae',
