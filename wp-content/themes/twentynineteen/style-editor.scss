@@ -11,38 +11,53 @@ Twenty Nineteen Editor Styles
 
 body {
 
-	.wp-block[data-align="full"] {
-		width: calc(100% + 28px);
-		max-width: calc(100% + 28px);
+	.wp-block[data-align="full"],
+	.wp-block.alignfull {
+		width: calc(100% + 20px);
+		max-width: calc(100% + 20px);
 	}
 
-	@include media(mobile) {
+	.wp-block[data-align="left"],
+	.wp-block.alignleft, {
+		margin-right: $size__spacing-unit;
+		width: inherit;
+	}
 
-		.wp-block[data-align="full"] {
-			width: calc( 100% + 116px );
-			max-width: calc( 100% + 115px );
-		}
+	.wp-block[data-align="right"],
+	.wp-block.alignright, {
+		margin-left: $size__spacing-unit;
+		width: inherit;
+	}
+
+	.wp-block[data-align="center"],
+	.wp-block.aligncenter, {
+		margin-left: 0;
 	}
 
 	@include media(tablet) {
 
-		.editor-writing-flow {
+		.block-editor-writing-flow {
 			max-width: 80%;
 			margin: 0 10%;
 		}
 
-		.editor-default-block-appender,
-		.editor-block-list__block {
+		.block-editor-default-block-appender,
+		.block-editor-block-list__block {
 			margin-left: 0;
 			margin-right: 0;
 		}
 
-		.wp-block[data-align="wide"] {
+		.wp-block[data-align="wide"],
+		.wp-block.alignwide {
 			width: 100%;
 		}
 
-		.wp-block[data-align="right"] {
-			max-width: 125%;
+		.wp-block[data-align="full"],
+		.wp-block.alignfull {
+			width: calc( 125% + 20px );
+			max-width: calc( 125% + 20px );
+			position: relative;
+			left: -12.5%;
 		}
 	}
 }
@@ -190,6 +205,7 @@ figcaption,
 /** === Post Title === */
 
 .editor-post-title__block {
+	width: 100%;
 	@include post-section-dash;
 
 	&:before {
@@ -779,151 +795,144 @@ ul.wp-block-archives,
 // size is different here. 
 $group-block-background__padding: $font__size_base;
 
-.wp-block[data-type="core/group"] {
+.wp-block-group {
 
-	// Group block base styles
-	> .wp-block-group {
-
-		// Child: Full alignment
-		> .wp-block-group__inner-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block[data-align="full"] {
-			margin-left: 0;
-			margin-right: 0;
-		}
+	// Child: Full alignment
+	> .wp-block-group__inner-container > .wp-block[data-align="full"],
+	> .wp-block-group__inner-container > .wp-block.alignfull {
+		margin-left: 0;
+		margin-right: 0;
+		left: 0;
 	}
 
 	// Group block with background color
-	> .wp-block-group.has-background {
+	&.has-background {
 		padding: $group-block-background__padding;
 
 		// Child: Full alignment
-		> .wp-block-group__inner-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block[data-align="full"] {
+		> .wp-block-group__inner-container > .wp-block[data-align="full"],
+		> .wp-block-group__inner-container > .wp-block.alignfull {
 			margin-left: -$group-block-background__padding;
 			width: calc(100% + #{$group-block-background__padding * 2});
 			max-width: calc(100% + #{$group-block-background__padding * 2});
 		}
 	}
+}
 
-	// Wide and full alignments
-	&[data-align="wide"] > .is-block-content {
+// Wide and full alignments
+.wp-block[data-align="wide"] > .wp-block-group {
 
-		// Group block base styles.
-		> .wp-block-group {
-
-			// Child blocks: Default alignments
-			> .wp-block-group__inner-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block:not([data-align="wide"]):not([data-align="full"]) {
-				@include media(tablet) {
-					width: calc(8 * (100vw / 12));
-				}
-
-				@include media(desktop) {
-					width: calc(6 * (100vw / 12 ));
-				}
-			}
-
-			// Child blocks: Full alignment
-			> .wp-block-group__inner-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block[data-align="full"] {
-				padding-left: 0;
-				padding-right: 0;
-			}
+	> .wp-block-group__inner-container > .wp-block:not([data-align="wide"]):not([data-align="full"]):not(.alignwide):not(.alignfull) {
+		@include media(tablet) {
+			width: calc(8 * (100vw / 12));
 		}
 
-		// Group block with background color
-		> .wp-block-group.has-background {
-			
-			// Child blocks: Default alignments
-			> .wp-block-group__inner-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block:not([data-align="wide"]):not([data-align="full"]) {
-				@include media(tablet) {
-					width: calc(8 * (100vw / 12) - #{$group-block-background__padding * 2});
-				}
-
-				@include media(desktop) {
-					width: calc(6 * (100vw / 12 ) - #{$group-block-background__padding * 2});
-				}
-			}
+		@include media(desktop) {
+			width: calc(6 * (100vw / 12 ));
 		}
 	}
 
-	// Full alignment
-	&[data-align="full"] {
+	// Child blocks: Full alignment
+	> .wp-block-group__inner-container > .wp-block[data-align="full"],
+	> .wp-block-group__inner-container > .wp-block.alignfull {
+		padding-left: 0;
+		padding-right: 0;
+	}
 
-		// Group block base styles
-		> .is-block-content > .wp-block-group {
 
-			// Margins & padding are added to this container to mimic 
-			// the style + spacing of the .editor-writing-flow global 
-			// container. This way, child items sync up with the placement 
-			// and size of other top-level blocks. 
-			> .wp-block-group__inner-container > .block-editor-inner-blocks > .block-editor-block-list__layout {
+	// Group block with background color
+	&.has-background {
+		
+		// Child blocks: Default alignments
+		> .wp-block-group__inner-container > .wp-block:not([data-align="wide"]):not([data-align="full"]):not(.alignwide):not(.alignfull) {
+			@include media(tablet) {
+				width: calc(8 * (100vw / 12) - #{$group-block-background__padding * 2});
+			}
 
-				@include media(mobile) {
-					padding-left: 46px;
-					padding-right: 46px;
-				}
+			@include media(desktop) {
+				width: calc(6 * (100vw / 12 ) - #{$group-block-background__padding * 2});
+			}
+		}
+	}
+}
 
-				// 2px of extra padding are added to each side here
-				// To better match up with the spacing of the whole 
-				// document. 
+// Full alignment
+.wp-block[data-align="full"] > .wp-block-group {
+
+		// Margins & padding are added to this container to mimic 
+		// the style + spacing of the .editor-writing-flow global 
+		// container. This way, child items sync up with the placement 
+		// and size of other top-level blocks. 
+		> .wp-block-group__inner-container {
+
+			// 2px of extra padding are added to each side here
+			// To better match up with the spacing of the whole 
+			// document. 
+			@include media(tablet) {
+				width: 80%;
+				margin-left: 10%;
+				margin-right: 10%; 
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+
+			// Child blocks: Normal Alignments
+			> .wp-block:not([data-align="wide"]):not(.alignwide):not([data-align="full"]):not(.alignfull) {
+
 				@include media(tablet) {
-					width: 80%;
-					margin-left: 10%;
-					margin-right: 10%;
-					padding-left: 48px;
-					padding-right: 48px; 
+					max-width: calc(8 * (100vw / 12));
 				}
 
-				// Child blocks: All alignments except full
-				 > .wp-block:not([data-align="full"]) {
-					max-width: calc(100vw - (2 * 1rem));
-
-					@include media(tablet) {
-						max-width: calc(8 * (100vw / 12));
-					}
-
-					@include media(desktop) {
-						max-width: calc(6 * (100vw / 12));
-					}
+				@include media(desktop) {
+					max-width: calc(6 * (100vw / 12));
 				}
+			}
 
-				// Child blocks: Right alignments
-				> .wp-block[data-align="right"] {
+			// Child blocks: Not Full Alignments
+			> .wp-block:not([data-align="full"]):not(.alignfull) {
+				padding-left: 10px;
+				padding-right: 10px;
 
-					@include media(tablet) {
-						max-width: 125%;
-					}
+				@include media(tablet) {
+					padding-left: 0;
+					padding-right: 0;
 				}
+			}
 
-				// Child blocks: Wide alignments
-				> .wp-block[data-align="wide"] {
+			// Child blocks: Right alignments
+			> .wp-block[data-align="right"] {
 
-					@include media(tablet) {
-						width: calc(100% + 4px);
-						max-width: calc(100% + 4px);
-					}
+				@include media(tablet) {
+					max-width: 125%;
 				}
+			}
 
-				// Child blocks: Full alignments
-				> .wp-block[data-align=full] {
-					max-width: calc(100vw + (2 * 1rem));
+			// Child blocks: Wide alignments
+			> .wp-block[data-align="wide"],
+			> .wp-block.alignwide {
 
-					@include media(mobile) {
-						width: calc(100% + 92px);
-						left: -46px;
-					}
+				@include media(tablet) {
+					width: 100%;
+					max-width: 100%;
+				}
+			}
 
-					@include media(tablet) {
-						left: calc(-12.5% - 58px);
-						width: calc(125% + 120px);
-						max-width: calc(125% + 119px);
-					}
+			// Child blocks: Full alignments
+			> .wp-block[data-align=full],
+			> .wp-block.alignfull {
+
+				@include media(tablet) {
+					left: calc( -12.5% - 13px );
+					width: calc( 125% + 26px );
+					max-width: calc( 125% + 25px );
 				}
 			}
 		}
 
 		// Group block with background color
-		> .is-block-content > .wp-block-group.has-background {
+		&.has-background {
 
-			// When the Group block is full width, we can remove the left/right padding
-			// and let this inherit the 
+			// When the Group block is full width, we can remove the left/right padding.
 			padding: $group-block-background__padding 0;
 
 			@include media(mobile) {
@@ -932,7 +941,8 @@ $group-block-background__padding: $font__size_base;
 			}
 
 			// Child blocks: Full alignment
-			> .wp-block-group__inner-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block[data-align="full"] {
+			> .wp-block-group__inner-container > .wp-block[data-align="full"],
+			> .wp-block-group__inner-container > .wp-block.alignfull {
 				margin-left: 0;
 				width: 100%;
 
@@ -946,4 +956,3 @@ $group-block-background__padding: $font__size_base;
 			}
 		}
 	}
-}
