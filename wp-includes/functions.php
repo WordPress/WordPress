@@ -3286,6 +3286,8 @@ function wp_nonce_ays( $action ) {
  *              an integer to be used as the response code.
  * @since 5.1.0 The `$link_url`, `$link_text`, and `$exit` arguments were added.
  * @since 5.3.0 The `$charset` argument was added.
+ * @since 5.5.0 The `$text_direction` argument has a priority over get_language_attributes()
+ *              in the default handler.
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
@@ -3306,8 +3308,8 @@ function wp_nonce_ays( $action ) {
  *     @type string $link_text      A label for the link to include. Only works in combination with $link_url.
  *                                  Default empty string.
  *     @type bool   $back_link      Whether to include a link to go back. Default false.
- *     @type string $text_direction The text direction. This is only useful internally, when WordPress
- *                                  is still loading and the site's locale is not set up yet. Accepts 'rtl'.
+ *     @type string $text_direction The text direction. This is only useful internally, when WordPress is still
+ *                                  loading and the site's locale is not set up yet. Accepts 'rtl' and 'ltr'.
  *                                  Default is the value of is_rtl().
  *     @type string $charset        Character set of the HTML output. Default 'utf-8'.
  *     @type string $code           Error code to use. Default is 'wp_die', or the main error code if $message
@@ -3443,10 +3445,14 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		}
 
 		$text_direction = $parsed_args['text_direction'];
-		if ( function_exists( 'language_attributes' ) && function_exists( 'is_rtl' ) ) {
+		$dir_attr       = "dir='$text_direction'";
+
+		// If `text_direction` was not explicitly passed,
+		// use get_language_attributes() if available.
+		if ( empty( $args['text_direction'] )
+			&& function_exists( 'language_attributes' ) && function_exists( 'is_rtl' )
+		) {
 			$dir_attr = get_language_attributes();
-		} else {
-			$dir_attr = "dir='$text_direction'";
 		}
 		?>
 <!DOCTYPE html>
