@@ -3122,7 +3122,11 @@ function register_theme_feature( $feature, $args = array() ) {
 		if ( isset( $args['show_in_rest']['prepare_callback'] ) && ! is_callable( $args['show_in_rest']['prepare_callback'] ) ) {
 			return new WP_Error(
 				'invalid_rest_prepare_callback',
-				__( 'The prepare_callback must be a callable function.' )
+				sprintf(
+					/* translators: %s: prepare_callback */
+					__( 'The %s must be a callable function.' ),
+					'<code>prepare_callback<code>'
+				)
 			);
 		}
 
