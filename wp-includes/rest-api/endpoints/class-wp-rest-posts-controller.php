@@ -2430,7 +2430,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				sprintf(
 					/* translators: %s: register_rest_field */
 					__( 'Please use %s to add new schema properties.' ),
-					'<code>register_rest_field<code>'
+					'register_rest_field'
 				),
 				'5.4.0'
 			);
