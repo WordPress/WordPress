@@ -3124,8 +3124,8 @@ function register_theme_feature( $feature, $args = array() ) {
 				'invalid_rest_prepare_callback',
 				sprintf(
 					/* translators: %s: prepare_callback */
-					__( 'The %s must be a callable function.' ),
-					'<code>prepare_callback<code>'
+					__( 'The "%s" must be a callable function.' ),
+					'prepare_callback'
 				)
 			);
 		}
