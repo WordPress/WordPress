@@ -41,8 +41,8 @@ class WP_Media_List_Table extends WP_List_Table {
 		$this->detached = ( isset( $_REQUEST['attachment-filter'] ) && 'detached' === $_REQUEST['attachment-filter'] );
 
 		$this->modes = array(
-			'list' => __( 'List View' ),
-			'grid' => __( 'Grid View' ),
+			'list' => __( 'List view' ),
+			'grid' => __( 'Grid view' ),
 		);
 
 		parent::__construct(
