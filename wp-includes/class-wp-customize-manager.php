@@ -1907,7 +1907,14 @@ final class WP_Customize_Manager {
 		 * that the user's session has expired and they need to re-authenticate.
 		 */
 		if ( $this->messenger_channel && ! current_user_can( 'customize' ) ) {
-			$this->wp_die( -1, __( 'Unauthorized. You may remove the customize_messenger_channel param to preview as frontend.' ) );
+			$this->wp_die(
+				-1,
+				sprintf(
+					/* translators: %s: customize_messenger_channel */
+					__( 'Unauthorized. You may remove the %s param to preview as frontend.' ),
+					'<code>customize_messenger_channel<code>'
+				)
+			);
 			return;
 		}
 
@@ -3900,7 +3907,11 @@ final class WP_Customize_Manager {
 				/* translators: 1: Panel ID, 2: Link to 'customize_loaded_components' filter reference. */
 				__( 'Removing %1$s manually will cause PHP warnings. Use the %2$s filter instead.' ),
 				$id,
-				'<a href="' . esc_url( 'https://developer.wordpress.org/reference/hooks/customize_loaded_components/' ) . '"><code>customize_loaded_components</code></a>'
+				sprintf(
+					'<a href="%1$s">%2$s</a>',
+					esc_url( 'https://developer.wordpress.org/reference/hooks/customize_loaded_components/' ),
+					'<code>customize_loaded_components</code>'
+				)
 			);
 
 			_doing_it_wrong( __METHOD__, $message, '4.5.0' );
