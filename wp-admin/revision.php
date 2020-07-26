@@ -60,7 +60,17 @@ switch ( $action ) {
 
 		check_admin_referer( "restore-post_{$revision->ID}" );
 
+		/*
+		 * Ensure the global $post remains the same after revision is restored.
+		 * Because wp_insert_post() and wp_transition_post_status() are called
+		 * during the process, plugins can unexpectedly modify $post.
+		 */
+		$backup_global_post = clone $post;
+
 		wp_restore_post_revision( $revision->ID );
+
+		// Restore the global $post as it was before.
+		$post = $backup_global_post;
 
 		$redirect = add_query_arg(
 			array(
