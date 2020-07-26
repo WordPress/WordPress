@@ -759,6 +759,11 @@ final class WP_Customize_Nav_Menus {
 			);
 		}
 
+		// Used to denote post states for special pages.
+		if ( ! function_exists( 'get_post_states' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/template.php';
+		}
+
 		// Register each menu as a Customizer section, and add each menu item to each menu.
 		foreach ( $menus as $menu ) {
 			$menu_id = $menu->term_id;
