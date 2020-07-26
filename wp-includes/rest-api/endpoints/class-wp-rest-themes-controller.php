@@ -367,7 +367,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 					),
 				),
 				'textdomain'     => array(
-					'description' => __( 'The theme\'s textdomain.' ),
+					'description' => __( 'The theme\'s text domain.' ),
 					'type'        => 'string',
 					'readonly'    => true,
 				),
