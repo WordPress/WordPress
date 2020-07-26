@@ -907,7 +907,7 @@ function do_enclose( $content = null, $post ) {
 
 				// Check to see if we can figure out the mime type from the extension.
 				$url_parts = parse_url( $url );
-				if ( false !== $url_parts ) {
+				if ( false !== $url_parts && ! empty( $url_parts['path'] ) ) {
 					$extension = pathinfo( $url_parts['path'], PATHINFO_EXTENSION );
 					if ( ! empty( $extension ) ) {
 						foreach ( wp_get_mime_types() as $exts => $mime ) {
