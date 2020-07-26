@@ -816,13 +816,11 @@ function wp_setup_nav_menu_item( $menu_item ) {
 				$object = get_post_type_object( $menu_item->object );
 				if ( $object ) {
 					$menu_item->type_label = $object->labels->singular_name;
-					// Use post states for special pages (only in the admin).
-					if ( function_exists( 'get_post_states' ) ) {
-						$menu_post   = get_post( $menu_item->object_id );
-						$post_states = get_post_states( $menu_post );
-						if ( $post_states ) {
-							$menu_item->type_label = wp_strip_all_tags( implode( ', ', $post_states ) );
-						}
+					// Use post states for special pages.
+					$menu_post   = get_post( $menu_item->object_id );
+					$post_states = get_post_states( $menu_post );
+					if ( $post_states ) {
+						$menu_item->type_label = wp_strip_all_tags( implode( ', ', $post_states ) );
 					}
 				} else {
 					$menu_item->type_label = $menu_item->object;

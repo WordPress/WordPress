@@ -934,6 +934,78 @@ function get_post_status( $post = null ) {
 }
 
 /**
+ * Retrieves an array of post states from a post.
+ *
+ * @since 5.3.0
+ *
+ * @param WP_Post $post The post to retrieve states for.
+ * @return string[] Array of post state labels keyed by their state.
+ */
+function get_post_states( $post ) {
+	$post_states = array();
+	if ( isset( $_REQUEST['post_status'] ) ) {
+		$post_status = $_REQUEST['post_status'];
+	} else {
+		$post_status = '';
+	}
+
+	if ( ! empty( $post->post_password ) ) {
+		$post_states['protected'] = _x( 'Password protected', 'post status' );
+	}
+
+	if ( 'private' === $post->post_status && 'private' !== $post_status ) {
+		$post_states['private'] = _x( 'Private', 'post status' );
+	}
+
+	if ( 'draft' === $post->post_status ) {
+		if ( get_post_meta( $post->ID, '_customize_changeset_uuid', true ) ) {
+			$post_states[] = __( 'Customization Draft' );
+		} elseif ( 'draft' !== $post_status ) {
+			$post_states['draft'] = _x( 'Draft', 'post status' );
+		}
+	} elseif ( 'trash' === $post->post_status && get_post_meta( $post->ID, '_customize_changeset_uuid', true ) ) {
+		$post_states[] = _x( 'Customization Draft', 'post status' );
+	}
+
+	if ( 'pending' === $post->post_status && 'pending' !== $post_status ) {
+		$post_states['pending'] = _x( 'Pending', 'post status' );
+	}
+
+	if ( is_sticky( $post->ID ) ) {
+		$post_states['sticky'] = _x( 'Sticky', 'post status' );
+	}
+
+	if ( 'future' === $post->post_status ) {
+		$post_states['scheduled'] = _x( 'Scheduled', 'post status' );
+	}
+
+	if ( 'page' === get_option( 'show_on_front' ) ) {
+		if ( intval( get_option( 'page_on_front' ) ) === $post->ID ) {
+			$post_states['page_on_front'] = _x( 'Front Page', 'page label' );
+		}
+
+		if ( intval( get_option( 'page_for_posts' ) ) === $post->ID ) {
+			$post_states['page_for_posts'] = _x( 'Posts Page', 'page label' );
+		}
+	}
+
+	if ( intval( get_option( 'wp_page_for_privacy_policy' ) ) === $post->ID ) {
+		$post_states['page_for_privacy_policy'] = _x( 'Privacy Policy Page', 'page label' );
+	}
+
+	/**
+	 * Filters the default post display states used in the posts list table.
+	 *
+	 * @since 2.8.0
+	 * @since 3.6.0 Added the `$post` parameter.
+	 *
+	 * @param string[] $post_states An array of post display states.
+	 * @param WP_Post  $post        The current post object.
+	 */
+	return apply_filters( 'display_post_states', $post_states, $post );
+}
+
+/**
  * Retrieve all of the WordPress supported post statuses.
  *
  * Posts have a limited set of valid status values, this provides the
