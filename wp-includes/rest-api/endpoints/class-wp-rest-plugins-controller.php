@@ -815,7 +815,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 	/**
 	 * Retrieves the plugin's schema, conforming to JSON Schema.
 	 *
-	 * @since 4.7.0
+	 * @since 5.5.0
 	 *
 	 * @return array Item schema data.
 	 */
