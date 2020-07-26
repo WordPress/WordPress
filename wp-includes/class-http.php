@@ -667,17 +667,27 @@ class WP_Http {
 	}
 
 	/**
-	 * Transform header string into an array.
-	 *
-	 * If an array is given, then it is assumed to be raw header data with numeric keys with the
-	 * headers as the values. No headers must be passed that were already processed.
+	 * Transforms header string into an array.
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string|array $headers
-	 * @param string       $url     The URL that was requested.
-	 * @return array Processed string headers. If duplicate headers are encountered,
-	 *               then a numbered array is returned as the value of that header-key.
+	 * @param string|array $headers The original headers. If a string is passed, it will be converted
+	 *                              to an array. If an array is passed, then it is assumed to be
+	 *                              raw header data with numeric keys with the headers as the values.
+	 *                              No headers must be passed that were already processed.
+	 * @param string       $url     Optional. The URL that was requested. Default empty.
+	 * @return array {
+	 *     Processed string headers. If duplicate headers are encountered,
+	 *     then a numbered array is returned as the value of that header-key.
+	 *
+	 *     @type array            $response {
+	 *          @type int    $code    The response status code. Default 0.
+	 *          @type string $message The response message. Default empty.
+	 *     }
+	 *     @type array            $newheaders The processed header data as a multidimensional array.
+	 *     @type WP_Http_Cookie[] $cookies    If the original headers contain the 'Set-Cookie' key,
+	 *                                        an array containing `WP_Http_Cookie` objects is returned.
+	 * }
 	 */
 	public static function processHeaders( $headers, $url = '' ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 		// Split headers, one per array element.
