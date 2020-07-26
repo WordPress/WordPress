@@ -548,7 +548,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 			'network_only' => $item['Network'],
 			'requires_wp'  => $item['RequiresWP'],
 			'requires_php' => $item['RequiresPHP'],
-			'text_domain'  => $item['TextDomain'],
+			'textdomain'   => $item['TextDomain'],
 		);
 
 		$data = $this->add_additional_fields_to_object( $data, $request );
@@ -908,7 +908,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
-				'text_domain'  => array(
+				'textdomain'   => array(
 					'description' => __( 'The plugin\'s text domain.' ),
 					'type'        => 'string',
 					'readonly'    => true,
