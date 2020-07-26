@@ -37,14 +37,14 @@ function get_category_link( $category ) {
  * @since 1.2.0
  * @since 4.8.0 The `$visited` parameter was deprecated and renamed to `$deprecated`.
  *
- * @param int    $id         Category ID.
- * @param bool   $link       Optional. Whether to format with link. Default false.
- * @param string $separator  Optional. How to separate categories. Default '/'.
- * @param bool   $nicename   Optional. Whether to use nice name for display. Default false.
- * @param array  $deprecated Not used.
+ * @param int    $category_id Category ID.
+ * @param bool   $link        Optional. Whether to format with link. Default false.
+ * @param string $separator   Optional. How to separate categories. Default '/'.
+ * @param bool   $nicename    Optional. Whether to use nice name for display. Default false.
+ * @param array  $deprecated  Not used.
  * @return string|WP_Error A list of category parents on success, WP_Error on failure.
  */
-function get_category_parents( $id, $link = false, $separator = '/', $nicename = false, $deprecated = array() ) {
+function get_category_parents( $category_id, $link = false, $separator = '/', $nicename = false, $deprecated = array() ) {
 
 	if ( ! empty( $deprecated ) ) {
 		_deprecated_argument( __FUNCTION__, '4.8.0' );
@@ -58,7 +58,7 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
 		'format'    => $format,
 	);
 
-	return get_term_parents_list( $id, 'category', $args );
+	return get_term_parents_list( $category_id, 'category', $args );
 }
 
 /**
@@ -71,11 +71,11 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
  *
  * @since 0.71
  *
- * @param int $id Optional. The post ID. Defaults to current post ID.
+ * @param int $post_id Optional. The post ID. Defaults to current post ID.
  * @return WP_Term[] Array of WP_Term objects, one for each category assigned to the post.
  */
-function get_the_category( $id = false ) {
-	$categories = get_the_terms( $id, 'category' );
+function get_the_category( $post_id = false ) {
+	$categories = get_the_terms( $post_id, 'category' );
 	if ( ! $categories || is_wp_error( $categories ) ) {
 		$categories = array();
 	}
@@ -90,12 +90,12 @@ function get_the_category( $id = false ) {
 	 * Filters the array of categories to return for a post.
 	 *
 	 * @since 3.1.0
-	 * @since 4.4.0 Added `$id` parameter.
+	 * @since 4.4.0 Added `$post_id` parameter.
 	 *
 	 * @param WP_Term[] $categories An array of categories to return for the post.
-	 * @param int|false $id         ID of the post.
+	 * @param int|false $post_id    ID of the post.
 	 */
-	return apply_filters( 'get_the_categories', $categories, $id );
+	return apply_filters( 'get_the_categories', $categories, $post_id );
 }
 
 /**
@@ -132,6 +132,7 @@ function get_the_category_by_ID( $cat_ID ) { // phpcs:ignore WordPress.NamingCon
  */
 function get_the_category_list( $separator = '', $parents = '', $post_id = false ) {
 	global $wp_rewrite;
+
 	if ( ! is_object_in_taxonomy( get_post_type( $post_id ), 'category' ) ) {
 		/** This filter is documented in wp-includes/category-template.php */
 		return apply_filters( 'the_category', '', $separator, $parents );
@@ -1140,10 +1141,11 @@ function get_tag_link( $tag ) {
  *
  * @since 2.3.0
  *
- * @param int $id Post ID.
+ * @param int $post_id Post ID.
  * @return array|false|WP_Error Array of tag objects on success, false on failure.
  */
-function get_the_tags( $id = 0 ) {
+function get_the_tags( $post_id = 0 ) {
+	$terms = get_the_terms( $post_id, 'post_tag' );
 
 	/**
 	 * Filters the array of tags for the given post.
@@ -1154,7 +1156,7 @@ function get_the_tags( $id = 0 ) {
 	 *
 	 * @param WP_Term[] $terms An array of tags for the given post.
 	 */
-	return apply_filters( 'get_the_tags', get_the_terms( $id, 'post_tag' ) );
+	return apply_filters( 'get_the_tags', $terms );
 }
 
 /**
@@ -1162,13 +1164,14 @@ function get_the_tags( $id = 0 ) {
  *
  * @since 2.3.0
  *
- * @param string $before Optional. String to use before tags.
- * @param string $sep    Optional. String to use between the tags.
- * @param string $after  Optional. String to use after tags.
- * @param int    $id     Optional. Post ID. Defaults to the current post.
+ * @param string $before  Optional. String to use before tags.
+ * @param string $sep     Optional. String to use between the tags.
+ * @param string $after   Optional. String to use after tags.
+ * @param int    $post_id Optional. Post ID. Defaults to the current post.
  * @return string|false|WP_Error A list of tags on success, false if there are no terms, WP_Error on failure.
  */
-function get_the_tag_list( $before = '', $sep = '', $after = '', $id = 0 ) {
+function get_the_tag_list( $before = '', $sep = '', $after = '', $post_id = 0 ) {
+	$tag_list = get_the_term_list( $post_id, 'post_tag', $before, $sep, $after );
 
 	/**
 	 * Filters the tags list for a given post.
@@ -1179,9 +1182,9 @@ function get_the_tag_list( $before = '', $sep = '', $after = '', $id = 0 ) {
 	 * @param string $before   String to use before tags.
 	 * @param string $sep      String to use between the tags.
 	 * @param string $after    String to use after tags.
-	 * @param int    $id       Post ID.
+	 * @param int    $post_id  Post ID.
 	 */
-	return apply_filters( 'the_tags', get_the_term_list( $id, 'post_tag', $before, $sep, $after ), $before, $sep, $after, $id );
+	return apply_filters( 'the_tags', $tag_list, $before, $sep, $after, $post_id );
 }
 
 /**
@@ -1286,15 +1289,15 @@ function get_the_terms( $post, $taxonomy ) {
  *
  * @since 2.5.0
  *
- * @param int    $id       Post ID.
+ * @param int    $post_id  Post ID.
  * @param string $taxonomy Taxonomy name.
  * @param string $before   Optional. Before list.
  * @param string $sep      Optional. Separate items using this.
  * @param string $after    Optional. After list.
  * @return string|false|WP_Error A list of terms on success, false if there are no terms, WP_Error on failure.
  */
-function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
-	$terms = get_the_terms( $id, $taxonomy );
+function get_the_term_list( $post_id, $taxonomy, $before = '', $sep = '', $after = '' ) {
+	$terms = get_the_terms( $post_id, $taxonomy );
 
 	if ( is_wp_error( $terms ) ) {
 		return $terms;
@@ -1399,15 +1402,15 @@ function get_term_parents_list( $term_id, $taxonomy, $args = array() ) {
  *
  * @since 2.5.0
  *
- * @param int    $id       Post ID.
+ * @param int    $post_id  Post ID.
  * @param string $taxonomy Taxonomy name.
  * @param string $before   Optional. Before list.
  * @param string $sep      Optional. Separate items using this.
  * @param string $after    Optional. After list.
  * @return void|false Void on success, false on failure.
  */
-function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
-	$term_list = get_the_term_list( $id, $taxonomy, $before, $sep, $after );
+function the_terms( $post_id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
+	$term_list = get_the_term_list( $post_id, $taxonomy, $before, $sep, $after );
 
 	if ( is_wp_error( $term_list ) ) {
 		return false;
