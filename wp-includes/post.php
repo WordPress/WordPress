@@ -6605,8 +6605,8 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
  * Retrieves the most recent time that a post on the site was published.
  *
  * The server timezone is the default and is the difference between GMT and
- * server time. The 'blog' value is the date when the last post was posted. The
- * 'gmt' is when the last post was posted in GMT formatted date.
+ * server time. The 'blog' value is the date when the last post was posted.
+ * The 'gmt' is when the last post was posted in GMT formatted date.
  *
  * @since 0.71
  * @since 4.4.0 The `$post_type` argument was added.
@@ -6620,7 +6620,7 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
  * @return string The date of the last post, or false on failure.
  */
 function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
-	$date = _get_last_post_time( $timezone, 'date', $post_type );
+	$lastpostdate = _get_last_post_time( $timezone, 'date', $post_type );
 
 	/**
 	 * Filters the most recent time that a post on the site was published.
@@ -6628,10 +6628,11 @@ function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
 	 * @since 2.3.0
 	 * @since 5.5.0 Added the `$post_type` parameter.
 	 *
-	 * @param string|false $date      Date the last post was published. False on failure.
-	 * @param string       $timezone  Location to use for getting the post published date.
-	 *                                See get_lastpostdate() for accepted `$timezone` values.
-	 * @param string       $post_type The post type to check.
+	 * @param string|false $lastpostdate The most recent time that a post was published,
+	 *                                   in 'Y-m-d H:i:s' format. False on failure.
+	 * @param string       $timezone     Location to use for getting the post published date.
+	 *                                   See get_lastpostdate() for accepted `$timezone` values.
+	 * @param string       $post_type    The post type to check.
 	 */
 	return apply_filters( 'get_lastpostdate', $date, $timezone, $post_type );
 }
@@ -6640,8 +6641,8 @@ function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
  * Get the most recent time that a post on the site was modified.
  *
  * The server timezone is the default and is the difference between GMT and
- * server time. The 'blog' value is just when the last post was modified. The
- * 'gmt' is when the last post was modified in GMT time.
+ * server time. The 'blog' value is just when the last post was modified.
+ * The 'gmt' is when the last post was modified in GMT time.
  *
  * @since 1.2.0
  * @since 4.4.0 The `$post_type` argument was added.
@@ -6658,8 +6659,9 @@ function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string|false $lastpostmodified The most recent time that a post was modified, in 'Y-m-d H:i:s' format, or
-	 *                                       false. Returning anything other than false will short-circuit the function.
+	 * @param string|false $lastpostmodified The most recent time that a post was modified,
+	 *                                       in 'Y-m-d H:i:s' format, or false. Returning anything
+	 *                                       other than false will short-circuit the function.
 	 * @param string       $timezone         Location to use for getting the post modified date.
 	 *                                       See get_lastpostdate() for accepted `$timezone` values.
 	 * @param string       $post_type        The post type to check.
@@ -6678,13 +6680,13 @@ function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
 	}
 
 	/**
-	 * Filters the most recent time that a post was modified.
+	 * Filters the most recent time that a post on the site was modified.
 	 *
 	 * @since 2.3.0
 	 * @since 5.5.0 Added the `$post_type` parameter.
 	 *
-	 * @param string|false $lastpostmodified The most recent time that a post was modified, in 'Y-m-d H:i:s' format.
-	 *                                       False on failure.
+	 * @param string|false $lastpostmodified The most recent time that a post was modified,
+	 *                                       in 'Y-m-d H:i:s' format. False on failure.
 	 * @param string       $timezone         Location to use for getting the post modified date.
 	 *                                       See get_lastpostdate() for accepted `$timezone` values.
 	 * @param string       $post_type        The post type to check.
