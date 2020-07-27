@@ -699,6 +699,13 @@ var linkOff = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElem
 /***/ }),
 
 /***/ 21:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -731,13 +738,6 @@ function _inherits(subClass, superClass) {
   });
   if (superClass) _setPrototypeOf(subClass, superClass);
 }
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -1414,13 +1414,6 @@ var chevronLeft = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["create
 
 /***/ }),
 
-/***/ 30:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["url"]; }());
-
-/***/ }),
-
 /***/ 300:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1518,6 +1511,13 @@ var grid = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 }));
 /* harmony default export */ __webpack_exports__["a"] = (grid);
 
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
@@ -2878,7 +2878,7 @@ var external_this_wp_blob_ = __webpack_require__(44);
 var external_this_wp_compose_ = __webpack_require__(9);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(30);
+var external_this_wp_url_ = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/crop.js
 
@@ -6302,7 +6302,7 @@ var heading_deprecated_deprecated = [{
 /* harmony default export */ var heading_deprecated = (heading_deprecated_deprecated);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/heading/heading-level-icon.js
 
@@ -7855,7 +7855,7 @@ var possibleConstructorReturn = __webpack_require__(23);
 var getPrototypeOf = __webpack_require__(16);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(21);
+var inherits = __webpack_require__(22);
 
 // EXTERNAL MODULE: external {"this":["wp","viewport"]}
 var external_this_wp_viewport_ = __webpack_require__(81);
@@ -10459,9 +10459,10 @@ function ColorEdit(props) {
 // The flag can't be used at the moment because of the extra wrapper around
 // the button block markup.
 
-function getColorAndStyleProps(attributes) {
+function getColorAndStyleProps(attributes, colors) {
   var _style$color, _style$color2, _style$color3, _style$color4, _classnames, _style$color5, _style$color6, _style$color7, _style$color8, _style$color9, _style$color10;
 
+  var isEdit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   // I'd have prefered to avoid the "style" attribute usage here
   var backgroundColor = attributes.backgroundColor,
       textColor = attributes.textColor,
@@ -10477,7 +10478,21 @@ function getColorAndStyleProps(attributes) {
     background: (style === null || style === void 0 ? void 0 : (_style$color8 = style.color) === null || _style$color8 === void 0 ? void 0 : _style$color8.gradient) ? style.color.gradient : undefined,
     backgroundColor: (style === null || style === void 0 ? void 0 : (_style$color9 = style.color) === null || _style$color9 === void 0 ? void 0 : _style$color9.background) ? style.color.background : undefined,
     color: (style === null || style === void 0 ? void 0 : (_style$color10 = style.color) === null || _style$color10 === void 0 ? void 0 : _style$color10.text) ? style.color.text : undefined
-  } : {};
+  } : {}; // This is needed only for themes that don't load their color stylesheets in the editor
+  // We force an inline style to apply the color.
+
+  if (isEdit) {
+    if (backgroundColor) {
+      var backgroundColorObject = Object(external_this_wp_blockEditor_["getColorObjectByAttributeValues"])(colors, backgroundColor);
+      styleProp.backgroundColor = backgroundColorObject.color;
+    }
+
+    if (textColor) {
+      var textColorObject = Object(external_this_wp_blockEditor_["getColorObjectByAttributeValues"])(colors, textColor);
+      styleProp.color = textColorObject.color;
+    }
+  }
+
   return {
     className: !!className ? className : undefined,
     style: styleProp
@@ -10500,6 +10515,7 @@ function button_edit_objectSpread(target) { for (var i = 1; i < arguments.length
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -10636,6 +10652,12 @@ function ButtonEdit(props) {
       rel: value
     });
   }, [setAttributes]);
+
+  var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
+    return select('core/block-editor').getSettings();
+  }, []),
+      colors = _useSelect.colors;
+
   var onToggleOpenInNewTab = Object(external_this_wp_element_["useCallback"])(function (value) {
     var newLinkTarget = value ? '_blank' : undefined;
     var updatedRel = rel;
@@ -10651,7 +10673,7 @@ function ButtonEdit(props) {
       rel: updatedRel
     });
   }, [rel, setAttributes]);
-  var colorProps = getColorAndStyleProps(attributes);
+  var colorProps = getColorAndStyleProps(attributes, colors, true);
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(color_edit, props), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["__experimentalBlock"].div, null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
     placeholder: placeholder || Object(external_this_wp_i18n_["__"])('Add text…'),
     value: text,

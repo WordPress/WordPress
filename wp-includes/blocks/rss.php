@@ -55,7 +55,11 @@ function render_block_core_rss( $attributes ) {
 			$author = $item->get_author();
 			if ( is_object( $author ) ) {
 				$author = $author->get_name();
-				$author = '<span class="wp-block-rss__item-author">' . __( 'by' ) . ' ' . esc_html( strip_tags( $author ) ) . '</span>';
+				$author = '<span class="wp-block-rss__item-author">' . sprintf(
+					/* translators: %s: the author. */
+					__( 'by %s' ),
+					esc_html( strip_tags( $author ) )
+				) . '</span>';
 			}
 		}
 

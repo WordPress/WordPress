@@ -1259,6 +1259,13 @@ var blockDefault = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["creat
 /***/ }),
 
 /***/ 21:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1291,13 +1298,6 @@ function _inherits(subClass, superClass) {
   });
   if (superClass) _setPrototypeOf(subClass, superClass);
 }
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -1420,13 +1420,6 @@ var layout = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
 
 /***/ }),
 
-/***/ 30:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["url"]; }());
-
-/***/ }),
-
 /***/ 303:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1449,6 +1442,13 @@ var grid = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 }));
 /* harmony default export */ __webpack_exports__["a"] = (grid);
 
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
@@ -2217,7 +2217,7 @@ __webpack_require__.d(selectors_namespaceObject, "getCurrentPostType", function(
 __webpack_require__.d(selectors_namespaceObject, "getCurrentPostId", function() { return selectors_getCurrentPostId; });
 __webpack_require__.d(selectors_namespaceObject, "getCurrentPostRevisionsCount", function() { return getCurrentPostRevisionsCount; });
 __webpack_require__.d(selectors_namespaceObject, "getCurrentPostLastRevisionId", function() { return getCurrentPostLastRevisionId; });
-__webpack_require__.d(selectors_namespaceObject, "getPostEdits", function() { return getPostEdits; });
+__webpack_require__.d(selectors_namespaceObject, "getPostEdits", function() { return selectors_getPostEdits; });
 __webpack_require__.d(selectors_namespaceObject, "getReferenceByDistinctEdits", function() { return getReferenceByDistinctEdits; });
 __webpack_require__.d(selectors_namespaceObject, "getCurrentPostAttribute", function() { return selectors_getCurrentPostAttribute; });
 __webpack_require__.d(selectors_namespaceObject, "getEditedPostAttribute", function() { return selectors_getEditedPostAttribute; });
@@ -2824,7 +2824,7 @@ var external_this_regeneratorRuntime_ = __webpack_require__(24);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(51);
+var asyncToGenerator = __webpack_require__(50);
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
 var external_this_wp_apiFetch_ = __webpack_require__(45);
@@ -4268,7 +4268,7 @@ var rememo = __webpack_require__(42);
 var external_this_wp_date_ = __webpack_require__(79);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(30);
+var external_this_wp_url_ = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/utils/url.js
 /**
@@ -4416,7 +4416,7 @@ function isEditedPostNew(state) {
  */
 
 function hasChangedContent(state) {
-  var edits = getPostEdits(state);
+  var edits = selectors_getPostEdits(state);
   return 'blocks' in edits || // `edits` is intended to contain only values which are different from
   // the saved post, so the mere presence of a property is an indicator
   // that the value is different than what is known to be saved. While
@@ -4569,7 +4569,7 @@ function getCurrentPostLastRevisionId(state) {
  * @return {Object} Object of key value pairs comprising unsaved edits.
  */
 
-var getPostEdits = Object(external_this_wp_data_["createRegistrySelector"])(function (select) {
+var selectors_getPostEdits = Object(external_this_wp_data_["createRegistrySelector"])(function (select) {
   return function (state) {
     var postType = selectors_getCurrentPostType(state);
     var postId = selectors_getCurrentPostId(state);
@@ -4646,7 +4646,7 @@ function selectors_getCurrentPostAttribute(state, attributeName) {
  */
 
 var getNestedEditedPostProperty = function getNestedEditedPostProperty(state, attributeName) {
-  var edits = getPostEdits(state);
+  var edits = selectors_getPostEdits(state);
 
   if (!edits.hasOwnProperty(attributeName)) {
     return selectors_getCurrentPostAttribute(state, attributeName);
@@ -4674,7 +4674,7 @@ function selectors_getEditedPostAttribute(state, attributeName) {
   } // Fall back to saved post value if not edited.
 
 
-  var edits = getPostEdits(state);
+  var edits = selectors_getPostEdits(state);
 
   if (!edits.hasOwnProperty(attributeName)) {
     return selectors_getCurrentPostAttribute(state, attributeName);
@@ -6706,7 +6706,7 @@ var possibleConstructorReturn = __webpack_require__(23);
 var getPrototypeOf = __webpack_require__(16);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(21);
+var inherits = __webpack_require__(22);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/autosave-monitor/index.js
 
@@ -7070,13 +7070,27 @@ function DocumentOutlineCheck(_ref) {
 
 
 
-function SaveShortcut() {
+
+function SaveShortcut(_ref) {
+  var resetBlocksOnSave = _ref.resetBlocksOnSave;
+
   var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/editor'),
+      resetEditorBlocks = _useDispatch.resetEditorBlocks,
       savePost = _useDispatch.savePost;
 
-  var isEditedPostDirty = Object(external_this_wp_data_["useSelect"])(function (select) {
-    return select('core/editor').isEditedPostDirty;
-  }, []);
+  var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
+    var _select = select('core/editor'),
+        _isEditedPostDirty = _select.isEditedPostDirty,
+        _getPostEdits = _select.getPostEdits;
+
+    return {
+      isEditedPostDirty: _isEditedPostDirty,
+      getPostEdits: _getPostEdits
+    };
+  }, []),
+      isEditedPostDirty = _useSelect.isEditedPostDirty,
+      getPostEdits = _useSelect.getPostEdits;
+
   Object(external_this_wp_keyboardShortcuts_["useShortcut"])('core/editor/save', function (event) {
     event.preventDefault(); // TODO: This should be handled in the `savePost` effect in
     // considering `isSaveable`. See note on `isEditedPostSaveable`
@@ -7086,6 +7100,19 @@ function SaveShortcut() {
 
     if (!isEditedPostDirty()) {
       return;
+    } // The text editor requires that editor blocks are updated for a
+    // save to work correctly. Usually this happens when the textarea
+    // for the code editors blurs, but the shortcut can be used without
+    // blurring the textarea.
+
+
+    if (resetBlocksOnSave) {
+      var postEdits = getPostEdits();
+
+      if (postEdits.content && typeof postEdits.content === 'string') {
+        var blocks = Object(external_this_wp_blocks_["parse"])(postEdits.content);
+        resetEditorBlocks(blocks);
+      }
     }
 
     savePost();
@@ -7116,12 +7143,8 @@ function SaveShortcut() {
 function VisualEditorGlobalKeyboardShortcuts() {
   var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/editor'),
       redo = _useDispatch.redo,
-      undo = _useDispatch.undo,
-      savePost = _useDispatch.savePost;
+      undo = _useDispatch.undo;
 
-  var isEditedPostDirty = Object(external_this_wp_data_["useSelect"])(function (select) {
-    return select('core/editor').isEditedPostDirty;
-  }, []);
   Object(external_this_wp_keyboardShortcuts_["useShortcut"])('core/editor/undo', function (event) {
     undo();
     event.preventDefault();
@@ -7131,21 +7154,6 @@ function VisualEditorGlobalKeyboardShortcuts() {
   Object(external_this_wp_keyboardShortcuts_["useShortcut"])('core/editor/redo', function (event) {
     redo();
     event.preventDefault();
-  }, {
-    bindGlobal: true
-  });
-  Object(external_this_wp_keyboardShortcuts_["useShortcut"])('core/editor/save', function (event) {
-    event.preventDefault(); // TODO: This should be handled in the `savePost` effect in
-    // considering `isSaveable`. See note on `isEditedPostSaveable`
-    // selector about dirtiness and meta-boxes.
-    //
-    // See: `isEditedPostSaveable`
-
-    if (!isEditedPostDirty()) {
-      return;
-    }
-
-    savePost();
   }, {
     bindGlobal: true
   });
@@ -7169,7 +7177,9 @@ function EditorGlobalKeyboardShortcuts() {
  */
 
 function TextEditorGlobalKeyboardShortcuts() {
-  return Object(external_this_wp_element_["createElement"])(save_shortcut, null);
+  return Object(external_this_wp_element_["createElement"])(save_shortcut, {
+    resetBlocksOnSave: true
+  });
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/global-keyboard-shortcuts/register-shortcuts.js
@@ -7226,7 +7236,7 @@ function EditorKeyboardShortcutsRegister() {
 var external_this_wp_components_ = __webpack_require__(3);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // EXTERNAL MODULE: external {"this":["wp","primitives"]}
 var external_this_wp_primitives_ = __webpack_require__(6);
@@ -14176,7 +14186,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 51:
+/***/ 50:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

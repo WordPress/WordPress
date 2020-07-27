@@ -539,6 +539,12 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 /* 21 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -571,12 +577,6 @@ function _inherits(subClass, superClass) {
   });
   if (superClass) _setPrototypeOf(subClass, superClass);
 }
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 /* 23 */
@@ -664,13 +664,13 @@ function _unsupportedIterableToArray(o, minLen) {
 /* 30 */
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["url"]; }());
+(function() { module.exports = this["wp"]["dom"]; }());
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["dom"]; }());
+(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 /* 32 */
@@ -1570,6 +1570,48 @@ function createComponent(_ref) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return findFirstEnabledItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return flatten; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return groupItems; });
@@ -2417,48 +2459,6 @@ useCompositeState.__keys = keys;
 
 
 
-
-/***/ }),
-/* 51 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
 
 /***/ }),
 /* 52 */
@@ -7945,7 +7945,7 @@ exports.useSprings = useSprings;
 /* harmony import */ var reakit_utils_getDocument__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(47);
 /* harmony import */ var reakit_utils_fireEvent__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(94);
 /* harmony import */ var reakit_utils_fireKeyboardEvent__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(102);
-/* harmony import */ var _CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(50);
+/* harmony import */ var _CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(51);
 
 
 
@@ -8303,7 +8303,7 @@ var Composite = Object(reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1_
 /* harmony import */ var _Clickable_Clickable_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(84);
 /* harmony import */ var reakit_utils_createOnKeyDown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(82);
 /* harmony import */ var reakit_utils_getDocument__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(47);
-/* harmony import */ var _CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(50);
+/* harmony import */ var _CompositeState_3a25dcee_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(51);
 /* harmony import */ var _Id_Id_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(93);
 /* harmony import */ var reakit_utils_isTextField__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(95);
 /* harmony import */ var _setTextFieldValue_78ab5d56_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(96);
@@ -14024,7 +14024,7 @@ Object(external_this_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/c
 Object(external_this_wp_hooks_["addFilter"])('editor.BlockListBlock', 'core/color/with-color-palette-styles', withColorPaletteStyles);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/line-height-control/utils.js
 var BASE_DEFAULT_VALUE = 1.5;
@@ -14943,7 +14943,7 @@ var possibleConstructorReturn = __webpack_require__(23);
 var getPrototypeOf = __webpack_require__(16);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(21);
+var inherits = __webpack_require__(22);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors/with-colors.js
 
@@ -16870,7 +16870,7 @@ var external_this_regeneratorRuntime_ = __webpack_require__(24);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(51);
+var asyncToGenerator = __webpack_require__(50);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/more-vertical.js
 var more_vertical = __webpack_require__(298);
@@ -16879,7 +16879,7 @@ var more_vertical = __webpack_require__(298);
 var web_cjs = __webpack_require__(113);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(31);
+var external_this_wp_dom_ = __webpack_require__(30);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/use-moving-animation/index.js
 
@@ -23740,7 +23740,7 @@ function useBlockSync(_ref) {
         pendingChanges.current.outgoing.push(blocks); // Inform the controlling entity that changes have been made to
         // the block-editor store they should be aware about.
 
-        var updateParent = isPersistent ? onChange : onInput;
+        var updateParent = isPersistent ? onChangeRef.current : onInputRef.current;
         updateParent(blocks, {
           selectionStart: getSelectionStart(),
           selectionEnd: getSelectionEnd()
@@ -24323,10 +24323,12 @@ function useBlockDropZone(_ref) {
       return;
     }
 
-    var isAtSameLevel = sourceRootClientId === targetRootClientId || sourceRootClientId === '' && targetRootClientId === undefined; // If the block is kept at the same level and moved downwards,
-    // subtract to account for blocks shifting upward to occupy its old position.
+    var isAtSameLevel = sourceRootClientId === targetRootClientId || sourceRootClientId === '' && targetRootClientId === undefined;
+    var draggedBlockCount = sourceClientIds.length; // If the block is kept at the same level and moved downwards,
+    // subtract to take into account that the blocks being dragged
+    // were removed from the block list.
 
-    var insertIndex = isAtSameLevel && sourceBlockIndex < targetBlockIndex ? targetBlockIndex - 1 : targetBlockIndex;
+    var insertIndex = isAtSameLevel && sourceBlockIndex < targetBlockIndex ? targetBlockIndex - draggedBlockCount : targetBlockIndex;
     moveBlocksToPosition(sourceClientIds, sourceRootClientId, targetRootClientId, insertIndex);
   }, [getClientIdsOfDescendants, getBlockIndex, targetBlockIndex, moveBlocksToPosition, targetRootClientId]);
 
@@ -24661,7 +24663,7 @@ function InserterPreviewPanel(_ref) {
 /* harmony default export */ var preview_panel = (InserterPreviewPanel);
 
 // EXTERNAL MODULE: ./node_modules/reakit/es/CompositeState-3a25dcee.js
-var CompositeState_3a25dcee = __webpack_require__(50);
+var CompositeState_3a25dcee = __webpack_require__(51);
 
 // EXTERNAL MODULE: ./node_modules/reakit/es/Composite/Composite.js
 var Composite = __webpack_require__(119);
@@ -25355,7 +25357,7 @@ function BlockPatternsTabs(_ref4) {
 /* harmony default export */ var block_patterns_tab = (BlockPatternsTabs);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(30);
+var external_this_wp_url_ = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inserter/reusable-blocks-tab.js
 
@@ -25567,7 +25569,7 @@ function useInsertionPoint(_ref) {
 
     if (!selectBlockOnInsert) {
       // translators: %d: the name of the block that has been added
-      var message = Object(external_this_wp_i18n_["_n"])('%d block added.', '%d blocks added', blocks.length);
+      var message = Object(external_this_wp_i18n_["_n"])('%d block added.', '%d blocks added.', blocks.length);
 
       Object(external_this_wp_a11y_["speak"])(message);
     }
@@ -27262,7 +27264,7 @@ function BlockSelectionButton(_ref) {
 
   Object(external_this_wp_element_["useEffect"])(function () {
     ref.current.focus();
-  });
+  }, []);
 
   function onKeyDown(event) {
     var keyCode = event.keyCode;
@@ -27653,6 +27655,7 @@ var stack_stack = Object(external_this_wp_element_["createElement"])(external_th
 
 
 
+
 function block_styles_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function block_styles_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { block_styles_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { block_styles_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -27791,18 +27794,15 @@ function BlockStyles(_ref) {
     return null;
   }
 
-  if (!type.styles && !Object(external_this_lodash_["find"])(styles, 'isDefault')) {
-    styles.unshift({
-      name: 'default',
-      label: Object(external_this_wp_i18n_["_x"])('Default', 'block style'),
-      isDefault: true
-    });
-  }
-
-  var activeStyle = getActiveStyle(styles, className);
+  var renderedStyles = Object(external_this_lodash_["find"])(styles, 'isDefault') ? styles : [{
+    name: 'default',
+    label: Object(external_this_wp_i18n_["_x"])('Default', 'block style'),
+    isDefault: true
+  }].concat(Object(toConsumableArray["a" /* default */])(styles));
+  var activeStyle = getActiveStyle(renderedStyles, className);
   return Object(external_this_wp_element_["createElement"])("div", {
     className: "block-editor-block-styles"
-  }, styles.map(function (style) {
+  }, renderedStyles.map(function (style) {
     var styleClassName = replaceActiveStyle(className, activeStyle, style);
     return Object(external_this_wp_element_["createElement"])(BlockStyleItem, {
       genericPreviewBlock: genericPreviewBlock,
@@ -28272,13 +28272,13 @@ function useNotifyCopy() {
       var _getBlockType = getBlockType(getBlockName(clientId)),
           title = _getBlockType.title;
 
-      notice = eventType === 'copy' ? Object(external_this_wp_i18n_["sprintf"])( // Translators: Name of the block being copied, e.g. "Paragraph"
-      Object(external_this_wp_i18n_["__"])('Copied "%s" to clipboard.'), title) : Object(external_this_wp_i18n_["sprintf"])( // Translators: Name of the block being cut, e.g. "Paragraph"
+      notice = eventType === 'copy' ? Object(external_this_wp_i18n_["sprintf"])( // Translators: Name of the block being copied, e.g. "Paragraph".
+      Object(external_this_wp_i18n_["__"])('Copied "%s" to clipboard.'), title) : Object(external_this_wp_i18n_["sprintf"])( // Translators: Name of the block being cut, e.g. "Paragraph".
       Object(external_this_wp_i18n_["__"])('Moved "%s" to clipboard.'), title);
     } else {
-      notice = eventType === 'copy' ? Object(external_this_wp_i18n_["sprintf"])( // Translators: Number of blocks being copied
-      Object(external_this_wp_i18n_["__"])('Copied %d blocks to clipboard.'), selectedBlockClientIds.length) : Object(external_this_wp_i18n_["sprintf"])( // Translators: Number of blocks being cut
-      Object(external_this_wp_i18n_["__"])('Moved %d blocks to clipboard.'), selectedBlockClientIds.length);
+      notice = eventType === 'copy' ? Object(external_this_wp_i18n_["sprintf"])( // Translators: %d: Number of blocks being copied.
+      Object(external_this_wp_i18n_["_n"])('Copied %d block to clipboard.', 'Copied %d blocks to clipboard.', selectedBlockClientIds.length), selectedBlockClientIds.length) : Object(external_this_wp_i18n_["sprintf"])( // Translators: %d: Number of blocks being cut.
+      Object(external_this_wp_i18n_["_n"])('Moved %d block to clipboard.', 'Moved %d blocks to clipboard.', selectedBlockClientIds.length), selectedBlockClientIds.length);
     }
 
     createSuccessNotice(notice, {
@@ -28945,8 +28945,8 @@ function BlockDraggableChip(_ref) {
   })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["FlexItem"], null, icon ? Object(external_this_wp_element_["createElement"])(BlockIcon, {
     icon: icon
   }) : Object(external_this_wp_i18n_["sprintf"])(
-  /* translators: %d: number of blocks. */
-  Object(external_this_wp_i18n_["__"])('%d blocks'), clientIds.length)))));
+  /* translators: %d: Number of blocks. */
+  Object(external_this_wp_i18n_["_n"])('%d block', '%d blocks', clientIds.length), clientIds.length)))));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-draggable/use-scroll-when-dragging.js
@@ -29946,7 +29946,6 @@ var BlockComponent = Object(external_this_wp_element_["forwardRef"])(function (_
       enableAnimation = _useContext.enableAnimation,
       index = _useContext.index,
       className = _useContext.className,
-      isLocked = _useContext.isLocked,
       name = _useContext.name,
       mode = _useContext.mode,
       blockTitle = _useContext.blockTitle,
@@ -30126,9 +30125,9 @@ var BlockComponent = Object(external_this_wp_element_["forwardRef"])(function (_
       }),
       "data-block": clientId,
       "data-type": name,
-      "data-title": blockTitle // Only allow shortcuts when a blocks is selected and not locked.
+      "data-title": blockTitle // Only allow shortcuts when a blocks is selected.
       ,
-      onKeyDown: isSelected && !isLocked ? onKeyDown : undefined // Only allow selection to be started from a selected block.
+      onKeyDown: isSelected ? onKeyDown : undefined // Only allow selection to be started from a selected block.
       ,
       onMouseLeave: isSelected ? onMouseLeave : undefined // No need to have these listeners for hover class in edit mode.
       ,
@@ -33941,7 +33940,7 @@ function LinkControl(_ref) {
               return _context.abrupt("return", results);
 
             case 7:
-              return _context.abrupt("return", isURLLike(val) ? results : results.concat({
+              return _context.abrupt("return", isURLLike(val) || !createSuggestion ? results : results.concat({
                 // the `id` prop is intentionally ommitted here because it
                 // is never exposed as part of the component's public API.
                 // see: https://github.com/WordPress/gutenberg/pull/19775#discussion_r378931316.

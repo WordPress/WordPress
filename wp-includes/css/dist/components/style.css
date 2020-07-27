@@ -878,14 +878,16 @@ svg.components-checkbox-control__checked {
   margin: 0 -4px;
   padding-top: 16px;
   display: flex;
-  align-items: flex-end; }
+  align-items: flex-end;
+  min-width: 255px; }
   .components-color-picker__inputs-wrapper fieldset {
     flex: 1;
     border: none;
     margin: 0;
     padding: 0; }
   .components-color-picker__inputs-wrapper .components-color-picker__inputs-fields .components-text-control__input[type="number"] {
-    padding: 6px 8px; }
+    padding: 6px 3px;
+    margin: 0; }
 
 .components-color-picker__inputs-field {
   width: 100%; }
@@ -899,7 +901,7 @@ svg.components-checkbox-control__checked {
   .components-color-picker__inputs-fields .components-base-control + .components-base-control {
     margin-top: 0; }
   .components-color-picker__inputs-fields .components-base-control__field {
-    margin: 0 4px; }
+    margin: 0 2px; }
 
 .components-color-picker__inputs-toggle {
   height: 30px;
@@ -3236,7 +3238,9 @@ body.is-dragging-components-draggable {
   .components-popover:not(.is-without-arrow) {
     margin-left: 2px; }
     .components-popover:not(.is-without-arrow)::before {
-      border: 8px solid #1e1e1e; }
+      border: 8px solid #ccc; }
+    .components-popover:not(.is-without-arrow).is-alternate::before {
+      border-color: #1e1e1e; }
     .components-popover:not(.is-without-arrow)::after {
       border: 8px solid #fff; }
     .components-popover:not(.is-without-arrow)::before, .components-popover:not(.is-without-arrow)::after {

@@ -594,15 +594,15 @@ figure.wp-block-gallery {
     .columns-7 .block-library-gallery-item__inline-menu,
     .columns-8 .block-library-gallery-item__inline-menu {
       padding: 2px; } }
-  .block-library-gallery-item__inline-menu .components-button.has-icon {
+  .block-library-gallery-item__inline-menu .components-button.has-icon:not(:focus) {
     border: none;
     box-shadow: none; }
-    @media (min-width: 600px) {
-      .columns-7 .block-library-gallery-item__inline-menu .components-button.has-icon,
-      .columns-8 .block-library-gallery-item__inline-menu .components-button.has-icon {
-        padding: 0;
-        width: inherit;
-        height: inherit; } }
+  @media (min-width: 600px) {
+    .columns-7 .block-library-gallery-item__inline-menu .components-button.has-icon,
+    .columns-8 .block-library-gallery-item__inline-menu .components-button.has-icon {
+      padding: 0;
+      width: inherit;
+      height: inherit; } }
   .block-library-gallery-item__inline-menu.is-left {
     left: -2px; }
   .block-library-gallery-item__inline-menu.is-right {

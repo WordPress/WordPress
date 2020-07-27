@@ -885,6 +885,13 @@ function _classCallCheck(instance, Constructor) {
 /***/ }),
 
 /***/ 21:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -917,13 +924,6 @@ function _inherits(subClass, superClass) {
   });
   if (superClass) _setPrototypeOf(subClass, superClass);
 }
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -1104,7 +1104,7 @@ var moreVertical = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["creat
 
 /***/ }),
 
-/***/ 30:
+/***/ 31:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
@@ -1840,7 +1840,7 @@ Object(external_this_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/edit-post
 var external_this_wp_plugins_ = __webpack_require__(76);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(30);
+var external_this_wp_url_ = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/plugins/copy-content-menu-item/index.js
 
@@ -1917,7 +1917,7 @@ function ManageBlocksMenuItem(_ref) {
 })(ManageBlocksMenuItem));
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/plugins/keyboard-shortcuts-help-menu-item/index.js
 
@@ -3316,7 +3316,7 @@ var possibleConstructorReturn = __webpack_require__(23);
 var getPrototypeOf = __webpack_require__(16);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(21);
+var inherits = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
 var memize = __webpack_require__(60);
@@ -7895,7 +7895,22 @@ function ActionsPanel(_ref) {
 
 
 var interfaceLabels = {
-  leftSidebar: Object(external_this_wp_i18n_["__"])('Block Library')
+  leftSidebar: Object(external_this_wp_i18n_["__"])('Block library'),
+
+  /* translators: accessibility text for the editor top bar landmark region. */
+  header: Object(external_this_wp_i18n_["__"])('Editor top bar'),
+
+  /* translators: accessibility text for the editor content landmark region. */
+  body: Object(external_this_wp_i18n_["__"])('Editor content'),
+
+  /* translators: accessibility text for the editor settings landmark region. */
+  sidebar: Object(external_this_wp_i18n_["__"])('Editor settings'),
+
+  /* translators: accessibility text for the editor publish landmark region. */
+  actions: Object(external_this_wp_i18n_["__"])('Editor publish'),
+
+  /* translators: accessibility text for the editor footer landmark region. */
+  footer: Object(external_this_wp_i18n_["__"])('Editor footer')
 };
 
 function Layout() {

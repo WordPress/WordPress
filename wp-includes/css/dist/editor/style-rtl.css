@@ -513,7 +513,10 @@
 .editor-post-taxonomies__hierarchical-terms-list {
   max-height: 14em;
   overflow: auto;
-  padding-right: 2px; }
+  margin-right: -5.5px;
+  padding-right: 5.5px;
+  margin-top: -5.5px;
+  padding-top: 5.5px; }
 
 .editor-post-taxonomies__hierarchical-terms-choice {
   margin-bottom: 8px; }

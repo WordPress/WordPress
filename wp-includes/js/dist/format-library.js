@@ -385,6 +385,13 @@ var linkOff = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElem
 /***/ }),
 
 /***/ 21:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -417,13 +424,6 @@ function _inherits(subClass, superClass) {
   });
   if (superClass) _setPrototypeOf(subClass, superClass);
 }
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -498,7 +498,7 @@ function _unsupportedIterableToArray(o, minLen) {
 /***/ 30:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["url"]; }());
+(function() { module.exports = this["wp"]["dom"]; }());
 
 /***/ }),
 
@@ -530,7 +530,7 @@ var code = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 /***/ 31:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["dom"]; }());
+(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
@@ -823,13 +823,13 @@ var possibleConstructorReturn = __webpack_require__(23);
 var getPrototypeOf = __webpack_require__(16);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(21);
+var inherits = __webpack_require__(22);
 
 // EXTERNAL MODULE: external {"this":["wp","components"]}
 var external_this_wp_components_ = __webpack_require__(3);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(22);
+var external_this_wp_keycodes_ = __webpack_require__(21);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/keyboard-return.js
 var keyboard_return = __webpack_require__(202);
@@ -1134,7 +1134,7 @@ var italic = {
 };
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(30);
+var external_this_wp_url_ = __webpack_require__(31);
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
 var external_this_wp_htmlEntities_ = __webpack_require__(75);
@@ -1719,7 +1719,7 @@ var text_color = __webpack_require__(411);
 var esm_extends = __webpack_require__(8);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(31);
+var external_this_wp_dom_ = __webpack_require__(30);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/text-color/inline.js
 
