@@ -34,8 +34,8 @@ window.wp = window.wp || {};
 		 *
 		 * @memberof commentsBox
 		 *
-		 * @param {int} total Total number of comments for this post.
-		 * @param {int} num   Optional. Number of comments to fetch, defaults to 20.
+		 * @param {number} total Total number of comments for this post.
+		 * @param {number} num   Optional. Number of comments to fetch, defaults to 20.
 		 * @return {boolean} Always returns false.
 		 */
 		get : function(total, num) {
@@ -94,7 +94,7 @@ window.wp = window.wp || {};
 		 *
 		 * @memberof commentsBox
 		 *
-		 * @param {int} total Total number of comments to load.
+		 * @param {number} total Total number of comments to load.
 		 */
 		load: function(total){
 			this.st = jQuery('#the-comment-list tr.comment:visible').length;
@@ -116,7 +116,7 @@ window.wp = window.wp || {};
 	/**
 	 * Set the Image ID of the Featured Image
 	 *
-	 * @param {int} id The post_id of the image to use as Featured Image.
+	 * @param {number} id The post_id of the image to use as Featured Image.
 	 *
 	 * @global
 	 */

@@ -39,8 +39,8 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * Configure linting.
 	 *
 	 * @param {CodeMirror} editor - Editor.
-	 * @param {object}     settings - Code editor settings.
-	 * @param {object}     settings.codeMirror - Settings for CodeMirror.
+	 * @param {Object}     settings - Code editor settings.
+	 * @param {Object}     settings.codeMirror - Settings for CodeMirror.
 	 * @param {Function}   settings.onChangeLintingErrors - Callback for when there are changes to linting errors.
 	 * @param {Function}   settings.onUpdateErrorNotice - Callback to update error notice.
 	 *
@@ -64,7 +64,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 		/**
 		 * Get lint options.
 		 *
-		 * @return {object} Lint options.
+		 * @return {Object} Lint options.
 		 */
 		function getLintOptions() { // eslint-disable-line complexity
 			var options = editor.getOption( 'lint' );
@@ -213,8 +213,8 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * Configure tabbing.
 	 *
 	 * @param {CodeMirror} codemirror - Editor.
-	 * @param {object}     settings - Code editor settings.
-	 * @param {object}     settings.codeMirror - Settings for CodeMirror.
+	 * @param {Object}     settings - Code editor settings.
+	 * @param {Object}     settings.codeMirror - Settings for CodeMirror.
 	 * @param {Function}   settings.onTabNext - Callback to handle tabbing to the next tabbable element.
 	 * @param {Function}   settings.onTabPrevious - Callback to handle tabbing to the previous tabbable element.
 	 *
@@ -267,15 +267,15 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * @since 4.9.0
 	 *
 	 * @param {string|jQuery|Element} textarea - The HTML id, jQuery object, or DOM Element for the textarea that is used for the editor.
-	 * @param {object}                [settings] - Settings to override defaults.
+	 * @param {Object}                [settings] - Settings to override defaults.
 	 * @param {Function}              [settings.onChangeLintingErrors] - Callback for when the linting errors have changed.
 	 * @param {Function}              [settings.onUpdateErrorNotice] - Callback for when error notice should be displayed.
 	 * @param {Function}              [settings.onTabPrevious] - Callback to handle tabbing to the previous tabbable element.
 	 * @param {Function}              [settings.onTabNext] - Callback to handle tabbing to the next tabbable element.
-	 * @param {object}                [settings.codemirror] - Options for CodeMirror.
-	 * @param {object}                [settings.csslint] - Rules for CSSLint.
-	 * @param {object}                [settings.htmlhint] - Rules for HTMLHint.
-	 * @param {object}                [settings.jshint] - Rules for JSHint.
+	 * @param {Object}                [settings.codemirror] - Options for CodeMirror.
+	 * @param {Object}                [settings.csslint] - Rules for CSSLint.
+	 * @param {Object}                [settings.htmlhint] - Rules for HTMLHint.
+	 * @param {Object}                [settings.jshint] - Rules for JSHint.
 	 *
 	 * @return {CodeEditorInstance} Instance.
 	 */

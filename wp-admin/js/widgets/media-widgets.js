@@ -100,7 +100,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {object} options - Options.
+		 * @param {Object} options - Options.
 		 * @return {void}
 		 */
 		initialize: function( options ) {

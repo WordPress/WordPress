@@ -116,7 +116,7 @@ window.wp = window.wp || {};
  * @memberOf wp
  * @namespace
  *
- * @param {object} attributes The properties passed to the main media controller.
+ * @param {Object} attributes The properties passed to the main media controller.
  * @return {wp.media.view.MediaFrame} A media workflow.
  */
 media = wp.media = function( attributes ) {
@@ -282,10 +282,10 @@ _.extend( media, /** @lends wp.media */{
 	 * Truncates a string by injecting an ellipsis into the middle.
 	 * Useful for filenames.
 	 *
-	 * @param {String} string
-	 * @param {Number} [length=30]
-	 * @param {String} [replacement=&hellip;]
-	 * @return {String} The string, unless length is greater than string.length.
+	 * @param {string} string
+	 * @param {number} [length=30]
+	 * @param {string} [replacement=&hellip;]
+	 * @return {string} The string, unless length is greater than string.length.
 	 */
 	truncate: function( string, length, replacement ) {
 		length = length || 30;
@@ -308,7 +308,7 @@ _.extend( media, /** @lends wp.media */{
  * wp.media.attachment
  *
  * @static
- * @param {String} id A string used to identify a model.
+ * @param {string} id A string used to identify a model.
  * @return {wp.media.model.Attachment}
  */
 media.attachment = function( id ) {
@@ -328,7 +328,7 @@ Attachments.all = new Attachments();
  *
  * Shorthand for creating a new Attachments Query.
  *
- * @param {object} [props]
+ * @param {Object} [props]
  * @return {wp.media.model.Attachments}
  */
 media.query = function( props ) {
@@ -613,7 +613,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 * @access private
 	 *
 	 * @param {Backbone.Model} model
-	 * @param {Boolean} query
+	 * @param {boolean} query
 	 */
 	_changeQuery: function( model, query ) {
 		if ( query ) {
@@ -673,7 +673,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 * Checks whether an attachment is valid.
 	 *
 	 * @param {wp.media.model.Attachment} attachment
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	validator: function( attachment ) {
 
@@ -716,7 +716,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 * Add or remove all attachments from another collection depending on each one's validity.
 	 *
 	 * @param {wp.media.model.Attachments} attachments
-	 * @param {object} [options={}]
+	 * @param {Object} [options={}]
 	 *
 	 * @fires wp.media.model.Attachments#reset
 	 *
@@ -840,7 +840,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 * and forwards to its `more` method. This collection class doesn't have
 	 * server persistence by itself.
 	 *
-	 * @param {object} options
+	 * @param {Object} options
 	 * @return {Promise}
 	 */
 	more: function( options ) {
@@ -973,7 +973,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 * @param {Backbone.Model} a
 	 * @param {Backbone.Model} b
 	 * @param {Object} options
-	 * @return {Number} -1 if the first model should come before the second,
+	 * @return {number} -1 if the first model should come before the second,
 	 *                   0 if they are of the same rank and
 	 *                   1 if the first model should come after.
 	 */
@@ -1027,7 +1027,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		 *
 		 * @this wp.media.model.Attachments
 		 *
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		type: function( attachment ) {
 			var type = this.props.get('type'), atts = attachment.toJSON(), mime, found;
@@ -1054,7 +1054,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		 *
 		 * @this wp.media.model.Attachments
 		 *
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		uploadedTo: function( attachment ) {
 			var uploadedTo = this.props.get('uploadedTo');
@@ -1070,7 +1070,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		 *
 		 * @this wp.media.model.Attachments
 		 *
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		status: function( attachment ) {
 			var status = this.props.get('status');
@@ -1115,8 +1115,8 @@ var Attachments = wp.media.model.Attachments,
  */
 Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 	/**
-	 * @param {array}  [models=[]]  Array of initial models to populate the collection.
-	 * @param {object} [options={}]
+	 * @param {Array}  [models=[]]  Array of initial models to populate the collection.
+	 * @param {Object} [options={}]
 	 */
 	initialize: function( models, options ) {
 		var allowed;
@@ -1187,7 +1187,7 @@ Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 	/**
 	 * Fetch more attachments from the server for the collection.
 	 *
-	 * @param {object} [options={}]
+	 * @param {Object} [options={}]
 	 * @return {Promise}
 	 */
 	more: function( options ) {
@@ -1215,7 +1215,7 @@ Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 	 * Overrides Backbone.Collection.sync
 	 * Overrides wp.media.model.Attachments.sync
 	 *
-	 * @param {String} method
+	 * @param {string} method
 	 * @param {Backbone.Model} model
 	 * @param {Object} [options={}]
 	 * @return {Promise}

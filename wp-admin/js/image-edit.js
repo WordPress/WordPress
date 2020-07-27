@@ -73,7 +73,7 @@
 	 * @memberof imageEdit
 	 *
 	 * @param {jQuery}         el The element that should be modified.
-	 * @param {bool|number}    s  The state for the element. If set to true
+	 * @param {boolean|number}    s  The state for the element. If set to true
 	 *                            the element is disabled,
 	 *                            otherwise the element is enabled.
 	 *                            The function is sometimes called with a 0 or 1
@@ -577,7 +577,7 @@
 	 *
 	 * @param {number} postid   The post ID for the image.
 	 * @param {string} nonce    The nonce to verify the request.
-	 * @param {object} view     The image editor view to be used for the editing.
+	 * @param {Object} view     The image editor view to be used for the editing.
 	 *
 	 * @return {void|promise} Either returns void if the button was already activated
 	 *                        or returns an instance of the image editor, wrapped in a promise.
@@ -774,10 +774,10 @@
 			 *
 			 * @ignore
 			 *
-			 * @param {object} img jQuery object representing the image.
-			 * @param {object} c   The selection.
+			 * @param {Object} img jQuery object representing the image.
+			 * @param {Object} c   The selection.
 			 *
-			 * @return {object}
+			 * @return {Object}
 			 */
 			onSelectEnd: function(img, c) {
 				imageEdit.setCropSelection(postid, c);
@@ -788,8 +788,8 @@
 			 *
 			 * @ignore
 			 *
-			 * @param {object} img jQuery object representing the image.
-			 * @param {object} c   The selection.
+			 * @param {Object} img jQuery object representing the image.
+			 * @param {Object} c   The selection.
 			 *
 			 * @return {void}
 			 */
@@ -809,7 +809,7 @@
 	 * @memberof imageEdit
 	 *
 	 * @param {number} postid The post ID.
-	 * @param {object} c      The selection.
+	 * @param {Object} c      The selection.
 	 *
 	 * @return {boolean}
 	 */
@@ -841,9 +841,9 @@
 	 * @memberof imageEdit
 	 *
 	 * @param {number}  postid The post ID.
-	 * @param {bool}    warn   Warning message.
+	 * @param {boolean}    warn   Warning message.
 	 *
-	 * @return {void|bool} Returns false if there is a warning.
+	 * @return {void|boolean} Returns false if there is a warning.
 	 */
 	close : function(postid, warn) {
 		warn = warn || false;
@@ -908,7 +908,7 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {object} op     The original position.
+	 * @param {Object} op     The original position.
 	 * @param {number} postid The post ID.
 	 * @param {string} nonce  The nonce.
 	 *
@@ -945,7 +945,7 @@
 	 * @param {string} angle  The angle the image is rotated with.
 	 * @param {number} postid The post ID.
 	 * @param {string} nonce  The nonce.
-	 * @param {object} t      The target element.
+	 * @param {Object} t      The target element.
 	 *
 	 * @return {boolean}
 	 */
@@ -967,7 +967,7 @@
 	 * @param {number} axis   The axle the image is flipped on.
 	 * @param {number} postid The post ID.
 	 * @param {string} nonce  The nonce.
-	 * @param {object} t      The target element.
+	 * @param {Object} t      The target element.
 	 *
 	 * @return {boolean}
 	 */
@@ -988,7 +988,7 @@
 	 *
 	 * @param {number} postid The post ID.
 	 * @param {string} nonce  The nonce.
-	 * @param {object} t      The target object.
+	 * @param {Object} t      The target object.
 	 *
 	 * @return {void|boolean} Returns false if the crop button is disabled.
 	 */

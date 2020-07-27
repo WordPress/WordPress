@@ -154,8 +154,8 @@
 		 * @since 5.5.0
 		 *
 		 * @param {string} position The "previous" or "next" sortables area.
-		 * @param {object} button   The jQuery object representing the button that was clicked.
-		 * @param {object} postbox  The jQuery object representing the postbox to be moved.
+		 * @param {Object} button   The jQuery object representing the button that was clicked.
+		 * @param {Object} postbox  The jQuery object representing the postbox to be moved.
 		 *
 		 * @return {void}
 		 */

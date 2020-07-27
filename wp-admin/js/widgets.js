@@ -234,7 +234,7 @@ window.wpWidgets = {
 			 *
 			 * @ignore
 			 *
-			 * @param {object} event jQuery event object.
+			 * @param {Object} event jQuery event object.
 			 */
 			over: function( event ) {
 				var $wrap = $( event.target ).parent();
@@ -259,7 +259,7 @@ window.wpWidgets = {
 			 *
 			 * @ignore
 			 *
-			 * @param {object} event jQuery event object.
+			 * @param {Object} event jQuery event object.
 			 */
 			out: function( event ) {
 				if ( wpWidgets.hoveredSidebar ) {
@@ -729,7 +729,7 @@ window.wpWidgets = {
 	 *
 	 * Used when a Widget gets dragged in/out of the Sidebar and never dropped.
 	 *
-	 * @param {object} event jQuery event object.
+	 * @param {Object} event jQuery event object.
 	 */
 	closeSidebar: function( event ) {
 		this.hoveredSidebar

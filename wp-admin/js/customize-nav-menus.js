@@ -95,7 +95,7 @@
 	 * @since 4.7.0
 	 * @alias wp.customize.Menus.insertAutoDraftPost
 	 *
-	 * @param {object} params - Parameters for the draft post to create.
+	 * @param {Object} params - Parameters for the draft post to create.
 	 * @param {string} params.post_type - Post type to add.
 	 * @param {string} params.post_title - Post title to use.
 	 * @return {jQuery.promise} Promise resolved with the added post.
@@ -387,7 +387,7 @@
 		 * @since 4.7.0 Changed function signature to take list of item types instead of single type/object.
 		 * @access private
 		 *
-		 * @param {Array.<object>} itemTypes List of objects containing type and key.
+		 * @param {Array.<Object>} itemTypes List of objects containing type and key.
 		 * @param {string} deprecated Formerly the object parameter.
 		 * @return {void}
 		 */
@@ -905,7 +905,7 @@
 		 *
 		 * @since 4.3.0
 		 *
-		 * @param {String} id
+		 * @param {string} id
 		 * @param {Object} options
 		 */
 		initialize: function( id, options ) {
@@ -2212,7 +2212,7 @@
 		 *
 		 * @private
 		 *
-		 * @param {Number} offset 1|-1
+		 * @param {number} offset 1|-1
 		 */
 		_changePosition: function( offset ) {
 			var control = this,
@@ -2272,7 +2272,7 @@
 		 *
 		 * @private
 		 *
-		 * @param {Number} offset 1|-1
+		 * @param {number} offset 1|-1
 		 */
 		_changeDepth: function( offset ) {
 			if ( 1 !== offset && -1 !== offset ) {
@@ -2655,7 +2655,7 @@
 		 * Notice that the UI aspects here are handled by wpNavMenu.initSortables()
 		 * which is called in MenuSection.onChangeExpanded()
 		 *
-		 * @param {object} menuList - The element that has sortable().
+		 * @param {Object} menuList - The element that has sortable().
 		 */
 		_setupSortable: function( menuList ) {
 			var control = this;
@@ -2854,7 +2854,7 @@
 		/**
 		 * Enable/disable the reordering UI
 		 *
-		 * @param {Boolean} showOrHide to enable/disable reordering
+		 * @param {boolean} showOrHide to enable/disable reordering
 		 */
 		toggleReordering: function( showOrHide ) {
 			var addNewItemBtn = this.container.find( '.add-new-menu-item' ),
@@ -2994,7 +2994,7 @@
 		/**
 		 * Add a new item to this menu.
 		 *
-		 * @param {object} item - Value for the nav_menu_item setting to be created.
+		 * @param {Object} item - Value for the nav_menu_item setting to be created.
 		 * @return {wp.customize.Menus.controlConstructor.nav_menu_item} The newly-created nav_menu_item control instance.
 		 */
 		addItemToMenu: function( item ) {
@@ -3135,9 +3135,9 @@
 	 *
 	 * @alias wp.customize.Menus.applySavedData
 	 *
-	 * @param {object} data
-	 * @param {array} data.nav_menu_updates
-	 * @param {array} data.nav_menu_item_updates
+	 * @param {Object} data
+	 * @param {Array} data.nav_menu_updates
+	 * @param {Array} data.nav_menu_item_updates
 	 */
 	api.Menus.applySavedData = function( data ) {
 
@@ -3394,7 +3394,7 @@
 	 * @alias wp.customize.Menus.getMenuItemControl
 	 *
 	 * @param {string} menuItemId
-	 * @return {object|null}
+	 * @return {Object|null}
 	 */
 	api.Menus.getMenuItemControl = function( menuItemId ) {
 		return api.control( menuItemIdToSettingId( menuItemId ) );
@@ -3403,7 +3403,7 @@
 	/**
 	 * @alias wp.customize.Menus~menuItemIdToSettingId
 	 *
-	 * @param {String} menuItemId
+	 * @param {string} menuItemId
 	 */
 	function menuItemIdToSettingId( menuItemId ) {
 		return 'nav_menu_item[' + menuItemId + ']';

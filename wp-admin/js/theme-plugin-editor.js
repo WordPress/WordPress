@@ -27,8 +27,8 @@ wp.themePluginEditor = (function( $ ) {
 	 * @since 4.9.0
 	 *
 	 * @param {jQuery}         form - Form element.
-	 * @param {object}         settings - Settings.
-	 * @param {object|boolean} settings.codeEditor - Code editor settings (or `false` if syntax highlighting is disabled).
+	 * @param {Object}         settings - Settings.
+	 * @param {Object|boolean} settings.codeEditor - Code editor settings (or `false` if syntax highlighting is disabled).
 	 * @return {void}
 	 */
 	component.init = function init( form, settings ) {
@@ -117,7 +117,7 @@ wp.themePluginEditor = (function( $ ) {
 	 * Constrain tabbing within the warning modal.
 	 *
 	 * @since 4.9.0
-	 * @param {object} event jQuery event object.
+	 * @param {Object} event jQuery event object.
 	 * @return {void}
 	 */
 	component.constrainTabbing = function( event ) {
@@ -254,7 +254,7 @@ wp.themePluginEditor = (function( $ ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param {object}   notice - Notice.
+	 * @param {Object}   notice - Notice.
 	 * @param {string}   notice.code - Code.
 	 * @param {string}   notice.type - Type.
 	 * @param {string}   notice.message - Message.

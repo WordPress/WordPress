@@ -389,7 +389,7 @@ window.wp = window.wp || {};
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param {int} id The ID for the post that has been changed.
+	 * @param {number} id The ID for the post that has been changed.
 	 * @return {boolean} False, so the form does not submit when pressing
 	 *                   Enter on a focused field.
 	 */

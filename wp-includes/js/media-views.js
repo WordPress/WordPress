@@ -145,7 +145,7 @@ media.events = _.extend( {}, Backbone.Events );
  * Makes it easier to bind events using transitions.
  *
  * @param {string} selector
- * @param {Number} sensitivity
+ * @param {number} sensitivity
  * @return {Promise}
  */
 media.transition = function( selector, sensitivity ) {
@@ -272,7 +272,7 @@ media.view.Heading = __webpack_require__( 105 );
  *
  * @class
  *
- * @param {object}        options          Options hash for the region.
+ * @param {Object}        options          Options hash for the region.
  * @param {string}        options.id       Unique identifier for the region.
  * @param {Backbone.View} options.view     A parent view the region exists within.
  * @param {string}        options.selector jQuery selector for the region within the parent view.
@@ -1091,7 +1091,7 @@ Library = wp.media.controller.State.extend(/** @lends wp.media.controller.Librar
 	 * @since 4.4.1
 	 *
 	 * @param {wp.media.model.Attachment} attachment
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	isImageAttachment: function( attachment ) {
 		// If uploading, we know the filename but not the mime type.
@@ -1108,7 +1108,7 @@ Library = wp.media.controller.State.extend(/** @lends wp.media.controller.Librar
 	 * @since 3.6.0
 	 *
 	 * @param {wp.media.model.Attachment} attachment
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	canEmbed: function( attachment ) {
 		// If uploading, we know the filename but not the mime type.
@@ -4642,7 +4642,7 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	/**
 	 * Initializes the Focus Manager.
 	 *
-	 * @param {object} options The Focus Manager options.
+	 * @param {Object} options The Focus Manager options.
 	 *
 	 * @since 5.3.0
 	 *
@@ -4658,7 +4658,7 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param {object} event jQuery event object.
+	 * @param {Object} event jQuery event object.
 	 *
 	 * @return {void}
 	 */
@@ -4677,7 +4677,7 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 *
 	 * @since 5.3.0
 	 *
-	 * @return {object} A jQuery collection of tabbable elements.
+	 * @return {Object} A jQuery collection of tabbable elements.
 	 */
 	getTabbables: function() {
 		// Skip the file input added by Plupload.
@@ -4737,7 +4737,7 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 *
 	 * @since 5.2.3
 	 *
-	 * @param {object} visibleElement The jQuery object representing the element that should not be hidden.
+	 * @param {Object} visibleElement The jQuery object representing the element that should not be hidden.
 	 *
 	 * @return {void}
 	 */
@@ -4794,7 +4794,7 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 *
 	 * @since 5.2.3
 	 *
-	 * @param {object} element The DOM element that should be checked.
+	 * @param {Object} element The DOM element that should be checked.
 	 *
 	 * @return {boolean} Whether the element should not be hidden from assistive technologies.
 	 */
@@ -4841,7 +4841,7 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param {object} event jQuery event object.
+	 * @param {Object} event jQuery event object.
 	 *
 	 * @return {void}
 	 */
@@ -4865,7 +4865,7 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param {object} event jQuery event object.
+	 * @param {Object} event jQuery event object.
 	 *
 	 * @return {void}
 	 */
@@ -4901,7 +4901,7 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param {object} event jQuery event object.
+	 * @param {Object} event jQuery event object.
 	 *
 	 * @return {void}
 	 */
@@ -4952,7 +4952,7 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param {object} tab The tab DOM element.
+	 * @param {Object} tab The tab DOM element.
 	 *
 	 * @return {void}
 	 */
@@ -5171,7 +5171,7 @@ EditorUploader = View.extend(/** @lends wp.media.view.EditorUploader.prototype *
 	/**
 	 * Check browser support for drag'n'drop.
 	 *
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	browserSupport: function() {
 		var supports = false, div = document.createElement('div');
@@ -6793,7 +6793,7 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		this[ this.selected() ? 'select' : 'deselect' ]();
 	},
 	/**
-	 * @return {unresolved|Boolean}
+	 * @return {unresolved|boolean}
 	 */
 	selected: function() {
 		var selection = this.options.selection;

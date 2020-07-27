@@ -294,8 +294,8 @@
 	 * @since 5.3.1
 	 *
 	 * @param {HTMLElement} element The HTML element.
-	 * @param {String}      className The class name.
-	 * @return {bool} Whether the element has the className.
+	 * @param {string}      className The class name.
+	 * @return {boolean} Whether the element has the className.
 	 */
 	function hasClass( element, className ) {
 		var classNames;
@@ -320,7 +320,7 @@
 	 * @since 5.3.1
 	 *
 	 * @param {HTMLElement} element The HTML element.
-	 * @param {String}      className The class name.
+	 * @param {string}      className The class name.
 	 */
 	function addClass( element, className ) {
 		if ( ! element ) {
@@ -344,7 +344,7 @@
 	 * @since 5.3.1
 	 *
 	 * @param {HTMLElement} element The HTML element.
-	 * @param {String}      className The class name.
+	 * @param {string}      className The class name.
 	 */
 	function removeClass( element, className ) {
 		var testName,

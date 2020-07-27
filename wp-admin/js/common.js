@@ -137,7 +137,7 @@ window.columns = {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param {int} diff The modifier for the column span.
+	 * @param {number} diff The modifier for the column span.
 	 */
 	colSpanChange : function(diff) {
 		var $t = $('table').find('.colspanchange'), n;
@@ -384,7 +384,7 @@ $permalinkStructure.on( 'focus', function( event ) {
  * If the structure is already used in the custom permalink structure,
  * it will be disabled.
  *
- * @param {object} button Button jQuery object.
+ * @param {Object} button Button jQuery object.
  */
 function changeStructureTagButtonState( button ) {
 	if ( -1 !== $permalinkStructure.val().indexOf( button.text().trim() ) ) {

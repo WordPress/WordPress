@@ -159,7 +159,7 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param {object} response Ajax response from the server that includes a
+	 * @param {Object} response Ajax response from the server that includes a
 	 *                          translated "comments in moderation" message.
 	 *
 	 * @return {void}

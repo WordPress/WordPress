@@ -108,7 +108,7 @@
 		/**
 		 * Initialize the video handler.
 		 *
-		 * @param {object} settings Video settings.
+		 * @param {Object} settings Video settings.
 		 */
 		initialize: function( settings ) {
 			var handler = this,
@@ -217,7 +217,7 @@
 		 * Whether the handler can process a video.
 		 *
 		 * @abstract
-		 * @param {object} settings Video settings.
+		 * @param {Object} settings Video settings.
 		 * @return {boolean}
 		 */
 		test: function() {
@@ -239,7 +239,7 @@
 	 *
 	 * @memberOf wp
 	 *
-	 * @param {object} protoProps Properties to apply to the prototype.
+	 * @param {Object} protoProps Properties to apply to the prototype.
 	 * @return CustomHandler The subclass.
 	 */
 	BaseHandler.extend = function( protoProps ) {
@@ -271,7 +271,7 @@
 		/**
 		 * Whether the native handler supports a video.
 		 *
-		 * @param {object} settings Video settings.
+		 * @param {Object} settings Video settings.
 		 * @return {boolean}
 		 */
 		test: function( settings ) {
@@ -345,7 +345,7 @@
 		/**
 		 * Whether the handler supports a video.
 		 *
-		 * @param {object} settings Video settings.
+		 * @param {Object} settings Video settings.
 		 * @return {boolean}
 		 */
 		test: function( settings ) {

@@ -98,7 +98,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			 * @param {string} options.params.navMenuArgs.args_hmac
 			 * @param {string} [options.params.navMenuArgs.theme_location]
 			 * @param {number} [options.params.navMenuArgs.menu]
-			 * @param {object} [options.constructingContainerContext]
+			 * @param {Object} [options.constructingContainerContext]
 			 */
 			initialize: function( id, options ) {
 				var partial = this, matches, argsHmac;
@@ -132,8 +132,8 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			 *
 			 * @since 4.5.0
 			 * @param {wp.customize.Value|string} setting  - Object or ID.
-			 * @param {number|object|false|null}  newValue - New value, or null if the setting was just removed.
-			 * @param {number|object|false|null}  oldValue - Old value, or null if the setting was just added.
+			 * @param {number|Object|false|null}  newValue - New value, or null if the setting was just removed.
+			 * @param {number|Object|false|null}  oldValue - Old value, or null if the setting was just added.
 			 * @return {boolean}
 			 */
 			isRelatedSetting: function( setting, newValue, oldValue ) {
@@ -263,7 +263,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		/**
 		 * Request full refresh if there are nav menu instances that lack partials which also match the supplied args.
 		 *
-		 * @param {object} navMenuInstanceArgs
+		 * @param {Object} navMenuInstanceArgs
 		 */
 		self.handleUnplacedNavMenuInstances = function( navMenuInstanceArgs ) {
 			var unplacedNavMenuInstances;
@@ -283,7 +283,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		 * @since 4.5.0
 		 *
 		 * @param {wp.customize.Value} setting
-		 * @param {object}             [options]
+		 * @param {Object}             [options]
 		 * @param {boolean}            options.fire Whether to invoke the callback after binding.
 		 *                                          This is used when a dynamic setting is added.
 		 * @return {boolean} Whether the setting was bound.
@@ -370,8 +370,8 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param {object} newItem New value for nav_menu_item[] setting.
-		 * @param {object} oldItem Old value for nav_menu_item[] setting.
+		 * @param {Object} newItem New value for nav_menu_item[] setting.
+		 * @param {Object} oldItem Old value for nav_menu_item[] setting.
 		 * @this {wp.customize.Value}
 		 */
 		self.onChangeNavMenuItemSetting = function( newItem, oldItem ) {

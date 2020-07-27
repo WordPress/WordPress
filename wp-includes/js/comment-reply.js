@@ -265,9 +265,9 @@ window.addComment = ( function( window ) {
 	 * @since 5.1.0
 	 *
 	 * @param {HTMLElement} Element DOM element with the attribute.
-	 * @param {String}      Attribute the attribute to get.
+	 * @param {string}      Attribute the attribute to get.
 	 *
-	 * @return {String}
+	 * @return {string}
 	 */
 	function getDataAttribute( element, attribute ) {
 		if ( supportsDataset ) {
@@ -298,11 +298,11 @@ window.addComment = ( function( window ) {
 	 *
 	 * @memberOf addComment
 	 *
-	 * @param {String} addBelowId HTML ID of element the form follows.
-	 * @param {String} commentId  Database ID of comment being replied to.
-	 * @param {String} respondId  HTML ID of 'respond' element.
-	 * @param {String} postId     Database ID of the post.
-	 * @param {String} replyTo    Form heading content.
+	 * @param {string} addBelowId HTML ID of element the form follows.
+	 * @param {string} commentId  Database ID of comment being replied to.
+	 * @param {string} respondId  HTML ID of 'respond' element.
+	 * @param {string} postId     Database ID of the post.
+	 * @param {string} replyTo    Form heading content.
 	 */
 	function moveForm( addBelowId, commentId, respondId, postId, replyTo ) {
 		// Get elements based on their IDs.

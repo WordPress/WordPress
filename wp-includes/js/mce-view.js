@@ -46,7 +46,7 @@
 		/**
 		 * Registers a new view type.
 		 *
-		 * @param {String} type   The view type.
+		 * @param {string} type   The view type.
 		 * @param {Object} extend An object to extend wp.mce.View.prototype with.
 		 */
 		register: function( type, extend ) {
@@ -56,7 +56,7 @@
 		/**
 		 * Unregisters a view type.
 		 *
-		 * @param {String} type The view type.
+		 * @param {string} type The view type.
 		 */
 		unregister: function( type ) {
 			delete views[ type ];
@@ -65,7 +65,7 @@
 		/**
 		 * Returns the settings of a view type.
 		 *
-		 * @param {String} type The view type.
+		 * @param {string} type The view type.
 		 *
 		 * @return {Function} The view constructor.
 		 */
@@ -88,10 +88,10 @@
 		 * replacing any matches with markers,
 		 * and creates a new instance for every match.
 		 *
-		 * @param {String} content The string to scan.
+		 * @param {string} content The string to scan.
 		 * @param {tinymce.Editor} editor The editor.
 		 *
-		 * @return {String} The string with markers.
+		 * @return {string} The string with markers.
 		 */
 		setMarkers: function( content, editor ) {
 			var pieces = [ { content: content } ],
@@ -149,10 +149,10 @@
 		/**
 		 * Create a view instance.
 		 *
-		 * @param {String}  type    The view type.
-		 * @param {String}  text    The textual representation of the view.
+		 * @param {string}  type    The view type.
+		 * @param {string}  text    The textual representation of the view.
 		 * @param {Object}  options Options.
-		 * @param {Boolean} force   Recreate the instance. Optional.
+		 * @param {boolean} force   Recreate the instance. Optional.
 		 *
 		 * @return {wp.mce.View} The view instance.
 		 */
@@ -190,7 +190,7 @@
 		/**
 		 * Get a view instance.
 		 *
-		 * @param {(String|HTMLElement)} object The textual representation of the view or the view node.
+		 * @param {(string|HTMLElement)} object The textual representation of the view or the view node.
 		 *
 		 * @return {wp.mce.View} The view instance or undefined.
 		 */
@@ -207,7 +207,7 @@
 		 *
 		 * @param {HTMLElement} node The view node.
 		 *
-		 * @return {String} The textual representation of the view.
+		 * @return {string} The textual representation of the view.
 		 */
 		getText: function( node ) {
 			return decodeURIComponent( $( node ).attr( 'data-wpview-text' ) || '' );
@@ -216,7 +216,7 @@
 		/**
 		 * Renders all view nodes that are not yet rendered.
 		 *
-		 * @param {Boolean} force Rerender all view nodes.
+		 * @param {boolean} force Rerender all view nodes.
 		 */
 		render: function( force ) {
 			_.each( instances, function( instance ) {
@@ -227,10 +227,10 @@
 		/**
 		 * Update the text of a given view node.
 		 *
-		 * @param {String}         text   The new text.
+		 * @param {string}         text   The new text.
 		 * @param {tinymce.Editor} editor The TinyMCE editor instance the view node is in.
 		 * @param {HTMLElement}    node   The view node to update.
-		 * @param {Boolean}        force  Recreate the instance. Optional.
+		 * @param {boolean}        force  Recreate the instance. Optional.
 		 */
 		update: function( text, editor, node, force ) {
 			var instance = this.getInstance( node );
@@ -317,8 +317,8 @@
 		/**
 		 * Renders all view nodes tied to this view instance that are not yet rendered.
 		 *
-		 * @param {String}  content The content to render. Optional.
-		 * @param {Boolean} force   Rerender all view nodes tied to this view instance. Optional.
+		 * @param {string}  content The content to render. Optional.
+		 * @param {boolean} force   Rerender all view nodes tied to this view instance. Optional.
 		 */
 		render: function( content, force ) {
 			if ( content != null ) {
@@ -385,7 +385,7 @@
 		 * Gets all view nodes tied to this view instance.
 		 *
 		 * @param {Function} callback A callback.
-		 * @param {Boolean}  rendered Get (un)rendered view nodes. Optional.
+		 * @param {boolean}  rendered Get (un)rendered view nodes. Optional.
 		 */
 		getNodes: function( callback, rendered ) {
 			this.getEditors( function( editor ) {
@@ -473,7 +473,7 @@
 		 *
 		 * @param {*}        content  The content to set.
 		 * @param {Function} callback A callback. Optional.
-		 * @param {Boolean}  rendered Only set for (un)rendered nodes. Optional.
+		 * @param {boolean}  rendered Only set for (un)rendered nodes. Optional.
 		 */
 		setContent: function( content, callback, rendered ) {
 			if ( _.isObject( content ) && ( content.sandbox || content.head || content.body.indexOf( '<script' ) !== -1 ) ) {
@@ -502,10 +502,10 @@
 		/**
 		 * Sets the content in an iframe for all view nodes tied to this view instance.
 		 *
-		 * @param {String}   head     HTML string to be added to the head of the document.
-		 * @param {String}   body     HTML string to be added to the body of the document.
+		 * @param {string}   head     HTML string to be added to the head of the document.
+		 * @param {string}   body     HTML string to be added to the body of the document.
 		 * @param {Function} callback A callback. Optional.
-		 * @param {Boolean}  rendered Only set for (un)rendered nodes. Optional.
+		 * @param {boolean}  rendered Only set for (un)rendered nodes. Optional.
 		 */
 		setIframes: function( head, body, callback, rendered ) {
 			var self = this;
@@ -698,8 +698,8 @@
 		/**
 		 * Sets an error for all view nodes tied to this view instance.
 		 *
-		 * @param {String} message  The error message to set.
-		 * @param {String} dashicon A dashicon ID. Optional. {@link https://developer.wordpress.org/resource/dashicons/}
+		 * @param {string} message  The error message to set.
+		 * @param {string} dashicon A dashicon ID. Optional. {@link https://developer.wordpress.org/resource/dashicons/}
 		 */
 		setError: function( message, dashicon ) {
 			this.setContent(
@@ -713,7 +713,7 @@
 		/**
 		 * Tries to find a text match in a given string.
 		 *
-		 * @param {String} content The string to scan.
+		 * @param {string} content The string to scan.
 		 *
 		 * @return {Object}
 		 */
@@ -734,10 +734,10 @@
 		/**
 		 * Update the text of a given view node.
 		 *
-		 * @param {String}         text   The new text.
+		 * @param {string}         text   The new text.
 		 * @param {tinymce.Editor} editor The TinyMCE editor instance the view node is in.
 		 * @param {HTMLElement}    node   The view node to update.
-		 * @param {Boolean}        force  Recreate the instance. Optional.
+		 * @param {boolean}        force  Recreate the instance. Optional.
 		 */
 		update: function( text, editor, node, force ) {
 			_.find( views, function( view, type ) {

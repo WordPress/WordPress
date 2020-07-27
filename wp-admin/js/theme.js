@@ -1428,7 +1428,7 @@ themes.view.Search = wp.Backbone.View.extend({
  * @since 4.9.0
  *
  * @param {string} url - URL to navigate to.
- * @param {object} state - State.
+ * @param {Object} state - State.
  * @return {void}
  */
 function navigateRouter( url, state ) {
@@ -1841,7 +1841,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 	/**
 	 * Get the checked filters.
 	 *
-	 * @return {array} of tags or false
+	 * @return {Array} of tags or false
 	 */
 	filtersChecked: function() {
 		var items = $( '.filter-group' ).find( ':checkbox' ),
