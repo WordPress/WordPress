@@ -25,8 +25,9 @@ function _register_core_block_patterns_and_categories() {
 			'text-two-columns-with-images',
 			'text-three-columns-buttons',
 			'large-header',
-			'large-header-paragraph',
+			'large-header-button',
 			'three-buttons',
+			'heading-paragraph',
 			'quote',
 		);
 
