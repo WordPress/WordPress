@@ -2365,8 +2365,8 @@ function wp_opcache_invalidate( $filepath, $force = false ) {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param bool   $will_invalidate Whether WordPress will invalidate `$filename`. Default true.
-	 * @param string $filename        The PHP filename to invalidate.
+	 * @param bool   $will_invalidate Whether WordPress will invalidate `$filepath`. Default true.
+	 * @param string $filepath        The path to the PHP file to invalidate.
 	 */
 	if ( apply_filters( 'wp_opcache_invalidate_file', true, $filepath ) ) {
 		return opcache_invalidate( $filepath, $force );
