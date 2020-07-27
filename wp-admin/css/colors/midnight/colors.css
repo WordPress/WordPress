@@ -32,10 +32,19 @@ span.wp-media-buttons-icon:before {
   color: #0096dd;
 }
 
+.media-modal .delete-attachment,
+.media-modal .trash-attachment,
+.media-modal .untrash-attachment,
 .wp-core-ui .button-link-delete {
   color: #a00;
 }
 
+.media-modal .delete-attachment:hover,
+.media-modal .trash-attachment:hover,
+.media-modal .untrash-attachment:hover,
+.media-modal .delete-attachment:focus,
+.media-modal .trash-attachment:focus,
+.media-modal .untrash-attachment:focus,
 .wp-core-ui .button-link-delete:hover,
 .wp-core-ui .button-link-delete:focus {
   color: #dc3232;
