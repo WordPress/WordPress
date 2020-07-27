@@ -285,7 +285,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 			array(
 				'slug'   => $slug,
 				'fields' => array(
-					'sections' => false,
+					'sections'       => false,
+					'language_packs' => true,
 				),
 			)
 		);
@@ -353,6 +354,32 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 			if ( is_wp_error( $changed_status ) ) {
 				return $changed_status;
 			}
+		}
+
+		// Install translations.
+		$installed_locales = array_values( get_available_languages() );
+		/** This filter is documented in wp-includes/update.php */
+		$installed_locales = apply_filters( 'plugins_update_check_locales', $installed_locales );
+
+		$language_packs = array_map(
+			function( $item ) {
+				return (object) $item;
+			},
+			$api->language_packs
+		);
+
+		$language_packs = array_filter(
+			$language_packs,
+			function( $pack ) use ( $installed_locales ) {
+				return in_array( $pack->language, $installed_locales, true );
+			}
+		);
+
+		if ( $language_packs ) {
+			$lp_upgrader = new Language_Pack_Upgrader( $skin );
+
+			// Install all applicable language packs for the plugin.
+			$lp_upgrader->bulk_upgrade( $language_packs );
 		}
 
 		$path          = WP_PLUGIN_DIR . '/' . $file;
