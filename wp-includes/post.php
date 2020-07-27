@@ -6634,7 +6634,7 @@ function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
 	 *                                   See get_lastpostdate() for accepted `$timezone` values.
 	 * @param string       $post_type    The post type to check.
 	 */
-	return apply_filters( 'get_lastpostdate', $date, $timezone, $post_type );
+	return apply_filters( 'get_lastpostdate', $lastpostdate, $timezone, $post_type );
 }
 
 /**
