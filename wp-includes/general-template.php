@@ -613,14 +613,14 @@ function wp_lostpassword_url( $redirect = '' ) {
 		$args['redirect_to'] = urlencode( $redirect );
 	}
 
-	$site_path = '';
-
 	if ( is_multisite() ) {
-		$blog_details = get_blog_details();
-		$site_path    = $blog_details->path . 'wp-login.php';
+		$blog_details  = get_blog_details();
+		$wp_login_path = $blog_details->path . 'wp-login.php';
+	} else {
+		$wp_login_path = 'wp-login.php';
 	}
 
-	$lostpassword_url = add_query_arg( $args, network_site_url( $site_path . 'wp-login.php', 'login' ) );
+	$lostpassword_url = add_query_arg( $args, network_site_url( $wp_login_path, 'login' ) );
 
 	/**
 	 * Filters the Lost Password URL.
