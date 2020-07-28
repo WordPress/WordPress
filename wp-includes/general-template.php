@@ -605,12 +605,17 @@ function wp_login_form( $args = array() ) {
  * @return string Lost password URL.
  */
 function wp_lostpassword_url( $redirect = '' ) {
-	$args = array();
+	$args = array(
+		'action' => 'lostpassword',
+	);
+
 	if ( ! empty( $redirect ) ) {
 		$args['redirect_to'] = urlencode( $redirect );
 	}
 
-	$lostpassword_url = add_query_arg( $args, network_site_url( 'wp-login.php?action=lostpassword', 'login' ) );
+	$blog_details = get_blog_details();
+
+	$lostpassword_url = add_query_arg( $args, network_site_url( $blog_details->path . 'wp-login.php', 'login' ) );
 
 	/**
 	 * Filters the Lost Password URL.
