@@ -1292,7 +1292,7 @@ function delete_term_meta( $term_id, $meta_key, $meta_value = '' ) {
  *                        This parameter has no effect if $key is not specified.
  *                        Default false.
  * @return mixed An array if $single is false. The value of the meta field
- *               if $single is true.
+ *               if $single is true. False for an invalid $term_id.
  */
 function get_term_meta( $term_id, $key = '', $single = false ) {
 	return get_metadata( 'term', $term_id, $key, $single );

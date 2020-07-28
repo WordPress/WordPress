@@ -496,7 +496,7 @@ function delete_comment_meta( $comment_id, $meta_key, $meta_value = '' ) {
  *                           This parameter has no effect if $key is not specified.
  *                           Default false.
  * @return mixed An array if $single is false. The value of meta data field
- *               if $single is true.
+ *               if $single is true. False for an invalid $comment_id.
  */
 function get_comment_meta( $comment_id, $key = '', $single = false ) {
 	return get_metadata( 'comment', $comment_id, $key, $single );

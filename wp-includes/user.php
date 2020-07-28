@@ -831,7 +831,7 @@ function delete_user_meta( $user_id, $meta_key, $meta_value = '' ) {
  *                        This parameter has no effect if $key is not specified.
  *                        Default false.
  * @return mixed An array if $single is false. The value of meta data field
- *               if $single is true.
+ *               if $single is true. False for an invalid $user_id.
  */
 function get_user_meta( $user_id, $key = '', $single = false ) {
 	return get_metadata( 'user', $user_id, $key, $single );

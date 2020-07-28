@@ -2120,7 +2120,7 @@ function delete_post_meta( $post_id, $meta_key, $meta_value = '' ) {
  *                        This parameter has no effect if $key is not specified.
  *                        Default false.
  * @return mixed An array if $single is false. The value of the meta field
- *               if $single is true.
+ *               if $single is true. False for an invalid $post_id.
  */
 function get_post_meta( $post_id, $key = '', $single = false ) {
 	return get_metadata( 'post', $post_id, $key, $single );

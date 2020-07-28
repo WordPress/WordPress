@@ -1087,7 +1087,7 @@ function delete_site_meta( $site_id, $meta_key, $meta_value = '' ) {
  *                        This parameter has no effect if $key is not specified.
  *                        Default false.
  * @return mixed An array if $single is false. The value of meta data field
- *               if $single is true.
+ *               if $single is true. False for an invalid $site_id.
  */
 function get_site_meta( $site_id, $key = '', $single = false ) {
 	return get_metadata( 'blog', $site_id, $key, $single );
