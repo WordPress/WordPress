@@ -186,7 +186,7 @@
 	 * Extract a route part based on negative index.
 	 *
 	 * @param {string}   route          The endpoint route.
-	 * @param {number}      part           The number of parts from the end of the route to retrieve. Default 1.
+	 * @param {number}   part           The number of parts from the end of the route to retrieve. Default 1.
 	 *                                  Example route `/a/b/c`: part 1 is `c`, part 2 is `b`, part 3 is `a`.
 	 * @param {string}  [versionString] Version string, defaults to `wp.api.versionString`.
 	 * @param {boolean} [reverse]       Whether to reverse the order when extracting the route part. Optional, default false.
@@ -361,7 +361,7 @@
 			 * Build a helper function to retrieve related model.
 			 *
 			 * @param {string} parentModel      The parent model.
-			 * @param {number}    modelId          The model ID if the object to request
+			 * @param {number} modelId          The model ID if the object to request
 			 * @param {string} modelName        The model name to use when constructing the model.
 			 * @param {string} embedSourcePoint Where to check the embedds object for _embed data.
 			 * @param {string} embedCheckField  Which model field to check to see if the model has data.

@@ -2166,8 +2166,8 @@
 		 * Loads controls into the section from data received from loadThemes().
 		 *
 		 * @since 4.9.0
-		 * @param {Array} themes - Array of theme data to create controls with.
-		 * @param {number} page - Page of results being loaded.
+		 * @param {Array}  themes - Array of theme data to create controls with.
+		 * @param {number} page   - Page of results being loaded.
 		 * @return {void}
 		 */
 		loadControls: function( themes, page ) {

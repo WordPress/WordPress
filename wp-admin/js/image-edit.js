@@ -73,7 +73,7 @@
 	 * @memberof imageEdit
 	 *
 	 * @param {jQuery}         el The element that should be modified.
-	 * @param {boolean|number}    s  The state for the element. If set to true
+	 * @param {boolean|number} s  The state for the element. If set to true
 	 *                            the element is disabled,
 	 *                            otherwise the element is enabled.
 	 *                            The function is sometimes called with a 0 or 1
@@ -841,7 +841,7 @@
 	 * @memberof imageEdit
 	 *
 	 * @param {number}  postid The post ID.
-	 * @param {boolean}    warn   Warning message.
+	 * @param {boolean} warn   Warning message.
 	 *
 	 * @return {void|boolean} Returns false if there is a warning.
 	 */
