@@ -409,15 +409,15 @@ function list_plugin_updates() {
 		?>
 	<tr>
 		<td class="check-column">
-		<?php if ( $compatible_php ) : ?>
-			<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
-			<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
-				<?php
-				/* translators: %s: Plugin name. */
-				printf( __( 'Select %s' ), $plugin_data->Name );
-				?>
-			</label>
-		<?php endif; ?>
+			<?php if ( $compatible_php ) : ?>
+				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
+				<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
+					<?php
+					/* translators: %s: Plugin name. */
+					printf( __( 'Select %s' ), $plugin_data->Name );
+					?>
+				</label>
+			<?php endif; ?>
 		</td>
 		<td class="plugin-title"><p>
 			<?php echo $icon; ?>
@@ -429,14 +429,16 @@ function list_plugin_updates() {
 				$plugin_data->Version,
 				$plugin_data->update->new_version
 			);
+
 			echo ' ' . $details . $compat . $upgrade_notice;
+
 			if ( in_array( $plugin_file, $auto_updates, true ) ) {
 				echo $auto_update_notice;
 			}
 			?>
 		</p></td>
 	</tr>
-		<?php
+			<?php
 	}
 	?>
 	</tbody>
@@ -499,18 +501,87 @@ function list_theme_updates() {
 	}
 
 	foreach ( $themes as $stylesheet => $theme ) {
-		$checkbox_id = 'checkbox_' . md5( $theme->get( 'Name' ) );
+		$requires_wp  = isset( $theme->update['requires'] ) ? $theme->update['requires'] : null;
+		$requires_php = isset( $theme->update['requires_php'] ) ? $theme->update['requires_php'] : null;
 
+		$compatible_wp  = is_wp_version_compatible( $requires_wp );
+		$compatible_php = is_php_version_compatible( $requires_php );
+
+		$compat = '';
+
+		if ( ! $compatible_wp && ! $compatible_php ) {
+			$compat .= '<br>' . __( 'This update doesn&#8217;t work with your versions of WordPress and PHP.' ) . '&nbsp;';
+			if ( current_user_can( 'update_core' ) && current_user_can( 'update_php' ) ) {
+				$compat .= sprintf(
+					/* translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page. */
+					__( '<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.' ),
+					self_admin_url( 'update-core.php' ),
+					esc_url( wp_get_update_php_url() )
+				);
+
+				$annotation = wp_get_update_php_annotation();
+
+				if ( $annotation ) {
+					$compat .= '</p><p><em>' . $annotation . '</em>';
+				}
+			} elseif ( current_user_can( 'update_core' ) ) {
+				$compat .= sprintf(
+					/* translators: %s: URL to WordPress Updates screen. */
+					__( '<a href="%s">Please update WordPress</a>.' ),
+					self_admin_url( 'update-core.php' )
+				);
+			} elseif ( current_user_can( 'update_php' ) ) {
+				$compat .= sprintf(
+					/* translators: %s: URL to Update PHP page. */
+					__( '<a href="%s">Learn more about updating PHP</a>.' ),
+					esc_url( wp_get_update_php_url() )
+				);
+
+				$annotation = wp_get_update_php_annotation();
+
+				if ( $annotation ) {
+					$compat .= '</p><p><em>' . $annotation . '</em>';
+				}
+			}
+		} elseif ( ! $compatible_wp ) {
+			$compat .= '<br>' . __( 'This update doesn&#8217;t work with your version of WordPress.' ) . '&nbsp;';
+			if ( current_user_can( 'update_core' ) ) {
+				$compat .= sprintf(
+					/* translators: %s: URL to WordPress Updates screen. */
+					__( '<a href="%s">Please update WordPress</a>.' ),
+					self_admin_url( 'update-core.php' )
+				);
+			}
+		} elseif ( ! $compatible_php ) {
+			$compat .= '<br>' . __( 'This update doesn&#8217;t work with your version of PHP.' ) . '&nbsp;';
+			if ( current_user_can( 'update_php' ) ) {
+				$compat .= sprintf(
+					/* translators: %s: URL to Update PHP page. */
+					__( '<a href="%s">Learn more about updating PHP</a>.' ),
+					esc_url( wp_get_update_php_url() )
+				);
+
+				$annotation = wp_get_update_php_annotation();
+
+				if ( $annotation ) {
+					$compat .= '</p><p><em>' . $annotation . '</em>';
+				}
+			}
+		}
+
+		$checkbox_id = 'checkbox_' . md5( $theme->get( 'Name' ) );
 		?>
 	<tr>
 		<td class="check-column">
-			<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
-			<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
-				<?php
-				/* translators: %s: Theme name. */
-				printf( __( 'Select %s' ), $theme->display( 'Name' ) );
-				?>
-			</label>
+			<?php if ( $compatible_wp && $compatible_php ) : ?>
+				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
+				<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
+					<?php
+					/* translators: %s: Theme name. */
+					printf( __( 'Select %s' ), $theme->display( 'Name' ) );
+					?>
+				</label>
+			<?php endif; ?>
 		</td>
 		<td class="plugin-title"><p>
 			<img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" width="85" height="64" class="updates-table-screenshot" alt="" />
@@ -522,6 +593,9 @@ function list_theme_updates() {
 				$theme->display( 'Version' ),
 				$theme->update['new_version']
 			);
+
+			echo ' ' . $compat;
+
 			if ( in_array( $stylesheet, $auto_updates, true ) ) {
 				echo $auto_update_notice;
 			}
