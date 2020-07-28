@@ -561,7 +561,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			);
 		}
 
-		if ( ! $allowed && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && get_option( 'stylesheet' ) !== $stylesheet && get_option( 'template' ) !== $stylesheet ) {
+		if ( ! $allowed && ! $this->is_site_themes
+			&& current_user_can( 'delete_themes' )
+			&& get_option( 'stylesheet' ) !== $stylesheet
+			&& get_option( 'template' ) !== $stylesheet
+		) {
 			$url = add_query_arg(
 				array(
 					'action'       => 'delete-selected',
