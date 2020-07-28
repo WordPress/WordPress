@@ -398,10 +398,14 @@ foreach ( $themes as $theme ) :
 				<?php endif; ?>
 			</p></div>
 		<?php else : ?>
-			<div class="notice inline notice-error notice-alt"><p>
+			<div class="update-message notice inline notice-error notice-alt"><p>
 				<?php
 				if ( ! $theme['updateResponse']['compatibleWP'] && ! $theme['updateResponse']['compatiblePHP'] ) {
-					_e( 'There is a new version available, but it doesn&#8217;t work with your versions of WordPress and PHP.' );
+					printf(
+						/* translators: %s: Theme name. */
+						__( 'There is a new version of %s available, but it doesn&#8217;t work with your versions of WordPress and PHP.' ),
+						$theme['name']
+					);
 					if ( current_user_can( 'update_core' ) && current_user_can( 'update_php' ) ) {
 						printf(
 							/* translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page. */
@@ -425,7 +429,11 @@ foreach ( $themes as $theme ) :
 						wp_update_php_annotation( '</p><p><em>', '</em>' );
 					}
 				} elseif ( ! $theme['updateResponse']['compatibleWP'] ) {
-					_e( 'There is a new version available, but it doesn&#8217;t work with your version of WordPress.' );
+					printf(
+						/* translators: %s: Theme name. */
+						__( 'There is a new version of %s available, but it doesn&#8217;t work with your version of WordPress.' ),
+						$theme['name']
+					);
 					if ( current_user_can( 'update_core' ) ) {
 						printf(
 							/* translators: %s: URL to WordPress Updates screen. */
@@ -434,7 +442,11 @@ foreach ( $themes as $theme ) :
 						);
 					}
 				} elseif ( ! $theme['updateResponse']['compatiblePHP'] ) {
-					_e( 'There is a new version available, but it doesn&#8217;t work with your version of PHP.' );
+					printf(
+						/* translators: %s: Theme name. */
+						__( 'There is a new version of %s available, but it doesn&#8217;t work with your version of PHP.' ),
+						$theme['name']
+					);
 					if ( current_user_can( 'update_php' ) ) {
 						printf(
 							/* translators: %s: URL to Update PHP page. */
@@ -719,10 +731,14 @@ function wp_theme_auto_update_setting_template() {
 				<# } #>
 			</p></div>
 		<# } else { #>
-			<div class="notice inline notice-error notice-alt"><p>
+			<div class="update-message notice inline notice-error notice-alt"><p>
 				<# if ( ! data.updateResponse.compatibleWP && ! data.updateResponse.compatiblePHP ) { #>
 					<?php
-					_e( 'There is a new version available, but it doesn&#8217;t work with your versions of WordPress and PHP.' );
+					printf(
+						/* translators: %s: Theme name. */
+						__( 'There is a new version of %s available, but it doesn&#8217;t work with your versions of WordPress and PHP.' ),
+						'{{{ data.name }}}'
+					);
 					if ( current_user_can( 'update_core' ) && current_user_can( 'update_php' ) ) {
 						printf(
 							/* translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page. */
@@ -748,7 +764,11 @@ function wp_theme_auto_update_setting_template() {
 					?>
 				<# } else if ( ! data.updateResponse.compatibleWP ) { #>
 					<?php
-					_e( 'There is a new version available, but it doesn&#8217;t work with your version of WordPress.' );
+					printf(
+						/* translators: %s: Theme name. */
+						__( 'There is a new version of %s available, but it doesn&#8217;t work with your version of WordPress.' ),
+						'{{{ data.name }}}'
+					);
 					if ( current_user_can( 'update_core' ) ) {
 						printf(
 							/* translators: %s: URL to WordPress Updates screen. */
@@ -759,7 +779,11 @@ function wp_theme_auto_update_setting_template() {
 					?>
 				<# } else if ( ! data.updateResponse.compatiblePHP ) { #>
 					<?php
-					_e( 'There is a new version available, but it doesn&#8217;t work with your version of PHP.' );
+					printf(
+						/* translators: %s: Theme name. */
+						__( 'There is a new version of %s available, but it doesn&#8217;t work with your version of PHP.' ),
+						'{{{ data.name }}}'
+					);
 					if ( current_user_can( 'update_php' ) ) {
 						printf(
 							/* translators: %s: URL to Update PHP page. */
@@ -973,7 +997,11 @@ function wp_theme_auto_update_setting_template() {
 							<p>
 								<# if ( ! data.updateResponse.compatibleWP && ! data.updateResponse.compatiblePHP ) { #>
 									<?php
-									_e( 'There is a new version available, but it doesn&#8217;t work with your versions of WordPress and PHP.' );
+									printf(
+										/* translators: %s: Theme name. */
+										__( 'There is a new version of %s available, but it doesn&#8217;t work with your versions of WordPress and PHP.' ),
+										'{{{ data.name }}}'
+									);
 									if ( current_user_can( 'update_core' ) && current_user_can( 'update_php' ) ) {
 										printf(
 											/* translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page. */
@@ -999,7 +1027,11 @@ function wp_theme_auto_update_setting_template() {
 									?>
 								<# } else if ( ! data.updateResponse.compatibleWP ) { #>
 									<?php
-									_e( 'There is a new version available, but it doesn&#8217;t work with your version of WordPress.' );
+									printf(
+										/* translators: %s: Theme name. */
+										__( 'There is a new version of %s available, but it doesn&#8217;t work with your version of WordPress.' ),
+										'{{{ data.name }}}'
+									);
 									if ( current_user_can( 'update_core' ) ) {
 										printf(
 											/* translators: %s: URL to WordPress Updates screen. */
@@ -1010,7 +1042,11 @@ function wp_theme_auto_update_setting_template() {
 									?>
 								<# } else if ( ! data.updateResponse.compatiblePHP ) { #>
 									<?php
-									_e( 'There is a new version available, but it doesn&#8217;t work with your version of PHP.' );
+									printf(
+										/* translators: %s: Theme name. */
+										__( 'There is a new version of %s available, but it doesn&#8217;t work with your version of PHP.' ),
+										'{{{ data.name }}}'
+									);
 									if ( current_user_can( 'update_php' ) ) {
 										printf(
 											/* translators: %s: URL to Update PHP page. */
