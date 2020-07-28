@@ -152,6 +152,7 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
 	 * Filters the image HTML markup to send to the editor when inserting an image.
 	 *
 	 * @since 2.5.0
+	 * @since 5.6.0 The `$rel` parameter was added.
 	 *
 	 * @param string       $html    The image HTML markup to send.
 	 * @param int          $id      The attachment ID.
@@ -162,8 +163,9 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
 	 * @param string|array $size    Size of image. Image size or array of width and height values
 	 *                              (in that order). Default 'medium'.
 	 * @param string       $alt     The image alternative, or alt, text.
+	 * @param string       $rel     The image rel attribute.
 	 */
-	$html = apply_filters( 'image_send_to_editor', $html, $id, $caption, $title, $align, $url, $size, $alt );
+	$html = apply_filters( 'image_send_to_editor', $html, $id, $caption, $title, $align, $url, $size, $alt, $rel );
 
 	return $html;
 }
