@@ -2090,7 +2090,7 @@ html.wp-toolbar {
 
 .postbox .inside > p:last-child,
 .rss-widget ul li:last-child {
-	margin-bottom: 1px;
+	margin-bottom: 1px !important;
 }
 
 .postbox.closed h3 {

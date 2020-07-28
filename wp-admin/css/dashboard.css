@@ -1084,6 +1084,10 @@ a.rsswidget {
 	color: #df3232;
 }
 
+#dashboard_php_nag h2 {
+	display: inline-block;
+}
+
 #dashboard_php_nag p {
 	margin: 12px 0;
 }
