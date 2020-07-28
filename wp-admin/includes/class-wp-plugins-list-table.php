@@ -203,11 +203,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
 			// Extra info if known. array_merge() ensures $plugin_data has precedence if keys collide.
 			if ( isset( $plugin_info->response[ $plugin_file ] ) ) {
-				$plugin_data = array_merge( (array) $plugin_info->response[ $plugin_file ], array( 'auto-update-supported' => true ), $plugin_data );
+				$plugin_data = array_merge( (array) $plugin_info->response[ $plugin_file ], array( 'update-supported' => true ), $plugin_data );
 			} elseif ( isset( $plugin_info->no_update[ $plugin_file ] ) ) {
-				$plugin_data = array_merge( (array) $plugin_info->no_update[ $plugin_file ], array( 'auto-update-supported' => true ), $plugin_data );
-			} elseif ( empty( $plugin_data['auto-update-supported'] ) ) {
-				$plugin_data['auto-update-supported'] = false;
+				$plugin_data = array_merge( (array) $plugin_info->no_update[ $plugin_file ], array( 'update-supported' => true ), $plugin_data );
+			} elseif ( empty( $plugin_data['update-supported'] ) ) {
+				$plugin_data['update-supported'] = false;
 			}
 
 			/*
@@ -1094,7 +1094,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						}
 						$action     = 'unavailable';
 						$time_class = ' hidden';
-					} elseif ( ! $plugin_data['auto-update-supported'] ) {
+					} elseif ( ! $plugin_data['update-supported'] ) {
 						$text       = '';
 						$action     = 'unavailable';
 						$time_class = ' hidden';
