@@ -400,7 +400,7 @@ foreach ( $themes as $theme ) :
 		<?php else : ?>
 			<div class="notice inline notice-error notice-alt"><p>
 				<?php
-				if ( $theme['updateResponse']['compatibleWP'] && $theme['updateResponse']['compatiblePHP'] ) {
+				if ( ! $theme['updateResponse']['compatibleWP'] && ! $theme['updateResponse']['compatiblePHP'] ) {
 					_e( 'There is a new version available, but it doesn&#8217;t work with your versions of WordPress and PHP.' );
 					if ( current_user_can( 'update_core' ) && current_user_can( 'update_php' ) ) {
 						printf(
