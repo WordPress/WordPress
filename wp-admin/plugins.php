@@ -574,6 +574,7 @@ if ( current_user_can( 'update_plugins' ) && wp_is_auto_update_enabled_for_type(
 			'title'   => __( 'Auto-updates' ),
 			'content' =>
 					'<p>' . __( 'Auto-updates can be enabled or disabled for each individual plugin. Plugins with auto-updates enabled will display the estimated date of the next auto-update. Auto-updates depends on the WP-Cron task scheduling system.' ) . '</p>' .
+					'<p>' . __( 'Auto-updates are only available for plugins recognized by WordPress.org, or that include a compatible update system.' ) . '</p>' .
 					'<p>' . __( 'Please note: Third-party themes and plugins, or custom code, may override WordPress scheduling.' ) . '</p>',
 		)
 	);
