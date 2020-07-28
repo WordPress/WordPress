@@ -24,16 +24,14 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <div class="wrap about__container">
 
 	<div class="about__header">
+		<div class="about__header-text">
+			<?php _e( 'Speed. Search. Security.' ); ?>
+		</div>
+
 		<div class="about__header-title">
 			<p>
 				<?php _e( 'WordPress' ); ?>
 				<span><?php echo $display_version; ?></span>
-			</p>
-		</div>
-
-		<div class="about__header-text">
-			<p>
-				<?php _e( 'Building more with blocks, faster and easier.' ); ?>
 			</p>
 		</div>
 

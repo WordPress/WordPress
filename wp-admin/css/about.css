@@ -21,18 +21,19 @@
 .about__container {
 	/* Section backgrounds */
 	--background: #f3f4f5;
-	--subtle-background: #bde7f0;
+	--subtle-background: #f2edd4;
 	/* Main text color */
-	--text: #32373c;
-	--text-light: #f3f4f5;
+	--text: #322d2b;
+	--text-light: #f2edd4;
+	/* Accent colors: used in header, on special classes. */
+	--accent-1: #ebcd3d; /* Accent background */
+	--accent-2: #bd7331;
+	--accent-3: #bc5131;
 	/* Navigation colors. */
-	--nav-background: #216bce;
-	--nav-border: #1730e5;
-	--nav-color: #f3f4f5;
-	/* Reds, used as accents & in header. */
-	--accent-1: #1730e5;
-	--accent-2: #216bce;
-	--accent-3: #bde7f0;
+	--nav-background: var( --subtle-background );
+	--nav-border: var( --accent-1 );
+	--nav-color: var(--accent-3);
+	--nav-current: var(--accent-3);
 }
 
 /*------------------------------------------------------------------------------
@@ -103,15 +104,25 @@
 }
 
 .about__container .has-accent-background-color {
-	color: #f3f4f5;
-	color: var(--text-light);
-	background-color: #1730e5;
+	background-color: #ebcd3d;
 	background-color: var(--accent-1);
 }
 
+
+.about__container .has-transparent-background-color {
+	background-color: transparent;
+}
+
+.about__container .has-accent-color {
+	color: #bc5131;
+	color: var(--accent-3);
+}
+
 .about__container .has-subtle-background-color {
-	background-color: #bde7f0;
+	background-color: #f2edd4;
 	background-color: var(--subtle-background);
+	color: #322d2b;
+	color: var(--text);
 }
 
 /* 1.1 - Layout */
@@ -122,6 +133,10 @@
 
 .about__section .column {
 	padding: 32px;
+}
+
+.about__section + .about__section .column {
+	padding-top: 0;
 }
 
 .about__section .column.is-edge-to-edge {
@@ -136,9 +151,18 @@
 	margin-bottom: 0;
 }
 
+.about__section .has-text-columns {
+	columns: 2;
+	column-gap: 64px;
+}
+
 .about__section .is-section-header {
 	margin-bottom: 0;
 	padding: 32px 32px 0;
+}
+
+.about__section .is-section-header p:last-child {
+	margin-bottom: 0;
 }
 
 /* Section header is alone in a container. */
@@ -329,14 +353,16 @@
 }
 
 .about__section a {
-	color: #1730e5;
-	color: var(--accent-1);
+	color: #bc5131;
+	color: var(--accent-3);
 	text-decoration: underline;
 }
 
 .about__section a:hover,
 .about__section a:active,
 .about__section a:focus {
+	color: #bd7331;
+	color: var(--accent-2);
 	text-decoration: none;
 }
 
@@ -411,32 +437,20 @@
 /* 1.3 - Header */
 
 .about__header {
+	padding-top: 10vh;
 	margin-bottom: 32px;
-	background-color: #f3f4f5;
-	background-color: var(--background);
-	background-repeat: no-repeat;
-	background-position: top right;
-	background-size: contain;
-	background-image: url('https://s.w.org/images/core/5.4/header-diagonal.svg');
-}
-
-.rtl .about__header {
-	background-image: url('https://s.w.org/images/core/5.4/header-diagonal-rtl.svg');
-}
-
-.about__header > div {
-	display: flex;
-}
-
-.about__header > div > * {
-	align-self: flex-end;
+	background-color: #ebcd3d;
+	background-color: var(--accent-1);
+	color: #322d2b;
+	color: var(--text);
 }
 
 .about__header-title {
-	min-height: 24em;
-	max-height: 32em;
-	height: 80vh;
-	padding: 0 32px;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	text-align: center;
+	padding: 10vh 32px 15vh;
 }
 
 .about__header-title p {
@@ -445,20 +459,23 @@
 	font-size: 4em;
 	line-height: 1;
 	font-weight: 500;
-	color: #1730e5;
-	color: var(--accent-1);
 }
 
 .about__header-title p span {
-	display: inline-block;
-	color: #216bce;
-	color: var(--accent-2);
+	display: block;
+	font-size: 2em;
 }
 
 .about__header-text {
-	padding: 16px 32px 32px;
+	display: inline-block;
+	margin-left: -16px;
+	padding: 16px 48px;
 	font-size: 1.5em;
 	line-height: 1.4;
+	background: #bc5131;
+	background: var(--accent-3);
+	color: #f2edd4;
+	color: var(--text-light);
 }
 
 .about__header-text p {
@@ -467,11 +484,11 @@
 
 .about__header-navigation {
 	padding-top: 0;
-	background: #216bce;
+	background: #f2edd4;
 	background: var(--nav-background);
-	color: #f3f4f5;
+	color: #bc5131;
 	color: var(--nav-color);
-	border-bottom: 3px solid #1730e5;
+	border-bottom: 3px solid #ebcd3d;
 	border-bottom: 3px solid var(--nav-border);
 }
 
@@ -489,23 +506,27 @@
 
 .about__header-navigation .nav-tab:hover,
 .about__header-navigation .nav-tab:active {
-	background-color: #1730e5;
-	background-color: var(--accent-1);
+	background-color: #322d2b;
+	background-color: var(--text);
+	color: #f2edd4;
+	color: var(--text-light);
 }
 
 .about__header-navigation .nav-tab-active {
 	margin-bottom: -3px;
 	border-width: 0 0 6px;
-	border-color: #bde7f0;
-	border-color: var(--accent-3);
+	border-color: #bc5131;
+	border-color: var(--nav-current);
 }
 
 .about__header-navigation .nav-tab-active:hover,
 .about__header-navigation .nav-tab-active:active {
-	background-color: #1730e5;
-	background-color: var(--accent-1);
-	border-color: #bde7f0;
-	border-color: var(--accent-3);
+	background-color: #322d2b;
+	background-color: var(--text);
+	color: #f2edd4;
+	color: var(--text-light);
+	border-color: #bc5131;
+	border-color: var(--nav-current);
 }
 
 @media screen and (max-width: 782px) {
@@ -517,11 +538,6 @@
 		min-height: 0;
 		max-height: none;
 		height: auto;
-		/*
-		 * 60% is a "magic" number to create a top offset approx-equal to the height of the background image,
-		 * which scales to match the container width.
-		 */
-		padding-top: 60%;
 	}
 
 	.about__header-navigation .nav-tab {
@@ -595,7 +611,7 @@
 	font-size: 1.4em;
 	font-weight: 600;
 	text-decoration: none;
-	color: #32373c;
+	color: #322d2b;
 	color: var(--text);
 }
 
