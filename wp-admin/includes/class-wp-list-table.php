@@ -1270,9 +1270,6 @@ class WP_List_Table {
 	protected function get_table_classes() {
 		$mode = get_user_setting( 'posts_list_mode', 'list' );
 
-		/** This filter is documented in wp-admin/includes/class-wp-screen.php */
-		$mode = apply_filters( 'table_view_mode', $mode );
-
 		$mode_class = esc_attr( 'table-view-' . $mode );
 
 		return array( 'widefat', 'fixed', 'striped', $mode_class, $this->_args['plural'] );

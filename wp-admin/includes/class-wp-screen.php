@@ -1315,39 +1315,19 @@ final class WP_Screen {
 
 		$mode = get_user_setting( 'posts_list_mode', 'list' );
 
-		/**
-		 * Filters the current view mode.
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param string $mode The current selected mode. Defaults to the value
-		 *                     of 'posts_list_mode' user setting.
-		 */
-		$mode = apply_filters( 'table_view_mode', $mode );
-
 		// This needs a submit button.
 		add_filter( 'screen_options_show_submit', '__return_true' );
 		?>
 		<fieldset class="metabox-prefs view-mode">
-		<legend><?php _e( 'View mode' ); ?></legend>
-				<label for="list-view-mode">
-					<input id="list-view-mode" type="radio" name="mode" value="list" <?php checked( 'list', $mode ); ?> />
-					<?php _e( 'Compact view' ); ?>
-				</label>
-				<label for="excerpt-view-mode">
-					<input id="excerpt-view-mode" type="radio" name="mode" value="excerpt" <?php checked( 'excerpt', $mode ); ?> />
-					<?php _e( 'Extended view' ); ?>
-				</label>
-				<?php
-				/**
-				 * Fires at the end of the table view modes screen option.
-				 *
-				 * @since 5.5.0
-				 *
-				 * @param string $mode The currently selected mode.
-				 */
-				do_action( 'wp_table_view_modes', $mode );
-				?>
+			<legend><?php _e( 'View mode' ); ?></legend>
+			<label for="list-view-mode">
+				<input id="list-view-mode" type="radio" name="mode" value="list" <?php checked( 'list', $mode ); ?> />
+				<?php _e( 'Compact view' ); ?>
+			</label>
+			<label for="excerpt-view-mode">
+				<input id="excerpt-view-mode" type="radio" name="mode" value="excerpt" <?php checked( 'excerpt', $mode ); ?> />
+				<?php _e( 'Extended view' ); ?>
+			</label>
 		</fieldset>
 		<?php
 	}

@@ -602,9 +602,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 	protected function get_table_classes() {
 		global $mode;
 
-		/** This filter is documented in wp-admin/includes/class-wp-screen.php */
-		$mode = apply_filters( 'table_view_mode', $mode );
-
 		$mode_class = esc_attr( 'table-view-' . $mode );
 
 		return array( 'widefat', 'fixed', 'striped', $mode_class, is_post_type_hierarchical( $this->screen->post_type ) ? 'pages' : 'posts' );
