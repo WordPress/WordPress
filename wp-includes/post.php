@@ -4061,7 +4061,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 				}
 
 				if ( empty( $postarr['tax_input'][ $taxonomy ] ) ) {
-					$default_term_id = get_option( 'default_taxonomy_' . $taxonomy );
+					$default_term_id = get_option( 'default_term_' . $taxonomy );
 					if ( ! empty( $default_term_id ) ) {
 						$postarr['tax_input'][ $taxonomy ] = array( (int) $default_term_id );
 					}

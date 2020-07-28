@@ -444,7 +444,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	if ( ! empty( $taxonomy_object->default_term ) ) {
 		$term = term_exists( $taxonomy_object->default_term['name'], $taxonomy );
 		if ( $term ) {
-			update_option( 'default_taxonomy_' . $taxonomy_object->name, $term['term_id'] );
+			update_option( 'default_term_' . $taxonomy_object->name, $term['term_id'] );
 		} else {
 			$term = wp_insert_term(
 				$taxonomy_object->default_term['name'],
@@ -457,7 +457,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 			// Update `term_id` in options.
 			if ( ! is_wp_error( $term ) ) {
-				update_option( 'default_taxonomy_' . $taxonomy_object->name, $term['term_id'] );
+				update_option( 'default_term_' . $taxonomy_object->name, $term['term_id'] );
 			}
 		}
 	}
@@ -508,7 +508,7 @@ function unregister_taxonomy( $taxonomy ) {
 
 	// Remove custom taxonomy default term option.
 	if ( ! empty( $taxonomy_object->default_term ) ) {
-		delete_option( 'default_taxonomy_' . $taxonomy_object->name );
+		delete_option( 'default_term_' . $taxonomy_object->name );
 	}
 
 	// Remove the taxonomy.
@@ -1834,7 +1834,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	// Don't delete the default custom taxonomy term.
 	$taxonomy_object = get_taxonomy( $taxonomy );
 	if ( ! empty( $taxonomy_object->default_term ) ) {
-		$defaults['default'] = (int) get_option( 'default_taxonomy_' . $taxonomy );
+		$defaults['default'] = (int) get_option( 'default_term_' . $taxonomy );
 		if ( $defaults['default'] === $term ) {
 			return 0;
 		}

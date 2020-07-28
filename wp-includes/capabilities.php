@@ -541,7 +541,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 
 			if ( 'delete_term' === $cap
 				&& ( get_option( 'default_' . $term->taxonomy ) == $term->term_id
-					|| get_option( 'default_taxonomy_' . $term->taxonomy ) == $term->term_id )
+					|| get_option( 'default_term_' . $term->taxonomy ) == $term->term_id )
 			) {
 				$caps[] = 'do_not_allow';
 				break;
