@@ -167,7 +167,7 @@ class WP_Site_Health_Auto_Updates {
 	 */
 	public function test_wp_automatic_updates_disabled() {
 		if ( ! class_exists( 'WP_Automatic_Updater' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/class-wp-automatic-updates.php';
+			require_once ABSPATH . 'wp-admin/includes/class-wp-automatic-updater.php';
 		}
 
 		$auto_updates = new WP_Automatic_Updater();
