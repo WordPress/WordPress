@@ -2356,7 +2356,7 @@ function wp_opcache_invalidate( $filepath, $force = false ) {
 	}
 
 	// Verify that file to be invalidated has a PHP extension.
-	if ( ! preg_match( '/\.(?:php)$/i', $filepath ) ) {
+	if ( '.php' !== strtolower( substr( $filepath, -4 ) ) ) {
 		return false;
 	}
 
