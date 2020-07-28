@@ -613,9 +613,14 @@ function wp_lostpassword_url( $redirect = '' ) {
 		$args['redirect_to'] = urlencode( $redirect );
 	}
 
-	$blog_details = get_blog_details();
+	$site_path = '';
 
-	$lostpassword_url = add_query_arg( $args, network_site_url( $blog_details->path . 'wp-login.php', 'login' ) );
+	if ( is_multisite() ) {
+		$blog_details = get_blog_details();
+		$site_path    = $blog_details->path . 'wp-login.php';
+	}
+
+	$lostpassword_url = add_query_arg( $args, network_site_url( $site_path . 'wp-login.php', 'login' ) );
 
 	/**
 	 * Filters the Lost Password URL.
