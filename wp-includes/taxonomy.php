@@ -455,7 +455,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 				)
 			);
 
-			// Update term id in options.
+			// Update `term_id` in options.
 			if ( ! is_wp_error( $term ) ) {
 				update_option( 'default_taxonomy_' . $taxonomy_object->name, $term['term_id'] );
 			}

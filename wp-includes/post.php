@@ -4054,7 +4054,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 					$postarr['tax_input'][ $taxonomy ] = array_filter( $postarr['tax_input'][ $taxonomy ] );
 				}
 
-				// Passed custom taxonomy list overwrites existing list if not empty.
+				// Passed custom taxonomy list overwrites the existing list if not empty.
 				$terms = wp_get_object_terms( $post_ID, $taxonomy, array( 'fields' => 'ids' ) );
 				if ( ! empty( $terms ) && empty( $postarr['tax_input'][ $taxonomy ] ) ) {
 					$postarr['tax_input'][ $taxonomy ] = $terms;
