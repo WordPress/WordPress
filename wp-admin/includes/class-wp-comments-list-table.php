@@ -78,17 +78,20 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * @global string $mode           List table view mode.
 	 * @global int    $post_id
 	 * @global string $comment_status
 	 * @global string $comment_type
 	 * @global string $search
 	 */
 	public function prepare_items() {
-		global $post_id, $comment_status, $comment_type, $search;
+		global $mode, $post_id, $comment_status, $comment_type, $search;
 
 		if ( ! empty( $_REQUEST['mode'] ) ) {
 			$mode = 'excerpt' === $_REQUEST['mode'] ? 'excerpt' : 'list';
 			set_user_setting( 'posts_list_mode', $mode );
+		} else {
+			$mode = get_user_setting( 'posts_list_mode', 'list' );
 		}
 
 		$comment_status = isset( $_REQUEST['comment_status'] ) ? $_REQUEST['comment_status'] : 'all';

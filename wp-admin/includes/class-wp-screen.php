@@ -1313,7 +1313,9 @@ final class WP_Screen {
 			return;
 		}
 
-		$mode = get_user_setting( 'posts_list_mode', 'list' );
+		if ( ! isset( $mode ) ) {
+			$mode = get_user_setting( 'posts_list_mode', 'list' );
+		}
 
 		// This needs a submit button.
 		add_filter( 'screen_options_show_submit', '__return_true' );
