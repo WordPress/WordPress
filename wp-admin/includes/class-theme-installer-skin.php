@@ -221,7 +221,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 
 		echo '<h2 class="update-from-upload-heading">' . esc_html( __( 'This theme is already installed.' ) ) . '</h2>';
 
-		// Check errors for current theme
+		// Check errors for current theme.
 		if ( is_wp_error( $current_theme_data->errors() ) ) {
 			$this->feedback( 'current_theme_has_errors', $current_theme_data->errors()->get_error_message() );
 		}

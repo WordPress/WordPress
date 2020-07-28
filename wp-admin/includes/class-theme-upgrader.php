@@ -588,7 +588,32 @@ class Theme_Upgrader extends WP_Upgrader {
 			);
 		}
 
+		$requires_php = isset( $info['RequiresPHP'] ) ? $info['RequiresPHP'] : null;
+		$requires_wp  = isset( $info['RequiresWP'] ) ? $info['RequiresWP'] : null;
+
+		if ( ! is_php_version_compatible( $requires_php ) ) {
+			$error = sprintf(
+				/* translators: 1: Current PHP version, 2: Version required by the uploaded theme. */
+				__( 'The PHP version on your server is %1$s, however the uploaded theme requires %2$s.' ),
+				phpversion(),
+				$requires_php
+			);
+
+			return new WP_Error( 'incompatible_php_required_version', $this->strings['incompatible_archive'], $error );
+		}
+		if ( ! is_wp_version_compatible( $requires_wp ) ) {
+			$error = sprintf(
+				/* translators: 1: Current WordPress version, 2: Version required by the uploaded theme. */
+				__( 'Your WordPress version is %1$s, however the uploaded theme requires %2$s.' ),
+				$GLOBALS['wp_version'],
+				$requires_wp
+			);
+
+			return new WP_Error( 'incompatible_wp_required_version', $this->strings['incompatible_archive'], $error );
+		}
+
 		$this->new_theme_data = $info;
+
 		return $source;
 	}
 
