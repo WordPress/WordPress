@@ -46,6 +46,9 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Action to perform before installing a plugin.
+	 *
+	 * @since 2.8.0
 	 */
 	public function before() {
 		if ( ! empty( $this->api ) ) {
@@ -78,6 +81,9 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Action to perform following a plugin install.
+	 *
+	 * @since 2.8.0
 	 */
 	public function after() {
 		// Check if the plugin can be overwritten and output the HTML.

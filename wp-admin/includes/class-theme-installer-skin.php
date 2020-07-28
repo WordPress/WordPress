@@ -46,6 +46,9 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Action to perform before installing a theme.
+	 *
+	 * @since 2.8.0
 	 */
 	public function before() {
 		if ( ! empty( $this->api ) ) {
@@ -78,6 +81,9 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Action to perform following a single theme install.
+	 *
+	 * @since 2.8.0
 	 */
 	public function after() {
 		if ( $this->do_overwrite() ) {
