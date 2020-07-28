@@ -620,10 +620,10 @@ class WP_Term_Query {
 				$selects = array( 'COUNT(*)' );
 				break;
 			case 'id=>name':
-				$selects = array( 't.term_id', 't.name', 'tt.count', 'tt.taxonomy' );
+				$selects = array( 't.term_id', 't.name', 'tt.parent', 'tt.count', 'tt.taxonomy' );
 				break;
 			case 'id=>slug':
-				$selects = array( 't.term_id', 't.slug', 'tt.count', 'tt.taxonomy' );
+				$selects = array( 't.term_id', 't.slug', 'tt.parent', 'tt.count', 'tt.taxonomy' );
 				break;
 		}
 
