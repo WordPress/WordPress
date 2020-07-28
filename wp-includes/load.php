@@ -132,7 +132,7 @@ function wp_check_php_mysql_versions() {
  * Retrieves the current environment type.
  *
  * The type can be set via the `WP_ENVIRONMENT_TYPE` global system variable,
- * a constant of the same name, or the {@see 'wp_get_environment_type'} filter.
+ * or a constant of the same name.
  *
  * Possible values include 'development', 'staging', 'production'. If not set,
  * the type defaults to 'production'.
@@ -167,18 +167,6 @@ function wp_get_environment_type() {
 		$wp_environments = WP_ENVIRONMENT_TYPES;
 	}
 
-	/**
-	 * Filters the list of supported environment types.
-	 *
-	 * This filter runs before it can be used by plugins. It is designed for non-web runtimes.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @param array $wp_environments The list of environment types. Possible values
-	 *                               include 'development', 'staging', 'production'.
-	 */
-	$wp_environments = apply_filters( 'wp_environment_types', $wp_environments );
-
 	// Check if the environment variable has been set, if `getenv` is available on the system.
 	if ( function_exists( 'getenv' ) ) {
 		$has_env = getenv( 'WP_ENVIRONMENT_TYPE' );
@@ -191,20 +179,6 @@ function wp_get_environment_type() {
 	if ( defined( 'WP_ENVIRONMENT_TYPE' ) ) {
 		$current_env = WP_ENVIRONMENT_TYPE;
 	}
-
-	/**
-	 * Filters the current environment type.
-	 *
-	 * This filter runs before it can be used by plugins. It is designed for
-	 * non-web runtimes. The value returned by this filter has a priority over both
-	 * the `WP_ENVIRONMENT_TYPE` system variable and a constant of the same name.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @param string $current_env The current environment type. Possible values
-	 *                            include 'development', 'staging', 'production'.
-	 */
-	$current_env = apply_filters( 'wp_get_environment_type', $current_env );
 
 	// Make sure the environment is an allowed one, and not accidentally set to an invalid value.
 	if ( ! in_array( $current_env, $wp_environments, true ) ) {
