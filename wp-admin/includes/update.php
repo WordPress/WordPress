@@ -646,7 +646,7 @@ function wp_theme_update_row( $theme_key, $theme ) {
 	$requires_php = isset( $response['requires_php'] ) ? $response['requires_php'] : null;
 
 	$compatible_wp  = is_wp_version_compatible( $requires_wp );
-	$compatible_php = is_php_version_compatible( $compatible_php );
+	$compatible_php = is_php_version_compatible( $requires_php );
 
 	printf(
 		'<tr class="plugin-update-tr%s" id="%s" data-slug="%s">' .
