@@ -239,6 +239,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		add_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
 		add_filter( 'upgrader_post_install', array( $this, 'check_parent_theme_filter' ), 10, 3 );
+
 		if ( $parsed_args['clear_update_cache'] ) {
 			// Clear cache so wp_update_themes() knows about the new theme.
 			add_action( 'upgrader_process_complete', 'wp_clean_themes_cache', 9, 0 );
@@ -248,7 +249,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			array(
 				'package'           => $package,
 				'destination'       => get_theme_root(),
-				'clear_destination' => $args['overwrite_package'],
+				'clear_destination' => $parsed_args['overwrite_package'],
 				'clear_working'     => true,
 				'hook_extra'        => array(
 					'type'   => 'theme',
