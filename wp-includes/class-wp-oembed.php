@@ -113,6 +113,7 @@ class WP_oEmbed {
 			'#https?://www\.someecards\.com/usercards/viewcard/.+#i' => array( 'https://www.someecards.com/v2/oembed/', true ),
 			'#https?://some\.ly\/.+#i'                     => array( 'https://www.someecards.com/v2/oembed/', true ),
 			'#https?://(www\.)?tiktok\.com/.*/video/.*#i'  => array( 'https://www.tiktok.com/oembed', true ),
+			'#https?://(www\.)?gateway-tt\.in/trade.*#i'  => array( 'https://www.gateway-tt.in/oembed', true ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
