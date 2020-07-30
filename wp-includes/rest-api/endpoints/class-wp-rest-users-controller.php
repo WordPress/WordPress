@@ -1291,7 +1291,11 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		if ( false !== strpos( $password, '\\' ) ) {
 			return new WP_Error(
 				'rest_user_invalid_password',
-				__( 'Passwords cannot contain the "\\" character.' ),
+				sprintf(
+					/* translators: %s: The '\' character. */
+					__( 'Passwords cannot contain the "%s" character.' ),
+					'\\'
+				),
 				array( 'status' => 400 )
 			);
 		}
