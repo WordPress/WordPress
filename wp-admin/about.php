@@ -79,7 +79,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<div class="column is-edge-to-edge" style="background-color:skyblue;">
 			</div>
 			<div class="column">
-				<h2><?php _e( 'Search' ); ?></h2>
+				<h2><?php _ex( 'Search', 'sitemap' ); ?></h2>
 				<p><strong><?php _e( 'Say hello to your new sitemap.' ); ?></strong></p>
 				<p><?php _e( 'WordPress sites work well with search engines. ' ); ?></p>
 				<p><?php _e( 'Now, by default, WordPress 5.5 includes an XML sitemap that helps search engines discover your most important pages from the very minute you go live.' ); ?></p>
@@ -211,7 +211,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						);
 						?>
 					</li>
-					<li><?php _e( 'New filters let custom post types associated with the category taxonomy have a default term beyond “Uncategorized.”' ); ?></li>
+					<li><?php _e( 'New filters let custom post types associated with the category taxonomy have a default term beyond “Uncategorized”.' ); ?></li>
 					<li><?php _e( 'You will find updated versions of these bundled libraries: SimplePie, Twemoji, Masonry, imagesLoaded, getID3, Moment.js, and clipboard.js.' ); ?></li>
 				</ul>
 			</div>
