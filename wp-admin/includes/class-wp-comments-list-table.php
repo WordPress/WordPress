@@ -390,7 +390,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 		if ( ! isset( $has_items ) ) {
 			$has_items = $this->has_items();
 		}
+
 		echo '<div class="alignleft actions">';
+
 		if ( 'top' === $which ) {
 			ob_start();
 
@@ -415,14 +417,18 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$title = ( 'spam' === $comment_status ) ? esc_attr__( 'Empty Spam' ) : esc_attr__( 'Empty Trash' );
 			submit_button( $title, 'apply', 'delete_all', false );
 		}
+
 		/**
 		 * Fires after the Filter submit button for comment types.
 		 *
 		 * @since 2.5.0
+		 * @since 5.6.0 The `$which` parameter was added.
 		 *
 		 * @param string $comment_status The comment status name. Default 'All'.
+		 * @param string $which          The location of the extra table nav markup: 'top' or 'bottom'.
 		 */
-		do_action( 'manage_comments_nav', $comment_status );
+		do_action( 'manage_comments_nav', $comment_status, $which );
+
 		echo '</div>';
 	}
 
