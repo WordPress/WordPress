@@ -957,16 +957,17 @@ class WP_Debug_Data {
 					 * @since 5.5.0
 					 *
 					 * @param string $auto_updates_string The string output for the auto-updates column.
+					 * @param string $plugin_path         The path to the plugin file.
 					 * @param array  $plugin              An array of plugin data.
 					 * @param bool   $enabled             Whether auto-updates are enabled for this item.
 					 */
-					$auto_updates_string = apply_filters( 'plugin_auto_update_debug_string', $auto_updates_string, $plugin, $enabled );
+					$auto_updates_string = apply_filters( 'plugin_auto_update_debug_string', $auto_updates_string, $plugin_path, $plugin, $enabled );
 				} else {
 					$auto_updates_string = __( 'Auto-updates disabled' );
 					$enabled             = false;
 
 					/** This filter is documented in wp-admin/includes/class-wp-debug-data.php */
-					$auto_updates_string = apply_filters( 'plugin_auto_update_debug_string', $auto_updates_string, $plugin, $enabled );
+					$auto_updates_string = apply_filters( 'plugin_auto_update_debug_string', $auto_updates_string, $plugin_path, $plugin, $enabled );
 				}
 
 				$plugin_version_string       .= ' | ' . $auto_updates_string;
