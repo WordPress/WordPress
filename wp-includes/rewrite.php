@@ -143,9 +143,9 @@ function add_rewrite_rule( $regex, $query, $after = 'bottom' ) {
 /**
  * Add a new rewrite tag (like %postname%).
  *
- * The $query parameter is optional. If it is omitted you must ensure that
- * you call this on, or before, the {@see 'init'} hook. This is because $query defaults
- * to "$tag=", and for this to work a new query var has to be added.
+ * The `$query` parameter is optional. If it is omitted you must ensure that you call
+ * this on, or before, the {@see 'init'} hook. This is because `$query` defaults to
+ * `$tag=`, and for this to work a new query var has to be added.
  *
  * @since 2.1.0
  *

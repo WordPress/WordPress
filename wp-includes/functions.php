@@ -6821,7 +6821,7 @@ function mysql_to_rfc3339( $date_string ) {
  *
  * @param string $context Optional. Context in which the function is called. Accepts either 'admin',
  *                        'image', or an arbitrary other context. If an arbitrary context is passed,
- *                        the similarly arbitrary {@see '{$context}_memory_limit'} filter will be
+ *                        the similarly arbitrary {@see '$context_memory_limit'} filter will be
  *                        invoked. Default 'admin'.
  * @return bool|int|string The limit that was set or false on failure.
  */

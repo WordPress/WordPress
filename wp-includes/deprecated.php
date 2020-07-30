@@ -3564,7 +3564,7 @@ function preview_theme_ob_filter_callback( $matches ) {
 /**
  * Formats text for the rich text editor.
  *
- * The {@see 'richedit_pre'} filter is applied here. If $text is empty the filter will
+ * The {@see 'richedit_pre'} filter is applied here. If `$text` is empty the filter will
  * be applied to an empty string.
  *
  * @since 2.0.0
