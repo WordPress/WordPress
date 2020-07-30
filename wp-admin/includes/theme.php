@@ -647,11 +647,15 @@ function wp_prepare_themes_for_js( $themes = null ) {
 		}
 	}
 
-	$updates = array();
+	$updates    = array();
+	$no_updates = array();
 	if ( current_user_can( 'update_themes' ) ) {
 		$updates_transient = get_site_transient( 'update_themes' );
 		if ( isset( $updates_transient->response ) ) {
 			$updates = $updates_transient->response;
+		}
+		if ( isset( $updates_transient->no_update ) ) {
+			$no_updates = $updates_transient->no_update;
 		}
 	}
 
@@ -690,6 +694,31 @@ function wp_prepare_themes_for_js( $themes = null ) {
 		$auto_update        = in_array( $slug, $auto_updates, true );
 		$auto_update_action = $auto_update ? 'disable-auto-update' : 'enable-auto-update';
 
+		if ( isset( $updates[ $slug ] ) ) {
+			$auto_update_supported      = true;
+			$auto_update_filter_payload = (object) $updates[ $slug ];
+		} elseif ( isset( $no_updates[ $slug ] ) ) {
+			$auto_update_supported      = true;
+			$auto_update_filter_payload = (object) $no_updates[ $slug ];
+		} else {
+			$auto_update_supported = false;
+			/*
+			 * Create the expected payload for the auto_update_theme filter, this is the same data
+			 * as contained within $updates or $no_updates but used when the Theme is not known.
+			 */
+			$auto_update_filter_payload = (object) array(
+				'theme'        => $slug,
+				'new_version'  => $theme->get( 'Version' ),
+				'url'          => '',
+				'package'      => '',
+				'requires'     => $theme->get( 'RequiresWP' ),
+				'requires_php' => $theme->get( 'RequiresPHP' ),
+			);
+		}
+
+		/** This action is documented in wp-admin/includes/class-wp-automatic-updater.php */
+		$auto_update_forced = apply_filters( 'auto_update_theme', null, $auto_update_filter_payload );
+
 		$prepared_themes[ $slug ] = array(
 			'id'             => $slug,
 			'name'           => $theme->display( 'Name' ),
@@ -710,7 +739,11 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			'hasUpdate'      => isset( $updates[ $slug ] ),
 			'hasPackage'     => isset( $updates[ $slug ] ) && ! empty( $updates[ $slug ]['package'] ),
 			'update'         => get_theme_update_available( $theme ),
-			'autoupdate'     => $auto_update,
+			'autoupdate'     => array(
+				'enabled'   => $auto_update || $auto_update_forced,
+				'supported' => $auto_update_supported,
+				'forced'    => $auto_update_forced,
+			),
 			'actions'        => array(
 				'activate'   => current_user_can( 'switch_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug ), 'switch-theme_' . $slug ) : null,
 				'customize'  => $customize_action,

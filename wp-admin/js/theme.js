@@ -802,8 +802,11 @@ themes.view.Details = wp.Backbone.View.extend({
 
 		// Support concurrent clicks in different Theme Details overlays.
 		callback = function( event, data ) {
+			var autoupdate;
 			if ( _this.model.get( 'id' ) === data.asset ) {
-				_this.model.set( { autoupdate: 'enable' === data.state } );
+				autoupdate = _this.model.get( 'autoupdate' );
+				autoupdate.enabled = 'enable' === data.state;
+				_this.model.set( { autoupdate: autoupdate } );
 				$( document ).off( 'wp-auto-update-setting-changed', callback );
 			}
 		};

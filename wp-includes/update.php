@@ -621,6 +621,7 @@ function wp_update_themes( $extra_stats = array() ) {
 
 	if ( is_array( $response ) ) {
 		$new_update->response     = $response['themes'];
+		$new_update->no_update    = $response['no_update'];
 		$new_update->translations = $response['translations'];
 	}
 
