@@ -72,7 +72,7 @@ if ( ! got_url_rewrite() ) {
 	$prefix = '/index.php';
 }
 
-/**
+/*
  * In a subdirectory configuration of multisite, the `/blog` prefix is used by
  * default on the main site to avoid collisions with other sites created on that
  * network. If the `permalink_structure` option has been changed to remove this
