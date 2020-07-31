@@ -103,7 +103,7 @@ class WP_Widget_Archives extends WP_Widget {
 			$type_attr = current_theme_supports( 'html5', 'script' ) ? '' : ' type="text/javascript"';
 			?>
 
-			<option value=""><?php echo esc_attr( $label ); ?></option>
+			<option value=""><?php echo esc_html( $label ); ?></option>
 			<?php wp_get_archives( $dropdown_args ); ?>
 
 		</select>
