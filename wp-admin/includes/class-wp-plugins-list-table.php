@@ -279,10 +279,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			}
 
 			if ( $this->show_autoupdates ) {
-				if ( in_array( $plugin_file, $auto_updates, true ) ) {
-					$plugins['auto-update-enabled'][ $plugin_file ] = $plugins['all'][ $plugin_file ];
+				$enabled = in_array( $plugin_file, $auto_updates, true ) && $plugin_data['update-supported'];
+				if ( isset( $plugin_data['auto-update-forced'] ) ) {
+					$enabled = (bool) $plugin_data['auto-update-forced'];
+				}
+
+				if ( $enabled ) {
+					$plugins['auto-update-enabled'][ $plugin_file ] = $plugin_data;
 				} else {
-					$plugins['auto-update-disabled'][ $plugin_file ] = $plugins['all'][ $plugin_file ];
+					$plugins['auto-update-disabled'][ $plugin_file ] = $plugin_data;
 				}
 			}
 		}
