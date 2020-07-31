@@ -69,7 +69,7 @@ $preload_paths = apply_filters( 'block_editor_preload_paths', $preload_paths, $p
  * Because API preloading can call the_content and other filters, plugins
  * can unexpectedly modify $post.
  */
-$backup_global_post = $post;
+$backup_global_post = clone $post;
 
 $preload_data = array_reduce(
 	$preload_paths,
