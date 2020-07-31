@@ -170,6 +170,11 @@ class WP_Automatic_Updater {
 			$update = ! empty( $item->autoupdate );
 		}
 
+		// If the `disable_autoupdate` flag is set, override any user-choice, but allow filters.
+		if ( ! empty( $item->disable_autoupdate ) ) {
+			$update = $item->disable_autoupdate;
+		}
+
 		/**
 		 * Filters whether to automatically update core, a plugin, a theme, or a language.
 		 *
