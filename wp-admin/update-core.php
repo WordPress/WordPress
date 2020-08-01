@@ -54,11 +54,13 @@ function list_core_update( $update ) {
 	if ( ! isset( $update->response ) || 'latest' === $update->response ) {
 		$current = true;
 	}
+
 	$submit        = __( 'Update Now' );
 	$form_action   = 'update-core.php?action=do-core-upgrade';
 	$php_version   = phpversion();
 	$mysql_version = $wpdb->db_version();
 	$show_buttons  = true;
+
 	if ( 'development' === $update->response ) {
 		$message = __( 'You are using a development version of WordPress. You can update to the latest nightly build automatically:' );
 	} else {
@@ -124,12 +126,14 @@ function list_core_update( $update ) {
 				);
 			} else {
 				$message = sprintf(
-					/* translators: 1: URL to WordPress release notes, 2: WordPress version number including locale if necessary. */
-					__( 'You can update to <a href="%1$s">WordPress %2$s</a> automatically:' ),
+					/* translators: 1: Installed WordPress version number, 2: URL to WordPress release notes, 3: New WordPress version number, including locale if necessary. */
+					__( 'You can update from WordPress %1$s to <a href="%2$s">WordPress %3$s</a> automatically:' ),
+					$wp_version,
 					$version_url,
 					$version_string
 				);
 			}
+
 			if ( ! $mysql_compat || ! $php_compat ) {
 				$show_buttons = false;
 			}
@@ -139,8 +143,10 @@ function list_core_update( $update ) {
 	echo '<p>';
 	echo $message;
 	echo '</p>';
+
 	echo '<form method="post" action="' . $form_action . '" name="upgrade" class="upgrade">';
 	wp_nonce_field( 'upgrade-core' );
+
 	echo '<p>';
 	echo '<input name="version" value="' . esc_attr( $update->current ) . '" type="hidden"/>';
 	echo '<input name="locale" value="' . esc_attr( $update->locale ) . '" type="hidden"/>';
@@ -160,6 +166,7 @@ function list_core_update( $update ) {
 		}
 	}
 	echo '</p>';
+
 	if ( 'en_US' !== $update->locale && ( ! isset( $wp_local_package ) || $wp_local_package != $update->locale ) ) {
 		echo '<p class="hint">' . __( 'This localized version contains both the translation and various other localization fixes.' ) . '</p>';
 	} elseif ( 'en_US' === $update->locale && 'en_US' !== get_locale() && ( ! $update->packages->partial && $wp_version == $update->partial_version ) ) {
@@ -170,6 +177,7 @@ function list_core_update( $update ) {
 			'development' !== $update->response ? $update->current : ''
 		) . '</p>';
 	}
+
 	echo '</form>';
 
 }
