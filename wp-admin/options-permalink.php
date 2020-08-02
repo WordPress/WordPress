@@ -160,26 +160,28 @@ $using_index_permalinks = $wp_rewrite->using_index_permalinks();
 if ( $structure_updated ) {
 	$message = __( 'Permalink structure updated.' );
 
-	if ( $iis7_permalinks ) {
-		if ( $permalink_structure && ! $using_index_permalinks && ! $writable ) {
+	if ( $permalink_structure && ! $using_index_permalinks ) {
+		if ( $iis7_permalinks ) {
+			if ( ! $writable ) {
+				$message = sprintf(
+					/* translators: %s: web.config */
+					__( 'You should update your %s file now.' ),
+					'<code>web.config</code>'
+				);
+			} else {
+				$message = sprintf(
+					/* translators: %s: web.config */
+					__( 'Permalink structure updated. Remove write access on %s file now!' ),
+					'<code>web.config</code>'
+				);
+			}
+		} elseif ( ! $is_nginx && $htaccess_update_required && ! $writable ) {
 			$message = sprintf(
-				/* translators: %s: web.config */
+				/* translators: %s: .htaccess */
 				__( 'You should update your %s file now.' ),
-				'<code>web.config</code>'
-			);
-		} elseif ( $permalink_structure && ! $using_index_permalinks && $writable ) {
-			$message = sprintf(
-				/* translators: %s: web.config */
-				__( 'Permalink structure updated. Remove write access on %s file now!' ),
-				'<code>web.config</code>'
+				'<code>.htaccess</code>'
 			);
 		}
-	} elseif ( ! $is_nginx && $permalink_structure && ! $using_index_permalinks && ! $writable && $htaccess_update_required ) {
-		$message = sprintf(
-			/* translators: %s: .htaccess */
-			__( 'You should update your %s file now.' ),
-			'<code>.htaccess</code>'
-		);
 	}
 
 	if ( ! get_settings_errors() ) {
