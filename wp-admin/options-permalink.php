@@ -160,7 +160,7 @@ $using_index_permalinks = $wp_rewrite->using_index_permalinks();
 if ( $structure_updated ) {
 	$message = __( 'Permalink structure updated.' );
 
-	if ( $permalink_structure && ! $using_index_permalinks ) {
+	if ( ! is_multisite() && $permalink_structure && ! $using_index_permalinks ) {
 		if ( $iis7_permalinks ) {
 			if ( ! $writable ) {
 				$message = sprintf(
