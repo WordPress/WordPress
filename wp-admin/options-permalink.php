@@ -72,7 +72,7 @@ if ( ! got_url_rewrite() ) {
 	$prefix = '/index.php';
 }
 
-/*
+/**
  * In a subdirectory configuration of multisite, the `/blog` prefix is used by
  * default on the main site to avoid collisions with other sites created on that
  * network. If the `permalink_structure` option has been changed to remove this
@@ -82,36 +82,17 @@ if ( is_multisite() && ! is_subdomain_install() && is_main_site() && 0 === strpo
 	$blog_prefix = '/blog';
 }
 
-$category_base   = get_option( 'category_base' );
-$tag_base        = get_option( 'tag_base' );
-$update_required = false;
+$category_base = get_option( 'category_base' );
+$tag_base      = get_option( 'tag_base' );
 
-if ( $iis7_permalinks ) {
-	if ( ( ! file_exists( $home_path . 'web.config' ) && win_is_writable( $home_path ) ) || win_is_writable( $home_path . 'web.config' ) ) {
-		$writable = true;
-	} else {
-		$writable = false;
-	}
-} elseif ( $is_nginx ) {
-	$writable = false;
-} else {
-	if ( ( ! file_exists( $home_path . '.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path . '.htaccess' ) ) {
-		$writable = true;
-	} else {
-		$writable        = false;
-		$existing_rules  = array_filter( extract_from_markers( $home_path . '.htaccess', 'WordPress' ) );
-		$new_rules       = array_filter( explode( "\n", $wp_rewrite->mod_rewrite_rules() ) );
-		$update_required = ( $new_rules !== $existing_rules );
-	}
-}
-
-$using_index_permalinks = $wp_rewrite->using_index_permalinks();
+$structure_updated        = false;
+$htaccess_update_required = false;
 
 if ( isset( $_POST['permalink_structure'] ) || isset( $_POST['category_base'] ) ) {
 	check_admin_referer( 'update-permalink' );
 
 	if ( isset( $_POST['permalink_structure'] ) ) {
-		if ( isset( $_POST['selection'] ) && 'custom' != $_POST['selection'] ) {
+		if ( isset( $_POST['selection'] ) && 'custom' !== $_POST['selection'] ) {
 			$permalink_structure = $_POST['selection'];
 		} else {
 			$permalink_structure = $_POST['permalink_structure'];
@@ -129,24 +110,54 @@ if ( isset( $_POST['permalink_structure'] ) || isset( $_POST['category_base'] ) 
 		$permalink_structure = sanitize_option( 'permalink_structure', $permalink_structure );
 
 		$wp_rewrite->set_permalink_structure( $permalink_structure );
+
+		$structure_updated = true;
 	}
 
 	if ( isset( $_POST['category_base'] ) ) {
 		$category_base = $_POST['category_base'];
+
 		if ( ! empty( $category_base ) ) {
 			$category_base = $blog_prefix . preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $category_base ) );
 		}
+
 		$wp_rewrite->set_category_base( $category_base );
 	}
 
 	if ( isset( $_POST['tag_base'] ) ) {
 		$tag_base = $_POST['tag_base'];
+
 		if ( ! empty( $tag_base ) ) {
 			$tag_base = $blog_prefix . preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $tag_base ) );
 		}
+
 		$wp_rewrite->set_tag_base( $tag_base );
 	}
+}
 
+if ( $iis7_permalinks ) {
+	if ( ( ! file_exists( $home_path . 'web.config' ) && win_is_writable( $home_path ) ) || win_is_writable( $home_path . 'web.config' ) ) {
+		$writable = true;
+	} else {
+		$writable = false;
+	}
+} elseif ( $is_nginx ) {
+	$writable = false;
+} else {
+	if ( ( ! file_exists( $home_path . '.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path . '.htaccess' ) ) {
+		$writable = true;
+	} else {
+		$writable       = false;
+		$existing_rules = array_filter( extract_from_markers( $home_path . '.htaccess', 'WordPress' ) );
+		$new_rules      = array_filter( explode( "\n", $wp_rewrite->mod_rewrite_rules() ) );
+
+		$htaccess_update_required = ( $new_rules !== $existing_rules );
+	}
+}
+
+$using_index_permalinks = $wp_rewrite->using_index_permalinks();
+
+if ( $structure_updated ) {
 	$message = __( 'Permalink structure updated.' );
 
 	if ( $iis7_permalinks ) {
@@ -163,7 +174,7 @@ if ( isset( $_POST['permalink_structure'] ) || isset( $_POST['category_base'] ) 
 				'<code>web.config</code>'
 			);
 		}
-	} elseif ( ! $is_nginx && $permalink_structure && ! $using_index_permalinks && ! $writable && $update_required ) {
+	} elseif ( ! $is_nginx && $permalink_structure && ! $using_index_permalinks && ! $writable && $htaccess_update_required ) {
 		$message = sprintf(
 			/* translators: %s: .htaccess */
 			__( 'You should update your %s file now.' ),
@@ -400,7 +411,7 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 	<p><?php _e( '<a href="https://wordpress.org/support/article/nginx/">Documentation on Nginx configuration</a>.' ); ?></p>
 	<?php
 else :
-	if ( $permalink_structure && ! $using_index_permalinks && ! $writable && $update_required ) :
+	if ( $permalink_structure && ! $using_index_permalinks && ! $writable && $htaccess_update_required ) :
 		?>
 <p>
 		<?php
