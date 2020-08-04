@@ -332,7 +332,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
 			 */
 			do_action( 'restrict_manage_sites', $which );
+
 			$output = ob_get_clean();
+
 			if ( ! empty( $output ) ) {
 				echo $output;
 				submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'site-query-submit' ) );

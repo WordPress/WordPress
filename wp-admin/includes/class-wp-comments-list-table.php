@@ -397,6 +397,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			ob_start();
 
 			$this->comment_status_dropdown( $comment_type );
+
 			/**
 			 * Fires just before the Filter submit button for comment types.
 			 *
@@ -406,9 +407,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 			$output = ob_get_clean();
 
-			if ( ! empty( $output ) && $this->has_items() ) {
+			if ( ! empty( $output ) && $has_items ) {
 				echo $output;
-				submit_button( esc_html__( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
+				submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 			}
 		}
 
