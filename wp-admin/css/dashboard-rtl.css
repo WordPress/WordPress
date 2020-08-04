@@ -55,6 +55,11 @@
 	margin: 0 8px 20px;
 }
 
+#dashboard-widgets .postbox-container .empty-container {
+	outline: 3px dashed #b4b9be;
+	height: 250px;
+}
+
 /* Only highlight drop zones when dragging and only in the 2 columns layout. */
 .is-dragging-metaboxes #dashboard-widgets .meta-box-sortables {
 	outline: 3px dashed #606a73;

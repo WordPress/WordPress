@@ -29,6 +29,46 @@
 	overflow: visible;
 }
 
+/* inner 2 column liquid layout */
+
+.inner-sidebar {
+	float: right;
+	clear: right;
+	display: none;
+	width: 281px;
+	position: relative;
+}
+
+.columns-2 .inner-sidebar {
+	margin-right: auto;
+	width: 286px;
+	display: block;
+}
+
+.inner-sidebar #side-sortables,
+.columns-2 .inner-sidebar #side-sortables {
+	min-height: 300px;
+	width: 280px;
+	padding: 0;
+}
+
+.has-right-sidebar .inner-sidebar {
+	display: block;
+}
+
+.has-right-sidebar #post-body {
+	float: left;
+	clear: left;
+	width: 100%;
+	margin-right: -2000px;
+}
+
+.has-right-sidebar #post-body-content {
+	margin-right: 300px;
+	float: none;
+	width: auto;
+}
+
 /* 2 columns main area */
 
 #col-left {
@@ -1945,9 +1985,9 @@ html.wp-toolbar {
 	padding-top: 10px;
 }
 
-.metabox-holder .postbox-container .empty-container {
-	outline: 3px dashed #b4b9be;
-	height: 250px;
+.metabox-holder .postbox-container .meta-box-sortables {
+	/* The jQuery UI Sortables need some initial height to work properly. */
+	min-height: 1px;
 	position: relative;
 }
 

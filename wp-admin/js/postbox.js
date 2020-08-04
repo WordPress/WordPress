@@ -394,6 +394,8 @@
 				opacity: 0.65,
 				start: function() {
 					$( 'body' ).addClass( 'is-dragging-metaboxes' );
+					// Refresh the cached positions of all the sortable items so that the min-height set while dragging works.
+					$( '.meta-box-sortables' ).sortable( 'refreshPositions' );
 				},
 				stop: function() {
 					var $el = $( this );
@@ -520,13 +522,14 @@
 		 * @return {void}
 		 */
 		_mark_area : function() {
-			var visibleSortables = $( '#dashboard-widgets .meta-box-sortables:visible, #post-body .meta-box-sortables:visible' ),
+			var visible = $( 'div.postbox:visible' ).length,
+				visibleSortables = $( '#dashboard-widgets .meta-box-sortables:visible, #post-body .meta-box-sortables:visible' ),
 				areAllVisibleSortablesEmpty = true;
 
 			visibleSortables.each( function() {
 				var t = $(this);
 
-				if ( t.children('.postbox:visible').length ) {
+				if ( visible == 1 || t.children( '.postbox:visible' ).length ) {
 					t.removeClass('empty-container');
 					areAllVisibleSortablesEmpty = false;
 				}
@@ -542,6 +545,9 @@
 		 * Updates the text for the empty sortable areas on the Dashboard.
 		 *
 		 * @since 5.5.0
+		 *
+		 * @param {Object}  visibleSortables            The jQuery object representing the visible sortable areas.
+		 * @param {boolean} areAllVisibleSortablesEmpty Whether all the visible sortable areas are "empty".
 		 *
 		 * @return {void}
 		 */
