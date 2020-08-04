@@ -118,6 +118,10 @@ function wp_initial_constants() {
 	if ( ! defined( 'SHORTINIT' ) ) {
 		define( 'SHORTINIT', false );
 	}
+	
+	if ( ! defined( 'MEDIUMINIT' ) ) {
+		define( 'MEDIUMINIT', false );
+	}
 
 	// Constants for features added to WP that should short-circuit their plugin implementations.
 	define( 'WP_FEATURE_BETTER_PASSWORDS', true );
