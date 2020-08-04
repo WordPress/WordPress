@@ -2373,7 +2373,7 @@ var refx_default = /*#__PURE__*/__webpack_require__.n(refx);
 var slicedToArray = __webpack_require__(14);
 
 // EXTERNAL MODULE: external {"this":["wp","a11y"]}
-var external_this_wp_a11y_ = __webpack_require__(57);
+var external_this_wp_a11y_ = __webpack_require__(54);
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
 var external_this_wp_apiFetch_ = __webpack_require__(45);
@@ -8810,7 +8810,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 57:
+/***/ 54:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["a11y"]; }());

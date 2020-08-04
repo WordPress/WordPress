@@ -1203,7 +1203,7 @@ function useProps(name, options, htmlProps) {
 
 
 // EXTERNAL MODULE: ./node_modules/reakit-system/es/_rollupPluginBabelHelpers-0c84a174.js
-var _rollupPluginBabelHelpers_0c84a174 = __webpack_require__(54);
+var _rollupPluginBabelHelpers_0c84a174 = __webpack_require__(55);
 
 // CONCATENATED MODULE: ./node_modules/reakit-system/es/useOptions.js
 
@@ -1267,7 +1267,7 @@ function useOptions(name, options, htmlProps) {
 
 
 // EXTERNAL MODULE: ./node_modules/reakit-utils/es/shallowEqual.js
-var shallowEqual = __webpack_require__(55);
+var shallowEqual = __webpack_require__(56);
 
 // CONCATENATED MODULE: ./node_modules/reakit-utils/es/toArray.js
 /**
@@ -1436,7 +1436,7 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 var external_this_React_ = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/reakit-system/es/_rollupPluginBabelHelpers-0c84a174.js
-var _rollupPluginBabelHelpers_0c84a174 = __webpack_require__(54);
+var _rollupPluginBabelHelpers_0c84a174 = __webpack_require__(55);
 
 // EXTERNAL MODULE: ./node_modules/reakit-system/es/useCreateElement.js
 var useCreateElement = __webpack_require__(78);
@@ -1473,7 +1473,7 @@ function splitProps(props, keys) {
 
 
 // EXTERNAL MODULE: ./node_modules/reakit-utils/es/shallowEqual.js
-var shallowEqual = __webpack_require__(55);
+var shallowEqual = __webpack_require__(56);
 
 // CONCATENATED MODULE: ./node_modules/reakit-system/es/createComponent.js
 
@@ -2484,6 +2484,12 @@ function isSelfTarget(event) {
 
 /***/ }),
 /* 54 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["a11y"]; }());
+
+/***/ }),
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2600,7 +2606,7 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) {
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2642,7 +2648,7 @@ function shallowEqual(objA, objB) {
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2660,12 +2666,6 @@ function getActiveElement(element) {
 
 
 
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["a11y"]; }());
 
 /***/ }),
 /* 58 */,
@@ -4226,7 +4226,7 @@ else {}
 /* harmony import */ var _rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
 /* harmony import */ var reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
 /* harmony import */ var reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48);
-/* harmony import */ var reakit_utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(55);
+/* harmony import */ var reakit_utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(56);
 
 
 
@@ -4304,7 +4304,7 @@ function unstable_IdProvider(_ref) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return hasFocusWithin; });
-/* harmony import */ var _getActiveElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(56);
+/* harmony import */ var _getActiveElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(57);
 
 
 
@@ -4417,7 +4417,7 @@ function closest(element, selectors) {
 
 
 // EXTERNAL MODULE: ./node_modules/reakit-utils/es/getActiveElement.js
-var getActiveElement = __webpack_require__(56);
+var getActiveElement = __webpack_require__(57);
 
 // CONCATENATED MODULE: ./node_modules/reakit-utils/es/tabbable.js
 
@@ -4715,7 +4715,7 @@ function isPortalEvent(event) {
 /* harmony import */ var reakit_utils_useIsomorphicEffect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(59);
 /* harmony import */ var reakit_utils_hasFocusWithin__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(69);
 /* harmony import */ var reakit_utils_isPortalEvent__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(72);
-/* harmony import */ var reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(56);
+/* harmony import */ var reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(57);
 /* harmony import */ var reakit_utils_tabbable__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(71);
 
 
@@ -4936,7 +4936,7 @@ var SystemContext = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["crea
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _SystemContext_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(74);
-/* harmony import */ var _rollupPluginBabelHelpers_0c84a174_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(54);
+/* harmony import */ var _rollupPluginBabelHelpers_0c84a174_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(55);
 
 
 
@@ -7938,7 +7938,7 @@ exports.useSprings = useSprings;
 /* harmony import */ var reakit_warning__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(80);
 /* harmony import */ var reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(46);
 /* harmony import */ var reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(53);
-/* harmony import */ var reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(56);
+/* harmony import */ var reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(57);
 /* harmony import */ var _Tabbable_Tabbable_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(73);
 /* harmony import */ var reakit_system_useCreateElement__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(78);
 /* harmony import */ var reakit_utils_createOnKeyDown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(82);
@@ -11832,7 +11832,7 @@ __webpack_require__.d(__webpack_exports__, "Typewriter", function() { return /* 
 __webpack_require__.d(__webpack_exports__, "Warning", function() { return /* reexport */ warning; });
 __webpack_require__.d(__webpack_exports__, "WritingFlow", function() { return /* reexport */ WritingFlow; });
 __webpack_require__.d(__webpack_exports__, "BlockEditorProvider", function() { return /* reexport */ provider; });
-__webpack_require__.d(__webpack_exports__, "useSimulatedMediaQuery", function() { return /* reexport */ useSimulatedMediaQuery; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseSimulatedMediaQuery", function() { return /* reexport */ useSimulatedMediaQuery; });
 __webpack_require__.d(__webpack_exports__, "__experimentalUseEditorFeature", function() { return /* reexport */ useEditorFeature; });
 __webpack_require__.d(__webpack_exports__, "transformStyles", function() { return /* reexport */ transform_styles; });
 __webpack_require__.d(__webpack_exports__, "storeConfig", function() { return /* reexport */ storeConfig; });
@@ -13390,7 +13390,7 @@ var panel_color_gradient_settings_PanelColorGradientSettings = function PanelCol
 /* harmony default export */ var panel_color_gradient_settings = (panel_color_gradient_settings_PanelColorGradientSettings);
 
 // EXTERNAL MODULE: external {"this":["wp","a11y"]}
-var external_this_wp_a11y_ = __webpack_require__(57);
+var external_this_wp_a11y_ = __webpack_require__(54);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/contrast-checker/index.js
 
@@ -25916,11 +25916,18 @@ function QuickInserter(_ref2) {
   var setInsererIsOpened = Object(external_this_wp_data_["useSelect"])(function (select) {
     return select('core/block-editor').getSettings().__experimentalSetIsInserterOpened;
   }, []);
+  var previousBlockClientId = Object(external_this_wp_data_["useSelect"])(function (select) {
+    return select('core/block-editor').getPreviousBlockClientId(clientId);
+  }, [clientId]);
   Object(external_this_wp_element_["useEffect"])(function () {
     if (setInsererIsOpened) {
       setInsererIsOpened(false);
     }
-  }, [setInsererIsOpened]); // Announce search results on change
+  }, [setInsererIsOpened]);
+
+  var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/block-editor'),
+      selectBlock = _useDispatch.selectBlock; // Announce search results on change
+
 
   Object(external_this_wp_element_["useEffect"])(function () {
     if (!filterValue) {
@@ -25932,13 +25939,22 @@ function QuickInserter(_ref2) {
     /* translators: %d: number of results. */
     Object(external_this_wp_i18n_["_n"])('%d result found.', '%d results found.', count), count);
     debouncedSpeak(resultsFoundMessage);
-  }, [filterValue, debouncedSpeak]); // Disable reason (no-autofocus): The inserter menu is a modal display, not one which
+  }, [filterValue, debouncedSpeak]); // When clicking Browse All select the appropriate block so as
+  // the insertion point can work as expected
+
+  var onBrowseAll = function onBrowseAll() {
+    // We have to select the previous block because the menu inserter
+    // inserts the new block after the selected one.
+    selectBlock(previousBlockClientId);
+    setInsererIsOpened(true);
+  }; // Disable reason (no-autofocus): The inserter menu is a modal display, not one which
   // is always visible, and one which already incurs this behavior of autoFocus via
   // Popover's focusOnMount.
   // Disable reason (no-static-element-interactions): Navigational key-presses within
   // the menu are prevented from triggering WritingFlow and ObserveTyping interactions.
 
   /* eslint-disable jsx-a11y/no-autofocus, jsx-a11y/no-static-element-interactions */
+
 
   return Object(external_this_wp_element_["createElement"])("div", {
     className: "block-editor-inserter__quick-inserter",
@@ -25957,9 +25973,7 @@ function QuickInserter(_ref2) {
     onHover: onToggleInsertionPoint
   }), setInsererIsOpened && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
     className: "block-editor-inserter__quick-inserter-expand",
-    onClick: function onClick() {
-      return setInsererIsOpened(true);
-    },
+    onClick: onBrowseAll,
     "aria-label": Object(external_this_wp_i18n_["__"])('Browse all. This will open the main inserter panel in the editor toolbar.')
   }, Object(external_this_wp_i18n_["__"])('Browse all')));
   /* eslint-enable jsx-a11y/no-autofocus, jsx-a11y/no-static-element-interactions */
@@ -27205,11 +27219,21 @@ function InsertionPoint(_ref3) {
 
 
 
+
 /**
  * Internal dependencies
  */
 
 
+/**
+ * Returns true if the user is using windows.
+ *
+ * @return {boolean} Whether the user is using Windows.
+ */
+
+function isWindows() {
+  return window.navigator.platform.indexOf('Win') > -1;
+}
 /**
  * Block selection button component, displaying the label of the block. If the block
  * descends from a root block, a button is displayed enabling the user to select
@@ -27220,6 +27244,7 @@ function InsertionPoint(_ref3) {
  *
  * @return {WPComponent} The component to be rendered.
  */
+
 
 function BlockSelectionButton(_ref) {
   var clientId = _ref.clientId,
@@ -27263,7 +27288,13 @@ function BlockSelectionButton(_ref) {
   var ref = Object(external_this_wp_element_["useRef"])(); // Focus the breadcrumb in navigation mode.
 
   Object(external_this_wp_element_["useEffect"])(function () {
-    ref.current.focus();
+    ref.current.focus(); // NVDA on windows suffers from a bug where focus changes are not announced properly
+    // See WordPress/gutenberg#24121 and nvaccess/nvda#5825 for more details
+    // To solve it we announce the focus change manually.
+
+    if (isWindows()) {
+      Object(external_this_wp_a11y_["speak"])(label);
+    }
   }, []);
 
   function onKeyDown(event) {

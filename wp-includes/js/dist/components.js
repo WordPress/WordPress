@@ -1054,7 +1054,7 @@ function useProps(name, options, htmlProps) {
 
 
 // EXTERNAL MODULE: ./node_modules/reakit-system/es/_rollupPluginBabelHelpers-0c84a174.js
-var _rollupPluginBabelHelpers_0c84a174 = __webpack_require__(54);
+var _rollupPluginBabelHelpers_0c84a174 = __webpack_require__(55);
 
 // CONCATENATED MODULE: ./node_modules/reakit-system/es/useOptions.js
 
@@ -1118,7 +1118,7 @@ function useOptions(name, options, htmlProps) {
 
 
 // EXTERNAL MODULE: ./node_modules/reakit-utils/es/shallowEqual.js
-var shallowEqual = __webpack_require__(55);
+var shallowEqual = __webpack_require__(56);
 
 // CONCATENATED MODULE: ./node_modules/reakit-utils/es/toArray.js
 /**
@@ -1287,7 +1287,7 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 var external_this_React_ = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/reakit-system/es/_rollupPluginBabelHelpers-0c84a174.js
-var _rollupPluginBabelHelpers_0c84a174 = __webpack_require__(54);
+var _rollupPluginBabelHelpers_0c84a174 = __webpack_require__(55);
 
 // EXTERNAL MODULE: ./node_modules/reakit-system/es/useCreateElement.js
 var useCreateElement = __webpack_require__(78);
@@ -1324,7 +1324,7 @@ function splitProps(props, keys) {
 
 
 // EXTERNAL MODULE: ./node_modules/reakit-utils/es/shallowEqual.js
-var shallowEqual = __webpack_require__(55);
+var shallowEqual = __webpack_require__(56);
 
 // CONCATENATED MODULE: ./node_modules/reakit-system/es/createComponent.js
 
@@ -2330,6 +2330,12 @@ function isSelfTarget(event) {
 
 /***/ }),
 /* 54 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["a11y"]; }());
+
+/***/ }),
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2446,7 +2452,7 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) {
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2488,7 +2494,7 @@ function shallowEqual(objA, objB) {
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2506,12 +2512,6 @@ function getActiveElement(element) {
 
 
 
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["a11y"]; }());
 
 /***/ }),
 /* 58 */
@@ -4130,7 +4130,7 @@ else {}
 /* harmony import */ var _rollupPluginBabelHelpers_1f0bf8c2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
 /* harmony import */ var reakit_system_createComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
 /* harmony import */ var reakit_system_createHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48);
-/* harmony import */ var reakit_utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(55);
+/* harmony import */ var reakit_utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(56);
 
 
 
@@ -4208,7 +4208,7 @@ function unstable_IdProvider(_ref) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return hasFocusWithin; });
-/* harmony import */ var _getActiveElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(56);
+/* harmony import */ var _getActiveElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(57);
 
 
 
@@ -4321,7 +4321,7 @@ function closest(element, selectors) {
 
 
 // EXTERNAL MODULE: ./node_modules/reakit-utils/es/getActiveElement.js
-var getActiveElement = __webpack_require__(56);
+var getActiveElement = __webpack_require__(57);
 
 // CONCATENATED MODULE: ./node_modules/reakit-utils/es/tabbable.js
 
@@ -4619,7 +4619,7 @@ function isPortalEvent(event) {
 /* harmony import */ var reakit_utils_useIsomorphicEffect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(59);
 /* harmony import */ var reakit_utils_hasFocusWithin__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(69);
 /* harmony import */ var reakit_utils_isPortalEvent__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(72);
-/* harmony import */ var reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(56);
+/* harmony import */ var reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(57);
 /* harmony import */ var reakit_utils_tabbable__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(71);
 
 
@@ -4879,7 +4879,7 @@ var MODIFIER_KEY_NAMES = exports.MODIFIER_KEY_NAMES = new Set(['Shift', 'Control
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _SystemContext_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(74);
-/* harmony import */ var _rollupPluginBabelHelpers_0c84a174_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(54);
+/* harmony import */ var _rollupPluginBabelHelpers_0c84a174_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(55);
 
 
 
@@ -10217,7 +10217,7 @@ module.exports = Function.prototype.bind || implementation;
 /* harmony import */ var reakit_warning__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(80);
 /* harmony import */ var reakit_utils_useLiveRef__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(46);
 /* harmony import */ var reakit_utils_isSelfTarget__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(53);
-/* harmony import */ var reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(56);
+/* harmony import */ var reakit_utils_getActiveElement__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(57);
 /* harmony import */ var _Tabbable_Tabbable_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(73);
 /* harmony import */ var reakit_system_useCreateElement__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(78);
 /* harmony import */ var reakit_utils_createOnKeyDown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(82);
@@ -14208,7 +14208,7 @@ function createScrollLockComponent() {
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(57);
+/* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(54);
 /* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_a11y__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__);
@@ -21587,7 +21587,7 @@ var build_module_button = __webpack_require__(34);
 var popover = __webpack_require__(112);
 
 // EXTERNAL MODULE: external {"this":["wp","a11y"]}
-var external_this_wp_a11y_ = __webpack_require__(57);
+var external_this_wp_a11y_ = __webpack_require__(54);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/higher-order/with-spoken-messages/index.js
 

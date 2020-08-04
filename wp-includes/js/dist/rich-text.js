@@ -4302,7 +4302,13 @@ function component_RichText(_ref) {
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
       _useState2$ = _useState2[0],
       activeFormats = _useState2$ === void 0 ? [] : _useState2$,
-      setActiveFormats = _useState2[1];
+      setActiveFormats = _useState2[1]; // For backward compatibility, fall back to tagName if it's a string.
+  // tagName can now be a component for light blocks.
+
+
+  if (!multilineRootTag && typeof TagName === 'string') {
+    multilineRootTag = TagName;
+  }
 
   function getDoc() {
     return ref.current.ownerDocument;
