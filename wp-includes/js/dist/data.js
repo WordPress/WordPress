@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["data"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 443);
+/******/ 	return __webpack_require__(__webpack_require__.s = 442);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -505,7 +505,20 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 162:
+/***/ 151:
+/***/ (function(module, exports) {
+
+module.exports = isPromise;
+module.exports.default = isPromise;
+
+function isPromise(obj) {
+  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+}
+
+
+/***/ }),
+
+/***/ 163:
 /***/ (function(module, exports) {
 
 function combineReducers( reducers ) {
@@ -601,7 +614,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 195:
+/***/ 196:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -624,7 +637,7 @@ if (typeof self !== 'undefined') {
 var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(root);
 /* harmony default export */ __webpack_exports__["a"] = (result);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(127), __webpack_require__(413)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(127), __webpack_require__(412)(module)))
 
 /***/ }),
 
@@ -659,23 +672,10 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 273:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["reduxRoutine"]; }());
-
-/***/ }),
-
 /***/ 274:
 /***/ (function(module, exports) {
 
-module.exports = isPromise;
-module.exports.default = isPromise;
-
-function isPromise(obj) {
-  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-}
-
+(function() { module.exports = this["wp"]["reduxRoutine"]; }());
 
 /***/ }),
 
@@ -763,7 +763,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 413:
+/***/ 412:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -794,7 +794,7 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 443:
+/***/ 442:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -850,7 +850,7 @@ __webpack_require__.d(plugins_namespaceObject, "controls", function() { return c
 __webpack_require__.d(plugins_namespaceObject, "persistence", function() { return plugins_persistence; });
 
 // EXTERNAL MODULE: ./node_modules/turbo-combine-reducers/index.js
-var turbo_combine_reducers = __webpack_require__(162);
+var turbo_combine_reducers = __webpack_require__(163);
 var turbo_combine_reducers_default = /*#__PURE__*/__webpack_require__.n(turbo_combine_reducers);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
@@ -874,7 +874,7 @@ var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.
 var asyncToGenerator = __webpack_require__(50);
 
 // EXTERNAL MODULE: ./node_modules/symbol-observable/es/index.js
-var es = __webpack_require__(195);
+var es = __webpack_require__(196);
 
 // CONCATENATED MODULE: ./node_modules/redux/es/redux.js
 
@@ -1528,11 +1528,11 @@ if (false) {}
 
 
 // EXTERNAL MODULE: external {"this":["wp","reduxRoutine"]}
-var external_this_wp_reduxRoutine_ = __webpack_require__(273);
+var external_this_wp_reduxRoutine_ = __webpack_require__(274);
 var external_this_wp_reduxRoutine_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_reduxRoutine_);
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/data/node_modules/is-promise/index.js
-var is_promise = __webpack_require__(274);
+// EXTERNAL MODULE: ./node_modules/is-promise/index.js
+var is_promise = __webpack_require__(151);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/promise-middleware.js

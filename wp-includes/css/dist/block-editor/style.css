@@ -505,10 +505,6 @@
     .block-editor-block-contextual-toolbar .block-editor-block-mover .components-button.has-icon.block-editor-block-mover-button.block-editor-block-mover-button {
       min-width: 36px;
       width: 36px; }
-      [draggable="true"] .block-editor-block-contextual-toolbar .block-editor-block-mover .components-button.has-icon.block-editor-block-mover-button.block-editor-block-mover-button {
-        cursor: grab; }
-        [draggable="true"] .block-editor-block-contextual-toolbar .block-editor-block-mover .components-button.has-icon.block-editor-block-mover-button.block-editor-block-mover-button:active {
-          cursor: grabbing; }
     .block-editor-block-contextual-toolbar .block-editor-block-mover.is-horizontal .components-button.has-icon.block-editor-block-mover-button.block-editor-block-mover-button {
       min-width: 24px;
       width: 24px; }
@@ -2342,8 +2338,6 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 
 .block-editor-block-toolbar__block-switcher-wrapper {
   display: flex; }
-  .block-editor-block-toolbar__block-switcher-wrapper:not([draggable="false"]) * {
-    cursor: grab; }
   .block-editor-block-toolbar__block-switcher-wrapper .block-editor-block-switcher {
     display: block; }
 
