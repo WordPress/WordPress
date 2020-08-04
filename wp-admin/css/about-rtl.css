@@ -464,6 +464,7 @@
 	height: 20vh;
 	max-height: 16em;
 	padding: 32px;
+	margin-bottom: 4em;
 	text-align: center;
 }
 
@@ -494,14 +495,6 @@
 
 .about__header-text p {
 	margin: 0;
-}
-
-.about__header-text:last-of-type {
-	display: inline-block;
-	float: left;
-	margin-right: 0;
-	margin-left: -16px;
-	margin-bottom: 4em;
 }
 
 .about__header-navigation {
