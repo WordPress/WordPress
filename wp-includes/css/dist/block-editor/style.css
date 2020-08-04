@@ -504,10 +504,12 @@
       width: 48px; }
     .block-editor-block-contextual-toolbar .block-editor-block-mover .components-button.has-icon.block-editor-block-mover-button.block-editor-block-mover-button {
       min-width: 36px;
-      width: 36px; }
+      width: 36px;
+      overflow: hidden; }
     .block-editor-block-contextual-toolbar .block-editor-block-mover.is-horizontal .components-button.has-icon.block-editor-block-mover-button.block-editor-block-mover-button {
       min-width: 24px;
-      width: 24px; }
+      width: 24px;
+      overflow: hidden; }
   .block-editor-block-contextual-toolbar .block-editor-block-mover:not(.is-horizontal) .block-editor-block-mover-button > svg {
     margin-left: 2px; }
   .block-editor-block-contextual-toolbar .block-editor-block-mover:not(.is-horizontal) .block-editor-block-mover-button.is-up-button svg {
