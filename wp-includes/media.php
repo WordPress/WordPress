@@ -2685,28 +2685,24 @@ function wp_playlist_shortcode( $attr ) {
 	?>
 <div class="wp-playlist wp-<?php echo $safe_type; ?>-playlist wp-playlist-<?php echo $safe_style; ?>">
 	<?php if ( 'audio' === $atts['type'] ) : ?>
-	<div class="wp-playlist-current-item"></div>
+		<div class="wp-playlist-current-item"></div>
 	<?php endif ?>
-	<<?php echo $safe_type; ?> controls="controls" preload="none" width="
-				<?php
-				echo (int) $theme_width;
-				?>
-	"
-	<?php
-	if ( 'video' === $safe_type ) :
-		echo ' height="', (int) $theme_height, '"';
-	endif;
-	?>
+	<<?php echo $safe_type; ?> controls="controls" preload="none" width="<?php echo (int) $theme_width; ?>"
+		<?php
+		if ( 'video' === $safe_type ) {
+			echo ' height="', (int) $theme_height, '"';
+		}
+		?>
 	></<?php echo $safe_type; ?>>
 	<div class="wp-playlist-next"></div>
 	<div class="wp-playlist-prev"></div>
 	<noscript>
 	<ol>
-	<?php
-	foreach ( $attachments as $att_id => $attachment ) {
-		printf( '<li>%s</li>', wp_get_attachment_link( $att_id ) );
-	}
-	?>
+		<?php
+		foreach ( $attachments as $att_id => $attachment ) {
+			printf( '<li>%s</li>', wp_get_attachment_link( $att_id ) );
+		}
+		?>
 	</ol>
 	</noscript>
 	<script type="application/json" class="wp-playlist-script"><?php echo wp_json_encode( $data ); ?></script>
@@ -3207,13 +3203,16 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	}
 
 	$html = '';
+
 	if ( 'mediaelement' === $library && 1 === $instance ) {
 		$html .= "<!--[if lt IE 9]><script>document.createElement('video');</script><![endif]-->\n";
 	}
+
 	$html .= sprintf( '<video %s controls="controls">', join( ' ', $attr_strings ) );
 
 	$fileurl = '';
 	$source  = '<source type="%s" src="%s" />';
+
 	foreach ( $default_types as $fallback ) {
 		if ( ! empty( $atts[ $fallback ] ) ) {
 			if ( empty( $fileurl ) ) {
