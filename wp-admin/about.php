@@ -30,6 +30,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				</p>
 			</div>
 
+			<div class="about__header-text">
+				Musician Name
+			</div>
+
 			<nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
 				<a href="about.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e( 'What&#8217;s New' ); ?></a>
 				<a href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
@@ -61,7 +65,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<hr />
 
-		<div class="about__section has-2-columns is-wider-left">
+		<div class="about__section has-1-column">
 			<div class="column">
 				<h2><?php _e( 'Speed' ); ?></h2>
 				<p><strong><?php _e( 'Posts and pages feel faster, thanks to lazy-loaded images.' ); ?></strong></p>
@@ -69,15 +73,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p><?php _e( 'In WordPress 5.5, images wait to load until they’re just about to scroll into view. The technical term is ‘lazy loading.’' ); ?></p>
 				<p><?php _e( 'On mobile, lazy loading can also keep browsers from loading files meant for other devices. That can save your readers money on data — and help preserve battery life.' ); ?></p>
 			</div>
-			<div class="column is-edge-to-edge" style="background-color:skyblue;">
-			</div>
 		</div>
 
-		<hr class="is-small" />
-
-		<div class="about__section has-2-columns is-wider-right">
-			<div class="column is-edge-to-edge" style="background-color:skyblue;">
-			</div>
+		<div class="about__section has-1-column">
 			<div class="column">
 				<h2><?php _ex( 'Search', 'sitemap' ); ?></h2>
 				<p><strong><?php _e( 'Say hello to your new sitemap.' ); ?></strong></p>
@@ -87,9 +85,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 		</div>
 
-		<hr class="is-small" />
+		<hr />
 
-		<div class="about__section has-2-columns is-wider-left">
+		<div class="about__section has-2-columns has-accent-background-color is-wider-right">
 			<div class="column">
 				<h2><?php _e( 'Security' ); ?></h2>
 				<p><strong><?php _e( 'Auto-updates for Plugins and Themes' ); ?></strong></p>
@@ -98,29 +96,46 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p><strong><?php _e( 'Update by uploading ZIP files' ); ?></strong></p>
 				<p><?php _e( 'If updating plugins and themes manually is your thing, now that’s easier too — just upload a ZIP file.' ); ?></p>
 			</div>
-			<div class="column is-edge-to-edge" style="background-color:skyblue;">
+			<div class="column about__image is-vertically-aligned-center">
+				<figure aria-labelledby="about-security" class="about__image">
+					<video controls poster="https://make.wordpress.org/core/files/2020/08/security-poster.png">
+						<source src="https://make.wordpress.org/core/files/2020/08/wp55-about-page-security-section.mp4" type="video/mp4" />
+					</video>
+					<figcaption id="about-security" class="screen-reader-text"><?php _e( 'Video: Installed plugin screen, which shows a new column, Automatic Updates. In this column are buttons that say "Enable auto-updates." When clicked, the auto-updates feature is turned on for that plugin, and the button switches to say "Disable auto-updates". Two plugins have updates, the updates are automatically queued up in 4 hours.' ); ?></figcaption>
+				</figure>
 			</div>
 		</div>
 
 		<hr />
 
-		<div class="about__section">
-			<div class="column is-edge-to-edge" style="height:200px;background-color:skyblue;">
-			</div>
+		<div class="about__section has-subtle-background-color">
 			<div class="column">
 				<h2><?php _e( 'Highlights from the block editor' ); ?></h2>
 				<p><?php _e( 'Once again, the latest WordPress release packs a long list of exciting new features for the block editor. For example:' ); ?></p>
 			</div>
 		</div>
-		<div class="about__section has-2-columns">
+		<div class="about__section has-2-columns  has-subtle-background-color">
 			<div class="column">
-				<h3><?php _e( 'Inline image editing' ); ?></h3>
-				<p><?php _e( 'Crop, rotate, and zoom your photos right from the image block. If you spend a lot of time on images, this could save you hours!' ); ?></p>
+				<figure aria-labelledby="about-block-pattern" class="about__image">
+					<video controls poster="https://make.wordpress.org/core/files/2020/07/block-pattern-poster.png">
+						<source src="https://make.wordpress.org/core/files/2020/07/block-patterns.mp4" type="video/mp4" />
+					</video>
+					<figcaption id="about-block-pattern" class="screen-reader-text"><?php _e( 'Video: In the editor, the block inserter shows two tabs, Blocks and Patterns. The Patterns tab is selected. There are different block layouts in this tab. A section called "Button" has patterns for two buttons, three buttons. Next is a section called "Column", with two columns, two columns with images, three columns of text with buttons.' ); ?></figcaption>
+				</figure>
 				<h3><?php _e( 'Block patterns' ); ?></h3>
 				<p><?php _e( 'New block patterns make it simple and fun to create complex, beautiful layouts, using combinations of text and media that you can mix and match to fit your story.' ); ?></p>
-				<p><?php _e( 'You will also find block patterns in a wide variety of plugins and themes, with more added all the time. Pick any of them from a single dropdown — just click and go!' ); ?></p>
+				<p><?php _e( 'You will also find block patterns in a wide variety of plugins and themes, with more added all the time. Pick any of them from a single place — just click and go!' ); ?></p>
 			</div>
 			<div class="column">
+				<figure aria-labelledby="about-image-editor" class="about__image">
+					<video controls poster="https://make.wordpress.org/core/files/2020/07/image-editor-poster.png">
+						<source src="https://make.wordpress.org/core/files/2020/07/image-editor.mp4" type="video/mp4" />
+					</video>
+					<figcaption id="about-image-editor" class="screen-reader-text"><?php _e( 'Video: In the new image editor, an image icon gets dragged and dropped into the space, which turns blue to accept the upload. The image expands to fill the editor. Dragging a handle on the right side of the image widens it to scale and resizes the editor to fit. Next the cursor moves to a text area below the image and clicks to bring up standard block text-editing tools and write a caption for the image. Clicking in the image dismisses the text tools, and the cursor now moves to a toolbar at the top of the image space. A click on the Crop icon reveals a dropdown set of common aspect ratios; lingering briefly on one choice demos the crop. Applying it requires a confirmation click in the toolbar.' ); ?></figcaption>
+				</figure>
+				<h3><?php _e( 'Inline image editing' ); ?></h3>
+				<p><?php _e( 'Crop, rotate, and zoom your photos right from the image block. If you spend a lot of time on images, this could save you hours!' ); ?></p>
+
 				<h3><?php _e( 'The New Block Directory' ); ?></h3>
 				<p><?php _e( 'Now it’s easier than ever to find the block you need. The new block directory is built right into the block editor, so you can install new block types to your site without ever leaving the editor.' ); ?></p>
 
@@ -131,14 +146,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<hr />
 
-		<div class="about__section has-2-columns">
+		<div class="about__section has-1-column">
 			<div class="column">
 				<h2><?php _e( 'Accessibility' ); ?></h2>
 				<p><?php _e( 'Every release adds improvements to the accessible publishing experience, and that remains true for WordPress 5.5. ' ); ?></p>
 				<p><?php _e( 'Now you can copy links in media screens and modal dialogs with a button, instead of trying to highlight a line of text.' ); ?></p>
 				<p><?php _e( 'You can also move meta boxes with the keyboard, and edit images in WordPress with your assistive device, as it can read you the instructions in the image editor.' ); ?></p>
-			</div>
-			<div class="column is-edge-to-edge" style="background-color:skyblue;">
 			</div>
 		</div>
 
@@ -211,16 +224,28 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						);
 						?>
 					</li>
-					<li><?php _e( 'New filters let custom post types associated with the category taxonomy have a default term beyond “Uncategorized”.' ); ?></li>
+					<li><?php _e( 'Custom post types associated with the category taxonomy can now opt-in to supporting the default term.' ); ?></li>
+					<li>
+						<?php
+						printf(
+							/* translators: %s: 'register_taxonomy' function name. */
+							__( 'Default terms can now be specified for custom taxonomies in %s.' ),
+							'<code>register_taxonomy()</code>'
+						);
+						?>
+					</li>
+					<li>
+						<?php
+						printf(
+							/* translators: %s: 'register_meta' function name. */
+							__( 'The REST API now officially supports specifying default metadata values through %s.' ),
+							'<code>register_meta()</code>'
+						);
+						?>
+					</li>
 					<li><?php _e( 'You will find updated versions of these bundled libraries: SimplePie, Twemoji, Masonry, imagesLoaded, getID3, Moment.js, and clipboard.js.' ); ?></li>
 				</ul>
 			</div>
-		</div>
-
-		<hr class="is-small" />
-
-		<div class="about__section">
-
 		</div>
 
 		<hr class="is-small" />
