@@ -125,7 +125,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p><?php _e( 'Now it’s easier than ever to find the block you need. The new block directory is built right into the block editor, so you can install new block types to your site without ever leaving the editor.' ); ?></p>
 
 				<h3><?php _e( 'And so much more.' ); ?></h3>
-				<p><?php _e( 'The highlights above are a tiny fraction of the new block-editor features you’ve just installed. Open the block editor and enjoy!' ); ?></p>
+				<p><?php _e( 'The highlights above are a tiny fraction of the new block editor features you’ve just installed. Open the block editor and enjoy!' ); ?></p>
 			</div>
 		</div>
 
@@ -155,7 +155,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column">
 				<h3><?php _e( 'Dashicons' ); ?></h3>
-				<p><?php _e( 'The Dashicons library has received its final update in 5.5. It adds 39 block-editor icons along with 26 others.' ); ?></p>
+				<p><?php _e( 'The Dashicons library has received its final update in 5.5. It adds 39 block editor icons along with 26 others.' ); ?></p>
 			</div>
 		</div>
 
