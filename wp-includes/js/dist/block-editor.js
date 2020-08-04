@@ -30352,14 +30352,6 @@ function block_BlockListBlock(_ref) {
     }, alignmentWrapperProps), blockEdit);
   }
 
-  if (mode !== 'visual') {
-    blockEdit = Object(external_this_wp_element_["createElement"])("div", {
-      style: {
-        display: 'none'
-      }
-    }, blockEdit);
-  }
-
   var value = {
     clientId: clientId,
     rootClientId: rootClientId,
@@ -30379,19 +30371,35 @@ function block_BlockListBlock(_ref) {
   var memoizedValue = Object(external_this_wp_element_["useMemo"])(function () {
     return value;
   }, Object.values(value));
+  var block;
+
+  if (!isValid) {
+    block = Object(external_this_wp_element_["createElement"])(Block.div, null, Object(external_this_wp_element_["createElement"])(block_invalid_warning, {
+      clientId: clientId
+    }), Object(external_this_wp_element_["createElement"])("div", null, Object(external_this_wp_blocks_["getSaveElement"])(blockType, attributes)));
+  } else if (mode === 'html') {
+    // Render blockEdit so the inspector controls don't disappear.
+    // See #8969.
+    block = Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])("div", {
+      style: {
+        display: 'none'
+      }
+    }, blockEdit), Object(external_this_wp_element_["createElement"])(Block.div, {
+      __unstableIsHtml: true
+    }, Object(external_this_wp_element_["createElement"])(block_html, {
+      clientId: clientId
+    })));
+  } else if (lightBlockWrapper) {
+    block = blockEdit;
+  } else {
+    block = Object(external_this_wp_element_["createElement"])(Block.div, wrapperProps, blockEdit);
+  }
+
   return Object(external_this_wp_element_["createElement"])(BlockListBlockContext.Provider, {
     value: memoizedValue
   }, Object(external_this_wp_element_["createElement"])(block_crash_boundary, {
     onError: onBlockError
-  }, isValid && lightBlockWrapper && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, blockEdit, mode === 'html' && Object(external_this_wp_element_["createElement"])(Block.div, {
-    __unstableIsHtml: true
-  }, Object(external_this_wp_element_["createElement"])(block_html, {
-    clientId: clientId
-  }))), isValid && !lightBlockWrapper && Object(external_this_wp_element_["createElement"])(Block.div, wrapperProps, blockEdit, mode === 'html' && Object(external_this_wp_element_["createElement"])(block_html, {
-    clientId: clientId
-  })), !isValid && Object(external_this_wp_element_["createElement"])(Block.div, null, Object(external_this_wp_element_["createElement"])(block_invalid_warning, {
-    clientId: clientId
-  }), Object(external_this_wp_element_["createElement"])("div", null, Object(external_this_wp_blocks_["getSaveElement"])(blockType, attributes)))), !!hasError && Object(external_this_wp_element_["createElement"])(Block.div, null, Object(external_this_wp_element_["createElement"])(block_crash_warning, null)));
+  }, block), !!hasError && Object(external_this_wp_element_["createElement"])(Block.div, null, Object(external_this_wp_element_["createElement"])(block_crash_warning, null)));
 }
 
 var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (select, _ref2) {
