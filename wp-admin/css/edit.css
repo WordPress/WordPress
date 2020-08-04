@@ -148,25 +148,8 @@ body.post-new-php .submitbox .submitdelete {
 
 /* Post Screen */
 
-/* Only target the sortables in the post screen excluding the ones in the Dashboard. */
-#post-body .meta-box-sortables {
-	/* Required min-height to make the jQuery UI Sortable drop zone work. */
-	min-height: 1px;
-}
-
-/* Resets height and outline inherited from common.css. */
-#post-body.columns-1 #side-sortables.empty-container,
-#post-body #normal-sortables.empty-container,
-#post-body #advanced-sortables.empty-container {
-	/* Sortables need some initial height to work correctly. */
-	height: 1px;
-	outline: none;
-}
-
 /* Only highlight drop zones when dragging and only in the 2 columns layout. */
-.is-dragging-metaboxes #post-body.columns-2 #side-sortables,
-.is-dragging-metaboxes #post-body #normal-sortables,
-.is-dragging-metaboxes #post-body #advanced-sortables {
+.is-dragging-metaboxes .metabox-holder .postbox-container .meta-box-sortables {
 	outline: 3px dashed #606a73;
 	/* Prevent margin on the child from collapsing with margin on the parent. */
 	display: flow-root;
@@ -1542,7 +1525,6 @@ table.links-table {
 
 	#poststuff #postbox-container-1 .empty-container,
 	#poststuff #postbox-container-1 #side-sortables:empty {
-		outline: none;
 		height: 0;
 		min-height: 0;
 	}
@@ -1550,6 +1532,15 @@ table.links-table {
 	#poststuff #post-body.columns-2 #side-sortables {
 		min-height: 0;
 		width: auto;
+	}
+
+	/* Increase min-height while dragging for the #side-sortables and any potential sortables area with custom ID. */
+	.is-dragging-metaboxes #poststuff #postbox-container-1 .empty-container,
+	.is-dragging-metaboxes #poststuff #postbox-container-1 #side-sortables:empty,
+	.is-dragging-metaboxes #poststuff #post-body.columns-2 #side-sortables,
+	.is-dragging-metaboxes #poststuff #post-body.columns-2 .meta-box-sortables {
+		height: auto;
+		min-height: 60px;
 	}
 
 	/* hide the radio buttons for column prefs */
