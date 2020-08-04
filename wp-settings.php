@@ -288,6 +288,12 @@ require ABSPATH . WPINC . '/blocks.php';
 require ABSPATH . WPINC . '/blocks/index.php';
 require ABSPATH . WPINC . '/block-patterns.php';
 
+//Allow users to load WP core without entering the action lifecycle. 
+if(MEDIUMINIT) {
+	return false;
+}
+
+
 $GLOBALS['wp_embed'] = new WP_Embed();
 
 // Load multisite-specific files.
