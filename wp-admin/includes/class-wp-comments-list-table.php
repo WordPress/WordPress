@@ -489,17 +489,17 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$comment_types = apply_filters(
 			'admin_comment_types_dropdown',
 			array(
-				'comment' => esc_html__( 'Comments' ),
-				'pings'   => esc_html__( 'Pings' ),
+				'comment' => __( 'Comments' ),
+				'pings'   => __( 'Pings' ),
 			)
 		);
 
 		if ( $comment_types && is_array( $comment_types ) ) {
-			printf( '<label class="screen-reader-text" for="filter-by-comment-type">%s</label>', esc_html__( 'Filter by comment type' ) );
+			printf( '<label class="screen-reader-text" for="filter-by-comment-type">%s</label>', __( 'Filter by comment type' ) );
 
 			echo '<select id="filter-by-comment-type" name="comment_type">';
 
-			printf( "\t<option value=''>%s</option>", esc_html__( 'All comment types' ) );
+			printf( "\t<option value=''>%s</option>", __( 'All comment types' ) );
 
 			foreach ( $comment_types as $type => $label ) {
 				if ( get_comments(
