@@ -1741,10 +1741,10 @@ function _admin_notice_post_locked() {
 		<?php
 		if ( $override ) {
 			/* translators: %s: User's display name. */
-			printf( __( '%s is already editing this post. Do you want to take over?' ), esc_html( $user->display_name ) );
+			printf( __( '%s is currently editing this post. Do you want to take over?' ), esc_html( $user->display_name ) );
 		} else {
 			/* translators: %s: User's display name. */
-			printf( __( '%s is already editing this post.' ), esc_html( $user->display_name ) );
+			printf( __( '%s is currently editing this post.' ), esc_html( $user->display_name ) );
 		}
 		?>
 		</p>
