@@ -555,7 +555,7 @@ function wp_edit_theme_plugin_file( $args ) {
 			$url = admin_url();
 		}
 
-		if ( PHP_SESSION_ACTIVE === session_status() ) {
+		if ( function_exists( 'session_status' ) && PHP_SESSION_ACTIVE === session_status() ) {
 			// Close any active session to prevent HTTP requests from timing out
 			// when attempting to connect back to the site.
 			session_write_close();

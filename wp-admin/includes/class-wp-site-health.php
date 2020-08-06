@@ -1115,7 +1115,7 @@ class WP_Site_Health {
 			'test'        => 'php_sessions',
 		);
 
-		if ( PHP_SESSION_ACTIVE === session_status() ) {
+		if ( function_exists( 'session_status' ) && PHP_SESSION_ACTIVE === session_status() ) {
 			$result['status'] = 'critical';
 
 			$result['label'] = __( 'An active PHP session was detected' );
