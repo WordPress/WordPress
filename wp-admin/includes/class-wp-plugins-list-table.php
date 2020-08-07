@@ -231,8 +231,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			);
 			$filter_payload = (object) array_merge( $filter_payload, array_intersect_key( $plugin_data, $filter_payload ) );
 
-			/** This action is documented in wp-admin/includes/class-wp-automatic-updater.php */
-			$auto_update_forced = apply_filters( 'auto_update_plugin', null, $filter_payload );
+			$type = 'plugin';
+			/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
+			$auto_update_forced = apply_filters( "auto_update_{$type}", null, $filter_payload );
+
 			if ( ! is_null( $auto_update_forced ) ) {
 				$plugin_data['auto-update-forced'] = $auto_update_forced;
 			}

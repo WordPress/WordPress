@@ -716,8 +716,9 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			);
 		}
 
-		/** This action is documented in wp-admin/includes/class-wp-automatic-updater.php */
-		$auto_update_forced = apply_filters( 'auto_update_theme', null, $auto_update_filter_payload );
+		$type = 'theme';
+		/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
+		$auto_update_forced = apply_filters( "auto_update_{$type}", null, $auto_update_filter_payload );
 
 		$prepared_themes[ $slug ] = array(
 			'id'             => $slug,
