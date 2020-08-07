@@ -3811,23 +3811,26 @@ function create_initial_theme_features() {
 			'show_in_rest' => array(
 				'schema' => array(
 					'properties' => array(
-						'width'       => array(
+						'width'                => array(
 							'type' => 'integer',
 						),
-						'height'      => array(
+						'height'               => array(
 							'type' => 'integer',
 						),
-						'flex-width'  => array(
+						'flex-width'           => array(
 							'type' => 'boolean',
 						),
-						'flex-height' => array(
+						'flex-height'          => array(
 							'type' => 'boolean',
 						),
-						'header-text' => array(
+						'header-text'          => array(
 							'type'  => 'array',
 							'items' => array(
 								'type' => 'string',
 							),
+						),
+						'unlink-homepage-logo' => array(
+							'type' => 'boolean',
 						),
 					),
 				),
