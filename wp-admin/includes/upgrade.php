@@ -2174,9 +2174,6 @@ function upgrade_550() {
 	global $wp_current_db_version;
 
 	if ( $wp_current_db_version < 48121 ) {
-		update_option( 'finished_updating_comment_type', 0 );
-		wp_schedule_single_event( time() + ( 1 * MINUTE_IN_SECONDS ), 'wp_update_comment_type_batch' );
-
 		$comment_previously_approved = get_option( 'comment_whitelist', '' );
 		update_option( 'comment_previously_approved', $comment_previously_approved );
 		delete_option( 'comment_whitelist' );
@@ -2197,6 +2194,11 @@ function upgrade_550() {
 		update_option( 'disallowed_keys', $disallowed_list );
 		delete_option( 'blacklist_keys' );
 		delete_option( 'blocklist_keys' );
+	}
+
+	if ( $wp_current_db_version < 48748 ) {
+		update_option( 'finished_updating_comment_type', 0 );
+		wp_schedule_single_event( time() + ( 1 * MINUTE_IN_SECONDS ), 'wp_update_comment_type_batch' );
 	}
 }
 
