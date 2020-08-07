@@ -3839,17 +3839,32 @@ function _wp_batch_update_comment_type() {
 	 */
 	$comment_batch_size = (int) apply_filters( 'wp_update_comment_type_batch_size', 100 );
 
-	// Update the `comment_type` field value to be `comment` for the next batch of comments.
-	$wpdb->query(
+	// Get the IDs of the comments to update.
+	$comment_ids = $wpdb->get_col(
 		$wpdb->prepare(
-			"UPDATE {$wpdb->comments}
-			SET comment_type = 'comment'
+			"SELECT comment_ID
+			FROM {$wpdb->comments}
 			WHERE comment_type = ''
 			ORDER BY comment_ID DESC
 			LIMIT %d",
 			$comment_batch_size
 		)
 	);
+
+	if ( $comment_ids ) {
+		$comment_id_list = implode( ',', $comment_ids );
+
+		// Update the `comment_type` field value to be `comment` for the next batch of comments.
+		$wpdb->query(
+			"UPDATE {$wpdb->comments}
+			SET comment_type = 'comment'
+			WHERE comment_type = ''
+			AND comment_ID IN ({$comment_id_list})" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		);
+
+		// Make sure to clean the comment cache.
+		clean_comment_cache( $comment_ids );
+	}
 
 	delete_option( $lock_name );
 }
