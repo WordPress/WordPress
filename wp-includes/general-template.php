@@ -1021,7 +1021,9 @@ function get_custom_logo( $blog_id = 0 ) {
 			'class' => 'custom-logo',
 		);
 
-		if ( is_front_page() ) {
+		$unlink_homepage_logo = (bool) get_theme_support( 'custom-logo', 'unlink-homepage-logo' );
+
+		if ( $unlink_homepage_logo && is_front_page() && ! is_paged() ) {
 			/*
 			 * If on the home page, set the logo alt attribute to an empty string,
 			 * as the image is decorative and doesn't need its purpose to be described.
@@ -1055,16 +1057,19 @@ function get_custom_logo( $blog_id = 0 ) {
 		 */
 		$image = wp_get_attachment_image( $custom_logo_id, 'full', false, $custom_logo_attr );
 
-		if ( is_front_page() ) {
+		if ( $unlink_homepage_logo && is_front_page() && ! is_paged() ) {
 			// If on the home page, don't link the logo to home.
 			$html = sprintf(
 				'<span class="custom-logo-link">%1$s</span>',
 				$image
 			);
 		} else {
+			$aria_current = is_front_page() && ! is_paged() ? ' aria-current="page"' : '';
+
 			$html = sprintf(
-				'<a href="%1$s" class="custom-logo-link" rel="home">%2$s</a>',
+				'<a href="%1$s" class="custom-logo-link" rel="home"%2$s>%3$s</a>',
 				esc_url( home_url( '/' ) ),
+				$aria_current,
 				$image
 			);
 		}
