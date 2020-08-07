@@ -971,8 +971,9 @@ class WP_Debug_Data {
 					$item = array_merge( $item, array_intersect_key( $plugin, $item ) );
 				}
 
-				/** This action is documented in wp-admin/includes/class-wp-automatic-updater.php */
-				$auto_update_forced = apply_filters( 'auto_update_plugin', null, (object) $item );
+				$type = 'plugin';
+				/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
+				$auto_update_forced = apply_filters( "auto_update_{$type}", null, (object) $item );
 
 				if ( ! is_null( $auto_update_forced ) ) {
 					$enabled = $auto_update_forced;
@@ -1114,8 +1115,9 @@ class WP_Debug_Data {
 				);
 			}
 
-			/** This action is documented in wp-admin/includes/class-wp-automatic-updater.php */
-			$auto_update_forced = apply_filters( 'auto_update_theme', null, (object) $item );
+			$type = 'theme';
+			/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
+			$auto_update_forced = apply_filters( "auto_update_{$type}", null, (object) $item );
 
 			if ( ! is_null( $auto_update_forced ) ) {
 				$enabled = $auto_update_forced;
@@ -1201,8 +1203,9 @@ class WP_Debug_Data {
 					);
 				}
 
-				/** This action is documented in wp-admin/includes/class-wp-automatic-updater.php */
-				$auto_update_forced = apply_filters( 'auto_update_theme', null, (object) $item );
+				$type = 'theme';
+				/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
+				$auto_update_forced = apply_filters( "auto_update_{$type}", null, (object) $item );
 
 				if ( ! is_null( $auto_update_forced ) ) {
 					$enabled = $auto_update_forced;
@@ -1290,8 +1293,9 @@ class WP_Debug_Data {
 					);
 				}
 
-				/** This action is documented in wp-admin/includes/class-wp-automatic-updater.php */
-				$auto_update_forced = apply_filters( 'auto_update_theme', null, (object) $item );
+				$type = 'theme';
+				/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
+				$auto_update_forced = apply_filters( "auto_update_{$type}", null, (object) $item );
 
 				if ( ! is_null( $auto_update_forced ) ) {
 					$enabled = $auto_update_forced;
