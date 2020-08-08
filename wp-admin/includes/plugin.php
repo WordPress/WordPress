@@ -2113,6 +2113,7 @@ function user_can_access_admin_page() {
 		if ( isset( $plugin_page ) && isset( $_wp_menu_nopriv[ $plugin_page ] ) ) {
 			return false;
 		}
+
 		foreach ( array_keys( $_wp_submenu_nopriv ) as $key ) {
 			if ( isset( $_wp_submenu_nopriv[ $key ][ $pagenow ] ) ) {
 				return false;
@@ -2121,6 +2122,7 @@ function user_can_access_admin_page() {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -2131,28 +2133,16 @@ function user_can_access_admin_page() {
 	if ( isset( $submenu[ $parent ] ) ) {
 		foreach ( $submenu[ $parent ] as $submenu_array ) {
 			if ( isset( $plugin_page ) && ( $submenu_array[2] == $plugin_page ) ) {
-				if ( current_user_can( $submenu_array[1] ) ) {
-					return true;
-				} else {
-					return false;
-				}
+				return current_user_can( $submenu_array[1] );
 			} elseif ( $submenu_array[2] == $pagenow ) {
-				if ( current_user_can( $submenu_array[1] ) ) {
-					return true;
-				} else {
-					return false;
-				}
+				return current_user_can( $submenu_array[1] );
 			}
 		}
 	}
 
 	foreach ( $menu as $menu_array ) {
 		if ( $menu_array[2] == $parent ) {
-			if ( current_user_can( $menu_array[1] ) ) {
-				return true;
-			} else {
-				return false;
-			}
+			return current_user_can( $menu_array[1] );
 		}
 	}
 
