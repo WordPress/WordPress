@@ -75,7 +75,7 @@ final class WP_Recovery_Mode_Email_Service {
 		}
 
 		$err_message = sprintf(
-			/* translators: 1. Last sent as a human time diff, 2. Wait time as a human time diff. */
+			/* translators: 1: Last sent as a human time diff, 2: Wait time as a human time diff. */
 			__( 'A recovery link was already sent %1$s ago. Please wait another %2$s before requesting a new email.' ),
 			human_time_diff( $last_sent ),
 			human_time_diff( $last_sent + $rate_limit )
