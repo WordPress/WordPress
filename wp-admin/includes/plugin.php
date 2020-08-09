@@ -1982,7 +1982,7 @@ function get_admin_page_title() {
 		foreach ( array_keys( $submenu ) as $parent ) {
 			foreach ( $submenu[ $parent ] as $submenu_array ) {
 				if ( isset( $plugin_page )
-					&& ( $plugin_page === $submenu_array[2] )
+					&& $plugin_page === $submenu_array[2]
 					&& ( $pagenow === $parent
 						|| $plugin_page === $parent
 						|| $plugin_page === $hook
@@ -2138,13 +2138,13 @@ function user_can_access_admin_page() {
 		return true;
 	}
 
-	if ( isset( $plugin_page ) && ( $plugin_page === $parent ) && isset( $_wp_menu_nopriv[ $plugin_page ] ) ) {
+	if ( isset( $plugin_page ) && $plugin_page === $parent && isset( $_wp_menu_nopriv[ $plugin_page ] ) ) {
 		return false;
 	}
 
 	if ( isset( $submenu[ $parent ] ) ) {
 		foreach ( $submenu[ $parent ] as $submenu_array ) {
-			if ( isset( $plugin_page ) && ( $submenu_array[2] === $plugin_page ) ) {
+			if ( isset( $plugin_page ) && $submenu_array[2] === $plugin_page ) {
 				return current_user_can( $submenu_array[1] );
 			} elseif ( $submenu_array[2] === $pagenow ) {
 				return current_user_can( $submenu_array[1] );
