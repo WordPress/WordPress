@@ -1579,7 +1579,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		_doing_it_wrong(
 			__FUNCTION__,
 			/* translators: 1: Parameter, 2: The list of allowed types. */
-			wp_sprintf( __( 'The "type" schema keyword for %1$s can only be on of the built-in types: %2$l.' ), $param, $allowed_types ),
+			wp_sprintf( __( 'The "type" schema keyword for %1$s can only be one of the built-in types: %2$l.' ), $param, $allowed_types ),
 			'5.5.0'
 		);
 	}
@@ -1849,7 +1849,7 @@ function rest_sanitize_value_from_schema( $value, $args, $param = '' ) {
 		_doing_it_wrong(
 			__FUNCTION__,
 			/* translators: 1: Parameter, 2: The list of allowed types. */
-			wp_sprintf( __( 'The "type" schema keyword for %1$s can only be on of the built-in types: %2$l.' ), $param, $allowed_types ),
+			wp_sprintf( __( 'The "type" schema keyword for %1$s can only be one of the built-in types: %2$l.' ), $param, $allowed_types ),
 			'5.5.0'
 		);
 	}
