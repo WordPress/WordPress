@@ -4138,13 +4138,13 @@ div.components-toolbar > div + div.has-left-divider::before {
     left: 8px;
     right: 2px; }
 
-.components-accessible-toolbar .components-toolbar-group > .components-button:last-child.has-icon,
+.components-accessible-toolbar .components-toolbar-group > .components-button:last-of-type.has-icon,
 .components-accessible-toolbar .components-toolbar-group > div:last-child > .components-button.has-icon,
 .components-toolbar div:last-child .components-button.has-icon {
   min-width: 42px;
   padding-left: 6px;
   padding-right: 11px; }
-  .components-accessible-toolbar .components-toolbar-group > .components-button:last-child.has-icon::before,
+  .components-accessible-toolbar .components-toolbar-group > .components-button:last-of-type.has-icon::before,
   .components-accessible-toolbar .components-toolbar-group > div:last-child > .components-button.has-icon::before,
   .components-toolbar div:last-child .components-button.has-icon::before {
     left: 2px;

@@ -1072,7 +1072,7 @@ var plus = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 
 /***/ }),
 
-/***/ 298:
+/***/ 297:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5674,7 +5674,10 @@ var plus = __webpack_require__(291);
 
 
 
+
 function HeaderToolbar() {
+  var inserterButton = Object(external_this_wp_element_["useRef"])();
+
   var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/edit-post'),
       setIsInserterOpened = _useDispatch.setIsInserterOpened;
 
@@ -5710,12 +5713,21 @@ function HeaderToolbar() {
     className: "edit-post-header-toolbar",
     "aria-label": toolbarAriaLabel
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["__experimentalToolbarItem"], {
+    ref: inserterButton,
     as: external_this_wp_components_["Button"],
     className: "edit-post-header-toolbar__inserter-toggle",
     isPrimary: true,
     isPressed: isInserterOpened,
+    onMouseDown: function onMouseDown(event) {
+      event.preventDefault();
+    },
     onClick: function onClick() {
-      return setIsInserterOpened(!isInserterOpened);
+      if (isInserterOpened) {
+        // Focusing the inserter button closes the inserter popover
+        inserterButton.current.focus();
+      } else {
+        setIsInserterOpened(true);
+      }
     },
     disabled: !isInserterEnabled,
     icon: plus["a" /* default */],
@@ -5742,7 +5754,7 @@ function HeaderToolbar() {
 /* harmony default export */ var header_toolbar = (HeaderToolbar);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/more-vertical.js
-var more_vertical = __webpack_require__(298);
+var more_vertical = __webpack_require__(297);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/header/mode-switcher/index.js
 
@@ -7856,6 +7868,86 @@ function ActionsPanel(_ref) {
   }), !isEntitiesSavedStatesOpen && unmountableContent);
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/layout/popover-wrapper.js
+
+
+
+
+
+
+
+function popover_wrapper_createSuper(Derived) { return function () { var Super = Object(getPrototypeOf["a" /* default */])(Derived), result; if (popover_wrapper_isNativeReflectConstruct()) { var NewTarget = Object(getPrototypeOf["a" /* default */])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return Object(possibleConstructorReturn["a" /* default */])(this, result); }; }
+
+function popover_wrapper_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+function stopPropagation(event) {
+  event.stopPropagation();
+}
+
+var DetectOutside = Object(external_this_wp_components_["withFocusOutside"])( /*#__PURE__*/function (_Component) {
+  Object(inherits["a" /* default */])(_class, _Component);
+
+  var _super = popover_wrapper_createSuper(_class);
+
+  function _class() {
+    Object(classCallCheck["a" /* default */])(this, _class);
+
+    return _super.apply(this, arguments);
+  }
+
+  Object(createClass["a" /* default */])(_class, [{
+    key: "handleFocusOutside",
+    value: function handleFocusOutside(event) {
+      this.props.onFocusOutside(event);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return this.props.children;
+    }
+  }]);
+
+  return _class;
+}(external_this_wp_element_["Component"]));
+var FocusManaged = Object(external_this_wp_components_["withConstrainedTabbing"])(Object(external_this_wp_components_["withFocusReturn"])(function (_ref) {
+  var children = _ref.children;
+  return children;
+}));
+function PopoverWrapper(_ref2) {
+  var onClose = _ref2.onClose,
+      children = _ref2.children,
+      className = _ref2.className;
+
+  // Event handlers
+  var maybeClose = function maybeClose(event) {
+    // Close on escape
+    if (event.keyCode === external_this_wp_keycodes_["ESCAPE"] && onClose) {
+      event.stopPropagation();
+      onClose();
+    }
+  }; // Disable reason: this stops certain events from propagating outside of the component.
+  //   - onMouseDown is disabled as this can cause interactions with other DOM elements
+
+  /* eslint-disable jsx-a11y/no-static-element-interactions */
+
+
+  return Object(external_this_wp_element_["createElement"])("div", {
+    className: className,
+    onKeyDown: maybeClose,
+    onMouseDown: stopPropagation
+  }, Object(external_this_wp_element_["createElement"])(DetectOutside, {
+    onFocusOutside: onClose
+  }, Object(external_this_wp_element_["createElement"])(FocusManaged, null, children)));
+  /* eslint-enable jsx-a11y/no-static-element-interactions */
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/layout/index.js
 
 
@@ -7881,6 +7973,7 @@ function ActionsPanel(_ref) {
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -7991,7 +8084,12 @@ function Layout() {
     header: Object(external_this_wp_element_["createElement"])(components_header, {
       setEntitiesSavedStatesCallback: setEntitiesSavedStatesCallback
     }),
-    leftSidebar: mode === 'visual' && isInserterOpened && Object(external_this_wp_element_["createElement"])("div", {
+    leftSidebar: mode === 'visual' && isInserterOpened && Object(external_this_wp_element_["createElement"])(PopoverWrapper, {
+      className: "edit-post-layout__inserter-panel-popover-wrapper",
+      onClose: function onClose() {
+        return setIsInserterOpened(false);
+      }
+    }, Object(external_this_wp_element_["createElement"])("div", {
       className: "edit-post-layout__inserter-panel"
     }, Object(external_this_wp_element_["createElement"])("div", {
       className: "edit-post-layout__inserter-panel-header"
@@ -8010,7 +8108,7 @@ function Layout() {
           setIsInserterOpened(false);
         }
       }
-    }))),
+    })))),
     sidebar: (!isMobileViewport || sidebarIsOpened) && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, !isMobileViewport && !sidebarIsOpened && Object(external_this_wp_element_["createElement"])("div", {
       className: "edit-post-layout__toogle-sidebar-panel"
     }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {

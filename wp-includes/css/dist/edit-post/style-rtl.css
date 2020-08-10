@@ -371,12 +371,6 @@ body.is-fullscreen-mode .interface-interface-skeleton {
     .edit-post-header__settings .components-button.block-editor-post-preview__dropdown {
       margin-left: 12px; } }
 
-.edit-post-header__settings .components-button.editor-post-save-draft,
-.edit-post-header__settings .components-button.editor-post-switch-to-draft,
-.edit-post-header__settings .components-button.editor-post-preview,
-.edit-post-header__settings .components-button.block-editor-post-preview__button-toggle {
-  color: #1e1e1e; }
-
 .edit-post-header__settings .components-button.block-editor-post-preview__dropdown,
 .edit-post-header__settings .components-button.editor-post-publish-button,
 .edit-post-header__settings .components-button.editor-post-publish-panel__toggle {
@@ -712,6 +706,12 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 
 .edit-post-layout .interface-interface-skeleton__content {
   background-color: #ccd0d4; }
+
+.edit-post-layout__inserter-panel-popover-wrapper,
+.edit-post-layout__inserter-panel-popover-wrapper > div,
+.edit-post-layout__inserter-panel-popover-wrapper > div > div,
+.edit-post-layout__inserter-panel-popover-wrapper > div > div > div {
+  height: 100%; }
 
 .edit-post-layout__inserter-panel {
   height: 100%;

@@ -481,37 +481,13 @@
   border-radius: 2px;
   background-color: #fff; }
   .block-editor-block-contextual-toolbar .block-editor-block-toolbar .components-toolbar-group,
-  .block-editor-block-contextual-toolbar .block-editor-block-toolbar .components-toolbar,
-  .block-editor-block-contextual-toolbar .block-editor-block-toolbar__mover-switcher-container {
+  .block-editor-block-contextual-toolbar .block-editor-block-toolbar .components-toolbar {
     border-right-color: #1e1e1e; }
-  .block-editor-block-contextual-toolbar .block-editor-block-toolbar__mover-switcher-container {
-    border-right-style: solid;
-    border-right-width: 1px; }
-  .block-editor-block-contextual-toolbar .block-editor-block-toolbar__block-switcher-wrapper .block-editor-block-switcher__no-switcher-icon::before,
-  .block-editor-block-contextual-toolbar .block-editor-block-toolbar__block-switcher-wrapper .block-editor-block-switcher__toggle::before {
-    width: 28px; }
-  .block-editor-block-contextual-toolbar .block-editor-block-toolbar__block-switcher-wrapper .block-editor-block-icon svg {
-    margin-left: 10px; }
-  .block-editor-block-contextual-toolbar .block-editor-block-toolbar__block-switcher-wrapper .block-editor-block-switcher:last-child .block-editor-block-icon svg {
-    margin-left: auto; }
-  .block-editor-block-contextual-toolbar .block-editor-block-toolbar__block-switcher-wrapper .components-toolbar,
-  .block-editor-block-contextual-toolbar .block-editor-block-toolbar__block-switcher-wrapper .components-toolbar-group {
-    border-right: none; }
-  .block-editor-block-contextual-toolbar .block-editor-block-mover {
-    margin-left: -12px;
-    width: 36px; }
-    .block-editor-block-contextual-toolbar .block-editor-block-mover.is-horizontal {
-      width: 48px; }
-    .block-editor-block-contextual-toolbar .block-editor-block-mover .components-button.has-icon.block-editor-block-mover-button.block-editor-block-mover-button {
-      min-width: 36px;
-      width: 36px;
-      overflow: hidden; }
-    .block-editor-block-contextual-toolbar .block-editor-block-mover.is-horizontal .components-button.has-icon.block-editor-block-mover-button.block-editor-block-mover-button {
-      min-width: 24px;
-      width: 24px;
-      overflow: hidden; }
-  .block-editor-block-contextual-toolbar .block-editor-block-mover:not(.is-horizontal) .block-editor-block-mover-button > svg {
-    margin-left: 2px; }
+  .block-editor-block-contextual-toolbar .block-editor-block-mover-button {
+    overflow: hidden; }
+  .block-editor-block-contextual-toolbar .block-editor-block-mover.is-horizontal .block-editor-block-mover-button.block-editor-block-mover-button {
+    min-width: 24px;
+    width: 24px; }
   .block-editor-block-contextual-toolbar .block-editor-block-mover:not(.is-horizontal) .block-editor-block-mover-button.is-up-button svg {
     margin-top: 3px; }
   .block-editor-block-contextual-toolbar .block-editor-block-mover:not(.is-horizontal) .block-editor-block-mover-button.is-down-button svg {
@@ -519,7 +495,7 @@
   .block-editor-block-contextual-toolbar .block-editor-block-mover:not(.is-horizontal) .block-editor-block-mover-button:focus::before {
     left: 0 !important;
     min-width: 0;
-    width: 28px; }
+    width: 100%; }
 
 /**
  * Block Label for Navigation/Selection Mode
@@ -791,48 +767,52 @@
 
 .block-editor-block-mover .components-toolbar-group,
 .block-editor-block-mover .components-toolbar {
-  flex-direction: column;
-  flex: 1; }
+  flex: 1;
+  flex-direction: row; }
+  @media (min-width: 600px) {
+    .block-editor-block-mover .components-toolbar-group,
+    .block-editor-block-mover .components-toolbar {
+      flex-direction: column; } }
 
 .block-editor-block-mover.is-horizontal .components-toolbar-group,
 .block-editor-block-mover.is-horizontal .components-toolbar {
   flex-direction: row; }
 
-.block-editor-block-mover .block-editor-block-mover-button {
-  height: 24px;
-  width: 48px;
-  padding: 0 !important; }
+@media (min-width: 600px) {
+  .block-editor-block-mover .block-editor-block-mover-button {
+    padding: 0 !important;
+    height: 24px;
+    width: 48px; } }
+
+@media (min-width: 600px) {
   .block-editor-block-mover .block-editor-block-mover-button::before {
     left: 8px !important;
-    right: 8px !important; }
+    right: 8px !important; } }
 
-.block-editor-block-mover .components-toolbar-group .block-editor-block-mover-button.is-up-button svg,
-.block-editor-block-mover .components-toolbar .block-editor-block-mover-button.is-up-button svg {
-  margin-bottom: -8px; }
-
-.block-editor-block-mover .components-toolbar-group .block-editor-block-mover-button.is-up-button::before,
-.block-editor-block-mover .components-toolbar .block-editor-block-mover-button.is-up-button::before {
-  bottom: 0;
-  height: calc(100% - 8px); }
-
-.block-editor-block-mover .components-toolbar-group .block-editor-block-mover-button.is-down-button svg,
-.block-editor-block-mover .components-toolbar .block-editor-block-mover-button.is-down-button svg {
-  margin-top: -8px; }
-
-.block-editor-block-mover .components-toolbar-group .block-editor-block-mover-button.is-down-button::before,
-.block-editor-block-mover .components-toolbar .block-editor-block-mover-button.is-down-button::before {
-  top: 0;
-  height: calc(100% - 8px); }
+@media (min-width: 600px) {
+  .block-editor-block-mover .components-toolbar-group .block-editor-block-mover-button.is-up-button svg,
+  .block-editor-block-mover .components-toolbar .block-editor-block-mover-button.is-up-button svg {
+    margin-bottom: -8px; }
+  .block-editor-block-mover .components-toolbar-group .block-editor-block-mover-button.is-up-button::before,
+  .block-editor-block-mover .components-toolbar .block-editor-block-mover-button.is-up-button::before {
+    bottom: 0;
+    height: calc(100% - 1px); }
+  .block-editor-block-mover .components-toolbar-group .block-editor-block-mover-button.is-down-button svg,
+  .block-editor-block-mover .components-toolbar .block-editor-block-mover-button.is-down-button svg {
+    margin-top: -8px; }
+  .block-editor-block-mover .components-toolbar-group .block-editor-block-mover-button.is-down-button::before,
+  .block-editor-block-mover .components-toolbar .block-editor-block-mover-button.is-down-button::before {
+    top: 0;
+    height: calc(100% - 1px); } }
 
 .block-editor-block-mover.is-horizontal .block-editor-block-mover-button.has-icon {
   height: 48px;
   width: 24px;
-  min-width: 24px;
   padding-left: 0;
   padding-right: 0; }
   .block-editor-block-mover.is-horizontal .block-editor-block-mover-button.has-icon::before {
-    top: 8px;
-    bottom: 8px;
+    top: 0;
+    bottom: 0;
     min-width: 0;
     width: auto;
     height: auto; }
@@ -843,7 +823,7 @@
   margin-bottom: 0; }
 
 .block-editor-block-mover.is-horizontal .block-editor-block-mover-button.is-up-button.has-icon::before {
-  left: 8px !important;
+  left: 0 !important;
   right: 0 !important; }
 
 .block-editor-block-mover.is-horizontal .block-editor-block-mover-button.is-down-button.has-icon svg {
@@ -853,7 +833,8 @@
 
 .block-editor-block-mover.is-horizontal .block-editor-block-mover-button.is-down-button.has-icon::before {
   left: 0 !important;
-  right: 8px !important; }
+  right: 0 !important;
+  width: calc(100% + 1px); }
 
 .block-editor-block-navigation__container {
   padding: 7px; }
@@ -2335,13 +2316,31 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   .edit-post-header-toolbar__block-toolbar .block-editor-block-toolbar__block-parent-selector-wrapper {
     display: none; }
 
-.block-editor-block-toolbar__mover-switcher-container {
-  display: flex; }
+.block-editor-block-toolbar-animated-width-container {
+  position: relative;
+  overflow: hidden;
+  transition: width 300ms; }
 
-.block-editor-block-toolbar__block-switcher-wrapper {
-  display: flex; }
-  .block-editor-block-toolbar__block-switcher-wrapper .block-editor-block-switcher {
-    display: block; }
+.block-editor-block-toolbar-content-enter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
+  opacity: 0; }
+
+.block-editor-block-toolbar-content-enter-active {
+  position: absolute;
+  opacity: 1;
+  transition: opacity 300ms; }
+
+.block-editor-block-toolbar-content-exit {
+  width: auto;
+  opacity: 1;
+  pointer-events: none; }
+
+.block-editor-block-toolbar-content-exit-active {
+  opacity: 0;
+  transition: opacity 300ms; }
 
 .block-editor-inserter {
   display: inline-block;

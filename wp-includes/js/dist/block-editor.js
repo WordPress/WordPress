@@ -10435,7 +10435,7 @@ exports.characterDiff = void 0;
 /*istanbul ignore end*/
 var
 /*istanbul ignore start*/
-_base = _interopRequireDefault(__webpack_require__(297))
+_base = _interopRequireDefault(__webpack_require__(298))
 /*istanbul ignore end*/
 ;
 
@@ -11185,6 +11185,30 @@ var chevronDown = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["create
 
 /***/ }),
 /* 297 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+var moreVertical = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (moreVertical);
+
+
+/***/ }),
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11491,30 +11515,6 @@ function clonePath(path) {
     components: path.components.slice(0)
   };
 }
-
-
-/***/ }),
-/* 298 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-var moreVertical = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z"
-}));
-/* harmony default export */ __webpack_exports__["a"] = (moreVertical);
 
 
 /***/ }),
@@ -16873,7 +16873,7 @@ var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.
 var asyncToGenerator = __webpack_require__(50);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/more-vertical.js
-var more_vertical = __webpack_require__(298);
+var more_vertical = __webpack_require__(297);
 
 // EXTERNAL MODULE: ./node_modules/react-spring/web.cjs.js
 var web_cjs = __webpack_require__(113);
@@ -25945,8 +25945,12 @@ function QuickInserter(_ref2) {
   var onBrowseAll = function onBrowseAll() {
     // We have to select the previous block because the menu inserter
     // inserts the new block after the selected one.
-    selectBlock(previousBlockClientId);
-    setInsererIsOpened(true);
+    // Ideally, this selection shouldn't focus the block to avoid the setTimeout.
+    selectBlock(previousBlockClientId); // eslint-disable-next-line @wordpress/react-no-unsafe-timeout
+
+    setTimeout(function () {
+      setInsererIsOpened(true);
+    });
   }; // Disable reason (no-autofocus): The inserter menu is a modal display, not one which
   // is always visible, and one which already incurs this behavior of autoFocus via
   // Popover's focusOnMount.
@@ -28833,7 +28837,7 @@ function BlockSettingsDropdown(_ref) {
         onMoveTo = _ref3.onMoveTo,
         blocks = _ref3.blocks;
     return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["DropdownMenu"], Object(esm_extends["a" /* default */])({
-      icon: more_horizontal,
+      icon: more_vertical["a" /* default */],
       label: Object(external_this_wp_i18n_["__"])('More options'),
       className: "block-editor-block-settings-menu",
       popoverProps: block_settings_dropdown_POPOVER_PROPS,
@@ -29458,11 +29462,12 @@ function BlockToolbar(_ref) {
   return Object(external_this_wp_element_["createElement"])("div", {
     className: classes
   }, Object(external_this_wp_element_["createElement"])("div", Object(esm_extends["a" /* default */])({
-    className: "block-editor-block-toolbar__mover-switcher-container",
     ref: nodeRef
   }, showMoversGestures), !isMultiToolbar && Object(external_this_wp_element_["createElement"])("div", {
     className: "block-editor-block-toolbar__block-parent-selector-wrapper"
   }, Object(external_this_wp_element_["createElement"])(BlockParentSelector, {
+    clientIds: blockClientIds
+  })), (shouldShowVisualToolbar || isMultiToolbar) && Object(external_this_wp_element_["createElement"])(block_switcher, {
     clientIds: blockClientIds
   })), (shouldShowVisualToolbar || isMultiToolbar) && Object(external_this_wp_element_["createElement"])(block_draggable, {
     clientIds: blockClientIds,
@@ -29472,16 +29477,14 @@ function BlockToolbar(_ref) {
         onDraggableStart = _ref2.onDraggableStart,
         onDraggableEnd = _ref2.onDraggableEnd;
     return Object(external_this_wp_element_["createElement"])("div", {
-      className: "block-editor-block-toolbar__block-switcher-wrapper",
+      className: "block-editor-block-toolbar__drag-handle-area",
       draggable: isDraggable && !hideDragHandle,
       onDragStart: onDraggableStart,
       onDragEnd: onDraggableEnd
-    }, Object(external_this_wp_element_["createElement"])(block_switcher, {
-      clientIds: blockClientIds
-    }), Object(external_this_wp_element_["createElement"])(block_mover, {
+    }, Object(external_this_wp_element_["createElement"])(block_mover, {
       clientIds: blockClientIds
     }));
-  })), shouldShowVisualToolbar && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(block_controls.Slot, {
+  }), shouldShowVisualToolbar && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(block_controls.Slot, {
     bubblesVirtually: true,
     className: "block-editor-block-toolbar__slot"
   }), Object(external_this_wp_element_["createElement"])(block_format_controls.Slot, {
