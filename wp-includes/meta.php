@@ -543,6 +543,13 @@ function get_metadata_raw( $meta_type, $object_id, $meta_key = '', $single = fal
 	 * (post, comment, term, user, or any other type with an associated meta table).
 	 * Returning a non-null value will effectively short-circuit the function.
 	 *
+	 * Possible filter names include:
+	 *
+	 *  - `get_post_metadata`
+	 *  - `get_comment_metadata`
+	 *  - `get_term_metadata`
+	 *  - `get_user_metadata`
+	 *
 	 * @since 3.1.0
 	 * @since 5.5.0 Added the `$meta_type` parameter.
 	 *
@@ -613,11 +620,12 @@ function get_metadata_default( $meta_type, $object_id, $meta_key, $single = fals
 	}
 
 	/**
-	 * Filter the default metadata value for a specified meta key and object.
+	 * Filters the default metadata value for a specified meta key and object.
 	 *
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type
-	 * (post, comment, term, user, blog, or any other type with an associated meta
-	 * table). Possible filter names include:
+	 * (post, comment, term, user, or any other type with an associated meta table).
+	 *
+	 * Possible filter names include:
 	 *
 	 *  - `default_post_metadata`
 	 *  - `default_comment_metadata`
