@@ -590,7 +590,7 @@ function get_metadata_raw( $meta_type, $object_id, $meta_key = '', $single = fal
 }
 
 /**
- * Retrieves default metadata value for the specified object.
+ * Retrieves default metadata value for the specified meta key and object.
  *
  * By default, an empty string is returned if `$single` is true, or an empty array
  * if it's false.
@@ -613,10 +613,16 @@ function get_metadata_default( $meta_type, $object_id, $meta_key, $single = fals
 	}
 
 	/**
-	 * Filter the default value for a specified object.
+	 * Filter the default metadata value for a specified meta key and object.
 	 *
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type
-	 * (post, comment, term, user, or any other type with an associated meta table).
+	 * (post, comment, term, user, blog, or any other type with an associated meta
+	 * table). Possible filter names include:
+	 *
+	 *  - `default_post_metadata`
+	 *  - `default_comment_metadata`
+	 *  - `default_term_metadata`
+	 *  - `default_user_metadata`
 	 *
 	 * @since 5.5.0
 	 *
@@ -1227,6 +1233,7 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  *              `$sanitize_callback` and `$auth_callback` have been folded into this array.
  * @since 4.9.8 The `$object_subtype` argument was added to the arguments array.
  * @since 5.3.0 Valid meta types expanded to include "array" and "object".
+ * @since 5.5.0 The `$default` argument was added to the arguments array.
  *
  * @param string       $object_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
  *                                  or any other object type with an associated meta table.
