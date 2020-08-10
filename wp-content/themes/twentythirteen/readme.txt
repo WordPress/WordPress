@@ -1,7 +1,7 @@
 === Twenty Thirteen ===
 Contributors: wordpressdotorg
 Tested up to: 5.5
-Stable tag: 3.0
+Stable tag: 3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, right-sidebar, custom-header, custom-menu, editor-style, featured-images, footer-widgets, microformats, post-formats, rtl-language-support, sticky-post, translation-ready, accessibility-ready
@@ -46,8 +46,13 @@ Source: http://www.genericons.com
 
 == Changelog ==
 
+= 3.1 =
+* Released: August 11, 2020
+
+https://codex.wordpress.org/Twenty_Thirteen_Theme_Changelog#Version_3.1
+
 = 3.0 =
-* Released: March, 2020
+* Released: March 31, 2020
 
 https://codex.wordpress.org/Twenty_Thirteen_Theme_Changelog#Version_3.0
 

@@ -2,7 +2,7 @@
 Contributors: wordpressdotorg
 Requires at least: WordPress 4.1
 Tested up to: 5.5
-Version: 2.6
+Version: 2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, left-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready
@@ -54,6 +54,11 @@ License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
 == Changelog ==
+
+= 2.7 =
+* Released: August 11, 2020
+
+https://codex.wordpress.org/Twenty_Fifteen_Theme_Changelog#Version_2.7
 
 = 2.6 =
 * Released: March 31, 2020
