@@ -98,7 +98,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						<source src="https://s.w.org/images/core/5.5/auto-updates.mp4" type="video/mp4" />
 						<source src="https://s.w.org/images/core/5.5/auto-updates.webm" type="video/webm" />
 					</video>
-					<figcaption id="about-security" class="screen-reader-text"><?php _e( 'Video: Installed plugin screen, which shows a new column, Automatic Updates. In this column are buttons that say "Enable auto-updates." When clicked, the auto-updates feature is turned on for that plugin, and the button switches to say "Disable auto-updates".' ); ?></figcaption>
+					<figcaption id="about-security" class="screen-reader-text"><?php _e( 'Video: Installed plugin screen, which shows a new column, Automatic Updates. In this column are buttons that say "Enable auto-updates". When clicked, the auto-updates feature is turned on for that plugin, and the button switches to say "Disable auto-updates".' ); ?></figcaption>
 				</figure>
 			</div>
 		</div>
