@@ -46,6 +46,7 @@ class WP_Debug_Data {
 		$core_version           = get_bloginfo( 'version' );
 		$core_updates           = get_core_updates();
 		$core_update_needed     = '';
+		$environment_type.      = wp_get_environment_type();
 
 		foreach ( $core_updates as $core => $update ) {
 			if ( 'upgrade' === $update->response ) {
@@ -118,6 +119,11 @@ class WP_Debug_Data {
 					'label' => __( 'Is this a multisite?' ),
 					'value' => $is_multisite ? __( 'Yes' ) : __( 'No' ),
 					'debug' => $is_multisite,
+				),
+				'site_environment'.      => array(
+					'label' => __( 'What type of environment is this?' ),
+					'value' => $environment_type,
+					'debug' => $environment_type,
 				),
 			),
 		);
