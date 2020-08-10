@@ -4860,7 +4860,7 @@ function ImageEditor(_ref5) {
 
     attrs.src = url;
     external_this_wp_apiFetch_default()({
-      path: "wp/v2/media/".concat(id, "/edit"),
+      path: "/wp/v2/media/".concat(id, "/edit"),
       method: 'POST',
       data: attrs
     }).then(function (response) {

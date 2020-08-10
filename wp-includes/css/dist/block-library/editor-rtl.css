@@ -766,7 +766,6 @@ figure.wp-block-image:not(.wp-block) {
 
 .wp-block-image__aspect-ratio {
   height: 46px;
-  margin-top: -8px;
   margin-bottom: -8px;
   display: flex;
   align-items: center; }
