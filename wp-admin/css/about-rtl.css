@@ -31,8 +31,8 @@
 	--accent-2: #bd7331;
 	--accent-3: #b04329;
 	/* Navigation colors. */
-	--nav-background: var( --subtle-background );
-	--nav-border: var( --accent-1 );
+	--nav-background: var(--subtle-background);
+	--nav-border: var(--accent-1);
 	--nav-color: var(--accent-3);
 	--nav-current: var(--accent-3);
 }
@@ -99,7 +99,7 @@
 }
 
 .about__section {
-	background: #f3f4f5;
+	background: #fff;
 	background: var(--background);
 	clear: both;
 }
