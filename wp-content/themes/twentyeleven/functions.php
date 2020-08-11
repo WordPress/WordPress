@@ -174,7 +174,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 			'default-text-color'     => '000',
 			// The height and width of our custom header.
 			/**
-			 * Filter the Twenty Eleven default header image width.
+			 * Filters the Twenty Eleven default header image width.
 			 *
 			 * @since Twenty Eleven 1.0
 			 *
@@ -182,7 +182,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 			 */
 			'width'                  => apply_filters( 'twentyeleven_header_image_width', 1000 ),
 			/**
-			 * Filter the Twenty Eleven default header image height.
+			 * Filters the Twenty Eleven default header image height.
 			 *
 			 * @since Twenty Eleven 1.0
 			 *

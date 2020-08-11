@@ -1941,7 +1941,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Filter the X-Frame-Options and Content-Security-Policy headers to ensure frontend can load in customizer.
+	 * Filters the X-Frame-Options and Content-Security-Policy headers to ensure frontend can load in customizer.
 	 *
 	 * @since 4.7.0
 	 *
@@ -3276,7 +3276,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Filter heartbeat settings for the Customizer.
+	 * Filters heartbeat settings for the Customizer.
 	 *
 	 * @since 4.9.0
 	 * @param array $settings Current settings to filter.

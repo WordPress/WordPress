@@ -1081,7 +1081,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		);
 
 		/**
-		 * Filter collection parameters for the terms controller.
+		 * Filters collection parameters for the terms controller.
 		 *
 		 * The dynamic part of the filter `$this->taxonomy` refers to the taxonomy
 		 * slug for the controller.

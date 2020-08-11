@@ -2411,7 +2411,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$schema_fields = array_keys( $schema['properties'] );
 
 		/**
-		 * Filter the post's schema.
+		 * Filters the post's schema.
 		 *
 		 * The dynamic portion of the filter, `$this->post_type`, refers to the
 		 * post type slug for the controller.
@@ -2752,7 +2752,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		/**
-		 * Filter collection parameters for the posts controller.
+		 * Filters collection parameters for the posts controller.
 		 *
 		 * The dynamic part of the filter `$this->post_type` refers to the post
 		 * type slug for the controller.

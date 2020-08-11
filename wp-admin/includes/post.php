@@ -2127,7 +2127,7 @@ function use_block_editor_for_post( $post ) {
 	$use_block_editor = use_block_editor_for_post_type( $post->post_type );
 
 	/**
-	 * Filter whether a post is able to be edited in the block editor.
+	 * Filters whether a post is able to be edited in the block editor.
 	 *
 	 * @since 5.0.0
 	 *
@@ -2163,7 +2163,7 @@ function use_block_editor_for_post_type( $post_type ) {
 	}
 
 	/**
-	 * Filter whether a post is able to be edited in the block editor.
+	 * Filters whether a post is able to be edited in the block editor.
 	 *
 	 * @since 5.0.0
 	 *
@@ -2216,7 +2216,7 @@ function get_block_categories( $post ) {
 	);
 
 	/**
-	 * Filter the default array of block categories.
+	 * Filters the default array of block categories.
 	 *
 	 * @since 5.0.0
 	 *

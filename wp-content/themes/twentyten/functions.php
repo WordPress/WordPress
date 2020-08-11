@@ -157,7 +157,7 @@ if ( ! function_exists( 'twentyten_setup' ) ) :
 			'default-image'       => '%s/images/headers/path.jpg',
 			// The height and width of our custom header.
 			/**
-			 * Filter the Twenty Ten default header image width.
+			 * Filters the Twenty Ten default header image width.
 			 *
 			 * @since Twenty Ten 1.0
 			 *
@@ -165,7 +165,7 @@ if ( ! function_exists( 'twentyten_setup' ) ) :
 			 */
 			'width'               => apply_filters( 'twentyten_header_image_width', 940 ),
 			/**
-			 * Filter the Twenty Ten defaul header image height.
+			 * Filters the Twenty Ten defaul header image height.
 			 *
 			 * @since Twenty Ten 1.0
 			 *

@@ -53,7 +53,7 @@ get_header(); ?>
 					<div id="author-avatar">
 						<?php
 						/**
-						 * Filter the Twenty Eleven author bio avatar size.
+						 * Filters the Twenty Eleven author bio avatar size.
 						 *
 						 * @since Twenty Eleven 1.0
 						 *

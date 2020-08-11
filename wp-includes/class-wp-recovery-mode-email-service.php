@@ -202,7 +202,7 @@ When seeking help with this issue, you may be asked for some of the following in
 		);
 
 		/**
-		 * Filter the contents of the Recovery Mode email.
+		 * Filters the contents of the Recovery Mode email.
 		 *
 		 * @since 5.2.0
 		 *

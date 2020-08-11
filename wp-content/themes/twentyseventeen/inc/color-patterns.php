@@ -14,7 +14,7 @@ function twentyseventeen_custom_colors_css() {
 	$hue = absint( get_theme_mod( 'colorscheme_hue', 250 ) );
 
 	/**
-	 * Filter Twenty Seventeen default saturation level.
+	 * Filters Twenty Seventeen default saturation level.
 	 *
 	 * @since Twenty Seventeen 1.0
 	 *

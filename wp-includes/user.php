@@ -896,8 +896,9 @@ function count_users( $strategy = 'time', $site_id = null ) {
 	}
 
 	/**
-	 * Filter the user count before queries are run. Return a non-null value to cause count_users()
-	 * to return early.
+	 * Filters the user count before queries are run.
+	 *
+	 * Return a non-null value to cause count_users() to return early.
 	 *
 	 * @since 5.1.0
 	 *

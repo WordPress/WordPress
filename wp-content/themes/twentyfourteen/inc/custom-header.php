@@ -20,7 +20,7 @@ function twentyfourteen_custom_header_setup() {
 	add_theme_support(
 		'custom-header',
 		/**
-		 * Filter Twenty Fourteen custom-header support arguments.
+		 * Filters Twenty Fourteen custom-header support arguments.
 		 *
 		 * @since Twenty Fourteen 1.0
 		 *

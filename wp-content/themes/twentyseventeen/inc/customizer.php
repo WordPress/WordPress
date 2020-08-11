@@ -116,7 +116,7 @@ function twentyseventeen_customize_register( $wp_customize ) {
 	);
 
 	/**
-	 * Filter number of front page sections in Twenty Seventeen.
+	 * Filters the number of front page sections in Twenty Seventeen.
 	 *
 	 * @since Twenty Seventeen 1.0
 	 *

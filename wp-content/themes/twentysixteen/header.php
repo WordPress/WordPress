@@ -85,7 +85,7 @@
 			<?php if ( get_header_image() ) : ?>
 				<?php
 					/**
-					 * Filter the default twentysixteen custom header sizes attribute.
+					 * Filters the default twentysixteen custom header sizes attribute.
 					 *
 					 * @since Twenty Sixteen 1.0
 					 *

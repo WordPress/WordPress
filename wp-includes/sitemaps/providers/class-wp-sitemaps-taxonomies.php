@@ -38,7 +38,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 		$taxonomies = array_filter( $taxonomies, 'is_taxonomy_viewable' );
 
 		/**
-		 * Filter the list of taxonomy object subtypes available within the sitemap.
+		 * Filters the list of taxonomy object subtypes available within the sitemap.
 		 *
 		 * @since 5.5.0
 		 *

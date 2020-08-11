@@ -213,7 +213,7 @@ function twentyseventeen_social_links_icons() {
 	);
 
 	/**
-	 * Filter Twenty Seventeen social links icons.
+	 * Filters Twenty Seventeen social links icons.
 	 *
 	 * @since Twenty Seventeen 1.0
 	 *

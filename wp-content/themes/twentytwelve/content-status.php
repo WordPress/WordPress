@@ -19,7 +19,7 @@ $post_title = sprintf( __( 'Permalink to %s', 'twentytwelve' ), the_title_attrib
 			</header>
 			<?php
 			/**
-			 * Filter the status avatar size.
+			 * Filters the status avatar size.
 			 *
 			 * @since Twenty Twelve 1.0
 			 *

@@ -2050,7 +2050,7 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	$args = wp_parse_args( $args );
 
 	/**
-	 * Filter arguments for retrieving object terms.
+	 * Filters arguments for retrieving object terms.
 	 *
 	 * @since 4.9.0
 	 *

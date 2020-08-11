@@ -162,7 +162,7 @@ function twentyeleven_color_schemes() {
 	);
 
 	/**
-	 * Filter the Twenty Eleven color scheme options.
+	 * Filters the Twenty Eleven color scheme options.
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
@@ -196,7 +196,7 @@ function twentyeleven_layouts() {
 	);
 
 	/**
-	 * Filter the Twenty Eleven layout options.
+	 * Filters the Twenty Eleven layout options.
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
@@ -224,7 +224,7 @@ function twentyeleven_get_default_theme_options() {
 	}
 
 	/**
-	 * Filter the Twenty Eleven default options.
+	 * Filters the Twenty Eleven default options.
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
@@ -398,7 +398,7 @@ function twentyeleven_theme_options_validate( $input ) {
 	}
 
 	/**
-	 * Filter the Twenty Eleven sanitized form input array.
+	 * Filters the Twenty Eleven sanitized form input array.
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
@@ -508,7 +508,7 @@ function twentyeleven_layout_classes( $existing_classes ) {
 	}
 
 	/**
-	 * Filter the Twenty Eleven layout body classes.
+	 * Filters the Twenty Eleven layout body classes.
 	 *
 	 * @since Twenty Eleven 1.0
 	 *

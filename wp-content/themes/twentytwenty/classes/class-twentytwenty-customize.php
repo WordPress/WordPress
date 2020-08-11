@@ -503,7 +503,7 @@ if ( ! function_exists( 'twentytwenty_customize_partial_site_logo' ) ) {
  */
 function twentytwenty_customize_opacity_range() {
 	/**
-	 * Filter the input attributes for opacity
+	 * Filters the input attributes for opacity
 	 *
 	 * @param array $attrs {
 	 *     The attributes

@@ -7330,7 +7330,7 @@ function wp_add_trashed_suffix_to_post_name_for_post( $post ) {
 }
 
 /**
- * Filter the SQL clauses of an attachment query to include filenames.
+ * Filters the SQL clauses of an attachment query to include filenames.
  *
  * @since 4.7.0
  * @access private

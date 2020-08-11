@@ -1125,7 +1125,7 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 			}
 
 			/**
-			 * Filter the URL where the signature for a file is located.
+			 * Filters the URL where the signature for a file is located.
 			 *
 			 * @since 5.2.0
 			 *
@@ -1394,7 +1394,7 @@ function wp_trusted_keys() {
 	// TODO: Add key #2 with longer expiration.
 
 	/**
-	 * Filter the valid signing keys used to verify the contents of files.
+	 * Filters the valid signing keys used to verify the contents of files.
 	 *
 	 * @since 5.2.0
 	 *

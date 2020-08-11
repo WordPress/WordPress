@@ -26,7 +26,7 @@ get_header(); ?>
 						$tag_description = tag_description();
 					if ( ! empty( $tag_description ) ) {
 						/**
-						 * Filter the default Twenty Eleven tag description.
+						 * Filters the default Twenty Eleven tag description.
 						 *
 						 * @since Twenty Eleven 1.0
 						 *

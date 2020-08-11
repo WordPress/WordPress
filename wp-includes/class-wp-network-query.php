@@ -200,7 +200,7 @@ class WP_Network_Query {
 		$network_data = null;
 
 		/**
-		 * Filter the network data before the query takes place.
+		 * Filters the network data before the query takes place.
 		 *
 		 * Return a non-null value to bypass WordPress's default network queries.
 		 *

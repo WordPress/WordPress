@@ -1553,7 +1553,7 @@ function wp_image_file_matches_image_meta( $image_location, $image_meta, $attach
 	}
 
 	/**
-	 * Filter whether an image path or URI matches image meta.
+	 * Filters whether an image path or URI matches image meta.
 	 *
 	 * @since 5.5.0
 	 *

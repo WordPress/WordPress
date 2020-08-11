@@ -93,7 +93,7 @@ get_header(); ?>
 								<a href="<?php echo esc_url( $next_attachment_url ); ?>" title="<?php the_title_attribute(); ?>" rel="attachment">
 									<?php
 									/**
-									 * Filter the image attachment size to use.
+									 * Filters the image attachment size to use.
 									 *
 									 * @since Twenty Twelve 1.0
 									 *

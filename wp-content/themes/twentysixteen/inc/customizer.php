@@ -22,7 +22,7 @@ function twentysixteen_custom_header_and_background() {
 	add_theme_support(
 		'custom-background',
 		/**
-		 * Filter the arguments used when adding 'custom-background' support in Twenty Sixteen.
+		 * Filters the arguments used when adding 'custom-background' support in Twenty Sixteen.
 		 *
 		 * @since Twenty Sixteen 1.0
 		 *
@@ -43,7 +43,7 @@ function twentysixteen_custom_header_and_background() {
 	add_theme_support(
 		'custom-header',
 		/**
-		 * Filter the arguments used when adding 'custom-header' support in Twenty Sixteen.
+		 * Filters the arguments used when adding 'custom-header' support in Twenty Sixteen.
 		 *
 		 * @since Twenty Sixteen 1.0
 		 *
@@ -291,7 +291,7 @@ function twentysixteen_customize_partial_blogdescription() {
  */
 function twentysixteen_get_color_schemes() {
 	/**
-	 * Filter the color schemes registered for use with Twenty Sixteen.
+	 * Filters the color schemes registered for use with Twenty Sixteen.
 	 *
 	 * The default schemes include 'default', 'dark', 'gray', 'red', and 'yellow'.
 	 *

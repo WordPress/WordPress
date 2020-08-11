@@ -157,7 +157,7 @@ function twentyfifteen_customize_partial_blogdescription() {
  */
 function twentyfifteen_get_color_schemes() {
 	/**
-	 * Filter the color schemes registered for use with Twenty Fifteen.
+	 * Filters the color schemes registered for use with Twenty Fifteen.
 	 *
 	 * The default schemes include 'default', 'dark', 'yellow', 'pink', 'purple', and 'blue'.
 	 *

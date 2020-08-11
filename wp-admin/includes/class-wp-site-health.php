@@ -152,7 +152,7 @@ class WP_Site_Health {
 	 */
 	private function perform_test( $callback ) {
 		/**
-		 * Filter the output of a finished Site Health test.
+		 * Filters the output of a finished Site Health test.
 		 *
 		 * @since 5.3.0
 		 *

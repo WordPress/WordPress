@@ -382,7 +382,7 @@ class WP_Comment_Query {
 		$comment_data = null;
 
 		/**
-		 * Filter the comments data before the query takes place.
+		 * Filters the comments data before the query takes place.
 		 *
 		 * Return a non-null value to bypass WordPress's default comment queries.
 		 *

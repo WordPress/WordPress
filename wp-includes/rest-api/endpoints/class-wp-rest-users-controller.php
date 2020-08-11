@@ -1559,7 +1559,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		);
 
 		/**
-		 * Filter collection parameters for the users controller.
+		 * Filters collection parameters for the users controller.
 		 *
 		 * This filter registers the collection parameter, but does not map the
 		 * collection parameter to an internal WP_User_Query parameter.  Use the

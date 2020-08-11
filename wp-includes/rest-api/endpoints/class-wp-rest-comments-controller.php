@@ -449,7 +449,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 
 			/**
-			 * Filter whether comments can be created without authentication.
+			 * Filters whether comments can be created without authentication.
 			 *
 			 * Enables creating comments for anonymous users.
 			 *
@@ -1676,7 +1676,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		);
 
 		/**
-		 * Filter collection parameters for the comments controller.
+		 * Filters collection parameters for the comments controller.
 		 *
 		 * This filter registers the collection parameter, but does not map the
 		 * collection parameter to an internal WP_Comment_Query parameter. Use the

@@ -786,7 +786,7 @@ function _rest_array_intersect_key_recursive( $array1, $array2 ) {
 }
 
 /**
- * Filter the API response to include only a white-listed set of response object fields.
+ * Filters the API response to include only a white-listed set of response object fields.
  *
  * @since 4.8.0
  *
