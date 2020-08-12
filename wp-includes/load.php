@@ -142,10 +142,10 @@ function wp_check_php_mysql_versions() {
  * @return string The current environment type.
  */
 function wp_get_environment_type() {
-	static $current_env = '';
+	static $cached_env = '';
 
-	if ( $current_env ) {
-		return $current_env;
+	if ( $cached_env ) {
+		return $cached_env;
 	}
 
 	$wp_environments = array(
@@ -183,6 +183,11 @@ function wp_get_environment_type() {
 	// Make sure the environment is an allowed one, and not accidentally set to an invalid value.
 	if ( ! in_array( $current_env, $wp_environments, true ) ) {
 		$current_env = 'production';
+	}
+
+	if ( did_action( 'muplugins_loaded' ) ) {
+		$cached_env = apply_filters( 'wp_get_environment_type', $current_env );
+		return $cached_env;
 	}
 
 	return $current_env;
