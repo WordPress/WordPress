@@ -597,13 +597,23 @@ class WP_oEmbed {
 			return false;
 		}
 
-		$loader = libxml_disable_entity_loader( true );
+		if ( PHP_VERSION_ID < 80000 ) {
+			// This function has been deprecated in PHP 8.0 because in libxml 2.9.0, external entity loading
+			// is disabled by default, so this function is no longer needed to protect against XXE attacks.
+			// phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.libxml_disable_entity_loaderDeprecated
+			$loader = libxml_disable_entity_loader( true );
+		}
+
 		$errors = libxml_use_internal_errors( true );
 
 		$return = $this->_parse_xml_body( $response_body );
 
 		libxml_use_internal_errors( $errors );
-		libxml_disable_entity_loader( $loader );
+
+		if ( PHP_VERSION_ID < 80000 && isset( $loader ) ) {
+			// phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.libxml_disable_entity_loaderDeprecated
+			libxml_disable_entity_loader( $loader );
+		}
 
 		return $return;
 	}
