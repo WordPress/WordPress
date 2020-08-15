@@ -397,12 +397,13 @@ function strip_core_block_namespace( $block_name = null ) {
  *
  * @since 5.3.1
  *
- * @param string $block_name       Block name.
- * @param array  $block_attributes Block attributes.
- * @param string $block_content    Block save content.
+ * @param string|null $block_name       Block name. Null if the block name is unknown,
+ *                                      e.g. Classic blocks have their name set to null.
+ * @param array       $block_attributes Block attributes.
+ * @param string      $block_content    Block save content.
  * @return string Comment-delimited block content.
  */
-function get_comment_delimited_block_content( $block_name = null, $block_attributes, $block_content ) {
+function get_comment_delimited_block_content( $block_name, $block_attributes, $block_content ) {
 	if ( is_null( $block_name ) ) {
 		return $block_content;
 	}
