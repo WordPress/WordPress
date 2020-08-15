@@ -1038,7 +1038,7 @@ function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_
  *
  * @param int $object_id The ID of the original object being trashed.
  */
-function _wp_delete_post_menu_item( $object_id = 0 ) {
+function _wp_delete_post_menu_item( $object_id ) {
 	$object_id = (int) $object_id;
 
 	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id, 'post_type' );
