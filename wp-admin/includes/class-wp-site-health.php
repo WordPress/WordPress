@@ -2049,10 +2049,10 @@ class WP_Site_Health {
 		$post_max_size   = ini_get( 'post_max_size' );
 		$upload_max_size = ini_get( 'upload_max_filesize' );
 
-		if ( wp_convert_hr_to_bytes( $post_max_size ) !== wp_convert_hr_to_bytes( $upload_max_size ) ) {
+		if ( wp_convert_hr_to_bytes( $post_max_size ) < wp_convert_hr_to_bytes( $upload_max_size ) ) {
 			$result['label'] = sprintf(
 				/* translators: 1: post_max_size, 2: upload_max_filesize */
-				__( 'Mismatched "%1$s" and "%2$s" values.' ),
+				__( 'The "%1$s" value is smaller than "%2$s".' ),
 				'post_max_size',
 				'upload_max_filesize'
 			);
@@ -2061,7 +2061,7 @@ class WP_Site_Health {
 				'<p>%s</p>',
 				sprintf(
 					/* translators: 1: post_max_size, 2: upload_max_filesize */
-					__( 'The settings for %1$s and %2$s are not the same, this could cause some problems when trying to upload files.' ),
+					__( 'The setting for %1$s is smaller than %2$s, this could cause some problems when trying to upload files.' ),
 					'<code>post_max_size</code>',
 					'<code>upload_max_filesize</code>'
 				)
