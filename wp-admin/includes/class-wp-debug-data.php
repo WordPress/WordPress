@@ -531,10 +531,10 @@ class WP_Debug_Data {
 			);
 		} else {
 			// Get the PHP ini directive values.
-			$post_max_size    = ini_get( 'post_max_size' );
-			$upload_max_size  = ini_get( 'upload_max_filesize' );
-			$max_file_uploads = ini_get( 'max_file_uploads' );
-			$effective        = min( wp_convert_hr_to_bytes( $post_max_size ), wp_convert_hr_to_bytes( $upload_max_size ) );
+			$post_max_size       = ini_get( 'post_max_size' );
+			$upload_max_filesize = ini_get( 'upload_max_filesize' );
+			$max_file_uploads    = ini_get( 'max_file_uploads' );
+			$effective           = min( wp_convert_hr_to_bytes( $post_max_size ), wp_convert_hr_to_bytes( $upload_max_filesize ) );
 
 			// Add info in Media section.
 			$info['wp-media']['fields']['file_uploads']        = array(
@@ -548,7 +548,7 @@ class WP_Debug_Data {
 			);
 			$info['wp-media']['fields']['upload_max_filesize'] = array(
 				'label' => __( 'Max size of an uploaded file' ),
-				'value' => $upload_max_size,
+				'value' => $upload_max_filesize,
 			);
 			$info['wp-media']['fields']['max_effective_size']  = array(
 				'label' => __( 'Max effective file size' ),
@@ -711,15 +711,15 @@ class WP_Debug_Data {
 				);
 			}
 
-			$info['wp-server']['fields']['max_input_time']    = array(
+			$info['wp-server']['fields']['max_input_time']      = array(
 				'label' => __( 'Max input time' ),
 				'value' => ini_get( 'max_input_time' ),
 			);
-			$info['wp-server']['fields']['upload_max_size']   = array(
+			$info['wp-server']['fields']['upload_max_filesize'] = array(
 				'label' => __( 'Upload max filesize' ),
 				'value' => ini_get( 'upload_max_filesize' ),
 			);
-			$info['wp-server']['fields']['php_post_max_size'] = array(
+			$info['wp-server']['fields']['php_post_max_size']   = array(
 				'label' => __( 'PHP post max size' ),
 				'value' => ini_get( 'post_max_size' ),
 			);

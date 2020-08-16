@@ -2046,10 +2046,10 @@ class WP_Site_Health {
 			return $result;
 		}
 
-		$post_max_size   = ini_get( 'post_max_size' );
-		$upload_max_size = ini_get( 'upload_max_filesize' );
+		$post_max_size       = ini_get( 'post_max_size' );
+		$upload_max_filesize = ini_get( 'upload_max_filesize' );
 
-		if ( wp_convert_hr_to_bytes( $post_max_size ) < wp_convert_hr_to_bytes( $upload_max_size ) ) {
+		if ( wp_convert_hr_to_bytes( $post_max_size ) < wp_convert_hr_to_bytes( $upload_max_filesize ) ) {
 			$result['label'] = sprintf(
 				/* translators: 1: post_max_size, 2: upload_max_filesize */
 				__( 'The "%1$s" value is smaller than "%2$s".' ),
