@@ -3196,7 +3196,8 @@ function _get_post_ancestors( &$post ) {
  * @see wp_get_image_editor()
  *
  * @param string $file Filename of the image to load.
- * @return resource The resulting image resource on success, Error string on failure.
+ * @return resource|GdImage|string The resulting image resource or GdImage instance on success,
+ *                                 error string on failure.
  */
 function wp_load_image( $file ) {
 	_deprecated_function( __FUNCTION__, '3.5.0', 'wp_get_image_editor()' );
@@ -3217,7 +3218,7 @@ function wp_load_image( $file ) {
 
 	$image = imagecreatefromstring( file_get_contents( $file ) );
 
-	if ( ! is_resource( $image ) ) {
+	if ( ! is_gd_image( $image ) ) {
 		/* translators: %s: File name. */
 		return sprintf( __( 'File &#8220;%s&#8221; is not an image.' ), $file );
 	}

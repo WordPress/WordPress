@@ -3459,15 +3459,19 @@ function get_taxonomies_for_attachments( $output = 'names' ) {
  * @since 2.9.0
  *
  * @param int $width  Image width in pixels.
- * @param int $height Image height in pixels..
- * @return resource The GD image resource.
+ * @param int $height Image height in pixels.
+ * @return resource|GdImage The GD image resource or GdImage instance.
  */
 function wp_imagecreatetruecolor( $width, $height ) {
 	$img = imagecreatetruecolor( $width, $height );
-	if ( is_resource( $img ) && function_exists( 'imagealphablending' ) && function_exists( 'imagesavealpha' ) ) {
+
+	if ( is_gd_image( $img )
+		&& function_exists( 'imagealphablending' ) && function_exists( 'imagesavealpha' )
+	) {
 		imagealphablending( $img, false );
 		imagesavealpha( $img, true );
 	}
+
 	return $img;
 }
 
