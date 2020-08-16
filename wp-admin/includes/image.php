@@ -921,7 +921,7 @@ function file_is_displayable_image( $path ) {
  *
  * @since 5.6.0
  *
- * @param resource|GdImage|false $image A value to check for the type for.
+ * @param resource|GdImage|false $image A value to check the type for.
  * @return bool True if $image is either a GD image resource or GdImage instance,
  *              false otherwise.
  */
