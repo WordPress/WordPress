@@ -39,10 +39,11 @@ class WP_Debug_Data {
 		$upload_dir             = wp_upload_dir();
 		$permalink_structure    = get_option( 'permalink_structure' );
 		$is_ssl                 = is_ssl();
+		$is_multisite           = is_multisite();
 		$users_can_register     = get_option( 'users_can_register' );
 		$blog_public            = get_option( 'blog_public' );
 		$default_comment_status = get_option( 'default_comment_status' );
-		$is_multisite           = is_multisite();
+		$environment_type       = wp_get_environment_type();
 		$core_version           = get_bloginfo( 'version' );
 		$core_updates           = get_core_updates();
 		$core_update_needed     = '';
@@ -99,6 +100,11 @@ class WP_Debug_Data {
 					'value' => $is_ssl ? __( 'Yes' ) : __( 'No' ),
 					'debug' => $is_ssl,
 				),
+				'multisite'              => array(
+					'label' => __( 'Is this a multisite?' ),
+					'value' => $is_multisite ? __( 'Yes' ) : __( 'No' ),
+					'debug' => $is_multisite,
+				),
 				'user_registration'      => array(
 					'label' => __( 'Can anyone register on this site?' ),
 					'value' => $users_can_register ? __( 'Yes' ) : __( 'No' ),
@@ -114,10 +120,10 @@ class WP_Debug_Data {
 					'value' => 'open' === $default_comment_status ? _x( 'Open', 'comment status' ) : _x( 'Closed', 'comment status' ),
 					'debug' => $default_comment_status,
 				),
-				'multisite'              => array(
-					'label' => __( 'Is this a multisite?' ),
-					'value' => $is_multisite ? __( 'Yes' ) : __( 'No' ),
-					'debug' => $is_multisite,
+				'environment_type'       => array(
+					'label' => __( 'Environment type' ),
+					'value' => $environment_type,
+					'debug' => $environment_type,
 				),
 			),
 		);
