@@ -2207,6 +2207,15 @@ class WP_Site_Health {
 		 */
 		$tests = apply_filters( 'site_status_tests', $tests );
 
+		// Ensure that the filtered tests contain the required array keys.
+		$tests = array_merge(
+			array(
+				'direct' => array(),
+				'async'  => array(),
+			),
+			$tests
+		);
+
 		return $tests;
 	}
 
