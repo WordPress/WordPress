@@ -27,7 +27,7 @@ class WP_Site_Health_Auto_Updates {
 	 */
 	public function run_tests() {
 		$tests = array(
-			$this->test_constants( 'WP_AUTO_UPDATE_CORE', true ),
+			$this->test_constants( 'WP_AUTO_UPDATE_CORE', array( true, 'minor' ) ),
 			$this->test_wp_version_check_attached(),
 			$this->test_filters_automatic_updater_disabled(),
 			$this->test_wp_automatic_updates_disabled(),
@@ -60,13 +60,17 @@ class WP_Site_Health_Auto_Updates {
 	 * Test if auto-updates related constants are set correctly.
 	 *
 	 * @since 5.2.0
+	 * @since 5.5.1 The `$value` parameter can accept an array.
 	 *
-	 * @param string $constant The name of the constant to check.
-	 * @param bool   $value    The value that the constant should be, if set.
+	 * @param string $constant         The name of the constant to check.
+	 * @param bool|string|array $value The value that the constant should be, if set,
+	 *                                 or an array of acceptable values.
 	 * @return array The test results.
 	 */
 	public function test_constants( $constant, $value ) {
-		if ( defined( $constant ) && constant( $constant ) !== $value ) {
+		$acceptable_values = (array) $value;
+
+		if ( defined( $constant ) && ! in_array( constant( $constant ), $acceptable_values, true ) ) {
 			return array(
 				'description' => sprintf(
 					/* translators: %s: Name of the constant used. */
