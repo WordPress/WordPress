@@ -1094,14 +1094,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 					if ( isset( $plugin_data['auto-update-forced'] ) ) {
 						if ( $plugin_data['auto-update-forced'] ) {
-							// Forced on
+							// Forced on.
 							$text = __( 'Auto-updates enabled' );
 						} else {
 							$text = __( 'Auto-updates disabled' );
 						}
 						$action     = 'unavailable';
 						$time_class = ' hidden';
-					} elseif ( ! $plugin_data['update-supported'] ) {
+					} elseif ( empty( $plugin_data['update-supported'] ) ) {
 						$text       = '';
 						$action     = 'unavailable';
 						$time_class = ' hidden';
