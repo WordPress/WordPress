@@ -3808,7 +3808,7 @@ function human_time_diff( $from, $to = 0 ) {
 function wp_trim_excerpt( $text = '', $post = null ) {
 	$raw_excerpt = $text;
 
-	if ( '' === $text ) {
+	if ( '' === trim( $text ) ) {
 		$post = get_post( $post );
 		$text = get_the_content( '', false, $post );
 
