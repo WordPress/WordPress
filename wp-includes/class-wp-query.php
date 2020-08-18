@@ -2558,7 +2558,7 @@ class WP_Query {
 			 * @since 1.5.0
 			 *
 			 * @param string   $where The WHERE clause of the query.
-			 * @param WP_Query $this The WP_Query instance (passed by reference).
+			 * @param WP_Query $this  The WP_Query instance (passed by reference).
 			 */
 			$where = apply_filters_ref_array( 'posts_where', array( $where, &$this ) );
 
@@ -2567,7 +2567,7 @@ class WP_Query {
 			 *
 			 * @since 1.5.0
 			 *
-			 * @param string   $join  The JOIN clause of the query.
+			 * @param string   $join The JOIN clause of the query.
 			 * @param WP_Query $this The WP_Query instance (passed by reference).
 			 */
 			$join = apply_filters_ref_array( 'posts_join', array( $join, &$this ) );
@@ -2609,7 +2609,7 @@ class WP_Query {
 				 * @since 2.2.0
 				 *
 				 * @param string   $cjoin The JOIN clause of the query.
-				 * @param WP_Query $this The WP_Query instance (passed by reference).
+				 * @param WP_Query $this  The WP_Query instance (passed by reference).
 				 */
 				$cjoin = apply_filters_ref_array( 'comment_feed_join', array( $cjoin, &$this ) );
 
@@ -2693,7 +2693,7 @@ class WP_Query {
 			 * @since 1.5.0
 			 *
 			 * @param string   $where The WHERE clause of the query.
-			 * @param WP_Query $this The WP_Query instance (passed by reference).
+			 * @param WP_Query $this  The WP_Query instance (passed by reference).
 			 */
 			$where = apply_filters_ref_array( 'posts_where_paged', array( $where, &$this ) );
 
@@ -2714,7 +2714,7 @@ class WP_Query {
 			 *
 			 * @since 1.5.0
 			 *
-			 * @param string   $join  The JOIN clause of the query.
+			 * @param string   $join The JOIN clause of the query.
 			 * @param WP_Query $this The WP_Query instance (passed by reference).
 			 */
 			$join = apply_filters_ref_array( 'posts_join_paged', array( $join, &$this ) );
@@ -2805,7 +2805,7 @@ class WP_Query {
 			 * @since 2.5.0
 			 *
 			 * @param string   $where The WHERE clause of the query.
-			 * @param WP_Query $this The WP_Query instance (passed by reference).
+			 * @param WP_Query $this  The WP_Query instance (passed by reference).
 			 */
 			$where = apply_filters_ref_array( 'posts_where_request', array( $where, &$this ) );
 
@@ -2828,7 +2828,7 @@ class WP_Query {
 			 *
 			 * @since 2.5.0
 			 *
-			 * @param string   $join  The JOIN clause of the query.
+			 * @param string   $join The JOIN clause of the query.
 			 * @param WP_Query $this The WP_Query instance (passed by reference).
 			 */
 			$join = apply_filters_ref_array( 'posts_join_request', array( $join, &$this ) );
@@ -3185,7 +3185,7 @@ class WP_Query {
 			 * @since 1.5.0
 			 *
 			 * @param WP_Post[] $posts Array of post objects.
-			 * @param WP_Query  $this The WP_Query instance (passed by reference).
+			 * @param WP_Query  $this  The WP_Query instance (passed by reference).
 			 */
 			$this->posts = apply_filters_ref_array( 'the_posts', array( $this->posts, &$this ) );
 		}
