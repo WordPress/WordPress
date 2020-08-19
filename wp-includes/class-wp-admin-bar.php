@@ -243,7 +243,9 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * Add a group to a menu node.
+	 * Add a group to a toolbar menu node.
+	 *
+	 * Groups can be used to organize toolbar items into distinct sections of a toolbar menu.
 	 *
 	 * @since 3.3.0
 	 *
