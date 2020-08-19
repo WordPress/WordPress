@@ -451,7 +451,7 @@ if ( ! function_exists( 'twentytwelve_comment' ) ) :
 				if ( $commenter['comment_author_email'] ) {
 					$moderation_note = __( 'Your comment is awaiting moderation.', 'twentytwelve' );
 				} else {
-					$moderation_note = __( 'Your comment is awaiting moderation. This is a preview, your comment will be visible after it has been approved.', 'twentytwelve' );
+					$moderation_note = __( 'Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.', 'twentytwelve' );
 				}
 				?>
 

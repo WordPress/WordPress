@@ -749,7 +749,7 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 					if ( $commenter['comment_author_email'] ) {
 						$moderation_note = __( 'Your comment is awaiting moderation.', 'twentyeleven' );
 					} else {
-						$moderation_note = __( 'Your comment is awaiting moderation. This is a preview, your comment will be visible after it has been approved.', 'twentyeleven' );
+						$moderation_note = __( 'Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.', 'twentyeleven' );
 					}
 					?>
 

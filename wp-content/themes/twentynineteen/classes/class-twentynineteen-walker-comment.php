@@ -93,7 +93,7 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 					if ( $commenter['comment_author_email'] ) {
 						$moderation_note = __( 'Your comment is awaiting moderation.', 'twentynineteen' );
 					} else {
-						$moderation_note = __( 'Your comment is awaiting moderation. This is a preview, your comment will be visible after it has been approved.', 'twentynineteen' );
+						$moderation_note = __( 'Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.', 'twentynineteen' );
 					}
 					?>
 
