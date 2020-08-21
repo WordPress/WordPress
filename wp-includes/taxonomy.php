@@ -1730,18 +1730,24 @@ function sanitize_term_field( $field, $value, $term_id, $taxonomy, $context ) {
  * Default $args is 'hide_empty' which can be 'hide_empty=true' or array('hide_empty' => true).
  *
  * @since 2.3.0
+ * @since 5.6.0 Changed the function signature so that the `$args` array can be provided as the first parameter.
  *
- * @param string       $taxonomy Taxonomy name.
- * @param array|string $args     Optional. Array of arguments that get passed to get_terms().
- *                               Default empty array.
+ * @param array|string $args       Optional. Array of arguments that get passed to get_terms().
+ *                                 Default empty array.
+ * @param array|string $deprecated Taxonomy name.
  * @return array|int|WP_Error Number of terms in that taxonomy or WP_Error if the taxonomy does not exist.
  */
-function wp_count_terms( $taxonomy, $args = array() ) {
-	$defaults = array(
-		'taxonomy'   => $taxonomy,
-		'hide_empty' => false,
-	);
-	$args     = wp_parse_args( $args, $defaults );
+function wp_count_terms( $args = array(), $deprecated = array() ) {
+	// Check whether function is used with legacy signature `$taxonomy` and `$args`.
+	$use_legacy_args = $args && ( is_string( $args ) && taxonomy_exists( $args ) || is_array( $args ) && wp_is_numeric_array( $args ) );
+
+	$defaults = array( 'hide_empty' => false );
+	if ( $use_legacy_args ) {
+		$defaults['taxonomy'] = $args;
+		$args                 = $deprecated;
+	}
+
+	$args = wp_parse_args( $args, $defaults );
 
 	// Backward compatibility.
 	if ( isset( $args['ignore_empty'] ) ) {

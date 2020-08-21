@@ -725,7 +725,6 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
 
 	$num_pages = ceil(
 		wp_count_terms(
-			$taxonomy_name,
 			array_merge(
 				$args,
 				array(

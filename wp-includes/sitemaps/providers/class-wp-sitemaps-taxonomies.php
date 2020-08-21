@@ -150,7 +150,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 			return $max_num_pages;
 		}
 
-		$term_count = wp_count_terms( $taxonomy, $this->get_taxonomies_query_args( $taxonomy ) );
+		$term_count = wp_count_terms( $this->get_taxonomies_query_args( $taxonomy ) );
 
 		return (int) ceil( $term_count / wp_sitemaps_get_max_urls( $this->object_type ) );
 	}

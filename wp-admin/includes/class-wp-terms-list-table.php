@@ -129,7 +129,12 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$this->set_pagination_args(
 			array(
-				'total_items' => wp_count_terms( $this->screen->taxonomy, compact( 'search' ) ),
+				'total_items' => wp_count_terms(
+					array(
+						'taxonomy' => $this->screen->taxonomy,
+						'search'   => $search,
+					)
+				),
 				'per_page'    => $tags_per_page,
 			)
 		);
