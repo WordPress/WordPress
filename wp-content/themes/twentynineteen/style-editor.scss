@@ -18,19 +18,19 @@ body {
 	}
 
 	.wp-block[data-align="left"],
-	.wp-block.alignleft, {
+	.wp-block.alignleft {
 		margin-right: $size__spacing-unit;
 		width: inherit;
 	}
 
 	.wp-block[data-align="right"],
-	.wp-block.alignright, {
+	.wp-block.alignright {
 		margin-left: $size__spacing-unit;
 		width: inherit;
 	}
 
 	.wp-block[data-align="center"],
-	.wp-block.aligncenter, {
+	.wp-block.aligncenter {
 		margin-left: 0;
 	}
 
@@ -141,10 +141,6 @@ h6 {
 a {
 	@include link-transition;
 	color: $color__link;
-
-	*:visited {
-
-	}
 
 	&:hover,
 	&:active {
