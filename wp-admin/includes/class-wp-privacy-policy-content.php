@@ -87,7 +87,7 @@ final class WP_Privacy_Policy_Content {
 
 		// Remove the extra values added to the meta.
 		foreach ( $old as $key => $data ) {
-			if ( ! empty( $data['removed'] ) ) {
+			if ( ! is_array( $data ) || ! empty( $data['removed'] ) ) {
 				unset( $old[ $key ] );
 				continue;
 			}
