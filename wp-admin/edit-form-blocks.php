@@ -125,7 +125,11 @@ $meta_box_url = add_query_arg(
 	),
 	$meta_box_url
 );
-wp_localize_script( 'wp-editor', '_wpMetaBoxUrl', $meta_box_url );
+wp_add_inline_script(
+	'wp-editor',
+	sprintf( 'var _wpMetaBoxUrl = %s;', wp_json_encode( $meta_box_url ) ),
+	'before'
+);
 
 
 /*
