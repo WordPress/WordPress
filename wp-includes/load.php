@@ -134,10 +134,11 @@ function wp_check_php_mysql_versions() {
  * The type can be set via the `WP_ENVIRONMENT_TYPE` global system variable,
  * or a constant of the same name.
  *
- * Possible values include 'development', 'staging', 'production'. If not set,
- * the type defaults to 'production'.
+ * Possible values include 'local', 'development', 'staging', 'production'.
+ * If not set, the type defaults to 'production'.
  *
  * @since 5.5.0
+ * @since 5.5.1 The 'local' type was added.
  *
  * @return string The current environment type.
  */
@@ -149,6 +150,7 @@ function wp_get_environment_type() {
 	}
 
 	$wp_environments = array(
+		'local',
 		'development',
 		'staging',
 		'production',
