@@ -95,6 +95,11 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 		$result = array();
 
 		foreach ( $response->plugins as $plugin ) {
+			// If the API returned a plugin with empty data for 'blocks', skip it.
+			if ( empty( $plugin['blocks'] ) ) {
+				continue;
+			}
+
 			$data     = $this->prepare_item_for_response( $plugin, $request );
 			$result[] = $this->prepare_response_for_collection( $data );
 		}
