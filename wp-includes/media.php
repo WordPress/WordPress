@@ -1002,6 +1002,8 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
  * browser scale down the image.
  *
  * @since 2.5.0
+ * @since 4.4.0 The `$srcset` and `$sizes` attributes were added.
+ * @since 5.5.0 The `$loading` attribute was added.
  *
  * @param int          $attachment_id Image attachment ID.
  * @param string|array $size          Optional. Image size. Accepts any valid image size, or an array of width
@@ -1010,13 +1012,16 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
  * @param string|array $attr {
  *     Optional. Attributes for the image markup.
  *
- *     @type string $src    Image attachment URL.
- *     @type string $class  CSS class name or space-separated list of classes.
- *                          Default `attachment-$size_class size-$size_class`,
- *                          where `$size_class` is the image size being requested.
- *     @type string $alt    Image description for the alt attribute.
- *     @type string $srcset The 'srcset' attribute value.
- *     @type string $sizes  The 'sizes' attribute value.
+ *     @type string       $src     Image attachment URL.
+ *     @type string       $class   CSS class name or space-separated list of classes.
+ *                                 Default `attachment-$size_class size-$size_class`,
+ *                                 where `$size_class` is the image size being requested.
+ *     @type string       $alt     Image description for the alt attribute.
+ *     @type string       $srcset  The 'srcset' attribute value.
+ *     @type string       $sizes   The 'sizes' attribute value.
+ *     @type string|false $loading The 'loading' attribute value. Passing a value of false
+ *                                 will result in the attribute being omitted for the image.
+ *                                 Defaults to 'lazy', depending on wp_lazy_loading_enabled().
  * }
  * @return string HTML img element or empty string on failure.
  */
@@ -1048,8 +1053,8 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 
 		$attr = wp_parse_args( $attr, $default_attr );
 
-		// If `loading` attribute default of `lazy` is overridden for this
-		// image to omit the attribute, ensure it is not included.
+		// If the default value of `lazy` for the `loading` attribute is overridden
+		// to omit the attribute for this image, ensure it is not included.
 		if ( array_key_exists( 'loading', $attr ) && ! $attr['loading'] ) {
 			unset( $attr['loading'] );
 		}
