@@ -1002,6 +1002,7 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
  * browser scale down the image.
  *
  * @since 2.5.0
+ * @since 4.4.0 The `$srcset` and `$sizes` attributes were added.
  * @since 5.5.0 The `$loading` attribute was added.
  *
  * @param int          $attachment_id Image attachment ID.
