@@ -198,10 +198,18 @@ if ( $current_screen->is_block_editor() ) {
 	}
 }
 
+$error = error_get_last();
+
 // Print a CSS class to make PHP errors visible.
-if ( error_get_last() && WP_DEBUG && WP_DEBUG_DISPLAY && ini_get( 'display_errors' ) ) {
+if ( $error && WP_DEBUG && WP_DEBUG_DISPLAY && ini_get( 'display_errors' )
+	// Don't print the class for PHP notices in wp-config.php, as they happen before WP_DEBUG takes effect,
+	// and should not be displayed with the `error_reporting` level previously set in wp-load.php.
+	&& ( E_NOTICE !== $error['type'] || 'wp-config.php' !== wp_basename( $error['file'] ) )
+) {
 	$admin_body_class .= ' php-error';
 }
+
+unset( $error );
 
 ?>
 </head>
