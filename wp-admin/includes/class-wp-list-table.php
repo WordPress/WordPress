@@ -477,7 +477,7 @@ class WP_List_Table {
 
 		echo "</select>\n";
 
-		submit_button( __( 'Apply' ), 'action', "doaction$two", false, array( 'id' => "doaction$two" ) );
+		submit_button( __( 'Apply' ), 'action', '', false, array( 'id' => "doaction$two" ) );
 		echo "\n";
 	}
 
@@ -493,12 +493,12 @@ class WP_List_Table {
 			return false;
 		}
 
-		if ( isset( $_REQUEST['doaction2'] ) && isset( $_REQUEST['action2'] ) && -1 != $_REQUEST['action2'] ) {
-			return $_REQUEST['action2'];
-		}
-
 		if ( isset( $_REQUEST['action'] ) && -1 != $_REQUEST['action'] ) {
 			return $_REQUEST['action'];
+		}
+
+		if ( isset( $_REQUEST['action2'] ) && -1 != $_REQUEST['action2'] ) {
+			return $_REQUEST['action2'];
 		}
 
 		return false;
