@@ -2567,7 +2567,7 @@ function __get_option( $setting ) { // phpcs:ignore WordPress.NamingConventions.
 
 	$option = $wpdb->get_var( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s", $setting ) );
 
-	if ( 'home' === $setting && '' === $option ) {
+	if ( 'home' === $setting && ! $option ) {
 		return __get_option( 'siteurl' );
 	}
 
