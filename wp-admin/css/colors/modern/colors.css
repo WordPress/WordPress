@@ -737,7 +737,3 @@ div#wp-responsive-toggle a:before {
 .wp-full-overlay-footer .devices button:focus:before {
   color: #3858e9;
 }
-
-#adminmenu .wp-submenu, #adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu .wp-has-current-submenu.opensub .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu a.wp-has-current-submenu:focus + .wp-submenu {
-  padding-bottom: 12px;
-}
