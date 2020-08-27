@@ -42989,7 +42989,8 @@ function QueryControls(_ref) {
     categoriesList: categoriesList,
     label: Object(external_this_wp_i18n_["__"])('Category'),
     noOptionLabel: Object(external_this_wp_i18n_["__"])('All'),
-    selectedCategoryId: selectedCategoryId
+    selectedCategoryId: selectedCategoryId,
+    onChange: onCategoryChange
   }), categorySuggestions && onCategoryChange && Object(external_this_wp_element_["createElement"])(form_token_field, {
     key: "query-controls-categories-select",
     label: Object(external_this_wp_i18n_["__"])('Categories'),

@@ -110,7 +110,7 @@
 .wp-block-button__link.no-border-radius {
   border-radius: 0 !important; }
 
-.wp-block-button.is-style-outline .wp-block-button__link,
+.is-style-outline .wp-block-button__link,
 .wp-block-button__link.is-style-outline {
   color: #32373c;
   background-color: transparent;

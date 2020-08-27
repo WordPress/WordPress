@@ -30593,7 +30593,7 @@ function BlockNavigationBlockSelectButton(_ref, ref) {
       isSelected = _ref.isSelected,
       onClick = _ref.onClick,
       position = _ref.position,
-      siblingCount = _ref.siblingCount,
+      siblingBlockCount = _ref.siblingBlockCount,
       level = _ref.level,
       tabIndex = _ref.tabIndex,
       onFocus = _ref.onFocus;
@@ -30603,7 +30603,7 @@ function BlockNavigationBlockSelectButton(_ref, ref) {
   var blockDisplayName = Object(external_this_wp_blocks_["__experimentalGetBlockLabel"])(blockType, attributes);
   var instanceId = Object(external_this_wp_compose_["useInstanceId"])(BlockNavigationBlockSelectButton);
   var descriptionId = "block-navigation-block-select-button__".concat(instanceId);
-  var blockPositionDescription = utils_getBlockPositionDescription(position, siblingCount, level);
+  var blockPositionDescription = utils_getBlockPositionDescription(position, siblingBlockCount, level);
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
     className: classnames_default()('block-editor-block-navigation-block-select-button', className),
     onClick: onClick,
@@ -30673,14 +30673,14 @@ function BlockNavigationBlockSlot(props, ref) {
         block = props.block,
         isSelected = props.isSelected,
         position = props.position,
-        siblingCount = props.siblingCount,
+        siblingBlockCount = props.siblingBlockCount,
         level = props.level,
         tabIndex = props.tabIndex,
         onFocus = props.onFocus;
     var name = block.name;
     var blockType = Object(external_this_wp_blocks_["getBlockType"])(name);
     var descriptionId = "block-navigation-block-slot__".concat(instanceId);
-    var blockPositionDescription = utils_getBlockPositionDescription(position, siblingCount, level);
+    var blockPositionDescription = utils_getBlockPositionDescription(position, siblingBlockCount, level);
     var forwardedFillProps = {
       // Ensure that the component in the slot can receive
       // keyboard navigation.
@@ -30736,9 +30736,9 @@ var BlockNavigationBlockContents = Object(external_this_wp_element_["forwardRef"
       block = _ref.block,
       isSelected = _ref.isSelected,
       position = _ref.position,
-      siblingCount = _ref.siblingCount,
+      siblingBlockCount = _ref.siblingBlockCount,
       level = _ref.level,
-      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["onClick", "block", "isSelected", "position", "siblingCount", "level"]);
+      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["onClick", "block", "isSelected", "position", "siblingBlockCount", "level"]);
 
   var _useBlockNavigationCo = context_useBlockNavigationContext(),
       withBlockNavigationSlots = _useBlockNavigationCo.__experimentalFeatures;
@@ -30750,7 +30750,7 @@ var BlockNavigationBlockContents = Object(external_this_wp_element_["forwardRef"
     onClick: onClick,
     isSelected: isSelected,
     position: position,
-    siblingCount: siblingCount,
+    siblingBlockCount: siblingBlockCount,
     level: level
   }, props)) : Object(external_this_wp_element_["createElement"])(block_select_button, Object(esm_extends["a" /* default */])({
     ref: ref,
@@ -30759,7 +30759,7 @@ var BlockNavigationBlockContents = Object(external_this_wp_element_["forwardRef"
     onClick: onClick,
     isSelected: isSelected,
     position: position,
-    siblingCount: siblingCount,
+    siblingBlockCount: siblingBlockCount,
     level: level
   }, props));
 });
@@ -30801,6 +30801,7 @@ function BlockNavigationBlock(_ref) {
       position = _ref.position,
       level = _ref.level,
       rowCount = _ref.rowCount,
+      siblingBlockCount = _ref.siblingBlockCount,
       showBlockMovers = _ref.showBlockMovers,
       terminatedLevels = _ref.terminatedLevels,
       path = _ref.path;
@@ -30819,10 +30820,8 @@ function BlockNavigationBlock(_ref) {
   var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/block-editor'),
       selectEditorBlock = _useDispatch.selectBlock;
 
-  var clientId = block.clientId; // Subtract 1 from rowCount, as it includes the block appender.
-
-  var siblingCount = rowCount - 1;
-  var hasSiblings = siblingCount > 1;
+  var clientId = block.clientId;
+  var hasSiblings = siblingBlockCount > 0;
   var hasRenderedMovers = showBlockMovers && hasSiblings;
   var hasVisibleMovers = isHovered || isFocused;
   var moverCellClassName = classnames_default()('block-editor-block-navigation-block__mover-cell', {
@@ -30881,7 +30880,7 @@ function BlockNavigationBlock(_ref) {
       },
       isSelected: isSelected,
       position: position,
-      siblingCount: siblingCount,
+      siblingBlockCount: siblingBlockCount,
       level: level,
       ref: ref,
       tabIndex: tabIndex,
@@ -31062,7 +31061,8 @@ function BlockNavigationBranch(props) {
 
   var hasAppender = itemHasAppender(parentBlockClientId); // Add +1 to the rowCount to take the block appender into account.
 
-  var rowCount = hasAppender ? filteredBlocks.length + 1 : filteredBlocks.length;
+  var blockCount = filteredBlocks.length;
+  var rowCount = hasAppender ? blockCount + 1 : blockCount;
   var appenderPosition = rowCount;
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_lodash_["map"])(filteredBlocks, function (block, index) {
     var clientId = block.clientId,
@@ -31082,6 +31082,7 @@ function BlockNavigationBranch(props) {
       level: level,
       position: position,
       rowCount: rowCount,
+      siblingBlockCount: blockCount,
       showBlockMovers: showBlockMovers,
       terminatedLevels: terminatedLevels,
       path: updatedPath
@@ -36315,6 +36316,8 @@ function useResizeCanvas(deviceType) {
   };
 
   var contentInlineStyles = function contentInlineStyles(device) {
+    var height = device === 'Mobile' ? '768px' : '1024px';
+
     switch (device) {
       case 'Tablet':
       case 'Mobile':
@@ -36322,7 +36325,9 @@ function useResizeCanvas(deviceType) {
           width: getCanvasWidth(device),
           margin: marginValue() + 'px auto',
           flexGrow: 0,
-          maxHeight: device === 'Mobile' ? '768px' : '1024px',
+          height: height,
+          minHeight: height,
+          maxHeight: height,
           overflowY: 'auto'
         };
 
