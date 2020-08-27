@@ -138,7 +138,8 @@ function wp_check_php_mysql_versions() {
  * If not set, the type defaults to 'production'.
  *
  * @since 5.5.0
- * @since 5.5.1 The 'local' type was added.
+ * @since 5.5.1 Added the 'local' type.
+ * @since 5.5.1 Removed the ability to alter the list of types.
  *
  * @return string The current environment type.
  */
@@ -156,17 +157,14 @@ function wp_get_environment_type() {
 		'production',
 	);
 
-	// Check if the environment variable has been set, if `getenv` is available on the system.
-	if ( function_exists( 'getenv' ) ) {
-		$has_env = getenv( 'WP_ENVIRONMENT_TYPES' );
-		if ( false !== $has_env ) {
-			$wp_environments = explode( ',', $has_env );
-		}
-	}
-
-	// Fetch the environment types from a constant, this overrides the global system variable.
-	if ( defined( 'WP_ENVIRONMENT_TYPES' ) ) {
-		$wp_environments = WP_ENVIRONMENT_TYPES;
+	// Add a note about the deprecated WP_ENVIRONMENT_TYPES constant.
+	if ( defined( 'WP_ENVIRONMENT_TYPES' ) && function_exists( '_deprecated_argument' ) ) {
+		_deprecated_argument(
+			'define()',
+			'5.5.1',
+			/* translators: %s: WP_ENVIRONMENT_TYPES */
+			sprintf( __( 'The %s constant is no longer supported.' ), 'WP_ENVIRONMENT_TYPES' )
+		);
 	}
 
 	// Check if the environment variable has been set, if `getenv` is available on the system.
