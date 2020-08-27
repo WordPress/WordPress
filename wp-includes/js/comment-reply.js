@@ -408,7 +408,7 @@ window.addComment = ( function( window ) {
 		var temporaryFormId  = config.temporaryFormId;
 		var temporaryElement = getElementById( temporaryFormId );
 		var replyElement = getElementById( config.commentReplyTitleId );
-		var initialHeadingText = ( 'undefined' !== typeof replyElement ) ? replyElement.firstChild.textContent : '';
+		var initialHeadingText = replyElement ? replyElement.firstChild.textContent : '';
 
 		if ( temporaryElement ) {
 			// The element already exists, no need to recreate.
