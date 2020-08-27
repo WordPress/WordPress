@@ -877,6 +877,12 @@
   .block-editor-block-navigation-leaf .block-editor-block-icon {
     align-self: flex-start;
     margin-left: 6px; }
+  .block-editor-block-navigation-leaf.is-selected .block-editor-block-icon svg,
+  .block-editor-block-navigation-leaf.is-selected:focus .block-editor-block-icon svg {
+    color: #fff;
+    background: #1e1e1e;
+    box-shadow: 0 0 0 1px #1e1e1e;
+    border-radius: 1px; }
   .block-editor-block-navigation-leaf .block-editor-block-navigation-block__menu-cell,
   .block-editor-block-navigation-leaf .block-editor-block-navigation-block__mover-cell,
   .block-editor-block-navigation-leaf .block-editor-block-navigation-block__contents-cell {
