@@ -879,7 +879,7 @@ class WP_Automatic_Updater {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param array $update_results The result of updates tasks.
+	 * @param array $update_results The results of update tasks.
 	 */
 	protected function after_plugin_theme_update( $update_results ) {
 		$successful_updates = array();
@@ -889,10 +889,12 @@ class WP_Automatic_Updater {
 		 * Filters whether to send an email following an automatic background plugin update.
 		 *
 		 * @since 5.5.0
+		 * @since 5.5.1 Added the $update_results parameter.
 		 *
-		 * @param bool $enabled True if plugins notifications are enabled, false otherwise.
+		 * @param bool  $enabled        True if plugins notifications are enabled, false otherwise.
+		 * @param array $update_results The results of plugins update tasks.
 		 */
-		$notifications_enabled = apply_filters( 'auto_plugin_update_send_email', true );
+		$notifications_enabled = apply_filters( 'auto_plugin_update_send_email', true, $update_results['plugin'] );
 
 		if ( ! empty( $update_results['plugin'] ) && $notifications_enabled ) {
 			foreach ( $update_results['plugin'] as $update_result ) {
@@ -908,10 +910,12 @@ class WP_Automatic_Updater {
 		 * Filters whether to send an email following an automatic background theme update.
 		 *
 		 * @since 5.5.0
+		 * @since 5.5.1 Added the $update_results parameter.
 		 *
-		 * @param bool $enabled True if notifications are enabled, false otherwise.
+		 * @param bool  $enabled True if notifications are enabled, false otherwise.
+		 * @param array $update_results The results of theme update tasks.
 		 */
-		$notifications_enabled = apply_filters( 'auto_theme_update_send_email', true );
+		$notifications_enabled = apply_filters( 'auto_theme_update_send_email', true, $update_results['theme'] );
 
 		if ( ! empty( $update_results['theme'] ) && $notifications_enabled ) {
 			foreach ( $update_results['theme'] as $update_result ) {
