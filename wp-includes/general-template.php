@@ -1000,6 +1000,7 @@ function has_custom_logo( $blog_id = 0 ) {
  *
  * @since 4.5.0
  * @since 5.5.0 Added option to remove the link on the home page with `unlink-homepage-logo` theme support.
+ * @since 5.5.1 Disabled lazy-loading by default.
  *
  * @param int $blog_id Optional. ID of the blog in question. Default is the ID of the current blog.
  * @return string Custom logo markup.
@@ -1018,7 +1019,8 @@ function get_custom_logo( $blog_id = 0 ) {
 	// We have a logo. Logo is go.
 	if ( $custom_logo_id ) {
 		$custom_logo_attr = array(
-			'class' => 'custom-logo',
+			'class'   => 'custom-logo',
+			'loading' => false,
 		);
 
 		$unlink_homepage_logo = (bool) get_theme_support( 'custom-logo', 'unlink-homepage-logo' );
