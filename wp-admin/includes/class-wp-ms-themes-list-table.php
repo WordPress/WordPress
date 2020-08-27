@@ -151,11 +151,54 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$filter                    = $theme->is_allowed( $allowed_where, $this->site_id ) ? 'enabled' : 'disabled';
 			$themes[ $filter ][ $key ] = $themes['all'][ $key ];
 
+			$theme_data = array(
+				'update_supported' => isset( $theme->update_supported ) ? $theme->update_supported : true,
+			);
+
+			// Extra info if known. array_merge() ensures $theme_data has precedence if keys collide.
+			if ( isset( $current->response[ $key ] ) ) {
+				$theme_data = array_merge( (array) $current->response[ $key ], $theme_data );
+			} elseif ( isset( $current->no_update[ $key ] ) ) {
+				$theme_data = array_merge( (array) $current->no_update[ $key ], $theme_data );
+			} else {
+				$theme_data['update_supported'] = false;
+			}
+
+			$theme->update_supported = $theme_data['update_supported'];
+
+			/*
+			 * Create the expected payload for the auto_update_theme filter, this is the same data
+			 * as contained within $updates or $no_updates but used when the Theme is not known.
+			 */
+			$filter_payload = array(
+				'theme'        => $key,
+				'new_version'  => '',
+				'url'          => '',
+				'package'      => '',
+				'requires'     => '',
+				'requires_php' => '',
+			);
+
+			$filter_payload = array_merge( $filter_payload, array_intersect_key( $theme_data, $filter_payload ) );
+
+			$type = 'theme';
+			/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
+			$auto_update_forced = apply_filters( "auto_update_{$type}", null, (object) $filter_payload );
+
+			if ( ! is_null( $auto_update_forced ) ) {
+				$theme->auto_update_forced = $auto_update_forced;
+			}
+
 			if ( $this->show_autoupdates ) {
-				if ( in_array( $key, $auto_updates, true ) ) {
-					$themes['auto-update-enabled'][ $key ] = $themes['all'][ $key ];
+				$enabled = in_array( $key, $auto_updates, true ) && $theme->update_supported;
+				if ( isset( $theme->auto_update_forced ) ) {
+					$enabled = (bool) $theme->auto_update_forced;
+				}
+
+				if ( $enabled ) {
+					$themes['auto-update-enabled'][ $key ] = $theme;
 				} else {
-					$themes['auto-update-disabled'][ $key ] = $themes['all'][ $key ];
+					$themes['auto-update-disabled'][ $key ] = $theme;
 				}
 			}
 		}
@@ -728,7 +771,20 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$stylesheet = $theme->get_stylesheet();
 
-		if ( in_array( $stylesheet, $auto_updates, true ) ) {
+		if ( isset( $theme->auto_update_forced ) ) {
+			if ( $theme->auto_update_forced ) {
+				// Forced on.
+				$text = __( 'Auto-updates enabled' );
+			} else {
+				$text = __( 'Auto-updates disabled' );
+			}
+			$action     = 'unavailable';
+			$time_class = ' hidden';
+		} elseif ( empty( $theme->update_supported ) ) {
+			$text       = '';
+			$action     = 'unavailable';
+			$time_class = ' hidden';
+		} elseif ( in_array( $stylesheet, $auto_updates, true ) ) {
 			$text       = __( 'Disable auto-updates' );
 			$action     = 'disable';
 			$time_class = '';
@@ -747,17 +803,21 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$url = add_query_arg( $query_args, 'themes.php' );
 
-		$html[] = sprintf(
-			'<a href="%s" class="toggle-auto-update aria-button-if-js" data-wp-action="%s">',
-			wp_nonce_url( $url, 'updates' ),
-			$action
-		);
+		if ( 'unavailable' === $action ) {
+			$html[] = '<span class="label">' . $text . '</span>';
+		} else {
+			$html[] = sprintf(
+				'<a href="%s" class="toggle-auto-update aria-button-if-js" data-wp-action="%s">',
+				wp_nonce_url( $url, 'updates' ),
+				$action
+			);
 
-		$html[] = '<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>';
-		$html[] = '<span class="label">' . $text . '</span>';
-		$html[] = '</a>';
+			$html[] = '<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>';
+			$html[] = '<span class="label">' . $text . '</span>';
+			$html[] = '</a>';
 
-		$available_updates = get_site_transient( 'update_themes' );
+		}
+
 		if ( isset( $available_updates->response[ $stylesheet ] ) ) {
 			$html[] = sprintf(
 				'<div class="auto-update-time%s">%s</div>',
