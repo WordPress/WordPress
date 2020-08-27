@@ -159,11 +159,17 @@ function wp_get_environment_type() {
 
 	// Add a note about the deprecated WP_ENVIRONMENT_TYPES constant.
 	if ( defined( 'WP_ENVIRONMENT_TYPES' ) && function_exists( '_deprecated_argument' ) ) {
+		if ( function_exists( '__' ) ) {
+			/* translators: %s: WP_ENVIRONMENT_TYPES */
+			$message = sprintf( __( 'The %s constant is no longer supported.' ), 'WP_ENVIRONMENT_TYPES' );
+		} else {
+			$message = sprintf( 'The %s constant is no longer supported.', 'WP_ENVIRONMENT_TYPES' );
+		}
+
 		_deprecated_argument(
 			'define()',
 			'5.5.1',
-			/* translators: %s: WP_ENVIRONMENT_TYPES */
-			sprintf( __( 'The %s constant is no longer supported.' ), 'WP_ENVIRONMENT_TYPES' )
+			$message
 		);
 	}
 
