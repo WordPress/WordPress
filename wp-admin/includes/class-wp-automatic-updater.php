@@ -889,9 +889,9 @@ class WP_Automatic_Updater {
 		 * Filters whether to send an email following an automatic background plugin update.
 		 *
 		 * @since 5.5.0
-		 * @since 5.5.1 Added the $update_results parameter.
+		 * @since 5.5.1 Added the `$update_results` parameter.
 		 *
-		 * @param bool  $enabled        True if plugins notifications are enabled, false otherwise.
+		 * @param bool  $enabled        True if plugin update notifications are enabled, false otherwise.
 		 * @param array $update_results The results of plugins update tasks.
 		 */
 		$notifications_enabled = apply_filters( 'auto_plugin_update_send_email', true, $update_results['plugin'] );
@@ -910,9 +910,9 @@ class WP_Automatic_Updater {
 		 * Filters whether to send an email following an automatic background theme update.
 		 *
 		 * @since 5.5.0
-		 * @since 5.5.1 Added the $update_results parameter.
+		 * @since 5.5.1 Added the `$update_results` parameter.
 		 *
-		 * @param bool  $enabled True if notifications are enabled, false otherwise.
+		 * @param bool  $enabled        True if theme update notifications are enabled, false otherwise.
 		 * @param array $update_results The results of theme update tasks.
 		 */
 		$notifications_enabled = apply_filters( 'auto_theme_update_send_email', true, $update_results['theme'] );
