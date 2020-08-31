@@ -43,6 +43,81 @@
 	wp.updates = {};
 
 	/**
+	 * Removed in 5.5.0, needed for back-compatibility.
+	 *
+	 * @since 4.2.0
+	 * @deprecated 5.5.0
+	 *
+	 * @type {object}
+	 */
+	wp.updates.l10n = {
+		searchResults: '',
+		searchResultsLabel: '',
+		noPlugins: '',
+		noItemsSelected: '',
+		updating: '',
+		pluginUpdated: '',
+		themeUpdated: '',
+		update: '',
+		updateNow: '',
+		pluginUpdateNowLabel: '',
+		updateFailedShort: '',
+		updateFailed: '',
+		pluginUpdatingLabel: '',
+		pluginUpdatedLabel: '',
+		pluginUpdateFailedLabel: '',
+		updatingMsg: '',
+		updatedMsg: '',
+		updateCancel: '',
+		beforeunload: '',
+		installNow: '',
+		pluginInstallNowLabel: '',
+		installing: '',
+		pluginInstalled: '',
+		themeInstalled: '',
+		installFailedShort: '',
+		installFailed: '',
+		pluginInstallingLabel: '',
+		themeInstallingLabel: '',
+		pluginInstalledLabel: '',
+		themeInstalledLabel: '',
+		pluginInstallFailedLabel: '',
+		themeInstallFailedLabel: '',
+		installingMsg: '',
+		installedMsg: '',
+		importerInstalledMsg: '',
+		aysDelete: '',
+		aysDeleteUninstall: '',
+		aysBulkDelete: '',
+		aysBulkDeleteThemes: '',
+		deleting: '',
+		deleteFailed: '',
+		pluginDeleted: '',
+		themeDeleted: '',
+		livePreview: '',
+		activatePlugin: '',
+		activateTheme: '',
+		activatePluginLabel: '',
+		activateThemeLabel: '',
+		activateImporter: '',
+		activateImporterLabel: '',
+		unknownError: '',
+		connectionError: '',
+		nonceError: '',
+		pluginsFound: '',
+		noPluginsFound: '',
+		autoUpdatesEnable: '',
+		autoUpdatesEnabling: '',
+		autoUpdatesEnabled: '',
+		autoUpdatesDisable: '',
+		autoUpdatesDisabling: '',
+		autoUpdatesDisabled: '',
+		autoUpdatesError: ''
+	};
+
+	wp.updates.l10n = window.wp.deprecateL10nObject( 'wp.updates.l10n', wp.updates.l10n );
+
+	/**
 	 * User nonce for ajax calls.
 	 *
 	 * @since 4.2.0
