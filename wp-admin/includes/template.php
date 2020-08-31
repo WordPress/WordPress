@@ -2223,6 +2223,9 @@ function get_post_states( $post ) {
 	 *
 	 * @since 2.8.0
 	 * @since 3.6.0 Added the `$post` parameter.
+	 * @since 5.5.0 Also applied in the Customizer context. If any admin functions
+	 *              are used within the filter, their existence should be checked
+	 *              with `function_exists()` before being used.
 	 *
 	 * @param string[] $post_states An array of post display states.
 	 * @param WP_Post  $post        The current post object.
