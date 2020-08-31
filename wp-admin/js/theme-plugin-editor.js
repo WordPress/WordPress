@@ -1000,3 +1000,27 @@ wp.themePluginEditor = (function( $ ) {
 
 	return component;
 })( jQuery );
+
+/**
+ * Removed in 5.5.0, needed for back-compatibility.
+ *
+ * @since 4.9.0
+ * @deprecated 5.5.0
+ *
+ * @type {object}
+ */
+wp.themePluginEditor.l10n = wp.themePluginEditor.l10n || {
+	saveAlert: '',
+	saveError: '',
+	lintError: {
+		alternative: 'wp.i18n',
+		func: function() {
+			return {
+				singular: '',
+				plural: ''
+			};
+		}
+	}
+};
+
+wp.themePluginEditor.l10n = window.wp.deprecateL10nObject( 'wp.themePluginEditor.l10n', wp.themePluginEditor.l10n );
