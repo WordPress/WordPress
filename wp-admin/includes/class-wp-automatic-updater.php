@@ -195,9 +195,11 @@ class WP_Automatic_Updater {
 		 * adjust core updates.
 		 *
 		 * @since 3.7.0
+		 * @since 5.5.0 The `$update` parameter accepts the value of null.
 		 *
-		 * @param bool   $update Whether to update.
-		 * @param object $item   The update offer.
+		 * @param bool|null $update Whether to update. The value of null is internally used
+		 *                          to detect whether nothing has hooked into this filter.
+		 * @param object    $item   The update offer.
 		 */
 		$update = apply_filters( "auto_update_{$type}", $update, $item );
 
