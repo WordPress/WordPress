@@ -2525,11 +2525,11 @@ function get_the_date( $format = '', $post = null ) {
 		return false;
 	}
 
-	if ( '' === $format ) {
-		$the_date = get_post_time( get_option( 'date_format' ), false, $post, true );
-	} else {
-		$the_date = get_post_time( $format, false, $post, true );
+	if ( ! is_string( $format ) || '' === $format ) {
+		$format = get_option( 'date_format' );
 	}
+
+	$the_date = get_post_time( $format, false, $post, true );
 
 	/**
 	 * Filters the date a post was published.
@@ -2654,11 +2654,11 @@ function get_the_time( $format = '', $post = null ) {
 		return false;
 	}
 
-	if ( '' === $format ) {
-		$the_time = get_post_time( get_option( 'time_format' ), false, $post, true );
-	} else {
-		$the_time = get_post_time( $format, false, $post, true );
+	if ( ! is_string( $format ) || '' === $format ) {
+		$format = get_option( 'time_format' );
 	}
+
+	$the_time = get_post_time( $format, false, $post, true );
 
 	/**
 	 * Filters the time a post was written.
