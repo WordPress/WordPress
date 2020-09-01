@@ -759,7 +759,7 @@ class WP_REST_Server {
 		if ( $override || empty( $this->endpoints[ $route ] ) ) {
 			$this->endpoints[ $route ] = $route_args;
 		} else {
-			$this->endpoints[ $route ] = array_merge( $this->endpoints[ $route ], $route_args );
+			$this->endpoints[ $route ] = array_merge_recursive( $this->endpoints[ $route ], $route_args );
 		}
 	}
 
