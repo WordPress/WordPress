@@ -544,7 +544,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
  *
- * @param string         $format     Optional. The format of the date. Default user's setting.
+ * @param string         $format     Optional. PHP date format. Defaults to the 'date_format' option.
  * @param int|WP_Comment $comment_ID WP_Comment or ID of the comment for which to get the date.
  *                                   Default current comment.
  * @return string The comment's date.
@@ -562,7 +562,7 @@ function get_comment_date( $format = '', $comment_ID = 0 ) {
 	 * @since 1.5.0
 	 *
 	 * @param string|int $date    Formatted date string or Unix timestamp.
-	 * @param string     $format  The format of the date.
+	 * @param string     $format  PHP date format.
 	 * @param WP_Comment $comment The comment object.
 	 */
 	return apply_filters( 'get_comment_date', $date, $format, $comment );
@@ -574,7 +574,7 @@ function get_comment_date( $format = '', $comment_ID = 0 ) {
  * @since 0.71
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
  *
- * @param string         $format     Optional. The format of the date. Default user's settings.
+ * @param string         $format     Optional. PHP date format. Defaults to the 'date_format' option.
  * @param int|WP_Comment $comment_ID WP_Comment or ID of the comment for which to print the date.
  *                                   Default current comment.
  */
@@ -1033,7 +1033,7 @@ function comment_text( $comment_ID = 0, $args = array() ) {
  *
  * @since 1.5.0
  *
- * @param string $format    Optional. The format of the time. Default user's settings.
+ * @param string $format    Optional. PHP date format. Defaults to the 'time_format' option.
  * @param bool   $gmt       Optional. Whether to use the GMT date. Default false.
  * @param bool   $translate Optional. Whether to translate the time (for use in feeds).
  *                          Default true.
@@ -1054,7 +1054,7 @@ function get_comment_time( $format = '', $gmt = false, $translate = true ) {
 	 * @since 1.5.0
 	 *
 	 * @param string|int $date      The comment time, formatted as a date string or Unix timestamp.
-	 * @param string     $format    Date format.
+	 * @param string     $format    PHP date format.
 	 * @param bool       $gmt       Whether the GMT date is in use.
 	 * @param bool       $translate Whether the time is translated.
 	 * @param WP_Comment $comment   The comment object.
@@ -1067,7 +1067,7 @@ function get_comment_time( $format = '', $gmt = false, $translate = true ) {
  *
  * @since 0.71
  *
- * @param string $format Optional. The format of the time. Default user's settings.
+ * @param string $format Optional. PHP date format. Defaults to the 'time_format' option.
  */
 function comment_time( $format = '' ) {
 	echo get_comment_time( $format );
