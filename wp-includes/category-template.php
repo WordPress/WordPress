@@ -1153,7 +1153,8 @@ function get_tag_link( $tag ) {
  * @since 2.3.0
  *
  * @param int $post_id Post ID.
- * @return array|false|WP_Error Array of tag objects on success, false on failure.
+ * @return WP_Term[]|false|WP_Error Array of WP_Term objects on success, false if there are no terms
+ *                                  or the post does not exist, WP_Error on failure.
  */
 function get_the_tags( $post_id = 0 ) {
 	$terms = get_the_terms( $post_id, 'post_tag' );
@@ -1165,7 +1166,8 @@ function get_the_tags( $post_id = 0 ) {
 	 *
 	 * @see get_the_terms()
 	 *
-	 * @param WP_Term[] $terms An array of tags for the given post.
+	 * @param WP_Term[]|false|WP_Error $terms Array of WP_Term objects on success, false if there are no terms
+	 *                                        or the post does not exist, WP_Error on failure.
 	 */
 	return apply_filters( 'get_the_tags', $terms );
 }

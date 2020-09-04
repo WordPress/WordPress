@@ -73,7 +73,7 @@ if ( isset( $_GET['tab'] ) ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $type The default media popup tab. Default 'type' (From Computer).
+	 * @param string $tab The default media popup tab. Default 'type' (From Computer).
 	 */
 	$tab = apply_filters( 'media_upload_default_tab', 'type' );
 }

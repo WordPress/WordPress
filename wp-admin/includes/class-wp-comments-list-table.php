@@ -472,7 +472,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Displays a comment status drop-down for filtering on the Comments list table.
+	 * Displays a comment type drop-down for filtering on the Comments list table.
 	 *
 	 * @since 5.5.0
 	 *
@@ -480,11 +480,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 */
 	protected function comment_status_dropdown( $comment_type ) {
 		/**
-		 * Filters the comment types dropdown menu.
+		 * Filters the comment types shown in the drop-down menu on the Comments list table.
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param array $comment_types An array of comment types. Accepts 'Comments', 'Pings'.
+		 * @param string[] $comment_types Array of comment type labels keyed by their name.
 		 */
 		$comment_types = apply_filters(
 			'admin_comment_types_dropdown',

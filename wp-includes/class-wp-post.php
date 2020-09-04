@@ -14,7 +14,7 @@
  *
  * @property string $page_template
  *
- * @property-read array  $ancestors
+ * @property-read int[]  $ancestors
  * @property-read int    $post_category
  * @property-read string $tag_input
  */

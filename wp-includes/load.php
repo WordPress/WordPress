@@ -134,7 +134,7 @@ function wp_check_php_mysql_versions() {
  * The type can be set via the `WP_ENVIRONMENT_TYPE` global system variable,
  * or a constant of the same name.
  *
- * Possible values include 'local', 'development', 'staging', 'production'.
+ * Possible values are 'local', 'development', 'staging', and 'production'.
  * If not set, the type defaults to 'production'.
  *
  * @since 5.5.0

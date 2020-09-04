@@ -796,12 +796,12 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 }
 
 /**
- * Retrieve ancestors of a post.
+ * Retrieves the IDs of the ancestors of a post.
  *
  * @since 2.5.0
  *
  * @param int|WP_Post $post Post ID or post object.
- * @return int[] Ancestor IDs or empty array if none are found.
+ * @return int[] Array of ancestor IDs or empty array if there are none.
  */
 function get_post_ancestors( $post ) {
 	$post = get_post( $post );
