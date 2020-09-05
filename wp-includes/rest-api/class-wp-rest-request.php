@@ -858,13 +858,9 @@ class WP_REST_Request implements ArrayAccess {
 		$attributes = $this->get_attributes();
 		$required   = array();
 
-		// No arguments set, skip validation.
-		if ( empty( $attributes['args'] ) ) {
-			return true;
-		}
+		$args = empty( $attributes['args'] ) ? array() : $attributes['args'];
 
-		foreach ( $attributes['args'] as $key => $arg ) {
-
+		foreach ( $args as $key => $arg ) {
 			$param = $this->get_param( $key );
 			if ( isset( $arg['required'] ) && true === $arg['required'] && null === $param ) {
 				$required[] = $key;
@@ -890,7 +886,7 @@ class WP_REST_Request implements ArrayAccess {
 		 */
 		$invalid_params = array();
 
-		foreach ( $attributes['args'] as $key => $arg ) {
+		foreach ( $args as $key => $arg ) {
 
 			$param = $this->get_param( $key );
 
@@ -919,8 +915,20 @@ class WP_REST_Request implements ArrayAccess {
 			);
 		}
 
-		return true;
+		if ( isset( $attributes['validate_callback'] ) ) {
+			$valid_check = call_user_func( $attributes['validate_callback'], $this );
 
+			if ( is_wp_error( $valid_check ) ) {
+				return $valid_check;
+			}
+
+			if ( false === $valid_check ) {
+				// A WP_Error instance is preferred, but false is supported for parity with the per-arg validate_callback.
+				return new WP_Error( 'rest_invalid_params', __( 'Invalid parameters.' ), array( 'status' => 400 ) );
+			}
+		}
+
+		return true;
 	}
 
 	/**
