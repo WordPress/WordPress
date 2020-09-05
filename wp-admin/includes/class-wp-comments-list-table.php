@@ -396,7 +396,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		if ( 'top' === $which ) {
 			ob_start();
 
-			$this->comment_status_dropdown( $comment_type );
+			$this->comment_type_dropdown( $comment_type );
 
 			/**
 			 * Fires just before the Filter submit button for comment types.
@@ -475,10 +475,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * Displays a comment type drop-down for filtering on the Comments list table.
 	 *
 	 * @since 5.5.0
+	 * @since 5.6.0 Renamed from `comment_status_dropdown()` to `comment_type_dropdown()`.
 	 *
 	 * @param string $comment_type The current comment type slug.
 	 */
-	protected function comment_status_dropdown( $comment_type ) {
+	protected function comment_type_dropdown( $comment_type ) {
 		/**
 		 * Filters the comment types shown in the drop-down menu on the Comments list table.
 		 *
