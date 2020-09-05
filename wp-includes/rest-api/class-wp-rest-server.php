@@ -911,6 +911,48 @@ class WP_REST_Server {
 			return $result;
 		}
 
+		$error   = null;
+		$matched = $this->match_request_to_handler( $request );
+
+		if ( is_wp_error( $matched ) ) {
+			return $this->error_to_response( $matched );
+		}
+
+		list( $route, $handler ) = $matched;
+
+		if ( ! is_callable( $handler['callback'] ) ) {
+			$error = new WP_Error(
+				'rest_invalid_handler',
+				__( 'The handler for the route is invalid' ),
+				array( 'status' => 500 )
+			);
+		}
+
+		if ( ! is_wp_error( $error ) ) {
+			$check_required = $request->has_valid_params();
+			if ( is_wp_error( $check_required ) ) {
+				$error = $check_required;
+			} else {
+				$check_sanitized = $request->sanitize_params();
+				if ( is_wp_error( $check_sanitized ) ) {
+					$error = $check_sanitized;
+				}
+			}
+		}
+
+		return $this->respond_to_request( $request, $route, $handler, $error );
+	}
+
+	/**
+	 * Matches a request object to it's handler.
+	 *
+	 * @access private
+	 * @since 5.6.0
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 * @return array|WP_Error The route and request handler on success or a WP_Error instance if no handler was found.
+	 */
+	public function match_request_to_handler( $request ) {
 		$method = $request->get_method();
 		$path   = $request->get_route();
 
@@ -957,142 +999,136 @@ class WP_REST_Server {
 				}
 
 				if ( ! is_callable( $callback ) ) {
-					$response = new WP_Error(
-						'rest_invalid_handler',
-						__( 'The handler for the route is invalid' ),
-						array( 'status' => 500 )
-					);
+					return array( $route, $handler );
 				}
 
-				if ( ! is_wp_error( $response ) ) {
-					// Remove the redundant preg_match argument.
-					unset( $args[0] );
+				$request->set_url_params( $args );
+				$request->set_attributes( $handler );
 
-					$request->set_url_params( $args );
-					$request->set_attributes( $handler );
+				$defaults = array();
 
-					$defaults = array();
-
-					foreach ( $handler['args'] as $arg => $options ) {
-						if ( isset( $options['default'] ) ) {
-							$defaults[ $arg ] = $options['default'];
-						}
-					}
-
-					$request->set_default_params( $defaults );
-
-					$check_required = $request->has_valid_params();
-					if ( is_wp_error( $check_required ) ) {
-						$response = $check_required;
-					} else {
-						$check_sanitized = $request->sanitize_params();
-						if ( is_wp_error( $check_sanitized ) ) {
-							$response = $check_sanitized;
-						}
+				foreach ( $handler['args'] as $arg => $options ) {
+					if ( isset( $options['default'] ) ) {
+						$defaults[ $arg ] = $options['default'];
 					}
 				}
 
-				/**
-				 * Filters the response before executing any REST API callbacks.
-				 *
-				 * Allows plugins to perform additional validation after a
-				 * request is initialized and matched to a registered route,
-				 * but before it is executed.
-				 *
-				 * Note that this filter will not be called for requests that
-				 * fail to authenticate or match to a registered route.
-				 *
-				 * @since 4.7.0
-				 *
-				 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
-				 * @param array                                            $handler  Route handler used for the request.
-				 * @param WP_REST_Request                                  $request  Request used to generate the response.
-				 */
-				$response = apply_filters( 'rest_request_before_callbacks', $response, $handler, $request );
+				$request->set_default_params( $defaults );
 
-				if ( ! is_wp_error( $response ) ) {
-					// Check permission specified on the route.
-					if ( ! empty( $handler['permission_callback'] ) ) {
-						$permission = call_user_func( $handler['permission_callback'], $request );
-
-						if ( is_wp_error( $permission ) ) {
-							$response = $permission;
-						} elseif ( false === $permission || null === $permission ) {
-							$response = new WP_Error(
-								'rest_forbidden',
-								__( 'Sorry, you are not allowed to do that.' ),
-								array( 'status' => rest_authorization_required_code() )
-							);
-						}
-					}
-				}
-
-				if ( ! is_wp_error( $response ) ) {
-					/**
-					 * Filters the REST dispatch request result.
-					 *
-					 * Allow plugins to override dispatching the request.
-					 *
-					 * @since 4.4.0
-					 * @since 4.5.0 Added `$route` and `$handler` parameters.
-					 *
-					 * @param mixed           $dispatch_result Dispatch result, will be used if not empty.
-					 * @param WP_REST_Request $request         Request used to generate the response.
-					 * @param string          $route           Route matched for the request.
-					 * @param array           $handler         Route handler used for the request.
-					 */
-					$dispatch_result = apply_filters( 'rest_dispatch_request', null, $request, $route, $handler );
-
-					// Allow plugins to halt the request via this filter.
-					if ( null !== $dispatch_result ) {
-						$response = $dispatch_result;
-					} else {
-						$response = call_user_func( $callback, $request );
-					}
-				}
-
-				/**
-				 * Filters the response immediately after executing any REST API
-				 * callbacks.
-				 *
-				 * Allows plugins to perform any needed cleanup, for example,
-				 * to undo changes made during the {@see 'rest_request_before_callbacks'}
-				 * filter.
-				 *
-				 * Note that this filter will not be called for requests that
-				 * fail to authenticate or match to a registered route.
-				 *
-				 * Note that an endpoint's `permission_callback` can still be
-				 * called after this filter - see `rest_send_allow_header()`.
-				 *
-				 * @since 4.7.0
-				 *
-				 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
-				 * @param array                                            $handler  Route handler used for the request.
-				 * @param WP_REST_Request                                  $request  Request used to generate the response.
-				 */
-				$response = apply_filters( 'rest_request_after_callbacks', $response, $handler, $request );
-
-				if ( is_wp_error( $response ) ) {
-					$response = $this->error_to_response( $response );
-				} else {
-					$response = rest_ensure_response( $response );
-				}
-
-				$response->set_matched_route( $route );
-				$response->set_matched_handler( $handler );
-
-				return $response;
+				return array( $route, $handler );
 			}
 		}
 
-		return $this->error_to_response(
-			new WP_Error(
-				'rest_no_route',
-				__( 'No route was found matching the URL and request method' ),
-				array( 'status' => 404 )
-			)
+		return new WP_Error(
+			'rest_no_route',
+			__( 'No route was found matching the URL and request method' ),
+			array( 'status' => 404 )
 		);
+	}
+
+	/**
+	 * Dispatches the request to the callback handler.
+	 *
+	 * @access private
+	 * @since 5.6.0
+	 *
+	 * @param WP_REST_Request $request  The request object.
+	 * @param array           $handler  The matched route handler.
+	 * @param string          $route    The matched route regex.
+	 * @param WP_Error|null   $response The current error object if any.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function respond_to_request( $request, $route, $handler, $response ) {
+		/**
+		 * Filters the response before executing any REST API callbacks.
+		 *
+		 * Allows plugins to perform additional validation after a
+		 * request is initialized and matched to a registered route,
+		 * but before it is executed.
+		 *
+		 * Note that this filter will not be called for requests that
+		 * fail to authenticate or match to a registered route.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
+		 * @param array                                            $handler  Route handler used for the request.
+		 * @param WP_REST_Request                                  $request  Request used to generate the response.
+		 */
+		$response = apply_filters( 'rest_request_before_callbacks', $response, $handler, $request );
+
+		// Check permission specified on the route.
+		if ( ! is_wp_error( $response ) && ! empty( $handler['permission_callback'] ) ) {
+			$permission = call_user_func( $handler['permission_callback'], $request );
+
+			if ( is_wp_error( $permission ) ) {
+				$response = $permission;
+			} elseif ( false === $permission || null === $permission ) {
+				$response = new WP_Error(
+					'rest_forbidden',
+					__( 'Sorry, you are not allowed to do that.' ),
+					array( 'status' => rest_authorization_required_code() )
+				);
+			}
+		}
+
+		if ( ! is_wp_error( $response ) ) {
+			/**
+			 * Filters the REST dispatch request result.
+			 *
+			 * Allow plugins to override dispatching the request.
+			 *
+			 * @since 4.4.0
+			 * @since 4.5.0 Added `$route` and `$handler` parameters.
+			 *
+			 * @param mixed           $dispatch_result Dispatch result, will be used if not empty.
+			 * @param WP_REST_Request $request         Request used to generate the response.
+			 * @param string          $route           Route matched for the request.
+			 * @param array           $handler         Route handler used for the request.
+			 */
+			$dispatch_result = apply_filters( 'rest_dispatch_request', null, $request, $route, $handler );
+
+			// Allow plugins to halt the request via this filter.
+			if ( null !== $dispatch_result ) {
+				$response = $dispatch_result;
+			} else {
+				$response = call_user_func( $handler['callback'], $request );
+			}
+		}
+
+		/**
+		 * Filters the response immediately after executing any REST API
+		 * callbacks.
+		 *
+		 * Allows plugins to perform any needed cleanup, for example,
+		 * to undo changes made during the {@see 'rest_request_before_callbacks'}
+		 * filter.
+		 *
+		 * Note that this filter will not be called for requests that
+		 * fail to authenticate or match to a registered route.
+		 *
+		 * Note that an endpoint's `permission_callback` can still be
+		 * called after this filter - see `rest_send_allow_header()`.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
+		 * @param array                                            $handler  Route handler used for the request.
+		 * @param WP_REST_Request                                  $request  Request used to generate the response.
+		 */
+		$response = apply_filters( 'rest_request_after_callbacks', $response, $handler, $request );
+
+		if ( is_wp_error( $response ) ) {
+			$response = $this->error_to_response( $response );
+		} else {
+			$response = rest_ensure_response( $response );
+		}
+
+		$response->set_matched_route( $route );
+		$response->set_matched_handler( $handler );
+
+		return $response;
 	}
 
 	/**
