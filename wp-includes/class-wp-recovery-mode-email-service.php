@@ -206,7 +206,14 @@ When seeking help with this issue, you may be asked for some of the following in
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param array  $email Used to build wp_mail().
+		 * @param array  $email {
+		 *     Used to build a call to wp_mail().
+		 *
+		 *     @type string|array $to      Array or comma-separated list of email addresses to send message.
+		 *     @type string       $subject Email subject
+		 *     @type string       $message Message contents
+		 *     @type string|array $headers Optional. Additional headers.
+		 * }
 		 * @param string $url   URL to enter recovery mode.
 		 */
 		$email = apply_filters( 'recovery_mode_email', $email, $url );
