@@ -759,7 +759,7 @@ class WP_Query {
 			$this->is_favicon = true;
 		}
 
-		if ( ! is_scalar( $qv['p'] ) || $qv['p'] < 0 ) {
+		if ( ! is_scalar( $qv['p'] ) || (int) $qv['p'] < 0 ) {
 			$qv['p']     = 0;
 			$qv['error'] = '404';
 		} else {
