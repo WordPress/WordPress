@@ -234,7 +234,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<span>
 						<?php
 						if ( $has_pages ) {
-							_e( 'Or:' );
+							_e( 'Or' );
 						} else {
 							_e( 'There are no pages.' );
 						}
