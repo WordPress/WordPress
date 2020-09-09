@@ -194,11 +194,12 @@ When seeking help with this issue, you may be asked for some of the following in
 		);
 
 		$email = array(
-			'to'      => $this->get_recovery_mode_email_address(),
+			'to'          => $this->get_recovery_mode_email_address(),
 			/* translators: %s: Site title. */
-			'subject' => __( '[%s] Your Site is Experiencing a Technical Issue' ),
-			'message' => $message,
-			'headers' => '',
+			'subject'     => __( '[%s] Your Site is Experiencing a Technical Issue' ),
+			'message'     => $message,
+			'headers'     => '',
+			'attachments' => '',
 		);
 
 		/**
@@ -209,10 +210,11 @@ When seeking help with this issue, you may be asked for some of the following in
 		 * @param array  $email {
 		 *     Used to build a call to wp_mail().
 		 *
-		 *     @type string|array $to      Array or comma-separated list of email addresses to send message.
-		 *     @type string       $subject Email subject
-		 *     @type string       $message Message contents
-		 *     @type string|array $headers Optional. Additional headers.
+		 *     @type string|array $to          Array or comma-separated list of email addresses to send message.
+		 *     @type string       $subject     Email subject
+		 *     @type string       $message     Message contents
+		 *     @type string|array $headers     Optional. Additional headers.
+		 *     @type string|array $attachments Optional. Files to attach.
 		 * }
 		 * @param string $url   URL to enter recovery mode.
 		 */
@@ -222,7 +224,8 @@ When seeking help with this issue, you may be asked for some of the following in
 			$email['to'],
 			wp_specialchars_decode( sprintf( $email['subject'], $blogname ) ),
 			$email['message'],
-			$email['headers']
+			$email['headers'],
+			$email['attachments']
 		);
 
 		if ( $switched_locale ) {
