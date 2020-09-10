@@ -387,7 +387,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$a = $plugin_a[ $orderby ];
 		$b = $plugin_b[ $orderby ];
 
-		if ( $a == $b ) {
+		if ( $a === $b ) {
 			return 0;
 		}
 
@@ -745,9 +745,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		} elseif ( 'dropins' === $context ) {
 			$dropins     = _get_dropins();
 			$plugin_name = $plugin_file;
-			if ( $plugin_file != $plugin_data['Name'] ) {
+
+			if ( $plugin_file !== $plugin_data['Name'] ) {
 				$plugin_name .= '<br/>' . $plugin_data['Name'];
 			}
+
 			if ( true === ( $dropins[ $plugin_file ][1] ) ) { // Doesn't require a constant.
 				$is_active   = true;
 				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
@@ -764,6 +766,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						'<code>wp-config.php</code>'
 					) . '</p>';
 			}
+
 			if ( $plugin_data['Description'] ) {
 				$description .= '<p>' . $plugin_data['Description'] . '</p>';
 			}
@@ -947,6 +950,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$compatible_php = is_php_version_compatible( $requires_php );
 		$class          = $is_active ? 'active' : 'inactive';
 		$checkbox_id    = 'checkbox_' . md5( $plugin_data['Name'] );
+
 		if ( $restrict_network_active || $restrict_network_only || in_array( $status, array( 'mustuse', 'dropins' ), true ) || ! $compatible_php ) {
 			$checkbox = '';
 		} else {
@@ -959,6 +963,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				esc_attr( $plugin_file )
 			);
 		}
+
 		if ( 'dropins' !== $context ) {
 			$description = '<p>' . ( $plugin_data['Description'] ? $plugin_data['Description'] : '&nbsp;' ) . '</p>';
 			$plugin_name = $plugin_data['Name'];
@@ -1124,7 +1129,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 					$url = add_query_arg( $query_args, 'plugins.php' );
 
-					if ( 'unavailable' == $action ) {
+					if ( 'unavailable' === $action ) {
 						$html[] = '<span class="label">' . $text . '</span>';
 					} else {
 						$html[] = sprintf(
