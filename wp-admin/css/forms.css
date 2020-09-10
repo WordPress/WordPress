@@ -439,6 +439,9 @@ table.form-table + input + p.submit,
 table.form-table + input + input + p.submit {
 	border-top: none;
 	padding-top: 0;
+	position: fixed;
+	bottom: 20px;
+	right: 100px;
 }
 
 #minor-publishing-actions input,
