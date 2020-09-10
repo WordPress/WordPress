@@ -301,7 +301,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$a = $theme_a[ $orderby ];
 		$b = $theme_b[ $orderby ];
 
-		if ( $a == $b ) {
+		if ( $a === $b ) {
 			return 0;
 		}
 
