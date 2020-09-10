@@ -209,7 +209,7 @@ class WP_Block_Type {
 	 */
 	public function prepare_attributes_for_render( $attributes ) {
 		// If there are no attribute definitions for the block type, skip
-		// processing and return vebatim.
+		// processing and return verbatim.
 		if ( ! isset( $this->attributes ) ) {
 			return $attributes;
 		}
@@ -227,7 +227,7 @@ class WP_Block_Type {
 			// its default, if one exists. This occurs by virtue of the missing
 			// attributes loop immediately following. If there is not a default
 			// assigned, the attribute value should remain unset.
-			$is_valid = rest_validate_value_from_schema( $value, $schema );
+			$is_valid = rest_validate_value_from_schema( $value, $schema, $attribute_name );
 			if ( is_wp_error( $is_valid ) ) {
 				unset( $attributes[ $attribute_name ] );
 			}
