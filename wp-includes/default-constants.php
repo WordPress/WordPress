@@ -16,7 +16,7 @@
  * @global string $wp_version The WordPress version string.
  */
 function wp_initial_constants() {
-	global $blog_id;
+	global $blog_id, $wp_version;
 
 	/**#@+
 	 * Constants for expressing human-readable data sizes in their respective number of bytes.
@@ -99,8 +99,8 @@ function wp_initial_constants() {
 	// Add define( 'SCRIPT_DEBUG', true ); to wp-config.php to enable loading of non-minified,
 	// non-concatenated scripts and stylesheets.
 	if ( ! defined( 'SCRIPT_DEBUG' ) ) {
-		if ( ! empty( $GLOBALS['wp_version'] ) ) {
-			$develop_src = false !== strpos( $GLOBALS['wp_version'], '-src' );
+		if ( ! empty( $wp_version ) ) {
+			$develop_src = false !== strpos( $wp_version, '-src' );
 		} else {
 			$develop_src = false;
 		}
