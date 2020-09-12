@@ -4061,8 +4061,9 @@ function _wp_json_prepare_data( $data ) {
  * @param mixed $response    Variable (usually an array or object) to encode as JSON,
  *                           then print and die.
  * @param int   $status_code The HTTP status code to output.
+ * @param int   $options Optional. Options to be passed to json_encode(). Default 0.
  */
-function wp_send_json( $response, $status_code = null ) {
+function wp_send_json( $response, $status_code = null, $option = 0 ) {
 	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 		_doing_it_wrong(
 			__FUNCTION__,
@@ -4083,7 +4084,7 @@ function wp_send_json( $response, $status_code = null ) {
 		}
 	}
 
-	echo wp_json_encode( $response );
+	echo wp_json_encode( $response, $option );
 
 	if ( wp_doing_ajax() ) {
 		wp_die(
@@ -4106,15 +4107,16 @@ function wp_send_json( $response, $status_code = null ) {
  *
  * @param mixed $data        Data to encode as JSON, then print and die.
  * @param int   $status_code The HTTP status code to output.
+ * @param int   $options Optional. Options to be passed to json_encode(). Default 0.
  */
-function wp_send_json_success( $data = null, $status_code = null ) {
+function wp_send_json_success( $data = null, $status_code = null, $option = 0 ) {
 	$response = array( 'success' => true );
 
 	if ( isset( $data ) ) {
 		$response['data'] = $data;
 	}
 
-	wp_send_json( $response, $status_code );
+	wp_send_json( $response, $status_code, $option );
 }
 
 /**
@@ -4131,8 +4133,9 @@ function wp_send_json_success( $data = null, $status_code = null ) {
  *
  * @param mixed $data        Data to encode as JSON, then print and die.
  * @param int   $status_code The HTTP status code to output.
+ * @param int   $options Optional. Options to be passed to json_encode(). Default 0.
  */
-function wp_send_json_error( $data = null, $status_code = null ) {
+function wp_send_json_error( $data = null, $status_code = null, $option = 0 ) {
 	$response = array( 'success' => false );
 
 	if ( isset( $data ) ) {
