@@ -1059,7 +1059,7 @@ function set_theme_mod( $name, $value ) {
 	$mods[ $name ] = apply_filters( "pre_set_theme_mod_{$name}", $value, $old_value );
 
 	$theme = get_option( 'stylesheet' );
-	update_option( "theme_mods_$theme", $mods );
+	return update_option( "theme_mods_$theme", $mods );
 }
 
 /**
