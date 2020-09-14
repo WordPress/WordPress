@@ -5855,6 +5855,8 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
  *
  * @since 4.9.7
  *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @param int    $post_id      Attachment ID.
  * @param array  $meta         The attachment's meta data.
  * @param array  $backup_sizes The meta data for the attachment's backup images.
