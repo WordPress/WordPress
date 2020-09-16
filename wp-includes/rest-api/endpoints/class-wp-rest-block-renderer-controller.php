@@ -51,7 +51,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 					'args'                => array(
 						'context'    => $this->get_context_param( array( 'default' => 'view' ) ),
 						'attributes' => array(
-							'description'       => __( 'Attributes for the block' ),
+							'description'       => __( 'Attributes for the block.' ),
 							'type'              => 'object',
 							'default'           => array(),
 							'validate_callback' => static function ( $value, $request ) {

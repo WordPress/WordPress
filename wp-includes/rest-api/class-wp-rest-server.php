@@ -923,7 +923,7 @@ class WP_REST_Server {
 		if ( ! is_callable( $handler['callback'] ) ) {
 			$error = new WP_Error(
 				'rest_invalid_handler',
-				__( 'The handler for the route is invalid' ),
+				__( 'The handler for the route is invalid.' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -1021,7 +1021,7 @@ class WP_REST_Server {
 
 		return new WP_Error(
 			'rest_no_route',
-			__( 'No route was found matching the URL and request method' ),
+			__( 'No route was found matching the URL and request method.' ),
 			array( 'status' => 404 )
 		);
 	}

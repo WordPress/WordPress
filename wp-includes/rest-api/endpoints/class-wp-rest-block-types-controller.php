@@ -87,11 +87,11 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 			array(
 				'args'   => array(
 					'name'      => array(
-						'description' => __( 'Block name' ),
+						'description' => __( 'Block name.' ),
 						'type'        => 'string',
 					),
 					'namespace' => array(
-						'description' => __( 'Block namespace' ),
+						'description' => __( 'Block namespace.' ),
 						'type'        => 'string',
 					),
 				),
