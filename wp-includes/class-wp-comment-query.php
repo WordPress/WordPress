@@ -394,7 +394,17 @@ class WP_Comment_Query {
 		 *   an array of comment IDs.
 		 * - Otherwise the filter should return an array of WP_Comment objects.
 		 *
+		 * Note that if the filter returns an array of comment data, it will be assigned
+		 * to the `comments` property of the current WP_Comment_Query instance.
+		 *
+		 * Filtering functions that require pagination information are encouraged to set
+		 * the `found_comments` and `max_num_pages` properties of the WP_Comment_Query object,
+		 * passed to the filter by reference. If WP_Comment_Query does not perform a database
+		 * query, it will not have enough information to generate these values itself.
+		 *
 		 * @since 5.3.0
+		 * @since 5.6.0 The returned array of comment data is assigned to the `comments` property
+		 *              of the current WP_Comment_Query instance.
 		 *
 		 * @param array|int|null   $comment_data Return an array of comment data to short-circuit WP's comment query,
 		 *                                       the comment count as an integer if `$this->query_vars['count']` is set,
@@ -404,6 +414,10 @@ class WP_Comment_Query {
 		$comment_data = apply_filters_ref_array( 'comments_pre_query', array( $comment_data, &$this ) );
 
 		if ( null !== $comment_data ) {
+			if ( is_array( $comment_data ) && ! $this->query_vars['count'] ) {
+				$this->comments = $comment_data;
+			}
+
 			return $comment_data;
 		}
 
