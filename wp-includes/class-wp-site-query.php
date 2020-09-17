@@ -295,10 +295,13 @@ class WP_Site_Query {
 		 *
 		 * Return a non-null value to bypass WordPress' default site queries.
 		 *
-		 * The expected return type from this filter depends on the value passed in the request query_vars:
-		 * When `$this->query_vars['count']` is set, the filter should return the site count as an int.
-		 * When `'ids' === $this->query_vars['fields']`, the filter should return an array of site IDs.
-		 * Otherwise the filter should return an array of WP_Site objects.
+		 * The expected return type from this filter depends on the value passed
+		 * in the request query vars:
+		 * - When `$this->query_vars['count']` is set, the filter should return
+		 *   the site count as an integer.
+		 * - When `'ids' === $this->query_vars['fields']`, the filter should return
+		 *   an array of site IDs.
+		 * - Otherwise the filter should return an array of WP_Site objects.
 		 *
 		 * @since 5.2.0
 		 *
