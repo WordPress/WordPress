@@ -293,7 +293,7 @@ class WP_Site_Query {
 		/**
 		 * Filters the site data before the get_sites query takes place.
 		 *
-		 * Return a non-null value to bypass WordPress's default site queries.
+		 * Return a non-null value to bypass WordPress' default site queries.
 		 *
 		 * The expected return type from this filter depends on the value passed in the request query_vars:
 		 * When `$this->query_vars['count']` is set, the filter should return the site count as an int.

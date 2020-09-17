@@ -2935,7 +2935,7 @@ class WP_Query {
 		/**
 		 * Filters the posts array before the query takes place.
 		 *
-		 * Return a non-null value to bypass WordPress's default post queries.
+		 * Return a non-null value to bypass WordPress' default post queries.
 		 *
 		 * Filtering functions that require pagination information are encouraged to set
 		 * the `found_posts` and `max_num_pages` properties of the WP_Query object,
