@@ -211,7 +211,7 @@ class WP_Network_Query {
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param array|null       $network_data Return an array of network data to short-circuit WP's network query,
+		 * @param array|int|null   $network_data Return an array of network data to short-circuit WP's network query,
 		 *                                       the network count as an integer if `$this->query_vars['count']` is set,
 		 *                                       or null to allow WP to run its normal queries.
 		 * @param WP_Network_Query $this         The WP_Network_Query instance, passed by reference.
