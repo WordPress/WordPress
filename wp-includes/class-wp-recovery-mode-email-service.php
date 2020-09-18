@@ -206,6 +206,7 @@ When seeking help with this issue, you may be asked for some of the following in
 		 * Filters the contents of the Recovery Mode email.
 		 *
 		 * @since 5.2.0
+		 * @since 5.6.0 The `$email` argument includes the `attachments` key.
 		 *
 		 * @param array  $email {
 		 *     Used to build a call to wp_mail().
