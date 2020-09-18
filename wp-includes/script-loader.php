@@ -344,13 +344,13 @@ function wp_default_packages_inline_scripts( $scripts ) {
 						),
 					),
 					'formats'  => array(
-						/* translators: Time format, see https://www.php.net/date */
+						/* translators: Time format, see https://www.php.net/manual/datetime.format.php */
 						'time'                => get_option( 'time_format', __( 'g:i a' ) ),
-						/* translators: Date format, see https://www.php.net/date */
+						/* translators: Date format, see https://www.php.net/manual/datetime.format.php */
 						'date'                => get_option( 'date_format', __( 'F j, Y' ) ),
-						/* translators: Date/Time format, see https://www.php.net/date */
+						/* translators: Date/Time format, see https://www.php.net/manual/datetime.format.php */
 						'datetime'            => __( 'F j, Y g:i a' ),
-						/* translators: Abbreviated date/time format, see https://www.php.net/date */
+						/* translators: Abbreviated date/time format, see https://www.php.net/manual/datetime.format.php */
 						'datetimeAbbreviated' => __( 'M j, Y g:i a' ),
 					),
 					'timezone' => array(

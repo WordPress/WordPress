@@ -359,11 +359,11 @@ class WP_Locale {
 	 * @since 3.6.0
 	 */
 	public function _strings_for_pot() {
-		/* translators: Localized date format, see https://www.php.net/date */
+		/* translators: Localized date format, see https://www.php.net/manual/datetime.format.php */
 		__( 'F j, Y' );
-		/* translators: Localized time format, see https://www.php.net/date */
+		/* translators: Localized time format, see https://www.php.net/manual/datetime.format.php */
 		__( 'g:i a' );
-		/* translators: Localized date and time format, see https://www.php.net/date */
+		/* translators: Localized date and time format, see https://www.php.net/manual/datetime.format.php */
 		__( 'F j, Y g:i a' );
 	}
 }

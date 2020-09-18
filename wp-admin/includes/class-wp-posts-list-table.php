@@ -1081,9 +1081,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$t_time = sprintf(
 				/* translators: 1: Post date, 2: Post time. */
 				__( '%1$s at %2$s' ),
-				/* translators: Post date format. See https://www.php.net/date */
+				/* translators: Post date format. See https://www.php.net/manual/datetime.format.php */
 				get_the_time( __( 'Y/m/d' ), $post ),
-				/* translators: Post time format. See https://www.php.net/date */
+				/* translators: Post time format. See https://www.php.net/manual/datetime.format.php */
 				get_the_time( __( 'g:i a' ), $post )
 			);
 

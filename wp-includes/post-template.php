@@ -1824,7 +1824,7 @@ function wp_post_revision_title( $revision, $link = true ) {
 		return false;
 	}
 
-	/* translators: Revision date format, see https://www.php.net/date */
+	/* translators: Revision date format, see https://www.php.net/manual/datetime.format.php */
 	$datef = _x( 'F j, Y @ H:i:s', 'revision date format' );
 	/* translators: %s: Revision date. */
 	$autosavef = __( '%s [Autosave]' );
@@ -1866,7 +1866,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
 	}
 
 	$author = get_the_author_meta( 'display_name', $revision->post_author );
-	/* translators: Revision date format, see https://www.php.net/date */
+	/* translators: Revision date format, see https://www.php.net/manual/datetime.format.php */
 	$datef = _x( 'F j, Y @ H:i:s', 'revision date format' );
 
 	$gravatar = get_avatar( $revision->post_author, 24 );

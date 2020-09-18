@@ -212,11 +212,11 @@ function post_submit_meta_box( $post, $args = array() ) {
 		</div>
 
 		<?php
-		/* translators: Publish box date string. 1: Date, 2: Time. See https://www.php.net/date */
+		/* translators: Publish box date string. 1: Date, 2: Time. See https://www.php.net/manual/datetime.format.php */
 		$date_string = __( '%1$s at %2$s' );
-		/* translators: Publish box date format, see https://www.php.net/date */
+		/* translators: Publish box date format, see https://www.php.net/manual/datetime.format.php */
 		$date_format = _x( 'M j, Y', 'publish box date format' );
-		/* translators: Publish box time format, see https://www.php.net/date */
+		/* translators: Publish box time format, see https://www.php.net/manual/datetime.format.php */
 		$time_format = _x( 'H:i', 'publish box time format' );
 
 		if ( 0 !== $post_id ) {
@@ -404,11 +404,11 @@ function attachment_submit_meta_box( $post ) {
 		<span id="timestamp">
 			<?php
 			$uploaded_on = sprintf(
-				/* translators: Publish box date string. 1: Date, 2: Time. See https://www.php.net/date */
+				/* translators: Publish box date string. 1: Date, 2: Time. See https://www.php.net/manual/datetime.format.php */
 				__( '%1$s at %2$s' ),
-				/* translators: Publish box date format, see https://www.php.net/date */
+				/* translators: Publish box date format, see https://www.php.net/manual/datetime.format.php */
 				date_i18n( _x( 'M j, Y', 'publish box date format' ), strtotime( $post->post_date ) ),
-				/* translators: Publish box time format, see https://www.php.net/date */
+				/* translators: Publish box time format, see https://www.php.net/manual/datetime.format.php */
 				date_i18n( _x( 'H:i', 'publish box time format' ), strtotime( $post->post_date ) )
 			);
 			/* translators: Attachment information. %s: Date the attachment was uploaded. */

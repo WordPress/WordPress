@@ -1246,7 +1246,7 @@ function heartbeat_autosave( $response, $data ) {
 				'message' => __( 'Error while saving.' ),
 			);
 		} else {
-			/* translators: Draft saved date format, see https://www.php.net/date */
+			/* translators: Draft saved date format, see https://www.php.net/manual/datetime.format.php */
 			$draft_saved_date_format = __( 'g:i:s a' );
 			$response['wp_autosave'] = array(
 				'success' => true,
