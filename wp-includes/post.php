@@ -4375,6 +4375,33 @@ function wp_publish_post( $post ) {
 		return;
 	}
 
+	// Ensure at least one term is applied for taxonomies with a default term.
+	foreach ( get_object_taxonomies( $post->post_type, 'object' ) as $taxonomy => $tax_object ) {
+		// Skip taxonomy if no default term is set.
+		if (
+			'category' !== $taxonomy &&
+			empty( $tax_object->default_term )
+		) {
+			continue;
+		}
+
+		// Do not modify previously set terms.
+		if ( ! empty( get_the_terms( $post, $taxonomy ) ) ) {
+			continue;
+		}
+
+		if ( 'category' === $taxonomy ) {
+			$default_term_id = (int) get_option( 'default_category', 0 );
+		} else {
+			$default_term_id = (int) get_option( 'default_term_' . $taxonomy, 0 );
+		}
+
+		if ( ! $default_term_id ) {
+			continue;
+		}
+		wp_set_post_terms( $post->ID, array( $default_term_id ), $taxonomy );
+	}
+
 	$wpdb->update( $wpdb->posts, array( 'post_status' => 'publish' ), array( 'ID' => $post->ID ) );
 
 	clean_post_cache( $post->ID );
