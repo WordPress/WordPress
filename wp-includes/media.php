@@ -749,13 +749,13 @@ function wp_image_matches_ratio( $source_width, $source_height, $target_width, $
  *                              Default 'thumbnail'.
  * @return array|false {
  *     Array of file relative path, width, and height on success. Additionally includes absolute
- *     path and URL if registered size is passed to $size parameter. False on failure.
+ *     path and URL if registered size is passed to `$size` parameter. False on failure.
  *
- *     @type string $file   Image's path relative to uploads directory
- *     @type int    $width  Width of image
- *     @type int    $height Height of image
- *     @type string $path   Image's absolute filesystem path.
- *     @type string $url    Image's URL.
+ *     @type string $file   Path of image relative to uploads directory.
+ *     @type int    $width  Width of image in pixels.
+ *     @type int    $height Height of image in pixels.
+ *     @type string $path   Absolute filesystem path of image.
+ *     @type string $url    URL of image.
  * }
  */
 function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
@@ -1153,9 +1153,14 @@ function _wp_get_attachment_relative_path( $file ) {
  * @since 4.4.0
  * @access private
  *
- * @param string $size_name  Image size. Accepts any valid image size name ('thumbnail', 'medium', etc.).
+ * @param string $size_name  Image size. Accepts any registered image size name.
  * @param array  $image_meta The image meta data.
- * @return array|bool The image meta data as returned by `wp_get_attachment_metadata()`.
+ * @return array|false {
+ *     Array of width and height or false if the size isn't present in the meta data.
+ *
+ *     @type int $0 Image width.
+ *     @type int $1 Image height.
+ * }
  */
 function _wp_get_image_size_from_meta( $size_name, $image_meta ) {
 	if ( 'full' === $size_name ) {

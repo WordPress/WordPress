@@ -966,10 +966,10 @@ function load_image_to_edit( $attachment_id, $mime_type, $size = 'full' ) {
 }
 
 /**
- * Retrieve the path or url of an attachment's attached file.
+ * Retrieve the path or URL of an attachment's attached file.
  *
  * If the attached file is not present on the local filesystem (usually due to replication plugins),
- * then the url of the file is returned if url fopen is supported.
+ * then the URL of the file is returned if `allow_url_fopen` is supported.
  *
  * @since 3.4.0
  * @access private
@@ -989,7 +989,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 				$filepath = path_join( dirname( $filepath ), $data['file'] );
 
 				/**
-				 * Filters the path to the current image.
+				 * Filters the path to an attachment's file when editing the image.
 				 *
 				 * The filter is evaluated for all image sizes except 'full'.
 				 *
@@ -1004,9 +1004,9 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 		}
 	} elseif ( function_exists( 'fopen' ) && ini_get( 'allow_url_fopen' ) ) {
 		/**
-		 * Filters the image URL if not in the local filesystem.
+		 * Filters the path to an attachment's URL when editing the image.
 		 *
-		 * The filter is only evaluated if fopen is enabled on the server.
+		 * The filter is only evaluated if the file isn't stored locally and `allow_url_fopen` is enabled on the server.
 		 *
 		 * @since 3.1.0
 		 *

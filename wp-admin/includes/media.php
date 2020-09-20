@@ -181,7 +181,7 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
  * @param string  $title   Image title attribute (not used).
  * @param string  $align   Image CSS alignment property.
  * @param string  $url     Image source URL (not used).
- * @param string  $size    Image size (`thumbnail`, `medium`, `large`, `full`, or added with `add_image_size()`) (not used).
+ * @param string  $size    Image size (not used).
  * @param string  $alt     Image `alt` attribute (not used).
  * @return string The image HTML markup with caption shortcode.
  */
