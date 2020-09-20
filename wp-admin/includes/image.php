@@ -917,9 +917,10 @@ function file_is_displayable_image( $path ) {
  *
  * @since 2.9.0
  *
- * @param int    $attachment_id Attachment ID.
- * @param string $mime_type     Image mime type.
- * @param string $size          Optional. Image size. Default 'full'.
+ * @param int          $attachment_id Attachment ID.
+ * @param string       $mime_type     Image mime type.
+ * @param string|int[] $size          Optional. Image size. Accepts any registered image size name, or an array
+ *                                    of width and height values in pixels (in that order). Default 'full'.
  * @return resource|GdImage|false The resulting image resource or GdImage instance on success,
  *                                false on failure.
  */
@@ -952,7 +953,8 @@ function load_image_to_edit( $attachment_id, $mime_type, $size = 'full' ) {
 		 *
 		 * @param resource|GdImage $image         Current image.
 		 * @param int              $attachment_id Attachment ID.
-		 * @param string           $size          Image size.
+		 * @param string|int[]     $size          Requested image size. Can be any registered image size name, or
+		 *                                        an array of width and height values in pixels (in that order).
 		 */
 		$image = apply_filters( 'load_image_to_edit', $image, $attachment_id, $size );
 
@@ -974,9 +976,10 @@ function load_image_to_edit( $attachment_id, $mime_type, $size = 'full' ) {
  * @since 3.4.0
  * @access private
  *
- * @param int    $attachment_id Attachment ID.
- * @param string $size          Optional. Image size. Default 'full'.
- * @return string|false File path or url on success, false on failure.
+ * @param int          $attachment_id Attachment ID.
+ * @param string|int[] $size          Optional. Image size. Accepts any registered image size name, or an array
+ *                                    of width and height values in pixels (in that order). Default 'full'.
+ * @return string|false File path or URL on success, false on failure.
  */
 function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 	$filepath = get_attached_file( $attachment_id );
@@ -995,9 +998,10 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 				 *
 				 * @since 3.1.0
 				 *
-				 * @param string $path          Path to the current image.
-				 * @param int    $attachment_id Attachment ID.
-				 * @param string $size          Size of the image.
+				 * @param string       $path          Path to the current image.
+				 * @param int          $attachment_id Attachment ID.
+				 * @param string|int[] $size          Requested image size. Can be any registered image size name, or
+				 *                                    an array of width and height values in pixels (in that order).
 				 */
 				$filepath = apply_filters( 'load_image_to_edit_filesystempath', $filepath, $attachment_id, $size );
 			}
@@ -1010,9 +1014,10 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param string $image_url     Current image URL.
-		 * @param int    $attachment_id Attachment ID.
-		 * @param string $size          Size of the image.
+		 * @param string       $image_url     Current image URL.
+		 * @param int          $attachment_id Attachment ID.
+		 * @param string|int[] $size          Requested image size. Can be any registered image size name, or
+		 *                                    an array of width and height values in pixels (in that order).
 		 */
 		$filepath = apply_filters( 'load_image_to_edit_attachmenturl', wp_get_attachment_url( $attachment_id ), $attachment_id, $size );
 	}
@@ -1022,9 +1027,10 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param string|bool $filepath      File path or URL to current image, or false.
-	 * @param int         $attachment_id Attachment ID.
-	 * @param string      $size          Size of the image.
+	 * @param string|bool  $filepath      File path or URL to current image, or false.
+	 * @param int          $attachment_id Attachment ID.
+	 * @param string|int[] $size          Requested image size. Can be any registered image size name, or
+	 *                                    an array of width and height values in pixels (in that order).
 	 */
 	return apply_filters( 'load_image_to_edit_path', $filepath, $attachment_id, $size );
 }

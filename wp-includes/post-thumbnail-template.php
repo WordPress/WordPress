@@ -74,9 +74,8 @@ function get_post_thumbnail_id( $post = null ) {
  *
  * @see get_the_post_thumbnail()
  *
- * @param string|array $size Optional. Image size to use. Accepts any valid image size, or
- *                           an array of width and height values in pixels (in that order).
- *                           Default 'post-thumbnail'.
+ * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array of
+ *                           width and height values in pixels (in that order). Default 'post-thumbnail'.
  * @param string|array $attr Optional. Query string or array of attributes. Default empty.
  */
 function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
@@ -131,9 +130,8 @@ function update_post_thumbnail_cache( $wp_query = null ) {
  * @since 4.4.0 `$post` can be a post ID or WP_Post object.
  *
  * @param int|WP_Post  $post Optional. Post ID or WP_Post object.  Default is global `$post`.
- * @param string|array $size Optional. Image size to use. Accepts any valid image size, or
- *                           an array of width and height values in pixels (in that order).
- *                           Default 'post-thumbnail'.
+ * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array of
+ *                           width and height values in pixels (in that order). Default 'post-thumbnail'.
  * @param string|array $attr Optional. Query string or array of attributes. Default empty.
  * @return string The post thumbnail image tag.
  */
@@ -152,8 +150,8 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 	 * @since 2.9.0
 	 * @since 4.9.0 Added the `$post_id` parameter.
 	 *
-	 * @param string|array $size    The post thumbnail size. Image size or array of width and height
-	 *                              values (in that order). Default 'post-thumbnail'.
+	 * @param string|int[] $size    Requested image size. Can be any registered image size name, or
+	 *                              an array of width and height values in pixels (in that order).
 	 * @param int          $post_id The post ID.
 	 */
 	$size = apply_filters( 'post_thumbnail_size', $size, $post->ID );
@@ -169,8 +167,8 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 		 *
 		 * @param int          $post_id           The post ID.
 		 * @param int          $post_thumbnail_id The post thumbnail ID.
-		 * @param string|array $size              The post thumbnail size. Image size or array of width
-		 *                                        and height values (in that order). Default 'post-thumbnail'.
+		 * @param string|int[] $size              Requested image size. Can be any registered image size name, or
+		 *                                        an array of width and height values in pixels (in that order).
 		 */
 		do_action( 'begin_fetch_post_thumbnail_html', $post->ID, $post_thumbnail_id, $size );
 
@@ -187,8 +185,8 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 		 *
 		 * @param int          $post_id           The post ID.
 		 * @param int          $post_thumbnail_id The post thumbnail ID.
-		 * @param string|array $size              The post thumbnail size. Image size or array of width
-		 *                                        and height values (in that order). Default 'post-thumbnail'.
+		 * @param string|int[] $size              Requested image size. Can be any registered image size name, or
+		 *                                        an array of width and height values in pixels (in that order).
 		 */
 		do_action( 'end_fetch_post_thumbnail_html', $post->ID, $post_thumbnail_id, $size );
 
@@ -204,8 +202,8 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 	 * @param string       $html              The post thumbnail HTML.
 	 * @param int          $post_id           The post ID.
 	 * @param int          $post_thumbnail_id The post thumbnail ID.
-	 * @param string|array $size              The post thumbnail size. Image size or array of width and height
-	 *                                        values (in that order). Default 'post-thumbnail'.
+	 * @param string|int[] $size              Requested image size. Can be any registered image size name, or
+	 *                                        an array of width and height values in pixels (in that order).
 	 * @param string       $attr              Query string of attributes.
 	 */
 	return apply_filters( 'post_thumbnail_html', $html, $post->ID, $post_thumbnail_id, $size, $attr );

@@ -1596,9 +1596,8 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  * @since 4.4.0 The `$id` parameter can now accept either a post ID or `WP_Post` object.
  *
  * @param int|WP_Post  $id        Optional. Post ID or post object.
- * @param string|array $size      Optional. Image size. Accepts any valid image size, or an array
- *                                of width and height values in pixels (in that order).
- *                                Default 'thumbnail'.
+ * @param string|int[] $size      Optional. Image size. Accepts any registered image size name, or an array
+ *                                of width and height values in pixels (in that order). Default 'thumbnail'.
  * @param bool         $permalink Optional. Whether to add permalink to image. Default false.
  * @param bool         $icon      Optional. Whether the attachment is an icon. Default false.
  * @param string|false $text      Optional. Link text to use. Activated by passing a string, false otherwise.
@@ -1642,8 +1641,8 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	 *
 	 * @param string       $link_html The page link HTML output.
 	 * @param int          $id        Post ID.
-	 * @param string|array $size      Size of the image. Image size or array of width and height values (in that order).
-	 *                                Default 'thumbnail'.
+	 * @param string|int[] $size      Requested image size. Can be any registered image size name, or
+	 *                                an array of width and height values in pixels (in that order).
 	 * @param bool         $permalink Whether to add permalink to image. Default false.
 	 * @param bool         $icon      Whether to include an icon.
 	 * @param string|bool  $text      If string, will be link text.

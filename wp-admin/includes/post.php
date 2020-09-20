@@ -1536,15 +1536,12 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 		 *
 		 * Note: When a theme adds 'post-thumbnail' support, a special 'post-thumbnail'
 		 * image size is registered, which differs from the 'thumbnail' image size
-		 * managed via the Settings > Media screen. See the `$size` parameter description
-		 * for more information on default values.
+		 * managed via the Settings > Media screen.
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param string|array $size         Post thumbnail image size to display in the meta box. Accepts any valid
-		 *                                   image size, or an array of width and height values in pixels (in that order).
-		 *                                   If the 'post-thumbnail' size is set, default is 'post-thumbnail'. Otherwise,
-		 *                                   default is an array with 266 as both the height and width values.
+		 * @param string|int[] $size         Requested image size. Can be any registered image size name, or
+		 *                                   an array of width and height values in pixels (in that order).
 		 * @param int          $thumbnail_id Post thumbnail attachment ID.
 		 * @param WP_Post      $post         The post object associated with the thumbnail.
 		 */

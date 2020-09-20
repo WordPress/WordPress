@@ -125,8 +125,8 @@ function the_media_upload_tabs() {
  * @param string       $align   Image CSS alignment property.
  * @param string       $url     Optional. Image src URL. Default empty.
  * @param bool|string  $rel     Optional. Value for rel attribute or whether to add a default value. Default false.
- * @param string|array $size    Optional. Image size. Accepts any valid image size, or an array of width
- *                              and height values in pixels (in that order). Default 'medium'.
+ * @param string|int[] $size    Optional. Image size. Accepts any registered image size name, or an array of
+ *                              width and height values in pixels (in that order). Default 'medium'.
  * @param string       $alt     Optional. Image alt attribute. Default empty.
  * @return string The HTML output to insert into the editor.
  */
@@ -160,8 +160,8 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
 	 * @param string       $title   The image title.
 	 * @param string       $align   The image alignment.
 	 * @param string       $url     The image source URL.
-	 * @param string|array $size    Size of image. Image size or array of width and height values
-	 *                              (in that order). Default 'medium'.
+	 * @param string|int[] $size    Requested image size. Can be any registered image size name, or
+	 *                              an array of width and height values in pixels (in that order).
 	 * @param string       $alt     The image alternative, or alt, text.
 	 * @param string       $rel     The image rel attribute.
 	 */
