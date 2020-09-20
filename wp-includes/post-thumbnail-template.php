@@ -33,7 +33,7 @@ function has_post_thumbnail( $post = null ) {
 	 *
 	 * @param bool             $has_thumbnail true if the post has a post thumbnail, otherwise false.
 	 * @param int|WP_Post|null $post          Post ID or WP_Post object. Default is global `$post`.
-	 * @param int|string       $thumbnail_id  Post thumbnail ID or empty string.
+	 * @param int|false        $thumbnail_id  Post thumbnail ID or false if the post does not exist.
 	 */
 	return (bool) apply_filters( 'has_post_thumbnail', $has_thumbnail, $post, $thumbnail_id );
 }
@@ -168,7 +168,7 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 		 * @since 2.9.0
 		 *
 		 * @param int          $post_id           The post ID.
-		 * @param string       $post_thumbnail_id The post thumbnail ID.
+		 * @param int          $post_thumbnail_id The post thumbnail ID.
 		 * @param string|array $size              The post thumbnail size. Image size or array of width
 		 *                                        and height values (in that order). Default 'post-thumbnail'.
 		 */
@@ -186,7 +186,7 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 		 * @since 2.9.0
 		 *
 		 * @param int          $post_id           The post ID.
-		 * @param string       $post_thumbnail_id The post thumbnail ID.
+		 * @param int          $post_thumbnail_id The post thumbnail ID.
 		 * @param string|array $size              The post thumbnail size. Image size or array of width
 		 *                                        and height values (in that order). Default 'post-thumbnail'.
 		 */
@@ -203,7 +203,7 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 	 *
 	 * @param string       $html              The post thumbnail HTML.
 	 * @param int          $post_id           The post ID.
-	 * @param string       $post_thumbnail_id The post thumbnail ID.
+	 * @param int          $post_thumbnail_id The post thumbnail ID.
 	 * @param string|array $size              The post thumbnail size. Image size or array of width and height
 	 *                                        values (in that order). Default 'post-thumbnail'.
 	 * @param string       $attr              Query string of attributes.
