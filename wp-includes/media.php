@@ -2406,8 +2406,8 @@ function gallery_shortcode( $attr ) {
 function wp_underscore_playlist_templates() {
 	?>
 <script type="text/html" id="tmpl-wp-playlist-current-item">
-	<# if ( data.image ) { #>
-	<img src="{{ data.thumb.src }}" alt="" />
+	<# if ( data.thumb && data.thumb.src ) { #>
+		<img src="{{ data.thumb.src }}" alt="" />
 	<# } #>
 	<div class="wp-playlist-caption">
 		<span class="wp-playlist-item-meta wp-playlist-item-title">

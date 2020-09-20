@@ -536,7 +536,7 @@ function wp_print_media_templates() {
 			<div class="thumbnail">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div style="width: {{ data.percent }}%"></div></div>
-				<# } else if ( 'image' === data.type && data.sizes ) { #>
+				<# } else if ( 'image' === data.type && data.size && data.size.url ) { #>
 					<div class="centered">
 						<img src="{{ data.size.url }}" draggable="false" alt="" />
 					</div>
@@ -598,7 +598,7 @@ function wp_print_media_templates() {
 			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
-				<# } else if ( 'image' === data.type && data.sizes ) { #>
+				<# } else if ( 'image' === data.type && data.size && data.size.url ) { #>
 					<img src="{{ data.size.url }}" draggable="false" alt="" />
 				<# } else { #>
 					<img src="{{ data.icon }}" class="icon" draggable="false" alt="" />
