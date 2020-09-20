@@ -1446,17 +1446,30 @@ function wp_doing_cron() {
 }
 
 /**
- * Check whether variable is a WordPress Error.
+ * Checks whether the given variable is a WordPress Error.
  *
- * Returns true if $thing is an object of the WP_Error class.
+ * Returns whether `$thing` is an instance of the `WP_Error` class.
  *
  * @since 2.1.0
  *
- * @param mixed $thing Check if unknown variable is a WP_Error object.
- * @return bool True, if WP_Error. False, if not WP_Error.
+ * @param mixed $thing The variable to check.
+ * @return bool Whether the variable is an instance of WP_Error.
  */
 function is_wp_error( $thing ) {
-	return ( $thing instanceof WP_Error );
+	$is = ( $thing instanceof WP_Error );
+
+	if ( $is ) {
+		/**
+		 * Fires when `is_wp_error()` is called and it's an instance of `WP_Error`.
+		 *
+		 * @since 5.6.0
+		 *
+		 * @param WP_Error $thing The error object passed to `is_wp_error()`.
+		 */
+		do_action( 'wp_error_checked', $thing );
+	}
+
+	return $is;
 }
 
 /**
