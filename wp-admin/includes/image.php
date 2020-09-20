@@ -917,7 +917,7 @@ function file_is_displayable_image( $path ) {
  *
  * @since 2.9.0
  *
- * @param string $attachment_id Attachment ID.
+ * @param int    $attachment_id Attachment ID.
  * @param string $mime_type     Image mime type.
  * @param string $size          Optional. Image size. Default 'full'.
  * @return resource|GdImage|false The resulting image resource or GdImage instance on success,
@@ -951,7 +951,7 @@ function load_image_to_edit( $attachment_id, $mime_type, $size = 'full' ) {
 		 * @since 2.9.0
 		 *
 		 * @param resource|GdImage $image         Current image.
-		 * @param string           $attachment_id Attachment ID.
+		 * @param int              $attachment_id Attachment ID.
 		 * @param string           $size          Image size.
 		 */
 		$image = apply_filters( 'load_image_to_edit', $image, $attachment_id, $size );
@@ -974,7 +974,7 @@ function load_image_to_edit( $attachment_id, $mime_type, $size = 'full' ) {
  * @since 3.4.0
  * @access private
  *
- * @param string $attachment_id Attachment ID.
+ * @param int    $attachment_id Attachment ID.
  * @param string $size          Optional. Image size. Default 'full'.
  * @return string|false File path or url on success, false on failure.
  */
@@ -996,7 +996,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 				 * @since 3.1.0
 				 *
 				 * @param string $path          Path to the current image.
-				 * @param string $attachment_id Attachment ID.
+				 * @param int    $attachment_id Attachment ID.
 				 * @param string $size          Size of the image.
 				 */
 				$filepath = apply_filters( 'load_image_to_edit_filesystempath', $filepath, $attachment_id, $size );
@@ -1011,7 +1011,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 		 * @since 3.1.0
 		 *
 		 * @param string $image_url     Current image URL.
-		 * @param string $attachment_id Attachment ID.
+		 * @param int    $attachment_id Attachment ID.
 		 * @param string $size          Size of the image.
 		 */
 		$filepath = apply_filters( 'load_image_to_edit_attachmenturl', wp_get_attachment_url( $attachment_id ), $attachment_id, $size );
@@ -1023,7 +1023,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 	 * @since 2.9.0
 	 *
 	 * @param string|bool $filepath      File path or URL to current image, or false.
-	 * @param string      $attachment_id Attachment ID.
+	 * @param int         $attachment_id Attachment ID.
 	 * @param string      $size          Size of the image.
 	 */
 	return apply_filters( 'load_image_to_edit_path', $filepath, $attachment_id, $size );
@@ -1035,7 +1035,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
  * @since 3.4.0
  * @access private
  *
- * @param string $attachment_id Attachment ID.
+ * @param int $attachment_id Attachment ID.
  * @return string|false New file path on success, false on failure.
  */
 function _copy_image_file( $attachment_id ) {
