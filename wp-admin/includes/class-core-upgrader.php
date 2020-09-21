@@ -48,14 +48,14 @@ class Core_Upgrader extends WP_Upgrader {
 	 *
 	 * @param object $current Response object for whether WordPress is current.
 	 * @param array  $args {
-	 *        Optional. Arguments for upgrading WordPress core. Default empty array.
+	 *     Optional. Arguments for upgrading WordPress core. Default empty array.
 	 *
-	 *        @type bool $pre_check_md5    Whether to check the file checksums before
-	 *                                     attempting the upgrade. Default true.
-	 *        @type bool $attempt_rollback Whether to attempt to rollback the chances if
-	 *                                     there is a problem. Default false.
-	 *        @type bool $do_rollback      Whether to perform this "upgrade" as a rollback.
-	 *                                     Default false.
+	 *     @type bool $pre_check_md5    Whether to check the file checksums before
+	 *                                  attempting the upgrade. Default true.
+	 *     @type bool $attempt_rollback Whether to attempt to rollback the chances if
+	 *                                  there is a problem. Default false.
+	 *     @type bool $do_rollback      Whether to perform this "upgrade" as a rollback.
+	 *                                  Default false.
 	 * }
 	 * @return string|false|WP_Error New WordPress version on success, false or WP_Error on failure.
 	 */
