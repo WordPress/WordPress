@@ -59,7 +59,7 @@ if ( isset( $_REQUEST['action'] ) && 'adduser' === $_REQUEST['action'] ) {
 	}
 
 	// Adding an existing user to this blog.
-	$new_user_email = $user_details->user_email;
+	$new_user_email = array();
 	$redirect       = 'user-new.php';
 	$username       = $user_details->user_login;
 	$user_id        = $user_details->ID;
@@ -100,7 +100,7 @@ if ( isset( $_REQUEST['action'] ) && 'adduser' === $_REQUEST['action'] ) {
 			$role  = $roles[ $_REQUEST['role'] ];
 
 			/**
-			 * Fires immediately after a user is invited to join a site, but before the notification is sent.
+			 * Fires immediately after an existing user is invited to join the site, but before the notification is sent.
 			 *
 			 * @since 4.4.0
 			 *
@@ -123,20 +123,46 @@ Please click the following link to confirm the invite:
 %4$s'
 			);
 
+			$new_user_email['to']      = $user_details->user_email;
+			$new_user_email['subject'] = sprintf(
+				/* translators: Joining confirmation notification email subject. %s: Site title. */
+				__( '[%s] Joining Confirmation' ),
+				wp_specialchars_decode( get_option( 'blogname' ) )
+			);
+			$new_user_email['message'] = sprintf(
+				$message,
+				get_option( 'blogname' ),
+				home_url(),
+				wp_specialchars_decode( translate_user_role( $role['name'] ) ),
+				home_url( "/newbloguser/$newuser_key/" )
+			);
+			$new_user_email['headers'] = '';
+
+			/**
+			 * Filters the contents of the email sent when an existing user is invited to join the site.
+			 *
+			 * @since 5.6.0
+			 *
+			 * @param array $new_user_email {
+			 *     Used to build wp_mail().
+			 *
+			 *     @type string $to      The email address of the invited user.
+			 *     @type string $subject The subject of the email.
+			 *     @type string $message The content of the email.
+			 *     @type string $headers Headers.
+			 * }
+			 * @param int    $user_id     The invited user's ID.
+			 * @param array  $role        Array containing role information for the invited user.
+			 * @param string $newuser_key The key of the invitation.
+			 *
+			 */
+			$new_user_email = apply_filters( 'invited_user_email', $new_user_email, $user_id, $role, $newuser_key );
+
 			wp_mail(
-				$new_user_email,
-				sprintf(
-					/* translators: Joining confirmation notification email subject. %s: Site title. */
-					__( '[%s] Joining Confirmation' ),
-					wp_specialchars_decode( get_option( 'blogname' ) )
-				),
-				sprintf(
-					$message,
-					get_option( 'blogname' ),
-					home_url(),
-					wp_specialchars_decode( translate_user_role( $role['name'] ) ),
-					home_url( "/newbloguser/$newuser_key/" )
-				)
+				$new_user_email['to'],
+				$new_user_email['subject'],
+				$new_user_email['message'],
+				$new_user_email['headers']
 			);
 
 			if ( $switched_locale ) {
