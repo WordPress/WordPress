@@ -1456,9 +1456,9 @@ function wp_doing_cron() {
  * @return bool Whether the variable is an instance of WP_Error.
  */
 function is_wp_error( $thing ) {
-	$is = ( $thing instanceof WP_Error );
+	$is_wp_error = ( $thing instanceof WP_Error );
 
-	if ( $is ) {
+	if ( $is_wp_error ) {
 		/**
 		 * Fires when `is_wp_error()` is called and it's an instance of `WP_Error`.
 		 *
@@ -1469,7 +1469,7 @@ function is_wp_error( $thing ) {
 		do_action( 'wp_error_checked', $thing );
 	}
 
-	return $is;
+	return $is_wp_error;
 }
 
 /**
