@@ -24738,7 +24738,7 @@ function useScroll(handler, config) {
  *
  * The most complete gesture hook, allowing support for multiple gestures.
  *
- * @param {UserHandlersPartial} handlers - an object with on[Gesture] keys containg gesture handlers
+ * @param {UserHandlersPartial} handlers - an object with on[Gesture] keys containing gesture handlers
  * @param {UseGestureConfig} [config={}] - the full config object
  * @returns {(...args: any[]) => HookReturnType<Config>}
  */
