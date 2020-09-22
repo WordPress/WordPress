@@ -242,7 +242,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 					'bulk_action',
 					'bulk_action',
 					/* translators: %d: Number of requests. */
-					sprintf( _n( 'Deleted %d request', 'Deleted %d requests', $count ), $count ),
+					sprintf( _n( 'Deleted %d request.', 'Deleted %d requests.', $count ), $count ),
 					'success'
 				);
 				break;
@@ -259,7 +259,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 					'bulk_action',
 					'bulk_action',
 					/* translators: %d: Number of requests. */
-					sprintf( _n( 'Re-sent %d request', 'Re-sent %d requests', $count ), $count ),
+					sprintf( _n( 'Re-sent %d request.', 'Re-sent %d requests.', $count ), $count ),
 					'success'
 				);
 				break;
