@@ -155,8 +155,6 @@ function get_network_by_path( $domain, $path, $segments = null ) {
  * @since 3.9.0
  * @since 4.7.0 Updated to always return a `WP_Site` object.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
  * @param string   $domain   Domain to check.
  * @param string   $path     Path to check.
  * @param int|null $segments Path segments to use. Defaults to null, or the full path.
