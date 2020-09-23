@@ -1191,6 +1191,7 @@ function wp_dropdown_users( $args = '' ) {
 		if ( $parsed_args['include_selected'] && ( $parsed_args['selected'] > 0 ) ) {
 			$found_selected          = false;
 			$parsed_args['selected'] = (int) $parsed_args['selected'];
+
 			foreach ( (array) $users as $user ) {
 				$user->ID = (int) $user->ID;
 				if ( $user->ID === $parsed_args['selected'] ) {
@@ -1199,7 +1200,10 @@ function wp_dropdown_users( $args = '' ) {
 			}
 
 			if ( ! $found_selected ) {
-				$users[] = get_userdata( $parsed_args['selected'] );
+				$selected_user = get_userdata( $parsed_args['selected'] );
+				if ( $selected_user ) {
+					$users[] = $selected_user;
+				}
 			}
 		}
 
