@@ -32,6 +32,11 @@ $current_screen->is_block_editor( true );
  */
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
+/*
+ * Block editor implements its own Options menu for toggling Document Panels.
+ */
+add_filter( 'screen_options_show_screen', '__return_false' );
+
 wp_enqueue_script( 'heartbeat' );
 wp_enqueue_script( 'wp-edit-post' );
 wp_enqueue_script( 'wp-format-library' );
