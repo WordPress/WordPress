@@ -1407,6 +1407,9 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                              to the user will *not* be trashed or deleted. If not set (the default),
  *                                              posts are trashed if post_type_supports('author'). Otherwise posts
  *                                              are not trashed or deleted. Default null.
+ *     @type array       $template              Array of blocks to use as the default initial state for an editor
+ *                                              session. Each item should be an array containing block name and
+ *                                              optional attributes.
  *     @type bool        $_builtin              FOR INTERNAL USE ONLY! True if this post type is a native or
  *                                              "built-in" post_type. Default false.
  *     @type string      $_edit_link            FOR INTERNAL USE ONLY! URL segment to use for edit link of
