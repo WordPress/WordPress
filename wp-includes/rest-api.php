@@ -1551,7 +1551,7 @@ function rest_stabilize_value( $value ) {
  *              Support the "minLength", "maxLength" and "pattern" keywords for strings.
  *              Support the "minItems", "maxItems" and "uniqueItems" keywords for arrays.
  *              Validate required properties.
- * @since 5.7.0 Support the "minProperties" and "maxProperties" keywords for objects.
+ * @since 5.6.0 Support the "minProperties" and "maxProperties" keywords for objects.
  *
  * @param mixed  $value The value to validate.
  * @param array  $args  Schema array to use for validation.
