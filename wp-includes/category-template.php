@@ -512,6 +512,7 @@ function wp_dropdown_categories( $args = '' ) {
  *     @type string       $style                 The style used to display the categories list. If 'list', categories
  *                                               will be output as an unordered list. If left empty or another value,
  *                                               categories will be output separated by `<br>` tags. Default 'list'.
+ *     @type string       $taxonomy              Name of the taxonomy to retrieve. Default 'category'.
  *     @type string       $title_li              Text to use for the list title `<li>` element. Pass an empty string
  *                                               to disable. Default 'Categories'.
  *     @type bool|int     $use_desc_for_title    Whether to use the category description as the title attribute.
