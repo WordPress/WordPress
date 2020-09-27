@@ -542,7 +542,7 @@ var Router = Backbone.Router.extend(/** @lends wp.media.view.MediaFrame.Manage.R
 		}
 	},
 
-	// Respond to the search route by filling the search field and trigggering the input event.
+	// Respond to the search route by filling the search field and triggering the input event.
 	search: function( query ) {
 		jQuery( '#media-search-input' ).val( query ).trigger( 'input' );
 	},
