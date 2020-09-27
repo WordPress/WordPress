@@ -475,7 +475,9 @@
 .attachment-details .copy-to-clipboard-container .success {
 	padding: 0;
 	min-height: 0;
+	line-height: 2.18181818;
 	text-align: right;
+	color: #40860a;
 }
 
 .compat-item label span {

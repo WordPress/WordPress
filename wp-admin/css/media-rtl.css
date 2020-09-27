@@ -805,7 +805,12 @@ border color while dragging a file over the uploader drop area */
 	clear: both;
 }
 
+.copy-to-clipboard-container .copy-attachment-url {
+	white-space: normal;
+}
+
 .copy-to-clipboard-container .success {
+	color: #40860a;
 	margin-right: 8px;
 }
 
