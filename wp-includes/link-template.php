@@ -3913,7 +3913,7 @@ function wp_get_shortlink( $id = 0, $context = 'post', $allow_slugs = true ) {
 
 		if ( 'page' === $post->post_type && get_option( 'page_on_front' ) == $post->ID && 'page' === get_option( 'show_on_front' ) ) {
 			$shortlink = home_url( '/' );
-		} elseif ( $post_type->public ) {
+		} elseif ( $post_type && $post_type->public ) {
 			$shortlink = home_url( '?p=' . $post_id );
 		}
 	}
