@@ -363,16 +363,16 @@
 			 * @param {string} parentModel      The parent model.
 			 * @param {number} modelId          The model ID if the object to request
 			 * @param {string} modelName        The model name to use when constructing the model.
-			 * @param {string} embedSourcePoint Where to check the embedds object for _embed data.
+			 * @param {string} embedSourcePoint Where to check the embedded object for _embed data.
 			 * @param {string} embedCheckField  Which model field to check to see if the model has data.
 			 *
 			 * @return {Deferred.promise}        A promise which resolves to the constructed model.
 			 */
 			buildModelGetter = function( parentModel, modelId, modelName, embedSourcePoint, embedCheckField ) {
-				var getModel, embeddeds, attributes, deferred;
+				var getModel, embeddedObjects, attributes, deferred;
 
-				deferred  = jQuery.Deferred();
-				embeddeds = parentModel.get( '_embedded' ) || {};
+				deferred        = jQuery.Deferred();
+				embeddedObjects = parentModel.get( '_embedded' ) || {};
 
 				// Verify that we have a valid object id.
 				if ( ! _.isNumber( modelId ) || 0 === modelId ) {
@@ -381,8 +381,8 @@
 				}
 
 				// If we have embedded object data, use that when constructing the getModel.
-				if ( embeddeds[ embedSourcePoint ] ) {
-					attributes = _.findWhere( embeddeds[ embedSourcePoint ], { id: modelId } );
+				if ( embeddedObjects[ embedSourcePoint ] ) {
+					attributes = _.findWhere( embeddedObjects[ embedSourcePoint ], { id: modelId } );
 				}
 
 				// Otherwise use the modelId.
@@ -416,8 +416,8 @@
 			 *
 			 * @param {string} parentModel      The parent model.
 			 * @param {string} collectionName   The name to use when constructing the collection.
-			 * @param {string} embedSourcePoint Where to check the embedds object for _embed data.
-			 * @param {string} embedIndex       An addiitonal optional index for the _embed data.
+			 * @param {string} embedSourcePoint Where to check the embedded object for _embed data.
+			 * @param {string} embedIndex       An additional optional index for the _embed data.
 			 *
 			 * @return {Deferred.promise} A promise which resolves to the constructed collection.
 			 */
@@ -425,19 +425,19 @@
 				/**
 				 * Returns a promise that resolves to the requested collection
 				 *
-				 * Uses the embedded data if available, otherwises fetches the
+				 * Uses the embedded data if available, otherwise fetches the
 				 * data from the server.
 				 *
 				 * @return {Deferred.promise} promise Resolves to a wp.api.collections[ collectionName ]
 				 * collection.
 				 */
-				var postId, embeddeds, getObjects,
+				var postId, embeddedObjects, getObjects,
 					classProperties = '',
 					properties      = '',
 					deferred        = jQuery.Deferred();
 
-				postId    = parentModel.get( 'id' );
-				embeddeds = parentModel.get( '_embedded' ) || {};
+				postId          = parentModel.get( 'id' );
+				embeddedObjects = parentModel.get( '_embedded' ) || {};
 
 				// Verify that we have a valid post ID.
 				if ( ! _.isNumber( postId ) || 0 === postId ) {
@@ -446,17 +446,17 @@
 				}
 
 				// If we have embedded getObjects data, use that when constructing the getObjects.
-				if ( ! _.isUndefined( embedSourcePoint ) && ! _.isUndefined( embeddeds[ embedSourcePoint ] ) ) {
+				if ( ! _.isUndefined( embedSourcePoint ) && ! _.isUndefined( embeddedObjects[ embedSourcePoint ] ) ) {
 
 					// Some embeds also include an index offset, check for that.
 					if ( _.isUndefined( embedIndex ) ) {
 
 						// Use the embed source point directly.
-						properties = embeddeds[ embedSourcePoint ];
+						properties = embeddedObjects[ embedSourcePoint ];
 					} else {
 
 						// Add the index to the embed source point.
-						properties = embeddeds[ embedSourcePoint ][ embedIndex ];
+						properties = embeddedObjects[ embedSourcePoint ][ embedIndex ];
 					}
 				} else {
 
@@ -1057,7 +1057,7 @@
 					};
 				}
 
-				// Continue by calling Bacckbone's sync.
+				// Continue by calling Backbone's sync.
 				return Backbone.sync( method, model, options );
 			},
 
