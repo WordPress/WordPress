@@ -72,11 +72,11 @@ All at ###SITENAME###
 ###SITEURL###"
 	);
 	/**
-	 * Filters the email content sent when a site in a Multisite network is deleted.
+	 * Filters the text for the email sent to the site admin when a request to delete a site in a Multisite network is submitted.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $content The email content that will be sent to the user who deleted a site in a Multisite network.
+	 * @param string $content The email text.
 	 */
 	$content = apply_filters( 'delete_site_email_content', $content );
 

@@ -323,7 +323,7 @@ function login_footer( $input_id = '' ) {
 }
 
 /**
- * Outputs the Javascript to handle the form shaking.
+ * Outputs the Javascript to handle the form shaking on the login page.
  *
  * @since 3.0.0
  */
@@ -336,7 +336,7 @@ function wp_shake_js() {
 }
 
 /**
- * Outputs the viewport meta tag.
+ * Outputs the viewport meta tag for the login page.
  *
  * @since 3.7.0
  */
@@ -347,11 +347,11 @@ function wp_login_viewport_meta() {
 }
 
 /**
- * Handles sending password retrieval email to user.
+ * Handles sending a password retrieval email to a user.
  *
  * @since 2.5.0
  *
- * @return bool|WP_Error True: when finish. WP_Error on error
+ * @return true|WP_Error True when finished, WP_Error object on error.
  */
 function retrieve_password() {
 	$errors    = new WP_Error();
@@ -422,7 +422,7 @@ function retrieve_password() {
 	} else {
 		/*
 		 * The blogname option is escaped with esc_html on the way into the database
-		 * in sanitize_option we want to reverse this for the plain text arena of emails.
+		 * in sanitize_option. We want to reverse this for the plain text arena of emails.
 		 */
 		$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	}
@@ -445,7 +445,7 @@ function retrieve_password() {
 	 * @since 2.8.0
 	 * @since 4.4.0 Added the `$user_login` and `$user_data` parameters.
 	 *
-	 * @param string  $title      Default email title.
+	 * @param string  $title      Email subject.
 	 * @param string  $user_login The username for the user.
 	 * @param WP_User $user_data  WP_User object.
 	 */
@@ -459,7 +459,7 @@ function retrieve_password() {
 	 * @since 2.8.0
 	 * @since 4.1.0 Added `$user_login` and `$user_data` parameters.
 	 *
-	 * @param string  $message    Default mail message.
+	 * @param string  $message    Email message.
 	 * @param string  $key        The activation key.
 	 * @param string  $user_login The username for the user.
 	 * @param WP_User $user_data  WP_User object.
