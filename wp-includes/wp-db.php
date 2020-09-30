@@ -1915,6 +1915,11 @@ class wpdb {
 		 */
 		$query = apply_filters( 'query', $query );
 
+		if ( ! $query ) {
+			$this->insert_id = 0;
+			return false;
+		}
+
 		$this->flush();
 
 		// Log how the function was called.
