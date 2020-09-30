@@ -6040,11 +6040,15 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	// We don't need to write to the file, so just open for reading.
 	$fp = fopen( $file, 'r' );
 
-	// Pull only the first 8 KB of the file in.
-	$file_data = fread( $fp, 8 * KB_IN_BYTES );
+	if ( $fp ) {
+		// Pull only the first 8 KB of the file in.
+		$file_data = fread( $fp, 8 * KB_IN_BYTES );
 
-	// PHP will close file handle, but we are good citizens.
-	fclose( $fp );
+		// PHP will close file handle, but we are good citizens.
+		fclose( $fp );
+	} else {
+		$file_data = '';
+	}
 
 	// Make sure we catch CR-only line endings.
 	$file_data = str_replace( "\r", "\n", $file_data );
