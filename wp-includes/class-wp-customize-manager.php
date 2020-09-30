@@ -1231,6 +1231,8 @@ final class WP_Customize_Manager {
 						$settings = $settings->getArrayCopy();
 					}
 
+					unset( $settings['_multiwidget'] );
+
 					// Find the max widget number for this type.
 					$widget_numbers = array_keys( $settings );
 					if ( count( $widget_numbers ) > 0 ) {
