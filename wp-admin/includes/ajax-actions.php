@@ -2370,7 +2370,7 @@ function wp_ajax_save_widget() {
 }
 
 /**
- * Ajax handler for saving a widget.
+ * Ajax handler for updating a widget.
  *
  * @since 3.9.0
  *
