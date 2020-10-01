@@ -2187,9 +2187,10 @@ function wp_common_block_scripts_and_styles() {
  * Checks if the editor scripts and styles for all registered block types
  * should be enqueued on the current screen.
  *
+ * @since 5.6.0
  * @access private
  *
- * @return boolean
+ * @return bool
  */
 function _should_load_block_editor_scripts_and_styles() {
 	global $current_screen;
@@ -2202,7 +2203,7 @@ function _should_load_block_editor_scripts_and_styles() {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param boolean $is_block_editor_screen Current value of the flag
+	 * @param bool $is_block_editor_screen Current value of the flag.
 	 */
 	return apply_filters( 'should_load_block_editor_scripts_and_styles', $is_block_editor_screen );
 }
