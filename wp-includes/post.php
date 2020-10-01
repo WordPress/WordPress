@@ -4374,8 +4374,10 @@ function wp_publish_post( $post ) {
 	if ( 'publish' === $post->post_status ) {
 		return;
 	}
+	
+	$post->post_name = wp_unique_post_slug($post->post_name, $post->ID, 'publish', $post->post_type, $post->post_parent);
 
-	$wpdb->update( $wpdb->posts, array( 'post_status' => 'publish' ), array( 'ID' => $post->ID ) );
+	$wpdb->update( $wpdb->posts, array( 'post_status' => 'publish', 'post_name' => $post->post_name), array( 'ID' => $post->ID ) );
 
 	clean_post_cache( $post->ID );
 
