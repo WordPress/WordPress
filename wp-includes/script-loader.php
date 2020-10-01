@@ -323,6 +323,15 @@ function wp_default_packages_inline_scripts( $scripts ) {
 		)
 	);
 
+	// Calculate the timezone abbr (EDT, PST) if possible.
+	$timezone_string = get_option( 'timezone_string', 'UTC' );
+	$timezone_abbr   = '';
+
+	if ( ! empty( $timezone_string ) ) {
+		$timezone_date = new DateTime( null, new DateTimeZone( $timezone_string ) );
+		$timezone_abbr = $timezone_date->format( 'T' );
+	}
+
 	$scripts->add_inline_script(
 		'wp-date',
 		sprintf(
@@ -355,7 +364,8 @@ function wp_default_packages_inline_scripts( $scripts ) {
 					),
 					'timezone' => array(
 						'offset' => get_option( 'gmt_offset', 0 ),
-						'string' => get_option( 'timezone_string', 'UTC' ),
+						'string' => $timezone_string,
+						'abbr'   => $timezone_abbr,
 					),
 				)
 			)
