@@ -5992,12 +5992,11 @@ function wp_delete_attachment_files( $post_id, $meta, $backup_sizes, $file ) {
 function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
 	$attachment_id = (int) $attachment_id;
 
-	$post = get_post( $attachment_id );
-	if ( ! $post ) {
+	$data = get_post_meta( $attachment_id, '_wp_attachment_metadata', true );
+
+	if ( empty( $data ) ) {
 		return false;
 	}
-
-	$data = get_post_meta( $post->ID, '_wp_attachment_metadata', true );
 
 	if ( $unfiltered ) {
 		return $data;
@@ -6012,7 +6011,7 @@ function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
 	 *                                  if the object does not exist.
 	 * @param int        $attachment_id Attachment post ID.
 	 */
-	return apply_filters( 'wp_get_attachment_metadata', $data, $post->ID );
+	return apply_filters( 'wp_get_attachment_metadata', $data, $attachment_id );
 }
 
 /**
