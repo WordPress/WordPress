@@ -2160,9 +2160,7 @@ function script_concat_settings() {
  * @global WP_Screen $current_screen WordPress current screen object.
  */
 function wp_common_block_scripts_and_styles() {
-	global $current_screen;
-
-	if ( is_admin() && ( $current_screen instanceof WP_Screen ) && ! $current_screen->is_block_editor() ) {
+	if ( is_admin() && ! _should_load_block_editor_scripts_and_styles() ) {
 		return;
 	}
 
@@ -2186,6 +2184,30 @@ function wp_common_block_scripts_and_styles() {
 }
 
 /**
+ * Checks if the editor scripts and styles for all registered block types
+ * should be enqueued on the current screen.
+ *
+ * @access private
+ *
+ * @return boolean
+ */
+function _should_load_block_editor_scripts_and_styles() {
+	global $current_screen;
+
+	$is_block_editor_screen = ( $current_screen instanceof WP_Screen ) && $current_screen->is_block_editor();
+
+	/**
+	 * Filters the flag that decides whether or not block editor scripts and
+	 * styles are going to be enqueued on the current screen.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param boolean $is_block_editor_screen Current value of the flag
+	 */
+	return apply_filters( 'should_load_block_editor_scripts_and_styles', $is_block_editor_screen );
+}
+
+/**
  * Enqueues registered block scripts and styles, depending on current rendered
  * context (only enqueuing editor scripts while in context of the editor).
  *
@@ -2196,7 +2218,7 @@ function wp_common_block_scripts_and_styles() {
 function wp_enqueue_registered_block_scripts_and_styles() {
 	global $current_screen;
 
-	$is_editor = ( ( $current_screen instanceof WP_Screen ) && $current_screen->is_block_editor() );
+	$load_editor_scripts = _should_load_block_editor_scripts_and_styles();
 
 	$block_registry = WP_Block_Type_Registry::get_instance();
 	foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {
@@ -2211,12 +2233,12 @@ function wp_enqueue_registered_block_scripts_and_styles() {
 		}
 
 		// Editor styles.
-		if ( $is_editor && ! empty( $block_type->editor_style ) ) {
+		if ( $load_editor_scripts && ! empty( $block_type->editor_style ) ) {
 			wp_enqueue_style( $block_type->editor_style );
 		}
 
 		// Editor script.
-		if ( $is_editor && ! empty( $block_type->editor_script ) ) {
+		if ( $load_editor_scripts && ! empty( $block_type->editor_script ) ) {
 			wp_enqueue_script( $block_type->editor_script );
 		}
 	}
