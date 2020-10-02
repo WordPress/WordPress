@@ -3190,6 +3190,7 @@ function wp_trash_post( $post_id = 0 ) {
 	 * @param WP_Post   $post  Post object.
 	 */
 	$check = apply_filters( 'pre_trash_post', null, $post );
+
 	if ( null !== $check ) {
 		return $check;
 	}
@@ -3316,7 +3317,8 @@ function wp_trash_post_comments( $post = null ) {
 	global $wpdb;
 
 	$post = get_post( $post );
-	if ( empty( $post ) ) {
+
+	if ( ! $post ) {
 		return;
 	}
 
@@ -3332,7 +3334,8 @@ function wp_trash_post_comments( $post = null ) {
 	do_action( 'trash_post_comments', $post_id );
 
 	$comments = $wpdb->get_results( $wpdb->prepare( "SELECT comment_ID, comment_approved FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ) );
-	if ( empty( $comments ) ) {
+
+	if ( ! $comments ) {
 		return;
 	}
 
@@ -3375,7 +3378,8 @@ function wp_untrash_post_comments( $post = null ) {
 	global $wpdb;
 
 	$post = get_post( $post );
-	if ( empty( $post ) ) {
+
+	if ( ! $post ) {
 		return;
 	}
 
@@ -3383,7 +3387,7 @@ function wp_untrash_post_comments( $post = null ) {
 
 	$statuses = get_post_meta( $post_id, '_wp_trash_meta_comments_status', true );
 
-	if ( empty( $statuses ) ) {
+	if ( ! $statuses ) {
 		return true;
 	}
 
@@ -4370,6 +4374,7 @@ function wp_publish_post( $post ) {
 	global $wpdb;
 
 	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return;
 	}
@@ -4442,7 +4447,7 @@ function wp_publish_post( $post ) {
 function check_and_publish_future_post( $post_id ) {
 	$post = get_post( $post_id );
 
-	if ( empty( $post ) ) {
+	if ( ! $post ) {
 		return;
 	}
 
@@ -4897,6 +4902,7 @@ function add_ping( $post_id, $uri ) {
 	global $wpdb;
 
 	$post = get_post( $post_id );
+
 	if ( ! $post ) {
 		return false;
 	}
@@ -4973,6 +4979,7 @@ function get_enclosed( $post_id ) {
  */
 function get_pung( $post_id ) {
 	$post = get_post( $post_id );
+
 	if ( ! $post ) {
 		return false;
 	}
@@ -5994,7 +6001,7 @@ function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
 
 	$data = get_post_meta( $attachment_id, '_wp_attachment_metadata', true );
 
-	if ( empty( $data ) ) {
+	if ( ! $data ) {
 		return false;
 	}
 
@@ -6027,6 +6034,7 @@ function wp_update_attachment_metadata( $attachment_id, $data ) {
 	$attachment_id = (int) $attachment_id;
 
 	$post = get_post( $attachment_id );
+
 	if ( ! $post ) {
 		return false;
 	}
@@ -6061,6 +6069,7 @@ function wp_get_attachment_url( $attachment_id = 0 ) {
 	$attachment_id = (int) $attachment_id;
 
 	$post = get_post( $attachment_id );
+
 	if ( ! $post ) {
 		return false;
 	}
@@ -6094,7 +6103,7 @@ function wp_get_attachment_url( $attachment_id = 0 ) {
 	 * If any of the above options failed, Fallback on the GUID as used pre-2.7,
 	 * not recommended to rely upon this.
 	 */
-	if ( empty( $url ) ) {
+	if ( ! $url ) {
 		$url = get_the_guid( $post->ID );
 	}
 
@@ -6113,7 +6122,7 @@ function wp_get_attachment_url( $attachment_id = 0 ) {
 	 */
 	$url = apply_filters( 'wp_get_attachment_url', $url, $post->ID );
 
-	if ( empty( $url ) ) {
+	if ( ! $url ) {
 		return false;
 	}
 
@@ -6131,6 +6140,7 @@ function wp_get_attachment_url( $attachment_id = 0 ) {
 function wp_get_attachment_caption( $post_id = 0 ) {
 	$post_id = (int) $post_id;
 	$post    = get_post( $post_id );
+
 	if ( ! $post ) {
 		return false;
 	}
@@ -6163,6 +6173,7 @@ function wp_get_attachment_caption( $post_id = 0 ) {
 function wp_get_attachment_thumb_file( $post_id = 0 ) {
 	$post_id = (int) $post_id;
 	$post    = get_post( $post_id );
+
 	if ( ! $post ) {
 		return false;
 	}
@@ -6202,6 +6213,7 @@ function wp_get_attachment_thumb_file( $post_id = 0 ) {
 function wp_get_attachment_thumb_url( $post_id = 0 ) {
 	$post_id = (int) $post_id;
 	$post    = get_post( $post_id );
+
 	if ( ! $post ) {
 		return false;
 	}
@@ -6245,11 +6257,13 @@ function wp_get_attachment_thumb_url( $post_id = 0 ) {
  */
 function wp_attachment_is( $type, $post = null ) {
 	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return false;
 	}
 
 	$file = get_attached_file( $post->ID );
+
 	if ( ! $file ) {
 		return false;
 	}
@@ -6259,6 +6273,7 @@ function wp_attachment_is( $type, $post = null ) {
 	}
 
 	$check = wp_check_filetype( $file );
+
 	if ( empty( $check['ext'] ) ) {
 		return false;
 	}
@@ -6829,7 +6844,8 @@ function clean_post_cache( $post ) {
 	}
 
 	$post = get_post( $post );
-	if ( empty( $post ) ) {
+
+	if ( ! $post ) {
 		return;
 	}
 
@@ -7126,7 +7142,7 @@ function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
 	}
 
 	// New post can't cause a loop.
-	if ( empty( $post_ID ) ) {
+	if ( ! $post_ID ) {
 		return $post_parent;
 	}
 
@@ -7475,7 +7491,7 @@ function wp_get_original_image_url( $attachment_id ) {
 
 	$image_url = wp_get_attachment_url( $attachment_id );
 
-	if ( empty( $image_url ) ) {
+	if ( ! $image_url ) {
 		return false;
 	}
 
