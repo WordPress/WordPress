@@ -185,6 +185,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 	 * Prepares a single search result for response.
 	 *
 	 * @since 5.0.0
+	 * @since 5.6.0 The `$id` parameter can accept a string.
 	 *
 	 * @param int|string      $id      ID of the item to prepare.
 	 * @param WP_REST_Request $request Request object.
