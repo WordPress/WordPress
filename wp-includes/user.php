@@ -3612,7 +3612,7 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 	);
 
 	if ( $requests_query->found_posts ) {
-		return new WP_Error( 'duplicate_request', __( 'An incomplete request for this email address already exists.' ) );
+		return new WP_Error( 'duplicate_request', __( 'An incomplete user privacy request for this email address already exists.' ) );
 	}
 
 	$request_id = wp_insert_post(
@@ -3680,7 +3680,7 @@ function wp_send_user_request( $request_id ) {
 	$request    = wp_get_user_request( $request_id );
 
 	if ( ! $request ) {
-		return new WP_Error( 'invalid_request', __( 'Invalid user request.' ) );
+		return new WP_Error( 'invalid_request', __( 'Invalid user privacy request.' ) );
 	}
 
 	// Localize message content for user; fallback to site default for visitors.
@@ -3862,35 +3862,26 @@ function wp_generate_user_request_key( $request_id ) {
 function wp_validate_user_request_key( $request_id, $key ) {
 	global $wp_hasher;
 
-	$request_id = absint( $request_id );
-	$request    = wp_get_user_request( $request_id );
+	$request_id       = absint( $request_id );
+	$request          = wp_get_user_request( $request_id );
+	$saved_key        = $request->confirm_key;
+	$key_request_time = $request->modified_timestamp;
 
-	if ( ! $request ) {
-		return new WP_Error( 'invalid_request', __( 'Invalid request.' ) );
+	if ( ! $request || ! $saved_key || ! $key_request_time ) {
+		return new WP_Error( 'invalid_request', __( 'Invalid user privacy request.' ) );
 	}
 
 	if ( ! in_array( $request->status, array( 'request-pending', 'request-failed' ), true ) ) {
-		return new WP_Error( 'expired_link', __( 'This link has expired.' ) );
+		return new WP_Error( 'expired_request', __( 'This user privacy request has expired.' ) );
 	}
 
 	if ( empty( $key ) ) {
-		return new WP_Error( 'missing_key', __( 'Missing confirm key.' ) );
+		return new WP_Error( 'missing_key', __( 'This user privacy request is missing the confirmation key.' ) );
 	}
 
 	if ( empty( $wp_hasher ) ) {
 		require_once ABSPATH . WPINC . '/class-phpass.php';
 		$wp_hasher = new PasswordHash( 8, true );
-	}
-
-	$key_request_time = $request->modified_timestamp;
-	$saved_key        = $request->confirm_key;
-
-	if ( ! $saved_key ) {
-		return new WP_Error( 'invalid_key', __( 'Invalid key.' ) );
-	}
-
-	if ( ! $key_request_time ) {
-		return new WP_Error( 'invalid_key', __( 'Invalid action.' ) );
 	}
 
 	/**
@@ -3904,11 +3895,11 @@ function wp_validate_user_request_key( $request_id, $key ) {
 	$expiration_time     = $key_request_time + $expiration_duration;
 
 	if ( ! $wp_hasher->CheckPassword( $key, $saved_key ) ) {
-		return new WP_Error( 'invalid_key', __( 'Invalid key.' ) );
+		return new WP_Error( 'invalid_key', __( 'This user privacy request confirmation key is invalid.' ) );
 	}
 
 	if ( ! $expiration_time || time() > $expiration_time ) {
-		return new WP_Error( 'expired_key', __( 'The confirmation email has expired.' ) );
+		return new WP_Error( 'expired_key', __( 'This user privacy request confirmation key has expired.' ) );
 	}
 
 	return true;
