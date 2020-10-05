@@ -398,10 +398,9 @@ class Plugin_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Check a source package to be sure it contains a plugin.
+	 * Checks that the source package contains a valid plugin.
 	 *
-	 * This function is added to the {@see 'upgrader_source_selection'} filter by
-	 * Plugin_Upgrader::install().
+	 * Hooked to the {@see 'upgrader_source_selection'} filter by Plugin_Upgrader::install().
 	 *
 	 * @since 3.3.0
 	 *
@@ -409,8 +408,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * @global string             $wp_version    The WordPress version string.
 	 *
 	 * @param string $source The path to the downloaded package source.
-	 * @return string|WP_Error The source as passed, or a WP_Error object
-	 *                         if no plugins were found.
+	 * @return string|WP_Error The source as passed, or a WP_Error object on failure.
 	 */
 	public function check_package( $source ) {
 		global $wp_filesystem, $wp_version;
