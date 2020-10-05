@@ -2408,7 +2408,7 @@ function get_calendar( $initial = true, $echo = true ) {
 /**
  * Purge the cached results of get_calendar.
  *
- * @see get_calendar
+ * @see get_calendar()
  * @since 2.1.0
  */
 function delete_get_calendar_cache() {
@@ -3194,7 +3194,7 @@ function wlwmanifest_link() {
  *
  *     add_action( 'wp_head', 'noindex' );
  *
- * @see wp_no_robots
+ * @see wp_no_robots()
  *
  * @since 2.1.0
  */

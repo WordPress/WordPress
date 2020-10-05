@@ -292,7 +292,7 @@ function get_shortcode_regex( $tagnames = null ) {
 /**
  * Regular Expression callable for do_shortcode() for calling shortcode hook.
  *
- * @see get_shortcode_regex for details of the match array contents.
+ * @see get_shortcode_regex() for details of the match array contents.
  *
  * @since 2.5.0
  * @access private
