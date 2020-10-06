@@ -61,7 +61,7 @@ function get_queried_object_id() {
 }
 
 /**
- * Set query variable.
+ * Set variable in the WP_Query class.
  *
  * @since 2.2.0
  *
