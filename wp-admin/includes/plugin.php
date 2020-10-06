@@ -2190,7 +2190,7 @@ function option_update_filter( $options ) {
 /**
  * Adds an array of options to the list of allowed options.
  *
- * @since 2.7.0
+ * @since 5.5.0
  *
  * @global array $allowed_options
  *
