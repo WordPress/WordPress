@@ -12,7 +12,7 @@
  */
 
 /**
- * Retrieve variable in the WP_Query class.
+ * Retrieves the value of a query variable in the WP_Query class.
  *
  * @since 1.5.0
  * @since 3.9.0 The `$default` argument was introduced.
@@ -29,7 +29,7 @@ function get_query_var( $var, $default = '' ) {
 }
 
 /**
- * Retrieve the currently-queried object.
+ * Retrieves the currently queried object.
  *
  * Wrapper for WP_Query::get_queried_object().
  *
@@ -45,7 +45,7 @@ function get_queried_object() {
 }
 
 /**
- * Retrieve ID of the current queried object.
+ * Retrieves the ID of the currently queried object.
  *
  * Wrapper for WP_Query::get_queried_object_id().
  *
@@ -61,7 +61,7 @@ function get_queried_object_id() {
 }
 
 /**
- * Set variable in the WP_Query class.
+ * Sets the value of a query variable in the WP_Query class.
  *
  * @since 2.2.0
  *

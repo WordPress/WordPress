@@ -1721,7 +1721,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Retrieve query variable.
+	 * Retrieves the value of a query variable.
 	 *
 	 * @since 1.5.0
 	 * @since 3.9.0 The `$default` argument was introduced.
@@ -1739,7 +1739,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Set query variable.
+	 * Sets the value of a query variable.
 	 *
 	 * @since 1.5.0
 	 *
@@ -3449,7 +3449,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Retrieve queried object.
+	 * Retrieves the currently queried object.
 	 *
 	 * If queried object is not set, then the queried object will be set from
 	 * the category, tag, taxonomy, posts page, single post, page, or author
@@ -3527,7 +3527,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Retrieve ID of the current queried object.
+	 * Retrieves the ID of the currently queried object.
 	 *
 	 * @since 1.5.0
 	 *
