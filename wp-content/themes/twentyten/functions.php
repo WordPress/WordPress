@@ -341,7 +341,7 @@ endif;
  * @since Twenty Ten 1.0
  *
  * @param string $more The Read More text.
- * @return string An ellipsis.
+ * @return string The filtered Read More text.
  */
 function twentyten_auto_excerpt_more( $more ) {
 	if ( ! is_admin() ) {
@@ -359,7 +359,7 @@ add_filter( 'excerpt_more', 'twentyten_auto_excerpt_more' );
  *
  * @since Twenty Ten 1.0
  *
- * @param string $output The "Coninue Reading" link.
+ * @param string $output The "Continue Reading" link.
  * @return string Excerpt with a pretty "Continue Reading" link.
  */
 function twentyten_custom_excerpt_more( $output ) {
