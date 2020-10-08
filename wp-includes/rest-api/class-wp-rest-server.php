@@ -223,11 +223,30 @@ class WP_REST_Server {
 	 *
 	 * @see WP_REST_Server::dispatch()
 	 *
+	 * @global WP_User $current_user The currently authenticated user.
+	 *
 	 * @param string $path Optional. The request route. If not set, `$_SERVER['PATH_INFO']` will be used.
 	 *                     Default null.
 	 * @return null|false Null if not served and a HEAD request, false otherwise.
 	 */
 	public function serve_request( $path = null ) {
+		/* @var WP_User|null $current_user */
+		global $current_user;
+
+		if ( $current_user instanceof WP_User && ! $current_user->exists() ) {
+			/*
+			 * If there is no current user authenticated via other means, clear
+			 * the cached lack of user, so that an authenticate check can set it
+			 * properly.
+			 *
+			 * This is done because for authentications such as Application
+			 * Passwords, we don't want it to be accepted unless the current HTTP
+			 * request is an API request, which can't always be identified early
+			 * enough in evaluation.
+			 */
+			$current_user = null;
+		}
+
 		$content_type = isset( $_GET['_jsonp'] ) ? 'application/javascript' : 'application/json';
 		$this->send_header( 'Content-Type', $content_type . '; charset=' . get_option( 'blog_charset' ) );
 		$this->send_header( 'X-Robots-Tag', 'noindex' );

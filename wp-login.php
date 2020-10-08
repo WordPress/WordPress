@@ -1371,6 +1371,19 @@ switch ( $action ) {
 				$errors->add( 'updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new.' ), 'message' );
 			} elseif ( WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED === $action ) {
 				$errors->add( 'enter_recovery_mode', __( 'Recovery Mode Initialized. Please log in to continue.' ), 'message' );
+			} elseif ( isset( $_GET['redirect_to'] ) && false !== strpos( $_GET['redirect_to'], 'wp-admin/authorize-application.php' ) ) {
+				$query_component = wp_parse_url( $_GET['redirect_to'], PHP_URL_QUERY );
+				parse_str( $query_component, $query );
+
+				if ( ! empty( $query['app_name'] ) ) {
+					/* translators: 1: Website name, 2: Application name. */
+					$message = sprintf( 'Please log in to %1$s to authorize %2$s to connect to your account.', get_bloginfo( 'name', 'display' ), '<strong>' . esc_html( $query['app_name'] ) . '</strong>' );
+				} else {
+					/* translators: Website name. */
+					$message = sprintf( 'Please log in to %s to proceed with authorization.', get_bloginfo( 'name', 'display' ) );
+				}
+
+				$errors->add( 'authorize_application', $message, 'message' );
 			}
 		}
 

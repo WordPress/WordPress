@@ -276,6 +276,9 @@ add_action( 'auth_cookie_expired', 'rest_cookie_collect_status' );
 add_action( 'auth_cookie_bad_username', 'rest_cookie_collect_status' );
 add_action( 'auth_cookie_bad_hash', 'rest_cookie_collect_status' );
 add_action( 'auth_cookie_valid', 'rest_cookie_collect_status' );
+add_action( 'application_password_failed_authentication', 'rest_application_password_collect_status' );
+add_action( 'application_password_did_authenticate', 'rest_application_password_collect_status' );
+add_filter( 'rest_authentication_errors', 'rest_application_password_check_errors', 90 );
 add_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
 
 // Actions.
@@ -427,9 +430,11 @@ add_filter( 'heartbeat_nopriv_send', 'wp_auth_check' );
 // Default authentication filters.
 add_filter( 'authenticate', 'wp_authenticate_username_password', 20, 3 );
 add_filter( 'authenticate', 'wp_authenticate_email_password', 20, 3 );
+add_filter( 'authenticate', 'wp_authenticate_application_password', 20, 3 );
 add_filter( 'authenticate', 'wp_authenticate_spam_check', 99 );
 add_filter( 'determine_current_user', 'wp_validate_auth_cookie' );
 add_filter( 'determine_current_user', 'wp_validate_logged_in_cookie', 20 );
+add_filter( 'determine_current_user', 'wp_validate_application_password', 20 );
 
 // Split term updates.
 add_action( 'admin_init', '_wp_check_for_scheduled_split_terms' );

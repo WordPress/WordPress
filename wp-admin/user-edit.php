@@ -27,6 +27,10 @@ if ( ! $user_id && IS_PROFILE_PAGE ) {
 
 wp_enqueue_script( 'user-profile' );
 
+if ( wp_is_application_passwords_available_for_user( $user_id ) ) {
+	wp_enqueue_script( 'application-passwords' );
+}
+
 if ( IS_PROFILE_PAGE ) {
 	$title = __( 'Profile' );
 } else {
@@ -702,6 +706,39 @@ endif;
 
 	</table>
 
+
+		<?php if ( wp_is_application_passwords_available_for_user( $user_id ) ) : ?>
+	<div class="application-passwords hide-if-no-js" id="application-passwords-section">
+		<h2><?php _e( 'Application Passwords' ); ?></h2>
+		<p><?php _e( 'Application passwords allow authentication via non-interactive systems, such as XML-RPC or the REST API, without providing your actual password. Application passwords can be easily revoked. They cannot be used for traditional logins to your website.' ); ?></p>
+		<div class="create-application-password">
+			<label for="new_application_password_name" class="screen-reader-text"><?php _e( 'New Application Password Name' ); ?></label>
+			<input type="text" size="30" id="new_application_password_name" name="new_application_password_name" placeholder="<?php esc_attr_e( 'New Application Password Name' ); ?>" class="input" />
+
+			<?php
+			/**
+			 * Fires in the create Application Passwords form.
+			 *
+			 * @since 5.6.0
+			 *
+			 * @param WP_User $profileuser The current WP_User object.
+			 */
+			do_action( 'wp_create_application_password_form', $profileuser );
+			?>
+
+			<?php submit_button( __( 'Add New' ), 'secondary', 'do_new_application_password', false ); ?>
+		</div>
+
+		<div class="application-passwords-list-table-wrapper">
+			<?php
+			$application_passwords_list_table = _get_list_table( 'WP_Application_Passwords_List_Table', array( 'screen' => 'application-passwords-user' ) );
+			$application_passwords_list_table->prepare_items();
+			$application_passwords_list_table->display();
+			?>
+		</div>
+	</div>
+<?php endif; ?>
+
 		<?php
 		if ( IS_PROFILE_PAGE ) {
 			/**
@@ -787,5 +824,30 @@ endif;
 		document.getElementById('pass1').focus();
 	}
 </script>
+
+<?php if ( isset( $application_passwords_list_table ) ) : ?>
+	<script type="text/html" id="tmpl-new-application-password">
+		<div class="notice notice-success is-dismissible new-application-password-notice" role="alert" tabindex="0">
+			<p>
+				<?php
+				printf(
+					/* translators: 1: Application name, 2: Generated password. */
+					esc_html__( 'Your new password for %1$s is: %2$s' ),
+					'<strong>{{ data.name }}</strong>',
+					'<kbd>{{ data.password }}</kbd>'
+				);
+				?>
+			</p>
+			<p><?php esc_attr_e( 'Be sure to save this in a safe location. You will not be able to retrieve it.' ); ?></p>
+			<button type="button" class="notice-dismiss">
+				<span class="screen-reader-text"><?php __( 'Dismiss this notice.' ); ?></span>
+			</button>
+		</div>
+	</script>
+
+	<script type="text/html" id="tmpl-application-password-row">
+		<?php $application_passwords_list_table->print_js_template_row(); ?>
+	</script>
+<?php endif; ?>
 <?php
 require_once ABSPATH . 'wp-admin/admin-footer.php';
