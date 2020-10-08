@@ -471,7 +471,7 @@ endif; // twentyeleven_continue_reading_link()
  * @since Twenty Eleven 1.0
  *
  * @param string $more The Read More text.
- * @return The filtered Read More text.
+ * @return string The filtered Read More text.
  */
 function twentyeleven_auto_excerpt_more( $more ) {
 	if ( ! is_admin() ) {
