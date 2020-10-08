@@ -372,7 +372,7 @@ function export_wp( $args = array() ) {
 
 		foreach ( $authors as $author ) {
 			echo "\t<wp:author>";
-			echo '<wp:author_id>' . intval( $author->ID ) . '</wp:author_id>';
+			echo '<wp:author_id>' . (int) $author->ID . '</wp:author_id>';
 			echo '<wp:author_login>' . wxr_cdata( $author->user_login ) . '</wp:author_login>';
 			echo '<wp:author_email>' . wxr_cdata( $author->user_email ) . '</wp:author_email>';
 			echo '<wp:author_display_name>' . wxr_cdata( $author->display_name ) . '</wp:author_display_name>';
@@ -395,7 +395,7 @@ function export_wp( $args = array() ) {
 
 		foreach ( $nav_menus as $menu ) {
 			echo "\t<wp:term>";
-			echo '<wp:term_id>' . intval( $menu->term_id ) . '</wp:term_id>';
+			echo '<wp:term_id>' . (int) $menu->term_id . '</wp:term_id>';
 			echo '<wp:term_taxonomy>nav_menu</wp:term_taxonomy>';
 			echo '<wp:term_slug>' . wxr_cdata( $menu->slug ) . '</wp:term_slug>';
 			wxr_term_name( $menu );
@@ -478,7 +478,7 @@ function export_wp( $args = array() ) {
 
 	<?php foreach ( $cats as $c ) : ?>
 	<wp:category>
-		<wp:term_id><?php echo intval( $c->term_id ); ?></wp:term_id>
+		<wp:term_id><?php echo (int) $c->term_id; ?></wp:term_id>
 		<wp:category_nicename><?php echo wxr_cdata( $c->slug ); ?></wp:category_nicename>
 		<wp:category_parent><?php echo wxr_cdata( $c->parent ? $cats[ $c->parent ]->slug : '' ); ?></wp:category_parent>
 		<?php
@@ -490,7 +490,7 @@ function export_wp( $args = array() ) {
 	<?php endforeach; ?>
 	<?php foreach ( $tags as $t ) : ?>
 	<wp:tag>
-		<wp:term_id><?php echo intval( $t->term_id ); ?></wp:term_id>
+		<wp:term_id><?php echo (int) $t->term_id; ?></wp:term_id>
 		<wp:tag_slug><?php echo wxr_cdata( $t->slug ); ?></wp:tag_slug>
 		<?php
 		wxr_tag_name( $t );
@@ -501,7 +501,7 @@ function export_wp( $args = array() ) {
 	<?php endforeach; ?>
 	<?php foreach ( $terms as $t ) : ?>
 	<wp:term>
-		<wp:term_id><?php echo intval( $t->term_id ); ?></wp:term_id>
+		<wp:term_id><?php echo (int) $t->term_id; ?></wp:term_id>
 		<wp:term_taxonomy><?php echo wxr_cdata( $t->taxonomy ); ?></wp:term_taxonomy>
 		<wp:term_slug><?php echo wxr_cdata( $t->slug ); ?></wp:term_slug>
 		<wp:term_parent><?php echo wxr_cdata( $t->parent ? $terms[ $t->parent ]->slug : '' ); ?></wp:term_parent>
@@ -573,18 +573,18 @@ function export_wp( $args = array() ) {
 		<description></description>
 		<content:encoded><?php echo $content; ?></content:encoded>
 		<excerpt:encoded><?php echo $excerpt; ?></excerpt:encoded>
-		<wp:post_id><?php echo intval( $post->ID ); ?></wp:post_id>
+		<wp:post_id><?php echo (int) $post->ID; ?></wp:post_id>
 		<wp:post_date><?php echo wxr_cdata( $post->post_date ); ?></wp:post_date>
 		<wp:post_date_gmt><?php echo wxr_cdata( $post->post_date_gmt ); ?></wp:post_date_gmt>
 		<wp:comment_status><?php echo wxr_cdata( $post->comment_status ); ?></wp:comment_status>
 		<wp:ping_status><?php echo wxr_cdata( $post->ping_status ); ?></wp:ping_status>
 		<wp:post_name><?php echo wxr_cdata( $post->post_name ); ?></wp:post_name>
 		<wp:status><?php echo wxr_cdata( $post->post_status ); ?></wp:status>
-		<wp:post_parent><?php echo intval( $post->post_parent ); ?></wp:post_parent>
-		<wp:menu_order><?php echo intval( $post->menu_order ); ?></wp:menu_order>
+		<wp:post_parent><?php echo (int) $post->post_parent; ?></wp:post_parent>
+		<wp:menu_order><?php echo (int) $post->menu_order; ?></wp:menu_order>
 		<wp:post_type><?php echo wxr_cdata( $post->post_type ); ?></wp:post_type>
 		<wp:post_password><?php echo wxr_cdata( $post->post_password ); ?></wp:post_password>
-		<wp:is_sticky><?php echo intval( $is_sticky ); ?></wp:is_sticky>
+		<wp:is_sticky><?php echo (int) $is_sticky; ?></wp:is_sticky>
 				<?php	if ( 'attachment' === $post->post_type ) : ?>
 		<wp:attachment_url><?php echo wxr_cdata( wp_get_attachment_url( $post->ID ) ); ?></wp:attachment_url>
 	<?php endif; ?>
@@ -620,7 +620,7 @@ function export_wp( $args = array() ) {
 				foreach ( $comments as $c ) :
 					?>
 		<wp:comment>
-			<wp:comment_id><?php echo intval( $c->comment_ID ); ?></wp:comment_id>
+			<wp:comment_id><?php echo (int) $c->comment_ID; ?></wp:comment_id>
 			<wp:comment_author><?php echo wxr_cdata( $c->comment_author ); ?></wp:comment_author>
 			<wp:comment_author_email><?php echo wxr_cdata( $c->comment_author_email ); ?></wp:comment_author_email>
 			<wp:comment_author_url><?php echo esc_url_raw( $c->comment_author_url ); ?></wp:comment_author_url>
@@ -630,8 +630,8 @@ function export_wp( $args = array() ) {
 			<wp:comment_content><?php echo wxr_cdata( $c->comment_content ); ?></wp:comment_content>
 			<wp:comment_approved><?php echo wxr_cdata( $c->comment_approved ); ?></wp:comment_approved>
 			<wp:comment_type><?php echo wxr_cdata( $c->comment_type ); ?></wp:comment_type>
-			<wp:comment_parent><?php echo intval( $c->comment_parent ); ?></wp:comment_parent>
-			<wp:comment_user_id><?php echo intval( $c->user_id ); ?></wp:comment_user_id>
+			<wp:comment_parent><?php echo (int) $c->comment_parent; ?></wp:comment_parent>
+			<wp:comment_user_id><?php echo (int) $c->user_id; ?></wp:comment_user_id>
 					<?php
 					$c_meta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->commentmeta WHERE comment_id = %d", $c->comment_ID ) );
 					foreach ( $c_meta as $meta ) :

@@ -109,7 +109,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 	public function get_item_permissions_check( $request ) {
 		global $post;
 
-		$post_id = isset( $request['post_id'] ) ? intval( $request['post_id'] ) : 0;
+		$post_id = isset( $request['post_id'] ) ? (int) $request['post_id'] : 0;
 
 		if ( 0 < $post_id ) {
 			$post = get_post( $post_id );
@@ -149,7 +149,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 	public function get_item( $request ) {
 		global $post;
 
-		$post_id = isset( $request['post_id'] ) ? intval( $request['post_id'] ) : 0;
+		$post_id = isset( $request['post_id'] ) ? (int) $request['post_id'] : 0;
 
 		if ( 0 < $post_id ) {
 			$post = get_post( $post_id );

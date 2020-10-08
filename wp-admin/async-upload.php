@@ -39,8 +39,8 @@ if ( ! current_user_can( 'upload_files' ) ) {
 }
 
 // Just fetch the detail form for that attachment.
-if ( isset( $_REQUEST['attachment_id'] ) && intval( $_REQUEST['attachment_id'] ) && $_REQUEST['fetch'] ) {
-	$id   = intval( $_REQUEST['attachment_id'] );
+if ( isset( $_REQUEST['attachment_id'] ) && (int) $_REQUEST['attachment_id'] && $_REQUEST['fetch'] ) {
+	$id   = (int) $_REQUEST['attachment_id'];
 	$post = get_post( $id );
 	if ( 'attachment' !== $post->post_type ) {
 		wp_die( __( 'Invalid post type.' ) );

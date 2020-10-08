@@ -249,8 +249,8 @@ final class WP_Customize_Nav_Menus {
 					'type'       => 'post_type',
 					'type_label' => $post_type_label,
 					'object'     => $post->post_type,
-					'object_id'  => intval( $post->ID ),
-					'url'        => get_permalink( intval( $post->ID ) ),
+					'object_id'  => (int) $post->ID,
+					'url'        => get_permalink( (int) $post->ID ),
 				);
 			}
 		} elseif ( 'taxonomy' === $type ) {
@@ -281,8 +281,8 @@ final class WP_Customize_Nav_Menus {
 					'type'       => 'taxonomy',
 					'type_label' => get_taxonomy( $term->taxonomy )->labels->singular_name,
 					'object'     => $term->taxonomy,
-					'object_id'  => intval( $term->term_id ),
-					'url'        => get_term_link( intval( $term->term_id ), $term->taxonomy ),
+					'object_id'  => (int) $term->term_id,
+					'url'        => get_term_link( (int) $term->term_id, $term->taxonomy ),
 				);
 			}
 		}
@@ -410,8 +410,8 @@ final class WP_Customize_Nav_Menus {
 				'type'       => 'post_type',
 				'type_label' => $post_type_label,
 				'object'     => $post->post_type,
-				'object_id'  => intval( $post->ID ),
-				'url'        => get_permalink( intval( $post->ID ) ),
+				'object_id'  => (int) $post->ID,
+				'url'        => get_permalink( (int) $post->ID ),
 			);
 		}
 
@@ -436,8 +436,8 @@ final class WP_Customize_Nav_Menus {
 					'type'       => 'taxonomy',
 					'type_label' => get_taxonomy( $term->taxonomy )->labels->singular_name,
 					'object'     => $term->taxonomy,
-					'object_id'  => intval( $term->term_id ),
-					'url'        => get_term_link( intval( $term->term_id ), $term->taxonomy ),
+					'object_id'  => (int) $term->term_id,
+					'url'        => get_term_link( (int) $term->term_id, $term->taxonomy ),
 				);
 			}
 		}

@@ -1321,7 +1321,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 						echo '<span aria-hidden="true" class="dashicons dashicons-warning"></span>';
 						echo '<span class="screen-reader-text">' . __( 'Warning:' ) . ' </span>';
 					}
-					echo "{$box['title']}";
+					echo $box['title'];
 					echo "</h2>\n";
 
 					if ( 'dashboard_browser_nag' !== $box['id'] ) {
@@ -2205,16 +2205,16 @@ function get_post_states( $post ) {
 	}
 
 	if ( 'page' === get_option( 'show_on_front' ) ) {
-		if ( intval( get_option( 'page_on_front' ) ) === $post->ID ) {
+		if ( (int) get_option( 'page_on_front' ) === $post->ID ) {
 			$post_states['page_on_front'] = _x( 'Front Page', 'page label' );
 		}
 
-		if ( intval( get_option( 'page_for_posts' ) ) === $post->ID ) {
+		if ( (int) get_option( 'page_for_posts' ) === $post->ID ) {
 			$post_states['page_for_posts'] = _x( 'Posts Page', 'page label' );
 		}
 	}
 
-	if ( intval( get_option( 'wp_page_for_privacy_policy' ) ) === $post->ID ) {
+	if ( (int) get_option( 'wp_page_for_privacy_policy' ) === $post->ID ) {
 		$post_states['page_for_privacy_policy'] = _x( 'Privacy Policy Page', 'page label' );
 	}
 

@@ -424,7 +424,7 @@ switch ( $action ) {
 
 				// If the menu ID changed, redirect to the new URL.
 				if ( $nav_menu_selected_id !== $_nav_menu_selected_id ) {
-					wp_redirect( admin_url( 'nav-menus.php?menu=' . intval( $_nav_menu_selected_id ) ) );
+					wp_redirect( admin_url( 'nav-menus.php?menu=' . (int) $_nav_menu_selected_id ) );
 					exit;
 				}
 			}

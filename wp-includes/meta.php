@@ -722,7 +722,7 @@ function get_metadata_by_mid( $meta_type, $meta_id ) {
 		return false;
 	}
 
-	$meta_id = intval( $meta_id );
+	$meta_id = (int) $meta_id;
 	if ( $meta_id <= 0 ) {
 		return false;
 	}
@@ -786,7 +786,7 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
 		return false;
 	}
 
-	$meta_id = intval( $meta_id );
+	$meta_id = (int) $meta_id;
 	if ( $meta_id <= 0 ) {
 		return false;
 	}
@@ -901,7 +901,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 		return false;
 	}
 
-	$meta_id = intval( $meta_id );
+	$meta_id = (int) $meta_id;
 	if ( $meta_id <= 0 ) {
 		return false;
 	}
@@ -1062,7 +1062,7 @@ function update_meta_cache( $meta_type, $object_ids ) {
 
 	if ( ! empty( $meta_list ) ) {
 		foreach ( $meta_list as $metarow ) {
-			$mpid = intval( $metarow[ $column ] );
+			$mpid = (int) $metarow[ $column ];
 			$mkey = $metarow['meta_key'];
 			$mval = $metarow['meta_value'];
 

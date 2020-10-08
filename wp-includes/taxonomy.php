@@ -1048,7 +1048,7 @@ function get_term_children( $term_id, $taxonomy ) {
 		return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy.' ) );
 	}
 
-	$term_id = intval( $term_id );
+	$term_id = (int) $term_id;
 
 	$terms = _get_term_hierarchy( $taxonomy );
 
@@ -3490,9 +3490,9 @@ function get_object_term_cache( $id, $taxonomy ) {
 	$term_ids = array();
 	foreach ( $_term_ids as $term_id ) {
 		if ( is_numeric( $term_id ) ) {
-			$term_ids[] = intval( $term_id );
+			$term_ids[] = (int) $term_id;
 		} elseif ( isset( $term_id->term_id ) ) {
-			$term_ids[] = intval( $term_id->term_id );
+			$term_ids[] = (int) $term_id->term_id;
 		}
 	}
 
@@ -3948,12 +3948,12 @@ function _split_shared_term( $term_id, $term_taxonomy_id, $record = true ) {
 
 	if ( is_object( $term_id ) ) {
 		$shared_term = $term_id;
-		$term_id     = intval( $shared_term->term_id );
+		$term_id     = (int) $shared_term->term_id;
 	}
 
 	if ( is_object( $term_taxonomy_id ) ) {
 		$term_taxonomy    = $term_taxonomy_id;
-		$term_taxonomy_id = intval( $term_taxonomy->term_taxonomy_id );
+		$term_taxonomy_id = (int) $term_taxonomy->term_taxonomy_id;
 	}
 
 	// If there are no shared term_taxonomy rows, there's nothing to do here.
@@ -4120,7 +4120,7 @@ function _wp_batch_split_terms() {
 	// Rekey shared term array for faster lookups.
 	$_shared_terms = array();
 	foreach ( $shared_terms as $shared_term ) {
-		$term_id                   = intval( $shared_term->term_id );
+		$term_id                   = (int) $shared_term->term_id;
 		$_shared_terms[ $term_id ] = $shared_term;
 	}
 	$shared_terms = $_shared_terms;
@@ -4134,7 +4134,7 @@ function _wp_batch_split_terms() {
 	$skipped_first_term = array();
 	$taxonomies         = array();
 	foreach ( $shared_tts as $shared_tt ) {
-		$term_id = intval( $shared_tt->term_id );
+		$term_id = (int) $shared_tt->term_id;
 
 		// Don't split the first tt belonging to a given term_id.
 		if ( ! isset( $skipped_first_term[ $term_id ] ) ) {

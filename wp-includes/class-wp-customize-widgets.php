@@ -605,7 +605,7 @@ final class WP_Customize_Widgets {
 
 		if ( preg_match( '/^(.+)-(\d+)$/', $widget_id, $matches ) ) {
 			$parsed['id_base'] = $matches[1];
-			$parsed['number']  = intval( $matches[2] );
+			$parsed['number']  = (int) $matches[2];
 		} else {
 			// Likely an old single widget.
 			$parsed['id_base'] = $widget_id;
@@ -628,7 +628,7 @@ final class WP_Customize_Widgets {
 		}
 
 		$id_base = $matches[2];
-		$number  = isset( $matches[3] ) ? intval( $matches[3] ) : null;
+		$number  = isset( $matches[3] ) ? (int) $matches[3] : null;
 
 		return compact( 'id_base', 'number' );
 	}
@@ -1772,7 +1772,7 @@ final class WP_Customize_Widgets {
 		}
 		$this->sidebar_instance_count[ $index ] += 1;
 		if ( ! $this->manager->selective_refresh->is_render_partials_request() ) {
-			printf( "\n<!--dynamic_sidebar_before:%s:%d-->\n", esc_html( $index ), intval( $this->sidebar_instance_count[ $index ] ) );
+			printf( "\n<!--dynamic_sidebar_before:%s:%d-->\n", esc_html( $index ), (int) $this->sidebar_instance_count[ $index ] );
 		}
 	}
 
@@ -1788,7 +1788,7 @@ final class WP_Customize_Widgets {
 	public function end_dynamic_sidebar( $index ) {
 		array_shift( $this->current_dynamic_sidebar_id_stack );
 		if ( ! $this->manager->selective_refresh->is_render_partials_request() ) {
-			printf( "\n<!--dynamic_sidebar_after:%s:%d-->\n", esc_html( $index ), intval( $this->sidebar_instance_count[ $index ] ) );
+			printf( "\n<!--dynamic_sidebar_after:%s:%d-->\n", esc_html( $index ), (int) $this->sidebar_instance_count[ $index ] );
 		}
 	}
 
@@ -1851,7 +1851,7 @@ final class WP_Customize_Widgets {
 		$this->rendering_sidebar_id = $context['sidebar_id'];
 
 		if ( isset( $context['sidebar_instance_number'] ) ) {
-			$this->context_sidebar_instance_number = intval( $context['sidebar_instance_number'] );
+			$this->context_sidebar_instance_number = (int) $context['sidebar_instance_number'];
 		}
 
 		// Filter sidebars_widgets so that only the queried widget is in the sidebar.

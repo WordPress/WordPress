@@ -24,7 +24,7 @@ nocache_headers();
 
 $comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
 if ( is_wp_error( $comment ) ) {
-	$data = intval( $comment->get_error_data() );
+	$data = (int) $comment->get_error_data();
 	if ( ! empty( $data ) ) {
 		wp_die(
 			'<p>' . $comment->get_error_message() . '</p>',

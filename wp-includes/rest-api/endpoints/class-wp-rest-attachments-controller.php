@@ -499,10 +499,10 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		if ( $crop ) {
 			$size = $image_editor->get_size();
 
-			$crop_x = round( ( $size['width'] * floatval( $request['x'] ) ) / 100.0 );
-			$crop_y = round( ( $size['height'] * floatval( $request['y'] ) ) / 100.0 );
-			$width  = round( ( $size['width'] * floatval( $request['width'] ) ) / 100.0 );
-			$height = round( ( $size['height'] * floatval( $request['height'] ) ) / 100.0 );
+			$crop_x = round( ( $size['width'] * (float) $request['x'] ) / 100.0 );
+			$crop_y = round( ( $size['height'] * (float) $request['y'] ) / 100.0 );
+			$width  = round( ( $size['width'] * (float) $request['width'] ) / 100.0 );
+			$height = round( ( $size['height'] * (float) $request['height'] ) / 100.0 );
 
 			$result = $image_editor->crop( $crop_x, $crop_y, $width, $height );
 

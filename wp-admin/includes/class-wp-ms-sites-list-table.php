@@ -103,8 +103,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		}
 
 		$args = array(
-			'number'     => intval( $per_page ),
-			'offset'     => intval( ( $pagenum - 1 ) * $per_page ),
+			'number'     => (int) $per_page,
+			'offset'     => (int) ( ( $pagenum - 1 ) * $per_page ),
 			'network_id' => get_current_network_id(),
 		);
 
@@ -620,7 +620,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		$site_status = isset( $_REQUEST['status'] ) ? wp_unslash( trim( $_REQUEST['status'] ) ) : '';
 		foreach ( $this->status_list as $status => $col ) {
-			if ( ( 1 === intval( $_site->{$status} ) ) && ( $site_status !== $status ) ) {
+			if ( ( 1 === (int) $_site->{$status} ) && ( $site_status !== $status ) ) {
 				$site_states[ $col[0] ] = $col[1];
 			}
 		}

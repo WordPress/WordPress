@@ -199,7 +199,7 @@ class WP_User {
 			if ( ! is_numeric( $value ) ) {
 				return false;
 			}
-			$value = intval( $value );
+			$value = (int) $value;
 			if ( $value < 1 ) {
 				return false;
 			}
@@ -645,7 +645,7 @@ class WP_User {
 	 */
 	public function level_reduction( $max, $item ) {
 		if ( preg_match( '/^level_(10|[0-9])$/i', $item, $matches ) ) {
-			$level = intval( $matches[1] );
+			$level = (int) $matches[1];
 			return max( $max, $level );
 		} else {
 			return $max;

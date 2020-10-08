@@ -547,7 +547,7 @@ function wp_revisions_to_keep( $post ) {
 	if ( true === $num ) {
 		$num = -1;
 	} else {
-		$num = intval( $num );
+		$num = (int) $num;
 	}
 
 	if ( ! post_type_supports( $post->post_type, 'revisions' ) ) {
@@ -678,12 +678,12 @@ function _wp_preview_post_thumbnail_filter( $value, $post_id, $meta_key ) {
 		return $value;
 	}
 
-	$thumbnail_id = intval( $_REQUEST['_thumbnail_id'] );
+	$thumbnail_id = (int) $_REQUEST['_thumbnail_id'];
 	if ( $thumbnail_id <= 0 ) {
 		return '';
 	}
 
-	return strval( $thumbnail_id );
+	return (string) $thumbnail_id;
 }
 
 /**

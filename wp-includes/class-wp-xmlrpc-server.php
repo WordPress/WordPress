@@ -798,13 +798,13 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		// For integers which may be larger than XML-RPC supports ensure we return strings.
-		$_term['term_id']          = strval( $_term['term_id'] );
-		$_term['term_group']       = strval( $_term['term_group'] );
-		$_term['term_taxonomy_id'] = strval( $_term['term_taxonomy_id'] );
-		$_term['parent']           = strval( $_term['parent'] );
+		$_term['term_id']          = (string) $_term['term_id'];
+		$_term['term_group']       = (string) $_term['term_group'];
+		$_term['term_taxonomy_id'] = (string) $_term['term_taxonomy_id'];
+		$_term['parent']           = (string) $_term['parent'];
 
 		// Count we are happy to return as an integer because people really shouldn't use terms that much.
-		$_term['count'] = intval( $_term['count'] );
+		$_term['count'] = (int) $_term['count'];
 
 		// Get term meta.
 		$_term['custom_fields'] = $this->get_term_custom_fields( $_term['term_id'] );
@@ -856,7 +856,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	protected function _prepare_post( $post, $fields ) {
 		// Holds the data for this post. built up based on $fields.
-		$_post = array( 'post_id' => strval( $post['ID'] ) );
+		$_post = array( 'post_id' => (string) $post['ID'] );
 
 		// Prepare common post fields.
 		$post_fields = array(
@@ -872,11 +872,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			'post_password'     => $post['post_password'],
 			'post_excerpt'      => $post['post_excerpt'],
 			'post_content'      => $post['post_content'],
-			'post_parent'       => strval( $post['post_parent'] ),
+			'post_parent'       => (string) $post['post_parent'],
 			'post_mime_type'    => $post['post_mime_type'],
 			'link'              => get_permalink( $post['ID'] ),
 			'guid'              => $post['guid'],
-			'menu_order'        => intval( $post['menu_order'] ),
+			'menu_order'        => (int) $post['menu_order'],
 			'comment_status'    => $post['comment_status'],
 			'ping_status'       => $post['ping_status'],
 			'sticky'            => ( 'post' === $post['post_type'] && is_sticky( $post['ID'] ) ),
@@ -1009,7 +1009,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	protected function _prepare_media_item( $media_item, $thumbnail_size = 'thumbnail' ) {
 		$_media_item = array(
-			'attachment_id'    => strval( $media_item->ID ),
+			'attachment_id'    => (string) $media_item->ID,
 			'date_created_gmt' => $this->_convert_date_gmt( $media_item->post_date_gmt, $media_item->post_date ),
 			'parent'           => $media_item->post_parent,
 			'link'             => wp_get_attachment_url( $media_item->ID ),
@@ -1174,7 +1174,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array The prepared user data.
 	 */
 	protected function _prepare_user( $user, $fields ) {
-		$_user = array( 'user_id' => strval( $user->ID ) );
+		$_user = array( 'user_id' => (string) $user->ID );
 
 		$user_fields = array(
 			'username'     => $user->user_login,
@@ -1647,7 +1647,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
-		return strval( $post_ID );
+		return (string) $post_ID;
 	}
 
 	/**
@@ -2094,7 +2094,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$this->set_term_custom_fields( $term['term_id'], $content_struct['custom_fields'] );
 		}
 
-		return strval( $term['term_id'] );
+		return (string) $term['term_id'];
 	}
 
 	/**
@@ -5566,7 +5566,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		 */
 		do_action( 'xmlrpc_call_success_mw_newPost', $post_ID, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase
 
-		return strval( $post_ID );
+		return (string) $post_ID;
 	}
 
 	/**
@@ -6555,7 +6555,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'mt.getPostCategories' );
 
 		$categories = array();
-		$catids     = wp_get_post_categories( intval( $post_ID ) );
+		$catids     = wp_get_post_categories( (int) $post_ID );
 		// First listed category will be the primary category.
 		$isPrimary = true;
 		foreach ( $catids as $catid ) {
@@ -6812,7 +6812,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_ID = (int) $blah[1];
 		} elseif ( isset( $urltest['fragment'] ) ) {
 			// An #anchor is there, it's either...
-			if ( intval( $urltest['fragment'] ) ) {
+			if ( (int) $urltest['fragment'] ) {
 				// ...an integer #XXXX (simplest case),
 				$post_ID = (int) $urltest['fragment'];
 			} elseif ( preg_match( '/post-[0-9]+/', $urltest['fragment'] ) ) {

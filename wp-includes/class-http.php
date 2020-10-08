@@ -752,7 +752,7 @@ class WP_Http {
 		}
 
 		// Cast the Response Code to an int.
-		$response['code'] = intval( $response['code'] );
+		$response['code'] = (int) $response['code'];
 
 		return array(
 			'response' => $response,

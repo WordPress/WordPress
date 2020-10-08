@@ -4135,7 +4135,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		}
 
 		if ( $thumbnail_support ) {
-			$thumbnail_id = intval( $postarr['_thumbnail_id'] );
+			$thumbnail_id = (int) $postarr['_thumbnail_id'];
 			if ( -1 === $thumbnail_id ) {
 				delete_post_thumbnail( $post_ID );
 			} else {
@@ -4593,7 +4593,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		// Prevent new post slugs that could result in URLs that conflict with date archives.
 		$conflicts_with_date_archive = false;
 		if ( 'post' === $post_type && ( ! $post || $post->post_name !== $slug ) && preg_match( '/^[0-9]+$/', $slug ) ) {
-			$slug_num = intval( $slug );
+			$slug_num = (int) $slug;
 
 			if ( $slug_num ) {
 				$permastructs   = array_values( array_filter( explode( '/', get_option( 'permalink_structure' ) ) ) );
@@ -5266,7 +5266,7 @@ function get_page_children( $page_id, $pages ) {
 	// Build a hash of ID -> children.
 	$children = array();
 	foreach ( (array) $pages as $page ) {
-		$children[ intval( $page->post_parent ) ][] = $page;
+		$children[ (int) $page->post_parent ][] = $page;
 	}
 
 	$page_list = array();
@@ -5310,7 +5310,7 @@ function get_page_hierarchy( &$pages, $page_id = 0 ) {
 
 	$children = array();
 	foreach ( (array) $pages as $p ) {
-		$parent_id                = intval( $p->post_parent );
+		$parent_id                = (int) $p->post_parent;
 		$children[ $parent_id ][] = $p;
 	}
 
@@ -5519,7 +5519,7 @@ function get_pages( $args = array() ) {
 		if ( ! empty( $post_authors ) ) {
 			foreach ( $post_authors as $post_author ) {
 				// Do we have an author id or an author login?
-				if ( 0 == intval( $post_author ) ) {
+				if ( 0 == (int) $post_author ) {
 					$post_author = get_user_by( 'login', $post_author );
 					if ( empty( $post_author ) ) {
 						continue;

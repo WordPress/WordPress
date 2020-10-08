@@ -606,7 +606,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 	echo '<h2 class="hide-if-no-js">' . __( 'Your Recent Drafts' ) . "</h2>\n<ul>";
 
 	/* translators: Maximum number of words used in a preview of a draft on the dashboard. */
-	$draft_length = intval( _x( '10', 'draft_length' ) );
+	$draft_length = (int) _x( '10', 'draft_length' );
 
 	$drafts = array_slice( $drafts, 0, 3 );
 	foreach ( $drafts as $draft ) {
@@ -928,7 +928,7 @@ function wp_dashboard_recent_posts( $args ) {
 		'post_status'    => $args['status'],
 		'orderby'        => 'date',
 		'order'          => $args['order'],
-		'posts_per_page' => intval( $args['max'] ),
+		'posts_per_page' => (int) $args['max'],
 		'no_found_rows'  => true,
 		'cache_results'  => false,
 		'perm'           => ( 'future' === $args['status'] ) ? 'editable' : 'readable',

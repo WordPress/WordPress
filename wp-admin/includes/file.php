@@ -510,7 +510,7 @@ function wp_edit_theme_plugin_file( $args ) {
 
 		$scrape_key   = md5( rand() );
 		$transient    = 'scrape_key_' . $scrape_key;
-		$scrape_nonce = strval( rand() );
+		$scrape_nonce = (string) rand();
 		// It shouldn't take more than 60 seconds to make the two loopback requests.
 		set_transient( $transient, $scrape_nonce, 60 );
 

@@ -260,7 +260,7 @@ class WP_Network_Query {
 		// If querying for a count only, there's nothing more to do.
 		if ( $this->query_vars['count'] ) {
 			// $network_ids is actually a count in this case.
-			return intval( $network_ids );
+			return (int) $network_ids;
 		}
 
 		$network_ids = array_map( 'intval', $network_ids );
@@ -469,7 +469,7 @@ class WP_Network_Query {
 		$this->request = "{$this->sql_clauses['select']} {$this->sql_clauses['from']} {$where} {$this->sql_clauses['groupby']} {$this->sql_clauses['orderby']} {$this->sql_clauses['limits']}";
 
 		if ( $this->query_vars['count'] ) {
-			return intval( $wpdb->get_var( $this->request ) );
+			return (int) $wpdb->get_var( $this->request );
 		}
 
 		$network_ids = $wpdb->get_col( $this->request );

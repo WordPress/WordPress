@@ -433,7 +433,7 @@ function wp_dropdown_categories( $args = '' ) {
 
 			/** This filter is documented in wp-includes/category-template.php */
 			$show_option_all = apply_filters( 'list_cats', $parsed_args['show_option_all'], null );
-			$selected        = ( '0' === strval( $parsed_args['selected'] ) ) ? " selected='selected'" : '';
+			$selected        = ( '0' === (string) $parsed_args['selected'] ) ? " selected='selected'" : '';
 			$output         .= "\t<option value='0'$selected>$show_option_all</option>\n";
 		}
 
@@ -737,7 +737,7 @@ function wp_tag_cloud( $args = '' ) {
 		if ( 'edit' === $args['link'] ) {
 			$link = get_edit_term_link( $tag->term_id, $tag->taxonomy, $args['post_type'] );
 		} else {
-			$link = get_term_link( intval( $tag->term_id ), $tag->taxonomy );
+			$link = get_term_link( (int) $tag->term_id, $tag->taxonomy );
 		}
 
 		if ( is_wp_error( $link ) ) {

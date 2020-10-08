@@ -171,7 +171,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			throw new Exception( "Illegal widget setting ID: $id" );
 		}
 
-		$this->post_id = intval( $matches['id'] );
+		$this->post_id = (int) $matches['id'];
 		add_action( 'wp_update_nav_menu_item', array( $this, 'flush_cached_value' ), 10, 2 );
 
 		parent::__construct( $manager, $id, $args );
@@ -368,7 +368,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 
 		foreach ( array( 'object_id', 'menu_item_parent', 'nav_menu_term_id' ) as $key ) {
 			if ( ! is_int( $this->value[ $key ] ) ) {
-				$this->value[ $key ] = intval( $this->value[ $key ] );
+				$this->value[ $key ] = (int) $this->value[ $key ];
 			}
 		}
 		foreach ( array( 'classes', 'xfn' ) as $key ) {
@@ -684,11 +684,11 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		);
 		$menu_item_value             = array_merge( $default, $menu_item_value );
 		$menu_item_value             = wp_array_slice_assoc( $menu_item_value, array_keys( $default ) );
-		$menu_item_value['position'] = intval( $menu_item_value['position'] );
+		$menu_item_value['position'] = (int) $menu_item_value['position'];
 
 		foreach ( array( 'object_id', 'menu_item_parent', 'nav_menu_term_id' ) as $key ) {
 			// Note we need to allow negative-integer IDs for previewed objects not inserted yet.
-			$menu_item_value[ $key ] = intval( $menu_item_value[ $key ] );
+			$menu_item_value[ $key ] = (int) $menu_item_value[ $key ];
 		}
 
 		foreach ( array( 'type', 'object', 'target' ) as $key ) {
@@ -798,7 +798,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 					return;
 				}
 
-				if ( intval( $value['nav_menu_term_id'] ) !== $nav_menu_setting->previous_term_id ) {
+				if ( (int) $value['nav_menu_term_id'] !== $nav_menu_setting->previous_term_id ) {
 					$this->update_status = 'error';
 					$this->update_error  = new WP_Error( 'unexpected_previous_term_id' );
 					return;
@@ -824,7 +824,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 					return;
 				}
 
-				if ( intval( $value['menu_item_parent'] ) !== $parent_nav_menu_item_setting->previous_post_id ) {
+				if ( (int) $value['menu_item_parent'] !== $parent_nav_menu_item_setting->previous_post_id ) {
 					$this->update_status = 'error';
 					$this->update_error  = new WP_Error( 'unexpected_previous_post_id' );
 					return;

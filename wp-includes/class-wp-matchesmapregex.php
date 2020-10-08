@@ -83,7 +83,7 @@ class WP_MatchesMapRegex {
 	 * @return string
 	 */
 	public function callback( $matches ) {
-		$index = intval( substr( $matches[0], 9, -1 ) );
+		$index = (int) substr( $matches[0], 9, -1 );
 		return ( isset( $this->_matches[ $index ] ) ? urlencode( $this->_matches[ $index ] ) : '' );
 	}
 }

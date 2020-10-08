@@ -400,12 +400,12 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 	// If the date of the post doesn't match the date specified in the URL, resolve to the date archive.
 	if ( preg_match( '/^([0-9]{4})\-([0-9]{2})/', $post->post_date, $matches ) && isset( $query_vars['year'] ) && ( 'monthnum' === $compare || 'day' === $compare ) ) {
 		// $matches[1] is the year the post was published.
-		if ( intval( $query_vars['year'] ) !== intval( $matches[1] ) ) {
+		if ( (int) $query_vars['year'] !== (int) $matches[1] ) {
 			return $query_vars;
 		}
 
 		// $matches[2] is the month the post was published.
-		if ( 'day' === $compare && isset( $query_vars['monthnum'] ) && intval( $query_vars['monthnum'] ) !== intval( $matches[2] ) ) {
+		if ( 'day' === $compare && isset( $query_vars['monthnum'] ) && (int) $query_vars['monthnum'] !== (int) $matches[2] ) {
 			return $query_vars;
 		}
 	}
@@ -437,7 +437,7 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 
 	// If we've gotten to this point, we have a slug/date clash. First, adjust for nextpage.
 	if ( '' !== $maybe_page ) {
-		$query_vars['page'] = intval( $maybe_page );
+		$query_vars['page'] = (int) $maybe_page;
 	}
 
 	// Next, unset autodetected date-related query vars.
