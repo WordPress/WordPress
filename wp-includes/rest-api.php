@@ -268,6 +268,11 @@ function create_initial_rest_routes() {
 	$controller = new WP_REST_Comments_Controller;
 	$controller->register_routes();
 
+	$search_handlers = array(
+		new WP_REST_Post_Search_Handler(),
+		new WP_REST_Term_Search_Handler(),
+	);
+
 	/**
 	 * Filters the search handlers to use in the REST search controller.
 	 *
@@ -277,7 +282,7 @@ function create_initial_rest_routes() {
 	 *                               handler instance must extend the `WP_REST_Search_Handler` class.
 	 *                               Default is only a handler for posts.
 	 */
-	$search_handlers = apply_filters( 'wp_rest_search_handlers', array( new WP_REST_Post_Search_Handler() ) );
+	$search_handlers = apply_filters( 'wp_rest_search_handlers', $search_handlers );
 
 	$controller = new WP_REST_Search_Controller( $search_handlers );
 	$controller->register_routes();
