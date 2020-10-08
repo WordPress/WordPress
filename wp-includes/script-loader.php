@@ -2185,7 +2185,7 @@ function script_concat_settings() {
  * @global WP_Screen $current_screen WordPress current screen object.
  */
 function wp_common_block_scripts_and_styles() {
-	if ( is_admin() && ! wp_should_load_block_editor_scripts_and_styles() ) {
+	if ( ! wp_should_load_block_editor_scripts_and_styles() ) {
 		return;
 	}
 
@@ -2219,11 +2219,15 @@ function wp_common_block_scripts_and_styles() {
 function wp_should_load_block_editor_scripts_and_styles() {
 	global $current_screen;
 
+	if ( ! is_admin() ) {
+		return false;
+	}
+
 	$is_block_editor_screen = ( $current_screen instanceof WP_Screen ) && $current_screen->is_block_editor();
 
 	/**
 	 * Filters the flag that decides whether or not block editor scripts and
-	 * styles are going to be enqueued on the current screen.
+	 * styles are going to be enqueued on the current admin screen.
 	 *
 	 * @since 5.6.0
 	 *
