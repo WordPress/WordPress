@@ -294,8 +294,7 @@ function wp_widget_control( $sidebar_args ) {
 		<div class="alignleft">
 			<button type="button" class="button-link button-link-delete widget-control-remove"><?php _e( 'Delete' ); ?></button>
 			<span class="widget-control-close-wrapper">
-				|
-				<button type="button" class="button-link widget-control-close"><?php _e( 'Done' ); ?></button>
+				| <button type="button" class="button-link widget-control-close"><?php _e( 'Done' ); ?></button>
 			</span>
 		</div>
 		<div class="alignright<?php echo $noform_class; ?>">
