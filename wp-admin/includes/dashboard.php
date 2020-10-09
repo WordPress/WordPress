@@ -1450,7 +1450,7 @@ function wp_dashboard_primary() {
 			 * @param string $title Title attribute for the widget's primary link.
 			 */
 			'title'        => apply_filters( 'dashboard_primary_title', __( 'WordPress Blog' ) ),
-			'items'        => 1,
+			'items'        => 2,
 			'show_summary' => 0,
 			'show_author'  => 0,
 			'show_date'    => 0,
