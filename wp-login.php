@@ -685,7 +685,7 @@ switch ( $action ) {
 				/* translators: URL to the WordPress help section about admin email. */
 				$admin_email_help_url = __( 'https://wordpress.org/support/article/settings-general-screen/#email-address' );
 
-				/* translators: accessibility text */
+				/* translators: Accessibility text. */
 				$accessibility_text = sprintf( '<span class="screen-reader-text"> %s</span>', __( '(opens in a new tab)' ) );
 
 				printf(
@@ -1379,7 +1379,7 @@ switch ( $action ) {
 					/* translators: 1: Website name, 2: Application name. */
 					$message = sprintf( 'Please log in to %1$s to authorize %2$s to connect to your account.', get_bloginfo( 'name', 'display' ), '<strong>' . esc_html( $query['app_name'] ) . '</strong>' );
 				} else {
-					/* translators: Website name. */
+					/* translators: %s: Website name. */
 					$message = sprintf( 'Please log in to %s to proceed with authorization.', get_bloginfo( 'name', 'display' ) );
 				}
 

@@ -113,7 +113,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<?php if ( $app_name ) : ?>
 			<p>
 			<?php
-			/* translators: Application Name */
+			/* translators: %s: Application name. */
 			printf( __( 'Would you like to give the application identifying itself as %s access to your account? You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' );
 			?>
 			</p>
@@ -180,7 +180,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<?php
 					if ( $success_url ) {
 						printf(
-							/* translators: The URL the user is being redirected to. */
+							/* translators: %s: The URL the user is being redirected to. */
 							__( 'You will be sent to %s' ),
 							'<strong><kbd>' . esc_html(
 								add_query_arg(
@@ -204,7 +204,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<?php
 					if ( $reject_url ) {
 						printf(
-							/* translators: The URL the user is being redirected to. */
+							/* translators: %s: The URL the user is being redirected to. */
 							__( 'You will be sent to %s' ),
 							'<strong><kbd>' . esc_html(
 								add_query_arg(
