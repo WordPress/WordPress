@@ -25,7 +25,7 @@ class WP_Error {
 	public $errors = array();
 
 	/**
-	 * Stores the most-recently added data for each error code.
+	 * Stores the most recently added data for each error code.
 	 *
 	 * @since 2.1.0
 	 * @var array
@@ -146,7 +146,7 @@ class WP_Error {
 	}
 
 	/**
-	 * Retrieves the most-recently added error data for an error code.
+	 * Retrieves the most recently added error data for an error code.
 	 *
 	 * @since 2.1.0
 	 *
@@ -296,8 +296,8 @@ class WP_Error {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param WP_Error $from From.
-	 * @param WP_Error $to   To.
+	 * @param WP_Error $from The WP_Error to copy from.
+	 * @param WP_Error $to   The WP_Error to copy to.
 	 */
 	protected static function copy_errors( WP_Error $from, WP_Error $to ) {
 		foreach ( $from->get_error_codes() as $code ) {
