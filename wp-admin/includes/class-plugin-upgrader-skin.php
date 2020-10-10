@@ -22,7 +22,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @var object
+	 * @var string
 	 */
 	public $plugin = '';
 

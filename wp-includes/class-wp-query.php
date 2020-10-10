@@ -63,7 +63,7 @@ class WP_Query {
 	 * Holds the contents of a post, page, category, attachment.
 	 *
 	 * @since 1.5.0
-	 * @var object|array
+	 * @var WP_Term|WP_Post_Type|WP_Post|WP_User|null
 	 */
 	public $queried_object;
 
@@ -3457,7 +3457,7 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return object
+	 * @return WP_Term|WP_Post_Type|WP_Post|WP_User|null The queried object.
 	 */
 	public function get_queried_object() {
 		if ( isset( $this->queried_object ) ) {
