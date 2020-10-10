@@ -215,7 +215,7 @@
 		var pass1 = $('#pass1').val(), strength;
 
 		$('#pass-strength-result').removeClass('short bad good strong empty');
-		if ( ! pass1 ) {
+		if ( ! pass1 || '' ===  pass1.trim() ) {
 			$( '#pass-strength-result' ).addClass( 'empty' ).html( '&nbsp;' );
 			return;
 		}
