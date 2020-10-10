@@ -5159,26 +5159,6 @@ function wp_ajax_health_check_dotorg_communication() {
 }
 
 /**
- * Ajax handler for site health checks on debug mode.
- *
- * @since 5.2.0
- */
-function wp_ajax_health_check_is_in_debug_mode() {
-	wp_verify_nonce( 'health-check-site-status' );
-
-	if ( ! current_user_can( 'view_site_health_checks' ) ) {
-		wp_send_json_error();
-	}
-
-	if ( ! class_exists( 'WP_Site_Health' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
-	}
-
-	$site_health = WP_Site_Health::get_instance();
-	wp_send_json_success( $site_health->get_test_is_in_debug_mode() );
-}
-
-/**
  * Ajax handler for site health checks on background updates.
  *
  * @since 5.2.0
