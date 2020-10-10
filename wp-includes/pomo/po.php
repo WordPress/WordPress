@@ -283,7 +283,7 @@ if ( ! class_exists( 'PO', false ) ) :
 
 		/**
 		 * @param string $filename
-		 * @return boolean
+		 * @return bool
 		 */
 		function import_from_file( $filename ) {
 			$f = fopen( $filename, 'r' );
@@ -454,7 +454,7 @@ if ( ! class_exists( 'PO', false ) ) :
 		/**
 		 * @param resource $f
 		 * @param string   $action
-		 * @return boolean
+		 * @return bool
 		 */
 		function read_line( $f, $action = 'read' ) {
 			static $last_line     = '';

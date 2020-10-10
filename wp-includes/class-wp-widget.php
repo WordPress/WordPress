@@ -544,8 +544,8 @@ class WP_Widget {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param integer $number Optional. The unique order number of this widget instance
-	 *                        compared to other instances of the same class. Default -1.
+	 * @param int $number Optional. The unique order number of this widget instance
+	 *                    compared to other instances of the same class. Default -1.
 	 */
 	public function _register_one( $number = -1 ) {
 		wp_register_sidebar_widget( $this->id, $this->name, $this->_get_display_callback(), $this->widget_options, array( 'number' => $number ) );

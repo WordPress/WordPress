@@ -490,7 +490,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @link https://www.php.net/manual/en/iterator.valid.php
 	 *
-	 * @return boolean
+	 * @return bool Whether the current position is valid.
 	 */
 	public function valid() {
 		return key( $this->callbacks ) !== null;

@@ -1173,8 +1173,8 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param integer $user_id User ID.
-	 * @param array   $roles   New user roles.
+	 * @param int   $user_id User ID.
+	 * @param array $roles   New user roles.
 	 * @return true|WP_Error True if the current user is allowed to make the role change,
 	 *                       otherwise a WP_Error object.
 	 */

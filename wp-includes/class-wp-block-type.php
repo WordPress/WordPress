@@ -192,7 +192,7 @@ class WP_Block_Type {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @return boolean Whether block type is dynamic.
+	 * @return bool Whether block type is dynamic.
 	 */
 	public function is_dynamic() {
 		return is_callable( $this->render_callback );

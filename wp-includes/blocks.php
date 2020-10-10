@@ -812,7 +812,7 @@ function block_version( $content ) {
  * @param array  $style_properties Array containing the properties of the style name,
  *                                 label, style (name of the stylesheet to be enqueued),
  *                                 inline_style (string containing the CSS to be added).
- * @return boolean True if the block style was registered with success and false otherwise.
+ * @return bool True if the block style was registered with success and false otherwise.
  */
 function register_block_style( $block_name, $style_properties ) {
 	return WP_Block_Styles_Registry::get_instance()->register( $block_name, $style_properties );
@@ -825,7 +825,7 @@ function register_block_style( $block_name, $style_properties ) {
  *
  * @param string $block_name       Block type name including namespace.
  * @param array  $block_style_name Block style name.
- * @return boolean True if the block style was unregistered with success and false otherwise.
+ * @return bool True if the block style was unregistered with success and false otherwise.
  */
 function unregister_block_style( $block_name, $block_style_name ) {
 	return WP_Block_Styles_Registry::get_instance()->unregister( $block_name, $block_style_name );

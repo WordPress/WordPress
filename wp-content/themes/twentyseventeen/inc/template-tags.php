@@ -127,7 +127,7 @@ endif;
  * Display a front page section.
  *
  * @param WP_Customize_Partial $partial Partial associated with a selective refresh request.
- * @param integer              $id Front page section to display.
+ * @param int                  $id Front page section to display.
  */
 function twentyseventeen_front_page_section( $partial = null, $id = 0 ) {
 	if ( is_a( $partial, 'WP_Customize_Partial' ) ) {

@@ -45,7 +45,7 @@ class WP_HTTP_Requests_Hooks extends Requests_Hooks {
 	 *
 	 * @param string $hook       Hook name.
 	 * @param array  $parameters Parameters to pass to callbacks.
-	 * @return boolean True if hooks were run, false if nothing was hooked.
+	 * @return bool True if hooks were run, false if nothing was hooked.
 	 */
 	public function dispatch( $hook, $parameters = array() ) {
 		$result = parent::dispatch( $hook, $parameters );

@@ -5574,8 +5574,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param integer $post_ID   Post ID.
-	 * @param array   $enclosure Enclosure data.
+	 * @param int   $post_ID   Post ID.
+	 * @param array $enclosure Enclosure data.
 	 */
 	public function add_enclosure_if_new( $post_ID, $enclosure ) {
 		if ( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) {

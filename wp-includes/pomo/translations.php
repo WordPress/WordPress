@@ -116,7 +116,7 @@ if ( ! class_exists( 'Translations', false ) ) :
 		 * This function should be overridden by the subclasses. For example MO/PO can derive the logic
 		 * from their headers.
 		 *
-		 * @param integer $count number of items
+		 * @param int $count number of items
 		 */
 		function select_plural_form( $count ) {
 			return 1 == $count ? 0 : 1;

@@ -96,8 +96,8 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 *
 	 * @since 4.8.0
 	 *
-	 * @param integer $number Optional. The unique order number of this widget instance
-	 *                        compared to other instances of the same class. Default -1.
+	 * @param int $number Optional. The unique order number of this widget instance
+	 *                    compared to other instances of the same class. Default -1.
 	 */
 	public function _register_one( $number = -1 ) {
 		parent::_register_one( $number );

@@ -26,7 +26,7 @@
  * Displays the site logo, either text or image.
  *
  * @param array   $args Arguments for displaying the site logo either as an image or text.
- * @param boolean $echo Echo or return the HTML.
+ * @param bool    $echo Echo or return the HTML.
  * @return string Compiled HTML based on our arguments.
  */
 function twentytwenty_site_logo( $args = array(), $echo = true ) {
@@ -88,7 +88,7 @@ function twentytwenty_site_logo( $args = array(), $echo = true ) {
 /**
  * Displays the site description.
  *
- * @param boolean $echo Echo or return the html.
+ * @param bool $echo Echo or return the html.
  * @return string The HTML to display.
  */
 function twentytwenty_site_description( $echo = true ) {

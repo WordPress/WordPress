@@ -128,7 +128,7 @@ endif;
  *
  * @since Twenty Fourteen 1.0
  *
- * @return boolean true if blog has more than 1 category
+ * @return bool true if blog has more than 1 category
  */
 function twentyfourteen_categorized_blog() {
 	$all_the_cool_cats = get_transient( 'twentyfourteen_category_count' );

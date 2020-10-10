@@ -176,7 +176,7 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
  * @since 2.6.0
  *
  * @param string  $html    The image HTML markup to send.
- * @param integer $id      Image attachment ID.
+ * @param int     $id      Image attachment ID.
  * @param string  $caption Image caption.
  * @param string  $title   Image title attribute (not used).
  * @param string  $align   Image CSS alignment property.
@@ -1319,7 +1319,7 @@ function image_attachment_fields_to_save( $post, $attachment ) {
  * @since 2.5.0
  *
  * @param string  $html
- * @param integer $attachment_id
+ * @param int     $attachment_id
  * @param array   $attachment
  * @return string
  */
@@ -2275,7 +2275,7 @@ function media_upload_form( $errors = null ) {
  *
  * @param string  $type
  * @param object  $errors
- * @param integer $id
+ * @param int     $id
  */
 function media_upload_type_form( $type = 'file', $errors = null, $id = null ) {
 
@@ -2349,7 +2349,7 @@ function media_upload_type_form( $type = 'file', $errors = null, $id = null ) {
  *
  * @param string  $type
  * @param object  $errors
- * @param integer $id
+ * @param int     $id
  */
 function media_upload_type_url_form( $type = null, $errors = null, $id = null ) {
 	if ( null === $type ) {

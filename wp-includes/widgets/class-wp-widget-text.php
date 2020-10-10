@@ -45,8 +45,8 @@ class WP_Widget_Text extends WP_Widget {
 	/**
 	 * Add hooks for enqueueing assets when registering all widget instances of this widget class.
 	 *
-	 * @param integer $number Optional. The unique order number of this widget instance
-	 *                        compared to other instances of the same class. Default -1.
+	 * @param int $number Optional. The unique order number of this widget instance
+	 *                    compared to other instances of the same class. Default -1.
 	 */
 	public function _register_one( $number = -1 ) {
 		parent::_register_one( $number );
