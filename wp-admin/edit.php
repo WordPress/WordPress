@@ -134,6 +134,11 @@ if ( $doaction ) {
 			break;
 		case 'untrash':
 			$untrashed = 0;
+
+			if ( isset( $_GET['doaction'] ) && ( 'undo' === $_GET['doaction'] ) ) {
+				add_filter( 'wp_untrash_post_status', 'wp_untrash_post_set_previous_status', 10, 3 );
+			}
+
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( ! current_user_can( 'delete_post', $post_id ) ) {
 					wp_die( __( 'Sorry, you are not allowed to restore this item from the Trash.' ) );
@@ -146,6 +151,9 @@ if ( $doaction ) {
 				$untrashed++;
 			}
 			$sendback = add_query_arg( 'untrashed', $untrashed, $sendback );
+
+			remove_filter( 'wp_untrash_post_status', 'wp_untrash_post_set_previous_status', 10, 3 );
+
 			break;
 		case 'delete':
 			$deleted = 0;
@@ -418,6 +426,18 @@ foreach ( $bulk_counts as $message => $count ) {
 	if ( 'trashed' === $message && isset( $_REQUEST['ids'] ) ) {
 		$ids        = preg_replace( '/[^0-9,]/', '', $_REQUEST['ids'] );
 		$messages[] = '<a href="' . esc_url( wp_nonce_url( "edit.php?post_type=$post_type&doaction=undo&action=untrash&ids=$ids", 'bulk-posts' ) ) . '">' . __( 'Undo' ) . '</a>';
+	}
+
+	if ( 'untrashed' === $message && isset( $_REQUEST['ids'] ) ) {
+		$ids = explode( ',', $_REQUEST['ids'] );
+
+		if ( 1 === count( $ids ) && current_user_can( 'edit_post', $ids[0] ) ) {
+			$messages[] = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( get_edit_post_link( $ids[0] ) ),
+				esc_html( get_post_type_object( get_post_type( $ids[0] ) )->labels->edit_item )
+			);
+		}
 	}
 }
 
