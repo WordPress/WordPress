@@ -1736,10 +1736,10 @@ function wpmu_new_site_admin_notification( $site_id, $user_id ) {
 	$network_admin   = get_user_by( 'email', $email );
 
 	if ( $network_admin ) {
-		// If the network admin email address corresponds to a user, switch to their locale
+		// If the network admin email address corresponds to a user, switch to their locale.
 		$switched_locale = switch_to_locale( get_user_locale( $network_admin ) );
 	} else {
-		// Otherwise switch to the locale of the current site
+		// Otherwise switch to the locale of the current site.
 		$switched_locale = switch_to_locale( get_locale() );
 	}
 
