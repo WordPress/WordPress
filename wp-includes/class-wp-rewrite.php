@@ -1509,7 +1509,7 @@ class WP_Rewrite {
 
 		$rules  = "<IfModule mod_rewrite.c>\n";
 		$rules .= "RewriteEngine On\n";
-		$rules .= 'RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]';
+		$rules .= "RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]\n";
 		$rules .= "RewriteBase $home_root\n";
 
 		// Prevent -f checks on index.php.
