@@ -9,7 +9,7 @@
  * @author    Jim Jagielski (jimjag) <jimjag@gmail.com>
  * @author    Andy Prevost (codeworxtech) <codeworxtech@users.sourceforge.net>
  * @author    Brent R. Matzelle (original founder)
- * @copyright 2012 - 2019 Marcus Bointon
+ * @copyright 2012 - 2020 Marcus Bointon
  * @copyright 2010 - 2012 Jim Jagielski
  * @copyright 2004 - 2009 Andy Prevost
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
@@ -747,7 +747,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '6.1.7';
+    const VERSION = '6.1.8';
 
     /**
      * Error severity: message only, continue processing.
@@ -899,6 +899,7 @@ class PHPMailer
         switch ($this->Debugoutput) {
             case 'error_log':
                 //Don't output, just log
+                /** @noinspection ForgottenDebugOutputInspection */
                 error_log($str);
                 break;
             case 'html':
@@ -1350,7 +1351,7 @@ class PHPMailer
                 /*
                  * This is the pattern used in the HTML5 spec for validation of 'email' type form input elements.
                  *
-                 * @see http://www.whatwg.org/specs/web-apps/current-work/#e-mail-state-(type=email)
+                 * @see https://html.spec.whatwg.org/#e-mail-state-(type=email)
                  */
                 return (bool) preg_match(
                     '/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}' .
@@ -1611,6 +1612,9 @@ class PHPMailer
                     return $this->mailSend($this->MIMEHeader, $this->MIMEBody);
             }
         } catch (Exception $exc) {
+            if ($this->Mailer === 'smtp' && $this->SMTPKeepAlive == true) {
+              $this->smtp->reset();
+            }
             $this->setError($exc->getMessage());
             $this->edebug($exc->getMessage());
             if ($this->exceptions) {
@@ -1749,6 +1753,23 @@ class PHPMailer
     protected static function isPermittedPath($path)
     {
         return !preg_match('#^[a-z]+://#i', $path);
+    }
+
+    /**
+     * Check whether a file path is safe, accessible, and readable.
+     *
+     * @param string $path A relative or absolute path to a file
+     *
+     * @return bool
+     */
+    protected static function fileIsAccessible($path)
+    {
+        $readable = file_exists($path);
+        //If not a UNC path (expected to start with \\), check read permission, see #2069
+        if (strpos($path, '\\\\') !== 0) {
+            $readable = $readable && is_readable($path);
+        }
+        return static::isPermittedPath($path) && $readable;
     }
 
     /**
@@ -2004,7 +2025,12 @@ class PHPMailer
             }
             $host = $hostinfo[2];
             $port = $this->Port;
-            if (array_key_exists(3, $hostinfo) && is_numeric($hostinfo[3]) && $hostinfo[3] > 0 && $hostinfo[3] < 65536) {
+            if (
+                array_key_exists(3, $hostinfo) &&
+                is_numeric($hostinfo[3]) &&
+                $hostinfo[3] > 0 &&
+                $hostinfo[3] < 65536
+            ) {
                 $port = (int) $hostinfo[3];
             }
             if ($this->smtp->connect($prefix . $host, $port, $this->Timeout, $options)) {
@@ -2134,7 +2160,7 @@ class PHPMailer
         // There is no English translation file
         if ('en' !== $langcode) {
             // Make sure language file path is readable
-            if (!static::isPermittedPath($lang_file) || !file_exists($lang_file)) {
+            if (!static::fileIsAccessible($lang_file)) {
                 $foundlang = false;
             } else {
                 // Overwrite language-specific strings.
@@ -2382,21 +2408,18 @@ class PHPMailer
 
         $result .= $this->headerLine('Date', '' === $this->MessageDate ? self::rfcDate() : $this->MessageDate);
 
-        // To be created automatically by mail()
-        if ($this->SingleTo) {
-            if ('mail' !== $this->Mailer) {
+        // The To header is created automatically by mail(), so needs to be omitted here
+        if ('mail' !== $this->Mailer) {
+            if ($this->SingleTo) {
                 foreach ($this->to as $toaddr) {
                     $this->SingleToArray[] = $this->addrFormat($toaddr);
                 }
-            }
-        } elseif (count($this->to) > 0) {
-            if ('mail' !== $this->Mailer) {
+            } elseif (count($this->to) > 0) {
                 $result .= $this->addrAppend('To', $this->to);
+            } elseif (count($this->cc) === 0) {
+                $result .= $this->headerLine('To', 'undisclosed-recipients:;');
             }
-        } elseif (count($this->cc) === 0) {
-            $result .= $this->headerLine('To', 'undisclosed-recipients:;');
         }
-
         $result .= $this->addrAppend('From', [[trim($this->From), $this->FromName]]);
 
         // sendmail and mail() extract Cc from the header before sending
@@ -2951,7 +2974,7 @@ class PHPMailer
      * @param string $path        Path to the attachment
      * @param string $name        Overrides the attachment name
      * @param string $encoding    File encoding (see $Encoding)
-     * @param string $type        File extension (MIME) type
+     * @param string $type        MIME type, e.g. `image/jpeg`; determined automatically from $path if not specified
      * @param string $disposition Disposition to use
      *
      * @throws Exception
@@ -2966,7 +2989,7 @@ class PHPMailer
         $disposition = 'attachment'
     ) {
         try {
-            if (!static::isPermittedPath($path) || !@is_file($path) || !is_readable($path)) {
+            if (!static::fileIsAccessible($path)) {
                 throw new Exception($this->lang('file_access') . $path, self::STOP_CONTINUE);
             }
 
@@ -3140,7 +3163,7 @@ class PHPMailer
     protected function encodeFile($path, $encoding = self::ENCODING_BASE64)
     {
         try {
-            if (!static::isPermittedPath($path) || !file_exists($path) || !is_readable($path)) {
+            if (!static::fileIsAccessible($path)) {
                 throw new Exception($this->lang('file_open') . $path, self::STOP_CONTINUE);
             }
             $file_buffer = file_get_contents($path);
@@ -3526,7 +3549,7 @@ class PHPMailer
         $disposition = 'inline'
     ) {
         try {
-            if (!static::isPermittedPath($path) || !@is_file($path) || !is_readable($path)) {
+            if (!static::fileIsAccessible($path)) {
                 throw new Exception($this->lang('file_access') . $path, self::STOP_CONTINUE);
             }
 
@@ -4217,6 +4240,7 @@ class PHPMailer
             'tiff' => 'image/tiff',
             'tif' => 'image/tiff',
             'webp' => 'image/webp',
+            'avif' => 'image/avif',
             'heif' => 'image/heif',
             'heifs' => 'image/heif-sequence',
             'heic' => 'image/heic',
