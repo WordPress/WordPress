@@ -4097,14 +4097,16 @@ function wp_get_user_request( $request_id ) {
 /**
  * Checks if Application Passwords is globally available.
  *
- * By default, Application Passwords is available to all sites using SSL, but this function is
- * filterable to adjust its availability.
+ * By default, Application Passwords is available to all sites using SSL or to local environments.
+ * Use {@see 'wp_is_application_passwords_available'} to adjust its availability.
  *
  * @since 5.6.0
  *
  * @return bool
  */
 function wp_is_application_passwords_available() {
+	$available = is_ssl() || 'local' === wp_get_environment_type();
+
 	/**
 	 * Filters whether Application Passwords is available.
 	 *
@@ -4112,14 +4114,14 @@ function wp_is_application_passwords_available() {
 	 *
 	 * @param bool $available True if available, false otherwise.
 	 */
-	return apply_filters( 'wp_is_application_passwords_available', is_ssl() );
+	return apply_filters( 'wp_is_application_passwords_available', $available );
 }
 
 /**
  * Checks if Application Passwords is enabled for a specific user.
  *
- * By default all users can use Application Passwords, but this function is filterable to restrict
- * availability to certain users.
+ * By default all users can use Application Passwords. Use {@see 'wp_is_application_passwords_available_for_user'}
+ * to restrict availability to certain users.
  *
  * @since 5.6.0
  *
