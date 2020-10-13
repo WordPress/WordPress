@@ -2,19 +2,6 @@
 	"name": "core/latest-comments",
 	"category": "widgets",
 	"attributes": {
-		"align": {
-			"type": "string",
-			"enum": [
-				"left",
-				"center",
-				"right",
-				"wide",
-				"full"
-			]
-		},
-		"className": {
-			"type": "string"
-		},
 		"commentsToShow": {
 			"type": "number",
 			"default": 5,

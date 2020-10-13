@@ -17,15 +17,7 @@
 function render_block_core_archives( $attributes ) {
 	$show_post_count = ! empty( $attributes['showPostCounts'] );
 
-	$class = 'wp-block-archives';
-
-	if ( isset( $attributes['align'] ) ) {
-		$class .= " align{$attributes['align']}";
-	}
-
-	if ( isset( $attributes['className'] ) ) {
-		$class .= " {$attributes['className']}";
-	}
+	$class = '';
 
 	if ( ! empty( $attributes['displayAsDropdown'] ) ) {
 
@@ -66,7 +58,7 @@ function render_block_core_archives( $attributes ) {
 				break;
 		}
 
-		$label = esc_attr( $label );
+		$label = esc_html( $label );
 
 		$block_content = '<label class="screen-reader-text" for="' . $dropdown_id . '">' . $title . '</label>
 	<select id="' . $dropdown_id . '" name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">

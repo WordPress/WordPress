@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 463);
+/******/ 	return __webpack_require__(__webpack_require__.s = 474);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 
 /***/ }),
 
-/***/ 463:
+/***/ 474:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -124,6 +124,11 @@ __webpack_require__.d(__webpack_exports__, "unwrap", function() { return /* reex
 __webpack_require__.d(__webpack_exports__, "replaceTag", function() { return /* reexport */ replaceTag; });
 __webpack_require__.d(__webpack_exports__, "wrap", function() { return /* reexport */ wrap; });
 __webpack_require__.d(__webpack_exports__, "__unstableStripHTML", function() { return /* reexport */ __unstableStripHTML; });
+__webpack_require__.d(__webpack_exports__, "isEmpty", function() { return /* reexport */ isEmpty; });
+__webpack_require__.d(__webpack_exports__, "removeInvalidHTML", function() { return /* reexport */ removeInvalidHTML; });
+__webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return /* reexport */ getPhrasingContentSchema; });
+__webpack_require__.d(__webpack_exports__, "isPhrasingContent", function() { return /* reexport */ isPhrasingContent; });
+__webpack_require__.d(__webpack_exports__, "isTextContent", function() { return /* reexport */ isTextContent; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/dom/build-module/focusable.js
 var focusable_namespaceObject = {};
@@ -201,7 +206,7 @@ function isValidFocusableArea(element) {
     return false;
   }
 
-  var img = document.querySelector('img[usemap="#' + map.name + '"]');
+  var img = element.ownerDocument.querySelector('img[usemap="#' + map.name + '"]');
   return !!img && isVisible(img);
 }
 /**
@@ -390,9 +395,8 @@ function tabbable_find(context) {
  *                          to the active element.
  */
 
-function findPrevious() {
-  var element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.activeElement;
-  var focusables = find(document.body);
+function findPrevious(element) {
+  var focusables = find(element.ownerDocument.body);
   var index = focusables.indexOf(element); // Remove all focusables after and including `element`.
 
   focusables.length = index;
@@ -405,9 +409,8 @@ function findPrevious() {
  *                          to the active element.
  */
 
-function findNext() {
-  var element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.activeElement;
-  var focusables = find(document.body);
+function findNext(element) {
+  var focusables = find(element.ownerDocument.body);
   var index = focusables.indexOf(element); // Remove all focusables before and inside `element`.
 
   var remaining = focusables.slice(index + 1).filter(function (node) {
@@ -416,23 +419,189 @@ function findNext() {
   return Object(external_this_lodash_["first"])(filterTabbable(remaining));
 }
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+var defineProperty = __webpack_require__(5);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/phrasing-content.js
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/**
+ * External dependencies
+ */
+
+/**
+ * All phrasing content elements.
+ *
+ * @see https://www.w3.org/TR/2011/WD-html5-20110525/content-models.html#phrasing-content-0
+ */
+
+/**
+ * All text-level semantic elements.
+ *
+ * @see https://html.spec.whatwg.org/multipage/text-level-semantics.html
+ */
+
+var textContentSchema = {
+  strong: {},
+  em: {},
+  s: {},
+  del: {},
+  ins: {},
+  a: {
+    attributes: ['href', 'target', 'rel']
+  },
+  code: {},
+  abbr: {
+    attributes: ['title']
+  },
+  sub: {},
+  sup: {},
+  br: {},
+  small: {},
+  // To do: fix blockquote.
+  // cite: {},
+  q: {
+    attributes: ['cite']
+  },
+  dfn: {
+    attributes: ['title']
+  },
+  data: {
+    attributes: ['value']
+  },
+  time: {
+    attributes: ['datetime']
+  },
+  var: {},
+  samp: {},
+  kbd: {},
+  i: {},
+  b: {},
+  u: {},
+  mark: {},
+  ruby: {},
+  rt: {},
+  rp: {},
+  bdi: {
+    attributes: ['dir']
+  },
+  bdo: {
+    attributes: ['dir']
+  },
+  wbr: {},
+  '#text': {}
+}; // Recursion is needed.
+// Possible: strong > em > strong.
+// Impossible: strong > strong.
+
+Object(external_this_lodash_["without"])(Object.keys(textContentSchema), '#text', 'br').forEach(function (tag) {
+  textContentSchema[tag].children = Object(external_this_lodash_["omit"])(textContentSchema, tag);
+});
+/**
+ * Embedded content elements.
+ *
+ * @see https://www.w3.org/TR/2011/WD-html5-20110525/content-models.html#embedded-content-0
+ */
+
+var embeddedContentSchema = {
+  audio: {
+    attributes: ['src', 'preload', 'autoplay', 'mediagroup', 'loop', 'muted']
+  },
+  canvas: {
+    attributes: ['width', 'height']
+  },
+  embed: {
+    attributes: ['src', 'type', 'width', 'height']
+  },
+  img: {
+    attributes: ['alt', 'src', 'srcset', 'usemap', 'ismap', 'width', 'height']
+  },
+  object: {
+    attributes: ['data', 'type', 'name', 'usemap', 'form', 'width', 'height']
+  },
+  video: {
+    attributes: ['src', 'poster', 'preload', 'autoplay', 'mediagroup', 'loop', 'muted', 'controls', 'width', 'height']
+  }
+};
+/**
+ * Phrasing content elements.
+ *
+ * @see https://www.w3.org/TR/2011/WD-html5-20110525/content-models.html#phrasing-content-0
+ */
+
+var phrasingContentSchema = _objectSpread(_objectSpread({}, textContentSchema), embeddedContentSchema);
+/**
+ * Get schema of possible paths for phrasing content.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content
+ *
+ * @param {string} context Set to "paste" to exclude invisible elements and
+ *                         sensitive data.
+ *
+ * @return {Object} Schema.
+ */
+
+
+function getPhrasingContentSchema(context) {
+  if (context !== 'paste') {
+    return phrasingContentSchema;
+  }
+
+  return Object(external_this_lodash_["omit"])(_objectSpread(_objectSpread({}, phrasingContentSchema), {}, {
+    // We shouldn't paste potentially sensitive information which is not
+    // visible to the user when pasted, so strip the attributes.
+    ins: {
+      children: phrasingContentSchema.ins.children
+    },
+    del: {
+      children: phrasingContentSchema.del.children
+    }
+  }), ['u', // Used to mark misspelling. Shouldn't be pasted.
+  'abbr', // Invisible.
+  'data', // Invisible.
+  'time', // Invisible.
+  'wbr', // Invisible.
+  'bdi', // Invisible.
+  'bdo' // Invisible.
+  ]);
+}
+/**
+ * Find out whether or not the given node is phrasing content.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content
+ *
+ * @param {Element} node The node to test.
+ *
+ * @return {boolean} True if phrasing content, false if not.
+ */
+
+function isPhrasingContent(node) {
+  var tag = node.nodeName.toLowerCase();
+  return getPhrasingContentSchema().hasOwnProperty(tag) || tag === 'span';
+}
+function isTextContent(node) {
+  var tag = node.nodeName.toLowerCase();
+  return textContentSchema.hasOwnProperty(tag) || tag === 'span';
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom.js
 /**
  * External dependencies
  */
 
 /**
- * Browser dependencies
+ * Internal dependencies
  */
 
-var _window = window,
-    DOMParser = _window.DOMParser,
-    getComputedStyle = _window.getComputedStyle;
-var _window$Node = window.Node,
-    TEXT_NODE = _window$Node.TEXT_NODE,
-    ELEMENT_NODE = _window$Node.ELEMENT_NODE,
-    DOCUMENT_POSITION_PRECEDING = _window$Node.DOCUMENT_POSITION_PRECEDING,
-    DOCUMENT_POSITION_FOLLOWING = _window$Node.DOCUMENT_POSITION_FOLLOWING;
+
+
+function getComputedStyle(node) {
+  return node.ownerDocument.defaultView.getComputedStyle(node);
+}
 /**
  * Returns true if the given selection object is in the forward direction, or
  * false otherwise.
@@ -443,6 +612,7 @@ var _window$Node = window.Node,
  *
  * @return {boolean} Whether the selection is forward.
  */
+
 
 function isSelectionForward(selection) {
   var anchorNode = selection.anchorNode,
@@ -456,11 +626,11 @@ function isSelectionForward(selection) {
   // Compare whether anchor node precedes focus node. If focus node (where
   // end of selection occurs) is after the anchor node, it is forward.
 
-  if (position & DOCUMENT_POSITION_PRECEDING) {
+  if (position & anchorNode.DOCUMENT_POSITION_PRECEDING) {
     return false;
   }
 
-  if (position & DOCUMENT_POSITION_FOLLOWING) {
+  if (position & anchorNode.DOCUMENT_POSITION_FOLLOWING) {
     return true;
   }
   /* eslint-enable no-bitwise */
@@ -505,7 +675,9 @@ function isEdge(container, isReverse, onlyVertical) {
     return true;
   }
 
-  var selection = window.getSelection();
+  var ownerDocument = container.ownerDocument;
+  var defaultView = ownerDocument.defaultView;
+  var selection = defaultView.getSelection();
 
   if (!selection.rangeCount) {
     return false;
@@ -526,7 +698,7 @@ function isEdge(container, isReverse, onlyVertical) {
     return false;
   }
 
-  var computedStyle = window.getComputedStyle(container);
+  var computedStyle = getComputedStyle(container);
   var lineHeight = parseInt(computedStyle.lineHeight, 10) || 0; // Only consider the multiline selection at the edge if the direction is
   // towards the edge.
 
@@ -562,7 +734,7 @@ function isEdge(container, isReverse, onlyVertical) {
 
   var x = isReverseDir ? containerRect.left + 1 : containerRect.right - 1;
   var y = isReverse ? containerRect.top + buffer : containerRect.bottom - buffer;
-  var testRange = hiddenCaretRangeFromPoint(document, x, y, container);
+  var testRange = hiddenCaretRangeFromPoint(ownerDocument, x, y, container);
 
   if (!testRange) {
     return false;
@@ -615,12 +787,13 @@ function getRectangleFromRange(range) {
   }
 
   var _range = range,
-      startContainer = _range.startContainer; // Correct invalid "BR" ranges. The cannot contain any children.
+      startContainer = _range.startContainer;
+  var ownerDocument = startContainer.ownerDocument; // Correct invalid "BR" ranges. The cannot contain any children.
 
   if (startContainer.nodeName === 'BR') {
     var parentNode = startContainer.parentNode;
     var index = Array.from(parentNode.childNodes).indexOf(startContainer);
-    range = document.createRange();
+    range = ownerDocument.createRange();
     range.setStart(parentNode, index);
     range.setEnd(parentNode, index);
   }
@@ -632,7 +805,7 @@ function getRectangleFromRange(range) {
   // See: https://stackoverflow.com/a/6847328/995445
 
   if (!rect) {
-    var padNode = document.createTextNode("\u200B"); // Do not modify the live range.
+    var padNode = ownerDocument.createTextNode("\u200B"); // Do not modify the live range.
 
     range = range.cloneRange();
     range.insertNode(padNode);
@@ -645,11 +818,13 @@ function getRectangleFromRange(range) {
 /**
  * Get the rectangle for the selection in a container.
  *
+ * @param {Window} win The window of the selection.
+ *
  * @return {?DOMRect} The rectangle.
  */
 
-function computeCaretRect() {
-  var selection = window.getSelection();
+function computeCaretRect(win) {
+  var selection = win.getSelection();
   var range = selection.rangeCount ? selection.getRangeAt(0) : null;
 
   if (!range) {
@@ -700,8 +875,10 @@ function placeCaretAtHorizontalEdge(container, isReverse) {
     return;
   }
 
-  var selection = window.getSelection();
-  var range = document.createRange();
+  var ownerDocument = container.ownerDocument;
+  var defaultView = ownerDocument.defaultView;
+  var selection = defaultView.getSelection();
+  var range = ownerDocument.createRange();
   range.selectNodeContents(rangeTarget);
   range.collapse(!isReverse);
   selection.removeAllRanges();
@@ -713,9 +890,9 @@ function placeCaretAtHorizontalEdge(container, isReverse) {
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Document/caretRangeFromPoint
  *
- * @param {Document} doc The document of the range.
- * @param {number}    x   Horizontal position within the current viewport.
- * @param {number}    y   Vertical position within the current viewport.
+ * @param {Document} doc  The document of the range.
+ * @param {number}   x    Horizontal position within the current viewport.
+ * @param {number}   y    Vertical position within the current viewport.
  *
  * @return {?Range} The best range for the given point.
  */
@@ -798,7 +975,9 @@ function placeCaretAtVerticalEdge(container, isReverse, rect) {
   var editableRect = container.getBoundingClientRect();
   var x = rect.left;
   var y = isReverse ? editableRect.bottom - buffer : editableRect.top + buffer;
-  var range = hiddenCaretRangeFromPoint(document, x, y, container);
+  var ownerDocument = container.ownerDocument;
+  var defaultView = ownerDocument.defaultView;
+  var range = hiddenCaretRangeFromPoint(ownerDocument, x, y, container);
 
   if (!range || !container.contains(range.startContainer)) {
     if (mayUseScroll && (!range || !range.startContainer || !range.startContainer.contains(container))) {
@@ -813,7 +992,7 @@ function placeCaretAtVerticalEdge(container, isReverse, rect) {
     return;
   }
 
-  var selection = window.getSelection();
+  var selection = defaultView.getSelection();
   selection.removeAllRanges();
   selection.addRange(range);
   container.focus(); // Editable was already focussed, it goes back to old range...
@@ -861,11 +1040,13 @@ function isNumberInput(element) {
  *
  * See: https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection#Related_objects.
  *
+ * @param {Document} doc The document to check.
+ *
  * @return {boolean} True if there is selection, false if not.
  */
 
-function documentHasTextSelection() {
-  var selection = window.getSelection();
+function documentHasTextSelection(doc) {
+  var selection = doc.defaultView.getSelection();
   var range = selection.rangeCount ? selection.getRangeAt(0) : null;
   return range && !range.collapsed;
 }
@@ -909,22 +1090,26 @@ function inputFieldHasUncollapsedSelection(element) {
  * ranges of text across elements and any selection inside <input> and
  * <textarea> elements.
  *
+ * @param {Document} doc The document to check.
+ *
  * @return {boolean} Whether there is any sort of "selection" in the document.
  */
 
 
-function documentHasUncollapsedSelection() {
-  return documentHasTextSelection() || inputFieldHasUncollapsedSelection(document.activeElement);
+function documentHasUncollapsedSelection(doc) {
+  return documentHasTextSelection(doc) || inputFieldHasUncollapsedSelection(doc.activeElement);
 }
 /**
  * Check whether the current document has a selection. This checks for both
  * focus in an input field and general text selection.
  *
+ * @param {Document} doc The document to check.
+ *
  * @return {boolean} True if there is selection, false if not.
  */
 
-function documentHasSelection() {
-  return isTextField(document.activeElement) || isNumberInput(document.activeElement) || documentHasTextSelection();
+function documentHasSelection(doc) {
+  return isTextField(doc.activeElement) || isNumberInput(doc.activeElement) || documentHasTextSelection(doc);
 }
 /**
  * Check whether the contents of the element have been entirely selected.
@@ -944,7 +1129,9 @@ function isEntirelySelected(element) {
     return true;
   }
 
-  var selection = window.getSelection();
+  var ownerDocument = element.ownerDocument;
+  var defaultView = ownerDocument.defaultView;
+  var selection = defaultView.getSelection();
   var range = selection.rangeCount ? selection.getRangeAt(0) : null;
 
   if (!range) {
@@ -961,7 +1148,7 @@ function isEntirelySelected(element) {
   }
 
   var lastChild = element.lastChild;
-  var lastChildContentLength = lastChild.nodeType === TEXT_NODE ? lastChild.data.length : lastChild.childNodes.length;
+  var lastChildContentLength = lastChild.nodeType === lastChild.TEXT_NODE ? lastChild.data.length : lastChild.childNodes.length;
   return startContainer === element.firstChild && endContainer === element.lastChild && startOffset === 0 && endOffset === lastChildContentLength;
 }
 /**
@@ -980,8 +1167,8 @@ function getScrollContainer(node) {
 
   if (node.scrollHeight > node.clientHeight) {
     // ...except when overflow is defined to be hidden or visible
-    var _window$getComputedSt = window.getComputedStyle(node),
-        overflowY = _window$getComputedSt.overflowY;
+    var _getComputedStyle = getComputedStyle(node),
+        overflowY = _getComputedStyle.overflowY;
 
     if (/(auto|scroll)/.test(overflowY)) {
       return node;
@@ -1009,7 +1196,7 @@ function getOffsetParent(node) {
   var closestElement;
 
   while (closestElement = node.parentNode) {
-    if (closestElement.nodeType === ELEMENT_NODE) {
+    if (closestElement.nodeType === closestElement.ELEMENT_NODE) {
       break;
     }
   }
@@ -1116,8 +1303,178 @@ function wrap(newNode, referenceNode) {
  */
 
 function __unstableStripHTML(html) {
-  var document = new DOMParser().parseFromString(html, 'text/html');
+  var document = new window.DOMParser().parseFromString(html, 'text/html');
   return document.body.textContent || '';
+}
+/**
+ * Given a schema, unwraps or removes nodes, attributes and classes on a node
+ * list.
+ *
+ * @param {NodeList} nodeList The nodeList to filter.
+ * @param {Document} doc      The document of the nodeList.
+ * @param {Object}   schema   An array of functions that can mutate with the provided node.
+ * @param {Object}   inline   Whether to clean for inline mode.
+ */
+
+function cleanNodeList(nodeList, doc, schema, inline) {
+  Array.from(nodeList).forEach(function (node) {
+    var tag = node.nodeName.toLowerCase(); // It's a valid child, if the tag exists in the schema without an isMatch
+    // function, or with an isMatch function that matches the node.
+
+    if (schema.hasOwnProperty(tag) && (!schema[tag].isMatch || schema[tag].isMatch(node))) {
+      if (node.nodeType === node.ELEMENT_NODE) {
+        var _schema$tag = schema[tag],
+            _schema$tag$attribute = _schema$tag.attributes,
+            attributes = _schema$tag$attribute === void 0 ? [] : _schema$tag$attribute,
+            _schema$tag$classes = _schema$tag.classes,
+            classes = _schema$tag$classes === void 0 ? [] : _schema$tag$classes,
+            children = _schema$tag.children,
+            _schema$tag$require = _schema$tag.require,
+            require = _schema$tag$require === void 0 ? [] : _schema$tag$require,
+            allowEmpty = _schema$tag.allowEmpty; // If the node is empty and it's supposed to have children,
+        // remove the node.
+
+
+        if (children && !allowEmpty && isEmpty(node)) {
+          remove(node);
+          return;
+        }
+
+        if (node.hasAttributes()) {
+          // Strip invalid attributes.
+          Array.from(node.attributes).forEach(function (_ref) {
+            var name = _ref.name;
+
+            if (name !== 'class' && !Object(external_this_lodash_["includes"])(attributes, name)) {
+              node.removeAttribute(name);
+            }
+          }); // Strip invalid classes.
+          // In jsdom-jscore, 'node.classList' can be undefined.
+          // TODO: Explore patching this in jsdom-jscore.
+
+          if (node.classList && node.classList.length) {
+            var mattchers = classes.map(function (item) {
+              if (typeof item === 'string') {
+                return function (className) {
+                  return className === item;
+                };
+              } else if (item instanceof RegExp) {
+                return function (className) {
+                  return item.test(className);
+                };
+              }
+
+              return external_this_lodash_["noop"];
+            });
+            Array.from(node.classList).forEach(function (name) {
+              if (!mattchers.some(function (isMatch) {
+                return isMatch(name);
+              })) {
+                node.classList.remove(name);
+              }
+            });
+
+            if (!node.classList.length) {
+              node.removeAttribute('class');
+            }
+          }
+        }
+
+        if (node.hasChildNodes()) {
+          // Do not filter any content.
+          if (children === '*') {
+            return;
+          } // Continue if the node is supposed to have children.
+
+
+          if (children) {
+            // If a parent requires certain children, but it does
+            // not have them, drop the parent and continue.
+            if (require.length && !node.querySelector(require.join(','))) {
+              cleanNodeList(node.childNodes, doc, schema, inline);
+              unwrap(node); // If the node is at the top, phrasing content, and
+              // contains children that are block content, unwrap
+              // the node because it is invalid.
+            } else if (node.parentNode.nodeName === 'BODY' && isPhrasingContent(node)) {
+              cleanNodeList(node.childNodes, doc, schema, inline);
+
+              if (Array.from(node.childNodes).some(function (child) {
+                return !isPhrasingContent(child);
+              })) {
+                unwrap(node);
+              }
+            } else {
+              cleanNodeList(node.childNodes, doc, children, inline);
+            } // Remove children if the node is not supposed to have any.
+
+          } else {
+            while (node.firstChild) {
+              remove(node.firstChild);
+            }
+          }
+        }
+      } // Invalid child. Continue with schema at the same place and unwrap.
+
+    } else {
+      cleanNodeList(node.childNodes, doc, schema, inline); // For inline mode, insert a line break when unwrapping nodes that
+      // are not phrasing content.
+
+      if (inline && !isPhrasingContent(node) && node.nextElementSibling) {
+        insertAfter(doc.createElement('br'), node);
+      }
+
+      unwrap(node);
+    }
+  });
+}
+/**
+ * Recursively checks if an element is empty. An element is not empty if it
+ * contains text or contains elements with attributes such as images.
+ *
+ * @param {Element} element The element to check.
+ *
+ * @return {boolean} Wether or not the element is empty.
+ */
+
+
+function isEmpty(element) {
+  if (!element.hasChildNodes()) {
+    return true;
+  }
+
+  return Array.from(element.childNodes).every(function (node) {
+    if (node.nodeType === node.TEXT_NODE) {
+      return !node.nodeValue.trim();
+    }
+
+    if (node.nodeType === node.ELEMENT_NODE) {
+      if (node.nodeName === 'BR') {
+        return true;
+      } else if (node.hasAttributes()) {
+        return false;
+      }
+
+      return isEmpty(node);
+    }
+
+    return true;
+  });
+}
+/**
+ * Given a schema, unwraps or removes nodes, attributes and classes on HTML.
+ *
+ * @param {string} HTML   The HTML to clean up.
+ * @param {Object} schema Schema for the HTML.
+ * @param {Object} inline Whether to clean for inline mode.
+ *
+ * @return {string} The cleaned up HTML.
+ */
+
+function removeInvalidHTML(HTML, schema, inline) {
+  var doc = document.implementation.createHTMLDocument('');
+  doc.body.innerHTML = HTML;
+  cleanNodeList(doc.body.childNodes, doc, schema, inline);
+  return doc.body.innerHTML;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/index.js
@@ -1137,6 +1494,29 @@ var build_module_focus = {
 };
 
 
+
+
+/***/ }),
+
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
 
 /***/ })
 

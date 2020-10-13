@@ -8,11 +8,15 @@
 /**
  * Renders the `core/social-link` block on server.
  *
- * @param array $attributes The block attributes.
+ * @param Array   $attributes The block attributes.
+ * @param String  $content InnerBlocks content of the Block.
+ * @param WPBlock $block Block object.
  *
  * @return string Rendered HTML of the referenced block.
  */
-function render_block_core_social_link( $attributes ) {
+function render_block_core_social_link( $attributes, $content, $block ) {
+	$open_in_new_tab = $block->context['openInNewTab'];
+
 	$service    = ( isset( $attributes['service'] ) ) ? $attributes['service'] : 'Icon';
 	$url        = ( isset( $attributes['url'] ) ) ? $attributes['url'] : false;
 	$label      = ( isset( $attributes['label'] ) ) ? $attributes['label'] : block_core_social_link_get_name( $service );
@@ -23,8 +27,13 @@ function render_block_core_social_link( $attributes ) {
 		return '';
 	}
 
+	$attribute = '';
+	if ( $open_in_new_tab ) {
+		$attribute = 'rel="noopener nofollow" target="_blank"';
+	}
+
 	$icon = block_core_social_link_get_icon( $service );
-	return '<li class="wp-social-link wp-social-link-' . esc_attr( $service ) . esc_attr( $class_name ) . '"><a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( $label ) . '"> ' . $icon . '</a></li>';
+	return '<li class="wp-social-link wp-social-link-' . esc_attr( $service ) . esc_attr( $class_name ) . '"><a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( $label ) . '" ' . $attribute . '> ' . $icon . '</a></li>';
 }
 
 /**

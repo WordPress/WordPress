@@ -3,18 +3,10 @@
  * Colors
  */
 /**
- * Deprecated colors.
- * Please avoid using these.
- */
-/**
  * Breakpoints & Media Queries
  */
 /**
  * Colors
- */
-/**
- * Deprecated colors.
- * Please avoid using these.
  */
 /**
  * Fonts & basic variables.
@@ -37,6 +29,9 @@
  */
 /**
  * Border radii.
+ */
+/**
+ * Block paddings.
  */
 /**
  * Breakpoint mixins
@@ -97,7 +92,7 @@
 
 .editor-autocompleters__user .editor-autocompleters__user-slug {
   margin-right: 8px;
-  color: #8f98a1;
+  color: #757575;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: none;
@@ -451,7 +446,7 @@
     display: none; }
 
 .post-publish-panel__postpublish .components-panel__body {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #e0e0e0;
   border-top: none; }
 
 .post-publish-panel__postpublish-buttons {
@@ -542,7 +537,8 @@
   width: 100%; }
 
 .edit-post-text-editor__body textarea.editor-post-text-editor {
-  border: 1px solid #ccc;
+  border: 1px solid #949494;
+  border-radius: 0;
   display: block;
   margin: 0;
   width: 100%;
@@ -551,11 +547,14 @@
   overflow: hidden;
   font-family: Menlo, Consolas, monaco, monospace;
   line-height: 2.4;
-  border-radius: 0;
   min-height: 200px;
+  transition: border 0.1s ease-out, box-shadow 0.1s linear;
   padding: 16px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
   font-size: 16px !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .edit-post-text-editor__body textarea.editor-post-text-editor {
+      transition-duration: 0s; } }
   @media (min-width: 600px) {
     .edit-post-text-editor__body textarea.editor-post-text-editor {
       padding: 24px; } }
@@ -563,9 +562,18 @@
     .edit-post-text-editor__body textarea.editor-post-text-editor {
       font-size: 15px !important; } }
   .edit-post-text-editor__body textarea.editor-post-text-editor:focus {
-    border: 1px solid #1e1e1e;
-    box-shadow: none;
+    border-color: #007cba;
+    border-color: var(--wp-admin-theme-color);
+    box-shadow: 0 0 0 1.5px #007cba;
+    box-shadow: 0 0 0 1.5px var(--wp-admin-theme-color);
     position: relative; }
+  .edit-post-text-editor__body textarea.editor-post-text-editor::-webkit-input-placeholder {
+    color: rgba(30, 30, 30, 0.62); }
+  .edit-post-text-editor__body textarea.editor-post-text-editor::-moz-placeholder {
+    color: rgba(30, 30, 30, 0.62);
+    opacity: 1; }
+  .edit-post-text-editor__body textarea.editor-post-text-editor:-ms-input-placeholder {
+    color: rgba(30, 30, 30, 0.62); }
 
 .edit-post-post-visibility__dialog,
 .editor-post-visibility__dialog-fieldset {
@@ -744,11 +752,12 @@
       .editor-post-title .editor-post-title__input {
         border-width: 1px; } }
     .editor-post-title .editor-post-title__input::-webkit-input-placeholder {
-      color: rgba(30, 30, 30, 0.55); }
+      color: rgba(30, 30, 30, 0.62); }
     .editor-post-title .editor-post-title__input::-moz-placeholder {
-      color: rgba(30, 30, 30, 0.55); }
+      color: rgba(30, 30, 30, 0.62);
+      opacity: 1; }
     .editor-post-title .editor-post-title__input:-ms-input-placeholder {
-      color: rgba(30, 30, 30, 0.55); }
+      color: rgba(30, 30, 30, 0.62); }
     .editor-post-title .editor-post-title__input:focus {
       border: 1px solid transparent;
       outline: 1px solid transparent;
@@ -763,7 +772,7 @@
       opacity: 1; }
 
 .editor-post-trash.components-button {
-  margin-right: -6px; }
+  margin-top: 4px; }
 
 .table-of-contents__popover.components-popover .components-popover__content {
   min-width: 380px; }
@@ -796,17 +805,19 @@
 .table-of-contents__counts {
   display: flex;
   flex-wrap: wrap;
-  margin: 0; }
+  margin: 0;
+  margin-top: -8px; }
 
 .table-of-contents__count {
   flex-basis: 25%;
   display: flex;
   flex-direction: column;
   font-size: 13px;
-  color: #6c7781;
+  color: #1e1e1e;
   padding-left: 8px;
-  margin-bottom: 0; }
-  .table-of-contents__count:last-child {
+  margin-bottom: 0;
+  margin-top: 8px; }
+  .table-of-contents__count:nth-child(4n) {
     padding-left: 0; }
 
 .table-of-contents__number,
@@ -814,7 +825,7 @@
   font-size: 21px;
   font-weight: 400;
   line-height: 30px;
-  color: #555d66; }
+  color: #1e1e1e; }
 
 .table-of-contents__title {
   display: block;

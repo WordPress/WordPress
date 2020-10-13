@@ -60,8 +60,7 @@
 			"type": "string"
 		},
 		"linkDestination": {
-			"type": "string",
-			"default": "none"
+			"type": "string"
 		},
 		"linkTarget": {
 			"type": "string",

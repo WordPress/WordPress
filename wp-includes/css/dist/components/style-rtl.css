@@ -2,18 +2,10 @@
  * Colors
  */
 /**
- * Deprecated colors.
- * Please avoid using these.
- */
-/**
  * Breakpoints & Media Queries
  */
 /**
  * Colors
- */
-/**
- * Deprecated colors.
- * Please avoid using these.
  */
 /**
  * Fonts & basic variables.
@@ -36,6 +28,9 @@
  */
 /**
  * Border radii.
+ */
+/**
+ * Block paddings.
  */
 /**
  * Breakpoint mixins
@@ -117,81 +112,6 @@
   100% {
     opacity: 0.5; } }
 
-.components-angle-picker-control {
-  width: 50%; }
-  .components-angle-picker-control.components-base-control .components-base-control__label {
-    display: block; }
-
-.components-angle-picker-control__input-field[type="number"] {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  padding: 6px 8px;
-  box-shadow: 0 0 0 transparent;
-  transition: box-shadow 0.1s linear;
-  border-radius: 2px;
-  border: 1px solid #757575;
-  /* Fonts smaller than 16px causes mobile safari to zoom. */
-  font-size: 16px;
-  /* Override core line-height. To be reviewed. */
-  line-height: normal;
-  width: calc(100% - 36px);
-  max-width: 100px; }
-  @media (prefers-reduced-motion: reduce) {
-    .components-angle-picker-control__input-field[type="number"] {
-      transition-duration: 0s; } }
-  @media (min-width: 600px) {
-    .components-angle-picker-control__input-field[type="number"] {
-      font-size: 13px;
-      /* Override core line-height. To be reviewed. */
-      line-height: normal; } }
-  .components-angle-picker-control__input-field[type="number"]:focus {
-    border-color: #007cba;
-    border-color: var(--wp-admin-theme-color);
-    box-shadow: 0 0 0 0.5px #007cba;
-    box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
-    outline: 2px solid transparent; }
-  .components-angle-picker-control__input-field[type="number"]::-webkit-input-placeholder {
-    color: rgba(30, 30, 30, 0.62); }
-  .components-angle-picker-control__input-field[type="number"]::-moz-placeholder {
-    opacity: 1;
-    color: rgba(30, 30, 30, 0.62); }
-  .components-angle-picker-control__input-field[type="number"]:-ms-input-placeholder {
-    color: rgba(30, 30, 30, 0.62); }
-  .is-dark-theme .components-angle-picker-control__input-field[type="number"]::-webkit-input-placeholder {
-    color: rgba(255, 255, 255, 0.65); }
-  .is-dark-theme .components-angle-picker-control__input-field[type="number"]::-moz-placeholder {
-    opacity: 1;
-    color: rgba(255, 255, 255, 0.65); }
-  .is-dark-theme .components-angle-picker-control__input-field[type="number"]:-ms-input-placeholder {
-    color: rgba(255, 255, 255, 0.65); }
-
-.components-angle-picker-control__angle-circle {
-  width: 28px;
-  height: 28px;
-  border: 2px solid #555d66;
-  border-radius: 50%;
-  float: right;
-  margin-left: 4px;
-  cursor: grab; }
-
-.components-angle-picker-control__angle-circle-indicator-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%; }
-
-.components-angle-picker-control__angle-circle-indicator {
-  width: 1px;
-  height: 1px;
-  border-radius: 50%;
-  border: 3px solid #555d66;
-  display: block;
-  position: absolute;
-  top: -14px;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  margin: auto;
-  background: #555d66; }
-
 .components-autocomplete__popover .components-popover__content > div {
   padding: 16px; }
 
@@ -267,10 +187,10 @@
 	 * Tertiary buttons.
 	 */
   /**
-	 * Link buttons.
+	 * Destructive buttons.
 	 */
   /**
-	 * Buttons that indicate destructive actions.
+	 * Link buttons.
 	 */ }
   @media (prefers-reduced-motion: reduce) {
     .components-button {
@@ -358,6 +278,17 @@
     .components-button.is-tertiary .dashicon {
       display: inline-block;
       flex: 0 0 auto; }
+  .components-button.is-destructive {
+    color: #cc1818;
+    box-shadow: inset 0 0 0 1px #cc1818; }
+    .components-button.is-destructive:hover:not(:disabled) {
+      color: #710d0d;
+      box-shadow: inset 0 0 0 1px #710d0d; }
+    .components-button.is-destructive:focus:not(:disabled) {
+      color: #007cba;
+      color: var(--wp-admin-theme-color); }
+    .components-button.is-destructive:active:not(:disabled) {
+      background: #ccc; }
   .components-button.is-link {
     margin: 0;
     padding: 0;
@@ -378,19 +309,19 @@
       .components-button.is-link {
         transition-duration: 0s; } }
     .components-button.is-link:hover:not(:disabled), .components-button.is-link:active:not(:disabled) {
-      color: #00a0d2; }
+      color: #00a0d2;
+      box-shadow: none; }
     .components-button.is-link:focus {
       color: #124964;
       box-shadow: 0 0 0 1px #5b9dd9, 0 0 1.5px 1px rgba(30, 140, 190, 0.8); }
-  .components-button.is-destructive {
-    color: #b52727; }
-    .components-button.is-destructive.is-secondary {
-      box-shadow: inset 0 0 0 1px #b52727; }
-    .components-button.is-destructive:hover:not(:disabled), .components-button.is-destructive:active:not(:disabled) {
-      color: #a02222;
-      box-shadow: inset 0 0 0 1px #a02222; }
-    .components-button.is-destructive:focus:not(:disabled) {
-      box-shadow: inset 0 0 0 1px #fff, 0 0 0 1.5px #a02222; }
+    .components-button.is-link.is-destructive {
+      color: #cc1818; }
+      .components-button.is-link.is-destructive:active:not(:disabled), .components-button.is-link.is-destructive:hover:not(:disabled) {
+        color: #710d0d;
+        background: none; }
+      .components-button.is-link.is-destructive:focus:not(:disabled) {
+        color: #007cba;
+        color: var(--wp-admin-theme-color); }
   .components-button:not([aria-disabled="true"]):active {
     color: inherit; }
   .components-button:disabled, .components-button[aria-disabled="true"] {
@@ -590,17 +521,19 @@ svg.components-checkbox-control__checked {
 
 .components-circular-option-picker {
   display: inline-block;
-  margin-top: 0.6rem;
-  width: 100%; }
+  width: 100%;
+  margin-left: -10px; }
   .components-circular-option-picker .components-circular-option-picker__custom-clear-wrapper {
     display: flex;
     justify-content: flex-end; }
+  .components-circular-option-picker .components-circular-option-picker__swatches {
+    margin-left: -16px; }
 
 .components-circular-option-picker__option-wrapper {
   display: inline-block;
   height: 28px;
   width: 28px;
-  margin-left: 12px;
+  margin-left: 16px;
   margin-bottom: 12px;
   vertical-align: top;
   transform: scale(1);
@@ -666,7 +599,7 @@ svg.components-checkbox-control__checked {
     border: 1px solid transparent; }
   .components-circular-option-picker__option:focus::after {
     content: "";
-    border: 2px solid #606a73;
+    border: 2px solid #757575;
     width: 32px;
     height: 32px;
     position: absolute;
@@ -904,100 +837,109 @@ svg.components-checkbox-control__checked {
   padding: 0 5px; }
 
 .components-combobox-control {
-  color: #555d66;
-  position: relative; }
+  width: 100%; }
 
-.components-combobox-control__label {
-  display: block;
-  margin-bottom: 5px; }
+input.components-combobox-control__input[type="text"] {
+  width: 100%;
+  border: none;
+  box-shadow: none;
+  padding: 2px;
+  margin: 0;
+  line-height: inherit;
+  min-height: auto; }
+  input.components-combobox-control__input[type="text"]:focus {
+    outline: none;
+    box-shadow: none; }
 
-.components-combobox-control__button {
-  border: 1px solid #7e8993;
-  border-radius: 4px;
-  color: #555d66;
-  display: inline-block;
-  min-height: 30px;
-  min-width: 130px;
-  position: relative;
-  text-align: right; }
-  .components-combobox-control__button:focus {
-    border-color: #007cba;
-    border-color: var(--wp-admin-theme-color); }
-  .components-combobox-control__button-input {
-    border: none;
-    height: calc(100% - 2px);
-    right: 1px;
-    padding: 0 4px;
-    position: absolute;
-    top: 1px;
-    width: calc(100% - 2px); }
-  .components-combobox-control__button-button:hover {
-    box-shadow: none !important; }
-  .components-combobox-control__button-icon {
-    height: 100%;
-    padding: 0 4px;
-    position: absolute;
-    left: 0;
-    top: 0; }
-
-.components-combobox-control__menu {
-  background: #fff;
-  min-width: 100%;
-  padding: 0;
-  position: absolute;
-  z-index: 1000000; }
-
-.components-combobox-control__item {
-  align-items: center;
+.components-combobox-control__suggestions-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  padding: 6px 8px;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow 0.1s linear;
+  border-radius: 2px;
+  border: 1px solid #757575;
+  /* Fonts smaller than 16px causes mobile safari to zoom. */
+  font-size: 16px;
+  /* Override core line-height. To be reviewed. */
+  line-height: normal;
   display: flex;
-  list-style-type: none;
-  padding: 10px 25px 10px 5px; }
-  .components-combobox-control__item.is-highlighted {
-    background: #ddd; }
-  .components-combobox-control__item-icon {
-    margin-right: -20px;
-    margin-left: 0; }
-
-.components-custom-gradient-picker {
-  margin-top: 8px; }
+  flex-wrap: wrap;
+  align-items: flex-start;
+  width: 100%;
+  margin: 0 0 8px 0;
+  padding: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    .components-combobox-control__suggestions-container {
+      transition-duration: 0s; } }
+  @media (min-width: 600px) {
+    .components-combobox-control__suggestions-container {
+      font-size: 13px;
+      /* Override core line-height. To be reviewed. */
+      line-height: normal; } }
+  .components-combobox-control__suggestions-container:focus {
+    border-color: #007cba;
+    border-color: var(--wp-admin-theme-color);
+    box-shadow: 0 0 0 0.5px #007cba;
+    box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
+    outline: 2px solid transparent; }
+  .components-combobox-control__suggestions-container::-webkit-input-placeholder {
+    color: rgba(30, 30, 30, 0.62); }
+  .components-combobox-control__suggestions-container::-moz-placeholder {
+    opacity: 1;
+    color: rgba(30, 30, 30, 0.62); }
+  .components-combobox-control__suggestions-container:-ms-input-placeholder {
+    color: rgba(30, 30, 30, 0.62); }
+  .is-dark-theme .components-combobox-control__suggestions-container::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.65); }
+  .is-dark-theme .components-combobox-control__suggestions-container::-moz-placeholder {
+    opacity: 1;
+    color: rgba(255, 255, 255, 0.65); }
+  .is-dark-theme .components-combobox-control__suggestions-container:-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.65); }
+  .components-combobox-control__suggestions-container:focus-within {
+    border-color: #007cba;
+    border-color: var(--wp-admin-theme-color);
+    box-shadow: 0 0 0 0.5px #007cba;
+    box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
+    outline: 2px solid transparent; }
 
 .components-custom-gradient-picker__gradient-bar:not(.has-gradient) {
   opacity: 0.4; }
 
 .components-custom-gradient-picker__gradient-bar {
+  margin-top: 12px;
   width: 100%;
-  height: 24px;
-  border-radius: 24px;
-  margin-bottom: 8px;
-  padding-right: 3px;
-  padding-left: 21px; }
+  height: 36px;
+  border-radius: 36px;
+  margin-bottom: 12px;
+  padding-right: 6px;
+  padding-left: 30px; }
   .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__markers-container {
     position: relative; }
   .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__insert-point {
     border-radius: 50%;
     background: #fff;
     padding: 2px;
+    top: 6px;
     min-width: 24px;
     width: 24px;
     height: 24px;
-    position: relative; }
+    position: relative;
+    color: #1e1e1e; }
     .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__insert-point svg {
       height: 100%;
       width: 100%; }
   .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__control-point-button {
-    border: 2px solid #fff;
+    border: 2px solid transparent;
+    box-shadow: inset 0 0 0 1.5px #fff;
     border-radius: 50%;
-    height: 18px;
+    height: 24px;
+    width: 24px;
     padding: 0;
     position: absolute;
-    width: 18px;
-    top: 3px; }
-    .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__control-point-button.is-active {
-      background: #fafafa;
-      color: #23282d;
-      border-color: #999;
-      box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;
-      box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--wp-admin-theme-color); }
+    top: 6px; }
+    .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__control-point-button:focus, .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__control-point-button.is-active {
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px #1e1e1e; }
 
 .components-custom-gradient-picker__color-picker-popover .components-custom-gradient-picker__remove-control-point {
   margin-right: auto;
@@ -1014,13 +956,11 @@ svg.components-checkbox-control__checked {
   width: 20px;
   height: 20px; }
 
-.components-custom-gradient-picker__ui-line {
-  display: flex;
-  justify-content: space-between; }
-
-.components-custom-gradient-picker .components-custom-gradient-picker__ui-line .components-base-control.components-angle-picker,
-.components-custom-gradient-picker .components-custom-gradient-picker__ui-line .components-base-control.components-custom-gradient-picker__type-picker {
-  margin-bottom: 0; }
+.components-custom-gradient-picker .components-custom-gradient-picker__ui-line {
+  margin-bottom: 16px; }
+  .components-custom-gradient-picker .components-custom-gradient-picker__ui-line .components-base-control.components-angle-picker,
+  .components-custom-gradient-picker .components-custom-gradient-picker__ui-line .components-base-control.components-custom-gradient-picker__type-picker {
+    margin-bottom: 0; }
 
 .components-custom-gradient-picker .components-custom-gradient-picker__toolbar {
   border: none; }
@@ -1028,7 +968,7 @@ svg.components-checkbox-control__checked {
     margin-right: 1px; }
   .components-custom-gradient-picker .components-custom-gradient-picker__toolbar button.is-pressed > svg {
     background: #fff;
-    border: 1px solid #7e8993;
+    border: 1px solid #949494;
     border-radius: 2px; }
 
 .components-custom-select-control {
@@ -1084,10 +1024,6 @@ svg.components-checkbox-control__checked {
   .components-custom-select-control__item-icon {
     margin-right: -20px;
     margin-left: 0; }
-
-svg.dashicon {
-  fill: currentColor;
-  outline: none; }
 .PresetDateRangePicker_panel {
   padding: 0 22px 11px; }
 
@@ -1997,8 +1933,7 @@ svg.dashicon {
     display: flex; }
     .components-datetime__time .components-datetime__time-wrapper .components-datetime__time-separator {
       display: inline-block;
-      padding: 0 0 0 3px;
-      color: #555d66; }
+      padding: 0 0 0 3px; }
     .components-datetime__time .components-datetime__time-wrapper .components-datetime__time-field-time {
       direction: ltr; }
     .components-datetime__time .components-datetime__time-wrapper .components-datetime__time-field select {
@@ -2022,6 +1957,11 @@ svg.dashicon {
     border-radius: 0 2px 2px 0 !important; }
   .components-datetime__time.is-12-hour .components-datetime__time-field-year input {
     border-radius: 2px 0 0 2px !important; }
+
+.components-datetime__timezone {
+  line-height: 30px;
+  margin-right: 4px;
+  text-decoration: underline dotted; }
 
 .components-datetime__time-legend {
   font-weight: 600;
@@ -2170,8 +2110,7 @@ body.is-dragging-components-draggable {
     width: 100%;
     padding: 6px;
     outline: none;
-    cursor: pointer;
-    margin-bottom: 4px; }
+    cursor: pointer; }
     .components-dropdown-menu__menu .components-dropdown-menu__menu-item.has-separator,
     .components-dropdown-menu__menu .components-menu-item.has-separator {
       margin-top: 6px;
@@ -2203,11 +2142,12 @@ body.is-dragging-components-draggable {
   .components-dropdown-menu__menu .components-menu-item__button.components-button {
     min-height: 36px;
     height: auto;
-    padding-right: 40px;
-    text-align: right; }
-    .components-dropdown-menu__menu .components-menu-item__button.has-icon,
-    .components-dropdown-menu__menu .components-menu-item__button.components-button.has-icon {
-      padding-right: 8px; }
+    text-align: right;
+    padding-right: 8px;
+    padding-left: 8px; }
+    .components-dropdown-menu__menu .components-menu-item__button .components-menu-item__info-wrapper,
+    .components-dropdown-menu__menu .components-menu-item__button.components-button .components-menu-item__info-wrapper {
+      max-width: calc(100% - 32px); }
   .components-dropdown-menu__menu .components-menu-group {
     padding: 12px;
     margin-top: 0;
@@ -2225,75 +2165,12 @@ body.is-dragging-components-draggable {
     .is-alternate .components-dropdown-menu__menu .components-menu-group + .components-menu-group {
       border-color: #1e1e1e; }
 
-.components-dropdown-menu__menu.no-icons .components-menu-item__button.components-button {
-  padding: 0 12px; }
-
 .components-external-link__icon {
   width: 1.4em;
   height: 1.4em;
   margin: -0.2em 0.1em 0;
   vertical-align: middle;
   fill: currentColor; }
-
-.components-focal-point-picker-wrapper {
-  background-color: transparent;
-  border: 1px solid #ddd;
-  height: 200px;
-  width: 100%;
-  padding: 14px; }
-
-.components-focal-point-picker {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  position: relative;
-  width: 100%; }
-  .components-focal-point-picker img {
-    height: auto;
-    max-height: 100%;
-    max-width: 100%;
-    width: auto;
-    -webkit-user-select: none;
-        -ms-user-select: none;
-            user-select: none; }
-
-.components-focal-point-picker__icon_container {
-  background-color: transparent;
-  cursor: grab;
-  height: 30px;
-  opacity: 0.8;
-  position: absolute;
-  will-change: transform;
-  width: 30px;
-  z-index: 10000; }
-  .components-focal-point-picker__icon_container.is-dragging {
-    cursor: grabbing; }
-
-.components-focal-point-picker__icon {
-  display: block;
-  height: 100%;
-  right: -15px;
-  position: absolute;
-  top: -15px;
-  width: 100%; }
-  .components-focal-point-picker__icon .components-focal-point-picker__icon-outline {
-    fill: #fff; }
-  .components-focal-point-picker__icon .components-focal-point-picker__icon-fill {
-    fill: #007cba;
-    fill: var(--wp-admin-theme-color); }
-
-.components-focal-point-picker_position-display-container {
-  margin: 1em 0;
-  display: flex; }
-  .components-focal-point-picker_position-display-container .components-base-control__field {
-    margin: 0 0 0 1em; }
-  .components-focal-point-picker_position-display-container input[type="number"].components-text-control__input {
-    max-width: 4em;
-    padding: 6px 4px; }
-  .components-focal-point-picker_position-display-container span {
-    margin: 0 0.2em 0 0; }
 
 .components-font-size-picker__controls {
   max-width: 248px;
@@ -2484,7 +2361,13 @@ body.is-dragging-components-draggable {
     color: rgba(255, 255, 255, 0.65); }
   .components-form-token-field__input-container.is-disabled {
     background: #ddd;
-    border-color: #ccd0d4; }
+    border-color: #ddd; }
+  .components-form-token-field__input-container.is-active {
+    border-color: #007cba;
+    border-color: var(--wp-admin-theme-color);
+    box-shadow: 0 0 0 0.5px #007cba;
+    box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
+    outline: 2px solid transparent; }
   .components-form-token-field__input-container input[type="text"].components-form-token-field__input {
     display: inline-block;
     width: 100%;
@@ -2514,17 +2397,17 @@ body.is-dragging-components-draggable {
   font-size: 13px;
   display: flex;
   margin: 2px 0 2px 4px;
-  color: #32373c;
-  overflow: hidden; }
+  color: #1e1e1e;
+  max-width: 100%; }
   .components-form-token-field__token.is-success .components-form-token-field__token-text,
   .components-form-token-field__token.is-success .components-form-token-field__remove-token {
     background: #4ab866; }
   .components-form-token-field__token.is-error .components-form-token-field__token-text,
   .components-form-token-field__token.is-error .components-form-token-field__remove-token {
-    background: #d94f4f; }
+    background: #cc1818; }
   .components-form-token-field__token.is-validating .components-form-token-field__token-text,
   .components-form-token-field__token.is-validating .components-form-token-field__remove-token {
-    color: #555d66; }
+    color: #757575; }
   .components-form-token-field__token.is-borderless {
     position: relative;
     padding: 0 0 0 16px; }
@@ -2534,14 +2417,14 @@ body.is-dragging-components-draggable {
       color: var(--wp-admin-theme-color); }
     .components-form-token-field__token.is-borderless .components-form-token-field__remove-token {
       background: transparent;
-      color: #555d66;
+      color: #757575;
       position: absolute;
       top: 1px;
       left: 0; }
     .components-form-token-field__token.is-borderless.is-success .components-form-token-field__token-text {
       color: #4ab866; }
     .components-form-token-field__token.is-borderless.is-error .components-form-token-field__token-text {
-      color: #d94f4f;
+      color: #cc1818;
       border-radius: 0 4px 4px 0;
       padding: 0 6px 0 4px; }
     .components-form-token-field__token.is-borderless.is-validating .components-form-token-field__token-text {
@@ -2573,31 +2456,32 @@ body.is-dragging-components-draggable {
   cursor: pointer;
   border-radius: 12px 0 0 12px;
   padding: 0 2px;
-  color: #555d66;
+  color: #757575;
   line-height: 10px;
   overflow: initial; }
   .components-form-token-field__remove-token.components-button:hover {
-    color: #32373c; }
+    color: #1e1e1e; }
 
 .components-form-token-field__suggestions-list {
   flex: 1 0 100%;
   min-width: 100%;
   max-height: 9em;
-  overflow-y: scroll;
+  overflow-y: auto;
   transition: all 0.15s ease-in-out;
   list-style: none;
-  border-top: 1px solid #6c7781;
+  border-top: 1px solid #757575;
   margin: 4px -4px -4px;
-  padding-top: 3px; }
+  padding: 0; }
   @media (prefers-reduced-motion: reduce) {
     .components-form-token-field__suggestions-list {
       transition-duration: 0s; } }
 
 .components-form-token-field__suggestion {
-  color: #555d66;
+  color: #757575;
   display: block;
   font-size: 13px;
   padding: 4px 8px;
+  margin: 0;
   cursor: pointer; }
   .components-form-token-field__suggestion.is-selected {
     background: #007cba;
@@ -2734,7 +2618,8 @@ body.is-dragging-components-draggable {
   border-top: 1px solid #1e1e1e; }
 
 .components-menu-group__label {
-  padding: 0;
+  padding: 0 8px;
+  margin-top: 4px;
   margin-bottom: 12px;
   color: #757575;
   text-transform: uppercase;
@@ -2744,19 +2629,19 @@ body.is-dragging-components-draggable {
 .components-menu-item__button,
 .components-menu-item__button.components-button {
   width: 100%; }
-  .components-menu-item__button .dashicon,
-  .components-menu-item__button .components-menu-items__item-icon,
-  .components-menu-item__button svg.components-menu-items__item-icon,
-  .components-menu-item__button > span > svg,
-  .components-menu-item__button.components-button .dashicon,
-  .components-menu-item__button.components-button .components-menu-items__item-icon,
-  .components-menu-item__button.components-button svg.components-menu-items__item-icon,
-  .components-menu-item__button.components-button > span > svg {
-    margin-left: 8px; }
   .components-menu-item__button .components-menu-items__item-icon,
   .components-menu-item__button.components-button .components-menu-items__item-icon {
+    margin-left: -2px;
+    margin-right: auto;
     display: inline-block;
     flex: 0 0 auto; }
+  .components-menu-item__button .components-menu-item__shortcut + .components-menu-items__item-icon,
+  .components-menu-item__button.components-button .components-menu-item__shortcut + .components-menu-items__item-icon {
+    margin-right: 8px; }
+  .components-menu-item__button .block-editor-block-icon,
+  .components-menu-item__button.components-button .block-editor-block-icon {
+    margin-right: -2px;
+    margin-left: 8px; }
 
 .components-menu-item__info-wrapper {
   display: flex;
@@ -2779,15 +2664,13 @@ body.is-dragging-components-draggable {
     .components-menu-item__shortcut {
       display: inline; } }
 
-.components-menu-items-choice,
-.components-menu-items-choice.components-button {
-  padding-right: 40px; }
-  .components-menu-items-choice svg,
-  .components-menu-items-choice.components-button svg {
-    margin-left: 8px; }
-  .components-menu-items-choice.has-icon,
-  .components-menu-items-choice.components-button.has-icon {
-    padding-right: 8px; }
+.components-menu-items-choice svg,
+.components-menu-items-choice.components-button svg {
+  margin-left: 12px; }
+
+.components-menu-items-choice.has-icon,
+.components-menu-items-choice.components-button.has-icon {
+  padding-right: 12px; }
 
 .components-modal__screen-overlay {
   position: fixed;
@@ -2909,8 +2792,8 @@ body.is-dragging-components-draggable {
     border-right-color: #f0b849;
     background-color: #fef8ee; }
   .components-notice.is-error {
-    border-right-color: #d94f4f;
-    background-color: #f9e2e2; }
+    border-right-color: #cc1818;
+    background-color: #f4a2a2; }
 
 .components-notice__content {
   flex-grow: 1;
@@ -2923,7 +2806,7 @@ body.is-dragging-components-draggable {
   vertical-align: initial; }
 
 .components-notice__dismiss {
-  color: #6c7781;
+  color: #757575;
   align-self: flex-start;
   flex-shrink: 0; }
   .components-notice__dismiss:not(:disabled):not([aria-disabled="true"]):not(.is-secondary):hover, .components-notice__dismiss:not(:disabled):not([aria-disabled="true"]):not(.is-secondary):active, .components-notice__dismiss:not(:disabled):not([aria-disabled="true"]):focus {
@@ -2947,7 +2830,7 @@ body.is-dragging-components-draggable {
 
 .components-panel {
   background: #fff;
-  border: 1px solid #f0f0f0; }
+  border: 1px solid #e0e0e0; }
   .components-panel > .components-panel__header:first-child,
   .components-panel > .components-panel__body:first-child {
     margin-top: -1px; }
@@ -2959,8 +2842,8 @@ body.is-dragging-components-draggable {
   margin-top: -1px; }
 
 .components-panel__body {
-  border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0; }
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0; }
   .components-panel__body h3 {
     margin: 0 0 0.5em; }
   .components-panel__body.is-opened {
@@ -3041,7 +2924,7 @@ body.is-dragging-components-draggable {
     margin-top: -10px; }
 
 .components-panel__icon {
-  color: #555d66;
+  color: #757575;
   margin: -2px 6px -2px 0; }
 
 .components-panel__body-toggle-icon {
@@ -3070,6 +2953,7 @@ body.is-dragging-components-draggable {
   padding-bottom: 20px; }
 
 .components-placeholder.components-placeholder {
+  box-sizing: border-box;
   position: relative;
   padding: 1em;
   min-height: 200px;
@@ -3469,7 +3353,7 @@ body.is-dragging-components-draggable {
 
 .is-dark-theme .components-resizable-box__side-handle::before,
 .is-dark-theme .components-resizable-box__handle::after {
-  border-color: #d7dade; }
+  border-color: #ddd; }
 
 .components-resizable-box__handle {
   z-index: 2; }
@@ -3523,6 +3407,21 @@ body.is-dragging-components-draggable {
     .components-resizable-box__side-handle.components-resizable-box__handle-left:active::before,
     .components-resizable-box__side-handle.components-resizable-box__handle-right:active::before {
       animation-duration: 1ms; } }
+
+/* This CSS is shown only to Safari, which has a bug with table-caption making it jumpy.
+See https://bugs.webkit.org/show_bug.cgi?id=187903. */
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .components-resizable-box__side-handle.components-resizable-box__handle-top:hover::before,
+    .components-resizable-box__side-handle.components-resizable-box__handle-bottom:hover::before,
+    .components-resizable-box__side-handle.components-resizable-box__handle-top:active::before,
+    .components-resizable-box__side-handle.components-resizable-box__handle-bottom:active::before {
+      animation: none; }
+    .components-resizable-box__side-handle.components-resizable-box__handle-left:hover::before,
+    .components-resizable-box__side-handle.components-resizable-box__handle-right:hover::before,
+    .components-resizable-box__side-handle.components-resizable-box__handle-left:active::before,
+    .components-resizable-box__side-handle.components-resizable-box__handle-right:active::before {
+      animation: none; } } }
 
 @keyframes components-resizable-box__top-bottom-animation {
   from {
@@ -3649,7 +3548,7 @@ body.lockscroll {
 
 .components-spinner {
   display: inline-block;
-  background-color: #7e8993;
+  background-color: #949494;
   width: 18px;
   height: 18px;
   opacity: 0.7;
@@ -3933,7 +3832,7 @@ body.lockscroll {
 
 .components-tip {
   display: flex;
-  color: #555d66; }
+  color: #757575; }
   .components-tip svg {
     -ms-grid-row-align: center;
         align-self: center;
@@ -4055,7 +3954,7 @@ body.lockscroll {
   flex-shrink: 0;
   flex-wrap: wrap;
   line-height: 0; }
-  .components-toolbar-group .components-toolbar-group {
+  .components-toolbar-group .components-toolbar-group.components-toolbar-group {
     border-width: 0;
     margin: 0; }
 
@@ -4063,11 +3962,13 @@ body.lockscroll {
   min-height: 48px;
   margin: 0;
   border: 1px solid #1e1e1e;
-  border-radius: 2px;
   background-color: #fff;
   display: inline-flex;
   flex-shrink: 0;
   flex-wrap: wrap; }
+  .components-toolbar .components-toolbar.components-toolbar {
+    border-width: 0;
+    margin: 0; }
 
 div.components-toolbar > div {
   display: block;

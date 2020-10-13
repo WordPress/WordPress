@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["data"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 443);
+/******/ 	return __webpack_require__(__webpack_require__.s = 457);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,14 @@ this["wp"] = this["wp"] || {}; this["wp"]["data"] =
 
 /***/ }),
 
-/***/ 126:
+/***/ 10:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ 106:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -409,41 +416,7 @@ module.exports = EquivalentKeyMap;
 
 /***/ }),
 
-/***/ 127:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["React"]; }());
-
-/***/ }),
-
-/***/ 14:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -482,7 +455,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(29);
+var unsupportedIterableToArray = __webpack_require__(30);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
 var nonIterableRest = __webpack_require__(39);
@@ -498,14 +471,61 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 150:
+/***/ 13:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["React"]; }());
+
+/***/ }),
+
+/***/ 130:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 153:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["priorityQueue"]; }());
 
 /***/ }),
 
-/***/ 162:
+/***/ 154:
+/***/ (function(module, exports) {
+
+module.exports = isPromise;
+module.exports.default = isPromise;
+
+function isPromise(obj) {
+  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+}
+
+
+/***/ }),
+
+/***/ 165:
 /***/ (function(module, exports) {
 
 function combineReducers( reducers ) {
@@ -573,7 +593,7 @@ module.exports = combineReducers;
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(26);
+var arrayLikeToArray = __webpack_require__(27);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -581,10 +601,10 @@ function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(35);
+var iterableToArray = __webpack_require__(37);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(29);
+var unsupportedIterableToArray = __webpack_require__(30);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -601,11 +621,18 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 195:
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 200:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(275);
+/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(288);
 /* global window */
 
 
@@ -624,14 +651,7 @@ if (typeof self !== 'undefined') {
 var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(root);
 /* harmony default export */ __webpack_exports__["a"] = (result);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(127), __webpack_require__(413)(module)))
-
-/***/ }),
-
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(130), __webpack_require__(426)(module)))
 
 /***/ }),
 
@@ -642,7 +662,7 @@ var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]
 
 /***/ }),
 
-/***/ 26:
+/***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -659,27 +679,14 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 273:
+/***/ 287:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["reduxRoutine"]; }());
 
 /***/ }),
 
-/***/ 274:
-/***/ (function(module, exports) {
-
-module.exports = isPromise;
-module.exports.default = isPromise;
-
-function isPromise(obj) {
-  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-}
-
-
-/***/ }),
-
-/***/ 275:
+/***/ 288:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -705,12 +712,12 @@ function symbolObservablePonyfill(root) {
 
 /***/ }),
 
-/***/ 29:
+/***/ 30:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
@@ -724,6 +731,13 @@ function _unsupportedIterableToArray(o, minLen) {
 /***/ }),
 
 /***/ 35:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["deprecated"]; }());
+
+/***/ }),
+
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -731,13 +745,6 @@ function _unsupportedIterableToArray(o, minLen) {
 function _iterableToArray(iter) {
   if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
-
-/***/ }),
-
-/***/ 37:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 
@@ -763,7 +770,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 413:
+/***/ 426:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -794,7 +801,7 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 443:
+/***/ 457:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -810,7 +817,6 @@ __webpack_require__.d(__webpack_exports__, "RegistryConsumer", function() { retu
 __webpack_require__.d(__webpack_exports__, "useRegistry", function() { return /* reexport */ useRegistry; });
 __webpack_require__.d(__webpack_exports__, "useSelect", function() { return /* reexport */ useSelect; });
 __webpack_require__.d(__webpack_exports__, "useDispatch", function() { return /* reexport */ use_dispatch; });
-__webpack_require__.d(__webpack_exports__, "__unstableUseDispatchWithMap", function() { return /* reexport */ use_dispatch_with_map; });
 __webpack_require__.d(__webpack_exports__, "AsyncModeProvider", function() { return /* reexport */ async_mode_provider_context; });
 __webpack_require__.d(__webpack_exports__, "createRegistry", function() { return /* reexport */ createRegistry; });
 __webpack_require__.d(__webpack_exports__, "createRegistrySelector", function() { return /* reexport */ createRegistrySelector; });
@@ -850,11 +856,11 @@ __webpack_require__.d(plugins_namespaceObject, "controls", function() { return c
 __webpack_require__.d(plugins_namespaceObject, "persistence", function() { return plugins_persistence; });
 
 // EXTERNAL MODULE: ./node_modules/turbo-combine-reducers/index.js
-var turbo_combine_reducers = __webpack_require__(162);
+var turbo_combine_reducers = __webpack_require__(165);
 var turbo_combine_reducers_default = /*#__PURE__*/__webpack_require__.n(turbo_combine_reducers);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(14);
+var slicedToArray = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(5);
@@ -871,10 +877,10 @@ var external_this_regeneratorRuntime_ = __webpack_require__(24);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(50);
+var asyncToGenerator = __webpack_require__(47);
 
 // EXTERNAL MODULE: ./node_modules/symbol-observable/es/index.js
-var es = __webpack_require__(195);
+var es = __webpack_require__(200);
 
 // CONCATENATED MODULE: ./node_modules/redux/es/redux.js
 
@@ -1527,12 +1533,16 @@ if (false) {}
 
 
 
+// EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
+var equivalent_key_map = __webpack_require__(106);
+var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
+
 // EXTERNAL MODULE: external {"this":["wp","reduxRoutine"]}
-var external_this_wp_reduxRoutine_ = __webpack_require__(273);
+var external_this_wp_reduxRoutine_ = __webpack_require__(287);
 var external_this_wp_reduxRoutine_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_reduxRoutine_);
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/data/node_modules/is-promise/index.js
-var is_promise = __webpack_require__(274);
+// EXTERNAL MODULE: ./node_modules/is-promise/index.js
+var is_promise = __webpack_require__(154);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/promise-middleware.js
@@ -1624,10 +1634,6 @@ var resolvers_cache_middleware_createResolversCacheMiddleware = function createR
 
 /* harmony default export */ var resolvers_cache_middleware = (resolvers_cache_middleware_createResolversCacheMiddleware);
 
-// EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(126);
-var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/namespace-store/metadata/utils.js
 
 
@@ -1664,7 +1670,7 @@ var utils_onSubKey = function onSubKey(actionProperty) {
         return state;
       }
 
-      return _objectSpread({}, state, Object(defineProperty["a" /* default */])({}, key, nextKeyState));
+      return _objectSpread(_objectSpread({}, state), {}, Object(defineProperty["a" /* default */])({}, key, nextKeyState));
     };
   };
 };
@@ -1692,7 +1698,7 @@ var utils_onSubKey = function onSubKey(actionProperty) {
  * @return {Object} Next state.
  */
 
-var subKeysIsResolved = Object(external_this_lodash_["flowRight"])([utils_onSubKey('selectorName')])(function () {
+var subKeysIsResolved = utils_onSubKey('selectorName')(function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new equivalent_key_map_default.a();
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
@@ -1929,6 +1935,7 @@ function namespace_store_objectSpread(target) { for (var i = 1; i < arguments.le
 
 
 
+
 /**
  * WordPress dependencies
  */
@@ -1943,6 +1950,32 @@ function namespace_store_objectSpread(target) { for (var i = 1; i < arguments.le
 
 
 
+/**
+ * Create a cache to track whether resolvers started running or not.
+ *
+ * @return {Object} Resolvers Cache.
+ */
+
+function createResolversCache() {
+  var cache = {};
+  return {
+    isRunning: function isRunning(selectorName, args) {
+      return cache[selectorName] && cache[selectorName].get(args);
+    },
+    clear: function clear(selectorName, args) {
+      if (cache[selectorName]) {
+        cache[selectorName].delete(args);
+      }
+    },
+    markAsRunning: function markAsRunning(selectorName, args) {
+      if (!cache[selectorName]) {
+        cache[selectorName] = new equivalent_key_map_default.a();
+      }
+
+      cache[selectorName].set(args, true);
+    }
+  };
+}
 /**
  * @typedef {WPDataRegistry} WPDataRegistry
  */
@@ -1959,12 +1992,14 @@ function namespace_store_objectSpread(target) { for (var i = 1; i < arguments.le
  * @return {Object} Store Object.
  */
 
+
 function createNamespace(key, options, registry) {
   var reducer = options.reducer;
   var store = createReduxStore(key, options, registry);
+  var resolversCache = createResolversCache();
   var resolvers;
-  var actions = mapActions(namespace_store_objectSpread({}, actions_namespaceObject, {}, options.actions), store);
-  var selectors = mapSelectors(namespace_store_objectSpread({}, Object(external_this_lodash_["mapValues"])(selectors_namespaceObject, function (selector) {
+  var actions = mapActions(namespace_store_objectSpread(namespace_store_objectSpread({}, actions_namespaceObject), options.actions), store);
+  var selectors = mapSelectors(namespace_store_objectSpread(namespace_store_objectSpread({}, Object(external_this_lodash_["mapValues"])(selectors_namespaceObject, function (selector) {
     return function (state) {
       for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
         args[_key - 1] = arguments[_key];
@@ -1972,7 +2007,7 @@ function createNamespace(key, options, registry) {
 
       return selector.apply(void 0, [state.metadata].concat(args));
     };
-  }), {}, Object(external_this_lodash_["mapValues"])(options.selectors, function (selector) {
+  })), Object(external_this_lodash_["mapValues"])(options.selectors, function (selector) {
     if (selector.isRegistrySelector) {
       selector.registry = registry;
     }
@@ -1987,7 +2022,7 @@ function createNamespace(key, options, registry) {
   })), store);
 
   if (options.resolvers) {
-    var result = mapResolvers(options.resolvers, selectors, store);
+    var result = mapResolvers(options.resolvers, selectors, store, resolversCache);
     resolvers = result.resolvers;
     selectors = result.selectors;
   }
@@ -2087,7 +2122,6 @@ function createReduxStore(key, options, registry) {
  *                           public facing API. Selectors will get passed the
  *                           state as first argument.
  * @param {Object} store     The store to which the selectors should be mapped.
- *
  * @return {Object} Selectors mapped to the provided store.
  */
 
@@ -2142,19 +2176,26 @@ function mapActions(actions, store) {
  * Resolvers are side effects invoked once per argument set of a given selector call,
  * used in ensuring that the data needs for the selector are satisfied.
  *
- * @param {Object} resolvers   Resolvers to register.
- * @param {Object} selectors   The current selectors to be modified.
- * @param {Object} store       The redux store to which the resolvers should be mapped.
- * @return {Object}            An object containing updated selectors and resolvers.
+ * @param {Object} resolvers      Resolvers to register.
+ * @param {Object} selectors      The current selectors to be modified.
+ * @param {Object} store          The redux store to which the resolvers should be mapped.
+ * @param {Object} resolversCache Resolvers Cache.
  */
 
 
-function mapResolvers(resolvers, selectors, store) {
+function mapResolvers(resolvers, selectors, store, resolversCache) {
+  // The `resolver` can be either a function that does the resolution, or, in more advanced
+  // cases, an object with a `fullfill` method and other optional methods like `isFulfilled`.
+  // Here we normalize the `resolver` function to an object with `fulfill` method.
   var mappedResolvers = Object(external_this_lodash_["mapValues"])(resolvers, function (resolver) {
-    var _resolver$fulfill = resolver.fulfill,
-        resolverFulfill = _resolver$fulfill === void 0 ? resolver : _resolver$fulfill;
-    return namespace_store_objectSpread({}, resolver, {
-      fulfill: resolverFulfill
+    if (resolver.fulfill) {
+      return resolver;
+    }
+
+    return namespace_store_objectSpread(namespace_store_objectSpread({}, resolver), {}, {
+      // copy the enumerable properties of the resolver function
+      fulfill: resolver // add the fulfill method
+
     });
   });
 
@@ -2176,46 +2217,61 @@ function mapResolvers(resolvers, selectors, store) {
       }
 
       function _fulfillSelector() {
-        _fulfillSelector = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(function _callee() {
+        _fulfillSelector = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(function _callee2() {
           var state, _store$__unstableOrig, metadata;
 
-          return external_this_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
+          return external_this_regeneratorRuntime_default.a.wrap(function _callee2$(_context2) {
             while (1) {
-              switch (_context.prev = _context.next) {
+              switch (_context2.prev = _context2.next) {
                 case 0:
                   state = store.getState();
 
-                  if (!(typeof resolver.isFulfilled === 'function' && resolver.isFulfilled.apply(resolver, [state].concat(args)))) {
-                    _context.next = 3;
+                  if (!(resolversCache.isRunning(selectorName, args) || typeof resolver.isFulfilled === 'function' && resolver.isFulfilled.apply(resolver, [state].concat(args)))) {
+                    _context2.next = 3;
                     break;
                   }
 
-                  return _context.abrupt("return");
+                  return _context2.abrupt("return");
 
                 case 3:
                   _store$__unstableOrig = store.__unstableOriginalGetState(), metadata = _store$__unstableOrig.metadata;
 
                   if (!hasStartedResolution(metadata, selectorName, args)) {
-                    _context.next = 6;
+                    _context2.next = 6;
                     break;
                   }
 
-                  return _context.abrupt("return");
+                  return _context2.abrupt("return");
 
                 case 6:
-                  store.dispatch(startResolution(selectorName, args));
-                  _context.next = 9;
-                  return fulfillResolver.apply(void 0, [store, mappedResolvers, selectorName].concat(args));
+                  resolversCache.markAsRunning(selectorName, args);
+                  setTimeout( /*#__PURE__*/Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(function _callee() {
+                    return external_this_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            resolversCache.clear(selectorName, args);
+                            store.dispatch(startResolution(selectorName, args));
+                            _context.next = 4;
+                            return fulfillResolver.apply(void 0, [store, mappedResolvers, selectorName].concat(args));
 
-                case 9:
-                  store.dispatch(finishResolution(selectorName, args));
+                          case 4:
+                            store.dispatch(finishResolution(selectorName, args));
 
-                case 10:
+                          case 5:
+                          case "end":
+                            return _context.stop();
+                        }
+                      }
+                    }, _callee);
+                  })));
+
+                case 8:
                 case "end":
-                  return _context.stop();
+                  return _context2.stop();
               }
             }
-          }, _callee);
+          }, _callee2);
         }));
         return _fulfillSelector.apply(this, arguments);
       }
@@ -2248,48 +2304,48 @@ function fulfillResolver(_x, _x2, _x3) {
 }
 
 function _fulfillResolver() {
-  _fulfillResolver = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(function _callee2(store, resolvers, selectorName) {
+  _fulfillResolver = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(function _callee3(store, resolvers, selectorName) {
     var resolver,
         _len4,
         args,
         _key4,
         action,
-        _args2 = arguments;
+        _args3 = arguments;
 
-    return external_this_regeneratorRuntime_default.a.wrap(function _callee2$(_context2) {
+    return external_this_regeneratorRuntime_default.a.wrap(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
             resolver = Object(external_this_lodash_["get"])(resolvers, [selectorName]);
 
             if (resolver) {
-              _context2.next = 3;
+              _context3.next = 3;
               break;
             }
 
-            return _context2.abrupt("return");
+            return _context3.abrupt("return");
 
           case 3:
-            for (_len4 = _args2.length, args = new Array(_len4 > 3 ? _len4 - 3 : 0), _key4 = 3; _key4 < _len4; _key4++) {
-              args[_key4 - 3] = _args2[_key4];
+            for (_len4 = _args3.length, args = new Array(_len4 > 3 ? _len4 - 3 : 0), _key4 = 3; _key4 < _len4; _key4++) {
+              args[_key4 - 3] = _args3[_key4];
             }
 
             action = resolver.fulfill.apply(resolver, args);
 
             if (!action) {
-              _context2.next = 8;
+              _context3.next = 8;
               break;
             }
 
-            _context2.next = 8;
+            _context3.next = 8;
             return store.dispatch(action);
 
           case 8:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
-    }, _callee2);
+    }, _callee3);
   }));
   return _fulfillResolver.apply(this, arguments);
 }
@@ -2329,12 +2385,12 @@ function createCoreDataStore(registry) {
   return {
     getSelectors: function getSelectors() {
       return ['getIsResolving', 'hasStartedResolution', 'hasFinishedResolution', 'isResolving', 'getCachedResolvers'].reduce(function (memo, selectorName) {
-        return store_objectSpread({}, memo, Object(defineProperty["a" /* default */])({}, selectorName, getCoreDataSelector(selectorName)));
+        return store_objectSpread(store_objectSpread({}, memo), {}, Object(defineProperty["a" /* default */])({}, selectorName, getCoreDataSelector(selectorName)));
       }, {});
     },
     getActions: function getActions() {
       return ['startResolution', 'finishResolution', 'invalidateResolution', 'invalidateResolutionForStore', 'invalidateResolutionForStoreSelector'].reduce(function (memo, actionName) {
-        return store_objectSpread({}, memo, Object(defineProperty["a" /* default */])({}, actionName, getCoreDataAction(actionName)));
+        return store_objectSpread(store_objectSpread({}, memo), {}, Object(defineProperty["a" /* default */])({}, actionName, getCoreDataAction(actionName)));
       }, {});
     },
     subscribe: function subscribe() {
@@ -2598,7 +2654,7 @@ function createRegistry() {
 
 
   function use(plugin, options) {
-    registry = registry_objectSpread({}, registry, {}, plugin(registry, options));
+    registry = registry_objectSpread(registry_objectSpread({}, registry), plugin(registry, options));
     return registry;
   }
 
@@ -2626,7 +2682,7 @@ function createRegistry() {
 /* harmony default export */ var default_registry = (createRegistry());
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(37);
+var external_this_wp_deprecated_ = __webpack_require__(35);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/plugins/controls/index.js
@@ -2799,7 +2855,7 @@ function createPersistenceInterface(options) {
 
 
   function setData(key, value) {
-    data = persistence_objectSpread({}, data, Object(defineProperty["a" /* default */])({}, key, value));
+    data = persistence_objectSpread(persistence_objectSpread({}, data), {}, Object(defineProperty["a" /* default */])({}, key, value));
     storage.setItem(storageKey, JSON.stringify(data));
   }
 
@@ -2893,7 +2949,7 @@ function persistencePlugin(registry, pluginOptions) {
           initialState = persistedState;
         }
 
-        options = persistence_objectSpread({}, options, {
+        options = persistence_objectSpread(persistence_objectSpread({}, options), {}, {
           initialState: initialState
         });
       }
@@ -2975,7 +3031,7 @@ var esm_extends = __webpack_require__(8);
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external {"this":["wp","compose"]}
-var external_this_wp_compose_ = __webpack_require__(9);
+var external_this_wp_compose_ = __webpack_require__(10);
 
 // EXTERNAL MODULE: external {"this":"React"}
 var external_this_React_ = __webpack_require__(13);
@@ -3026,7 +3082,7 @@ var useCallback = useCallbackOne;
 
 
 // EXTERNAL MODULE: external {"this":["wp","priorityQueue"]}
-var external_this_wp_priorityQueue_ = __webpack_require__(150);
+var external_this_wp_priorityQueue_ = __webpack_require__(153);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
 var external_this_wp_isShallowEqual_ = __webpack_require__(64);
@@ -3723,19 +3779,53 @@ var use_dispatch_useDispatch = function useDispatch(storeName) {
 /** @typedef {import('./registry').WPDataRegistry} WPDataRegistry */
 
 /**
- * Mark a selector as a registry selector.
+ * Creates a selector function that takes additional curried argument with the
+ * registry `select` function. While a regular selector has signature
+ * ```js
+ * ( state, ...selectorArgs ) => ( result )
+ * ```
+ * that allows to select data from the store's `state`, a registry selector
+ * has signature:
+ * ```js
+ * ( select ) => ( state, ...selectorArgs ) => ( result )
+ * ```
+ * that supports also selecting from other registered stores.
  *
- * @param {Function} registrySelector Function receiving a registry object and returning a state selector.
+ * @example
+ * ```js
+ * const getCurrentPostId = createRegistrySelector( ( select ) => ( state ) => {
+ *   return select( 'core/editor' ).getCurrentPostId();
+ * } );
  *
- * @return {Function} marked registry selector.
+ * const getPostEdits = createRegistrySelector( ( select ) => ( state ) => {
+ *   // calling another registry selector just like any other function
+ *   const postType = getCurrentPostType( state );
+ *   const postId = getCurrentPostId( state );
+ *	 return select( 'core' ).getEntityRecordEdits( 'postType', postType, postId );
+ * } );
+ * ```
+ *
+ * Note how the `getCurrentPostId` selector can be called just like any other function,
+ * (it works even inside a regular non-registry selector) and we don't need to pass the
+ * registry as argument. The registry binding happens automatically when registering the selector
+ * with a store.
+ *
+ * @param {Function} registrySelector Function receiving a registry `select`
+ * function and returning a state selector.
+ *
+ * @return {Function} Registry selector that can be registered with a store.
  */
 
 function createRegistrySelector(registrySelector) {
+  // create a selector function that is bound to the registry referenced by `selector.registry`
+  // and that has the same API as a regular selector. Binding it in such a way makes it
+  // possible to call the selector directly from another selector.
   var selector = function selector() {
     return registrySelector(selector.registry.select).apply(void 0, arguments);
   };
   /**
-   * Flag indicating to selector registration mapping that the selector should
+   * Flag indicating that the selector is a registry selector that needs the correct registry
+   * reference to be assigned to `selecto.registry` to make it work correctly.
    * be mapped as a registry selector.
    *
    * @type {boolean}
@@ -3744,8 +3834,9 @@ function createRegistrySelector(registrySelector) {
 
   selector.isRegistrySelector = true;
   /**
-   * Registry on which to call `select`, stubbed for non-standard usage to
-   * use the default registry.
+   * Registry on which to call `select`. The `defaultRegistry` value is overwritten with
+   * the actual registry when the selector is registered with a store. Therefore, it's never
+   * used and is assigned here only to satisfy the type constraint of the `registry` field.
    *
    * @type {WPDataRegistry}
    */
@@ -3754,11 +3845,24 @@ function createRegistrySelector(registrySelector) {
   return selector;
 }
 /**
- * Mark a control as a registry control.
+ * Creates a control function that takes additional curried argument with the `registry` object.
+ * While a regular control has signature
+ * ```js
+ * ( action ) => ( iteratorOrPromise )
+ * ```
+ * where the control works with the `action` that it's bound to, a registry control has signature:
+ * ```js
+ * ( registry ) => ( action ) => ( iteratorOrPromise )
+ * ```
+ * A registry control is typically used to select data or dispatch an action to a registered
+ * store.
+ *
+ * When registering a control created with `createRegistryControl` with a store, the store
+ * knows which calling convention to use when executing the control.
  *
  * @param {Function} registryControl Function receiving a registry object and returning a control.
  *
- * @return {Function} marked registry control.
+ * @return {Function} Registry control that can be registered with a store.
  */
 
 function createRegistryControl(registryControl) {
@@ -3943,29 +4047,7 @@ var build_module_use = default_registry.use;
 
 /***/ }),
 
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
-/***/ 50:
+/***/ 47:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4004,6 +4086,28 @@ function _asyncToGenerator(fn) {
       _next(undefined);
     });
   };
+}
+
+/***/ }),
+
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
 }
 
 /***/ }),
@@ -4205,13 +4309,6 @@ function _extends() {
 
   return _extends.apply(this, arguments);
 }
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["compose"]; }());
 
 /***/ })
 

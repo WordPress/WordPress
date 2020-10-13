@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["priorityQueue"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 468);
+/******/ 	return __webpack_require__(__webpack_require__.s = 481);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 468:
+/***/ 481:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -193,16 +193,12 @@ var build_module_createQueue = function createQueue() {
 
   var elementsMap = new WeakMap();
   var isRunning = false;
-  /* eslint-disable jsdoc/valid-types */
-
   /**
    * Callback to process as much queue as time permits.
    *
    * @param {IdleDeadline|number} deadline Idle callback deadline object, or
    *                                       animation frame timestamp.
    */
-
-  /* eslint-enable */
 
   var runWaitingList = function runWaitingList(deadline) {
     var hasTimeRemaining = typeof deadline === 'number' ? function () {

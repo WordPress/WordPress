@@ -11,10 +11,7 @@
 			"source": "html",
 			"selector": "ol,ul",
 			"multiline": "li",
-			"__unstableMultilineWrapperTags": [
-				"ol",
-				"ul"
-			],
+			"__unstableMultilineWrapperTags": [ "ol", "ul" ],
 			"default": ""
 		},
 		"type": {
@@ -30,6 +27,9 @@
 	"supports": {
 		"anchor": true,
 		"className": false,
+		"__experimentalColor": {
+			"gradients": true
+		},
 		"__unstablePasteTextInline": true,
 		"lightBlockWrapper": true
 	}

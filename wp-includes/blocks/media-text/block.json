@@ -63,6 +63,9 @@
 			"type": "number",
 			"default": 50
 		},
+		"mediaSizeSlug": {
+			"type": "string"
+		},
 		"isStackedOnMobile": {
 			"type": "boolean",
 			"default": true
@@ -79,10 +82,7 @@
 	},
 	"supports": {
 		"anchor": true,
-		"align": [
-			"wide",
-			"full"
-		],
+		"align": [ "wide", "full" ],
 		"html": false,
 		"lightBlockWrapper": true,
 		"__experimentalColor": {

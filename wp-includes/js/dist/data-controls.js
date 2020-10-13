@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dataControls"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 414);
+/******/ 	return __webpack_require__(__webpack_require__.s = 427);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -96,7 +96,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dataControls"] =
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(26);
+var arrayLikeToArray = __webpack_require__(27);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -104,10 +104,10 @@ function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(35);
+var iterableToArray = __webpack_require__(37);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(29);
+var unsupportedIterableToArray = __webpack_require__(30);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -124,7 +124,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 26:
+/***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -141,12 +141,12 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 29:
+/***/ 30:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
@@ -159,7 +159,7 @@ function _unsupportedIterableToArray(o, minLen) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -177,14 +177,14 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 414:
+/***/ 427:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "apiFetch", function() { return apiFetch; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "select", function() { return select; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__unstableSyncSelect", function() { return __unstableSyncSelect; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "syncSelect", function() { return syncSelect; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dispatch", function() { return dispatch; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "controls", function() { return controls; });
 /* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
@@ -226,15 +226,15 @@ var apiFetch = function apiFetch(request) {
   };
 };
 /**
- * Dispatches a control action for triggering a registry select.
+ * Dispatches a control action for triggering and resolving a registry select.
  *
  * Note: when this control action is handled, it automatically considers
- * selectors that may have a resolver. It will await and return the resolved
- * value when the selector has not been resolved yet.
+ * selectors that may have a resolver. In such case, it will return a `Promise` that resolves
+ * after the selector finishes resolving, with the final result value.
  *
  * @param {string} storeKey      The key for the store the selector belongs to
  * @param {string} selectorName  The name of the selector
- * @param {Array}  args          Arguments for the select.
+ * @param {Array}  args          Arguments for the selector.
  *
  * @example
  * ```js
@@ -263,30 +263,30 @@ function select(storeKey, selectorName) {
   };
 }
 /**
- * Dispatches a control action for triggering a registry select.
+ * Dispatches a control action for triggering a synchronous registry select.
  *
- * Note: This functions like the `select` control, but does not wait
- * for resolvers.
+ * Note: This control synchronously returns the current selector value, triggering the
+ * resolution, but not waiting for it.
  *
  * @param {string} storeKey     The key for the store the selector belongs to.
  * @param {string} selectorName The name of the selector.
- * @param {Array}  args         Arguments for the select.
+ * @param {Array}  args         Arguments for the selector.
  *
  * @example
  * ```js
- * import { __unstableSyncSelect } from '@wordpress/data-controls';
+ * import { syncSelect } from '@wordpress/data-controls';
  *
- * // Action generator using `__unstableSyncSelect`.
+ * // Action generator using `syncSelect`.
  * export function* myAction() {
- * 	const isEditorSideBarOpened = yield __unstableSyncSelect( 'core/edit-post', 'isEditorSideBarOpened' );
- * 	// Do stuff with the result from the `__unstableSyncSelect`.
+ * 	const isEditorSideBarOpened = yield syncSelect( 'core/edit-post', 'isEditorSideBarOpened' );
+ * 	// Do stuff with the result from the `syncSelect`.
  * }
  * ```
  *
  * @return {Object} The control descriptor.
  */
 
-function __unstableSyncSelect(storeKey, selectorName) {
+function syncSelect(storeKey, selectorName) {
   for (var _len2 = arguments.length, args = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
     args[_key2 - 2] = arguments[_key2];
   }

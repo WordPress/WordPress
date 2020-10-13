@@ -4,13 +4,12 @@
 	"attributes": {
 		"content": {
 			"type": "string",
-			"source": "text",
+			"source": "html",
 			"selector": "code"
 		}
 	},
 	"supports": {
 		"anchor": true,
-		"html": false,
 		"lightBlockWrapper": true
 	}
 }

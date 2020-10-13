@@ -15,6 +15,9 @@
 			"type": "string"
 		}
 	},
+	"usesContext": [
+		"openInNewTab"
+	],
 	"supports": {
 		"reusable": false,
 		"html": false,
