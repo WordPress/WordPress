@@ -77,6 +77,8 @@ class WP_Community_Events {
 	 * mitigates possible privacy concerns.
 	 *
 	 * @since 4.8.0
+	 * @since 5.6.0 Response no longer contains formatted date field. They're added
+	 *              in `wp.communityEvents.populateDynamicEventFields()` now.
 	 *
 	 * @param string $location_search Optional. City name to help determine the location.
 	 *                                e.g., "Seattle". Default empty string.
@@ -165,7 +167,6 @@ class WP_Community_Events {
 			$this->cache_events( $response_body, $expiration );
 
 			$response_body['events'] = $this->trim_events( $response_body['events'] );
-			$response_body = $this->format_event_data_time( $response_body );
 
 			return $response_body;
 		}
@@ -344,6 +345,8 @@ class WP_Community_Events {
 	 * Gets cached events.
 	 *
 	 * @since 4.8.0
+	 * @since 5.6.0 Response no longer contains formatted date field. They're added
+	 *              in `wp.communityEvents.populateDynamicEventFields()` now.
 	 *
 	 * @return array|false An array containing `location` and `events` items
 	 *                     on success, false on failure.
@@ -355,7 +358,7 @@ class WP_Community_Events {
 			$cached_response['events'] = $this->trim_events( $cached_response['events'] );
 		}
 
-		return $this->format_event_data_time( $cached_response );
+		return $cached_response;
 	}
 
 	/**
@@ -372,6 +375,12 @@ class WP_Community_Events {
 	 * @return array The response with dates and times formatted.
 	 */
 	protected function format_event_data_time( $response_body ) {
+		_deprecated_function(
+			__METHOD__,
+			'5.6.0',
+			'This is no longer used by Core, and only kept for backwards-compatibility.'
+		);
+
 		if ( isset( $response_body['events'] ) ) {
 			foreach ( $response_body['events'] as $key => $event ) {
 				$timestamp = strtotime( $event['date'] );
