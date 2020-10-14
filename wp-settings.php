@@ -179,7 +179,6 @@ require ABSPATH . WPINC . '/class-wp-user-meta-session-tokens.php';
 require ABSPATH . WPINC . '/class-wp-metadata-lazyloader.php';
 require ABSPATH . WPINC . '/general-template.php';
 require ABSPATH . WPINC . '/link-template.php';
-require ABSPATH . WPINC . '/array.php';
 require ABSPATH . WPINC . '/author-template.php';
 require ABSPATH . WPINC . '/post.php';
 require ABSPATH . WPINC . '/class-walker-page.php';
