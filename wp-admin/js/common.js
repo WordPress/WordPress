@@ -1233,7 +1233,7 @@ $document.ready( function() {
 				focusedRowActions.removeClass( 'visible' );
 			}, 30 );
 		}
-	}, '.has-row-actions' );
+	}, '.table-view-list .has-row-actions' );
 
 	// Toggle list table rows on small screens.
 	$( 'tbody' ).on( 'click', '.toggle-row', function() {
