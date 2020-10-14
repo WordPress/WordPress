@@ -760,4 +760,4 @@ wpWidgets.l10n = wpWidgets.l10n || {
 	widgetAdded: ''
 };
 
-wpWidgets.l10n = window.wp.deprecateL10nObject( 'wpWidgets.l10n', wpWidgets.l10n );
+wpWidgets.l10n = window.wp.deprecateL10nObject( 'wpWidgets.l10n', wpWidgets.l10n, '5.5.0' );

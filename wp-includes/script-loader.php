@@ -1757,34 +1757,6 @@ function wp_localize_community_events() {
 			'nonce'       => wp_create_nonce( 'community_events' ),
 			'cache'       => $events_client->get_cached_events(),
 			'time_format' => get_option( 'time_format' ),
-
-			'l10n'        => array(
-				'enter_closest_city'              => __( 'Enter your closest city to find nearby events.' ),
-				'error_occurred_please_try_again' => __( 'An error occurred. Please try again.' ),
-				'attend_event_near_generic'       => __( 'Attend an upcoming event near you.' ),
-
-				/*
-				 * These specific examples were chosen to highlight the fact that a
-				 * state is not needed, even for cities whose name is not unique.
-				 * It would be too cumbersome to include that in the instructions
-				 * to the user, so it's left as an implication.
-				 */
-				/*
-				 * translators: %s is the name of the city we couldn't locate.
-				 * Replace the examples with cities related to your locale. Test that
-				 * they match the expected location and have upcoming events before
-				 * including them. If no cities related to your locale have events,
-				 * then use cities related to your locale that would be recognizable
-				 * to most users. Use only the city name itself, without any region
-				 * or country. Use the endonym (native locale name) instead of the
-				 * English name if possible.
-				 */
-				'could_not_locate_city'           => __( 'We couldn&#8217;t locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland.' ),
-
-				// This one is only used with wp.a11y.speak(), so it can/should be more brief.
-				/* translators: %s: The name of a city. */
-				'city_updated'                    => __( 'City updated. Listing events near %s.' ),
-			),
 		)
 	);
 }

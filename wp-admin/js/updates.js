@@ -115,7 +115,7 @@
 		autoUpdatesError: ''
 	};
 
-	wp.updates.l10n = window.wp.deprecateL10nObject( 'wp.updates.l10n', wp.updates.l10n );
+	wp.updates.l10n = window.wp.deprecateL10nObject( 'wp.updates.l10n', wp.updates.l10n, '5.5.0' );
 
 	/**
 	 * User nonce for ajax calls.
