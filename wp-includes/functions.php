@@ -4499,6 +4499,7 @@ function wp_parse_slug_list( $list ) {
  */
 function wp_array_slice_assoc( $array, $keys ) {
 	$slice = array();
+
 	foreach ( $keys as $key ) {
 		if ( isset( $array[ $key ] ) ) {
 			$slice[ $key ] = $array[ $key ];
@@ -4506,24 +4507,6 @@ function wp_array_slice_assoc( $array, $keys ) {
 	}
 
 	return $slice;
-}
-
-/**
- * Determines if the variable is a numeric-indexed array.
- *
- * @since 4.4.0
- *
- * @param mixed $data Variable to check.
- * @return bool Whether the variable is a list.
- */
-function wp_is_numeric_array( $data ) {
-	if ( ! is_array( $data ) ) {
-		return false;
-	}
-
-	$keys        = array_keys( $data );
-	$string_keys = array_filter( $keys, 'is_string' );
-	return count( $string_keys ) === 0;
 }
 
 /**
@@ -4556,6 +4539,25 @@ function wp_array_get( $array, $path, $default = array() ) {
 	}
 
 	return $array;
+}
+
+/**
+ * Determines if the variable is a numeric-indexed array.
+ *
+ * @since 4.4.0
+ *
+ * @param mixed $data Variable to check.
+ * @return bool Whether the variable is a list.
+ */
+function wp_is_numeric_array( $data ) {
+	if ( ! is_array( $data ) ) {
+		return false;
+	}
+
+	$keys        = array_keys( $data );
+	$string_keys = array_filter( $keys, 'is_string' );
+
+	return count( $string_keys ) === 0;
 }
 
 /**
