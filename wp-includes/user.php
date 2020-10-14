@@ -1586,8 +1586,8 @@ function clean_user_cache( $user ) {
  *
  * @since 2.0.0
  *
- * @param string $username Username.
- * @return int|false The user's ID on success, and false on failure.
+ * @param string $username The username to check for existence.
+ * @return int|false The user ID on success, false on failure.
  */
 function username_exists( $username ) {
 	$user = get_user_by( 'login', $username );
@@ -1598,11 +1598,12 @@ function username_exists( $username ) {
 	}
 
 	/**
-	 * Filters whether the given username exists or not.
+	 * Filters whether the given username exists.
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param int|false $user_id  The user's ID on success, and false on failure.
+	 * @param int|false $user_id  The user ID associated with the username,
+	 *                            or false if the username does not exist.
 	 * @param string    $username Username to check.
 	 */
 	return apply_filters( 'username_exists', $user_id, $username );
@@ -1618,31 +1619,43 @@ function username_exists( $username ) {
  * @since 2.1.0
  *
  * @param string $email Email.
- * @return int|false The user's ID on success, and false on failure.
+ * @return int|false The user ID on success, false on failure.
  */
 function email_exists( $email ) {
 	$user = get_user_by( 'email', $email );
 	if ( $user ) {
-		return $user->ID;
+		$user_id = $user->ID;
+	} else {
+		$user_id = false;
 	}
-	return false;
+
+	/**
+	 * Filters whether the given email exists.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param int|false $user_id The user ID associated with the email,
+	 *                           or false if the email does not exist.
+	 * @param string    $email   Email.
+	 */
+	return apply_filters( 'email_exists', $user_id, $email );
 }
 
 /**
  * Checks whether a username is valid.
  *
  * @since 2.0.1
- * @since 4.4.0 Empty sanitized usernames are now considered invalid
+ * @since 4.4.0 Empty sanitized usernames are now considered invalid.
  *
  * @param string $username Username.
- * @return bool Whether username given is valid
+ * @return bool Whether username given is valid.
  */
 function validate_username( $username ) {
 	$sanitized = sanitize_user( $username, true );
 	$valid     = ( $sanitized == $username && ! empty( $sanitized ) );
 
 	/**
-	 * Filters whether the provided username is valid or not.
+	 * Filters whether the provided username is valid.
 	 *
 	 * @since 2.0.1
 	 *
@@ -1833,7 +1846,7 @@ function wp_insert_user( $userdata ) {
 
 	/*
 	 * If there is no update, just check for `email_exists`. If there is an update,
-	 * check if current email and new email are the same, or not, and check `email_exists`
+	 * check if current email and new email are the same, and check `email_exists`
 	 * accordingly.
 	 */
 	if ( ( ! $update || ( ! empty( $old_user_data ) && 0 !== strcasecmp( $user_email, $old_user_data->user_email ) ) )
