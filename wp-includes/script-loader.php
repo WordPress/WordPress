@@ -1754,11 +1754,11 @@ function wp_localize_community_events() {
 		'dashboard',
 		'communityEventsData',
 		array(
-			'nonce' => wp_create_nonce( 'community_events' ),
-			'cache' => $events_client->get_cached_events(),
+			'nonce'       => wp_create_nonce( 'community_events' ),
+			'cache'       => $events_client->get_cached_events(),
 			'time_format' => get_option( 'time_format' ),
 
-			'l10n'  => array(
+			'l10n'        => array(
 				'enter_closest_city'              => __( 'Enter your closest city to find nearby events.' ),
 				'error_occurred_please_try_again' => __( 'An error occurred. Please try again.' ),
 				'attend_event_near_generic'       => __( 'Attend an upcoming event near you.' ),
