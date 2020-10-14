@@ -4071,6 +4071,8 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		clean_post_cache( $post_ID );
 	}
 
+	// Allow term counts to be handled by transitioning post type.
+	_wp_prevent_term_counting( true );
 	if ( is_object_in_taxonomy( $post_type, 'category' ) ) {
 		wp_set_post_categories( $post_ID, $post_category );
 	}
@@ -4127,6 +4129,8 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 			}
 		}
 	}
+	// Restore term counting.
+	_wp_prevent_term_counting( false );
 
 	if ( ! empty( $postarr['meta_input'] ) ) {
 		foreach ( $postarr['meta_input'] as $field => $value ) {
@@ -4436,7 +4440,9 @@ function wp_publish_post( $post ) {
 		if ( ! $default_term_id ) {
 			continue;
 		}
+		_wp_prevent_term_counting( true );
 		wp_set_post_terms( $post->ID, array( $default_term_id ), $taxonomy );
+		_wp_prevent_term_counting( false );
 	}
 
 	$wpdb->update( $wpdb->posts, array( 'post_status' => 'publish' ), array( 'ID' => $post->ID ) );
@@ -7312,11 +7318,91 @@ function wp_queue_posts_for_term_meta_lazyload( $posts ) {
  * @param WP_Post $post       Post object.
  */
 function _update_term_count_on_transition_post_status( $new_status, $old_status, $post ) {
-	// Update counts for the post's terms.
+	if ( 'inherit' === $new_status ) {
+		$new_status = get_post_status( $post->post_parent );
+	}
+
+	if ( 'inherit' === $old_status ) {
+		$old_status = get_post_status( $post->post_parent );
+	}
+
+	$count_new = 'publish' === $new_status;
+	$count_old = 'publish' === $old_status;
+
+	if ( $count_new === $count_old ) {
+		// Nothing to do.
+		return;
+	}
+
+	/*
+	 * Update counts for the post's terms.
+	 *
+	 * Term counting is deferred while incrementing/decrementing the counts to
+	 * reduce the number of database queries required. Once the counts are
+	 * complete the updates are performed if term counting wasn't previously
+	 * deferred.
+	 */
+	$previous_deferred_setting = wp_defer_term_counting();
+	wp_defer_term_counting( true );
 	foreach ( (array) get_object_taxonomies( $post->post_type ) as $taxonomy ) {
 		$tt_ids = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'tt_ids' ) );
-		wp_update_term_count( $tt_ids, $taxonomy );
+
+		if ( empty( $tt_ids ) ) {
+			// No terms for this taxonomy on object.
+			continue;
+		}
+
+		$object_types = (array) get_taxonomy( $taxonomy )->object_type;
+
+		foreach ( $object_types as &$object_type ) {
+			list( $object_type ) = explode( ':', $object_type );
+		}
+
+		$object_types = array_unique( $object_types );
+
+		if ( ! in_array( $post->post_type, $object_types, true ) ) {
+			$modify_by = 0;
+		} elseif ( $count_new && ! $count_old ) {
+			$modify_by = 1;
+		} elseif ( $count_old && ! $count_new ) {
+			$modify_by = -1;
+		}
+
+		if ( 'attachment' === $post->post_type ) {
+			wp_modify_term_count_by( $tt_ids, $taxonomy, $modify_by );
+			continue;
+		}
+
+		$check_attachments = array_search( 'attachment', $object_types, true );
+		if ( false !== $check_attachments ) {
+			unset( $object_types[ $check_attachments ] );
+			$check_attachments = true;
+		}
+
+		wp_modify_term_count_by( $tt_ids, $taxonomy, $modify_by );
+		if ( ! $check_attachments ) {
+			continue;
+		}
+
+		/*
+		 * For non-attachments, check if there are any attachment children
+		 * with 'inherited' post status -- if so those will need to be counted.
+		 */
+		$attachments = get_children(
+			array(
+				'post_parent'            => $post->ID,
+				'post_status'            => 'inherit',
+				'post_type'              => 'attachment',
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => true,
+			)
+		);
+
+		foreach ( $attachments as $attachment ) {
+			_update_term_count_on_transition_post_status( $new_status, $old_status, $attachment );
+		}
 	}
+	wp_defer_term_counting( $previous_deferred_setting );
 }
 
 /**
