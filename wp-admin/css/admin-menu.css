@@ -346,7 +346,14 @@
 }
 
 #adminmenu div.wp-menu-name {
-	padding: 8px 0;
+	padding: 8px 8px 8px 36px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-word;
+	-ms-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
 }
 
 #adminmenu div.wp-menu-image {
@@ -682,7 +689,7 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	.auto-fold #adminmenu a.menu-top {
-		height: 34px;
+		min-height: 34px;
 	}
 
 	.auto-fold #adminmenu li.wp-menu-open {
@@ -783,7 +790,6 @@ li#wp-admin-bar-menu-toggle {
 	/* Restore the menu names */
 	.auto-fold #adminmenu .wp-menu-name {
 		position: static;
-		margin-left: 35px;
 	}
 
 	/* Switch the arrow side */
