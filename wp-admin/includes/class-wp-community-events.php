@@ -77,7 +77,7 @@ class WP_Community_Events {
 	 * mitigates possible privacy concerns.
 	 *
 	 * @since 4.8.0
-	 * @since 5.6.0 Response no longer contains formatted date field. They're added
+	 * @since 5.5.2 Response no longer contains formatted date field. They're added
 	 *              in `wp.communityEvents.populateDynamicEventFields()` now.
 	 *
 	 * @param string $location_search Optional. City name to help determine the location.
@@ -345,7 +345,7 @@ class WP_Community_Events {
 	 * Gets cached events.
 	 *
 	 * @since 4.8.0
-	 * @since 5.6.0 Response no longer contains formatted date field. They're added
+	 * @since 5.5.2 Response no longer contains formatted date field. They're added
 	 *              in `wp.communityEvents.populateDynamicEventFields()` now.
 	 *
 	 * @return array|false An array containing `location` and `events` items
@@ -377,7 +377,7 @@ class WP_Community_Events {
 	protected function format_event_data_time( $response_body ) {
 		_deprecated_function(
 			__METHOD__,
-			'5.6.0',
+			'5.5.2',
 			'This is no longer used by Core, and only kept for backwards-compatibility.'
 		);
 
@@ -451,7 +451,7 @@ class WP_Community_Events {
 	 *
 	 * @since 4.8.0
 	 * @since 4.9.7 Stick a WordCamp to the final list.
-	 * @since 5.6.0 Accepts and returns only the events, rather than an entire HTTP response.
+	 * @since 5.5.2 Accepts and returns only the events, rather than an entire HTTP response.
 	 *
 	 * @param array $events The events that will be prepared.
 	 * @return array The response body with events trimmed.

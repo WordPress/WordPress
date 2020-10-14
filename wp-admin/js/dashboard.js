@@ -623,7 +623,7 @@ jQuery( function( $ ) {
 		 * These can't be stored in the database, because they're dependent on
 		 * the user's current time zone, locale, etc.
 		 *
-		 * @since 5.6.0
+		 * @since 5.5.2
 		 *
 		 * @param {Array}  rawEvents  The events that should have dynamic fields added to them.
 		 * @param {string} timeFormat A time format acceptable by `wp.date.dateI18n()`.
@@ -658,7 +658,7 @@ jQuery( function( $ ) {
 		/**
 		 * Returns the user's local/browser time zone, in a form suitable for `wp.date.i18n()`.
 		 *
-		 * @since 5.6.0
+		 * @since 5.5.2
 		 *
 		 * @param startTimestamp
 		 *
@@ -693,7 +693,7 @@ jQuery( function( $ ) {
 		 *
 		 * See https://stackoverflow.com/questions/21102435/why-does-javascript-date-gettimezoneoffset-consider-0500-as-a-positive-off.
 		 *
-		 * @since 5.6.0
+		 * @since 5.5.2
 		 *
 		 * @param {number} startTimestamp
 		 *
@@ -706,7 +706,7 @@ jQuery( function( $ ) {
 		/**
 		 * Get a short time zone name, like `PST`.
 		 *
-		 * @since 5.6.0
+		 * @since 5.5.2
 		 *
 		 * @param {number} startTimestamp
 		 *
@@ -748,7 +748,7 @@ jQuery( function( $ ) {
 		/**
 		 * Format a start/end date in the user's local time zone and locale.
 		 *
-		 * @since 5.6.0
+		 * @since 5.5.2
 		 *
 		 * @param {int}    startDate   The Unix timestamp in milliseconds when the the event starts.
 		 * @param {int}    endDate     The Unix timestamp in milliseconds when the the event ends.
