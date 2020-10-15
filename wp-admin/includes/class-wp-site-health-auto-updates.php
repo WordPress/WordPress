@@ -90,46 +90,7 @@ class WP_Site_Health_Auto_Updates {
 	 * @return array The test results.
 	 */
 	public function test_wp_version_check_attached() {
-		if ( ! is_main_site() ) {
-			return;
-		}
-
-		$cookies = wp_unslash( $_COOKIE );
-		$timeout = 10;
-		$headers = array(
-			'Cache-Control' => 'no-cache',
-		);
-		/** This filter is documented in wp-includes/class-wp-http-streams.php */
-		$sslverify = apply_filters( 'https_local_ssl_verify', false );
-
-		// Include Basic auth in loopback requests.
-		if ( isset( $_SERVER['PHP_AUTH_USER'] ) && isset( $_SERVER['PHP_AUTH_PW'] ) ) {
-			$headers['Authorization'] = 'Basic ' . base64_encode( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) . ':' . wp_unslash( $_SERVER['PHP_AUTH_PW'] ) );
-		}
-
-		$url = add_query_arg(
-			array(
-				'health-check-test-wp_version_check' => true,
-			),
-			admin_url( 'site-health.php' )
-		);
-
-		$test = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
-
-		if ( is_wp_error( $test ) ) {
-			return array(
-				'description' => sprintf(
-					/* translators: %s: Name of the filter used. */
-					__( 'Could not confirm that the %s filter is available.' ),
-					'<code>wp_version_check()</code>'
-				),
-				'severity'    => 'warning',
-			);
-		}
-
-		$response = wp_remote_retrieve_body( $test );
-
-		if ( 'yes' !== $response ) {
+		if ( ! has_filter( 'wp_version_check', 'wp_version_check' ) ) {
 			return array(
 				'description' => sprintf(
 					/* translators: %s: Name of the filter used. */
@@ -310,6 +271,11 @@ class WP_Site_Health_Auto_Updates {
 	 * @return array The test results.
 	 */
 	function test_check_wp_filesystem_method() {
+		// Make sure the `request_filesystem_credentials` function is available during our REST call.
+		if ( ! function_exists( 'request_filesystem_credentials' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/file.php';
+		}
+
 		$skin    = new Automatic_Upgrader_Skin;
 		$success = $skin->request_filesystem_credentials( false, ABSPATH );
 
@@ -354,6 +320,11 @@ class WP_Site_Health_Auto_Updates {
 
 		if ( 'direct' !== $wp_filesystem->method ) {
 			return false;
+		}
+
+		// Make sure the `get_core_checksums` function is available during our REST call.
+		if ( ! function_exists( 'get_core_checksums' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/update.php';
 		}
 
 		$checksums = get_core_checksums( $wp_version, 'en_US' );
