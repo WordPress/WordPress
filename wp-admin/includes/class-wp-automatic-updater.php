@@ -887,44 +887,48 @@ class WP_Automatic_Updater {
 		$successful_updates = array();
 		$failed_updates     = array();
 
-		/**
-		 * Filters whether to send an email following an automatic background plugin update.
-		 *
-		 * @since 5.5.0
-		 * @since 5.5.1 Added the $update_results parameter.
-		 *
-		 * @param bool  $enabled        True if plugins notifications are enabled, false otherwise.
-		 * @param array $update_results The results of plugins update tasks.
-		 */
-		$notifications_enabled = apply_filters( 'auto_plugin_update_send_email', true, $update_results['plugin'] );
+		if ( ! empty( $update_results['plugin'] ) ) {
+			/**
+			 * Filters whether to send an email following an automatic background plugin update.
+			 *
+			 * @since 5.5.0
+			 * @since 5.5.1 Added the `$update_results` parameter.
+			 *
+			 * @param bool  $enabled        True if plugin update notifications are enabled, false otherwise.
+			 * @param array $update_results The results of plugins update tasks.
+			 */
+			$notifications_enabled = apply_filters( 'auto_plugin_update_send_email', true, $update_results['plugin'] );
 
-		if ( ! empty( $update_results['plugin'] ) && $notifications_enabled ) {
-			foreach ( $update_results['plugin'] as $update_result ) {
-				if ( true === $update_result->result ) {
-					$successful_updates['plugin'][] = $update_result;
-				} else {
-					$failed_updates['plugin'][] = $update_result;
+			if ( $notifications_enabled ) {
+				foreach ( $update_results['plugin'] as $update_result ) {
+					if ( true === $update_result->result ) {
+						$successful_updates['plugin'][] = $update_result;
+					} else {
+						$failed_updates['plugin'][] = $update_result;
+					}
 				}
 			}
 		}
 
-		/**
-		 * Filters whether to send an email following an automatic background theme update.
-		 *
-		 * @since 5.5.0
-		 * @since 5.5.1 Added the $update_results parameter.
-		 *
-		 * @param bool  $enabled True if notifications are enabled, false otherwise.
-		 * @param array $update_results The results of theme update tasks.
-		 */
-		$notifications_enabled = apply_filters( 'auto_theme_update_send_email', true, $update_results['theme'] );
+		if ( ! empty( $update_results['theme'] ) ) {
+			/**
+			 * Filters whether to send an email following an automatic background theme update.
+			 *
+			 * @since 5.5.0
+			 * @since 5.5.1 Added the `$update_results` parameter.
+			 *
+			 * @param bool  $enabled        True if theme update notifications are enabled, false otherwise.
+			 * @param array $update_results The results of theme update tasks.
+			 */
+			$notifications_enabled = apply_filters( 'auto_theme_update_send_email', true, $update_results['theme'] );
 
-		if ( ! empty( $update_results['theme'] ) && $notifications_enabled ) {
-			foreach ( $update_results['theme'] as $update_result ) {
-				if ( true === $update_result->result ) {
-					$successful_updates['theme'][] = $update_result;
-				} else {
-					$failed_updates['theme'][] = $update_result;
+			if ( $notifications_enabled ) {
+				foreach ( $update_results['theme'] as $update_result ) {
+					if ( true === $update_result->result ) {
+						$successful_updates['theme'][] = $update_result;
+					} else {
+						$failed_updates['theme'][] = $update_result;
+					}
 				}
 			}
 		}
