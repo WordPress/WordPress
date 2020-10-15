@@ -63,18 +63,24 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Comment' ) ) {
 						</div><!-- .comment-author -->
 
 						<div class="comment-metadata">
-							<a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
-								<?php
-								/* translators: 1: Comment date, 2: Comment time. */
-								$comment_timestamp = sprintf( __( '%1$s at %2$s', 'twentytwenty' ), get_comment_date( '', $comment ), get_comment_time() );
-								?>
-								<time datetime="<?php comment_time( 'c' ); ?>" title="<?php echo esc_attr( $comment_timestamp ); ?>">
-									<?php echo esc_html( $comment_timestamp ); ?>
-								</time>
-							</a>
 							<?php
+							/* translators: 1: Comment date, 2: Comment time. */
+							$comment_timestamp = sprintf( __( '%1$s at %2$s', 'twentytwenty' ), get_comment_date( '', $comment ), get_comment_time() );
+
+							printf(
+								'<a href="%s"><time datetime="%s" title="%s">%s</time></a>',
+								esc_url( get_comment_link( $comment, $args ) ),
+								get_comment_time( 'c' ),
+								esc_attr( $comment_timestamp ),
+								esc_html( $comment_timestamp )
+							);
+
 							if ( get_edit_comment_link() ) {
-								echo ' <span aria-hidden="true">&bull;</span> <a class="comment-edit-link" href="' . esc_url( get_edit_comment_link() ) . '">' . __( 'Edit', 'twentytwenty' ) . '</a>';
+								printf(
+									' <span aria-hidden="true">&bull;</span> <a class="comment-edit-link" href="%s">%s</a>',
+									esc_url( get_edit_comment_link() ),
+									__( 'Edit', 'twentytwenty' )
+								);
 							}
 							?>
 						</div><!-- .comment-metadata -->
