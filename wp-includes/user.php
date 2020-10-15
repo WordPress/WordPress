@@ -1604,7 +1604,7 @@ function username_exists( $username ) {
 	 *
 	 * @param int|false $user_id  The user ID associated with the username,
 	 *                            or false if the username does not exist.
-	 * @param string    $username Username to check.
+	 * @param string    $username The username to check for existence.
 	 */
 	return apply_filters( 'username_exists', $user_id, $username );
 }
@@ -1618,7 +1618,7 @@ function username_exists( $username ) {
  *
  * @since 2.1.0
  *
- * @param string $email Email.
+ * @param string $email The email to check for existence.
  * @return int|false The user ID on success, false on failure.
  */
 function email_exists( $email ) {
@@ -1636,7 +1636,7 @@ function email_exists( $email ) {
 	 *
 	 * @param int|false $user_id The user ID associated with the email,
 	 *                           or false if the email does not exist.
-	 * @param string    $email   Email.
+	 * @param string    $email   The email to check for existence.
 	 */
 	return apply_filters( 'email_exists', $user_id, $email );
 }
