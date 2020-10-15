@@ -345,9 +345,9 @@ class Walker_Comment extends Walker {
 					get_comment_time()
 				)
 			);
-			?>
 
-			<?php edit_comment_link( __( '(Edit)' ), '&nbsp;&nbsp;', '' ); ?>
+			edit_comment_link( __( '(Edit)' ), ' &nbsp;&nbsp;', '' );
+			?>
 		</div>
 
 		<?php
@@ -445,9 +445,9 @@ class Walker_Comment extends Walker {
 								get_comment_time()
 							)
 						);
-						?>
 
-						<?php edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' ); ?>
+						edit_comment_link( __( 'Edit' ), ' <span class="edit-link">', '</span>' );
+						?>
 					</div><!-- .comment-metadata -->
 
 					<?php if ( '0' == $comment->comment_approved ) : ?>
