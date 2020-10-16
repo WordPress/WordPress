@@ -725,7 +725,19 @@ form#tags-filter {
 
 .text-removed .policy-text {
 	color: #666;
-	font-weight: 600;
+	font-weight: 300;
+	padding-left: 1em;
+	border-left: 3px solid #ffb900;
+}
+
+.text-removed .policy-text h1,
+.text-removed .policy-text h2,
+.text-removed .policy-text h3,
+.text-removed .policy-text h4,
+.text-removed .policy-text h5,
+.text-removed .policy-text h6 {
+	color: #39424a;
+	font-weight: 500;
 }
 
 .privacy-text-actions {
