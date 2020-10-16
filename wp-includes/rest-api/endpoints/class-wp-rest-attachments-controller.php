@@ -191,6 +191,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		 */
 		do_action( 'rest_after_insert_attachment', $attachment, $request, true );
 
+		wp_after_insert_post( $attachment, false );
+
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 			// Set a custom header with the attachment_id.
 			// Used by the browser/client to resume creating image sub-sizes after a PHP fatal error.
@@ -270,7 +272,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		}
 
 		// $post_parent is inherited from $attachment['post_parent'].
-		$id = wp_insert_attachment( wp_slash( (array) $attachment ), $file, 0, true );
+		$id = wp_insert_attachment( wp_slash( (array) $attachment ), $file, 0, true, false );
 
 		if ( is_wp_error( $id ) ) {
 			if ( 'db_update_error' === $id->get_error_code() ) {
@@ -344,6 +346,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-attachments-controller.php */
 		do_action( 'rest_after_insert_attachment', $attachment, $request, false );
+
+		wp_after_insert_post( $attachment, true );
 
 		$response = $this->prepare_item_for_response( $attachment, $request );
 		$response = rest_ensure_response( $response );

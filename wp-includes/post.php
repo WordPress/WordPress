@@ -3645,10 +3645,11 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *     @type array  $tax_input             Array of taxonomy terms keyed by their taxonomy name. Default empty.
  *     @type array  $meta_input            Array of post meta values keyed by their post meta key. Default empty.
  * }
- * @param bool  $wp_error Optional. Whether to return a WP_Error on failure. Default false.
+ * @param bool  $wp_error         Optional. Whether to return a WP_Error on failure. Default false.
+ * @param bool  $fire_after_hooks Whether to fire the after insert hooks. Default true.
  * @return int|WP_Error The post ID on success. The value 0 or WP_Error on failure.
  */
-function wp_insert_post( $postarr, $wp_error = false ) {
+function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true ) {
 	global $wpdb;
 
 	// Capture original pre-sanitized array for passing into filters.
@@ -4310,6 +4311,10 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 */
 	do_action( 'wp_insert_post', $post_ID, $post, $update );
 
+	if ( $fire_after_hooks ) {
+		wp_after_insert_post( $post, $update );
+	}
+
 	return $post_ID;
 }
 
@@ -4321,12 +4326,13 @@ function wp_insert_post( $postarr, $wp_error = false ) {
  *
  * @since 1.0.0
  *
- * @param array|object $postarr  Optional. Post data. Arrays are expected to be escaped,
- *                               objects are not. Default array.
- * @param bool         $wp_error Optional. Allow return of WP_Error on failure. Default false.
+ * @param array|object $postarr          Optional. Post data. Arrays are expected to be escaped,
+ *                                       objects are not. Default array.
+ * @param bool         $wp_error         Optional. Allow return of WP_Error on failure. Default false.
+ * @param bool         $fire_after_hooks Whether to fire the after insert hooks. Default true.
  * @return int|WP_Error The post ID on success. The value 0 or WP_Error on failure.
  */
-function wp_update_post( $postarr = array(), $wp_error = false ) {
+function wp_update_post( $postarr = array(), $wp_error = false, $fire_after_hooks = true ) {
 	if ( is_object( $postarr ) ) {
 		// Non-escaped post was passed.
 		$postarr = get_object_vars( $postarr );
@@ -4391,7 +4397,7 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 		}
 	}
 
-	return wp_insert_post( $postarr, $wp_error );
+	return wp_insert_post( $postarr, $wp_error, $fire_after_hooks );
 }
 
 /**
@@ -4467,6 +4473,8 @@ function wp_publish_post( $post ) {
 
 	/** This action is documented in wp-includes/post.php */
 	do_action( 'wp_insert_post', $post->ID, $post, true );
+
+	wp_after_insert_post( $post, true );
 }
 
 /**
@@ -4914,6 +4922,34 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 	 * @param WP_Post $post    Post object.
 	 */
 	do_action( "{$new_status}_{$post->post_type}", $post->ID, $post );
+}
+
+/**
+ * Fires actions after a post, its terms and meta data has been saved.
+ *
+ * @since 5.6.0
+ *
+ * @param int|WP_Post $post   The post ID or object that has been saved.
+ * @param bool        $update Whether this is an existing post being updated.
+ */
+function wp_after_insert_post( $post, $update ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return;
+	}
+
+	$post_id = $post->ID;
+
+	/**
+	 * Fires once a post, its terms and meta data has been saved.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post    Post object.
+	 * @param bool    $update  Whether this is an existing post being updated.
+	 */
+	do_action( 'wp_after_insert_post', $post_id, $post, $update );
 }
 
 //
@@ -5789,13 +5825,14 @@ function is_local_attachment( $url ) {
  *
  * @see wp_insert_post()
  *
- * @param string|array $args     Arguments for inserting an attachment.
- * @param string       $file     Optional. Filename.
- * @param int          $parent   Optional. Parent post ID.
- * @param bool         $wp_error Optional. Whether to return a WP_Error on failure. Default false.
+ * @param string|array $args             Arguments for inserting an attachment.
+ * @param string       $file             Optional. Filename.
+ * @param int          $parent           Optional. Parent post ID.
+ * @param bool         $wp_error         Optional. Whether to return a WP_Error on failure. Default false.
+ * @param bool         $fire_after_hooks Whether to fire the after insert hooks. Default true.
  * @return int|WP_Error The attachment ID on success. The value 0 or WP_Error on failure.
  */
-function wp_insert_attachment( $args, $file = false, $parent = 0, $wp_error = false ) {
+function wp_insert_attachment( $args, $file = false, $parent = 0, $wp_error = false, $fire_after_hooks = true ) {
 	$defaults = array(
 		'file'        => $file,
 		'post_parent' => 0,
@@ -5809,7 +5846,7 @@ function wp_insert_attachment( $args, $file = false, $parent = 0, $wp_error = fa
 
 	$data['post_type'] = 'attachment';
 
-	return wp_insert_post( $data, $wp_error );
+	return wp_insert_post( $data, $wp_error, $fire_after_hooks );
 }
 
 /**

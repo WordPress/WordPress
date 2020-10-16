@@ -591,7 +591,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$prepared_post->post_type = $this->post_type;
 
-		$post_id = wp_insert_post( wp_slash( (array) $prepared_post ), true );
+		$post_id = wp_insert_post( wp_slash( (array) $prepared_post ), true, false );
 
 		if ( is_wp_error( $post_id ) ) {
 
@@ -677,6 +677,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 */
 		do_action( "rest_after_insert_{$this->post_type}", $post, $request, true );
 
+		wp_after_insert_post( $post, false );
+
 		$response = $this->prepare_item_for_response( $post, $request );
 		$response = rest_ensure_response( $response );
 
@@ -758,7 +760,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		// Convert the post object to an array, otherwise wp_update_post() will expect non-escaped input.
-		$post_id = wp_update_post( wp_slash( (array) $post ), true );
+		$post_id = wp_update_post( wp_slash( (array) $post ), true, false );
 
 		if ( is_wp_error( $post_id ) ) {
 			if ( 'db_update_error' === $post_id->get_error_code() ) {
@@ -827,6 +829,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
 		do_action( "rest_after_insert_{$this->post_type}", $post, $request, false );
+
+		wp_after_insert_post( $post, true );
 
 		$response = $this->prepare_item_for_response( $post, $request );
 
