@@ -109,11 +109,6 @@ class SimplePie_File
 				curl_setopt($fp, CURLOPT_REFERER, $url);
 				curl_setopt($fp, CURLOPT_USERAGENT, $useragent);
 				curl_setopt($fp, CURLOPT_HTTPHEADER, $headers2);
-				if (!ini_get('open_basedir') && version_compare(SimplePie_Misc::get_curl_version(), '7.15.2', '>='))
-				{
-					curl_setopt($fp, CURLOPT_FOLLOWLOCATION, 1);
-					curl_setopt($fp, CURLOPT_MAXREDIRS, $redirects);
-				}
 				foreach ($curl_options as $curl_param => $curl_value) {
 					curl_setopt($fp, $curl_param, $curl_value);
 				}
@@ -148,7 +143,7 @@ class SimplePie_File
 							$this->redirects++;
 							$location = SimplePie_Misc::absolutize_url($this->headers['location'], $url);
 							$previousStatusCode = $this->status_code;
-							$this->__construct($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
+							$this->__construct($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen, $curl_options);
 							$this->permanent_url = ($previousStatusCode == 301) ? $location : $url;
 							return;
 						}
@@ -233,7 +228,7 @@ class SimplePie_File
 								$this->redirects++;
 								$location = SimplePie_Misc::absolutize_url($this->headers['location'], $url);
 								$previousStatusCode = $this->status_code;
-								$this->__construct($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
+								$this->__construct($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen, $curl_options);
 								$this->permanent_url = ($previousStatusCode == 301) ? $location : $url;
 								return;
 							}
