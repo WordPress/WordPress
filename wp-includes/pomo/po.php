@@ -21,7 +21,7 @@ ini_set( 'auto_detect_line_endings', 1 );
 if ( ! class_exists( 'PO', false ) ) :
 	class PO extends Gettext_Translations {
 
-		var $comments_before_headers = '';
+		public $comments_before_headers = '';
 
 		/**
 		 * Exports headers to a PO entry

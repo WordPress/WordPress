@@ -12,8 +12,8 @@ require_once __DIR__ . '/entry.php';
 
 if ( ! class_exists( 'Translations', false ) ) :
 	class Translations {
-		var $entries = array();
-		var $headers = array();
+		public $entries = array();
+		public $headers = array();
 
 		/**
 		 * Add entry to the PO structure
@@ -301,8 +301,8 @@ if ( ! class_exists( 'NOOP_Translations', false ) ) :
 	 * Provides the same interface as Translations, but doesn't do anything
 	 */
 	class NOOP_Translations {
-		var $entries = array();
-		var $headers = array();
+		public $entries = array();
+		public $headers = array();
 
 		function add_entry( $entry ) {
 			return true;

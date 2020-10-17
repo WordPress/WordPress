@@ -45,7 +45,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $author_base = 'author';
+	public $author_base = 'author';
 
 	/**
 	 * Permalink structure for author archives.
@@ -53,7 +53,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $author_structure;
+	public $author_structure;
 
 	/**
 	 * Permalink structure for date archives.
@@ -61,7 +61,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $date_structure;
+	public $date_structure;
 
 	/**
 	 * Permalink structure for pages.
@@ -69,7 +69,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $page_structure;
+	public $page_structure;
 
 	/**
 	 * Base of the search permalink structure (example.com/$search_base/query).
@@ -77,7 +77,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $search_base = 'search';
+	public $search_base = 'search';
 
 	/**
 	 * Permalink structure for searches.
@@ -85,7 +85,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $search_structure;
+	public $search_structure;
 
 	/**
 	 * Comments permalink base.
@@ -93,7 +93,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $comments_base = 'comments';
+	public $comments_base = 'comments';
 
 	/**
 	 * Pagination permalink base.
@@ -109,7 +109,7 @@ class WP_Rewrite {
 	 * @since 4.2.0
 	 * @var string
 	 */
-	var $comments_pagination_base = 'comment-page';
+	public $comments_pagination_base = 'comment-page';
 
 	/**
 	 * Feed permalink base.
@@ -117,7 +117,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $feed_base = 'feed';
+	public $feed_base = 'feed';
 
 	/**
 	 * Comments feed permalink structure.
@@ -125,7 +125,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $comment_feed_structure;
+	public $comment_feed_structure;
 
 	/**
 	 * Feed request permalink structure.
@@ -133,7 +133,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $feed_structure;
+	public $feed_structure;
 
 	/**
 	 * The static portion of the post permalink structure.
@@ -178,7 +178,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	var $matches = '';
+	public $matches = '';
 
 	/**
 	 * Rewrite rules to match against the request to find the redirect or query.
@@ -186,7 +186,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var array
 	 */
-	var $rules;
+	public $rules;
 
 	/**
 	 * Additional rules added external to the rewrite class.
@@ -196,7 +196,7 @@ class WP_Rewrite {
 	 * @since 2.1.0
 	 * @var array
 	 */
-	var $extra_rules = array();
+	public $extra_rules = array();
 
 	/**
 	 * Additional rules that belong at the beginning to match first.
@@ -206,7 +206,7 @@ class WP_Rewrite {
 	 * @since 2.3.0
 	 * @var array
 	 */
-	var $extra_rules_top = array();
+	public $extra_rules_top = array();
 
 	/**
 	 * Rules that don't redirect to WordPress' index.php.
@@ -217,7 +217,7 @@ class WP_Rewrite {
 	 * @since 2.1.0
 	 * @var array
 	 */
-	var $non_wp_rules = array();
+	public $non_wp_rules = array();
 
 	/**
 	 * Extra permalink structures, e.g. categories, added by add_permastruct().
@@ -225,7 +225,7 @@ class WP_Rewrite {
 	 * @since 2.1.0
 	 * @var array
 	 */
-	var $extra_permastructs = array();
+	public $extra_permastructs = array();
 
 	/**
 	 * Endpoints (like /trackback/) added by add_rewrite_endpoint().
@@ -233,7 +233,7 @@ class WP_Rewrite {
 	 * @since 2.1.0
 	 * @var array
 	 */
-	var $endpoints;
+	public $endpoints;
 
 	/**
 	 * Whether to write every mod_rewrite rule for WordPress into the .htaccess file.
@@ -277,7 +277,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var array
 	 */
-	var $rewritecode = array(
+	public $rewritecode = array(
 		'%year%',
 		'%monthnum%',
 		'%day%',
@@ -298,7 +298,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var array
 	 */
-	var $rewritereplace = array(
+	public $rewritereplace = array(
 		'([0-9]{4})',
 		'([0-9]{1,2})',
 		'([0-9]{1,2})',
@@ -318,7 +318,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @var array
 	 */
-	var $queryreplace = array(
+	public $queryreplace = array(
 		'year=',
 		'monthnum=',
 		'day=',

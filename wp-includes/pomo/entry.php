@@ -18,16 +18,16 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 		 *
 		 * @var boolean
 		 */
-		var $is_plural = false;
+		public $is_plural = false;
 
-		var $context             = null;
-		var $singular            = null;
-		var $plural              = null;
-		var $translations        = array();
-		var $translator_comments = '';
-		var $extracted_comments  = '';
-		var $references          = array();
-		var $flags               = array();
+		public $context             = null;
+		public $singular            = null;
+		public $plural              = null;
+		public $translations        = array();
+		public $translator_comments = '';
+		public $extracted_comments  = '';
+		public $references          = array();
+		public $flags               = array();
 
 		/**
 		 * @param array $args associative array, support following keys:

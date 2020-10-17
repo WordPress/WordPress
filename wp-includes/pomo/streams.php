@@ -11,8 +11,8 @@
 if ( ! class_exists( 'POMO_Reader', false ) ) :
 	class POMO_Reader {
 
-		var $endian = 'little';
-		var $_post  = '';
+		public $endian = 'little';
+		public $_post  = '';
 
 		/**
 		 * PHP5 constructor.
@@ -226,7 +226,7 @@ if ( ! class_exists( 'POMO_StringReader', false ) ) :
 	 */
 	class POMO_StringReader extends POMO_Reader {
 
-		var $_str = '';
+		public $_str = '';
 
 		/**
 		 * PHP5 constructor.
