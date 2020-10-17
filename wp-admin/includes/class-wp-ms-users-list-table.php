@@ -490,9 +490,9 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param object $user        User being acted upon.
-	 * @param string $column_name Current column name.
-	 * @param string $primary     Primary column name.
+	 * @param WP_User $user        User being acted upon.
+	 * @param string  $column_name Current column name.
+	 * @param string  $primary     Primary column name.
 	 * @return string Row actions output for users in Multisite, or an empty string
 	 *                if the current column is not the primary column.
 	 */

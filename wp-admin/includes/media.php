@@ -2275,7 +2275,7 @@ function media_upload_form( $errors = null ) {
  * @since 2.5.0
  *
  * @param string       $type
- * @param object       $errors
+ * @param array        $errors
  * @param int|WP_Error $id
  */
 function media_upload_type_form( $type = 'file', $errors = null, $id = null ) {

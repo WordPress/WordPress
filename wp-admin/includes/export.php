@@ -227,7 +227,7 @@ function export_wp( $args = array() ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param object $category Category Object
+	 * @param WP_Term $category Category Object
 	 */
 	function wxr_cat_name( $category ) {
 		if ( empty( $category->name ) ) {
@@ -242,7 +242,7 @@ function export_wp( $args = array() ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param object $category Category Object
+	 * @param WP_Term $category Category Object
 	 */
 	function wxr_category_description( $category ) {
 		if ( empty( $category->description ) ) {
@@ -257,7 +257,7 @@ function export_wp( $args = array() ) {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param object $tag Tag Object
+	 * @param WP_Term $tag Tag Object
 	 */
 	function wxr_tag_name( $tag ) {
 		if ( empty( $tag->name ) ) {
@@ -272,7 +272,7 @@ function export_wp( $args = array() ) {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param object $tag Tag Object
+	 * @param WP_Term $tag Tag Object
 	 */
 	function wxr_tag_description( $tag ) {
 		if ( empty( $tag->description ) ) {
@@ -287,7 +287,7 @@ function export_wp( $args = array() ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param object $term Term Object
+	 * @param WP_Term $term Term Object
 	 */
 	function wxr_term_name( $term ) {
 		if ( empty( $term->name ) ) {
@@ -302,7 +302,7 @@ function export_wp( $args = array() ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param object $term Term Object
+	 * @param WP_Term $term Term Object
 	 */
 	function wxr_term_description( $term ) {
 		if ( empty( $term->description ) ) {

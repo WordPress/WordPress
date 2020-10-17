@@ -407,9 +407,9 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
 		 *
 		 * @since 3.9.0
 		 *
-		 * @param object $current_site The network that had been determined.
-		 * @param string $domain       The domain used to search for a site.
-		 * @param string $path         The path used to search for a site.
+		 * @param WP_Network $current_site The network that had been determined.
+		 * @param string     $domain       The domain used to search for a site.
+		 * @param string     $path         The path used to search for a site.
 		 */
 		do_action( 'ms_site_not_found', $current_site, $domain, $path );
 

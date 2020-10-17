@@ -186,9 +186,9 @@ function _post_format_request( $qvs ) {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param string $link
- * @param object $term
- * @param string $taxonomy
+ * @param string  $link
+ * @param WP_Term $term
+ * @param string  $taxonomy
  * @return string
  */
 function _post_format_link( $link, $term, $taxonomy ) {

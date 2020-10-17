@@ -410,9 +410,9 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
 	 *
 	 * @since Twenty Ten 1.0
 	 *
-	 * @param object $comment The comment object.
-	 * @param array  $args    An array of arguments. @see get_comment_reply_link()
-	 * @param int    $depth   The depth of the comment.
+	 * @param WP_Comment $comment The comment object.
+	 * @param array      $args    An array of arguments. @see get_comment_reply_link()
+	 * @param int        $depth   The depth of the comment.
 	 */
 	function twentyten_comment( $comment, $args, $depth ) {
 		$GLOBALS['comment'] = $comment;

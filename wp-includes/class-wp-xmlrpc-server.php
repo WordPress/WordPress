@@ -743,8 +743,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Prepares taxonomy data for return in an XML-RPC object.
 	 *
-	 * @param object $taxonomy The unprepared taxonomy data.
-	 * @param array  $fields   The subset of taxonomy fields to return.
+	 * @param WP_Taxonomy $taxonomy The unprepared taxonomy data.
+	 * @param array       $fields   The subset of taxonomy fields to return.
 	 * @return array The prepared taxonomy data.
 	 */
 	protected function _prepare_taxonomy( $taxonomy, $fields ) {
@@ -1003,8 +1003,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Prepares media item data for return in an XML-RPC object.
 	 *
-	 * @param object $media_item     The unprepared media item data.
-	 * @param string $thumbnail_size The image size to use for the thumbnail URL.
+	 * @param WP_Post $media_item     The unprepared media item data.
+	 * @param string  $thumbnail_size The image size to use for the thumbnail URL.
 	 * @return array The prepared media item data.
 	 */
 	protected function _prepare_media_item( $media_item, $thumbnail_size = 'thumbnail' ) {
@@ -1032,9 +1032,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param array  $_media_item    An array of media item data.
-		 * @param object $media_item     Media item object.
-		 * @param string $thumbnail_size Image size.
+		 * @param array   $_media_item    An array of media item data.
+		 * @param WP_Post $media_item     Media item object.
+		 * @param string  $thumbnail_size Image size.
 		 */
 		return apply_filters( 'xmlrpc_prepare_media_item', $_media_item, $media_item, $thumbnail_size );
 	}
@@ -1042,7 +1042,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Prepares page data for return in an XML-RPC object.
 	 *
-	 * @param object $page The unprepared page data.
+	 * @param WP_Post $page The unprepared page data.
 	 * @return array The prepared page data.
 	 */
 	protected function _prepare_page( $page ) {
@@ -1122,7 +1122,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Prepares comment data for return in an XML-RPC object.
 	 *
-	 * @param object $comment The unprepared comment data.
+	 * @param WP_Comment $comment The unprepared comment data.
 	 * @return array The prepared comment data.
 	 */
 	protected function _prepare_comment( $comment ) {

@@ -526,7 +526,7 @@ add_filter( 'body_class', 'twentyeleven_layout_classes' );
  *
  * @since Twenty Eleven 1.3
  *
- * @param object $wp_customize Customizer object.
+ * @param WP_Customize_Manager $wp_customize Customizer object.
  */
 function twentyeleven_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';

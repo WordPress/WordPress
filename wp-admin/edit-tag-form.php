@@ -138,7 +138,7 @@ if ( isset( $tag->name ) ) {
 			<th scope="row"><label for="slug"><?php _e( 'Slug' ); ?></label></th>
 			<?php
 			/**
-			 * Filters the editable slug.
+			 * Filters the editable slug for a post or term.
 			 *
 			 * Note: This is a multi-use hook in that it is leveraged both for editable
 			 * post URIs and term slugs.
@@ -148,7 +148,7 @@ if ( isset( $tag->name ) ) {
 			 *
 			 * @param string          $slug The editable slug. Will be either a term slug or post URI depending
 			 *                              upon the context in which it is evaluated.
-			 * @param WP_Term|WP_Post $tag  Term or WP_Post object.
+			 * @param WP_Term|WP_Post $tag  Term or post object.
 			 */
 			$slug = isset( $tag->slug ) ? apply_filters( 'editable_slug', $tag->slug, $tag ) : '';
 			?>
