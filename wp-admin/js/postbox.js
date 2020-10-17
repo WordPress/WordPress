@@ -368,7 +368,7 @@
 			} ).on( 'screen:options:close', function() {
 				$body.removeClass( 'screen-options-open' );
 				$( '.meta-box-sortables' ).sortable( 'destroy' );
-				postboxes.hideArrangeArrows()
+				postboxes.hideArrangeArrows();
 			} );
 		},
 
