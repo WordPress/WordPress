@@ -149,19 +149,18 @@ body.post-new-php .submitbox .submitdelete {
 
 /* Post Screen */
 
-/* Only highlight drop zones when dragging and only in the 2 columns layout. */
-.is-dragging-metaboxes .metabox-holder .postbox-container .meta-box-sortables {
-	outline: 3px dashed #606a73;
-	/* Prevent margin on the child from collapsing with margin on the parent. */
-	display: flow-root;
-	/*
-	 * This min-height is meant to limit jumpiness while dragging. It's equivalent
-	 * to the minimum height of the sortable-placeholder which is given by the height
-	 * of a collapsed post box (36px + 1px top and bottom borders) + the placeholder
-	 * bottom margin (20px) + 2 additional pixels to compensate browsers rounding.
-	 */
-	min-height: 60px;
+.screen-options-open .metabox-holder .postbox-container .meta-box-sortables {
 	margin-bottom: 20px;
+}
+
+.screen-options-open #postbox-container-2 #advanced-sortables.empty-container {
+	height: 0;
+	min-height: 0;
+	outline: none;
+}
+
+.screen-options-open #postbox-container-2 #advanced-sortables.empty-container:after {
+	display: none;
 }
 
 .postbox {
@@ -1508,7 +1507,7 @@ table.links-table {
 		width: auto;
 	}
 
-	.is-dragging-metaboxes.post-type-attachment #post-body .meta-box-sortables {
+	.screen-options-open.post-type-attachment #post-body .meta-box-sortables {
 		outline: none;
 		min-height: 0;
 		margin-bottom: 0;
@@ -1548,10 +1547,10 @@ table.links-table {
 	}
 
 	/* Increase min-height while dragging for the #side-sortables and any potential sortables area with custom ID. */
-	.is-dragging-metaboxes #poststuff #postbox-container-1 .empty-container,
-	.is-dragging-metaboxes #poststuff #postbox-container-1 #side-sortables:empty,
-	.is-dragging-metaboxes #poststuff #post-body.columns-2 #side-sortables,
-	.is-dragging-metaboxes #poststuff #post-body.columns-2 .meta-box-sortables {
+	.screen-options-open #poststuff #postbox-container-1 .empty-container,
+	.screen-options-open #poststuff #postbox-container-1 #side-sortables:empty,
+	.screen-options-open #poststuff #post-body.columns-2 #side-sortables,
+	.screen-options-open #poststuff #post-body.columns-2 .meta-box-sortables {
 		height: auto;
 		min-height: 60px;
 	}

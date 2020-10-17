@@ -180,10 +180,8 @@ jQuery(document).ready( function($) {
 
 		autoResizeTextarea();
 	};
-	window.quickPressLoad();
 
-	// Enable the dragging functionality of the widgets.
-	$( '.meta-box-sortables' ).sortable( 'option', 'containment', '#wpwrap' );
+	window.quickPressLoad();
 
 	/**
 	 * Adjust the height of the textarea based on the content.

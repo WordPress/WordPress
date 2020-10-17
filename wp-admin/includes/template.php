@@ -1335,7 +1335,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 
 						echo '<div class="handle-actions hide-if-no-js">';
 
-						echo '<button type="button" class="handle-order-higher" aria-disabled="false" aria-describedby="' . $box['id'] . '-handle-order-higher-description">';
+						echo '<button type="button" class="handle-order-higher postbox-arrange-arrow hidden" aria-disabled="true" aria-describedby="' . $box['id'] . '-handle-order-higher-description">';
 						echo '<span class="screen-reader-text">' . __( 'Move up' ) . '</span>';
 						echo '<span class="order-higher-indicator" aria-hidden="true"></span>';
 						echo '</button>';
@@ -1345,7 +1345,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 							$widget_title
 						) . '</span>';
 
-						echo '<button type="button" class="handle-order-lower" aria-disabled="false" aria-describedby="' . $box['id'] . '-handle-order-lower-description">';
+						echo '<button type="button" class="handle-order-lower postbox-arrange-arrow hidden" aria-disabled="true" aria-describedby="' . $box['id'] . '-handle-order-lower-description">';
 						echo '<span class="screen-reader-text">' . __( 'Move down' ) . '</span>';
 						echo '<span class="order-lower-indicator" aria-hidden="true"></span>';
 						echo '</button>';

@@ -1985,7 +1985,7 @@ html.wp-toolbar {
 	padding-top: 10px;
 }
 
-.metabox-holder .postbox-container .meta-box-sortables {
+.postbox-container .meta-box-sortables {
 	/* The jQuery UI Sortables need some initial height to work properly. */
 	min-height: 1px;
 	position: relative;
@@ -2014,10 +2014,14 @@ html.wp-toolbar {
 		height: 0;
 		min-height: 0;
 	}
+
+	#wpbody-content .metabox-holder .postbox-container .empty-container:after {
+		display: none;
+	}
 }
 
 .js .widget .widget-top,
-.js .postbox .hndle {
+.js.screen-options-open .postbox .hndle {
 	cursor: move;
 }
 
