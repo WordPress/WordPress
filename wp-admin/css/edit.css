@@ -1796,6 +1796,10 @@ table.links-table {
 		padding: 10px 0;
 	}
 
+	.edit-term-notes {
+		display: none;
+	}
+
 	.privacy-text-box {
 		width: auto;
 	}

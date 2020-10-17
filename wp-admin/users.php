@@ -590,7 +590,7 @@ if ( strlen( $usersearch ) ) {
 		<?php $wp_list_table->display(); ?>
 </form>
 
-<br class="clear" />
+<div class="clear" /></div>
 </div>
 		<?php
 		break;
