@@ -220,14 +220,12 @@ class Text_Diff {
     /**
      * Determines the location of the system temporary directory.
      *
-     * @static
-     *
      * @access protected
      *
      * @return string  A directory name which can be used for temp files.
      *                 Returns false if one could not be found.
      */
-    function _getTempDir()
+    static function _getTempDir()
     {
         $tmp_locations = array('/tmp', '/var/tmp', 'c:\WUTemp', 'c:\temp',
                                'c:\windows\temp', 'c:\winnt\temp');
