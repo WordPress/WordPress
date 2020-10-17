@@ -960,11 +960,11 @@ function wp_media_upload_handler() {
 }
 
 /**
- * Downloads an image from the specified URL and attaches it to a post.
+ * Downloads an image from the specified URL, saves it as an attachment, and optionally attaches it to a post.
  *
  * @since 2.6.0
  * @since 4.2.0 Introduced the `$return` parameter.
- * @since 4.8.0 Introduced the 'id' option within the `$return` parameter.
+ * @since 4.8.0 Introduced the 'id' option for the `$return` parameter.
  * @since 5.3.0 The `$post_id` parameter was made optional.
  * @since 5.4.0 The original URL of the attachment is stored in the `_source_url`
  *              post meta value.
@@ -974,7 +974,8 @@ function wp_media_upload_handler() {
  * @param string $desc    Optional. Description of the image.
  * @param string $return  Optional. Accepts 'html' (image tag html) or 'src' (URL),
  *                        or 'id' (attachment ID). Default 'html'.
- * @return string|WP_Error Populated HTML img tag on success, WP_Error object otherwise.
+ * @return string|int|WP_Error Populated HTML img tag, attachment ID, or attachment source
+ *                             on success, WP_Error object otherwise.
  */
 function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'html' ) {
 	if ( ! empty( $file ) ) {
@@ -2273,9 +2274,9 @@ function media_upload_form( $errors = null ) {
  *
  * @since 2.5.0
  *
- * @param string  $type
- * @param object  $errors
- * @param int     $id
+ * @param string       $type
+ * @param object       $errors
+ * @param int|WP_Error $id
  */
 function media_upload_type_form( $type = 'file', $errors = null, $id = null ) {
 
