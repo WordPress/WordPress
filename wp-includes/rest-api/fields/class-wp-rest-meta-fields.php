@@ -372,7 +372,7 @@ abstract class WP_REST_Meta_Fields {
 			return true;
 		}
 
-		if ( ! update_metadata( $meta_type, $object_id, wp_slash( $meta_key ), wp_slash_strings_only( $value ) ) ) {
+		if ( ! update_metadata( $meta_type, $object_id, wp_slash( $meta_key ), wp_slash( $value ) ) ) {
 			return new WP_Error(
 				'rest_meta_database_error',
 				/* translators: %s: Custom field key. */
