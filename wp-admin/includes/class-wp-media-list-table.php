@@ -614,7 +614,7 @@ class WP_Media_List_Table extends WP_List_Table {
 					);
 				}
 				/* translators: Used between list items, there is a space after the comma. */
-				echo join( __( ', ' ), $out );
+				echo implode( __( ', ' ), $out );
 			} else {
 				echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . get_taxonomy( $taxonomy )->labels->no_terms . '</span>';
 			}

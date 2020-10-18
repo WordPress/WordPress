@@ -219,7 +219,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 				$width        = empty( $caption_size[0] ) ? 0 : $caption_size[0];
 			}
 
-			$image_attributes['class'] .= sprintf( ' attachment-%1$s size-%1$s', is_array( $size ) ? join( 'x', $size ) : $size );
+			$image_attributes['class'] .= sprintf( ' attachment-%1$s size-%1$s', is_array( $size ) ? implode( 'x', $size ) : $size );
 
 			$image = wp_get_attachment_image( $attachment->ID, $size, false, $image_attributes );
 

@@ -291,7 +291,7 @@ function get_cli_args( $param, $required = false ) {
 	$last_arg = null;
 	$return   = null;
 
-	$il = sizeof( $args );
+	$il = count( $args );
 
 	for ( $i = 1, $il; $i < $il; $i++ ) {
 		if ( (bool) preg_match( '/^--(.+)/', $args[ $i ], $match ) ) {

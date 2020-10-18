@@ -1617,7 +1617,7 @@ function wp_dropdown_languages( $args = array() ) {
 
 	// Combine the output string.
 	$output  = sprintf( '<select name="%s" id="%s">', esc_attr( $parsed_args['name'] ), esc_attr( $parsed_args['id'] ) );
-	$output .= join( "\n", $structure );
+	$output .= implode( "\n", $structure );
 	$output .= '</select>';
 
 	if ( $parsed_args['echo'] ) {

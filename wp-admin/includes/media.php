@@ -1118,7 +1118,7 @@ function image_align_input_fields( $post, $checked = '' ) {
 			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>$label</label>";
 	}
 
-	return join( "\n", $out );
+	return implode( "\n", $out );
 }
 
 /**
@@ -1195,7 +1195,7 @@ function image_size_input_fields( $post, $check = '' ) {
 	return array(
 		'label' => __( 'Size' ),
 		'input' => 'html',
-		'html'  => join( "\n", $out ),
+		'html'  => implode( "\n", $out ),
 	);
 }
 
@@ -1424,7 +1424,7 @@ function get_attachment_fields_to_edit( $post, $errors = null ) {
 			$values[] = $term->slug;
 		}
 
-		$t['value'] = join( ', ', $values );
+		$t['value'] = implode( ', ', $values );
 
 		$form_fields[ $taxonomy ] = $t;
 	}
@@ -1784,7 +1784,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		}
 
 		if ( ! empty( $field['helps'] ) ) {
-			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
+			$item .= "<p class='help'>" . implode( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
 		}
 		$item .= "</td>\n\t\t</tr>\n";
 
@@ -1883,7 +1883,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 				$values[] = $term->slug;
 			}
 
-			$t['value']    = join( ', ', $values );
+			$t['value']    = implode( ', ', $values );
 			$t['taxonomy'] = true;
 
 			$form_fields[ $taxonomy ] = $t;
@@ -1976,7 +1976,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 		}
 
 		if ( ! empty( $field['helps'] ) ) {
-			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
+			$item .= "<p class='help'>" . implode( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
 		}
 
 		$item .= "</td>\n\t\t</tr>\n";

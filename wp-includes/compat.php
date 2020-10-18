@@ -127,7 +127,7 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 		// If there's anything left over, repeat the loop.
 	} while ( count( $pieces ) > 1 && $str = array_pop( $pieces ) );
 
-	return join( '', array_slice( $chars, $start, $length ) );
+	return implode( '', array_slice( $chars, $start, $length ) );
 }
 
 if ( ! function_exists( 'mb_strlen' ) ) :

@@ -1010,11 +1010,11 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 			 * Note: this is redundant but doesn't harm.
 			 */
 			$return  = "<ul class='wp-tag-cloud' role='list'>\n\t<li>";
-			$return .= join( "</li>\n\t<li>", $a );
+			$return .= implode( "</li>\n\t<li>", $a );
 			$return .= "</li>\n</ul>\n";
 			break;
 		default:
-			$return = join( $args['separator'], $a );
+			$return = implode( $args['separator'], $a );
 			break;
 	}
 
@@ -1349,7 +1349,7 @@ function get_the_term_list( $post_id, $taxonomy, $before = '', $sep = '', $after
 	 */
 	$term_links = apply_filters( "term_links-{$taxonomy}", $links );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
-	return $before . join( $sep, $term_links ) . $after;
+	return $before . implode( $sep, $term_links ) . $after;
 }
 
 /**

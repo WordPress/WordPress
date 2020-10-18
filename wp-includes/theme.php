@@ -2149,7 +2149,7 @@ function get_theme_starter_content() {
 				'text',
 				array(
 					'title'  => _x( 'Find Us', 'Theme starter content' ),
-					'text'   => join(
+					'text'   => implode(
 						'',
 						array(
 							'<strong>' . _x( 'Address', 'Theme starter content' ) . "</strong>\n",

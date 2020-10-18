@@ -534,7 +534,7 @@ function export_wp( $args = array() ) {
 
 		// Fetch 20 posts at a time rather than loading the entire table into memory.
 		while ( $next_posts = array_splice( $post_ids, 0, 20 ) ) {
-			$where = 'WHERE ID IN (' . join( ',', $next_posts ) . ')';
+			$where = 'WHERE ID IN (' . implode( ',', $next_posts ) . ')';
 			$posts = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} $where" );
 
 			// Begin Loop.

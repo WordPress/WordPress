@@ -278,7 +278,7 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 		$term_names[] = $term->name;
 	}
 
-	$terms_to_edit = esc_attr( join( ',', $term_names ) );
+	$terms_to_edit = esc_attr( implode( ',', $term_names ) );
 
 	/**
 	 * Filters the comma-separated list of terms available to edit.

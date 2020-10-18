@@ -489,7 +489,7 @@ function wp_edit_theme_plugin_file( $args ) {
 
 	$previous_content = file_get_contents( $real_file );
 
-	if ( ! is_writeable( $real_file ) ) {
+	if ( ! is_writable( $real_file ) ) {
 		return new WP_Error( 'file_not_writable' );
 	}
 

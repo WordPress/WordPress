@@ -121,7 +121,7 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 		if ( $perms ) {
 			chmod( $filename, $perms | 0644 );
 		}
-	} elseif ( ! is_writeable( $filename ) ) {
+	} elseif ( ! is_writable( $filename ) ) {
 		return false;
 	}
 

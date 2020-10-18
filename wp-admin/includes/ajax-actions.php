@@ -162,7 +162,7 @@ function wp_ajax_ajax_tag_search() {
 		)
 	);
 
-	echo join( "\n", $results );
+	echo implode( "\n", $results );
 	wp_die();
 }
 

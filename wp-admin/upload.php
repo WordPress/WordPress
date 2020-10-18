@@ -162,7 +162,7 @@ if ( $doaction ) {
 			$location = add_query_arg(
 				array(
 					'trashed' => count( $post_ids ),
-					'ids'     => join( ',', $post_ids ),
+					'ids'     => implode( ',', $post_ids ),
 				),
 				$location
 			);

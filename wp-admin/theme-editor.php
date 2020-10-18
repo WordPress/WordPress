@@ -301,7 +301,7 @@ else :
 				<?php if ( is_child_theme() && $theme->get_stylesheet() === get_template() ) : ?>
 					<div class="notice notice-warning inline">
 						<p>
-							<?php if ( is_writeable( $file ) ) : ?>
+							<?php if ( is_writable( $file ) ) : ?>
 								<strong><?php _e( 'Caution:' ); ?></strong>
 							<?php endif; ?>
 							<?php _e( 'This is a file in your current parent theme.' ); ?>
@@ -309,7 +309,7 @@ else :
 					</div>
 				<?php endif; ?>
 			</div>
-			<?php if ( is_writeable( $file ) ) : ?>
+			<?php if ( is_writable( $file ) ) : ?>
 				<p class="submit">
 					<?php submit_button( __( 'Update File' ), 'primary', 'submit', false ); ?>
 					<span class="spinner"></span>

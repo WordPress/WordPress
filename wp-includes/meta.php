@@ -1055,7 +1055,7 @@ function update_meta_cache( $meta_type, $object_ids ) {
 	}
 
 	// Get meta info.
-	$id_list   = join( ',', $non_cached_ids );
+	$id_list   = implode( ',', $non_cached_ids );
 	$id_column = ( 'user' === $meta_type ) ? 'umeta_id' : 'meta_id';
 
 	$meta_list = $wpdb->get_results( "SELECT $column, meta_key, meta_value FROM $table WHERE $column IN ($id_list) ORDER BY $id_column ASC", ARRAY_A );

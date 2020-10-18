@@ -281,7 +281,7 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 					<# if ( data.codeEditorDisabled ) { #>
 						<p>
 							<?php _e( 'Some HTML tags are not permitted, including:' ); ?>
-							<code><?php echo join( '</code>, <code>', $disallowed_html ); ?></code>
+							<code><?php echo implode( '</code>, <code>', $disallowed_html ); ?></code>
 						</p>
 					<# } #>
 				<?php endif; ?>

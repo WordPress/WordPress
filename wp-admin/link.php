@@ -60,7 +60,7 @@ switch ( $action ) {
 			wp_redirect( $this_file );
 			exit;
 		}
-		$all_links = join( ',', $linkcheck );
+		$all_links = implode( ',', $linkcheck );
 		/*
 		 * Should now have an array of links we can change:
 		 *     $q = $wpdb->query("update $wpdb->links SET link_category='$category' WHERE link_id IN ($all_links)");

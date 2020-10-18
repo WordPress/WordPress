@@ -106,7 +106,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			$class[] = esc_attr( $item[4] );
 		}
 
-		$class     = $class ? ' class="' . join( ' ', $class ) . '"' : '';
+		$class     = $class ? ' class="' . implode( ' ', $class ) . '"' : '';
 		$id        = ! empty( $item[5] ) ? ' id="' . preg_replace( '|[^a-zA-Z0-9_:.]|', '-', $item[5] ) . '"' : '';
 		$img       = '';
 		$img_style = '';
@@ -240,7 +240,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					$class[] = esc_attr( $sub_item[4] );
 				}
 
-				$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
+				$class = $class ? ' class="' . implode( ' ', $class ) . '"' : '';
 
 				$menu_hook = get_plugin_page_hook( $sub_item[2], $item[2] );
 				$sub_file  = $sub_item[2];

@@ -1855,7 +1855,7 @@ class WP_Site_Health {
 			$hosts = explode( ',', WP_ACCESSIBLE_HOSTS );
 		}
 
-		if ( $blocked && 0 === sizeof( $hosts ) ) {
+		if ( $blocked && 0 === count( $hosts ) ) {
 			$result['status'] = 'critical';
 
 			$result['label'] = __( 'HTTP requests are blocked' );
@@ -1870,7 +1870,7 @@ class WP_Site_Health {
 			);
 		}
 
-		if ( $blocked && 0 < sizeof( $hosts ) ) {
+		if ( $blocked && 0 < count( $hosts ) ) {
 			$result['status'] = 'recommended';
 
 			$result['label'] = __( 'HTTP requests are partially blocked' );
