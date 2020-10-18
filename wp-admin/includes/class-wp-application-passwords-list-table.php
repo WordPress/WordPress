@@ -163,7 +163,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param object $item The current item.
+	 * @param array $item The current item.
 	 */
 	public function single_row( $item ) {
 		echo '<tr data-uuid="' . esc_attr( $item['uuid'] ) . '">';

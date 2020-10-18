@@ -62,11 +62,11 @@ class Walker_Category_Checklist extends Walker {
 	 *
 	 * @since 2.5.1
 	 *
-	 * @param string $output   Used to append additional content (passed by reference).
-	 * @param object $category The current term object.
-	 * @param int    $depth    Depth of the term in reference to parents. Default 0.
-	 * @param array  $args     An array of arguments. @see wp_terms_checklist()
-	 * @param int    $id       ID of the current term.
+	 * @param string  $output   Used to append additional content (passed by reference).
+	 * @param WP_Term $category The current term object.
+	 * @param int     $depth    Depth of the term in reference to parents. Default 0.
+	 * @param array   $args     An array of arguments. @see wp_terms_checklist()
+	 * @param int     $id       ID of the current term.
 	 */
 	public function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		if ( empty( $args['taxonomy'] ) ) {
@@ -121,10 +121,10 @@ class Walker_Category_Checklist extends Walker {
 	 *
 	 * @since 2.5.1
 	 *
-	 * @param string $output   Used to append additional content (passed by reference).
-	 * @param object $category The current term object.
-	 * @param int    $depth    Depth of the term in reference to parents. Default 0.
-	 * @param array  $args     An array of arguments. @see wp_terms_checklist()
+	 * @param string  $output   Used to append additional content (passed by reference).
+	 * @param WP_Term $category The current term object.
+	 * @param int     $depth    Depth of the term in reference to parents. Default 0.
+	 * @param array   $args     An array of arguments. @see wp_terms_checklist()
 	 */
 	public function end_el( &$output, $category, $depth = 0, $args = array() ) {
 		$output .= "</li>\n";

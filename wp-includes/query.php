@@ -37,7 +37,7 @@ function get_query_var( $var, $default = '' ) {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @return object Queried object.
+ * @return WP_Term|WP_Post_Type|WP_Post|WP_User|null The queried object.
  */
 function get_queried_object() {
 	global $wp_query;
@@ -996,7 +996,7 @@ function have_comments() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @return object
+ * @return null
  */
 function the_comment() {
 	global $wp_query;

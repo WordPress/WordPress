@@ -517,8 +517,8 @@ function ms_not_installed( $domain, $path ) {
  * @since 3.0.0
  * @deprecated 3.9.0 Use get_current_site() instead.
  *
- * @param object $current_site
- * @return object
+ * @param WP_Network $current_site
+ * @return WP_Network
  */
 function get_current_site_name( $current_site ) {
 	_deprecated_function( __FUNCTION__, '3.9.0', 'get_current_site()' );
@@ -535,9 +535,9 @@ function get_current_site_name( $current_site ) {
  * @since 3.0.0
  * @deprecated 3.9.0
  *
- * @global object $current_site
+ * @global WP_Network $current_site
  *
- * @return object
+ * @return WP_Network
  */
 function wpmu_current_site() {
 	global $current_site;

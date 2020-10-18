@@ -1085,7 +1085,7 @@ function _media_button($title, $icon, $type, $id) {
  * @see get_post()
  *
  * @param int $id
- * @return object
+ * @return WP_Post
  */
 function get_post_to_edit( $id ) {
 	_deprecated_function( __FUNCTION__, '3.5.0', 'get_post()' );
