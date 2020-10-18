@@ -1171,7 +1171,7 @@
     $this->privErrorReset();
 
     // ----- Look if the $p_archive is a PclZip object
-    if ((is_object($p_archive)) && (get_class($p_archive) == 'pclzip'))
+    if (is_object($p_archive) && $p_archive instanceof pclzip)
     {
 
       // ----- Duplicate the archive
@@ -1235,7 +1235,7 @@
     }
 
     // ----- Look if the $p_archive_to_add is a PclZip object
-    if ((is_object($p_archive_to_add)) && (get_class($p_archive_to_add) == 'pclzip'))
+    if (is_object($p_archive_to_add) && $p_archive_to_add instanceof pclzip)
     {
 
       // ----- Merge the archive

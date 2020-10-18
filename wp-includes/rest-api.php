@@ -2390,7 +2390,7 @@ function rest_get_route_for_term( $term ) {
 	$route = '';
 
 	// The only controller that works is the Terms controller.
-	if ( 'WP_REST_Terms_Controller' === get_class( $controller ) ) {
+	if ( $controller instanceof WP_REST_Terms_Controller ) {
 		$namespace = 'wp/v2';
 		$rest_base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 		$route     = sprintf( '/%s/%s/%d', $namespace, $rest_base, $term->term_id );
