@@ -100,7 +100,7 @@ class WP_Term_Query {
 	 *                                                - term fields ('name', 'slug', 'term_group', 'term_id', 'id',
 	 *                                                  'description', 'parent', 'term_order'). Unless `$object_ids`
 	 *                                                  is not empty, 'term_order' is treated the same as 'term_id'.
-	 *                                                - 'count' for term taxonomy count.
+	 *                                                - 'count' to use the number of objects associated with the term.
 	 *                                                - 'include' to match the 'order' of the $include param.
 	 *                                                - 'slug__in' to match the 'order' of the $slug param.
 	 *                                                - 'meta_value', 'meta_value_num'.
