@@ -178,8 +178,13 @@ window.addComment = ( function( window ) {
 
 		var replyHeadingElement  = getElementById( config.commentReplyTitleId );
 		var replyHeadingTextNode = replyHeadingElement && replyHeadingElement.firstChild;
+		var replyLinkToParent    = replyHeadingTextNode && replyHeadingTextNode.nextSibling;
 
 		if ( replyHeadingTextNode && replyHeadingTextNode.nodeType === Node.TEXT_NODE && headingText ) {
+			if ( replyLinkToParent && 'A' === replyLinkToParent.nodeName && replyLinkToParent.id !== config.cancelReplyId ) {
+				replyLinkToParent.style.display = '';
+			}
+
 			replyHeadingTextNode.textContent = headingText;
 		}
 
@@ -319,6 +324,7 @@ window.addComment = ( function( window ) {
 
 		var replyHeading         = getElementById( config.commentReplyTitleId );
 		var replyHeadingTextNode = replyHeading && replyHeading.firstChild;
+		var replyLinkToParent    = replyHeadingTextNode && replyHeadingTextNode.nextSibling;
 
 		if ( ! addBelowElement || ! respondElement || ! parentIdField ) {
 			// Missing key elements, fail.
@@ -342,6 +348,10 @@ window.addComment = ( function( window ) {
 		addBelowElement.parentNode.insertBefore( respondElement, addBelowElement.nextSibling );
 
 		if ( replyHeadingTextNode && replyHeadingTextNode.nodeType === Node.TEXT_NODE ) {
+			if ( replyLinkToParent && 'A' === replyLinkToParent.nodeName && replyLinkToParent.id !== config.cancelReplyId ) {
+				replyLinkToParent.style.display = 'none';
+			}
+
 			replyHeadingTextNode.textContent = replyTo;
 		}
 
