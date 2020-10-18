@@ -419,12 +419,29 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Gets the list of bulk actions available on this table.
+	 * Retrieves the list of bulk actions available for this table.
 	 *
-	 * The format is an associative array:
-	 * - `'option_name' => 'option_title'`
+	 * The format is an associative array where each element represents either a top level option value and label, or
+	 * an array representing an optgroup and its options.
+	 *
+	 * For a standard option, the array element key is the field value and the array element value is the field label.
+	 *
+	 * For an optgroup, the array element key is the label and the array element value is an associative array of
+	 * options as above.
+	 *
+	 * Example:
+	 *
+	 *     [
+	 *         'edit'         => 'Edit',
+	 *         'delete'       => 'Delete',
+	 *         'Change State' => [
+	 *             'feature' => 'Featured',
+	 *             'sale'    => 'On Sale',
+	 *         ]
+	 *     ]
 	 *
 	 * @since 3.1.0
+	 * @since 5.6.0 A bulk action can now contain an array of options in order to create an optgroup.
 	 *
 	 * @return array
 	 */
@@ -445,14 +462,15 @@ class WP_List_Table {
 			$this->_actions = $this->get_bulk_actions();
 
 			/**
-			 * Filters the list table bulk actions drop-down.
+			 * Filters the items in the bulk actions menu of the list table.
 			 *
 			 * The dynamic portion of the hook name, `$this->screen->id`, refers
-			 * to the ID of the current screen, usually a string.
+			 * to the ID of the current screen.
 			 *
 			 * @since 3.1.0
+			 * @since 5.6.0 A bulk action can now contain an array of options in order to create an optgroup.
 			 *
-			 * @param string[] $actions An array of the available bulk actions.
+			 * @param array $actions An array of the available bulk actions.
 			 */
 			$this->_actions = apply_filters( "bulk_actions-{$this->screen->id}", $this->_actions ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
@@ -469,10 +487,21 @@ class WP_List_Table {
 		echo '<select name="action' . $two . '" id="bulk-action-selector-' . esc_attr( $which ) . "\">\n";
 		echo '<option value="-1">' . __( 'Bulk actions' ) . "</option>\n";
 
-		foreach ( $this->_actions as $name => $title ) {
-			$class = 'edit' === $name ? ' class="hide-if-no-js"' : '';
+		foreach ( $this->_actions as $key => $value ) {
+			if ( is_array( $value ) ) {
+				echo "\t" . '<optgroup label="' . esc_attr( $key ) . '">' . "\n";
 
-			echo "\t" . '<option value="' . $name . '"' . $class . '>' . $title . "</option>\n";
+				foreach ( $value as $name => $title ) {
+					$class = ( 'edit' === $name ) ? ' class="hide-if-no-js"' : '';
+
+					echo "\t\t" . '<option value="' . esc_attr( $name ) . '"' . $class . '>' . $title . "</option>\n";
+				}
+				echo "\t" . "</optgroup>\n";
+			} else {
+				$class = ( 'edit' === $key ) ? ' class="hide-if-no-js"' : '';
+
+				echo "\t" . '<option value="' . esc_attr( $key ) . '"' . $class . '>' . $value . "</option>\n";
+			}
 		}
 
 		echo "</select>\n";
