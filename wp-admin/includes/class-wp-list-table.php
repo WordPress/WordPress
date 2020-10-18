@@ -1073,7 +1073,7 @@ class WP_List_Table {
 		// If the primary column doesn't exist,
 		// fall back to the first non-checkbox column.
 		if ( ! isset( $columns[ $default ] ) ) {
-			$default = WP_List_Table::get_default_primary_column_name();
+			$default = self::get_default_primary_column_name();
 		}
 
 		/**
