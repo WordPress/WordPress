@@ -1765,6 +1765,14 @@
 	padding-bottom: 11px;
 }
 
+.attachment-info .wp-media-wrapper {
+	margin-bottom: 8px;
+}
+
+.attachment-info .wp-media-wrapper.wp-audio {
+	margin-top: 13px;
+}
+
 .attachment-info .filename {
 	font-weight: 600;
 	color: #444;
