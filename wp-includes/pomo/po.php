@@ -212,11 +212,11 @@ if ( ! class_exists( 'PO', false ) ) :
 		/**
 		 * Builds a string from the entry for inclusion in PO file
 		 *
-		 * @param Translation_Entry $entry the entry to convert to po string (passed by reference).
+		 * @param Translation_Entry $entry the entry to convert to po string.
 		 * @return string|false PO-style formatted string for the entry or
 		 *  false if the entry is empty
 		 */
-		public static function export_entry( &$entry ) {
+		public static function export_entry( $entry ) {
 			if ( null === $entry->singular || '' === $entry->singular ) {
 				return false;
 			}
