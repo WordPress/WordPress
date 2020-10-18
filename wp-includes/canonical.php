@@ -895,7 +895,12 @@ function redirect_guess_404_permalink() {
 
 		// If any of post_type, year, monthnum, or day are set, use them to refine the query.
 		if ( get_query_var( 'post_type' ) ) {
-			$where .= $wpdb->prepare( ' AND post_type = %s', get_query_var( 'post_type' ) );
+			if ( is_array( get_query_var( 'post_type' ) ) ) {
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				$where .= " AND post_type IN ('" . join( "', '", esc_sql( get_query_var( 'post_type' ) ) ) . "')";
+			} else {
+				$where .= $wpdb->prepare( ' AND post_type = %s', get_query_var( 'post_type' ) );
+			}
 		} else {
 			$where .= " AND post_type IN ('" . implode( "', '", get_post_types( array( 'public' => true ) ) ) . "')";
 		}
