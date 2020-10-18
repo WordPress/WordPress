@@ -202,7 +202,19 @@ if ( ! empty( $messages ) ) {
 			</td>
 		</tr>
 	</table>
-	<?php submit_button(); ?>
+
+	<?php
+	/**
+	 * Fires at the end of the site info form in network admin.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param int $id The site ID.
+	 */
+	do_action( 'network_site_info_form', $id );
+
+	submit_button();
+	?>
 </form>
 
 </div>
