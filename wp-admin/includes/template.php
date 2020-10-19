@@ -2270,6 +2270,13 @@ function _media_states( $post ) {
 				$media_states[] = __( 'Current Header Image' );
 			}
 		}
+
+		if ( get_theme_support( 'custom-header', 'video' ) && has_header_video() ) {
+			$mods = get_theme_mods();
+			if ( isset( $mods['header_video'] ) && $post->ID === $mods['header_video'] ) {
+				$media_states[] = __( 'Current Header Video' );
+			}
+		}
 	}
 
 	if ( current_theme_supports( 'custom-background' ) ) {
