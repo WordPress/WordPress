@@ -1,0 +1,37 @@
+{
+	"name": "core/embed",
+	"category": "embed",
+	"attributes": {
+		"url": {
+			"type": "string"
+		},
+		"caption": {
+			"type": "string",
+			"source": "html",
+			"selector": "figcaption"
+		},
+		"type": {
+			"type": "string"
+		},
+		"providerNameSlug": {
+			"type": "string"
+		},
+		"allowResponsive": {
+			"type": "boolean",
+			"default": true
+		},
+		"responsive": {
+			"type": "boolean",
+			"default": false
+		},
+		"previewable": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"align": true,
+		"reusable": false,
+		"html": false
+	}
+}
