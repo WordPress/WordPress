@@ -3288,7 +3288,37 @@ function attachment_submitbox_metadata() {
 
 	$att_url = wp_get_attachment_url( $attachment_id );
 
-	?>
+	$author = get_userdata( $post->post_author );
+
+	$uploaded_by_name = __( '(no author)' );
+	$uploaded_by_link = '';
+	if ( $author->exists() ) {
+		$uploaded_by_name = $author->display_name ? $author->display_name : $author->nickname;
+		$uploaded_by_link = get_edit_user_link( $author->ID );
+	} ?>
+	<div class="misc-pub-section misc-pub-uploadedby">
+		<?php if ( $uploaded_by_link ) : ?>
+			<?php _e( 'Uploaded by:' ); ?> <a href="<?php echo $uploaded_by_link ?>"><strong><?php echo $uploaded_by_name ?></strong></a>
+		<?php else: ?>
+			<?php _e( 'Uploaded by:' ); ?> <strong><?php echo $uploaded_by_name ?></strong>
+		<?php endif; ?>
+	</div>
+
+	<?php if ( $post->post_parent ) :
+		$post_parent = get_post( $post->post_parent );
+		if ( $post_parent ) :
+			$uploaded_to_title = $post_parent->post_title ? $post_parent->post_title : __( '(no title)' );
+			$uploaded_to_link = get_edit_post_link( $post->post_parent, 'raw' ); ?>
+			<div class="misc-pub-section misc-pub-uploadedto">
+				<?php if ( $uploaded_to_link ) : ?>
+					<?php _e( 'Uploaded to:' ); ?> <a href="<?php echo $uploaded_to_link ?>"><strong><?php echo $uploaded_to_title; ?></strong></a>
+				<?php else: ?>
+					<?php _e( 'Uploaded to:' ); ?> <strong><?php echo $uploaded_to_title; ?></strong>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
+
 	<div class="misc-pub-section misc-pub-attachment">
 		<label for="attachment_url"><?php _e( 'File URL:' ); ?></label>
 		<input type="text" class="widefat urlfield" readonly="readonly" name="attachment_url" id="attachment_url" value="<?php echo esc_attr( $att_url ); ?>" />

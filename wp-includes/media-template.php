@@ -405,10 +405,27 @@ function wp_print_media_templates() {
 			</span>
 			<div class="details">
 				<h2 class="screen-reader-text"><?php _e( 'Details' ); ?></h2>
-				<div class="filename"><strong><?php _e( 'File name:' ); ?></strong> {{ data.filename }}</div>
-				<div class="filename"><strong><?php _e( 'File type:' ); ?></strong> {{ data.mime }}</div>
 				<div class="uploaded"><strong><?php _e( 'Uploaded on:' ); ?></strong> {{ data.dateFormatted }}</div>
-
+				<div class="uploaded-by">
+					<strong><?php _e( 'Uploaded by:' ); ?></strong>
+						<# if ( data.authorLink ) { #>
+							<a href="{{ data.authorLink }}">{{ data.authorName }}</a>
+						<# } else { #>
+							{{ data.authorName }}
+						<# } #>
+				</div>
+				<# if ( data.uploadedToTitle ) { #>
+					<div class="uploaded-to">
+						<strong><?php _e( 'Uploaded to:' ); ?></strong>
+						<# if ( data.uploadedToLink ) { #>
+							<a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a>
+						<# } else { #>
+							{{ data.uploadedToTitle }}
+						<# } #>
+					</div>
+				<# } #>
+				<div class="filename"><strong><?php _e( 'File name:' ); ?></strong> {{ data.filename }}</div>
+				<div class="file-type"><strong><?php _e( 'File type:' ); ?></strong> {{ data.mime }}</div>
 				<div class="file-size"><strong><?php _e( 'File size:' ); ?></strong> {{ data.filesizeHumanReadable }}</div>
 				<# if ( 'image' === data.type && ! data.uploading ) { #>
 					<# if ( data.width && data.height ) { #>
@@ -485,20 +502,6 @@ function wp_print_media_templates() {
 					<label for="attachment-details-two-column-description" class="name"><?php _e( 'Description' ); ?></label>
 					<textarea id="attachment-details-two-column-description" {{ maybeReadOnly }}>{{ data.description }}</textarea>
 				</span>
-				<span class="setting">
-					<span class="name"><?php _e( 'Uploaded By' ); ?></span>
-					<span class="value">{{ data.authorName }}</span>
-				</span>
-				<# if ( data.uploadedToTitle ) { #>
-					<span class="setting">
-						<span class="name"><?php _e( 'Uploaded To' ); ?></span>
-						<# if ( data.uploadedToLink ) { #>
-							<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
-						<# } else { #>
-							<span class="value">{{ data.uploadedToTitle }}</span>
-						<# } #>
-					</span>
-				<# } #>
 				<span class="setting" data-setting="url">
 					<label for="attachment-details-two-column-copy-link" class="name"><?php _e( 'File URL:' ); ?></label>
 					<input type="text" class="attachment-details-copy-link" id="attachment-details-two-column-copy-link" value="{{ data.url }}" readonly />
