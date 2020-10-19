@@ -137,9 +137,7 @@
 			return;
 		}
 
-		/**
-		 * Send this document's height to the parent (embedding) site.
-		 */
+		// Send this document's height to the parent (embedding) site.
 		sendEmbedMessage( 'height', Math.ceil( document.body.getBoundingClientRect().height ) );
 
 		// Send the document's height again after the featured image has been loaded.
@@ -161,9 +159,12 @@
 				href = target.parentElement.getAttribute( 'href' );
 			}
 
-			/**
-			 * Send link target to the parent (embedding) site.
-			 */
+			// Only catch clicks from the primary mouse button, without any modifiers.
+			if ( event.altKey || event.ctrlKey || event.metaKey || event.shiftKey ) {
+				return;
+			}
+
+			// Send link target to the parent (embedding) site.
 			if ( href ) {
 				sendEmbedMessage( 'link', href );
 				e.preventDefault();
