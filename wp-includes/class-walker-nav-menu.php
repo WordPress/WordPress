@@ -173,7 +173,7 @@ class Walker_Nav_Menu extends Walker {
 		$atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
 		$atts['target'] = ! empty( $item->target ) ? $item->target : '';
 		if ( '_blank' === $item->target && empty( $item->xfn ) ) {
-			$atts['rel'] = 'noopener noreferrer';
+			$atts['rel'] = 'noopener';
 		} else {
 			$atts['rel'] = $item->xfn;
 		}

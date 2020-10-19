@@ -689,7 +689,7 @@ switch ( $action ) {
 				$accessibility_text = sprintf( '<span class="screen-reader-text"> %s</span>', __( '(opens in a new tab)' ) );
 
 				printf(
-					'<a href="%s" rel="noopener noreferrer" target="_blank">%s%s</a>',
+					'<a href="%s" rel="noopener" target="_blank">%s%s</a>',
 					esc_url( $admin_email_help_url ),
 					__( 'Why is this important?' ),
 					$accessibility_text
@@ -1540,7 +1540,7 @@ switch ( $action ) {
 					for ( i in links ) {
 						if ( links[i].href ) {
 							links[i].target = '_blank';
-							links[i].rel = 'noreferrer noopener';
+							links[i].rel = 'noopener';
 						}
 					}
 				} catch( er ) {}
