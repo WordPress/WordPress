@@ -105,6 +105,7 @@ function twentytwenty_theme_support() {
 			'caption',
 			'script',
 			'style',
+			'navigation-widgets',
 		)
 	);
 

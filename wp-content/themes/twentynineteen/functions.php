@@ -76,6 +76,7 @@ if ( ! function_exists( 'twentynineteen_setup' ) ) :
 				'caption',
 				'script',
 				'style',
+				'navigation-widgets',
 			)
 		);
 

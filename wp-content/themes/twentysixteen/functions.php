@@ -108,6 +108,7 @@ if ( ! function_exists( 'twentysixteen_setup' ) ) :
 				'caption',
 				'script',
 				'style',
+				'navigation-widgets',
 			)
 		);
 

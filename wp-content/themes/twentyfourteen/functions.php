@@ -146,6 +146,7 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 				'caption',
 				'script',
 				'style',
+				'navigation-widgets',
 			)
 		);
 

@@ -102,6 +102,7 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 				'caption',
 				'script',
 				'style',
+				'navigation-widgets',
 			)
 		);
 

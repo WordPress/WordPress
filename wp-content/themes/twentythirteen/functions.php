@@ -168,6 +168,7 @@ function twentythirteen_setup() {
 			'caption',
 			'script',
 			'style',
+			'navigation-widgets',
 		)
 	);
 

@@ -79,6 +79,7 @@ function twentyseventeen_setup() {
 			'caption',
 			'script',
 			'style',
+			'navigation-widgets',
 		)
 	);
 
