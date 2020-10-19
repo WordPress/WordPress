@@ -1239,7 +1239,7 @@ p.popular-tags a {
 	display: inline-block;
 }
 
-/* Suggest.js autocomplete, no more used by core. */
+/* Back-compat styles from deprecated jQuery.suggest, see ticket #40260. */
 .ac_results {
 	display: none;
 	margin: -1px 0 0;

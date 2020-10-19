@@ -420,7 +420,6 @@ window.wp = window.wp || {};
 					$error = $errorNotice.find( '.error' );
 
 				$( 'table.widefat .spinner' ).removeClass( 'is-active' );
-				$( '.ac_results' ).hide();
 
 				if (r) {
 					if ( -1 !== r.indexOf( '<tr' ) ) {
@@ -466,7 +465,6 @@ window.wp = window.wp || {};
 
 		if ( id ) {
 			$( '.spinner', $tableWideFat ).removeClass( 'is-active' );
-			$( '.ac_results' ).hide();
 
 			if ( 'bulk-edit' === id ) {
 
