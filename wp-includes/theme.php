@@ -1038,9 +1038,11 @@ function get_theme_mod( $name, $default = false ) {
  * Updates theme modification value for the current theme.
  *
  * @since 2.1.0
+ * @since 5.6.0 A return value was added.
  *
  * @param string $name  Theme modification name.
  * @param mixed  $value Theme modification value.
+ * @return bool True if the value was updated, false otherwise.
  */
 function set_theme_mod( $name, $value ) {
 	$mods      = get_theme_mods();
@@ -1061,7 +1063,8 @@ function set_theme_mod( $name, $value ) {
 	$mods[ $name ] = apply_filters( "pre_set_theme_mod_{$name}", $value, $old_value );
 
 	$theme = get_option( 'stylesheet' );
-	update_option( "theme_mods_$theme", $mods );
+
+	return update_option( "theme_mods_$theme", $mods );
 }
 
 /**
@@ -1087,7 +1090,9 @@ function remove_theme_mod( $name ) {
 		remove_theme_mods();
 		return;
 	}
+
 	$theme = get_option( 'stylesheet' );
+
 	update_option( "theme_mods_$theme", $mods );
 }
 
@@ -1104,6 +1109,7 @@ function remove_theme_mods() {
 	if ( false === $theme_name ) {
 		$theme_name = wp_get_theme()->get( 'Name' );
 	}
+
 	delete_option( 'mods_' . $theme_name );
 }
 
