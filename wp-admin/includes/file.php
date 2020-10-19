@@ -928,7 +928,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	$url = $uploads['url'] . "/$filename";
 
 	if ( is_multisite() ) {
-		delete_transient( 'dirsize_cache' );
+		invalidate_dirsize_cache( $new_file );
 	}
 
 	/**
