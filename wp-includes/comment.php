@@ -2800,13 +2800,23 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
  * Perform all pingbacks, enclosures, trackbacks, and send to pingback services.
  *
  * @since 2.1.0
- *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @since 5.6.0 Introduced `do_all_pings` action hook for individual services.
  */
 function do_all_pings() {
-	global $wpdb;
+	/**
+	 * Fires immediately after the `do_pings` event to hook services individually.
+	 *
+	 * @since 5.6.0
+	 */
+	do_action( 'do_all_pings' );
+}
 
-	// Do pingbacks.
+/**
+ * Perform all pingbacks.
+ *
+ * @since 5.6.0
+ */
+function do_all_pingbacks() {
 	$pings = get_posts(
 		array(
 			'post_type'        => get_post_types(),
@@ -2821,8 +2831,14 @@ function do_all_pings() {
 		delete_post_meta( $ping, '_pingme' );
 		pingback( null, $ping );
 	}
+}
 
-	// Do enclosures.
+/**
+ * Perform all enclosures.
+ *
+ * @since 5.6.0
+ */
+function do_all_enclosures() {
 	$enclosures = get_posts(
 		array(
 			'post_type'        => get_post_types(),
@@ -2837,8 +2853,14 @@ function do_all_pings() {
 		delete_post_meta( $enclosure, '_encloseme' );
 		do_enclose( null, $enclosure );
 	}
+}
 
-	// Do trackbacks.
+/**
+ * Perform all trackbacks.
+ *
+ * @since 5.6.0
+ */
+function do_all_trackbacks() {
 	$trackbacks = get_posts(
 		array(
 			'post_type'        => get_post_types(),
@@ -2853,9 +2875,6 @@ function do_all_pings() {
 		delete_post_meta( $trackback, '_trackbackme' );
 		do_trackbacks( $trackback );
 	}
-
-	// Do Update Services/Generic Pings.
-	generic_ping();
 }
 
 /**
