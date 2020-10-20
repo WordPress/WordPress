@@ -1380,6 +1380,8 @@ class WP_REST_Server {
 			}
 		}
 
+		$allowed_schema_keywords = array_flip( rest_get_allowed_schema_keywords() );
+
 		$route = preg_replace( '#\(\?P<(\w+?)>.*?\)#', '{$1}', $route );
 
 		foreach ( $callbacks as $callback ) {
@@ -1397,24 +1399,9 @@ class WP_REST_Server {
 				$endpoint_data['args'] = array();
 
 				foreach ( $callback['args'] as $key => $opts ) {
-					$arg_data = array(
-						'required' => ! empty( $opts['required'] ),
-					);
-					if ( isset( $opts['default'] ) ) {
-						$arg_data['default'] = $opts['default'];
-					}
-					if ( isset( $opts['enum'] ) ) {
-						$arg_data['enum'] = $opts['enum'];
-					}
-					if ( isset( $opts['description'] ) ) {
-						$arg_data['description'] = $opts['description'];
-					}
-					if ( isset( $opts['type'] ) ) {
-						$arg_data['type'] = $opts['type'];
-					}
-					if ( isset( $opts['items'] ) ) {
-						$arg_data['items'] = $opts['items'];
-					}
+					$arg_data             = array_intersect_key( $opts, $allowed_schema_keywords );
+					$arg_data['required'] = ! empty( $opts['required'] );
+
 					$endpoint_data['args'][ $key ] = $arg_data;
 				}
 			}
