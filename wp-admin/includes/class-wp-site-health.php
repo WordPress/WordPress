@@ -2398,13 +2398,8 @@ class WP_Site_Health {
 			'requires_php' => '5.6.20',
 		);
 
-		$type = 'plugin';
-		/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
-		$test_plugins_enabled = apply_filters( "auto_update_{$type}", true, $mock_plugin );
-
-		$type = 'theme';
-		/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
-		$test_themes_enabled = apply_filters( "auto_update_{$type}", true, $mock_theme );
+		$test_plugins_enabled = wp_is_auto_update_forced_for_item( 'plugin', true, $mock_plugin );
+		$test_themes_enabled  = wp_is_auto_update_forced_for_item( 'theme', true, $mock_theme );
 
 		$ui_enabled_for_plugins = wp_is_auto_update_enabled_for_type( 'plugin' );
 		$ui_enabled_for_themes  = wp_is_auto_update_enabled_for_type( 'theme' );

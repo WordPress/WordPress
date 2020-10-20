@@ -1046,6 +1046,22 @@ function wp_is_auto_update_enabled_for_type( $type ) {
 }
 
 /**
+ * Checks whether auto-updates are forced for an item.
+ *
+ * @since 5.6.0
+ *
+ * @param string    $type   The type of update being checked: 'theme' or 'plugin'.
+ * @param bool|null $update Whether to update. The value of null is internally used
+ *                          to detect whether nothing has hooked into this filter.
+ * @param object    $item   The update offer.
+ * @return bool True if auto-updates are forced for `$item`, false otherwise.
+ */
+function wp_is_auto_update_forced_for_item( $type, $update, $item ) {
+	/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
+	return apply_filters( "auto_update_{$type}", $update, $item );
+}
+
+/**
  * Determines the appropriate auto-update message to be displayed.
  *
  * @since 5.5.0

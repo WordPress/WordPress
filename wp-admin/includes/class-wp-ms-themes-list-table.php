@@ -181,9 +181,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 			$filter_payload = array_merge( $filter_payload, array_intersect_key( $theme_data, $filter_payload ) );
 
-			$type = 'theme';
-			/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
-			$auto_update_forced = apply_filters( "auto_update_{$type}", null, (object) $filter_payload );
+			$auto_update_forced = wp_is_auto_update_forced_for_item( 'theme', null, $filter_payload );
 
 			if ( ! is_null( $auto_update_forced ) ) {
 				$theme->auto_update_forced = $auto_update_forced;
