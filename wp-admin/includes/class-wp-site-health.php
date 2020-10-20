@@ -106,8 +106,8 @@ class WP_Site_Health {
 		if ( 'site-health' === $screen->id && ! isset( $_GET['tab'] ) ) {
 			$tests = WP_Site_Health::get_tests();
 
-			// Don't run https test on localhost.
-			if ( 'localhost' === preg_replace( '|https?://|', '', get_site_url() ) ) {
+			// Don't run https test on development environments.
+			if ( $this->is_development_environment() ) {
 				unset( $tests['direct']['https_status'] );
 			}
 
@@ -1465,6 +1465,11 @@ class WP_Site_Health {
 
 				$result['status'] = 'critical';
 
+				// On development environments, set the status to recommended.
+				if ( $this->is_development_environment() ) {
+					$result['status'] = 'recommended';
+				}
+
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
@@ -2531,8 +2536,8 @@ class WP_Site_Health {
 			'critical'    => 0,
 		);
 
-		// Don't run https test on localhost.
-		if ( 'localhost' === preg_replace( '|https?://|', '', get_site_url() ) ) {
+		// Don't run https test on development environments.
+		if ( $this->is_development_environment() ) {
 			unset( $tests['direct']['https_status'] );
 		}
 
@@ -2615,4 +2620,16 @@ class WP_Site_Health {
 
 		set_transient( 'health-check-site-status-result', wp_json_encode( $site_status ) );
 	}
+
+	/**
+	 * Checks if the current environment type is set to 'development' or 'local'.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @return bool True if it is a development environment, false if not.
+	 */
+	public function is_development_environment() {
+		return in_array( wp_get_environment_type(), array( 'development', 'local' ), true );
+	}
+
 }
