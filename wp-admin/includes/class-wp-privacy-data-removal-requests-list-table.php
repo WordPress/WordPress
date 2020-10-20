@@ -100,7 +100,7 @@ class WP_Privacy_Data_Removal_Requests_List_Table extends WP_Privacy_Requests_Ta
 			$complete_request_markup .= '</span>';
 		}
 
-		if ( ! empty ( $complete_request_markup ) ) {
+		if ( ! empty( $complete_request_markup ) ) {
 			$row_actions['complete-request'] = $complete_request_markup;
 		}
 
