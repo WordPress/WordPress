@@ -47,25 +47,56 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
 		/** This filter is documented in wp-admin/includes/ajax-actions.php */
 		$exporters       = apply_filters( 'wp_privacy_personal_data_exporters', array() );
 		$exporters_count = count( $exporters );
+		$status          = $item->status;
 		$request_id      = $item->ID;
 		$nonce           = wp_create_nonce( 'wp-privacy-export-personal-data-' . $request_id );
 
-		$download_data_markup = '<div class="export-personal-data" ' .
+		$download_data_markup = '<span class="export-personal-data" ' .
 			'data-exporters-count="' . esc_attr( $exporters_count ) . '" ' .
 			'data-request-id="' . esc_attr( $request_id ) . '" ' .
 			'data-nonce="' . esc_attr( $nonce ) .
 			'">';
 
-		$download_data_markup .= '<span class="export-personal-data-idle"><button type="button" class="button-link export-personal-data-handle">' . __( 'Download Personal Data' ) . '</button></span>' .
-			'<span class="export-personal-data-processing hidden">' . __( 'Downloading Data...' ) . ' <span class="export-progress"></span></span>' .
-			'<span class="export-personal-data-success hidden"><button type="button" class="button-link export-personal-data-handle">' . __( 'Download Personal Data Again' ) . '</button></span>' .
+		$download_data_markup .= '<span class="export-personal-data-idle"><button type="button" class="button-link export-personal-data-handle">' . __( 'Download personal data' ) . '</button></span>' .
+			'<span class="export-personal-data-processing hidden">' . __( 'Downloading data...' ) . ' <span class="export-progress"></span></span>' .
+			'<span class="export-personal-data-success hidden"><button type="button" class="button-link export-personal-data-handle">' . __( 'Download personal data again' ) . '</button></span>' .
 			'<span class="export-personal-data-failed hidden">' . __( 'Download failed.' ) . ' <button type="button" class="button-link">' . __( 'Retry' ) . '</button></span>';
 
-		$download_data_markup .= '</div>';
+		$download_data_markup .= '</span>';
 
-		$row_actions = array(
-			'download-data' => $download_data_markup,
-		);
+		$row_actions['download-data'] = $download_data_markup;
+
+		if ( 'request-completed' !== $status ) {
+			$complete_request_markup  = '<span>';
+			$complete_request_markup .= sprintf(
+				'<a href="%s" class="complete-request" aria-label="%s">%s</a>',
+				esc_url(
+					wp_nonce_url(
+						add_query_arg(
+							array(
+								'action'     => 'complete',
+								'request_id' => array( $request_id ),
+							),
+							admin_url( 'export-personal-data.php' )
+						),
+						'bulk-privacy_requests'
+					)
+				),
+				esc_attr(
+					sprintf(
+						/* translators: %s: Request email. */
+						__( 'Mark export request for &#8220;%s&#8221; as completed.' ),
+						$item->email
+					)
+				),
+				__( 'Complete request' )
+			);
+			$complete_request_markup .= '</span>';
+		}
+
+		if ( ! empty ( $complete_request_markup ) ) {
+			$row_actions['complete-request'] = $complete_request_markup;
+		}
 
 		return sprintf( '<a href="%1$s">%2$s</a> %3$s', esc_url( 'mailto:' . $item->email ), $item->email, $this->row_actions( $row_actions ) );
 	}
@@ -99,8 +130,8 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
 					'">';
 
 				?>
-				<span class="export-personal-data-idle"><button type="button" class="button-link export-personal-data-handle"><?php _e( 'Send Export Link' ); ?></button></span>
-				<span class="export-personal-data-processing hidden"><?php _e( 'Sending Email...' ); ?> <span class="export-progress"></span></span>
+				<span class="export-personal-data-idle"><button type="button" class="button-link export-personal-data-handle"><?php _e( 'Send export link' ); ?></button></span>
+				<span class="export-personal-data-processing hidden"><?php _e( 'Sending email...' ); ?> <span class="export-progress"></span></span>
 				<span class="export-personal-data-success success-message hidden"><?php _e( 'Email sent.' ); ?></span>
 				<span class="export-personal-data-failed hidden"><?php _e( 'Email could not be sent.' ); ?> <button type="button" class="button-link export-personal-data-handle"><?php _e( 'Retry' ); ?></button></span>
 				<?php
