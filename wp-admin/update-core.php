@@ -301,6 +301,91 @@ function core_upgrade_preamble() {
 }
 
 /**
+ * Display WordPress auto-updates settings.
+ *
+ * @since 5.6.0
+ */
+function core_auto_updates_settings() {
+	$upgrade_major_value = '';
+	if ( isset( $_POST['core-auto-updates-settings'] ) && wp_verify_nonce( $_POST['set_core_auto_updates_settings'], 'core-auto-updates-nonce' ) ) {
+		if ( isset( $_POST['core-auto-updates-major'] ) && 1 === (int) $_POST['core-auto-updates-major'] ) {
+			update_site_option( 'auto_update_core_major', 1 );
+		} else {
+			update_site_option( 'auto_update_core_major', 0 );
+		}
+		echo '<div class="notice notice-info is-dismissible"><p>';
+		_e( 'WordPress auto-updates settings updated.' );
+		echo '</p></div>';
+	}
+
+	$upgrade_dev   = get_site_option( 'auto_update_core_dev', true );
+	$upgrade_minor = get_site_option( 'auto_update_core_minor', true );
+	$upgrade_major = get_site_option( 'auto_update_core_major', false );
+
+	if ( defined( 'WP_AUTO_UPDATE_CORE' ) ) {
+		if ( false === WP_AUTO_UPDATE_CORE ) {
+			// Defaults to turned off, unless a filter allows it.
+			$upgrade_dev   = false;
+			$upgrade_minor = false;
+			$upgrade_major = false;
+		} elseif ( true === WP_AUTO_UPDATE_CORE ) {
+			// ALL updates for core.
+			$upgrade_dev   = true;
+			$upgrade_minor = true;
+			$upgrade_major = true;
+		} elseif ( 'minor' === WP_AUTO_UPDATE_CORE ) {
+			// Only minor updates for core.
+			$upgrade_dev   = false;
+			$upgrade_minor = true;
+			$upgrade_major = false;
+		}
+	}
+
+	$upgrade_dev   = apply_filters( 'allow_dev_auto_core_updates', $upgrade_dev );
+	$upgrade_minor = apply_filters( 'allow_minor_auto_core_updates', $upgrade_minor );
+	$upgrade_major = apply_filters( 'allow_major_auto_core_updates', $upgrade_major );
+
+	$auto_update_settings = array(
+		'dev'   => $upgrade_dev,
+		'minor' => $upgrade_minor,
+		'major' => $upgrade_major,
+	);
+	?>
+	<form method="post" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" name="core-auto-updates" class="form-core-auto-updates">
+		<?php wp_nonce_field( 'core-auto-updates-nonce', 'set_core_auto_updates_settings' ); ?>
+		<h2><?php _e( 'Auto-update settings' ); ?></h2>
+		<p>
+			<?php
+			if ( $auto_update_settings['major'] ) {
+				$wp_version = get_bloginfo( 'version' );
+				$updates    = get_core_updates();
+				if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
+					echo wp_get_auto_update_message();
+				}
+			}
+			?>
+		</p>
+		<p>
+			<input type="checkbox" name="core-auto-updates-major" id="core-auto-updates-major" value="1" <?php checked( $auto_update_settings['major'], 1 ); ?> />
+			<label for="core-auto-updates-major">
+				<?php _e( 'Keep my site up-to-date with regular feature updates (major versions).' ); ?>
+			</label>
+		</p>
+		<?php
+		/**
+		 * Fires after the major core auto-update checkbox.
+		 *
+		 * @since 5.6.0
+		 */
+		do_action( 'after_core_auto_updates_settings_fields', $auto_update_settings );
+		?>
+		<p>
+			<input id="core-auto-updates-settings" class="button" type="submit" value="<?php esc_attr_e( 'Save' ); ?>" name="core-auto-updates-settings" />
+		</p>
+	<?php
+}
+
+/**
  * Display the upgrade plugins form.
  *
  * @since 2.9.0
@@ -890,6 +975,7 @@ if ( 'upgrade-core' === $action ) {
 
 	if ( current_user_can( 'update_core' ) ) {
 		core_upgrade_preamble();
+		core_auto_updates_settings();
 	}
 	if ( current_user_can( 'update_plugins' ) ) {
 		list_plugin_updates();

@@ -48,14 +48,14 @@ class Core_Upgrader extends WP_Upgrader {
 	 *
 	 * @param object $current Response object for whether WordPress is current.
 	 * @param array  $args {
-	 *     Optional. Arguments for upgrading WordPress core. Default empty array.
+	 *        Optional. Arguments for upgrading WordPress core. Default empty array.
 	 *
-	 *     @type bool $pre_check_md5    Whether to check the file checksums before
-	 *                                  attempting the upgrade. Default true.
-	 *     @type bool $attempt_rollback Whether to attempt to rollback the chances if
-	 *                                  there is a problem. Default false.
-	 *     @type bool $do_rollback      Whether to perform this "upgrade" as a rollback.
-	 *                                  Default false.
+	 *        @type bool $pre_check_md5    Whether to check the file checksums before
+	 *                                     attempting the upgrade. Default true.
+	 *        @type bool $attempt_rollback Whether to attempt to rollback the chances if
+	 *                                     there is a problem. Default false.
+	 *        @type bool $do_rollback      Whether to perform this "upgrade" as a rollback.
+	 *                                     Default false.
 	 * }
 	 * @return string|false|WP_Error New WordPress version on success, false or WP_Error on failure.
 	 */
@@ -279,9 +279,9 @@ class Core_Upgrader extends WP_Upgrader {
 		$current_is_development_version = (bool) strpos( $wp_version, '-' );
 
 		// Defaults:
-		$upgrade_dev   = true;
-		$upgrade_minor = true;
-		$upgrade_major = false;
+		$upgrade_dev   = get_site_option( 'auto_update_core_dev', true );
+		$upgrade_minor = get_site_option( 'auto_update_core_minor', true );
+		$upgrade_major = get_site_option( 'auto_update_core_major', false );
 
 		// WP_AUTO_UPDATE_CORE = true (all), 'beta', 'rc', 'minor', false.
 		if ( defined( 'WP_AUTO_UPDATE_CORE' ) ) {
