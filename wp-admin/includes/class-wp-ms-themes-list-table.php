@@ -179,7 +179,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				'requires_php' => '',
 			);
 
-			$filter_payload = array_merge( $filter_payload, array_intersect_key( $theme_data, $filter_payload ) );
+			$filter_payload = (object) array_merge( $filter_payload, array_intersect_key( $theme_data, $filter_payload ) );
 
 			$auto_update_forced = wp_is_auto_update_forced_for_item( 'theme', null, $filter_payload );
 
