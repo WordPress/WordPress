@@ -1114,7 +1114,7 @@
 }
 
 .freedoms-php .column .freedoms-image {
-	background-image: url('https://s.w.org/wp-content/themes/pub/wporg-main/images/freedoms-2x.png');
+	background-image: url('../images/freedoms-2x.png');
 	background-size: 100%;
 	padding-top: 100%;
 }
