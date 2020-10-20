@@ -1083,7 +1083,7 @@ class WP_Automatic_Updater {
 					if ( $item->item->current_version ) {
 						$body[] = sprintf(
 							/* translators: 1: Plugin name, 2: Current version number, 3: New version number. */
-							 __( '- %1$s (from version %2$s to %3$s)' ),
+							__( '- %1$s (from version %2$s to %3$s)' ),
 							$item->name,
 							$item->item->current_version,
 							$item->item->new_version
@@ -1144,11 +1144,11 @@ class WP_Automatic_Updater {
 					if ( $item->item->current_version ) {
 						$body[] = sprintf(
 							/* translators: 1: Plugin name, 2: Current version number, 3: New version number. */
-						   __( '- %1$s (from version %2$s to %3$s)' ),
-						   $item->name,
-						   $item->item->current_version,
-						   $item->item->new_version
-					   );
+							__( '- %1$s (from version %2$s to %3$s)' ),
+							$item->name,
+							$item->item->current_version,
+							$item->item->new_version
+						);
 					} else {
 						$body[] = sprintf(
 							/* translators: 1: Plugin name, 2: Version number. */
