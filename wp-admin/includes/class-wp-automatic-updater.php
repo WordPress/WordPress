@@ -348,6 +348,11 @@ class WP_Automatic_Updater {
 				$upgrader_item = $item->theme;
 				$theme         = wp_get_theme( $upgrader_item );
 				$item_name     = $theme->Get( 'Name' );
+				// Add the current version so that it can be reported in the notification email.
+				$item->current_version = $theme->get( 'Version' );
+				if ( empty( $item->current_version ) ) {
+					$item->current_version = false;
+				}
 				/* translators: %s: Theme name. */
 				$skin->feedback( __( 'Updating theme: %s' ), $item_name );
 				break;
@@ -355,6 +360,11 @@ class WP_Automatic_Updater {
 				$upgrader_item = $item->plugin;
 				$plugin_data   = get_plugin_data( $context . '/' . $upgrader_item );
 				$item_name     = $plugin_data['Name'];
+				// Add the current version so that it can be reported in the notification email.
+				$item->current_version = $plugin_data['Version'];
+				if ( empty( $item->current_version ) ) {
+					$item->current_version = false;
+				}
 				/* translators: %s: Plugin name. */
 				$skin->feedback( __( 'Updating plugin: %s' ), $item_name );
 				break;
@@ -1070,12 +1080,22 @@ class WP_Automatic_Updater {
 				$body[] = __( 'These plugins failed to update:' );
 
 				foreach ( $failed_updates['plugin'] as $item ) {
-					$body[] = sprintf(
-						/* translators: 1: Plugin name, 2: Version number. */
-						__( '- %1$s version %2$s' ),
-						$item->name,
-						$item->item->new_version
-					);
+					if ( $item->item->current_version ) {
+						$body[] = sprintf(
+							/* translators: 1: Plugin name, 2: Current version number, 3: New version number. */
+							 __( '- %1$s (from version %2$s to %3$s)' ),
+							$item->name,
+							$item->item->current_version,
+							$item->item->new_version
+						);
+					} else {
+						$body[] = sprintf(
+							/* translators: 1: Plugin name, 2: Version number. */
+							__( '- %1$s version %2$s' ),
+							$item->name,
+							$item->item->new_version
+						);
+					}
 
 					$past_failure_emails[ $item->item->plugin ] = $item->item->new_version;
 				}
@@ -1088,12 +1108,22 @@ class WP_Automatic_Updater {
 				$body[] = __( 'These themes failed to update:' );
 
 				foreach ( $failed_updates['theme'] as $item ) {
-					$body[] = sprintf(
-						/* translators: 1: Theme name, 2: Version number. */
-						__( '- %1$s version %2$s' ),
-						$item->name,
-						$item->item->new_version
-					);
+					if ( $item->item->current_version ) {
+						$body[] = sprintf(
+							/* translators: 1: Theme name, 2: Current version number, 3: New version number. */
+							__( '- %1$s (from version %2$s to %3$s)' ),
+							$item->name,
+							$item->item->current_version,
+							$item->item->new_version
+						);
+					} else {
+						$body[] = sprintf(
+							/* translators: 1: Theme name, 2: Version number. */
+							__( '- %1$s version %2$s' ),
+							$item->name,
+							$item->item->new_version
+						);
+					}
 
 					$past_failure_emails[ $item->item->theme ] = $item->item->new_version;
 				}
@@ -1111,12 +1141,22 @@ class WP_Automatic_Updater {
 				$body[] = __( 'These plugins are now up to date:' );
 
 				foreach ( $successful_updates['plugin'] as $item ) {
-					$body[] = sprintf(
-						/* translators: 1: Plugin name, 2: Version number. */
-						__( '- %1$s version %2$s' ),
-						$item->name,
-						$item->item->new_version
-					);
+					if ( $item->item->current_version ) {
+						$body[] = sprintf(
+							/* translators: 1: Plugin name, 2: Current version number, 3: New version number. */
+						   __( '- %1$s (from version %2$s to %3$s)' ),
+						   $item->name,
+						   $item->item->current_version,
+						   $item->item->new_version
+					   );
+					} else {
+						$body[] = sprintf(
+							/* translators: 1: Plugin name, 2: Version number. */
+							__( '- %1$s version %2$s' ),
+							$item->name,
+							$item->item->new_version
+						);
+					}
 
 					unset( $past_failure_emails[ $item->item->plugin ] );
 				}
@@ -1129,12 +1169,22 @@ class WP_Automatic_Updater {
 				$body[] = __( 'These themes are now up to date:' );
 
 				foreach ( $successful_updates['theme'] as $item ) {
-					$body[] = sprintf(
-						/* translators: 1: Theme name, 2: Version number. */
-						__( '- %1$s version %2$s' ),
-						$item->name,
-						$item->item->new_version
-					);
+					if ( $item->item->current_version ) {
+						$body[] = sprintf(
+							/* translators: 1: Theme name, 2: Current version number, 3: New version number. */
+							__( '- %1$s (from version %2$s to %3$s)' ),
+							$item->name,
+							$item->item->current_version,
+							$item->item->new_version
+						);
+					} else {
+						$body[] = sprintf(
+							 /* translators: 1: Theme name, 2: Version number. */
+							__( '- %1$s version %2$s' ),
+							$item->name,
+							$item->item->new_version
+						);
+					}
 
 					unset( $past_failure_emails[ $item->item->theme ] );
 				}
