@@ -653,11 +653,11 @@ endif;
 	<th scope="row"><label for="pass2"><?php _e( 'Repeat New Password' ); ?></label></th>
 	<td>
 	<input name="pass2" type="password" id="pass2" class="regular-text" value="" autocomplete="off" aria-describedby="pass2-desc" />
-	<?php if ( IS_PROFILE_PAGE ) : ?>
-		<p class="description" id="pass2-desc"><?php _e( 'Type your new password again.' ); ?></p>
-	<?php else : ?>
-		<p class="description" id="pass2-desc"><?php _e( 'Type the new password again.' ); ?></p>
-	<?php endif; ?>
+			<?php if ( IS_PROFILE_PAGE ) : ?>
+				<p class="description" id="pass2-desc"><?php _e( 'Type your new password again.' ); ?></p>
+			<?php else : ?>
+				<p class="description" id="pass2-desc"><?php _e( 'Type the new password again.' ); ?></p>
+			<?php endif; ?>
 	</td>
 </tr>
 <tr class="pw-weak">
