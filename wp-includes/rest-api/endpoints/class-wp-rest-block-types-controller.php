@@ -256,6 +256,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 
 		$schema       = $this->get_item_schema();
 		$extra_fields = array(
+			'api_version',
 			'name',
 			'title',
 			'description',
@@ -365,6 +366,13 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 			'title'      => 'block-type',
 			'type'       => 'object',
 			'properties' => array(
+				'api_version'            => array(
+					'description' => __( 'Version of block API.' ),
+					'type'        => 'integer',
+					'default'     => 1,
+					'context'     => array( 'embed', 'view', 'edit' ),
+					'readonly'    => true,
+				),
 				'title'            => array(
 					'description' => __( 'Title of block type.' ),
 					'type'        => 'string',

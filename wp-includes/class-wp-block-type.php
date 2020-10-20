@@ -17,6 +17,14 @@
 class WP_Block_Type {
 
 	/**
+	 * Block API version.
+	 *
+	 * @since 5.6.0
+	 * @var int
+	 */
+	public $api_version = 1;
+
+	/**
 	 * Block type key.
 	 *
 	 * @since 5.0.0
