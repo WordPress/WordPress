@@ -94,12 +94,57 @@ class WP_REST_Server {
 	public function __construct() {
 		$this->endpoints = array(
 			// Meta endpoints.
-			'/' => array(
+			'/'         => array(
 				'callback' => array( $this, 'get_index' ),
 				'methods'  => 'GET',
 				'args'     => array(
 					'context' => array(
 						'default' => 'view',
+					),
+				),
+			),
+			'/batch/v1' => array(
+				'callback' => array( $this, 'serve_batch_request_v1' ),
+				'methods'  => 'POST',
+				'args'     => array(
+					'validation' => array(
+						'type'    => 'string',
+						'enum'    => array( 'require-all-validate', 'normal' ),
+						'default' => 'normal',
+					),
+					'requests'   => array(
+						'required' => true,
+						'type'     => 'array',
+						'maxItems' => $this->get_max_batch_size(),
+						'items'    => array(
+							'type'       => 'object',
+							'properties' => array(
+								'method'  => array(
+									'type'    => 'string',
+									'enum'    => array( 'POST', 'PUT', 'PATCH', 'DELETE' ),
+									'default' => 'POST',
+								),
+								'path'    => array(
+									'type'     => 'string',
+									'required' => true,
+								),
+								'body'    => array(
+									'type'                 => 'object',
+									'properties'           => array(),
+									'additionalProperties' => true,
+								),
+								'headers' => array(
+									'type'                 => 'object',
+									'properties'           => array(),
+									'additionalProperties' => array(
+										'type'  => array( 'string', 'array' ),
+										'items' => array(
+											'type' => 'string',
+										),
+									),
+								),
+							),
+						),
 					),
 				),
 			),
@@ -971,7 +1016,7 @@ class WP_REST_Server {
 	 * @param WP_REST_Request $request The request object.
 	 * @return array|WP_Error The route and request handler on success or a WP_Error instance if no handler was found.
 	 */
-	public function match_request_to_handler( $request ) {
+	protected function match_request_to_handler( $request ) {
 		$method = $request->get_method();
 		$path   = $request->get_route();
 
@@ -1058,7 +1103,7 @@ class WP_REST_Server {
 	 *
 	 * @return WP_REST_Response
 	 */
-	public function respond_to_request( $request, $route, $handler, $response ) {
+	protected function respond_to_request( $request, $route, $handler, $response ) {
 		/**
 		 * Filters the response before executing any REST API callbacks.
 		 *
@@ -1394,6 +1439,178 @@ class WP_REST_Server {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Gets the maximum number of requests that can be included in a batch.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @return int The maximum requests.
+	 */
+	protected function get_max_batch_size() {
+		/**
+		 * Filters the maximum number of requests that can be included in a batch.
+		 *
+		 * @param int $max_size The maximum size.
+		 */
+		return apply_filters( 'rest_get_max_batch_size', 25 );
+	}
+
+	/**
+	 * Serves the batch/v1 request.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param WP_REST_Request $batch_request The batch request object.
+	 * @return WP_REST_Response The generated response object.
+	 */
+	public function serve_batch_request_v1( WP_REST_Request $batch_request ) {
+		$requests = array();
+
+		foreach ( $batch_request['requests'] as $args ) {
+			$parsed_url = wp_parse_url( $args['path'] );
+
+			if ( false === $parsed_url ) {
+				$requests[] = new WP_Error( 'parse_path_failed', __( 'Could not parse the path.' ), array( 'status' => 400 ) );
+
+				continue;
+			}
+
+			$single_request = new WP_REST_Request( isset( $args['method'] ) ? $args['method'] : 'POST', $parsed_url['path'] );
+
+			if ( ! empty( $parsed_url['query'] ) ) {
+				$query_args = null; // Satisfy linter.
+				wp_parse_str( $parsed_url['query'], $query_args );
+				$single_request->set_query_params( $query_args );
+			}
+
+			if ( ! empty( $args['body'] ) ) {
+				$single_request->set_body_params( $args['body'] );
+			}
+
+			if ( ! empty( $args['headers'] ) ) {
+				$single_request->set_headers( $args['headers'] );
+			}
+
+			$requests[] = $single_request;
+		}
+
+		$matches    = array();
+		$validation = array();
+		$has_error  = false;
+
+		foreach ( $requests as $single_request ) {
+			$match     = $this->match_request_to_handler( $single_request );
+			$matches[] = $match;
+			$error     = null;
+
+			if ( is_wp_error( $match ) ) {
+				$error = $match;
+			}
+
+			if ( ! $error ) {
+				list( $route, $handler ) = $match;
+
+				if ( isset( $handler['allow_batch'] ) ) {
+					$allow_batch = $handler['allow_batch'];
+				} else {
+					$route_options = $this->get_route_options( $route );
+					$allow_batch   = isset( $route_options['allow_batch'] ) ? $route_options['allow_batch'] : false;
+				}
+
+				if ( ! is_array( $allow_batch ) || empty( $allow_batch['v1'] ) ) {
+					$error = new WP_Error(
+						'rest_batch_not_allowed',
+						__( 'The requested route does not support batch requests.' ),
+						array( 'status' => 400 )
+					);
+				}
+			}
+
+			if ( ! $error ) {
+				$check_required = $single_request->has_valid_params();
+				if ( is_wp_error( $check_required ) ) {
+					$error = $check_required;
+				}
+			}
+
+			if ( ! $error ) {
+				$check_sanitized = $single_request->sanitize_params();
+				if ( is_wp_error( $check_sanitized ) ) {
+					$error = $check_sanitized;
+				}
+			}
+
+			if ( $error ) {
+				$has_error    = true;
+				$validation[] = $error;
+			} else {
+				$validation[] = true;
+			}
+		}
+
+		$responses = array();
+
+		if ( $has_error && 'require-all-validate' === $batch_request['validation'] ) {
+			foreach ( $validation as $valid ) {
+				if ( is_wp_error( $valid ) ) {
+					$responses[] = $this->envelope_response( $this->error_to_response( $valid ), false )->get_data();
+				} else {
+					$responses[] = null;
+				}
+			}
+
+			return new WP_REST_Response(
+				array(
+					'failed'    => 'validation',
+					'responses' => $responses,
+				),
+				WP_Http::MULTI_STATUS
+			);
+		}
+
+		foreach ( $requests as $i => $single_request ) {
+			$clean_request = clone $single_request;
+			$clean_request->set_url_params( array() );
+			$clean_request->set_attributes( array() );
+			$clean_request->set_default_params( array() );
+
+			/** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
+			$result = apply_filters( 'rest_pre_dispatch', null, $this, $clean_request );
+
+			if ( empty( $result ) ) {
+				$match = $matches[ $i ];
+				$error = null;
+
+				if ( is_wp_error( $validation[ $i ] ) ) {
+					$error = $validation[ $i ];
+				}
+
+				if ( is_wp_error( $match ) ) {
+					$result = $this->error_to_response( $match );
+				} else {
+					list( $route, $handler ) = $match;
+
+					if ( ! $error && ! is_callable( $handler['callback'] ) ) {
+						$error = new WP_Error(
+							'rest_invalid_handler',
+							__( 'The handler for the route is invalid' ),
+							array( 'status' => 500 )
+						);
+					}
+
+					$result = $this->respond_to_request( $single_request, $route, $handler, $error );
+				}
+			}
+
+			/** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
+			$result = apply_filters( 'rest_post_dispatch', rest_ensure_response( $result ), $this, $single_request );
+
+			$responses[] = $this->envelope_response( $result, false )->get_data();
+		}
+
+		return new WP_REST_Response( array( 'responses' => $responses ), WP_Http::MULTI_STATUS );
 	}
 
 	/**
