@@ -1665,6 +1665,216 @@ function rest_find_matching_pattern_property_schema( $property, $args ) {
 }
 
 /**
+ * Formats a combining operation error into a WP_Error object.
+ *
+ * @since 5.6.0
+ *
+ * @param string $param The parameter name.
+ * @param array $error  The error details.
+ * @return WP_Error
+ */
+function rest_format_combining_operation_error( $param, $error ) {
+	$position = $error['index'];
+	$reason   = $error['error_object']->get_error_message();
+
+	if ( isset( $error['schema']['title'] ) ) {
+		$title = $error['schema']['title'];
+
+		return new WP_Error(
+			'rest_invalid_param',
+			/* translators: 1: Parameter, 2: Schema title, 3: Reason. */
+			sprintf( __( '%1$s is not a valid %2$s. Reason: %3$s' ), $param, $title, $reason ),
+			array( 'position' => $position )
+		);
+	}
+
+	return new WP_Error(
+		'rest_invalid_param',
+		/* translators: 1: Parameter, 2: Reason. */
+		sprintf( __( '%1$s does not match the expected format. Reason: %2$s' ), $param, $reason ),
+		array( 'position' => $position )
+	);
+}
+
+/**
+ * Gets the error of combining operation.
+ *
+ * @since 5.6.0
+ *
+ * @param array  $value  The value to validate.
+ * @param string $param  The parameter name, used in error messages.
+ * @param array  $errors The errors array, to search for possible error.
+ * @return WP_Error      The combining operation error.
+ */
+function rest_get_combining_operation_error( $value, $param, $errors ) {
+	// If there is only one error, simply return it.
+	if ( 1 === count( $errors ) ) {
+		return rest_format_combining_operation_error( $param, $errors[0] );
+	}
+
+	// Filter out all errors related to type validation.
+	$filtered_errors = array();
+	foreach ( $errors as $error ) {
+		$error_code = $error['error_object']->get_error_code();
+		$error_data = $error['error_object']->get_error_data();
+
+		if ( 'rest_invalid_type' !== $error_code || ( isset( $error_data['param'] ) && $param !== $error_data['param'] ) ) {
+			$filtered_errors[] = $error;
+		}
+	}
+
+	// If there is only one error left, simply return it.
+	if ( 1 === count( $filtered_errors ) ) {
+		return rest_format_combining_operation_error( $param, $filtered_errors[0] );
+	}
+
+	// If there are only errors related to object validation, try choosing the most appropriate one.
+	if ( count( $filtered_errors ) > 1 && 'object' === $filtered_errors[0]['schema']['type'] ) {
+		$result = null;
+		$number = 0;
+
+		foreach ( $filtered_errors as $error ) {
+			if ( isset( $error['schema']['properties'] ) ) {
+				$n = count( array_intersect_key( $error['schema']['properties'], $value ) );
+				if ( $n > $number ) {
+					$result = $error;
+					$number = $n;
+				}
+			}
+		}
+
+		if ( null !== $result ) {
+			return rest_format_combining_operation_error( $param, $result );
+		}
+	}
+
+	// If each schema has a title, include those titles in the error message.
+	$schema_titles = array();
+	foreach ( $errors as $error ) {
+		if ( isset( $error['schema']['title'] ) ) {
+			$schema_titles[] = $error['schema']['title'];
+		}
+	}
+
+	if ( count( $schema_titles ) === count( $errors ) ) {
+		/* translators: 1: Parameter, 2: Schema titles. */
+		return new WP_Error( 'rest_invalid_param', wp_sprintf( __( '%1$s is not a valid %2$l.' ), $param, $schema_titles ) );
+	}
+
+	/* translators: 1: Parameter. */
+	return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s does not match any of the expected formats.' ), $param ) );
+}
+
+/**
+ * Finds the matching schema among the "anyOf" schemas.
+ *
+ * @since 5.6.0
+ *
+ * @param mixed  $value   The value to validate.
+ * @param array  $args    The schema array to use.
+ * @param string $param   The parameter name, used in error messages.
+ * @return array|WP_Error The matching schema or WP_Error instance if all schemas do not match.
+ */
+function rest_find_any_matching_schema( $value, $args, $param ) {
+	$errors = array();
+
+	foreach ( $args['anyOf'] as $index => $schema ) {
+		if ( ! isset( $schema['type'] ) && isset( $args['type'] ) ) {
+			$schema['type'] = $args['type'];
+		}
+
+		$is_valid = rest_validate_value_from_schema( $value, $schema, $param );
+		if ( ! is_wp_error( $is_valid ) ) {
+			return $schema;
+		}
+
+		$errors[] = array(
+			'error_object' => $is_valid,
+			'schema'       => $schema,
+			'index'        => $index,
+		);
+	}
+
+	return rest_get_combining_operation_error( $value, $param, $errors );
+}
+
+/**
+ * Finds the matching schema among the "oneOf" schemas.
+ *
+ * @since 5.6.0
+ *
+ * @param mixed  $value                  The value to validate.
+ * @param array  $args                   The schema array to use.
+ * @param string $param                  The parameter name, used in error messages.
+ * @param bool   $stop_after_first_match Optional. Whether the process should stop after the first successful match.
+ * @return array|WP_Error                The matching schema or WP_Error instance if the number of matching schemas is not equal to one.
+ */
+function rest_find_one_matching_schema( $value, $args, $param, $stop_after_first_match = false ) {
+	$matching_schemas = array();
+	$errors           = array();
+
+	foreach ( $args['oneOf'] as $index => $schema ) {
+		if ( ! isset( $schema['type'] ) && isset( $args['type'] ) ) {
+			$schema['type'] = $args['type'];
+		}
+
+		$is_valid = rest_validate_value_from_schema( $value, $schema, $param );
+		if ( ! is_wp_error( $is_valid ) ) {
+			if ( $stop_after_first_match ) {
+				return $schema;
+			}
+
+			$matching_schemas[] = array(
+				'schema_object' => $schema,
+				'index'         => $index,
+			);
+		} else {
+			$errors[] = array(
+				'error_object' => $is_valid,
+				'schema'       => $schema,
+				'index'        => $index,
+			);
+		}
+	}
+
+	if ( ! $matching_schemas ) {
+		return rest_get_combining_operation_error( $value, $param, $errors );
+	}
+
+	if ( count( $matching_schemas ) > 1 ) {
+		$schema_positions = array();
+		$schema_titles    = array();
+
+		foreach ( $matching_schemas as $schema ) {
+			$schema_positions[] = $schema['index'];
+
+			if ( isset( $schema['schema_object']['title'] ) ) {
+				$schema_titles[] = $schema['schema_object']['title'];
+			}
+		}
+
+		// If each schema has a title, include those titles in the error message.
+		if ( count( $schema_titles ) === count( $matching_schemas ) ) {
+			return new WP_Error(
+				'rest_invalid_param',
+				/* translators: 1: Parameter, 2: Schema titles. */
+				wp_sprintf( __( '%1$s matches %2$l, but should match only one.' ), $param, $schema_titles ),
+				array( 'positions' => $schema_positions )
+			);
+		}
+
+		return new WP_Error(
+			'rest_invalid_param',
+			/* translators: 1: Parameter. */
+			sprintf( __( '%1$s matches more than one of the expected formats.' ), $param ),
+			array( 'positions' => $schema_positions )
+		);
+	}
+
+	return $matching_schemas[0]['schema_object'];
+}
+
+/**
  * Validate a value based on a schema.
  *
  * @since 4.7.0
@@ -1679,6 +1889,7 @@ function rest_find_matching_pattern_property_schema( $property, $args ) {
  * @since 5.6.0 Support the "minProperties" and "maxProperties" keywords for objects.
  *              Support the "multipleOf" keyword for numbers and integers.
  *              Support the "patternProperties" keyword for objects.
+ *              Support the "anyOf" and "oneOf" keywords.
  *
  * @param mixed  $value The value to validate.
  * @param array  $args  Schema array to use for validation.
@@ -1686,6 +1897,28 @@ function rest_find_matching_pattern_property_schema( $property, $args ) {
  * @return true|WP_Error
  */
 function rest_validate_value_from_schema( $value, $args, $param = '' ) {
+	if ( isset( $args['anyOf'] ) ) {
+		$matching_schema = rest_find_any_matching_schema( $value, $args, $param );
+		if ( is_wp_error( $matching_schema ) ) {
+			return $matching_schema;
+		}
+
+		if ( ! isset( $args['type'] ) && isset( $matching_schema['type'] ) ) {
+			$args['type'] = $matching_schema['type'];
+		}
+	}
+
+	if ( isset( $args['oneOf'] ) ) {
+		$matching_schema = rest_find_one_matching_schema( $value, $args, $param );
+		if ( is_wp_error( $matching_schema ) ) {
+			return $matching_schema;
+		}
+
+		if ( ! isset( $args['type'] ) && isset( $matching_schema['type'] ) ) {
+			$args['type'] = $matching_schema['type'];
+		}
+	}
+
 	$allowed_types = array( 'array', 'object', 'string', 'number', 'integer', 'boolean', 'null' );
 
 	if ( ! isset( $args['type'] ) ) {
@@ -1697,8 +1930,12 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		$best_type = rest_handle_multi_type_schema( $value, $args, $param );
 
 		if ( ! $best_type ) {
-			/* translators: 1: Parameter, 2: List of types. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, implode( ',', $args['type'] ) ) );
+			return new WP_Error(
+				'rest_invalid_type',
+				/* translators: 1: Parameter, 2: List of types. */
+				sprintf( __( '%1$s is not of type %2$s.' ), $param, implode( ',', $args['type'] ) ),
+				array( 'param' => $param )
+			);
 		}
 
 		$args['type'] = $best_type;
@@ -1715,8 +1952,12 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 
 	if ( 'array' === $args['type'] ) {
 		if ( ! rest_is_array( $value ) ) {
-			/* translators: 1: Parameter, 2: Type name. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'array' ) );
+			return new WP_Error(
+				'rest_invalid_type',
+				/* translators: 1: Parameter, 2: Type name. */
+				sprintf( __( '%1$s is not of type %2$s.' ), $param, 'array' ),
+				array( 'param' => $param )
+			);
 		}
 
 		$value = rest_sanitize_array( $value );
@@ -1748,8 +1989,12 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 
 	if ( 'object' === $args['type'] ) {
 		if ( ! rest_is_object( $value ) ) {
-			/* translators: 1: Parameter, 2: Type name. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'object' ) );
+			return new WP_Error(
+				'rest_invalid_type',
+				/* translators: 1: Parameter, 2: Type name. */
+				sprintf( __( '%1$s is not of type %2$s.' ), $param, 'object' ),
+				array( 'param' => $param )
+			);
 		}
 
 		$value = rest_sanitize_object( $value );
@@ -1816,8 +2061,12 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 
 	if ( 'null' === $args['type'] ) {
 		if ( null !== $value ) {
-			/* translators: 1: Parameter, 2: Type name. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'null' ) );
+			return new WP_Error(
+				'rest_invalid_type',
+				/* translators: 1: Parameter, 2: Type name. */
+				sprintf( __( '%1$s is not of type %2$s.' ), $param, 'null' ),
+				array( 'param' => $param )
+			);
 		}
 
 		return true;
@@ -1832,8 +2081,12 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 
 	if ( in_array( $args['type'], array( 'integer', 'number' ), true ) ) {
 		if ( ! is_numeric( $value ) ) {
-			/* translators: 1: Parameter, 2: Type name. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, $args['type'] ) );
+			return new WP_Error(
+				'rest_invalid_type',
+				/* translators: 1: Parameter, 2: Type name. */
+				sprintf( __( '%1$s is not of type %2$s.' ), $param, $args['type'] ),
+				array( 'param' => $param )
+			);
 		}
 
 		if ( isset( $args['multipleOf'] ) && fmod( $value, $args['multipleOf'] ) !== 0.0 ) {
@@ -1843,19 +2096,31 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 	}
 
 	if ( 'integer' === $args['type'] && ! rest_is_integer( $value ) ) {
-		/* translators: 1: Parameter, 2: Type name. */
-		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'integer' ) );
+		return new WP_Error(
+			'rest_invalid_type',
+			/* translators: 1: Parameter, 2: Type name. */
+			sprintf( __( '%1$s is not of type %2$s.' ), $param, 'integer' ),
+			array( 'param' => $param )
+		);
 	}
 
 	if ( 'boolean' === $args['type'] && ! rest_is_boolean( $value ) ) {
-		/* translators: 1: Parameter, 2: Type name. */
-		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'boolean' ) );
+		return new WP_Error(
+			'rest_invalid_type',
+			/* translators: 1: Parameter, 2: Type name. */
+			sprintf( __( '%1$s is not of type %2$s.' ), $param, 'boolean' ),
+			array( 'param' => $param )
+		);
 	}
 
 	if ( 'string' === $args['type'] ) {
 		if ( ! is_string( $value ) ) {
-			/* translators: 1: Parameter, 2: Type name. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'string' ) );
+			return new WP_Error(
+				'rest_invalid_type',
+				/* translators: 1: Parameter, 2: Type name. */
+				sprintf( __( '%1$s is not of type %2$s.' ), $param, 'string' ),
+				array( 'param' => $param )
+			);
 		}
 
 		if ( isset( $args['minLength'] ) && mb_strlen( $value ) < $args['minLength'] ) {
@@ -1976,6 +2241,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
  *
  * @since 4.7.0
  * @since 5.5.0 Added the `$param` parameter.
+ * @since 5.6.0 Support the "anyOf" and "oneOf" keywords.
  *
  * @param mixed  $value The value to sanitize.
  * @param array  $args  Schema array to use for sanitization.
@@ -1983,6 +2249,32 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
  * @return mixed|WP_Error The sanitized value or a WP_Error instance if the value cannot be safely sanitized.
  */
 function rest_sanitize_value_from_schema( $value, $args, $param = '' ) {
+	if ( isset( $args['anyOf'] ) ) {
+		$matching_schema = rest_find_any_matching_schema( $value, $args, $param );
+		if ( is_wp_error( $matching_schema ) ) {
+			return $matching_schema;
+		}
+
+		if ( ! isset( $args['type'] ) ) {
+			$args['type'] = $matching_schema['type'];
+		}
+
+		$value = rest_sanitize_value_from_schema( $value, $matching_schema, $param );
+	}
+
+	if ( isset( $args['oneOf'] ) ) {
+		$matching_schema = rest_find_one_matching_schema( $value, $args, $param );
+		if ( is_wp_error( $matching_schema ) ) {
+			return $matching_schema;
+		}
+
+		if ( ! isset( $args['type'] ) ) {
+			$args['type'] = $matching_schema['type'];
+		}
+
+		$value = rest_sanitize_value_from_schema( $value, $matching_schema, $param );
+	}
+
 	$allowed_types = array( 'array', 'object', 'string', 'number', 'integer', 'boolean', 'null' );
 
 	if ( ! isset( $args['type'] ) ) {
@@ -2198,6 +2490,7 @@ function rest_parse_embed_param( $embed ) {
  *
  * @since 5.5.0
  * @since 5.6.0 Support the "patternProperties" keyword for objects.
+ *              Support the "anyOf" and "oneOf" keywords.
  *
  * @param array|object $data    The response data to modify.
  * @param array        $schema  The schema for the endpoint used to filter the response.
@@ -2205,6 +2498,28 @@ function rest_parse_embed_param( $embed ) {
  * @return array|object The filtered response data.
  */
 function rest_filter_response_by_context( $data, $schema, $context ) {
+	if ( isset( $schema['anyOf'] ) ) {
+		$matching_schema = rest_find_any_matching_schema( $data, $schema, '' );
+		if ( ! is_wp_error( $matching_schema ) ) {
+			if ( ! isset( $schema['type'] ) ) {
+				$schema['type'] = $matching_schema['type'];
+			}
+
+			$data = rest_filter_response_by_context( $data, $matching_schema, $context );
+		}
+	}
+
+	if ( isset( $schema['oneOf'] ) ) {
+		$matching_schema = rest_find_one_matching_schema( $data, $schema, '', true );
+		if ( ! is_wp_error( $matching_schema ) ) {
+			if ( ! isset( $schema['type'] ) ) {
+				$schema['type'] = $matching_schema['type'];
+			}
+
+			$data = rest_filter_response_by_context( $data, $matching_schema, $context );
+		}
+	}
+
 	if ( ! is_array( $data ) && ! is_object( $data ) ) {
 		return $data;
 	}
@@ -2471,6 +2786,8 @@ function rest_get_endpoint_args_for_schema( $schema, $method = WP_REST_Server::C
 		'minItems',
 		'maxItems',
 		'uniqueItems',
+		'anyOf',
+		'oneOf',
 	);
 
 	foreach ( $schema_properties as $field_id => $params ) {
