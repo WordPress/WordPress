@@ -1135,16 +1135,6 @@ ul.nav-menu .focus > ul,
 	word-wrap: break-word;
 }
 
-.entry-content a,
-.comment-content a {
-	color: #bc360a;
-}
-
-.entry-content a:hover,
-.comment-content a:hover {
-	color: #ea9629;
-}
-
 .entry-content .more-link {
 	white-space: nowrap;
 }
