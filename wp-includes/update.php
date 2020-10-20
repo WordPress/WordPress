@@ -136,6 +136,11 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		$post_body = array_merge( $post_body, $extra_stats );
 	}
 
+	// Allow for WP_AUTO_UPDATE_CORE to specify beta/RC releases.
+	if ( defined( 'WP_AUTO_UPDATE_CORE' ) && in_array( WP_AUTO_UPDATE_CORE, array( 'beta', 'rc' ), true ) ) {
+		$query['channel'] = WP_AUTO_UPDATE_CORE;
+	}
+
 	$url      = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
 	$http_url = $url;
 	$ssl      = wp_http_supports( array( 'ssl' ) );
