@@ -992,7 +992,7 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 }
 
 /**
- * Get an HTML img element representing an image attachment
+ * Get an HTML img element representing an image attachment.
  *
  * While `$size` will accept an array, it is better to register a size with
  * add_image_size() so that a cropped version is generated. It's much more
@@ -1099,7 +1099,20 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 		$html .= ' />';
 	}
 
-	return $html;
+	/**
+	 * HTML img element representing an image attachment.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param string       $html          HTML img element or empty string on failure.
+	 * @param int          $attachment_id Image attachment ID.
+	 * @param string|int[] $size          Requested image size. Can be any registered image size name, or
+	 *                                    an array of width and height values in pixels (in that order).
+	 * @param bool         $icon          Whether the image should be treated as an icon.
+	 * @param array        $attr          Array of attribute values for the image markup, keyed by attribute name.
+	 *                                    See wp_get_attachment_image().
+	 */
+	return apply_filters( 'wp_get_attachment_image', $html, $attachment_id, $size, $icon, $attr );
 }
 
 /**
