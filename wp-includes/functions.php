@@ -7599,7 +7599,7 @@ function get_dirsize( $directory, $max_execution_time = null ) {
 function recurse_dirsize( $directory, $exclude = null, $max_execution_time = null, &$directory_cache = null ) {
 	$size = 0;
 
-	$directory = untrailingslashit( $directory );
+	$directory  = untrailingslashit( $directory );
 	$cache_path = normalize_dirsize_cache_path( $directory );
 	$save_cache = false;
 

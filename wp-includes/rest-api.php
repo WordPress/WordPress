@@ -319,7 +319,7 @@ function create_initial_rest_routes() {
 
 	// Site Health
 	$site_health = WP_Site_Health::get_instance();
-	$controller = new WP_REST_Site_Health_Controller( $site_health );
+	$controller  = new WP_REST_Site_Health_Controller( $site_health );
 	$controller->register_routes();
 }
 

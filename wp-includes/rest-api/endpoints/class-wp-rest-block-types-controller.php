@@ -366,7 +366,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 			'title'      => 'block-type',
 			'type'       => 'object',
 			'properties' => array(
-				'api_version'            => array(
+				'api_version'      => array(
 					'description' => __( 'Version of block API.' ),
 					'type'        => 'integer',
 					'default'     => 1,

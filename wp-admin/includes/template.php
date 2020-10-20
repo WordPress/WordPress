@@ -2244,7 +2244,7 @@ function get_post_states( $post ) {
  * @return string Media states string.
  */
 function _media_states( $post, $echo = true ) {
-	$media_states = get_media_states( $post );
+	$media_states        = get_media_states( $post );
 	$media_states_string = '';
 
 	if ( ! empty( $media_states ) ) {

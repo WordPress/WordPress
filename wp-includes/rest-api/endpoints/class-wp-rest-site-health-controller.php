@@ -186,7 +186,7 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
 	 */
 	public function get_directory_sizes() {
 		if ( ! class_exists( 'WP_Debug_Data' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-debug-data.php' );
+			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
 		}
 
 		$sizes_data = WP_Debug_Data::get_sizes();
