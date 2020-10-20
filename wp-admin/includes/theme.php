@@ -649,7 +649,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 
 	$updates    = array();
 	$no_updates = array();
-	if ( current_user_can( 'update_themes' ) ) {
+	if ( ! is_multisite() && current_user_can( 'update_themes' ) ) {
 		$updates_transient = get_site_transient( 'update_themes' );
 		if ( isset( $updates_transient->response ) ) {
 			$updates = $updates_transient->response;
