@@ -5,7 +5,7 @@
  *
  * @return {number} - Returns the luminance, number between 0 and 255.
  */
-function twentytwentyoneGetHexLum( hex ) { // eslint-disable-line no-unused-vars
+function twentytwentyoneGetHexLum( hex ) { // jshint ignore:line
 	var rgb = twentytwentyoneGetRgbFromHex( hex );
 	return Math.round( ( 0.2126 * rgb.r ) + ( 0.7152 * rgb.g ) + ( 0.0722 * rgb.b ) );
 }
