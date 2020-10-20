@@ -365,9 +365,13 @@ abstract class WP_Image_Editor {
 		$new_ext = strtolower( $extension ? $extension : $ext );
 
 		if ( ! is_null( $dest_path ) ) {
-			$_dest_path = realpath( $dest_path );
-			if ( $_dest_path ) {
-				$dir = $_dest_path;
+			if ( ! wp_is_stream( $dest_path ) ) {
+				$_dest_path = realpath( $dest_path );
+				if ( $_dest_path ) {
+					$dir = $_dest_path;
+				}
+			} else {
+				$dir = $dest_path;
 			}
 		}
 

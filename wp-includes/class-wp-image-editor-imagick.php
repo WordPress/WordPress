@@ -71,6 +71,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			'flipimage',
 			'flopimage',
 			'readimage',
+			'readimageblob',
 		);
 
 		// Now, test for deep requirements within Imagick.
@@ -127,7 +128,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			return true;
 		}
 
-		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) ) {
+		if ( ! is_file( $this->file ) && ! wp_is_stream( $this->file ) ) {
 			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?' ), $this->file );
 		}
 
@@ -148,7 +149,12 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 					return $pdf_loaded;
 				}
 			} else {
-				$this->image->readImage( $this->file );
+				if ( wp_is_stream( $this->file ) ) {
+					// Due to reports of issues with streams with `Imagick::readImageFile()`, uses `Imagick::readImageBlob()` instead.
+					$this->image->readImageBlob( file_get_contents( $this->file ), $this->file );
+				} else {
+					$this->image->readImage( $this->file );
+				}
 			}
 
 			if ( ! $this->image->valid() ) {
@@ -682,8 +688,16 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			$orig_format = $this->image->getImageFormat();
 
 			$this->image->setImageFormat( strtoupper( $this->get_extension( $mime_type ) ) );
-			$this->make_image( $filename, array( $image, 'writeImage' ), array( $filename ) );
+		} catch ( Exception $e ) {
+			return new WP_Error( 'image_save_error', $e->getMessage(), $filename );
+		}
 
+		$write_image_result = $this->write_image( $this->image, $filename );
+		if ( is_wp_error( $write_image_result ) ) {
+			return $write_image_result;
+		}
+
+		try {
 			// Reset original format.
 			$this->image->setImageFormat( $orig_format );
 		} catch ( Exception $e ) {
@@ -703,6 +717,37 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			'height'    => $this->size['height'],
 			'mime-type' => $mime_type,
 		);
+	}
+
+	/**
+	 * Writes an image to a file or stream.
+	 *
+	 * @since 5.6
+	 *
+	 * @param Imagick $image
+	 * @param string  $filename The destination filename or stream URL.
+	 *
+	 * @return true|WP_Error
+	 */
+	private function write_image( $image, $filename ) {
+		if ( wp_is_stream( $filename ) ) {
+			/*
+			 * Due to reports of issues with streams with `Imagick::writeImageFile()` and `Imagick::writeImage()`, copies the blob instead.
+			 * Checks for exact type due to: https://www.php.net/manual/en/function.file-put-contents.php
+			 */
+			if ( file_put_contents( $filename, $image->getImageBlob() ) === false ) {
+				/* translators: %s: PHP function name. */
+				return new WP_Error( 'image_save_error', sprintf( __( '%s failed while writing image to stream.' ), '<code>file_put_contents()</code>' ), $filename );
+			} else {
+				return true;
+			}
+		} else {
+			try {
+				return $image->writeImage( $filename );
+			} catch ( Exception $e ) {
+				return new WP_Error( 'image_save_error', $e->getMessage(), $filename );
+			}
+		}
 	}
 
 	/**
