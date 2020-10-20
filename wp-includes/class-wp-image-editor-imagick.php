@@ -722,11 +722,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	/**
 	 * Writes an image to a file or stream.
 	 *
-	 * @since 5.6
+	 * @since 5.6.0
 	 *
 	 * @param Imagick $image
 	 * @param string  $filename The destination filename or stream URL.
-	 *
 	 * @return true|WP_Error
 	 */
 	private function write_image( $image, $filename ) {
@@ -855,7 +854,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * Includes a workaround for a bug in Ghostscript 8.70 that prevents processing of some PDF files
 	 * when `use-cropbox` is set.
 	 *
-	 * @since 5.6
+	 * @since 5.6.0
 	 *
 	 * @return true|WP_error
 	 */
