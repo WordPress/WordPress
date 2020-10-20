@@ -432,9 +432,18 @@ function retrieve_password() {
 	$message .= sprintf( __( 'Site Name: %s' ), $site_name ) . "\r\n\r\n";
 	/* translators: %s: User login. */
 	$message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
-	$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
+	$message .= __( 'If this was a mistake, ignore this email and nothing will happen.' ) . "\r\n\r\n";
 	$message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
-	$message .= network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . "\r\n";
+	$message .= network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . "\r\n\r\n";
+
+	$requestor_ip = $_SERVER['REMOTE_ADDR'];
+	if ( $requestor_ip ) {
+		$message .= sprintf(
+			/* translators: %s: IP address of password reset requestor. */
+			__( 'This password reset request originated from the IP address %s.' ),
+			$requestor_ip
+		) . "\r\n";
+	}
 
 	/* translators: Password reset notification email subject. %s: Site title. */
 	$title = sprintf( __( '[%s] Password Reset' ), $site_name );
