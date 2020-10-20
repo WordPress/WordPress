@@ -452,6 +452,8 @@ function get_attachment_link( $post = null, $leavename = false ) {
 	 * Filters the permalink for an attachment.
 	 *
 	 * @since 2.0.0
+	 * @since 5.6.0 Providing an empty string will now disable
+	 *              the view attachment page link on the media modal.
 	 *
 	 * @param string $link    The attachment's permalink.
 	 * @param int    $post_id Attachment ID.
