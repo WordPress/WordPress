@@ -40,8 +40,8 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 		public function register( $wp_customize ) {
 
 			// Change site-title & description to postMessage.
-			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
-			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage'; // @phpstan-ignore-line. Assume that this setting exists.
+			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage'; // @phpstan-ignore-line. Assume that this setting exists.
 
 			// Add partial for blogname.
 			$wp_customize->selective_refresh->add_partial(
@@ -126,7 +126,7 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 			// Get the palette from theme-supports.
 			$palette = get_theme_support( 'editor-color-palette' );
 
-			// Build the colors array from our theme-support.
+			// Build the colors array from theme-support.
 			$colors = array();
 			if ( isset( $palette[0] ) && is_array( $palette[0] ) ) {
 				foreach ( $palette[0] as $palette_color ) {
@@ -144,6 +144,30 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 						'section' => 'colors',
 						'palette' => $colors,
 					)
+				)
+			);
+
+			$wp_customize->add_setting(
+				'respect_user_color_preference',
+				array(
+					'capability'        => 'edit_theme_options',
+					'default'           => true,
+					'sanitize_callback' => function( $value ) {
+						return (bool) $value;
+					},
+				)
+			);
+
+			$wp_customize->add_control(
+				'respect_user_color_preference',
+				array(
+					'type'            => 'checkbox',
+					'section'         => 'colors',
+					'label'           => esc_html__( 'Respect visitor\'s device dark mode settings', 'twentytwentyone' ),
+					'description'     => __( 'Dark mode is a device setting. If a visitor to your site requests it, your site will be shown with a dark background and light text.', 'twentytwentyone' ),
+					'active_callback' => function( $value ) {
+						return 127 < Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( get_theme_mod( 'background_color', 'D1E4DD' ) );
+					},
 				)
 			);
 		}

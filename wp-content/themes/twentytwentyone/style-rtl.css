@@ -256,7 +256,7 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
 	--footer--color-link: var(--global--color-primary);
 	--footer--color-link-hover: var(--global--color-primary-hover);
 	--footer--font-family: var(--global--font-primary);
-	--footer--font-size: var(--global--font-size-xs);
+	--footer--font-size: var(--global--font-size-sm);
 	/* Block: Pull quote */
 	--pullquote--font-family: var(--global--font-primary);
 	--pullquote--font-size: var(--heading--font-size-h3);
@@ -302,7 +302,7 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
 
 /* OS dark theme preference */
 @media (prefers-color-scheme: dark) {
-	html.has-default-light-palette-background {
+	html.respect-color-scheme-preference {
 		--global--color-background: var(--global--color-dark-gray);
 		--global--color-primary: var(--global--color-light-gray);
 		--global--color-secondary: var(--global--color-light-gray);
@@ -312,7 +312,7 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
 		--button--color-background: var(--global--color-secondary);
 		--button--color-background-active: var(--global--color-background);
 	}
-	html.has-default-light-palette-background body {
+	html.respect-color-scheme-preference body {
 		background-color: var(--global--color-background);
 	}
 }
@@ -1004,11 +1004,11 @@ template {
 
 .entry-content > *.alignleft, .entry-content > *.alignright,
 .entry-content > *.alignleft:first-child + *,
-.entry-content > *.alignright:first-child + *, .entry-content > *.alignfull {
+.entry-content > *.alignright:first-child + *, .entry-content > *.alignfull.has-background {
 	margin-top: 0;
 }
 
-.entry-content > *:last-child, .entry-content > *.alignfull {
+.entry-content > *:last-child, .entry-content > *.alignfull.has-background {
 	margin-bottom: 0;
 }
 
@@ -2973,13 +2973,15 @@ table.wp-calendar-table th {
 
 table.wp-calendar-table thead,
 table.wp-calendar-table tbody {
-	border: 1px solid var(--global--color-dark-gray);
+	color: currentColor;
+	border: 1px solid;
 }
 
 table.wp-calendar-table caption {
 	font-weight: bold;
 	text-align: right;
 	margin-bottom: var(--global--spacing-unit);
+	color: currentColor;
 }
 
 .wp-calendar-nav {
@@ -4066,6 +4068,7 @@ h1.page-title {
 	.primary-navigation > .primary-menu-container {
 		height: 100vh;
 		z-index: 499;
+		border: 2px solid transparent;
 	}
 	.has-logo.has-title-and-tagline .primary-navigation > .primary-menu-container {
 		position: fixed;
@@ -4076,6 +4079,9 @@ h1.page-title {
 	}
 	.admin-bar .primary-navigation > .primary-menu-container {
 		height: calc(100vh - 46px);
+	}
+	.primary-navigation > .primary-menu-container:focus {
+		border: 2px solid var(--global--color-primary);
 	}
 }
 

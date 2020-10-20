@@ -270,8 +270,8 @@ function twenty_twenty_one_get_icon_svg( $group, $icon, $size = 24 ) {
  * @return string
  */
 function twenty_twenty_one_change_calendar_nav_arrows( $calendar_output ) {
-	$calendar_output = str_replace( '&laquo; ', twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' ), $calendar_output );
-	$calendar_output = str_replace( ' &raquo;', twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' ), $calendar_output );
+	$calendar_output = str_replace( '&laquo; ', is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' ), $calendar_output );
+	$calendar_output = str_replace( ' &raquo;', is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' ), $calendar_output );
 	return $calendar_output;
 }
 add_filter( 'get_calendar', 'twenty_twenty_one_change_calendar_nav_arrows' );
@@ -381,7 +381,7 @@ function twenty_twenty_one_get_non_latin_css( $type = 'front-end' ) {
 	}
 
 	// Return the specified styles.
-	return twenty_twenty_one_generate_css(
+	return twenty_twenty_one_generate_css( // @phpstan-ignore-line.
 		implode( ',', $elements[ $type ] ),
 		'font-family',
 		implode( ',', $font_family[ $locale ] ),
@@ -398,8 +398,8 @@ function twenty_twenty_one_get_non_latin_css( $type = 'front-end' ) {
  *
  * @param string      $block_name The full block type name, or a partial match.
  *                                Example: `core/image`, `core-embed/*`.
- * @param string|null $content    The content we need to search in. Use null for get_the_content().
- * @param int         $instances  How many instances of the block we want to print. Defaults to 1.
+ * @param string|null $content    The content to search in. Use null for get_the_content().
+ * @param int         $instances  How many instances of the block will be printed (max). Defaults to 1.
  *
  * @return bool Returns true if a block was located & printed, otherwise false.
  */
@@ -422,10 +422,10 @@ function twenty_twenty_one_print_first_instance_of_block( $block_name, $content 
 			continue;
 		}
 
-		// Check if this the block we're looking for.
+		// Check if this the block matches the $block_name.
 		$is_matching_block = false;
 
-		// If the block ends with *, we should just try to match the first portion.
+		// If the block ends with *, try to match the first portion.
 		if ( '*' === $block_name[-1] ) {
 			$is_matching_block = 0 === strpos( $block['blockName'], rtrim( $block_name, '*' ) );
 		} else {
@@ -439,7 +439,7 @@ function twenty_twenty_one_print_first_instance_of_block( $block_name, $content 
 			// Add the block HTML.
 			$blocks_content .= render_block( $block );
 
-			// Break the loop if we've reached the $instances count.
+			// Break the loop if the $instances count was reached.
 			if ( $instances_count >= $instances ) {
 				break;
 			}

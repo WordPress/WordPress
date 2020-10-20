@@ -164,7 +164,7 @@
 	--footer--color-link: var(--global--color-primary);
 	--footer--color-link-hover: var(--global--color-primary-hover);
 	--footer--font-family: var(--global--font-primary);
-	--footer--font-size: var(--global--font-size-xs);
+	--footer--font-size: var(--global--font-size-sm);
 	/* Block: Pull quote */
 	--pullquote--font-family: var(--global--font-primary);
 	--pullquote--font-size: var(--heading--font-size-h3);
@@ -210,7 +210,7 @@
 
 /* OS dark theme preference */
 @media (prefers-color-scheme: dark) {
-	html.has-default-light-palette-background {
+	html.respect-color-scheme-preference {
 		--global--color-background: var(--global--color-dark-gray);
 		--global--color-primary: var(--global--color-light-gray);
 		--global--color-secondary: var(--global--color-light-gray);
@@ -220,7 +220,7 @@
 		--button--color-background: var(--global--color-secondary);
 		--button--color-background-active: var(--global--color-background);
 	}
-	html.has-default-light-palette-background body {
+	html.respect-color-scheme-preference body {
 		background-color: var(--global--color-background);
 	}
 }
@@ -1589,13 +1589,15 @@ table.wp-calendar-table th {
 
 table.wp-calendar-table thead,
 table.wp-calendar-table tbody {
-	border: 1px solid var(--global--color-dark-gray);
+	color: currentColor;
+	border: 1px solid;
 }
 
 table.wp-calendar-table caption {
 	font-weight: bold;
 	text-align: left;
 	margin-bottom: var(--global--spacing-unit);
+	color: currentColor;
 }
 
 .wp-calendar-nav {

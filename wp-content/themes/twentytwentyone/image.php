@@ -42,8 +42,8 @@ while ( have_posts() ) {
 				array(
 					'before'   => '<nav class="page-links" aria-label="' . esc_attr__( 'Page', 'twentytwentyone' ) . '">',
 					'after'    => '</nav>',
-					/* translators: There is a space after page. */
-					'pagelink' => esc_html__( 'Page ', 'twentytwentyone' ) . '%',
+					/* translators: %: page number. */
+					'pagelink' => esc_html__( 'Page %', 'twentytwentyone' ),
 				)
 			);
 			?>
@@ -101,7 +101,7 @@ while ( have_posts() ) {
 		</footer><!-- .entry-footer -->
 	</article><!-- #post-## -->
 	<?php
-	// If comments are open or we have at least one comment, load up the comment template.
+	// If comments are open or there is at least one comment, load up the comment template.
 	if ( comments_open() || get_comments_number() ) {
 		comments_template();
 	}

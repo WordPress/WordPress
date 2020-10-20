@@ -32,11 +32,11 @@
 
 /* OS dark theme preference */
 @media (prefers-color-scheme: dark) {
-	html.has-default-light-palette-background body {
+	html.respect-color-scheme-preference body {
 		background-color: #28303d;
 	}
 	@media (prefers-color-scheme: dark){
-		html.has-default-light-palette-background body{
+		html.respect-color-scheme-preference body{
 		background-color: #28303d;
 		}
 	}
@@ -2197,18 +2197,17 @@ table.wp-calendar-table th {
 	font-weight: bold;
 }
 
-table.wp-calendar-table thead {
-	border: 1px solid #28303d;
-}
-
+table.wp-calendar-table thead,
 table.wp-calendar-table tbody {
-	border: 1px solid #28303d;
+	color: currentColor;
+	border: 1px solid;
 }
 
 table.wp-calendar-table caption {
 	font-weight: bold;
 	text-align: left;
 	margin-bottom: 20px;
+	color: currentColor;
 }
 
 .wp-calendar-nav {

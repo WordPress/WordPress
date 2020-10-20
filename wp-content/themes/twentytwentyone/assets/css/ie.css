@@ -6,7 +6,7 @@ Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: Twenty Twenty-One is a blank canvas for your ideas and it makes the block editor your best brush. With new block patterns, which allow you to create a beautiful layout in a matter of seconds, this theme’s soft colors and eye-catching — yet timeless — design will let your work shine. Take it for a spin! See how Twenty Twenty-One elevates your portfolio, business website, or personal blog.
 Requires at least: 5.3
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 5.6
 Version: 1.0.0
 License: GNU General Public License v2 or later
@@ -124,11 +124,11 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
 
 /* OS dark theme preference */
 @media (prefers-color-scheme: dark) {
-	html.has-default-light-palette-background body {
+	html.respect-color-scheme-preference body {
 		background-color: #28303d;
 	}
 	@media (prefers-color-scheme: dark){
-		html.has-default-light-palette-background body{
+		html.respect-color-scheme-preference body{
 		background-color: #28303d;
 		}
 	}
@@ -1364,11 +1364,11 @@ template {
 
 .entry-content > *.alignleft, .entry-content > *.alignright,
 .entry-content > *.alignleft:first-child + *,
-.entry-content > *.alignright:first-child + *, .entry-content > *.alignfull {
+.entry-content > *.alignright:first-child + *, .entry-content > *.alignfull.has-background {
 	margin-top: 0;
 }
 
-.entry-content > *:last-child, .entry-content > *.alignfull {
+.entry-content > *:last-child, .entry-content > *.alignfull.has-background {
 	margin-bottom: 0;
 }
 
@@ -4249,18 +4249,17 @@ table.wp-calendar-table th {
 	font-weight: bold;
 }
 
-table.wp-calendar-table thead {
-	border: 1px solid #28303d;
-}
-
+table.wp-calendar-table thead,
 table.wp-calendar-table tbody {
-	border: 1px solid #28303d;
+	color: currentColor;
+	border: 1px solid;
 }
 
 table.wp-calendar-table caption {
 	font-weight: bold;
 	text-align: left;
 	margin-bottom: 20px;
+	color: currentColor;
 }
 
 .wp-calendar-nav {
@@ -4809,7 +4808,7 @@ a.custom-logo-link {
 	padding-top: 30px;
 	color: #28303d;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	font-size: 1rem;
+	font-size: 1.125rem;
 	line-height: 1.7;
 	border-top: 3px solid #28303d;
 }
@@ -5705,6 +5704,7 @@ h1.page-title {
 	.primary-navigation > .primary-menu-container {
 		height: 100vh;
 		z-index: 499;
+		border: 2px solid transparent;
 	}
 	.has-logo.has-title-and-tagline .primary-navigation > .primary-menu-container {
 		position: fixed;
@@ -5715,6 +5715,9 @@ h1.page-title {
 	}
 	.admin-bar .primary-navigation > .primary-menu-container {
 		height: calc(100vh - 46px);
+	}
+	.primary-navigation > .primary-menu-container:focus {
+		border: 2px solid #28303d;
 	}
 }
 
@@ -6360,7 +6363,7 @@ h1.page-title {
 	margin-top: 180px;
 	padding-bottom: 10px;
 	color: #28303d;
-	font-size: 1rem;
+	font-size: 1.125rem;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 

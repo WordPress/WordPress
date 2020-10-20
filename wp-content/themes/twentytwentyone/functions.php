@@ -40,9 +40,8 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 
 		/*
 		 * Let WordPress manage the document title.
-		 * By adding theme support, we declare that this theme does not use a
-		 * hard-coded <title> tag in the document head, and expect WordPress to
-		 * provide it for us.
+		 * This theme does not use a hard-coded <title> tag in the document head,
+		 * WordPress will provide it for us.
 		 */
 		add_theme_support( 'title-tag' );
 
@@ -126,6 +125,10 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 
 		// Add support for editor styles.
 		add_theme_support( 'editor-styles' );
+		$background_color = get_theme_mod( 'background_color', 'D1E4DD' );
+		if ( 127 > Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( $background_color ) ) {
+			add_theme_support( 'dark-editor-style' );
+		}
 
 		$editor_stylesheet_path = './assets/css/style-editor.css';
 
@@ -145,43 +148,43 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 			array(
 				array(
 					'name'      => esc_html__( 'Extra small', 'twentytwentyone' ),
-					'shortName' => esc_html__( 'XS', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'XS', 'Font size', 'twentytwentyone' ),
 					'size'      => 16,
 					'slug'      => 'extra-small',
 				),
 				array(
 					'name'      => esc_html__( 'Small', 'twentytwentyone' ),
-					'shortName' => esc_html__( 'S', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'S', 'Font size', 'twentytwentyone' ),
 					'size'      => 18,
 					'slug'      => 'small',
 				),
 				array(
 					'name'      => esc_html__( 'Normal', 'twentytwentyone' ),
-					'shortName' => esc_html__( 'M', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'M', 'Font size', 'twentytwentyone' ),
 					'size'      => 20,
 					'slug'      => 'normal',
 				),
 				array(
 					'name'      => esc_html__( 'Large', 'twentytwentyone' ),
-					'shortName' => esc_html__( 'L', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'L', 'Font size', 'twentytwentyone' ),
 					'size'      => 24,
 					'slug'      => 'large',
 				),
 				array(
 					'name'      => esc_html__( 'Extra Large', 'twentytwentyone' ),
-					'shortName' => esc_html__( 'XL', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'XL', 'Font size', 'twentytwentyone' ),
 					'size'      => 40,
 					'slug'      => 'extra-large',
 				),
 				array(
 					'name'      => esc_html__( 'Huge', 'twentytwentyone' ),
-					'shortName' => esc_html__( 'XXL', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'XXL', 'Font size', 'twentytwentyone' ),
 					'size'      => 96,
 					'slug'      => 'huge',
 				),
 				array(
 					'name'      => esc_html__( 'Gigantic', 'twentytwentyone' ),
-					'shortName' => esc_html__( 'XXXL', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'XXXL', 'Font size', 'twentytwentyone' ),
 					'size'      => 144,
 					'slug'      => 'gigantic',
 				),
@@ -522,26 +525,70 @@ require get_template_directory() . '/inc/block-styles.php';
  */
 function twentytwentyone_customize_preview_init() {
 	wp_enqueue_script(
+		'twentytwentyone-customize-helpers',
+		get_theme_file_uri( '/assets/js/customize-helpers.js' ),
+		array(),
+		wp_get_theme()->get( 'Version' ),
+		true
+	);
+
+	wp_enqueue_script(
 		'twentytwentyone-customize-preview',
 		get_theme_file_uri( '/assets/js/customize-preview.js' ),
-		array( 'customize-preview', 'customize-selective-refresh', 'jquery' ),
-		get_theme_file_path( 'assets/js/customize-preview.js' ),
+		array( 'customize-preview', 'customize-selective-refresh', 'jquery', 'twentytwentyone-customize-helpers' ),
+		wp_get_theme()->get( 'Version' ),
 		true
 	);
 }
 add_action( 'customize_preview_init', 'twentytwentyone_customize_preview_init' );
 
+
 /**
- * Calculate any classes we may want to add to the main <html> element.
+ * Enqueue scripts for the customizer.
+ *
+ * @since 1.0.0
+ *
+ * @return void
+ */
+function twentytwentyone_customize_controls_enqueue_scripts() {
+
+	wp_enqueue_script(
+		'twentytwentyone-customize-helpers',
+		get_theme_file_uri( '/assets/js/customize-helpers.js' ),
+		array(),
+		wp_get_theme()->get( 'Version' ),
+		true
+	);
+
+	wp_enqueue_script(
+		'twentytwentyone-customize-controls',
+		get_theme_file_uri( '/assets/js/customize.js' ),
+		array( 'customize-base', 'customize-controls', 'underscore', 'jquery', 'twentytwentyone-customize-helpers' ),
+		wp_get_theme()->get( 'Version' ),
+		true
+	);
+
+	wp_localize_script(
+		'twentytwentyone-customize-controls',
+		'backgroundColorNotice',
+		array(
+			'message' => esc_html__( 'You currently have dark mode enabled on your device. Changing the color picker will allow you to preview light mode.', 'twentytwentyone' ),
+		)
+	);
+}
+add_action( 'customize_controls_enqueue_scripts', 'twentytwentyone_customize_controls_enqueue_scripts' );
+
+/**
+ * Calculate classes for the main <html> element.
  *
  * @since 1.0.0
  *
  * @return void
  */
 function twentytwentyone_the_html_classes() {
-	$background_color             = get_theme_mod( 'background_color', 'D1E4DD' );
-	$light_colors_default_palette = array( '#D1E4DD', '#D1DFE4', '#D1D1E4', '#E4D1D1', '#E4DAD1', '#EEEADD', '#FFFFFF' );
-	if ( in_array( strtoupper( '#' . ltrim( $background_color, '#' ) ), $light_colors_default_palette, true ) ) {
-		echo 'class="has-default-light-palette-background"';
+	$background_color            = get_theme_mod( 'background_color', 'D1E4DD' );
+	$should_respect_color_scheme = get_theme_mod( 'respect_user_color_preference', true );
+	if ( $should_respect_color_scheme && 127 <= Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( $background_color ) ) {
+		echo 'class="respect-color-scheme-preference"';
 	}
 }

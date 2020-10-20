@@ -9,7 +9,7 @@
  * @since 1.0.0
  */
 
-// If there is no featured-image, print the first image block we can find.
+// If there is no featured-image, print the first image block found.
 if (
 	! twenty_twenty_one_can_show_post_thumbnail() &&
 	has_block( 'core/image', get_the_content() )
