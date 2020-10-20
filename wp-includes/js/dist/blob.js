@@ -82,18 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["blob"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 297);
+/******/ 	return __webpack_require__(__webpack_require__.s = 300);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 297:
+/***/ 300:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBlobURL", function() { return createBlobURL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlobByURL", function() { return getBlobByURL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlobTypeByURL", function() { return getBlobTypeByURL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "revokeBlobURL", function() { return revokeBlobURL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isBlobURL", function() { return isBlobURL; });
 /**
@@ -132,6 +133,21 @@ function createBlobURL(file) {
 
 function getBlobByURL(url) {
   return cache[url];
+}
+/**
+ * Retrieve a blob type based on URL. The file must have been created by
+ * `createBlobURL` and not removed by `revokeBlobURL`, otherwise it will return
+ * `undefined`.
+ *
+ * @param {string} url The blob URL.
+ *
+ * @return {string|undefined} The blob type.
+ */
+
+function getBlobTypeByURL(url) {
+  var _getBlobByURL;
+
+  return (_getBlobByURL = getBlobByURL(url)) === null || _getBlobByURL === void 0 ? void 0 : _getBlobByURL.type.split('/')[0]; // 0: media type , 1: file extension eg ( type: 'image/jpeg' ).
 }
 /**
  * Remove the resource and file cache from memory.

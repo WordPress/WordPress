@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 459);
+/******/ 	return __webpack_require__(__webpack_require__.s = 463);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -156,21 +156,6 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-/***/ }),
-
 /***/ 152:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -186,21 +171,79 @@ var e=__webpack_require__(13),n={display:"block",opacity:0,position:"absolute",t
 
 /***/ }),
 
-/***/ 17:
+/***/ 154:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
+/* unused harmony export useCallback */
+/* unused harmony export useCallbackOne */
+/* unused harmony export useMemo */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useMemoOne; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function areInputsEqual(newInputs, lastInputs) {
+  if (newInputs.length !== lastInputs.length) {
+    return false;
+  }
+
+  for (var i = 0; i < newInputs.length; i++) {
+    if (newInputs[i] !== lastInputs[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function useMemoOne(getResult, inputs) {
+  var initial = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
+    return {
+      inputs: inputs,
+      result: getResult()
+    };
+  })[0];
+  var committed = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(initial);
+  var isInputMatch = Boolean(inputs && committed.current.inputs && areInputsEqual(inputs, committed.current.inputs));
+  var cache = isInputMatch ? committed.current : {
+    inputs: inputs,
+    result: getResult()
   };
-  return _getPrototypeOf(o);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    committed.current = cache;
+  }, [cache]);
+  return cache.result;
+}
+function useCallbackOne(callback, inputs) {
+  return useMemoOne(function () {
+    return callback;
+  }, inputs);
+}
+var useMemo = useMemoOne;
+var useCallback = useCallbackOne;
+
+
+
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
 }
 
 /***/ }),
 
-/***/ 18:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -237,6 +280,20 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
+/***/ 19:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+/***/ }),
+
 /***/ 2:
 /***/ (function(module, exports) {
 
@@ -244,7 +301,20 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 20:
+/***/ 21:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -267,20 +337,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 21:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-/***/ }),
-
-/***/ 22:
+/***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -316,13 +373,13 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
-/***/ 23:
+/***/ 24:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
 /* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
-/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
 
 
 function _possibleConstructorReturn(self, call) {
@@ -352,7 +409,7 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 285:
+/***/ 287:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -1326,7 +1383,7 @@ function getAttributeValue(suffix, element) {
 
 /***/ }),
 
-/***/ 286:
+/***/ 288:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -2466,7 +2523,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 425:
+/***/ 429:
 /***/ (function(module, exports) {
 
 /**
@@ -2519,7 +2576,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 459:
+/***/ 463:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2546,6 +2603,7 @@ __webpack_require__.d(__webpack_exports__, "useViewportMatch", function() { retu
 __webpack_require__.d(__webpack_exports__, "useResizeObserver", function() { return /* reexport */ use_resize_observer; });
 __webpack_require__.d(__webpack_exports__, "useAsyncList", function() { return /* reexport */ use_async_list; });
 __webpack_require__.d(__webpack_exports__, "useWarnOnChange", function() { return /* reexport */ use_warn_on_change; });
+__webpack_require__.d(__webpack_exports__, "useDebounce", function() { return /* reexport */ useDebounce; });
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
@@ -2632,16 +2690,16 @@ var if_condition_ifCondition = function ifCondition(predicate) {
 var classCallCheck = __webpack_require__(21);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__(20);
+var createClass = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(22);
+var inherits = __webpack_require__(23);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(23);
+var possibleConstructorReturn = __webpack_require__(24);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
-var getPrototypeOf = __webpack_require__(17);
+var getPrototypeOf = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
 var external_this_wp_isShallowEqual_ = __webpack_require__(64);
@@ -2737,7 +2795,7 @@ var pure = create_higher_order_component(function (Wrapped) {
 var esm_extends = __webpack_require__(8);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
-var assertThisInitialized = __webpack_require__(15);
+var assertThisInitialized = __webpack_require__(16);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/higher-order/with-global-events/listener.js
 
@@ -3172,7 +3230,7 @@ function withState() {
 var slicedToArray = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/clipboard/dist/clipboard.js
-var dist_clipboard = __webpack_require__(285);
+var dist_clipboard = __webpack_require__(287);
 var clipboard_default = /*#__PURE__*/__webpack_require__.n(dist_clipboard);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-copy-on-click/index.js
@@ -3316,11 +3374,11 @@ function useDragging(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/mousetrap.js
-var mousetrap_mousetrap = __webpack_require__(286);
+var mousetrap_mousetrap = __webpack_require__(288);
 var mousetrap_default = /*#__PURE__*/__webpack_require__.n(mousetrap_mousetrap);
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
-var mousetrap_global_bind = __webpack_require__(425);
+var mousetrap_global_bind = __webpack_require__(429);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-keyboard-shortcut/index.js
 /**
@@ -3642,7 +3700,7 @@ var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 /* harmony default export */ var use_resize_observer = (dist_default.a);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(18);
+var toConsumableArray = __webpack_require__(17);
 
 // EXTERNAL MODULE: external {"this":["wp","priorityQueue"]}
 var external_this_wp_priorityQueue_ = __webpack_require__(153);
@@ -3791,6 +3849,45 @@ function useWarnOnChange(object) {
 
 /* harmony default export */ var use_warn_on_change = (useWarnOnChange);
 
+// EXTERNAL MODULE: ./node_modules/use-memo-one/dist/use-memo-one.esm.js
+var use_memo_one_esm = __webpack_require__(154);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-debounce/index.js
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Debounces a function with Lodash's `debounce`. A new debounced function will
+ * be returned and any scheduled calls cancelled if any of the arguments change,
+ * including the function to debounce, so please wrap functions created on
+ * render in components in `useCallback`.
+ *
+ * @param {...any} args Arguments passed to Lodash's `debounce`.
+ */
+
+function useDebounce() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  var debounced = Object(use_memo_one_esm["a" /* useMemoOne */])(function () {
+    return external_this_lodash_["debounce"].apply(void 0, args);
+  }, args);
+  Object(external_this_wp_element_["useEffect"])(function () {
+    return function () {
+      return debounced.cancel();
+    };
+  }, [debounced]);
+  return debounced;
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/index.js
 // Utils
  // Compose helper (aliased flowRight from Lodash)
@@ -3803,6 +3900,7 @@ function useWarnOnChange(object) {
 
 
  // Hooks
+
 
 
 

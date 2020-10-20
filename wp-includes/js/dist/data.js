@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["data"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 457);
+/******/ 	return __webpack_require__(__webpack_require__.s = 461);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -478,7 +478,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 130:
+/***/ 131:
 /***/ (function(module, exports) {
 
 var g;
@@ -513,6 +513,63 @@ module.exports = g;
 /***/ }),
 
 /***/ 154:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export useCallback */
+/* unused harmony export useCallbackOne */
+/* unused harmony export useMemo */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useMemoOne; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function areInputsEqual(newInputs, lastInputs) {
+  if (newInputs.length !== lastInputs.length) {
+    return false;
+  }
+
+  for (var i = 0; i < newInputs.length; i++) {
+    if (newInputs[i] !== lastInputs[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function useMemoOne(getResult, inputs) {
+  var initial = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
+    return {
+      inputs: inputs,
+      result: getResult()
+    };
+  })[0];
+  var committed = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(initial);
+  var isInputMatch = Boolean(inputs && committed.current.inputs && areInputsEqual(inputs, committed.current.inputs));
+  var cache = isInputMatch ? committed.current : {
+    inputs: inputs,
+    result: getResult()
+  };
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    committed.current = cache;
+  }, [cache]);
+  return cache.result;
+}
+function useCallbackOne(callback, inputs) {
+  return useMemoOne(function () {
+    return callback;
+  }, inputs);
+}
+var useMemo = useMemoOne;
+var useCallback = useCallbackOne;
+
+
+
+
+/***/ }),
+
+/***/ 155:
 /***/ (function(module, exports) {
 
 module.exports = isPromise;
@@ -525,7 +582,7 @@ function isPromise(obj) {
 
 /***/ }),
 
-/***/ 165:
+/***/ 168:
 /***/ (function(module, exports) {
 
 function combineReducers( reducers ) {
@@ -584,7 +641,7 @@ module.exports = combineReducers;
 
 /***/ }),
 
-/***/ 18:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -628,11 +685,18 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 200:
+/***/ 20:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["regeneratorRuntime"]; }());
+
+/***/ }),
+
+/***/ 202:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(288);
+/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(290);
 /* global window */
 
 
@@ -651,14 +715,7 @@ if (typeof self !== 'undefined') {
 var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(root);
 /* harmony default export */ __webpack_exports__["a"] = (result);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(130), __webpack_require__(426)(module)))
-
-/***/ }),
-
-/***/ 24:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["regeneratorRuntime"]; }());
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(131), __webpack_require__(430)(module)))
 
 /***/ }),
 
@@ -679,14 +736,14 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 287:
+/***/ 289:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["reduxRoutine"]; }());
 
 /***/ }),
 
-/***/ 288:
+/***/ 290:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -730,7 +787,7 @@ function _unsupportedIterableToArray(o, minLen) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 36:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["deprecated"]; }());
@@ -770,7 +827,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 426:
+/***/ 430:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -801,7 +858,50 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 457:
+/***/ 45:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+/***/ }),
+
+/***/ 461:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -821,6 +921,7 @@ __webpack_require__.d(__webpack_exports__, "AsyncModeProvider", function() { ret
 __webpack_require__.d(__webpack_exports__, "createRegistry", function() { return /* reexport */ createRegistry; });
 __webpack_require__.d(__webpack_exports__, "createRegistrySelector", function() { return /* reexport */ createRegistrySelector; });
 __webpack_require__.d(__webpack_exports__, "createRegistryControl", function() { return /* reexport */ createRegistryControl; });
+__webpack_require__.d(__webpack_exports__, "controls", function() { return /* reexport */ controls_controls; });
 __webpack_require__.d(__webpack_exports__, "plugins", function() { return /* reexport */ plugins_namespaceObject; });
 __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return /* reexport */ turbo_combine_reducers_default.a; });
 __webpack_require__.d(__webpack_exports__, "select", function() { return /* binding */ build_module_select; });
@@ -852,11 +953,11 @@ __webpack_require__.d(actions_namespaceObject, "invalidateResolutionForStoreSele
 // NAMESPACE OBJECT: ./node_modules/@wordpress/data/build-module/plugins/index.js
 var plugins_namespaceObject = {};
 __webpack_require__.r(plugins_namespaceObject);
-__webpack_require__.d(plugins_namespaceObject, "controls", function() { return controls; });
+__webpack_require__.d(plugins_namespaceObject, "controls", function() { return plugins_controls; });
 __webpack_require__.d(plugins_namespaceObject, "persistence", function() { return plugins_persistence; });
 
 // EXTERNAL MODULE: ./node_modules/turbo-combine-reducers/index.js
-var turbo_combine_reducers = __webpack_require__(165);
+var turbo_combine_reducers = __webpack_require__(168);
 var turbo_combine_reducers_default = /*#__PURE__*/__webpack_require__.n(turbo_combine_reducers);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
@@ -873,14 +974,14 @@ var memize = __webpack_require__(60);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
-var external_this_regeneratorRuntime_ = __webpack_require__(24);
+var external_this_regeneratorRuntime_ = __webpack_require__(20);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(47);
+var asyncToGenerator = __webpack_require__(45);
 
 // EXTERNAL MODULE: ./node_modules/symbol-observable/es/index.js
-var es = __webpack_require__(200);
+var es = __webpack_require__(202);
 
 // CONCATENATED MODULE: ./node_modules/redux/es/redux.js
 
@@ -1538,11 +1639,254 @@ var equivalent_key_map = __webpack_require__(106);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // EXTERNAL MODULE: external {"this":["wp","reduxRoutine"]}
-var external_this_wp_reduxRoutine_ = __webpack_require__(287);
+var external_this_wp_reduxRoutine_ = __webpack_require__(289);
 var external_this_wp_reduxRoutine_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_reduxRoutine_);
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
+var toConsumableArray = __webpack_require__(17);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/factory.js
+/**
+ * Creates a selector function that takes additional curried argument with the
+ * registry `select` function. While a regular selector has signature
+ * ```js
+ * ( state, ...selectorArgs ) => ( result )
+ * ```
+ * that allows to select data from the store's `state`, a registry selector
+ * has signature:
+ * ```js
+ * ( select ) => ( state, ...selectorArgs ) => ( result )
+ * ```
+ * that supports also selecting from other registered stores.
+ *
+ * @example
+ * ```js
+ * const getCurrentPostId = createRegistrySelector( ( select ) => ( state ) => {
+ *   return select( 'core/editor' ).getCurrentPostId();
+ * } );
+ *
+ * const getPostEdits = createRegistrySelector( ( select ) => ( state ) => {
+ *   // calling another registry selector just like any other function
+ *   const postType = getCurrentPostType( state );
+ *   const postId = getCurrentPostId( state );
+ *	 return select( 'core' ).getEntityRecordEdits( 'postType', postType, postId );
+ * } );
+ * ```
+ *
+ * Note how the `getCurrentPostId` selector can be called just like any other function,
+ * (it works even inside a regular non-registry selector) and we don't need to pass the
+ * registry as argument. The registry binding happens automatically when registering the selector
+ * with a store.
+ *
+ * @param {Function} registrySelector Function receiving a registry `select`
+ * function and returning a state selector.
+ *
+ * @return {Function} Registry selector that can be registered with a store.
+ */
+function createRegistrySelector(registrySelector) {
+  // create a selector function that is bound to the registry referenced by `selector.registry`
+  // and that has the same API as a regular selector. Binding it in such a way makes it
+  // possible to call the selector directly from another selector.
+  var selector = function selector() {
+    return registrySelector(selector.registry.select).apply(void 0, arguments);
+  };
+  /**
+   * Flag indicating that the selector is a registry selector that needs the correct registry
+   * reference to be assigned to `selecto.registry` to make it work correctly.
+   * be mapped as a registry selector.
+   *
+   * @type {boolean}
+   */
+
+
+  selector.isRegistrySelector = true;
+  return selector;
+}
+/**
+ * Creates a control function that takes additional curried argument with the `registry` object.
+ * While a regular control has signature
+ * ```js
+ * ( action ) => ( iteratorOrPromise )
+ * ```
+ * where the control works with the `action` that it's bound to, a registry control has signature:
+ * ```js
+ * ( registry ) => ( action ) => ( iteratorOrPromise )
+ * ```
+ * A registry control is typically used to select data or dispatch an action to a registered
+ * store.
+ *
+ * When registering a control created with `createRegistryControl` with a store, the store
+ * knows which calling convention to use when executing the control.
+ *
+ * @param {Function} registryControl Function receiving a registry object and returning a control.
+ *
+ * @return {Function} Registry control that can be registered with a store.
+ */
+
+function createRegistryControl(registryControl) {
+  registryControl.isRegistryControl = true;
+  return registryControl;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/controls.js
+
+
+
+var _builtinControls;
+
+/**
+ * Internal dependencies
+ */
+
+var SELECT = '@@data/SELECT';
+var RESOLVE_SELECT = '@@data/RESOLVE_SELECT';
+var DISPATCH = '@@data/DISPATCH';
+/**
+ * Dispatches a control action for triggering a synchronous registry select.
+ *
+ * Note: This control synchronously returns the current selector value, triggering the
+ * resolution, but not waiting for it.
+ *
+ * @param {string} storeKey     The key for the store the selector belongs to.
+ * @param {string} selectorName The name of the selector.
+ * @param {Array}  args         Arguments for the selector.
+ *
+ * @example
+ * ```js
+ * import { controls } from '@wordpress/data';
+ *
+ * // Action generator using `select`.
+ * export function* myAction() {
+ *   const isEditorSideBarOpened = yield controls.select( 'core/edit-post', 'isEditorSideBarOpened' );
+ *   // Do stuff with the result from the `select`.
+ * }
+ * ```
+ *
+ * @return {Object} The control descriptor.
+ */
+
+function controls_select(storeKey, selectorName) {
+  for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+    args[_key - 2] = arguments[_key];
+  }
+
+  return {
+    type: SELECT,
+    storeKey: storeKey,
+    selectorName: selectorName,
+    args: args
+  };
+}
+/**
+ * Dispatches a control action for triggering and resolving a registry select.
+ *
+ * Note: when this control action is handled, it automatically considers
+ * selectors that may have a resolver. In such case, it will return a `Promise` that resolves
+ * after the selector finishes resolving, with the final result value.
+ *
+ * @param {string} storeKey      The key for the store the selector belongs to
+ * @param {string} selectorName  The name of the selector
+ * @param {Array}  args          Arguments for the selector.
+ *
+ * @example
+ * ```js
+ * import { controls } from '@wordpress/data';
+ *
+ * // Action generator using resolveSelect
+ * export function* myAction() {
+ * 	const isSidebarOpened = yield controls.resolveSelect( 'core/edit-post', 'isEditorSideBarOpened' );
+ * 	// do stuff with the result from the select.
+ * }
+ * ```
+ *
+ * @return {Object} The control descriptor.
+ */
+
+
+function resolveSelect(storeKey, selectorName) {
+  for (var _len2 = arguments.length, args = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+    args[_key2 - 2] = arguments[_key2];
+  }
+
+  return {
+    type: RESOLVE_SELECT,
+    storeKey: storeKey,
+    selectorName: selectorName,
+    args: args
+  };
+}
+/**
+ * Dispatches a control action for triggering a registry dispatch.
+ *
+ * @param {string} storeKey    The key for the store the action belongs to
+ * @param {string} actionName  The name of the action to dispatch
+ * @param {Array}  args        Arguments for the dispatch action.
+ *
+ * @example
+ * ```js
+ * import { controls } from '@wordpress/data-controls';
+ *
+ * // Action generator using dispatch
+ * export function* myAction() {
+ *   yield controls.dispatch( 'core/edit-post', 'togglePublishSidebar' );
+ *   // do some other things.
+ * }
+ * ```
+ *
+ * @return {Object}  The control descriptor.
+ */
+
+
+function controls_dispatch(storeKey, actionName) {
+  for (var _len3 = arguments.length, args = new Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
+    args[_key3 - 2] = arguments[_key3];
+  }
+
+  return {
+    type: DISPATCH,
+    storeKey: storeKey,
+    actionName: actionName,
+    args: args
+  };
+}
+
+var controls_controls = {
+  select: controls_select,
+  resolveSelect: resolveSelect,
+  dispatch: controls_dispatch
+};
+var builtinControls = (_builtinControls = {}, Object(defineProperty["a" /* default */])(_builtinControls, SELECT, createRegistryControl(function (registry) {
+  return function (_ref) {
+    var _registry$select;
+
+    var storeKey = _ref.storeKey,
+        selectorName = _ref.selectorName,
+        args = _ref.args;
+    return (_registry$select = registry.select(storeKey))[selectorName].apply(_registry$select, Object(toConsumableArray["a" /* default */])(args));
+  };
+})), Object(defineProperty["a" /* default */])(_builtinControls, RESOLVE_SELECT, createRegistryControl(function (registry) {
+  return function (_ref2) {
+    var _registry$method;
+
+    var storeKey = _ref2.storeKey,
+        selectorName = _ref2.selectorName,
+        args = _ref2.args;
+    var method = registry.select(storeKey)[selectorName].hasResolver ? '__experimentalResolveSelect' : 'select';
+    return (_registry$method = registry[method](storeKey))[selectorName].apply(_registry$method, Object(toConsumableArray["a" /* default */])(args));
+  };
+})), Object(defineProperty["a" /* default */])(_builtinControls, DISPATCH, createRegistryControl(function (registry) {
+  return function (_ref3) {
+    var _registry$dispatch;
+
+    var storeKey = _ref3.storeKey,
+        actionName = _ref3.actionName,
+        args = _ref3.args;
+    return (_registry$dispatch = registry.dispatch(storeKey))[actionName].apply(_registry$dispatch, Object(toConsumableArray["a" /* default */])(args));
+  };
+})), _builtinControls);
+
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(154);
+var is_promise = __webpack_require__(155);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/promise-middleware.js
@@ -1573,9 +1917,6 @@ var promise_middleware_promiseMiddleware = function promiseMiddleware() {
 };
 
 /* harmony default export */ var promise_middleware = (promise_middleware_promiseMiddleware);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(18);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/resolvers-cache-middleware.js
 
@@ -1950,6 +2291,7 @@ function namespace_store_objectSpread(target) { for (var i = 1; i < arguments.le
 
 
 
+
 /**
  * Create a cache to track whether resolvers started running or not.
  *
@@ -2087,15 +2429,12 @@ function createNamespace(key, options, registry) {
  */
 
 function createReduxStore(key, options, registry) {
-  var middlewares = [resolvers_cache_middleware(registry, key), promise_middleware];
+  var controls = namespace_store_objectSpread(namespace_store_objectSpread({}, options.controls), builtinControls);
 
-  if (options.controls) {
-    var normalizedControls = Object(external_this_lodash_["mapValues"])(options.controls, function (control) {
-      return control.isRegistryControl ? control(registry) : control;
-    });
-    middlewares.push(external_this_wp_reduxRoutine_default()(normalizedControls));
-  }
-
+  var normalizedControls = Object(external_this_lodash_["mapValues"])(controls, function (control) {
+    return control.isRegistryControl ? control(registry) : control;
+  });
+  var middlewares = [resolvers_cache_middleware(registry, key), promise_middleware, external_this_wp_reduxRoutine_default()(normalizedControls)];
   var enhancers = [applyMiddleware.apply(void 0, middlewares)];
 
   if (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__) {
@@ -2682,7 +3021,7 @@ function createRegistry() {
 /* harmony default export */ var default_registry = (createRegistry());
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(35);
+var external_this_wp_deprecated_ = __webpack_require__(36);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/plugins/controls/index.js
@@ -2690,7 +3029,7 @@ var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(ext
  * WordPress dependencies
  */
 
-/* harmony default export */ var controls = (function (registry) {
+/* harmony default export */ var plugins_controls = (function (registry) {
   external_this_wp_deprecated_default()('wp.data.plugins.controls', {
     hint: 'The controls plugins is now baked-in.'
   });
@@ -3033,53 +3372,8 @@ var external_this_wp_element_ = __webpack_require__(0);
 // EXTERNAL MODULE: external {"this":["wp","compose"]}
 var external_this_wp_compose_ = __webpack_require__(10);
 
-// EXTERNAL MODULE: external {"this":"React"}
-var external_this_React_ = __webpack_require__(13);
-
-// CONCATENATED MODULE: ./node_modules/use-memo-one/dist/use-memo-one.esm.js
-
-
-function areInputsEqual(newInputs, lastInputs) {
-  if (newInputs.length !== lastInputs.length) {
-    return false;
-  }
-
-  for (var i = 0; i < newInputs.length; i++) {
-    if (newInputs[i] !== lastInputs[i]) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function useMemoOne(getResult, inputs) {
-  var initial = Object(external_this_React_["useState"])(function () {
-    return {
-      inputs: inputs,
-      result: getResult()
-    };
-  })[0];
-  var committed = Object(external_this_React_["useRef"])(initial);
-  var isInputMatch = Boolean(inputs && committed.current.inputs && areInputsEqual(inputs, committed.current.inputs));
-  var cache = isInputMatch ? committed.current : {
-    inputs: inputs,
-    result: getResult()
-  };
-  Object(external_this_React_["useEffect"])(function () {
-    committed.current = cache;
-  }, [cache]);
-  return cache.result;
-}
-function useCallbackOne(callback, inputs) {
-  return useMemoOne(function () {
-    return callback;
-  }, inputs);
-}
-var useMemo = useMemoOne;
-var useCallback = useCallbackOne;
-
-
+// EXTERNAL MODULE: ./node_modules/use-memo-one/dist/use-memo-one.esm.js
+var use_memo_one_esm = __webpack_require__(154);
 
 // EXTERNAL MODULE: external {"this":["wp","priorityQueue"]}
 var external_this_wp_priorityQueue_ = __webpack_require__(153);
@@ -3340,7 +3634,7 @@ function useSelect(_mapSelect, deps) {
   // We use the cache-stable `useMemoOne` to avoid
   // losing queues.
 
-  var queueContext = useMemoOne(function () {
+  var queueContext = Object(use_memo_one_esm["a" /* useMemoOne */])(function () {
     return {
       queue: true
     };
@@ -3771,105 +4065,6 @@ var use_dispatch_useDispatch = function useDispatch(storeName) {
 
 /* harmony default export */ var use_dispatch = (use_dispatch_useDispatch);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/factory.js
-/**
- * Internal dependencies
- */
-
-/** @typedef {import('./registry').WPDataRegistry} WPDataRegistry */
-
-/**
- * Creates a selector function that takes additional curried argument with the
- * registry `select` function. While a regular selector has signature
- * ```js
- * ( state, ...selectorArgs ) => ( result )
- * ```
- * that allows to select data from the store's `state`, a registry selector
- * has signature:
- * ```js
- * ( select ) => ( state, ...selectorArgs ) => ( result )
- * ```
- * that supports also selecting from other registered stores.
- *
- * @example
- * ```js
- * const getCurrentPostId = createRegistrySelector( ( select ) => ( state ) => {
- *   return select( 'core/editor' ).getCurrentPostId();
- * } );
- *
- * const getPostEdits = createRegistrySelector( ( select ) => ( state ) => {
- *   // calling another registry selector just like any other function
- *   const postType = getCurrentPostType( state );
- *   const postId = getCurrentPostId( state );
- *	 return select( 'core' ).getEntityRecordEdits( 'postType', postType, postId );
- * } );
- * ```
- *
- * Note how the `getCurrentPostId` selector can be called just like any other function,
- * (it works even inside a regular non-registry selector) and we don't need to pass the
- * registry as argument. The registry binding happens automatically when registering the selector
- * with a store.
- *
- * @param {Function} registrySelector Function receiving a registry `select`
- * function and returning a state selector.
- *
- * @return {Function} Registry selector that can be registered with a store.
- */
-
-function createRegistrySelector(registrySelector) {
-  // create a selector function that is bound to the registry referenced by `selector.registry`
-  // and that has the same API as a regular selector. Binding it in such a way makes it
-  // possible to call the selector directly from another selector.
-  var selector = function selector() {
-    return registrySelector(selector.registry.select).apply(void 0, arguments);
-  };
-  /**
-   * Flag indicating that the selector is a registry selector that needs the correct registry
-   * reference to be assigned to `selecto.registry` to make it work correctly.
-   * be mapped as a registry selector.
-   *
-   * @type {boolean}
-   */
-
-
-  selector.isRegistrySelector = true;
-  /**
-   * Registry on which to call `select`. The `defaultRegistry` value is overwritten with
-   * the actual registry when the selector is registered with a store. Therefore, it's never
-   * used and is assigned here only to satisfy the type constraint of the `registry` field.
-   *
-   * @type {WPDataRegistry}
-   */
-
-  selector.registry = default_registry;
-  return selector;
-}
-/**
- * Creates a control function that takes additional curried argument with the `registry` object.
- * While a regular control has signature
- * ```js
- * ( action ) => ( iteratorOrPromise )
- * ```
- * where the control works with the `action` that it's bound to, a registry control has signature:
- * ```js
- * ( registry ) => ( action ) => ( iteratorOrPromise )
- * ```
- * A registry control is typically used to select data or dispatch an action to a registered
- * store.
- *
- * When registering a control created with `createRegistryControl` with a store, the store
- * knows which calling convention to use when executing the control.
- *
- * @param {Function} registryControl Function receiving a registry object and returning a control.
- *
- * @return {Function} Registry control that can be registered with a store.
- */
-
-function createRegistryControl(registryControl) {
-  registryControl.isRegistryControl = true;
-  return registryControl;
-}
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/index.js
 /**
  * External dependencies
@@ -3878,6 +4073,7 @@ function createRegistryControl(registryControl) {
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -4044,49 +4240,6 @@ var build_module_registerStore = default_registry.registerStore;
 
 var build_module_use = default_registry.use;
 
-
-/***/ }),
-
-/***/ 47:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
 
 /***/ }),
 

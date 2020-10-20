@@ -175,7 +175,7 @@ html.interface-interface-skeleton__html-container {
 
 .interface-interface-skeleton {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   height: auto;
   max-height: 100%;
   position: fixed;
@@ -188,6 +188,11 @@ html.interface-interface-skeleton__html-container {
       top: 32px; }
       .is-fullscreen-mode .interface-interface-skeleton {
         top: 0; } }
+
+.interface-interface-skeleton__editor {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; }
 
 .interface-interface-skeleton {
   /* Set left position when auto-fold is not on the body element. */
@@ -284,6 +289,11 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   flex-shrink: 0;
   border-top: 1px solid #e0e0e0;
   color: #1e1e1e;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 90;
   display: none; }
   @media (min-width: 782px) {
     .interface-interface-skeleton__footer {
@@ -336,11 +346,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 
 .edit-post-header__toolbar {
   display: flex;
-  flex-grow: 1;
-  padding-right: 8px; }
-  @media (min-width: 600px) {
-    .edit-post-header__toolbar {
-      padding-right: 24px; } }
+  flex-grow: 1; }
   .edit-post-header__toolbar .table-of-contents {
     display: none; }
     @media (min-width: 600px) {
@@ -351,29 +357,26 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  padding-left: 4px; }
+  padding-left: 4px;
+  /**
+	 * Buttons in the Toolbar
+ 	 */ }
   @media (min-width: 600px) {
     .edit-post-header__settings {
       padding-left: 16px; } }
-
-/**
- * Buttons in the Toolbar
- */
-.edit-post-header__settings .editor-post-saved-state,
-.edit-post-header__settings .components-button.components-button {
-  margin-left: 4px; }
-  @media (min-width: 600px) {
-    .edit-post-header__settings .editor-post-saved-state,
-    .edit-post-header__settings .components-button.components-button {
-      margin-left: 12px; } }
-
-.edit-post-header__settings .editor-post-saved-state,
-.edit-post-header__settings .components-button.is-tertiary {
-  padding: 0 6px; }
-
-.edit-post-header__settings .edit-post-more-menu .components-button,
-.edit-post-header__settings .interface-pinned-items .components-button {
-  margin-left: 0; }
+  .edit-post-header__settings .editor-post-saved-state,
+  .edit-post-header__settings .components-button.components-button {
+    margin-left: 4px; }
+    @media (min-width: 600px) {
+      .edit-post-header__settings .editor-post-saved-state,
+      .edit-post-header__settings .components-button.components-button {
+        margin-left: 12px; } }
+  .edit-post-header__settings .editor-post-saved-state,
+  .edit-post-header__settings .components-button.is-tertiary {
+    padding: 0 6px; }
+  .edit-post-header__settings .edit-post-more-menu .components-button,
+  .edit-post-header__settings .interface-pinned-items .components-button {
+    margin-left: 0; }
 
 .edit-post-header-preview__grouping-external {
   display: flex;
@@ -534,7 +537,8 @@ body.is-fullscreen-mode .interface-interface-skeleton {
     .edit-post-fullscreen-mode-close.has-icon {
       display: flex;
       align-items: center;
-      align-self: stretch;
+      -ms-grid-row-align: stretch;
+          align-self: stretch;
       border: none;
       background: #23282e;
       color: #fff;
@@ -556,34 +560,45 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   display: inline-flex;
   align-items: center;
   border: none; }
-  .edit-post-header-toolbar > .components-button {
+  .edit-post-header-toolbar .edit-post-header-toolbar__left > .components-button {
     display: none; }
     @media (min-width: 600px) {
-      .edit-post-header-toolbar > .components-button {
+      .edit-post-header-toolbar .edit-post-header-toolbar__left > .components-button {
         display: inline-flex; } }
-  .edit-post-header-toolbar > .edit-post-header-toolbar__inserter-toggle {
+  .edit-post-header-toolbar .edit-post-header-toolbar__left > .edit-post-header-toolbar__inserter-toggle {
     display: inline-flex; }
   .edit-post-header-toolbar .block-editor-block-navigation {
     display: none; }
     @media (min-width: 600px) {
       .edit-post-header-toolbar .block-editor-block-navigation {
         display: flex; } }
-  .edit-post-header-toolbar > .components-button.has-icon,
-  .edit-post-header-toolbar > .components-dropdown > .components-button.has-icon {
+  .edit-post-header-toolbar .edit-post-header-toolbar__left > .components-button.has-icon,
+  .edit-post-header-toolbar .edit-post-header-toolbar__left > .components-dropdown > .components-button.has-icon {
     height: 36px;
     min-width: 36px;
     padding: 6px; }
-    .edit-post-header-toolbar > .components-button.has-icon.is-pressed,
-    .edit-post-header-toolbar > .components-dropdown > .components-button.has-icon.is-pressed {
+    .edit-post-header-toolbar .edit-post-header-toolbar__left > .components-button.has-icon.is-pressed,
+    .edit-post-header-toolbar .edit-post-header-toolbar__left > .components-dropdown > .components-button.has-icon.is-pressed {
       background: #1e1e1e; }
-    .edit-post-header-toolbar > .components-button.has-icon:focus:not(:disabled),
-    .edit-post-header-toolbar > .components-dropdown > .components-button.has-icon:focus:not(:disabled) {
+    .edit-post-header-toolbar .edit-post-header-toolbar__left > .components-button.has-icon:focus:not(:disabled),
+    .edit-post-header-toolbar .edit-post-header-toolbar__left > .components-dropdown > .components-button.has-icon:focus:not(:disabled) {
       box-shadow: 0 0 0 1.5px #007cba, inset 0 0 0 1px #fff;
       box-shadow: 0 0 0 1.5px var(--wp-admin-theme-color), inset 0 0 0 1px #fff;
       outline: 1px solid transparent; }
-    .edit-post-header-toolbar > .components-button.has-icon::before,
-    .edit-post-header-toolbar > .components-dropdown > .components-button.has-icon::before {
+    .edit-post-header-toolbar .edit-post-header-toolbar__left > .components-button.has-icon::before,
+    .edit-post-header-toolbar .edit-post-header-toolbar__left > .components-dropdown > .components-button.has-icon::before {
       display: none; }
+
+.edit-post-header-toolbar__left {
+  display: inline-flex;
+  align-items: center;
+  padding-right: 8px; }
+  @media (min-width: 600px) {
+    .edit-post-header-toolbar__left {
+      padding-right: 24px; } }
+  @media (min-width: 1280px) {
+    .edit-post-header-toolbar__left {
+      padding-left: 8px; } }
 
 .edit-post-header-toolbar__block-toolbar {
   position: absolute;
@@ -600,13 +615,14 @@ body.is-fullscreen-mode .interface-interface-skeleton {
     border-bottom: none; }
   .is-sidebar-opened .edit-post-header-toolbar__block-toolbar {
     display: none; }
+  .edit-post-header-toolbar__block-toolbar .block-editor-block-toolbar__block-parent-selector-wrapper {
+    display: none; }
   @media (min-width: 782px) {
     .is-sidebar-opened .edit-post-header-toolbar__block-toolbar {
       display: block;
       left: 280px; } }
   @media (min-width: 1280px) {
     .edit-post-header-toolbar__block-toolbar {
-      padding-right: 8px;
       position: static;
       right: auto;
       left: auto;
@@ -621,12 +637,14 @@ body.is-fullscreen-mode .interface-interface-skeleton {
         height: 60px;
         padding: 6px 0; } }
 
-.edit-post-header-toolbar .edit-post-header-toolbar__inserter-toggle.has-icon {
+.edit-post-header-toolbar .edit-post-header-toolbar__left > .edit-post-header-toolbar__inserter-toggle.has-icon {
   margin-left: 8px;
   min-width: 32px;
   width: 32px;
   height: 32px;
   padding: 0; }
+  .show-icon-labels .edit-post-header-toolbar .edit-post-header-toolbar__left > .edit-post-header-toolbar__inserter-toggle.has-icon {
+    height: 36px; }
 
 @media (min-width: 1280px) {
   .show-icon-labels .edit-post-header-toolbar__block-toolbar {
@@ -641,9 +659,6 @@ body.is-fullscreen-mode .interface-interface-skeleton {
     .show-icon-labels .edit-post-header-toolbar__block-toolbar .block-editor-block-toolbar .components-toolbar {
       height: auto;
       padding: 0; } }
-
-.show-icon-labels .edit-post-header-toolbar__inserter-toggle.edit-post-header-toolbar__inserter-toggle.edit-post-header-toolbar__inserter-toggle {
-  height: 36px; }
 
 .edit-post-more-menu {
   margin-right: -4px; }
@@ -821,20 +836,10 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   display: flex;
   justify-content: center; }
   .interface-interface-skeleton__actions:focus .edit-post-layout__toggle-publish-panel,
-  .interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-publish-panel,
-  .interface-interface-skeleton__actions:focus .edit-post-layout__toggle-publish-panel,
   .interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-publish-panel, .interface-interface-skeleton__actions:focus
   .edit-post-layout__toogle-sidebar-panel,
   .interface-interface-skeleton__actions:focus-within
-  .edit-post-layout__toogle-sidebar-panel,
-  .interface-interface-skeleton__actions:focus
-  .edit-post-layout__toogle-sidebar-panel,
-  .interface-interface-skeleton__actions:focus-within
   .edit-post-layout__toogle-sidebar-panel, .interface-interface-skeleton__actions:focus
-  .edit-post-layout__toggle-entities-saved-states-panel,
-  .interface-interface-skeleton__actions:focus-within
-  .edit-post-layout__toggle-entities-saved-states-panel,
-  .interface-interface-skeleton__actions:focus
   .edit-post-layout__toggle-entities-saved-states-panel,
   .interface-interface-skeleton__actions:focus-within
   .edit-post-layout__toggle-entities-saved-states-panel {
@@ -1037,6 +1042,43 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 
 .edit-post-meta-boxes-area__clear {
   clear: both; }
+
+.edit-post-preferences-modal__section {
+  margin: 0 0 2.5rem 0; }
+
+.edit-post-preferences-modal__section-title {
+  font-size: 0.9rem;
+  font-weight: 600; }
+
+.edit-post-preferences-modal__option .components-base-control__field {
+  align-items: center;
+  display: flex;
+  margin: 0; }
+
+.edit-post-preferences-modal__option .components-checkbox-control__label {
+  flex-grow: 1;
+  padding: 0.6rem 10px 0.6rem 0; }
+
+.edit-post-preferences-modal__custom-fields-confirmation-message, .edit-post-preferences-modal__custom-fields-confirmation-button {
+  margin: 0 48px 0.6rem 0; }
+  @media (min-width: 782px) {
+    .edit-post-preferences-modal__custom-fields-confirmation-message, .edit-post-preferences-modal__custom-fields-confirmation-button {
+      margin-right: 38px; } }
+  @media (min-width: 600px) {
+    .edit-post-preferences-modal__custom-fields-confirmation-message, .edit-post-preferences-modal__custom-fields-confirmation-button {
+      max-width: 300px; } }
+
+.edit-post-preferences-modal .components-base-control__help {
+  margin: -8px 42px 8px 0;
+  font-size: 12px;
+  font-style: normal;
+  color: #757575; }
+
+.edit-post-preferences-modal .edit-post-preferences-modal__section-description {
+  margin: -8px 0 8px 0;
+  font-size: 12px;
+  font-style: normal;
+  color: #757575; }
 
 .components-panel__header.edit-post-sidebar__panel-tabs {
   justify-content: flex-start;
@@ -1274,34 +1316,6 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   margin-right: auto;
   margin-left: auto;
   margin-bottom: 32px; }
-
-.edit-post-options-modal__section {
-  margin: 0 0 2rem 0; }
-
-.edit-post-options-modal__section-title {
-  font-size: 0.9rem;
-  font-weight: 600; }
-
-.edit-post-options-modal__option {
-  border-top: 1px solid #ddd; }
-  .edit-post-options-modal__option:last-child {
-    border-bottom: 1px solid #ddd; }
-  .edit-post-options-modal__option .components-base-control__field {
-    align-items: center;
-    display: flex;
-    margin: 0; }
-  .edit-post-options-modal__option .components-checkbox-control__label {
-    flex-grow: 1;
-    padding: 0.6rem 10px 0.6rem 0; }
-
-.edit-post-options-modal__custom-fields-confirmation-message, .edit-post-options-modal__custom-fields-confirmation-button {
-  margin: 0 48px 0.6rem 0; }
-  @media (min-width: 782px) {
-    .edit-post-options-modal__custom-fields-confirmation-message, .edit-post-options-modal__custom-fields-confirmation-button {
-      margin-right: 38px; } }
-  @media (min-width: 600px) {
-    .edit-post-options-modal__custom-fields-confirmation-message, .edit-post-options-modal__custom-fields-confirmation-button {
-      max-width: 300px; } }
 
 .edit-post-welcome-guide {
   width: 312px; }

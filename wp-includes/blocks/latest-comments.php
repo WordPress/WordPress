@@ -129,15 +129,15 @@ function render_block_core_latest_comments( $attributes = array() ) {
 	if ( empty( $comments ) ) {
 		$classnames[] = 'no-comments';
 	}
-	$class = esc_attr( implode( ' ', $classnames ) );
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classnames ) ) );
 
 	return ! empty( $comments ) ? sprintf(
-		'<ol class="%1$s">%2$s</ol>',
-		$class,
+		'<ol %1$s>%2$s</ol>',
+		$wrapper_attributes,
 		$list_items_markup
 	) : sprintf(
-		'<div class="%1$s">%2$s</div>',
-		$class,
+		'<div %1$s>%2$s</div>',
+		$wrapper_attributes,
 		__( 'No comments to show.' )
 	);
 }

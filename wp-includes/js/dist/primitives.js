@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["primitives"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 477);
+/******/ 	return __webpack_require__(__webpack_require__.s = 482);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -99,7 +99,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["primitives"] =
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(42);
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
@@ -122,7 +122,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 42:
+/***/ 43:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -144,7 +144,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 477:
+/***/ 482:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -164,6 +164,7 @@ __webpack_require__.d(__webpack_exports__, "Stop", function() { return /* reexpo
 __webpack_require__.d(__webpack_exports__, "SVG", function() { return /* reexport */ svg_SVG; });
 __webpack_require__.d(__webpack_exports__, "HorizontalRule", function() { return /* reexport */ HorizontalRule; });
 __webpack_require__.d(__webpack_exports__, "BlockQuotation", function() { return /* reexport */ BlockQuotation; });
+__webpack_require__.d(__webpack_exports__, "View", function() { return /* reexport */ View; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(5);
@@ -311,7 +312,11 @@ var HorizontalRule = 'hr';
 // CONCATENATED MODULE: ./node_modules/@wordpress/primitives/build-module/block-quotation/index.js
 var BlockQuotation = 'blockquote';
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/primitives/build-module/view/index.js
+var View = 'div';
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/primitives/build-module/index.js
+
 
 
 

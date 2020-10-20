@@ -8,6 +8,8 @@
 /**
  * Get the generated classname from a given block name.
  *
+ * @access private
+ *
  * @param  string $block_name Block Name.
  * @return string Generated classname.
  */
@@ -34,14 +36,16 @@ function wp_get_block_default_classname( $block_name ) {
 /**
  * Add the generated classnames to the output.
  *
- * @param  array         $attributes       Comprehensive list of attributes to be applied.
- * @param  array         $block_attributes Block attributes.
+ * @access private
+ *
  * @param  WP_Block_Type $block_type       Block Type.
+ * @param  array         $block_attributes Block attributes.
  *
  * @return array Block CSS classes and inline styles.
  */
-function wp_apply_generated_classname_support( $attributes, $block_attributes, $block_type ) {
+function wp_apply_generated_classname_support( $block_type, $block_attributes ) {
 	$has_generated_classname_support = true;
+	$attributes                      = array();
 	if ( property_exists( $block_type, 'supports' ) ) {
 		$has_generated_classname_support = wp_array_get( $block_type->supports, array( 'className' ), true );
 	}
@@ -49,9 +53,17 @@ function wp_apply_generated_classname_support( $attributes, $block_attributes, $
 		$block_classname = wp_get_block_default_classname( $block_type->name );
 
 		if ( $block_classname ) {
-			$attributes['css_classes'][] = $block_classname;
+			$attributes['class'] = $block_classname;
 		}
 	}
 
 	return $attributes;
 }
+
+// Register the block support.
+WP_Block_Supports::get_instance()->register(
+	'generated-classname',
+	array(
+		'apply' => 'wp_apply_generated_classname_support',
+	)
+);

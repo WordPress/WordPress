@@ -648,18 +648,32 @@ function _excerpt_render_inner_columns_blocks( $columns, $allowed_blocks ) {
 }
 
 /**
+ * Block currently being parsed.
+ *
+ * @type array
+*/
+global $current_parsed_block;
+
+$current_parsed_block = array(
+	'blockName'  => null,
+	'attributes' => null,
+);
+
+/**
  * Renders a single block into a HTML string.
  *
  * @since 5.0.0
  *
- * @global WP_Post  $post     The post to edit.
- * @global WP_Query $wp_query WordPress Query object.
+ * @global array    $current_parsed_block Block currently being parsed.
+ * @global WP_Post  $post                 The post to edit.
+ * @global WP_Query $wp_query             WordPress Query object.
+ * @global WP_Query $wp_query             WordPress Query object.
  *
  * @param array $parsed_block A single parsed block object.
  * @return string String of rendered HTML.
  */
 function render_block( $parsed_block ) {
-	global $post, $wp_query;
+	global $post, $wp_query, $current_parsed_block;
 
 	/**
 	 * Allows render_block() to be short-circuited, by returning a non-null value.
@@ -673,6 +687,8 @@ function render_block( $parsed_block ) {
 	if ( ! is_null( $pre_render ) ) {
 		return $pre_render;
 	}
+
+	$current_parsed_block = $parsed_block;
 
 	$source_block = $parsed_block;
 

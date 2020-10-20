@@ -171,9 +171,11 @@ function render_block_core_latest_posts( $attributes ) {
 		$class .= ' has-author';
 	}
 
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $class ) );
+
 	return sprintf(
-		'<ul class="%1$s">%2$s</ul>',
-		esc_attr( $class ),
+		'<ul %1$s>%2$s</ul>',
+		$wrapper_attributes,
 		$list_items_markup
 	);
 }

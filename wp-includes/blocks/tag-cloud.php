@@ -31,8 +31,11 @@ function render_block_core_tag_cloud( $attributes ) {
 		);
 	}
 
+	$wrapper_attributes = get_block_wrapper_attributes();
+
 	return sprintf(
-		'<p>%1$s</p>',
+		'<p %1$s>%2$s</p>',
+		$wrapper_attributes,
 		$tag_cloud
 	);
 }

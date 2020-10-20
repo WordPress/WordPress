@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 461);
+/******/ 	return __webpack_require__(__webpack_require__.s = 465);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -478,7 +478,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 18:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -522,7 +522,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 24:
+/***/ 20:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["regeneratorRuntime"]; }());
@@ -578,7 +578,7 @@ function _unsupportedIterableToArray(o, minLen) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 36:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["deprecated"]; }());
@@ -625,7 +625,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 41:
+/***/ 42:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -907,7 +907,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 461:
+/***/ 465:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1010,7 +1010,7 @@ var external_this_wp_dataControls_ = __webpack_require__(32);
 var slicedToArray = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(18);
+var toConsumableArray = __webpack_require__(17);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
@@ -1155,7 +1155,7 @@ var on_sub_key_onSubKey = function onSubKey(actionProperty) {
 /* harmony default export */ var on_sub_key = (on_sub_key_onSubKey);
 
 // EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
-var external_this_regeneratorRuntime_ = __webpack_require__(24);
+var external_this_regeneratorRuntime_ = __webpack_require__(20);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
@@ -2118,12 +2118,21 @@ var defaultEntities = [{
 }, {
   name: 'sidebar',
   kind: 'root',
-  baseURL: '/__experimental/sidebars',
+  baseURL: '/wp/v2/sidebars',
   plural: 'sidebars',
   transientEdits: {
     blocks: true
   },
   label: Object(external_this_wp_i18n_["__"])('Widget areas')
+}, {
+  name: 'widget',
+  kind: 'root',
+  baseURL: '/wp/v2/widgets',
+  plural: 'widgets',
+  transientEdits: {
+    blocks: true
+  },
+  label: Object(external_this_wp_i18n_["__"])('Widgets')
 }, {
   label: Object(external_this_wp_i18n_["__"])('User'),
   name: 'user',
@@ -2459,18 +2468,23 @@ function getQueryParts(query) {
         parts.include = get_normalized_comma_separable(value).map(Number);
         break;
 
-      case '_fields':
-        parts.fields = get_normalized_comma_separable(value);
-        break;
-
       default:
-        // While it could be any deterministic string, for simplicity's
+        // While in theory, we could exclude "_fields" from the stableKey
+        // because two request with different fields have the same results
+        // We're not able to ensure that because the server can decide to omit
+        // fields from the response even if we explicitely asked for it.
+        // Example: Asking for titles in posts without title support.
+        if (key === '_fields') {
+          parts.fields = get_normalized_comma_separable(value);
+        } // While it could be any deterministic string, for simplicity's
         // sake mimic querystring encoding for stable key.
         //
         // TODO: For consistency with PHP implementation, addQueryArgs
         // should accept a key value pair, which may optimize its
         // implementation for our use here, vs. iterating an object
         // with only a single key.
+
+
         parts.stableKey += (parts.stableKey ? '&' : '') + Object(external_this_wp_url_["addQueryArgs"])('', Object(defineProperty["a" /* default */])({}, key, value)).slice(1);
     }
   }
@@ -3255,10 +3269,10 @@ function reducer_autosaves() {
 }));
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(41);
+var rememo = __webpack_require__(42);
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(35);
+var external_this_wp_deprecated_ = __webpack_require__(36);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/name.js
@@ -3351,16 +3365,7 @@ function getQueriedItemsUncached(state, query) {
       filteredItem = {};
 
       for (var f = 0; f < fields.length; f++) {
-        // Abort the entire request if a field is missing from the item.
-        // This accounts for the fact that queried items are stored by
-        // stable key without an associated fields query. Other requests
-        // may have included fewer fields properties.
         var field = fields[f].split('.');
-
-        if (!Object(external_this_lodash_["has"])(item, field)) {
-          return null;
-        }
-
         var value = Object(external_this_lodash_["get"])(item, field);
         Object(external_this_lodash_["set"])(filteredItem, field, value);
       }
@@ -3435,6 +3440,7 @@ function selectors_objectSpread(target) { for (var i = 1; i < arguments.length; 
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -3556,10 +3562,22 @@ function getEntityRecord(state, kind, name, key, query) {
     return queriedState.items[key];
   }
 
-  query = selectors_objectSpread(selectors_objectSpread({}, query), {}, {
-    include: [key]
-  });
-  return Object(external_this_lodash_["first"])(getQueriedItems(queriedState, query));
+  var item = queriedState.items[key];
+
+  if (item && query._fields) {
+    var filteredItem = {};
+    var fields = get_normalized_comma_separable(query._fields);
+
+    for (var f = 0; f < fields.length; f++) {
+      var field = fields[f].split('.');
+      var value = Object(external_this_lodash_["get"])(item, field);
+      Object(external_this_lodash_["set"])(filteredItem, field, value);
+    }
+
+    return filteredItem;
+  }
+
+  return item;
 }
 /**
  * Returns the Entity's record object by key. Doesn't trigger a resolver nor requests the entity from the API if the entity record isn't available in the local state.

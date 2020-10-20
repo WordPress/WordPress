@@ -125,20 +125,6 @@
     box-shadow: 0 0 0 2px #007cba;
     box-shadow: 0 0 0 2px var(--wp-admin-theme-color); }
 
-.components-base-control {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-size: 13px; }
-  .components-base-control .components-base-control__field {
-    margin-bottom: 8px; }
-    .components-panel__row .components-base-control .components-base-control__field {
-      margin-bottom: inherit; }
-  .components-base-control .components-base-control__label {
-    display: inline-block;
-    margin-bottom: 8px; }
-  .components-base-control .components-base-control__help {
-    margin-top: -8px;
-    font-style: italic; }
-
 .components-button-group {
   display: inline-block; }
   .components-button-group .components-button {
@@ -361,6 +347,7 @@
       box-shadow: inset 0 0 0 1px #fff, 0 0 0 1.5px var(--wp-admin-theme-color);
       outline: 2px solid transparent; }
     .components-button.is-pressed:hover:not(:disabled) {
+      color: #fff;
       background: #1e1e1e; }
   .components-button svg {
     fill: currentColor;
@@ -401,6 +388,7 @@
   width: 24px;
   height: 24px;
   -webkit-appearance: none;
+     -moz-appearance: none;
           appearance: none;
   transition: 0.1s border-color ease-in-out; }
   @media (prefers-reduced-motion: reduce) {
@@ -620,6 +608,40 @@ svg.components-checkbox-control__checked {
   margin-left: 16px; }
   .components-circular-option-picker__dropdown-link-action .components-button {
     line-height: 22px; }
+
+.components-color-edit__color-option-main-area {
+  display: flex;
+  align-items: center; }
+  .components-color-edit__color-option-main-area .components-circular-option-picker__option-wrapper {
+    margin: 8px; }
+
+.components-color-edit__color-option.is-hover {
+  background: #e0e0e0; }
+
+.components-color-edit__cancel-button {
+  float: left; }
+
+.components-color-edit__color-option-color-name {
+  width: 100%; }
+
+.components-color-edit__label-and-insert-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; }
+
+.components-color-edit__insert-button {
+  margin-top: -8px; }
+
+.components-color-edit__hidden-control {
+  position: relative;
+  right: -9999px; }
+
+.components-color-edit__color-option-color-name-input .components-base-control__field {
+  margin-bottom: 0;
+  margin-left: 8px; }
+
+.components-color-edit__slug-input {
+  margin-right: 8px; }
 
 .component-color-indicator {
   width: 25px;
@@ -902,6 +924,12 @@ input.components-combobox-control__input[type="text"] {
     box-shadow: 0 0 0 0.5px #007cba;
     box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
     outline: 2px solid transparent; }
+
+.components-combobox-control__reset.components-button {
+  display: flex;
+  height: 24px;
+  min-width: 24px;
+  padding: 0; }
 
 .components-custom-gradient-picker__gradient-bar:not(.has-gradient) {
   opacity: 0.4; }
@@ -1961,7 +1989,8 @@ input.components-combobox-control__input[type="text"] {
 .components-datetime__timezone {
   line-height: 30px;
   margin-right: 4px;
-  text-decoration: underline dotted; }
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted; }
 
 .components-datetime__time-legend {
   font-weight: 600;
@@ -2164,13 +2193,6 @@ body.is-dragging-components-draggable {
     padding: 12px; }
     .is-alternate .components-dropdown-menu__menu .components-menu-group + .components-menu-group {
       border-color: #1e1e1e; }
-
-.components-external-link__icon {
-  width: 1.4em;
-  height: 1.4em;
-  margin: -0.2em 0.1em 0;
-  vertical-align: middle;
-  fill: currentColor; }
 
 .components-font-size-picker__controls {
   max-width: 248px;
@@ -2391,7 +2413,9 @@ body.is-dragging-components-draggable {
   margin-bottom: 4px; }
 
 .components-form-token-field__help {
-  font-style: italic; }
+  font-size: 12px;
+  font-style: normal;
+  color: #757575; }
 
 .components-form-token-field__token {
   font-size: 13px;
@@ -3315,7 +3339,8 @@ body.is-dragging-components-draggable {
 .components-resizable-box__handle {
   display: none;
   width: 23px;
-  height: 23px; }
+  height: 23px;
+  z-index: 2; }
   .components-resizable-box__container.has-show-handle .components-resizable-box__handle {
     display: block; }
 
@@ -3354,9 +3379,6 @@ body.is-dragging-components-draggable {
 .is-dark-theme .components-resizable-box__side-handle::before,
 .is-dark-theme .components-resizable-box__handle::after {
   border-color: #ddd; }
-
-.components-resizable-box__handle {
-  z-index: 2; }
 
 .components-resizable-box__side-handle {
   z-index: 2; }
@@ -3507,6 +3529,8 @@ body.lockscroll {
   cursor: pointer; }
   @media (min-width: 600px) {
     .components-snackbar {
+      width: -webkit-fit-content;
+      width: -moz-fit-content;
       width: fit-content; } }
   .components-snackbar:focus {
     box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;
@@ -3787,47 +3811,6 @@ body.lockscroll {
   .components-text-control__input[type="email"]:-ms-input-placeholder, .is-dark-theme
   .components-text-control__input[type="month"]:-ms-input-placeholder, .is-dark-theme
   .components-text-control__input[type="number"]:-ms-input-placeholder {
-    color: rgba(255, 255, 255, 0.65); }
-
-.components-textarea-control__input {
-  width: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  padding: 6px 8px;
-  box-shadow: 0 0 0 transparent;
-  transition: box-shadow 0.1s linear;
-  border-radius: 2px;
-  border: 1px solid #757575;
-  /* Fonts smaller than 16px causes mobile safari to zoom. */
-  font-size: 16px;
-  /* Override core line-height. To be reviewed. */
-  line-height: normal; }
-  @media (prefers-reduced-motion: reduce) {
-    .components-textarea-control__input {
-      transition-duration: 0s; } }
-  @media (min-width: 600px) {
-    .components-textarea-control__input {
-      font-size: 13px;
-      /* Override core line-height. To be reviewed. */
-      line-height: normal; } }
-  .components-textarea-control__input:focus {
-    border-color: #007cba;
-    border-color: var(--wp-admin-theme-color);
-    box-shadow: 0 0 0 0.5px #007cba;
-    box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
-    outline: 2px solid transparent; }
-  .components-textarea-control__input::-webkit-input-placeholder {
-    color: rgba(30, 30, 30, 0.62); }
-  .components-textarea-control__input::-moz-placeholder {
-    opacity: 1;
-    color: rgba(30, 30, 30, 0.62); }
-  .components-textarea-control__input:-ms-input-placeholder {
-    color: rgba(30, 30, 30, 0.62); }
-  .is-dark-theme .components-textarea-control__input::-webkit-input-placeholder {
-    color: rgba(255, 255, 255, 0.65); }
-  .is-dark-theme .components-textarea-control__input::-moz-placeholder {
-    opacity: 1;
-    color: rgba(255, 255, 255, 0.65); }
-  .is-dark-theme .components-textarea-control__input:-ms-input-placeholder {
     color: rgba(255, 255, 255, 0.65); }
 
 .components-tip {

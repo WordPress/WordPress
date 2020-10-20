@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["reduxRoutine"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 478);
+/******/ 	return __webpack_require__(__webpack_require__.s = 483);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 154:
+/***/ 155:
 /***/ (function(module, exports) {
 
 module.exports = isPromise;
@@ -100,7 +100,7 @@ function isPromise(obj) {
 
 /***/ }),
 
-/***/ 161:
+/***/ 164:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -112,7 +112,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _keys = __webpack_require__(269);
+var _keys = __webpack_require__(270);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -172,7 +172,7 @@ exports.default = is;
 
 /***/ }),
 
-/***/ 268:
+/***/ 269:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -183,7 +183,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createChannel = exports.subscribe = exports.cps = exports.apply = exports.call = exports.invoke = exports.delay = exports.race = exports.join = exports.fork = exports.error = exports.all = undefined;
 
-var _keys = __webpack_require__(269);
+var _keys = __webpack_require__(270);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -313,7 +313,7 @@ var createChannel = exports.createChannel = function createChannel(callback) {
 
 /***/ }),
 
-/***/ 269:
+/***/ 270:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -337,7 +337,7 @@ exports.default = keys;
 
 /***/ }),
 
-/***/ 290:
+/***/ 293:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -348,7 +348,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.wrapControls = exports.asyncControls = exports.create = undefined;
 
-var _helpers = __webpack_require__(268);
+var _helpers = __webpack_require__(269);
 
 Object.keys(_helpers).forEach(function (key) {
   if (key === "default") return;
@@ -360,15 +360,15 @@ Object.keys(_helpers).forEach(function (key) {
   });
 });
 
-var _create = __webpack_require__(440);
+var _create = __webpack_require__(444);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _async = __webpack_require__(442);
+var _async = __webpack_require__(446);
 
 var _async2 = _interopRequireDefault(_async);
 
-var _wrap = __webpack_require__(444);
+var _wrap = __webpack_require__(448);
 
 var _wrap2 = _interopRequireDefault(_wrap);
 
@@ -380,7 +380,7 @@ exports.wrapControls = _wrap2.default;
 
 /***/ }),
 
-/***/ 440:
+/***/ 444:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -390,11 +390,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _builtin = __webpack_require__(441);
+var _builtin = __webpack_require__(445);
 
 var _builtin2 = _interopRequireDefault(_builtin);
 
-var _is = __webpack_require__(161);
+var _is = __webpack_require__(164);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -466,7 +466,7 @@ exports.default = create;
 
 /***/ }),
 
-/***/ 441:
+/***/ 445:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -477,7 +477,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.iterator = exports.array = exports.object = exports.error = exports.any = undefined;
 
-var _is = __webpack_require__(161);
+var _is = __webpack_require__(164);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -567,7 +567,7 @@ exports.default = [error, iterator, array, object, any];
 
 /***/ }),
 
-/***/ 442:
+/***/ 446:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -578,13 +578,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.race = exports.join = exports.fork = exports.promise = undefined;
 
-var _is = __webpack_require__(161);
+var _is = __webpack_require__(164);
 
 var _is2 = _interopRequireDefault(_is);
 
-var _helpers = __webpack_require__(268);
+var _helpers = __webpack_require__(269);
 
-var _dispatcher = __webpack_require__(443);
+var _dispatcher = __webpack_require__(447);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
@@ -689,7 +689,7 @@ exports.default = [promise, fork, join, race, subscribe];
 
 /***/ }),
 
-/***/ 443:
+/***/ 447:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -722,7 +722,7 @@ exports.default = createDispatcher;
 
 /***/ }),
 
-/***/ 444:
+/***/ 448:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -733,7 +733,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.cps = exports.call = undefined;
 
-var _is = __webpack_require__(161);
+var _is = __webpack_require__(164);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -765,7 +765,7 @@ exports.default = [call, cps];
 
 /***/ }),
 
-/***/ 478:
+/***/ 483:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -792,13 +792,13 @@ function isGenerator(object) {
 }
 
 // EXTERNAL MODULE: ./node_modules/rungen/dist/index.js
-var dist = __webpack_require__(290);
+var dist = __webpack_require__(293);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(154);
+var is_promise = __webpack_require__(155);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-action.js

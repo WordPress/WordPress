@@ -87,8 +87,9 @@ function render_block_core_rss( $attributes ) {
 	if ( isset( $attributes['columns'] ) && 'grid' === $attributes['blockLayout'] ) {
 		$classnames[] = 'columns-' . $attributes['columns'];
 	}
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classnames ) ) );
 
-	return sprintf( '<ul class="%s">%s</ul>', esc_attr( implode( ' ', $classnames ) ), $list_items );
+	return sprintf( '<ul %s>%s</ul>', $wrapper_attributes, $list_items );
 }
 
 /**

@@ -28,7 +28,7 @@ function render_block_core_categories( $attributes ) {
 		$id                       = 'wp-block-categories-' . $block_id;
 		$args['id']               = $id;
 		$args['show_option_none'] = __( 'Select Category' );
-		$wrapper_markup           = '<div class="%1$s">%2$s</div>';
+		$wrapper_markup           = '<div %1$s>%2$s</div>';
 		$items_markup             = wp_dropdown_categories( $args );
 		$type                     = 'dropdown';
 
@@ -42,16 +42,16 @@ function render_block_core_categories( $attributes ) {
 			);
 		}
 	} else {
-		$wrapper_markup = '<ul class="%1$s">%2$s</ul>';
+		$wrapper_markup = '<ul %1$s>%2$s</ul>';
 		$items_markup   = wp_list_categories( $args );
 		$type           = 'list';
 	}
 
-	$class = "wp-block-categories-{$type}";
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => "wp-block-categories-{$type}" ) );
 
 	return sprintf(
 		$wrapper_markup,
-		esc_attr( $class ),
+		$wrapper_attributes,
 		$items_markup
 	);
 }

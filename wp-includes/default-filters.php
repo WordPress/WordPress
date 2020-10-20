@@ -305,6 +305,7 @@ add_action( 'template_redirect', 'wp_shortlink_header', 11, 0 );
 add_action( 'wp_print_footer_scripts', '_wp_footer_scripts' );
 add_action( 'init', '_register_core_block_patterns_and_categories' );
 add_action( 'init', 'check_theme_switched', 99 );
+add_action( 'init', array( 'WP_Block_Supports', 'init' ), 22 );
 add_action( 'after_switch_theme', '_wp_menus_changed' );
 add_action( 'after_switch_theme', '_wp_sidebars_changed' );
 add_action( 'wp_print_styles', 'print_emoji_styles' );
