@@ -2155,19 +2155,22 @@ class WP_Site_Health {
 			),
 			'async'  => array(
 				'dotorg_communication' => array(
-					'label'    => __( 'Communication with WordPress.org' ),
-					'test'     => rest_url( 'wp-site-health/v1/tests/dotorg-communication' ),
-					'has_rest' => true,
+					'label'             => __( 'Communication with WordPress.org' ),
+					'test'              => rest_url( 'wp-site-health/v1/tests/dotorg-communication' ),
+					'has_rest'          => true,
+					'async_direct_test' => array( WP_Site_Health::get_instance(), 'get_test_dotorg_communication' ),
 				),
 				'background_updates'   => array(
-					'label'    => __( 'Background updates' ),
-					'test'     => rest_url( 'wp-site-health/v1/tests/background-updates' ),
-					'has_rest' => true,
+					'label'             => __( 'Background updates' ),
+					'test'              => rest_url( 'wp-site-health/v1/tests/background-updates' ),
+					'has_rest'          => true,
+					'async_direct_test' => array( WP_Site_Health::get_instance(), 'get_test_background_updates' ),
 				),
 				'loopback_requests'    => array(
-					'label'    => __( 'Loopback request' ),
-					'test'     => rest_url( 'wp-site-health/v1/tests/loopback-requests' ),
-					'has_rest' => true,
+					'label'             => __( 'Loopback request' ),
+					'test'              => rest_url( 'wp-site-health/v1/tests/loopback-requests' ),
+					'has_rest'          => true,
+					'async_direct_test' => array( WP_Site_Health::get_instance(), 'get_test_loopback_requests' ),
 				),
 			),
 		);
@@ -2204,10 +2207,13 @@ class WP_Site_Health {
 		 *         Plugins and themes are encouraged to prefix test identifiers with their slug
 		 *         to avoid any collisions between tests.
 		 *
-		 *         @type string  $label       A friendly label for your test to identify it by.
-		 *         @type mixed   $test        A callable to perform a direct test, or a string AJAX action to be
-		 *                                    called to perform an async test.
-		 *         @type boolean $has_rest    Optional. Denote if `$test` has a REST API endpoint.
+		 *         @type string   $label              A friendly label for your test to identify it by.
+		 *         @type mixed    $test               A callable to perform a direct test, or a string AJAX action to be
+		 *                                            called to perform an async test.
+		 *         @type boolean  $has_rest           Optional. Denote if `$test` has a REST API endpoint.
+		 *         @type callable $async_direct_test  A manner of directly calling the test marked as asynchronous, as
+		 *                                            the scheduled event can not authenticate, and endpoints may require
+		 *                                            authentication.
 		 *     }
 		 * }
 		 */
@@ -2550,10 +2556,18 @@ class WP_Site_Health {
 		}
 
 		foreach ( $tests['async'] as $test ) {
+			// Local endpoints may require authentication, so asynchronous tests can pass a direct test runner as well.
+			if ( ! empty( $test['async_direct_test'] ) && is_callable( $test['async_direct_test'] ) ) {
+				// This test is callable, do so and continue to the next asynchronous check.
+				$results[] = $this->perform_test( $test['async_direct_test'] );
+				continue;
+			}
+
 			if ( is_string( $test['test'] ) ) {
+				// Check if this test has a REST API endpoint.
 				if ( isset( $test['has_rest'] ) && $test['has_rest'] ) {
-					$result_fetch = wp_remote_post(
-						rest_url( $test['test'] ),
+					$result_fetch = wp_remote_get(
+						$test['test'],
 						array(
 							'body' => array(
 								'_wpnonce' => wp_create_nonce( 'wp_rest' ),
@@ -2572,7 +2586,7 @@ class WP_Site_Health {
 					);
 				}
 
-				if ( ! is_wp_error( $result_fetch ) ) {
+				if ( ! is_wp_error( $result_fetch ) && 200 === wp_remote_retrieve_response_code( $result_fetch ) ) {
 					$result = json_decode( wp_remote_retrieve_body( $result_fetch ), true );
 				} else {
 					$result = false;
