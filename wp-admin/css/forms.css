@@ -533,6 +533,14 @@ fieldset label,
 	margin: 0 0 1em;
 }
 
+.wp-generate-pw {
+	margin-top: 1em;
+}
+
+.wp-pwd {
+	margin-top: 1em;
+}
+
 #misc-publishing-actions label {
 	vertical-align: baseline;
 }

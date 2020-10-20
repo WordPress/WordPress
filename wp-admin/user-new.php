@@ -560,8 +560,8 @@ if ( current_user_can( 'create_users' ) ) {
 		</th>
 		<td>
 			<input class="hidden" value=" " /><!-- #24364 workaround -->
-			<button type="button" class="button wp-generate-pw hide-if-no-js"><?php _e( 'Show password' ); ?></button>
-			<div class="wp-pwd hide-if-js">
+			<button type="button" class="button wp-generate-pw hide-if-no-js"><?php _e( 'Generate password' ); ?></button>
+			<div class="wp-pwd">
 				<?php $initial_password = wp_generate_password( 24 ); ?>
 				<span class="password-input-wrapper">
 					<input type="password" name="pass1" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
@@ -570,10 +570,6 @@ if ( current_user_can( 'create_users' ) ) {
 					<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
 					<span class="text"><?php _e( 'Hide' ); ?></span>
 				</button>
-				<button type="button" class="button wp-cancel-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Cancel password change' ); ?>">
-					<span class="dashicons dashicons-no" aria-hidden="true"></span>
-					<span class="text"><?php _e( 'Cancel' ); ?></span>
-				</button>
 				<div style="display:none" id="pass-strength-result" aria-live="polite"></div>
 			</div>
 		</td>
@@ -581,7 +577,8 @@ if ( current_user_can( 'create_users' ) ) {
 	<tr class="form-field form-required user-pass2-wrap hide-if-js">
 		<th scope="row"><label for="pass2"><?php _e( 'Repeat Password' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
 		<td>
-		<input name="pass2" type="password" id="pass2" autocomplete="off" />
+		<input name="pass2" type="password" id="pass2" autocomplete="off" aria-describedby="pass2-desc" />
+		<p class="description" id="pass2-desc"><?php _e( 'Type the password again.' ); ?></p>
 		</td>
 	</tr>
 	<tr class="pw-weak">
