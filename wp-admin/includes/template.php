@@ -2237,10 +2237,45 @@ function get_post_states( $post ) {
  * Outputs the attachment media states as HTML.
  *
  * @since 3.2.0
+ * @since 5.6.0 Added the `$echo` parameter.
  *
  * @param WP_Post $post The attachment post to retrieve states for.
+ * @param bool    $echo Optional. Whether to echo the post states as an HTML string. Default true.
+ * @return string Media states string.
  */
-function _media_states( $post ) {
+function _media_states( $post, $echo = true ) {
+	$media_states = get_media_states( $post );
+	$media_states_string = '';
+
+	if ( ! empty( $media_states ) ) {
+		$state_count = count( $media_states );
+		$i           = 0;
+
+		$media_states_string .= ' &mdash; ';
+
+		foreach ( $media_states as $state ) {
+			$sep = ( ++$i === $state_count ) ? '' : ', ';
+
+			$media_states_string .= "<span class='post-state'>$state$sep</span>";
+		}
+	}
+
+	if ( $echo ) {
+		echo $media_states_string;
+	}
+
+	return $media_states_string;
+}
+
+/**
+ * Retrieves an array of media states from an attachment.
+ *
+ * @since 5.6.0
+ *
+ * @param WP_Post $post The attachment to retrieve states for.
+ * @return string[] Array of media state labels keyed by their state.
+ */
+function get_media_states( $post ) {
 	static $header_images;
 
 	$media_states = array();
@@ -2310,20 +2345,7 @@ function _media_states( $post ) {
 	 *                               'Background Image', 'Site Icon', 'Logo'.
 	 * @param WP_Post  $post         The current attachment object.
 	 */
-	$media_states = apply_filters( 'display_media_states', $media_states, $post );
-
-	if ( ! empty( $media_states ) ) {
-		$state_count = count( $media_states );
-		$i           = 0;
-
-		echo ' &mdash; ';
-
-		foreach ( $media_states as $state ) {
-			$sep = ( ++$i === $state_count ) ? '' : ', ';
-
-			echo "<span class='post-state'>$state$sep</span>";
-		}
-	}
+	 return apply_filters( 'display_media_states', $media_states, $post );
 }
 
 /**

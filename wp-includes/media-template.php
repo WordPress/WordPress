@@ -459,6 +459,10 @@ function wp_print_media_templates() {
 					</div>
 				<# } #>
 
+				<# if ( data.mediaStates ) { #>
+					<div class="media-states"><strong><?php _e( 'Used as:' ); ?></strong> {{ data.mediaStates }}</div>
+				<# } #>
+
 				<div class="compat-meta">
 					<# if ( data.compat && data.compat.meta ) { #>
 						{{{ data.compat.meta }}}
@@ -671,6 +675,10 @@ function wp_print_media_templates() {
 						<span aria-hidden="true">{{ data.fileLength }}</span>
 						<span class="screen-reader-text">{{ data.fileLengthHumanReadable }}</span>
 					</div>
+				<# } #>
+
+				<# if ( data.mediaStates ) { #>
+					<div class="media-states"><strong><?php _e( 'Used as:' ); ?></strong> {{ data.mediaStates }}</div>
 				<# } #>
 
 				<# if ( ! data.uploading && data.can.remove ) { #>
