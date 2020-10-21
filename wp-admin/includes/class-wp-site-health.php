@@ -2202,6 +2202,7 @@ class WP_Site_Health {
 		 * to complete should run asynchronously, to avoid extended loading periods within wp-admin.
 		 *
 		 * @since 5.2.0
+		 * @since 5.6.0 Added the `async_direct_test` array key.
 		 *
 		 * @param array $test_type {
 		 *     An associative array, where the `$test_type` is either `direct` or
@@ -2212,13 +2213,13 @@ class WP_Site_Health {
 		 *         Plugins and themes are encouraged to prefix test identifiers with their slug
 		 *         to avoid any collisions between tests.
 		 *
-		 *         @type string   $label              A friendly label for your test to identify it by.
-		 *         @type mixed    $test               A callable to perform a direct test, or a string AJAX action to be
-		 *                                            called to perform an async test.
-		 *         @type boolean  $has_rest           Optional. Denote if `$test` has a REST API endpoint.
-		 *         @type callable $async_direct_test  A manner of directly calling the test marked as asynchronous, as
-		 *                                            the scheduled event can not authenticate, and endpoints may require
-		 *                                            authentication.
+		 *         @type string   $label             A friendly label for your test to identify it by.
+		 *         @type mixed    $test              A callable to perform a direct test, or a string AJAX action
+		 *                                           to be called to perform an async test.
+		 *         @type boolean  $has_rest          Optional. Denote if `$test` has a REST API endpoint.
+		 *         @type callable $async_direct_test A manner of directly calling the test marked as asynchronous,
+		 *                                           as the scheduled event can not authenticate, and endpoints
+		 *                                           may require authentication.
 		 *     }
 		 * }
 		 */
