@@ -436,12 +436,12 @@ function retrieve_password() {
 	$message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
 	$message .= network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . "\r\n\r\n";
 
-	$requestor_ip = $_SERVER['REMOTE_ADDR'];
-	if ( $requestor_ip ) {
+	$requester_ip = $_SERVER['REMOTE_ADDR'];
+	if ( $requester_ip ) {
 		$message .= sprintf(
-			/* translators: %s: IP address of password reset requestor. */
+			/* translators: %s: IP address of password reset requester. */
 			__( 'This password reset request originated from the IP address %s.' ),
-			$requestor_ip
+			$requester_ip
 		) . "\r\n";
 	}
 
