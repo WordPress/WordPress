@@ -22,7 +22,7 @@ if ( isset( $_POST['action'] ) && 'authorize_application_password' === $_POST['a
 
 	if ( isset( $_POST['reject'] ) ) {
 		if ( $reject_url ) {
-			$redirect = add_query_arg( 'success', 'false', $reject_url );
+			$redirect = $reject_url;
 		} else {
 			$redirect = admin_url();
 		}
@@ -57,8 +57,16 @@ $title = __( 'Authorize Application' );
 
 $app_name    = ! empty( $_REQUEST['app_name'] ) ? $_REQUEST['app_name'] : '';
 $success_url = ! empty( $_REQUEST['success_url'] ) ? $_REQUEST['success_url'] : null;
-$reject_url  = ! empty( $_REQUEST['reject_url'] ) ? $_REQUEST['reject_url'] : $success_url;
-$user        = wp_get_current_user();
+
+if ( ! empty( $_REQUEST['reject_url'] ) ) {
+	$reject_url = $_REQUEST['reject_url'];
+} elseif ( $success_url ) {
+	$reject_url = add_query_arg( 'success', 'false', $success_url );
+} else {
+	$reject_url = null;
+}
+
+$user = wp_get_current_user();
 
 $request  = compact( 'app_name', 'success_url', 'reject_url' );
 $is_valid = wp_is_authorize_application_password_request_valid( $request, $user );
@@ -230,14 +238,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						printf(
 							/* translators: %s: The URL the user is being redirected to. */
 							__( 'You will be sent to %s' ),
-							'<strong><kbd>' . esc_html(
-								add_query_arg(
-									array(
-										'success' => 'false',
-									),
-									$reject_url
-								)
-							) . '</kbd></strong>'
+							'<strong><kbd>' . esc_html( $reject_url ) . '</kbd></strong>'
 						);
 					} else {
 						_e( 'You will be returned to the WordPress Dashboard, and no changes will be made.' );
