@@ -18,6 +18,7 @@ if ( isset( $_POST['action'] ) && 'authorize_application_password' === $_POST['a
 	$success_url = $_POST['success_url'];
 	$reject_url  = $_POST['reject_url'];
 	$app_name    = $_POST['app_name'];
+	$app_id      = $_POST['app_id'];
 	$redirect    = '';
 
 	if ( isset( $_POST['reject'] ) ) {
@@ -27,7 +28,13 @@ if ( isset( $_POST['action'] ) && 'authorize_application_password' === $_POST['a
 			$redirect = admin_url();
 		}
 	} elseif ( isset( $_POST['approve'] ) ) {
-		$created = WP_Application_Passwords::create_new_application_password( get_current_user_id(), array( 'name' => $app_name ) );
+		$created = WP_Application_Passwords::create_new_application_password(
+			get_current_user_id(),
+			array(
+				'name'   => $app_name,
+				'app_id' => $app_id,
+			)
+		);
 
 		if ( is_wp_error( $created ) ) {
 			$error = $created;
@@ -56,6 +63,7 @@ if ( isset( $_POST['action'] ) && 'authorize_application_password' === $_POST['a
 $title = __( 'Authorize Application' );
 
 $app_name    = ! empty( $_REQUEST['app_name'] ) ? $_REQUEST['app_name'] : '';
+$app_id      = ! empty( $_REQUEST['app_id'] ) ? $_REQUEST['app_id'] : '';
 $success_url = ! empty( $_REQUEST['success_url'] ) ? $_REQUEST['success_url'] : null;
 
 if ( ! empty( $_REQUEST['reject_url'] ) ) {
@@ -68,7 +76,7 @@ if ( ! empty( $_REQUEST['reject_url'] ) ) {
 
 $user = wp_get_current_user();
 
-$request  = compact( 'app_name', 'success_url', 'reject_url' );
+$request  = compact( 'app_name', 'app_id', 'success_url', 'reject_url' );
 $is_valid = wp_is_authorize_application_password_request_valid( $request, $user );
 
 if ( is_wp_error( $is_valid ) ) {
@@ -183,6 +191,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<form action="<?php echo esc_url( admin_url( 'authorize-application.php' ) ); ?>" method="post">
 				<?php wp_nonce_field( 'authorize_application_password' ); ?>
 				<input type="hidden" name="action" value="authorize_application_password" />
+				<input type="hidden" name="app_id" value="<?php echo esc_attr( $app_id ); ?>" />
 				<input type="hidden" name="success_url" value="<?php echo esc_url( $success_url ); ?>" />
 				<input type="hidden" name="reject_url" value="<?php echo esc_url( $reject_url ); ?>" />
 

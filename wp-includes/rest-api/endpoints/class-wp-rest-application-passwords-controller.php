@@ -412,6 +412,10 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 			'name' => $request['name'],
 		);
 
+		if ( $request['app_id'] && ! $request['uuid'] ) {
+			$prepared->app_id = $request['app_id'];
+		}
+
 		/**
 		 * Filters an application password before it is inserted via the REST API.
 		 *
@@ -441,6 +445,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 
 		$prepared = array(
 			'uuid'      => $item['uuid'],
+			'app_id'    => empty( $item['app_id'] ) ? '' : $item['app_id'],
 			'name'      => $item['name'],
 			'created'   => gmdate( 'Y-m-d\TH:i:s', $item['created'] ),
 			'last_used' => $item['last_used'] ? gmdate( 'Y-m-d\TH:i:s', $item['last_used'] ) : null,
@@ -614,6 +619,12 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 					'format'      => 'uuid',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
+				),
+				'app_id'    => array(
+					'description' => __( 'A uuid provided by the application to uniquely identify it. It is recommended to use an UUID v5 with the URL or DNS namespace.' ),
+					'type'        => 'string',
+					'format'      => 'uuid',
+					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 				'name'      => array(
 					'description' => __( 'The name of the application password.' ),

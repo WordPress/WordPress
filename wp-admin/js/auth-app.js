@@ -16,7 +16,8 @@
 		};
 
 	$approveBtn.click( function( e ) {
-		var name = $appNameField.val();
+		var name = $appNameField.val(),
+			appId = $( 'input[name="app_id"]', $form ).val();
 
 		e.preventDefault();
 
@@ -31,6 +32,10 @@
 		var request = {
 			name: name
 		};
+
+		if ( appId.length > 0 ) {
+			request.app_id = appId;
+		}
 
 		/**
 		 * Filters the request data used to Authorize an Application Password request.

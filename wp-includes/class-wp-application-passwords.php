@@ -51,6 +51,7 @@ class WP_Application_Passwords {
 
 		$new_item = array(
 			'uuid'      => wp_generate_uuid4(),
+			'app_id'    => empty( $args['app_id'] ) ? '' : $args['app_id'],
 			'name'      => $args['name'],
 			'password'  => $hashed_password,
 			'created'   => time(),
