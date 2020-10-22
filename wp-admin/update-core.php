@@ -382,6 +382,7 @@ function core_auto_updates_settings() {
 		<p>
 			<input id="core-auto-updates-settings" class="button" type="submit" value="<?php esc_attr_e( 'Save' ); ?>" name="core-auto-updates-settings" />
 		</p>
+	</form>
 	<?php
 }
 
