@@ -352,8 +352,13 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 <?php
 if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
-	/* translators: %s: Search query. */
-	printf( '<span class="subtitle">' . __( 'Search results for: %s' ) . '</span>', '<strong>' . esc_html( $s ) . '</strong>' );
+	echo '<span class="subtitle">';
+	printf(
+		/* translators: %s: Search query. */
+		__( 'Search results for: %s' ),
+		'<strong>' . esc_html( $s ) . '</strong>'
+	);
+	echo '</span>';
 }
 ?>
 
