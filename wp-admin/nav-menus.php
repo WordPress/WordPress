@@ -961,7 +961,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<div id="nav-menu-header">
 						<div class="major-publishing-actions wp-clearfix">
 							<label class="menu-name-label" for="menu-name"><?php _e( 'Menu Name' ); ?></label>
-							<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox" <?php echo $menu_name_val . $menu_name_aria_desc; ?> />
+							<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox form-required" required="required" <?php echo $menu_name_val . $menu_name_aria_desc; ?> />
 							<div class="publishing-action">
 								<?php submit_button( empty( $nav_menu_selected_id ) ? __( 'Create Menu' ) : __( 'Save Menu' ), 'primary large menu-save', 'save_menu', false, array( 'id' => 'save_menu_header' ) ); ?>
 							</div><!-- END .publishing-action -->

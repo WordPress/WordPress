@@ -299,7 +299,7 @@ function wp_nav_menu_item_link_meta_box() {
 		<input type="hidden" value="custom" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-type]" />
 		<p id="menu-item-url-wrap" class="wp-clearfix">
 			<label class="howto" for="custom-menu-item-url"><?php _e( 'URL' ); ?></label>
-			<input id="custom-menu-item-url" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-url]" type="text"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="code menu-item-textbox" placeholder="https://" />
+			<input id="custom-menu-item-url" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-url]" type="text"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="code menu-item-textbox form-required" placeholder="https://" />
 		</p>
 
 		<p id="menu-item-name-wrap" class="wp-clearfix">

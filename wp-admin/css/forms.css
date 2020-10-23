@@ -238,10 +238,12 @@ textarea[readonly] {
 	color: #72777c;
 }
 
-.form-invalid input,
-.form-invalid input:focus,
-.form-invalid select,
-.form-invalid select:focus {
+.form-invalid .form-required,
+.form-invalid .form-required:focus,
+.form-invalid.form-required input,
+.form-invalid.form-required input:focus,
+.form-invalid.form-required select,
+.form-invalid.form-required select:focus {
 	border-color: #dc3232 !important;
 	box-shadow: 0 0 2px rgba(204, 0, 0, 0.8);
 }
