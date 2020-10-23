@@ -368,7 +368,7 @@ function core_auto_updates_settings() {
 		<p>
 			<input type="checkbox" name="core-auto-updates-major" id="core-auto-updates-major" value="1" <?php checked( $auto_update_settings['major'], 1 ); ?> />
 			<label for="core-auto-updates-major">
-				<?php _e( 'Keep my site up-to-date with regular feature updates (major versions).' ); ?>
+				<?php _e( 'Automatically keep this site up-to-date with regular feature updates.' ); ?>
 			</label>
 		</p>
 		<?php
