@@ -407,7 +407,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$s = esc_html( wp_unslash( $_REQUEST['s'] ) );
 
 			/* translators: %s: Plugin search term. */
-			printf( __( 'No plugins found for &#8220;%s&#8221;.' ), $s );
+			printf( __( 'No plugins found for: %s.' ), '<strong>' . $s . '</strong>' );
 
 			// We assume that somebody who can install plugins in multisite is experienced enough to not need this helper link.
 			if ( ! is_multisite() && current_user_can( 'install_plugins' ) ) {

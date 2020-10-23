@@ -728,7 +728,7 @@ if ( ( ! is_multisite() || is_network_admin() ) && current_user_can( 'install_pl
 
 if ( strlen( $s ) ) {
 	/* translators: %s: Search query. */
-	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( urldecode( $s ) ) );
+	printf( '<span class="subtitle">' . __( 'Search results for: %s' ) . '</span>', '<strong>' . esc_html( urldecode( $s ) ) . '</strong>' );
 }
 ?>
 

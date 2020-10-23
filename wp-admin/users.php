@@ -571,7 +571,7 @@ switch ( $wp_list_table->current_action() ) {
 
 if ( strlen( $usersearch ) ) {
 	/* translators: %s: Search query. */
-	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
+	printf( '<span class="subtitle">' . __( 'Search results for: %s' ) . '</span>', '<strong>' . esc_html( $usersearch ) . '</strong>' );
 }
 ?>
 

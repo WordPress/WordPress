@@ -2580,8 +2580,8 @@
 				var $subTitle    = $( '<span />' ).addClass( 'subtitle' ).html(
 					sprintf(
 						/* translators: %s: Search query. */
-						__( 'Search results for &#8220;%s&#8221;' ),
-						_.escape( data.s )
+						__( 'Search results for: %s' ),
+						'<strong>' + _.escape( data.s ) + '</strong>'
 					) ),
 					$oldSubTitle = $( '.wrap .subtitle' );
 

@@ -279,7 +279,7 @@ if ( isset( $_REQUEST['updated'] ) && 'true' == $_REQUEST['updated'] && ! empty(
 
 	if ( strlen( $usersearch ) ) {
 		/* translators: %s: Search query. */
-		printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
+		printf( '<span class="subtitle">' . __( 'Search results for: %s' ) . '</span>', '<strong>' . esc_html( $usersearch ) . '</strong>' );
 	}
 	?>
 

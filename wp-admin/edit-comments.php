@@ -232,8 +232,8 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 	echo '<span class="subtitle">';
 	printf(
 		/* translators: %s: Search query. */
-		__( 'Search results for &#8220;%s&#8221;' ),
-		wp_html_excerpt( esc_html( wp_unslash( $_REQUEST['s'] ) ), 50, '&hellip;' )
+		__( 'Search results for: %s' ),
+		'<strong>' . wp_html_excerpt( esc_html( wp_unslash( $_REQUEST['s'] ) ), 50, '&hellip;' . '</strong>' )
 	);
 	echo '</span>';
 }
