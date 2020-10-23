@@ -1933,6 +1933,7 @@ form.upgrade .hint {
 html.wp-toolbar {
 	padding-top: 32px;
 	box-sizing: border-box;
+	-ms-overflow-style: scrollbar; /* See ticket #48545 */
 }
 
 .widefat th,
