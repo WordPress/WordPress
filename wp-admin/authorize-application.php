@@ -128,10 +128,13 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<h2 class="title"><?php __( 'An application would like to connect to your account.' ); ?></h2>
 		<?php if ( $app_name ) : ?>
 			<p>
-			<?php
-			/* translators: %s: Application name. */
-			printf( __( 'Would you like to give the application identifying itself as %s access to your account? You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' );
-			?>
+				<?php
+				printf(
+					/* translators: %s: Application name. */
+					__( 'Would you like to give the application identifying itself as %s access to your account? You should only do this if you trust the app in question.' ),
+					'<strong>' . esc_html( $app_name ) . '</strong>'
+				);
+				?>
 			</p>
 		<?php else : ?>
 			<p><?php _e( 'Would you like to give this application access to your account? You should only do this if you trust the app in question.' ); ?></p>
@@ -139,22 +142,23 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<?php
 		if ( is_multisite() ) {
-			$blogs = get_blogs_of_user( $user->ID, true );
-			if ( count( $blogs ) > 1 ) {
+			$blogs       = get_blogs_of_user( $user->ID, true );
+			$blogs_count = count( $blogs );
+			if ( $blogs_count > 1 ) {
 				?>
 				<p>
-				<?php
+					<?php
 					printf(
-						/* translators: 1: url to my-sites.php, 2: Number of blogs the user has. */
+						/* translators: 1: URL to my-sites.php, 2: Number of blogs the user has. */
 						_n(
 							'This will grant access to <a href="%1$s">the %2$s blog in this installation that you have permissions on</a>.',
 							'This will grant access to <a href="%1$s">all %2$s blogs in this installation that you have permissions on</a>.',
-							count( $blogs )
+							$blogs_count
 						),
 						admin_url( 'my-sites.php' ),
-						number_format_i18n( count( $blogs ) )
+						number_format_i18n( $blogs_count )
 					);
-				?>
+					?>
 				</p>
 				<?php
 			}

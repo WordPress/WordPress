@@ -717,22 +717,23 @@ endif;
 		<p><?php _e( 'Application passwords allow authentication via non-interactive systems, such as XML-RPC or the REST API, without providing your actual password. Application passwords can be easily revoked. They cannot be used for traditional logins to your website.' ); ?></p>
 			<?php
 			if ( is_multisite() ) {
-				$blogs = get_blogs_of_user( $user_id, true );
-				if ( count( $blogs ) > 1 ) {
+				$blogs       = get_blogs_of_user( $user_id, true );
+				$blogs_count = count( $blogs );
+				if ( $blogs_count > 1 ) {
 					?>
 					<p>
-					<?php
-					printf(
-						/* translators: 1: url to my-sites.php, 2: Number of blogs the user has. */
-						_n(
-							'Application passwords grant access to <a href="%1$s">the %2$s blog in this installation that you have permissions on</a>.',
-							'Application passwords grant access to <a href="%1$s">all %2$s blogs in this installation that you have permissions on</a>.',
-							count( $blogs )
-						),
-						admin_url( 'my-sites.php' ),
-						number_format_i18n( count( $blogs ) )
-					);
-					?>
+						<?php
+						printf(
+							/* translators: 1: URL to my-sites.php, 2: Number of blogs the user has. */
+							_n(
+								'Application passwords grant access to <a href="%1$s">the %2$s blog in this installation that you have permissions on</a>.',
+								'Application passwords grant access to <a href="%1$s">all %2$s blogs in this installation that you have permissions on</a>.',
+								$blogs_count
+							),
+							admin_url( 'my-sites.php' ),
+							number_format_i18n( $blogs_count )
+						);
+						?>
 					</p>
 					<?php
 				}
