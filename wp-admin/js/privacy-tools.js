@@ -77,7 +77,11 @@ jQuery( document ).ready( function( $ ) {
 		setExportProgress( 0 );
 
 		function onExportDoneSuccess( zipUrl ) {
-			var summaryMessage = __( 'The personal data export link for this user was sent.' );
+			var summaryMessage = __( 'This user&#8217;s personal data export link was sent.' );
+
+			if ( 'undefined' !== typeof zipUrl ) {
+				summaryMessage = __( 'This user&#8217;s personal data export file was downloaded.' );
+			}
 
 			setActionState( $action, 'export-personal-data-success' );
 
