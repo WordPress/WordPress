@@ -48,10 +48,13 @@ abstract class WP_REST_Meta_Fields {
 	 * Registers the meta field.
 	 *
 	 * @since 4.7.0
+	 * @deprecated 5.6.0
 	 *
 	 * @see register_rest_field()
 	 */
 	public function register_field() {
+		_deprecated_function( __METHOD__, '5.6.0' );
+
 		register_rest_field(
 			$this->get_rest_field_type(),
 			'meta',
