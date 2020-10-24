@@ -604,7 +604,7 @@ if ( current_user_can( 'create_users' ) ) {
 		<td><select name="role" id="role">
 			<?php
 			if ( ! $new_user_role ) {
-				$new_user_role = ! empty( $current_role ) ? $current_role : get_option( 'default_role' );
+				$new_user_role = get_option( 'default_role' );
 			}
 			wp_dropdown_roles( $new_user_role );
 			?>
