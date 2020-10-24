@@ -12,6 +12,7 @@ require_once __DIR__ . '/admin.php';
 $error        = null;
 $new_password = '';
 
+// This is the no-js fallback script.  Generally this will all be handled by `auth-app.js`
 if ( isset( $_POST['action'] ) && 'authorize_application_password' === $_POST['action'] ) {
 	check_admin_referer( 'authorize_application_password' );
 
@@ -44,8 +45,9 @@ if ( isset( $_POST['action'] ) && 'authorize_application_password' === $_POST['a
 			if ( $success_url ) {
 				$redirect = add_query_arg(
 					array(
-						'username' => urlencode( wp_get_current_user()->user_login ),
-						'password' => urlencode( $new_password ),
+						'site_url'   => urlencode( site_url() ),
+						'user_login' => urlencode( wp_get_current_user()->user_login ),
+						'password'   => urlencode( $new_password ),
 					),
 					$success_url
 				);
@@ -108,6 +110,7 @@ wp_localize_script(
 	'auth-app',
 	'authApp',
 	array(
+		'site_url'   => site_url(),
 		'user_login' => $user->user_login,
 		'success'    => $success_url,
 		'reject'     => $reject_url ? $reject_url : admin_url(),
@@ -230,8 +233,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 							'<strong><kbd>' . esc_html(
 								add_query_arg(
 									array(
-										'username' => $user->user_login,
-										'password' => '[------]',
+										'site_url'   => site_url(),
+										'user_login' => $user->user_login,
+										'password'   => '[------]',
 									),
 									$success_url
 								)
