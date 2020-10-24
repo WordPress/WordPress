@@ -1052,7 +1052,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * @return stdClass|WP_Error Post object or WP_Error.
 	 */
 	protected function prepare_item_for_database( $request ) {
-		$prepared_post = new stdClass();
+		$prepared_post  = new stdClass();
+		$current_status = '';
 
 		// Post ID.
 		if ( isset( $request['id'] ) ) {
@@ -1062,6 +1063,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 
 			$prepared_post->ID = $existing_post->ID;
+			$current_status    = $existing_post->post_status;
 		}
 
 		$schema = $this->get_item_schema();
@@ -1105,7 +1107,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$post_type = get_post_type_object( $prepared_post->post_type );
 
 		// Post status.
-		if ( ! empty( $schema['properties']['status'] ) && isset( $request['status'] ) ) {
+		if (
+			! empty( $schema['properties']['status'] ) &&
+			isset( $request['status'] ) &&
+			( ! $current_status || $current_status !== $request['status'] )
+		) {
 			$status = $this->handle_status_param( $request['status'], $post_type );
 
 			if ( is_wp_error( $status ) ) {
@@ -1253,6 +1259,32 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 */
 		return apply_filters( "rest_pre_insert_{$this->post_type}", $prepared_post, $request );
 
+	}
+
+	/**
+	 * Checks whether the status is valid for the given post.
+	 *
+	 * Allows for sending an update request with the current status, even if that status would not be acceptable.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param string          $status  The provided status.
+	 * @param WP_REST_Request $request The request object.
+	 * @param string          $param   The parameter name.
+	 * @return true|WP_Error True if the status is valid, or WP_Error if not.
+	 */
+	public function check_status( $status, $request, $param ) {
+		if ( $request['id'] ) {
+			$post = $this->get_post( $request['id'] );
+
+			if ( ! is_wp_error( $post ) && $post->post_status === $status ) {
+				return true;
+			}
+		}
+
+		$args = $request->get_attributes()['args'][ $param ];
+
+		return rest_validate_value_from_schema( $status, $args, $param );
 	}
 
 	/**
@@ -2115,6 +2147,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					'type'        => 'string',
 					'enum'        => array_keys( get_post_stati( array( 'internal' => false ) ) ),
 					'context'     => array( 'view', 'edit' ),
+					'arg_options' => array(
+						'validate_callback' => array( $this, 'check_status' ),
+					),
 				),
 				'type'         => array(
 					'description' => __( 'Type of Post for the object.' ),
