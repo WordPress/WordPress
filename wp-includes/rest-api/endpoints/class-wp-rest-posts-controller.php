@@ -1344,8 +1344,10 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		if ( $request['id'] ) {
+			$post             = get_post( $request['id'] );
 			$current_template = get_page_template_slug( $request['id'] );
 		} else {
+			$post             = null;
 			$current_template = '';
 		}
 
@@ -1355,7 +1357,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		// If this is a create request, get_post() will return null and wp theme will fallback to the passed post type.
-		$allowed_templates = wp_get_theme()->get_page_templates( get_post( $request['id'] ), $this->post_type );
+		$allowed_templates = wp_get_theme()->get_page_templates( $post, $this->post_type );
 
 		if ( isset( $allowed_templates[ $template ] ) ) {
 			return true;
