@@ -290,8 +290,7 @@ class Core_Upgrader extends WP_Upgrader {
 				$upgrade_dev   = false;
 				$upgrade_minor = false;
 				$upgrade_major = false;
-			} elseif (
-				true === WP_AUTO_UPDATE_CORE
+			} elseif ( true === WP_AUTO_UPDATE_CORE
 				|| 'beta' === WP_AUTO_UPDATE_CORE
 				|| 'rc' === WP_AUTO_UPDATE_CORE
 			) {
