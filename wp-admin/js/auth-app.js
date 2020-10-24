@@ -21,13 +21,16 @@
 
 		e.preventDefault();
 
+		if ( $approveBtn.prop( 'aria-disabled' ) ) {
+			return;
+		}
+
 		if ( 0 === name.length ) {
 			$appNameField.focus();
 			return;
 		}
 
-		$appNameField.prop( 'disabled', true );
-		$approveBtn.prop( 'disabled', true );
+		$approveBtn.prop( 'aria-disabled', true ).addClass( 'disabled' );
 
 		var request = {
 			name: name
@@ -82,17 +85,17 @@
 				message = wp.i18n.sprintf(
 					wp.i18n.__( 'Your new password for %1$s is: %2$s.' ),
 					'<strong></strong>',
-					'<kbd></kbd>'
+					'<input type="text" class="code" readonly="readonly" value="" />'
 				);
 				$notice = $( '<div></div>' )
 					.attr( 'role', 'alert' )
 					.attr( 'tabindex', 0 )
 					.addClass( 'notice notice-success notice-alt' )
-					.append( $( '<p></p>' ).html( message ) );
+					.append( $( '<p></p>' ).addClass( 'application-password-display' ).html( message ) );
 
 				// We're using .text() to write the variables to avoid any chance of XSS.
 				$( 'strong', $notice ).text( name );
-				$( 'kbd', $notice ).text( response.password );
+				$( 'input', $notice ).val( response.password );
 
 				$form.replaceWith( $notice );
 				$notice.focus();
@@ -116,8 +119,7 @@
 
 			$( 'h1' ).after( $notice );
 
-			$appNameField.prop( 'disabled', false );
-			$approveBtn.prop( 'disabled', false );
+			$approveBtn.removeProp( 'aria-disabled', false ).removeClass( 'disabled' );
 
 			/**
 			 * Fires when an Authorize Application Password request encountered an error when trying to approve the request.

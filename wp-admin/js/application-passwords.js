@@ -17,6 +17,11 @@
 
 	$newAppPassButton.click( function( e ) {
 		e.preventDefault();
+
+		if ( $newAppPassButton.prop( 'aria-disabled' ) ) {
+			return;
+		}
+
 		var name = $newAppPassField.val();
 
 		if ( 0 === name.length ) {
@@ -25,8 +30,7 @@
 		}
 
 		clearErrors();
-		$newAppPassField.prop( 'disabled', true );
-		$newAppPassButton.prop( 'disabled', true );
+		$newAppPassButton.prop( 'aria-disabled', true ).addClass( 'disabled' );
 
 		var request = {
 			name: name
@@ -47,8 +51,7 @@
 			method: 'POST',
 			data: request
 		} ).always( function() {
-			$newAppPassField.prop( 'disabled', false );
-			$newAppPassButton.prop( 'disabled', false );
+			$newAppPassButton.removeProp( 'aria-disabled' ).removeClass( 'disabled' );
 		} ).done( function( response ) {
 			$newAppPassField.val( '' );
 			$newAppPassButton.prop( 'disabled', false );

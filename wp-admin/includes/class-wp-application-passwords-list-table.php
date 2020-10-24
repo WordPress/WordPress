@@ -104,9 +104,20 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 	 * Handles the revoke column output.
 	 *
 	 * @since 5.6.0
+	 *
+	 * @param array $item The current application password item.
 	 */
-	public function column_revoke() {
-		submit_button( __( 'Revoke' ), 'delete', 'revoke-application-password', false );
+	public function column_revoke( $item ) {
+		submit_button(
+			__( 'Revoke' ),
+			'delete',
+			'revoke-application-password-' . $item['uuid'],
+			false,
+			array(
+				/* translators: %s: the application password's given name. */
+				'title' => sprintf( __( 'Revoke "%s"' ), $item['name'] ),
+			)
+		);
 	}
 
 	/**
@@ -220,7 +231,12 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 					echo "{{ data.last_ip || '—' }}";
 					break;
 				case 'revoke':
-					echo $this->column_revoke();
+					printf(
+						'<input type="submit" class="button delete" value="%1$s" title="%2$s">',
+						esc_attr( __( 'Revoke' ) ),
+						/* translators: %s: the application password's given name. */
+						esc_attr( sprintf( __( 'Revoke "%s"' ), '{{ data.name }}' ) )
+					);
 					break;
 				default:
 					/**
