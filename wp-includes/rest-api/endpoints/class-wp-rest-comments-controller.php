@@ -587,11 +587,11 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		$prepared_comment['comment_type'] = 'comment';
 
-		/*
-		 * Do not allow a comment to be created with missing or empty
-		 * comment_content. See wp_handle_comment_submission().
-		 */
-		if ( empty( $prepared_comment['comment_content'] ) ) {
+		if ( ! isset( $prepared_comment['comment_content'] ) ) {
+			$prepared_comment['comment_content'] = '';
+		}
+
+		if ( ! $this->check_is_comment_content_allowed( $prepared_comment ) ) {
 			return new WP_Error(
 				'rest_comment_content_invalid',
 				__( 'Invalid comment content.' ),
@@ -1280,9 +1280,9 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		 * the 'content.raw' properties of the Request object.
 		 */
 		if ( isset( $request['content'] ) && is_string( $request['content'] ) ) {
-			$prepared_comment['comment_content'] = $request['content'];
+			$prepared_comment['comment_content'] = trim( $request['content'] );
 		} elseif ( isset( $request['content']['raw'] ) && is_string( $request['content']['raw'] ) ) {
-			$prepared_comment['comment_content'] = $request['content']['raw'];
+			$prepared_comment['comment_content'] = trim( $request['content']['raw'] );
 		}
 
 		if ( isset( $request['post'] ) ) {
@@ -1865,5 +1865,40 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		return $email;
+	}
+
+	/**
+	 * If empty comments are not allowed, checks if the provided comment content is not empty.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param array $prepared_comment The prepared comment data.
+	 * @return bool True if the content is allowed, false otherwise.
+	 */
+	protected function check_is_comment_content_allowed( $prepared_comment ) {
+		$check = wp_parse_args(
+			$prepared_comment,
+			array(
+				'comment_post_ID'      => 0,
+				'comment_parent'       => 0,
+				'user_ID'              => 0,
+				'comment_author'       => null,
+				'comment_author_email' => null,
+				'comment_author_url'   => null,
+			)
+		);
+
+		/** This filter is documented in wp-includes/comment.php */
+		$allow_empty = apply_filters( 'allow_empty_comment', false, $check );
+
+		if ( $allow_empty ) {
+			return true;
+		}
+
+		/*
+		 * Do not allow a comment to be created with missing or empty
+		 * comment_content. See wp_handle_comment_submission().
+		 */
+		return '' !== $check['comment_content'];
 	}
 }
