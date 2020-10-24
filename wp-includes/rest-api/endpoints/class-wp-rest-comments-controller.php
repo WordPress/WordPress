@@ -1159,14 +1159,12 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( 0 !== (int) $comment->comment_post_ID ) {
-			$post = get_post( $comment->comment_post_ID );
+			$post       = get_post( $comment->comment_post_ID );
+			$post_route = rest_get_route_for_post( $post );
 
-			if ( ! empty( $post->ID ) ) {
-				$obj  = get_post_type_object( $post->post_type );
-				$base = ! empty( $obj->rest_base ) ? $obj->rest_base : $obj->name;
-
+			if ( ! empty( $post->ID ) && $post_route ) {
 				$links['up'] = array(
-					'href'       => rest_url( 'wp/v2/' . $base . '/' . $comment->comment_post_ID ),
+					'href'       => rest_url( $post_route ),
 					'embeddable' => true,
 					'post_type'  => $post->post_type,
 				);
