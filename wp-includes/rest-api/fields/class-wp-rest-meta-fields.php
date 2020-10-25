@@ -466,7 +466,7 @@ abstract class WP_REST_Meta_Fields {
 				$rest_args['schema']['default'] = static::get_empty_value_for_type( $type );
 			}
 
-			$rest_args['schema'] = $this->default_additional_properties_to_false( $rest_args['schema'] );
+			$rest_args['schema'] = rest_default_additional_properties_to_false( $rest_args['schema'] );
 
 			if ( ! in_array( $type, array( 'string', 'boolean', 'integer', 'number', 'array', 'object' ), true ) ) {
 				continue;
@@ -571,27 +571,15 @@ abstract class WP_REST_Meta_Fields {
 	 * default.
 	 *
 	 * @since 5.3.0
+	 * @deprecated 5.6.0 Use rest_default_additional_properties_to_false() instead.
 	 *
 	 * @param array $schema The schema array.
 	 * @return array
 	 */
 	protected function default_additional_properties_to_false( $schema ) {
-		switch ( $schema['type'] ) {
-			case 'object':
-				foreach ( $schema['properties'] as $key => $child_schema ) {
-					$schema['properties'][ $key ] = $this->default_additional_properties_to_false( $child_schema );
-				}
+		_deprecated_function( __METHOD__, '5.6.0', 'rest_default_additional_properties_to_false()' );
 
-				if ( ! isset( $schema['additionalProperties'] ) ) {
-					$schema['additionalProperties'] = false;
-				}
-				break;
-			case 'array':
-				$schema['items'] = $this->default_additional_properties_to_false( $schema['items'] );
-				break;
-		}
-
-		return $schema;
+		return rest_default_additional_properties_to_false( $schema );
 	}
 
 	/**
