@@ -1979,7 +1979,7 @@ function wp_insert_user( $userdata ) {
 	/**
 	 * Filters user data before the record is created or updated.
 	 *
-	 * It only includes data in the wp_users table wp_user, not any user metadata.
+	 * It only includes data in the users table, not any user metadata.
 	 *
 	 * @since 4.9.0
 	 *
