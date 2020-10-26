@@ -88,7 +88,7 @@ class WP_Block_Supports {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @return array               Array of HTML attributes.
+	 * @return array Array of HTML attributes.
 	 */
 	public function apply_block_supports() {
 		$block_attributes = self::$block_to_render['attrs'];
