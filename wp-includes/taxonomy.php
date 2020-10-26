@@ -3444,7 +3444,7 @@ function wp_modify_term_count_by_now( $tt_ids, $taxonomy, $modify_by ) {
 
 	foreach ( $tt_ids as $tt_id ) {
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edit_term_taxonomy', $tt_id, $taxonomy );
+		do_action( 'edit_term_taxonomy', $tt_id, $taxonomy->name );
 	}
 
 	$result = $wpdb->query(
@@ -3461,7 +3461,7 @@ function wp_modify_term_count_by_now( $tt_ids, $taxonomy, $modify_by ) {
 
 	foreach ( $tt_ids as $tt_id ) {
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edited_term_taxonomy', $tt_id, $taxonomy );
+		do_action( 'edited_term_taxonomy', $tt_id, $taxonomy->name );
 	}
 
 	clean_term_cache( $tt_ids, '', false );
