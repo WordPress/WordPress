@@ -229,7 +229,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	position: relative;
 	float: right;
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	padding: 4px 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -306,7 +306,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item:before {
 	position: absolute;
 	font: normal 17px/1 dashicons;
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -506,7 +506,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	display: inline-block;
 	vertical-align: middle;
 	font: normal 16px/1 dashicons !important;
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	color: #eee;
@@ -612,7 +612,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	z-index: 20;
 	font: normal 20px/1 dashicons !important;
 	content: "\f179";
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -842,7 +842,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 		display: block;
 		text-indent: 0;
 		font: normal 32px/1 dashicons;
-		speak: none;
+		speak: never;
 		top: 7px;
 		width: 52px;
 		text-align: center;

@@ -1600,7 +1600,7 @@ body.full-overlay-active {
 	content: "\f148";
 	background: #eee;
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	padding: 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -1976,6 +1976,6 @@ body.full-overlay-active {
 	.theme-info .updating-message:before,
 	.theme-info .updated-message:before,
 	.theme-install.updating-message:before {
-		speak: none;
+		speak: never;
 	}
 }

@@ -475,7 +475,7 @@ form#tags-filter {
 #post-body .misc-pub-response-to:before,
 #post-body .misc-pub-comment-status:before {
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	display: inline-block;
 	margin-left: -1px;
 	padding-right: 3px;
@@ -976,7 +976,7 @@ strong.privacy-policy-tutorial {
 	margin-right: 7px;
 	color: #ddd;
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

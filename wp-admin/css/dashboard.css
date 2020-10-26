@@ -231,7 +231,7 @@
 #dashboard_right_now .search-engines-info:before {
 	color: #606a73;
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	display: inline-block;
 	padding: 0 10px 0 0;
 	position: relative;

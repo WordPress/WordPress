@@ -297,7 +297,7 @@
 .ui-dialog-titlebar-close:before {
 	font: normal 20px/1 dashicons;
 	vertical-align: top;
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	line-height: 1.8;

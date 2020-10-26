@@ -255,7 +255,7 @@
 .media-modal-close .media-modal-icon:before {
 	content: "\f158";
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -2174,7 +2174,7 @@
 
 .image-details .advanced-toggle:after {
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	vertical-align: top;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

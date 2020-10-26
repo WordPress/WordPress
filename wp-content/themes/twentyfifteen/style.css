@@ -195,7 +195,7 @@ a img {
 	font-weight: normal;
 	font-variant: normal;
 	line-height: 1;
-	speak: none;
+	speak: never;
 	text-align: center;
 	text-decoration: inherit;
 	text-transform: none;

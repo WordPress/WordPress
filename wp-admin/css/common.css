@@ -791,7 +791,7 @@ img.emoji {
 	content: "\f153";
 	display: block;
 	font: normal 16px/20px dashicons;
-	speak: none;
+	speak: never;
 	height: 20px;
 	text-align: center;
 	width: 20px;
@@ -1638,7 +1638,7 @@ form.upgrade .hint {
 	.button.installing:before,
 	.button.installed:before,
 	.update-message p:before {
-		speak: none;
+		speak: never;
 	}
 }
 
@@ -1729,7 +1729,7 @@ form.upgrade .hint {
 	right: 0;
 	content: "\f140";
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	display: inline-block;
 	padding: 0 5px 0 0;
 	bottom: 2px;
@@ -3019,7 +3019,7 @@ div.action-links {
 .plugin-details-modal #TB_closeWindowButton:after {
 	content: "\f335";
 	font: normal 32px/29px 'dashicons';
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -3047,7 +3047,7 @@ img {
 	content: "\f142";
 	display: inline-block;
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none;
@@ -3400,7 +3400,7 @@ img {
 .accordion-section-title:after {
 	content: "\f140";
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	display: block;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

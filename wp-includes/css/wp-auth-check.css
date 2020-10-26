@@ -96,7 +96,7 @@
 #wp-auth-check-wrap .wp-auth-check-close:before {
 	content: "\f158";
 	font: normal 20px/22px dashicons;
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased !important;
 	-moz-osx-font-smoothing: grayscale;
 }

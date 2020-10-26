@@ -322,7 +322,7 @@
 #find-posts-close:before {
 	font: normal 20px/36px dashicons;
 	vertical-align: top;
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	content: "\f158";
@@ -959,7 +959,7 @@ border color while dragging a file over the uploader drop area */
 .imgedit-menu .button:before {
 	font: normal 16px/1 dashicons;
 	margin-left: 8px;
-	speak: none;
+	speak: never;
 	vertical-align: middle;
 	position: relative;
 	top: -2px;

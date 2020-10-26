@@ -269,7 +269,7 @@ th .comment-grey-bubble {
 th .comment-grey-bubble:before {
 	content: "\f101";
 	font: normal 20px/.5 dashicons;
-	speak: none;
+	speak: never;
 	display: inline-block;
 	padding: 0;
 	top: 4px;
@@ -451,7 +451,7 @@ table.media .column-title .filename {
 .sorting-indicator:before {
 	content: "\f142";
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	display: inline-block;
 	padding: 0;
 	top: -4px;
@@ -523,7 +523,7 @@ th.asc a:focus span.sorting-indicator:before {
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	speak: none;
+	speak: never;
 }
 
 .wp-list-table .is-expanded .toggle-row:before {
@@ -542,7 +542,7 @@ th.asc a:focus span.sorting-indicator:before {
 	content: "\f160";
 	display: inline-block;
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -710,7 +710,7 @@ th.asc a:focus span.sorting-indicator {
 	color: #b4b9be;
 	display: inline-block;
 	font: normal 20px/1 dashicons;
-	speak: none;
+	speak: never;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -1313,7 +1313,7 @@ ul.cat-checklist {
 	display: inline-block;
 	font: normal 20px/1 dashicons;
 	margin: 3px -2px 0 5px;
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	vertical-align: top;
@@ -1523,7 +1523,7 @@ div.action-links,
 
 .plugin-card .column-compatibility span:before {
 	font: normal 20px/.5 dashicons;
-	speak: none;
+	speak: never;
 	display: inline-block;
 	padding: 0;
 	top: 4px;
