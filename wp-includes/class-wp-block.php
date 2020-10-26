@@ -192,7 +192,7 @@ class WP_Block {
 	 * @return string Rendered block output.
 	 */
 	public function render( $options = array() ) {
-		global $post, $current_parsed_block;
+		global $post;
 		$options = wp_parse_args(
 			$options,
 			array(
@@ -206,20 +206,18 @@ class WP_Block {
 		if ( ! $options['dynamic'] || empty( $this->block_type->skip_inner_blocks ) ) {
 			$index = 0;
 			foreach ( $this->inner_content as $chunk ) {
-				if ( is_string( $chunk ) ) {
-					$block_content .= $chunk;
-				} else {
-					$parent_parsed_block  = $current_parsed_block;
-					$current_parsed_block = $this->inner_blocks[ $index ]->parsed_block;
-					$block_content       .= $this->inner_blocks[ $index++ ]->render();
-					$current_parsed_block = $parent_parsed_block;
-				}
+				$block_content .= is_string( $chunk ) ?
+					$chunk :
+					$this->inner_blocks[ $index++ ]->render();
 			}
 		}
 
 		if ( $is_dynamic ) {
 			$global_post   = $post;
+			$parent = WP_Block_Supports::$block_to_render;
+			WP_Block_Supports::$block_to_render = $this->parsed_block;
 			$block_content = (string) call_user_func( $this->block_type->render_callback, $this->attributes, $block_content, $this );
+			WP_Block_Supports::$block_to_render = $parent;
 			$post          = $global_post;
 		}
 

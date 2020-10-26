@@ -24,6 +24,13 @@ class WP_Block_Supports {
 	private $block_supports = array();
 
 	/**
+	 * Tracks the current block to be rendered.
+	 *
+	 * @var array
+	 */
+	public static $block_to_render = null;
+
+	/**
 	 * Container for the main instance of the class.
 	 *
 	 * @var WP_Block_Supports|null
@@ -72,20 +79,18 @@ class WP_Block_Supports {
 		);
 	}
 
-
 	/**
 	 * Generates an array of HTML attributes, such as classes, by applying to
 	 * the given block all of the features that the block supports.
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param  array $parsed_block Block as parsed from content.
 	 * @return array               Array of HTML attributes.
 	 */
-	public function apply_block_supports( $parsed_block ) {
-		$block_attributes = $parsed_block['attrs'];
+	public function apply_block_supports() {
+		$block_attributes = self::$block_to_render['attrs'];
 		$block_type       = WP_Block_Type_Registry::get_instance()->get_registered(
-			$parsed_block['blockName']
+			self::$block_to_render['blockName']
 		);
 
 		// If no render_callback, assume styles have been previously handled.
@@ -155,15 +160,12 @@ class WP_Block_Supports {
  *
  * @since 5.6.0
  *
- * @global array    $current_parsed_block Block currently being parsed.
- *
  * @param array $extra_attributes Optional. Extra attributes to render on the block wrapper.
  *
  * @return string String of HTML classes.
  */
 function get_block_wrapper_attributes( $extra_attributes = array() ) {
-	global $current_parsed_block;
-	$new_attributes = WP_Block_Supports::get_instance()->apply_block_supports( $current_parsed_block );
+	$new_attributes = WP_Block_Supports::get_instance()->apply_block_supports();
 
 	if ( empty( $new_attributes ) && empty( $extra_attributes ) ) {
 		return '';
@@ -208,4 +210,3 @@ function get_block_wrapper_attributes( $extra_attributes = array() ) {
 
 	return implode( ' ', $normalized_attributes );
 }
-
