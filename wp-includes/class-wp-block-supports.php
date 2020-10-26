@@ -19,6 +19,7 @@ class WP_Block_Supports {
 	/**
 	 * Config.
 	 *
+	 * @since 5.6.0
 	 * @var array
 	 */
 	private $block_supports = array();
@@ -26,6 +27,7 @@ class WP_Block_Supports {
 	/**
 	 * Tracks the current block to be rendered.
 	 *
+	 * @since 5.6.0
 	 * @var array
 	 */
 	public static $block_to_render = null;
@@ -33,6 +35,7 @@ class WP_Block_Supports {
 	/**
 	 * Container for the main instance of the class.
 	 *
+	 * @since 5.6.0
 	 * @var WP_Block_Supports|null
 	 */
 	private static $instance = null;

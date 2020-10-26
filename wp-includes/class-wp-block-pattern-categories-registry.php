@@ -14,6 +14,7 @@ final class WP_Block_Pattern_Categories_Registry {
 	/**
 	 * Registered block pattern categories array.
 	 *
+	 * @since 5.5.0
 	 * @var array
 	 */
 	private $registered_categories = array();
@@ -21,6 +22,7 @@ final class WP_Block_Pattern_Categories_Registry {
 	/**
 	 * Container for the main instance of the class.
 	 *
+	 * @since 5.5.0
 	 * @var WP_Block_Pattern_Categories_Registry|null
 	 */
 	private static $instance = null;
