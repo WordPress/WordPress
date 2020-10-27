@@ -135,6 +135,7 @@ class WP_Site_Health {
 						'test'      => $test['test'],
 						'has_rest'  => ( isset( $test['has_rest'] ) ? $test['has_rest'] : false ),
 						'completed' => false,
+						'headers'   => isset( $test['headers'] ) ? $test['headers'] : array(),
 					);
 				}
 			}
@@ -2079,6 +2080,62 @@ class WP_Site_Health {
 	}
 
 	/**
+	 * Tests if the Authorization header has the expected values.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @return array
+	 */
+	public function get_test_authorization_header() {
+		$result = array(
+			'label'       => __( 'The Authorization header is working as expected.' ),
+			'status'      => 'good',
+			'badge'       => array(
+				'label' => __( 'Security' ),
+				'color' => 'blue',
+			),
+			'description' => sprintf(
+				'<p>%s</p>',
+				__( 'The Authorization header comes from the third-party applications you approve. Without it, those apps cannot connect to your site.' )
+			),
+			'actions'     => '',
+			'test'        => 'authorization_header',
+		);
+
+		if ( ! isset( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) {
+			$result['label'] = __( 'The authorization header is missing.' );
+		} elseif ( 'user' !== $_SERVER['PHP_AUTH_USER'] || 'pwd' !== $_SERVER['PHP_AUTH_PW'] ) {
+			$result['label'] = __( 'The authorization header is invalid.' );
+		} else {
+			return $result;
+		}
+
+		$result['status'] = 'recommended';
+
+		if ( ! function_exists( 'got_mod_rewrite' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/misc.php';
+		}
+
+		if ( got_mod_rewrite() ) {
+			$result['actions'] .= sprintf(
+				'<p><a href="%s">%s</a></p>',
+				esc_url( admin_url( 'options-permalink.php' ) ),
+				__( 'Flush permalinks' )
+			);
+		} else {
+			$result['actions'] .= sprintf(
+				'<p><a href="%s" target="_blank" rel="noopener">%s <span class="screen-reader-text">%s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				'https://developer.wordpress.org/rest-api/frequently-asked-questions/#why-is-authentication-not-working',
+				__( 'Learn how to configure the Authorization header.' ),
+				/* translators: Accessibility text. */
+				__( '(opens in a new tab)' )
+			);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Return a set of tests that belong to the site status page.
 	 *
 	 * Each site status test is defined here, they may be `direct` tests, that run on page load, or `async` tests
@@ -2177,6 +2234,13 @@ class WP_Site_Health {
 					'has_rest'          => true,
 					'async_direct_test' => array( WP_Site_Health::get_instance(), 'get_test_loopback_requests' ),
 				),
+				'authorization_header' => array(
+					'label'     => __( 'Authorization header' ),
+					'test'      => rest_url( 'wp-site-health/v1/tests/authorization-header' ),
+					'has_rest'  => true,
+					'headers'   => array( 'Authorization' => 'Basic ' . base64_encode( 'user:pwd' ) ),
+					'skip_cron' => true,
+				),
 			),
 		);
 
@@ -2203,6 +2267,7 @@ class WP_Site_Health {
 		 *
 		 * @since 5.2.0
 		 * @since 5.6.0 Added the `async_direct_test` array key.
+		 *              Added the `skip_cron` array key.
 		 *
 		 * @param array $test_type {
 		 *     An associative array, where the `$test_type` is either `direct` or
@@ -2217,6 +2282,7 @@ class WP_Site_Health {
 		 *         @type mixed    $test              A callable to perform a direct test, or a string AJAX action
 		 *                                           to be called to perform an async test.
 		 *         @type boolean  $has_rest          Optional. Denote if `$test` has a REST API endpoint.
+		 *         @type boolean  $skip_cron         Whether to skip this test when running as cron.
 		 *         @type callable $async_direct_test A manner of directly calling the test marked as asynchronous,
 		 *                                           as the scheduled event can not authenticate, and endpoints
 		 *                                           may require authentication.
@@ -2557,6 +2623,10 @@ class WP_Site_Health {
 		}
 
 		foreach ( $tests['async'] as $test ) {
+			if ( ! empty( $test['skip_cron'] ) ) {
+				continue;
+			}
+
 			// Local endpoints may require authentication, so asynchronous tests can pass a direct test runner as well.
 			if ( ! empty( $test['async_direct_test'] ) && is_callable( $test['async_direct_test'] ) ) {
 				// This test is callable, do so and continue to the next asynchronous check.

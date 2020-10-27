@@ -107,6 +107,25 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
 		register_rest_route(
 			$this->namespace,
 			sprintf(
+				'/%s/%s',
+				$this->rest_base,
+				'authorization-header'
+			),
+			array(
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'test_authorization_header' ),
+					'permission_callback' => function () {
+						return $this->validate_request_permission( 'authorization_header' );
+					},
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			sprintf(
 				'/%s',
 				'directory-sizes'
 			),
@@ -175,6 +194,17 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
 	 */
 	public function test_loopback_requests() {
 		return $this->site_health->get_test_loopback_requests();
+	}
+
+	/**
+	 * Checks that the authorization header is valid.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @return array
+	 */
+	public function test_authorization_header() {
+		return $this->site_health->get_test_authorization_header();
 	}
 
 	/**

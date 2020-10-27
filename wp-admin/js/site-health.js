@@ -212,7 +212,8 @@ jQuery( document ).ready( function( $ ) {
 
 				if ( 'undefined' !== typeof( this.has_rest ) && this.has_rest ) {
 					wp.apiRequest( {
-						url: this.test
+						url: this.test,
+						headers: this.headers
 					} )
 						.done( function( response ) {
 							/** This filter is documented in wp-admin/includes/class-wp-site-health.php */
