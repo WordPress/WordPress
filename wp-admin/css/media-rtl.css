@@ -1175,12 +1175,12 @@ audio, video {
 	max-width: 100%;
 }
 
-.mejs-container {
+.wp-core-ui .mejs-container {
 	width: 100%;
 	max-width: 100%;
 }
 
-.mejs-container .mejs-controls {
+.wp-core-ui .mejs-container * {
 	box-sizing: border-box;
 }
 
