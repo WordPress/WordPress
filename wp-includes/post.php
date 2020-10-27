@@ -4050,7 +4050,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 			if ( ! empty( $tax_object->default_term ) ) {
 
 				// Filter out empty terms.
-				if ( isset( $postarr['tax_input'] ) && is_array( $postarr['tax_input'][ $taxonomy ] ) ) {
+				if ( isset( $postarr['tax_input'][ $taxonomy ] ) && is_array( $postarr['tax_input'][ $taxonomy ] ) ) {
 					$postarr['tax_input'][ $taxonomy ] = array_filter( $postarr['tax_input'][ $taxonomy ] );
 				}
 
