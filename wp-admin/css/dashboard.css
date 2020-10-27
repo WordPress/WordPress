@@ -49,20 +49,24 @@
 
 #dashboard-widgets .meta-box-sortables {
 	display: flow-root; /* avoid margin collapsing between parent and first/last child elements */
+	/* Required min-height to make the jQuery UI Sortable drop zone work. */
+	min-height: 100px;
 	margin: 0 8px 20px;
 }
 
-/* The following four selectors also apply on the Edit Post screen. */
-.screen-options-open .meta-box-sortables {
+#dashboard-widgets .postbox-container .empty-container {
+	outline: 3px dashed #b4b9be;
+	height: 250px;
+}
+
+/* Only highlight drop zones when dragging and only in the 2 columns layout. */
+.is-dragging-metaboxes #dashboard-widgets .meta-box-sortables {
 	outline: 3px dashed #606a73;
-	min-height: 250px;
+	/* Prevent margin on the child from collapsing with margin on the parent. */
+	display: flow-root;
 }
 
-.screen-options-open .postbox-container .empty-container {
-	outline-color: #b4b9be;
-}
-
-.postbox-container .empty-container:after {
+#dashboard-widgets .postbox-container .empty-container:after {
 	content: attr(data-emptystring);
 	margin: auto;
 	position: absolute;
@@ -78,9 +82,6 @@
 	display: none;
 }
 
-.screen-options-open .postbox-container .empty-container:after {
-	display: block;
-}
 
 /* @todo: this was originally in this section, but likely belongs elsewhere */
 #the-comment-list td.comment p.comment-author {
@@ -1117,7 +1118,7 @@ a.rsswidget {
 		min-height: 0;
 	}
 
-	.screen-options-open #dashboard-widgets .meta-box-sortables {
+	.is-dragging-metaboxes #dashboard-widgets .meta-box-sortables {
 		min-height: 100px;
 	}
 
@@ -1173,11 +1174,10 @@ a.rsswidget {
 	.columns-prefs .columns-prefs-4 {
 		display: none;
 	}
-/*
+
 	#dashboard-widgets .postbox-container .empty-container:after {
 		display: block;
 	}
-*/
 }
 
 /* three columns on the dash */
@@ -1205,20 +1205,19 @@ a.rsswidget {
 	#dashboard-widgets #postbox-container-4 .empty-container:after {
 		display: none;
 	}
-/*
+
 	#dashboard-widgets .postbox-container .empty-container:after {
 		display: block;
 	}
-*/
 }
 
-/* Always show the "Drag boxes here" CSS generated content on large screens.
+/* Always show the "Drag boxes here" CSS generated content on large screens. */
 @media only screen and (min-width: 1801px) {
 	#dashboard-widgets .postbox-container .empty-container:after {
 		display: block;
 	}
 }
-*/
+
 @media screen and (max-width: 870px) {
 	.welcome-panel .welcome-panel-column,
 	.welcome-panel .welcome-panel-column:first-child {
