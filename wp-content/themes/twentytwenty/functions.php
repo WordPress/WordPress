@@ -178,6 +178,9 @@ require get_template_directory() . '/classes/class-twentytwenty-non-latin-langua
 // Custom CSS.
 require get_template_directory() . '/inc/custom-css.php';
 
+// Block Patterns.
+require get_template_directory() . '/inc/block-patterns.php';
+
 /**
  * Register and Enqueue Styles.
  */
