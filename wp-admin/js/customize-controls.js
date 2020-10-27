@@ -3700,8 +3700,8 @@
 						parentContainer = ( section.contentContainer.is( 'ul' ) ) ? section.contentContainer : section.contentContainer.find( 'ul:first' );
 						if ( ! control.container.parent().is( parentContainer ) ) {
 							parentContainer.append( control.container );
-							control.renderContent();
 						}
+						control.renderContent();
 						control.deferred.embedded.resolve();
 					});
 				});
