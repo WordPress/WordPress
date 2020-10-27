@@ -146,13 +146,6 @@
 
 		bindToggleButton();
 
-		// Generate the first password and cache it, but don't set it yet.
-		wp.ajax.post( 'generate-password' )
-			.done( function( data ) {
-				// Cache password.
-				$pass1.data( 'pw', data );
-			} );
-
 		$generateButton.show();
 		$generateButton.on( 'click', function () {
 			updateLock = true;
