@@ -38,6 +38,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 	 * Prepares the list of items for displaying.
 	 *
 	 * @since 5.6.0
+	 *
+	 * @global int $user_id User ID.
 	 */
 	public function prepare_items() {
 		global $user_id;
