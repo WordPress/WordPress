@@ -50,7 +50,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 					'<!-- /wp:group --></div></div>',
 					'<!-- /wp:group -->',
 				)
-			)
+			),
 		)
 	);
 
@@ -61,7 +61,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 			'title'         => esc_html__( 'Double Call to Action', 'twentytwenty' ),
 			'categories'    => array( 'twentytwenty' ),
 			'viewportWidth' => 1400,
-			'content'       =>  implode(
+			'content'       => implode(
 				'',
 				array(
 					'<!-- wp:columns {"align":"wide"} -->',
@@ -97,7 +97,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 					'<!-- /wp:column --></div>',
 					'<!-- /wp:columns -->',
 				)
-			)
+			),
 		)
 	);
 
@@ -108,7 +108,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 			'title'         => esc_html__( 'Event Details', 'twentytwenty' ),
 			'categories'    => array( 'twentytwenty' ),
 			'viewportWidth' => 1400,
-			'content'       =>  implode(
+			'content'       => implode(
 				'',
 				array(
 					'<!-- wp:group {"align":"wide","backgroundColor":"primary"} -->',
@@ -131,7 +131,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 					'<!-- /wp:columns --></div></div>',
 					'<!-- /wp:group -->',
 				)
-			)
+			),
 		)
 	);
 
@@ -142,7 +142,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 			'title'         => esc_html__( 'Featured Content', 'twentytwenty' ),
 			'categories'    => array( 'twentytwenty' ),
 			'viewportWidth' => 1400,
-			'content'       =>  implode(
+			'content'       => implode(
 				'',
 				array(
 					'<!-- wp:columns {"align":"wide"} -->',
@@ -176,7 +176,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 					'<!-- /wp:column --></div>',
 					'<!-- /wp:columns -->',
 				)
-			)
+			),
 		)
 	);
 
@@ -187,7 +187,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 			'title'         => esc_html__( 'Introduction', 'twentytwenty' ),
 			'categories'    => array( 'twentytwenty' ),
 			'viewportWidth' => 1400,
-			'content'       =>  implode(
+			'content'       => implode(
 				'',
 				array(
 					'<!-- wp:heading {"align":"center"} -->',
@@ -197,7 +197,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 					'<p class="has-drop-cap">' . esc_html__( 'With seven floors of striking architecture, UMoMA shows exhibitions of international contemporary art, sometimes along with art historical retrospectives. Existential, political, and philosophical issues are intrinsic to our program. As visitor, you are invited to guided tours artist talks, lectures, film screenings, and other events with free admission.', 'twentytwenty' ) . '</p>',
 					'<!-- /wp:paragraph -->',
 				)
-			)
+			),
 		)
 	);
 }
