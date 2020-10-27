@@ -2481,6 +2481,7 @@ function get_theme_starter_content() {
  *              by adding it to the function signature.
  * @since 5.5.0 The `core-block-patterns` feature was added and is enabled by default.
  * @since 5.5.0 The `custom-logo` feature now also accepts 'unlink-homepage-logo'.
+ * @since 5.6.0 The `post-formats` feature now returns doing it wrong if no array is passed
  *
  * @global array $_wp_theme_features
  *
@@ -2523,6 +2524,9 @@ function add_theme_support( $feature, ...$args ) {
 				unset( $post_formats['standard'] );
 
 				$args[0] = array_intersect( $args[0], array_keys( $post_formats ) );
+			} else {
+				_doing_it_wrong( "add_theme_support( 'post-formats' )", __( 'You need to pass an array of types.' ), '5.6.0' );
+				return false;
 			}
 			break;
 
