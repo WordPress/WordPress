@@ -1,5 +1,5 @@
 /*!
- * jQuery Migrate - v3.3.1 - 2020-06-25T01:07Z
+ * jQuery Migrate - v3.3.2-pre - 2020-10-25T12:21Z
  * Copyright OpenJS Foundation and other contributors
  */
 ( function( factory ) {
@@ -24,7 +24,7 @@
 } )( function( jQuery, window ) {
 "use strict";
 
-jQuery.migrateVersion = "3.3.1";
+jQuery.migrateVersion = "3.3.2-pre";
 
 // Returns 0 if v1 == v2, -1 if v1 < v2, 1 if v1 > v2
 function compareVersions( v1, v2 ) {
@@ -238,6 +238,10 @@ if ( jQueryVersionSince( "3.2.0" ) ) {
 		return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
 	},
 	"jQuery.nodeName is deprecated" );
+
+	migrateWarnFunc( jQuery, "isArray", Array.isArray,
+		"jQuery.isArray is deprecated; use Array.isArray"
+	);
 }
 
 if ( jQueryVersionSince( "3.3.0" ) ) {
@@ -289,16 +293,13 @@ if ( jQueryVersionSince( "3.3.0" ) ) {
 		},
 		"jQuery.isWindow() is deprecated"
 	);
-
-	migrateWarnFunc( jQuery, "isArray", Array.isArray,
-		"jQuery.isArray is deprecated; use Array.isArray"
-	);
 }
 
 // Support jQuery slim which excludes the ajax module
 if ( jQuery.ajax ) {
 
-var oldAjax = jQuery.ajax;
+var oldAjax = jQuery.ajax,
+	rjsonp = /(=)\?(?=&|$)|\?\?/;
 
 jQuery.ajax = function( ) {
 	var jQXHR = oldAjax.apply( this, arguments );
@@ -315,6 +316,28 @@ jQuery.ajax = function( ) {
 
 	return jQXHR;
 };
+
+// Only trigger the logic in jQuery <4 as the JSON-to-JSONP auto-promotion
+// behavior is gone in jQuery 4.0 and as it has security implications, we don't
+// want to restore the legacy behavior.
+if ( !jQueryVersionSince( "4.0.0" ) ) {
+
+	// Register this prefilter before the jQuery one. Otherwise, a promoted
+	// request is transformed into one with the script dataType and we can't
+	// catch it anymore.
+	jQuery.ajaxPrefilter( "+json", function( s ) {
+
+		// Warn if JSON-to-JSONP auto-promotion happens.
+		if ( s.jsonp !== false && ( rjsonp.test( s.url ) ||
+				typeof s.data === "string" &&
+				( s.contentType || "" )
+					.indexOf( "application/x-www-form-urlencoded" ) === 0 &&
+				rjsonp.test( s.data )
+		) ) {
+			migrateWarn( "JSON-to-JSONP auto-promotion is deprecated" );
+		}
+	} );
+}
 
 }
 
@@ -475,6 +498,7 @@ jQuery.fn.css = function( name, value ) {
 		jQuery.each( name, function( n, v ) {
 			jQuery.fn.css.call( origThis, n, v );
 		} );
+		return this;
 	}
 	if ( typeof value === "number" ) {
 		camelName = camelCase( name );
