@@ -30138,6 +30138,7 @@ var token_input_TokenInput = /*#__PURE__*/function (_Component) {
         onChange: this.onChange,
         size: size,
         className: classnames_default()(className, 'components-form-token-field__input'),
+        autoComplete: "off",
         role: "combobox",
         "aria-expanded": isExpanded,
         "aria-autocomplete": "list",
@@ -36207,7 +36208,11 @@ var provider_DropZoneProvider = /*#__PURE__*/function (_Component) {
       var ownerDocument = this.ref.current.ownerDocument;
       var defaultView = ownerDocument.defaultView;
       defaultView.addEventListener('dragover', this.onDragOver);
-      defaultView.addEventListener('mouseup', this.resetDragState);
+      defaultView.addEventListener('mouseup', this.resetDragState); // Note that `dragend` doesn't fire consistently for file and HTML drag
+      // events where the drag origin is outside the browser window.
+      // In Firefox it may also not fire if the originating node is removed.
+
+      defaultView.addEventListener('dragend', this.resetDragState);
     }
   }, {
     key: "componentWillUnmount",
@@ -36216,6 +36221,7 @@ var provider_DropZoneProvider = /*#__PURE__*/function (_Component) {
       var defaultView = ownerDocument.defaultView;
       defaultView.removeEventListener('dragover', this.onDragOver);
       defaultView.removeEventListener('mouseup', this.resetDragState);
+      defaultView.removeEventListener('dragend', this.resetDragState);
     }
   }, {
     key: "addDropZone",

@@ -7186,6 +7186,8 @@ function PageAttributesParent() {
       fieldValue = _useState2[0],
       setFieldValue = _useState2[1];
 
+  var isSearching = fieldValue;
+
   var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
     var _select = select('core'),
         getPostType = _select.getPostType,
@@ -7208,9 +7210,9 @@ function PageAttributesParent() {
       orderby: 'menu_order',
       order: 'asc',
       _fields: 'id,title,parent'
-    };
+    }; // Perform a search when the field is changed.
 
-    if (parentPost && fieldValue && '' !== fieldValue) {
+    if (isSearching) {
       query.search = fieldValue;
     }
 
@@ -7241,14 +7243,31 @@ function PageAttributesParent() {
   };
 
   var parentOptions = Object(external_this_wp_element_["useMemo"])(function () {
-    var tree = buildTermsTree(pageItems.map(function (item) {
+    var tree = pageItems.map(function (item) {
       return {
         id: item.id,
         parent: item.parent,
         name: getTitle(item)
       };
-    }));
-    var opts = getOptionsFromTree(tree);
+    }); // Only build a hierarchical tree when not searching.
+
+    if (!isSearching) {
+      tree = buildTermsTree(tree);
+    }
+
+    var opts = getOptionsFromTree(tree); // Ensure the current parent is in the options list.
+
+    var optsHasParent = Object(external_this_lodash_["find"])(opts, function (item) {
+      return item.value === parentPostId;
+    });
+
+    if (parentPost && !optsHasParent) {
+      opts.unshift({
+        value: parentPostId,
+        label: getTitle(parentPost)
+      });
+    }
+
     return opts;
   }, [pageItems]);
 

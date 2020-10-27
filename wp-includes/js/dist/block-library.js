@@ -8332,6 +8332,9 @@ function GalleryEdit(props) {
       attachmentCaptions = _useState4[0],
       setAttachmentCaptions = _useState4[1];
 
+  var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/block-editor'),
+      __unstableMarkNextChangeAsNotPersistent = _useDispatch.__unstableMarkNextChangeAsNotPersistent;
+
   function setAttributes(newAttrs) {
     if (newAttrs.ids) {
       throw new Error('The "ids" attribute should not be changed directly. It is managed automatically when "images" attribute changes');
@@ -8560,6 +8563,8 @@ function GalleryEdit(props) {
     // image_default_link_type in options.php
     if (!linkTo) {
       var _window, _window$wp, _window$wp$media, _window$wp$media$view, _window$wp$media$view2, _window$wp$media$view3;
+
+      __unstableMarkNextChangeAsNotPersistent();
 
       setAttributes({
         linkTo: ((_window = window) === null || _window === void 0 ? void 0 : (_window$wp = _window.wp) === null || _window$wp === void 0 ? void 0 : (_window$wp$media = _window$wp.media) === null || _window$wp$media === void 0 ? void 0 : (_window$wp$media$view = _window$wp$media.view) === null || _window$wp$media$view === void 0 ? void 0 : (_window$wp$media$view2 = _window$wp$media$view.settings) === null || _window$wp$media$view2 === void 0 ? void 0 : (_window$wp$media$view3 = _window$wp$media$view2.defaultProps) === null || _window$wp$media$view3 === void 0 ? void 0 : _window$wp$media$view3.link) || constants_LINK_DESTINATION_NONE
@@ -11168,7 +11173,8 @@ function CodeEdit(_ref) {
       });
     },
     placeholder: Object(external_this_wp_i18n_["__"])('Write code…'),
-    "aria-label": Object(external_this_wp_i18n_["__"])('Code')
+    "aria-label": Object(external_this_wp_i18n_["__"])('Code'),
+    preserveWhiteSpace: true
   }));
 }
 

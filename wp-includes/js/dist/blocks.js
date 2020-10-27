@@ -12065,17 +12065,22 @@ var paste_handler_window = window,
 /**
  * Filters HTML to only contain phrasing content.
  *
- * @param {string} HTML The HTML to filter.
+ * @param {string}  HTML The HTML to filter.
+ * @param {boolean} preserveWhiteSpace Whether or not to preserve consequent white space.
  *
  * @return {string} HTML only containing phrasing content.
  */
 
-function filterInlineHTML(HTML) {
+function filterInlineHTML(HTML, preserveWhiteSpace) {
   HTML = deepFilterHTML(HTML, [googleDocsUIdRemover, phrasingContentReducer, commentRemover]);
   HTML = Object(external_this_wp_dom_["removeInvalidHTML"])(HTML, Object(external_this_wp_dom_["getPhrasingContentSchema"])('paste'), {
     inline: true
   });
-  HTML = deepFilterHTML(HTML, [htmlFormattingRemover, brRemover]); // Allows us to ask for this information when we get a report.
+
+  if (!preserveWhiteSpace) {
+    HTML = deepFilterHTML(HTML, [htmlFormattingRemover, brRemover]);
+  } // Allows us to ask for this information when we get a report.
+
 
   paste_handler_console.log('Processed inline HTML:\n\n', HTML);
   return HTML;
@@ -12142,6 +12147,7 @@ function htmlToBlocks(_ref) {
  *                                      * 'INLINE': Always handle as inline content, and return string.
  *                                      * 'BLOCKS': Always handle as blocks, and return array of blocks.
  * @param {Array}   [options.tagName]   The tag into which content will be inserted.
+ * @param {boolean} [options.preserveWhiteSpace] Whether or not to preserve consequent white space.
  *
  * @return {Array|string} A list of blocks or a string, depending on `handlerMode`.
  */
@@ -12154,7 +12160,8 @@ function pasteHandler(_ref3) {
       plainText = _ref3$plainText === void 0 ? '' : _ref3$plainText,
       _ref3$mode = _ref3.mode,
       mode = _ref3$mode === void 0 ? 'AUTO' : _ref3$mode,
-      tagName = _ref3.tagName;
+      tagName = _ref3.tagName,
+      preserveWhiteSpace = _ref3.preserveWhiteSpace;
   // First of all, strip any meta tags.
   HTML = HTML.replace(/<meta[^>]+>/g, ''); // Strip Windows markers.
 
@@ -12197,7 +12204,7 @@ function pasteHandler(_ref3) {
   }
 
   if (mode === 'INLINE') {
-    return filterInlineHTML(HTML);
+    return filterInlineHTML(HTML, preserveWhiteSpace);
   } // An array of HTML strings and block objects. The blocks replace matched
   // shortcodes.
 
@@ -12209,7 +12216,7 @@ function pasteHandler(_ref3) {
   var hasShortcodes = pieces.length > 1;
 
   if (mode === 'AUTO' && !hasShortcodes && isInlineContent(HTML, tagName)) {
-    return filterInlineHTML(HTML);
+    return filterInlineHTML(HTML, preserveWhiteSpace);
   }
 
   var rawTransforms = getRawTransformations();

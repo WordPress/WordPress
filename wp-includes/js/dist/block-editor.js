@@ -13928,7 +13928,7 @@ __webpack_require__.d(selectors_namespaceObject, "isMultiSelecting", function() 
 __webpack_require__.d(selectors_namespaceObject, "isSelectionEnabled", function() { return selectors_isSelectionEnabled; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockMode", function() { return selectors_getBlockMode; });
 __webpack_require__.d(selectors_namespaceObject, "isTyping", function() { return selectors_isTyping; });
-__webpack_require__.d(selectors_namespaceObject, "isDraggingBlocks", function() { return selectors_isDraggingBlocks; });
+__webpack_require__.d(selectors_namespaceObject, "isDraggingBlocks", function() { return isDraggingBlocks; });
 __webpack_require__.d(selectors_namespaceObject, "getDraggedBlockClientIds", function() { return selectors_getDraggedBlockClientIds; });
 __webpack_require__.d(selectors_namespaceObject, "isBlockBeingDragged", function() { return isBlockBeingDragged; });
 __webpack_require__.d(selectors_namespaceObject, "isAncestorBeingDragged", function() { return isAncestorBeingDragged; });
@@ -23190,7 +23190,7 @@ function __unstableSaveReusableBlock(id, updatedId) {
   };
 }
 /**
- * Returns an action object used in signalling that the last block change should be marked explicitely as persistent.
+ * Returns an action object used in signalling that the last block change should be marked explicitly as persistent.
  *
  * @return {Object} Action object.
  */
@@ -24592,7 +24592,7 @@ function selectors_isTyping(state) {
  * @return {boolean} Whether user is dragging blocks.
  */
 
-function selectors_isDraggingBlocks(state) {
+function isDraggingBlocks(state) {
   return !!state.draggedBlocks.length;
 }
 /**
@@ -24636,7 +24636,7 @@ function isBlockBeingDragged(state, clientId) {
 function isAncestorBeingDragged(state, clientId) {
   // Return early if no blocks are being dragged rather than
   // the more expensive check for parents.
-  if (!selectors_isDraggingBlocks(state)) {
+  if (!isDraggingBlocks(state)) {
     return false;
   }
 
@@ -26696,7 +26696,6 @@ function Items(_ref2) {
         hasMultiSelection = _select.hasMultiSelection,
         getGlobalBlockCount = _select.getGlobalBlockCount,
         isTyping = _select.isTyping,
-        isDraggingBlocks = _select.isDraggingBlocks,
         __experimentalGetActiveBlockIdByBlockNames = _select.__experimentalGetActiveBlockIdByBlockNames; // Determine if there is an active entity area to spotlight.
 
 
@@ -26709,7 +26708,6 @@ function Items(_ref2) {
       orientation: (_getBlockListSettings = getBlockListSettings(rootClientId)) === null || _getBlockListSettings === void 0 ? void 0 : _getBlockListSettings.orientation,
       hasMultiSelection: hasMultiSelection(),
       enableAnimation: !isTyping() && getGlobalBlockCount() <= BLOCK_ANIMATION_THRESHOLD,
-      isDraggingBlocks: isDraggingBlocks(),
       activeEntityBlockId: activeEntityBlockId
     };
   }
@@ -26721,17 +26719,16 @@ function Items(_ref2) {
       orientation = _useSelect.orientation,
       hasMultiSelection = _useSelect.hasMultiSelection,
       enableAnimation = _useSelect.enableAnimation,
-      isDraggingBlocks = _useSelect.isDraggingBlocks,
       activeEntityBlockId = _useSelect.activeEntityBlockId;
 
   var dropTargetIndex = useBlockDropZone({
     element: wrapperRef,
     rootClientId: rootClientId
   });
-  var isAppenderDropTarget = dropTargetIndex === blockClientIds.length && isDraggingBlocks;
+  var isAppenderDropTarget = dropTargetIndex === blockClientIds.length;
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, blockClientIds.map(function (clientId, index) {
     var isBlockInSelection = hasMultiSelection ? multiSelectedBlockClientIds.includes(clientId) : selectedBlockClientId === clientId;
-    var isDropTarget = dropTargetIndex === index && isDraggingBlocks;
+    var isDropTarget = dropTargetIndex === index;
     return Object(external_this_wp_element_["createElement"])(external_this_wp_data_["AsyncModeProvider"], {
       key: clientId,
       value: !isBlockInSelection
@@ -34782,7 +34779,8 @@ function RichTextWrapper(_ref2, forwardedRef) {
       var _content = Object(external_this_wp_blocks_["pasteHandler"])({
         HTML: filePasteHandler(files),
         mode: 'BLOCKS',
-        tagName: tagName
+        tagName: tagName,
+        preserveWhiteSpace: preserveWhiteSpace
       }); // Allows us to ask for this information when we get a report.
       // eslint-disable-next-line no-console
 
@@ -34815,7 +34813,8 @@ function RichTextWrapper(_ref2, forwardedRef) {
       HTML: html,
       plainText: plainText,
       mode: mode,
-      tagName: tagName
+      tagName: tagName,
+      preserveWhiteSpace: preserveWhiteSpace
     });
 
     if (typeof content === 'string') {
@@ -34845,7 +34844,7 @@ function RichTextWrapper(_ref2, forwardedRef) {
         splitValue(value, content);
       }
     }
-  }, [tagName, onReplace, onSplit, splitValue, __unstableEmbedURLOnPaste, multiline]);
+  }, [tagName, onReplace, onSplit, splitValue, __unstableEmbedURLOnPaste, multiline, preserveWhiteSpace]);
   var inputRule = Object(external_this_wp_element_["useCallback"])(function (value, valueToFormat) {
     if (!onReplace) {
       return;

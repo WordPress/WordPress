@@ -88,16 +88,15 @@ function render_block_core_archives( $attributes ) {
 
 	$classnames = esc_attr( $class );
 
-	if ( empty( $archives ) ) {
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
 
+	if ( empty( $archives ) ) {
 		return sprintf(
-			'<div class="%1$s">%2$s</div>',
-			$classnames,
+			'<div %1$s>%2$s</div>',
+			$wrapper_attributes,
 			__( 'No archives to show.' )
 		);
 	}
-
-	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
 
 	return sprintf(
 		'<ul %1$s>%2$s</ul>',
