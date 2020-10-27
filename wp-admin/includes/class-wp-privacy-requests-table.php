@@ -226,11 +226,14 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		$action      = $this->current_action();
 		$request_ids = isset( $_REQUEST['request_id'] ) ? wp_parse_id_list( wp_unslash( $_REQUEST['request_id'] ) ) : array();
 
-		$count = 0;
-
-		if ( $request_ids ) {
-			check_admin_referer( 'bulk-privacy_requests' );
+		if ( empty( $request_ids ) ) {
+			return;
 		}
+
+		$count    = 0;
+		$failures = 0;
+
+		check_admin_referer( 'bulk-privacy_requests' );
 
 		switch ( $action ) {
 			case 'resend':
@@ -239,17 +242,47 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 
 					if ( $resend && ! is_wp_error( $resend ) ) {
 						$count++;
+					} else {
+						$failures++;
 					}
 				}
 
-				add_settings_error(
-					'bulk_action',
-					'bulk_action',
-					/* translators: %d: Number of requests. */
-					sprintf( _n( 'Re-sent %d request.', 'Re-sent %d requests.', $count ), $count ),
-					'success'
-				);
+				if ( $count ) {
+					add_settings_error(
+						'bulk_action',
+						'bulk_action',
+						sprintf(
+							/* translators: %d: Number of requests. */
+							_n(
+								'%d confirmation request re-sent successfully.',
+								'%d confirmation requests re-sent successfully.',
+								$count
+							),
+							$count
+						),
+						'success'
+					);
+				}
+
+				if ( $failures ) {
+					add_settings_error(
+						'bulk_action',
+						'bulk_action',
+						sprintf(
+							/* translators: %d: Number of requests. */
+							_n(
+								'%d confirmation request failed to resend.',
+								'%d confirmation requests failed to resend.',
+								$failures
+							),
+							$failures
+						),
+						'error'
+					);
+				}
+
 				break;
+
 			case 'complete':
 				foreach ( $request_ids as $request_id ) {
 					$result = _wp_privacy_completed_request( $request_id );
@@ -262,25 +295,62 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 				add_settings_error(
 					'bulk_action',
 					'bulk_action',
-					/* translators: %d: Number of requests. */
-					sprintf( _n( '%d request marked as complete.', '%d requests marked as complete.', $count ), $count ),
+					sprintf(
+						/* translators: %d: Number of requests. */
+						_n(
+							'%d request marked as complete.',
+							'%d requests marked as complete.',
+							$count
+						),
+						$count
+					),
 					'success'
 				);
 				break;
+
 			case 'delete':
 				foreach ( $request_ids as $request_id ) {
 					if ( wp_delete_post( $request_id, true ) ) {
-						$count ++;
+						$count++;
+					} else {
+						$failures++;
 					}
 				}
 
-				add_settings_error(
-					'bulk_action',
-					'bulk_action',
-					/* translators: %d: Number of requests. */
-					sprintf( _n( 'Deleted %d request.', 'Deleted %d requests.', $count ), $count ),
-					'success'
-				);
+				if ( $failures ) {
+					add_settings_error(
+						'bulk_action',
+						'bulk_action',
+						sprintf(
+							/* translators: %d: Number of requests. */
+							_n(
+								'%d request failed to delete.',
+								'%d requests failed to delete.',
+								$failures
+							),
+							$failures
+						),
+						'error'
+					);
+				}
+
+				if ( $count ) {
+					add_settings_error(
+						'bulk_action',
+						'bulk_action',
+						sprintf(
+							/* translators: %d: Number of requests. */
+							_n(
+								'%d request deleted successfully.',
+								'%d requests deleted successfully.',
+								$count
+							),
+							$count
+						),
+						'success'
+					);
+				}
+
 				break;
 		}
 	}

@@ -13,7 +13,7 @@
  * @access private
  *
  * @param int $request_id Request ID.
- * @return bool|WP_Error Returns true/false based on the success of sending the email, or a WP_Error object.
+ * @return bool|WP_Error Returns true if sending the email was successful, or a WP_Error object.
  */
 function _wp_privacy_resend_request( $request_id ) {
 	$request_id = absint( $request_id );
