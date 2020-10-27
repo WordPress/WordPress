@@ -472,3 +472,42 @@ function twenty_twenty_one_password_form( $post = 0 ) {
 	return $output;
 }
 add_filter( 'the_password_form', 'twenty_twenty_one_password_form' );
+
+/**
+ * Filters the list of attachment image attributes.
+ *
+ * @since 1.0.0
+ *
+ * @param array        $attr       Array of attribute values for the image markup, keyed by attribute name.
+ *                                 See wp_get_attachment_image().
+ * @param WP_Post      $attachment Image attachment post.
+ * @param string|array $size       Requested size. Image size or array of width and height values
+ *                                 (in that order). Default 'thumbnail'.
+ *
+ * @return array
+ */
+function twenty_twenty_one_get_attachment_image_attributes( $attr, $attachment, $size ) {
+	$width  = false;
+	$height = false;
+
+	if ( is_array( $size ) ) {
+		$width  = (int) $size[0];
+		$height = (int) $size[1];
+	} elseif ( $attachment && is_object( $attachment ) && $attachment->ID ) {
+		$meta = wp_get_attachment_metadata( $attachment->ID );
+		if ( $meta['width'] && $meta['height'] ) {
+			$width  = (int) $meta['width'];
+			$height = (int) $meta['height'];
+		}
+	}
+
+	if ( $width && $height ) {
+
+		// Add style.
+		$attr['style'] = isset( $attr['style'] ) ? $attr['style'] : '';
+		$attr['style'] = 'width:100%;height:' . round( 100 * $meta['height'] / $meta['width'], 2 ) . '%;' . $attr['style'];
+	}
+
+	return $attr;
+}
+add_filter( 'wp_get_attachment_image_attributes', 'twenty_twenty_one_get_attachment_image_attributes', 10, 3 );
