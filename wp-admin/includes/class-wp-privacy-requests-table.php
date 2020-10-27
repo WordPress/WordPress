@@ -247,23 +247,6 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 					}
 				}
 
-				if ( $count ) {
-					add_settings_error(
-						'bulk_action',
-						'bulk_action',
-						sprintf(
-							/* translators: %d: Number of requests. */
-							_n(
-								'%d confirmation request re-sent successfully.',
-								'%d confirmation requests re-sent successfully.',
-								$count
-							),
-							$count
-						),
-						'success'
-					);
-				}
-
 				if ( $failures ) {
 					add_settings_error(
 						'bulk_action',
@@ -278,6 +261,23 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 							$failures
 						),
 						'error'
+					);
+				}
+
+				if ( $count ) {
+					add_settings_error(
+						'bulk_action',
+						'bulk_action',
+						sprintf(
+							/* translators: %d: Number of requests. */
+							_n(
+								'%d confirmation request re-sent successfully.',
+								'%d confirmation requests re-sent successfully.',
+								$count
+							),
+							$count
+						),
+						'success'
 					);
 				}
 
