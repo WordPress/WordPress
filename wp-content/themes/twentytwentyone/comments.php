@@ -32,12 +32,12 @@ $twenty_twenty_one_comment_count = get_comments_number();
 		?>
 		<h2 class="comments-title">
 			<?php if ( '1' === $twenty_twenty_one_comment_count ) : ?>
-				<?php esc_html_e( '1 Reply', 'twentytwentyone' ); ?>
+				<?php esc_html_e( '1 Comment', 'twentytwentyone' ); ?>
 			<?php else : ?>
 				<?php
 				printf(
 					/* translators: %s: comment count number. */
-					esc_html( _nx( '%s Reply', '%s Replies', $twenty_twenty_one_comment_count, 'comments title', 'twentytwentyone' ) ),
+					esc_html( _nx( '%s Comment', '%s Comments', $twenty_twenty_one_comment_count, 'comments title', 'twentytwentyone' ) ),
 					esc_html( number_format_i18n( $twenty_twenty_one_comment_count ) )
 				);
 				?>
@@ -85,7 +85,7 @@ $twenty_twenty_one_comment_count = get_comments_number();
 	comment_form(
 		array(
 			'logged_in_as'       => null,
-			'title_reply'        => esc_html__( 'Leave a reply', 'twentytwentyone' ),
+			'title_reply'        => esc_html__( 'Leave a comment', 'twentytwentyone' ),
 			'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
 			'title_reply_after'  => '</h2>',
 		)

@@ -45,11 +45,11 @@
 
 			// Modify the body class depending on whether this is a dark background or not.
 			if ( isDark ) {
-				if ( ! document.body.classList.contains( 'is-background-dark' ) ) {
-					document.body.classList.add( 'is-background-dark' );
+				if ( ! document.body.classList.contains( 'has-background-dark' ) ) {
+					document.body.classList.add( 'has-background-dark' );
 				}
 			} else {
-				document.body.classList.remove( 'is-background-dark' );
+				document.body.classList.remove( 'has-background-dark' );
 			}
 
 			document.documentElement.style.setProperty( '--global--color-primary', textColor );

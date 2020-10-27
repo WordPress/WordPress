@@ -10,7 +10,7 @@ Tested up to: 5.6
 Requires PHP: 5.6
 Version: 1.0.0
 License: GNU General Public License v2 or later
-License URI: LICENSE
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: twentytwentyone
 Tags: one-column, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready
 
@@ -120,18 +120,6 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
 	/* Block: Pull quote */
 	/* Block: Table */
 	/* Widgets */
-}
-
-/* OS dark theme preference */
-@media (prefers-color-scheme: dark) {
-	html.respect-color-scheme-preference body {
-		background-color: #28303d;
-	}
-	@media (prefers-color-scheme: dark){
-		html.respect-color-scheme-preference body{
-		background-color: #28303d;
-		}
-	}
 }
 
 /* Button extends */
@@ -1800,6 +1788,12 @@ input[type="color"] {
 	height: 40px;
 }
 
+input[type="email"],
+input[type="url"] {
+	/*rtl:ignore*/
+	direction: ltr;
+}
+
 select {
 	border: 3px solid #39414d;
 	color: #28303d;
@@ -1996,6 +1990,40 @@ input[type="range"]::-ms-thumb {
 	cursor: pointer;
 }
 
+fieldset {
+	display: grid;
+	border-color: #39414d;
+	padding: 25px;
+}
+
+fieldset legend {
+	font-size: 1.5rem;
+}
+
+fieldset input[type="submit"] {
+	max-width: max-content;
+}
+
+fieldset input:not([type="submit"]) {
+	margin-bottom: 20px;
+}
+
+fieldset input[type="radio"], fieldset input[type="checkbox"] {
+	margin-bottom: 0;
+}
+
+fieldset input[type="radio"] + label {
+	font-size: 1.125rem;
+	padding-left: 0;
+	margin-bottom: 20px;
+}
+
+fieldset input[type="checkbox"] + label {
+	font-size: 1.125rem;
+	padding-left: 0;
+	margin-bottom: 20px;
+}
+
 img {
 	display: block;
 	height: auto;
@@ -2076,7 +2104,8 @@ i {
 }
 
 pre {
-	white-space: pre-wrap;
+	white-space: pre;
+	overflow-x: auto;
 }
 
 /*
@@ -2224,7 +2253,9 @@ a:hover {
 
 .wp-block-code code {
 	font-size: 1rem;
-	overflow: auto;
+	white-space: pre;
+	overflow-x: auto;
+	display: block;
 }
 
 .wp-block-columns .wp-block-column > * {
@@ -2268,10 +2299,11 @@ a:hover {
 	}
 }
 
+.wp-block-columns.is-style-twentytwentyone-columns-overlap {
+	justify-content: space-around;
+}
+
 @media only screen and (min-width: 652px) {
-	.wp-block-columns.is-style-twentytwentyone-columns-overlap .wp-block-column {
-		flex-grow: 1;
-	}
 	.wp-block-columns.is-style-twentytwentyone-columns-overlap .wp-block-column:nth-child(2n) {
 		margin-left: -50px;
 		margin-top: 63px;
@@ -3491,6 +3523,11 @@ p.has-text-color a {
 	}
 }
 
+pre.wp-block-preformatted {
+	overflow-x: auto;
+	white-space: pre;
+}
+
 .wp-block-pullquote {
 	padding: 40px 0;
 	text-align: center;
@@ -4022,6 +4059,14 @@ p.has-text-color a {
 	}
 }
 
+.wp-block-search__button-inside .wp-block-search__inside-wrapper {
+	background-color: #fff;
+}
+
+.wp-block-search__button-only.aligncenter .wp-block-search__inside-wrapper {
+	justify-content: center;
+}
+
 .wp-block-search .wp-block-search__label {
 	font-size: 1.125rem;
 	font-weight: 500;
@@ -4036,6 +4081,7 @@ p.has-text-color a {
 	max-width: inherit;
 	margin-right: -3px;
 	padding: 10px;
+	background-color: #fff;
 }
 
 .wp-block-search .wp-block-search__input:focus {
@@ -4278,6 +4324,11 @@ table.wp-calendar-table caption {
 
 .wp-calendar-nav .wp-calendar-nav-next {
 	float: right;
+}
+
+.wp-block-tag-cloud.alignfull {
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 .wp-block-verse {
@@ -4884,9 +4935,11 @@ a.custom-logo-link {
 }
 
 .page-links .post-page-numbers {
+	display: inline-block;
 	margin-left: 13px;
 	margin-right: 13px;
-	padding: 10px 0;
+	min-width: 44px;
+	min-height: 44px;
 }
 
 .page-links .post-page-numbers:first-child {
@@ -4959,10 +5012,6 @@ h1.entry-title {
 	word-wrap: break-word;
 }
 
-.entry-content .more-link:hover {
-	text-decoration: none;
-}
-
 .entry-content > iframe[style] {
 	margin: 30px 0 !important;
 	max-width: 100% !important;
@@ -4980,6 +5029,10 @@ h1.entry-title {
 	float: none;
 	font-size: 1rem;
 	display: block;
+}
+
+.entry-footer > span {
+	display: inline-block;
 }
 
 .entry-footer a {
@@ -5236,6 +5289,15 @@ h1.page-title {
 
 .blog .format-video .entry-content {
 	margin-top: 60px;
+}
+
+.archive .entry-footer .cat-links,
+.archive .entry-footer .tags-links,
+.search .entry-footer .cat-links,
+.search .entry-footer .tags-links,
+.blog .entry-footer .cat-links,
+.blog .entry-footer .tags-links {
+	display: block;
 }
 
 .archive.logged-in .entry-footer .posted-on {
@@ -5694,8 +5756,6 @@ h1.page-title {
 	padding-right: 20px;
 	padding-bottom: 25px;
 	background-color: #d1e4dd;
-	overflow-x: hidden;
-	overflow-y: auto;
 	transition: all .15s ease-in-out;
 	transform: translateY(30px);
 }
@@ -5704,6 +5764,8 @@ h1.page-title {
 	.primary-navigation > .primary-menu-container {
 		height: 100vh;
 		z-index: 499;
+		overflow-x: hidden;
+		overflow-y: auto;
 		border: 2px solid transparent;
 	}
 	.has-logo.has-title-and-tagline .primary-navigation > .primary-menu-container {
@@ -5763,7 +5825,7 @@ h1.page-title {
 	.primary-navigation #toggle-menu {
 		display: none;
 	}
-	.primary-navigation > .primary-menu-container ul > li:not(.hover) .sub-menu-toggle[aria-expanded="false"] ~ ul {
+	.primary-navigation > .primary-menu-container ul > li .sub-menu-toggle[aria-expanded="false"] ~ ul {
 		display: none;
 	}
 	.admin-bar .primary-navigation {
@@ -5850,14 +5912,6 @@ h1.page-title {
 }
 
 .primary-navigation > div > .menu-wrapper .sub-menu-toggle[aria-expanded="true"] .icon-plus {
-	display: none;
-}
-
-.primary-navigation > div > .menu-wrapper .hover .sub-menu-toggle .icon-minus {
-	display: flex;
-}
-
-.primary-navigation > div > .menu-wrapper .hover .sub-menu-toggle .icon-plus {
 	display: none;
 }
 
@@ -6122,6 +6176,11 @@ h1.page-title {
 	color: #28303d;
 }
 
+.navigation .nav-links > * {
+	min-width: 44px;
+	min-height: 44px;
+}
+
 .navigation .nav-links .nav-next a,
 .navigation .nav-links .nav-previous a {
 	display: flex;
@@ -6269,12 +6328,6 @@ h1.page-title {
 	margin-right: 13px;
 }
 
-@media (prefers-color-scheme: dark){
-	.pagination .nav-links > *{
-	color: #f0f0f0;
-	}
-}
-
 .comments-pagination .nav-links > * {
 	color: #28303d;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -6282,12 +6335,6 @@ h1.page-title {
 	font-weight: normal;
 	margin-left: 13px;
 	margin-right: 13px;
-}
-
-@media (prefers-color-scheme: dark){
-	.comments-pagination .nav-links > *{
-	color: #f0f0f0;
-	}
 }
 
 .pagination .nav-links > *.current {
@@ -6367,11 +6414,17 @@ h1.page-title {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
-@media only screen and (min-width: 822px) {
+@media only screen and (min-width: 652px) {
 	.widget-area {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(2, 1fr);
 		column-gap: 50px;
+	}
+}
+
+@media only screen and (min-width: 1024px) {
+	.widget-area {
+		grid-template-columns: repeat(3, 1fr);
 	}
 }
 
@@ -6736,5 +6789,45 @@ main,
 section,
 footer {
 	max-width: none;
+}
+
+.is-IE.has-background-dark {
+	color: #fff;
+}
+
+.is-IE.has-background-dark *,
+.is-IE.has-background-dark a,
+.is-IE.has-background-dark .site-description,
+.is-IE.has-background-dark .entry-title,
+.is-IE.has-background-dark .entry-footer,
+.is-IE.has-background-dark .widget-area,
+.is-IE.has-background-dark .post-navigation .meta-nav,
+.is-IE.has-background-dark .footer-navigation-wrapper li a:link,
+.is-IE.has-background-dark .site-footer > .site-info,
+.is-IE.has-background-dark .site-footer > .site-info a,
+.is-IE.has-background-dark .site-footer > .site-info a:visited {
+	color: #fff;
+}
+
+.is-IE.has-background-dark .sub-menu-toggle svg,
+.is-IE.has-background-dark .sub-menu-toggle path,
+.is-IE.has-background-dark .post-navigation .meta-nav svg,
+.is-IE.has-background-dark .post-navigation .meta-nav path {
+	fill: #fff;
+}
+
+.is-IE.has-background-dark .primary-navigation > div > .menu-wrapper > li > .sub-menu li {
+	background: #000;
+}
+
+@media only screen and (max-width: 481px) {
+	.is-IE.has-background-dark.primary-navigation-open .primary-navigation > .primary-menu-container,
+	.is-IE.has-background-dark.primary-navigation-open .menu-button-container {
+		background-color: #000;
+	}
+}
+
+.is-IE.has-background-dark .skip-link:focus {
+	color: #21759b;
 }
 /*# sourceMappingURL=ie.css.map */

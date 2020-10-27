@@ -1,7 +1,7 @@
 /**
- * File primary-navigation.js.
+ * File polyfills.js.
  *
- * Required to open and close the mobile navigation.
+ * Polyfills for IE11.
  */
 
 /**

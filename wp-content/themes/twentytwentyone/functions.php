@@ -336,6 +336,7 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 		add_theme_support( 'experimental-custom-spacing' );
 
 		// Add support for custom units.
+		// This was removed in WordPress 5.6 but is still required to properly support WP 5.5.
 		add_theme_support( 'custom-units' );
 	}
 }
@@ -415,15 +416,16 @@ function twenty_twenty_one_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
+	wp_register_script(
+		'twenty-twenty-one-ie11-polyfills',
+		get_template_directory_uri() . '/assets/js/polyfills.js',
+		array(),
+		wp_get_theme()->get( 'Version' ),
+		true
+	);
+
 	// Main navigation scripts.
 	if ( has_nav_menu( 'primary' ) ) {
-		wp_register_script(
-			'twenty-twenty-one-ie11-polyfills',
-			get_template_directory_uri() . '/assets/js/polyfills.js',
-			array(),
-			wp_get_theme()->get( 'Version' ),
-			true
-		);
 		wp_enqueue_script(
 			'twenty-twenty-one-primary-navigation-script',
 			get_template_directory_uri() . '/assets/js/primary-navigation.js',
@@ -432,6 +434,15 @@ function twenty_twenty_one_scripts() {
 			true
 		);
 	}
+
+	// Responsive embeds script.
+	wp_enqueue_script(
+		'twenty-twenty-one-responsive-embeds-script',
+		get_template_directory_uri() . '/assets/js/responsive-embeds.js',
+		array( 'twenty-twenty-one-ie11-polyfills' ),
+		wp_get_theme()->get( 'Version' ),
+		true
+	);
 }
 add_action( 'wp_enqueue_scripts', 'twenty_twenty_one_scripts' );
 
@@ -542,7 +553,6 @@ function twentytwentyone_customize_preview_init() {
 }
 add_action( 'customize_preview_init', 'twentytwentyone_customize_preview_init' );
 
-
 /**
  * Enqueue scripts for the customizer.
  *
@@ -559,22 +569,6 @@ function twentytwentyone_customize_controls_enqueue_scripts() {
 		wp_get_theme()->get( 'Version' ),
 		true
 	);
-
-	wp_enqueue_script(
-		'twentytwentyone-customize-controls',
-		get_theme_file_uri( '/assets/js/customize.js' ),
-		array( 'customize-base', 'customize-controls', 'underscore', 'jquery', 'twentytwentyone-customize-helpers' ),
-		wp_get_theme()->get( 'Version' ),
-		true
-	);
-
-	wp_localize_script(
-		'twentytwentyone-customize-controls',
-		'backgroundColorNotice',
-		array(
-			'message' => esc_html__( 'You currently have dark mode enabled on your device. Changing the color picker will allow you to preview light mode.', 'twentytwentyone' ),
-		)
-	);
 }
 add_action( 'customize_controls_enqueue_scripts', 'twentytwentyone_customize_controls_enqueue_scripts' );
 
@@ -586,9 +580,27 @@ add_action( 'customize_controls_enqueue_scripts', 'twentytwentyone_customize_con
  * @return void
  */
 function twentytwentyone_the_html_classes() {
-	$background_color            = get_theme_mod( 'background_color', 'D1E4DD' );
-	$should_respect_color_scheme = get_theme_mod( 'respect_user_color_preference', true );
-	if ( $should_respect_color_scheme && 127 <= Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( $background_color ) ) {
-		echo 'class="respect-color-scheme-preference"';
+	$classes = apply_filters( 'twentytwentyone_html_classes', '' );
+	if ( ! $classes ) {
+		return;
 	}
+	echo 'class="' . esc_attr( $classes ) . '"';
 }
+
+/**
+ * Add "is-IE" class to body if the user is on Internet Explorer.
+ *
+ * @since 1.0.0
+ *
+ * @return void
+ */
+function twentytwentyone_add_ie_class() {
+	?>
+	<script>
+	if ( -1 !== navigator.userAgent.indexOf( 'MSIE' ) || -1 !== navigator.appVersion.indexOf( 'Trident/' ) ) {
+		document.body.classList.add( 'is-IE' );
+	}
+	</script>
+	<?php
+}
+add_action( 'wp_footer', 'twentytwentyone_add_ie_class' );

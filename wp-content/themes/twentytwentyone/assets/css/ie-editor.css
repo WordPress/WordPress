@@ -30,18 +30,6 @@
 	/* Widgets */
 }
 
-/* OS dark theme preference */
-@media (prefers-color-scheme: dark) {
-	html.respect-color-scheme-preference body {
-		background-color: #28303d;
-	}
-	@media (prefers-color-scheme: dark){
-		html.respect-color-scheme-preference body{
-		background-color: #28303d;
-		}
-	}
-}
-
 /* Button extends */
 .wp-block-button__link {
 	line-height: 1.5;
@@ -480,6 +468,8 @@ a:hover {
 
 .wp-block-code code {
 	font-size: 1rem;
+	white-space: pre !important;
+	overflow-x: auto;
 }
 
 .wp-block-code {
@@ -488,6 +478,7 @@ a:hover {
 	border-style: solid;
 	border-width: 0.1rem;
 	padding: 20px;
+	color: currentColor;
 }
 
 .wp-block-cover {
@@ -1551,10 +1542,14 @@ p.has-background {
 	padding: 20px;
 }
 
+pre.wp-block-preformatted {
+	overflow-x: auto;
+	white-space: pre !important;
+	font-size: 1rem;
+}
+
 .wp-block-pullquote {
 	padding: 40px 0;
-	margin-left: 0;
-	margin-right: 0;
 	text-align: center;
 	border-width: 3px;
 	border-bottom-style: solid;
@@ -1616,6 +1611,8 @@ p.has-background {
 }
 
 .wp-block-pullquote.is-style-solid-color {
+	margin-left: auto;
+	margin-right: auto;
 	padding: 50px;
 	border-width: 3px;
 	border-style: solid;
@@ -2013,6 +2010,14 @@ p.has-background {
 	color: #d1e4dd;
 }
 
+.wp-block[data-align="center"] > * {
+	text-align: center;
+}
+
+.wp-block[data-align="center"] .wp-block-search__button-only .wp-block-search__inside-wrapper {
+	justify-content: center;
+}
+
 .wp-block-separator {
 	border-bottom: 1px solid #28303d;
 	clear: both;
@@ -2226,6 +2231,10 @@ table.wp-calendar-table caption {
 
 .wp-calendar-nav .wp-calendar-nav-next {
 	float: right;
+}
+
+.wp-block-tag-cloud.aligncenter {
+	text-align: center;
 }
 
 pre.wp-block-verse {
