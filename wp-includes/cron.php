@@ -28,7 +28,10 @@
  *
  * @param int    $timestamp  Unix timestamp (UTC) for when to next run the event.
  * @param string $hook       Action hook to execute when the event is run.
- * @param array  $args       Optional. Array containing each separate argument to pass to the hook's callback function.
+ * @param array  $args       Optional. Array containing arguments to pass to the
+ *                           hook's callback function. Each value in the array is passed
+ *                           to the callback as an individual parameter. The array keys
+ *                           are ignored. Default: empty array.
  * @return bool True if event successfully scheduled. False for failure.
  */
 function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
@@ -180,9 +183,13 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
  * @link https://developer.wordpress.org/reference/functions/wp_schedule_event/
  *
  * @param int    $timestamp  Unix timestamp (UTC) for when to next run the event.
- * @param string $recurrence How often the event should subsequently recur. See wp_get_schedules() for accepted values.
+ * @param string $recurrence How often the event should subsequently recur.
+ *                           See wp_get_schedules() for accepted values.
  * @param string $hook       Action hook to execute when the event is run.
- * @param array  $args       Optional. Array containing each separate argument to pass to the hook's callback function.
+ * @param array  $args       Optional. Array containing arguments to pass to the
+ *                           hook's callback function. Each value in the array is passed
+ *                           to the callback as an individual parameter. The array keys
+ *                           are ignored. Default: empty array.
  * @return bool True if event successfully scheduled. False for failure.
  */
 function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
@@ -245,9 +252,13 @@ function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
  *              {@see 'pre_reschedule_event'} filter added to short-circuit the function.
  *
  * @param int    $timestamp  Unix timestamp (UTC) for when the event was scheduled.
- * @param string $recurrence How often the event should subsequently recur. See wp_get_schedules() for accepted values.
+ * @param string $recurrence How often the event should subsequently recur.
+ *                           See wp_get_schedules() for accepted values.
  * @param string $hook       Action hook to execute when the event is run.
- * @param array  $args       Optional. Array containing each separate argument to pass to the hook's callback function.
+ * @param array  $args       Optional. Array containing arguments to pass to the
+ *                           hook's callback function. Each value in the array is passed
+ *                           to the callback as an individual parameter. The array keys
+ *                           are ignored. Default: empty array.
  * @return bool True if event successfully rescheduled. False for failure.
  */
 function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
@@ -392,7 +403,9 @@ function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
  *              {@see 'pre_clear_scheduled_hook'} filter added to short-circuit the function.
  *
  * @param string $hook Action hook, the execution of which will be unscheduled.
- * @param array  $args Optional. Arguments that were to be passed to the hook's callback function.
+ * @param array  $args Optional. Array containing each separate argument to pass to the hook's callback function.
+ *                     Although not passed to a callback, these arguments are used to uniquely identify the
+ *                     event, so they should be the same as those used when originally scheduling the event.
  * @return int|false On success an integer indicating number of events unscheduled (0 indicates no
  *                   events were registered with the hook and arguments combination), false if
  *                   unscheduling one or more events fail.
