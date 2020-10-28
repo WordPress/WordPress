@@ -2481,7 +2481,7 @@ function get_theme_starter_content() {
  *              by adding it to the function signature.
  * @since 5.5.0 The `core-block-patterns` feature was added and is enabled by default.
  * @since 5.5.0 The `custom-logo` feature now also accepts 'unlink-homepage-logo'.
- * @since 5.6.0 The `post-formats` feature now returns doing it wrong if no array is passed
+ * @since 5.6.0 The `post-formats` feature warns if no array is passed.
  *
  * @global array $_wp_theme_features
  *
