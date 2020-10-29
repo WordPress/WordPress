@@ -1004,9 +1004,9 @@ function wp_check_invalid_utf8( $string, $strip = false ) {
  * @return string String with Unicode encoded for URI.
  */
 function utf8_uri_encode( $utf8_string, $length = 0 ) {
-	$unicode = '';
-	$values = array();
-	$num_octets = 1;
+	$unicode        = '';
+	$values         = array();
+	$num_octets     = 1;
 	$unicode_length = 0;
 
 	mbstring_binary_safe_encoding();
@@ -1018,9 +1018,10 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
 		$value = ord( $utf8_string[ $i ] );
 
 		if ( $value < 128 ) {
-			if ( $length && ( $unicode_length >= $length ) )
+			if ( $length && ( $unicode_length >= $length ) ) {
 				break;
-			$unicode .= chr($value);
+			}
+			$unicode .= chr( $value );
 			$unicode_length++;
 		} else {
 			if ( count( $values ) == 0 ) {
@@ -1540,7 +1541,7 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 		if (function_exists('mb_strtolower')) {
 			$title = mb_strtolower($title, 'UTF-8');
 		}
-		$title = utf8_uri_encode($title, 200);
+		$title = utf8_uri_encode( $title, 200 );
 	}
 
 	$title = strtolower($title);
