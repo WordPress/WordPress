@@ -641,7 +641,7 @@ endif;
 				<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
 				<span class="text"><?php _e( 'Hide' ); ?></span>
 			</button>
-			<button type="button" class="button wp-cancel-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Cancel' ); ?>">
+			<button type="button" class="button wp-cancel-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Cancel password change' ); ?>">
 				<span class="dashicons dashicons-no" aria-hidden="true"></span>
 				<span class="text"><?php _e( 'Cancel' ); ?></span>
 			</button>
