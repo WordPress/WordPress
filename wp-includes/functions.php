@@ -1756,7 +1756,8 @@ function is_blog_installed() {
 			continue;
 		}
 
-		if ( ! $wpdb->get_results( "DESCRIBE $table;" ) ) {
+		$described_table = $wpdb->get_results( "DESCRIBE $table;" );
+		if ( is_array( $described_table ) && count( $described_table ) === 0 ) {
 			continue;
 		}
 
