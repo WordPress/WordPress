@@ -171,7 +171,7 @@ require( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <script type='text/javascript'>
 /* <![CDATA[ */
-var current_site_id = <?php echo $id; ?>;
+var current_site_id = <?php echo absint( $id ); ?>;
 /* ]]> */
 </script>
 
