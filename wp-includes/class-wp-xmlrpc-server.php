@@ -4311,7 +4311,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.getMediaItem' );
 
 		$attachment = get_post( $attachment_id );
-		if ( ! $attachment ) {
+		if ( ! $attachment || 'attachment' !== $attachment->post_type ) {
 			return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
 		}
 
