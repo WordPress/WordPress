@@ -217,7 +217,7 @@ if ( ! wp_is_large_network( 'users' ) && apply_filters( 'show_network_site_users
 require_once ABSPATH . 'wp-admin/admin-header.php'; ?>
 
 <script type="text/javascript">
-var current_site_id = <?php echo $id; ?>;
+var current_site_id = <?php echo absint( $id ); ?>;
 </script>
 
 
