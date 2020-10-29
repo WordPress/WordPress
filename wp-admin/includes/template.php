@@ -2018,12 +2018,12 @@ function iframe_header( $title = '', $deprecated = false ) {
 <script type="text/javascript">
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 function tb_close(){var win=window.dialogArguments||opener||parent||top;win.tb_remove();}
-var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
-	pagenow = '<?php echo $current_screen->id; ?>',
-	typenow = '<?php echo $current_screen->post_type; ?>',
-	adminpage = '<?php echo $admin_body_class; ?>',
-	thousandsSeparator = '<?php echo addslashes( $wp_locale->number_format['thousands_sep'] ); ?>',
-	decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
+var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?>',
+	pagenow = '<?php echo esc_js( $current_screen->id ); ?>',
+	typenow = '<?php echo esc_js( $current_screen->post_type ); ?>',
+	adminpage = '<?php echo esc_js( $admin_body_class ); ?>',
+	thousandsSeparator = '<?php echo esc_js( $wp_locale->number_format['thousands_sep'] ); ?>',
+	decimalPoint = '<?php echo esc_js( $wp_locale->number_format['decimal_point'] ); ?>',
 	isRtl = <?php echo (int) is_rtl(); ?>;
 </script>
 	<?php

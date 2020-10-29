@@ -343,7 +343,7 @@ class Custom_Image_Header {
 		?>
 <script type="text/javascript">
 (function($){
-	var default_color = '<?php echo $default_color; ?>',
+	var default_color = '<?php echo esc_js( $default_color ); ?>',
 		header_text_fields;
 
 	function pickColor(color) {
