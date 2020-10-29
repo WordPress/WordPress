@@ -329,7 +329,7 @@ class Custom_Image_Header {
 <script type="text/javascript">
 /* <![CDATA[ */
 (function($){
-	var default_color = '#<?php echo get_theme_support( 'custom-header', 'default-text-color' ); ?>',
+	var default_color = '#<?php echo esc_js( get_theme_support( 'custom-header', 'default-text-color' ) ); ?>',
 		header_text_fields;
 
 	function pickColor(color) {
