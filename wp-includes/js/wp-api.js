@@ -1412,8 +1412,11 @@
 						// Function that returns a constructed url passed on the parent.
 						url: function() {
 							return routeModel.get( 'apiRoot' ) + routeModel.get( 'versionString' ) +
-									parentName + '/' + this.parent + '/' +
-									routeName;
+								parentName + '/' +
+								( ( _.isUndefined( this.parent ) || '' === this.parent ) ?
+									( _.isUndefined( this.get( 'parent_post' ) ) ? '' : this.get( 'parent_post' ) + '/' ) :
+									this.parent + '/' ) +
+								routeName;
 						},
 
 						// Specify the model that this collection contains.
