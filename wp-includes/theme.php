@@ -2525,7 +2525,7 @@ function add_theme_support( $feature, ...$args ) {
 
 				$args[0] = array_intersect( $args[0], array_keys( $post_formats ) );
 			} else {
-				_doing_it_wrong( "add_theme_support( 'post-formats' )", __( 'You need to pass an array of types.' ), '5.6.0' );
+				_doing_it_wrong( "add_theme_support( 'post-formats' )", __( 'You need to pass an array of post formats.' ), '5.6.0' );
 				return false;
 			}
 			break;
