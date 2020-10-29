@@ -581,6 +581,8 @@ class Custom_Background {
 	 * @deprecated 3.5.0
 	 */
 	public function wp_set_background_image() {
+		check_ajax_referer( 'custom-background' );
+
 		if ( ! current_user_can( 'edit_theme_options' ) || ! isset( $_POST['attachment_id'] ) ) {
 			exit;
 		}
