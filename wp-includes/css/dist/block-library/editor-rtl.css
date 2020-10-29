@@ -246,6 +246,14 @@ div[data-type="core/button"] {
   bottom: 0;
   opacity: 0; }
 
+.wp-block[data-align="left"] > .wp-block-embed,
+.wp-block[data-align="right"] > .wp-block-embed {
+  max-width: 360px;
+  width: 100%; }
+  .wp-block[data-align="left"] > .wp-block-embed .wp-block-embed__wrapper,
+  .wp-block[data-align="right"] > .wp-block-embed .wp-block-embed__wrapper {
+    min-width: 280px; }
+
 .wp-block-file {
   display: flex;
   justify-content: space-between;

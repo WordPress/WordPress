@@ -2924,7 +2924,7 @@ unstable_useIdState.__keys = keys;
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
+var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.2
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
@@ -22422,9 +22422,20 @@ function calculateAllKinematics(movement, delta, delta_t) {
     direction: calculateDirection(delta, len)
   };
 }
+/**
+ * Because IE doesn't support `Math.sign` function, so we use the polyfill version of the function.
+ * This polyfill function is suggested by Mozilla
+ * :https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sign#Polyfill
+ * @param x target number
+ */
+
+function sign(x) {
+  if (Math.sign) return Math.sign(x);
+  return Number(x > 0) - Number(x < 0) || +x;
+}
 function getIntentionalDisplacement(movement, threshold) {
   var abs = Math.abs(movement);
-  return abs >= threshold ? Math.sign(movement) * threshold : false;
+  return abs >= threshold ? sign(movement) * threshold : false;
 }
 
 function minMax(value, min, max) {
@@ -22531,7 +22542,7 @@ function _unsupportedIterableToArray(o, minLen) {
   if (typeof o === "string") return _arrayLikeToArray(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(n);
+  if (n === "Map" || n === "Set") return Array.from(o);
   if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
 
@@ -22666,16 +22677,16 @@ function getInitialState() {
       metaKey: false,
       ctrlKey: false
     },
-    drag: _extends({}, initialCommon, {}, initialCoordinates, {
+    drag: _extends(_extends(_extends({}, initialCommon), initialCoordinates), {}, {
       _isTap: true,
       _delayedEvent: false,
       tap: false,
       swipe: [0, 0]
     }),
-    pinch: _extends({}, initialCommon, {}, initialDistanceAngle),
-    wheel: _extends({}, initialCommon, {}, initialCoordinates),
-    move: _extends({}, initialCommon, {}, initialCoordinates),
-    scroll: _extends({}, initialCommon, {}, initialCoordinates)
+    pinch: _extends(_extends({}, initialCommon), initialDistanceAngle),
+    wheel: _extends(_extends({}, initialCommon), initialCoordinates),
+    move: _extends(_extends({}, initialCommon), initialCoordinates),
+    scroll: _extends(_extends({}, initialCommon), initialCoordinates)
   };
 }
 
@@ -23101,7 +23112,7 @@ var Recognizer = /*#__PURE__*/function () {
 
 
     this.getStartGestureState = function (values, event) {
-      return _extends({}, getInitialState()[_this.stateKey], {
+      return _extends(_extends({}, getInitialState()[_this.stateKey]), {}, {
         _active: true,
         values: values,
         initial: values,
@@ -23160,7 +23171,7 @@ var Recognizer = /*#__PURE__*/function () {
 
       _this.controller.state.shared[_this.ingKey] = _active; // Sets dragging, pinching, etc. to the gesture active state
 
-      var state = _extends({}, _this.controller.state.shared, {}, _this.state, {}, _this.mapStateValues(_this.state)); // @ts-ignore
+      var state = _extends(_extends(_extends({}, _this.controller.state.shared), _this.state), _this.mapStateValues(_this.state)); // @ts-ignore
 
 
       var newMemo = _this.handler(state); // Sets memo to the returned value of the handler (unless it's not undefined)
@@ -23278,7 +23289,7 @@ var Recognizer = /*#__PURE__*/function () {
      * stop right there.
      */
 
-    if (_blocked) return _extends({}, intentionalityCheck, {
+    if (_blocked) return _extends(_extends({}, intentionalityCheck), {}, {
       _movement: _movement,
       delta: [0, 0]
     });
@@ -23298,7 +23309,7 @@ var Recognizer = /*#__PURE__*/function () {
 
     movement = this.rubberband(addV(movement, _initial), _rubberband); // rubberbanded movement
 
-    return _extends({}, intentionalityCheck, {
+    return _extends(_extends({}, intentionalityCheck), {}, {
       _initial: _initial,
       _movement: _movement,
       movement: movement,
@@ -23426,10 +23437,10 @@ var CoordinatesRecognizer = /*#__PURE__*/function (_Recognizer) {
     if (_blocked) return movementDetection;
     var delta_t = event.timeStamp - timeStamp;
     var kinematics = calculateAllKinematics(movement, delta, delta_t);
-    return _extends({
+    return _extends(_extends({
       values: values,
       delta: delta
-    }, movementDetection, {}, kinematics);
+    }, movementDetection), kinematics);
   };
 
   _proto.mapStateValues = function mapStateValues(state) {
@@ -23555,7 +23566,7 @@ var DragRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
       var _isTap = _this.state._isTap;
       if (_isTap && calculateDistance(kinematics._movement) >= TAP_DISTANCE_THRESHOLD) _isTap = false;
 
-      _this.updateGestureState(_extends({}, _this.getGenericPayload(event), {}, kinematics, {
+      _this.updateGestureState(_extends(_extends(_extends({}, _this.getGenericPayload(event)), kinematics), {}, {
         _isTap: _isTap,
         cancel: function cancel() {
           return _this.onCancel();
@@ -23587,7 +23598,7 @@ var DragRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
           ix = _this$state2$_intenti[0],
           iy = _this$state2$_intenti[1];
 
-      var endState = _extends({}, _this.getGenericPayload(event), {}, _this.getMovement(values));
+      var endState = _extends(_extends({}, _this.getGenericPayload(event)), _this.getMovement(values));
 
       var elapsedTime = endState.elapsedTime;
       var _this$config = _this.config,
@@ -23600,13 +23611,13 @@ var DragRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
       var swipe = [0, 0];
 
       if (elapsedTime < SWIPE_MAX_ELAPSED_TIME) {
-        if (ix !== false && Math.abs(vx) > svx && Math.abs(mx) > sx) swipe[0] = Math.sign(vx);
-        if (iy !== false && Math.abs(vy) > svy && Math.abs(my) > sy) swipe[1] = Math.sign(vy);
+        if (ix !== false && Math.abs(vx) > svx && Math.abs(mx) > sx) swipe[0] = sign(vx);
+        if (iy !== false && Math.abs(vy) > svy && Math.abs(my) > sy) swipe[1] = sign(vy);
       }
 
-      _this.updateGestureState(_extends({
+      _this.updateGestureState(_extends(_extends({
         event: event
-      }, endState, {
+      }, endState), {}, {
         tap: _isTap,
         swipe: swipe
       }));
@@ -23653,9 +23664,9 @@ var DragRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
 
     this.updateSharedState(getGenericEventData(event));
 
-    var startState = _extends({}, this.getStartGestureState(values, event), {}, this.getGenericPayload(event, true));
+    var startState = _extends(_extends({}, this.getStartGestureState(values, event)), this.getGenericPayload(event, true));
 
-    this.updateGestureState(_extends({}, startState, {}, this.getMovement(values, startState), {
+    this.updateGestureState(_extends(_extends(_extends({}, startState), this.getMovement(values, startState)), {}, {
       cancel: function cancel() {
         return _this2.onCancel();
       }
@@ -23718,7 +23729,7 @@ function getInternalGenericOptions(config) {
       enabled = _config$enabled === void 0 ? true : _config$enabled,
       restConfig = _objectWithoutPropertiesLoose(_config, ["eventOptions", "window", "domTarget", "enabled"]);
 
-  return _extends({}, restConfig, {
+  return _extends(_extends({}, restConfig), {}, {
     enabled: enabled,
     domTarget: domTarget,
     window: window,
@@ -23762,10 +23773,10 @@ function getInternalCoordinatesOptions(coordinatesConfig) {
       internalOptions = _objectWithoutPropertiesLoose(_coordinatesConfig, ["axis", "lockDirection", "bounds"]);
 
   var boundsArray = [[def.withDefault(bounds.left, -Infinity), def.withDefault(bounds.right, Infinity)], [def.withDefault(bounds.top, -Infinity), def.withDefault(bounds.bottom, Infinity)]];
-  return _extends({}, getInternalGestureOptions(internalOptions), {}, defaultCoordinatesOptions, {}, matchKeysFromObject({
+  return _extends(_extends(_extends(_extends({}, getInternalGestureOptions(internalOptions)), defaultCoordinatesOptions), matchKeysFromObject({
     axis: axis,
     lockDirection: lockDirection
-  }, coordinatesConfig), {
+  }, coordinatesConfig)), {}, {
     bounds: boundsArray
   });
 }
@@ -23782,7 +23793,7 @@ function getInternalDistanceAngleOptions(distanceAngleConfig) {
       internalOptions = _objectWithoutPropertiesLoose(_distanceAngleConfig, ["distanceBounds", "angleBounds"]);
 
   var boundsArray = [[def.withDefault(distanceBounds.min, -Infinity), def.withDefault(distanceBounds.max, Infinity)], [def.withDefault(angleBounds.min, -Infinity), def.withDefault(angleBounds.max, Infinity)]];
-  return _extends({}, getInternalGestureOptions(internalOptions), {
+  return _extends(_extends({}, getInternalGestureOptions(internalOptions)), {}, {
     bounds: boundsArray
   });
 }
@@ -23825,7 +23836,7 @@ function getInternalDragOptions(dragConfig) {
     lockDirection: lockDirection,
     initial: initial
   }, dragConfig));
-  return _extends({}, internalCoordinatesOptions, {
+  return _extends(_extends({}, internalCoordinatesOptions), {}, {
     filterTaps: filterTaps || internalCoordinatesOptions.threshold[0] + internalCoordinatesOptions.threshold[1] > 0,
     swipeVelocity: def.array(swipeVelocity),
     swipeDistance: def.array(swipeDistance),
@@ -23859,11 +23870,11 @@ function useDrag(handler, config) {
    */
 
 
-  var mergedConfig = _extends({}, getInternalGenericOptions({
+  var mergedConfig = _extends(_extends({}, getInternalGenericOptions({
     domTarget: domTarget,
     eventOptions: eventOptions,
     window: window
-  }), {
+  })), {}, {
     drag: getInternalDragOptions(drag)
   });
 
@@ -23909,7 +23920,7 @@ var DistanceAngleRecognizer = /*#__PURE__*/function (_Recognizer) {
      * is supsiciously high (ie > 270deg) and increase the `turns` value
      */
 
-    var newTurns = Math.abs(delta_a) > 270 ? turns + Math.sign(delta_a) : turns; // we update the angle difference to its corrected value
+    var newTurns = Math.abs(delta_a) > 270 ? turns + sign(delta_a) : turns; // we update the angle difference to its corrected value
 
     var movement_d = d - initial[0];
     var movement_a = a - 360 * newTurns - initial[1];
@@ -23926,11 +23937,11 @@ var DistanceAngleRecognizer = /*#__PURE__*/function (_Recognizer) {
     var turns = (values[1] - movement[1] - initial[1]) / 360;
     var delta_t = event.timeStamp - timeStamp;
     var kinematics = calculateAllKinematics(movement, delta, delta_t);
-    return _extends({
+    return _extends(_extends({
       values: values,
       delta: delta,
       turns: turns
-    }, movementDetection, {}, kinematics);
+    }, movementDetection), kinematics);
   };
 
   _proto.mapStateValues = function mapStateValues(state) {
@@ -23968,9 +23979,9 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
       _this.updateSharedState(getGenericEventData(event));
 
-      var startState = _extends({}, _this.getStartGestureState(values, event), {}, _this.getGenericPayload(event, true));
+      var startState = _extends(_extends({}, _this.getStartGestureState(values, event)), _this.getGenericPayload(event, true));
 
-      _this.updateGestureState(_extends({}, startState, {}, _this.getMovement(values, startState), {
+      _this.updateGestureState(_extends(_extends(_extends({}, startState), _this.getMovement(values, startState)), {}, {
         origin: origin,
         cancel: function cancel() {
           return _this.onCancel();
@@ -23997,7 +24008,7 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
       var kinematics = _this.getKinematics(values, event);
 
-      _this.updateGestureState(_extends({}, _this.getGenericPayload(event), {}, kinematics, {
+      _this.updateGestureState(_extends(_extends(_extends({}, _this.getGenericPayload(event)), kinematics), {}, {
         origin: origin,
         cancel: function cancel() {
           return _this.onCancel();
@@ -24016,9 +24027,9 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
         touches: 0
       });
 
-      _this.updateGestureState(_extends({
+      _this.updateGestureState(_extends(_extends({
         event: event
-      }, _this.getGenericPayload(event), {}, _this.getMovement(_this.state.values)));
+      }, _this.getGenericPayload(event)), _this.getMovement(_this.state.values)));
 
       _this.fireGestureHandler();
     };
@@ -24054,9 +24065,9 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
       _this.updateSharedState(getGenericEventData(event));
 
-      var startState = _extends({}, _this.getStartGestureState(values, event), {}, _this.getGenericPayload(event, true));
+      var startState = _extends(_extends({}, _this.getStartGestureState(values, event)), _this.getGenericPayload(event, true));
 
-      _this.updateGestureState(_extends({}, startState, {}, _this.getMovement(values, startState), {
+      _this.updateGestureState(_extends(_extends(_extends({}, startState), _this.getMovement(values, startState)), {}, {
         cancel: function cancel() {
           return _this.onCancel();
         }
@@ -24080,7 +24091,7 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
       var kinematics = _this.getKinematics(values, event);
 
-      _this.updateGestureState(_extends({}, _this.getGenericPayload(event), {}, kinematics, {
+      _this.updateGestureState(_extends(_extends(_extends({}, _this.getGenericPayload(event)), kinematics), {}, {
         cancel: function cancel() {
           return _this.onCancel();
         }
@@ -24099,9 +24110,9 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
         touches: 0
       });
 
-      _this.updateGestureState(_extends({
+      _this.updateGestureState(_extends(_extends({
         event: event
-      }, _this.getGenericPayload(event), {}, _this.getMovement(_this.state.values)));
+      }, _this.getGenericPayload(event)), _this.getMovement(_this.state.values)));
 
       _this.fireGestureHandler();
     };
@@ -24162,11 +24173,11 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
       _this.updateSharedState(getGenericEventData(event));
 
-      var startState = _extends({}, _this.getStartGestureState(values, event), {}, _this.getGenericPayload(event, true), {
+      var startState = _extends(_extends(_extends({}, _this.getStartGestureState(values, event)), _this.getGenericPayload(event, true)), {}, {
         initial: _this.state.values
       });
 
-      _this.updateGestureState(_extends({}, startState, {}, _this.getMovement(values, startState), {
+      _this.updateGestureState(_extends(_extends(_extends({}, startState), _this.getMovement(values, startState)), {}, {
         offset: values,
         delta: delta,
         origin: origin
@@ -24187,7 +24198,7 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
       var kinematics = _this.getKinematics(values, event);
 
-      _this.updateGestureState(_extends({}, _this.getGenericPayload(event), {}, kinematics, {
+      _this.updateGestureState(_extends(_extends(_extends({}, _this.getGenericPayload(event)), kinematics), {}, {
         origin: origin,
         delta: delta
       }));
@@ -24253,11 +24264,11 @@ function usePinch(handler, config) {
    */
 
 
-  var mergedConfig = _extends({}, getInternalGenericOptions({
+  var mergedConfig = _extends(_extends({}, getInternalGenericOptions({
     domTarget: domTarget,
     eventOptions: eventOptions,
     window: window
-  }), {
+  })), {}, {
     pinch: getInternalDistanceAngleOptions(pinch)
   });
 
@@ -24308,7 +24319,7 @@ var WheelRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
 
       _this.updateSharedState(getGenericEventData(event));
 
-      var startState = _extends({}, _this.getStartGestureState(values, event), {}, _this.getGenericPayload(event, true), {
+      var startState = _extends(_extends(_extends({}, _this.getStartGestureState(values, event)), _this.getGenericPayload(event, true)), {}, {
         initial: _this.state.values
       });
 
@@ -24316,7 +24327,7 @@ var WheelRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
 
       var delta = movementDetection.delta;
 
-      _this.updateGestureState(_extends({}, startState, {}, movementDetection, {
+      _this.updateGestureState(_extends(_extends(_extends({}, startState), movementDetection), {}, {
         distance: calculateDistance(delta),
         direction: calculateDirection(delta)
       }));
@@ -24334,7 +24345,7 @@ var WheelRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
 
       var kinematics = _this.getKinematics(values, event);
 
-      _this.updateGestureState(_extends({}, _this.getGenericPayload(event), {}, kinematics));
+      _this.updateGestureState(_extends(_extends({}, _this.getGenericPayload(event)), kinematics));
 
       _this.fireGestureHandler();
     };
@@ -24342,7 +24353,7 @@ var WheelRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
     _this.onWheelEnd = function () {
       _this.state._active = false;
 
-      _this.updateGestureState(_extends({}, _this.getMovement(_this.state.values), {
+      _this.updateGestureState(_extends(_extends({}, _this.getMovement(_this.state.values)), {}, {
         velocities: [0, 0],
         velocity: 0
       }));
@@ -24388,11 +24399,11 @@ function useWheel(handler, config) {
    */
 
 
-  var mergedConfig = _extends({}, getInternalGenericOptions({
+  var mergedConfig = _extends(_extends({}, getInternalGenericOptions({
     domTarget: domTarget,
     eventOptions: eventOptions,
     window: window
-  }), {
+  })), {}, {
     wheel: getInternalCoordinatesOptions(wheel)
   });
 
@@ -24431,9 +24442,9 @@ var MoveRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
 
       _this.updateSharedState(getGenericEventData(event));
 
-      var startState = _extends({}, _this.getStartGestureState(values, event), {}, _this.getGenericPayload(event, true));
+      var startState = _extends(_extends({}, _this.getStartGestureState(values, event)), _this.getGenericPayload(event, true));
 
-      _this.updateGestureState(_extends({}, startState, {}, _this.getMovement(values, startState)));
+      _this.updateGestureState(_extends(_extends({}, startState), _this.getMovement(values, startState)));
 
       _this.fireGestureHandler();
     };
@@ -24448,7 +24459,7 @@ var MoveRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
 
       var kinematics = _this.getKinematics(values, event);
 
-      _this.updateGestureState(_extends({}, _this.getGenericPayload(event), {}, kinematics));
+      _this.updateGestureState(_extends(_extends({}, _this.getGenericPayload(event)), kinematics));
 
       _this.fireGestureHandler();
     };
@@ -24456,7 +24467,7 @@ var MoveRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
     _this.onMoveEnd = function () {
       _this.state._active = false;
 
-      _this.updateGestureState(_extends({}, _this.getMovement(_this.state.values), {
+      _this.updateGestureState(_extends(_extends({}, _this.getMovement(_this.state.values)), {}, {
         velocities: [0, 0],
         velocity: 0
       }));
@@ -24472,13 +24483,13 @@ var MoveRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
         var _getPointerEventValue3 = getPointerEventValues(event),
             values = _getPointerEventValue3.values;
 
-        var state = _extends({}, _this.controller.state.shared, {}, _this.state, {}, _this.getGenericPayload(event, true), {
+        var state = _extends(_extends(_extends(_extends({}, _this.controller.state.shared), _this.state), _this.getGenericPayload(event, true)), {}, {
           values: values,
           active: true,
           hovering: true
         });
 
-        _this.controller.handlers.hover(_extends({}, state, {}, _this.mapStateValues(state)));
+        _this.controller.handlers.hover(_extends(_extends({}, state), _this.mapStateValues(state)));
       }
 
       if ('move' in _this.controller.handlers) _this.onMoveStart(event);
@@ -24492,12 +24503,12 @@ var MoveRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
         var _getPointerEventValue4 = getPointerEventValues(event),
             values = _getPointerEventValue4.values;
 
-        var state = _extends({}, _this.controller.state.shared, {}, _this.state, {}, _this.getGenericPayload(event), {
+        var state = _extends(_extends(_extends(_extends({}, _this.controller.state.shared), _this.state), _this.getGenericPayload(event)), {}, {
           values: values,
           active: false
         });
 
-        _this.controller.handlers.hover(_extends({}, state, {}, _this.mapStateValues(state)));
+        _this.controller.handlers.hover(_extends(_extends({}, state), _this.mapStateValues(state)));
       }
     };
 
@@ -24557,11 +24568,11 @@ function useMove(handler, config) {
    */
 
 
-  var mergedConfig = _extends({}, getInternalGenericOptions({
+  var mergedConfig = _extends(_extends({}, getInternalGenericOptions({
     domTarget: domTarget,
     eventOptions: eventOptions,
     window: window
-  }), {
+  })), {}, {
     move: getInternalCoordinatesOptions(move)
   });
 
@@ -24596,11 +24607,11 @@ function useHover(handler, config) {
    */
 
 
-  var mergedConfig = _extends({}, getInternalGenericOptions({
+  var mergedConfig = _extends(_extends({}, getInternalGenericOptions({
     domTarget: domTarget,
     eventOptions: eventOptions,
     window: window
-  }), {
+  })), {}, {
     hover: _extends({
       enabled: true
     }, hover)
@@ -24641,7 +24652,7 @@ var ScrollRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
 
       _this.updateSharedState(getGenericEventData(event));
 
-      var startState = _extends({}, _this.getStartGestureState(values, event), {}, _this.getGenericPayload(event, true), {
+      var startState = _extends(_extends(_extends({}, _this.getStartGestureState(values, event)), _this.getGenericPayload(event, true)), {}, {
         initial: _this.state.values
       });
 
@@ -24649,7 +24660,7 @@ var ScrollRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
 
       var delta = movementDetection.delta;
 
-      _this.updateGestureState(_extends({}, startState, {}, movementDetection, {
+      _this.updateGestureState(_extends(_extends(_extends({}, startState), movementDetection), {}, {
         distance: calculateDistance(delta),
         direction: calculateDirection(delta)
       }));
@@ -24667,7 +24678,7 @@ var ScrollRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
 
       var kinematics = _this.getKinematics(values, event);
 
-      _this.updateGestureState(_extends({}, _this.getGenericPayload(event), {}, kinematics));
+      _this.updateGestureState(_extends(_extends({}, _this.getGenericPayload(event)), kinematics));
 
       _this.fireGestureHandler();
     };
@@ -24675,7 +24686,7 @@ var ScrollRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
     _this.onScrollEnd = function () {
       _this.state._active = false;
 
-      _this.updateGestureState(_extends({}, _this.getMovement(_this.state.values), {
+      _this.updateGestureState(_extends(_extends({}, _this.getMovement(_this.state.values)), {}, {
         velocities: [0, 0],
         velocity: 0
       }));
@@ -24721,11 +24732,11 @@ function useScroll(handler, config) {
    */
 
 
-  var mergedConfig = _extends({}, getInternalGenericOptions({
+  var mergedConfig = _extends(_extends({}, getInternalGenericOptions({
     domTarget: domTarget,
     eventOptions: eventOptions,
     window: window
-  }), {
+  })), {}, {
     scroll: getInternalCoordinatesOptions(scroll)
   });
 
@@ -30686,204 +30697,9 @@ var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
 // EXTERNAL MODULE: ./node_modules/downshift/node_modules/react-is/index.js
 var react_is = __webpack_require__(194);
 
-// CONCATENATED MODULE: ./node_modules/compute-scroll-into-view/es/index.js
-function isElement(el) {
-  return el != null && typeof el === 'object' && el.nodeType === 1;
-}
+// CONCATENATED MODULE: ./node_modules/compute-scroll-into-view/dist/index.module.js
+function t(t){return null!=t&&"object"==typeof t&&1===t.nodeType}function index_module_e(t,e){return(!e||"hidden"!==t)&&"visible"!==t&&"clip"!==t}function n(t,n){if(t.clientHeight<t.scrollHeight||t.clientWidth<t.scrollWidth){var r=getComputedStyle(t,null);return index_module_e(r.overflowY,n)||index_module_e(r.overflowX,n)||function(t){var e=function(t){if(!t.ownerDocument||!t.ownerDocument.defaultView)return null;try{return t.ownerDocument.defaultView.frameElement}catch(t){return null}}(t);return!!e&&(e.clientHeight<t.scrollHeight||e.clientWidth<t.scrollWidth)}(t)}return!1}function index_module_r(t,e,n,r,i,o,l,d){return o<t&&l>e||o>t&&l<e?0:o<=t&&d<=n||l>=e&&d>=n?o-t-r:l>e&&d<n||o<t&&d>n?l-e+i:0}/* harmony default export */ var index_module = (function(e,i){var o=window,l=i.scrollMode,d=i.block,u=i.inline,h=i.boundary,a=i.skipOverflowHiddenElements,c="function"==typeof h?h:function(t){return t!==h};if(!t(e))throw new TypeError("Invalid target");for(var f=document.scrollingElement||document.documentElement,s=[],p=e;t(p)&&c(p);){if((p=p.parentNode)===f){s.push(p);break}p===document.body&&n(p)&&!n(document.documentElement)||n(p,a)&&s.push(p)}for(var g=o.visualViewport?o.visualViewport.width:innerWidth,m=o.visualViewport?o.visualViewport.height:innerHeight,w=window.scrollX||pageXOffset,v=window.scrollY||pageYOffset,W=e.getBoundingClientRect(),b=W.height,H=W.width,y=W.top,M=W.right,E=W.bottom,V=W.left,x="start"===d||"nearest"===d?y:"end"===d?E:y+b/2,I="center"===u?V+H/2:"end"===u?M:V,C=[],T=0;T<s.length;T++){var k=s[T],B=k.getBoundingClientRect(),D=B.height,O=B.width,R=B.top,X=B.right,Y=B.bottom,L=B.left;if("if-needed"===l&&y>=0&&V>=0&&E<=m&&M<=g&&y>=R&&E<=Y&&V>=L&&M<=X)return C;var S=getComputedStyle(k),j=parseInt(S.borderLeftWidth,10),N=parseInt(S.borderTopWidth,10),q=parseInt(S.borderRightWidth,10),z=parseInt(S.borderBottomWidth,10),A=0,F=0,G="offsetWidth"in k?k.offsetWidth-k.clientWidth-j-q:0,J="offsetHeight"in k?k.offsetHeight-k.clientHeight-N-z:0;if(f===k)A="start"===d?x:"end"===d?x-m:"nearest"===d?index_module_r(v,v+m,m,N,z,v+x,v+x+b,b):x-m/2,F="start"===u?I:"center"===u?I-g/2:"end"===u?I-g:index_module_r(w,w+g,g,j,q,w+I,w+I+H,H),A=Math.max(0,A+v),F=Math.max(0,F+w);else{A="start"===d?x-R-N:"end"===d?x-Y+z+J:"nearest"===d?index_module_r(R,Y,D,N,z+J,x,x+b,b):x-(R+D/2)+J/2,F="start"===u?I-L-j:"center"===u?I-(L+O/2)+G/2:"end"===u?I-X+q+G:index_module_r(L,X,O,j,q+G,I,I+H,H);var K=k.scrollLeft,P=k.scrollTop;x+=P-(A=Math.max(0,Math.min(P+A,k.scrollHeight-D+J))),I+=K-(F=Math.max(0,Math.min(K+F,k.scrollWidth-O+G)))}C.push({el:k,top:A,left:F})}return C});
 
-function canOverflow(overflow, skipOverflowHiddenElements) {
-  if (skipOverflowHiddenElements && overflow === 'hidden') {
-    return false;
-  }
-
-  return overflow !== 'visible' && overflow !== 'clip';
-}
-
-function getFrameElement(el) {
-  if (!el.ownerDocument || !el.ownerDocument.defaultView) {
-    return null;
-  }
-
-  try {
-    return el.ownerDocument.defaultView.frameElement;
-  } catch (e) {
-    return null;
-  }
-}
-
-function isHiddenByFrame(el) {
-  var frame = getFrameElement(el);
-
-  if (!frame) {
-    return false;
-  }
-
-  return frame.clientHeight < el.scrollHeight || frame.clientWidth < el.scrollWidth;
-}
-
-function isScrollable(el, skipOverflowHiddenElements) {
-  if (el.clientHeight < el.scrollHeight || el.clientWidth < el.scrollWidth) {
-    var style = getComputedStyle(el, null);
-    return canOverflow(style.overflowY, skipOverflowHiddenElements) || canOverflow(style.overflowX, skipOverflowHiddenElements) || isHiddenByFrame(el);
-  }
-
-  return false;
-}
-
-function alignNearest(scrollingEdgeStart, scrollingEdgeEnd, scrollingSize, scrollingBorderStart, scrollingBorderEnd, elementEdgeStart, elementEdgeEnd, elementSize) {
-  if (elementEdgeStart < scrollingEdgeStart && elementEdgeEnd > scrollingEdgeEnd || elementEdgeStart > scrollingEdgeStart && elementEdgeEnd < scrollingEdgeEnd) {
-    return 0;
-  }
-
-  if (elementEdgeStart <= scrollingEdgeStart && elementSize <= scrollingSize || elementEdgeEnd >= scrollingEdgeEnd && elementSize >= scrollingSize) {
-    return elementEdgeStart - scrollingEdgeStart - scrollingBorderStart;
-  }
-
-  if (elementEdgeEnd > scrollingEdgeEnd && elementSize < scrollingSize || elementEdgeStart < scrollingEdgeStart && elementSize > scrollingSize) {
-    return elementEdgeEnd - scrollingEdgeEnd + scrollingBorderEnd;
-  }
-
-  return 0;
-}
-
-/* harmony default export */ var es = (function (target, options) {
-  var scrollMode = options.scrollMode,
-      block = options.block,
-      inline = options.inline,
-      boundary = options.boundary,
-      skipOverflowHiddenElements = options.skipOverflowHiddenElements;
-  var checkBoundary = typeof boundary === 'function' ? boundary : function (node) {
-    return node !== boundary;
-  };
-
-  if (!isElement(target)) {
-    throw new TypeError('Invalid target');
-  }
-
-  var scrollingElement = document.scrollingElement || document.documentElement;
-  var frames = [];
-  var cursor = target;
-
-  while (isElement(cursor) && checkBoundary(cursor)) {
-    cursor = cursor.parentNode;
-
-    if (cursor === scrollingElement) {
-      frames.push(cursor);
-      break;
-    }
-
-    if (cursor === document.body && isScrollable(cursor) && !isScrollable(document.documentElement)) {
-      continue;
-    }
-
-    if (isScrollable(cursor, skipOverflowHiddenElements)) {
-      frames.push(cursor);
-    }
-  }
-
-  var viewportWidth = window.visualViewport ? visualViewport.width : innerWidth;
-  var viewportHeight = window.visualViewport ? visualViewport.height : innerHeight;
-  var viewportX = window.scrollX || pageXOffset;
-  var viewportY = window.scrollY || pageYOffset;
-
-  var _target$getBoundingCl = target.getBoundingClientRect(),
-      targetHeight = _target$getBoundingCl.height,
-      targetWidth = _target$getBoundingCl.width,
-      targetTop = _target$getBoundingCl.top,
-      targetRight = _target$getBoundingCl.right,
-      targetBottom = _target$getBoundingCl.bottom,
-      targetLeft = _target$getBoundingCl.left;
-
-  var targetBlock = block === 'start' || block === 'nearest' ? targetTop : block === 'end' ? targetBottom : targetTop + targetHeight / 2;
-  var targetInline = inline === 'center' ? targetLeft + targetWidth / 2 : inline === 'end' ? targetRight : targetLeft;
-  var computations = [];
-
-  for (var index = 0; index < frames.length; index++) {
-    var frame = frames[index];
-
-    var _frame$getBoundingCli = frame.getBoundingClientRect(),
-        height = _frame$getBoundingCli.height,
-        width = _frame$getBoundingCli.width,
-        top = _frame$getBoundingCli.top,
-        right = _frame$getBoundingCli.right,
-        bottom = _frame$getBoundingCli.bottom,
-        left = _frame$getBoundingCli.left;
-
-    if (scrollMode === 'if-needed' && targetTop >= 0 && targetLeft >= 0 && targetBottom <= viewportHeight && targetRight <= viewportWidth && targetTop >= top && targetBottom <= bottom && targetLeft >= left && targetRight <= right) {
-      return computations;
-    }
-
-    var frameStyle = getComputedStyle(frame);
-    var borderLeft = parseInt(frameStyle.borderLeftWidth, 10);
-    var borderTop = parseInt(frameStyle.borderTopWidth, 10);
-    var borderRight = parseInt(frameStyle.borderRightWidth, 10);
-    var borderBottom = parseInt(frameStyle.borderBottomWidth, 10);
-    var blockScroll = 0;
-    var inlineScroll = 0;
-    var scrollbarWidth = 'offsetWidth' in frame ? frame.offsetWidth - frame.clientWidth - borderLeft - borderRight : 0;
-    var scrollbarHeight = 'offsetHeight' in frame ? frame.offsetHeight - frame.clientHeight - borderTop - borderBottom : 0;
-
-    if (scrollingElement === frame) {
-      if (block === 'start') {
-        blockScroll = targetBlock;
-      } else if (block === 'end') {
-        blockScroll = targetBlock - viewportHeight;
-      } else if (block === 'nearest') {
-        blockScroll = alignNearest(viewportY, viewportY + viewportHeight, viewportHeight, borderTop, borderBottom, viewportY + targetBlock, viewportY + targetBlock + targetHeight, targetHeight);
-      } else {
-        blockScroll = targetBlock - viewportHeight / 2;
-      }
-
-      if (inline === 'start') {
-        inlineScroll = targetInline;
-      } else if (inline === 'center') {
-        inlineScroll = targetInline - viewportWidth / 2;
-      } else if (inline === 'end') {
-        inlineScroll = targetInline - viewportWidth;
-      } else {
-        inlineScroll = alignNearest(viewportX, viewportX + viewportWidth, viewportWidth, borderLeft, borderRight, viewportX + targetInline, viewportX + targetInline + targetWidth, targetWidth);
-      }
-
-      blockScroll = Math.max(0, blockScroll + viewportY);
-      inlineScroll = Math.max(0, inlineScroll + viewportX);
-    } else {
-      if (block === 'start') {
-        blockScroll = targetBlock - top - borderTop;
-      } else if (block === 'end') {
-        blockScroll = targetBlock - bottom + borderBottom + scrollbarHeight;
-      } else if (block === 'nearest') {
-        blockScroll = alignNearest(top, bottom, height, borderTop, borderBottom + scrollbarHeight, targetBlock, targetBlock + targetHeight, targetHeight);
-      } else {
-        blockScroll = targetBlock - (top + height / 2) + scrollbarHeight / 2;
-      }
-
-      if (inline === 'start') {
-        inlineScroll = targetInline - left - borderLeft;
-      } else if (inline === 'center') {
-        inlineScroll = targetInline - (left + width / 2) + scrollbarWidth / 2;
-      } else if (inline === 'end') {
-        inlineScroll = targetInline - right + borderRight + scrollbarWidth;
-      } else {
-        inlineScroll = alignNearest(left, right, width, borderLeft, borderRight + scrollbarWidth, targetInline, targetInline + targetWidth, targetWidth);
-      }
-
-      var scrollLeft = frame.scrollLeft,
-          scrollTop = frame.scrollTop;
-      blockScroll = Math.max(0, Math.min(scrollTop + blockScroll, frame.scrollHeight - height + scrollbarHeight));
-      inlineScroll = Math.max(0, Math.min(scrollLeft + inlineScroll, frame.scrollWidth - width + scrollbarWidth));
-      targetBlock += scrollTop - blockScroll;
-      targetInline += scrollLeft - inlineScroll;
-    }
-
-    computations.push({
-      el: frame,
-      top: blockScroll,
-      left: inlineScroll
-    });
-  }
-
-  return computations;
-});
 // CONCATENATED MODULE: ./node_modules/downshift/dist/downshift.esm.js
 
 
@@ -30921,7 +30737,7 @@ function downshift_esm_scrollIntoView(node, menuNode) {
     return;
   }
 
-  var actions = es(node, {
+  var actions = index_module(node, {
     boundary: menuNode,
     block: 'nearest',
     scrollMode: 'if-needed'
@@ -43022,7 +42838,7 @@ function QueryControls(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/reakit-warning/es/index.js + 2 modules
-var reakit_warning_es = __webpack_require__(80);
+var es = __webpack_require__(80);
 
 // EXTERNAL MODULE: ./node_modules/reakit-utils/es/useLiveRef.js
 var useLiveRef = __webpack_require__(46);
@@ -43657,6 +43473,14 @@ var snap = src_default()(function (n, size) { return Math.round(n / size) * size
 var hasDirection = src_default()(function (dir, target) {
     return new RegExp(dir, 'i').test(target);
 });
+// INFO: In case of window is a Proxy and does not porxy Events correctly, use isTouchEvent & isMouseEvent to distinguish event type instead of `instanceof`.
+var isTouchEvent = function (event) {
+    return Boolean(event.touches && event.touches.length);
+};
+var isMouseEvent = function (event) {
+    return Boolean((event.clientX || event.clientX === 0) &&
+        (event.clientY || event.clientY === 0));
+};
 var findClosestSnap = src_default()(function (n, snapArray, snapGap) {
     if (snapGap === void 0) { snapGap = 0; }
     var closestGapIndex = snapArray.reduce(function (prev, curr, index) { return (Math.abs(curr - n) < Math.abs(snapArray[prev] - n) ? index : prev); }, 0);
@@ -43693,15 +43517,18 @@ var getStringSize = src_default()(function (n) {
 });
 var getPixelSize = function (size, parentSize, innerWidth, innerHeight) {
     if (size && typeof size === 'string') {
+        if (endsWith(size, 'px')) {
+            return Number(size.replace('px', ''));
+        }
         if (endsWith(size, '%')) {
             var ratio = Number(size.replace('%', '')) / 100;
             return parentSize * ratio;
         }
-        else if (endsWith(size, 'vw')) {
+        if (endsWith(size, 'vw')) {
             var ratio = Number(size.replace('vw', '')) / 100;
             return innerWidth * ratio;
         }
-        else if (endsWith(size, 'vh')) {
+        if (endsWith(size, 'vh')) {
             var ratio = Number(size.replace('vh', '')) / 100;
             return innerHeight * ratio;
         }
@@ -43767,6 +43594,37 @@ var lib_Resizable = /** @class */ (function (_super) {
         // For target boundary
         _this.targetLeft = 0;
         _this.targetTop = 0;
+        _this.appendBase = function () {
+            if (!_this.resizable || !_this.window) {
+                return null;
+            }
+            var parent = _this.parentNode;
+            if (!parent) {
+                return null;
+            }
+            var element = _this.window.document.createElement('div');
+            element.style.width = '100%';
+            element.style.height = '100%';
+            element.style.position = 'absolute';
+            element.style.transform = 'scale(0, 0)';
+            element.style.left = '0';
+            element.style.flex = '0';
+            if (element.classList) {
+                element.classList.add(baseClassName);
+            }
+            else {
+                element.className += baseClassName;
+            }
+            parent.appendChild(element);
+            return element;
+        };
+        _this.removeBase = function (base) {
+            var parent = _this.parentNode;
+            if (!parent) {
+                return;
+            }
+            parent.removeChild(base);
+        };
         _this.ref = function (c) {
             if (c) {
                 _this.resizable = c;
@@ -43814,7 +43672,7 @@ var lib_Resizable = /** @class */ (function (_super) {
             }
             return this.resizable.parentNode;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Resizable.prototype, "window", {
@@ -43827,32 +43685,14 @@ var lib_Resizable = /** @class */ (function (_super) {
             }
             return this.resizable.ownerDocument.defaultView;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Resizable.prototype, "propsSize", {
         get: function () {
             return this.props.size || this.props.defaultSize || DEFAULT_SIZE;
         },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Resizable.prototype, "base", {
-        get: function () {
-            var parent = this.parentNode;
-            if (!parent) {
-                return undefined;
-            }
-            var children = [].slice.call(parent.children);
-            for (var _i = 0, children_1 = children; _i < children_1.length; _i++) {
-                var n = children_1[_i];
-                if (n.classList.contains(baseClassName)) {
-                    return n;
-                }
-            }
-            return undefined;
-        },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Resizable.prototype, "size", {
@@ -43876,7 +43716,7 @@ var lib_Resizable = /** @class */ (function (_super) {
             }
             return { width: width, height: height };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Resizable.prototype, "sizeStyle", {
@@ -43906,36 +43746,38 @@ var lib_Resizable = /** @class */ (function (_super) {
                 : getSize('height');
             return { width: width, height: height };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Resizable.prototype.getParentSize = function () {
-        if (!this.base || !this.parentNode) {
+        if (!this.parentNode) {
             if (!this.window) {
                 return { width: 0, height: 0 };
             }
             return { width: this.window.innerWidth, height: this.window.innerHeight };
         }
+        var base = this.appendBase();
+        if (!base) {
+            return { width: 0, height: 0 };
+        }
         // INFO: To calculate parent width with flex layout
         var wrapChanged = false;
         var wrap = this.parentNode.style.flexWrap;
-        var minWidth = this.base.style.minWidth;
         if (wrap !== 'wrap') {
             wrapChanged = true;
             this.parentNode.style.flexWrap = 'wrap';
             // HACK: Use relative to get parent padding size
         }
-        this.base.style.position = 'relative';
-        this.base.style.minWidth = '100%';
+        base.style.position = 'relative';
+        base.style.minWidth = '100%';
         var size = {
-            width: this.base.offsetWidth,
-            height: this.base.offsetHeight,
+            width: base.offsetWidth,
+            height: base.offsetHeight,
         };
-        this.base.style.position = 'absolute';
         if (wrapChanged) {
             this.parentNode.style.flexWrap = wrap;
         }
-        this.base.style.minWidth = minWidth;
+        this.removeBase(base);
         return size;
     };
     Resizable.prototype.bindEvents = function () {
@@ -43969,39 +43811,10 @@ var lib_Resizable = /** @class */ (function (_super) {
             height: this.state.height || this.size.height,
             flexBasis: computedStyle.flexBasis !== 'auto' ? computedStyle.flexBasis : undefined,
         });
-        var parent = this.parentNode;
-        if (!parent) {
-            return;
-        }
-        if (this.base) {
-            return;
-        }
-        var element = this.window.document.createElement('div');
-        element.style.width = '100%';
-        element.style.height = '100%';
-        element.style.position = 'absolute';
-        element.style.transform = 'scale(0, 0)';
-        element.style.left = '0';
-        element.style.flex = '0';
-        if (element.classList) {
-            element.classList.add(baseClassName);
-        }
-        else {
-            element.className += baseClassName;
-        }
-        parent.appendChild(element);
     };
     Resizable.prototype.componentWillUnmount = function () {
         if (this.window) {
             this.unbindEvents();
-            var parent_1 = this.parentNode;
-            if (!this.base || !parent_1) {
-                return;
-            }
-            if (!parent_1 || !this.base) {
-                return;
-            }
-            parent_1.removeChild(this.base);
         }
     };
     Resizable.prototype.createSizeForCssProperty = function (newSize, kind) {
@@ -44014,10 +43827,10 @@ var lib_Resizable = /** @class */ (function (_super) {
     };
     Resizable.prototype.calculateNewMaxFromBoundary = function (maxWidth, maxHeight) {
         if (this.props.bounds === 'parent') {
-            var parent_2 = this.parentNode;
-            if (parent_2) {
-                var boundWidth = parent_2.offsetWidth + (this.parentLeft - this.resizableLeft);
-                var boundHeight = parent_2.offsetHeight + (this.parentTop - this.resizableTop);
+            var parent_1 = this.parentNode;
+            if (parent_1) {
+                var boundWidth = parent_1.offsetWidth + (this.parentLeft - this.resizableLeft);
+                var boundHeight = parent_1.offsetHeight + (this.parentTop - this.resizableTop);
                 maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
                 maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
             }
@@ -44102,9 +43915,9 @@ var lib_Resizable = /** @class */ (function (_super) {
     Resizable.prototype.setBoundingClientRect = function () {
         // For parent boundary
         if (this.props.bounds === 'parent') {
-            var parent_3 = this.parentNode;
-            if (parent_3) {
-                var parentRect = parent_3.getBoundingClientRect();
+            var parent_2 = this.parentNode;
+            if (parent_2) {
+                var parentRect = parent_2.getBoundingClientRect();
                 this.parentLeft = parentRect.left;
                 this.parentTop = parentRect.top;
             }
@@ -44128,7 +43941,7 @@ var lib_Resizable = /** @class */ (function (_super) {
         }
         var clientX = 0;
         var clientY = 0;
-        if (event.nativeEvent instanceof this.window.MouseEvent) {
+        if (event.nativeEvent && isMouseEvent(event.nativeEvent)) {
             clientX = event.nativeEvent.clientX;
             clientY = event.nativeEvent.clientY;
             // When user click with right button the resize is stuck in resizing mode
@@ -44138,7 +43951,7 @@ var lib_Resizable = /** @class */ (function (_super) {
                 return;
             }
         }
-        else if (event.nativeEvent instanceof this.window.TouchEvent) {
+        else if (event.nativeEvent && isTouchEvent(event.nativeEvent)) {
             clientX = event.nativeEvent.touches[0].clientX;
             clientY = event.nativeEvent.touches[0].clientY;
         }
@@ -44165,9 +43978,9 @@ var lib_Resizable = /** @class */ (function (_super) {
         var flexBasis;
         var computedStyle = this.window.getComputedStyle(this.resizable);
         if (computedStyle.flexBasis !== 'auto') {
-            var parent_4 = this.parentNode;
-            if (parent_4) {
-                var dir = this.window.getComputedStyle(parent_4).flexDirection;
+            var parent_3 = this.parentNode;
+            if (parent_3) {
+                var dir = this.window.getComputedStyle(parent_3).flexDirection;
                 this.flexDir = dir.startsWith('row') ? 'row' : 'column';
                 flexBasis = computedStyle.flexBasis;
             }
@@ -44193,7 +44006,7 @@ var lib_Resizable = /** @class */ (function (_super) {
         if (!this.state.isResizing || !this.resizable || !this.window) {
             return;
         }
-        if (this.window.TouchEvent && event instanceof this.window.TouchEvent) {
+        if (this.window.TouchEvent && isTouchEvent(event)) {
             try {
                 event.preventDefault();
                 event.stopPropagation();
@@ -44203,8 +44016,8 @@ var lib_Resizable = /** @class */ (function (_super) {
             }
         }
         var _a = this.props, maxWidth = _a.maxWidth, maxHeight = _a.maxHeight, minWidth = _a.minWidth, minHeight = _a.minHeight;
-        var clientX = event instanceof this.window.MouseEvent ? event.clientX : event.touches[0].clientX;
-        var clientY = event instanceof this.window.MouseEvent ? event.clientY : event.touches[0].clientY;
+        var clientX = isTouchEvent(event) ? event.touches[0].clientX : event.clientX;
+        var clientY = isTouchEvent(event) ? event.touches[0].clientY : event.clientY;
         var _b = this.state, direction = _b.direction, original = _b.original, width = _b.width, height = _b.height;
         var parentSize = this.getParentSize();
         var max = calculateNewMax(parentSize, this.window.innerWidth, this.window.innerHeight, maxWidth, maxHeight, minWidth, minHeight);
@@ -44321,7 +44134,6 @@ var lib_Resizable = /** @class */ (function (_super) {
     };
     Resizable.prototype.render = function () {
         var _this = this;
-        var _a;
         var extendsProps = Object.keys(this.props).reduce(function (acc, key) {
             if (definedProps.indexOf(key) !== -1) {
                 return acc;
@@ -44333,7 +44145,7 @@ var lib_Resizable = /** @class */ (function (_super) {
         if (this.state.flexBasis) {
             style.flexBasis = this.state.flexBasis;
         }
-        var Wrapper = (_a = this.props.as) !== null && _a !== void 0 ? _a : 'div';
+        var Wrapper = this.props.as || 'div';
         return (external_this_React_["createElement"](Wrapper, lib_assign({ ref: this.ref, style: style, className: this.props.className }, extendsProps),
             this.state.isResizing && external_this_React_["createElement"]("div", { style: this.state.backgroundStyle }),
             this.props.children,
@@ -47847,7 +47659,7 @@ var chevronUp = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEl
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
 }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M12 8l-6 5.4 1 1.2 5-4.6 5 4.6 1-1.2z"
+  d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z"
 }));
 /* harmony default export */ __webpack_exports__["a"] = (chevronUp);
 
@@ -47871,7 +47683,7 @@ var chevronDown = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["create
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
 }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M17 9.4L12 14 7 9.4l-1 1.2 6 5.4 6-5.4z"
+  d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z"
 }));
 /* harmony default export */ __webpack_exports__["a"] = (chevronDown);
 

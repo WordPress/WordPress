@@ -8205,9 +8205,11 @@ function preprocessInput(input) {
 }
 
 var EventedTokenizer = /** @class */ (function () {
-    function EventedTokenizer(delegate, entityParser) {
+    function EventedTokenizer(delegate, entityParser, mode) {
+        if (mode === void 0) { mode = 'precompile'; }
         this.delegate = delegate;
         this.entityParser = entityParser;
+        this.mode = mode;
         this.state = "beforeData" /* beforeData */;
         this.line = -1;
         this.column = -1;
@@ -8223,7 +8225,7 @@ var EventedTokenizer = /** @class */ (function () {
                     this.consume();
                 }
                 else {
-                    if (char === '\n') {
+                    if (this.mode === 'precompile' && char === '\n') {
                         var tag = this.tagNameBuffer.toLowerCase();
                         if (tag === 'pre' || tag === 'textarea') {
                             this.consume();
@@ -8680,7 +8682,7 @@ var Tokenizer = /** @class */ (function () {
         this.startLine = 1;
         this.startColumn = 0;
         this.tokens = [];
-        this.tokenizer = new EventedTokenizer(this, entityParser);
+        this.tokenizer = new EventedTokenizer(this, entityParser, options.mode);
         this._currentAttribute = undefined;
     }
     Tokenizer.prototype.tokenize = function (input) {
@@ -12837,7 +12839,7 @@ function _defineProperty(obj, key, value) {
 /***/ 66:
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
+var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.2
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 

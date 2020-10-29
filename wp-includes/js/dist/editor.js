@@ -10377,7 +10377,7 @@ function PostScheduleLabel(_ref) {
 
   var settings = Object(external_this_wp_date_["__experimentalGetSettings"])();
 
-  return date && !isFloating ? Object(external_this_wp_date_["dateI18n"])("".concat(settings.formats.date, " ").concat(settings.formats.time), date) : Object(external_this_wp_i18n_["__"])('Immediately');
+  return date && !isFloating ? Object(external_this_wp_date_["format"])("".concat(settings.formats.date, " ").concat(settings.formats.time), date) : Object(external_this_wp_i18n_["__"])('Immediately');
 }
 /* harmony default export */ var post_schedule_label = (Object(external_this_wp_data_["withSelect"])(function (select) {
   return {

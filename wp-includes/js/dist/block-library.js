@@ -3689,7 +3689,7 @@ PERFORMANCE OF THIS SOFTWARE.
 var extendStatics = function(d, b) {
     extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
     return extendStatics(d, b);
 };
 
@@ -3775,8 +3775,16 @@ function __generator(thisArg, body) {
     }
 }
 
-function __exportStar(m, exports) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+var __createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+
+function __exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
 }
 
 function __values(o) {
@@ -3857,11 +3865,17 @@ function __makeTemplateObject(cooked, raw) {
     return cooked;
 };
 
+var __setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
 function __importStar(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result.default = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 }
 
@@ -4117,7 +4131,7 @@ function index_module_classNames() {
   }).join(' ').trim();
 }
 
-var css = ".reactEasyCrop_Container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden;\n  user-select: none;\n  touch-action: none;\n  cursor: move;\n}\n\n.reactEasyCrop_Image,\n.reactEasyCrop_Video {\n  max-width: 100%;\n  max-height: 100%;\n  margin: auto;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  will-change: transform; /* this improves performances and prevent painting issues on iOS Chrome */\n}\n\n.reactEasyCrop_CropArea {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  box-sizing: border-box;\n  box-shadow: 0 0 0 9999em;\n  color: rgba(0, 0, 0, 0.5);\n  overflow: hidden;\n}\n\n.reactEasyCrop_CropAreaRound {\n  border-radius: 50%;\n}\n\n.reactEasyCrop_CropAreaGrid::before {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 0;\n  bottom: 0;\n  left: 33.33%;\n  right: 33.33%;\n  border-top: 0;\n  border-bottom: 0;\n}\n\n.reactEasyCrop_CropAreaGrid::after {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 33.33%;\n  bottom: 33.33%;\n  left: 0;\n  right: 0;\n  border-left: 0;\n  border-right: 0;\n}\n";
+var css_248z = ".reactEasyCrop_Container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden;\n  user-select: none;\n  touch-action: none;\n  cursor: move;\n}\n\n.reactEasyCrop_Image,\n.reactEasyCrop_Video {\n  max-width: 100%;\n  max-height: 100%;\n  margin: auto;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  will-change: transform; /* this improves performances and prevent painting issues on iOS Chrome */\n}\n\n.reactEasyCrop_CropArea {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  box-sizing: border-box;\n  box-shadow: 0 0 0 9999em;\n  color: rgba(0, 0, 0, 0.5);\n  overflow: hidden;\n}\n\n.reactEasyCrop_CropAreaRound {\n  border-radius: 50%;\n}\n\n.reactEasyCrop_CropAreaGrid::before {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 0;\n  bottom: 0;\n  left: 33.33%;\n  right: 33.33%;\n  border-top: 0;\n  border-bottom: 0;\n}\n\n.reactEasyCrop_CropAreaGrid::after {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 33.33%;\n  bottom: 33.33%;\n  left: 0;\n  right: 0;\n  border-left: 0;\n  border-right: 0;\n}\n";
 
 var MIN_ZOOM = 1;
 var MAX_ZOOM = 3;
@@ -4209,7 +4223,7 @@ function (_super) {
     };
 
     _this.computeSizes = function () {
-      var _a, _b, _c, _d;
+      var _a, _b, _c, _d, _e, _f;
 
       var mediaRef = _this.imageRef || _this.videoRef;
 
@@ -4222,6 +4236,10 @@ function (_super) {
           naturalHeight: ((_c = _this.imageRef) === null || _c === void 0 ? void 0 : _c.naturalHeight) || ((_d = _this.videoRef) === null || _d === void 0 ? void 0 : _d.videoHeight) || 0
         };
         var cropSize = _this.props.cropSize ? _this.props.cropSize : getCropSize(mediaRef.offsetWidth, mediaRef.offsetHeight, _this.containerRect.width, _this.containerRect.height, _this.props.aspect, _this.props.rotation);
+
+        if (((_e = _this.state.cropSize) === null || _e === void 0 ? void 0 : _e.height) !== cropSize.height || ((_f = _this.state.cropSize) === null || _f === void 0 ? void 0 : _f.width) !== cropSize.width) {
+          _this.props.onCropSizeChange && _this.props.onCropSizeChange(cropSize);
+        }
 
         _this.setState({
           cropSize: cropSize
@@ -4268,11 +4286,10 @@ function (_super) {
     };
 
     _this.onDragStart = function (_a) {
-      var x = _a.x,
-          y = _a.y;
-
       var _b, _c;
 
+      var x = _a.x,
+          y = _a.y;
       _this.dragStartPosition = {
         x: x,
         y: y
@@ -4425,7 +4442,7 @@ function (_super) {
     if (!this.props.disableAutomaticStylesInjection) {
       this.styleRef = document.createElement('style');
       this.styleRef.setAttribute('type', 'text/css');
-      this.styleRef.innerHTML = css;
+      this.styleRef.innerHTML = css_248z;
       document.head.appendChild(this.styleRef);
     } // when rendered via SSR, the image can already be loaded and its onLoad callback will never be called
 
@@ -4537,7 +4554,7 @@ function (_super) {
         containerClassName = _d.containerClassName,
         cropAreaClassName = _d.cropAreaClassName,
         mediaClassName = _d.mediaClassName;
-    return external_this_React_default.a.createElement("div", {
+    return /*#__PURE__*/external_this_React_default.a.createElement("div", {
       onMouseDown: this.onMouseDown,
       onTouchStart: this.onTouchStart,
       ref: function ref(el) {
@@ -4546,7 +4563,7 @@ function (_super) {
       "data-testid": "container",
       style: containerStyle,
       className: index_module_classNames('reactEasyCrop_Container', containerClassName)
-    }, image ? external_this_React_default.a.createElement("img", __assign({
+    }, image ? /*#__PURE__*/external_this_React_default.a.createElement("img", __assign({
       alt: "",
       className: index_module_classNames('reactEasyCrop_Image', mediaClassName)
     }, mediaProps, {
@@ -4558,7 +4575,7 @@ function (_super) {
         transform: transform || "translate(" + x + "px, " + y + "px) rotate(" + rotation + "deg) scale(" + zoom + ")"
       }),
       onLoad: this.onMediaLoad
-    })) : video && external_this_React_default.a.createElement("video", __assign({
+    })) : video && /*#__PURE__*/external_this_React_default.a.createElement("video", __assign({
       autoPlay: true,
       loop: true,
       muted: true,
@@ -4573,7 +4590,7 @@ function (_super) {
         transform: transform || "translate(" + x + "px, " + y + "px) rotate(" + rotation + "deg) scale(" + zoom + ")"
       }),
       controls: false
-    })), this.state.cropSize && external_this_React_default.a.createElement("div", {
+    })), this.state.cropSize && /*#__PURE__*/external_this_React_default.a.createElement("div", {
       style: __assign(__assign({}, cropAreaStyle), {
         width: this.state.cropSize.width,
         height: this.state.cropSize.height
@@ -26139,7 +26156,7 @@ module.exports = memize;
 /***/ 66:
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
+var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.2
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
