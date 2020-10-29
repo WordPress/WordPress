@@ -3876,6 +3876,21 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 403, __( 'Sorry, comments are closed for this item.' ) );
 		}
 
+		if (
+			'publish' === get_post_status( $post_id ) &&
+			! current_user_can( 'edit_post', $post_id ) &&
+			post_password_required( $post_id )
+		) {
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed to comment on this post.' ) );
+		}
+
+		if (
+			'private' === get_post_status( $post_id ) &&
+			! current_user_can( 'read_post', $post_id )
+		) {
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed to comment on this post.' ) );
+		}
+
 		$comment = array(
 			'comment_post_ID' => $post_id,
 			'comment_content' => trim( $content_struct['content'] ),
