@@ -165,7 +165,7 @@ foreach ( $menu as $id => $data ) {
 	}
 
 	/*
-	 * If there is only one submenu and it is has same destination as the parent,
+	 * If there is only one submenu and it has same destination as the parent,
 	 * remove the submenu.
 	 */
 	if ( ! empty( $submenu[ $data[2] ] ) && 1 === count( $submenu[ $data[2] ] ) ) {

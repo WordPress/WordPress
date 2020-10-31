@@ -3,7 +3,7 @@
  * Core Metadata API
  *
  * Functions for retrieving and manipulating metadata of various WordPress object types. Metadata
- * for an object is a represented by a simple key-value pair. Objects may contain multiple
+ * for an object is represented by a simple key-value pair. Objects may contain multiple
  * metadata entries that share the same key and differ only in their value.
  *
  * @package WordPress
