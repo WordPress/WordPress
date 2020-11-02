@@ -2216,7 +2216,7 @@ function sanitize_title_for_query( $title ) {
  *
  * @param string $title     The title to be sanitized.
  * @param string $raw_title Optional. Not used. Default empty.
- * @param string $context   Optional. The operation for which the string is sanitized.
+ * @param string $context   Optional. The context for the sanitization. When set to 'save', additional entities are converted to hyphens or stripped entirely.
  *                          Default 'display'.
  * @return string The sanitized title.
  */
