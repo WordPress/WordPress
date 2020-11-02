@@ -2164,6 +2164,7 @@ function sanitize_key( $key ) {
  * @param string $title          The string to be sanitized.
  * @param string $fallback_title Optional. A title to use if $title is empty. Default empty.
  * @param string $context        Optional. The operation for which the string is sanitized.
+ *                               When set to 'save', the string runs through remove_accents().
  *                               Default 'save'.
  * @return string The sanitized string.
  */
@@ -2216,8 +2217,9 @@ function sanitize_title_for_query( $title ) {
  *
  * @param string $title     The title to be sanitized.
  * @param string $raw_title Optional. Not used. Default empty.
- * @param string $context   Optional. The context for the sanitization. When set to 'save', additional entities are converted to hyphens or stripped entirely.
- *                          Default 'display'.
+ * @param string $context   Optional. The operation for which the string is sanitized.
+ *                          When set to 'save', additional entities are converted to hyphens
+ *                          or stripped entirely. Default 'display'.
  * @return string The sanitized title.
  */
 function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'display' ) {
