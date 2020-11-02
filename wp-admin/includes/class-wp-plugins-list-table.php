@@ -230,7 +230,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				'compatibility' => new stdClass(),
 			);
 
-			$filter_payload = (object) array_merge( $filter_payload, array_intersect_key( $plugin_data, $filter_payload ) );
+			$filter_payload = (object) wp_parse_args( $plugin_data, $filter_payload );
 
 			$auto_update_forced = wp_is_auto_update_forced_for_item( 'plugin', null, $filter_payload );
 

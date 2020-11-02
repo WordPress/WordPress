@@ -974,7 +974,7 @@ class WP_Debug_Data {
 						'requires_php'  => '',
 						'compatibility' => new stdClass(),
 					);
-					$item = array_merge( $item, array_intersect_key( $plugin, $item ) );
+					$item = wp_parse_args( $plugin, $item );
 				}
 
 				$auto_update_forced = wp_is_auto_update_forced_for_item( 'plugin', null, (object) $item );
