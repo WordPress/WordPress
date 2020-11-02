@@ -791,7 +791,7 @@ class WP_Query {
 			$qv['menu_order'] = absint( $qv['menu_order'] );
 		}
 
-		// Fairly insane upper bound for search string lengths.
+		// Fairly large, potentially too large, upper bound for search string lengths.
 		if ( ! is_scalar( $qv['s'] ) || ( ! empty( $qv['s'] ) && strlen( $qv['s'] ) > 1600 ) ) {
 			$qv['s'] = '';
 		}
