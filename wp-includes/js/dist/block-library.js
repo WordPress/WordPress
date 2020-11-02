@@ -5785,7 +5785,11 @@ var heading = Object(external_this_wp_element_["createElement"])(external_this_w
 }));
 /* harmony default export */ var library_heading = (heading);
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
+var objectWithoutProperties = __webpack_require__(14);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/heading/deprecated.js
+
 
 
 
@@ -5841,7 +5845,57 @@ var deprecated_migrateCustomColors = function migrateCustomColors(attributes) {
   });
 };
 
+var TEXT_ALIGN_OPTIONS = ['left', 'right', 'center'];
+
+var deprecated_migrateTextAlign = function migrateTextAlign(attributes) {
+  var align = attributes.align,
+      rest = Object(objectWithoutProperties["a" /* default */])(attributes, ["align"]);
+
+  return TEXT_ALIGN_OPTIONS.includes(align) ? deprecated_objectSpread(deprecated_objectSpread({}, rest), {}, {
+    textAlign: align
+  }) : attributes;
+};
+
 var heading_deprecated_deprecated = [{
+  supports: {
+    align: ['wide', 'full'],
+    anchor: true,
+    className: false,
+    color: {
+      link: true
+    },
+    fontSize: true,
+    lineHeight: true,
+    __experimentalSelector: {
+      'core/heading/h1': 'h1',
+      'core/heading/h2': 'h2',
+      'core/heading/h3': 'h3',
+      'core/heading/h4': 'h4',
+      'core/heading/h5': 'h5',
+      'core/heading/h6': 'h6'
+    },
+    __unstablePasteTextInline: true
+  },
+  attributes: heading_deprecated_blockAttributes,
+  isEligible: function isEligible(_ref) {
+    var align = _ref.align;
+    return TEXT_ALIGN_OPTIONS.includes(align);
+  },
+  migrate: deprecated_migrateTextAlign,
+  save: function save(_ref2) {
+    var attributes = _ref2.attributes;
+    var align = attributes.align,
+        content = attributes.content,
+        level = attributes.level;
+    var TagName = 'h' + level;
+    var className = classnames_default()(Object(defineProperty["a" /* default */])({}, "has-text-align-".concat(align), align));
+    return Object(external_this_wp_element_["createElement"])(TagName, external_this_wp_blockEditor_["useBlockProps"].save({
+      className: className
+    }), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
+      value: content
+    }));
+  }
+}, {
   supports: blockSupports,
   attributes: deprecated_objectSpread(deprecated_objectSpread({}, heading_deprecated_blockAttributes), {}, {
     customTextColor: {
@@ -5851,11 +5905,13 @@ var heading_deprecated_deprecated = [{
       type: 'string'
     }
   }),
-  migrate: deprecated_migrateCustomColors,
-  save: function save(_ref) {
-    var _classnames;
+  migrate: function migrate(attributes) {
+    return deprecated_migrateCustomColors(deprecated_migrateTextAlign(attributes));
+  },
+  save: function save(_ref3) {
+    var _classnames2;
 
-    var attributes = _ref.attributes;
+    var attributes = _ref3.attributes;
     var align = attributes.align,
         content = attributes.content,
         customTextColor = attributes.customTextColor,
@@ -5863,7 +5919,7 @@ var heading_deprecated_deprecated = [{
         textColor = attributes.textColor;
     var tagName = 'h' + level;
     var textClass = Object(external_this_wp_blockEditor_["getColorClassName"])('color', textColor);
-    var className = classnames_default()((_classnames = {}, Object(defineProperty["a" /* default */])(_classnames, textClass, textClass), Object(defineProperty["a" /* default */])(_classnames, 'has-text-color', textColor || customTextColor), Object(defineProperty["a" /* default */])(_classnames, "has-text-align-".concat(align), align), _classnames));
+    var className = classnames_default()((_classnames2 = {}, Object(defineProperty["a" /* default */])(_classnames2, textClass, textClass), Object(defineProperty["a" /* default */])(_classnames2, 'has-text-color', textColor || customTextColor), Object(defineProperty["a" /* default */])(_classnames2, "has-text-align-".concat(align), align), _classnames2));
     return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
       className: className ? className : undefined,
       tagName: tagName,
@@ -5882,11 +5938,13 @@ var heading_deprecated_deprecated = [{
       type: 'string'
     }
   }),
-  migrate: deprecated_migrateCustomColors,
-  save: function save(_ref2) {
-    var _classnames2;
+  migrate: function migrate(attributes) {
+    return deprecated_migrateCustomColors(deprecated_migrateTextAlign(attributes));
+  },
+  save: function save(_ref4) {
+    var _classnames3;
 
-    var attributes = _ref2.attributes;
+    var attributes = _ref4.attributes;
     var align = attributes.align,
         content = attributes.content,
         customTextColor = attributes.customTextColor,
@@ -5894,7 +5952,7 @@ var heading_deprecated_deprecated = [{
         textColor = attributes.textColor;
     var tagName = 'h' + level;
     var textClass = Object(external_this_wp_blockEditor_["getColorClassName"])('color', textColor);
-    var className = classnames_default()((_classnames2 = {}, Object(defineProperty["a" /* default */])(_classnames2, textClass, textClass), Object(defineProperty["a" /* default */])(_classnames2, "has-text-align-".concat(align), align), _classnames2));
+    var className = classnames_default()((_classnames3 = {}, Object(defineProperty["a" /* default */])(_classnames3, textClass, textClass), Object(defineProperty["a" /* default */])(_classnames3, "has-text-align-".concat(align), align), _classnames3));
     return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
       className: className ? className : undefined,
       tagName: tagName,
@@ -5915,9 +5973,11 @@ var heading_deprecated_deprecated = [{
       type: 'string'
     }
   }),
-  migrate: deprecated_migrateCustomColors,
-  save: function save(_ref3) {
-    var attributes = _ref3.attributes;
+  migrate: function migrate(attributes) {
+    return deprecated_migrateCustomColors(deprecated_migrateTextAlign(attributes));
+  },
+  save: function save(_ref5) {
+    var attributes = _ref5.attributes;
     var align = attributes.align,
         level = attributes.level,
         content = attributes.content,
@@ -6123,13 +6183,13 @@ function HeadingEdit(_ref) {
       mergeBlocks = _ref.mergeBlocks,
       onReplace = _ref.onReplace,
       mergedStyle = _ref.mergedStyle;
-  var align = attributes.align,
+  var textAlign = attributes.textAlign,
       content = attributes.content,
       level = attributes.level,
       placeholder = attributes.placeholder;
   var tagName = 'h' + level;
   var blockProps = Object(external_this_wp_blockEditor_["useBlockProps"])({
-    className: classnames_default()(Object(defineProperty["a" /* default */])({}, "has-text-align-".concat(align), align)),
+    className: classnames_default()(Object(defineProperty["a" /* default */])({}, "has-text-align-".concat(textAlign), textAlign)),
     style: mergedStyle
   });
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], null, Object(external_this_wp_element_["createElement"])(HeadingLevelDropdown, {
@@ -6140,10 +6200,10 @@ function HeadingEdit(_ref) {
       });
     }
   })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["AlignmentToolbar"], {
-    value: align,
+    value: textAlign,
     onChange: function onChange(nextAlign) {
       setAttributes({
-        align: nextAlign
+        textAlign: nextAlign
       });
     }
   })), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], Object(esm_extends["a" /* default */])({
@@ -6170,7 +6230,7 @@ function HeadingEdit(_ref) {
       return onReplace([]);
     },
     placeholder: placeholder || Object(external_this_wp_i18n_["__"])('Write heading…'),
-    textAlign: align
+    textAlign: textAlign
   }, blockProps)));
 }
 
@@ -6191,11 +6251,11 @@ function HeadingEdit(_ref) {
 
 function heading_save_save(_ref) {
   var attributes = _ref.attributes;
-  var align = attributes.align,
+  var textAlign = attributes.textAlign,
       content = attributes.content,
       level = attributes.level;
   var TagName = 'h' + level;
-  var className = classnames_default()(Object(defineProperty["a" /* default */])({}, "has-text-align-".concat(align), align));
+  var className = classnames_default()(Object(defineProperty["a" /* default */])({}, "has-text-align-".concat(textAlign), textAlign));
   return Object(external_this_wp_element_["createElement"])(TagName, external_this_wp_blockEditor_["useBlockProps"].save({
     className: className
   }), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"].Content, {
@@ -6232,7 +6292,7 @@ var transforms_apiVersion$name$cate = {
   name: "core/heading",
   category: "text",
   attributes: {
-    align: {
+    textAlign: {
       type: "string"
     },
     content: {
@@ -6370,7 +6430,7 @@ var heading_metadata = {
   name: "core/heading",
   category: "text",
   attributes: {
-    align: {
+    textAlign: {
       type: "string"
     },
     content: {
@@ -6703,9 +6763,6 @@ function quote_save_save(_ref) {
     value: citation
   }));
 }
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(14);
 
 // EXTERNAL MODULE: external {"this":["wp","richText"]}
 var external_this_wp_richText_ = __webpack_require__(25);
@@ -17239,6 +17296,7 @@ function latest_posts_deprecated_objectSpread(target) { for (var i = 1; i < argu
  * Internal dependencies
  */
 var latest_posts_deprecated_metadata = {
+  apiVersion: 2,
   name: "core/latest-posts",
   category: "widgets",
   attributes: {
@@ -17739,7 +17797,14 @@ function LatestPostsEdit(_ref) {
     max: !hasPosts ? MAX_POSTS_COLUMNS : Math.min(MAX_POSTS_COLUMNS, latestPosts.length),
     required: true
   })));
-  var blockProps = Object(external_this_wp_blockEditor_["useBlockProps"])();
+  var blockProps = Object(external_this_wp_blockEditor_["useBlockProps"])({
+    className: classnames_default()(Object(defineProperty["a" /* default */])({
+      'wp-block-latest-posts__list': true,
+      'is-grid': postLayout === 'grid',
+      'has-dates': displayPostDate,
+      'has-author': displayAuthor
+    }, "columns-".concat(columns), postLayout === 'grid'))
+  });
   var hasPosts = Array.isArray(latestPosts) && latestPosts.length;
 
   if (!hasPosts) {
@@ -17773,16 +17838,9 @@ function LatestPostsEdit(_ref) {
 
   var dateFormat = Object(external_this_wp_date_["__experimentalGetSettings"])().formats.date;
 
-  return Object(external_this_wp_element_["createElement"])("div", blockProps, inspectorControls, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], {
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, inspectorControls, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToolbarGroup"], {
     controls: layoutControls
-  })), Object(external_this_wp_element_["createElement"])("ul", {
-    className: classnames_default()(Object(defineProperty["a" /* default */])({
-      'wp-block-latest-posts__list': true,
-      'is-grid': postLayout === 'grid',
-      'has-dates': displayPostDate,
-      'has-author': displayAuthor
-    }, "columns-".concat(columns), postLayout === 'grid'))
-  }, displayPosts.map(function (post, i) {
+  })), Object(external_this_wp_element_["createElement"])("ul", blockProps, displayPosts.map(function (post, i) {
     var titleTrimmed = Object(external_this_lodash_["invoke"])(post, ['title', 'rendered', 'trim']);
     var excerpt = post.excerpt.rendered;
     var currentAuthor = authorList.find(function (author) {
@@ -17855,6 +17913,7 @@ function LatestPostsEdit(_ref) {
 
 
 var latest_posts_metadata = {
+  apiVersion: 2,
   name: "core/latest-posts",
   category: "widgets",
   attributes: {

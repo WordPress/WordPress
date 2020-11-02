@@ -295,6 +295,8 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   background-color: #fff;
   z-index: 90;
   display: none; }
+  .is-focusing-regions .interface-interface-skeleton__footer[role="region"] {
+    position: fixed; }
   @media (min-width: 782px) {
     .interface-interface-skeleton__footer {
       display: flex; } }

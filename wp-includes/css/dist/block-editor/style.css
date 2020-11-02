@@ -1087,27 +1087,26 @@
   .block-editor-block-preview__container.editor-styles-wrapper {
     padding: 0;
     margin: 0; }
-
-.block-editor-block-preview__content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform-origin: top left;
-  text-align: initial;
-  margin: 0;
-  overflow: visible;
-  min-height: auto; }
-  .block-editor-block-preview__content .block-editor-block-list__insertion-point,
-  .block-editor-block-preview__content .block-editor-block-drop-zone,
-  .block-editor-block-preview__content .reusable-block-indicator,
-  .block-editor-block-preview__content .block-list-appender {
-    display: none; }
-  .block-editor-block-preview__content .block-editor-block-list__layout.is-root-container {
-    padding-left: 0;
-    padding-right: 0; }
-    .block-editor-block-preview__content .block-editor-block-list__layout.is-root-container > .wp-block[data-align="full"] {
-      margin-left: 0;
-      margin-right: 0; }
+  .block-editor-block-preview__container .block-editor-block-preview__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+    text-align: initial;
+    margin: 0;
+    overflow: visible;
+    min-height: auto; }
+    .block-editor-block-preview__container .block-editor-block-preview__content .block-editor-block-list__insertion-point,
+    .block-editor-block-preview__container .block-editor-block-preview__content .block-editor-block-drop-zone,
+    .block-editor-block-preview__container .block-editor-block-preview__content .reusable-block-indicator,
+    .block-editor-block-preview__container .block-editor-block-preview__content .block-list-appender {
+      display: none; }
+    .block-editor-block-preview__container .block-editor-block-preview__content .block-editor-block-list__layout.is-root-container {
+      padding-left: 0;
+      padding-right: 0; }
+      .block-editor-block-preview__container .block-editor-block-preview__content .block-editor-block-list__layout.is-root-container > .wp-block[data-align="full"] {
+        margin-left: 0;
+        margin-right: 0; }
 
 .block-editor-block-settings-menu__popover .components-dropdown-menu__menu {
   padding: 0; }

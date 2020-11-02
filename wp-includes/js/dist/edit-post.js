@@ -5383,7 +5383,7 @@ function PreferencesModal(_ref) {
   }, Object(external_this_wp_element_["createElement"])(enable_feature, {
     featureName: "keepCaretInsideBlock",
     help: Object(external_this_wp_i18n_["__"])('Aids screen readers by stopping text caret from leaving blocks.'),
-    label: Object(external_this_wp_i18n_["__"])('Contain text cursor inside block.')
+    label: Object(external_this_wp_i18n_["__"])('Contain text cursor inside block')
   })), Object(external_this_wp_element_["createElement"])(section, {
     title: Object(external_this_wp_i18n_["__"])('Appearance')
   }, Object(external_this_wp_element_["createElement"])(enable_feature, {

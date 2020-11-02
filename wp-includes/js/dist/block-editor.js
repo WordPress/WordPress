@@ -25197,7 +25197,7 @@ var __experimentalGetParsedReusableBlock = Object(rememo["a" /* default */])(fun
   // workaround until #22127 is fixed.
 
 
-  return Object(external_this_wp_blocks_["parse"])(reusableBlock.content.raw || reusableBlock.content);
+  return Object(external_this_wp_blocks_["parse"])(typeof reusableBlock.content.raw === 'string' ? reusableBlock.content.raw : reusableBlock.content);
 }, function (state) {
   return [getReusableBlocks(state)];
 });
@@ -30262,11 +30262,12 @@ function BlockMover(_ref) {
 
   if (isLocked || isFirst && isLast && !rootClientId) {
     return null;
-  } // We emulate a disabled state because forcefully applying the `disabled`
+  }
+
+  var dragHandleLabel = clientIds.length === 1 ? Object(external_this_wp_i18n_["__"])('Drag block') : Object(external_this_wp_i18n_["__"])('Drag blocks'); // We emulate a disabled state because forcefully applying the `disabled`
   // attribute on the buttons while it has focus causes the screen to change
   // to an unfocused state (body as active element) without firing blur on,
   // the rendering parent, leaving it unable to react to focus out.
-
 
   return Object(external_this_wp_element_["createElement"])("div", {
     className: classnames_default()('block-editor-block-mover', {
@@ -30284,7 +30285,7 @@ function BlockMover(_ref) {
       icon: drag_handle,
       className: "block-editor-block-mover__drag-handle",
       "aria-hidden": "true",
-      label: Object(external_this_wp_i18n_["_n"])('Drag block', 'Drag blocks', clientIds.length) // Should not be able to tab to drag handle as this
+      label: dragHandleLabel // Should not be able to tab to drag handle as this
       // button can only be used with a pointer device.
       ,
       tabIndex: "-1",
@@ -31556,6 +31557,7 @@ function BlockSettingsDropdown(_ref) {
       return _ref2.apply(this, arguments);
     };
   }() : external_this_lodash_["noop"], [__experimentalSelectBlock]);
+  var removeBlockLabel = count === 1 ? Object(external_this_wp_i18n_["__"])('Remove block') : Object(external_this_wp_i18n_["__"])('Remove blocks');
   return Object(external_this_wp_element_["createElement"])(BlockActions, {
     clientIds: clientIds,
     __experimentalUpdateSelection: !__experimentalSelectBlock
@@ -31619,7 +31621,7 @@ function BlockSettingsDropdown(_ref) {
       }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuGroup"], null, !isLocked && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
         onClick: Object(external_this_lodash_["flow"])(onClose, onRemove, updateSelection),
         shortcut: shortcuts.remove
-      }, Object(external_this_wp_i18n_["_n"])('Remove block', 'Remove blocks', count))));
+      }, removeBlockLabel)));
     });
   });
 }
@@ -36040,7 +36042,7 @@ var url_input_URLInput = /*#__PURE__*/function (_Component) {
     _this.bindSuggestionNode = _this.bindSuggestionNode.bind(Object(assertThisInitialized["a" /* default */])(_this));
     _this.autocompleteRef = props.autocompleteRef || Object(external_this_wp_element_["createRef"])();
     _this.inputRef = Object(external_this_wp_element_["createRef"])();
-    _this.updateSuggestions = Object(external_this_lodash_["throttle"])(_this.updateSuggestions.bind(Object(assertThisInitialized["a" /* default */])(_this)), 200);
+    _this.updateSuggestions = Object(external_this_lodash_["debounce"])(_this.updateSuggestions.bind(Object(assertThisInitialized["a" /* default */])(_this)), 200);
     _this.suggestionNodes = [];
     _this.isUpdatingSuggestions = false;
     _this.state = {

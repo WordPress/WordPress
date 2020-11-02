@@ -190,11 +190,11 @@
     .wp-block-column {
       flex-basis: 100% !important; } }
   @media (min-width: 600px) and (max-width: 781px) {
-    .wp-block-column {
+    .wp-block-column:not(:only-child) {
       flex-basis: calc(50% - 1em) !important;
       flex-grow: 0; }
-      .wp-block-column:nth-child(even) {
-        margin-right: 2em; } }
+    .wp-block-column:nth-child(even) {
+      margin-right: 2em; } }
   @media (min-width: 782px) {
     .wp-block-column {
       flex-basis: 0;

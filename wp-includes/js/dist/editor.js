@@ -12702,7 +12702,9 @@ var provider_EditorProvider = /*#__PURE__*/function (_Component) {
     blocks: getEditorBlocks(),
     selectionStart: getEditorSelectionStart(),
     selectionEnd: getEditorSelectionEnd(),
-    reusableBlocks: select('core').getEntityRecords('postType', 'wp_block'),
+    reusableBlocks: select('core').getEntityRecords('postType', 'wp_block', {
+      per_page: -1
+    }),
     hasUploadPermissions: Object(external_this_lodash_["defaultTo"])(canUser('create', 'media'), true),
     // This selector is only defined on mobile.
     isPostTitleSelected: isPostTitleSelected && isPostTitleSelected()
