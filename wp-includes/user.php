@@ -3773,7 +3773,7 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 		return new WP_Error( 'invalid_email', __( 'Invalid email address.' ) );
 	}
 
-	if ( ! $action_name ) {
+	if ( ! in_array( $action_name, _wp_privacy_action_request_types(), true ) ) {
 		return new WP_Error( 'invalid_action', __( 'Invalid action name.' ) );
 	}
 
