@@ -32,6 +32,7 @@
 							'depth'          => 1,
 							'link_before'    => '<span>',
 							'link_after'     => '</span>',
+							'fallback_cb'    => 'false',
 						)
 					);
 					?>

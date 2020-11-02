@@ -174,6 +174,10 @@ class Twenty_Twenty_One_Custom_Colors {
 			$classes[] = 'has-background-light';
 		}
 
+		if ( 'ffffff' === strtolower( $background_color ) ) {
+			$classes[] = 'has-background-white';
+		}
+
 		return $classes;
 	}
 }

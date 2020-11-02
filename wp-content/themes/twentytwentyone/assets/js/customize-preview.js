@@ -1,67 +1,57 @@
-( function( api ) {
-	/**
-	 * Get luminance from a HEX color.
-	 *
-	 * @param {string} hex - The hex color.
-	 *
-	 * @return {number} - Returns the luminance, number between 0 and 255.
-	 */
-	function twentytwentyoneGetHexLum( hex ) {
-		var rgb = twentytwentyoneGetRgbFromHex( hex );
-		return Math.round( ( 0.2126 * rgb.r ) + ( 0.7152 * rgb.g ) + ( 0.0722 * rgb.b ) );
-	}
-
-	/**
-	 * Get RGB from HEX.
-	 *
-	 * @param {string} hex - The hex color.
-	 *
-	 * @return {Object} - Returns an object {r, g, b}
-	 */
-	function twentytwentyoneGetRgbFromHex( hex ) {
-		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-			result;
-
-		// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF").
-		hex = hex.replace( shorthandRegex, function( m, r, g, b ) {
-			return r.toString() + r.toString() + g.toString() + g.toString() + b.toString() + b.toString();
-		} );
-
-		result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec( hex );
-		return result ? {
-			r: parseInt( result[1], 16 ),
-			g: parseInt( result[2], 16 ),
-			b: parseInt( result[3], 16 )
-		} : null;
-	}
-
+/* global twentytwentyoneGetHexLum, jQuery */
+( function() {
 	// Add listener for the "background_color" control.
-	api( 'background_color', function( value ) {
+	wp.customize( 'background_color', function( value ) {
 		value.bind( function( to ) {
 			var lum = twentytwentyoneGetHexLum( to ),
 				isDark = 127 > lum,
 				textColor = ! isDark ? 'var(--global--color-dark-gray)' : 'var(--global--color-light-gray)',
-				tableColor = ! isDark ? 'var(--global--color-light-gray)' : 'var(--global--color-dark-gray)';
+				tableColor = ! isDark ? 'var(--global--color-light-gray)' : 'var(--global--color-dark-gray)',
+				stylesheetID = 'twentytwentyone-customizer-inline-styles',
+				stylesheet,
+				styles;
 
 			// Modify the body class depending on whether this is a dark background or not.
 			if ( isDark ) {
 				if ( ! document.body.classList.contains( 'has-background-dark' ) ) {
 					document.body.classList.add( 'has-background-dark' );
 				}
+				if ( document.documentElement.classList.contains( 'is-dark-mode' ) ) {
+					document.documentElement.classList.remove( 'is-dark-mode' );
+				}
 			} else {
 				document.body.classList.remove( 'has-background-dark' );
 			}
 
-			document.documentElement.style.setProperty( '--global--color-primary', textColor );
-			document.documentElement.style.setProperty( '--global--color-secondary', textColor );
-			document.documentElement.style.setProperty( '--global--color-background', to );
+			// Toggle the white background class.
+			if ( '#ffffff' === to ) {
+				document.body.classList.add( 'has-background-white' );
+			} else {
+				document.body.classList.remove( 'has-background-white' );
+			}
 
-			document.documentElement.style.setProperty( '--button--color-background', textColor );
-			document.documentElement.style.setProperty( '--button--color-text', to );
-			document.documentElement.style.setProperty( '--button--color-text-hover', textColor );
+			stylesheet = jQuery( '#' + stylesheetID );
+			styles = '';
+			// If the stylesheet doesn't exist, create it and append it to <head>.
+			if ( ! stylesheet.length ) {
+				jQuery( '#twenty-twenty-one-style-inline-css' ).after( '<style id="' + stylesheetID + '"></style>' );
+				stylesheet = jQuery( '#' + stylesheetID );
+			}
 
-			document.documentElement.style.setProperty( '--table--stripes-border-color', tableColor );
-			document.documentElement.style.setProperty( '--table--stripes-background-color', tableColor );
+			// Generate the styles.
+			styles += '--global--color-primary:' + textColor + ';';
+			styles += '--global--color-secondary:' + textColor + ';';
+			styles += '--global--color-background:' + to + ';';
+
+			styles += '--button--color-background:' + textColor + ';';
+			styles += '--button--color-text:' + to + ';';
+			styles += '--button--color-text-hover:' + textColor + ';';
+
+			styles += '--table--stripes-border-color:' + tableColor + ';';
+			styles += '--table--stripes-background-color:' + tableColor + ';';
+
+			// Add the styles.
+			stylesheet.html( ':root{' + styles + '}' );
 		} );
 	} );
-}( wp.customize, _ ) );
+}() );

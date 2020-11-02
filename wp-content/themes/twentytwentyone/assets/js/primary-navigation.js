@@ -14,6 +14,7 @@
 function twentytwentyoneToggleAriaExpanded( el, withListeners ) {
 	if ( 'true' !== el.getAttribute( 'aria-expanded' ) ) {
 		el.setAttribute( 'aria-expanded', 'true' );
+		twentytwentyoneSubmenuPosition( el.parentElement );
 		if ( withListeners ) {
 			document.addEventListener( 'click', twentytwentyoneCollapseMenuOnClickOutside );
 		}
@@ -30,6 +31,25 @@ function twentytwentyoneCollapseMenuOnClickOutside( event ) {
 		document.getElementById( 'site-navigation' ).querySelectorAll( '.sub-menu-toggle' ).forEach( function( button ) {
 			button.setAttribute( 'aria-expanded', 'false' );
 		} );
+	}
+}
+
+/**
+ * Changes the position of submenus so they always fit the screen horizontally.
+ *
+ * @param {Element} li - The li element.
+ */
+function twentytwentyoneSubmenuPosition( li ) {
+	var subMenu = li.querySelector( 'ul.sub-menu' ),
+		rect = subMenu.getBoundingClientRect(),
+		right = Math.round( rect.right ),
+		left = Math.round( rect.left ),
+		windowWidth = Math.round( window.innerWidth );
+
+	if ( right > windowWidth ) {
+		subMenu.classList.add( 'submenu-reposition-right' );
+	} else if ( document.body.classList.contains( 'rtl' ) && left < 0 ) {
+		subMenu.classList.add( 'submenu-reposition-left' );
 	}
 }
 
@@ -94,7 +114,7 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 			tabKey = event.keyCode === 9;
 			shiftKey = event.shiftKey;
 			escKey = event.keyCode === 27;
-			activeEl = document.activeElement;
+			activeEl = document.activeElement; // jshint ignore:line
 			lastEl = elements[ elements.length - 1 ];
 			firstEl = elements[0];
 
@@ -124,6 +144,7 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 		document.getElementById( 'site-navigation' ).querySelectorAll( '.menu-wrapper > .menu-item-has-children' ).forEach( function( li ) {
 			li.addEventListener( 'mouseenter', function() {
 				this.querySelector( '.sub-menu-toggle' ).setAttribute( 'aria-expanded', 'true' );
+				twentytwentyoneSubmenuPosition( li );
 			} );
 			li.addEventListener( 'mouseleave', function() {
 				this.querySelector( '.sub-menu-toggle' ).setAttribute( 'aria-expanded', 'false' );

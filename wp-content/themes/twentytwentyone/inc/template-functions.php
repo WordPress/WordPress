@@ -94,82 +94,6 @@ function twenty_twenty_one_comment_form_defaults( $defaults ) {
 add_filter( 'comment_form_defaults', 'twenty_twenty_one_comment_form_defaults' );
 
 /**
- * Filters the default archive titles.
- *
- * @since 1.0.0
- *
- * @return string
- */
-function twenty_twenty_one_get_the_archive_title() {
-	if ( is_category() ) {
-		return sprintf(
-			/* translators: %s: The term title. */
-			esc_html__( 'Category Archives: %s', 'twentytwentyone' ),
-			'<span class="page-description">' . single_term_title( '', false ) . '</span>'
-		);
-	}
-
-	if ( is_tag() ) {
-		return sprintf(
-			/* translators: %s: The term title. */
-			esc_html__( 'Tag Archives: %s', 'twentytwentyone' ),
-			'<span class="page-description">' . single_term_title( '', false ) . '</span>'
-		);
-	}
-
-	if ( is_author() ) {
-		return sprintf(
-			/* translators: %s: The author name. */
-			esc_html__( 'Author Archives: %s', 'twentytwentyone' ),
-			'<span class="page-description">' . get_the_author_meta( 'display_name' ) . '</span>'
-		);
-	}
-
-	if ( is_year() ) {
-		return sprintf(
-			/* translators: %s: The year. */
-			esc_html__( 'Yearly Archives: %s', 'twentytwentyone' ),
-			'<span class="page-description">' . get_the_date( _x( 'Y', 'yearly archives date format', 'twentytwentyone' ) ) . '</span>'
-		);
-	}
-
-	if ( is_month() ) {
-		return sprintf(
-			/* translators: %s: The month. */
-			esc_html__( 'Monthly Archives: %s', 'twentytwentyone' ),
-			'<span class="page-description">' . get_the_date( _x( 'F Y', 'monthly archives date format', 'twentytwentyone' ) ) . '</span>'
-		);
-	}
-
-	if ( is_day() ) {
-		return sprintf(
-			/* translators: %s: The day. */
-			esc_html__( 'Daily Archives: %s', 'twentytwentyone' ),
-			'<span class="page-description">' . get_the_date() . '</span>'
-		);
-	}
-
-	if ( is_post_type_archive() ) {
-		return sprintf(
-			/* translators: %s: Post type singular name. */
-			esc_html__( '%s Archives', 'twentytwentyone' ),
-			get_post_type_object( get_queried_object()->name )->labels->singular_name
-		);
-	}
-
-	if ( is_tax() ) {
-		return sprintf(
-			/* translators: %s: Taxonomy singular name. */
-			esc_html__( '%s Archives', 'twentytwentyone' ),
-			get_taxonomy( get_queried_object()->taxonomy )->labels->singular_name
-		);
-	}
-
-	return esc_html__( 'Archives:', 'twentytwentyone' );
-}
-add_filter( 'get_the_archive_title', 'twenty_twenty_one_get_the_archive_title' );
-
-/**
  * Determines if post thumbnail can be displayed.
  *
  * @since 1.0.0
@@ -487,6 +411,11 @@ add_filter( 'the_password_form', 'twenty_twenty_one_password_form' );
  * @return array
  */
 function twenty_twenty_one_get_attachment_image_attributes( $attr, $attachment, $size ) {
+
+	if ( isset( $attr['class'] ) && false !== strpos( $attr['class'], 'custom-logo' ) ) {
+		return $attr;
+	}
+
 	$width  = false;
 	$height = false;
 
@@ -505,7 +434,7 @@ function twenty_twenty_one_get_attachment_image_attributes( $attr, $attachment, 
 
 		// Add style.
 		$attr['style'] = isset( $attr['style'] ) ? $attr['style'] : '';
-		$attr['style'] = 'width:100%;height:' . round( 100 * $meta['height'] / $meta['width'], 2 ) . '%;' . $attr['style'];
+		$attr['style'] = 'width:100%;height:' . round( 100 * $height / $width, 2 ) . '%;' . $attr['style'];
 	}
 
 	return $attr;
