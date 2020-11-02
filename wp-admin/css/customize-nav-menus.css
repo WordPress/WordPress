@@ -65,6 +65,7 @@
 
 .wp-customizer .menu-item-bar .menu-item-handle {
 	width: 100%;
+	max-width: 100%;
 	background: #fff;
 }
 
