@@ -297,16 +297,35 @@
 @media screen and (max-width: 782px) {
 	.about__section.has-2-columns.is-wider-right,
 	.about__section.has-2-columns.is-wider-left,
-	.about__section.has-3-columns,
-	.about__section.has-4-columns {
+	.about__section.has-3-columns {
 		display: block;
 		padding-bottom: 16px;
 	}
 
-	.about__section.has-3-columns .column:nth-of-type(n),
-	.about__section.has-4-columns .column:nth-of-type(n) {
+	.about__section.has-3-columns .column:nth-of-type(n) {
 		padding-top: 16px;
 		padding-bottom: 16px;
+	}
+
+	.about__section.has-4-columns {
+		-ms-grid-columns: (1fr)[2];
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.about__section.has-4-columns .column:nth-of-type(2n+1) {
+		-ms-grid-column: 1;
+		grid-column-start: 1;
+	}
+
+	.about__section.has-4-columns .column:nth-of-type(2n) {
+		-ms-grid-column: 2;
+		grid-column-start: 2;
+	}
+
+	.about__section.has-4-columns .column:nth-of-type(4n+3),
+	.about__section.has-4-columns .column:nth-of-type(4n) {
+		-ms-grid-row: 2;
+		grid-row-start: 2;
 	}
 }
 
@@ -325,6 +344,18 @@
 
 	.about__section.has-2-columns .is-edge-to-edge {
 		order: -1;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.about__section.has-4-columns {
+		display: block;
+		padding-bottom: 16px;
+	}
+
+	.about__section.has-4-columns .column:nth-of-type(n) {
+		padding-top: 16px;
+		padding-bottom: 16px;
 	}
 }
 
@@ -1114,7 +1145,7 @@
 }
 
 .freedoms-php .column .freedoms-image {
-	background-image: url('../images/freedoms-2x.png');
+	background-image: url('../images/freedoms.png');
 	background-size: 100%;
 	padding-top: 100%;
 }
