@@ -313,7 +313,7 @@ function core_auto_updates_settings() {
 		} else {
 			update_site_option( 'auto_update_core_major', 0 );
 		}
-		echo '<div class="notice notice-info is-dismissible"><p>';
+		echo '<div class="notice notice-success is-dismissible"><p>';
 		_e( 'WordPress auto-update settings updated.' );
 		echo '</p></div>';
 	}
