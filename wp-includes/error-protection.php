@@ -111,6 +111,27 @@ function wp_is_fatal_error_handler_enabled() {
 	/**
 	 * Filters whether the fatal error handler is enabled.
 	 *
+	 * **Important:** This filter runs before it can be used by plugins. It cannot
+	 * be used by plugins, mu-plugins, or themes. To use this filter you must define
+	 * a `$wp_filter` global before WordPress loads, usually in `wp-config.php`.
+	 *
+	 * Example:
+	 *
+	 *     $GLOBALS['wp_filter'] = array(
+	 *         'wp_fatal_error_handler_enabled' => array(
+	 *             10 => array(
+	 *                 array(
+	 *                     'accepted_args' => 0,
+	 *                     'function'      => function() {
+	 *                         return false;
+	 *                     },
+	 *                 ),
+	 *             ),
+	 *         ),
+	 *     );
+	 *
+	 * Alternatively you can use the `WP_DISABLE_FATAL_ERROR_HANDLER` constant.
+	 *
 	 * @since 5.2.0
 	 *
 	 * @param bool $enabled True if the fatal error handler is enabled, false otherwise.
