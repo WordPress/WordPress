@@ -138,7 +138,7 @@ function wp_reset_postdata() {
 /**
  * Determines whether the query is for an existing archive page.
  *
- * Month, Year, Category, Author, Post Type archive...
+ * Archive pages include {@link https://developer.wordpress.org/reference/functions/is_category/ category}, {@link https://developer.wordpress.org/reference/functions/is_tag/ tag}, {@link https://developer.wordpress.org/reference/functions/is_author/ author}, {@link https://developer.wordpress.org/reference/functions/is_date/ date}, {@link https://developer.wordpress.org/reference/functions/is_post_type_archive/ custom post type}, and {@link https://developer.wordpress.org/reference/functions/is_tax/ custom taxonomy} based archives.
  *
  * For more information on this and similar theme functions, check out
  * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
