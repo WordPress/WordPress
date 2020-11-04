@@ -271,7 +271,7 @@ final class WP_Post_Type {
 	 *
 	 * @link https://developer.wordpress.org/block-editor/developers/block-api/block-templates/
 	 *
-	 * @since 5.6.0
+	 * @since 5.0.0
 	 * @var array $template
 	 */
 	public $template = array();
@@ -288,7 +288,7 @@ final class WP_Post_Type {
 	 *
 	 * @link https://developer.wordpress.org/block-editor/developers/block-api/block-templates/
 	 *
-	 * @since 5.6.0
+	 * @since 5.0.0
 	 * @var string|false $template_lock
 	 */
 	public $template_lock = false;
