@@ -364,7 +364,9 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Group */
 
-.wp-block[data-type="core/group"] > .editor-block-list__block-edit > div > .wp-block-group > .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block {
+.wp-block[data-type="core/group"] > .editor-block-list__block-edit > div > .wp-block-group > .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block,
+[data-align="wide"] .wp-block,
+[data-align="full"] .wp-block {
 	max-width: 634px;
 }
 
