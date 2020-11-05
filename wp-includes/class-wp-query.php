@@ -3607,9 +3607,17 @@ class WP_Query {
 	/**
 	 * Is the query for an existing archive page?
 	 *
-	 * Month, Year, Category, Author, Post Type archive...
+	 * Archive pages include category, tag, author, date, custom post type,
+	 * and custom taxonomy based archives.
 	 *
 	 * @since 3.1.0
+	 *
+	 * @see WP_Query::is_category()
+	 * @see WP_Query::is_tag()
+	 * @see WP_Query::is_author()
+	 * @see WP_Query::is_date()
+	 * @see WP_Query::is_post_type_archive()
+	 * @see WP_Query::is_tax()
 	 *
 	 * @return bool Whether the query is for an existing archive page.
 	 */
