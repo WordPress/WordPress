@@ -246,7 +246,8 @@ Inter variable font. Usage:
 	font-weight: 700;
 	letter-spacing: -0.0415625em;
 	line-height: 1.25;
-	margin: 40px 0 25px;
+	margin-top: 40px;
+	margin-bottom: 25px;
 }
 
 .editor-post-title__block .editor-post-title__input,
