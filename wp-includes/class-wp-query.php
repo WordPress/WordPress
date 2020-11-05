@@ -3944,9 +3944,9 @@ class WP_Query {
 	 * If you set a static page for the front page of your site, this function will return
 	 * true only on the page you set as the "Posts page".
 	 *
-	 * @see WP_Query::is_front_page()
-	 *
 	 * @since 3.1.0
+	 *
+	 * @see WP_Query::is_front_page()
 	 *
 	 * @return bool Whether the query is for the blog homepage.
 	 */
@@ -3994,10 +3994,10 @@ class WP_Query {
 	 * If the $page parameter is specified, this function will additionally
 	 * check if the query is for one of the pages specified.
 	 *
+	 * @since 3.1.0
+	 *
 	 * @see WP_Query::is_single()
 	 * @see WP_Query::is_singular()
-	 *
-	 * @since 3.1.0
 	 *
 	 * @param int|string|int[]|string[] $page Optional. Page ID, title, slug, path, or array of such
 	 *                                        to check against. Default empty.
@@ -4101,10 +4101,10 @@ class WP_Query {
 	 * If the $post parameter is specified, this function will additionally
 	 * check if the query is for one of the Posts specified.
 	 *
+	 * @since 3.1.0
+	 *
 	 * @see WP_Query::is_page()
 	 * @see WP_Query::is_singular()
-	 *
-	 * @since 3.1.0
 	 *
 	 * @param int|string|int[]|string[] $post Optional. Post ID, title, slug, path, or array of such
 	 *                                        to check against. Default empty.
@@ -4151,10 +4151,10 @@ class WP_Query {
 	 * If the $post_types parameter is specified, this function will additionally
 	 * check if the query is for one of the Posts Types specified.
 	 *
+	 * @since 3.1.0
+	 *
 	 * @see WP_Query::is_page()
 	 * @see WP_Query::is_single()
-	 *
-	 * @since 3.1.0
 	 *
 	 * @param string|string[] $post_types Optional. Post type or array of post types
 	 *                                    to check against. Default empty.

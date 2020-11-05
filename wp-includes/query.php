@@ -563,11 +563,10 @@ function is_month() {
  * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @see is_single()
- * @see is_singular()
- *
  * @since 1.5.0
  *
+ * @see is_single()
+ * @see is_singular()
  * @global WP_Query $wp_query WordPress Query object.
  *
  * @param int|string|int[]|string[] $page Optional. Page ID, title, slug, or array of such
@@ -709,11 +708,10 @@ function is_search() {
  * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @see is_page()
- * @see is_singular()
- *
  * @since 1.5.0
  *
+ * @see is_page()
+ * @see is_singular()
  * @global WP_Query $wp_query WordPress Query object.
  *
  * @param int|string|int[]|string[] $post Optional. Post ID, title, slug, or array of such
@@ -742,11 +740,10 @@ function is_single( $post = '' ) {
  * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @see is_page()
- * @see is_single()
- *
  * @since 1.5.0
  *
+ * @see is_page()
+ * @see is_single()
  * @global WP_Query $wp_query WordPress Query object.
  *
  * @param string|string[] $post_types Optional. Post type or array of post types
@@ -1083,11 +1080,10 @@ function wp_old_slug_redirect() {
 /**
  * Find the post ID for redirecting an old slug.
  *
- * @see wp_old_slug_redirect()
- *
  * @since 4.9.3
  * @access private
  *
+ * @see wp_old_slug_redirect()
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $post_type The current post type based on the query vars.
@@ -1118,11 +1114,10 @@ function _find_post_by_old_slug( $post_type ) {
 /**
  * Find the post ID for redirecting an old date.
  *
- * @see wp_old_slug_redirect()
- *
  * @since 4.9.3
  * @access private
  *
+ * @see wp_old_slug_redirect()
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $post_type The current post type based on the query vars.
