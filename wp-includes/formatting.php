@@ -4301,6 +4301,8 @@ function esc_sql( $data ) {
  *                            Defaults to return value of wp_allowed_protocols().
  * @param string   $_context  Private. Use esc_url_raw() for database usage.
  * @return string The cleaned URL after the {@see 'clean_url'} filter is applied.
+ *                An empty string is returned if `$url` specifies a protocol other than
+ *                those in `$protocols`, or if `$url` contains an empty string.
  */
 function esc_url( $url, $protocols = null, $_context = 'display' ) {
 	$original_url = $url;
@@ -4408,7 +4410,7 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
  * @param string   $url       The URL to be cleaned.
  * @param string[] $protocols Optional. An array of acceptable protocols.
  *                            Defaults to return value of wp_allowed_protocols().
- * @return string The cleaned URL.
+ * @return string The cleaned URL after esc_url() is run with the 'db' context.
  */
 function esc_url_raw( $url, $protocols = null ) {
 	return esc_url( $url, $protocols, 'db' );
