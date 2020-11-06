@@ -83,13 +83,9 @@ Description: Used to style blocks in the editor.
 .block-library-list ul,
 .edit-post-visual-editor ol,
 .editor-block-list__block ol,
-.block-library-list ol {
-	margin: 16px 0;
-	padding: 0 0 0 40px;
-}
-
+.block-library-list ol,
 .block-library-list .editor-rich-text__tinymce {
-	padding: 0 0 0 40px;
+	padding: 0;
 }
 
 .edit-post-visual-editor ul:not(.wp-block-gallery),
@@ -121,19 +117,26 @@ Description: Used to style blocks in the editor.
 	margin-bottom: 0;
 }
 
-.rtl .edit-post-visual-editor ul:not(.wp-block-gallery),
-.rtl .editor-block-list__block ul:not(.wp-block-gallery),
-.rtl .block-library-list ul,
-.rtl .edit-post-visual-editor ol,
-.rtl .editor-block-list__block ol,
-.rtl .block-library-list ol {
-	padding-left: 0;
-	padding-right: 40px;
+.editor-styles-wrapper ul.block-editor-block-list__block,
+.editor-styles-wrapper ol.block-editor-block-list__block,
+.editor-styles-wrapper ol ul:not(.wp-block-gallery),
+.editor-styles-wrapper ul ul:not(.wp-block-gallery),
+.editor-styles-wrapper ul ol,
+.editor-styles-wrapper ol ol,
+.wp-block-freeform.block-library-rich-text__tinymce ul,
+.wp-block-freeform.block-library-rich-text__tinymce ol {
+	padding: 0 0 0 40px;
 }
 
-.rtl .block-library-list .editor-rich-text__tinymce {
-	padding-left: 0;
-	padding-right: 40px;
+.rtl .editor-styles-wrapper ul.block-editor-block-list__block,
+.rtl .editor-styles-wrapper ol.block-editor-block-list__block,
+.rtl .editor-styles-wrapper ol ul:not(.wp-block-gallery),
+.rtl .editor-styles-wrapper ul ul:not(.wp-block-gallery),
+.rtl .editor-styles-wrapper ul ol,
+.rtl .editor-styles-wrapper ol ol,
+.rtl .wp-block-freeform.block-library-rich-text__tinymce ul,
+.rtl .wp-block-freeform.block-library-rich-text__tinymce ol {
+	padding: 0 40px 0 0;
 }
 
 /* Quote */

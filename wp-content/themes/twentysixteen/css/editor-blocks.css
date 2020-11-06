@@ -197,7 +197,6 @@ Description: Used to style blocks in the editor.
 .edit-post-visual-editor ol,
 .editor-block-list__block ol,
 .block-library-list ol {
-	margin: 0 0 1.75em 1.25em;
 	padding: 0;
 }
 
@@ -231,22 +230,22 @@ Description: Used to style blocks in the editor.
 	margin-bottom: 0;
 }
 
-.rtl .edit-post-visual-editor ul:not(.wp-block-gallery),
-.rtl .editor-block-list__block ul:not(.wp-block-gallery),
-.rtl .block-library-list ul,
-.rtl .edit-post-visual-editor ol,
-.rtl .editor-block-list__block ol,
-.rtl .block-library-list ol {
+.rtl .editor-styles-wrapper ul ul,
+.rtl .editor-styles-wrapper ol ol,
+.rtl .editor-styles-wrapper ul ol,
+.rtl .editor-styles-wrapper ol ul {
 	margin-left: 0;
-	margin-right: 1.25em;
-	padding: 0;
+	margin-right: 1.5em;
 }
 
-.rtl .edit-post-visual-editor ol,
-.rtl .editor-block-list__block ol,
-.rtl .block-library-list ol {
-	margin-left: 1.5em;
-	margin-right: 1.5em;
+.wp-block-freeform.block-library-rich-text__tinymce ul,
+.wp-block-freeform.block-library-rich-text__tinymce ol {
+	padding-left: 1.5em;
+}
+
+.rtl .wp-block-freeform.block-library-rich-text__tinymce ul,
+.rtl .wp-block-freeform.block-library-rich-text__tinymce ol {
+	padding: 0;
 }
 
 /* Quotes */

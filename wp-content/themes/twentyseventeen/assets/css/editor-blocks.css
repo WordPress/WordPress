@@ -388,7 +388,6 @@ html[lang="th"] .edit-post-visual-editor * {
 .editor-block-list__block ol,
 .block-library-list ol,
 .block-library-list .editor-rich-text__tinymce {
-	margin: 0 0 1.5em 1.5em;
 	padding: 0;
 }
 
@@ -420,21 +419,23 @@ html[lang="th"] .edit-post-visual-editor * {
 	margin: 0;
 }
 
-.rtl .edit-post-visual-editor ul:not(.wp-block-gallery),
-.rtl .editor-block-list__block ul:not(.wp-block-gallery),
-.rtl .block-library-list ul,
-.rtl .edit-post-visual-editor ol,
-.rtl .editor-block-list__block ol,
-.rtl .block-library-list ol,
-.rtl .block-library-list .editor-rich-text__tinymce,
-.rtl .edit-post-visual-editor li > ul:not(.wp-block-gallery),
-.rtl .editor-block-list__block li > ul:not(.wp-block-gallery),
-.rtl .block-library-list li > ul:not(.wp-block-gallery),
-.rtl .edit-post-visual-editor li > ol,
-.rtl .editor-block-list__block li > ol,
-.rtl .block-library-list li > ol {
-	margin-left: 1.5em;
+.rtl .editor-styles-wrapper ul ul,
+.rtl .editor-styles-wrapper ol ol,
+.rtl .editor-styles-wrapper ul ol,
+.rtl .editor-styles-wrapper ol ul {
+	margin-left: 0;
 	margin-right: 1.5em;
+}
+
+.wp-block-freeform.block-library-rich-text__tinymce ul:not(.wp-block-gallery),
+.wp-block-freeform.block-library-rich-text__tinymce ol {
+	margin-left: 0;
+	padding-left: 1.5em;
+}
+
+.rtl .wp-block-freeform.block-library-rich-text__tinymce ul:not(.wp-block-gallery),
+.rtl .wp-block-freeform.block-library-rich-text__tinymce ol {
+	padding: 0;
 }
 
 /* Quote styles */
