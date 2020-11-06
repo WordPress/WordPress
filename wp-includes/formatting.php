@@ -4407,6 +4407,8 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
  *
  * @since 2.8.0
  *
+ * @see esc_url()
+ *
  * @param string   $url       The URL to be cleaned.
  * @param string[] $protocols Optional. An array of acceptable protocols.
  *                            Defaults to return value of wp_allowed_protocols().
