@@ -3030,7 +3030,7 @@ function edit_form_image_editor( $post ) {
 			'tinymce'       => false,
 			'quicktags'     => $quicktags_settings,
 		);
-	?>
+		?>
 
 	<label for="attachment_content"><strong><?php _e( 'Description' ); ?></strong>
 														<?php

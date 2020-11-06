@@ -1857,7 +1857,7 @@ final class WP_Customize_Widgets {
 		// Render the widget.
 		ob_start();
 		dynamic_sidebar( $this->rendering_sidebar_id = $context['sidebar_id'] );
-		$container                                   = ob_get_clean();
+		$container = ob_get_clean();
 
 		// Reset variables for next partial render.
 		remove_filter( 'sidebars_widgets', $filter_callback, 1000 );
