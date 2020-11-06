@@ -1073,7 +1073,14 @@ hr.wp-block-separator.is-style-dots::before {
 	width: 100%;
 }
 
-/* Block: Paragraph -------------------------- */
+/* Block: List ------------------------------- */
+
+.editor-styles-wrapper ul.block-editor-block-list__block,
+.editor-styles-wrapper ol.block-editor-block-list__block,
+.editor-styles-wrapper ul ul,
+.editor-styles-wrapper ol ul {
+	padding-right: 2em;
+}
 
 
 /*	X.	Media Queries
