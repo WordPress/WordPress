@@ -2009,13 +2009,35 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		}
 
 		if ( isset( $args['minItems'] ) && count( $value ) < $args['minItems'] ) {
-			/* translators: 1: Parameter, 2: Number. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must contain at least %2$s items.' ), $param, number_format_i18n( $args['minItems'] ) ) );
+			return new WP_Error(
+				'rest_invalid_param',
+				sprintf(
+					/* translators: 1: Parameter, 2: Number. */
+					_n(
+						'%1$s must contain at least %2$s item.',
+						'%1$s must contain at least %2$s items.',
+						$args['minItems']
+					),
+					$param,
+					number_format_i18n( $args['minItems'] )
+				)
+			);
 		}
 
 		if ( isset( $args['maxItems'] ) && count( $value ) > $args['maxItems'] ) {
-			/* translators: 1: Parameter, 2: Number. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must contain at most %2$s items.' ), $param, number_format_i18n( $args['maxItems'] ) ) );
+			return new WP_Error(
+				'rest_invalid_param',
+				sprintf(
+					/* translators: 1: Parameter, 2: Number. */
+					_n(
+						'%1$s must contain at most %2$s item.',
+						'%1$s must contain at most %2$s items.',
+						$args['maxItems']
+					),
+					$param,
+					number_format_i18n( $args['maxItems'] )
+				)
+			);
 		}
 
 		if ( ! empty( $args['uniqueItems'] ) && ! rest_validate_array_contains_unique_items( $value ) ) {
@@ -2086,13 +2108,35 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		}
 
 		if ( isset( $args['minProperties'] ) && count( $value ) < $args['minProperties'] ) {
-			/* translators: 1: Parameter, 2: Number. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must contain at least %2$s properties.' ), $param, number_format_i18n( $args['minProperties'] ) ) );
+			return new WP_Error(
+				'rest_invalid_param',
+				sprintf(
+					/* translators: 1: Parameter, 2: Number. */
+					_n(
+						'%1$s must contain at least %2$s property.',
+						'%1$s must contain at least %2$s properties.',
+						$args['minProperties']
+					),
+					$param,
+					number_format_i18n( $args['minProperties'] )
+				)
+			);
 		}
 
 		if ( isset( $args['maxProperties'] ) && count( $value ) > $args['maxProperties'] ) {
-			/* translators: 1: Parameter, 2: Number. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must contain at most %2$s properties.' ), $param, number_format_i18n( $args['maxProperties'] ) ) );
+			return new WP_Error(
+				'rest_invalid_param',
+				sprintf(
+					/* translators: 1: Parameter, 2: Number. */
+					_n(
+						'%1$s must contain at most %2$s property.',
+						'%1$s must contain at most %2$s properties.',
+						$args['maxProperties']
+					),
+					$param,
+					number_format_i18n( $args['maxProperties'] )
+				)
+			);
 		}
 	}
 
