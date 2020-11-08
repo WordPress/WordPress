@@ -212,7 +212,17 @@ class WP_Network_Query {
 		 *   an array of network IDs.
 		 * - Otherwise the filter should return an array of WP_Network objects.
 		 *
+		 * Note that if the filter returns an array of network data, it will be assigned
+		 * to the `networks` property of the current WP_Network_Query instance.
+		 *
+		 * Filtering functions that require pagination information are encouraged to set
+		 * the `found_networks` and `max_num_pages` properties of the WP_Network_Query object,
+		 * passed to the filter by reference. If WP_Network_Query does not perform a database
+		 * query, it will not have enough information to generate these values itself.
+		 *
 		 * @since 5.2.0
+		 * @since 5.6.0 The returned array of network data is assigned to the `networks` property
+		 *              of the current WP_Network_Query instance.
 		 *
 		 * @param array|int|null   $network_data Return an array of network data to short-circuit WP's network query,
 		 *                                       the network count as an integer if `$this->query_vars['count']` is set,
@@ -222,6 +232,10 @@ class WP_Network_Query {
 		$network_data = apply_filters_ref_array( 'networks_pre_query', array( $network_data, &$this ) );
 
 		if ( null !== $network_data ) {
+			if ( is_array( $network_data ) && ! $this->query_vars['count'] ) {
+				$this->networks = $network_data;
+			}
+
 			return $network_data;
 		}
 

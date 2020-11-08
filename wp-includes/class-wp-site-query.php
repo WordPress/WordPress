@@ -303,7 +303,17 @@ class WP_Site_Query {
 		 *   an array of site IDs.
 		 * - Otherwise the filter should return an array of WP_Site objects.
 		 *
+		 * Note that if the filter returns an array of site data, it will be assigned
+		 * to the `sites` property of the current WP_Site_Query instance.
+		 *
+		 * Filtering functions that require pagination information are encouraged to set
+		 * the `found_sites` and `max_num_pages` properties of the WP_Site_Query object,
+		 * passed to the filter by reference. If WP_Site_Query does not perform a database
+		 * query, it will not have enough information to generate these values itself.
+		 *
 		 * @since 5.2.0
+		 * @since 5.6.0 The returned array of site data is assigned to the `sites` property
+		 *              of the current WP_Site_Query instance.
 		 *
 		 * @param array|int|null $site_data Return an array of site data to short-circuit WP's site query,
 		 *                                  the site count as an integer if `$this->query_vars['count']` is set,
@@ -313,6 +323,10 @@ class WP_Site_Query {
 		$site_data = apply_filters_ref_array( 'sites_pre_query', array( $site_data, &$this ) );
 
 		if ( null !== $site_data ) {
+			if ( is_array( $site_data ) && ! $this->query_vars['count'] ) {
+				$this->sites = $site_data;
+			}
+
 			return $site_data;
 		}
 
