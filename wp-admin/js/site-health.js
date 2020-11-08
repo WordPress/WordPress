@@ -66,6 +66,57 @@ jQuery( document ).ready( function( $ ) {
 	} );
 
 	/**
+	 * Validates the Site Health test result format.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param {Object} issue
+	 *
+	 * @return {boolean}
+	 */
+	function validateIssueData( issue ) {
+		// Expected minimum format of a valid SiteHealth test response.
+		var minimumExpected = {
+				test: 'string',
+				label: 'string',
+				description: 'string'
+			},
+			passed = true,
+			key, value, subKey, subValue;
+
+		// If the issue passed is not an object, return a `false` state early.
+		if ( 'object' !== typeof( issue ) ) {
+			return false;
+		}
+
+		// Loop over expected data and match the data types.
+		for ( key in minimumExpected ) {
+			value = minimumExpected[ key ];
+
+			if ( 'object' === typeof( value ) ) {
+				for ( subKey in value ) {
+					subValue = value[ subKey ];
+
+					if ( 'undefined' === typeof( issue[ key ] ) ||
+						'undefined' === typeof( issue[ key ][ subKey ] ) ||
+						subValue !== typeof( issue[ key ][ subKey ] )
+					) {
+						passed = false;
+					}
+				}
+			} else {
+				if ( 'undefined' === typeof( issue[ key ] ) ||
+					value !== typeof( issue[ key ] )
+				) {
+					passed = false;
+				}
+			}
+		}
+
+		return passed;
+	}
+
+	/**
 	 * Appends a new issue to the issue list.
 	 *
 	 * @since 5.2.0
@@ -77,6 +128,14 @@ jQuery( document ).ready( function( $ ) {
 			issueWrapper = $( '#health-check-issues-' + issue.status ),
 			heading,
 			count;
+
+		/*
+		 * Validate the issue data format before using it.
+		 * If the output is invalid, discard it.
+		 */
+		if ( ! validateIssueData( issue ) ) {
+			return false;
+		}
 
 		SiteHealth.site_status.issues[ issue.status ]++;
 

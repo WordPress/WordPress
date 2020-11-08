@@ -144,7 +144,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<h4 class="health-check-accordion-heading">
 		<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-{{ data.test }}" type="button">
 			<span class="title">{{ data.label }}</span>
-			<span class="badge {{ data.badge.color }}">{{ data.badge.label }}</span>
+			<# if ( data.badge ) { #>
+				<span class="badge {{ data.badge.color }}">{{ data.badge.label }}</span>
+			<# } #>
 			<span class="icon"></span>
 		</button>
 	</h4>
