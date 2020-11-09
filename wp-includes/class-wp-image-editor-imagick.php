@@ -735,22 +735,28 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			 * Checks for exact type due to: https://www.php.net/manual/en/function.file-put-contents.php
 			 */
 			if ( file_put_contents( $filename, $image->getImageBlob() ) === false ) {
-				/* translators: %s: PHP function name. */
-				return new WP_Error( 'image_save_error', sprintf( __( '%s failed while writing image to stream.' ), '<code>file_put_contents()</code>' ), $filename );
+				return new WP_Error(
+					'image_save_error',
+					sprintf(
+						/* translators: %s: PHP function name. */
+						__( '%s failed while writing image to stream.' ),
+						'<code>file_put_contents()</code>'
+					),
+					$filename
+				);
 			} else {
 				return true;
 			}
 		} else {
-			$dir_name   = dirname( $filename );
-			$dir_exists = wp_mkdir_p( $dir_name );
+			$dirname = dirname( $filename );
 
-			if ( ! $dir_exists ) {
+			if ( ! wp_mkdir_p( $dirname ) ) {
 				return new WP_Error(
 					'image_save_error',
 					sprintf(
 						/* translators: %s: Directory path. */
 						__( 'Unable to create directory %s. Is its parent directory writable by the server?' ),
-						esc_html( $dir_name )
+						esc_html( $dirname )
 					)
 				);
 			}
@@ -801,13 +807,25 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	protected function strip_meta() {
 
 		if ( ! is_callable( array( $this->image, 'getImageProfiles' ) ) ) {
-			/* translators: %s: ImageMagick method name. */
-			return new WP_Error( 'image_strip_meta_error', sprintf( __( '%s is required to strip image meta.' ), '<code>Imagick::getImageProfiles()</code>' ) );
+			return new WP_Error(
+				'image_strip_meta_error',
+				sprintf(
+					/* translators: %s: ImageMagick method name. */
+					__( '%s is required to strip image meta.' ),
+					'<code>Imagick::getImageProfiles()</code>'
+				)
+			);
 		}
 
 		if ( ! is_callable( array( $this->image, 'removeImageProfile' ) ) ) {
-			/* translators: %s: ImageMagick method name. */
-			return new WP_Error( 'image_strip_meta_error', sprintf( __( '%s is required to strip image meta.' ), '<code>Imagick::removeImageProfile()</code>' ) );
+			return new WP_Error(
+				'image_strip_meta_error',
+				sprintf(
+					/* translators: %s: ImageMagick method name. */
+					__( '%s is required to strip image meta.' ),
+					'<code>Imagick::removeImageProfile()</code>'
+				)
+			);
 		}
 
 		/*
