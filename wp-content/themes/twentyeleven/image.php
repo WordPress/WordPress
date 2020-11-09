@@ -32,7 +32,7 @@ get_header(); ?>
 									$metadata = wp_get_attachment_metadata();
 									printf(
 										/* translators: 1: Time, 2: Date, 3: Image permalink, 4: Image width, 5: Image height, 6: Parent permalink, 7: Parent post title, 8: Parent post title. */
-										__( '<span class="meta-prep meta-prep-entry-date">Published </span> <span class="entry-date"><abbr class="published" title="%1$s">%2$s</abbr></span> at <a href="%3$s" title="Link to full-size image">%4$s &times; %5$s</a> in <a href="%6$s" title="Return to %7$s" rel="gallery">%8$s</a>', 'twentyeleven' ),
+										__( '<span class="meta-prep meta-prep-entry-date">Published </span> <span class="entry-date"><abbr class="published" title="%1$s">%2$s</abbr></span> at <a href="%3$s" title="Link to full-size image">%4$s &times; %5$s</a> in <a href="%6$s" title="Go to %7$s" rel="gallery">%8$s</a>', 'twentyeleven' ),
 										esc_attr( get_the_time() ),
 										get_the_date(),
 										esc_url( wp_get_attachment_url() ),

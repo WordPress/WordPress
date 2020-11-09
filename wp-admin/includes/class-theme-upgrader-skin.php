@@ -124,7 +124,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 		$update_actions['themes_page'] = sprintf(
 			'<a href="%s" target="_parent">%s</a>',
 			self_admin_url( 'themes.php' ),
-			__( 'Return to Themes page' )
+			__( 'Go to Themes page' )
 		);
 
 		/**

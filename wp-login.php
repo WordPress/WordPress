@@ -285,7 +285,7 @@ function login_footer( $input_id = '' ) {
 		<?php
 
 		/* translators: %s: Site title. */
-		printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
+		printf( _x( '&larr; Go to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
 
 		?>
 		</a></p>

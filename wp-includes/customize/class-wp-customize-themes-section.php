@@ -121,7 +121,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	 */
 	protected function filter_bar_content_template() {
 		?>
-		<button type="button" class="button button-primary customize-section-back customize-themes-mobile-back"><?php _e( 'Back to theme sources' ); ?></button>
+		<button type="button" class="button button-primary customize-section-back customize-themes-mobile-back"><?php _e( 'Go to theme sources' ); ?></button>
 		<# if ( 'wporg' === data.action ) { #>
 			<div class="search-form">
 				<label for="wp-filter-search-input-{{ data.id }}" class="screen-reader-text"><?php _e( 'Search themes&hellip;' ); ?></label>

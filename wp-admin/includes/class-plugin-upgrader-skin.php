@@ -98,7 +98,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 			'plugins_page'    => sprintf(
 				'<a href="%s" target="_parent">%s</a>',
 				self_admin_url( 'plugins.php' ),
-				__( 'Return to Plugins page' )
+				__( 'Go to Plugins page' )
 			),
 		);
 

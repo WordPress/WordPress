@@ -424,7 +424,7 @@ final class WP_Privacy_Policy_Content {
 				$content .= '</div>';
 			}
 
-			$content .= '<a href="#wpbody" class="return-to-top"><span aria-hidden="true">&uarr; </span> ' . __( 'Return to top' ) . '</a>';
+			$content .= '<a href="#wpbody" class="return-to-top"><span aria-hidden="true">&uarr; </span> ' . __( 'Go to top' ) . '</a>';
 
 			$content .= '</div>'; // End of .privacy-text-section.
 		}

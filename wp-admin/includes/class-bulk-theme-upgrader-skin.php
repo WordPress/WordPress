@@ -48,12 +48,12 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 			'themes_page'  => sprintf(
 				'<a href="%s" target="_parent">%s</a>',
 				self_admin_url( 'themes.php' ),
-				__( 'Return to Themes page' )
+				__( 'Go to Themes page' )
 			),
 			'updates_page' => sprintf(
 				'<a href="%s" target="_parent">%s</a>',
 				self_admin_url( 'update-core.php' ),
-				__( 'Return to WordPress Updates page' )
+				__( 'Go to WordPress Updates page' )
 			),
 		);
 

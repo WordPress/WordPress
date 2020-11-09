@@ -155,13 +155,13 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			$install_actions['themes_page'] = sprintf(
 				'<a href="%s" target="_parent">%s</a>',
 				self_admin_url( 'theme-install.php' ),
-				__( 'Return to Theme Installer' )
+				__( 'Go to Theme Installer' )
 			);
 		} elseif ( current_user_can( 'switch_themes' ) || current_user_can( 'edit_theme_options' ) ) {
 			$install_actions['themes_page'] = sprintf(
 				'<a href="%s" target="_parent">%s</a>',
 				self_admin_url( 'themes.php' ),
-				__( 'Return to Themes page' )
+				__( 'Go to Themes page' )
 			);
 		}
 

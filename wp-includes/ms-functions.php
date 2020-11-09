@@ -2275,7 +2275,7 @@ function maybe_add_existing_user_to_blog() {
 		wp_die(
 			sprintf(
 				/* translators: %s: Home URL. */
-				__( 'An error occurred adding you to this site. Back to the <a href="%s">homepage</a>.' ),
+				__( 'An error occurred adding you to this site. Go to the <a href="%s">homepage</a>.' ),
 				home_url()
 			)
 		);
