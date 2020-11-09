@@ -865,13 +865,17 @@ table.form-table td .updated p {
 	padding-bottom: 0;
 }
 
-.new-application-password-notice.notice {
+#application-passwords-section .notice {
 	margin-top: 20px;
 	margin-bottom: 0;
 }
 
 .application-password-display input.code {
 	width: 19em;
+}
+
+.auth-app-card.card {
+	max-width: 768px;
 }
 
 /*------------------------------------------------------------------------------

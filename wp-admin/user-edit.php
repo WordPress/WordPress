@@ -742,7 +742,7 @@ endif;
 		<div class="create-application-password form-wrap">
 			<div class="form-field">
 				<label for="new_application_password_name"><?php _e( 'New Application Password Name' ); ?></label>
-				<input type="text" size="30" id="new_application_password_name" name="new_application_password_name" placeholder="<?php esc_attr_e( 'WordPress App on My Phone' ); ?>" class="input" />
+				<input type="text" size="30" id="new_application_password_name" name="new_application_password_name" placeholder="<?php esc_attr_e( 'WordPress App on My Phone' ); ?>" class="input" aria-required="true" aria-describedby="<?php esc_attr_e( 'Required to create an Application Password, but not to update the user.' ); ?>" />
 			</div>
 
 			<?php
@@ -756,7 +756,7 @@ endif;
 			do_action( 'wp_create_application_password_form', $profileuser );
 			?>
 
-			<?php submit_button( __( 'Add New' ), 'secondary', 'do_new_application_password' ); ?>
+			<?php submit_button( __( 'Add New Application Password' ), 'secondary', 'do_new_application_password' ); ?>
 		</div>
 
 		<div class="application-passwords-list-table-wrapper">
@@ -857,18 +857,20 @@ endif;
 
 <?php if ( isset( $application_passwords_list_table ) ) : ?>
 	<script type="text/html" id="tmpl-new-application-password">
-		<div class="notice notice-success is-dismissible new-application-password-notice" role="alert" tabindex="0">
+		<div class="notice notice-success is-dismissible new-application-password-notice" role="alert" tabindex="-1">
 			<p class="application-password-display">
-				<?php
-				printf(
-					/* translators: 1: Application name, 2: Generated password. */
-					esc_html__( 'Your new password for %1$s is: %2$s' ),
-					'<strong>{{ data.name }}</strong>',
-					'<input type="text" class="code" readonly="readonly" value="{{ data.password }}" />'
-				);
-				?>
+				<label for="new-application-password-value">
+					<?php
+					printf(
+						/* translators: %s: Application name */
+						__( 'Your new password for %s is:' ),
+						'<strong>{{ data.name }}</strong>'
+					);
+					?>
+				</label>
+				<input id="new-application-password-value" type="text" class="code" readonly="readonly" value="{{ data.password }}" />
 			</p>
-			<p><?php esc_attr_e( 'Be sure to save this in a safe location. You will not be able to retrieve it.' ); ?></p>
+			<p><?php _e( 'Be sure to save this in a safe location. You will not be able to retrieve it.' ); ?></p>
 			<button type="button" class="notice-dismiss">
 				<span class="screen-reader-text"><?php _e( 'Dismiss this notice.' ); ?></span>
 			</button>

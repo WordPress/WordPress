@@ -117,7 +117,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 			false,
 			array(
 				/* translators: %s: the application password's given name. */
-				'title' => sprintf( __( 'Revoke "%s"' ), $item['name'] ),
+				'aria-label' => sprintf( __( 'Revoke "%s"' ), $item['name'] ),
 			)
 		);
 	}
@@ -234,7 +234,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 					break;
 				case 'revoke':
 					printf(
-						'<input type="submit" class="button delete" value="%1$s" title="%2$s">',
+						'<input type="submit" class="button delete" value="%1$s" aria-label="%2$s">',
 						esc_attr( __( 'Revoke' ) ),
 						/* translators: %s: the application password's given name. */
 						esc_attr( sprintf( __( 'Revoke "%s"' ), '{{ data.name }}' ) )

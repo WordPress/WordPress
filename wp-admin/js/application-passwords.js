@@ -29,7 +29,7 @@
 			return;
 		}
 
-		clearErrors();
+		clearNotices();
 		$newAppPassButton.prop( 'aria-disabled', true ).addClass( 'disabled' );
 
 		var request = {
@@ -90,7 +90,7 @@
 			$tr = $submitButton.closest( 'tr' ),
 			uuid = $tr.data( 'uuid' );
 
-		clearErrors();
+		clearNotices();
 		$submitButton.prop( 'disabled', true );
 
 		wp.apiRequest( {
@@ -105,7 +105,7 @@
 				}
 				$tr.remove();
 
-				wp.a11y.speak( wp.i18n.__( 'Application password revoked.' ) );
+				addNotice( wp.i18n.__( 'Application password revoked.' ), 'success' ).focus();
 			}
 		} ).fail( handleErrorResponse );
 	} );
@@ -119,7 +119,7 @@
 
 		var $submitButton = $( this );
 
-		clearErrors();
+		clearNotices();
 		$submitButton.prop( 'disabled', true );
 
 		wp.apiRequest( {
@@ -133,17 +133,19 @@
 				$appPassSection.children( '.new-application-password' ).remove();
 				$appPassTwrapper.hide();
 
-				wp.a11y.speak( wp.i18n.__( 'All application passwords revoked.' ) );
+				addNotice( wp.i18n.__( 'All application passwords revoked.' ), 'success' ).focus();
 			}
 		} ).fail( handleErrorResponse );
 	} );
 
-	$( document ).on( 'click', '.new-application-password-notice .notice-dismiss', function( e ) {
+	$appPassSection.on( 'click', '.notice-dismiss', function( e ) {
 		e.preventDefault();
 		var $el = $( this ).parent();
+		$el.removeAttr( 'role' );
 		$el.fadeTo( 100, 0, function () {
 			$el.slideUp( 100, function () {
 				$el.remove();
+				$newAppPassField.focus();
 			} );
 		} );
 	} );
@@ -169,31 +171,42 @@
 			errorMessage = xhr.responseJSON.message;
 		}
 
-		addError( errorMessage );
+		addNotice( errorMessage, 'error' );
 	}
 
 	/**
-	 * Displays an error message in the Application Passwords section.
+	 * Displays a message in the Application Passwords section.
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param {string} message The error message to display.
+	 * @param {string} message The message to display.
+	 * @param {string} type    The notice type. Either 'success' or 'error'.
+	 * @returns {jQuery} The notice element.
 	 */
-	function addError( message ) {
+	function addNotice( message, type ) {
 		var $notice = $( '<div></div>' )
 			.attr( 'role', 'alert' )
-			.addClass( 'notice notice-error' )
-			.append( $( '<p></p>' ).text( message ) );
+			.attr( 'tabindex', '-1' )
+			.addClass( 'is-dismissible notice notice-' + type )
+			.append( $( '<p></p>' ).text( message ) )
+			.append(
+				$( '<button></button>' )
+					.attr( 'type', 'button' )
+					.addClass( 'notice-dismiss' )
+					.append( $( '<span></span>' ).addClass( 'screen-reader-text' ).text( wp.i18n.__( 'Dismiss this notice.' ) ) )
+			);
 
 		$newAppPassForm.after( $notice );
+
+		return $notice;
 	}
 
 	/**
-	 * Clears error messages from the Application Passwords section.
+	 * Clears notice messages from the Application Passwords section.
 	 *
 	 * @since 5.6.0
 	 */
-	function clearErrors() {
+	function clearNotices() {
 		$( '.notice', $appPassSection ).remove();
 	}
 }( jQuery ) );
