@@ -1184,6 +1184,10 @@ audio, video {
 	box-sizing: border-box;
 }
 
+.wp-core-ui .mejs-time {
+	box-sizing: content-box;
+}
+
 /* =Media Queries
 -------------------------------------------------------------- */
 
