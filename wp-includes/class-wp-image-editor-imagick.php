@@ -741,6 +741,20 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				return true;
 			}
 		} else {
+			$dir_name   = dirname( $filename );
+			$dir_exists = wp_mkdir_p( $dir_name );
+
+			if ( ! $dir_exists ) {
+				return new WP_Error(
+					'image_save_error',
+					sprintf(
+						/* translators: %s: Directory path. */
+						__( 'Unable to create directory %s. Is its parent directory writable by the server?' ),
+						esc_html( $dir_name )
+					)
+				);
+			}
+
 			try {
 				return $image->writeImage( $filename );
 			} catch ( Exception $e ) {
