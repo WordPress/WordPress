@@ -201,6 +201,14 @@
 	display: block;
 }
 
+#html-upload-ui #async-upload {
+	font-size: 1em;
+}
+
+#html-upload-ui #async-upload {
+	font-size: 13px;
+}
+
 .media-upload-form .media-item.error,
 .media-upload-form .media-item .error {
 	width: auto;
