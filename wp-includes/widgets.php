@@ -243,6 +243,7 @@ function register_sidebars( $number = 1, $args = array() ) {
  *     @type string $after_title    HTML content to append to the sidebar title when displayed.
  *                                  Default is a closing h2 element.
  *     @type string $before_sidebar HTML content to prepend to the sidebar when displayed.
+ *                                  Receives the '$id' argument as %1$s and '$class' as %2$s.
  *                                  Outputs after the {@see 'dynamic_sidebar_before'} action.
  *                                  Default empty string.
  *     @type string $after_sidebar  HTML content to append to the sidebar when displayed.
@@ -718,7 +719,7 @@ function dynamic_sidebar( $index = 1 ) {
 	 */
 	do_action( 'dynamic_sidebar_before', $index, true );
 
-	if ( ! empty( $sidebar['before_sidebar'] ) ) {
+	if ( ! is_admin() && ! empty( $sidebar['before_sidebar'] ) ) {
 		echo $sidebar['before_sidebar'];
 	}
 
@@ -823,7 +824,7 @@ function dynamic_sidebar( $index = 1 ) {
 		}
 	}
 
-	if ( ! empty( $sidebar['after_sidebar'] ) ) {
+	if ( ! is_admin() && ! empty( $sidebar['after_sidebar'] ) ) {
 		echo $sidebar['after_sidebar'];
 	}
 
