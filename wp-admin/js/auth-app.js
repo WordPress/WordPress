@@ -83,7 +83,7 @@
 				window.location = url;
 			} else {
 				message = wp.i18n.sprintf(
-					/* translators: %s: Application name */
+					/* translators: %s: Application name. */
 					'<label for="new-application-password-value">' + wp.i18n.__( 'Your new password for %s is:' ) + '</label>',
 					'<strong></strong>'
 				) + ' <input id="new-application-password-value" type="text" class="code" readonly="readonly" value="" />';

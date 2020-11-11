@@ -174,7 +174,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<label for="new-application-password-value">
 						<?php
 						printf(
-							/* translators: %s: Application name */
+							/* translators: %s: Application name. */
 							esc_html__( 'Your new password for %s is:' ),
 							'<strong>' . esc_html( $app_name ) . '</strong>'
 						);

@@ -862,7 +862,7 @@ endif;
 				<label for="new-application-password-value">
 					<?php
 					printf(
-						/* translators: %s: Application name */
+						/* translators: %s: Application name. */
 						__( 'Your new password for %s is:' ),
 						'<strong>{{ data.name }}</strong>'
 					);
