@@ -1,0 +1,24 @@
+.wp-block-file {
+
+	.wp-block-file__textlink {
+		text-decoration: underline;
+		text-decoration-style: solid;
+		text-decoration-thickness: 1px;
+
+		&:hover {
+			text-decoration: underline;
+			text-decoration-style: dotted;
+		}
+	}
+
+	.wp-block-file__button {
+		// Extend button style
+		@include button-style();
+		display: inline-block;
+
+		&:hover {
+			color: var(--button--color-text-hover);
+			background: transparent;
+		}
+	}
+}

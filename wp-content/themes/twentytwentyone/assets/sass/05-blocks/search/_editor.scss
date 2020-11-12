@@ -1,0 +1,183 @@
+.wp-block-search {
+	max-width: var(--responsive--aligndefault-width);
+
+	.wp-block-search__label {
+		font-size: var(--form--font-size);
+		font-weight: var(--form--label-weight);
+		margin-bottom: calc(var(--global--spacing-vertical) / 3);
+	}
+
+	.wp-block-search__input {
+		border: var(--form--border-width) solid var(--form--border-color);
+		border-radius: var(--form--border-radius);
+		font-family: var(--form--font-family);
+		font-size: var(--form--font-size);
+		line-height: var(--form--line-height);
+		max-width: inherit;
+		margin-right: calc(-1 * var(--button--border-width));
+		padding: var(--form--spacing-unit);
+
+		.is-dark-theme & {
+			background: var(--global--color-white-90);
+		}
+
+		.has-background.has-white-background-color &,
+		.has-background.has-green-background-color &,
+		.has-background.has-blue-background-color &,
+		.has-background.has-purple-background-color &,
+		.has-background.has-red-background-color &,
+		.has-background.has-orange-background-color &,
+		.has-background.has-yellow-background-color & {
+
+			.is-dark-theme & {
+				border-color: var(--form--color-text);
+			}
+		}
+
+		.has-background.has-gray-background-color &,
+		.has-background.has-dark-gray-background-color &,
+		.has-background.has-black-background-color & {
+			border-color: var(--global--color-white);
+		}
+	}
+
+	.wp-block-search__button {
+		@include button-style();
+		box-shadow: none;
+		margin-left: 0;
+		background-color: transparent;
+		color: var(--button--color-text-hover);
+
+		&:hover {
+			color: var(--button--color-text);
+			background-color: var(--button--color-background);
+		}
+
+		&.has-icon {
+			padding: calc(2 * var(--button--padding-vertical)) calc(0.5 * var(--button--padding-horizontal));
+
+			svg {
+				width: 40px;
+				height: 40px;
+			}
+		}
+
+		.has-background.has-gray-background-color &,
+		.has-background.has-dark-gray-background-color &,
+		.has-background.has-black-background-color & {
+			color: var(--global--color-white);
+			border-color: currentColor;
+
+			&:hover {
+				color: var(--global--color-white);
+				background-color: var(--button--color-background);
+				border-color: var(--global--color-white);
+
+				.is-dark-theme & {
+					color: var(--button--color-text);
+					background-color: var(--button--color-background);
+				}
+			}
+		}
+
+		.has-background.has-white-background-color &,
+		.has-background.has-green-background-color &,
+		.has-background.has-blue-background-color &,
+		.has-background.has-purple-background-color &,
+		.has-background.has-red-background-color &,
+		.has-background.has-orange-background-color &,
+		.has-background.has-yellow-background-color & {
+
+			&:hover {
+				color: var(--global--color-white);
+				background-color: var(--form--border-color);
+				border-color: var(--form--border-color);
+			}
+
+			.is-dark-theme & {
+				color: var(--form--color-text);
+				border-color: currentColor;
+
+				&:hover {
+					color: var(--global--color-white);
+					background-color: var(--button--color-text);
+					border-color: var(--button--color-text);
+				}
+			}
+		}
+	}
+
+	&.wp-block-search__button-inside {
+
+		.wp-block-search__input,
+		.has-background.has-white-background-color & .wp-block-search__input,
+		.has-background.has-green-background-color & .wp-block-search__input,
+		.has-background.has-blue-background-color & .wp-block-search__input,
+		.has-background.has-purple-background-color & .wp-block-search__input,
+		.has-background.has-red-background-color & .wp-block-search__input,
+		.has-background.has-orange-background-color & .wp-block-search__input,
+		.has-background.has-yellow-background-color & .wp-block-search__input {
+			border: none;
+		}
+
+		&.wp-block-search__text-button {
+
+			.wp-block-search__button {
+				// Match the text button size with the icon button.
+				padding: var(--button--padding-vertical) var(--button--padding-horizontal);
+			}
+		}
+
+		.wp-block-search__button {
+
+			.is-dark-theme & {
+				color: var(--button--color-text);
+				border-color: currentColor;
+
+				&:hover {
+					color: var(--global--color-white);
+					background-color: var(--button--color-text);
+					border-color: var(--button--color-text);
+				}
+			}
+
+			.has-background.has-gray-background-color &,
+			.has-background.has-dark-gray-background-color &,
+			.has-background.has-black-background-color & {
+				color: var(--button--color-text-hover);
+				border-color: currentColor;
+
+				&:hover {
+					color: var(--global--color-white);
+					background-color: var(--button--color-background);
+					border-color: var(--button--color-background);
+				}
+
+				.is-dark-theme & {
+					color: var(--button--color-text);
+					border-color: currentColor;
+
+					&:hover {
+						color: var(--global--color-white);
+						background-color: var(--button--color-text);
+						border-color: var(--button--color-text);
+					}
+				}
+			}
+		}
+	}
+}
+
+.wp-block[data-align="center"] > * {
+	text-align: center;
+}
+
+.wp-block[data-align="center"] {
+
+	.wp-block-search__button-only {
+
+		.wp-block-search__inside-wrapper {
+			justify-content: center;
+		}
+	}
+}

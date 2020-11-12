@@ -74,7 +74,7 @@ if ( ! function_exists( 'twenty_twenty_one_entry_meta_footer' ) ) {
 		if ( ! is_single() ) {
 
 			if ( is_sticky() ) {
-				echo '<p>' . esc_html__( 'Featured post', 'twentytwentyone' ) . '</p>';
+				echo '<p>' . esc_html_x( 'Featured post', 'Label for sticky posts', 'twentytwentyone' ) . '</p>';
 			}
 
 			$post_format = get_post_format();
@@ -217,6 +217,17 @@ if ( ! function_exists( 'twenty_twenty_one_the_posts_navigation' ) ) {
 	 * @return void
 	 */
 	function twenty_twenty_one_the_posts_navigation() {
+		$post_type      = get_post_type_object( get_post_type() );
+		$post_type_name = '';
+		if (
+			is_object( $post_type ) &&
+			property_exists( $post_type, 'labels' ) &&
+			is_object( $post_type->labels ) &&
+			property_exists( $post_type->labels, 'name' )
+		) {
+			$post_type_name = $post_type->labels->name;
+		}
+
 		the_posts_pagination(
 			array(
 				/* translators: There is a space after page. */
@@ -225,11 +236,19 @@ if ( ! function_exists( 'twenty_twenty_one_the_posts_navigation' ) ) {
 				'prev_text'          => sprintf(
 					'%s <span class="nav-prev-text">%s</span>',
 					is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' ),
-					esc_html__( 'Newer posts', 'twentytwentyone' )
+					sprintf(
+						/* translators: %s: The post-type name. */
+						esc_html__( 'Newer %s', 'twentytwentyone' ),
+						'<span class="nav-short">' . esc_html( $post_type_name ) . '</span>'
+					)
 				),
 				'next_text'          => sprintf(
 					'<span class="nav-next-text">%s</span> %s',
-					esc_html__( 'Older posts', 'twentytwentyone' ),
+					sprintf(
+						/* translators: %s: The post-type name. */
+						esc_html__( 'Older %s', 'twentytwentyone' ),
+						'<span class="nav-short">' . esc_html( $post_type_name ) . '</span>'
+					),
 					is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' )
 				),
 			)

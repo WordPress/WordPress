@@ -1,0 +1,148 @@
+// Gutenberg text color options
+
+.has-black-color[class] {
+	color: var(--global--color-black);
+}
+
+.has-gray-color[class] {
+	color: var(--global--color-gray);
+}
+
+.has-dark-gray-color[class] {
+	color: var(--global--color-dark-gray);
+}
+
+.has-green-color[class] {
+	color: var(--global--color-green);
+}
+
+.has-blue-color[class] {
+	color: var(--global--color-blue);
+}
+
+.has-purple-color[class] {
+	color: var(--global--color-purple);
+}
+
+.has-red-color[class] {
+	color: var(--global--color-red);
+}
+
+.has-orange-color[class] {
+	color: var(--global--color-orange);
+}
+
+.has-yellow-color[class] {
+	color: var(--global--color-yellow);
+}
+
+.has-white-color[class] {
+	color: var(--global--color-white);
+}
+
+// Gutenberg background-color options
+.has-background {
+
+	&:not(.has-background-background-color) a:not(.wp-block-button__link),
+	p,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		color: currentColor;
+	}
+}
+
+.has-black-background-color[class] {
+	background-color: var(--global--color-black);
+}
+
+.has-gray-background-color[class] {
+	background-color: var(--global--color-gray);
+}
+
+.has-dark-gray-background-color[class] {
+	background-color: var(--global--color-dark-gray);
+}
+
+.has-green-background-color[class] {
+	background-color: var(--global--color-green);
+}
+
+.has-blue-background-color[class] {
+	background-color: var(--global--color-blue);
+}
+
+.has-purple-background-color[class] {
+	background-color: var(--global--color-purple);
+}
+
+.has-red-background-color[class] {
+	background-color: var(--global--color-red);
+}
+
+.has-orange-background-color[class] {
+	background-color: var(--global--color-orange);
+}
+
+.has-yellow-background-color[class] {
+	background-color: var(--global--color-yellow);
+}
+
+.has-white-background-color[class] {
+	background-color: var(--global--color-white);
+}
+
+:not(.has-text-color) {
+
+	&.has-black-background-color[class],
+	&.has-gray-background-color[class],
+	&.has-dark-gray-background-color[class] {
+		color: var(--global--color-white);
+	}
+
+	&.has-green-background-color[class],
+	&.has-blue-background-color[class],
+	&.has-purple-background-color[class],
+	&.has-red-background-color[class],
+	&.has-orange-background-color[class],
+	&.has-yellow-background-color[class],
+	&.has-white-background-color[class] {
+		color: var(--global--color-dark-gray);
+	}
+}
+
+// Custom gradients
+.has-purple-to-yellow-gradient-background {
+	background: linear-gradient(160deg, var(--global--color-purple), var(--global--color-yellow));
+}
+
+.has-yellow-to-purple-gradient-background {
+	background: linear-gradient(160deg, var(--global--color-yellow), var(--global--color-purple));
+}
+
+.has-green-to-yellow-gradient-background {
+	background: linear-gradient(160deg, var(--global--color-green), var(--global--color-yellow));
+}
+
+.has-yellow-to-green-gradient-background {
+	background: linear-gradient(160deg, var(--global--color-yellow), var(--global--color-green));
+}
+
+.has-red-to-yellow-gradient-background {
+	background: linear-gradient(160deg, var(--global--color-red), var(--global--color-yellow));
+}
+
+.has-yellow-to-red-gradient-background {
+	background: linear-gradient(160deg, var(--global--color-yellow), var(--global--color-red));
+}
+
+.has-purple-to-red-gradient-background {
+	background: linear-gradient(160deg, var(--global--color-purple), var(--global--color-red));
+}
+
+.has-red-to-purple-gradient-background {
+	background: linear-gradient(160deg, var(--global--color-red), var(--global--color-purple));
+}

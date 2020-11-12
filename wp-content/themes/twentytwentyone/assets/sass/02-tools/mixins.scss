@@ -1,0 +1,79 @@
+// Responsive breakpoints mixin
+@mixin add_variables( $view: frontend ) {
+
+	@if frontend == $view {
+
+		:root {
+			@content;
+		}
+	}
+
+	@if editor == $view {
+
+		:root,
+		body {
+			@content;
+		}
+	}
+}
+
+// Crop Text Boundry
+// - Sets a fixed-width on content within alignwide and alignfull blocks
+@mixin crop-text($inset-line-height: 1) {
+
+	line-height: $inset-line-height;
+	$offset-top: calc(.5em * #{$inset-line-height} + -.38);
+	$offset-bottom: calc(.5em * #{$inset-line-height} + -.39);
+
+	&:before,
+	&:after {
+		content: "";
+		display: block;
+		height: 0;
+		width: 0;
+	}
+
+	&:before {
+		margin-bottom: -($offset-top);
+	}
+
+	&:after {
+		margin-top: -($offset-bottom);
+	}
+}
+
+// Button style
+// - Applies button styles to blocks and elements that share them.
+@mixin button-style() {
+	@include crop-text(var(--button--line-height));
+	color: var(--button--color-text);
+	cursor: pointer;
+	font-weight: var(--button--font-weight);
+	font-family: var(--button--font-family);
+	font-size: var(--button--font-size);
+	background-color: var(--button--color-background);
+	border-radius: var(--button--border-radius);
+	border: var(--button--border-width) solid var(--button--color-background);
+	text-decoration: none;
+	padding: var(--button--padding-vertical) var(--button--padding-horizontal);
+
+	&:focus {
+		background: transparent;
+		outline-offset: -6px;
+		outline: 2px dotted currentColor;
+
+		.is-dark-theme & {
+			color: var(--button--color-background);
+		}
+
+		&:not(.has-background) {
+			color: var(--button--color-text-hover);
+		}
+	}
+
+	&:disabled {
+		background-color: var(--global--color-white-50);
+		border-color: var(--global--color-white-50);
+		color: var(--button--color-text-active);
+	}
+}

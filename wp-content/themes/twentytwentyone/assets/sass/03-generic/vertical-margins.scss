@@ -1,0 +1,172 @@
+/**
+ * Site Structure
+ *
+ * - Set vertical margins and responsive widths on
+ *   top-level wrappers and content wrappers
+ * - `--global--width-content` is a responsive veriable
+ * - See: globals/_global-width-responsive.scss
+ */
+
+/**
+ * Top Level Wrappers (header, main, footer)
+ * - Set vertical padding and horizontal margins
+ */
+.site-header,
+.site-main,
+.widget-area,
+.site-footer {
+	padding-top: var(--global--spacing-vertical);
+	padding-bottom: var(--global--spacing-vertical);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.site-header {
+	padding-top: calc(0.75 * var(--global--spacing-vertical));
+	padding-bottom: calc(2 * var(--global--spacing-vertical));
+
+	@include media(mobile) {
+		padding-bottom: calc(3 * var(--global--spacing-vertical));
+	}
+}
+
+/**
+ * Site-main children wrappers
+ * - Add double vertical margins here for clearer heirarchy
+ */
+.site-main > * {
+	margin-top: calc(3 * var(--global--spacing-vertical));
+	margin-bottom: calc(3 * var(--global--spacing-vertical));
+
+	&:first-child {
+		margin-top: 0;
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+/**
+ * Set the default maximum responsive content-width
+ */
+.default-max-width {
+	@extend %responsive-aligndefault-width;
+}
+
+/**
+ * Set the wide maximum responsive content-width
+ */
+.wide-max-width {
+	@extend %responsive-alignwide-width;
+}
+
+/**
+ * Set the full maximum responsive content-width
+ */
+.full-max-width {
+	@extend %responsive-alignfull-width-mobile;
+	@extend %responsive-alignfull-width;
+}
+
+/*
+ * Block & non-gutenberg content wrappers
+ * - Set margins
+ */
+.entry-header,
+.post-thumbnail,
+.entry-content,
+.entry-footer,
+.author-bio {
+	margin-top: var(--global--spacing-vertical);
+	margin-right: auto;
+	margin-bottom: var(--global--spacing-vertical);
+	margin-left: auto;
+}
+
+/*
+ * Block & non-gutenberg content wrapper children
+ * - Sets spacing-vertical margin logic
+ */
+.site-main > article > *, // apply vertical margins to article level
+.site-main > .not-found > *, // apply vertical margins to article level
+.entry-content > *,
+[class*="inner-container"] > *,
+.wp-block-template-part > * {
+
+	margin-top: calc(0.666 * var(--global--spacing-vertical));
+	margin-bottom: calc(0.666 * var(--global--spacing-vertical));
+
+	@include media(mobile) {
+		margin-top: var(--global--spacing-vertical);
+		margin-bottom: var(--global--spacing-vertical);
+	}
+
+	&:first-child {
+		margin-top: 0;
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.site-footer > *,
+.widget-area > * {
+	margin-top: calc(0.666 * var(--global--spacing-vertical));
+	margin-bottom: calc(0.666 * var(--global--spacing-vertical));
+
+	@include media(mobile) {
+		margin-top: var(--global--spacing-vertical);
+		margin-bottom: var(--global--spacing-vertical);
+	}
+}
+
+/*
+ * Block & non-gutenberg content wrapper children
+ * - Sets spacing-unit margins
+ */
+//.site-header > *, // Removed, to align site title and menu.
+.entry-header > *,
+.post-thumbnail > *,
+.page-content > *,
+.comment-content > *,
+.widget > * {
+	margin-top: var(--global--spacing-unit);
+	margin-bottom: var(--global--spacing-unit);
+
+	&:first-child {
+		margin-top: 0;
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+
+/*
+ * .entry-content children specific controls
+ * - Adds special margin overrides for alignment utility classes
+ */
+.entry-content > * {
+
+	&.alignleft,
+	&.alignright,
+	&.alignleft:first-child + *,
+	&.alignright:first-child + *,
+	&.alignfull.has-background {
+		margin-top: 0;
+	}
+
+	&:last-child,
+	&.alignfull.has-background {
+		margin-bottom: 0;
+	}
+
+	/* Reset alignleft and alignright margins after alignfull */
+	&.alignfull + .alignleft,
+	&.alignfull + .alignright {
+		margin-top: var(--global--spacing-vertical);
+	}
+}

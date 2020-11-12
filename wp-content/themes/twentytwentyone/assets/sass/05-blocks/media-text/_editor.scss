@@ -1,0 +1,24 @@
+.wp-block-media-text {
+
+	[data-align="full"] & {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
+	.wp-block-media-text__content {
+		padding: var(--global--spacing-horizontal);
+
+		[data-block]:first-child {
+			margin-top: 0;
+		}
+
+		[data-block]:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	// Block Styles
+	&.is-style-twentytwentyone-border {
+		border: calc(3 * var(--separator--height)) solid var(--global--color-border);
+	}
+}

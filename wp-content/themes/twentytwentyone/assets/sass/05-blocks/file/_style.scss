@@ -1,0 +1,24 @@
+.wp-block-file {
+
+	// Undo Gutenberg hover defaults
+	a.wp-block-file__button:active,
+	a.wp-block-file__button:focus,
+	a.wp-block-file__button:hover {
+		color: var(--button--color-text-hover);
+		opacity: inherit;
+	}
+
+	a.wp-block-file__button:visited {
+		color: var(--button--color-text);
+
+		&:hover {
+			color: var(--button--color-text-hover);
+		}
+	}
+
+	.wp-block-file__button {
+		// Extend button style
+		@include button-style();
+		display: inline-block;
+	}
+}

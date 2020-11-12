@@ -37,7 +37,7 @@ $twenty_twenty_one_comment_count = get_comments_number();
 				<?php
 				printf(
 					/* translators: %s: comment count number. */
-					esc_html( _nx( '%s Comment', '%s Comments', $twenty_twenty_one_comment_count, 'comments title', 'twentytwentyone' ) ),
+					esc_html( _nx( '%s Comment', '%s Comments', $twenty_twenty_one_comment_count, 'Comments title', 'twentytwentyone' ) ),
 					esc_html( number_format_i18n( $twenty_twenty_one_comment_count ) )
 				);
 				?>

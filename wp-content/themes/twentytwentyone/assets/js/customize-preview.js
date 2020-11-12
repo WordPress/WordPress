@@ -11,20 +11,21 @@
 				stylesheet,
 				styles;
 
-			// Modify the body class depending on whether this is a dark background or not.
+			// Modify the html & body classes depending on whether this is a dark background or not.
 			if ( isDark ) {
-				if ( ! document.body.classList.contains( 'has-background-dark' ) ) {
-					document.body.classList.add( 'has-background-dark' );
-				}
-				if ( document.documentElement.classList.contains( 'is-dark-mode' ) ) {
-					document.documentElement.classList.remove( 'is-dark-mode' );
-				}
+				document.body.classList.add( 'is-dark-theme' );
+				document.documentElement.classList.add( 'is-dark-theme' );
+				document.documentElement.classList.remove( 'respect-color-scheme-preference' );
 			} else {
-				document.body.classList.remove( 'has-background-dark' );
+				document.body.classList.remove( 'is-dark-theme' );
+				document.documentElement.classList.remove( 'is-dark-theme' );
+				if ( wp.customize( 'respect_user_color_preference' ).get() ) {
+					document.documentElement.classList.add( 'respect-color-scheme-preference' );
+				}
 			}
 
 			// Toggle the white background class.
-			if ( '#ffffff' === to ) {
+			if ( '#ffffff' === to.toLowerCase() ) {
 				document.body.classList.add( 'has-background-white' );
 			} else {
 				document.body.classList.remove( 'has-background-white' );

@@ -108,7 +108,7 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 				array(
 					'type'    => 'radio',
 					'section' => 'excerpt_settings',
-					'label'   => esc_html__( 'On archive pages, posts show:', 'twentytwentyone' ),
+					'label'   => esc_html__( 'On Archive Pages, posts show:', 'twentytwentyone' ),
 					'choices' => array(
 						'excerpt' => esc_html__( 'Summary', 'twentytwentyone' ),
 						'full'    => esc_html__( 'Full text', 'twentytwentyone' ),
@@ -140,7 +140,7 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 					$wp_customize,
 					'background_color',
 					array(
-						'label'   => esc_html__( 'Background Control', 'twentytwentyone' ),
+						'label'   => esc_html_x( 'Background Color', 'Customizer control', 'twentytwentyone' ),
 						'section' => 'colors',
 						'palette' => $colors,
 					)

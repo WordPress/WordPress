@@ -1,0 +1,53 @@
+.is-IE {
+
+	&.is-dark-theme {
+		color: #fff;
+
+		*,
+		a,
+		.site-description,
+		.entry-title,
+		.entry-footer,
+		.widget-area,
+		.post-navigation .meta-nav,
+		.footer-navigation-wrapper li a:link,
+		.site-footer > .site-info,
+		.site-footer > .site-info a,
+		.site-footer > .site-info a:visited {
+			color: #fff;
+		}
+
+		.sub-menu-toggle svg,
+		.sub-menu-toggle path,
+		.post-navigation .meta-nav svg,
+		.post-navigation .meta-nav path {
+			fill: #fff;
+		}
+
+		.primary-navigation > div > .menu-wrapper > li > .sub-menu li {
+			background: #000;
+		}
+
+		&.primary-navigation-open {
+			@include media(mobile-only) {
+
+				.primary-navigation > .primary-menu-container,
+				.menu-button-container {
+					background-color: #000;
+				}
+			}
+		}
+
+		.skip-link:focus {
+			color: #21759b;
+		}
+	}
+
+	.navigation .nav-links {
+		display: block;
+	}
+
+	.post-thumbnail .wp-post-image {
+		min-width: auto;
+	}
+}

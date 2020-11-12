@@ -27,7 +27,7 @@
 
 		<?php else : ?>
 
-			<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'twentytwentyone' ); ?></h1>
+			<h1 class="page-title"><?php esc_html_e( 'Nothing here', 'twentytwentyone' ); ?></h1>
 
 		<?php endif; ?>
 	</header><!-- .page-header -->

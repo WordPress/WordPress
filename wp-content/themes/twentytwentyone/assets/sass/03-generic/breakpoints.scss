@@ -1,0 +1,217 @@
+/**
+ * Repsonsive Styles
+ */
+
+/**
+ * Required Variables
+ */
+
+$default_width: 610px;
+$max_content_width: 1240px;
+$breakpoint_sm: 482px;
+$breakpoint_md: 592px;
+$breakpoint_lg: 652px;
+$breakpoint_xl: 822px;
+$breakpoint_xxl: 1024px;
+
+// Responsive breakpoints mixin
+@mixin media( $res ) {
+
+	@if mobile-only == $res {
+		@media only screen and (max-width: #{$breakpoint_sm - 1}) {
+			@content;
+		}
+	}
+
+	@if mobile == $res {
+		@media only screen and (min-width: #{$breakpoint_sm}) {
+			@content;
+		}
+	}
+
+	@if tablet-only == $res {
+		@media only screen and (max-width: #{$breakpoint_md - 1}) {
+			@content;
+		}
+	}
+
+	@if tablet == $res {
+		@media only screen and (min-width: #{$breakpoint_md}) {
+			@content;
+		}
+	}
+
+	@if laptop-only == $res {
+		@media only screen and (max-width: #{$breakpoint_lg - 1}) {
+			@content;
+		}
+	}
+
+	@if laptop == $res {
+		@media only screen and (min-width: #{$breakpoint_lg}) {
+			@content;
+		}
+	}
+
+	@if desktop-only == $res {
+		@media only screen and (max-width: #{$breakpoint_xl - 1}) {
+			@content;
+		}
+	}
+
+	@if desktop == $res {
+		@media only screen and (min-width: #{$breakpoint_xl}) {
+			@content;
+		}
+	}
+
+	@if wide-only == $res {
+		@media only screen and (max-width: #{$breakpoint_xxl - 1}) {
+			@content;
+		}
+	}
+
+	@if wide == $res {
+		@media only screen and (min-width: #{$breakpoint_xxl}) {
+			@content;
+		}
+	}
+}
+
+/**
+ * Root Media Query Variables
+ */
+:root {
+	--responsive--spacing-horizontal: calc(2 * var(--global--spacing-horizontal) * 0.6);
+	--responsive--aligndefault-width: calc(100vw - var(--responsive--spacing-horizontal));
+	--responsive--alignwide-width: calc(100vw - var(--responsive--spacing-horizontal));
+	--responsive--alignfull-width: 100%;
+	--responsive--alignright-margin: var(--global--spacing-horizontal);
+	--responsive--alignleft-margin: var(--global--spacing-horizontal);
+}
+
+@include media(mobile) {
+
+	:root {
+		--responsive--aligndefault-width: min(calc(100vw - 4 * var(--global--spacing-horizontal)), #{$default_width});
+		--responsive--alignwide-width: calc(100vw - 4 * var(--global--spacing-horizontal));
+		--responsive--alignright-margin: calc(0.5 * (100vw - var(--responsive--aligndefault-width)));
+		--responsive--alignleft-margin: calc(0.5 * (100vw - var(--responsive--aligndefault-width)));
+	}
+}
+
+@include media(desktop) {
+
+	:root {
+		--responsive--aligndefault-width: min(calc(100vw - 8 * var(--global--spacing-horizontal)), #{$default_width});
+		--responsive--alignwide-width: min(calc(100vw - 8 * var(--global--spacing-horizontal)), #{$max_content_width});
+	}
+}
+
+/**
+ * Extends
+ */
+%responsive-aligndefault-width {
+	max-width: var(--responsive--aligndefault-width);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+%responsive-alignwide-width {
+	max-width: var(--responsive--alignwide-width);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+%responsive-alignfull-width-mobile {
+	max-width: var(--responsive--alignfull-width);
+	width: var(--responsive--alignfull-width);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@include media(mobile) {
+	%responsive-alignfull-width {
+		max-width: var(--responsive--alignfull-width);
+		width: auto;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+%responsive-alignwide-width-nested {
+	margin-left: auto;
+	margin-right: auto;
+	width: var(--responsive--alignwide-width);
+	max-width: var(--responsive--alignfull-width);
+}
+
+%responsive-alignfull-width-nested {
+	margin-left: auto;
+	margin-right: auto;
+	width: calc(var(--responsive--alignfull-width) - calc(2 * var(--responsive--spacing-horizontal)));
+	max-width: var(--responsive--alignfull-width);
+}
+
+@include media(desktop) {
+	%responsive-alignfull-width-nested {
+		margin-left: auto;
+		margin-right: auto;
+		width: calc(var(--responsive--alignfull-width) - calc(4 * var(--responsive--spacing-horizontal)));
+		max-width: var(--responsive--alignfull-width);
+	}
+}
+
+
+%responsive-alignleft-mobile {
+
+	/*rtl:ignore*/
+	margin-left: 0;
+
+	/*rtl:ignore*/
+	margin-right: var(--responsive--spacing-horizontal);
+}
+
+@include media(mobile) {
+	%responsive-alignleft {
+
+		/*rtl:ignore*/
+		margin-left: var(--responsive--alignleft-margin);
+
+		/*rtl:ignore*/
+		margin-right: var(--global--spacing-horizontal);
+	}
+}
+
+%responsive-alignright-mobile {
+
+	/*rtl:ignore*/
+	margin-left: var(--responsive--spacing-horizontal);
+
+	/*rtl:ignore*/
+	margin-right: 0;
+}
+
+@include media(mobile) {
+	%responsive-alignright {
+
+		/*rtl:ignore*/
+		margin-left: var(--global--spacing-horizontal);
+
+		/*rtl:ignore*/
+		margin-right: var(--responsive--alignright-margin);
+	}
+}
+
+// Output
+.default-max-width {
+	@extend %responsive-aligndefault-width;
+}
+
+.wide-max-width {
+	@extend %responsive-alignwide-width;
+}
+
+.full-max-width {
+	@extend %responsive-alignfull-width;
+}

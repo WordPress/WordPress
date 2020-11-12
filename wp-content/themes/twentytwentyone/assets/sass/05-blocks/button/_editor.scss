@@ -1,0 +1,118 @@
+.wp-block-button__link {
+	// Extend button style
+	@include button-style();
+}
+
+/**
+ * Block Options
+ */
+
+// The parent container does not need outer margins applied.
+// The children should all have top and bottom margins.
+[data-block].wp-block-buttons {
+	margin-top: 0;
+	margin-bottom: 0;
+
+	.wp-block-button:first-child {
+		margin-top: var(--global--spacing-vertical);
+	}
+
+	.wp-block-button:last-child {
+		margin-bottom: var(--global--spacing-vertical);
+	}
+}
+
+.wp-block-button {
+
+	// Target the default and filled button states.
+	&:not(.is-style-outline) {
+
+		.wp-block-button__link {
+
+			&:active {
+				color: var(--button--color-text-active) !important;
+				background: transparent !important;
+				border-color: var(--button--color-background);
+			}
+
+			&:hover {
+				color: var(--button--color-text-hover) !important;
+				background: transparent !important;
+				border-color: var(--button--color-background);
+			}
+		}
+	}
+
+	// Outline Style.
+	&.is-style-outline {
+
+		.wp-block-button__link {
+			color: var(--button--color-background);
+			background: transparent;
+			border: var(--button--border-width) solid currentColor;
+			padding: var(--button--padding-vertical) var(--button--padding-horizontal);
+
+			&:active,
+			&:hover {
+				background-color: var(--button--color-background);
+				color: var(--button--color-text);
+				border-color: var(--button--color-background);
+			}
+
+			&.has-background {
+				border-color: var(--button--color-background);
+
+				&:active,
+				&:hover {
+					background-color: var(--button--color-background) !important;
+				}
+			}
+
+			&.has-background:not(.has-text-color) {
+				color: var(--global--color-dark-gray);
+			}
+
+			&.has-background.has-gray-background-color:not(.has-text-color),
+			&.has-background.has-dark-gray-background-color:not(.has-text-color),
+			&.has-background.has-black-background-color:not(.has-text-color) {
+				color: var(--global--color-white);
+			}
+
+			.is-dark-theme & {
+
+				&:not(.has-text-color) {
+
+					&.has-background.has-white-background-color,
+					&.has-background.has-green-background-color,
+					&.has-background.has-blue-background-color,
+					&.has-background.has-purple-background-color,
+					&.has-background.has-red-background-color,
+					&.has-background.has-orange-background-color,
+					&.has-background.has-yellow-background-color {
+						color: var(--global--color-dark-gray);
+					}
+				}
+			}
+
+			&.has-text-color {
+				border-color: currentColor;
+
+				&:active,
+				&:hover {
+					color: var(--button--color-text) !important;
+					border-color: var(--button--color-background);
+				}
+			}
+		}
+	}
+
+	// Squared Style
+	&.is-style-squared {
+		border-radius: 0;
+	}
+}
+
+.is-style-outline .wp-block-button__link[style*="radius"],
+.wp-block-button__link[style*="radius"] {
+	outline-offset: 2px;
+}

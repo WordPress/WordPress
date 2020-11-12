@@ -1,0 +1,14 @@
+.wp-block-code code {
+	font-size: var(--global--font-size-xs);
+	white-space: pre !important;
+	overflow-x: auto;
+}
+
+.wp-block-code {
+	border-color: var(--global--color-border);
+	border-radius: 0;
+	border-style: solid;
+	border-width: 0.1rem;
+	padding: var(--global--spacing-unit);
+	color: currentColor;
+}
