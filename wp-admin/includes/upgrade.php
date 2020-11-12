@@ -2255,6 +2255,11 @@ function upgrade_560() {
 	if ( ! is_null( $post_category_exists ) ) {
 		$wpdb->query( "ALTER TABLE $wpdb->posts DROP COLUMN `post_category`" );
 	}
+
+	// When upgrading from WP < 5.6.0 set the core major auto-updates option to `unset` by default.
+	// This overrides the same option from populate_options() that is intended for new installs.
+	// See https://core.trac.wordpress.org/ticket/51742.
+	update_option( 'auto_update_core_major', 'unset' );
 }
 
 /**
