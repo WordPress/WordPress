@@ -15,7 +15,7 @@
 function wp_register_alignment_support( $block_type ) {
 	$has_align_support = false;
 	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_align_support = wp_array_get( $block_type->supports, array( 'align' ), false );
+		$has_align_support = _wp_array_get( $block_type->supports, array( 'align' ), false );
 	}
 	if ( $has_align_support ) {
 		if ( ! $block_type->attributes ) {
@@ -46,7 +46,7 @@ function wp_apply_alignment_support( $block_type, $block_attributes ) {
 	$attributes        = array();
 	$has_align_support = false;
 	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_align_support = wp_array_get( $block_type->supports, array( 'align' ), false );
+		$has_align_support = _wp_array_get( $block_type->supports, array( 'align' ), false );
 	}
 	if ( $has_align_support ) {
 		$has_block_alignment = array_key_exists( 'align', $block_attributes );

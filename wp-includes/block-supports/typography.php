@@ -15,12 +15,12 @@
 function wp_register_typography_support( $block_type ) {
 	$has_font_size_support = false;
 	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_font_size_support = wp_array_get( $block_type->supports, array( '__experimentalFontSize' ), false );
+		$has_font_size_support = _wp_array_get( $block_type->supports, array( '__experimentalFontSize' ), false );
 	}
 
 	$has_line_height_support = false;
 	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_line_height_support = wp_array_get( $block_type->supports, array( '__experimentalLineHeight' ), false );
+		$has_line_height_support = _wp_array_get( $block_type->supports, array( '__experimentalLineHeight' ), false );
 	}
 
 	if ( ! $block_type->attributes ) {
@@ -56,12 +56,12 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$classes               = array();
 	$styles                = array();
 	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_font_size_support = wp_array_get( $block_type->supports, array( 'fontSize' ), false );
+		$has_font_size_support = _wp_array_get( $block_type->supports, array( 'fontSize' ), false );
 	}
 
 	$has_line_height_support = false;
 	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_line_height_support = wp_array_get( $block_type->supports, array( 'lineHeight' ), false );
+		$has_line_height_support = _wp_array_get( $block_type->supports, array( 'lineHeight' ), false );
 	}
 
 	// Font Size.

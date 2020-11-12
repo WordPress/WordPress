@@ -4528,30 +4528,46 @@ function wp_array_slice_assoc( $array, $keys ) {
 /**
  * Accesses an array in depth based on a path of keys.
  *
- * It is the PHP equivalent of JavaScript's lodash.get, and mirroring it may help other components
+ * It is the PHP equivalent of JavaScript's `lodash.get()` and mirroring it may help other components
  * retain some symmetry between client and server implementations.
  *
+ * Example usage:
+ *
+ *     $array = array(
+ *         'a' => array(
+ *             'b' => array(
+ *                 'c' => 1,
+ *             ),
+ *         ),
+ *     );
+ *     _wp_array_get( $array, array( 'a', 'b', 'c' );
+ *
+ * @internal
+ *
  * @since 5.6.0
+ * @access private
  *
  * @param array $array   An array from which we want to retrieve some information.
  * @param array $path    An array of keys describing the path with which to retrieve information.
- * @param array $default The return value if the path is not set on the array,
- *                       or if the types of array and path are not arrays.
- * @return array An array matching the path specified.
+ * @param mixed $default The return value if the path does not exist within the array,
+ *                       or if `$array` or `$path` are not arrays.
+ * @return mixed The value from the path specified.
  */
-function wp_array_get( $array, $path, $default = array() ) {
-	// Confirm input values are expected type to avoid notice warnings.
-	if ( ! is_array( $array ) || ! is_array( $path ) ) {
+function _wp_array_get( $array, $path, $default = null ) {
+	// Confirm $path is valid.
+	if ( ! is_array( $path ) || 0 === count( $path ) ) {
 		return $default;
 	}
 
-	$path_length = count( $path );
-
-	for ( $i = 0; $i < $path_length; ++$i ) {
-		if ( ! isset( $array[ $path[ $i ] ] ) ) {
+	foreach ( $path as $path_element ) {
+		if (
+			! is_array( $array ) ||
+			( ! is_string( $path_element ) && ! is_integer( $path_element ) && ! is_null( $path_element ) ) ||
+			! array_key_exists( $path_element, $array )
+		) {
 			return $default;
 		}
-		$array = $array[ $path[ $i ] ];
+		$array = $array[ $path_element ];
 	}
 
 	return $array;

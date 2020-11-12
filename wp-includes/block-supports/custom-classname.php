@@ -15,7 +15,7 @@
 function wp_register_custom_classname_support( $block_type ) {
 	$has_custom_classname_support = true;
 	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_custom_classname_support = wp_array_get( $block_type->supports, array( 'customClassName' ), true );
+		$has_custom_classname_support = _wp_array_get( $block_type->supports, array( 'customClassName' ), true );
 	}
 	if ( $has_custom_classname_support ) {
 		if ( ! $block_type->attributes ) {
@@ -44,7 +44,7 @@ function wp_apply_custom_classname_support( $block_type, $block_attributes ) {
 	$has_custom_classname_support = true;
 	$attributes                   = array();
 	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_custom_classname_support = wp_array_get( $block_type->supports, array( 'customClassName' ), true );
+		$has_custom_classname_support = _wp_array_get( $block_type->supports, array( 'customClassName' ), true );
 	}
 	if ( $has_custom_classname_support ) {
 		$has_custom_classnames = array_key_exists( 'className', $block_attributes );

@@ -47,7 +47,7 @@ function wp_apply_generated_classname_support( $block_type, $block_attributes ) 
 	$has_generated_classname_support = true;
 	$attributes                      = array();
 	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_generated_classname_support = wp_array_get( $block_type->supports, array( 'className' ), true );
+		$has_generated_classname_support = _wp_array_get( $block_type->supports, array( 'className' ), true );
 	}
 	if ( $has_generated_classname_support ) {
 		$block_classname = wp_get_block_default_classname( $block_type->name );
