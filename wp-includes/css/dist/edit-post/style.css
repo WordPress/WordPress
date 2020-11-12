@@ -192,7 +192,8 @@ html.interface-interface-skeleton__html-container {
 .interface-interface-skeleton__editor {
   display: flex;
   flex-direction: column;
-  flex-grow: 1; }
+  flex-grow: 1;
+  max-width: 100%; }
 
 .interface-interface-skeleton {
   /* Set left position when auto-fold is not on the body element. */
@@ -647,6 +648,13 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   padding: 0; }
   .show-icon-labels .edit-post-header-toolbar .edit-post-header-toolbar__left > .edit-post-header-toolbar__inserter-toggle.has-icon {
     height: 36px; }
+
+.edit-post-header-toolbar .edit-post-header-toolbar__left > .edit-post-header-toolbar__inserter-toggle.has-text.has-icon {
+  width: auto;
+  padding: 0 8px; }
+
+.show-icon-labels .edit-post-header-toolbar__left > * + * {
+  margin-left: 8px; }
 
 @media (min-width: 1280px) {
   .show-icon-labels .edit-post-header-toolbar__block-toolbar {

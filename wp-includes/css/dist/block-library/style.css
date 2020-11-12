@@ -107,9 +107,15 @@
 
 .is-style-outline > .wp-block-button__link,
 .wp-block-button__link.is-style-outline {
-  color: #32373c;
-  background-color: transparent;
   border: 2px solid; }
+
+.is-style-outline > .wp-block-button__link:not(.has-text-color),
+.wp-block-button__link.is-style-outline:not(.has-text-color) {
+  color: #32373c; }
+
+.is-style-outline > .wp-block-button__link:not(.has-background),
+.wp-block-button__link.is-style-outline:not(.has-background) {
+  background-color: transparent; }
 
 .wp-block-buttons .wp-block-button {
   display: inline-block;
@@ -232,7 +238,17 @@
   justify-content: center;
   align-items: center;
   padding: 1em;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  /**
+	 * Set a default background color for has-background-dim _unless_ it includes another
+	 * background-color class (e.g. has-green-background-color). The presence of another
+	 * background-color class implies that another style will provide the background color
+	 * for the overlay.
+	 *
+	 * See:
+	 *   - Issue with background color specificity: https://github.com/WordPress/gutenberg/issues/26545
+	 *   - Issue with alternative fix: https://github.com/WordPress/gutenberg/issues/26545
+	 */ }
   .wp-block-cover-image.has-parallax,
   .wp-block-cover.has-parallax {
     background-attachment: fixed; }
@@ -248,6 +264,9 @@
   .wp-block-cover.is-repeated {
     background-repeat: repeat;
     background-size: auto; }
+  .wp-block-cover-image.has-background-dim:not([class*="-background-color"]),
+  .wp-block-cover.has-background-dim:not([class*="-background-color"]) {
+    background-color: #000; }
   .wp-block-cover-image.has-background-dim::before,
   .wp-block-cover.has-background-dim::before {
     content: "";
@@ -751,11 +770,11 @@ h6.has-background {
     width: 100%; }
   .wp-block-image .alignleft,
   .wp-block-image .alignright,
-  .wp-block-image .aligncenter, .wp-block-image.is-resized {
+  .wp-block-image .aligncenter {
     display: table; }
     .wp-block-image .alignleft > figcaption,
     .wp-block-image .alignright > figcaption,
-    .wp-block-image .aligncenter > figcaption, .wp-block-image.is-resized > figcaption {
+    .wp-block-image .aligncenter > figcaption {
       display: table-caption;
       caption-side: bottom; }
   .wp-block-image .alignleft {
@@ -1221,7 +1240,7 @@ p.has-text-color a {
   color: inherit; }
 
 .wp-block-quote.is-style-large, .wp-block-quote.is-large {
-  margin: 0 0 1em;
+  margin-bottom: 1em;
   padding: 0 1em; }
   .wp-block-quote.is-style-large p, .wp-block-quote.is-large p {
     font-size: 1.5em;

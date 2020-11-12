@@ -731,6 +731,16 @@ figure.wp-block-image:not(.wp-block) {
 [data-align="full"] > .wp-block-image img {
   width: 100%; }
 
+.wp-block[data-align="left"] > .wp-block-image,
+.wp-block[data-align="center"] > .wp-block-image,
+.wp-block[data-align="right"] > .wp-block-image {
+  display: table; }
+  .wp-block[data-align="left"] > .wp-block-image > figcaption,
+  .wp-block[data-align="center"] > .wp-block-image > figcaption,
+  .wp-block[data-align="right"] > .wp-block-image > figcaption {
+    display: table-caption;
+    caption-side: bottom; }
+
 .wp-block[data-align="left"] > .wp-block-image {
   margin-right: 1em;
   margin-left: 0;

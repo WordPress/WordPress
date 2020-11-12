@@ -13843,6 +13843,7 @@ __webpack_require__.d(actions_namespaceObject, "moveBlocksToPosition", function(
 __webpack_require__.d(actions_namespaceObject, "moveBlockToPosition", function() { return actions_moveBlockToPosition; });
 __webpack_require__.d(actions_namespaceObject, "insertBlock", function() { return actions_insertBlock; });
 __webpack_require__.d(actions_namespaceObject, "insertBlocks", function() { return actions_insertBlocks; });
+__webpack_require__.d(actions_namespaceObject, "__unstableSetInsertionPoint", function() { return actions_unstableSetInsertionPoint; });
 __webpack_require__.d(actions_namespaceObject, "showInsertionPoint", function() { return actions_showInsertionPoint; });
 __webpack_require__.d(actions_namespaceObject, "hideInsertionPoint", function() { return actions_hideInsertionPoint; });
 __webpack_require__.d(actions_namespaceObject, "setTemplateValidity", function() { return setTemplateValidity; });
@@ -13894,11 +13895,11 @@ __webpack_require__.d(selectors_namespaceObject, "getBlockCount", function() { r
 __webpack_require__.d(selectors_namespaceObject, "getSelectionStart", function() { return selectors_getSelectionStart; });
 __webpack_require__.d(selectors_namespaceObject, "getSelectionEnd", function() { return selectors_getSelectionEnd; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockSelectionStart", function() { return getBlockSelectionStart; });
-__webpack_require__.d(selectors_namespaceObject, "getBlockSelectionEnd", function() { return selectors_getBlockSelectionEnd; });
+__webpack_require__.d(selectors_namespaceObject, "getBlockSelectionEnd", function() { return getBlockSelectionEnd; });
 __webpack_require__.d(selectors_namespaceObject, "getSelectedBlockCount", function() { return selectors_getSelectedBlockCount; });
 __webpack_require__.d(selectors_namespaceObject, "hasSelectedBlock", function() { return hasSelectedBlock; });
 __webpack_require__.d(selectors_namespaceObject, "getSelectedBlockClientId", function() { return selectors_getSelectedBlockClientId; });
-__webpack_require__.d(selectors_namespaceObject, "getSelectedBlock", function() { return selectors_getSelectedBlock; });
+__webpack_require__.d(selectors_namespaceObject, "getSelectedBlock", function() { return getSelectedBlock; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockRootClientId", function() { return selectors_getBlockRootClientId; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockParents", function() { return selectors_getBlockParents; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockParentsByBlockName", function() { return getBlockParentsByBlockName; });
@@ -21756,9 +21757,31 @@ function blocksMode() {
   return state;
 }
 /**
- * Reducer returning the block insertion point visibility, either null if there
- * is not an explicit insertion point assigned, or an object of its `index` and
- * `rootClientId`.
+ * A helper for resetting the insertion point state.
+ *
+ * @param {Object} state        Current state.
+ * @param {Object} action       Dispatched action.
+ * @param {*}      defaultValue The default value for the reducer.
+ *
+ * @return {*} Either the default value if a reset is required, or the state.
+ */
+
+function resetInsertionPoint(state, action, defaultValue) {
+  switch (action.type) {
+    case 'CLEAR_SELECTED_BLOCK':
+    case 'SELECT_BLOCK':
+    case 'REPLACE_INNER_BLOCKS':
+    case 'INSERT_BLOCKS':
+    case 'REMOVE_BLOCKS':
+    case 'REPLACE_BLOCKS':
+      return defaultValue;
+  }
+
+  return state;
+}
+/**
+ * Reducer returning the insertion point position, consisting of the
+ * rootClientId and an index.
  *
  * @param {Object} state  Current state.
  * @param {Object} action Dispatched action.
@@ -21766,24 +21789,48 @@ function blocksMode() {
  * @return {Object} Updated state.
  */
 
+
 function insertionPoint() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
+    case 'SET_INSERTION_POINT':
     case 'SHOW_INSERTION_POINT':
-      var rootClientId = action.rootClientId,
-          index = action.index;
-      return {
-        rootClientId: rootClientId,
-        index: index
-      };
-
-    case 'HIDE_INSERTION_POINT':
-      return null;
+      {
+        var rootClientId = action.rootClientId,
+            index = action.index;
+        return {
+          rootClientId: rootClientId,
+          index: index
+        };
+      }
   }
 
-  return state;
+  return resetInsertionPoint(state, action, null);
+}
+/**
+ * Reducer returning the visibility of the insertion point.
+ *
+ * @param {Object} state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {Object} Updated state.
+ */
+
+function insertionPointVisibility() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case 'SHOW_INSERTION_POINT':
+      return true;
+
+    case 'HIDE_INSERTION_POINT':
+      return false;
+  }
+
+  return resetInsertionPoint(state, action, false);
 }
 /**
  * Reducer returning whether the post blocks match the defined template or not.
@@ -22068,6 +22115,7 @@ function highlightedBlock(state, action) {
   blocksMode: blocksMode,
   blockListSettings: reducer_blockListSettings,
   insertionPoint: insertionPoint,
+  insertionPointVisibility: insertionPointVisibility,
   template: reducer_template,
   settings: reducer_settings,
   preferences: preferences,
@@ -22818,12 +22866,34 @@ function actions_insertBlocks(blocks, index, rootClientId) {
   }, _marked7, null, [[10, 22, 25, 28]]);
 }
 /**
- * Returns an action object used in signalling that the insertion point should
- * be shown.
+ * Sets the insertion point without showing it to users.
  *
- * @param {?string} rootClientId Optional root client ID of block list on
- *                               which to insert.
- * @param {?number} index        Index at which block should be inserted.
+ * Components like <Inserter> will default to inserting blocks at this point.
+ *
+ * @param {?string} rootClientId Root client ID of block list in which to
+ *                               insert. Use `undefined` for the root block
+ *                               list.
+ * @param {number} index         Index at which block should be inserted.
+ *
+ * @return {Object} Action object.
+ */
+
+function actions_unstableSetInsertionPoint(rootClientId, index) {
+  return {
+    type: 'SET_INSERTION_POINT',
+    rootClientId: rootClientId,
+    index: index
+  };
+}
+/**
+ * Sets the insertion point and shows it to users.
+ *
+ * Components like <Inserter> will default to inserting blocks at this point.
+ *
+ * @param {?string} rootClientId Root client ID of block list in which to
+ *                               insert. Use `undefined` for the root block
+ *                               list.
+ * @param {number} index         Index at which block should be inserted.
  *
  * @return {Object} Action object.
  */
@@ -22836,7 +22906,7 @@ function actions_showInsertionPoint(rootClientId, index) {
   };
 }
 /**
- * Returns an action object hiding the insertion point.
+ * Hides the insertion point for users.
  *
  * @return {Object} Action object.
  */
@@ -23941,7 +24011,7 @@ function getBlockSelectionStart(state) {
  * @return {?string} Client ID of block selection end.
  */
 
-function selectors_getBlockSelectionEnd(state) {
+function getBlockSelectionEnd(state) {
   return state.selectionEnd.clientId;
 }
 /**
@@ -24002,7 +24072,7 @@ function selectors_getSelectedBlockClientId(state) {
  * @return {?Object} Selected block.
  */
 
-function selectors_getSelectedBlock(state) {
+function getSelectedBlock(state) {
   var clientId = selectors_getSelectedBlockClientId(state);
   return clientId ? selectors_getBlock(state, clientId) : null;
 }
@@ -24657,12 +24727,18 @@ function selectors_isCaretWithinFormattedText(state) {
   return state.isCaretWithinFormattedText;
 }
 /**
- * Returns the insertion point, the index at which the new inserted block would
- * be placed. Defaults to the last index.
+ * Returns the insertion point. This will be:
  *
- * @param {Object} state Editor state.
+ * 1) The insertion point manually set using setInsertionPoint() or
+ *    showInsertionPoint(); or
+ * 2) The point after the current block selection, if there is a selection; or
+ * 3) The point at the end of the block list.
  *
- * @return {Object} Insertion point object with `rootClientId`, `index`.
+ * Components like <Inserter> will default to inserting blocks at this point.
+ *
+ * @param {Object} state Global application state.
+ *
+ * @return {Object} Insertion point object with `rootClientId` and `index`.
  */
 
 function getBlockInsertionPoint(state) {
@@ -24689,15 +24765,16 @@ function getBlockInsertionPoint(state) {
   };
 }
 /**
- * Returns true if we should show the block insertion point.
+ * Whether or not the insertion point should be shown to users. This is set
+ * using showInsertionPoint() or hideInsertionPoint().
  *
  * @param {Object} state Global application state.
  *
- * @return {?boolean} Whether the insertion point is visible or not.
+ * @return {?boolean} Whether the insertion point should be shown.
  */
 
 function isBlockInsertionPointVisible(state) {
-  return state.insertionPoint !== null;
+  return state.insertionPointVisibility;
 }
 /**
  * Returns whether the blocks matches the template or not.
@@ -27837,16 +27914,6 @@ function ReusableBlocksTab(_ref3) {
 /* harmony default export */ var reusable_blocks_tab = (Object(external_this_wp_components_["withSpokenMessages"])(ReusableBlocksTab));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inserter/hooks/use-insertion-point.js
-
-
-function use_insertion_point_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function use_insertion_point_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { use_insertion_point_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { use_insertion_point_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-/**
- * External dependencies
- */
-
 /**
  * WordPress dependencies
  */
@@ -27854,14 +27921,20 @@ function use_insertion_point_objectSpread(target) { for (var i = 1; i < argument
 
 
 
-
 /**
  * @typedef WPInserterConfig
  *
- * @property {string=} rootClientId        Inserter Root Client ID.
- * @property {string=} clientId            Inserter Client ID.
- * @property {boolean} isAppender          Whether the inserter is an appender or not.
- * @property {boolean} selectBlockOnInsert Whether the block should be selected on insert.
+ * @property {string=}   rootClientId        If set, insertion will be into the
+ *                                           block with this ID.
+ * @property {number=}   insertionIndex      If set, insertion will be into this
+ *                                           explicit position.
+ * @property {string=}   clientId            If set, insertion will be after the
+ *                                           block with this ID.
+ * @property {boolean=}  isAppender          Whether the inserter is an appender
+ *                                           or not.
+ * @property {boolean=}  selectBlockOnInsert Whether the block should be
+ *                                           selected on insert.
+ * @property {Function=} onSelect            Called after insertion.
  */
 
 /**
@@ -27872,41 +27945,54 @@ function use_insertion_point_objectSpread(target) { for (var i = 1; i < argument
  */
 
 function useInsertionPoint(_ref) {
-  var onSelect = _ref.onSelect,
-      rootClientId = _ref.rootClientId,
+  var rootClientId = _ref.rootClientId,
+      insertionIndex = _ref.insertionIndex,
       clientId = _ref.clientId,
       isAppender = _ref.isAppender,
       selectBlockOnInsert = _ref.selectBlockOnInsert,
-      insertionIndex = _ref.insertionIndex;
+      onSelect = _ref.onSelect;
 
   var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
-    var _getSettings$__experi;
-
     var _select = select('core/block-editor'),
-        getSettings = _select.getSettings,
-        getBlockRootClientId = _select.getBlockRootClientId,
-        _getBlockSelectionEnd = _select.getBlockSelectionEnd;
+        getSelectedBlock = _select.getSelectedBlock,
+        getBlockIndex = _select.getBlockIndex,
+        getBlockOrder = _select.getBlockOrder,
+        getBlockInsertionPoint = _select.getBlockInsertionPoint;
 
-    var destRootClientId = rootClientId;
+    var _destinationRootClientId, _destinationIndex;
 
-    if (!destRootClientId && !clientId && !isAppender) {
-      var end = _getBlockSelectionEnd();
+    if (rootClientId || insertionIndex || clientId || isAppender) {
+      // If any of these arguments are set, we're in "manual mode"
+      // meaning the insertion point is set by the caller.
+      _destinationRootClientId = rootClientId;
 
-      if (end) {
-        destRootClientId = getBlockRootClientId(end);
+      if (insertionIndex) {
+        // Insert into a specific index.
+        _destinationIndex = insertionIndex;
+      } else if (clientId) {
+        // Insert after a specific client ID.
+        _destinationIndex = getBlockIndex(clientId, _destinationRootClientId);
+      } else {
+        // Insert at the end of the list.
+        _destinationIndex = getBlockOrder(_destinationRootClientId).length;
       }
+    } else {
+      // Otherwise, we're in "auto mode" where the insertion point is
+      // decided by getBlockInsertionPoint().
+      var insertionPoint = getBlockInsertionPoint();
+      _destinationRootClientId = insertionPoint.rootClientId;
+      _destinationIndex = insertionPoint.index;
     }
 
-    return use_insertion_point_objectSpread({
-      hasPatterns: !!((_getSettings$__experi = getSettings().__experimentalBlockPatterns) === null || _getSettings$__experi === void 0 ? void 0 : _getSettings$__experi.length),
-      destinationRootClientId: destRootClientId
-    }, Object(external_this_lodash_["pick"])(select('core/block-editor'), ['getSelectedBlock', 'getBlockIndex', 'getBlockSelectionEnd', 'getBlockOrder']));
-  }, [isAppender, clientId, rootClientId]),
+    return {
+      selectedBlock: getSelectedBlock(),
+      destinationRootClientId: _destinationRootClientId,
+      destinationIndex: _destinationIndex
+    };
+  }, [rootClientId, insertionIndex, clientId, isAppender]),
+      selectedBlock = _useSelect.selectedBlock,
       destinationRootClientId = _useSelect.destinationRootClientId,
-      getSelectedBlock = _useSelect.getSelectedBlock,
-      getBlockIndex = _useSelect.getBlockIndex,
-      getBlockSelectionEnd = _useSelect.getBlockSelectionEnd,
-      getBlockOrder = _useSelect.getBlockOrder;
+      destinationIndex = _useSelect.destinationIndex;
 
   var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/block-editor'),
       replaceBlocks = _useDispatch.replaceBlocks,
@@ -27914,34 +28000,11 @@ function useInsertionPoint(_ref) {
       showInsertionPoint = _useDispatch.showInsertionPoint,
       hideInsertionPoint = _useDispatch.hideInsertionPoint;
 
-  function getInsertionIndex() {
-    if (insertionIndex !== undefined) {
-      return insertionIndex;
-    } // If the clientId is defined, we insert at the position of the block.
-
-
-    if (clientId) {
-      return getBlockIndex(clientId, destinationRootClientId);
-    } // If there's a selected block, and the selected block is not the destination root block, we insert after the selected block.
-
-
-    var end = getBlockSelectionEnd();
-
-    if (!isAppender && end) {
-      return getBlockIndex(end, destinationRootClientId) + 1;
-    } // Otherwise, we insert at the end of the current rootClientId
-
-
-    return getBlockOrder(destinationRootClientId).length;
-  }
-
   var onInsertBlocks = function onInsertBlocks(blocks, meta) {
-    var selectedBlock = getSelectedBlock();
-
     if (!isAppender && selectedBlock && Object(external_this_wp_blocks_["isUnmodifiedDefaultBlock"])(selectedBlock)) {
       replaceBlocks(selectedBlock.clientId, blocks, null, null, meta);
     } else {
-      insertBlocks(blocks, getInsertionIndex(), destinationRootClientId, selectBlockOnInsert, meta);
+      insertBlocks(blocks, destinationIndex, destinationRootClientId, selectBlockOnInsert, meta);
     }
 
     if (!selectBlockOnInsert) {
@@ -27958,8 +28021,7 @@ function useInsertionPoint(_ref) {
 
   var onToggleInsertionPoint = function onToggleInsertionPoint(show) {
     if (show) {
-      var index = getInsertionIndex();
-      showInsertionPoint(destinationRootClientId, index);
+      showInsertionPoint(destinationRootClientId, destinationIndex);
     } else {
       hideInsertionPoint();
     }
@@ -28344,12 +28406,20 @@ function QuickInserter(_ref2) {
   var filteredBlockPatterns = Object(external_this_wp_element_["useMemo"])(function () {
     return search_items_searchItems(patterns, filterValue);
   }, [filterValue, patterns]);
-  var setInserterIsOpened = Object(external_this_wp_data_["useSelect"])(function (select) {
-    return select('core/block-editor').getSettings().__experimentalSetIsInserterOpened;
-  }, []);
-  var previousBlockClientId = Object(external_this_wp_data_["useSelect"])(function (select) {
-    return select('core/block-editor').getPreviousBlockClientId(clientId);
-  }, [clientId]);
+
+  var _useSelect = Object(external_this_wp_data_["useSelect"])(function (select) {
+    var _select = select('core/block-editor'),
+        getSettings = _select.getSettings,
+        getBlockIndex = _select.getBlockIndex;
+
+    return {
+      setInserterIsOpened: getSettings().__experimentalSetIsInserterOpened,
+      blockIndex: getBlockIndex(clientId, rootClientId)
+    };
+  }, [clientId, rootClientId]),
+      setInserterIsOpened = _useSelect.setInserterIsOpened,
+      blockIndex = _useSelect.blockIndex;
+
   Object(external_this_wp_element_["useEffect"])(function () {
     if (setInserterIsOpened) {
       setInserterIsOpened(false);
@@ -28357,7 +28427,7 @@ function QuickInserter(_ref2) {
   }, [setInserterIsOpened]);
 
   var _useDispatch = Object(external_this_wp_data_["useDispatch"])('core/block-editor'),
-      selectBlock = _useDispatch.selectBlock; // Announce search results on change
+      __unstableSetInsertionPoint = _useDispatch.__unstableSetInsertionPoint; // Announce search results on change
 
 
   Object(external_this_wp_element_["useEffect"])(function () {
@@ -28370,18 +28440,12 @@ function QuickInserter(_ref2) {
     /* translators: %d: number of results. */
     Object(external_this_wp_i18n_["_n"])('%d result found.', '%d results found.', count), count);
     debouncedSpeak(resultsFoundMessage);
-  }, [filterValue, debouncedSpeak]); // When clicking Browse All select the appropriate block so as
-  // the insertion point can work as expected
+  }, [filterValue, debouncedSpeak]);
 
   var onBrowseAll = function onBrowseAll() {
-    // We have to select the previous block because the menu inserter
-    // inserts the new block after the selected one.
-    // Ideally, this selection shouldn't focus the block to avoid the setTimeout.
-    selectBlock(previousBlockClientId); // eslint-disable-next-line @wordpress/react-no-unsafe-timeout
+    __unstableSetInsertionPoint(rootClientId, blockIndex);
 
-    setTimeout(function () {
-      setInserterIsOpened(true);
-    });
+    setInserterIsOpened(true);
   }; // Disable reason (no-autofocus): The inserter menu is a modal display, not one which
   // is always visible, and one which already incurs this behavior of autoFocus via
   // Popover's focusOnMount.
