@@ -1,4 +1,4 @@
-function toggleDarkMode() { // eslint-disable-line no-unused-vars
+function toggleDarkMode() { // jshint ignore:line
 	var toggler = document.getElementById( 'dark-mode-toggler' );
 
 	if ( 'false' === toggler.getAttribute( 'aria-pressed' ) ) {

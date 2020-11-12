@@ -58,7 +58,7 @@ function twentytwentyoneSubmenuPosition( li ) {
  *
  * @param {Element} el - The element.
  */
-function twentytwentyoneExpandSubMenu( el ) { // eslint-disable-line no-unused-vars
+function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 	// Close other expanded items.
 	el.closest( 'nav' ).querySelectorAll( '.sub-menu-toggle' ).forEach( function( button ) {
 		if ( button !== el ) {
@@ -114,7 +114,7 @@ function twentytwentyoneExpandSubMenu( el ) { // eslint-disable-line no-unused-v
 			tabKey = event.keyCode === 9;
 			shiftKey = event.shiftKey;
 			escKey = event.keyCode === 27;
-			activeEl = document.activeElement; // eslint-disable-line @wordpress/no-global-active-element
+			activeEl = document.activeElement;
 			lastEl = elements[ elements.length - 1 ];
 			firstEl = elements[0];
 
