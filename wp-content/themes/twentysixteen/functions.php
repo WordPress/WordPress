@@ -216,6 +216,9 @@ if ( ! function_exists( 'twentysixteen_setup' ) ) :
 
 		// Indicate widget sidebars can use selective refresh in the Customizer.
 		add_theme_support( 'customize-selective-refresh-widgets' );
+
+		// Add support for custom line height controls.
+		add_theme_support( 'custom-line-height' );
 	}
 endif; // twentysixteen_setup()
 add_action( 'after_setup_theme', 'twentysixteen_setup' );
@@ -505,6 +508,11 @@ function twentysixteen_hex2rgb( $color ) {
  * Custom template tags for this theme.
  */
 require get_template_directory() . '/inc/template-tags.php';
+
+/**
+ * Block Patterns.
+ */
+require get_template_directory() . '/inc/block-patterns.php';
 
 /**
  * Customizer additions.
