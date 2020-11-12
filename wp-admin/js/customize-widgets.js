@@ -98,7 +98,7 @@
 			match = new RegExp( '^(?=.*' + term + ').+', 'i' );
 
 			this.each( function ( data ) {
-				haystack = [ data.get( 'name' ), data.get( 'id' ), data.get( 'description' ) ].join( ' ' );
+				haystack = [ data.get( 'name' ), data.get( 'description' ) ].join( ' ' );
 				data.set( 'search_matched', match.test( haystack ) );
 			} );
 		}
