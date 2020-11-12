@@ -742,7 +742,8 @@ endif;
 		<div class="create-application-password form-wrap">
 			<div class="form-field">
 				<label for="new_application_password_name"><?php _e( 'New Application Password Name' ); ?></label>
-				<input type="text" size="30" id="new_application_password_name" name="new_application_password_name" placeholder="<?php esc_attr_e( 'WordPress App on My Phone' ); ?>" class="input" aria-required="true" aria-describedby="<?php esc_attr_e( 'Required to create an Application Password, but not to update the user.' ); ?>" />
+				<input type="text" size="30" id="new_application_password_name" name="new_application_password_name" placeholder="<?php esc_attr_e( 'WordPress App on My Phone' ); ?>" class="input" aria-required="true" aria-describedby="new_application_password_name_desc" />
+				<p class="description" id="new_application_password_name_desc"><?php _e( 'Required to create an Application Password, but not to update the user.' ); ?></p>
 			</div>
 
 			<?php
