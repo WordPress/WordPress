@@ -279,9 +279,9 @@ class Core_Upgrader extends WP_Upgrader {
 		$current_is_development_version = (bool) strpos( $wp_version, '-' );
 
 		// Defaults:
-		$upgrade_dev   = get_site_option( 'auto_update_core_dev', true );
-		$upgrade_minor = get_site_option( 'auto_update_core_minor', true );
-		$upgrade_major = get_site_option( 'auto_update_core_major', false );
+		$upgrade_dev   = get_site_option( 'auto_update_core_dev', 'enabled' ) === 'enabled';
+		$upgrade_minor = get_site_option( 'auto_update_core_minor', 'enabled' ) === 'enabled';
+		$upgrade_major = get_site_option( 'auto_update_core_major', 'unset' ) === 'enabled';
 
 		// WP_AUTO_UPDATE_CORE = true (all), 'beta', 'rc', 'minor', false.
 		if ( defined( 'WP_AUTO_UPDATE_CORE' ) ) {

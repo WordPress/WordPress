@@ -1600,6 +1600,19 @@ form.upgrade .hint {
 	margin: -4px 0;
 }
 
+h2.wp-current-version {
+	margin-bottom: .3em;
+}
+
+p.update-last-checked {
+	margin-top: 0;
+}
+
+p.auto-update-status {
+	margin-top: 2em;
+	line-height: 1.8;
+}
+
 #ajax-loading,
 .ajax-loading,
 .ajax-feedback,
