@@ -4,7 +4,7 @@ Tested up to: 5.6
 Version: 2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: one-column, two-columns, right-sidebar, flexible-header, accessibility-ready, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready
+Tags: one-column, two-columns, right-sidebar, flexible-header, accessibility-ready, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready, block-patterns
 
 == Description ==
 
@@ -56,6 +56,15 @@ Source: http://fontawesome.io/
 Bundled header image, Copyright Alvin Engler
 License: CC0 1.0 Universal (CC0 1.0)
 Source: https://unsplash.com/@englr?photo=bIhpiQA009k
+
+Bundled block pattern images, Copyright Solo Shutter
+License: CC0 1.0 Universal (CC0 1.0)
+Source: https://stocksnap.io/photo/striped-lines-BTNYMDDCBW
+        https://stocksnap.io/photo/striped-lines-5XWOPSWPWX
+
+Bundled block pattern image, Copyright Seacoast Sage
+License: CC0 1.0 Universal (CC0 1.0)
+Source: https://stocksnap.io/photo/striped-fabric-9CBVWF2CDU
 
 == Changelog ==
 
