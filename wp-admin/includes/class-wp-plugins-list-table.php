@@ -317,7 +317,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$js_plugins = array();
 		foreach ( $plugins as $key => $list ) {
-			$js_plugins[ $key ] = array_keys( (array) $list );
+			$js_plugins[ $key ] = array_keys( $list );
 		}
 
 		wp_localize_script(

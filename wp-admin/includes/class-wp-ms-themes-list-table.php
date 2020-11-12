@@ -206,9 +206,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$themes['search'] = array_filter( array_merge( $themes['all'], $themes['broken'] ), array( $this, '_search_callback' ) );
 		}
 
-		$totals = array();
+		$totals    = array();
+		$js_themes = array();
 		foreach ( $themes as $type => $list ) {
-			$totals[ $type ] = count( $list );
+			$totals[ $type ]    = count( $list );
+			$js_themes[ $type ] = array_keys( $list );
 		}
 
 		if ( empty( $themes[ $status ] ) && ! in_array( $status, array( 'all', 'search' ), true ) ) {
@@ -225,7 +227,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			'updates',
 			'_wpUpdatesItemCounts',
 			array(
-				'themes' => $totals,
+				'themes' => $js_themes,
 				'totals' => wp_get_update_data(),
 			)
 		);

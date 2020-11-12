@@ -8,22 +8,26 @@
 /* global pagenow */
 
 /**
- * @param {jQuery}  $                                   jQuery object.
- * @param {object}  wp                                  WP object.
- * @param {object}  settings                            WP Updates settings.
- * @param {string}  settings.ajax_nonce                 Ajax nonce.
- * @param {object=} settings.plugins                    Base names of plugins in their different states.
- * @param {Array}   settings.plugins.all                Base names of all plugins.
- * @param {Array}   settings.plugins.active             Base names of active plugins.
- * @param {Array}   settings.plugins.inactive           Base names of inactive plugins.
- * @param {Array}   settings.plugins.upgrade            Base names of plugins with updates available.
- * @param {Array}   settings.plugins.recently_activated Base names of recently activated plugins.
- * @param {object=} settings.themes                     Plugin/theme status information or null.
- * @param {number}  settings.themes.all                 Amount of all themes.
- * @param {number}  settings.themes.upgrade             Amount of themes with updates available.
- * @param {number}  settings.themes.disabled            Amount of disabled themes.
- * @param {object=} settings.totals                     Combined information for available update counts.
- * @param {number}  settings.totals.count               Holds the amount of available updates.
+ * @param {jQuery}  $                                        jQuery object.
+ * @param {object}  wp                                       WP object.
+ * @param {object}  settings                                 WP Updates settings.
+ * @param {string}  settings.ajax_nonce                      Ajax nonce.
+ * @param {object=} settings.plugins                         Base names of plugins in their different states.
+ * @param {Array}   settings.plugins.all                     Base names of all plugins.
+ * @param {Array}   settings.plugins.active                  Base names of active plugins.
+ * @param {Array}   settings.plugins.inactive                Base names of inactive plugins.
+ * @param {Array}   settings.plugins.upgrade                 Base names of plugins with updates available.
+ * @param {Array}   settings.plugins.recently_activated      Base names of recently activated plugins.
+ * @param {Array}   settings.plugins['auto-update-enabled']  Base names of plugins set to auto-update.
+ * @param {Array}   settings.plugins['auto-update-disabled'] Base names of plugins set to not auto-update.
+ * @param {object=} settings.themes                          Slugs of themes in their different states.
+ * @param {Array}   settings.themes.all                      Slugs of all themes.
+ * @param {Array}   settings.themes.upgrade                  Slugs of themes with updates available.
+ * @param {Arrat}   settings.themes.disabled                 Slugs of disabled themes.
+ * @param {Array}   settings.themes['auto-update-enabled']   Slugs of themes set to auto-update.
+ * @param {Array}   settings.themes['auto-update-disabled']  Slugs of themes set to not auto-update.
+ * @param {object=} settings.totals                          Combined information for available update counts.
+ * @param {number}  settings.totals.count                    Holds the amount of available updates.
  */
 (function( $, wp, settings ) {
 	var $document = $( document ),
@@ -1007,6 +1011,24 @@
 				}
 			}
 
+			if ( -1 !== _.indexOf( plugins['auto-update-enabled'], response.plugin ) ) {
+				plugins['auto-update-enabled'] = _.without( plugins['auto-update-enabled'], response.plugin );
+				if ( plugins['auto-update-enabled'].length ) {
+					$views.find( '.auto-update-enabled .count' ).text( '(' + plugins['auto-update-enabled'].length + ')' );
+				} else {
+					$views.find( '.auto-update-enabled' ).remove();
+				}
+			}
+
+			if ( -1 !== _.indexOf( plugins['auto-update-disabled'], response.plugin ) ) {
+				plugins['auto-update-disabled'] = _.without( plugins['auto-update-disabled'], response.plugin );
+				if ( plugins['auto-update-disabled'].length ) {
+					$views.find( '.auto-update-disabled .count' ).text( '(' + plugins['auto-update-disabled'].length + ')' );
+				} else {
+					$views.find( '.auto-update-disabled' ).remove();
+				}
+			}
+
 			plugins.all = _.without( plugins.all, response.plugin );
 
 			if ( plugins.all.length ) {
@@ -1505,7 +1527,7 @@
 			$themeRows.css( { backgroundColor: '#faafaa' } ).fadeOut( 350, function() {
 				var $views     = $( '.subsubsub' ),
 					$themeRow  = $( this ),
-					totals     = settings.themes,
+					themes     = settings.themes,
 					deletedRow = wp.template( 'item-deleted-row' );
 
 				if ( ! $themeRow.hasClass( 'plugin-update-tr' ) ) {
@@ -1521,23 +1543,43 @@
 				$themeRow.remove();
 
 				// Remove theme from update count.
-				if ( $themeRow.hasClass( 'update' ) ) {
-					totals.upgrade--;
+				if ( -1 !== _.indexOf( themes.upgrade, response.slug ) ) {
+					themes.upgrade = _.without( themes.upgrade, response.slug );
 					wp.updates.decrementCount( 'theme' );
 				}
 
 				// Remove from views.
-				if ( $themeRow.hasClass( 'inactive' ) ) {
-					totals.disabled--;
-					if ( totals.disabled ) {
-						$views.find( '.disabled .count' ).text( '(' + totals.disabled + ')' );
+				if ( -1 !== _.indexOf( themes.disabled, response.slug ) ) {
+					themes.disabled = _.without( themes.disabled, response.slug );
+					if ( themes.disabled.length ) {
+						$views.find( '.disabled .count' ).text( '(' + themes.disabled.length + ')' );						
 					} else {
 						$views.find( '.disabled' ).remove();
 					}
 				}
 
+				if ( -1 !== _.indexOf( themes['auto-update-enabled'], response.slug ) ) {
+					themes['auto-update-enabled'] = _.without( themes['auto-update-enabled'], response.slug );
+					if ( themes['auto-update-enabled'].length ) {
+						$views.find( '.auto-update-enabled .count' ).text( '(' + themes['auto-update-enabled'].length + ')' );
+					} else {
+						$views.find( '.auto-update-enabled' ).remove();
+					}
+				}
+	
+				if ( -1 !== _.indexOf( themes['auto-update-disabled'], response.slug ) ) {
+					themes['auto-update-disabled'] = _.without( themes['auto-update-disabled'], response.slug );
+					if ( themes['auto-update-disabled'].length ) {
+						$views.find( '.auto-update-disabled .count' ).text( '(' + themes['auto-update-disabled'].length + ')' );
+					} else {
+						$views.find( '.auto-update-disabled' ).remove();
+					}
+				}
+
+				themes.all = _.without( themes.all, response.slug );
+
 				// There is always at least one theme available.
-				$views.find( '.all .count' ).text( '(' + --totals.all + ')' );
+				$views.find( '.all .count' ).text( '(' + themes.all.length + ')' );
 			} );
 		}
 
