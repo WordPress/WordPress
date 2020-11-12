@@ -30,7 +30,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 	register_block_pattern(
 		'twentytwentyone/large-text',
 		array(
-			'title'         => esc_html__( 'Large Text', 'twentytwentyone' ),
+			'title'         => esc_html__( 'Large text', 'twentytwentyone' ),
 			'categories'    => array( 'twentytwentyone' ),
 			'viewportWidth' => 1440,
 			'content'       => '<!-- wp:heading {"align":"wide","fontSize":"gigantic","style":{"typography":{"lineHeight":"1.1"}}} --><h2 class="alignwide has-text-align-wide has-gigantic-font-size" style="line-height:1.1">' . esc_html__( 'A new portfolio default theme for WordPress', 'twentytwentyone' ) . '</h2><!-- /wp:heading -->',
@@ -41,7 +41,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 	register_block_pattern(
 		'twentytwentyone/links-area',
 		array(
-			'title'         => esc_html__( 'Links Area', 'twentytwentyone' ),
+			'title'         => esc_html__( 'Links area', 'twentytwentyone' ),
 			'categories'    => array( 'twentytwentyone' ),
 			'viewportWidth' => 1440,
 			'description'   => esc_html_x( 'A huge text followed by social networks and email address links.', 'Block pattern description', 'twentytwentyone' ),
@@ -53,7 +53,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 	register_block_pattern(
 		'twentytwentyone/media-text-article-title',
 		array(
-			'title'         => esc_html__( 'Media and Text Article Title', 'twentytwentyone' ),
+			'title'         => esc_html__( 'Media and text article title', 'twentytwentyone' ),
 			'categories'    => array( 'twentytwentyone' ),
 			'viewportWidth' => 1440,
 			'description'   => esc_html_x( 'A Media & Text block with a big image on the left and a heading on the right. The heading is followed by a separator and a description paragraph.', 'Block pattern description', 'twentytwentyone' ),
@@ -65,7 +65,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 	register_block_pattern(
 		'twentytwentyone/overlapping-images',
 		array(
-			'title'         => esc_html__( 'Overlapping Images', 'twentytwentyone' ),
+			'title'         => esc_html__( 'Overlapping images', 'twentytwentyone' ),
 			'categories'    => array( 'twentytwentyone' ),
 			'viewportWidth' => 1024,
 			'description'   => esc_html_x( 'Three images inside an overlapping columns block.', 'Block pattern description', 'twentytwentyone' ),
@@ -77,10 +77,10 @@ if ( function_exists( 'register_block_pattern' ) ) {
 	register_block_pattern(
 		'twentytwentyone/two-images-showcase',
 		array(
-			'title'         => esc_html__( 'Two Images Showcase', 'twentytwentyone' ),
+			'title'         => esc_html__( 'Two mages showcase', 'twentytwentyone' ),
 			'categories'    => array( 'twentytwentyone' ),
 			'viewportWidth' => 1440,
-			'description'   => esc_html_x( 'A Media & Text block with a big image on the left and a smaller one with bordered frame on the right.', 'Block pattern description', 'twentytwentyone' ),
+			'description'   => esc_html_x( 'A media & text block with a big image on the left and a smaller one with bordered frame on the right.', 'Block pattern description', 'twentytwentyone' ),
 			'content'       => '<!-- wp:media-text {"mediaId":1747,"mediaLink":"' . esc_url( get_template_directory_uri() ) . '/assets/images/Daffodils.jpg","mediaType":"image"} --><div class="wp-block-media-text alignwide is-stacked-on-mobile"><figure class="wp-block-media-text__media"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/Daffodils.jpg" alt="' . esc_attr__( '&#8220;Daffodils&#8221; by Berthe Morisot', 'twentytwentyone' ) . '" size-full"/></figure><div class="wp-block-media-text__content"><!-- wp:image {"align":"center","width":400,"height":512,"sizeSlug":"large","className":"is-style-twentytwentyone-image-frame"} --><figure class="wp-block-image aligncenter size-large is-resized is-style-twentytwentyone-image-frame"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/self-portrait-1885.jpg" alt="' . esc_attr__( '&#8220;Self portrait&#8221; by Berthe Morisot', 'twentytwentyone' ) . '" width="400" height="512"/></figure><!-- /wp:image --></div></div><!-- /wp:media-text -->',
 		)
 	);
@@ -89,7 +89,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 	register_block_pattern(
 		'twentytwentyone/overlapping-images-and-text',
 		array(
-			'title'         => esc_html__( 'Overlapping Images and Text', 'twentytwentyone' ),
+			'title'         => esc_html__( 'Overlapping images and text', 'twentytwentyone' ),
 			'categories'    => array( 'twentytwentyone' ),
 			'viewportWidth' => 1440,
 			'description'   => esc_html_x( 'An overlapping columns block with two images and a text description.', 'Block pattern description', 'twentytwentyone' ),
@@ -101,7 +101,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 	register_block_pattern(
 		'twentytwentyone/portfolio-list',
 		array(
-			'title'       => esc_html__( 'Portfolio List', 'twentytwentyone' ),
+			'title'       => esc_html__( 'Portfolio list', 'twentytwentyone' ),
 			'categories'  => array( 'twentytwentyone' ),
 			'description' => esc_html_x( 'A list of projects with thumbnail images.', 'Block pattern description', 'twentytwentyone' ),
 			'content'     => '<!-- wp:separator {"className":"is-style-twentytwentyone-separator-thick"} --> <hr class="wp-block-separator is-style-twentytwentyone-separator-thick"/> <!-- /wp:separator --> <!-- wp:columns --> <div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":80} --> <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:80%"><!-- wp:paragraph {"fontSize":"extra-large"} --> <p class="has-extra-large-font-size"><a href="#">' . esc_html__( 'Roses Tremieres', 'twentytwentyone' ) . '</a></p> <!-- /wp:paragraph --></div> <!-- /wp:column --> <!-- wp:column {"verticalAlignment":"center"} --> <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"align":"right","width":85,"height":67,"sizeSlug":"large"} --> <figure class="wp-block-image alignright size-large is-resized"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/roses-tremieres-hollyhocks-1884.jpg" alt="' . esc_attr__( '&#8220;Roses Tremieres&#8221; by Berthe Morisot', 'twentytwentyone' ) . '" width="85" height="67"/></figure> <!-- /wp:image --></div> <!-- /wp:column --></div> <!-- /wp:columns --> <!-- wp:separator {"className":"is-style-default"} --> <hr class="wp-block-separator is-style-default"/> <!-- /wp:separator --> <!-- wp:columns --> <div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":80} --> <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:80%"><!-- wp:paragraph {"fontSize":"extra-large"} --> <p class="has-extra-large-font-size"><a href="#">' . esc_html__( 'Villa with Orange Trees, Nice', 'twentytwentyone' ) . '</a></p> <!-- /wp:paragraph --></div> <!-- /wp:column --> <!-- wp:column {"verticalAlignment":"center"} --> <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"align":"right","width":53,"height":67,"className":"alignright size-large is-resized"} --><figure class="wp-block-image is-resized alignright size-large"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/villa-with-orange-trees-nice.jpg" alt="&#8220;Villa with Orange Trees, Nice&#8221; by Berthe Morisot" width="53" height="67"/></figure><!-- /wp:image --></div> <!-- /wp:column --></div> <!-- /wp:columns --> <!-- wp:separator {"className":"is-style-default"} --> <hr class="wp-block-separator is-style-default"/> <!-- /wp:separator --> <!-- wp:columns --> <div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":80} --> <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:80%"><!-- wp:paragraph {"fontSize":"extra-large"} --> <p class="has-extra-large-font-size"><a href="#">' . esc_html__( 'In the Bois de Boulogne', 'twentytwentyone' ) . '</a></p> <!-- /wp:paragraph --></div> <!-- /wp:column --> <!-- wp:column {"verticalAlignment":"center"} --> <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"align":"right","width":81,"height":67,"sizeSlug":"large"} --> <figure class="wp-block-image alignright size-large is-resized"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/in-the-bois-de-boulogne.jpg" alt="' . esc_attr__( '&#8220;In the Bois de Boulogne&#8221; by Berthe Morisot', 'twentytwentyone' ) . '" width="81" height="67"/></figure> <!-- /wp:image --></div> <!-- /wp:column --></div> <!-- /wp:columns --> <!-- wp:separator {"className":"is-style-default"} --> <hr class="wp-block-separator is-style-default"/> <!-- /wp:separator --> <!-- wp:columns --> <div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":80} --> <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:80%"><!-- wp:paragraph {"fontSize":"extra-large"} --> <p class="has-extra-large-font-size"><a href="#">' . esc_html__( 'The Garden at Bougival', 'twentytwentyone' ) . '</a></p> <!-- /wp:paragraph --></div> <!-- /wp:column --> <!-- wp:column {"verticalAlignment":"center"} --> <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"align":"right","width":85,"height":67,"sizeSlug":"large"} --> <figure class="wp-block-image alignright size-large is-resized"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/the-garden-at-bougival-1884.jpg" alt="' . esc_attr__( '&#8220;The Garden at Bougival&#8221; by Berthe Morisot', 'twentytwentyone' ) . '" width="85" height="67"/></figure> <!-- /wp:image --></div> <!-- /wp:column --></div> <!-- /wp:columns --> <!-- wp:separator {"className":"is-style-default"} --> <hr class="wp-block-separator is-style-default"/> <!-- /wp:separator --> <!-- wp:columns --> <div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":80} --> <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:80%"><!-- wp:paragraph {"fontSize":"extra-large"} --> <p class="has-extra-large-font-size"><a href="#">' . esc_html__( 'Young Woman in Mauve', 'twentytwentyone' ) . '</a></p> <!-- /wp:paragraph --></div> <!-- /wp:column --> <!-- wp:column {"verticalAlignment":"center"} --> <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"align":"right","width":54,"height":67,"sizeSlug":"large"} --> <figure class="wp-block-image alignright size-large is-resized"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/young-woman-in-mauve.jpg" alt="' . esc_attr__( '&#8220;Young Woman in Mauve&#8221; by Berthe Morisot', 'twentytwentyone' ) . '" width="54" height="67"/></figure> <!-- /wp:image --></div> <!-- /wp:column --></div> <!-- /wp:columns --> <!-- wp:separator {"className":"is-style-default"} --> <hr class="wp-block-separator is-style-default"/> <!-- /wp:separator --> <!-- wp:columns --> <div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":80} --> <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:80%"><!-- wp:paragraph {"fontSize":"extra-large"} --> <p class="has-extra-large-font-size"><a href="#">' . esc_html__( 'Reading', 'twentytwentyone' ) . '</a></p> <!-- /wp:paragraph --></div> <!-- /wp:column --> <!-- wp:column {"verticalAlignment":"center"} --> <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"align":"right","width":84,"height":67,"sizeSlug":"large"} --> <figure class="wp-block-image alignright size-large is-resized"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/Reading.jpg" alt="' . esc_attr__( '&#8220;Reading&#8221; by Berthe Morisot', 'twentytwentyone' ) . '" width="84" height="67"/></figure> <!-- /wp:image --></div> <!-- /wp:column --></div> <!-- /wp:columns --> <!-- wp:separator {"className":"is-style-twentytwentyone-separator-thick"} --> <hr class="wp-block-separator is-style-twentytwentyone-separator-thick"/> <!-- /wp:separator -->',
@@ -111,7 +111,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 	register_block_pattern(
 		'twentytwentyone/contact-information',
 		array(
-			'title'       => esc_html__( 'Contact Information', 'twentytwentyone' ),
+			'title'       => esc_html__( 'Contact information', 'twentytwentyone' ),
 			'categories'  => array( 'twentytwentyone' ),
 			'description' => esc_html_x( 'A block with 3 columns that display contact information and social media links.', 'Block pattern description', 'twentytwentyone' ),
 			'content'     => '<!-- wp:columns {"align":"wide"} --><div class="wp-block-columns alignwide"><!-- wp:column --><div class="wp-block-column"><!-- wp:paragraph --><p><a href="mailto:#">' . esc_html_x( 'example@example.com', 'Block pattern sample content', 'twentytwentyone' ) . '<br></a>' . esc_html_x( '123-456-7890', 'Block pattern sample content', 'twentytwentyone' ) . '</p><!-- /wp:paragraph --></div><!-- /wp:column --><!-- wp:column --><div class="wp-block-column"><!-- wp:paragraph {"align":"center"} --><p class="has-text-align-center">' . esc_html_x( '123 Main Street', 'Block pattern sample content', 'twentytwentyone' ) . '<br>' . esc_html_x( 'Cambridge, MA, 02139', 'Block pattern sample content', 'twentytwentyone' ) . '</p><!-- /wp:paragraph --></div><!-- /wp:column --><!-- wp:column {"verticalAlignment":"center"} --><div class="wp-block-column is-vertically-aligned-center"><!-- wp:social-links {"align":"right","className":"is-style-twentytwentyone-social-icons-color"} --><ul class="wp-block-social-links alignright is-style-twentytwentyone-social-icons-color"><!-- wp:social-link {"url":"https://wordpress.org","service":"wordpress"} /--><!-- wp:social-link {"url":"https://www.facebook.com/WordPress/","service":"facebook"} /--><!-- wp:social-link {"url":"https://twitter.com/WordPress","service":"twitter"} /--><!-- wp:social-link {"service":"instagram"} /--><!-- wp:social-link {"service":"linkedin"} /--><!-- wp:social-link {"service":"youtube"} /--><!-- wp:social-link {"url":"https://www.youtube.com/wordpress","service":"youtube"} /--></ul><!-- /wp:social-links --></div><!-- /wp:column --></div><!-- /wp:columns --><!-- wp:paragraph --><p></p><!-- /wp:paragraph -->',

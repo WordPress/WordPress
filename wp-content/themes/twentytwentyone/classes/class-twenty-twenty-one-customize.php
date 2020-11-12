@@ -140,7 +140,7 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 					$wp_customize,
 					'background_color',
 					array(
-						'label'   => esc_html_x( 'Background Color', 'Customizer control', 'twentytwentyone' ),
+						'label'   => esc_html_x( 'Background color', 'Customizer control', 'twentytwentyone' ),
 						'section' => 'colors',
 						'palette' => $colors,
 					)

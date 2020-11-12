@@ -73,8 +73,8 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 
 		register_nav_menus(
 			array(
-				'primary' => esc_html__( 'Primary Menu', 'twentytwentyone' ),
-				'footer'  => __( 'Secondary Menu', 'twentytwentyone' ),
+				'primary' => esc_html__( 'Primary menu', 'twentytwentyone' ),
+				'footer'  => __( 'Secondary menu', 'twentytwentyone' ),
 			)
 		);
 
@@ -171,7 +171,7 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 					'slug'      => 'large',
 				),
 				array(
-					'name'      => esc_html__( 'Extra Large', 'twentytwentyone' ),
+					'name'      => esc_html__( 'Extra large', 'twentytwentyone' ),
 					'shortName' => esc_html_x( 'XL', 'Font size', 'twentytwentyone' ),
 					'size'      => 40,
 					'slug'      => 'extra-large',
@@ -220,7 +220,7 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 					'color' => $black,
 				),
 				array(
-					'name'  => esc_html__( 'Dark Gray', 'twentytwentyone' ),
+					'name'  => esc_html__( 'Dark gray', 'twentytwentyone' ),
 					'slug'  => 'dark-gray',
 					'color' => $dark_gray,
 				),
@@ -271,42 +271,42 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 			'editor-gradient-presets',
 			array(
 				array(
-					'name'     => esc_html__( 'Purple to Yellow', 'twentytwentyone' ),
+					'name'     => esc_html__( 'Purple to yellow', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $purple . ', ' . $yellow . ')',
 					'slug'     => 'purple-to-yellow',
 				),
 				array(
-					'name'     => esc_html__( 'Yellow to Purple', 'twentytwentyone' ),
+					'name'     => esc_html__( 'Yellow to purple', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $yellow . ', ' . $purple . ')',
 					'slug'     => 'yellow-to-purple',
 				),
 				array(
-					'name'     => esc_html__( 'Green to Yellow', 'twentytwentyone' ),
+					'name'     => esc_html__( 'Green to yellow', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $green . ', ' . $yellow . ')',
 					'slug'     => 'green-to-yellow',
 				),
 				array(
-					'name'     => esc_html__( 'Yellow to Green', 'twentytwentyone' ),
+					'name'     => esc_html__( 'Yellow to green', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $yellow . ', ' . $green . ')',
 					'slug'     => 'yellow-to-green',
 				),
 				array(
-					'name'     => esc_html__( 'Red to Yellow', 'twentytwentyone' ),
+					'name'     => esc_html__( 'Red to yellow', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $red . ', ' . $yellow . ')',
 					'slug'     => 'red-to-yellow',
 				),
 				array(
-					'name'     => esc_html__( 'Yellow to Red', 'twentytwentyone' ),
+					'name'     => esc_html__( 'Yellow to red', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $yellow . ', ' . $red . ')',
 					'slug'     => 'yellow-to-red',
 				),
 				array(
-					'name'     => esc_html__( 'Purple to Red', 'twentytwentyone' ),
+					'name'     => esc_html__( 'Purple to red', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $purple . ', ' . $red . ')',
 					'slug'     => 'purple-to-red',
 				),
 				array(
-					'name'     => esc_html__( 'Red to Purple', 'twentytwentyone' ),
+					'name'     => esc_html__( 'Red to purple', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $red . ', ' . $purple . ')',
 					'slug'     => 'red-to-purple',
 				),

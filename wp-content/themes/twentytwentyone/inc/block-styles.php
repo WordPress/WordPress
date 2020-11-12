@@ -104,7 +104,7 @@ if ( function_exists( 'register_block_style' ) ) {
 			'core/social-links',
 			array(
 				'name'  => 'twentytwentyone-social-icons-color',
-				'label' => esc_html__( 'Dark Gray', 'twentytwentyone' ),
+				'label' => esc_html__( 'Dark gray', 'twentytwentyone' ),
 			)
 		);
 	}

@@ -165,8 +165,8 @@ class Twenty_Twenty_One_Dark_Mode {
 			array(
 				'type'            => 'checkbox',
 				'section'         => 'colors',
-				'label'           => esc_html__( 'Dark Mode Support', 'twentytwentyone' ),
-				'description'     => __( 'Respect visitor\'s device dark mode settings.<br>Dark mode is a device setting. If a visitor to your site requests it, your site will be shown with a dark background and light text.<br><br>Dark Mode can also be turned on and off with a button that you can find in the bottom right corner of the page.', 'twentytwentyone' ),
+				'label'           => esc_html__( 'Dark Mode support', 'twentytwentyone' ),
+				'description'     => __( 'Respect visitor&#8217;s device dark mode settings.<br>Dark mode is a device setting. If a visitor to your site requests it, your site will be shown with a dark background and light text.<br><br>Dark Mode can also be turned on and off with a button that you can find in the bottom right corner of the page.', 'twentytwentyone' ),
 				'active_callback' => function( $value ) {
 					return 127 < Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( get_theme_mod( 'background_color', 'D1E4DD' ) );
 				},
@@ -402,7 +402,7 @@ class Twenty_Twenty_One_Dark_Mode {
 			return;
 		}
 		$content = '<p class="privacy-policy-tutorial">' . __( 'Twenty Twenty-One uses LocalStorage when Dark Mode support is enabled.', 'twentytwentyone' ) . '</p>'
-				. '<strong class="privacy-policy-tutorial">' . __( 'Suggested Text:', 'twentytwentyone' ) . '</strong> '
+				. '<strong class="privacy-policy-tutorial">' . __( 'Suggested text:', 'twentytwentyone' ) . '</strong> '
 				. __( 'This website uses LocalStorage to save the setting when Dark Mode support is turned on or off.<br> LocalStorage is necessary for the setting to work and is only used when a user clicks on the Dark Mode button.<br> No data is saved in the database or transferred.', 'twentytwentyone' );
 		wp_add_privacy_policy_content( 'Twenty Twenty-One', wp_kses_post( wpautop( $content, false ) ) );
 	}
