@@ -395,10 +395,10 @@ function core_auto_updates_settings() {
 
 			if ( $can_set_update_option ) {
 				echo '<br>';
-				echo sprintf(
-					/* Translators: Action link to disable core auto-updates. */
-					__( '<a href="%s">Switch to automatic updates for maintenance and security releases only.</a>' ),
-					wp_nonce_url( add_query_arg( 'value', 'disable', $action_url ), 'core-major-auto-updates-nonce' )
+				printf(
+					'<a href="%s">%s</a>',
+					wp_nonce_url( add_query_arg( 'value', 'disable', $action_url ), 'core-major-auto-updates-nonce' ),
+					__( 'Switch to automatic updates for maintenance and security releases only.' )
 				);
 			}
 		} elseif ( $upgrade_minor ) {
@@ -406,10 +406,10 @@ function core_auto_updates_settings() {
 
 			if ( $can_set_update_option ) {
 				echo '<br>';
-				echo sprintf(
-					/* Translators: Action link to enable core auto-updates. */
-					__( '<a href="%s">Enable automatic updates for all new versions of WordPress.</a>' ),
-					wp_nonce_url( add_query_arg( 'value', 'enable', $action_url ), 'core-major-auto-updates-nonce' )
+				printf(
+					'<a href="%s">%s</a>',
+					wp_nonce_url( add_query_arg( 'value', 'enable', $action_url ), 'core-major-auto-updates-nonce' ),
+					__( 'Enable automatic updates for all new versions of WordPress.' )
 				);
 			}
 		} else {
