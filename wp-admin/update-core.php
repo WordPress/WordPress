@@ -1205,6 +1205,11 @@ if ( 'upgrade-core' === $action ) {
 	require_once ABSPATH . 'wp-admin/admin-footer.php';
 
 } elseif ( 'core-major-auto-updates-settings' === $action ) {
+
+	if ( ! current_user_can( 'update_core' ) ) {
+		wp_die( __( 'Sorry, you are not allowed to update this site.' ) );
+	}
+
 	$redirect_url = self_admin_url( 'update-core.php' );
 
 	if ( isset( $_GET['value'] ) ) {
