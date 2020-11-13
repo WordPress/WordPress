@@ -348,8 +348,13 @@ function core_auto_updates_settings() {
 		$can_set_update_option = false;
 	}
 
-	if ( defined( 'AUTOMATIC_UPDATER_DISABLED' ) ) {
-		if ( true === AUTOMATIC_UPDATER_DISABLED ) {
+	if ( defined( 'AUTOMATIC_UPDATER_DISABLED' )
+		|| has_filter( 'automatic_updater_disabled' )
+	) {
+		if ( true === AUTOMATIC_UPDATER_DISABLED
+			/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
+			|| true === apply_filters( 'automatic_updater_disabled', false )
+		) {
 			$upgrade_dev   = false;
 			$upgrade_minor = false;
 			$upgrade_major = false;
