@@ -1094,7 +1094,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Gets a list of all, hidden and sortable columns, with filter applied.
+	 * Gets a list of all, hidden, and sortable columns, with filter applied.
 	 *
 	 * @since 3.1.0
 	 *
