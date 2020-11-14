@@ -8,7 +8,7 @@
  */
 
 /**
- * Upgrader Skin for Automatic WordPress Upgrades
+ * Upgrader Skin for Automatic WordPress Upgrades.
  *
  * This skin is designed to be used when no output is intended, all output
  * is captured and stored for the caller to process and log/email/discard.
@@ -52,14 +52,22 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @return array
+	 * Retrieves the upgrade messages.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @return array Messages during an upgrade.
 	 */
 	public function get_upgrade_messages() {
 		return $this->messages;
 	}
 
 	/**
-	 * @param string|array|WP_Error $data
+	 * Stores a message about the upgrade.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string|array|WP_Error $data    Message data.
 	 * @param mixed                 ...$args Optional text replacements.
 	 */
 	public function feedback( $data, ...$args ) {
@@ -103,12 +111,18 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Creates a new output buffer.
+	 *
+	 * @since 3.7.0
 	 */
 	public function header() {
 		ob_start();
 	}
 
 	/**
+	 * Retrieves the buffered content, deletes the buffer, and processes the output.
+	 *
+	 * @since 3.7.0
 	 */
 	public function footer() {
 		$output = ob_get_clean();
