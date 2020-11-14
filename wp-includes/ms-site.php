@@ -860,8 +860,8 @@ function wp_uninitialize_site( $site_id ) {
 	 *
 	 * @since MU (3.0.0)
 	 *
-	 * @param string $uploads['basedir'] Uploads path without subdirectory. @see wp_upload_dir()
-	 * @param int    $site_id            The site ID.
+	 * @param string $basedir Uploads path without subdirectory. @see wp_upload_dir()
+	 * @param int    $site_id The site ID.
 	 */
 	$dir     = apply_filters( 'wpmu_delete_blog_upload_dir', $uploads['basedir'], $site->id );
 	$dir     = rtrim( $dir, DIRECTORY_SEPARATOR );

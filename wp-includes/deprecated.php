@@ -1911,6 +1911,7 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 	} elseif ( $src = wp_mime_type_icon( $post->ID ) ) {
 		// No thumb, no image. We'll look for a mime-related icon instead.
 
+		/** This filter is documented in wp-includes/post.php */
 		$icon_dir = apply_filters( 'icon_dir', get_template_directory() . '/images' );
 		$src_file = $icon_dir . '/' . wp_basename($src);
 	}

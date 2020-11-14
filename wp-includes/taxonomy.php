@@ -2048,8 +2048,8 @@ function wp_delete_category( $cat_ID ) {
  * @param int|int[]       $object_ids The ID(s) of the object(s) to retrieve.
  * @param string|string[] $taxonomies The taxonomy names to retrieve terms from.
  * @param array|string    $args       See WP_Term_Query::__construct() for supported arguments.
- * @return array|WP_Error The requested term data or empty array if no terms found.
- *                        WP_Error if any of the taxonomies don't exist.
+ * @return WP_Term[]|WP_Error Array of terms or empty array if no terms found.
+ *                            WP_Error if any of the taxonomies don't exist.
  */
 function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	if ( empty( $object_ids ) || empty( $taxonomies ) ) {
@@ -2125,11 +2125,11 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array    $terms      Array of terms for the given object or objects.
-	 * @param int[]    $object_ids Array of object IDs for which terms were retrieved.
-	 * @param string[] $taxonomies Array of taxonomy names from which terms were retrieved.
-	 * @param array    $args       Array of arguments for retrieving terms for the given
-	 *                             object(s). See wp_get_object_terms() for details.
+	 * @param WP_Term[] $terms      Array of terms for the given object or objects.
+	 * @param int[]     $object_ids Array of object IDs for which terms were retrieved.
+	 * @param string[]  $taxonomies Array of taxonomy names from which terms were retrieved.
+	 * @param array     $args       Array of arguments for retrieving terms for the given
+	 *                              object(s). See wp_get_object_terms() for details.
 	 */
 	$terms = apply_filters( 'get_object_terms', $terms, $object_ids, $taxonomies, $args );
 
@@ -2144,11 +2144,11 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array    $terms      Array of terms for the given object or objects.
-	 * @param int[]    $object_ids Array of object IDs for which terms were retrieved.
-	 * @param string[] $taxonomies Array of taxonomy names from which terms were retrieved.
-	 * @param array    $args       Array of arguments for retrieving terms for the given
-	 *                             object(s). See wp_get_object_terms() for details.
+	 * @param WP_Term[] $terms      Array of terms for the given object or objects.
+	 * @param string    $object_ids Comma separated list if object IDs for which terms were retrieved.
+	 * @param string    $taxonomies SQL fragment of taxonomy names from which terms were retrieved.
+	 * @param array     $args       Array of arguments for retrieving terms for the given
+	 *                              object(s). See wp_get_object_terms() for details.
 	 */
 	return apply_filters( 'wp_get_object_terms', $terms, $object_ids, $taxonomies, $args );
 }

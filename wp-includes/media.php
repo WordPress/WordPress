@@ -42,7 +42,7 @@ function wp_get_additional_image_sizes() {
  *
  * @since 2.5.0
  *
- * @global int   $content_width
+ * @global int $content_width
  *
  * @param int          $width   Width of the image in pixels.
  * @param int          $height  Height of the image in pixels.
@@ -1081,7 +1081,7 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array        $attr       Array of attribute values for the image markup, keyed by attribute name.
+		 * @param string[]     $attr       Array of attribute values for the image markup, keyed by attribute name.
 		 *                                 See wp_get_attachment_image().
 		 * @param WP_Post      $attachment Image attachment post.
 		 * @param string|int[] $size       Requested image size. Can be any registered image size name, or
@@ -1109,7 +1109,7 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 	 * @param string|int[] $size          Requested image size. Can be any registered image size name, or
 	 *                                    an array of width and height values in pixels (in that order).
 	 * @param bool         $icon          Whether the image should be treated as an icon.
-	 * @param array        $attr          Array of attribute values for the image markup, keyed by attribute name.
+	 * @param string[]     $attr          Array of attribute values for the image markup, keyed by attribute name.
 	 *                                    See wp_get_attachment_image().
 	 */
 	return apply_filters( 'wp_get_attachment_image', $html, $attachment_id, $size, $icon, $attr );
@@ -1237,7 +1237,7 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $imag
  * @param string $image_src     The 'src' of the image.
  * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
  * @param int    $attachment_id Optional. The image attachment ID. Default 0.
- * @return string|bool          The 'srcset' attribute value. False on error or when only one source exists.
+ * @return string|false The 'srcset' attribute value. False on error or when only one source exists.
  */
 function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attachment_id = 0 ) {
 	/**
@@ -1476,7 +1476,7 @@ function wp_get_attachment_image_sizes( $attachment_id, $size = 'medium', $image
  *                                    Default null.
  * @param int          $attachment_id Optional. Image attachment ID. Either `$image_meta` or `$attachment_id`
  *                                    is needed when using the image size name as argument for `$size`. Default 0.
- * @return string|bool A valid source size value for use in a 'sizes' attribute or false.
+ * @return string|false A valid source size value for use in a 'sizes' attribute or false.
  */
 function wp_calculate_image_sizes( $size, $image_src = null, $image_meta = null, $attachment_id = 0 ) {
 	$width = 0;
