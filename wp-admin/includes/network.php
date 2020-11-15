@@ -640,6 +640,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
 
 		$htaccess_file = <<<EOF
 RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteBase {$base}
 RewriteRule ^index\.php$ - [L]
 {$ms_files_rewriting}
