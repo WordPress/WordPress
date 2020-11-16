@@ -5918,7 +5918,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	$file         = get_attached_file( $post_id );
 
 	if ( is_multisite() ) {
-		invalidate_dirsize_cache( $file );
+		clean_dirsize_cache( $file );
 	}
 
 	/**

@@ -2747,7 +2747,7 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	$url = $upload['url'] . "/$filename";
 
 	if ( is_multisite() ) {
-		invalidate_dirsize_cache( $new_file );
+		clean_dirsize_cache( $new_file );
 	}
 
 	/** This filter is documented in wp-admin/includes/file.php */
@@ -7628,7 +7628,8 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 	$size = 0;
 
 	$directory  = untrailingslashit( $directory );
-	$cache_path = normalize_dirsize_cache_path( $directory );
+	$cache_path = untrailingslashit( str_replace( ABSPATH, '', $directory ) );
+
 	$save_cache = false;
 
 	if ( ! isset( $directory_cache ) ) {
@@ -7722,14 +7723,14 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
  *
  * @param string $path Full path of a directory or file.
  */
-function invalidate_dirsize_cache( $path ) {
+function clean_dirsize_cache( $path ) {
 	$directory_cache = get_transient( 'dirsize_cache' );
 
 	if ( empty( $directory_cache ) ) {
 		return;
 	}
 
-	$cache_path = normalize_dirsize_cache_path( $path );
+	$cache_path = untrailingslashit( str_replace( ABSPATH, '', $path ) );
 	unset( $directory_cache[ $cache_path ] );
 
 	while ( DIRECTORY_SEPARATOR !== $cache_path && '.' !== $cache_path && '..' !== $cache_path ) {
@@ -7738,22 +7739,6 @@ function invalidate_dirsize_cache( $path ) {
 	}
 
 	set_transient( 'dirsize_cache', $directory_cache );
-}
-
-/**
- * Normalize dirsize cache path.
- *
- * Ensures array keys within the dirsize_cache transient follow the same format.
- *
- * @since 5.6.0
- *
- * @param string $path
- * @return string
- */
-function normalize_dirsize_cache_path( $path ) {
-	$path = str_replace( ABSPATH, '', $path );
-
-	return untrailingslashit( $path );
 }
 
 /**
