@@ -350,10 +350,15 @@ function wp_authenticate_application_password( $input_user, $username, $password
 				__( 'Unknown username. Check again or try your email address.' )
 			);
 		}
-	} elseif ( ! wp_is_application_passwords_available_for_user( $user ) ) {
+	} elseif ( ! wp_is_application_passwords_available() ) {
 		$error = new WP_Error(
 			'application_passwords_disabled',
-			__( 'Application passwords are disabled for the requested user.' )
+			'Application passwords are not available.'
+		);
+	} elseif ( ! wp_is_application_passwords_available_for_user( $user ) ) {
+		$error = new WP_Error(
+			'application_passwords_disabled_for_user',
+			__( 'Application passwords are not available for your account. Please contact the site administrator for assistance.' )
 		);
 	}
 
@@ -4131,7 +4136,7 @@ function wp_is_application_passwords_available() {
 }
 
 /**
- * Checks if Application Passwords is enabled for a specific user.
+ * Checks if Application Passwords is available for a specific user.
  *
  * By default all users can use Application Passwords. Use {@see 'wp_is_application_passwords_available_for_user'}
  * to restrict availability to certain users.

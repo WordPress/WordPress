@@ -503,8 +503,8 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 		if ( ! wp_is_application_passwords_available() ) {
 			return new WP_Error(
 				'application_passwords_disabled',
-				__( 'Application passwords are not enabled.' ),
-				array( 'status' => 500 )
+				__( 'Application passwords are not available.' ),
+				array( 'status' => 501 )
 			);
 		}
 
@@ -547,8 +547,8 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 		if ( ! wp_is_application_passwords_available_for_user( $user ) ) {
 			return new WP_Error(
 				'application_passwords_disabled_for_user',
-				__( 'Application passwords are not enabled for your account. Please contact the site administrator for assistance.' ),
-				array( 'status' => 500 )
+				__( 'Application passwords are not available for your account. Please contact the site administrator for assistance.' ),
+				array( 'status' => 501 )
 			);
 		}
 
