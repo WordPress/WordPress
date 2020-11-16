@@ -130,7 +130,7 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
  *     @type callable|null $update_callback Optional. The callback function used to set and update the field value. Default
  *                                          is 'null', the value cannot be set or updated. The function will be passed
  *                                          the model object, like WP_Post.
- *     @type array|null $schema             Optional. The callback function used to create the schema for this field.
+ *     @type array|null $schema             Optional. The schema for this field.
  *                                          Default is 'null', no schema entry will be returned.
  * }
  */
@@ -153,7 +153,7 @@ function register_rest_field( $object_type, $attribute, $args = array() ) {
 }
 
 /**
- * Registers rewrite rules for the API.
+ * Registers rewrite rules for the REST API.
  *
  * @since 4.4.0
  *
@@ -498,7 +498,7 @@ function rest_get_server() {
 		/**
 		 * Filters the REST Server Class.
 		 *
-		 * This filter allows you to adjust the server class used by the API, using a
+		 * This filter allows you to adjust the server class used by the REST API, using a
 		 * different class to handle requests.
 		 *
 		 * @since 4.4.0
@@ -509,7 +509,7 @@ function rest_get_server() {
 		$wp_rest_server       = new $wp_rest_server_class;
 
 		/**
-		 * Fires when preparing to serve an API request.
+		 * Fires when preparing to serve a REST API request.
 		 *
 		 * Endpoint objects should be created and register their hooks on this action rather
 		 * than another action to ensure they're only loaded when needed.
@@ -802,7 +802,7 @@ function _rest_array_intersect_key_recursive( $array1, $array2 ) {
 }
 
 /**
- * Filters the API response to include only a white-listed set of response object fields.
+ * Filters the REST API response to include only a white-listed set of response object fields.
  *
  * @since 4.8.0
  *

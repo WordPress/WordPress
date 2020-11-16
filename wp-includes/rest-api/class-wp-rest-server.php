@@ -259,7 +259,7 @@ class WP_REST_Server {
 	}
 
 	/**
-	 * Handles serving an API request.
+	 * Handles serving a REST API request.
 	 *
 	 * Matches the current server URI to a route and runs the first matching
 	 * callback then outputs a JSON representation of the returned value.
@@ -286,7 +286,7 @@ class WP_REST_Server {
 			 *
 			 * This is done because for authentications such as Application
 			 * Passwords, we don't want it to be accepted unless the current HTTP
-			 * request is an API request, which can't always be identified early
+			 * request is a REST API request, which can't always be identified early
 			 * enough in evaluation.
 			 */
 			$current_user = null;
@@ -367,7 +367,7 @@ class WP_REST_Server {
 		 *
 		 * @since 4.4.0
 		 * @deprecated 4.7.0 Use the {@see 'rest_authentication_errors'} filter to
-		 *                   restrict access to the API.
+		 *                   restrict access to the REST API.
 		 *
 		 * @param bool $rest_enabled Whether the REST API is enabled. Default true.
 		 */
@@ -449,14 +449,14 @@ class WP_REST_Server {
 		}
 
 		/**
-		 * Filters the API response.
+		 * Filters the REST API response.
 		 *
 		 * Allows modification of the response before returning.
 		 *
 		 * @since 4.4.0
 		 * @since 4.5.0 Applied to embedded responses.
 		 *
-		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a `WP_REST_Response`.
 		 * @param WP_REST_Server   $this    Server instance.
 		 * @param WP_REST_Request  $request Request used to generate the response.
 		 */
@@ -475,7 +475,7 @@ class WP_REST_Server {
 		$this->set_status( $code );
 
 		/**
-		 * Filters whether the request has already been served.
+		 * Filters whether the REST API request has already been served.
 		 *
 		 * Allow sending the request manually - by returning true, the API result
 		 * will not be sent to the client.
@@ -484,7 +484,7 @@ class WP_REST_Server {
 		 *
 		 * @param bool             $served  Whether the request has already been served.
 		 *                                           Default false.
-		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a `WP_REST_Response`.
 		 * @param WP_REST_Request  $request Request used to generate the response.
 		 * @param WP_REST_Server   $this    Server instance.
 		 */
@@ -500,7 +500,7 @@ class WP_REST_Server {
 			$result = $this->response_to_data( $result, $embed );
 
 			/**
-			 * Filters the API response.
+			 * Filters the REST API response.
 			 *
 			 * Allows modification of the response data after inserting
 			 * embedded data (if any) and before echoing the response data.
@@ -1248,7 +1248,7 @@ class WP_REST_Server {
 		$response->add_link( 'help', 'http://v2.wp-api.org/' );
 
 		/**
-		 * Filters the API root index data.
+		 * Filters the REST API root index data.
 		 *
 		 * This contains the data describing the API. This includes information
 		 * about supported authentication schemes, supported namespaces, routes

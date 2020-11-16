@@ -241,7 +241,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 		);
 
 		/**
-		 * Filters a post type returned from the API.
+		 * Filters a post type returned from the REST API.
 		 *
 		 * Allows modification of the post type data right before it is returned.
 		 *
