@@ -317,7 +317,7 @@ function create_initial_rest_routes() {
 	$controller = new WP_REST_Block_Directory_Controller();
 	$controller->register_routes();
 
-	// Site Health
+	// Site Health.
 	$site_health = WP_Site_Health::get_instance();
 	$controller  = new WP_REST_Site_Health_Controller( $site_health );
 	$controller->register_routes();
