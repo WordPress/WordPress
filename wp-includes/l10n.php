@@ -1040,7 +1040,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = null ) {
 	// If the host is the same or it's a relative URL.
 	if (
 		( ! isset( $content_url['path'] ) || strpos( $src_url['path'], $content_url['path'] ) === 0 ) &&
-		( ! isset( $src_url['host'] ) || $src_url['host'] === $content_url['host'] )
+		( ! isset( $src_url['host'] ) || ! isset( $content_url['host'] ) || $src_url['host'] === $content_url['host'] )
 	) {
 		// Make the src relative the specific plugin or theme.
 		if ( isset( $content_url['path'] ) ) {
@@ -1057,7 +1057,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = null ) {
 		$relative = implode( '/', $relative );
 	} elseif (
 		( ! isset( $plugins_url['path'] ) || strpos( $src_url['path'], $plugins_url['path'] ) === 0 ) &&
-		( ! isset( $src_url['host'] ) || $src_url['host'] === $plugins_url['host'] )
+		( ! isset( $src_url['host'] ) || ! isset( $plugins_url['host'] ) || $src_url['host'] === $plugins_url['host'] )
 	) {
 		// Make the src relative the specific plugin.
 		if ( isset( $plugins_url['path'] ) ) {
@@ -1072,7 +1072,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = null ) {
 
 		$relative = array_slice( $relative, 1 ); // Remove <plugin name>.
 		$relative = implode( '/', $relative );
-	} elseif ( ! isset( $src_url['host'] ) || $src_url['host'] === $site_url['host'] ) {
+	} elseif ( ! isset( $src_url['host'] ) || ! isset( $site_url['host'] ) || $src_url['host'] === $site_url['host'] ) {
 		if ( ! isset( $site_url['path'] ) ) {
 			$relative = trim( $src_url['path'], '/' );
 		} elseif ( ( strpos( $src_url['path'], trailingslashit( $site_url['path'] ) ) === 0 ) ) {
