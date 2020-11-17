@@ -2629,6 +2629,7 @@ function get_space_used() {
 	 * @param int|false $space_used The amount of used space, in megabytes. Default false.
 	 */
 	$space_used = apply_filters( 'pre_get_space_used', false );
+
 	if ( false === $space_used ) {
 		$upload_dir = wp_upload_dir();
 		$space_used = get_dirsize( $upload_dir['basedir'] ) / MB_IN_BYTES;

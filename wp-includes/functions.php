@@ -7624,8 +7624,6 @@ function get_dirsize( $directory, $max_execution_time = null ) {
  * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.
  */
 function recurse_dirsize( $directory, $exclude = null, $max_execution_time = null, &$directory_cache = null ) {
-	$size = 0;
-
 	$directory  = untrailingslashit( $directory );
 	$cache_path = untrailingslashit( str_replace( ABSPATH, '', $directory ) );
 
@@ -7674,11 +7672,13 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param int|false $space_used The amount of used space, in bytes. Default 0.
+	 * @param int|false $space_used The amount of used space, in bytes. Default false.
 	 */
-	$size = apply_filters( 'calculate_current_dirsize', $size, $directory, $exclude, $max_execution_time, $directory_cache );
+	$size = apply_filters( 'pre_recurse_dirsize', false, $directory, $exclude, $max_execution_time, $directory_cache );
 
-	if ( 0 === $size ) {
+	if ( false === $size ) {
+		$size = 0;
+
 		$handle = opendir( $directory );
 		if ( $handle ) {
 			while ( ( $file = readdir( $handle ) ) !== false ) {
@@ -7703,6 +7703,7 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 			closedir( $handle );
 		}
 	}
+
 	$directory_cache[ $cache_path ] = $size;
 
 	// Only write the transient on the top level call and not on recursive calls.
