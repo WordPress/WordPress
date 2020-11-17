@@ -114,7 +114,7 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 			tabKey = event.keyCode === 9;
 			shiftKey = event.shiftKey;
 			escKey = event.keyCode === 27;
-			activeEl = document.activeElement;
+			activeEl = document.activeElement; // eslint-disable-line @wordpress/no-global-active-element
 			lastEl = elements[ elements.length - 1 ];
 			firstEl = elements[0];
 

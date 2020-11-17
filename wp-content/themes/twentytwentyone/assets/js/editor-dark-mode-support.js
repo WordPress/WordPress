@@ -1,81 +1,44 @@
-/* global ajaxurl, XMLHttpRequest, darkModeInitialLoad, setTimeout */
+/* global twentytwentyoneIsDarkMode, setTimeout */
 
-// Check the body class to determine if we want to add the toggler and handle dark-mode or not.
+// Check the color scheme preference and inject the classes if necessary.
 if ( document.body.classList.contains( 'twentytwentyone-supports-dark-theme' ) ) {
-	// Add the toggler.
-	twentytwentyoneDarkModeEditorToggle();
+	twentytwentyoneDarkModeEditorInit();
 }
 
 /**
- * Make an AJAX request, inject the toggle and call any functions that need to run.
+ * Once the editor loads, add the dark mode class.
+ *
+ * Wait for the editor to load by periodically checking for an element, then we add the classes.
  *
  * @since 1.0.0
  *
+ * @param {number} attempt Track the number of tries
  * @return {void}
  */
-function twentytwentyoneDarkModeEditorToggle() {
-	var request = new XMLHttpRequest();
+function twentytwentyoneDarkModeEditorInit( attempt ) {
+	var container = document.querySelector( '.block-editor__typewriter' ),
+		maxAttempts = 8;
 
-	// Define the request.
-	request.open( 'POST', ajaxurl, true );
+	// Set the initial attempt if it's undefined.
+	attempt = attempt || 0;
 
-	// Add headers.
-	request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8' );
-
-	// On success call funtions that need to run.
-	request.onload = function() {
-		var selector = '.editor-styles-wrapper,.edit-post-visual-editor',
-			editor,
-			attemptDelay = 25,
-			attempt = 0,
-			maxAttempts = 8;
-
-		if ( 200 <= this.status && 400 > this.status ) {
-			editor = document.querySelector( selector );
-
-			if ( null === editor ) {
-				// Try again.
-				if ( attempt < maxAttempts ) {
-					setTimeout( function() {
-						twentytwentyoneDarkModeEditorToggle();
-					}, attemptDelay );
-
-					// Increment the attempts counter.
-					attempt++;
-
+	if ( twentytwentyoneIsDarkMode() ) {
+		if ( null === container ) {
+			// Try again.
+			if ( attempt < maxAttempts ) {
+				setTimeout(
+					function() {
+						twentytwentyoneDarkModeEditorInit( attempt + 1 );
+					},
 					// Double the delay, give the server some time to breathe.
-					attemptDelay *= 2;
-				}
-				return;
+					25 * Math.pow( 2, attempt )
+				);
 			}
-			// Inject the toggle.
-			document.querySelector( selector ).insertAdjacentHTML( 'afterbegin', this.response );
-
-			// Run toggler script.
-			darkModeInitialLoad();
-
-			// Switch editor styles if needed.
-			twentytwentyoneDarkModeEditorToggleEditorStyles();
+			return;
 		}
-	};
 
-	// Send the request.
-	request.send( 'action=tt1_dark_mode_editor_switch' );
-}
-
-/**
- * Toggle the editor dark styles depending on the user's preferences in the toggler.
- *
- * @since 1.0.0
- *
- * @return {void}
- */
-function twentytwentyoneDarkModeEditorToggleEditorStyles() {
-	var toggler = document.getElementById( 'dark-mode-toggler' );
-
-	if ( 'true' === toggler.getAttribute( 'aria-pressed' ) ) {
 		document.body.classList.add( 'is-dark-theme' );
 		document.documentElement.classList.add( 'is-dark-theme' );
-		document.querySelector( '.block-editor__typewriter' ).classList.add( 'is-dark-theme' );
+		container.classList.add( 'is-dark-theme' );
 	}
 }

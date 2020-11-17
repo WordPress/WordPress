@@ -77,7 +77,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 	register_block_pattern(
 		'twentytwentyone/two-images-showcase',
 		array(
-			'title'         => esc_html__( 'Two mages showcase', 'twentytwentyone' ),
+			'title'         => esc_html__( 'Two images showcase', 'twentytwentyone' ),
 			'categories'    => array( 'twentytwentyone' ),
 			'viewportWidth' => 1440,
 			'description'   => esc_html_x( 'A media & text block with a big image on the left and a smaller one with bordered frame on the right.', 'Block pattern description', 'twentytwentyone' ),

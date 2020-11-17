@@ -10,7 +10,7 @@
 		--button--color-text-active: var(--global--color-secondary);
 		--button--color-background: var(--global--color-secondary);
 		--button--color-background-active: var(--global--color-background);
-		--global--color-border: #ffffff8c; //55% opacity
+		--global--color-border: #9ea1a7;
 
 		.site a:focus,
 		.site a:focus .meta-nav {
@@ -44,10 +44,6 @@
 		z-index: 9998;
 
 		.no-js & {
-			display: none;
-		}
-
-		.wp-admin & {
 			display: none;
 		}
 

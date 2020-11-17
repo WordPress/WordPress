@@ -14,9 +14,8 @@ function toggleDarkMode() { // jshint ignore:line
 	}
 }
 
-function darkModeInitialLoad() {
-	var toggler = document.getElementById( 'dark-mode-toggler' ),
-		isDarkMode = window.matchMedia( '(prefers-color-scheme: dark)' ).matches;
+function twentytwentyoneIsDarkMode() {
+	var isDarkMode = window.matchMedia( '(prefers-color-scheme: dark)' ).matches;
 
 	if ( 'yes' === window.localStorage.getItem( 'twentytwentyoneDarkMode' ) ) {
 		isDarkMode = true;
@@ -24,12 +23,12 @@ function darkModeInitialLoad() {
 		isDarkMode = false;
 	}
 
-	if ( ! toggler ) {
-		return;
-	}
-	if ( isDarkMode ) {
-		toggler.setAttribute( 'aria-pressed', 'true' );
-	}
+	return isDarkMode;
+}
+
+function darkModeInitialLoad() {
+	var toggler = document.getElementById( 'dark-mode-toggler' ),
+		isDarkMode = twentytwentyoneIsDarkMode();
 
 	if ( isDarkMode ) {
 		document.documentElement.classList.add( 'is-dark-theme' );
@@ -37,6 +36,10 @@ function darkModeInitialLoad() {
 	} else {
 		document.documentElement.classList.remove( 'is-dark-theme' );
 		document.body.classList.remove( 'is-dark-theme' );
+	}
+
+	if ( toggler && isDarkMode ) {
+		toggler.setAttribute( 'aria-pressed', 'true' );
 	}
 }
 

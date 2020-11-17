@@ -10,7 +10,7 @@
 		--button--color-text-active: var(--global--color-secondary);
 		--button--color-background: var(--global--color-secondary);
 		--button--color-background-active: var(--global--color-background);
-		--global--color-border: #ffffff8c;
+		--global--color-border: #9ea1a7;
 	}
 
 	.is-dark-theme.is-dark-theme .site a:focus,
@@ -45,10 +45,6 @@
 	}
 
 	.no-js #dark-mode-toggler {
-		display: none;
-	}
-
-	.wp-admin #dark-mode-toggler {
 		display: none;
 	}
 
