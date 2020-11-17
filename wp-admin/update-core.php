@@ -62,7 +62,7 @@ function list_core_update( $update ) {
 	$show_buttons  = true;
 
 	if ( 'development' === $update->response ) {
-		$message = __( 'You are using a development version of WordPress. You can update to the latest nightly build manually:' );
+		$message = __( 'You can update to the latest nightly build manually:' );
 	} else {
 		if ( $current ) {
 			/* translators: %s: WordPress version. */
@@ -232,28 +232,7 @@ function core_upgrade_preamble() {
 	$wp_version = get_bloginfo( 'version' );
 	$updates    = get_core_updates();
 
-	if ( ! isset( $updates[0]->response ) || 'latest' === $updates[0]->response ) {
-		echo '<h2>';
-		_e( 'You have the latest version of WordPress.' );
-
-		if ( wp_http_supports( array( 'ssl' ) ) ) {
-			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-			$upgrader            = new WP_Automatic_Updater;
-			$future_minor_update = (object) array(
-				'current'       => $wp_version . '.1.next.minor',
-				'version'       => $wp_version . '.1.next.minor',
-				'php_version'   => $required_php_version,
-				'mysql_version' => $required_mysql_version,
-			);
-			$should_auto_update  = $upgrader->should_update( 'core', $future_minor_update, ABSPATH );
-			if ( $should_auto_update ) {
-				echo ' ' . __( 'Future security updates will be applied automatically.' );
-			}
-		}
-		echo '</h2>';
-	}
-
-	if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
+	if ( isset( $updates[0] ) && isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
 		echo '<h2 class="response">';
 		_e( 'An updated version of WordPress is available.' );
 		echo '</h2>';
@@ -266,16 +245,10 @@ function core_upgrade_preamble() {
 			__( 'https://wordpress.org/support/article/updating-wordpress/' )
 		);
 		echo '</p></div>';
-	}
-
-	if ( isset( $updates[0] ) && 'development' === $updates[0]->response ) {
-		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-		$upgrader = new WP_Automatic_Updater;
-		if ( wp_http_supports( 'ssl' ) && $upgrader->should_update( 'core', $updates[0], ABSPATH ) ) {
-			echo '<div class="updated inline"><p>';
-			echo '<strong>' . __( 'BETA TESTERS:' ) . '</strong> ' . __( 'This site is set up to install updates of future beta versions automatically.' );
-			echo '</p></div>';
-		}
+	} elseif ( isset( $updates[0] ) && 'development' === $updates[0]->response ) {
+		echo '<h2 class="response">' . __( 'You are using a development version of WordPress.' ) . '</h2>';
+	} else {
+		echo '<h2 class="response">' . __( 'You have the latest version of WordPress.' ) . '</h2>';
 	}
 
 	echo '<ul class="core-updates">';
@@ -395,24 +368,28 @@ function core_auto_updates_settings() {
 
 	<p class="auto-update-status">
 		<?php
-		if ( $upgrade_major ) {
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		$updater = new WP_Automatic_Updater();
+		if ( $updater->is_vcs_checkout( ABSPATH ) ) {
+			_e( 'This site appears to be under version control. Automatic updates are disabled.' );
+		} elseif ( $upgrade_major ) {
 			_e( 'This site is automatically kept up to date with each new version of WordPress.' );
 
 			if ( $can_set_update_option ) {
 				echo '<br>';
 				printf(
-					'<a href="%s">%s</a>',
+					'<a href="%s" class="core-auto-update-settings-link core-auto-update-settings-link-disable">%s</a>',
 					wp_nonce_url( add_query_arg( 'value', 'disable', $action_url ), 'core-major-auto-updates-nonce' ),
 					__( 'Switch to automatic updates for maintenance and security releases only.' )
 				);
 			}
 		} elseif ( $upgrade_minor ) {
-			_e( 'This site is automatically kept up to date with maintenance and security releases of WordPress.' );
+			_e( 'This site is automatically kept up to date with maintenance and security releases of WordPress only.' );
 
 			if ( $can_set_update_option ) {
 				echo '<br>';
 				printf(
-					'<a href="%s">%s</a>',
+					'<a href="%s" class="core-auto-update-settings-link core-auto-update-settings-link-enable">%s</a>',
 					wp_nonce_url( add_query_arg( 'value', 'enable', $action_url ), 'core-major-auto-updates-nonce' ),
 					__( 'Enable automatic updates for all new versions of WordPress.' )
 				);
