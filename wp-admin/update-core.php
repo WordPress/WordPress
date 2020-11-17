@@ -545,7 +545,7 @@ function list_plugin_updates() {
 			sprintf( __( 'View version %s details.' ), $plugin_data->update->new_version )
 		);
 
-		$checkbox_id = 'checkbox_' . md5( $plugin_data->Name );
+		$checkbox_id = 'checkbox_' . md5( $plugin_file );
 		?>
 	<tr>
 		<td class="check-column">
