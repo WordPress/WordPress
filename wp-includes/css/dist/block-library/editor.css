@@ -1117,14 +1117,12 @@ ul.has-background.has-background {
   font-size: 28px;
   line-height: 1.6; }
 
-.wp-block-pullquote.is-style-solid-color {
-  margin-left: 0;
-  margin-right: 0; }
-  .wp-block-pullquote.is-style-solid-color blockquote p {
-    font-size: 32px; }
-  .wp-block-pullquote.is-style-solid-color .wp-block-pullquote__citation {
-    text-transform: none;
-    font-style: normal; }
+.wp-block-pullquote.is-style-solid-color blockquote p {
+  font-size: 32px; }
+
+.wp-block-pullquote.is-style-solid-color .wp-block-pullquote__citation {
+  text-transform: none;
+  font-style: normal; }
 
 .wp-block-pullquote .wp-block-pullquote__citation {
   color: inherit; }

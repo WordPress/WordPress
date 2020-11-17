@@ -192,8 +192,7 @@ html.interface-interface-skeleton__html-container {
 .interface-interface-skeleton__editor {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  max-width: 100%; }
+  flex: 0 1 100%; }
 
 .interface-interface-skeleton {
   /* Set left position when auto-fold is not on the body element. */
@@ -290,8 +289,9 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   flex-shrink: 0;
   border-top: 1px solid #e0e0e0;
   color: #1e1e1e;
-  position: fixed;
+  position: absolute;
   bottom: 0;
+  right: 0;
   width: 100%;
   background-color: #fff;
   z-index: 90;
