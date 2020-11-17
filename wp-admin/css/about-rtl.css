@@ -20,21 +20,31 @@
 ------------------------------------------------------------------------------*/
 
 .about__container {
+	/* Colors from Twenty Twenty-One, will be removed after 5.6 */
+	--global--color-green: #d1e4dd;
+	--global--color-blue: #d1dfe4;
+	--global--color-purple: #d1d1e4;
+	--global--color-red: #e4d1d1;
+	--global--color-orange: #e4dad1;
+	--global--color-yellow: #eeeadd;
+
 	/* Section backgrounds */
 	--background: #fff;
-	--subtle-background: #f2edd4;
+	--subtle-background: var(--global--color-yellow);
+
 	/* Main text color */
-	--text: #322d2b;
-	--text-light: #f2edd4;
+	--text: #000;
+	--text-light: #fff;
+
 	/* Accent colors: used in header, on special classes. */
-	--accent-1: #ebcd3d; /* Accent background */
-	--accent-2: #bd7331;
-	--accent-3: #b04329;
+	--accent-1: var(--global--color-green); /* Accent background */
+	--accent-2: var(--text); /* Link color */
+
 	/* Navigation colors. */
-	--nav-background: var(--subtle-background);
-	--nav-border: var(--accent-1);
-	--nav-color: var(--accent-3);
-	--nav-current: var(--accent-3);
+	--nav-background: var(--background);
+	--nav-border: #767676;
+	--nav-color: #767676;
+	--nav-current: #000;
 }
 
 /*------------------------------------------------------------------------------
@@ -105,7 +115,7 @@
 }
 
 .about__container .has-accent-background-color {
-	background-color: #ebcd3d;
+	background-color: #d1e4dd;
 	background-color: var(--accent-1);
 }
 
@@ -114,21 +124,30 @@
 }
 
 .about__container .has-accent-color {
-	color: #b04329;
-	color: var(--accent-3);
+	color: #000;
+	color: var(--text);
+	font-weight: bold;
+}
+
+.about__container .has-border {
+	border: 3px solid currentColor;
 }
 
 .about__container .has-subtle-background-color {
-	background-color: #f2edd4;
+	background-color: #eeeadd;
 	background-color: var(--subtle-background);
-	color: #322d2b;
-	color: var(--text);
+}
+
+.about__container .has-background-image {
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 /* 1.1 - Layout */
 
 .about__section {
-	margin: 0;
+	margin: 1em 0;
 }
 
 .about__section .column {
@@ -137,6 +156,11 @@
 
 .about__section + .about__section .column {
 	padding-top: 0;
+}
+
+.about__section .column[class*="background-color"],
+.about__section .column.has-border {
+	padding-top: 32px;
 }
 
 .about__section .column.is-edge-to-edge {
@@ -190,9 +214,14 @@
 
 .about__section.has-2-columns,
 .about__section.has-3-columns,
-.about__section.has-4-columns {
+.about__section.has-4-columns,
+.about__section.has-overlap-style {
 	display: -ms-grid;
 	display: grid;
+}
+
+.about__section.has-gutters {
+	gap: 16px;
 }
 
 .about__section.has-2-columns {
@@ -289,9 +318,38 @@
 /* Any columns following a section header need to be expicitly put into the second row, for IE support. */
 .about__section.has-2-columns .is-section-header ~ .column,
 .about__section.has-3-columns .is-section-header ~ .column,
-.about__section.has-4-columns .is-section-header ~ .column {
+.about__section.has-4-columns .is-section-header ~ .column,
+.about__section.has-overlap-style .is-section-header ~ .column {
 	-ms-grid-row: 2;
 	grid-row-start: 2;
+}
+
+.about__section.has-overlap-style {
+	-ms-grid-columns: (1fr)[7];
+	grid-template-columns: repeat(7, 1fr);
+}
+
+.about__section.has-overlap-style .column {
+	-ms-grid-row: 1;
+	grid-row-start: 1;
+}
+
+.about__section.has-overlap-style .column:nth-of-type(2n+1) {
+	-ms-grid-column: 2;
+	grid-column-start: 2;
+	-ms-grid-column-span: 3;
+	grid-column-end: span 3;
+}
+
+.about__section.has-overlap-style .column:nth-of-type(2n) {
+	-ms-grid-column: 4;
+	grid-column-start: 4;
+	-ms-grid-column-span: 3;
+	grid-column-end: span 3;
+}
+
+.about__section.has-overlap-style .column.is-top-layer {
+	z-index: 1;
 }
 
 @media screen and (max-width: 782px) {
@@ -300,6 +358,18 @@
 	.about__section.has-3-columns {
 		display: block;
 		padding-bottom: 16px;
+	}
+
+	.about__section.has-2-columns.has-gutters .column,
+	.about__section.has-2-columns.has-gutters .column,
+	.about__section.has-3-columns.has-gutters .column {
+		margin-bottom: 16px;
+	}
+
+	.about__section.has-2-columns.has-gutters .column:last-child,
+	.about__section.has-2-columns.has-gutters .column:last-child,
+	.about__section.has-3-columns.has-gutters .column:last-child {
+		margin-bottom: 0;
 	}
 
 	.about__section.has-3-columns .column:nth-of-type(n) {
@@ -327,23 +397,53 @@
 		-ms-grid-row: 2;
 		grid-row-start: 2;
 	}
+
+	.about__section.has-4-columns .is-section-header {
+		-ms-grid-column-span: 2;
+		grid-column-end: span 2;
+	}
+
+	.about__section.has-4-columns .is-section-header ~ .column:nth-of-type(4n+3),
+	.about__section.has-4-columns .is-section-header ~ .column:nth-of-type(4n) {
+		-ms-grid-row: 3;
+		grid-row-start: 3;
+	}
+
+	.about__section.has-overlap-style {
+		-ms-grid-columns: 1fr;
+		grid-template-columns: 1fr;
+	}
+
+	/* At this size, the two columns fully overlap */
+	.about__section.has-overlap-style .column.column {
+		-ms-grid-column: 1;
+		grid-column-start: 1;
+		-ms-grid-column-span: 1;
+		grid-column-end: 2;
+		-ms-grid-row: 1;
+		grid-row-start: 1;
+		-ms-grid-row-span: 1;
+		grid-row-end: 2;
+	}
 }
 
 @media screen and (max-width: 600px) {
 	.about__section.has-2-columns {
-		display: flex; /* This is flex, not block, so we can use order below. */
-		flex-wrap: wrap;
-		align-content: stretch;
+		display: block;
 		padding-bottom: 16px;
+	}
+
+	.about__section.has-2-columns.has-gutters .column {
+		margin-bottom: 16px;
+	}
+
+	.about__section.has-2-columns.has-gutters .column:last-child {
+		margin-bottom: 0;
 	}
 
 	.about__section.has-2-columns .column:nth-of-type(n) {
 		padding-top: 16px;
 		padding-bottom: 16px;
-	}
-
-	.about__section.has-2-columns .is-edge-to-edge {
-		order: -1;
 	}
 }
 
@@ -351,6 +451,14 @@
 	.about__section.has-4-columns {
 		display: block;
 		padding-bottom: 16px;
+	}
+
+	.about__section.has-4-columns.has-gutters .column {
+		margin-bottom: 16px;
+	}
+
+	.about__section.has-4-columns.has-gutters .column:last-child {
+		margin-bottom: 0;
 	}
 
 	.about__section.has-4-columns .column:nth-of-type(n) {
@@ -363,6 +471,8 @@
 
 .about__container {
 	line-height: 1.4;
+	color: #000;
+	color: var(--text);
 }
 
 .about__container h1 {
@@ -373,16 +483,19 @@
 }
 
 .about__container h1,
-.about__container h2 {
+.about__container h2,
+.about__container h3.is-larger-heading {
 	margin-top: 0;
-	font-size: 1.4em;
-	line-height: 1.4;
+	margin-bottom: 0.5em;
+	font-size: 2.9em;
+	line-height: 1.2;
+	font-weight: 400;
 }
 
 .about__container h3,
 .about__container h2.is-smaller-heading {
 	margin-top: 0;
-	font-size: 1em;
+	font-size: 1.5em;
 }
 
 .about__container p {
@@ -391,15 +504,15 @@
 }
 
 .about__section a {
-	color: #b04329;
-	color: var(--accent-3);
+	color: #000;
+	color: var(--accent-2);
 	text-decoration: underline;
 }
 
 .about__section a:hover,
 .about__section a:active,
 .about__section a:focus {
-	color: #bd7331;
+	color: #000;
 	color: var(--accent-2);
 	text-decoration: none;
 }
@@ -454,6 +567,13 @@
 	height: 8px;
 }
 
+.about__container hr.is-large {
+	height: 64px;
+	width: 2px;
+	margin: 16px auto;
+	background: currentColor;
+}
+
 .about__container div.updated,
 .about__container div.error,
 .about__container .notice {
@@ -475,67 +595,94 @@
 		font-size: 1.4em;
 		font-weight: 500;
 	}
+
+	.about__container h1,
+	.about__container h2,
+	.about__container h3.is-larger-heading {
+		font-size: 2em;
+	}
 }
 
 /* 1.3 - Header */
 
 .about__header {
-	padding-top: 8em;
 	margin-bottom: 32px;
-	background-color: #ebcd3d;
+	padding-top: 3em;
+	background-color: #d1e4dd;
 	background-color: var(--accent-1);
-	color: #322d2b;
+	color: #000;
 	color: var(--text);
 }
 
+.about__header-image {
+	margin: 0 32px 3em;
+}
+
+.about__header-container {
+	display: -ms-grid;
+	display: grid;
+	-ms-grid-columns: 3fr 1fr;
+	grid-template-columns: 3fr 1fr;
+	-ms-grid-rows: auto auto;
+	grid-template-rows: auto auto;
+	justify-items: start;
+}
+
 .about__header-title {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 20vh;
-	max-height: 16em;
-	padding: 32px;
-	margin-bottom: 4em;
+	display: inline-block;
+	padding: 1em 0;
+	margin: 0 32px 4em;
 	text-align: center;
+	border-width: 3px 0;
+	border-style: solid;
+	border-color: currentColor;
+	-ms-grid-column: 1;
+	grid-column: 1;
+	-ms-grid-row: 1;
+	grid-row: 1;
 }
 
 .about__header-title p {
 	margin: 0;
 	padding: 0;
-	font-size: 4em;
+	font-size: 6em;
 	line-height: 1;
 	font-weight: 500;
 }
 
-.about__header-title p span {
-	display: block;
-	font-size: 2em;
-}
-
 .about__header-text {
-	display: inline-block;
-	margin-right: -16px;
-	padding: 16px 48px;
+	margin: 0 32px 3em;
+	max-width: 13em;
 	font-size: 1.5em;
 	line-height: 1.4;
-	background: #b04329;
-	background: var(--accent-3);
-	color: #f2edd4;
-	color: var(--text-light);
+	-ms-grid-column: 1;
+	grid-column: 1;
+	-ms-grid-row: 2;
+	grid-row: 2;
 }
 
 .about__header-text p {
 	margin: 0;
 }
 
+.about__header-badge {
+	-ms-grid-column: 2;
+	grid-column: 2;
+	-ms-grid-row: 1;
+	-ms-grid-row-span: 2;
+	grid-row: 1 / span 2;
+	-ms-grid-row-align: center;
+	align-self: center;
+}
+
 .about__header-navigation {
 	clear: both;
 	padding-top: 0;
-	background: #f2edd4;
+	background: #fff;
 	background: var(--nav-background);
-	color: #b04329;
+	color: #767676;
 	color: var(--nav-color);
-	border-bottom: 3px solid #ebcd3d;
+	border-bottom: 3px solid #767676;
 	border-bottom: 3px solid var(--nav-border);
 }
 
@@ -553,26 +700,28 @@
 
 .about__header-navigation .nav-tab:hover,
 .about__header-navigation .nav-tab:active {
-	background-color: #322d2b;
+	background-color: #000;
 	background-color: var(--text);
-	color: #f2edd4;
+	color: #fff;
 	color: var(--text-light);
 }
 
 .about__header-navigation .nav-tab-active {
 	margin-bottom: -3px;
+	color: #000;
+	color: var(--nav-current);
 	border-width: 0 0 6px;
-	border-color: #b04329;
+	border-color: #000;
 	border-color: var(--nav-current);
 }
 
 .about__header-navigation .nav-tab-active:hover,
 .about__header-navigation .nav-tab-active:active {
-	background-color: #322d2b;
+	background-color: #000;
 	background-color: var(--text);
-	color: #f2edd4;
+	color: #fff;
 	color: var(--text-light);
-	border-color: #b04329;
+	border-color: #000;
 	border-color: var(--nav-current);
 }
 
@@ -581,10 +730,24 @@
 		font-size: 1.4em;
 	}
 
-	.about__header-title {
-		min-height: 0;
-		max-height: none;
-		height: auto;
+	.about__header-container {
+		display: block;
+	}
+
+	.about__header-title,
+	.about__header-text,
+	.about__header-image,
+	.about__header-badge {
+		margin-right: 16px;
+		margin-left: 16px;
+	}
+
+	.about__header-text {
+		margin-bottom: 1em;
+	}
+
+	.about__header-badge {
+		margin-bottom: 3em;
 	}
 
 	.about__header-navigation .nav-tab {
@@ -658,7 +821,7 @@
 	font-size: 1.4em;
 	font-weight: 600;
 	text-decoration: none;
-	color: #322d2b;
+	color: #000;
 	color: var(--text);
 }
 
