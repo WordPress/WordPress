@@ -77,7 +77,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 	$redirect     = $original;
 	$redirect_url = false;
-	$redirect_obj = false;
 
 	// Notice fixing.
 	if ( ! isset( $redirect['path'] ) ) {
@@ -103,7 +102,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 	if ( is_feed() && $post_id ) {
 		$redirect_url = get_post_comments_feed_link( $post_id, get_query_var( 'feed' ) );
-		$redirect_obj = get_post( $post_id );
 
 		if ( $redirect_url ) {
 			$redirect['query'] = _remove_qs_args_if_not_in_url(
@@ -128,7 +126,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 
 			$redirect_url = get_permalink( $post_id );
-			$redirect_obj = get_post( $post_id );
 
 			if ( $redirect_url ) {
 				$redirect['query'] = _remove_qs_args_if_not_in_url(
@@ -153,7 +150,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 			if ( $post_type_obj->public && 'auto-draft' !== $redirect_post->post_status ) {
 				$redirect_url = get_permalink( $redirect_post );
-				$redirect_obj = get_post( $redirect_post );
 
 				$redirect['query'] = _remove_qs_args_if_not_in_url(
 					$redirect['query'],
@@ -201,7 +197,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 			if ( $post_id ) {
 				$redirect_url = get_permalink( $post_id );
-				$redirect_obj = get_post( $post_id );
 
 				$redirect['path']  = rtrim( $redirect['path'], (int) get_query_var( 'page' ) . '/' );
 				$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
@@ -228,32 +223,27 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		) {
 			if ( ! empty( $_GET['attachment_id'] ) ) {
 				$redirect_url = get_attachment_link( get_query_var( 'attachment_id' ) );
-				$redirect_obj = get_post( get_query_var( 'attachment_id' ) );
 
 				if ( $redirect_url ) {
 					$redirect['query'] = remove_query_arg( 'attachment_id', $redirect['query'] );
 				}
 			} else {
 				$redirect_url = get_attachment_link();
-				$redirect_obj = get_post();
 			}
 		} elseif ( is_single() && ! empty( $_GET['p'] ) && ! $redirect_url ) {
 			$redirect_url = get_permalink( get_query_var( 'p' ) );
-			$redirect_obj = get_post( get_query_var( 'p' ) );
 
 			if ( $redirect_url ) {
 				$redirect['query'] = remove_query_arg( array( 'p', 'post_type' ), $redirect['query'] );
 			}
 		} elseif ( is_single() && ! empty( $_GET['name'] ) && ! $redirect_url ) {
 			$redirect_url = get_permalink( $wp_query->get_queried_object_id() );
-			$redirect_obj = get_post( $wp_query->get_queried_object_id() );
 
 			if ( $redirect_url ) {
 				$redirect['query'] = remove_query_arg( 'name', $redirect['query'] );
 			}
 		} elseif ( is_page() && ! empty( $_GET['page_id'] ) && ! $redirect_url ) {
 			$redirect_url = get_permalink( get_query_var( 'page_id' ) );
-			$redirect_obj = get_post( get_query_var( 'page_id' ) );
 
 			if ( $redirect_url ) {
 				$redirect['query'] = remove_query_arg( 'page_id', $redirect['query'] );
@@ -266,7 +256,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			&& 'page' === get_option( 'show_on_front' ) && get_query_var( 'page_id' ) === (int) get_option( 'page_for_posts' )
 		) {
 			$redirect_url = get_permalink( get_option( 'page_for_posts' ) );
-			$redirect_obj = get_post( get_option( 'page_for_posts' ) );
 
 			if ( $redirect_url ) {
 				$redirect['query'] = remove_query_arg( 'page_id', $redirect['query'] );
@@ -321,7 +310,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				&& $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE $wpdb->posts.post_author = %d AND $wpdb->posts.post_status = 'publish' LIMIT 1", $author->ID ) )
 			) {
 				$redirect_url = get_author_posts_url( $author->ID, $author->user_nicename );
-				$redirect_obj = $author;
 
 				if ( $redirect_url ) {
 					$redirect['query'] = remove_query_arg( 'author', $redirect['query'] );
@@ -397,7 +385,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 					|| ! has_term( $category->term_id, 'category', $wp_query->get_queried_object_id() )
 				) {
 					$redirect_url = get_permalink( $wp_query->get_queried_object_id() );
-					$redirect_obj = get_post( $wp_query->get_queried_object_id() );
 				}
 			}
 		}
@@ -408,7 +395,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 			if ( ! $redirect_url ) {
 				$redirect_url = get_permalink( get_queried_object_id() );
-				$redirect_obj = get_post( get_queried_object_id() );
 			}
 
 			if ( $page > 1 ) {
@@ -752,32 +738,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		}
 
 		$requested_url = preg_replace_callback( '|%[a-fA-F0-9][a-fA-F0-9]|', 'lowercase_octets', $requested_url );
-	}
-
-	if (
-		$redirect_obj &&
-		is_a( $redirect_obj, 'WP_Post' )
-	) {
-		$post_status_obj = get_post_status_object( get_post_status( $redirect_obj ) );
-		if (
-			// Unviewable post types are never redirected.
-			! is_post_type_viewable( $redirect_obj->post_type ) ||
-			// Internal or protected posts never redirect.
-			$post_status_obj->internal ||
-			$post_status_obj->protected ||
-			(
-				// Don't redirect a non-public post...
-				! $post_status_obj->public &&
-				(
-					// ...unless it's private and the logged in user has access.
-					$post_status_obj->private &&
-					! current_user_can( 'read_post', $redirect_obj->ID )
-				)
-			)
-		) {
-			$redirect_obj = false;
-			$redirect_url = false;
-		}
 	}
 
 	/**

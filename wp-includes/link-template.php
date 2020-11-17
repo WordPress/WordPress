@@ -164,7 +164,10 @@ function get_permalink( $post = 0, $leavename = false ) {
 	 */
 	$permalink = apply_filters( 'pre_post_link', $permalink, $post, $leavename );
 
-	if ( $permalink && ! in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft', 'future' ), true ) ) {
+	if (
+		$permalink &&
+		! in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft', 'future', 'trash' ), true )
+	) {
 
 		$category = '';
 		if ( strpos( $permalink, '%category%' ) !== false ) {
@@ -418,17 +421,6 @@ function get_attachment_link( $post = null, $leavename = false ) {
 	$parent = ( $post->post_parent > 0 && $post->post_parent != $post->ID ) ? get_post( $post->post_parent ) : false;
 	if ( $parent && ! in_array( $parent->post_type, get_post_types(), true ) ) {
 		$parent = false;
-	}
-
-	if ( $parent ) {
-		$parent_status_obj = get_post_status_object( get_post_status( $post->post_parent ) );
-		if (
-			! is_post_type_viewable( get_post_type( $post->post_parent ) ) ||
-			$parent_status_obj->internal ||
-			$parent_status_obj->protected
-		) {
-			$parent = false;
-		}
 	}
 
 	if ( $wp_rewrite->using_permalinks() && $parent ) {
