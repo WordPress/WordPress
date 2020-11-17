@@ -874,7 +874,7 @@ function upgrade_all() {
 		upgrade_550();
 	}
 
-	if ( $wp_current_db_version < 49572 ) {
+	if ( $wp_current_db_version < 49632 ) {
 		upgrade_560();
 	}
 
@@ -2247,19 +2247,33 @@ function upgrade_550() {
  * @since 5.6.0
  */
 function upgrade_560() {
-	global $wpdb;
+	global $wp_current_db_version, $wpdb;
 
-	// Clean up the `post_category` column removed from schema in version 2.8.0.
-	// Its presence may conflict with WP_Post::__get().
-	$post_category_exists = $wpdb->get_var( "SHOW COLUMNS FROM $wpdb->posts LIKE 'post_category'" );
-	if ( ! is_null( $post_category_exists ) ) {
-		$wpdb->query( "ALTER TABLE $wpdb->posts DROP COLUMN `post_category`" );
+	if ( $wp_current_db_version < 49572 ) {
+		/*
+		 * Clean up the `post_category` column removed from schema in version 2.8.0.
+		 * Its presence may conflict with `WP_Post::__get()`.
+		 */
+		$post_category_exists = $wpdb->get_var( "SHOW COLUMNS FROM $wpdb->posts LIKE 'post_category'" );
+		if ( ! is_null( $post_category_exists ) ) {
+			$wpdb->query( "ALTER TABLE $wpdb->posts DROP COLUMN `post_category`" );
+		}
+
+		/*
+		 * When upgrading from WP < 5.6.0 set the core major auto-updates option to `unset` by default.
+		 * This overrides the same option from populate_options() that is intended for new installs.
+		 * See https://core.trac.wordpress.org/ticket/51742.
+		 */
+		update_option( 'auto_update_core_major', 'unset' );
 	}
 
-	// When upgrading from WP < 5.6.0 set the core major auto-updates option to `unset` by default.
-	// This overrides the same option from populate_options() that is intended for new installs.
-	// See https://core.trac.wordpress.org/ticket/51742.
-	update_option( 'auto_update_core_major', 'unset' );
+	if ( $wp_current_db_version < 49632 ) {
+		/*
+		 * Regenerate the .htaccess file to add the `HTTP_AUTHORIZATION` rewrite rule.
+		 * See https://core.trac.wordpress.org/ticket/51723.
+		 */
+		save_mod_rewrite_rules();
+	}
 }
 
 /**
