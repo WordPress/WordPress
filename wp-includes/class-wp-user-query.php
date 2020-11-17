@@ -219,15 +219,14 @@ class WP_User_Query {
 		/**
 		 * Fires before the WP_User_Query has been parsed.
 		 *
-		 * The passed WP_User_Query object contains the query variables, not
-		 * yet passed into SQL.
+		 * The passed WP_User_Query object contains the query variables,
+		 * not yet passed into SQL.
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param WP_User_Query $this The current WP_User_Query instance,
-		 *                            passed by reference.
+		 * @param WP_User_Query $this Current instance of WP_User_Query (passed by reference).
 		 */
-		do_action( 'pre_get_users', $this );
+		do_action_ref_array( 'pre_get_users', array( &$this ) );
 
 		// Ensure that query vars are filled after 'pre_get_users'.
 		$qv =& $this->query_vars;
@@ -576,8 +575,7 @@ class WP_User_Query {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param WP_User_Query $this The current WP_User_Query instance,
-		 *                            passed by reference.
+		 * @param WP_User_Query $this Current instance of WP_User_Query (passed by reference).
 		 */
 		do_action_ref_array( 'pre_user_query', array( &$this ) );
 	}
