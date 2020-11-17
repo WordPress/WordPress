@@ -1094,6 +1094,10 @@ $document.ready( function() {
 			var $el = $( this ),
 				$button = $( '<button type="button" class="notice-dismiss"><span class="screen-reader-text"></span></button>' );
 
+			if ( $el.find( '.notice-dismiss' ).length ) {
+				return;
+			}
+
 			// Ensure plain text.
 			$button.find( '.screen-reader-text' ).text( __( 'Dismiss this notice.' ) );
 			$button.on( 'click.wp-dismiss-notice', function( event ) {
