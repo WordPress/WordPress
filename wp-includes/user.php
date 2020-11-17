@@ -353,7 +353,7 @@ function wp_authenticate_application_password( $input_user, $username, $password
 	} elseif ( ! wp_is_application_passwords_available() ) {
 		$error = new WP_Error(
 			'application_passwords_disabled',
-			'Application passwords are not available.'
+			__( 'Application passwords are not available.' )
 		);
 	} elseif ( ! wp_is_application_passwords_available_for_user( $user ) ) {
 		$error = new WP_Error(
