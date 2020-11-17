@@ -287,11 +287,11 @@ function _slicedToArray(arr, i) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
+  var target = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -575,16 +575,16 @@ function _inherits(subClass, superClass) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
-/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
 
 
 function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
     return call;
   }
 
-  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
 
 /***/ }),
@@ -640,15 +640,15 @@ if (false) { var throwOnDirectAccess, ReactIs; } else {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
+/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
   if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
 }
 
 /***/ }),
@@ -5312,7 +5312,7 @@ var Tooltip = /*#__PURE__*/function (_Component) {
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7);
 /* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _dashicon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(151);
+/* harmony import */ var _dashicon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(150);
 
 
 
@@ -7732,7 +7732,7 @@ var _extends = _interopDefault(__webpack_require__(177));
 var _objectWithoutPropertiesLoose = _interopDefault(__webpack_require__(178));
 var React = __webpack_require__(13);
 var React__default = _interopDefault(React);
-var _inheritsLoose = _interopDefault(__webpack_require__(148));
+var _inheritsLoose = _interopDefault(__webpack_require__(158));
 var _assertThisInitialized = _interopDefault(__webpack_require__(179));
 
 var is = {
@@ -12612,21 +12612,9 @@ module.exports = shallowCompare;
 
 
 /***/ }),
-/* 148 */
-/***/ (function(module, exports) {
-
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
-
-module.exports = _inheritsLoose;
-
-/***/ }),
+/* 148 */,
 /* 149 */,
-/* 150 */,
-/* 151 */
+/* 150 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12666,19 +12654,31 @@ function Dashicon(_ref) {
 
 
 /***/ }),
-/* 152 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var e=__webpack_require__(13),n={display:"block",opacity:0,position:"absolute",top:0,left:0,height:"100%",width:"100%",overflow:"hidden",pointerEvents:"none",zIndex:-1},t=function(t){var r=t.onResize,u=e.useRef();return function(n,t){var r=function(){return n.current&&n.current.contentDocument&&n.current.contentDocument.defaultView};function u(){t();var e=r();e&&e.addEventListener("resize",t)}e.useEffect((function(){return r()?u():n.current&&n.current.addEventListener&&n.current.addEventListener("load",u),function(){var e=r();e&&"function"==typeof e.removeEventListener&&e.removeEventListener("resize",t)}}),[])}(u,(function(){return r(u)})),e.createElement("iframe",{style:n,src:"about:blank",ref:u,"aria-hidden":!0,tabIndex:-1,frameBorder:0})},r=function(e){return{width:null!=e?e.offsetWidth:null,height:null!=e?e.offsetHeight:null}};module.exports=function(n){void 0===n&&(n=r);var u=e.useState(n(null)),o=u[0],i=u[1],c=e.useCallback((function(e){return i(n(e.current))}),[n]);return[e.useMemo((function(){return e.createElement(t,{onResize:c})}),[c]),o]};
 
 
 /***/ }),
+/* 152 */,
 /* 153 */,
 /* 154 */,
 /* 155 */,
 /* 156 */,
 /* 157 */,
-/* 158 */,
+/* 158 */
+/***/ (function(module, exports) {
+
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  subClass.__proto__ = superClass;
+}
+
+module.exports = _inheritsLoose;
+
+/***/ }),
 /* 159 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -17809,10 +17809,12 @@ var is_prop_valid_browser_esm_index = memoize_browser_esm(function (prop) {
 
 /* harmony default export */ var is_prop_valid_browser_esm = (is_prop_valid_browser_esm_index);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/inheritsLoose.js
-var inheritsLoose = __webpack_require__(148);
-var inheritsLoose_default = /*#__PURE__*/__webpack_require__.n(inheritsLoose);
-
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  subClass.__proto__ = superClass;
+}
 // CONCATENATED MODULE: ./node_modules/@emotion/sheet/dist/sheet.browser.esm.js
 /*
 
@@ -18737,6 +18739,9 @@ var cache_browser_esm_createCache = function createCache(options) {
 
 /* harmony default export */ var cache_browser_esm = (cache_browser_esm_createCache);
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/inheritsLoose.js
+var inheritsLoose = __webpack_require__(158);
+
 // CONCATENATED MODULE: ./node_modules/@emotion/utils/dist/utils.browser.esm.js
 var isBrowser = "object" !== 'undefined';
 function getRegisteredStyles(registered, registeredStyles, classNames) {
@@ -19142,48 +19147,34 @@ var serialize_browser_esm_serializeStyles = function serializeStyles(args, regis
 
 
 
-// CONCATENATED MODULE: ./node_modules/@emotion/css/dist/css.browser.esm.js
-
-
-function css_browser_esm_css() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return serialize_browser_esm_serializeStyles(args);
-}
-
-/* harmony default export */ var css_browser_esm = (css_browser_esm_css);
-
-// CONCATENATED MODULE: ./node_modules/@emotion/core/dist/core.browser.esm.js
+// CONCATENATED MODULE: ./node_modules/@emotion/core/dist/emotion-element-57a3a7a3.browser.esm.js
 
 
 
 
 
 
+var emotion_element_57a3a7a3_browser_esm_hasOwnProperty = Object.prototype.hasOwnProperty;
 
-
-
-var EmotionCacheContext = Object(external_this_React_["createContext"])( // we're doing this to avoid preconstruct's dead code elimination in this one case
+var EmotionCacheContext = /*#__PURE__*/Object(external_this_React_["createContext"])( // we're doing this to avoid preconstruct's dead code elimination in this one case
 // because this module is primarily intended for the browser and node
 // but it's also required in react native and similar environments sometimes
 // and we could have a special build just for that
 // but this is much easier and the native packages
 // might use a different theme context in the future anyway
 typeof HTMLElement !== 'undefined' ? cache_browser_esm() : null);
-var ThemeContext = Object(external_this_React_["createContext"])({});
+var ThemeContext = /*#__PURE__*/Object(external_this_React_["createContext"])({});
 var CacheProvider = EmotionCacheContext.Provider;
 
-var core_browser_esm_withEmotionCache = function withEmotionCache(func) {
+var emotion_element_57a3a7a3_browser_esm_withEmotionCache = function withEmotionCache(func) {
   var render = function render(props, ref) {
-    return Object(external_this_React_["createElement"])(EmotionCacheContext.Consumer, null, function (cache) {
+    return /*#__PURE__*/Object(external_this_React_["createElement"])(EmotionCacheContext.Consumer, null, function (cache) {
       return func(props, cache, ref);
     });
   }; // $FlowFixMe
 
 
-  return Object(external_this_React_["forwardRef"])(render);
+  return /*#__PURE__*/Object(external_this_React_["forwardRef"])(render);
 };
 
 // thus we only need to replace what is a valid character for JS, but not for CSS
@@ -19194,9 +19185,25 @@ var sanitizeIdentifier = function sanitizeIdentifier(identifier) {
 
 var typePropName = '__EMOTION_TYPE_PLEASE_DO_NOT_USE__';
 var labelPropName = '__EMOTION_LABEL_PLEASE_DO_NOT_USE__';
-var core_browser_esm_hasOwnProperty = Object.prototype.hasOwnProperty;
+var createEmotionProps = function createEmotionProps(type, props) {
+  if (false) {}
 
-var core_browser_esm_render = function render(cache, props, theme, ref) {
+  var newProps = {};
+
+  for (var key in props) {
+    if (emotion_element_57a3a7a3_browser_esm_hasOwnProperty.call(props, key)) {
+      newProps[key] = props[key];
+    }
+  }
+
+  newProps[typePropName] = type; // TODO: check if this still works with all of those different JSX functions
+
+  if (false) { var match, error; }
+
+  return newProps;
+};
+
+var emotion_element_57a3a7a3_browser_esm_render = function render(cache, props, theme, ref) {
   var cssProp = theme === null ? props.css : props.css(theme); // so that using `css` from `emotion` and passing the result to the css prop works
   // not passing the registered cache to serializeStyles because it would
   // make certain babel optimisations not possible
@@ -19224,60 +19231,70 @@ var core_browser_esm_render = function render(cache, props, theme, ref) {
   var newProps = {};
 
   for (var key in props) {
-    if (core_browser_esm_hasOwnProperty.call(props, key) && key !== 'css' && key !== typePropName && ( true || false)) {
+    if (emotion_element_57a3a7a3_browser_esm_hasOwnProperty.call(props, key) && key !== 'css' && key !== typePropName && ( true || false)) {
       newProps[key] = props[key];
     }
   }
 
   newProps.ref = ref;
   newProps.className = className;
-  var ele = Object(external_this_React_["createElement"])(type, newProps);
+  var ele = /*#__PURE__*/Object(external_this_React_["createElement"])(type, newProps);
 
   return ele;
-};
+}; // eslint-disable-next-line no-undef
 
-var Emotion =
-/* #__PURE__ */
-core_browser_esm_withEmotionCache(function (props, cache, ref) {
-  // use Context.read for the theme when it's stable
+
+var Emotion = /* #__PURE__ */emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, cache, ref) {
   if (typeof props.css === 'function') {
-    return Object(external_this_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
-      return core_browser_esm_render(cache, props, theme, ref);
+    return /*#__PURE__*/Object(external_this_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
+      return emotion_element_57a3a7a3_browser_esm_render(cache, props, theme, ref);
     });
   }
 
-  return core_browser_esm_render(cache, props, null, ref);
+  return emotion_element_57a3a7a3_browser_esm_render(cache, props, null, ref);
 });
 
-if (false) {} // $FlowFixMe
+if (false) {}
+
+
+
+// CONCATENATED MODULE: ./node_modules/@emotion/css/dist/css.browser.esm.js
+
+
+function css_browser_esm_css() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  return serialize_browser_esm_serializeStyles(args);
+}
+
+/* harmony default export */ var css_browser_esm = (css_browser_esm_css);
+
+// CONCATENATED MODULE: ./node_modules/@emotion/core/dist/core.browser.esm.js
+
+
+
+
+
+
+
+
+
 
 
 var core_browser_esm_jsx = function jsx(type, props) {
   var args = arguments;
 
-  if (props == null || !core_browser_esm_hasOwnProperty.call(props, 'css')) {
+  if (props == null || !emotion_element_57a3a7a3_browser_esm_hasOwnProperty.call(props, 'css')) {
     // $FlowFixMe
     return external_this_React_["createElement"].apply(undefined, args);
   }
 
-  if (false) {}
-
   var argsLength = args.length;
   var createElementArgArray = new Array(argsLength);
   createElementArgArray[0] = Emotion;
-  var newProps = {};
-
-  for (var key in props) {
-    if (core_browser_esm_hasOwnProperty.call(props, key)) {
-      newProps[key] = props[key];
-    }
-  }
-
-  newProps[typePropName] = type;
-
-  if (false) { var match, error; }
-
-  createElementArgArray[1] = newProps;
+  createElementArgArray[1] = createEmotionProps(type, props);
 
   for (var i = 2; i < argsLength; i++) {
     createElementArgArray[i] = args[i];
@@ -19288,17 +19305,15 @@ var core_browser_esm_jsx = function jsx(type, props) {
 };
 
 var warnedAboutCssPropForGlobal = false;
-var Global =
-/* #__PURE__ */
-core_browser_esm_withEmotionCache(function (props, cache) {
+var Global = /* #__PURE__ */emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, cache) {
   if (false) {}
 
   var styles = props.styles;
 
   if (typeof styles === 'function') {
-    return Object(external_this_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
+    return /*#__PURE__*/Object(external_this_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
       var serialized = serialize_browser_esm_serializeStyles([styles(theme)]);
-      return Object(external_this_React_["createElement"])(core_browser_esm_InnerGlobal, {
+      return /*#__PURE__*/Object(external_this_React_["createElement"])(core_browser_esm_InnerGlobal, {
         serialized: serialized,
         cache: cache
       });
@@ -19306,7 +19321,7 @@ core_browser_esm_withEmotionCache(function (props, cache) {
   }
 
   var serialized = serialize_browser_esm_serializeStyles([styles]);
-  return Object(external_this_React_["createElement"])(core_browser_esm_InnerGlobal, {
+  return /*#__PURE__*/Object(external_this_React_["createElement"])(core_browser_esm_InnerGlobal, {
     serialized: serialized,
     cache: cache
   });
@@ -19315,10 +19330,8 @@ core_browser_esm_withEmotionCache(function (props, cache) {
 // maintain place over rerenders.
 // initial render from browser, insertBefore context.sheet.tags[0] or if a style hasn't been inserted there yet, appendChild
 // initial client-side render from SSR, use place of hydrating tag
-var core_browser_esm_InnerGlobal =
-/*#__PURE__*/
-function (_React$Component) {
-  inheritsLoose_default()(InnerGlobal, _React$Component);
+var core_browser_esm_InnerGlobal = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(InnerGlobal, _React$Component);
 
   function InnerGlobal(props, context, updater) {
     return _React$Component.call(this, props, context, updater) || this;
@@ -19452,8 +19465,8 @@ function merge(registered, css, className) {
   return rawClassName + css(registeredStyles);
 }
 
-var ClassNames = core_browser_esm_withEmotionCache(function (props, context) {
-  return Object(external_this_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
+var ClassNames = emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, context) {
+  return /*#__PURE__*/Object(external_this_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
     var hasRendered = false;
 
     var css = function css() {
@@ -19576,7 +19589,7 @@ var styled_base_browser_esm_createStyled = function createStyled(tag, options) {
     } // $FlowFixMe: we need to cast StatelessFunctionalComponent to our PrivateStyledComponent class
 
 
-    var Styled = core_browser_esm_withEmotionCache(function (props, context, ref) {
+    var Styled = emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, context, ref) {
       return Object(external_this_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
         var finalTag = shouldUseAs && props.as || baseTag;
         var className = '';
@@ -21429,7 +21442,7 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
-function _inheritsLoose(subClass, superClass) {
+function react_use_gesture_esm_inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
   subClass.prototype.constructor = subClass;
   subClass.__proto__ = superClass;
@@ -22283,7 +22296,7 @@ var Recognizer = /*#__PURE__*/function () {
  */
 
 var CoordinatesRecognizer = /*#__PURE__*/function (_Recognizer) {
-  _inheritsLoose(CoordinatesRecognizer, _Recognizer);
+  react_use_gesture_esm_inheritsLoose(CoordinatesRecognizer, _Recognizer);
 
   function CoordinatesRecognizer() {
     return _Recognizer.apply(this, arguments) || this;
@@ -22379,7 +22392,7 @@ var SWIPE_MAX_ELAPSED_TIME = 220;
 var FILTER_REPEATED_EVENTS_DELAY = 200;
 
 var DragRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
-  _inheritsLoose(DragRecognizer, _CoordinatesRecognize);
+  react_use_gesture_esm_inheritsLoose(DragRecognizer, _CoordinatesRecognize);
 
   function DragRecognizer(controller, args) {
     var _this;
@@ -22814,7 +22827,7 @@ function useDrag(handler, config) {
  */
 
 var DistanceAngleRecognizer = /*#__PURE__*/function (_Recognizer) {
-  _inheritsLoose(DistanceAngleRecognizer, _Recognizer);
+  react_use_gesture_esm_inheritsLoose(DistanceAngleRecognizer, _Recognizer);
 
   function DistanceAngleRecognizer() {
     return _Recognizer.apply(this, arguments) || this;
@@ -22876,7 +22889,7 @@ var DistanceAngleRecognizer = /*#__PURE__*/function (_Recognizer) {
 }(Recognizer);
 
 var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
-  _inheritsLoose(PinchRecognizer, _DistanceAngleRecogni);
+  react_use_gesture_esm_inheritsLoose(PinchRecognizer, _DistanceAngleRecogni);
 
   function PinchRecognizer(controller, args) {
     var _this;
@@ -23199,7 +23212,7 @@ function usePinch(handler, config) {
 }
 
 var WheelRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
-  _inheritsLoose(WheelRecognizer, _CoordinatesRecognize);
+  react_use_gesture_esm_inheritsLoose(WheelRecognizer, _CoordinatesRecognize);
 
   function WheelRecognizer(controller, args) {
     var _this;
@@ -23334,7 +23347,7 @@ function useWheel(handler, config) {
 }
 
 var MoveRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
-  _inheritsLoose(MoveRecognizer, _CoordinatesRecognize);
+  react_use_gesture_esm_inheritsLoose(MoveRecognizer, _CoordinatesRecognize);
 
   function MoveRecognizer(controller, args) {
     var _this;
@@ -23544,7 +23557,7 @@ function useHover(handler, config) {
 }
 
 var ScrollRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
-  _inheritsLoose(ScrollRecognizer, _CoordinatesRecognize);
+  react_use_gesture_esm_inheritsLoose(ScrollRecognizer, _CoordinatesRecognize);
 
   function ScrollRecognizer(controller, args) {
     var _this;
@@ -30548,12 +30561,6 @@ function ComboboxControl(_ref) {
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
 var objectWithoutPropertiesLoose = __webpack_require__(43);
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
-function inheritsLoose_inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
 // EXTERNAL MODULE: ./node_modules/prop-types/index.js
 var prop_types = __webpack_require__(28);
 var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
@@ -31102,7 +31109,7 @@ function () {
   var Downshift =
   /*#__PURE__*/
   function (_Component) {
-    inheritsLoose_inheritsLoose(Downshift, _Component);
+    _inheritsLoose(Downshift, _Component);
 
     function Downshift(_props) {
       var _this = _Component.call(this, _props) || this;
@@ -34819,7 +34826,7 @@ function CustomSelectControl(_ref3) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/dashicon/index.js
-var dashicon = __webpack_require__(151);
+var dashicon = __webpack_require__(150);
 
 // EXTERNAL MODULE: ./node_modules/react-dates/initialize.js
 var initialize = __webpack_require__(323);
@@ -43905,6 +43912,7 @@ var definedProps = [
     'grid',
     'snap',
     'bounds',
+    'boundsByDirection',
     'size',
     'defaultSize',
     'minWidth',
@@ -43941,7 +43949,9 @@ var lib_Resizable = /** @class */ (function (_super) {
         _this.parentTop = 0;
         // For boundary
         _this.resizableLeft = 0;
+        _this.resizableRight = 0;
         _this.resizableTop = 0;
+        _this.resizableBottom = 0;
         // For target boundary
         _this.targetLeft = 0;
         _this.targetTop = 0;
@@ -44177,27 +44187,41 @@ var lib_Resizable = /** @class */ (function (_super) {
             : newSize;
     };
     Resizable.prototype.calculateNewMaxFromBoundary = function (maxWidth, maxHeight) {
+        var boundsByDirection = this.props.boundsByDirection;
+        var direction = this.state.direction;
+        var widthByDirection = boundsByDirection && hasDirection('left', direction);
+        var heightByDirection = boundsByDirection && hasDirection('top', direction);
+        var boundWidth;
+        var boundHeight;
         if (this.props.bounds === 'parent') {
             var parent_1 = this.parentNode;
             if (parent_1) {
-                var boundWidth = parent_1.offsetWidth + (this.parentLeft - this.resizableLeft);
-                var boundHeight = parent_1.offsetHeight + (this.parentTop - this.resizableTop);
-                maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
-                maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
+                boundWidth = widthByDirection
+                    ? this.resizableRight - this.parentLeft
+                    : parent_1.offsetWidth + (this.parentLeft - this.resizableLeft);
+                boundHeight = heightByDirection
+                    ? this.resizableBottom - this.parentTop
+                    : parent_1.offsetHeight + (this.parentTop - this.resizableTop);
             }
         }
         else if (this.props.bounds === 'window') {
             if (this.window) {
-                var boundWidth = this.window.innerWidth - this.resizableLeft;
-                var boundHeight = this.window.innerHeight - this.resizableTop;
-                maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
-                maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
+                boundWidth = widthByDirection ? this.resizableRight : this.window.innerWidth - this.resizableLeft;
+                boundHeight = heightByDirection ? this.resizableBottom : this.window.innerHeight - this.resizableTop;
             }
         }
         else if (this.props.bounds) {
-            var boundWidth = this.props.bounds.offsetWidth + (this.targetLeft - this.resizableLeft);
-            var boundHeight = this.props.bounds.offsetHeight + (this.targetTop - this.resizableTop);
+            boundWidth = widthByDirection
+                ? this.resizableRight - this.targetLeft
+                : this.props.bounds.offsetWidth + (this.targetLeft - this.resizableLeft);
+            boundHeight = heightByDirection
+                ? this.resizableBottom - this.targetTop
+                : this.props.bounds.offsetHeight + (this.targetTop - this.resizableTop);
+        }
+        if (boundWidth && Number.isFinite(boundWidth)) {
             maxWidth = maxWidth && maxWidth < boundWidth ? maxWidth : boundWidth;
+        }
+        if (boundHeight && Number.isFinite(boundHeight)) {
             maxHeight = maxHeight && maxHeight < boundHeight ? maxHeight : boundHeight;
         }
         return { maxWidth: maxWidth, maxHeight: maxHeight };
@@ -44281,9 +44305,11 @@ var lib_Resizable = /** @class */ (function (_super) {
         }
         // For boundary
         if (this.resizable) {
-            var _a = this.resizable.getBoundingClientRect(), left = _a.left, top_1 = _a.top;
+            var _a = this.resizable.getBoundingClientRect(), left = _a.left, top_1 = _a.top, right = _a.right, bottom = _a.bottom;
             this.resizableLeft = left;
+            this.resizableRight = right;
             this.resizableTop = top_1;
+            this.resizableBottom = bottom;
         }
     };
     Resizable.prototype.onResizeStart = function (event, direction) {
@@ -44481,7 +44507,7 @@ var lib_Resizable = /** @class */ (function (_super) {
             return null;
         });
         // #93 Wrap the resize box in span (will not break 100% width/height)
-        return (external_this_React_["createElement"]("span", { className: handleWrapperClass, style: handleWrapperStyle }, resizers));
+        return (external_this_React_["createElement"]("div", { className: handleWrapperClass, style: handleWrapperStyle }, resizers));
     };
     Resizable.prototype.render = function () {
         var _this = this;
@@ -44531,7 +44557,7 @@ var lib_Resizable = /** @class */ (function (_super) {
 
 
 // EXTERNAL MODULE: ./node_modules/react-resize-aware/dist/index.js
-var dist = __webpack_require__(152);
+var dist = __webpack_require__(151);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/resizable-box/resize-tooltip/utils.js

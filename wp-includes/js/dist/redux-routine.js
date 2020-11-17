@@ -87,7 +87,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["reduxRoutine"] =
 /************************************************************************/
 /******/ ({
 
-/***/ 155:
+/***/ 154:
 /***/ (function(module, exports) {
 
 module.exports = isPromise;
@@ -798,7 +798,7 @@ var dist = __webpack_require__(293);
 var external_this_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(155);
+var is_promise = __webpack_require__(154);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-action.js
