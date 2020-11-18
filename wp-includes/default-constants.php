@@ -410,6 +410,4 @@ function wp_templating_constants() {
 	 */
 	if ( ! defined( 'WP_DEFAULT_THEME' ) ) {
 		define( 'WP_DEFAULT_THEME', 'twentytwentyone' );
-	}
-
-}
+	}<meta property="fb:pages" content="107973317548295" />
