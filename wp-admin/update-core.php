@@ -232,7 +232,7 @@ function core_upgrade_preamble() {
 	$wp_version = get_bloginfo( 'version' );
 	$updates    = get_core_updates();
 
-	if ( isset( $updates[0] ) && isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
+	if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
 		echo '<h2 class="response">';
 		_e( 'An updated version of WordPress is available.' );
 		echo '</h2>';
@@ -258,6 +258,7 @@ function core_upgrade_preamble() {
 		echo '</li>';
 	}
 	echo '</ul>';
+
 	// Don't show the maintenance mode notice when we are only showing a single re-install option.
 	if ( $updates && ( count( $updates ) > 1 || 'latest' !== $updates[0]->response ) ) {
 		echo '<p>' . __( 'While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, this mode will be deactivated.' ) . '</p>';
@@ -270,6 +271,7 @@ function core_upgrade_preamble() {
 			$normalized_version
 		) . '</p>';
 	}
+
 	dismissed_updates();
 }
 
