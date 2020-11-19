@@ -1,5 +1,5 @@
 /*!
- * jQuery Migrate - v3.3.2-pre - 2020-10-25T12:21Z
+ * jQuery Migrate - v3.3.2 - 2020-11-18T08:29Z
  * Copyright OpenJS Foundation and other contributors
  */
 ( function( factory ) {
@@ -24,7 +24,7 @@
 } )( function( jQuery, window ) {
 "use strict";
 
-jQuery.migrateVersion = "3.3.2-pre";
+jQuery.migrateVersion = "3.3.2";
 
 // Returns 0 if v1 == v2, -1 if v1 < v2, 1 if v1 > v2
 function compareVersions( v1, v2 ) {
