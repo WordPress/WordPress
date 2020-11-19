@@ -3530,6 +3530,8 @@ function wp_should_upgrade_global_tables() {
 	/**
 	 * Filters if upgrade routines should be run on global tables.
 	 *
+	 * @since 4.3.0
+	 *
 	 * @param bool $should_upgrade Whether to run the upgrade routines on global tables.
 	 */
 	return apply_filters( 'wp_should_upgrade_global_tables', $should_upgrade );
