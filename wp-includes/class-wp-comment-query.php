@@ -147,10 +147,10 @@ class WP_Comment_Query {
 	 *
 	 *     @type string       $author_email              Comment author email address. Default empty.
 	 *     @type string       $author_url                Comment author URL. Default empty.
-	 *     @type array        $author__in                Array of author IDs to include comments for. Default empty.
-	 *     @type array        $author__not_in            Array of author IDs to exclude comments for. Default empty.
-	 *     @type array        $comment__in               Array of comment IDs to include. Default empty.
-	 *     @type array        $comment__not_in           Array of comment IDs to exclude. Default empty.
+	 *     @type int[]        $author__in                Array of author IDs to include comments for. Default empty.
+	 *     @type int[]        $author__not_in            Array of author IDs to exclude comments for. Default empty.
+	 *     @type int[]        $comment__in               Array of comment IDs to include. Default empty.
+	 *     @type int[]        $comment__not_in           Array of comment IDs to exclude. Default empty.
 	 *     @type bool         $count                     Whether to return a comment count (true) or array of
 	 *                                                   comment objects (false). Default false.
 	 *     @type array        $date_query                Date query clauses to limit comments by. See WP_Date_Query.
@@ -195,20 +195,20 @@ class WP_Comment_Query {
 	 *                                                   Default: 'DESC'.
 	 *     @type int          $parent                    Parent ID of comment to retrieve children of.
 	 *                                                   Default empty.
-	 *     @type array        $parent__in                Array of parent IDs of comments to retrieve children for.
+	 *     @type int[]        $parent__in                Array of parent IDs of comments to retrieve children for.
 	 *                                                   Default empty.
-	 *     @type array        $parent__not_in            Array of parent IDs of comments *not* to retrieve
+	 *     @type int[]        $parent__not_in            Array of parent IDs of comments *not* to retrieve
 	 *                                                   children for. Default empty.
-	 *     @type array        $post_author__in           Array of author IDs to retrieve comments for.
+	 *     @type int[]        $post_author__in           Array of author IDs to retrieve comments for.
 	 *                                                   Default empty.
-	 *     @type array        $post_author__not_in       Array of author IDs *not* to retrieve comments for.
+	 *     @type int[]        $post_author__not_in       Array of author IDs *not* to retrieve comments for.
 	 *                                                   Default empty.
 	 *     @type int          $post_ID                   Currently unused.
 	 *     @type int          $post_id                   Limit results to those affiliated with a given post ID.
 	 *                                                   Default 0.
-	 *     @type array        $post__in                  Array of post IDs to include affiliated comments for.
+	 *     @type int[]        $post__in                  Array of post IDs to include affiliated comments for.
 	 *                                                   Default empty.
-	 *     @type array        $post__not_in              Array of post IDs to exclude affiliated comments for.
+	 *     @type int[]        $post__not_in              Array of post IDs to exclude affiliated comments for.
 	 *                                                   Default empty.
 	 *     @type int          $post_author               Post author ID to limit results by. Default empty.
 	 *     @type string|array $post_status               Post status or array of post statuses to retrieve

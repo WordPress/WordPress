@@ -413,8 +413,8 @@ function update_sitemeta_cache( $site_ids ) {
  * @param string|array $args {
  *     Optional. Array or query string of site query parameters. Default empty.
  *
- *     @type array        $site__in          Array of site IDs to include. Default empty.
- *     @type array        $site__not_in      Array of site IDs to exclude. Default empty.
+ *     @type int[]        $site__in          Array of site IDs to include. Default empty.
+ *     @type int[]        $site__not_in      Array of site IDs to exclude. Default empty.
  *     @type bool         $count             Whether to return a site count (true) or array of site objects.
  *                                           Default false.
  *     @type array        $date_query        Date query clauses to limit sites by. See WP_Date_Query.
@@ -434,8 +434,8 @@ function update_sitemeta_cache( $site_ids ) {
  *     @type string       $order             How to order retrieved sites. Accepts 'ASC', 'DESC'. Default 'ASC'.
  *     @type int          $network_id        Limit results to those affiliated with a given network ID. If 0,
  *                                           include all networks. Default 0.
- *     @type array        $network__in       Array of network IDs to include affiliated sites for. Default empty.
- *     @type array        $network__not_in   Array of network IDs to exclude affiliated sites for. Default empty.
+ *     @type int[]        $network__in       Array of network IDs to include affiliated sites for. Default empty.
+ *     @type int[]        $network__not_in   Array of network IDs to exclude affiliated sites for. Default empty.
  *     @type string       $domain            Limit results to those affiliated with a given domain. Default empty.
  *     @type array        $domain__in        Array of domains to include affiliated sites for. Default empty.
  *     @type array        $domain__not_in    Array of domains to exclude affiliated sites for. Default empty.

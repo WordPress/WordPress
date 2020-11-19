@@ -630,13 +630,13 @@ class WP_Query {
 	 *     @type int          $attachment_id           Attachment post ID. Used for 'attachment' post_type.
 	 *     @type int|string   $author                  Author ID, or comma-separated list of IDs.
 	 *     @type string       $author_name             User 'user_nicename'.
-	 *     @type array        $author__in              An array of author IDs to query from.
-	 *     @type array        $author__not_in          An array of author IDs not to query from.
+	 *     @type int[]        $author__in              An array of author IDs to query from.
+	 *     @type int[]        $author__not_in          An array of author IDs not to query from.
 	 *     @type bool         $cache_results           Whether to cache post information. Default true.
 	 *     @type int|string   $cat                     Category ID or comma-separated list of IDs (this or any children).
-	 *     @type array        $category__and           An array of category IDs (AND in).
-	 *     @type array        $category__in            An array of category IDs (OR in, no children).
-	 *     @type array        $category__not_in        An array of category IDs (NOT in).
+	 *     @type int[]        $category__and           An array of category IDs (AND in).
+	 *     @type int[]        $category__in            An array of category IDs (OR in, no children).
+	 *     @type int[]        $category__not_in        An array of category IDs (NOT in).
 	 *     @type string       $category_name           Use category slug (not name, this or any children).
 	 *     @type array|int    $comment_count           Filter results by comment count. Provide an integer to match
 	 *                                                 comment count exactly. Provide an array with integer 'value'
@@ -696,15 +696,15 @@ class WP_Query {
 	 *     @type string       $pagename                Page slug.
 	 *     @type string       $perm                    Show posts if user has the appropriate capability.
 	 *     @type string       $ping_status             Ping status.
-	 *     @type array        $post__in                An array of post IDs to retrieve, sticky posts will be included.
-	 *     @type array        $post__not_in            An array of post IDs not to retrieve. Note: a string of comma-
+	 *     @type int[]        $post__in                An array of post IDs to retrieve, sticky posts will be included.
+	 *     @type int[]        $post__not_in            An array of post IDs not to retrieve. Note: a string of comma-
 	 *                                                 separated IDs will NOT work.
 	 *     @type string       $post_mime_type          The mime type of the post. Used for 'attachment' post_type.
 	 *     @type array        $post_name__in           An array of post slugs that results must match.
 	 *     @type int          $post_parent             Page ID to retrieve child pages for. Use 0 to only retrieve
 	 *                                                 top-level pages.
-	 *     @type array        $post_parent__in         An array containing parent page IDs to query child pages from.
-	 *     @type array        $post_parent__not_in     An array containing parent page IDs not to query child pages from.
+	 *     @type int[]        $post_parent__in         An array containing parent page IDs to query child pages from.
+	 *     @type int[]        $post_parent__not_in     An array containing parent page IDs not to query child pages from.
 	 *     @type string|array $post_type               A post type slug (string) or array of post type slugs.
 	 *                                                 Default 'any' if using 'tax_query'.
 	 *     @type string|array $post_status             A post status (string) or array of post statuses.
@@ -720,15 +720,15 @@ class WP_Query {
 	 *     @type bool         $sentence                Whether to search by phrase. Default false.
 	 *     @type bool         $suppress_filters        Whether to suppress filters. Default false.
 	 *     @type string       $tag                     Tag slug. Comma-separated (either), Plus-separated (all).
-	 *     @type array        $tag__and                An array of tag IDs (AND in).
-	 *     @type array        $tag__in                 An array of tag IDs (OR in).
-	 *     @type array        $tag__not_in             An array of tag IDs (NOT in).
+	 *     @type int[]        $tag__and                An array of tag IDs (AND in).
+	 *     @type int[]        $tag__in                 An array of tag IDs (OR in).
+	 *     @type int[]        $tag__not_in             An array of tag IDs (NOT in).
 	 *     @type int          $tag_id                  Tag id or comma-separated list of IDs.
 	 *     @type array        $tag_slug__and           An array of tag slugs (AND in).
 	 *     @type array        $tag_slug__in            An array of tag slugs (OR in). unless 'ignore_sticky_posts' is
 	 *                                                 true. Note: a string of comma-separated IDs will NOT work.
 	 *     @type array        $tax_query               An associative array of WP_Tax_Query arguments.
-	 *                                                 See WP_Tax_Query->queries.
+	 *                                                 See WP_Tax_Query->__construct().
 	 *     @type string       $title                   Post title.
 	 *     @type bool         $update_post_meta_cache  Whether to update the post meta cache. Default true.
 	 *     @type bool         $update_post_term_cache  Whether to update the post term cache. Default true.

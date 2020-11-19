@@ -486,16 +486,16 @@ function wp_dropdown_categories( $args = '' ) {
  *     Array of optional arguments. See get_categories(), get_terms(), and WP_Term_Query::__construct()
  *     for information on additional accepted arguments.
  *
- *     @type int|array    $current_category      ID of category, or array of IDs of categories, that should get the
+ *     @type int|int[]    $current_category      ID of category, or array of IDs of categories, that should get the
  *                                               'current-cat' class. Default 0.
  *     @type int          $depth                 Category depth. Used for tab indentation. Default 0.
  *     @type bool|int     $echo                  Whether to echo or return the generated markup. Accepts 0, 1, or their
  *                                               bool equivalents. Default 1.
- *     @type array|string $exclude               Array or comma/space-separated string of term IDs to exclude.
+ *     @type int[]|string $exclude               Array or comma/space-separated string of term IDs to exclude.
  *                                               If `$hierarchical` is true, descendants of `$exclude` terms will also
  *                                               be excluded; see `$exclude_tree`. See get_terms().
  *                                               Default empty string.
- *     @type array|string $exclude_tree          Array or comma/space-separated string of term IDs to exclude, along
+ *     @type int[]|string $exclude_tree          Array or comma/space-separated string of term IDs to exclude, along
  *                                               with their descendants. See get_terms(). Default empty string.
  *     @type string       $feed                  Text to use for the feed link. Default 'Feed for all posts filed
  *                                               under [cat name]'.

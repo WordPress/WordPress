@@ -89,8 +89,8 @@ class WP_Network_Query {
 	 * @param string|array $query {
 	 *     Optional. Array or query string of network query parameters. Default empty.
 	 *
-	 *     @type array        $network__in          Array of network IDs to include. Default empty.
-	 *     @type array        $network__not_in      Array of network IDs to exclude. Default empty.
+	 *     @type int[]        $network__in          Array of network IDs to include. Default empty.
+	 *     @type int[]        $network__not_in      Array of network IDs to exclude. Default empty.
 	 *     @type bool         $count                Whether to return a network count (true) or array of network objects.
 	 *                                              Default false.
 	 *     @type string       $fields               Network fields to return. Accepts 'ids' (returns an array of network IDs)

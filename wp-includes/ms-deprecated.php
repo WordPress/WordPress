@@ -464,7 +464,7 @@ function get_admin_users_for_domain( $domain = '', $path = '' ) {
  * @param array $args {
  *     Array of default arguments. Optional.
  *
- *     @type int|array $network_id A network ID or array of network IDs. Set to null to retrieve sites
+ *     @type int|int[] $network_id A network ID or array of network IDs. Set to null to retrieve sites
  *                                 from all networks. Defaults to current network ID.
  *     @type int       $public     Retrieve public or non-public sites. Default null, for any.
  *     @type int       $archived   Retrieve archived or non-archived sites. Default null, for any.

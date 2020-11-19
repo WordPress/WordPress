@@ -2015,13 +2015,13 @@ function is_post_type_viewable( $post_type ) {
  *     Optional. Arguments to retrieve posts. See WP_Query::parse_query() for all
  *     available arguments.
  *
- *     @type int        $numberposts      Total number of posts to retrieve. Is an alias of $posts_per_page
+ *     @type int        $numberposts      Total number of posts to retrieve. Is an alias of `$posts_per_page`
  *                                        in WP_Query. Accepts -1 for all. Default 5.
  *     @type int|string $category         Category ID or comma-separated list of IDs (this or any children).
- *                                        Is an alias of $cat in WP_Query. Default 0.
- *     @type array      $include          An array of post IDs to retrieve, sticky posts will be included.
- *                                        Is an alias of $post__in in WP_Query. Default empty array.
- *     @type array      $exclude          An array of post IDs not to retrieve. Default empty array.
+ *                                        Is an alias of `$cat` in WP_Query. Default 0.
+ *     @type int[]      $include          An array of post IDs to retrieve, sticky posts will be included.
+ *                                        Is an alias of `$post__in` in WP_Query. Default empty array.
+ *     @type int[]      $exclude          An array of post IDs not to retrieve. Default empty array.
  *     @type bool       $suppress_filters Whether to suppress filters. Default true.
  * }
  * @return WP_Post[]|int[] Array of post objects or post IDs.
@@ -3650,7 +3650,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *     @type int    $menu_order            The order the post should be displayed in. Default 0.
  *     @type string $post_mime_type        The mime type of the post. Default empty.
  *     @type string $guid                  Global Unique ID for referencing the post. Default empty.
- *     @type array  $post_category         Array of category IDs.
+ *     @type int[]  $post_category         Array of category IDs.
  *                                         Defaults to value of the 'default_category' option.
  *     @type array  $tags_input            Array of tag names, slugs, or IDs. Default empty.
  *     @type array  $tax_input             Array of taxonomy terms keyed by their taxonomy name. Default empty.
@@ -4822,7 +4822,7 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
  *
  * @param int       $post_ID         Optional. The Post ID. Does not default to the ID
  *                                   of the global $post. Default 0.
- * @param array|int $post_categories Optional. List of category IDs, or the ID of a single category.
+ * @param int[]|int $post_categories Optional. List of category IDs, or the ID of a single category.
  *                                   Default empty array.
  * @param bool      $append          If true, don't delete existing categories, just add on.
  *                                   If false, replace the categories with the new categories.
@@ -5484,8 +5484,8 @@ function get_page_uri( $page = 0 ) {
  *     @type bool         $hierarchical Whether to return pages hierarchically. If false in conjunction with
  *                                      `$child_of` also being false, both arguments will be disregarded.
  *                                      Default true.
- *     @type array        $exclude      Array of page IDs to exclude. Default empty array.
- *     @type array        $include      Array of page IDs to include. Cannot be used with `$child_of`,
+ *     @type int[]        $exclude      Array of page IDs to exclude. Default empty array.
+ *     @type int[]        $include      Array of page IDs to include. Cannot be used with `$child_of`,
  *                                      `$parent`, `$exclude`, `$meta_key`, `$meta_value`, or `$hierarchical`.
  *                                      Default empty array.
  *     @type string       $meta_key     Only include pages with this meta key. Default empty.
@@ -5493,7 +5493,7 @@ function get_page_uri( $page = 0 ) {
  *                                      Default empty.
  *     @type string       $authors      A comma-separated list of author IDs. Default empty.
  *     @type int          $parent       Page ID to return direct children of. Default -1, or no restriction.
- *     @type string|array $exclude_tree Comma-separated string or array of page IDs to exclude.
+ *     @type string|int[] $exclude_tree Comma-separated string or array of page IDs to exclude.
  *                                      Default empty array.
  *     @type int          $number       The number of pages to return. Default 0, or all pages.
  *     @type int          $offset       The number of pages to skip before returning. Requires `$number`.

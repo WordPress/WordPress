@@ -1254,9 +1254,9 @@ function setup_userdata( $for_user_id = 0 ) {
  *     @type string       $order                   Whether to order users in ascending or descending
  *                                                 order. Accepts 'ASC' (ascending) or 'DESC' (descending).
  *                                                 Default 'ASC'.
- *     @type array|string $include                 Array or comma-separated list of user IDs to include.
+ *     @type int[]|string $include                 Array or comma-separated list of user IDs to include.
  *                                                 Default empty.
- *     @type array|string $exclude                 Array or comma-separated list of user IDs to exclude.
+ *     @type int[]|string $exclude                 Array or comma-separated list of user IDs to exclude.
  *                                                 Default empty.
  *     @type bool|int     $multi                   Whether to skip the ID attribute on the 'select' element.
  *                                                 Accepts 1|true or 0|false. Default 0|false.
