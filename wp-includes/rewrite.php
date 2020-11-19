@@ -7,112 +7,115 @@
  */
 
 /**
- * Endpoint Mask for default, which is nothing.
+ * Endpoint mask that matches nothing.
  *
  * @since 2.1.0
  */
 define( 'EP_NONE', 0 );
 
 /**
- * Endpoint Mask for Permalink.
+ * Endpoint mask that matches post permalinks.
  *
  * @since 2.1.0
  */
 define( 'EP_PERMALINK', 1 );
 
 /**
- * Endpoint Mask for Attachment.
+ * Endpoint mask that matches attachment permalinks.
  *
  * @since 2.1.0
  */
 define( 'EP_ATTACHMENT', 2 );
 
 /**
- * Endpoint Mask for date.
+ * Endpoint mask that matches any date archives.
  *
  * @since 2.1.0
  */
 define( 'EP_DATE', 4 );
 
 /**
- * Endpoint Mask for year
+ * Endpoint mask that matches yearly archives.
  *
  * @since 2.1.0
  */
 define( 'EP_YEAR', 8 );
 
 /**
- * Endpoint Mask for month.
+ * Endpoint mask that matches monthly archives.
  *
  * @since 2.1.0
  */
 define( 'EP_MONTH', 16 );
 
 /**
- * Endpoint Mask for day.
+ * Endpoint mask that matches daily archives.
  *
  * @since 2.1.0
  */
 define( 'EP_DAY', 32 );
 
 /**
- * Endpoint Mask for root.
+ * Endpoint mask that matches the site root.
  *
  * @since 2.1.0
  */
 define( 'EP_ROOT', 64 );
 
 /**
- * Endpoint Mask for comments.
+ * Endpoint mask that matches comment feeds.
  *
  * @since 2.1.0
  */
 define( 'EP_COMMENTS', 128 );
 
 /**
- * Endpoint Mask for searches.
+ * Endpoint mask that matches searches.
+ *
+ * Note that this only matches a search at a "pretty" URL such as
+ * `/search/my-search-term`, not `?s=my-search-term`.
  *
  * @since 2.1.0
  */
 define( 'EP_SEARCH', 256 );
 
 /**
- * Endpoint Mask for categories.
+ * Endpoint mask that matches category archives.
  *
  * @since 2.1.0
  */
 define( 'EP_CATEGORIES', 512 );
 
 /**
- * Endpoint Mask for tags.
+ * Endpoint mask that matches tag archives.
  *
  * @since 2.3.0
  */
 define( 'EP_TAGS', 1024 );
 
 /**
- * Endpoint Mask for authors.
+ * Endpoint mask that matches author archives.
  *
  * @since 2.1.0
  */
 define( 'EP_AUTHORS', 2048 );
 
 /**
- * Endpoint Mask for pages.
+ * Endpoint mask that matches pages.
  *
  * @since 2.1.0
  */
 define( 'EP_PAGES', 4096 );
 
 /**
- * Endpoint Mask for all archive views.
+ * Endpoint mask that matches all archive views.
  *
  * @since 3.7.0
  */
 define( 'EP_ALL_ARCHIVES', EP_DATE | EP_YEAR | EP_MONTH | EP_DAY | EP_CATEGORIES | EP_TAGS | EP_AUTHORS );
 
 /**
- * Endpoint Mask for everything.
+ * Endpoint mask that matches everything.
  *
  * @since 2.1.0
  */
@@ -308,6 +311,23 @@ function flush_rewrite_rules( $hard = true ) {
  *
  * @param string      $name      Name of the endpoint.
  * @param int         $places    Endpoint mask describing the places the endpoint should be added.
+ *                               Accepts a mask of:
+ *                               - `EP_ALL`
+ *                               - `EP_NONE`
+ *                               - `EP_ALL_ARCHIVES`
+ *                               - `EP_ATTACHMENT`
+ *                               - `EP_AUTHORS`
+ *                               - `EP_CATEGORIES`
+ *                               - `EP_COMMENTS`
+ *                               - `EP_DATE`
+ *                               - `EP_DAY`
+ *                               - `EP_MONTH`
+ *                               - `EP_PAGES`
+ *                               - `EP_PERMALINK`
+ *                               - `EP_ROOT`
+ *                               - `EP_SEARCH`
+ *                               - `EP_TAGS`
+ *                               - `EP_YEAR`
  * @param string|bool $query_var Name of the corresponding query variable. Pass `false` to skip registering a query_var
  *                               for this endpoint. Defaults to the value of `$name`.
  */
