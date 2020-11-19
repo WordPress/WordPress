@@ -4566,9 +4566,10 @@ function get_post_taxonomies( $post = 0 ) {
  *
  * @since 2.7.0
  *
- * @param int              $object_id ID of the object (post ID, link ID, ...).
- * @param string           $taxonomy  Single taxonomy name.
- * @param int|string|array $terms     Optional. Term term_id, name, slug or array of said. Default null.
+ * @param int                       $object_id ID of the object (post ID, link ID, ...).
+ * @param string                    $taxonomy  Single taxonomy name.
+ * @param int|string|int[]|string[] $terms     Optional. Term ID, name, slug, or array of such
+ *                                             to check against. Default null.
  * @return bool|WP_Error WP_Error on input error.
  */
 function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
