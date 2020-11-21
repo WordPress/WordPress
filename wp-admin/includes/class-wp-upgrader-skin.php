@@ -81,6 +81,8 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 2.8.0
+	 *
 	 * @param WP_Upgrader $upgrader
 	 */
 	public function set_upgrader( &$upgrader ) {
@@ -91,6 +93,7 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 3.0.0
 	 */
 	public function add_strings() {
 	}
@@ -137,6 +140,7 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 2.8.0
 	 */
 	public function header() {
 		if ( $this->done_header ) {
@@ -148,6 +152,7 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 2.8.0
 	 */
 	public function footer() {
 		if ( $this->done_footer ) {
@@ -158,6 +163,8 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 2.8.0
+	 *
 	 * @param string|WP_Error $errors
 	 */
 	public function error( $errors ) {
@@ -178,6 +185,8 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 2.8.0
+	 *
 	 * @param string $string
 	 * @param mixed  ...$args Optional text replacements.
 	 */
@@ -244,10 +253,12 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @since 3.0.0
 	 */
 	public function bulk_header() {}
 
 	/**
+	 * @since 3.0.0
 	 */
 	public function bulk_footer() {}
 
@@ -256,7 +267,7 @@ class WP_Upgrader_Skin {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param WP_Error $wp_error WP_Error
+	 * @param WP_Error $wp_error WP_Error object.
 	 * @return bool
 	 */
 	public function hide_process_failed( $wp_error ) {

@@ -65,7 +65,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param WP_Error $wp_error WP_Error.
+	 * @param WP_Error $wp_error WP_Error object.
 	 * @return bool
 	 */
 	public function hide_process_failed( $wp_error ) {
@@ -325,8 +325,8 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		);
 
 		/**
-		 * Filters the list of action links available following a single plugin installation
-		 * failure when overwriting is allowed.
+		 * Filters the list of action links available following a single plugin installation failure
+		 * when overwriting is allowed.
 		 *
 		 * @since 5.5.0
 		 *
