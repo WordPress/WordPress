@@ -322,7 +322,7 @@ function core_auto_updates_settings() {
 			$upgrade_major = false;
 		}
 
-		// The UI is overridden by the WP_AUTO_UPDATE_CORE constant.
+		// The UI is overridden by the `WP_AUTO_UPDATE_CORE` constant.
 		$can_set_update_option = false;
 	}
 
@@ -331,14 +331,16 @@ function core_auto_updates_settings() {
 		$upgrade_minor = false;
 		$upgrade_major = false;
 
-		// The UI is overridden by the AUTOMATIC_UPDATER_DISABLED constant
-		// or the automatic_updater_disabled filter,
-		// or by wp_is_file_mod_allowed( 'automatic_updater' ).
-		// See WP_Automatic_Updater::is_disabled().
+		/*
+		 * The UI is overridden by the `AUTOMATIC_UPDATER_DISABLED` constant
+		 * or the `automatic_updater_disabled` filter,
+		 * or by `wp_is_file_mod_allowed( 'automatic_updater' )`.
+		 * See `WP_Automatic_Updater::is_disabled()`.
+		 */
 		$can_set_update_option = false;
 	}
 
-	// Is the UI overridden by a plugin using the allow_major_auto_core_updates filter?
+	// Is the UI overridden by a plugin using the `allow_major_auto_core_updates` filter?
 	if ( has_filter( 'allow_major_auto_core_updates' ) ) {
 		$can_set_update_option = false;
 	}
