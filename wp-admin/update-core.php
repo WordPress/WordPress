@@ -291,6 +291,9 @@ function core_auto_updates_settings() {
 		}
 	}
 
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$updater = new WP_Automatic_Updater();
+
 	// Defaults:
 	$upgrade_dev   = get_site_option( 'auto_update_core_dev', 'enabled' ) === 'enabled';
 	$upgrade_minor = get_site_option( 'auto_update_core_minor', 'enabled' ) === 'enabled';
@@ -323,18 +326,15 @@ function core_auto_updates_settings() {
 		$can_set_update_option = false;
 	}
 
-	if ( defined( 'AUTOMATIC_UPDATER_DISABLED' )
-		|| has_filter( 'automatic_updater_disabled' )
-	) {
-		if ( true === AUTOMATIC_UPDATER_DISABLED
-			/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
-			|| true === apply_filters( 'automatic_updater_disabled', false )
-		) {
-			$upgrade_dev   = false;
-			$upgrade_minor = false;
-			$upgrade_major = false;
-		}
-		// The UI is overridden by the AUTOMATIC_UPDATER_DISABLED constant.
+	if ( $updater->is_disabled() ) {
+		$upgrade_dev   = false;
+		$upgrade_minor = false;
+		$upgrade_major = false;
+
+		// The UI is overridden by the AUTOMATIC_UPDATER_DISABLED constant
+		// or the automatic_updater_disabled filter,
+		// or by wp_is_file_mod_allowed( 'automatic_updater' ).
+		// See WP_Automatic_Updater::is_disabled().
 		$can_set_update_option = false;
 	}
 
@@ -370,8 +370,7 @@ function core_auto_updates_settings() {
 
 	<p class="auto-update-status">
 		<?php
-		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-		$updater = new WP_Automatic_Updater();
+
 		if ( $updater->is_vcs_checkout( ABSPATH ) ) {
 			_e( 'This site appears to be under version control. Automatic updates are disabled.' );
 		} elseif ( $upgrade_major ) {
