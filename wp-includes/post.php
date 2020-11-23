@@ -3610,7 +3610,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  * @since 2.6.0 Added the `$wp_error` parameter to allow a WP_Error to be returned on failure.
  * @since 4.2.0 Support was added for encoding emoji in the post title, content, and excerpt.
  * @since 4.4.0 A 'meta_input' array can now be passed to `$postarr` to add post meta data.
- * @since 5.6.0 Added the `fire_after_hooks` parameter.
+ * @since 5.6.0 Added the `$fire_after_hooks` parameter.
  *
  * @see sanitize_post()
  * @global wpdb $wpdb WordPress database abstraction object.
@@ -4333,7 +4333,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
  *
  * @since 1.0.0
  * @since 3.5.0 Added the `$wp_error` parameter to allow a WP_Error to be returned on failure.
- * @since 5.6.0 Added the `fire_after_hooks` parameter.
+ * @since 5.6.0 Added the `$fire_after_hooks` parameter.
  *
  * @param array|object $postarr          Optional. Post data. Arrays are expected to be escaped,
  *                                       objects are not. See wp_insert_post() for accepted arguments.
@@ -5830,7 +5830,7 @@ function is_local_attachment( $url ) {
  *
  * @since 2.0.0
  * @since 4.7.0 Added the `$wp_error` parameter to allow a WP_Error to be returned on failure.
- * @since 5.6.0 Added the `fire_after_hooks` parameter.
+ * @since 5.6.0 Added the `$fire_after_hooks` parameter.
  *
  * @see wp_insert_post()
  *
