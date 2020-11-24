@@ -1279,9 +1279,9 @@ function setup_userdata( $for_user_id = 0 ) {
  *     @type string|array $role                    An array or a comma-separated list of role names that users must
  *                                                 match to be included in results. Note that this is an inclusive
  *                                                 list: users must match *each* role. Default empty.
- *     @type array        $role__in                An array of role names. Matched users must have at least one of
+ *     @type string[]     $role__in                An array of role names. Matched users must have at least one of
  *                                                 these roles. Default empty array.
- *     @type array        $role__not_in            An array of role names to exclude. Users matching one or more of
+ *     @type string[]     $role__not_in            An array of role names to exclude. Users matching one or more of
  *                                                 these roles will not be included in results. Default empty array.
  * }
  * @return string HTML dropdown list of users.

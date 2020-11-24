@@ -696,8 +696,8 @@ function wp_list_categories( $args = '' ) {
  *                             associated with the taxonomy.
  *     @type bool   $echo      Whether or not to echo the return value. Default true.
  * }
- * @return void|string|array Void if 'echo' argument is true, or on failure. Otherwise, tag cloud
- *                           as a string or an array, depending on 'format' argument.
+ * @return void|string|string[] Void if 'echo' argument is true, or on failure. Otherwise, tag cloud
+ *                              as a string or an array, depending on 'format' argument.
  */
 function wp_tag_cloud( $args = '' ) {
 	$defaults = array(
@@ -757,8 +757,8 @@ function wp_tag_cloud( $args = '' ) {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string|array $return Tag cloud as a string or an array, depending on 'format' argument.
-	 * @param array        $args   An array of tag cloud arguments.
+	 * @param string|string[] $return Tag cloud as a string or an array, depending on 'format' argument.
+	 * @param array           $args   An array of tag cloud arguments.
 	 */
 	$return = apply_filters( 'wp_tag_cloud', $return, $args );
 
@@ -825,7 +825,7 @@ function default_topic_count_scale( $count ) {
  *     @type bool|int $show_count                 Whether to display the tag counts. Default 0. Accepts
  *                                                0, 1, or their bool equivalents.
  * }
- * @return string|array Tag cloud as a string or an array, depending on 'format' argument.
+ * @return string|string[] Tag cloud as a string or an array, depending on 'format' argument.
  */
 function wp_generate_tag_cloud( $tags, $args = '' ) {
 	$defaults = array(
@@ -979,7 +979,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param array $tags_data An array of term data for term used to generate the tag cloud.
+	 * @param array[] $tags_data An array of term data arrays for terms used to generate the tag cloud.
 	 */
 	$tags_data = apply_filters( 'wp_generate_tag_cloud_data', $tags_data );
 
@@ -1030,11 +1030,11 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		 *
 		 * @see wp_generate_tag_cloud()
 		 *
-		 * @param array|string $return String containing the generated HTML tag cloud output
-		 *                             or an array of tag links if the 'format' argument
-		 *                             equals 'array'.
-		 * @param WP_Term[]    $tags   An array of terms used in the tag cloud.
-		 * @param array        $args   An array of wp_generate_tag_cloud() arguments.
+		 * @param string[]|string $return String containing the generated HTML tag cloud output
+		 *                                or an array of tag links if the 'format' argument
+		 *                                equals 'array'.
+		 * @param WP_Term[]       $tags   An array of terms used in the tag cloud.
+		 * @param array           $args   An array of wp_generate_tag_cloud() arguments.
 		 */
 		return apply_filters( 'wp_generate_tag_cloud', $return, $tags, $args );
 	} else {

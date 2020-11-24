@@ -700,7 +700,7 @@ class WP_Query {
 	 *     @type int[]        $post__not_in            An array of post IDs not to retrieve. Note: a string of comma-
 	 *                                                 separated IDs will NOT work.
 	 *     @type string       $post_mime_type          The mime type of the post. Used for 'attachment' post_type.
-	 *     @type array        $post_name__in           An array of post slugs that results must match.
+	 *     @type string[]     $post_name__in           An array of post slugs that results must match.
 	 *     @type int          $post_parent             Page ID to retrieve child pages for. Use 0 to only retrieve
 	 *                                                 top-level pages.
 	 *     @type int[]        $post_parent__in         An array containing parent page IDs to query child pages from.
@@ -724,8 +724,8 @@ class WP_Query {
 	 *     @type int[]        $tag__in                 An array of tag IDs (OR in).
 	 *     @type int[]        $tag__not_in             An array of tag IDs (NOT in).
 	 *     @type int          $tag_id                  Tag id or comma-separated list of IDs.
-	 *     @type array        $tag_slug__and           An array of tag slugs (AND in).
-	 *     @type array        $tag_slug__in            An array of tag slugs (OR in). unless 'ignore_sticky_posts' is
+	 *     @type string[]     $tag_slug__and           An array of tag slugs (AND in).
+	 *     @type string[]     $tag_slug__in            An array of tag slugs (OR in). unless 'ignore_sticky_posts' is
 	 *                                                 true. Note: a string of comma-separated IDs will NOT work.
 	 *     @type array        $tax_query               An associative array of WP_Tax_Query arguments.
 	 *                                                 See WP_Tax_Query->__construct().

@@ -552,7 +552,7 @@ abstract class WP_REST_Controller {
 	 * @since 4.9.6
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return array Fields to be included in the response.
+	 * @return string[] Fields to be included in the response.
 	 */
 	public function get_fields_for_response( $request ) {
 		$schema     = $this->get_item_schema();

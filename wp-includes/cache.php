@@ -247,7 +247,7 @@ function wp_cache_switch_to_blog( $blog_id ) {
  * @see WP_Object_Cache::add_global_groups()
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  *
- * @param string|array $groups A group or an array of groups to add.
+ * @param string|string[] $groups A group or an array of groups to add.
  */
 function wp_cache_add_global_groups( $groups ) {
 	global $wp_object_cache;
@@ -260,7 +260,7 @@ function wp_cache_add_global_groups( $groups ) {
  *
  * @since 2.6.0
  *
- * @param string|array $groups A group or an array of groups to add.
+ * @param string|string[] $groups A group or an array of groups to add.
  */
 function wp_cache_add_non_persistent_groups( $groups ) {
 	// Default cache doesn't persist so nothing to do here.

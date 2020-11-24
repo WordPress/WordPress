@@ -144,9 +144,9 @@ class WP_User_Query {
 	 *     @type string|array $role                An array or a comma-separated list of role names that users must match
 	 *                                             to be included in results. Note that this is an inclusive list: users
 	 *                                             must match *each* role. Default empty.
-	 *     @type array        $role__in            An array of role names. Matched users must have at least one of these
+	 *     @type string[]     $role__in            An array of role names. Matched users must have at least one of these
 	 *                                             roles. Default empty array.
-	 *     @type array        $role__not_in        An array of role names to exclude. Users matching one or more of these
+	 *     @type string[]     $role__not_in        An array of role names to exclude. Users matching one or more of these
 	 *                                             roles will not be included in results. Default empty array.
 	 *     @type string       $meta_key            User meta key. Default empty.
 	 *     @type string       $meta_value          User meta value. Default empty.
@@ -159,7 +159,7 @@ class WP_User_Query {
 	 *     @type string       $search              Search keyword. Searches for possible string matches on columns.
 	 *                                             When `$search_columns` is left empty, it tries to determine which
 	 *                                             column to search in based on search string. Default empty.
-	 *     @type array        $search_columns      Array of column names to be searched. Accepts 'ID', 'user_login',
+	 *     @type string[]     $search_columns      Array of column names to be searched. Accepts 'ID', 'user_login',
 	 *                                             'user_email', 'user_url', 'user_nicename', 'display_name'.
 	 *                                             Default empty array.
 	 *     @type string|array $orderby             Field(s) to sort the retrieved users by. May be a single value,
@@ -197,14 +197,14 @@ class WP_User_Query {
 	 *                                             published posts in those post types. `true` is an alias for all
 	 *                                             public post types.
 	 *     @type string       $nicename            The user nicename. Default empty.
-	 *     @type array        $nicename__in        An array of nicenames to include. Users matching one of these
+	 *     @type string[]     $nicename__in        An array of nicenames to include. Users matching one of these
 	 *                                             nicenames will be included in results. Default empty array.
-	 *     @type array        $nicename__not_in    An array of nicenames to exclude. Users matching one of these
+	 *     @type string[]     $nicename__not_in    An array of nicenames to exclude. Users matching one of these
 	 *                                             nicenames will not be included in results. Default empty array.
 	 *     @type string       $login               The user login. Default empty.
-	 *     @type array        $login__in           An array of logins to include. Users matching one of these
+	 *     @type string[]     $login__in           An array of logins to include. Users matching one of these
 	 *                                             logins will be included in results. Default empty array.
-	 *     @type array        $login__not_in       An array of logins to exclude. Users matching one of these
+	 *     @type string[]     $login__not_in       An array of logins to exclude. Users matching one of these
 	 *                                             logins will not be included in results. Default empty array.
 	 * }
 	 */

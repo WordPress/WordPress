@@ -1307,7 +1307,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *
  *     @type string       $label                 Name of the post type shown in the menu. Usually plural.
  *                                               Default is value of $labels['name'].
- *     @type array        $labels                An array of labels for this post type. If not set, post
+ *     @type string[]     $labels                An array of labels for this post type. If not set, post
  *                                               labels are inherited for non-hierarchical types and page
  *                                               labels for hierarchical ones. See get_post_type_labels() for a full
  *                                               list of supported labels.
@@ -1356,7 +1356,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                               May be passed as an array to allow for alternative plurals when using
  *                                               this argument as a base to construct the capabilities, e.g.
  *                                               array('story', 'stories'). Default 'post'.
- *     @type array        $capabilities          Array of capabilities for this post type. $capability_type is used
+ *     @type string[]     $capabilities          Array of capabilities for this post type. $capability_type is used
  *                                               as a base to construct capabilities by default.
  *                                               See get_post_type_capabilities().
  *     @type bool         $map_meta_cap          Whether to use the internal default meta capability handling.
@@ -1375,7 +1375,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *     @type callable     $register_meta_box_cb  Provide a callback function that sets up the meta boxes for the
  *                                               edit form. Do remove_meta_box() and add_meta_box() calls in the
  *                                               callback. Default null.
- *     @type array        $taxonomies            An array of taxonomy identifiers that will be registered for the
+ *     @type string[]     $taxonomies            An array of taxonomy identifiers that will be registered for the
  *                                               post type. Taxonomies can be registered later with register_taxonomy()
  *                                               or register_taxonomy_for_object_type().
  *                                               Default empty array.
@@ -2722,8 +2722,8 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string|array $mime_type Optional. Array or comma-separated list of
- *                                MIME patterns. Default empty.
+ * @param string|string[] $mime_type Optional. Array or comma-separated list of
+ *                                   MIME patterns. Default empty.
  * @return object An object containing the attachment counts by mime type.
  */
 function wp_count_attachments( $mime_type = '' ) {
@@ -2863,9 +2863,9 @@ function get_post_mime_types() {
  *
  * @since 2.5.0
  *
- * @param string|array $wildcard_mime_types Mime types, e.g. audio/mpeg or image (same as image/*)
- *                                          or flash (same as *flash*).
- * @param string|array $real_mime_types     Real post mime type values.
+ * @param string|string[] $wildcard_mime_types Mime types, e.g. audio/mpeg or image (same as image/*)
+ *                                             or flash (same as *flash*).
+ * @param string|string[] $real_mime_types     Real post mime type values.
  * @return array array(wildcard=>array(real types)).
  */
 function wp_match_mime_types( $wildcard_mime_types, $real_mime_types ) {
@@ -2915,10 +2915,10 @@ function wp_match_mime_types( $wildcard_mime_types, $real_mime_types ) {
  *
  * @since 2.5.0
  *
- * @param string|array $post_mime_types List of mime types or comma separated string
- *                                      of mime types.
- * @param string       $table_alias     Optional. Specify a table alias, if needed.
- *                                      Default empty.
+ * @param string|string[] $post_mime_types List of mime types or comma separated string
+ *                                         of mime types.
+ * @param string          $table_alias     Optional. Specify a table alias, if needed.
+ *                                         Default empty.
  * @return string The SQL AND clause for mime searching.
  */
 function wp_post_mime_type_where( $post_mime_types, $table_alias = '' ) {
@@ -3520,11 +3520,11 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
  *
  * @since 2.8.0
  *
- * @param int          $post_id  Optional. The Post ID. Does not default to the ID of the
- *                               global $post. Default 0.
- * @param string|array $taxonomy Optional. The taxonomy slug or array of slugs for which
- *                               to retrieve terms. Default 'post_tag'.
- * @param array        $args     {
+ * @param int             $post_id  Optional. The Post ID. Does not default to the ID of the
+ *                                  global $post. Default 0.
+ * @param string|string[] $taxonomy Optional. The taxonomy slug or array of slugs for which
+ *                                  to retrieve terms. Default 'post_tag'.
+ * @param array           $args     {
  *     Optional. Term query parameters. See WP_Term_Query::__construct() for supported arguments.
  *
  *     @type string $fields Term fields to retrieve. Default 'all'.

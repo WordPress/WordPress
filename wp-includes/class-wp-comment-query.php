@@ -228,17 +228,18 @@ class WP_Comment_Query {
 	 *                                                   comment status. Default 'all'.
 	 *     @type string|array $type                      Include comments of a given type, or array of types.
 	 *                                                   Accepts 'comment', 'pings' (includes 'pingback' and
-	 *                                                   'trackback'), or anycustom type string. Default empty.
-	 *     @type array        $type__in                  Include comments from a given array of comment types.
+	 *                                                   'trackback'), or any custom type string. Default empty.
+	 *     @type string[]     $type__in                  Include comments from a given array of comment types.
 	 *                                                   Default empty.
-	 *     @type array        $type__not_in              Exclude comments from a given array of comment types.
+	 *     @type string[]     $type__not_in              Exclude comments from a given array of comment types.
 	 *                                                   Default empty.
 	 *     @type int          $user_id                   Include comments for a specific user ID. Default empty.
 	 *     @type bool|string  $hierarchical              Whether to include comment descendants in the results.
-	 *                                                   'threaded' returns a tree, with each comment's children
-	 *                                                   stored in a `children` property on the `WP_Comment`
-	 *                                                   object. 'flat' returns a flat array of found comments plus
-	 *                                                   their children. Pass `false` to leave out descendants.
+	 *                                                   - 'threaded' returns a tree, with each comment's children
+	 *                                                   stored in a `children` property on the `WP_Comment` object.
+	 *                                                   - 'flat' returns a flat array of found comments plus
+	 *                                                   their children.
+	 *                                                   - Boolean `false` leaves out descendants.
 	 *                                                   The parameter is ignored (forced to `false`) when
 	 *                                                   `$fields` is 'ids' or 'counts'. Accepts 'threaded',
 	 *                                                   'flat', or false. Default: false.
