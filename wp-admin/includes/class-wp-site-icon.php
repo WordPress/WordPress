@@ -216,7 +216,7 @@ class WP_Site_Icon {
 	 *                                    array of values.
 	 * @param int               $post_id  Post ID.
 	 * @param string            $meta_key Meta key.
-	 * @param string|array      $single   Meta value, or an array of values.
+	 * @param bool              $single   Whether to return only the first value of the specified `$meta_key`.
 	 * @return array|null|string The attachment metadata value, array of values, or null.
 	 */
 	public function get_post_metadata( $value, $post_id, $meta_key, $single ) {

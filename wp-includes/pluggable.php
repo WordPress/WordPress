@@ -165,7 +165,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 	 * @param string       $subject     Email subject
 	 * @param string       $message     Message contents
 	 * @param string|array $headers     Optional. Additional headers.
-	 * @param string|array $attachments Optional. Files to attach.
+	 * @param string|array $attachments Optional. Paths to files to attach.
 	 * @return bool Whether the email contents were sent successfully.
 	 */
 	function wp_mail( $to, $subject, $message, $headers = '', $attachments = array() ) {
@@ -176,8 +176,15 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		 *
 		 * @since 2.2.0
 		 *
-		 * @param array $args A compacted array of wp_mail() arguments, including the "to" email,
-		 *                    subject, message, headers, and attachments values.
+		 * @param array $args {
+		 *     Array of the `wp_mail()` arguments.
+		 *
+		 *     @type string|string[] $to          Array or comma-separated list of email addresses to send message.
+		 *     @type string          $subject     Email subject.
+		 *     @type string          $message     Message contents.
+		 *     @type string|string[] $headers     Additional headers.
+		 *     @type string|string[] $attachments Paths to files to attach.
+		 * }
 		 */
 		$atts = apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers', 'attachments' ) );
 
