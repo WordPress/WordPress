@@ -11,10 +11,6 @@
  *
  * @since 5.5.0
  * @property array $attributes
- * @property array $context
- * @property WP_Block[] $inner_blocks;
- * @property string $inner_html;
- * @property array $inner_content;
  */
 class WP_Block {
 
@@ -25,15 +21,6 @@ class WP_Block {
 	 * @var array
 	 */
 	public $parsed_block;
-
-	/**
-	 * All available context of the current hierarchy.
-	 *
-	 * @since 5.5.0
-	 * @var array
-	 * @access protected
-	 */
-	protected $available_context;
 
 	/**
 	 * Name of block.
@@ -54,20 +41,59 @@ class WP_Block {
 	public $block_type;
 
 	/**
-	 * Map of block property names and their cached value.
+	 * Block context values.
 	 *
-	 * Some block properties are computed lazily using a getter function. The
-	 * result is then cached here for subsequent use.
-	 *
-	 * @since 5.6.0
+	 * @since 5.5.0
 	 * @var array
 	 */
-	protected $cached_properties = array();
+	public $context = array();
 
 	/**
-	 * Creates a block instance from a backing `$parsed_block` array and list of
-	 * `$available_context`. From these, the block's dynamic properties can be
-	 * derived.
+	 * All available context of the current hierarchy.
+	 *
+	 * @since 5.5.0
+	 * @var array
+	 * @access protected
+	 */
+	protected $available_context;
+
+	/**
+	 * List of inner blocks (of this same class)
+	 *
+	 * @since 5.5.0
+	 * @var WP_Block[]
+	 */
+	public $inner_blocks = array();
+
+	/**
+	 * Resultant HTML from inside block comment delimiters after removing inner
+	 * blocks.
+	 *
+	 * @example "...Just <!-- wp:test /--> testing..." -> "Just testing..."
+	 *
+	 * @since 5.5.0
+	 * @var string
+	 */
+	public $inner_html = '';
+
+	/**
+	 * List of string fragments and null markers where inner blocks were found
+	 *
+	 * @example array(
+	 *   'inner_html'    => 'BeforeInnerAfter',
+	 *   'inner_blocks'  => array( block, block ),
+	 *   'inner_content' => array( 'Before', null, 'Inner', null, 'After' ),
+	 * )
+	 *
+	 * @since 5.5.0
+	 * @var array
+	 */
+	public $inner_content = array();
+
+	/**
+	 * Constructor.
+	 *
+	 * Populates object properties from the provided block instance argument.
 	 *
 	 * The given array of context values will not necessarily be available on
 	 * the instance itself, but is treated as the full set of values provided by
@@ -77,124 +103,31 @@ class WP_Block {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param array                  $parsed_block      Array of parsed block properties.
+	 * @param array                  $block             Array of parsed block properties.
 	 * @param array                  $available_context Optional array of ancestry context values.
 	 * @param WP_Block_Type_Registry $registry          Optional block type registry.
 	 */
-	public function __construct( $parsed_block, $available_context = array(), $registry = null ) {
+	public function __construct( $block, $available_context = array(), $registry = null ) {
+		$this->parsed_block = $block;
+		$this->name         = $block['blockName'];
+
 		if ( is_null( $registry ) ) {
-			$this->registry = WP_Block_Type_Registry::get_instance();
-		} else {
-			$this->registry = $registry;
+			$registry = WP_Block_Type_Registry::get_instance();
 		}
 
-		$this->reset( $parsed_block, $available_context );
-	}
+		$this->block_type = $registry->get_registered( $this->name );
 
-	/**
-	 * Changes the backing `$parsed_block` and `$available_context` used to
-	 * derive the block's dynamic properties.
-	 *
-	 * @since 5.6.0
-
-	 * @param array $parsed_block      Array of parsed block properties.
-	 * @param array $available_context Optional array of ancestry context values.
-	 * @param array $cached_properties Optional cache of dynamic properties to use.
-	 */
-	protected function reset(
-		$parsed_block,
-		$available_context = array(),
-		$cached_properties = array()
-	) {
-		$this->parsed_block      = $parsed_block;
 		$this->available_context = $available_context;
-		$this->name              = $parsed_block['blockName'];
-		$this->block_type        = $this->registry->get_registered( $this->name );
-		$this->cached_properties = $cached_properties;
-	}
-
-	/**
-	 * Getter used for the block's dynamic properties:
-	 *
-	 * - `$block->attributes`
-	 * - `$block->context`
-	 * - `$block->inner_blocks`
-	 * - `$block->inner_html`
-	 * - `$block->inner_content`
-	 *
-	 * Each dynamic property is obtained by calling the associated getter
-	 * function (e.g. `this->get_attributes()`). The result is then cached in
-	 * `$this->cached_attributes` for subsequent calls.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @param string $name Property name.
-	 * @return array|null Prepared attributes, or null.
-	 */
-	public function __get( $name ) {
-		if ( method_exists( $this, "get_$name" ) ) {
-			if ( ! isset( $this->cached_properties[ $name ] ) ) {
-				$this->cached_properties[ $name ] = $this->{"get_$name"}();
-			}
-
-			return $this->cached_properties[ $name ];
-		}
-
-		return null;
-	}
-
-	/**
-	 * Block attributes.
-	 *
-	 * Use `$block->attributes` to access this.
-	 *
-	 * @since 5.6.0
-	 * @return array
-	 */
-	protected function get_attributes() {
-		$attributes = isset( $this->parsed_block['attrs'] ) ?
-			$this->parsed_block['attrs'] :
-			array();
-
-		if ( ! is_null( $this->block_type ) ) {
-			return $this->block_type->prepare_attributes_for_render( $attributes );
-		}
-
-		return $attributes;
-	}
-
-	/**
-	 * Block context values.
-	 *
-	 * Use `$block->context` to access this.
-	 *
-	 * @since 5.6.0
-	 * @return array
-	 */
-	protected function get_context() {
-		$context = array();
 
 		if ( ! empty( $this->block_type->uses_context ) ) {
 			foreach ( $this->block_type->uses_context as $context_name ) {
 				if ( array_key_exists( $context_name, $this->available_context ) ) {
-					$context[ $context_name ] = $this->available_context[ $context_name ];
+					$this->context[ $context_name ] = $this->available_context[ $context_name ];
 				}
 			}
 		}
 
-		return $context;
-	}
-
-	/**
-	 * List of inner blocks (of this same class).
-	 *
-	 * Use `$block->inner_blocks` to access this.
-	 *
-	 * @since 5.6.0
-	 * @return WP_Block[]
-	 */
-	protected function get_inner_blocks() {
-		if ( ! empty( $this->parsed_block['innerBlocks'] ) ) {
+		if ( ! empty( $block['innerBlocks'] ) ) {
 			$child_context = $this->available_context;
 
 			if ( ! empty( $this->block_type->provides_context ) ) {
@@ -205,55 +138,45 @@ class WP_Block {
 				}
 			}
 
-			return new WP_Block_List(
-				$this->parsed_block['innerBlocks'],
-				$child_context,
-				$this->registry
-			);
+			$this->inner_blocks = new WP_Block_List( $block['innerBlocks'], $child_context, $registry );
 		}
 
-		return array();
+		if ( ! empty( $block['innerHTML'] ) ) {
+			$this->inner_html = $block['innerHTML'];
+		}
+
+		if ( ! empty( $block['innerContent'] ) ) {
+			$this->inner_content = $block['innerContent'];
+		}
 	}
 
 	/**
-	 * Resultant HTML from inside block comment delimiters after removing inner
-	 * blocks.
+	 * Returns a value from an inaccessible property.
 	 *
-	 * Use `$block->inner_html` to access this.
+	 * This is used to lazily initialize the `attributes` property of a block,
+	 * such that it is only prepared with default attributes at the time that
+	 * the property is accessed. For all other inaccessible properties, a `null`
+	 * value is returned.
 	 *
-	 * @example "...Just <!-- wp:test /--> testing..." -> "Just testing..."
+	 * @since 5.5.0
 	 *
-	 * @since 5.6.0
-	 * @return string
+	 * @param string $name Property name.
+	 * @return array|null Prepared attributes, or null.
 	 */
-	protected function get_inner_html() {
-		if ( ! empty( $this->parsed_block['innerHTML'] ) ) {
-			return $this->parsed_block['innerHTML'];
+	public function __get( $name ) {
+		if ( 'attributes' === $name ) {
+			$this->attributes = isset( $this->parsed_block['attrs'] ) ?
+				$this->parsed_block['attrs'] :
+				array();
+
+			if ( ! is_null( $this->block_type ) ) {
+				$this->attributes = $this->block_type->prepare_attributes_for_render( $this->attributes );
+			}
+
+			return $this->attributes;
 		}
 
-		return '';
-	}
-
-	/**
-	 * List of string fragments and null markers where inner blocks were found
-	 *
-	 * Use `$block->inner_content` to access this.
-	 *
-	 * @example array(
-	 *   'inner_html'    => 'BeforeInnerAfter',
-	 *   'inner_blocks'  => array( block, block ),
-	 *   'inner_content' => array( 'Before', null, 'Inner', null, 'After' ),
-	 * )
-	 *
-	 * @since 5.6.0
-	 * @return array
-	 */
-	protected function get_inner_content() {
-		if ( ! empty( $this->parsed_block['innerContent'] ) ) {
-			return $this->parsed_block['innerContent'];
-		}
-
-		return array();
+		return null;
 	}
 
 	/**
@@ -270,13 +193,6 @@ class WP_Block {
 	 */
 	public function render( $options = array() ) {
 		global $post;
-
-		/** This filter is documented in wp-includes/blocks.php */
-		$pre_render = apply_filters( 'pre_render_block', null, $this->parsed_block );
-		if ( ! is_null( $pre_render ) ) {
-			return $pre_render;
-		}
-
 		$options = wp_parse_args(
 			$options,
 			array(
@@ -284,47 +200,7 @@ class WP_Block {
 			)
 		);
 
-		$initial_parsed_block      = $this->parsed_block;
-		$initial_available_context = $this->available_context;
-		$initial_cached_properties = $this->cached_properties;
-
-		/**
-		 * Filters a block which is to be rendered by render_block() or
-		 * WP_Block::render().
-		 *
-		 * @since 5.1.0
-		 *
-		 * @param array $parsed_block The block being rendered.
-		 * @param array $source_block An un-modified copy of $parsed_block, as it appeared in the source content.
-		 */
-		$parsed_block = apply_filters(
-			'render_block_data',
-			$this->parsed_block,
-			$initial_parsed_block
-		);
-
-		/**
-		 * Filters the default context of a block which is to be rendered by
-		 * render_block() or WP_Block::render().
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param array $available_context Default context.
-		 * @param array $parsed_block      Block being rendered, filtered by `render_block_data`.
-		 */
-		$available_context = apply_filters(
-			'render_block_context',
-			$this->available_context,
-			$this->parsed_block
-		);
-
-		$this->reset( $parsed_block, $available_context );
-
-		$is_dynamic = $options['dynamic']
-			&& $this->name
-			&& null !== $this->block_type
-			&& $this->block_type->is_dynamic();
-
+		$is_dynamic    = $options['dynamic'] && $this->name && null !== $this->block_type && $this->block_type->is_dynamic();
 		$block_content = '';
 
 		if ( ! $options['dynamic'] || empty( $this->block_type->skip_inner_blocks ) ) {
@@ -342,12 +218,7 @@ class WP_Block {
 
 			WP_Block_Supports::$block_to_render = $this->parsed_block;
 
-			$block_content = (string) call_user_func(
-				$this->block_type->render_callback,
-				$this->attributes,
-				$block_content,
-				$this
-			);
+			$block_content = (string) call_user_func( $this->block_type->render_callback, $this->attributes, $block_content, $this );
 
 			WP_Block_Supports::$block_to_render = $parent;
 
@@ -370,15 +241,7 @@ class WP_Block {
 		 * @param string $block_content The block content about to be appended.
 		 * @param array  $block         The full block, including name and attributes.
 		 */
-		$block_content = apply_filters( 'render_block', $block_content, $this->parsed_block );
-
-		$this->reset(
-			$initial_parsed_block,
-			$initial_available_context,
-			$initial_cached_properties
-		);
-
-		return $block_content;
+		return apply_filters( 'render_block', $block_content, $this->parsed_block );
 	}
 
 }
