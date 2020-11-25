@@ -662,8 +662,7 @@ function render_block( $parsed_block ) {
 	global $post, $wp_query;
 
 	/**
-	 * Allows render_block() or WP_Block::render() to be short-circuited, by
-	 * returning a non-null value.
+	 * Allows render_block() to be short-circuited, by returning a non-null value.
 	 *
 	 * @since 5.1.0
 	 *
@@ -674,6 +673,18 @@ function render_block( $parsed_block ) {
 	if ( ! is_null( $pre_render ) ) {
 		return $pre_render;
 	}
+
+	$source_block = $parsed_block;
+
+	/**
+	 * Filters the block being rendered in render_block(), before it's processed.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param array $parsed_block The block being rendered.
+	 * @param array $source_block An un-modified copy of $parsed_block, as it appeared in the source content.
+	 */
+	$parsed_block = apply_filters( 'render_block_data', $parsed_block, $source_block );
 
 	$context = array();
 
@@ -695,6 +706,16 @@ function render_block( $parsed_block ) {
 			$context['query']['categoryIds'][] = 'slug' === $wp_query->tax_query->queried_terms['category']['field'] ? get_cat_ID( $category_slug_or_id ) : $category_slug_or_id;
 		}
 	}
+
+	/**
+	 * Filters the default context provided to a rendered block.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param array $context      Default context.
+	 * @param array $parsed_block Block being rendered, filtered by `render_block_data`.
+	 */
+	$context = apply_filters( 'render_block_context', $context, $parsed_block );
 
 	$block = new WP_Block( $parsed_block, $context );
 
