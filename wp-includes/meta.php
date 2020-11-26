@@ -673,7 +673,7 @@ function metadata_exists( $meta_type, $object_id, $meta_key ) {
 	}
 
 	/** This filter is documented in wp-includes/meta.php */
-	$check = apply_filters( "get_{$meta_type}_metadata", null, $object_id, $meta_key, true );
+	$check = apply_filters( "get_{$meta_type}_metadata", null, $object_id, $meta_key, true, $meta_type );
 	if ( null !== $check ) {
 		return (bool) $check;
 	}
