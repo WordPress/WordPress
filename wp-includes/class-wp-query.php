@@ -76,7 +76,7 @@ class WP_Query {
 	public $queried_object_id;
 
 	/**
-	 * Get post database query.
+	 * SQL for the database query.
 	 *
 	 * @since 2.0.1
 	 * @var string
@@ -84,10 +84,10 @@ class WP_Query {
 	public $request;
 
 	/**
-	 * List of posts.
+	 * Array of post objects or post IDs.
 	 *
 	 * @since 1.5.0
-	 * @var array
+	 * @var WP_Post[]|int[]
 	 */
 	public $posts;
 
@@ -118,8 +118,11 @@ class WP_Query {
 	/**
 	 * The current post.
 	 *
+	 * This property does not get populated when the `fields` argument is set to
+	 * `ids` or `id=>parent`.
+	 *
 	 * @since 1.5.0
-	 * @var WP_Post
+	 * @var WP_Post|null
 	 */
 	public $post;
 
@@ -127,7 +130,7 @@ class WP_Query {
 	 * The list of comments for current post.
 	 *
 	 * @since 2.2.0
-	 * @var array
+	 * @var WP_Comment[]
 	 */
 	public $comments;
 
@@ -148,10 +151,10 @@ class WP_Query {
 	public $current_comment = -1;
 
 	/**
-	 * Current comment ID.
+	 * Current comment object.
 	 *
 	 * @since 2.2.0
-	 * @var int
+	 * @var WP_Comment
 	 */
 	public $comment;
 
@@ -2660,6 +2663,7 @@ class WP_Query {
 
 			$comments = (array) $wpdb->get_results( "SELECT $distinct {$wpdb->comments}.* FROM {$wpdb->comments} $cjoin $cwhere $cgroupby $corderby $climits" );
 			// Convert to WP_Comment.
+			/** @var WP_Comment[] */
 			$this->comments      = array_map( 'get_comment', $comments );
 			$this->comment_count = count( $this->comments );
 
@@ -2944,9 +2948,9 @@ class WP_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param array|null $posts Return an array of post data to short-circuit WP's query,
-		 *                          or null to allow WP to run its normal queries.
-		 * @param WP_Query   $this  The WP_Query instance (passed by reference).
+		 * @param WP_Post[]|int[]|null $posts Return an array of post data to short-circuit WP's query,
+		 *                                    or null to allow WP to run its normal queries.
+		 * @param WP_Query             $this  The WP_Query instance (passed by reference).
 		 */
 		$this->posts = apply_filters_ref_array( 'posts_pre_query', array( null, &$this ) );
 
@@ -2955,6 +2959,7 @@ class WP_Query {
 				$this->posts = $wpdb->get_col( $this->request );
 			}
 
+			/** @var int[] */
 			$this->posts      = array_map( 'intval', $this->posts );
 			$this->post_count = count( $this->posts );
 			$this->set_found_posts( $q, $limits );
@@ -2970,6 +2975,7 @@ class WP_Query {
 			$this->post_count = count( $this->posts );
 			$this->set_found_posts( $q, $limits );
 
+			/** @var int[] */
 			$r = array();
 			foreach ( $this->posts as $key => $post ) {
 				$this->posts[ $key ]->ID          = (int) $post->ID;
@@ -3030,6 +3036,7 @@ class WP_Query {
 
 		// Convert to WP_Post objects.
 		if ( $this->posts ) {
+			/** @var WP_Post[] */
 			$this->posts = array_map( 'get_post', $this->posts );
 		}
 
@@ -3066,6 +3073,7 @@ class WP_Query {
 			$comments_request = "SELECT {$wpdb->comments}.* FROM {$wpdb->comments} $cjoin $cwhere $cgroupby $corderby $climits";
 			$comments         = $wpdb->get_results( $comments_request );
 			// Convert to WP_Comment.
+			/** @var WP_Comment[] */
 			$this->comments      = array_map( 'get_comment', $comments );
 			$this->comment_count = count( $this->comments );
 		}
@@ -3195,12 +3203,14 @@ class WP_Query {
 		if ( $this->posts ) {
 			$this->post_count = count( $this->posts );
 
+			/** @var WP_Post[] */
 			$this->posts = array_map( 'get_post', $this->posts );
 
 			if ( $q['cache_results'] ) {
 				update_post_caches( $this->posts, $post_type, $q['update_post_term_cache'], $q['update_post_meta_cache'] );
 			}
 
+			/** @var WP_Post */
 			$this->post = reset( $this->posts );
 		} else {
 			$this->post_count = 0;
@@ -3281,6 +3291,7 @@ class WP_Query {
 
 		$this->current_post++;
 
+		/** @var WP_Post */
 		$this->post = $this->posts[ $this->current_post ];
 		return $this->post;
 	}
@@ -3374,6 +3385,7 @@ class WP_Query {
 	public function next_comment() {
 		$this->current_comment++;
 
+		/** @var WP_Comment */
 		$this->comment = $this->comments[ $this->current_comment ];
 		return $this->comment;
 	}
