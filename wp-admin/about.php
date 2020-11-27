@@ -171,7 +171,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: Accessibility statement feature plugin link. */
 						__( 'Even if you’re not an expert, you can start letting folks know about your site’s commitment to accessibility at the click of a button! The new <a href="%s">feature plugin</a> includes template copy for you to update and publish, and it’s written to support different contexts and jurisdictions.' ),
-						'#'
+						'https://github.com/10degrees/accessibility-statement-plugin'
 					);
 					?>
 				</p>
@@ -192,7 +192,15 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column">
 				<h3><?php _e( 'More PHP 8 support' ); ?></h3>
-				<p><?php _e( '5.6 marks the first steps toward WordPress Core support for PHP 8. Now is a great time to start planning how your WordPress products, services and sites can support the latest PHP version. For more information about what to expect next, [link text].' ); ?></p>
+				<p>
+					<?php
+					printf(
+						/* translators: %s: WordPress and PHP 8 dev note link. */
+						__( '5.6 marks the first steps toward WordPress Core support for PHP 8. Now is a great time to start planning how your WordPress products, services and sites can support the latest PHP version. For more information about what to expect next, <a href="%s">read the PHP 8 developer note</a>.' ),
+						'https://make.wordpress.org/core/2020/11/23/wordpress-and-php-8-0/'
+					);
+					?>
+				</p>
 			</div>
 		</div>
 		<div class="about__section">
@@ -203,7 +211,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: jQuery update test plugin link. */
 						__( 'Updates to jQuery in WordPress take place across three releases: 5.5, 5.6, and 5.7. As we reach the mid-point of this process, run the <a href="%s">update test plugin</a> to check your sites for errors ahead of time.' ),
-						'https://wordpress.org/plugins/wp-jquery-update-test/'
+						current_user_can( 'install_plugins' ) ?
+							esc_url( network_admin_url( 'plugin-install.php?tab=search&type=term&s=slug:wp-jquery-update-test' ) ) :
+							esc_url( __( 'https://wordpress.org/plugins/wp-jquery-update-test/' ) )
 					);
 					?>
 				</p>
@@ -212,7 +222,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: jQuery Migrate plugin link. */
 						__( 'If you find issues with the way your site looks (e.g. a slider doesn’t work, a button is stuck — that sort of thing), install the <a href="%s">jQuery Migrate plugin</a>.' ),
-						'https://wordpress.org/plugins/enable-jquery-migrate-helper/ '
+						current_user_can( 'install_plugins' ) ?
+							esc_url( network_admin_url( 'plugin-install.php?tab=search&type=term&s=slug:enable-jquery-migrate-helper' ) ) :
+							esc_url( __( 'https://wordpress.org/plugins/enable-jquery-migrate-helper/' ) )
 					);
 					?>
 				</p>
@@ -229,7 +241,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: WordPress 5.6 Field Guide link. */
 						__( 'Check out the latest version of the WordPress Field Guide. It highlights developer notes for each change you may want to be aware of. <a href="%s">WordPress 5.6 Field Guide.</a>' ),
-						'#'
+						'https://make.wordpress.org/core/2020/11/20/wordpress-5-6-field-guide/'
 					);
 					?>
 				</p>
