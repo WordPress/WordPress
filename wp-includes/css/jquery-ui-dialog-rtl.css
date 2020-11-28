@@ -292,6 +292,7 @@
 	height: 36px;
 	text-align: center;
 	border-radius: 0;
+	overflow: hidden;
 }
 
 .ui-dialog-titlebar-close:before {
@@ -318,10 +319,6 @@
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -2px;
-}
-
-.ui-dialog-titlebar-close .ui-button-text {
-	display: none;
 }
 
 .ui-dialog-content {
