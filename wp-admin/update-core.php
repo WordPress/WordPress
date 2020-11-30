@@ -229,8 +229,12 @@ function dismissed_updates() {
 function core_upgrade_preamble() {
 	global $required_php_version, $required_mysql_version;
 
-	$wp_version = get_bloginfo( 'version' );
-	$updates    = get_core_updates();
+	$updates = get_core_updates();
+
+	// Include an unmodified $wp_version.
+	require ABSPATH . WPINC . '/version.php';
+
+	$is_development_version = preg_match( '/alpha|beta|RC/', $wp_version );
 
 	if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
 		echo '<h2 class="response">';
@@ -245,7 +249,7 @@ function core_upgrade_preamble() {
 			__( 'https://wordpress.org/support/article/updating-wordpress/' )
 		);
 		echo '</p></div>';
-	} elseif ( isset( $updates[0] ) && 'development' === $updates[0]->response ) {
+	} elseif ( $is_development_version ) {
 		echo '<h2 class="response">' . __( 'You are using a development version of WordPress.' ) . '</h2>';
 	} else {
 		echo '<h2 class="response">' . __( 'You have the latest version of WordPress.' ) . '</h2>';
