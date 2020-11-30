@@ -248,6 +248,12 @@ function core_update_footer( $msg = '' ) {
 		$cur->response = '';
 	}
 
+	$is_development_version = preg_match( '/alpha|beta|RC/', $cur->version );
+
+	if ( $is_development_version && 'latest' === $cur->response ) {
+		$cur->response = 'development';
+	}
+
 	switch ( $cur->response ) {
 		case 'development':
 			return sprintf(
