@@ -229,10 +229,14 @@ function dismissed_updates() {
 function core_upgrade_preamble() {
 	global $required_php_version, $required_mysql_version;
 
-	$wp_version = get_bloginfo( 'version' );
-	$updates    = get_core_updates();
+	$updates = get_core_updates();
 
-	if ( isset( $updates[0] ) && isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
+	// Include an unmodified $wp_version.
+	require ABSPATH . WPINC . '/version.php';
+
+	$is_development_version = preg_match( '/alpha|beta|RC/', $wp_version );
+
+	if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
 		echo '<h2 class="response">';
 		_e( 'An updated version of WordPress is available.' );
 		echo '</h2>';
@@ -245,7 +249,7 @@ function core_upgrade_preamble() {
 			__( 'https://wordpress.org/support/article/updating-wordpress/' )
 		);
 		echo '</p></div>';
-	} elseif ( isset( $updates[0] ) && 'development' === $updates[0]->response ) {
+	} elseif ( $is_development_version ) {
 		echo '<h2 class="response">' . __( 'You are using a development version of WordPress.' ) . '</h2>';
 	} else {
 		echo '<h2 class="response">' . __( 'You have the latest version of WordPress.' ) . '</h2>';
@@ -258,6 +262,7 @@ function core_upgrade_preamble() {
 		echo '</li>';
 	}
 	echo '</ul>';
+
 	// Don't show the maintenance mode notice when we are only showing a single re-install option.
 	if ( $updates && ( count( $updates ) > 1 || 'latest' !== $updates[0]->response ) ) {
 		echo '<p>' . __( 'While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, this mode will be deactivated.' ) . '</p>';
@@ -270,6 +275,7 @@ function core_upgrade_preamble() {
 			$normalized_version
 		) . '</p>';
 	}
+
 	dismissed_updates();
 }
 
