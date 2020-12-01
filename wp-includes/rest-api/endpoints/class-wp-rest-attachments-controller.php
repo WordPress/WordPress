@@ -191,7 +191,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		 */
 		do_action( 'rest_after_insert_attachment', $attachment, $request, true );
 
-		wp_after_insert_post( $attachment, false );
+		wp_after_insert_post( $attachment, false, null );
 
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 			// Set a custom header with the attachment_id.
@@ -321,7 +321,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			);
 		}
 
-		$response = parent::update_item( $request );
+		$attachment_before = get_post( $request['id'] );
+		$response          = parent::update_item( $request );
 
 		if ( is_wp_error( $response ) ) {
 			return $response;
@@ -347,7 +348,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-attachments-controller.php */
 		do_action( 'rest_after_insert_attachment', $attachment, $request, false );
 
-		wp_after_insert_post( $attachment, true );
+		wp_after_insert_post( $attachment, true, $attachment_before );
 
 		$response = $this->prepare_item_for_response( $attachment, $request );
 		$response = rest_ensure_response( $response );

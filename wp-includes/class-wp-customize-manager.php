@@ -3105,7 +3105,7 @@ final class WP_Customize_Manager {
 		/** This action is documented in wp-includes/post.php */
 		do_action( 'wp_insert_post', $post->ID, $post, true );
 
-		wp_after_insert_post( $post, true );
+		wp_after_insert_post( get_post( $post_id ), true, $post );
 
 		wp_trash_post_comments( $post_id );
 

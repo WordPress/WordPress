@@ -677,7 +677,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 */
 		do_action( "rest_after_insert_{$this->post_type}", $post, $request, true );
 
-		wp_after_insert_post( $post, false );
+		wp_after_insert_post( $post, false, null );
 
 		$response = $this->prepare_item_for_response( $post, $request );
 		$response = rest_ensure_response( $response );
@@ -753,7 +753,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return $valid_check;
 		}
 
-		$post = $this->prepare_item_for_database( $request );
+		$post_before = get_post( $request['id'] );
+		$post        = $this->prepare_item_for_database( $request );
 
 		if ( is_wp_error( $post ) ) {
 			return $post;
@@ -830,7 +831,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
 		do_action( "rest_after_insert_{$this->post_type}", $post, $request, false );
 
-		wp_after_insert_post( $post, true );
+		wp_after_insert_post( $post, true, $post_before );
 
 		$response = $this->prepare_item_for_response( $post, $request );
 
