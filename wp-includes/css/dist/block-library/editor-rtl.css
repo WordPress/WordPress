@@ -159,7 +159,9 @@ div[data-type="core/button"] {
   display: block; }
 
 .wp-block-columns .wp-block {
-  max-width: none; }
+  max-width: none;
+  margin-right: 0;
+  margin-left: 0; }
 
 @media (min-width: 600px) {
   .editor-styles-wrapper
@@ -1187,9 +1189,6 @@ ul.has-background.has-background {
 .block-editor-block-list__block[data-type="core/separator"] {
   padding-top: 0.1px;
   padding-bottom: 0.1px; }
-  .block-editor-block-list__block[data-type="core/separator"].block-editor-block-list__block {
-    margin-top: 0;
-    margin-bottom: 0; }
 
 .wp-block-shortcode {
   display: flex;

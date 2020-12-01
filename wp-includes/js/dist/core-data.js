@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 465);
+/******/ 	return __webpack_require__(__webpack_require__.s = 470);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -101,7 +101,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 
 /***/ }),
 
-/***/ 106:
+/***/ 107:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -462,7 +462,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(30);
+var unsupportedIterableToArray = __webpack_require__(31);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
 var nonIterableRest = __webpack_require__(39);
@@ -498,7 +498,7 @@ function _arrayWithoutHoles(arr) {
 var iterableToArray = __webpack_require__(37);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(30);
+var unsupportedIterableToArray = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -547,6 +547,13 @@ function _arrayLikeToArray(arr, len) {
 /***/ }),
 
 /***/ 30:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["url"]; }());
+
+/***/ }),
+
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -561,13 +568,6 @@ function _unsupportedIterableToArray(o, minLen) {
   if (n === "Map" || n === "Set") return Array.from(o);
   if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
 }
-
-/***/ }),
-
-/***/ 31:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
@@ -907,7 +907,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 465:
+/***/ 470:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -946,6 +946,7 @@ var build_module_selectors_namespaceObject = {};
 __webpack_require__.r(build_module_selectors_namespaceObject);
 __webpack_require__.d(build_module_selectors_namespaceObject, "isRequestingEmbedPreview", function() { return isRequestingEmbedPreview; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getAuthors", function() { return getAuthors; });
+__webpack_require__.d(build_module_selectors_namespaceObject, "__unstableGetAuthor", function() { return __unstableGetAuthor; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getCurrentUser", function() { return getCurrentUser; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getUserQueryResults", function() { return getUserQueryResults; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEntitiesByKind", function() { return getEntitiesByKind; });
@@ -984,6 +985,7 @@ __webpack_require__.d(build_module_selectors_namespaceObject, "getReferenceByDis
 var resolvers_namespaceObject = {};
 __webpack_require__.r(resolvers_namespaceObject);
 __webpack_require__.d(resolvers_namespaceObject, "getAuthors", function() { return resolvers_getAuthors; });
+__webpack_require__.d(resolvers_namespaceObject, "__unstableGetAuthor", function() { return resolvers_unstableGetAuthor; });
 __webpack_require__.d(resolvers_namespaceObject, "getCurrentUser", function() { return resolvers_getCurrentUser; });
 __webpack_require__.d(resolvers_namespaceObject, "getEntityRecord", function() { return resolvers_getEntityRecord; });
 __webpack_require__.d(resolvers_namespaceObject, "getRawEntityRecord", function() { return resolvers_getRawEntityRecord; });
@@ -1162,7 +1164,7 @@ var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.
 var external_this_wp_i18n_ = __webpack_require__(1);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(31);
+var external_this_wp_url_ = __webpack_require__(30);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/actions.js
 
@@ -3285,7 +3287,7 @@ var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(ext
 var REDUCER_KEY = 'core';
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(106);
+var equivalent_key_map = __webpack_require__(107);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/selectors.js
@@ -3437,6 +3439,7 @@ function selectors_objectSpread(target) { for (var i = 1; i < arguments.length; 
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -3463,16 +3466,27 @@ var isRequestingEmbedPreview = Object(external_this_wp_data_["createRegistrySele
 /**
  * Returns all available authors.
  *
+ * @param {Object}           state Data state.
+ * @param {Object|undefined} query Optional object of query parameters to
+ *                                 include with request.
+ * @return {Array} Authors list.
+ */
+
+function getAuthors(state, query) {
+  var path = Object(external_this_wp_url_["addQueryArgs"])('/wp/v2/users/?who=authors&per_page=100', query);
+  return getUserQueryResults(state, path);
+}
+/**
+ * Returns all available authors.
+ *
  * @param {Object} state Data state.
+ * @param {number} id The author id.
  *
  * @return {Array} Authors list.
  */
 
-function getAuthors(state) {
-  external_this_wp_deprecated_default()("select( 'core' ).getAuthors()", {
-    alternative: "select( 'core' ).getUsers({ who: 'authors' })"
-  });
-  return getUserQueryResults(state, 'authors');
+function __unstableGetAuthor(state, id) {
+  return Object(external_this_lodash_["get"])(state, ['users', 'byId', id], null);
 }
 /**
  * Returns the current user.
@@ -4167,16 +4181,17 @@ function resolvers_ownKeys(object, enumerableOnly) { var keys = Object.keys(obje
 function resolvers_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { resolvers_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { resolvers_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 var resolvers_marked = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getAuthors),
-    resolvers_marked2 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getCurrentUser),
-    resolvers_marked3 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getEntityRecord),
-    resolvers_marked4 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getEntityRecords),
-    resolvers_marked5 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getCurrentTheme),
-    resolvers_marked6 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getThemeSupports),
-    _marked7 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getEmbedPreview),
-    _marked8 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_hasUploadPermissions),
-    _marked9 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_canUser),
-    _marked10 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getAutosaves),
-    _marked11 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getAutosave);
+    resolvers_marked2 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_unstableGetAuthor),
+    resolvers_marked3 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getCurrentUser),
+    resolvers_marked4 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getEntityRecord),
+    resolvers_marked5 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getEntityRecords),
+    resolvers_marked6 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getCurrentTheme),
+    _marked7 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getThemeSupports),
+    _marked8 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getEmbedPreview),
+    _marked9 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_hasUploadPermissions),
+    _marked10 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_canUser),
+    _marked11 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getAutosaves),
+    _marked12 = /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(resolvers_getAutosave);
 
 /**
  * External dependencies
@@ -4198,25 +4213,29 @@ var resolvers_marked = /*#__PURE__*/external_this_regeneratorRuntime_default.a.m
 
 /**
  * Requests authors from the REST API.
+ *
+ * @param {Object|undefined} query Optional object of query parameters to
+ *                                 include with request.
  */
 
-function resolvers_getAuthors() {
-  var users;
+function resolvers_getAuthors(query) {
+  var path, users;
   return external_this_regeneratorRuntime_default.a.wrap(function getAuthors$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _context.next = 2;
+          path = Object(external_this_wp_url_["addQueryArgs"])('/wp/v2/users/?who=authors&per_page=100', query);
+          _context.next = 3;
           return Object(external_this_wp_dataControls_["apiFetch"])({
-            path: '/wp/v2/users/?who=authors&per_page=-1'
+            path: path
           });
 
-        case 2:
+        case 3:
           users = _context.sent;
-          _context.next = 5;
-          return receiveUserQuery('authors', users);
+          _context.next = 6;
+          return receiveUserQuery(path, users);
 
-        case 5:
+        case 6:
         case "end":
           return _context.stop();
       }
@@ -4224,31 +4243,61 @@ function resolvers_getAuthors() {
   }, resolvers_marked);
 }
 /**
- * Requests the current user from the REST API.
+ * Temporary approach to resolving editor access to author queries.
+ *
+ * @param {number} id The author id.
  */
 
-function resolvers_getCurrentUser() {
-  var currentUser;
-  return external_this_regeneratorRuntime_default.a.wrap(function getCurrentUser$(_context2) {
+function resolvers_unstableGetAuthor(id) {
+  var path, users;
+  return external_this_regeneratorRuntime_default.a.wrap(function __unstableGetAuthor$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          _context2.next = 2;
+          path = "/wp/v2/users?who=authors&include=".concat(id);
+          _context2.next = 3;
           return Object(external_this_wp_dataControls_["apiFetch"])({
-            path: '/wp/v2/users/me'
+            path: path
           });
 
-        case 2:
-          currentUser = _context2.sent;
-          _context2.next = 5;
-          return receiveCurrentUser(currentUser);
+        case 3:
+          users = _context2.sent;
+          _context2.next = 6;
+          return receiveUserQuery('author', users);
 
-        case 5:
+        case 6:
         case "end":
           return _context2.stop();
       }
     }
   }, resolvers_marked2);
+}
+/**
+ * Requests the current user from the REST API.
+ */
+
+function resolvers_getCurrentUser() {
+  var currentUser;
+  return external_this_regeneratorRuntime_default.a.wrap(function getCurrentUser$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return Object(external_this_wp_dataControls_["apiFetch"])({
+            path: '/wp/v2/users/me'
+          });
+
+        case 2:
+          currentUser = _context3.sent;
+          _context3.next = 5;
+          return receiveCurrentUser(currentUser);
+
+        case 5:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, resolvers_marked3);
 }
 /**
  * Requests an entity's record from the REST API.
@@ -4268,29 +4317,29 @@ function resolvers_getEntityRecord(kind, name) {
       path,
       hasRecords,
       record,
-      _args3 = arguments;
-  return external_this_regeneratorRuntime_default.a.wrap(function getEntityRecord$(_context3) {
+      _args4 = arguments;
+  return external_this_regeneratorRuntime_default.a.wrap(function getEntityRecord$(_context4) {
     while (1) {
-      switch (_context3.prev = _context3.next) {
+      switch (_context4.prev = _context4.next) {
         case 0:
-          key = _args3.length > 2 && _args3[2] !== undefined ? _args3[2] : '';
-          query = _args3.length > 3 ? _args3[3] : undefined;
-          _context3.next = 4;
+          key = _args4.length > 2 && _args4[2] !== undefined ? _args4[2] : '';
+          query = _args4.length > 3 ? _args4[3] : undefined;
+          _context4.next = 4;
           return getKindEntities(kind);
 
         case 4:
-          entities = _context3.sent;
+          entities = _context4.sent;
           entity = Object(external_this_lodash_["find"])(entities, {
             kind: kind,
             name: name
           });
 
           if (entity) {
-            _context3.next = 8;
+            _context4.next = 8;
             break;
           }
 
-          return _context3.abrupt("return");
+          return _context4.abrupt("return");
 
         case 8:
           if (query !== undefined && query._fields) {
@@ -4313,7 +4362,7 @@ function resolvers_getEntityRecord(kind, name) {
           }));
 
           if (!(query !== undefined)) {
-            _context3.next = 17;
+            _context4.next = 17;
             break;
           }
 
@@ -4323,36 +4372,36 @@ function resolvers_getEntityRecord(kind, name) {
           // fields, so it's tested here, prior to initiating the REST request,
           // and without causing `getEntityRecords` resolution to occur.
 
-          _context3.next = 14;
+          _context4.next = 14;
           return Object(external_this_wp_dataControls_["syncSelect"])('core', 'hasEntityRecords', kind, name, query);
 
         case 14:
-          hasRecords = _context3.sent;
+          hasRecords = _context4.sent;
 
           if (!hasRecords) {
-            _context3.next = 17;
+            _context4.next = 17;
             break;
           }
 
-          return _context3.abrupt("return");
+          return _context4.abrupt("return");
 
         case 17:
-          _context3.next = 19;
+          _context4.next = 19;
           return Object(external_this_wp_dataControls_["apiFetch"])({
             path: path
           });
 
         case 19:
-          record = _context3.sent;
-          _context3.next = 22;
+          record = _context4.sent;
+          _context4.next = 22;
           return receiveEntityRecords(kind, name, record, query);
 
         case 22:
         case "end":
-          return _context3.stop();
+          return _context4.stop();
       }
     }
-  }, resolvers_marked3);
+  }, resolvers_marked4);
 }
 /**
  * Requests an entity's record from the REST API.
@@ -4378,28 +4427,28 @@ function resolvers_getEntityRecords(kind, name) {
       entity,
       path,
       records,
-      _args4 = arguments;
-  return external_this_regeneratorRuntime_default.a.wrap(function getEntityRecords$(_context4) {
+      _args5 = arguments;
+  return external_this_regeneratorRuntime_default.a.wrap(function getEntityRecords$(_context5) {
     while (1) {
-      switch (_context4.prev = _context4.next) {
+      switch (_context5.prev = _context5.next) {
         case 0:
-          query = _args4.length > 2 && _args4[2] !== undefined ? _args4[2] : {};
-          _context4.next = 3;
+          query = _args5.length > 2 && _args5[2] !== undefined ? _args5[2] : {};
+          _context5.next = 3;
           return getKindEntities(kind);
 
         case 3:
-          entities = _context4.sent;
+          entities = _context5.sent;
           entity = Object(external_this_lodash_["find"])(entities, {
             kind: kind,
             name: name
           });
 
           if (entity) {
-            _context4.next = 7;
+            _context5.next = 7;
             break;
           }
 
-          return _context4.abrupt("return");
+          return _context5.abrupt("return");
 
         case 7:
           if (query._fields) {
@@ -4414,15 +4463,15 @@ function resolvers_getEntityRecords(kind, name) {
           path = Object(external_this_wp_url_["addQueryArgs"])(entity.baseURL, resolvers_objectSpread(resolvers_objectSpread({}, query), {}, {
             context: 'edit'
           }));
-          _context4.t0 = Object;
-          _context4.next = 12;
+          _context5.t0 = Object;
+          _context5.next = 12;
           return Object(external_this_wp_dataControls_["apiFetch"])({
             path: path
           });
 
         case 12:
-          _context4.t1 = _context4.sent;
-          records = _context4.t0.values.call(_context4.t0, _context4.t1);
+          _context5.t1 = _context5.sent;
+          records = _context5.t0.values.call(_context5.t0, _context5.t1);
 
           // If we request fields but the result doesn't contain the fields,
           // explicitely set these fields as "undefined"
@@ -4439,15 +4488,15 @@ function resolvers_getEntityRecords(kind, name) {
             });
           }
 
-          _context4.next = 17;
+          _context5.next = 17;
           return receiveEntityRecords(kind, name, records, query);
 
         case 17:
         case "end":
-          return _context4.stop();
+          return _context5.stop();
       }
     }
-  }, resolvers_marked4);
+  }, resolvers_marked5);
 }
 
 resolvers_getEntityRecords.shouldInvalidate = function (action, kind, name) {
@@ -4460,34 +4509,7 @@ resolvers_getEntityRecords.shouldInvalidate = function (action, kind, name) {
 
 function resolvers_getCurrentTheme() {
   var activeThemes;
-  return external_this_regeneratorRuntime_default.a.wrap(function getCurrentTheme$(_context5) {
-    while (1) {
-      switch (_context5.prev = _context5.next) {
-        case 0:
-          _context5.next = 2;
-          return Object(external_this_wp_dataControls_["apiFetch"])({
-            path: '/wp/v2/themes?status=active'
-          });
-
-        case 2:
-          activeThemes = _context5.sent;
-          _context5.next = 5;
-          return receiveCurrentTheme(activeThemes[0]);
-
-        case 5:
-        case "end":
-          return _context5.stop();
-      }
-    }
-  }, resolvers_marked5);
-}
-/**
- * Requests theme supports data from the index.
- */
-
-function resolvers_getThemeSupports() {
-  var activeThemes;
-  return external_this_regeneratorRuntime_default.a.wrap(function getThemeSupports$(_context6) {
+  return external_this_regeneratorRuntime_default.a.wrap(function getCurrentTheme$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
@@ -4499,7 +4521,7 @@ function resolvers_getThemeSupports() {
         case 2:
           activeThemes = _context6.sent;
           _context6.next = 5;
-          return receiveThemeSupports(activeThemes[0].theme_supports);
+          return receiveCurrentTheme(activeThemes[0]);
 
         case 5:
         case "end":
@@ -4509,6 +4531,33 @@ function resolvers_getThemeSupports() {
   }, resolvers_marked6);
 }
 /**
+ * Requests theme supports data from the index.
+ */
+
+function resolvers_getThemeSupports() {
+  var activeThemes;
+  return external_this_regeneratorRuntime_default.a.wrap(function getThemeSupports$(_context7) {
+    while (1) {
+      switch (_context7.prev = _context7.next) {
+        case 0:
+          _context7.next = 2;
+          return Object(external_this_wp_dataControls_["apiFetch"])({
+            path: '/wp/v2/themes?status=active'
+          });
+
+        case 2:
+          activeThemes = _context7.sent;
+          _context7.next = 5;
+          return receiveThemeSupports(activeThemes[0].theme_supports);
+
+        case 5:
+        case "end":
+          return _context7.stop();
+      }
+    }
+  }, _marked7);
+}
+/**
  * Requests a preview from the from the Embed API.
  *
  * @param {string} url   URL to get the preview for.
@@ -4516,12 +4565,12 @@ function resolvers_getThemeSupports() {
 
 function resolvers_getEmbedPreview(url) {
   var embedProxyResponse;
-  return external_this_regeneratorRuntime_default.a.wrap(function getEmbedPreview$(_context7) {
+  return external_this_regeneratorRuntime_default.a.wrap(function getEmbedPreview$(_context8) {
     while (1) {
-      switch (_context7.prev = _context7.next) {
+      switch (_context8.prev = _context8.next) {
         case 0:
-          _context7.prev = 0;
-          _context7.next = 3;
+          _context8.prev = 0;
+          _context8.next = 3;
           return Object(external_this_wp_dataControls_["apiFetch"])({
             path: Object(external_this_wp_url_["addQueryArgs"])('/oembed/1.0/proxy', {
               url: url
@@ -4529,26 +4578,26 @@ function resolvers_getEmbedPreview(url) {
           });
 
         case 3:
-          embedProxyResponse = _context7.sent;
-          _context7.next = 6;
+          embedProxyResponse = _context8.sent;
+          _context8.next = 6;
           return receiveEmbedPreview(url, embedProxyResponse);
 
         case 6:
-          _context7.next = 12;
+          _context8.next = 12;
           break;
 
         case 8:
-          _context7.prev = 8;
-          _context7.t0 = _context7["catch"](0);
-          _context7.next = 12;
+          _context8.prev = 8;
+          _context8.t0 = _context8["catch"](0);
+          _context8.next = 12;
           return receiveEmbedPreview(url, false);
 
         case 12:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
     }
-  }, _marked7, null, [[0, 8]]);
+  }, _marked8, null, [[0, 8]]);
 }
 /**
  * Requests Upload Permissions from the REST API.
@@ -4558,21 +4607,21 @@ function resolvers_getEmbedPreview(url) {
  */
 
 function resolvers_hasUploadPermissions() {
-  return external_this_regeneratorRuntime_default.a.wrap(function hasUploadPermissions$(_context8) {
+  return external_this_regeneratorRuntime_default.a.wrap(function hasUploadPermissions$(_context9) {
     while (1) {
-      switch (_context8.prev = _context8.next) {
+      switch (_context9.prev = _context9.next) {
         case 0:
           external_this_wp_deprecated_default()("select( 'core' ).hasUploadPermissions()", {
             alternative: "select( 'core' ).canUser( 'create', 'media' )"
           });
-          return _context8.delegateYield(resolvers_canUser('create', 'media'), "t0", 2);
+          return _context9.delegateYield(resolvers_canUser('create', 'media'), "t0", 2);
 
         case 2:
         case "end":
-          return _context8.stop();
+          return _context9.stop();
       }
     }
-  }, _marked8);
+  }, _marked9);
 }
 /**
  * Checks whether the current user can perform the given action on the given
@@ -4586,9 +4635,9 @@ function resolvers_hasUploadPermissions() {
 
 function resolvers_canUser(action, resource, id) {
   var methods, method, path, response, allowHeader, key, isAllowed;
-  return external_this_regeneratorRuntime_default.a.wrap(function canUser$(_context9) {
+  return external_this_regeneratorRuntime_default.a.wrap(function canUser$(_context10) {
     while (1) {
-      switch (_context9.prev = _context9.next) {
+      switch (_context10.prev = _context10.next) {
         case 0:
           methods = {
             create: 'POST',
@@ -4599,7 +4648,7 @@ function resolvers_canUser(action, resource, id) {
           method = methods[action];
 
           if (method) {
-            _context9.next = 4;
+            _context10.next = 4;
             break;
           }
 
@@ -4607,8 +4656,8 @@ function resolvers_canUser(action, resource, id) {
 
         case 4:
           path = id ? "/wp/v2/".concat(resource, "/").concat(id) : "/wp/v2/".concat(resource);
-          _context9.prev = 5;
-          _context9.next = 8;
+          _context10.prev = 5;
+          _context10.next = 8;
           return Object(external_this_wp_dataControls_["apiFetch"])({
             path: path,
             // Ideally this would always be an OPTIONS request, but unfortunately there's
@@ -4620,14 +4669,14 @@ function resolvers_canUser(action, resource, id) {
           });
 
         case 8:
-          response = _context9.sent;
-          _context9.next = 14;
+          response = _context10.sent;
+          _context10.next = 14;
           break;
 
         case 11:
-          _context9.prev = 11;
-          _context9.t0 = _context9["catch"](5);
-          return _context9.abrupt("return");
+          _context10.prev = 11;
+          _context10.t0 = _context10["catch"](5);
+          return _context10.abrupt("return");
 
         case 14:
           if (Object(external_this_lodash_["hasIn"])(response, ['headers', 'get'])) {
@@ -4642,15 +4691,15 @@ function resolvers_canUser(action, resource, id) {
 
           key = Object(external_this_lodash_["compact"])([action, resource, id]).join('/');
           isAllowed = Object(external_this_lodash_["includes"])(allowHeader, method);
-          _context9.next = 19;
+          _context10.next = 19;
           return receiveUserPermission(key, isAllowed);
 
         case 19:
         case "end":
-          return _context9.stop();
+          return _context10.stop();
       }
     }
-  }, _marked9, null, [[5, 11]]);
+  }, _marked10, null, [[5, 11]]);
 }
 /**
  * Request autosave data from the REST API.
@@ -4662,38 +4711,38 @@ function resolvers_canUser(action, resource, id) {
 function resolvers_getAutosaves(postType, postId) {
   var _yield$select, restBase, autosaves;
 
-  return external_this_regeneratorRuntime_default.a.wrap(function getAutosaves$(_context10) {
+  return external_this_regeneratorRuntime_default.a.wrap(function getAutosaves$(_context11) {
     while (1) {
-      switch (_context10.prev = _context10.next) {
+      switch (_context11.prev = _context11.next) {
         case 0:
-          _context10.next = 2;
+          _context11.next = 2;
           return Object(external_this_wp_dataControls_["select"])('core', 'getPostType', postType);
 
         case 2:
-          _yield$select = _context10.sent;
+          _yield$select = _context11.sent;
           restBase = _yield$select.rest_base;
-          _context10.next = 6;
+          _context11.next = 6;
           return Object(external_this_wp_dataControls_["apiFetch"])({
             path: "/wp/v2/".concat(restBase, "/").concat(postId, "/autosaves?context=edit")
           });
 
         case 6:
-          autosaves = _context10.sent;
+          autosaves = _context11.sent;
 
           if (!(autosaves && autosaves.length)) {
-            _context10.next = 10;
+            _context11.next = 10;
             break;
           }
 
-          _context10.next = 10;
+          _context11.next = 10;
           return receiveAutosaves(postId, autosaves);
 
         case 10:
         case "end":
-          return _context10.stop();
+          return _context11.stop();
       }
     }
-  }, _marked10);
+  }, _marked11);
 }
 /**
  * Request autosave data from the REST API.
@@ -4706,19 +4755,19 @@ function resolvers_getAutosaves(postType, postId) {
  */
 
 function resolvers_getAutosave(postType, postId) {
-  return external_this_regeneratorRuntime_default.a.wrap(function getAutosave$(_context11) {
+  return external_this_regeneratorRuntime_default.a.wrap(function getAutosave$(_context12) {
     while (1) {
-      switch (_context11.prev = _context11.next) {
+      switch (_context12.prev = _context12.next) {
         case 0:
-          _context11.next = 2;
+          _context12.next = 2;
           return Object(external_this_wp_dataControls_["select"])('core', 'getAutosaves', postType, postId);
 
         case 2:
         case "end":
-          return _context11.stop();
+          return _context12.stop();
       }
     }
-  }, _marked11);
+  }, _marked12);
 }
 
 // EXTERNAL MODULE: external {"this":["wp","element"]}

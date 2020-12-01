@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["reusableBlocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 466);
+/******/ 	return __webpack_require__(__webpack_require__.s = 471);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -172,7 +172,7 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ 466:
+/***/ 471:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
