@@ -10,6 +10,7 @@
  *
  * @since 4.9.0
  * @since 5.6.0 Added overriding of the "PUT" and "DELETE" methods with "POST".
+ *              Added an "application/json" Accept header to all requests.
  * @output wp-includes/js/api-request.js
  */
 
@@ -26,7 +27,7 @@
 		var path = options.path;
 		var method = options.method;
 		var namespaceTrimmed, endpointTrimmed, apiRoot;
-		var headers, addNonceHeader, headerName;
+		var headers, addNonceHeader, addAcceptHeader, headerName;
 
 		if (
 			typeof options.namespace === 'string' &&
@@ -55,19 +56,24 @@
 
 		// If ?_wpnonce=... is present, no need to add a nonce header.
 		addNonceHeader = ! ( options.data && options.data._wpnonce );
+		addAcceptHeader = true;
 
 		headers = options.headers || {};
 
-		// If an 'X-WP-Nonce' header (or any case-insensitive variation
-		// thereof) was specified, no need to add a nonce header.
-		if ( addNonceHeader ) {
-			for ( headerName in headers ) {
-				if ( headers.hasOwnProperty( headerName ) ) {
-					if ( headerName.toLowerCase() === 'x-wp-nonce' ) {
-						addNonceHeader = false;
-						break;
-					}
-				}
+		for ( headerName in headers ) {
+			if ( ! headers.hasOwnProperty( headerName ) ) {
+				continue;
+			}
+
+			// If an 'X-WP-Nonce' or 'Accept' header (or any case-insensitive variation
+			// thereof) was specified, no need to add the header again.
+			switch ( headerName.toLowerCase() ) {
+				case 'x-wp-nonce':
+					addNonceHeader = false;
+					break;
+				case 'accept':
+					addAcceptHeader = false;
+					break;
 			}
 		}
 
@@ -75,6 +81,12 @@
 			// Do not mutate the original headers object, if any.
 			headers = $.extend( {
 				'X-WP-Nonce': wpApiSettings.nonce
+			}, headers );
+		}
+
+		if ( addAcceptHeader ) {
+			headers = $.extend( {
+				'Accept': 'application/json, */*;q=0.1'
 			}, headers );
 		}
 
