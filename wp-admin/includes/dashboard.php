@@ -1047,7 +1047,7 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 	}
 
 	if ( $comments ) {
-		echo '<div id="latest-comments" class="activity-block">';
+		echo '<div id="latest-comments" class="activity-block table-view-list">';
 		echo '<h3>' . __( 'Recent Comments' ) . '</h3>';
 
 		echo '<ul id="the-comment-list" data-wp-lists="list:comment">';
