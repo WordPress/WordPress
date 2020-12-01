@@ -54,7 +54,7 @@
 		request = wp.hooks.applyFilters( 'wp_application_passwords_approve_app_request', request, context );
 
 		wp.apiRequest( {
-			path: '/wp/v2/users/me/application-passwords',
+			path: '/wp/v2/users/me/application-passwords?_locale=user',
 			method: 'POST',
 			data: request
 		} ).done( function( response, textStatus, jqXHR ) {
