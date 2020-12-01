@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["reusableBlocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 466);
+/******/ 	return __webpack_require__(__webpack_require__.s = 480);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -172,7 +172,7 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ 466:
+/***/ 480:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -202,7 +202,7 @@ var external_this_wp_blockEditor_ = __webpack_require__(6);
 var external_this_wp_coreData_ = __webpack_require__(83);
 
 // EXTERNAL MODULE: external {"this":["wp","notices"]}
-var external_this_wp_notices_ = __webpack_require__(92);
+var external_this_wp_notices_ = __webpack_require__(94);
 
 // EXTERNAL MODULE: external {"this":["wp","data"]}
 var external_this_wp_data_ = __webpack_require__(4);
@@ -874,7 +874,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 92:
+/***/ 94:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["notices"]; }());

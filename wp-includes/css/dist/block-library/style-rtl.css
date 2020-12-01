@@ -165,6 +165,10 @@
 .wp-block-categories.alignright {
   margin-left: 2em; }
 
+.wp-block-code code {
+  white-space: pre-wrap;
+  overflow-wrap: break-word; }
+
 .wp-block-columns {
   display: flex;
   margin-bottom: 1.75em;

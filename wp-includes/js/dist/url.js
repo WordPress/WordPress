@@ -82,19 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 462);
+/******/ 	return __webpack_require__(__webpack_require__.s = 476);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 118:
+/***/ 119:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(451);
-var parse = __webpack_require__(452);
+var stringify = __webpack_require__(465);
+var parse = __webpack_require__(466);
 var formats = __webpack_require__(272);
 
 module.exports = {
@@ -377,7 +377,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 451:
+/***/ 465:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -654,7 +654,7 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 452:
+/***/ 466:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -904,7 +904,7 @@ module.exports = function (str, opts) {
 
 /***/ }),
 
-/***/ 462:
+/***/ 476:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1233,7 +1233,7 @@ function isValidFragment(fragment) {
 }
 
 // EXTERNAL MODULE: ./node_modules/qs/lib/index.js
-var lib = __webpack_require__(118);
+var lib = __webpack_require__(119);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/add-query-args.js
 /**
