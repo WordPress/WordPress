@@ -220,8 +220,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p>
 					<?php
 					printf(
-						/* translators: %s: jQuery migrate plugin link. */
-						__( 'If you find issues with the way your site looks (e.g. a slider doesn’t work, a button is stuck — that sort of thing), install the <a href="%s">jQuery Migrate plugin.</a>' ),
+						/* translators: %s: jQuery Migrate plugin link. */
+						__( 'If you find issues with the way your site looks (e.g. a slider doesn’t work, a button is stuck — that sort of thing), install the <a href="%s">jQuery Migrate plugin</a>.' ),
 						current_user_can( 'install_plugins' ) ?
 							esc_url( network_admin_url( 'plugin-install.php?tab=search&type=term&s=slug:enable-jquery-migrate-helper' ) ) :
 							esc_url( __( 'https://wordpress.org/plugins/enable-jquery-migrate-helper/' ) )
