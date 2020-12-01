@@ -5,16 +5,10 @@
 		margin-bottom: 0;
 	}
 
+	@include innerblock-margin-clear(".wp-block-media-text__content");
+
 	.wp-block-media-text__content {
 		padding: var(--global--spacing-horizontal);
-
-		[data-block]:first-child {
-			margin-top: 0;
-		}
-
-		[data-block]:last-child {
-			margin-bottom: 0;
-		}
 	}
 
 	// Block Styles

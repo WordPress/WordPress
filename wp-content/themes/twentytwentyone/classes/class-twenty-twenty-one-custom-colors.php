@@ -168,13 +168,15 @@ class Twenty_Twenty_One_Custom_Colors {
 	 */
 	public function body_class( $classes ) {
 		$background_color = get_theme_mod( 'background_color', 'D1E4DD' );
-		if ( 127 > self::get_relative_luminance_from_hex( $background_color ) ) {
+		$luminance        = self::get_relative_luminance_from_hex( $background_color );
+
+		if ( 127 > $luminance ) {
 			$classes[] = 'is-dark-theme';
 		} else {
 			$classes[] = 'is-light-theme';
 		}
 
-		if ( 'ffffff' === strtolower( $background_color ) ) {
+		if ( 225 <= $luminance ) {
 			$classes[] = 'has-background-white';
 		}
 

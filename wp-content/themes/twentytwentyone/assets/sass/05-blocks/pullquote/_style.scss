@@ -4,12 +4,16 @@
 	border-width: var(--pullquote--border-width);
 	border-bottom-style: solid;
 	border-top-style: solid;
+	color: currentColor;
+	border-color: currentColor;
 	position: relative;
 
 	blockquote::before {
 		color: currentColor;
 		content: "\201C";
 		display: block;
+		position: relative; // Override the absolute position.
+		left: 0;
 		font-size: 3rem;
 		font-weight: 500;
 		line-height: 1;
@@ -46,7 +50,7 @@
 		background: none;
 	}
 
-	&.alignleft {
+	&.alignleft:not(.is-style-solid-color) {
 
 		blockquote:before,
 		cite {
@@ -57,7 +61,6 @@
 	&.alignwide > p,
 	&.alignwide blockquote {
 		max-width: var(--responsive--alignwide-width);
-
 	}
 
 	&.alignfull:not(.is-style-solid-color) > p,
@@ -72,7 +75,7 @@
 		border-style: solid;
 		border-color: var(--pullquote--border-color);
 
-		@media ( min-width: 600px ) {
+		@media (min-width: 600px) {
 			padding: calc(5 * var(--global--spacing-unit));
 		}
 
@@ -81,6 +84,7 @@
 		}
 
 		blockquote {
+			margin: 0;
 			max-width: inherit;
 
 			p {
@@ -92,6 +96,15 @@
 		cite,
 		footer {
 			color: currentColor;
+		}
+
+		&.alignleft,
+		&.alignright {
+			padding: var(--global--spacing-unit);
+
+			blockquote {
+				max-width: initial;
+			}
 		}
 	}
 }

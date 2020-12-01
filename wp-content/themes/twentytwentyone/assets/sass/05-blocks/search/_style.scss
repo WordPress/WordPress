@@ -1,13 +1,6 @@
 .wp-block-search {
 	max-width: var(--responsive--aligndefault-width);
 
-	&__button-inside {
-
-		.wp-block-search__inside-wrapper {
-			background-color: var(--global--color-white);
-		}
-	}
-
 	&__button-only.aligncenter {
 
 		.wp-block-search__inside-wrapper {
@@ -35,8 +28,8 @@
 			border-color: var(--form--border-color);
 		}
 
-		.has-background:not(.has-background-background-color) &,
-		[class*="background-color"]:not(.has-background-background-color) &,
+		.has-background &,
+		[class*="background-color"] &,
 		[style*="background-color"] &,
 		.wp-block-cover[style*="background-image"] & {
 			border-color: currentColor;
@@ -112,6 +105,25 @@
 	}
 
 	&.wp-block-search__button-inside {
+
+		.wp-block-search__inside-wrapper {
+			background-color: var(--global--color-white);
+			border: var(--form--border-width) solid var(--form--border-color);
+			border-radius: var(--form--border-radius);
+
+			.wp-block-search__input {
+				margin-right: 0;
+
+				&:focus {
+					outline: 2px dotted var(--form--border-color);
+					outline-offset: -5px;
+
+					.is-dark-theme & {
+						outline-color: currentColor;
+					}
+				}
+			}
+		}
 
 		&.wp-block-search__text-button {
 

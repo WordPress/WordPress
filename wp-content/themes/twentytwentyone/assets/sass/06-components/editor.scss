@@ -30,7 +30,7 @@ body {
 
 // Enforce the custom link color even if a custom background color has been set.
 // The extra specificity here is required to override the background color styles.
-.has-background:not(.has-background-background-color) {
+.has-background {
 	// Target both current level and nested block.
 	.has-link-color a,
 	&.has-link-color a {

@@ -16,6 +16,10 @@
 		grid-template-columns: repeat(3, 1fr);
 	}
 
+	@include media(mobile-only) {
+		margin-top: calc(3 * var(--global--spacing-vertical));
+	}
+
 	ul {
 		list-style-type: none;
 		padding: 0;

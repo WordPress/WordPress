@@ -18,11 +18,11 @@
 	.wp-block-cover__inner-container,
 	.wp-block-cover-image-text,
 	.wp-block-cover-text {
-		color: currentColor; // uses text color specified with background-color options in /blocks/utilities/_style.scss
+		color: currentColor; // Uses text color specified with background-color options in 07-utilities\color-palette.scss
 		margin-top: var(--global--spacing-vertical);
 		margin-bottom: var(--global--spacing-vertical);
 
-		a {
+		a:not(.wp-block-button__link):not(.wp-block-file__button) {
 			color: currentColor;
 		}
 

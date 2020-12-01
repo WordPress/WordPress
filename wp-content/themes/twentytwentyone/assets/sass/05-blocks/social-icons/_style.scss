@@ -1,11 +1,18 @@
-.wp-block-social-links.is-style-twentytwentyone-social-icons-color {
+.wp-block-social-links {
 
-	a {
+	a:focus {
 		color: var(--global--color-primary);
 	}
 
-	.wp-social-link {
-		background: none;
-	}
+	&.is-style-twentytwentyone-social-icons-color {
 
+		a {
+			color: var(--global--color-primary);
+		}
+
+		.wp-social-link {
+			background: none;
+		}
+
+	}
 }

@@ -41,10 +41,19 @@ function twentytwentyoneCollapseMenuOnClickOutside( event ) {
  */
 function twentytwentyoneSubmenuPosition( li ) {
 	var subMenu = li.querySelector( 'ul.sub-menu' ),
-		rect = subMenu.getBoundingClientRect(),
-		right = Math.round( rect.right ),
-		left = Math.round( rect.left ),
-		windowWidth = Math.round( window.innerWidth );
+		rect,
+		right,
+		left,
+		windowWidth;
+
+	if ( ! subMenu ) {
+		return;
+	}
+
+	rect = subMenu.getBoundingClientRect();
+	right = Math.round( rect.right );
+	left = Math.round( rect.left );
+	windowWidth = Math.round( window.innerWidth );
 
 	if ( right > windowWidth ) {
 		subMenu.classList.add( 'submenu-reposition-right' );
