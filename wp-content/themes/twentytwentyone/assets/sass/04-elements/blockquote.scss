@@ -59,6 +59,8 @@ blockquote {
 		content: "\201C";
 		font-size: var(--quote--font-size);
 		line-height: var(--quote--line-height);
+		position: absolute;
+		left: calc(-0.5 * var(--global--spacing-horizontal));
 	}
 
 	.wp-block-quote__citation,

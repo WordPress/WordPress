@@ -19,7 +19,6 @@
 		content: "\201C";
 		font-size: var(--quote--font-size);
 		line-height: var(--quote--line-height);
-		position: absolute;
 		left: calc(-0.5 * var(--global--spacing-horizontal));
 	}
 
@@ -28,9 +27,9 @@
 		font-size: var(--global--font-size-xs);
 		font-style: var(--quote--font-style-cite);
 
-		.has-background:not(.has-background-background-color) &,
-		[class*="background-color"]:not(.has-background-background-color) &,
-		[style*="background-color"]:not(.has-background-background-color) &,
+		.has-background &,
+		[class*="background-color"] &,
+		[style*="background-color"] &,
 		.wp-block-cover[style*="background-image"] & {
 			color: currentColor;
 		}
@@ -41,10 +40,18 @@
 		padding-right: 0;
 		border-right: none;
 
+		// Hide the left aligned quote.
 		&:before {
+			display: none;
+		}
+
+		// Align the quote left of the text.
+		p:before {
 			content: "\201D";
-			left: initial;
-			right: calc(-0.5 * var(--global--spacing-horizontal));
+			font-size: var(--quote--font-size);
+			font-weight: normal;
+			line-height: var(--quote--line-height);
+			margin-right: 5px;
 		}
 	}
 
@@ -78,9 +85,18 @@
 
 		&.has-text-align-right {
 
+			// Hide the left aligned quote.
 			&:before {
-				left: initial;
-				right: calc(-1 * var(--global--spacing-horizontal));
+				display: none;
+			}
+
+			// Align the quote left of the text.
+			p:before {
+				content: "\201D";
+				font-size: var(--quote--font-size-large);
+				font-weight: normal;
+				line-height: var(--quote--line-height-large);
+				margin-right: 10px;
 			}
 		}
 

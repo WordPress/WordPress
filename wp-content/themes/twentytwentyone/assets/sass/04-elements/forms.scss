@@ -34,7 +34,6 @@ input[type="color"],
 	.is-dark-theme & {
 		background: var(--global--color-white-90);
 	}
-
 }
 
 // Reset the negative offset from normalize to make the thicker "border" work on focus.
@@ -216,8 +215,8 @@ input[type="radio"] + label {
 	input[type="range"]::-webkit-slider-thumb {
 		-webkit-appearance: none;
 		border: 3px solid var(--form--color-ranged);
-		height: 25px;
-		width: 25px;
+		height: 44px;
+		width: 44px;
 		border-radius: 50%;
 		background: var(--global--color-background);
 		cursor: pointer;
@@ -225,11 +224,12 @@ input[type="radio"] + label {
 
 	input[type="range"]::-moz-range-thumb {
 		border: 3px solid var(--form--color-ranged);
-		height: 25px;
-		width: 25px;
+		height: 44px;
+		width: 44px;
 		border-radius: 50%;
 		background: var(--global--color-background);
 		cursor: pointer;
+		box-sizing: border-box;
 	}
 }
 
@@ -256,8 +256,8 @@ input[type="range"]::-ms-fill-lower {
 
 input[type="range"]::-ms-thumb {
 	border: 3px solid var(--form--color-ranged);
-	height: 25px;
-	width: 25px;
+	height: 44px;
+	width: 44px;
 	border-radius: 50%;
 	background: var(--global--color-background);
 	cursor: pointer;

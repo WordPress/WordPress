@@ -13,8 +13,8 @@
 		--global--color-border: #9ea1a7;
 	}
 
-	.is-dark-theme.is-dark-theme .site a:focus,
-	.is-dark-theme.is-dark-theme .site a:focus .meta-nav {
+	.is-dark-theme.is-dark-theme .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button),
+	.is-dark-theme.is-dark-theme .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) .meta-nav {
 		background: #000;
 		color: #fff;
 		text-decoration: none;

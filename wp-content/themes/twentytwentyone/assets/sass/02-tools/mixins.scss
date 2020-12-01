@@ -17,35 +17,10 @@
 	}
 }
 
-// Crop Text Boundry
-// - Sets a fixed-width on content within alignwide and alignfull blocks
-@mixin crop-text($inset-line-height: 1) {
-
-	line-height: $inset-line-height;
-	$offset-top: calc(.5em * #{$inset-line-height} + -.38);
-	$offset-bottom: calc(.5em * #{$inset-line-height} + -.39);
-
-	&:before,
-	&:after {
-		content: "";
-		display: block;
-		height: 0;
-		width: 0;
-	}
-
-	&:before {
-		margin-bottom: -($offset-top);
-	}
-
-	&:after {
-		margin-top: -($offset-bottom);
-	}
-}
-
 // Button style
 // - Applies button styles to blocks and elements that share them.
 @mixin button-style() {
-	@include crop-text(var(--button--line-height));
+	line-height: var(--button--line-height);
 	color: var(--button--color-text);
 	cursor: pointer;
 	font-weight: var(--button--font-weight);
@@ -75,5 +50,24 @@
 		background-color: var(--global--color-white-50);
 		border-color: var(--global--color-white-50);
 		color: var(--button--color-text-active);
+	}
+}
+
+@mixin innerblock-margin-clear($container) {
+
+	// Clear the top margin for the first-child.
+	> #{$container} > *:first-child {
+		margin-top: 0;
+	}
+
+	// Last child that is not the appender.
+	> #{$container} > *:last-child:not(.block-list-appender) {
+		margin-bottom: 0;
+	}
+
+	// When selected, the last item becomes the second last because of the appender.
+	&.has-child-selected > #{$container} > *:nth-last-child(2),
+	&.is-selected > #{$container} > *:nth-last-child(2) {
+		margin-bottom: 0;
 	}
 }

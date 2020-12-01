@@ -15,17 +15,21 @@
 			if ( isDark ) {
 				document.body.classList.add( 'is-dark-theme' );
 				document.documentElement.classList.add( 'is-dark-theme' );
+				document.body.classList.remove( 'is-light-theme' );
+				document.documentElement.classList.remove( 'is-light-theme' );
 				document.documentElement.classList.remove( 'respect-color-scheme-preference' );
 			} else {
 				document.body.classList.remove( 'is-dark-theme' );
 				document.documentElement.classList.remove( 'is-dark-theme' );
+				document.body.classList.add( 'is-light-theme' );
+				document.documentElement.classList.add( 'is-light-theme' );
 				if ( wp.customize( 'respect_user_color_preference' ).get() ) {
 					document.documentElement.classList.add( 'respect-color-scheme-preference' );
 				}
 			}
 
 			// Toggle the white background class.
-			if ( '#ffffff' === to.toLowerCase() ) {
+			if ( 225 <= lum ) {
 				document.body.classList.add( 'has-background-white' );
 			} else {
 				document.body.classList.remove( 'has-background-white' );

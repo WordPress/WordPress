@@ -12,6 +12,8 @@
 		color: currentColor;
 		content: "\201C";
 		display: block;
+		position: relative; // Override the absolute position.
+		left: 0;
 		font-size: 3rem;
 		font-weight: 500;
 		line-height: 1;
@@ -92,5 +94,13 @@
 		blockquote {
 			padding: 0 calc(2 * var(--global--spacing-unit));
 		}
+	}
+}
+
+.wp-block[data-align="left"],
+.wp-block[data-align="right"] {
+
+	.wp-block-pullquote.is-style-solid-color {
+		padding: var(--global--spacing-unit);
 	}
 }

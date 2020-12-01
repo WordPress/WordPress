@@ -7,9 +7,17 @@ hr {
 
 	&.wp-block-separator {
 		border-bottom: var(--separator--height) solid var(--separator--border-color);
+		opacity: 1;
 
 		&:not(.is-style-dots):not(.alignwide) {
 			max-width: var(--responsive--aligndefault-width);
+		}
+
+		&:not(.is-style-dots) {
+
+			&.alignwide {
+				max-width: var(--responsive--alignwide-width);
+			}
 
 			&.alignfull {
 				max-width: var(--responsive--alignfull-width);
@@ -42,8 +50,8 @@ hr {
 			}
 		}
 
-		.has-background:not(.has-background-background-color) &,
-		[class*="background-color"]:not(.has-background-background-color) &,
+		.has-background &,
+		[class*="background-color"] &,
 		[style*="background-color"] &,
 		.wp-block-cover[style*="background-image"] & {
 			border-color: currentColor;

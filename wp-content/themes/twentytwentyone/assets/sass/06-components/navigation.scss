@@ -374,7 +374,7 @@
 					padding-right: var(--primary-nav--padding);
 
 					+ .sub-menu-toggle {
-						margin-left: calc(0px - var(--primary-nav--padding));
+						margin-left: calc(5px - var(--primary-nav--padding));
 					}
 				}
 			}
@@ -416,6 +416,7 @@
 			position: relative;
 			z-index: 99999; // Ensure focus styles appear above absolute positioned elements
 			outline-offset: 0;
+			text-decoration-thickness: 2px;
 		}
 	}
 

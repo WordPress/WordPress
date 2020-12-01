@@ -45,6 +45,14 @@
 						fill: var(--wp--style--color--link, var(--global--color-background));
 					}
 				}
+
+				// Change colors when the body background is white.
+				.has-background-white & {
+
+					.svg-icon {
+						fill: var(--wp--style--color--link, var(--global--color-white));
+					}
+				}
 			}
 		}
 

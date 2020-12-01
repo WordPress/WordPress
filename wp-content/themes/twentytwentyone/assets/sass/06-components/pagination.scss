@@ -11,6 +11,7 @@
 		&:hover {
 			color: var(--global--color-primary-hover);
 			text-decoration: underline;
+			text-decoration-style: dotted;
 		}
 
 		&:focus {
@@ -123,16 +124,7 @@
 		&:last-child {
 			margin-bottom: 0;
 		}
-
-		&:hover {
-
-			.post-title {
-				text-decoration: underline;
-				text-decoration-thickness: 1px;
-			}
-		}
 	}
-
 }
 
 // Index/archive navigation
@@ -157,6 +149,23 @@
 			color: var(--pagination--color-link-hover);
 		}
 
+		.is-dark-theme & {
+
+			a:active,
+			a:hover:active,
+			a:hover:focus {
+				color: var(--global--color-background);
+			}
+		}
+
+		.has-background-white & {
+
+			a:active,
+			a:hover:active,
+			a:hover:focus {
+				color: var(--global--color-white);
+			}
+		}
 	}
 
 	.nav-links > * {
@@ -169,7 +178,11 @@
 		margin-right: calc(0.66 * var(--global--spacing-unit));
 
 		&.current {
-			border-bottom: 1px solid var(--pagination--color-text);
+			text-decoration: underline;
+		}
+
+		&:not(.dots):not(.current):hover {
+			text-decoration-style: dotted;
 		}
 
 		&:first-child {
@@ -227,5 +240,4 @@
 	.nav-links > * {
 		font-size: var(--global--font-size-md);
 	}
-
 }

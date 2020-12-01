@@ -9,9 +9,9 @@
 		"Theme"
 	],
 	"bugs": {
-		"url": "https://github.com/wordpress/twentytwentyone"
+		"url": "https://core.trac.wordpress.org/"
 	},
-	"homepage": "https://github.com/wordpress/twentytwentyone",
+	"homepage": "https://wordpress.org/themes/twentytwentyone/",
 	"devDependencies": {
 		"@wordpress/browserslist-config": "^2.2.2",
 		"@wordpress/eslint-plugin": "^7.3.0",

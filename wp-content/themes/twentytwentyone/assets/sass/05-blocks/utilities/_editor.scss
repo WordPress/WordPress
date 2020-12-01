@@ -26,7 +26,6 @@
 }
 
 // Gutenberg text color options
-
 .has-primary-color[class] {
 	color: var(--global--color-primary);
 }
@@ -38,7 +37,7 @@
 // Gutenberg background-color options
 .has-background {
 
-	&:not(.has-background-background-color) a:not(.wp-block-button__link),
+	a,
 	p,
 	h1,
 	h2,
@@ -70,25 +69,13 @@
 	color: var(--global--color-primary);
 }
 
-/**
- * Spacing Overrides
- */
-
+// Spacing Overrides
 [data-block] {
 	margin-top: var(--global--spacing-vertical);
 	margin-bottom: var(--global--spacing-vertical);
-
-	[data-block]:first-child {
-		margin-top: 0;
-	}
-
-	// Needs to be the second-last child to avoid applying this to the appender.
-	[data-block]:nth-last-child(2) {
-		margin-bottom: 0;
-	}
 }
 
-/* Block Alignments */
+// Block Alignments
 .wp-block {
 
 	// Gutenberg injects a rule that limits the max width of .wp-block to 580px
@@ -140,4 +127,14 @@
 		max-width: 290px;
 		margin-left: var(--global--spacing-horizontal);
 	}
+}
+
+// Remove the border of blockquotes inside the classic block.
+.wp-block-freeform.block-library-rich-text__tinymce blockquote {
+	border: none;
+}
+
+// Adjust the position of the quote symbol for blockquotes inside the classic block.
+.wp-block-freeform.block-library-rich-text__tinymce blockquote:before {
+	left: 5px;
 }

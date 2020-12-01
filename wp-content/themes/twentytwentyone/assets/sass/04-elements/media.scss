@@ -17,11 +17,11 @@ video {
 	max-width: 100%;
 }
 
-
 /* Media captions */
 figcaption,
 .wp-caption,
-.wp-caption-text {
+.wp-caption-text,
+.wp-block-embed figcaption {
 	color: currentColor;
 	font-size: var(--global--font-size-xs);
 	line-height: var(--global--line-height-body);

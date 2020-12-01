@@ -15,11 +15,13 @@ a:hover {
 	text-decoration-skip-ink: none;
 }
 
-.site a:focus {
+.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) {
 
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 
+	text-decoration: underline 1px dotted currentColor;
+	text-decoration-skip-ink: none;
 	background: rgba(255, 255, 255, .9);
 
 	// Change text color when the body background is dark.
@@ -57,7 +59,7 @@ a:hover {
 
 // Enforce the custom link color even if a custom background color has been set.
 // The extra specificity here is required to override the background color styles.
-.has-background:not(.has-background-background-color) {
+.has-background {
 	// Target both current level and nested block.
 	.has-link-color a,
 	&.has-link-color a {

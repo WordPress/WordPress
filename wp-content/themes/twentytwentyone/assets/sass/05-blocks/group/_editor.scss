@@ -36,9 +36,7 @@
 		}
 	}
 
-	.wp-block-group__inner-container > *:last-child {
-		margin-bottom: 0;
-	}
+	@include innerblock-margin-clear(".wp-block-group__inner-container");
 }
 
 .wp-block-group .wp-block-group.has-background > .block-editor-block-list__layout > [data-align="full"] {

@@ -12,8 +12,8 @@
 		--button--color-background-active: var(--global--color-background);
 		--global--color-border: #9ea1a7;
 
-		.site a:focus,
-		.site a:focus .meta-nav {
+		.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button),
+		.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) .meta-nav {
 			background: #000;
 			color: #fff;
 			text-decoration: none;
