@@ -100,7 +100,8 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		$this->set_pagination_args(
 			array(
-				'total_items' => array_sum( (array) wp_count_attachments() ),
+				'total_items' => $wp_query->found_posts,
+				'total_pages' => $wp_query->max_num_pages,
 				'per_page'    => $wp_query->query_vars['posts_per_page'],
 			)
 		);
