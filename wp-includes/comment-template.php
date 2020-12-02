@@ -1033,7 +1033,7 @@ function comment_text( $comment_ID = 0, $args = array() ) {
  *
  * @since 1.5.0
  *
- * @param string $format    Optional. PHP date format. Defaults to the 'time_format' option.
+ * @param string $format    Optional. PHP time format. Defaults to the 'time_format' option.
  * @param bool   $gmt       Optional. Whether to use the GMT date. Default false.
  * @param bool   $translate Optional. Whether to translate the time (for use in feeds).
  *                          Default true.
@@ -1067,7 +1067,7 @@ function get_comment_time( $format = '', $gmt = false, $translate = true ) {
  *
  * @since 0.71
  *
- * @param string $format Optional. PHP date format. Defaults to the 'time_format' option.
+ * @param string $format Optional. PHP time format. Defaults to the 'time_format' option.
  */
 function comment_time( $format = '' ) {
 	echo get_comment_time( $format );
