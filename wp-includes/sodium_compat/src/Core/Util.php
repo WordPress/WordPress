@@ -903,6 +903,9 @@ abstract class ParagonIE_Sodium_Core_Util
      *
      * @internal You should not use this directly from another application
      *
+     * Note: MB_OVERLOAD_STRING === 2, but we don't reference the constant
+     * (for nuisance-free PHP 8 support)
+     *
      * @return bool
      */
     protected static function isMbStringOverride()
@@ -913,7 +916,8 @@ abstract class ParagonIE_Sodium_Core_Util
             $mbstring = extension_loaded('mbstring')
                 && defined('MB_OVERLOAD_STRING')
                 &&
-            ((int) (ini_get('mbstring.func_overload')) & MB_OVERLOAD_STRING);
+            ((int) (ini_get('mbstring.func_overload')) & 2);
+            // MB_OVERLOAD_STRING === 2
         }
         /** @var bool $mbstring */
 

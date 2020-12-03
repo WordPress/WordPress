@@ -243,6 +243,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             ParagonIE_Sodium_Compat::memzero($nonce);
             ParagonIE_Sodium_Compat::memzero($ephKeypair);
         } catch (SodiumException $ex) {
+            /** @psalm-suppress PossiblyUndefinedVariable */
             unset($ephKeypair);
         }
         return $res;
@@ -541,6 +542,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         try {
             ParagonIE_Sodium_Compat::memzero($key);
         } catch (SodiumException $ex) {
+            /** @psalm-suppress PossiblyUndefinedVariable */
             unset($key);
         }
         return $res;
