@@ -7626,8 +7626,6 @@ function get_dirsize( $directory, $max_execution_time = null ) {
  */
 function recurse_dirsize( $directory, $exclude = null, $max_execution_time = null, &$directory_cache = null ) {
 	$directory  = untrailingslashit( $directory );
-	$cache_path = untrailingslashit( str_replace( ABSPATH, '', $directory ) );
-
 	$save_cache = false;
 
 	if ( ! isset( $directory_cache ) ) {
@@ -7635,8 +7633,8 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 		$save_cache      = true;
 	}
 
-	if ( isset( $directory_cache[ $cache_path ] ) ) {
-		return $directory_cache[ $cache_path ];
+	if ( isset( $directory_cache[ $directory ] ) && is_int( $directory_cache[ $directory ] ) ) {
+		return $directory_cache[ $directory ];
 	}
 
 	if ( ! file_exists( $directory ) || ! is_dir( $directory ) || ! is_readable( $directory ) ) {
@@ -7705,7 +7703,7 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 		}
 	}
 
-	$directory_cache[ $cache_path ] = $size;
+	$directory_cache[ $directory ] = $size;
 
 	// Only write the transient on the top level call and not on recursive calls.
 	if ( $save_cache ) {
@@ -7731,12 +7729,12 @@ function clean_dirsize_cache( $path ) {
 		return;
 	}
 
-	$cache_path = untrailingslashit( str_replace( ABSPATH, '', $path ) );
-	unset( $directory_cache[ $cache_path ] );
+	$path = untrailingslashit( $path );
+	unset( $directory_cache[ $path ] );
 
-	while ( DIRECTORY_SEPARATOR !== $cache_path && '.' !== $cache_path && '..' !== $cache_path ) {
-		$cache_path = dirname( $cache_path );
-		unset( $directory_cache[ $cache_path ] );
+	while ( DIRECTORY_SEPARATOR !== $path && '.' !== $path && '..' !== $path ) {
+		$path = dirname( $path );
+		unset( $directory_cache[ $path ] );
 	}
 
 	set_transient( 'dirsize_cache', $directory_cache );

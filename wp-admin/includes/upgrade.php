@@ -874,7 +874,7 @@ function upgrade_all() {
 		upgrade_550();
 	}
 
-	if ( $wp_current_db_version < 49632 ) {
+	if ( $wp_current_db_version < 49735 ) {
 		upgrade_560();
 	}
 
@@ -2273,6 +2273,10 @@ function upgrade_560() {
 		 * See https://core.trac.wordpress.org/ticket/51723.
 		 */
 		save_mod_rewrite_rules();
+	}
+
+	if ( $wp_current_db_version < 49735 ) {
+		delete_transient( 'dirsize_cache' );
 	}
 }
 
