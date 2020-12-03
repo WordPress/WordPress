@@ -30542,7 +30542,7 @@ function ComboboxControl(_ref) {
       var message = hasMatchingSuggestions ? Object(external_this_wp_i18n_["sprintf"])(
       /* translators: %d: number of results. */
       Object(external_this_wp_i18n_["_n"])('%d result found, use up and down arrow keys to navigate.', '%d results found, use up and down arrow keys to navigate.', matchingSuggestions.length), matchingSuggestions.length) : Object(external_this_wp_i18n_["__"])('No results.');
-      Object(external_this_wp_a11y_["speak"])(message, 'assertive');
+      Object(external_this_wp_a11y_["speak"])(message, 'polite');
     }
   }, [matchingSuggestions, isExpanded]); // Disable reason: There is no appropriate role which describes the
   // input container intended accessible usability.
@@ -30568,6 +30568,7 @@ function ComboboxControl(_ref) {
     instanceId: instanceId,
     ref: inputContainer,
     value: isExpanded ? inputValue : currentLabel,
+    "aria-label": currentLabel ? "".concat(currentLabel, ", ").concat(label) : null,
     onFocus: onFocus,
     isExpanded: isExpanded,
     selectedSuggestionIndex: matchingSuggestions.indexOf(selectedSuggestion),
