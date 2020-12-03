@@ -14,8 +14,9 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
     /**
      * @internal You should not use this directly from another application
      *
-     * @param int[] $v
-     * @return int[]
+     * @param array<array-key, int> $v
+     * @return array<array-key, int>
+     *
      */
     public static function sipRound(array $v)
     {
@@ -26,27 +27,27 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
         );
 
         #  v1=ROTL(v1,13);
-        list($v[2], $v[3]) = self::rotl_64($v[2], $v[3], 13);
+        list($v[2], $v[3]) = self::rotl_64((int) $v[2], (int) $v[3], 13);
 
         #  v1 ^= v0;
-        $v[2] ^= $v[0];
-        $v[3] ^= $v[1];
+        $v[2] = (int) $v[2] ^ (int) $v[0];
+        $v[3] = (int) $v[3] ^ (int) $v[1];
 
         #  v0=ROTL(v0,32);
         list($v[0], $v[1]) = self::rotl_64((int) $v[0], (int) $v[1], 32);
 
         # v2 += v3;
         list($v[4], $v[5]) = self::add(
-            array($v[4], $v[5]),
-            array($v[6], $v[7])
+            array((int) $v[4], (int) $v[5]),
+            array((int) $v[6], (int) $v[7])
         );
 
         # v3=ROTL(v3,16);
-        list($v[6], $v[7]) = self::rotl_64($v[6], $v[7], 16);
+        list($v[6], $v[7]) = self::rotl_64((int) $v[6], (int) $v[7], 16);
 
         #  v3 ^= v2;
-        $v[6] ^= $v[4];
-        $v[7] ^= $v[5];
+        $v[6] = (int) $v[6] ^ (int) $v[4];
+        $v[7] = (int) $v[7] ^ (int) $v[5];
 
         # v0 += v3;
         list($v[0], $v[1]) = self::add(
@@ -58,8 +59,8 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
         list($v[6], $v[7]) = self::rotl_64((int) $v[6], (int) $v[7], 21);
 
         # v3 ^= v0;
-        $v[6] ^= $v[0];
-        $v[7] ^= $v[1];
+        $v[6] = (int) $v[6] ^ (int) $v[0];
+        $v[7] = (int) $v[7] ^ (int) $v[1];
 
         # v2 += v1;
         list($v[4], $v[5]) = self::add(
@@ -71,8 +72,8 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
         list($v[2], $v[3]) = self::rotl_64((int) $v[2], (int) $v[3], 17);
 
         #  v1 ^= v2;;
-        $v[2] ^= $v[4];
-        $v[3] ^= $v[5];
+        $v[2] = (int) $v[2] ^ (int) $v[4];
+        $v[3] = (int) $v[3] ^ (int) $v[5];
 
         # v2=ROTL(v2,32)
         list($v[4], $v[5]) = self::rotl_64((int) $v[4], (int) $v[5], 32);
