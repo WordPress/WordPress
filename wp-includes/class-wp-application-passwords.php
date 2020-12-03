@@ -203,7 +203,7 @@ class WP_Application_Passwords {
 
 			// Only record activity once a day.
 			if ( $password['last_used'] + DAY_IN_SECONDS > time() ) {
-				continue;
+				return true;
 			}
 
 			$password['last_used'] = time();
