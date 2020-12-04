@@ -313,6 +313,10 @@ function wp_authenticate_application_password( $input_user, $username, $password
 		return $input_user;
 	}
 
+	if ( ! WP_Application_Passwords::is_in_use() ) {
+		return $input_user;
+	}
+
 	$is_api_request = ( ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) );
 
 	/**

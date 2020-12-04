@@ -88,6 +88,18 @@ if ( is_wp_error( $is_valid ) ) {
 	);
 }
 
+if ( ! empty( $_SERVER['PHP_AUTH_USER'] ) || ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
+	wp_die(
+		__( 'Your website appears to use Basic Authentication, which is not currently compatible with Application Passwords.' ),
+		__( 'Cannot Authorize Application' ),
+		array(
+			'response'  => 501,
+			'link_text' => __( 'Go Back' ),
+			'link_url'  => $reject_url ? add_query_arg( 'error', 'disabled', $reject_url ) : admin_url(),
+		)
+	);
+}
+
 if ( ! wp_is_application_passwords_available_for_user( $user ) ) {
 	if ( wp_is_application_passwords_available() ) {
 		$message = __( 'Application passwords are not available for your account. Please contact the site administrator for assistance.' );

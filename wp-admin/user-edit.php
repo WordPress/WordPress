@@ -738,27 +738,34 @@ endif;
 					<?php
 				}
 			}
-			?>
-		<div class="create-application-password form-wrap">
-			<div class="form-field">
-				<label for="new_application_password_name"><?php _e( 'New Application Password Name' ); ?></label>
-				<input type="text" size="30" id="new_application_password_name" name="new_application_password_name" placeholder="<?php esc_attr_e( 'WordPress App on My Phone' ); ?>" class="input" aria-required="true" aria-describedby="new_application_password_name_desc" />
-				<p class="description" id="new_application_password_name_desc"><?php _e( 'Required to create an Application Password, but not to update the user.' ); ?></p>
+
+			if ( empty( $_SERVER['PHP_AUTH_USER'] ) && empty( $_SERVER['PHP_AUTH_PW'] ) ) {
+				?>
+			<div class="create-application-password form-wrap">
+				<div class="form-field">
+					<label for="new_application_password_name"><?php _e( 'New Application Password Name' ); ?></label>
+					<input type="text" size="30" id="new_application_password_name" name="new_application_password_name" placeholder="<?php esc_attr_e( 'WordPress App on My Phone' ); ?>" class="input" aria-required="true" aria-describedby="new_application_password_name_desc" />
+					<p class="description" id="new_application_password_name_desc"><?php _e( 'Required to create an Application Password, but not to update the user.' ); ?></p>
+				</div>
+
+				<?php
+				/**
+				 * Fires in the create Application Passwords form.
+				 *
+				 * @since 5.6.0
+				 *
+				 * @param WP_User $profileuser The current WP_User object.
+				 */
+				do_action( 'wp_create_application_password_form', $profileuser );
+				?>
+
+				<?php submit_button( __( 'Add New Application Password' ), 'secondary', 'do_new_application_password' ); ?>
 			</div>
-
-			<?php
-			/**
-			 * Fires in the create Application Passwords form.
-			 *
-			 * @since 5.6.0
-			 *
-			 * @param WP_User $profileuser The current WP_User object.
-			 */
-			do_action( 'wp_create_application_password_form', $profileuser );
-			?>
-
-			<?php submit_button( __( 'Add New Application Password' ), 'secondary', 'do_new_application_password' ); ?>
-		</div>
+		<?php } else { ?>
+			<div class="notice notice-error inline">
+				<p><?php _e( 'Your website appears to use Basic Authentication, which is not currently compatible with Application Passwords.' ); ?></p>
+			</div>
+		<?php } ?>
 
 		<div class="application-passwords-list-table-wrapper">
 			<?php
