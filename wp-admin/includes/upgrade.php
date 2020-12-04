@@ -874,7 +874,7 @@ function upgrade_all() {
 		upgrade_550();
 	}
 
-	if ( $wp_current_db_version < 49735 ) {
+	if ( $wp_current_db_version < 49752 ) {
 		upgrade_560();
 	}
 
@@ -2277,6 +2277,19 @@ function upgrade_560() {
 
 	if ( $wp_current_db_version < 49735 ) {
 		delete_transient( 'dirsize_cache' );
+	}
+
+	if ( $wp_current_db_version < 49752 ) {
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT 1 FROM {$wpdb->usermeta} WHERE meta_key = %s LIMIT 1",
+				WP_Application_Passwords::USERMETA_KEY_APPLICATION_PASSWORDS
+			)
+		);
+
+		if ( ! empty( $results ) ) {
+			update_site_option( WP_Application_Passwords::OPTION_KEY_IN_USE, 1 );
+		}
 	}
 }
 

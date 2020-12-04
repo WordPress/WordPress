@@ -23,6 +23,15 @@ class WP_Application_Passwords {
 	const USERMETA_KEY_APPLICATION_PASSWORDS = '_application_passwords';
 
 	/**
+	 * The option name used to store whether application passwords is in use.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @type string
+	 */
+	const OPTION_KEY_IN_USE = 'using_application_passwords';
+
+	/**
 	 * The generated application password length.
 	 *
 	 * @since 5.6.0
@@ -30,6 +39,19 @@ class WP_Application_Passwords {
 	 * @type int
 	 */
 	const PW_LENGTH = 24;
+
+	/**
+	 * Checks if Application Passwords are being used by the site.
+	 *
+	 * This returns true if at least one App Password has ever been created.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @return bool
+	 */
+	public static function is_in_use() {
+		return (bool) get_site_option( self::OPTION_KEY_IN_USE );
+	}
 
 	/**
 	 * Creates a new application password.
@@ -65,6 +87,10 @@ class WP_Application_Passwords {
 
 		if ( ! $saved ) {
 			return new WP_Error( 'db_error', __( 'Could not save application password.' ) );
+		}
+
+		if ( ! get_site_option( self::OPTION_KEY_IN_USE ) ) {
+			update_site_option( self::OPTION_KEY_IN_USE, true );
 		}
 
 		/**
