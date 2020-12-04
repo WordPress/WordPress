@@ -3505,7 +3505,7 @@ function is_gd_image( $image ) {
  *
  * @param int $width  Image width in pixels.
  * @param int $height Image height in pixels.
- * @return resource|GdImage The GD image resource or GdImage instance.
+ * @return resource|GdImage|false The GD image resource or GdImage instance on success. False on failure.
  */
 function wp_imagecreatetruecolor( $width, $height ) {
 	$img = imagecreatetruecolor( $width, $height );
