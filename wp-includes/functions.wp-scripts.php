@@ -122,7 +122,7 @@ function wp_print_scripts( $handles = false ) {
  * @see WP_Scripts::add_inline_script()
  *
  * @param string $handle   Name of the script to add the inline script to.
- * @param string $data     String containing the javascript to be added.
+ * @param string $data     String containing the JavaScript to be added.
  * @param string $position Optional. Whether to add the inline script before the handle
  *                         or after. Default 'after'.
  * @return bool True on success, false on failure.

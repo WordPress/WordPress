@@ -323,7 +323,7 @@ function login_footer( $input_id = '' ) {
 }
 
 /**
- * Outputs the Javascript to handle the form shaking on the login page.
+ * Outputs the JavaScript to handle the form shaking on the login page.
  *
  * @since 3.0.0
  */
