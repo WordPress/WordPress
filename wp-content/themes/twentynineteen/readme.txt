@@ -3,7 +3,7 @@ Contributors: wordpressdotorg
 Tags: one-column, flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, rtl-language-support, sticky-post, threaded-comments, translation-ready, block-patterns
 Requires at least: 4.9.6
 Tested up to: 5.6
-Stable tag: 1.7
+Stable tag: 1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 == Changelog ==
+
+= 1.8 =
+* Released: December 8, 2020
+
+https://codex.wordpress.org/Twenty_Nineteen_Theme_Changelog#Version_1.8
 
 = 1.7 =
 * Released: August 11, 2020
@@ -81,10 +86,9 @@ Initial release
 
 == Resources ==
 * normalize.css, © 2012-2018 Nicolas Gallagher and Jonathan Neal, MIT
-* Underscores, © 2012-2019 Automattic, Inc., GNU GPL v2 or later
+* Underscores, © 2012-2020 Automattic, Inc., GNU GPL v2 or later
 * Bundled block pattern images:
 	* Abstract Background by HD Wallpapers, CC0. https://stocksnap.io/photo/abstract-background-0SRRVNMKBX
 	* Abstract Waves by HD Wallpapers, CC0. https://stocksnap.io/photo/abstract-waves-0KREGLTZQ3
 	* Abstract Bokeh by HD Wallpapers, CC0. https://stocksnap.io/photo/abstract-bokeh-P4KVZBMQ6L
 	* Colorful Bokeh by HD Wallpapers, CC0. https://stocksnap.io/photo/colorful-bokeh-VN4G84GL8H
-

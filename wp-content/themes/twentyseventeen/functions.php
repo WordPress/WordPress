@@ -454,7 +454,7 @@ function twentyseventeen_scripts() {
 	wp_enqueue_style( 'twentyseventeen-fonts', twentyseventeen_fonts_url(), array(), null );
 
 	// Theme stylesheet.
-	wp_enqueue_style( 'twentyseventeen-style', get_stylesheet_uri(), array(), '20190507' );
+	wp_enqueue_style( 'twentyseventeen-style', get_stylesheet_uri(), array(), '20201208' );
 
 	// Theme block stylesheet.
 	wp_enqueue_style( 'twentyseventeen-block-style', get_theme_file_uri( '/assets/css/blocks.css' ), array( 'twentyseventeen-style' ), '20190105' );
@@ -515,7 +515,7 @@ add_action( 'wp_enqueue_scripts', 'twentyseventeen_scripts' );
  */
 function twentyseventeen_block_editor_styles() {
 	// Block styles.
-	wp_enqueue_style( 'twentyseventeen-block-editor-style', get_theme_file_uri( '/assets/css/editor-blocks.css' ), array(), '20190328' );
+	wp_enqueue_style( 'twentyseventeen-block-editor-style', get_theme_file_uri( '/assets/css/editor-blocks.css' ), array(), '20201208' );
 	// Add custom fonts.
 	wp_enqueue_style( 'twentyseventeen-fonts', twentyseventeen_fonts_url(), array(), null );
 }

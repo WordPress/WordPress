@@ -410,7 +410,7 @@ add_filter( 'wp_resource_hints', 'twentyfourteen_resource_hints', 10, 2 );
  */
 function twentyfourteen_block_editor_styles() {
 	// Block styles.
-	wp_enqueue_style( 'twentyfourteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20190102' );
+	wp_enqueue_style( 'twentyfourteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20201208' );
 	// Add custom fonts.
 	wp_enqueue_style( 'twentyfourteen-fonts', twentyfourteen_font_url(), array(), null );
 }

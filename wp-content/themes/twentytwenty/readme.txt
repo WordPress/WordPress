@@ -1,7 +1,7 @@
 === Twenty Twenty ===
 Contributors: the WordPress team
 Tested up to: 5.6
-Stable tag: 1.5
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,11 @@ all elements on your site are automatically calculated based on the colors
 you pick, ensuring a high, accessible color contrast for your visitors.
 
 == Changelog ==
+
+= 1.6 =
+* Released: December 8, 2020
+
+https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.6
 
 = 1.5 =
 * Released: August 11, 2020
@@ -120,4 +125,4 @@ Included as part of the following classes and functions:
 - twentytwenty_unique_id()
 
 Underscores
-https://underscores.me/, (C) 2012-2019 Automattic, Inc., [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)
+https://underscores.me/, (C) 2012-2020 Automattic, Inc., [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)
