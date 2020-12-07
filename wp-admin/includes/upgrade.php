@@ -2288,7 +2288,8 @@ function upgrade_560() {
 		);
 
 		if ( ! empty( $results ) ) {
-			update_site_option( WP_Application_Passwords::OPTION_KEY_IN_USE, 1 );
+			$network_id = get_main_network_id();
+			update_network_option( $network_id, WP_Application_Passwords::OPTION_KEY_IN_USE, 1 );
 		}
 	}
 }
