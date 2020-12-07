@@ -99,7 +99,7 @@ while ( have_posts() ) {
 			}
 			?>
 		</footer><!-- .entry-footer -->
-	</article><!-- #post-## -->
+	</article><!-- #post-<?php the_ID(); ?> -->
 	<?php
 	// If comments are open or there is at least one comment, load up the comment template.
 	if ( comments_open() || get_comments_number() ) {
