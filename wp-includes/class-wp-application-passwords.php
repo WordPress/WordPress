@@ -50,7 +50,8 @@ class WP_Application_Passwords {
 	 * @return bool
 	 */
 	public static function is_in_use() {
-		return (bool) get_site_option( self::OPTION_KEY_IN_USE );
+		$network_id = get_main_network_id();
+		return (bool) get_network_option( $network_id, self::OPTION_KEY_IN_USE );
 	}
 
 	/**
@@ -89,8 +90,9 @@ class WP_Application_Passwords {
 			return new WP_Error( 'db_error', __( 'Could not save application password.' ) );
 		}
 
-		if ( ! get_site_option( self::OPTION_KEY_IN_USE ) ) {
-			update_site_option( self::OPTION_KEY_IN_USE, true );
+		$network_id = get_main_network_id();
+		if ( ! get_network_option( $network_id, self::OPTION_KEY_IN_USE ) ) {
+			update_network_option( $network_id, self::OPTION_KEY_IN_USE, true );
 		}
 
 		/**
