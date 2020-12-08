@@ -1,0 +1,136 @@
+version: 2.1
+jobs:
+  phplint:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - run:
+          name: "Building"
+          command: |
+            echo "export PATH=$HOME/.composer/vendor/bin:$PATH" >> $BASH_ENV
+            source /home/circleci/.bashrc
+            sudo sh -c "printf '\ndeb http://ftp.us.debian.org/debian sid main\n' >> /etc/apt/sources.list"
+            git submodule update --init
+            composer global require --dev automattic/vipwpcs dealerdirect/phpcodesniffer-composer-installer overtrue/phplint phpmd/phpmd sebastian/phpcpd
+            sudo sed -i 's/memory_limit = 128M/memory_limit = 2048M/' /usr/local/etc/php/php.ini-development
+            sudo sed -i 's/memory_limit = 128M/memory_limit = 2048M/' /usr/local/etc/php/php.ini-production
+      - run:
+          name: "Run PHPlint"
+          command: |
+            regexp="[[:digit:]]\+$"
+            PR_NUMBER=`echo $CIRCLE_PULL_REQUEST | grep -o $regexp`
+            url="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls/$PR_NUMBER"
+            target_branch=$(curl -s -X GET -G $url -d access_token=$GITHUB_TOKEN | jq '.base.ref' | tr -d '"')
+            echo "Resetting $target_branch to where the remote version is..."
+            git checkout -q $target_branch
+            git reset --hard -q origin/$target_branch
+            git checkout -q $CIRCLE_BRANCH
+            echo "Getting list of changed files..."
+            changed_files=$(git diff --diff-filter=ad --name-only $target_branch..$CIRCLE_BRANCH -- '*.php')
+            phplint --extensions=php $changed_files
+  phpcpd:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - run:
+          name: "Building"
+          command: |
+            echo "export PATH=$HOME/.composer/vendor/bin:$PATH" >> $BASH_ENV
+            source /home/circleci/.bashrc
+            sudo sh -c "printf '\ndeb http://ftp.us.debian.org/debian sid main\n' >> /etc/apt/sources.list"
+            git submodule update --init
+            composer global require --dev automattic/vipwpcs dealerdirect/phpcodesniffer-composer-installer overtrue/phplint phpmd/phpmd sebastian/phpcpd
+            sudo sed -i 's/memory_limit = 128M/memory_limit = 2048M/' /usr/local/etc/php/php.ini-development
+            sudo sed -i 's/memory_limit = 128M/memory_limit = 2048M/' /usr/local/etc/php/php.ini-production
+      - run:
+          name: "Run PHPCPD"
+          command: |
+            regexp="[[:digit:]]\+$"
+            PR_NUMBER=`echo $CIRCLE_PULL_REQUEST | grep -o $regexp`
+            url="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls/$PR_NUMBER"
+            target_branch=$(curl -s -X GET -G $url -d access_token=$GITHUB_TOKEN | jq '.base.ref' | tr -d '"')
+            echo "Resetting $target_branch to where the remote version is..."
+            git checkout -q $target_branch
+            git reset --hard -q origin/$target_branch
+            git checkout -q $CIRCLE_BRANCH
+            echo "Getting list of changed files..."
+            changed_files=$(git diff --diff-filter=ad --name-only $target_branch..$CIRCLE_BRANCH -- '*.php')
+            phpcpd $changed_files
+  phpmd:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - run:
+          name: "Building"
+          command: |
+            echo "export PATH=$HOME/.composer/vendor/bin:$PATH" >> $BASH_ENV
+            source /home/circleci/.bashrc
+            sudo sh -c "printf '\ndeb http://ftp.us.debian.org/debian sid main\n' >> /etc/apt/sources.list"
+            git submodule update --init
+            composer global require --dev automattic/vipwpcs dealerdirect/phpcodesniffer-composer-installer overtrue/phplint phpmd/phpmd sebastian/phpcpd
+            sudo sed -i 's/memory_limit = 128M/memory_limit = 2048M/' /usr/local/etc/php/php.ini-development
+            sudo sed -i 's/memory_limit = 128M/memory_limit = 2048M/' /usr/local/etc/php/php.ini-production
+      - run:
+          name: "Run PHPMD"
+          command: |
+            regexp="[[:digit:]]\+$"
+            PR_NUMBER=`echo $CIRCLE_PULL_REQUEST | grep -o $regexp`
+            url="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls/$PR_NUMBER"
+            target_branch=$(curl -s -X GET -G $url -d access_token=$GITHUB_TOKEN | jq '.base.ref' | tr -d '"')
+            echo "Resetting $target_branch to where the remote version is..."
+            git checkout -q $target_branch
+            git reset --hard -q origin/$target_branch
+            git checkout -q $CIRCLE_BRANCH
+            echo "Getting list of changed files..."
+            changed_files=$(git diff --diff-filter=ad --name-only $target_branch..$CIRCLE_BRANCH -- '*.php')
+            mkdir ~/phpmd
+            cp --parents $changed_files ~/phpmd
+            phpmd ~/phpmd ansi codesize,unusedcode,naming
+  phpcs:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - run:
+          name: "Building"
+          command: |
+            echo "export PATH=$HOME/.composer/vendor/bin:$PATH" >> $BASH_ENV
+            source /home/circleci/.bashrc
+            sudo sh -c "printf '\ndeb http://ftp.us.debian.org/debian sid main\n' >> /etc/apt/sources.list"
+            git submodule update --init
+            composer global require --dev automattic/vipwpcs dealerdirect/phpcodesniffer-composer-installer overtrue/phplint phpmd/phpmd sebastian/phpcpd
+            sudo sed -i 's/memory_limit = 128M/memory_limit = 2048M/' /usr/local/etc/php/php.ini-development
+            sudo sed -i 's/memory_limit = 128M/memory_limit = 2048M/' /usr/local/etc/php/php.ini-production
+      - run:
+          name: "Run PHPCS"
+          command: |
+            regexp="[[:digit:]]\+$"
+            PR_NUMBER=`echo $CIRCLE_PULL_REQUEST | grep -o $regexp`
+            url="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls/$PR_NUMBER"
+            target_branch=$(curl -s -X GET -G $url -d access_token=$GITHUB_TOKEN | jq '.base.ref' | tr -d '"')
+            echo "Resetting $target_branch to where the remote version is..."
+            git checkout -q $target_branch
+            git reset --hard -q origin/$target_branch
+            git checkout -q $CIRCLE_BRANCH
+            echo "Getting list of changed files..."
+            changed_files=$(git diff --diff-filter=ad --name-only $target_branch..$CIRCLE_BRANCH -- '*.php')
+            phpcs --config-set ignore_warnings_on_exit 1
+            phpcs --standard=WordPress-Extra,WordPress-VIP-Go --colors --report=emacs --extensions=php -s -p -v --basepath=. $changed_files
+workflows:
+  testing:
+    jobs:
+      - phplint:
+          context:
+            - github_token
+      - phpcpd:
+          context:
+            - github_token
+      - phpmd:
+          context:
+            - github_token
+      - phpcs:
+          context:
+            - github_token
