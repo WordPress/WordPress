@@ -108,7 +108,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section">
 			<div class="column about__image is-edge-to-edge">
-				<img src="https://make.wordpress.org/core/files/2020/11/TT1-Screenshots-Compressed.jpg" alt="" />
+				<img src="https://s.w.org/images/core/5.6/twentytwentyone-layouts.jpg" alt="" />
 			</div>
 		</div>
 
@@ -146,7 +146,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section">
 			<div class="column about__image is-edge-to-edge">
-				<img src="https://make.wordpress.org/core/files/2020/11/Rainbow-Compressed.png" alt="" />
+				<img src="https://s.w.org/images/core/5.6/twentytwentyone-rainbow.png" alt="" />
 			</div>
 		</div>
 
