@@ -877,6 +877,10 @@ table.form-table td .updated p {
 	max-width: 768px;
 }
 
+.authorize-application-php .form-wrap p {
+	display: block !important;
+}
+
 /*------------------------------------------------------------------------------
   19.0 - Tools
 ------------------------------------------------------------------------------*/
