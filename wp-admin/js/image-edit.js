@@ -302,7 +302,7 @@
 				}
 			}
 
-			// Reset size to it's original state.
+			// Reset size to its original state.
 			if ( setSize ) {
 				if ( !history.length ) {
 					this.hold.w = this.hold.ow;

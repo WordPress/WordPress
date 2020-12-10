@@ -1008,7 +1008,7 @@ class WP_REST_Server {
 	}
 
 	/**
-	 * Matches a request object to it's handler.
+	 * Matches a request object to its handler.
 	 *
 	 * @access private
 	 * @since 5.6.0

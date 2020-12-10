@@ -7712,7 +7712,7 @@
 			/**
 			 * Trash the current changes.
 			 *
-			 * Revert the Customizer to it's previously-published state.
+			 * Revert the Customizer to its previously-published state.
 			 *
 			 * @since 4.9.0
 			 *
