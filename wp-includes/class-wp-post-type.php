@@ -123,7 +123,7 @@ final class WP_Post_Type {
 	 * Default is the value of $show_ui.
 	 *
 	 * @since 4.6.0
-	 * @var bool $show_in_menu
+	 * @var bool|string $show_in_menu
 	 */
 	public $show_in_menu = null;
 

@@ -306,7 +306,8 @@ function wp_authenticate_cookie( $user, $username, $password ) {
  *                                          callback failed authentication.
  * @param string                $username   Username for authentication.
  * @param string                $password   Password for authentication.
- * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
+ * @return WP_User|WP_Error|null WP_User on success, WP_Error on failure, null if
+ *                               null is passed in and this isn't an API request.
  */
 function wp_authenticate_application_password( $input_user, $username, $password ) {
 	if ( $input_user instanceof WP_User ) {

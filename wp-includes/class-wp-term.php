@@ -44,7 +44,7 @@ final class WP_Term {
 	 * The term's term_group.
 	 *
 	 * @since 4.4.0
-	 * @var string
+	 * @var int
 	 */
 	public $term_group = '';
 
@@ -204,7 +204,7 @@ final class WP_Term {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string $filter Filter context. Accepts 'edit', 'db', 'display', 'attribute', 'js', 'raw'.
+	 * @param string $filter Filter context. Accepts 'edit', 'db', 'display', 'attribute', 'js', 'rss', or 'raw'.
 	 */
 	public function filter( $filter ) {
 		sanitize_term( $this, $this->taxonomy, $filter );
