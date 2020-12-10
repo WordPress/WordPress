@@ -18,7 +18,7 @@ class WP_Application_Passwords {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @type string
+	 * @var string
 	 */
 	const USERMETA_KEY_APPLICATION_PASSWORDS = '_application_passwords';
 
@@ -27,7 +27,7 @@ class WP_Application_Passwords {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @type string
+	 * @var string
 	 */
 	const OPTION_KEY_IN_USE = 'using_application_passwords';
 
@@ -36,7 +36,7 @@ class WP_Application_Passwords {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @type int
+	 * @var int
 	 */
 	const PW_LENGTH = 24;
 

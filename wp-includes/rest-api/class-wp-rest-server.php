@@ -1439,6 +1439,8 @@ class WP_REST_Server {
 		/**
 		 * Filters the maximum number of requests that can be included in a batch.
 		 *
+		 * @since 5.6.0
+		 *
 		 * @param int $max_size The maximum size.
 		 */
 		return apply_filters( 'rest_get_max_batch_size', 25 );
