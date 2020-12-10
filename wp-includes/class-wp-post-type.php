@@ -40,7 +40,7 @@ final class WP_Post_Type {
 	 * @see get_post_type_labels()
 	 *
 	 * @since 4.6.0
-	 * @var object $labels
+	 * @var stdClass $labels
 	 */
 	public $labels;
 
@@ -158,7 +158,7 @@ final class WP_Post_Type {
 	public $menu_position = null;
 
 	/**
-	 * The URL to the icon to be used for this menu.
+	 * The URL or reference to the icon to be used for this menu.
 	 *
 	 * Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme.
 	 * This should begin with 'data:image/svg+xml;base64,'. Pass the name of a Dashicons helper class
@@ -317,7 +317,7 @@ final class WP_Post_Type {
 	 * Post type capabilities.
 	 *
 	 * @since 4.6.0
-	 * @var object $cap
+	 * @var stdClass $cap
 	 */
 	public $cap;
 
@@ -381,6 +381,8 @@ final class WP_Post_Type {
 	/**
 	 * Constructor.
 	 *
+	 * See the register_post_type() function for accepted arguments for `$args`.
+	 *
 	 * Will populate object properties from the provided arguments and assign other
 	 * default properties based on that information.
 	 *
@@ -401,6 +403,8 @@ final class WP_Post_Type {
 	/**
 	 * Sets post type properties.
 	 *
+	 * See the register_post_type() function for accepted arguments for `$args`.
+	 *
 	 * @since 4.6.0
 	 *
 	 * @param array|string $args Array or string of arguments for registering a post type.
@@ -414,6 +418,7 @@ final class WP_Post_Type {
 		 * @since 4.4.0
 		 *
 		 * @param array  $args      Array of arguments for registering a post type.
+		 *                          See the register_post_type() function for accepted arguments.
 		 * @param string $post_type Post type key.
 		 */
 		$args = apply_filters( 'register_post_type_args', $args, $this->name );

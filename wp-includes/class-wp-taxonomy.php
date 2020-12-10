@@ -38,7 +38,7 @@ final class WP_Taxonomy {
 	 * @see get_taxonomy_labels()
 	 *
 	 * @since 4.7.0
-	 * @var object
+	 * @var stdClass
 	 */
 	public $labels;
 
@@ -152,7 +152,7 @@ final class WP_Taxonomy {
 	 * Capabilities for this taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @var object
+	 * @var stdClass
 	 */
 	public $cap;
 
@@ -239,6 +239,8 @@ final class WP_Taxonomy {
 	/**
 	 * Constructor.
 	 *
+	 * See the register_taxonomy() function for accepted arguments for `$args`.
+	 *
 	 * @since 4.7.0
 	 *
 	 * @global WP $wp Current WordPress environment instance.
@@ -257,6 +259,8 @@ final class WP_Taxonomy {
 	/**
 	 * Sets taxonomy properties.
 	 *
+	 * See the register_taxonomy() function for accepted arguments for `$args`.
+	 *
 	 * @since 4.7.0
 	 *
 	 * @param array|string $object_type Name of the object type for the taxonomy object.
@@ -271,6 +275,7 @@ final class WP_Taxonomy {
 		 * @since 4.4.0
 		 *
 		 * @param array    $args        Array of arguments for registering a taxonomy.
+		 *                              See the register_taxonomy() function for accepted arguments.
 		 * @param string   $taxonomy    Taxonomy key.
 		 * @param string[] $object_type Array of names of object types for the taxonomy.
 		 */
