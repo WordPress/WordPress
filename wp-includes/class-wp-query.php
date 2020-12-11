@@ -1761,6 +1761,8 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return WP_Post[]|int[] Array of post objects or post IDs.
 	 */
 	public function get_posts() {
@@ -3230,11 +3232,14 @@ class WP_Query {
 	 *
 	 * @since 3.5.0
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @param array  $q      Query variables.
 	 * @param string $limits LIMIT clauses of the query.
 	 */
 	private function set_found_posts( $q, $limits ) {
 		global $wpdb;
+
 		// Bail if posts is an empty array. Continue if posts is an empty string,
 		// null, or false to accommodate caching plugins that fill posts later.
 		if ( $q['no_found_rows'] || ( is_array( $this->posts ) && ! $this->posts ) ) {
