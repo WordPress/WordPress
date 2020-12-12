@@ -47,9 +47,9 @@ while ( have_posts() ) :
 		$twentytwentyone_post_type_name = $twentytwentyone_post_type->labels->singular_name;
 	}
 
-	/* translators: %s: The post-type singlular name (example: Post, Page etc) */
+	/* translators: %s: The post-type singular name (example: Post, Page, etc.) */
 	$twentytwentyone_next_label = sprintf( esc_html__( 'Next %s', 'twentytwentyone' ), $twentytwentyone_post_type_name );
-	/* translators: %s: The post-type singlular name (example: Post, Page etc) */
+	/* translators: %s: The post-type singular name (example: Post, Page, etc.) */
 	$twentytwentyone_previous_label = sprintf( esc_html__( 'Previous %s', 'twentytwentyone' ), $twentytwentyone_post_type_name );
 
 	the_post_navigation(
