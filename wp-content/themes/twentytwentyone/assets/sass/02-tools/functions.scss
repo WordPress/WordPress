@@ -46,16 +46,16 @@
 	@return $map;
 }
 
-// ep set function to set a value in nested maps
-// uthor Hugo Giraudel
-// ccess public
-// aram {Map} $map - Map
-// aram {List} $keys -  Key chaine
-// aram {*} $value - Value to assign
-// eturn {Map}
+// Deep set function to set a value in nested maps
+// @author Hugo Giraudel
+// @access public
+// @param {Map} $map - Map
+// @param {List} $keys -  Key chaine
+// @param {*} $value - Value to assign
+// @return {Map}
 //
-// ample:
-// _prefix-default-config: map-deep-set($__prefix-default-config, "layouts" "M", 650px);
+// Example:
+// $__prefix-default-config: map-deep-set($__prefix-default-config, "layouts" "M", 650px);
 @function map-deep-set($map, $keys, $value) {
 	$maps: ($map);
 	$result: null;
@@ -63,7 +63,7 @@
 	// If the last key is a map already
 	// Warn the user we will be overriding it with $value
 	@if type-of(nth($keys, -1)) == "map" {
-		@warn "The last key you specified is a map; it will be overrided with `#{$value}`.";
+		@warn "The last key you specified is a map; it will be overridden with `#{$value}`.";
 	}
 
 	// If $keys is a single key
