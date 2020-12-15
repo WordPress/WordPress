@@ -7,11 +7,12 @@
  */
 
 /**
- * Maps meta capabilities to primitive capabilities.
+ * Maps a capability to the primitive capabilities required of the given user to
+ * satisfy the capability being checked.
  *
  * This function also accepts an ID of an object to map against if the capability is a meta capability. Meta
  * capabilities such as `edit_post` and `edit_user` are capabilities used by this function to map to primitive
- * capabilities that a user or role has, such as `edit_posts` and `edit_others_posts`.
+ * capabilities that a user or role requires, such as `edit_posts` and `edit_others_posts`.
  *
  * Example usage:
  *
@@ -19,10 +20,8 @@
  *     map_meta_cap( 'edit_post', $user->ID, $post->ID );
  *     map_meta_cap( 'edit_post_meta', $user->ID, $post->ID, $meta_key );
  *
- * This does not actually compare whether the user ID has the actual capability,
- * just what the capability or capabilities are. Meta capability list value can
- * be 'delete_user', 'edit_user', 'remove_user', 'promote_user', 'delete_post',
- * 'delete_page', 'edit_post', 'edit_page', 'read_post', or 'read_page'.
+ * This function does not check whether the user has the required capabilities,
+ * it just returns what the required capabilities are.
  *
  * @since 2.0.0
  * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
@@ -30,10 +29,10 @@
  *
  * @global array $post_type_meta_caps Used to get post type meta capabilities.
  *
- * @param string $cap     Capability name.
+ * @param string $cap     Capability being checked.
  * @param int    $user_id User ID.
  * @param mixed  ...$args Optional further parameters, typically starting with an object ID.
- * @return string[] Actual capabilities for meta capability.
+ * @return string[] Primitive capabilities required of the user.
  */
 function map_meta_cap( $cap, $user_id, ...$args ) {
 	$caps = array();
@@ -622,14 +621,16 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 	}
 
 	/**
-	 * Filters a user's capabilities depending on specific context and/or privilege.
+	 * Filters the primitive capabilities required of the given user to satisfy the
+	 * capability being checked.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param string[] $caps    Array of the user's capabilities.
-	 * @param string   $cap     Capability name.
+	 * @param string[] $caps    Primitive capabilities required of the user.
+	 * @param string   $cap     Capability being checked.
 	 * @param int      $user_id The user ID.
-	 * @param array    $args    Adds the context to the cap. Typically the object ID.
+	 * @param array    $args    Adds context to the capability check, typically
+	 *                          starting with an object ID.
 	 */
 	return apply_filters( 'map_meta_cap', $caps, $cap, $user_id, $args );
 }
