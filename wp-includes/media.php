@@ -1703,6 +1703,7 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
  * Determines whether to add the `loading` attribute to the specified tag in the specified context.
  *
  * @since 5.5.0
+ * @since 5.7.0 Now returns `true` by default for `iframe` tags.
  *
  * @param string $tag_name The tag name.
  * @param string $context  Additional context, like the current filter name
@@ -1710,9 +1711,10 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
  * @return bool Whether to add the attribute.
  */
 function wp_lazy_loading_enabled( $tag_name, $context ) {
-	// By default add to all 'img' tags.
+	// By default add to all 'img' and 'iframe' tags.
 	// See https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-loading
-	$default = ( 'img' === $tag_name );
+	// See https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-loading
+	$default = ( 'img' === $tag_name || 'iframe' === $tag_name );
 
 	/**
 	 * Filters whether to add the `loading` attribute to the specified tag in the specified context.
@@ -1732,14 +1734,17 @@ function wp_lazy_loading_enabled( $tag_name, $context ) {
  *
  * Modifies HTML tags in post content to include new browser and HTML technologies
  * that may not have existed at the time of post creation. These modifications currently
- * include adding `srcset`, `sizes`, and `loading` attributes to `img` HTML tags.
+ * include adding `srcset`, `sizes`, and `loading` attributes to `img` HTML tags, as well
+ * as adding `loading` attributes to `iframe` HTML tags.
  * Future similar optimizations should be added/expected here.
  *
  * @since 5.5.0
+ * @since 5.7.0 Now supports adding `loading` attributes to `iframe` tags.
  *
  * @see wp_img_tag_add_width_and_height_attr()
  * @see wp_img_tag_add_srcset_and_sizes_attr()
  * @see wp_img_tag_add_loading_attr()
+ * @see wp_iframe_tag_add_loading_attr()
  *
  * @param string $content The HTML content to be filtered.
  * @param string $context Optional. Additional context to pass to the filters.
@@ -1751,32 +1756,40 @@ function wp_filter_content_tags( $content, $context = null ) {
 		$context = current_filter();
 	}
 
-	$add_loading_attr = wp_lazy_loading_enabled( 'img', $context );
+	$add_img_loading_attr    = wp_lazy_loading_enabled( 'img', $context );
+	$add_iframe_loading_attr = wp_lazy_loading_enabled( 'iframe', $context );
 
-	if ( false === strpos( $content, '<img' ) ) {
-		return $content;
-	}
-
-	if ( ! preg_match_all( '/<img\s[^>]+>/', $content, $matches ) ) {
+	if ( ! preg_match_all( '/<(img|iframe)\s[^>]+>/', $content, $matches, PREG_SET_ORDER ) ) {
 		return $content;
 	}
 
 	// List of the unique `img` tags found in $content.
 	$images = array();
 
-	foreach ( $matches[0] as $image ) {
-		if ( preg_match( '/wp-image-([0-9]+)/i', $image, $class_id ) ) {
-			$attachment_id = absint( $class_id[1] );
+	// List of the unique `iframe` tags found in $content.
+	$iframes = array();
 
-			if ( $attachment_id ) {
-				// If exactly the same image tag is used more than once, overwrite it.
-				// All identical tags will be replaced later with 'str_replace()'.
-				$images[ $image ] = $attachment_id;
-				continue;
-			}
+	foreach ( $matches as $match ) {
+		list( $tag, $tag_name ) = $match;
+
+		switch ( $tag_name ) {
+			case 'img':
+				if ( preg_match( '/wp-image-([0-9]+)/i', $tag, $class_id ) ) {
+					$attachment_id = absint( $class_id[1] );
+
+					if ( $attachment_id ) {
+						// If exactly the same image tag is used more than once, overwrite it.
+						// All identical tags will be replaced later with 'str_replace()'.
+						$images[ $tag ] = $attachment_id;
+						break;
+					}
+				}
+				$images[ $tag ] = 0;
+				break;
+			case 'iframe':
+				$iframes[ $tag ] = 0;
+				break;
 		}
-
-		$images[ $image ] = 0;
 	}
 
 	// Reduce the array to unique attachment IDs.
@@ -1804,12 +1817,25 @@ function wp_filter_content_tags( $content, $context = null ) {
 		}
 
 		// Add 'loading' attribute if applicable.
-		if ( $add_loading_attr && false === strpos( $filtered_image, ' loading=' ) ) {
+		if ( $add_img_loading_attr && false === strpos( $filtered_image, ' loading=' ) ) {
 			$filtered_image = wp_img_tag_add_loading_attr( $filtered_image, $context );
 		}
 
 		if ( $filtered_image !== $image ) {
 			$content = str_replace( $image, $filtered_image, $content );
+		}
+	}
+
+	foreach ( $iframes as $iframe => $attachment_id ) {
+		$filtered_iframe = $iframe;
+
+		// Add 'loading' attribute if applicable.
+		if ( $add_iframe_loading_attr && false === strpos( $filtered_iframe, ' loading=' ) ) {
+			$filtered_iframe = wp_iframe_tag_add_loading_attr( $filtered_iframe, $context );
+		}
+
+		if ( $filtered_iframe !== $iframe ) {
+			$content = str_replace( $iframe, $filtered_iframe, $content );
 		}
 	}
 
@@ -1827,7 +1853,7 @@ function wp_filter_content_tags( $content, $context = null ) {
  */
 function wp_img_tag_add_loading_attr( $image, $context ) {
 	/**
-	 * Filters the `loading` attribute value. Default `lazy`.
+	 * Filters the `loading` attribute value to add to an image. Default `lazy`.
 	 *
 	 * Returning `false` or an empty string will not add the attribute.
 	 * Returning `true` will add the default value.
@@ -1934,6 +1960,47 @@ function wp_img_tag_add_srcset_and_sizes_attr( $image, $context, $attachment_id 
 	}
 
 	return $image;
+}
+
+/**
+ * Adds `loading` attribute to an `iframe` HTML tag.
+ *
+ * @since 5.7.0
+ *
+ * @param string $iframe  The HTML `iframe` tag where the attribute should be added.
+ * @param string $context Additional context to pass to the filters.
+ * @return string Converted `iframe` tag with `loading` attribute added.
+ */
+function wp_iframe_tag_add_loading_attr( $iframe, $context ) {
+	/**
+	 * Filters the `loading` attribute value to add to an iframe. Default `lazy`.
+	 *
+	 * Returning `false` or an empty string will not add the attribute.
+	 * Returning `true` will add the default value.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param string|bool $value   The `loading` attribute value. Returning a falsey value will result in
+	 *                             the attribute being omitted for the iframe. Default 'lazy'.
+	 * @param string      $iframe  The HTML `iframe` tag to be filtered.
+	 * @param string      $context Additional context about how the function was called or where the iframe tag is.
+	 */
+	$value = apply_filters( 'wp_iframe_tag_add_loading_attr', 'lazy', $iframe, $context );
+
+	if ( $value ) {
+		if ( ! in_array( $value, array( 'lazy', 'eager' ), true ) ) {
+			$value = 'lazy';
+		}
+
+		// Iframes should have source and dimension attributes for the `loading` attribute to be added.
+		if ( false === strpos( $iframe, ' src="' ) || false === strpos( $iframe, ' width="' ) || false === strpos( $iframe, ' height="' ) ) {
+			return $iframe;
+		}
+
+		return str_replace( '<iframe', '<iframe loading="' . esc_attr( $value ) . '"', $iframe );
+	}
+
+	return $iframe;
 }
 
 /**
