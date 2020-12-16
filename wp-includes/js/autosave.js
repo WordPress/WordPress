@@ -36,8 +36,24 @@ window.autosave = function() {
 	 */
 	function autosave() {
 		var initialCompareString,
-			lastTriggerSave = 0,
-			$document = $(document);
+			initialCompareData = {},
+			lastTriggerSave    = 0,
+			$document          = $( document );
+
+		/**
+		 * Sets the initial compare data.
+		 *
+		 * @since 5.6.1
+		 */
+		function setInitialCompare() {
+			initialCompareData = {
+				post_title: $( '#title' ).val() || '',
+				content: $( '#content' ).val() || '',
+				excerpt: $( '#excerpt' ).val() || ''
+			};
+
+			initialCompareString = getCompareString( initialCompareData );
+		}
 
 		/**
 		 * Returns the data saved in both local and remote autosave.
@@ -686,6 +702,32 @@ window.autosave = function() {
 			 * @return {boolean} True if the post has been changed.
 			 */
 			function postChanged() {
+				var changed = false;
+
+				// If there are TinyMCE instances, loop through them.
+				if ( window.tinymce ) {
+					window.tinymce.each( [ 'content', 'excerpt' ], function( field ) {
+						var editor = window.tinymce.get( field );
+
+						if ( ! editor || editor.isHidden() ) {
+							if ( $( '#' + field ).val() !== initialCompareData[ field ] ) {
+								changed = true;
+								// Break.
+								return false;
+							}
+						} else if ( editor.isDirty() ) {
+							changed = true;
+							return false;
+						}
+					} );
+
+					if ( $( '#title' ).val() !== initialCompareData.post_title ) {
+						changed = true;
+					}
+
+					return changed;
+				}
+
 				return getCompareString() !== initialCompareString;
 			}
 
@@ -832,16 +874,16 @@ window.autosave = function() {
 		 * @return {void}
 		 */
 		$document.on( 'tinymce-editor-init.autosave', function( event, editor ) {
-			if ( editor.id === 'content' ) {
+			// Reset the initialCompare data after the TinyMCE instances have been initialized.
+			if ( 'content' === editor.id || 'excerpt' === editor.id ) {
 				window.setTimeout( function() {
 					editor.save();
-					initialCompareString = getCompareString();
+					setInitialCompare();
 				}, 1000 );
 			}
 		}).ready( function() {
-
 			// Set the initial compare string in case TinyMCE is not used or not loaded first.
-			initialCompareString = getCompareString();
+			setInitialCompare();
 		});
 
 		return {
