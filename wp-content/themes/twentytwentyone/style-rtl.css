@@ -34,7 +34,7 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
  * Breakpoints..........Mixins and variables for responsive styles
  * Vertical-margins.....Vertical spacing for the main components.
  * Reset................Reset specific elements to make them easier to style in other contexts.
- * Clearings............Clearnings for the main components.
+ * Clearings............Clearings for the main components.
  *
  * ELEMENTS
  * Blockquote...........Default blockquote.
@@ -59,7 +59,7 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
  * Latest posts.........Specific styles for the latest posts block.
  * Legacy...............Specific styles for the legacy gallery.
  * List.................Specific styles for the list block.
- * Meda text............Specific styles for the media and text block.
+ * Media text...........Specific styles for the media and text block.
  * Navigation...........Specific styles for the navigation block.
  * Paragraph............Specific styles for the paragraph block.
  * Pullquote............Specific styles for the pullquote block.
@@ -721,7 +721,7 @@ template {
 }
 
 /**
- * Repsonsive Styles
+ * Responsive Styles
  */
 
 /**
@@ -833,7 +833,7 @@ template {
  *
  * - Set vertical margins and responsive widths on
  *   top-level wrappers and content wrappers
- * - `--global--width-content` is a responsive veriable
+ * - `--global--width-content` is a responsive variable
  * - See: globals/_global-width-responsive.scss
  */
 
@@ -864,7 +864,7 @@ template {
 
 /**
  * Site-main children wrappers
- * - Add double vertical margins here for clearer heirarchy
+ * - Add double vertical margins here for clearer hierarchy
  */
 .site-main > * {
 	margin-top: calc(3 * var(--global--spacing-vertical));
