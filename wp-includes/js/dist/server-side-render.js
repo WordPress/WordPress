@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["serverSideRender"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 501);
+/******/ 	return __webpack_require__(__webpack_require__.s = 500);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -358,7 +358,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 501:
+/***/ 500:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

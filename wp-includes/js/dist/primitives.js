@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["primitives"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 496);
+/******/ 	return __webpack_require__(__webpack_require__.s = 495);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -144,7 +144,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 496:
+/***/ 495:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

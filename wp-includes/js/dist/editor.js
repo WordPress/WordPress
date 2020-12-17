@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["editor"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 471);
+/******/ 	return __webpack_require__(__webpack_require__.s = 470);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1247,7 +1247,7 @@ if (false) { var throwOnDirectAccess, ReactIs; } else {
 /***/ 293:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(453);
+module.exports = __webpack_require__(452);
 
 
 /***/ }),
@@ -1458,7 +1458,7 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ 453:
+/***/ 452:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1631,7 +1631,7 @@ function separateState(state) {
 
 /***/ }),
 
-/***/ 471:
+/***/ 470:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

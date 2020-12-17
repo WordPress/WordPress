@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["wordcount"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 483);
+/******/ 	return __webpack_require__(__webpack_require__.s = 482);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["wordcount"] =
 
 /***/ }),
 
-/***/ 483:
+/***/ 482:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

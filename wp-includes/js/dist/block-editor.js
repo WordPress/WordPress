@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockEditor"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 469);
+/******/ 	return __webpack_require__(__webpack_require__.s = 468);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -13713,8 +13713,7 @@ var media = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElemen
 /* 465 */,
 /* 466 */,
 /* 467 */,
-/* 468 */,
-/* 469 */
+/* 468 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

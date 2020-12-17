@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["tokenList"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 464);
+/******/ 	return __webpack_require__(__webpack_require__.s = 463);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -137,7 +137,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 464:
+/***/ 463:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

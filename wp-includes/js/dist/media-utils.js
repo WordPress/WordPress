@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["mediaUtils"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 494);
+/******/ 	return __webpack_require__(__webpack_require__.s = 493);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -475,7 +475,7 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ 494:
+/***/ 493:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

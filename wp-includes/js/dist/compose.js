@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 477);
+/******/ 	return __webpack_require__(__webpack_require__.s = 476);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -2523,7 +2523,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 443:
+/***/ 442:
 /***/ (function(module, exports) {
 
 /**
@@ -2576,7 +2576,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 477:
+/***/ 476:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3378,7 +3378,7 @@ var mousetrap_mousetrap = __webpack_require__(289);
 var mousetrap_default = /*#__PURE__*/__webpack_require__.n(mousetrap_mousetrap);
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
-var mousetrap_global_bind = __webpack_require__(443);
+var mousetrap_global_bind = __webpack_require__(442);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-keyboard-shortcut/index.js
 /**

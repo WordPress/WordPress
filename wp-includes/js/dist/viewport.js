@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["viewport"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 487);
+/******/ 	return __webpack_require__(__webpack_require__.s = 486);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -227,7 +227,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 487:
+/***/ 486:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
