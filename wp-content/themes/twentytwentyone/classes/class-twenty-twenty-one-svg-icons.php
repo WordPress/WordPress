@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_One
- * @since 1.0.0
+ * @since Twenty Twenty-One 1.0
  */
 
 /**
@@ -17,7 +17,7 @@
  * All icons are assumed to have equal width and height, hence the option
  * to only specify a `$size` parameter in the svg methods.
  *
- * @since 1.0.0
+ * @since Twenty Twenty-One 1.0
  */
 class Twenty_Twenty_One_SVG_Icons {
 
@@ -26,7 +26,7 @@ class Twenty_Twenty_One_SVG_Icons {
 	 *
 	 * @access protected
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @var array
 	 */
@@ -44,7 +44,7 @@ class Twenty_Twenty_One_SVG_Icons {
 	 *
 	 * @access protected
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @var array
 	 */
@@ -95,7 +95,7 @@ class Twenty_Twenty_One_SVG_Icons {
 	 * By default, each Icon ID is matched against a .com TLD. To override this behavior,
 	 * specify all the domains it covers (including the .com TLD too, if applicable).
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @var array
 	 */
@@ -150,7 +150,7 @@ class Twenty_Twenty_One_SVG_Icons {
 	 *
 	 * @access public
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @param string $group the icon group.
 	 * @param string $icon The icon.
@@ -174,7 +174,7 @@ class Twenty_Twenty_One_SVG_Icons {
 		 * The dynamic portion of the hook name, `$group`, refers to
 		 * the name of the group of icons, either "ui" or "social".
 		 *
-		 * @since 1.0.0
+		 * @since Twenty Twenty-One 1.0
 		 *
 		 * @param array $arr Array of icons.
 		 */
@@ -198,7 +198,7 @@ class Twenty_Twenty_One_SVG_Icons {
 	 *
 	 * @access public
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @param string $uri Social link.
 	 * @param int    $size The icon-size in pixels.
@@ -217,7 +217,7 @@ class Twenty_Twenty_One_SVG_Icons {
 			 * By default, each Icon ID is matched against a .com TLD. To override this behavior,
 			 * specify all the domains it covers (including the .com TLD too, if applicable).
 			 *
-			 * @since 1.0.0
+			 * @since Twenty Twenty-One 1.0
 			 *
 			 * @param array $social_icons_map Array of default social icons.
 			 */
@@ -226,7 +226,7 @@ class Twenty_Twenty_One_SVG_Icons {
 			/**
 			 * Filters Twenty Twenty-One's array of social icons.
 			 *
-			 * @since 1.0.0
+			 * @since Twenty Twenty-One 1.0
 			 *
 			 * @param array $social_icons Array of default social icons.
 			 */

@@ -8,13 +8,13 @@
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_One
- * @since 1.0.0
+ * @since Twenty Twenty-One 1.0
  */
 
 /**
  * Display upgrade notice on theme switch.
  *
- * @since 1.0.0
+ * @since Twenty Twenty-One 1.0
  *
  * @return void
  */
@@ -29,7 +29,7 @@ add_action( 'after_switch_theme', 'twenty_twenty_one_switch_theme' );
  * Prints an update nag after an unsuccessful attempt to switch to
  * the theme on WordPress versions prior to 5.3.
  *
- * @since 1.0.0
+ * @since Twenty Twenty-One 1.0
  *
  * @global string $wp_version WordPress version.
  *
@@ -48,7 +48,7 @@ function twenty_twenty_one_upgrade_notice() {
 /**
  * Prevents the Customizer from being loaded on WordPress versions prior to 5.3.
  *
- * @since 1.0.0
+ * @since Twenty Twenty-One 1.0
  *
  * @global string $wp_version WordPress version.
  *
@@ -72,7 +72,7 @@ add_action( 'load-customize.php', 'twenty_twenty_one_customize' );
 /**
  * Prevents the Theme Preview from being loaded on WordPress versions prior to 5.3.
  *
- * @since 1.0.0
+ * @since Twenty Twenty-One 1.0
  *
  * @global string $wp_version WordPress version.
  *

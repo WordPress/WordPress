@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_One
- * @since 1.0.0
+ * @since Twenty Twenty-One 1.0
  */
 
 the_title( '<h1 class="entry-title">', '</h1>' );

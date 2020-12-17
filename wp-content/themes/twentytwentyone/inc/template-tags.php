@@ -4,14 +4,14 @@
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_One
- * @since 1.0.0
+ * @since Twenty Twenty-One 1.0
  */
 
 if ( ! function_exists( 'twenty_twenty_one_posted_on' ) ) {
 	/**
 	 * Prints HTML with meta information for the current post-date/time.
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ if ( ! function_exists( 'twenty_twenty_one_posted_by' ) ) {
 	/**
 	 * Prints HTML with meta information about theme author.
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ if ( ! function_exists( 'twenty_twenty_one_entry_meta_footer' ) ) {
 	 * Prints HTML with meta information for the categories, tags and comments.
 	 * Footer entry meta is displayed differently in archives and single posts.
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return void
 	 */
@@ -176,7 +176,7 @@ if ( ! function_exists( 'twenty_twenty_one_post_thumbnail' ) ) {
 	 * Wraps the post thumbnail in an anchor element on index views, or a div
 	 * element when on single views.
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return void
 	 */
@@ -218,7 +218,7 @@ if ( ! function_exists( 'twenty_twenty_one_the_posts_navigation' ) ) {
 	/**
 	 * Print the next and previous posts navigation.
 	 *
-	 * @since 1.0.0
+	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return void
 	 */
