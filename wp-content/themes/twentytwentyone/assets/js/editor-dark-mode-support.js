@@ -10,7 +10,7 @@ if ( document.body.classList.contains( 'twentytwentyone-supports-dark-theme' ) )
  *
  * Wait for the editor to load by periodically checking for an element, then we add the classes.
  *
- * @since 1.0.0
+ * @since Twenty Twenty-One 1.0
  *
  * @param {number} attempt Track the number of tries
  * @return {void}
