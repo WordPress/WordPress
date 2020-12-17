@@ -5866,12 +5866,6 @@ h1.entry-title {
 	margin: 30px 0 !important;
 	max-width: 100% !important;
 }
-@media only screen and (min-width: 482px) {
-
-	.entry-content > iframe[style] {
-		max-width: 30px !important;
-	}
-}
 
 .entry-footer {
 	color: #28303d;
