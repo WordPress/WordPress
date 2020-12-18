@@ -209,12 +209,12 @@ if ( current_theme_supports( 'custom-background' ) && current_user_can( 'customi
 
 unset( $appearance_cap );
 
-// Add 'Editor' to the bottom of the Appearance menu.
+// Add 'Theme Editor' to the bottom of the Appearance menu.
 if ( ! is_multisite() ) {
 	add_action( 'admin_menu', '_add_themes_utility_last', 101 );
 }
 /**
- * Adds the (theme) 'Editor' link to the bottom of the Appearance menu.
+ * Adds the 'Theme Editor' link to the bottom of the Appearance menu.
  *
  * @access private
  * @since 3.0.0
