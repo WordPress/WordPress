@@ -24,7 +24,7 @@ if ( have_posts() ) {
 				<?php
 				if ( ! empty( $post->post_parent ) ) :
 					/* translators: %s: Post title. */
-					$post_tile = sprintf( __( 'Go to %s', 'twentyten' ), strip_tags( get_the_title( $post->post_parent ) ) );
+					$post_title = sprintf( __( 'Go to %s', 'twentyten' ), strip_tags( get_the_title( $post->post_parent ) ) );
 					?>
 					<p class="page-title"><a href="<?php echo esc_url( get_permalink( $post->post_parent ) ); ?>" title="<?php echo esc_attr( $post_title ); ?>" rel="gallery">
 						<?php
