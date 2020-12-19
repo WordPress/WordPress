@@ -21,7 +21,7 @@ Take it for a spin! See how Twenty Twenty-One elevates your portfolio, business 
 2. Type in Twenty Twenty-One in the search form and press the 'Enter' key on your keyboard.
 3. Click on the 'Activate' button to use your new theme right away.
 4. Go to INSERT ABOUT PAGE for a guide on how to customize this theme.
-5. Navigate to Appearance > Customize in your admin panel and customize to taste.
+5. Navigate to Appearance > Customize in your admin panel and customize to your taste.
 
 == Privacy ==
 Twenty Twenty-One uses LocalStorage to save the setting when Dark Mode support is turned on or off.
