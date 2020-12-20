@@ -371,7 +371,7 @@ window.wp = window.wp || {};
 		 * Using DomQuery syntax to create it, since it's used as both text and as a DOM element.
 		 *
 		 * @param {Object} domLib DOM library instance.
-		 * @param {string} content The content to insert into the cusror marker element.
+		 * @param {string} content The content to insert into the cursor marker element.
 		 */
 		function getCursorMarkerSpan( domLib, content ) {
 			return domLib( '<span>' ).css( {
