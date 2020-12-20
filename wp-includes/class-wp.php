@@ -597,8 +597,8 @@ class WP {
 			$GLOBALS['single'] = 1;
 		}
 
-		if ( $wp_query->is_author() && isset( $wp_query->post ) ) {
-			$GLOBALS['authordata'] = get_userdata( $wp_query->post->post_author );
+		if ( $wp_query->is_author() ) {
+			$GLOBALS['authordata'] = get_userdata( get_queried_object_id() );
 		}
 	}
 
