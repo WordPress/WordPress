@@ -2573,6 +2573,7 @@ input[type=reset]:hover {
 }
 
 .wp-block-code code {
+	color: #28303d;
 	font-size: 1rem;
 	white-space: pre;
 	overflow-x: auto;
