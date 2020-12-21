@@ -31,13 +31,7 @@ function get_locale() {
 	global $locale, $wp_local_package;
 
 	if ( isset( $locale ) ) {
-		/**
-		 * Filters the locale ID of the WordPress installation.
-		 *
-		 * @since 1.5.0
-		 *
-		 * @param string $locale The locale ID.
-		 */
+		/** This filter is documented in wp-includes/l10n.php */
 		return apply_filters( 'locale', $locale );
 	}
 
@@ -76,7 +70,13 @@ function get_locale() {
 		$locale = 'en_US';
 	}
 
-	/** This filter is documented in wp-includes/l10n.php */
+	/**
+	 * Filters the locale ID of the WordPress installation.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $locale The locale ID.
+	 */
 	return apply_filters( 'locale', $locale );
 }
 
