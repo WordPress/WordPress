@@ -2034,14 +2034,7 @@ function sanitize_file_name( $filename ) {
 
 	// Return if only one extension.
 	if ( count( $parts ) <= 2 ) {
-		/**
-		 * Filters a sanitized filename string.
-		 *
-		 * @since 2.8.0
-		 *
-		 * @param string $filename     Sanitized filename.
-		 * @param string $filename_raw The filename prior to sanitization.
-		 */
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'sanitize_file_name', $filename, $filename_raw );
 	}
 
@@ -2074,7 +2067,14 @@ function sanitize_file_name( $filename ) {
 
 	$filename .= '.' . $extension;
 
-	/** This filter is documented in wp-includes/formatting.php */
+	/**
+	 * Filters a sanitized filename string.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $filename     Sanitized filename.
+	 * @param string $filename_raw The filename prior to sanitization.
+	 */
 	return apply_filters( 'sanitize_file_name', $filename, $filename_raw );
 }
 
