@@ -150,6 +150,23 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 			}
 		} );
 
+		/**
+		 * Close menu and scroll to anchor when an anchor link is clicked.
+		 * Adapted from TwentyTwenty.
+		 */
+		document.addEventListener( 'click', function( event ) {
+			// If target onclick is <a> with # within the href attribute
+			if ( event.target.hash && event.target.hash.includes( '#' ) ) {
+				wrapper.classList.remove( id + '-navigation-open', 'lock-scrolling' );
+				twentytwentyoneToggleAriaExpanded( mobileButton );
+				// Wait 550 and scroll to the anchor.
+				setTimeout(function () {
+					var anchor = document.getElementById(event.target.hash.slice(1));
+					anchor.scrollIntoView();
+				}, 550);
+			}
+		} );
+
 		document.getElementById( 'site-navigation' ).querySelectorAll( '.menu-wrapper > .menu-item-has-children' ).forEach( function( li ) {
 			li.addEventListener( 'mouseenter', function() {
 				this.querySelector( '.sub-menu-toggle' ).setAttribute( 'aria-expanded', 'true' );
