@@ -286,8 +286,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			 *
 			 * @since 3.5.0
 			 *
-			 * @param string   $error The XML-RPC error message.
-			 * @param WP_Error $user  WP_Error object.
+			 * @param IXR_Error $error The XML-RPC error message.
+			 * @param WP_Error  $user  WP_Error object.
 			 */
 			$this->error = apply_filters( 'xmlrpc_login_error', $this->error, $user );
 			return false;
