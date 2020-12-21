@@ -4155,12 +4155,6 @@ h1.entry-title {
 	margin: var(--global--spacing-vertical) 0 !important;
 	max-width: 100% !important;
 }
-@media only screen and (min-width: 482px) {
-
-	.entry-content > iframe[style] {
-		max-width: var(--global--spacing-vertical) !important;
-	}
-}
 
 .entry-footer {
 	color: var(--global--color-primary);
