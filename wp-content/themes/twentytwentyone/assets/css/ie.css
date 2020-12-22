@@ -1475,6 +1475,7 @@ input[type=text] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=email] {
@@ -1484,6 +1485,7 @@ input[type=email] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=url] {
@@ -1493,6 +1495,7 @@ input[type=url] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=password] {
@@ -1502,6 +1505,7 @@ input[type=password] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=search] {
@@ -1511,6 +1515,7 @@ input[type=search] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=number] {
@@ -1520,6 +1525,7 @@ input[type=number] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=tel] {
@@ -1529,6 +1535,7 @@ input[type=tel] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=date] {
@@ -1538,6 +1545,7 @@ input[type=date] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=month] {
@@ -1547,6 +1555,7 @@ input[type=month] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=week] {
@@ -1556,6 +1565,7 @@ input[type=week] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=time] {
@@ -1565,6 +1575,7 @@ input[type=time] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=datetime] {
@@ -1574,6 +1585,7 @@ input[type=datetime] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=datetime-local] {
@@ -1583,6 +1595,7 @@ input[type=datetime-local] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=color] {
@@ -1592,6 +1605,7 @@ input[type=color] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 .site textarea {
@@ -1601,6 +1615,7 @@ input[type=color] {
 	line-height: 1.7;
 	padding: 10px;
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=text]:focus {

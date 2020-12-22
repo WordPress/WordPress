@@ -1225,6 +1225,7 @@ input[type=color],
 	line-height: var(--global--line-height-body);
 	padding: var(--form--spacing-unit);
 	margin: 0 2px;
+	max-width: 100%;
 }
 
 input[type=text]:focus,
