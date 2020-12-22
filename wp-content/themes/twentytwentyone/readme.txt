@@ -3,7 +3,7 @@ Contributors: wordpressdotorg
 Requires at least: 5.3
 Tested up to: 5.6
 Requires PHP: 5.6
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,10 +30,15 @@ No data is saved in the database or transferred.
 
 == Changelog ==
 
+= 1.1 =
+* Released: December 22, 2020
+
+https://wordpress.org/support/article/twenty-twenty-one-changelog#Version_1.1
+
 = 1.0 =
 * Released: December 8, 2020
 
-Initial release
+https://wordpress.org/support/article/twenty-twenty-one-changelog#Version_1.0
 
 == Copyright ==
 
