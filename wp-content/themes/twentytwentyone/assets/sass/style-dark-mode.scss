@@ -12,6 +12,10 @@
 		--button--color-background-active: var(--global--color-background);
 		--global--color-border: #9ea1a7;
 
+		/* Block: Table */
+		--table--stripes-border-color: rgba(240, 240, 240, 0.15);
+		--table--stripes-background-color: rgba(240, 240, 240, 0.15);
+
 		.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button),
 		.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) .meta-nav {
 			background: #000;

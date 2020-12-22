@@ -3518,6 +3518,13 @@ table,
 	border-collapse: collapse;
 }
 
+table thead,
+table tfoot,
+.wp-block-table thead,
+.wp-block-table tfoot {
+	text-align: center;
+}
+
 table th,
 .wp-block-table th {
 	font-family: var(--heading--font-family);
@@ -3531,14 +3538,22 @@ table th,
 	border: 1px solid;
 }
 
+table figcaption,
+.wp-block-table figcaption {
+	color: var(--global--color-primary);
+	font-size: var(--global--font-size-xs);
+}
+
 table.is-style-regular .has-background,
+table.is-style-stripes .has-background,
 table.is-style-stripes .has-background thead tr,
 table.is-style-stripes .has-background tfoot tr,
-table.is-style-stripes .has-background tbody tr:nth-child(even),
+table.is-style-stripes .has-background tbody tr,
 .wp-block-table.is-style-regular .has-background,
+.wp-block-table.is-style-stripes .has-background,
 .wp-block-table.is-style-stripes .has-background thead tr,
 .wp-block-table.is-style-stripes .has-background tfoot tr,
-.wp-block-table.is-style-stripes .has-background tbody tr:nth-child(even) {
+.wp-block-table.is-style-stripes .has-background tbody tr {
 	color: var(--table--has-background-text-color);
 }
 
@@ -3557,6 +3572,11 @@ table.is-style-stripes td,
 table.is-style-stripes tbody tr:nth-child(odd),
 .wp-block-table.is-style-stripes tbody tr:nth-child(odd) {
 	background-color: var(--table--stripes-background-color);
+}
+
+table.is-style-stripes .has-background tbody tr:nth-child(odd),
+.wp-block-table.is-style-stripes .has-background tbody tr:nth-child(odd) {
+	background-color: var(--global--color-white-90);
 }
 
 table.wp-calendar-table td,
