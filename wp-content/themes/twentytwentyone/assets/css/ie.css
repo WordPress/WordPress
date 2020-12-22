@@ -4985,6 +4985,13 @@ table,
 	border-collapse: collapse;
 }
 
+table thead,
+table tfoot,
+.wp-block-table thead,
+.wp-block-table tfoot {
+	text-align: center;
+}
+
 table th {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
@@ -5013,7 +5020,21 @@ table th {
 	border: 1px solid;
 }
 
+table figcaption {
+	color: #28303d;
+	font-size: 1rem;
+}
+
+.wp-block-table figcaption {
+	color: #28303d;
+	font-size: 1rem;
+}
+
 table.is-style-regular .has-background {
+	color: #28303d;
+}
+
+table.is-style-stripes .has-background {
 	color: #28303d;
 }
 
@@ -5025,11 +5046,15 @@ table.is-style-stripes .has-background tfoot tr {
 	color: #28303d;
 }
 
-table.is-style-stripes .has-background tbody tr:nth-child(even) {
+table.is-style-stripes .has-background tbody tr {
 	color: #28303d;
 }
 
 .wp-block-table.is-style-regular .has-background {
+	color: #28303d;
+}
+
+.wp-block-table.is-style-stripes .has-background {
 	color: #28303d;
 }
 
@@ -5041,7 +5066,7 @@ table.is-style-stripes .has-background tbody tr:nth-child(even) {
 	color: #28303d;
 }
 
-.wp-block-table.is-style-stripes .has-background tbody tr:nth-child(even) {
+.wp-block-table.is-style-stripes .has-background tbody tr {
 	color: #28303d;
 }
 
@@ -5066,6 +5091,14 @@ table.is-style-stripes tbody tr:nth-child(odd) {
 
 .wp-block-table.is-style-stripes tbody tr:nth-child(odd) {
 	background-color: #f0f0f0;
+}
+
+table.is-style-stripes .has-background tbody tr:nth-child(odd) {
+	background-color: rgba(255, 255, 255, 0.9);
+}
+
+.wp-block-table.is-style-stripes .has-background tbody tr:nth-child(odd) {
+	background-color: rgba(255, 255, 255, 0.9);
 }
 
 table.wp-calendar-table td,

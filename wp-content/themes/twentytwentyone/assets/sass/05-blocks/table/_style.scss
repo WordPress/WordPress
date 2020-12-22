@@ -4,6 +4,11 @@ table,
 	min-width: 240px;
 	border-collapse: collapse;
 
+	thead,
+	tfoot {
+		text-align: center;
+	}
+
 	th {
 		font-family: var(--heading--font-family);
 	}
@@ -14,10 +19,16 @@ table,
 		border: 1px solid;
 	}
 
+	figcaption {
+		color: var(--global--color-primary);
+		font-size: var(--global--font-size-xs);
+	}
+
 	&.is-style-regular .has-background,
+	&.is-style-stripes .has-background,
 	&.is-style-stripes .has-background thead tr,
 	&.is-style-stripes .has-background tfoot tr,
-	&.is-style-stripes .has-background tbody tr:nth-child(even) {
+	&.is-style-stripes .has-background tbody tr {
 		color: var(--table--has-background-text-color);
 	}
 
@@ -31,6 +42,10 @@ table,
 
 		tbody tr:nth-child(odd) {
 			background-color: var(--table--stripes-background-color);
+		}
+
+		.has-background tbody tr:nth-child(odd) {
+			background-color: var(--global--color-white-90);
 		}
 	}
 }

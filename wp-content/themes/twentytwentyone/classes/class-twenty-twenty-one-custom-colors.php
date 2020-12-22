@@ -74,8 +74,8 @@ class Twenty_Twenty_One_Custom_Colors {
 			$theme_css .= '--button--color-text-hover: ' . $this->custom_get_readable_color( $background_color ) . ';';
 
 			if ( '#fff' === $this->custom_get_readable_color( $background_color ) ) {
-				$theme_css .= '--table--stripes-border-color: var(--global--color-dark-gray);';
-				$theme_css .= '--table--stripes-background-color: var(--global--color-dark-gray);';
+				$theme_css .= '--table--stripes-border-color: rgba(240, 240, 240, 0.15);';
+				$theme_css .= '--table--stripes-background-color: rgba(240, 240, 240, 0.15);';
 			}
 		}
 
