@@ -396,7 +396,7 @@ add_action( 'after_setup_theme', 'twenty_twenty_one_content_width', 0 );
 function twenty_twenty_one_scripts() {
 	// Note, the is_IE global variable is defined by WordPress and is used
 	// to detect if the current browser is internet explorer.
-	global $is_IE;
+	global $is_IE, $wp_scripts;
 	if ( $is_IE ) {
 		// If IE 11 or below, use a flattened stylesheet with static values replacing CSS Variables.
 		wp_enqueue_style( 'twenty-twenty-one-style', get_template_directory_uri() . '/assets/css/ie.css', array(), wp_get_theme()->get( 'Version' ) );
@@ -416,12 +416,31 @@ function twenty_twenty_one_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
+	// Register the IE11 polyfill file.
 	wp_register_script(
-		'twenty-twenty-one-ie11-polyfills',
+		'twenty-twenty-one-ie11-polyfills-asset',
 		get_template_directory_uri() . '/assets/js/polyfills.js',
 		array(),
 		wp_get_theme()->get( 'Version' ),
 		true
+	);
+
+	// Register the IE11 polyfill loader.
+	wp_register_script(
+		'twenty-twenty-one-ie11-polyfills',
+		null,
+		array(),
+		wp_get_theme()->get( 'Version' ),
+		true
+	);
+	wp_add_inline_script(
+		'twenty-twenty-one-ie11-polyfills',
+		wp_get_script_polyfill(
+			$wp_scripts,
+			array(
+				'Element.prototype.matches && Element.prototype.closest && window.NodeList && NodeList.prototype.forEach' => 'twenty-twenty-one-ie11-polyfills-asset',
+			)
+		)
 	);
 
 	// Main navigation scripts.
