@@ -20,6 +20,7 @@ input[type="color"],
 	padding: var(--form--spacing-unit);
 	// Gives a little more space for the outline offset.
 	margin: 0 2px;
+	max-width: 100%;
 
 	&:focus {
 		color: var(--form--color-text);
