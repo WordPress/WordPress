@@ -36,21 +36,8 @@ while ( have_posts() ) :
 	$twentytwentyone_next = is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' );
 	$twentytwentyone_prev = is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' );
 
-	$twentytwentyone_post_type      = get_post_type_object( get_post_type() );
-	$twentytwentyone_post_type_name = '';
-	if (
-		is_object( $twentytwentyone_post_type ) &&
-		property_exists( $twentytwentyone_post_type, 'labels' ) &&
-		is_object( $twentytwentyone_post_type->labels ) &&
-		property_exists( $twentytwentyone_post_type->labels, 'singular_name' )
-	) {
-		$twentytwentyone_post_type_name = $twentytwentyone_post_type->labels->singular_name;
-	}
-
-	/* translators: %s: The post-type singular name (example: Post, Page, etc.) */
-	$twentytwentyone_next_label = sprintf( esc_html__( 'Next %s', 'twentytwentyone' ), $twentytwentyone_post_type_name );
-	/* translators: %s: The post-type singular name (example: Post, Page, etc.) */
-	$twentytwentyone_previous_label = sprintf( esc_html__( 'Previous %s', 'twentytwentyone' ), $twentytwentyone_post_type_name );
+	$twentytwentyone_next_label     = esc_html__( 'Next post', 'twentytwentyone' );
+	$twentytwentyone_previous_label = esc_html__( 'Previous post', 'twentytwentyone' );
 
 	the_post_navigation(
 		array(
