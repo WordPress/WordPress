@@ -3292,7 +3292,7 @@ function attachment_submitbox_metadata() {
 
 	$uploaded_by_name = __( '(no author)' );
 	$uploaded_by_link = '';
-	if ( $author->exists() ) {
+	if ( $author && $author->exists() ) {
 		$uploaded_by_name = $author->display_name ? $author->display_name : $author->nickname;
 		$uploaded_by_link = get_edit_user_link( $author->ID );
 	}
