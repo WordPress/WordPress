@@ -208,7 +208,7 @@ add_action( 'widgets_init', 'twentynineteen_widgets_init' );
  * Replaces "[...]" (appended to automatically generated excerpts) with ... and
  * a 'Continue reading' link.
  *
- * @since Twenty Nineteen 2.6
+ * @since Twenty Nineteen 2.0
  *
  * @param string $link Link to single post/page.
  * @return string 'Continue reading' link prepended with an ellipsis.
