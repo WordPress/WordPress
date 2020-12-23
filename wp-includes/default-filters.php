@@ -337,6 +337,11 @@ if ( ! defined( 'DOING_CRON' ) ) {
 	add_action( 'init', 'wp_cron' );
 }
 
+// HTTPS detection.
+add_action( 'init', 'wp_schedule_https_detection' );
+add_action( 'wp_https_detection', 'wp_update_https_detection_errors' );
+add_filter( 'cron_request', 'wp_cron_conditionally_prevent_sslverify', 9999 );
+
 // 2 Actions 2 Furious.
 add_action( 'do_feed_rdf', 'do_feed_rdf', 10, 0 );
 add_action( 'do_feed_rss', 'do_feed_rss', 10, 0 );
