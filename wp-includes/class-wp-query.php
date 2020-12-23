@@ -2420,28 +2420,26 @@ class WP_Query {
 			$where .= $wpdb->prepare( " AND {$wpdb->posts}.ping_status = %s ", $q['ping_status'] );
 		}
 
-		$has_valid_post_types = true;
 		if ( 'any' === $post_type ) {
 			$in_search_post_types = get_post_types( array( 'exclude_from_search' => false ) );
 			if ( empty( $in_search_post_types ) ) {
-				$post_type_where      = ' AND 1=0 ';
-				$has_valid_post_types = true;
+				$where .= ' AND 1=0 ';
 			} else {
-				$post_type_where = " AND {$wpdb->posts}.post_type IN ('" . implode( "', '", array_map( 'esc_sql', $in_search_post_types ) ) . "')";
+				$where .= " AND {$wpdb->posts}.post_type IN ('" . implode( "', '", array_map( 'esc_sql', $in_search_post_types ) ) . "')";
 			}
 		} elseif ( ! empty( $post_type ) && is_array( $post_type ) ) {
-			$post_type_where = " AND {$wpdb->posts}.post_type IN ('" . implode( "', '", esc_sql( $post_type ) ) . "')";
+			$where .= " AND {$wpdb->posts}.post_type IN ('" . implode( "', '", esc_sql( $post_type ) ) . "')";
 		} elseif ( ! empty( $post_type ) ) {
-			$post_type_where  = $wpdb->prepare( " AND {$wpdb->posts}.post_type = %s", $post_type );
+			$where           .= $wpdb->prepare( " AND {$wpdb->posts}.post_type = %s", $post_type );
 			$post_type_object = get_post_type_object( $post_type );
 		} elseif ( $this->is_attachment ) {
-			$post_type_where  = " AND {$wpdb->posts}.post_type = 'attachment'";
+			$where           .= " AND {$wpdb->posts}.post_type = 'attachment'";
 			$post_type_object = get_post_type_object( 'attachment' );
 		} elseif ( $this->is_page ) {
-			$post_type_where  = " AND {$wpdb->posts}.post_type = 'page'";
+			$where           .= " AND {$wpdb->posts}.post_type = 'page'";
 			$post_type_object = get_post_type_object( 'page' );
 		} else {
-			$post_type_where  = " AND {$wpdb->posts}.post_type = 'post'";
+			$where           .= " AND {$wpdb->posts}.post_type = 'post'";
 			$post_type_object = get_post_type_object( 'post' );
 		}
 
@@ -2459,13 +2457,7 @@ class WP_Query {
 		$user_id = get_current_user_id();
 
 		$q_status = array();
-
-		if ( ! $has_valid_post_types ) {
-			// When there are no public post types, there's no need to assemble the post_status clause.
-			$where .= $post_type_where;
-		} elseif ( ! empty( $q['post_status'] ) ) {
-			$where .= $post_type_where;
-
+		if ( ! empty( $q['post_status'] ) ) {
 			$statuswheres = array();
 			$q_status     = $q['post_status'];
 			if ( ! is_array( $q_status ) ) {
@@ -2525,71 +2517,39 @@ class WP_Query {
 				$where .= " AND ($where_status)";
 			}
 		} elseif ( ! $this->is_singular ) {
-			if ( 'any' === $post_type ) {
-				$queried_post_types = get_post_types( array( 'exclude_from_search' => false ) );
-			} elseif ( is_array( $post_type ) ) {
-				$queried_post_types = $post_type;
-			} elseif ( ! empty( $post_type ) ) {
-				$queried_post_types = array( $post_type );
-			} else {
-				$queried_post_types = array( 'post' );
+			$where .= " AND ({$wpdb->posts}.post_status = 'publish'";
+
+			// Add public states.
+			$public_states = get_post_stati( array( 'public' => true ) );
+			foreach ( (array) $public_states as $state ) {
+				if ( 'publish' === $state ) { // Publish is hard-coded above.
+					continue;
+				}
+				$where .= " OR {$wpdb->posts}.post_status = '$state'";
 			}
 
-			if ( ! empty( $queried_post_types ) ) {
-				$status_type_clauses = array();
-
-				// Assemble a post_status clause for each post type.
-				foreach ( $queried_post_types as $queried_post_type ) {
-					$queried_post_type_object = get_post_type_object( $queried_post_type );
-					if ( ! $queried_post_type_object instanceof \WP_Post_Type ) {
-						continue;
-					}
-
-					$type_where = '(' . $wpdb->prepare( "{$wpdb->posts}.post_type = %s AND (", $queried_post_type );
-
-					// Public statuses.
-					$public_statuses = get_post_stati( array( 'public' => true ) );
-					$status_clauses  = array();
-					foreach ( (array) $public_statuses as $public_status ) {
-						$status_clauses[] = "{$wpdb->posts}.post_status = '$public_status'";
-					}
-					$type_where .= implode( ' OR ', $status_clauses );
-
-					// Add protected states that should show in the admin all list.
-					if ( $this->is_admin ) {
-						$admin_all_statuses = get_post_stati(
-							array(
-								'protected'              => true,
-								'show_in_admin_all_list' => true,
-							)
-						);
-						foreach ( (array) $admin_all_statuses as $admin_all_status ) {
-							$type_where .= " OR {$wpdb->posts}.post_status = '$admin_all_status'";
-						}
-					}
-
-					// Add private states that are visible to current user.
-					if ( is_user_logged_in() ) {
-						$read_private_cap = $queried_post_type_object->cap->read_private_posts;
-						$private_statuses = get_post_stati( array( 'private' => true ) );
-						foreach ( (array) $private_statuses as $private_status ) {
-							$type_where .= current_user_can( $read_private_cap ) ? " OR {$wpdb->posts}.post_status = '$private_status'" : " OR ({$wpdb->posts}.post_author = $user_id AND {$wpdb->posts}.post_status = '$private_status')";
-						}
-					}
-
-					$type_where .= '))';
-
-					$status_type_clauses[] = $type_where;
+			if ( $this->is_admin ) {
+				// Add protected states that should show in the admin all list.
+				$admin_all_states = get_post_stati(
+					array(
+						'protected'              => true,
+						'show_in_admin_all_list' => true,
+					)
+				);
+				foreach ( (array) $admin_all_states as $state ) {
+					$where .= " OR {$wpdb->posts}.post_status = '$state'";
 				}
-
-				if ( ! empty( $status_type_clauses ) ) {
-					$where .= ' AND (' . implode( ' OR ', $status_type_clauses ) . ')';
-				}
-			} else {
-				$where .= ' AND 1=0 ';
 			}
-		} else {
-			$where .= $post_type_where;
+
+			if ( is_user_logged_in() ) {
+				// Add private states that are limited to viewing by the author of a post or someone who has caps to read private states.
+				$private_states = get_post_stati( array( 'private' => true ) );
+				foreach ( (array) $private_states as $state ) {
+					$where .= current_user_can( $read_private_cap ) ? " OR {$wpdb->posts}.post_status = '$state'" : " OR {$wpdb->posts}.post_author = $user_id AND {$wpdb->posts}.post_status = '$state'";
+				}
+			}
+
+			$where .= ')';
 		}
 
 		/*
