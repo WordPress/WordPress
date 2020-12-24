@@ -7344,7 +7344,7 @@ function wp_queue_posts_for_term_meta_lazyload( $posts ) {
 			$terms = get_object_term_cache( $post->ID, $taxonomy );
 			if ( false !== $terms ) {
 				foreach ( $terms as $term ) {
-					if ( ! isset( $term_ids[ $term->term_id ] ) ) {
+					if ( ! in_array( $term->term_id, $term_ids, true ) ) {
 						$term_ids[] = $term->term_id;
 					}
 				}
