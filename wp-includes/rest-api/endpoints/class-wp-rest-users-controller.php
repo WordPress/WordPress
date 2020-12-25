@@ -1073,7 +1073,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param WP_Post $user User object.
+	 * @param WP_User $user User object.
 	 * @return array Links for the given user.
 	 */
 	protected function prepare_links( $user ) {
