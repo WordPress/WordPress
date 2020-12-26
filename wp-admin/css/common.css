@@ -1376,7 +1376,7 @@ div.error {
 	background: #fff;
 	border: 1px solid #ccd0d4;
 	border-left-width: 4px;
-	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 	margin: 5px 15px 2px;
 	padding: 1px 12px;
 }

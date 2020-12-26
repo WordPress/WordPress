@@ -2355,11 +2355,12 @@ body.cheatin {
 	font-size: medium;
 	height: auto;
 	background: #fff;
+	border: 1px solid #ccd0d4;
 	margin: 50px auto 2em;
 	padding: 1em 2em;
 	max-width: 700px;
 	min-width: 0;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 }
 
 body.cheatin h1 {

@@ -3502,13 +3502,14 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		}
 		body {
 			background: #fff;
+			border: 1px solid #ccd0d4;
 			color: #444;
 			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 			margin: 2em auto;
 			padding: 1em 2em;
 			max-width: 700px;
-			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+			-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+			box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 		}
 		h1 {
 			border-bottom: 1px solid #dadada;
@@ -3553,9 +3554,9 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			outline: none;
 		}
 		.button {
-			background: #f7f7f7;
-			border: 1px solid #ccc;
-			color: #555;
+			background: #f3f5f6;
+			border: 1px solid #016087;
+			color: #016087;
 			display: inline-block;
 			text-decoration: none;
 			font-size: 13px;
@@ -3572,36 +3573,35 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			-moz-box-sizing:    border-box;
 			box-sizing:         border-box;
 
-			-webkit-box-shadow: 0 1px 0 #ccc;
-			box-shadow: 0 1px 0 #ccc;
 			vertical-align: top;
 		}
 
 		.button.button-large {
-			height: 30px;
-			line-height: 2.15384615;
-			padding: 0 12px 2px;
+			line-height: 2.30769231;
+			min-height: 32px;
+			padding: 0 12px;
 		}
 
 		.button:hover,
 		.button:focus {
-			background: #fafafa;
-			border-color: #999;
-			color: #23282d;
+			background: #f1f1f1;
 		}
 
 		.button:focus {
-			border-color: #5b9dd9;
-			-webkit-box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
-			box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
-			outline: none;
+			background: #f3f5f6;
+			border-color: #007cba;
+			-webkit-box-shadow: 0 0 0 1px #007cba;
+			box-shadow: 0 0 0 1px #007cba;
+			color: #016087;
+			outline: 2px solid transparent;
+			outline-offset: 0;
 		}
 
 		.button:active {
-			background: #eee;
-			border-color: #999;
-			-webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
-			box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
+			background: #f3f5f6;
+			border-color: #7e8993;
+			-webkit-box-shadow: none;
+			box-shadow: none;
 		}
 
 		<?php
