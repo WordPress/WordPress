@@ -270,6 +270,10 @@ class WP_Debug_Data {
 					'label' => 'WP_PLUGIN_DIR',
 					'value' => WP_PLUGIN_DIR,
 				),
+				'WP_MEMORY_LIMIT'     => array(
+					'label' => 'WP_MEMORY_LIMIT',
+					'value' => WP_MEMORY_LIMIT,
+				),
 				'WP_MAX_MEMORY_LIMIT' => array(
 					'label' => 'WP_MAX_MEMORY_LIMIT',
 					'value' => WP_MAX_MEMORY_LIMIT,
