@@ -23,6 +23,7 @@ define( 'WXR_VERSION', '1.2' );
  * 'auto-draft' status will be skipped.
  *
  * @since 2.1.0
+ * @since 5.7.0 Added the `post_modified` and `post_modified_gmt` fields to the export file.
  *
  * @global wpdb    $wpdb WordPress database abstraction object.
  * @global WP_Post $post Global post object.
@@ -576,6 +577,8 @@ function export_wp( $args = array() ) {
 		<wp:post_id><?php echo (int) $post->ID; ?></wp:post_id>
 		<wp:post_date><?php echo wxr_cdata( $post->post_date ); ?></wp:post_date>
 		<wp:post_date_gmt><?php echo wxr_cdata( $post->post_date_gmt ); ?></wp:post_date_gmt>
+		<wp:post_modified><?php echo wxr_cdata( $post->post_modified ); ?></wp:post_modified>
+		<wp:post_modified_gmt><?php echo wxr_cdata( $post->post_modified_gmt ); ?></wp:post_modified_gmt>
 		<wp:comment_status><?php echo wxr_cdata( $post->comment_status ); ?></wp:comment_status>
 		<wp:ping_status><?php echo wxr_cdata( $post->ping_status ); ?></wp:ping_status>
 		<wp:post_name><?php echo wxr_cdata( $post->post_name ); ?></wp:post_name>
