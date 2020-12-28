@@ -119,6 +119,10 @@ function wp_update_https_detection_errors() {
  * @access private
  */
 function wp_schedule_https_detection() {
+	if ( wp_installing() ) {
+		return;
+	}
+
 	if ( ! wp_next_scheduled( 'wp_https_detection' ) ) {
 		wp_schedule_event( time(), 'twicedaily', 'wp_https_detection' );
 	}
