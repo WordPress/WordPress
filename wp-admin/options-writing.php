@@ -205,9 +205,9 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 	<p><label for="ping_sites">
 		<?php
 		printf(
-			/* translators: %s: Codex URL. */
+			/* translators: %s: Documentation URL. */
 			__( 'When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see <a href="%s">Update Services</a> on the Codex. Separate multiple service URLs with line breaks.' ),
-			__( 'https://codex.wordpress.org/Update_Services' )
+			__( 'https://wordpress.org/support/article/update-services/' )
 		);
 		?>
 	</label></p>
@@ -219,9 +219,9 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 	<p>
 		<?php
 		printf(
-			/* translators: 1: Codex URL, 2: URL to Reading Settings screen. */
+			/* translators: 1: Documentation URL, 2: URL to Reading Settings screen. */
 			__( 'WordPress is not notifying any <a href="%1$s">Update Services</a> because of your site&#8217;s <a href="%2$s">visibility settings</a>.' ),
-			__( 'https://codex.wordpress.org/Update_Services' ),
+			__( 'https://wordpress.org/support/article/update-services/' ),
 			'options-reading.php'
 		);
 		?>

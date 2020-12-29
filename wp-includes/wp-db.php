@@ -1887,11 +1887,11 @@ class wpdb {
 	/**
 	 * Performs a MySQL database query, using current database connection.
 	 *
-	 * More information can be found on the Codex page.
+	 * More information can be found on the documentation page.
 	 *
 	 * @since 0.71
 	 *
-	 * @link https://codex.wordpress.org/Function_Reference/wpdb_Class
+	 * @link https://developer.wordpress.org/reference/classes/wpdb/
 	 *
 	 * @param string $query Database query.
 	 * @return int|bool Boolean true for CREATE, ALTER, TRUNCATE and DROP queries. Number of rows
