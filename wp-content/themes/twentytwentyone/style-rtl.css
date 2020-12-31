@@ -4855,7 +4855,7 @@ h1.page-title {
 		width: inherit;
 	}
 
-	.primary-navigation > div > .menu-wrapper li:last-child() {
+	.primary-navigation > div > .menu-wrapper li:last-child {
 		margin-left: 0;
 	}
 }
@@ -5062,7 +5062,7 @@ h1.page-title {
 }
 @media only screen and (max-width: 481px) {
 
-	.primary-navigation .sub-menu .menu-item:last-child() {
+	.primary-navigation .sub-menu .menu-item:last-child {
 		margin-bottom: 0;
 	}
 }

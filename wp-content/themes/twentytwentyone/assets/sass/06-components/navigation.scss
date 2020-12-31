@@ -222,7 +222,7 @@
 				margin: 0;
 				width: inherit;
 
-				&:last-child() {
+				&:last-child {
 					margin-right: 0;
 				}
 			}
@@ -456,7 +456,7 @@
 
 			@include media(mobile-only) {
 
-				&:last-child() {
+				&:last-child {
 					margin-bottom: 0;
 				}
 
