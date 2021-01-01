@@ -30,7 +30,7 @@ For more information about Twenty Fifteen please go to https://wordpress.org/sup
 
 == Copyright ==
 
-Twenty Fifteen WordPress Theme, Copyright 2014-2020 WordPress.org & Automattic.com
+Twenty Fifteen WordPress Theme, Copyright 2014-2021 WordPress.org & Automattic.com
 Twenty Fifteen is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
