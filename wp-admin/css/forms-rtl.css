@@ -863,6 +863,7 @@ table.form-table td .updated p {
 .create-application-password p.submit {
 	margin-bottom: 0;
 	padding-bottom: 0;
+	display: block;
 }
 
 #application-passwords-section .notice {
@@ -879,7 +880,7 @@ table.form-table td .updated p {
 }
 
 .authorize-application-php .form-wrap p {
-	display: block !important;
+	display: block;
 }
 
 /*------------------------------------------------------------------------------
