@@ -530,7 +530,7 @@ class WP_REST_Server {
 				);
 
 				$result = $this->error_to_response( $json_error_obj );
-				$result = wp_json_encode( $result->data[0] );
+				$result = wp_json_encode( $result->data );
 			}
 
 			if ( $jsonp_callback ) {
