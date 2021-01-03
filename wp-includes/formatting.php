@@ -3585,7 +3585,7 @@ function iso8601_timezone_to_offset( $timezone ) {
  *
  * @param string $date_string Date and time in ISO 8601 format {@link https://en.wikipedia.org/wiki/ISO_8601}.
  * @param string $timezone    Optional. If set to 'gmt' returns the result in UTC. Default 'user'.
- * @return string|bool The date and time in MySQL DateTime format - Y-m-d H:i:s, or false on failure.
+ * @return string|false The date and time in MySQL DateTime format - Y-m-d H:i:s, or false on failure.
  */
 function iso8601_to_datetime( $date_string, $timezone = 'user' ) {
 	$timezone    = strtolower( $timezone );

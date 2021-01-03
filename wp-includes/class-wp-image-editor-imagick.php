@@ -252,7 +252,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @param int|null $max_w Image width.
 	 * @param int|null $max_h Image height.
 	 * @param bool     $crop
-	 * @return bool|WP_Error
+	 * @return true|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {
 		if ( ( $this->size['width'] == $max_w ) && ( $this->size['height'] == $max_h ) ) {
@@ -524,7 +524,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @param int  $dst_w   Optional. The destination width.
 	 * @param int  $dst_h   Optional. The destination height.
 	 * @param bool $src_abs Optional. If the source crop points are absolute.
-	 * @return bool|WP_Error
+	 * @return true|WP_Error
 	 */
 	public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false ) {
 		if ( $src_abs ) {
@@ -775,7 +775,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @since 3.5.0
 	 *
 	 * @param string $mime_type The mime type of the image.
-	 * @return bool|WP_Error True on success, WP_Error object on failure.
+	 * @return true|WP_Error True on success, WP_Error object on failure.
 	 */
 	public function stream( $mime_type = null ) {
 		list( $filename, $extension, $mime_type ) = $this->get_output_format( null, $mime_type );

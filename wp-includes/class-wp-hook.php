@@ -95,10 +95,10 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param bool|int $new_priority     Optional. The priority of the new filter being added. Default false,
-	 *                                   for no priority being added.
-	 * @param bool     $priority_existed Optional. Flag for whether the priority already existed before the new
-	 *                                   filter was added. Default false.
+	 * @param false|int $new_priority     Optional. The priority of the new filter being added. Default false,
+	 *                                    for no priority being added.
+	 * @param bool      $priority_existed Optional. Flag for whether the priority already existed before the new
+	 *                                    filter was added. Default false.
 	 */
 	private function resort_active_iterations( $new_priority = false, $priority_existed = false ) {
 		$new_priorities = array_keys( $this->callbacks );
@@ -192,9 +192,9 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param string        $tag               Optional. The name of the filter hook. Default empty.
-	 * @param callable|bool $function_to_check Optional. The callback to check for. Default false.
-	 * @return bool|int The priority of that hook is returned, or false if the function is not attached.
+	 * @param string         $tag               Optional. The name of the filter hook. Default empty.
+	 * @param callable|false $function_to_check Optional. The callback to check for. Default false.
+	 * @return false|int The priority of that hook is returned, or false if the function is not attached.
 	 */
 	public function has_filter( $tag = '', $function_to_check = false ) {
 		if ( false === $function_to_check ) {
@@ -236,7 +236,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param int|bool $priority Optional. The priority number to remove. Default false.
+	 * @param int|false $priority Optional. The priority number to remove. Default false.
 	 */
 	public function remove_all_filters( $priority = false ) {
 		if ( ! $this->callbacks ) {

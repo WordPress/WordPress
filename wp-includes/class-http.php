@@ -1076,7 +1076,7 @@ class WP_Http {
 	 * @since 3.7.0
 	 *
 	 * @param string $maybe_ip A suspected IP address.
-	 * @return int|bool Upon success, '4' or '6' to represent a IPv4 or IPv6 address, false upon failure
+	 * @return int|false Upon success, '4' or '6' to represent a IPv4 or IPv6 address, false upon failure
 	 */
 	public static function is_ip_address( $maybe_ip ) {
 		if ( preg_match( '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $maybe_ip ) ) {

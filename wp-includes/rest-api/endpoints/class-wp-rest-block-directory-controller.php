@@ -50,7 +50,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|bool True if the request has permission, WP_Error object otherwise.
+	 * @return WP_Error|true True if the request has permission, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! current_user_can( 'install_plugins' ) || ! current_user_can( 'activate_plugins' ) ) {

@@ -668,7 +668,7 @@ function wp_validate_site_data( $errors, $data, $old_site = null ) {
  *     @type array  $meta    Custom site metadata $key => $value pairs to use.
  *                           Default empty array.
  * }
- * @return bool|WP_Error True on success, or error object on failure.
+ * @return true|WP_Error True on success, or error object on failure.
  */
 function wp_initialize_site( $site_id, array $args = array() ) {
 	global $wpdb, $wp_roles;
@@ -799,7 +799,7 @@ function wp_initialize_site( $site_id, array $args = array() ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|WP_Site $site_id Site ID or object.
- * @return bool|WP_Error True on success, or error object on failure.
+ * @return true|WP_Error True on success, or error object on failure.
  */
 function wp_uninitialize_site( $site_id ) {
 	global $wpdb;

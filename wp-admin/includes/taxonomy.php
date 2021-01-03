@@ -183,7 +183,7 @@ function wp_insert_category( $catarr, $wp_error = false ) {
  * @since 2.0.0
  *
  * @param array $catarr The 'cat_ID' value is required. All other keys are optional.
- * @return int|bool The ID number of the new or updated Category on success. Zero or FALSE on failure.
+ * @return int|false The ID number of the new or updated Category on success. Zero or FALSE on failure.
  */
 function wp_update_category( $catarr ) {
 	$cat_ID = (int) $catarr['cat_ID'];
@@ -240,7 +240,7 @@ function wp_create_tag( $tag_name ) {
  *
  * @param int    $post_id
  * @param string $taxonomy Optional. The taxonomy for which to retrieve terms. Default 'post_tag'.
- * @return string|bool|WP_Error
+ * @return string|false|WP_Error
  */
 function get_tags_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 	return get_terms_to_edit( $post_id, $taxonomy );
@@ -253,7 +253,7 @@ function get_tags_to_edit( $post_id, $taxonomy = 'post_tag' ) {
  *
  * @param int    $post_id
  * @param string $taxonomy Optional. The taxonomy for which to retrieve terms. Default 'post_tag'.
- * @return string|bool|WP_Error
+ * @return string|false|WP_Error
  */
 function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 	$post_id = (int) $post_id;

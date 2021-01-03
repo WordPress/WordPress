@@ -39,7 +39,7 @@
  * @see wp_kses_allowed_html()
  * @since 1.2.0
  *
- * @var array[]|bool Array of default allowable HTML tags, or false to use the defaults.
+ * @var array[]|false Array of default allowable HTML tags, or false to use the defaults.
  */
 if ( ! defined( 'CUSTOM_TAGS' ) ) {
 	define( 'CUSTOM_TAGS', false );
@@ -1411,7 +1411,7 @@ function wp_kses_hair( $attr, $allowed_protocols ) {
  * @since 4.2.3
  *
  * @param string $element HTML element.
- * @return array|bool List of attributes found in the element. Returns false on failure.
+ * @return array|false List of attributes found in the element. Returns false on failure.
  */
 function wp_kses_attr_parse( $element ) {
 	$valid = preg_match( '%^(<\s*)(/\s*)?([a-zA-Z0-9]+\s*)([^>]*)(>?)$%', $element, $matches );
@@ -1462,7 +1462,7 @@ function wp_kses_attr_parse( $element ) {
  * @since 4.2.3
  *
  * @param string $attr Attribute list from HTML element to closing HTML element tag.
- * @return array|bool List of attributes found in $attr. Returns false on failure.
+ * @return array|false List of attributes found in $attr. Returns false on failure.
  */
 function wp_kses_hair_parse( $attr ) {
 	if ( '' === $attr ) {

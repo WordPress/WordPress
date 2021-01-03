@@ -855,7 +855,7 @@ class WP_REST_Request implements ArrayAccess {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @return bool|WP_Error True if there are no parameters to validate or if all pass validation,
+	 * @return true|WP_Error True if there are no parameters to validate or if all pass validation,
 	 *                       WP_Error if required parameters are missing.
 	 */
 	public function has_valid_params() {

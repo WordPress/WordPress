@@ -247,7 +247,7 @@ function get_author_user_ids() {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $user_id User ID.
- * @return array|bool List of editable authors. False if no editable users.
+ * @return array|false List of editable authors. False if no editable users.
  */
 function get_editable_authors( $user_id ) {
 	_deprecated_function( __FUNCTION__, '3.1.0', 'get_users()' );

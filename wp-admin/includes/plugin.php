@@ -1763,7 +1763,7 @@ function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $
  * @global array $menu
  *
  * @param string $menu_slug The slug of the menu.
- * @return array|bool The removed menu on success, false if not found.
+ * @return array|false The removed menu on success, false if not found.
  */
 function remove_menu_page( $menu_slug ) {
 	global $menu;
@@ -1787,7 +1787,7 @@ function remove_menu_page( $menu_slug ) {
  *
  * @param string $menu_slug    The slug for the parent menu.
  * @param string $submenu_slug The slug of the submenu.
- * @return array|bool The removed submenu on success, false if not found.
+ * @return array|false The removed submenu on success, false if not found.
  */
 function remove_submenu_page( $menu_slug, $submenu_slug ) {
 	global $submenu;

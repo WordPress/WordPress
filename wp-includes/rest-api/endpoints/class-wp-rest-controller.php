@@ -443,7 +443,7 @@ abstract class WP_REST_Controller {
 	 *
 	 * @param object          $object  Data model like WP_Term or WP_Post.
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return bool|WP_Error True on success, WP_Error object if a field cannot be updated.
+	 * @return true|WP_Error True on success, WP_Error object if a field cannot be updated.
 	 */
 	protected function update_additional_fields_for_object( $object, $request ) {
 		$additional_fields = $this->get_additional_fields();

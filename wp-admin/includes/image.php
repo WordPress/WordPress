@@ -680,7 +680,7 @@ function wp_exif_date2ts( $str ) {
  * @since 2.5.0
  *
  * @param string $file
- * @return bool|array False on failure. Image metadata array on success.
+ * @return false|array False on failure. Image metadata array on success.
  */
 function wp_read_image_metadata( $file ) {
 	if ( ! file_exists( $file ) ) {
@@ -1027,7 +1027,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param string|bool  $filepath      File path or URL to current image, or false.
+	 * @param string|false $filepath      File path or URL to current image, or false.
 	 * @param int          $attachment_id Attachment ID.
 	 * @param string|int[] $size          Requested image size. Can be any registered image size name, or
 	 *                                    an array of width and height values in pixels (in that order).

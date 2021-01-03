@@ -449,8 +449,8 @@ function wp_authenticate_application_password( $input_user, $username, $password
  *
  * @since 5.6.0
  *
- * @param int|bool $input_user User ID if one has been determined, false otherwise.
- * @return int|bool The authenticated user ID if successful, false otherwise.
+ * @param int|false $input_user User ID if one has been determined, false otherwise.
+ * @return int|false The authenticated user ID if successful, false otherwise.
  */
 function wp_validate_application_password( $input_user ) {
 	// Don't authenticate twice.
@@ -515,8 +515,8 @@ function wp_authenticate_spam_check( $user ) {
  *
  * @since 3.9.0
  *
- * @param int|bool $user_id The user ID (or false) as received from
- *                          the `determine_current_user` filter.
+ * @param int|false $user_id The user ID (or false) as received from
+ *                           the `determine_current_user` filter.
  * @return int|false User ID if validated, false otherwise. If a user ID from
  *                   an earlier filter callback is received, that value is returned.
  */
@@ -2978,7 +2978,7 @@ function _wp_get_current_user() {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param int|bool $user_id User ID if one has been determined, false otherwise.
+	 * @param int|false $user_id User ID if one has been determined, false otherwise.
 	 */
 	$user_id = apply_filters( 'determine_current_user', false );
 	if ( ! $user_id ) {
@@ -3866,7 +3866,7 @@ function wp_user_request_action_description( $action_name ) {
  * @since 4.9.6
  *
  * @param string $request_id ID of the request created via wp_create_user_request().
- * @return bool|WP_Error True on success, `WP_Error` on failure.
+ * @return true|WP_Error True on success, `WP_Error` on failure.
  */
 function wp_send_user_request( $request_id ) {
 	$request_id = absint( $request_id );
@@ -4050,7 +4050,7 @@ function wp_generate_user_request_key( $request_id ) {
  *
  * @param string $request_id ID of the request being confirmed.
  * @param string $key        Provided key to validate.
- * @return bool|WP_Error True on success, WP_Error on failure.
+ * @return true|WP_Error True on success, WP_Error on failure.
  */
 function wp_validate_user_request_key( $request_id, $key ) {
 	global $wp_hasher;

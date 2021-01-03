@@ -33,7 +33,7 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  *     @type string             $container_id         The ID that is applied to the container. Default empty.
  *     @type string             $container_aria_label The aria-label attribute that is applied to the container
  *                                                    when it's a nav element. Default empty.
- *     @type callable|bool      $fallback_cb          If the menu doesn't exist, a callback function will fire.
+ *     @type callable|false     $fallback_cb          If the menu doesn't exist, a callback function will fire.
  *                                                    Default is 'wp_page_menu'. Set to false for no fallback.
  *     @type string             $before               Text before the link markup. Default empty.
  *     @type string             $after                Text after the link markup. Default empty.

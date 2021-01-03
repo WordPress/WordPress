@@ -1186,7 +1186,7 @@ function setup_postdata( $post ) {
  * @global WP_Query $wp_query WordPress Query object.
  *
  * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
- * @return array|bool Elements of post, or false on failure.
+ * @return array|false Elements of post, or false on failure.
  */
 function generate_postdata( $post ) {
 	global $wp_query;

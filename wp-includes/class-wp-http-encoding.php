@@ -45,7 +45,7 @@ class WP_Http_Encoding {
 	 *
 	 * @param string $compressed String to decompress.
 	 * @param int    $length     The optional length of the compressed data.
-	 * @return string|bool False on failure.
+	 * @return string|false False on failure.
 	 */
 	public static function decompress( $compressed, $length = null ) {
 
@@ -98,7 +98,7 @@ class WP_Http_Encoding {
 	 * @link https://www.php.net/manual/en/function.gzinflate.php#77336
 	 *
 	 * @param string $gzData String to decompress.
-	 * @return string|bool False on failure.
+	 * @return string|false False on failure.
 	 */
 	public static function compatible_gzinflate( $gzData ) {
 

@@ -311,7 +311,7 @@ function upload_space_setting( $id ) {
  * @since 3.0.0
  *
  * @param int $id The user ID.
- * @return bool|int The ID of the refreshed user or false if the user does not exist.
+ * @return false|int The ID of the refreshed user or false if the user does not exist.
  */
 function refresh_user_details( $id ) {
 	$id = (int) $id;

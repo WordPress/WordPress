@@ -130,7 +130,7 @@ function get_home_path() {
  * @param string   $folder     Optional. Full path to folder. Default empty.
  * @param int      $levels     Optional. Levels of folders to follow, Default 100 (PHP Loop limit).
  * @param string[] $exclusions Optional. List of folders and files to skip.
- * @return bool|string[] False on failure, else array of files.
+ * @return false|string[] False on failure, else array of files.
  */
 function list_files( $folder = '', $levels = 100, $exclusions = array() ) {
 	if ( empty( $folder ) ) {
@@ -998,11 +998,11 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
  *
  * @see _wp_handle_upload()
  *
- * @param array      $file      Reference to a single element of `$_FILES`.
- *                              Call the function once for each uploaded file.
- * @param array|bool $overrides Optional. An associative array of names => values
- *                              to override default variables. Default false.
- * @param string     $time      Optional. Time formatted in 'yyyy/mm'. Default null.
+ * @param array       $file      Reference to a single element of `$_FILES`.
+ *                               Call the function once for each uploaded file.
+ * @param array|false $overrides Optional. An associative array of names => values
+ *                               to override default variables. Default false.
+ * @param string      $time      Optional. Time formatted in 'yyyy/mm'. Default null.
  * @return array On success, returns an associative array of file attributes.
  *               On failure, returns `$overrides['upload_error_handler']( &$file, $message )`
  *               or `array( 'error' => $message )`.
@@ -1029,11 +1029,11 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
  *
  * @see _wp_handle_upload()
  *
- * @param array      $file      Reference to a single element of `$_FILES`.
- *                              Call the function once for each uploaded file.
- * @param array|bool $overrides Optional. An associative array of names => values
- *                              to override default variables. Default false.
- * @param string     $time      Optional. Time formatted in 'yyyy/mm'. Default null.
+ * @param array       $file      Reference to a single element of `$_FILES`.
+ *                               Call the function once for each uploaded file.
+ * @param array|false $overrides Optional. An associative array of names => values
+ *                               to override default variables. Default false.
+ * @param string      $time      Optional. Time formatted in 'yyyy/mm'. Default null.
  * @return array On success, returns an associative array of file attributes.
  *               On failure, returns `$overrides['upload_error_handler']( &$file, $message )`
  *               or `array( 'error' => $message )`.

@@ -206,8 +206,8 @@ function wp_install_language_form( $languages ) {
  * @see wp_get_available_translations()
  *
  * @param string $download Language code to download.
- * @return string|bool Returns the language code if successfully downloaded
- *                     (or already installed), or false on failure.
+ * @return string|false Returns the language code if successfully downloaded
+ *                      (or already installed), or false on failure.
  */
 function wp_download_language_pack( $download ) {
 	// Check if the translation is already installed.

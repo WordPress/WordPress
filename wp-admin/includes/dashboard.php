@@ -1680,7 +1680,7 @@ function dashboard_browser_nag_class( $classes ) {
  *
  * @since 3.2.0
  *
- * @return array|bool Array of browser data on success, false on failure.
+ * @return array|false Array of browser data on success, false on failure.
  */
 function wp_check_browser_version() {
 	if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {

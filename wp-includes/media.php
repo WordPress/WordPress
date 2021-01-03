@@ -1201,7 +1201,7 @@ function _wp_get_image_size_from_meta( $size_name, $image_meta ) {
  *                                    width and height values in pixels (in that order). Default 'medium'.
  * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
  *                                    Default null.
- * @return string|bool A 'srcset' value string or false.
+ * @return string|false A 'srcset' value string or false.
  */
 function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $image_meta = null ) {
 	$image = wp_get_attachment_image_src( $attachment_id, $size );
@@ -1442,7 +1442,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
  *                                    width and height values in pixels (in that order). Default 'medium'.
  * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
  *                                    Default null.
- * @return string|bool A valid source size value for use in a 'sizes' attribute or false.
+ * @return string|false A valid source size value for use in a 'sizes' attribute or false.
  */
 function wp_get_attachment_image_sizes( $attachment_id, $size = 'medium', $image_meta = null ) {
 	$image = wp_get_attachment_image_src( $attachment_id, $size );

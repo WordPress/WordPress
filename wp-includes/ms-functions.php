@@ -928,13 +928,13 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 	 *
 	 * @since MU (3.0.0)
 	 *
-	 * @param string|bool $domain     Site domain.
-	 * @param string      $path       Site path.
-	 * @param string      $title      Site title.
-	 * @param string      $user_login User login name.
-	 * @param string      $user_email User email address.
-	 * @param string      $key        Activation key created in wpmu_signup_blog().
-	 * @param array       $meta       Signup meta data. By default, contains the requested privacy setting and lang_id.
+	 * @param string|false $domain     Site domain, or false to prevent the email from sending.
+	 * @param string       $path       Site path.
+	 * @param string       $title      Site title.
+	 * @param string       $user_login User login name.
+	 * @param string       $user_email User email address.
+	 * @param string       $key        Activation key created in wpmu_signup_blog().
+	 * @param array        $meta       Signup meta data. By default, contains the requested privacy setting and lang_id.
 	 */
 	if ( ! apply_filters( 'wpmu_signup_blog_notification', $domain, $path, $title, $user_login, $user_email, $key, $meta ) ) {
 		return false;
@@ -1601,11 +1601,11 @@ function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta
 	 *
 	 * @since MU (3.0.0)
 	 *
-	 * @param int|bool $blog_id  Site ID.
-	 * @param int      $user_id  User ID of the site administrator.
-	 * @param string   $password User password, or "N/A" if the user account is not new.
-	 * @param string   $title    Site title.
-	 * @param array    $meta     Signup meta data. By default, contains the requested privacy setting and lang_id.
+	 * @param int|false $blog_id  Site ID, or false to prevent the email from sending.
+	 * @param int       $user_id  User ID of the site administrator.
+	 * @param string    $password User password, or "N/A" if the user account is not new.
+	 * @param string    $title    Site title.
+	 * @param array     $meta     Signup meta data. By default, contains the requested privacy setting and lang_id.
 	 */
 	if ( ! apply_filters( 'wpmu_welcome_notification', $blog_id, $user_id, $password, $title, $meta ) ) {
 		return false;

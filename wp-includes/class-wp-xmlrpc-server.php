@@ -228,7 +228,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @param string $username User's username.
 	 * @param string $password User's password.
-	 * @return WP_User|bool WP_User object if authentication passed, false otherwise
+	 * @return WP_User|false WP_User object if authentication passed, false otherwise
 	 */
 	public function login( $username, $password ) {
 		/*
@@ -2231,7 +2231,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string $taxnomy_name Taxonomy name.
 	 *     @type int    $term_id      Term ID.
 	 * }
-	 * @return bool|IXR_Error True on success, IXR_Error instance on failure.
+	 * @return true|IXR_Error True on success, IXR_Error instance on failure.
 	 */
 	public function wp_deleteTerm( $args ) {
 		if ( ! $this->minimum_args( $args, 5 ) ) {
@@ -5653,7 +5653,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type array  $content_struct
 	 *     @type int    $publish
 	 * }
-	 * @return bool|IXR_Error True on success.
+	 * @return true|IXR_Error True on success.
 	 */
 	public function mw_editPost( $args ) {
 		$this->escape( $args );
