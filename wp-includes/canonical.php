@@ -148,7 +148,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		if ( $redirect_post ) {
 			$post_type_obj = get_post_type_object( $redirect_post->post_type );
 
-			if ( $post_type_obj->public && 'auto-draft' !== $redirect_post->post_status ) {
+			if ( $post_type_obj && $post_type_obj->public && 'auto-draft' !== $redirect_post->post_status ) {
 				$redirect_url = get_permalink( $redirect_post );
 
 				$redirect['query'] = _remove_qs_args_if_not_in_url(
