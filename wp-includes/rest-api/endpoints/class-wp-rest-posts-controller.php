@@ -262,6 +262,36 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 		}
 
+		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
+
+		if ( ! empty( $request['tax_relation'] ) ) {
+			$args['tax_query'] = array( 'relation' => $request['tax_relation'] );
+		}
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$base        = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
+			$tax_exclude = $base . '_exclude';
+
+			if ( ! empty( $request[ $base ] ) ) {
+				$args['tax_query'][] = array(
+					'taxonomy'         => $taxonomy->name,
+					'field'            => 'term_id',
+					'terms'            => $request[ $base ],
+					'include_children' => false,
+				);
+			}
+
+			if ( ! empty( $request[ $tax_exclude ] ) ) {
+				$args['tax_query'][] = array(
+					'taxonomy'         => $taxonomy->name,
+					'field'            => 'term_id',
+					'terms'            => $request[ $tax_exclude ],
+					'include_children' => false,
+					'operator'         => 'NOT IN',
+				);
+			}
+		}
+
 		// Force the post_type argument, since it's not a user input variable.
 		$args['post_type'] = $this->post_type;
 
@@ -279,6 +309,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 * Enables adding extra arguments or setting defaults for a post collection request.
 		 *
 		 * @since 4.7.0
+		 * @since 5.7.0 Moved after the `tax_query` query arg is generated.
 		 *
 		 * @link https://developer.wordpress.org/reference/classes/wp_query/
 		 *
@@ -287,36 +318,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 */
 		$args       = apply_filters( "rest_{$this->post_type}_query", $args, $request );
 		$query_args = $this->prepare_items_query( $args, $request );
-
-		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
-
-		if ( ! empty( $request['tax_relation'] ) ) {
-			$query_args['tax_query'] = array( 'relation' => $request['tax_relation'] );
-		}
-
-		foreach ( $taxonomies as $taxonomy ) {
-			$base        = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
-			$tax_exclude = $base . '_exclude';
-
-			if ( ! empty( $request[ $base ] ) ) {
-				$query_args['tax_query'][] = array(
-					'taxonomy'         => $taxonomy->name,
-					'field'            => 'term_id',
-					'terms'            => $request[ $base ],
-					'include_children' => false,
-				);
-			}
-
-			if ( ! empty( $request[ $tax_exclude ] ) ) {
-				$query_args['tax_query'][] = array(
-					'taxonomy'         => $taxonomy->name,
-					'field'            => 'term_id',
-					'terms'            => $request[ $tax_exclude ],
-					'include_children' => false,
-					'operator'         => 'NOT IN',
-				);
-			}
-		}
 
 		$posts_query  = new WP_Query();
 		$query_result = $posts_query->query( $query_args );
