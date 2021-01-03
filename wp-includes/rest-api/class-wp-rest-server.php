@@ -1244,8 +1244,8 @@ class WP_REST_Server {
 		);
 
 		$response = new WP_REST_Response( $available );
-
 		$response->add_link( 'help', 'http://v2.wp-api.org/' );
+		$this->add_active_theme_link_to_index( $response );
 
 		/**
 		 * Filters the REST API root index data.
@@ -1259,6 +1259,35 @@ class WP_REST_Server {
 		 * @param WP_REST_Response $response Response data.
 		 */
 		return apply_filters( 'rest_index', $response );
+	}
+
+	/**
+	 * Adds a link to the active theme for users who have proper permissions.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param WP_REST_Response $response REST API response.
+	 */
+	protected function add_active_theme_link_to_index( WP_REST_Response $response ) {
+		$should_add = current_user_can( 'switch_themes' ) || current_user_can( 'manage_network_themes' );
+
+		if ( ! $should_add && current_user_can( 'edit_posts' ) ) {
+			$should_add = true;
+		}
+
+		if ( ! $should_add ) {
+			foreach ( get_post_types( array( 'show_in_rest' => true ), 'objects' ) as $post_type ) {
+				if ( current_user_can( $post_type->cap->edit_posts ) ) {
+					$should_add = true;
+					break;
+				}
+			}
+		}
+
+		if ( $should_add ) {
+			$theme = wp_get_theme();
+			$response->add_link( 'https://api.w.org/active-theme', rest_url( 'wp/v2/themes/' . $theme->get_stylesheet() ) );
+		}
 	}
 
 	/**
