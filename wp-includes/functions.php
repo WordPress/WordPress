@@ -837,7 +837,7 @@ function wp_extract_urls( $content ) {
  *
  * @param string|null $content Post content. If `null`, the `post_content` field from `$post` is used.
  * @param int|WP_Post $post    Post ID or post object.
- * @return null|bool Returns false if post is not found.
+ * @return void|false Returns false if post is not found.
  */
 function do_enclose( $content, $post ) {
 	global $wpdb;

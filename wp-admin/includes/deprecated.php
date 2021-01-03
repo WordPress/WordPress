@@ -128,7 +128,7 @@ function get_real_file_to_edit( $file ) {
  * @param int $parent        Optional. Parent ID to retrieve categories for. Default 0.
  * @param int $level         Optional. Number of levels deep to display. Default 0.
  * @param array $categories  Optional. Categories to include in the control. Default 0.
- * @return bool|null False if no categories were found.
+ * @return false|void False if no categories were found.
  */
 function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {
 	_deprecated_function( __FUNCTION__, '3.0.0', 'wp_dropdown_categories()' );

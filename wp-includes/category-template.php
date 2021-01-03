@@ -815,7 +815,7 @@ function default_topic_count_scale( $count ) {
  *     @type string   $order                      How to order the tags. Accepts 'ASC' (ascending),
  *                                                'DESC' (descending), or 'RAND' (random). Default 'ASC'.
  *     @type int|bool $filter                     Whether to enable filtering of the final output
- *                                                via {@see 'wp_generate_tag_cloud'}. Default 1|true.
+ *                                                via {@see 'wp_generate_tag_cloud'}. Default 1.
  *     @type string   $topic_count_text           Nooped plural text from _n_noop() to supply to
  *                                                tag counts. Default null.
  *     @type callable $topic_count_text_callback  Callback used to generate nooped plural text for

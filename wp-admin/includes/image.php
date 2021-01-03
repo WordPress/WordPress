@@ -1014,7 +1014,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param string       $image_url     Current image URL.
+		 * @param string|false $image_url     Current image URL.
 		 * @param int          $attachment_id Attachment ID.
 		 * @param string|int[] $size          Requested image size. Can be any registered image size name, or
 		 *                                    an array of width and height values in pixels (in that order).

@@ -39,9 +39,9 @@ class WP_Community_Events {
 	 * @since 4.8.0
 	 *
 	 * @param int        $user_id       WP user ID.
-	 * @param bool|array $user_location Stored location data for the user.
-	 *                                  false to pass no location;
-	 *                                  array to pass a location {
+	 * @param false|array $user_location {
+	 *     Stored location data for the user. false to pass no location.
+	 *
 	 *     @type string $description The name of the location
 	 *     @type string $latitude    The latitude in decimal degrees notation, without the degree
 	 *                               symbol. e.g.: 47.615200.

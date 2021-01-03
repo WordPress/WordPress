@@ -133,7 +133,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *                   anything registered. When checking a specific function, the priority of that
  *                   hook is returned, or false if the function is not attached. When using the
  *                   $function_to_check argument, this function may return a non-boolean value
- *                   that evaluates to false (e.g.) 0, so use the === operator for testing the
+ *                   that evaluates to false (e.g. 0), so use the === operator for testing the
  *                   return value.
  */
 function has_filter( $tag, $function_to_check = false ) {
@@ -566,7 +566,7 @@ function do_action_ref_array( $tag, $args ) {
  *                  anything registered. When checking a specific function, the priority of that
  *                  hook is returned, or false if the function is not attached. When using the
  *                  $function_to_check argument, this function may return a non-boolean value
- *                  that evaluates to false (e.g.) 0, so use the === operator for testing the
+ *                  that evaluates to false (e.g. 0), so use the === operator for testing the
  *                  return value.
  */
 function has_action( $tag, $function_to_check = false ) {

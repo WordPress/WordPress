@@ -29,9 +29,9 @@ function translations_api( $type, $args = null ) {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param bool|array  $result The result object. Default false.
-	 * @param string      $type   The type of translations being requested.
-	 * @param object      $args   Translation API arguments.
+	 * @param false|object $result The result object. Default false.
+	 * @param string       $type   The type of translations being requested.
+	 * @param object       $args   Translation API arguments.
 	 */
 	$res = apply_filters( 'translations_api', false, $type, $args );
 

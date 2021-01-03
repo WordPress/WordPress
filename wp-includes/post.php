@@ -6103,9 +6103,8 @@ function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param array|bool $data          Array of meta data for the given attachment, or false
-	 *                                  if the object does not exist.
-	 * @param int        $attachment_id Attachment post ID.
+	 * @param array $data          Array of meta data for the given attachment.
+	 * @param int   $attachment_id Attachment post ID.
 	 */
 	return apply_filters( 'wp_get_attachment_metadata', $data, $attachment_id );
 }

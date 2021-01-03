@@ -187,6 +187,9 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	/**
 	 * Checks if a specific action has been registered for this hook.
 	 *
+	 * When using the $function_to_check argument, this function may return a non-boolean value
+	 * that evaluates to false (e.g. 0), so use the === operator for testing the return value.
+	 *
 	 * @since 4.7.0
 	 *
 	 * @param string        $tag               Optional. The name of the filter hook. Default empty.
