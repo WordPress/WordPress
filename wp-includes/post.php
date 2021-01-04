@@ -5060,7 +5060,7 @@ function get_enclosed( $post_id ) {
  * @since 4.7.0 `$post_id` can be a WP_Post object.
  *
  * @param int|WP_Post $post_id Post ID or object.
- * @return false|string[] Array of URLs already pinged for the given post, false if the post is not found.
+ * @return string[]|false Array of URLs already pinged for the given post, false if the post is not found.
  */
 function get_pung( $post_id ) {
 	$post = get_post( $post_id );

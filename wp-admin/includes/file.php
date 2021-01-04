@@ -130,7 +130,7 @@ function get_home_path() {
  * @param string   $folder     Optional. Full path to folder. Default empty.
  * @param int      $levels     Optional. Levels of folders to follow, Default 100 (PHP Loop limit).
  * @param string[] $exclusions Optional. List of folders and files to skip.
- * @return false|string[] False on failure, else array of files.
+ * @return string[]|false Array of files on success, false on failure.
  */
 function list_files( $folder = '', $levels = 100, $exclusions = array() ) {
 	if ( empty( $folder ) ) {

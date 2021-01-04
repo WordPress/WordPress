@@ -938,7 +938,7 @@ function do_enclose( $content, $post ) {
  *
  * @param string $url        URL to retrieve HTTP headers from.
  * @param bool   $deprecated Not Used.
- * @return false|string False on failure, headers on success.
+ * @return string|false Headers on success, false on failure.
  */
 function wp_get_http_headers( $url, $deprecated = false ) {
 	if ( ! empty( $deprecated ) ) {
@@ -6914,7 +6914,7 @@ function mysql_to_rfc3339( $date_string ) {
  *                        'image', or an arbitrary other context. If an arbitrary context is passed,
  *                        the similarly arbitrary {@see '$context_memory_limit'} filter will be
  *                        invoked. Default 'admin'.
- * @return false|int|string The limit that was set or false on failure.
+ * @return int|string|false The limit that was set or false on failure.
  */
 function wp_raise_memory_limit( $context = 'admin' ) {
 	// Exit early if the limit cannot be changed.

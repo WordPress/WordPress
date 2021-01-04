@@ -680,7 +680,7 @@ function wp_exif_date2ts( $str ) {
  * @since 2.5.0
  *
  * @param string $file
- * @return false|array False on failure. Image metadata array on success.
+ * @return array|false Image metadata array on success, false on failure.
  */
 function wp_read_image_metadata( $file ) {
 	if ( ! file_exists( $file ) ) {

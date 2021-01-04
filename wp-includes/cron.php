@@ -754,7 +754,7 @@ function spawn_cron( $gmt_time = 0 ) {
  * @since 2.1.0
  * @since 5.1.0 Return value added to indicate success or failure.
  *
- * @return false|int On success an integer indicating number of events spawned (0 indicates no
+ * @return int|false On success an integer indicating number of events spawned (0 indicates no
  *                   events needed to be spawned), false if spawning fails for one or more events.
  */
 function wp_cron() {

@@ -306,7 +306,7 @@ class WP_Community_Events {
 	 * @since 4.8.0
 	 *
 	 * @param array $location Should contain 'latitude' and 'longitude' indexes.
-	 * @return false|string false on failure, or a string on success.
+	 * @return string|false Transient key on success, false on failure.
 	 */
 	protected function get_events_transient_key( $location ) {
 		$key = false;

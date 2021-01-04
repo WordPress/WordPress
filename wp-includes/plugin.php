@@ -132,7 +132,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *
  * @param string         $tag               The name of the filter hook.
  * @param callable|false $function_to_check Optional. The callback to check for. Default false.
- * @return int|bool If `$function_to_check` is omitted, returns boolean for whether the hook has
+ * @return bool|int If `$function_to_check` is omitted, returns boolean for whether the hook has
  *                  anything registered. When checking a specific function, the priority of that
  *                  hook is returned, or false if the function is not attached.
  */
@@ -565,7 +565,7 @@ function do_action_ref_array( $tag, $args ) {
  *
  * @param string         $tag               The name of the action hook.
  * @param callable|false $function_to_check Optional. The callback to check for. Default false.
- * @return int|bool If `$function_to_check` is omitted, returns boolean for whether the hook has
+ * @return bool|int If `$function_to_check` is omitted, returns boolean for whether the hook has
  *                  anything registered. When checking a specific function, the priority of that
  *                  hook is returned, or false if the function is not attached.
  */

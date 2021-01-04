@@ -289,7 +289,7 @@ When seeking help with this issue, you may be asked for some of the following in
 	 * @since 5.3.0
 	 *
 	 * @param array $extension The extension that caused the error.
-	 * @return false|array A plugin array {@see get_plugins()} or `false` if no plugin was found.
+	 * @return array|false A plugin array {@see get_plugins()} or `false` if no plugin was found.
 	 */
 	private function get_plugin( $extension ) {
 		if ( ! function_exists( 'get_plugins' ) ) {

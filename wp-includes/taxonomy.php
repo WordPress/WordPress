@@ -743,8 +743,7 @@ function unregister_taxonomy_for_object_type( $taxonomy, $object_type ) {
  * @param int|array    $term_ids   Term ID or array of term IDs of terms that will be used.
  * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names.
  * @param array|string $args       Change the order of the object_ids, either ASC or DESC.
- * @return WP_Error|array If the taxonomy does not exist, then WP_Error will be returned. On success.
- *  the array can be empty meaning that there are no $object_ids found or it will return the $object_ids found.
+ * @return array|WP_Error An array of $object_ids on success, WP_Error if the taxonomy does not exist.
  */
 function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 	global $wpdb;

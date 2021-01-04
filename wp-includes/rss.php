@@ -403,8 +403,8 @@ if ( !function_exists('fetch_rss') ) :
  * @package External
  * @subpackage MagpieRSS
  *
- * @param string $url URL to retrieve feed
- * @return false|MagpieRSS false on failure or MagpieRSS object on success.
+ * @param string $url URL to retrieve feed.
+ * @return MagpieRSS|false MagpieRSS object on success, false on failure.
  */
 function fetch_rss ($url) {
 	// initialize constants
