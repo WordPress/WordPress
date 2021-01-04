@@ -121,7 +121,10 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
 }
 
 /**
- * Check if any filter has been registered for a hook.
+ * Checks if any filter has been registered for a hook.
+ *
+ * When using the `$function_to_check` argument, this function may return a non-boolean value
+ * that evaluates to false (e.g. 0), so use the `===` operator for testing the return value.
  *
  * @since 2.5.0
  *
@@ -129,12 +132,9 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *
  * @param string         $tag               The name of the filter hook.
  * @param callable|false $function_to_check Optional. The callback to check for. Default false.
- * @return false|int If $function_to_check is omitted, returns boolean for whether the hook has
- *                   anything registered. When checking a specific function, the priority of that
- *                   hook is returned, or false if the function is not attached. When using the
- *                   $function_to_check argument, this function may return a non-boolean value
- *                   that evaluates to false (e.g. 0), so use the === operator for testing the
- *                   return value.
+ * @return int|bool If `$function_to_check` is omitted, returns boolean for whether the hook has
+ *                  anything registered. When checking a specific function, the priority of that
+ *                  hook is returned, or false if the function is not attached.
  */
 function has_filter( $tag, $function_to_check = false ) {
 	global $wp_filter;
@@ -554,7 +554,10 @@ function do_action_ref_array( $tag, $args ) {
 }
 
 /**
- * Check if any action has been registered for a hook.
+ * Checks if any action has been registered for a hook.
+ *
+ * When using the `$function_to_check` argument, this function may return a non-boolean value
+ * that evaluates to false (e.g. 0), so use the `===` operator for testing the return value.
  *
  * @since 2.5.0
  *
@@ -562,12 +565,9 @@ function do_action_ref_array( $tag, $args ) {
  *
  * @param string         $tag               The name of the action hook.
  * @param callable|false $function_to_check Optional. The callback to check for. Default false.
- * @return bool|int If $function_to_check is omitted, returns boolean for whether the hook has
+ * @return int|bool If `$function_to_check` is omitted, returns boolean for whether the hook has
  *                  anything registered. When checking a specific function, the priority of that
- *                  hook is returned, or false if the function is not attached. When using the
- *                  $function_to_check argument, this function may return a non-boolean value
- *                  that evaluates to false (e.g. 0), so use the === operator for testing the
- *                  return value.
+ *                  hook is returned, or false if the function is not attached.
  */
 function has_action( $tag, $function_to_check = false ) {
 	return has_filter( $tag, $function_to_check );
