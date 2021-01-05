@@ -539,9 +539,9 @@ final class WP_Screen {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $option Option name.
-	 * @param string $key    Optional. Specific array key for when the option is an array.
-	 *                       Default false.
+	 * @param string       $option Option name.
+	 * @param string|false $key    Optional. Specific array key for when the option is an array.
+	 *                             Default false.
 	 * @return string The option value if set, null otherwise.
 	 */
 	public function get_option( $option, $key = false ) {

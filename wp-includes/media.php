@@ -3362,7 +3362,7 @@ add_shortcode( 'video', 'wp_video_shortcode' );
  *
  * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
  *                           of width and height values in pixels (in that order). Default 'thumbnail'.
- * @param string       $text Optional. Link text. Default false.
+ * @param string|false $text Optional. Link text. Default false.
  */
 function previous_image_link( $size = 'thumbnail', $text = false ) {
 	adjacent_image_link( true, $size, $text );
@@ -3377,7 +3377,7 @@ function previous_image_link( $size = 'thumbnail', $text = false ) {
  *
  * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
  *                           of width and height values in pixels (in that order). Default 'thumbnail'.
- * @param string       $text Optional. Link text. Default false.
+ * @param string|false $text Optional. Link text. Default false.
  */
 function next_image_link( $size = 'thumbnail', $text = false ) {
 	adjacent_image_link( false, $size, $text );

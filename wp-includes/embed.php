@@ -99,7 +99,7 @@ function wp_embed_defaults( $url = '' ) {
  * @see WP_oEmbed
  *
  * @param string $url  The URL that should be embedded.
- * @param array  $args {
+ * @param array|string $args {
  *     Optional. Additional arguments for retrieving embed HTML. Default empty.
  *
  *     @type int|string $width    Optional. The `maxwidth` value passed to the provider URL.

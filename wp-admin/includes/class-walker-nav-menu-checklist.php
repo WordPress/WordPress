@@ -15,7 +15,7 @@
  */
 class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	/**
-	 * @param array $fields
+	 * @param array|false $fields Database fields to use.
 	 */
 	public function __construct( $fields = false ) {
 		if ( $fields ) {

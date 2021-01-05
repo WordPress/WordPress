@@ -2298,7 +2298,7 @@ function maybe_add_existing_user_to_blog() {
  *
  * @since MU (3.0.0)
  *
- * @param array $details {
+ * @param array|false $details {
  *     User details. Must at least contain values for the keys listed below.
  *
  *     @type int    $user_id The ID of the user being added to the current blog.

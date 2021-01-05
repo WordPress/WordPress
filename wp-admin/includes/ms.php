@@ -689,7 +689,7 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
  * @global int    $wp_db_version WordPress database version.
  * @global string $pagenow
  *
- * @return false False if the current user is not a super admin.
+ * @return void|false Void on success. False if the current user is not a super admin.
  */
 function site_admin_notice() {
 	global $wp_db_version, $pagenow;

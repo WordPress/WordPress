@@ -934,9 +934,9 @@ function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
  * @since 1.5.0
  * @since 4.6.0 The function now tries to load the .mo file from the languages directory first.
  *
- * @param string $domain Text domain. Unique identifier for retrieving translated strings.
- * @param string $path   Optional. Path to the directory containing the .mo file.
- *                       Default false.
+ * @param string       $domain Text domain. Unique identifier for retrieving translated strings.
+ * @param string|false $path   Optional. Path to the directory containing the .mo file.
+ *                             Default false.
  * @return bool True when textdomain is successfully loaded, false otherwise.
  */
 function load_theme_textdomain( $domain, $path = false ) {
@@ -974,9 +974,9 @@ function load_theme_textdomain( $domain, $path = false ) {
  *
  * @since 2.9.0
  *
- * @param string $domain Text domain. Unique identifier for retrieving translated strings.
- * @param string $path   Optional. Path to the directory containing the .mo file.
- *                       Default false.
+ * @param string       $domain Text domain. Unique identifier for retrieving translated strings.
+ * @param string|false $path   Optional. Path to the directory containing the .mo file.
+ *                             Default false.
  * @return bool True when the theme textdomain is successfully loaded, false otherwise.
  */
 function load_child_theme_textdomain( $domain, $path = false ) {

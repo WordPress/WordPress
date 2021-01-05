@@ -49,7 +49,7 @@ function _usort_by_first_member( $a, $b ) {
  * @param string   $name        Importer name and title.
  * @param string   $description Importer description.
  * @param callable $callback    Callback to run.
- * @return WP_Error Returns WP_Error when $callback is WP_Error.
+ * @return void|WP_Error Void on success. WP_Error when $callback is WP_Error.
  */
 function register_importer( $id, $name, $description, $callback ) {
 	global $wp_importers;
