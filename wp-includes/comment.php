@@ -2408,7 +2408,7 @@ function wp_set_comment_status( $comment_id, $comment_status, $wp_error = false 
 	 *
 	 * @param int    $comment_id     Comment ID.
 	 * @param string $comment_status Current comment status. Possible values include
-	 *                               'hold', '0', 'approve', '1, 'spam', and 'trash'.
+	 *                               'hold', '0', 'approve', '1', 'spam', and 'trash'.
 	 */
 	do_action( 'wp_set_comment_status', $comment->comment_ID, $comment_status );
 
