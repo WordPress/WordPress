@@ -2492,7 +2492,7 @@ function get_theme_starter_content() {
  *                        'disable-custom-font-sizes', 'editor-color-palette', 'editor-font-sizes',
  *                        'editor-styles', 'wp-block-styles', and 'core-block-patterns'.
  * @param mixed  ...$args Optional extra arguments to pass along with certain features.
- * @return void|false False on failure, void otherwise.
+ * @return void|false Void on success, false on failure.
  */
 function add_theme_support( $feature, ...$args ) {
 	global $_wp_theme_features;
