@@ -4433,7 +4433,7 @@ function smilies_init() {
 }
 
 /**
- * Merge user defined arguments into defaults array.
+ * Merges user defined arguments into defaults array.
  *
  * This function is used throughout WordPress to allow for both string or array
  * to be merged into another array.
@@ -4462,12 +4462,12 @@ function wp_parse_args( $args, $defaults = array() ) {
 }
 
 /**
- * Cleans up an array, comma- or space-separated list of scalar values.
+ * Converts a comma- or space-separated list of scalar values to an array.
  *
  * @since 5.1.0
  *
  * @param array|string $list List of values.
- * @return array Sanitized array of values.
+ * @return array Array of values.
  */
 function wp_parse_list( $list ) {
 	if ( ! is_array( $list ) ) {
@@ -4478,7 +4478,7 @@ function wp_parse_list( $list ) {
 }
 
 /**
- * Clean up an array, comma- or space-separated list of IDs.
+ * Cleans up an array, comma- or space-separated list of IDs.
  *
  * @since 3.0.0
  *
@@ -4492,7 +4492,7 @@ function wp_parse_id_list( $list ) {
 }
 
 /**
- * Clean up an array, comma- or space-separated list of slugs.
+ * Cleans up an array, comma- or space-separated list of slugs.
  *
  * @since 4.7.0
  *
