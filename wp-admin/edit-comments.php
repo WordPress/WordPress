@@ -31,7 +31,7 @@ if ( $doaction ) {
 		$doaction       = 'delete';
 	} elseif ( isset( $_REQUEST['delete_comments'] ) ) {
 		$comment_ids = $_REQUEST['delete_comments'];
-		$doaction    = ( '-1' !== $_REQUEST['action'] ) ? $_REQUEST['action'] : $_REQUEST['action2'];
+		$doaction    = $_REQUEST['action'];
 	} elseif ( isset( $_REQUEST['ids'] ) ) {
 		$comment_ids = array_map( 'absint', explode( ',', $_REQUEST['ids'] ) );
 	} elseif ( wp_get_referer() ) {

@@ -1220,6 +1220,62 @@ $document.ready( function() {
 	});
 
 	/**
+	 * Marries a secondary control to its primary control.
+	 *
+	 * @param {jQuery} topSelector    The top selector element.
+	 * @param {jQuery} topSubmit      The top submit element.
+	 * @param {jQuery} bottomSelector The bottom selector element.
+	 * @param {jQuery} bottomSubmit   The bottom submit element.
+	 * @return {void}
+	 */
+	function marryControls( topSelector, topSubmit, bottomSelector, bottomSubmit ) {
+		/**
+		 * Updates the primary selector when the secondary selector is changed.
+		 *
+		 * @since 5.7.0
+		 *
+		 * @return {void}
+		 */
+		function updateTopSelector() {
+			topSelector.val($(this).val());
+		}
+		bottomSelector.on('change', updateTopSelector);
+
+		/**
+		 * Updates the secondary selector when the primary selector is changed.
+		 *
+		 * @since 5.7.0
+		 *
+		 * @return {void}
+		 */
+		function updateBottomSelector() {
+			bottomSelector.val($(this).val());
+		}
+		topSelector.on('change', updateBottomSelector);
+
+		/**
+		 * Triggers the primary submit when then secondary submit is clicked.
+		 *
+		 * @since 5.7.0
+		 *
+		 * @return {void}
+		 */
+		function triggerSubmitClick(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			topSubmit.trigger('click');
+		}
+		bottomSubmit.on('click', triggerSubmitClick);
+	}
+
+	// Marry the secondary "Bulk actions" controls to the primary controls:
+	marryControls( $('#bulk-action-selector-top'), $('#doaction'), $('#bulk-action-selector-bottom'), $('#doaction2') );
+
+	// Marry the secondary "Change role to" controls to the primary controls:
+	marryControls( $('#new_role'), $('#changeit'), $('#new_role2'), $('#changeit2') );
+
+	/**
 	 * Shows row actions on focus of its parent container element or any other elements contained within.
 	 *
 	 * @return {void}
@@ -1321,9 +1377,8 @@ $document.ready( function() {
 		pageInput.closest('form').submit( function() {
 			/*
 			 * action = bulk action dropdown at the top of the table
-			 * action2 = bulk action dropdow at the bottom of the table
 			 */
-			if ( $('select[name="action"]').val() == -1 && $('select[name="action2"]').val() == -1 && pageInput.val() == currentPage )
+			if ( $('select[name="action"]').val() == -1 && pageInput.val() == currentPage )
 				pageInput.val('1');
 		});
 	}

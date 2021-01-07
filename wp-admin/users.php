@@ -112,12 +112,7 @@ switch ( $wp_list_table->current_action() ) {
 		}
 
 		$editable_roles = get_editable_roles();
-		$role           = false;
-		if ( ! empty( $_REQUEST['new_role2'] ) ) {
-			$role = $_REQUEST['new_role2'];
-		} elseif ( ! empty( $_REQUEST['new_role'] ) ) {
-			$role = $_REQUEST['new_role'];
-		}
+		$role           = $_REQUEST['new_role'];
 
 		if ( ! $role || empty( $editable_roles[ $role ] ) ) {
 			wp_die( __( 'Sorry, you are not allowed to give users that role.' ), 403 );
