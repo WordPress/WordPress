@@ -1860,9 +1860,15 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		/**
-		 * Filters the post data for a response.
+		 * Filters the post data for a REST API response.
 		 *
 		 * The dynamic portion of the hook name, `$this->post_type`, refers to the post type slug.
+		 *
+		 * Possible filter names include:
+		 *
+		 *  - `rest_prepare_post`
+		 *  - `rest_prepare_page`
+		 *  - `rest_prepare_attachment`
 		 *
 		 * @since 4.7.0
 		 *

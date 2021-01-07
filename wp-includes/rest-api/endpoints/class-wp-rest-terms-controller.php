@@ -828,9 +828,14 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		$response->add_links( $this->prepare_links( $item ) );
 
 		/**
-		 * Filters a term item returned from the REST API.
+		 * Filters the term data for a REST API response.
 		 *
 		 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the taxonomy slug.
+		 *
+		 * Possible filter names include:
+		 *
+		 *  - `rest_prepare_category`
+		 *  - `rest_prepare_post_tag`
 		 *
 		 * Allows modification of the term data right before it is returned.
 		 *

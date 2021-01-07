@@ -396,7 +396,7 @@ class WP_List_Table {
 		 * Filters the list of available list table views.
 		 *
 		 * The dynamic portion of the hook name, `$this->screen->id`, refers
-		 * to the ID of the current screen, usually a string.
+		 * to the ID of the current screen.
 		 *
 		 * @since 3.1.0
 		 *

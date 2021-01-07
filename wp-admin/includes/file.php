@@ -734,7 +734,7 @@ function validate_file_to_edit( $file, $allowed_files = array() ) {
  *                                              @see wp_unique_filename().
  *     @type string[] $upload_error_strings     The strings that describe the error indicated in
  *                                              `$_FILES[{form field}]['error']`.
- *     @type bool     $test_form                Whether to test that the `$_POST['action]` parameter is as expected.
+ *     @type bool     $test_form                Whether to test that the `$_POST['action']` parameter is as expected.
  *     @type bool     $test_size                Whether to test that the file size is greater than zero bytes.
  *     @type bool     $test_type                Whether to test that the mime type of the file is as expected.
  *     @type string[] $mimes                    Array of allowed mime types keyed by their file extension regex.
