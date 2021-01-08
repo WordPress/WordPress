@@ -794,7 +794,7 @@ final class WP_Screen {
 		 *                   {@see get_current_screen()->remove_help_tab()} instead.
 		 *
 		 * @param array     $old_compat_help Old contextual help.
-		 * @param WP_Screen $this            Current WP_Screen instance.
+		 * @param WP_Screen $screen          Current WP_Screen instance.
 		 */
 		self::$_old_compat_help = apply_filters_deprecated(
 			'contextual_help_list',
@@ -814,7 +814,7 @@ final class WP_Screen {
 		 *
 		 * @param string    $old_help  Help text that appears on the screen.
 		 * @param string    $screen_id Screen ID.
-		 * @param WP_Screen $this      Current WP_Screen instance.
+		 * @param WP_Screen $screen    Current WP_Screen instance.
 		 */
 		$old_help = apply_filters_deprecated(
 			'contextual_help',
@@ -935,7 +935,7 @@ final class WP_Screen {
 		 *
 		 * @param array     $empty_columns Empty array.
 		 * @param string    $screen_id     Screen ID.
-		 * @param WP_Screen $this          Current WP_Screen instance.
+		 * @param WP_Screen $screen        Current WP_Screen instance.
 		 */
 		$columns = apply_filters( 'screen_layout_columns', array(), $this->id, $this );
 
@@ -1087,7 +1087,7 @@ final class WP_Screen {
 		 *
 		 * @param bool      $show_button Whether to show Screen Options submit button.
 		 *                               Default false.
-		 * @param WP_Screen $this        Current WP_Screen instance.
+		 * @param WP_Screen $screen      Current WP_Screen instance.
 		 */
 		$show_button = apply_filters( 'screen_options_show_submit', false, $this );
 

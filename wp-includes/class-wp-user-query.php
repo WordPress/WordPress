@@ -224,7 +224,7 @@ class WP_User_Query {
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param WP_User_Query $this Current instance of WP_User_Query (passed by reference).
+		 * @param WP_User_Query $query Current instance of WP_User_Query (passed by reference).
 		 */
 		do_action_ref_array( 'pre_get_users', array( &$this ) );
 
@@ -544,7 +544,7 @@ class WP_User_Query {
 			 *
 			 * @param string[]      $search_columns Array of column names to be searched.
 			 * @param string        $search         Text being searched.
-			 * @param WP_User_Query $this           The current WP_User_Query instance.
+			 * @param WP_User_Query $query          The current WP_User_Query instance.
 			 */
 			$search_columns = apply_filters( 'user_search_columns', $search_columns, $search, $this );
 
@@ -575,7 +575,7 @@ class WP_User_Query {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param WP_User_Query $this Current instance of WP_User_Query (passed by reference).
+		 * @param WP_User_Query $query Current instance of WP_User_Query (passed by reference).
 		 */
 		do_action_ref_array( 'pre_user_query', array( &$this ) );
 	}
@@ -604,9 +604,9 @@ class WP_User_Query {
 		 *
 		 * @since 5.1.0
 		 *
-		 * @param array|null $results Return an array of user data to short-circuit WP's user query
-		 *                            or null to allow WP to run its normal queries.
-		 * @param WP_User_Query $this The WP_User_Query instance (passed by reference).
+		 * @param array|null    $results Return an array of user data to short-circuit WP's user query
+		 *                               or null to allow WP to run its normal queries.
+		 * @param WP_User_Query $query   The WP_User_Query instance (passed by reference).
 		 */
 		$this->results = apply_filters_ref_array( 'users_pre_query', array( null, &$this ) );
 
@@ -628,8 +628,8 @@ class WP_User_Query {
 				 *
 				 * @global wpdb $wpdb WordPress database abstraction object.
 				 *
-				 * @param string $sql         The SELECT FOUND_ROWS() query for the current WP_User_Query.
-				 * @param WP_User_Query $this The current WP_User_Query instance.
+				 * @param string        $sql   The SELECT FOUND_ROWS() query for the current WP_User_Query.
+				 * @param WP_User_Query $query The current WP_User_Query instance.
 				 */
 				$found_users_query = apply_filters( 'found_users_query', 'SELECT FOUND_ROWS()', $this );
 

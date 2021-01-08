@@ -606,7 +606,7 @@ class WP_Customize_Setting {
 		 *
 		 * @param WP_Error             $validity Filtered from `true` to `WP_Error` when invalid.
 		 * @param mixed                $value    Value of the setting.
-		 * @param WP_Customize_Setting $this     WP_Customize_Setting instance.
+		 * @param WP_Customize_Setting $setting  WP_Customize_Setting instance.
 		 */
 		$validity = apply_filters( "customize_validate_{$this->id}", $validity, $value, $this );
 
@@ -762,7 +762,7 @@ class WP_Customize_Setting {
 			 * @since 4.6.0 Added the `$this` setting instance as the second parameter.
 			 *
 			 * @param mixed                $default The setting default value. Default empty.
-			 * @param WP_Customize_Setting $this    The setting instance.
+			 * @param WP_Customize_Setting $setting The setting instance.
 			 */
 			$value = apply_filters( "customize_value_{$id_base}", $value, $this );
 		} elseif ( $this->is_multidimensional_aggregated ) {
@@ -795,8 +795,8 @@ class WP_Customize_Setting {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param mixed                $value The setting value.
-		 * @param WP_Customize_Setting $this  WP_Customize_Setting instance.
+		 * @param mixed                $value   The setting value.
+		 * @param WP_Customize_Setting $setting WP_Customize_Setting instance.
 		 */
 		$value = apply_filters( "customize_sanitize_js_{$this->id}", $this->value(), $this );
 

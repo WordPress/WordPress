@@ -428,7 +428,7 @@ final class WP_Customize_Selective_Refresh {
 		 *     @type array $errors   List of errors triggered during rendering of partials, if `WP_DEBUG_DISPLAY`
 		 *                           is enabled.
 		 * }
-		 * @param WP_Customize_Selective_Refresh $this     Selective refresh component.
+		 * @param WP_Customize_Selective_Refresh $refresh  Selective refresh component.
 		 * @param array                          $partials Placements' context data for the partials rendered in the request.
 		 *                                                 The array is keyed by partial ID, with each item being an array of
 		 *                                                 the placements' context data.

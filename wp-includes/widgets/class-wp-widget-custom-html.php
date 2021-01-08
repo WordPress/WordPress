@@ -156,7 +156,7 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 		 *
 		 * @param string                $content  The widget content.
 		 * @param array                 $instance Array of settings for the current widget.
-		 * @param WP_Widget_Custom_HTML $this     Current Custom HTML widget instance.
+		 * @param WP_Widget_Custom_HTML $widget   Current Custom HTML widget instance.
 		 */
 		$content = apply_filters( 'widget_custom_html_content', $content, $instance, $this );
 

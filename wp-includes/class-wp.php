@@ -485,7 +485,7 @@ class WP {
 		 * @since 2.8.0
 		 *
 		 * @param string[] $headers Associative array of headers to be sent.
-		 * @param WP       $this    Current WordPress environment instance.
+		 * @param WP       $wp      Current WordPress environment instance.
 		 */
 		$headers = apply_filters( 'wp_headers', $headers, $this );
 

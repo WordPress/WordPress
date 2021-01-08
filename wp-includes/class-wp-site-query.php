@@ -318,7 +318,7 @@ class WP_Site_Query {
 		 * @param array|int|null $site_data Return an array of site data to short-circuit WP's site query,
 		 *                                  the site count as an integer if `$this->query_vars['count']` is set,
 		 *                                  or null to run the normal queries.
-		 * @param WP_Site_Query  $this      The WP_Site_Query instance, passed by reference.
+		 * @param WP_Site_Query  $query     The WP_Site_Query instance, passed by reference.
 		 */
 		$site_data = apply_filters_ref_array( 'sites_pre_query', array( $site_data, &$this ) );
 
@@ -396,7 +396,7 @@ class WP_Site_Query {
 		 * @since 4.6.0
 		 *
 		 * @param WP_Site[]     $_sites An array of WP_Site objects.
-		 * @param WP_Site_Query $this   Current instance of WP_Site_Query (passed by reference).
+		 * @param WP_Site_Query $query  Current instance of WP_Site_Query (passed by reference).
 		 */
 		$_sites = apply_filters_ref_array( 'the_sites', array( $_sites, &$this ) );
 
@@ -600,7 +600,7 @@ class WP_Site_Query {
 			 *
 			 * @param string[]      $search_columns Array of column names to be searched.
 			 * @param string        $search         Text being searched.
-			 * @param WP_Site_Query $this           The current WP_Site_Query instance.
+			 * @param WP_Site_Query $query          The current WP_Site_Query instance.
 			 */
 			$search_columns = apply_filters( 'site_search_columns', $search_columns, $this->query_vars['search'], $this );
 
@@ -637,7 +637,7 @@ class WP_Site_Query {
 		 * @since 4.6.0
 		 *
 		 * @param string[]      $pieces An associative array of site query clauses.
-		 * @param WP_Site_Query $this   Current instance of WP_Site_Query (passed by reference).
+		 * @param WP_Site_Query $query  Current instance of WP_Site_Query (passed by reference).
 		 */
 		$clauses = apply_filters_ref_array( 'sites_clauses', array( compact( $pieces ), &$this ) );
 

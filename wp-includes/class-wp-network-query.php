@@ -227,7 +227,7 @@ class WP_Network_Query {
 		 * @param array|int|null   $network_data Return an array of network data to short-circuit WP's network query,
 		 *                                       the network count as an integer if `$this->query_vars['count']` is set,
 		 *                                       or null to allow WP to run its normal queries.
-		 * @param WP_Network_Query $this         The WP_Network_Query instance, passed by reference.
+		 * @param WP_Network_Query $query        The WP_Network_Query instance, passed by reference.
 		 */
 		$network_data = apply_filters_ref_array( 'networks_pre_query', array( $network_data, &$this ) );
 
@@ -303,7 +303,7 @@ class WP_Network_Query {
 		 * @since 4.6.0
 		 *
 		 * @param WP_Network[]     $_networks An array of WP_Network objects.
-		 * @param WP_Network_Query $this      Current instance of WP_Network_Query (passed by reference).
+		 * @param WP_Network_Query $query     Current instance of WP_Network_Query (passed by reference).
 		 */
 		$_networks = apply_filters_ref_array( 'the_networks', array( $_networks, &$this ) );
 
@@ -446,7 +446,7 @@ class WP_Network_Query {
 		 * @since 4.6.0
 		 *
 		 * @param string[]         $pieces An associative array of network query clauses.
-		 * @param WP_Network_Query $this   Current instance of WP_Network_Query (passed by reference).
+		 * @param WP_Network_Query $query  Current instance of WP_Network_Query (passed by reference).
 		 */
 		$clauses = apply_filters_ref_array( 'networks_clauses', array( compact( $pieces ), &$this ) );
 

@@ -363,7 +363,7 @@ class WP_Widget {
 			 * @since 2.8.0
 			 *
 			 * @param array     $instance The current widget instance's settings.
-			 * @param WP_Widget $this     The current widget instance.
+			 * @param WP_Widget $widget   The current widget instance.
 			 * @param array     $args     An array of default widget arguments.
 			 */
 			$instance = apply_filters( 'widget_display_callback', $instance, $this, $args );
@@ -457,7 +457,7 @@ class WP_Widget {
 				 * @param array     $instance     The current widget instance's settings.
 				 * @param array     $new_instance Array of new widget settings.
 				 * @param array     $old_instance Array of old widget settings.
-				 * @param WP_Widget $this         The current widget instance.
+				 * @param WP_Widget $widget       The current widget instance.
 				 */
 				$instance = apply_filters( 'widget_update_callback', $instance, $new_instance, $old_instance, $this );
 				if ( false !== $instance ) {
@@ -510,7 +510,7 @@ class WP_Widget {
 		 * @since 2.8.0
 		 *
 		 * @param array     $instance The current widget instance's settings.
-		 * @param WP_Widget $this     The current widget instance.
+		 * @param WP_Widget $widget   The current widget instance.
 		 */
 		$instance = apply_filters( 'widget_form_callback', $instance, $this );
 
@@ -530,7 +530,7 @@ class WP_Widget {
 			 *
 			 * @since 2.8.0
 			 *
-			 * @param WP_Widget $this     The widget instance (passed by reference).
+			 * @param WP_Widget $widget   The widget instance (passed by reference).
 			 * @param null      $return   Return null if new fields are added.
 			 * @param array     $instance An array of the widget's settings.
 			 */

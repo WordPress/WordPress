@@ -270,12 +270,12 @@ class WP_Widget_Text extends WP_Widget {
 		 * Filters the content of the Text widget.
 		 *
 		 * @since 2.3.0
-		 * @since 4.4.0 Added the `$this` parameter.
-		 * @since 4.8.1 The `$this` param may now be a `WP_Widget_Custom_HTML` object in addition to a `WP_Widget_Text` object.
+		 * @since 4.4.0 Added the `$widget` parameter.
+		 * @since 4.8.1 The `$widget` param may now be a `WP_Widget_Custom_HTML` object in addition to a `WP_Widget_Text` object.
 		 *
 		 * @param string                               $text     The widget content.
 		 * @param array                                $instance Array of settings for the current widget.
-		 * @param WP_Widget_Text|WP_Widget_Custom_HTML $this     Current Text widget instance.
+		 * @param WP_Widget_Text|WP_Widget_Custom_HTML $widget   Current text or HTML widget instance.
 		 */
 		$text = apply_filters( 'widget_text', $text, $instance, $this );
 
@@ -290,7 +290,7 @@ class WP_Widget_Text extends WP_Widget {
 			 *
 			 * @param string         $text     The widget content.
 			 * @param array          $instance Array of settings for the current widget.
-			 * @param WP_Widget_Text $this     Current Text widget instance.
+			 * @param WP_Widget_Text $widget   Current Text widget instance.
 			 */
 			$text = apply_filters( 'widget_text_content', $text, $instance, $this );
 		} else {

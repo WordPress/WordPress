@@ -1258,7 +1258,7 @@ final class WP_Theme implements ArrayAccess {
 		 * @since 4.9.6
 		 *
 		 * @param string[]     $post_templates Array of template header names keyed by the template file name.
-		 * @param WP_Theme     $this           The theme object.
+		 * @param WP_Theme     $theme          The theme object.
 		 * @param WP_Post|null $post           The post being edited, provided for context, or null.
 		 * @param string       $post_type      Post type to get the templates for.
 		 */
@@ -1274,7 +1274,7 @@ final class WP_Theme implements ArrayAccess {
 		 * @since 4.7.0 Added the `$post_type` parameter.
 		 *
 		 * @param string[]     $post_templates Array of template header names keyed by the template file name.
-		 * @param WP_Theme     $this           The theme object.
+		 * @param WP_Theme     $theme          The theme object.
 		 * @param WP_Post|null $post           The post being edited, provided for context, or null.
 		 * @param string       $post_type      Post type to get the templates for.
 		 */

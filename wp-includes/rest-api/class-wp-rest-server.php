@@ -457,7 +457,7 @@ class WP_REST_Server {
 		 * @since 4.5.0 Applied to embedded responses.
 		 *
 		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a `WP_REST_Response`.
-		 * @param WP_REST_Server   $this    Server instance.
+		 * @param WP_REST_Server   $server  Server instance.
 		 * @param WP_REST_Request  $request Request used to generate the response.
 		 */
 		$result = apply_filters( 'rest_post_dispatch', rest_ensure_response( $result ), $this, $request );
@@ -486,7 +486,7 @@ class WP_REST_Server {
 		 *                                           Default false.
 		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a `WP_REST_Response`.
 		 * @param WP_REST_Request  $request Request used to generate the response.
-		 * @param WP_REST_Server   $this    Server instance.
+		 * @param WP_REST_Server   $server  Server instance.
 		 */
 		$served = apply_filters( 'rest_pre_serve_request', false, $result, $request, $this );
 
@@ -508,7 +508,7 @@ class WP_REST_Server {
 			 * @since 4.8.1
 			 *
 			 * @param array            $result  Response data to send to the client.
-			 * @param WP_REST_Server   $this    Server instance.
+			 * @param WP_REST_Server   $server  Server instance.
 			 * @param WP_REST_Request  $request Request used to generate the response.
 			 */
 			$result = apply_filters( 'rest_pre_echo_response', $result, $this, $request );
@@ -966,7 +966,7 @@ class WP_REST_Server {
 		 *
 		 * @param mixed           $result  Response to replace the requested version with. Can be anything
 		 *                                 a normal endpoint can return, or null to not hijack the request.
-		 * @param WP_REST_Server  $this    Server instance.
+		 * @param WP_REST_Server  $server  Server instance.
 		 * @param WP_REST_Request $request Request used to generate the response.
 		 */
 		$result = apply_filters( 'rest_pre_dispatch', null, $this, $request );
