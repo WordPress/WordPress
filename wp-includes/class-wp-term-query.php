@@ -285,12 +285,16 @@ class WP_Term_Query {
 	}
 
 	/**
-	 * Sets up the query for retrieving terms.
+	 * Sets up the query and retrieves the results.
+	 *
+	 * The return type varies depending on the value passed to `$args['fields']`. See
+	 * WP_Term_Query::get_terms() for details.
 	 *
 	 * @since 4.6.0
 	 *
 	 * @param string|array $query Array or URL query string of parameters.
-	 * @return array|int List of terms, or number of terms when 'count' is passed as a query var.
+	 * @return WP_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
+	 *                                         when 'count' is passed as a query var.
 	 */
 	public function query( $query ) {
 		$this->query_vars = wp_parse_args( $query );
@@ -298,13 +302,43 @@ class WP_Term_Query {
 	}
 
 	/**
-	 * Get terms, based on query_vars.
+	 * Retrieves the query results.
+	 *
+	 * The return type varies depending on the value passed to `$args['fields']`.
+	 *
+	 * The following will result in an array of `WP_Term` objects being returned:
+	 *
+	 *   - 'all'
+	 *   - 'all_with_object_id'
+	 *
+	 * The following will result in a numeric string being returned:
+	 *
+	 *   - 'count'
+	 *
+	 * The following will result in an array of text strings being returned:
+	 *
+	 *   - 'id=>name'
+	 *   - 'id=>slug'
+	 *   - 'names'
+	 *   - 'slugs'
+	 *
+	 * The following will result in an array of numeric strings being returned:
+	 *
+	 *   - 'id=>parent'
+	 *
+	 * The following will result in an array of integers being returned:
+	 *
+	 *   - 'ids'
+	 *   - 'tt_ids'
+	 *
+	 * In all cases, a `WP_Error` object will be returned if an invalid taxonomy is used.
 	 *
 	 * @since 4.6.0
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return array List of terms.
+	 * @return WP_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
+	 *                                         when 'count' is passed as a query var.
 	 */
 	public function get_terms() {
 		global $wpdb;

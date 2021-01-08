@@ -1131,10 +1131,14 @@ function get_term_to_edit( $id, $taxonomy ) {
 }
 
 /**
- * Retrieve the terms in a given taxonomy or list of taxonomies.
+ * Retrieves the terms in a given taxonomy or list of taxonomies.
  *
  * You can fully inject any customizations to the query before it is sent, as
  * well as control the output with a filter.
+ *
+ * The return type varies depending on the value passed to `$args['fields']`. See
+ * WP_Term_Query::get_terms() for details. In all cases, a `WP_Error` object will
+ * be returned if an invalid taxonomy is requested.
  *
  * The {@see 'get_terms'} filter will be called when the cache has the term and will
  * pass the found term along with the array of $taxonomies and array of $args.
@@ -1177,8 +1181,9 @@ function get_term_to_edit( $id, $taxonomy ) {
  *                                 If present, this parameter will be interpreted as `$args`, and the first
  *                                 function parameter will be parsed as a taxonomy or array of taxonomies.
  *                                 Default empty.
- * @return WP_Term[]|int|WP_Error Array of WP_Term instances, a count thereof,
- *                                or WP_Error if any of the taxonomies do not exist.
+ * @return WP_Term[]|int[]|string[]|string|WP_Error Array of terms, a count thereof as a numeric string,
+ *                                                  or WP_Error if any of the taxonomies do not exist.
+ *                                                  See the function description for more information.
  */
 function get_terms( $args = array(), $deprecated = '' ) {
 	$term_query = new WP_Term_Query();
@@ -1745,7 +1750,8 @@ function sanitize_term_field( $field, $value, $term_id, $taxonomy, $context ) {
  *                                 If present, this parameter will be interpreted as `$args`, and the first
  *                                 function parameter will be parsed as a taxonomy or array of taxonomies.
  *                                 Default empty.
- * @return array|int|WP_Error Number of terms in that taxonomy or WP_Error if the taxonomy does not exist.
+ * @return string|WP_Error Numeric string containing the number of terms in that
+ *                         taxonomy or WP_Error if the taxonomy does not exist.
  */
 function wp_count_terms( $args = array(), $deprecated = '' ) {
 	$use_legacy_args = false;
