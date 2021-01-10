@@ -313,7 +313,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 		unset( $query_params['search'] );
 
 		/**
-		 * Filters collection parameters for the block directory controller.
+		 * Filters REST API collection parameters for the block directory controller.
 		 *
 		 * @since 5.5.0
 		 *

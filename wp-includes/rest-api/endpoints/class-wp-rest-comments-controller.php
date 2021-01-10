@@ -449,7 +449,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 
 			/**
-			 * Filters whether comments can be created without authentication.
+			 * Filters whether comments can be created via the REST API without authentication.
 			 *
 			 * Enables creating comments for anonymous users.
 			 *
@@ -955,14 +955,14 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		$force = isset( $request['force'] ) ? (bool) $request['force'] : false;
 
 		/**
-		 * Filters whether a comment can be trashed.
+		 * Filters whether a comment can be trashed via the REST API.
 		 *
-		 * Return false to disable Trash support for the post.
+		 * Return false to disable trash support for the comment.
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param bool    $supports_trash Whether the post type support trashing.
-		 * @param WP_Post $comment        The comment object being considered for trashing support.
+		 * @param bool       $supports_trash Whether the comment supports trashing.
+		 * @param WP_Comment $comment        The comment object being considered for trashing support.
 		 */
 		$supports_trash = apply_filters( 'rest_comment_trashable', ( EMPTY_TRASH_DAYS > 0 ), $comment );
 
@@ -1351,7 +1351,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		/**
-		 * Filters a comment after it is prepared for the database.
+		 * Filters a comment added via the REST API after it is prepared for insertion into the database.
 		 *
 		 * Allows modification of the comment right after it is prepared for the database.
 		 *
@@ -1674,7 +1674,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		);
 
 		/**
-		 * Filters collection parameters for the comments controller.
+		 * Filters REST API collection parameters for the comments controller.
 		 *
 		 * This filter registers the collection parameter, but does not map the
 		 * collection parameter to an internal WP_Comment_Query parameter. Use the

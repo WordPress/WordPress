@@ -162,7 +162,7 @@ class WP_REST_Server {
 	 */
 	public function check_authentication() {
 		/**
-		 * Filters REST authentication errors.
+		 * Filters REST API authentication errors.
 		 *
 		 * This is used to pass a WP_Error from an authentication method back to
 		 * the API.
@@ -310,11 +310,11 @@ class WP_REST_Server {
 		$expose_headers = array( 'X-WP-Total', 'X-WP-TotalPages', 'Link' );
 
 		/**
-		 * Filters the list of response headers that are exposed to CORS requests.
+		 * Filters the list of response headers that are exposed to REST API CORS requests.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string[] $expose_headers The list of headers to expose.
+		 * @param string[] $expose_headers The list of response headers to expose.
 		 */
 		$expose_headers = apply_filters( 'rest_exposed_cors_headers', $expose_headers );
 
@@ -329,7 +329,7 @@ class WP_REST_Server {
 		);
 
 		/**
-		 * Filters the list of request headers that are allowed for CORS requests.
+		 * Filters the list of request headers that are allowed for REST API CORS requests.
 		 *
 		 * The allowed headers are passed to the browser to specify which
 		 * headers can be passed to the REST API. By default, we allow the
@@ -338,14 +338,14 @@ class WP_REST_Server {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string[] $allow_headers The list of headers to allow.
+		 * @param string[] $allow_headers The list of request headers to allow.
 		 */
 		$allow_headers = apply_filters( 'rest_allowed_cors_headers', $allow_headers );
 
 		$this->send_header( 'Access-Control-Allow-Headers', implode( ', ', $allow_headers ) );
 
 		/**
-		 * Send nocache headers on authenticated requests.
+		 * Filters whether to send nocache headers on a REST API request.
 		 *
 		 * @since 4.4.0
 		 *
@@ -384,11 +384,11 @@ class WP_REST_Server {
 		);
 
 		/**
-		 * Filters whether jsonp is enabled.
+		 * Filters whether JSONP is enabled for the REST API.
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param bool $jsonp_enabled Whether jsonp is enabled. Default true.
+		 * @param bool $jsonp_enabled Whether JSONP is enabled. Default true.
 		 */
 		$jsonp_enabled = apply_filters( 'rest_jsonp_enabled', true );
 
@@ -768,11 +768,17 @@ class WP_REST_Server {
 		);
 
 		/**
-		 * Filters the enveloped form of a response.
+		 * Filters the enveloped form of a REST API response.
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array            $envelope Envelope data.
+		 * @param array            $envelope {
+		 *     Envelope data.
+		 *
+		 *     @type array $body    Response data.
+		 *     @type int   $status  The 3-digit HTTP status code.
+		 *     @type array $headers Map of header name to header value.
+		 * }
 		 * @param WP_REST_Response $response Original response data.
 		 */
 		$envelope = apply_filters( 'rest_envelope_response', $envelope, $response );
@@ -857,7 +863,7 @@ class WP_REST_Server {
 		}
 
 		/**
-		 * Filters the array of available endpoints.
+		 * Filters the array of available REST API endpoints.
 		 *
 		 * @since 4.4.0
 		 *
@@ -957,7 +963,7 @@ class WP_REST_Server {
 	 */
 	public function dispatch( $request ) {
 		/**
-		 * Filters the pre-calculated result of a REST dispatch request.
+		 * Filters the pre-calculated result of a REST API dispatch request.
 		 *
 		 * Allow hijacking the request before dispatching by returning a non-empty. The returned value
 		 * will be used to serve the request instead.
@@ -1116,7 +1122,8 @@ class WP_REST_Server {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
+		 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client.
+		 *                                                                   Usually a WP_REST_Response or WP_Error.
 		 * @param array                                            $handler  Route handler used for the request.
 		 * @param WP_REST_Request                                  $request  Request used to generate the response.
 		 */
@@ -1139,7 +1146,7 @@ class WP_REST_Server {
 
 		if ( ! is_wp_error( $response ) ) {
 			/**
-			 * Filters the REST dispatch request result.
+			 * Filters the REST API dispatch request result.
 			 *
 			 * Allow plugins to override dispatching the request.
 			 *
@@ -1177,7 +1184,8 @@ class WP_REST_Server {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
+		 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client.
+		 *                                                                   Usually a WP_REST_Response or WP_Error.
 		 * @param array                                            $handler  Route handler used for the request.
 		 * @param WP_REST_Request                                  $request  Request used to generate the response.
 		 */
@@ -1323,7 +1331,7 @@ class WP_REST_Server {
 		$response->add_link( 'up', rest_url( '/' ) );
 
 		/**
-		 * Filters the namespace index data.
+		 * Filters the REST API namespace index data.
 		 *
 		 * This typically is just the route data for the namespace, but you can
 		 * add any data you'd like here.
@@ -1356,7 +1364,7 @@ class WP_REST_Server {
 			}
 
 			/**
-			 * Filters the REST endpoint data.
+			 * Filters the REST API endpoint data.
 			 *
 			 * @since 4.4.0
 			 *
@@ -1366,7 +1374,7 @@ class WP_REST_Server {
 		}
 
 		/**
-		 * Filters the publicly-visible data for routes.
+		 * Filters the publicly-visible data for REST API routes.
 		 *
 		 * This data is exposed on indexes and can be used by clients or
 		 * developers to investigate the site and find out how to use it. It
@@ -1466,7 +1474,7 @@ class WP_REST_Server {
 	 */
 	protected function get_max_batch_size() {
 		/**
-		 * Filters the maximum number of requests that can be included in a batch.
+		 * Filters the maximum number of REST API requests that can be included in a batch.
 		 *
 		 * @since 5.6.0
 		 *

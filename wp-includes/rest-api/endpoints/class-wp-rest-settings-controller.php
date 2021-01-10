@@ -154,7 +154,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 			}
 
 			/**
-			 * Filters whether to preempt a setting value update.
+			 * Filters whether to preempt a setting value update via the REST API.
 			 *
 			 * Allows hijacking the setting update logic and overriding the built-in behavior by
 			 * returning true.

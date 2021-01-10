@@ -339,7 +339,7 @@ class WP_REST_Request implements ArrayAccess {
 	/**
 	 * Retrieves the parameter priority order.
 	 *
-	 * Used when checking parameters in get_param().
+	 * Used when checking parameters in WP_REST_Request::get_param().
 	 *
 	 * @since 4.4.0
 	 *
@@ -371,10 +371,10 @@ class WP_REST_Request implements ArrayAccess {
 		$order[] = 'defaults';
 
 		/**
-		 * Filters the parameter order.
+		 * Filters the parameter priority order for a REST API request.
 		 *
-		 * The order affects which parameters are checked when using get_param() and family.
-		 * This acts similarly to PHP's `request_order` setting.
+		 * The order affects which parameters are checked when using WP_REST_Request::get_param()
+		 * and family. This acts similarly to PHP's `request_order` setting.
 		 *
 		 * @since 4.4.0
 		 *
@@ -1035,7 +1035,7 @@ class WP_REST_Request implements ArrayAccess {
 		}
 
 		/**
-		 * Filters the request generated from a URL.
+		 * Filters the REST API request generated from a URL.
 		 *
 		 * @since 4.5.0
 		 *

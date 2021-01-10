@@ -268,14 +268,14 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
 		}
 
 		/**
-		 * Filters a status returned from the REST API.
+		 * Filters a post status returned from the REST API.
 		 *
 		 * Allows modification of the status data right before it is returned.
 		 *
 		 * @since 4.7.0
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param object           $status   The original status object.
+		 * @param object           $status   The original post status object.
 		 * @param WP_REST_Request  $request  Request used to generate the response.
 		 */
 		return apply_filters( 'rest_prepare_status', $response, $status, $request );

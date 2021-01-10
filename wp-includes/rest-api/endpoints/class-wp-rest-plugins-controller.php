@@ -586,7 +586,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 		$response->add_links( $this->prepare_links( $item ) );
 
 		/**
-		 * Filters the plugin data for a response.
+		 * Filters plugin data for a REST API response.
 		 *
 		 * @since 5.5.0
 		 *
