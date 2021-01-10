@@ -71,8 +71,8 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 	wp_check_php_mysql_versions();
 	wp_load_translations_early();
 
-	// Die with an error message
-	$die = sprintf(
+	// Die with an error message.
+	$die = '<p>' . sprintf(
 		/* translators: %s: wp-config.php */
 		__( "There doesn't seem to be a %s file. I need this before we can get started." ),
 		'<code>wp-config.php</code>'
@@ -87,7 +87,7 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 		__( "You can create a %s file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file." ),
 		'<code>wp-config.php</code>'
 	) . '</p>';
-	$die .= '<p><a href="' . $path . '" class="button button-large">' . __( 'Create a Configuration File' ) . '</a>';
+	$die .= '<p><a href="' . $path . '" class="button button-large">' . __( 'Create a Configuration File' ) . '</a></p>';
 
 	wp_die( $die, __( 'WordPress &rsaquo; Error' ) );
 }
