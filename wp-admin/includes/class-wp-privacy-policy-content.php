@@ -625,7 +625,7 @@ final class WP_Privacy_Policy_Content {
 		$strings[] = '<p>' . $suggested_text . __( 'Visitor comments may be checked through an automated spam detection service.' ) . '</p>';
 
 		/* translators: Default privacy policy heading. */
-		$strings[] = '<h2>' . __( 'Your contact information' ) . '</h2>';
+		$strings[] = '<h2>' . __( 'Contact information' ) . '</h2>';
 
 		if ( $description ) {
 			/* translators: Privacy policy tutorial. */
