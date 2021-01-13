@@ -150,8 +150,8 @@ TABLE OF CONTENTS:
 .wp-core-ui .button.focus,
 .wp-core-ui .button:focus,
 .wp-core-ui .button-secondary:focus {
-	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
-	box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+	-webkit-box-shadow: -1px 1px 1px rgba(0,0,0,.2);
+	box-shadow: -1px 1px 1px rgba(0,0,0,.2);
 }
 
 .wp-core-ui .button.active,
