@@ -216,7 +216,7 @@ $content = esc_textarea( $content );
 </div>
 <div class="alignright">
 	<form action="plugin-editor.php" method="get">
-		<strong><label for="plugin"><?php _e( 'Select plugin to edit:' ); ?> </label></strong>
+		<label for="plugin" id="theme-plugin-editor-selector"><?php _e( 'Select plugin to edit:' ); ?> </label>
 		<select name="plugin" id="plugin">
 		<?php
 		foreach ( $plugins as $plugin_key => $a_plugin ) {

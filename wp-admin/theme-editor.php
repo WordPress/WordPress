@@ -222,7 +222,7 @@ if ( $file_description !== $file_show ) {
 </div>
 <div class="alignright">
 	<form action="theme-editor.php" method="get">
-		<strong><label for="theme"><?php _e( 'Select theme to edit:' ); ?> </label></strong>
+		<label for="theme" id="theme-plugin-editor-selector"><?php _e( 'Select theme to edit:' ); ?> </label>
 		<select name="theme" id="theme">
 		<?php
 		foreach ( wp_get_themes( array( 'errors' => null ) ) as $a_stylesheet => $a_theme ) {

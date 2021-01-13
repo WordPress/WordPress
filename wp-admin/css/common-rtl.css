@@ -3291,11 +3291,15 @@ img {
 	display: none;
 }
 
+#theme-plugin-editor-selector,
+#theme-plugin-editor-label,
+#documentation label {
+	font-weight: 600;
+}
 
 #theme-plugin-editor-label {
 	display: inline-block;
 	margin-bottom: 1em;
-	font-weight: 600;
 }
 
 /* rtl:ignore */
@@ -3391,7 +3395,6 @@ img {
 #documentation label {
 	line-height: 1.8;
 	vertical-align: baseline;
-	font-weight: 600;
 }
 
 .fileedit-sub {
