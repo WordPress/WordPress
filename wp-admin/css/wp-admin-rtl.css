@@ -3784,7 +3784,7 @@ tr.inline-edit-row td,
 
 #wpbody-content .quick-edit-row-page fieldset.inline-edit-col-right .inline-edit-col {
 	border-width: 0 1px 0 0;
-	border-style: none none none solid;
+	border-style: none solid none none;
 }
 
 #wpbody-content .quick-edit-row-post .inline-edit-col-left {
@@ -4275,7 +4275,7 @@ ul.add-menu-item-tabs li.tabs {
 }
 
 #post-body .add-menu-item-tabs li.tabs {
-	border-style: solid none solid solid;
+	border-style: solid solid solid none;
 	border-width: 1px 1px 1px 0;
 	margin-left: -1px;
 }
