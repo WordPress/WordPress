@@ -53,7 +53,7 @@
 		"build:style": "sass assets/sass/style.scss:style.css --style=expanded --source-map",
 		"build:style-editor": "sass assets/sass/style-editor.scss:assets/css/style-editor.css --style=expanded --source-map",
 		"build:style-dark-mode": "sass assets/sass/style-dark-mode.scss:assets/css/style-dark-mode.css --style=expanded --source-map",
-		"build:rtl": "rtlcss style.css style-rtl.css style-dark-mode.css style-dark-mode-rtl.css",
+		"build:rtl": "rtlcss style.css style-rtl.css",
 		"build:dark-rtl": "rtlcss assets/css/style-dark-mode.css assets/css/style-dark-mode-rtl.css",
 		"build:print": "sass assets/sass/07-utilities/print.scss:assets/css/print.css --style=expanded --source-map",
 		"build:ie": "postcss style.css -o assets/css/ie.css",
