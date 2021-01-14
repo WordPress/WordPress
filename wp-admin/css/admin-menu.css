@@ -194,6 +194,13 @@
 	color: #00b9eb;
 }
 
+#adminmenu a:hover,
+#adminmenu a:focus,
+.folded #adminmenu .wp-submenu-head:hover {
+	box-shadow: inset 4px 0 0 0 currentColor;
+	transition: box-shadow .1s linear;
+}
+
 #adminmenu li.menu-top {
 	border: none;
 	min-height: 34px;
@@ -289,6 +296,7 @@
 .folded #adminmenu .wp-has-current-submenu .wp-submenu {
 	min-width: 160px;
 	width: auto;
+	border-left: 5px solid transparent;
 }
 
 #adminmenu .wp-submenu li.current,
@@ -495,8 +503,11 @@ ul#adminmenu > li.current > a.current:after {
 	color: #fff;
 	font-weight: 400;
 	font-size: 14px;
-	padding: 8px 4px 8px 11px;
-	margin: -7px 0px 4px;
+	padding: 5px 4px 5px 11px;
+	margin: -7px 0px 4px -5px;
+	border-width: 3px 0 3px 5px;
+	border-style: solid;
+	border-color: transparent;
 }
 
 #adminmenu li.current,
@@ -841,6 +852,11 @@ li#wp-admin-bar-menu-toggle {
 		left: -1px;
 		right: 0;
 		top: 0;
+	}
+
+	#adminmenu .wp-not-current-submenu .wp-submenu,
+	.folded #adminmenu .wp-has-current-submenu .wp-submenu {
+		border-left: none;
 	}
 
 	/* Remove submenu headers and adjust sub meu*/
