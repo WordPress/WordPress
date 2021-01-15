@@ -108,19 +108,19 @@ th {
 /* specific to the image upload form */
 
 .image-align-none-label {
-	background: url(../images/align-none.png) no-repeat center left;
+	background: url(../images/align-none.png) no-repeat center right;
 }
 
 .image-align-left-label {
-	background: url(../images/align-left.png) no-repeat center left;
+	background: url(../images/align-left.png) no-repeat center right;
 }
 
 .image-align-center-label {
-	background: url(../images/align-center.png) no-repeat center left;
+	background: url(../images/align-center.png) no-repeat center right;
 }
 
 .image-align-right-label {
-	background: url(../images/align-right.png) no-repeat center left;
+	background: url(../images/align-right.png) no-repeat center right;
 }
 
 tr.image-size td {
