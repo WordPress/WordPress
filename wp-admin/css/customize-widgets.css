@@ -53,7 +53,6 @@
 .customize-control-widget_form.widget-form-disabled .widget-content {
 	opacity: 0.7;
 	pointer-events: none;
-	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
@@ -167,7 +166,6 @@
 	border-top: 1px solid #eee;
 	cursor: pointer;
 	-webkit-user-select: none;
-	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }

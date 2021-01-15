@@ -257,7 +257,6 @@ div.mce-inline-toolbar-grp {
 	box-sizing: border-box;
 	margin-bottom: 8px;
 	position: absolute;
-	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
@@ -693,7 +692,6 @@ div.mce-menu .mce-menu-item-sep,
 	background: #eee;
 	border-color: #999;
 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
-	-webkit-transform: translateY(1px);
 	transform: translateY(1px);
 }
 
@@ -704,7 +702,6 @@ div.mce-menu .mce-menu-item-sep,
 	box-shadow: none !important;
 	text-shadow: 0 1px 0 #fff !important;
 	cursor: default;
-	-webkit-transform: none !important;
 	transform: none !important;
 }
 

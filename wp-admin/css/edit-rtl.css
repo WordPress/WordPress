@@ -1352,26 +1352,20 @@ table.links-table {
 .focus-on #adminmenuback,
 .focus-on #adminmenuwrap {
 	transition-duration: 0.6s;
-	transition-property: -webkit-transform;
 	transition-property: transform;
-	transition-property: transform, -webkit-transform;
 	transition-timing-function: ease-in-out;
 }
 
 .focus-on #adminmenuback,
 .focus-on #adminmenuwrap {
-	-webkit-transform: translateX( 100% );
 	transform: translateX( 100% );
 }
 
 .focus-off #adminmenuback,
 .focus-off #adminmenuwrap {
-	-webkit-transform: translateX( 0 );
 	transform: translateX( 0 );
 	transition-duration: 0.2s;
-	transition-property: -webkit-transform;
 	transition-property: transform;
-	transition-property: transform, -webkit-transform;
 	transition-timing-function: ease-in-out;
 }
 

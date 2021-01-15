@@ -834,13 +834,11 @@ table.form-table td .updated p {
 	left: 10px;
 	bottom: 9px;
 	background: transparent;
-	-webkit-transform: skew(-20deg) rotate(-6deg);
 	transform: skew(-20deg) rotate(-6deg);
 	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
 }
 
 .pressthis-bookmarklet:hover:after {
-	-webkit-transform: skew(-20deg) rotate(-9deg);
 	transform: skew(-20deg) rotate(-9deg);
 	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
 }
@@ -1204,7 +1202,6 @@ table.form-table td .updated p {
 .email-personal-data--sending::before {
 	color: #f56e28;
 	content: "\f463";
-	-webkit-animation: rotation 2s infinite linear;
 	animation: rotation 2s infinite linear;
 }
 
@@ -1569,24 +1566,11 @@ table.form-table td .updated p {
 	}
 }
 
-@-webkit-keyframes rotation {
-	0% {
-		-webkit-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
-	100% {
-		-webkit-transform: rotate(-359deg);
-		transform: rotate(-359deg);
-	}
-}
-
 @keyframes rotation {
 	0% {
-		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
 	100% {
-		-webkit-transform: rotate(-359deg);
 		transform: rotate(-359deg);
 	}
 }
