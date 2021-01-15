@@ -879,11 +879,15 @@ function dynamic_sidebar( $index = 1 ) {
  *
  * @global array $wp_registered_widgets
  *
- * @param callable|false $callback      Optional, Widget callback to check. Default false.
- * @param int|false      $widget_id     Optional. Widget ID. Optional, but needed for checking. Default false.
- * @param string|false   $id_base       Optional. The base ID of a widget created by extending WP_Widget. Default false.
- * @param bool           $skip_inactive Optional. Whether to check in 'wp_inactive_widgets'. Default true.
- * @return string|false False if widget is not active or id of sidebar in which the widget is active.
+ * @param callable|false $callback      Optional. Widget callback to check. Default false.
+ * @param int|false      $widget_id     Optional. Widget ID. Optional, but needed for checking.
+ *                                      Default false.
+ * @param string|false   $id_base       Optional. The base ID of a widget created by extending WP_Widget.
+ *                                      Default false.
+ * @param bool           $skip_inactive Optional. Whether to check in 'wp_inactive_widgets'.
+ *                                      Default true.
+ * @return string|false ID of the sidebar in which the widget is active,
+ *                      false if the widget is not active.
  */
 function is_active_widget( $callback = false, $widget_id = false, $id_base = false, $skip_inactive = true ) {
 	global $wp_registered_widgets;

@@ -6223,7 +6223,7 @@ function wp_get_attachment_url( $attachment_id = 0 ) {
  * @since 4.6.0
  *
  * @param int $post_id Optional. Attachment ID. Default is the ID of the global `$post`.
- * @return string|false False on failure. Attachment caption on success.
+ * @return string|false Attachment caption on success, false on failure. 
  */
 function wp_get_attachment_caption( $post_id = 0 ) {
 	$post_id = (int) $post_id;
@@ -6256,7 +6256,7 @@ function wp_get_attachment_caption( $post_id = 0 ) {
  * @since 2.1.0
  *
  * @param int $post_id Optional. Attachment ID. Default 0.
- * @return string|false False on failure. Thumbnail file path on success.
+ * @return string|false Thumbnail file path on success, false on failure.
  */
 function wp_get_attachment_thumb_file( $post_id = 0 ) {
 	$post_id = (int) $post_id;
@@ -6296,7 +6296,7 @@ function wp_get_attachment_thumb_file( $post_id = 0 ) {
  * @since 2.1.0
  *
  * @param int $post_id Optional. Attachment ID. Default 0.
- * @return string|false False on failure. Thumbnail URL on success.
+ * @return string|false Thumbnail URL on success, false on failure.
  */
 function wp_get_attachment_thumb_url( $post_id = 0 ) {
 	$post_id = (int) $post_id;

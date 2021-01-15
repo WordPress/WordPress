@@ -865,7 +865,7 @@ function wp_get_schedules() {
  *
  * @param string $hook Action hook to identify the event.
  * @param array  $args Optional. Arguments passed to the event's callback function.
- * @return string|false False, if no schedule. Schedule name on success.
+ * @return string|false Schedule name on success, false if no schedule.
  */
 function wp_get_schedule( $hook, $args = array() ) {
 	$schedule = false;
@@ -947,7 +947,7 @@ function wp_get_ready_cron_jobs() {
  * @since 2.1.0
  * @access private
  *
- * @return array|false CRON info array.
+ * @return array|false Cron info array on success, false on failure.
  */
 function _get_cron_array() {
 	$cron = get_option( 'cron' );

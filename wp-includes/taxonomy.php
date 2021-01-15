@@ -4724,7 +4724,7 @@ function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' )
  *
  * @param int    $term_id  Term ID.
  * @param string $taxonomy Taxonomy name.
- * @return int|false False on error.
+ * @return int|false Parent term ID on success, false on failure.
  */
 function wp_get_term_taxonomy_parent_id( $term_id, $taxonomy ) {
 	$term = get_term( $term_id, $taxonomy );

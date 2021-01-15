@@ -299,8 +299,8 @@ function get_shortcode_regex( $tagnames = null ) {
  *
  * @global array $shortcode_tags
  *
- * @param array $m Regular expression match array
- * @return string|false False on failure.
+ * @param array $m Regular expression match array.
+ * @return string|false Shortcode output on success, false on failure.
  */
 function do_shortcode_tag( $m ) {
 	global $shortcode_tags;
