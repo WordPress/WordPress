@@ -860,6 +860,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 	.menu-settings-group {
 		padding-right: 0;
+		overflow: visible;
 	}
 
 	.menu-settings-group-name {
@@ -880,6 +881,10 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 	.manage-menus select {
 		margin: 0.5em 0;
+	}
+
+	.wp-core-ui .manage-menus .button {
+		margin-bottom: 0;
 	}
 
 	.widefat .menu-locations .menu-location-title {
