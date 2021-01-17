@@ -20,7 +20,7 @@ function _wp_privacy_resend_request( $request_id ) {
 	$request    = get_post( $request_id );
 
 	if ( ! $request || 'user_request' !== $request->post_type ) {
-		return new WP_Error( 'privacy_request_error', __( 'Invalid user privacy request.' ) );
+		return new WP_Error( 'privacy_request_error', __( 'Invalid personal data request.' ) );
 	}
 
 	$result = wp_send_user_request( $request_id );
@@ -28,7 +28,7 @@ function _wp_privacy_resend_request( $request_id ) {
 	if ( is_wp_error( $result ) ) {
 		return $result;
 	} elseif ( ! $result ) {
-		return new WP_Error( 'privacy_request_error', __( 'Unable to initiate user privacy confirmation request.' ) );
+		return new WP_Error( 'privacy_request_error', __( 'Unable to initiate confirmation for personal data request.' ) );
 	}
 
 	return true;
@@ -49,7 +49,7 @@ function _wp_privacy_completed_request( $request_id ) {
 	$request    = wp_get_user_request( $request_id );
 
 	if ( ! $request ) {
-		return new WP_Error( 'privacy_request_error', __( 'Invalid user privacy request.' ) );
+		return new WP_Error( 'privacy_request_error', __( 'Invalid personal data request.' ) );
 	}
 
 	update_post_meta( $request_id, '_wp_user_request_completed_timestamp', time() );
@@ -104,7 +104,7 @@ function _wp_personal_data_handle_actions() {
 					add_settings_error(
 						'action_type',
 						'action_type',
-						__( 'Invalid user privacy action.' ),
+						__( 'Invalid personal data action.' ),
 						'error'
 					);
 				}
@@ -116,7 +116,7 @@ function _wp_personal_data_handle_actions() {
 					add_settings_error(
 						'action_type',
 						'action_type',
-						__( 'Invalid user privacy action.' ),
+						__( 'Invalid personal data action.' ),
 						'error'
 					);
 				}
@@ -297,20 +297,20 @@ function wp_privacy_generate_personal_data_export_group_html( $group_data, $grou
  */
 function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	if ( ! class_exists( 'ZipArchive' ) ) {
-		wp_send_json_error( __( 'Unable to generate user privacy export file. ZipArchive not available.' ) );
+		wp_send_json_error( __( 'Unable to generate personal data export file. ZipArchive not available.' ) );
 	}
 
 	// Get the request.
 	$request = wp_get_user_request( $request_id );
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
-		wp_send_json_error( __( 'Invalid request ID when generating user privacy export file.' ) );
+		wp_send_json_error( __( 'Invalid request ID when generating personal data export file.' ) );
 	}
 
 	$email_address = $request->email;
 
 	if ( ! is_email( $email_address ) ) {
-		wp_send_json_error( __( 'Invalid email address when generating user privacy export file.' ) );
+		wp_send_json_error( __( 'Invalid email address when generating personal data export file.' ) );
 	}
 
 	// Create the exports folder if needed.
@@ -318,7 +318,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	$exports_url = wp_privacy_exports_url();
 
 	if ( ! wp_mkdir_p( $exports_dir ) ) {
-		wp_send_json_error( __( 'Unable to create user privacy export folder.' ) );
+		wp_send_json_error( __( 'Unable to create personal data export folder.' ) );
 	}
 
 	// Protect export folder from browsing.
@@ -326,7 +326,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	if ( ! file_exists( $index_pathname ) ) {
 		$file = fopen( $index_pathname, 'w' );
 		if ( false === $file ) {
-			wp_send_json_error( __( 'Unable to protect user privacy export folder from browsing.' ) );
+			wp_send_json_error( __( 'Unable to protect personal data export folder from browsing.' ) );
 		}
 		fwrite( $file, '<!-- Silence is golden. -->' );
 		fclose( $file );
@@ -395,7 +395,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	$file = fopen( $json_report_pathname, 'w' );
 
 	if ( false === $file ) {
-		wp_send_json_error( __( 'Unable to open user privacy export file (JSON report) for writing.' ) );
+		wp_send_json_error( __( 'Unable to open personal data export file (JSON report) for writing.' ) );
 	}
 
 	fwrite( $file, '{' );
@@ -410,7 +410,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	$file = fopen( $html_report_pathname, 'w' );
 
 	if ( false === $file ) {
-		wp_send_json_error( __( 'Unable to open user privacy export file (HTML report) for writing.' ) );
+		wp_send_json_error( __( 'Unable to open personal data export (HTML report) for writing.' ) );
 	}
 
 	fwrite( $file, "<!DOCTYPE html>\n" );
@@ -504,11 +504,11 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	$zip = new ZipArchive;
 	if ( true === $zip->open( $archive_pathname, ZipArchive::CREATE ) ) {
 		if ( ! $zip->addFile( $json_report_pathname, 'export.json' ) ) {
-			$error = __( 'Unable to add data to user privacy export file (JSON format).' );
+			$error = __( 'Unable to archive the personal data export file (JSON format).' );
 		}
 
 		if ( ! $zip->addFile( $html_report_pathname, 'index.html' ) ) {
-			$error = __( 'Unable to add data to user privacy export file (HTML format).' );
+			$error = __( 'Unable to archive the personal data export file (HTML format).' );
 		}
 
 		$zip->close();
@@ -529,7 +529,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 			do_action( 'wp_privacy_personal_data_export_file_created', $archive_pathname, $archive_url, $html_report_pathname, $request_id, $json_report_pathname );
 		}
 	} else {
-		$error = __( 'Unable to open user privacy export file (archive) for writing.' );
+		$error = __( 'Unable to open personal data export file (archive) for writing.' );
 	}
 
 	// Remove the JSON file.
@@ -758,7 +758,7 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 	$request = wp_get_user_request( $request_id );
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
-		wp_send_json_error( __( 'Invalid request ID when merging user privacy exporter data.' ) );
+		wp_send_json_error( __( 'Invalid request ID when merging personal data to export.' ) );
 	}
 
 	$export_data = array();
@@ -909,7 +909,7 @@ function wp_privacy_process_personal_data_erasure_page( $response, $eraser_index
 	$request = wp_get_user_request( $request_id );
 
 	if ( ! $request || 'remove_personal_data' !== $request->action_name ) {
-		wp_send_json_error( __( 'Invalid request ID when processing user privacy eraser data.' ) );
+		wp_send_json_error( __( 'Invalid request ID when processing personal data to erase.' ) );
 	}
 
 	/** This filter is documented in wp-admin/includes/ajax-actions.php */
