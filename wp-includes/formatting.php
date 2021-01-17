@@ -5515,7 +5515,7 @@ function sanitize_trackback_urls( $to_ping ) {
 }
 
 /**
- * Add slashes to a string or array of strings, in a recursive manner.
+ * Adds slashes to a string or recursively adds slashes to strings within an array.
  *
  * This should be used when preparing data for core API that expects slashed data.
  * This should not be used to escape data going directly into an SQL query.
@@ -5523,8 +5523,8 @@ function sanitize_trackback_urls( $to_ping ) {
  * @since 3.6.0
  * @since 5.5.0 Non-string values are left untouched.
  *
- * @param string|string[] $value String or array of strings to slash.
- * @return string|string[] Slashed $value.
+ * @param string|array $value String or array of data to slash.
+ * @return string|array Slashed $value.
  */
 function wp_slash( $value ) {
 	if ( is_array( $value ) ) {
@@ -5539,15 +5539,15 @@ function wp_slash( $value ) {
 }
 
 /**
- * Remove slashes from a string or array of strings.
+ * Removes slashes from a string or recursively removes slashes from strings within an array.
  *
  * This should be used to remove slashes from data passed to core API that
  * expects data to be unslashed.
  *
  * @since 3.6.0
  *
- * @param string|array $value String or array of strings to unslash.
- * @return string|array Unslashed $value
+ * @param string|array $value String or array of data to unslash.
+ * @return string|array Unslashed $value.
  */
 function wp_unslash( $value ) {
 	return stripslashes_deep( $value );
