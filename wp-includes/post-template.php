@@ -946,7 +946,8 @@ function wp_link_pages( $args = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $parsed_args An array of arguments for page links for paginated posts.
+	 * @param array $parsed_args An array of page link arguments. See wp_link_pages()
+	 *                           for information on accepted arguments.
 	 */
 	$parsed_args = apply_filters( 'wp_link_pages_args', $parsed_args );
 
@@ -1005,7 +1006,8 @@ function wp_link_pages( $args = '' ) {
 	 * @since 3.6.0
 	 *
 	 * @param string $output HTML output of paginated posts' page links.
-	 * @param array  $args   An array of arguments.
+	 * @param array  $args   An array of arguments. See wp_link_pages()
+	 *                       for information on accepted arguments.
 	 */
 	$html = apply_filters( 'wp_link_pages', $output, $args );
 
@@ -1208,7 +1210,8 @@ function wp_dropdown_pages( $args = '' ) {
 	 * @since 4.4.0 `$parsed_args` and `$pages` added as arguments.
 	 *
 	 * @param string    $output      HTML output for drop down list of pages.
-	 * @param array     $parsed_args The parsed arguments array.
+	 * @param array     $parsed_args The parsed arguments array. See wp_dropdown_pages()
+	 *                               for information on accepted arguments.
 	 * @param WP_Post[] $pages       Array of the page objects.
 	 */
 	$html = apply_filters( 'wp_dropdown_pages', $output, $parsed_args, $pages );
@@ -1337,7 +1340,8 @@ function wp_list_pages( $args = '' ) {
 	 * @see wp_list_pages()
 	 *
 	 * @param string    $output      HTML output of the pages list.
-	 * @param array     $parsed_args An array of page-listing arguments.
+	 * @param array     $parsed_args An array of page-listing arguments. See wp_list_pages()
+	 *                               for information on accepted arguments.
 	 * @param WP_Post[] $pages       Array of the page objects.
 	 */
 	$html = apply_filters( 'wp_list_pages', $output, $parsed_args, $pages );
@@ -1417,7 +1421,8 @@ function wp_page_menu( $args = array() ) {
 	 *
 	 * @see wp_page_menu()
 	 *
-	 * @param array $args An array of page menu arguments.
+	 * @param array $args An array of page menu arguments. See wp_page_menu()
+	 *                    for information on accepted arguments.
 	 */
 	$args = apply_filters( 'wp_page_menu_args', $args );
 
@@ -1491,7 +1496,8 @@ function wp_page_menu( $args = array() ) {
 	 * @see wp_page_menu()
 	 *
 	 * @param string $menu The HTML output.
-	 * @param array  $args An array of arguments.
+	 * @param array  $args An array of arguments. See wp_page_menu()
+	 *                     for information on accepted arguments.
 	 */
 	$menu = apply_filters( 'wp_page_menu', $menu, $args );
 

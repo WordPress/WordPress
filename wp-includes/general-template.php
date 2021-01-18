@@ -247,6 +247,7 @@ function get_search_form( $args = array() ) {
 	 * @link https://core.trac.wordpress.org/ticket/19321
 	 *
 	 * @param array $args The array of arguments for building the search form.
+	 *                    See get_search_form() for information on accepted arguments.
 	 */
 	do_action( 'pre_get_search_form', $args );
 
@@ -278,6 +279,7 @@ function get_search_form( $args = array() ) {
 	 * @since 5.2.0
 	 *
 	 * @param array $args The array of arguments for building the search form.
+	 *                    See get_search_form() for information on accepted arguments.
 	 */
 	$args = apply_filters( 'search_form_args', $args );
 
@@ -295,6 +297,7 @@ function get_search_form( $args = array() ) {
 	 * @param string $format The type of markup to use in the search form.
 	 *                       Accepts 'html5', 'xhtml'.
 	 * @param array  $args   The array of arguments for building the search form.
+	 *                       See get_search_form() for information on accepted arguments.
 	 */
 	$format = apply_filters( 'search_form_format', $format, $args );
 
@@ -343,6 +346,7 @@ function get_search_form( $args = array() ) {
 	 *
 	 * @param string $form The search form HTML output.
 	 * @param array  $args The array of arguments for building the search form.
+	 *                     See get_search_form() for information on accepted arguments.
 	 */
 	$result = apply_filters( 'get_search_form', $form, $args );
 
@@ -4363,7 +4367,8 @@ function paginate_links( $args = '' ) {
 	 * @since 5.7.0
 	 *
 	 * @param string $r    HTML output.
-	 * @param array  $args An array of arguments. See paginate_links() for accepted arguments.
+	 * @param array  $args An array of arguments. See paginate_links()
+	 *                     for information on accepted arguments.
 	 */
 	$r = apply_filters( 'paginate_links_output', $r, $args );
 

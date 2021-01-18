@@ -662,7 +662,8 @@ function wp_list_categories( $args = '' ) {
 	 * @since 2.1.0
 	 *
 	 * @param string $output HTML output.
-	 * @param array  $args   An array of taxonomy-listing arguments.
+	 * @param array  $args   An array of taxonomy-listing arguments. See wp_list_categories()
+	 *                       for information on accepted arguments.
 	 */
 	$html = apply_filters( 'wp_list_categories', $output, $args );
 
@@ -758,7 +759,8 @@ function wp_tag_cloud( $args = '' ) {
 	 * @since 2.3.0
 	 *
 	 * @param string|string[] $return Tag cloud as a string or an array, depending on 'format' argument.
-	 * @param array           $args   An array of tag cloud arguments.
+	 * @param array           $args   An array of tag cloud arguments. See wp_tag_cloud()
+	 *                                for information on accepted arguments.
 	 */
 	$return = apply_filters( 'wp_tag_cloud', $return, $args );
 
