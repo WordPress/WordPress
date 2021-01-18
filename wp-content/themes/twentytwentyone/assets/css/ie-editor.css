@@ -149,15 +149,11 @@ blockquote p {
 
 blockquote cite {
 	font-weight: normal;
-	color: #28303d;
-	font-size: 1rem;
 	letter-spacing: normal;
 }
 
 blockquote footer {
 	font-weight: normal;
-	color: #28303d;
-	font-size: 1rem;
 	letter-spacing: normal;
 }
 
@@ -385,14 +381,6 @@ a:hover {
 
 .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) img {
 	outline: 2px dotted #28303d;
-}
-
-.has-background .has-link-color a {
-	color: #28303d;
-}
-
-.has-background.has-link-color a {
-	color: #28303d;
 }
 
 .wp-block-button__link {
@@ -712,12 +700,6 @@ a:hover {
 		font-size: 3rem;
 	}
 }
-@media only screen and (min-width: 652px) {
-
-	.wp-block-cover h2 {
-		font-size: 3rem;
-	}
-}
 
 .wp-block-cover-image h2 {
 	font-size: 2.25rem;
@@ -726,12 +708,6 @@ a:hover {
 	padding: 0;
 	max-width: inherit;
 	text-align: inherit;
-}
-@media only screen and (min-width: 652px) {
-
-	.wp-block-cover-image h2 {
-		font-size: 3rem;
-	}
 }
 @media only screen and (min-width: 652px) {
 
@@ -1304,13 +1280,6 @@ h1 {
 	}
 }
 
-@media only screen and (min-width: 652px) {
-
-	.wp-block-heading h2 {
-		font-size: 3rem;
-	}
-}
-
 h2 {
 	font-size: 2.25rem;
 	letter-spacing: normal;
@@ -1324,24 +1293,10 @@ h2 {
 	}
 }
 
-@media only screen and (min-width: 652px) {
-
-	h2 {
-		font-size: 3rem;
-	}
-}
-
 .h2 {
 	font-size: 2.25rem;
 	letter-spacing: normal;
 	line-height: 1.3;
-}
-
-@media only screen and (min-width: 652px) {
-
-	.h2 {
-		font-size: 3rem;
-	}
 }
 
 @media only screen and (min-width: 652px) {
@@ -3133,17 +3088,6 @@ pre.wp-block-verse {
 	color: #39414d;
 }
 
-.has-background a,
-.has-background p,
-.has-background h1,
-.has-background h2,
-.has-background h3,
-.has-background h4,
-.has-background h5,
-.has-background h6 {
-	color: currentColor;
-}
-
 .has-primary-background-color[class] {
 	background-color: #28303d;
 	color: #d1e4dd;
@@ -3155,12 +3099,10 @@ pre.wp-block-verse {
 }
 
 .has-white-background-color[class] {
-	background-color: #fff;
 	color: #39414d;
 }
 
 .has-black-background-color[class] {
-	background-color: #000;
 	color: #28303d;
 }
 

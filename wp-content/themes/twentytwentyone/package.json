@@ -24,6 +24,7 @@
 		"postcss-cli": "^7.1.0",
 		"postcss-css-variables": "^0.17.0",
 		"postcss-custom-media": "^7.0.8",
+		"postcss-discard-duplicates": "^4.0.2",
 		"postcss-focus-within": "^3.0.0",
 		"postcss-nested": "^4.2.1",
 		"rtlcss": "^2.6.1",

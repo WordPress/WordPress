@@ -545,8 +545,6 @@ template {
  */
 .post-thumbnail {
 	max-width: calc(100vw - 30px);
-	margin-left: auto;
-	margin-right: auto;
 }
 @media only screen and (min-width: 482px) {
 
@@ -635,8 +633,6 @@ template {
 
 .widget-area {
 	max-width: calc(100vw - 30px);
-	margin-left: auto;
-	margin-right: auto;
 }
 
 @media only screen and (min-width: 482px) {
@@ -715,8 +711,6 @@ template {
 
 .site-footer {
 	max-width: calc(100vw - 30px);
-	margin-left: auto;
-	margin-right: auto;
 }
 
 @media only screen and (min-width: 482px) {
@@ -735,8 +729,6 @@ template {
 
 .site-header {
 	max-width: calc(100vw - 30px);
-	margin-left: auto;
-	margin-right: auto;
 }
 
 @media only screen and (min-width: 482px) {
@@ -923,12 +915,6 @@ template {
 			margin-left: calc(50vw - min(calc(100vw - 4 * 25px), 610px) *1);
 		}
 	}
-	@media only screen and (min-width: 482px) {
-
-		.entry-content > .alignleft {
-			margin-left: calc(50vw - min(calc(100vw - 4 * 25px), 610px) *1);
-		}
-	}
 	@media only screen and (min-width: 822px) {
 
 		.entry-content > .alignleft {
@@ -945,12 +931,6 @@ template {
 
 		/*rtl:ignore*/
 		margin-right: calc(50vw - min(calc(100vw - 4 * 25px), 610px) *1);
-	}
-	@media only screen and (min-width: 482px) {
-
-		.entry-content > .alignright {
-			margin-right: calc(50vw - min(calc(100vw - 4 * 25px), 610px) *1);
-		}
 	}
 	@media only screen and (min-width: 482px) {
 
@@ -1379,15 +1359,11 @@ blockquote p {
 
 blockquote cite {
 	font-weight: normal;
-	color: #28303d;
-	font-size: 1rem;
 	letter-spacing: normal;
 }
 
 blockquote footer {
 	font-weight: normal;
-	color: #28303d;
-	font-size: 1rem;
 	letter-spacing: normal;
 }
 
@@ -2100,8 +2076,6 @@ fieldset input[type=checkbox] + label {
 
 img {
 	display: block;
-	height: auto;
-	max-width: 100%;
 }
 
 /* Classic editor images */
@@ -2892,12 +2866,6 @@ input[type=reset]:hover {
 		font-size: 3rem;
 	}
 }
-@media only screen and (min-width: 652px) {
-
-	.wp-block-cover h2 {
-		font-size: 3rem;
-	}
-}
 
 .wp-block-cover-image h2 {
 	font-size: 2.25rem;
@@ -2906,12 +2874,6 @@ input[type=reset]:hover {
 	max-width: inherit;
 	text-align: inherit;
 	padding: 0;
-}
-@media only screen and (min-width: 652px) {
-
-	.wp-block-cover-image h2 {
-		font-size: 3rem;
-	}
 }
 @media only screen and (min-width: 652px) {
 
@@ -3372,24 +3334,10 @@ h2 {
 	}
 }
 
-@media only screen and (min-width: 652px) {
-
-	h2 {
-		font-size: 3rem;
-	}
-}
-
 .h2 {
 	font-size: 2.25rem;
 	letter-spacing: normal;
 	line-height: 1.3;
-}
-
-@media only screen and (min-width: 652px) {
-
-	.h2 {
-		font-size: 3rem;
-	}
 }
 
 @media only screen and (min-width: 652px) {
@@ -5379,13 +5327,6 @@ table.wp-calendar-table caption {
 		}
 	}
 
-	@media only screen and (min-width: 482px) {
-
-		.entry-content > .alignleft {
-			max-width: calc(50% - 50vw + min(calc(100vw - 4 * 25px), 610px) *1);
-		}
-	}
-
 	@media only screen and (min-width: 822px) {
 
 		.entry-content > .alignleft {
@@ -5445,13 +5386,6 @@ table.wp-calendar-table caption {
 
 	.entry-content > .alignright {
 		max-width: calc(50% - 50vw + min(calc(100vw - 4 * 25px), 610px) *1);
-	}
-
-	@media only screen and (min-width: 482px) {
-
-		.entry-content > .alignright {
-			max-width: calc(50% - 50vw + min(calc(100vw - 4 * 25px), 610px) *1);
-		}
 	}
 
 	@media only screen and (min-width: 482px) {
@@ -5847,13 +5781,6 @@ a.custom-logo-link {
 	letter-spacing: normal;
 	line-height: 1.3;
 	overflow-wrap: break-word;
-}
-
-@media only screen and (min-width: 652px) {
-
-	.entry-title {
-		font-size: 3rem;
-	}
 }
 
 @media only screen and (min-width: 652px) {
@@ -6263,22 +6190,10 @@ h1.page-title {
 		font-size: 3rem;
 	}
 }
-@media only screen and (min-width: 652px) {
-
-	.comments-title {
-		font-size: 3rem;
-	}
-}
 
 .comment-reply-title {
 	font-size: 2.25rem;
 	letter-spacing: normal;
-}
-@media only screen and (min-width: 652px) {
-
-	.comment-reply-title {
-		font-size: 3rem;
-	}
 }
 @media only screen and (min-width: 652px) {
 
