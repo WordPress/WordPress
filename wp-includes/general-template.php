@@ -4111,7 +4111,7 @@ function language_attributes( $doctype = 'html' ) {
 }
 
 /**
- * Retrieve paginated link for archive post pages.
+ * Retrieves paginated links for archive post pages.
  *
  * Technically, the function can be used to create paginated link list for any
  * area. The 'base' argument is used to reference the url, which will be used to
@@ -4356,6 +4356,16 @@ function paginate_links( $args = '' ) {
 			$r = implode( "\n", $page_links );
 			break;
 	}
+
+	/**
+	 * Filters the HTML output of paginated links for archives.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param string $r    HTML output.
+	 * @param array  $args An array of arguments. See paginate_links() for accepted arguments.
+	 */
+	$r = apply_filters( 'paginate_links_output', $r, $args );
 
 	return $r;
 }
