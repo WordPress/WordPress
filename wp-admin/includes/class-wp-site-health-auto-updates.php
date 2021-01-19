@@ -164,7 +164,7 @@ class WP_Site_Health_Auto_Updates {
 		if ( ! empty( $failed['critical'] ) ) {
 			$description  = __( 'A previous automatic background update ended with a critical failure, so updates are now disabled.' );
 			$description .= ' ' . __( 'You would have received an email because of this.' );
-			$description .= ' ' . __( "When you've been able to update using the \"Update Now\" button on Dashboard > Updates, we'll clear this error for future update attempts." );
+			$description .= ' ' . __( "When you've been able to update using the \"Update now\" button on Dashboard > Updates, we'll clear this error for future update attempts." );
 			$description .= ' ' . sprintf(
 				/* translators: %s: Code of error shown. */
 				__( 'The error code was %s.' ),
