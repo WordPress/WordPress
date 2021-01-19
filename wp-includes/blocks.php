@@ -169,12 +169,17 @@ function register_block_style_handle( $metadata, $field_name ) {
 
 	$style_handle = generate_block_asset_handle( $metadata['name'], $field_name );
 	$block_dir    = dirname( $metadata['file'] );
+	$style_file   = realpath( "$block_dir/$style_path" );
 	$result       = wp_register_style(
 		$style_handle,
 		plugins_url( $style_path, $metadata['file'] ),
 		array(),
-		filemtime( realpath( "$block_dir/$style_path" ) )
+		filemtime( $style_file )
 	);
+	if ( file_exists( str_replace( '.css', '-rtl.css', $style_file ) ) ) {
+		wp_style_add_data( $style_handle, 'rtl', 'replace' );
+	}
+
 	return $result ? $style_handle : false;
 }
 
