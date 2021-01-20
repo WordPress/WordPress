@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["primitives"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 447);
+/******/ 	return __webpack_require__(__webpack_require__.s = 453);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -152,16 +152,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 19:
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
+  var target = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -180,7 +180,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 43:
+/***/ 44:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -202,17 +202,32 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 447:
+/***/ 453:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "Circle", function() { return /* reexport */ svg_Circle; });
+__webpack_require__.d(__webpack_exports__, "G", function() { return /* reexport */ svg_G; });
+__webpack_require__.d(__webpack_exports__, "Path", function() { return /* reexport */ svg_Path; });
+__webpack_require__.d(__webpack_exports__, "Polygon", function() { return /* reexport */ svg_Polygon; });
+__webpack_require__.d(__webpack_exports__, "Rect", function() { return /* reexport */ svg_Rect; });
+__webpack_require__.d(__webpack_exports__, "Defs", function() { return /* reexport */ svg_Defs; });
+__webpack_require__.d(__webpack_exports__, "RadialGradient", function() { return /* reexport */ svg_RadialGradient; });
+__webpack_require__.d(__webpack_exports__, "LinearGradient", function() { return /* reexport */ svg_LinearGradient; });
+__webpack_require__.d(__webpack_exports__, "Stop", function() { return /* reexport */ svg_Stop; });
+__webpack_require__.d(__webpack_exports__, "SVG", function() { return /* reexport */ svg_SVG; });
+__webpack_require__.d(__webpack_exports__, "HorizontalRule", function() { return /* reexport */ HorizontalRule; });
+__webpack_require__.d(__webpack_exports__, "BlockQuotation", function() { return /* reexport */ BlockQuotation; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(5);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(19);
+var objectWithoutProperties = __webpack_require__(20);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
 var classnames = __webpack_require__(11);
@@ -291,18 +306,6 @@ var HorizontalRule = 'hr';
 var BlockQuotation = 'blockquote';
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/primitives/build-module/index.js
-/* concated harmony reexport Circle */__webpack_require__.d(__webpack_exports__, "Circle", function() { return svg_Circle; });
-/* concated harmony reexport G */__webpack_require__.d(__webpack_exports__, "G", function() { return svg_G; });
-/* concated harmony reexport Path */__webpack_require__.d(__webpack_exports__, "Path", function() { return svg_Path; });
-/* concated harmony reexport Polygon */__webpack_require__.d(__webpack_exports__, "Polygon", function() { return svg_Polygon; });
-/* concated harmony reexport Rect */__webpack_require__.d(__webpack_exports__, "Rect", function() { return svg_Rect; });
-/* concated harmony reexport Defs */__webpack_require__.d(__webpack_exports__, "Defs", function() { return svg_Defs; });
-/* concated harmony reexport RadialGradient */__webpack_require__.d(__webpack_exports__, "RadialGradient", function() { return svg_RadialGradient; });
-/* concated harmony reexport LinearGradient */__webpack_require__.d(__webpack_exports__, "LinearGradient", function() { return svg_LinearGradient; });
-/* concated harmony reexport Stop */__webpack_require__.d(__webpack_exports__, "Stop", function() { return svg_Stop; });
-/* concated harmony reexport SVG */__webpack_require__.d(__webpack_exports__, "SVG", function() { return svg_SVG; });
-/* concated harmony reexport HorizontalRule */__webpack_require__.d(__webpack_exports__, "HorizontalRule", function() { return HorizontalRule; });
-/* concated harmony reexport BlockQuotation */__webpack_require__.d(__webpack_exports__, "BlockQuotation", function() { return BlockQuotation; });
 
 
 

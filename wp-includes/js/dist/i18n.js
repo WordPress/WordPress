@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 442);
+/******/ 	return __webpack_require__(__webpack_require__.s = 445);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 188:
+/***/ 208:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -326,11 +326,20 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 442:
+/***/ 445:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return /* binding */ setLocaleData; });
+__webpack_require__.d(__webpack_exports__, "__", function() { return /* binding */ __; });
+__webpack_require__.d(__webpack_exports__, "_x", function() { return /* binding */ _x; });
+__webpack_require__.d(__webpack_exports__, "_n", function() { return /* binding */ _n; });
+__webpack_require__.d(__webpack_exports__, "_nx", function() { return /* binding */ _nx; });
+__webpack_require__.d(__webpack_exports__, "sprintf", function() { return /* binding */ build_module_sprintf; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(5);
@@ -844,16 +853,10 @@ var memize = __webpack_require__(46);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(188);
+var sprintf = __webpack_require__(208);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return setLocaleData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__", function() { return __; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_x", function() { return _x; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_n", function() { return _n; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_nx", function() { return _nx; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sprintf", function() { return build_module_sprintf; });
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
