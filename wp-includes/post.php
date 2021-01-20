@@ -907,8 +907,6 @@ function get_post_status( $post = null ) {
 		'attachment' === $post->post_type &&
 		'inherit' === $post_status
 	) {
-		// Attachment permitted statuses: 'inherit', , see wp_insert_post().
-
 		if (
 			0 === $post->post_parent ||
 			! get_post( $post->post_parent ) ||
