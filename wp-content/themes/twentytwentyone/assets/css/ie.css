@@ -1298,10 +1298,6 @@ body {
 	background-color: #d1e4dd;
 }
 
-button {
-	cursor: pointer;
-}
-
 .clear:before,
 .clear:after,
 .entry-content:before,
@@ -2256,6 +2252,19 @@ a:hover {
 	text-decoration: none;
 }
 
+button {
+	border: 3px solid transparent;
+	border-radius: 0;
+	cursor: pointer;
+	display: block;
+	font-weight: 500;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 1.25rem;
+	line-height: 1.5;
+	padding: 15px 30px;
+	text-decoration: none;
+}
+
 input[type=submit] {
 	border: 3px solid transparent;
 	border-radius: 0;
@@ -2325,6 +2334,10 @@ input[type=reset] {
 	color: #d1e4dd;
 }
 
+button:not(:hover):not(:active):not(.has-text-color) {
+	color: #d1e4dd;
+}
+
 input[type=submit]:not(:hover):not(:active):not(.has-text-color) {
 	color: #d1e4dd;
 }
@@ -2346,6 +2359,10 @@ input[type=reset]:not(:hover):not(:active):not(.has-text-color) {
 }
 
 .has-background .site .button:not(:hover):not(:active):not(.has-text-color) {
+	color: #28303d;
+}
+
+.has-background button:not(:hover):not(:active):not(.has-text-color) {
 	color: #28303d;
 }
 
@@ -2373,6 +2390,10 @@ input[type=reset]:not(:hover):not(:active):not(.has-text-color) {
 	color: #28303d;
 }
 
+.has-background button:not(:hover):not(:active):not(.has-text-color).has-background {
+	color: #28303d;
+}
+
 .has-background input[type=submit]:not(:hover):not(:active):not(.has-text-color).has-background {
 	color: #28303d;
 }
@@ -2394,6 +2415,10 @@ input[type=reset]:not(:hover):not(:active):not(.has-text-color) {
 }
 
 .site .button:not(:hover):not(:active):not(.has-background) {
+	background-color: #28303d;
+}
+
+button:not(:hover):not(:active):not(.has-background) {
 	background-color: #28303d;
 }
 
@@ -2421,6 +2446,10 @@ input[type=reset]:not(:hover):not(:active):not(.has-background) {
 	background-color: #28303d;
 }
 
+.has-background button:not(:hover):not(:active):not(.has-background) {
+	background-color: #28303d;
+}
+
 .has-background input[type=submit]:not(:hover):not(:active):not(.has-background) {
 	background-color: #28303d;
 }
@@ -2443,6 +2472,8 @@ input[type=reset]:not(:hover):not(:active):not(.has-background) {
 
 .site .button:hover,
 .site .button:active,
+button:hover,
+button:active,
 input[type=submit]:hover,
 input[type=submit]:active,
 input[type=reset]:hover,
@@ -2459,6 +2490,7 @@ input[type=reset]:active,
 }
 
 .site .button:focus,
+button:focus,
 input[type=submit]:focus,
 input[type=reset]:focus,
 .wp-block-search .wp-block-search__button:focus,
@@ -2469,6 +2501,12 @@ input[type=reset]:focus,
 }
 
 .site .button:disabled {
+	background-color: rgba(255, 255, 255, 0.5);
+	border-color: rgba(255, 255, 255, 0.5);
+	color: #39414d;
+}
+
+button:disabled {
 	background-color: rgba(255, 255, 255, 0.5);
 	border-color: rgba(255, 255, 255, 0.5);
 	color: #39414d;

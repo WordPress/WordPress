@@ -1715,6 +1715,7 @@ a:hover {
  * Button
  */
 .site .button,
+button,
 input[type=submit],
 input[type=reset],
 .wp-block-search .wp-block-search__button,
@@ -1733,6 +1734,7 @@ input[type=reset],
 }
 
 .site .button:not(:hover):not(:active):not(.has-text-color),
+button:not(:hover):not(:active):not(.has-text-color),
 input[type=submit]:not(:hover):not(:active):not(.has-text-color),
 input[type=reset]:not(:hover):not(:active):not(.has-text-color),
 .wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-text-color),
@@ -1742,6 +1744,7 @@ input[type=reset]:not(:hover):not(:active):not(.has-text-color),
 }
 
 .has-background .site .button:not(:hover):not(:active):not(.has-text-color),
+.has-background button:not(:hover):not(:active):not(.has-text-color),
 .has-background input[type=submit]:not(:hover):not(:active):not(.has-text-color),
 .has-background input[type=reset]:not(:hover):not(:active):not(.has-text-color),
 .has-background .wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-text-color),
@@ -1751,6 +1754,7 @@ input[type=reset]:not(:hover):not(:active):not(.has-text-color),
 }
 
 .has-background .site .button:not(:hover):not(:active):not(.has-text-color).has-background,
+.has-background button:not(:hover):not(:active):not(.has-text-color).has-background,
 .has-background input[type=submit]:not(:hover):not(:active):not(.has-text-color).has-background,
 .has-background input[type=reset]:not(:hover):not(:active):not(.has-text-color).has-background,
 .has-background .wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-text-color).has-background,
@@ -1760,6 +1764,7 @@ input[type=reset]:not(:hover):not(:active):not(.has-text-color),
 }
 
 .site .button:not(:hover):not(:active):not(.has-background),
+button:not(:hover):not(:active):not(.has-background),
 input[type=submit]:not(:hover):not(:active):not(.has-background),
 input[type=reset]:not(:hover):not(:active):not(.has-background),
 .wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-background),
@@ -1769,6 +1774,7 @@ input[type=reset]:not(:hover):not(:active):not(.has-background),
 }
 
 .has-background .site .button:not(:hover):not(:active):not(.has-background),
+.has-background button:not(:hover):not(:active):not(.has-background),
 .has-background input[type=submit]:not(:hover):not(:active):not(.has-background),
 .has-background input[type=reset]:not(:hover):not(:active):not(.has-background),
 .has-background .wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-background),
@@ -1779,6 +1785,8 @@ input[type=reset]:not(:hover):not(:active):not(.has-background),
 
 .site .button:hover,
 .site .button:active,
+button:hover,
+button:active,
 input[type=submit]:hover,
 input[type=submit]:active,
 input[type=reset]:hover,
@@ -1795,6 +1803,7 @@ input[type=reset]:active,
 }
 
 .site .button:focus,
+button:focus,
 input[type=submit]:focus,
 input[type=reset]:focus,
 .wp-block-search .wp-block-search__button:focus,
@@ -1805,6 +1814,7 @@ input[type=reset]:focus,
 }
 
 .site .button:disabled,
+button:disabled,
 input[type=submit]:disabled,
 input[type=reset]:disabled,
 .wp-block-search .wp-block-search__button:disabled,
