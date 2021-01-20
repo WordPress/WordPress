@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockLibrary"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 341);
+/******/ 	return __webpack_require__(__webpack_require__.s = 353);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -159,10 +159,10 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 123:
+/***/ 127:
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.3.2 by @mathias */
+/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
 
 	/** Detect free variables */
@@ -228,7 +228,7 @@ function _classCallCheck(instance, Constructor) {
 	 * @returns {Error} Throws a `RangeError` with the applicable error message.
 	 */
 	function error(type) {
-		throw RangeError(errors[type]);
+		throw new RangeError(errors[type]);
 	}
 
 	/**
@@ -375,7 +375,7 @@ function _classCallCheck(instance, Constructor) {
 
 	/**
 	 * Bias adaptation function as per section 3.4 of RFC 3492.
-	 * http://tools.ietf.org/html/rfc3492#section-3.4
+	 * https://tools.ietf.org/html/rfc3492#section-3.4
 	 * @private
 	 */
 	function adapt(delta, numPoints, firstTime) {
@@ -650,7 +650,7 @@ function _classCallCheck(instance, Constructor) {
 		 * @memberOf punycode
 		 * @type String
 		 */
-		'version': '1.3.2',
+		'version': '1.4.1',
 		/**
 		 * An object of methods to convert from JavaScript's internal character
 		 * representation (UCS-2) to Unicode code points, and back.
@@ -682,11 +682,11 @@ function _classCallCheck(instance, Constructor) {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(124)(module), __webpack_require__(65)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(128)(module), __webpack_require__(65)))
 
 /***/ }),
 
-/***/ 124:
+/***/ 128:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -715,7 +715,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 125:
+/***/ 129:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -739,19 +739,38 @@ module.exports = {
 
 /***/ }),
 
-/***/ 126:
+/***/ 13:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
+/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
+/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+}
+
+/***/ }),
+
+/***/ 130:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(127);
-exports.encode = exports.stringify = __webpack_require__(128);
+exports.decode = exports.parse = __webpack_require__(131);
+exports.encode = exports.stringify = __webpack_require__(132);
 
 
 /***/ }),
 
-/***/ 127:
+/***/ 131:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -843,7 +862,7 @@ var isArray = Array.isArray || function (xs) {
 
 /***/ }),
 
-/***/ 128:
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -936,25 +955,6 @@ var objectKeys = Object.keys || function (obj) {
 
 /***/ }),
 
-/***/ 13:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
-/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
-
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
-}
-
-/***/ }),
-
 /***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -974,6 +974,9 @@ function _getPrototypeOf(o) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 function _setPrototypeOf(o, p) {
   _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
@@ -984,7 +987,6 @@ function _setPrototypeOf(o, p) {
   return _setPrototypeOf(o, p);
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _inherits; });
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
@@ -1066,30 +1068,34 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 "use strict";
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
-    return arr2;
-  }
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+var arrayLikeToArray = __webpack_require__(24);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(30);
+var iterableToArray = __webpack_require__(33);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
+
 
 
 
 function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
 }
 
 /***/ }),
@@ -1133,10 +1139,13 @@ function _extends() {
 
 /***/ }),
 
-/***/ 21:
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _objectWithoutProperties; });
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
 function _objectWithoutPropertiesLoose(source, excluded) {
@@ -1154,7 +1163,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
@@ -1177,14 +1185,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["richText"]; }());
-
-/***/ }),
-
-/***/ 221:
+/***/ 216:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! Fast Average Color | © 2019 Denis Seleznev | MIT License | https://github.com/hcodes/fast-average-color/ */
@@ -1639,16 +1640,27 @@ return FastAverageColor;
 
 /***/ }),
 
+/***/ 22:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["richText"]; }());
+
+/***/ }),
+
 /***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(38);
+var arrayWithHoles = __webpack_require__(40);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
   var _arr = [];
   var _n = true;
   var _d = false;
@@ -1673,38 +1685,69 @@ function _iterableToArrayLimit(arr, i) {
 
   return _arr;
 }
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__(28);
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(39);
+var nonIterableRest = __webpack_require__(41);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
+
 
 
 
 function _slicedToArray(arr, i) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(nonIterableRest["a" /* default */])();
+  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
 }
 
 /***/ }),
 
 /***/ 24:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+/***/ }),
+
+/***/ 25:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["editor"]; }());
 
 /***/ }),
 
-/***/ 26:
-/***/ (function(module, exports) {
+/***/ 28:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = this["wp"]["url"]; }());
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
+/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+}
 
 /***/ }),
 
 /***/ 29:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["moment"]; }());
+(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
@@ -1715,32 +1758,39 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 30:
+/***/ 31:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["moment"]; }());
+
+/***/ }),
+
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
 function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
 
 /***/ }),
 
-/***/ 31:
+/***/ 34:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
-function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
-
 function _typeof(obj) {
-  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function _typeof(obj) {
-      return _typeof2(obj);
+      return typeof obj;
     };
   } else {
     _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
     };
   }
 
@@ -1749,204 +1799,282 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 34:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["apiFetch"]; }());
-
-/***/ }),
-
-/***/ 341:
+/***/ 353:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "registerCoreBlocks", function() { return /* binding */ build_module_registerCoreBlocks; });
+__webpack_require__.d(__webpack_exports__, "__experimentalRegisterExperimentalCoreBlocks", function() { return /* binding */ __experimentalRegisterExperimentalCoreBlocks; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/paragraph/index.js
 var paragraph_namespaceObject = {};
 __webpack_require__.r(paragraph_namespaceObject);
 __webpack_require__.d(paragraph_namespaceObject, "metadata", function() { return paragraph_metadata; });
 __webpack_require__.d(paragraph_namespaceObject, "name", function() { return paragraph_name; });
 __webpack_require__.d(paragraph_namespaceObject, "settings", function() { return paragraph_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/image/index.js
 var image_namespaceObject = {};
 __webpack_require__.r(image_namespaceObject);
 __webpack_require__.d(image_namespaceObject, "metadata", function() { return image_metadata; });
 __webpack_require__.d(image_namespaceObject, "name", function() { return image_name; });
 __webpack_require__.d(image_namespaceObject, "settings", function() { return image_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/heading/index.js
 var heading_namespaceObject = {};
 __webpack_require__.r(heading_namespaceObject);
 __webpack_require__.d(heading_namespaceObject, "metadata", function() { return heading_metadata; });
 __webpack_require__.d(heading_namespaceObject, "name", function() { return heading_name; });
 __webpack_require__.d(heading_namespaceObject, "settings", function() { return heading_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/quote/index.js
 var quote_namespaceObject = {};
 __webpack_require__.r(quote_namespaceObject);
 __webpack_require__.d(quote_namespaceObject, "metadata", function() { return quote_metadata; });
 __webpack_require__.d(quote_namespaceObject, "name", function() { return quote_name; });
 __webpack_require__.d(quote_namespaceObject, "settings", function() { return quote_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/gallery/index.js
 var gallery_namespaceObject = {};
 __webpack_require__.r(gallery_namespaceObject);
 __webpack_require__.d(gallery_namespaceObject, "metadata", function() { return gallery_metadata; });
 __webpack_require__.d(gallery_namespaceObject, "name", function() { return gallery_name; });
 __webpack_require__.d(gallery_namespaceObject, "settings", function() { return gallery_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/archives/index.js
 var archives_namespaceObject = {};
 __webpack_require__.r(archives_namespaceObject);
 __webpack_require__.d(archives_namespaceObject, "name", function() { return archives_name; });
 __webpack_require__.d(archives_namespaceObject, "settings", function() { return archives_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/audio/index.js
 var audio_namespaceObject = {};
 __webpack_require__.r(audio_namespaceObject);
 __webpack_require__.d(audio_namespaceObject, "metadata", function() { return audio_metadata; });
 __webpack_require__.d(audio_namespaceObject, "name", function() { return audio_name; });
 __webpack_require__.d(audio_namespaceObject, "settings", function() { return audio_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/button/index.js
 var button_namespaceObject = {};
 __webpack_require__.r(button_namespaceObject);
 __webpack_require__.d(button_namespaceObject, "metadata", function() { return button_metadata; });
 __webpack_require__.d(button_namespaceObject, "name", function() { return button_name; });
 __webpack_require__.d(button_namespaceObject, "settings", function() { return button_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/calendar/index.js
 var calendar_namespaceObject = {};
 __webpack_require__.r(calendar_namespaceObject);
 __webpack_require__.d(calendar_namespaceObject, "name", function() { return calendar_name; });
 __webpack_require__.d(calendar_namespaceObject, "settings", function() { return calendar_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/categories/index.js
 var categories_namespaceObject = {};
 __webpack_require__.r(categories_namespaceObject);
 __webpack_require__.d(categories_namespaceObject, "name", function() { return categories_name; });
 __webpack_require__.d(categories_namespaceObject, "settings", function() { return categories_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/code/index.js
 var code_namespaceObject = {};
 __webpack_require__.r(code_namespaceObject);
 __webpack_require__.d(code_namespaceObject, "metadata", function() { return code_metadata; });
 __webpack_require__.d(code_namespaceObject, "name", function() { return code_name; });
 __webpack_require__.d(code_namespaceObject, "settings", function() { return code_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/columns/index.js
 var columns_namespaceObject = {};
 __webpack_require__.r(columns_namespaceObject);
 __webpack_require__.d(columns_namespaceObject, "metadata", function() { return columns_metadata; });
 __webpack_require__.d(columns_namespaceObject, "name", function() { return columns_name; });
 __webpack_require__.d(columns_namespaceObject, "settings", function() { return columns_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/column/index.js
 var column_namespaceObject = {};
 __webpack_require__.r(column_namespaceObject);
 __webpack_require__.d(column_namespaceObject, "metadata", function() { return column_metadata; });
 __webpack_require__.d(column_namespaceObject, "name", function() { return column_name; });
 __webpack_require__.d(column_namespaceObject, "settings", function() { return column_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/cover/index.js
 var cover_namespaceObject = {};
 __webpack_require__.r(cover_namespaceObject);
 __webpack_require__.d(cover_namespaceObject, "metadata", function() { return cover_metadata; });
 __webpack_require__.d(cover_namespaceObject, "name", function() { return cover_name; });
 __webpack_require__.d(cover_namespaceObject, "settings", function() { return cover_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/embed/index.js
 var embed_namespaceObject = {};
 __webpack_require__.r(embed_namespaceObject);
 __webpack_require__.d(embed_namespaceObject, "name", function() { return embed_name; });
 __webpack_require__.d(embed_namespaceObject, "settings", function() { return embed_settings; });
 __webpack_require__.d(embed_namespaceObject, "common", function() { return embed_common; });
 __webpack_require__.d(embed_namespaceObject, "others", function() { return embed_others; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/file/index.js
 var file_namespaceObject = {};
 __webpack_require__.r(file_namespaceObject);
 __webpack_require__.d(file_namespaceObject, "metadata", function() { return file_metadata; });
 __webpack_require__.d(file_namespaceObject, "name", function() { return file_name; });
 __webpack_require__.d(file_namespaceObject, "settings", function() { return file_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/html/index.js
 var html_namespaceObject = {};
 __webpack_require__.r(html_namespaceObject);
 __webpack_require__.d(html_namespaceObject, "metadata", function() { return html_metadata; });
 __webpack_require__.d(html_namespaceObject, "name", function() { return html_name; });
 __webpack_require__.d(html_namespaceObject, "settings", function() { return html_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/media-text/index.js
 var media_text_namespaceObject = {};
 __webpack_require__.r(media_text_namespaceObject);
 __webpack_require__.d(media_text_namespaceObject, "metadata", function() { return media_text_metadata; });
 __webpack_require__.d(media_text_namespaceObject, "name", function() { return media_text_name; });
 __webpack_require__.d(media_text_namespaceObject, "settings", function() { return media_text_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/latest-comments/index.js
 var latest_comments_namespaceObject = {};
 __webpack_require__.r(latest_comments_namespaceObject);
 __webpack_require__.d(latest_comments_namespaceObject, "name", function() { return latest_comments_name; });
 __webpack_require__.d(latest_comments_namespaceObject, "settings", function() { return latest_comments_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/latest-posts/index.js
 var latest_posts_namespaceObject = {};
 __webpack_require__.r(latest_posts_namespaceObject);
 __webpack_require__.d(latest_posts_namespaceObject, "name", function() { return latest_posts_name; });
 __webpack_require__.d(latest_posts_namespaceObject, "settings", function() { return latest_posts_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/list/index.js
 var list_namespaceObject = {};
 __webpack_require__.r(list_namespaceObject);
 __webpack_require__.d(list_namespaceObject, "metadata", function() { return list_metadata; });
 __webpack_require__.d(list_namespaceObject, "name", function() { return list_name; });
 __webpack_require__.d(list_namespaceObject, "settings", function() { return list_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/missing/index.js
 var missing_namespaceObject = {};
 __webpack_require__.r(missing_namespaceObject);
 __webpack_require__.d(missing_namespaceObject, "metadata", function() { return missing_metadata; });
 __webpack_require__.d(missing_namespaceObject, "name", function() { return missing_name; });
 __webpack_require__.d(missing_namespaceObject, "settings", function() { return missing_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/more/index.js
 var more_namespaceObject = {};
 __webpack_require__.r(more_namespaceObject);
 __webpack_require__.d(more_namespaceObject, "metadata", function() { return more_metadata; });
 __webpack_require__.d(more_namespaceObject, "name", function() { return more_name; });
 __webpack_require__.d(more_namespaceObject, "settings", function() { return more_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/nextpage/index.js
 var nextpage_namespaceObject = {};
 __webpack_require__.r(nextpage_namespaceObject);
 __webpack_require__.d(nextpage_namespaceObject, "metadata", function() { return nextpage_metadata; });
 __webpack_require__.d(nextpage_namespaceObject, "name", function() { return nextpage_name; });
 __webpack_require__.d(nextpage_namespaceObject, "settings", function() { return nextpage_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/preformatted/index.js
 var preformatted_namespaceObject = {};
 __webpack_require__.r(preformatted_namespaceObject);
 __webpack_require__.d(preformatted_namespaceObject, "metadata", function() { return preformatted_metadata; });
 __webpack_require__.d(preformatted_namespaceObject, "name", function() { return preformatted_name; });
 __webpack_require__.d(preformatted_namespaceObject, "settings", function() { return preformatted_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/pullquote/index.js
 var pullquote_namespaceObject = {};
 __webpack_require__.r(pullquote_namespaceObject);
 __webpack_require__.d(pullquote_namespaceObject, "metadata", function() { return pullquote_metadata; });
 __webpack_require__.d(pullquote_namespaceObject, "name", function() { return pullquote_name; });
 __webpack_require__.d(pullquote_namespaceObject, "settings", function() { return pullquote_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/block/index.js
 var block_namespaceObject = {};
 __webpack_require__.r(block_namespaceObject);
 __webpack_require__.d(block_namespaceObject, "name", function() { return block_name; });
 __webpack_require__.d(block_namespaceObject, "settings", function() { return block_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/rss/index.js
 var rss_namespaceObject = {};
 __webpack_require__.r(rss_namespaceObject);
 __webpack_require__.d(rss_namespaceObject, "name", function() { return rss_name; });
 __webpack_require__.d(rss_namespaceObject, "settings", function() { return rss_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/search/index.js
 var search_namespaceObject = {};
 __webpack_require__.r(search_namespaceObject);
 __webpack_require__.d(search_namespaceObject, "name", function() { return search_name; });
 __webpack_require__.d(search_namespaceObject, "settings", function() { return search_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/group/index.js
 var group_namespaceObject = {};
 __webpack_require__.r(group_namespaceObject);
 __webpack_require__.d(group_namespaceObject, "metadata", function() { return group_metadata; });
 __webpack_require__.d(group_namespaceObject, "name", function() { return group_name; });
 __webpack_require__.d(group_namespaceObject, "settings", function() { return group_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/separator/index.js
 var separator_namespaceObject = {};
 __webpack_require__.r(separator_namespaceObject);
 __webpack_require__.d(separator_namespaceObject, "metadata", function() { return separator_metadata; });
 __webpack_require__.d(separator_namespaceObject, "name", function() { return separator_name; });
 __webpack_require__.d(separator_namespaceObject, "settings", function() { return separator_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/shortcode/index.js
 var shortcode_namespaceObject = {};
 __webpack_require__.r(shortcode_namespaceObject);
 __webpack_require__.d(shortcode_namespaceObject, "name", function() { return shortcode_name; });
 __webpack_require__.d(shortcode_namespaceObject, "settings", function() { return shortcode_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/spacer/index.js
 var spacer_namespaceObject = {};
 __webpack_require__.r(spacer_namespaceObject);
 __webpack_require__.d(spacer_namespaceObject, "metadata", function() { return spacer_metadata; });
 __webpack_require__.d(spacer_namespaceObject, "name", function() { return spacer_name; });
 __webpack_require__.d(spacer_namespaceObject, "settings", function() { return spacer_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/subhead/index.js
 var subhead_namespaceObject = {};
 __webpack_require__.r(subhead_namespaceObject);
 __webpack_require__.d(subhead_namespaceObject, "metadata", function() { return subhead_metadata; });
 __webpack_require__.d(subhead_namespaceObject, "name", function() { return subhead_name; });
 __webpack_require__.d(subhead_namespaceObject, "settings", function() { return subhead_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/table/index.js
 var table_namespaceObject = {};
 __webpack_require__.r(table_namespaceObject);
 __webpack_require__.d(table_namespaceObject, "metadata", function() { return table_metadata; });
 __webpack_require__.d(table_namespaceObject, "name", function() { return table_name; });
 __webpack_require__.d(table_namespaceObject, "settings", function() { return table_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/text-columns/index.js
 var text_columns_namespaceObject = {};
 __webpack_require__.r(text_columns_namespaceObject);
 __webpack_require__.d(text_columns_namespaceObject, "metadata", function() { return text_columns_metadata; });
 __webpack_require__.d(text_columns_namespaceObject, "name", function() { return text_columns_name; });
 __webpack_require__.d(text_columns_namespaceObject, "settings", function() { return text_columns_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/verse/index.js
 var verse_namespaceObject = {};
 __webpack_require__.r(verse_namespaceObject);
 __webpack_require__.d(verse_namespaceObject, "metadata", function() { return verse_metadata; });
 __webpack_require__.d(verse_namespaceObject, "name", function() { return verse_name; });
 __webpack_require__.d(verse_namespaceObject, "settings", function() { return verse_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/video/index.js
 var video_namespaceObject = {};
 __webpack_require__.r(video_namespaceObject);
 __webpack_require__.d(video_namespaceObject, "metadata", function() { return video_metadata; });
 __webpack_require__.d(video_namespaceObject, "name", function() { return video_name; });
 __webpack_require__.d(video_namespaceObject, "settings", function() { return video_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/tag-cloud/index.js
 var tag_cloud_namespaceObject = {};
 __webpack_require__.r(tag_cloud_namespaceObject);
 __webpack_require__.d(tag_cloud_namespaceObject, "name", function() { return tag_cloud_name; });
 __webpack_require__.d(tag_cloud_namespaceObject, "settings", function() { return tag_cloud_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/classic/index.js
 var classic_namespaceObject = {};
 __webpack_require__.r(classic_namespaceObject);
 __webpack_require__.d(classic_namespaceObject, "metadata", function() { return classic_metadata; });
@@ -1960,13 +2088,13 @@ var toConsumableArray = __webpack_require__(17);
 var defineProperty = __webpack_require__(10);
 
 // EXTERNAL MODULE: external {"this":["wp","coreData"]}
-var external_this_wp_coreData_ = __webpack_require__(89);
+var external_this_wp_coreData_ = __webpack_require__(94);
 
 // EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
 var external_this_wp_blockEditor_ = __webpack_require__(6);
 
 // EXTERNAL MODULE: external {"this":["wp","editor"]}
-var external_this_wp_editor_ = __webpack_require__(24);
+var external_this_wp_editor_ = __webpack_require__(25);
 
 // EXTERNAL MODULE: external {"this":["wp","blocks"]}
 var external_this_wp_blocks_ = __webpack_require__(9);
@@ -2776,19 +2904,19 @@ var deprecated_deprecated = [{
 var slicedToArray = __webpack_require__(23);
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(35);
+var external_this_wp_blob_ = __webpack_require__(37);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
 var external_this_wp_keycodes_ = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(26);
+var external_this_wp_url_ = __webpack_require__(29);
 
 // EXTERNAL MODULE: external {"this":["wp","viewport"]}
-var external_this_wp_viewport_ = __webpack_require__(42);
+var external_this_wp_viewport_ = __webpack_require__(45);
 
 // EXTERNAL MODULE: external {"this":["wp","a11y"]}
-var external_this_wp_a11y_ = __webpack_require__(45);
+var external_this_wp_a11y_ = __webpack_require__(47);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/icons.js
 
@@ -3277,11 +3405,11 @@ var DEFAULT_EMBED_BLOCK = 'core/embed';
 var WORDPRESS_EMBED_BLOCK = 'core-embed/wordpress';
 
 // EXTERNAL MODULE: ./node_modules/classnames/dedupe.js
-var dedupe = __webpack_require__(70);
+var dedupe = __webpack_require__(71);
 var dedupe_default = /*#__PURE__*/__webpack_require__.n(dedupe);
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(44);
+var memize = __webpack_require__(48);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/util.js
@@ -5741,7 +5869,7 @@ function quote_save_save(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js + 1 modules
-var objectWithoutProperties = __webpack_require__(21);
+var objectWithoutProperties = __webpack_require__(20);
 
 // EXTERNAL MODULE: external {"this":["wp","richText"]}
 var external_this_wp_richText_ = __webpack_require__(22);
@@ -7357,7 +7485,7 @@ var gallery_settings = {
 };
 
 // EXTERNAL MODULE: external {"this":["wp","serverSideRender"]}
-var external_this_wp_serverSideRender_ = __webpack_require__(58);
+var external_this_wp_serverSideRender_ = __webpack_require__(60);
 var external_this_wp_serverSideRender_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_serverSideRender_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/archives/edit.js
@@ -8536,7 +8664,7 @@ var button_settings = {
 };
 
 // EXTERNAL MODULE: external "moment"
-var external_moment_ = __webpack_require__(29);
+var external_moment_ = __webpack_require__(31);
 var external_moment_default = /*#__PURE__*/__webpack_require__.n(external_moment_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/calendar/edit.js
@@ -10353,11 +10481,11 @@ var cover_deprecated_deprecated = [{
 /* harmony default export */ var cover_deprecated = (cover_deprecated_deprecated);
 
 // EXTERNAL MODULE: ./node_modules/fast-average-color/dist/index.js
-var dist = __webpack_require__(221);
+var dist = __webpack_require__(216);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(48);
+var tinycolor = __webpack_require__(53);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/cover/icon.js
@@ -11211,7 +11339,7 @@ var embed_placeholder_EmbedPlaceholder = function EmbedPlaceholder(props) {
 /* harmony default export */ var embed_placeholder = (embed_placeholder_EmbedPlaceholder);
 
 // EXTERNAL MODULE: ./node_modules/url/url.js
-var url_url = __webpack_require__(82);
+var url_url = __webpack_require__(86);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/wp-embed-preview.js
 
@@ -13760,11 +13888,11 @@ var latest_comments_settings = {
 };
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(34);
+var external_this_wp_apiFetch_ = __webpack_require__(36);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // EXTERNAL MODULE: external {"this":["wp","date"]}
-var external_this_wp_date_ = __webpack_require__(53);
+var external_this_wp_date_ = __webpack_require__(56);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/latest-posts/edit.js
 
@@ -16975,7 +17103,7 @@ function shortcode_save_save(_ref) {
 }
 
 // EXTERNAL MODULE: external {"this":["wp","autop"]}
-var external_this_wp_autop_ = __webpack_require__(69);
+var external_this_wp_autop_ = __webpack_require__(70);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/shortcode/transforms.js
 /**
@@ -17202,7 +17330,7 @@ var spacer_settings = {
 };
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(37);
+var external_this_wp_deprecated_ = __webpack_require__(39);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/subhead/edit.js
@@ -20299,8 +20427,6 @@ var classic_settings = {
 };
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerCoreBlocks", function() { return build_module_registerCoreBlocks; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__experimentalRegisterExperimentalCoreBlocks", function() { return __experimentalRegisterExperimentalCoreBlocks; });
 
 
 
@@ -20430,39 +20556,24 @@ var __experimentalRegisterExperimentalCoreBlocks =  false ? undefined : undefine
 
 /***/ }),
 
-/***/ 35:
+/***/ 36:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["blob"]; }());
+(function() { module.exports = this["wp"]["apiFetch"]; }());
 
 /***/ }),
 
 /***/ 37:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["deprecated"]; }());
-
-/***/ }),
-
-/***/ 38:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
+(function() { module.exports = this["wp"]["blob"]; }());
 
 /***/ }),
 
 /***/ 39:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-}
+(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 
@@ -20473,23 +20584,94 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 42:
+/***/ 40:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+/***/ }),
+
+/***/ 41:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+/***/ }),
+
+/***/ 45:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["viewport"]; }());
 
 /***/ }),
 
-/***/ 44:
+/***/ 47:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["a11y"]; }());
+
+/***/ }),
+
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function memize( fn, options ) {
-	var size = 0,
-		maxSize, head, tail;
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
 
-	if ( options && options.maxSize ) {
-		maxSize = options.maxSize;
-	}
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {Function} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {F & MemizeMemoizedFunction} Memoized function.
+ */
+function memize( fn, options ) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
 
 	function memoized( /* ...args */ ) {
 		var node = head,
@@ -20529,14 +20711,14 @@ module.exports = function memize( fn, options ) {
 
 				// Adjust siblings to point to each other. If node was tail,
 				// this also handles new tail's empty `next` assignment.
-				node.prev.next = node.next;
+				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
 				if ( node.next ) {
 					node.next.prev = node.prev;
 				}
 
 				node.next = head;
 				node.prev = null;
-				head.prev = node;
+				/** @type {MemizeCacheNode} */ ( head ).prev = node;
 				head = node;
 			}
 
@@ -20556,7 +20738,7 @@ module.exports = function memize( fn, options ) {
 			args: args,
 
 			// Generate the result from original function
-			val: fn.apply( null, args )
+			val: fn.apply( null, args ),
 		};
 
 		// Don't need to check whether node is already head, since it would
@@ -20572,9 +20754,9 @@ module.exports = function memize( fn, options ) {
 		}
 
 		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === maxSize ) {
-			tail = tail.prev;
-			tail.next = null;
+		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
+			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
+			/** @type {MemizeCacheNode} */ ( tail ).next = null;
 		} else {
 			size++;
 		}
@@ -20592,23 +20774,39 @@ module.exports = function memize( fn, options ) {
 
 	if ( false ) {}
 
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
 	return memoized;
-};
+}
+
+module.exports = memize;
 
 
 /***/ }),
 
-/***/ 45:
-/***/ (function(module, exports) {
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = this["wp"]["a11y"]; }());
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
 
 /***/ }),
 
-/***/ 48:
+/***/ 53:
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
+var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.2
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
@@ -21806,32 +22004,10 @@ else {}
 
 /***/ }),
 
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-/***/ }),
-
-/***/ 53:
+/***/ 56:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["date"]; }());
-
-/***/ }),
-
-/***/ 58:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["serverSideRender"]; }());
 
 /***/ }),
 
@@ -21839,6 +22015,13 @@ function _assertThisInitialized(self) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blockEditor"]; }());
+
+/***/ }),
+
+/***/ 60:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["serverSideRender"]; }());
 
 /***/ }),
 
@@ -21869,23 +22052,16 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 69:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["autop"]; }());
-
-/***/ }),
-
 /***/ 7:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
+    var source = arguments[i] != null ? Object(arguments[i]) : {};
     var ownKeys = Object.keys(source);
 
     if (typeof Object.getOwnPropertySymbols === 'function') {
@@ -21895,7 +22071,7 @@ function _objectSpread(target) {
     }
 
     ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+      Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
     });
   }
 
@@ -21905,6 +22081,13 @@ function _objectSpread(target) {
 /***/ }),
 
 /***/ 70:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["autop"]; }());
+
+/***/ }),
+
+/***/ 71:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -22027,7 +22210,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 82:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22054,8 +22237,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 
-var punycode = __webpack_require__(123);
-var util = __webpack_require__(125);
+var punycode = __webpack_require__(127);
+var util = __webpack_require__(129);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -22130,7 +22313,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(126);
+    querystring = __webpack_require__(130);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -22767,17 +22950,17 @@ Url.prototype.parseHost = function() {
 
 /***/ }),
 
-/***/ 89:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["coreData"]; }());
-
-/***/ }),
-
 /***/ 9:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blocks"]; }());
+
+/***/ }),
+
+/***/ 94:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["coreData"]; }());
 
 /***/ })
 

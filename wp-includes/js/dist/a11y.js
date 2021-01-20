@@ -82,26 +82,31 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 364);
+/******/ 	return __webpack_require__(__webpack_require__.s = 376);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 217:
+/***/ 212:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["domReady"]; }());
 
 /***/ }),
 
-/***/ 364:
+/***/ 376:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "setup", function() { return /* binding */ build_module_setup; });
+__webpack_require__.d(__webpack_exports__, "speak", function() { return /* binding */ build_module_speak; });
+
 // EXTERNAL MODULE: external {"this":["wp","domReady"]}
-var external_this_wp_domReady_ = __webpack_require__(217);
+var external_this_wp_domReady_ = __webpack_require__(212);
 var external_this_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_domReady_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/addContainer.js
@@ -172,8 +177,6 @@ var filterMessage = function filterMessage(message) {
 /* harmony default export */ var build_module_filterMessage = (filterMessage);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setup", function() { return build_module_setup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "speak", function() { return build_module_speak; });
 /**
  * WordPress dependencies
  */
