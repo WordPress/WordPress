@@ -7,6 +7,7 @@
 		margin-bottom: calc(var(--global--spacing-vertical) / 3);
 	}
 
+	&.wp-block-search__button-inside .wp-block-search__inside-wrapper,
 	.wp-block-search__input {
 		border: var(--form--border-width) solid var(--form--border-color);
 		border-radius: var(--form--border-radius);
@@ -21,23 +22,8 @@
 			background: var(--global--color-white-90);
 		}
 
-		.has-background.has-white-background-color &,
-		.has-background.has-green-background-color &,
-		.has-background.has-blue-background-color &,
-		.has-background.has-purple-background-color &,
-		.has-background.has-red-background-color &,
-		.has-background.has-orange-background-color &,
-		.has-background.has-yellow-background-color & {
-
-			.is-dark-theme & {
-				border-color: var(--form--color-text);
-			}
-		}
-
-		.has-background.has-gray-background-color &,
-		.has-background.has-dark-gray-background-color &,
-		.has-background.has-black-background-color & {
-			border-color: var(--global--color-white);
+		.has-background & {
+			border-color: var(--local--color-primary, var(--global--color-primary)) !important;
 		}
 	}
 
@@ -45,16 +31,10 @@
 		@include button-style();
 		box-shadow: none;
 		margin-left: 0;
-		background-color: transparent;
-		color: var(--button--color-text-hover);
-
-		&:hover {
-			color: var(--button--color-text);
-			background-color: var(--button--color-background);
-		}
 
 		&.has-icon {
 			padding: calc(2 * var(--button--padding-vertical)) calc(0.5 * var(--button--padding-horizontal));
+			display: inherit;
 
 			svg {
 				width: 40px;
@@ -62,108 +42,59 @@
 			}
 		}
 
-		.has-background.has-gray-background-color &,
-		.has-background.has-dark-gray-background-color &,
-		.has-background.has-black-background-color & {
-			color: var(--global--color-white);
-			border-color: currentColor;
+		&:hover,
+		&:active {
 
-			&:hover {
-				color: var(--global--color-white);
-				background-color: var(--button--color-background);
-				border-color: var(--global--color-white);
+			.has-background & {
+				background-color: var(--local--color-background, var(--global--color-background)) !important;
+				color: var(--local--color-primary, var(--global--color-primary)) !important;
+			}
 
-				.is-dark-theme & {
-					color: var(--button--color-text);
-					background-color: var(--button--color-background);
-				}
+			.has-text-color & {
+				color: var(--local--color-primary, var(--global--color-primary)) !important;
 			}
 		}
 
-		.has-background.has-white-background-color &,
-		.has-background.has-green-background-color &,
-		.has-background.has-blue-background-color &,
-		.has-background.has-purple-background-color &,
-		.has-background.has-red-background-color &,
-		.has-background.has-orange-background-color &,
-		.has-background.has-yellow-background-color & {
-
-			&:hover {
-				color: var(--global--color-white);
-				background-color: var(--form--border-color);
-				border-color: var(--form--border-color);
-			}
-
-			.is-dark-theme & {
-				color: var(--form--color-text);
-				border-color: currentColor;
-
-				&:hover {
-					color: var(--global--color-white);
-					background-color: var(--button--color-text);
-					border-color: var(--button--color-text);
-				}
-			}
+		// Remove :focus styles in the editor
+		&:focus {
+			outline-offset: inherit;
+			outline: inherit;
 		}
 	}
 
 	&.wp-block-search__button-inside {
 
-		.wp-block-search__input,
-		.has-background.has-white-background-color & .wp-block-search__input,
-		.has-background.has-green-background-color & .wp-block-search__input,
-		.has-background.has-blue-background-color & .wp-block-search__input,
-		.has-background.has-purple-background-color & .wp-block-search__input,
-		.has-background.has-red-background-color & .wp-block-search__input,
-		.has-background.has-orange-background-color & .wp-block-search__input,
-		.has-background.has-yellow-background-color & .wp-block-search__input {
+		.wp-block-search__inside-wrapper {
+			padding: var(--form--border-width);
+		}
+
+		.wp-block-search__input {
 			border: none;
 		}
 
-		&.wp-block-search__text-button {
+		&.wp-block-search__text-button,
+		&.wp-block-search__icon-button {
 
 			.wp-block-search__button {
-				// Match the text button size with the icon button.
-				padding: var(--button--padding-vertical) var(--button--padding-horizontal);
-			}
-		}
-
-		.wp-block-search__button {
-
-			.is-dark-theme & {
-				color: var(--button--color-text);
-				border-color: currentColor;
-
+				// Search button always needs black contrast against white form background
 				&:hover {
-					color: var(--global--color-white);
-					background-color: var(--button--color-text);
-					border-color: var(--button--color-text);
-				}
-			}
-
-			.has-background.has-gray-background-color &,
-			.has-background.has-dark-gray-background-color &,
-			.has-background.has-black-background-color & {
-				color: var(--button--color-text-hover);
-				border-color: currentColor;
-
-				&:hover {
-					color: var(--global--color-white);
-					background-color: var(--button--color-background);
-					border-color: var(--button--color-background);
+					color: var(--global--color-dark-gray);
 				}
 
 				.is-dark-theme & {
-					color: var(--button--color-text);
-					border-color: currentColor;
+					color: var(--global--color-dark-gray);
 
 					&:hover {
+						background-color: var(--global--color-dark-gray);
 						color: var(--global--color-white);
-						background-color: var(--button--color-text);
-						border-color: var(--button--color-text);
 					}
 				}
 			}
+		}
+
+		&.wp-block-search__text-button .wp-block-search__button {
+			// Match the text button size with the icon button.
+			padding: var(--button--padding-vertical) var(--button--padding-horizontal);
 		}
 	}
 }

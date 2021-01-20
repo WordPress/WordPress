@@ -117,14 +117,7 @@
 
 	.search-submit {
 		margin-left: 0;
-		background-color: transparent;
-		color: var(--button--color-text-hover);
 		margin-bottom: calc(0.5 * var(--global--spacing-vertical));
-
-		&:hover {
-			background-color: var(--button--color-background);
-			color: var(--button--color-text);
-		}
 	}
 }
 

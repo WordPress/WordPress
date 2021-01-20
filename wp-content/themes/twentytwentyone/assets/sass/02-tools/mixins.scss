@@ -20,32 +20,60 @@
 // Button style
 // - Applies button styles to blocks and elements that share them.
 @mixin button-style() {
-	line-height: var(--button--line-height);
-	color: var(--button--color-text);
+	border: var(--button--border-width) solid transparent;
+	border-radius: var(--button--border-radius);
 	cursor: pointer;
+	display: block;
 	font-weight: var(--button--font-weight);
 	font-family: var(--button--font-family);
 	font-size: var(--button--font-size);
-	background-color: var(--button--color-background);
-	border-radius: var(--button--border-radius);
-	border: var(--button--border-width) solid var(--button--color-background);
-	text-decoration: none;
+	line-height: var(--button--line-height);
 	padding: var(--button--padding-vertical) var(--button--padding-horizontal);
+	text-decoration: none;
 
-	&:focus {
-		background: transparent;
-		outline-offset: -6px;
-		outline: 2px dotted currentColor;
+	// Standard Button Color Relationship Logic 
+	&:not(:hover):not(:active) {
 
-		.is-dark-theme & {
-			color: var(--button--color-background);
+		// Text colors
+		&:not(.has-text-color) {
+			color: var(--global--color-background);
+
+			// Nested
+			.has-background & {
+				color: var(--local--color-background, var(--global--color-primary));
+
+				&.has-background {
+					color: var(--global--color-primary);
+				}
+			}
 		}
 
+		// Background-colors
 		&:not(.has-background) {
-			color: var(--button--color-text-hover);
+			background-color: var(--global--color-primary);
+
+			// Nested
+			.has-background & {
+				background-color: var(--local--color-primary, var(--global--color-primary));
+			}
 		}
 	}
 
+	// Hover Button color should match parent element foreground color
+	&:hover,
+	&:active {
+		background-color: transparent;
+		border-color: currentColor;
+		color: inherit;
+	}
+
+	// Focus Button outline color should always match the current text color
+	&:focus {
+		outline-offset: -6px;
+		outline: 2px dotted currentColor;
+	}
+
+	// Disabled Button colors
 	&:disabled {
 		background-color: var(--global--color-white-50);
 		border-color: var(--global--color-white-50);
