@@ -2119,7 +2119,6 @@ html.wp-toolbar {
 .postbox .hndle,
 .stuffbox .hndle {
 	-webkit-user-select: none;
-	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
@@ -3515,7 +3514,6 @@ img {
 	border-right: 1px solid #ddd;
 	border-left: 1px solid #ddd;
 	-webkit-user-select: none;
-	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }

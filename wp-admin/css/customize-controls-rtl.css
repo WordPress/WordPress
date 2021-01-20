@@ -1266,7 +1266,6 @@ p.customize-section-description {
 	padding: 4px 5px;
 	border: 2px solid #eee;
 	-webkit-user-select: none;
-	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
@@ -2393,7 +2392,6 @@ body.cheatin p {
 	margin-right: 10px;
 	transition: all 0.2s;
 	-webkit-user-select: none;
-	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 	outline: none;
