@@ -3861,6 +3861,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	);
 
 	$author = new WP_User( $attachment->post_author );
+
 	if ( $author->exists() ) {
 		$author_name            = $author->display_name ? $author->display_name : $author->nickname;
 		$response['authorName'] = html_entity_decode( $author_name, ENT_QUOTES, get_bloginfo( 'charset' ) );
