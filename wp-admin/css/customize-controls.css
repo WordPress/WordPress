@@ -1262,7 +1262,6 @@ p.customize-section-description {
 	padding: 4px 5px;
 	border: 2px solid #eee;
 	-webkit-user-select: none;
-	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
@@ -1576,7 +1575,6 @@ p.customize-section-description {
 	font-size: 12px;
 	padding: 6px 8px;
 	-moz-tab-size: 2;
-	-o-tab-size: 2;
 	tab-size: 2;
 }
 .customize-control-code_editor textarea,
@@ -2385,7 +2383,6 @@ body.cheatin p {
 	margin-left: 10px;
 	transition: all 0.2s;
 	-webkit-user-select: none;
-	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 	outline: none;
