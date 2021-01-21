@@ -62,6 +62,9 @@
 			/**
 			 * Fires when an Authorize Application Password request has been successfully approved.
 			 *
+			 * In most cases, this should be used in combination with the {@see 'wp_authorize_application_password_form_approved_no_js'}
+			 * action to ensure that both the JS and no-JS variants are handled.
+			 *
 			 * @since 5.6.0
 			 *
 			 * @param {Object} response          The response from the REST API.
@@ -126,13 +129,14 @@
 			 * Fires when an Authorize Application Password request encountered an error when trying to approve the request.
 			 *
 			 * @since 5.6.0
+			 * @since 5.6.1 Corrected action name and signature.
 			 *
 			 * @param {Object|null} error       The error from the REST API. May be null if the server did not send proper JSON.
 			 * @param {string}      textStatus  The status of the request.
 			 * @param {string}      errorThrown The error message associated with the response status code.
 			 * @param {jqXHR}       jqXHR       The underlying jqXHR object that made the request.
 			 */
-			wp.hooks.doAction( 'wp_application_passwords_approve_app_request_success', error, textStatus, jqXHR );
+			wp.hooks.doAction( 'wp_application_passwords_approve_app_request_error', error, textStatus, errorThrown, jqXHR );
 		} );
 	} );
 
