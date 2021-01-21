@@ -1640,7 +1640,8 @@ function do_feed_atom( $for_comments ) {
  *
  * @since 2.1.0
  * @since 5.3.0 Remove the "Disallow: /" output if search engine visiblity is
- *              discouraged in favor of robots meta HTML tag in wp_no_robots().
+ *              discouraged in favor of robots meta HTML tag via wp_robots_no_robots()
+ *              filter callback.
  */
 function do_robots() {
 	header( 'Content-Type: text/plain; charset=utf-8' );
@@ -3491,8 +3492,9 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $parsed_args['charset']; ?>" />
 	<meta name="viewport" content="width=device-width">
 		<?php
-		if ( function_exists( 'wp_no_robots' ) ) {
-			wp_no_robots();
+		if ( function_exists( 'wp_robots' ) && function_exists( 'wp_robots_no_robots' ) && function_exists( 'add_filter' ) ) {
+			add_filter( 'wp_robots', 'wp_robots_no_robots' );
+			wp_robots();
 		}
 		?>
 	<title><?php echo $title; ?></title>

@@ -3191,59 +3191,17 @@ function wlwmanifest_link() {
 }
 
 /**
- * Displays a noindex meta tag if required by the blog configuration.
+ * Displays a referrer strict-origin-when-cross-origin meta tag.
  *
- * If a blog is marked as not being public then the noindex meta tag will be
- * output to tell web robots not to index the page content. Add this to the
- * {@see 'wp_head'} action.
- *
- * Typical usage is as a {@see 'wp_head'} callback:
- *
- *     add_action( 'wp_head', 'noindex' );
- *
- * @see wp_no_robots()
- *
- * @since 2.1.0
- */
-function noindex() {
-	// If the blog is not public, tell robots to go away.
-	if ( '0' == get_option( 'blog_public' ) ) {
-		wp_no_robots();
-	}
-}
-
-/**
- * Display a noindex meta tag.
- *
- * Outputs a noindex meta tag that tells web robots not to index the page content.
- * Typical usage is as a {@see 'wp_head'} callback. add_action( 'wp_head', 'wp_no_robots' );
- *
- * @since 3.3.0
- * @since 5.3.0 Echo "noindex,nofollow" if search engine visibility is discouraged.
- */
-function wp_no_robots() {
-	if ( get_option( 'blog_public' ) ) {
-		echo "<meta name='robots' content='noindex,follow' />\n";
-		return;
-	}
-
-	echo "<meta name='robots' content='noindex,nofollow' />\n";
-}
-
-/**
- * Display a noindex,noarchive meta tag and referrer origin-when-cross-origin meta tag.
- *
- * Outputs a noindex,noarchive meta tag that tells web robots not to index or cache the page content.
  * Outputs a referrer origin-when-cross-origin meta tag that tells the browser not to send the full
  * url as a referrer to other sites when cross-origin assets are loaded.
  *
- * Typical usage is as a wp_head callback. add_action( 'wp_head', 'wp_sensitive_page_meta' );
+ * Typical usage is as a wp_head callback. add_action( 'wp_head', 'wp_strict_cross_origin_referrer' );
  *
- * @since 5.0.1
+ * @since 5.7.0
  */
-function wp_sensitive_page_meta() {
+function wp_strict_cross_origin_referrer() {
 	?>
-	<meta name='robots' content='noindex,noarchive' />
 	<meta name='referrer' content='strict-origin-when-cross-origin' />
 	<?php
 }

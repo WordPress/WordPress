@@ -181,6 +181,7 @@ require ABSPATH . WPINC . '/class-wp-metadata-lazyloader.php';
 require ABSPATH . WPINC . '/general-template.php';
 require ABSPATH . WPINC . '/link-template.php';
 require ABSPATH . WPINC . '/author-template.php';
+require ABSPATH . WPINC . '/robots-template.php';
 require ABSPATH . WPINC . '/post.php';
 require ABSPATH . WPINC . '/class-walker-page.php';
 require ABSPATH . WPINC . '/class-walker-page-dropdown.php';

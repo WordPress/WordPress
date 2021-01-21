@@ -42,7 +42,8 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	global $error, $interim_login, $action;
 
 	// Don't index any of these forms.
-	add_action( 'login_head', 'wp_sensitive_page_meta' );
+	add_filter( 'wp_robots', 'wp_robots_sensitive_page' );
+	add_action( 'login_head', 'wp_strict_cross_origin_referrer' );
 
 	add_action( 'login_head', 'wp_login_viewport_meta' );
 
