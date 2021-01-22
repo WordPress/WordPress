@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 431);
+/******/ 	return __webpack_require__(__webpack_require__.s = 425);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -98,6 +98,78 @@ this["wp"] = this["wp"] || {}; this["wp"]["blocks"] =
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["i18n"]; }());
+
+/***/ }),
+
+/***/ 116:
+/***/ (function(module, exports) {
+
+// Unique ID creation requires a high quality random # generator.  In the
+// browser this is a little complicated due to unknown quality of Math.random()
+// and inconsistent support for the `crypto` API.  We do the best we can via
+// feature-detection
+
+// getRandomValues needs to be invoked in a context where "this" is a Crypto
+// implementation. Also, find the complete implementation of crypto on IE11.
+var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
+                      (typeof(msCrypto) != 'undefined' && typeof window.msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto));
+
+if (getRandomValues) {
+  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
+  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
+
+  module.exports = function whatwgRNG() {
+    getRandomValues(rnds8);
+    return rnds8;
+  };
+} else {
+  // Math.random()-based (RNG)
+  //
+  // If all else fails, use Math.random().  It's fast, but is of unspecified
+  // quality.
+  var rnds = new Array(16);
+
+  module.exports = function mathRNG() {
+    for (var i = 0, r; i < 16; i++) {
+      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+    }
+
+    return rnds;
+  };
+}
+
+
+/***/ }),
+
+/***/ 117:
+/***/ (function(module, exports) {
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+var byteToHex = [];
+for (var i = 0; i < 256; ++i) {
+  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+}
+
+function bytesToUuid(buf, offset) {
+  var i = offset || 0;
+  var bth = byteToHex;
+  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
+  return ([bth[buf[i++]], bth[buf[i++]], 
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]]]).join('');
+}
+
+module.exports = bytesToUuid;
+
 
 /***/ }),
 
@@ -149,80 +221,6 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 137:
-/***/ (function(module, exports) {
-
-// Unique ID creation requires a high quality random # generator.  In the
-// browser this is a little complicated due to unknown quality of Math.random()
-// and inconsistent support for the `crypto` API.  We do the best we can via
-// feature-detection
-
-// getRandomValues needs to be invoked in a context where "this" is a Crypto
-// implementation. Also, find the complete implementation of crypto on IE11.
-var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
-                      (typeof(msCrypto) != 'undefined' && typeof window.msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto));
-
-if (getRandomValues) {
-  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
-  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
-
-  module.exports = function whatwgRNG() {
-    getRandomValues(rnds8);
-    return rnds8;
-  };
-} else {
-  // Math.random()-based (RNG)
-  //
-  // If all else fails, use Math.random().  It's fast, but is of unspecified
-  // quality.
-  var rnds = new Array(16);
-
-  module.exports = function mathRNG() {
-    for (var i = 0, r; i < 16; i++) {
-      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
-      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
-    }
-
-    return rnds;
-  };
-}
-
-
-/***/ }),
-
-/***/ 138:
-/***/ (function(module, exports) {
-
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-var byteToHex = [];
-for (var i = 0; i < 256; ++i) {
-  byteToHex[i] = (i + 0x100).toString(16).substr(1);
-}
-
-function bytesToUuid(buf, offset) {
-  var i = offset || 0;
-  var bth = byteToHex;
-  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
-  return ([
-    bth[buf[i++]], bth[buf[i++]],
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]],
-    bth[buf[i++]], bth[buf[i++]],
-    bth[buf[i++]], bth[buf[i++]]
-  ]).join('');
-}
-
-module.exports = bytesToUuid;
-
-
-/***/ }),
-
 /***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -236,7 +234,7 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 172:
+/***/ 149:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["shortcode"]; }());
@@ -252,7 +250,7 @@ function _classCallCheck(instance, Constructor) {
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(26);
+var arrayLikeToArray = __webpack_require__(25);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -260,10 +258,10 @@ function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(36);
+var iterableToArray = __webpack_require__(35);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
+var unsupportedIterableToArray = __webpack_require__(27);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -287,7 +285,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 21:
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -296,7 +294,7 @@ function _toConsumableArray(arr) {
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(39);
+var arrayWithHoles = __webpack_require__(38);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
@@ -326,10 +324,10 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
+var unsupportedIterableToArray = __webpack_require__(27);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(40);
+var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 
@@ -342,7 +340,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 26:
+/***/ 25:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -359,32 +357,14 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 28:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
-
-/***/ }),
-
-/***/ 280:
+/***/ 265:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blockSerializationDefaultParser"]; }());
 
 /***/ }),
 
-/***/ 281:
+/***/ 266:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;;/*! showdown v 1.9.1 - 02-11-2019 */
@@ -5529,21 +5509,39 @@ if (true) {
 
 /***/ }),
 
-/***/ 29:
+/***/ 27:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
+/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(n);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+}
+
+/***/ }),
+
+/***/ 28:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["dom"]; }());
 
 /***/ }),
 
-/***/ 33:
+/***/ 32:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["hooks"]; }());
 
 /***/ }),
 
-/***/ 36:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5554,13 +5552,24 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 39:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
+}
+
+/***/ }),
+
+/***/ 39:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
 /***/ }),
@@ -5573,17 +5582,6 @@ function _arrayWithHoles(arr) {
 /***/ }),
 
 /***/ 40:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-/***/ }),
-
-/***/ 41:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5865,14 +5863,14 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 42:
+/***/ 41:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blob"]; }());
 
 /***/ }),
 
-/***/ 431:
+/***/ 425:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6227,7 +6225,7 @@ function collections() {
 }));
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(41);
+var rememo = __webpack_require__(40);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/selectors.js
 
@@ -6753,21 +6751,21 @@ Object(external_this_wp_data_["registerStore"])('core/blocks', {
 });
 
 // EXTERNAL MODULE: ./node_modules/uuid/v4.js
-var v4 = __webpack_require__(89);
+var v4 = __webpack_require__(83);
 var v4_default = /*#__PURE__*/__webpack_require__.n(v4);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
-var external_this_wp_hooks_ = __webpack_require__(33);
+var external_this_wp_hooks_ = __webpack_require__(32);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(57);
+var tinycolor = __webpack_require__(54);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 // EXTERNAL MODULE: external {"this":["wp","element"]}
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(29);
+var external_this_wp_dom_ = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/utils.js
 
@@ -7948,7 +7946,7 @@ var factory_getBlockFromExample = function getBlockFromExample(name, example) {
 };
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(21);
+var slicedToArray = __webpack_require__(20);
 
 // CONCATENATED MODULE: ./node_modules/hpq/es/get-path.js
 /**
@@ -8130,22 +8128,22 @@ function query(selector, matchers) {
   };
 }
 // EXTERNAL MODULE: external {"this":["wp","autop"]}
-var external_this_wp_autop_ = __webpack_require__(91);
+var external_this_wp_autop_ = __webpack_require__(85);
 
 // EXTERNAL MODULE: external {"this":["wp","blockSerializationDefaultParser"]}
-var external_this_wp_blockSerializationDefaultParser_ = __webpack_require__(280);
+var external_this_wp_blockSerializationDefaultParser_ = __webpack_require__(265);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(39);
+var arrayWithHoles = __webpack_require__(38);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(36);
+var iterableToArray = __webpack_require__(35);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
+var unsupportedIterableToArray = __webpack_require__(27);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(40);
+var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toArray.js
 
@@ -8211,11 +8209,9 @@ function preprocessInput(input) {
 }
 
 var EventedTokenizer = /** @class */ (function () {
-    function EventedTokenizer(delegate, entityParser, mode) {
-        if (mode === void 0) { mode = 'precompile'; }
+    function EventedTokenizer(delegate, entityParser) {
         this.delegate = delegate;
         this.entityParser = entityParser;
-        this.mode = mode;
         this.state = "beforeData" /* beforeData */;
         this.line = -1;
         this.column = -1;
@@ -8231,7 +8227,7 @@ var EventedTokenizer = /** @class */ (function () {
                     this.consume();
                 }
                 else {
-                    if (this.mode === 'precompile' && char === '\n') {
+                    if (char === '\n') {
                         var tag = this.tagNameBuffer.toLowerCase();
                         if (tag === 'pre' || tag === 'textarea') {
                             this.consume();
@@ -8688,7 +8684,7 @@ var Tokenizer = /** @class */ (function () {
         this.startLine = 1;
         this.startColumn = 0;
         this.tokens = [];
-        this.tokenizer = new EventedTokenizer(this, entityParser, options.mode);
+        this.tokenizer = new EventedTokenizer(this, entityParser);
         this._currentAttribute = undefined;
     }
     Tokenizer.prototype.tokenize = function (input) {
@@ -8831,7 +8827,7 @@ function tokenize(input, options) {
 
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
-var external_this_wp_htmlEntities_ = __webpack_require__(62);
+var external_this_wp_htmlEntities_ = __webpack_require__(58);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/validation/logger.js
 function createLogger() {
@@ -8906,7 +8902,7 @@ function createQueuedLogger() {
 }
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(52);
+var external_this_wp_isShallowEqual_ = __webpack_require__(51);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
@@ -11668,7 +11664,7 @@ function wrapFigureContent(element) {
 });
 
 // EXTERNAL MODULE: external {"this":["wp","shortcode"]}
-var external_this_wp_shortcode_ = __webpack_require__(172);
+var external_this_wp_shortcode_ = __webpack_require__(149);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/shortcode-converter.js
 
@@ -11984,7 +11980,7 @@ function ms_list_converter_isList(node) {
 });
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(42);
+var external_this_wp_blob_ = __webpack_require__(41);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js
 
@@ -12054,7 +12050,7 @@ var image_corrector_window = window,
 });
 
 // EXTERNAL MODULE: ./node_modules/showdown/dist/showdown.js
-var showdown = __webpack_require__(281);
+var showdown = __webpack_require__(266);
 var showdown_default = /*#__PURE__*/__webpack_require__.n(showdown);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js
@@ -12816,17 +12812,17 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 52:
+/***/ 51:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["isShallowEqual"]; }());
 
 /***/ }),
 
-/***/ 57:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.2
+var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
@@ -14024,7 +14020,7 @@ else {}
 
 /***/ }),
 
-/***/ 62:
+/***/ 58:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["htmlEntities"]; }());
@@ -14038,11 +14034,11 @@ else {}
 
 /***/ }),
 
-/***/ 89:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(137);
-var bytesToUuid = __webpack_require__(138);
+var rng = __webpack_require__(116);
+var bytesToUuid = __webpack_require__(117);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -14074,7 +14070,7 @@ module.exports = v4;
 
 /***/ }),
 
-/***/ 91:
+/***/ 85:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["autop"]; }());

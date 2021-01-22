@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 437);
+/******/ 	return __webpack_require__(__webpack_require__.s = 431);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,32 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 
 /***/ }),
 
-/***/ 12:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-/***/ }),
-
-/***/ 123:
+/***/ 105:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -310,35 +285,12 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 13:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-/***/ }),
-
-/***/ 132:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useMediaQuery; });
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 
@@ -382,6 +334,54 @@ function useMediaQuery(query) {
 
 /***/ }),
 
+/***/ 12:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/***/ }),
+
+/***/ 13:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+/***/ }),
+
 /***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -400,16 +400,16 @@ function _classCallCheck(instance, Constructor) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(35);
-/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
+/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
 function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
     return call;
   }
 
-  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
 
 /***/ }),
@@ -471,7 +471,7 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
-/***/ 21:
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -480,7 +480,7 @@ function _inherits(subClass, superClass) {
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(39);
+var arrayWithHoles = __webpack_require__(38);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
@@ -510,10 +510,10 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
+var unsupportedIterableToArray = __webpack_require__(27);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(40);
+var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 
@@ -526,7 +526,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 26:
+/***/ 25:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -543,11 +543,11 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 268:
+/***/ 252:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var _use_media_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(132);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var _use_media_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(112);
 /**
  * Internal dependencies
  */
@@ -572,29 +572,29 @@ var useReducedMotion = process.env.FORCE_REDUCED_MOTION || IS_IE ? function () {
 };
 /* harmony default export */ __webpack_exports__["a"] = (useReducedMotion);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(123)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(105)))
 
 /***/ }),
 
-/***/ 28:
+/***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (n === "Map" || n === "Set") return Array.from(n);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
 }
 
 /***/ }),
 
-/***/ 285:
+/***/ 271:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -1660,7 +1660,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
 
 /***/ }),
 
-/***/ 35:
+/***/ 34:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1683,7 +1683,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 39:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1694,7 +1694,7 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ 40:
+/***/ 39:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1705,7 +1705,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 402:
+/***/ 396:
 /***/ (function(module, exports) {
 
 /**
@@ -1758,7 +1758,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 437:
+/***/ 431:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1878,7 +1878,7 @@ var getPrototypeOf = __webpack_require__(16);
 var inherits = __webpack_require__(17);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(52);
+var external_this_wp_isShallowEqual_ = __webpack_require__(51);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/higher-order/pure/index.js
@@ -2391,7 +2391,7 @@ function withState() {
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(21);
+var slicedToArray = __webpack_require__(20);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-dragging/index.js
 
@@ -2465,11 +2465,11 @@ function useDragging(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/mousetrap.js
-var mousetrap_mousetrap = __webpack_require__(285);
+var mousetrap_mousetrap = __webpack_require__(271);
 var mousetrap_default = /*#__PURE__*/__webpack_require__.n(mousetrap_mousetrap);
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
-var mousetrap_global_bind = __webpack_require__(402);
+var mousetrap_global_bind = __webpack_require__(396);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-keyboard-shortcut/index.js
 /**
@@ -2560,10 +2560,10 @@ function useKeyboardShortcut(shortcuts, callback) {
 /* harmony default export */ var use_keyboard_shortcut = (useKeyboardShortcut);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-media-query/index.js
-var use_media_query = __webpack_require__(132);
+var use_media_query = __webpack_require__(112);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-reduced-motion/index.js
-var use_reduced_motion = __webpack_require__(268);
+var use_reduced_motion = __webpack_require__(252);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-viewport-match/index.js
 /**
@@ -2679,7 +2679,7 @@ use_viewport_match_useViewportMatch.__experimentalWidthProvider = ViewportMatchW
 
 /***/ }),
 
-/***/ 52:
+/***/ 51:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["isShallowEqual"]; }());

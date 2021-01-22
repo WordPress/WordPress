@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["serverSideRender"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 458);
+/******/ 	return __webpack_require__(__webpack_require__.s = 452);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -167,16 +167,16 @@ function _classCallCheck(instance, Constructor) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(35);
-/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
+/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
 function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
     return call;
   }
 
-  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
 
 /***/ }),
@@ -231,23 +231,16 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
-/***/ }),
-
-/***/ 20:
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
+  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -266,6 +259,13 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
 /***/ 3:
 /***/ (function(module, exports) {
 
@@ -273,14 +273,14 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 31:
+/***/ 30:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 35:
+/***/ 34:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -303,7 +303,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 38:
+/***/ 37:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["deprecated"]; }());
@@ -317,14 +317,14 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 43:
+/***/ 42:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["apiFetch"]; }());
 
 /***/ }),
 
-/***/ 44:
+/***/ 43:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -346,7 +346,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 458:
+/***/ 452:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -360,7 +360,7 @@ var esm_extends = __webpack_require__(12);
 var defineProperty = __webpack_require__(5);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(20);
+var objectWithoutProperties = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","element"]}
 var external_this_wp_element_ = __webpack_require__(0);
@@ -369,7 +369,7 @@ var external_this_wp_element_ = __webpack_require__(0);
 var external_this_wp_data_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(38);
+var external_this_wp_deprecated_ = __webpack_require__(37);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
@@ -394,11 +394,11 @@ var external_this_lodash_ = __webpack_require__(2);
 var external_this_wp_i18n_ = __webpack_require__(1);
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(43);
+var external_this_wp_apiFetch_ = __webpack_require__(42);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(31);
+var external_this_wp_url_ = __webpack_require__(30);
 
 // EXTERNAL MODULE: external {"this":["wp","components"]}
 var external_this_wp_components_ = __webpack_require__(3);

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["editor"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 428);
+/******/ 	return __webpack_require__(__webpack_require__.s = 422);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -105,62 +105,6 @@ this["wp"] = this["wp"] || {}; this["wp"]["editor"] =
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blocks"]; }());
-
-/***/ }),
-
-/***/ 103:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function flattenIntoMap( map, effects ) {
-	var i;
-	if ( Array.isArray( effects ) ) {
-		for ( i = 0; i < effects.length; i++ ) {
-			flattenIntoMap( map, effects[ i ] );
-		}
-	} else {
-		for ( i in effects ) {
-			map[ i ] = ( map[ i ] || [] ).concat( effects[ i ] );
-		}
-	}
-}
-
-function refx( effects ) {
-	var map = {},
-		middleware;
-
-	flattenIntoMap( map, effects );
-
-	middleware = function( store ) {
-		return function( next ) {
-			return function( action ) {
-				var handlers = map[ action.type ],
-					result = next( action ),
-					i, handlerAction;
-
-				if ( handlers ) {
-					for ( i = 0; i < handlers.length; i++ ) {
-						handlerAction = handlers[ i ]( action, store );
-						if ( handlerAction ) {
-							store.dispatch( handlerAction );
-						}
-					}
-				}
-
-				return result;
-			};
-		};
-	};
-
-	middleware.effects = map;
-
-	return middleware;
-}
-
-module.exports = refx;
-
 
 /***/ }),
 
@@ -222,63 +166,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 12:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-/***/ }),
-
-/***/ 136:
+/***/ 115:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(411);
+module.exports = __webpack_require__(405);
 
 
 /***/ }),
 
-/***/ 139:
+/***/ 118:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -291,7 +187,7 @@ module.exports = __webpack_require__(411);
 
 
 
-var ReactPropTypesSecret = __webpack_require__(140);
+var ReactPropTypesSecret = __webpack_require__(119);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -350,20 +246,7 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-/***/ }),
-
-/***/ 140:
+/***/ 119:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -383,7 +266,32 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 
-/***/ 141:
+/***/ 12:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/***/ }),
+
+/***/ 120:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -408,10 +316,53 @@ var close = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElemen
 
 /***/ }),
 
-/***/ 148:
+/***/ 128:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["wordcount"]; }());
+
+/***/ }),
+
+/***/ 13:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+/***/ }),
+
+/***/ 130:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["mediaUtils"]; }());
+
+/***/ }),
+
+/***/ 14:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
 /***/ }),
 
@@ -420,78 +371,21 @@ var close = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElemen
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(35);
-/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
+/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
 function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
     return call;
   }
 
-  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
 
 /***/ }),
 
-/***/ 150:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["mediaUtils"]; }());
-
-/***/ }),
-
-/***/ 16:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-/***/ }),
-
-/***/ 17:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-/***/ }),
-
-/***/ 175:
+/***/ 152:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -524,10 +418,10 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 exports.__esModule = true;
-var React = __webpack_require__(19);
-var PropTypes = __webpack_require__(27);
-var autosize = __webpack_require__(176);
-var _getLineHeight = __webpack_require__(177);
+var React = __webpack_require__(21);
+var PropTypes = __webpack_require__(26);
+var autosize = __webpack_require__(153);
+var _getLineHeight = __webpack_require__(154);
 var getLineHeight = _getLineHeight;
 var UPDATE = 'autosize:update';
 var DESTROY = 'autosize:destroy';
@@ -620,7 +514,7 @@ exports["default"] = TextareaAutosize;
 
 /***/ }),
 
-/***/ 176:
+/***/ 153:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -909,11 +803,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 177:
+/***/ 154:
 /***/ (function(module, exports, __webpack_require__) {
 
 // Load in dependencies
-var computedStyle = __webpack_require__(178);
+var computedStyle = __webpack_require__(155);
 
 /**
  * Calculate the `line-height` of a given node
@@ -1013,7 +907,7 @@ module.exports = lineHeight;
 
 /***/ }),
 
-/***/ 178:
+/***/ 155:
 /***/ (function(module, exports) {
 
 // This code has been refactored for 140 bytes
@@ -1047,44 +941,7 @@ module.exports = computedStyle;
 
 /***/ }),
 
-/***/ 18:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(26);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(36);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
-}
-
-/***/ }),
-
-/***/ 182:
+/***/ 159:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1109,30 +966,110 @@ var link = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 
 /***/ }),
 
+/***/ 16:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+/***/ }),
+
+/***/ 17:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+/***/ }),
+
+/***/ 18:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+var arrayLikeToArray = __webpack_require__(25);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+var iterableToArray = __webpack_require__(35);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__(27);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+}
+
+/***/ }),
+
+/***/ 182:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["notices"]; }());
+
+/***/ }),
+
 /***/ 19:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["React"]; }());
-
-/***/ }),
-
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
-/***/ }),
-
-/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
+  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -1151,74 +1088,12 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 202:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["notices"]; }());
-
-/***/ }),
-
-/***/ 21:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(39);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(40);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
-}
-
-/***/ }),
-
-/***/ 211:
+/***/ 191:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
 
@@ -1250,7 +1125,7 @@ function Icon(_ref) {
 
 /***/ }),
 
-/***/ 213:
+/***/ 193:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1275,6 +1150,75 @@ var check = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElemen
 
 /***/ }),
 
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
+var arrayWithHoles = __webpack_require__(38);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
+function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__(27);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
+var nonIterableRest = __webpack_require__(39);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
+
+
+
+
+function _slicedToArray(arr, i) {
+  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
+}
+
+/***/ }),
+
+/***/ 21:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["React"]; }());
+
+/***/ }),
+
 /***/ 22:
 /***/ (function(module, exports) {
 
@@ -1289,14 +1233,14 @@ var check = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElemen
 
 /***/ }),
 
-/***/ 25:
+/***/ 24:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["richText"]; }());
 
 /***/ }),
 
-/***/ 26:
+/***/ 25:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1313,7 +1257,7 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 27:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1326,26 +1270,26 @@ function _arrayLikeToArray(arr, len) {
 if (false) { var throwOnDirectAccess, ReactIs; } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(139)();
+  module.exports = __webpack_require__(118)();
 }
 
 
 /***/ }),
 
-/***/ 28:
+/***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (n === "Map" || n === "Set") return Array.from(n);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
 }
 
 /***/ }),
@@ -1357,21 +1301,21 @@ function _unsupportedIterableToArray(o, minLen) {
 
 /***/ }),
 
-/***/ 31:
+/***/ 30:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 33:
+/***/ 32:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["hooks"]; }());
 
 /***/ }),
 
-/***/ 35:
+/***/ 34:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1394,7 +1338,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 36:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1405,10 +1349,21 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 38:
+/***/ 37:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["deprecated"]; }());
+
+/***/ }),
+
+/***/ 38:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
 
 /***/ }),
 
@@ -1416,9 +1371,9 @@ function _iterableToArray(iter) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
 /***/ }),
@@ -1431,17 +1386,6 @@ function _arrayWithHoles(arr) {
 /***/ }),
 
 /***/ 40:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-/***/ }),
-
-/***/ 41:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1723,7 +1667,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 411:
+/***/ 405:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1889,7 +1833,14 @@ function separateState(state) {
 
 /***/ }),
 
-/***/ 428:
+/***/ 42:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ 422:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2211,19 +2162,19 @@ var external_this_wp_blockEditor_ = __webpack_require__(6);
 var external_this_wp_blocks_ = __webpack_require__(10);
 
 // EXTERNAL MODULE: external {"this":["wp","coreData"]}
-var external_this_wp_coreData_ = __webpack_require__(80);
+var external_this_wp_coreData_ = __webpack_require__(75);
 
 // EXTERNAL MODULE: external {"this":["wp","keyboardShortcuts"]}
-var external_this_wp_keyboardShortcuts_ = __webpack_require__(49);
+var external_this_wp_keyboardShortcuts_ = __webpack_require__(48);
 
 // EXTERNAL MODULE: external {"this":["wp","notices"]}
-var external_this_wp_notices_ = __webpack_require__(202);
+var external_this_wp_notices_ = __webpack_require__(182);
 
 // EXTERNAL MODULE: external {"this":["wp","richText"]}
-var external_this_wp_richText_ = __webpack_require__(25);
+var external_this_wp_richText_ = __webpack_require__(24);
 
 // EXTERNAL MODULE: external {"this":["wp","viewport"]}
-var external_this_wp_viewport_ = __webpack_require__(59);
+var external_this_wp_viewport_ = __webpack_require__(56);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(5);
@@ -2232,13 +2183,13 @@ var defineProperty = __webpack_require__(5);
 var external_this_wp_data_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: external {"this":["wp","dataControls"]}
-var external_this_wp_dataControls_ = __webpack_require__(45);
+var external_this_wp_dataControls_ = __webpack_require__(44);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
-var esm_typeof = __webpack_require__(35);
+var esm_typeof = __webpack_require__(34);
 
 // EXTERNAL MODULE: ./node_modules/redux-optimist/index.js
-var redux_optimist = __webpack_require__(136);
+var redux_optimist = __webpack_require__(115);
 var redux_optimist_default = /*#__PURE__*/__webpack_require__.n(redux_optimist);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
@@ -2700,7 +2651,7 @@ function reducer_editorSettings() {
 })));
 
 // EXTERNAL MODULE: ./node_modules/refx/refx.js
-var refx = __webpack_require__(103);
+var refx = __webpack_require__(89);
 var refx_default = /*#__PURE__*/__webpack_require__.n(refx);
 
 // EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
@@ -2708,10 +2659,10 @@ var external_this_regeneratorRuntime_ = __webpack_require__(23);
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(50);
+var asyncToGenerator = __webpack_require__(49);
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(43);
+var external_this_wp_apiFetch_ = __webpack_require__(42);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
@@ -2721,7 +2672,7 @@ var external_this_wp_i18n_ = __webpack_require__(1);
 var toConsumableArray = __webpack_require__(18);
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
-var external_this_wp_deprecated_ = __webpack_require__(38);
+var external_this_wp_deprecated_ = __webpack_require__(37);
 var external_this_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/constants.js
@@ -2883,7 +2834,7 @@ var memize = __webpack_require__(46);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: external {"this":["wp","autop"]}
-var external_this_wp_autop_ = __webpack_require__(91);
+var external_this_wp_autop_ = __webpack_require__(85);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/utils/serialize-blocks.js
 /**
@@ -4168,16 +4119,16 @@ var insertDefaultBlock = actions_getBlockEditorAction('insertDefaultBlock');
 var updateBlockListSettings = actions_getBlockEditorAction('updateBlockListSettings');
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(21);
+var slicedToArray = __webpack_require__(20);
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(41);
+var rememo = __webpack_require__(40);
 
 // EXTERNAL MODULE: external {"this":["wp","date"]}
-var external_this_wp_date_ = __webpack_require__(66);
+var external_this_wp_date_ = __webpack_require__(60);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(31);
+var external_this_wp_url_ = __webpack_require__(30);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/selectors.js
 
@@ -6335,7 +6286,7 @@ middlewares(store_store);
 var esm_extends = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(20);
+var objectWithoutProperties = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","element"]}
 var external_this_wp_element_ = __webpack_require__(0);
@@ -6344,7 +6295,7 @@ var external_this_wp_element_ = __webpack_require__(0);
 var external_this_wp_compose_ = __webpack_require__(8);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
-var external_this_wp_hooks_ = __webpack_require__(33);
+var external_this_wp_hooks_ = __webpack_require__(32);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/hooks/custom-sources-backwards-compatibility.js
 
@@ -7449,7 +7400,7 @@ function EditorNotices(_ref) {
 })])(EditorNotices));
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(70);
+var equivalent_key_map = __webpack_require__(64);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/entities-saved-states/index.js
@@ -8196,7 +8147,7 @@ function PageTemplate(_ref) {
 }))(PageTemplate));
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
-var external_this_wp_htmlEntities_ = __webpack_require__(62);
+var external_this_wp_htmlEntities_ = __webpack_require__(58);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-author/check.js
 
@@ -9849,7 +9800,7 @@ function (_Component) {
 })])(post_publish_button_PostPublishButton));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
-var library_close = __webpack_require__(141);
+var library_close = __webpack_require__(120);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-visibility/utils.js
 /**
@@ -11050,10 +11001,10 @@ function (_Component) {
 }), external_this_wp_components_["withFocusReturn"], external_this_wp_components_["withConstrainedTabbing"]])(post_publish_panel_PostPublishPanel));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__(211);
+var build_module_icon = __webpack_require__(191);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
-var library_check = __webpack_require__(213);
+var library_check = __webpack_require__(193);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-switch-to-draft-button/index.js
 
@@ -12159,7 +12110,7 @@ function PostTaxonomiesCheck(_ref) {
 })])(PostTaxonomiesCheck));
 
 // EXTERNAL MODULE: ./node_modules/react-autosize-textarea/lib/index.js
-var lib = __webpack_require__(79);
+var lib = __webpack_require__(72);
 var lib_default = /*#__PURE__*/__webpack_require__.n(lib);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-text-editor/index.js
@@ -12300,7 +12251,7 @@ function (_Component) {
 }), external_this_wp_compose_["withInstanceId"]])(post_text_editor_PostTextEditor));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/link.js
-var library_link = __webpack_require__(182);
+var library_link = __webpack_require__(159);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-permalink/editor.js
 
@@ -12925,7 +12876,7 @@ function PostVisibilityCheck(_ref) {
 })])(PostVisibilityCheck));
 
 // EXTERNAL MODULE: external {"this":["wp","wordcount"]}
-var external_this_wp_wordcount_ = __webpack_require__(148);
+var external_this_wp_wordcount_ = __webpack_require__(128);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/word-count/index.js
 
@@ -13214,7 +13165,7 @@ var withRegistryProvider = Object(external_this_wp_compose_["createHigherOrderCo
 /* harmony default export */ var with_registry_provider = (withRegistryProvider);
 
 // EXTERNAL MODULE: external {"this":["wp","mediaUtils"]}
-var external_this_wp_mediaUtils_ = __webpack_require__(150);
+var external_this_wp_mediaUtils_ = __webpack_require__(130);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/utils/media-upload/index.js
 
@@ -13950,7 +13901,7 @@ function (_Component) {
 })])(provider_EditorProvider));
 
 // EXTERNAL MODULE: external {"this":["wp","serverSideRender"]}
-var external_this_wp_serverSideRender_ = __webpack_require__(74);
+var external_this_wp_serverSideRender_ = __webpack_require__(67);
 var external_this_wp_serverSideRender_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_serverSideRender_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/deprecated.js
@@ -14182,13 +14133,6 @@ Object(external_this_wp_hooks_["addFilter"])('editor.Autocomplete.completers', '
 /***/ }),
 
 /***/ 43:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["apiFetch"]; }());
-
-/***/ }),
-
-/***/ 44:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14210,7 +14154,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 45:
+/***/ 44:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["dataControls"]; }());
@@ -14385,36 +14329,14 @@ module.exports = memize;
 
 /***/ }),
 
-/***/ 49:
+/***/ 48:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["keyboardShortcuts"]; }());
 
 /***/ }),
 
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
-/***/ 50:
+/***/ 49:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14457,10 +14379,39 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ 59:
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+/***/ }),
+
+/***/ 56:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["viewport"]; }());
+
+/***/ }),
+
+/***/ 58:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["htmlEntities"]; }());
 
 /***/ }),
 
@@ -14471,36 +14422,14 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ 62:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["htmlEntities"]; }());
-
-/***/ }),
-
-/***/ 66:
+/***/ 60:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["date"]; }());
 
 /***/ }),
 
-/***/ 7:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-/***/ }),
-
-/***/ 70:
+/***/ 64:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14815,22 +14744,44 @@ module.exports = EquivalentKeyMap;
 
 /***/ }),
 
-/***/ 74:
+/***/ 67:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["serverSideRender"]; }());
 
 /***/ }),
 
-/***/ 79:
+/***/ 7:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+/***/ }),
+
+/***/ 72:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 exports.__esModule = true;
-var TextareaAutosize_1 = __webpack_require__(175);
+var TextareaAutosize_1 = __webpack_require__(152);
 exports["default"] = TextareaAutosize_1["default"];
 
+
+/***/ }),
+
+/***/ 75:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["coreData"]; }());
 
 /***/ }),
 
@@ -14841,10 +14792,66 @@ exports["default"] = TextareaAutosize_1["default"];
 
 /***/ }),
 
-/***/ 80:
+/***/ 85:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["coreData"]; }());
+(function() { module.exports = this["wp"]["autop"]; }());
+
+/***/ }),
+
+/***/ 89:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function flattenIntoMap( map, effects ) {
+	var i;
+	if ( Array.isArray( effects ) ) {
+		for ( i = 0; i < effects.length; i++ ) {
+			flattenIntoMap( map, effects[ i ] );
+		}
+	} else {
+		for ( i in effects ) {
+			map[ i ] = ( map[ i ] || [] ).concat( effects[ i ] );
+		}
+	}
+}
+
+function refx( effects ) {
+	var map = {},
+		middleware;
+
+	flattenIntoMap( map, effects );
+
+	middleware = function( store ) {
+		return function( next ) {
+			return function( action ) {
+				var handlers = map[ action.type ],
+					result = next( action ),
+					i, handlerAction;
+
+				if ( handlers ) {
+					for ( i = 0; i < handlers.length; i++ ) {
+						handlerAction = handlers[ i ]( action, store );
+						if ( handlerAction ) {
+							store.dispatch( handlerAction );
+						}
+					}
+				}
+
+				return result;
+			};
+		};
+	};
+
+	middleware.effects = map;
+
+	return middleware;
+}
+
+module.exports = refx;
+
 
 /***/ }),
 
@@ -14852,13 +14859,6 @@ exports["default"] = TextareaAutosize_1["default"];
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["primitives"]; }());
-
-/***/ }),
-
-/***/ 91:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["autop"]; }());
 
 /***/ })
 

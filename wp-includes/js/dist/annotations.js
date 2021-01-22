@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["annotations"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 441);
+/******/ 	return __webpack_require__(__webpack_require__.s = 435);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["annotations"] =
 
 /***/ }),
 
-/***/ 137:
+/***/ 116:
 /***/ (function(module, exports) {
 
 // Unique ID creation requires a high quality random # generator.  In the
@@ -135,7 +135,7 @@ if (getRandomValues) {
 
 /***/ }),
 
-/***/ 138:
+/***/ 117:
 /***/ (function(module, exports) {
 
 /**
@@ -151,16 +151,14 @@ function bytesToUuid(buf, offset) {
   var i = offset || 0;
   var bth = byteToHex;
   // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
-  return ([
-    bth[buf[i++]], bth[buf[i++]],
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]],
-    bth[buf[i++]], bth[buf[i++]],
-    bth[buf[i++]], bth[buf[i++]]
-  ]).join('');
+  return ([bth[buf[i++]], bth[buf[i++]], 
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]]]).join('');
 }
 
 module.exports = bytesToUuid;
@@ -177,7 +175,7 @@ module.exports = bytesToUuid;
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(26);
+var arrayLikeToArray = __webpack_require__(25);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -185,10 +183,10 @@ function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(36);
+var iterableToArray = __webpack_require__(35);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
+var unsupportedIterableToArray = __webpack_require__(27);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -205,23 +203,16 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
-/***/ }),
-
-/***/ 20:
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
+  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -240,14 +231,21 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 25:
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 24:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["richText"]; }());
 
 /***/ }),
 
-/***/ 26:
+/***/ 25:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -264,32 +262,32 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 28:
+/***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (n === "Map" || n === "Set") return Array.from(n);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
 }
 
 /***/ }),
 
-/***/ 33:
+/***/ 32:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["hooks"]; }());
 
 /***/ }),
 
-/***/ 36:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -307,7 +305,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 41:
+/***/ 40:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -589,7 +587,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 44:
+/***/ 43:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -611,7 +609,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 441:
+/***/ 435:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -755,10 +753,10 @@ function reducer_annotations() {
 /* harmony default export */ var reducer = (reducer_annotations);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(20);
+var objectWithoutProperties = __webpack_require__(19);
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(41);
+var rememo = __webpack_require__(40);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/selectors.js
 
@@ -842,7 +840,7 @@ function __experimentalGetAnnotations(state) {
 }
 
 // EXTERNAL MODULE: ./node_modules/uuid/v4.js
-var v4 = __webpack_require__(89);
+var v4 = __webpack_require__(83);
 var v4_default = /*#__PURE__*/__webpack_require__.n(v4);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/actions.js
@@ -972,7 +970,7 @@ var store = Object(external_this_wp_data_["registerStore"])(MODULE_KEY, {
 /* harmony default export */ var build_module_store = (store);
 
 // EXTERNAL MODULE: external {"this":["wp","richText"]}
-var external_this_wp_richText_ = __webpack_require__(25);
+var external_this_wp_richText_ = __webpack_require__(24);
 
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
 var external_this_wp_i18n_ = __webpack_require__(1);
@@ -1168,7 +1166,7 @@ var format_name = annotation_annotation.name,
 Object(external_this_wp_richText_["registerFormatType"])(format_name, settings);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
-var external_this_wp_hooks_ = __webpack_require__(33);
+var external_this_wp_hooks_ = __webpack_require__(32);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/block/index.js
 /**
@@ -1233,11 +1231,11 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 89:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(137);
-var bytesToUuid = __webpack_require__(138);
+var rng = __webpack_require__(116);
+var bytesToUuid = __webpack_require__(117);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
