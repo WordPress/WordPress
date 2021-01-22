@@ -158,13 +158,13 @@
 		}
 
 		// Prevents form submission if no post has been selected.
-		$( '#find-posts-submit' ).click( function( event ) {
+		$( '#find-posts-submit' ).on( 'click', function( event ) {
 			if ( ! $( '#find-posts-response input[type="radio"]:checked' ).length )
 				event.preventDefault();
 		});
 
 		// Submits the search query when hitting the enter key in the search input.
-		$( '#find-posts .find-box-search :input' ).keypress( function( event ) {
+		$( '#find-posts .find-box-search :input' ).on( 'keypress', function( event ) {
 			if ( 13 == event.which ) {
 				findPosts.send();
 				return false;
@@ -172,13 +172,13 @@
 		});
 
 		// Binds the click event to the search button.
-		$( '#find-posts-search' ).click( findPosts.send );
+		$( '#find-posts-search' ).on( 'click', findPosts.send );
 
 		// Binds the close dialog click event.
-		$( '#find-posts-close' ).click( findPosts.close );
+		$( '#find-posts-close' ).on( 'click', findPosts.close );
 
 		// Binds the bulk action events to the submit buttons.
-		$( '#doaction' ).click( function( event ) {
+		$( '#doaction' ).on( 'click', function( event ) {
 
 			/*
 			 * Handle the bulk action based on its value.

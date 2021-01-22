@@ -56,7 +56,7 @@ jQuery( document ).ready( function( $ ) {
 		});
 	}
 
-	$( '.export-personal-data-handle' ).click( function( event ) {
+	$( '.export-personal-data-handle' ).on( 'click', function( event ) {
 		var $this          = $( this ),
 			$action        = $this.parents( '.export-personal-data' ),
 			$requestRow    = $this.parents( 'tr' ),
@@ -159,7 +159,7 @@ jQuery( document ).ready( function( $ ) {
 		doNextExport( 1, 1 );
 	});
 
-	$( '.remove-personal-data-handle' ).click( function( event ) {
+	$( '.remove-personal-data-handle' ).on( 'click', function( event ) {
 		var $this         = $( this ),
 			$action       = $this.parents( '.remove-personal-data' ),
 			$requestRow   = $this.parents( 'tr' ),

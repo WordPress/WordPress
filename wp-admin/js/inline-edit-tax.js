@@ -47,7 +47,7 @@ window.inlineEditTax = {
 		 *
 		 * @param {Object} e The keyup event that has been triggered.
 		 */
-		row.keyup( function( e ) {
+		row.on( 'keyup', function( e ) {
 			// 27 = [Escape].
 			if ( e.which === 27 ) {
 				return inlineEditTax.revert();
@@ -57,21 +57,21 @@ window.inlineEditTax = {
 		/**
 		 * Cancels inline editing when clicking the cancel button.
 		 */
-		$( '.cancel', row ).click( function() {
+		$( '.cancel', row ).on( 'click', function() {
 			return inlineEditTax.revert();
 		});
 
 		/**
 		 * Saves the inline edits when clicking the save button.
 		 */
-		$( '.save', row ).click( function() {
+		$( '.save', row ).on( 'click', function() {
 			return inlineEditTax.save(this);
 		});
 
 		/**
 		 * Saves the inline edits when pressing Enter inside the inline editor.
 		 */
-		$( 'input, select', row ).keydown( function( e ) {
+		$( 'input, select', row ).on( 'keydown', function( e ) {
 			// 13 = [Enter].
 			if ( e.which === 13 ) {
 				return inlineEditTax.save( this );
@@ -81,7 +81,7 @@ window.inlineEditTax = {
 		/**
 		 * Saves the inline edits on submitting the inline edit form.
 		 */
-		$( '#posts-filter input[type="submit"]' ).mousedown( function() {
+		$( '#posts-filter input[type="submit"]' ).on( 'mousedown', function() {
 			t.revert();
 		});
 	},
@@ -143,7 +143,7 @@ window.inlineEditTax = {
 		$(':input[name="slug"]', editRow).val( val );
 
 		$(editRow).attr('id', 'edit-'+id).addClass('inline-editor').show();
-		$('.ptitle', editRow).eq(0).focus();
+		$('.ptitle', editRow).eq(0).trigger( 'focus' );
 
 		return false;
 	},
@@ -223,7 +223,7 @@ window.inlineEditTax = {
 							// Move focus back to the Quick Edit button.
 							row.find( '.editinline' )
 								.attr( 'aria-expanded', 'false' )
-								.focus();
+								.trigger( 'focus' );
 							wp.a11y.speak( wp.i18n.__( 'Changes saved.' ) );
 						});
 
@@ -268,7 +268,7 @@ window.inlineEditTax = {
 			// Show the taxonomy row and move focus back to the Quick Edit button.
 			$( this.what + id ).show().find( '.editinline' )
 				.attr( 'aria-expanded', 'false' )
-				.focus();
+				.trigger( 'focus' );
 		}
 	},
 

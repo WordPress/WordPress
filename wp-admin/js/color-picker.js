@@ -232,7 +232,7 @@
 			 *
 			 * @since 3.5.0
 			 */
-			self.toggler.click( function(){
+			self.toggler.on( 'click', function(){
 				if ( self.toggler.hasClass( 'wp-picker-open' ) ) {
 					self.close();
 				} else {
@@ -250,7 +250,7 @@
 			 *
 			 * @return {void}
 			 */
-			self.element.change( function( event ) {
+			self.element.on( 'change', function( event ) {
 				var me = $( this ),
 					val = me.val();
 
@@ -272,7 +272,7 @@
 			 *
 			 * @return {void}
 			 */
-			self.button.click( function( event ) {
+			self.button.on( 'click', function( event ) {
 				var me = $( this );
 				if ( me.hasClass( 'wp-picker-clear' ) ) {
 					self.element.val( '' );

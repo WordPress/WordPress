@@ -66,5 +66,5 @@ window.wpAjax = jQuery.extend( {
 
 // Basic form validation.
 jQuery(document).ready( function($){
-	$('form.validate').submit( function() { return wpAjax.validateForm( $(this) ); } );
+	$('form.validate').on( 'submit', function() { return wpAjax.validateForm( $(this) ); } );
 });

@@ -108,6 +108,6 @@ window.send_to_editor = function( html ) {
 	};
 
 	// Add handler to recalculates the ThickBox position when the window is resized.
-	$(window).resize(function(){ tb_position(); });
+	$(window).on( 'resize', function(){ tb_position(); });
 
 })(jQuery);

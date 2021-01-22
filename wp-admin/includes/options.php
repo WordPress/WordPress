@@ -18,7 +18,7 @@ function options_discussion_add_js() {
 	(function($){
 		var parent = $( '#show_avatars' ),
 			children = $( '.avatar-settings' );
-		parent.change(function(){
+		parent.on( 'change', function(){
 			children.toggleClass( 'hide-if-js', ! this.checked );
 		});
 	})(jQuery);
@@ -49,7 +49,7 @@ function options_general_add_js() {
 			$siteName.text( title );
 		});
 
-		$( 'input[name="date_format"]' ).click( function() {
+		$( 'input[name="date_format"]' ).on( 'click', function() {
 			if ( 'date_format_custom_radio' !== $(this).attr( 'id' ) )
 				$( 'input[name="date_format_custom"]' ).val( $( this ).val() ).closest( 'fieldset' ).find( '.example' ).text( $( this ).parent( 'label' ).children( '.format-i18n' ).text() );
 		});
@@ -58,7 +58,7 @@ function options_general_add_js() {
 			$( '#date_format_custom_radio' ).prop( 'checked', true );
 		});
 
-		$( 'input[name="time_format"]' ).click( function() {
+		$( 'input[name="time_format"]' ).on( 'click', function() {
 			if ( 'time_format_custom_radio' !== $(this).attr( 'id' ) )
 				$( 'input[name="time_format_custom"]' ).val( $( this ).val() ).closest( 'fieldset' ).find( '.example' ).text( $( this ).parent( 'label' ).children( '.format-i18n' ).text() );
 		});
@@ -89,7 +89,7 @@ function options_general_add_js() {
 		} );
 
 		var languageSelect = $( '#WPLANG' );
-		$( 'form' ).submit( function() {
+		$( 'form' ).on( 'submit', function() {
 			// Don't show a spinner for English and installed languages,
 			// as there is nothing to download.
 			if ( ! languageSelect.find( 'option:selected' ).data( 'installed' ) ) {
@@ -117,7 +117,7 @@ function options_reading_add_js() {
 				selects.prop( 'disabled', ! staticPage.prop('checked') );
 			};
 		check_disabled();
-		section.find( 'input:radio' ).change( check_disabled );
+		section.find( 'input:radio' ).on( 'change', check_disabled );
 	});
 </script>
 	<?php

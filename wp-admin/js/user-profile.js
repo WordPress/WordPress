@@ -108,7 +108,7 @@
 
 		$weakRow = $( '.pw-weak' );
 		$weakCheckbox = $weakRow.find( '.pw-checkbox' );
-		$weakCheckbox.change( function() {
+		$weakCheckbox.on( 'change', function() {
 			$submitButtons.prop( 'disabled', ! $weakCheckbox.prop( 'checked' ) );
 		} );
 
@@ -265,12 +265,12 @@
 
 		$( '#pass1' ).val( '' ).on( 'input' + ' pwupdate', check_pass_strength );
 		$('#pass-strength-result').show();
-		$('.color-palette').click( function() {
+		$('.color-palette').on( 'click', function() {
 			$(this).siblings('input[name="admin_color"]').prop('checked', true);
 		});
 
 		if ( select.length ) {
-			$('#first_name, #last_name, #nickname').bind( 'blur.user_profile', function() {
+			$('#first_name, #last_name, #nickname').on( 'blur.user_profile', function() {
 				var dub = [],
 					inputs = {
 						display_nickname  : $('#nickname').val() || '',

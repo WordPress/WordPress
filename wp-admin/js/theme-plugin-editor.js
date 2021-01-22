@@ -101,7 +101,7 @@ wp.themePluginEditor = (function( $ ) {
 		// Reveal the modal and set focus on the go back button.
 		component.warning
 			.removeClass( 'hidden' )
-			.find( '.file-editor-warning-go-back' ).focus();
+			.find( '.file-editor-warning-go-back' ).trigger( 'focus' );
 		// Get the links and buttons within the modal.
 		component.warningTabbables = component.warning.find( 'a, button' );
 		// Attach event handlers.

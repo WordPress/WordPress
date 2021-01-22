@@ -226,7 +226,7 @@
 			});
 
 			// Load available items if it looks like we'll need them.
-			api.panel( 'nav_menus' ).container.bind( 'expanded', function() {
+			api.panel( 'nav_menus' ).container.on( 'expanded', function() {
 				if ( ! self.rendered ) {
 					self.initList();
 					self.rendered = true;
@@ -234,7 +234,7 @@
 			});
 
 			// Load more items.
-			this.sectionContent.scroll( function() {
+			this.sectionContent.on( 'scroll', function() {
 				var totalHeight = self.$el.find( '.accordion-section.open .available-menu-items-list' ).prop( 'scrollHeight' ),
 					visibleHeight = self.$el.find( '.accordion-section.open' ).height();
 
@@ -827,7 +827,7 @@
 		 */
 		ready: function() {
 			var panel = this;
-			panel.container.find( '.hide-column-tog' ).click( function() {
+			panel.container.find( '.hide-column-tog' ).on( 'click', function() {
 				panel.saveManageColumnsState();
 			});
 
@@ -3421,7 +3421,7 @@
 	function displayNavMenuName( name ) {
 		name = name || '';
 		name = wp.sanitize.stripTagsAndEncodeText( name ); // Remove any potential tags from name.
-		name = $.trim( name );
+		name = name.toString().trim();
 		return name || api.Menus.data.l10n.unnamed;
 	}
 

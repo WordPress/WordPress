@@ -1342,10 +1342,10 @@
 				template = wp.template( 'customize-' + container.containerType + '-default' );
 			}
 			if ( template && container.container ) {
-				return $.trim( template( _.extend(
+				return template( _.extend(
 					{ id: container.id },
 					container.params
-				) ) );
+				) ).toString().trim();
 			}
 
 			return '<li></li>';
@@ -1597,7 +1597,7 @@
 							sectionTitle.attr( 'tabindex', '-1' );
 							backBtn.attr( 'tabindex', '0' );
 
-							backBtn.focus();
+							backBtn.trigger( 'focus' );
 							content.css( 'top', '' );
 							container.scrollTop( 0 );
 
@@ -1645,7 +1645,7 @@
 					backBtn.attr( 'tabindex', '-1' );
 					sectionTitle.attr( 'tabindex', '0' );
 
-					sectionTitle.focus();
+					sectionTitle.trigger( 'focus' );
 					content.css( 'top', '' );
 
 					if ( args.completeCallback ) {
@@ -2734,7 +2734,7 @@
 					backBtn.attr( 'tabindex', '-1' );
 					sectionTitle.attr( 'tabindex', '0' );
 
-					sectionTitle.focus();
+					sectionTitle.trigger( 'focus' );
 					content.css( 'top', '' );
 
 					if ( args.completeCallback ) {
@@ -4485,7 +4485,7 @@
 				y = control.settings.y.get();
 				inputValue = String( x ) + ' ' + String( y );
 				radioInput = control.container.find( 'input[name="background-position"][value="' + inputValue + '"]' );
-				radioInput.click();
+				radioInput.trigger( 'click' );
 			} );
 			control.settings.x.bind( updateRadios );
 			control.settings.y.bind( updateRadios );
@@ -5452,7 +5452,7 @@
 			controls = section.controls();
 			controlIndex = controls.indexOf( control );
 			if ( controls.length === controlIndex + 1 ) {
-				$( '#customize-footer-actions .collapse-sidebar' ).focus();
+				$( '#customize-footer-actions .collapse-sidebar' ).trigger( 'focus' );
 			} else {
 				controls[ controlIndex + 1 ].container.find( ':focusable:first' ).focus();
 			}
@@ -6336,7 +6336,7 @@
 					} ) );
 				} );
 				previewFrame.container.append( form );
-				form.submit();
+				form.trigger( 'submit' );
 				form.remove(); // No need to keep the form around after submitted.
 			}
 
@@ -7081,7 +7081,7 @@
 
 		// Restore focus if there was a reflow and there was an active (focused) element.
 		if ( wasReflowed && activeElement ) {
-			activeElement.focus();
+			activeElement.trigger( 'focus' );
 		}
 		api.trigger( 'pane-contents-reflowed' );
 	}, api );
@@ -8397,10 +8397,10 @@
 		}
 
 		// Button bindings.
-		saveBtn.click( function( event ) {
+		saveBtn.on( 'click', function( event ) {
 			api.previewer.save();
 			event.preventDefault();
-		}).keydown( function( event ) {
+		}).on( 'keydown', function( event ) {
 			if ( 9 === event.which ) { // Tab.
 				return;
 			}
@@ -8410,7 +8410,7 @@
 			event.preventDefault();
 		});
 
-		closeBtn.keydown( function( event ) {
+		closeBtn.on( 'keydown', function( event ) {
 			if ( 9 === event.which ) { // Tab.
 				return;
 			}
@@ -8752,7 +8752,8 @@
 		if ( title.length ) {
 			api( 'blogname', function( setting ) {
 				var updateTitle = function() {
-					title.text( $.trim( setting() ) || api.l10n.untitledBlogName );
+					var blogTitle = setting() || '';
+					title.text( blogTitle.toString().trim() || api.l10n.untitledBlogName );
 				};
 				setting.bind( updateTitle );
 				updateTitle();

@@ -67,9 +67,9 @@
 			}
 
 			if ( id ) {
-				if ( !p.hasClass('closed') && $.isFunction( postboxes.pbshow ) ) {
+				if ( !p.hasClass('closed') && typeof postboxes.pbshow === 'function' ) {
 					postboxes.pbshow( id );
-				} else if ( p.hasClass('closed') && $.isFunction( postboxes.pbhide ) ) {
+				} else if ( p.hasClass('closed') && typeof postboxes.pbhide === 'function' ) {
 					postboxes.pbhide( id );
 				}
 			}
@@ -267,7 +267,7 @@
 			/**
 			 * @since 2.7.0
 			 */
-			$('.postbox .hndle a').click( function(e) {
+			$('.postbox .hndle a').on( 'click', function(e) {
 				e.stopPropagation();
 			});
 
@@ -302,19 +302,19 @@
 			 *
 			 * @return {void}
 			 */
-			$('.hide-postbox-tog').bind('click.postboxes', function() {
+			$('.hide-postbox-tog').on('click.postboxes', function() {
 				var $el = $(this),
 					boxId = $el.val(),
 					$postbox = $( '#' + boxId );
 
 				if ( $el.prop( 'checked' ) ) {
 					$postbox.show();
-					if ( $.isFunction( postboxes.pbshow ) ) {
+					if ( typeof postboxes.pbshow === 'function' ) {
 						postboxes.pbshow( boxId );
 					}
 				} else {
 					$postbox.hide();
-					if ( $.isFunction( postboxes.pbhide ) ) {
+					if ( typeof postboxes.pbhide === 'function' ) {
 						postboxes.pbhide( boxId );
 					}
 				}
@@ -336,7 +336,7 @@
 			 *
 			 * @return {void}
 			 */
-			$('.columns-prefs input[type="radio"]').bind('click.postboxes', function(){
+			$('.columns-prefs input[type="radio"]').on('click.postboxes', function(){
 				var n = parseInt($(this).val(), 10);
 
 				if ( n ) {
@@ -420,7 +420,7 @@
 			});
 
 			if ( isMobile ) {
-				$(document.body).bind('orientationchange.postboxes', function(){ postboxes._pb_change(); });
+				$(document.body).on('orientationchange.postboxes', function(){ postboxes._pb_change(); });
 				this._pb_change();
 			}
 

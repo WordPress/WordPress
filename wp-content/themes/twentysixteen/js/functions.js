@@ -28,7 +28,7 @@
 		// Add menu items with submenus to aria-haspopup="true".
 		container.find( '.menu-item-has-children' ).attr( 'aria-haspopup', 'true' );
 
-		container.find( '.dropdown-toggle' ).click( function( e ) {
+		container.find( '.dropdown-toggle' ).on( 'click', function( e ) {
 			var _this            = $( this ),
 				screenReaderSpan = _this.find( '.screen-reader-text' );
 

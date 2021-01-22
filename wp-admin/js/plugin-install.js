@@ -50,7 +50,7 @@ jQuery( document ).ready( function( $ ) {
 		});
 	};
 
-	$( window ).resize( function() {
+	$( window ).on( 'resize', function() {
 		tb_position();
 	});
 
@@ -185,7 +185,7 @@ jQuery( document ).ready( function( $ ) {
 	});
 
 	/* Plugin install related JS */
-	$( '#plugin-information-tabs a' ).click( function( event ) {
+	$( '#plugin-information-tabs a' ).on( 'click', function( event ) {
 		var tab = $( this ).attr( 'name' );
 		event.preventDefault();
 

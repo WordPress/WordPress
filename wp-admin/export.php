@@ -29,7 +29,7 @@ function export_add_js() {
 		var form = $('#export-filters'),
 			filters = form.find('.export-filters');
 		filters.hide();
-		form.find('input:radio').change(function() {
+		form.find('input:radio').on( 'change', function() {
 			filters.slideUp('fast');
 			switch ( $(this).val() ) {
 				case 'attachment': $('#attachment-filters').slideDown(); break;

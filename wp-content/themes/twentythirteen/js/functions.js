@@ -123,7 +123,7 @@
 	 */
 	$( function() {
 		var columnWidth, widgetArea;
-		if ( ! $.isFunction( $.fn.masonry ) ) {
+		if ( typeof $.fn.masonry !== 'function' ) {
 			return;
 		}
 		columnWidth = body.is( '.sidebar' ) ? 228 : 245;

@@ -147,12 +147,12 @@
 			onResizeARIA();
 	} );
 
-	_window.load( function() {
+	_window.on( 'load', function() {
 		var footerSidebar,
 			isCustomizeSelectiveRefresh = ( 'undefined' !== typeof wp && wp.customize && wp.customize.selectiveRefresh );
 
 		// Arrange footer widgets vertically.
-		if ( $.isFunction( $.fn.masonry ) ) {
+		if ( typeof $.fn.masonry === 'function' ) {
 			footerSidebar = $( '#footer-sidebar' );
 			footerSidebar.masonry( {
 				itemSelector: '.widget',

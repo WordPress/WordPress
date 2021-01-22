@@ -29,11 +29,11 @@ jQuery(document).ready( function($) {
 	 * @param {Event} event The event object.
 	 * @return {void}
 	 */
-	$edittimestamp.click( function( event ) {
+	$edittimestamp.on( 'click', function( event ) {
 		if ( $timestampdiv.is( ':hidden' ) ) {
 			// Slide down the form and set focus on the first field.
 			$timestampdiv.slideDown( 'fast', function() {
-				$( 'input, select', $timestampwrap ).first().focus();
+				$( 'input, select', $timestampwrap ).first().trigger( 'focus' );
 			} );
 			$(this).hide();
 		}
@@ -49,9 +49,9 @@ jQuery(document).ready( function($) {
 	 * @return {void}
 	 */
 
-	$timestampdiv.find('.cancel-timestamp').click( function( event ) {
+	$timestampdiv.find('.cancel-timestamp').on( 'click', function( event ) {
 		// Move focus back to the Edit link.
-		$edittimestamp.show().focus();
+		$edittimestamp.show().trigger( 'focus' );
 		$timestampdiv.slideUp( 'fast' );
 		$('#mm').val($('#hidden_mm').val());
 		$('#jj').val($('#hidden_jj').val());
@@ -70,7 +70,7 @@ jQuery(document).ready( function($) {
 	 * @param {Event} event The event object.
 	 * @return {void}
 	 */
-	$timestampdiv.find('.save-timestamp').click( function( event ) { // Crazyhorse - multiple OK cancels.
+	$timestampdiv.find('.save-timestamp').on( 'click', function( event ) { // Crazyhorse - multiple OK cancels.
 		var aa = $('#aa').val(), mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val(),
 			newD = new Date( aa, mm - 1, jj, hh, mn );
 
@@ -96,7 +96,7 @@ jQuery(document).ready( function($) {
 		);
 
 		// Move focus back to the Edit link.
-		$edittimestamp.show().focus();
+		$edittimestamp.show().trigger( 'focus' );
 		$timestampdiv.slideUp( 'fast' );
 	});
 });

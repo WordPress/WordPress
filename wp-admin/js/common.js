@@ -382,7 +382,7 @@ window.columns = {
 	 */
 	init : function() {
 		var that = this;
-		$('.hide-column-tog', '#adv-settings').click( function() {
+		$('.hide-column-tog', '#adv-settings').on( 'click', function() {
 			var $t = $(this), column = $t.val();
 			if ( $t.prop('checked') )
 				that.checked(column);
@@ -500,7 +500,7 @@ window.validateForm = function( form ) {
 		.filter( function() { return $( ':input:visible', this ).val() === ''; } )
 		.addClass( 'form-invalid' )
 		.find( ':input:visible' )
-		.change( function() { $( this ).closest( '.form-invalid' ).removeClass( 'form-invalid' ); } )
+		.on( 'change', function() { $( this ).closest( '.form-invalid' ).removeClass( 'form-invalid' ); } )
 		.length;
 };
 
@@ -571,7 +571,7 @@ window.screenMeta = {
 		this.toggles = $( '#screen-meta-links' ).find( '.show-settings' );
 		this.page    = $('#wpcontent');
 
-		this.toggles.click( this.toggleEvent );
+		this.toggles.on( 'click', this.toggleEvent );
 	},
 
 	/**
@@ -617,7 +617,7 @@ window.screenMeta = {
 		 * @return {void}
 		 */
 		panel.slideDown( 'fast', function() {
-			panel.focus();
+			panel.trigger( 'focus' );
 			button.addClass( 'screen-meta-active' ).attr( 'aria-expanded', true );
 		});
 
@@ -659,7 +659,7 @@ window.screenMeta = {
  *
  * @return {void}
  */
-$('.contextual-help-tabs').delegate('a', 'click', function(e) {
+$('.contextual-help-tabs').on( 'click', 'a', function(e) {
 	var link = $(this),
 		panel;
 
@@ -798,7 +798,7 @@ $availableStructureTags.on( 'click', function() {
 	if ( permalinkStructureFocused && $permalinkStructure[0].setSelectionRange ) {
 		newSelectionStart = ( permalinkStructureValue.substr( 0, selectionStart ) + textToAppend ).length;
 		$permalinkStructure[0].setSelectionRange( newSelectionStart, newSelectionStart );
-		$permalinkStructure.focus();
+		$permalinkStructure.trigger( 'focus' );
 	}
 } );
 
@@ -1302,7 +1302,7 @@ $document.ready( function() {
 		$( this ).closest( 'tr' ).toggleClass( 'is-expanded' );
 	});
 
-	$('#default-password-nag-no').click( function() {
+	$('#default-password-nag-no').on( 'click', function() {
 		setUserSetting('default_password_nag', 'hide');
 		$('div.default-password-nag').hide();
 		return false;
@@ -1315,7 +1315,7 @@ $document.ready( function() {
 	 *
 	 * @return {void}
 	 */
-	$('#newcontent').bind('keydown.wpevent_InsertTab', function(e) {
+	$('#newcontent').on('keydown.wpevent_InsertTab', function(e) {
 		var el = e.target, selStart, selEnd, val, scroll, sel;
 
 		// After pressing escape key (keyCode: 27), the tab key should tab out of the textarea.
@@ -1374,7 +1374,7 @@ $document.ready( function() {
 		 *
 		 * @return {void}
 		 */
-		pageInput.closest('form').submit( function() {
+		pageInput.closest('form').on( 'submit', function() {
 			/*
 			 * action = bulk action dropdown at the top of the table
 			 */
@@ -1388,7 +1388,7 @@ $document.ready( function() {
 	 *
 	 * @return {void}
 	 */
-	$('.search-box input[type="search"], .search-box input[type="submit"]').mousedown(function () {
+	$('.search-box input[type="search"], .search-box input[type="submit"]').on( 'mousedown', function () {
 		$('select[name^="action"]').val('-1');
 	});
 
@@ -1689,7 +1689,7 @@ $document.ready( function() {
 				$wpwrap.toggleClass( 'wp-responsive-open' );
 				if ( $wpwrap.hasClass( 'wp-responsive-open' ) ) {
 					$(this).find('a').attr( 'aria-expanded', 'true' );
-					$( '#adminmenu a:first' ).focus();
+					$( '#adminmenu a:first' ).trigger( 'focus' );
 				} else {
 					$(this).find('a').attr( 'aria-expanded', 'false' );
 				}
@@ -1978,7 +1978,7 @@ $document.ready( function() {
 	$document.on( 'wp-pin-menu wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu wp-collapse-menu.pin-menu wp-scroll-start.pin-menu', setPinMenu );
 
 	// Set initial focus on a specific element.
-	$( '.wp-initial-focus' ).focus();
+	$( '.wp-initial-focus' ).trigger( 'focus' );
 
 	// Toggle update details on update-core.php.
 	$body.on( 'click', '.js-update-details-toggle', function() {

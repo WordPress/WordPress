@@ -73,7 +73,7 @@ themes.view.Appearance = wp.Backbone.View.extend({
 		this.SearchView = options.SearchView ? options.SearchView : themes.view.Search;
 		// Bind to the scroll event and throttle
 		// the results from this.scroller.
-		this.window.bind( 'scroll', _.throttle( this.scroller, 300 ) );
+		this.window.on( 'scroll', _.throttle( this.scroller, 300 ) );
 	},
 
 	// Main render control.
@@ -550,7 +550,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 			// Render and append.
 			preview.render();
 			this.setNavButtonsState();
-			$( '.next-theme' ).focus();
+			$( '.next-theme' ).trigger( 'focus' );
 		})
 		.listenTo( preview, 'theme:previous', function() {
 
@@ -580,7 +580,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 			// Render and append.
 			preview.render();
 			this.setNavButtonsState();
-			$( '.previous-theme' ).focus();
+			$( '.previous-theme' ).trigger( 'focus' );
 		});
 
 		this.listenTo( preview, 'preview:close', function() {
@@ -602,7 +602,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 				.addClass( 'disabled' )
 				.prop( 'disabled', true );
 
-			nextThemeButton.focus();
+			nextThemeButton.trigger( 'focus' );
 		}
 
 		// Disable next if the next model is undefined.
@@ -611,7 +611,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 				.addClass( 'disabled' )
 				.prop( 'disabled', true );
 
-			previousThemeButton.focus();
+			previousThemeButton.trigger( 'focus' );
 		}
 	},
 
@@ -705,7 +705,7 @@ themes.view.Details = wp.Backbone.View.extend({
 
 		// Set initial focus on the primary action control.
 		_.delay( function() {
-			$( '.theme-overlay' ).focus();
+			$( '.theme-overlay' ).trigger( 'focus' );
 		}, 100 );
 
 		// Constrain tabbing within the modal.
@@ -716,10 +716,10 @@ themes.view.Details = wp.Backbone.View.extend({
 			// Check for the Tab key.
 			if ( 9 === event.which ) {
 				if ( $firstFocusable[0] === event.target && event.shiftKey ) {
-					$lastFocusable.focus();
+					$lastFocusable.trigger( 'focus' );
 					event.preventDefault();
 				} else if ( $lastFocusable[0] === event.target && ! event.shiftKey ) {
-					$firstFocusable.focus();
+					$firstFocusable.trigger( 'focus' );
 					event.preventDefault();
 				}
 			}
@@ -764,7 +764,7 @@ themes.view.Details = wp.Backbone.View.extend({
 
 				// Return focus to the theme div.
 				if ( themes.focusedTheme ) {
-					themes.focusedTheme.focus();
+					themes.focusedTheme.trigger( 'focus' );
 				}
 			});
 		}
@@ -952,7 +952,7 @@ themes.view.Preview = themes.view.Details.extend({
 
 			// Return focus to the theme div.
 			if ( themes.focusedTheme ) {
-				themes.focusedTheme.focus();
+				themes.focusedTheme.trigger( 'focus' );
 			}
 		}).removeClass( 'iframe-ready' );
 
@@ -2049,7 +2049,7 @@ themes.RunInstaller = {
 
 		// The `search` route event. The router populates the input field.
 		themes.router.on( 'route:search', function() {
-			$( '.wp-filter-search' ).focus().trigger( 'keyup' );
+			$( '.wp-filter-search' ).trigger( 'focus' ).trigger( 'keyup' );
 		});
 
 		this.extraRoutes();
@@ -2101,7 +2101,7 @@ jQuery(document).ready( function($) {
 			adminbar_height = parseInt( $('#wpadminbar').css('height'), 10 );
 		}
 
-		if ( tbWindow.size() ) {
+		if ( tbWindow.length >= 1 ) {
 			tbWindow.width( W - 50 ).height( H - 45 - adminbar_height );
 			$('#TB_iframeContent').width( W - 50 ).height( H - 75 - adminbar_height );
 			tbWindow.css({'margin-left': '-' + parseInt( ( ( W - 50 ) / 2 ), 10 ) + 'px'});
@@ -2111,5 +2111,5 @@ jQuery(document).ready( function($) {
 		}
 	};
 
-	$(window).resize(function(){ tb_position(); });
+	$(window).on( 'resize', function(){ tb_position(); });
 });

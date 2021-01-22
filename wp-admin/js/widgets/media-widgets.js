@@ -1320,9 +1320,15 @@ wp.mediaWidgets = ( function( $ ) {
 			});
 
 			// Accessibility mode.
-			$( window ).on( 'load', function() {
+			if ( document.readyState === 'complete' ) {
+				// Page is fully loaded.
 				component.setupAccessibleMode();
-			});
+			} else {
+				// Page is still loading.
+				$( window ).on( 'load', function() {
+					component.setupAccessibleMode();
+				});
+			}
 		});
 	};
 

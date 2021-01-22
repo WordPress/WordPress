@@ -1552,7 +1552,7 @@
 				if ( -1 !== _.indexOf( themes.disabled, response.slug ) ) {
 					themes.disabled = _.without( themes.disabled, response.slug );
 					if ( themes.disabled.length ) {
-						$views.find( '.disabled .count' ).text( '(' + themes.disabled.length + ')' );						
+						$views.find( '.disabled .count' ).text( '(' + themes.disabled.length + ')' );
 					} else {
 						$views.find( '.disabled' ).remove();
 					}
@@ -1566,7 +1566,7 @@
 						$views.find( '.auto-update-enabled' ).remove();
 					}
 				}
-	
+
 				if ( -1 !== _.indexOf( themes['auto-update-disabled'], response.slug ) ) {
 					themes['auto-update-disabled'] = _.without( themes['auto-update-disabled'], response.slug );
 					if ( themes['auto-update-disabled'].length ) {
@@ -2045,7 +2045,7 @@
 		 */
 		$filesystemForm.on( 'change', 'input[name="connection_type"]', function() {
 			$( '#ssh-keys' ).toggleClass( 'hidden', ( 'ssh' !== $( this ).val() ) );
-		} ).change();
+		} ).trigger( 'change' );
 
 		/**
 		 * Handles events after the credential modal was closed.
@@ -2765,7 +2765,7 @@
 			}
 
 			try {
-				message = $.parseJSON( originalEvent.data );
+				message = JSON.parse( originalEvent.data );
 			} catch ( e ) {
 				return;
 			}

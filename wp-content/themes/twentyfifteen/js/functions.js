@@ -17,7 +17,7 @@
 		container.find( '.current-menu-ancestor > button' ).addClass( 'toggle-on' );
 		container.find( '.current-menu-ancestor > .sub-menu' ).addClass( 'toggled-on' );
 
-		container.find( '.dropdown-toggle' ).click( function( e ) {
+		container.find( '.dropdown-toggle' ).on( 'click', function( e ) {
 			var _this = $( this );
 			e.preventDefault();
 			_this.toggleClass( 'toggle-on' );

@@ -26,7 +26,7 @@
 		resizeTimer;
 
 	// Ensure the sticky navigation doesn't cover current focused links.
-	$( 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex], [contenteditable]', '.site-content-contain' ).filter( ':visible' ).focus( function() {
+	$( 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex], [contenteditable]', '.site-content-contain' ).filter( ':visible' ).on( 'focus', function() {
 		if ( $navigation.hasClass( 'site-navigation-fixed' ) ) {
 			var windowScrollTop = $( window ).scrollTop(),
 				fixedNavHeight = $navigation.height(),
@@ -197,7 +197,7 @@
 				navigationOuterHeight = 0;
 			}
 
-			$menuScrollDown.click( function( e ) {
+			$menuScrollDown.on( 'click', function( e ) {
 				e.preventDefault();
 				$( window ).scrollTo( '#primary', {
 					duration: 600,
@@ -228,13 +228,13 @@
 		});
 
 		// Also want to make sure the navigation is where it should be on resize.
-		$( window ).resize( function() {
+		$( window ).on( 'resize', function() {
 			setNavProps();
 			setTimeout( adjustScrollClass, 500 );
 		});
 	}
 
-	$( window ).resize( function() {
+	$( window ).on( 'resize', function() {
 		clearTimeout( resizeTimer );
 		resizeTimer = setTimeout( function() {
 			belowEntryMetaClass( 'blockquote.alignleft, blockquote.alignright' );
