@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 372);
+/******/ 	return __webpack_require__(__webpack_require__.s = 318);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 136:
+/***/ 125:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -106,11 +106,11 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
         not_json: /[^j]/,
         text: /^[^\x25]+/,
         modulo: /^\x25{2}/,
-        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-gijostTuvxX])/,
+        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-gijostTuvxX])/,
         key: /^([a-z_][a-z_\d]*)/i,
         key_access: /^\.([a-z_][a-z_\d]*)/i,
         index_access: /^\[(\d+)\]/,
-        sign: /^[+-]/
+        sign: /^[\+\-]/
     }
 
     function sprintf(key) {
@@ -123,42 +123,42 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
     }
 
     function sprintf_format(parse_tree, argv) {
-        var cursor = 1, tree_length = parse_tree.length, arg, output = '', i, k, ph, pad, pad_character, pad_length, is_positive, sign
+        var cursor = 1, tree_length = parse_tree.length, arg, output = '', i, k, match, pad, pad_character, pad_length, is_positive, sign
         for (i = 0; i < tree_length; i++) {
             if (typeof parse_tree[i] === 'string') {
                 output += parse_tree[i]
             }
-            else if (typeof parse_tree[i] === 'object') {
-                ph = parse_tree[i] // convenience purposes only
-                if (ph.keys) { // keyword argument
+            else if (Array.isArray(parse_tree[i])) {
+                match = parse_tree[i] // convenience purposes only
+                if (match[2]) { // keyword argument
                     arg = argv[cursor]
-                    for (k = 0; k < ph.keys.length; k++) {
-                        if (arg == undefined) {
-                            throw new Error(sprintf('[sprintf] Cannot access property "%s" of undefined value "%s"', ph.keys[k], ph.keys[k-1]))
+                    for (k = 0; k < match[2].length; k++) {
+                        if (!arg.hasOwnProperty(match[2][k])) {
+                            throw new Error(sprintf('[sprintf] property "%s" does not exist', match[2][k]))
                         }
-                        arg = arg[ph.keys[k]]
+                        arg = arg[match[2][k]]
                     }
                 }
-                else if (ph.param_no) { // positional argument (explicit)
-                    arg = argv[ph.param_no]
+                else if (match[1]) { // positional argument (explicit)
+                    arg = argv[match[1]]
                 }
                 else { // positional argument (implicit)
                     arg = argv[cursor++]
                 }
 
-                if (re.not_type.test(ph.type) && re.not_primitive.test(ph.type) && arg instanceof Function) {
+                if (re.not_type.test(match[8]) && re.not_primitive.test(match[8]) && arg instanceof Function) {
                     arg = arg()
                 }
 
-                if (re.numeric_arg.test(ph.type) && (typeof arg !== 'number' && isNaN(arg))) {
+                if (re.numeric_arg.test(match[8]) && (typeof arg !== 'number' && isNaN(arg))) {
                     throw new TypeError(sprintf('[sprintf] expecting number but found %T', arg))
                 }
 
-                if (re.number.test(ph.type)) {
+                if (re.number.test(match[8])) {
                     is_positive = arg >= 0
                 }
 
-                switch (ph.type) {
+                switch (match[8]) {
                     case 'b':
                         arg = parseInt(arg, 10).toString(2)
                         break
@@ -170,38 +170,38 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
                         arg = parseInt(arg, 10)
                         break
                     case 'j':
-                        arg = JSON.stringify(arg, null, ph.width ? parseInt(ph.width) : 0)
+                        arg = JSON.stringify(arg, null, match[6] ? parseInt(match[6]) : 0)
                         break
                     case 'e':
-                        arg = ph.precision ? parseFloat(arg).toExponential(ph.precision) : parseFloat(arg).toExponential()
+                        arg = match[7] ? parseFloat(arg).toExponential(match[7]) : parseFloat(arg).toExponential()
                         break
                     case 'f':
-                        arg = ph.precision ? parseFloat(arg).toFixed(ph.precision) : parseFloat(arg)
+                        arg = match[7] ? parseFloat(arg).toFixed(match[7]) : parseFloat(arg)
                         break
                     case 'g':
-                        arg = ph.precision ? String(Number(arg.toPrecision(ph.precision))) : parseFloat(arg)
+                        arg = match[7] ? String(Number(arg.toPrecision(match[7]))) : parseFloat(arg)
                         break
                     case 'o':
                         arg = (parseInt(arg, 10) >>> 0).toString(8)
                         break
                     case 's':
                         arg = String(arg)
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
+                        arg = (match[7] ? arg.substring(0, match[7]) : arg)
                         break
                     case 't':
                         arg = String(!!arg)
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
+                        arg = (match[7] ? arg.substring(0, match[7]) : arg)
                         break
                     case 'T':
                         arg = Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
+                        arg = (match[7] ? arg.substring(0, match[7]) : arg)
                         break
                     case 'u':
                         arg = parseInt(arg, 10) >>> 0
                         break
                     case 'v':
                         arg = arg.valueOf()
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
+                        arg = (match[7] ? arg.substring(0, match[7]) : arg)
                         break
                     case 'x':
                         arg = (parseInt(arg, 10) >>> 0).toString(16)
@@ -210,21 +210,21 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
                         arg = (parseInt(arg, 10) >>> 0).toString(16).toUpperCase()
                         break
                 }
-                if (re.json.test(ph.type)) {
+                if (re.json.test(match[8])) {
                     output += arg
                 }
                 else {
-                    if (re.number.test(ph.type) && (!is_positive || ph.sign)) {
+                    if (re.number.test(match[8]) && (!is_positive || match[3])) {
                         sign = is_positive ? '+' : '-'
                         arg = arg.toString().replace(re.sign, '')
                     }
                     else {
                         sign = ''
                     }
-                    pad_character = ph.pad_char ? ph.pad_char === '0' ? '0' : ph.pad_char.charAt(1) : ' '
-                    pad_length = ph.width - (sign + arg).length
-                    pad = ph.width ? (pad_length > 0 ? pad_character.repeat(pad_length) : '') : ''
-                    output += ph.align ? sign + arg + pad : (pad_character === '0' ? sign + pad + arg : pad + sign + arg)
+                    pad_character = match[4] ? match[4] === '0' ? '0' : match[4].charAt(1) : ' '
+                    pad_length = match[6] - (sign + arg).length
+                    pad = match[6] ? (pad_length > 0 ? pad_character.repeat(pad_length) : '') : ''
+                    output += match[5] ? sign + arg + pad : (pad_character === '0' ? sign + pad + arg : pad + sign + arg)
                 }
             }
         }
@@ -275,20 +275,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
                 if (arg_names === 3) {
                     throw new Error('[sprintf] mixing positional and named placeholders is not (yet) supported')
                 }
-
-                parse_tree.push(
-                    {
-                        placeholder: match[0],
-                        param_no:    match[1],
-                        keys:        match[2],
-                        sign:        match[3],
-                        pad_char:    match[4],
-                        align:       match[5],
-                        width:       match[6],
-                        precision:   match[7],
-                        type:        match[8]
-                    }
-                )
+                parse_tree.push(match)
             }
             else {
                 throw new SyntaxError('[sprintf] unexpected placeholder')
@@ -321,7 +308,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
         }
     }
     /* eslint-enable quote-props */
-}(); // eslint-disable-line
+}()
 
 
 /***/ }),
@@ -348,7 +335,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 372:
+/***/ 318:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -573,22 +560,19 @@ var OPERATORS = {
  */
 function evaluate_evaluate( postfix, variables ) {
 	var stack = [],
-		i, j, args, getOperatorResult, term, value;
+		i, getOperatorResult, term, value;
 
 	for ( i = 0; i < postfix.length; i++ ) {
 		term = postfix[ i ];
 
 		getOperatorResult = OPERATORS[ term ];
 		if ( getOperatorResult ) {
-			// Pop from stack by number of function arguments.
-			j = getOperatorResult.length;
-			args = Array( j );
-			while ( j-- ) {
-				args[ j ] = stack.pop();
-			}
-
 			try {
-				value = getOperatorResult.apply( null, args );
+				// Pop from stack by number of function arguments.
+				value = getOperatorResult.apply(
+					null,
+					stack.splice( -1 * getOperatorResult.length )
+				);
 			} catch ( earlyReturn ) {
 				return earlyReturn;
 			}
@@ -625,7 +609,7 @@ function evaluate_evaluate( postfix, variables ) {
  *
  * @param {string} expression C expression.
  *
- * @return {(variables?:{[variable:string]:*})=>*} Compiled evaluator.
+ * @return {Function} Compiled evaluator.
  */
 function compile( expression ) {
 	var terms = postfix( expression );
@@ -661,44 +645,12 @@ function pluralForms( expression ) {
 /**
  * Tannin constructor options.
  *
- * @typedef {Object} TanninOptions
+ * @property {?string}   contextDelimiter Joiner in string lookup with context.
+ * @property {?Function} onMissingKey     Callback to invoke when key missing.
  *
- * @property {string}   [contextDelimiter] Joiner in string lookup with context.
- * @property {Function} [onMissingKey]     Callback to invoke when key missing.
- */
-
-/**
- * Domain metadata.
+ * @type {Object}
  *
- * @typedef {Object} TanninDomainMetadata
- *
- * @property {string}            [domain]       Domain name.
- * @property {string}            [lang]         Language code.
- * @property {(string|Function)} [plural_forms] Plural forms expression or
- *                                              function evaluator.
- */
-
-/**
- * Domain translation pair respectively representing the singular and plural
- * translation.
- *
- * @typedef {[string,string]} TanninTranslation
- */
-
-/**
- * Locale data domain. The key is used as reference for lookup, the value an
- * array of two string entries respectively representing the singular and plural
- * translation.
- *
- * @typedef {{[key:string]:TanninDomainMetadata|TanninTranslation,'':TanninDomainMetadata|TanninTranslation}} TanninLocaleDomain
- */
-
-/**
- * Jed-formatted locale data.
- *
- * @see http://messageformat.github.io/Jed/
- *
- * @typedef {{[domain:string]:TanninLocaleDomain}} TanninLocaleData
+ * @typedef {TanninOptions}
  */
 
 /**
@@ -741,42 +693,19 @@ function getPluralExpression( pf ) {
 /**
  * Tannin constructor.
  *
- * @class
- *
- * @param {TanninLocaleData} data      Jed-formatted locale data.
- * @param {TanninOptions}    [options] Tannin options.
+ * @param {Object}        data    Jed-formatted locale data.
+ * @param {TanninOptions} options Tannin options.
  */
 function Tannin( data, options ) {
 	var key;
 
-	/**
-	 * Jed-formatted locale data.
-	 *
-	 * @name Tannin#data
-	 * @type {TanninLocaleData}
-	 */
 	this.data = data;
-
-	/**
-	 * Plural forms function cache, keyed by plural forms string.
-	 *
-	 * @name Tannin#pluralForms
-	 * @type {Object<string,Function>}
-	 */
 	this.pluralForms = {};
 
-	/**
-	 * Effective options for instance, including defaults.
-	 *
-	 * @name Tannin#options
-	 * @type {TanninOptions}
-	 */
+	options = options || {};
 	this.options = {};
-
 	for ( key in DEFAULT_OPTIONS ) {
-		this.options[ key ] = options !== undefined && key in options
-			? options[ key ]
-			: DEFAULT_OPTIONS[ key ];
+		this.options[ key ] = options[ key ] || DEFAULT_OPTIONS[ key ];
 	}
 }
 
@@ -790,34 +719,17 @@ function Tannin( data, options ) {
  */
 Tannin.prototype.getPluralForm = function( domain, n ) {
 	var getPluralForm = this.pluralForms[ domain ],
-		config, plural, pf;
+		config, plural;
 
 	if ( ! getPluralForm ) {
 		config = this.data[ domain ][ '' ];
-
-		pf = (
+		plural = getPluralExpression(
 			config[ 'Plural-Forms' ] ||
 			config[ 'plural-forms' ] ||
-			// Ignore reason: As known, there's no way to document the empty
-			// string property on a key to guarantee this as metadata.
-			// @ts-ignore
 			config.plural_forms
 		);
 
-		if ( typeof pf !== 'function' ) {
-			plural = getPluralExpression(
-				config[ 'Plural-Forms' ] ||
-				config[ 'plural-forms' ] ||
-				// Ignore reason: As known, there's no way to document the empty
-				// string property on a key to guarantee this as metadata.
-				// @ts-ignore
-				config.plural_forms
-			);
-
-			pf = pluralForms( plural );
-		}
-
-		getPluralForm = this.pluralForms[ domain ] = pf;
+		getPluralForm = this.pluralForms[ domain ] = pluralForms( plural );
 	}
 
 	return getPluralForm( n );
@@ -826,12 +738,11 @@ Tannin.prototype.getPluralForm = function( domain, n ) {
 /**
  * Translate a string.
  *
- * @param {string}      domain   Translation domain.
- * @param {string|void} context  Context distinguishing terms of the same name.
- * @param {string}      singular Primary key for translation lookup.
- * @param {string=}     plural   Fallback value used for non-zero plural
- *                               form index.
- * @param {number=}     n        Value to use in calculating plural form.
+ * @param {string} domain   Translation domain.
+ * @param {string} context  Context distinguishing terms of the same name.
+ * @param {string} singular Primary key for translation lookup.
+ * @param {string} plural   Fallback value used for non-zero plural form index.
+ * @param {number} n        Value to use in calculating plural form.
  *
  * @return {string} Translated string.
  */
@@ -871,11 +782,11 @@ Tannin.prototype.dcnpgettext = function( domain, context, singular, plural, n ) 
 };
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(44);
+var memize = __webpack_require__(41);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
-// EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(136);
+// EXTERNAL MODULE: ./node_modules/@wordpress/i18n/node_modules/sprintf-js/src/sprintf.js
+var sprintf = __webpack_require__(125);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/index.js
@@ -1056,58 +967,16 @@ function build_module_sprintf(format) {
 
 /***/ }),
 
-/***/ 44:
+/***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
-/**
- * Memize options object.
- *
- * @typedef MemizeOptions
- *
- * @property {number} [maxSize] Maximum size of the cache.
- */
+module.exports = function memize( fn, options ) {
+	var size = 0,
+		maxSize, head, tail;
 
-/**
- * Internal cache entry.
- *
- * @typedef MemizeCacheNode
- *
- * @property {?MemizeCacheNode|undefined} [prev] Previous node.
- * @property {?MemizeCacheNode|undefined} [next] Next node.
- * @property {Array<*>}                   args   Function arguments for cache
- *                                               entry.
- * @property {*}                          val    Function result.
- */
-
-/**
- * Properties of the enhanced function for controlling cache.
- *
- * @typedef MemizeMemoizedFunction
- *
- * @property {()=>void} clear Clear the cache.
- */
-
-/**
- * Accepts a function to be memoized, and returns a new memoized function, with
- * optional options.
- *
- * @template {Function} F
- *
- * @param {F}             fn        Function to memoize.
- * @param {MemizeOptions} [options] Options object.
- *
- * @return {F & MemizeMemoizedFunction} Memoized function.
- */
-function memize( fn, options ) {
-	var size = 0;
-
-	/** @type {?MemizeCacheNode|undefined} */
-	var head;
-
-	/** @type {?MemizeCacheNode|undefined} */
-	var tail;
-
-	options = options || {};
+	if ( options && options.maxSize ) {
+		maxSize = options.maxSize;
+	}
 
 	function memoized( /* ...args */ ) {
 		var node = head,
@@ -1147,14 +1016,14 @@ function memize( fn, options ) {
 
 				// Adjust siblings to point to each other. If node was tail,
 				// this also handles new tail's empty `next` assignment.
-				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
+				node.prev.next = node.next;
 				if ( node.next ) {
 					node.next.prev = node.prev;
 				}
 
 				node.next = head;
 				node.prev = null;
-				/** @type {MemizeCacheNode} */ ( head ).prev = node;
+				head.prev = node;
 				head = node;
 			}
 
@@ -1174,7 +1043,7 @@ function memize( fn, options ) {
 			args: args,
 
 			// Generate the result from original function
-			val: fn.apply( null, args ),
+			val: fn.apply( null, args )
 		};
 
 		// Don't need to check whether node is already head, since it would
@@ -1190,9 +1059,9 @@ function memize( fn, options ) {
 		}
 
 		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
-			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
-			/** @type {MemizeCacheNode} */ ( tail ).next = null;
+		if ( size === maxSize ) {
+			tail = tail.prev;
+			tail.next = null;
 		} else {
 			size++;
 		}
@@ -1210,16 +1079,8 @@ function memize( fn, options ) {
 
 	if ( false ) {}
 
-	// Ignore reason: There's not a clear solution to create an intersection of
-	// the function with additional properties, where the goal is to retain the
-	// function signature of the incoming argument and add control properties
-	// on the return value.
-
-	// @ts-ignore
 	return memoized;
-}
-
-module.exports = memize;
+};
 
 
 /***/ }),
@@ -1229,11 +1090,11 @@ module.exports = memize;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? Object(arguments[i]) : {};
+    var source = arguments[i] != null ? arguments[i] : {};
     var ownKeys = Object.keys(source);
 
     if (typeof Object.getOwnPropertySymbols === 'function') {
@@ -1243,7 +1104,7 @@ function _objectSpread(target) {
     }
 
     ownKeys.forEach(function (key) {
-      Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
     });
   }
 
