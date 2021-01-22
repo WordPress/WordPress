@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["editor"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 428);
+/******/ 	return __webpack_require__(__webpack_require__.s = 438);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -108,7 +108,14 @@ this["wp"] = this["wp"] || {}; this["wp"]["editor"] =
 
 /***/ }),
 
-/***/ 102:
+/***/ 100:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["notices"]; }());
+
+/***/ }),
+
+/***/ 103:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["autop"]; }());
@@ -251,15 +258,15 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 133:
+/***/ 134:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(411);
+module.exports = __webpack_require__(421);
 
 
 /***/ }),
 
-/***/ 136:
+/***/ 137:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -312,7 +319,7 @@ function Icon(_ref) {
 
 /***/ }),
 
-/***/ 137:
+/***/ 138:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -325,7 +332,7 @@ function Icon(_ref) {
 
 
 
-var ReactPropTypesSecret = __webpack_require__(138);
+var ReactPropTypesSecret = __webpack_require__(139);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -384,7 +391,7 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 138:
+/***/ 139:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -459,7 +466,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 146:
+/***/ 147:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["wordcount"]; }());
@@ -471,11 +478,11 @@ function _slicedToArray(arr, i) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
+  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -494,7 +501,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 151:
+/***/ 152:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["mediaUtils"]; }());
@@ -565,7 +572,7 @@ function _getPrototypeOf(o) {
 
 /***/ }),
 
-/***/ 175:
+/***/ 173:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -600,8 +607,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 exports.__esModule = true;
 var React = __webpack_require__(13);
 var PropTypes = __webpack_require__(28);
-var autosize = __webpack_require__(176);
-var _getLineHeight = __webpack_require__(177);
+var autosize = __webpack_require__(174);
+var _getLineHeight = __webpack_require__(175);
 var getLineHeight = _getLineHeight;
 var UPDATE = 'autosize:update';
 var DESTROY = 'autosize:destroy';
@@ -694,7 +701,7 @@ exports["default"] = TextareaAutosize;
 
 /***/ }),
 
-/***/ 176:
+/***/ 174:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -983,11 +990,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 177:
+/***/ 175:
 /***/ (function(module, exports, __webpack_require__) {
 
 // Load in dependencies
-var computedStyle = __webpack_require__(178);
+var computedStyle = __webpack_require__(176);
 
 /**
  * Calculate the `line-height` of a given node
@@ -1087,7 +1094,7 @@ module.exports = lineHeight;
 
 /***/ }),
 
-/***/ 178:
+/***/ 176:
 /***/ (function(module, exports) {
 
 // This code has been refactored for 140 bytes
@@ -1121,7 +1128,7 @@ module.exports = computedStyle;
 
 /***/ }),
 
-/***/ 179:
+/***/ 177:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1226,7 +1233,7 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 200:
+/***/ 202:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1299,16 +1306,16 @@ function _inherits(subClass, superClass) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
-/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
 
 
 function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
     return call;
   }
 
-  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
 
 /***/ }),
@@ -1357,13 +1364,31 @@ function _arrayLikeToArray(arr, len) {
 if (false) { var throwOnDirectAccess, ReactIs; } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(137)();
+  module.exports = __webpack_require__(138)();
 }
 
 
 /***/ }),
 
-/***/ 289:
+/***/ 29:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
+/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+}
+
+/***/ }),
+
+/***/ 298:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1388,25 +1413,14 @@ var layout = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
 
 /***/ }),
 
-/***/ 29:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 3:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
+(function() { module.exports = this["wp"]["components"]; }());
 
 /***/ }),
 
-/***/ 297:
+/***/ 302:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1428,13 +1442,6 @@ var grid = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 }));
 /* harmony default export */ __webpack_exports__["a"] = (grid);
 
-
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["components"]; }());
 
 /***/ }),
 
@@ -1547,172 +1554,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   }
 
   return target;
-}
-
-/***/ }),
-
-/***/ 411:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var BEGIN = 'BEGIN';
-var COMMIT = 'COMMIT';
-var REVERT = 'REVERT';
-// Array({transactionID: string or null, beforeState: {object}, action: {object}}
-var INITIAL_OPTIMIST = [];
-
-module.exports = optimist;
-module.exports.BEGIN = BEGIN;
-module.exports.COMMIT = COMMIT;
-module.exports.REVERT = REVERT;
-function optimist(fn) {
-  function beginReducer(state, action) {
-    var _separateState = separateState(state);
-
-    var optimist = _separateState.optimist;
-    var innerState = _separateState.innerState;
-
-    optimist = optimist.concat([{ beforeState: innerState, action: action }]);
-    innerState = fn(innerState, action);
-    validateState(innerState, action);
-    return _extends({ optimist: optimist }, innerState);
-  }
-  function commitReducer(state, action) {
-    var _separateState2 = separateState(state);
-
-    var optimist = _separateState2.optimist;
-    var innerState = _separateState2.innerState;
-
-    var newOptimist = [],
-        started = false,
-        committed = false;
-    optimist.forEach(function (entry) {
-      if (started) {
-        if (entry.beforeState && matchesTransaction(entry.action, action.optimist.id)) {
-          committed = true;
-          newOptimist.push({ action: entry.action });
-        } else {
-          newOptimist.push(entry);
-        }
-      } else if (entry.beforeState && !matchesTransaction(entry.action, action.optimist.id)) {
-        started = true;
-        newOptimist.push(entry);
-      } else if (entry.beforeState && matchesTransaction(entry.action, action.optimist.id)) {
-        committed = true;
-      }
-    });
-    if (!committed) {
-      console.error('Cannot commit transaction with id "' + action.optimist.id + '" because it does not exist');
-    }
-    optimist = newOptimist;
-    return baseReducer(optimist, innerState, action);
-  }
-  function revertReducer(state, action) {
-    var _separateState3 = separateState(state);
-
-    var optimist = _separateState3.optimist;
-    var innerState = _separateState3.innerState;
-
-    var newOptimist = [],
-        started = false,
-        gotInitialState = false,
-        currentState = innerState;
-    optimist.forEach(function (entry) {
-      if (entry.beforeState && matchesTransaction(entry.action, action.optimist.id)) {
-        currentState = entry.beforeState;
-        gotInitialState = true;
-      }
-      if (!matchesTransaction(entry.action, action.optimist.id)) {
-        if (entry.beforeState) {
-          started = true;
-        }
-        if (started) {
-          if (gotInitialState && entry.beforeState) {
-            newOptimist.push({
-              beforeState: currentState,
-              action: entry.action
-            });
-          } else {
-            newOptimist.push(entry);
-          }
-        }
-        if (gotInitialState) {
-          currentState = fn(currentState, entry.action);
-          validateState(innerState, action);
-        }
-      }
-    });
-    if (!gotInitialState) {
-      console.error('Cannot revert transaction with id "' + action.optimist.id + '" because it does not exist');
-    }
-    optimist = newOptimist;
-    return baseReducer(optimist, currentState, action);
-  }
-  function baseReducer(optimist, innerState, action) {
-    if (optimist.length) {
-      optimist = optimist.concat([{ action: action }]);
-    }
-    innerState = fn(innerState, action);
-    validateState(innerState, action);
-    return _extends({ optimist: optimist }, innerState);
-  }
-  return function (state, action) {
-    if (action.optimist) {
-      switch (action.optimist.type) {
-        case BEGIN:
-          return beginReducer(state, action);
-        case COMMIT:
-          return commitReducer(state, action);
-        case REVERT:
-          return revertReducer(state, action);
-      }
-    }
-
-    var _separateState4 = separateState(state);
-
-    var optimist = _separateState4.optimist;
-    var innerState = _separateState4.innerState;
-
-    if (state && !optimist.length) {
-      var nextState = fn(innerState, action);
-      if (nextState === innerState) {
-        return state;
-      }
-      validateState(nextState, action);
-      return _extends({ optimist: optimist }, nextState);
-    }
-    return baseReducer(optimist, innerState, action);
-  };
-}
-
-function matchesTransaction(action, id) {
-  return action.optimist && action.optimist.id === id;
-}
-
-function validateState(newState, action) {
-  if (!newState || typeof newState !== 'object' || Array.isArray(newState)) {
-    throw new TypeError('Error while handling "' + action.type + '": Optimist requires that state is always a plain object.');
-  }
-}
-
-function separateState(state) {
-  if (!state) {
-    return { optimist: INITIAL_OPTIMIST, innerState: state };
-  } else {
-    var _state$optimist = state.optimist;
-
-    var _optimist = _state$optimist === undefined ? INITIAL_OPTIMIST : _state$optimist;
-
-    var innerState = _objectWithoutProperties(state, ['optimist']);
-
-    return { optimist: _optimist, innerState: innerState };
-  }
 }
 
 /***/ }),
@@ -1999,7 +1840,173 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 428:
+/***/ 421:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+var BEGIN = 'BEGIN';
+var COMMIT = 'COMMIT';
+var REVERT = 'REVERT';
+// Array({transactionID: string or null, beforeState: {object}, action: {object}}
+var INITIAL_OPTIMIST = [];
+
+module.exports = optimist;
+module.exports.BEGIN = BEGIN;
+module.exports.COMMIT = COMMIT;
+module.exports.REVERT = REVERT;
+function optimist(fn) {
+  function beginReducer(state, action) {
+    var _separateState = separateState(state);
+
+    var optimist = _separateState.optimist;
+    var innerState = _separateState.innerState;
+
+    optimist = optimist.concat([{ beforeState: innerState, action: action }]);
+    innerState = fn(innerState, action);
+    validateState(innerState, action);
+    return _extends({ optimist: optimist }, innerState);
+  }
+  function commitReducer(state, action) {
+    var _separateState2 = separateState(state);
+
+    var optimist = _separateState2.optimist;
+    var innerState = _separateState2.innerState;
+
+    var newOptimist = [],
+        started = false,
+        committed = false;
+    optimist.forEach(function (entry) {
+      if (started) {
+        if (entry.beforeState && matchesTransaction(entry.action, action.optimist.id)) {
+          committed = true;
+          newOptimist.push({ action: entry.action });
+        } else {
+          newOptimist.push(entry);
+        }
+      } else if (entry.beforeState && !matchesTransaction(entry.action, action.optimist.id)) {
+        started = true;
+        newOptimist.push(entry);
+      } else if (entry.beforeState && matchesTransaction(entry.action, action.optimist.id)) {
+        committed = true;
+      }
+    });
+    if (!committed) {
+      console.error('Cannot commit transaction with id "' + action.optimist.id + '" because it does not exist');
+    }
+    optimist = newOptimist;
+    return baseReducer(optimist, innerState, action);
+  }
+  function revertReducer(state, action) {
+    var _separateState3 = separateState(state);
+
+    var optimist = _separateState3.optimist;
+    var innerState = _separateState3.innerState;
+
+    var newOptimist = [],
+        started = false,
+        gotInitialState = false,
+        currentState = innerState;
+    optimist.forEach(function (entry) {
+      if (entry.beforeState && matchesTransaction(entry.action, action.optimist.id)) {
+        currentState = entry.beforeState;
+        gotInitialState = true;
+      }
+      if (!matchesTransaction(entry.action, action.optimist.id)) {
+        if (entry.beforeState) {
+          started = true;
+        }
+        if (started) {
+          if (gotInitialState && entry.beforeState) {
+            newOptimist.push({
+              beforeState: currentState,
+              action: entry.action
+            });
+          } else {
+            newOptimist.push(entry);
+          }
+        }
+        if (gotInitialState) {
+          currentState = fn(currentState, entry.action);
+          validateState(innerState, action);
+        }
+      }
+    });
+    if (!gotInitialState) {
+      console.error('Cannot revert transaction with id "' + action.optimist.id + '" because it does not exist');
+    }
+    optimist = newOptimist;
+    return baseReducer(optimist, currentState, action);
+  }
+  function baseReducer(optimist, innerState, action) {
+    if (optimist.length) {
+      optimist = optimist.concat([{ action: action }]);
+    }
+    innerState = fn(innerState, action);
+    validateState(innerState, action);
+    return _extends({ optimist: optimist }, innerState);
+  }
+  return function (state, action) {
+    if (action.optimist) {
+      switch (action.optimist.type) {
+        case BEGIN:
+          return beginReducer(state, action);
+        case COMMIT:
+          return commitReducer(state, action);
+        case REVERT:
+          return revertReducer(state, action);
+      }
+    }
+
+    var _separateState4 = separateState(state);
+
+    var optimist = _separateState4.optimist;
+    var innerState = _separateState4.innerState;
+
+    if (state && !optimist.length) {
+      var nextState = fn(innerState, action);
+      if (nextState === innerState) {
+        return state;
+      }
+      validateState(nextState, action);
+      return _extends({ optimist: optimist }, nextState);
+    }
+    return baseReducer(optimist, innerState, action);
+  };
+}
+
+function matchesTransaction(action, id) {
+  return action.optimist && action.optimist.id === id;
+}
+
+function validateState(newState, action) {
+  if (!newState || typeof newState !== 'object' || Array.isArray(newState)) {
+    throw new TypeError('Error while handling "' + action.type + '": Optimist requires that state is always a plain object.');
+  }
+}
+
+function separateState(state) {
+  if (!state) {
+    return { optimist: INITIAL_OPTIMIST, innerState: state };
+  } else {
+    var _state$optimist = state.optimist;
+
+    var _optimist = _state$optimist === undefined ? INITIAL_OPTIMIST : _state$optimist;
+
+    var innerState = _objectWithoutProperties(state, ['optimist']);
+
+    return { optimist: _optimist, innerState: innerState };
+  }
+}
+
+/***/ }),
+
+/***/ 438:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2320,13 +2327,13 @@ var external_this_wp_blockEditor_ = __webpack_require__(7);
 var external_this_wp_blocks_ = __webpack_require__(10);
 
 // EXTERNAL MODULE: external {"this":["wp","coreData"]}
-var external_this_wp_coreData_ = __webpack_require__(97);
+var external_this_wp_coreData_ = __webpack_require__(98);
 
 // EXTERNAL MODULE: external {"this":["wp","keyboardShortcuts"]}
 var external_this_wp_keyboardShortcuts_ = __webpack_require__(52);
 
 // EXTERNAL MODULE: external {"this":["wp","notices"]}
-var external_this_wp_notices_ = __webpack_require__(99);
+var external_this_wp_notices_ = __webpack_require__(100);
 
 // EXTERNAL MODULE: external {"this":["wp","richText"]}
 var external_this_wp_richText_ = __webpack_require__(25);
@@ -2347,7 +2354,7 @@ var external_this_wp_dataControls_ = __webpack_require__(36);
 var esm_typeof = __webpack_require__(40);
 
 // EXTERNAL MODULE: ./node_modules/redux-optimist/index.js
-var redux_optimist = __webpack_require__(133);
+var redux_optimist = __webpack_require__(134);
 var redux_optimist_default = /*#__PURE__*/__webpack_require__.n(redux_optimist);
 
 // EXTERNAL MODULE: external {"this":"lodash"}
@@ -2992,7 +2999,7 @@ var memize = __webpack_require__(60);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: external {"this":["wp","autop"]}
-var external_this_wp_autop_ = __webpack_require__(102);
+var external_this_wp_autop_ = __webpack_require__(103);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/utils/serialize-blocks.js
 /**
@@ -7459,7 +7466,7 @@ function EditorNotices(_ref) {
 var library_close = __webpack_require__(154);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/layout.js
-var layout = __webpack_require__(289);
+var layout = __webpack_require__(298);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/page.js
 
@@ -7477,10 +7484,10 @@ var page_page = Object(external_this_wp_element_["createElement"])(external_this
 /* harmony default export */ var library_page = (page_page);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/grid.js
-var grid = __webpack_require__(297);
+var grid = __webpack_require__(302);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/block-default.js
-var block_default = __webpack_require__(200);
+var block_default = __webpack_require__(202);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/entities-saved-states/entity-record-item.js
 
@@ -10062,7 +10069,7 @@ var post_publish_button_PostPublishButton = /*#__PURE__*/function (_Component) {
 })])(post_publish_button_PostPublishButton));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close-small.js
-var close_small = __webpack_require__(179);
+var close_small = __webpack_require__(177);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-visibility/utils.js
 /**
@@ -11319,7 +11326,7 @@ var post_publish_panel_PostPublishPanel = /*#__PURE__*/function (_Component) {
 }), external_this_wp_components_["withFocusReturn"], external_this_wp_components_["withConstrainedTabbing"]])(post_publish_panel_PostPublishPanel));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__(136);
+var build_module_icon = __webpack_require__(137);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/cloud.js
 
@@ -12473,7 +12480,7 @@ function PostTaxonomiesCheck(_ref) {
 })])(PostTaxonomiesCheck));
 
 // EXTERNAL MODULE: ./node_modules/react-autosize-textarea/lib/index.js
-var lib = __webpack_require__(96);
+var lib = __webpack_require__(97);
 var lib_default = /*#__PURE__*/__webpack_require__.n(lib);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-text-editor/index.js
@@ -12999,7 +13006,7 @@ var info_info = Object(external_this_wp_element_["createElement"])(external_this
 /* harmony default export */ var library_info = (info_info);
 
 // EXTERNAL MODULE: external {"this":["wp","wordcount"]}
-var external_this_wp_wordcount_ = __webpack_require__(146);
+var external_this_wp_wordcount_ = __webpack_require__(147);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/word-count/index.js
 
@@ -13300,7 +13307,7 @@ var withRegistryProvider = Object(external_this_wp_compose_["createHigherOrderCo
 /* harmony default export */ var with_registry_provider = (withRegistryProvider);
 
 // EXTERNAL MODULE: external {"this":["wp","mediaUtils"]}
-var external_this_wp_mediaUtils_ = __webpack_require__(151);
+var external_this_wp_mediaUtils_ = __webpack_require__(152);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/utils/media-upload/index.js
 
@@ -14471,29 +14478,22 @@ function _extends() {
 
 /***/ }),
 
-/***/ 96:
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 exports.__esModule = true;
-var TextareaAutosize_1 = __webpack_require__(175);
+var TextareaAutosize_1 = __webpack_require__(173);
 exports["default"] = TextareaAutosize_1["default"];
 
 
 /***/ }),
 
-/***/ 97:
+/***/ 98:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["coreData"]; }());
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["notices"]; }());
 
 /***/ })
 
