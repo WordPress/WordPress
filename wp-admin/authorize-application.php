@@ -141,7 +141,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<?php endif; ?>
 
 	<div class="card auth-app-card">
-		<h2 class="title"><?php __( 'An application would like to connect to your account.' ); ?></h2>
+		<h2 class="title"><?php _e( 'An application would like to connect to your account.' ); ?></h2>
 		<?php if ( $app_name ) : ?>
 			<p>
 				<?php
