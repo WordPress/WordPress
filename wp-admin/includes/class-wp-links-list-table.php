@@ -13,7 +13,7 @@
  * @since 3.1.0
  * @access private
  *
- * @see WP_List_Tsble
+ * @see WP_List_Table
  */
 class WP_Links_List_Table extends WP_List_Table {
 
