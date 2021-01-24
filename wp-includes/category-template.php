@@ -689,7 +689,7 @@ function wp_list_categories( $args = '' ) {
  *     and get_terms() for the full lists of arguments that can be passed in `$args`.
  *
  *     @type int    $number    The number of tags to display. Accepts any positive integer
- *                             or zero to return all. Default 0 (all tags).
+ *                             or zero to return all. Default 45.
  *     @type string $link      Whether to display term editing links or term permalinks.
  *                             Accepts 'edit' and 'view'. Default 'view'.
  *     @type string $post_type The post type. Used to highlight the proper post type menu
