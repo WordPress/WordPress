@@ -1875,6 +1875,73 @@ function rest_find_one_matching_schema( $value, $args, $param, $stop_after_first
 }
 
 /**
+ * Checks the equality of two values, following JSON Schema semantics.
+ *
+ * Property order is ignored for objects.
+ *
+ * Values must have been previously sanitized/coerced to their native types.
+ *
+ * @since 5.7.0
+ *
+ * @param mixed $value1 The first value to check.
+ * @param mixed $value2 The second value to check.
+ * @return bool True if the values are equal or false otherwise.
+ */
+function rest_are_values_equal( $value1, $value2 ) {
+	if ( is_array( $value1 ) && is_array( $value2 ) ) {
+		if ( count( $value1 ) !== count( $value2 ) ) {
+			return false;
+		}
+
+		foreach ( $value1 as $index => $value ) {
+			if ( ! array_key_exists( $index, $value2 ) || ! rest_are_values_equal( $value, $value2[ $index ] ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	return $value1 === $value2;
+}
+
+/**
+ * Validates that the given value is a member of the JSON Schema "enum".
+ *
+ * @since 5.7.0
+ *
+ * @param mixed  $value  The value to validate.
+ * @param array  $args   The schema array to use.
+ * @param string $param  The parameter name, used in error messages.
+ * @return true|WP_Error True if the "enum" contains the value or a WP_Error instance otherwise.
+ */
+function rest_validate_enum( $value, $args, $param ) {
+	$sanitized_value = rest_sanitize_value_from_schema( $value, $args, $param );
+	if ( is_wp_error( $sanitized_value ) ) {
+		return $sanitized_value;
+	}
+
+	foreach ( $args['enum'] as $enum_value ) {
+		if ( rest_are_values_equal( $sanitized_value, $enum_value ) ) {
+			return true;
+		}
+	}
+
+	$encoded_enum_values = array();
+	foreach ( $args['enum'] as $enum_value ) {
+		$encoded_enum_values[] = is_scalar( $enum_value ) ? $enum_value : wp_json_encode( $enum_value );
+	}
+
+	if ( count( $encoded_enum_values ) === 1 ) {
+		/* translators: 1: Parameter, 2: Valid values. */
+		return new WP_Error( 'rest_not_in_enum', wp_sprintf( __( '%1$s is not %2$s.' ), $param, $encoded_enum_values[0] ) );
+	}
+
+	/* translators: 1: Parameter, 2: List of valid values. */
+	return new WP_Error( 'rest_not_in_enum', wp_sprintf( __( '%1$s is not one of %2$l.' ), $param, $encoded_enum_values ) );
+}
+
+/**
  * Get all valid JSON schema properties.
  *
  * @since 5.6.0
@@ -2153,13 +2220,6 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		return true;
 	}
 
-	if ( ! empty( $args['enum'] ) ) {
-		if ( ! in_array( $value, $args['enum'], true ) ) {
-			/* translators: 1: Parameter, 2: List of valid values. */
-			return new WP_Error( 'rest_not_in_enum', sprintf( __( '%1$s is not one of %2$s.' ), $param, implode( ', ', $args['enum'] ) ) );
-		}
-	}
-
 	if ( in_array( $args['type'], array( 'integer', 'number' ), true ) ) {
 		if ( ! is_numeric( $value ) ) {
 			return new WP_Error(
@@ -2231,6 +2291,13 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		if ( isset( $args['pattern'] ) && ! rest_validate_json_schema_pattern( $args['pattern'], $value ) ) {
 			/* translators: 1: Parameter, 2: Pattern. */
 			return new WP_Error( 'rest_invalid_pattern', sprintf( __( '%1$s does not match pattern %2$s.' ), $param, $args['pattern'] ) );
+		}
+	}
+
+	if ( ! empty( $args['enum'] ) ) {
+		$enum_contains_value = rest_validate_enum( $value, $args, $param );
+		if ( is_wp_error( $enum_contains_value ) ) {
+			return $enum_contains_value;
 		}
 	}
 
