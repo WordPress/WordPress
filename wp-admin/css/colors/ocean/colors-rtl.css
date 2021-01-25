@@ -377,22 +377,22 @@ ul#adminmenu > li.current > a.current:after {
 
 #wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder {
   color: #fff;
-  opacity: 0.7;
+  opacity: .7;
 }
 
 #wpadminbar #adminbarsearch .adminbar-input:-moz-placeholder {
   color: #fff;
-  opacity: 0.7;
+  opacity: .7;
 }
 
 #wpadminbar #adminbarsearch .adminbar-input::-moz-placeholder {
   color: #fff;
-  opacity: 0.7;
+  opacity: .7;
 }
 
 #wpadminbar #adminbarsearch .adminbar-input:-ms-input-placeholder {
   color: #fff;
-  opacity: 0.7;
+  opacity: .7;
 }
 
 /* Admin Bar: my account */
