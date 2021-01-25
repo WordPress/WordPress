@@ -542,8 +542,14 @@ function export_wp( $args = array() ) {
 			foreach ( $posts as $post ) {
 				setup_postdata( $post );
 
-				/** This filter is documented in wp-includes/feed.php */
-				$title = apply_filters( 'the_title_rss', $post->post_title );
+				/**
+				 * Filters the post title used for WXR exports.
+				 *
+				 * @since 5.7.0
+				 *
+				 * @param string $post_title Title of the current post.
+				 */
+				$title = wxr_cdata( apply_filters( 'the_title_export', $post->post_title ) );
 
 				/**
 				 * Filters the post content used for WXR exports.
