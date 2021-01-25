@@ -3702,6 +3702,8 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		'guid'                  => '',
 		'import_id'             => 0,
 		'context'               => '',
+		'post_date'             => '',
+		'post_date_gmt'         => '',
 	);
 
 	$postarr = wp_parse_args( $postarr, $defaults );
@@ -3835,25 +3837,11 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	}
 
 	/*
-	 * If the post date is empty (due to having been new or a draft) and status
-	 * is not 'draft' or 'pending', set date to now.
+	 * Resolve the post date from any provided post date or post date GMT strings;
+	 * if none are provided, the date will be set to now.
 	 */
-	if ( empty( $postarr['post_date'] ) || '0000-00-00 00:00:00' === $postarr['post_date'] ) {
-		if ( empty( $postarr['post_date_gmt'] ) || '0000-00-00 00:00:00' === $postarr['post_date_gmt'] ) {
-			$post_date = current_time( 'mysql' );
-		} else {
-			$post_date = get_date_from_gmt( $postarr['post_date_gmt'] );
-		}
-	} else {
-		$post_date = $postarr['post_date'];
-	}
-
-	// Validate the date.
-	$mm         = substr( $post_date, 5, 2 );
-	$jj         = substr( $post_date, 8, 2 );
-	$aa         = substr( $post_date, 0, 4 );
-	$valid_date = wp_checkdate( $mm, $jj, $aa, $post_date );
-	if ( ! $valid_date ) {
+	$post_date = wp_resolve_post_date( $postarr['post_date'], $postarr['post_date_gmt'] );
+	if ( ! $post_date ) {
 		if ( $wp_error ) {
 			return new WP_Error( 'invalid_date', __( 'Invalid date.' ) );
 		} else {
@@ -4536,6 +4524,43 @@ function check_and_publish_future_post( $post_id ) {
 
 	// wp_publish_post() returns no meaningful value.
 	wp_publish_post( $post_id );
+}
+
+/**
+ * Uses wp_checkdate to return a valid Gregorian-calendar value for post_date.
+ * If post_date is not provided, this first checks post_date_gmt if provided,
+ * then falls back to use the current time.
+ *
+ * For back-compat purposes in wp_insert_post, an empty post_date and an invalid
+ * post_date_gmt will continue to return '1970-01-01 00:00:00' rather than false.
+ *
+ * @since 5.7.0
+ *
+ * @param string $post_date     The date in mysql format.
+ * @param string $post_date_gmt The GMT date in mysql format.
+ * @return string|false A valid Gregorian-calendar date string, or false on failure.
+ */
+function wp_resolve_post_date( $post_date = '', $post_date_gmt = '' ) {
+	// If the date is empty, set the date to now.
+	if ( empty( $post_date ) || '0000-00-00 00:00:00' === $post_date ) {
+		if ( empty( $post_date_gmt ) || '0000-00-00 00:00:00' === $post_date_gmt ) {
+			$post_date = current_time( 'mysql' );
+		} else {
+			$post_date = get_date_from_gmt( $post_date_gmt );
+		}
+	}
+
+	// Validate the date.
+	$month = substr( $post_date, 5, 2 );
+	$day   = substr( $post_date, 8, 2 );
+	$year  = substr( $post_date, 0, 4 );
+
+	$valid_date = wp_checkdate( $month, $day, $year, $post_date );
+
+	if ( ! $valid_date ) {
+		return false;
+	}
+	return $post_date;
 }
 
 /**
