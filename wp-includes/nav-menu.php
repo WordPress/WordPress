@@ -436,20 +436,22 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	}
 
 	$defaults = array(
-		'menu-item-db-id'       => $menu_item_db_id,
-		'menu-item-object-id'   => 0,
-		'menu-item-object'      => '',
-		'menu-item-parent-id'   => 0,
-		'menu-item-position'    => 0,
-		'menu-item-type'        => 'custom',
-		'menu-item-title'       => '',
-		'menu-item-url'         => '',
-		'menu-item-description' => '',
-		'menu-item-attr-title'  => '',
-		'menu-item-target'      => '',
-		'menu-item-classes'     => '',
-		'menu-item-xfn'         => '',
-		'menu-item-status'      => '',
+		'menu-item-db-id'         => $menu_item_db_id,
+		'menu-item-object-id'     => 0,
+		'menu-item-object'        => '',
+		'menu-item-parent-id'     => 0,
+		'menu-item-position'      => 0,
+		'menu-item-type'          => 'custom',
+		'menu-item-title'         => '',
+		'menu-item-url'           => '',
+		'menu-item-description'   => '',
+		'menu-item-attr-title'    => '',
+		'menu-item-target'        => '',
+		'menu-item-classes'       => '',
+		'menu-item-xfn'           => '',
+		'menu-item-status'        => '',
+		'menu-item-post-date'     => '',
+		'menu-item-post-date-gmt' => '',
 	);
 
 	$args = wp_parse_args( $menu_item_data, $defaults );
@@ -512,6 +514,11 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		'post_title'   => $args['menu-item-title'],
 		'post_type'    => 'nav_menu_item',
 	);
+
+	$post_date = wp_resolve_post_date( $args['menu-item-post-date'], $args['menu-item-post-date-gmt'] );
+	if ( $post_date ) {
+		$post['post_date'] = $post_date;
+	}
 
 	$update = 0 != $menu_item_db_id;
 
