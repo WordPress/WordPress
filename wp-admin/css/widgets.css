@@ -31,6 +31,7 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	-webkit-user-select: none;
+	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
@@ -555,6 +556,7 @@ div#widgets-right .closed .widgets-sortables {
 .widgets-holder-wrap .sidebar-name,
 .widgets-holder-wrap .sidebar-description {
 	-webkit-user-select: none;
+	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
