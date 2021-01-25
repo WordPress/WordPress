@@ -1,0 +1,32 @@
+{
+	"containerDefinitions": [{
+		"logConfiguration": {
+			"logDriver": "awslogs",
+			"options": {
+				"awslogs-group": "/ecs/test",
+				"awslogs-region": "ap-southeast-1",
+				"awslogs-stream-prefix": "ecs"
+			}
+		},
+		"portMappings": [
+			{
+        		"containerPort": 3000,
+        		"protocol": "tcp"
+      		}
+		],
+		"cpu": 0,
+		"environment": [],
+		"mountPoints": [],
+		"volumesFrom": [],
+		"image": "529176168733.dkr.ecr.ap-southeast-1.amazonaws.com/mobile-api:stage",
+		"name": "test"
+		
+	}],
+	"family": "TASK_DEF_NAME",
+	"requiresCompatibilities": ["FARGATE"],
+	"taskRoleArn": "arn:aws:iam::529176168733:role/ecsTaskExecutionRole",
+	"executionRoleArn": "arn:aws:iam::529176168733:role/ecsTaskExecutionRole",
+	"networkMode": "awsvpc",
+	"cpu": "256",
+	"memory": "512"
+}
