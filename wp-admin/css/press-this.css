@@ -1799,9 +1799,7 @@ html {
 		-ms-transform: translateY(0);
 		transform: translateY(0);
 		-webkit-transition: -webkit-transform .3s ease-in-out;
-		transition: -webkit-transform .3s ease-in-out;
 		transition: transform .3s ease-in-out;
-		transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
 	}
 	.press-this-actions.is-hidden {
 		-webkit-transform: translateY(100%);
@@ -2012,9 +2010,7 @@ html {
 		-ms-transform: translateX(-100%);
 		transform: translateX(-100%);
 		-webkit-transition: -webkit-transform .3s ease-in-out;
-		transition: -webkit-transform .3s ease-in-out;
 		transition: transform .3s ease-in-out;
-		transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
 	}
 
 	.options-panel.is-hidden {
@@ -2092,9 +2088,7 @@ html {
 	white-space: nowrap;
 	overflow: hidden;
 	-webkit-transition: -webkit-transform .3s ease-in-out;
-	transition: -webkit-transform .3s ease-in-out;
 	transition: transform .3s ease-in-out;
-	transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
 }
 
 .post-options .post-option:focus {
@@ -2134,9 +2128,7 @@ html {
 	width: 100%;
 	overflow: hidden;
 	-webkit-transition: -webkit-transform .3s ease-in-out;
-	transition: -webkit-transform .3s ease-in-out;
 	transition: transform .3s ease-in-out;
-	transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
 }
 
 .setting-modal.is-hidden {
