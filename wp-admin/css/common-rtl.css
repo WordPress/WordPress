@@ -2535,7 +2535,7 @@ div.star-holder .star-rating {
 }
 
 .rtl .star-rating .star-half {
-	transform: rotateY(180deg);
+	transform: rotateY(-180deg);
 }
 
 .star-rating .star-empty:before {
