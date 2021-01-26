@@ -34,25 +34,25 @@
 }
 
 .wp-core-ui .CodeMirror-lint-message-warning {
-	background-color: #fff8e5;
-	border-left: 4px solid #ffb900;
+	background-color: #fcf9e8;
+	border-left: 4px solid #dba617;
 }
 
 .wrap .CodeMirror-lint-marker-warning:before,
 .wp-core-ui .CodeMirror-lint-message-warning:before {
 	content: "\f534";
-	color: #f6a306;
+	color: #dba617;
 }
 
 .wp-core-ui .CodeMirror-lint-message-error {
-	background-color: #fbeaea;
-	border-left: 4px solid #dc3232;
+	background-color: #fcf0f1;
+	border-left: 4px solid #d63638;
 }
 
 .wrap .CodeMirror-lint-marker-error:before,
 .wp-core-ui .CodeMirror-lint-message-error:before {
 	content: "\f153";
-	color: #dc3232;
+	color: #d63638;
 }
 
 .wp-core-ui .CodeMirror-lint-tooltip {
@@ -63,7 +63,7 @@
 }
 
 .wrap .CodeMirror .CodeMirror-matchingbracket {
-	background: rgba(255, 150, 0, 0.3);
+	background: rgba(219, 166, 23, 0.3);
 	color: inherit;
 }
 
@@ -72,5 +72,5 @@
 }
 
 .wrap .CodeMirror .CodeMirror-linenumber {
-	color: #666;
+	color: #646970;
 }

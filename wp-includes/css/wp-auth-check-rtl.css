@@ -29,7 +29,7 @@
 	width: 380px;
 	margin: 0 -190px 0 0;
 	padding: 30px 0 0;
-	background-color: #f1f1f1;
+	background-color: #f0f0f1;
 	z-index: 1000011; /* needs to appear above #wp-auth-check-bg */
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
@@ -89,7 +89,7 @@
 	left: 5px;
 	height: 22px;
 	width: 22px;
-	color: #72777c;
+	color: #787c82;
 	text-decoration: none;
 	text-align: center;
 }
@@ -104,7 +104,7 @@
 
 #wp-auth-check-wrap .wp-auth-check-close:hover,
 #wp-auth-check-wrap .wp-auth-check-close:focus {
-	color: #0073aa;
+	color: #2271b1;
 }
 
 #wp-auth-check-wrap .wp-auth-fallback-expired {

@@ -4392,10 +4392,10 @@ function register_admin_color_schemes() {
 		'fresh',
 		_x( 'Default', 'admin color scheme' ),
 		false,
-		array( '#222', '#333', '#0073aa', '#00a0d2' ),
+		array( '#1d2327', '#2c3338', '#3582c4', '#72aee6' ),
 		array(
-			'base'    => '#a0a5aa',
-			'focus'   => '#00a0d2',
+			'base'    => '#a7aaad',
+			'focus'   => '#72aee6',
 			'current' => '#fff',
 		)
 	);

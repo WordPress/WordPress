@@ -35,7 +35,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar a.ab-item,
 #wpadminbar > #wp-toolbar span.ab-label,
 #wpadminbar > #wp-toolbar span.noticon {
-	color: #eee;
+	color: #f0f0f1;
 }
 
 #wpadminbar #wp-admin-bar-site-name a.ab-item,
@@ -78,7 +78,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 
 #wpadminbar {
 	direction: rtl;
-	color: #ccc;
+	color: #c3c4c7;
 	font-size: 13px;
 	font-weight: 400;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -90,7 +90,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	width: 100%;
 	min-width: 600px; /* match the min-width of the body in wp-admin/css/common.css */
 	z-index: 99999;
-	background: #23282d;
+	background: #1d2327;
 }
 
 #wpadminbar .ab-sub-wrapper,
@@ -144,7 +144,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	margin: 0;
 	padding: 0;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-	background: #32373c;
+	background: #2c3338;
 	display: none;
 	position: absolute;
 	float: none;
@@ -212,14 +212,14 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar.nojq .quicklinks .ab-top-menu > li > .ab-item:focus,
 #wpadminbar:not(.mobile) .ab-top-menu > li:hover > .ab-item,
 #wpadminbar .ab-top-menu > li.hover > .ab-item {
-	background: #32373c;
-	color: #00b9eb;
+	background: #2c3338;
+	color: #72aee6;
 }
 
 #wpadminbar:not(.mobile) > #wp-toolbar li:hover span.ab-label,
 #wpadminbar > #wp-toolbar li.hover span.ab-label,
 #wpadminbar:not(.mobile) > #wp-toolbar a:focus span.ab-label {
-	color: #00b9eb;
+	color: #72aee6;
 }
 
 #wpadminbar > #wp-toolbar > #wp-admin-bar-root-default .ab-icon,
@@ -240,8 +240,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .ab-icon:before,
 #wpadminbar .ab-item:before,
 #wpadminbar #adminbarsearch:before {
-	color: #a0a5aa;
-	color: rgba(240, 245, 250, 0.6);
+	color: #a7aaad;
+	color: rgba(240, 246, 252, 0.6);
 }
 
 #wpadminbar .ab-icon:before,
@@ -257,16 +257,16 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar .ab-submenu .ab-item {
-	color: #b4b9be;
-	color: rgba(240, 245, 250, 0.7);
+	color: #c3c4c7;
+	color: rgba(240, 246, 252, 0.7);
 }
 
 #wpadminbar .quicklinks .menupop ul li a,
 #wpadminbar .quicklinks .menupop ul li a strong,
 #wpadminbar .quicklinks .menupop.hover ul li a,
 #wpadminbar.nojs .quicklinks .menupop:hover ul li a {
-	color: #b4b9be;
-	color: rgba(240, 245, 250, 0.7);
+	color: #c3c4c7;
+	color: rgba(240, 246, 252, 0.7);
 }
 
 #wpadminbar .quicklinks .menupop ul li a:hover,
@@ -289,17 +289,17 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar li.hover .ab-item:before,
 #wpadminbar li:hover #adminbarsearch:before,
 #wpadminbar li #adminbarsearch.adminbar-focused:before {
-	color: #00b9eb;
+	color: #72aee6;
 }
 
 #wpadminbar.mobile .quicklinks .ab-icon:before,
 #wpadminbar.mobile .quicklinks .ab-item:before {
-	color: #b4b9be;
+	color: #c3c4c7;
 }
 
 #wpadminbar.mobile .quicklinks .hover .ab-icon:before,
 #wpadminbar.mobile .quicklinks .hover .ab-item:before {
-	color: #00b9eb;
+	color: #72aee6;
 }
 
 #wpadminbar .menupop .menupop > .ab-item .wp-admin-bar-arrow:before,
@@ -345,17 +345,17 @@ html:lang(he-il) .rtl #wpadminbar * {
 
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary,
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu {
-	background: #464b50;
+	background: #3c434a;
 }
 
 #wpadminbar .quicklinks .menupop .ab-sub-secondary > li > a:hover,
 #wpadminbar .quicklinks .menupop .ab-sub-secondary > li .ab-item:focus a {
-	color: #00b9eb;
+	color: #72aee6;
 }
 
 #wpadminbar .quicklinks a span#ab-updates {
-	background: #eee;
-	color: #32373c;
+	background: #f0f0f1;
+	color: #2c3338;
 	display: inline;
 	padding: 2px 5px;
 	font-size: 10px;
@@ -382,7 +382,7 @@ html:lang(he-il) .rtl #wpadminbar * {
  */
 #wpadminbar #wp-admin-bar-recovery-mode {
 	color: #fff;
-	background-color: #ca4a1f;
+	background-color: #d63638;
 }
 
 #wpadminbar .ab-top-menu > #wp-admin-bar-recovery-mode.hover >.ab-item,
@@ -390,7 +390,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode:hover > .ab-item,
 #wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode > .ab-item:focus {
 	color: #fff;
-	background-color: #c0461e;
+	background-color: #d63638;
 }
 
 /**
@@ -462,7 +462,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar #wp-admin-bar-user-info .username {
-	color: #a0a5aa;
+	color: #a7aaad;
 	font-size: 11px;
 }
 
@@ -471,8 +471,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 	width: auto;
 	height: 16px;
 	padding: 0;
-	border: 1px solid #82878c;
-	background: #eee;
+	border: 1px solid #8c8f94;
+	background: #f0f0f1;
 	line-height: 1.84615384;
 	vertical-align: middle;
 	margin: -4px 6px 0 0;
@@ -509,13 +509,13 @@ html:lang(he-il) .rtl #wpadminbar * {
 	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: #eee;
+	color: #f0f0f1;
 }
 
 #wpadminbar .quicklinks li a:hover .blavatar,
 #wpadminbar .quicklinks li a:focus .blavatar,
 #wpadminbar .quicklinks .ab-sub-wrapper .menupop.hover > a .blavatar {
-	color: #00b9eb;
+	color: #72aee6;
 }
 
 #wpadminbar .quicklinks li .blavatar:before {
@@ -632,7 +632,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	max-width: none;
 	padding: 0 24px 0 3px;
 	margin: 0;
-	color: #ccc;
+	color: #c3c4c7;
 	background-color: rgba(255, 255, 255, 0);
 	border: none;
 	outline: none;
@@ -701,8 +701,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 	font-size: 14px;
 	font-weight: 600;
 	padding: 15px 23px 14px;
-	background: #f1f1f1;
-	color: #0073aa;
+	background: #f0f0f1;
+	color: #2271b1;
 	z-index: 100000;
 	line-height: normal;
 	text-decoration: none;
@@ -823,7 +823,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 		overflow: hidden;
 		width: 52px;
 		padding: 0;
-		color: #a0a5aa; /* @todo not needed? this text is hidden */
+		color: #a7aaad; /* @todo not needed? this text is hidden */
 		position: relative;
 	}
 
@@ -929,7 +929,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 		height: auto;
 		font-size: 16px;
 		line-height: 1.5;
-		color: #eee;
+		color: #f0f0f1;
 	}
 
 	#wpadminbar #wp-admin-bar-user-info a {

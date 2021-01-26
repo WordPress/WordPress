@@ -17,10 +17,10 @@
 }
 
 .wp-color-result-text {
-	background: #f7f7f7;
+	background: #f6f7f7;
 	border-radius: 0 2px 2px 0;
-	border-left: 1px solid #ccc;
-	color: #555;
+	border-left: 1px solid #c3c4c7;
+	color: #50575e;
 	display: block;
 	line-height: 2.54545455; /* 28px */
 	padding: 0 6px;
@@ -29,16 +29,16 @@
 
 .wp-color-result:hover,
 .wp-color-result:focus {
-	background: #fafafa;
-	border-color: #999;
-	color: #23282d;
+	background: #f6f7f7;
+	border-color: #8c8f94;
+	color: #1d2327;
 }
 
 .wp-color-result:hover:after,
 .wp-color-result:focus:after {
-	color: #23282d;
-	border-color: #a0a5aa;
-	border-left: 1px solid #999;
+	color: #1d2327;
+	border-color: #a7aaad;
+	border-left: 1px solid #8c8f94;
 }
 
 .wp-picker-container {
@@ -46,8 +46,8 @@
 }
 
 .wp-color-result:focus {
-	border-color: #5b9dd9;
-	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+	border-color: #4f94d4;
+	box-shadow: 0 0 3px rgba(34, 113, 177, 0.8);
 }
 
 .wp-color-result:active {
@@ -81,12 +81,12 @@
 }
 
 .wp-picker-container .iris-square-slider .ui-slider-handle:focus {
-	background-color: #555
+	background-color: #50575e
 }
 
 .wp-picker-container .iris-picker {
 	border-radius: 0;
-	border-color: #ddd;
+	border-color: #dcdcde;
 	margin-top: 6px;
 }
 
@@ -102,34 +102,34 @@
 }
 
 .wp-color-picker::-webkit-input-placeholder {
-	color: #72777c;
+	color: #787c82;
 }
 
 .wp-color-picker::-moz-placeholder {
-	color: #72777c;
+	color: #787c82;
 	opacity: 1;
 }
 
 .wp-color-picker:-ms-input-placeholder {
-	color: #72777c;
+	color: #787c82;
 }
 
 .wp-picker-container input[type="text"].iris-error {
-	background-color: #ffebe8;
-	border-color: #c00;
+	background-color: #fcf0f1;
+	border-color: #d63638;
 	color: #000;
 }
 
 .iris-picker .ui-square-handle:focus,
 .iris-picker .iris-strip .ui-slider-handle:focus {
-	border-color: #007cba;
+	border-color: #3582c4;
 	border-style: solid;
-	box-shadow: 0 0 0 1px #007cba;
+	box-shadow: 0 0 0 1px #3582c4;
 	outline: 2px solid transparent;
 }
 
 .iris-picker .iris-palette:focus {
-	box-shadow: 0 0 0 2px #007cba;
+	box-shadow: 0 0 0 2px #3582c4;
 }
 
 @media screen and (max-width: 782px) {

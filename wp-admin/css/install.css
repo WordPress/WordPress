@@ -1,40 +1,40 @@
 html {
-	background: #f1f1f1;
+	background: #f0f0f1;
 	margin: 0 20px;
 }
 
 body {
 	background: #fff;
-	border: 1px solid #ccd0d4;
-	color: #444;
+	border: 1px solid #c3c4c7;
+	color: #3c434a;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	margin: 140px auto 25px;
 	padding: 20px 20px 10px 20px;
 	max-width: 700px;
 	-webkit-font-smoothing: subpixel-antialiased;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
 a {
-	color: #0073aa;
+	color: #2271b1;
 }
 
 a:hover,
 a:active {
-	color: #006799;
+	color: #135e96;
 }
 
 a:focus {
-	color: #124964;
+	color: #043959;
 	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
+		0 0 0 1px #4f94d4,
+		0 0 2px 1px rgba(79, 148, 212, 0.8);
 }
 
 h1, h2 {
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #dcdcde;
 	clear: both;
-	color: #666;
+	color: #646970;
 	font-size: 24px;
 	padding: 0;
 	padding-bottom: 7px;
@@ -88,7 +88,7 @@ label {
 	background-size: 84px;
 	background-position: center top;
 	background-repeat: no-repeat;
-	color: #444; /* same as login.css */
+	color: #3c434a; /* same as login.css */
 	font-size: 20px;
 	font-weight: 400;
 	line-height: 1.3em;
@@ -109,7 +109,7 @@ label {
 	font-size: 14px;
 }
 textarea {
-	border: 1px solid #ddd;
+	border: 1px solid #dcdcde;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	width: 100%;
 	box-sizing: border-box;
@@ -200,9 +200,9 @@ submit {
 }
 
 .message {
-	border-left: 4px solid #dc3232;
+	border-left: 4px solid #d63638;
 	padding: .7em .6em;
-	background-color: #fbeaea;
+	background-color: #fcf0f1;
 }
 
 /* rtl:ignore */
@@ -308,21 +308,21 @@ body.language-chooser {
 	padding: 8px;
 	width: 100%;
 	display: block;
-	border: 1px solid #ddd;
+	border: 1px solid #dcdcde;
 	background: #fff;
-	color: #32373c;
+	color: #2c3338;
 	font-size: 16px;
 	font-family: Arial, sans-serif;
 	font-weight: 400;
 }
 
 .language-chooser select:focus {
-	color: #32373c;
+	color: #2c3338;
 }
 
 .language-chooser select option:hover,
 .language-chooser select option:focus {
-	color: #016087;
+	color: #0a4b78;
 }
 
 .language-chooser p {

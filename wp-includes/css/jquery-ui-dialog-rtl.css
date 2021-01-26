@@ -194,10 +194,10 @@
 	border-radius: 3px;
 	white-space: nowrap;
 	box-sizing: border-box;
-	color: #555;
-	border-color: #cccccc;
-	background: #f7f7f7;
-	box-shadow: 0 1px 0 #cccccc;
+	color: #50575e;
+	border-color: #c3c4c7;
+	background: #f6f7f7;
+	box-shadow: 0 1px 0 #c3c4c7;
 	vertical-align: top;
 }
 
@@ -215,27 +215,27 @@
 
 .ui-button:hover,
 .ui-button:focus {
-	background: #fafafa;
-	border-color: #999;
-	color: #23282d;
+	background: #f6f7f7;
+	border-color: #8c8f94;
+	color: #1d2327;
 }
 
 .ui-button:focus {
-	border-color: #5b9dd9;
-	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+	border-color: #4f94d4;
+	box-shadow: 0 0 3px rgba(34, 113, 177, 0.8);
 }
 
 .ui-button:active {
-	background: #eee;
-	border-color: #999;
+	background: #f0f0f1;
+	border-color: #8c8f94;
 	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 }
 
 .ui-button[disabled],
 .ui-button:disabled {
-	color: #a0a5aa !important;
-	border-color: #ddd !important;
-	background: #f7f7f7 !important;
+	color: #a7aaad !important;
+	border-color: #dcdcde !important;
+	background: #f6f7f7 !important;
 	box-shadow: none !important;
 	text-shadow: 0 1px 0 #fff !important;
 	cursor: default;
@@ -268,8 +268,8 @@
 }
 
 .ui-dialog-titlebar {
-	background: #fcfcfc;
-	border-bottom: 1px solid #dfdfdf;
+	background: #fff;
+	border-bottom: 1px solid #dcdcde;
 	height: 36px;
 	font-size: 18px;
 	font-weight: 600;
@@ -281,7 +281,7 @@
 	background: none;
 	border: none;
 	box-shadow: none;
-	color: #666;
+	color: #646970;
 	cursor: pointer;
 	display: block;
 	padding: 0;
@@ -309,13 +309,13 @@
 
 .ui-button.ui-dialog-titlebar-close:hover,
 .ui-button.ui-dialog-titlebar-close:focus {
-	color: #006799;
+	color: #135e96;
 }
 
 .ui-button.ui-dialog-titlebar-close:focus {
 	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
+		0 0 0 1px #4f94d4,
+		0 0 2px 1px rgba(79, 148, 212, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -2px;
@@ -327,8 +327,8 @@
 }
 
 .ui-dialog-buttonpane {
-	background: #fcfcfc;
-	border-top: 1px solid #dfdfdf;
+	background: #fff;
+	border-top: 1px solid #dcdcde;
 	padding: 16px;
 }
 

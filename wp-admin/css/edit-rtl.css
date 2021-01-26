@@ -69,7 +69,7 @@
 }
 
 #titlediv #title-prompt-text {
-	color: #72777c;
+	color: #787c82;
 	position: absolute;
 	font-size: 1.7em;
 	padding: 10px;
@@ -95,7 +95,7 @@ input#link_url {
 	min-height: 25px;
 	margin-top: 5px;
 	padding: 0 10px;
-	color: #666;
+	color: #646970;
 }
 
 #edit-slug-box .cancel {
@@ -151,7 +151,7 @@ body.post-new-php .submitbox .submitdelete {
 
 /* Only highlight drop zones when dragging and only in the 2 columns layout. */
 .is-dragging-metaboxes .metabox-holder .postbox-container .meta-box-sortables {
-	outline: 3px dashed #606a73;
+	outline: 3px dashed #646970;
 	/* Prevent margin on the child from collapsing with margin on the parent. */
 	display: flow-root;
 	/*
@@ -167,7 +167,7 @@ body.post-new-php .submitbox .submitdelete {
 .postbox {
 	position: relative;
 	min-width: 255px;
-	border: 1px solid #ccd0d4;
+	border: 1px solid #c3c4c7;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	background: #fff;
 }
@@ -219,7 +219,7 @@ ul.category-tabs li,
 .wp-tab-bar .wp-tab-active a,
 #post-body ul.category-tabs li.tabs a,
 #post-body ul.add-menu-item-tabs li.tabs a {
-	color: #32373c;
+	color: #2c3338;
 }
 
 .category-tabs {
@@ -271,9 +271,9 @@ ul.add-menu-item-tabs li {
 ul.category-tabs li.tabs,
 ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
-	border: 1px solid #ddd;
-	border-bottom-color: #fdfdfd;
-	background-color: #fdfdfd;
+	border: 1px solid #dcdcde;
+	border-bottom-color: #fff;
+	background-color: #fff;
 }
 
 ul.category-tabs li,
@@ -292,7 +292,7 @@ ul.wp-tab-bar li {
 	height: auto;
 	width: auto;
 	vertical-align: top;
-	background-image: linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
+	background-image: linear-gradient(-45deg, #c3c4c7 25%, transparent 25%, transparent 75%, #c3c4c7 75%, #c3c4c7), linear-gradient(-45deg, #c3c4c7 25%, transparent 25%, transparent 75%, #c3c4c7 75%, #c3c4c7);
 	background-position: 100% 0, 10px 10px;
 	background-size: 20px 20px;
 }
@@ -323,9 +323,9 @@ form#tags-filter {
 #post-status-info {
 	width: 100%;
 	border-spacing: 0;
-	border: 1px solid #ccd0d4;
+	border: 1px solid #c3c4c7;
 	border-top: none;
-	background-color: #f7f7f7;
+	background-color: #f6f7f7;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	z-index: 999;
 }
@@ -374,7 +374,7 @@ form#tags-filter {
 
 .wp-editor-expand #wp-content-editor-tools {
 	z-index: 1000;
-	border-bottom: 1px solid #ccd0d4;
+	border-bottom: 1px solid #c3c4c7;
 }
 
 .wp-editor-expand #wp-content-editor-container {
@@ -391,7 +391,7 @@ form#tags-filter {
 }
 
 .wp-editor-expand #post-status-info {
-	border-top: 1px solid #ccd0d4;
+	border-top: 1px solid #c3c4c7;
 }
 
 .wp-editor-expand div.mce-toolbar-grp {
@@ -423,7 +423,7 @@ form#tags-filter {
 /* End TinyMCE native fullscreen mode override */
 
 #wp-content-editor-tools {
-	background-color: #f1f1f1;
+	background-color: #f0f0f1;
 	padding-top: 20px;
 }
 
@@ -465,7 +465,7 @@ form#tags-filter {
 #post-body .misc-pub-revisions:before,
 #post-body .misc-pub-response-to:before,
 #post-body .misc-pub-comment-status:before {
-	color: #82878c;
+	color: #8c8f94;
 }
 
 #post-body .misc-pub-post-status:before,
@@ -648,7 +648,7 @@ form#tags-filter {
 }
 
 #poststuff .stuffbox > h2 {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #f0f0f1;
 }
 
 #poststuff .inside {
@@ -714,7 +714,7 @@ form#tags-filter {
 .privacy-text-box-toc p {
 	margin: 0;
 	padding: 0.7em 1em;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #f0f0f1;
 }
 
 .privacy-text-box-toc ol {
@@ -732,7 +732,7 @@ form#tags-filter {
 
 .privacy-text-section {
 	position: relative;
-	border-top: 1px solid #e3e3e3;
+	border-top: 1px solid #dcdcde;
 }
 
 .privacy-text-box-head,
@@ -741,10 +741,10 @@ form#tags-filter {
 }
 
 .text-removed .policy-text {
-	color: #666;
+	color: #646970;
 	font-weight: 300;
 	padding-right: 1em;
-	border-right: 3px solid #ffb900;
+	border-right: 3px solid #dba617;
 }
 
 .text-removed .policy-text h1,
@@ -753,7 +753,7 @@ form#tags-filter {
 .text-removed .policy-text h4,
 .text-removed .policy-text h5,
 .text-removed .policy-text h6 {
-	color: #39424a;
+	color: #3c434a;
 	font-weight: 500;
 }
 
@@ -767,7 +767,7 @@ form#tags-filter {
 
 .privacy-text-actions .success {
 	display: none;
-	color: #40860a;
+	color: #008a20;
 	float: left;
 	padding-left: 1em;
 }
@@ -854,7 +854,7 @@ strong.privacy-policy-tutorial {
 
 #postcustomstuff thead th {
 	padding: 5px 8px 8px;
-	background-color: #f1f1f1;
+	background-color: #f0f0f1;
 }
 
 #postcustom #postcustomstuff .submit {
@@ -881,9 +881,9 @@ strong.privacy-policy-tutorial {
 #postcustomstuff table {
 	margin: 0;
 	width: 100%;
-	border: 1px solid #ddd;
+	border: 1px solid #dcdcde;
 	border-spacing: 0;
-	background-color: #f9f9f9;
+	background-color: #f6f7f7;
 }
 
 #postcustomstuff tr {
@@ -976,7 +976,7 @@ strong.privacy-policy-tutorial {
 	width: 20px;
 	margin-top: -4px;
 	margin-left: 7px;
-	color: #ddd;
+	color: #dcdcde;
 	font: normal 20px/1 dashicons;
 	speak: never;
 	-webkit-font-smoothing: antialiased;
@@ -984,7 +984,7 @@ strong.privacy-policy-tutorial {
 }
 
 a.post-format-icon:hover:before {
-	color: #006799;
+	color: #135e96;
 }
 
 #post-formats-select {
@@ -1070,8 +1070,8 @@ label.post-format-icon {
 	max-height: 200px;
 	overflow: auto;
 	padding: 0 0.9em;
-	border: solid 1px #ddd;
-	background-color: #fdfdfd;
+	border: solid 1px #dcdcde;
+	background-color: #fff;
 }
 
 div.tabs-panel-active {
@@ -1083,7 +1083,7 @@ div.tabs-panel-inactive {
 }
 
 div.tabs-panel-active:focus {
-	box-shadow: inset 0 0 0 1px #5b9dd9, inset 0 0 2px 1px rgba(30, 140, 190, 0.8);
+	box-shadow: inset 0 0 0 1px #4f94d4, inset 0 0 2px 1px rgba(79, 148, 212, 0.8);
 	outline: 0 none;
 }
 
@@ -1139,7 +1139,7 @@ ul.categorychecklist li {
 p.description,
 .form-wrap p {
 	margin: 2px 0 5px;
-	color: #666;
+	color: #646970;
 }
 
 p.help,
@@ -1227,7 +1227,7 @@ p.popular-tags a {
 #poststuff .inside .the-tagcloud {
 	margin: 5px 0 10px;
 	padding: 8px;
-	border: 1px solid #ddd;
+	border: 1px solid #dcdcde;
 	line-height: 1.2;
 	word-spacing: 3px;
 }
@@ -1248,7 +1248,7 @@ p.popular-tags a {
 	list-style: none;
 	position: absolute;
 	z-index: 10000;
-	border: 1px solid #5b9dd9;
+	border: 1px solid #4f94d4;
 	background-color: #fff;
 }
 
@@ -1265,7 +1265,7 @@ p.popular-tags a {
 
 .ac_results .ac_over,
 .ac_over .ac_match {
-	background-color: #0073aa;
+	background-color: #2271b1;
 	color: #fff;
 	cursor: pointer;
 }
@@ -1307,7 +1307,7 @@ p.popular-tags a {
 	content: "(" attr( href ) ")";
 	display: inline-block;
 	padding: 0 4px;
-	color: #72777C;
+	color: #787c82;
 	font-size: 13px;
 	word-break: break-all;
 }

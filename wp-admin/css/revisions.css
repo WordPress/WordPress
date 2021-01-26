@@ -42,7 +42,7 @@
 .revisions-tickmarks > div {
 	position: absolute;
 	height: 100%;
-	border-left: 1px solid #a0a5aa;
+	border-left: 1px solid #a7aaad;
 	box-sizing: border-box;
 }
 
@@ -131,11 +131,11 @@ body.folded .revisions .loading-indicator {
 }
 
 .revisions-controls .author-card .date {
-	color: #72777c;
+	color: #787c82;
 }
 
 .revisions-controls .author-card.autosave {
-	color: #d54e21;
+	color: #d63638;
 }
 
 .revisions-controls .author-card .author-name {
@@ -242,16 +242,16 @@ table.diff .diff-addedline ins {
 
 table.diff .diff-deletedline {
 	position: relative;
-	background-color: #ffe9e9;
+	background-color: #fcf0f1;
 }
 
 table.diff .diff-deletedline del {
-	background-color: #faa;
+	background-color: #ffabaf;
 }
 
 table.diff .diff-addedline {
 	position: relative;
-	background-color: #e9ffe9;
+	background-color: #edfaef;
 }
 
 table.diff .diff-deletedline .dashicons,
@@ -271,7 +271,7 @@ table.diff .diff-addedline .dashicons {
 }
 
 table.diff .diff-addedline ins {
-	background-color: #afa;
+	background-color: #68de7c;
 }
 
 .diff-meta {
@@ -384,7 +384,7 @@ table.diff .diff-addedline ins {
 
 .revisions-tooltip,
 .revisions-tooltip-arrow > span {
-	border: 1px solid #ddd;
+	border: 1px solid #dcdcde;
 	background-color: #fff;
 }
 
@@ -445,7 +445,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 /* jQuery UI Slider */
 .wp-slider.ui-slider {
 	position: relative;
-	border: 1px solid #ddd;
+	border: 1px solid #dcdcde;
 	text-align: left;
 	cursor: pointer;
 }
@@ -464,21 +464,21 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 
 .wp-slider .ui-slider-handle,
 .wp-slider .ui-slider-handle.focus {
-	background: #f7f7f7;
-	border: 1px solid #ccc;
-	box-shadow: 0 1px 0 #cccccc;
+	background: #f6f7f7;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 0 #c3c4c7;
 }
 
 .wp-slider .ui-slider-handle:hover,
 .wp-slider .ui-slider-handle.ui-state-hover {
-	background: #fafafa;
-	border-color: #999;
+	background: #f6f7f7;
+	border-color: #8c8f94;
 }
 
 .wp-slider .ui-slider-handle:active,
 .wp-slider .ui-slider-handle.ui-state-active {
-	background: #eee;
-	border-color: #999;
+	background: #f0f0f1;
+	border-color: #8c8f94;
 	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 	transform: translateY(1px);
 }
@@ -488,7 +488,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	position: absolute;
 	top: 2px;
 	left: 2px;
-	color: #555;
+	color: #50575e;
 	content: "\f229";
 	font: normal 18px/1 dashicons;
 	speak: never;
@@ -498,7 +498,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 
 .wp-slider .ui-slider-handle:hover:before,
 .wp-slider .ui-slider-handle.ui-state-hover:before {
-	color: #23282d;
+	color: #1d2327;
 }
 
 .wp-slider .ui-slider-handle.from-handle:before,

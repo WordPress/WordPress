@@ -4,26 +4,26 @@
 	position: relative;
 	font-size: 13px;
 	background: #fff;
-	border: 1px solid #ddd;
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.075);
+	border: 1px solid #dcdcde;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
 }
 
 .wp-pointer-content h3 {
 	position: relative;
 	margin: -1px -1px 5px;
 	padding: 15px 60px 14px 18px;
-	border: 1px solid #3592b6;
+	border: 1px solid #72aee6;
 	border-bottom: none;
 	line-height: 1.4;
 	font-size: 14px;
 	color: #fff;
-	background: #00a0d2;
+	background: #72aee6;
 }
 
 .wp-pointer-content h3:before {
 	background: #fff;
 	border-radius: 50%;
-	color: #00a0d2;
+	color: #72aee6;
 	content: "\f227";
 	font: normal 20px/1.6 dashicons;
 	position: absolute;
@@ -65,7 +65,7 @@
 
 .wp-pointer-buttons a.close:before {
 	background: none;
-	color: #72777c;
+	color: #787c82;
 	content: "\f153";
 	display: block !important;
 	font: normal 16px/1 dashicons;
@@ -81,7 +81,7 @@
 }
 
 .wp-pointer-buttons a.close:hover:before {
-	color: #c00;
+	color: #d63638;
 }
 
 /* The arrow base class must take up no space, even with transparent borders. */
@@ -142,7 +142,7 @@
 .wp-pointer-undefined .wp-pointer-arrow {
 	top: 0;
 	border-width: 0 13px 13px 13px;
-	border-bottom-color: #3592b6;
+	border-bottom-color: #72aee6;
 }
 
 .wp-pointer-top .wp-pointer-arrow-inner,
@@ -151,7 +151,7 @@
 	margin-right: -13px;
 	margin-top: -13px;
 	border: 13px solid transparent;
-	border-bottom-color: #00a0d2;
+	border-bottom-color: #72aee6;
 	display: block;
 	content: " ";
 }
@@ -159,7 +159,7 @@
 .wp-pointer-bottom .wp-pointer-arrow {
 	bottom: 0;
 	border-width: 13px 13px 0 13px;
-	border-top-color: #ccc;
+	border-top-color: #c3c4c7;
 }
 
 .wp-pointer-bottom .wp-pointer-arrow-inner {
@@ -176,7 +176,7 @@
 .wp-pointer-left .wp-pointer-arrow {
 	left: 0;
 	border-width: 13px 13px 13px 0;
-	border-right-color: #ccc;
+	border-right-color: #c3c4c7;
 }
 
 /* rtl:ignore */
@@ -194,7 +194,7 @@
 .wp-pointer-right .wp-pointer-arrow {
 	right: 0;
 	border-width: 13px 0 13px 13px;
-	border-left-color: #ccc;
+	border-left-color: #c3c4c7;
 }
 
 /* rtl:ignore */

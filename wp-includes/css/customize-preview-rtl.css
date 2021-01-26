@@ -45,10 +45,10 @@
 	line-height: 1 !important;
 	font-size: 18px;
 	z-index: 5;
-	background: #0085ba !important;
+	background: #3582c4 !important;
 	border-radius: 50%;
 	border: 2px solid #fff;
-	box-shadow: 0 2px 1px rgba(46, 68, 83, 0.15);
+	box-shadow: 0 2px 1px rgba(60, 67, 74, 0.15);
 	text-align: center;
 	cursor: pointer;
 	box-sizing: border-box;
@@ -58,10 +58,10 @@
 	opacity: 0;
 	pointer-events: none;
 	text-shadow:
-		0 -1px 1px #006799,
-		-1px 0 1px #006799,
-		0 1px 1px #006799,
-		1px 0 1px #006799;
+		0 -1px 1px #135e96,
+		-1px 0 1px #135e96,
+		0 1px 1px #135e96,
+		1px 0 1px #135e96;
 }
 .wp-custom-header .customize-partial-edit-shortcut button {
 	right: 2px
@@ -77,11 +77,11 @@
 }
 
 .customize-partial-edit-shortcut button:hover {
-	background: #008ec2 !important; /* matches primary buttons */
+	background: #4f94d4 !important; /* matches primary buttons */
 }
 
 .customize-partial-edit-shortcut button:focus {
-	box-shadow: 0 0 0 2px #008ec2;
+	box-shadow: 0 0 0 2px #4f94d4;
 }
 
 body.customize-partial-edit-shortcuts-shown .customize-partial-edit-shortcut button {

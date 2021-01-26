@@ -27,7 +27,7 @@
 	text-align: center;
 	margin: 0 0 1rem;
 	background: #fff;
-	border-bottom: 1px solid #e2e4e7;
+	border-bottom: 1px solid #dcdcde;
 }
 
 .health-check-title-section {
@@ -68,34 +68,34 @@
 
 .loading .site-health-progress svg #bar {
 	stroke-dashoffset: 0;
-	stroke: #adc5d2;
+	stroke: #c3c4c7;
 	animation: loadingPulse 3s infinite ease-in-out;
 }
 
 .site-health-progress svg circle {
 	stroke-dashoffset: 0;
 	transition: stroke-dashoffset 1s linear;
-	stroke: #ccc;
+	stroke: #c3c4c7;
 	stroke-width: 2em;
 }
 
 .site-health-progress svg #bar {
 	stroke-dashoffset: 565;
-	stroke: #dc3232;
+	stroke: #d63638;
 }
 
 .green .site-health-progress #bar {
-	stroke: #46b450;
+	stroke: #00a32a;
 }
 .green .site-health-progress .site-health-progress-label {
-	color: #46b450;
+	color: #00a32a;
 }
 
 .orange .site-health-progress #bar {
-	stroke: #ffb900;
+	stroke: #dba617;
 }
 .orange .site-health-progress .site-health-progress-label {
-	color: #ffb900;
+	color: #dba617;
 }
 
 .site-health-progress-label {
@@ -106,13 +106,13 @@
 
 @keyframes loadingPulse {
 	0% {
-		stroke: #adc5d2;
+		stroke: #c3c4c7;
 	}
 	50% {
-		stroke: #00a0d2;
+		stroke: #72aee6;
 	}
 	100% {
-		stroke: #adc5d2;
+		stroke: #c3c4c7;
 	}
 }
 
@@ -144,13 +144,13 @@
 }
 
 .health-check-tab:focus {
-	color: #191e23;
-	outline: 1px solid #6c7781;
+	color: #1d2327;
+	outline: 1px solid #787c82;
 	box-shadow: none;
 }
 
 .health-check-tab.active {
-	box-shadow: inset 0 -3px #007cba;
+	box-shadow: inset 0 -3px #3582c4;
 	font-weight: 600;
 }
 
@@ -179,23 +179,23 @@
 .health-check-body .pass::before,
 .health-check-body .good::before {
 	content: "\f147";
-	color: #46b450;
+	color: #00a32a;
 }
 
 .health-check-body .warning::before {
 	content: "\f460";
-	color: #ffb900;
+	color: #dba617;
 }
 
 .health-check-body .info::before {
 	content: "\f348";
-	color: #00a0d2;
+	color: #72aee6;
 }
 
 .health-check-body .fail::before,
 .health-check-body .error::before {
 	content: "\f335";
-	color: #dc3232;
+	color: #d63638;
 }
 
 .site-health-copy-buttons {
@@ -209,7 +209,7 @@
 }
 
 .site-health-copy-buttons .success {
-	color: #40860a;
+	color: #008a20;
 	margin-right: 0.5rem;
 }
 
@@ -267,12 +267,12 @@
 }
 
 .health-check-accordion {
-	border: 1px solid #ccd0d4;
+	border: 1px solid #c3c4c7;
 }
 
 .health-check-accordion-heading {
 	margin: 0;
-	border-top: 1px solid #ccd0d4;
+	border-top: 1px solid #c3c4c7;
 	font-size: inherit;
 	line-height: inherit;
 	font-weight: 600;
@@ -286,7 +286,7 @@
 .health-check-accordion-trigger {
 	background: #fff;
 	border: 0;
-	color: #32373c;
+	color: #2c3338;
 	cursor: pointer;
 	display: flex;
 	font-weight: 400;
@@ -311,16 +311,16 @@
 
 .health-check-accordion-trigger:hover,
 .health-check-accordion-trigger:active {
-	background: #f8f9f9;
+	background: #f6f7f7;
 }
 
 .health-check-accordion-trigger:focus {
-	color: #191e23;
+	color: #1d2327;
 	border: none;
 	box-shadow: none;
 	outline-offset: -1px;
-	outline: 2px solid #0071a1;
-	background-color: #f8f9f9;
+	outline: 2px solid #2271b1;
+	background-color: #f6f7f7;
 }
 
 .health-check-accordion-trigger .title {
@@ -331,7 +331,7 @@
 
 .health-check-accordion-trigger .icon,
 .site-health-view-passed .icon {
-	border: solid #555d66;
+	border: solid #50575e;
 	border-width: 0 0 2px 2px;
 	height: 0.5rem;
 	pointer-events: none;
@@ -344,33 +344,33 @@
 
 .health-check-accordion-trigger .badge {
 	padding: 0.1rem 0.5rem 0.15rem;
-	color: #32373c;
+	color: #2c3338;
 	font-weight: 600;
 	margin-right: 0.5rem;
 }
 
 .health-check-accordion-trigger .badge.blue {
-	border: 1px solid #bfe7f3;
+	border: 1px solid #c5d9ed;
 }
 
 .health-check-accordion-trigger .badge.orange {
-	border: 1px solid #ffb900;
+	border: 1px solid #dba617;
 }
 
 .health-check-accordion-trigger .badge.red {
-	border: 1px solid #dc3232;
+	border: 1px solid #d63638;
 }
 
 .health-check-accordion-trigger .badge.green {
-	border: 1px solid #46b450;
+	border: 1px solid #00a32a;
 }
 
 .health-check-accordion-trigger .badge.purple {
-	border: 1px solid #826eb4;
+	border: 1px solid #2271b1;
 }
 
 .health-check-accordion-trigger .badge.gray {
-	border: 1px solid #ccd0d4;
+	border: 1px solid #c3c4c7;
 }
 
 .health-check-accordion-trigger[aria-expanded="true"] .icon,

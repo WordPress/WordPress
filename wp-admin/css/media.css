@@ -5,7 +5,7 @@
 .media-item .describe {
 	border-collapse: collapse;
 	width: 100%;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid #dcdcde;
 	clear: both;
 	cursor: default;
 }
@@ -124,7 +124,7 @@
 
 .media-upload-form .media-item,
 .media-upload-form .media-item .error {
-	box-shadow: 0 1px 0 #ddd;
+	box-shadow: 0 1px 0 #dcdcde;
 }
 
 #media-items:empty {
@@ -163,7 +163,7 @@
 	padding: 0;
 	overflow: hidden;
 	border-radius: 22px;
-	background: #ddd;
+	background: #dcdcde;
 	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -173,7 +173,7 @@
 	height: 100%;
 	margin-top: -22px;
 	border-radius: 22px;
-	background-color: #0073aa;
+	background-color: #2271b1;
 	box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -238,8 +238,8 @@
 }
 
 .find-box-head {
-	background: #fcfcfc;
-	border-bottom: 1px solid #ddd;
+	background: #fff;
+	border-bottom: 1px solid #dcdcde;
 	height: 36px;
 	font-size: 18px;
 	font-weight: 600;
@@ -305,18 +305,18 @@
 	cursor: pointer;
 	text-align: center;
 	background: none;
-	color: #666;
+	color: #646970;
 }
 
 #find-posts-close:hover,
 #find-posts-close:focus {
-	color: #006799;
+	color: #135e96;
 }
 
 #find-posts-close:focus {
 	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
+		0 0 0 1px #4f94d4,
+		0 0 2px 1px rgba(79, 148, 212, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -2px;
@@ -333,8 +333,8 @@
 
 .find-box-buttons {
 	padding: 8px 16px;
-	background: #fcfcfc;
-	border-top: 1px solid #ddd;
+	background: #fff;
+	border-top: 1px solid #dcdcde;
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -373,7 +373,7 @@
 }
 
 .drag-drop #drag-drop-area {
-	border: 4px dashed #b4b9be;
+	border: 4px dashed #c3c4c7;
 	height: 200px;
 }
 
@@ -407,7 +407,7 @@
 }
 border color while dragging a file over the uploader drop area */
 .drag-drop.drag-over #drag-drop-area {
-	border-color: #83b4d8;
+	border-color: #9ec2e6;
 }
 
 #plupload-upload-ui {
@@ -442,7 +442,7 @@ border color while dragging a file over the uploader drop area */
 	width: auto;
 	margin-top: 12px;
 	padding: 0 16px;
-	border-left: 4px solid #dd3d36;
+	border-left: 4px solid #d63638;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 	background-color: #fff;
 }
@@ -475,12 +475,12 @@ border color while dragging a file over the uploader drop area */
 	content: "\f153";
 	display: block;
 	font: normal 16px/1 dashicons;
-	color: #72777c;
+	color: #787c82;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:focus:before,
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:hover:before {
-	color: #c00;
+	color: #d63638;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status.errors h2 {
@@ -495,7 +495,7 @@ border color while dragging a file over the uploader drop area */
 	bottom: auto;
 	padding-top: 0;
 	margin-top: 20px;
-	border: 4px dashed #b4b9be;
+	border: 4px dashed #c3c4c7;
 }
 
 .media-frame.mode-select .attachments-browser.fixed .attachments {
@@ -508,8 +508,8 @@ border color while dragging a file over the uploader drop area */
 .media-frame.mode-grid .selected.attachment:focus,
 .media-frame.mode-grid .attachment.details:focus {
 	box-shadow:
-		inset 0 0 2px 3px #f1f1f1,
-		inset 0 0 0 7px #5b9dd9;
+		inset 0 0 2px 3px #f0f0f1,
+		inset 0 0 0 7px #4f94d4;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -6px;
@@ -517,14 +517,14 @@ border color while dragging a file over the uploader drop area */
 
 .media-frame.mode-grid .selected.attachment {
 	box-shadow:
-		inset 0 0 0 5px #f1f1f1,
-		inset 0 0 0 7px #ccc;
+		inset 0 0 0 5px #f0f0f1,
+		inset 0 0 0 7px #c3c4c7;
 }
 
 .media-frame.mode-grid .attachment.details {
 	box-shadow:
-		inset 0 0 0 3px #f1f1f1,
-		inset 0 0 0 7px #1e8cbe;
+		inset 0 0 0 3px #f0f0f1,
+		inset 0 0 0 7px #4f94d4;
 }
 
 .media-frame.mode-grid.mode-select .attachment .thumbnail {
@@ -589,7 +589,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .media-frame.mode-grid .attachments-browser .no-media {
-	color: #666; /* same as no plugins and no themes */
+	color: #646970; /* same as no plugins and no themes */
 	font-size: 18px;
 	font-style: normal;
 	margin: 0;
@@ -620,7 +620,7 @@ border color while dragging a file over the uploader drop area */
 .edit-attachment-frame .edit-media-header .left,
 .edit-attachment-frame .edit-media-header .right {
 	cursor: pointer;
-	color: #72777c;
+	color: #787c82;
 	background-color: transparent;
 	height: 50px;
 	width: 50px;
@@ -628,7 +628,7 @@ border color while dragging a file over the uploader drop area */
 	position: absolute;
 	text-align: center;
 	border: 0;
-	border-left: 1px solid #ddd;
+	border-left: 1px solid #dcdcde;
 	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
@@ -663,8 +663,8 @@ border color while dragging a file over the uploader drop area */
 .edit-attachment-frame .edit-media-header .right:hover,
 .edit-attachment-frame .edit-media-header .left:focus,
 .edit-attachment-frame .edit-media-header .right:focus {
-	background: #ddd;
-	border-color: #ccc;
+	background: #dcdcde;
+	border-color: #c3c4c7;
 	color: #000;
 	outline: none;
 	box-shadow: none;
@@ -693,7 +693,7 @@ border color while dragging a file over the uploader drop area */
 
 .edit-attachment-frame .edit-media-header [disabled],
 .edit-attachment-frame .edit-media-header [disabled]:hover {
-	color: #ccc;
+	color: #c3c4c7;
 	background: inherit;
 	cursor: default;
 }
@@ -737,7 +737,7 @@ border color while dragging a file over the uploader drop area */
 	max-width: 100%;
 	max-height: 90%;
 	max-height: calc( 100% - 42px ); /* leave space for actions underneath */
-	background-image: linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
+	background-image: linear-gradient(45deg, #c3c4c7 25%, transparent 25%, transparent 75%, #c3c4c7 75%, #c3c4c7), linear-gradient(45deg, #c3c4c7 25%, transparent 25%, transparent 75%, #c3c4c7 75%, #c3c4c7);
 	background-position: 0 0, 10px 10px;
 	background-size: 20px 20px;
 }
@@ -769,8 +769,8 @@ border color while dragging a file over the uploader drop area */
 	height: 100%;
 	box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
 	border-bottom: 0;
-	border-left: 1px solid #ddd;
-	background: #f3f3f3;
+	border-left: 1px solid #dcdcde;
+	background: #f6f7f7;
 }
 
 .edit-attachment-frame .attachment-info .details,
@@ -780,12 +780,12 @@ border color while dragging a file over the uploader drop area */
 	float: none;
 	margin-bottom: 15px;
 	padding-bottom: 15px;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #dcdcde;
 }
 
 .edit-attachment-frame .attachment-info .filename {
 	font-weight: 400;
-	color: #666;
+	color: #646970;
 }
 
 .edit-attachment-frame .attachment-info .thumbnail {
@@ -813,7 +813,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .copy-to-clipboard-container .success {
-	color: #40860a;
+	color: #008a20;
 	margin-left: 8px;
 }
 
@@ -918,7 +918,7 @@ border color while dragging a file over the uploader drop area */
 .imgedit-settings .disabled {
 	/* WCAG 1.4.3 Text or images of text that are part of an inactive user
 	   interface component ... have no contrast requirement. */
-	color: #a0a5aa;
+	color: #a7aaad;
 }
 
 .A1B1 {
@@ -971,9 +971,9 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-menu .button.disabled {
-	color: #a0a5aa;
-	border-color: #ddd;
-	background: #f7f7f7;
+	color: #a7aaad;
+	border-color: #dcdcde;
+	background: #f6f7f7;
 	box-shadow: none;
 	text-shadow: 0 1px 0 #fff;
 	cursor: default;
@@ -1013,7 +1013,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-crop-wrap img {
-	background-image: linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
+	background-image: linear-gradient(45deg, #c3c4c7 25%, transparent 25%, transparent 75%, #c3c4c7 75%, #c3c4c7), linear-gradient(45deg, #c3c4c7 25%, transparent 25%, transparent 75%, #c3c4c7 75%, #c3c4c7);
 	background-position: 0 0, 10px 10px;
 	background-size: 20px 20px;
 }
@@ -1064,7 +1064,7 @@ border color while dragging a file over the uploader drop area */
 
 #poststuff .imgedit-group-top .button-link {
 	text-decoration: none;
-	color: #23282d;
+	color: #1d2327;
 }
 
 .imgedit-applyto .imgedit-label {
@@ -1089,7 +1089,7 @@ border color while dragging a file over the uploader drop area */
 	margin: -1px 0 0 -1px;
 	padding: 0;
 	background: transparent;
-	color: #0074a2;
+	color: #2271b1;
 	font-size: 20px;
 	line-height: 1;
 	cursor: pointer;
@@ -1098,9 +1098,9 @@ border color while dragging a file over the uploader drop area */
 }
 
 .image-editor .imgedit-settings .imgedit-help-toggle:focus {
-	color: #0074a2;
-	border-color: #5b9dd9;
-	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+	color: #2271b1;
+	border-color: #4f94d4;
+	box-shadow: 0 0 3px rgba(34, 113, 177, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -1124,7 +1124,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 span.imgedit-scale-warn {
-	color: #dc3232;
+	color: #d63638;
 	font-size: 20px;
 	font-style: normal;
 	visibility: hidden;
@@ -1161,7 +1161,7 @@ span.imgedit-scale-warn {
 	width: 7px;
 	text-align: center;
 	font-size: 13px;
-	color: #444;
+	color: #3c434a;
 }
 
 .imgedit-settings .imgedit-scale-button-wrapper {

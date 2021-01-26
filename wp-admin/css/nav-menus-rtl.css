@@ -67,7 +67,7 @@ ul.add-menu-item-tabs li {
 }
 
 .is-submenu {
-	color: #555d66; /* #fafafa background */
+	color: #50575e; /* #fafafa background */
 	font-style: italic;
 	font-weight: 400;
 	margin-right: 4px;
@@ -77,7 +77,7 @@ ul.add-menu-item-tabs li {
 	margin-top: 23px;
 	padding: 10px;
 	overflow: hidden;
-	background: #fbfbfb;
+	background: #fff;
 }
 
 .manage-menus .selected-menu,
@@ -99,7 +99,7 @@ ul.add-menu-item-tabs li {
 }
 
 .menu-settings {
-	border-top: 1px solid #eee;
+	border-top: 1px solid #f0f0f1;
 	margin-top: 2em;
 }
 
@@ -136,7 +136,7 @@ ul.add-menu-item-tabs li {
 }
 
 .theme-location-set {
-	color: #72777c;
+	color: #787c82;
 	font-size: 11px;
 }
 
@@ -164,18 +164,18 @@ ul.add-menu-item-tabs li {
 .nav-menus-php #post-body {
 	padding: 0 10px;
 	border-top: 1px solid #fff;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #dcdcde;
 	background: #fff;
 }
 
 #nav-menu-header,
 #nav-menu-footer {
 	padding: 0 10px;
-	background: #f5f5f5;
+	background: #f6f7f7;
 }
 
 #nav-menu-header {
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #dcdcde;
 	margin-bottom: 0;
 }
 
@@ -252,7 +252,7 @@ ul.add-menu-item-tabs li {
 
 .locations-edit-menu-link {
 	padding-left: 3px;
-	border-left: 1px solid #ccc;
+	border-left: 1px solid #c3c4c7;
 }
 
 #menu-management .inside {
@@ -441,7 +441,7 @@ ul.add-menu-item-tabs li {
 }
 
 .menu-item-bar .menu-item-handle {
-	border: 1px solid #ddd;
+	border: 1px solid #dcdcde;
 	position: relative;
 	padding: 10px 15px;
 	height: auto;
@@ -453,12 +453,12 @@ ul.add-menu-item-tabs li {
 }
 
 .menu-item-bar .menu-item-handle:hover {
-	border-color: #999;
+	border-color: #8c8f94;
 }
 
 #menu-to-edit .menu-item-invalid .menu-item-handle {
-	background: #f6c9cc;
-	border-color: #f1acb1;
+	background: #facfd2;
+	border-color: #ffabaf;
 }
 
 .no-js .menu-item-edit-active .item-edit {
@@ -471,7 +471,7 @@ ul.add-menu-item-tabs li {
 
 .menu li.deleting .menu-item-handle {
 	background-image: none;
-	background-color: #f66;
+	background-color: #f86368;
 }
 
 .menu-item-handle .item-title {
@@ -484,7 +484,7 @@ ul.add-menu-item-tabs li {
 }
 
 .menu-item-handle .menu-item-title.no-title {
-	color: #72777c;
+	color: #787c82;
 }
 
 /* Sortables */
@@ -551,7 +551,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .item-type {
 	display: inline-block;
 	padding: 12px 16px;
-	color: #666;
+	color: #646970;
 	font-size: 12px;
 	line-height: 1.5;
 }
@@ -592,7 +592,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	height: auto;
 	margin: 12px 0 12px -10px;
 	padding: 0;
-	color: #0073aa;
+	color: #2271b1;
 	text-decoration: underline;
 	font-size: 12px;
 	line-height: 1.5;
@@ -629,8 +629,8 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 .nav-menus-php .item-edit:focus:before {
 	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, 0.8);
+		0 0 0 1px #4f94d4,
+		0 0 2px 1px rgba(79, 148, 212, 0.8);
 }
 
 /* Menu editing */
@@ -644,7 +644,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	padding: 10px;
 	position: relative;
 	z-index: 10; /* Keep .item-title's shadow from appearing on top of .menu-item-settings */
-	border: 1px solid #ccd0d4;
+	border: 1px solid #c3c4c7;
 	border-top: none;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
@@ -690,8 +690,8 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	display: block;
 	margin: 0 0 15px;
 	padding: 3px 5px 5px;
-	border: 1px solid #ddd;
-	color: #72777c;
+	border: 1px solid #dcdcde;
+	color: #787c82;
 	font-size: 12px;
 }
 
