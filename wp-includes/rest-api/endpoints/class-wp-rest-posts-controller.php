@@ -216,14 +216,32 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		// Check for & assign any parameters which require special handling or setting.
 		$args['date_query'] = array();
 
-		// Set before into date query. Date query must be specified as an array of an array.
 		if ( isset( $registered['before'], $request['before'] ) ) {
-			$args['date_query'][0]['before'] = $request['before'];
+			$args['date_query'][] = array(
+				'before' => $request['before'],
+				'column' => 'post_date',
+			);
 		}
 
-		// Set after into date query. Date query must be specified as an array of an array.
+		if ( isset( $registered['modified_before'], $request['modified_before'] ) ) {
+			$args['date_query'][] = array(
+				'before' => $request['modified_before'],
+				'column' => 'post_modified',
+			);
+		}
+
 		if ( isset( $registered['after'], $request['after'] ) ) {
-			$args['date_query'][0]['after'] = $request['after'];
+			$args['date_query'][] = array(
+				'after'  => $request['after'],
+				'column' => 'post_date',
+			);
+		}
+
+		if ( isset( $registered['modified_after'], $request['modified_after'] ) ) {
+			$args['date_query'][] = array(
+				'after'  => $request['modified_after'],
+				'column' => 'post_modified',
+			);
 		}
 
 		// Ensure our per_page parameter overrides any provided posts_per_page filter.
@@ -2628,6 +2646,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * Retrieves the query params for the posts collection.
 	 *
 	 * @since 4.7.0
+	 * @since 5.4.0 The `tax_relation` query parameter was added.
+	 * @since 5.7.0 The `modified_after` and `modified_before` query parameters were added.
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -2638,6 +2658,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$query_params['after'] = array(
 			'description' => __( 'Limit response to posts published after a given ISO8601 compliant date.' ),
+			'type'        => 'string',
+			'format'      => 'date-time',
+		);
+
+		$query_params['modified_after'] = array(
+			'description' => __( 'Limit response to posts modified after a given ISO8601 compliant date.' ),
 			'type'        => 'string',
 			'format'      => 'date-time',
 		);
@@ -2663,6 +2689,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$query_params['before'] = array(
 			'description' => __( 'Limit response to posts published before a given ISO8601 compliant date.' ),
+			'type'        => 'string',
+			'format'      => 'date-time',
+		);
+
+		$query_params['modified_before'] = array(
+			'description' => __( 'Limit response to posts modified before a given ISO8601 compliant date.' ),
 			'type'        => 'string',
 			'format'      => 'date-time',
 		);
