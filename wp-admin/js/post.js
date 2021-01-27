@@ -488,12 +488,20 @@ jQuery(document).ready( function($) {
 	 * When the user is trying to load another page, or reloads current page
 	 * show a confirmation dialog when there are unsaved changes.
 	 */
-	$(window).on( 'beforeunload.edit-post', function() {
-		var editor = typeof tinymce !== 'undefined' && tinymce.get('content');
+	$( window ).on( 'beforeunload.edit-post', function( event ) {
+		var editor  = window.tinymce && window.tinymce.get( 'content' );
+		var changed = false;
 
-		if ( ( editor && ! editor.isHidden() && editor.isDirty() ) ||
-			( wp.autosave && wp.autosave.server.postChanged() ) ) {
+		if ( wp.autosave ) {
+			changed = wp.autosave.server.postChanged();
+		} else if ( editor ) {
+			changed = ( ! editor.isHidden() && editor.isDirty() );
+		}
 
+		if ( changed ) {
+			event.preventDefault();
+			// The return string is needed for browser compat.
+			// See https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event.
 			return __( 'The changes you made will be lost if you navigate away from this page.' );
 		}
 	}).on( 'unload.edit-post', function( event ) {
