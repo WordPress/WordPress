@@ -7396,7 +7396,7 @@ function wp_privacy_delete_old_export_files() {
 	}
 
 	require_once ABSPATH . 'wp-admin/includes/file.php';
-	$export_files = list_files( $exports_dir, 100, array( 'index.html' ) );
+	$export_files = list_files( $exports_dir, 100, array( 'index.php' ) );
 
 	/**
 	 * Filters the lifetime, in seconds, of a personal data export file.
