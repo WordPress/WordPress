@@ -57,7 +57,7 @@
 			$newAppPassButton.prop( 'disabled', false );
 
 			$newAppPassForm.after( tmplNewAppPass( {
-				name: name,
+				name: response.name,
 				password: response.password
 			} ) );
 			$( '.new-application-password-notice' ).focus();

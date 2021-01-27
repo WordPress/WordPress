@@ -631,6 +631,8 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 					'type'        => 'string',
 					'required'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'minLength'   => 1,
+					'pattern'     => '.*\S.*',
 				),
 				'password'  => array(
 					'description' => __( 'The generated password. Only available after adding an application.' ),

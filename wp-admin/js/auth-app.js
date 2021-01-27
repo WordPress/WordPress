@@ -98,7 +98,7 @@
 					.append( '<p>' + wp.i18n.__( 'Be sure to save this in a safe location. You will not be able to retrieve it.' ) + '</p>' );
 
 				// We're using .text() to write the variables to avoid any chance of XSS.
-				$( 'strong', $notice ).text( name );
+				$( 'strong', $notice ).text( response.name );
 				$( 'input', $notice ).val( response.password );
 
 				$form.replaceWith( $notice );
