@@ -1328,11 +1328,13 @@ Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 			var args     = {},
 				orderby  = Query.orderby,
 				defaults = Query.defaultProps,
-				query;
+				query,
+				cache    = !! props.cache || _.isUndefined( props.cache );
 
 			// Remove the `query` property. This isn't linked to a query,
 			// this *is* the query.
 			delete props.query;
+			delete props.cache;
 
 			// Fill default args.
 			_.defaults( props, defaults );
@@ -1371,7 +1373,14 @@ Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 			// Substitute exceptions specified in orderby.keymap.
 			args.orderby = orderby.valuemap[ props.orderby ] || props.orderby;
 
-			queries = [];
+			// Search the query cache for a matching query.
+			if ( cache ) {
+				query = _.find( queries, function( query ) {
+					return _.isEqual( query.args, args );
+				});
+			} else {
+				queries = [];
+			}
 
 			// Otherwise, create a new query and add it to the cache.
 			if ( ! query ) {
