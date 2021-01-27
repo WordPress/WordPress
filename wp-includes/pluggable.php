@@ -2838,27 +2838,32 @@ if ( ! function_exists( 'wp_text_diff' ) ) :
 			return '';
 		}
 
-		$r = "<table class='diff'>\n";
+		$is_split_view       = ! empty( $args['show_split_view'] );
+		$is_split_view_class = $is_split_view ? ' is-split-view' : '';
 
-		if ( ! empty( $args['show_split_view'] ) ) {
-			$r .= "<col class='content diffsplit left' /><col class='content diffsplit middle' /><col class='content diffsplit right' />";
-		} else {
-			$r .= "<col class='content' />";
+		$r = "<table class='diff$is_split_view_class'>\n";
+
+		if ( $args['title'] ) {
+			$r .= "<caption class='diff-title'>$args[title]</caption>\n";
 		}
 
-		if ( $args['title'] || $args['title_left'] || $args['title_right'] ) {
+		if ( $args['title_left'] || $args['title_right'] ) {
 			$r .= '<thead>';
 		}
-		if ( $args['title'] ) {
-			$r .= "<tr class='diff-title'><th colspan='4'>$args[title]</th></tr>\n";
-		}
+
 		if ( $args['title_left'] || $args['title_right'] ) {
+			$th_or_td_left  = empty( $args['title_left'] ) ? 'td' : 'th';
+			$th_or_td_right = empty( $args['title_right'] ) ? 'td' : 'th';
+
 			$r .= "<tr class='diff-sub-title'>\n";
-			$r .= "\t<td></td><th>$args[title_left]</th>\n";
-			$r .= "\t<td></td><th>$args[title_right]</th>\n";
+			$r .= "\t<$th_or_td_left>$args[title_left]</$th_or_td_left>\n";
+			if ( $is_split_view ) {
+				$r .= "\t<$th_or_td_right>$args[title_right]</$th_or_td_right>\n";
+			}
 			$r .= "</tr>\n";
 		}
-		if ( $args['title'] || $args['title_left'] || $args['title_right'] ) {
+
+		if ( $args['title_left'] || $args['title_right'] ) {
 			$r .= "</thead>\n";
 		}
 

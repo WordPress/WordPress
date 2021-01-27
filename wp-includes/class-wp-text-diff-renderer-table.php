@@ -176,7 +176,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 			}
 
 			if ( $this->_show_split_view ) {
-				$r .= '<tr>' . $this->emptyLine() . $this->emptyLine() . $this->addedLine( $line ) . "</tr>\n";
+				$r .= '<tr>' . $this->emptyLine() . $this->addedLine( $line ) . "</tr>\n";
 			} else {
 				$r .= '<tr>' . $this->addedLine( $line ) . "</tr>\n";
 			}
@@ -201,7 +201,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 				$line = apply_filters( 'process_text_diff_html', $processed_line, $line, 'deleted' );
 			}
 			if ( $this->_show_split_view ) {
-				$r .= '<tr>' . $this->deletedLine( $line ) . $this->emptyLine() . $this->emptyLine() . "</tr>\n";
+				$r .= '<tr>' . $this->deletedLine( $line ) . $this->emptyLine() . "</tr>\n";
 			} else {
 				$r .= '<tr>' . $this->deletedLine( $line ) . "</tr>\n";
 			}
@@ -226,7 +226,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 				$line = apply_filters( 'process_text_diff_html', $processed_line, $line, 'unchanged' );
 			}
 			if ( $this->_show_split_view ) {
-				$r .= '<tr>' . $this->contextLine( $line ) . $this->emptyLine() . $this->contextLine( $line ) . "</tr>\n";
+				$r .= '<tr>' . $this->contextLine( $line ) . $this->contextLine( $line ) . "</tr>\n";
 			} else {
 				$r .= '<tr>' . $this->contextLine( $line ) . "</tr>\n";
 			}
@@ -319,7 +319,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 				$r .= $this->_deleted( array( $orig_line ), false );
 			} else { // A true changed row.
 				if ( $this->_show_split_view ) {
-					$r .= '<tr>' . $this->deletedLine( $orig_line ) . $this->emptyLine() . $this->addedLine( $final_line ) . "</tr>\n";
+					$r .= '<tr>' . $this->deletedLine( $orig_line ) . $this->addedLine( $final_line ) . "</tr>\n";
 				} else {
 					$r .= '<tr>' . $this->deletedLine( $orig_line ) . '</tr><tr>' . $this->addedLine( $final_line ) . "</tr>\n";
 				}

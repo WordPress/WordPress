@@ -86,6 +86,8 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 
 		$args = array(
 			'show_split_view' => true,
+			'title_left'      => __( 'Removed' ),
+			'title_right'     => __( 'Added' ),
 		);
 
 		/**
