@@ -443,7 +443,8 @@
 	 *                     decorated with an abort() method.
 	 */
 	wp.updates.updatePlugin = function( args ) {
-		var $updateRow, $card, $message, message;
+		var $updateRow, $card, $message, message,
+			$adminBarUpdates = $( '#wp-admin-bar-updates' );
 
 		args = _.extend( {
 			success: wp.updates.updatePluginSuccess,
@@ -470,6 +471,8 @@
 			// Remove previous error messages, if any.
 			$card.removeClass( 'plugin-card-update-failed' ).find( '.notice.notice-error' ).remove();
 		}
+
+		$adminBarUpdates.addClass( 'spin' );
 
 		if ( $message.html() !== __( 'Updating...' ) ) {
 			$message.data( 'originaltext', $message.html() );
@@ -499,7 +502,8 @@
 	 * @param {string} response.newVersion New version of the plugin.
 	 */
 	wp.updates.updatePluginSuccess = function( response ) {
-		var $pluginRow, $updateMessage, newText;
+		var $pluginRow, $updateMessage, newText,
+			$adminBarUpdates = $( '#wp-admin-bar-updates' );
 
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
 			$pluginRow     = $( 'tr[data-plugin="' + response.plugin + '"]' )
@@ -520,6 +524,8 @@
 				.removeClass( 'updating-message' )
 				.addClass( 'button-disabled updated-message' );
 		}
+
+		$adminBarUpdates.removeClass( 'spin' );
 
 		$updateMessage
 			.attr(
@@ -553,7 +559,8 @@
 	 * @param {string}  response.errorMessage The error that occurred.
 	 */
 	wp.updates.updatePluginError = function( response ) {
-		var $card, $message, errorMessage;
+		var $card, $message, errorMessage,
+			$adminBarUpdates = $( '#wp-admin-bar-updates' );
 
 		if ( ! wp.updates.isValidResponse( response, 'update' ) ) {
 			return;
@@ -630,6 +637,8 @@
 				}, 200 );
 			} );
 		}
+
+		$adminBarUpdates.removeClass( 'spin' );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
 

@@ -589,6 +589,11 @@ html:lang(he-il) .rtl #wpadminbar * {
 	top: 2px;
 }
 
+#wpadminbar #wp-admin-bar-updates.spin .ab-icon:before {
+	display: inline-block;
+	animation: rotation 2s infinite linear;
+}
+
 /**
  * Search
  */
