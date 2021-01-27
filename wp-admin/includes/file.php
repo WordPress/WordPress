@@ -2246,12 +2246,10 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	<label for="password">
 		<span class="field-title"><?php echo $label_pass; ?></span>
 		<input name="password" type="password" id="password" value="<?php echo $password_value; ?>"<?php disabled( defined( 'FTP_PASS' ) ); ?> />
-		<em>
 		<?php
 		if ( ! defined( 'FTP_PASS' ) ) {
 			_e( 'This password will not be stored on the server.' );}
 		?>
-</em>
 	</label>
 </div>
 <fieldset>

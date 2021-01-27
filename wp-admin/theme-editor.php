@@ -315,7 +315,7 @@ else :
 					<span class="spinner"></span>
 				</p>
 			<?php else : ?>
-				<p><em>
+				<p>
 					<?php
 					printf(
 						/* translators: %s: Documentation URL. */
@@ -323,7 +323,7 @@ else :
 						__( 'https://wordpress.org/support/article/changing-file-permissions/' )
 					);
 					?>
-				</em></p>
+				</p>
 			<?php endif; ?>
 		</div>
 
