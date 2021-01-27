@@ -1540,6 +1540,17 @@ div.error {
 	animation: rotation 2s infinite linear;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	.updating-message p:before,
+	.import-php .updating-message:before,
+	.button.updating-message:before,
+	.button.installing:before,
+	.plugins .column-auto-updates .dashicons-update.spin,
+	.theme-overlay .theme-autoupdate .dashicons-update.spin {
+		animation: none;
+	}
+}
+
 .theme-overlay .theme-autoupdate .dashicons-update.spin {
 	margin-left: 3px;
 }

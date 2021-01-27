@@ -594,6 +594,12 @@ html:lang(he-il) .rtl #wpadminbar * {
 	animation: rotation 2s infinite linear;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	#wpadminbar #wp-admin-bar-updates.spin .ab-icon:before {
+		animation: none;
+	}
+}
+
 /**
  * Search
  */
