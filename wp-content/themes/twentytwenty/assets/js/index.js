@@ -676,6 +676,9 @@ twentytwentyDomReady( function() {
 /* Toggle an attribute ----------------------- */
 
 function twentytwentyToggleAttribute( element, attribute, trueVal, falseVal ) {
+	if ( element.classList.contains( 'close-search-toggle' ) ) {
+		return;
+	}
 	if ( trueVal === undefined ) {
 		trueVal = true;
 	}
