@@ -27745,7 +27745,9 @@ function BlockPatternsCategory(_ref2) {
   var populatedCategories = Object(external_this_wp_element_["useMemo"])(function () {
     return allCategories.filter(function (category) {
       return allPatterns.some(function (pattern) {
-        return pattern.categories.includes(category.name);
+        var _pattern$categories;
+
+        return (_pattern$categories = pattern.categories) === null || _pattern$categories === void 0 ? void 0 : _pattern$categories.includes(category.name);
       });
     });
   }, [allPatterns, allCategories]);

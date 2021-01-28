@@ -2477,7 +2477,9 @@ function getQueryParts(query) {
         // fields from the response even if we explicitely asked for it.
         // Example: Asking for titles in posts without title support.
         if (key === '_fields') {
-          parts.fields = get_normalized_comma_separable(value);
+          parts.fields = get_normalized_comma_separable(value); // Make sure to normalize value for `stableKey`
+
+          value = parts.fields.join();
         } // While it could be any deterministic string, for simplicity's
         // sake mimic querystring encoding for stable key.
         //

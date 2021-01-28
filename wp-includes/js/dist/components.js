@@ -26155,6 +26155,7 @@ function useControlledState(currentState) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -26305,6 +26306,7 @@ function UnitControl(_ref, ref) {
   };
 
   var inputSuffix = !disableUnits ? Object(external_this_wp_element_["createElement"])(UnitSelectControl, {
+    "aria-label": Object(external_this_wp_i18n_["__"])('Select unit'),
     disabled: disabled,
     isTabbable: isUnitSelectTabbable,
     options: units,
@@ -26482,11 +26484,10 @@ function BoxUnitControl(_ref) {
       onHoverOff(event, state);
     }
   });
-  return Object(external_this_wp_element_["createElement"])(UnitControlWrapper, Object(esm_extends["a" /* default */])({
-    "aria-label": label
-  }, bindHoverGesture()), Object(external_this_wp_element_["createElement"])(Tooltip, {
+  return Object(external_this_wp_element_["createElement"])(UnitControlWrapper, bindHoverGesture(), Object(external_this_wp_element_["createElement"])(Tooltip, {
     text: label
   }, Object(external_this_wp_element_["createElement"])(box_control_styles_UnitControl, Object(esm_extends["a" /* default */])({
+    "aria-label": label,
     className: "component-box-control__unit-control",
     hideHTMLArrows: true,
     isFirst: isFirst,
@@ -26999,16 +27000,17 @@ function LinkedButton(_ref) {
   var isLinked = _ref.isLinked,
       props = Object(objectWithoutProperties["a" /* default */])(_ref, ["isLinked"]);
 
-  var linkedTooltipText = isLinked ? Object(external_this_wp_i18n_["__"])('Unlink Sides') : Object(external_this_wp_i18n_["__"])('Link Sides');
+  var label = isLinked ? Object(external_this_wp_i18n_["__"])('Unlink Sides') : Object(external_this_wp_i18n_["__"])('Link Sides');
   return Object(external_this_wp_element_["createElement"])(build_module_tooltip["a" /* default */], {
-    text: linkedTooltipText
+    text: label
   }, Object(external_this_wp_element_["createElement"])("span", null, Object(external_this_wp_element_["createElement"])(build_module_button["a" /* default */], Object(esm_extends["a" /* default */])({}, props, {
     className: "component-box-control__linked-button",
     isPrimary: isLinked,
     isSecondary: !isLinked,
     isSmall: true,
     icon: isLinked ? library_link["a" /* default */] : link_off["a" /* default */],
-    iconSize: 16
+    iconSize: 16,
+    "aria-label": label
   }))));
 }
 
@@ -27238,6 +27240,7 @@ function useSideAnimation(value) {
 
 
 
+
 function box_control_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function box_control_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { box_control_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { box_control_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -27380,7 +27383,9 @@ function BoxControl(_ref) {
     className: "component-box-control__header-control-wrapper"
   }, Object(external_this_wp_element_["createElement"])(flex_item, null, Object(external_this_wp_element_["createElement"])(BoxControlIcon, {
     side: side
-  })), isLinked && Object(external_this_wp_element_["createElement"])(block, null, Object(external_this_wp_element_["createElement"])(AllInputControl, inputControlProps)), Object(external_this_wp_element_["createElement"])(flex_item, null, Object(external_this_wp_element_["createElement"])(LinkedButton, {
+  })), isLinked && Object(external_this_wp_element_["createElement"])(block, null, Object(external_this_wp_element_["createElement"])(AllInputControl, Object(esm_extends["a" /* default */])({
+    "aria-label": label
+  }, inputControlProps))), Object(external_this_wp_element_["createElement"])(flex_item, null, Object(external_this_wp_element_["createElement"])(LinkedButton, {
     onClick: toggleLinked,
     isLinked: isLinked
   }))), !isLinked && Object(external_this_wp_element_["createElement"])(BoxInputControls, inputControlProps));
@@ -39102,6 +39107,7 @@ var range_control_ForwardedComponent = Object(external_this_wp_element_["forward
 
 var DEFAULT_FONT_SIZE = 'default';
 var CUSTOM_FONT_SIZE = 'custom';
+var MAX_FONT_SIZE_DISPLAY = '25px';
 
 function getSelectValueFromFontSize(fontSizes, value) {
   if (value) {
@@ -39130,8 +39136,9 @@ function getSelectOptions(optionsArray, disableCustomFontSizes) {
     return {
       key: option.slug,
       name: option.name,
+      size: option.size,
       style: {
-        fontSize: option.size
+        fontSize: "min( ".concat(option.size, ", ").concat(MAX_FONT_SIZE_DISPLAY, " )")
       }
     };
   });
