@@ -6114,7 +6114,7 @@ function wp_delete_attachment_files( $post_id, $meta, $backup_sizes, $file ) {
  *
  * @since 2.1.0
  *
- * @param int  $attachment_id Attachment post ID. Default 0.
+ * @param int  $attachment_id Attachment post ID. Defaults to global $post.
  * @param bool $unfiltered    Optional. If true, filters are not run. Default false.
  * @return array|false {
  *     Attachment metadata. False on failure.
