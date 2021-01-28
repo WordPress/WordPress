@@ -34,5 +34,7 @@
 		"align": true,
 		"reusable": false,
 		"html": false
-	}
+	},
+	"editorStyle": "wp-block-embed-editor",
+	"style": "wp-block-embed"
 }
