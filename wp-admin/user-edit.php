@@ -739,7 +739,7 @@ endif;
 				}
 			}
 
-			if ( empty( $_SERVER['PHP_AUTH_USER'] ) && empty( $_SERVER['PHP_AUTH_PW'] ) ) {
+			if ( ! wp_is_site_protected_by_basic_auth( 'front' ) ) {
 				?>
 			<div class="create-application-password form-wrap">
 				<div class="form-field">

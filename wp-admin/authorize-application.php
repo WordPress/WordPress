@@ -88,7 +88,7 @@ if ( is_wp_error( $is_valid ) ) {
 	);
 }
 
-if ( ! empty( $_SERVER['PHP_AUTH_USER'] ) || ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
+if ( wp_is_site_protected_by_basic_auth( 'front' ) ) {
 	wp_die(
 		__( 'Your website appears to use Basic Authentication, which is not currently compatible with Application Passwords.' ),
 		__( 'Cannot Authorize Application' ),
