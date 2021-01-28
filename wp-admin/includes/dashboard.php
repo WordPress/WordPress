@@ -1749,13 +1749,13 @@ function wp_dashboard_php_nag() {
 	if ( isset( $response['is_secure'] ) && ! $response['is_secure'] ) {
 		$msg = sprintf(
 			/* translators: %s: The server PHP version. */
-			__( 'Your site is running an insecure version of PHP (%s), and should be updated.' ),
+			__( 'Your site is running an insecure version of PHP (%s), which should be updated.' ),
 			PHP_VERSION
 		);
 	} else {
 		$msg = sprintf(
 			/* translators: %s: The server PHP version. */
-			__( 'Your site is running an outdated version of PHP (%s), and should be updated.' ),
+			__( 'Your site is running an outdated version of PHP (%s), which should be updated.' ),
 			PHP_VERSION
 		);
 	}
