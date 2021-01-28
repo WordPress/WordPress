@@ -328,7 +328,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 		if ( false === $file ) {
 			wp_send_json_error( __( 'Unable to protect personal data export folder from browsing.' ) );
 		}
-		fwrite( $file, '<?php // Silence is golden.' );
+		fwrite( $file, "<?php\n// Silence is golden.\n" );
 		fclose( $file );
 	}
 
