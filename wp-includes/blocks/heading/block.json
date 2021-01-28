@@ -30,13 +30,51 @@
 		"fontSize": true,
 		"lineHeight": true,
 		"__experimentalSelector": {
-			"core/heading/h1": "h1",
-			"core/heading/h2": "h2",
-			"core/heading/h3": "h3",
-			"core/heading/h4": "h4",
-			"core/heading/h5": "h5",
-			"core/heading/h6": "h6"
+			"core/heading/h1": {
+				"selector": "h1",
+				"title": "h1",
+				"attributes": {
+					"level": 1
+				}
+			},
+			"core/heading/h2": {
+				"selector": "h2",
+				"title": "h2",
+				"attributes": {
+					"level": 2
+				}
+			},
+			"core/heading/h3": {
+				"selector": "h3",
+				"title": "h3",
+				"attributes": {
+					"level": 3
+				}
+			},
+			"core/heading/h4": {
+				"selector": "h4",
+				"title": "h4",
+				"attributes": {
+					"level": 4
+				}
+			},
+			"core/heading/h5": {
+				"selector": "h5",
+				"title": "h5",
+				"attributes": {
+					"level": 5
+				}
+			},
+			"core/heading/h6": {
+				"selector": "h6",
+				"title": "h6",
+				"attributes": {
+					"level": 6
+				}
+			}
 		},
 		"__unstablePasteTextInline": true
-	}
+	},
+	"editorStyle": "wp-block-heading-editor",
+	"style": "wp-block-heading"
 }

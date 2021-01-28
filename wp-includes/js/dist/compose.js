@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 468);
+/******/ 	return __webpack_require__(__webpack_require__.s = 447);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -90,11 +90,11 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 /***/ 0:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["element"]; }());
+(function() { module.exports = window["wp"]["element"]; }());
 
 /***/ }),
 
-/***/ 12:
+/***/ 11:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -133,7 +133,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(31);
+var unsupportedIterableToArray = __webpack_require__(32);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
 var nonIterableRest = __webpack_require__(39);
@@ -149,29 +149,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 13:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["React"]; }());
-
-/***/ }),
-
-/***/ 151:
-/***/ (function(module, exports, __webpack_require__) {
-
-var e=__webpack_require__(13),n={display:"block",opacity:0,position:"absolute",top:0,left:0,height:"100%",width:"100%",overflow:"hidden",pointerEvents:"none",zIndex:-1},t=function(t){var r=t.onResize,u=e.useRef();return function(n,t){var r=function(){return n.current&&n.current.contentDocument&&n.current.contentDocument.defaultView};function u(){t();var e=r();e&&e.addEventListener("resize",t)}e.useEffect((function(){return r()?u():n.current&&n.current.addEventListener&&n.current.addEventListener("load",u),function(){var e=r();e&&"function"==typeof e.removeEventListener&&e.removeEventListener("resize",t)}}),[])}(u,(function(){return r(u)})),e.createElement("iframe",{style:n,src:"about:blank",ref:u,"aria-hidden":!0,tabIndex:-1,frameBorder:0})},r=function(e){return{width:null!=e?e.offsetWidth:null,height:null!=e?e.offsetHeight:null}};module.exports=function(n){void 0===n&&(n=r);var u=e.useState(n(null)),o=u[0],i=u[1],c=e.useCallback((function(e){return i(n(e.current))}),[n]);return[e.useMemo((function(){return e.createElement(t,{onResize:c})}),[c]),o]};
-
-
-/***/ }),
-
-/***/ 152:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["priorityQueue"]; }());
-
-/***/ }),
-
-/***/ 153:
+/***/ 122:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -179,7 +157,7 @@ var e=__webpack_require__(13),n={display:"block",opacity:0,position:"absolute",t
 /* unused harmony export useCallbackOne */
 /* unused harmony export useMemo */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useMemoOne; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
@@ -204,13 +182,15 @@ function useMemoOne(getResult, inputs) {
       result: getResult()
     };
   })[0];
+  var isFirstRun = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(true);
   var committed = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(initial);
-  var isInputMatch = Boolean(inputs && committed.current.inputs && areInputsEqual(inputs, committed.current.inputs));
-  var cache = isInputMatch ? committed.current : {
+  var useCache = isFirstRun.current || Boolean(inputs && committed.current.inputs && areInputsEqual(inputs, committed.current.inputs));
+  var cache = useCache ? committed.current : {
     inputs: inputs,
     result: getResult()
   };
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    isFirstRun.current = false;
     committed.current = cache;
   }, [cache]);
   return cache.result;
@@ -228,22 +208,29 @@ var useCallback = useCallbackOne;
 
 /***/ }),
 
-/***/ 16:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 14:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
+(function() { module.exports = window["React"]; }());
 
 /***/ }),
 
-/***/ 17:
+/***/ 145:
+/***/ (function(module, exports, __webpack_require__) {
+
+var e=__webpack_require__(14),n={display:"block",opacity:0,position:"absolute",top:0,left:0,height:"100%",width:"100%",overflow:"hidden",pointerEvents:"none",zIndex:-1},t=function(t){var r=t.onResize,u=e.useRef();return function(n,t){var r=function(){return n.current&&n.current.contentDocument&&n.current.contentDocument.defaultView};function u(){t();var e=r();e&&e.addEventListener("resize",t)}e.useEffect((function(){return r()?u():n.current&&n.current.addEventListener&&n.current.addEventListener("load",u),function(){var e=r();e&&"function"==typeof e.removeEventListener&&e.removeEventListener("resize",t)}}),[])}(u,(function(){return r(u)})),e.createElement("iframe",{style:n,src:"about:blank",ref:u,"aria-hidden":!0,tabIndex:-1,frameBorder:0})},r=function(e){return{width:null!=e?e.offsetWidth:null,height:null!=e?e.offsetHeight:null}};module.exports=function(n){void 0===n&&(n=r);var u=e.useState(n(null)),o=u[0],i=u[1],c=e.useCallback((function(e){return i(n(e.current))}),[n]);return[e.useMemo((function(){return e.createElement(t,{onResize:c})}),[c]),o]};
+
+
+/***/ }),
+
+/***/ 146:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["priorityQueue"]; }());
+
+/***/ }),
+
+/***/ 15:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -252,7 +239,7 @@ function _assertThisInitialized(self) {
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(27);
+var arrayLikeToArray = __webpack_require__(24);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -263,7 +250,7 @@ function _arrayWithoutHoles(arr) {
 var iterableToArray = __webpack_require__(37);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(31);
+var unsupportedIterableToArray = __webpack_require__(32);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -276,6 +263,28 @@ function _nonIterableSpread() {
 
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+}
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 18:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
 }
 
 /***/ }),
@@ -297,11 +306,28 @@ function _getPrototypeOf(o) {
 /***/ 2:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["lodash"]; }());
+(function() { module.exports = window["lodash"]; }());
 
 /***/ }),
 
-/***/ 21:
+/***/ 24:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+/***/ }),
+
+/***/ 25:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -314,7 +340,7 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 22:
+/***/ 26:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -337,79 +363,14 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 23:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-/***/ }),
-
-/***/ 24:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
-/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
-
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
-}
-
-/***/ }),
-
 /***/ 27:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
+(function() { module.exports = window["wp"]["dom"]; }());
 
 /***/ }),
 
-/***/ 288:
+/***/ 276:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -1383,7 +1344,7 @@ function getAttributeValue(suffix, element) {
 
 /***/ }),
 
-/***/ 289:
+/***/ 277:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -2449,21 +2410,83 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
 
 /***/ }),
 
-/***/ 31:
+/***/ 28:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+/***/ }),
+
+/***/ 29:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
+/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(42);
+/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+}
+
+/***/ }),
+
+/***/ 32:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
+/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
   if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
 }
+
+/***/ }),
+
+/***/ 35:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["deprecated"]; }());
 
 /***/ }),
 
@@ -2500,7 +2523,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 40:
+/***/ 42:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2523,7 +2546,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 434:
+/***/ 423:
 /***/ (function(module, exports) {
 
 /**
@@ -2576,7 +2599,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 468:
+/***/ 447:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2588,13 +2611,19 @@ __webpack_require__.d(__webpack_exports__, "createHigherOrderComponent", functio
 __webpack_require__.d(__webpack_exports__, "compose", function() { return /* reexport */ compose; });
 __webpack_require__.d(__webpack_exports__, "ifCondition", function() { return /* reexport */ if_condition; });
 __webpack_require__.d(__webpack_exports__, "pure", function() { return /* reexport */ higher_order_pure; });
-__webpack_require__.d(__webpack_exports__, "withGlobalEvents", function() { return /* reexport */ with_global_events; });
+__webpack_require__.d(__webpack_exports__, "withGlobalEvents", function() { return /* reexport */ withGlobalEvents; });
 __webpack_require__.d(__webpack_exports__, "withInstanceId", function() { return /* reexport */ with_instance_id; });
 __webpack_require__.d(__webpack_exports__, "withSafeTimeout", function() { return /* reexport */ with_safe_timeout; });
 __webpack_require__.d(__webpack_exports__, "withState", function() { return /* reexport */ withState; });
+__webpack_require__.d(__webpack_exports__, "useConstrainedTabbing", function() { return /* reexport */ use_constrained_tabbing; });
 __webpack_require__.d(__webpack_exports__, "useCopyOnClick", function() { return /* reexport */ useCopyOnClick; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseDialog", function() { return /* reexport */ use_dialog; });
 __webpack_require__.d(__webpack_exports__, "__experimentalUseDragging", function() { return /* reexport */ useDragging; });
+__webpack_require__.d(__webpack_exports__, "useFocusOnMount", function() { return /* reexport */ useFocusOnMount; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseFocusOutside", function() { return /* reexport */ useFocusOutside; });
+__webpack_require__.d(__webpack_exports__, "useFocusReturn", function() { return /* reexport */ use_focus_return; });
 __webpack_require__.d(__webpack_exports__, "useInstanceId", function() { return /* reexport */ useInstanceId; });
+__webpack_require__.d(__webpack_exports__, "useIsomorphicLayoutEffect", function() { return /* reexport */ use_isomorphic_layout_effect; });
 __webpack_require__.d(__webpack_exports__, "useKeyboardShortcut", function() { return /* reexport */ use_keyboard_shortcut; });
 __webpack_require__.d(__webpack_exports__, "useMediaQuery", function() { return /* reexport */ useMediaQuery; });
 __webpack_require__.d(__webpack_exports__, "usePrevious", function() { return /* reexport */ usePrevious; });
@@ -2604,9 +2633,10 @@ __webpack_require__.d(__webpack_exports__, "useResizeObserver", function() { ret
 __webpack_require__.d(__webpack_exports__, "useAsyncList", function() { return /* reexport */ use_async_list; });
 __webpack_require__.d(__webpack_exports__, "useWarnOnChange", function() { return /* reexport */ use_warn_on_change; });
 __webpack_require__.d(__webpack_exports__, "useDebounce", function() { return /* reexport */ useDebounce; });
+__webpack_require__.d(__webpack_exports__, "useThrottle", function() { return /* reexport */ useThrottle; });
 
-// EXTERNAL MODULE: external {"this":"lodash"}
-var external_this_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/utils/create-higher-order-component/index.js
 /**
@@ -2630,7 +2660,7 @@ function createHigherOrderComponent(mapComponentToEnhancedComponent, modifierNam
     var EnhancedComponent = mapComponentToEnhancedComponent(OriginalComponent);
     var _OriginalComponent$di = OriginalComponent.displayName,
         displayName = _OriginalComponent$di === void 0 ? OriginalComponent.name || 'Component' : _OriginalComponent$di;
-    EnhancedComponent.displayName = "".concat(Object(external_this_lodash_["upperFirst"])(Object(external_this_lodash_["camelCase"])(modifierName)), "(").concat(displayName, ")");
+    EnhancedComponent.displayName = "".concat(Object(external_lodash_["upperFirst"])(Object(external_lodash_["camelCase"])(modifierName)), "(").concat(displayName, ")");
     return EnhancedComponent;
   };
 }
@@ -2651,10 +2681,10 @@ function createHigherOrderComponent(mapComponentToEnhancedComponent, modifierNam
  * @return {Function} Returns the new composite function.
  */
 
-/* harmony default export */ var compose = (external_this_lodash_["flowRight"]);
+/* harmony default export */ var compose = (external_lodash_["flowRight"]);
 
-// EXTERNAL MODULE: external {"this":["wp","element"]}
-var external_this_wp_element_ = __webpack_require__(0);
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/higher-order/if-condition/index.js
 
@@ -2679,7 +2709,7 @@ var if_condition_ifCondition = function ifCondition(predicate) {
         return null;
       }
 
-      return Object(external_this_wp_element_["createElement"])(WrappedComponent, props);
+      return Object(external_wp_element_["createElement"])(WrappedComponent, props);
     };
   }, 'ifCondition');
 };
@@ -2687,23 +2717,23 @@ var if_condition_ifCondition = function ifCondition(predicate) {
 /* harmony default export */ var if_condition = (if_condition_ifCondition);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
-var classCallCheck = __webpack_require__(21);
+var classCallCheck = __webpack_require__(25);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__(22);
+var createClass = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(23);
+var inherits = __webpack_require__(28);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(24);
+var possibleConstructorReturn = __webpack_require__(29);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(19);
 
-// EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
-var external_this_wp_isShallowEqual_ = __webpack_require__(64);
-var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
+// EXTERNAL MODULE: external ["wp","isShallowEqual"]
+var external_wp_isShallowEqual_ = __webpack_require__(59);
+var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/higher-order/pure/index.js
 
@@ -2740,7 +2770,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
  */
 
 var pure = create_higher_order_component(function (Wrapped) {
-  if (Wrapped.prototype instanceof external_this_wp_element_["Component"]) {
+  if (Wrapped.prototype instanceof external_wp_element_["Component"]) {
     return /*#__PURE__*/function (_Wrapped) {
       Object(inherits["a" /* default */])(_class, _Wrapped);
 
@@ -2755,7 +2785,7 @@ var pure = create_higher_order_component(function (Wrapped) {
       Object(createClass["a" /* default */])(_class, [{
         key: "shouldComponentUpdate",
         value: function shouldComponentUpdate(nextProps, nextState) {
-          return !external_this_wp_isShallowEqual_default()(nextProps, this.props) || !external_this_wp_isShallowEqual_default()(nextState, this.state);
+          return !external_wp_isShallowEqual_default()(nextProps, this.props) || !external_wp_isShallowEqual_default()(nextState, this.state);
         }
       }]);
 
@@ -2777,17 +2807,17 @@ var pure = create_higher_order_component(function (Wrapped) {
     Object(createClass["a" /* default */])(_class2, [{
       key: "shouldComponentUpdate",
       value: function shouldComponentUpdate(nextProps) {
-        return !external_this_wp_isShallowEqual_default()(nextProps, this.props);
+        return !external_wp_isShallowEqual_default()(nextProps, this.props);
       }
     }, {
       key: "render",
       value: function render() {
-        return Object(external_this_wp_element_["createElement"])(Wrapped, this.props);
+        return Object(external_wp_element_["createElement"])(Wrapped, this.props);
       }
     }]);
 
     return _class2;
-  }(external_this_wp_element_["Component"]);
+  }(external_wp_element_["Component"]);
 }, 'pure');
 /* harmony default export */ var higher_order_pure = (pure);
 
@@ -2795,7 +2825,11 @@ var pure = create_higher_order_component(function (Wrapped) {
 var esm_extends = __webpack_require__(8);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
-var assertThisInitialized = __webpack_require__(16);
+var assertThisInitialized = __webpack_require__(18);
+
+// EXTERNAL MODULE: external ["wp","deprecated"]
+var external_wp_deprecated_ = __webpack_require__(35);
+var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/higher-order/with-global-events/listener.js
 
@@ -2833,7 +2867,7 @@ var listener_Listener = /*#__PURE__*/function () {
   }, {
     key: "remove",
     value: function remove(eventType, instance) {
-      this.listeners[eventType] = Object(external_this_lodash_["without"])(this.listeners[eventType], instance);
+      this.listeners[eventType] = Object(external_lodash_["without"])(this.listeners[eventType], instance);
 
       if (!this.listeners[eventType].length) {
         // Removing last listener for this type, so unbind event.
@@ -2844,7 +2878,7 @@ var listener_Listener = /*#__PURE__*/function () {
   }, {
     key: "handleEvent",
     value: function handleEvent(event) {
-      Object(external_this_lodash_["forEach"])(this.listeners[event.type], function (instance) {
+      Object(external_lodash_["forEach"])(this.listeners[event.type], function (instance) {
         instance.handleEvent(event);
       });
     }
@@ -2878,6 +2912,7 @@ function with_global_events_isNativeReflectConstruct() { if (typeof Reflect === 
  */
 
 
+
 /**
  * Internal dependencies
  */
@@ -2899,6 +2934,8 @@ var with_global_events_listener = new listener();
  * manages unbinding when the component unmounts, and binding at most a single
  * event handler for the entire application.
  *
+ * @deprecated
+ *
  * @param {Object<string,string>} eventTypesToHandlers Object with keys of DOM
  *                                                     event type, the value a
  *                                                     name of the function on
@@ -2910,6 +2947,9 @@ var with_global_events_listener = new listener();
  */
 
 function withGlobalEvents(eventTypesToHandlers) {
+  external_wp_deprecated_default()('wp.compose.withGlobalEvents', {
+    alternative: 'useEffect'
+  });
   return create_higher_order_component(function (WrappedComponent) {
     var Wrapper = /*#__PURE__*/function (_Component) {
       Object(inherits["a" /* default */])(Wrapper, _Component);
@@ -2932,7 +2972,7 @@ function withGlobalEvents(eventTypesToHandlers) {
         value: function componentDidMount() {
           var _this2 = this;
 
-          Object(external_this_lodash_["forEach"])(eventTypesToHandlers, function (handler, eventType) {
+          Object(external_lodash_["forEach"])(eventTypesToHandlers, function (handler, eventType) {
             with_global_events_listener.add(eventType, _this2);
           });
         }
@@ -2941,7 +2981,7 @@ function withGlobalEvents(eventTypesToHandlers) {
         value: function componentWillUnmount() {
           var _this3 = this;
 
-          Object(external_this_lodash_["forEach"])(eventTypesToHandlers, function (handler, eventType) {
+          Object(external_lodash_["forEach"])(eventTypesToHandlers, function (handler, eventType) {
             with_global_events_listener.remove(eventType, _this3);
           });
         }
@@ -2968,25 +3008,23 @@ function withGlobalEvents(eventTypesToHandlers) {
       }, {
         key: "render",
         value: function render() {
-          return Object(external_this_wp_element_["createElement"])(WrappedComponent, Object(esm_extends["a" /* default */])({}, this.props.ownProps, {
+          return Object(external_wp_element_["createElement"])(WrappedComponent, Object(esm_extends["a" /* default */])({}, this.props.ownProps, {
             ref: this.handleRef
           }));
         }
       }]);
 
       return Wrapper;
-    }(external_this_wp_element_["Component"]);
+    }(external_wp_element_["Component"]);
 
-    return Object(external_this_wp_element_["forwardRef"])(function (props, ref) {
-      return Object(external_this_wp_element_["createElement"])(Wrapper, {
+    return Object(external_wp_element_["forwardRef"])(function (props, ref) {
+      return Object(external_wp_element_["createElement"])(Wrapper, {
         ownProps: props,
         forwardedRef: ref
       });
     });
   }, 'withGlobalEvents');
 }
-
-/* harmony default export */ var with_global_events = (withGlobalEvents);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-instance-id/index.js
 /**
@@ -3014,7 +3052,7 @@ function createId(object) {
 
 
 function useInstanceId(object, prefix) {
-  return Object(external_this_wp_element_["useMemo"])(function () {
+  return Object(external_wp_element_["useMemo"])(function () {
     var id = createId(object);
     return prefix ? "".concat(prefix, "-").concat(id) : id;
   }, [object]);
@@ -3041,7 +3079,7 @@ function useInstanceId(object, prefix) {
 /* harmony default export */ var with_instance_id = (create_higher_order_component(function (WrappedComponent) {
   return function (props) {
     var instanceId = useInstanceId(WrappedComponent);
-    return Object(external_this_wp_element_["createElement"])(WrappedComponent, Object(esm_extends["a" /* default */])({}, props, {
+    return Object(external_wp_element_["createElement"])(WrappedComponent, Object(esm_extends["a" /* default */])({}, props, {
       instanceId: instanceId
     }));
   };
@@ -3144,12 +3182,12 @@ var withSafeTimeout = create_higher_order_component(function (OriginalComponent)
         return clearTimeout;
       }(function (id) {
         clearTimeout(id);
-        this.timeouts = Object(external_this_lodash_["without"])(this.timeouts, id);
+        this.timeouts = Object(external_lodash_["without"])(this.timeouts, id);
       })
     }, {
       key: "render",
       value: function render() {
-        return Object(external_this_wp_element_["createElement"])(OriginalComponent, Object(esm_extends["a" /* default */])({}, this.props, {
+        return Object(external_wp_element_["createElement"])(OriginalComponent, Object(esm_extends["a" /* default */])({}, this.props, {
           setTimeout: this.setTimeout,
           clearTimeout: this.clearTimeout
         }));
@@ -3157,7 +3195,7 @@ var withSafeTimeout = create_higher_order_component(function (OriginalComponent)
     }]);
 
     return WrappedComponent;
-  }(external_this_wp_element_["Component"]);
+  }(external_wp_element_["Component"]);
 }, 'withSafeTimeout');
 /* harmony default export */ var with_safe_timeout = (withSafeTimeout);
 
@@ -3215,22 +3253,125 @@ function withState() {
       Object(createClass["a" /* default */])(WrappedComponent, [{
         key: "render",
         value: function render() {
-          return Object(external_this_wp_element_["createElement"])(OriginalComponent, Object(esm_extends["a" /* default */])({}, this.props, this.state, {
+          return Object(external_wp_element_["createElement"])(OriginalComponent, Object(esm_extends["a" /* default */])({}, this.props, this.state, {
             setState: this.setState
           }));
         }
       }]);
 
       return WrappedComponent;
-    }(external_this_wp_element_["Component"]);
+    }(external_wp_element_["Component"]);
   }, 'withState');
 }
 
+// EXTERNAL MODULE: external ["wp","keycodes"]
+var external_wp_keycodes_ = __webpack_require__(16);
+
+// EXTERNAL MODULE: external ["wp","dom"]
+var external_wp_dom_ = __webpack_require__(27);
+
+// EXTERNAL MODULE: ./node_modules/memize/index.js
+var memize = __webpack_require__(62);
+var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-callback-ref/index.js
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+function useCallbackRef(callback, deps) {
+  return Object(external_wp_element_["useCallback"])(memize_default()(callback, {
+    maxSize: 1
+  }), deps);
+}
+
+/* harmony default export */ var use_callback_ref = (useCallbackRef);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-constrained-tabbing/index.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * In Dialogs/modals, the tabbing must be constrained to the content of
+ * the wrapper element. This hook adds the behavior to the returned ref.
+ *
+ * @return {Object|Function} Element Ref.
+ *
+ * @example
+ * ```js
+ * import { useConstrainedTabbing } from '@wordpress/compose';
+ *
+ * const ConstrainedTabbingExample = () => {
+ *     const constrainedTabbingRef = useConstrainedTabbing()
+ *     return (
+ *         <div ref={ constrainedTabbingRef }>
+ *             <Button />
+ *             <Button />
+ *         </div>
+ *     );
+ * }
+ * ```
+ */
+
+function useConstrainedTabbing() {
+  var ref = use_callback_ref(function (node) {
+    if (!node) {
+      return;
+    }
+
+    node.addEventListener('keydown', function (event) {
+      if (event.keyCode !== external_wp_keycodes_["TAB"]) {
+        return;
+      }
+
+      var tabbables = external_wp_dom_["focus"].tabbable.find(node);
+
+      if (!tabbables.length) {
+        return;
+      }
+
+      var firstTabbable = tabbables[0];
+      var lastTabbable = tabbables[tabbables.length - 1];
+
+      if (event.shiftKey && event.target === firstTabbable) {
+        event.preventDefault();
+        lastTabbable.focus();
+      } else if (!event.shiftKey && event.target === lastTabbable) {
+        event.preventDefault();
+        firstTabbable.focus();
+        /*
+         * When pressing Tab and none of the tabbables has focus, the keydown
+         * event happens on the wrapper div: move focus on the first tabbable.
+         */
+      } else if (!tabbables.includes(event.target)) {
+        event.preventDefault();
+        firstTabbable.focus();
+      }
+    });
+  }, []);
+  return ref;
+}
+
+/* harmony default export */ var use_constrained_tabbing = (useConstrainedTabbing);
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(12);
+var slicedToArray = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/clipboard/dist/clipboard.js
-var dist_clipboard = __webpack_require__(288);
+var dist_clipboard = __webpack_require__(276);
 var clipboard_default = /*#__PURE__*/__webpack_require__.n(dist_clipboard);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-copy-on-click/index.js
@@ -3259,14 +3400,14 @@ var clipboard_default = /*#__PURE__*/__webpack_require__.n(dist_clipboard);
 
 function useCopyOnClick(ref, _text) {
   var timeout = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 4000;
-  var clipboard = Object(external_this_wp_element_["useRef"])();
+  var clipboard = Object(external_wp_element_["useRef"])();
 
-  var _useState = Object(external_this_wp_element_["useState"])(false),
+  var _useState = Object(external_wp_element_["useState"])(false),
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
       hasCopied = _useState2[0],
       setHasCopied = _useState2[1];
 
-  Object(external_this_wp_element_["useEffect"])(function () {
+  Object(external_wp_element_["useEffect"])(function () {
     var timeoutId; // Clipboard listens to click events.
 
     clipboard.current = new clipboard_default.a(ref.current, {
@@ -3302,6 +3443,421 @@ function useCopyOnClick(ref, _text) {
   return hasCopied;
 }
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+var defineProperty = __webpack_require__(5);
+
+// EXTERNAL MODULE: ./node_modules/react-merge-refs/dist/react-merge-refs.esm.js
+var react_merge_refs_esm = __webpack_require__(81);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-focus-on-mount/index.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Hook used to focus the first tabbable element on mount.
+ *
+ * @param {boolean|string} focusOnMount Focus on mount mode.
+ * @return {Function} Ref callback.
+ *
+ * @example
+ * ```js
+ * import { useFocusOnMount } from '@wordpress/compose';
+ *
+ * const WithFocusOnMount = () => {
+ *     const ref = useFocusOnMount()
+ *     return (
+ *         <div ref={ ref }>
+ *             <Button />
+ *             <Button />
+ *         </div>
+ *     );
+ * }
+ * ```
+ */
+
+function useFocusOnMount() {
+  var focusOnMount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'firstElement';
+  var focusOnMountRef = Object(external_wp_element_["useRef"])(focusOnMount);
+  Object(external_wp_element_["useEffect"])(function () {
+    focusOnMountRef.current = focusOnMount;
+  }, [focusOnMount]);
+  return use_callback_ref(function (node) {
+    if (!node || focusOnMountRef.current === false) {
+      return;
+    }
+
+    if (node.contains(node.ownerDocument.activeElement)) {
+      return;
+    }
+
+    var target = node;
+
+    if (focusOnMountRef.current === 'firstElement') {
+      var firstTabbable = external_wp_dom_["focus"].tabbable.find(node)[0];
+
+      if (firstTabbable) {
+        target = firstTabbable;
+      }
+    }
+
+    target.focus();
+  }, []);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-focus-return/index.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * When opening modals/sidebars/dialogs, the focus
+ * must move to the opened area and return to the
+ * previously focused element when closed.
+ * The current hook implements the returning behavior.
+ *
+ * @param {Function?} onFocusReturn Overrides the default return behavior.
+ * @return {Function} Element Ref.
+ *
+ * @example
+ * ```js
+ * import { useFocusReturn } from '@wordpress/compose';
+ *
+ * const WithFocusReturn = () => {
+ *     const ref = useFocusReturn()
+ *     return (
+ *         <div ref={ ref }>
+ *             <Button />
+ *             <Button />
+ *         </div>
+ *     );
+ * }
+ * ```
+ */
+
+function useFocusReturn(onFocusReturn) {
+  var ref = Object(external_wp_element_["useRef"])();
+  var focusedBeforeMount = Object(external_wp_element_["useRef"])();
+  var onFocusReturnRef = Object(external_wp_element_["useRef"])(onFocusReturn);
+  Object(external_wp_element_["useEffect"])(function () {
+    onFocusReturnRef.current = onFocusReturn;
+  }, [onFocusReturn]);
+  return use_callback_ref(function (node) {
+    if (node) {
+      // Set ref to be used when unmounting.
+      ref.current = node; // Only set when the node mounts.
+
+      if (focusedBeforeMount.current) {
+        return;
+      }
+
+      focusedBeforeMount.current = node.ownerDocument.activeElement;
+    } else if (focusedBeforeMount.current) {
+      var isFocused = ref.current.contains(ref.current.ownerDocument.activeElement);
+
+      if (!isFocused) {
+        return;
+      } // Defer to the component's own explicit focus return behavior, if
+      // specified. This allows for support that the `onFocusReturn`
+      // decides to allow the default behavior to occur under some
+      // conditions.
+
+
+      if (onFocusReturnRef.current) {
+        onFocusReturnRef.current();
+      } else {
+        focusedBeforeMount.current.focus();
+      }
+    }
+  }, []);
+}
+
+/* harmony default export */ var use_focus_return = (useFocusReturn);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-focus-outside/index.js
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Input types which are classified as button types, for use in considering
+ * whether element is a (focus-normalized) button.
+ *
+ * @type {string[]}
+ */
+
+var INPUT_BUTTON_TYPES = ['button', 'submit'];
+/**
+ * @typedef {HTMLButtonElement | HTMLLinkElement | HTMLInputElement} FocusNormalizedButton
+ */
+// Disable reason: Rule doesn't support predicate return types
+
+/* eslint-disable jsdoc/valid-types */
+
+/**
+ * Returns true if the given element is a button element subject to focus
+ * normalization, or false otherwise.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
+ *
+ * @param {EventTarget} eventTarget The target from a mouse or touch event.
+ *
+ * @return {eventTarget is FocusNormalizedButton} Whether element is a button.
+ */
+
+function isFocusNormalizedButton(eventTarget) {
+  if (!(eventTarget instanceof window.HTMLElement)) {
+    return false;
+  }
+
+  switch (eventTarget.nodeName) {
+    case 'A':
+    case 'BUTTON':
+      return true;
+
+    case 'INPUT':
+      return Object(external_lodash_["includes"])(INPUT_BUTTON_TYPES,
+      /** @type {HTMLInputElement} */
+      eventTarget.type);
+  }
+
+  return false;
+}
+/* eslint-enable jsdoc/valid-types */
+
+/**
+ * @typedef {import('react').SyntheticEvent} SyntheticEvent
+ */
+
+/**
+ * @callback EventCallback
+ * @param {SyntheticEvent} event input related event.
+ */
+
+/**
+ * @typedef FocusOutsideReactElement
+ * @property {EventCallback} handleFocusOutside callback for a focus outside event.
+ */
+
+/**
+ * @typedef {import('react').MutableRefObject<FocusOutsideReactElement | undefined>} FocusOutsideRef
+ */
+
+/**
+ * @typedef {Object} FocusOutsideReturnValue
+ * @property {EventCallback} onFocus      An event handler for focus events.
+ * @property {EventCallback} onBlur       An event handler for blur events.
+ * @property {EventCallback} onMouseDown  An event handler for mouse down events.
+ * @property {EventCallback} onMouseUp    An event handler for mouse up events.
+ * @property {EventCallback} onTouchStart An event handler for touch start events.
+ * @property {EventCallback} onTouchEnd   An event handler for touch end events.
+ */
+
+/**
+ * A react hook that can be used to check whether focus has moved outside the
+ * element the event handlers are bound to.
+ *
+ * @param {EventCallback} onFocusOutside        A callback triggered when focus moves outside
+ *                                              the element the event handlers are bound to.
+ *
+ * @return {FocusOutsideReturnValue} An object containing event handlers. Bind the event handlers
+ *                                   to a wrapping element element to capture when focus moves
+ *                                   outside that element.
+ */
+
+
+function useFocusOutside(onFocusOutside) {
+  var currentOnFocusOutside = Object(external_wp_element_["useRef"])(onFocusOutside);
+  Object(external_wp_element_["useEffect"])(function () {
+    currentOnFocusOutside.current = onFocusOutside;
+  }, [onFocusOutside]);
+  var preventBlurCheck = Object(external_wp_element_["useRef"])(false);
+  /**
+   * @type {import('react').MutableRefObject<number | undefined>}
+   */
+
+  var blurCheckTimeoutId = Object(external_wp_element_["useRef"])();
+  /**
+   * Cancel a blur check timeout.
+   */
+
+  var cancelBlurCheck = Object(external_wp_element_["useCallback"])(function () {
+    clearTimeout(blurCheckTimeoutId.current);
+  }, []); // Cancel blur checks on unmount.
+
+  Object(external_wp_element_["useEffect"])(function () {
+    return function () {
+      return cancelBlurCheck();
+    };
+  }, []); // Cancel a blur check if the callback or ref is no longer provided.
+
+  Object(external_wp_element_["useEffect"])(function () {
+    if (!onFocusOutside) {
+      cancelBlurCheck();
+    }
+  }, [onFocusOutside, cancelBlurCheck]);
+  /**
+   * Handles a mousedown or mouseup event to respectively assign and
+   * unassign a flag for preventing blur check on button elements. Some
+   * browsers, namely Firefox and Safari, do not emit a focus event on
+   * button elements when clicked, while others do. The logic here
+   * intends to normalize this as treating click on buttons as focus.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
+   *
+   * @param {SyntheticEvent} event Event for mousedown or mouseup.
+   */
+
+  var normalizeButtonFocus = Object(external_wp_element_["useCallback"])(function (event) {
+    var type = event.type,
+        target = event.target;
+    var isInteractionEnd = Object(external_lodash_["includes"])(['mouseup', 'touchend'], type);
+
+    if (isInteractionEnd) {
+      preventBlurCheck.current = false;
+    } else if (isFocusNormalizedButton(target)) {
+      preventBlurCheck.current = true;
+    }
+  }, []);
+  /**
+   * A callback triggered when a blur event occurs on the element the handler
+   * is bound to.
+   *
+   * Calls the `onFocusOutside` callback in an immediate timeout if focus has
+   * move outside the bound element and is still within the document.
+   *
+   * @param {SyntheticEvent} event Blur event.
+   */
+
+  var queueBlurCheck = Object(external_wp_element_["useCallback"])(function (event) {
+    // React does not allow using an event reference asynchronously
+    // due to recycling behavior, except when explicitly persisted.
+    event.persist(); // Skip blur check if clicking button. See `normalizeButtonFocus`.
+
+    if (preventBlurCheck.current) {
+      return;
+    }
+
+    blurCheckTimeoutId.current = setTimeout(function () {
+      // If document is not focused then focus should remain
+      // inside the wrapped component and therefore we cancel
+      // this blur event thereby leaving focus in place.
+      // https://developer.mozilla.org/en-US/docs/Web/API/Document/hasFocus.
+      if (!document.hasFocus()) {
+        event.preventDefault();
+        return;
+      }
+
+      if ('function' === typeof currentOnFocusOutside.current) {
+        currentOnFocusOutside.current(event);
+      }
+    }, 0);
+  }, []);
+  return {
+    onFocus: cancelBlurCheck,
+    onMouseDown: normalizeButtonFocus,
+    onMouseUp: normalizeButtonFocus,
+    onTouchStart: normalizeButtonFocus,
+    onTouchEnd: normalizeButtonFocus,
+    onBlur: queueBlurCheck
+  };
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-dialog/index.js
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+/**
+ * Returns a ref and props to apply to a dialog wrapper to enable the following behaviors:
+ *  - constrained tabbing.
+ *  - focus on mount.
+ *  - return focus on unmount.
+ *  - focus outside.
+ *
+ * @param {Object} options Dialog Options.
+ */
+
+function useDialog(options) {
+  var onClose = Object(external_wp_element_["useRef"])();
+  Object(external_wp_element_["useEffect"])(function () {
+    onClose.current = options.onClose;
+  }, [options.onClose]);
+  var constrainedTabbingRef = use_constrained_tabbing();
+  var focusOnMountRef = useFocusOnMount();
+  var focusReturnRef = use_focus_return();
+  var focusOutsideProps = useFocusOutside(options.onClose);
+  var closeOnEscapeRef = use_callback_ref(function (node) {
+    if (!node) {
+      return;
+    }
+
+    node.addEventListener('keydown', function (event) {
+      // Close on escape
+      if (event.keyCode === external_wp_keycodes_["ESCAPE"] && onClose.current) {
+        event.stopPropagation();
+        onClose.current();
+      }
+    });
+  }, []);
+  return [Object(react_merge_refs_esm["a" /* default */])([constrainedTabbingRef, focusReturnRef, focusOnMountRef, closeOnEscapeRef]), _objectSpread(_objectSpread({}, focusOutsideProps), {}, {
+    tabIndex: '-1'
+  })];
+}
+
+/* harmony default export */ var use_dialog = (useDialog);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-isomorphic-layout-effect/index.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Preferred over direct usage of `useLayoutEffect` when supporting
+ * server rendered components (SSR) because currently React
+ * throws a warning when using useLayoutEffect in that environment.
+ */
+
+var useIsomorphicLayoutEffect = typeof window !== 'undefined' ? external_wp_element_["useLayoutEffect"] : external_wp_element_["useEffect"];
+/* harmony default export */ var use_isomorphic_layout_effect = (useIsomorphicLayoutEffect);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-dragging/index.js
 
 
@@ -3309,33 +3865,37 @@ function useCopyOnClick(ref, _text) {
  * WordPress dependencies
  */
 
-var useIsomorphicLayoutEffect = typeof window !== 'undefined' ? external_this_wp_element_["useLayoutEffect"] : external_this_wp_element_["useEffect"];
+/**
+ * Internal dependencies
+ */
+
+
 function useDragging(_ref) {
   var onDragStart = _ref.onDragStart,
       onDragMove = _ref.onDragMove,
       onDragEnd = _ref.onDragEnd;
 
-  var _useState = Object(external_this_wp_element_["useState"])(false),
+  var _useState = Object(external_wp_element_["useState"])(false),
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
       isDragging = _useState2[0],
       setIsDragging = _useState2[1];
 
-  var eventsRef = Object(external_this_wp_element_["useRef"])({
+  var eventsRef = Object(external_wp_element_["useRef"])({
     onDragStart: onDragStart,
     onDragMove: onDragMove,
     onDragEnd: onDragEnd
   });
-  useIsomorphicLayoutEffect(function () {
+  use_isomorphic_layout_effect(function () {
     eventsRef.current.onDragStart = onDragStart;
     eventsRef.current.onDragMove = onDragMove;
     eventsRef.current.onDragEnd = onDragEnd;
   }, [onDragStart, onDragMove, onDragEnd]);
-  var onMouseMove = Object(external_this_wp_element_["useCallback"])(function () {
+  var onMouseMove = Object(external_wp_element_["useCallback"])(function () {
     var _eventsRef$current;
 
     return eventsRef.current.onDragMove && (_eventsRef$current = eventsRef.current).onDragMove.apply(_eventsRef$current, arguments);
   }, []);
-  var endDrag = Object(external_this_wp_element_["useCallback"])(function () {
+  var endDrag = Object(external_wp_element_["useCallback"])(function () {
     if (eventsRef.current.onDragEnd) {
       var _eventsRef$current2;
 
@@ -3346,7 +3906,7 @@ function useDragging(_ref) {
     document.removeEventListener('mouseup', endDrag);
     setIsDragging(false);
   }, []);
-  var startDrag = Object(external_this_wp_element_["useCallback"])(function () {
+  var startDrag = Object(external_wp_element_["useCallback"])(function () {
     if (eventsRef.current.onDragStart) {
       var _eventsRef$current3;
 
@@ -3358,7 +3918,7 @@ function useDragging(_ref) {
     setIsDragging(true);
   }, []); // Remove the global events when unmounting if needed.
 
-  Object(external_this_wp_element_["useEffect"])(function () {
+  Object(external_wp_element_["useEffect"])(function () {
     return function () {
       if (isDragging) {
         document.removeEventListener('mousemove', onMouseMove);
@@ -3374,11 +3934,11 @@ function useDragging(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/mousetrap.js
-var mousetrap_mousetrap = __webpack_require__(289);
+var mousetrap_mousetrap = __webpack_require__(277);
 var mousetrap_default = /*#__PURE__*/__webpack_require__.n(mousetrap_mousetrap);
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
-var mousetrap_global_bind = __webpack_require__(434);
+var mousetrap_global_bind = __webpack_require__(423);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-keyboard-shortcut/index.js
 /**
@@ -3415,7 +3975,7 @@ function isAppleOS() {
   var _window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
   var platform = _window.navigator.platform;
-  return platform.indexOf('Mac') !== -1 || Object(external_this_lodash_["includes"])(['iPad', 'iPhone'], platform);
+  return platform.indexOf('Mac') !== -1 || Object(external_lodash_["includes"])(['iPad', 'iPhone'], platform);
 }
 /**
  * Attach a keyboard shortcut handler.
@@ -3436,17 +3996,17 @@ function useKeyboardShortcut(shortcuts, callback) {
       isDisabled = _ref$isDisabled === void 0 ? false : _ref$isDisabled,
       target = _ref.target;
 
-  var currentCallback = Object(external_this_wp_element_["useRef"])(callback);
-  Object(external_this_wp_element_["useEffect"])(function () {
+  var currentCallback = Object(external_wp_element_["useRef"])(callback);
+  Object(external_wp_element_["useEffect"])(function () {
     currentCallback.current = callback;
   }, [callback]);
-  Object(external_this_wp_element_["useEffect"])(function () {
+  Object(external_wp_element_["useEffect"])(function () {
     if (isDisabled) {
       return;
     }
 
     var mousetrap = new mousetrap_default.a(target ? target.current : document);
-    Object(external_this_lodash_["castArray"])(shortcuts).forEach(function (shortcut) {
+    Object(external_lodash_["castArray"])(shortcuts).forEach(function (shortcut) {
       var keys = shortcut.split('+'); // Determines whether a key is a modifier by the length of the string.
       // E.g. if I add a pass a shortcut Shift+Cmd+M, it'll determine that
       // the modifiers are Shift and Cmd because they're not a single character.
@@ -3489,12 +4049,14 @@ function useKeyboardShortcut(shortcuts, callback) {
  */
 
 function useMediaQuery(query) {
-  var _useState = Object(external_this_wp_element_["useState"])(query && window.matchMedia(query).matches),
+  var _useState = Object(external_wp_element_["useState"])(function () {
+    return !!(query && typeof window !== 'undefined' && window.matchMedia(query).matches);
+  }),
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
       match = _useState2[0],
       setMatch = _useState2[1];
 
-  Object(external_this_wp_element_["useEffect"])(function () {
+  Object(external_wp_element_["useEffect"])(function () {
     if (!query) {
       return;
     }
@@ -3535,13 +4097,13 @@ function usePrevious(value) {
   // https://github.com/WordPress/gutenberg/pull/22597#issuecomment-633588366
 
   /* eslint-disable jsdoc/no-undefined-types */
-  var ref = Object(external_this_wp_element_["useRef"])(
+  var ref = Object(external_wp_element_["useRef"])(
   /** @type {T|undefined} */
   undefined);
   /* eslint-enable jsdoc/no-undefined-types */
   // Store current value in ref.
 
-  Object(external_this_wp_element_["useEffect"])(function () {
+  Object(external_wp_element_["useEffect"])(function () {
     ref.current = value;
   }, [value]); // Re-run when value changes.
   // Return previous value (happens before update in useEffect above).
@@ -3632,7 +4194,7 @@ var OPERATOR_EVALUATORS = {
     return width < breakpointValue;
   }
 };
-var ViewportMatchWidthContext = Object(external_this_wp_element_["createContext"])(null);
+var ViewportMatchWidthContext = Object(external_wp_element_["createContext"])(null);
 /**
  * Returns true if the viewport matches the given query, or false otherwise.
  *
@@ -3651,7 +4213,7 @@ var ViewportMatchWidthContext = Object(external_this_wp_element_["createContext"
 
 var use_viewport_match_useViewportMatch = function useViewportMatch(breakpoint) {
   var operator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '>=';
-  var simulatedWidth = Object(external_this_wp_element_["useContext"])(ViewportMatchWidthContext);
+  var simulatedWidth = Object(external_wp_element_["useContext"])(ViewportMatchWidthContext);
   var mediaQuery = !simulatedWidth && "(".concat(CONDITIONS[operator], ": ").concat(BREAKPOINTS[breakpoint], "px)");
   var mediaQueryResult = useMediaQuery(mediaQuery);
 
@@ -3666,7 +4228,7 @@ use_viewport_match_useViewportMatch.__experimentalWidthProvider = ViewportMatchW
 /* harmony default export */ var use_viewport_match = (use_viewport_match_useViewportMatch);
 
 // EXTERNAL MODULE: ./node_modules/react-resize-aware/dist/index.js
-var dist = __webpack_require__(151);
+var dist = __webpack_require__(145);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/index.js
@@ -3700,10 +4262,10 @@ var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 /* harmony default export */ var use_resize_observer = (dist_default.a);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(17);
+var toConsumableArray = __webpack_require__(15);
 
-// EXTERNAL MODULE: external {"this":["wp","priorityQueue"]}
-var external_this_wp_priorityQueue_ = __webpack_require__(152);
+// EXTERNAL MODULE: external ["wp","priorityQueue"]
+var external_wp_priorityQueue_ = __webpack_require__(146);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-async-list/index.js
 
@@ -3768,19 +4330,19 @@ function listReducer(state, action) {
 
 
 function useAsyncList(list) {
-  var _useReducer = Object(external_this_wp_element_["useReducer"])(listReducer, []),
+  var _useReducer = Object(external_wp_element_["useReducer"])(listReducer, []),
       _useReducer2 = Object(slicedToArray["a" /* default */])(_useReducer, 2),
       current = _useReducer2[0],
       dispatch = _useReducer2[1];
 
-  Object(external_this_wp_element_["useEffect"])(function () {
+  Object(external_wp_element_["useEffect"])(function () {
     // On reset, we keep the first items that were previously rendered.
     var firstItems = getFirstItemsPresentInState(list, current);
     dispatch({
       type: 'reset',
       list: firstItems
     });
-    var asyncQueue = Object(external_this_wp_priorityQueue_["createQueue"])();
+    var asyncQueue = Object(external_wp_priorityQueue_["createQueue"])();
 
     var append = function append(index) {
       return function () {
@@ -3850,7 +4412,7 @@ function useWarnOnChange(object) {
 /* harmony default export */ var use_warn_on_change = (useWarnOnChange);
 
 // EXTERNAL MODULE: ./node_modules/use-memo-one/dist/use-memo-one.esm.js
-var use_memo_one_esm = __webpack_require__(153);
+var use_memo_one_esm = __webpack_require__(122);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-debounce/index.js
 /**
@@ -3870,6 +4432,8 @@ var use_memo_one_esm = __webpack_require__(153);
  * render in components in `useCallback`.
  *
  * @param {...any} args Arguments passed to Lodash's `debounce`.
+ *
+ * @return {Function} Debounced function.
  */
 
 function useDebounce() {
@@ -3878,14 +4442,52 @@ function useDebounce() {
   }
 
   var debounced = Object(use_memo_one_esm["a" /* useMemoOne */])(function () {
-    return external_this_lodash_["debounce"].apply(void 0, args);
+    return external_lodash_["debounce"].apply(void 0, args);
   }, args);
-  Object(external_this_wp_element_["useEffect"])(function () {
+  Object(external_wp_element_["useEffect"])(function () {
     return function () {
       return debounced.cancel();
     };
   }, [debounced]);
   return debounced;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-throttle/index.js
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Throttles a function with Lodash's `throttle`. A new throttled function will
+ * be returned and any scheduled calls cancelled if any of the arguments change,
+ * including the function to throttle, so please wrap functions created on
+ * render in components in `useCallback`.
+ *
+ * @param {...any} args Arguments passed to Lodash's `throttle`.
+ *
+ * @return {Function} Throttled function.
+ */
+
+function useThrottle() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  var throttled = Object(use_memo_one_esm["a" /* useMemoOne */])(function () {
+    return external_lodash_["throttle"].apply(void 0, args);
+  }, args);
+  Object(external_wp_element_["useEffect"])(function () {
+    return function () {
+      return throttled.cancel();
+    };
+  }, [throttled]);
+  return throttled;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/index.js
@@ -3915,12 +4517,209 @@ function useDebounce() {
 
 
 
+
+
+
+
+
+
+
 /***/ }),
 
-/***/ 64:
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+/***/ }),
+
+/***/ 59:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["isShallowEqual"]; }());
+(function() { module.exports = window["wp"]["isShallowEqual"]; }());
+
+/***/ }),
+
+/***/ 62:
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
+
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {Function} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {F & MemizeMemoizedFunction} Memoized function.
+ */
+function memize( fn, options ) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
+
+	function memoized( /* ...args */ ) {
+		var node = head,
+			len = arguments.length,
+			args, i;
+
+		searchCache: while ( node ) {
+			// Perform a shallow equality test to confirm that whether the node
+			// under test is a candidate for the arguments passed. Two arrays
+			// are shallowly equal if their length matches and each entry is
+			// strictly equal between the two sets. Avoid abstracting to a
+			// function which could incur an arguments leaking deoptimization.
+
+			// Check whether node arguments match arguments length
+			if ( node.args.length !== arguments.length ) {
+				node = node.next;
+				continue;
+			}
+
+			// Check whether node arguments match arguments values
+			for ( i = 0; i < len; i++ ) {
+				if ( node.args[ i ] !== arguments[ i ] ) {
+					node = node.next;
+					continue searchCache;
+				}
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== head ) {
+				// As tail, shift to previous. Must only shift if not also
+				// head, since if both head and tail, there is no previous.
+				if ( node === tail ) {
+					tail = node.prev;
+				}
+
+				// Adjust siblings to point to each other. If node was tail,
+				// this also handles new tail's empty `next` assignment.
+				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = head;
+				node.prev = null;
+				/** @type {MemizeCacheNode} */ ( head ).prev = node;
+				head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		// Create a copy of arguments (avoid leaking deoptimization)
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		node = {
+			args: args,
+
+			// Generate the result from original function
+			val: fn.apply( null, args ),
+		};
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( head ) {
+			head.prev = node;
+			node.next = head;
+		} else {
+			// If no head, follows that there's no tail (at initial or reset)
+			tail = node;
+		}
+
+		// Trim tail if we're reached max size and are pending cache insertion
+		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
+			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
+			/** @type {MemizeCacheNode} */ ( tail ).next = null;
+		} else {
+			size++;
+		}
+
+		head = node;
+
+		return node.val;
+	}
+
+	memoized.clear = function() {
+		head = null;
+		tail = null;
+		size = 0;
+	};
+
+	if ( false ) {}
+
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
+	return memoized;
+}
+
+module.exports = memize;
+
 
 /***/ }),
 
@@ -3946,6 +4745,27 @@ function _extends() {
 
   return _extends.apply(this, arguments);
 }
+
+/***/ }),
+
+/***/ 81:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function mergeRefs(refs) {
+  return function (value) {
+    refs.forEach(function (ref) {
+      if (typeof ref === "function") {
+        ref(value);
+      } else if (ref != null) {
+        ref.current = value;
+      }
+    });
+  };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (mergeRefs);
+
 
 /***/ })
 

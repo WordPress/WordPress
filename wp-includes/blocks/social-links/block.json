@@ -6,6 +6,9 @@
 		"openInNewTab": {
 			"type": "boolean",
 			"default": false
+		},
+		"size": {
+			"type": "string"
 		}
 	},
 	"providesContext": {
@@ -18,5 +21,7 @@
 			"right"
 		],
 		"anchor": true
-	}
+	},
+	"editorStyle": "wp-block-social-links-editor",
+	"style": "wp-block-social-links"
 }

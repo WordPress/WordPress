@@ -39,5 +39,7 @@
 	"supports": {
 		"align": true,
 		"html": false
-	}
+	},
+	"editorStyle": "wp-block-rss-editor",
+	"style": "wp-block-rss"
 }

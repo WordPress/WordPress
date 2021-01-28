@@ -28,9 +28,12 @@
 	"supports": {
 		"anchor": true,
 		"className": false,
+		"fontSize": true,
 		"color": {
 			"gradients": true
 		},
 		"__unstablePasteTextInline": true
-	}
+	},
+	"editorStyle": "wp-block-list-editor",
+	"style": "wp-block-list"
 }

@@ -90,6 +90,7 @@ function wp_default_packages_vendor( $scripts ) {
 		'wp-polyfill-url',
 		'wp-polyfill-dom-rect',
 		'wp-polyfill-element-closest',
+		'wp-polyfill-object-fit',
 		'wp-polyfill',
 	);
 
@@ -104,6 +105,7 @@ function wp_default_packages_vendor( $scripts ) {
 		'wp-polyfill-url'             => '3.6.4',
 		'wp-polyfill-dom-rect'        => '3.42.0',
 		'wp-polyfill-element-closest' => '2.0.2',
+		'wp-polyfill-object-fit'      => '2.3.4',
 		'wp-polyfill'                 => '7.4.4',
 	);
 
@@ -131,6 +133,7 @@ function wp_default_packages_vendor( $scripts ) {
 				'window.URL && window.URL.prototype && window.URLSearchParams' => 'wp-polyfill-url',
 				'window.FormData && window.FormData.prototype.keys' => 'wp-polyfill-formdata',
 				'Element.prototype.matches && Element.prototype.closest' => 'wp-polyfill-element-closest',
+				'\'objectFit\' in document.documentElement.style' => 'wp-polyfill-object-fit',
 			)
 		)
 	);

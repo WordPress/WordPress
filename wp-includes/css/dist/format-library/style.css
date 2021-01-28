@@ -5,6 +5,12 @@
  * Breakpoints & Media Queries
  */
 /**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ */
+/**
  * Colors
  */
 /**
@@ -24,13 +30,14 @@
  * Editor widths.
  */
 /**
- * Block UI.
- */
-/**
- * Border radii.
+ * Block & Editor UI.
  */
 /**
  * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
  */
 /**
  * Breakpoint mixins
@@ -60,19 +67,31 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * These are default block editor widths in case the theme doesn't provide them.
+ */
 :root {
   --wp-admin-theme-color: #007cba;
   --wp-admin-theme-color-darker-10: #006ba1;
-  --wp-admin-theme-color-darker-20: #005a87; }
+  --wp-admin-theme-color-darker-20: #005a87;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  :root {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
 
 .block-editor-format-toolbar__image-container-content {
-  display: flex; }
-  .block-editor-format-toolbar__image-container-content .components-button {
-    align-self: flex-end;
-    height: 30px;
-    margin-bottom: 8px;
-    margin-right: 8px;
-    padding: 0 6px; }
+  display: flex;
+}
+.block-editor-format-toolbar__image-container-content .components-button {
+  align-self: flex-end;
+  height: 30px;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  padding: 0 6px;
+}
 
 .block-editor-format-toolbar__image-container-value {
   margin: 7px;
@@ -80,14 +99,18 @@
   flex-shrink: 1;
   white-space: nowrap;
   min-width: 150px;
-  max-width: 500px; }
-  .block-editor-format-toolbar__image-container-value.components-base-control .components-base-control__field {
-    margin-bottom: 0; }
-  .block-editor-format-toolbar__image-container-value.components-base-control .components-base-control__label {
-    display: block; }
+  max-width: 500px;
+}
+.block-editor-format-toolbar__image-container-value.components-base-control .components-base-control__field {
+  margin-bottom: 0;
+}
+.block-editor-format-toolbar__image-container-value.components-base-control .components-base-control__label {
+  display: block;
+}
 
 .block-editor-format-toolbar__link-container-content {
-  display: flex; }
+  display: flex;
+}
 
 .block-editor-format-toolbar__link-container-value {
   margin: 7px;
@@ -97,9 +120,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 150px;
-  max-width: 500px; }
-  .block-editor-format-toolbar__link-container-value.has-invalid-link {
-    color: #cc1818; }
+  max-width: 500px;
+}
+.block-editor-format-toolbar__link-container-value.has-invalid-link {
+  color: #cc1818;
+}
 
 .components-inline-color__indicator {
   position: absolute;
@@ -109,29 +134,33 @@
   bottom: 6px;
   left: auto;
   right: auto;
-  margin: 0 5px; }
+  margin: 0 5px;
+}
 
 .components-inline-color-popover .components-popover__content > div {
-  padding: 20px 18px; }
-
+  padding: 20px 18px;
+}
 .components-inline-color-popover .components-popover__content .components-color-palette {
-  margin-top: 0.6rem; }
-
+  margin-top: 0.6rem;
+}
 .components-inline-color-popover .components-popover__content .components-base-control__title {
   display: block;
   margin-bottom: 16px;
   font-weight: 600;
-  color: #191e23; }
-
+  color: #191e23;
+}
 .components-inline-color-popover .components-popover__content .component-color-indicator {
-  vertical-align: text-bottom; }
+  vertical-align: text-bottom;
+}
 
 .format-library-text-color-button {
-  position: relative; }
+  position: relative;
+}
 
 .format-library-text-color-button__indicator {
   height: 4px;
   width: 20px;
   position: absolute;
   bottom: 10px;
-  left: 8px; }
+  left: 8px;
+}

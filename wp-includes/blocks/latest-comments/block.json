@@ -25,5 +25,7 @@
 	"supports": {
 		"align": true,
 		"html": false
-	}
+	},
+	"editorStyle": "wp-block-latest-comments-editor",
+	"style": "wp-block-latest-comments"
 }

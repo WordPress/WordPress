@@ -39,5 +39,7 @@
 	"supports": {
 		"anchor": true,
 		"align": true
-	}
+	},
+	"editorStyle": "wp-block-file-editor",
+	"style": "wp-block-file"
 }

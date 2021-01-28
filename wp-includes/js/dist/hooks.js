@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["hooks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 473);
+/******/ 	return __webpack_require__(__webpack_require__.s = 453);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 17:
+/***/ 15:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96,7 +96,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["hooks"] =
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(27);
+var arrayLikeToArray = __webpack_require__(24);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -107,7 +107,7 @@ function _arrayWithoutHoles(arr) {
 var iterableToArray = __webpack_require__(37);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(31);
+var unsupportedIterableToArray = __webpack_require__(32);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -124,7 +124,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 27:
+/***/ 24:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -141,20 +141,33 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 31:
+/***/ 25:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+/***/ }),
+
+/***/ 32:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
+/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
   if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
 }
 
 /***/ }),
@@ -170,7 +183,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 473:
+/***/ 453:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -195,8 +208,11 @@ __webpack_require__.d(__webpack_exports__, "doingAction", function() { return /*
 __webpack_require__.d(__webpack_exports__, "doingFilter", function() { return /* binding */ doingFilter; });
 __webpack_require__.d(__webpack_exports__, "didAction", function() { return /* binding */ didAction; });
 __webpack_require__.d(__webpack_exports__, "didFilter", function() { return /* binding */ didFilter; });
-__webpack_require__.d(__webpack_exports__, "actions", function() { return /* binding */ build_module_actions; });
-__webpack_require__.d(__webpack_exports__, "filters", function() { return /* binding */ build_module_filters; });
+__webpack_require__.d(__webpack_exports__, "actions", function() { return /* binding */ actions; });
+__webpack_require__.d(__webpack_exports__, "filters", function() { return /* binding */ filters; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
+var classCallCheck = __webpack_require__(25);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/validateNamespace.js
 /**
@@ -265,26 +281,30 @@ function validateHookName(hookName) {
  */
 
 
+/**
+ * @callback AddHook
+ *
+ * Adds the hook to the appropriate hooks container.
+ *
+ * @param {string}               hookName  Name of hook to add
+ * @param {string}               namespace The unique namespace identifying the callback in the form `vendor/plugin/function`.
+ * @param {import('.').Callback} callback  Function to call when the hook is run
+ * @param {number}               [priority=10]  Priority of this hook
+ */
 
 /**
  * Returns a function which, when invoked, will add a hook.
  *
- * @param  {Object}   hooks Stored hooks, keyed by hook name.
+ * @param  {import('.').Hooks}    hooks Hooks instance.
+ * @param  {import('.').StoreKey} storeKey
  *
- * @return {Function}       Function that adds a new hook.
+ * @return {AddHook} Function that adds a new hook.
  */
 
-function createAddHook(hooks) {
-  /**
-   * Adds the hook to the appropriate hooks container.
-   *
-   * @param {string}   hookName  Name of hook to add
-   * @param {string}   namespace The unique namespace identifying the callback in the form `vendor/plugin/function`.
-   * @param {Function} callback  Function to call when the hook is run
-   * @param {?number}  priority  Priority of this hook (default=10)
-   */
+function createAddHook(hooks, storeKey) {
   return function addHook(hookName, namespace, callback) {
     var priority = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 10;
+    var hooksStore = hooks[storeKey];
 
     if (!build_module_validateHookName(hookName)) {
       return;
@@ -313,9 +333,11 @@ function createAddHook(hooks) {
       namespace: namespace
     };
 
-    if (hooks[hookName]) {
+    if (hooksStore[hookName]) {
       // Find the correct insert index of the new hook.
-      var handlers = hooks[hookName].handlers;
+      var handlers = hooksStore[hookName].handlers;
+      /** @type {number} */
+
       var i;
 
       for (i = handlers.length; i > 0; i--) {
@@ -336,21 +358,21 @@ function createAddHook(hooks) {
       // any other runs by 1 to account for the added element.
 
 
-      (hooks.__current || []).forEach(function (hookInfo) {
+      hooksStore.__current.forEach(function (hookInfo) {
         if (hookInfo.name === hookName && hookInfo.currentIndex >= i) {
           hookInfo.currentIndex++;
         }
       });
     } else {
       // This is the first hook of its type.
-      hooks[hookName] = {
+      hooksStore[hookName] = {
         handlers: [handler],
         runs: 0
       };
     }
 
     if (hookName !== 'hookAdded') {
-      doAction('hookAdded', hookName, namespace, callback, priority);
+      hooks.doAction('hookAdded', hookName, namespace, callback, priority);
     }
   };
 }
@@ -363,28 +385,36 @@ function createAddHook(hooks) {
  */
 
 
+/**
+ * @callback RemoveHook
+ * Removes the specified callback (or all callbacks) from the hook with a given hookName
+ * and namespace.
+ *
+ * @param {string} hookName  The name of the hook to modify.
+ * @param {string} namespace The unique namespace identifying the callback in the
+ *                           form `vendor/plugin/function`.
+ *
+ * @return {number | undefined} The number of callbacks removed.
+ */
 
 /**
  * Returns a function which, when invoked, will remove a specified hook or all
  * hooks by the given name.
  *
- * @param  {Object}   hooks      Stored hooks, keyed by hook name.
- * @param  {boolean}     removeAll  Whether to remove all callbacks for a hookName, without regard to namespace. Used to create `removeAll*` functions.
+ * @param  {import('.').Hooks}    hooks Hooks instance.
+ * @param  {import('.').StoreKey} storeKey
+ * @param  {boolean}              [removeAll=false] Whether to remove all callbacks for a hookName,
+ *                                                  without regard to namespace. Used to create
+ *                                                  `removeAll*` functions.
  *
- * @return {Function}            Function that removes hooks.
+ * @return {RemoveHook} Function that removes hooks.
  */
 
-function createRemoveHook(hooks, removeAll) {
-  /**
-   * Removes the specified callback (or all callbacks) from the hook with a
-   * given hookName and namespace.
-   *
-   * @param {string}    hookName  The name of the hook to modify.
-   * @param {string}    namespace The unique namespace identifying the callback in the form `vendor/plugin/function`.
-   *
-   * @return {number}             The number of callbacks removed.
-   */
+function createRemoveHook(hooks, storeKey) {
+  var removeAll = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   return function removeHook(hookName, namespace) {
+    var hooksStore = hooks[storeKey];
+
     if (!build_module_validateHookName(hookName)) {
       return;
     }
@@ -394,21 +424,21 @@ function createRemoveHook(hooks, removeAll) {
     } // Bail if no hooks exist by this name
 
 
-    if (!hooks[hookName]) {
+    if (!hooksStore[hookName]) {
       return 0;
     }
 
     var handlersRemoved = 0;
 
     if (removeAll) {
-      handlersRemoved = hooks[hookName].handlers.length;
-      hooks[hookName] = {
-        runs: hooks[hookName].runs,
+      handlersRemoved = hooksStore[hookName].handlers.length;
+      hooksStore[hookName] = {
+        runs: hooksStore[hookName].runs,
         handlers: []
       };
     } else {
       // Try to find the specified callback to remove.
-      var handlers = hooks[hookName].handlers;
+      var handlers = hooksStore[hookName].handlers;
 
       var _loop = function _loop(i) {
         if (handlers[i].namespace === namespace) {
@@ -419,7 +449,7 @@ function createRemoveHook(hooks, removeAll) {
           // otherwise we need to decrease the execution index of any
           // other runs by 1 to account for the removed element.
 
-          (hooks.__current || []).forEach(function (hookInfo) {
+          hooksStore.__current.forEach(function (hookInfo) {
             if (hookInfo.name === hookName && hookInfo.currentIndex >= i) {
               hookInfo.currentIndex--;
             }
@@ -433,7 +463,7 @@ function createRemoveHook(hooks, removeAll) {
     }
 
     if (hookName !== 'hookRemoved') {
-      doAction('hookRemoved', hookName, namespace);
+      hooks.doAction('hookRemoved', hookName, namespace);
     }
 
     return handlersRemoved;
@@ -444,40 +474,45 @@ function createRemoveHook(hooks, removeAll) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createHasHook.js
 /**
+ * @callback HasHook
+ *
+ * Returns whether any handlers are attached for the given hookName and optional namespace.
+ *
+ * @param {string} hookName    The name of the hook to check for.
+ * @param {string} [namespace] Optional. The unique namespace identifying the callback
+ *                             in the form `vendor/plugin/function`.
+ *
+ * @return {boolean} Whether there are handlers that are attached to the given hook.
+ */
+
+/**
  * Returns a function which, when invoked, will return whether any handlers are
  * attached to a particular hook.
  *
- * @param  {Object}   hooks Stored hooks, keyed by hook name.
+ * @param  {import('.').Hooks}    hooks Hooks instance.
+ * @param  {import('.').StoreKey} storeKey
  *
- * @return {Function}       Function that returns whether any handlers are
- *                          attached to a particular hook and optional namespace.
+ * @return {HasHook} Function that returns whether any handlers are
+ *                   attached to a particular hook and optional namespace.
  */
-function createHasHook(hooks) {
-  /**
-   * Returns whether any handlers are attached for the given hookName and optional namespace.
-   *
-   * @param {string}  hookName  The name of the hook to check for.
-   * @param {?string} namespace Optional. The unique namespace identifying the callback
-   *                                      in the form `vendor/plugin/function`.
-   *
-   * @return {boolean} Whether there are handlers that are attached to the given hook.
-   */
+function createHasHook(hooks, storeKey) {
   return function hasHook(hookName, namespace) {
-    // Use the namespace if provided.
+    var hooksStore = hooks[storeKey]; // Use the namespace if provided.
+
     if ('undefined' !== typeof namespace) {
-      return hookName in hooks && hooks[hookName].handlers.some(function (hook) {
+      return hookName in hooksStore && hooksStore[hookName].handlers.some(function (hook) {
         return hook.namespace === namespace;
       });
     }
 
-    return hookName in hooks;
+    return hookName in hooksStore;
   };
 }
 
 /* harmony default export */ var build_module_createHasHook = (createHasHook);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(17);
+var toConsumableArray = __webpack_require__(15);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createRunHook.js
 
@@ -487,31 +522,27 @@ var toConsumableArray = __webpack_require__(17);
  * registered to a hook of the specified type, optionally returning the final
  * value of the call chain.
  *
- * @param  {Object}   hooks          Stored hooks, keyed by hook name.
- * @param  {?boolean}    returnFirstArg Whether each hook callback is expected to
- *                                   return its first argument.
+ * @param  {import('.').Hooks}    hooks Hooks instance.
+ * @param  {import('.').StoreKey} storeKey
+ * @param  {boolean}              [returnFirstArg=false] Whether each hook callback is expected to
+ *                                                       return its first argument.
  *
- * @return {Function}                Function that runs hook callbacks.
+ * @return {(hookName:string, ...args: unknown[]) => unknown} Function that runs hook callbacks.
  */
-function createRunHook(hooks, returnFirstArg) {
-  /**
-   * Runs all callbacks for the specified hook.
-   *
-   * @param  {string} hookName The name of the hook to run.
-   * @param  {...*}   args     Arguments to pass to the hook callbacks.
-   *
-   * @return {*}               Return value of runner, if applicable.
-   */
+function createRunHook(hooks, storeKey) {
+  var returnFirstArg = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   return function runHooks(hookName) {
-    if (!hooks[hookName]) {
-      hooks[hookName] = {
+    var hooksStore = hooks[storeKey];
+
+    if (!hooksStore[hookName]) {
+      hooksStore[hookName] = {
         handlers: [],
         runs: 0
       };
     }
 
-    hooks[hookName].runs++;
-    var handlers = hooks[hookName].handlers; // The following code is stripped from production builds.
+    hooksStore[hookName].runs++;
+    var handlers = hooksStore[hookName].handlers; // The following code is stripped from production builds.
 
     if (false) {}
 
@@ -528,7 +559,7 @@ function createRunHook(hooks, returnFirstArg) {
       currentIndex: 0
     };
 
-    hooks.__current.push(hookInfo);
+    hooksStore.__current.push(hookInfo);
 
     while (hookInfo.currentIndex < handlers.length) {
       var handler = handlers[hookInfo.currentIndex];
@@ -541,7 +572,7 @@ function createRunHook(hooks, returnFirstArg) {
       hookInfo.currentIndex++;
     }
 
-    hooks.__current.pop();
+    hooksStore.__current.pop();
 
     if (returnFirstArg) {
       return args[0];
@@ -557,24 +588,17 @@ function createRunHook(hooks, returnFirstArg) {
  * currently running hook, or `null` if no hook of the given type is currently
  * running.
  *
- * @param  {Object}   hooks          Stored hooks, keyed by hook name.
+ * @param  {import('.').Hooks}    hooks Hooks instance.
+ * @param  {import('.').StoreKey} storeKey
  *
- * @return {Function}                Function that returns the current hook.
+ * @return {() => string | null} Function that returns the current hook name or null.
  */
-function createCurrentHook(hooks) {
-  /**
-   * Returns the name of the currently running hook, or `null` if no hook of
-   * the given type is currently running.
-   *
-   * @return {?string}             The name of the currently running hook, or
-   *                               `null` if no hook is currently running.
-   */
+function createCurrentHook(hooks, storeKey) {
   return function currentHook() {
-    if (!hooks.__current || !hooks.__current.length) {
-      return null;
-    }
+    var _hooksStore$__current, _hooksStore$__current2;
 
-    return hooks.__current[hooks.__current.length - 1].name;
+    var hooksStore = hooks[storeKey];
+    return (_hooksStore$__current = (_hooksStore$__current2 = hooksStore.__current[hooksStore.__current.length - 1]) === null || _hooksStore$__current2 === void 0 ? void 0 : _hooksStore$__current2.name) !== null && _hooksStore$__current !== void 0 ? _hooksStore$__current : null;
   };
 }
 
@@ -582,31 +606,35 @@ function createCurrentHook(hooks) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createDoingHook.js
 /**
+ * @callback DoingHook
+ * Returns whether a hook is currently being executed.
+ *
+ * @param  {string} [hookName] The name of the hook to check for.  If
+ *                             omitted, will check for any hook being executed.
+ *
+ * @return {boolean} Whether the hook is being executed.
+ */
+
+/**
  * Returns a function which, when invoked, will return whether a hook is
  * currently being executed.
  *
- * @param  {Object}   hooks Stored hooks, keyed by hook name.
+ * @param  {import('.').Hooks}    hooks Hooks instance.
+ * @param  {import('.').StoreKey} storeKey
  *
- * @return {Function}       Function that returns whether a hook is currently
- *                          being executed.
+ * @return {DoingHook} Function that returns whether a hook is currently
+ *                     being executed.
  */
-function createDoingHook(hooks) {
-  /**
-   * Returns whether a hook is currently being executed.
-   *
-   * @param  {?string} hookName The name of the hook to check for.  If
-   *                            omitted, will check for any hook being executed.
-   *
-   * @return {boolean}             Whether the hook is being executed.
-   */
+function createDoingHook(hooks, storeKey) {
   return function doingHook(hookName) {
-    // If the hookName was not passed, check for any current hook.
+    var hooksStore = hooks[storeKey]; // If the hookName was not passed, check for any current hook.
+
     if ('undefined' === typeof hookName) {
-      return 'undefined' !== typeof hooks.__current[0];
+      return 'undefined' !== typeof hooksStore.__current[0];
     } // Return the __current hook.
 
 
-    return hooks.__current[0] ? hookName === hooks.__current[0].name : false;
+    return hooksStore.__current[0] ? hookName === hooksStore.__current[0].name : false;
   };
 }
 
@@ -618,34 +646,42 @@ function createDoingHook(hooks) {
  */
 
 /**
+ * @callback DidHook
+ *
+ * Returns the number of times an action has been fired.
+ *
+ * @param  {string} hookName The hook name to check.
+ *
+ * @return {number | undefined} The number of times the hook has run.
+ */
+
+/**
  * Returns a function which, when invoked, will return the number of times a
  * hook has been called.
  *
- * @param  {Object}   hooks Stored hooks, keyed by hook name.
+ * @param  {import('.').Hooks}    hooks Hooks instance.
+ * @param  {import('.').StoreKey} storeKey
  *
- * @return {Function}       Function that returns a hook's call count.
+ * @return {DidHook} Function that returns a hook's call count.
  */
 
-function createDidHook(hooks) {
-  /**
-   * Returns the number of times an action has been fired.
-   *
-   * @param  {string} hookName The hook name to check.
-   *
-   * @return {number}          The number of times the hook has run.
-   */
+function createDidHook(hooks, storeKey) {
   return function didHook(hookName) {
+    var hooksStore = hooks[storeKey];
+
     if (!build_module_validateHookName(hookName)) {
       return;
     }
 
-    return hooks[hookName] && hooks[hookName].runs ? hooks[hookName].runs : 0;
+    return hooksStore[hookName] && hooksStore[hookName].runs ? hooksStore[hookName].runs : 0;
   };
 }
 
 /* harmony default export */ var build_module_createDidHook = (createDidHook);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createHooks.js
+
+
 /**
  * Internal dependencies
  */
@@ -657,36 +693,50 @@ function createDidHook(hooks) {
 
 
 /**
+ * Internal class for constructing hooks. Use `createHooks()` function
+ *
+ * Note, it is necessary to expose this class to make its type public.
+ *
+ * @private
+ */
+
+var createHooks_Hooks = function _Hooks() {
+  Object(classCallCheck["a" /* default */])(this, _Hooks);
+
+  /** @type {import('.').Store} actions */
+  this.actions = Object.create(null);
+  this.actions.__current = [];
+  /** @type {import('.').Store} filters */
+
+  this.filters = Object.create(null);
+  this.filters.__current = [];
+  this.addAction = build_module_createAddHook(this, 'actions');
+  this.addFilter = build_module_createAddHook(this, 'filters');
+  this.removeAction = build_module_createRemoveHook(this, 'actions');
+  this.removeFilter = build_module_createRemoveHook(this, 'filters');
+  this.hasAction = build_module_createHasHook(this, 'actions');
+  this.hasFilter = build_module_createHasHook(this, 'filters');
+  this.removeAllActions = build_module_createRemoveHook(this, 'actions', true);
+  this.removeAllFilters = build_module_createRemoveHook(this, 'filters', true);
+  this.doAction = build_module_createRunHook(this, 'actions');
+  this.applyFilters = build_module_createRunHook(this, 'filters', true);
+  this.currentAction = build_module_createCurrentHook(this, 'actions');
+  this.currentFilter = build_module_createCurrentHook(this, 'filters');
+  this.doingAction = build_module_createDoingHook(this, 'actions');
+  this.doingFilter = build_module_createDoingHook(this, 'filters');
+  this.didAction = build_module_createDidHook(this, 'actions');
+  this.didFilter = build_module_createDidHook(this, 'filters');
+};
+/** @typedef {_Hooks} Hooks */
+
+/**
  * Returns an instance of the hooks object.
  *
- * @return {Object} Object that contains all hooks.
+ * @return {Hooks} A Hooks instance.
  */
 
 function createHooks() {
-  var actions = Object.create(null);
-  var filters = Object.create(null);
-  actions.__current = [];
-  filters.__current = [];
-  return {
-    addAction: build_module_createAddHook(actions),
-    addFilter: build_module_createAddHook(filters),
-    removeAction: build_module_createRemoveHook(actions),
-    removeFilter: build_module_createRemoveHook(filters),
-    hasAction: build_module_createHasHook(actions),
-    hasFilter: build_module_createHasHook(filters),
-    removeAllActions: build_module_createRemoveHook(actions, true),
-    removeAllFilters: build_module_createRemoveHook(filters, true),
-    doAction: build_module_createRunHook(actions),
-    applyFilters: build_module_createRunHook(filters, true),
-    currentAction: build_module_createCurrentHook(actions),
-    currentFilter: build_module_createCurrentHook(filters),
-    doingAction: build_module_createDoingHook(actions),
-    doingFilter: build_module_createDoingHook(filters),
-    didAction: build_module_createDidHook(actions),
-    didFilter: build_module_createDidHook(filters),
-    actions: actions,
-    filters: filters
-  };
+  return new createHooks_Hooks();
 }
 
 /* harmony default export */ var build_module_createHooks = (createHooks);
@@ -696,6 +746,38 @@ function createHooks() {
  * Internal dependencies
  */
 
+/** @typedef {(...args: any[])=>any} Callback */
+
+/**
+ * @typedef Handler
+ * @property {Callback} callback  The callback
+ * @property {string}   namespace The namespace
+ * @property {number}   priority  The namespace
+ */
+
+/**
+ * @typedef Hook
+ * @property {Handler[]} handlers Array of handlers
+ * @property {number}    runs     Run counter
+ */
+
+/**
+ * @typedef Current
+ * @property {string} name         Hook name
+ * @property {number} currentIndex The index
+ */
+
+/**
+ * @typedef {Record<string, Hook> & {__current: Current[]}} Store
+ */
+
+/**
+ * @typedef {'actions' | 'filters'} StoreKey
+ */
+
+/**
+ * @typedef {import('./createHooks').Hooks} Hooks
+ */
 
 var _createHooks = build_module_createHooks(),
     addAction = _createHooks.addAction,
@@ -714,8 +796,8 @@ var _createHooks = build_module_createHooks(),
     doingFilter = _createHooks.doingFilter,
     didAction = _createHooks.didAction,
     didFilter = _createHooks.didFilter,
-    build_module_actions = _createHooks.actions,
-    build_module_filters = _createHooks.filters;
+    actions = _createHooks.actions,
+    filters = _createHooks.filters;
 
 
 

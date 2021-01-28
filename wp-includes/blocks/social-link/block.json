@@ -22,5 +22,6 @@
 	"supports": {
 		"reusable": false,
 		"html": false
-	}
+	},
+	"editorStyle": "wp-block-social-link-editor"
 }

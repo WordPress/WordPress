@@ -84,5 +84,7 @@
 	"supports": {
 		"align": true,
 		"html": false
-	}
+	},
+	"editorStyle": "wp-block-latest-posts-editor",
+	"style": "wp-block-latest-posts"
 }

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 483);
+/******/ 	return __webpack_require__(__webpack_require__.s = 467);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -90,18 +90,18 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /***/ 1:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["i18n"]; }());
+(function() { module.exports = window["wp"]["i18n"]; }());
 
 /***/ }),
 
-/***/ 275:
+/***/ 266:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["domReady"]; }());
+(function() { module.exports = window["wp"]["domReady"]; }());
 
 /***/ }),
 
-/***/ 483:
+/***/ 467:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -112,12 +112,12 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.d(__webpack_exports__, "setup", function() { return /* binding */ setup; });
 __webpack_require__.d(__webpack_exports__, "speak", function() { return /* binding */ speak; });
 
-// EXTERNAL MODULE: external {"this":["wp","domReady"]}
-var external_this_wp_domReady_ = __webpack_require__(275);
-var external_this_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_domReady_);
+// EXTERNAL MODULE: external ["wp","domReady"]
+var external_wp_domReady_ = __webpack_require__(266);
+var external_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(external_wp_domReady_);
 
-// EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(1);
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(1);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/add-intro-text.js
 /**
@@ -137,7 +137,7 @@ function addIntroText() {
   var introText = document.createElement('p');
   introText.id = 'a11y-speak-intro-text';
   introText.className = 'a11y-speak-intro-text';
-  introText.textContent = Object(external_this_wp_i18n_["__"])('Notifications');
+  introText.textContent = Object(external_wp_i18n_["__"])('Notifications');
   introText.setAttribute('style', 'position: absolute;' + 'margin: -1px;' + 'padding: 0;' + 'height: 1px;' + 'width: 1px;' + 'overflow: hidden;' + 'clip: rect(1px, 1px, 1px, 1px);' + '-webkit-clip-path: inset(50%);' + 'clip-path: inset(50%);' + 'border: 0;' + 'word-wrap: normal !important;');
   introText.setAttribute('hidden', 'hidden');
   var _document = document,
@@ -265,7 +265,7 @@ function setup() {
  * Run setup on domReady.
  */
 
-external_this_wp_domReady_default()(setup);
+external_wp_domReady_default()(setup);
 /**
  * Allows you to easily announce dynamic interface updates to screen readers using ARIA live regions.
  * This module is inspired by the `speak` function in `wp-a11y.js`.

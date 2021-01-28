@@ -52,6 +52,9 @@
 		},
 		"gradient": {
 			"type": "string"
+		},
+		"width": {
+			"type": "number"
 		}
 	},
 	"supports": {
@@ -60,5 +63,7 @@
 		"alignWide": false,
 		"reusable": false,
 		"__experimentalSelector": ".wp-block-button > a"
-	}
+	},
+	"editorStyle": "wp-block-button-editor",
+	"style": "wp-block-button"
 }

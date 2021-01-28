@@ -102,7 +102,7 @@ class WP_Block_Supports {
 		}
 
 		$output = array();
-		foreach ( $this->block_supports as $name => $block_support_config ) {
+		foreach ( $this->block_supports as $block_support_config ) {
 			if ( ! isset( $block_support_config['apply'] ) ) {
 				continue;
 			}
@@ -143,7 +143,7 @@ class WP_Block_Supports {
 				$block_type->attributes = array();
 			}
 
-			foreach ( $this->block_supports as $name => $block_support_config ) {
+			foreach ( $this->block_supports as $block_support_config ) {
 				if ( ! isset( $block_support_config['register_attribute'] ) ) {
 					continue;
 				}

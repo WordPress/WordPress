@@ -82,19 +82,102 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 484);
+/******/ 	return __webpack_require__(__webpack_require__.s = 462);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 2:
-/***/ (function(module, exports) {
+/***/ 15:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = this["lodash"]; }());
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+var arrayLikeToArray = __webpack_require__(24);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+var iterableToArray = __webpack_require__(37);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__(32);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+}
 
 /***/ }),
 
-/***/ 484:
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["lodash"]; }());
+
+/***/ }),
+
+/***/ 24:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
+/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+}
+
+/***/ }),
+
+/***/ 37:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+}
+
+/***/ }),
+
+/***/ 462:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -129,6 +212,7 @@ __webpack_require__.d(__webpack_exports__, "removeInvalidHTML", function() { ret
 __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return /* reexport */ getPhrasingContentSchema; });
 __webpack_require__.d(__webpack_exports__, "isPhrasingContent", function() { return /* reexport */ isPhrasingContent; });
 __webpack_require__.d(__webpack_exports__, "isTextContent", function() { return /* reexport */ isTextContent; });
+__webpack_require__.d(__webpack_exports__, "getFilesFromDataTransfer", function() { return /* reexport */ getFilesFromDataTransfer; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/dom/build-module/focusable.js
 var focusable_namespaceObject = {};
@@ -235,8 +319,8 @@ function find(context) {
   });
 }
 
-// EXTERNAL MODULE: external {"this":"lodash"}
-var external_this_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/tabbable.js
 /**
@@ -311,7 +395,7 @@ function createStatefulCollapseRadioGroup() {
 
     if (hasChosen) {
       var hadChosenElement = CHOSEN_RADIO_BY_NAME[name];
-      result = Object(external_this_lodash_["without"])(result, hadChosenElement);
+      result = Object(external_lodash_["without"])(result, hadChosenElement);
     }
 
     CHOSEN_RADIO_BY_NAME[name] = element;
@@ -400,7 +484,7 @@ function findPrevious(element) {
   var index = focusables.indexOf(element); // Remove all focusables after and including `element`.
 
   focusables.length = index;
-  return Object(external_this_lodash_["last"])(filterTabbable(focusables));
+  return Object(external_lodash_["last"])(filterTabbable(focusables));
 }
 /**
  * Given a focusable element, find the next tabbable element.
@@ -416,8 +500,11 @@ function findNext(element) {
   var remaining = focusables.slice(index + 1).filter(function (node) {
     return !element.contains(node);
   });
-  return Object(external_this_lodash_["first"])(filterTabbable(remaining));
+  return Object(external_lodash_["first"])(filterTabbable(remaining));
 }
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
+var toConsumableArray = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(5);
@@ -498,8 +585,8 @@ var textContentSchema = {
 // Possible: strong > em > strong.
 // Impossible: strong > strong.
 
-Object(external_this_lodash_["without"])(Object.keys(textContentSchema), '#text', 'br').forEach(function (tag) {
-  textContentSchema[tag].children = Object(external_this_lodash_["omit"])(textContentSchema, tag);
+Object(external_lodash_["without"])(Object.keys(textContentSchema), '#text', 'br').forEach(function (tag) {
+  textContentSchema[tag].children = Object(external_lodash_["omit"])(textContentSchema, tag);
 });
 /**
  * Embedded content elements.
@@ -551,7 +638,7 @@ function getPhrasingContentSchema(context) {
     return phrasingContentSchema;
   }
 
-  return Object(external_this_lodash_["omit"])(_objectSpread(_objectSpread({}, phrasingContentSchema), {}, {
+  return Object(external_lodash_["omit"])(_objectSpread(_objectSpread({}, phrasingContentSchema), {}, {
     // We shouldn't paste potentially sensitive information which is not
     // visible to the user when pasted, so strip the attributes.
     ins: {
@@ -589,6 +676,8 @@ function isTextContent(node) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom.js
+
+
 /**
  * External dependencies
  */
@@ -601,6 +690,31 @@ function isTextContent(node) {
 
 function getComputedStyle(node) {
   return node.ownerDocument.defaultView.getComputedStyle(node);
+}
+/**
+ * Gets the height of the range without ignoring zero width rectangles, which
+ * some browsers ignore when creating a union.
+ *
+ * @param {Range} range The range to check.
+ */
+
+
+function getRangeHeight(range) {
+  var rects = Array.from(range.getClientRects());
+
+  if (!rects.length) {
+    return;
+  }
+
+  var highestTop = Math.min.apply(Math, Object(toConsumableArray["a" /* default */])(rects.map(function (_ref) {
+    var top = _ref.top;
+    return top;
+  })));
+  var lowestBottom = Math.max.apply(Math, Object(toConsumableArray["a" /* default */])(rects.map(function (_ref2) {
+    var bottom = _ref2.bottom;
+    return bottom;
+  })));
+  return lowestBottom - highestTop;
 }
 /**
  * Returns true if the given selection object is in the forward direction, or
@@ -659,7 +773,7 @@ function isSelectionForward(selection) {
 
 
 function isEdge(container, isReverse, onlyVertical) {
-  if (Object(external_this_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
     if (container.selectionStart !== container.selectionEnd) {
       return false;
     }
@@ -683,67 +797,67 @@ function isEdge(container, isReverse, onlyVertical) {
     return false;
   }
 
-  var originalRange = selection.getRangeAt(0);
-  var range = originalRange.cloneRange();
+  var range = selection.getRangeAt(0);
+  var collapsedRange = range.cloneRange();
   var isForward = isSelectionForward(selection);
   var isCollapsed = selection.isCollapsed; // Collapse in direction of selection.
 
   if (!isCollapsed) {
-    range.collapse(!isForward);
+    collapsedRange.collapse(!isForward);
   }
 
+  var collapsedRangeRect = getRectangleFromRange(collapsedRange);
   var rangeRect = getRectangleFromRange(range);
 
-  if (!rangeRect) {
+  if (!collapsedRangeRect || !rangeRect) {
     return false;
-  }
+  } // Only consider the multiline selection at the edge if the direction is
+  // towards the edge. The selection is multiline if it is taller than the
+  // collapsed  selection.
 
-  var computedStyle = getComputedStyle(container);
-  var lineHeight = parseInt(computedStyle.lineHeight, 10) || 0; // Only consider the multiline selection at the edge if the direction is
-  // towards the edge.
 
-  if (!isCollapsed && rangeRect.height > lineHeight && isForward === isReverse) {
+  if (!isCollapsed && getRangeHeight(range) > collapsedRangeRect.height && isForward === isReverse) {
     return false;
-  }
-
-  var padding = parseInt(computedStyle["padding".concat(isReverse ? 'Top' : 'Bottom')], 10) || 0; // Calculate a buffer that is half the line height. In some browsers, the
-  // selection rectangle may not fill the entire height of the line, so we add
-  // 3/4 the line height to the selection rectangle to ensure that it is well
-  // over its line boundary.
-
-  var buffer = 3 * parseInt(lineHeight, 10) / 4;
-  var containerRect = container.getBoundingClientRect();
-  var originalRangeRect = getRectangleFromRange(originalRange);
-  var verticalEdge = isReverse ? containerRect.top + padding > originalRangeRect.top - buffer : containerRect.bottom - padding < originalRangeRect.bottom + buffer;
-
-  if (!verticalEdge) {
-    return false;
-  }
-
-  if (onlyVertical) {
-    return true;
   } // In the case of RTL scripts, the horizontal edge is at the opposite side.
 
 
-  var direction = computedStyle.direction;
-  var isReverseDir = direction === 'rtl' ? !isReverse : isReverse; // To calculate the horizontal position, we insert a test range and see if
-  // this test range has the same horizontal position. This method proves to
-  // be better than a DOM-based calculation, because it ignores empty text
-  // nodes and a trailing line break element. In other words, we need to check
-  // visual positioning, not DOM positioning.
+  var _getComputedStyle = getComputedStyle(container),
+      direction = _getComputedStyle.direction;
+
+  var isReverseDir = direction === 'rtl' ? !isReverse : isReverse;
+  var containerRect = container.getBoundingClientRect(); // To check if a selection is at the edge, we insert a test selection at the
+  // edge of the container and check if the selections have the same vertical
+  // or horizontal position. If they do, the selection is at the edge.
+  // This method proves to be better than a DOM-based calculation for the
+  // horizontal edge, since it ignores empty textnodes and a trailing line
+  // break element. In other words, we need to check visual positioning, not
+  // DOM positioning.
+  // It also proves better than using the computed style for the vertical
+  // edge, because we cannot know the padding and line height reliably in
+  // pixels. `getComputedStyle` may return a value with different units.
 
   var x = isReverseDir ? containerRect.left + 1 : containerRect.right - 1;
-  var y = isReverse ? containerRect.top + buffer : containerRect.bottom - buffer;
+  var y = isReverse ? containerRect.top + 1 : containerRect.bottom - 1;
   var testRange = hiddenCaretRangeFromPoint(ownerDocument, x, y, container);
 
   if (!testRange) {
     return false;
   }
 
-  var side = isReverseDir ? 'left' : 'right';
-  var testRect = getRectangleFromRange(testRange); // Allow the position to be 1px off.
+  var testRect = getRectangleFromRange(testRange);
 
-  return Math.abs(testRect[side] - rangeRect[side]) <= 1;
+  if (!testRect) {
+    return false;
+  }
+
+  var verticalSide = isReverse ? 'top' : 'bottom';
+  var horizontalSide = isReverseDir ? 'left' : 'right';
+  var verticalDiff = testRect[verticalSide] - rangeRect[verticalSide];
+  var horizontalDiff = testRect[horizontalSide] - collapsedRangeRect[horizontalSide]; // Allow the position to be 1px off.
+
+  var hasVerticalDiff = Math.abs(verticalDiff) <= 1;
+  var hasHorizontalDiff = Math.abs(horizontalDiff) <= 1;
+  return onlyVertical ? hasVerticalDiff : hasVerticalDiff && hasHorizontalDiff;
 }
 /**
  * Check whether the selection is horizontally at the edge of the container.
@@ -845,7 +959,7 @@ function placeCaretAtHorizontalEdge(container, isReverse) {
     return;
   }
 
-  if (Object(external_this_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
     container.focus();
 
     if (isReverse) {
@@ -1121,7 +1235,7 @@ function documentHasSelection(doc) {
  */
 
 function isEntirelySelected(element) {
-  if (Object(external_this_lodash_["includes"])(['INPUT', 'TEXTAREA'], element.nodeName)) {
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], element.nodeName)) {
     return element.selectionStart === 0 && element.value.length === element.selectionEnd;
   }
 
@@ -1167,8 +1281,8 @@ function getScrollContainer(node) {
 
   if (node.scrollHeight > node.clientHeight) {
     // ...except when overflow is defined to be hidden or visible
-    var _getComputedStyle = getComputedStyle(node),
-        overflowY = _getComputedStyle.overflowY;
+    var _getComputedStyle2 = getComputedStyle(node),
+        overflowY = _getComputedStyle2.overflowY;
 
     if (/(auto|scroll)/.test(overflowY)) {
       return node;
@@ -1342,10 +1456,10 @@ function cleanNodeList(nodeList, doc, schema, inline) {
 
         if (node.hasAttributes()) {
           // Strip invalid attributes.
-          Array.from(node.attributes).forEach(function (_ref) {
-            var name = _ref.name;
+          Array.from(node.attributes).forEach(function (_ref3) {
+            var name = _ref3.name;
 
-            if (name !== 'class' && !Object(external_this_lodash_["includes"])(attributes, name)) {
+            if (name !== 'class' && !Object(external_lodash_["includes"])(attributes, name)) {
               node.removeAttribute(name);
             }
           }); // Strip invalid classes.
@@ -1364,7 +1478,7 @@ function cleanNodeList(nodeList, doc, schema, inline) {
                 };
               }
 
-              return external_this_lodash_["noop"];
+              return external_lodash_["noop"];
             });
             Array.from(node.classList).forEach(function (name) {
               if (!mattchers.some(function (isMatch) {
@@ -1433,7 +1547,7 @@ function cleanNodeList(nodeList, doc, schema, inline) {
  *
  * @param {Element} element The element to check.
  *
- * @return {boolean} Wether or not the element is empty.
+ * @return {boolean} Whether or not the element is empty.
  */
 
 
@@ -1477,6 +1591,34 @@ function removeInvalidHTML(HTML, schema, inline) {
   return doc.body.innerHTML;
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/data-transfer.js
+
+
+/**
+ * Gets all files from a DataTransfer object.
+ *
+ * @param {DataTransfer} dataTransfer DataTransfer object to inspect.
+ *
+ * @return {Object[]} An array containing all files.
+ */
+function getFilesFromDataTransfer(dataTransfer) {
+  var files = Object(toConsumableArray["a" /* default */])(dataTransfer.files);
+
+  Array.from(dataTransfer.items).forEach(function (item) {
+    var file = item.getAsFile();
+
+    if (file && !files.find(function (_ref) {
+      var name = _ref.name,
+          type = _ref.type,
+          size = _ref.size;
+      return name === file.name && type === file.type && size === file.size;
+    })) {
+      files.push(file);
+    }
+  });
+  return files;
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/index.js
 /**
  * Internal dependencies
@@ -1492,6 +1634,7 @@ var build_module_focus = {
   focusable: focusable_namespaceObject,
   tabbable: tabbable_namespaceObject
 };
+
 
 
 

@@ -15,5 +15,6 @@
 	"supports": {
 		"align": true,
 		"html": false
-	}
+	},
+	"editorStyle": "wp-block-archives-editor"
 }

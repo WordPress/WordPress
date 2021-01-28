@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 476);
+/******/ 	return __webpack_require__(__webpack_require__.s = 458);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 203:
+/***/ 200:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -326,7 +326,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 476:
+/***/ 458:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -344,11 +344,11 @@ __webpack_require__.d(__webpack_exports__, "_nx", function() { return /* reexpor
 __webpack_require__.d(__webpack_exports__, "isRTL", function() { return /* reexport */ default_i18n_isRTL; });
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(60);
+var memize = __webpack_require__(62);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(203);
+var sprintf = __webpack_require__(200);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/sprintf.js
@@ -929,19 +929,76 @@ var DEFAULT_LOCALE_DATA = {
     }
   }
 };
+/* eslint-disable jsdoc/valid-types */
+
+/**
+ * @typedef {(data?: LocaleData, domain?: string) => void} SetLocaleData
+ * Merges locale data into the Tannin instance by domain. Accepts data in a
+ * Jed-formatted JSON object shape.
+ *
+ * @see http://messageformat.github.io/Jed/
+ */
+
+/**
+ * @typedef {(text: string, domain?: string) => string} __
+ *
+ * Retrieve the translation of text.
+ *
+ * @see https://developer.wordpress.org/reference/functions/__/
+ */
+
+/**
+ * @typedef {(text: string, context: string, domain?: string) => string} _x
+ *
+ * Retrieve translated string with gettext context.
+ *
+ * @see https://developer.wordpress.org/reference/functions/_x/
+ */
+
+/**
+ * @typedef {(single: string, plural: string, number: number, domain?: string) => string} _n
+ *
+ * Translates and retrieves the singular or plural form based on the supplied
+ * number.
+ *
+ * @see https://developer.wordpress.org/reference/functions/_n/
+ */
+
+/**
+ * @typedef {(single: string, plural: string, number: number, context: string, domain?: string) => string} _nx
+ *
+ * Translates and retrieves the singular or plural form based on the supplied
+ * number, with gettext context.
+ *
+ * @see https://developer.wordpress.org/reference/functions/_nx/
+ */
+
+/**
+ * @typedef {() => boolean} IsRtl
+ *
+ * Check if current locale is RTL.
+ *
+ * **RTL (Right To Left)** is a locale property indicating that text is written from right to left.
+ * For example, the `he` locale (for Hebrew) specifies right-to-left. Arabic (ar) is another common
+ * language written RTL. The opposite of RTL, LTR (Left To Right) is used in other languages,
+ * including English (`en`, `en-US`, `en-GB`, etc.), Spanish (`es`), and French (`fr`).
+ */
+
+/* eslint-enable jsdoc/valid-types */
+
 /**
  * An i18n instance
  *
- * @typedef {Object} I18n
- * @property {Function} setLocaleData Merges locale data into the Tannin instance by domain. Accepts data in a
- *                                    Jed-formatted JSON object shape.
- * @property {Function} __            Retrieve the translation of text.
- * @property {Function} _x            Retrieve translated string with gettext context.
- * @property {Function} _n            Translates and retrieves the singular or plural form based on the supplied
- *                                    number.
- * @property {Function} _nx           Translates and retrieves the singular or plural form based on the supplied
- *                                    number, with gettext context.
- * @property {Function} isRTL         Check if current locale is RTL.
+ * @typedef I18n
+ * @property {SetLocaleData} setLocaleData Merges locale data into the Tannin instance by domain. Accepts data in a
+ *                                         Jed-formatted JSON object shape.
+ * @property {__} __                       Retrieve the translation of text.
+ * @property {_x} _x                       Retrieve translated string with gettext context.
+ * @property {_n} _n                       Translates and retrieves the singular or plural form based on the supplied
+ *                                         number.
+ * @property {_nx} _nx                     Translates and retrieves the singular or plural form based on the supplied
+ *                                         number, with gettext context.
+ * @property {IsRtl} isRTL                 Check if current locale is RTL.
  */
 
 /**
@@ -959,15 +1016,7 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain) {
    * @type {Tannin}
    */
   var tannin = new Tannin({});
-  /**
-   * Merges locale data into the Tannin instance by domain. Accepts data in a
-   * Jed-formatted JSON object shape.
-   *
-   * @see http://messageformat.github.io/Jed/
-   *
-   * @param {LocaleData} [data]   Locale data configuration.
-   * @param {string}     [domain] Domain for which configuration applies.
-   */
+  /** @type {SetLocaleData} */
 
   var setLocaleData = function setLocaleData(data) {
     var domain = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default';
@@ -1006,86 +1055,31 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain) {
 
     return tannin.dcnpgettext(domain, context, single, plural, number);
   };
-  /**
-   * Retrieve the translation of text.
-   *
-   * @see https://developer.wordpress.org/reference/functions/__/
-   *
-   * @param {string} text     Text to translate.
-   * @param {string} [domain] Domain to retrieve the translated text.
-   *
-   * @return {string} Translated text.
-   */
+  /** @type {__} */
 
 
   var __ = function __(text, domain) {
     return dcnpgettext(domain, undefined, text);
   };
-  /**
-   * Retrieve translated string with gettext context.
-   *
-   * @see https://developer.wordpress.org/reference/functions/_x/
-   *
-   * @param {string} text     Text to translate.
-   * @param {string} context  Context information for the translators.
-   * @param {string} [domain] Domain to retrieve the translated text.
-   *
-   * @return {string} Translated context string without pipe.
-   */
+  /** @type {_x} */
 
 
   var _x = function _x(text, context, domain) {
     return dcnpgettext(domain, context, text);
   };
-  /**
-   * Translates and retrieves the singular or plural form based on the supplied
-   * number.
-   *
-   * @see https://developer.wordpress.org/reference/functions/_n/
-   *
-   * @param {string} single   The text to be used if the number is singular.
-   * @param {string} plural   The text to be used if the number is plural.
-   * @param {number} number   The number to compare against to use either the
-   *                          singular or plural form.
-   * @param {string} [domain] Domain to retrieve the translated text.
-   *
-   * @return {string} The translated singular or plural form.
-   */
+  /** @type {_n} */
 
 
   var _n = function _n(single, plural, number, domain) {
     return dcnpgettext(domain, undefined, single, plural, number);
   };
-  /**
-   * Translates and retrieves the singular or plural form based on the supplied
-   * number, with gettext context.
-   *
-   * @see https://developer.wordpress.org/reference/functions/_nx/
-   *
-   * @param {string} single   The text to be used if the number is singular.
-   * @param {string} plural   The text to be used if the number is plural.
-   * @param {number} number   The number to compare against to use either the
-   *                          singular or plural form.
-   * @param {string} context  Context information for the translators.
-   * @param {string} [domain] Domain to retrieve the translated text.
-   *
-   * @return {string} The translated singular or plural form.
-   */
+  /** @type {_nx} */
 
 
   var _nx = function _nx(single, plural, number, context, domain) {
     return dcnpgettext(domain, context, single, plural, number);
   };
-  /**
-   * Check if current locale is RTL.
-   *
-   * **RTL (Right To Left)** is a locale property indicating that text is written from right to left.
-   * For example, the `he` locale (for Hebrew) specifies right-to-left. Arabic (ar) is another common
-   * language written RTL. The opposite of RTL, LTR (Left To Right) is used in other languages,
-   * including English (`en`, `en-US`, `en-GB`, etc.), Spanish (`es`), and French (`fr`).
-   *
-   * @return {boolean} Whether locale is RTL.
-   */
+  /** @type {IsRtl} */
 
 
   var isRTL = function isRTL() {
@@ -1233,7 +1227,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 60:
+/***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**

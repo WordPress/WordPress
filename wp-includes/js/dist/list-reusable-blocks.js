@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["listReusableBlocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 481);
+/******/ 	return __webpack_require__(__webpack_require__.s = 464);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -90,25 +90,32 @@ this["wp"] = this["wp"] || {}; this["wp"]["listReusableBlocks"] =
 /***/ 0:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["element"]; }());
+(function() { module.exports = window["wp"]["element"]; }());
 
 /***/ }),
 
 /***/ 1:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["i18n"]; }());
+(function() { module.exports = window["wp"]["i18n"]; }());
 
 /***/ }),
 
-/***/ 10:
+/***/ 12:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["compose"]; }());
+(function() { module.exports = window["wp"]["compose"]; }());
 
 /***/ }),
 
-/***/ 16:
+/***/ 17:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["regeneratorRuntime"]; }());
+
+/***/ }),
+
+/***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -140,18 +147,11 @@ function _getPrototypeOf(o) {
 /***/ 2:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["lodash"]; }());
+(function() { module.exports = window["lodash"]; }());
 
 /***/ }),
 
-/***/ 20:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["regeneratorRuntime"]; }());
-
-/***/ }),
-
-/***/ 21:
+/***/ 25:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -164,7 +164,7 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 22:
+/***/ 26:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -187,7 +187,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 23:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -223,21 +223,21 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
-/***/ 24:
+/***/ 29:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
-/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(42);
+/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
 
 
 function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
     return call;
   }
 
-  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
 }
 
 /***/ }),
@@ -245,11 +245,11 @@ function _possibleConstructorReturn(self, call) {
 /***/ 3:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["components"]; }());
+(function() { module.exports = window["wp"]["components"]; }());
 
 /***/ }),
 
-/***/ 40:
+/***/ 42:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -272,82 +272,32 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 45:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-/***/ }),
-
-/***/ 47:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["apiFetch"]; }());
-
-/***/ }),
-
-/***/ 481:
+/***/ 464:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: external {"this":["wp","element"]}
-var external_this_wp_element_ = __webpack_require__(0);
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__(0);
 
-// EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(1);
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(1);
 
-// EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
-var external_this_regeneratorRuntime_ = __webpack_require__(20);
-var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
+// EXTERNAL MODULE: external "regeneratorRuntime"
+var external_regeneratorRuntime_ = __webpack_require__(17);
+var external_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(45);
+var asyncToGenerator = __webpack_require__(47);
 
-// EXTERNAL MODULE: external {"this":"lodash"}
-var external_this_lodash_ = __webpack_require__(2);
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
 
-// EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(47);
-var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
+// EXTERNAL MODULE: external ["wp","apiFetch"]
+var external_wp_apiFetch_ = __webpack_require__(49);
+var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/file.js
 /**
@@ -422,21 +372,21 @@ function exportReusableBlock(_x) {
 }
 
 function _exportReusableBlock() {
-  _exportReusableBlock = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(function _callee(id) {
+  _exportReusableBlock = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_regeneratorRuntime_default.a.mark(function _callee(id) {
     var postType, post, title, content, fileContent, fileName;
-    return external_this_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
+    return external_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return external_this_wp_apiFetch_default()({
+            return external_wp_apiFetch_default()({
               path: "/wp/v2/types/wp_block"
             });
 
           case 2:
             postType = _context.sent;
             _context.next = 5;
-            return external_this_wp_apiFetch_default()({
+            return external_wp_apiFetch_default()({
               path: "/wp/v2/".concat(postType.rest_base, "/").concat(id, "?context=edit")
             });
 
@@ -449,7 +399,7 @@ function _exportReusableBlock() {
               title: title,
               content: content
             }, null, 2);
-            fileName = Object(external_this_lodash_["kebabCase"])(title) + '.json';
+            fileName = Object(external_lodash_["kebabCase"])(title) + '.json';
             download(fileName, fileContent, 'application/json');
 
           case 11:
@@ -464,29 +414,29 @@ function _exportReusableBlock() {
 
 /* harmony default export */ var utils_export = (exportReusableBlock);
 
-// EXTERNAL MODULE: external {"this":["wp","components"]}
-var external_this_wp_components_ = __webpack_require__(3);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(3);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
-var classCallCheck = __webpack_require__(21);
+var classCallCheck = __webpack_require__(25);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__(22);
+var createClass = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
-var assertThisInitialized = __webpack_require__(16);
+var assertThisInitialized = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(23);
+var inherits = __webpack_require__(28);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(24);
+var possibleConstructorReturn = __webpack_require__(29);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(19);
 
-// EXTERNAL MODULE: external {"this":["wp","compose"]}
-var external_this_wp_compose_ = __webpack_require__(10);
+// EXTERNAL MODULE: external ["wp","compose"]
+var external_wp_compose_ = __webpack_require__(12);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/import.js
 
@@ -518,9 +468,9 @@ function importReusableBlock(_x) {
 }
 
 function _importReusableBlock() {
-  _importReusableBlock = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(function _callee(file) {
+  _importReusableBlock = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_regeneratorRuntime_default.a.mark(function _callee(file) {
     var fileContent, parsedContent, postType, reusableBlock;
-    return external_this_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
+    return external_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -540,7 +490,7 @@ function _importReusableBlock() {
             throw new Error('Invalid JSON file');
 
           case 10:
-            if (!(parsedContent.__file !== 'wp_block' || !parsedContent.title || !parsedContent.content || !Object(external_this_lodash_["isString"])(parsedContent.title) || !Object(external_this_lodash_["isString"])(parsedContent.content))) {
+            if (!(parsedContent.__file !== 'wp_block' || !parsedContent.title || !parsedContent.content || !Object(external_lodash_["isString"])(parsedContent.title) || !Object(external_lodash_["isString"])(parsedContent.content))) {
               _context.next = 12;
               break;
             }
@@ -549,14 +499,14 @@ function _importReusableBlock() {
 
           case 12:
             _context.next = 14;
-            return external_this_wp_apiFetch_default()({
+            return external_wp_apiFetch_default()({
               path: "/wp/v2/types/wp_block"
             });
 
           case 14:
             postType = _context.sent;
             _context.next = 17;
-            return external_this_wp_apiFetch_default()({
+            return external_wp_apiFetch_default()({
               path: "/wp/v2/".concat(postType.rest_base),
               data: {
                 title: parsedContent.title,
@@ -639,7 +589,8 @@ var import_form_ImportForm = /*#__PURE__*/function (_Component) {
     key: "onChangeFile",
     value: function onChangeFile(event) {
       this.setState({
-        file: event.target.files[0]
+        file: event.target.files[0],
+        error: null
       });
     }
   }, {
@@ -677,15 +628,15 @@ var import_form_ImportForm = /*#__PURE__*/function (_Component) {
 
         switch (error.message) {
           case 'Invalid JSON file':
-            uiMessage = Object(external_this_wp_i18n_["__"])('Invalid JSON file');
+            uiMessage = Object(external_wp_i18n_["__"])('Invalid JSON file');
             break;
 
           case 'Invalid Reusable Block JSON file':
-            uiMessage = Object(external_this_wp_i18n_["__"])('Invalid Reusable Block JSON file');
+            uiMessage = Object(external_wp_i18n_["__"])('Invalid Reusable Block JSON file');
             break;
 
           default:
-            uiMessage = Object(external_this_wp_i18n_["__"])('Unknown error');
+            uiMessage = Object(external_wp_i18n_["__"])('Unknown error');
         }
 
         _this2.setState({
@@ -695,40 +646,52 @@ var import_form_ImportForm = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "onDismissError",
+    value: function onDismissError() {
+      this.setState({
+        error: null
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       var instanceId = this.props.instanceId;
       var _this$state = this.state,
           file = _this$state.file,
           isLoading = _this$state.isLoading,
           error = _this$state.error;
       var inputId = 'list-reusable-blocks-import-form-' + instanceId;
-      return Object(external_this_wp_element_["createElement"])("form", {
+      return Object(external_wp_element_["createElement"])("form", {
         className: "list-reusable-blocks-import-form",
         onSubmit: this.onSubmit
-      }, error && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Notice"], {
-        status: "error"
-      }, error), Object(external_this_wp_element_["createElement"])("label", {
+      }, error && Object(external_wp_element_["createElement"])(external_wp_components_["Notice"], {
+        status: "error",
+        onRemove: function onRemove() {
+          return _this3.onDismissError();
+        }
+      }, error), Object(external_wp_element_["createElement"])("label", {
         htmlFor: inputId,
         className: "list-reusable-blocks-import-form__label"
-      }, Object(external_this_wp_i18n_["__"])('File')), Object(external_this_wp_element_["createElement"])("input", {
+      }, Object(external_wp_i18n_["__"])('File')), Object(external_wp_element_["createElement"])("input", {
         id: inputId,
         type: "file",
         onChange: this.onChangeFile
-      }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
+      }), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
         type: "submit",
         isBusy: isLoading,
         disabled: !file || isLoading,
         isSecondary: true,
         className: "list-reusable-blocks-import-form__button"
-      }, Object(external_this_wp_i18n_["_x"])('Import', 'button label')));
+      }, Object(external_wp_i18n_["_x"])('Import', 'button label')));
     }
   }]);
 
   return ImportForm;
-}(external_this_wp_element_["Component"]);
+}(external_wp_element_["Component"]);
 
-/* harmony default export */ var import_form = (Object(external_this_wp_compose_["withInstanceId"])(import_form_ImportForm));
+/* harmony default export */ var import_form = (Object(external_wp_compose_["withInstanceId"])(import_form_ImportForm));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/components/import-dropdown/index.js
 
@@ -751,22 +714,22 @@ var import_form_ImportForm = /*#__PURE__*/function (_Component) {
 
 function ImportDropdown(_ref) {
   var onUpload = _ref.onUpload;
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Dropdown"], {
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Dropdown"], {
     position: "bottom right",
     contentClassName: "list-reusable-blocks-import-dropdown__content",
     renderToggle: function renderToggle(_ref2) {
       var isOpen = _ref2.isOpen,
           onToggle = _ref2.onToggle;
-      return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
+      return Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
         "aria-expanded": isOpen,
         onClick: onToggle,
         isPrimary: true
-      }, Object(external_this_wp_i18n_["__"])('Import from JSON'));
+      }, Object(external_wp_i18n_["__"])('Import from JSON'));
     },
     renderContent: function renderContent(_ref3) {
       var onClose = _ref3.onClose;
-      return Object(external_this_wp_element_["createElement"])(import_form, {
-        onUpload: Object(external_this_lodash_["flow"])(onClose, onUpload)
+      return Object(external_wp_element_["createElement"])(import_form, {
+        onUpload: Object(external_lodash_["flow"])(onClose, onUpload)
       });
     }
   });
@@ -808,7 +771,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var showNotice = function showNotice() {
     var notice = document.createElement('div');
     notice.className = 'notice notice-success is-dismissible';
-    notice.innerHTML = "<p>".concat(Object(external_this_wp_i18n_["__"])('Reusable block imported successfully!'), "</p>");
+    notice.innerHTML = "<p>".concat(Object(external_wp_i18n_["__"])('Reusable block imported successfully!'), "</p>");
     var headerEnd = document.querySelector('.wp-header-end');
 
     if (!headerEnd) {
@@ -821,11 +784,61 @@ document.addEventListener('DOMContentLoaded', function () {
   var container = document.createElement('div');
   container.className = 'list-reusable-blocks__container';
   button.parentNode.insertBefore(container, button);
-  Object(external_this_wp_element_["render"])(Object(external_this_wp_element_["createElement"])(import_dropdown, {
+  Object(external_wp_element_["render"])(Object(external_wp_element_["createElement"])(import_dropdown, {
     onUpload: showNotice
   }), container);
 });
 
+
+/***/ }),
+
+/***/ 47:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+/***/ }),
+
+/***/ 49:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["apiFetch"]; }());
 
 /***/ })
 

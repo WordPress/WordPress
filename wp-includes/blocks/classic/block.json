@@ -12,5 +12,6 @@
 		"className": false,
 		"customClassName": false,
 		"reusable": false
-	}
+	},
+	"editorStyle": "wp-block-freeform-editor"
 }

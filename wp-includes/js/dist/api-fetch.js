@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 475);
+/******/ 	return __webpack_require__(__webpack_require__.s = 456);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -90,20 +90,20 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 /***/ 1:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["i18n"]; }());
+(function() { module.exports = window["wp"]["i18n"]; }());
 
 /***/ }),
 
-/***/ 14:
+/***/ 13:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
+  var target = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -122,17 +122,17 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 20:
+/***/ 17:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["regeneratorRuntime"]; }());
+(function() { module.exports = window["regeneratorRuntime"]; }());
 
 /***/ }),
 
-/***/ 30:
+/***/ 31:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["url"]; }());
+(function() { module.exports = window["wp"]["url"]; }());
 
 /***/ }),
 
@@ -158,50 +158,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 45:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-/***/ }),
-
-/***/ 475:
+/***/ 456:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -212,10 +169,10 @@ __webpack_require__.r(__webpack_exports__);
 var defineProperty = __webpack_require__(5);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(14);
+var objectWithoutProperties = __webpack_require__(13);
 
-// EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(1);
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(1);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js
 
@@ -392,15 +349,15 @@ function createPreloadingMiddleware(preloadedData) {
 
 /* harmony default export */ var preloading = (createPreloadingMiddleware);
 
-// EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
-var external_this_regeneratorRuntime_ = __webpack_require__(20);
-var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
+// EXTERNAL MODULE: external "regeneratorRuntime"
+var external_regeneratorRuntime_ = __webpack_require__(17);
+var external_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_regeneratorRuntime_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(45);
+var asyncToGenerator = __webpack_require__(47);
 
-// EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(30);
+// EXTERNAL MODULE: external ["wp","url"]
+var external_wp_url_ = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
 
@@ -428,8 +385,8 @@ var fetch_all_middleware_modifyQuery = function modifyQuery(_ref, queryArgs) {
       options = Object(objectWithoutProperties["a" /* default */])(_ref, ["path", "url"]);
 
   return fetch_all_middleware_objectSpread(fetch_all_middleware_objectSpread({}, options), {}, {
-    url: url && Object(external_this_wp_url_["addQueryArgs"])(url, queryArgs),
-    path: path && Object(external_this_wp_url_["addQueryArgs"])(path, queryArgs)
+    url: url && Object(external_wp_url_["addQueryArgs"])(url, queryArgs),
+    path: path && Object(external_wp_url_["addQueryArgs"])(path, queryArgs)
   });
 }; // Duplicates parsing functionality from apiFetch.
 
@@ -466,9 +423,9 @@ var requestContainsUnboundedQuery = function requestContainsUnboundedQuery(optio
 
 
 var fetchAllMiddleware = /*#__PURE__*/function () {
-  var _ref2 = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_this_regeneratorRuntime_default.a.mark(function _callee(options, next) {
+  var _ref2 = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_regeneratorRuntime_default.a.mark(function _callee(options, next) {
     var response, results, nextPage, mergedResults, nextResponse, nextResults;
-    return external_this_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
+    return external_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -632,14 +589,14 @@ function httpV1Middleware(options, next) {
 
 
 function userLocaleMiddleware(options, next) {
-  if (typeof options.url === 'string' && !Object(external_this_wp_url_["hasQueryArg"])(options.url, '_locale')) {
-    options.url = Object(external_this_wp_url_["addQueryArgs"])(options.url, {
+  if (typeof options.url === 'string' && !Object(external_wp_url_["hasQueryArg"])(options.url, '_locale')) {
+    options.url = Object(external_wp_url_["addQueryArgs"])(options.url, {
       _locale: 'user'
     });
   }
 
-  if (typeof options.path === 'string' && !Object(external_this_wp_url_["hasQueryArg"])(options.path, '_locale')) {
-    options.path = Object(external_this_wp_url_["addQueryArgs"])(options.path, {
+  if (typeof options.path === 'string' && !Object(external_wp_url_["hasQueryArg"])(options.path, '_locale')) {
+    options.path = Object(external_wp_url_["addQueryArgs"])(options.path, {
       _locale: 'user'
     });
   }
@@ -680,7 +637,7 @@ var response_parseResponse = function parseResponse(response) {
 var response_parseJsonAndNormalizeError = function parseJsonAndNormalizeError(response) {
   var invalidJsonError = {
     code: 'invalid_json',
-    message: Object(external_this_wp_i18n_["__"])('The response is not a valid JSON response.')
+    message: Object(external_wp_i18n_["__"])('The response is not a valid JSON response.')
   };
 
   if (!response || !response.json) {
@@ -717,7 +674,7 @@ function parseAndThrowError(response) {
   return response_parseJsonAndNormalizeError(response).then(function (error) {
     var unknownError = {
       code: 'unknown_error',
-      message: Object(external_this_wp_i18n_["__"])('An unknown error occurred.')
+      message: Object(external_wp_i18n_["__"])('An unknown error occurred.')
     };
     throw error || unknownError;
   });
@@ -790,7 +747,7 @@ function mediaUploadMiddleware(options, next) {
         if (options.parse !== false) {
           return Promise.reject({
             code: 'post_process',
-            message: Object(external_this_wp_i18n_["__"])('Media upload failed. If this is a photo or a large image, please scale it down and try again.')
+            message: Object(external_wp_i18n_["__"])('Media upload failed. If this is a photo or a large image, please scale it down and try again.')
           });
         }
 
@@ -903,7 +860,7 @@ var build_module_defaultFetchHandler = function defaultFetchHandler(nextOptions)
   }, function () {
     throw {
       code: 'fetch_error',
-      message: Object(external_this_wp_i18n_["__"])('You are probably offline.')
+      message: Object(external_wp_i18n_["__"])('You are probably offline.')
     };
   });
 };
@@ -955,6 +912,49 @@ apiFetch.fetchAllMiddleware = fetch_all_middleware;
 apiFetch.mediaUploadMiddleware = media_upload;
 /* harmony default export */ var build_module = __webpack_exports__["default"] = (apiFetch);
 
+
+/***/ }),
+
+/***/ 47:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
 
 /***/ }),
 

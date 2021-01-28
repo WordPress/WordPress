@@ -22,5 +22,7 @@
 	},
 	"supports": {
 		"anchor": true
-	}
+	},
+	"editorStyle": "wp-block-quote-editor",
+	"style": "wp-block-quote"
 }

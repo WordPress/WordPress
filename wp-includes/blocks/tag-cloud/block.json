@@ -15,5 +15,6 @@
 	"supports": {
 		"html": false,
 		"align": true
-	}
+	},
+	"editorStyle": "wp-block-tag-cloud-editor"
 }

@@ -5,6 +5,12 @@
  * Breakpoints & Media Queries
  */
 /**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ */
+/**
  * Colors
  */
 /**
@@ -24,13 +30,14 @@
  * Editor widths.
  */
 /**
- * Block UI.
- */
-/**
- * Border radii.
+ * Block & Editor UI.
  */
 /**
  * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
  */
 /**
  * Breakpoint mixins
@@ -61,61 +68,73 @@
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
 /**
- * Editor Normalization Styles
- *
- * These are only output in the editor, but styles here are prefixed .editor-styles-wrapper and affect the theming
- * of the editor by themes.
- * Why do these exist? Why not rely on browser defaults?
- * These styles are necessary so long as CSS can bleed from the wp-admin into the editing canvas itself.
- * Let's continue working to refactor these away, whether through Shadow DOM or better scoping of upstream styles.
+ * These are default block editor widths in case the theme doesn't provide them.
  */
+/**
+* Editor Normalization Styles
+*
+* These are only output in the editor, but styles here are prefixed .editor-styles-wrapper and affect the theming
+* of the editor by themes.
+* Why do these exist? Why not rely on browser defaults?
+* These styles are necessary so long as CSS can bleed from the wp-admin into the editing canvas itself.
+* Let's continue working to refactor these away, whether through Shadow DOM or better scoping of upstream styles.
+*/
 body {
   font-family: "Noto Serif", serif;
   font-size: 16px;
   line-height: 1.8;
   color: #1e1e1e;
-  padding: 10px; }
+  padding: 10px;
+}
 
-.block-editor-block-list__layout.is-root-container > .wp-block[data-align="full"] {
+.block-editor-block-list__layout.is-root-container > .wp-block[data-align=full] {
   margin-right: -10px;
-  margin-left: -10px; }
+  margin-left: -10px;
+}
 
 /* Headings */
 h1,
 h2,
 h3 {
-  line-height: 1.4; }
+  line-height: 1.4;
+}
 
 h1 {
   font-size: 2.44em;
   margin-top: 0.67em;
-  margin-bottom: 0.67em; }
+  margin-bottom: 0.67em;
+}
 
 h2 {
   font-size: 1.95em;
   margin-top: 0.83em;
-  margin-bottom: 0.83em; }
+  margin-bottom: 0.83em;
+}
 
 h3 {
   font-size: 1.56em;
   margin-top: 1em;
-  margin-bottom: 1em; }
+  margin-bottom: 1em;
+}
 
 h4 {
   font-size: 1.25em;
   line-height: 1.5;
   margin-top: 1.33em;
-  margin-bottom: 1.33em; }
+  margin-bottom: 1.33em;
+}
 
 h5 {
   font-size: 1em;
   margin-top: 1.67em;
-  margin-bottom: 1.67em; }
+  margin-bottom: 1.67em;
+}
 
 h6 {
   font-size: 0.8em;
   margin-top: 2.33em;
-  margin-bottom: 2.33em; }
+  margin-bottom: 2.33em;
+}
 
 h1,
 h2,
@@ -123,47 +142,59 @@ h3,
 h4,
 h5,
 h6 {
-  color: inherit; }
+  color: inherit;
+}
 
 p {
   font-size: inherit;
   line-height: inherit;
   margin-top: 28px;
-  margin-bottom: 28px; }
+  margin-bottom: 28px;
+}
 
 ul,
 ol {
   margin-bottom: 28px;
   padding-right: 1.3em;
-  margin-right: 1.3em; }
-  ul ul,
-  ul ol,
-  ol ul,
-  ol ol {
-    margin-bottom: 0; }
-  ul li,
-  ol li {
-    margin-bottom: initial; }
+  margin-right: 1.3em;
+}
+ul ul,
+ul ol,
+ol ul,
+ol ol {
+  margin-bottom: 0;
+}
+ul li,
+ol li {
+  margin-bottom: initial;
+}
 
 ul {
-  list-style-type: disc; }
+  list-style-type: disc;
+}
 
 ol {
-  list-style-type: decimal; }
+  list-style-type: decimal;
+}
 
 ul ul,
 ol ul {
-  list-style-type: circle; }
+  list-style-type: circle;
+}
 
 .wp-align-wrapper {
-  max-width: 580px; }
-  .wp-align-wrapper > .wp-block, .wp-align-wrapper.wp-align-full {
-    max-width: none; }
-  .wp-align-wrapper.wp-align-wide {
-    max-width: 1100px; }
+  max-width: 840px;
+}
+.wp-align-wrapper > .wp-block, .wp-align-wrapper.wp-align-full {
+  max-width: none;
+}
+.wp-align-wrapper.wp-align-wide {
+  max-width: 840px;
+}
 
 a {
-  transition: none; }
+  transition: none;
+}
 
 code,
 kbd {
@@ -171,4 +202,5 @@ kbd {
   margin: 0;
   background: inherit;
   font-size: inherit;
-  font-family: monospace; }
+  font-family: monospace;
+}
