@@ -90,7 +90,9 @@ class WP_Site_Health_Auto_Updates {
 	 * @return array The test results.
 	 */
 	public function test_wp_version_check_attached() {
-		if ( ( ! is_multisite() || ( is_main_site() && is_network_admin() ) ) && ! has_filter( 'wp_version_check', 'wp_version_check' ) ) {
+		if ( ( ! is_multisite() || is_main_site() && is_network_admin() )
+			&& ! has_filter( 'wp_version_check', 'wp_version_check' )
+		) {
 			return array(
 				'description' => sprintf(
 					/* translators: %s: Name of the filter used. */
