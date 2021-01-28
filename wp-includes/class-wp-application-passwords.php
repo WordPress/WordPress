@@ -172,14 +172,13 @@ class WP_Application_Passwords {
 	}
 
 	/**
-	 * Check if application name exists before for this user.
+	 * Checks if application name exists for this user.
 	 *
 	 * @since 5.7.0
 	 *
 	 * @param int    $user_id User ID.
 	 * @param string $name    Application name.
-	 *
-	 * @return bool Provided application name exists or not.
+	 * @return bool Whether provided application name exists or not.
 	 */
 	public static function application_name_exists_for_user( $user_id, $name ) {
 		$passwords = static::get_user_application_passwords( $user_id );
