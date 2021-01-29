@@ -19,7 +19,7 @@
 	},
 	"devDependencies": {
 		"@wordpress/browserslist-config": "^2.7.0",
-		"@wordpress/scripts": "^5.0.0",
+		"@wordpress/scripts": "^13.0.1",
 		"autoprefixer": "^9.8.6",
 		"concurrently": "^5.3.0",
 		"postcss-cli": "^7.1.2",
