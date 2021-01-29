@@ -71,9 +71,11 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
 
-		// Exclude attachments scheduled for deletion in the next two hours
-		// if they are for zip packages for interrupted or failed updates.
-		// See File_Upload_Upgrader class.
+		/*
+		 * Exclude attachments scheduled for deletion in the next two hours
+		 * if they are for zip packages for interrupted or failed updates.
+		 * See File_Upload_Upgrader class.
+		 */
 		$not_in = array();
 
 		foreach ( _get_cron_array() as $cron ) {
