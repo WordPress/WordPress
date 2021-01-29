@@ -147,6 +147,7 @@ $font_sizes         = current( (array) get_theme_support( 'editor-font-sizes' ) 
 $gradient_presets   = current( (array) get_theme_support( 'editor-gradient-presets' ) );
 $custom_line_height = get_theme_support( 'custom-line-height' );
 $custom_units       = get_theme_support( 'custom-units' );
+$custom_spacing     = get_theme_support( 'custom-spacing' );
 
 /**
  * Filters the allowed block types for the editor, defaulting to true (all
@@ -340,6 +341,7 @@ $editor_settings = array(
 	'enableCustomFields'                   => (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true ),
 	'enableCustomLineHeight'               => $custom_line_height,
 	'enableCustomUnits'                    => $custom_units,
+	'enableCustomSpacing'                  => $custom_spacing,
 );
 
 $autosave = wp_get_post_autosave( $post_ID );
