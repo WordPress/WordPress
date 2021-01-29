@@ -1048,15 +1048,39 @@ function rest_cookie_collect_status() {
  * Collects the status of authenticating with an application password.
  *
  * @since 5.6.0
+ * @since 5.7.0 Added the `$app_password` parameter.
  *
  * @global WP_User|WP_Error|null $wp_rest_application_password_status
+ * @global string|null $wp_rest_application_password_uuid
  *
  * @param WP_Error $user_or_error The authenticated user or error instance.
+ * @param array    $app_password  The Application Password used to authenticate.
  */
-function rest_application_password_collect_status( $user_or_error ) {
-	global $wp_rest_application_password_status;
+function rest_application_password_collect_status( $user_or_error, $app_password = array() ) {
+	global $wp_rest_application_password_status, $wp_rest_application_password_uuid;
 
 	$wp_rest_application_password_status = $user_or_error;
+
+	if ( empty( $app_password['uuid'] ) ) {
+		$wp_rest_application_password_uuid = null;
+	} else {
+		$wp_rest_application_password_uuid = $app_password['uuid'];
+	}
+}
+
+/**
+ * Gets the Application Password used for authenticating the request.
+ *
+ * @since 5.7.0
+ *
+ * @global string|null $wp_rest_application_password_uuid
+ *
+ * @return string|null The App Password UUID, or null if Application Passwords was not used.
+ */
+function rest_get_authenticated_app_password() {
+	global $wp_rest_application_password_uuid;
+
+	return $wp_rest_application_password_uuid;
 }
 
 /**
