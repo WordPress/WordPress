@@ -916,7 +916,6 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		var props;
 		if ( this.props.get('query') ) {
 			props = this.props.toJSON();
-			props.cache = ( true !== refresh );
 			this.mirror( wp.media.model.Query.get( props ) );
 		}
 	},
@@ -1298,7 +1297,6 @@ Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 	 * @method
 	 *
 	 * @param {object} [props]
-	 * @param {Object} [props.cache=true]   Whether to use the query cache or not.
 	 * @param {Object} [props.order]
 	 * @param {Object} [props.orderby]
 	 * @param {Object} [props.include]
@@ -1328,13 +1326,11 @@ Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 			var args     = {},
 				orderby  = Query.orderby,
 				defaults = Query.defaultProps,
-				query,
-				cache    = !! props.cache || _.isUndefined( props.cache );
+				query;
 
 			// Remove the `query` property. This isn't linked to a query,
 			// this *is* the query.
 			delete props.query;
-			delete props.cache;
 
 			// Fill default args.
 			_.defaults( props, defaults );
@@ -1373,14 +1369,7 @@ Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 			// Substitute exceptions specified in orderby.keymap.
 			args.orderby = orderby.valuemap[ props.orderby ] || props.orderby;
 
-			// Search the query cache for a matching query.
-			if ( cache ) {
-				query = _.find( queries, function( query ) {
-					return _.isEqual( query.args, args );
-				});
-			} else {
-				queries = [];
-			}
+			queries = [];
 
 			// Otherwise, create a new query and add it to the cache.
 			if ( ! query ) {
