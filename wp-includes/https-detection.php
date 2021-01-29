@@ -88,6 +88,23 @@ function wp_is_https_supported() {
  * @access private
  */
 function wp_update_https_detection_errors() {
+	/**
+	 * Short-circuits the process of detecting errors related to HTTPS support.
+	 *
+	 * Returning a `WP_Error` from the filter will effectively short-circuit the default logic of trying a remote
+	 * request to the site over HTTPS, storing the errors array from the returned `WP_Error` instead.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param null|WP_Error $pre Error object to short-circuit detection,
+	 *                           or null to continue with the default behavior.
+	 */
+	$support_errors = apply_filters( 'pre_wp_update_https_detection_errors', null );
+	if ( is_wp_error( $support_errors ) ) {
+		update_option( 'https_detection_errors', $support_errors->errors );
+		return;
+	}
+
 	$support_errors = new WP_Error();
 
 	$response = wp_remote_request(
