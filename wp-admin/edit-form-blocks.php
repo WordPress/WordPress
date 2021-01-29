@@ -185,7 +185,9 @@ if ( ! $max_upload_size ) {
 $styles = array(
 	array(
 		'css' => file_get_contents(
-			ABSPATH . WPINC . '/css/dist/editor/editor-styles.css'
+			is_rtl()
+				? ABSPATH . WPINC . '/css/dist/editor/editor-styles-rtl.css'
+				: ABSPATH . WPINC . '/css/dist/editor/editor-styles.css'
 		),
 	),
 );
@@ -216,6 +218,17 @@ if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
 		}
 	}
 }
+
+// Default editor styles.
+$default_editor_styles = array(
+	array(
+		'css' => file_get_contents(
+			is_rtl()
+				? ABSPATH . WPINC . '/css/dist/editor/editor-styles-rtl.css'
+				: ABSPATH . WPINC . '/css/dist/editor/editor-styles.css'
+		),
+	),
+);
 
 // Image sizes.
 
@@ -309,6 +322,7 @@ $editor_settings = array(
 	'maxUploadFileSize'                    => $max_upload_size,
 	'allowedMimeTypes'                     => get_allowed_mime_types(),
 	'styles'                               => $styles,
+	'defaultEditorStyles'                  => $default_editor_styles,
 	'imageSizes'                           => $available_image_sizes,
 	'imageDimensions'                      => $image_dimensions,
 	'richEditingEnabled'                   => user_can_richedit(),
