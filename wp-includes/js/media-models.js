@@ -909,10 +909,11 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	},
 	/**
 	 * If the collection is a query, create and mirror an Attachments Query collection.
-	 *
+	 * 
 	 * @access private
+	 * @param {Boolean} refresh Deprecated, refresh parameter no longer used.
 	 */
-	_requery: function( refresh ) {
+	_requery: function() {
 		var props;
 		if ( this.props.get('query') ) {
 			props = this.props.toJSON();
