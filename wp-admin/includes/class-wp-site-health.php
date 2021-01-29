@@ -108,7 +108,7 @@ class WP_Site_Health {
 
 			// Don't run https test on development environments.
 			if ( $this->is_development_environment() ) {
-				unset( $tests['direct']['https_status'] );
+				unset( $tests['async']['https_status'] );
 			}
 
 			foreach ( $tests['direct'] as $test ) {
@@ -1498,6 +1498,10 @@ class WP_Site_Health {
 	 * @return array The test results.
 	 */
 	public function get_test_https_status() {
+		// Enforce fresh HTTPS detection results. This is normally invoked by using cron, but for Site Health it should
+		// always rely on the latest results.
+		wp_update_https_detection_errors();
+
 		$result = array(
 			'label'       => __( 'Your website is using an active HTTPS connection' ),
 			'status'      => 'good',
@@ -1521,27 +1525,53 @@ class WP_Site_Health {
 		);
 
 		if ( ! wp_is_using_https() ) {
+			// If the website is not using HTTPS, provide more information about whether it is supported and how it can
+			// be enabled.
 			$result['status'] = 'critical';
 			$result['label']  = __( 'Your website does not use HTTPS' );
 
-			if ( is_ssl() ) {
-				$result['description'] = sprintf(
-					'<p>%s</p>',
-					sprintf(
-						/* translators: %s: URL to General Settings screen. */
-						__( 'You are accessing this website using HTTPS, but your <a href="%s">WordPress Address</a> is not set up to use HTTPS by default.' ),
-						esc_url( admin_url( 'options-general.php' ) )
-					)
-				);
+			if ( wp_is_site_url_using_https() ) {
+				if ( is_ssl() ) {
+					$result['description'] = sprintf(
+						'<p>%s</p>',
+						sprintf(
+							/* translators: %s: URL to Settings > General > Site Address. */
+							__( 'You are accessing this website using HTTPS, but your <a href="%s">Site Address</a> is not set up to use HTTPS by default.' ),
+							esc_url( admin_url( 'options-general.php' ) . '#home' )
+						)
+					);
+				} else {
+					$result['description'] = sprintf(
+						'<p>%s</p>',
+						sprintf(
+							/* translators: %s: URL to Settings > General > Site Address. */
+							__( 'Your <a href="%s">Site Address</a> is not set up to use HTTPS.' ),
+							esc_url( admin_url( 'options-general.php' ) . '#home' )
+						)
+					);
+				}
 			} else {
-				$result['description'] = sprintf(
-					'<p>%s</p>',
-					sprintf(
-						/* translators: %s: URL to General Settings screen. */
-						__( 'Your <a href="%s">WordPress Address</a> is not set up to use HTTPS.' ),
-						esc_url( admin_url( 'options-general.php' ) )
-					)
-				);
+				if ( is_ssl() ) {
+					$result['description'] = sprintf(
+						'<p>%s</p>',
+						sprintf(
+							/* translators: 1: URL to Settings > General > WordPress Address, 2: URL to Settings > General > Site Address. */
+							__( 'You are accessing this website using HTTPS, but your <a href="%1$s">WordPress Address</a> and <a href="%2$s">Site Address</a> are not set up to use HTTPS by default.' ),
+							esc_url( admin_url( 'options-general.php' ) . '#siteurl' ),
+							esc_url( admin_url( 'options-general.php' ) . '#home' )
+						)
+					);
+				} else {
+					$result['description'] = sprintf(
+						'<p>%s</p>',
+						sprintf(
+							/* translators: 1: URL to Settings > General > WordPress Address, 2: URL to Settings > General > Site Address. */
+							__( 'Your <a href="%1$s">WordPress Address</a> and <a href="%2$s">Site Address</a> are not set up to use HTTPS.' ),
+							esc_url( admin_url( 'options-general.php' ) . '#siteurl' ),
+							esc_url( admin_url( 'options-general.php' ) . '#home' )
+						)
+					);
+				}
 			}
 
 			if ( wp_is_https_supported() ) {
@@ -1561,6 +1591,36 @@ class WP_Site_Health {
 					__( 'Talk to your web host about supporting HTTPS for your website.' )
 				);
 			}
+		} elseif ( ! wp_is_https_supported() ) {
+			// If the website is using HTTPS, but HTTPS is actually not supported, inform the user about the potential
+			// problems.
+			$result['status'] = 'critical';
+			$result['label']  = __( 'There are problems with the HTTPS connection of your website' );
+
+			$https_detection_errors = get_option( 'https_detection_errors' );
+			if ( ! empty( $https_detection_errors['ssl_verification_failed'] ) ) {
+				$result['description'] = sprintf(
+					'<p>%s</p>',
+					sprintf(
+						/* translators: %s: URL to Settings > General > WordPress Address. */
+						__( 'Your <a href="%s">WordPress Address</a> is set up to use HTTPS, but the SSL certificate appears to be invalid.' ),
+						esc_url( admin_url( 'options-general.php' ) . '#siteurl' )
+					)
+				);
+			} else {
+				$result['description'] = sprintf(
+					'<p>%s</p>',
+					sprintf(
+						/* translators: %s: URL to Settings > General > WordPress Address. */
+						__( 'Your <a href="%s">WordPress Address</a> is set up to use HTTPS, but your website appears to be unavailable when using an HTTPS connection.' ),
+						esc_url( admin_url( 'options-general.php' ) . '#siteurl' )
+					)
+				);
+			}
+			$result['description'] .= sprintf(
+				'<p>%s</p>',
+				__( 'Talk to your web host about resolving this HTTPS issue for your website.' )
+			);
 		}
 
 		return $result;
@@ -2200,10 +2260,6 @@ class WP_Site_Health {
 					'label' => __( 'MySQL utf8mb4 support' ),
 					'test'  => 'utf8mb4_support',
 				),
-				'https_status'              => array(
-					'label' => __( 'HTTPS status' ),
-					'test'  => 'https_status',
-				),
 				'ssl_support'               => array(
 					'label' => __( 'Secure communication' ),
 					'test'  => 'ssl_support',
@@ -2247,6 +2303,12 @@ class WP_Site_Health {
 					'test'              => rest_url( 'wp-site-health/v1/tests/loopback-requests' ),
 					'has_rest'          => true,
 					'async_direct_test' => array( WP_Site_Health::get_instance(), 'get_test_loopback_requests' ),
+				),
+				'https_status'         => array(
+					'label'             => __( 'HTTPS status' ),
+					'test'              => rest_url( 'wp-site-health/v1/tests/https-status' ),
+					'has_rest'          => true,
+					'async_direct_test' => array( WP_Site_Health::get_instance(), 'get_test_https_status' ),
 				),
 				'authorization_header' => array(
 					'label'     => __( 'Authorization header' ),
@@ -2614,7 +2676,7 @@ class WP_Site_Health {
 
 		// Don't run https test on development environments.
 		if ( $this->is_development_environment() ) {
-			unset( $tests['direct']['https_status'] );
+			unset( $tests['async']['https_status'] );
 		}
 
 		foreach ( $tests['direct'] as $test ) {

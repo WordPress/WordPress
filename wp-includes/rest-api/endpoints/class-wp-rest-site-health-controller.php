@@ -90,6 +90,25 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
 			sprintf(
 				'/%s/%s',
 				$this->rest_base,
+				'https-status'
+			),
+			array(
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'test_https_status' ),
+					'permission_callback' => function () {
+						return $this->validate_request_permission( 'https_status' );
+					},
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			sprintf(
+				'/%s/%s',
+				$this->rest_base,
 				'dotorg-communication'
 			),
 			array(
@@ -197,6 +216,18 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
 	public function test_loopback_requests() {
 		$this->load_admin_textdomain();
 		return $this->site_health->get_test_loopback_requests();
+	}
+
+	/**
+	 * Checks that the site's frontend can be accessed over HTTPS.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @return array
+	 */
+	public function test_https_status() {
+		$this->load_admin_textdomain();
+		return $this->site_health->get_test_https_status();
 	}
 
 	/**
