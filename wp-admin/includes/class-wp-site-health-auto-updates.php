@@ -27,7 +27,7 @@ class WP_Site_Health_Auto_Updates {
 	 */
 	public function run_tests() {
 		$tests = array(
-			$this->test_constants( 'WP_AUTO_UPDATE_CORE', array( true, 'beta', 'rc', 'minor' ) ),
+			$this->test_constants( 'WP_AUTO_UPDATE_CORE', array( true, 'beta', 'rc', 'development', 'branch-development', 'minor' ) ),
 			$this->test_wp_version_check_attached(),
 			$this->test_filters_automatic_updater_disabled(),
 			$this->test_wp_automatic_updates_disabled(),
