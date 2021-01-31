@@ -229,6 +229,24 @@ final class WP_Taxonomy {
 	public $rest_controller;
 
 	/**
+	 * Whether terms in this taxonomy should be sorted in the order they are provided to `wp_set_object_terms()`.
+	 *
+	 * Use this in combination with `'orderby' => 'term_order'` when fetching terms.
+	 *
+	 * @since 2.5.0
+	 * @var bool|null
+	 */
+	public $sort = null;
+
+	/**
+	 * Array of arguments to automatically use inside `wp_get_object_terms()` for this taxonomy.
+	 *
+	 * @since 2.6.0
+	 * @var array|null
+	 */
+	public $args = null;
+
+	/**
 	 * Whether it is a built-in taxonomy.
 	 *
 	 * @since 4.7.0
@@ -304,6 +322,8 @@ final class WP_Taxonomy {
 			'rest_controller_class' => false,
 			'default_term'          => null,
 			'_builtin'              => false,
+			'sort'                  => null,
+			'args'                  => null,
 		);
 
 		$args = array_merge( $defaults, $args );

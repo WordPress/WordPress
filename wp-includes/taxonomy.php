@@ -414,6 +414,10 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  *         @type string $slug         Slug for default term. Default empty.
  *         @type string $description  Description for default term. Default empty.
  *     }
+ *     @type bool          $sort                  Whether terms in this taxonomy should be sorted in the order they are
+ *                                                provided to `wp_set_object_terms()`. Default null which equates to false.
+ *     @type array         $args                  Array of arguments to automatically use inside `wp_get_object_terms()`
+ *                                                for this taxonomy.
  *     @type bool          $_builtin              This taxonomy is a "built-in" taxonomy. INTERNAL USE ONLY!
  *                                                Default false.
  * }
