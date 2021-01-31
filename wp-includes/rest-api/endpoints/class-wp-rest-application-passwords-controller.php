@@ -110,7 +110,21 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
-		return $this->do_permissions_check( $request );
+		$user = $this->get_user( $request );
+
+		if ( is_wp_error( $user ) ) {
+			return $user;
+		}
+
+		if ( ! current_user_can( 'list_app_passwords', $user->ID ) ) {
+			return new WP_Error(
+				'rest_cannot_list_application_passwords',
+				__( 'Sorry, you are not allowed to list application passwords for this user.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		return true;
 	}
 
 	/**
@@ -149,7 +163,21 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
 	 */
 	public function get_item_permissions_check( $request ) {
-		return $this->do_permissions_check( $request );
+		$user = $this->get_user( $request );
+
+		if ( is_wp_error( $user ) ) {
+			return $user;
+		}
+
+		if ( ! current_user_can( 'read_app_password', $user->ID, $request['uuid'] ) ) {
+			return new WP_Error(
+				'rest_cannot_read_application_password',
+				__( 'Sorry, you are not allowed to read this application password.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		return true;
 	}
 
 	/**
@@ -179,7 +207,21 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has access to create items, WP_Error object otherwise.
 	 */
 	public function create_item_permissions_check( $request ) {
-		return $this->do_permissions_check( $request );
+		$user = $this->get_user( $request );
+
+		if ( is_wp_error( $user ) ) {
+			return $user;
+		}
+
+		if ( ! current_user_can( 'create_app_password', $user->ID ) ) {
+			return new WP_Error(
+				'rest_cannot_create_application_passwords',
+				__( 'Sorry, you are not allowed to create application passwords for this user.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		return true;
 	}
 
 	/**
@@ -248,7 +290,21 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has access to create items, WP_Error object otherwise.
 	 */
 	public function update_item_permissions_check( $request ) {
-		return $this->do_permissions_check( $request );
+		$user = $this->get_user( $request );
+
+		if ( is_wp_error( $user ) ) {
+			return $user;
+		}
+
+		if ( ! current_user_can( 'edit_app_password', $user->ID, $request['uuid'] ) ) {
+			return new WP_Error(
+				'rest_cannot_edit_application_password',
+				__( 'Sorry, you are not allowed to edit this application password.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		return true;
 	}
 
 	/**
@@ -308,7 +364,21 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
 	 */
 	public function delete_items_permissions_check( $request ) {
-		return $this->do_permissions_check( $request );
+		$user = $this->get_user( $request );
+
+		if ( is_wp_error( $user ) ) {
+			return $user;
+		}
+
+		if ( ! current_user_can( 'delete_app_passwords', $user->ID ) ) {
+			return new WP_Error(
+				'rest_cannot_delete_application_passwords',
+				__( 'Sorry, you are not allowed to delete application passwords for this user.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		return true;
 	}
 
 	/**
@@ -349,7 +419,21 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
 	 */
 	public function delete_item_permissions_check( $request ) {
-		return $this->do_permissions_check( $request );
+		$user = $this->get_user( $request );
+
+		if ( is_wp_error( $user ) ) {
+			return $user;
+		}
+
+		if ( ! current_user_can( 'delete_app_password', $user->ID, $request['uuid'] ) ) {
+			return new WP_Error(
+				'rest_cannot_delete_application_password',
+				__( 'Sorry, you are not allowed to delete this application password.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		return true;
 	}
 
 	/**
@@ -457,11 +541,14 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	 * Performs a permissions check for the request.
 	 *
 	 * @since 5.6.0
+	 * @deprecated 5.7.0 Use `edit_user` directly or one of the specific meta capabilities introduced in 5.7.0.
 	 *
 	 * @param WP_REST_Request $request
 	 * @return true|WP_Error
 	 */
 	protected function do_permissions_check( $request ) {
+		_deprecated_function( __METHOD__, '5.7.0' );
+
 		$user = $this->get_user( $request );
 
 		if ( is_wp_error( $user ) ) {

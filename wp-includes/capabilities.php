@@ -592,6 +592,14 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 		case 'manage_privacy_options':
 			$caps[] = is_multisite() ? 'manage_network' : 'manage_options';
 			break;
+		case 'create_app_password':
+		case 'list_app_passwords':
+		case 'read_app_password':
+		case 'edit_app_password':
+		case 'delete_app_passwords':
+		case 'delete_app_password':
+			$caps = map_meta_cap( 'edit_user', $user_id, $args[0] );
+			break;
 		default:
 			// Handle meta capabilities for custom post types.
 			global $post_type_meta_caps;
