@@ -2389,7 +2389,7 @@ function wp_new_comment_notify_comment_author( $comment_id ) {
 	$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 
 	$subject = sprintf(
-		/* translators: 1: blog name, 2: post title */
+		/* translators: 1: Blog name, 2: Post title. */
 		__( '[%1$s] Your comment on "%2$s" has been approved' ),
 		$blogname,
 		$post->post_title
@@ -2397,7 +2397,7 @@ function wp_new_comment_notify_comment_author( $comment_id ) {
 
 	if ( ! empty( $comment->comment_author ) ) {
 		$notify_message = sprintf(
-			/* translators: 1: comment author's name */
+			/* translators: %s: Comment author's name. */
 			__( 'Howdy %s,' ),
 			$comment->comment_author
 		) . "\r\n\r\n";
@@ -2406,13 +2406,13 @@ function wp_new_comment_notify_comment_author( $comment_id ) {
 	}
 
 	$notify_message .= sprintf(
-		/* translators: 1: post title */
+		/* translators: %s: Post title. */
 		__( 'Your comment on "%s" has been approved.' ),
 		$post->post_title
 	) . "\r\n\r\n";
 
 	$notify_message .= sprintf(
-		/* translators: 1: comment permalink */
+		/* translators: %s: Comment permalink. */
 		__( 'View comment: %s' ),
 		get_comment_link( $comment )
 	) . "\r\n";
