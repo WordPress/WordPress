@@ -210,15 +210,6 @@ final class WP_Taxonomy {
 	public $rest_controller_class;
 
 	/**
-	 * The default term name for this taxonomy. If you pass an array you have
-	 * to set 'name' and optionally 'slug' and 'description'.
-	 *
-	 * @since 5.5.0
-	 * @var array|string
-	 */
-	public $default_term;
-
-	/**
 	 * The controller instance for this taxonomy's REST API endpoints.
 	 *
 	 * Lazily computed. Should be accessed using {@see WP_Taxonomy::get_rest_controller()}.
@@ -227,6 +218,15 @@ final class WP_Taxonomy {
 	 * @var WP_REST_Controller $rest_controller
 	 */
 	public $rest_controller;
+
+	/**
+	 * The default term name for this taxonomy. If you pass an array you have
+	 * to set 'name' and optionally 'slug' and 'description'.
+	 *
+	 * @since 5.5.0
+	 * @var array|string
+	 */
+	public $default_term;
 
 	/**
 	 * Whether terms in this taxonomy should be sorted in the order they are provided to `wp_set_object_terms()`.
@@ -321,9 +321,9 @@ final class WP_Taxonomy {
 			'rest_base'             => false,
 			'rest_controller_class' => false,
 			'default_term'          => null,
-			'_builtin'              => false,
 			'sort'                  => null,
 			'args'                  => null,
+			'_builtin'              => false,
 		);
 
 		$args = array_merge( $defaults, $args );
