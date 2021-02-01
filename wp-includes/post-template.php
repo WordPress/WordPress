@@ -1963,3 +1963,28 @@ function wp_list_post_revisions( $post_id = 0, $type = 'all' ) {
 	echo $rows;
 	echo '</ul>';
 }
+
+/**
+ * Retrieves the parent post object for the given post.
+ *
+ * @since 5.7.0
+ *
+ * @param int|WP_Post|null $post Optional. Post ID or WP_Post object. Default is global $post.
+ * @return WP_Post|null Parent post object, or null if there isn't one.
+ */
+function get_parent_post( $post = null ) {
+	$wp_post = get_post( $post );
+	return ! empty( $wp_post->post_parent ) ? get_post( $wp_post->post_parent ) : null;
+}
+
+/**
+ * Returns whether the given post has a parent post.
+ *
+ * @since 5.7.0
+ *
+ * @param int|WP_Post|null $post Optional. Post ID or WP_Post object. Default is global $post.
+ * @return bool Whether the post has a parent post.
+ */
+function has_parent_post( $post = null ) {
+	return (bool) get_parent_post( $post );
+}
