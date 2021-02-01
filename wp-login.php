@@ -282,14 +282,27 @@ function login_footer( $input_id = '' ) {
 	// Don't allow interim logins to navigate away from the page.
 	if ( ! $interim_login ) {
 		?>
-		<p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-		<?php
-
-		/* translators: %s: Site title. */
-		printf( _x( '&larr; Go to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
-
-		?>
-		</a></p>
+		<p id="backtoblog">
+			<?php
+			$html_link = sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( home_url( '/' ) ),
+				/* translators: %s: Site title. */
+				sprintf(
+					_x( '&larr; Go to %s', 'site' ),
+					get_bloginfo( 'title', 'display' )
+				)
+			);
+			/**
+			 * Filter the "Go to site" link displayed in the login page footer.
+			 *
+			 * @since 5.7.0
+			 *
+			 * @param string $link HTML link to the home URL of the current site.
+			 */
+			echo apply_filters( 'login_site_html_link', $html_link );
+			?>
+		</p>
 		<?php
 
 		the_privacy_policy_link( '<div class="privacy-policy-page-link">', '</div>' );
