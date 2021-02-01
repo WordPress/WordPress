@@ -208,6 +208,46 @@ switch ( $wp_list_table->current_action() ) {
 		wp_redirect( $redirect );
 		exit;
 
+	case 'resetpassword':
+		check_admin_referer( 'bulk-users' );
+		if ( ! current_user_can( 'edit_users' ) ) {
+			$errors = new WP_Error( 'edit_users', __( 'You can&#8217;t edit users.' ) );
+		}
+		if ( empty( $_REQUEST['users'] ) ) {
+			wp_redirect( $redirect );
+			exit();
+		}
+		$userids = array_map( 'intval', (array) $_REQUEST['users'] );
+
+		$reset_count = 0;
+
+		foreach ( $userids as $id ) {
+			if ( ! current_user_can( 'edit_user', $id ) ) {
+				wp_die( __( 'You can&#8217;t edit that user.' ) );
+			}
+
+			if ( $id === $current_user->ID ) {
+				$update = 'err_admin_reset';
+				continue;
+			}
+
+			// Send the password reset link.
+			$user = get_userdata( $id );
+			if ( retrieve_password( $user->user_login ) ) {
+				++$reset_count;
+			}
+		}
+
+		$redirect = add_query_arg(
+			array(
+				'reset_count' => $reset_count,
+				'update'      => 'resetpassword',
+			),
+			$redirect
+		);
+		wp_redirect( $redirect );
+		exit;
+
 	case 'delete':
 		if ( is_multisite() ) {
 			wp_die( __( 'User deletion is not allowed from this screen.' ), 400 );
@@ -504,6 +544,16 @@ switch ( $wp_list_table->current_action() ) {
 						);
 					}
 
+					$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . $message . '</p></div>';
+					break;
+				case 'resetpassword':
+					$reset_count = isset( $_GET['reset_count'] ) ? (int) $_GET['reset_count'] : 0;
+					if ( 1 === $reset_count ) {
+						$message = __( 'Password reset link sent.' );
+					} else {
+						/* translators: %s: Number of users. */
+						$message = sprintf( __( 'Password reset links sent to %s users.' ), $reset_count );
+					}
 					$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . $message . '</p></div>';
 					break;
 				case 'promote':

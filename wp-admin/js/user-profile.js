@@ -2,7 +2,7 @@
  * @output wp-admin/js/user-profile.js
  */
 
-/* global ajaxurl, pwsL10n */
+/* global ajaxurl, pwsL10n, userProfileL10n */
 (function($) {
 	var updateLock = false,
 		__ = wp.i18n.__,
@@ -89,6 +89,68 @@
 				resetToggle( true );
 			}
 		});
+	}
+
+	/**
+	 * Handle the password reset button. Sets up an ajax callback to trigger sending
+	 * a password reset email.
+	 */
+	function bindPasswordRestLink() {
+		$( '#generate-reset-link' ).on( 'click', function() {
+			var $this  = $(this),
+				data = {
+					'user_id': userProfileL10n.user_id, // The user to send a reset to.
+					'nonce':   userProfileL10n.nonce    // Nonce to validate the action.
+				};
+
+				// Remove any previous error messages.
+				$this.parent().find( '.notice-error' ).remove();
+
+				// Send the reset request.
+				var resetAction =  wp.ajax.post( 'send-password-reset', data );
+
+				// Handle reset success.
+				resetAction.done( function( response ) {
+					addInlineNotice( $this, true, response );
+				} );
+
+				// Handle reset failure.
+				resetAction.fail( function( response ) {
+					addInlineNotice( $this, false, response );
+				} );
+
+		});
+
+	}
+
+	/**
+	 * Helper function to insert an inline notice of success or failure.
+	 *
+	 * @param {jQuery Object} $this   The button element: the message will be inserted
+	 *                                above this button
+	 * @param {bool}          success Whether the message is a success message.
+	 * @param {string}        message The message to insert.
+	 */
+	function addInlineNotice( $this, success, message ) {
+		var resultDiv = $( '<div />' );
+
+		// Set up the notice div.
+		resultDiv.addClass( 'notice inline' );
+
+		// Add a class indicating success or failure.
+		resultDiv.addClass( 'notice-' + ( success ? 'success' : 'error' ) );
+
+		// Add the message, wrapping in a p tag, with a fadein to highlight each message.
+		resultDiv.text( $( $.parseHTML( message ) ).text() ).wrapInner( '<p />');
+
+		// Disable the button when the callback has succeeded.
+		$this.prop( 'disabled', success );
+
+		// Remove any previous notices.
+		$this.siblings( '.notice' ).remove();
+
+		// Insert the notice.
+		$this.before( resultDiv );
 	}
 
 	function bindPasswordForm() {
@@ -369,6 +431,7 @@
 		});
 
 		bindPasswordForm();
+		bindPasswordRestLink();
 	});
 
 	$( '#destroy-sessions' ).on( 'click', function( e ) {

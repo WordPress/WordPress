@@ -5398,3 +5398,33 @@ function wp_ajax_toggle_auto_updates() {
 
 	wp_send_json_success();
 }
+
+/**
+ * Ajax handler sends a password reset link.
+ *
+ * @since 5.7.0
+ */
+function wp_ajax_send_password_reset() {
+
+	// Validate the nonce for this action.
+	$user_id = isset( $_POST['user_id'] ) ? (int) $_POST['user_id'] : 0;
+	check_ajax_referer( 'reset-password-for-' . $user_id, 'nonce' );
+
+	// Verify user capabilities.
+	if ( ! current_user_can( 'edit_user', $user_id ) ) {
+		wp_send_json_error( __( 'Cannot send password reset, permission denied.' ) );
+	}
+
+	// Send the password reset link.
+	$user    = get_userdata( $user_id );
+	$results = retrieve_password( $user->user_login );
+
+	if ( true === $results ) {
+		wp_send_json_success(
+			/* translators: 1: User's display name. */
+			sprintf( __( 'A password reset link was emailed to %s.' ), $user->display_name )
+		);
+	} else {
+		wp_send_json_error( $results );
+	}
+}

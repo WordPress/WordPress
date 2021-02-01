@@ -1078,6 +1078,15 @@ function wp_default_scripts( $scripts ) {
 
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter', 'wp-util' ), false, 1 );
 	$scripts->set_translations( 'user-profile' );
+	$user_id = isset( $_GET['user_id'] ) ? (int) $_GET['user_id'] : 0;
+	did_action( 'init' ) && $scripts->localize(
+		'user-profile',
+		'userProfileL10n',
+		array(
+			'user_id'  => $user_id,
+			'nonce'    => wp_create_nonce( 'reset-password-for-' . $user_id ),
+		)
+	);
 
 	$scripts->add( 'language-chooser', "/wp-admin/js/language-chooser$suffix.js", array( 'jquery' ), false, 1 );
 
