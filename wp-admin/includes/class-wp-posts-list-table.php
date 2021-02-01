@@ -456,7 +456,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 				'selected'        => $cat,
 			);
 
-			echo '<label class="screen-reader-text" for="cat">' . __( 'Filter by category' ) . '</label>';
+			echo '<label class="screen-reader-text" for="cat">' . get_taxonomy( 'category' )->labels->filter_by_item . '</label>';
+
 			wp_dropdown_categories( $dropdown_options );
 		}
 	}

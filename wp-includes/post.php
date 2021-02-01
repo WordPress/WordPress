@@ -1689,6 +1689,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - `menu_name` - Label for the menu name. Default is the same as `name`.
  * - `filter_items_list` - Label for the table views hidden heading. Default is 'Filter posts list' /
  *                       'Filter pages list'.
+ * - `filter_by_date` - Label for the date filter in list tables. Default is 'Filter by date'.
  * - `items_list_navigation` - Label for the table pagination hidden heading. Default is 'Posts list navigation' /
  *                           'Pages list navigation'.
  * - `items_list` - Label for the table hidden heading. Default is 'Posts list' / 'Pages list'.
@@ -1715,6 +1716,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @since 4.7.0 Added the `view_items` and `attributes` labels.
  * @since 5.0.0 Added the `item_published`, `item_published_privately`, `item_reverted_to_draft`,
  *              `item_scheduled`, and `item_updated` labels.
+ * @since 5.7.0 Added the `filter_by_date` label.
  *
  * @access private
  *
@@ -1745,6 +1747,7 @@ function get_post_type_labels( $post_type_object ) {
 		'remove_featured_image'    => array( _x( 'Remove featured image', 'post' ), _x( 'Remove featured image', 'page' ) ),
 		'use_featured_image'       => array( _x( 'Use as featured image', 'post' ), _x( 'Use as featured image', 'page' ) ),
 		'filter_items_list'        => array( __( 'Filter posts list' ), __( 'Filter pages list' ) ),
+		'filter_by_date'           => array( __( 'Filter by date' ), __( 'Filter by date' ) ),
 		'items_list_navigation'    => array( __( 'Posts list navigation' ), __( 'Pages list navigation' ) ),
 		'items_list'               => array( __( 'Posts list' ), __( 'Pages list' ) ),
 		'item_published'           => array( __( 'Post published.' ), __( 'Page published.' ) ),
