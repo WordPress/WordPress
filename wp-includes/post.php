@@ -2019,7 +2019,65 @@ function is_post_type_viewable( $post_type ) {
 		}
 	}
 
+	if ( ! is_object( $post_type ) ) {
+		return false;
+	}
+
 	return $post_type->publicly_queryable || ( $post_type->_builtin && $post_type->public );
+}
+
+/**
+ * Determine whether a post status is considered "viewable".
+ *
+ * For built-in post statuses such as publish and private, the 'public' value will be evaluted.
+ * For all others, the 'publicly_queryable' value will be used.
+ *
+ * @since 5.7.0
+ *
+ * @param string|stdClass $post_status Post status name or object.
+ * @return bool Whether the post status should be considered viewable.
+ */
+function is_post_status_viewable( $post_status ) {
+	if ( is_scalar( $post_status ) ) {
+		$post_status = get_post_status_object( $post_status );
+		if ( ! $post_status ) {
+			return false;
+		}
+	}
+
+	if (
+		! is_object( $post_status ) ||
+		$post_status->internal ||
+		$post_status->protected
+	) {
+		return false;
+	}
+
+	return $post_status->publicly_queryable || ( $post_status->_builtin && $post_status->public );
+}
+
+/**
+ * Determine whether a post is publicly viewable.
+ *
+ * Posts are considered publicly viewable if both the post status and post type
+ * are viewable.
+ *
+ * @since 5.7.0
+ *
+ * @param int|WP_Post|null $post Optional. Post ID or post object. Defaults to global $post.
+ * @return bool Whether the post is publicly viewable.
+ */
+function is_post_publicly_viewable( $post = null ) {
+	$post = get_post( $post );
+
+	if ( ! $post ) {
+		return false;
+	}
+
+	$post_type   = get_post_type( $post );
+	$post_status = get_post_status( $post );
+
+	return is_post_type_viewable( $post_type ) && is_post_status_viewable( $post_status );
 }
 
 /**
