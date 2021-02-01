@@ -241,7 +241,22 @@ class WP_Block {
 		 * @param string $block_content The block content about to be appended.
 		 * @param array  $block         The full block, including name and attributes.
 		 */
-		return apply_filters( 'render_block', $block_content, $this->parsed_block );
+		$block_content = apply_filters( 'render_block', $block_content, $this->parsed_block );
+
+		/**
+		 * Filters the content of a single block.
+		 *
+		 * The dynamic portion of the hook name, `$name`, refers to
+		 * the block name, e.g. "core/paragraph".
+		 *
+		 * @since 5.7.0
+		 *
+		 * @param string $block_content The block content about to be appended.
+		 * @param array  $block         The full block, including name and attributes.
+		 */
+		$block_content = apply_filters( "render_block_{$this->name}", $block_content, $this->parsed_block );
+
+		return $block_content;
 	}
 
 }
