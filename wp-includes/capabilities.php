@@ -28,10 +28,11 @@
  *              and `manage_privacy_options` capabilities.
  * @since 5.1.0 Added the `update_php` capability.
  * @since 5.2.0 Added the `resume_plugin` and `resume_theme` capabilities.
- * @since 5.3.0 Formalized the existing and already documented `...$args` parameter by adding it
- *              to the function signature.
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
  * @since 5.7.0 Added the `create_app_password`, `list_app_passwords`, `read_app_password`,
- *              `edit_app_password`, `delete_app_passwords`, and `delete_app_password` capabilities.
+ *              `edit_app_password`, `delete_app_passwords`, `delete_app_password`,
+ *              and `update_https` capabilities.
  *
  * @global array $post_type_meta_caps Used to get post type meta capabilities.
  *
