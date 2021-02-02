@@ -93,7 +93,7 @@ function wp_get_missing_image_subsizes( $attachment_id ) {
 	// Use the originally uploaded image dimensions as full_width and full_height.
 	if ( ! empty( $image_meta['original_image'] ) ) {
 		$image_file = wp_get_original_image_path( $attachment_id );
-		$imagesize  = @getimagesize( $image_file );
+		$imagesize  = wp_getimagesize( $image_file );
 	}
 
 	if ( ! empty( $imagesize ) ) {
@@ -224,7 +224,7 @@ function _wp_image_meta_replace_original( $saved_data, $original_file, $image_me
  * @return array The image attachment meta data.
  */
 function wp_create_image_subsizes( $file, $attachment_id ) {
-	$imagesize = @getimagesize( $file );
+	$imagesize = wp_getimagesize( $file );
 
 	if ( empty( $imagesize ) ) {
 		// File is not an image.
@@ -687,7 +687,7 @@ function wp_read_image_metadata( $file ) {
 		return false;
 	}
 
-	list( , , $image_type ) = @getimagesize( $file );
+	list( , , $image_type ) = wp_getimagesize( $file );
 
 	/*
 	 * EXIF contains a bunch of data we'll probably never need formatted in ways
@@ -716,10 +716,21 @@ function wp_read_image_metadata( $file ) {
 	 * as caption, description etc.
 	 */
 	if ( is_callable( 'iptcparse' ) ) {
-		@getimagesize( $file, $info );
+		wp_getimagesize( $file, $info );
 
 		if ( ! empty( $info['APP13'] ) ) {
-			$iptc = @iptcparse( $info['APP13'] );
+			if (
+				// Skip when running unit tests.
+				! defined( 'DIR_TESTDATA' )
+				&&
+				// Process without silencing errors when in debug mode.
+				defined( 'WP_DEBUG' ) && WP_DEBUG
+			) {
+				$iptc = iptcparse( $info['APP13'] );
+			} else {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors -- Silencing notice and warning is intentional. See https://core.trac.wordpress.org/ticket/42480
+				$iptc = @iptcparse( $info['APP13'] );
+			}
 
 			// Headline, "A brief synopsis of the caption".
 			if ( ! empty( $iptc['2#105'][0] ) ) {
@@ -779,7 +790,18 @@ function wp_read_image_metadata( $file ) {
 	$exif_image_types = apply_filters( 'wp_read_image_metadata_types', array( IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM ) );
 
 	if ( is_callable( 'exif_read_data' ) && in_array( $image_type, $exif_image_types, true ) ) {
-		$exif = @exif_read_data( $file );
+		if (
+			// Skip when running unit tests.
+			! defined( 'DIR_TESTDATA' )
+			&&
+			// Process without silencing errors when in debug mode.
+			defined( 'WP_DEBUG' ) && WP_DEBUG
+		) {
+			$exif = exif_read_data( $file );
+		} else {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors -- Silencing notice and warning is intentional. See https://core.trac.wordpress.org/ticket/42480
+			$exif = @exif_read_data( $file );
+		}
 
 		if ( ! empty( $exif['ImageDescription'] ) ) {
 			mbstring_binary_safe_encoding();
@@ -877,7 +899,7 @@ function wp_read_image_metadata( $file ) {
  * @return bool True if valid image, false if not valid image.
  */
 function file_is_valid_image( $path ) {
-	$size = @getimagesize( $path );
+	$size = wp_getimagesize( $path );
 	return ! empty( $size );
 }
 
@@ -892,7 +914,7 @@ function file_is_valid_image( $path ) {
 function file_is_displayable_image( $path ) {
 	$displayable_image_types = array( IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_ICO );
 
-	$info = @getimagesize( $path );
+	$info = wp_getimagesize( $path );
 	if ( empty( $info ) ) {
 		$result = false;
 	} elseif ( ! in_array( $info[2], $displayable_image_types, true ) ) {

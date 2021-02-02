@@ -3927,7 +3927,7 @@ function wp_ajax_crop_image() {
 			$parent_url = wp_get_attachment_url( $attachment_id );
 			$url        = str_replace( wp_basename( $parent_url ), wp_basename( $cropped ), $parent_url );
 
-			$size       = @getimagesize( $cropped );
+			$size       = wp_getimagesize( $cropped );
 			$image_type = ( $size ) ? $size['mime'] : 'image/jpeg';
 
 			$object = array(
