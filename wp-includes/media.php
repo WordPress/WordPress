@@ -1602,7 +1602,10 @@ function wp_image_src_get_dimensions( $image_src, $image_meta, $attachment_id = 
 	$dimensions = false;
 
 	// Is it a full size image?
-	if ( strpos( $image_src, $image_meta['file'] ) !== false ) {
+	if (
+		isset( $image_meta['file'] ) &&
+		strpos( $image_src, $image_meta['file'] ) !== false
+	) {
 		$dimensions = array(
 			(int) $image_meta['width'],
 			(int) $image_meta['height'],
