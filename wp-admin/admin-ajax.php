@@ -164,6 +164,8 @@ if ( ! empty( $_POST['action'] ) && in_array( $_POST['action'], $core_actions_po
 	add_action( 'wp_ajax_' . $_POST['action'], 'wp_ajax_' . str_replace( '-', '_', $_POST['action'] ), 1 );
 }
 
+add_action( 'wp_ajax_nopriv_generate-password', 'wp_ajax_nopriv_generate_password' );
+
 add_action( 'wp_ajax_nopriv_heartbeat', 'wp_ajax_nopriv_heartbeat', 1 );
 
 $action = ( isset( $_REQUEST['action'] ) ) ? $_REQUEST['action'] : '';

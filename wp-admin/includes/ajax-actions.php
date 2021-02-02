@@ -12,8 +12,7 @@
 //
 
 /**
- * Ajax handler for the Heartbeat API in
- * the no-privilege context.
+ * Ajax handler for the Heartbeat API in the no-privilege context.
  *
  * Runs when the user is not logged in.
  *
@@ -3973,6 +3972,15 @@ function wp_ajax_crop_image() {
  * @since 4.4.0
  */
 function wp_ajax_generate_password() {
+	wp_send_json_success( wp_generate_password( 24 ) );
+}
+
+/**
+ * Ajax handler for generating a password in the no-privilege context.
+ *
+ * @since 5.7.0
+ */
+function wp_ajax_nopriv_generate_password() {
 	wp_send_json_success( wp_generate_password( 24 ) );
 }
 
