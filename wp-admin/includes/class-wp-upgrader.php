@@ -798,6 +798,16 @@ class WP_Upgrader {
 			)
 		);
 
+		/**
+		 * Filters the result of WP_Upgrader::install_package().
+		 *
+		 * @since 5.7.0
+		 *
+		 * @param array|WP_Error $result     Result from WP_Upgrader::install_package().
+		 * @param array          $hook_extra Extra arguments passed to hooked filters.
+		 */
+		$result = apply_filters( 'upgrader_install_package_result', $result, $options['hook_extra'] );
+
 		$this->skin->set_result( $result );
 		if ( is_wp_error( $result ) ) {
 			$this->skin->error( $result );
