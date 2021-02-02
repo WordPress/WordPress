@@ -379,6 +379,10 @@ a:hover {
 	background-color: #f1f1f1;
 }
 
+.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button).custom-logo-link:focus {
+	background: none;
+}
+
 .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) img {
 	outline: 2px dotted #28303d;
 }

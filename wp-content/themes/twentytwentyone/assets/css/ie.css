@@ -2218,6 +2218,10 @@ a:hover {
 	background-color: #f1f1f1;
 }
 
+.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button).custom-logo-link:focus {
+	background: none;
+}
+
 .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) img {
 	outline: 2px dotted #28303d;
 }
@@ -5400,15 +5404,6 @@ table.wp-calendar-table caption {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 1.125rem;
 	line-height: 1.4;
-}
-
-a.custom-logo-link {
-	text-decoration: none;
-}
-
-.has-background-white a.custom-logo-link:focus,
-.is-dark-theme a.custom-logo-link:focus {
-	background: none;
 }
 
 .site-title > a {

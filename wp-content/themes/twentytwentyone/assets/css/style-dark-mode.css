@@ -24,6 +24,11 @@
 		text-decoration: none;
 	}
 
+	.is-dark-theme.is-dark-theme .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button).custom-logo-link:focus,
+	.is-dark-theme.is-dark-theme .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) .meta-nav.custom-logo-link:focus {
+		background: none;
+	}
+
 	.is-dark-theme.is-dark-theme img {
 		filter: brightness(0.85) contrast(1.1);
 	}
