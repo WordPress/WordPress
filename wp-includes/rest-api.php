@@ -3182,3 +3182,57 @@ function rest_get_endpoint_args_for_schema( $schema, $method = WP_REST_Server::C
 
 	return $endpoint_args;
 }
+
+
+/**
+ * Converts an error to a response object.
+ *
+ * This iterates over all error codes and messages to change it into a flat
+ * array. This enables simpler client behaviour, as it is represented as a
+ * list in JSON rather than an object/map.
+ *
+ * @since 5.7.0
+ *
+ * @param WP_Error $error WP_Error instance.
+ *
+ * @return WP_REST_Response List of associative arrays with code and message keys.
+ */
+function rest_convert_error_to_response( $error ) {
+	$status = array_reduce(
+		$error->get_all_error_data(),
+		function ( $status, $error_data ) {
+			return is_array( $error_data ) && isset( $error_data['status'] ) ? $error_data['status'] : $status;
+		},
+		500
+	);
+
+	$errors = array();
+
+	foreach ( (array) $error->errors as $code => $messages ) {
+		$all_data  = $error->get_all_error_data( $code );
+		$last_data = array_pop( $all_data );
+
+		foreach ( (array) $messages as $message ) {
+			$formatted = array(
+				'code'    => $code,
+				'message' => $message,
+				'data'    => $last_data,
+			);
+
+			if ( $all_data ) {
+				$formatted['additional_data'] = $all_data;
+			}
+
+			$errors[] = $formatted;
+		}
+	}
+
+	$data = $errors[0];
+	if ( count( $errors ) > 1 ) {
+		// Remove the primary error.
+		array_shift( $errors );
+		$data['additional_errors'] = $errors;
+	}
+
+	return new WP_REST_Response( $data, $status );
+}

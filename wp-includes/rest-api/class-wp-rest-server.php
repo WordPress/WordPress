@@ -196,41 +196,13 @@ class WP_REST_Server {
 	 * list in JSON rather than an object/map.
 	 *
 	 * @since 4.4.0
+	 * @since 5.7.0 Converted to a wrapper of {@see rest_convert_error_to_response()}.
 	 *
 	 * @param WP_Error $error WP_Error instance.
 	 * @return WP_REST_Response List of associative arrays with code and message keys.
 	 */
 	protected function error_to_response( $error ) {
-		$error_data = $error->get_error_data();
-
-		if ( is_array( $error_data ) && isset( $error_data['status'] ) ) {
-			$status = $error_data['status'];
-		} else {
-			$status = 500;
-		}
-
-		$errors = array();
-
-		foreach ( (array) $error->errors as $code => $messages ) {
-			foreach ( (array) $messages as $message ) {
-				$errors[] = array(
-					'code'    => $code,
-					'message' => $message,
-					'data'    => $error->get_error_data( $code ),
-				);
-			}
-		}
-
-		$data = $errors[0];
-		if ( count( $errors ) > 1 ) {
-			// Remove the primary error.
-			array_shift( $errors );
-			$data['additional_errors'] = $errors;
-		}
-
-		$response = new WP_REST_Response( $data, $status );
-
-		return $response;
+		return rest_convert_error_to_response( $error );
 	}
 
 	/**
