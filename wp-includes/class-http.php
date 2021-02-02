@@ -607,6 +607,24 @@ class WP_Http {
 		$parsed_args = wp_parse_args( $args, $defaults );
 		return $this->request( $url, $parsed_args );
 	}
+	
+	/**
+	 * Uses the PUT HTTP method.
+	 *
+	 * Used for sending data that is expected to be in the body.
+	 *
+	 * @since 5.7
+	 *
+	 * @param string       $url  The request URL.
+	 * @param string|array $args Optional. Override the defaults.
+	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
+	 *                        A WP_Error instance upon error.
+	 */
+	public function put( $url, $args = array() ) {
+		$defaults    = array( 'method' => 'PUT' );
+		$parsed_args = wp_parse_args( $args, $defaults );
+		return $this->request( $url, $parsed_args );
+	}
 
 	/**
 	 * Uses the GET HTTP method.
