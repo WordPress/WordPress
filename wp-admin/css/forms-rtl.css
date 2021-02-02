@@ -1331,13 +1331,6 @@ table.form-table td .updated p {
 	margin: 1.5em 0;
 }
 
-.wp-privacy-request-form label {
-	font-weight: 600;
-	line-height: 1.5;
-	padding-bottom: .5em;
-	display: block;
-}
-
 .wp-privacy-request-form input {
 	margin: 0;
 }

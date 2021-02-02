@@ -109,12 +109,31 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 	<form action="<?php echo esc_url( admin_url( 'export-personal-data.php' ) ); ?>" method="post" class="wp-privacy-request-form">
 		<h2><?php esc_html_e( 'Add Data Export Request' ); ?></h2>
-		<p><?php esc_html_e( 'An email will be sent to the user at this email address asking them to verify the request.' ); ?></p>
-
 		<div class="wp-privacy-request-form-field">
-			<label for="username_or_email_for_privacy_request"><?php esc_html_e( 'Username or email address' ); ?></label>
-			<input type="text" required class="regular-text ltr" id="username_or_email_for_privacy_request" name="username_or_email_for_privacy_request" />
-			<?php submit_button( __( 'Send Request' ), 'secondary', 'submit', false ); ?>
+		<table class="form-table">
+				<tr>
+					<th scope="row">
+						<label for="username_or_email_for_privacy_request"><?php esc_html_e( 'Username or email address' ); ?></label>
+					</th>
+					<td>
+						<input type="text" required class="regular-text ltr" id="username_or_email_for_privacy_request" name="username_or_email_for_privacy_request" />
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<?php _e( 'Confirmation email' ); ?>
+					</th>
+					<td>
+						<label for="send_confirmation_email">
+							<input type="checkbox" name="send_confirmation_email" id="send_confirmation_email" value="1" checked="checked" />
+							<?php _e( 'Send personal data export confirmation email.' ); ?>
+						</label>
+					</td>
+				</tr>
+			</table>
+			<p class="submit">
+				<?php submit_button( __( 'Send Request' ), 'secondary', 'submit', false ); ?>
+			</p>
 		</div>
 		<?php wp_nonce_field( 'personal-data-request' ); ?>
 		<input type="hidden" name="action" value="add_export_personal_data_request" />

@@ -3937,12 +3937,13 @@ function _wp_privacy_account_request_confirmed_message( $request_id ) {
  *
  * @since 4.9.6
  *
- * @param string $email_address User email address. This can be the address of a registered or non-registered user.
- * @param string $action_name   Name of the action that is being confirmed. Required.
- * @param array  $request_data  Misc data you want to send with the verification request and pass to the actions once the request is confirmed.
- * @return int|WP_Error Returns the request ID if successful, or a WP_Error object on failure.
+ * @param string $email_address           User email address. This can be the address of a registered or non-registered user.
+ * @param string $action_name             Name of the action that is being confirmed. Required.
+ * @param array  $request_data            Misc data you want to send with the verification request and pass to the actions once the request is confirmed.
+ * @param bool   $send_confirmation_email Optional. True by default, if false is passed the request status is set to Completed directly.
+ * @return int|WP_Error                   Returns the request ID if successful, or a WP_Error object on failure.
  */
-function wp_create_user_request( $email_address = '', $action_name = '', $request_data = array() ) {
+function wp_create_user_request( $email_address = '', $action_name = '', $request_data = array(), $send_confirmation_email = true ) {
 	$email_address = sanitize_email( $email_address );
 	$action_name   = sanitize_key( $action_name );
 
@@ -3975,13 +3976,19 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 		return new WP_Error( 'duplicate_request', __( 'An incomplete personal data request for this email address already exists.' ) );
 	}
 
+	if ( false !== $send_confirmation_email ) {
+		$status = 'request-pending';
+	} else {
+		$status = 'request-completed';
+	}
+
 	$request_id = wp_insert_post(
 		array(
 			'post_author'   => $user_id,
 			'post_name'     => $action_name,
 			'post_title'    => $email_address,
 			'post_content'  => wp_json_encode( $request_data ),
-			'post_status'   => 'request-pending',
+			'post_status'   => $status,
 			'post_type'     => 'user_request',
 			'post_date'     => current_time( 'mysql', false ),
 			'post_date_gmt' => current_time( 'mysql', true ),
