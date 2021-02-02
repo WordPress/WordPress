@@ -2664,8 +2664,8 @@ function check_password_reset_key( $key, $login ) {
  * @global wpdb         $wpdb       WordPress database abstraction object.
  * @global PasswordHash $wp_hasher  Portable PHP password hashing framework.
  *
- * @param  string       $user_login Optional user_login, default null. Uses
- *                                  `$_POST['user_login']` if `$user_login` not set.
+ * @param string $user_login Optional. Username to send a password retrieval email for.
+ *                           Defaults to `$_POST['user_login']` if not set.
  * @return true|WP_Error True when finished, WP_Error object on error.
  */
 function retrieve_password( $user_login = null ) {
