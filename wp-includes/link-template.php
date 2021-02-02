@@ -3253,6 +3253,8 @@ function home_url( $path = '', $scheme = null ) {
  *
  * @since 3.0.0
  *
+ * @global string $pagenow
+ *
  * @param int         $blog_id Optional. Site ID. Default null (current site).
  * @param string      $path    Optional. Path relative to the home URL. Default empty.
  * @param string|null $scheme  Optional. Scheme to give the home URL context. Accepts
@@ -3260,6 +3262,8 @@ function home_url( $path = '', $scheme = null ) {
  * @return string Home URL link with optional path appended.
  */
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
+	global $pagenow;
+
 	$orig_scheme = $scheme;
 
 	if ( empty( $blog_id ) || ! is_multisite() ) {
