@@ -70,18 +70,6 @@
 /**
  * These are default block editor widths in case the theme doesn't provide them.
  */
-:root {
-  --wp-admin-theme-color: #007cba;
-  --wp-admin-theme-color-darker-10: #006ba1;
-  --wp-admin-theme-color-darker-20: #005a87;
-  --wp-admin-border-width-focus: 2px;
-}
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  :root {
-    --wp-admin-border-width-focus: 1.5px;
-  }
-}
-
 #start-resizable-editor-section {
   display: none;
 }

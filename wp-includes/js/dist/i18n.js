@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 458);
+/******/ 	return __webpack_require__(__webpack_require__.s = 472);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 200:
+/***/ 209:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -326,7 +326,14 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 458:
+/***/ 33:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["hooks"]; }());
+
+/***/ }),
+
+/***/ 472:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -344,11 +351,11 @@ __webpack_require__.d(__webpack_exports__, "_nx", function() { return /* reexpor
 __webpack_require__.d(__webpack_exports__, "isRTL", function() { return /* reexport */ default_i18n_isRTL; });
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(62);
+var memize = __webpack_require__(71);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(200);
+var sprintf = __webpack_require__(209);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/sprintf.js
@@ -940,6 +947,11 @@ var DEFAULT_LOCALE_DATA = {
  */
 
 /**
+ * @typedef {(domain?: string) => string} GetFilterDomain
+ * Retrieve the domain to use when calling domain-specific filters.
+ */
+
+/**
  * @typedef {(text: string, domain?: string) => string} __
  *
  * Retrieve the translation of text.
@@ -984,6 +996,10 @@ var DEFAULT_LOCALE_DATA = {
  * including English (`en`, `en-US`, `en-GB`, etc.), Spanish (`es`), and French (`fr`).
  */
 
+/**
+ * @typedef {{ applyFilters: (hookName:string, ...args: unknown[]) => unknown}} ApplyFiltersInterface
+ */
+
 /* eslint-enable jsdoc/valid-types */
 
 /**
@@ -1006,10 +1022,11 @@ var DEFAULT_LOCALE_DATA = {
  *
  * @param {LocaleData} [initialData]    Locale data configuration.
  * @param {string}     [initialDomain]  Domain for which configuration applies.
+ * @param {ApplyFiltersInterface} [hooks]     Hooks implementation.
  * @return {I18n}                       I18n instance
  */
 
-var create_i18n_createI18n = function createI18n(initialData, initialDomain) {
+var create_i18n_createI18n = function createI18n(initialData, initialDomain, hooks) {
   /**
    * The underlying instance of Tannin to which exported functions interface.
    *
@@ -1055,29 +1072,139 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain) {
 
     return tannin.dcnpgettext(domain, context, single, plural, number);
   };
+  /** @type {GetFilterDomain} */
+
+
+  var getFilterDomain = function getFilterDomain(domain) {
+    if (typeof domain === 'undefined') {
+      return 'default';
+    }
+
+    return domain;
+  };
   /** @type {__} */
 
 
   var __ = function __(text, domain) {
-    return dcnpgettext(domain, undefined, text);
+    var translation = dcnpgettext(domain, undefined, text);
+    /**
+     * Filters text with its translation.
+     *
+     * @param {string} translation Translated text.
+     * @param {string} text        Text to translate.
+     * @param {string} domain      Text domain. Unique identifier for retrieving translated strings.
+     */
+
+    if (typeof hooks === 'undefined') {
+      return translation;
+    }
+
+    translation =
+    /** @type {string} */
+
+    /** @type {*} */
+    hooks.applyFilters('i18n.gettext', translation, text, domain);
+    return (
+      /** @type {string} */
+
+      /** @type {*} */
+      hooks.applyFilters('i18n.gettext_' + getFilterDomain(domain), translation, text, domain)
+    );
   };
   /** @type {_x} */
 
 
   var _x = function _x(text, context, domain) {
-    return dcnpgettext(domain, context, text);
+    var translation = dcnpgettext(domain, context, text);
+    /**
+     * Filters text with its translation based on context information.
+     *
+     * @param {string} translation Translated text.
+     * @param {string} text        Text to translate.
+     * @param {string} context     Context information for the translators.
+     * @param {string} domain      Text domain. Unique identifier for retrieving translated strings.
+     */
+
+    if (typeof hooks === 'undefined') {
+      return translation;
+    }
+
+    translation =
+    /** @type {string} */
+
+    /** @type {*} */
+    hooks.applyFilters('i18n.gettext_with_context', translation, text, context, domain);
+    return (
+      /** @type {string} */
+
+      /** @type {*} */
+      hooks.applyFilters('i18n.gettext_with_context_' + getFilterDomain(domain), translation, text, context, domain)
+    );
   };
   /** @type {_n} */
 
 
   var _n = function _n(single, plural, number, domain) {
-    return dcnpgettext(domain, undefined, single, plural, number);
+    var translation = dcnpgettext(domain, undefined, single, plural, number);
+
+    if (typeof hooks === 'undefined') {
+      return translation;
+    }
+    /**
+     * Filters the singular or plural form of a string.
+     *
+     * @param {string} translation Translated text.
+     * @param {string} single      The text to be used if the number is singular.
+     * @param {string} plural      The text to be used if the number is plural.
+     * @param {string} number      The number to compare against to use either the singular or plural form.
+     * @param {string} domain      Text domain. Unique identifier for retrieving translated strings.
+     */
+
+
+    translation =
+    /** @type {string} */
+
+    /** @type {*} */
+    hooks.applyFilters('i18n.ngettext', translation, single, plural, number, domain);
+    return (
+      /** @type {string} */
+
+      /** @type {*} */
+      hooks.applyFilters('i18n.ngettext_' + getFilterDomain(domain), translation, single, plural, number, domain)
+    );
   };
   /** @type {_nx} */
 
 
   var _nx = function _nx(single, plural, number, context, domain) {
-    return dcnpgettext(domain, context, single, plural, number);
+    var translation = dcnpgettext(domain, context, single, plural, number);
+
+    if (typeof hooks === 'undefined') {
+      return translation;
+    }
+    /**
+     * Filters the singular or plural form of a string with gettext context.
+     *
+     * @param {string} translation Translated text.
+     * @param {string} single      The text to be used if the number is singular.
+     * @param {string} plural      The text to be used if the number is plural.
+     * @param {string} number      The number to compare against to use either the singular or plural form.
+     * @param {string} context     Context information for the translators.
+     * @param {string} domain      Text domain. Unique identifier for retrieving translated strings.
+     */
+
+
+    translation =
+    /** @type {string} */
+
+    /** @type {*} */
+    hooks.applyFilters('i18n.ngettext_with_context', translation, single, plural, number, context, domain);
+    return (
+      /** @type {string} */
+
+      /** @type {*} */
+      hooks.applyFilters('i18n.ngettext_with_context_' + getFilterDomain(domain), translation, single, plural, number, context, domain)
+    );
   };
   /** @type {IsRtl} */
 
@@ -1100,12 +1227,22 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain) {
   };
 };
 
+// EXTERNAL MODULE: external ["wp","hooks"]
+var external_wp_hooks_ = __webpack_require__(33);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/default-i18n.js
+/**
+ * WordPress dependencies
+ */
+
 /**
  * Internal dependencies
  */
 
-var i18n = create_i18n_createI18n();
+
+var i18n = create_i18n_createI18n(undefined, undefined, {
+  applyFilters: external_wp_hooks_["applyFilters"]
+});
 /*
  * Comments in this file are duplicated from ./i18n due to
  * https://github.com/WordPress/gutenberg/pull/20318#issuecomment-590837722
@@ -1227,7 +1364,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 62:
+/***/ 71:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**

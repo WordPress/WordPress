@@ -82,6 +82,10 @@
   }
 }
 
+.block-editor-format-toolbar__image-popover {
+  z-index: 159990;
+}
+
 .block-editor-format-toolbar__image-container-content {
   display: flex;
 }

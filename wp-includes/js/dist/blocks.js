@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 446);
+/******/ 	return __webpack_require__(__webpack_require__.s = 460);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -140,7 +140,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(32);
+var unsupportedIterableToArray = __webpack_require__(31);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
 var nonIterableRest = __webpack_require__(39);
@@ -156,7 +156,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 110:
+/***/ 115:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["autop"]; }());
@@ -170,10 +170,29 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 124:
+/***/ 129:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["shortcode"]; }());
+
+/***/ }),
+
+/***/ 147:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toArray; });
+/* harmony import */ var _babel_runtime_helpers_esm_arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(38);
+/* harmony import */ var _babel_runtime_helpers_esm_iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
+/* harmony import */ var _babel_runtime_helpers_esm_unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
+/* harmony import */ var _babel_runtime_helpers_esm_nonIterableRest__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(39);
+
+
+
+
+function _toArray(arr) {
+  return Object(_babel_runtime_helpers_esm_arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(arr) || Object(_babel_runtime_helpers_esm_iterableToArray__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(arr) || Object(_babel_runtime_helpers_esm_unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(arr) || Object(_babel_runtime_helpers_esm_nonIterableRest__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])();
+}
 
 /***/ }),
 
@@ -197,7 +216,7 @@ function _arrayWithoutHoles(arr) {
 var iterableToArray = __webpack_require__(37);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(32);
+var unsupportedIterableToArray = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -214,7 +233,14 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 196:
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["lodash"]; }());
+
+/***/ }),
+
+/***/ 204:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -308,14 +334,7 @@ function v4(options, buf, offset) {
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["lodash"]; }());
-
-/***/ }),
-
-/***/ 205:
+/***/ 215:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -400,14 +419,14 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 272:
+/***/ 284:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["blockSerializationDefaultParser"]; }());
 
 /***/ }),
 
-/***/ 273:
+/***/ 285:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;;/*! showdown v 1.9.1 - 02-11-2019 */
@@ -5552,7 +5571,7 @@ if (true) {
 
 /***/ }),
 
-/***/ 32:
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5570,7 +5589,7 @@ function _unsupportedIterableToArray(o, minLen) {
 
 /***/ }),
 
-/***/ 34:
+/***/ 33:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["hooks"]; }());
@@ -5621,13 +5640,6 @@ function _nonIterableRest() {
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ 40:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["blob"]; }());
 
 /***/ }),
 
@@ -5913,7 +5925,14 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 446:
+/***/ 43:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["blob"]; }());
+
+/***/ }),
+
+/***/ 460:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6813,7 +6832,7 @@ var STORE_NAME = 'core/blocks';
 /**
  * Store definition for the blocks namespace.
  *
- * @see https://github.com/WordPress/gutenberg/blob/master/packages/data/README.md#createReduxStore
+ * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
  *
  * @type {Object}
  */
@@ -6829,16 +6848,16 @@ Object(external_wp_data_["register"])(store);
 var slicedToArray = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/uuid/dist/esm-browser/v4.js + 4 modules
-var v4 = __webpack_require__(196);
+var v4 = __webpack_require__(204);
 
 // EXTERNAL MODULE: external ["wp","hooks"]
-var external_wp_hooks_ = __webpack_require__(34);
+var external_wp_hooks_ = __webpack_require__(33);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/block-default.js
-var block_default = __webpack_require__(205);
+var block_default = __webpack_require__(215);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__(61);
+var tinycolor = __webpack_require__(60);
 var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
 
 // EXTERNAL MODULE: external ["wp","element"]
@@ -6862,6 +6881,7 @@ function utils_objectSpread(target) { for (var i = 1; i < arguments.length; i++)
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -6983,6 +7003,19 @@ function normalizeBlockType(blockTypeOrName) {
 
 function getBlockLabel(blockType, attributes) {
   var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'visual';
+
+  // Attempt to find entity title if block is a template part.
+  // Require slug to request, otherwise entity is uncreated and will throw 404.
+  if ('core/template-part' === blockType.name && attributes.slug) {
+    var entity = Object(external_wp_data_["select"])('core').getEntityRecord('postType', 'wp_template_part', attributes.theme + '//' + attributes.slug);
+
+    if (entity) {
+      var _entity$title;
+
+      return Object(external_lodash_["startCase"])(((_entity$title = entity.title) === null || _entity$title === void 0 ? void 0 : _entity$title.rendered) || entity.slug);
+    }
+  }
+
   var getLabel = blockType.__experimentalLabel,
       title = blockType.title;
   var label = getLabel && getLabel(attributes, {
@@ -7052,6 +7085,45 @@ function getAccessibleBlockLabel(blockType, attributes, position) {
   return Object(external_wp_i18n_["sprintf"])(
   /* translators: accessibility text. %s: The block title. */
   Object(external_wp_i18n_["__"])('%s Block'), title);
+}
+/**
+ * Ensure attributes contains only values defined by block type, and merge
+ * default values for missing attributes.
+ *
+ * @param {string} name       The block's name.
+ * @param {Object} attributes The block's attributes.
+ * @return {Object} The sanitized attributes.
+ */
+
+function sanitizeBlockAttributes(name, attributes) {
+  // Get the type definition associated with a registered block.
+  var blockType = registration_getBlockType(name);
+
+  if (undefined === blockType) {
+    throw new Error("Block type '".concat(name, "' is not registered."));
+  }
+
+  return Object(external_lodash_["reduce"])(blockType.attributes, function (accumulator, schema, key) {
+    var value = attributes[key];
+
+    if (undefined !== value) {
+      accumulator[key] = value;
+    } else if (schema.hasOwnProperty('default')) {
+      accumulator[key] = schema.default;
+    }
+
+    if (['node', 'children'].indexOf(schema.source) !== -1) {
+      // Ensure value passed is always an array, which we're expecting in
+      // the RichText component to handle the deprecated value.
+      if (typeof accumulator[key] === 'string') {
+        accumulator[key] = [accumulator[key]];
+      } else if (!Array.isArray(accumulator[key])) {
+        accumulator[key] = [];
+      }
+    }
+
+    return accumulator;
+  }, {});
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/constants.js
@@ -7198,6 +7270,9 @@ function registration_objectSpread(target) { for (var i = 1; i < arguments.lengt
  * @property {string}   name                   The unique and machine-readable name.
  * @property {string}   title                  A human-readable variation title.
  * @property {string}   [description]          A detailed variation description.
+ * @property {string}   [category]             Block type category classification,
+ *                                             used in search interfaces to arrange
+ *                                             block types by category.
  * @property {WPIcon}   [icon]                 An icon helping to visualize the variation.
  * @property {boolean}  [isDefault]            Indicates whether the current variation is
  *                                             the default one. Defaults to `false`.
@@ -7682,36 +7757,7 @@ function factory_objectSpread(target) { for (var i = 1; i < arguments.length; i+
 function createBlock(name) {
   var attributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var innerBlocks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-  // Get the type definition associated with a registered block.
-  var blockType = registration_getBlockType(name);
-
-  if (undefined === blockType) {
-    throw new Error("Block type '".concat(name, "' is not registered."));
-  } // Ensure attributes contains only values defined by block type, and merge
-  // default values for missing attributes.
-
-
-  var sanitizedAttributes = Object(external_lodash_["reduce"])(blockType.attributes, function (accumulator, schema, key) {
-    var value = attributes[key];
-
-    if (undefined !== value) {
-      accumulator[key] = value;
-    } else if (schema.hasOwnProperty('default')) {
-      accumulator[key] = schema.default;
-    }
-
-    if (['node', 'children'].indexOf(schema.source) !== -1) {
-      // Ensure value passed is always an array, which we're expecting in
-      // the RichText component to handle the deprecated value.
-      if (typeof accumulator[key] === 'string') {
-        accumulator[key] = [accumulator[key]];
-      } else if (!Array.isArray(accumulator[key])) {
-        accumulator[key] = [];
-      }
-    }
-
-    return accumulator;
-  }, {});
+  var sanitizedAttributes = sanitizeBlockAttributes(name, attributes);
   var clientId = Object(v4["a" /* default */])(); // Blocks are stored with a unique ID, the assigned type name, the block
   // attributes, and their inner blocks.
 
@@ -7763,9 +7809,10 @@ function cloneBlock(block) {
   var mergeAttributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var newInnerBlocks = arguments.length > 2 ? arguments[2] : undefined;
   var clientId = Object(v4["a" /* default */])();
+  var sanitizedAttributes = sanitizeBlockAttributes(block.name, factory_objectSpread(factory_objectSpread({}, block.attributes), mergeAttributes));
   return factory_objectSpread(factory_objectSpread({}, block), {}, {
     clientId: clientId,
-    attributes: factory_objectSpread(factory_objectSpread({}, block.attributes), mergeAttributes),
+    attributes: sanitizedAttributes,
     innerBlocks: newInnerBlocks || block.innerBlocks.map(function (innerBlock) {
       return cloneBlock(innerBlock);
     })
@@ -8301,31 +8348,14 @@ function query(selector, matchers) {
   };
 }
 // EXTERNAL MODULE: external ["wp","autop"]
-var external_wp_autop_ = __webpack_require__(110);
+var external_wp_autop_ = __webpack_require__(115);
 
 // EXTERNAL MODULE: external ["wp","blockSerializationDefaultParser"]
-var external_wp_blockSerializationDefaultParser_ = __webpack_require__(272);
+var external_wp_blockSerializationDefaultParser_ = __webpack_require__(284);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(38);
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toArray.js
+var toArray = __webpack_require__(147);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(37);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(32);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(39);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toArray.js
-
-
-
-
-function _toArray(arr) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || Object(nonIterableRest["a" /* default */])();
-}
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
 var classCallCheck = __webpack_require__(25);
 
@@ -9002,7 +9032,7 @@ function tokenize(input, options) {
 
 
 // EXTERNAL MODULE: external ["wp","htmlEntities"]
-var external_wp_htmlEntities_ = __webpack_require__(60);
+var external_wp_htmlEntities_ = __webpack_require__(64);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/validation/logger.js
 function createLogger() {
@@ -9077,7 +9107,7 @@ function createQueuedLogger() {
 }
 
 // EXTERNAL MODULE: external ["wp","isShallowEqual"]
-var external_wp_isShallowEqual_ = __webpack_require__(59);
+var external_wp_isShallowEqual_ = __webpack_require__(63);
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
@@ -9645,7 +9675,7 @@ function isValidCharacterReference(text) {
  * implementation of `decodeEntities` from `html-entities`, in order to avoid
  * bundling a massive named character reference.
  *
- * @see https://github.com/tildeio/simple-html-tokenizer/tree/master/src/entity-parser.ts
+ * @see https://github.com/tildeio/simple-html-tokenizer/tree/HEAD/src/entity-parser.ts
  */
 
 var validation_DecodeEntityParser = /*#__PURE__*/function () {
@@ -9756,6 +9786,18 @@ function isEquivalentTextTokens(actual, expected) {
   return false;
 }
 /**
+ * Given a CSS length value, returns a normalized CSS length value for strict equality
+ * comparison.
+ *
+ * @param {string} value CSS length value.
+ *
+ * @return {string} Normalized CSS length value.
+ */
+
+function getNormalizedLength(value) {
+  return 0 === parseFloat(value) ? '0' : value;
+}
+/**
  * Given a style value, returns a normalized style value for strict equality
  * comparison.
  *
@@ -9765,7 +9807,10 @@ function isEquivalentTextTokens(actual, expected) {
  */
 
 function getNormalizedStyleValue(value) {
-  return value // Normalize URL type to omit whitespace or quotes
+  var textPieces = getTextPiecesSplitOnWhitespace(value);
+  var normalizedPieces = textPieces.map(getNormalizedLength);
+  var result = normalizedPieces.join(' ');
+  return result // Normalize URL type to omit whitespace or quotes
   .replace(REGEXP_STYLE_URL_TYPE, 'url($1)');
 }
 /**
@@ -9783,7 +9828,7 @@ function getStyleProperties(text) {
   .map(function (style) {
     // ...split further into key-value pairs
     var _style$split = style.split(':'),
-        _style$split2 = _toArray(_style$split),
+        _style$split2 = Object(toArray["a" /* default */])(_style$split),
         key = _style$split2[0],
         valueParts = _style$split2.slice(1);
 
@@ -11148,7 +11193,7 @@ function getRawTransforms() {
 function htmlToBlocks(html) {
   var doc = document.implementation.createHTMLDocument('');
   doc.body.innerHTML = html;
-  return Array.from(doc.body.children).map(function (node) {
+  return Array.from(doc.body.children).flatMap(function (node) {
     var rawTransform = findTransform(getRawTransforms(), function (_ref) {
       var isMatch = _ref.isMatch;
       return isMatch(node);
@@ -11595,7 +11640,7 @@ function listReducer(node) {
 }
 
 // EXTERNAL MODULE: external ["wp","blob"]
-var external_wp_blob_ = __webpack_require__(40);
+var external_wp_blob_ = __webpack_require__(43);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js
 
@@ -11777,7 +11822,7 @@ function figureContentReducer(node, doc, schema) {
 }
 
 // EXTERNAL MODULE: external ["wp","shortcode"]
-var external_wp_shortcode_ = __webpack_require__(124);
+var external_wp_shortcode_ = __webpack_require__(129);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/shortcode-converter.js
 
@@ -11871,7 +11916,7 @@ function segmentHTMLToShortcodeBlock(HTML) {
 /* harmony default export */ var shortcode_converter = (segmentHTMLToShortcodeBlock);
 
 // EXTERNAL MODULE: ./node_modules/showdown/dist/showdown.js
-var showdown = __webpack_require__(273);
+var showdown = __webpack_require__(285);
 var showdown_default = /*#__PURE__*/__webpack_require__.n(showdown);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js
@@ -12802,21 +12847,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 59:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["isShallowEqual"]; }());
-
-/***/ }),
-
 /***/ 60:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["htmlEntities"]; }());
-
-/***/ }),
-
-/***/ 61:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.2
@@ -14014,6 +14045,20 @@ else {}
 
 })(Math);
 
+
+/***/ }),
+
+/***/ 63:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["isShallowEqual"]; }());
+
+/***/ }),
+
+/***/ 64:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["htmlEntities"]; }());
 
 /***/ }),
 

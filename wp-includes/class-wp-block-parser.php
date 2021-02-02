@@ -300,7 +300,7 @@ class WP_Block_Parser {
 				 */
 				if ( 0 === $stack_depth ) {
 					if ( isset( $leading_html_start ) ) {
-						$this->output[] = (array) self::freeform(
+						$this->output[] = (array) $this->freeform(
 							substr(
 								$this->document,
 								$leading_html_start,
@@ -492,7 +492,7 @@ class WP_Block_Parser {
 			return;
 		}
 
-		$this->output[] = (array) self::freeform( substr( $this->document, $this->offset, $length ) );
+		$this->output[] = (array) $this->freeform( substr( $this->document, $this->offset, $length ) );
 	}
 
 	/**
@@ -541,7 +541,7 @@ class WP_Block_Parser {
 		}
 
 		if ( isset( $stack_top->leading_html_start ) ) {
-			$this->output[] = (array) self::freeform(
+			$this->output[] = (array) $this->freeform(
 				substr(
 					$this->document,
 					$stack_top->leading_html_start,

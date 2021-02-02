@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 451);
+/******/ 	return __webpack_require__(__webpack_require__.s = 464);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -98,6 +98,321 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["i18n"]; }());
+
+/***/ }),
+
+/***/ 104:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+/**
+ * Given an instance of EquivalentKeyMap, returns its internal value pair tuple
+ * for a key, if one exists. The tuple members consist of the last reference
+ * value for the key (used in efficient subsequent lookups) and the value
+ * assigned for the key at the leaf node.
+ *
+ * @param {EquivalentKeyMap} instance EquivalentKeyMap instance.
+ * @param {*} key                     The key for which to return value pair.
+ *
+ * @return {?Array} Value pair, if exists.
+ */
+function getValuePair(instance, key) {
+  var _map = instance._map,
+      _arrayTreeMap = instance._arrayTreeMap,
+      _objectTreeMap = instance._objectTreeMap; // Map keeps a reference to the last object-like key used to set the
+  // value, which can be used to shortcut immediately to the value.
+
+  if (_map.has(key)) {
+    return _map.get(key);
+  } // Sort keys to ensure stable retrieval from tree.
+
+
+  var properties = Object.keys(key).sort(); // Tree by type to avoid conflicts on numeric object keys, empty value.
+
+  var map = Array.isArray(key) ? _arrayTreeMap : _objectTreeMap;
+
+  for (var i = 0; i < properties.length; i++) {
+    var property = properties[i];
+    map = map.get(property);
+
+    if (map === undefined) {
+      return;
+    }
+
+    var propertyValue = key[property];
+    map = map.get(propertyValue);
+
+    if (map === undefined) {
+      return;
+    }
+  }
+
+  var valuePair = map.get('_ekm_value');
+
+  if (!valuePair) {
+    return;
+  } // If reached, it implies that an object-like key was set with another
+  // reference, so delete the reference and replace with the current.
+
+
+  _map.delete(valuePair[0]);
+
+  valuePair[0] = key;
+  map.set('_ekm_value', valuePair);
+
+  _map.set(key, valuePair);
+
+  return valuePair;
+}
+/**
+ * Variant of a Map object which enables lookup by equivalent (deeply equal)
+ * object and array keys.
+ */
+
+
+var EquivalentKeyMap =
+/*#__PURE__*/
+function () {
+  /**
+   * Constructs a new instance of EquivalentKeyMap.
+   *
+   * @param {Iterable.<*>} iterable Initial pair of key, value for map.
+   */
+  function EquivalentKeyMap(iterable) {
+    _classCallCheck(this, EquivalentKeyMap);
+
+    this.clear();
+
+    if (iterable instanceof EquivalentKeyMap) {
+      // Map#forEach is only means of iterating with support for IE11.
+      var iterablePairs = [];
+      iterable.forEach(function (value, key) {
+        iterablePairs.push([key, value]);
+      });
+      iterable = iterablePairs;
+    }
+
+    if (iterable != null) {
+      for (var i = 0; i < iterable.length; i++) {
+        this.set(iterable[i][0], iterable[i][1]);
+      }
+    }
+  }
+  /**
+   * Accessor property returning the number of elements.
+   *
+   * @return {number} Number of elements.
+   */
+
+
+  _createClass(EquivalentKeyMap, [{
+    key: "set",
+
+    /**
+     * Add or update an element with a specified key and value.
+     *
+     * @param {*} key   The key of the element to add.
+     * @param {*} value The value of the element to add.
+     *
+     * @return {EquivalentKeyMap} Map instance.
+     */
+    value: function set(key, value) {
+      // Shortcut non-object-like to set on internal Map.
+      if (key === null || _typeof(key) !== 'object') {
+        this._map.set(key, value);
+
+        return this;
+      } // Sort keys to ensure stable assignment into tree.
+
+
+      var properties = Object.keys(key).sort();
+      var valuePair = [key, value]; // Tree by type to avoid conflicts on numeric object keys, empty value.
+
+      var map = Array.isArray(key) ? this._arrayTreeMap : this._objectTreeMap;
+
+      for (var i = 0; i < properties.length; i++) {
+        var property = properties[i];
+
+        if (!map.has(property)) {
+          map.set(property, new EquivalentKeyMap());
+        }
+
+        map = map.get(property);
+        var propertyValue = key[property];
+
+        if (!map.has(propertyValue)) {
+          map.set(propertyValue, new EquivalentKeyMap());
+        }
+
+        map = map.get(propertyValue);
+      } // If an _ekm_value exists, there was already an equivalent key. Before
+      // overriding, ensure that the old key reference is removed from map to
+      // avoid memory leak of accumulating equivalent keys. This is, in a
+      // sense, a poor man's WeakMap, while still enabling iterability.
+
+
+      var previousValuePair = map.get('_ekm_value');
+
+      if (previousValuePair) {
+        this._map.delete(previousValuePair[0]);
+      }
+
+      map.set('_ekm_value', valuePair);
+
+      this._map.set(key, valuePair);
+
+      return this;
+    }
+    /**
+     * Returns a specified element.
+     *
+     * @param {*} key The key of the element to return.
+     *
+     * @return {?*} The element associated with the specified key or undefined
+     *              if the key can't be found.
+     */
+
+  }, {
+    key: "get",
+    value: function get(key) {
+      // Shortcut non-object-like to get from internal Map.
+      if (key === null || _typeof(key) !== 'object') {
+        return this._map.get(key);
+      }
+
+      var valuePair = getValuePair(this, key);
+
+      if (valuePair) {
+        return valuePair[1];
+      }
+    }
+    /**
+     * Returns a boolean indicating whether an element with the specified key
+     * exists or not.
+     *
+     * @param {*} key The key of the element to test for presence.
+     *
+     * @return {boolean} Whether an element with the specified key exists.
+     */
+
+  }, {
+    key: "has",
+    value: function has(key) {
+      if (key === null || _typeof(key) !== 'object') {
+        return this._map.has(key);
+      } // Test on the _presence_ of the pair, not its value, as even undefined
+      // can be a valid member value for a key.
+
+
+      return getValuePair(this, key) !== undefined;
+    }
+    /**
+     * Removes the specified element.
+     *
+     * @param {*} key The key of the element to remove.
+     *
+     * @return {boolean} Returns true if an element existed and has been
+     *                   removed, or false if the element does not exist.
+     */
+
+  }, {
+    key: "delete",
+    value: function _delete(key) {
+      if (!this.has(key)) {
+        return false;
+      } // This naive implementation will leave orphaned child trees. A better
+      // implementation should traverse and remove orphans.
+
+
+      this.set(key, undefined);
+      return true;
+    }
+    /**
+     * Executes a provided function once per each key/value pair, in insertion
+     * order.
+     *
+     * @param {Function} callback Function to execute for each element.
+     * @param {*}        thisArg  Value to use as `this` when executing
+     *                            `callback`.
+     */
+
+  }, {
+    key: "forEach",
+    value: function forEach(callback) {
+      var _this = this;
+
+      var thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+
+      this._map.forEach(function (value, key) {
+        // Unwrap value from object-like value pair.
+        if (key !== null && _typeof(key) === 'object') {
+          value = value[1];
+        }
+
+        callback.call(thisArg, value, key, _this);
+      });
+    }
+    /**
+     * Removes all elements.
+     */
+
+  }, {
+    key: "clear",
+    value: function clear() {
+      this._map = new Map();
+      this._arrayTreeMap = new Map();
+      this._objectTreeMap = new Map();
+    }
+  }, {
+    key: "size",
+    get: function get() {
+      return this._map.size;
+    }
+  }]);
+
+  return EquivalentKeyMap;
+}();
+
+module.exports = EquivalentKeyMap;
+
 
 /***/ }),
 
@@ -140,7 +455,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(32);
+var unsupportedIterableToArray = __webpack_require__(31);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
 var nonIterableRest = __webpack_require__(39);
@@ -152,6 +467,25 @@ var nonIterableRest = __webpack_require__(39);
 
 function _slicedToArray(arr, i) {
   return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
+}
+
+/***/ }),
+
+/***/ 147:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toArray; });
+/* harmony import */ var _babel_runtime_helpers_esm_arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(38);
+/* harmony import */ var _babel_runtime_helpers_esm_iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
+/* harmony import */ var _babel_runtime_helpers_esm_unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
+/* harmony import */ var _babel_runtime_helpers_esm_nonIterableRest__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(39);
+
+
+
+
+function _toArray(arr) {
+  return Object(_babel_runtime_helpers_esm_arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(arr) || Object(_babel_runtime_helpers_esm_iterableToArray__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(arr) || Object(_babel_runtime_helpers_esm_unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(arr) || Object(_babel_runtime_helpers_esm_nonIterableRest__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])();
 }
 
 /***/ }),
@@ -176,7 +510,7 @@ function _arrayWithoutHoles(arr) {
 var iterableToArray = __webpack_require__(37);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(32);
+var unsupportedIterableToArray = __webpack_require__(31);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -193,14 +527,21 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 17:
+/***/ 16:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["regeneratorRuntime"]; }());
 
 /***/ }),
 
-/***/ 196:
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["lodash"]; }());
+
+/***/ }),
+
+/***/ 204:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -294,13 +635,6 @@ function v4(options, buf, offset) {
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["lodash"]; }());
-
-/***/ }),
-
 /***/ 24:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -318,14 +652,43 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 31:
-/***/ (function(module, exports) {
+/***/ 25:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = window["wp"]["url"]; }());
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
 /***/ }),
 
-/***/ 32:
+/***/ 26:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+/***/ }),
+
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -340,6 +703,13 @@ function _unsupportedIterableToArray(o, minLen) {
   if (n === "Map" || n === "Set") return Array.from(o);
   if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
 }
+
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["url"]; }());
 
 /***/ }),
 
@@ -672,7 +1042,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 451:
+/***/ 464:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -710,6 +1080,7 @@ __webpack_require__.d(build_module_actions_namespaceObject, "undo", function() {
 __webpack_require__.d(build_module_actions_namespaceObject, "redo", function() { return redo; });
 __webpack_require__.d(build_module_actions_namespaceObject, "__unstableCreateUndoLevel", function() { return actions_unstableCreateUndoLevel; });
 __webpack_require__.d(build_module_actions_namespaceObject, "saveEntityRecord", function() { return saveEntityRecord; });
+__webpack_require__.d(build_module_actions_namespaceObject, "__experimentalBatch", function() { return __experimentalBatch; });
 __webpack_require__.d(build_module_actions_namespaceObject, "saveEditedEntityRecord", function() { return saveEditedEntityRecord; });
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveUploadPermissions", function() { return receiveUploadPermissions; });
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveUserPermission", function() { return receiveUserPermission; });
@@ -788,7 +1159,7 @@ var defineProperty = __webpack_require__(5);
 var external_wp_data_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: external ["wp","dataControls"]
-var external_wp_dataControls_ = __webpack_require__(48);
+var external_wp_dataControls_ = __webpack_require__(49);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
 var slicedToArray = __webpack_require__(11);
@@ -800,7 +1171,7 @@ var toConsumableArray = __webpack_require__(15);
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external ["wp","isShallowEqual"]
-var external_wp_isShallowEqual_ = __webpack_require__(59);
+var external_wp_isShallowEqual_ = __webpack_require__(63);
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/if-matching-action.js
@@ -939,17 +1310,20 @@ var on_sub_key_onSubKey = function onSubKey(actionProperty) {
 /* harmony default export */ var on_sub_key = (on_sub_key_onSubKey);
 
 // EXTERNAL MODULE: external "regeneratorRuntime"
-var external_regeneratorRuntime_ = __webpack_require__(17);
+var external_regeneratorRuntime_ = __webpack_require__(16);
 var external_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_regeneratorRuntime_);
 
 // EXTERNAL MODULE: external ["wp","i18n"]
 var external_wp_i18n_ = __webpack_require__(1);
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toArray.js
+var toArray = __webpack_require__(147);
+
 // EXTERNAL MODULE: ./node_modules/uuid/dist/esm-browser/v4.js + 4 modules
-var v4 = __webpack_require__(196);
+var v4 = __webpack_require__(204);
 
 // EXTERNAL MODULE: external ["wp","url"]
-var external_wp_url_ = __webpack_require__(31);
+var external_wp_url_ = __webpack_require__(32);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/actions.js
 
@@ -1206,7 +1580,472 @@ function __unstableProcessPendingLockRequests() {
   }, _marked4, null, [[6, 23, 26, 29]]);
 }
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+var setPrototypeOf = __webpack_require__(52);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/isNativeReflectConstruct.js
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/construct.js
+
+
+function construct_construct(Parent, args, Class) {
+  if (_isNativeReflectConstruct()) {
+    construct_construct = Reflect.construct;
+  } else {
+    construct_construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) Object(setPrototypeOf["a" /* default */])(instance, Class.prototype);
+      return instance;
+    };
+  }
+
+  return construct_construct.apply(null, arguments);
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
+var classCallCheck = __webpack_require__(25);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
+var createClass = __webpack_require__(26);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
+var asyncToGenerator = __webpack_require__(47);
+
+// EXTERNAL MODULE: external ["wp","apiFetch"]
+var external_wp_apiFetch_ = __webpack_require__(50);
+var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/batch/default-processor.js
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Default batch processor. Sends its input requests to /v1/batch.
+ *
+ * @param {Array} requests List of API requests to perform at once.
+ *
+ * @return {Promise} Promise that resolves to a list of objects containing
+ *                   either `output` (if that request was succesful) or `error`
+ *                   (if not ).
+ */
+
+function defaultProcessor(_x) {
+  return _defaultProcessor.apply(this, arguments);
+}
+
+function _defaultProcessor() {
+  _defaultProcessor = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_regeneratorRuntime_default.a.mark(function _callee(requests) {
+    var batchResponse;
+    return external_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return external_wp_apiFetch_default()({
+              path: '/v1/batch',
+              method: 'POST',
+              data: {
+                validation: 'require-all-validate',
+                requests: requests.map(function (request) {
+                  return {
+                    path: request.path,
+                    body: request.data,
+                    // Rename 'data' to 'body'.
+                    method: request.method,
+                    headers: request.headers
+                  };
+                })
+              }
+            });
+
+          case 2:
+            batchResponse = _context.sent;
+
+            if (!batchResponse.failed) {
+              _context.next = 5;
+              break;
+            }
+
+            return _context.abrupt("return", batchResponse.responses.map(function (response) {
+              return {
+                error: response === null || response === void 0 ? void 0 : response.body
+              };
+            }));
+
+          case 5:
+            return _context.abrupt("return", batchResponse.responses.map(function (response) {
+              var result = {};
+
+              if (response.status >= 200 && response.status < 300) {
+                result.output = response.body;
+              } else {
+                result.error = response.body;
+              }
+
+              return result;
+            }));
+
+          case 6:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _defaultProcessor.apply(this, arguments);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/batch/create-batch.js
+
+
+
+
+
+
+
+function create_batch_createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = create_batch_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function create_batch_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return create_batch_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return create_batch_arrayLikeToArray(o, minLen); }
+
+function create_batch_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Creates a batch, which can be used to combine multiple API requests into one
+ * API request using the WordPress batch processing API (/v1/batch).
+ *
+ * ```
+ * const batch = createBatch();
+ * const dunePromise = batch.add( {
+ *   path: '/v1/books',
+ *   method: 'POST',
+ *   data: { title: 'Dune' }
+ * } );
+ * const lotrPromise = batch.add( {
+ *   path: '/v1/books',
+ *   method: 'POST',
+ *   data: { title: 'Lord of the Rings' }
+ * } );
+ * const isSuccess = await batch.run(); // Sends one POST to /v1/batch.
+ * if ( isSuccess ) {
+ *   console.log(
+ *     'Saved two books:',
+ *     await dunePromise,
+ *     await lotrPromise
+ *   );
+ * }
+ * ```
+ *
+ * @param {Function} [processor] Processor function. Can be used to replace the
+ *                               default functionality which is to send an API
+ *                               request to /v1/batch. Is given an array of
+ *                               inputs and must return a promise that
+ *                               resolves to an array of objects containing
+ *                               either `output` or `error`.
+ */
+
+function createBatch() {
+  var processor = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultProcessor;
+  var lastId = 0;
+  var queue = [];
+  var pending = new create_batch_ObservableSet();
+  return {
+    /**
+     * Adds an input to the batch and returns a promise that is resolved or
+     * rejected when the input is processed by `batch.run()`.
+     *
+     * You may also pass a thunk which allows inputs to be added
+     * asychronously.
+     *
+     * ```
+     * // Both are allowed:
+     * batch.add( { path: '/v1/books', ... } );
+     * batch.add( ( add ) => add( { path: '/v1/books', ... } ) );
+     * ```
+     *
+     * If a thunk is passed, `batch.run()` will pause until either:
+     *
+     * - The thunk calls its `add` argument, or;
+     * - The thunk returns a promise and that promise resolves, or;
+     * - The thunk returns a non-promise.
+     *
+     * @param {any|Function} inputOrThunk Input to add or thunk to execute.
+     
+     * @return {Promise|any} If given an input, returns a promise that
+     *                       is resolved or rejected when the batch is
+     *                       processed. If given a thunk, returns the return
+     *                       value of that thunk.
+     */
+    add: function add(inputOrThunk) {
+      var id = ++lastId;
+      pending.add(id);
+
+      var add = function add(input) {
+        return new Promise(function (resolve, reject) {
+          queue.push({
+            input: input,
+            resolve: resolve,
+            reject: reject
+          });
+          pending.delete(id);
+        });
+      };
+
+      if (Object(external_lodash_["isFunction"])(inputOrThunk)) {
+        return Promise.resolve(inputOrThunk(add)).finally(function () {
+          pending.delete(id);
+        });
+      }
+
+      return add(inputOrThunk);
+    },
+
+    /**
+     * Runs the batch. This calls `batchProcessor` and resolves or rejects
+     * all promises returned by `add()`.
+     *
+     * @return {Promise} A promise that resolves to a boolean that is true
+     *                   if the processor returned no errors.
+     */
+    run: function run() {
+      return Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_regeneratorRuntime_default.a.mark(function _callee() {
+        var results, _iterator, _step, reject, isSuccess, _iterator2, _step2, _step2$value, result, _step2$value$, resolve, _reject, _result$output;
+
+        return external_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!pending.size) {
+                  _context.next = 3;
+                  break;
+                }
+
+                _context.next = 3;
+                return new Promise(function (resolve) {
+                  var unsubscribe = pending.subscribe(function () {
+                    if (!pending.size) {
+                      unsubscribe();
+                      resolve();
+                    }
+                  });
+                });
+
+              case 3:
+                _context.prev = 3;
+                _context.next = 6;
+                return processor(queue.map(function (_ref) {
+                  var input = _ref.input;
+                  return input;
+                }));
+
+              case 6:
+                results = _context.sent;
+
+                if (!(results.length !== queue.length)) {
+                  _context.next = 9;
+                  break;
+                }
+
+                throw new Error('run: Array returned by processor must be same size as input array.');
+
+              case 9:
+                _context.next = 16;
+                break;
+
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](3);
+                _iterator = create_batch_createForOfIteratorHelper(queue);
+
+                try {
+                  for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                    reject = _step.value.reject;
+                    reject(_context.t0);
+                  }
+                } catch (err) {
+                  _iterator.e(err);
+                } finally {
+                  _iterator.f();
+                }
+
+                throw _context.t0;
+
+              case 16:
+                isSuccess = true;
+                _iterator2 = create_batch_createForOfIteratorHelper(Object(external_lodash_["zip"])(results, queue));
+
+                try {
+                  for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                    _step2$value = Object(slicedToArray["a" /* default */])(_step2.value, 2), result = _step2$value[0], _step2$value$ = _step2$value[1], resolve = _step2$value$.resolve, _reject = _step2$value$.reject;
+
+                    if (result !== null && result !== void 0 && result.error) {
+                      _reject(result.error);
+
+                      isSuccess = false;
+                    } else {
+                      resolve((_result$output = result === null || result === void 0 ? void 0 : result.output) !== null && _result$output !== void 0 ? _result$output : result);
+                    }
+                  }
+                } catch (err) {
+                  _iterator2.e(err);
+                } finally {
+                  _iterator2.f();
+                }
+
+                queue = [];
+                return _context.abrupt("return", isSuccess);
+
+              case 21:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[3, 11]]);
+      }))();
+    }
+  };
+}
+
+var create_batch_ObservableSet = /*#__PURE__*/function () {
+  function ObservableSet() {
+    Object(classCallCheck["a" /* default */])(this, ObservableSet);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    this.set = construct_construct(Set, args);
+    this.subscribers = new Set();
+  }
+
+  Object(createClass["a" /* default */])(ObservableSet, [{
+    key: "add",
+    value: function add() {
+      var _this$set;
+
+      (_this$set = this.set).add.apply(_this$set, arguments);
+
+      this.subscribers.forEach(function (subscriber) {
+        return subscriber();
+      });
+      return this;
+    }
+  }, {
+    key: "delete",
+    value: function _delete() {
+      var _this$set2;
+
+      var isSuccess = (_this$set2 = this.set).delete.apply(_this$set2, arguments);
+
+      this.subscribers.forEach(function (subscriber) {
+        return subscriber();
+      });
+      return isSuccess;
+    }
+  }, {
+    key: "subscribe",
+    value: function subscribe(subscriber) {
+      var _this = this;
+
+      this.subscribers.add(subscriber);
+      return function () {
+        _this.subscribers.delete(subscriber);
+      };
+    }
+  }, {
+    key: "size",
+    get: function get() {
+      return this.set.size;
+    }
+  }]);
+
+  return ObservableSet;
+}();
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/controls.js
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+function regularFetch(url) {
+  return {
+    type: 'REGULAR_FETCH',
+    url: url
+  };
+}
+function getDispatch() {
+  return {
+    type: 'GET_DISPATCH'
+  };
+}
+var controls = {
+  REGULAR_FETCH: function REGULAR_FETCH(_ref) {
+    return Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_regeneratorRuntime_default.a.mark(function _callee() {
+      var url, _yield$window$fetch$t, data;
+
+      return external_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              url = _ref.url;
+              _context.next = 3;
+              return window.fetch(url).then(function (res) {
+                return res.json();
+              });
+
+            case 3:
+              _yield$window$fetch$t = _context.sent;
+              data = _yield$window$fetch$t.data;
+              return _context.abrupt("return", data);
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  GET_DISPATCH: Object(external_wp_data_["createRegistryControl"])(function (_ref2) {
+    var dispatch = _ref2.dispatch;
+    return function () {
+      return dispatch;
+    };
+  })
+};
+/* harmony default export */ var build_module_controls = (controls);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/actions.js
+
+
 
 
 
@@ -1216,7 +2055,8 @@ var actions_marked = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(del
     actions_marked3 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(undo),
     actions_marked4 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(redo),
     _marked5 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(saveEntityRecord),
-    _marked6 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(saveEditedEntityRecord);
+    _marked6 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(__experimentalBatch),
+    _marked7 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(saveEditedEntityRecord);
 
 function build_module_actions_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -1237,6 +2077,8 @@ function build_module_actions_objectSpread(target) { for (var i = 1; i < argumen
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -1373,22 +2215,39 @@ function receiveEmbedPreview(url, preview) {
 /**
  * Action triggered to delete an entity record.
  *
- * @param {string}  kind              Kind of the deleted entity.
- * @param {string}  name              Name of the deleted entity.
- * @param {string}  recordId          Record ID of the deleted entity.
- * @param {?Object} query             Special query parameters for the DELETE API call.
+ * @param {string}   kind                      Kind of the deleted entity.
+ * @param {string}   name                      Name of the deleted entity.
+ * @param {string}   recordId                  Record ID of the deleted entity.
+ * @param {?Object}  query                     Special query parameters for the
+ *                                             DELETE API call.
+ * @param {Object}   [options]                 Delete options.
+ * @param {Function} [options.__unstableFetch] Internal use only. Function to
+ *                                             call instead of `apiFetch()`.
+ *                                             Must return a control descriptor.
  */
 
 function deleteEntityRecord(kind, name, recordId, query) {
-  var entities, entity, error, deletedRecord, lock, path;
+  var _ref,
+      _ref$__unstableFetch,
+      __unstableFetch,
+      entities,
+      entity,
+      error,
+      deletedRecord,
+      lock,
+      path,
+      options,
+      _args = arguments;
+
   return external_regeneratorRuntime_default.a.wrap(function deleteEntityRecord$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _context.next = 2;
+          _ref = _args.length > 4 && _args[4] !== undefined ? _args[4] : {}, _ref$__unstableFetch = _ref.__unstableFetch, __unstableFetch = _ref$__unstableFetch === void 0 ? null : _ref$__unstableFetch;
+          _context.next = 3;
           return getKindEntities(kind);
 
-        case 2:
+        case 3:
           entities = _context.sent;
           entity = Object(external_lodash_["find"])(entities, {
             kind: kind,
@@ -1397,21 +2256,21 @@ function deleteEntityRecord(kind, name, recordId, query) {
           deletedRecord = false;
 
           if (entity) {
-            _context.next = 7;
+            _context.next = 8;
             break;
           }
 
           return _context.abrupt("return");
 
-        case 7:
+        case 8:
           return _context.delegateYield(__unstableAcquireStoreLock('core', ['entities', 'data', kind, name, recordId], {
             exclusive: true
-          }), "t0", 8);
+          }), "t0", 9);
 
-        case 8:
+        case 9:
           lock = _context.t0;
-          _context.prev = 9;
-          _context.next = 12;
+          _context.prev = 10;
+          _context.next = 13;
           return {
             type: 'DELETE_ENTITY_RECORD_START',
             kind: kind,
@@ -1419,36 +2278,54 @@ function deleteEntityRecord(kind, name, recordId, query) {
             recordId: recordId
           };
 
-        case 12:
-          _context.prev = 12;
+        case 13:
+          _context.prev = 13;
           path = "".concat(entity.baseURL, "/").concat(recordId);
 
           if (query) {
             path = Object(external_wp_url_["addQueryArgs"])(path, query);
           }
 
-          _context.next = 17;
-          return Object(external_wp_dataControls_["apiFetch"])({
+          options = {
             path: path,
             method: 'DELETE'
-          });
+          };
 
-        case 17:
-          deletedRecord = _context.sent;
+          if (!__unstableFetch) {
+            _context.next = 23;
+            break;
+          }
+
           _context.next = 20;
-          return removeItems(kind, name, recordId, true);
+          return Object(external_wp_dataControls_["__unstableAwaitPromise"])(__unstableFetch(options));
 
         case 20:
-          _context.next = 25;
+          deletedRecord = _context.sent;
+          _context.next = 26;
           break;
 
-        case 22:
-          _context.prev = 22;
-          _context.t1 = _context["catch"](12);
-          error = _context.t1;
+        case 23:
+          _context.next = 25;
+          return Object(external_wp_dataControls_["apiFetch"])(options);
 
         case 25:
-          _context.next = 27;
+          deletedRecord = _context.sent;
+
+        case 26:
+          _context.next = 28;
+          return removeItems(kind, name, recordId, true);
+
+        case 28:
+          _context.next = 33;
+          break;
+
+        case 30:
+          _context.prev = 30;
+          _context.t1 = _context["catch"](13);
+          error = _context.t1;
+
+        case 33:
+          _context.next = 35;
           return {
             type: 'DELETE_ENTITY_RECORD_FINISH',
             kind: kind,
@@ -1457,22 +2334,22 @@ function deleteEntityRecord(kind, name, recordId, query) {
             error: error
           };
 
-        case 27:
+        case 35:
           return _context.abrupt("return", deletedRecord);
 
-        case 28:
-          _context.prev = 28;
-          return _context.delegateYield(__unstableReleaseStoreLock(lock), "t2", 30);
+        case 36:
+          _context.prev = 36;
+          return _context.delegateYield(__unstableReleaseStoreLock(lock), "t2", 38);
 
-        case 30:
-          return _context.finish(28);
+        case 38:
+          return _context.finish(36);
 
-        case 31:
+        case 39:
         case "end":
           return _context.stop();
       }
     }
-  }, actions_marked, null, [[9,, 28, 31], [12, 22]]);
+  }, actions_marked, null, [[10,, 36, 39], [13, 30]]);
 }
 /**
  * Returns an action object that triggers an
@@ -1662,17 +2539,23 @@ function actions_unstableCreateUndoLevel() {
 /**
  * Action triggered to save an entity record.
  *
- * @param {string}  kind                       Kind of the received entity.
- * @param {string}  name                       Name of the received entity.
- * @param {Object}  record                     Record to be saved.
- * @param {Object}  options                    Saving options.
- * @param {boolean} [options.isAutosave=false] Whether this is an autosave.
+ * @param {string}   kind                       Kind of the received entity.
+ * @param {string}   name                       Name of the received entity.
+ * @param {Object}   record                     Record to be saved.
+ * @param {Object}   options                    Saving options.
+ * @param {boolean}  [options.isAutosave=false] Whether this is an autosave.
+ * @param {Function} [options.__unstableFetch]  Internal use only. Function to
+ *                                              call instead of `apiFetch()`.
+ *                                              Must return a control
+ *                                              descriptor.
  */
 
 function saveEntityRecord(kind, name, record) {
-  var _ref,
-      _ref$isAutosave,
+  var _ref2,
+      _ref2$isAutosave,
       isAutosave,
+      _ref2$__unstableFetch,
+      __unstableFetch,
       entities,
       entity,
       entityIdKey,
@@ -1692,17 +2575,17 @@ function saveEntityRecord(kind, name, record) {
       currentUserId,
       autosavePost,
       data,
+      options,
       newRecord,
       edits,
+      _options,
       _args5 = arguments;
 
   return external_regeneratorRuntime_default.a.wrap(function saveEntityRecord$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
-          _ref = _args5.length > 3 && _args5[3] !== undefined ? _args5[3] : {
-            isAutosave: false
-          }, _ref$isAutosave = _ref.isAutosave, isAutosave = _ref$isAutosave === void 0 ? false : _ref$isAutosave;
+          _ref2 = _args5.length > 3 && _args5[3] !== undefined ? _args5[3] : {}, _ref2$isAutosave = _ref2.isAutosave, isAutosave = _ref2$isAutosave === void 0 ? false : _ref2$isAutosave, _ref2$__unstableFetch = _ref2.__unstableFetch, __unstableFetch = _ref2$__unstableFetch === void 0 ? null : _ref2$__unstableFetch;
           _context5.next = 3;
           return getKindEntities(kind);
 
@@ -1785,7 +2668,7 @@ function saveEntityRecord(kind, name, record) {
           persistedRecord = _context5.sent;
 
           if (!isAutosave) {
-            _context5.next = 58;
+            _context5.next = 65;
             break;
           }
 
@@ -1815,18 +2698,35 @@ function saveEntityRecord(kind, name, record) {
           }, {
             status: data.status === 'auto-draft' ? 'draft' : data.status
           });
-          _context5.next = 46;
-          return Object(external_wp_dataControls_["apiFetch"])({
+          options = {
             path: "".concat(path, "/autosaves"),
             method: 'POST',
             data: data
-          });
+          };
 
-        case 46:
+          if (!__unstableFetch) {
+            _context5.next = 51;
+            break;
+          }
+
+          _context5.next = 48;
+          return Object(external_wp_dataControls_["__unstableAwaitPromise"])(__unstableFetch(options));
+
+        case 48:
+          updatedRecord = _context5.sent;
+          _context5.next = 54;
+          break;
+
+        case 51:
+          _context5.next = 53;
+          return Object(external_wp_dataControls_["apiFetch"])(options);
+
+        case 53:
           updatedRecord = _context5.sent;
 
+        case 54:
           if (!(persistedRecord.id === updatedRecord.id)) {
-            _context5.next = 54;
+            _context5.next = 61;
             break;
           }
 
@@ -1847,51 +2747,69 @@ function saveEntityRecord(kind, name, record) {
 
             return acc;
           }, {});
-          _context5.next = 52;
+          _context5.next = 59;
           return receiveEntityRecords(kind, name, newRecord, undefined, true);
 
-        case 52:
-          _context5.next = 56;
+        case 59:
+          _context5.next = 63;
           break;
 
-        case 54:
-          _context5.next = 56;
+        case 61:
+          _context5.next = 63;
           return receiveAutosaves(persistedRecord.id, updatedRecord);
 
-        case 56:
-          _context5.next = 65;
+        case 63:
+          _context5.next = 79;
           break;
 
-        case 58:
+        case 65:
           edits = record;
 
           if (entity.__unstablePrePersist) {
             edits = build_module_actions_objectSpread(build_module_actions_objectSpread({}, edits), entity.__unstablePrePersist(persistedRecord, edits));
           }
 
-          _context5.next = 62;
-          return Object(external_wp_dataControls_["apiFetch"])({
+          _options = {
             path: path,
             method: recordId ? 'PUT' : 'POST',
             data: edits
-          });
+          };
 
-        case 62:
+          if (!__unstableFetch) {
+            _context5.next = 74;
+            break;
+          }
+
+          _context5.next = 71;
+          return Object(external_wp_dataControls_["__unstableAwaitPromise"])(__unstableFetch(_options));
+
+        case 71:
           updatedRecord = _context5.sent;
-          _context5.next = 65;
-          return receiveEntityRecords(kind, name, updatedRecord, undefined, true, edits);
-
-        case 65:
-          _context5.next = 70;
+          _context5.next = 77;
           break;
 
-        case 67:
-          _context5.prev = 67;
+        case 74:
+          _context5.next = 76;
+          return Object(external_wp_dataControls_["apiFetch"])(_options);
+
+        case 76:
+          updatedRecord = _context5.sent;
+
+        case 77:
+          _context5.next = 79;
+          return receiveEntityRecords(kind, name, updatedRecord, undefined, true, edits);
+
+        case 79:
+          _context5.next = 84;
+          break;
+
+        case 81:
+          _context5.prev = 81;
           _context5.t3 = _context5["catch"](29);
           error = _context5.t3;
 
-        case 70:
-          _context5.next = 72;
+        case 84:
+          _context5.next = 86;
           return {
             type: 'SAVE_ENTITY_RECORD_FINISH',
             kind: kind,
@@ -1901,22 +2819,100 @@ function saveEntityRecord(kind, name, record) {
             isAutosave: isAutosave
           };
 
-        case 72:
+        case 86:
           return _context5.abrupt("return", updatedRecord);
 
-        case 73:
-          _context5.prev = 73;
-          return _context5.delegateYield(__unstableReleaseStoreLock(lock), "t4", 75);
+        case 87:
+          _context5.prev = 87;
+          return _context5.delegateYield(__unstableReleaseStoreLock(lock), "t4", 89);
 
-        case 75:
-          return _context5.finish(73);
+        case 89:
+          return _context5.finish(87);
 
-        case 76:
+        case 90:
         case "end":
           return _context5.stop();
       }
     }
-  }, _marked5, null, [[11,, 73, 76], [29, 67]]);
+  }, _marked5, null, [[11,, 87, 90], [29, 81]]);
+}
+/**
+ * Runs multiple core-data actions at the same time using one API request.
+ *
+ * Example:
+ *
+ * ```
+ * const [ savedRecord, updatedRecord, deletedRecord ] =
+ *   await dispatch( 'core' ).__experimentalBatch( [
+ *     ( { saveEntityRecord } ) => saveEntityRecord( 'root', 'widget', widget ),
+ *     ( { saveEditedEntityRecord } ) => saveEntityRecord( 'root', 'widget', 123 ),
+ *     ( { deleteEntityRecord } ) => deleteEntityRecord( 'root', 'widget', 123, null ),
+ *   ] );
+ * ```
+ *
+ * @param {Array} requests Array of functions which are invoked simultaneously.
+ *                         Each function is passed an object containing
+ *                         `saveEntityRecord`, `saveEditedEntityRecord`, and
+ *                         `deleteEntityRecord`.
+ *
+ * @return {Promise} A promise that resolves to an array containing the return
+ *                   values of each function given in `requests`.
+ */
+
+function __experimentalBatch(requests) {
+  var batch, dispatch, api, resultPromises, _yield$__unstableAwai, _yield$__unstableAwai2, results;
+
+  return external_regeneratorRuntime_default.a.wrap(function __experimentalBatch$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          batch = createBatch();
+          _context6.next = 3;
+          return getDispatch();
+
+        case 3:
+          dispatch = _context6.sent;
+          api = {
+            saveEntityRecord: function saveEntityRecord(kind, name, record, options) {
+              return batch.add(function (add) {
+                return dispatch('core').saveEntityRecord(kind, name, record, build_module_actions_objectSpread(build_module_actions_objectSpread({}, options), {}, {
+                  __unstableFetch: add
+                }));
+              });
+            },
+            saveEditedEntityRecord: function saveEditedEntityRecord(kind, name, recordId, options) {
+              return batch.add(function (add) {
+                return dispatch('core').saveEditedEntityRecord(kind, name, recordId, build_module_actions_objectSpread(build_module_actions_objectSpread({}, options), {}, {
+                  __unstableFetch: add
+                }));
+              });
+            },
+            deleteEntityRecord: function deleteEntityRecord(kind, name, recordId, query, options) {
+              return batch.add(function (add) {
+                return dispatch('core').deleteEntityRecord(kind, name, recordId, query, build_module_actions_objectSpread(build_module_actions_objectSpread({}, options), {}, {
+                  __unstableFetch: add
+                }));
+              });
+            }
+          };
+          resultPromises = requests.map(function (request) {
+            return request(api);
+          });
+          _context6.next = 8;
+          return Object(external_wp_dataControls_["__unstableAwaitPromise"])(Promise.all([batch.run()].concat(Object(toConsumableArray["a" /* default */])(resultPromises))));
+
+        case 8:
+          _yield$__unstableAwai = _context6.sent;
+          _yield$__unstableAwai2 = Object(toArray["a" /* default */])(_yield$__unstableAwai);
+          results = _yield$__unstableAwai2.slice(1);
+          return _context6.abrupt("return", results);
+
+        case 12:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, _marked6);
 }
 /**
  * Action triggered to save an entity record's edits.
@@ -1929,38 +2925,41 @@ function saveEntityRecord(kind, name, record) {
 
 function saveEditedEntityRecord(kind, name, recordId, options) {
   var edits, record;
-  return external_regeneratorRuntime_default.a.wrap(function saveEditedEntityRecord$(_context6) {
+  return external_regeneratorRuntime_default.a.wrap(function saveEditedEntityRecord$(_context7) {
     while (1) {
-      switch (_context6.prev = _context6.next) {
+      switch (_context7.prev = _context7.next) {
         case 0:
-          _context6.next = 2;
+          _context7.next = 2;
           return external_wp_data_["controls"].select('core', 'hasEditsForEntityRecord', kind, name, recordId);
 
         case 2:
-          if (_context6.sent) {
-            _context6.next = 4;
+          if (_context7.sent) {
+            _context7.next = 4;
             break;
           }
 
-          return _context6.abrupt("return");
+          return _context7.abrupt("return");
 
         case 4:
-          _context6.next = 6;
+          _context7.next = 6;
           return external_wp_data_["controls"].select('core', 'getEntityRecordNonTransientEdits', kind, name, recordId);
 
         case 6:
-          edits = _context6.sent;
+          edits = _context7.sent;
           record = build_module_actions_objectSpread({
             id: recordId
           }, edits);
-          return _context6.delegateYield(saveEntityRecord(kind, name, record, options), "t0", 9);
+          return _context7.delegateYield(saveEntityRecord(kind, name, record, options), "t0", 9);
 
         case 9:
+          return _context7.abrupt("return", _context7.t0);
+
+        case 10:
         case "end":
-          return _context6.stop();
+          return _context7.stop();
       }
     }
-  }, _marked6);
+  }, _marked7);
 }
 /**
  * Returns an action object used in signalling that Upload permissions have been received.
@@ -3533,7 +4532,7 @@ var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external
 var STORE_NAME = 'core';
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(99);
+var equivalent_key_map = __webpack_require__(104);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/selectors.js
@@ -4378,49 +5377,6 @@ function __experimentalGetTemplateForLink(state, link) {
   return records !== null && records !== void 0 && records.length ? records[0] : null;
 }
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(47);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/controls.js
-
-
-function regularFetch(url) {
-  return {
-    type: 'REGULAR_FETCH',
-    url: url
-  };
-}
-var controls = {
-  REGULAR_FETCH: function REGULAR_FETCH(_ref) {
-    return Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_regeneratorRuntime_default.a.mark(function _callee() {
-      var url, _yield$window$fetch$t, data;
-
-      return external_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              url = _ref.url;
-              _context.next = 3;
-              return window.fetch(url).then(function (res) {
-                return res.json();
-              });
-
-            case 3:
-              _yield$window$fetch$t = _context.sent;
-              data = _yield$window$fetch$t.data;
-              return _context.abrupt("return", data);
-
-            case 6:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }))();
-  }
-};
-/* harmony default export */ var build_module_controls = (controls);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/if-not-resolved.js
 
 
@@ -4509,7 +5465,7 @@ var resolvers_marked = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(r
     resolvers_marked4 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getEntityRecord),
     resolvers_marked5 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getEntityRecords),
     resolvers_marked6 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getCurrentTheme),
-    _marked7 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getThemeSupports),
+    resolvers_marked7 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getThemeSupports),
     _marked8 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getEmbedPreview),
     _marked9 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_hasUploadPermissions),
     _marked10 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_canUser),
@@ -4993,7 +5949,7 @@ function resolvers_getThemeSupports() {
           return _context7.stop();
       }
     }
-  }, _marked7);
+  }, resolvers_marked7);
 }
 /**
  * Requests a preview from the from the Embed API.
@@ -5662,7 +6618,7 @@ var storeConfig = {
 /**
  * Store definition for the code data namespace.
  *
- * @see https://github.com/WordPress/gutenberg/blob/master/packages/data/README.md#createReduxStore
+ * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
  *
  * @type {Object}
  */
@@ -5718,7 +6674,7 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ 48:
+/***/ 49:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["dataControls"]; }());
@@ -5747,7 +6703,30 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 59:
+/***/ 50:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ 52:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _setPrototypeOf; });
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+/***/ }),
+
+/***/ 63:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["isShallowEqual"]; }());
@@ -5758,321 +6737,6 @@ function _defineProperty(obj, key, value) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["blocks"]; }());
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-/**
- * Given an instance of EquivalentKeyMap, returns its internal value pair tuple
- * for a key, if one exists. The tuple members consist of the last reference
- * value for the key (used in efficient subsequent lookups) and the value
- * assigned for the key at the leaf node.
- *
- * @param {EquivalentKeyMap} instance EquivalentKeyMap instance.
- * @param {*} key                     The key for which to return value pair.
- *
- * @return {?Array} Value pair, if exists.
- */
-function getValuePair(instance, key) {
-  var _map = instance._map,
-      _arrayTreeMap = instance._arrayTreeMap,
-      _objectTreeMap = instance._objectTreeMap; // Map keeps a reference to the last object-like key used to set the
-  // value, which can be used to shortcut immediately to the value.
-
-  if (_map.has(key)) {
-    return _map.get(key);
-  } // Sort keys to ensure stable retrieval from tree.
-
-
-  var properties = Object.keys(key).sort(); // Tree by type to avoid conflicts on numeric object keys, empty value.
-
-  var map = Array.isArray(key) ? _arrayTreeMap : _objectTreeMap;
-
-  for (var i = 0; i < properties.length; i++) {
-    var property = properties[i];
-    map = map.get(property);
-
-    if (map === undefined) {
-      return;
-    }
-
-    var propertyValue = key[property];
-    map = map.get(propertyValue);
-
-    if (map === undefined) {
-      return;
-    }
-  }
-
-  var valuePair = map.get('_ekm_value');
-
-  if (!valuePair) {
-    return;
-  } // If reached, it implies that an object-like key was set with another
-  // reference, so delete the reference and replace with the current.
-
-
-  _map.delete(valuePair[0]);
-
-  valuePair[0] = key;
-  map.set('_ekm_value', valuePair);
-
-  _map.set(key, valuePair);
-
-  return valuePair;
-}
-/**
- * Variant of a Map object which enables lookup by equivalent (deeply equal)
- * object and array keys.
- */
-
-
-var EquivalentKeyMap =
-/*#__PURE__*/
-function () {
-  /**
-   * Constructs a new instance of EquivalentKeyMap.
-   *
-   * @param {Iterable.<*>} iterable Initial pair of key, value for map.
-   */
-  function EquivalentKeyMap(iterable) {
-    _classCallCheck(this, EquivalentKeyMap);
-
-    this.clear();
-
-    if (iterable instanceof EquivalentKeyMap) {
-      // Map#forEach is only means of iterating with support for IE11.
-      var iterablePairs = [];
-      iterable.forEach(function (value, key) {
-        iterablePairs.push([key, value]);
-      });
-      iterable = iterablePairs;
-    }
-
-    if (iterable != null) {
-      for (var i = 0; i < iterable.length; i++) {
-        this.set(iterable[i][0], iterable[i][1]);
-      }
-    }
-  }
-  /**
-   * Accessor property returning the number of elements.
-   *
-   * @return {number} Number of elements.
-   */
-
-
-  _createClass(EquivalentKeyMap, [{
-    key: "set",
-
-    /**
-     * Add or update an element with a specified key and value.
-     *
-     * @param {*} key   The key of the element to add.
-     * @param {*} value The value of the element to add.
-     *
-     * @return {EquivalentKeyMap} Map instance.
-     */
-    value: function set(key, value) {
-      // Shortcut non-object-like to set on internal Map.
-      if (key === null || _typeof(key) !== 'object') {
-        this._map.set(key, value);
-
-        return this;
-      } // Sort keys to ensure stable assignment into tree.
-
-
-      var properties = Object.keys(key).sort();
-      var valuePair = [key, value]; // Tree by type to avoid conflicts on numeric object keys, empty value.
-
-      var map = Array.isArray(key) ? this._arrayTreeMap : this._objectTreeMap;
-
-      for (var i = 0; i < properties.length; i++) {
-        var property = properties[i];
-
-        if (!map.has(property)) {
-          map.set(property, new EquivalentKeyMap());
-        }
-
-        map = map.get(property);
-        var propertyValue = key[property];
-
-        if (!map.has(propertyValue)) {
-          map.set(propertyValue, new EquivalentKeyMap());
-        }
-
-        map = map.get(propertyValue);
-      } // If an _ekm_value exists, there was already an equivalent key. Before
-      // overriding, ensure that the old key reference is removed from map to
-      // avoid memory leak of accumulating equivalent keys. This is, in a
-      // sense, a poor man's WeakMap, while still enabling iterability.
-
-
-      var previousValuePair = map.get('_ekm_value');
-
-      if (previousValuePair) {
-        this._map.delete(previousValuePair[0]);
-      }
-
-      map.set('_ekm_value', valuePair);
-
-      this._map.set(key, valuePair);
-
-      return this;
-    }
-    /**
-     * Returns a specified element.
-     *
-     * @param {*} key The key of the element to return.
-     *
-     * @return {?*} The element associated with the specified key or undefined
-     *              if the key can't be found.
-     */
-
-  }, {
-    key: "get",
-    value: function get(key) {
-      // Shortcut non-object-like to get from internal Map.
-      if (key === null || _typeof(key) !== 'object') {
-        return this._map.get(key);
-      }
-
-      var valuePair = getValuePair(this, key);
-
-      if (valuePair) {
-        return valuePair[1];
-      }
-    }
-    /**
-     * Returns a boolean indicating whether an element with the specified key
-     * exists or not.
-     *
-     * @param {*} key The key of the element to test for presence.
-     *
-     * @return {boolean} Whether an element with the specified key exists.
-     */
-
-  }, {
-    key: "has",
-    value: function has(key) {
-      if (key === null || _typeof(key) !== 'object') {
-        return this._map.has(key);
-      } // Test on the _presence_ of the pair, not its value, as even undefined
-      // can be a valid member value for a key.
-
-
-      return getValuePair(this, key) !== undefined;
-    }
-    /**
-     * Removes the specified element.
-     *
-     * @param {*} key The key of the element to remove.
-     *
-     * @return {boolean} Returns true if an element existed and has been
-     *                   removed, or false if the element does not exist.
-     */
-
-  }, {
-    key: "delete",
-    value: function _delete(key) {
-      if (!this.has(key)) {
-        return false;
-      } // This naive implementation will leave orphaned child trees. A better
-      // implementation should traverse and remove orphans.
-
-
-      this.set(key, undefined);
-      return true;
-    }
-    /**
-     * Executes a provided function once per each key/value pair, in insertion
-     * order.
-     *
-     * @param {Function} callback Function to execute for each element.
-     * @param {*}        thisArg  Value to use as `this` when executing
-     *                            `callback`.
-     */
-
-  }, {
-    key: "forEach",
-    value: function forEach(callback) {
-      var _this = this;
-
-      var thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-
-      this._map.forEach(function (value, key) {
-        // Unwrap value from object-like value pair.
-        if (key !== null && _typeof(key) === 'object') {
-          value = value[1];
-        }
-
-        callback.call(thisArg, value, key, _this);
-      });
-    }
-    /**
-     * Removes all elements.
-     */
-
-  }, {
-    key: "clear",
-    value: function clear() {
-      this._map = new Map();
-      this._arrayTreeMap = new Map();
-      this._objectTreeMap = new Map();
-    }
-  }, {
-    key: "size",
-    get: function get() {
-      return this._map.size;
-    }
-  }]);
-
-  return EquivalentKeyMap;
-}();
-
-module.exports = EquivalentKeyMap;
-
 
 /***/ })
 

@@ -3,6 +3,24 @@
 	"name": "core/social-links",
 	"category": "widgets",
 	"attributes": {
+		"iconColor": {
+			"type": "string"
+		},
+		"customIconColor": {
+			"type": "string"
+		},
+		"iconColorValue": {
+			"type": "string"
+		},
+		"iconBackgroundColor": {
+			"type": "string"
+		},
+		"customIconBackgroundColor": {
+			"type": "string"
+		},
+		"iconBackgroundColorValue": {
+			"type": "string"
+		},
 		"openInNewTab": {
 			"type": "boolean",
 			"default": false

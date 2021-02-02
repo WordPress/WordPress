@@ -435,6 +435,8 @@
 .components-button.has-icon .dashicon {
   display: inline-block;
   flex: 0 0 auto;
+  margin-right: 2px;
+  margin-left: 10px;
 }
 .components-button.has-icon.has-text {
   justify-content: left;
@@ -2873,7 +2875,7 @@ body.is-dragging-components-draggable {
   border-width: 0;
   transform: translateX(-18px);
 }
-.components-disabled .components-form-toggle {
+.components-form-toggle.is-disabled, .components-disabled .components-form-toggle {
   opacity: 0.3;
 }
 
@@ -4459,6 +4461,10 @@ body.lockscroll {
 .components-tab-panel__tabs {
   display: flex;
   align-items: stretch;
+  flex-direction: row;
+}
+.components-tab-panel__tabs[aria-orientation=vertical] {
+  flex-direction: column;
 }
 
 .components-tab-panel__tabs-item {
@@ -4973,6 +4979,20 @@ div.components-toolbar > div + div.has-left-divider::before {
 .components-tooltip__shortcut {
   display: inline-block;
   margin-right: 8px;
+}
+
+.disabled-element-wrapper {
+  position: relative;
+}
+.disabled-element-wrapper .event-catcher {
+  z-index: 100002;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .components-visually-hidden {
