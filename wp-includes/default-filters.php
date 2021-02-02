@@ -176,6 +176,7 @@ add_filter( 'the_content', 'wpautop' );
 add_filter( 'the_content', 'shortcode_unautop' );
 add_filter( 'the_content', 'prepend_attachment' );
 add_filter( 'the_content', 'wp_filter_content_tags' );
+add_filter( 'the_content', 'wp_replace_insecure_home_url' );
 
 add_filter( 'the_excerpt', 'wptexturize' );
 add_filter( 'the_excerpt', 'convert_smilies' );
@@ -183,6 +184,7 @@ add_filter( 'the_excerpt', 'convert_chars' );
 add_filter( 'the_excerpt', 'wpautop' );
 add_filter( 'the_excerpt', 'shortcode_unautop' );
 add_filter( 'the_excerpt', 'wp_filter_content_tags' );
+add_filter( 'the_excerpt', 'wp_replace_insecure_home_url' );
 add_filter( 'get_the_excerpt', 'wp_trim_excerpt', 10, 2 );
 
 add_filter( 'the_post_thumbnail_caption', 'wptexturize' );
@@ -209,7 +211,10 @@ add_filter( 'widget_text_content', 'convert_smilies', 20 );
 add_filter( 'widget_text_content', 'wpautop' );
 add_filter( 'widget_text_content', 'shortcode_unautop' );
 add_filter( 'widget_text_content', 'wp_filter_content_tags' );
+add_filter( 'widget_text_content', 'wp_replace_insecure_home_url' );
 add_filter( 'widget_text_content', 'do_shortcode', 11 ); // Runs after wpautop(); note that $post global will be null when shortcodes run.
+
+add_filter( 'wp_get_custom_css', 'wp_replace_insecure_home_url' );
 
 // RSS filters.
 add_filter( 'the_title_rss', 'strip_tags' );
@@ -346,6 +351,9 @@ if ( ! defined( 'DOING_CRON' ) ) {
 add_action( 'init', 'wp_schedule_https_detection' );
 add_action( 'wp_https_detection', 'wp_update_https_detection_errors' );
 add_filter( 'cron_request', 'wp_cron_conditionally_prevent_sslverify', 9999 );
+
+// HTTPS migration.
+add_action( 'update_option_home', 'wp_update_https_migration_required', 10, 2 );
 
 // 2 Actions 2 Furious.
 add_action( 'do_feed_rdf', 'do_feed_rdf', 10, 0 );

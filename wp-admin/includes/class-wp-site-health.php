@@ -1502,6 +1502,8 @@ class WP_Site_Health {
 		// always rely on the latest results.
 		wp_update_https_detection_errors();
 
+		$default_update_url = wp_get_default_update_https_url();
+
 		$result = array(
 			'label'       => __( 'Your website is using an active HTTPS connection' ),
 			'status'      => 'good',
@@ -1514,9 +1516,8 @@ class WP_Site_Health {
 				__( 'An HTTPS connection is a more secure way of browsing the web. Many services now have HTTPS as a requirement. HTTPS allows you to take advantage of new features that can increase site speed, improve search rankings, and gain the trust of your visitors by helping to protect their online privacy.' )
 			),
 			'actions'     => sprintf(
-				'<p><a href="%s" target="_blank" rel="noopener">%s <span class="screen-reader-text">%s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
-				/* translators: Documentation explaining HTTPS and why it should be used. */
-				esc_url( __( 'https://wordpress.org/support/article/why-should-i-use-https/' ) ),
+				'<p><a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				esc_url( $default_update_url ),
 				__( 'Learn more about why you should use HTTPS' ),
 				/* translators: Accessibility text. */
 				__( '(opens in a new tab)' )
@@ -1580,16 +1581,54 @@ class WP_Site_Health {
 					__( 'HTTPS is already supported for your website.' )
 				);
 
-				$result['actions'] = sprintf(
-					'<p><a href="%s">%s</a></p>',
-					esc_url( admin_url( 'options-general.php' ) ),
-					__( 'Update your site addresses' )
-				);
+				if ( defined( 'WP_HOME' ) || defined( 'WP_SITEURL' ) ) {
+					$result['description'] .= sprintf(
+						'<p>%s</p>',
+						sprintf(
+							/* translators: 1: wp-config.php, 2: WP_HOME, 3: WP_SITEURL */
+							__( 'However, your WordPress Address is currently controlled by a PHP constant and therefore cannot be updated. You need to edit your %1$s and remove or update the definitions of %2$s and %3$s.' ),
+							'<code>wp-config.php</code>',
+							'<code>WP_HOME</code>',
+							'<code>WP_SITEURL</code>'
+						)
+					);
+				} elseif ( current_user_can( 'update_https' ) ) {
+					$default_direct_update_url = add_query_arg( 'action', 'update_https', wp_nonce_url( admin_url( 'site-health.php' ), 'wp_update_https' ) );
+					$direct_update_url         = wp_get_direct_update_https_url();
+
+					if ( ! empty( $direct_update_url ) ) {
+						$result['actions'] = sprintf(
+							'<p class="button-container"><a class="button button-primary" href="%1$s" target="_blank" rel="noopener">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+							esc_url( $direct_update_url ),
+							__( 'Update your site to use HTTPS' ),
+							/* translators: Accessibility text. */
+							__( '(opens in a new tab)' )
+						);
+					} else {
+						$result['actions'] = sprintf(
+							'<p class="button-container"><a class="button button-primary" href="%1$s">%2$s</a></p>',
+							esc_url( $default_direct_update_url ),
+							__( 'Update your site to use HTTPS' )
+						);
+					}
+				}
 			} else {
-				$result['description'] .= sprintf(
-					'<p>%s</p>',
-					__( 'Talk to your web host about supporting HTTPS for your website.' )
-				);
+				// If host-specific "Update HTTPS" URL is provided, include a link.
+				$update_url = wp_get_update_https_url();
+				if ( $update_url !== $default_update_url ) {
+					$result['description'] .= sprintf(
+						'<p><a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+						esc_url( $update_url ),
+						__( 'Talk to your web host about supporting HTTPS for your website.' ),
+						/* translators: Accessibility text. */
+						__( '(opens in a new tab)' )
+					);
+				} else {
+					$result['description'] .= sprintf(
+						'<p>%s</p>',
+						__( 'Talk to your web host about supporting HTTPS for your website.' )
+					);
+				}
 			}
 		} elseif ( ! wp_is_https_supported() ) {
 			// If the website is using HTTPS, but HTTPS is actually not supported, inform the user about the potential

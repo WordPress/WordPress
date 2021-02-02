@@ -593,6 +593,14 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				$caps[] = 'update_core';
 			}
 			break;
+		case 'update_https':
+			if ( is_multisite() && ! is_super_admin( $user_id ) ) {
+				$caps[] = 'do_not_allow';
+			} else {
+				$caps[] = 'manage_options';
+				$caps[] = 'update_core';
+			}
+			break;
 		case 'export_others_personal_data':
 		case 'erase_others_personal_data':
 		case 'manage_privacy_options':
