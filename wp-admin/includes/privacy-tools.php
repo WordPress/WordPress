@@ -114,7 +114,7 @@ function _wp_personal_data_handle_actions() {
 				$send_confirmation_email   = true;
 
 				if ( ! isset( $_POST['send_confirmation_email'] ) ) {
-					$send_confirmation_email   = false;
+					$send_confirmation_email = false;
 				}
 
 				if ( ! in_array( $action_type, _wp_privacy_action_request_types(), true ) ) {
