@@ -721,7 +721,7 @@ function wp_read_image_metadata( $file ) {
 		if ( ! empty( $info['APP13'] ) ) {
 			if (
 				// Skip when running unit tests.
-				! defined( 'DIR_TESTDATA' )
+				! defined( 'WP_RUN_CORE_TESTS' )
 				&&
 				// Process without silencing errors when in debug mode.
 				defined( 'WP_DEBUG' ) && WP_DEBUG
@@ -792,7 +792,7 @@ function wp_read_image_metadata( $file ) {
 	if ( is_callable( 'exif_read_data' ) && in_array( $image_type, $exif_image_types, true ) ) {
 		if (
 			// Skip when running unit tests.
-			! defined( 'DIR_TESTDATA' )
+			! defined( 'WP_RUN_CORE_TESTS' )
 			&&
 			// Process without silencing errors when in debug mode.
 			defined( 'WP_DEBUG' ) && WP_DEBUG

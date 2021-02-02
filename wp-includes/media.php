@@ -4975,7 +4975,7 @@ function wp_show_heic_upload_error( $plupload_settings ) {
 function wp_getimagesize( $filename, &$imageinfo = array() ) {
 	if (
 		// Skip when running unit tests.
-		! defined( 'DIR_TESTDATA' )
+		! defined( 'WP_RUN_CORE_TESTS' )
 		&&
 		// Return without silencing errors when in debug mode.
 		defined( 'WP_DEBUG' ) && WP_DEBUG
