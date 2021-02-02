@@ -458,13 +458,12 @@ ul#adminmenu > li.current > a.current:after {
 /* flyout menu arrow */
 #adminmenu li.wp-has-submenu.wp-not-current-submenu:hover:after {
 	right: 0;
-	border: solid transparent;
+	border: 8px solid transparent;
 	content: " ";
 	height: 0;
 	width: 0;
 	position: absolute;
 	pointer-events: none;
-	border-width: 8px;
 	top: 10px;
 	z-index: 10000;
 }

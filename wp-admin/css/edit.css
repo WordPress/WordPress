@@ -1850,10 +1850,7 @@ table.links-table {
 	}
 
 	.wp_themeSkin .mceSplitButton td a.mceAction {
-		padding-top: 6px;
-		padding-bottom: 6px;
-		padding-left: 6px;
-		padding-right: 3px;
+		padding: 6px 3px 6px 6px;
 	}
 
 	.wp_themeSkin .mceSplitButton td a.mceOpen,

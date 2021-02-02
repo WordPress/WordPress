@@ -2368,8 +2368,7 @@ body.cheatin h1 {
 	font-size: 24px;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	margin: 30px 0 0 0;
-	padding: 0;
-	padding-bottom: 7px;
+	padding: 0 0 7px;
 }
 
 body.cheatin p {
@@ -2387,8 +2386,7 @@ body.cheatin p {
 #customize-theme-controls .add-new-menu-item {
 	cursor: pointer;
 	float: right;
-	margin: 0;
-	margin-left: 10px;
+	margin: 0 0 0 10px;
 	transition: all 0.2s;
 	-webkit-user-select: none;
 	-ms-user-select: none;

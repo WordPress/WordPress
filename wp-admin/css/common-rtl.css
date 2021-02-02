@@ -2701,9 +2701,8 @@ div.action-links {
 	right: 0;
 	margin-top: 10px;
 	margin-left: 250px; /* FYI box */
-	padding: 10px 26px;
+	padding: 10px 26px 99999px; /* equal height column trick */
 	margin-bottom: -99932px; /* 67px less than the padding below to accommodate footer height */
-	padding-bottom: 99999px; /* equal height column trick */
 }
 
 #section-holder .notice {
@@ -2719,9 +2718,8 @@ div.action-links {
 	position: relative;
 	top: 0;
 	left: 0;
-	padding: 16px;
+	padding: 16px 16px 99999px; /* equal height column trick */
 	margin-bottom: -99932px; /* 67px less than the padding below to accommodate footer height */
-	padding-bottom: 99999px; /* equal height column trick */
 	width: 217px;
 	border-right: 1px solid #dcdcde;
 	background: #f6f7f7;

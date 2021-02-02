@@ -387,8 +387,7 @@ ul.add-menu-item-tabs li {
 /* Listings */
 .nav-menus-php .list li {
 	display: none;
-	margin: 0;
-	margin-bottom: 5px;
+	margin: 0 0 5px;
 }
 
 .nav-menus-php .list li .menu-item-title {

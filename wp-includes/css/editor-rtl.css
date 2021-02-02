@@ -1340,12 +1340,10 @@ i.mce-i-wp_code:before {
 #wp_delimgbtn,
 #wp_editgallery,
 #wp_delgallery {
-	border-color: #8c8f94;
 	background-color: #f0f0f1;
 	margin: 2px;
 	padding: 2px;
-	border-width: 1px;
-	border-style: solid;
+	border: 1px solid #8c8f94;
 	border-radius: 3px;
 }
 
