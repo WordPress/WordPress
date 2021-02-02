@@ -1083,8 +1083,8 @@ function wp_default_scripts( $scripts ) {
 		'user-profile',
 		'userProfileL10n',
 		array(
-			'user_id'  => $user_id,
-			'nonce'    => wp_create_nonce( 'reset-password-for-' . $user_id ),
+			'user_id' => $user_id,
+			'nonce'   => wp_create_nonce( 'reset-password-for-' . $user_id ),
 		)
 	);
 

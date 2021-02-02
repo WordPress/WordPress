@@ -1335,8 +1335,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 					),
 					'oneOf'       => array(
 						array(
-							'title'       => __( 'Rotation' ),
-							'properties'  => array(
+							'title'      => __( 'Rotation' ),
+							'properties' => array(
 								'type' => array(
 									'description' => __( 'Rotation type.' ),
 									'type'        => 'string',
@@ -1358,8 +1358,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 							),
 						),
 						array(
-							'title'       => __( 'Crop' ),
-							'properties'  => array(
+							'title'      => __( 'Crop' ),
+							'properties' => array(
 								'type' => array(
 									'description' => __( 'Crop type.' ),
 									'type'        => 'string',
