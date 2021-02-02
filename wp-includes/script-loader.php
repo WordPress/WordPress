@@ -1474,7 +1474,7 @@ function wp_default_styles( $styles ) {
 	$styles->add( 'colors-fresh', false, array( 'wp-admin', 'buttons' ) ); // Old handle.
 	$styles->add( 'open-sans', $open_sans_font_url ); // No longer used in core as of 4.6.
 
-	// Packages styles.
+	// Noto Serif is no longer used by core, but may be relied upon by themes and plugins.
 	$fonts_url = '';
 
 	/*
@@ -1486,7 +1486,7 @@ function wp_default_styles( $styles ) {
 	if ( 'off' !== $font_family ) {
 		$fonts_url = 'https://fonts.googleapis.com/css?family=' . urlencode( $font_family );
 	}
-	$styles->add( 'wp-editor-font', $fonts_url );
+	$styles->add( 'wp-editor-font', $fonts_url ); // No longer used in core as of 5.7.
 
 	$styles->add( 'wp-block-library-theme', "/wp-includes/css/dist/block-library/theme$suffix.css" );
 
@@ -1503,10 +1503,7 @@ function wp_default_styles( $styles ) {
 	);
 
 	$package_styles = array(
-		'block-editor'         => array(
-			'wp-components',
-			'wp-editor-font',
-		),
+		'block-editor'         => array( 'wp-components' ),
 		'block-library'        => array(),
 		'block-directory'      => array(),
 		'components'           => array(),
