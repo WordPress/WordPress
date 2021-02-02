@@ -1604,7 +1604,7 @@ function wp_image_src_get_dimensions( $image_src, $image_meta, $attachment_id = 
 	// Is it a full size image?
 	if (
 		isset( $image_meta['file'] ) &&
-		strpos( $image_src, $image_meta['file'] ) !== false
+		strpos( $image_src, wp_basename( $image_meta['file'] ) ) !== false
 	) {
 		$dimensions = array(
 			(int) $image_meta['width'],
