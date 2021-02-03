@@ -71,6 +71,39 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</p>
 		</div>
 
+		<div class="about__section changelog">
+			<div class="column has-border has-subtle-background-color">
+				<h2 class="is-smaller-heading"><?php _e( 'Maintenance Release' ); ?></h2>
+				<p>
+					<?php
+					printf(
+						/* translators: 1: WordPress version number, 2: Plural number of bugs. */
+						_n(
+							'<strong>Version %1$s</strong> addressed %2$s bug.',
+							'<strong>Version %1$s</strong> addressed %2$s bugs.',
+							27
+						),
+						'5.6.1',
+						number_format_i18n( 27 )
+					);
+					?>
+					<?php
+					printf(
+						/* translators: %s: HelpHub URL */
+						__( 'For more information, see <a href="%s">the release notes</a>.' ),
+						sprintf(
+							/* translators: %s: WordPress version */
+							esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+							sanitize_title( '5.6.1' )
+						)
+					);
+					?>
+				</p>
+			</div>
+		</div>
+
+		<hr />
+
 		<div class="has-background-image" style="background-image: url('data:image/svg+xml,<?php echo rawurlencode( '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1035 884"><circle cx="503" cy="434" r="310" fill="#E3DAD1"/><circle cx="831" cy="204" r="204" fill="#D1CFE4"/><circle cx="113.5" cy="770.5" r="113.5" fill="#D1DEE4"/></svg>' ); ?>');">
 			<div class="about__section has-2-columns is-wider-left has-transparent-background-color">
 				<div class="column">
