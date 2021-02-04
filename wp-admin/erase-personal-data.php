@@ -43,7 +43,7 @@ get_current_screen()->add_help_tab(
 $privacy_policy_guide = '<p>' . sprintf(
 	/* translators: 1: URL to Privacy Policy Guide screen. */
 	__( 'If you are not sure, check the plugin documentation or contact the plugin author to see if the plugin collects data and if it supports the Data Eraser tool. This information may be available in the <a href="%1$s">Privacy Policy Guide</a>.' ),
-	admin_url( 'privacy-policy-guide.php' )
+	admin_url( 'options-privacy.php?tab=policyguide' )
 ) . '</p>';
 
 get_current_screen()->add_help_tab(
