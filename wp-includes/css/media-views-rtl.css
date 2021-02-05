@@ -888,15 +888,15 @@
 }
 
 .attachment .thumbnail .centered img {
-	-webkit-transform: translate( -50%, -50% );
-	-ms-transform: translate(-50%,-50%);
-	transform: translate( -50%, -50% );
+	-webkit-transform: translate( 50%, -50% );
+	-ms-transform: translate(50%,-50%);
+	transform: translate( 50%, -50% );
 }
 
 .attachment .thumbnail .centered img.icon {
-	-webkit-transform: translate( -50%, -70% );
-	-ms-transform: translate(-50%,-70%);
-	transform: translate( -50%, -70% );
+	-webkit-transform: translate( 50%, -70% );
+	-ms-transform: translate(50%,-70%);
+	transform: translate( 50%, -70% );
 }
 
 .ie8 .attachment img.icon {
@@ -1758,8 +1758,8 @@
 	padding: 12px 14px;
 	width: 100%;
 	min-width: 200px;
-	-webkit-box-shadow: inset 2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
-	box-shadow: inset 2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
+	-webkit-box-shadow: inset -2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset -2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
 }
 
 .media-frame .embed-url .spinner {
