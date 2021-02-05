@@ -157,6 +157,9 @@ function _getPrototypeOf(o) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 function _setPrototypeOf(o, p) {
   _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
@@ -167,7 +170,6 @@ function _setPrototypeOf(o, p) {
   return _setPrototypeOf(o, p);
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _inherits; });
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
@@ -244,6 +246,9 @@ function _defineProperty(obj, key, value) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) {
@@ -262,7 +267,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -390,6 +394,9 @@ module.exports = __webpack_require__(54);
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(37);
 
@@ -423,7 +430,6 @@ function _iterableToArrayLimit(arr, i) {
 var nonIterableRest = __webpack_require__(38);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 
@@ -486,7 +492,29 @@ function _iterableToArray(iter) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "withSelect", function() { return /* reexport */ with_select; });
+__webpack_require__.d(__webpack_exports__, "withDispatch", function() { return /* reexport */ with_dispatch; });
+__webpack_require__.d(__webpack_exports__, "withRegistry", function() { return /* reexport */ with_registry; });
+__webpack_require__.d(__webpack_exports__, "RegistryProvider", function() { return /* reexport */ registry_provider; });
+__webpack_require__.d(__webpack_exports__, "RegistryConsumer", function() { return /* reexport */ RegistryConsumer; });
+__webpack_require__.d(__webpack_exports__, "__experimentalAsyncModeProvider", function() { return /* reexport */ async_mode_provider; });
+__webpack_require__.d(__webpack_exports__, "createRegistry", function() { return /* reexport */ createRegistry; });
+__webpack_require__.d(__webpack_exports__, "plugins", function() { return /* reexport */ plugins_namespaceObject; });
+__webpack_require__.d(__webpack_exports__, "createRegistrySelector", function() { return /* reexport */ createRegistrySelector; });
+__webpack_require__.d(__webpack_exports__, "createRegistryControl", function() { return /* reexport */ createRegistryControl; });
+__webpack_require__.d(__webpack_exports__, "combineReducers", function() { return /* reexport */ turbo_combine_reducers_default.a; });
+__webpack_require__.d(__webpack_exports__, "select", function() { return /* binding */ build_module_select; });
+__webpack_require__.d(__webpack_exports__, "dispatch", function() { return /* binding */ build_module_dispatch; });
+__webpack_require__.d(__webpack_exports__, "subscribe", function() { return /* binding */ build_module_subscribe; });
+__webpack_require__.d(__webpack_exports__, "registerGenericStore", function() { return /* binding */ build_module_registerGenericStore; });
+__webpack_require__.d(__webpack_exports__, "registerStore", function() { return /* binding */ build_module_registerStore; });
+__webpack_require__.d(__webpack_exports__, "use", function() { return /* binding */ build_module_use; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/data/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "getIsResolving", function() { return getIsResolving; });
@@ -494,6 +522,8 @@ __webpack_require__.d(selectors_namespaceObject, "hasStartedResolution", functio
 __webpack_require__.d(selectors_namespaceObject, "hasFinishedResolution", function() { return hasFinishedResolution; });
 __webpack_require__.d(selectors_namespaceObject, "isResolving", function() { return isResolving; });
 __webpack_require__.d(selectors_namespaceObject, "getCachedResolvers", function() { return getCachedResolvers; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/data/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "startResolution", function() { return startResolution; });
@@ -501,6 +531,8 @@ __webpack_require__.d(actions_namespaceObject, "finishResolution", function() { 
 __webpack_require__.d(actions_namespaceObject, "invalidateResolution", function() { return invalidateResolution; });
 __webpack_require__.d(actions_namespaceObject, "invalidateResolutionForStore", function() { return invalidateResolutionForStore; });
 __webpack_require__.d(actions_namespaceObject, "invalidateResolutionForStoreSelector", function() { return invalidateResolutionForStoreSelector; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/data/build-module/plugins/index.js
 var plugins_namespaceObject = {};
 __webpack_require__.r(plugins_namespaceObject);
 __webpack_require__.d(plugins_namespaceObject, "controls", function() { return controls; });
@@ -2277,23 +2309,6 @@ function createRegistryControl(registryControl) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "select", function() { return build_module_select; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dispatch", function() { return build_module_dispatch; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribe", function() { return build_module_subscribe; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerGenericStore", function() { return build_module_registerGenericStore; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerStore", function() { return build_module_registerStore; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "use", function() { return build_module_use; });
-/* concated harmony reexport withSelect */__webpack_require__.d(__webpack_exports__, "withSelect", function() { return with_select; });
-/* concated harmony reexport withDispatch */__webpack_require__.d(__webpack_exports__, "withDispatch", function() { return with_dispatch; });
-/* concated harmony reexport withRegistry */__webpack_require__.d(__webpack_exports__, "withRegistry", function() { return with_registry; });
-/* concated harmony reexport RegistryProvider */__webpack_require__.d(__webpack_exports__, "RegistryProvider", function() { return registry_provider; });
-/* concated harmony reexport RegistryConsumer */__webpack_require__.d(__webpack_exports__, "RegistryConsumer", function() { return RegistryConsumer; });
-/* concated harmony reexport __experimentalAsyncModeProvider */__webpack_require__.d(__webpack_exports__, "__experimentalAsyncModeProvider", function() { return async_mode_provider; });
-/* concated harmony reexport createRegistry */__webpack_require__.d(__webpack_exports__, "createRegistry", function() { return createRegistry; });
-/* concated harmony reexport plugins */__webpack_require__.d(__webpack_exports__, "plugins", function() { return plugins_namespaceObject; });
-/* concated harmony reexport createRegistrySelector */__webpack_require__.d(__webpack_exports__, "createRegistrySelector", function() { return createRegistrySelector; });
-/* concated harmony reexport createRegistryControl */__webpack_require__.d(__webpack_exports__, "createRegistryControl", function() { return createRegistryControl; });
-/* concated harmony reexport combineReducers */__webpack_require__.d(__webpack_exports__, "combineReducers", function() { return turbo_combine_reducers_default.a; });
 /**
  * External dependencies
  */
