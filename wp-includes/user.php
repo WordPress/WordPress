@@ -3936,18 +3936,17 @@ function _wp_privacy_account_request_confirmed_message( $request_id ) {
  * users on the site, or guests without a user account.
  *
  * @since 4.9.6
- * @since 5.7.0 Added the `$send_confirmation_email` parameter.
+ * @since 5.7.0 Added the `$status` parameter.
  *
  * @param string $email_address           User email address. This can be the address of a registered
  *                                        or non-registered user.
  * @param string $action_name             Name of the action that is being confirmed. Required.
  * @param array  $request_data            Misc data you want to send with the verification request and pass
  *                                        to the actions once the request is confirmed.
- * @param bool   $send_confirmation_email Optional. If false, the request status is set to 'Completed' directly.
- *                                        Default true.
+ * @param string $status                  Optional request status (pending or confirmed). Default 'pending'.
  * @return int|WP_Error                   Returns the request ID if successful, or a WP_Error object on failure.
  */
-function wp_create_user_request( $email_address = '', $action_name = '', $request_data = array(), $send_confirmation_email = true ) {
+function wp_create_user_request( $email_address = '', $action_name = '', $request_data = array(), $status = 'pending' ) {
 	$email_address = sanitize_email( $email_address );
 	$action_name   = sanitize_key( $action_name );
 
@@ -3957,6 +3956,10 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 
 	if ( ! in_array( $action_name, _wp_privacy_action_request_types(), true ) ) {
 		return new WP_Error( 'invalid_action', __( 'Invalid action name.' ) );
+	}
+
+	if ( ! in_array( $status, array( 'pending', 'confirmed' ), true ) ) {
+		return new WP_Error( 'invalid_status', __( 'Invalid request status.' ) );
 	}
 
 	$user    = get_user_by( 'email', $email_address );
@@ -3980,19 +3983,13 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 		return new WP_Error( 'duplicate_request', __( 'An incomplete personal data request for this email address already exists.' ) );
 	}
 
-	if ( false !== $send_confirmation_email ) {
-		$status = 'request-pending';
-	} else {
-		$status = 'request-completed';
-	}
-
 	$request_id = wp_insert_post(
 		array(
 			'post_author'   => $user_id,
 			'post_name'     => $action_name,
 			'post_title'    => $email_address,
 			'post_content'  => wp_json_encode( $request_data ),
-			'post_status'   => $status,
+			'post_status'   => 'request-' . $status,
 			'post_type'     => 'user_request',
 			'post_date'     => current_time( 'mysql', false ),
 			'post_date_gmt' => current_time( 'mysql', true ),

@@ -111,10 +111,10 @@ function _wp_personal_data_handle_actions() {
 				$action_type               = sanitize_text_field( wp_unslash( $_POST['type_of_action'] ) );
 				$username_or_email_address = sanitize_text_field( wp_unslash( $_POST['username_or_email_for_privacy_request'] ) );
 				$email_address             = '';
-				$send_confirmation_email   = true;
+				$status                    = 'pending';
 
 				if ( ! isset( $_POST['send_confirmation_email'] ) ) {
-					$send_confirmation_email = false;
+					$status = 'confirmed';
 				}
 
 				if ( ! in_array( $action_type, _wp_privacy_action_request_types(), true ) ) {
@@ -146,37 +146,42 @@ function _wp_personal_data_handle_actions() {
 					break;
 				}
 
-				$request_id = wp_create_user_request( $email_address, $action_type, array(), $send_confirmation_email );
+				$request_id = wp_create_user_request( $email_address, $action_type, array(), $status );
+				$message    = '';
 
 				if ( is_wp_error( $request_id ) ) {
-					add_settings_error(
-						'username_or_email_for_privacy_request',
-						'username_or_email_for_privacy_request',
-						$request_id->get_error_message(),
-						'error'
-					);
-					break;
+					$message = $request_id->get_error_message();
 				} elseif ( ! $request_id ) {
+					$message = __( 'Unable to initiate confirmation request.' );
+				}
+
+				if ( $message ) {
 					add_settings_error(
 						'username_or_email_for_privacy_request',
 						'username_or_email_for_privacy_request',
-						__( 'Unable to initiate confirmation request.' ),
+						$message,
 						'error'
 					);
 					break;
 				}
 
-				if ( $send_confirmation_email ) {
+				if ( 'pending' === $status ) {
 					wp_send_user_request( $request_id );
+
+					$message = __( 'Confirmation request initiated successfully.' );
+				} elseif ( 'confirmed' === $status ) {
+					$message = __( 'Request added successfully.' );
 				}
 
-				add_settings_error(
-					'username_or_email_for_privacy_request',
-					'username_or_email_for_privacy_request',
-					__( 'Confirmation request initiated successfully.' ),
-					'success'
-				);
-				break;
+				if ( $message ) {
+					add_settings_error(
+						'username_or_email_for_privacy_request',
+						'username_or_email_for_privacy_request',
+						$message,
+						'success'
+					);
+					break;
+				}
 		}
 	}
 }
