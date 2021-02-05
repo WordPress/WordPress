@@ -91,7 +91,11 @@ this["wp"] = this["wp"] || {}; this["wp"]["priorityQueue"] =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "createQueue", function() { return /* binding */ build_module_createQueue; });
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/priority-queue/build-module/request-idle-callback.js
 /**
@@ -111,7 +115,6 @@ function createRequestIdleCallback() {
 /* harmony default export */ var request_idle_callback = (createRequestIdleCallback());
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/priority-queue/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createQueue", function() { return build_module_createQueue; });
 /**
  * Internal dependencies
  */

@@ -171,6 +171,9 @@ module.exports = bytesToUuid;
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
 var arrayLikeToArray = __webpack_require__(25);
 
@@ -190,7 +193,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -611,13 +613,18 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/annotations/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetAnnotationsForBlock", function() { return __experimentalGetAnnotationsForBlock; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetAllAnnotationsForBlock", function() { return selectors_experimentalGetAllAnnotationsForBlock; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetAnnotationsForRichText", function() { return __experimentalGetAnnotationsForRichText; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetAnnotations", function() { return __experimentalGetAnnotations; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/annotations/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "__experimentalAddAnnotation", function() { return __experimentalAddAnnotation; });

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["keyboardShortcuts"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 441);
+/******/ 	return __webpack_require__(__webpack_require__.s = 440);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -91,6 +91,9 @@ this["wp"] = this["wp"] || {}; this["wp"]["keyboardShortcuts"] =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
 var arrayLikeToArray = __webpack_require__(25);
@@ -111,7 +114,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -133,6 +135,9 @@ function _toConsumableArray(arr) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(38);
@@ -171,7 +176,6 @@ var unsupportedIterableToArray = __webpack_require__(27);
 var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 
@@ -546,15 +550,23 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 441:
+/***/ 440:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "useShortcut", function() { return /* reexport */ use_shortcut; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "registerShortcut", function() { return registerShortcut; });
 __webpack_require__.d(actions_namespaceObject, "unregisterShortcut", function() { return unregisterShortcut; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "getShortcutKeyCombination", function() { return getShortcutKeyCombination; });
@@ -883,7 +895,6 @@ function useShortcut(name, callback, options) {
 /* harmony default export */ var use_shortcut = (useShortcut);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/index.js
-/* concated harmony reexport useShortcut */__webpack_require__.d(__webpack_exports__, "useShortcut", function() { return use_shortcut; });
 /**
  * Internal dependencies
  */

@@ -768,7 +768,11 @@ exports.default = [call, cps];
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "default", function() { return /* binding */ createMiddleware; });
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-generator.js
 /**
@@ -895,7 +899,6 @@ function createRuntime() {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createMiddleware; });
 /**
  * Internal dependencies
  */

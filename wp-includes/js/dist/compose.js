@@ -433,6 +433,9 @@ function _getPrototypeOf(o) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 function _setPrototypeOf(o, p) {
   _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
@@ -443,7 +446,6 @@ function _setPrototypeOf(o, p) {
   return _setPrototypeOf(o, p);
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _inherits; });
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
@@ -473,6 +475,9 @@ function _inherits(subClass, superClass) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(38);
@@ -511,7 +516,6 @@ var unsupportedIterableToArray = __webpack_require__(27);
 var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 
@@ -1758,7 +1762,24 @@ function _nonIterableRest() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "createHigherOrderComponent", function() { return /* reexport */ create_higher_order_component; });
+__webpack_require__.d(__webpack_exports__, "compose", function() { return /* reexport */ compose; });
+__webpack_require__.d(__webpack_exports__, "ifCondition", function() { return /* reexport */ if_condition; });
+__webpack_require__.d(__webpack_exports__, "pure", function() { return /* reexport */ higher_order_pure; });
+__webpack_require__.d(__webpack_exports__, "withGlobalEvents", function() { return /* reexport */ with_global_events; });
+__webpack_require__.d(__webpack_exports__, "withInstanceId", function() { return /* reexport */ with_instance_id; });
+__webpack_require__.d(__webpack_exports__, "withSafeTimeout", function() { return /* reexport */ with_safe_timeout; });
+__webpack_require__.d(__webpack_exports__, "withState", function() { return /* reexport */ withState; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseDragging", function() { return /* reexport */ useDragging; });
+__webpack_require__.d(__webpack_exports__, "useInstanceId", function() { return /* reexport */ useInstanceId; });
+__webpack_require__.d(__webpack_exports__, "useKeyboardShortcut", function() { return /* reexport */ use_keyboard_shortcut; });
+__webpack_require__.d(__webpack_exports__, "useMediaQuery", function() { return /* reexport */ use_media_query["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "useReducedMotion", function() { return /* reexport */ use_reduced_motion["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "useViewportMatch", function() { return /* reexport */ use_viewport_match; });
 
 // EXTERNAL MODULE: external {"this":"lodash"}
 var external_this_lodash_ = __webpack_require__(2);
@@ -2636,20 +2657,6 @@ use_viewport_match_useViewportMatch.__experimentalWidthProvider = ViewportMatchW
 /* harmony default export */ var use_viewport_match = (use_viewport_match_useViewportMatch);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/index.js
-/* concated harmony reexport createHigherOrderComponent */__webpack_require__.d(__webpack_exports__, "createHigherOrderComponent", function() { return create_higher_order_component; });
-/* concated harmony reexport compose */__webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
-/* concated harmony reexport ifCondition */__webpack_require__.d(__webpack_exports__, "ifCondition", function() { return if_condition; });
-/* concated harmony reexport pure */__webpack_require__.d(__webpack_exports__, "pure", function() { return higher_order_pure; });
-/* concated harmony reexport withGlobalEvents */__webpack_require__.d(__webpack_exports__, "withGlobalEvents", function() { return with_global_events; });
-/* concated harmony reexport withInstanceId */__webpack_require__.d(__webpack_exports__, "withInstanceId", function() { return with_instance_id; });
-/* concated harmony reexport withSafeTimeout */__webpack_require__.d(__webpack_exports__, "withSafeTimeout", function() { return with_safe_timeout; });
-/* concated harmony reexport withState */__webpack_require__.d(__webpack_exports__, "withState", function() { return withState; });
-/* concated harmony reexport __experimentalUseDragging */__webpack_require__.d(__webpack_exports__, "__experimentalUseDragging", function() { return useDragging; });
-/* concated harmony reexport useInstanceId */__webpack_require__.d(__webpack_exports__, "useInstanceId", function() { return useInstanceId; });
-/* concated harmony reexport useKeyboardShortcut */__webpack_require__.d(__webpack_exports__, "useKeyboardShortcut", function() { return use_keyboard_shortcut; });
-/* concated harmony reexport useMediaQuery */__webpack_require__.d(__webpack_exports__, "useMediaQuery", function() { return use_media_query["a" /* default */]; });
-/* concated harmony reexport useReducedMotion */__webpack_require__.d(__webpack_exports__, "useReducedMotion", function() { return use_reduced_motion["a" /* default */]; });
-/* concated harmony reexport useViewportMatch */__webpack_require__.d(__webpack_exports__, "useViewportMatch", function() { return use_viewport_match; });
 // Utils
  // Compose helper (aliased flowRight from Lodash)
 
