@@ -10,10 +10,7 @@ html {
 a {
   color: #0073aa;
 }
-
-a:hover,
-a:active,
-a:focus {
+a:hover, a:active, a:focus {
   color: #0096dd;
 }
 
@@ -33,8 +30,8 @@ input[type=radio]:checked:before {
   background: #04a4cc;
 }
 
-.wp-core-ui input[type="reset"]:hover,
-.wp-core-ui input[type="reset"]:active {
+.wp-core-ui input[type=reset]:hover,
+.wp-core-ui input[type=reset]:active {
   color: #0096dd;
 }
 
@@ -46,21 +43,17 @@ input[type=radio]:checked:before {
   -webkit-box-shadow: inset 0 1px 0 #22cffb, 0 1px 0 rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 1px 0 #22cffb, 0 1px 0 rgba(0, 0, 0, 0.15);
 }
-
-.wp-core-ui .button-primary:hover,
-.wp-core-ui .button-primary:focus {
+.wp-core-ui .button-primary:hover, .wp-core-ui .button-primary:focus {
   background: #0490b3;
   border-color: #036881;
   color: white;
   -webkit-box-shadow: inset 0 1px 0 #09cafa;
   box-shadow: inset 0 1px 0 #09cafa;
 }
-
 .wp-core-ui .button-primary:focus {
   -webkit-box-shadow: inset 0 1px 0 #09cafa, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
   box-shadow: inset 0 1px 0 #09cafa, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
-
 .wp-core-ui .button-primary:active {
   background: #037c9a;
   border-color: #036881;
@@ -68,50 +61,40 @@ input[type=radio]:checked:before {
   -webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
   box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
-
-.wp-core-ui .button-primary[disabled],
-.wp-core-ui .button-primary:disabled,
-.wp-core-ui .button-primary.button-primary-disabled,
-.wp-core-ui .button-primary.disabled {
+.wp-core-ui .button-primary[disabled], .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary.button-primary-disabled, .wp-core-ui .button-primary.disabled {
   color: #c7cfd1 !important;
   background: #0384a4 !important;
   border-color: #036881 !important;
   text-shadow: none !important;
 }
-
 .wp-core-ui .wp-ui-primary {
   color: #333;
   background-color: #e5e5e5;
 }
-
 .wp-core-ui .wp-ui-text-primary {
   color: #e5e5e5;
 }
-
 .wp-core-ui .wp-ui-highlight {
   color: #fff;
   background-color: #888;
 }
-
 .wp-core-ui .wp-ui-text-highlight {
   color: #888;
 }
-
 .wp-core-ui .wp-ui-notification {
   color: #fff;
   background-color: #d64e07;
 }
-
 .wp-core-ui .wp-ui-text-notification {
   color: #d64e07;
 }
-
 .wp-core-ui .wp-ui-text-icon {
   color: #999;
 }
 
 /* List tables */
-.wrap .add-new-h2:hover, .wrap .page-title-action:hover,
+.wrap .add-new-h2:hover,
+.wrap .page-title-action:hover,
 .tablenav .tablenav-pages a:hover,
 .tablenav .tablenav-pages a:focus {
   color: #333;
@@ -186,16 +169,15 @@ input[type=radio]:checked:before {
 #adminmenu .wp-has-current-submenu.opensub .wp-submenu a {
   color: #686868;
 }
-
-#adminmenu .wp-submenu a:focus,
-#adminmenu .wp-submenu a:hover,
+#adminmenu .wp-submenu a:focus, #adminmenu .wp-submenu a:hover,
 #adminmenu .wp-has-current-submenu .wp-submenu a:focus,
 #adminmenu .wp-has-current-submenu .wp-submenu a:hover,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu a:focus,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu a:hover,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu a:focus,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu a:hover,
-#adminmenu .wp-has-current-submenu.opensub .wp-submenu a:focus, #adminmenu .wp-has-current-submenu.opensub .wp-submenu a:hover {
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu a:focus,
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu a:hover {
   color: #04a4cc;
 }
 
@@ -205,12 +187,11 @@ input[type=radio]:checked:before {
 #adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a {
   color: #333;
 }
-
-#adminmenu .wp-submenu li.current a:hover,
-#adminmenu .wp-submenu li.current a:focus,
+#adminmenu .wp-submenu li.current a:hover, #adminmenu .wp-submenu li.current a:focus,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu li.current a:hover,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu li.current a:focus,
-#adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a:hover, #adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a:focus {
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a:hover,
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a:focus {
   color: #04a4cc;
 }
 
