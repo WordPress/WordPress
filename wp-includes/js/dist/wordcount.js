@@ -98,7 +98,11 @@ this["wp"] = this["wp"] || {}; this["wp"]["wordcount"] =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "count", function() { return /* binding */ count; });
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__(2);
@@ -316,7 +320,6 @@ var defaultSettings = {
 });
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "count", function() { return count; });
 /**
  * External dependencies
  */

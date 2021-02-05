@@ -121,6 +121,9 @@ function _defineProperty(obj, key, value) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) {
@@ -139,7 +142,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -161,6 +163,9 @@ function _toConsumableArray(arr) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _objectWithoutProperties; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
@@ -177,7 +182,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
@@ -229,13 +233,18 @@ function _iterableToArray(iter) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/annotations/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetAnnotationsForBlock", function() { return __experimentalGetAnnotationsForBlock; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetAllAnnotationsForBlock", function() { return selectors_experimentalGetAllAnnotationsForBlock; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetAnnotationsForRichText", function() { return __experimentalGetAnnotationsForRichText; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetAnnotations", function() { return __experimentalGetAnnotations; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/annotations/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "__experimentalAddAnnotation", function() { return __experimentalAddAnnotation; });

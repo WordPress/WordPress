@@ -92,6 +92,9 @@ this["wp"] = this["wp"] || {}; this["wp"]["hooks"] =
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) {
@@ -110,7 +113,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -135,7 +137,29 @@ function _iterableToArray(iter) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "createHooks", function() { return /* reexport */ build_module_createHooks; });
+__webpack_require__.d(__webpack_exports__, "addAction", function() { return /* binding */ addAction; });
+__webpack_require__.d(__webpack_exports__, "addFilter", function() { return /* binding */ addFilter; });
+__webpack_require__.d(__webpack_exports__, "removeAction", function() { return /* binding */ removeAction; });
+__webpack_require__.d(__webpack_exports__, "removeFilter", function() { return /* binding */ removeFilter; });
+__webpack_require__.d(__webpack_exports__, "hasAction", function() { return /* binding */ hasAction; });
+__webpack_require__.d(__webpack_exports__, "hasFilter", function() { return /* binding */ hasFilter; });
+__webpack_require__.d(__webpack_exports__, "removeAllActions", function() { return /* binding */ removeAllActions; });
+__webpack_require__.d(__webpack_exports__, "removeAllFilters", function() { return /* binding */ removeAllFilters; });
+__webpack_require__.d(__webpack_exports__, "doAction", function() { return /* binding */ doAction; });
+__webpack_require__.d(__webpack_exports__, "applyFilters", function() { return /* binding */ applyFilters; });
+__webpack_require__.d(__webpack_exports__, "currentAction", function() { return /* binding */ currentAction; });
+__webpack_require__.d(__webpack_exports__, "currentFilter", function() { return /* binding */ currentFilter; });
+__webpack_require__.d(__webpack_exports__, "doingAction", function() { return /* binding */ doingAction; });
+__webpack_require__.d(__webpack_exports__, "doingFilter", function() { return /* binding */ doingFilter; });
+__webpack_require__.d(__webpack_exports__, "didAction", function() { return /* binding */ didAction; });
+__webpack_require__.d(__webpack_exports__, "didFilter", function() { return /* binding */ didFilter; });
+__webpack_require__.d(__webpack_exports__, "actions", function() { return /* binding */ build_module_actions; });
+__webpack_require__.d(__webpack_exports__, "filters", function() { return /* binding */ build_module_filters; });
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/validateNamespace.js
 /**
@@ -631,25 +655,6 @@ function createHooks() {
 /* harmony default export */ var build_module_createHooks = (createHooks);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addAction", function() { return addAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addFilter", function() { return addFilter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeAction", function() { return removeAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeFilter", function() { return removeFilter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasAction", function() { return hasAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasFilter", function() { return hasFilter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeAllActions", function() { return removeAllActions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeAllFilters", function() { return removeAllFilters; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "doAction", function() { return doAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyFilters", function() { return applyFilters; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currentAction", function() { return currentAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currentFilter", function() { return currentFilter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "doingAction", function() { return doingAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "doingFilter", function() { return doingFilter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "didAction", function() { return didAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "didFilter", function() { return didFilter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actions", function() { return build_module_actions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filters", function() { return build_module_filters; });
-/* concated harmony reexport createHooks */__webpack_require__.d(__webpack_exports__, "createHooks", function() { return build_module_createHooks; });
 /**
  * Internal dependencies
  */

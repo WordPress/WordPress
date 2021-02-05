@@ -128,6 +128,9 @@ function _defineProperty(obj, key, value) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) {
@@ -146,7 +149,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -167,6 +169,9 @@ function _toConsumableArray(arr) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(38);
@@ -201,7 +206,6 @@ function _iterableToArrayLimit(arr, i) {
 var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 
@@ -515,13 +519,21 @@ function isShallowEqual( a, b, fromIndex ) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "DotTip", function() { return /* reexport */ dot_tip; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/nux/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "triggerGuide", function() { return triggerGuide; });
 __webpack_require__.d(actions_namespaceObject, "dismissTip", function() { return dismissTip; });
 __webpack_require__.d(actions_namespaceObject, "disableTips", function() { return disableTips; });
 __webpack_require__.d(actions_namespaceObject, "enableTips", function() { return enableTips; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/nux/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "getAssociatedGuide", function() { return getAssociatedGuide; });
@@ -936,7 +948,6 @@ function DotTip(_ref) {
 }))(DotTip));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/index.js
-/* concated harmony reexport DotTip */__webpack_require__.d(__webpack_exports__, "DotTip", function() { return dot_tip; });
 /**
  * Internal dependencies
  */
