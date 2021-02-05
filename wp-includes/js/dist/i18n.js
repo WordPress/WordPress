@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 320);
+/******/ 	return __webpack_require__(__webpack_require__.s = 319);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -348,11 +348,20 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 320:
+/***/ 319:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return /* binding */ setLocaleData; });
+__webpack_require__.d(__webpack_exports__, "__", function() { return /* binding */ __; });
+__webpack_require__.d(__webpack_exports__, "_x", function() { return /* binding */ _x; });
+__webpack_require__.d(__webpack_exports__, "_n", function() { return /* binding */ _n; });
+__webpack_require__.d(__webpack_exports__, "_nx", function() { return /* binding */ _nx; });
+__webpack_require__.d(__webpack_exports__, "sprintf", function() { return /* binding */ build_module_sprintf; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
 var objectSpread = __webpack_require__(8);
@@ -794,12 +803,6 @@ var sprintf = __webpack_require__(125);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return setLocaleData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__", function() { return __; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_x", function() { return _x; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_n", function() { return _n; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_nx", function() { return _nx; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sprintf", function() { return build_module_sprintf; });
 
 
 /**

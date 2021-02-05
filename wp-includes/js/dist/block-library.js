@@ -936,6 +936,9 @@ function _getPrototypeOf(o) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 function _setPrototypeOf(o, p) {
   _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
@@ -946,7 +949,6 @@ function _setPrototypeOf(o, p) {
   return _setPrototypeOf(o, p);
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _inherits; });
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
@@ -1082,6 +1084,9 @@ function _extends() {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) {
@@ -1100,7 +1105,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -1129,6 +1133,9 @@ function _toConsumableArray(arr) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _objectWithoutProperties; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
@@ -1145,7 +1152,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
@@ -1180,6 +1186,9 @@ function _objectWithoutProperties(source, excluded) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(35);
 
@@ -1213,7 +1222,6 @@ function _iterableToArrayLimit(arr, i) {
 var nonIterableRest = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 
@@ -1272,150 +1280,226 @@ function _assertThisInitialized(self) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "registerCoreBlocks", function() { return /* binding */ build_module_registerCoreBlocks; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/paragraph/index.js
 var paragraph_namespaceObject = {};
 __webpack_require__.r(paragraph_namespaceObject);
 __webpack_require__.d(paragraph_namespaceObject, "name", function() { return paragraph_name; });
 __webpack_require__.d(paragraph_namespaceObject, "settings", function() { return paragraph_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/image/index.js
 var image_namespaceObject = {};
 __webpack_require__.r(image_namespaceObject);
 __webpack_require__.d(image_namespaceObject, "name", function() { return image_name; });
 __webpack_require__.d(image_namespaceObject, "settings", function() { return image_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/heading/index.js
 var heading_namespaceObject = {};
 __webpack_require__.r(heading_namespaceObject);
 __webpack_require__.d(heading_namespaceObject, "getLevelFromHeadingNodeName", function() { return getLevelFromHeadingNodeName; });
 __webpack_require__.d(heading_namespaceObject, "name", function() { return heading_name; });
 __webpack_require__.d(heading_namespaceObject, "settings", function() { return heading_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/quote/index.js
 var quote_namespaceObject = {};
 __webpack_require__.r(quote_namespaceObject);
 __webpack_require__.d(quote_namespaceObject, "name", function() { return quote_name; });
 __webpack_require__.d(quote_namespaceObject, "settings", function() { return quote_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/gallery/index.js
 var gallery_namespaceObject = {};
 __webpack_require__.r(gallery_namespaceObject);
 __webpack_require__.d(gallery_namespaceObject, "name", function() { return gallery_name; });
 __webpack_require__.d(gallery_namespaceObject, "settings", function() { return gallery_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/archives/index.js
 var archives_namespaceObject = {};
 __webpack_require__.r(archives_namespaceObject);
 __webpack_require__.d(archives_namespaceObject, "name", function() { return archives_name; });
 __webpack_require__.d(archives_namespaceObject, "settings", function() { return archives_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/audio/index.js
 var audio_namespaceObject = {};
 __webpack_require__.r(audio_namespaceObject);
 __webpack_require__.d(audio_namespaceObject, "name", function() { return audio_name; });
 __webpack_require__.d(audio_namespaceObject, "settings", function() { return audio_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/button/index.js
 var button_namespaceObject = {};
 __webpack_require__.r(button_namespaceObject);
 __webpack_require__.d(button_namespaceObject, "name", function() { return button_name; });
 __webpack_require__.d(button_namespaceObject, "settings", function() { return button_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/categories/index.js
 var categories_namespaceObject = {};
 __webpack_require__.r(categories_namespaceObject);
 __webpack_require__.d(categories_namespaceObject, "name", function() { return categories_name; });
 __webpack_require__.d(categories_namespaceObject, "settings", function() { return categories_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/code/index.js
 var code_namespaceObject = {};
 __webpack_require__.r(code_namespaceObject);
 __webpack_require__.d(code_namespaceObject, "name", function() { return code_name; });
 __webpack_require__.d(code_namespaceObject, "settings", function() { return code_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/columns/index.js
 var columns_namespaceObject = {};
 __webpack_require__.r(columns_namespaceObject);
 __webpack_require__.d(columns_namespaceObject, "name", function() { return columns_name; });
 __webpack_require__.d(columns_namespaceObject, "settings", function() { return columns_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/columns/column.js
 var column_namespaceObject = {};
 __webpack_require__.r(column_namespaceObject);
 __webpack_require__.d(column_namespaceObject, "name", function() { return column_name; });
 __webpack_require__.d(column_namespaceObject, "settings", function() { return column_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/cover/index.js
 var cover_namespaceObject = {};
 __webpack_require__.r(cover_namespaceObject);
 __webpack_require__.d(cover_namespaceObject, "name", function() { return cover_name; });
 __webpack_require__.d(cover_namespaceObject, "settings", function() { return cover_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/embed/index.js
 var embed_namespaceObject = {};
 __webpack_require__.r(embed_namespaceObject);
 __webpack_require__.d(embed_namespaceObject, "name", function() { return embed_name; });
 __webpack_require__.d(embed_namespaceObject, "settings", function() { return embed_settings; });
 __webpack_require__.d(embed_namespaceObject, "common", function() { return embed_common; });
 __webpack_require__.d(embed_namespaceObject, "others", function() { return embed_others; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/file/index.js
 var file_namespaceObject = {};
 __webpack_require__.r(file_namespaceObject);
 __webpack_require__.d(file_namespaceObject, "name", function() { return file_name; });
 __webpack_require__.d(file_namespaceObject, "settings", function() { return file_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/html/index.js
 var html_namespaceObject = {};
 __webpack_require__.r(html_namespaceObject);
 __webpack_require__.d(html_namespaceObject, "name", function() { return html_name; });
 __webpack_require__.d(html_namespaceObject, "settings", function() { return html_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/media-text/index.js
 var media_text_namespaceObject = {};
 __webpack_require__.r(media_text_namespaceObject);
 __webpack_require__.d(media_text_namespaceObject, "name", function() { return media_text_name; });
 __webpack_require__.d(media_text_namespaceObject, "settings", function() { return media_text_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/latest-comments/index.js
 var latest_comments_namespaceObject = {};
 __webpack_require__.r(latest_comments_namespaceObject);
 __webpack_require__.d(latest_comments_namespaceObject, "name", function() { return latest_comments_name; });
 __webpack_require__.d(latest_comments_namespaceObject, "settings", function() { return latest_comments_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/latest-posts/index.js
 var latest_posts_namespaceObject = {};
 __webpack_require__.r(latest_posts_namespaceObject);
 __webpack_require__.d(latest_posts_namespaceObject, "name", function() { return latest_posts_name; });
 __webpack_require__.d(latest_posts_namespaceObject, "settings", function() { return latest_posts_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/list/index.js
 var list_namespaceObject = {};
 __webpack_require__.r(list_namespaceObject);
 __webpack_require__.d(list_namespaceObject, "name", function() { return list_name; });
 __webpack_require__.d(list_namespaceObject, "settings", function() { return list_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/missing/index.js
 var missing_namespaceObject = {};
 __webpack_require__.r(missing_namespaceObject);
 __webpack_require__.d(missing_namespaceObject, "name", function() { return missing_name; });
 __webpack_require__.d(missing_namespaceObject, "settings", function() { return missing_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/more/index.js
 var more_namespaceObject = {};
 __webpack_require__.r(more_namespaceObject);
 __webpack_require__.d(more_namespaceObject, "name", function() { return more_name; });
 __webpack_require__.d(more_namespaceObject, "settings", function() { return more_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/nextpage/index.js
 var nextpage_namespaceObject = {};
 __webpack_require__.r(nextpage_namespaceObject);
 __webpack_require__.d(nextpage_namespaceObject, "name", function() { return nextpage_name; });
 __webpack_require__.d(nextpage_namespaceObject, "settings", function() { return nextpage_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/preformatted/index.js
 var preformatted_namespaceObject = {};
 __webpack_require__.r(preformatted_namespaceObject);
 __webpack_require__.d(preformatted_namespaceObject, "name", function() { return preformatted_name; });
 __webpack_require__.d(preformatted_namespaceObject, "settings", function() { return preformatted_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/pullquote/index.js
 var pullquote_namespaceObject = {};
 __webpack_require__.r(pullquote_namespaceObject);
 __webpack_require__.d(pullquote_namespaceObject, "name", function() { return pullquote_name; });
 __webpack_require__.d(pullquote_namespaceObject, "settings", function() { return pullquote_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/block/index.js
 var block_namespaceObject = {};
 __webpack_require__.r(block_namespaceObject);
 __webpack_require__.d(block_namespaceObject, "name", function() { return block_name; });
 __webpack_require__.d(block_namespaceObject, "settings", function() { return block_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/separator/index.js
 var separator_namespaceObject = {};
 __webpack_require__.r(separator_namespaceObject);
 __webpack_require__.d(separator_namespaceObject, "name", function() { return separator_name; });
 __webpack_require__.d(separator_namespaceObject, "settings", function() { return separator_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/shortcode/index.js
 var shortcode_namespaceObject = {};
 __webpack_require__.r(shortcode_namespaceObject);
 __webpack_require__.d(shortcode_namespaceObject, "name", function() { return shortcode_name; });
 __webpack_require__.d(shortcode_namespaceObject, "settings", function() { return shortcode_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/spacer/index.js
 var spacer_namespaceObject = {};
 __webpack_require__.r(spacer_namespaceObject);
 __webpack_require__.d(spacer_namespaceObject, "name", function() { return spacer_name; });
 __webpack_require__.d(spacer_namespaceObject, "settings", function() { return spacer_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/subhead/index.js
 var subhead_namespaceObject = {};
 __webpack_require__.r(subhead_namespaceObject);
 __webpack_require__.d(subhead_namespaceObject, "name", function() { return subhead_name; });
 __webpack_require__.d(subhead_namespaceObject, "settings", function() { return subhead_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/table/index.js
 var table_namespaceObject = {};
 __webpack_require__.r(table_namespaceObject);
 __webpack_require__.d(table_namespaceObject, "name", function() { return table_name; });
 __webpack_require__.d(table_namespaceObject, "settings", function() { return table_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/template/index.js
 var template_namespaceObject = {};
 __webpack_require__.r(template_namespaceObject);
 __webpack_require__.d(template_namespaceObject, "name", function() { return template_name; });
 __webpack_require__.d(template_namespaceObject, "settings", function() { return template_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/text-columns/index.js
 var text_columns_namespaceObject = {};
 __webpack_require__.r(text_columns_namespaceObject);
 __webpack_require__.d(text_columns_namespaceObject, "name", function() { return text_columns_name; });
 __webpack_require__.d(text_columns_namespaceObject, "settings", function() { return text_columns_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/verse/index.js
 var verse_namespaceObject = {};
 __webpack_require__.r(verse_namespaceObject);
 __webpack_require__.d(verse_namespaceObject, "name", function() { return verse_name; });
 __webpack_require__.d(verse_namespaceObject, "settings", function() { return verse_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/video/index.js
 var video_namespaceObject = {};
 __webpack_require__.r(video_namespaceObject);
 __webpack_require__.d(video_namespaceObject, "name", function() { return video_name; });
 __webpack_require__.d(video_namespaceObject, "settings", function() { return video_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/classic/index.js
 var classic_namespaceObject = {};
 __webpack_require__.r(classic_namespaceObject);
 __webpack_require__.d(classic_namespaceObject, "name", function() { return classic_name; });
@@ -13796,7 +13880,6 @@ var classic_settings = {
 };
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerCoreBlocks", function() { return build_module_registerCoreBlocks; });
 
 
 /**

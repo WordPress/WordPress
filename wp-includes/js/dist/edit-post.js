@@ -166,6 +166,9 @@ function _getPrototypeOf(o) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inherits; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 function _setPrototypeOf(o, p) {
   _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
@@ -176,7 +179,6 @@ function _setPrototypeOf(o, p) {
   return _setPrototypeOf(o, p);
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _inherits; });
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
@@ -319,6 +321,9 @@ function _extends() {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) {
@@ -337,7 +342,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -359,6 +363,9 @@ function _toConsumableArray(arr) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _objectWithoutProperties; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
@@ -375,7 +382,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
@@ -417,6 +423,9 @@ function _objectWithoutProperties(source, excluded) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(35);
 
@@ -450,7 +459,6 @@ function _iterableToArrayLimit(arr, i) {
 var nonIterableRest = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 
@@ -509,7 +517,21 @@ function _assertThisInitialized(self) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "reinitializeEditor", function() { return /* binding */ reinitializeEditor; });
+__webpack_require__.d(__webpack_exports__, "initializeEditor", function() { return /* binding */ initializeEditor; });
+__webpack_require__.d(__webpack_exports__, "PluginBlockSettingsMenuItem", function() { return /* reexport */ plugin_block_settings_menu_item; });
+__webpack_require__.d(__webpack_exports__, "PluginMoreMenuItem", function() { return /* reexport */ plugin_more_menu_item; });
+__webpack_require__.d(__webpack_exports__, "PluginPostPublishPanel", function() { return /* reexport */ plugin_post_publish_panel; });
+__webpack_require__.d(__webpack_exports__, "PluginPostStatusInfo", function() { return /* reexport */ plugin_post_status_info; });
+__webpack_require__.d(__webpack_exports__, "PluginPrePublishPanel", function() { return /* reexport */ plugin_pre_publish_panel; });
+__webpack_require__.d(__webpack_exports__, "PluginSidebar", function() { return /* reexport */ plugin_sidebar; });
+__webpack_require__.d(__webpack_exports__, "PluginSidebarMoreMenuItem", function() { return /* reexport */ plugin_sidebar_more_menu_item; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-post/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "openGeneralSidebar", function() { return actions_openGeneralSidebar; });
@@ -528,6 +550,8 @@ __webpack_require__.d(actions_namespaceObject, "togglePinnedPluginItem", functio
 __webpack_require__.d(actions_namespaceObject, "setAvailableMetaBoxesPerLocation", function() { return setAvailableMetaBoxesPerLocation; });
 __webpack_require__.d(actions_namespaceObject, "requestMetaBoxUpdates", function() { return requestMetaBoxUpdates; });
 __webpack_require__.d(actions_namespaceObject, "metaBoxUpdatesSuccess", function() { return metaBoxUpdatesSuccess; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-post/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "getEditorMode", function() { return getEditorMode; });
@@ -5669,15 +5693,6 @@ var plugin_sidebar_more_menu_item_PluginSidebarMoreMenuItem = function PluginSid
 }))(plugin_sidebar_more_menu_item_PluginSidebarMoreMenuItem));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reinitializeEditor", function() { return reinitializeEditor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializeEditor", function() { return initializeEditor; });
-/* concated harmony reexport PluginBlockSettingsMenuItem */__webpack_require__.d(__webpack_exports__, "PluginBlockSettingsMenuItem", function() { return plugin_block_settings_menu_item; });
-/* concated harmony reexport PluginMoreMenuItem */__webpack_require__.d(__webpack_exports__, "PluginMoreMenuItem", function() { return plugin_more_menu_item; });
-/* concated harmony reexport PluginPostPublishPanel */__webpack_require__.d(__webpack_exports__, "PluginPostPublishPanel", function() { return plugin_post_publish_panel; });
-/* concated harmony reexport PluginPostStatusInfo */__webpack_require__.d(__webpack_exports__, "PluginPostStatusInfo", function() { return plugin_post_status_info; });
-/* concated harmony reexport PluginPrePublishPanel */__webpack_require__.d(__webpack_exports__, "PluginPrePublishPanel", function() { return plugin_pre_publish_panel; });
-/* concated harmony reexport PluginSidebar */__webpack_require__.d(__webpack_exports__, "PluginSidebar", function() { return plugin_sidebar; });
-/* concated harmony reexport PluginSidebarMoreMenuItem */__webpack_require__.d(__webpack_exports__, "PluginSidebarMoreMenuItem", function() { return plugin_sidebar_more_menu_item; });
 
 
 /**

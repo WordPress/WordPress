@@ -404,6 +404,9 @@ function addBlockFromStack(endOffset) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(35);
 
@@ -437,7 +440,6 @@ function _iterableToArrayLimit(arr, i) {
 var nonIterableRest = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 

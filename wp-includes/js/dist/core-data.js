@@ -145,6 +145,9 @@ function _defineProperty(obj, key, value) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) {
@@ -163,7 +166,6 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
 
 
 
@@ -191,6 +193,9 @@ function _toConsumableArray(arr) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 var arrayWithHoles = __webpack_require__(35);
@@ -225,7 +230,6 @@ function _iterableToArrayLimit(arr, i) {
 var nonIterableRest = __webpack_require__(36);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
 
 
 
@@ -528,7 +532,10 @@ function isShallowEqual( a, b, fromIndex ) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/core-data/build-module/actions.js
 var build_module_actions_namespaceObject = {};
 __webpack_require__.r(build_module_actions_namespaceObject);
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveUserQuery", function() { return receiveUserQuery; });
@@ -538,6 +545,8 @@ __webpack_require__.d(build_module_actions_namespaceObject, "receiveThemeSupport
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveEmbedPreview", function() { return receiveEmbedPreview; });
 __webpack_require__.d(build_module_actions_namespaceObject, "saveEntityRecord", function() { return saveEntityRecord; });
 __webpack_require__.d(build_module_actions_namespaceObject, "receiveUploadPermissions", function() { return receiveUploadPermissions; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/core-data/build-module/selectors.js
 var build_module_selectors_namespaceObject = {};
 __webpack_require__.r(build_module_selectors_namespaceObject);
 __webpack_require__.d(build_module_selectors_namespaceObject, "isRequestingEmbedPreview", function() { return isRequestingEmbedPreview; });
@@ -551,6 +560,8 @@ __webpack_require__.d(build_module_selectors_namespaceObject, "getThemeSupports"
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEmbedPreview", function() { return getEmbedPreview; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "isPreviewEmbedFallback", function() { return isPreviewEmbedFallback; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "hasUploadPermissions", function() { return selectors_hasUploadPermissions; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/core-data/build-module/resolvers.js
 var resolvers_namespaceObject = {};
 __webpack_require__.r(resolvers_namespaceObject);
 __webpack_require__.d(resolvers_namespaceObject, "getAuthors", function() { return resolvers_getAuthors; });
