@@ -224,8 +224,8 @@ body {
 	border: none !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
-	-webkit-border-radius: !important 0;
-	border-radius: !important 0;
+	-webkit-border-radius: 0 !important;
+	border-radius: 0 !important;
 }
 
 
@@ -574,7 +574,7 @@ body {
 #customize-control-header_image .uploaded .header-view .close:hover {
  color: black;
  text-shadow:
-    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
     1px -1px 0 #fff,
     -1px 1px 0 #fff,
     1px 1px 0 #fff;
