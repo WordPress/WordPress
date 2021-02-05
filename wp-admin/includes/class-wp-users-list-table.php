@@ -300,7 +300,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		<select name="<?php echo $id; ?>" id="<?php echo $id; ?>">
 			<option value=""><?php _e( 'Change role to&hellip;' ); ?></option>
 			<?php wp_dropdown_roles(); ?>
-			<option value="none"><?php echo __( '&mdash; No role for this site &mdash;' ) ?> </option>
+			<option value="none"><?php _e( '&mdash; No role for this site &mdash;' ); ?></option>
 		</select>
 			<?php
 			submit_button( __( 'Change' ), '', $button_id, false );
