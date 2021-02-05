@@ -145,6 +145,7 @@
 	display: inline-block;
 	float: none;
 	margin-left: 4.799999999%;
+	width: -webkit-calc( 47.6% - 4px );
 	width: calc( 47.6% - 4px );
 	vertical-align: middle;
 }
