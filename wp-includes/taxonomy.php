@@ -3898,8 +3898,8 @@ function _update_post_term_count( $terms, $taxonomy ) {
 	 *
 	 * @since 5.7.0
 	 *
-	 * @param array         $post_statuses List of post statuses to include in the count. Default is 'publish'.
-	 * @param WP_Taxonomy   $taxonomy      Current taxonomy object.
+	 * @param string[]    $post_statuses List of post statuses to include in the count. Default is 'publish'.
+	 * @param WP_Taxonomy $taxonomy      Current taxonomy object.
 	 */
 	$post_statuses = esc_sql( apply_filters( 'update_post_term_count_statuses', $post_statuses, $taxonomy ) );
 
