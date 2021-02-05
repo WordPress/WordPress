@@ -1747,7 +1747,7 @@ form.upgrade .hint {
 
 .toggle-arrow {
 	background-repeat: no-repeat;
-	background-position: top left;
+	background-position: top right;
 	background-color: transparent;
 	height: 22px;
 	line-height: 22px;
@@ -1755,7 +1755,7 @@ form.upgrade .hint {
 }
 
 .toggle-arrow-active {
-	background-position: bottom left;
+	background-position: bottom right;
 }
 
 #screen-options-wrap h5, /* Back-compat for old plugins */
@@ -2469,11 +2469,11 @@ div.star-holder {
 	position: relative;
 	height: 17px;
 	width: 100px;
-	background: url(../images/stars.png?ver=20121108) repeat-x bottom left;
+	background: url(../images/stars.png?ver=20121108) repeat-x bottom right;
 }
 
 div.star-holder .star-rating {
-	background: url(../images/stars.png?ver=20121108) repeat-x top left;
+	background: url(../images/stars.png?ver=20121108) repeat-x top right;
 	height: 17px;
 	float: right;
 }
@@ -2509,9 +2509,9 @@ div.star-holder .star-rating {
 }
 
 .rtl .star-rating .star-half {
-	-webkit-transform: rotateY(180deg);
-	-ms-transform: rotateY(180deg);
-	transform: rotateY(180deg);
+	-webkit-transform: rotateY(-180deg);
+	-ms-transform: rotateY(-180deg);
+	transform: rotateY(-180deg);
 }
 
 .star-rating .star-empty:before {
@@ -3591,7 +3591,7 @@ img {
 	/* Back-compat for pre-3.8 */
 	div.star-holder,
 	div.star-holder .star-rating {
-		background: url(../images/stars-2x.png?ver=20121108) repeat-x bottom left;
+		background: url(../images/stars-2x.png?ver=20121108) repeat-x bottom right;
 		-webkit-background-size: 21px 37px;
 		background-size: 21px 37px;
 	}
