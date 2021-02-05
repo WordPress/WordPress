@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 323);
+/******/ 	return __webpack_require__(__webpack_require__.s = 381);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -92,30 +92,34 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 
 "use strict";
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
-    return arr2;
-  }
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+var arrayLikeToArray = __webpack_require__(22);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(33);
+var iterableToArray = __webpack_require__(35);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
+
 
 
 
 function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
 }
 
 /***/ }),
@@ -127,14 +131,85 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 323:
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+/***/ }),
+
+/***/ 28:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
+/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+}
+
+/***/ }),
+
+/***/ 35:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+}
+
+/***/ }),
+
+/***/ 381:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "focus", function() { return /* binding */ build_module_focus; });
+__webpack_require__.d(__webpack_exports__, "isHorizontalEdge", function() { return /* reexport */ isHorizontalEdge; });
+__webpack_require__.d(__webpack_exports__, "isVerticalEdge", function() { return /* reexport */ isVerticalEdge; });
+__webpack_require__.d(__webpack_exports__, "getRectangleFromRange", function() { return /* reexport */ getRectangleFromRange; });
+__webpack_require__.d(__webpack_exports__, "computeCaretRect", function() { return /* reexport */ computeCaretRect; });
+__webpack_require__.d(__webpack_exports__, "placeCaretAtHorizontalEdge", function() { return /* reexport */ placeCaretAtHorizontalEdge; });
+__webpack_require__.d(__webpack_exports__, "placeCaretAtVerticalEdge", function() { return /* reexport */ placeCaretAtVerticalEdge; });
+__webpack_require__.d(__webpack_exports__, "isTextField", function() { return /* reexport */ isTextField; });
+__webpack_require__.d(__webpack_exports__, "documentHasSelection", function() { return /* reexport */ documentHasSelection; });
+__webpack_require__.d(__webpack_exports__, "isEntirelySelected", function() { return /* reexport */ isEntirelySelected; });
+__webpack_require__.d(__webpack_exports__, "getScrollContainer", function() { return /* reexport */ getScrollContainer; });
+__webpack_require__.d(__webpack_exports__, "getOffsetParent", function() { return /* reexport */ getOffsetParent; });
+__webpack_require__.d(__webpack_exports__, "replace", function() { return /* reexport */ replace; });
+__webpack_require__.d(__webpack_exports__, "remove", function() { return /* reexport */ remove; });
+__webpack_require__.d(__webpack_exports__, "insertAfter", function() { return /* reexport */ insertAfter; });
+__webpack_require__.d(__webpack_exports__, "unwrap", function() { return /* reexport */ unwrap; });
+__webpack_require__.d(__webpack_exports__, "replaceTag", function() { return /* reexport */ replaceTag; });
+__webpack_require__.d(__webpack_exports__, "wrap", function() { return /* reexport */ wrap; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/dom/build-module/focusable.js
 var focusable_namespaceObject = {};
 __webpack_require__.r(focusable_namespaceObject);
 __webpack_require__.d(focusable_namespaceObject, "find", function() { return find; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/dom/build-module/tabbable.js
 var tabbable_namespaceObject = {};
 __webpack_require__.r(tabbable_namespaceObject);
 __webpack_require__.d(tabbable_namespaceObject, "isTabbableIndex", function() { return isTabbableIndex; });
@@ -963,24 +1038,6 @@ function wrap(newNode, referenceNode) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "focus", function() { return build_module_focus; });
-/* concated harmony reexport isHorizontalEdge */__webpack_require__.d(__webpack_exports__, "isHorizontalEdge", function() { return isHorizontalEdge; });
-/* concated harmony reexport isVerticalEdge */__webpack_require__.d(__webpack_exports__, "isVerticalEdge", function() { return isVerticalEdge; });
-/* concated harmony reexport getRectangleFromRange */__webpack_require__.d(__webpack_exports__, "getRectangleFromRange", function() { return getRectangleFromRange; });
-/* concated harmony reexport computeCaretRect */__webpack_require__.d(__webpack_exports__, "computeCaretRect", function() { return computeCaretRect; });
-/* concated harmony reexport placeCaretAtHorizontalEdge */__webpack_require__.d(__webpack_exports__, "placeCaretAtHorizontalEdge", function() { return placeCaretAtHorizontalEdge; });
-/* concated harmony reexport placeCaretAtVerticalEdge */__webpack_require__.d(__webpack_exports__, "placeCaretAtVerticalEdge", function() { return placeCaretAtVerticalEdge; });
-/* concated harmony reexport isTextField */__webpack_require__.d(__webpack_exports__, "isTextField", function() { return isTextField; });
-/* concated harmony reexport documentHasSelection */__webpack_require__.d(__webpack_exports__, "documentHasSelection", function() { return documentHasSelection; });
-/* concated harmony reexport isEntirelySelected */__webpack_require__.d(__webpack_exports__, "isEntirelySelected", function() { return isEntirelySelected; });
-/* concated harmony reexport getScrollContainer */__webpack_require__.d(__webpack_exports__, "getScrollContainer", function() { return getScrollContainer; });
-/* concated harmony reexport getOffsetParent */__webpack_require__.d(__webpack_exports__, "getOffsetParent", function() { return getOffsetParent; });
-/* concated harmony reexport replace */__webpack_require__.d(__webpack_exports__, "replace", function() { return replace; });
-/* concated harmony reexport remove */__webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-/* concated harmony reexport insertAfter */__webpack_require__.d(__webpack_exports__, "insertAfter", function() { return insertAfter; });
-/* concated harmony reexport unwrap */__webpack_require__.d(__webpack_exports__, "unwrap", function() { return unwrap; });
-/* concated harmony reexport replaceTag */__webpack_require__.d(__webpack_exports__, "replaceTag", function() { return replaceTag; });
-/* concated harmony reexport wrap */__webpack_require__.d(__webpack_exports__, "wrap", function() { return wrap; });
 /**
  * Internal dependencies
  */
@@ -992,17 +1049,6 @@ var build_module_focus = {
 };
 
 
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
 
 /***/ })
 

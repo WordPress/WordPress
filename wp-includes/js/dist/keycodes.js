@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["keycodes"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 325);
+/******/ 	return __webpack_require__(__webpack_require__.s = 382);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -121,30 +121,34 @@ function _defineProperty(obj, key, value) {
 
 "use strict";
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
 
-    return arr2;
-  }
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+var arrayLikeToArray = __webpack_require__(22);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(33);
+var iterableToArray = __webpack_require__(35);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
+
 
 
 
 function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
 }
 
 /***/ }),
@@ -156,11 +160,81 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 325:
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+/***/ }),
+
+/***/ 28:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
+/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+}
+
+/***/ }),
+
+/***/ 35:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+}
+
+/***/ }),
+
+/***/ 382:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "BACKSPACE", function() { return /* binding */ BACKSPACE; });
+__webpack_require__.d(__webpack_exports__, "TAB", function() { return /* binding */ TAB; });
+__webpack_require__.d(__webpack_exports__, "ENTER", function() { return /* binding */ ENTER; });
+__webpack_require__.d(__webpack_exports__, "ESCAPE", function() { return /* binding */ ESCAPE; });
+__webpack_require__.d(__webpack_exports__, "SPACE", function() { return /* binding */ SPACE; });
+__webpack_require__.d(__webpack_exports__, "LEFT", function() { return /* binding */ LEFT; });
+__webpack_require__.d(__webpack_exports__, "UP", function() { return /* binding */ UP; });
+__webpack_require__.d(__webpack_exports__, "RIGHT", function() { return /* binding */ RIGHT; });
+__webpack_require__.d(__webpack_exports__, "DOWN", function() { return /* binding */ DOWN; });
+__webpack_require__.d(__webpack_exports__, "DELETE", function() { return /* binding */ DELETE; });
+__webpack_require__.d(__webpack_exports__, "F10", function() { return /* binding */ F10; });
+__webpack_require__.d(__webpack_exports__, "ALT", function() { return /* binding */ ALT; });
+__webpack_require__.d(__webpack_exports__, "CTRL", function() { return /* binding */ CTRL; });
+__webpack_require__.d(__webpack_exports__, "COMMAND", function() { return /* binding */ COMMAND; });
+__webpack_require__.d(__webpack_exports__, "SHIFT", function() { return /* binding */ SHIFT; });
+__webpack_require__.d(__webpack_exports__, "modifiers", function() { return /* binding */ modifiers; });
+__webpack_require__.d(__webpack_exports__, "rawShortcut", function() { return /* binding */ rawShortcut; });
+__webpack_require__.d(__webpack_exports__, "displayShortcutList", function() { return /* binding */ displayShortcutList; });
+__webpack_require__.d(__webpack_exports__, "displayShortcut", function() { return /* binding */ displayShortcut; });
+__webpack_require__.d(__webpack_exports__, "shortcutAriaLabel", function() { return /* binding */ shortcutAriaLabel; });
+__webpack_require__.d(__webpack_exports__, "isKeyboardEvent", function() { return /* binding */ isKeyboardEvent; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(15);
@@ -195,27 +269,6 @@ function isAppleOS() {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/keycodes/build-module/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BACKSPACE", function() { return BACKSPACE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TAB", function() { return TAB; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ENTER", function() { return ENTER; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ESCAPE", function() { return ESCAPE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SPACE", function() { return SPACE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LEFT", function() { return LEFT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UP", function() { return UP; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RIGHT", function() { return RIGHT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DOWN", function() { return DOWN; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DELETE", function() { return DELETE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "F10", function() { return F10; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ALT", function() { return ALT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CTRL", function() { return CTRL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COMMAND", function() { return COMMAND; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SHIFT", function() { return SHIFT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "modifiers", function() { return modifiers; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rawShortcut", function() { return rawShortcut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "displayShortcutList", function() { return displayShortcutList; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "displayShortcut", function() { return displayShortcut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shortcutAriaLabel", function() { return shortcutAriaLabel; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isKeyboardEvent", function() { return isKeyboardEvent; });
 
 
 
@@ -398,17 +451,6 @@ var isKeyboardEvent = Object(external_lodash_["mapValues"])(modifiers, function 
   };
 });
 
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
 
 /***/ })
 
