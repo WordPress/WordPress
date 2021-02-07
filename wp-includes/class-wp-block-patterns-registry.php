@@ -73,8 +73,8 @@ final class WP_Block_Patterns_Registry {
 	 */
 	public function unregister( $pattern_name ) {
 		if ( ! $this->is_registered( $pattern_name ) ) {
-			/* translators: 1: Pattern name. */
-			$message = sprintf( __( 'Pattern "%1$s" not found.' ), $pattern_name );
+			/* translators: %s: Pattern name. */
+			$message = sprintf( __( 'Pattern "%s" not found.' ), $pattern_name );
 			_doing_it_wrong( __METHOD__, $message, '5.5.0' );
 			return false;
 		}

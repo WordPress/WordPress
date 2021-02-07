@@ -39,8 +39,8 @@
 			<?php
 			printf(
 				'<p>' . wp_kses(
-					/* translators: 1: Link to WP admin new post page. */
-					__( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'twentytwentyone' ),
+					/* translators: %s: Link to WP admin new post page. */
+					__( 'Ready to publish your first post? <a href="%s">Get started here</a>.', 'twentytwentyone' ),
 					array(
 						'a' => array(
 							'href' => array(),

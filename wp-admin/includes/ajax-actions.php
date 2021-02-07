@@ -5429,7 +5429,7 @@ function wp_ajax_send_password_reset() {
 
 	if ( true === $results ) {
 		wp_send_json_success(
-			/* translators: 1: User's display name. */
+			/* translators: %s: User's display name. */
 			sprintf( __( 'A password reset link was emailed to %s.' ), $user->display_name )
 		);
 	} else {

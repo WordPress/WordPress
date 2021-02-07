@@ -1403,8 +1403,8 @@ function wp_print_community_events_templates() {
 			<li class="event-none">
 				<?php
 				printf(
-					/* translators: 1: Localized meetup organization documentation URL. */
-					__( 'Want more events? <a href="%1$s">Help organize the next one</a>!' ),
+					/* translators: %s: Localized meetup organization documentation URL. */
+					__( 'Want more events? <a href="%s">Help organize the next one</a>!' ),
 					__( 'https://make.wordpress.org/community/organize-event-landing-page/' )
 				);
 				?>

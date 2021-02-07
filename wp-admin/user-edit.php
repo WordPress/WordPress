@@ -623,7 +623,7 @@ endif;
 			</div>
 			<p class="description">
 				<?php
-				/* translators: 1: User's display name. */
+				/* translators: %s: User's display name. */
 				printf( __( 'Send %s a link to reset their password. This will not change their password, nor will it force a change.' ), esc_html( $profileuser->display_name ) );
 				?>
 			</p>

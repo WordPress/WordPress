@@ -1785,8 +1785,8 @@ function rest_get_combining_operation_error( $value, $param, $errors ) {
 		return new WP_Error( 'rest_no_matching_schema', wp_sprintf( __( '%1$s is not a valid %2$l.' ), $param, $schema_titles ) );
 	}
 
-	/* translators: 1: Parameter. */
-	return new WP_Error( 'rest_no_matching_schema', sprintf( __( '%1$s does not match any of the expected formats.' ), $param ) );
+	/* translators: %s: Parameter. */
+	return new WP_Error( 'rest_no_matching_schema', sprintf( __( '%s does not match any of the expected formats.' ), $param ) );
 }
 
 /**
@@ -1889,8 +1889,8 @@ function rest_find_one_matching_schema( $value, $args, $param, $stop_after_first
 
 		return new WP_Error(
 			'rest_one_of_multiple_matches',
-			/* translators: 1: Parameter. */
-			sprintf( __( '%1$s matches more than one of the expected formats.' ), $param ),
+			/* translators: %s: Parameter. */
+			sprintf( __( '%s matches more than one of the expected formats.' ), $param ),
 			array( 'positions' => $schema_positions )
 		);
 	}
@@ -2380,8 +2380,8 @@ function rest_validate_array_value_from_schema( $value, $args, $param ) {
 	}
 
 	if ( ! empty( $args['uniqueItems'] ) && ! rest_validate_array_contains_unique_items( $value ) ) {
-		/* translators: 1: Parameter. */
-		return new WP_Error( 'rest_duplicate_items', sprintf( __( '%1$s has duplicate items.' ), $param ) );
+		/* translators: %s: Parameter. */
+		return new WP_Error( 'rest_duplicate_items', sprintf( __( '%s has duplicate items.' ), $param ) );
 	}
 
 	return true;
@@ -2682,8 +2682,8 @@ function rest_sanitize_value_from_schema( $value, $args, $param = '' ) {
 		}
 
 		if ( ! empty( $args['uniqueItems'] ) && ! rest_validate_array_contains_unique_items( $value ) ) {
-			/* translators: 1: Parameter. */
-			return new WP_Error( 'rest_duplicate_items', sprintf( __( '%1$s has duplicate items.' ), $param ) );
+			/* translators: %s: Parameter. */
+			return new WP_Error( 'rest_duplicate_items', sprintf( __( '%s has duplicate items.' ), $param ) );
 		}
 
 		return $value;
