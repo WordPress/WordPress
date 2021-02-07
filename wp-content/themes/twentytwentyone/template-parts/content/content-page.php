@@ -32,7 +32,7 @@
 			array(
 				'before'   => '<nav class="page-links" aria-label="' . esc_attr__( 'Page', 'twentytwentyone' ) . '">',
 				'after'    => '</nav>',
-				/* translators: %: page number. */
+				/* translators: %: Page number. */
 				'pagelink' => esc_html__( 'Page %', 'twentytwentyone' ),
 			)
 		);

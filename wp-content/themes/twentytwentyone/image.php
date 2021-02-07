@@ -42,7 +42,7 @@ while ( have_posts() ) {
 				array(
 					'before'   => '<nav class="page-links" aria-label="' . esc_attr__( 'Page', 'twentytwentyone' ) . '">',
 					'after'    => '</nav>',
-					/* translators: %: page number. */
+					/* translators: %: Page number. */
 					'pagelink' => esc_html__( 'Page %', 'twentytwentyone' ),
 				)
 			);
@@ -55,7 +55,7 @@ while ( have_posts() ) {
 			if ( wp_get_post_parent_id( $post ) ) {
 				echo '<span class="posted-on">';
 				printf(
-					/* translators: %s: parent post. */
+					/* translators: %s: Parent post. */
 					esc_html__( 'Published in %s', 'twentytwentyone' ),
 					'<a href="' . esc_url( get_the_permalink( wp_get_post_parent_id( $post ) ) ) . '">' . esc_html( get_the_title( wp_get_post_parent_id( $post ) ) ) . '</a>'
 				);
