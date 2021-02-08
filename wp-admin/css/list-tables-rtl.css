@@ -2074,11 +2074,6 @@ div.action-links,
 		display: table-cell;
 	}
 
-	.plugins .active.update + .plugin-update-tr:before {
-		border-right: 4px solid #d63638;
-		background-color: #f6f7f7;
-	}
-
 	.plugins #the-list .plugin-update-tr .plugin-update {
 		border-right: none;
 	}
@@ -2088,7 +2083,7 @@ div.action-links,
 	}
 
 	.plugins .active.update + .plugin-update-tr:before {
-		background-color: #fff;
+		background-color: #f0f6fc;
 		border-right: 4px solid #72aee6;
 	}
 
