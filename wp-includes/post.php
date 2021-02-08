@@ -2083,10 +2083,18 @@ function is_post_publicly_viewable( $post = null ) {
 /**
  * Retrieves an array of the latest posts, or posts matching the given criteria.
  *
+ * For more information on the accepted arguments, see the
+ * {@link https://developer.wordpress.org/reference/classes/wp_query/
+ * WP_Query} documentation in the Developer Handbook.
+ *
+ * The `$ignore_sticky_posts` and `$no_found_rows` arguments are ignored by
+ * this function and both are set to `true`.
+ *
  * The defaults are as follows:
  *
  * @since 1.2.0
  *
+ * @see WP_Query
  * @see WP_Query::parse_query()
  *
  * @param array $args {
