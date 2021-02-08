@@ -14036,6 +14036,9 @@ var cover_deprecated_deprecated = [{
     minHeight: {
       type: 'number'
     },
+    minHeightUnit: {
+      type: 'string'
+    },
     gradient: {
       type: 'string'
     },
@@ -19309,7 +19312,7 @@ function LatestPostsEdit(_ref) {
 
   var dateFormat = Object(external_wp_date_["__experimentalGetSettings"])().formats.date;
 
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, inspectorControls, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarGroup"], {
+  return Object(external_wp_element_["createElement"])("div", null, inspectorControls, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarGroup"], {
     controls: layoutControls
   })), Object(external_wp_element_["createElement"])("ul", blockProps, displayPosts.map(function (post, i) {
     var titleTrimmed = Object(external_lodash_["invoke"])(post, ['title', 'rendered', 'trim']);

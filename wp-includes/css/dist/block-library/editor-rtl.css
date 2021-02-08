@@ -9,6 +9,7 @@
  *
  * Please use variables from this sheet to ensure consistency across the UI.
  * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
  */
 /**
  * Colors
@@ -170,6 +171,7 @@ div[data-type="core/button"] {
 .wp-block-buttons > .wp-block {
   margin-right: 0;
   margin-top: 0.5em;
+  margin-left: 0.5em;
 }
 .wp-block-buttons > .block-list-appender {
   display: inline-flex;

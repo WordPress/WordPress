@@ -3399,15 +3399,20 @@ function persistencePlugin(registry, pluginOptions) {
 
 
 persistencePlugin.__unstableMigrate = function (pluginOptions) {
+  var _state$coreEditor, _state$coreEditor$pre;
+
   var persistence = createPersistenceInterface(pluginOptions);
   var state = persistence.get(); // Migrate 'insertUsage' from 'core/editor' to 'core/block-editor'
 
-  var insertUsage = Object(external_lodash_["get"])(state, ['core/editor', 'preferences', 'insertUsage']);
+  var editorInsertUsage = (_state$coreEditor = state['core/editor']) === null || _state$coreEditor === void 0 ? void 0 : (_state$coreEditor$pre = _state$coreEditor.preferences) === null || _state$coreEditor$pre === void 0 ? void 0 : _state$coreEditor$pre.insertUsage;
 
-  if (insertUsage) {
+  if (editorInsertUsage) {
+    var _state$coreBlockEdi, _state$coreBlockEdi$p;
+
+    var blockEditorInsertUsage = (_state$coreBlockEdi = state['core/block-editor']) === null || _state$coreBlockEdi === void 0 ? void 0 : (_state$coreBlockEdi$p = _state$coreBlockEdi.preferences) === null || _state$coreBlockEdi$p === void 0 ? void 0 : _state$coreBlockEdi$p.insertUsage;
     persistence.set('core/block-editor', {
       preferences: {
-        insertUsage: insertUsage
+        insertUsage: persistence_objectSpread(persistence_objectSpread({}, editorInsertUsage), blockEditorInsertUsage)
       }
     });
   }

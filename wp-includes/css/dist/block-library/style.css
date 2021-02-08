@@ -10,6 +10,7 @@
  *
  * Please use variables from this sheet to ensure consistency across the UI.
  * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
  */
 /**
  * Colors
@@ -171,6 +172,8 @@
 }
 .wp-block-buttons > .wp-block-button {
   display: inline-block;
+  /*rtl:ignore*/
+  margin-left: 0;
   /*rtl:ignore*/
   margin-right: 0.5em;
   margin-bottom: 0.5em;
@@ -667,6 +670,11 @@ section.wp-block-cover-image > h2,
 .wp-block-embed.alignleft .wp-block-embed__wrapper,
 .wp-block-embed.alignright .wp-block-embed__wrapper {
   min-width: 280px;
+}
+
+.wp-block-cover .wp-block-embed {
+  min-width: 320px;
+  min-height: 240px;
 }
 
 .wp-block-embed {

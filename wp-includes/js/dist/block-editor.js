@@ -10009,6 +10009,60 @@ function useIsTypographyDisabled() {
   return configs.filter(Boolean).length === configs.length;
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/unit-control/index.js
+
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+function UnitControl(_ref) {
+  var unitsProp = _ref.units,
+      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["units"]);
+
+  var units = useCustomUnits(unitsProp);
+  return Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalUnitControl"], Object(esm_extends["a" /* default */])({
+    units: units
+  }, props));
+}
+/**
+ * Filters available units based on values defined by settings.
+ *
+ * @param {Array} settings Collection of preferred units.
+ * @param {Array} units Collection of available units.
+ *
+ * @return {Array} Filtered units based on settings.
+ */
+
+function filterUnitsWithSettings() {
+  var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var units = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  return units.filter(function (unit) {
+    return settings.includes(unit.value);
+  });
+}
+/**
+ * Custom hook to retrieve and consolidate units setting from add_theme_support().
+ *
+ * @param {Array} units Collection of available units.
+ *
+ * @return {Array} Filtered units based on settings.
+ */
+
+
+function useCustomUnits(units) {
+  var availableUnits = useEditorFeature('spacing.units');
+  var usedUnits = filterUnitsWithSettings(!availableUnits ? [] : availableUnits, units);
+  return usedUnits.length === 0 ? false : usedUnits;
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/padding.js
 
 
@@ -10037,11 +10091,11 @@ var padding_hasPaddingSupport = function hasPaddingSupport(blockName) {
   return spacingSupport && spacingSupport.padding !== false;
 };
 /**
- * Inspector control panel containing the line height related configuration
+ * Inspector control panel containing the padding related configuration
  *
  * @param {Object} props
  *
- * @return {WPElement} Line height edit element.
+ * @return {WPElement} Padding edit element.
  */
 
 
@@ -10051,13 +10105,7 @@ function PaddingEdit(props) {
   var blockName = props.name,
       style = props.attributes.style,
       setAttributes = props.setAttributes;
-  var customUnits = useEditorFeature('spacing.units');
-  var units = customUnits === null || customUnits === void 0 ? void 0 : customUnits.map(function (unit) {
-    return {
-      value: unit,
-      label: unit
-    };
-  });
+  var units = useCustomUnits();
 
   if (!padding_hasPaddingSupport(blockName)) {
     return null;
@@ -33147,60 +33195,6 @@ function ToolSelector(props, ref) {
 }
 
 /* harmony default export */ var tool_selector = (Object(external_wp_element_["forwardRef"])(ToolSelector));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/unit-control/index.js
-
-
-
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-function UnitControl(_ref) {
-  var unitsProp = _ref.units,
-      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["units"]);
-
-  var units = useCustomUnits(unitsProp);
-  return Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalUnitControl"], Object(esm_extends["a" /* default */])({
-    units: units
-  }, props));
-}
-/**
- * Filters available units based on values defined by settings.
- *
- * @param {Array} settings Collection of preferred units.
- * @param {Array} units Collection of available units.
- *
- * @return {Array} Filtered units based on settings.
- */
-
-function filterUnitsWithSettings() {
-  var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var units = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  return units.filter(function (unit) {
-    return settings.includes(unit.value);
-  });
-}
-/**
- * Custom hook to retrieve and consolidate units setting from add_theme_support().
- *
- * @param {Array} units Collection of available units.
- *
- * @return {Array} Filtered units based on settings.
- */
-
-
-function useCustomUnits(units) {
-  var availableUnits = useEditorFeature('spacing.units');
-  var usedUnits = filterUnitsWithSettings(!availableUnits ? [] : availableUnits, units);
-  return usedUnits.length === 0 ? false : usedUnits;
-}
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/link.js
 var library_link = __webpack_require__(192);

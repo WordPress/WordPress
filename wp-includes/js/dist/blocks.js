@@ -8482,6 +8482,208 @@ var EventedTokenizer = /** @class */ (function () {
                     this.transitionTo("commentStart" /* commentStart */);
                     this.delegate.beginComment();
                 }
+                else {
+                    var maybeDoctype = char.toUpperCase() + this.input.substring(this.index, this.index + 6).toUpperCase();
+                    if (maybeDoctype === 'DOCTYPE') {
+                        this.consume();
+                        this.consume();
+                        this.consume();
+                        this.consume();
+                        this.consume();
+                        this.consume();
+                        this.transitionTo("doctype" /* doctype */);
+                        if (this.delegate.beginDoctype)
+                            this.delegate.beginDoctype();
+                    }
+                }
+            },
+            doctype: function () {
+                var char = this.consume();
+                if (isSpace(char)) {
+                    this.transitionTo("beforeDoctypeName" /* beforeDoctypeName */);
+                }
+            },
+            beforeDoctypeName: function () {
+                var char = this.consume();
+                if (isSpace(char)) {
+                    return;
+                }
+                else {
+                    this.transitionTo("doctypeName" /* doctypeName */);
+                    if (this.delegate.appendToDoctypeName)
+                        this.delegate.appendToDoctypeName(char.toLowerCase());
+                }
+            },
+            doctypeName: function () {
+                var char = this.consume();
+                if (isSpace(char)) {
+                    this.transitionTo("afterDoctypeName" /* afterDoctypeName */);
+                }
+                else if (char === '>') {
+                    if (this.delegate.endDoctype)
+                        this.delegate.endDoctype();
+                    this.transitionTo("beforeData" /* beforeData */);
+                }
+                else {
+                    if (this.delegate.appendToDoctypeName)
+                        this.delegate.appendToDoctypeName(char.toLowerCase());
+                }
+            },
+            afterDoctypeName: function () {
+                var char = this.consume();
+                if (isSpace(char)) {
+                    return;
+                }
+                else if (char === '>') {
+                    if (this.delegate.endDoctype)
+                        this.delegate.endDoctype();
+                    this.transitionTo("beforeData" /* beforeData */);
+                }
+                else {
+                    var nextSixChars = char.toUpperCase() + this.input.substring(this.index, this.index + 5).toUpperCase();
+                    var isPublic = nextSixChars.toUpperCase() === 'PUBLIC';
+                    var isSystem = nextSixChars.toUpperCase() === 'SYSTEM';
+                    if (isPublic || isSystem) {
+                        this.consume();
+                        this.consume();
+                        this.consume();
+                        this.consume();
+                        this.consume();
+                        this.consume();
+                    }
+                    if (isPublic) {
+                        this.transitionTo("afterDoctypePublicKeyword" /* afterDoctypePublicKeyword */);
+                    }
+                    else if (isSystem) {
+                        this.transitionTo("afterDoctypeSystemKeyword" /* afterDoctypeSystemKeyword */);
+                    }
+                }
+            },
+            afterDoctypePublicKeyword: function () {
+                var char = this.peek();
+                if (isSpace(char)) {
+                    this.transitionTo("beforeDoctypePublicIdentifier" /* beforeDoctypePublicIdentifier */);
+                    this.consume();
+                }
+                else if (char === '"') {
+                    this.transitionTo("doctypePublicIdentifierDoubleQuoted" /* doctypePublicIdentifierDoubleQuoted */);
+                    this.consume();
+                }
+                else if (char === "'") {
+                    this.transitionTo("doctypePublicIdentifierSingleQuoted" /* doctypePublicIdentifierSingleQuoted */);
+                    this.consume();
+                }
+                else if (char === '>') {
+                    this.consume();
+                    if (this.delegate.endDoctype)
+                        this.delegate.endDoctype();
+                    this.transitionTo("beforeData" /* beforeData */);
+                }
+            },
+            doctypePublicIdentifierDoubleQuoted: function () {
+                var char = this.consume();
+                if (char === '"') {
+                    this.transitionTo("afterDoctypePublicIdentifier" /* afterDoctypePublicIdentifier */);
+                }
+                else if (char === '>') {
+                    if (this.delegate.endDoctype)
+                        this.delegate.endDoctype();
+                    this.transitionTo("beforeData" /* beforeData */);
+                }
+                else {
+                    if (this.delegate.appendToDoctypePublicIdentifier)
+                        this.delegate.appendToDoctypePublicIdentifier(char);
+                }
+            },
+            doctypePublicIdentifierSingleQuoted: function () {
+                var char = this.consume();
+                if (char === "'") {
+                    this.transitionTo("afterDoctypePublicIdentifier" /* afterDoctypePublicIdentifier */);
+                }
+                else if (char === '>') {
+                    if (this.delegate.endDoctype)
+                        this.delegate.endDoctype();
+                    this.transitionTo("beforeData" /* beforeData */);
+                }
+                else {
+                    if (this.delegate.appendToDoctypePublicIdentifier)
+                        this.delegate.appendToDoctypePublicIdentifier(char);
+                }
+            },
+            afterDoctypePublicIdentifier: function () {
+                var char = this.consume();
+                if (isSpace(char)) {
+                    this.transitionTo("betweenDoctypePublicAndSystemIdentifiers" /* betweenDoctypePublicAndSystemIdentifiers */);
+                }
+                else if (char === '>') {
+                    if (this.delegate.endDoctype)
+                        this.delegate.endDoctype();
+                    this.transitionTo("beforeData" /* beforeData */);
+                }
+                else if (char === '"') {
+                    this.transitionTo("doctypeSystemIdentifierDoubleQuoted" /* doctypeSystemIdentifierDoubleQuoted */);
+                }
+                else if (char === "'") {
+                    this.transitionTo("doctypeSystemIdentifierSingleQuoted" /* doctypeSystemIdentifierSingleQuoted */);
+                }
+            },
+            betweenDoctypePublicAndSystemIdentifiers: function () {
+                var char = this.consume();
+                if (isSpace(char)) {
+                    return;
+                }
+                else if (char === '>') {
+                    if (this.delegate.endDoctype)
+                        this.delegate.endDoctype();
+                    this.transitionTo("beforeData" /* beforeData */);
+                }
+                else if (char === '"') {
+                    this.transitionTo("doctypeSystemIdentifierDoubleQuoted" /* doctypeSystemIdentifierDoubleQuoted */);
+                }
+                else if (char === "'") {
+                    this.transitionTo("doctypeSystemIdentifierSingleQuoted" /* doctypeSystemIdentifierSingleQuoted */);
+                }
+            },
+            doctypeSystemIdentifierDoubleQuoted: function () {
+                var char = this.consume();
+                if (char === '"') {
+                    this.transitionTo("afterDoctypeSystemIdentifier" /* afterDoctypeSystemIdentifier */);
+                }
+                else if (char === '>') {
+                    if (this.delegate.endDoctype)
+                        this.delegate.endDoctype();
+                    this.transitionTo("beforeData" /* beforeData */);
+                }
+                else {
+                    if (this.delegate.appendToDoctypeSystemIdentifier)
+                        this.delegate.appendToDoctypeSystemIdentifier(char);
+                }
+            },
+            doctypeSystemIdentifierSingleQuoted: function () {
+                var char = this.consume();
+                if (char === "'") {
+                    this.transitionTo("afterDoctypeSystemIdentifier" /* afterDoctypeSystemIdentifier */);
+                }
+                else if (char === '>') {
+                    if (this.delegate.endDoctype)
+                        this.delegate.endDoctype();
+                    this.transitionTo("beforeData" /* beforeData */);
+                }
+                else {
+                    if (this.delegate.appendToDoctypeSystemIdentifier)
+                        this.delegate.appendToDoctypeSystemIdentifier(char);
+                }
+            },
+            afterDoctypeSystemIdentifier: function () {
+                var char = this.consume();
+                if (isSpace(char)) {
+                    return;
+                }
+                else if (char === '>') {
+                    if (this.delegate.endDoctype)
+                        this.delegate.endDoctype();
+                    this.transitionTo("beforeData" /* beforeData */);
+                }
             },
             commentStart: function () {
                 var char = this.consume();
@@ -8951,6 +9153,36 @@ var Tokenizer = /** @class */ (function () {
         this.startColumn = this.tokenizer.column;
     };
     // Data
+    Tokenizer.prototype.beginDoctype = function () {
+        this.push({
+            type: "Doctype" /* Doctype */,
+            name: '',
+        });
+    };
+    Tokenizer.prototype.appendToDoctypeName = function (char) {
+        this.current("Doctype" /* Doctype */).name += char;
+    };
+    Tokenizer.prototype.appendToDoctypePublicIdentifier = function (char) {
+        var doctype = this.current("Doctype" /* Doctype */);
+        if (doctype.publicIdentifier === undefined) {
+            doctype.publicIdentifier = char;
+        }
+        else {
+            doctype.publicIdentifier += char;
+        }
+    };
+    Tokenizer.prototype.appendToDoctypeSystemIdentifier = function (char) {
+        var doctype = this.current("Doctype" /* Doctype */);
+        if (doctype.systemIdentifier === undefined) {
+            doctype.systemIdentifier = char;
+        }
+        else {
+            doctype.systemIdentifier += char;
+        }
+    };
+    Tokenizer.prototype.endDoctype = function () {
+        this.addLocInfo();
+    };
     Tokenizer.prototype.beginData = function () {
         this.push({
             type: "Chars" /* Chars */,
