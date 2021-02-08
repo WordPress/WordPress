@@ -339,7 +339,7 @@ switch ( $action ) {
 		exit;
 
 	case 'toggle-custom-fields':
-		check_admin_referer( 'toggle-custom-fields' );
+		check_admin_referer( 'toggle-custom-fields', 'toggle-custom-fields-nonce' );
 
 		$current_user_id = get_current_user_id();
 		if ( $current_user_id ) {
