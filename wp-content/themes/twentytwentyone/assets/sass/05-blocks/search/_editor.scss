@@ -27,13 +27,13 @@
 		}
 	}
 
-	.wp-block-search__button {
+	.wp-block-search__button.wp-block-search__button {
 		@include button-style();
 		box-shadow: none;
 		margin-left: 0;
 
 		&.has-icon {
-			padding: calc(2 * var(--button--padding-vertical)) calc(0.5 * var(--button--padding-horizontal));
+			padding: 6px calc(0.5 * var(--button--padding-horizontal));
 			display: inherit;
 
 			svg {

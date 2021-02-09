@@ -1816,7 +1816,7 @@ pre.wp-block-preformatted {
 	border-color: var(--local--color-primary, var(--global--color-primary)) !important;
 }
 
-.wp-block-search .wp-block-search__button {
+.wp-block-search .wp-block-search__button.wp-block-search__button {
 	border: var(--button--border-width) solid transparent;
 	border-radius: var(--button--border-radius);
 	cursor: pointer;
@@ -1830,66 +1830,66 @@ pre.wp-block-preformatted {
 	margin-left: 0;
 }
 
-.wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-text-color) {
+.wp-block-search .wp-block-search__button.wp-block-search__button:not(:hover):not(:active):not(.has-text-color) {
 	color: var(--global--color-background);
 }
 
-.has-background .wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-text-color) {
+.has-background .wp-block-search .wp-block-search__button.wp-block-search__button:not(:hover):not(:active):not(.has-text-color) {
 	color: var(--local--color-background, var(--global--color-primary));
 }
 
-.has-background .wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-text-color).has-background {
+.has-background .wp-block-search .wp-block-search__button.wp-block-search__button:not(:hover):not(:active):not(.has-text-color).has-background {
 	color: var(--global--color-primary);
 }
 
-.wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-background) {
+.wp-block-search .wp-block-search__button.wp-block-search__button:not(:hover):not(:active):not(.has-background) {
 	background-color: var(--global--color-primary);
 }
 
-.has-background .wp-block-search .wp-block-search__button:not(:hover):not(:active):not(.has-background) {
+.has-background .wp-block-search .wp-block-search__button.wp-block-search__button:not(:hover):not(:active):not(.has-background) {
 	background-color: var(--local--color-primary, var(--global--color-primary));
 }
 
-.wp-block-search .wp-block-search__button:hover,
-.wp-block-search .wp-block-search__button:active {
+.wp-block-search .wp-block-search__button.wp-block-search__button:hover,
+.wp-block-search .wp-block-search__button.wp-block-search__button:active {
 	background-color: transparent;
 	border-color: currentColor;
 	color: inherit;
 }
 
-.wp-block-search .wp-block-search__button:focus {
+.wp-block-search .wp-block-search__button.wp-block-search__button:focus {
 	outline-offset: -6px;
 	outline: 2px dotted currentColor;
 }
 
-.wp-block-search .wp-block-search__button:disabled {
+.wp-block-search .wp-block-search__button.wp-block-search__button:disabled {
 	background-color: var(--global--color-white-50);
 	border-color: var(--global--color-white-50);
 	color: var(--button--color-text-active);
 }
 
-.wp-block-search .wp-block-search__button.has-icon {
-	padding: calc(2 * var(--button--padding-vertical)) calc(0.5 * var(--button--padding-horizontal));
+.wp-block-search .wp-block-search__button.wp-block-search__button.has-icon {
+	padding: 6px calc(0.5 * var(--button--padding-horizontal));
 	display: inherit;
 }
 
-.wp-block-search .wp-block-search__button.has-icon svg {
+.wp-block-search .wp-block-search__button.wp-block-search__button.has-icon svg {
 	width: 40px;
 	height: 40px;
 }
 
-.has-background .wp-block-search .wp-block-search__button:hover,
-.has-background .wp-block-search .wp-block-search__button:active {
+.has-background .wp-block-search .wp-block-search__button.wp-block-search__button:hover,
+.has-background .wp-block-search .wp-block-search__button.wp-block-search__button:active {
 	background-color: var(--local--color-background, var(--global--color-background)) !important;
 	color: var(--local--color-primary, var(--global--color-primary)) !important;
 }
 
-.has-text-color .wp-block-search .wp-block-search__button:hover,
-.has-text-color .wp-block-search .wp-block-search__button:active {
+.has-text-color .wp-block-search .wp-block-search__button.wp-block-search__button:hover,
+.has-text-color .wp-block-search .wp-block-search__button.wp-block-search__button:active {
 	color: var(--local--color-primary, var(--global--color-primary)) !important;
 }
 
-.wp-block-search .wp-block-search__button:focus {
+.wp-block-search .wp-block-search__button.wp-block-search__button:focus {
 	outline-offset: inherit;
 	outline: inherit;
 }
