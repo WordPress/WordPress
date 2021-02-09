@@ -268,12 +268,14 @@ function wp_default_packages_scripts( $scripts ) {
 			$scripts->set_translations( $handle );
 		}
 
-		// Manually set the text direction localization after wp-i18n is
-		// printed. This ensures that wp.i18n.isRTL() returns true in RTL
-		// languages. We cannot use $scripts->set_translations( 'wp-i18n' ) to
-		// do this because WordPress prints a script's translations *before*
-		// printing the script, which means, in the case of wp-i18n, that
-		// wp.i18n.setLocaleData() is called before wp.i18n is defined.
+		/*
+		 * Manually set the text direction localization after wp-i18n is printed.
+		 * This ensures that wp.i18n.isRTL() returns true in RTL languages.
+		 * We cannot use $scripts->set_translations( 'wp-i18n' ) to do this
+		 * because WordPress prints a script's translations *before* the script,
+		 * which means, in the case of wp-i18n, that wp.i18n.setLocaleData()
+		 * is called before wp.i18n is defined.
+		 */
 		if ( 'wp-i18n' === $handle ) {
 			$ltr    = _x( 'ltr', 'text direction', 'default' );
 			$script = sprintf( "wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ '%s' ] } );", $ltr );
