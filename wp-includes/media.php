@@ -3441,7 +3441,8 @@ function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false )
 
 		if ( isset( $attachments[ $k ] ) ) {
 			$attachment_id = $attachments[ $k ]->ID;
-			$output        = wp_get_attachment_link( $attachment_id, $size, true, false, $text );
+			$attr          = array( 'alt' => get_the_title( $attachment_id ) );
+			$output        = wp_get_attachment_link( $attachment_id, $size, true, false, $text, $attr );
 		}
 	}
 
