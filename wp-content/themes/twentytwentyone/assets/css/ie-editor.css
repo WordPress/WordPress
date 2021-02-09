@@ -1180,75 +1180,75 @@ h6 strong {
 }
 
 .wp-block-heading h1[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 h1[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .h1[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .wp-block-heading h2[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 h2[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .h2[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .wp-block-heading h3[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 h3[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .h3[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .wp-block-heading h4[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 h4[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .h4[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .wp-block-heading h5[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 h5[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .h5[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .wp-block-heading h6[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 h6[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .h6[style*="--wp--typography--line-height"] {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 .wp-block-heading h1 {
@@ -1766,7 +1766,7 @@ dt {
 }
 
 p {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 p.has-background {

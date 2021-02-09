@@ -1055,7 +1055,7 @@ h5[style*="--wp--typography--line-height"],
 .wp-block-heading h6[style*="--wp--typography--line-height"],
 h6[style*="--wp--typography--line-height"],
 .h6[style*="--wp--typography--line-height"] {
-	line-height: var(--wp--typography--line-height, --global--line-height-body);
+	line-height: var(--wp--typography--line-height, var(--global--line-height-body));
 }
 
 .wp-block-heading h1,
@@ -1415,7 +1415,7 @@ dt {
 }
 
 p {
-	line-height: var(--wp--typography--line-height, --global--line-height-body);
+	line-height: var(--wp--typography--line-height, var(--global--line-height-body));
 }
 
 p.has-background {

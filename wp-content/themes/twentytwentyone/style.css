@@ -2865,7 +2865,7 @@ dd {
 }
 
 p {
-	line-height: var(--wp--typography--line-height, --global--line-height-body);
+	line-height: var(--wp--typography--line-height, var(--global--line-height-body));
 }
 
 p.has-background {

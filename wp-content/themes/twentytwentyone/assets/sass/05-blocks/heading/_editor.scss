@@ -25,7 +25,7 @@ h6,
 	}
 
 	&[style*="--wp--typography--line-height"] {
-		line-height: var(--wp--typography--line-height, --global--line-height-body);
+		line-height: var(--wp--typography--line-height, var(--global--line-height-body));
 	}
 }
 

@@ -4011,7 +4011,7 @@ dd {
 }
 
 p {
-	line-height: --global--line-height-body;
+	line-height: 1.7;
 }
 
 p.has-background {
