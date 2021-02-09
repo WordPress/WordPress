@@ -1909,7 +1909,6 @@ input[type=reset]:disabled,
 
 .wp-block-code code {
 	color: var(--global--color-primary);
-	font-size: var(--global--font-size-xs);
 	white-space: pre;
 	overflow-x: auto;
 	display: block;
