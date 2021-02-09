@@ -101,8 +101,8 @@ input[type="checkbox"]:focus,
 input[type="radio"]:focus,
 select:focus,
 textarea:focus {
-	border-color: #3582c4;
-	box-shadow: 0 0 0 1px #3582c4;
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -179,7 +179,7 @@ input[type="radio"]:checked::before {
 
 input[type="checkbox"]:checked::before {
 	/* Use the "Yes" SVG Dashicon */
-	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%231e8cbe%27%2F%3E%3C%2Fsvg%3E");
+	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%233582c4%27%2F%3E%3C%2Fsvg%3E");
 	margin: -0.1875rem 0 0 -0.25rem;
 	height: 1.3125rem;
 	width: 1.3125rem;
@@ -191,7 +191,7 @@ input[type="radio"]:checked::before {
 	width: 0.5rem; /* 8px */
 	height: 0.5rem; /* 8px */
 	margin: 0.1875rem; /* 3px */
-	background-color: #4f94d4;
+	background-color: #3582c4;
 	/* 16px not sure if still necessary, comes from the MP6 redesign in r26072 */
 	line-height: 1.14285714;
 }
@@ -329,13 +329,13 @@ input[type="radio"].disabled:checked:before {
 }
 
 .wp-core-ui select:hover {
-	color: #3582c4;
+	color: #2271b1;
 }
 
 .wp-core-ui select:focus {
-	border-color: #3582c4;
+	border-color: #2271b1;
 	color: #0a4b78;
-	box-shadow: 0 0 0 1px #3582c4;
+	box-shadow: 0 0 0 1px #2271b1;
 }
 
 .wp-core-ui select:active {
@@ -370,7 +370,7 @@ input[type="radio"].disabled:checked:before {
 }
 
 .wp-core-ui select:hover::-ms-value {
-	color: #3582c4;
+	color: #2271b1;
 }
 
 .wp-core-ui select:focus::-ms-value {

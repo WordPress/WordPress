@@ -695,7 +695,7 @@ ul.striped > :nth-child(odd),
 
 .highlight {
 	background-color: #f0f6fc;
-	color: #000;
+	color: #3c434a;
 }
 
 .wp-ui-primary {
@@ -708,10 +708,10 @@ ul.striped > :nth-child(odd),
 
 .wp-ui-highlight {
 	color: #fff;
-	background-color: #4f94d4;
+	background-color: #2271b1;
 }
 .wp-ui-text-highlight {
-	color: #4f94d4;
+	color: #2271b1;
 }
 
 .wp-ui-notification {
@@ -879,7 +879,7 @@ hr {
 #media-items a.delete-permanently,
 #nav-menu-footer .menu-delete,
 #delete-link a.delete {
-	color: #d63638;
+	color: #b32d2e;
 }
 
 abbr.required,
@@ -896,7 +896,7 @@ span.required,
 #media-items a.delete-permanently:hover,
 #nav-menu-footer .menu-delete:hover,
 #delete-link a.delete:hover {
-	color: #d63638;
+	color: #b32d2e;
 	border: none;
 }
 
@@ -1728,7 +1728,7 @@ p.auto-update-status {
 	padding: 3px 6px 3px 16px;
 	background: #fff;
 	border-radius: 0 0 4px 4px;
-	color: #787c82;
+	color: #646970;
 	line-height: 1.7;
 	box-shadow: 0 0 0 transparent;
 	transition: box-shadow 0.1s linear;
@@ -1762,7 +1762,6 @@ p.auto-update-status {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none;
-	color: #787c82;
 }
 
 #screen-meta-links .screen-meta-active:after {

@@ -239,8 +239,8 @@ TABLE OF CONTENTS:
 ---------------------------------------------------------------------------- */
 
 .wp-core-ui .button-primary {
-	background: #3582c4;
-	border-color: #3582c4;
+	background: #2271b1;
+	border-color: #2271b1;
 	color: #fff;
 	text-decoration: none;
 	text-shadow: none;
@@ -250,8 +250,8 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-primary:hover,
 .wp-core-ui .button-primary.focus,
 .wp-core-ui .button-primary:focus {
-	background: #2271b1;
-	border-color: #2271b1;
+	background: #135e96;
+	border-color: #135e96;
 	color: #fff;
 }
 
@@ -259,7 +259,7 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-primary:focus {
 	box-shadow:
 		0 0 0 1px #fff,
-		0 0 0 3px #3582c4;
+		0 0 0 3px #2271b1;
 }
 
 .wp-core-ui .button-primary.active,

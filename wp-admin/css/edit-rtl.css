@@ -859,7 +859,7 @@ form#tags-filter {
 }
 
 .privacy-settings-accordion-trigger .badge.blue {
-	border: 1px solid #c5d9ed;
+	border: 1px solid #72aee6;
 }
 
 .privacy-settings-accordion-trigger .badge.orange {
@@ -867,11 +867,11 @@ form#tags-filter {
 }
 
 .privacy-settings-accordion-trigger .badge.red {
-	border: 1px solid #d63638;
+	border: 1px solid #e65054;
 }
 
 .privacy-settings-accordion-trigger .badge.green {
-	border: 1px solid #00a32a;
+	border: 1px solid #00ba37;
 }
 
 .privacy-settings-accordion-trigger .badge.purple {

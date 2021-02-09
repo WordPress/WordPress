@@ -349,7 +349,7 @@
 }
 
 .health-check-accordion-trigger .badge.blue {
-	border: 1px solid #c5d9ed;
+	border: 1px solid #72aee6;
 }
 
 .health-check-accordion-trigger .badge.orange {
@@ -357,11 +357,11 @@
 }
 
 .health-check-accordion-trigger .badge.red {
-	border: 1px solid #d63638;
+	border: 1px solid #e65054;
 }
 
 .health-check-accordion-trigger .badge.green {
-	border: 1px solid #00a32a;
+	border: 1px solid #00ba37;
 }
 
 .health-check-accordion-trigger .badge.purple {
