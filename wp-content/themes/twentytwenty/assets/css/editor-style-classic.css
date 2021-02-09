@@ -282,7 +282,7 @@ body#tinymce.wp-editor.content ul {
 body#tinymce.wp-editor.content ol {
 	margin-left: 1.5em;
 	padding-left: 0;
-	list-style: square;
+	list-style: decimal;
 }
 
 body#tinymce.wp-editor.content ul ul {
