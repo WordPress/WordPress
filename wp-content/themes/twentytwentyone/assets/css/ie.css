@@ -2247,7 +2247,6 @@ a:hover {
 	border: 3px solid transparent;
 	border-radius: 0;
 	cursor: pointer;
-	display: block;
 	font-weight: 500;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 1.25rem;
@@ -2260,7 +2259,6 @@ button {
 	border: 3px solid transparent;
 	border-radius: 0;
 	cursor: pointer;
-	display: block;
 	font-weight: 500;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 1.25rem;
@@ -2273,7 +2271,6 @@ input[type=submit] {
 	border: 3px solid transparent;
 	border-radius: 0;
 	cursor: pointer;
-	display: block;
 	font-weight: 500;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 1.25rem;
@@ -2286,7 +2283,6 @@ input[type=reset] {
 	border: 3px solid transparent;
 	border-radius: 0;
 	cursor: pointer;
-	display: block;
 	font-weight: 500;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 1.25rem;
@@ -2299,7 +2295,6 @@ input[type=reset] {
 	border: 3px solid transparent;
 	border-radius: 0;
 	cursor: pointer;
-	display: block;
 	font-weight: 500;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 1.25rem;
@@ -2312,7 +2307,6 @@ input[type=reset] {
 	border: 3px solid transparent;
 	border-radius: 0;
 	cursor: pointer;
-	display: block;
 	font-weight: 500;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 1.25rem;
@@ -2325,7 +2319,6 @@ input[type=reset] {
 	border: 3px solid transparent;
 	border-radius: 0;
 	cursor: pointer;
-	display: block;
 	font-weight: 500;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 1.25rem;
