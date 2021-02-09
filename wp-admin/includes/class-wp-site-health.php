@@ -2176,16 +2176,30 @@ class WP_Site_Health {
 				'post_max_size',
 				'upload_max_filesize'
 			);
-			$result['status']      = 'recommended';
-			$result['description'] = sprintf(
-				'<p>%s</p>',
-				sprintf(
-					/* translators: 1: post_max_size, 2: upload_max_filesize */
-					__( 'The setting for %1$s is smaller than %2$s, this could cause some problems when trying to upload files.' ),
-					'<code>post_max_size</code>',
-					'<code>upload_max_filesize</code>'
-				)
-			);
+			$result['status'] = 'recommended';
+
+			if ( 0 === wp_convert_hr_to_bytes( $post_max_size ) ) {
+				$result['description'] = sprintf(
+					'<p>%s</p>',
+					sprintf(
+						/* translators: 1: post_max_size, 2: upload_max_filesize */
+						__( 'The setting for %1$s is currently configured as 0, this could cause some problems when trying to upload files through plugin or theme features that rely on various upload methods. It is recommended to configure this setting to a fixed value, ideally matching the value of %2$s, as some upload methods read the value 0 as either unlimited, or disabled.' ),
+						'<code>post_max_size</code>',
+						'<code>upload_max_filesize</code>'
+					)
+				);
+			} else {
+				$result['description'] = sprintf(
+					'<p>%s</p>',
+					sprintf(
+						/* translators: 1: post_max_size, 2: upload_max_filesize */
+						__( 'The setting for %1$s is smaller than %2$s, this could cause some problems when trying to upload files.' ),
+						'<code>post_max_size</code>',
+						'<code>upload_max_filesize</code>'
+					)
+				);
+			}
+
 			return $result;
 		}
 
