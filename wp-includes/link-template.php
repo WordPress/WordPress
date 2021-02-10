@@ -90,7 +90,7 @@ function permalink_anchor( $mode = 'id' ) {
 }
 
 /**
- * Determine whether post should always use an ugly permalink structure.
+ * Determine whether post should always use a plain permalink structure.
  *
  * @since 5.7.0
  *
@@ -98,9 +98,9 @@ function permalink_anchor( $mode = 'id' ) {
  * @param bool|null        $sample Optional. Whether to force consideration based on sample links.
  *                                 If omitted, a sample link is generated if a post object is passed
  *                                 with the filter property set to 'sample'.
- * @return bool Whether to use an ugly permalink structure.
+ * @return bool Whether to use a plain permalink structure.
  */
-function wp_force_ugly_post_permalink( $post = null, $sample = null ) {
+function wp_force_plain_post_permalink( $post = null, $sample = null ) {
 	if (
 		null === $sample &&
 		is_object( $post ) &&
@@ -125,14 +125,14 @@ function wp_force_ugly_post_permalink( $post = null, $sample = null ) {
 	}
 
 	if (
-		// Publicly viewable links never have ugly permalinks.
+		// Publicly viewable links never have plain permalinks.
 		is_post_status_viewable( $post_status_obj ) ||
 		(
-			// Private posts don't have ugly links if the user can read them.
+			// Private posts don't have plain permalinks if the user can read them.
 			$post_status_obj->private &&
 			current_user_can( 'read_post', $post->ID )
 		) ||
-		// Protected posts don't have ugly links if getting a sample URL.
+		// Protected posts don't have plain links if getting a sample URL.
 		( $post_status_obj->protected && $sample )
 	) {
 		return false;
@@ -218,7 +218,7 @@ function get_permalink( $post = 0, $leavename = false ) {
 
 	if (
 		$permalink &&
-		! wp_force_ugly_post_permalink( $post )
+		! wp_force_plain_post_permalink( $post )
 	) {
 
 		$category = '';
@@ -329,7 +329,7 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 
 	$slug = $post->post_name;
 
-	$force_ugly_link = wp_force_ugly_post_permalink( $post );
+	$force_plain_link = wp_force_plain_post_permalink( $post );
 
 	$post_type = get_post_type_object( $post->post_type );
 
@@ -337,13 +337,13 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 		$slug = get_page_uri( $post );
 	}
 
-	if ( ! empty( $post_link ) && ( ! $force_ugly_link || $sample ) ) {
+	if ( ! empty( $post_link ) && ( ! $force_plain_link || $sample ) ) {
 		if ( ! $leavename ) {
 			$post_link = str_replace( "%$post->post_type%", $slug, $post_link );
 		}
 		$post_link = home_url( user_trailingslashit( $post_link ) );
 	} else {
-		if ( $post_type->query_var && ( isset( $post->post_status ) && ! $force_ugly_link ) ) {
+		if ( $post_type->query_var && ( isset( $post->post_status ) && ! $force_plain_link ) ) {
 			$post_link = add_query_arg( $post_type->query_var, $slug, '' );
 		} else {
 			$post_link = add_query_arg(
@@ -425,11 +425,11 @@ function _get_page_link( $post = false, $leavename = false, $sample = false ) {
 
 	$post = get_post( $post );
 
-	$force_ugly_link = wp_force_ugly_post_permalink( $post );
+	$force_plain_link = wp_force_plain_post_permalink( $post );
 
 	$link = $wp_rewrite->get_page_permastruct();
 
-	if ( ! empty( $link ) && ( ( isset( $post->post_status ) && ! $force_ugly_link ) || $sample ) ) {
+	if ( ! empty( $link ) && ( ( isset( $post->post_status ) && ! $force_plain_link ) || $sample ) ) {
 		if ( ! $leavename ) {
 			$link = str_replace( '%pagename%', get_page_uri( $post ), $link );
 		}
@@ -469,11 +469,11 @@ function get_attachment_link( $post = null, $leavename = false ) {
 
 	$link = false;
 
-	$post            = get_post( $post );
-	$force_ugly_link = wp_force_ugly_post_permalink( $post );
-	$parent_id       = $post->post_parent;
-	$parent          = $parent_id ? get_post( $parent_id ) : false;
-	$parent_valid    = true; // Default for no parent.
+	$post             = get_post( $post );
+	$force_plain_link = wp_force_plain_post_permalink( $post );
+	$parent_id        = $post->post_parent;
+	$parent           = $parent_id ? get_post( $parent_id ) : false;
+	$parent_valid     = true; // Default for no parent.
 	if (
 		$parent_id &&
 		(
@@ -486,7 +486,7 @@ function get_attachment_link( $post = null, $leavename = false ) {
 		$parent_valid = false;
 	}
 
-	if ( $force_ugly_link || ! $parent_valid ) {
+	if ( $force_plain_link || ! $parent_valid ) {
 		$link = false;
 	} elseif ( $wp_rewrite->using_permalinks() && $parent ) {
 		if ( 'page' === $parent->post_type ) {
