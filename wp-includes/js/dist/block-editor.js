@@ -20636,8 +20636,13 @@ __experimentalInserterMenuExtension.Slot = inserter_menu_extension_Slot;
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inserter/hooks/use-insertion-point.js
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
 
 
 
@@ -20730,9 +20735,8 @@ function useInsertionPoint(_ref) {
     }
 
     if (!selectBlockOnInsert) {
-      // translators: %d: the name of the block that has been added
-      var message = Object(external_wp_i18n_["_n"])('%d block added.', '%d blocks added.', blocks.length);
-
+      var message = Object(external_wp_i18n_["sprintf"])( // translators: %d: the name of the block that has been added
+      Object(external_wp_i18n_["_n"])('%d block added.', '%d blocks added.', Object(external_lodash_["castArray"])(blocks).length), Object(external_lodash_["castArray"])(blocks).length);
       Object(external_wp_a11y_["speak"])(message);
     }
 
