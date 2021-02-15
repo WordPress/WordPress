@@ -149,6 +149,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	padding: 0;
 }
 
+.wp-block-code code {
+	font-size: inherit;
+}
+
 /* Pullquote */
 
 .wp-block-pullquote {

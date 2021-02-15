@@ -145,10 +145,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 .wp-block-code {
 	border: 0;
 	font-family: Inconsolata, monospace;
-	font-size: 16px;
-	font-size: 1rem;
 	line-height: 1.75;
 	padding: 0;
+}
+
+.wp-block-code code {
+	font-size: inherit;
 }
 
 /* Pullquote */

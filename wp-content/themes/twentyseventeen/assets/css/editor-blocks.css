@@ -622,6 +622,10 @@ html[lang="th"] .edit-post-visual-editor * {
 	padding: 0;
 }
 
+.editor-styles-wrapper .wp-block-code code {
+	font-size: inherit;
+}
+
 /* Classic */
 
 .wp-block-freeform.block-library-rich-text__tinymce li,
