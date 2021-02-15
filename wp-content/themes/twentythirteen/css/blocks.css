@@ -194,6 +194,20 @@ p.has-drop-cap:not(:focus)::first-letter {
 	display: flex;
 }
 
+body:not(.sidebar) .wp-block-cover > .wp-block-cover__inner-container > * {
+	width: 604px;
+	max-width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media screen and (min-width: 665px) {
+	body:not(.sidebar) .wp-block-cover__inner-container > .wp-block-group.alignfull, 
+	body:not(.sidebar) .wp-block-cover__inner-container > .wp-block-group.has-background.alignfull {
+		padding: 20px;
+	}
+}
+
 /* File */
 
 .wp-block-file .wp-block-file__button {
