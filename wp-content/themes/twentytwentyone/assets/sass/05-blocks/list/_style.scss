@@ -19,10 +19,16 @@ ol {
 
 ul {
 	list-style-type: disc;
+	ul {
+		list-style-type: circle;
+	}
 }
 
 ol {
 	list-style-type: decimal;
+	ul {
+		list-style-type: circle;
+	}
 }
 
 dt {
