@@ -619,7 +619,8 @@ hr.wp-block-separator.is-style-dots::before {
 	border-color: #cd2653;
 	border-style: solid;
 	border-width: 0 2px 0 0;
-	margin: 20px 0;
+	margin-top: 20px;
+	margin-bottom: 20px;
 	padding: 5px 20px 5px 0;
 }
 
@@ -878,7 +879,8 @@ hr.wp-block-separator.is-style-dots::before {
 
 .editor-styles-wrapper .wp-block-verse pre,
 .editor-styles-wrapper pre.wp-block-verse {
-	font-size: 0.75em;
+	font-family: NonBreakingSpaceOverride, "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-size: 0.9em;
 }
 
 

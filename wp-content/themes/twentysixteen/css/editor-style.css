@@ -120,10 +120,6 @@ blockquote {
 	padding: 0 0 0 24px;
 }
 
-blockquote:not(.alignleft):not(.alignright) {
-	margin-left: -28px;
-}
-
 blockquote blockquote:not(.alignleft):not(.alignright) {
 	margin-left: 0;
 }
@@ -188,7 +184,6 @@ pre {
 	font-size: 16px;
 	line-height: 1.3125;
 	margin: 0 0 28px;
-	max-width: 100%;
 	overflow: auto;
 	padding: 14px;
 	white-space: pre;
@@ -519,7 +514,6 @@ fieldset {
 }
 
 .rtl blockquote:not(.alignleft):not(.alignright) {
-	margin-right: -28px;
 	padding: 0 24px 0 0;
 }
 

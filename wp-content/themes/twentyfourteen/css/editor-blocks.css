@@ -350,9 +350,9 @@ p.has-drop-cap:not(:focus)::first-letter {
 4.0 Blocks - Formatting
 --------------------------------------------------------------*/
 
-/* Code */
+/* Code (Added specficity required to override TinyMCE styles) */
 
-.wp-block-code {
+.editor-styles-wrapper .wp-block-code {
 	border: 0;
 	padding: 0;
 }
@@ -389,6 +389,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 	.editor-block-list__block .wp-block-pullquote.alignright {
 		margin-right: -168px;
 	}
+}
+
+/* Verse */
+
+.editor-styles-wrapper .wp-block-verse {
+	font-family: inherit;
 }
 
 /*--------------------------------------------------------------

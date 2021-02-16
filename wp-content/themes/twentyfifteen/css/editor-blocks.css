@@ -635,7 +635,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Code */
 
-.wp-block-code,
+.editor-styles-wrapper .wp-block-code,
 .wp-block-freeform.block-library-rich-text__tinymce code {
 	background: transparent;
 	border: 0;
@@ -704,6 +704,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .rtl .editor-block-list__block .wp-block-table th {
 	text-align: right;
+}
+
+/* Verse */
+
+.editor-styles-wrapper .wp-block-verse {
+	font-family: inherit;
 }
 
 /*--------------------------------------------------------------

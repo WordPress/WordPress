@@ -267,17 +267,19 @@ p.has-drop-cap:not(:focus)::first-letter {
 	padding: 0;
 }
 
-.edit-post-visual-editor .editor-block-list__block .wp-block-quote p {
+.edit-post-visual-editor .editor-block-list__block .wp-block-quote p,
+.editor-styles-wrapper .wp-block-quote p {
 	font-family: Georgia, "Bitstream Charter", serif;
 }
 
 .wp-block-quote:not(.is-large):not(.is-style-large) {
 	border: 0;
-	padding-left: 0;
-	padding-right: 0;
+	padding-left: 3em;
+	padding-right: 3em;
 }
 
-.wp-block-quote .wp-block-quote__citation.editor-rich-text__tinymce.mce-content-body {
+.wp-block-quote .wp-block-quote__citation.editor-rich-text__tinymce.mce-content-body,
+.wp-block-quote .wp-block-quote__citation {
 	color: #666;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 300;
@@ -331,7 +333,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Code */
 
-.wp-block-code {
+.editor-styles-wrapper .wp-block-code {
 	background: transparent;
 	border: 0;
 	padding: 0;
@@ -339,7 +341,8 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Pullquote */
 
-.edit-post-visual-editor .editor-block-list__block .wp-block-pullquote p {
+.edit-post-visual-editor .editor-block-list__block .wp-block-pullquote p,
+.editor-styles-wrapper .wp-block-pullquote p {
 	font-family: Georgia, "Bitstream Charter", serif;
 	font-style: italic;
 	font-weight: normal;
@@ -366,6 +369,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 .rtl .editor-block-list__block th,
 .rtl .editor-block-list__block td {
 	text-align: right;
+}
+
+/* Verse */
+
+.editor-styles-wrapper .wp-block-verse {
+	font-family: inherit;
 }
 
 

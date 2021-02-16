@@ -153,7 +153,6 @@ pre {
 pre {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	margin-bottom: 24px;
-	max-width: 100%;
 	overflow: auto;
 	padding: 12px;
 	white-space: pre;

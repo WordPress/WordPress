@@ -164,7 +164,8 @@ Description: Used to style blocks in the editor.
 
 /* Code */
 
-.wp-block-freeform.block-library-rich-text__tinymce code {
+.wp-block-freeform.block-library-rich-text__tinymce code,
+.editor-styles-wrapper .wp-block-code {
 	background: transparent;
 }
 
@@ -220,14 +221,16 @@ p.has-drop-cap:not(:focus)::first-letter {
 .wp-block-quote:not(.is-large):not(.is-style-large) {
 	border-left: 0;
 	border-right: 0;
-	padding-left: 0;
-	padding-right: 0;
+	padding-left: 40px;
+	padding-right: 40px;
 }
 
-.wp-block-quote .wp-block-quote__citation.editor-rich-text__tinymce.mce-content-body {
+.wp-block-quote .wp-block-quote__citation.editor-rich-text__tinymce.mce-content-body,
+.wp-block-quote .wp-block-quote__citation {
 	color: inherit;
 	font-size: 16px;
 	font-style: italic;
+	font-weight: normal;
 	text-transform: uppercase;
 }
 
@@ -269,13 +272,19 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-decoration: none;
 }
 
+/* Verse */
+
+.editor-styles-wrapper .wp-block-verse {
+	font-family: inherit;
+}
+
 /*--------------------------------------------------------------
 5.0 Blocks - Formatting
 --------------------------------------------------------------*/
 
 /* Code */
 
-.wp-block-code {
+.editor-styles-wrapper .wp-block-code {
 	border: 0;
 	padding: 0;
 }
