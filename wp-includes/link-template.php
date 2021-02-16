@@ -690,7 +690,7 @@ function get_feed_link( $feed = '' ) {
 
 	$permalink = $wp_rewrite->get_feed_permastruct();
 
-	if ( '' !== $permalink ) {
+	if ( $permalink ) {
 		if ( false !== strpos( $feed, 'comments_' ) ) {
 			$feed      = str_replace( 'comments_', '', $feed );
 			$permalink = $wp_rewrite->get_comment_feed_permastruct();
