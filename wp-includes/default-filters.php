@@ -238,6 +238,7 @@ add_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
 
 // Robots filters.
 add_filter( 'wp_robots', 'wp_robots_noindex' );
+add_filter( 'wp_robots', 'wp_robots_noindex_search' );
 add_filter( 'wp_robots', 'wp_robots_max_image_preview_large' );
 
 // Mark site as no longer fresh.
