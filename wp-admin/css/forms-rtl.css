@@ -705,9 +705,12 @@ ul#add-to-blog-users {
 }
 
 /* Colors for the tags autocomplete. */
-.wp-tags-autocomplete .ui-state-focus {
+.wp-tags-autocomplete .ui-state-focus,
+.wp-tags-autocomplete [aria-selected="true"] {
 	background-color: #2271b1;
 	color: #fff;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 /*------------------------------------------------------------------------------
