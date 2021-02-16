@@ -1077,6 +1077,13 @@ hr.wp-block-separator.is-style-dots::before {
 
 /* Block: List ------------------------------- */
 
+.editor-styles-wrapper ul.block-editor-block-list__block,
+.editor-styles-wrapper ol.block-editor-block-list__block,
+.editor-styles-wrapper ul ul,
+.editor-styles-wrapper ol ul {
+	padding-left: 1.3em;
+}
+
 
 /*	X.	Media Queries
 /* ------------------------------------------- */

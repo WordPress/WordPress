@@ -1081,7 +1081,7 @@ hr.wp-block-separator.is-style-dots::before {
 .editor-styles-wrapper ol.block-editor-block-list__block,
 .editor-styles-wrapper ul ul,
 .editor-styles-wrapper ol ul {
-	padding-right: 2em;
+	padding-right: 1.3em;
 }
 
 
