@@ -1574,9 +1574,9 @@ fieldset input[type=checkbox] + label {
 }
 
 img {
-	display: block;
 	height: auto;
 	max-width: 100%;
+	vertical-align: middle;
 }
 
 /* Classic editor images */
@@ -2376,12 +2376,6 @@ h6,
 .entry-content > *[class=wp-block-image] + *,
 .entry-content [class*=inner-container] > *[class=wp-block-image] + * {
 	margin-top: 0;
-}
-
-img {
-	height: auto;
-	max-width: 100%;
-	vertical-align: middle;
 }
 
 .wp-block-image.is-style-twentytwentyone-border img,
