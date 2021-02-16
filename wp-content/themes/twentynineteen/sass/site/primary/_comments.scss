@@ -382,6 +382,10 @@
 		color: $color__text-light;
 	}
 
+	#wp-comment-cookies-consent {
+		margin: 0 10px 0 0;
+	}
+
 	.comment-form-author,
 	.comment-form-email {
 		@include media(tablet) {

@@ -4949,6 +4949,10 @@ body.page .main-navigation {
   color: #767676;
 }
 
+.comment-form #wp-comment-cookies-consent {
+  margin: 0 0 0 10px;
+}
+
 @media only screen and (min-width: 768px) {
   .comment-form .comment-form-author,
   .comment-form .comment-form-email {
