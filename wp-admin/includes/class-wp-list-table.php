@@ -625,17 +625,17 @@ class WP_List_Table {
 					$post_type
 				)
 			);
-
-			/**
-			 * Filters the 'Months' drop-down results.
-			 *
-			 * @since 3.7.0
-			 *
-			 * @param object[] $months    Array of the months drop-down query results.
-			 * @param string   $post_type The post type.
-			 */
-			$months = apply_filters( 'months_dropdown_results', $months, $post_type );
 		}
+
+		/**
+		 * Filters the 'Months' drop-down results.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param object[] $months    Array of the months drop-down query results.
+		 * @param string   $post_type The post type.
+		 */
+		$months = apply_filters( 'months_dropdown_results', $months, $post_type );
 
 		$month_count = count( $months );
 
