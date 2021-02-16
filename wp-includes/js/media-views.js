@@ -5456,6 +5456,7 @@ UploaderInline = View.extend(/** @lends wp.media.view.UploaderInline.prototype *
 
 			$browser.detach().text( $placeholder.text() );
 			$browser[0].className = $placeholder[0].className;
+			$browser[0].setAttribute( 'aria-labelledby', $browser[0].id + ' ' + $placeholder[0].getAttribute('aria-labelledby') );
 			$placeholder.replaceWith( $browser.show() );
 		}
 
@@ -5605,8 +5606,14 @@ UploaderStatus = View.extend(/** @lends wp.media.view.UploaderStatus.prototype *
 			message:  error.get( 'message' )
 		} );
 
+		var buttonClose = this.$el.find( 'button' );
+
 		// Can show additional info here while retrying to create image sub-sizes.
 		this.views.add( '.upload-errors', statusError, { at: 0 } );
+		_.delay( function() {
+			buttonClose.trigger( 'focus' );
+			wp.a11y.speak( error.get( 'message' ), 'assertive' );
+		}, 1000 );
 	},
 
 	dismiss: function() {
