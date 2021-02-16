@@ -6,7 +6,7 @@
  */
 jQuery( document ).ready(function( $ ) {
 	$( '#link_rel' ).prop( 'readonly', true );
-	$( '#linkxfndiv input' ).bind( 'click keyup', function() {
+	$( '#linkxfndiv input' ).on( 'click keyup', function() {
 		var isMe = $( '#me' ).is( ':checked' ), inputs = '';
 		$( 'input.valinp' ).each( function() {
 			if ( isMe ) {

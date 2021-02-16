@@ -72,7 +72,7 @@ jQuery( document ).ready( function( $ ) {
 
 		$rowActions.addClass( 'processing' );
 
-		$action.blur();
+		$action.trigger( 'blur' );
 		clearResultsAfterRow( $requestRow );
 		setExportProgress( 0 );
 
@@ -177,7 +177,7 @@ jQuery( document ).ready( function( $ ) {
 
 		$rowActions.addClass( 'processing' );
 
-		$action.blur();
+		$action.trigger( 'blur' );
 		clearResultsAfterRow( $requestRow );
 		setErasureProgress( 0 );
 

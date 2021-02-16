@@ -19,7 +19,7 @@
 			buttons: function( event, t ) {
 				var button = $('<a class="close" href="#"></a>').text( wp.i18n.__( 'Dismiss' ) );
 
-				return button.bind( 'click.pointer', function(e) {
+				return button.on( 'click.pointer', function(e) {
 					e.preventDefault();
 					t.element.pointer('close');
 				});
