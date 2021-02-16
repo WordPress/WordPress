@@ -77,7 +77,7 @@
 
 input#link_description,
 input#link_url {
-	width: 98%;
+	width: 100%;
 }
 
 #pending {
@@ -652,6 +652,11 @@ form#tags-filter {
 
 #poststuff .inside {
 	margin: 6px 0 0 0;
+}
+
+.link-php #poststuff .inside,
+.link-add-php #poststuff .inside {
+	margin-top: 12px;
 }
 
 #poststuff .stuffbox .inside {
