@@ -271,8 +271,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 
 @media (min-width: 782px) {
   .interface-interface-skeleton__left-sidebar {
-    border-right: 1px solid #e0e0e0;
-    overflow: hidden; } }
+    border-right: 1px solid #e0e0e0; } }
 
 .interface-interface-skeleton__header {
   flex-shrink: 0;
@@ -280,7 +279,6 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   border-bottom: 1px solid #e0e0e0;
   z-index: 30;
   color: #1e1e1e;
-  position: -webkit-sticky;
   position: sticky;
   top: 0; }
   @media (min-width: 600px) {
@@ -347,7 +345,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
       flex-wrap: nowrap; } }
   .edit-post-header > .edit-post-header__settings {
     order: 1; }
-    @supports ((position: -webkit-sticky) or (position: sticky)) {
+    @supports (position: sticky) {
       .edit-post-header > .edit-post-header__settings {
         order: initial; } }
 
@@ -937,7 +935,6 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   margin: 0 0 2rem 0; }
 
 .edit-post-manage-blocks-modal__category-title {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   padding: 16px 0;
@@ -1124,7 +1121,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 .editor-post-author__select {
   margin: -5px 0;
   width: 100%; }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     .editor-post-author__select {
       width: auto; } }
 
@@ -1278,7 +1275,6 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
       padding: 0 24px 24px 24px; } }
 
 .edit-post-text-editor__toolbar {
-  position: -webkit-sticky;
   position: sticky;
   z-index: 1;
   top: 0;
@@ -1312,7 +1308,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
     padding: 6px 12px; }
     .edit-post-visual-editor .components-button.is-tertiary, .edit-post-visual-editor .components-button.has-icon {
       padding: 6px; }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     .edit-post-visual-editor {
       flex-basis: 100%; } }
 

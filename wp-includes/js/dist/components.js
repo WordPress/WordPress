@@ -25907,7 +25907,7 @@ function getParsedValue(value, unit, units) {
  * @return {boolean} Whether units are defined.
  */
 
-function hasUnits(units) {
+function utils_hasUnits(units) {
   return !Object(external_this_lodash_["isEmpty"])(units) && units.length > 1 && units !== false;
 }
 /**
@@ -25927,7 +25927,7 @@ function parseUnit(initialValue) {
   var unit = unitMatch !== undefined ? unitMatch : '';
   unit = unit.toLowerCase();
 
-  if (hasUnits(units)) {
+  if (utils_hasUnits(units)) {
     var match = units.find(function (item) {
       return item.value === unit;
     });
@@ -25968,7 +25968,7 @@ function getValidParsedUnit(next, units, fallbackValue, fallbackUnit) {
    * of units as a default fallback.
    */
 
-  if (hasUnits(units) && !baseUnit) {
+  if (utils_hasUnits(units) && !baseUnit) {
     var _units$;
 
     baseUnit = (_units$ = units[0]) === null || _units$ === void 0 ? void 0 : _units$.value;
@@ -26020,7 +26020,7 @@ function UnitSelectControl(_ref) {
       value = _ref$value === void 0 ? 'px' : _ref$value,
       props = Object(objectWithoutProperties["a" /* default */])(_ref, ["className", "isTabbable", "options", "onChange", "size", "value"]);
 
-  if (!hasUnits(options)) {
+  if (!utils_hasUnits(options)) {
     return Object(external_this_wp_element_["createElement"])(UnitLabel, {
       className: "components-unit-control__unit-label",
       size: size
@@ -39091,8 +39091,13 @@ var range_control_ForwardedComponent = Object(external_this_wp_element_["forward
 
 
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
 
 
 
@@ -39112,7 +39117,7 @@ var MAX_FONT_SIZE_DISPLAY = '25px';
 function getSelectValueFromFontSize(fontSizes, value) {
   if (value) {
     var fontSizeValue = fontSizes.find(function (font) {
-      return font.size === Number(value);
+      return font.size === value;
     });
     return fontSizeValue ? fontSizeValue.slug : CUSTOM_FONT_SIZE;
   }
@@ -39154,6 +39159,16 @@ function FontSizePicker(_ref) {
       value = _ref.value,
       _ref$withSlider = _ref.withSlider,
       withSlider = _ref$withSlider === void 0 ? false : _ref$withSlider;
+  var hasUnits = Object(external_this_lodash_["isString"])(value) || fontSizes[0] && Object(external_this_lodash_["isString"])(fontSizes[0].size);
+  var noUnitsValue;
+
+  if (!hasUnits) {
+    noUnitsValue = value;
+  } else {
+    noUnitsValue = parseInt(value);
+  }
+
+  var isPixelValue = Object(external_this_lodash_["isNumber"])(value) || Object(external_this_lodash_["isString"])(value) && value.endsWith('px');
   var instanceId = Object(external_this_wp_compose_["useInstanceId"])(FontSizePicker);
   var options = Object(external_this_wp_element_["useMemo"])(function () {
     return getSelectOptions(fontSizes, disableCustomFontSizes);
@@ -39180,9 +39195,12 @@ function FontSizePicker(_ref) {
     }),
     onChange: function onChange(_ref2) {
       var selectedItem = _ref2.selectedItem;
-      var selectedValue = selectedItem.style && selectedItem.style.fontSize;
 
-      _onChange(Number(selectedValue));
+      if (hasUnits) {
+        _onChange(selectedItem.size);
+      } else {
+        _onChange(Number(selectedItem.size));
+      }
     }
   }), !withSlider && !disableCustomFontSizes && Object(external_this_wp_element_["createElement"])("div", {
     className: "components-font-size-picker__number-container"
@@ -39194,10 +39212,14 @@ function FontSizePicker(_ref) {
     type: "number",
     min: 1,
     onChange: function onChange(event) {
-      _onChange(Number(event.target.value));
+      if (hasUnits) {
+        _onChange(event.target.value + 'px');
+      } else {
+        _onChange(Number(event.target.value));
+      }
     },
     "aria-label": Object(external_this_wp_i18n_["__"])('Custom'),
-    value: value || ''
+    value: isPixelValue && noUnitsValue || ''
   })), Object(external_this_wp_element_["createElement"])(build_module_button["a" /* default */], {
     className: "components-color-palette__clear",
     disabled: value === undefined,
@@ -39209,10 +39231,10 @@ function FontSizePicker(_ref) {
   }, Object(external_this_wp_i18n_["__"])('Reset'))), withSlider && Object(external_this_wp_element_["createElement"])(range_control, {
     className: "components-font-size-picker__custom-input",
     label: Object(external_this_wp_i18n_["__"])('Custom Size'),
-    value: value || '',
+    value: isPixelValue && noUnitsValue || '',
     initialPosition: fallbackFontSize,
     onChange: function onChange(newValue) {
-      _onChange(newValue);
+      _onChange(hasUnits ? newValue + 'px' : newValue);
     },
     min: 12,
     max: 100,

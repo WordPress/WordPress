@@ -3451,6 +3451,17 @@ function selectors_objectSpread(target) { for (var i = 1; i < arguments.length; 
 
 
 /**
+ * Shared reference to an empty array for cases where it is important to avoid
+ * returning a new array reference on every invocation, as in a connected or
+ * other pure component which performs `shouldComponentUpdate` check on props.
+ * This should be used as a last resort, since the normalized data should be
+ * maintained by the reducer result in state.
+ *
+ * @type {Array}
+ */
+
+var EMPTY_ARRAY = [];
+/**
  * Returns true if a request is in progress for embed preview data, or false
  * otherwise.
  *
@@ -3667,7 +3678,7 @@ function getEntityRecords(state, kind, name, query) {
   var queriedState = Object(external_this_lodash_["get"])(state.entities.data, [kind, name, 'queriedData']);
 
   if (!queriedState) {
-    return [];
+    return EMPTY_ARRAY;
   }
 
   return getQueriedItems(queriedState, query);

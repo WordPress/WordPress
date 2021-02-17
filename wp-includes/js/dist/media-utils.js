@@ -895,9 +895,14 @@ var media_upload_MediaUpload = /*#__PURE__*/function (_Component) {
   }, {
     key: "onOpen",
     value: function onOpen() {
-      this.updateCollection();
+      var _this$props$value2;
 
-      if (!this.props.value) {
+      this.updateCollection(); // Handle both this.props.value being either (number[]) multiple ids
+      // (for galleries) or a (number) singular id (e.g. image block).
+
+      var hasMedia = Array.isArray(this.props.value) ? !!((_this$props$value2 = this.props.value) === null || _this$props$value2 === void 0 ? void 0 : _this$props$value2.length) : !!this.props.value;
+
+      if (!hasMedia) {
         return;
       }
 

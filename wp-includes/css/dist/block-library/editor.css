@@ -486,7 +486,6 @@ div[data-type="core/freeform"].is-selected .block-library-rich-text__tinymce::af
   display: none;
   width: auto;
   margin: 0;
-  position: -webkit-sticky;
   position: sticky;
   z-index: 31;
   top: 0;

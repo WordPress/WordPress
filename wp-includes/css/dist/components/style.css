@@ -388,7 +388,6 @@
   width: 24px;
   height: 24px;
   -webkit-appearance: none;
-     -moz-appearance: none;
           appearance: none;
   transition: 0.1s border-color ease-in-out; }
   @media (prefers-reduced-motion: reduce) {
@@ -2765,7 +2764,6 @@ body.is-dragging-components-draggable {
   height: 60px;
   z-index: 10;
   position: relative;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   margin: 0 -24px 24px; }
@@ -3002,7 +3000,7 @@ body.is-dragging-components-draggable {
   background-color: #fff;
   box-shadow: inset 0 0 0 1px #1e1e1e;
   outline: 1px solid transparent; }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     .components-placeholder.components-placeholder {
       display: flex;
       flex-direction: column;
@@ -3977,7 +3975,7 @@ body.lockscroll {
 div.components-toolbar > div {
   display: block;
   margin: 0; }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     div.components-toolbar > div {
       display: flex; } }
 
