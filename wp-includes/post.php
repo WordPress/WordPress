@@ -2626,18 +2626,18 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 function stick_post( $post_id ) {
 	$post_id  = (int) $post_id;
 	$stickies = get_option( 'sticky_posts' );
+	$updated  = false;
 
 	if ( ! is_array( $stickies ) ) {
-		$stickies = array();
+		$stickies = array( $post_id );
+	} else {
+		$stickies = array_unique( array_map( 'intval', $stickies ) );
 	}
-
-	$stickies = array_map( 'intval', $stickies );
 
 	if ( ! in_array( $post_id, $stickies, true ) ) {
 		$stickies[] = $post_id;
+		$updated    = update_option( 'sticky_posts', array_values( $stickies ) );
 	}
-
-	$updated = update_option( 'sticky_posts', $stickies );
 
 	if ( $updated ) {
 		/**
@@ -2668,7 +2668,7 @@ function unstick_post( $post_id ) {
 		return;
 	}
 
-	$stickies = array_map( 'intval', $stickies );
+	$stickies = array_values( array_unique( array_map( 'intval', $stickies ) ) );
 
 	if ( ! in_array( $post_id, $stickies, true ) ) {
 		return;
