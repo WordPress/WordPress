@@ -880,7 +880,7 @@ function dynamic_sidebar( $index = 1 ) {
  * @global array $wp_registered_widgets
  *
  * @param callable|false $callback      Optional. Widget callback to check. Default false.
- * @param int|false      $widget_id     Optional. Widget ID. Optional, but needed for checking.
+ * @param string|false   $widget_id     Optional. Widget ID. Optional, but needed for checking.
  *                                      Default false.
  * @param string|false   $id_base       Optional. The base ID of a widget created by extending WP_Widget.
  *                                      Default false.
