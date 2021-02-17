@@ -22,54 +22,37 @@ require __DIR__ . '/wp-load.php';
 
 nocache_headers();
 
-if ( isset( $_POST['wp-comment-approved-notification-optin'], $_POST['comment_ID'], $_POST['moderation-hash'] ) ) {
-	$comment = get_comment( $_POST['comment_ID'] );
-
-	if ( $comment && hash_equals( $_POST['moderation-hash'], wp_hash( $comment->comment_date_gmt ) ) ) {
-		update_comment_meta( $comment->comment_ID, '_wp_comment_author_notification_optin', true );
-	} else {
+$comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
+if ( is_wp_error( $comment ) ) {
+	$data = (int) $comment->get_error_data();
+	if ( ! empty( $data ) ) {
 		wp_die(
-			'<p>' . __( 'Invalid comment ID.' ) . '</p>',
-			__( 'Comment Notification Opt-in Failure' ),
+			'<p>' . $comment->get_error_message() . '</p>',
+			__( 'Comment Submission Failure' ),
 			array(
-				'response'  => 404,
+				'response'  => $data,
 				'back_link' => true,
 			)
 		);
+	} else {
+		exit;
 	}
-} else {
-	$comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
-	if ( is_wp_error( $comment ) ) {
-		$data = (int) $comment->get_error_data();
-		if ( ! empty( $data ) ) {
-			wp_die(
-				'<p>' . $comment->get_error_message() . '</p>',
-				__( 'Comment Submission Failure' ),
-				array(
-					'response'  => $data,
-					'back_link' => true,
-				)
-			);
-		} else {
-			exit;
-		}
-	}
-
-	$user            = wp_get_current_user();
-	$cookies_consent = ( isset( $_POST['wp-comment-cookies-consent'] ) );
-
-	/**
-	 * Perform other actions when comment cookies are set.
-	 *
-	 * @since 3.4.0
-	 * @since 4.9.6 The `$cookies_consent` parameter was added.
-	 *
-	 * @param WP_Comment $comment         Comment object.
-	 * @param WP_User    $user            Comment author's user object. The user may not exist.
-	 * @param bool       $cookies_consent Comment author's consent to store cookies.
-	 */
-	do_action( 'set_comment_cookies', $comment, $user, $cookies_consent );
 }
+
+$user            = wp_get_current_user();
+$cookies_consent = ( isset( $_POST['wp-comment-cookies-consent'] ) );
+
+/**
+ * Perform other actions when comment cookies are set.
+ *
+ * @since 3.4.0
+ * @since 4.9.6 The `$cookies_consent` parameter was added.
+ *
+ * @param WP_Comment $comment         Comment object.
+ * @param WP_User    $user            Comment author's user object. The user may not exist.
+ * @param bool       $cookies_consent Comment author's consent to store cookies.
+ */
+do_action( 'set_comment_cookies', $comment, $user, $cookies_consent );
 
 $location = empty( $_POST['redirect_to'] ) ? get_comment_link( $comment ) : $_POST['redirect_to'] . '#comment-' . $comment->comment_ID;
 

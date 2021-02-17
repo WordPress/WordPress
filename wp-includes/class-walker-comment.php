@@ -41,16 +41,6 @@ class Walker_Comment extends Walker {
 	);
 
 	/**
-	 * Whether the comment approval notification opt-in form or message needs to be
-	 * output automatically.
-	 *
-	 * @since 5.7.0
-	 *
-	 * @var bool
-	 */
-	protected $needs_comment_approval_notification_output = true;
-
-	/**
 	 * Starts the list before the elements are added.
 	 *
 	 * @since 2.7.0
@@ -265,13 +255,10 @@ class Walker_Comment extends Walker {
 	/**
 	 * Filters the comment text.
 	 *
-	 *   - Removes links from the pending comment's text if the commenter did not consent
-	 *     to the comment cookies
-	 *   - Prepends the approval notification opt-in form or message to pending comments
+	 * Removes links from the pending comment's text if the commenter did not consent
+	 * to the comment cookies.
 	 *
 	 * @since 5.4.2
-	 * @since 5.7.0 Comment approval notification opt-in form is now automatically
-	 *              appended if necessary.
 	 *
 	 * @param string          $comment_text Text of the current comment.
 	 * @param WP_Comment|null $comment      The comment object. Null if not found.
@@ -285,88 +272,7 @@ class Walker_Comment extends Walker {
 			$comment_text = wp_kses( $comment_text, array() );
 		}
 
-		/*
-		 * Checks if we need to output the comment approval notification opt-in form.
-		 */
-		if ( $this->needs_comment_approval_notification_output ) {
-			$comment_text = $this->comment_approval_notification_form( $comment ) . "\n" . $comment_text;
-		}
-
-		$this->needs_comment_approval_notification_output = true;
-
 		return $comment_text;
-	}
-
-	/**
-	 * Outputs the awaiting moderation text.
-	 *
-	 * @since 5.7.0
-	 *
-	 * @param WP_Comment $comment Comment to display.
-	 */
-	protected function awaiting_moderation_text( $comment ) {
-		if ( '0' !== $comment->comment_approved ) {
-			return;
-		}
-
-		$commenter = wp_get_current_commenter();
-
-		if ( $commenter['comment_author_email'] ) {
-			$moderation_note = __( 'Your comment is awaiting moderation.' );
-		} else {
-			$moderation_note = __( 'Your comment is awaiting moderation. This is a preview, your comment will be visible after it has been approved.' );
-		}
-
-		printf(
-			'<em class="comment-awaiting-moderation">%s</em>',
-			esc_html( $moderation_note )
-		);
-	}
-
-	/**
-	 * Gets the comment approval notification opt-in form or message for a pending comment.
-	 *
-	 * @since 5.7.0
-	 *
-	 * @param WP_Comment $comment Comment to display.
-	 * @return string HTML output.
-	 */
-	protected function comment_approval_notification_form( $comment ) {
-		$comment_approval_output = '';
-
-		if ( '0' === $comment->comment_approved && has_action( 'comment_unapproved_to_approved', 'wp_new_comment_notify_comment_author' ) ) {
-			if ( get_comment_meta( $comment->comment_ID, '_wp_comment_author_notification_optin', true ) ) {
-				$comment_approval_output = sprintf(
-					'<p><em class="wp-comment-approved-notification-optedin">%s</em></p>',
-					esc_html__( 'You will receive an email when your comment is approved.' )
-				);
-			} else {
-				$comment_approval_output = sprintf(
-					'<form action="%1$s" method="post">
-						<p>
-							<input type="checkbox" id="wp-comment-approved-notification-optin" name="wp-comment-approved-notification-optin">
-							<label for="wp-comment-approved-notification-optin">
-								%2$s
-							</label>
-						</p>
-						<input type="hidden" name="comment_ID" value="%3$s">
-						<input type="hidden" name="moderation-hash" value="%4$s">
-						<input type="submit" class="button" value="%5$s">
-					</form>',
-					esc_url( site_url( '/wp-comments-post.php' ) ),
-					esc_html__( 'I want to be notified by email when my comment is approved.' ),
-					absint( $comment->comment_ID ),
-					wp_hash( $comment->comment_date_gmt ),
-					esc_html_x( 'Save', 'comment approval notification form' )
-				);
-			}
-		}
-
-		// Disable the backcompat output.
-		$this->needs_comment_approval_notification_output = false;
-
-		// Return the approval notification opt-in form.
-		return $comment_approval_output;
 	}
 
 	/**
@@ -391,6 +297,12 @@ class Walker_Comment extends Walker {
 
 		$commenter          = wp_get_current_commenter();
 		$show_pending_links = isset( $commenter['comment_author'] ) && $commenter['comment_author'];
+
+		if ( $commenter['comment_author_email'] ) {
+			$moderation_note = __( 'Your comment is awaiting moderation.' );
+		} else {
+			$moderation_note = __( 'Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.' );
+		}
 		?>
 		<<?php echo $tag; ?> <?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?> id="comment-<?php comment_ID(); ?>">
 		<?php if ( 'div' !== $args['style'] ) : ?>
@@ -416,14 +328,10 @@ class Walker_Comment extends Walker {
 			);
 			?>
 		</div>
-
-		<?php
-		// Output the comment moderation feedback if needed.
-		$this->awaiting_moderation_text( $comment );
-
-		// Output the comment approval notification opt-in form if needed.
-		echo $this->comment_approval_notification_form( $comment );
-		?>
+		<?php if ( '0' == $comment->comment_approved ) : ?>
+		<em class="comment-awaiting-moderation"><?php echo $moderation_note; ?></em>
+		<br />
+		<?php endif; ?>
 
 		<div class="comment-meta commentmetadata">
 			<?php
@@ -493,6 +401,12 @@ class Walker_Comment extends Walker {
 
 		$commenter          = wp_get_current_commenter();
 		$show_pending_links = ! empty( $commenter['comment_author'] );
+
+		if ( $commenter['comment_author_email'] ) {
+			$moderation_note = __( 'Your comment is awaiting moderation.' );
+		} else {
+			$moderation_note = __( 'Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.' );
+		}
 		?>
 		<<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?>>
 			<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
@@ -536,13 +450,9 @@ class Walker_Comment extends Walker {
 						?>
 					</div><!-- .comment-metadata -->
 
-					<?php
-					// Output the comment moderation feedback if needed.
-					$this->awaiting_moderation_text( $comment );
-
-					// Output the comment approval notification opt-in form if needed.
-					echo $this->comment_approval_notification_form( $comment );
-					?>
+					<?php if ( '0' == $comment->comment_approved ) : ?>
+					<em class="comment-awaiting-moderation"><?php echo $moderation_note; ?></em>
+					<?php endif; ?>
 				</footer><!-- .comment-meta -->
 
 				<div class="comment-content">
