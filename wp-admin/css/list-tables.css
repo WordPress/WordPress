@@ -2081,7 +2081,8 @@ div.action-links,
 		margin-left: 0;
 	}
 
-	.plugins .active.update + .plugin-update-tr:before {
+	.plugins .active.update + .plugin-update-tr:before,
+	.plugins .active.updated + .plugin-update-tr:before {
 		background-color: #f0f6fc;
 		border-left: 4px solid #72aee6;
 	}
