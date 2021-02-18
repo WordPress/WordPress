@@ -2818,14 +2818,15 @@ body.adding-widget .add-new-widget:before,
 		position: absolute;
 		top: 0;
 		right: 48px;
-		line-height: 3.2;
+		line-height: 2.6;
 		font-size: 14px;
-		padding: 0 12px;
+		padding: 0 12px 4px;
 		margin: 0;
 		height: 45px;
 		background: #f0f0f1;
 		border: 0;
 		border-left: 1px solid #dcdcde;
+		border-top: 4px solid #f0f0f1;
 		color: #50575e;
 		cursor: pointer;
 		transition: color .1s ease-in-out, background .1s ease-in-out;
