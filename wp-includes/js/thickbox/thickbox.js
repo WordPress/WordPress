@@ -35,7 +35,7 @@ function tb_click(){
 	var a = this.href || this.alt;
 	var g = this.rel || false;
 	tb_show(t,a,g);
-	this.trigger( 'blur' );
+	this.blur();
 	return false;
 }
 
