@@ -5433,6 +5433,6 @@ function wp_ajax_send_password_reset() {
 			sprintf( __( 'A password reset link was emailed to %s.' ), $user->display_name )
 		);
 	} else {
-		wp_send_json_error( $results );
+		wp_send_json_error( $results->get_error_message() );
 	}
 }
