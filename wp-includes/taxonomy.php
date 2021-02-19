@@ -1943,6 +1943,11 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	$object_ids = (array) $wpdb->get_col( $wpdb->prepare( "SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $tt_id ) );
 
 	foreach ( $object_ids as $object_id ) {
+		if ( ! isset( $default ) ) {
+			wp_remove_object_terms( $object_id, $term, $taxonomy );
+			continue;
+		}
+
 		$terms = wp_get_object_terms(
 			$object_id,
 			$taxonomy,
@@ -1951,6 +1956,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 				'orderby' => 'none',
 			)
 		);
+
 		if ( 1 === count( $terms ) && isset( $default ) ) {
 			$terms = array( $default );
 		} else {
@@ -1959,6 +1965,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 				$terms = array_merge( $terms, array( $default ) );
 			}
 		}
+
 		$terms = array_map( 'intval', $terms );
 		wp_set_object_terms( $object_id, $terms, $taxonomy );
 	}
