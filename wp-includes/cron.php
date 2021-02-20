@@ -398,7 +398,7 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array(), $
 	 * }
 	 * @param bool               $wp_error Whether to return a WP_Error on failure.
 	 */
-	$pre = apply_filters( 'pre_reschedule_event', null, $event );
+	$pre = apply_filters( 'pre_reschedule_event', null, $event, $wp_error );
 
 	if ( null !== $pre ) {
 		if ( $wp_error && false === $pre ) {
