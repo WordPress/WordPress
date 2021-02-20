@@ -258,9 +258,13 @@ function wp_set_script_translations( $handle, $domain = 'default', $path = null 
  *
  * @since 2.1.0
  *
+ * @global string $pagenow
+ *
  * @param string $handle Name of the script to be removed.
  */
 function wp_deregister_script( $handle ) {
+	global $pagenow;
+
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__, $handle );
 
 	/**
@@ -269,7 +273,7 @@ function wp_deregister_script( $handle ) {
 	 */
 	$current_filter = current_filter();
 	if ( ( is_admin() && 'admin_enqueue_scripts' !== $current_filter ) ||
-		( 'wp-login.php' === $GLOBALS['pagenow'] && 'login_enqueue_scripts' !== $current_filter )
+		( 'wp-login.php' === $pagenow && 'login_enqueue_scripts' !== $current_filter )
 	) {
 		$not_allowed = array(
 			'jquery',
