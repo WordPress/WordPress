@@ -331,8 +331,6 @@ class WP_Term_Query {
 	 *   - 'ids'
 	 *   - 'tt_ids'
 	 *
-	 * In all cases, a `WP_Error` object will be returned if an invalid taxonomy is used.
-	 *
 	 * @since 4.6.0
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.

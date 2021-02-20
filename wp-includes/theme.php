@@ -2485,12 +2485,35 @@ function get_theme_starter_content() {
  *
  * @global array $_wp_theme_features
  *
- * @param string $feature The feature being added. Likely core values include 'post-formats', 'post-thumbnails',
- *                        'custom-header', 'custom-background', 'custom-logo', 'menus', 'automatic-feed-links',
- *                        'html5', 'title-tag', 'customize-selective-refresh-widgets', 'starter-content',
- *                        'responsive-embeds', 'align-wide', 'dark-editor-style', 'disable-custom-colors',
- *                        'disable-custom-font-sizes', 'editor-color-palette', 'editor-font-sizes',
- *                        'editor-styles', 'wp-block-styles', and 'core-block-patterns'.
+ * @param string $feature The feature being added. Likely core values include:
+ *                          - 'admin-bar'
+ *                          - 'align-wide'
+ *                          - 'automatic-feed-links'
+ *                          - 'core-block-patterns'
+ *                          - 'custom-background'
+ *                          - 'custom-header'
+ *                          - 'custom-line-height'
+ *                          - 'custom-logo'
+ *                          - 'customize-selective-refresh-widgets'
+ *                          - 'custom-spacing'
+ *                          - 'custom-units'
+ *                          - 'dark-editor-style'
+ *                          - 'disable-custom-colors'
+ *                          - 'disable-custom-font-sizes'
+ *                          - 'editor-color-palette'
+ *                          - 'editor-gradient-presets'
+ *                          - 'editor-font-sizes'
+ *                          - 'editor-styles'
+ *                          - 'featured-content'
+ *                          - 'html5'
+ *                          - 'menus'
+ *                          - 'post-formats'
+ *                          - 'post-thumbnails'
+ *                          - 'responsive-embeds'
+ *                          - 'starter-content'
+ *                          - 'title-tag'
+ *                          - 'wp-block-styles'
+ *                          - 'widgets'
  * @param mixed  ...$args Optional extra arguments to pass along with certain features.
  * @return void|false Void on success, false on failure.
  */
