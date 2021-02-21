@@ -35,7 +35,7 @@ get_current_screen()->add_help_tab(
 					'<p>' . __( '<strong>Profile Information</strong> &mdash; user email address, username, display name, nickname, first name, last name, description/bio, and registration date.' ) . '</p>' .
 					'<p>' . __( '<strong>Community Events Location</strong> &mdash; The IP Address of the user used for the Upcoming Community Events shown in the dashboard widget.' ) . '</p>' .
 					'<p>' . __( '<strong>Session Tokens</strong> &mdash; User login information, IP Addresses, Expiration Date, User Agent (Browser/OS), and Last Login.' ) . '</p>' .
-					'<p>' . __( '<strong>Comments</strong> &mdash; For any comments made by the user, Email Address, IP Address, User Agent (Browser/OS), Date/Time, Comment Content, and Content URL. ' ) . '</p>' .
+					'<p>' . __( '<strong>Comments</strong> &mdash; For any comments made by the user, Email Address, IP Address, User Agent (Browser/OS), Date/Time, Comment Content, and Content URL.' ) . '</p>' .
 					'<p>' . __( '<strong>Media</strong> &mdash; A list of URLs for all media file uploads made by the user.' ) . '</p>',
 	)
 );
@@ -52,7 +52,7 @@ get_current_screen()->add_help_tab(
 		'title'   => __( 'Plugin Data' ),
 		'content' =>
 					'<p>' . __( 'Many plugins may collect or store personal data either in the WordPress database or remotely. Any Export Personal Data request should include data from plugins as well.' ) . '</p>' .
-					'<p>' . __( 'Plugin authors can <a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-exporter-to-your-plugin/" target=_blank"> learn more about how to add the Personal Data Exporter to a plugin here</a>.' ) . '</p>' .
+					'<p>' . __( 'Plugin authors can <a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-exporter-to-your-plugin/" target="_blank">learn more about how to add the Personal Data Exporter to a plugin here</a>.' ) . '</p>' .
 					$privacy_policy_guide,
 	)
 );
