@@ -3552,10 +3552,16 @@ function useFocusReturn(onFocusReturn) {
 
       focusedBeforeMount.current = node.ownerDocument.activeElement;
     } else if (focusedBeforeMount.current) {
-      // Defer to the component's own explicit focus return behavior, if
+      var isFocused = ref.current.contains(ref.current.ownerDocument.activeElement);
+
+      if (ref.current.isConnected && !isFocused) {
+        return;
+      } // Defer to the component's own explicit focus return behavior, if
       // specified. This allows for support that the `onFocusReturn`
       // decides to allow the default behavior to occur under some
       // conditions.
+
+
       if (onFocusReturnRef.current) {
         onFocusReturnRef.current();
       } else {

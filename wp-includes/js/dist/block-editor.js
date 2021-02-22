@@ -17267,7 +17267,7 @@ function actions_duplicateBlocks(clientIds) {
         case 16:
           lastSelectedIndex = _context17.sent;
           clonedBlocks = blocks.map(function (block) {
-            return Object(external_wp_blocks_["cloneBlock"])(block);
+            return Object(external_wp_blocks_["__experimentalCloneSanitizedBlock"])(block);
           });
           _context17.next = 20;
           return actions_insertBlocks(clonedBlocks, lastSelectedIndex + 1, rootClientId, updateSelection);

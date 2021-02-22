@@ -22153,12 +22153,10 @@ function resolveWith(config, resolvers) {
   return result;
 }
 
-var WEBKIT_DISTANCE_SCALE_FACTOR = 260;
 /**
  * Whether the browser supports GestureEvent (ie Safari)
  * @returns true if the browser supports gesture event
  */
-
 function supportsGestureEvents() {
   try {
     // TODO [TS] possibly find GestureEvent definitions?
@@ -22177,8 +22175,7 @@ function getEventTouches(event) {
   return event.type === 'touchend' ? event.changedTouches : event.targetTouches;
 }
 
-function getPointerIds(event) {
-  if ('pointerId' in event) return [event.pointerId];
+function getTouchIds(event) {
   return Array.from(getEventTouches(event)).map(function (t) {
     return t.identifier;
   });
@@ -22239,6 +22236,7 @@ function getTwoTouchesEventValues(event, pointerIds, transform) {
       A = _Array$from$filter[0],
       B = _Array$from$filter[1];
 
+  if (!A || !B) throw Error("The event doesn't have two pointers matching the pointerIds");
   var dx = B.clientX - A.clientX;
   var dy = B.clientY - A.clientY;
   var cx = (B.clientX + A.clientX) / 2;
@@ -22314,7 +22312,7 @@ function getWebkitGestureEventValues(event, transform) {
     transform = identity;
   }
 
-  return transform([event.scale * WEBKIT_DISTANCE_SCALE_FACTOR, event.rotation]);
+  return transform([event.scale, event.rotation]);
 }
 
 var DEFAULT_DRAG_DELAY = 180;
@@ -23111,23 +23109,10 @@ function getStartGestureState(_ref4, values, event) {
   });
 }
 
-function partial(func, state) {
-  return function (event) {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    // @ts-ignore
-    return func.call.apply(func, [this, _extends({}, state, {
-      event: event
-    })].concat(args));
-  };
-}
 /**
  * The controller will keep track of the state for all gestures and also keep
  * track of timeouts, and window listeners.
  */
-
 
 var Controller = function Controller(classes) {
   var _this = this;
@@ -23141,25 +23126,29 @@ var Controller = function Controller(classes) {
   this.supportsGestureEvents = supportsGestureEvents();
 
   this.bind = function () {
-    var bindings = {};
-
-    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args[_key2] = arguments[_key2];
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    var bindings = {};
 
     for (var _iterator = _createForOfIteratorHelperLoose(_this.classes), _step; !(_step = _iterator()).done;) {
       var RecognizerClass = _step.value;
       new RecognizerClass(_this, args).addBindings(bindings);
-    } // we also add event bindings for native handlers
+    } // // we also add event bindings for native handlers
 
 
-    for (var _i = 0, _Object$entries = Object.entries(_this.nativeRefs); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _Object$entries[_i],
-          event = _Object$entries$_i[0],
-          handler = _Object$entries$_i[1];
-      addBindings(bindings, event, partial(handler, _extends({}, _this.state.shared, {
-        args: args
-      })));
+    var _loop = function _loop(eventKey) {
+      addBindings(bindings, eventKey, function (event) {
+        return _this.nativeRefs[eventKey](_extends({}, _this.state.shared, {
+          event: event,
+          args: args
+        }));
+      });
+    };
+
+    for (var eventKey in _this.nativeRefs) {
+      _loop(eventKey);
     }
 
     if (_this.config.domTarget) {
@@ -23195,12 +23184,20 @@ var Controller = function Controller(classes) {
   this.windowListeners = {};
 };
 function addEventIds(controller, event) {
-  var idList = 'pointerId' in event ? controller.pointerIds : controller.touchIds;
-  getPointerIds(event).forEach(idList.add, idList);
+  if ('pointerId' in event) {
+    controller.pointerIds.add(event.pointerId);
+  } else {
+    controller.touchIds = new Set(getTouchIds(event));
+  }
 }
 function removeEventIds(controller, event) {
-  var idList = 'pointerId' in event ? controller.pointerIds : controller.touchIds;
-  getPointerIds(event).forEach(idList["delete"], idList);
+  if ('pointerId' in event) {
+    controller.pointerIds["delete"](event.pointerId);
+  } else {
+    getTouchIds(event).forEach(function (id) {
+      return controller.touchIds["delete"](id);
+    });
+  }
 }
 function clearAllWindowListeners(controller) {
   var _controller$config = controller.config,
@@ -23253,10 +23250,10 @@ function updateDomListeners(_ref3, bindings) {
   var eventOptions = config.eventOptions;
   removeListeners(domTarget, takeAll(domListeners), eventOptions);
 
-  for (var _i2 = 0, _Object$entries2 = Object.entries(bindings); _i2 < _Object$entries2.length; _i2++) {
-    var _Object$entries2$_i = _Object$entries2[_i2],
-        key = _Object$entries2$_i[0],
-        fns = _Object$entries2$_i[1];
+  for (var _i = 0, _Object$entries = Object.entries(bindings); _i < _Object$entries.length; _i++) {
+    var _Object$entries$_i = _Object$entries[_i],
+        key = _Object$entries$_i[0],
+        fns = _Object$entries$_i[1];
     var name = key.slice(2).toLowerCase();
     domListeners.push([name, chainFns.apply(void 0, fns)]);
   }
@@ -23269,10 +23266,10 @@ function getPropsListener(_ref4, bindings) {
   var props = {};
   var captureString = config.eventOptions.capture ? 'Capture' : '';
 
-  for (var _i3 = 0, _Object$entries3 = Object.entries(bindings); _i3 < _Object$entries3.length; _i3++) {
-    var _Object$entries3$_i = _Object$entries3[_i3],
-        event = _Object$entries3$_i[0],
-        fns = _Object$entries3$_i[1];
+  for (var _i2 = 0, _Object$entries2 = Object.entries(bindings); _i2 < _Object$entries2.length; _i2++) {
+    var _Object$entries2$_i = _Object$entries2[_i2],
+        event = _Object$entries2$_i[0],
+        fns = _Object$entries2$_i[1];
     var fnsArray = Array.isArray(fns) ? fns : [fns];
     var key = event + captureString;
     props[key] = chainFns.apply(void 0, fnsArray);
@@ -23889,6 +23886,7 @@ function isEqual(a, b) {
     return equal(a, b);
   } catch (error) {
     if ((error.message || '').match(/stack|recursion/i)) {
+      // eslint-disable-next-line no-console
       console.warn('react-fast-compare cannot handle circular refs');
       return false;
     }
@@ -23970,6 +23968,8 @@ var DistanceAngleRecognizer = /*#__PURE__*/function (_Recognizer) {
   return DistanceAngleRecognizer;
 }(Recognizer);
 
+var ZOOM_CONSTANT = 7;
+var WEBKIT_DISTANCE_SCALE_FACTOR = 260;
 var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
   _inheritsLoose(PinchRecognizer, _DistanceAngleRecogni);
 
@@ -23982,11 +23982,22 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
     _this.onPinchStart = function (event) {
       addEventIds(_this.controller, event);
-      if (!_this.enabled || _this.state._active) return; // until we reach two fingers on the target don't react
+      var touchIds = _this.controller.touchIds;
+      if (!_this.enabled) return;
 
-      if (_this.controller.touchIds.size < 2) return;
+      if (_this.state._active) {
+        // check that the pointerIds that initiated the gesture
+        // are still enabled. This is useful for when the page
+        // loses track of the pointers (minifying gesture on iPad).
+        if (_this.state._pointerIds.every(function (id) {
+          return touchIds.has(id);
+        })) return; // something was wrong with the pointers but we let it go.
+      } // until we reach two fingers on the target don't react
 
-      var _pointerIds = Array.from(_this.controller.touchIds).slice(0, 2);
+
+      if (touchIds.size < 2) return;
+
+      var _pointerIds = Array.from(touchIds).slice(0, 2);
 
       var _getTwoTouchesEventVa = getTwoTouchesEventValues(event, _pointerIds, _this.transform),
           values = _getTwoTouchesEventVa.values,
@@ -24015,22 +24026,26 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
       _this.updateSharedState(genericEventData);
 
-      var _getTwoTouchesEventVa2 = getTwoTouchesEventValues(event, _this.state._pointerIds, _this.transform),
-          values = _getTwoTouchesEventVa2.values,
-          origin = _getTwoTouchesEventVa2.origin;
+      try {
+        var _getTwoTouchesEventVa2 = getTwoTouchesEventValues(event, _this.state._pointerIds, _this.transform),
+            values = _getTwoTouchesEventVa2.values,
+            origin = _getTwoTouchesEventVa2.origin;
 
-      var kinematics = _this.getKinematics(values, event);
+        var kinematics = _this.getKinematics(values, event);
 
-      _this.updateGestureState(_extends({}, getGenericPayload(_assertThisInitialized(_this), event), kinematics, {
-        origin: origin
-      }));
+        _this.updateGestureState(_extends({}, getGenericPayload(_assertThisInitialized(_this), event), kinematics, {
+          origin: origin
+        }));
 
-      _this.fireGestureHandler();
+        _this.fireGestureHandler();
+      } catch (e) {
+        _this.onPinchEnd(event);
+      }
     };
 
     _this.onPinchEnd = function (event) {
       removeEventIds(_this.controller, event);
-      var pointerIds = getPointerIds(event); // if none of the lifted pointerIds is in the state pointerIds don't do anything
+      var pointerIds = getTouchIds(event); // if none of the lifted pointerIds is in the state pointerIds don't do anything
 
       if (_this.state._pointerIds.every(function (id) {
         return !pointerIds.includes(id);
@@ -24090,9 +24105,12 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
       event.preventDefault();
       var genericEventData = getGenericEventData(event);
 
-      _this.updateSharedState(genericEventData);
+      _this.updateSharedState(genericEventData); // this normalizes the values of the Safari's WebkitEvent by calculating
+      // the delta and then multiplying it by a constant.
+
 
       var values = getWebkitGestureEventValues(event, _this.transform);
+      values[0] = (values[0] - _this.state.event.scale) * WEBKIT_DISTANCE_SCALE_FACTOR + _this.state.values[0];
 
       var kinematics = _this.getKinematics(values, event);
 
@@ -24130,8 +24148,9 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
       var _this$state$values = _this.state.values,
           prev_d = _this$state$values[0],
-          prev_a = _this$state$values[1];
-      var d = prev_d - delta_d;
+          prev_a = _this$state$values[1]; // ZOOM_CONSTANT is based on Safari trackpad natural zooming
+
+      var d = prev_d - delta_d * ZOOM_CONSTANT;
       var a = prev_a !== void 0 ? prev_a : 0;
       return {
         values: [d, a],
