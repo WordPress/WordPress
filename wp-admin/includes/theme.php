@@ -1127,6 +1127,8 @@ function resume_theme( $theme, $redirect = '' ) {
  * Renders an admin notice in case some themes have been paused due to errors.
  *
  * @since 5.2.0
+ *
+ * @global string $pagenow
  */
 function paused_themes_notice() {
 	if ( 'themes.php' === $GLOBALS['pagenow'] ) {

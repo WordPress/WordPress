@@ -1018,6 +1018,8 @@ jQuery(document).ready( function($) {
  *
  * @since 4.6.0
  *
+ * @global string $pagenow
+ *
  * @param array $args {
  *     Optional. Array or string of Query parameters. Default empty array.
  *

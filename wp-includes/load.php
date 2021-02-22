@@ -938,6 +938,8 @@ function wp_is_recovery_mode() {
  *
  * @since 5.2.0
  *
+ * @global string $pagenow
+ *
  * @return bool True if the current endpoint should be protected.
  */
 function is_protected_endpoint() {
