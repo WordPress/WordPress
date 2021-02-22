@@ -484,12 +484,29 @@ class WP_Scripts extends WP_Dependencies {
 			unset( $l10n['l10n_print_after'] );
 		}
 
-		foreach ( (array) $l10n as $key => $value ) {
-			if ( ! is_scalar( $value ) ) {
-				continue;
-			}
+		if ( ! is_array( $l10n ) ) {
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf(
+					/* translators: 1: $l10n, 2: wp_add_inline_script() */
+					__( 'The %1$s parameter must be an array. To pass arbitrary data to scripts, use the %2$s function instead.' ),
+					'<code>$l10n</code>',
+					'<code>wp_add_inline_script()</code>'
+				),
+				'5.7.0'
+			);
+		}
 
-			$l10n[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
+		if ( is_string( $l10n ) ) {
+			$l10n = html_entity_decode( $l10n, ENT_QUOTES, 'UTF-8' );
+		} else {
+			foreach ( (array) $l10n as $key => $value ) {
+				if ( ! is_scalar( $value ) ) {
+					continue;
+				}
+
+				$l10n[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
+			}
 		}
 
 		$script = "var $object_name = " . wp_json_encode( $l10n ) . ';';
