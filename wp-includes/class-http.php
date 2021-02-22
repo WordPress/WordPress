@@ -110,6 +110,7 @@ class WP_Http {
 	 *                                             Some transports technically allow others, but should not be
 	 *                                             assumed. Default 'GET'.
 	 *     @type float        $timeout             How long the connection should stay open in seconds. Default 5.
+     *     @type float        $connect_timeout     How long the initial connection can take before failing. Default 2.
 	 *     @type int          $redirection         Number of allowed redirects. Not supported by all transports
 	 *                                             Default 5.
 	 *     @type string       $httpversion         Version of the HTTP protocol to use. Accepts '1.0' and '1.1'.
@@ -159,6 +160,13 @@ class WP_Http {
 			 * @param string $url           The request URL.
 			 */
 			'timeout'             => apply_filters( 'http_request_timeout', 5, $url ),
+            /**
+             * Filter the connect_timeout value for an HTTP request.
+             *
+             * @param float  $connect_timeout_value Time in seconds a request has to establish an initial connection. Default 2.
+             * @param string $url           The request URL.
+             */
+            'connect_timeout'    => apply_filters( 'http_request_connect_timeout', 2, $url ),
 			/**
 			 * Filters the number of redirects allowed during an HTTP request.
 			 *
@@ -319,6 +327,7 @@ class WP_Http {
 		$type    = $parsed_args['method'];
 		$options = array(
 			'timeout'   => $parsed_args['timeout'],
+            'connect_timeout'   => $parsed_args['connect_timeout'],
 			'useragent' => $parsed_args['user-agent'],
 			'blocking'  => $parsed_args['blocking'],
 			'hooks'     => new WP_HTTP_Requests_Hooks( $url, $parsed_args ),
