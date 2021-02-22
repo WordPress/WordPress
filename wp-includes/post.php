@@ -6277,6 +6277,8 @@ function wp_update_attachment_metadata( $attachment_id, $data ) {
  * @return string|false Attachment URL, otherwise false.
  */
 function wp_get_attachment_url( $attachment_id = 0 ) {
+	global $pagenow;
+
 	$attachment_id = (int) $attachment_id;
 
 	$post = get_post( $attachment_id );
@@ -6319,7 +6321,7 @@ function wp_get_attachment_url( $attachment_id = 0 ) {
 	}
 
 	// On SSL front end, URLs should be HTTPS.
-	if ( is_ssl() && ! is_admin() && 'wp-login.php' !== $GLOBALS['pagenow'] ) {
+	if ( is_ssl() && ! is_admin() && 'wp-login.php' !== $pagenow ) {
 		$url = set_url_scheme( $url );
 	}
 
