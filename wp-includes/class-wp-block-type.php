@@ -33,60 +33,83 @@ class WP_Block_Type {
 	public $name;
 
 	/**
+	 * Human-readable block type label.
+	 *
 	 * @since 5.5.0
 	 * @var string
 	 */
 	public $title = '';
 
 	/**
+	 * Block type category classification, used in search interfaces
+	 * to arrange block types by category.
+	 *
 	 * @since 5.5.0
 	 * @var string|null
 	 */
 	public $category = null;
 
 	/**
+	 * Setting parent lets a block require that it is only available
+	 * when nested within the specified blocks.
+	 *
 	 * @since 5.5.0
 	 * @var array|null
 	 */
 	public $parent = null;
 
 	/**
+	 * Block type icon.
+	 *
 	 * @since 5.5.0
 	 * @var string|null
 	 */
 	public $icon = null;
 
 	/**
+	 * A detailed block type description.
+	 *
 	 * @since 5.5.0
 	 * @var string
 	 */
 	public $description = '';
 
 	/**
+	 * Additional keywords to produce block type as result
+	 * in search interfaces.
+	 *
 	 * @since 5.5.0
 	 * @var array
 	 */
 	public $keywords = array();
 
 	/**
+	 * The translation textdomain.
+	 *
 	 * @since 5.5.0
 	 * @var string|null
 	 */
 	public $textdomain = null;
 
 	/**
+	 * Alternative block styles.
+	 *
 	 * @since 5.5.0
 	 * @var array
 	 */
 	public $styles = array();
 
 	/**
+	 * Supported features.
+	 *
 	 * @since 5.5.0
 	 * @var array|null
 	 */
 	public $supports = null;
 
 	/**
+	 * Structured data for the block preview.
+	 *
 	 * @since 5.5.0
 	 * @var array|null
 	 */
@@ -166,8 +189,33 @@ class WP_Block_Type {
 	 * @see register_block_type()
 	 *
 	 * @param string       $block_type Block type name including namespace.
-	 * @param array|string $args       Optional. Array or string of arguments for registering a block type.
-	 *                                 Default empty array.
+	 * @param array|string $args       {
+	 *     Optional. Array or string of arguments for registering a block type. Any arguments may be defined,
+	 *     however the ones described below are supported by default. Default empty array.
+	 *
+	 *
+	 *     @type string        $title            Human-readable block type label.
+	 *     @type string|null   $category         Block type category classification, used in
+	 *                                           search interfaces to arrange block types by category.
+	 *     @type array|null    $parent           Setting parent lets a block require that it is only
+	 *                                           available when nested within the specified blocks.
+	 *     @type string|null   $icon             Block type icon.
+	 *     @type string        $description      A detailed block type description.
+	 *     @type array         $keywords         Additional keywords to produce block type as
+	 *                                           result in search interfaces.
+	 *     @type string|null   $textdomain       The translation textdomain.
+	 *     @type array         $styles           Alternative block styles.
+	 *     @type array|null    $supports         Supported features.
+	 *     @type array|null    $example          Structured data for the block preview.
+	 *     @type callable|null $render_callback  Block type render callback.
+	 *     @type array|null    $attributes       Block type attributes property schemas.
+	 *     @type array         $uses_context     Context values inherited by blocks of this type.
+	 *     @type array|null    $provides_context Context provided by blocks of this type.
+	 *     @type string|null   $editor_script    Block type editor script handle.
+	 *     @type string|null   $script           Block type front end script handle.
+	 *     @type string|null   $editor_style     Block type editor style handle.
+	 *     @type string|null   $style            Block type front end style handle.
+	 * }
 	 */
 	public function __construct( $block_type, $args = array() ) {
 		$this->name = $block_type;
@@ -259,6 +307,7 @@ class WP_Block_Type {
 	 * @since 5.0.0
 	 *
 	 * @param array|string $args Array or string of arguments for registering a block type.
+	 *                           See WP_Block_Type::__construct() for information on accepted arguments.
 	 */
 	public function set_props( $args ) {
 		$args = wp_parse_args(
