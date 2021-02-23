@@ -674,7 +674,7 @@ endif;
 		// Allow admins to send reset password link.
 		if ( ! IS_PROFILE_PAGE ) :
 			?>
-	<tr class="user-sessions-wrap hide-if-no-js">
+	<tr class="user-generate-reset-link-wrap hide-if-no-js">
 		<th><?php _e( 'Password Reset' ); ?></th>
 		<td>
 			<div class="generate-reset-link">
