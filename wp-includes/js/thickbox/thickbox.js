@@ -49,12 +49,12 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			jQuery("html").css("overflow","hidden");
 			if (document.getElementById("TB_HideSelect") === null) {//iframe to hide select elements in ie6
 				jQuery("body").append("<iframe id='TB_HideSelect'>"+thickboxL10n.noiframes+"</iframe><div id='TB_overlay'></div><div id='TB_window' class='thickbox-loading'></div>");
-				jQuery("#TB_overlay").trigger( 'click', tb_remove );
+				jQuery("#TB_overlay").on( 'click', tb_remove );
 			}
 		}else{//all others
 			if(document.getElementById("TB_overlay") === null){
 				jQuery("body").append("<div id='TB_overlay'></div><div id='TB_window' class='thickbox-loading'></div>");
-				jQuery("#TB_overlay").trigger( 'click', tb_remove );
+				jQuery("#TB_overlay").on( 'click', tb_remove );
 				jQuery( 'body' ).addClass( 'modal-open' );
 			}
 		}
@@ -141,7 +141,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			TB_HEIGHT = imageHeight + 60;
 			jQuery("#TB_window").append("<a href='' id='TB_ImageOff'><span class='screen-reader-text'>"+thickboxL10n.close+"</span><img id='TB_Image' src='"+url+"' width='"+imageWidth+"' height='"+imageHeight+"' alt='"+caption+"'/></a>" + "<div id='TB_caption'>"+caption+"<div id='TB_secondLine'>" + TB_imageCount + TB_PrevHTML + TB_NextHTML + "</div></div><div id='TB_closeWindow'><button type='button' id='TB_closeWindowButton'><span class='screen-reader-text'>"+thickboxL10n.close+"</span><span class='tb-close-icon'></span></button></div>");
 
-			jQuery("#TB_closeWindowButton").trigger( 'click', tb_remove );
+			jQuery("#TB_closeWindowButton").on( 'click', tb_remove );
 
 			if (!(TB_PrevHTML === "")) {
 				function goPrev(){
@@ -151,7 +151,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					tb_show(TB_PrevCaption, TB_PrevURL, imageGroup);
 					return false;
 				}
-				jQuery("#TB_prev").trigger( 'click', goPrev );
+				jQuery("#TB_prev").on( 'click', goPrev );
 			}
 
 			if (!(TB_NextHTML === "")) {
@@ -161,7 +161,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					tb_show(TB_NextCaption, TB_NextURL, imageGroup);
 					return false;
 				}
-				jQuery("#TB_next").trigger( 'click', goNext );
+				jQuery("#TB_next").on( 'click', goNext );
 
 			}
 
@@ -185,7 +185,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 
 			tb_position();
 			jQuery("#TB_load").remove();
-			jQuery("#TB_ImageOff").trigger( 'click', tb_remove );
+			jQuery("#TB_ImageOff").on( 'click', tb_remove );
 			jQuery("#TB_window").css({'visibility':'visible'}); //for safari using css instead of show
 			};
 
@@ -225,7 +225,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					}
 			}
 
-			jQuery("#TB_closeWindowButton").trigger( 'click', tb_remove );
+			jQuery("#TB_closeWindowButton").on( 'click', tb_remove );
 
 				if(url.indexOf('TB_inline') != -1){
 					jQuery("#TB_ajaxContent").append(jQuery('#' + params['inlineId']).children());
