@@ -351,11 +351,13 @@ a:hover {
 }
 
 .is-dark-theme .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) {
-	color: #d1e4dd;
+	background: #000;
+	color: #fff;
+	text-decoration: none;
 }
 
 .is-dark-theme .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) .meta-nav {
-	color: #d1e4dd;
+	color: #fff;
 }
 
 .has-background-white .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) {
@@ -379,7 +381,7 @@ a:hover {
 	background-color: #f1f1f1;
 }
 
-.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button).custom-logo-link:focus {
+.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button).custom-logo-link {
 	background: none;
 }
 

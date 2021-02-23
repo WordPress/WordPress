@@ -1660,9 +1660,14 @@ a:hover {
 	background: rgba(255, 255, 255, 0.9);
 }
 
-.is-dark-theme .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button),
+.is-dark-theme .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) {
+	background: var(--global--color-black);
+	color: var(--global--color-white);
+	text-decoration: none;
+}
+
 .is-dark-theme .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) .meta-nav {
-	color: var(--wp--style--color--link, var(--global--color-background));
+	color: var(--wp--style--color--link, var(--global--color-white));
 }
 
 .has-background-white .site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) {
@@ -1686,7 +1691,7 @@ a:hover {
 	background-color: #f1f1f1;
 }
 
-.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button).custom-logo-link:focus {
+.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button).custom-logo-link {
 	background: none;
 }
 
