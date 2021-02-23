@@ -20,31 +20,23 @@
 ------------------------------------------------------------------------------*/
 
 .about__container {
-	/* Colors from Twenty Twenty-One, will be removed after 5.6 */
-	--global--color-green: #d1e4dd;
-	--global--color-blue: #d1dfe4;
-	--global--color-purple: #d1d1e4;
-	--global--color-red: #e4d1d1;
-	--global--color-orange: #e4dad1;
-	--global--color-yellow: #eeeadd;
-
 	/* Section backgrounds */
 	--background: #fff;
-	--subtle-background: var(--global--color-yellow);
+	--subtle-background: #fde4bf;
 
 	/* Main text color */
-	--text: #000;
+	--text: #00131c;
 	--text-light: #fff;
 
 	/* Accent colors: used in header, on special classes. */
-	--accent-1: var(--global--color-green); /* Accent background */
-	--accent-2: var(--text); /* Link color */
+	--accent-1: #0a5b89; /* Accent background */
+	--accent-2: #fde4bf; /* Heading subtitle */
 
 	/* Navigation colors. */
 	--nav-background: var(--background);
-	--nav-border: #767676;
-	--nav-color: #767676;
-	--nav-current: #000;
+	--nav-border: #fcc36f;
+	--nav-color: var(--text);
+	--nav-current: #0a5b88;
 }
 
 /*------------------------------------------------------------------------------
@@ -115,8 +107,10 @@
 }
 
 .about__container .has-accent-background-color {
-	background-color: #d1e4dd;
+	background-color: #0a5b89;
 	background-color: var(--accent-1);
+	color: #fff;
+	color: var(--text-light);
 }
 
 .about__container .has-transparent-background-color {
@@ -124,7 +118,7 @@
 }
 
 .about__container .has-accent-color {
-	color: #000;
+	color: #00131c;
 	color: var(--text);
 	font-weight: bold;
 }
@@ -134,7 +128,7 @@
 }
 
 .about__container .has-subtle-background-color {
-	background-color: #eeeadd;
+	background-color: #fde4bf;
 	background-color: var(--subtle-background);
 }
 
@@ -147,7 +141,7 @@
 /* 1.1 - Layout */
 
 .about__section {
-	margin: 1em 0;
+	margin: 0;
 }
 
 .about__section .column {
@@ -156,6 +150,10 @@
 
 .about__section + .about__section .column {
 	padding-top: 0;
+}
+
+.about__section + .about__section .is-section-header {
+	padding-bottom: 32px;
 }
 
 .about__section .column[class*="background-color"],
@@ -448,6 +446,10 @@
 }
 
 @media screen and (max-width: 480px) {
+	.about__section.is-feature .column {
+		padding: 0;
+	}
+
 	.about__section.has-4-columns {
 		display: block;
 		padding-bottom: 16px;
@@ -471,7 +473,7 @@
 
 .about__container {
 	line-height: 1.4;
-	color: #000;
+	color: #00131c;
 	color: var(--text);
 }
 
@@ -493,9 +495,11 @@
 }
 
 .about__container h3,
+.about__container h1.is-smaller-heading,
 .about__container h2.is-smaller-heading {
 	margin-top: 0;
 	font-size: 1.5em;
+	font-weight: 700;
 }
 
 .about__container p {
@@ -504,16 +508,16 @@
 }
 
 .about__section a {
-	color: #000;
-	color: var(--accent-2);
+	color: #0a5b89;
+	color: var(--accent-1);
 	text-decoration: underline;
 }
 
 .about__section a:hover,
 .about__section a:active,
 .about__section a:focus {
-	color: #000;
-	color: var(--accent-2);
+	color: #0a5b89;
+	color: var(--accent-1);
 	text-decoration: none;
 }
 
@@ -553,6 +557,50 @@
 	margin-left: auto;
 }
 
+.about__container .about__image-comparison {
+	position: relative;
+	display: inline-block;
+	line-height: 0;
+	max-width: 100%;
+}
+
+.about__container .about__image-comparison img {
+	user-select: none;
+	width: auto;
+	max-width: none;
+	max-height: 100%;
+}
+
+.about__container .about__image-comparison > img {
+	max-width: 100%;
+}
+
+.about__container .about__image-comparison-resize {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	width: 50%;
+	max-width: 100%;
+	overflow: hidden;
+	resize: horizontal;
+	border-left: 2px solid white;
+}
+
+.about__container .about__image-comparison-resize:after {
+	content: "";
+	display: block;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 20px;
+	height: 20px;
+	font-family: dashicons;
+	font-size: 20px;
+	line-height: 1;
+	overflow: hidden;
+}
+
 .about__container .about__image + h3 {
 	margin-top: 1.5em;
 }
@@ -569,9 +617,7 @@
 
 .about__container hr.is-large {
 	height: 64px;
-	width: 2px;
 	margin: 16px auto;
-	background: currentColor;
 }
 
 .about__container div.updated,
@@ -586,14 +632,11 @@
 
 .about__section.is-feature {
 	font-size: 1.6em;
-	font-weight: 600;
-	text-align: center;
 }
 
 @media screen and (max-width: 480px) {
 	.about__section.is-feature {
 		font-size: 1.4em;
-		font-weight: 500;
 	}
 
 	.about__container h1,
@@ -608,38 +651,24 @@
 .about__header {
 	margin-bottom: 32px;
 	padding-top: 3em;
-	background-color: #d1e4dd;
+	background-position: bottom center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-image: url('../images/about-header-brushes.svg');
+	background-color: #0a5b89;
 	background-color: var(--accent-1);
-	color: #000;
-	color: var(--text);
+	color: #fff;
+	color: var(--text-light);
 }
 
 .about__header-image {
 	margin: 0 32px 3em;
 }
 
-.about__header-container {
-	display: -ms-grid;
-	display: grid;
-	-ms-grid-columns: 3fr 1fr;
-	grid-template-columns: 3fr 1fr;
-	-ms-grid-rows: auto auto;
-	grid-template-rows: auto auto;
-	justify-items: start;
-}
-
 .about__header-title {
-	display: inline-block;
 	padding: 1em 0;
-	margin: 0 32px 4em;
+	margin: 0 32px;
 	text-align: center;
-	border-width: 3px 0;
-	border-style: solid;
-	border-color: currentColor;
-	-ms-grid-column: 1;
-	grid-column: 1;
-	-ms-grid-row: 1;
-	grid-row: 1;
 }
 
 .about__header-title p {
@@ -647,32 +676,19 @@
 	padding: 0;
 	font-size: 6em;
 	line-height: 1;
-	font-weight: 500;
+	font-weight: 900;
+	text-transform: uppercase;
 }
 
 .about__header-text {
-	margin: 0 32px 3em;
-	max-width: 13em;
+	max-width: 25em;
+	margin: 0 auto 8em;
+	padding: 0 16px;
 	font-size: 1.5em;
 	line-height: 1.4;
-	-ms-grid-column: 1;
-	grid-column: 1;
-	-ms-grid-row: 2;
-	grid-row: 2;
-}
-
-.about__header-text p {
-	margin: 0;
-}
-
-.about__header-badge {
-	-ms-grid-column: 2;
-	grid-column: 2;
-	-ms-grid-row: 1;
-	-ms-grid-row-span: 2;
-	grid-row: 1 / span 2;
-	-ms-grid-row-align: center;
-	align-self: center;
+	color: #fde4bf;
+	color: var(--accent-2);
+	text-align: center;
 }
 
 .about__header-navigation {
@@ -680,9 +696,9 @@
 	padding-top: 0;
 	background: #fff;
 	background: var(--nav-background);
-	color: #767676;
+	color: #00131c;
 	color: var(--nav-color);
-	border-bottom: 3px solid #767676;
+	border-bottom: 3px solid #fcc36f;
 	border-bottom: 3px solid var(--nav-border);
 }
 
@@ -700,29 +716,35 @@
 
 .about__header-navigation .nav-tab:hover,
 .about__header-navigation .nav-tab:active {
-	background-color: #000;
-	background-color: var(--text);
+	background-color: #0a5b88;
+	background-color: var(--nav-current);
 	color: #fff;
 	color: var(--text-light);
 }
 
 .about__header-navigation .nav-tab-active {
 	margin-bottom: -3px;
-	color: #000;
+	color: #0a5b88;
 	color: var(--nav-current);
 	border-width: 0 0 6px;
-	border-color: #000;
+	border-color: #0a5b88;
 	border-color: var(--nav-current);
 }
 
 .about__header-navigation .nav-tab-active:hover,
 .about__header-navigation .nav-tab-active:active {
-	background-color: #000;
-	background-color: var(--text);
+	background-color: #0a5b88;
+	background-color: var(--nav-current);
 	color: #fff;
 	color: var(--text-light);
-	border-color: #000;
+	border-color: #0a5b88;
 	border-color: var(--nav-current);
+}
+
+@media screen and (max-width: 960px){
+	.about__header-title p {
+		font-size: 4.8em;
+	}
 }
 
 @media screen and (max-width: 782px) {
@@ -735,19 +757,9 @@
 	}
 
 	.about__header-title,
-	.about__header-text,
-	.about__header-image,
-	.about__header-badge {
+	.about__header-image {
 		margin-right: 16px;
 		margin-left: 16px;
-	}
-
-	.about__header-text {
-		margin-bottom: 1em;
-	}
-
-	.about__header-badge {
-		margin-bottom: 3em;
 	}
 
 	.about__header-navigation .nav-tab {
@@ -758,8 +770,16 @@
 }
 
 @media screen and (max-width: 480px) {
+	.about__header {
+		background-image: none;
+	}
+
 	.about__header-title p {
-		font-size: 3.2em;
+		font-size: 2.4em;
+	}
+
+	.about__header-text {
+		margin-bottom: 1em;
 	}
 
 	.about__header-navigation .nav-tab {
@@ -821,7 +841,7 @@
 	font-size: 1.4em;
 	font-weight: 600;
 	text-decoration: none;
-	color: #000;
+	color: #00131c;
 	color: var(--text);
 }
 
