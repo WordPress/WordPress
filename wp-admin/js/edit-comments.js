@@ -850,7 +850,7 @@ window.commentReply = {
 	 */
 	toggle : function(el) {
 		if ( 'none' !== $( el ).css( 'display' ) && ( $( '#replyrow' ).parent().is('#com-reply') || window.confirm( __( 'Are you sure you want to edit this comment?\nThe changes you made will be lost.' ) ) ) ) {
-			$( el ).find( 'button.vim-q' ).click();
+			$( el ).find( 'button.vim-q' ).trigger( 'click' );
 		}
 	},
 
@@ -1298,7 +1298,7 @@ $(document).ready(function(){
 			return function() {
 				var scope = $('select[name="action"]');
 				$('option[value="' + value + '"]', scope).prop('selected', true);
-				$('#doaction').click();
+				$('#doaction').trigger( 'click' );
 			};
 		};
 

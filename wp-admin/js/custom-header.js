@@ -35,7 +35,7 @@
 		 *
 		 * @return {void}
 		 */
-		$('#choose-from-library-link').click( function( event ) {
+		$('#choose-from-library-link').on( 'click', function( event ) {
 			var $el = $(this);
 			event.preventDefault();
 

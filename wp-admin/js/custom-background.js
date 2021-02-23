@@ -39,7 +39,7 @@
 		 *
 		 * @return {void}
 		 */
-		$( 'select[name="background-size"]' ).change( function() {
+		$( 'select[name="background-size"]' ).on( 'change', function() {
 			bgImage.css( 'background-size', $( this ).val() );
 		});
 
@@ -50,7 +50,7 @@
 		 *
 		 * @return {void}
 		 */
-		$( 'input[name="background-position"]' ).change( function() {
+		$( 'input[name="background-position"]' ).on( 'change', function() {
 			bgImage.css( 'background-position', $( this ).val() );
 		});
 
@@ -61,7 +61,7 @@
 		 *
 		 * @return {void}
 		 */
-		$( 'input[name="background-repeat"]' ).change( function() {
+		$( 'input[name="background-repeat"]' ).on( 'change',  function() {
 			bgImage.css( 'background-repeat', $( this ).is( ':checked' ) ? 'repeat' : 'no-repeat' );
 		});
 
@@ -72,7 +72,7 @@
 		 *
 		 * @return {void}
 		 */
-		$( 'input[name="background-attachment"]' ).change( function() {
+		$( 'input[name="background-attachment"]' ).on( 'change', function() {
 			bgImage.css( 'background-attachment', $( this ).is( ':checked' ) ? 'scroll' : 'fixed' );
 		});
 
@@ -83,7 +83,7 @@
 		 *
 		 * @return {void}
 		 */
-		$('#choose-from-library-link').click( function( event ) {
+		$('#choose-from-library-link').on( 'click', function( event ) {
 			var $el = $(this);
 
 			event.preventDefault();

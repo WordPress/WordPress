@@ -81,7 +81,7 @@ window.wpWidgets = {
 				});
 				unsavedWidgetsElements.each( function() {
 					if ( ! $( this ).hasClass( 'open' ) ) {
-						$( this ).find( '.widget-title-action:first' ).click();
+						$( this ).find( '.widget-title-action:first' ).trigger( 'click' );
 					}
 				});
 
@@ -92,7 +92,7 @@ window.wpWidgets = {
 					} else {
 						this.scrollIntoView();
 					}
-					$( this ).find( '.widget-inside :tabbable:first' ).focus();
+					$( this ).find( '.widget-inside :tabbable:first' ).trigger( 'focus' );
 				} );
 
 				event.returnValue = wp.i18n.__( 'The changes you made will be lost if you navigate away from this page.' );

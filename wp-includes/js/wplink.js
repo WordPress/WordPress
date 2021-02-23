@@ -181,7 +181,7 @@
 
 			if ( isTouch ) {
 				// Close the onscreen keyboard.
-				inputs.url.focus().blur();
+				inputs.url.trigger( 'focus' ).trigger( 'blur' );
 			} else {
 				/*
 				 * Focus the URL field and highlight its contents.
@@ -190,7 +190,7 @@
 				 */
 				window.setTimeout( function() {
 					inputs.url[0].select();
-					inputs.url.focus();
+					inputs.url.trigger( 'focus' );
 				} );
 			}
 
@@ -557,10 +557,10 @@
 				// wp-link-submit must always be the last focusable element in the dialog.
 				// Following focusable elements will be skipped on keyboard navigation.
 				if ( id === 'wp-link-submit' && ! event.shiftKey ) {
-					inputs.close.focus();
+					inputs.close.trigger( 'focus' );
 					event.preventDefault();
 				} else if ( id === 'wp-link-close' && event.shiftKey ) {
-					inputs.submit.focus();
+					inputs.submit.trigger( 'focus' );
 					event.preventDefault();
 				}
 			}

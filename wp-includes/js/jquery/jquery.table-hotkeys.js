@@ -14,7 +14,7 @@
 	$.table_hotkeys = function(table, keys, opts) {
 		opts = $.extend($.table_hotkeys.defaults, opts);
 		var selected_class, destructive_class, set_current_row, adjacent_row_callback, get_adjacent_row, adjacent_row, prev_row, next_row, check, get_first_row, get_last_row, make_key_callback, first_row;
-		
+
 		selected_class = opts.class_prefix + opts.selected_suffix;
 		destructive_class = opts.class_prefix + opts.destructive_suffix;
 		set_current_row = function (tr) {
@@ -24,13 +24,13 @@
 			$.table_hotkeys.current_row = tr;
 		};
 		adjacent_row_callback = function(which) {
-			if (!adjacent_row(which) && $.isFunction(opts[which+'_page_link_cb'])) {
+			if (!adjacent_row(which) && typeof opts[which+'_page_link_cb'] === 'function' ) {
 				opts[which+'_page_link_cb']();
 			}
 		};
 		get_adjacent_row = function(which) {
 			var first_row, method;
-			
+
 			if (!$.table_hotkeys.current_row) {
 				first_row = get_first_row();
 				$.table_hotkeys.current_row = first_row;
@@ -65,7 +65,7 @@
 				var clickable = $(expr, $.table_hotkeys.current_row);
 				if (!clickable.length) return false;
 				if (clickable.is('.'+destructive_class)) next_row() || prev_row();
-				clickable.click();
+				clickable.trigger( 'click' );
 			};
 		};
 		first_row = get_first_row();
@@ -79,8 +79,8 @@
 		$.hotkeys.add(opts.mark_key, opts.hotkeys_opts, check);
 		$.each(keys, function() {
 			var callback, key;
-			
-			if ($.isFunction(this[1])) {
+
+			if ( typeof this[1] === 'function' ) {
 				callback = this[1];
 				key = this[0];
 				$.hotkeys.add(key, opts.hotkeys_opts, function(event) { return callback(event, $.table_hotkeys.current_row); });

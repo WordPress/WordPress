@@ -408,7 +408,7 @@
 				// Repaint icons.
 				if ( typeof wp !== 'undefined' && wp.svgPainter ) {
 					try {
-						colors = $.parseJSON( $this.children( '.icon_colors' ).val() );
+						colors = JSON.parse( $this.children( '.icon_colors' ).val() );
 					} catch ( error ) {}
 
 					if ( colors ) {

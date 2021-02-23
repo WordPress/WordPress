@@ -127,7 +127,7 @@
 				}
 
 				postbox.prevAll( '.postbox:visible' ).eq( 0 ).before( postbox );
-				button.focus();
+				button.trigger( 'focus' );
 				postboxes.updateOrderButtonsProperties();
 				postboxes.save_order( postboxes.page );
 			}
@@ -141,7 +141,7 @@
 				}
 
 				postbox.nextAll( '.postbox:visible' ).eq( 0 ).after( postbox );
-				button.focus();
+				button.trigger( 'focus' );
 				postboxes.updateOrderButtonsProperties();
 				postboxes.save_order( postboxes.page );
 			}

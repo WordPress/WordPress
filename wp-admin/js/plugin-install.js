@@ -75,7 +75,7 @@ jQuery( document ).ready( function( $ ) {
 		.on( 'thickbox:removed', function() {
 			// Set focus back to the element that opened the modal dialog.
 			// Note: IE 8 would need this wrapped in a fake setTimeout `0`.
-			$focusedBefore.focus();
+			$focusedBefore.trigger( 'focus' );
 		});
 
 	function iframeLoaded() {
@@ -88,7 +88,7 @@ jQuery( document ).ready( function( $ ) {
 		handleTabbables();
 
 		// Set initial focus on the "Close" button.
-		$firstTabbable.focus();
+		$firstTabbable.trigger( 'focus' );
 
 		/*
 		 * When the "Install" button is disabled (e.g. the Plugin is already installed)
@@ -141,10 +141,10 @@ jQuery( document ).ready( function( $ ) {
 
 		if ( $lastTabbable[0] === event.target && ! event.shiftKey ) {
 			event.preventDefault();
-			$firstTabbable.focus();
+			$firstTabbable.trigger( 'focus' );
 		} else if ( $firstTabbable[0] === event.target && event.shiftKey ) {
 			event.preventDefault();
-			$lastTabbable.focus();
+			$lastTabbable.trigger( 'focus' );
 		}
 	}
 

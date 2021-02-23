@@ -15,7 +15,7 @@
 			rejectUrl: authApp.reject
 		};
 
-	$approveBtn.click( function( e ) {
+	$approveBtn.on( 'click', function( e ) {
 		var name = $appNameField.val(),
 			appId = $( 'input[name="app_id"]', $form ).val();
 
@@ -26,7 +26,7 @@
 		}
 
 		if ( 0 === name.length ) {
-			$appNameField.focus();
+			$appNameField.trigger( 'focus' );
 			return;
 		}
 
@@ -102,7 +102,7 @@
 				$( 'input', $notice ).val( response.password );
 
 				$form.replaceWith( $notice );
-				$notice.focus();
+				$notice.trigger( 'focus' );
 			}
 		} ).fail( function( jqXHR, textStatus, errorThrown ) {
 			var errorMessage = errorThrown,
@@ -140,7 +140,7 @@
 		} );
 	} );
 
-	$rejectBtn.click( function( e ) {
+	$rejectBtn.on( 'click', function( e ) {
 		e.preventDefault();
 
 		/**

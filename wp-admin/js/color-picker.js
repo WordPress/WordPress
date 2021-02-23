@@ -67,7 +67,7 @@
 				 * @return {void}
 				 */
 				change: function( event, ui ) {
-					if ( $.isFunction( self.options.change ) ) {
+					if ( typeof self.options.change === 'function' ) {
 						self.options.change.call( this, event, ui );
 					}
 				},
@@ -189,7 +189,7 @@
 				change: function( event, ui ) {
 					self.toggler.css( { backgroundColor: ui.color.toString() } );
 
-					if ( $.isFunction( self.options.change ) ) {
+					if ( typeof self.options.change === 'function' ) {
 						self.options.change.call( this, event, ui );
 					}
 				}
@@ -257,7 +257,7 @@
 				if ( val === '' || val === '#' ) {
 					self.toggler.css( 'backgroundColor', '' );
 					// Fire clear callback if we have one.
-					if ( $.isFunction( self.options.clear ) ) {
+					if ( typeof self.options.clear === 'function' ) {
 						self.options.clear.call( this, event );
 					}
 				}

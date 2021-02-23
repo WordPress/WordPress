@@ -59,7 +59,7 @@ wp.textWidgets = ( function( $ ) {
 				control.customHtmlWidgetPointer.find( '.close' ).on( 'click', function( event ) {
 					event.preventDefault();
 					control.customHtmlWidgetPointer.hide();
-					$( '#' + control.fields.text.attr( 'id' ) + '-html' ).focus();
+					$( '#' + control.fields.text.attr( 'id' ) + '-html' ).trigger( 'focus' );
 					control.dismissPointers( [ 'text_widget_custom_html' ] );
 				});
 				control.customHtmlWidgetPointer.find( '.add-widget' ).on( 'click', function( event ) {
@@ -278,7 +278,7 @@ wp.textWidgets = ( function( $ ) {
 				 */
 				showPointerElement = function( pointerElement ) {
 					pointerElement.show();
-					pointerElement.find( '.close' ).focus();
+					pointerElement.find( '.close' ).trigger( 'focus' );
 					wp.a11y.speak( pointerElement.find( 'h3, p' ).map( function() {
 						return $( this ).text();
 					} ).get().join( '\n\n' ) );

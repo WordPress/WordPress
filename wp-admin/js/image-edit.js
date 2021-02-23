@@ -127,7 +127,7 @@
 
 			// Key codes 37 through 40 are the arrow keys.
 			if ( 36 < k && k < 41 ) {
-				$(this).blur();
+				$(this).trigger( 'blur' );
 			}
 
 			// The key code 13 is the Enter key.

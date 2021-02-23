@@ -46,7 +46,7 @@
 			$( '#find-posts' ).show();
 
 			// Close the dialog when the escape key is pressed.
-			$('#find-posts-input').focus().keyup( function( event ){
+			$('#find-posts-input').trigger( 'focus' ).on( 'keyup', function( event ){
 				if ( event.which == 27 ) {
 					findPosts.close();
 				}

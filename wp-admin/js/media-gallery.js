@@ -10,7 +10,7 @@ jQuery(function($) {
 	/**
 	 * Adds a click event handler to the element with a 'wp-gallery' class.
 	 */
-	$( 'body' ).bind( 'click.wp-gallery', function(e) {
+	$( 'body' ).on( 'click.wp-gallery', function(e) {
 		var target = $( e.target ), id, img_size, nonceValue;
 
 		if ( target.hasClass( 'wp-set-header' ) ) {

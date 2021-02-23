@@ -188,7 +188,7 @@
 							 * key this will fire the `keyup` event on the input.
 							 */
 							if ( 13 === e.keyCode || 32 === e.keyCode ) {
- 								$( this ).closest( '.tagsdiv' ).find( 'input.newtag' ).focus();
+ 								$( this ).closest( '.tagsdiv' ).find( 'input.newtag' ).trigger( 'focus' );
  							}
 
 							tagBox.userAction = 'remove';
@@ -255,7 +255,7 @@
 			if ( ! a )
 				newtag.val('');
 			if ( 'undefined' == typeof( f ) )
-				newtag.focus();
+				newtag.trigger( 'focus' );
 
 			return false;
 		},
@@ -303,7 +303,7 @@
 				 *
 				 * @return {boolean} Returns false to prevent the default action.
 				 */
-				$( 'a', r ).click( function() {
+				$( 'a', r ).on( 'click', function() {
 					tagBox.userAction = 'add';
 					tagBox.flushTags( $( '#' + tax ), this );
 					return false;
@@ -368,7 +368,7 @@
 				tagBox.quickClicks( this );
 			});
 
-			$( '.tagadd', ajaxtag ).click( function() {
+			$( '.tagadd', ajaxtag ).on( 'click', function() {
 				tagBox.userAction = 'add';
 				tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
 			});
@@ -385,7 +385,7 @@
 			 *
 			 * @return {void}
 			 */
-			$( 'input.newtag', ajaxtag ).keypress( function( event ) {
+			$( 'input.newtag', ajaxtag ).on( 'keypress', function( event ) {
 				if ( 13 == event.which ) {
 					tagBox.userAction = 'add';
 					tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
@@ -404,7 +404,7 @@
 			 *
 			 * @return {void}
 			 */
-			$('#post').submit(function(){
+			$('#post').on( 'submit', function(){
 				$('div.tagsdiv').each( function() {
 					tagBox.flushTags(this, false, 1);
 				});
@@ -419,14 +419,14 @@
 			 *
 			 * @return {void}
 			 */
-			$('.tagcloud-link').click(function(){
+			$('.tagcloud-link').on( 'click', function(){
 				// On the first click, fetch the tag cloud and insert it in the DOM.
 				tagBox.get( $( this ).attr( 'id' ) );
 				// Update button state, remove previous click event and attach a new one to toggle the cloud.
 				$( this )
 					.attr( 'aria-expanded', 'true' )
-					.unbind()
-					.click( function() {
+					.off()
+					.on( 'click', function() {
 						$( this )
 							.attr( 'aria-expanded', 'false' === $( this ).attr( 'aria-expanded' ) ? 'true' : 'false' )
 							.siblings( '.the-tagcloud' ).toggle();

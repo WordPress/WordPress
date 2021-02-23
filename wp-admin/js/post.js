@@ -68,7 +68,7 @@ window.wp = window.wp || {};
 						$('#the-comment-list').append( r.responses[0].data );
 
 						theList = theExtraList = null;
-						$( 'a[className*=\':\']' ).unbind();
+						$( 'a[className*=\':\']' ).off();
 
 						// If the offset is over the total number of comments we cannot fetch any more, so hide the button.
 						if ( commentsBox.st > commentsBox.total )
@@ -414,7 +414,7 @@ jQuery(document).ready( function($) {
 		}
 
 		$previewField.val('dopreview');
-		$form.attr( 'target', target ).submit().attr( 'target', '' );
+		$form.attr( 'target', target ).trigger( 'submit' ).attr( 'target', '' );
 
 		// Workaround for WebKit bug preventing a form submitting twice to the same action.
 		// https://bugs.webkit.org/show_bug.cgi?id=28633
@@ -448,7 +448,7 @@ jQuery(document).ready( function($) {
 
 	// Auto save new posts after a title is typed.
 	if ( $( '#auto_draft' ).val() ) {
-		$( '#title' ).blur( function() {
+		$( '#title' ).on( 'blur', function() {
 			var cancel;
 
 			if ( ! this.value || $('#edit-slug-box > *').length ) {
@@ -592,7 +592,7 @@ jQuery(document).ready( function($) {
 		});
 
 		if ( getUserSetting( settingName ) )
-			$('a[href="#' + taxonomy + '-pop"]', '#' + taxonomy + '-tabs').click();
+			$('a[href="#' + taxonomy + '-pop"]', '#' + taxonomy + '-tabs').trigger( 'click' );
 
 		// Add category button controls.
 		$('#new' + taxonomy).one( 'focus', function() {
@@ -600,10 +600,10 @@ jQuery(document).ready( function($) {
 		});
 
 		// On [Enter] submit the taxonomy.
-		$('#new' + taxonomy).keypress( function(event){
+		$('#new' + taxonomy).on( 'keypress', function(event){
 			if( 13 === event.keyCode ) {
 				event.preventDefault();
-				$('#' + taxonomy + '-add-submit').click();
+				$('#' + taxonomy + '-add-submit').trigger( 'click' );
 			}
 		});
 
@@ -1001,7 +1001,7 @@ jQuery(document).ready( function($) {
 			var new_slug = $el.children( 'input' ).val();
 
 			if ( new_slug == $('#editable-post-name-full').text() ) {
-				buttons.children('.cancel').click();
+				buttons.children('.cancel').trigger( 'click' );
 				return;
 			}
 
@@ -1054,11 +1054,11 @@ jQuery(document).ready( function($) {
 			// On [Enter], just save the new slug, don't save the post.
 			if ( 13 === key ) {
 				e.preventDefault();
-				buttons.children( '.save' ).click();
+				buttons.children( '.save' ).trigger( 'click' );
 			}
 			// On [Esc] cancel the editing.
 			if ( 27 === key ) {
-				buttons.children( '.cancel' ).click();
+				buttons.children( '.cancel' ).trigger( 'click' );
 			}
 		} ).on( 'keyup', function() {
 			real_slug.val( this.value );
@@ -1177,7 +1177,7 @@ jQuery(document).ready( function($) {
 			} else {
 				mce = false;
 				offset = $textarea.height() - event.pageY;
-				$textarea.blur();
+				$textarea.trigger( 'blur' );
 			}
 
 			$document.on( 'mousemove.wp-editor-resize', dragging )
@@ -1261,7 +1261,7 @@ jQuery(document).ready( function($) {
 		// Clear the selection and move focus back to the trigger.
 		event.clearSelection();
 		// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
-		triggerElement.focus();
+		triggerElement.trigger( 'focus' );
 
 		// Show success visual feedback.
 		clearTimeout( copyAttachmentURLSuccessTimeout );
