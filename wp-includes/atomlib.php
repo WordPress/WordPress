@@ -204,8 +204,6 @@ class AtomParser {
         };
 
         $this->_p("start_element('$name')");
-        #$this->_p(print_r($this->ns_contexts,true));
-        #$this->_p('current(' . $this->current . ')');
 
         array_unshift($this->ns_contexts, $this->ns_decls);
 
