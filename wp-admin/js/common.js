@@ -840,7 +840,7 @@ $document.ready( function() {
 	 * @return {void}
 	 */
 	$adminmenu.on('click.wp-submenu-head', '.wp-submenu-head', function(e){
-		$(e.target).parent().siblings('a').get(0).trigger( 'click' );
+		$(e.target).parent().siblings('a').get(0).click();
 	});
 
 	/**
