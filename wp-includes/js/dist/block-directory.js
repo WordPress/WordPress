@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockDirectory"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 463);
+/******/ 	return __webpack_require__(__webpack_require__.s = 447);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -191,7 +191,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 138:
+/***/ 135:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -290,7 +290,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 215:
+/***/ 213:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -332,21 +332,14 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 278:
+/***/ 272:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["editPost"]; }());
 
 /***/ }),
 
-/***/ 3:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["components"]; }());
-
-/***/ }),
-
-/***/ 303:
+/***/ 297:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -371,7 +364,7 @@ var starFilled = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createE
 
 /***/ }),
 
-/***/ 304:
+/***/ 298:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -395,6 +388,13 @@ var starEmpty = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEl
 }));
 /* harmony default export */ __webpack_exports__["a"] = (starEmpty);
 
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["components"]; }());
 
 /***/ }),
 
@@ -485,7 +485,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 463:
+/***/ 447:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1527,10 +1527,10 @@ function DownloadableBlockAuthorInfo(_ref) {
 var external_wp_htmlEntities_ = __webpack_require__(64);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__(138);
+var build_module_icon = __webpack_require__(135);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-filled.js
-var star_filled = __webpack_require__(303);
+var star_filled = __webpack_require__(297);
 
 // EXTERNAL MODULE: external ["wp","primitives"]
 var external_wp_primitives_ = __webpack_require__(7);
@@ -1551,7 +1551,7 @@ var starHalf = Object(external_wp_element_["createElement"])(external_wp_primiti
 /* harmony default export */ var star_half = (starHalf);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-empty.js
-var star_empty = __webpack_require__(304);
+var star_empty = __webpack_require__(298);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/block-ratings/stars.js
 
@@ -2124,10 +2124,10 @@ function InserterMenuDownloadableBlocksPanel() {
 /* harmony default export */ var inserter_menu_downloadable_blocks_panel = (InserterMenuDownloadableBlocksPanel);
 
 // EXTERNAL MODULE: external ["wp","editPost"]
-var external_wp_editPost_ = __webpack_require__(278);
+var external_wp_editPost_ = __webpack_require__(272);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/block-default.js
-var block_default = __webpack_require__(215);
+var block_default = __webpack_require__(213);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/compact-list/index.js
 

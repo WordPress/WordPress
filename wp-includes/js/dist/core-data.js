@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 464);
+/******/ 	return __webpack_require__(__webpack_require__.s = 448);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -541,7 +541,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 204:
+/***/ 202:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1042,7 +1042,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 464:
+/***/ 448:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1320,7 +1320,7 @@ var external_wp_i18n_ = __webpack_require__(1);
 var toArray = __webpack_require__(147);
 
 // EXTERNAL MODULE: ./node_modules/uuid/dist/esm-browser/v4.js + 4 modules
-var v4 = __webpack_require__(204);
+var v4 = __webpack_require__(202);
 
 // EXTERNAL MODULE: external ["wp","url"]
 var external_wp_url_ = __webpack_require__(32);

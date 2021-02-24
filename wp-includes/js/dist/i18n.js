@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 472);
+/******/ 	return __webpack_require__(__webpack_require__.s = 456);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 209:
+/***/ 207:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -333,7 +333,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 472:
+/***/ 456:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -355,7 +355,7 @@ var memize = __webpack_require__(71);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(209);
+var sprintf = __webpack_require__(207);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/sprintf.js

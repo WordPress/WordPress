@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["editor"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 457);
+/******/ 	return __webpack_require__(__webpack_require__.s = 441);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -221,7 +221,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 126:
+/***/ 124:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["wordcount"]; }());
@@ -256,7 +256,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 138:
+/***/ 135:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -304,7 +304,7 @@ function Icon(_ref) {
 
 /***/ }),
 
-/***/ 139:
+/***/ 136:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -317,7 +317,7 @@ function Icon(_ref) {
 
 
 
-var ReactPropTypesSecret = __webpack_require__(140);
+var ReactPropTypesSecret = __webpack_require__(137);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -376,14 +376,7 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["React"]; }());
-
-/***/ }),
-
-/***/ 140:
+/***/ 137:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -400,6 +393,13 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
+
+/***/ }),
+
+/***/ 14:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["React"]; }());
 
 /***/ }),
 
@@ -558,7 +558,7 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 186:
+/***/ 189:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -593,8 +593,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 exports.__esModule = true;
 var React = __webpack_require__(14);
 var PropTypes = __webpack_require__(30);
-var autosize = __webpack_require__(187);
-var _getLineHeight = __webpack_require__(188);
+var autosize = __webpack_require__(190);
+var _getLineHeight = __webpack_require__(191);
 var getLineHeight = _getLineHeight;
 var RESIZED = "autosize:resized";
 /**
@@ -692,7 +692,21 @@ exports.TextareaAutosize = React.forwardRef(function (props, ref) {
 
 /***/ }),
 
-/***/ 187:
+/***/ 19:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+/***/ }),
+
+/***/ 190:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -981,11 +995,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 188:
+/***/ 191:
 /***/ (function(module, exports, __webpack_require__) {
 
 // Load in dependencies
-var computedStyle = __webpack_require__(189);
+var computedStyle = __webpack_require__(192);
 
 /**
  * Calculate the `line-height` of a given node
@@ -1085,7 +1099,7 @@ module.exports = lineHeight;
 
 /***/ }),
 
-/***/ 189:
+/***/ 192:
 /***/ (function(module, exports) {
 
 // This code has been refactored for 140 bytes
@@ -1116,20 +1130,6 @@ var computedStyle = function (el, prop, getComputedStyle) {
 
 module.exports = computedStyle;
 
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
 
 /***/ }),
 
@@ -1263,31 +1263,13 @@ function _possibleConstructorReturn(self, call) {
 if (false) { var throwOnDirectAccess, ReactIs; } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(139)();
+  module.exports = __webpack_require__(136)();
 }
 
 
 /***/ }),
 
-/***/ 31:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
-
-/***/ }),
-
-/***/ 313:
+/***/ 307:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1309,6 +1291,24 @@ var layout = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
 }));
 /* harmony default export */ __webpack_exports__["a"] = (layout);
 
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
+/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+}
 
 /***/ }),
 
@@ -1700,7 +1700,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 457:
+/***/ 441:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6397,7 +6397,7 @@ function EditorNotices(_ref) {
 var library_close = __webpack_require__(160);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/layout.js
-var layout = __webpack_require__(313);
+var layout = __webpack_require__(307);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/page.js
 
@@ -10415,7 +10415,7 @@ var post_publish_panel_PostPublishPanel = /*#__PURE__*/function (_Component) {
 }), external_wp_components_["withFocusReturn"], external_wp_components_["withConstrainedTabbing"]])(post_publish_panel_PostPublishPanel));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__(138);
+var build_module_icon = __webpack_require__(135);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/cloud.js
 
@@ -11548,7 +11548,7 @@ function PostTaxonomiesCheck(_ref) {
 })])(PostTaxonomiesCheck));
 
 // EXTERNAL MODULE: ./node_modules/react-autosize-textarea/lib/index.js
-var lib = __webpack_require__(91);
+var lib = __webpack_require__(90);
 var lib_default = /*#__PURE__*/__webpack_require__.n(lib);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-text-editor/index.js
@@ -11988,7 +11988,7 @@ var info_info = Object(external_wp_element_["createElement"])(external_wp_primit
 /* harmony default export */ var library_info = (info_info);
 
 // EXTERNAL MODULE: external ["wp","wordcount"]
-var external_wp_wordcount_ = __webpack_require__(126);
+var external_wp_wordcount_ = __webpack_require__(124);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/word-count/index.js
 
@@ -13058,13 +13058,13 @@ function _extends() {
 
 /***/ }),
 
-/***/ 91:
+/***/ 90:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 exports.__esModule = true;
-var TextareaAutosize_1 = __webpack_require__(186);
+var TextareaAutosize_1 = __webpack_require__(189);
 exports["default"] = TextareaAutosize_1.TextareaAutosize;
 
 

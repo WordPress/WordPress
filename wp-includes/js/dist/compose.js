@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 461);
+/******/ 	return __webpack_require__(__webpack_require__.s = 445);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -149,7 +149,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 127:
+/***/ 125:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -394,7 +394,7 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
-/***/ 289:
+/***/ 283:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -1368,26 +1368,7 @@ function getAttributeValue(suffix, element) {
 
 /***/ }),
 
-/***/ 29:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(42);
-/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
-
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
-}
-
-/***/ }),
-
-/***/ 290:
+/***/ 284:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -2453,6 +2434,25 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
 
 /***/ }),
 
+/***/ 29:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
+/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(42);
+/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
+}
+
+/***/ }),
+
 /***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2534,7 +2534,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 437:
+/***/ 421:
 /***/ (function(module, exports) {
 
 /**
@@ -2587,7 +2587,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 461:
+/***/ 445:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3359,7 +3359,7 @@ function useConstrainedTabbing() {
 var slicedToArray = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/clipboard/dist/clipboard.js
-var dist_clipboard = __webpack_require__(289);
+var dist_clipboard = __webpack_require__(283);
 var clipboard_default = /*#__PURE__*/__webpack_require__.n(dist_clipboard);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-copy-on-click/index.js
@@ -3922,11 +3922,11 @@ function useDragging(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/mousetrap.js
-var mousetrap_mousetrap = __webpack_require__(290);
+var mousetrap_mousetrap = __webpack_require__(284);
 var mousetrap_default = /*#__PURE__*/__webpack_require__.n(mousetrap_mousetrap);
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
-var mousetrap_global_bind = __webpack_require__(437);
+var mousetrap_global_bind = __webpack_require__(421);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-keyboard-shortcut/index.js
 /**
@@ -4400,7 +4400,7 @@ function useWarnOnChange(object) {
 /* harmony default export */ var use_warn_on_change = (useWarnOnChange);
 
 // EXTERNAL MODULE: ./node_modules/use-memo-one/dist/use-memo-one.esm.js
-var use_memo_one_esm = __webpack_require__(127);
+var use_memo_one_esm = __webpack_require__(125);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-debounce/index.js
 /**
