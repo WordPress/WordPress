@@ -1592,7 +1592,7 @@ function add_settings_section( $id, $title, $callback, $page ) {
  *
  * Part of the Settings API. Use this to define a settings field that will show
  * as part of a settings section inside a settings page. The fields are shown using
- * do_settings_fields() in do_settings-sections()
+ * do_settings_fields() in do_settings_sections().
  *
  * The $callback argument should be the name of a function that echoes out the
  * HTML input tags for this setting field. Use get_option() to retrieve existing
