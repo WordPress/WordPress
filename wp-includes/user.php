@@ -2749,6 +2749,11 @@ function retrieve_password( $user_login = null ) {
 		return $key;
 	}
 
+	// Localize password reset message content for user.
+	$locale = get_user_locale( $user_data );
+
+	$switched_locale = switch_to_locale( $locale );
+
 	if ( is_multisite() ) {
 		$site_name = get_network()->site_name;
 	} else {
@@ -2758,11 +2763,6 @@ function retrieve_password( $user_login = null ) {
 		 */
 		$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	}
-
-	// Localize password reset message content for user.
-	$locale = get_user_locale( $user_data );
-
-	$switched_locale = switch_to_locale( $locale );
 
 	$message = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
 	/* translators: %s: Site name. */
