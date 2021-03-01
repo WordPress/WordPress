@@ -7347,7 +7347,21 @@ var serverSideBlockDefinitions = {};
 // eslint-disable-next-line camelcase
 
 function unstable__bootstrapServerSideBlockDefinitions(definitions) {
-  serverSideBlockDefinitions = registration_objectSpread(registration_objectSpread({}, serverSideBlockDefinitions), definitions);
+  for (var _i = 0, _Object$keys = Object.keys(definitions); _i < _Object$keys.length; _i++) {
+    var blockName = _Object$keys[_i];
+
+    // Don't overwrite if already set. It covers the case when metadata
+    // was initialized from the server.
+    if (serverSideBlockDefinitions[blockName]) {
+      continue;
+    }
+
+    serverSideBlockDefinitions[blockName] = Object(external_lodash_["mapKeys"])(Object(external_lodash_["pickBy"])(definitions[blockName], function (value) {
+      return !Object(external_lodash_["isNil"])(value);
+    }), function (value, key) {
+      return Object(external_lodash_["camelCase"])(key);
+    });
+  }
 }
 /**
  * Registers a new block provided a unique name and an object defining its
@@ -7374,9 +7388,7 @@ function registerBlockType(name, settings) {
     save: function save() {
       return null;
     }
-  }, Object(external_lodash_["pickBy"])(Object(external_lodash_["get"])(serverSideBlockDefinitions, name, {}), function (value) {
-    return !Object(external_lodash_["isNil"])(value);
-  })), settings);
+  }, serverSideBlockDefinitions === null || serverSideBlockDefinitions === void 0 ? void 0 : serverSideBlockDefinitions[name]), settings);
 
   if (typeof name !== 'string') {
     console.error('Block names must be strings.');

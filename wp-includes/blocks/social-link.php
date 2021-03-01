@@ -33,7 +33,12 @@ function render_block_core_social_link( $attributes, $content, $block ) {
 	}
 
 	$icon               = block_core_social_link_get_icon( $service );
-	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'wp-social-link wp-social-link-' . $service . $class_name ) );
+	$wrapper_attributes = get_block_wrapper_attributes(
+		array(
+			'class' => 'wp-social-link wp-social-link-' . $service . $class_name,
+			'style' => block_core_social_link_get_color_styles( $block->context ),
+		)
+	);
 
 	return '<li ' . $wrapper_attributes . '><a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( $label ) . '" ' . $attribute . ' class="wp-block-social-link-anchor"> ' . $icon . '</a></li>';
 }
@@ -279,4 +284,25 @@ function block_core_social_link_services( $service = '', $field = '' ) {
 	}
 
 	return $services_data;
+}
+
+/**
+ * Returns CSS styles for icon and icon background colors.
+ *
+ * @param array $context Block context passed to Social Link.
+ *
+ * @return string Inline CSS styles for link's icon and background colors.
+ */
+function block_core_social_link_get_color_styles( $context ) {
+	$styles = array();
+
+	if ( array_key_exists( 'iconColorValue', $context ) ) {
+		$styles[] = 'color: ' . $context['iconColorValue'] . '; ';
+	}
+
+	if ( array_key_exists( 'iconBackgroundColorValue', $context ) ) {
+		$styles[] = 'background-color: ' . $context['iconBackgroundColorValue'] . '; ';
+	}
+
+	return implode( '', $styles );
 }

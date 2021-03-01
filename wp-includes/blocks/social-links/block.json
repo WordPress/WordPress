@@ -30,7 +30,9 @@
 		}
 	},
 	"providesContext": {
-		"openInNewTab": "openInNewTab"
+		"openInNewTab": "openInNewTab",
+		"iconColorValue": "iconColorValue",
+		"iconBackgroundColorValue": "iconBackgroundColorValue"
 	},
 	"supports": {
 		"align": [

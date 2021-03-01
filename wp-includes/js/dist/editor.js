@@ -12506,7 +12506,7 @@ function useBlockEditorSettings(settings, hasTemplate) {
 
     return {
       canUseUnfilteredHTML: canUserUseUnfilteredHTML(),
-      reusableBlocks: select('core').getEntityRecords('postType', 'wp_block',
+      reusableBlocks: select(external_wp_coreData_["store"]).getEntityRecords('postType', 'wp_block',
       /**
        * Unbounded queries are not supported on native so as a workaround we set per_page with the maximum value.
        * Related issue: https://github.com/wordpress-mobile/gutenberg-mobile/issues/2661
@@ -12531,7 +12531,7 @@ function useBlockEditorSettings(settings, hasTemplate) {
       undo = _useDispatch.undo;
 
   return Object(external_wp_element_["useMemo"])(function () {
-    return use_block_editor_settings_objectSpread(use_block_editor_settings_objectSpread({}, Object(external_lodash_["pick"])(settings, ['__experimentalBlockDirectory', '__experimentalBlockPatterns', '__experimentalBlockPatternCategories', '__experimentalFeatures', '__experimentalGlobalStylesUserEntityId', '__experimentalGlobalStylesBaseStyles', '__experimentalPreferredStyleVariations', '__experimentalSetIsInserterOpened', 'alignWide', 'allowedBlockTypes', 'availableLegacyWidgets', 'bodyPlaceholder', 'codeEditingEnabled', 'colors', 'disableCustomColors', 'disableCustomFontSizes', 'disableCustomGradients', 'enableCustomUnits', 'enableCustomLineHeight', 'focusMode', 'fontSizes', 'gradients', 'hasFixedToolbar', 'hasReducedUI', 'imageEditing', 'imageSizes', 'imageDimensions', 'isRTL', 'keepCaretInsideBlock', 'maxWidth', 'onUpdateDefaultBlockStyles', 'styles', 'template', 'templateLock', 'titlePlaceholder'])), {}, {
+    return use_block_editor_settings_objectSpread(use_block_editor_settings_objectSpread({}, Object(external_lodash_["pick"])(settings, ['__experimentalBlockDirectory', '__experimentalBlockPatternCategories', '__experimentalBlockPatterns', '__experimentalFeatures', '__experimentalGlobalStylesBaseStyles', '__experimentalGlobalStylesUserEntityId', '__experimentalPreferredStyleVariations', '__experimentalSetIsInserterOpened', 'alignWide', 'allowedBlockTypes', 'availableLegacyWidgets', 'bodyPlaceholder', 'codeEditingEnabled', 'colors', 'disableCustomColors', 'disableCustomFontSizes', 'disableCustomGradients', 'enableCustomLineHeight', 'enableCustomSpacing', 'enableCustomUnits', 'focusMode', 'fontSizes', 'gradients', 'hasFixedToolbar', 'hasReducedUI', 'imageDimensions', 'imageEditing', 'imageSizes', 'isRTL', 'keepCaretInsideBlock', 'maxWidth', 'onUpdateDefaultBlockStyles', 'styles', 'template', 'templateLock', 'titlePlaceholder'])), {}, {
       mediaUpload: hasUploadPermissions ? mediaUpload : undefined,
       __experimentalReusableBlocks: reusableBlocks,
       __experimentalFetchLinkSuggestions: Object(external_lodash_["partialRight"])(fetchLinkSuggestions, settings),
