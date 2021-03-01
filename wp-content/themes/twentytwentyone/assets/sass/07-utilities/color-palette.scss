@@ -2,7 +2,7 @@
 
 .has-black-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-primary: var(--global--color-black, #000000);
 		color: var(--local--color-primary);
 	}
@@ -11,7 +11,7 @@
 
 .has-gray-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-primary: var(--global--color-gray, #000000);
 		color: var(--local--color-primary);
 	}
@@ -20,7 +20,7 @@
 
 .has-dark-gray-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-primary: var(--global--color-dark-gray, #000000);
 		color: var(--local--color-primary);
 	}
@@ -29,7 +29,7 @@
 
 .has-green-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-primary: var(--global--color-green, #FFFFFF);
 		color: var(--local--color-primary);
 	}
@@ -38,7 +38,7 @@
 
 .has-blue-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-primary: var(--global--color-blue, #FFFFFF);
 		color: var(--local--color-primary);
 	}
@@ -47,7 +47,7 @@
 
 .has-purple-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-primary: var(--global--color-purple, #FFFFFF);
 		color: var(--local--color-primary);
 	}
@@ -56,7 +56,7 @@
 
 .has-red-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-primary: var(--global--color-red, #FFFFFF);
 		color: var(--local--color-primary);
 	}
@@ -65,7 +65,7 @@
 
 .has-orange-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-primary: var(--global--color-orange, #FFFFFF);
 		color: var(--local--color-primary);
 	}
@@ -74,7 +74,7 @@
 
 .has-yellow-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-primary: var(--global--color-yellow, #FFFFFF);
 		color: var(--local--color-primary);
 	}
@@ -83,7 +83,7 @@
 
 .has-white-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-primary: var(--global--color-white, #FFFFFF);
 		color: var(--local--color-primary);
 	}
@@ -107,7 +107,7 @@
 
 .has-black-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-black, #000000);
 		background-color: var(--local--color-background);
 	}
@@ -116,7 +116,7 @@
 
 .has-dark-gray-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-dark-gray, #000000);
 		background-color: var(--local--color-background);
 	}
@@ -125,7 +125,7 @@
 
 .has-gray-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-gray, #000000);
 		background-color: var(--local--color-background);
 	}
@@ -134,7 +134,7 @@
 
 .has-light-gray-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-light-gray, #FFFFFF);
 		background-color: var(--local--color-background);
 	}
@@ -143,7 +143,7 @@
 
 .has-green-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-green, #FFFFFF);
 		background-color: var(--local--color-background);
 	}
@@ -152,7 +152,7 @@
 
 .has-blue-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-blue, #FFFFFF);
 		background-color: var(--local--color-background);
 	}
@@ -161,7 +161,7 @@
 
 .has-purple-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-purple, #FFFFFF);
 		background-color: var(--local--color-background);
 	}
@@ -170,7 +170,7 @@
 
 .has-red-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-red, #FFFFFF);
 		background-color: var(--local--color-background);
 	}
@@ -179,7 +179,7 @@
 
 .has-orange-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-orange, #FFFFFF);
 		background-color: var(--local--color-background);
 	}
@@ -188,7 +188,7 @@
 
 .has-yellow-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-yellow, #FFFFFF);
 		background-color: var(--local--color-background);
 	}
@@ -197,7 +197,7 @@
 
 .has-white-background-color[class] {
 	// Localize CSS-variables to limit relationship scope
-	[class*="__inner-container"] {
+	> [class*="__inner-container"] {
 		--local--color-background: var(--global--color-white, #FFFFFF);
 		background-color: var(--local--color-background);
 	}
@@ -210,7 +210,7 @@
 	&.has-gray-background-color[class],
 	&.has-dark-gray-background-color[class] {
 		// Localize CSS-variables to limit relationship scope
-		[class*="__inner-container"] {
+		> [class*="__inner-container"] {
 			--local--color-primary: var(--global--color-background, #FFFFFF);
 			// Reverse the local foreground color in darkmode
 			.is-dark-theme & {
@@ -228,7 +228,7 @@
 	&.has-yellow-background-color[class],
 	&.has-white-background-color[class] {
 		// Localize CSS-variables to limit relationship scope
-		[class*="__inner-container"] {
+		> [class*="__inner-container"] {
 			--local--color-primary: var(--global--color-primary, #000000);
 			// Reverse the local foreground color in darkmode
 			.is-dark-theme & {

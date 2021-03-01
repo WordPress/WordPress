@@ -2020,6 +2020,8 @@ input[type=reset]:disabled,
 	/* Treating H2 separately to account for legacy /core styles */
 
 	/* Block Styles */
+
+	/* The background color class is used just for the overlay, and does not need to be applied to the inner container. */
 }
 
 .wp-block-cover:not(.alignwide):not(.alignfull),
@@ -2153,6 +2155,11 @@ input[type=reset]:disabled,
 .wp-block-cover.is-style-twentytwentyone-border,
 .wp-block-cover-image.is-style-twentytwentyone-border {
 	border: calc(3 * var(--separator--height)) solid var(--global--color-border);
+}
+
+.wp-block-cover[class*=-background-color][class] .wp-block-cover__inner-container,
+.wp-block-cover-image[class*=-background-color][class] .wp-block-cover__inner-container {
+	background-color: unset;
 }
 
 .wp-block-file a.wp-block-file__button:active,
@@ -5537,7 +5544,7 @@ h1.page-title {
 	color: var(--global--color-black);
 }
 
-.has-black-color[class] [class*=__inner-container] {
+.has-black-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-black, #000);
 	color: var(--local--color-primary);
 }
@@ -5546,7 +5553,7 @@ h1.page-title {
 	color: var(--global--color-gray);
 }
 
-.has-gray-color[class] [class*=__inner-container] {
+.has-gray-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-gray, #000);
 	color: var(--local--color-primary);
 }
@@ -5555,7 +5562,7 @@ h1.page-title {
 	color: var(--global--color-dark-gray);
 }
 
-.has-dark-gray-color[class] [class*=__inner-container] {
+.has-dark-gray-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-dark-gray, #000);
 	color: var(--local--color-primary);
 }
@@ -5564,7 +5571,7 @@ h1.page-title {
 	color: var(--global--color-green);
 }
 
-.has-green-color[class] [class*=__inner-container] {
+.has-green-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-green, #fff);
 	color: var(--local--color-primary);
 }
@@ -5573,7 +5580,7 @@ h1.page-title {
 	color: var(--global--color-blue);
 }
 
-.has-blue-color[class] [class*=__inner-container] {
+.has-blue-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-blue, #fff);
 	color: var(--local--color-primary);
 }
@@ -5582,7 +5589,7 @@ h1.page-title {
 	color: var(--global--color-purple);
 }
 
-.has-purple-color[class] [class*=__inner-container] {
+.has-purple-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-purple, #fff);
 	color: var(--local--color-primary);
 }
@@ -5591,7 +5598,7 @@ h1.page-title {
 	color: var(--global--color-red);
 }
 
-.has-red-color[class] [class*=__inner-container] {
+.has-red-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-red, #fff);
 	color: var(--local--color-primary);
 }
@@ -5600,7 +5607,7 @@ h1.page-title {
 	color: var(--global--color-orange);
 }
 
-.has-orange-color[class] [class*=__inner-container] {
+.has-orange-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-orange, #fff);
 	color: var(--local--color-primary);
 }
@@ -5609,7 +5616,7 @@ h1.page-title {
 	color: var(--global--color-yellow);
 }
 
-.has-yellow-color[class] [class*=__inner-container] {
+.has-yellow-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-yellow, #fff);
 	color: var(--local--color-primary);
 }
@@ -5618,7 +5625,7 @@ h1.page-title {
 	color: var(--global--color-white);
 }
 
-.has-white-color[class] [class*=__inner-container] {
+.has-white-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-white, #fff);
 	color: var(--local--color-primary);
 }
@@ -5638,7 +5645,7 @@ h1.page-title {
 	background-color: var(--global--color-black);
 }
 
-.has-black-background-color[class] [class*=__inner-container] {
+.has-black-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-black, #000);
 	background-color: var(--local--color-background);
 }
@@ -5647,7 +5654,7 @@ h1.page-title {
 	background-color: var(--global--color-dark-gray);
 }
 
-.has-dark-gray-background-color[class] [class*=__inner-container] {
+.has-dark-gray-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-dark-gray, #000);
 	background-color: var(--local--color-background);
 }
@@ -5656,7 +5663,7 @@ h1.page-title {
 	background-color: var(--global--color-gray);
 }
 
-.has-gray-background-color[class] [class*=__inner-container] {
+.has-gray-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-gray, #000);
 	background-color: var(--local--color-background);
 }
@@ -5665,7 +5672,7 @@ h1.page-title {
 	background-color: var(--global--color-light-gray);
 }
 
-.has-light-gray-background-color[class] [class*=__inner-container] {
+.has-light-gray-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-light-gray, #fff);
 	background-color: var(--local--color-background);
 }
@@ -5674,7 +5681,7 @@ h1.page-title {
 	background-color: var(--global--color-green);
 }
 
-.has-green-background-color[class] [class*=__inner-container] {
+.has-green-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-green, #fff);
 	background-color: var(--local--color-background);
 }
@@ -5683,7 +5690,7 @@ h1.page-title {
 	background-color: var(--global--color-blue);
 }
 
-.has-blue-background-color[class] [class*=__inner-container] {
+.has-blue-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-blue, #fff);
 	background-color: var(--local--color-background);
 }
@@ -5692,7 +5699,7 @@ h1.page-title {
 	background-color: var(--global--color-purple);
 }
 
-.has-purple-background-color[class] [class*=__inner-container] {
+.has-purple-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-purple, #fff);
 	background-color: var(--local--color-background);
 }
@@ -5701,7 +5708,7 @@ h1.page-title {
 	background-color: var(--global--color-red);
 }
 
-.has-red-background-color[class] [class*=__inner-container] {
+.has-red-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-red, #fff);
 	background-color: var(--local--color-background);
 }
@@ -5710,7 +5717,7 @@ h1.page-title {
 	background-color: var(--global--color-orange);
 }
 
-.has-orange-background-color[class] [class*=__inner-container] {
+.has-orange-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-orange, #fff);
 	background-color: var(--local--color-background);
 }
@@ -5719,7 +5726,7 @@ h1.page-title {
 	background-color: var(--global--color-yellow);
 }
 
-.has-yellow-background-color[class] [class*=__inner-container] {
+.has-yellow-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-yellow, #fff);
 	background-color: var(--local--color-background);
 }
@@ -5728,42 +5735,42 @@ h1.page-title {
 	background-color: var(--global--color-white);
 }
 
-.has-white-background-color[class] [class*=__inner-container] {
+.has-white-background-color[class] > [class*=__inner-container] {
 	--local--color-background: var(--global--color-white, #fff);
 	background-color: var(--local--color-background);
 }
 
-.has-background:not(.has-text-color).has-black-background-color[class] [class*=__inner-container],
-.has-background:not(.has-text-color).has-gray-background-color[class] [class*=__inner-container],
-.has-background:not(.has-text-color).has-dark-gray-background-color[class] [class*=__inner-container] {
+.has-background:not(.has-text-color).has-black-background-color[class] > [class*=__inner-container],
+.has-background:not(.has-text-color).has-gray-background-color[class] > [class*=__inner-container],
+.has-background:not(.has-text-color).has-dark-gray-background-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-background, #fff);
 	color: var(--local--color-primary, var(--global--color-primary));
 }
 
-.is-dark-theme .has-background:not(.has-text-color).has-black-background-color[class] [class*=__inner-container],
-.is-dark-theme .has-background:not(.has-text-color).has-gray-background-color[class] [class*=__inner-container],
-.is-dark-theme .has-background:not(.has-text-color).has-dark-gray-background-color[class] [class*=__inner-container] {
+.is-dark-theme .has-background:not(.has-text-color).has-black-background-color[class] > [class*=__inner-container],
+.is-dark-theme .has-background:not(.has-text-color).has-gray-background-color[class] > [class*=__inner-container],
+.is-dark-theme .has-background:not(.has-text-color).has-dark-gray-background-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-primary, #000);
 }
 
-.has-background:not(.has-text-color).has-green-background-color[class] [class*=__inner-container],
-.has-background:not(.has-text-color).has-blue-background-color[class] [class*=__inner-container],
-.has-background:not(.has-text-color).has-purple-background-color[class] [class*=__inner-container],
-.has-background:not(.has-text-color).has-red-background-color[class] [class*=__inner-container],
-.has-background:not(.has-text-color).has-orange-background-color[class] [class*=__inner-container],
-.has-background:not(.has-text-color).has-yellow-background-color[class] [class*=__inner-container],
-.has-background:not(.has-text-color).has-white-background-color[class] [class*=__inner-container] {
+.has-background:not(.has-text-color).has-green-background-color[class] > [class*=__inner-container],
+.has-background:not(.has-text-color).has-blue-background-color[class] > [class*=__inner-container],
+.has-background:not(.has-text-color).has-purple-background-color[class] > [class*=__inner-container],
+.has-background:not(.has-text-color).has-red-background-color[class] > [class*=__inner-container],
+.has-background:not(.has-text-color).has-orange-background-color[class] > [class*=__inner-container],
+.has-background:not(.has-text-color).has-yellow-background-color[class] > [class*=__inner-container],
+.has-background:not(.has-text-color).has-white-background-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-primary, #000);
 	color: var(--local--color-primary, var(--global--color-primary));
 }
 
-.is-dark-theme .has-background:not(.has-text-color).has-green-background-color[class] [class*=__inner-container],
-.is-dark-theme .has-background:not(.has-text-color).has-blue-background-color[class] [class*=__inner-container],
-.is-dark-theme .has-background:not(.has-text-color).has-purple-background-color[class] [class*=__inner-container],
-.is-dark-theme .has-background:not(.has-text-color).has-red-background-color[class] [class*=__inner-container],
-.is-dark-theme .has-background:not(.has-text-color).has-orange-background-color[class] [class*=__inner-container],
-.is-dark-theme .has-background:not(.has-text-color).has-yellow-background-color[class] [class*=__inner-container],
-.is-dark-theme .has-background:not(.has-text-color).has-white-background-color[class] [class*=__inner-container] {
+.is-dark-theme .has-background:not(.has-text-color).has-green-background-color[class] > [class*=__inner-container],
+.is-dark-theme .has-background:not(.has-text-color).has-blue-background-color[class] > [class*=__inner-container],
+.is-dark-theme .has-background:not(.has-text-color).has-purple-background-color[class] > [class*=__inner-container],
+.is-dark-theme .has-background:not(.has-text-color).has-red-background-color[class] > [class*=__inner-container],
+.is-dark-theme .has-background:not(.has-text-color).has-orange-background-color[class] > [class*=__inner-container],
+.is-dark-theme .has-background:not(.has-text-color).has-yellow-background-color[class] > [class*=__inner-container],
+.is-dark-theme .has-background:not(.has-text-color).has-white-background-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-background, #fff);
 }
 
