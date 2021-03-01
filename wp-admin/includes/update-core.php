@@ -937,7 +937,7 @@ function update_core( $from, $to ) {
 	 * Import $wp_version, $required_php_version, and $required_mysql_version from the new version.
 	 * DO NOT globalise any variables imported from `version-current.php` in this function.
 	 *
-	 * BC Note: $wp_filesystem->wp_content_dir() returned unslashed pre-2.8
+	 * BC Note: $wp_filesystem->wp_content_dir() returned unslashed pre-2.8.
 	 */
 	$versions_file = trailingslashit( $wp_filesystem->wp_content_dir() ) . 'upgrade/version-current.php';
 	if ( ! $wp_filesystem->copy( $from . $distro . 'wp-includes/version.php', $versions_file ) ) {
@@ -1373,7 +1373,10 @@ function _copy_dir( $from, $to, $skip_list = array() ) {
 				}
 			}
 
-			// `wp_opcache_invalidate()` only exists in WordPress 5.5, so don't run it when upgrading to 5.5.
+			/*
+			 * `wp_opcache_invalidate()` only exists in WordPress 5.5 or later,
+			 * so don't run it when upgrading from older versions.
+			 */
 			if ( function_exists( 'wp_opcache_invalidate' ) ) {
 				wp_opcache_invalidate( $to . $filename );
 			}
