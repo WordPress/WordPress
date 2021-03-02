@@ -237,8 +237,8 @@ function post_submit_meta_box( $post, $args = array() ) {
 			}
 			$date = sprintf(
 				$date_string,
-				date_i18n( $date_format, strtotime( $post->post_date ) ),
-				date_i18n( $time_format, strtotime( $post->post_date ) )
+				get_date_from_gmt( $post->post_date_gmt, $date_format ),
+                		get_date_from_gmt( $post->post_date_gmt, $time_format )
 			);
 		} else { // Draft (no saves, and thus no date specified).
 			$stamp = __( 'Publish <b>immediately</b>' );
