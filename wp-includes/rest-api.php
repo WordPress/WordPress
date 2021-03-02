@@ -2365,7 +2365,7 @@ function rest_validate_array_value_from_schema( $value, $args, $param ) {
 
 	if ( isset( $args['maxItems'] ) && count( $value ) > $args['maxItems'] ) {
 		return new WP_Error(
-			'test_too_many_items',
+			'rest_too_many_items',
 			/* translators: 1: Parameter, 2: Number. */
 			sprintf(
 				_n(
