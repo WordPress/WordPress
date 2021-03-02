@@ -108,6 +108,13 @@ this["wp"] = this["wp"] || {}; this["wp"]["reusableBlocks"] =
 
 /***/ }),
 
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["lodash"]; }());
+
+/***/ }),
+
 /***/ 3:
 /***/ (function(module, exports) {
 
@@ -169,6 +176,9 @@ var external_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(ext
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
 var asyncToGenerator = __webpack_require__(47);
 
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
+
 // EXTERNAL MODULE: external ["wp","blocks"]
 var external_wp_blocks_ = __webpack_require__(9);
 
@@ -180,8 +190,13 @@ var external_wp_i18n_ = __webpack_require__(1);
 
 
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
 
 
 
@@ -235,7 +250,7 @@ var controls = {
       var clientId = _ref.clientId;
       var oldBlock = registry.select('core/block-editor').getBlock(clientId);
       var reusableBlock = registry.select('core').getEditedEntityRecord('postType', 'wp_block', oldBlock.attributes.ref);
-      var newBlocks = Object(external_wp_blocks_["parse"])(reusableBlock.content);
+      var newBlocks = Object(external_wp_blocks_["parse"])(Object(external_lodash_["isFunction"])(reusableBlock.content) ? reusableBlock.content(reusableBlock) : reusableBlock.content);
       registry.dispatch('core/block-editor').replaceBlocks(oldBlock.clientId, newBlocks);
     };
   }),

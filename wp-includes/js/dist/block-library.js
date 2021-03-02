@@ -26496,6 +26496,78 @@ var share = Object(external_wp_element_["createElement"])(external_wp_primitives
 }));
 /* harmony default export */ var library_share = (share);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/social-links/deprecated.js
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+ // Social Links block deprecations.
+
+var social_links_deprecated_deprecated = [// V1. Remove CSS variable use for colors.
+{
+  attributes: {
+    iconColor: {
+      type: 'string'
+    },
+    customIconColor: {
+      type: 'string'
+    },
+    iconColorValue: {
+      type: 'string'
+    },
+    iconBackgroundColor: {
+      type: 'string'
+    },
+    customIconBackgroundColor: {
+      type: 'string'
+    },
+    iconBackgroundColorValue: {
+      type: 'string'
+    },
+    openInNewTab: {
+      type: 'boolean',
+      default: false
+    },
+    size: {
+      type: 'string'
+    }
+  },
+  providesContext: {
+    openInNewTab: 'openInNewTab'
+  },
+  supports: {
+    align: ['left', 'center', 'right'],
+    anchor: true
+  },
+  save: function save(props) {
+    var _props$attributes = props.attributes,
+        iconBackgroundColorValue = _props$attributes.iconBackgroundColorValue,
+        iconColorValue = _props$attributes.iconColorValue,
+        itemsJustification = _props$attributes.itemsJustification,
+        size = _props$attributes.size;
+    var className = classnames_default()(size, Object(defineProperty["a" /* default */])({
+      'has-icon-color': iconColorValue,
+      'has-icon-background-color': iconBackgroundColorValue
+    }, "items-justified-".concat(itemsJustification), itemsJustification));
+    var style = {
+      '--wp--social-links--icon-color': iconColorValue,
+      '--wp--social-links--icon-background-color': iconBackgroundColorValue
+    };
+    return Object(external_wp_element_["createElement"])("ul", external_wp_blockEditor_["useBlockProps"].save({
+      className: className,
+      style: style
+    }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"].Content, null));
+  }
+}];
+/* harmony default export */ var social_links_deprecated = (social_links_deprecated_deprecated);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/social-links/edit.js
 
 
@@ -26570,13 +26642,8 @@ function SocialLinksEdit(props) {
     'has-icon-color': iconColor.color || iconColorValue,
     'has-icon-background-color': iconBackgroundColor.color || iconBackgroundColorValue
   });
-  var style = {
-    '--wp--social-links--icon-color': iconColor.color || iconColorValue,
-    '--wp--social-links--icon-background-color': iconBackgroundColor.color || iconBackgroundColorValue
-  };
   var blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
-    className: className,
-    style: style
+    className: className
   });
   var innerBlocksProps = Object(external_wp_blockEditor_["__experimentalUseInnerBlocksProps"])(blockProps, {
     allowedBlocks: social_links_edit_ALLOWED_BLOCKS,
@@ -26630,8 +26697,7 @@ function SocialLinksEdit(props) {
       // switching themes to a new theme that does not have a matching named color.
       value: iconColor.color || iconColorValue,
       onChange: function onChange(colorValue) {
-        setIconColor(colorValue); // Set explicit color value used to add CSS variable in save.js
-
+        setIconColor(colorValue);
         setAttributes({
           iconColorValue: colorValue
         });
@@ -26642,8 +26708,7 @@ function SocialLinksEdit(props) {
       // switching themes to a new theme that does not have a matching named color.
       value: iconBackgroundColor.color || iconBackgroundColorValue,
       onChange: function onChange(colorValue) {
-        setIconBackgroundColor(colorValue); // Set explicit color value used to add CSS variable in save.js
-
+        setIconBackgroundColor(colorValue);
         setAttributes({
           iconBackgroundColorValue: colorValue
         });
@@ -26684,13 +26749,8 @@ function social_links_save_save(props) {
     'has-icon-color': iconColorValue,
     'has-icon-background-color': iconBackgroundColorValue
   });
-  var style = {
-    '--wp--social-links--icon-color': iconColorValue,
-    '--wp--social-links--icon-background-color': iconBackgroundColorValue
-  };
   return Object(external_wp_element_["createElement"])("ul", external_wp_blockEditor_["useBlockProps"].save({
-    className: className,
-    style: style
+    className: className
   }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"].Content, null));
 }
 
@@ -26703,6 +26763,7 @@ function social_links_save_save(props) {
 /**
  * Internal dependencies
  */
+
 
 
 var social_links_metadata = {
@@ -26737,7 +26798,9 @@ var social_links_metadata = {
     }
   },
   providesContext: {
-    openInNewTab: "openInNewTab"
+    openInNewTab: "openInNewTab",
+    iconColorValue: "iconColorValue",
+    iconBackgroundColorValue: "iconBackgroundColorValue"
   },
   supports: {
     align: ["left", "center", "right"],
@@ -26787,7 +26850,8 @@ var social_links_settings = {
   }],
   icon: library_share,
   edit: social_links_edit,
-  save: social_links_save_save
+  save: social_links_save_save,
+  deprecated: social_links_deprecated
 };
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/keyboard-return.js
@@ -27944,11 +28008,14 @@ var social_list_getNameBySite = function getNameBySite(name) {
 
 var edit_SocialLinkEdit = function SocialLinkEdit(_ref) {
   var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes,
-      isSelected = _ref.isSelected;
+      context = _ref.context,
+      isSelected = _ref.isSelected,
+      setAttributes = _ref.setAttributes;
   var url = attributes.url,
       service = attributes.service,
       label = attributes.label;
+  var iconColorValue = context.iconColorValue,
+      iconBackgroundColorValue = context.iconBackgroundColorValue;
 
   var _useState = Object(external_wp_element_["useState"])(false),
       _useState2 = Object(slicedToArray["a" /* default */])(_useState, 2),
@@ -27961,7 +28028,11 @@ var edit_SocialLinkEdit = function SocialLinkEdit(_ref) {
   var IconComponent = social_list_getIconBySite(service);
   var socialLinkName = social_list_getNameBySite(service);
   var blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
-    className: classes
+    className: classes,
+    style: {
+      color: iconColorValue,
+      backgroundColor: iconBackgroundColorValue
+    }
   });
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["sprintf"])(
@@ -28038,7 +28109,7 @@ var social_link_metadata = {
       type: "string"
     }
   },
-  usesContext: ["openInNewTab"],
+  usesContext: ["openInNewTab", "iconColorValue", "iconBackgroundColorValue"],
   supports: {
     reusable: false,
     html: false
