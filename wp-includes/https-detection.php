@@ -130,13 +130,13 @@ function wp_update_https_detection_errors() {
 
 		if ( is_wp_error( $unverified_response ) ) {
 			$support_errors->add(
-				$unverified_response->get_error_code(),
-				$unverified_response->get_error_message()
+				'https_request_failed',
+				__( 'HTTPS request failed.' )
 			);
 		} else {
 			$support_errors->add(
 				'ssl_verification_failed',
-				$response->get_error_message()
+				__( 'SSL verification failed.' )
 			);
 		}
 
