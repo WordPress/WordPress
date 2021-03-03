@@ -15,7 +15,7 @@
 function wp_register_colors_support( $block_type ) {
 	$color_support = false;
 	if ( property_exists( $block_type, 'supports' ) ) {
-		$color_support = _wp_array_get( $block_type->supports, array( '__experimentalColor' ), false );
+		$color_support = _wp_array_get( $block_type->supports, array( 'color' ), false );
 	}
 	$has_text_colors_support       = true === $color_support || ( is_array( $color_support ) && _wp_array_get( $color_support, array( 'text' ), true ) );
 	$has_background_colors_support = true === $color_support || ( is_array( $color_support ) && _wp_array_get( $color_support, array( 'background' ), true ) );
@@ -63,10 +63,10 @@ function wp_register_colors_support( $block_type ) {
  * @return array Colors CSS classes and inline styles.
  */
 function wp_apply_colors_support( $block_type, $block_attributes ) {
-	$color_support                 = _wp_array_get( $block_type->supports, array( '__experimentalColor' ), false );
+	$color_support                 = _wp_array_get( $block_type->supports, array( 'color' ), false );
 	$has_text_colors_support       = true === $color_support || ( is_array( $color_support ) && _wp_array_get( $color_support, array( 'text' ), true ) );
 	$has_background_colors_support = true === $color_support || ( is_array( $color_support ) && _wp_array_get( $color_support, array( 'background' ), true ) );
-	$has_link_colors_support       = _wp_array_get( $color_support, array( 'linkColor' ), false );
+	$has_link_colors_support       = _wp_array_get( $color_support, array( 'link' ), false );
 	$has_gradients_support         = _wp_array_get( $color_support, array( 'gradients' ), false );
 	$classes                       = array();
 	$styles                        = array();
