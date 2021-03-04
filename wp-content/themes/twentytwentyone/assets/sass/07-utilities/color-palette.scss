@@ -209,6 +209,8 @@
 	&.has-black-background-color[class],
 	&.has-gray-background-color[class],
 	&.has-dark-gray-background-color[class] {
+	  	color: var(--global--color-white);
+
 		// Localize CSS-variables to limit relationship scope
 		> [class*="__inner-container"] {
 			--local--color-primary: var(--global--color-background, #FFFFFF);
@@ -227,6 +229,8 @@
 	&.has-orange-background-color[class],
 	&.has-yellow-background-color[class],
 	&.has-white-background-color[class] {
+	  	color: var(--global--color-dark-gray);
+
 		// Localize CSS-variables to limit relationship scope
 		> [class*="__inner-container"] {
 			--local--color-primary: var(--global--color-primary, #000000);
