@@ -5740,6 +5740,12 @@ h1.page-title {
 	background-color: var(--local--color-background);
 }
 
+.has-background:not(.has-text-color).has-black-background-color[class],
+.has-background:not(.has-text-color).has-gray-background-color[class],
+.has-background:not(.has-text-color).has-dark-gray-background-color[class] {
+	color: var(--global--color-white);
+}
+
 .has-background:not(.has-text-color).has-black-background-color[class] > [class*=__inner-container],
 .has-background:not(.has-text-color).has-gray-background-color[class] > [class*=__inner-container],
 .has-background:not(.has-text-color).has-dark-gray-background-color[class] > [class*=__inner-container] {
@@ -5751,6 +5757,16 @@ h1.page-title {
 .is-dark-theme .has-background:not(.has-text-color).has-gray-background-color[class] > [class*=__inner-container],
 .is-dark-theme .has-background:not(.has-text-color).has-dark-gray-background-color[class] > [class*=__inner-container] {
 	--local--color-primary: var(--global--color-primary, #000);
+}
+
+.has-background:not(.has-text-color).has-green-background-color[class],
+.has-background:not(.has-text-color).has-blue-background-color[class],
+.has-background:not(.has-text-color).has-purple-background-color[class],
+.has-background:not(.has-text-color).has-red-background-color[class],
+.has-background:not(.has-text-color).has-orange-background-color[class],
+.has-background:not(.has-text-color).has-yellow-background-color[class],
+.has-background:not(.has-text-color).has-white-background-color[class] {
+	color: var(--global--color-dark-gray);
 }
 
 .has-background:not(.has-text-color).has-green-background-color[class] > [class*=__inner-container],
