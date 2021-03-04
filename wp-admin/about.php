@@ -207,7 +207,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p><?php _e( 'For years jQuery helped make things move on the screen in ways the basic tools couldn’t—but that keeps changing, and so does jQuery.' ); ?></p>
 				<p><?php _e( 'In 5.7, jQuery gets more focused and less intrusive, with fewer messages in the console.' ); ?></p>
 				<h3><?php _e( 'Lazy-load your iframes' ); ?></h3>
-				<p><?php _e( 'Now it’s simple to let iframes lazy-load. Just add the <code>loading="lazy"</code> attribute to iframe tags on the front end.' ); ?></p>
+				<p><?php _e( 'Now it’s simple to let iframes lazy-load. By default, WordPress will add a <code>loading="lazy"</code> attribute to iframe tags when both width and height are specified.' ); ?></p>
 			</div>
 		</div>
 
