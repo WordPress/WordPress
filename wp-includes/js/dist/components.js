@@ -19098,7 +19098,7 @@ function sortBasedOnDOMPosition(items) {
   return items;
 }
 
-function mutateItemsBasedOnDOMPosition(items, setItems) {
+function setItemsBasedOnDOMPosition(items, setItems) {
   var sortedItems = sortBasedOnDOMPosition(items);
 
   if (items !== sortedItems) {
@@ -19145,7 +19145,7 @@ function useIntersectionObserver(items, setItems) {
       var hasPreviousItems = !!previousItems.current.length; // We don't want to sort items if items have been just registered.
 
       if (hasPreviousItems) {
-        mutateItemsBasedOnDOMPosition(items, setItems);
+        setItemsBasedOnDOMPosition(items, setItems);
       }
 
       previousItems.current = items;
@@ -19173,7 +19173,7 @@ function useIntersectionObserver(items, setItems) {
 function useTimeoutObserver(items, setItems) {
   Object(external_React_["useEffect"])(function () {
     var callback = function callback() {
-      return mutateItemsBasedOnDOMPosition(items, setItems);
+      return setItemsBasedOnDOMPosition(items, setItems);
     };
 
     var timeout = setTimeout(callback, 250);
@@ -22169,6 +22169,9 @@ function supportsGestureEvents() {
 function supportsTouchEvents() {
   return typeof window !== 'undefined' && 'ontouchstart' in window;
 }
+function supportsPointerEvents() {
+  return typeof window !== 'undefined' && 'onpointerdown' in window;
+}
 
 function getEventTouches(event) {
   if ('pointerId' in event) return null;
@@ -22477,7 +22480,17 @@ var InternalDragOptionsNormalizers = /*#__PURE__*/_extends({}, InternalCoordinat
       value = false;
     }
 
-    return value && supportsTouchEvents();
+    var supportsTouch = supportsTouchEvents();
+    var supportsPointer = supportsPointerEvents();
+    if (value && supportsTouch) return true;
+    if (supportsTouch && !supportsPointer) return true;
+
+    if (isBrowser && !supportsPointer) {
+      // eslint-disable-next-line no-console
+      console.warn("React useGesture: this device doesn't support touch nor pointer events. Most interactions using this lib won't work.");
+    }
+
+    return value;
   },
   experimental_preventWindowScrollY: function experimental_preventWindowScrollY(value) {
     if (value === void 0) {
@@ -22711,6 +22724,7 @@ function getInitial(mixed) {
     _movement: [0, 0],
     _initial: [0, 0],
     _bounds: [[-Infinity, Infinity], [-Infinity, Infinity]],
+    _threshold: [0, 0],
     _lastEventType: undefined,
     _dragStarted: false,
     _dragPreventScroll: false,
@@ -22946,20 +22960,16 @@ var Recognizer = /*#__PURE__*/function () {
   ;
 
   _proto.getMovement = function getMovement(values) {
-    var _this$config = this.config,
-        rubberband = _this$config.rubberband,
-        T = _this$config.threshold;
+    var rubberband = this.config.rubberband;
     var _this$state = this.state,
         _bounds = _this$state._bounds,
         _initial = _this$state._initial,
         _active = _this$state._active,
         wasIntentional = _this$state._intentional,
         lastOffset = _this$state.lastOffset,
-        prevMovement = _this$state.movement;
+        prevMovement = _this$state.movement,
+        _T = _this$state._threshold;
     var M = this.getInternalMovement(values, this.state);
-
-    var _T = this.transform(T).map(Math.abs);
-
     var i0 = wasIntentional[0] === false ? getIntentionalDisplacement(M[0], _T[0]) : wasIntentional[0];
     var i1 = wasIntentional[1] === false ? getIntentionalDisplacement(M[1], _T[1]) : wasIntentional[1]; // Get gesture specific state properties based on intentionality and movement.
 
@@ -23083,28 +23093,34 @@ function getGenericPayload(_ref3, event, isStartEvent) {
  * Should be common to all gestures.
  */
 
-function getStartGestureState(_ref4, values, event) {
+function getStartGestureState(_ref4, values, event, initial) {
   var state = _ref4.state,
       config = _ref4.config,
       stateKey = _ref4.stateKey,
-      args = _ref4.args;
+      args = _ref4.args,
+      transform = _ref4.transform;
   var offset = state.offset;
   var startTime = event.timeStamp;
-  var initial = config.initial,
-      bounds = config.bounds;
+  var initialFn = config.initial,
+      bounds = config.bounds,
+      threshold = config.threshold; // the _threshold is the difference between a [0,0] offset converted to
+  // its new space coordinates
+
+  var _threshold = subV(transform(threshold), transform([0, 0])).map(Math.abs);
 
   var _state = _extends({}, getInitialState()[stateKey], {
     _active: true,
     args: args,
     values: values,
-    initial: values,
+    initial: initial != null ? initial : values,
+    _threshold: _threshold,
     offset: offset,
     lastOffset: offset,
     startTime: startTime
   });
 
   return _extends({}, _state, {
-    _initial: valueFn(initial, _state),
+    _initial: valueFn(initialFn, _state),
     _bounds: valueFn(bounds, _state)
   });
 }
@@ -24081,8 +24097,7 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
     _this.onGestureStart = function (event) {
       if (!_this.enabled) return;
-      event.preventDefault(); // useless
-
+      event.preventDefault();
       var values = getWebkitGestureEventValues(event, _this.transform);
 
       _this.updateSharedState(getGenericEventData(event));
@@ -24105,7 +24120,7 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
       event.preventDefault();
       var genericEventData = getGenericEventData(event);
 
-      _this.updateSharedState(genericEventData); // this normalizes the values of the Safari's WebkitEvent by calculating
+      _this.updateSharedState(genericEventData); // this normalizes the values of the Safari's WebKitEvent by calculating
       // the delta and then multiplying it by a constant.
 
 
@@ -24150,12 +24165,15 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
           prev_d = _this$state$values[0],
           prev_a = _this$state$values[1]; // ZOOM_CONSTANT is based on Safari trackpad natural zooming
 
-      var d = prev_d - delta_d * ZOOM_CONSTANT;
+      var _delta_d = -delta_d * ZOOM_CONSTANT; // new distance is the previous state distance added to the delta
+
+
+      var d = prev_d + _delta_d;
       var a = prev_a !== void 0 ? prev_a : 0;
       return {
         values: [d, a],
         origin: [event.clientX, event.clientY],
-        delta: [0, delta_d]
+        delta: [_delta_d, a]
       };
     };
 
@@ -24177,8 +24195,7 @@ var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
 
       _this.updateSharedState(getGenericEventData(event));
 
-      _this.updateGestureState(_extends({}, getStartGestureState(_assertThisInitialized(_this), values, event), getGenericPayload(_assertThisInitialized(_this), event, true), {
-        initial: _this.state.values,
+      _this.updateGestureState(_extends({}, getStartGestureState(_assertThisInitialized(_this), values, event, _this.state.values), getGenericPayload(_assertThisInitialized(_this), event, true), {
         offset: values,
         delta: delta,
         origin: origin
@@ -24294,9 +24311,7 @@ var WheelRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
       var values = addV(getWheelEventValues(event, _this.transform), _this.state.values);
 
       if (!_this.state._active) {
-        _this.updateGestureState(_extends({}, getStartGestureState(_assertThisInitialized(_this), values, event), getGenericPayload(_assertThisInitialized(_this), event, true), {
-          initial: _this.state.values
-        }));
+        _this.updateGestureState(_extends({}, getStartGestureState(_assertThisInitialized(_this), values, event, _this.state.values), getGenericPayload(_assertThisInitialized(_this), event, true)));
 
         var movement = _this.getMovement(values);
 
@@ -24554,9 +24569,7 @@ var ScrollRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
       _this.updateSharedState(getGenericEventData(event));
 
       if (!_this.state._active) {
-        _this.updateGestureState(_extends({}, getStartGestureState(_assertThisInitialized(_this), values, event), getGenericPayload(_assertThisInitialized(_this), event, true), {
-          initial: _this.state.values
-        }));
+        _this.updateGestureState(_extends({}, getStartGestureState(_assertThisInitialized(_this), values, event, _this.state.values), getGenericPayload(_assertThisInitialized(_this), event, true)));
 
         var movementDetection = _this.getMovement(values);
 
@@ -31584,7 +31597,7 @@ var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
 var react_is = __webpack_require__(206);
 
 // CONCATENATED MODULE: ./node_modules/compute-scroll-into-view/dist/index.module.js
-function t(t){return null!=t&&"object"==typeof t&&1===t.nodeType}function index_module_e(t,e){return(!e||"hidden"!==t)&&"visible"!==t&&"clip"!==t}function n(t,n){if(t.clientHeight<t.scrollHeight||t.clientWidth<t.scrollWidth){var r=getComputedStyle(t,null);return index_module_e(r.overflowY,n)||index_module_e(r.overflowX,n)||function(t){var e=function(t){if(!t.ownerDocument||!t.ownerDocument.defaultView)return null;try{return t.ownerDocument.defaultView.frameElement}catch(t){return null}}(t);return!!e&&(e.clientHeight<t.scrollHeight||e.clientWidth<t.scrollWidth)}(t)}return!1}function index_module_r(t,e,n,r,i,o,l,d){return o<t&&l>e||o>t&&l<e?0:o<=t&&d<=n||l>=e&&d>=n?o-t-r:l>e&&d<n||o<t&&d>n?l-e+i:0}/* harmony default export */ var index_module = (function(e,i){var o=window,l=i.scrollMode,d=i.block,u=i.inline,h=i.boundary,a=i.skipOverflowHiddenElements,c="function"==typeof h?h:function(t){return t!==h};if(!t(e))throw new TypeError("Invalid target");for(var f=document.scrollingElement||document.documentElement,s=[],p=e;t(p)&&c(p);){if((p=p.parentNode)===f){s.push(p);break}p===document.body&&n(p)&&!n(document.documentElement)||n(p,a)&&s.push(p)}for(var g=o.visualViewport?o.visualViewport.width:innerWidth,m=o.visualViewport?o.visualViewport.height:innerHeight,w=window.scrollX||pageXOffset,v=window.scrollY||pageYOffset,W=e.getBoundingClientRect(),b=W.height,H=W.width,y=W.top,M=W.right,E=W.bottom,V=W.left,x="start"===d||"nearest"===d?y:"end"===d?E:y+b/2,I="center"===u?V+H/2:"end"===u?M:V,C=[],T=0;T<s.length;T++){var k=s[T],B=k.getBoundingClientRect(),D=B.height,O=B.width,R=B.top,X=B.right,Y=B.bottom,L=B.left;if("if-needed"===l&&y>=0&&V>=0&&E<=m&&M<=g&&y>=R&&E<=Y&&V>=L&&M<=X)return C;var S=getComputedStyle(k),j=parseInt(S.borderLeftWidth,10),N=parseInt(S.borderTopWidth,10),q=parseInt(S.borderRightWidth,10),z=parseInt(S.borderBottomWidth,10),A=0,F=0,G="offsetWidth"in k?k.offsetWidth-k.clientWidth-j-q:0,J="offsetHeight"in k?k.offsetHeight-k.clientHeight-N-z:0;if(f===k)A="start"===d?x:"end"===d?x-m:"nearest"===d?index_module_r(v,v+m,m,N,z,v+x,v+x+b,b):x-m/2,F="start"===u?I:"center"===u?I-g/2:"end"===u?I-g:index_module_r(w,w+g,g,j,q,w+I,w+I+H,H),A=Math.max(0,A+v),F=Math.max(0,F+w);else{A="start"===d?x-R-N:"end"===d?x-Y+z+J:"nearest"===d?index_module_r(R,Y,D,N,z+J,x,x+b,b):x-(R+D/2)+J/2,F="start"===u?I-L-j:"center"===u?I-(L+O/2)+G/2:"end"===u?I-X+q+G:index_module_r(L,X,O,j,q+G,I,I+H,H);var K=k.scrollLeft,P=k.scrollTop;x+=P-(A=Math.max(0,Math.min(P+A,k.scrollHeight-D+J))),I+=K-(F=Math.max(0,Math.min(K+F,k.scrollWidth-O+G)))}C.push({el:k,top:A,left:F})}return C});
+function t(t){return"object"==typeof t&&null!=t&&1===t.nodeType}function index_module_e(t,e){return(!e||"hidden"!==t)&&"visible"!==t&&"clip"!==t}function n(t,n){if(t.clientHeight<t.scrollHeight||t.clientWidth<t.scrollWidth){var r=getComputedStyle(t,null);return index_module_e(r.overflowY,n)||index_module_e(r.overflowX,n)||function(t){var e=function(t){if(!t.ownerDocument||!t.ownerDocument.defaultView)return null;try{return t.ownerDocument.defaultView.frameElement}catch(t){return null}}(t);return!!e&&(e.clientHeight<t.scrollHeight||e.clientWidth<t.scrollWidth)}(t)}return!1}function index_module_r(t,e,n,r,i,o,l,d){return o<t&&l>e||o>t&&l<e?0:o<=t&&d<=n||l>=e&&d>=n?o-t-r:l>e&&d<n||o<t&&d>n?l-e+i:0}/* harmony default export */ var index_module = (function(e,i){var o=window,l=i.scrollMode,d=i.block,u=i.inline,h=i.boundary,a=i.skipOverflowHiddenElements,c="function"==typeof h?h:function(t){return t!==h};if(!t(e))throw new TypeError("Invalid target");for(var f=document.scrollingElement||document.documentElement,s=[],p=e;t(p)&&c(p);){if((p=p.parentElement)===f){s.push(p);break}null!=p&&p===document.body&&n(p)&&!n(document.documentElement)||null!=p&&n(p,a)&&s.push(p)}for(var m=o.visualViewport?o.visualViewport.width:innerWidth,g=o.visualViewport?o.visualViewport.height:innerHeight,w=window.scrollX||pageXOffset,v=window.scrollY||pageYOffset,W=e.getBoundingClientRect(),b=W.height,H=W.width,y=W.top,E=W.right,M=W.bottom,V=W.left,x="start"===d||"nearest"===d?y:"end"===d?M:y+b/2,I="center"===u?V+H/2:"end"===u?E:V,C=[],T=0;T<s.length;T++){var k=s[T],B=k.getBoundingClientRect(),D=B.height,O=B.width,R=B.top,X=B.right,Y=B.bottom,L=B.left;if("if-needed"===l&&y>=0&&V>=0&&M<=g&&E<=m&&y>=R&&M<=Y&&V>=L&&E<=X)return C;var S=getComputedStyle(k),j=parseInt(S.borderLeftWidth,10),q=parseInt(S.borderTopWidth,10),z=parseInt(S.borderRightWidth,10),A=parseInt(S.borderBottomWidth,10),F=0,G=0,J="offsetWidth"in k?k.offsetWidth-k.clientWidth-j-z:0,K="offsetHeight"in k?k.offsetHeight-k.clientHeight-q-A:0;if(f===k)F="start"===d?x:"end"===d?x-g:"nearest"===d?index_module_r(v,v+g,g,q,A,v+x,v+x+b,b):x-g/2,G="start"===u?I:"center"===u?I-m/2:"end"===u?I-m:index_module_r(w,w+m,m,j,z,w+I,w+I+H,H),F=Math.max(0,F+v),G=Math.max(0,G+w);else{F="start"===d?x-R-q:"end"===d?x-Y+A+K:"nearest"===d?index_module_r(R,Y,D,q,A+K,x,x+b,b):x-(R+D/2)+K/2,G="start"===u?I-L-j:"center"===u?I-(L+O/2)+J/2:"end"===u?I-X+z+J:index_module_r(L,X,O,j,z+J,I,I+H,H);var N=k.scrollLeft,P=k.scrollTop;x+=P-(F=Math.max(0,Math.min(P+F,k.scrollHeight-D+K))),I+=N-(G=Math.max(0,Math.min(N+G,k.scrollWidth-O+J)))}C.push({el:k,top:F,left:G})}return C});
 
 // CONCATENATED MODULE: ./node_modules/downshift/dist/downshift.esm.js
 
@@ -37132,6 +37145,7 @@ var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(exte
 
 
 
+
 var Context = Object(external_wp_element_["createContext"])();
 var provider_Provider = Context.Provider;
 
@@ -37202,10 +37216,10 @@ var INITIAL_DROP_ZONE_STATE = {
   y: null,
   type: null
 };
-function useDrop(ref) {
+function useDrop() {
   var dropZones = Object(external_wp_element_["useContext"])(Context);
-  Object(external_wp_element_["useEffect"])(function () {
-    var ownerDocument = ref.current.ownerDocument;
+  return Object(external_wp_compose_["useRefEffect"])(function (node) {
+    var ownerDocument = node.ownerDocument;
     var defaultView = ownerDocument.defaultView;
     var lastRelative;
 
@@ -37289,7 +37303,7 @@ function useDrop(ref) {
       event.preventDefault();
     }
 
-    defaultView.addEventListener('drop', onDrop);
+    node.addEventListener('drop', onDrop);
     defaultView.addEventListener('dragover', onDragOver);
     defaultView.addEventListener('mouseup', resetDragState); // Note that `dragend` doesn't fire consistently for file and HTML drag
     // events where the drag origin is outside the browser window.
@@ -37297,12 +37311,12 @@ function useDrop(ref) {
 
     defaultView.addEventListener('dragend', resetDragState);
     return function () {
-      defaultView.removeEventListener('drop', onDrop);
+      node.removeEventListener('drop', onDrop);
       defaultView.removeEventListener('dragover', onDragOver);
       defaultView.removeEventListener('mouseup', resetDragState);
       defaultView.removeEventListener('dragend', resetDragState);
     };
-  }, [ref, dropZones]);
+  }, [dropZones]);
 }
 function DropZoneContextProvider(props) {
   var ref = Object(external_wp_element_["useRef"])(new Set([]));
@@ -37313,8 +37327,7 @@ function DropZoneContextProvider(props) {
 
 function DropContainer(_ref2) {
   var children = _ref2.children;
-  var ref = Object(external_wp_element_["useRef"])();
-  useDrop(ref);
+  var ref = useDrop();
   return Object(external_wp_element_["createElement"])("div", {
     ref: ref,
     className: "components-drop-zone__provider"

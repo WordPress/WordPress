@@ -724,6 +724,9 @@ figure.wp-block-gallery {
   right: 0;
   z-index: 1;
 }
+.blocks-gallery-item figure.is-selected figcaption {
+  z-index: 2;
+}
 .blocks-gallery-item figure.is-transient img {
   opacity: 0.3;
 }

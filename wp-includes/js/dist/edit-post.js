@@ -7569,8 +7569,7 @@ function Layout(_ref) {
 
     setEntitiesSavedStatesCallback(false);
   }, [entitiesSavedStatesCallback]);
-  var ref = Object(external_wp_element_["useRef"])();
-  Object(external_wp_components_["__unstableUseDrop"])(ref);
+  var ref = Object(external_wp_components_["__unstableUseDrop"])(ref);
 
   var _useDialog = Object(external_wp_compose_["__experimentalUseDialog"])({
     onClose: function onClose() {
