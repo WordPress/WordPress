@@ -58,11 +58,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				</h1>
 				<p>
 					<?php
-					printf(
-						/* translators: %s: The current WordPress version number. */
-						__( 'With this new version, the editor cleans up the colors and helps you work in a few places you couldn’t before—at least, not without getting into code or hiring a pro. The controls you use most, like changing type sizes, are in more places—right where you need them. And layout changes that should be simple, like full-height images, get even simpler to make.' ),
-						$display_version
-					);
+					_e( 'With this new version, WordPress brings you fresh colors. The editor helps you work in a few places you couldn’t before—at least, not without getting into code or hiring a pro. The controls you use most, like changing font sizes, are in more places—right where you need them. And layout changes that should be simple, like full-height images, are even simpler to make.' );
 					?>
 				</p>
 			</div>
@@ -111,7 +107,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				</p>
 				<p>
 					<?php
-					_e( '<strong>Buttons block:</strong> now you can align the content in buttons vertically. And you can set the width of a button to a preset percentage.' );
+					_e( '<strong>Buttons block:</strong> now you can choose a vertical or a horizontal layout. And you can set the width of a button to a preset percentage.' );
 					?>
 				</p>
 				<p>
