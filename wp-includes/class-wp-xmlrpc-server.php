@@ -6649,7 +6649,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	public function mt_supportedMethods() {
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
-		do_action( 'xmlrpc_call', 'mt.supportedMethods', $args, $this );
+		do_action( 'xmlrpc_call', 'mt.supportedMethods', array(), $this );
 
 		return array_keys( $this->methods );
 	}
@@ -6661,7 +6661,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	public function mt_supportedTextFilters() {
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
-		do_action( 'xmlrpc_call', 'mt.supportedTextFilters', $args, $this );
+		do_action( 'xmlrpc_call', 'mt.supportedTextFilters', array(), $this );
 
 		/**
 		 * Filters the MoveableType text filters list for XML-RPC.
