@@ -85,7 +85,7 @@ class WP_Widget_RSS extends WP_Widget {
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		$url  = strip_tags( $url );
-		$icon = includes_url( 'images/rss.png' );
+		$icon = includes_url( 'images/rss.png', 'https' );
 		if ( $title ) {
 			$title = '<a class="rsswidget" href="' . esc_url( $url ) . '"><img class="rss-widget-icon" style="border:0" width="14" height="14" src="' . esc_url( $icon ) . '" alt="RSS" /></a> <a class="rsswidget" href="' . esc_url( $link ) . '">' . esc_html( $title ) . '</a>';
 		}
