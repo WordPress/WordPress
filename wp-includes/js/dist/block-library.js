@@ -14015,8 +14015,14 @@ var cover_deprecated_deprecated = [{
     },
     customGradient: {
       type: 'string'
+    },
+    contentPosition: {
+      type: 'string'
     }
   }),
+  supports: {
+    align: true
+  },
   save: function save(_ref) {
     var _classnames;
 
@@ -14115,6 +14121,9 @@ var cover_deprecated_deprecated = [{
       type: 'string'
     }
   }),
+  supports: {
+    align: true
+  },
   save: function save(_ref2) {
     var attributes = _ref2.attributes;
     var backgroundType = attributes.backgroundType,
@@ -14191,6 +14200,9 @@ var cover_deprecated_deprecated = [{
       type: 'string'
     }
   }),
+  supports: {
+    align: true
+  },
   save: function save(_ref3) {
     var attributes = _ref3.attributes;
     var backgroundType = attributes.backgroundType,
@@ -14924,13 +14936,13 @@ function CoverEdit(_ref3) {
     style: {
       backgroundImage: gradientValue
     }
-  }), isImageBackground && isImgElement && Object(external_wp_element_["createElement"])("img", {
+  }), url && isImageBackground && isImgElement && Object(external_wp_element_["createElement"])("img", {
     ref: isDarkElement,
     className: "wp-block-cover__image-background",
     alt: "",
     src: url,
     style: mediaStyle
-  }), isVideoBackground && Object(external_wp_element_["createElement"])("video", {
+  }), url && isVideoBackground && Object(external_wp_element_["createElement"])("video", {
     ref: isDarkElement,
     className: "wp-block-cover__video-background",
     autoPlay: true,
