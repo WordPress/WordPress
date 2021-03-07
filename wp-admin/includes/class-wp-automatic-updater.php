@@ -182,7 +182,9 @@ class WP_Automatic_Updater {
 		 * Filters whether to automatically update core, a plugin, a theme, or a language.
 		 *
 		 * The dynamic portion of the hook name, `$type`, refers to the type of update
-		 * being checked. Potential hook names include:
+		 * being checked.
+		 *
+		 * Possible hook names include:
 		 *
 		 *  - `auto_update_core`
 		 *  - `auto_update_plugin`

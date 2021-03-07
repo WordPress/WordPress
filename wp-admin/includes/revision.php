@@ -68,8 +68,14 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		/**
 		 * Contextually filter a post revision field.
 		 *
-		 * The dynamic portion of the hook name, `$field`, corresponds to each of the post
-		 * fields of the revision object being iterated over in a foreach statement.
+		 * The dynamic portion of the hook name, `$field`, corresponds to a name of a
+		 * field of the revision object.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `_wp_post_revision_field_post_title`
+		 *  - `_wp_post_revision_field_post_content`
+		 *  - `_wp_post_revision_field_post_excerpt`
 		 *
 		 * @since 3.6.0
 		 *

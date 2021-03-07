@@ -1168,8 +1168,11 @@ function wp_edit_posts_query( $q = false ) {
 	 *
 	 * The dynamic portion of the hook name, `$post_type`, refers to the post type.
 	 *
-	 * Some examples of filter hooks generated here include: 'edit_attachment_per_page',
-	 * 'edit_post_per_page', 'edit_page_per_page', etc.
+	 * Possible hook names include:
+	 *
+	 *  - `edit_post_per_page`
+	 *  - `edit_page_per_page`
+	 *  - `edit_attachment_per_page`
 	 *
 	 * @since 3.0.0
 	 *

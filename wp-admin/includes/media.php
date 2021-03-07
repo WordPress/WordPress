@@ -696,9 +696,14 @@ function get_upload_iframe_src( $type = null, $post_id = null, $tab = null ) {
 	 * The dynamic portion of the hook name, `$type`, refers to the type
 	 * of media uploaded.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `image_upload_iframe_src`
+	 *  - `media_upload_iframe_src`
+	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $upload_iframe_src The upload iframe source URL by type.
+	 * @param string $upload_iframe_src The upload iframe source URL.
 	 */
 	$upload_iframe_src = apply_filters( "{$type}_upload_iframe_src", $upload_iframe_src );
 
@@ -892,6 +897,12 @@ function wp_media_upload_handler() {
 			 *
 			 * The dynamic portion of the hook name, `$type`, refers to the type
 			 * of media being sent.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `audio_send_to_editor_url`
+			 *  - `file_send_to_editor_url`
+			 *  - `video_send_to_editor_url`
 			 *
 			 * @since 3.3.0
 			 *

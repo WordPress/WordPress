@@ -3454,6 +3454,11 @@ function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false )
 	 * The dynamic portion of the hook name, `$adjacent`, refers to the type of adjacency,
 	 * either 'next', or 'previous'.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `next_image_link`
+	 *  - `previous_image_link`
+	 *
 	 * @since 3.5.0
 	 *
 	 * @param string $output        Adjacent image HTML markup.

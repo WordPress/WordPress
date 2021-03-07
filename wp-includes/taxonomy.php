@@ -627,6 +627,11 @@ function get_taxonomy_labels( $tax ) {
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `taxonomy_labels_category`
+	 *  - `taxonomy_labels_post_tag`
+	 *
 	 * @since 4.4.0
 	 *
 	 * @see get_taxonomy_labels() for the full list of taxonomy labels.
@@ -2031,6 +2036,11 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the specific
 	 * taxonomy the term belonged to.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `delete_category`
+	 *  - `delete_post_tag`
+	 *
 	 * @since 2.3.0
 	 * @since 4.5.0 Introduced the `$object_ids` argument.
 	 *
@@ -2474,6 +2484,11 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * The dynamic portion of the hook name, `$taxonomy`, refers
 	 * to the slug of the taxonomy the term was created for.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `create_category`
+	 *  - `create_post_tag`
+	 *
 	 * @since 2.3.0
 	 *
 	 * @param int $term_id Term ID.
@@ -2513,6 +2528,11 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `created_category`
+	 *  - `created_post_tag`
+	 *
 	 * @since 2.3.0
 	 *
 	 * @param int $term_id Term ID.
@@ -2540,6 +2560,11 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * cache has been cleared.
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `saved_category`
+	 *  - `saved_post_tag`
 	 *
 	 * @since 5.5.0
 	 *
@@ -3186,6 +3211,11 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `edit_category`
+	 *  - `edit_post_tag`
+	 *
 	 * @since 2.3.0
 	 *
 	 * @param int $term_id Term ID.
@@ -3217,6 +3247,11 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 * cache has been cleaned.
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `edited_category`
+	 *  - `edited_post_tag`
 	 *
 	 * @since 2.3.0
 	 *

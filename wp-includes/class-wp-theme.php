@@ -1269,6 +1269,12 @@ final class WP_Theme implements ArrayAccess {
 		 *
 		 * The dynamic portion of the hook name, `$post_type`, refers to the post type.
 		 *
+		 * Possible hook names include:
+		 *
+		 *  - `theme_post_templates`
+		 *  - `theme_page_templates`
+		 *  - `theme_attachment_templates`
+		 *
 		 * @since 3.9.0
 		 * @since 4.4.0 Converted to allow complete control over the `$page_templates` array.
 		 * @since 4.7.0 Added the `$post_type` parameter.

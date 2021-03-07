@@ -87,12 +87,18 @@ if ( 'type' === $tab || 'type_url' === $tab || ! array_key_exists( $tab, media_u
 	 * media popup based on the current tab.
 	 *
 	 * The dynamic portion of the hook name, `$type`, refers to the specific
-	 * media upload type. Possible values include 'image', 'audio', 'video',
-	 * 'file', etc.
+	 * media upload type.
 	 *
 	 * The hook only fires if the current `$tab` is 'type' (From Computer),
 	 * 'type_url' (From URL), or, if the tab does not exist (i.e., has not
 	 * been registered via the {@see 'media_upload_tabs'} filter.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `media_upload_audio`
+	 *  - `media_upload_file`
+	 *  - `media_upload_image`
+	 *  - `media_upload_video`
 	 *
 	 * @since 2.5.0
 	 */

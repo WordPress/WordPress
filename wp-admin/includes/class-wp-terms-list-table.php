@@ -526,6 +526,11 @@ class WP_Terms_List_Table extends WP_List_Table {
 		 *
 		 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 		 *
+		 * Possible hook names include:
+		 *
+		 *  - `category_row_actions`
+		 *  - `post_tag_row_actions`
+		 *
 		 * @since 3.0.0
 		 *
 		 * @param string[] $actions An array of action links to be displayed. Default
@@ -615,6 +620,11 @@ class WP_Terms_List_Table extends WP_List_Table {
 		 *
 		 * The dynamic portion of the hook name, `$this->screen->taxonomy`,
 		 * refers to the slug of the current taxonomy.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `manage_category_custom_column`
+		 *  - `manage_post_tag_custom_column`
 		 *
 		 * @since 2.8.0
 		 *

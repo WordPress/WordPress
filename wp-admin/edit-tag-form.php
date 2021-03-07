@@ -60,6 +60,11 @@ require_once ABSPATH . 'wp-admin/includes/edit-tag-messages.php';
  * The dynamic portion of the hook name, `$taxonomy`, refers to
  * the taxonomy slug.
  *
+ * Possible hook names include:
+ *
+ *  - `category_pre_edit_form`
+ *  - `post_tag_pre_edit_form`
+ *
  * @since 3.0.0
  *
  * @param WP_Term $tag      Current taxonomy term object.
@@ -96,6 +101,11 @@ if ( $message ) {
  *
  * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
+ * Possible hook names include:
+ *
+ *  - `category_term_edit_form_tag`
+ *  - `post_tag_term_edit_form_tag`
+ *
  * @since 3.7.0
  */
 do_action( "{$taxonomy}_term_edit_form_tag" );
@@ -114,6 +124,11 @@ wp_nonce_field( 'update-tag_' . $tag_ID );
  * At this point, the required hidden fields and nonces have already been output.
  *
  * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+ *
+ * Possible hook names include:
+ *
+ *  - `category_term_edit_form_top`
+ *  - `post_tag_term_edit_form_top`
  *
  * @since 4.5.0
  *
@@ -229,6 +244,11 @@ if ( isset( $tag->name ) ) {
 		 * The dynamic portion of the hook name, `$taxonomy`, refers to
 		 * the taxonomy slug.
 		 *
+		 * Possible hook names include:
+		 *
+		 *  - `category_edit_form_fields`
+		 *  - `post_tag_edit_form_fields`
+		 *
 		 * @since 3.0.0
 		 *
 		 * @param WP_Term $tag      Current taxonomy term object.
@@ -260,6 +280,11 @@ if ( 'category' === $taxonomy ) {
  * Fires at the end of the Edit Term form for all taxonomies.
  *
  * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+ *
+ * Possible hook names include:
+ *
+ *  - `category_edit_form`
+ *  - `post_tag_edit_form`
  *
  * @since 3.0.0
  *

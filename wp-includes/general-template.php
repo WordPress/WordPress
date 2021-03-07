@@ -4719,6 +4719,16 @@ function get_the_generator( $type = '' ) {
 	 *
 	 * The dynamic portion of the hook name, `$type`, refers to the generator type.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `get_the_generator_atom`
+	 *  - `get_the_generator_comment`
+	 *  - `get_the_generator_export`
+	 *  - `get_the_generator_html`
+	 *  - `get_the_generator_rdf`
+	 *  - `get_the_generator_rss2`
+	 *  - `get_the_generator_xhtml`
+	 *
 	 * @since 2.5.0
 	 *
 	 * @param string $gen  The HTML markup output to wp_head().

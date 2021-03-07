@@ -237,6 +237,11 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		 *
 		 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the taxonomy slug.
 		 *
+		 * Possible hook names include:
+		 *
+		 *  - `rest_category_query`
+		 *  - `rest_post_tag_query`
+		 *
 		 * Enables adding extra arguments or setting defaults for a terms
 		 * collection request.
 		 *
@@ -475,6 +480,11 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		 *
 		 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the taxonomy slug.
 		 *
+		 * Possible hook names include:
+		 *
+		 *  - `rest_insert_category`
+		 *  - `rest_insert_post_tag`
+		 *
 		 * @since 4.7.0
 		 *
 		 * @param WP_Term         $term     Inserted or updated term object.
@@ -504,6 +514,11 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		 * Fires after a single term is completely created or updated via the REST API.
 		 *
 		 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the taxonomy slug.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `rest_after_insert_category`
+		 *  - `rest_after_insert_post_tag`
 		 *
 		 * @since 5.0.0
 		 *
@@ -702,6 +717,11 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		 *
 		 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the taxonomy slug.
 		 *
+		 * Possible hook names include:
+		 *
+		 *  - `rest_delete_category`
+		 *  - `rest_delete_post_tag`
+		 *
 		 * @since 4.7.0
 		 *
 		 * @param WP_Term          $term     The deleted term.
@@ -760,6 +780,11 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		 * Filters term data before inserting term via the REST API.
 		 *
 		 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the taxonomy slug.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `rest_pre_insert_category`
+		 *  - `rest_pre_insert_post_tag`
 		 *
 		 * @since 4.7.0
 		 *
@@ -832,7 +857,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		 *
 		 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the taxonomy slug.
 		 *
-		 * Possible filter names include:
+		 * Possible hook names include:
 		 *
 		 *  - `rest_prepare_category`
 		 *  - `rest_prepare_post_tag`

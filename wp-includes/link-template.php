@@ -1811,6 +1811,11 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `get_next_post_excluded_terms`
+	 *  - `get_previous_post_excluded_terms`
+	 *
 	 * @since 4.4.0
 	 *
 	 * @param array|string $excluded_terms Array of excluded term IDs. Empty string if none were provided.
@@ -1882,6 +1887,11 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `get_next_post_join`
+	 *  - `get_previous_post_join`
+	 *
 	 * @since 2.5.0
 	 * @since 4.4.0 Added the `$taxonomy` and `$post` parameters.
 	 *
@@ -1899,6 +1909,11 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `get_next_post_where`
+	 *  - `get_previous_post_where`
+	 *
 	 * @since 2.5.0
 	 * @since 4.4.0 Added the `$taxonomy` and `$post` parameters.
 	 *
@@ -1915,6 +1930,11 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 *
 	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `get_next_post_sort`
+	 *  - `get_previous_post_sort`
 	 *
 	 * @since 2.5.0
 	 * @since 4.4.0 Added the `$post` parameter.
@@ -2003,6 +2023,11 @@ function get_adjacent_post_rel_link( $title = '%title', $in_same_term = false, $
 	 *
 	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `next_post_rel_link`
+	 *  - `previous_post_rel_link`
 	 *
 	 * @since 2.8.0
 	 *
@@ -2260,6 +2285,11 @@ function get_adjacent_post_link( $format, $link, $in_same_term = false, $exclude
 	 *
 	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `next_post_link`
+	 *  - `previous_post_link`
 	 *
 	 * @since 2.6.0
 	 * @since 4.2.0 Added the `$adjacent` parameter.

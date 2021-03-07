@@ -545,6 +545,11 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 				 *
 				 * The dynamic portion of the hook name, `$post_type_name`, refers to the post type name.
 				 *
+				 * Possible hook names include:
+				 *
+				 *  - `nav_menu_items_post_recent`
+				 *  - `nav_menu_items_page_recent`
+				 *
 				 * @since 4.3.0
 				 * @since 4.9.0 Added the `$recent_args` parameter.
 				 *
@@ -632,6 +637,11 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 				 *
 				 * The dynamic portion of the hook name, `$post_type_name`, refers
 				 * to the slug of the current post type.
+				 *
+				 * Possible hook names include:
+				 *
+				 *  - `nav_menu_items_post`
+				 *  - `nav_menu_items_page`
 				 *
 				 * @since 3.2.0
 				 * @since 4.6.0 Converted the `$post_type` parameter to accept a WP_Post_Type object.
