@@ -1,7 +1,7 @@
 === Twenty Sixteen ===
 Contributors: wordpressdotorg
 Tested up to: 5.6
-Version: 2.3
+Version: 2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, flexible-header, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, blog, block-patterns
@@ -54,6 +54,11 @@ Source: http://www.genericons.com
 Image used in screenshot.png: A photo by Austin Schmid (https://unsplash.com/schmidy/), licensed under Creative Commons Zero(http://creativecommons.org/publicdomain/zero/1.0/)
 
 == Changelog ==
+
+= 2.4 =
+* Released: March 9, 2021
+
+https://codex.wordpress.org/Twenty_Sixteen_Theme_Changelog#Version_2.4
 
 = 2.3 =
 * Released: December 8, 2020

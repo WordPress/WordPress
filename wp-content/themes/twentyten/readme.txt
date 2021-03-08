@@ -1,7 +1,7 @@
 === Twenty Ten ===
 Contributors: wordpressdotorg
 Tested up to: 5.6
-Stable tag: 3.2
+Stable tag: 3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu, flexible-header, featured-images, footer-widgets, featured-image-header
@@ -35,6 +35,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 == Changelog ==
+
+= 3.3 =
+* Released: March 9, 2021
+
+https://codex.wordpress.org/Twenty_Ten_Theme_Changelog#Version_3.3
 
 = 3.2 =
 * Released: December 8, 2020
