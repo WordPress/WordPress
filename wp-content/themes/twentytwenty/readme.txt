@@ -1,7 +1,7 @@
 === Twenty Twenty ===
 Contributors: the WordPress team
 Tested up to: 5.6
-Stable tag: 1.6
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,11 @@ all elements on your site are automatically calculated based on the colors
 you pick, ensuring a high, accessible color contrast for your visitors.
 
 == Changelog ==
+
+= 1.7 =
+* Released: March 9, 2021
+
+https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.7
 
 = 1.6 =
 * Released: December 8, 2020

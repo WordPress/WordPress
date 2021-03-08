@@ -2,7 +2,7 @@
 Contributors: wordpressdotorg
 Requires at least: WordPress 3.6
 Tested up to: 5.6
-Stable tag: 3.0
+Stable tag: 3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, news, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready
@@ -49,6 +49,11 @@ License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
 == Changelog ==
+
+= 3.1 =
+* Released: March 9, 2021
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_3.1
 
 = 3.0 =
 * Released: December 8, 2020
