@@ -801,6 +801,8 @@ $_old_files = array(
 	// 5.6
 	'wp-includes/js/jquery/ui/position.min.js',
 	'wp-includes/js/jquery/ui/widget.min.js',
+	// 5.7
+	'wp-includes/blocks/classic/block.json',
 );
 
 /**
