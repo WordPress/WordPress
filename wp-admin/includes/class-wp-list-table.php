@@ -1114,7 +1114,7 @@ class WP_List_Table {
 			/*
 			 * Backward compatibility for `$_column_headers` format prior to WordPress 4.3.
 			 *
-			 * In WordPress 4.3 the primary column name was added as a forth item in the
+			 * In WordPress 4.3 the primary column name was added as a fourth item in the
 			 * column headers property. This ensures the primary column name is included
 			 * in plugins setting the property directly in the three item format.
 			 */
