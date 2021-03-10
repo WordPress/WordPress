@@ -90,7 +90,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<div class="column about__image">
 				<video controls>
 					<source src="https://s.w.org/images/core/5.7/about-57-drag-drop-image.mp4" type="video/mp4" />
-					<source src="https://s.w.org/images/core/5.7/about-57-drag-drop-image.mp4" type="video/webm" />
+					<source src="https://s.w.org/images/core/5.7/about-57-drag-drop-image.webm" type="video/webm" />
 				</video>
 			</div>
 		</div>
