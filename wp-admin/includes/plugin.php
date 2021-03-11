@@ -293,7 +293,7 @@ function get_plugins( $plugin_folder = '' ) {
 	}
 
 	// Files in wp-content/plugins directory.
-	$plugins_dir  = @ opendir( $plugin_root );
+	$plugins_dir  = @opendir( $plugin_root );
 	$plugin_files = array();
 
 	if ( $plugins_dir ) {
@@ -303,7 +303,7 @@ function get_plugins( $plugin_folder = '' ) {
 			}
 
 			if ( is_dir( $plugin_root . '/' . $file ) ) {
-				$plugins_subdir = @ opendir( $plugin_root . '/' . $file );
+				$plugins_subdir = @opendir( $plugin_root . '/' . $file );
 
 				if ( $plugins_subdir ) {
 					while ( ( $subfile = readdir( $plugins_subdir ) ) !== false ) {
