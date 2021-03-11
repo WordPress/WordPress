@@ -19,7 +19,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 	<div class="about__header">
 		<div class="about__header-image">
-			<img alt="<?php _e( 'Code is Poetry' ); ?>" src="images/about-badge.svg" />
+			<img alt="<?php _e( 'Code is Poetry' ); ?>" src="<?php echo admin_url( 'images/about-badge.svg' ); ?>" />
 		</div>
 
 		<div class="about__header-container">
