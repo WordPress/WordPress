@@ -2257,6 +2257,7 @@ function get_block_editor_server_block_settings() {
 		'parent'           => 'parent',
 		'keywords'         => 'keywords',
 		'example'          => 'example',
+		'variations'       => 'variations',
 	);
 
 	foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {

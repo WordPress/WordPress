@@ -1703,6 +1703,9 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - `item_scheduled` - Label used when an item is scheduled for publishing. Default is 'Post scheduled.' /
  *                    'Page scheduled.'
  * - `item_updated` - Label used when an item is updated. Default is 'Post updated.' / 'Page updated.'
+ * - `item_link` - Title for a navigation link block variation. Default is 'Post Link' / 'Page Link'.
+ * - `item_link_description` - Description for a navigation link block variation. Default is 'A link to a post.' /
+ *                             'A link to a page.'
  *
  * Above, the first default value is for non-hierarchical post types (like posts)
  * and the second one is for hierarchical post types (like pages).
@@ -1726,7 +1729,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @return object Object with all the labels as member variables.
  */
 function get_post_type_labels( $post_type_object ) {
-	$nohier_vs_hier_defaults              = array(
+	$nohier_vs_hier_defaults                  = array(
 		'name'                     => array( _x( 'Posts', 'post type general name' ), _x( 'Pages', 'post type general name' ) ),
 		'singular_name'            => array( _x( 'Post', 'post type singular name' ), _x( 'Page', 'post type singular name' ) ),
 		'add_new'                  => array( _x( 'Add New', 'post' ), _x( 'Add New', 'page' ) ),
@@ -1757,6 +1760,14 @@ function get_post_type_labels( $post_type_object ) {
 		'item_reverted_to_draft'   => array( __( 'Post reverted to draft.' ), __( 'Page reverted to draft.' ) ),
 		'item_scheduled'           => array( __( 'Post scheduled.' ), __( 'Page scheduled.' ) ),
 		'item_updated'             => array( __( 'Post updated.' ), __( 'Page updated.' ) ),
+		'item_link'                => array(
+			_x( 'Post Link', 'navigation link block title' ),
+			_x( 'Page Link', 'navigation link block title' ),
+		),
+		'item_link_description'    => array(
+			_x( 'A link to a post.', 'navigation link block description' ),
+			_x( 'A link to a page.', 'navigation link block description' ),
+		),
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 
