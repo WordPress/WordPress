@@ -693,7 +693,7 @@ body #dashboard-widgets .postbox form .submit {
 	margin-bottom: 1em;
 }
 #dashboard_quick_press .drafts li time {
-	color: #787c82;
+	color: #646970;
 }
 
 #dashboard_quick_press .drafts p {
@@ -788,7 +788,7 @@ body #dashboard-widgets .postbox form .submit {
 	display: inline-block;
 	margin-right: 5px;
 	min-width: 150px;
-	color: #787c82;
+	color: #646970;
 }
 
 .activity-block {
