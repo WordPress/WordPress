@@ -1873,10 +1873,14 @@ function wp_dashboard_site_health() {
 		</p>
 	<?php else : ?>
 		<p>
-			<?php if ( $issue_counts['critical'] > 0 ) : ?>
-				<?php _e( 'Your site has critical issues that should be addressed as soon as possible to improve its performance and security.' ); ?>
-			<?php elseif ( $issues_total <= 0 ) : ?>
+			<?php if ( $issues_total <= 0 ) : ?>
 				<?php _e( 'Great job! Your site currently passes all site health checks.' ); ?>
+			<?php elseif ( 1 === (int) $issue_counts['critical'] ) : ?>
+				<?php _e( 'Your site has a critical issue that should be addressed as soon as possible to improve its performance and security.' ); ?>
+			<?php elseif ( $issue_counts['critical'] > 1 ) : ?>
+				<?php _e( 'Your site has critical issues that should be addressed as soon as possible to improve its performance and security.' ); ?>
+			<?php elseif ( 1 === (int) $issue_counts['recommended'] ) : ?>
+				<?php _e( 'Your site&#8217;s health is looking good, but there is still one thing you can do to improve its performance and security.' ); ?>
 			<?php else : ?>
 				<?php _e( 'Your site&#8217;s health is looking good, but there are still some things you can do to improve its performance and security.' ); ?>
 			<?php endif; ?>
