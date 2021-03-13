@@ -1722,6 +1722,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @since 5.0.0 Added the `item_published`, `item_published_privately`, `item_reverted_to_draft`,
  *              `item_scheduled`, and `item_updated` labels.
  * @since 5.7.0 Added the `filter_by_date` label.
+ * @since 5.8.0 Added the `item_link` and `item_link_description` labels.
  *
  * @access private
  *
@@ -1729,7 +1730,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @return object Object with all the labels as member variables.
  */
 function get_post_type_labels( $post_type_object ) {
-	$nohier_vs_hier_defaults                  = array(
+	$nohier_vs_hier_defaults = array(
 		'name'                     => array( _x( 'Posts', 'post type general name' ), _x( 'Pages', 'post type general name' ) ),
 		'singular_name'            => array( _x( 'Post', 'post type singular name' ), _x( 'Page', 'post type singular name' ) ),
 		'add_new'                  => array( _x( 'Add New', 'post' ), _x( 'Add New', 'page' ) ),
@@ -1769,6 +1770,7 @@ function get_post_type_labels( $post_type_object ) {
 			_x( 'A link to a page.', 'navigation link block description' ),
 		),
 	);
+
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 
 	$labels = _get_custom_object_labels( $post_type_object, $nohier_vs_hier_defaults );

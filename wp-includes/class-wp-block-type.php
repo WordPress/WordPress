@@ -101,6 +101,7 @@ class WP_Block_Type {
 
 	/**
 	 * Block variations.
+	 *
 	 * @since 5.8.0
 	 * @var array
 	 */

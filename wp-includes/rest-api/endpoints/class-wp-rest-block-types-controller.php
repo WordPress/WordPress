@@ -362,7 +362,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 			return $this->add_additional_fields_schema( $this->schema );
 		}
 
-		//rest_validate_value_from_schema doesn't understand $refs, pull out reused definitions for readability.
+		// rest_validate_value_from_schema doesn't understand $refs, pull out reused definitions for readability.
 		$inner_blocks_definition = array(
 			'description' => __( 'The list of inner blocks used in the example.' ),
 			'type'        => 'array',

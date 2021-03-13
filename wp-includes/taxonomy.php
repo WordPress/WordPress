@@ -538,6 +538,7 @@ function unregister_taxonomy( $taxonomy ) {
  * @since 4.4.0 Added the `items_list_navigation` and `items_list` labels.
  * @since 4.9.0 Added the `most_used` and `back_to_items` labels.
  * @since 5.7.0 Added the `filter_by_item` label.
+ * @since 5.8.0 Added the `item_link` and `item_link_description` labels.
  *
  * @param WP_Taxonomy $tax Taxonomy object.
  * @return object {
@@ -579,7 +580,7 @@ function unregister_taxonomy( $taxonomy ) {
  *     @type string $item_link                  Used in the block editor. Title for a navigation link block variation.
  *                                              Default 'Tag Link'/'Category Link'.
  *     @type string $item_link_description      Used in the block editor. Description for a navigation link block
- *                                              variation. Default 'A link to a tag.'/'A link to a category'.
+ *                                              variation. Default 'A link to a tag'/'A link to a category'.
  * }
  */
 function get_taxonomy_labels( $tax ) {
@@ -626,6 +627,7 @@ function get_taxonomy_labels( $tax ) {
 			_x( 'A link to a category.', 'navigation link block description' ),
 		),
 	);
+
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 
 	$labels = _get_custom_object_labels( $tax, $nohier_vs_hier_defaults );
