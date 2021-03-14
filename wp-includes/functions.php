@@ -7560,6 +7560,19 @@ function wp_get_direct_php_update_url() {
 }
 
 /**
+ * Encode this url, like rawurlencode. If it ends in a period, replace that with %2E.
+ *
+ * This is done because gmail doesn't interpret it correctly otherwise.
+ * See https://core.trac.wordpress.org/ticket/42957 for background.
+ *
+ * @param string  $url Any url.
+ * @return string Encoded url.
+ */
+function wp_half_baked_url_encode( $url ) {
+	 return preg_replace( "/\.$/", "%2E", rawurlencode( $url ) );
+}
+
+/**
  * Display a button directly linking to a PHP update process.
  *
  * This provides hosts with a way for users to be sent directly to their PHP update process.
