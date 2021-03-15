@@ -239,7 +239,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <?php require_once ABSPATH . 'wp-admin/admin-footer.php'; ?>
 
 <script>
-	wp.domReady( function() {
+	window.addEventListener( 'load', function() {
 		var createElement = wp.element.createElement;
 		var Fragment = wp.element.Fragment;
 		var render = wp.element.render;
