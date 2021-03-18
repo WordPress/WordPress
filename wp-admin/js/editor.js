@@ -1178,7 +1178,7 @@ window.wp = window.wp || {};
 		}
 
 		if ( $ ) {
-			$( document ).ready( init );
+			$( init );
 		} else if ( document.addEventListener ) {
 			document.addEventListener( 'DOMContentLoaded', init, false );
 			window.addEventListener( 'load', init, false );

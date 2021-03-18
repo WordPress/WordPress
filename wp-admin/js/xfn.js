@@ -4,7 +4,7 @@
  * @deprecated 3.5.0
  * @output wp-admin/js/xfn.js
  */
-jQuery( document ).ready(function( $ ) {
+jQuery( function( $ ) {
 	$( '#link_rel' ).prop( 'readonly', true );
 	$( '#linkxfndiv input' ).on( 'click keyup', function() {
 		var isMe = $( '#me' ).is( ':checked' ), inputs = '';

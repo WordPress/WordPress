@@ -11,7 +11,7 @@
  *
  * @param {jQuery} $ The jQuery object.
  */
-jQuery(document).ready( function($) {
+jQuery( function($) {
 
 	postboxes.add_postbox_toggles('comment');
 

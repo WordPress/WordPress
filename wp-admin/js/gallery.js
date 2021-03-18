@@ -4,7 +4,7 @@
 
 /* global unescape, getUserSetting, setUserSetting, wpgallery, tinymce */
 
-jQuery(document).ready(function($) {
+jQuery( function($) {
 	var gallerySortable, gallerySortableInit, sortIt, clearAll, w, desc = false;
 
 	gallerySortableInit = function() {

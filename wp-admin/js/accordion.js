@@ -31,7 +31,7 @@
 
 ( function( $ ){
 
-	$( document ).ready( function () {
+	$( function () {
 
 		// Expand/Collapse accordion sections on click.
 		$( '.accordion-container' ).on( 'click keydown', '.accordion-section-title', function( e ) {

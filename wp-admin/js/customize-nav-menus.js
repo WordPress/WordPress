@@ -218,7 +218,7 @@
 
 			// Clear the search results and trigger an `input` event to fire a new search.
 			this.$clearResults.on( 'click', function() {
-				self.$search.val( '' ).focus().trigger( 'input' );
+				self.$search.val( '' ).trigger( 'focus' ).trigger( 'input' );
 			} );
 
 			this.$el.on( 'input', '#custom-menu-item-name.invalid, #custom-menu-item-url.invalid', function() {
@@ -446,7 +446,7 @@
 						self.pages[ name ] = -1;
 						return;
 					} else if ( ( 'post_type:page' === name ) && ( ! availableMenuItemContainers[ name ].hasClass( 'open' ) ) ) {
-						availableMenuItemContainers[ name ].find( '.accordion-section-title > button' ).click();
+						availableMenuItemContainers[ name ].find( '.accordion-section-title > button' ).trigger( 'click' );
 					}
 					typeItems = new api.Menus.AvailableItemCollection( typeItems ); // @todo Why is this collection created and then thrown away?
 					self.collection.add( typeItems.models );
@@ -644,7 +644,7 @@
 				return;
 			}
 
-			if ( '' === $.trim( itemName.val() ) ) {
+			if ( '' === itemName.val().trim() ) {
 				itemName.addClass( 'invalid' );
 				itemName.focus();
 				return;
@@ -716,7 +716,7 @@
 
 			this.$el.find( '.selected' ).removeClass( 'selected' );
 
-			this.$search.focus();
+			this.$search.trigger( 'focus' );
 		},
 
 		// Closes the panel.
@@ -1879,7 +1879,7 @@
 
 			// Ensure that whitespace is trimmed on blur so placeholder can be shown.
 			control.container.find( '.edit-menu-item-title' ).on( 'blur', function() {
-				$( this ).val( $.trim( $( this ).val() ) );
+				$( this ).val( $( this ).val().trim() );
 			} );
 
 			titleEl = control.container.find( '.menu-item-title' );
@@ -1888,7 +1888,8 @@
 				if ( ! item ) {
 					return;
 				}
-				trimmedTitle = $.trim( item.title );
+				item.title = item.title || '';
+				trimmedTitle = item.title.trim();
 
 				titleText = trimmedTitle || item.original_title || api.Menus.data.l10n.untitled;
 

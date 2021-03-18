@@ -4,7 +4,7 @@
 
 /* global postboxes, deleteUserSetting, setUserSetting, getUserSetting */
 
-jQuery(document).ready( function($) {
+jQuery( function($) {
 
 	var newCat, noSyncChecks = false, syncChecks, catAddAfter;
 
@@ -81,7 +81,11 @@ jQuery(document).ready( function($) {
 		$(s.what + ' response_data', r).each( function() {
 			var t = $($(this).text());
 			t.find( 'label' ).each( function() {
-				var th = $(this), val = th.find('input').val(), id = th.find('input')[0].id, name = $.trim( th.text() ), o;
+				var th = $(this),
+					val = th.find('input').val(),
+					id = th.find('input')[0].id,
+					name = th.text().trim(),
+					o;
 				$('#' + id).on( 'change', syncChecks );
 				o = $( '<option value="' +  parseInt( val, 10 ) + '"></option>' ).text( name );
 			} );

@@ -57,7 +57,7 @@ window.edToolbar = function(){};
 		var t, i, DOMContentLoaded, _tryReady;
 
 		if ( typeof jQuery !== 'undefined' ) {
-			jQuery(document).ready(func);
+			jQuery( func );
 		} else {
 			t = _domReady;
 			t.funcs = [];
