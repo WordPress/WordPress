@@ -317,7 +317,7 @@ function login_footer( $input_id = '' ) {
 		?>
 		<script type="text/javascript">
 		try{document.getElementById('<?php echo $input_id; ?>').focus();}catch(e){}
-		if(typeof wpOnload=='function')wpOnload();
+		if(typeof wpOnload==='function')wpOnload();
 		</script>
 		<?php
 	}

@@ -2025,7 +2025,7 @@ function iframe_header( $title = '', $deprecated = false ) {
 	wp_enqueue_style( 'colors' );
 	?>
 <script type="text/javascript">
-addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
+addLoadEvent = function(func){if(typeof jQuery!=='undefined')jQuery(document).ready(func);else if(typeof wpOnload!=='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 function tb_close(){var win=window.dialogArguments||opener||parent||top;win.tb_remove();}
 var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?>',
 	pagenow = '<?php echo esc_js( $current_screen->id ); ?>',
@@ -2115,7 +2115,7 @@ function iframe_footer() {
 	do_action( 'admin_print_footer_scripts' );
 	?>
 	</div>
-<script type="text/javascript">if(typeof wpOnload=="function")wpOnload();</script>
+<script type="text/javascript">if(typeof wpOnload==='function')wpOnload();</script>
 </body>
 </html>
 	<?php
