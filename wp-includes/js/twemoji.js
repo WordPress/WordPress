@@ -24,7 +24,7 @@ var twemoji = (function (
     /////////////////////////
 
       // default assets url, by default will be Twitter Inc. CDN
-      base: 'https://twemoji.maxcdn.com/v/13.0.1/',
+      base: 'https://twemoji.maxcdn.com/v/13.0.2/',
 
       // default assets file extensions, by default '.png'
       ext: '.png',
@@ -188,7 +188,7 @@ var twemoji = (function (
        * @param   string    generic string to parse
        * @param   Function  a generic callback that will be
        *                    invoked to replace the content.
-       *                    This calback wil receive standard
+       *                    This callback will receive standard
        *                    String.prototype.replace(str, callback)
        *                    arguments such:
        *  callback(
