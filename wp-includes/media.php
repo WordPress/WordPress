@@ -4975,11 +4975,11 @@ function wp_show_heic_upload_error( $plupload_settings ) {
  *
  * @since 5.7.0
  *
- * @param string $filename  The file path.
- * @param array  $imageinfo Extended image information, passed by reference.
+ * @param string $filename   The file path.
+ * @param array  $image_info Optional. Extended image information (passed by reference).
  * @return array|false Array of image information or false on failure.
  */
-function wp_getimagesize( $filename, &$imageinfo = array() ) {
+function wp_getimagesize( $filename, array &$image_info = null ) {
 	if (
 		// Skip when running unit tests.
 		! defined( 'WP_RUN_CORE_TESTS' )
@@ -4987,7 +4987,7 @@ function wp_getimagesize( $filename, &$imageinfo = array() ) {
 		// Return without silencing errors when in debug mode.
 		defined( 'WP_DEBUG' ) && WP_DEBUG
 	) {
-		return getimagesize( $filename, $imageinfo );
+		return getimagesize( $filename, $image_info );
 	}
 
 	/*
@@ -5001,5 +5001,5 @@ function wp_getimagesize( $filename, &$imageinfo = array() ) {
 	 *
 	 * phpcs:ignore WordPress.PHP.NoSilencedErrors
 	 */
-	return @getimagesize( $filename, $imageinfo );
+	return @getimagesize( $filename, $image_info );
 }
