@@ -368,7 +368,7 @@ function wp_print_media_templates() {
 				<# if ( 'audio' === data.type ) { #>
 				<div class="wp-media-wrapper wp-audio">
 					<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
-						<source type="{{ data.mime }}" src="{{ data.url }}"/>
+						<source type="{{ data.mime }}" src="{{ data.url }}" />
 					</audio>
 				</div>
 				<# } else if ( 'video' === data.type ) {
@@ -384,7 +384,7 @@ function wp_print_media_templates() {
 						<# if ( data.width ) { #>width="{{ data.width }}"<# } #>
 						<# if ( data.height ) { #>height="{{ data.height }}"<# } #>
 						<# if ( data.image && data.image.src !== data.icon ) { #>poster="{{ data.image.src }}"<# } #>>
-						<source type="{{ data.mime }}" src="{{ data.url }}"/>
+						<source type="{{ data.mime }}" src="{{ data.url }}" />
 					</video>
 				</div>
 				<# } #>
@@ -614,7 +614,7 @@ function wp_print_media_templates() {
 			<# if ( 'audio' === data.type ) { #>
 				<div class="wp-media-wrapper wp-audio">
 					<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
-						<source type="{{ data.mime }}" src="{{ data.url }}"/>
+						<source type="{{ data.mime }}" src="{{ data.url }}" />
 					</audio>
 				</div>
 			<# } else if ( 'video' === data.type ) {
@@ -630,7 +630,7 @@ function wp_print_media_templates() {
 						<# if ( data.width ) { #>width="{{ data.width }}"<# } #>
 						<# if ( data.height ) { #>height="{{ data.height }}"<# } #>
 						<# if ( data.image && data.image.src !== data.icon ) { #>poster="{{ data.image.src }}"<# } #>>
-						<source type="{{ data.mime }}" src="{{ data.url }}"/>
+						<source type="{{ data.mime }}" src="{{ data.url }}" />
 					</video>
 				</div>
 			<# } else { #>
@@ -1491,14 +1491,14 @@ function wp_print_media_templates() {
 			<img src="<?php echo esc_url( admin_url( 'images/' . ( is_rtl() ? 'browser-rtl.png' : 'browser.png' ) ) ); ?>" class="browser-preview" width="182" height="" alt="" />
 
 			<div class="favicon">
-				<img id="preview-favicon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
+				<img id="preview-favicon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>" />
 			</div>
 			<span class="browser-title" aria-hidden="true"><# print( '<?php bloginfo( 'name' ); ?>' ) #></span>
 		</div>
 
 		<strong aria-hidden="true"><?php _e( 'As an app icon' ); ?></strong>
 		<div class="app-icon-preview">
-			<img id="preview-app-icon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>"/>
+			<img id="preview-app-icon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>" />
 		</div>
 	</script>
 

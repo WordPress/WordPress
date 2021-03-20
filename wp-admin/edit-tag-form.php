@@ -111,9 +111,9 @@ if ( $message ) {
 do_action( "{$taxonomy}_term_edit_form_tag" );
 ?>
 >
-<input type="hidden" name="action" value="editedtag"/>
-<input type="hidden" name="tag_ID" value="<?php echo esc_attr( $tag_ID ); ?>"/>
-<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy ); ?>"/>
+<input type="hidden" name="action" value="editedtag" />
+<input type="hidden" name="tag_ID" value="<?php echo esc_attr( $tag_ID ); ?>" />
+<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy ); ?>" />
 <?php
 wp_original_referer_field( true, 'previous' );
 wp_nonce_field( 'update-tag_' . $tag_ID );

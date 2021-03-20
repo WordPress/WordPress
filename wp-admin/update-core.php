@@ -158,8 +158,8 @@ function list_core_update( $update ) {
 	wp_nonce_field( 'upgrade-core' );
 
 	echo '<p>';
-	echo '<input name="version" value="' . esc_attr( $update->current ) . '" type="hidden"/>';
-	echo '<input name="locale" value="' . esc_attr( $update->locale ) . '" type="hidden"/>';
+	echo '<input name="version" value="' . esc_attr( $update->current ) . '" type="hidden" />';
+	echo '<input name="locale" value="' . esc_attr( $update->locale ) . '" type="hidden" />';
 	if ( $show_buttons ) {
 		if ( $first_pass ) {
 			submit_button( $submit, $current ? '' : 'primary regular', 'upgrade', false );
