@@ -53,11 +53,11 @@ function get_bookmark( $bookmark, $output = OBJECT, $filter = 'raw' ) {
 
 	$_bookmark = sanitize_bookmark( $_bookmark, $filter );
 
-	if ( OBJECT == $output ) {
+	if ( OBJECT === $output ) {
 		return $_bookmark;
-	} elseif ( ARRAY_A == $output ) {
+	} elseif ( ARRAY_A === $output ) {
 		return get_object_vars( $_bookmark );
-	} elseif ( ARRAY_N == $output ) {
+	} elseif ( ARRAY_N === $output ) {
 		return array_values( get_object_vars( $_bookmark ) );
 	} else {
 		return $_bookmark;

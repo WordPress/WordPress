@@ -677,15 +677,15 @@ function get_children( $args = '', $output = OBJECT ) {
 		$kids[ $child->ID ] = $children[ $key ];
 	}
 
-	if ( OBJECT == $output ) {
+	if ( OBJECT === $output ) {
 		return $kids;
-	} elseif ( ARRAY_A == $output ) {
+	} elseif ( ARRAY_A === $output ) {
 		$weeuns = array();
 		foreach ( (array) $kids as $kid ) {
 			$weeuns[ $kid->ID ] = get_object_vars( $kids[ $kid->ID ] );
 		}
 		return $weeuns;
-	} elseif ( ARRAY_N == $output ) {
+	} elseif ( ARRAY_N === $output ) {
 		$babes = array();
 		foreach ( (array) $kids as $kid ) {
 			$babes[ $kid->ID ] = array_values( get_object_vars( $kids[ $kid->ID ] ) );
@@ -788,9 +788,9 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 
 	$_post = $_post->filter( $filter );
 
-	if ( ARRAY_A == $output ) {
+	if ( ARRAY_A === $output ) {
 		return $_post->to_array();
-	} elseif ( ARRAY_N == $output ) {
+	} elseif ( ARRAY_N === $output ) {
 		return array_values( $_post->to_array() );
 	}
 
@@ -3692,7 +3692,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 	$results = get_posts( $parsed_args );
 
 	// Backward compatibility. Prior to 3.1 expected posts to be returned in array.
-	if ( ARRAY_A == $output ) {
+	if ( ARRAY_A === $output ) {
 		foreach ( $results as $key => $result ) {
 			$results[ $key ] = get_object_vars( $result );
 		}

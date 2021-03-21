@@ -371,12 +371,12 @@ function wp_get_post_revision( &$post, $output = OBJECT, $filter = 'raw' ) {
 		return null;
 	}
 
-	if ( OBJECT == $output ) {
+	if ( OBJECT === $output ) {
 		return $revision;
-	} elseif ( ARRAY_A == $output ) {
+	} elseif ( ARRAY_A === $output ) {
 		$_revision = get_object_vars( $revision );
 		return $_revision;
-	} elseif ( ARRAY_N == $output ) {
+	} elseif ( ARRAY_N === $output ) {
 		$_revision = array_values( get_object_vars( $revision ) );
 		return $_revision;
 	}

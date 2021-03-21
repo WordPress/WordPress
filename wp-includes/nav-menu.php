@@ -758,14 +758,16 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		$items = array_filter( $items, '_is_valid_nav_menu_item' );
 	}
 
-	if ( ARRAY_A == $args['output'] ) {
+	if ( ARRAY_A === $args['output'] ) {
 		$items = wp_list_sort(
 			$items,
 			array(
 				$args['output_key'] => 'ASC',
 			)
 		);
-		$i     = 1;
+
+		$i = 1;
+
 		foreach ( $items as $k => $item ) {
 			$items[ $k ]->{$args['output_key']} = $i++;
 		}

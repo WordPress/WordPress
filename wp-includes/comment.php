@@ -218,11 +218,11 @@ function get_comment( $comment = null, $output = OBJECT ) {
 	 */
 	$_comment = apply_filters( 'get_comment', $_comment );
 
-	if ( OBJECT == $output ) {
+	if ( OBJECT === $output ) {
 		return $_comment;
-	} elseif ( ARRAY_A == $output ) {
+	} elseif ( ARRAY_A === $output ) {
 		return $_comment->to_array();
-	} elseif ( ARRAY_N == $output ) {
+	} elseif ( ARRAY_N === $output ) {
 		return array_values( $_comment->to_array() );
 	}
 	return $_comment;
