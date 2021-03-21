@@ -978,8 +978,8 @@ function update_core( $from, $to ) {
 	$php_update_message = '';
 
 	if ( function_exists( 'wp_get_update_php_url' ) ) {
-		/* translators: %s: URL to Update PHP page. */
 		$php_update_message = '</p><p>' . sprintf(
+			/* translators: %s: URL to Update PHP page. */
 			__( '<a href="%s">Learn more about updating PHP</a>.' ),
 			esc_url( wp_get_update_php_url() )
 		);

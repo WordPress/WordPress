@@ -239,8 +239,8 @@ $version_url = sprintf(
 	sanitize_title( $wp_version )
 );
 
-/* translators: %s: URL to Update PHP page. */
 $php_update_message = '</p><p>' . sprintf(
+	/* translators: %s: URL to Update PHP page. */
 	__( '<a href="%s">Learn more about updating PHP</a>.' ),
 	esc_url( wp_get_update_php_url() )
 );
