@@ -117,7 +117,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 			);
 			?>
 		</p>
-		<?php endif ?>
+		<?php endif; ?>
 		<div class="imgedit-submit">
 
 		<fieldset class="imgedit-scale">

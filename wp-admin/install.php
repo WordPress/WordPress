@@ -426,11 +426,9 @@ switch ( $step ) {
 	<tr>
 		<th><?php _e( 'Password' ); ?></th>
 		<td>
-			<?php
-			if ( ! empty( $result['password'] ) && empty( $admin_password_check ) ) :
-				?>
-			<code><?php echo esc_html( $result['password'] ); ?></code><br />
-		<?php endif ?>
+			<?php if ( ! empty( $result['password'] ) && empty( $admin_password_check ) ) : ?>
+				<code><?php echo esc_html( $result['password'] ); ?></code><br />
+			<?php endif; ?>
 			<p><?php echo $result['password_message']; ?></p>
 		</td>
 	</tr>

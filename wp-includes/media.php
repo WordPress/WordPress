@@ -2793,7 +2793,7 @@ function wp_playlist_shortcode( $attr ) {
 <div class="wp-playlist wp-<?php echo $safe_type; ?>-playlist wp-playlist-<?php echo $safe_style; ?>">
 	<?php if ( 'audio' === $atts['type'] ) : ?>
 		<div class="wp-playlist-current-item"></div>
-	<?php endif ?>
+	<?php endif; ?>
 	<<?php echo $safe_type; ?> controls="controls" preload="none" width="<?php echo (int) $theme_width; ?>"
 		<?php
 		if ( 'video' === $safe_type ) {
