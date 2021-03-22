@@ -4453,7 +4453,7 @@ function get_term_link( $term, $taxonomy = '' ) {
 	$termlink = $wp_rewrite->get_extra_permastruct( $taxonomy );
 
 	/**
-	 * Filters the permalink structure for a terms before token replacement occurs.
+	 * Filters the permalink structure for a term before token replacement occurs.
 	 *
 	 * @since 4.9.0
 	 *
