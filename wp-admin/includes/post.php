@@ -2207,6 +2207,11 @@ function get_block_categories( $post ) {
 			'icon'  => null,
 		),
 		array(
+			'slug'  => 'theme',
+			'title' => _x( 'Theme', 'block category' ),
+			'icon'  => null,
+		),
+		array(
 			'slug'  => 'embed',
 			'title' => _x( 'Embeds', 'block category' ),
 			'icon'  => null,
