@@ -962,6 +962,11 @@ form#tags-filter {
 	input#create-page {
 		margin-top: 10px;
 	}
+
+	.wp-core-ui button.privacy-text-copy {
+		white-space: normal;
+		line-height: 1.8;
+	}
 }
 
 @media only screen and (max-width: 1004px) {
