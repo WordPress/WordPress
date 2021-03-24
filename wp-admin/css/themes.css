@@ -661,7 +661,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 }
 
 .theme-overlay .theme-version {
-	color: #787c82;
+	color: #646970;
 	font-size: 13px;
 	font-weight: 400;
 	float: none;
@@ -671,7 +671,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 .theme-overlay .theme-author {
 	margin: 15px 0 25px;
-	color: #787c82;
+	color: #646970;
 	font-size: 16px;
 	font-weight: 400;
 	line-height: inherit;
@@ -704,7 +704,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 .theme-overlay .theme-tags {
 	border-top: 3px solid #f0f0f1;
-	color: #8c8f94;
+	color: #646970;
 	font-size: 13px;
 	font-weight: 400;
 	margin: 30px 0 0 0;
@@ -1123,7 +1123,7 @@ p.no-themes-local {
 .theme-details .num-ratings,
 .theme-details .no-rating {
 	font-size: 11px;
-	color: #787c82;
+	color: #646970;
 }
 
 .theme-details .no-rating {
@@ -1855,7 +1855,7 @@ body.full-overlay-active {
 
 .theme-details .theme-description {
 	float: left;
-	color: #787c82;
+	color: #646970;
 	line-height: 1.6;
 	max-width: 100%;
 }

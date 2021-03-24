@@ -141,7 +141,7 @@
 }
 
 .welcome-panel p {
-	color: #787c82;
+	color: #646970;
 }
 
 .welcome-panel li a {
@@ -513,7 +513,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 .rssSummary {
-	color: #787c82;
+	color: #646970;
 	margin-top: 4px;
 }
 
@@ -533,7 +533,7 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_primary .rss-widget span,
 #dashboard_primary .rss-widget span.rss-date {
-	color: #787c82;
+	color: #646970;
 }
 
 #dashboard_primary .rss-widget span.rss-date {
@@ -757,7 +757,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dashboard_activity .no-activity p {
-	color: #787c82;
+	color: #646970;
 	font-size: 16px;
 }
 
@@ -770,7 +770,7 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_activity .subsubsub a .count,
 #dashboard_activity .subsubsub a.current .count {
-	color: #787c82; /* white background on the dashboard but #f1f1f1 on list tables */
+	color: #646970; /* white background on the dashboard but #f0f0f1 on list tables */
 }
 
 #future-posts ul,
@@ -996,7 +996,7 @@ a.rsswidget {
 }
 
 .rss-widget span.rss-date {
-	color: #787c82;
+	color: #646970;
 	font-size: 13px;
 	margin-right: 3px;
 }
