@@ -250,6 +250,9 @@ foreach ( $image_size_names as $image_size_slug => $image_size_name ) {
 	);
 }
 
+$default_size       = get_option( 'image_default_size', 'large' );
+$image_default_size = in_array( $default_size, array_keys( $image_size_names ), true ) ? $image_default_size : 'large';
+
 $image_dimensions = array();
 $all_sizes        = wp_get_registered_image_subsizes();
 foreach ( $available_image_sizes as $size ) {
@@ -323,6 +326,7 @@ $editor_settings = array(
 	'styles'                               => $styles,
 	'defaultEditorStyles'                  => $default_editor_styles,
 	'imageSizes'                           => $available_image_sizes,
+	'imageDefaultSize'                     => $image_default_size,
 	'imageDimensions'                      => $image_dimensions,
 	'richEditingEnabled'                   => user_can_richedit(),
 	'postLock'                             => $lock_details,
