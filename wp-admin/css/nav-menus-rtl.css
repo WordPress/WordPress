@@ -136,7 +136,7 @@ ul.add-menu-item-tabs li {
 }
 
 .theme-location-set {
-	color: #787c82;
+	color: #646970;
 	font-size: 11px;
 }
 
@@ -483,7 +483,7 @@ ul.add-menu-item-tabs li {
 }
 
 .menu-item-handle .menu-item-title.no-title {
-	color: #787c82;
+	color: #646970;
 }
 
 /* Sortables */
@@ -690,7 +690,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	margin: 0 0 15px;
 	padding: 3px 5px 5px;
 	border: 1px solid #dcdcde;
-	color: #787c82;
+	color: #646970;
 	font-size: 12px;
 }
 

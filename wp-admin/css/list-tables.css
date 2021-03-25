@@ -55,7 +55,7 @@
 	min-width: 24px;
 	height: 2em;
 	border-radius: 5px;
-	background-color: #787c82;
+	background-color: #646970;
 	color: #fff;
 	font-size: 11px;
 	line-height: 1.90909090;
@@ -71,7 +71,7 @@
 	margin-left: 8px;
 	width: 0;
 	height: 0;
-	border-top: 5px solid #787c82;
+	border-top: 5px solid #646970;
 	border-right: 5px solid transparent;
 }
 

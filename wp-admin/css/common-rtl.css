@@ -1021,7 +1021,7 @@ th.action-links {
 	top: -1px;
 	padding: 4px 10px;
 	border-radius: 30px;
-	background: #787c82;
+	background: #646970;
 	color: #fff;
 	font-size: 14px;
 	font-weight: 600;
@@ -1119,7 +1119,7 @@ th.action-links {
 .wp-filter .drawer-toggle:before {
 	content: "\f111";
 	margin: 0 0 0 5px;
-	color: #787c82;
+	color: #646970;
 	font: normal 16px/1 dashicons;
 	vertical-align: text-bottom;
 	-webkit-font-smoothing: antialiased;
@@ -1174,7 +1174,7 @@ th.action-links {
 
 .show-filters .wp-filter .button.drawer-toggle {
 	border-radius: 2px;
-	background: #787c82;
+	background: #646970;
 	color: #fff;
 }
 
