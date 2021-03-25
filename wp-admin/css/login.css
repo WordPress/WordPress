@@ -131,7 +131,7 @@ p {
 .login form {
 	margin-top: 20px;
 	margin-left: 0;
-	padding: 26px 24px 46px;
+	padding: 26px 24px 34px;
 	font-weight: 400;
 	overflow: hidden;
 	background: #fff;
@@ -186,8 +186,15 @@ p {
 	margin-bottom: 0;
 }
 
-.login .button-primary {
-	float: right;
+.login .reset-pass-submit {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+}
+
+.login .reset-pass-submit .button {
+	display: inline-block;
+	margin-bottom: 6px;
 }
 
 .login .admin-email-confirm-form .submit {
