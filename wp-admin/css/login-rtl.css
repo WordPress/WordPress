@@ -187,6 +187,10 @@ p {
 	margin-bottom: 0;
 }
 
+.login .button-primary {
+	float: left;
+}
+
 .login .reset-pass-submit {
 	display: flex;
 	flex-flow: row wrap;
@@ -195,6 +199,7 @@ p {
 
 .login .reset-pass-submit .button {
 	display: inline-block;
+	float: none;
 	margin-bottom: 6px;
 }
 
