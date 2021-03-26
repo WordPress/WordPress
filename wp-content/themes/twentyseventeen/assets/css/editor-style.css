@@ -24,7 +24,7 @@ Description: Used to style the TinyMCE editor.
 body {
 	background-color: #fff;
 	color: #333;
-	margin: 20px 40px;
+	margin: auto 20px;
 	max-width: 580px;
 }
 
