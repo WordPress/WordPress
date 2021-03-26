@@ -15,6 +15,7 @@
  * robots meta tag is output if there is at least one relevant directive.
  *
  * @since 5.7.0
+ * @since 5.7.1 No longer prevents specific directives to occur together.
  */
 function wp_robots() {
 	/**
@@ -29,20 +30,6 @@ function wp_robots() {
 	 *                      boolean `true` if it is a boolean directive, i.e. without a value.
 	 */
 	$robots = apply_filters( 'wp_robots', array() );
-
-	// Don't allow mutually exclusive directives.
-	if ( ! empty( $robots['follow'] ) ) {
-		unset( $robots['nofollow'] );
-	}
-	if ( ! empty( $robots['nofollow'] ) ) {
-		unset( $robots['follow'] );
-	}
-	if ( ! empty( $robots['archive'] ) ) {
-		unset( $robots['noarchive'] );
-	}
-	if ( ! empty( $robots['noarchive'] ) ) {
-		unset( $robots['archive'] );
-	}
 
 	$robots_strings = array();
 	foreach ( $robots as $directive => $value ) {
