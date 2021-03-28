@@ -724,9 +724,9 @@ switch ( $action ) {
 
 		if ( isset( $_GET['error'] ) ) {
 			if ( 'invalidkey' === $_GET['error'] ) {
-				$errors->add( 'invalidkey', __( 'Your password reset link appears to be invalid. Please request a new link below.' ) );
+				$errors->add( 'invalidkey', __( '<strong>Error</strong>: Your password reset link appears to be invalid. Please request a new link below.' ) );
 			} elseif ( 'expiredkey' === $_GET['error'] ) {
-				$errors->add( 'expiredkey', __( 'Your password reset link has expired. Please request a new link below.' ) );
+				$errors->add( 'expiredkey', __( '<strong>Error</strong>: Your password reset link has expired. Please request a new link below.' ) );
 			}
 		}
 
@@ -842,7 +842,7 @@ switch ( $action ) {
 		$errors = new WP_Error();
 
 		if ( isset( $_POST['pass1'] ) && $_POST['pass1'] !== $_POST['pass2'] ) {
-			$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.' ) );
+			$errors->add( 'password_reset_mismatch', __( '<strong>Error</strong>: The passwords do not match.' ) );
 		}
 
 		/**
@@ -1260,7 +1260,7 @@ switch ( $action ) {
 			if ( isset( $_GET['loggedout'] ) && $_GET['loggedout'] ) {
 				$errors->add( 'loggedout', __( 'You are now logged out.' ), 'message' );
 			} elseif ( isset( $_GET['registration'] ) && 'disabled' === $_GET['registration'] ) {
-				$errors->add( 'registerdisabled', __( 'User registration is currently not allowed.' ) );
+				$errors->add( 'registerdisabled', __( '<strong>Error</strong>: User registration is currently not allowed.' ) );
 			} elseif ( strpos( $redirect_to, 'about.php?updated' ) ) {
 				$errors->add( 'updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new.' ), 'message' );
 			} elseif ( WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED === $action ) {
