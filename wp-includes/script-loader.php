@@ -100,12 +100,12 @@ function wp_default_packages_vendor( $scripts ) {
 		'moment'                      => '2.26.0',
 		'lodash'                      => '4.17.19',
 		'wp-polyfill-fetch'           => '3.0.0',
-		'wp-polyfill-formdata'        => '3.0.12',
-		'wp-polyfill-node-contains'   => '3.42.0',
+		'wp-polyfill-formdata'        => '3.0.20',
+		'wp-polyfill-node-contains'   => '3.104.0',
 		'wp-polyfill-url'             => '3.6.4',
-		'wp-polyfill-dom-rect'        => '3.42.0',
+		'wp-polyfill-dom-rect'        => '3.104.0',
 		'wp-polyfill-element-closest' => '2.0.2',
-		'wp-polyfill-object-fit'      => '2.3.4',
+		'wp-polyfill-object-fit'      => '2.3.5',
 		'wp-polyfill'                 => '7.4.4',
 	);
 
