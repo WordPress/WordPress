@@ -748,7 +748,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '6.3.0';
+    const VERSION = '6.4.0';
 
     /**
      * Error severity: message only, continue processing.
@@ -1199,7 +1199,11 @@ class PHPMailer
                     )
                 ) {
                     //Decode the name part if it's present and encoded
-                    if (property_exists($address, 'personal') && preg_match('/^=\?.*\?=$/', $address->personal)) {
+                    if (
+                        property_exists($address, 'personal') &&
+                        extension_loaded('mbstring') &&
+                        preg_match('/^=\?.*\?=$/', $address->personal)
+                    ) {
                         $address->personal = mb_decode_mimeheader($address->personal);
                     }
 
@@ -1682,16 +1686,11 @@ class PHPMailer
         //Sendmail docs: http://www.sendmail.org/~ca/email/man/sendmail.html
         //Qmail docs: http://www.qmail.org/man/man8/qmail-inject.html
         //Example problem: https://www.drupal.org/node/1057954
-        //CVE-2016-10033, CVE-2016-10045: Don't pass -f if characters will be escaped.
-        if ('' === $this->Sender) {
-            $this->Sender = $this->From;
-        }
         if (empty($this->Sender) && !empty(ini_get('sendmail_from'))) {
             //PHP config has a sender address we can use
             $this->Sender = ini_get('sendmail_from');
         }
         //CVE-2016-10033, CVE-2016-10045: Don't pass -f if characters will be escaped.
-        //But sendmail requires this param, so fail without it
         if (!empty($this->Sender) && static::validateAddress($this->Sender) && self::isShellSafe($this->Sender)) {
             if ($this->Mailer === 'qmail') {
                 $sendmailFmt = '%s -f%s';
@@ -1699,8 +1698,12 @@ class PHPMailer
                 $sendmailFmt = '%s -oi -f%s -t';
             }
         } else {
-            $this->edebug('Sender address unusable or missing: ' . $this->Sender);
-            return false;
+            //allow sendmail to choose a default envelope sender. It may
+            //seem preferable to force it to use the From header as with
+            //SMTP, but that introduces new problems (see
+            //<https://github.com/PHPMailer/PHPMailer/issues/2298>), and
+            //it has historically worked this way.
+            $sendmailFmt = '%s -oi -t';
         }
 
         $sendmail = sprintf($sendmailFmt, escapeshellcmd($this->Sendmail), $this->Sender);
@@ -1860,9 +1863,6 @@ class PHPMailer
         //Qmail docs: http://www.qmail.org/man/man8/qmail-inject.html
         //Example problem: https://www.drupal.org/node/1057954
         //CVE-2016-10033, CVE-2016-10045: Don't pass -f if characters will be escaped.
-        if ('' === $this->Sender) {
-            $this->Sender = $this->From;
-        }
         if (empty($this->Sender) && !empty(ini_get('sendmail_from'))) {
             //PHP config has a sender address we can use
             $this->Sender = ini_get('sendmail_from');
