@@ -2324,6 +2324,16 @@ function enqueue_editor_block_styles_assets() {
 }
 
 /**
+ * Enqueues the assets required for the format library within the block editor.
+ *
+ * @since 5.8.0
+ */
+function wp_enqueue_editor_format_library_assets() {
+	wp_enqueue_script( 'wp-format-library' );
+	wp_enqueue_style( 'wp-format-library' );
+}
+
+/**
  * Enqueues the assets required for the block directory within the block editor.
  *
  * @since 5.5.0
