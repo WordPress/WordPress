@@ -385,7 +385,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 			),
 		);
 
-		$example_definition      = array(
+		$example_definition = array(
 			'description' => __( 'Block example.' ),
 			'type'        => array( 'object', 'null' ),
 			'default'     => null,
