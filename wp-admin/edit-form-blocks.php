@@ -301,11 +301,12 @@ if ( $user_id ) {
  * Filters the body placeholder text.
  *
  * @since 5.0.0
+ * @since 5.8.0 Changed the default placeholder text.
  *
- * @param string  $text Placeholder text. Default 'Start writing or type / to choose a block'.
+ * @param string  $text Placeholder text. Default 'Type / to choose a block'.
  * @param WP_Post $post Post object.
  */
-$body_placeholder = apply_filters( 'write_your_story', __( 'Start writing or type / to choose a block' ), $post );
+$body_placeholder = apply_filters( 'write_your_story', __( 'Type / to choose a block' ), $post );
 
 $editor_settings = array(
 	'alignWide'                            => $align_wide,
