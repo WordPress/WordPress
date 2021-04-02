@@ -2171,6 +2171,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	 * @since 5.3.0 Added support for `grid`, `flex` and `column` layout properties.
 	 *              Extend `background-*` support of individual properties.
 	 * @since 5.3.1 Added support for gradient backgrounds.
+	 * @since 5.7.1 Added support for `object-position`.
 	 *
 	 * @param string[] $attr Array of allowed CSS attributes.
 	 */
@@ -2284,6 +2285,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'direction',
 			'float',
 			'list-style-type',
+			'object-position',
 			'overflow',
 			'vertical-align',
 		)
