@@ -331,8 +331,8 @@ When seeking help with this issue, you may be asked for some of the following in
 		}
 
 		$debug = array(
-			/* translators: %s: Current WordPress version number. */
 			'wp'    => sprintf(
+				/* translators: %s: Current WordPress version number. */
 				__( 'WordPress version %s' ),
 				$wp_version
 			),

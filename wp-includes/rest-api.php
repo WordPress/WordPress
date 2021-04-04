@@ -2290,8 +2290,8 @@ function rest_validate_object_value_from_schema( $value, $args, $param ) {
 	if ( isset( $args['minProperties'] ) && count( $value ) < $args['minProperties'] ) {
 		return new WP_Error(
 			'rest_too_few_properties',
-			/* translators: 1: Parameter, 2: Number. */
 			sprintf(
+				/* translators: 1: Parameter, 2: Number. */
 				_n(
 					'%1$s must contain at least %2$s property.',
 					'%1$s must contain at least %2$s properties.',
@@ -2306,8 +2306,8 @@ function rest_validate_object_value_from_schema( $value, $args, $param ) {
 	if ( isset( $args['maxProperties'] ) && count( $value ) > $args['maxProperties'] ) {
 		return new WP_Error(
 			'rest_too_many_properties',
-			/* translators: 1: Parameter, 2: Number. */
 			sprintf(
+				/* translators: 1: Parameter, 2: Number. */
 				_n(
 					'%1$s must contain at most %2$s property.',
 					'%1$s must contain at most %2$s properties.',
@@ -2356,8 +2356,8 @@ function rest_validate_array_value_from_schema( $value, $args, $param ) {
 	if ( isset( $args['minItems'] ) && count( $value ) < $args['minItems'] ) {
 		return new WP_Error(
 			'rest_too_few_items',
-			/* translators: 1: Parameter, 2: Number. */
 			sprintf(
+				/* translators: 1: Parameter, 2: Number. */
 				_n(
 					'%1$s must contain at least %2$s item.',
 					'%1$s must contain at least %2$s items.',
@@ -2372,8 +2372,8 @@ function rest_validate_array_value_from_schema( $value, $args, $param ) {
 	if ( isset( $args['maxItems'] ) && count( $value ) > $args['maxItems'] ) {
 		return new WP_Error(
 			'rest_too_many_items',
-			/* translators: 1: Parameter, 2: Number. */
 			sprintf(
+				/* translators: 1: Parameter, 2: Number. */
 				_n(
 					'%1$s must contain at most %2$s item.',
 					'%1$s must contain at most %2$s items.',
@@ -2462,8 +2462,8 @@ function rest_validate_number_value_from_schema( $value, $args, $param ) {
 			if ( $value >= $args['maximum'] || $value <= $args['minimum'] ) {
 				return new WP_Error(
 					'rest_out_of_bounds',
-					/* translators: 1: Parameter, 2: Minimum number, 3: Maximum number. */
 					sprintf(
+						/* translators: 1: Parameter, 2: Minimum number, 3: Maximum number. */
 						__( '%1$s must be between %2$d (exclusive) and %3$d (exclusive)' ),
 						$param,
 						$args['minimum'],
@@ -2477,8 +2477,8 @@ function rest_validate_number_value_from_schema( $value, $args, $param ) {
 			if ( $value > $args['maximum'] || $value <= $args['minimum'] ) {
 				return new WP_Error(
 					'rest_out_of_bounds',
-					/* translators: 1: Parameter, 2: Minimum number, 3: Maximum number. */
 					sprintf(
+						/* translators: 1: Parameter, 2: Minimum number, 3: Maximum number. */
 						__( '%1$s must be between %2$d (exclusive) and %3$d (inclusive)' ),
 						$param,
 						$args['minimum'],
@@ -2492,8 +2492,8 @@ function rest_validate_number_value_from_schema( $value, $args, $param ) {
 			if ( $value >= $args['maximum'] || $value < $args['minimum'] ) {
 				return new WP_Error(
 					'rest_out_of_bounds',
-					/* translators: 1: Parameter, 2: Minimum number, 3: Maximum number. */
 					sprintf(
+						/* translators: 1: Parameter, 2: Minimum number, 3: Maximum number. */
 						__( '%1$s must be between %2$d (inclusive) and %3$d (exclusive)' ),
 						$param,
 						$args['minimum'],
@@ -2507,8 +2507,8 @@ function rest_validate_number_value_from_schema( $value, $args, $param ) {
 			if ( $value > $args['maximum'] || $value < $args['minimum'] ) {
 				return new WP_Error(
 					'rest_out_of_bounds',
-					/* translators: 1: Parameter, 2: Minimum number, 3: Maximum number. */
 					sprintf(
+						/* translators: 1: Parameter, 2: Minimum number, 3: Maximum number. */
 						__( '%1$s must be between %2$d (inclusive) and %3$d (inclusive)' ),
 						$param,
 						$args['minimum'],
@@ -2545,8 +2545,8 @@ function rest_validate_string_value_from_schema( $value, $args, $param ) {
 	if ( isset( $args['minLength'] ) && mb_strlen( $value ) < $args['minLength'] ) {
 		return new WP_Error(
 			'rest_too_short',
-			/* translators: 1: Parameter, 2: Number of characters. */
 			sprintf(
+				/* translators: 1: Parameter, 2: Number of characters. */
 				_n(
 					'%1$s must be at least %2$s character long.',
 					'%1$s must be at least %2$s characters long.',
@@ -2561,8 +2561,8 @@ function rest_validate_string_value_from_schema( $value, $args, $param ) {
 	if ( isset( $args['maxLength'] ) && mb_strlen( $value ) > $args['maxLength'] ) {
 		return new WP_Error(
 			'rest_too_long',
-			/* translators: 1: Parameter, 2: Number of characters. */
 			sprintf(
+				/* translators: 1: Parameter, 2: Number of characters. */
 				_n(
 					'%1$s must be at most %2$s character long.',
 					'%1$s must be at most %2$s characters long.',
