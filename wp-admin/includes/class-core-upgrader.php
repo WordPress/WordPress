@@ -104,7 +104,7 @@ class Core_Upgrader extends WP_Upgrader {
 		 */
 		if ( $parsed_args['do_rollback'] && $current->packages->rollback ) {
 			$to_download = 'rollback';
-		} elseif ( $current->packages->partial && 'reinstall' !== $current->response && $wp_version == $current->partial_version && $partial ) {
+		} elseif ( $current->packages->partial && 'reinstall' !== $current->response && $wp_version === $current->partial_version && $partial ) {
 			$to_download = 'partial';
 		} elseif ( $current->packages->new_bundled && version_compare( $wp_version, $current->new_bundled, '<' )
 			&& ( ! defined( 'CORE_UPGRADE_SKIP_NEW_BUNDLED' ) || ! CORE_UPGRADE_SKIP_NEW_BUNDLED ) ) {
@@ -306,7 +306,7 @@ class Core_Upgrader extends WP_Upgrader {
 		}
 
 		// 1: If we're already on that version, not much point in updating?
-		if ( $offered_ver == $wp_version ) {
+		if ( $offered_ver === $wp_version ) {
 			return false;
 		}
 
@@ -323,7 +323,7 @@ class Core_Upgrader extends WP_Upgrader {
 			}
 
 			// Don't claim we can update on update-core.php if we have a non-critical failure logged.
-			if ( $wp_version == $failure_data['current'] && false !== strpos( $offered_ver, '.1.next.minor' ) ) {
+			if ( $wp_version === $failure_data['current'] && false !== strpos( $offered_ver, '.1.next.minor' ) ) {
 				return false;
 			}
 
@@ -332,7 +332,7 @@ class Core_Upgrader extends WP_Upgrader {
 			 * Some non-critical failures do allow retries, like download_failed.
 			 * 3.7.1 => 3.7.2 resulted in files_not_writable, if we are still on 3.7.1 and still trying to update to 3.7.2.
 			 */
-			if ( empty( $failure_data['retry'] ) && $wp_version == $failure_data['current'] && $offered_ver == $failure_data['attempted'] ) {
+			if ( empty( $failure_data['retry'] ) && $wp_version === $failure_data['current'] && $offered_ver === $failure_data['attempted'] ) {
 				return false;
 			}
 		}
@@ -355,7 +355,7 @@ class Core_Upgrader extends WP_Upgrader {
 		}
 
 		// 4: Minor in-branch updates (3.7.0 -> 3.7.1 -> 3.7.2 -> 3.7.4).
-		if ( $current_branch == $new_branch ) {
+		if ( $current_branch === $new_branch ) {
 
 			/**
 			 * Filters whether to enable minor automatic core updates.
