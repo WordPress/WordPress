@@ -1926,6 +1926,12 @@ function rest_are_values_equal( $value1, $value2 ) {
 		return true;
 	}
 
+	if ( is_int( $value1 ) && is_float( $value2 )
+		|| is_float( $value1 ) && is_int( $value2 )
+	) {
+		return (float) $value1 === (float) $value2;
+	}
+
 	return $value1 === $value2;
 }
 
