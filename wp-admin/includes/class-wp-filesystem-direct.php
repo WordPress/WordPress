@@ -505,11 +505,11 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	 * @return bool True on success, false on failure.
 	 */
 	public function touch( $file, $time = 0, $atime = 0 ) {
-		if ( 0 == $time ) {
+		if ( 0 === $time ) {
 			$time = time();
 		}
 
-		if ( 0 == $atime ) {
+		if ( 0 === $atime ) {
 			$atime = time();
 		}
 
@@ -630,7 +630,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 				continue;
 			}
 
-			if ( $limit_file && $struc['name'] != $limit_file ) {
+			if ( $limit_file && $struc['name'] !== $limit_file ) {
 				continue;
 			}
 
