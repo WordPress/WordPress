@@ -1528,7 +1528,7 @@ class WP_Site_Health {
 		if ( ! wp_is_using_https() ) {
 			// If the website is not using HTTPS, provide more information about whether it is supported and how it can
 			// be enabled.
-			$result['status'] = 'critical';
+			$result['status'] = 'warning';
 			$result['label']  = __( 'Your website does not use HTTPS' );
 
 			if ( wp_is_site_url_using_https() ) {
@@ -1630,36 +1630,6 @@ class WP_Site_Health {
 					);
 				}
 			}
-		} elseif ( ! wp_is_https_supported() ) {
-			// If the website is using HTTPS, but HTTPS is actually not supported, inform the user about the potential
-			// problems.
-			$result['status'] = 'critical';
-			$result['label']  = __( 'There are problems with the HTTPS connection of your website' );
-
-			$https_detection_errors = get_option( 'https_detection_errors' );
-			if ( ! empty( $https_detection_errors['ssl_verification_failed'] ) ) {
-				$result['description'] = sprintf(
-					'<p>%s</p>',
-					sprintf(
-						/* translators: %s: URL to Settings > General > WordPress Address. */
-						__( 'Your <a href="%s">WordPress Address</a> is set up to use HTTPS, but the SSL certificate appears to be invalid.' ),
-						esc_url( admin_url( 'options-general.php' ) . '#siteurl' )
-					)
-				);
-			} else {
-				$result['description'] = sprintf(
-					'<p>%s</p>',
-					sprintf(
-						/* translators: %s: URL to Settings > General > WordPress Address. */
-						__( 'Your <a href="%s">WordPress Address</a> is set up to use HTTPS, but your website appears to be unavailable when using an HTTPS connection.' ),
-						esc_url( admin_url( 'options-general.php' ) . '#siteurl' )
-					)
-				);
-			}
-			$result['description'] .= sprintf(
-				'<p>%s</p>',
-				__( 'Talk to your web host about resolving this HTTPS issue for your website.' )
-			);
 		}
 
 		return $result;
