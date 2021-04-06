@@ -2353,7 +2353,7 @@ function wp_sanitize_script_attributes( $attributes ) {
 	foreach ( $attributes as $attribute_name => $attribute_value ) {
 		if ( is_bool( $attribute_value ) ) {
 			if ( $attribute_value ) {
-				$attributes_string .= $html5_script_support ? sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_name ) ) : ' ' . $attribute_name;
+				$attributes_string .= $html5_script_support ? sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_name ) ) : ' ' . esc_attr( $attribute_name );
 			}
 		} else {
 			$attributes_string .= sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_value ) );
