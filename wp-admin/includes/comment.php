@@ -75,7 +75,7 @@ function edit_comment() {
 	}
 
 	foreach ( array( 'aa', 'mm', 'jj', 'hh', 'mn' ) as $timeunit ) {
-		if ( ! empty( $_POST[ 'hidden_' . $timeunit ] ) && $_POST[ 'hidden_' . $timeunit ] != $_POST[ $timeunit ] ) {
+		if ( ! empty( $_POST[ 'hidden_' . $timeunit ] ) && $_POST[ 'hidden_' . $timeunit ] !== $_POST[ $timeunit ] ) {
 			$_POST['edit_date'] = '1';
 			break;
 		}
