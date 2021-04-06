@@ -723,6 +723,7 @@ figure.wp-block-gallery {
   bottom: 0;
   right: 0;
   z-index: 1;
+  pointer-events: none;
 }
 .blocks-gallery-item figure.is-selected figcaption {
   z-index: 2;

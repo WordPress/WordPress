@@ -20193,7 +20193,7 @@ function BlockTypesTab(_ref) {
       onHover: onHover,
       label: category.title
     }));
-  }), !uncategorizedItems.length && Object(external_wp_element_["createElement"])(panel, {
+  }), uncategorizedItems.length > 0 && Object(external_wp_element_["createElement"])(panel, {
     className: "block-editor-inserter__uncategorized-blocks-panel",
     title: Object(external_wp_i18n_["__"])('Uncategorized')
   }, Object(external_wp_element_["createElement"])(block_types_list, {
@@ -22431,7 +22431,16 @@ function InsertionPointPopover(_ref2) {
     if (event.target !== ref.current) {
       setIsInserterForced(true);
     }
-  }
+  } // Only show the inserter when there's a `nextElement` (a block after the
+  // insertion point). At the end of the block list the trailing appender
+  // should serve the purpose of inserting blocks.
+
+
+  var showInsertionPointInserter = !isHidden && nextElement && (isInserterShown || isInserterForced); // Show the indicator if the insertion point inserter is visible, or if
+  // the `showInsertionPoint` state is `true`. The latter is generally true
+  // when hovering blocks for insertion in the block library.
+
+  var showInsertionPointIndicator = showInsertionPointInserter || !isHidden && showInsertionPoint;
   /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
   // While ideally it would be enough to capture the
   // bubbling focus event from the Inserter, due to the
@@ -22439,7 +22448,6 @@ function InsertionPointPopover(_ref2) {
   // Firefox and Safari, it is not reliable.
   //
   // See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
-
 
   return Object(external_wp_element_["createElement"])(external_wp_components_["Popover"], {
     noArrow: true,
@@ -22455,9 +22463,9 @@ function InsertionPointPopover(_ref2) {
     onFocus: onFocus,
     className: className,
     style: style
-  }, !isHidden && (showInsertionPoint || isInserterShown || isInserterForced) && Object(external_wp_element_["createElement"])("div", {
+  }, showInsertionPointIndicator && Object(external_wp_element_["createElement"])("div", {
     className: "block-editor-block-list__insertion-point-indicator"
-  }), !isHidden && (isInserterShown || isInserterForced) && Object(external_wp_element_["createElement"])(InsertionPointInserter, {
+  }), showInsertionPointInserter && Object(external_wp_element_["createElement"])(InsertionPointInserter, {
     rootClientId: rootClientId,
     clientId: nextClientId,
     setIsInserterForced: setIsInserterForced

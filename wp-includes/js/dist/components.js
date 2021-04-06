@@ -672,7 +672,7 @@ function _unsupportedIterableToArray(o, minLen) {
 /* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _tooltip__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(79);
 /* harmony import */ var _icon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(76);
-/* harmony import */ var _visually_hidden__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(56);
+/* harmony import */ var _visually_hidden__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(57);
 
 
 
@@ -1739,7 +1739,8 @@ function getDocument(element) {
 
 
 /***/ }),
-/* 56 */
+/* 56 */,
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1852,7 +1853,6 @@ function VisuallyHidden(_ref) {
 
 
 /***/ }),
-/* 57 */,
 /* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -17899,7 +17899,7 @@ var CompositeItem = __webpack_require__(181);
 var build_module_tooltip = __webpack_require__(79);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/visually-hidden/index.js + 1 modules
-var visually_hidden = __webpack_require__(56);
+var visually_hidden = __webpack_require__(57);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/alignment-matrix-control/utils.js
 /**

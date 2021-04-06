@@ -2797,7 +2797,7 @@ __webpack_require__.d(__webpack_exports__, "__experimentalMainDashboardButton", 
 var external_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external ["wp","coreData"]
-var external_wp_coreData_ = __webpack_require__(57);
+var external_wp_coreData_ = __webpack_require__(56);
 
 // EXTERNAL MODULE: external ["wp","blockEditor"]
 var external_wp_blockEditor_ = __webpack_require__(6);
@@ -8354,7 +8354,7 @@ function _setPrototypeOf(o, p) {
 
 /***/ }),
 
-/***/ 57:
+/***/ 56:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["coreData"]; }());

@@ -2559,7 +2559,7 @@ var toConsumableArray = __webpack_require__(15);
 var defineProperty = __webpack_require__(5);
 
 // EXTERNAL MODULE: external ["wp","coreData"]
-var external_wp_coreData_ = __webpack_require__(57);
+var external_wp_coreData_ = __webpack_require__(56);
 
 // EXTERNAL MODULE: external ["wp","blockEditor"]
 var external_wp_blockEditor_ = __webpack_require__(6);
@@ -4674,6 +4674,8 @@ function (_super) {
   };
 
   Cropper.prototype.componentWillUnmount = function () {
+    var _a;
+
     window.removeEventListener('resize', this.computeSizes);
 
     if (this.containerRef) {
@@ -4682,7 +4684,7 @@ function (_super) {
     }
 
     if (this.styleRef) {
-      this.styleRef.remove();
+      (_a = this.styleRef.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(this.styleRef);
     }
 
     this.cleanEvents();
@@ -9581,8 +9583,11 @@ function GalleryEdit(props) {
     }
   }, [linkTo]);
   var hasImages = !!images.length;
+  var hasImageIds = hasImages && images.some(function (image) {
+    return !!image.id;
+  });
   var mediaPlaceholder = Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaPlaceholder"], {
-    addToGallery: hasImages,
+    addToGallery: hasImageIds,
     isAppender: hasImages,
     disableMediaButtons: hasImages && !isSelected,
     icon: !hasImages && sharedIcon,
@@ -9594,7 +9599,7 @@ function GalleryEdit(props) {
     accept: "image/*",
     allowedTypes: edit_ALLOWED_MEDIA_TYPES,
     multiple: true,
-    value: images,
+    value: hasImageIds ? images : {},
     onError: onUploadError,
     notices: hasImages ? undefined : noticeUI,
     onFocus: onFocus
@@ -28388,7 +28393,7 @@ function _setPrototypeOf(o, p) {
 
 /***/ }),
 
-/***/ 57:
+/***/ 56:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["coreData"]; }());
