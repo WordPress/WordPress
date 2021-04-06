@@ -3260,6 +3260,18 @@ a {
 	background-color: #fff;
 }
 
+.has-background:not(.has-text-color).has-black-background-color[class] {
+	color: #fff;
+}
+
+.has-background:not(.has-text-color).has-gray-background-color[class] {
+	color: #fff;
+}
+
+.has-background:not(.has-text-color).has-dark-gray-background-color[class] {
+	color: #fff;
+}
+
 .has-background:not(.has-text-color).has-black-background-color[class] > [class*=__inner-container] {
 	color: #28303d;
 }
@@ -3269,6 +3281,34 @@ a {
 }
 
 .has-background:not(.has-text-color).has-dark-gray-background-color[class] > [class*=__inner-container] {
+	color: #28303d;
+}
+
+.has-background:not(.has-text-color).has-green-background-color[class] {
+	color: #28303d;
+}
+
+.has-background:not(.has-text-color).has-blue-background-color[class] {
+	color: #28303d;
+}
+
+.has-background:not(.has-text-color).has-purple-background-color[class] {
+	color: #28303d;
+}
+
+.has-background:not(.has-text-color).has-red-background-color[class] {
+	color: #28303d;
+}
+
+.has-background:not(.has-text-color).has-orange-background-color[class] {
+	color: #28303d;
+}
+
+.has-background:not(.has-text-color).has-yellow-background-color[class] {
+	color: #28303d;
+}
+
+.has-background:not(.has-text-color).has-white-background-color[class] {
 	color: #28303d;
 }
 
