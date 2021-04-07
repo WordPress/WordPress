@@ -1869,6 +1869,11 @@ function wp_filter_content_tags( $content, $context = null ) {
  * @return string Converted `img` tag with `loading` attribute added.
  */
 function wp_img_tag_add_loading_attr( $image, $context ) {
+	// Images should have source and dimension attributes for the `loading` attribute to be added.
+	if ( false === strpos( $image, ' src="' ) || false === strpos( $image, ' width="' ) || false === strpos( $image, ' height="' ) ) {
+		return $image;
+	}
+
 	/**
 	 * Filters the `loading` attribute value to add to an image. Default `lazy`.
 	 *
@@ -1887,11 +1892,6 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 	if ( $value ) {
 		if ( ! in_array( $value, array( 'lazy', 'eager' ), true ) ) {
 			$value = 'lazy';
-		}
-
-		// Images should have source and dimension attributes for the `loading` attribute to be added.
-		if ( false === strpos( $image, ' src="' ) || false === strpos( $image, ' width="' ) || false === strpos( $image, ' height="' ) ) {
-			return $image;
 		}
 
 		return str_replace( '<img', '<img loading="' . esc_attr( $value ) . '"', $image );
@@ -1989,6 +1989,17 @@ function wp_img_tag_add_srcset_and_sizes_attr( $image, $context, $attachment_id 
  * @return string Converted `iframe` tag with `loading` attribute added.
  */
 function wp_iframe_tag_add_loading_attr( $iframe, $context ) {
+	// Iframes with fallback content (see `wp_filter_oembed_result()`) should not be lazy-loaded because they are
+	// visually hidden initially.
+	if ( false !== strpos( $iframe, ' data-secret="' ) ) {
+		return $iframe;
+	}
+
+	// Iframes should have source and dimension attributes for the `loading` attribute to be added.
+	if ( false === strpos( $iframe, ' src="' ) || false === strpos( $iframe, ' width="' ) || false === strpos( $iframe, ' height="' ) ) {
+		return $iframe;
+	}
+
 	/**
 	 * Filters the `loading` attribute value to add to an iframe. Default `lazy`.
 	 *
@@ -2007,11 +2018,6 @@ function wp_iframe_tag_add_loading_attr( $iframe, $context ) {
 	if ( $value ) {
 		if ( ! in_array( $value, array( 'lazy', 'eager' ), true ) ) {
 			$value = 'lazy';
-		}
-
-		// Iframes should have source and dimension attributes for the `loading` attribute to be added.
-		if ( false === strpos( $iframe, ' src="' ) || false === strpos( $iframe, ' width="' ) || false === strpos( $iframe, ' height="' ) ) {
-			return $iframe;
 		}
 
 		return str_replace( '<iframe', '<iframe loading="' . esc_attr( $value ) . '"', $iframe );
