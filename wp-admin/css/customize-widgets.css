@@ -137,7 +137,7 @@
 #customize-theme-controls .move-widget-area {
 	display: none;
 	background: #fff;
-	border: 1px solid #dcdcde;
+	border: 1px solid #c3c4c7;
 	border-top: none;
 	cursor: auto;
 }
@@ -163,7 +163,7 @@
 	margin: 0;
 	padding: 13px 15px 15px 42px;
 	color: #50575e;
-	border-top: 1px solid #f0f0f1;
+	border-top: 1px solid #c3c4c7;
 	cursor: pointer;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -182,13 +182,12 @@
 }
 
 #customize-theme-controls .widget-area-select li:last-child {
-	border-bottom: 1px solid #f0f0f1;
+	border-bottom: 1px solid #c3c4c7;
 }
 
 #customize-theme-controls .widget-area-select .selected {
 	color: #fff;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
-	background: #72aee6;
+	background: #2271b1;
 }
 
 #customize-theme-controls .widget-area-select .selected:before {

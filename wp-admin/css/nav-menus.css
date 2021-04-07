@@ -455,8 +455,8 @@ ul.add-menu-item-tabs li {
 }
 
 #menu-to-edit .menu-item-invalid .menu-item-handle {
-	background: #facfd2;
-	border-color: #ffabaf;
+	background: #fcf0f1;
+	border-color: #d63638;
 }
 
 .no-js .menu-item-edit-active .item-edit {
