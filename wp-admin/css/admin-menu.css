@@ -39,7 +39,7 @@
 .icon16 {
 	height: 18px;
 	width: 18px;
-	padding: 6px 6px;
+	padding: 6px;
 	margin: -6px 0 0 -8px;
 	float: left;
 }
@@ -50,7 +50,7 @@
 	color: #8c8f94; /* same as new icons */
 	font: normal 20px/1 dashicons;
 	speak: never;
-	padding: 6px 0;
+	padding: 6px 2px 6px 0px;
 	height: 34px;
 	width: 20px;
 	display: inline-block;
