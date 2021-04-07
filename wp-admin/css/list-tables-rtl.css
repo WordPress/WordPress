@@ -1578,20 +1578,16 @@ div.action-links,
 /* ms */
 /* Background Color for Site Status */
 .wp-list-table .site-deleted,
-.wp-list-table tr.site-deleted {
-	background: #ff8085;
-}
-.wp-list-table .site-spammed,
-.wp-list-table tr.site-spammed {
-	background: #ffabaf;
-}
+.wp-list-table tr.site-deleted,
 .wp-list-table .site-archived,
 .wp-list-table tr.site-archived {
 	background: #fcf0f1;
 }
+.wp-list-table .site-spammed,
+.wp-list-table tr.site-spammed,
 .wp-list-table .site-mature,
 .wp-list-table tr.site-mature {
-	background: #facfd2;
+	background: #fcf9e8;
 }
 
 .sites.fixed .column-lastupdated,

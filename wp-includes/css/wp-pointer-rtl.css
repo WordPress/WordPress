@@ -12,18 +12,18 @@
 	position: relative;
 	margin: -1px -1px 5px;
 	padding: 15px 60px 14px 18px;
-	border: 1px solid #72aee6;
+	border: 1px solid #2271b1;
 	border-bottom: none;
 	line-height: 1.4;
 	font-size: 14px;
 	color: #fff;
-	background: #72aee6;
+	background: #2271b1;
 }
 
 .wp-pointer-content h3:before {
 	background: #fff;
 	border-radius: 50%;
-	color: #72aee6;
+	color: #2271b1;
 	content: "\f227";
 	font: normal 20px/1.6 dashicons;
 	position: absolute;
@@ -142,7 +142,7 @@
 .wp-pointer-undefined .wp-pointer-arrow {
 	top: 0;
 	border-width: 0 13px 13px 13px;
-	border-bottom-color: #72aee6;
+	border-bottom-color: #2271b1;
 }
 
 .wp-pointer-top .wp-pointer-arrow-inner,
@@ -151,7 +151,7 @@
 	margin-right: -13px;
 	margin-top: -13px;
 	border: 13px solid transparent;
-	border-bottom-color: #72aee6;
+	border-bottom-color: #2271b1;
 	display: block;
 	content: " ";
 }
