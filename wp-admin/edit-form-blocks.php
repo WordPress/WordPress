@@ -346,7 +346,7 @@ $editor_settings = array(
 	'enableCustomSpacing'                  => $custom_spacing,
 );
 
-$autosave = wp_get_post_autosave( $post_ID );
+$autosave = wp_get_post_autosave( $post->ID );
 if ( $autosave ) {
 	if ( mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
 		$editor_settings['autosave'] = array(
