@@ -264,7 +264,21 @@ class WP_REST_Server {
 			$current_user = null;
 		}
 
-		$content_type = isset( $_GET['_jsonp'] ) ? 'application/javascript' : 'application/json';
+		/**
+		 * Filters whether JSONP is enabled for the REST API.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param bool $jsonp_enabled Whether JSONP is enabled. Default true.
+		 */
+		$jsonp_enabled = apply_filters( 'rest_jsonp_enabled', true );
+
+		$jsonp_callback = false;
+		if ( isset( $_GET['_jsonp'] ) ) {
+			$jsonp_callback = $_GET['_jsonp'];
+		}
+
+		$content_type = ( $jsonp_callback && $jsonp_enabled ) ? 'application/javascript' : 'application/json';
 		$this->send_header( 'Content-Type', $content_type . '; charset=' . get_option( 'blog_charset' ) );
 		$this->send_header( 'X-Robots-Tag', 'noindex' );
 
@@ -355,24 +369,12 @@ class WP_REST_Server {
 			)
 		);
 
-		/**
-		 * Filters whether JSONP is enabled for the REST API.
-		 *
-		 * @since 4.4.0
-		 *
-		 * @param bool $jsonp_enabled Whether JSONP is enabled. Default true.
-		 */
-		$jsonp_enabled = apply_filters( 'rest_jsonp_enabled', true );
-
-		$jsonp_callback = null;
-
-		if ( isset( $_GET['_jsonp'] ) ) {
+		if ( $jsonp_callback ) {
 			if ( ! $jsonp_enabled ) {
 				echo $this->json_error( 'rest_callback_disabled', __( 'JSONP support is disabled on this site.' ), 400 );
 				return false;
 			}
 
-			$jsonp_callback = $_GET['_jsonp'];
 			if ( ! wp_check_jsonp_callback( $jsonp_callback ) ) {
 				echo $this->json_error( 'rest_callback_invalid', __( 'Invalid JSONP callback function.' ), 400 );
 				return false;
