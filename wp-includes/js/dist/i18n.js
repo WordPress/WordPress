@@ -93,7 +93,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 !function() {
-    'use strict'
+    'use strict';
 
     var re = {
         not_string: /[^s]/,
@@ -115,165 +115,165 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
     function sprintf(key) {
         // `arguments` is not an array, but should be fine for this call
-        return sprintf_format(sprintf_parse(key), arguments)
+        return sprintf_format(sprintf_parse(key), arguments);
     }
 
     function vsprintf(fmt, argv) {
-        return sprintf.apply(null, [fmt].concat(argv || []))
+        return sprintf.apply(null, [fmt].concat(argv || []));
     }
 
     function sprintf_format(parse_tree, argv) {
-        var cursor = 1, tree_length = parse_tree.length, arg, output = '', i, k, ph, pad, pad_character, pad_length, is_positive, sign
+        var cursor = 1, tree_length = parse_tree.length, arg, output = '', i, k, ph, pad, pad_character, pad_length, is_positive, sign;
         for (i = 0; i < tree_length; i++) {
             if (typeof parse_tree[i] === 'string') {
-                output += parse_tree[i]
+                output += parse_tree[i];
             }
             else if (typeof parse_tree[i] === 'object') {
-                ph = parse_tree[i] // convenience purposes only
+                ph = parse_tree[i]; // convenience purposes only
                 if (ph.keys) { // keyword argument
-                    arg = argv[cursor]
+                    arg = argv[cursor];
                     for (k = 0; k < ph.keys.length; k++) {
                         if (arg == undefined) {
-                            throw new Error(sprintf('[sprintf] Cannot access property "%s" of undefined value "%s"', ph.keys[k], ph.keys[k-1]))
+                            throw new Error(sprintf('[sprintf] Cannot access property "%s" of undefined value "%s"', ph.keys[k], ph.keys[k-1]));
                         }
-                        arg = arg[ph.keys[k]]
+                        arg = arg[ph.keys[k]];
                     }
                 }
                 else if (ph.param_no) { // positional argument (explicit)
-                    arg = argv[ph.param_no]
+                    arg = argv[ph.param_no];
                 }
                 else { // positional argument (implicit)
-                    arg = argv[cursor++]
+                    arg = argv[cursor++];
                 }
 
                 if (re.not_type.test(ph.type) && re.not_primitive.test(ph.type) && arg instanceof Function) {
-                    arg = arg()
+                    arg = arg();
                 }
 
                 if (re.numeric_arg.test(ph.type) && (typeof arg !== 'number' && isNaN(arg))) {
-                    throw new TypeError(sprintf('[sprintf] expecting number but found %T', arg))
+                    throw new TypeError(sprintf('[sprintf] expecting number but found %T', arg));
                 }
 
                 if (re.number.test(ph.type)) {
-                    is_positive = arg >= 0
+                    is_positive = arg >= 0;
                 }
 
                 switch (ph.type) {
                     case 'b':
-                        arg = parseInt(arg, 10).toString(2)
-                        break
+                        arg = parseInt(arg, 10).toString(2);
+                        break;
                     case 'c':
-                        arg = String.fromCharCode(parseInt(arg, 10))
-                        break
+                        arg = String.fromCharCode(parseInt(arg, 10));
+                        break;
                     case 'd':
                     case 'i':
-                        arg = parseInt(arg, 10)
-                        break
+                        arg = parseInt(arg, 10);
+                        break;
                     case 'j':
-                        arg = JSON.stringify(arg, null, ph.width ? parseInt(ph.width) : 0)
-                        break
+                        arg = JSON.stringify(arg, null, ph.width ? parseInt(ph.width) : 0);
+                        break;
                     case 'e':
-                        arg = ph.precision ? parseFloat(arg).toExponential(ph.precision) : parseFloat(arg).toExponential()
-                        break
+                        arg = ph.precision ? parseFloat(arg).toExponential(ph.precision) : parseFloat(arg).toExponential();
+                        break;
                     case 'f':
-                        arg = ph.precision ? parseFloat(arg).toFixed(ph.precision) : parseFloat(arg)
-                        break
+                        arg = ph.precision ? parseFloat(arg).toFixed(ph.precision) : parseFloat(arg);
+                        break;
                     case 'g':
-                        arg = ph.precision ? String(Number(arg.toPrecision(ph.precision))) : parseFloat(arg)
-                        break
+                        arg = ph.precision ? String(Number(arg.toPrecision(ph.precision))) : parseFloat(arg);
+                        break;
                     case 'o':
-                        arg = (parseInt(arg, 10) >>> 0).toString(8)
-                        break
+                        arg = (parseInt(arg, 10) >>> 0).toString(8);
+                        break;
                     case 's':
-                        arg = String(arg)
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
-                        break
+                        arg = String(arg);
+                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg);
+                        break;
                     case 't':
-                        arg = String(!!arg)
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
-                        break
+                        arg = String(!!arg);
+                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg);
+                        break;
                     case 'T':
-                        arg = Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
-                        break
+                        arg = Object.prototype.toString.call(arg).slice(8, -1).toLowerCase();
+                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg);
+                        break;
                     case 'u':
-                        arg = parseInt(arg, 10) >>> 0
-                        break
+                        arg = parseInt(arg, 10) >>> 0;
+                        break;
                     case 'v':
-                        arg = arg.valueOf()
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
-                        break
+                        arg = arg.valueOf();
+                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg);
+                        break;
                     case 'x':
-                        arg = (parseInt(arg, 10) >>> 0).toString(16)
-                        break
+                        arg = (parseInt(arg, 10) >>> 0).toString(16);
+                        break;
                     case 'X':
-                        arg = (parseInt(arg, 10) >>> 0).toString(16).toUpperCase()
-                        break
+                        arg = (parseInt(arg, 10) >>> 0).toString(16).toUpperCase();
+                        break;
                 }
                 if (re.json.test(ph.type)) {
-                    output += arg
+                    output += arg;
                 }
                 else {
                     if (re.number.test(ph.type) && (!is_positive || ph.sign)) {
-                        sign = is_positive ? '+' : '-'
-                        arg = arg.toString().replace(re.sign, '')
+                        sign = is_positive ? '+' : '-';
+                        arg = arg.toString().replace(re.sign, '');
                     }
                     else {
-                        sign = ''
+                        sign = '';
                     }
-                    pad_character = ph.pad_char ? ph.pad_char === '0' ? '0' : ph.pad_char.charAt(1) : ' '
-                    pad_length = ph.width - (sign + arg).length
-                    pad = ph.width ? (pad_length > 0 ? pad_character.repeat(pad_length) : '') : ''
-                    output += ph.align ? sign + arg + pad : (pad_character === '0' ? sign + pad + arg : pad + sign + arg)
+                    pad_character = ph.pad_char ? ph.pad_char === '0' ? '0' : ph.pad_char.charAt(1) : ' ';
+                    pad_length = ph.width - (sign + arg).length;
+                    pad = ph.width ? (pad_length > 0 ? pad_character.repeat(pad_length) : '') : '';
+                    output += ph.align ? sign + arg + pad : (pad_character === '0' ? sign + pad + arg : pad + sign + arg);
                 }
             }
         }
-        return output
+        return output;
     }
 
-    var sprintf_cache = Object.create(null)
+    var sprintf_cache = Object.create(null);
 
     function sprintf_parse(fmt) {
         if (sprintf_cache[fmt]) {
-            return sprintf_cache[fmt]
+            return sprintf_cache[fmt];
         }
 
-        var _fmt = fmt, match, parse_tree = [], arg_names = 0
+        var _fmt = fmt, match, parse_tree = [], arg_names = 0;
         while (_fmt) {
             if ((match = re.text.exec(_fmt)) !== null) {
-                parse_tree.push(match[0])
+                parse_tree.push(match[0]);
             }
             else if ((match = re.modulo.exec(_fmt)) !== null) {
-                parse_tree.push('%')
+                parse_tree.push('%');
             }
             else if ((match = re.placeholder.exec(_fmt)) !== null) {
                 if (match[2]) {
-                    arg_names |= 1
-                    var field_list = [], replacement_field = match[2], field_match = []
+                    arg_names |= 1;
+                    var field_list = [], replacement_field = match[2], field_match = [];
                     if ((field_match = re.key.exec(replacement_field)) !== null) {
-                        field_list.push(field_match[1])
+                        field_list.push(field_match[1]);
                         while ((replacement_field = replacement_field.substring(field_match[0].length)) !== '') {
                             if ((field_match = re.key_access.exec(replacement_field)) !== null) {
-                                field_list.push(field_match[1])
+                                field_list.push(field_match[1]);
                             }
                             else if ((field_match = re.index_access.exec(replacement_field)) !== null) {
-                                field_list.push(field_match[1])
+                                field_list.push(field_match[1]);
                             }
                             else {
-                                throw new SyntaxError('[sprintf] failed to parse named argument key')
+                                throw new SyntaxError('[sprintf] failed to parse named argument key');
                             }
                         }
                     }
                     else {
-                        throw new SyntaxError('[sprintf] failed to parse named argument key')
+                        throw new SyntaxError('[sprintf] failed to parse named argument key');
                     }
-                    match[2] = field_list
+                    match[2] = field_list;
                 }
                 else {
-                    arg_names |= 2
+                    arg_names |= 2;
                 }
                 if (arg_names === 3) {
-                    throw new Error('[sprintf] mixing positional and named placeholders is not (yet) supported')
+                    throw new Error('[sprintf] mixing positional and named placeholders is not (yet) supported');
                 }
 
                 parse_tree.push(
@@ -291,11 +291,11 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
                 )
             }
             else {
-                throw new SyntaxError('[sprintf] unexpected placeholder')
+                throw new SyntaxError('[sprintf] unexpected placeholder');
             }
-            _fmt = _fmt.substring(match[0].length)
+            _fmt = _fmt.substring(match[0].length);
         }
-        return sprintf_cache[fmt] = parse_tree
+        return sprintf_cache[fmt] = parse_tree;
     }
 
     /**
@@ -303,12 +303,12 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
      */
     /* eslint-disable quote-props */
     if (true) {
-        exports['sprintf'] = sprintf
-        exports['vsprintf'] = vsprintf
+        exports['sprintf'] = sprintf;
+        exports['vsprintf'] = vsprintf;
     }
     if (typeof window !== 'undefined') {
-        window['sprintf'] = sprintf
-        window['vsprintf'] = vsprintf
+        window['sprintf'] = sprintf;
+        window['vsprintf'] = vsprintf;
 
         if (true) {
             !(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
@@ -317,7 +317,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
                     'vsprintf': vsprintf
                 }
             }).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
         }
     }
     /* eslint-enable quote-props */
