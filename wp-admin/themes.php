@@ -303,14 +303,8 @@ if ( $ct->errors() && ( ! is_multisite() || current_user_can( 'manage_network_th
 	echo '<div class="error"><p>' . __( 'Error:' ) . ' ' . $ct->errors()->get_error_message() . '</p></div>';
 }
 
-/*
-// Certain error codes are less fatal than others. We can still display theme information in most cases.
-if ( ! $ct->errors() || ( 1 === count( $ct->errors()->get_error_codes() )
-	&& in_array( $ct->errors()->get_error_code(), array( 'theme_no_parent', 'theme_parent_invalid', 'theme_no_index' ) ) ) ) : ?>
-*/
+$current_theme_actions = array();
 
-	// Pretend you didn't see this.
-	$current_theme_actions = array();
 if ( is_array( $submenu ) && isset( $submenu['themes.php'] ) ) {
 	foreach ( (array) $submenu['themes.php'] as $item ) {
 		$class = '';
@@ -354,9 +348,6 @@ if ( is_array( $submenu ) && isset( $submenu['themes.php'] ) ) {
 	}
 }
 
-?>
-
-<?php
 $class_name = 'theme-browser';
 if ( ! empty( $_GET['search'] ) ) {
 	$class_name .= ' search-loading';
