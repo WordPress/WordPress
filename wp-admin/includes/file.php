@@ -2159,14 +2159,25 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 		);
 	}
 
-	// If defined, set it to that. Else, if POST'd, set it to that. If not, set it to whatever it previously was (saved details in option).
-	$credentials['hostname'] = defined( 'FTP_HOST' ) ? FTP_HOST : ( ! empty( $submitted_form['hostname'] ) ? $submitted_form['hostname'] : $credentials['hostname'] );
-	$credentials['username'] = defined( 'FTP_USER' ) ? FTP_USER : ( ! empty( $submitted_form['username'] ) ? $submitted_form['username'] : $credentials['username'] );
-	$credentials['password'] = defined( 'FTP_PASS' ) ? FTP_PASS : ( ! empty( $submitted_form['password'] ) ? $submitted_form['password'] : '' );
+	$ftp_constants = array(
+		'hostname'    => 'FTP_HOST',
+		'username'    => 'FTP_USER',
+		'password'    => 'FTP_PASS',
+		'public_key'  => 'FTP_PUBKEY',
+		'private_key' => 'FTP_PRIKEY',
+	);
 
-	// Check to see if we are setting the public/private keys for ssh.
-	$credentials['public_key']  = defined( 'FTP_PUBKEY' ) ? FTP_PUBKEY : ( ! empty( $submitted_form['public_key'] ) ? $submitted_form['public_key'] : '' );
-	$credentials['private_key'] = defined( 'FTP_PRIKEY' ) ? FTP_PRIKEY : ( ! empty( $submitted_form['private_key'] ) ? $submitted_form['private_key'] : '' );
+	// If defined, set it to that. Else, if POST'd, set it to that. If not, set it to an empty string.
+	// Otherwise, keep it as it previously was (saved details in option).
+	foreach ( $ftp_constants as $key => $constant ) {
+		if ( defined( $constant ) ) {
+			$credentials[ $key ] = constant( $constant );
+		} elseif ( ! empty( $submitted_form[ $key ] ) ) {
+			$credentials[ $key ] = $submitted_form[ $key ];
+		} elseif ( ! isset( $credentials[ $key ] ) ) {
+			$credentials[ $key ] = '';
+		}
+	}
 
 	// Sanitize the hostname, some people might pass in odd data.
 	$credentials['hostname'] = preg_replace( '|\w+://|', '', $credentials['hostname'] ); // Strip any schemes off.
