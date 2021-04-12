@@ -146,6 +146,7 @@ function list_files( $folder = '', $levels = 100, $exclusions = array() ) {
 	$files = array();
 
 	$dir = @opendir( $folder );
+
 	if ( $dir ) {
 		while ( ( $file = readdir( $dir ) ) !== false ) {
 			// Skip current and parent folder links.
@@ -369,23 +370,26 @@ function wp_edit_theme_plugin_file( $args ) {
 	if ( empty( $args['file'] ) ) {
 		return new WP_Error( 'missing_file' );
 	}
-	$file = $args['file'];
-	if ( 0 !== validate_file( $file ) ) {
+
+	if ( 0 !== validate_file( $args['file'] ) ) {
 		return new WP_Error( 'bad_file' );
 	}
 
 	if ( ! isset( $args['newcontent'] ) ) {
 		return new WP_Error( 'missing_content' );
 	}
-	$content = $args['newcontent'];
 
 	if ( ! isset( $args['nonce'] ) ) {
 		return new WP_Error( 'missing_nonce' );
 	}
 
+	$file    = $args['file'];
+	$content = $args['newcontent'];
+
 	$plugin    = null;
 	$theme     = null;
 	$real_file = null;
+
 	if ( ! empty( $args['plugin'] ) ) {
 		$plugin = $args['plugin'];
 
@@ -417,6 +421,7 @@ function wp_edit_theme_plugin_file( $args ) {
 
 	} elseif ( ! empty( $args['theme'] ) ) {
 		$stylesheet = $args['theme'];
+
 		if ( 0 !== validate_file( $stylesheet ) ) {
 			return new WP_Error( 'bad_theme_path' );
 		}
@@ -494,12 +499,14 @@ function wp_edit_theme_plugin_file( $args ) {
 	}
 
 	$f = fopen( $real_file, 'w+' );
+
 	if ( false === $f ) {
 		return new WP_Error( 'file_not_writable' );
 	}
 
 	$written = fwrite( $f, $content );
 	fclose( $f );
+
 	if ( false === $written ) {
 		return new WP_Error( 'unable_to_write', __( 'Unable to write to file.' ) );
 	}
@@ -575,6 +582,7 @@ function wp_edit_theme_plugin_file( $args ) {
 		);
 
 		$result = null;
+
 		if ( false === $scrape_result_position ) {
 			$result = $loopback_request_failure;
 		} else {
@@ -609,7 +617,6 @@ function wp_edit_theme_plugin_file( $args ) {
 		delete_transient( $transient );
 
 		if ( true !== $result ) {
-
 			// Roll-back file change.
 			file_put_contents( $real_file, $previous_content );
 			wp_opcache_invalidate( $real_file, true );
@@ -620,6 +627,7 @@ function wp_edit_theme_plugin_file( $args ) {
 				$message = $result['message'];
 				unset( $result['message'] );
 			}
+
 			return new WP_Error( 'php_error', $message, $result );
 		}
 	}
@@ -671,9 +679,11 @@ function wp_tempnam( $filename = '', $dir = '' ) {
 	$temp_filename  = $dir . wp_unique_filename( $dir, $temp_filename );
 
 	$fp = @fopen( $temp_filename, 'x' );
+
 	if ( ! $fp && is_writable( $dir ) && file_exists( $temp_filename ) ) {
 		return wp_tempnam( $filename, $dir );
 	}
+
 	if ( $fp ) {
 		fclose( $fp );
 	}
@@ -846,9 +856,10 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	$mimes     = isset( $overrides['mimes'] ) ? $overrides['mimes'] : false;
 
 	// A correct form post will pass this test.
-	if ( $test_form && ( ! isset( $_POST['action'] ) || ( $_POST['action'] != $action ) ) ) {
+	if ( $test_form && ( ! isset( $_POST['action'] ) || $_POST['action'] !== $action ) ) {
 		return call_user_func_array( $upload_error_handler, array( &$file, __( 'Invalid form submission.' ) ) );
 	}
+
 	// A successful upload will pass this test. It makes no sense to override this one.
 	if ( isset( $file['error'] ) && $file['error'] > 0 ) {
 		return call_user_func_array( $upload_error_handler, array( &$file, $upload_error_strings[ $file['error'] ] ) );
@@ -874,6 +885,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 				'upload_max_filesize'
 			);
 		}
+
 		return call_user_func_array( $upload_error_handler, array( &$file, $error_msg ) );
 	}
 
@@ -888,9 +900,11 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 		if ( $proper_filename ) {
 			$file['name'] = $proper_filename;
 		}
+
 		if ( ( ! $type || ! $ext ) && ! current_user_can( 'unfiltered_upload' ) ) {
 			return call_user_func_array( $upload_error_handler, array( &$file, __( 'Sorry, this file type is not permitted for security reasons.' ) ) );
 		}
+
 		if ( ! $type ) {
 			$type = $file['type'];
 		}
@@ -943,6 +957,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 			} else {
 				$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
 			}
+
 			return $upload_error_handler(
 				$file,
 				sprintf(
@@ -1078,7 +1093,7 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 
 	$tmpfname = wp_tempnam( $url_filename );
 	if ( ! $tmpfname ) {
-		return new WP_Error( 'http_no_file', __( 'Could not create Temporary file.' ) );
+		return new WP_Error( 'http_no_file', __( 'Could not create temporary file.' ) );
 	}
 
 	$response = wp_safe_remote_get(
@@ -1097,13 +1112,14 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 
 	$response_code = wp_remote_retrieve_response_code( $response );
 
-	if ( 200 != $response_code ) {
+	if ( 200 !== $response_code ) {
 		$data = array(
 			'code' => $response_code,
 		);
 
 		// Retrieve a sample of the response body for debugging purposes.
 		$tmpf = fopen( $tmpfname, 'rb' );
+
 		if ( $tmpf ) {
 			/**
 			 * Filters the maximum error response body size in `download_url()`.
@@ -1115,17 +1131,21 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 			 * @param int $size The maximum error response body size. Default 1 KB.
 			 */
 			$response_size = apply_filters( 'download_url_error_max_body_size', KB_IN_BYTES );
-			$data['body']  = fread( $tmpf, $response_size );
+
+			$data['body'] = fread( $tmpf, $response_size );
 			fclose( $tmpf );
 		}
 
 		unlink( $tmpfname );
+
 		return new WP_Error( 'http_404', trim( wp_remote_retrieve_response_message( $response ) ), $data );
 	}
 
 	$content_md5 = wp_remote_retrieve_header( $response, 'content-md5' );
+
 	if ( $content_md5 ) {
 		$md5_check = verify_file_md5( $tmpfname, $content_md5 );
+
 		if ( is_wp_error( $md5_check ) ) {
 			unlink( $tmpfname );
 			return $md5_check;
@@ -1141,13 +1161,15 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 		 *
 		 * @param string[] $hostnames List of hostnames.
 		 */
-		$signed_hostnames       = apply_filters( 'wp_signature_hosts', array( 'wordpress.org', 'downloads.wordpress.org', 's.w.org' ) );
+		$signed_hostnames = apply_filters( 'wp_signature_hosts', array( 'wordpress.org', 'downloads.wordpress.org', 's.w.org' ) );
+
 		$signature_verification = in_array( parse_url( $url, PHP_URL_HOST ), $signed_hostnames, true );
 	}
 
 	// Perform signature valiation if supported.
 	if ( $signature_verification ) {
 		$signature = wp_remote_retrieve_header( $response, 'x-content-signature' );
+
 		if ( ! $signature ) {
 			// Retrieve signatures from a file if the header wasn't included.
 			// WordPress.org stores signatures at $package_url.sig.
@@ -1225,9 +1247,9 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
  *                       WP_Error on failure.
  */
 function verify_file_md5( $filename, $expected_md5 ) {
-	if ( 32 == strlen( $expected_md5 ) ) {
+	if ( 32 === strlen( $expected_md5 ) ) {
 		$expected_raw_md5 = pack( 'H*', $expected_md5 );
-	} elseif ( 24 == strlen( $expected_md5 ) ) {
+	} elseif ( 24 === strlen( $expected_md5 ) ) {
 		$expected_raw_md5 = base64_decode( $expected_md5 );
 	} else {
 		return false; // Unknown format.
@@ -1287,7 +1309,6 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
 	) {
 		// Sodium_Compat isn't compatible with PHP 7.2.0~7.2.2 due to a bug in the PHP Opcache extension, bail early as it'll fail.
 		// https://bugs.php.net/bug.php?id=75938
-
 		return new WP_Error(
 			'signature_verification_unsupported',
 			sprintf(
@@ -1301,7 +1322,6 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
 				'sodium' => defined( 'SODIUM_LIBRARY_VERSION' ) ? SODIUM_LIBRARY_VERSION : ( defined( 'ParagonIE_Sodium_Compat::VERSION_STRING' ) ? ParagonIE_Sodium_Compat::VERSION_STRING : false ),
 			)
 		);
-
 	}
 
 	// Verify runtime speed of Sodium_Compat is acceptable.
@@ -1536,6 +1556,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 	$z = new ZipArchive();
 
 	$zopen = $z->open( $file, ZIPARCHIVE::CHECKCONS );
+
 	if ( true !== $zopen ) {
 		return new WP_Error( 'incompatible_archive', __( 'Incompatible Archive.' ), array( 'ziparchive_error' => $zopen ) );
 	}
@@ -1544,6 +1565,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
 		$info = $z->statIndex( $i );
+
 		if ( ! $info ) {
 			return new WP_Error( 'stat_failed_ziparchive', __( 'Could not retrieve file from archive.' ) );
 		}
@@ -1577,27 +1599,39 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 	 */
 	if ( wp_doing_cron() ) {
 		$available_space = @disk_free_space( WP_CONTENT_DIR );
+
 		if ( $available_space && ( $uncompressed_size * 2.1 ) > $available_space ) {
-			return new WP_Error( 'disk_full_unzip_file', __( 'Could not copy files. You may have run out of disk space.' ), compact( 'uncompressed_size', 'available_space' ) );
+			return new WP_Error(
+				'disk_full_unzip_file',
+				__( 'Could not copy files. You may have run out of disk space.' ),
+				compact( 'uncompressed_size', 'available_space' )
+			);
 		}
 	}
 
 	$needed_dirs = array_unique( $needed_dirs );
+
 	foreach ( $needed_dirs as $dir ) {
 		// Check the parent folders of the folders all exist within the creation array.
-		if ( untrailingslashit( $to ) == $dir ) { // Skip over the working directory, we know this exists (or will exist).
+		if ( untrailingslashit( $to ) === $dir ) { // Skip over the working directory, we know this exists (or will exist).
 			continue;
 		}
+
 		if ( strpos( $dir, $to ) === false ) { // If the directory is not within the working directory, skip it.
 			continue;
 		}
 
 		$parent_folder = dirname( $dir );
-		while ( ! empty( $parent_folder ) && untrailingslashit( $to ) != $parent_folder && ! in_array( $parent_folder, $needed_dirs, true ) ) {
+
+		while ( ! empty( $parent_folder )
+			&& untrailingslashit( $to ) !== $parent_folder
+			&& ! in_array( $parent_folder, $needed_dirs, true )
+		) {
 			$needed_dirs[] = $parent_folder;
 			$parent_folder = dirname( $parent_folder );
 		}
 	}
+
 	asort( $needed_dirs );
 
 	// Create those directories if need be:
@@ -1611,6 +1645,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
 		$info = $z->statIndex( $i );
+
 		if ( ! $info ) {
 			return new WP_Error( 'stat_failed_ziparchive', __( 'Could not retrieve file from archive.' ) );
 		}
@@ -1629,6 +1664,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 		}
 
 		$contents = $z->getFromIndex( $i );
+
 		if ( false === $contents ) {
 			return new WP_Error( 'extract_failed_ziparchive', __( 'Could not extract file from archive.' ), $info['name'] );
 		}
@@ -1704,27 +1740,39 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 	 */
 	if ( wp_doing_cron() ) {
 		$available_space = @disk_free_space( WP_CONTENT_DIR );
+
 		if ( $available_space && ( $uncompressed_size * 2.1 ) > $available_space ) {
-			return new WP_Error( 'disk_full_unzip_file', __( 'Could not copy files. You may have run out of disk space.' ), compact( 'uncompressed_size', 'available_space' ) );
+			return new WP_Error(
+				'disk_full_unzip_file',
+				__( 'Could not copy files. You may have run out of disk space.' ),
+				compact( 'uncompressed_size', 'available_space' )
+			);
 		}
 	}
 
 	$needed_dirs = array_unique( $needed_dirs );
+
 	foreach ( $needed_dirs as $dir ) {
 		// Check the parent folders of the folders all exist within the creation array.
-		if ( untrailingslashit( $to ) == $dir ) { // Skip over the working directory, we know this exists (or will exist).
+		if ( untrailingslashit( $to ) === $dir ) { // Skip over the working directory, we know this exists (or will exist).
 			continue;
 		}
+
 		if ( strpos( $dir, $to ) === false ) { // If the directory is not within the working directory, skip it.
 			continue;
 		}
 
 		$parent_folder = dirname( $dir );
-		while ( ! empty( $parent_folder ) && untrailingslashit( $to ) != $parent_folder && ! in_array( $parent_folder, $needed_dirs, true ) ) {
+
+		while ( ! empty( $parent_folder )
+			&& untrailingslashit( $to ) !== $parent_folder
+			&& ! in_array( $parent_folder, $needed_dirs, true )
+		) {
 			$needed_dirs[] = $parent_folder;
 			$parent_folder = dirname( $parent_folder );
 		}
 	}
+
 	asort( $needed_dirs );
 
 	// Create those directories if need be:
@@ -1755,6 +1803,7 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 			return new WP_Error( 'copy_failed_pclzip', __( 'Could not copy file.' ), $file['filename'] );
 		}
 	}
+
 	return true;
 }
 
@@ -1794,6 +1843,7 @@ function copy_dir( $from, $to, $skip_list = array() ) {
 			if ( ! $wp_filesystem->copy( $from . $filename, $to . $filename, true, FS_CHMOD_FILE ) ) {
 				// If copy failed, chmod file to 0644 and try again.
 				$wp_filesystem->chmod( $to . $filename, FS_CHMOD_FILE );
+
 				if ( ! $wp_filesystem->copy( $from . $filename, $to . $filename, true, FS_CHMOD_FILE ) ) {
 					return new WP_Error( 'copy_failed_copy_dir', __( 'Could not copy file.' ), $to . $filename );
 				}
@@ -1809,6 +1859,7 @@ function copy_dir( $from, $to, $skip_list = array() ) {
 
 			// Generate the $sub_skip_list for the subdirectory as a sub-set of the existing $skip_list.
 			$sub_skip_list = array();
+
 			foreach ( $skip_list as $skip_item ) {
 				if ( 0 === strpos( $skip_item, $filename . '/' ) ) {
 					$sub_skip_list[] = preg_replace( '!^' . preg_quote( $filename, '!' ) . '/!i', '', $skip_item );
@@ -1816,6 +1867,7 @@ function copy_dir( $from, $to, $skip_list = array() ) {
 			}
 
 			$result = copy_dir( $from . $filename, $to . $filename, $sub_skip_list );
+
 			if ( is_wp_error( $result ) ) {
 				return $result;
 			}
@@ -1947,7 +1999,7 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
 	}
 
 	// If the directory doesn't exist (wp-content/languages) then use the parent directory as we'll create it.
-	if ( WP_LANG_DIR == $context && ! is_dir( $context ) ) {
+	if ( WP_LANG_DIR === $context && ! is_dir( $context ) ) {
 		$context = dirname( $context );
 	}
 
@@ -2068,6 +2120,7 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	 * @param bool          $allow_relaxed_file_ownership Whether to allow Group/World writable.
 	 */
 	$req_cred = apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership );
+
 	if ( '' !== $req_cred ) {
 		return $req_cred;
 	}
@@ -2136,9 +2189,10 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	} elseif ( ! isset( $credentials['connection_type'] ) ) { // All else fails (and it's not defaulted to something else saved), default to FTP.
 		$credentials['connection_type'] = 'ftp';
 	}
+
 	if ( ! $error
-		&& ( ( ! empty( $credentials['password'] ) && ! empty( $credentials['username'] ) && ! empty( $credentials['hostname'] ) )
-			|| ( 'ssh' === $credentials['connection_type'] && ! empty( $credentials['public_key'] ) && ! empty( $credentials['private_key'] ) )
+		&& ( ! empty( $credentials['hostname'] ) && ! empty( $credentials['username'] ) && ! empty( $credentials['password'] )
+			|| 'ssh' === $credentials['connection_type'] && ! empty( $credentials['public_key'] ) && ! empty( $credentials['private_key'] )
 		)
 	) {
 		$stored_credentials = $credentials;
@@ -2147,7 +2201,12 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 			$stored_credentials['hostname'] .= ':' . $stored_credentials['port'];
 		}
 
-		unset( $stored_credentials['password'], $stored_credentials['port'], $stored_credentials['private_key'], $stored_credentials['public_key'] );
+		unset(
+			$stored_credentials['password'],
+			$stored_credentials['port'],
+			$stored_credentials['private_key'],
+			$stored_credentials['public_key']
+		);
 
 		if ( ! wp_installing() ) {
 			update_option( 'ftp_credentials', $stored_credentials );
@@ -2155,6 +2214,7 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 
 		return $credentials;
 	}
+
 	$hostname        = isset( $credentials['hostname'] ) ? $credentials['hostname'] : '';
 	$username        = isset( $credentials['username'] ) ? $credentials['username'] : '';
 	$public_key      = isset( $credentials['public_key'] ) ? $credentials['public_key'] : '';
@@ -2195,7 +2255,6 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	 * @param string        $context     Full path to the directory that is tested for being writable.
 	 */
 	$types = apply_filters( 'fs_ftp_connection_types', $types, $credentials, $type, $error, $context );
-
 	?>
 <form action="<?php echo esc_url( $form_post ); ?>" method="post">
 <div id="request-filesystem-credentials-form" class="request-filesystem-credentials-form">
