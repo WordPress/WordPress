@@ -30,7 +30,7 @@ get_current_screen()->add_help_tab(
 			) . '</p>' .
 			'<p>' . sprintf(
 				/* translators: %s: Documentation URL. */
-				__( 'You can also control the display of your content in RSS feeds, including the maximum number of posts to display and whether to show full text or a summary. <a href="%s">Learn more about feeds</a>.' ),
+				__( 'You can also control the display of your content in RSS feeds, including the maximum number of posts to display and whether to show full text or an excerpt. <a href="%s">Learn more about feeds</a>.' ),
 				__( 'https://wordpress.org/support/article/wordpress-feeds/' )
 			) . '</p>' .
 			'<p>' . __( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ) . '</p>',
@@ -161,7 +161,7 @@ else :
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'For each post in a feed, include' ); ?> </span></legend>
 	<p>
 		<label><input name="rss_use_excerpt" type="radio" value="0" <?php checked( 0, get_option( 'rss_use_excerpt' ) ); ?>	/> <?php _e( 'Full text' ); ?></label><br />
-		<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked( 1, get_option( 'rss_use_excerpt' ) ); ?> /> <?php _e( 'Summary' ); ?></label>
+		<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked( 1, get_option( 'rss_use_excerpt' ) ); ?> /> <?php _e( 'Excerpt' ); ?></label>
 	</p>
 	<p class="description">
 		<?php
