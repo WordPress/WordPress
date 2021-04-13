@@ -245,7 +245,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		);
 
 		$table  = '<table class="update-from-upload-comparison"><tbody>';
-		$table .= '<tr><th></th><th>' . esc_html( __( 'Current' ) ) . '</th><th>' . esc_html( __( 'Uploaded' ) ) . '</th></tr>';
+		$table .= '<tr><th></th><th>' . esc_html_x( 'Current', 'theme' ) . '</th><th>' . esc_html_x( 'Uploaded', 'theme' ) . '</th></tr>';
 
 		$is_same_theme = true; // Let's consider only these rows.
 
@@ -345,7 +345,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			$install_actions['overwrite_theme'] = sprintf(
 				'<a class="button button-primary update-from-upload-overwrite" href="%s" target="_parent">%s</a>',
 				wp_nonce_url( add_query_arg( 'overwrite', $overwrite, $this->url ), 'theme-upload' ),
-				__( 'Replace current with uploaded' )
+				_x( 'Replace current with uploaded', 'theme' )
 			);
 		} else {
 			echo $blocked_message;
