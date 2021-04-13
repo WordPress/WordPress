@@ -36,7 +36,7 @@ final class WP_Block_Styles_Registry {
 	 *
 	 * @param string $block_name       Block type name including namespace.
 	 * @param array  $style_properties Array containing the properties of the style name, label,
-	 *                                 style (name of the stylesheet to be enqueued),
+	 *                                 is_default, style_handle (name of the stylesheet to be enqueued),
 	 *                                 inline_style (string containing the CSS to be added).
 	 * @return bool True if the block style was registered with success and false otherwise.
 	 */
