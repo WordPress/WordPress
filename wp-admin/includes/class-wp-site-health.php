@@ -1528,7 +1528,7 @@ class WP_Site_Health {
 		if ( ! wp_is_using_https() ) {
 			// If the website is not using HTTPS, provide more information about whether it is supported and how it can
 			// be enabled.
-			$result['status'] = 'warning';
+			$result['status'] = 'recommended';
 			$result['label']  = __( 'Your website does not use HTTPS' );
 
 			if ( wp_is_site_url_using_https() ) {
