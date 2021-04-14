@@ -413,6 +413,16 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	// Convert the groups to JSON format.
 	$groups_json = wp_json_encode( $groups );
 
+	if ( false === $groups_json ) {
+		$error_message = sprintf(
+			/* translators: %s: Error message. */
+			__( 'Unable to encode the personal data for export. Error: %s' ),
+			json_last_error_msg()
+		);
+
+		wp_send_json_error( $error_message );
+	}
+
 	/*
 	 * Handle the JSON export.
 	 */
