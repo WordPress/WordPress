@@ -324,7 +324,7 @@ body.language-chooser {
 	color: #0a4b78;
 }
 
-.language-chooser p {
+.language-chooser .step {
 	text-align: right;
 }
 
