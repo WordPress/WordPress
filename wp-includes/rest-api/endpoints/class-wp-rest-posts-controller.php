@@ -32,6 +32,14 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	protected $meta;
 
 	/**
+	 * Passwordless post access permitted.
+	 *
+	 * @since 5.7.1
+	 * @var int[]
+	 */
+	protected $password_check_passed = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 4.7.0
@@ -142,6 +150,38 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Override the result of the post password check for REST requested posts.
+	 *
+	 * Allow users to read the content of password protected posts if they have
+	 * previously passed a permission check or if they have the `edit_post` capability
+	 * for the post being checked.
+	 *
+	 * @since 5.7.1
+	 *
+	 * @param bool    $required Whether the post requires a password check.
+	 * @param WP_Post $post     The post been password checked.
+	 * @return bool Result of password check taking in to account REST API considerations.
+	 */
+	public function check_password_required( $required, $post ) {
+		if ( ! $required ) {
+			return $required;
+		}
+
+		$post = get_post( $post );
+
+		if ( ! $post ) {
+			return $required;
+		}
+
+		if ( ! empty( $this->password_check_passed[ $post->ID ] ) ) {
+			// Password previously checked and approved.
+			return false;
+		}
+
+		return ! current_user_can( 'edit_post', $post->ID );
 	}
 
 	/**
@@ -299,7 +339,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		// Allow access to all password protected posts if the context is edit.
 		if ( 'edit' === $request['context'] ) {
-			add_filter( 'post_password_required', '__return_false' );
+			add_filter( 'post_password_required', array( $this, 'check_password_required' ), 10, 2 );
 		}
 
 		$posts = array();
@@ -315,7 +355,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		// Reset filter.
 		if ( 'edit' === $request['context'] ) {
-			remove_filter( 'post_password_required', '__return_false' );
+			remove_filter( 'post_password_required', array( $this, 'check_password_required' ) );
 		}
 
 		$page        = (int) $query_args['paged'];
@@ -413,7 +453,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		// Allow access to all password protected posts if the context is edit.
 		if ( 'edit' === $request['context'] ) {
-			add_filter( 'post_password_required', '__return_false' );
+			add_filter( 'post_password_required', array( $this, 'check_password_required' ), 10, 2 );
 		}
 
 		if ( $post ) {
@@ -441,8 +481,14 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return false;
 		}
 
-		// Edit context always gets access to password-protected posts.
-		if ( 'edit' === $request['context'] ) {
+		/*
+		 * Users always gets access to password protected content in the edit
+		 * context if they have the `edit_post` meta capability.
+		 */
+		if (
+			'edit' === $request['context'] &&
+			current_user_can( 'edit_post', $post->ID )
+		) {
 			return true;
 		}
 
@@ -1533,8 +1579,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$has_password_filter = false;
 
 		if ( $this->can_access_password_content( $post, $request ) ) {
+			$this->password_check_passed[ $post->ID ] = true;
 			// Allow access to the post, permissions already checked before.
-			add_filter( 'post_password_required', '__return_false' );
+			add_filter( 'post_password_required', array( $this, 'check_password_required' ), 10, 2 );
 
 			$has_password_filter = true;
 		}
@@ -1568,7 +1615,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( $has_password_filter ) {
 			// Reset filter.
-			remove_filter( 'post_password_required', '__return_false' );
+			remove_filter( 'post_password_required', array( $this, 'check_password_required' ) );
 		}
 
 		if ( rest_is_field_included( 'author', $fields ) ) {
