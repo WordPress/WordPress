@@ -4658,6 +4658,8 @@ function (_super) {
   };
 
   Cropper.prototype.componentWillUnmount = function () {
+    var _a;
+
     window.removeEventListener('resize', this.computeSizes);
 
     if (this.containerRef) {
@@ -4666,7 +4668,7 @@ function (_super) {
     }
 
     if (this.styleRef) {
-      this.styleRef.remove();
+      (_a = this.styleRef.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(this.styleRef);
     }
 
     this.cleanEvents();
