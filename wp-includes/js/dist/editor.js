@@ -2009,7 +2009,7 @@ __webpack_require__.d(actions_namespaceObject, "updateBlockListSettings", functi
 var external_wp_blockEditor_ = __webpack_require__(6);
 
 // EXTERNAL MODULE: external ["wp","coreData"]
-var external_wp_coreData_ = __webpack_require__(57);
+var external_wp_coreData_ = __webpack_require__(56);
 
 // EXTERNAL MODULE: external ["wp","richText"]
 var external_wp_richText_ = __webpack_require__(21);
@@ -7615,6 +7615,7 @@ function PostAuthorSelect() {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
@@ -7625,10 +7626,8 @@ var minimumUsersForCombobox = 25;
 
 function PostAuthor() {
   var showCombobox = Object(external_wp_data_["useSelect"])(function (select) {
-    var authors = select('core').getUsers({
-      who: 'authors',
-      per_page: minimumUsersForCombobox + 1
-    });
+    // Not using `getUsers()` because it requires `list_users` capability.
+    var authors = select(external_wp_coreData_["store"]).getAuthors();
     return (authors === null || authors === void 0 ? void 0 : authors.length) >= minimumUsersForCombobox;
   }, []);
 
@@ -11569,7 +11568,6 @@ var lib_default = /*#__PURE__*/__webpack_require__.n(lib);
 
 
 
-var DEBOUNCE_TIME = 300;
 function PostTextEditor() {
   var postContent = Object(external_wp_data_["useSelect"])(function (select) {
     return select('core/editor').getEditedPostContent();
@@ -11594,18 +11592,6 @@ function PostTextEditor() {
   if (!isDirty && value !== postContent) {
     setValue(postContent);
   }
-
-  var saveText = function saveText() {
-    var blocks = Object(external_wp_blocks_["parse"])(value);
-    resetEditorBlocks(blocks);
-  };
-
-  Object(external_wp_element_["useEffect"])(function () {
-    var timeoutId = setTimeout(saveText, DEBOUNCE_TIME);
-    return function () {
-      clearTimeout(timeoutId);
-    };
-  }, [value]);
   /**
    * Handles a textarea change event to notify the onChange prop callback and
    * reflect the new value in the component's own state. This marks the start
@@ -11617,6 +11603,7 @@ function PostTextEditor() {
    *
    * @param {Event} event Change event.
    */
+
 
   var onChange = function onChange(event) {
     var newValue = event.target.value;
@@ -11635,7 +11622,8 @@ function PostTextEditor() {
 
   var stopEditing = function stopEditing() {
     if (isDirty) {
-      saveText();
+      var blocks = Object(external_wp_blocks_["parse"])(value);
+      resetEditorBlocks(blocks);
       setIsDirty(false);
     }
   };
@@ -12984,7 +12972,7 @@ function _setPrototypeOf(o, p) {
 
 /***/ }),
 
-/***/ 57:
+/***/ 56:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["coreData"]; }());

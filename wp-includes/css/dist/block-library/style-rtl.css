@@ -1495,10 +1495,6 @@ p.has-text-color a {
   color: inherit;
 }
 
-p:empty::before {
-  content: "​";
-}
-
 .wp-block-post-author {
   display: flex;
   flex-wrap: wrap;

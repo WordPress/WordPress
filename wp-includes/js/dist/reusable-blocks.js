@@ -164,7 +164,7 @@ __webpack_require__.d(selectors_namespaceObject, "__experimentalIsEditingReusabl
 var external_wp_blockEditor_ = __webpack_require__(6);
 
 // EXTERNAL MODULE: external ["wp","coreData"]
-var external_wp_coreData_ = __webpack_require__(57);
+var external_wp_coreData_ = __webpack_require__(56);
 
 // EXTERNAL MODULE: external ["wp","data"]
 var external_wp_data_ = __webpack_require__(4);
@@ -812,7 +812,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 57:
+/***/ 56:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["coreData"]; }());
