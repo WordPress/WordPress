@@ -254,7 +254,10 @@ class WP_Automatic_Updater {
 		$notified = get_site_option( 'auto_core_update_notified' );
 
 		// Don't notify if we've already notified the same email address of the same version.
-		if ( $notified && get_site_option( 'admin_email' ) === $notified['email'] && $notified['version'] == $item->current ) {
+		if ( $notified
+			&& get_site_option( 'admin_email' ) === $notified['email']
+			&& $notified['version'] == $item->current
+		) {
 			return false;
 		}
 
@@ -624,9 +627,14 @@ class WP_Automatic_Updater {
 			$send = false;
 		}
 
-		$n = get_site_option( 'auto_core_update_notified' );
+		$notified = get_site_option( 'auto_core_update_notified' );
+
 		// Don't notify if we've already notified the same email address of the same version of the same notification type.
-		if ( $n && 'fail' === $n['type'] && get_site_option( 'admin_email' ) === $n['email'] && $n['version'] == $core_update->current ) {
+		if ( $notified
+			&& 'fail' === $notified['type']
+			&& get_site_option( 'admin_email' ) === $notified['email']
+			&& $notified['version'] == $core_update->current
+		) {
 			$send = false;
 		}
 
