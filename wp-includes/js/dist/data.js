@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["data"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 442);
+/******/ 	return __webpack_require__(__webpack_require__.s = 447);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -618,7 +618,7 @@ function _toConsumableArray(arr) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(275);
+/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(276);
 /* global window */
 
 
@@ -637,7 +637,7 @@ if (typeof self !== 'undefined') {
 var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(root);
 /* harmony default export */ __webpack_exports__["a"] = (result);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(127), __webpack_require__(412)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(127), __webpack_require__(417)(module)))
 
 /***/ }),
 
@@ -672,14 +672,14 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 274:
+/***/ 275:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["reduxRoutine"]; }());
 
 /***/ }),
 
-/***/ 275:
+/***/ 276:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -763,7 +763,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 412:
+/***/ 417:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -794,7 +794,7 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 442:
+/***/ 447:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1528,7 +1528,7 @@ if (false) {}
 
 
 // EXTERNAL MODULE: external {"this":["wp","reduxRoutine"]}
-var external_this_wp_reduxRoutine_ = __webpack_require__(274);
+var external_this_wp_reduxRoutine_ = __webpack_require__(275);
 var external_this_wp_reduxRoutine_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_reduxRoutine_);
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js

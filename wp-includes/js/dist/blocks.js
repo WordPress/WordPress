@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 441);
+/******/ 	return __webpack_require__(__webpack_require__.s = 446);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -311,14 +311,14 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 268:
+/***/ 269:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blockSerializationDefaultParser"]; }());
 
 /***/ }),
 
-/***/ 269:
+/***/ 270:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;;/*! showdown v 1.9.1 - 02-11-2019 */
@@ -5824,7 +5824,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 441:
+/***/ 446:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8145,7 +8145,7 @@ function query(selector, matchers) {
 var external_this_wp_autop_ = __webpack_require__(103);
 
 // EXTERNAL MODULE: external {"this":["wp","blockSerializationDefaultParser"]}
-var external_this_wp_blockSerializationDefaultParser_ = __webpack_require__(268);
+var external_this_wp_blockSerializationDefaultParser_ = __webpack_require__(269);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toArray.js
 var toArray = __webpack_require__(146);
@@ -12060,7 +12060,7 @@ function segmentHTMLToShortcodeBlock(HTML) {
 /* harmony default export */ var shortcode_converter = (segmentHTMLToShortcodeBlock);
 
 // EXTERNAL MODULE: ./node_modules/showdown/dist/showdown.js
-var showdown = __webpack_require__(269);
+var showdown = __webpack_require__(270);
 var showdown_default = /*#__PURE__*/__webpack_require__.n(showdown);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js

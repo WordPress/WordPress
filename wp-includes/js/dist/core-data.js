@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 447);
+/******/ 	return __webpack_require__(__webpack_require__.s = 452);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -907,7 +907,14 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 447:
+/***/ 45:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ 452:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4637,13 +4644,6 @@ Object(external_this_wp_data_["registerStore"])(REDUCER_KEY, {
 
 
 
-
-/***/ }),
-
-/***/ 45:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["apiFetch"]; }());
 
 /***/ }),
 

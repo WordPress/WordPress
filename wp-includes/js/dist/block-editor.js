@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockEditor"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 437);
+/******/ 	return __webpack_require__(__webpack_require__.s = 442);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10436,7 +10436,7 @@ exports.characterDiff = void 0;
 /*istanbul ignore end*/
 var
 /*istanbul ignore start*/
-_base = _interopRequireDefault(__webpack_require__(297))
+_base = _interopRequireDefault(__webpack_require__(298))
 /*istanbul ignore end*/
 ;
 
@@ -10967,7 +10967,8 @@ var hasOwnProperty = Object.hasOwnProperty || function (obj, key) {
 /* 284 */,
 /* 285 */,
 /* 286 */,
-/* 287 */
+/* 287 */,
+/* 288 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10991,7 +10992,7 @@ var alignLeft = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEl
 
 
 /***/ }),
-/* 288 */
+/* 289 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11015,7 +11016,7 @@ var alignCenter = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["create
 
 
 /***/ }),
-/* 289 */
+/* 290 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11039,7 +11040,7 @@ var alignRight = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createE
 
 
 /***/ }),
-/* 290 */
+/* 291 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11063,7 +11064,7 @@ var plus = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 
 
 /***/ }),
-/* 291 */
+/* 292 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11087,7 +11088,7 @@ var search = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
 
 
 /***/ }),
-/* 292 */
+/* 293 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11111,7 +11112,7 @@ var chevronRight = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["creat
 
 
 /***/ }),
-/* 293 */
+/* 294 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11135,7 +11136,7 @@ var chevronLeft = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["create
 
 
 /***/ }),
-/* 294 */
+/* 295 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11159,7 +11160,7 @@ var chevronUp = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEl
 
 
 /***/ }),
-/* 295 */
+/* 296 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11183,7 +11184,7 @@ var chevronDown = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["create
 
 
 /***/ }),
-/* 296 */
+/* 297 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11207,7 +11208,7 @@ var moreVertical = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["creat
 
 
 /***/ }),
-/* 297 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11517,7 +11518,7 @@ function clonePath(path) {
 
 
 /***/ }),
-/* 298 */
+/* 299 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11541,7 +11542,7 @@ var layout = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
 
 
 /***/ }),
-/* 299 */
+/* 300 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11565,7 +11566,7 @@ var pencil = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
 
 
 /***/ }),
-/* 300 */
+/* 301 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11589,7 +11590,6 @@ var edit = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 
 
 /***/ }),
-/* 301 */,
 /* 302 */,
 /* 303 */,
 /* 304 */,
@@ -11725,7 +11725,12 @@ var edit = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement
 /* 434 */,
 /* 435 */,
 /* 436 */,
-/* 437 */
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15752,13 +15757,13 @@ function with_font_sizes_isNativeReflectConstruct() { if (typeof Reflect === "un
 
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-left.js
-var align_left = __webpack_require__(287);
+var align_left = __webpack_require__(288);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-center.js
-var align_center = __webpack_require__(288);
+var align_center = __webpack_require__(289);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-right.js
-var align_right = __webpack_require__(289);
+var align_right = __webpack_require__(290);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/alignment-toolbar/index.js
 
@@ -16872,7 +16877,7 @@ var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.
 var asyncToGenerator = __webpack_require__(50);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/more-vertical.js
-var more_vertical = __webpack_require__(296);
+var more_vertical = __webpack_require__(297);
 
 // EXTERNAL MODULE: ./node_modules/react-spring/web.cjs.js
 var web_cjs = __webpack_require__(113);
@@ -17107,16 +17112,16 @@ function BlockNavigationLeaf(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-right.js
-var chevron_right = __webpack_require__(292);
+var chevron_right = __webpack_require__(293);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-left.js
-var chevron_left = __webpack_require__(293);
+var chevron_left = __webpack_require__(294);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-up.js
-var chevron_up = __webpack_require__(294);
+var chevron_up = __webpack_require__(295);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-down.js
-var chevron_down = __webpack_require__(295);
+var chevron_down = __webpack_require__(296);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-mover/mover-description.js
 /**
@@ -18221,7 +18226,7 @@ function useMultiSelection(ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/plus.js
-var plus = __webpack_require__(290);
+var plus = __webpack_require__(291);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inserter/tips.js
 
@@ -18260,7 +18265,7 @@ var close_small = __webpack_require__(177);
 var build_module_icon = __webpack_require__(137);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/search.js
-var search = __webpack_require__(291);
+var search = __webpack_require__(292);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inserter/search-form.js
 
@@ -32072,7 +32077,7 @@ function BlockNavigationEditor(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/layout.js
-var layout = __webpack_require__(298);
+var layout = __webpack_require__(299);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-variation-picker/index.js
 
@@ -34538,7 +34543,7 @@ var media_replace_flow_MediaReplaceFlow = function MediaReplaceFlow(_ref) {
 }), Object(external_this_wp_components_["withFilters"])('editor.MediaReplaceFlow')])(media_replace_flow_MediaReplaceFlow));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/pencil.js
-var pencil = __webpack_require__(299);
+var pencil = __webpack_require__(300);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/url-popover/link-viewer-url.js
 
@@ -35544,7 +35549,7 @@ var input_event_unstableRichTextInputEvent = /*#__PURE__*/function (_Component) 
 }(external_this_wp_element_["Component"]);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/edit.js
-var library_edit = __webpack_require__(300);
+var library_edit = __webpack_require__(301);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/tool-selector/index.js
 

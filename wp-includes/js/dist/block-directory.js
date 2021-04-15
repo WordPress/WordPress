@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockDirectory"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 443);
+/******/ 	return __webpack_require__(__webpack_require__.s = 448);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -326,7 +326,7 @@ function _arrayLikeToArray(arr, len) {
 
 /***/ }),
 
-/***/ 285:
+/***/ 286:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -351,7 +351,7 @@ var starFilled = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createE
 
 /***/ }),
 
-/***/ 286:
+/***/ 287:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -472,7 +472,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ 443:
+/***/ 448:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1483,7 +1483,7 @@ function DownloadableBlockAuthorInfo(_ref) {
 var build_module_icon = __webpack_require__(137);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-filled.js
-var star_filled = __webpack_require__(285);
+var star_filled = __webpack_require__(286);
 
 // EXTERNAL MODULE: external {"this":["wp","primitives"]}
 var external_this_wp_primitives_ = __webpack_require__(6);
@@ -1504,7 +1504,7 @@ var starHalf = Object(external_this_wp_element_["createElement"])(external_this_
 /* harmony default export */ var star_half = (starHalf);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-empty.js
-var star_empty = __webpack_require__(286);
+var star_empty = __webpack_require__(287);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/block-ratings/stars.js
 

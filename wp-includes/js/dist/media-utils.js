@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["mediaUtils"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 460);
+/******/ 	return __webpack_require__(__webpack_require__.s = 465);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -432,7 +432,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 460:
+/***/ 465:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
