@@ -17,7 +17,10 @@
 	"supports": {
 		"anchor": true,
 		"__experimentalFontFamily": true,
-		"fontSize": true
+		"fontSize": true,
+		"spacing": {
+			"padding": true
+		}
 	},
 	"style": "wp-block-verse",
 	"editorStyle": "wp-block-verse-editor"

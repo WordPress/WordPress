@@ -29,7 +29,7 @@ function render_block_core_block( $attributes ) {
 			trigger_error(
 				sprintf(
 					// translators: %s is the user-provided title of the reusable block.
-					__( 'Could not render Reusable Block <strong>%s</strong>: blocks cannot be rendered inside themselves.' ),
+					__( 'Could not render Reusable Block <strong>%s</strong>. Block cannot be rendered inside itself.' ),
 					$reusable_block->post_title
 				),
 				E_USER_WARNING

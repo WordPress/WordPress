@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["tokenList"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 453);
+/******/ 	return __webpack_require__(__webpack_require__.s = 445);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -137,16 +137,16 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 453:
+/***/ 445:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TokenList; });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
-/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(26);
+/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
 
@@ -172,7 +172,7 @@ var TokenList = /*#__PURE__*/function () {
   function TokenList() {
     var initialValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-    Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(this, TokenList);
+    Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(this, TokenList);
 
     this.value = initialValue; // Disable reason: These are type hints on the class.
 
@@ -185,16 +185,13 @@ var TokenList = /*#__PURE__*/function () {
 
     this._valueAsArray;
     /* eslint-enable no-unused-expressions */
-  } // Disable reason: JSDoc lint doesn't understand TypeScript types
-
-  /* eslint-disable jsdoc/valid-types */
-
+  }
   /**
    * @param {Parameters<Array<string>['entries']>} args
    */
 
 
-  Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(TokenList, [{
+  Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(TokenList, [{
     key: "entries",
     value: function entries() {
       var _this$_valueAsArray;
@@ -234,8 +231,6 @@ var TokenList = /*#__PURE__*/function () {
 
       return (_this$_valueAsArray4 = this._valueAsArray).values.apply(_this$_valueAsArray4, arguments);
     }
-    /* eslint-enable jsdoc/valid-types */
-
     /**
      * Returns the associated set as string.
      *
@@ -245,8 +240,36 @@ var TokenList = /*#__PURE__*/function () {
      */
 
   }, {
-    key: "toString",
+    key: "value",
+    get: function get() {
+      return this._currentValue;
+    }
+    /**
+     * Replaces the associated set with a new string value.
+     *
+     * @see https://dom.spec.whatwg.org/#dom-domtokenlist-value
+     *
+     * @param {string} value New token set as string.
+     */
+    ,
+    set: function set(value) {
+      value = String(value);
+      this._valueAsArray = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["uniq"])(Object(lodash__WEBPACK_IMPORTED_MODULE_3__["compact"])(value.split(/\s+/g)));
+      this._currentValue = this._valueAsArray.join(' ');
+    }
+    /**
+     * Returns the number of tokens.
+     *
+     * @see https://dom.spec.whatwg.org/#dom-domtokenlist-length
+     *
+     * @return {number} Number of tokens.
+     */
 
+  }, {
+    key: "length",
+    get: function get() {
+      return this._valueAsArray.length;
+    }
     /**
      * Returns the stringified form of the TokenList.
      *
@@ -255,6 +278,9 @@ var TokenList = /*#__PURE__*/function () {
      *
      * @return {string} Token set as string.
      */
+
+  }, {
+    key: "toString",
     value: function toString() {
       return this.value;
     }
@@ -268,8 +294,10 @@ var TokenList = /*#__PURE__*/function () {
 
   }, {
     key: Symbol.iterator,
-    value: /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function value() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function value$(_context) {
+    value:
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.mark(function value() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.wrap(function value$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -416,37 +444,6 @@ var TokenList = /*#__PURE__*/function () {
     key: "supports",
     value: function supports() {
       return true;
-    }
-  }, {
-    key: "value",
-    get: function get() {
-      return this._currentValue;
-    }
-    /**
-     * Replaces the associated set with a new string value.
-     *
-     * @see https://dom.spec.whatwg.org/#dom-domtokenlist-value
-     *
-     * @param {string} value New token set as string.
-     */
-    ,
-    set: function set(value) {
-      value = String(value);
-      this._valueAsArray = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["uniq"])(Object(lodash__WEBPACK_IMPORTED_MODULE_3__["compact"])(value.split(/\s+/g)));
-      this._currentValue = this._valueAsArray.join(' ');
-    }
-    /**
-     * Returns the number of tokens.
-     *
-     * @see https://dom.spec.whatwg.org/#dom-domtokenlist-length
-     *
-     * @return {number} Number of tokens.
-     */
-
-  }, {
-    key: "length",
-    get: function get() {
-      return this._valueAsArray.length;
     }
   }]);
 

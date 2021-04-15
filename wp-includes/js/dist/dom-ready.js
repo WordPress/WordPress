@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["domReady"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 445);
+/******/ 	return __webpack_require__(__webpack_require__.s = 436);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 445:
+/***/ 436:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -124,6 +124,10 @@ __webpack_require__.r(__webpack_exports__);
  * @return {void}
  */
 function domReady(callback) {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
   if (document.readyState === 'complete' || // DOMContentLoaded + Images/Styles/etc loaded, so we call directly.
   document.readyState === 'interactive' // DOMContentLoaded fires at this point, so we call directly.
   ) {

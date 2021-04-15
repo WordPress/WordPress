@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dataControls"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 439);
+/******/ 	return __webpack_require__(__webpack_require__.s = 430);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -101,7 +101,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dataControls"] =
 
 /***/ }),
 
-/***/ 439:
+/***/ 430:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -159,6 +159,7 @@ function apiFetch(request) {
 
 function select() {
   _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2___default()('`select` control in `@wordpress/data-controls`', {
+    since: '5.7',
     alternative: 'built-in `resolveSelect` control in `@wordpress/data`'
   });
   return _wordpress_data__WEBPACK_IMPORTED_MODULE_1__["controls"].resolveSelect.apply(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["controls"], arguments);
@@ -172,6 +173,7 @@ function select() {
 
 function syncSelect() {
   _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2___default()('`syncSelect` control in `@wordpress/data-controls`', {
+    since: '5.7',
     alternative: 'built-in `select` control in `@wordpress/data`'
   });
   return _wordpress_data__WEBPACK_IMPORTED_MODULE_1__["controls"].select.apply(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["controls"], arguments);
@@ -185,6 +187,7 @@ function syncSelect() {
 
 function dispatch() {
   _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2___default()('`dispatch` control in `@wordpress/data-controls`', {
+    since: '5.7',
     alternative: 'built-in `dispatch` control in `@wordpress/data`'
   });
   return _wordpress_data__WEBPACK_IMPORTED_MODULE_1__["controls"].dispatch.apply(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["controls"], arguments);
@@ -219,7 +222,6 @@ var __unstableAwaitPromise = function __unstableAwaitPromise(promise) {
  * The default export is what you use to register the controls with your custom
  * store.
  *
- * @param paths
  * @example
  * ```js
  * // WordPress dependencies

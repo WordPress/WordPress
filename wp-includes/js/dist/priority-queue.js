@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["priorityQueue"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 488);
+/******/ 	return __webpack_require__(__webpack_require__.s = 480);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 488:
+/***/ 480:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -218,7 +218,10 @@ var build_module_createQueue = function createQueue() {
       waitingList.shift();
       var callback =
       /** @type {WPPriorityQueueCallback} */
-      elementsMap.get(nextElement);
+      elementsMap.get(nextElement); // If errors with undefined callbacks are encountered double check that all of your useSelect calls
+      // have all dependecies set correctly in second parameter. Missing dependencies can cause unexpected
+      // loops and race conditions in the queue.
+
       callback();
       elementsMap.delete(nextElement);
     } while (hasTimeRemaining());

@@ -6,8 +6,14 @@
 		"height": {
 			"type": "number",
 			"default": 100
+		},
+		"width": {
+			"type": "number"
 		}
 	},
+	"usesContext": [
+		"orientation"
+	],
 	"supports": {
 		"anchor": true
 	},

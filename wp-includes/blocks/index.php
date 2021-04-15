@@ -52,7 +52,6 @@ function register_core_block_types_from_metadata() {
 		'separator',
 		'social-links',
 		'spacer',
-		'subhead',
 		'table',
 		'text-columns',
 		'verse',

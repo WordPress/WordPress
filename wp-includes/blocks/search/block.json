@@ -34,6 +34,10 @@
 	},
 	"supports": {
 		"align": [ "left", "center", "right" ],
+		"__experimentalBorder": {
+			"radius": true,
+			"__experimentalSkipSerialization": true
+		},
 		"html": false
 	},
 	"editorStyle": "wp-block-search-editor",

@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 472);
+/******/ 	return __webpack_require__(__webpack_require__.s = 465);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 209:
+/***/ 208:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -333,7 +333,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 472:
+/***/ 465:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -343,19 +343,23 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "sprintf", function() { return /* reexport */ sprintf_sprintf; });
 __webpack_require__.d(__webpack_exports__, "createI18n", function() { return /* reexport */ create_i18n_createI18n; });
+__webpack_require__.d(__webpack_exports__, "defaultI18n", function() { return /* reexport */ default_i18n; });
 __webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return /* reexport */ default_i18n_setLocaleData; });
+__webpack_require__.d(__webpack_exports__, "getLocaleData", function() { return /* reexport */ default_i18n_getLocaleData; });
+__webpack_require__.d(__webpack_exports__, "subscribe", function() { return /* reexport */ default_i18n_subscribe; });
 __webpack_require__.d(__webpack_exports__, "__", function() { return /* reexport */ default_i18n_; });
 __webpack_require__.d(__webpack_exports__, "_x", function() { return /* reexport */ default_i18n_x; });
 __webpack_require__.d(__webpack_exports__, "_n", function() { return /* reexport */ default_i18n_n; });
 __webpack_require__.d(__webpack_exports__, "_nx", function() { return /* reexport */ default_i18n_nx; });
 __webpack_require__.d(__webpack_exports__, "isRTL", function() { return /* reexport */ default_i18n_isRTL; });
+__webpack_require__.d(__webpack_exports__, "hasTranslation", function() { return /* reexport */ default_i18n_hasTranslation; });
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(71);
+var memize = __webpack_require__(72);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(209);
+var sprintf = __webpack_require__(208);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/sprintf.js
@@ -381,7 +385,7 @@ var logErrorOnce = memize_default()(console.error); // eslint-disable-line no-co
  * @param {string}    format The format of the string to generate.
  * @param {...*} args Arguments to apply to the format.
  *
- * @see http://www.diveintojavascript.com/projects/javascript-sprintf
+ * @see https://www.npmjs.com/package/sprintf-js
  *
  * @return {string} The formatted string.
  */
@@ -936,14 +940,38 @@ var DEFAULT_LOCALE_DATA = {
     }
   }
 };
-/* eslint-disable jsdoc/valid-types */
+/*
+ * Regular expression that matches i18n hooks like `i18n.gettext`, `i18n.ngettext`,
+ * `i18n.gettext_domain` or `i18n.ngettext_with_context` or `i18n.has_translation`.
+ */
+
+var I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
+/**
+ * @typedef {(domain?: string) => LocaleData} GetLocaleData
+ *
+ * Returns locale data by domain in a
+ * Jed-formatted JSON object shape.
+ *
+ * @see http://messageformat.github.io/Jed/
+ */
 
 /**
  * @typedef {(data?: LocaleData, domain?: string) => void} SetLocaleData
+ *
  * Merges locale data into the Tannin instance by domain. Accepts data in a
  * Jed-formatted JSON object shape.
  *
  * @see http://messageformat.github.io/Jed/
+ */
+
+/** @typedef {() => void} SubscribeCallback */
+
+/** @typedef {() => void} UnsubscribeCallback */
+
+/**
+ * @typedef {(callback: SubscribeCallback) => UnsubscribeCallback} Subscribe
+ *
+ * Subscribes to changes of locale data
  */
 
 /**
@@ -997,17 +1025,21 @@ var DEFAULT_LOCALE_DATA = {
  */
 
 /**
- * @typedef {{ applyFilters: (hookName:string, ...args: unknown[]) => unknown}} ApplyFiltersInterface
+ * @typedef {(single: string, context?: string, domain?: string) => boolean} HasTranslation
+ *
+ * Check if there is a translation for a given string in singular form.
  */
 
-/* eslint-enable jsdoc/valid-types */
+/** @typedef {import('@wordpress/hooks').Hooks} Hooks */
 
 /**
  * An i18n instance
  *
  * @typedef I18n
+ * @property {GetLocaleData} getLocaleData Returns locale data by domain in a Jed-formatted JSON object shape.
  * @property {SetLocaleData} setLocaleData Merges locale data into the Tannin instance by domain. Accepts data in a
  *                                         Jed-formatted JSON object shape.
+ * @property {Subscribe} subscribe         Subscribes to changes of Tannin locale data.
  * @property {__} __                       Retrieve the translation of text.
  * @property {_x} _x                       Retrieve translated string with gettext context.
  * @property {_n} _n                       Translates and retrieves the singular or plural form based on the supplied
@@ -1015,6 +1047,7 @@ var DEFAULT_LOCALE_DATA = {
  * @property {_nx} _nx                     Translates and retrieves the singular or plural form based on the supplied
  *                                         number, with gettext context.
  * @property {IsRtl} isRTL                 Check if current locale is RTL.
+ * @property {HasTranslation} hasTranslation Check if there is a translation for a given string.
  */
 
 /**
@@ -1022,7 +1055,7 @@ var DEFAULT_LOCALE_DATA = {
  *
  * @param {LocaleData} [initialData]    Locale data configuration.
  * @param {string}     [initialDomain]  Domain for which configuration applies.
- * @param {ApplyFiltersInterface} [hooks]     Hooks implementation.
+ * @param {Hooks} [hooks]     Hooks implementation.
  * @return {I18n}                       I18n instance
  */
 
@@ -1033,14 +1066,53 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
    * @type {Tannin}
    */
   var tannin = new Tannin({});
-  /** @type {SetLocaleData} */
+  var listeners = new Set();
 
-  var setLocaleData = function setLocaleData(data) {
+  var notifyListeners = function notifyListeners() {
+    listeners.forEach(function (listener) {
+      return listener();
+    });
+  };
+  /**
+   * Subscribe to changes of locale data.
+   *
+   * @param {SubscribeCallback} callback Subscription callback.
+   * @return {UnsubscribeCallback} Unsubscribe callback.
+   */
+
+
+  var subscribe = function subscribe(callback) {
+    listeners.add(callback);
+    return function () {
+      return listeners.delete(callback);
+    };
+  };
+  /** @type {GetLocaleData} */
+
+
+  var getLocaleData = function getLocaleData() {
+    var domain = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
+    return tannin.data[domain];
+  };
+  /**
+   * @param {LocaleData} [data]
+   * @param {string} [domain]
+   */
+
+
+  var doSetLocaleData = function doSetLocaleData(data) {
     var domain = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default';
     tannin.data[domain] = _objectSpread(_objectSpread(_objectSpread({}, DEFAULT_LOCALE_DATA), tannin.data[domain]), data); // Populate default domain configuration (supported locale date which omits
     // a plural forms expression).
 
     tannin.data[domain][''] = _objectSpread(_objectSpread({}, DEFAULT_LOCALE_DATA['']), tannin.data[domain]['']);
+  };
+  /** @type {SetLocaleData} */
+
+
+  var setLocaleData = function setLocaleData(data, domain) {
+    doSetLocaleData(data, domain);
+    notifyListeners();
   };
   /**
    * Wrapper for Tannin's `dcnpgettext`. Populates default locale data if not
@@ -1067,7 +1139,8 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
     var number = arguments.length > 4 ? arguments[4] : undefined;
 
     if (!tannin.data[domain]) {
-      setLocaleData(undefined, domain);
+      // use `doSetLocaleData` to set silently, without notifying listeners
+      doSetLocaleData(undefined, domain);
     }
 
     return tannin.dcnpgettext(domain, context, single, plural, number);
@@ -1075,11 +1148,8 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   /** @type {GetFilterDomain} */
 
 
-  var getFilterDomain = function getFilterDomain(domain) {
-    if (typeof domain === 'undefined') {
-      return 'default';
-    }
-
+  var getFilterDomain = function getFilterDomain() {
+    var domain = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
     return domain;
   };
   /** @type {__} */
@@ -1087,6 +1157,10 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
 
   var __ = function __(text, domain) {
     var translation = dcnpgettext(domain, undefined, text);
+
+    if (!hooks) {
+      return translation;
+    }
     /**
      * Filters text with its translation.
      *
@@ -1095,9 +1169,6 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
      * @param {string} domain      Text domain. Unique identifier for retrieving translated strings.
      */
 
-    if (typeof hooks === 'undefined') {
-      return translation;
-    }
 
     translation =
     /** @type {string} */
@@ -1116,6 +1187,10 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
 
   var _x = function _x(text, context, domain) {
     var translation = dcnpgettext(domain, context, text);
+
+    if (!hooks) {
+      return translation;
+    }
     /**
      * Filters text with its translation based on context information.
      *
@@ -1125,9 +1200,6 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
      * @param {string} domain      Text domain. Unique identifier for retrieving translated strings.
      */
 
-    if (typeof hooks === 'undefined') {
-      return translation;
-    }
 
     translation =
     /** @type {string} */
@@ -1147,7 +1219,7 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   var _n = function _n(single, plural, number, domain) {
     var translation = dcnpgettext(domain, undefined, single, plural, number);
 
-    if (typeof hooks === 'undefined') {
+    if (!hooks) {
       return translation;
     }
     /**
@@ -1179,7 +1251,7 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   var _nx = function _nx(single, plural, number, context, domain) {
     var translation = dcnpgettext(domain, context, single, plural, number);
 
-    if (typeof hooks === 'undefined') {
+    if (!hooks) {
       return translation;
     }
     /**
@@ -1212,18 +1284,67 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   var isRTL = function isRTL() {
     return 'rtl' === _x('ltr', 'text direction');
   };
+  /** @type {HasTranslation} */
+
+
+  var hasTranslation = function hasTranslation(single, context, domain) {
+    var _tannin$data, _tannin$data2;
+
+    var key = context ? context + "\x04" + single : single;
+    var result = !!((_tannin$data = tannin.data) !== null && _tannin$data !== void 0 && (_tannin$data2 = _tannin$data[domain !== null && domain !== void 0 ? domain : 'default']) !== null && _tannin$data2 !== void 0 && _tannin$data2[key]);
+
+    if (hooks) {
+      /**
+       * Filters the presence of a translation in the locale data.
+       *
+       * @param {boolean} hasTranslation Whether the translation is present or not..
+       * @param {string} single The singular form of the translated text (used as key in locale data)
+       * @param {string} context Context information for the translators.
+       * @param {string} domain Text domain. Unique identifier for retrieving translated strings.
+       */
+      result =
+      /** @type { boolean } */
+
+      /** @type {*} */
+      hooks.applyFilters('i18n.has_translation', result, single, context, domain);
+      result =
+      /** @type { boolean } */
+
+      /** @type {*} */
+      hooks.applyFilters('i18n.has_translation_' + getFilterDomain(domain), result, single, context, domain);
+    }
+
+    return result;
+  };
 
   if (initialData) {
     setLocaleData(initialData, initialDomain);
   }
 
+  if (hooks) {
+    /**
+     * @param {string} hookName
+     */
+    var onHookAddedOrRemoved = function onHookAddedOrRemoved(hookName) {
+      if (I18N_HOOK_REGEXP.test(hookName)) {
+        notifyListeners();
+      }
+    };
+
+    hooks.addAction('hookAdded', 'core/i18n', onHookAddedOrRemoved);
+    hooks.addAction('hookRemoved', 'core/i18n', onHookAddedOrRemoved);
+  }
+
   return {
+    getLocaleData: getLocaleData,
     setLocaleData: setLocaleData,
+    subscribe: subscribe,
     __: __,
     _x: _x,
     _n: _n,
     _nx: _nx,
-    isRTL: isRTL
+    isRTL: isRTL,
+    hasTranslation: hasTranslation
   };
 };
 
@@ -1232,17 +1353,20 @@ var external_wp_hooks_ = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/default-i18n.js
 /**
- * WordPress dependencies
- */
-
-/**
  * Internal dependencies
  */
 
+/**
+ * WordPress dependencies
+ */
 
-var i18n = create_i18n_createI18n(undefined, undefined, {
-  applyFilters: external_wp_hooks_["applyFilters"]
-});
+
+var i18n = create_i18n_createI18n(undefined, undefined, external_wp_hooks_["defaultHooks"]);
+/**
+ * Default, singleton instance of `I18n`.
+ */
+
+/* harmony default export */ var default_i18n = (i18n);
 /*
  * Comments in this file are duplicated from ./i18n due to
  * https://github.com/WordPress/gutenberg/pull/20318#issuecomment-590837722
@@ -1250,8 +1374,20 @@ var i18n = create_i18n_createI18n(undefined, undefined, {
 
 /**
  * @typedef {import('./create-i18n').LocaleData} LocaleData
+ * @typedef {import('./create-i18n').SubscribeCallback} SubscribeCallback
+ * @typedef {import('./create-i18n').UnsubscribeCallback} UnsubscribeCallback
  */
 
+/**
+ * Returns locale data by domain in a Jed-formatted JSON object shape.
+ *
+ * @see http://messageformat.github.io/Jed/
+ *
+ * @param {string} [domain] Domain for which to get the data.
+ * @return {LocaleData} Locale data.
+ */
+
+var default_i18n_getLocaleData = i18n.getLocaleData.bind(i18n);
 /**
  * Merges locale data into the Tannin instance by domain. Accepts data in a
  * Jed-formatted JSON object shape.
@@ -1263,6 +1399,14 @@ var i18n = create_i18n_createI18n(undefined, undefined, {
  */
 
 var default_i18n_setLocaleData = i18n.setLocaleData.bind(i18n);
+/**
+ * Subscribes to changes of locale data
+ *
+ * @param {SubscribeCallback} callback Subscription callback
+ * @return {UnsubscribeCallback} Unsubscribe callback
+ */
+
+var default_i18n_subscribe = i18n.subscribe.bind(i18n);
 /**
  * Retrieve the translation of text.
  *
@@ -1333,6 +1477,16 @@ var default_i18n_nx = i18n._nx.bind(i18n);
  */
 
 var default_i18n_isRTL = i18n.isRTL.bind(i18n);
+/**
+ * Check if there is a translation for a given string (in singular form).
+ *
+ * @param {string} single Singular form of the string to look up.
+ * @param {string} [context] Context information for the translators.
+ * @param {string} [domain] Domain to retrieve the translated text.
+ * @return {boolean} Whether the translation exists or not.
+ */
+
+var default_i18n_hasTranslation = i18n.hasTranslation.bind(i18n);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/index.js
 
@@ -1364,7 +1518,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 71:
+/***/ 72:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**

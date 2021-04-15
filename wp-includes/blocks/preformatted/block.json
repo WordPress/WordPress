@@ -13,6 +13,9 @@
 	},
 	"supports": {
 		"anchor": true,
+		"color": {
+			"gradients": true
+		},
 		"fontSize": true
 	},
 	"style": "wp-block-preformatted"

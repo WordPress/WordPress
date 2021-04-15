@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["hooks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 467);
+/******/ 	return __webpack_require__(__webpack_require__.s = 460);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -104,10 +104,10 @@ function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(37);
+var iterableToArray = __webpack_require__(39);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(31);
+var unsupportedIterableToArray = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -154,25 +154,25 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 31:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (typeof o === "string") return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
   if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
 }
 
 /***/ }),
 
-/***/ 37:
+/***/ 39:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -183,7 +183,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 467:
+/***/ 460:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -191,6 +191,7 @@ function _iterableToArray(iter) {
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
+__webpack_require__.d(__webpack_exports__, "defaultHooks", function() { return /* binding */ defaultHooks; });
 __webpack_require__.d(__webpack_exports__, "createHooks", function() { return /* reexport */ build_module_createHooks; });
 __webpack_require__.d(__webpack_exports__, "addAction", function() { return /* binding */ addAction; });
 __webpack_require__.d(__webpack_exports__, "addFilter", function() { return /* binding */ addFilter; });
@@ -779,26 +780,25 @@ function createHooks() {
  * @typedef {import('./createHooks').Hooks} Hooks
  */
 
-var _createHooks = build_module_createHooks(),
-    addAction = _createHooks.addAction,
-    addFilter = _createHooks.addFilter,
-    removeAction = _createHooks.removeAction,
-    removeFilter = _createHooks.removeFilter,
-    hasAction = _createHooks.hasAction,
-    hasFilter = _createHooks.hasFilter,
-    removeAllActions = _createHooks.removeAllActions,
-    removeAllFilters = _createHooks.removeAllFilters,
-    doAction = _createHooks.doAction,
-    applyFilters = _createHooks.applyFilters,
-    currentAction = _createHooks.currentAction,
-    currentFilter = _createHooks.currentFilter,
-    doingAction = _createHooks.doingAction,
-    doingFilter = _createHooks.doingFilter,
-    didAction = _createHooks.didAction,
-    didFilter = _createHooks.didFilter,
-    actions = _createHooks.actions,
-    filters = _createHooks.filters;
-
+var defaultHooks = build_module_createHooks();
+var addAction = defaultHooks.addAction,
+    addFilter = defaultHooks.addFilter,
+    removeAction = defaultHooks.removeAction,
+    removeFilter = defaultHooks.removeFilter,
+    hasAction = defaultHooks.hasAction,
+    hasFilter = defaultHooks.hasFilter,
+    removeAllActions = defaultHooks.removeAllActions,
+    removeAllFilters = defaultHooks.removeAllFilters,
+    doAction = defaultHooks.doAction,
+    applyFilters = defaultHooks.applyFilters,
+    currentAction = defaultHooks.currentAction,
+    currentFilter = defaultHooks.currentFilter,
+    doingAction = defaultHooks.doingAction,
+    doingFilter = defaultHooks.doingFilter,
+    didAction = defaultHooks.didAction,
+    didFilter = defaultHooks.didFilter,
+    actions = defaultHooks.actions,
+    filters = defaultHooks.filters;
 
 
 

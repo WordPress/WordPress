@@ -184,18 +184,9 @@ if ( ! $max_upload_size ) {
 // Editor Styles.
 $styles = array(
 	array(
-		'css' => file_get_contents(
-			is_rtl()
-				? ABSPATH . WPINC . '/css/dist/editor/editor-styles-rtl.css'
-				: ABSPATH . WPINC . '/css/dist/editor/editor-styles.css'
-		),
+		'css' => 'body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif }',
 	),
 );
-
-$styles[] = array(
-	'css' => 'body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif }',
-);
-
 if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
 	foreach ( $editor_styles as $style ) {
 		if ( preg_match( '~^(https?:)?//~', $style ) ) {
@@ -216,17 +207,6 @@ if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
 		}
 	}
 }
-
-// Default editor styles.
-$default_editor_styles = array(
-	array(
-		'css' => file_get_contents(
-			is_rtl()
-				? ABSPATH . WPINC . '/css/dist/editor/editor-styles-rtl.css'
-				: ABSPATH . WPINC . '/css/dist/editor/editor-styles.css'
-		),
-	),
-);
 
 // Image sizes.
 
@@ -324,7 +304,6 @@ $editor_settings = array(
 	'maxUploadFileSize'                    => $max_upload_size,
 	'allowedMimeTypes'                     => get_allowed_mime_types(),
 	'styles'                               => $styles,
-	'defaultEditorStyles'                  => $default_editor_styles,
 	'imageSizes'                           => $available_image_sizes,
 	'imageDefaultSize'                     => $image_default_size,
 	'imageDimensions'                      => $image_dimensions,

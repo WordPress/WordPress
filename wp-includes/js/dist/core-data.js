@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 464);
+/******/ 	return __webpack_require__(__webpack_require__.s = 455);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -416,7 +416,7 @@ module.exports = EquivalentKeyMap;
 
 /***/ }),
 
-/***/ 11:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -425,7 +425,7 @@ module.exports = EquivalentKeyMap;
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(38);
+var arrayWithHoles = __webpack_require__(37);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
@@ -455,10 +455,10 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(31);
+var unsupportedIterableToArray = __webpack_require__(28);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(39);
+var nonIterableRest = __webpack_require__(38);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 
@@ -476,16 +476,16 @@ function _slicedToArray(arr, i) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(38);
-/* harmony import */ var _babel_runtime_helpers_esm_iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
-/* harmony import */ var _babel_runtime_helpers_esm_unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
-/* harmony import */ var _babel_runtime_helpers_esm_nonIterableRest__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(39);
+/* harmony import */ var _arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(37);
+/* harmony import */ var _iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(39);
+/* harmony import */ var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
+/* harmony import */ var _nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(38);
 
 
 
 
 function _toArray(arr) {
-  return Object(_babel_runtime_helpers_esm_arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(arr) || Object(_babel_runtime_helpers_esm_iterableToArray__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(arr) || Object(_babel_runtime_helpers_esm_unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(arr) || Object(_babel_runtime_helpers_esm_nonIterableRest__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])();
+  return Object(_arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(arr) || Object(_iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(arr) || Object(_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(arr) || Object(_nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])();
 }
 
 /***/ }),
@@ -507,10 +507,10 @@ function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(37);
+var iterableToArray = __webpack_require__(39);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(31);
+var unsupportedIterableToArray = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -541,7 +541,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 204:
+/***/ 203:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -688,50 +688,32 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ 31:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (typeof o === "string") return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
   if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
 }
 
 /***/ }),
 
-/***/ 32:
+/***/ 29:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 35:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["deprecated"]; }());
-
-/***/ }),
-
 /***/ 37:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-
-/***/ }),
-
-/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -742,13 +724,24 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ 39:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+/***/ }),
+
+/***/ 39:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
 
 /***/ }),
@@ -760,7 +753,7 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 41:
+/***/ 40:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1042,7 +1035,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 464:
+/***/ 455:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1055,6 +1048,7 @@ __webpack_require__.d(__webpack_exports__, "EntityProvider", function() { return
 __webpack_require__.d(__webpack_exports__, "useEntityId", function() { return /* reexport */ useEntityId; });
 __webpack_require__.d(__webpack_exports__, "useEntityProp", function() { return /* reexport */ useEntityProp; });
 __webpack_require__.d(__webpack_exports__, "useEntityBlockEditor", function() { return /* reexport */ useEntityBlockEditor; });
+__webpack_require__.d(__webpack_exports__, "__experimentalFetchLinkSuggestions", function() { return /* reexport */ _experimental_fetch_link_suggestions; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/core-data/build-module/locks/actions.js
 var locks_actions_namespaceObject = {};
@@ -1119,7 +1113,6 @@ __webpack_require__.d(build_module_selectors_namespaceObject, "getCurrentTheme",
 __webpack_require__.d(build_module_selectors_namespaceObject, "getThemeSupports", function() { return getThemeSupports; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEmbedPreview", function() { return getEmbedPreview; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "isPreviewEmbedFallback", function() { return isPreviewEmbedFallback; });
-__webpack_require__.d(build_module_selectors_namespaceObject, "hasUploadPermissions", function() { return hasUploadPermissions; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "canUser", function() { return canUser; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getAutosaves", function() { return getAutosaves; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getAutosave", function() { return getAutosave; });
@@ -1140,7 +1133,6 @@ __webpack_require__.d(resolvers_namespaceObject, "getEntityRecords", function() 
 __webpack_require__.d(resolvers_namespaceObject, "getCurrentTheme", function() { return resolvers_getCurrentTheme; });
 __webpack_require__.d(resolvers_namespaceObject, "getThemeSupports", function() { return resolvers_getThemeSupports; });
 __webpack_require__.d(resolvers_namespaceObject, "getEmbedPreview", function() { return resolvers_getEmbedPreview; });
-__webpack_require__.d(resolvers_namespaceObject, "hasUploadPermissions", function() { return resolvers_hasUploadPermissions; });
 __webpack_require__.d(resolvers_namespaceObject, "canUser", function() { return resolvers_canUser; });
 __webpack_require__.d(resolvers_namespaceObject, "getAutosaves", function() { return resolvers_getAutosaves; });
 __webpack_require__.d(resolvers_namespaceObject, "getAutosave", function() { return resolvers_getAutosave; });
@@ -1162,7 +1154,7 @@ var external_wp_data_ = __webpack_require__(4);
 var external_wp_dataControls_ = __webpack_require__(49);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(11);
+var slicedToArray = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
 var toConsumableArray = __webpack_require__(15);
@@ -1171,7 +1163,7 @@ var toConsumableArray = __webpack_require__(15);
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external ["wp","isShallowEqual"]
-var external_wp_isShallowEqual_ = __webpack_require__(63);
+var external_wp_isShallowEqual_ = __webpack_require__(65);
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/if-matching-action.js
@@ -1320,10 +1312,10 @@ var external_wp_i18n_ = __webpack_require__(1);
 var toArray = __webpack_require__(147);
 
 // EXTERNAL MODULE: ./node_modules/uuid/dist/esm-browser/v4.js + 4 modules
-var v4 = __webpack_require__(204);
+var v4 = __webpack_require__(203);
 
 // EXTERNAL MODULE: external ["wp","url"]
-var external_wp_url_ = __webpack_require__(32);
+var external_wp_url_ = __webpack_require__(29);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/actions.js
 
@@ -1393,13 +1385,13 @@ function receiveQueriedItems(items) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/locks/actions.js
-
-
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
 
 var _marked = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(__unstableAcquireStoreLock),
     _marked2 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(__unstableEnqueueLockRequest),
@@ -1581,7 +1573,7 @@ function __unstableProcessPendingLockRequests() {
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
-var setPrototypeOf = __webpack_require__(52);
+var setPrototypeOf = __webpack_require__(55);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/isNativeReflectConstruct.js
 function _isNativeReflectConstruct() {
@@ -1590,7 +1582,7 @@ function _isNativeReflectConstruct() {
   if (typeof Proxy === "function") return true;
 
   try {
-    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
     return true;
   } catch (e) {
     return false;
@@ -1622,7 +1614,7 @@ var classCallCheck = __webpack_require__(25);
 var createClass = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(47);
+var asyncToGenerator = __webpack_require__(48);
 
 // EXTERNAL MODULE: external ["wp","apiFetch"]
 var external_wp_apiFetch_ = __webpack_require__(50);
@@ -1944,6 +1936,11 @@ var create_batch_ObservableSet = /*#__PURE__*/function () {
   }
 
   Object(createClass["a" /* default */])(ObservableSet, [{
+    key: "size",
+    get: function get() {
+      return this.set.size;
+    }
+  }, {
     key: "add",
     value: function add() {
       var _this$set;
@@ -1976,11 +1973,6 @@ var create_batch_ObservableSet = /*#__PURE__*/function () {
       return function () {
         _this.subscribers.delete(subscriber);
       };
-    }
-  }, {
-    key: "size",
-    get: function get() {
-      return this.set.size;
     }
   }]);
 
@@ -3086,6 +3078,12 @@ var defaultEntities = [{
   },
   label: Object(external_wp_i18n_["__"])('Widgets')
 }, {
+  name: 'widgetType',
+  kind: 'root',
+  baseURL: '/wp/v2/widget-types',
+  plural: 'widgetTypes',
+  label: Object(external_wp_i18n_["__"])('Widget types')
+}, {
   label: Object(external_wp_i18n_["__"])('User'),
   name: 'user',
   kind: 'root',
@@ -3177,8 +3175,7 @@ function loadPostTypeEntities() {
               label: postType.labels.singular_name,
               transientEdits: {
                 blocks: true,
-                selectionStart: true,
-                selectionEnd: true
+                selection: true
               },
               mergedEdits: {
                 meta: true
@@ -4516,11 +4513,7 @@ function reducer_autosaves() {
 }));
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(41);
-
-// EXTERNAL MODULE: external ["wp","deprecated"]
-var external_wp_deprecated_ = __webpack_require__(35);
-var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_);
+var rememo = __webpack_require__(40);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/name.js
 /**
@@ -4681,7 +4674,6 @@ function selectors_objectSpread(target) { for (var i = 1; i < arguments.length; 
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -5241,29 +5233,6 @@ function isPreviewEmbedFallback(state, url) {
   return preview.html === oEmbedLinkCheck;
 }
 /**
- * Returns whether the current user can upload media.
- *
- * Calling this may trigger an OPTIONS request to the REST API via the
- * `canUser()` resolver.
- *
- * https://developer.wordpress.org/rest-api/reference/
- *
- * @deprecated since 5.0. Callers should use the more generic `canUser()` selector instead of
- *             `hasUploadPermissions()`, e.g. `canUser( 'create', 'media' )`.
- *
- * @param {Object} state Data state.
- *
- * @return {boolean} Whether or not the user can upload media. Defaults to `true` if the OPTIONS
- *                   request is being made.
- */
-
-function hasUploadPermissions(state) {
-  external_wp_deprecated_default()("select( 'core' ).hasUploadPermissions()", {
-    alternative: "select( 'core' ).canUser( 'create', 'media' )"
-  });
-  return Object(external_lodash_["defaultTo"])(canUser(state, 'create', 'media'), true);
-}
-/**
  * Returns whether the current user can perform the given action on the given
  * REST resource.
  *
@@ -5448,7 +5417,6 @@ var if_not_resolved_ifNotResolved = function ifNotResolved(resolver, selectorNam
 
 
 
-
 function resolvers_createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = resolvers_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function resolvers_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return resolvers_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return resolvers_arrayLikeToArray(o, minLen); }
@@ -5459,6 +5427,8 @@ function resolvers_ownKeys(object, enumerableOnly) { var keys = Object.keys(obje
 
 function resolvers_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { resolvers_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { resolvers_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
+
+
 var resolvers_marked = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getAuthors),
     resolvers_marked2 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_unstableGetAuthor),
     resolvers_marked3 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getCurrentUser),
@@ -5467,11 +5437,10 @@ var resolvers_marked = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(r
     resolvers_marked6 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getCurrentTheme),
     resolvers_marked7 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getThemeSupports),
     _marked8 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getEmbedPreview),
-    _marked9 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_hasUploadPermissions),
-    _marked10 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_canUser),
-    _marked11 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getAutosaves),
-    _marked12 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getAutosave),
-    _marked13 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_experimentalGetTemplateForLink);
+    _marked9 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_canUser),
+    _marked10 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getAutosaves),
+    _marked11 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_getAutosave),
+    _marked12 = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(resolvers_experimentalGetTemplateForLink);
 
 /**
  * External dependencies
@@ -5480,7 +5449,6 @@ var resolvers_marked = /*#__PURE__*/external_regeneratorRuntime_default.a.mark(r
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -5994,30 +5962,6 @@ function resolvers_getEmbedPreview(url) {
   }, _marked8, null, [[0, 8]]);
 }
 /**
- * Requests Upload Permissions from the REST API.
- *
- * @deprecated since 5.0. Callers should use the more generic `canUser()` selector instead of
- *            `hasUploadPermissions()`, e.g. `canUser( 'create', 'media' )`.
- */
-
-function resolvers_hasUploadPermissions() {
-  return external_regeneratorRuntime_default.a.wrap(function hasUploadPermissions$(_context9) {
-    while (1) {
-      switch (_context9.prev = _context9.next) {
-        case 0:
-          external_wp_deprecated_default()("select( 'core' ).hasUploadPermissions()", {
-            alternative: "select( 'core' ).canUser( 'create', 'media' )"
-          });
-          return _context9.delegateYield(resolvers_canUser('create', 'media'), "t0", 2);
-
-        case 2:
-        case "end":
-          return _context9.stop();
-      }
-    }
-  }, _marked9);
-}
-/**
  * Checks whether the current user can perform the given action on the given
  * REST resource.
  *
@@ -6029,9 +5973,9 @@ function resolvers_hasUploadPermissions() {
 
 function resolvers_canUser(action, resource, id) {
   var methods, method, path, response, allowHeader, key, isAllowed;
-  return external_regeneratorRuntime_default.a.wrap(function canUser$(_context10) {
+  return external_regeneratorRuntime_default.a.wrap(function canUser$(_context9) {
     while (1) {
-      switch (_context10.prev = _context10.next) {
+      switch (_context9.prev = _context9.next) {
         case 0:
           methods = {
             create: 'POST',
@@ -6042,7 +5986,7 @@ function resolvers_canUser(action, resource, id) {
           method = methods[action];
 
           if (method) {
-            _context10.next = 4;
+            _context9.next = 4;
             break;
           }
 
@@ -6050,8 +5994,8 @@ function resolvers_canUser(action, resource, id) {
 
         case 4:
           path = id ? "/wp/v2/".concat(resource, "/").concat(id) : "/wp/v2/".concat(resource);
-          _context10.prev = 5;
-          _context10.next = 8;
+          _context9.prev = 5;
+          _context9.next = 8;
           return Object(external_wp_dataControls_["apiFetch"])({
             path: path,
             // Ideally this would always be an OPTIONS request, but unfortunately there's
@@ -6063,14 +6007,14 @@ function resolvers_canUser(action, resource, id) {
           });
 
         case 8:
-          response = _context10.sent;
-          _context10.next = 14;
+          response = _context9.sent;
+          _context9.next = 14;
           break;
 
         case 11:
-          _context10.prev = 11;
-          _context10.t0 = _context10["catch"](5);
-          return _context10.abrupt("return");
+          _context9.prev = 11;
+          _context9.t0 = _context9["catch"](5);
+          return _context9.abrupt("return");
 
         case 14:
           if (Object(external_lodash_["hasIn"])(response, ['headers', 'get'])) {
@@ -6085,15 +6029,15 @@ function resolvers_canUser(action, resource, id) {
 
           key = Object(external_lodash_["compact"])([action, resource, id]).join('/');
           isAllowed = Object(external_lodash_["includes"])(allowHeader, method);
-          _context10.next = 19;
+          _context9.next = 19;
           return receiveUserPermission(key, isAllowed);
 
         case 19:
         case "end":
-          return _context10.stop();
+          return _context9.stop();
       }
     }
-  }, _marked10, null, [[5, 11]]);
+  }, _marked9, null, [[5, 11]]);
 }
 /**
  * Request autosave data from the REST API.
@@ -6105,38 +6049,38 @@ function resolvers_canUser(action, resource, id) {
 function resolvers_getAutosaves(postType, postId) {
   var _yield$controls$resol, restBase, autosaves;
 
-  return external_regeneratorRuntime_default.a.wrap(function getAutosaves$(_context11) {
+  return external_regeneratorRuntime_default.a.wrap(function getAutosaves$(_context10) {
     while (1) {
-      switch (_context11.prev = _context11.next) {
+      switch (_context10.prev = _context10.next) {
         case 0:
-          _context11.next = 2;
+          _context10.next = 2;
           return external_wp_data_["controls"].resolveSelect('core', 'getPostType', postType);
 
         case 2:
-          _yield$controls$resol = _context11.sent;
+          _yield$controls$resol = _context10.sent;
           restBase = _yield$controls$resol.rest_base;
-          _context11.next = 6;
+          _context10.next = 6;
           return Object(external_wp_dataControls_["apiFetch"])({
             path: "/wp/v2/".concat(restBase, "/").concat(postId, "/autosaves?context=edit")
           });
 
         case 6:
-          autosaves = _context11.sent;
+          autosaves = _context10.sent;
 
           if (!(autosaves && autosaves.length)) {
-            _context11.next = 10;
+            _context10.next = 10;
             break;
           }
 
-          _context11.next = 10;
+          _context10.next = 10;
           return receiveAutosaves(postId, autosaves);
 
         case 10:
         case "end":
-          return _context11.stop();
+          return _context10.stop();
       }
     }
-  }, _marked11);
+  }, _marked10);
 }
 /**
  * Request autosave data from the REST API.
@@ -6149,19 +6093,19 @@ function resolvers_getAutosaves(postType, postId) {
  */
 
 function resolvers_getAutosave(postType, postId) {
-  return external_regeneratorRuntime_default.a.wrap(function getAutosave$(_context12) {
+  return external_regeneratorRuntime_default.a.wrap(function getAutosave$(_context11) {
     while (1) {
-      switch (_context12.prev = _context12.next) {
+      switch (_context11.prev = _context11.next) {
         case 0:
-          _context12.next = 2;
+          _context11.next = 2;
           return external_wp_data_["controls"].resolveSelect('core', 'getAutosaves', postType, postId);
 
         case 2:
         case "end":
-          return _context12.stop();
+          return _context11.stop();
       }
     }
-  }, _marked12);
+  }, _marked11);
 }
 /**
  * Retrieve the frontend template used for a given link.
@@ -6171,52 +6115,52 @@ function resolvers_getAutosave(postType, postId) {
 
 function resolvers_experimentalGetTemplateForLink(link) {
   var template, record;
-  return external_regeneratorRuntime_default.a.wrap(function __experimentalGetTemplateForLink$(_context13) {
+  return external_regeneratorRuntime_default.a.wrap(function __experimentalGetTemplateForLink$(_context12) {
     while (1) {
-      switch (_context13.prev = _context13.next) {
+      switch (_context12.prev = _context12.next) {
         case 0:
-          _context13.next = 2;
+          _context12.next = 2;
           return regularFetch(Object(external_wp_url_["addQueryArgs"])(link, {
             '_wp-find-template': true
           }));
 
         case 2:
-          template = _context13.sent;
+          template = _context12.sent;
 
           if (!(template === null)) {
-            _context13.next = 5;
+            _context12.next = 5;
             break;
           }
 
-          return _context13.abrupt("return");
+          return _context12.abrupt("return");
 
         case 5:
-          _context13.next = 7;
+          _context12.next = 7;
           return resolvers_getEntityRecord('postType', 'wp_template', template.id);
 
         case 7:
-          _context13.next = 9;
+          _context12.next = 9;
           return external_wp_data_["controls"].select('core', 'getEntityRecord', 'postType', 'wp_template', template.id);
 
         case 9:
-          record = _context13.sent;
+          record = _context12.sent;
 
           if (!record) {
-            _context13.next = 13;
+            _context12.next = 13;
             break;
           }
 
-          _context13.next = 13;
+          _context12.next = 13;
           return receiveEntityRecords('postType', 'wp_template', [record], {
             'find-template': link
           });
 
         case 13:
         case "end":
-          return _context13.stop();
+          return _context12.stop();
       }
     }
-  }, _marked13);
+  }, _marked12);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/locks/selectors.js
@@ -6480,12 +6424,10 @@ function useEntityBlockEditor(kind, type) {
     }
   }, [content]);
   var onChange = Object(external_wp_element_["useCallback"])(function (newBlocks, options) {
-    var selectionStart = options.selectionStart,
-        selectionEnd = options.selectionEnd;
+    var selection = options.selection;
     var edits = {
       blocks: newBlocks,
-      selectionStart: selectionStart,
-      selectionEnd: selectionEnd
+      selection: selection
     };
     var noChange = blocks === edits.blocks;
 
@@ -6505,17 +6447,198 @@ function useEntityBlockEditor(kind, type) {
     editEntityRecord(kind, type, id, edits);
   }, [kind, type, id, blocks]);
   var onInput = Object(external_wp_element_["useCallback"])(function (newBlocks, options) {
-    var selectionStart = options.selectionStart,
-        selectionEnd = options.selectionEnd;
+    var selection = options.selection;
     var edits = {
       blocks: newBlocks,
-      selectionStart: selectionStart,
-      selectionEnd: selectionEnd
+      selection: selection
     };
     editEntityRecord(kind, type, id, edits);
   }, [kind, type, id]);
   return [blocks !== null && blocks !== void 0 ? blocks : entity_provider_EMPTY_ARRAY, onInput, onChange];
 }
+
+// EXTERNAL MODULE: external ["wp","htmlEntities"]
+var external_wp_htmlEntities_ = __webpack_require__(57);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/fetch/__experimental-fetch-link-suggestions.js
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Filters the search by type
+ *
+ * @typedef { 'post' | 'term' | 'post-format' } WPLinkSearchType
+ */
+
+/**
+ * @typedef WPLinkSearchOptions
+ *
+ * @property {boolean}             [isInitialSuggestions] Displays initial search suggestions, when true.
+ * @property {WPLinkSearchType}    [type]                 Filters by search type.
+ * @property {string}              [subtype]              Slug of the post-type or taxonomy.
+ * @property {number}              [page]                 Which page of results to return.
+ * @property {number}              [perPage]              Search results per page.
+ */
+
+/**
+ * @typedef WPLinkSearchResult
+ *
+ * @property {number} id     Post or term id.
+ * @property {string} url    Link url.
+ * @property {string} title  Title of the link.
+ * @property {string} type   The taxonomy or post type slug or type URL.
+ */
+
+/**
+ * @typedef WPEditorSettings
+ *
+ * @property {boolean} [ disablePostFormats ] Disables post formats, when true.
+ */
+
+/**
+ * Fetches link suggestions from the API.
+ *
+ * @async
+ * @param {string}              search
+ * @param {WPLinkSearchOptions} [searchOptions]
+ * @param {WPEditorSettings}    [settings]
+ *
+ * @example
+ * ```js
+ * import { __experimentalFetchLinkSuggestions as fetchLinkSuggestions } from '@wordpress/core-data';
+ *
+ * //...
+ *
+ * export function initialize( id, settings ) {
+ *
+ * settings.__experimentalFetchLinkSuggestions = (
+ *     search,
+ *     searchOptions
+ * ) => fetchLinkSuggestions( search, searchOptions, settings );
+ * ```
+ * @return {Promise< WPLinkSearchResult[] >} List of search suggestions
+ */
+
+var fetchLinkSuggestions = /*#__PURE__*/function () {
+  var _ref = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_regeneratorRuntime_default.a.mark(function _callee(search) {
+    var searchOptions,
+        settings,
+        _searchOptions$isInit,
+        isInitialSuggestions,
+        _searchOptions$type,
+        type,
+        _searchOptions$subtyp,
+        subtype,
+        _searchOptions$page,
+        page,
+        _searchOptions$perPag,
+        perPage,
+        _settings$disablePost,
+        disablePostFormats,
+        queries,
+        _args = arguments;
+
+    return external_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            searchOptions = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
+            settings = _args.length > 2 && _args[2] !== undefined ? _args[2] : {};
+            _searchOptions$isInit = searchOptions.isInitialSuggestions, isInitialSuggestions = _searchOptions$isInit === void 0 ? false : _searchOptions$isInit, _searchOptions$type = searchOptions.type, type = _searchOptions$type === void 0 ? undefined : _searchOptions$type, _searchOptions$subtyp = searchOptions.subtype, subtype = _searchOptions$subtyp === void 0 ? undefined : _searchOptions$subtyp, _searchOptions$page = searchOptions.page, page = _searchOptions$page === void 0 ? undefined : _searchOptions$page, _searchOptions$perPag = searchOptions.perPage, perPage = _searchOptions$perPag === void 0 ? isInitialSuggestions ? 3 : 20 : _searchOptions$perPag;
+            _settings$disablePost = settings.disablePostFormats, disablePostFormats = _settings$disablePost === void 0 ? false : _settings$disablePost;
+            queries = [];
+
+            if (!type || type === 'post') {
+              queries.push(external_wp_apiFetch_default()({
+                path: Object(external_wp_url_["addQueryArgs"])('/wp/v2/search', {
+                  search: search,
+                  page: page,
+                  per_page: perPage,
+                  type: 'post',
+                  subtype: subtype
+                })
+              }).catch(function () {
+                return [];
+              }) // fail by returning no results
+              );
+            }
+
+            if (!type || type === 'term') {
+              queries.push(external_wp_apiFetch_default()({
+                path: Object(external_wp_url_["addQueryArgs"])('/wp/v2/search', {
+                  search: search,
+                  page: page,
+                  per_page: perPage,
+                  type: 'term',
+                  subtype: subtype
+                })
+              }).catch(function () {
+                return [];
+              }));
+            }
+
+            if (!disablePostFormats && (!type || type === 'post-format')) {
+              queries.push(external_wp_apiFetch_default()({
+                path: Object(external_wp_url_["addQueryArgs"])('/wp/v2/search', {
+                  search: search,
+                  page: page,
+                  per_page: perPage,
+                  type: 'post-format',
+                  subtype: subtype
+                })
+              }).catch(function () {
+                return [];
+              }));
+            }
+
+            return _context.abrupt("return", Promise.all(queries).then(function (results) {
+              return results.reduce(function (accumulator, current) {
+                return accumulator.concat(current);
+              }, //flatten list
+              []).filter(
+              /**
+               * @param {{ id: number }} result
+               */
+              function (result) {
+                return !!result.id;
+              }).slice(0, perPage).map(
+              /**
+               * @param {{ id: number, url:string, title?:string, subtype?: string, type?: string }} result
+               */
+              function (result) {
+                return {
+                  id: result.id,
+                  url: result.url,
+                  title: Object(external_wp_htmlEntities_["decodeEntities"])(result.title || '') || Object(external_wp_i18n_["__"])('(no title)'),
+                  type: result.subtype || result.type
+                };
+              });
+            }));
+
+          case 9:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function fetchLinkSuggestions(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+/* harmony default export */ var _experimental_fetch_link_suggestions = (fetchLinkSuggestions);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/fetch/index.js
+
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/index.js
 
@@ -6629,9 +6752,10 @@ Object(external_wp_data_["register"])(build_module_store);
 
 
 
+
 /***/ }),
 
-/***/ 47:
+/***/ 48:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6710,7 +6834,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 52:
+/***/ 55:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6726,7 +6850,14 @@ function _setPrototypeOf(o, p) {
 
 /***/ }),
 
-/***/ 63:
+/***/ 57:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["htmlEntities"]; }());
+
+/***/ }),
+
+/***/ 65:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["isShallowEqual"]; }());
