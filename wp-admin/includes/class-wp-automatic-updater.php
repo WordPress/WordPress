@@ -151,7 +151,9 @@ class WP_Automatic_Updater {
 		}
 
 		// If we can't do an auto core update, we may still be able to email the user.
-		if ( ! $skin->request_filesystem_credentials( false, $context, $allow_relaxed_file_ownership ) || $this->is_vcs_checkout( $context ) ) {
+		if ( ! $skin->request_filesystem_credentials( false, $context, $allow_relaxed_file_ownership )
+			|| $this->is_vcs_checkout( $context )
+		) {
 			if ( 'core' === $type ) {
 				$this->send_core_update_notification_email( $item );
 			}
@@ -256,7 +258,7 @@ class WP_Automatic_Updater {
 		// Don't notify if we've already notified the same email address of the same version.
 		if ( $notified
 			&& get_site_option( 'admin_email' ) === $notified['email']
-			&& $notified['version'] == $item->current
+			&& $notified['version'] === $item->current
 		) {
 			return false;
 		}
@@ -633,7 +635,7 @@ class WP_Automatic_Updater {
 		if ( $notified
 			&& 'fail' === $notified['type']
 			&& get_site_option( 'admin_email' ) === $notified['email']
-			&& $notified['version'] == $core_update->current
+			&& $notified['version'] === $core_update->current
 		) {
 			$send = false;
 		}
@@ -682,7 +684,13 @@ class WP_Automatic_Updater {
 			$next_user_core_update = $core_update;
 		}
 
-		$newer_version_available = ( 'upgrade' === $next_user_core_update->response && version_compare( $next_user_core_update->version, $core_update->version, '>' ) );
+		if ( 'upgrade' === $next_user_core_update->response
+			&& version_compare( $next_user_core_update->version, $core_update->version, '>' )
+		) {
+			$newer_version_available = true;
+		} else {
+			$newer_version_available = false;
+		}
 
 		/**
 		 * Filters whether to send an email following an automatic background core update.
@@ -1189,7 +1197,7 @@ class WP_Automatic_Updater {
 						);
 					} else {
 						$body[] = sprintf(
-							 /* translators: 1: Theme name, 2: Version number. */
+							/* translators: 1: Theme name, 2: Version number. */
 							__( '- %1$s version %2$s' ),
 							$item->name,
 							$item->item->new_version
@@ -1280,6 +1288,7 @@ class WP_Automatic_Updater {
 		// Core.
 		if ( isset( $this->update_results['core'] ) ) {
 			$result = $this->update_results['core'][0];
+
 			if ( $result->result && ! is_wp_error( $result->result ) ) {
 				/* translators: %s: WordPress version. */
 				$body[] = sprintf( __( 'SUCCESS: WordPress was successfully updated to %s' ), $result->name );
@@ -1288,6 +1297,7 @@ class WP_Automatic_Updater {
 				$body[] = sprintf( __( 'FAILED: WordPress failed to update to %s' ), $result->name );
 				$failures++;
 			}
+
 			$body[] = '';
 		}
 
@@ -1296,7 +1306,9 @@ class WP_Automatic_Updater {
 			if ( ! isset( $this->update_results[ $type ] ) ) {
 				continue;
 			}
+
 			$success_items = wp_list_filter( $this->update_results[ $type ], array( 'result' => true ) );
+
 			if ( $success_items ) {
 				$messages = array(
 					'plugin'      => __( 'The following plugins were successfully updated:' ),
@@ -1310,7 +1322,8 @@ class WP_Automatic_Updater {
 					$body[] = ' * ' . sprintf( __( 'SUCCESS: %s' ), $name );
 				}
 			}
-			if ( $success_items != $this->update_results[ $type ] ) {
+
+			if ( $success_items !== $this->update_results[ $type ] ) {
 				// Failed updates.
 				$messages = array(
 					'plugin'      => __( 'The following plugins failed to update:' ),
@@ -1319,6 +1332,7 @@ class WP_Automatic_Updater {
 				);
 
 				$body[] = $messages[ $type ];
+
 				foreach ( $this->update_results[ $type ] as $item ) {
 					if ( ! $item->result || is_wp_error( $item->result ) ) {
 						/* translators: %s: Name of plugin / theme / translation. */
@@ -1327,10 +1341,12 @@ class WP_Automatic_Updater {
 					}
 				}
 			}
+
 			$body[] = '';
 		}
 
 		$site_title = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+
 		if ( $failures ) {
 			$body[] = trim(
 				__(
@@ -1367,18 +1383,23 @@ Thanks! -- The WordPress Team"
 			if ( ! isset( $this->update_results[ $type ] ) ) {
 				continue;
 			}
+
 			foreach ( $this->update_results[ $type ] as $update ) {
 				$body[] = $update->name;
 				$body[] = str_repeat( '-', strlen( $update->name ) );
+
 				foreach ( $update->messages as $message ) {
 					$body[] = '  ' . html_entity_decode( str_replace( '&#8230;', '...', $message ) );
 				}
+
 				if ( is_wp_error( $update->result ) ) {
 					$results = array( 'update' => $update->result );
+
 					// If we rolled back, we want to know an error that occurred then too.
 					if ( 'rollback_was_required' === $update->result->get_error_code() ) {
 						$results = (array) $update->result->get_error_data();
 					}
+
 					foreach ( $results as $result_type => $result ) {
 						if ( ! is_wp_error( $result ) ) {
 							continue;
@@ -1397,6 +1418,7 @@ Thanks! -- The WordPress Team"
 						}
 					}
 				}
+
 				$body[] = '';
 			}
 		}
