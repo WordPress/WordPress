@@ -39,7 +39,7 @@ $wrapper_classes = array(
 $title = sprintf(
 	// translators: %s: The currently displayed tab.
 	__( 'Site Health %s' ),
-	( isset( $_GET['tab'] ) ? esc_html( $tabs[ $_GET['tab'] ] ) : esc_html( $tabs[0] ) )
+	( isset( $_GET['tab'] ) ? esc_html( $tabs[ $_GET['tab'] ] ) : esc_html( reset( $tabs ) ) )
 );
 
 if ( ! current_user_can( 'view_site_health_checks' ) ) {
