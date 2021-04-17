@@ -92,7 +92,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		$classes = array(
 			'menu-item menu-item-depth-' . $depth,
 			'menu-item-' . esc_attr( $item->object ),
-			'menu-item-edit-' . ( ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? 'active' : 'inactive' ),
+			'menu-item-edit-' . ( ( isset( $_GET['edit-menu-item'] ) && $item_id === $_GET['edit-menu-item'] ) ? 'active' : 'inactive' ),
 		);
 
 		$title = $item->title;
@@ -110,7 +110,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		$title = ( ! isset( $item->label ) || '' === $item->label ) ? $title : $item->label;
 
 		$submenu_text = '';
-		if ( 0 == $depth ) {
+		if ( 0 === $depth ) {
 			$submenu_text = 'style="display: none;"';
 		}
 
@@ -157,7 +157,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 							?>
 						</span>
 						<?php
-						if ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) {
+						if ( isset( $_GET['edit-menu-item'] ) && $item_id === $_GET['edit-menu-item'] ) {
 							$edit_url = admin_url( 'nav-menus.php' );
 						} else {
 							$edit_url = add_query_arg(
