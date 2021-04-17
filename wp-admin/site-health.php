@@ -195,7 +195,7 @@ if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
 	<p><?php _e( 'The Site Health check requires JavaScript.' ); ?></p>
 </div>
 
-<div class="health-check-body hide-if-no-js">
+<div class="health-check-body health-check-status-tab hide-if-no-js">
 	<div class="site-status-all-clear hide">
 		<p class="icon">
 			<span class="dashicons dashicons-yes"></span>

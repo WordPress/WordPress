@@ -12,6 +12,7 @@ jQuery( function( $ ) {
 		_n = wp.i18n._n,
 		sprintf = wp.i18n.sprintf,
 		clipboard = new ClipboardJS( '.site-health-copy-buttons .copy-button' ),
+		isStatusTab = $( '.health-check-body.health-check-status-tab' ).length,
 		isDebugTab = $( '.health-check-body.health-check-debug-tab' ).length,
 		pathsSizesSection = $( '#health-check-accordion-block-wp-paths-sizes' ),
 		successTimeout;
@@ -229,7 +230,7 @@ jQuery( function( $ ) {
 			wp.a11y.speak( __( 'All site health tests have finished running. There are items that should be addressed, and the results are now available on the page.' ) );
 		}
 
-		if ( ! isDebugTab ) {
+		if ( isStatusTab ) {
 			$.post(
 				ajaxurl,
 				{
@@ -346,7 +347,7 @@ jQuery( function( $ ) {
 		appendIssue( wp.hooks.applyFilters( 'site_status_test_result', issue ) );
 	}
 
-	if ( 'undefined' !== typeof SiteHealth && ! isDebugTab ) {
+	if ( 'undefined' !== typeof SiteHealth ) {
 		if ( 0 === SiteHealth.site_status.direct.length && 0 === SiteHealth.site_status.async.length ) {
 			recalculateProgression();
 		} else {
