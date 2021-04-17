@@ -6,17 +6,41 @@
  * @subpackage Administration
  */
 
-if ( isset( $_GET['tab'] ) && 'debug' === $_GET['tab'] ) {
-	require_once __DIR__ . '/site-health-info.php';
-	return;
-}
-
 /** WordPress Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 wp_reset_vars( array( 'action' ) );
 
-$title = __( 'Site Health Status' );
+$tabs = array(
+	/* translators: Tab heading for Site Health Status page. */
+	''      => _x( 'Status', 'Site Health' ),
+	/* translators: Tab heading for Site Health Info page. */
+	'debug' => _x( 'Info', 'Site Health' ),
+);
+
+/**
+ * An associated array of extra tabs for the Site Health navigation bar.
+ *
+ * Add a custom page to the Site Health screen, based on a tab slug and label.
+ * The label you provide will also be used as part of the site title.
+ *
+ * @since 5.8.0
+ *
+ * @param array $tabs An associated array of tab slugs and their label.
+ */
+$tabs = apply_filters( 'site_health_navigation_tabs', $tabs );
+
+$wrapper_classes = array(
+	'health-check-tabs-wrapper',
+	'hide-if-no-js',
+	'tab-count-' . count( $tabs ),
+);
+
+$title = sprintf(
+	// translators: %s: The currently displayed tab.
+	__( 'Site Health %s' ),
+	( isset( $_GET['tab'] ) ? esc_html( $tabs[ $_GET['tab'] ] ) : esc_html( $tabs[0] ) )
+);
 
 if ( ! current_user_can( 'view_site_health_checks' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to access site health information.' ), '', 403 );
@@ -86,24 +110,86 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		</div>
 	</div>
 
-	<nav class="health-check-tabs-wrapper hide-if-no-js" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
-		<a href="<?php echo esc_url( admin_url( 'site-health.php' ) ); ?>" class="health-check-tab active" aria-current="true">
-			<?php
-			/* translators: Tab heading for Site Health Status page. */
-			_ex( 'Status', 'Site Health' );
-			?>
-		</a>
+	<nav class="<?php echo implode( ' ', $wrapper_classes ); ?>" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
+		<?php
+		$tabs_slice = $tabs;
 
-		<a href="<?php echo esc_url( admin_url( 'site-health.php?tab=debug' ) ); ?>" class="health-check-tab">
-			<?php
-			/* translators: Tab heading for Site Health Info page. */
-			_ex( 'Info', 'Site Health' );
-			?>
-		</a>
+		/*
+		 * If there are more than 4 tabs, only output the first 3 inline,
+		 * the remaining links will be added to a sub-navigation.
+		 */
+		if ( count( $tabs ) > 4 ) {
+			$tabs_slice = array_slice( $tabs, 0, 3 );
+		}
+
+		foreach ( $tabs_slice as $slug => $label ) {
+			printf(
+				'<a href="%s" class="health-check-tab %s">%s</a>',
+				esc_url(
+					add_query_arg(
+						array(
+							'tab' => $slug,
+						),
+						admin_url( 'site-health.php' )
+					)
+				),
+				( isset( $_GET['tab'] ) && $_GET['tab'] === $slug ? 'active' : '' ),
+				esc_html( $label )
+			);
+		}
+		?>
+
+		<?php if ( count( $tabs ) > 4 ) : ?>
+			<button type="button" class="health-check-tab health-check-offscreen-nav-wrapper" aria-haspopup="true">
+				<span class="dashicons dashicons-ellipsis"></span>
+				<span class="screen-reader-text"><?php _e( 'Toggle extra menu items' ); ?></span>
+
+				<div class="health-check-offscreen-nav">
+					<?php
+					// Remove the first few entries from the array as being already output.
+					$tabs_slice = array_slice( $tabs, 3 );
+					foreach ( $tabs_slice as $slug => $label ) {
+						printf(
+							'<a href="%s" class="health-check-tab %s">%s</a>',
+							esc_url(
+								add_query_arg(
+									array(
+										'tab' => $slug,
+									),
+									admin_url( 'site-health.php' )
+								)
+							),
+							( isset( $_GET['tab'] ) && $_GET['tab'] === $slug ? 'active' : '' ),
+							esc_html( $label )
+						);
+					}
+					?>
+				</div>
+			</button>
+		<?php endif; ?>
 	</nav>
 </div>
 
 <hr class="wp-header-end">
+
+<?php
+if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
+	/**
+	 * Output content of a custom Site Health tab.
+	 *
+	 * This action fires right after the Site Health header, and users are still subject to
+	 * the capability checks for the Site Health page to view any custom tabs and their contents.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param string $tab The slug of the tab that was requested.
+	 */
+	do_action( 'site_health_tab_content', $_GET['tab'] );
+
+	require_once ABSPATH . 'wp-admin/admin-footer.php';
+	return;
+} else {
+	?>
 
 <div class="notice notice-error hide-if-js">
 	<p><?php _e( 'The Site Health check requires JavaScript.' ); ?></p>
@@ -193,5 +279,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	</div>
 </script>
 
-<?php
+	<?php
+}
 require_once ABSPATH . 'wp-admin/admin-footer.php';

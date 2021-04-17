@@ -50,6 +50,21 @@ class WP_Site_Health {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_site_health_scheduled_check', array( $this, 'wp_cron_scheduled_check' ) );
+
+		add_action( 'site_health_tab_content', array( $this, 'show_site_health_tab' ) );
+	}
+
+	/**
+	 * Output the content of a tab in the Site Health screen.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param string $tab Slug of the current tab being displayed.
+	 */
+	public function show_site_health_tab( $tab ) {
+		if ( 'debug' === $tab ) {
+			require_once ABSPATH . '/wp-admin/site-health-info.php';
+		}
 	}
 
 	/**
@@ -103,7 +118,7 @@ class WP_Site_Health {
 			$health_check_js_variables['site_status']['issues'] = $issue_counts;
 		}
 
-		if ( 'site-health' === $screen->id && ! isset( $_GET['tab'] ) ) {
+		if ( 'site-health' === $screen->id && ( ! isset( $_GET['tab'] ) || empty( $_GET['tab'] ) ) ) {
 			$tests = WP_Site_Health::get_tests();
 
 			// Don't run https test on development environments.

@@ -119,11 +119,21 @@
 .health-check-tabs-wrapper {
 	/* IE 11 */
 	display: -ms-inline-grid;
-	-ms-grid-columns: 1fr 1fr;
+	-ms-grid-columns: 1fr 1fr 1fr 1fr;
 	vertical-align: top;
 	/* modern browsers */
 	display: inline-grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.health-check-tabs-wrapper.tab-count-1 {
+	grid-template-columns: 1fr;
+}
+.health-check-tabs-wrapper.tab-count-2 {
 	grid-template-columns: 1fr 1fr;
+}
+.health-check-tabs-wrapper.tab-count-3 {
+	grid-template-columns: 1fr 1fr 1fr;
 }
 
 .health-check-tab {
@@ -133,6 +143,43 @@
 	padding: 0.5rem 1rem 1rem;
 	margin: 0 1rem;
 	transition: box-shadow 0.5s ease-in-out;
+}
+
+.health-check-offscreen-nav-wrapper {
+	position: relative;
+	background: transparent;
+	border: none;
+}
+.health-check-offscreen-nav-wrapper:focus .health-check-offscreen-nav {
+	right: initial;
+}
+
+.health-check-offscreen-nav {
+	display: none;
+	position: absolute;
+	padding-top: 10px;
+	left: 0;
+	top: 100%;
+	width: 13rem;
+}
+.health-check-offscreen-nav-wrapper.visible .health-check-offscreen-nav {
+	display: inline-block;
+}
+.health-check-offscreen-nav:before {
+	position: absolute;
+	content: "";
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 10px 5px 10px;
+	border-color: transparent transparent #ffffff transparent;
+	left: 20px;
+	top: 5px;
+}
+
+.health-check-offscreen-nav .health-check-tab {
+	background: #fff;
+	box-shadow: 0 2px 5px 0 rgba( 0, 0, 0, 0.75 );
 }
 
 .health-check-tab:nth-child(1) {
@@ -151,6 +198,10 @@
 
 .health-check-tab.active {
 	box-shadow: inset 0 -3px #3582c4;
+	font-weight: 600;
+}
+.health-check-offscreen-nav .health-check-tab.active {
+	box-shadow: inset -3px 0 #3582c4;
 	font-weight: 600;
 }
 

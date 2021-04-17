@@ -443,4 +443,9 @@ jQuery( function( $ ) {
 			recalculateProgression();
 		}
 	}
+
+	// Trigger a class toggle when the extended menu button is clicked.
+	$( '.health-check-offscreen-nav-wrapper' ).on( 'click', function() {
+		$( this ).toggleClass( 'visible' );
+	} );
 } );
