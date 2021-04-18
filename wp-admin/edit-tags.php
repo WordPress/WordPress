@@ -320,7 +320,7 @@ if ( 'category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' ===
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
-/** Also used by the Edit Tag  form */
+// Also used by the Edit Tag form.
 require_once ABSPATH . 'wp-admin/includes/edit-tag-messages.php';
 
 $class = ( isset( $_REQUEST['error'] ) ) ? 'error' : 'updated';
