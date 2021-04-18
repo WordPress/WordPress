@@ -61,11 +61,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * @since 3.1.0
 	 *
 	 * @param string $name       Comment author name.
-	 * @param int    $comment_ID Comment ID.
+	 * @param int    $comment_id Comment ID.
 	 * @return string Avatar with the user name.
 	 */
-	public function floated_admin_avatar( $name, $comment_ID ) {
-		$comment = get_comment( $comment_ID );
+	public function floated_admin_avatar( $name, $comment_id ) {
+		$comment = get_comment( $comment_id );
 		$avatar  = get_avatar( $comment, 32, 'mystery' );
 		return "$avatar $name";
 	}
@@ -832,7 +832,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			} elseif ( ( 'untrash' === $action && 'trash' === $the_comment_status )
 				|| ( 'unspam' === $action && 'spam' === $the_comment_status )
 			) {
-				if ( '1' == get_comment_meta( $comment->comment_ID, '_wp_trash_meta_status', true ) ) {
+				if ( '1' === get_comment_meta( $comment->comment_ID, '_wp_trash_meta_status', true ) ) {
 					$action .= ' approve';
 				} else {
 					$action .= ' unapprove';
@@ -1026,7 +1026,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		 * @since 2.8.0
 		 *
 		 * @param string $column_name The custom column's name.
-		 * @param int    $comment_ID  The custom column's unique ID number.
+		 * @param int    $comment_id  The custom column's unique ID number.
 		 */
 		do_action( 'manage_comments_custom_column', $column_name, $comment->comment_ID );
 	}
