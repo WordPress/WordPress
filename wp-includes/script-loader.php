@@ -920,14 +920,20 @@ function wp_default_scripts( $scripts ) {
 	$scripts->add( 'backbone', "/wp-includes/js/backbone$dev_suffix.js", array( 'underscore', 'jquery' ), '1.4.0', 1 );
 
 	$scripts->add( 'wp-util', "/wp-includes/js/wp-util$suffix.js", array( 'underscore', 'jquery' ), false, 1 );
+
+	$_wpUtilSettings = array(
+		'ajax' => array(
+			'url' => admin_url( 'admin-ajax.php', 'relative' ),
+		),
+	);
+	if ( defined( 'AJAX_DEBUG' ) && AJAX_DEBUG ) {
+		$_wpUtilSettings['ajax']['debug'] = true;
+	}
+
 	did_action( 'init' ) && $scripts->localize(
 		'wp-util',
 		'_wpUtilSettings',
-		array(
-			'ajax' => array(
-				'url' => admin_url( 'admin-ajax.php', 'relative' ),
-			),
-		)
+		$_wpUtilSettings
 	);
 
 	$scripts->add( 'wp-backbone', "/wp-includes/js/wp-backbone$suffix.js", array( 'backbone', 'wp-util' ), false, 1 );

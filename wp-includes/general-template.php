@@ -4842,7 +4842,12 @@ function __checked_selected_helper( $helper, $current, $echo, $type ) { // phpcs
  */
 function wp_heartbeat_settings( $settings ) {
 	if ( ! is_admin() ) {
-		$settings['ajaxurl'] = admin_url( 'admin-ajax.php', 'relative' );
+		if ( defined( 'AJAX_DEBUG' ) && AJAX_DEBUG ) {
+			// Adding Ajax debug
+			$settings['ajaxurl'] = admin_url( 'admin-ajax.php?debug=heartbeat', 'relative' );
+		} else {
+			$settings['ajaxurl'] = admin_url( 'admin-ajax.php', 'relative' );
+		}
 	}
 
 	if ( is_user_logged_in() ) {

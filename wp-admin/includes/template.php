@@ -2034,6 +2034,9 @@ var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?
 	thousandsSeparator = '<?php echo esc_js( $wp_locale->number_format['thousands_sep'] ); ?>',
 	decimalPoint = '<?php echo esc_js( $wp_locale->number_format['decimal_point'] ); ?>',
 	isRtl = <?php echo (int) is_rtl(); ?>;
+<?php if ( defined( 'AJAX_DEBUG' ) && AJAX_DEBUG ): ?>
+var ajaxDebug = true;
+<?php endif; ?>
 </script>
 	<?php
 	/** This action is documented in wp-admin/admin-header.php */

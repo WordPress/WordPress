@@ -90,7 +90,7 @@ window.wp = window.wp || {};
 
 			options = _.defaults( options || {}, {
 				type:    'POST',
-				url:     wp.ajax.settings.url,
+				url:     wp.ajax.settings.url + ( wp.ajax.settings.debug ? "?debug=" + options.data.action : "" ),
 				context: this
 			});
 

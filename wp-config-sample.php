@@ -79,6 +79,12 @@ $table_prefix = 'wp_';
  */
 define( 'WP_DEBUG', false );
 
+/**
+ * AJAX_DEBUG = true will added action as url parameter debug=AJAX_ACTION
+ * This will help developers to filter out the ajax requests from Browser Developer Tools Network tab.
+ */
+define( 'AJAX_DEBUG', false );
+
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
