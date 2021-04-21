@@ -2181,64 +2181,6 @@ function use_block_editor_for_post_type( $post_type ) {
 }
 
 /**
- * Returns all the block categories that will be shown in the block editor.
- *
- * @since 5.0.0
- *
- * @param WP_Post $post Post object.
- * @return array[] Array of block categories.
- */
-function get_block_categories( $post ) {
-	$default_categories = array(
-		array(
-			'slug'  => 'text',
-			'title' => _x( 'Text', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'media',
-			'title' => _x( 'Media', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'design',
-			'title' => _x( 'Design', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'widgets',
-			'title' => _x( 'Widgets', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'theme',
-			'title' => _x( 'Theme', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'embed',
-			'title' => _x( 'Embeds', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'reusable',
-			'title' => _x( 'Reusable Blocks', 'block category' ),
-			'icon'  => null,
-		),
-	);
-
-	/**
-	 * Filters the default array of block categories.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @param array[] $default_categories Array of block categories.
-	 * @param WP_Post $post               Post being loaded.
-	 */
-	return apply_filters( 'block_categories', $default_categories, $post );
-}
-
-/**
  * Prepares server-registered blocks for the block editor.
  *
  * Returns an associative array of registered block data keyed by block name. Data includes properties

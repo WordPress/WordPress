@@ -23,6 +23,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 global $post_type, $post_type_object, $post, $title, $editor_styles, $wp_meta_boxes;
 
+$editor_name = 'post-editor';
+
 // Flag that we're loading the block editor.
 $current_screen = get_current_screen();
 $current_screen->is_block_editor( true );
@@ -55,6 +57,7 @@ $preload_paths = array(
 	array( '/wp/v2/blocks', 'OPTIONS' ),
 	sprintf( '/wp/v2/%s/%d/autosaves?context=edit', $rest_base, $post->ID ),
 );
+
 
 /**
  * Preload common data by specifying an array of REST API paths that will be preloaded.
@@ -135,31 +138,6 @@ wp_add_inline_script(
 	'before'
 );
 
-
-/*
- * Initialize the editor.
- */
-
-$align_wide         = get_theme_support( 'align-wide' );
-$color_palette      = current( (array) get_theme_support( 'editor-color-palette' ) );
-$font_sizes         = current( (array) get_theme_support( 'editor-font-sizes' ) );
-$gradient_presets   = current( (array) get_theme_support( 'editor-gradient-presets' ) );
-$custom_line_height = get_theme_support( 'custom-line-height' );
-$custom_units       = get_theme_support( 'custom-units' );
-$custom_spacing     = get_theme_support( 'custom-spacing' );
-
-/**
- * Filters the allowed block types for the editor, defaulting to true (all
- * block types supported).
- *
- * @since 5.0.0
- *
- * @param bool|array $allowed_block_types Array of block type slugs, or
- *                                        boolean to enable/disable all.
- * @param WP_Post    $post                The post resource data.
- */
-$allowed_block_types = apply_filters( 'allowed_block_types', true, $post );
-
 /*
  * Get all available templates for the post/page attributes meta-box.
  * The "Default template" array element should only be added if the array is
@@ -174,12 +152,6 @@ $available_templates = ! empty( $available_templates ) ? array_merge(
 	),
 	$available_templates
 ) : $available_templates;
-
-// Media settings.
-$max_upload_size = wp_max_upload_size();
-if ( ! $max_upload_size ) {
-	$max_upload_size = 0;
-}
 
 // Editor Styles.
 $styles = array(
@@ -205,39 +177,6 @@ if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
 				);
 			}
 		}
-	}
-}
-
-// Image sizes.
-
-/** This filter is documented in wp-admin/includes/media.php */
-$image_size_names = apply_filters(
-	'image_size_names_choose',
-	array(
-		'thumbnail' => __( 'Thumbnail' ),
-		'medium'    => __( 'Medium' ),
-		'large'     => __( 'Large' ),
-		'full'      => __( 'Full Size' ),
-	)
-);
-
-$available_image_sizes = array();
-foreach ( $image_size_names as $image_size_slug => $image_size_name ) {
-	$available_image_sizes[] = array(
-		'slug' => $image_size_slug,
-		'name' => $image_size_name,
-	);
-}
-
-$default_size       = get_option( 'image_default_size', 'large' );
-$image_default_size = in_array( $default_size, array_keys( $image_size_names ), true ) ? $image_default_size : 'large';
-
-$image_dimensions = array();
-$all_sizes        = wp_get_registered_image_subsizes();
-foreach ( $available_image_sizes as $size ) {
-	$key = $size['slug'];
-	if ( isset( $all_sizes[ $key ] ) ) {
-		$image_dimensions[ $key ] = $all_sizes[ $key ];
 	}
 }
 
@@ -289,24 +228,13 @@ if ( $user_id ) {
 $body_placeholder = apply_filters( 'write_your_story', __( 'Type / to choose a block' ), $post );
 
 $editor_settings = array(
-	'alignWide'                            => $align_wide,
 	'availableTemplates'                   => $available_templates,
-	'allowedBlockTypes'                    => $allowed_block_types,
-	'disableCustomColors'                  => get_theme_support( 'disable-custom-colors' ),
-	'disableCustomFontSizes'               => get_theme_support( 'disable-custom-font-sizes' ),
-	'disableCustomGradients'               => get_theme_support( 'disable-custom-gradients' ),
 	'disablePostFormats'                   => ! current_theme_supports( 'post-formats' ),
 	/** This filter is documented in wp-admin/edit-form-advanced.php */
 	'titlePlaceholder'                     => apply_filters( 'enter_title_here', __( 'Add title' ), $post ),
 	'bodyPlaceholder'                      => $body_placeholder,
-	'isRTL'                                => is_rtl(),
 	'autosaveInterval'                     => AUTOSAVE_INTERVAL,
-	'maxUploadFileSize'                    => $max_upload_size,
-	'allowedMimeTypes'                     => get_allowed_mime_types(),
 	'styles'                               => $styles,
-	'imageSizes'                           => $available_image_sizes,
-	'imageDefaultSize'                     => $image_default_size,
-	'imageDimensions'                      => $image_dimensions,
 	'richEditingEnabled'                   => user_can_richedit(),
 	'postLock'                             => $lock_details,
 	'postLockUtils'                        => array(
@@ -320,9 +248,6 @@ $editor_settings = array(
 	// Whether or not to load the 'postcustom' meta box is stored as a user meta
 	// field so that we're not always loading its assets.
 	'enableCustomFields'                   => (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true ),
-	'enableCustomLineHeight'               => $custom_line_height,
-	'enableCustomUnits'                    => $custom_units,
-	'enableCustomSpacing'                  => $custom_spacing,
 );
 
 $autosave = wp_get_post_autosave( $post->ID );
@@ -334,18 +259,6 @@ if ( $autosave ) {
 	} else {
 		wp_delete_post_revision( $autosave->ID );
 	}
-}
-
-if ( false !== $color_palette ) {
-	$editor_settings['colors'] = $color_palette;
-}
-
-if ( false !== $font_sizes ) {
-	$editor_settings['fontSizes'] = $font_sizes;
-}
-
-if ( false !== $gradient_presets ) {
-	$editor_settings['gradients'] = $gradient_presets;
 }
 
 if ( ! empty( $post_type_object->template ) ) {
@@ -371,7 +284,6 @@ wp_enqueue_media(
 );
 wp_tinymce_inline_scripts();
 wp_enqueue_editor();
-
 
 /**
  * Styles
@@ -400,15 +312,7 @@ if ( ! isset( $core_meta_boxes['postcustom'] ) || ! $core_meta_boxes['postcustom
 	unset( $editor_settings['enableCustomFields'] );
 }
 
-/**
- * Filters the settings to pass to the block editor.
- *
- * @since 5.0.0
- *
- * @param array   $editor_settings Default editor settings.
- * @param WP_Post $post            Post being edited.
- */
-$editor_settings = apply_filters( 'block_editor_settings', $editor_settings, $post );
+$editor_settings = get_block_editor_settings( $editor_name, $editor_settings );
 
 $init_script = <<<JS
 ( function() {
