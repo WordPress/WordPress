@@ -64,8 +64,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 		</div>
 
-		<hr class="is-large" />
-
 		<div class="about__section has-2-columns">
 			<h2 class="is-section-header is-smaller-heading">
 				<?php _e( 'Now the editor is easier to use' ); ?>
@@ -206,8 +204,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p><?php _e( 'Now it’s simple to let iframes lazy-load. By default, WordPress will add a <code>loading="lazy"</code> attribute to iframe tags when both width and height are specified.' ); ?></p>
 			</div>
 		</div>
-
-		<hr class="is-small" />
 
 		<div class="about__section">
 			<div class="column">
