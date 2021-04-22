@@ -349,7 +349,6 @@
 	align-items: center;
 	justify-content: space-between;
 	-webkit-user-select: auto;
-	-ms-user-select: auto;
 	user-select: auto;
 }
 

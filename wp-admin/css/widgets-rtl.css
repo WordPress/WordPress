@@ -38,7 +38,6 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 
@@ -424,7 +423,6 @@ div#widgets-left .widget-holder {
 	word-wrap: break-word;
 	-ms-word-break: break-all;
 	word-break: break-word;
-	-ms-hyphens: auto;
 	-webkit-hyphens: auto;
 	hyphens: auto;
 }
@@ -567,7 +565,6 @@ div#widgets-right .closed .widgets-sortables {
 .widgets-holder-wrap .sidebar-name,
 .widgets-holder-wrap .sidebar-description {
 	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 

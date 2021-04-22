@@ -2129,7 +2129,6 @@ html.wp-toolbar {
 .postbox .hndle,
 .stuffbox .hndle {
 	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 
@@ -3521,7 +3520,6 @@ img {
 	border-right: 1px solid #dcdcde;
 	border-left: 1px solid #dcdcde;
 	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 
@@ -3751,10 +3749,6 @@ img {
 		background-image: url(../images/spinner-2x.gif);
 	}
 
-}
-
-@-ms-viewport {
-	width: device-width;
 }
 
 @media screen and (max-width: 782px) {

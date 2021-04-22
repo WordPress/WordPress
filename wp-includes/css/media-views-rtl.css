@@ -610,7 +610,6 @@
 	border-left-style: solid;
 	border-left-color: #c3c4c7;
 	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 
@@ -949,7 +948,6 @@
 	list-style: none;
 	text-align: center;
 	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 	width: 25%;
 	box-sizing: border-box;

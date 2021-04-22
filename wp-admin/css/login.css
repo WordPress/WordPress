@@ -404,10 +404,6 @@ input::-ms-reveal {
 	display: none;
 }
 
-@-ms-viewport {
-	width: device-width;
-}
-
 @media screen and (max-height: 550px) {
 	#login {
 		padding: 20px 0;
