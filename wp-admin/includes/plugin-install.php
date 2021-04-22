@@ -689,7 +689,7 @@ function install_plugin_information() {
 						_nx( '%s+ Million', '%s+ Million', $active_installs_millions, 'Active plugin installations' ),
 						number_format_i18n( $active_installs_millions )
 					);
-				} elseif ( 0 == $api->active_installs ) {
+				} elseif ( $api->active_installs < 10 ) {
 					_ex( 'Less Than 10', 'Active plugin installations' );
 				} else {
 					echo number_format_i18n( $api->active_installs ) . '+';
