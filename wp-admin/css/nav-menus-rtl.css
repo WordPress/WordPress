@@ -892,10 +892,9 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 @media only screen and (min-width: 783px) {
-    @supports ((position: -webkit-sticky) or (position: sticky)) and (scroll-margin-bottom: 130px) {
+    @supports (position: sticky) and (scroll-margin-bottom: 130px) {
 		
 		#nav-menu-footer {
-                position: -webkit-sticky;
                 position: sticky;
 				bottom: 0;
 				z-index: 10;
