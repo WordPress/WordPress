@@ -2292,7 +2292,7 @@ function plugin_sandbox_scrape( $plugin ) {
 	}
 
 	wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
-	include WP_PLUGIN_DIR . '/' . $plugin;
+	include_once WP_PLUGIN_DIR . '/' . $plugin;
 }
 
 /**
