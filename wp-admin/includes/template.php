@@ -2345,7 +2345,7 @@ function get_media_states( $post ) {
 	 *                               'Background Image', 'Site Icon', 'Logo'.
 	 * @param WP_Post  $post         The current attachment object.
 	 */
-	 return apply_filters( 'display_media_states', $media_states, $post );
+	return apply_filters( 'display_media_states', $media_states, $post );
 }
 
 /**
