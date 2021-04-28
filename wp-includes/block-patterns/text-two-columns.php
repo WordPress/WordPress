@@ -1,13 +1,44 @@
 <?php
 /**
- * Two columns of Text block pattern.
+ * Two columns of text.
  *
  * @package WordPress
  */
 
 return array(
-	'title'       => __( 'Two columns of text' ),
-	'categories'  => array( 'columns' ),
-	'content'     => "<!-- wp:group -->\n<div class=\"wp-block-group\"><div class=\"wp-block-group__inner-container\"><!-- wp:heading {\"style\":{\"typography\":{\"fontSize\":38},\"color\":{\"text\":\"#ba0c49\"}}} -->\n<h2 class=\"has-text-color\" style=\"font-size:38px;color:#ba0c49\">" . __( 'Which treats of the character and pursuits of the famous gentleman Don Quixote of La Mancha' ) . "</h2>\n<!-- /wp:heading -->\n\n<!-- wp:columns -->\n<div class=\"wp-block-columns\"><!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:paragraph {\"style\":{\"typography\":{\"fontSize\":18}}} -->\n<p style=\"font-size:18px\">" . __( 'In a village of La Mancha, the name of which I have no desire to call to mind, there lived not long since one of those gentlemen that keep a lance in the lance-rack, an old buckler, a lean hack, and a greyhound for coursing. An olla of rather more beef than mutton, a salad on most nights, scraps on Saturdays, lentils on Fridays, and a pigeon or so extra on Sundays, made away with three-quarters of his income.' ) . "</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:paragraph {\"style\":{\"typography\":{\"fontSize\":18}}} -->\n<p style=\"font-size:18px\">" . __( 'The rest of it went in a doublet of fine cloth and velvet breeches and shoes to match for holidays, while on week-days he made a brave figure in his best homespun. He had in his house a housekeeper past forty, a niece under twenty, and a lad for the field and market-place, who used to saddle the hack as well as handle the bill-hook. The age of this gentleman of ours was bordering on fifty; he was of a hardy habit, spare, gaunt-featured, a very early riser and a great sportsman.' ) . "</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column --></div>\n<!-- /wp:columns --></div></div>\n<!-- /wp:group -->",
-	'description' => _x( 'Two columns of text preceded by a long heading.', 'Block pattern description' ),
+	'title'       => _x( 'Two columns of text', 'Block pattern title' ),
+	'categories'  => array( 'columns', 'text' ),
+	'content'     => '<!-- wp:columns {"align":"full"} -->
+	<div class="wp-block-columns"><!-- wp:column -->
+	<div class="wp-block-column"><!-- wp:spacer -->
+	<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
+	<!-- /wp:spacer -->
+	<!-- wp:paragraph {"style":{"typography":{"fontSize":"21px"}, "color":{"text":"#000000"}}} -->
+	<p class="has-text-color" style="font-size:21px;color:#000000;"><strong>' . esc_html__( 'We have worked with:' ) . '</strong></p>
+	<!-- /wp:paragraph -->
+	
+	<!-- wp:paragraph {"style":{"typography":{"fontSize":"24px","lineHeight":"1.2"}}} -->
+	<p style="font-size:24px;line-height:1.2"><a href="https://wordpress.org">' . wp_kses_post( __( 'EARTHFUND™<br>ARCHWEEKLY<br>FUTURE ROADS<br>BUILDING NY' ) ) . '</a></p>
+	<!-- /wp:paragraph -->
+	
+	<!-- wp:spacer -->
+	<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
+	<!-- /wp:spacer --></div>
+	<!-- /wp:column -->
+	
+	<!-- wp:column -->
+	<div class="wp-block-column"><!-- wp:spacer {"height":160} -->
+	<div style="height:160px" aria-hidden="true" class="wp-block-spacer"></div>
+	<!-- /wp:spacer -->
+	
+	<!-- wp:paragraph {"style":{"typography":{"fontSize":"24px","lineHeight":"1.2"}}} -->
+	<p style="font-size:24px;line-height:1.2"><a href="https://wordpress.org">' . wp_kses_post( __( 'DUBAI ROOFS<br>MAY WATSON STUDIO<br>Y.O.L<br>RUDIMENTAR' ) ) . '</a></p>
+	<!-- /wp:paragraph -->
+	
+	<!-- wp:spacer -->
+	<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
+	<!-- /wp:spacer --></div>
+	<!-- /wp:column --></div>
+	<!-- /wp:columns -->',
+	'description' => _x( 'Two columns of text', 'Block pattern description' ),
 );

@@ -19,16 +19,21 @@ function _register_core_block_patterns_and_categories() {
 
 	if ( $should_register_core_patterns ) {
 		$core_block_patterns = array(
-			'text-two-columns',
-			'two-buttons',
-			'two-images',
-			'text-two-columns-with-images',
-			'text-three-columns-buttons',
-			'large-header',
-			'large-header-button',
-			'three-buttons',
-			'heading-paragraph',
+			'media-text-nature',
+			'two-images-gallery',
+			'three-columns-media-text',
 			'quote',
+			'large-header-left',
+			'large-header-text-button',
+			'media-text-art',
+			'text-two-columns-title',
+			'three-columns-text',
+			'text-two-columns-title-offset',
+			'heading',
+			'three-images-gallery',
+			'text-two-columns',
+			'media-text-arquitecture',
+			'two-buttons',
 		);
 
 		foreach ( $core_block_patterns as $core_block_pattern ) {
