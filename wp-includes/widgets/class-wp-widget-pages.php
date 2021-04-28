@@ -61,7 +61,7 @@ class WP_Widget_Pages extends WP_Widget {
 			$sortby = 'menu_order, post_title';
 		}
 
-		$out = wp_list_pages(
+		$output = wp_list_pages(
 			/**
 			 * Filters the arguments for the Pages widget.
 			 *
@@ -85,7 +85,7 @@ class WP_Widget_Pages extends WP_Widget {
 			)
 		);
 
-		if ( ! empty( $out ) ) {
+		if ( ! empty( $output ) ) {
 			echo $args['before_widget'];
 			if ( $title ) {
 				echo $args['before_title'] . $title . $args['after_title'];
@@ -105,7 +105,7 @@ class WP_Widget_Pages extends WP_Widget {
 			?>
 
 			<ul>
-				<?php echo $out; ?>
+				<?php echo $output; ?>
 			</ul>
 
 			<?php
