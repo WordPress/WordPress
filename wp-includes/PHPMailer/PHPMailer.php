@@ -748,7 +748,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '6.4.0';
+    const VERSION = '6.4.1';
 
     /**
      * Error severity: message only, continue processing.
@@ -1723,9 +1723,10 @@ class PHPMailer
                 fwrite($mail, $header);
                 fwrite($mail, $body);
                 $result = pclose($mail);
+                $addrinfo = static::parseAddresses($toAddr);
                 $this->doCallback(
                     ($result === 0),
-                    [$toAddr],
+                    [[$addrinfo['address'], $addrinfo['name']]],
                     $this->cc,
                     $this->bcc,
                     $this->Subject,
@@ -1812,7 +1813,8 @@ class PHPMailer
      */
     protected static function isPermittedPath($path)
     {
-        return !preg_match('#^[a-z]+://#i', $path);
+        //Matches scheme definition from https://tools.ietf.org/html/rfc3986#section-3.1
+        return !preg_match('#^[a-z][a-z\d+.-]*://#i', $path);
     }
 
     /**
@@ -1824,12 +1826,15 @@ class PHPMailer
      */
     protected static function fileIsAccessible($path)
     {
+        if (!static::isPermittedPath($path)) {
+            return false;
+        }
         $readable = file_exists($path);
         //If not a UNC path (expected to start with \\), check read permission, see #2069
         if (strpos($path, '\\\\') !== 0) {
             $readable = $readable && is_readable($path);
         }
-        return static::isPermittedPath($path) && $readable;
+        return  $readable;
     }
 
     /**
@@ -1878,7 +1883,17 @@ class PHPMailer
         if ($this->SingleTo && count($toArr) > 1) {
             foreach ($toArr as $toAddr) {
                 $result = $this->mailPassthru($toAddr, $this->Subject, $body, $header, $params);
-                $this->doCallback($result, [$toAddr], $this->cc, $this->bcc, $this->Subject, $body, $this->From, []);
+                $addrinfo = static::parseAddresses($toAddr);
+                $this->doCallback(
+                    $result,
+                    [[$addrinfo['address'], $addrinfo['name']]],
+                    $this->cc,
+                    $this->bcc,
+                    $this->Subject,
+                    $body,
+                    $this->From,
+                    []
+                );
             }
         } else {
             $result = $this->mailPassthru($to, $this->Subject, $body, $header, $params);
@@ -1967,7 +1982,7 @@ class PHPMailer
                     $isSent = true;
                 }
 
-                $callbacks[] = ['issent' => $isSent, 'to' => $to[0]];
+                $callbacks[] = ['issent' => $isSent, 'to' => $to[0], 'name' => $to[1]];
             }
         }
 
@@ -1988,7 +2003,7 @@ class PHPMailer
         foreach ($callbacks as $cb) {
             $this->doCallback(
                 $cb['issent'],
-                [$cb['to']],
+                [[$cb['to'], $cb['name']]],
                 [],
                 [],
                 $this->Subject,
