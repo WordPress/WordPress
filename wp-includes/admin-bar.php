@@ -131,7 +131,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 
 	$wp_logo_menu_args = array(
 		'id'    => 'wp-logo',
-		'title' => '<span class="ab-icon"></span><span class="screen-reader-text">' . __( 'About WordPress' ) . '</span>',
+		'title' => '<span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">' . __( 'About WordPress' ) . '</span>',
 		'href'  => $about_url,
 	);
 
@@ -209,7 +209,7 @@ function wp_admin_bar_sidebar_toggle( $wp_admin_bar ) {
 		$wp_admin_bar->add_node(
 			array(
 				'id'    => 'menu-toggle',
-				'title' => '<span class="ab-icon"></span><span class="screen-reader-text">' . __( 'Menu' ) . '</span>',
+				'title' => '<span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">' . __( 'Menu' ) . '</span>',
 				'href'  => '#',
 			)
 		);
@@ -879,7 +879,7 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 		return;
 	}
 
-	$title = '<span class="ab-icon"></span><span class="ab-label">' . _x( 'New', 'admin bar menu group label' ) . '</span>';
+	$title = '<span class="ab-icon" aria-hidden="true"></span><span class="ab-label">' . _x( 'New', 'admin bar menu group label' ) . '</span>';
 
 	$wp_admin_bar->add_node(
 		array(
@@ -923,7 +923,7 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 		number_format_i18n( $awaiting_mod )
 	);
 
-	$icon   = '<span class="ab-icon"></span>';
+	$icon   = '<span class="ab-icon" aria-hidden="true"></span>';
 	$title  = '<span class="ab-label awaiting-mod pending-count count-' . $awaiting_mod . '" aria-hidden="true">' . number_format_i18n( $awaiting_mod ) . '</span>';
 	$title .= '<span class="screen-reader-text comments-in-moderation-text">' . $awaiting_text . '</span>';
 
@@ -1033,17 +1033,21 @@ function wp_admin_bar_updates_menu( $wp_admin_bar ) {
 		return;
 	}
 
-	$title  = '<span class="ab-icon"></span><span class="ab-label">' . number_format_i18n( $update_data['counts']['total'] ) . '</span>';
-	$title .= '<span class="screen-reader-text">' . $update_data['title'] . '</span>';
+	$updates_text = sprintf(
+		/* translators: %s: Total number of updates available. */
+		_n( '%s update available', '%s updates available', $update_data['counts']['total'] ),
+		number_format_i18n( $update_data['counts']['total'] )
+	);
+
+	$icon   = '<span class="ab-icon" aria-hidden="true"></span>';
+	$title  = '<span class="ab-label" aria-hidden="true">' . number_format_i18n( $update_data['counts']['total'] ) . '</span>';
+	$title .= '<span class="screen-reader-text updates-available-text">' . $updates_text . '</span>';
 
 	$wp_admin_bar->add_node(
 		array(
 			'id'    => 'updates',
-			'title' => $title,
+			'title' => $icon . $title,
 			'href'  => network_admin_url( 'update-core.php' ),
-			'meta'  => array(
-				'title' => $update_data['title'],
-			),
 		)
 	);
 }
