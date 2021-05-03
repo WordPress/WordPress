@@ -171,6 +171,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	 */
 	protected function get_bulk_actions() {
 		$actions = array();
+
 		if ( MEDIA_TRASH ) {
 			if ( $this->is_trash ) {
 				$actions['untrash'] = __( 'Restore' );
@@ -208,7 +209,9 @@ class WP_Media_List_Table extends WP_List_Table {
 
 			submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 
-			if ( $this->is_trash && current_user_can( 'edit_others_posts' ) && $this->has_items() ) {
+			if ( $this->is_trash && $this->has_items()
+				&& current_user_can( 'edit_others_posts' )
+			) {
 				submit_button( __( 'Empty Trash' ), 'apply', 'delete_all', false );
 			}
 			?>
@@ -336,6 +339,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			} else {
 				$column_key = 'taxonomy-' . $taxonomy;
 			}
+
 			$posts_columns[ $column_key ] = get_taxonomy( $taxonomy )->labels->name;
 		}
 
@@ -346,8 +350,10 @@ class WP_Media_List_Table extends WP_List_Table {
 				$posts_columns['comments'] = '<span class="vers comment-grey-bubble" title="' . esc_attr__( 'Comments' ) . '"><span class="screen-reader-text">' . __( 'Comments' ) . '</span></span>';
 			}
 		}
+
 		/* translators: Column name. */
 		$posts_columns['date'] = _x( 'Date', 'column name' );
+
 		/**
 		 * Filters the Media list table columns.
 		 *
@@ -424,12 +430,15 @@ class WP_Media_List_Table extends WP_List_Table {
 		<strong<?php echo $class; ?>>
 			<?php
 			echo $link_start;
+
 			if ( $thumb ) :
 				?>
 				<span class="media-icon <?php echo sanitize_html_class( $mime . '-icon' ); ?>"><?php echo $thumb; ?></span>
 				<?php
 			endif;
+
 			echo $title . $link_end;
+
 			_media_states( $post );
 			?>
 		</strong>
@@ -598,6 +607,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		if ( $taxonomy ) {
 			$terms = get_the_terms( $post->ID, $taxonomy );
+
 			if ( is_array( $terms ) ) {
 				$out = array();
 				foreach ( $terms as $t ) {

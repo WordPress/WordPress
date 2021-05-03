@@ -413,7 +413,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 			}
 		}
 
-		if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_user_can( 'moderate_comments' ) && $has_items ) {
+		if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && $has_items
+			&& current_user_can( 'moderate_comments' ) 
+		) {
 			wp_nonce_field( 'bulk-destroy', '_destroy_nonce' );
 			$title = ( 'spam' === $comment_status ) ? esc_attr__( 'Empty Spam' ) : esc_attr__( 'Empty Trash' );
 			submit_button( $title, 'apply', 'delete_all', false );
