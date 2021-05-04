@@ -197,18 +197,29 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		}
 
 		try {
-			if ( 'image/jpeg' === $this->mime_type ) {
-				$this->image->setImageCompressionQuality( $quality );
-				$this->image->setImageCompression( imagick::COMPRESSION_JPEG );
-			} else {
-				$this->image->setImageCompressionQuality( $quality );
+			switch ( $this->mime_type ) {
+				case 'image/jpeg':
+					$this->image->setImageCompressionQuality( $quality );
+					$this->image->setImageCompression( imagick::COMPRESSION_JPEG );
+					break;
+				case 'image/webp':
+					if ( _wp_webp_is_lossy( $this->file ) ) {
+						$this->image->setImageCompressionQuality( $quality );
+					} else {
+						// Use WebP lossless settings.
+						$this->image->setImageCompressionQuality( 100 );
+						$this->image->setOption( 'webp:lossless', 'true' );
+					}
+					break;
+				default:
+					$this->image->setImageCompressionQuality( $quality );
 			}
 		} catch ( Exception $e ) {
 			return new WP_Error( 'image_quality_error', $e->getMessage() );
 		}
-
 		return true;
 	}
+
 
 	/**
 	 * Sets or updates current image size.

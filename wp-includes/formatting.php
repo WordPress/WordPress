@@ -3318,7 +3318,7 @@ function translate_smiley( $matches ) {
 
 	$matches    = array();
 	$ext        = preg_match( '/\.([^.]+)$/', $img, $matches ) ? strtolower( $matches[1] ) : false;
-	$image_exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
+	$image_exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' );
 
 	// Don't convert smilies that aren't images - they're probably emoji.
 	if ( ! in_array( $ext, $image_exts, true ) ) {

@@ -993,7 +993,7 @@ function wp_media_upload_handler() {
 function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'html' ) {
 	if ( ! empty( $file ) ) {
 
-		$allowed_extensions = array( 'jpg', 'jpeg', 'jpe', 'png', 'gif' );
+		$allowed_extensions = array( 'jpg', 'jpeg', 'jpe', 'png', 'gif', 'webp' );
 
 		/**
 		 * Filters the list of allowed file extensions when sideloading an image from a URL.

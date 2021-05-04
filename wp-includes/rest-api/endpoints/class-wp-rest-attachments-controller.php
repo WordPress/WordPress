@@ -438,7 +438,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			);
 		}
 
-		$supported_types = array( 'image/jpeg', 'image/png', 'image/gif' );
+		$supported_types = array( 'image/jpeg', 'image/png', 'image/gif', 'image/webp' );
 		$mime_type       = get_post_mime_type( $attachment_id );
 		if ( ! in_array( $mime_type, $supported_types, true ) ) {
 			return new WP_Error(

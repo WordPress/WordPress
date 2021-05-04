@@ -4980,6 +4980,7 @@ function wp_show_heic_upload_error( $plupload_settings ) {
  * Allows PHP's getimagesize() to be debuggable when necessary.
  *
  * @since 5.7.0
+ * @since 5.8.0 Added support for WebP images.
  *
  * @param string $filename   The file path.
  * @param array  $image_info Optional. Extended image information (passed by reference).
@@ -4994,9 +4995,9 @@ function wp_getimagesize( $filename, array &$image_info = null ) {
 		defined( 'WP_DEBUG' ) && WP_DEBUG
 	) {
 		if ( 2 === func_num_args() ) {
-			return getimagesize( $filename, $image_info );
+			return _wp_get_image_size( $filename, $image_info );
 		} else {
-			return getimagesize( $filename );
+			return _wp_get_image_size( $filename );
 		}
 	}
 
@@ -5011,9 +5012,133 @@ function wp_getimagesize( $filename, array &$image_info = null ) {
 	 */
 	if ( 2 === func_num_args() ) {
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors
-		return @getimagesize( $filename, $image_info );
+		return @_wp_get_image_size( $filename, $image_info );
 	} else {
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors
-		return @getimagesize( $filename );
+		return @_wp_get_image_size( $filename );
 	}
+}
+
+/**
+ * Extracts meta information about a webp file: width, height and type.
+ *
+ * @since 5.8.0
+ *
+ * @param [type] $filename Path to a WebP file.
+ * @return array $webp_info {
+ *     An array of WebP image information.
+ *
+ *     @type array $size {
+ *         @type int  $width  Image width.
+ *         @type int  $height Image height.
+ *         @type bool $type   The WebP type: one of 'lossy', 'lossless' or 'animated-alpha'.
+ *     }
+ */
+function wp_get_webp_info( $filename ) {
+	$width  = false;
+	$height = false;
+	$type   = false;
+	if ( ! 'image/webp' === wp_get_image_mime( $filename ) ) {
+		return compact( 'width', 'height', 'type' );
+	}
+	try {
+		$handle = fopen( $filename, 'rb' );
+		if ( $handle ) {
+			$magic = fread( $handle, 40 );
+			fclose( $handle );
+
+			// Make sure we got enough bytes.
+			if ( strlen( $magic ) < 40 ) {
+				return compact( 'width', 'height', 'type' );
+			}
+
+			// The headers are a little different for each of the three formats.
+			// Header values based on WebP docs, see https://developers.google.com/speed/webp/docs/riff_container.
+			switch ( substr( $magic, 12, 4 ) ) {
+				// Lossy WebP.
+				case 'VP8 ':
+					$parts  = unpack( 'v2', substr( $magic, 26, 4 ) );
+					$width  = (int) ( $parts[1] & 0x3FFF );
+					$height = (int) ( $parts[2] & 0x3FFF );
+					$type   = 'lossy';
+					break;
+				// Lossless WebP.
+				case 'VP8L':
+					$parts  = unpack( 'C4', substr( $magic, 21, 4 ) );
+					$width  = (int) ( $parts[1] | ( ( $parts[2] & 0x3F ) << 8 ) ) + 1;
+					$height = (int) ( ( ( $parts[2] & 0xC0 ) >> 6 ) | ( $parts[3] << 2 ) | ( ( $parts[4] & 0x03 ) << 10 ) ) + 1;
+					$type   = 'lossless';
+					break;
+				// Animated/alpha WebP.
+				case 'VP8X':
+					// Pad 24-bit int.
+					$width = unpack( 'V', substr( $magic, 24, 3 ) . "\x00" );
+					$width = (int) ( $width[1] & 0xFFFFFF ) + 1;
+					// Pad 24-bit int.
+					$height = unpack( 'V', substr( $magic, 27, 3 ) . "\x00" );
+					$height = (int) ( $height[1] & 0xFFFFFF ) + 1;
+					$type   = 'animated-alpha';
+					break;
+			}
+		}
+	} catch ( Exception $e ) {
+	}
+	return compact( 'width', 'height', 'type' );
+}
+
+/**
+ * Determines if a passed image is a lossy WebP image.
+ *
+ * @since 5.8.0
+ *
+ * @param string $filename The file path.
+ * @return bool Whether the file is a lossy WebP file.
+ */
+function _wp_webp_is_lossy( $filename ) {
+	$webp_info = wp_get_webp_info( $filename );
+	$type      = $webp_info['type'];
+	return $type && 'lossy' === $type;
+}
+
+/**
+ * Gets the image size, with support for WebP images.
+ *
+ * @since 5.8.0
+ * @access private
+ *
+ * @param string $filename  The file path.
+ * @param array  $imageinfo Extended image information, passed by reference.
+ * @return array|false Array of image information or false on failure.
+ */
+function _wp_get_image_size( $filename, &$imageinfo = array() ) {
+	// Try getimagesize() first.
+	$info = getimagesize( $filename, $imageinfo );
+	if ( false !== $info ) {
+		return $info;
+	}
+	// For PHP versions that don't support WebP images, extract the image
+	// size info from the file headers.
+	if ( 'image/webp' === wp_get_image_mime( $filename ) ) {
+		$webp_info = wp_get_webp_info( $filename );
+		$width     = $webp_info['width'];
+		$height    = $webp_info['height'];
+
+			// Mimic the native return format.
+		if ( $width && $height ) {
+			return array(
+				$width,
+				$height,
+				IMAGETYPE_WEBP, // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
+				sprintf(
+					'width="%d" height="%d"',
+					$width,
+					$height
+				),
+				'mime' => 'image/webp',
+			);
+		}
+	}
+
+	// The image could not be parsed.
+	return false;
 }
