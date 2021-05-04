@@ -50,7 +50,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	private $nesting_level = 0;
 
 	/**
-	 * Flag for if we're current doing an action, rather than a filter.
+	 * Flag for if we're currently doing an action, rather than a filter.
 	 *
 	 * @since 4.7.0
 	 * @var bool
@@ -58,16 +58,16 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	private $doing_action = false;
 
 	/**
-	 * Adds a callback function to the specified filter hook.
+	 * Adds a callback function to a filter hook.
 	 *
 	 * @since 4.7.0
 	 *
 	 * @param string   $hook_name     The name of the filter to add the callback to.
 	 * @param callable $callback      The callback to be run when the filter is applied.
-	 * @param int      $priority      The order in which the functions associated with a particular action
+	 * @param int      $priority      The order in which the functions associated with a particular filter
 	 *                                are executed. Lower numbers correspond with earlier execution,
 	 *                                and functions with the same priority are executed in the order
-	 *                                in which they were added to the action.
+	 *                                in which they were added to the filter.
 	 * @param int      $accepted_args The number of arguments the function accepts.
 	 */
 	public function add_filter( $hook_name, $callback, $priority, $accepted_args ) {
@@ -164,7 +164,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	}
 
 	/**
-	 * Removes a callback function from the specified filter hook.
+	 * Removes a callback function from a filter hook.
 	 *
 	 * @since 4.7.0
 	 *

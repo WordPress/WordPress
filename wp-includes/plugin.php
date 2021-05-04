@@ -279,7 +279,8 @@ function has_filter( $hook_name, $callback = false ) {
  *
  * @param string   $hook_name The filter hook to which the function to be removed is hooked.
  * @param callable $callback  The name of the function which should be removed.
- * @param int      $priority  Optional. The priority of the function. Default 10.
+ * @param int      $priority  Optional. The exact priority used when adding the original
+ *                            filter callback. Default 10.
  * @return bool Whether the function existed before it was removed.
  */
 function remove_filter( $hook_name, $callback, $priority = 10 ) {
@@ -553,7 +554,8 @@ function has_action( $hook_name, $callback = false ) {
  *
  * @param string   $hook_name The action hook to which the function to be removed is hooked.
  * @param callable $callback  The name of the function which should be removed.
- * @param int      $priority  Optional. The priority of the function. Default 10.
+ * @param int      $priority  Optional. The exact priority used when adding the original
+ *                            action callback. Default 10.
  * @return bool Whether the function is removed.
  */
 function remove_action( $hook_name, $callback, $priority = 10 ) {
