@@ -2258,7 +2258,7 @@ function the_block_editor_meta_boxes() {
 	<form class="metabox-base-form">
 	<?php the_block_editor_meta_box_post_form_hidden_fields( $post ); ?>
 	</form>
-	<form id="toggle-custom-fields-form" method="post" action="<?php echo esc_attr( admin_url( 'post.php' ) ); ?>">
+	<form id="toggle-custom-fields-form" method="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>">
 		<?php wp_nonce_field( 'toggle-custom-fields', 'toggle-custom-fields-nonce' ); ?>
 		<input type="hidden" name="action" value="toggle-custom-fields" />
 	</form>
