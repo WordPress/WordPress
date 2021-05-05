@@ -371,7 +371,7 @@ if ( ! function_exists( 'is_iterable' ) ) {
 	}
 }
 
-// WebP constants may not be defined, even in cases where the format is supported.
+// WebP constants are only defined in PHP 7.1+.
 if ( ! defined( 'IMAGETYPE_WEBP' ) ) {
 	define( 'IMAGETYPE_WEBP', 18 );
 }

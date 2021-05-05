@@ -3079,9 +3079,11 @@ function wp_get_image_mime( $file ) {
 			return false;
 		}
 
-		// Add WebP fallback detection when image library doesn't support WebP.
-		// Note: detection values come from LibWebP, see
-		// https://github.com/webmproject/libwebp/blob/master/imageio/image_dec.c#L30
+		/*
+		 * Add WebP fallback detection when image library doesn't support WebP.
+		 * Note: detection values come from LibWebP, see
+		 * https://github.com/webmproject/libwebp/blob/master/imageio/image_dec.c#L30
+		 */
 		$magic = bin2hex( $magic );
 		if (
 			// RIFF.

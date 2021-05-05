@@ -5024,7 +5024,7 @@ function wp_getimagesize( $filename, array &$image_info = null ) {
  *
  * @since 5.8.0
  *
- * @param [type] $filename Path to a WebP file.
+ * @param string $filename Path to a WebP file.
  * @return array $webp_info {
  *     An array of WebP image information.
  *
@@ -5038,9 +5038,11 @@ function wp_get_webp_info( $filename ) {
 	$width  = false;
 	$height = false;
 	$type   = false;
+
 	if ( ! 'image/webp' === wp_get_image_mime( $filename ) ) {
 		return compact( 'width', 'height', 'type' );
 	}
+
 	try {
 		$handle = fopen( $filename, 'rb' );
 		if ( $handle ) {
@@ -5083,6 +5085,7 @@ function wp_get_webp_info( $filename ) {
 		}
 	} catch ( Exception $e ) {
 	}
+
 	return compact( 'width', 'height', 'type' );
 }
 
@@ -5097,6 +5100,7 @@ function wp_get_webp_info( $filename ) {
 function _wp_webp_is_lossy( $filename ) {
 	$webp_info = wp_get_webp_info( $filename );
 	$type      = $webp_info['type'];
+
 	return $type && 'lossy' === $type;
 }
 
@@ -5113,17 +5117,19 @@ function _wp_webp_is_lossy( $filename ) {
 function _wp_get_image_size( $filename, &$imageinfo = array() ) {
 	// Try getimagesize() first.
 	$info = getimagesize( $filename, $imageinfo );
+
 	if ( false !== $info ) {
 		return $info;
 	}
-	// For PHP versions that don't support WebP images, extract the image
-	// size info from the file headers.
+
+	// For PHP versions that don't support WebP images,
+	// extract the image size info from the file headers.
 	if ( 'image/webp' === wp_get_image_mime( $filename ) ) {
 		$webp_info = wp_get_webp_info( $filename );
 		$width     = $webp_info['width'];
 		$height    = $webp_info['height'];
 
-			// Mimic the native return format.
+		// Mimic the native return format.
 		if ( $width && $height ) {
 			return array(
 				$width,
