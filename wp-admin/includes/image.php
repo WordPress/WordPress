@@ -723,12 +723,9 @@ function wp_read_image_metadata( $file ) {
 		wp_getimagesize( $file, $info );
 
 		if ( ! empty( $info['APP13'] ) ) {
-			if (
-				// Skip when running unit tests.
-				! defined( 'WP_RUN_CORE_TESTS' )
-				&&
-				// Process without silencing errors when in debug mode.
-				defined( 'WP_DEBUG' ) && WP_DEBUG
+			// Don't silence errors when in debug mode, unless running unit tests.
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG
+				&& ! defined( 'WP_RUN_CORE_TESTS' )
 			) {
 				$iptc = iptcparse( $info['APP13'] );
 			} else {
@@ -794,12 +791,9 @@ function wp_read_image_metadata( $file ) {
 	$exif_image_types = apply_filters( 'wp_read_image_metadata_types', array( IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM ) );
 
 	if ( is_callable( 'exif_read_data' ) && in_array( $image_type, $exif_image_types, true ) ) {
-		if (
-			// Skip when running unit tests.
-			! defined( 'WP_RUN_CORE_TESTS' )
-			&&
-			// Process without silencing errors when in debug mode.
-			defined( 'WP_DEBUG' ) && WP_DEBUG
+		// Don't silence errors when in debug mode, unless running unit tests.
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG
+			&& ! defined( 'WP_RUN_CORE_TESTS' )
 		) {
 			$exif = exif_read_data( $file );
 		} else {

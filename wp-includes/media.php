@@ -4987,36 +4987,63 @@ function wp_show_heic_upload_error( $plupload_settings ) {
  * @return array|false Array of image information or false on failure.
  */
 function wp_getimagesize( $filename, array &$image_info = null ) {
-	if (
-		// Skip when running unit tests.
-		! defined( 'WP_RUN_CORE_TESTS' )
-		&&
-		// Return without silencing errors when in debug mode.
-		defined( 'WP_DEBUG' ) && WP_DEBUG
+	// Don't silence errors when in debug mode, unless running unit tests.
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG
+		&& ! defined( 'WP_RUN_CORE_TESTS' )
 	) {
 		if ( 2 === func_num_args() ) {
-			return _wp_get_image_size( $filename, $image_info );
+			$info = getimagesize( $filename, $image_info );
 		} else {
-			return _wp_get_image_size( $filename );
+			$info = getimagesize( $filename );
+		}
+	} else {
+		/*
+		 * Silencing notice and warning is intentional.
+		 *
+		 * getimagesize() has a tendency to generate errors, such as
+		 * "corrupt JPEG data: 7191 extraneous bytes before marker",
+		 * even when it's able to provide image size information.
+		 *
+		 * See https://core.trac.wordpress.org/ticket/42480
+		 */
+		if ( 2 === func_num_args() ) {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors
+			$info = @getimagesize( $filename, $image_info );
+		} else {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors
+			$info = @getimagesize( $filename );
 		}
 	}
 
-	/*
-	 * Silencing notice and warning is intentional.
-	 *
-	 * getimagesize() has a tendency to generate errors, such as
-	 * "corrupt JPEG data: 7191 extraneous bytes before marker",
-	 * even when it's able to provide image size information.
-	 *
-	 * See https://core.trac.wordpress.org/ticket/42480
-	 */
-	if ( 2 === func_num_args() ) {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors
-		return @_wp_get_image_size( $filename, $image_info );
-	} else {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors
-		return @_wp_get_image_size( $filename );
+	if ( false !== $info ) {
+		return $info;
 	}
+
+	// For PHP versions that don't support WebP images,
+	// extract the image size info from the file headers.
+	if ( 'image/webp' === wp_get_image_mime( $filename ) ) {
+		$webp_info = wp_get_webp_info( $filename );
+		$width     = $webp_info['width'];
+		$height    = $webp_info['height'];
+
+		// Mimic the native return format.
+		if ( $width && $height ) {
+			return array(
+				$width,
+				$height,
+				IMAGETYPE_WEBP, // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
+				sprintf(
+					'width="%d" height="%d"',
+					$width,
+					$height
+				),
+				'mime' => 'image/webp',
+			);
+		}
+	}
+
+	// The image could not be parsed.
+	return false;
 }
 
 /**
@@ -5102,49 +5129,4 @@ function _wp_webp_is_lossy( $filename ) {
 	$type      = $webp_info['type'];
 
 	return $type && 'lossy' === $type;
-}
-
-/**
- * Gets the image size, with support for WebP images.
- *
- * @since 5.8.0
- * @access private
- *
- * @param string $filename  The file path.
- * @param array  $imageinfo Extended image information, passed by reference.
- * @return array|false Array of image information or false on failure.
- */
-function _wp_get_image_size( $filename, &$imageinfo = array() ) {
-	// Try getimagesize() first.
-	$info = getimagesize( $filename, $imageinfo );
-
-	if ( false !== $info ) {
-		return $info;
-	}
-
-	// For PHP versions that don't support WebP images,
-	// extract the image size info from the file headers.
-	if ( 'image/webp' === wp_get_image_mime( $filename ) ) {
-		$webp_info = wp_get_webp_info( $filename );
-		$width     = $webp_info['width'];
-		$height    = $webp_info['height'];
-
-		// Mimic the native return format.
-		if ( $width && $height ) {
-			return array(
-				$width,
-				$height,
-				IMAGETYPE_WEBP, // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
-				sprintf(
-					'width="%d" height="%d"',
-					$width,
-					$height
-				),
-				'mime' => 'image/webp',
-			);
-		}
-	}
-
-	// The image could not be parsed.
-	return false;
 }
