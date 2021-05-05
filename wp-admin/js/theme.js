@@ -1965,7 +1965,7 @@ themes.RunInstaller = {
 		// Set up the view.
 		// Passes the default 'section' as an option.
 		this.view = new themes.view.Installer({
-			section: 'featured',
+			section: 'popular',
 			SearchView: themes.view.InstallerSearch
 		});
 
@@ -2032,12 +2032,12 @@ themes.RunInstaller = {
 		/*
 		 * Handles sorting / browsing routes.
 		 * Also handles the root URL triggering a sort request
-		 * for `featured`, the default view.
+		 * for `popular`, the default view.
 		 */
 		themes.router.on( 'route:sort', function( sort ) {
 			if ( ! sort ) {
-				sort = 'featured';
-				themes.router.navigate( themes.router.baseUrl( '?browse=featured' ), { replace: true } );
+				sort = 'popular';
+				themes.router.navigate( themes.router.baseUrl( '?browse=popular' ), { replace: true } );
 			}
 			self.view.sort( sort );
 
