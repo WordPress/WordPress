@@ -200,7 +200,7 @@ class Walker_Comment extends Walker {
 		}
 
 		if ( 'comment' === $comment->comment_type ) {
-			remove_filter( 'comment_text', array( $this, 'filter_comment_text' ), 40, 2 );
+			remove_filter( 'comment_text', array( $this, 'filter_comment_text' ), 40 );
 		}
 	}
 
