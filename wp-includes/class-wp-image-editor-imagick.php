@@ -203,7 +203,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 					$this->image->setImageCompression( imagick::COMPRESSION_JPEG );
 					break;
 				case 'image/webp':
-					if ( _wp_webp_is_lossy( $this->file ) ) {
+					$webp_info = wp_get_webp_info( $this->file );
+					$type      = $webp_info['type'];
+
+					if ( $type && 'lossy' === $type ) {
 						$this->image->setImageCompressionQuality( $quality );
 					} else {
 						// Use WebP lossless settings.

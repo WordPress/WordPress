@@ -5115,18 +5115,3 @@ function wp_get_webp_info( $filename ) {
 
 	return compact( 'width', 'height', 'type' );
 }
-
-/**
- * Determines if a passed image is a lossy WebP image.
- *
- * @since 5.8.0
- *
- * @param string $filename The file path.
- * @return bool Whether the file is a lossy WebP file.
- */
-function _wp_webp_is_lossy( $filename ) {
-	$webp_info = wp_get_webp_info( $filename );
-	$type      = $webp_info['type'];
-
-	return $type && 'lossy' === $type;
-}
