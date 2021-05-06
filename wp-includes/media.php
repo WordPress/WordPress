@@ -5066,7 +5066,7 @@ function wp_get_webp_info( $filename ) {
 	$height = false;
 	$type   = false;
 
-	if ( ! 'image/webp' === wp_get_image_mime( $filename ) ) {
+	if ( 'image/webp' !== wp_get_image_mime( $filename ) ) {
 		return compact( 'width', 'height', 'type' );
 	}
 
