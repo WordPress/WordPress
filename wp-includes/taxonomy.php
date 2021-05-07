@@ -2769,7 +2769,7 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	 * @since 2.8.0
 	 *
 	 * @param int    $object_id  Object ID.
-	 * @param array  $terms      An array of object terms.
+	 * @param array  $terms      An array of object term IDs or slugs.
 	 * @param array  $tt_ids     An array of term taxonomy IDs.
 	 * @param string $taxonomy   Taxonomy slug.
 	 * @param bool   $append     Whether to append new terms to the old terms.

@@ -56,7 +56,7 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @return array Messages during an upgrade.
+	 * @return string[] Messages during an upgrade.
 	 */
 	public function get_upgrade_messages() {
 		return $this->messages;

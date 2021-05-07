@@ -85,7 +85,7 @@ function is_nav_menu( $menu ) {
  *
  * @global array $_wp_registered_nav_menus
  *
- * @param array $locations Associative array of menu location identifiers (like a slug) and descriptive text.
+ * @param string[] $locations Associative array of menu location identifiers (like a slug) and descriptive text.
  */
 function register_nav_menus( $locations = array() ) {
 	global $_wp_registered_nav_menus;
@@ -143,7 +143,8 @@ function register_nav_menu( $location, $description ) {
  *
  * @global array $_wp_registered_nav_menus
  *
- * @return array Registered navigation menu locations. If none are registered, an empty array.
+ * @return string[] Associative array of egistered navigation menu descriptions keyed
+ *                  by their location. If none are registered, an empty array.
  */
 function get_registered_nav_menus() {
 	global $_wp_registered_nav_menus;
@@ -158,10 +159,9 @@ function get_registered_nav_menus() {
  *
  * @since 3.0.0
  *
- * @return array Registered navigation menu locations and the menus assigned them.
- *               If none are registered, an empty array.
+ * @return int[] Associative array of egistered navigation menu IDs keyed by their
+ *               location name. If none are registered, an empty array.
  */
-
 function get_nav_menu_locations() {
 	$locations = get_theme_mod( 'nav_menu_locations' );
 	return ( is_array( $locations ) ) ? $locations : array();
