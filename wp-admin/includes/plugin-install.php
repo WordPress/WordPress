@@ -880,7 +880,7 @@ function install_plugin_information() {
 				break;
 			case 'newer_installed':
 				/* translators: %s: Plugin version. */
-				echo '<a class="button button-primary right disabled">' . sprintf( __( 'Newer Version (%s) Installed' ), $status['version'] ) . '</a>';
+				echo '<a class="button button-primary right disabled">' . sprintf( __( 'Newer Version (%s) Installed' ), esc_html( $status['version'] ) ) . '</a>';
 				break;
 			case 'latest_installed':
 				echo '<a class="button button-primary right disabled">' . __( 'Latest Version Installed' ) . '</a>';
