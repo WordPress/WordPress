@@ -8,7 +8,8 @@
 			"source": "html",
 			"selector": "pre",
 			"default": "",
-			"__unstablePreserveWhiteSpace": true
+			"__unstablePreserveWhiteSpace": true,
+			"__experimentalRole": "content"
 		},
 		"textAlign": {
 			"type": "string"
@@ -16,6 +17,10 @@
 	},
 	"supports": {
 		"anchor": true,
+		"color": {
+			"gradients": true,
+			"link": true
+		},
 		"__experimentalFontFamily": true,
 		"fontSize": true,
 		"spacing": {

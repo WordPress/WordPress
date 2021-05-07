@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 455);
+/******/ 	return __webpack_require__(__webpack_require__.s = 458);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -101,7 +101,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["coreData"] =
 
 /***/ }),
 
-/***/ 104:
+/***/ 107:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -425,18 +425,21 @@ module.exports = EquivalentKeyMap;
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(37);
+var arrayWithHoles = __webpack_require__(38);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]);
+
+  if (_i == null) return;
   var _arr = [];
   var _n = true;
   var _d = false;
-  var _e = undefined;
+
+  var _s, _e;
 
   try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
       _arr.push(_s.value);
 
       if (i && _arr.length === i) break;
@@ -458,7 +461,7 @@ function _iterableToArrayLimit(arr, i) {
 var unsupportedIterableToArray = __webpack_require__(28);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(38);
+var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 
@@ -467,25 +470,6 @@ var nonIterableRest = __webpack_require__(38);
 
 function _slicedToArray(arr, i) {
   return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
-}
-
-/***/ }),
-
-/***/ 147:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toArray; });
-/* harmony import */ var _arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(37);
-/* harmony import */ var _iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(39);
-/* harmony import */ var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
-/* harmony import */ var _nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(38);
-
-
-
-
-function _toArray(arr) {
-  return Object(_arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(arr) || Object(_iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(arr) || Object(_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(arr) || Object(_nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])();
 }
 
 /***/ }),
@@ -507,7 +491,7 @@ function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(39);
+var iterableToArray = __webpack_require__(42);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
 var unsupportedIterableToArray = __webpack_require__(28);
@@ -527,6 +511,25 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
+/***/ 151:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toArray; });
+/* harmony import */ var _arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(38);
+/* harmony import */ var _iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(42);
+/* harmony import */ var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
+/* harmony import */ var _nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(39);
+
+
+
+
+function _toArray(arr) {
+  return Object(_arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(arr) || Object(_iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(arr) || Object(_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(arr) || Object(_nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])();
+}
+
+/***/ }),
+
 /***/ 16:
 /***/ (function(module, exports) {
 
@@ -541,7 +544,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 203:
+/***/ 209:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -713,7 +716,7 @@ function _unsupportedIterableToArray(o, minLen) {
 
 /***/ }),
 
-/***/ 37:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -724,24 +727,13 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ 38:
+/***/ 39:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
 
 /***/ }),
@@ -1035,7 +1027,18 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 455:
+/***/ 42:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+
+/***/ }),
+
+/***/ 458:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1163,7 +1166,7 @@ var toConsumableArray = __webpack_require__(15);
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external ["wp","isShallowEqual"]
-var external_wp_isShallowEqual_ = __webpack_require__(65);
+var external_wp_isShallowEqual_ = __webpack_require__(67);
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/if-matching-action.js
@@ -1309,10 +1312,10 @@ var external_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(ext
 var external_wp_i18n_ = __webpack_require__(1);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toArray.js
-var toArray = __webpack_require__(147);
+var toArray = __webpack_require__(151);
 
 // EXTERNAL MODULE: ./node_modules/uuid/dist/esm-browser/v4.js + 4 modules
-var v4 = __webpack_require__(203);
+var v4 = __webpack_require__(209);
 
 // EXTERNAL MODULE: external ["wp","url"]
 var external_wp_url_ = __webpack_require__(29);
@@ -4525,7 +4528,7 @@ var rememo = __webpack_require__(40);
 var STORE_NAME = 'core';
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(104);
+var equivalent_key_map = __webpack_require__(107);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/selectors.js
@@ -4770,7 +4773,7 @@ var getUserQueryResults = Object(rememo["a" /* default */])(function (state, que
  * @param {Object} state   Data state.
  * @param {string} kind  Entity kind.
  *
- * @return {boolean} Whether the entities are loaded
+ * @return {Array<Object>} Array of entities with config matching kind.
  */
 
 function getEntitiesByKind(state, kind) {
@@ -6119,49 +6122,61 @@ function resolvers_experimentalGetTemplateForLink(link) {
     while (1) {
       switch (_context12.prev = _context12.next) {
         case 0:
-          _context12.next = 2;
+          _context12.prev = 0;
+          _context12.next = 3;
           return regularFetch(Object(external_wp_url_["addQueryArgs"])(link, {
             '_wp-find-template': true
           }));
 
-        case 2:
+        case 3:
           template = _context12.sent;
+          _context12.next = 8;
+          break;
 
-          if (!(template === null)) {
-            _context12.next = 5;
+        case 6:
+          _context12.prev = 6;
+          _context12.t0 = _context12["catch"](0);
+
+        case 8:
+          if (template) {
+            _context12.next = 10;
             break;
           }
 
           return _context12.abrupt("return");
 
-        case 5:
-          _context12.next = 7;
+        case 10:
+          _context12.next = 12;
           return resolvers_getEntityRecord('postType', 'wp_template', template.id);
 
-        case 7:
-          _context12.next = 9;
+        case 12:
+          _context12.next = 14;
           return external_wp_data_["controls"].select('core', 'getEntityRecord', 'postType', 'wp_template', template.id);
 
-        case 9:
+        case 14:
           record = _context12.sent;
 
           if (!record) {
-            _context12.next = 13;
+            _context12.next = 18;
             break;
           }
 
-          _context12.next = 13;
+          _context12.next = 18;
           return receiveEntityRecords('postType', 'wp_template', [record], {
             'find-template': link
           });
 
-        case 13:
+        case 18:
         case "end":
           return _context12.stop();
       }
     }
-  }, _marked12);
+  }, _marked12, null, [[0, 6]]);
 }
+
+resolvers_experimentalGetTemplateForLink.shouldInvalidate = function (action) {
+  return (action.type === 'RECEIVE_ITEMS' || action.type === 'REMOVE_ITEMS') && action.invalidateCache && action.kind === 'postType' && action.name === 'wp_template';
+};
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/locks/selectors.js
 
@@ -6464,6 +6479,11 @@ var external_wp_htmlEntities_ = __webpack_require__(57);
 
 
 
+
+function _experimental_fetch_link_suggestions_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _experimental_fetch_link_suggestions_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { _experimental_fetch_link_suggestions_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { _experimental_fetch_link_suggestions_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * WordPress dependencies
  */
@@ -6475,6 +6495,12 @@ var external_wp_htmlEntities_ = __webpack_require__(57);
  * Filters the search by type
  *
  * @typedef { 'post' | 'term' | 'post-format' } WPLinkSearchType
+ */
+
+/**
+ * A link with an id may be of kind post-type or taxonomy
+ *
+ * @typedef { 'post-type' | 'taxonomy' } WPKind
  */
 
 /**
@@ -6494,6 +6520,7 @@ var external_wp_htmlEntities_ = __webpack_require__(57);
  * @property {string} url    Link url.
  * @property {string} title  Title of the link.
  * @property {string} type   The taxonomy or post type slug or type URL.
+ * @property {WPKind} [kind] Link kind of post-type or taxonomy
  */
 
 /**
@@ -6564,6 +6591,15 @@ var fetchLinkSuggestions = /*#__PURE__*/function () {
                   type: 'post',
                   subtype: subtype
                 })
+              }).then(function (results) {
+                return results.map(function (result) {
+                  return _experimental_fetch_link_suggestions_objectSpread(_experimental_fetch_link_suggestions_objectSpread({}, result), {}, {
+                    meta: {
+                      kind: 'post-type',
+                      subtype: subtype
+                    }
+                  });
+                });
               }).catch(function () {
                 return [];
               }) // fail by returning no results
@@ -6579,6 +6615,15 @@ var fetchLinkSuggestions = /*#__PURE__*/function () {
                   type: 'term',
                   subtype: subtype
                 })
+              }).then(function (results) {
+                return results.map(function (result) {
+                  return _experimental_fetch_link_suggestions_objectSpread(_experimental_fetch_link_suggestions_objectSpread({}, result), {}, {
+                    meta: {
+                      kind: 'taxonomy',
+                      subtype: subtype
+                    }
+                  });
+                });
               }).catch(function () {
                 return [];
               }));
@@ -6613,11 +6658,14 @@ var fetchLinkSuggestions = /*#__PURE__*/function () {
                * @param {{ id: number, url:string, title?:string, subtype?: string, type?: string }} result
                */
               function (result) {
+                var _result$meta;
+
                 return {
                   id: result.id,
                   url: result.url,
                   title: Object(external_wp_htmlEntities_["decodeEntities"])(result.title || '') || Object(external_wp_i18n_["__"])('(no title)'),
-                  type: result.subtype || result.type
+                  type: result.subtype || result.type,
+                  kind: result === null || result === void 0 ? void 0 : (_result$meta = result.meta) === null || _result$meta === void 0 ? void 0 : _result$meta.kind
                 };
               });
             }));
@@ -6857,7 +6905,7 @@ function _setPrototypeOf(o, p) {
 
 /***/ }),
 
-/***/ 65:
+/***/ 67:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["isShallowEqual"]; }());

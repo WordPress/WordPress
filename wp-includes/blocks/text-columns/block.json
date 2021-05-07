@@ -14,10 +14,7 @@
 					"source": "html"
 				}
 			},
-			"default": [
-				{},
-				{}
-			]
+			"default": [ {}, {} ]
 		},
 		"columns": {
 			"type": "number",

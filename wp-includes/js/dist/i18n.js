@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 465);
+/******/ 	return __webpack_require__(__webpack_require__.s = 467);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 208:
+/***/ 212:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -326,14 +326,14 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 33:
+/***/ 30:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["hooks"]; }());
 
 /***/ }),
 
-/***/ 465:
+/***/ 467:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -345,6 +345,7 @@ __webpack_require__.d(__webpack_exports__, "sprintf", function() { return /* ree
 __webpack_require__.d(__webpack_exports__, "createI18n", function() { return /* reexport */ create_i18n_createI18n; });
 __webpack_require__.d(__webpack_exports__, "defaultI18n", function() { return /* reexport */ default_i18n; });
 __webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return /* reexport */ default_i18n_setLocaleData; });
+__webpack_require__.d(__webpack_exports__, "resetLocaleData", function() { return /* reexport */ default_i18n_resetLocaleData; });
 __webpack_require__.d(__webpack_exports__, "getLocaleData", function() { return /* reexport */ default_i18n_getLocaleData; });
 __webpack_require__.d(__webpack_exports__, "subscribe", function() { return /* reexport */ default_i18n_subscribe; });
 __webpack_require__.d(__webpack_exports__, "__", function() { return /* reexport */ default_i18n_; });
@@ -355,11 +356,11 @@ __webpack_require__.d(__webpack_exports__, "isRTL", function() { return /* reexp
 __webpack_require__.d(__webpack_exports__, "hasTranslation", function() { return /* reexport */ default_i18n_hasTranslation; });
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(72);
+var memize = __webpack_require__(68);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(208);
+var sprintf = __webpack_require__(212);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/sprintf.js
@@ -964,6 +965,15 @@ var I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  * @see http://messageformat.github.io/Jed/
  */
 
+/**
+ * @typedef {(data?: LocaleData, domain?: string) => void} ResetLocaleData
+ *
+ * Resets all current Tannin instance locale data and sets the specified
+ * locale data for the domain. Accepts data in a Jed-formatted JSON object shape.
+ *
+ * @see http://messageformat.github.io/Jed/
+ */
+
 /** @typedef {() => void} SubscribeCallback */
 
 /** @typedef {() => void} UnsubscribeCallback */
@@ -1036,18 +1046,20 @@ var I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  * An i18n instance
  *
  * @typedef I18n
- * @property {GetLocaleData} getLocaleData Returns locale data by domain in a Jed-formatted JSON object shape.
- * @property {SetLocaleData} setLocaleData Merges locale data into the Tannin instance by domain. Accepts data in a
- *                                         Jed-formatted JSON object shape.
- * @property {Subscribe} subscribe         Subscribes to changes of Tannin locale data.
- * @property {__} __                       Retrieve the translation of text.
- * @property {_x} _x                       Retrieve translated string with gettext context.
- * @property {_n} _n                       Translates and retrieves the singular or plural form based on the supplied
- *                                         number.
- * @property {_nx} _nx                     Translates and retrieves the singular or plural form based on the supplied
- *                                         number, with gettext context.
- * @property {IsRtl} isRTL                 Check if current locale is RTL.
- * @property {HasTranslation} hasTranslation Check if there is a translation for a given string.
+ * @property {GetLocaleData} getLocaleData     Returns locale data by domain in a Jed-formatted JSON object shape.
+ * @property {SetLocaleData} setLocaleData     Merges locale data into the Tannin instance by domain. Accepts data in a
+ *                                             Jed-formatted JSON object shape.
+ * @property {ResetLocaleData} resetLocaleData Resets all current Tannin instance locale data and sets the specified
+ *                                             locale data for the domain. Accepts data in a Jed-formatted JSON object shape.
+ * @property {Subscribe} subscribe             Subscribes to changes of Tannin locale data.
+ * @property {__} __                           Retrieve the translation of text.
+ * @property {_x} _x                           Retrieve translated string with gettext context.
+ * @property {_n} _n                           Translates and retrieves the singular or plural form based on the supplied
+ *                                             number.
+ * @property {_nx} _nx                         Translates and retrieves the singular or plural form based on the supplied
+ *                                             number, with gettext context.
+ * @property {IsRtl} isRTL                     Check if current locale is RTL.
+ * @property {HasTranslation} hasTranslation   Check if there is a translation for a given string.
  */
 
 /**
@@ -1113,6 +1125,16 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   var setLocaleData = function setLocaleData(data, domain) {
     doSetLocaleData(data, domain);
     notifyListeners();
+  };
+  /** @type {ResetLocaleData} */
+
+
+  var resetLocaleData = function resetLocaleData(data, domain) {
+    // Reset all current Tannin locale data.
+    tannin.data = {}; // Reset cached plural forms functions cache.
+
+    tannin.pluralForms = {};
+    setLocaleData(data, domain);
   };
   /**
    * Wrapper for Tannin's `dcnpgettext`. Populates default locale data if not
@@ -1338,6 +1360,7 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   return {
     getLocaleData: getLocaleData,
     setLocaleData: setLocaleData,
+    resetLocaleData: resetLocaleData,
     subscribe: subscribe,
     __: __,
     _x: _x,
@@ -1349,7 +1372,7 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
 };
 
 // EXTERNAL MODULE: external ["wp","hooks"]
-var external_wp_hooks_ = __webpack_require__(33);
+var external_wp_hooks_ = __webpack_require__(30);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/default-i18n.js
 /**
@@ -1399,6 +1422,17 @@ var default_i18n_getLocaleData = i18n.getLocaleData.bind(i18n);
  */
 
 var default_i18n_setLocaleData = i18n.setLocaleData.bind(i18n);
+/**
+ * Resets all current Tannin instance locale data and sets the specified
+ * locale data for the domain. Accepts data in a Jed-formatted JSON object shape.
+ *
+ * @see http://messageformat.github.io/Jed/
+ *
+ * @param {LocaleData} [data]   Locale data configuration.
+ * @param {string}     [domain] Domain for which configuration applies.
+ */
+
+var default_i18n_resetLocaleData = i18n.resetLocaleData.bind(i18n);
 /**
  * Subscribes to changes of locale data
  *
@@ -1518,7 +1552,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 72:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 473);
+/******/ 	return __webpack_require__(__webpack_require__.s = 475);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,14 +94,14 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 
 /***/ }),
 
-/***/ 273:
+/***/ 278:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["domReady"]; }());
 
 /***/ }),
 
-/***/ 473:
+/***/ 475:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -113,7 +113,7 @@ __webpack_require__.d(__webpack_exports__, "setup", function() { return /* bindi
 __webpack_require__.d(__webpack_exports__, "speak", function() { return /* binding */ speak; });
 
 // EXTERNAL MODULE: external ["wp","domReady"]
-var external_wp_domReady_ = __webpack_require__(273);
+var external_wp_domReady_ = __webpack_require__(278);
 var external_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(external_wp_domReady_);
 
 // EXTERNAL MODULE: external ["wp","i18n"]

@@ -371,8 +371,8 @@
   background: none;
   outline: none;
   text-align: right;
-  /* Mimics the default link style in common.css */
-  color: #0073aa;
+  color: #007cba;
+  color: var(--wp-admin-theme-color);
   text-decoration: underline;
   transition-property: border, background, color;
   transition-duration: 0.05s;
@@ -385,14 +385,8 @@
     transition-delay: 0s;
   }
 }
-.components-button.is-link:hover:not(:disabled), .components-button.is-link:active:not(:disabled) {
-  color: #00a0d2;
-  box-shadow: none;
-}
 .components-button.is-link:focus {
-  color: #124964;
-  box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
-  box-shadow: 0 0 0 1px #5b9dd9, 0 0 var(--wp-admin-border-width-focus) 1px rgba(30, 140, 190, 0.8);
+  border-radius: 2px;
 }
 .components-button.is-link.is-destructive {
   color: #cc1818;
@@ -2347,6 +2341,9 @@ input.components-combobox-control__input[type=text]:focus {
   fill: #cacccd;
 }
 .components-datetime {
+  padding: 16px;
+}
+.components-panel__body .components-datetime {
   padding: 0;
 }
 .components-datetime .components-datetime__calendar-help {
@@ -2448,6 +2445,31 @@ input.components-combobox-control__input[type=text]:focus {
 }
 .components-datetime__date.is-description-visible .DayPicker {
   visibility: hidden;
+}
+
+.components-datetime__date .CalendarDay .components-datetime__date__day {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  position: relative;
+}
+.components-datetime__date .CalendarDay .components-datetime__date__day.has-events::before {
+  content: " ";
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  position: absolute;
+  right: 50%;
+  margin-right: -2px;
+  bottom: 0;
+  background-color: #fff;
+}
+
+.components-datetime__date .CalendarDay:not(.CalendarDay__selected) .components-datetime__date__day.has-events::before {
+  background: #007cba;
+  background: var(--wp-admin-theme-color);
 }
 
 .components-datetime__time {
@@ -2647,10 +2669,6 @@ body.is-dragging-components-draggable {
 
 .components-drop-zone__content-text {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-}
-
-.components-drop-zone__provider {
-  height: 100%;
 }
 
 .components-dropdown {
@@ -3462,7 +3480,6 @@ body.is-dragging-components-draggable {
   height: 60px;
   z-index: 10;
   position: relative;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   margin: 0 -32px 24px;
@@ -3757,7 +3774,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   box-shadow: inset 0 0 0 1px #1e1e1e;
   outline: 1px solid transparent;
 }
-@supports ((position: -webkit-sticky) or (position: sticky)) {
+@supports (position: sticky) {
   .components-placeholder.components-placeholder {
     display: flex;
     flex-direction: column;
@@ -4183,6 +4200,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   }
 }
 .components-radio-control__input[type=radio]:checked::before {
+  box-sizing: inherit;
   width: 8px;
   height: 8px;
   transform: translate(-7px, 7px);
@@ -4222,10 +4240,10 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   content: "";
   width: 15px;
   height: 15px;
-  border: 2px solid #fff;
+  border: 2px solid #007cba;
+  border: 2px solid var(--wp-admin-theme-color);
   border-radius: 50%;
-  background: #007cba;
-  background: var(--wp-admin-theme-color);
+  background: #fff;
   cursor: inherit;
   position: absolute;
   top: calc(50% - 8px);
@@ -4234,16 +4252,16 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 
 .components-resizable-box__side-handle::before {
   display: block;
+  border-radius: 2px;
   content: "";
-  width: 7px;
-  height: 7px;
-  border: 2px solid #fff;
+  width: 3px;
+  height: 3px;
   background: #007cba;
   background: var(--wp-admin-theme-color);
   cursor: inherit;
   position: absolute;
-  top: calc(50% - 4px);
-  left: calc(50% - 4px);
+  top: calc(50% - 1px);
+  left: calc(50% - 1px);
   transition: transform 0.1s ease-in;
   opacity: 0;
 }
@@ -4252,11 +4270,6 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
     transition-duration: 0s;
     transition-delay: 0s;
   }
-}
-
-.is-dark-theme .components-resizable-box__side-handle::before,
-.is-dark-theme .components-resizable-box__handle::after {
-  border-color: #ddd;
 }
 
 .components-resizable-box__side-handle {
@@ -4323,7 +4336,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 
 /* This CSS is shown only to Safari, which has a bug with table-caption making it jumpy.
 See https://bugs.webkit.org/show_bug.cgi?id=187903. */
-@media not all and (min-resolution: 0.001dpcm) {
+@media not all and (-webkit-min-device-pixel-ratio: 0), not all and (min-resolution: 0.001dpcm) {
   @supports (-webkit-appearance: none) {
     .components-resizable-box__side-handle.components-resizable-box__handle-top:hover::before,
 .components-resizable-box__side-handle.components-resizable-box__handle-bottom:hover::before,
@@ -4929,7 +4942,7 @@ div.components-toolbar > div {
   display: block;
   margin: 0;
 }
-@supports ((position: -webkit-sticky) or (position: sticky)) {
+@supports (position: sticky) {
   div.components-toolbar > div {
     display: flex;
   }

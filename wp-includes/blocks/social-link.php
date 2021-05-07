@@ -8,9 +8,9 @@
 /**
  * Renders the `core/social-link` block on server.
  *
- * @param Array   $attributes The block attributes.
- * @param String  $content InnerBlocks content of the Block.
- * @param WPBlock $block Block object.
+ * @param Array    $attributes The block attributes.
+ * @param String   $content    InnerBlocks content of the Block.
+ * @param WP_Block $block      Block object.
  *
  * @return string Rendered HTML of the referenced block.
  */

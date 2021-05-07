@@ -193,7 +193,6 @@
 }
 
 .components-editor-notices__dismissible {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   right: 0;
@@ -289,14 +288,6 @@
   padding: 20px;
   margin-top: 60px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
-}
-
-.editor-page-attributes__template {
-  margin-bottom: 10px;
-}
-.editor-page-attributes__template label,
-.editor-page-attributes__template select {
-  width: 100%;
 }
 
 .editor-page-attributes__order {
@@ -820,6 +811,7 @@
 }
 .edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio]:checked::before,
 .editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio]:checked::before {
+  box-sizing: inherit;
   width: 8px;
   height: 8px;
   transform: translate(7px, 7px);

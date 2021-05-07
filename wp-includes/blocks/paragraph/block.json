@@ -10,7 +10,8 @@
 			"type": "string",
 			"source": "html",
 			"selector": "p",
-			"default": ""
+			"default": "",
+			"__experimentalRole": "content"
 		},
 		"dropCap": {
 			"type": "boolean",
@@ -21,10 +22,7 @@
 		},
 		"direction": {
 			"type": "string",
-			"enum": [
-				"ltr",
-				"rtl"
-			]
+			"enum": [ "ltr", "rtl" ]
 		}
 	},
 	"supports": {

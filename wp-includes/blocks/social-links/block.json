@@ -35,11 +35,7 @@
 		"iconBackgroundColorValue": "iconBackgroundColorValue"
 	},
 	"supports": {
-		"align": [
-			"left",
-			"center",
-			"right"
-		],
+		"align": [ "left", "center", "right" ],
 		"anchor": true
 	},
 	"editorStyle": "wp-block-social-links-editor",

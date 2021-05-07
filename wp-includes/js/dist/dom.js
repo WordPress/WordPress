@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 453);
+/******/ 	return __webpack_require__(__webpack_require__.s = 455);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -104,7 +104,7 @@ function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(39);
+var iterableToArray = __webpack_require__(42);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
 var unsupportedIterableToArray = __webpack_require__(28);
@@ -166,18 +166,18 @@ function _unsupportedIterableToArray(o, minLen) {
 
 /***/ }),
 
-/***/ 39:
+/***/ 42:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
 function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 /***/ }),
 
-/***/ 453:
+/***/ 455:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -527,9 +527,7 @@ function findNext(element) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/utils/assert-is-defined.js
 function assertIsDefined(val, name) {
-  if (val === undefined || val === null) {
-    throw new Error("Expected '".concat(name, "' to be defined, but received ").concat(val));
-  }
+  if (false) {}
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/get-rectangle-from-range.js
@@ -617,6 +615,10 @@ function computeCaretRect(win) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/document-has-text-selection.js
 /**
+ * Internal dependencies
+ */
+
+/**
  * Check whether the current document has selected text. This applies to ranges
  * of text in the document, and not selection inside <input> and <textarea>
  * elements.
@@ -627,44 +629,71 @@ function computeCaretRect(win) {
  *
  * @return {boolean} True if there is selection, false if not.
  */
+
 function documentHasTextSelection(doc) {
+  assertIsDefined(doc.defaultView, 'doc.defaultView');
   var selection = doc.defaultView.getSelection();
+  assertIsDefined(selection, 'selection');
   var range = selection.rangeCount ? selection.getRangeAt(0) : null;
-  return range && !range.collapsed;
+  return !!range && !range.collapsed;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-html-input-element.js
+/* eslint-disable jsdoc/valid-types */
+
+/**
+ * @param {Node} node
+ * @return {node is HTMLInputElement} Whether the node is an HTMLInputElement.
+ */
+function isHTMLInputElement(node) {
+  /* eslint-enable jsdoc/valid-types */
+  return !!node && node.nodeName === 'INPUT';
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-text-field.js
+/**
+ * Internal dependencies
+ */
+
+/* eslint-disable jsdoc/valid-types */
+
 /**
  * Check whether the given element is a text field, where text field is defined
  * by the ability to select within the input, or that it is contenteditable.
  *
  * See: https://html.spec.whatwg.org/#textFieldSelection
  *
- * @param {HTMLElement} element The HTML element.
- *
- * @return {boolean} True if the element is an text field, false if not.
+ * @param {Node} node The HTML element.
+ * @return {element is HTMLElement} True if the element is an text field, false if not.
  */
-function isTextField(element) {
-  var nodeName = element.nodeName,
-      contentEditable = element.contentEditable;
+
+function isTextField(node) {
+  /* eslint-enable jsdoc/valid-types */
   var nonTextInputs = ['button', 'checkbox', 'hidden', 'file', 'radio', 'image', 'range', 'reset', 'submit', 'number'];
-  return nodeName === 'INPUT' && !nonTextInputs.includes(element.type) || nodeName === 'TEXTAREA' || contentEditable === 'true';
+  return isHTMLInputElement(node) && node.type && !nonTextInputs.includes(node.type) || node.nodeName === 'TEXTAREA' ||
+  /** @type {HTMLElement} */
+  node.contentEditable === 'true';
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-number-input.js
 /**
+ * Internal dependencies
+ */
+
+/* eslint-disable jsdoc/valid-types */
+
+/**
  * Check whether the given element is an input field of type number
  * and has a valueAsNumber
  *
- * @param {HTMLElement} element The HTML element.
+ * @param {Node} node The HTML node.
  *
- * @return {boolean} True if the element is input and holds a number.
+ * @return {node is HTMLInputElement} True if the node is input and holds a number.
  */
-function isNumberInput(element) {
-  var nodeName = element.nodeName,
-      type = element.type,
-      valueAsNumber = element.valueAsNumber;
-  return nodeName === 'INPUT' && type === 'number' && !!valueAsNumber;
+
+function isNumberInput(node) {
+  /* eslint-enable jsdoc/valid-types */
+  return isHTMLInputElement(node) && node.type === 'number' && !!node.valueAsNumber;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/input-field-has-uncollapsed-selection.js
@@ -682,7 +711,7 @@ function isNumberInput(element) {
  *
  * See: https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection#Related_objects.
  *
- * @param {HTMLElement} element The HTML element.
+ * @param {Element} element The HTML element.
  *
  * @return {boolean} Whether the input/textareaa element has some "selection".
  */
@@ -693,7 +722,9 @@ function inputFieldHasUncollapsedSelection(element) {
   }
 
   try {
-    var selectionStart = element.selectionStart,
+    var selectionStart =
+    /** @type {HTMLInputElement | HTMLTextAreaElement} */
+    element.selectionStart,
         selectionEnd = element.selectionEnd;
     return selectionStart !== null && selectionStart !== selectionEnd;
   } catch (error) {
@@ -726,7 +757,7 @@ function inputFieldHasUncollapsedSelection(element) {
  */
 
 function documentHasUncollapsedSelection(doc) {
-  return documentHasTextSelection(doc) || inputFieldHasUncollapsedSelection(doc.activeElement);
+  return documentHasTextSelection(doc) || !!doc.activeElement && inputFieldHasUncollapsedSelection(doc.activeElement);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/document-has-selection.js
@@ -746,12 +777,25 @@ function documentHasUncollapsedSelection(doc) {
  */
 
 function documentHasSelection(doc) {
-  return isTextField(doc.activeElement) || isNumberInput(doc.activeElement) || documentHasTextSelection(doc);
+  return !!doc.activeElement && (isTextField(doc.activeElement) || isNumberInput(doc.activeElement) || documentHasTextSelection(doc));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/get-computed-style.js
-function getComputedStyle(node) {
-  return node.ownerDocument.defaultView.getComputedStyle(node);
+/**
+ * Internal dependencies
+ */
+
+/* eslint-disable jsdoc/valid-types */
+
+/**
+ * @param {Element} element
+ * @return {ReturnType<Window['getComputedStyle']>} The computed style for the element.
+ */
+
+function getComputedStyle(element) {
+  /* eslint-enable jsdoc/valid-types */
+  assertIsDefined(element.ownerDocument.defaultView, 'element.ownerDocument.defaultView');
+  return element.ownerDocument.defaultView.getComputedStyle(element);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/get-scroll-container.js
@@ -762,14 +806,14 @@ function getComputedStyle(node) {
 /**
  * Given a DOM node, finds the closest scrollable container node.
  *
- * @param {Element} node Node from which to start.
+ * @param {Element | null} node Node from which to start.
  *
- * @return {?Element} Scrollable container node, if found.
+ * @return {Element | undefined} Scrollable container node, if found.
  */
 
 function getScrollContainer(node) {
   if (!node) {
-    return;
+    return undefined;
   } // Scrollable if scrollable height exceeds displayed...
 
 
@@ -784,7 +828,9 @@ function getScrollContainer(node) {
   } // Continue traversing
 
 
-  return getScrollContainer(node.parentNode);
+  return getScrollContainer(
+  /** @type {Element} */
+  node.parentNode);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/get-offset-parent.js
@@ -801,7 +847,7 @@ function getScrollContainer(node) {
  *
  * @param {Node} node Node from which to find offset parent.
  *
- * @return {?Node} Offset parent.
+ * @return {Node | null} Offset parent.
  */
 
 function getOffsetParent(node) {
@@ -809,7 +855,9 @@ function getOffsetParent(node) {
   // an element node, so find the closest element node.
   var closestElement;
 
-  while (closestElement = node.parentNode) {
+  while (closestElement =
+  /** @type {Node} */
+  node.parentNode) {
     if (closestElement.nodeType === closestElement.ELEMENT_NODE) {
       break;
     }
@@ -821,29 +869,48 @@ function getOffsetParent(node) {
   // does not otherwise consider the node itself.
 
 
-  if (getComputedStyle(closestElement).position !== 'static') {
+  if (getComputedStyle(
+  /** @type {Element} */
+  closestElement).position !== 'static') {
     return closestElement;
-  }
+  } // offsetParent is undocumented/draft
 
-  return closestElement.offsetParent;
+
+  return (
+    /** @type {Node & { offsetParent: Node }} */
+    closestElement.offsetParent
+  );
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-input-or-text-area.js
+/* eslint-disable jsdoc/valid-types */
+
+/**
+ * @param {Element} element
+ * @return {element is HTMLInputElement | HTMLTextAreaElement} Whether the element is an input or textarea
+ */
+function isInputOrTextArea(element) {
+  /* eslint-enable jsdoc/valid-types */
+  return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA';
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-entirely-selected.js
 /**
- * External dependencies
+ * Internal dependencies
  */
+
 
 /**
  * Check whether the contents of the element have been entirely selected.
  * Returns true if there is no possibility of selection.
  *
- * @param {Element} element The element to check.
+ * @param {HTMLElement} element The element to check.
  *
  * @return {boolean} True if entirely selected, false if not.
  */
 
 function isEntirelySelected(element) {
-  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], element.nodeName)) {
+  if (isInputOrTextArea(element)) {
     return element.selectionStart === 0 && element.value.length === element.selectionEnd;
   }
 
@@ -853,7 +920,9 @@ function isEntirelySelected(element) {
 
   var ownerDocument = element.ownerDocument;
   var defaultView = ownerDocument.defaultView;
+  assertIsDefined(defaultView, 'defaultView');
   var selection = defaultView.getSelection();
+  assertIsDefined(selection, 'selection');
   var range = selection.rangeCount ? selection.getRangeAt(0) : null;
 
   if (!range) {
@@ -870,7 +939,10 @@ function isEntirelySelected(element) {
   }
 
   var lastChild = element.lastChild;
-  var lastChildContentLength = lastChild.nodeType === lastChild.TEXT_NODE ? lastChild.data.length : lastChild.childNodes.length;
+  assertIsDefined(lastChild, 'lastChild');
+  var lastChildContentLength = lastChild.nodeType === lastChild.TEXT_NODE ?
+  /** @type {Text} */
+  lastChild.data.length : lastChild.childNodes.length;
   return startContainer === element.firstChild && endContainer === element.lastChild && startOffset === 0 && endOffset === lastChildContentLength;
 }
 
@@ -885,6 +957,7 @@ var toConsumableArray = __webpack_require__(15);
  * some browsers ignore when creating a union.
  *
  * @param {Range} range The range to check.
+ * @return {number | undefined} Height of the range or undefined if the range has no client rectangles.
  */
 function getRangeHeight(range) {
   var rects = Array.from(range.getClientRects());
@@ -906,6 +979,10 @@ function getRangeHeight(range) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-selection-forward.js
 /**
+ * Internal dependencies
+ */
+
+/**
  * Returns true if the given selection object is in the forward direction, or
  * false otherwise.
  *
@@ -915,11 +992,14 @@ function getRangeHeight(range) {
  *
  * @return {boolean} Whether the selection is forward.
  */
+
 function isSelectionForward(selection) {
   var anchorNode = selection.anchorNode,
       focusNode = selection.focusNode,
       anchorOffset = selection.anchorOffset,
       focusOffset = selection.focusOffset;
+  assertIsDefined(anchorNode, 'anchorNode');
+  assertIsDefined(focusNode, 'focusNode');
   var position = anchorNode.compareDocumentPosition(focusNode); // Disable reason: `Node#compareDocumentPosition` returns a bitmask value,
   // so bitwise operators are intended.
 
@@ -996,7 +1076,7 @@ function caretRangeFromPoint(doc, x, y) {
  * @param {Document} doc       The document of the range.
  * @param {number}    x         Horizontal position within the current viewport.
  * @param {number}    y         Vertical position within the current viewport.
- * @param {Element}  container Container in which the range is expected to be found.
+ * @param {HTMLElement}  container Container in which the range is expected to be found.
  *
  * @return {?Range} The best range for the given point.
  */
@@ -1023,12 +1103,9 @@ function hiddenCaretRangeFromPoint(doc, x, y, container) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-edge.js
 /**
- * External dependencies
- */
-
-/**
  * Internal dependencies
  */
+
 
 
 
@@ -1040,15 +1117,17 @@ function hiddenCaretRangeFromPoint(doc, x, y, container) {
  * horizontal position by default. Set `onlyVertical` to true to check only
  * vertically.
  *
- * @param {Element} container    Focusable element.
- * @param {boolean} isReverse    Set to true to check left, false to check right.
- * @param {boolean} onlyVertical Set to true to check only vertical position.
+ * @param {Element} container Focusable element.
+ * @param {boolean} isReverse Set to true to check left, false to check right.
+ * @param {boolean} [onlyVertical=false] Set to true to check only vertical position.
  *
  * @return {boolean} True if at the edge, false if not.
  */
 
-function isEdge(container, isReverse, onlyVertical) {
-  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+function isEdge(container, isReverse) {
+  var onlyVertical = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+  if (isInputOrTextArea(container)) {
     if (container.selectionStart !== container.selectionEnd) {
       return false;
     }
@@ -1060,15 +1139,18 @@ function isEdge(container, isReverse, onlyVertical) {
     return container.value.length === container.selectionStart;
   }
 
-  if (!container.isContentEditable) {
+  if (!
+  /** @type {HTMLElement} */
+  container.isContentEditable) {
     return true;
   }
 
   var ownerDocument = container.ownerDocument;
   var defaultView = ownerDocument.defaultView;
+  assertIsDefined(defaultView, 'defaultView');
   var selection = defaultView.getSelection();
 
-  if (!selection.rangeCount) {
+  if (!selection || !selection.rangeCount) {
     return false;
   }
 
@@ -1091,7 +1173,9 @@ function isEdge(container, isReverse, onlyVertical) {
   // collapsed  selection.
 
 
-  if (!isCollapsed && getRangeHeight(range) > collapsedRangeRect.height && isForward === isReverse) {
+  var rangeHeight = getRangeHeight(range);
+
+  if (!isCollapsed && rangeHeight && rangeHeight > collapsedRangeRect.height && isForward === isReverse) {
     return false;
   } // In the case of RTL scripts, the horizontal edge is at the opposite side.
 
@@ -1113,7 +1197,9 @@ function isEdge(container, isReverse, onlyVertical) {
 
   var x = isReverseDir ? containerRect.left + 1 : containerRect.right - 1;
   var y = isReverse ? containerRect.top + 1 : containerRect.bottom - 1;
-  var testRange = hiddenCaretRangeFromPoint(ownerDocument, x, y, container);
+  var testRange = hiddenCaretRangeFromPoint(ownerDocument, x, y,
+  /** @type {HTMLElement} */
+  container);
 
   if (!testRange) {
     return false;
@@ -1173,7 +1259,7 @@ function isVerticalEdge(container, isReverse) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/place-caret-at-horizontal-edge.js
 /**
- * External dependencies
+ * Internal dependencies
  */
 
 /**
@@ -1181,22 +1267,25 @@ function isVerticalEdge(container, isReverse) {
  */
 
 
+
 /**
  * Places the caret at start or end of a given element.
  *
- * @param {Element} container    Focusable element.
+ * @param {HTMLElement} container    Focusable element.
  * @param {boolean} isReverse    True for end, false for start.
- * @param {boolean} mayUseScroll Whether to allow scrolling.
+ * @param {boolean} [mayUseScroll=false] Whether to allow scrolling.
  */
 
-function placeCaretAtHorizontalEdge(container, isReverse, mayUseScroll) {
+function placeCaretAtHorizontalEdge(container, isReverse) {
+  var mayUseScroll = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
   if (!container) {
     return;
   }
 
   container.focus();
 
-  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+  if (isInputOrTextArea(container)) {
     // The element may not support selection setting.
     if (typeof container.selectionStart !== 'number') {
       return;
@@ -1239,7 +1328,9 @@ function placeCaretAtHorizontalEdge(container, isReverse, mayUseScroll) {
   }
 
   var defaultView = ownerDocument.defaultView;
+  assertIsDefined(defaultView, 'defaultView');
   var selection = defaultView.getSelection();
+  assertIsDefined(selection, 'selection');
   selection.removeAllRanges();
   selection.addRange(range);
 }
@@ -1250,10 +1341,11 @@ function placeCaretAtHorizontalEdge(container, isReverse, mayUseScroll) {
  */
 
 
+
 /**
  * Places the caret at the top or bottom of a given element.
  *
- * @param {Element} container           Focusable element.
+ * @param {HTMLElement} container           Focusable element.
  * @param {boolean} isReverse           True for bottom, false for top.
  * @param {DOMRect} [rect]              The rectangle to position the caret with.
  * @param {boolean} [mayUseScroll=true] True to allow scrolling, false to disallow.
@@ -1298,7 +1390,9 @@ function placeCaretAtVerticalEdge(container, isReverse, rect) {
     return;
   }
 
+  assertIsDefined(defaultView, 'defaultView');
   var selection = defaultView.getSelection();
+  assertIsDefined(selection, 'selection');
   selection.removeAllRanges();
   selection.addRange(range);
   container.focus(); // Editable was already focussed, it goes back to old range...
@@ -1350,6 +1444,7 @@ function remove(node) {
  */
 
 
+
 /**
  * Given two DOM nodes, replaces the former with the latter in the DOM.
  *
@@ -1359,6 +1454,7 @@ function remove(node) {
  */
 
 function replace(processedNode, newNode) {
+  assertIsDefined(processedNode.parentNode, 'processedNode.parentNode');
   insertAfter(newNode, processedNode.parentNode);
   remove(processedNode);
 }
@@ -1389,6 +1485,10 @@ function unwrap(node) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/replace-tag.js
 /**
+ * Internal dependencies
+ */
+
+/**
  * Replaces the given node with a new node with the given tag name.
  *
  * @param {Element}  node    The node to replace
@@ -1396,6 +1496,7 @@ function unwrap(node) {
  *
  * @return {Element} The new node.
  */
+
 function replaceTag(node, tagName) {
   var newNode = node.ownerDocument.createElement(tagName);
 
@@ -1403,18 +1504,25 @@ function replaceTag(node, tagName) {
     newNode.appendChild(node.firstChild);
   }
 
+  assertIsDefined(node.parentNode, 'node.parentNode');
   node.parentNode.replaceChild(newNode, node);
   return newNode;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/wrap.js
 /**
+ * Internal dependencies
+ */
+
+/**
  * Wraps the given node with a new node with the given tag name.
  *
  * @param {Element} newNode       The node to insert.
  * @param {Element} referenceNode The node to wrap.
  */
+
 function wrap(newNode, referenceNode) {
+  assertIsDefined(referenceNode.parentNode, 'referenceNode.parentNode');
   referenceNode.parentNode.insertBefore(newNode, referenceNode);
   newNode.appendChild(referenceNode);
 }
@@ -1835,8 +1943,8 @@ function cleanNodeList(nodeList, doc, schema, inline) {
  * Given a schema, unwraps or removes nodes, attributes and classes on HTML.
  *
  * @param {string} HTML   The HTML to clean up.
- * @param {Object} schema Schema for the HTML.
- * @param {Object} inline Whether to clean for inline mode.
+ * @param {import('./clean-node-list').Schema} schema Schema for the HTML.
+ * @param {boolean} inline Whether to clean for inline mode.
  *
  * @return {string} The cleaned up HTML.
  */

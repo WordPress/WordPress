@@ -4,7 +4,8 @@
 	"category": "widgets",
 	"attributes": {
 		"label": {
-			"type": "string"
+			"type": "string",
+			"__experimentalRole": "content"
 		},
 		"showLabel": {
 			"type": "boolean",
@@ -12,7 +13,8 @@
 		},
 		"placeholder": {
 			"type": "string",
-			"default": ""
+			"default": "",
+			"__experimentalRole": "content"
 		},
 		"width": {
 			"type": "number"
@@ -21,7 +23,8 @@
 			"type": "string"
 		},
 		"buttonText": {
-			"type": "string"
+			"type": "string",
+			"__experimentalRole": "content"
 		},
 		"buttonPosition": {
 			"type": "string",

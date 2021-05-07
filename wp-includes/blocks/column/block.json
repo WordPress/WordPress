@@ -2,9 +2,7 @@
 	"apiVersion": 2,
 	"name": "core/column",
 	"category": "text",
-	"parent": [
-		"core/columns"
-	],
+	"parent": [ "core/columns" ],
 	"attributes": {
 		"verticalAlignment": {
 			"type": "string"

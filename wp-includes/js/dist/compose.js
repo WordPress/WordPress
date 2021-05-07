@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 454);
+/******/ 	return __webpack_require__(__webpack_require__.s = 456);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -103,18 +103,21 @@ this["wp"] = this["wp"] || {}; this["wp"]["compose"] =
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(37);
+var arrayWithHoles = __webpack_require__(38);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]);
+
+  if (_i == null) return;
   var _arr = [];
   var _n = true;
   var _d = false;
-  var _e = undefined;
+
+  var _s, _e;
 
   try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
       _arr.push(_s.value);
 
       if (i && _arr.length === i) break;
@@ -136,7 +139,7 @@ function _iterableToArrayLimit(arr, i) {
 var unsupportedIterableToArray = __webpack_require__(28);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(38);
+var nonIterableRest = __webpack_require__(39);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 
@@ -149,7 +152,14 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 126:
+/***/ 13:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["React"]; }());
+
+/***/ }),
+
+/***/ 130:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -157,7 +167,7 @@ function _slicedToArray(arr, i) {
 /* unused harmony export useCallbackOne */
 /* unused harmony export useMemo */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useMemoOne; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
@@ -208,13 +218,6 @@ var useCallback = useCallbackOne;
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["React"]; }());
-
-/***/ }),
-
 /***/ 15:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -232,7 +235,7 @@ function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(39);
+var iterableToArray = __webpack_require__(42);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
 var unsupportedIterableToArray = __webpack_require__(28);
@@ -252,15 +255,15 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 151:
+/***/ 155:
 /***/ (function(module, exports, __webpack_require__) {
 
-var e=__webpack_require__(14),n={display:"block",opacity:0,position:"absolute",top:0,left:0,height:"100%",width:"100%",overflow:"hidden",pointerEvents:"none",zIndex:-1},t=function(t){var r=t.onResize,u=e.useRef();return function(n,t){var r=function(){return n.current&&n.current.contentDocument&&n.current.contentDocument.defaultView};function u(){t();var e=r();e&&e.addEventListener("resize",t)}e.useEffect((function(){return r()?u():n.current&&n.current.addEventListener&&n.current.addEventListener("load",u),function(){var e=r();e&&"function"==typeof e.removeEventListener&&e.removeEventListener("resize",t)}}),[])}(u,(function(){return r(u)})),e.createElement("iframe",{style:n,src:"about:blank",ref:u,"aria-hidden":!0,tabIndex:-1,frameBorder:0})},r=function(e){return{width:null!=e?e.offsetWidth:null,height:null!=e?e.offsetHeight:null}};module.exports=function(n){void 0===n&&(n=r);var u=e.useState(n(null)),o=u[0],i=u[1],c=e.useCallback((function(e){return i(n(e.current))}),[n]);return[e.useMemo((function(){return e.createElement(t,{onResize:c})}),[c]),o]};
+var e=__webpack_require__(13),n={display:"block",opacity:0,position:"absolute",top:0,left:0,height:"100%",width:"100%",overflow:"hidden",pointerEvents:"none",zIndex:-1},t=function(t){var r=t.onResize,u=e.useRef();return function(n,t){var r=function(){return n.current&&n.current.contentDocument&&n.current.contentDocument.defaultView};function u(){t();var e=r();e&&e.addEventListener("resize",t)}e.useEffect((function(){return r()?u():n.current&&n.current.addEventListener&&n.current.addEventListener("load",u),function(){var e=r();e&&"function"==typeof e.removeEventListener&&e.removeEventListener("resize",t)}}),[])}(u,(function(){return r(u)})),e.createElement("iframe",{style:n,src:"about:blank",ref:u,"aria-hidden":!0,tabIndex:-1,frameBorder:0})},r=function(e){return{width:null!=e?e.offsetWidth:null,height:null!=e?e.offsetHeight:null}};module.exports=function(n){void 0===n&&(n=r);var u=e.useState(n(null)),o=u[0],i=u[1],c=e.useCallback((function(e){return i(n(e.current))}),[n]);return[e.useMemo((function(){return e.createElement(t,{onResize:c})}),[c]),o]};
 
 
 /***/ }),
 
-/***/ 152:
+/***/ 156:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["priorityQueue"]; }());
@@ -289,7 +292,7 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 183:
+/***/ 188:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -1343,7 +1346,7 @@ function _unsupportedIterableToArray(o, minLen) {
 
 /***/ }),
 
-/***/ 285:
+/***/ 289:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -2409,7 +2412,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
 
 /***/ }),
 
-/***/ 32:
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2460,7 +2463,7 @@ function _possibleConstructorReturn(self, call) {
 
 /***/ }),
 
-/***/ 37:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2471,7 +2474,7 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ 38:
+/***/ 39:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2482,18 +2485,18 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ 39:
+/***/ 42:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
 function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 /***/ }),
 
-/***/ 428:
+/***/ 431:
 /***/ (function(module, exports) {
 
 /**
@@ -2546,7 +2549,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 454:
+/***/ 456:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2584,6 +2587,7 @@ __webpack_require__.d(__webpack_exports__, "useDebounce", function() { return /*
 __webpack_require__.d(__webpack_exports__, "useThrottle", function() { return /* reexport */ useThrottle; });
 __webpack_require__.d(__webpack_exports__, "useMergeRefs", function() { return /* reexport */ useMergeRefs; });
 __webpack_require__.d(__webpack_exports__, "useRefEffect", function() { return /* reexport */ useRefEffect; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseDropZone", function() { return /* reexport */ useDropZone; });
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__(2);
@@ -2673,7 +2677,7 @@ var classCallCheck = __webpack_require__(25);
 var createClass = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-var inherits = __webpack_require__(32);
+var inherits = __webpack_require__(33);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
 var possibleConstructorReturn = __webpack_require__(34);
@@ -2682,7 +2686,7 @@ var possibleConstructorReturn = __webpack_require__(34);
 var getPrototypeOf = __webpack_require__(22);
 
 // EXTERNAL MODULE: external ["wp","isShallowEqual"]
-var external_wp_isShallowEqual_ = __webpack_require__(65);
+var external_wp_isShallowEqual_ = __webpack_require__(67);
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/higher-order/pure/index.js
@@ -3304,7 +3308,7 @@ function useConstrainedTabbing() {
 var slicedToArray = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/clipboard/dist/clipboard.js
-var dist_clipboard = __webpack_require__(183);
+var dist_clipboard = __webpack_require__(188);
 var clipboard_default = /*#__PURE__*/__webpack_require__.n(dist_clipboard);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-copy-on-click/index.js
@@ -4029,11 +4033,11 @@ function useDragging(_ref) {
 }
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/mousetrap.js
-var mousetrap_mousetrap = __webpack_require__(285);
+var mousetrap_mousetrap = __webpack_require__(289);
 var mousetrap_default = /*#__PURE__*/__webpack_require__.n(mousetrap_mousetrap);
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
-var mousetrap_global_bind = __webpack_require__(428);
+var mousetrap_global_bind = __webpack_require__(431);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-keyboard-shortcut/index.js
 /**
@@ -4323,7 +4327,7 @@ use_viewport_match_useViewportMatch.__experimentalWidthProvider = ViewportMatchW
 /* harmony default export */ var use_viewport_match = (use_viewport_match_useViewportMatch);
 
 // EXTERNAL MODULE: ./node_modules/react-resize-aware/dist/index.js
-var dist = __webpack_require__(151);
+var dist = __webpack_require__(155);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/index.js
@@ -4360,7 +4364,7 @@ var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 var toConsumableArray = __webpack_require__(15);
 
 // EXTERNAL MODULE: external ["wp","priorityQueue"]
-var external_wp_priorityQueue_ = __webpack_require__(152);
+var external_wp_priorityQueue_ = __webpack_require__(156);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-async-list/index.js
 
@@ -4507,7 +4511,7 @@ function useWarnOnChange(object) {
 /* harmony default export */ var use_warn_on_change = (useWarnOnChange);
 
 // EXTERNAL MODULE: ./node_modules/use-memo-one/dist/use-memo-one.esm.js
-var use_memo_one_esm = __webpack_require__(126);
+var use_memo_one_esm = __webpack_require__(130);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-debounce/index.js
 /**
@@ -4585,6 +4589,175 @@ function useThrottle() {
   return throttled;
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-drop-zone/index.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+/** @typedef {import('@wordpress/element').RefCallback} RefCallback */
+
+function useFreshRef(value) {
+  var ref = Object(external_wp_element_["useRef"])();
+  ref.current = value;
+  return ref;
+}
+/**
+ * A hook to facilitate drag and drop handling.
+ *
+ * @param {Object}     $1             Named parameters.
+ * @param {boolean}    $1.isDisabled  Whether or not to disable the drop zone.
+ * @param {DragEvent}  $1.onDragStart Called when dragging has started.
+ * @param {DragEvent}  $1.onDragEnter Called when the zone is entered.
+ * @param {DragEvent}  $1.onDragOver  Called when the zone is moved within.
+ * @param {DragEvent}  $1.onDragLeave Called when the zone is left.
+ * @param {MouseEvent} $1.onDragEnd   Called when dragging has ended.
+ * @param {DragEvent}  $1.onDrop      Called when dropping in the zone.
+ *
+ * @return {RefCallback} Ref callback to be passed to the drop zone element.
+ */
+
+
+function useDropZone(_ref) {
+  var isDisabled = _ref.isDisabled,
+      _onDrop = _ref.onDrop,
+      _onDragStart = _ref.onDragStart,
+      _onDragEnter = _ref.onDragEnter,
+      _onDragLeave = _ref.onDragLeave,
+      _onDragEnd = _ref.onDragEnd,
+      _onDragOver = _ref.onDragOver;
+  var onDropRef = useFreshRef(_onDrop);
+  var onDragStartRef = useFreshRef(_onDragStart);
+  var onDragEnterRef = useFreshRef(_onDragEnter);
+  var onDragLeaveRef = useFreshRef(_onDragLeave);
+  var onDragEndRef = useFreshRef(_onDragEnd);
+  var onDragOverRef = useFreshRef(_onDragOver);
+  return useRefEffect(function (element) {
+    if (isDisabled) {
+      return;
+    }
+
+    var isDragging = false;
+    var ownerDocument = element.ownerDocument;
+
+    function maybeDragStart(event) {
+      if (isDragging) {
+        return;
+      }
+
+      isDragging = true;
+      ownerDocument.removeEventListener('dragenter', maybeDragStart);
+
+      if (onDragStartRef.current) {
+        onDragStartRef.current(event);
+      }
+    }
+
+    function onDragEnter(event) {
+      event.preventDefault(); // The `dragenter` event will also fire when entering child
+      // elements, but we only want to call `onDragEnter` when
+      // entering the drop zone, which means the `relatedTarget`
+      // (element that has been left) should be outside the drop zone.
+
+      if (element.contains(event.relatedTarget)) {
+        return;
+      }
+
+      if (onDragEnterRef.current) {
+        onDragEnterRef.current(event);
+      }
+    }
+
+    function onDragOver(event) {
+      // Only call onDragOver for the innermost hovered drop zones.
+      if (!event.defaultPrevented && onDragOverRef.current) {
+        onDragOverRef.current(event);
+      } // Prevent the browser default while also signalling to parent
+      // drop zones that `onDragOver` is already handled.
+
+
+      event.preventDefault();
+    }
+
+    function onDragLeave(event) {
+      // The `dragleave` event will also fire when leaving child
+      // elements, but we only want to call `onDragLeave` when
+      // leaving the drop zone, which means the `relatedTarget`
+      // (element that has been entered) should be outside the drop
+      // zone.
+      if (element.contains(event.relatedTarget)) {
+        return;
+      }
+
+      if (onDragLeaveRef.current) {
+        onDragLeaveRef.current(event);
+      }
+    }
+
+    function onDrop(event) {
+      // Don't handle drop if an inner drop zone already handled it.
+      if (event.defaultPrevented) {
+        return;
+      } // Prevent the browser default while also signalling to parent
+      // drop zones that `onDrop` is already handled.
+
+
+      event.preventDefault(); // This seemingly useless line has been shown to resolve a
+      // Safari issue where files dragged directly from the dock are
+      // not recognized.
+      // eslint-disable-next-line no-unused-expressions
+
+      event.dataTransfer && event.dataTransfer.files.length;
+
+      if (onDropRef.current) {
+        onDropRef.current(event);
+      }
+
+      maybeDragEnd(event);
+    }
+
+    function maybeDragEnd(event) {
+      if (!isDragging) {
+        return;
+      }
+
+      isDragging = false;
+      ownerDocument.addEventListener('dragenter', maybeDragStart);
+
+      if (onDragEndRef.current) {
+        onDragEndRef.current(event);
+      }
+    }
+
+    element.addEventListener('drop', onDrop);
+    element.addEventListener('dragenter', onDragEnter);
+    element.addEventListener('dragover', onDragOver);
+    element.addEventListener('dragleave', onDragLeave); // Note that `dragend` doesn't fire consistently for file and HTML
+    // drag  events where the drag origin is outside the browser window.
+    // In Firefox it may also not fire if the originating node is
+    // removed.
+
+    ownerDocument.addEventListener('dragend', maybeDragEnd);
+    ownerDocument.addEventListener('mouseup', maybeDragEnd); // The `dragstart` event doesn't fire if the drag started outside
+    // the document.
+
+    ownerDocument.addEventListener('dragenter', maybeDragStart);
+    return function () {
+      element.removeEventListener('drop', onDrop);
+      element.removeEventListener('dragenter', onDragEnter);
+      element.removeEventListener('dragover', onDragOver);
+      element.removeEventListener('dragleave', onDragLeave);
+      ownerDocument.removeEventListener('dragend', maybeDragEnd);
+      ownerDocument.removeEventListener('mouseup', maybeDragEnd);
+      ownerDocument.addEventListener('dragenter', maybeDragStart);
+    };
+  }, [isDisabled]);
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/index.js
 // Utils
  // Compose helper (aliased flowRight from Lodash)
@@ -4597,6 +4770,7 @@ function useThrottle() {
 
 
  // Hooks
+
 
 
 
@@ -4690,7 +4864,7 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 
 /***/ }),
 
-/***/ 65:
+/***/ 67:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["isShallowEqual"]; }());
