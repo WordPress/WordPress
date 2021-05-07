@@ -75,7 +75,7 @@ function delete_theme( $stylesheet, $redirect = '' ) {
 	/**
 	 * Fires immediately before a theme deletion attempt.
 	 *
-	 * @since 5.8
+	 * @since 5.8.0
 	 *
 	 * @param string $stylesheet Stylesheet of the theme to delete.
 	 */
@@ -88,7 +88,7 @@ function delete_theme( $stylesheet, $redirect = '' ) {
 	/**
 	 * Fires immediately after a theme deletion attempt.
 	 *
-	 * @since 5.8
+	 * @since 5.8.0
 	 *
 	 * @param string $stylesheet Stylesheet of the theme to delete.
 	 * @param bool   $deleted    Whether the theme deletion was successful.
