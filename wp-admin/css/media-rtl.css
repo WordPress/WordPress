@@ -421,7 +421,8 @@ border color while dragging a file over the uploader drop area */
 
 .media-frame.mode-grid,
 .media-frame.mode-grid .media-frame-content,
-.media-frame.mode-grid .attachments-browser .attachments,
+.media-frame.mode-grid .attachments-browser:not(.has-load-more) .attachments,
+.media-frame.mode-grid .attachments-browser.has-load-more .attachments-wrapper,
 .media-frame.mode-grid .uploader-inline-content {
 	position: static;
 }
@@ -499,7 +500,8 @@ border color while dragging a file over the uploader drop area */
 	border: 4px dashed #c3c4c7;
 }
 
-.media-frame.mode-select .attachments-browser.fixed .attachments {
+.media-frame.mode-select .attachments-browser.fixed:not(.has-load-more) .attachments,
+.media-frame.mode-select .attachments-browser.has-load-more.fixed .attachments-wrapper {
 	position: relative;
 	top: 94px; /* prevent jumping up when the toolbar becomes fixed */
 	padding-bottom: 94px; /* offset for above so the bottom doesn't get cut off */

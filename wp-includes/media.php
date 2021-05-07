@@ -4306,29 +4306,39 @@ function wp_enqueue_media( $args = array() ) {
 		);
 	}
 
+	/**
+	 * Filters whether the Media Library grid has infinite scrolling. Default `false`.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param bool $value The filtered value, defaults to `false`.
+	 */
+	$infinite_scrolling = apply_filters( 'media_library_infinite_scrolling', false );
+
 	$settings = array(
-		'tabs'             => $tabs,
-		'tabUrl'           => add_query_arg( array( 'chromeless' => true ), admin_url( 'media-upload.php' ) ),
-		'mimeTypes'        => wp_list_pluck( get_post_mime_types(), 0 ),
+		'tabs'              => $tabs,
+		'tabUrl'            => add_query_arg( array( 'chromeless' => true ), admin_url( 'media-upload.php' ) ),
+		'mimeTypes'         => wp_list_pluck( get_post_mime_types(), 0 ),
 		/** This filter is documented in wp-admin/includes/media.php */
-		'captions'         => ! apply_filters( 'disable_captions', '' ),
-		'nonce'            => array(
+		'captions'          => ! apply_filters( 'disable_captions', '' ),
+		'nonce'             => array(
 			'sendToEditor' => wp_create_nonce( 'media-send-to-editor' ),
 		),
-		'post'             => array(
+		'post'              => array(
 			'id' => 0,
 		),
-		'defaultProps'     => $props,
-		'attachmentCounts' => array(
+		'defaultProps'      => $props,
+		'attachmentCounts'  => array(
 			'audio' => ( $show_audio_playlist ) ? 1 : 0,
 			'video' => ( $show_video_playlist ) ? 1 : 0,
 		),
-		'oEmbedProxyUrl'   => rest_url( 'oembed/1.0/proxy' ),
-		'embedExts'        => $exts,
-		'embedMimes'       => $ext_mimes,
-		'contentWidth'     => $content_width,
-		'months'           => $months,
-		'mediaTrash'       => MEDIA_TRASH ? 1 : 0,
+		'oEmbedProxyUrl'    => rest_url( 'oembed/1.0/proxy' ),
+		'embedExts'         => $exts,
+		'embedMimes'        => $ext_mimes,
+		'contentWidth'      => $content_width,
+		'months'            => $months,
+		'mediaTrash'        => MEDIA_TRASH ? 1 : 0,
+		'infiniteScrolling' => ( $infinite_scrolling ) ? 1 : 0,
 	);
 
 	$post = null;
@@ -4412,8 +4422,8 @@ function wp_enqueue_media( $args = array() ) {
 		'searchLabel'                 => __( 'Search' ),
 		'searchMediaLabel'            => __( 'Search media' ),          // Backward compatibility pre-5.3.
 		'searchMediaPlaceholder'      => __( 'Search media items...' ), // Placeholder (no ellipsis), backward compatibility pre-5.3.
+		/* translators: %d: Number of attachments found in a search. */
 		'mediaFound'                  => __( 'Number of media items found: %d' ),
-		'mediaFoundHasMoreResults'    => __( 'Number of media items displayed: %d. Scroll the page for more results.' ),
 		'noMedia'                     => __( 'No media items found.' ),
 		'noMediaTryNewSearch'         => __( 'No media items found. Try a different search.' ),
 
