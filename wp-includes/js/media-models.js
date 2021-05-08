@@ -876,14 +876,14 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	/**
 	 * Holds the total number of attachments.
 	 *
-	 * @since 5.7.0
+	 * @since 5.8.0
 	 */
 	totalAttachments: 0,
 
 	/**
 	 * Gets the total number of attachments.
 	 *
-	 * @since 5.7.0
+	 * @since 5.8.0
 	 *
 	 * @return {number} The total number of attachments.
 	 */
@@ -894,15 +894,15 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	/**
 	 * A custom Ajax-response parser.
 	 *
-	 * See trac ticket #24753
+	 * See trac ticket #24753.
 	 *
 	 * Called automatically by Backbone whenever a collection's models are returned
 	 * by the server, in fetch. The default implementation is a no-op, simply
 	 * passing through the JSON response. We override this to add attributes to
 	 * the collection items.
 	 *
-	 * Since WordPress 5.5, the response returns the attachments under `response.attachments`
-	 * and `response.totalAttachments` holds the total number of attachments found.
+	 * @since 5.8.0 The response returns the attachments under `response.attachments` and
+	 *              `response.totalAttachments` holds the total number of attachments found.
 	 *
 	 * @param {Object|Array} response The raw response Object/Array.
 	 * @param {Object} xhr
@@ -910,7 +910,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 	 */
 	parse: function( response, xhr ) {
 		if ( ! _.isArray( response.attachments ) ) {
-			response = [response.attachments];
+			response = [ response.attachments ];
 		}
 
 		this.totalAttachments = parseInt( response.totalAttachments, 10 );
@@ -1226,7 +1226,6 @@ Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 		options.remove = false;
 
 		return this._more = this.fetch( options ).done( function( response ) {
-			// Since WordPress 5.5, the response returns the attachments under `response.attachments`.
 			var attachments = response.attachments;
 
 			if ( _.isEmpty( attachments ) || -1 === this.args.posts_per_page || attachments.length < this.args.posts_per_page ) {

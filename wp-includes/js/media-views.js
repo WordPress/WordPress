@@ -7197,6 +7197,8 @@ Attachments = View.extend(/** @lends wp.media.view.Attachments.prototype */{
 		this.el.id = _.uniqueId('__attachments-view-');
 
 		/**
+		 * @since 5.8.0 Added the `infiniteScrolling` parameter.
+		 *
 		 * @param infiniteScrolling  Whether to enable infinite scrolling or use
 		 *                           the default "load more" button.
 		 * @param refreshSensitivity The time in milliseconds to throttle the scroll
@@ -8464,7 +8466,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 	/**
 	 * Creates the Attachments wrapper view.
 	 *
-	 * @since 5.7.0
+	 * @since 5.8.0
 	 *
 	 * @return {void}
 	 */
@@ -8514,7 +8516,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 	/**
 	 * Creates the load more button and attachments counter view.
 	 *
-	 * @since 5.7.0
+	 * @since 5.8.0
 	 *
 	 * @return {void}
 	 */
@@ -8565,7 +8567,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 	 * collection updates multiple times at the add, remove, and reset events.
 	 * We need it to run only once, after all attachments are added or removed.
 	 *
-	 * @since 5.7.0
+	 * @since 5.8.0
 	 *
 	 * @return {void}
 	 */
@@ -8618,7 +8620,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 	/**
 	 * Loads more attachments.
 	 *
-	 * @since 5.7.0
+	 * @since 5.8.0
 	 *
 	 * @return {void}
 	 */
@@ -8653,7 +8655,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 	/**
 	 * Moves focus to the first new added item.	.
 	 *
-	 * @since 5.7.0
+	 * @since 5.8.0
 	 *
 	 * @return {void}
 	 */
