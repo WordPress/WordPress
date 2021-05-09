@@ -15,11 +15,11 @@
  * @return string[] The column header labels keyed by column ID.
  */
 function get_column_headers( $screen ) {
+	static $column_headers = array();
+
 	if ( is_string( $screen ) ) {
 		$screen = convert_to_screen( $screen );
 	}
-
-	static $column_headers = array();
 
 	if ( ! isset( $column_headers[ $screen->id ] ) ) {
 		/**
@@ -111,10 +111,12 @@ function meta_box_prefs( $screen ) {
 			if ( ! isset( $wp_meta_boxes[ $screen->id ][ $context ][ $priority ] ) ) {
 				continue;
 			}
+
 			foreach ( $wp_meta_boxes[ $screen->id ][ $context ][ $priority ] as $box ) {
-				if ( false == $box || ! $box['title'] ) {
+				if ( false === $box || ! $box['title'] ) {
 					continue;
 				}
+
 				// Submit box cannot be hidden.
 				if ( 'submitdiv' === $box['id'] || 'linksubmitdiv' === $box['id'] ) {
 					continue;
@@ -159,6 +161,7 @@ function get_hidden_meta_boxes( $screen ) {
 	// Hide slug boxes by default.
 	if ( $use_defaults ) {
 		$hidden = array();
+
 		if ( 'post' === $screen->base ) {
 			if ( in_array( $screen->post_type, array( 'post', 'page', 'attachment' ), true ) ) {
 				$hidden = array( 'slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv' );
