@@ -2710,7 +2710,7 @@ abstract class ParagonIE_Sodium_Core32_Curve25519 extends ParagonIE_Sodium_Core3
         $carry7 = $s7->shiftRight(21);
         $s8 = $s8->addInt64($carry7);
         $s7 = $s7->subInt64($carry7->shiftLeft(21));
-        $carry8 = $s10->shiftRight(21);
+        $carry8 = $s8->shiftRight(21);
         $s9 = $s9->addInt64($carry8);
         $s8 = $s8->subInt64($carry8->shiftLeft(21));
         $carry9 = $s9->shiftRight(21);
