@@ -517,12 +517,16 @@ html:lang(he-il) .rtl #wpadminbar * {
 	color: #72aee6;
 }
 
-#wpadminbar .quicklinks li .blavatar:before {
-	content: "\f120";
+#wpadminbar .quicklinks li img.blavatar,
+#wpadminbar .quicklinks li div.blavatar:before {
 	height: 16px;
 	width: 16px;
-	display: inline-block;
 	margin: 0 8px 2px -2px;
+}
+
+#wpadminbar .quicklinks li div.blavatar:before {
+	content: "\f120";
+	display: inline-block;
 }
 
 #wpadminbar #wp-admin-bar-appearance {

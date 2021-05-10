@@ -582,7 +582,15 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
 		switch_to_blog( $blog->userblog_id );
 
-		$blavatar = '<div class="blavatar"></div>';
+		if ( has_site_icon() ) {
+			$blavatar = sprintf(
+				'<img class="blavatar" src="%s" srcset="%s 2x" alt="" width="16" height="16" />',
+				esc_url( get_site_icon_url( 16 ) ),
+				esc_url( get_site_icon_url( 32 ) )
+			);
+		} else {
+			$blavatar = '<div class="blavatar"></div>';
+		}
 
 		$blogname = $blog->blogname;
 
