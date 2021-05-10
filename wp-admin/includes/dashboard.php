@@ -1907,48 +1907,50 @@ function wp_dashboard_site_health() {
 		</div>
 	</div>
 
-	<?php if ( false === $get_issues ) : ?>
-		<p>
-			<?php
-			printf(
-				/* translators: %s: URL to Site Health screen. */
-				__( 'Site health checks will automatically run periodically to gather information about your site. You can also <a href="%s">visit the Site Health screen</a> to gather information about your site now.' ),
-				esc_url( admin_url( 'site-health.php' ) )
-			);
-			?>
-		</p>
-	<?php else : ?>
-		<p>
-			<?php if ( $issues_total <= 0 ) : ?>
-				<?php _e( 'Great job! Your site currently passes all site health checks.' ); ?>
-			<?php elseif ( 1 === (int) $issue_counts['critical'] ) : ?>
-				<?php _e( 'Your site has a critical issue that should be addressed as soon as possible to improve its performance and security.' ); ?>
-			<?php elseif ( $issue_counts['critical'] > 1 ) : ?>
-				<?php _e( 'Your site has critical issues that should be addressed as soon as possible to improve its performance and security.' ); ?>
-			<?php elseif ( 1 === (int) $issue_counts['recommended'] ) : ?>
-				<?php _e( 'Your site&#8217;s health is looking good, but there is still one thing you can do to improve its performance and security.' ); ?>
-			<?php else : ?>
-				<?php _e( 'Your site&#8217;s health is looking good, but there are still some things you can do to improve its performance and security.' ); ?>
-			<?php endif; ?>
-		</p>
-	<?php endif; ?>
+	<div class="site-health-details">
+		<?php if ( false === $get_issues ) : ?>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: URL to Site Health screen. */
+					__( 'Site health checks will automatically run periodically to gather information about your site. You can also <a href="%s">visit the Site Health screen</a> to gather information about your site now.' ),
+					esc_url( admin_url( 'site-health.php' ) )
+				);
+				?>
+			</p>
+		<?php else : ?>
+			<p>
+				<?php if ( $issues_total <= 0 ) : ?>
+					<?php _e( 'Great job! Your site currently passes all site health checks.' ); ?>
+				<?php elseif ( 1 === (int) $issue_counts['critical'] ) : ?>
+					<?php _e( 'Your site has a critical issue that should be addressed as soon as possible to improve its performance and security.' ); ?>
+				<?php elseif ( $issue_counts['critical'] > 1 ) : ?>
+					<?php _e( 'Your site has critical issues that should be addressed as soon as possible to improve its performance and security.' ); ?>
+				<?php elseif ( 1 === (int) $issue_counts['recommended'] ) : ?>
+					<?php _e( 'Your site&#8217;s health is looking good, but there is still one thing you can do to improve its performance and security.' ); ?>
+				<?php else : ?>
+					<?php _e( 'Your site&#8217;s health is looking good, but there are still some things you can do to improve its performance and security.' ); ?>
+				<?php endif; ?>
+			</p>
+		<?php endif; ?>
 
-	<?php if ( $issues_total > 0 && false !== $get_issues ) : ?>
-		<p>
-			<?php
-			printf(
-				/* translators: 1: Number of issues. 2: URL to Site Health screen. */
-				_n(
-					'Take a look at the <strong>%1$d item</strong> on the <a href="%2$s">Site Health screen</a>.',
-					'Take a look at the <strong>%1$d items</strong> on the <a href="%2$s">Site Health screen</a>.',
-					$issues_total
-				),
-				$issues_total,
-				esc_url( admin_url( 'site-health.php' ) )
-			);
-			?>
-		</p>
-	<?php endif; ?>
+		<?php if ( $issues_total > 0 && false !== $get_issues ) : ?>
+			<p>
+				<?php
+				printf(
+					/* translators: 1: Number of issues. 2: URL to Site Health screen. */
+					_n(
+						'Take a look at the <strong>%1$d item</strong> on the <a href="%2$s">Site Health screen</a>.',
+						'Take a look at the <strong>%1$d items</strong> on the <a href="%2$s">Site Health screen</a>.',
+						$issues_total
+					),
+					$issues_total,
+					esc_url( admin_url( 'site-health.php' ) )
+				);
+				?>
+			</p>
+		<?php endif; ?>
+	</div>
 
 	<?php
 }

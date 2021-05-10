@@ -31,10 +31,15 @@
 }
 
 .health-check-title-section {
+	clear: both;
+	text-align: center;
+	padding-top: 8px;
+}
+
+.site-health .health-check-title-section {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	clear: both;
 }
 
 .site-health-progress-wrapper {
@@ -457,6 +462,25 @@
 	float: none;
 	margin: 0 4px;
 	flex-shrink: 0;
+}
+
+/* Styling unique to the dashboard widget. */
+#dashboard_site_health .site-health-details {
+	padding-right: 16px;
+}
+
+#dashboard_site_health .inside {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	grid-auto-rows: minmax(64px, auto);
+	column-gap: 16px;
+	align-items: center;
+}
+
+@media screen and (max-width: 480px) {
+	#dashboard_site_health .inside {
+		grid-template-columns: 100%;
+	}
 }
 
 @media screen and (max-width: 782px) {
