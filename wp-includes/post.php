@@ -305,6 +305,7 @@ function create_initial_post_types() {
 			'supports'              => array(
 				'title',
 				'editor',
+				'revisions',
 			),
 		)
 	);
