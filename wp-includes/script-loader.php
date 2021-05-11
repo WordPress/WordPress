@@ -1365,29 +1365,6 @@ function wp_default_scripts( $scripts ) {
 }
 
 /**
- * Checks whether separate assets should be loaded for core blocks.
- *
- * @since 5.8
- *
- * @return bool
- */
-function should_load_separate_core_block_assets() {
-	if ( is_admin() || is_feed() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
-		return false;
-	}
-	/**
-	 * Determine if separate styles & scripts will be loaded for blocks on-render or not.
-	 *
-	 * @since 5.8.0
-	 *
-	 * @param bool $load_separate_styles Whether separate styles will be loaded or not.
-	 *
-	 * @return bool Whether separate styles will be loaded or not.
-	 */
-	return apply_filters( 'separate_core_block_assets', false );
-}
-
-/**
  * Assign default styles to $styles object.
  *
  * Nothing is returned, because the $styles parameter is passed by reference.
@@ -2276,7 +2253,7 @@ function wp_common_block_scripts_and_styles() {
  *
  * @since 5.6.0
  *
- * @return bool
+ * @return bool Whether scripts and styles should be enqueued.
  */
 function wp_should_load_block_editor_scripts_and_styles() {
 	global $current_screen;
@@ -2284,14 +2261,38 @@ function wp_should_load_block_editor_scripts_and_styles() {
 	$is_block_editor_screen = ( $current_screen instanceof WP_Screen ) && $current_screen->is_block_editor();
 
 	/**
-	 * Filters the flag that decides whether or not block editor scripts and
-	 * styles are going to be enqueued on the current screen.
+	 * Filters the flag that decides whether or not block editor scripts and styles
+	 * are going to be enqueued on the current screen.
 	 *
 	 * @since 5.6.0
 	 *
 	 * @param bool $is_block_editor_screen Current value of the flag.
 	 */
 	return apply_filters( 'should_load_block_editor_scripts_and_styles', $is_block_editor_screen );
+}
+
+/**
+ * Checks whether separate assets should be loaded for core blocks on-render.
+ *
+ * @since 5.8.0
+ *
+ * @return bool Whether separate assets will be loaded or not.
+ */
+function should_load_separate_core_block_assets() {
+	if ( is_admin() || is_feed() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return false;
+	}
+
+	/**
+	 * Filters the flag that decides whether or not separate scripts and styles
+	 * will be loaded for core blocks on-render or not.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param bool $load_separate_assets Whether separate assets will be loaded or not.
+	 *                                   Default false.
+	 */
+	return apply_filters( 'separate_core_block_assets', false );
 }
 
 /**
@@ -2529,28 +2530,28 @@ function wp_print_inline_script_tag( $javascript, $attributes = array() ) {
 }
 
 /**
- * Allow small styles to be inlined.
- * This improves performance and sustainability, and is opt-in.
+ * Allows small styles to be inlined.
  *
- * Stylesheets can opt-in by adding `path` data using `wp_style_add_data`, and defining the file's absolute path.
- * wp_style_add_data( $style_handle, 'path', $file_path );
+ * This improves performance and sustainability, and is opt-in. Stylesheets can opt in
+ * by adding `path` data using `wp_style_add_data`, and defining the file's absolute path:
+ *
+ *     wp_style_add_data( $style_handle, 'path', $file_path );
  *
  * @since 5.8.0
  *
- * @return void
+ * @global WP_Styles $wp_styles
  */
 function wp_maybe_inline_styles() {
+	global $wp_styles;
 
 	$total_inline_limit = 20000;
 	/**
 	 * The maximum size of inlined styles in bytes.
 	 *
 	 * @param int $total_inline_limit The file-size threshold, in bytes. Defaults to 20000.
-	 * @return int                    The file-size threshold, in bytes.
 	 */
 	$total_inline_limit = apply_filters( 'styles_inline_size_limit', $total_inline_limit );
 
-	global $wp_styles;
 	$styles = array();
 
 	// Build an array of styles that have a path defined.
@@ -2573,7 +2574,7 @@ function wp_maybe_inline_styles() {
 			}
 		);
 
-		/**
+		/*
 		 * The total inlined size.
 		 *
 		 * On each iteration of the loop, if a style gets added inline the value of this var increases
