@@ -952,26 +952,3 @@ function block_has_support( $block_type, $feature, $default = false ) {
 
 	return true === $block_support || is_array( $block_support );
 }
-
-/**
- * Checks whether separate assets should be loaded for core blocks.
- *
- * @since 5.8
- *
- * @return bool
- */
-function should_load_separate_core_block_assets() {
-	if ( is_admin() || is_feed() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
-		return false;
-	}
-	/**
-	 * Determine if separate styles & scripts will be loaded for blocks on-render or not.
-	 *
-	 * @since 5.8.0
-	 *
-	 * @param bool $load_separate_styles Whether separate styles will be loaded or not.
-	 *
-	 * @return bool Whether separate styles will be loaded or not.
-	 */
-	return apply_filters( 'separate_core_block_assets', false );
-}

@@ -1365,6 +1365,29 @@ function wp_default_scripts( $scripts ) {
 }
 
 /**
+ * Checks whether separate assets should be loaded for core blocks.
+ *
+ * @since 5.8
+ *
+ * @return bool
+ */
+function should_load_separate_core_block_assets() {
+	if ( is_admin() || is_feed() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return false;
+	}
+	/**
+	 * Determine if separate styles & scripts will be loaded for blocks on-render or not.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param bool $load_separate_styles Whether separate styles will be loaded or not.
+	 *
+	 * @return bool Whether separate styles will be loaded or not.
+	 */
+	return apply_filters( 'separate_core_block_assets', false );
+}
+
+/**
  * Assign default styles to $styles object.
  *
  * Nothing is returned, because the $styles parameter is passed by reference.
@@ -1501,9 +1524,8 @@ function wp_default_styles( $styles ) {
 		$fonts_url = 'https://fonts.googleapis.com/css?family=' . urlencode( $font_family );
 	}
 	$styles->add( 'wp-editor-font', $fonts_url ); // No longer used in core as of 5.7.
-
-	$block_library_theme_path = "/wp-includes/css/dist/block-library/theme$suffix.css";
-	$styles->add( 'wp-block-library-theme', $block_library_theme_path );
+	$block_library_theme_path = WPINC . "/css/dist/block-library/theme$suffix.css";
+	$styles->add( 'wp-block-library-theme', "/$block_library_theme_path" );
 	$styles->add_data( 'wp-block-library-theme', 'path', ABSPATH . $block_library_theme_path );
 
 	$styles->add(
