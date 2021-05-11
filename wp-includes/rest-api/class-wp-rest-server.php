@@ -1226,7 +1226,7 @@ class WP_REST_Server {
 		);
 
 		$response = new WP_REST_Response( $available );
-		$response->add_link( 'help', 'http://v2.wp-api.org/' );
+		$response->add_link( 'help', 'https://developer.wordpress.org/rest-api/' );
 		$this->add_active_theme_link_to_index( $response );
 
 		/**
