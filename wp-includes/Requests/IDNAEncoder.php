@@ -141,31 +141,32 @@ class Requests_IDNAEncoder {
 		// Get number of bytes
 		$strlen = strlen($input);
 
+		// phpcs:ignore Generic.CodeAnalysis.JumbledIncrementer -- This is a deliberate choice.
 		for ($position = 0; $position < $strlen; $position++) {
 			$value = ord($input[$position]);
 
 			// One byte sequence:
 			if ((~$value & 0x80) === 0x80) {
 				$character = $value;
-				$length = 1;
+				$length    = 1;
 				$remaining = 0;
 			}
 			// Two byte sequence:
 			elseif (($value & 0xE0) === 0xC0) {
 				$character = ($value & 0x1F) << 6;
-				$length = 2;
+				$length    = 2;
 				$remaining = 1;
 			}
 			// Three byte sequence:
 			elseif (($value & 0xF0) === 0xE0) {
 				$character = ($value & 0x0F) << 12;
-				$length = 3;
+				$length    = 3;
 				$remaining = 2;
 			}
 			// Four byte sequence:
 			elseif (($value & 0xF8) === 0xF0) {
 				$character = ($value & 0x07) << 18;
-				$length = 4;
+				$length    = 4;
 				$remaining = 3;
 			}
 			// Invalid byte:
@@ -185,14 +186,14 @@ class Requests_IDNAEncoder {
 						throw new Requests_Exception('Invalid Unicode codepoint', 'idna.invalidcodepoint', $character);
 					}
 
-					$character |= ($value & 0x3F) << (--$remaining * 6);
+					--$remaining;
+					$character |= ($value & 0x3F) << ($remaining * 6);
 				}
 				$position--;
 			}
 
-			if (
-				// Non-shortest form sequences are invalid
-				   $length > 1 && $character <= 0x7F
+			if (// Non-shortest form sequences are invalid
+				$length > 1 && $character <= 0x7F
 				|| $length > 2 && $character <= 0x7FF
 				|| $length > 3 && $character <= 0xFFFF
 				// Outside of range of ucschar codepoints
@@ -201,7 +202,7 @@ class Requests_IDNAEncoder {
 				|| $character >= 0xFDD0 && $character <= 0xFDEF
 				|| (
 					// Everything else not in ucschar
-					   $character > 0xD7FF && $character < 0xF900
+					$character > 0xD7FF && $character < 0xF900
 					|| $character < 0x20
 					|| $character > 0x7E && $character < 0xA0
 					|| $character > 0xEFFFD
@@ -227,17 +228,18 @@ class Requests_IDNAEncoder {
 	 */
 	public static function punycode_encode($input) {
 		$output = '';
-#		let n = initial_n
+		// let n = initial_n
 		$n = self::BOOTSTRAP_INITIAL_N;
-#		let delta = 0
+		// let delta = 0
 		$delta = 0;
-#		let bias = initial_bias
+		// let bias = initial_bias
 		$bias = self::BOOTSTRAP_INITIAL_BIAS;
-#		let h = b = the number of basic code points in the input
-		$h = $b = 0; // see loop
-#		copy them to the output in order
+		// let h = b = the number of basic code points in the input
+		$h = 0;
+		$b = 0; // see loop
+		// copy them to the output in order
 		$codepoints = self::utf8_to_codepoints($input);
-		$extended = array();
+		$extended   = array();
 
 		foreach ($codepoints as $char) {
 			if ($char < 128) {
@@ -260,35 +262,36 @@ class Requests_IDNAEncoder {
 		$extended = array_keys($extended);
 		sort($extended);
 		$b = $h;
-#		[copy them] followed by a delimiter if b > 0
+		// [copy them] followed by a delimiter if b > 0
 		if (strlen($output) > 0) {
 			$output .= '-';
 		}
-#		{if the input contains a non-basic code point < n then fail}
-#		while h < length(input) do begin
-		while ($h < count($codepoints)) {
-#			let m = the minimum code point >= n in the input
+		// {if the input contains a non-basic code point < n then fail}
+		// while h < length(input) do begin
+		$codepointcount = count($codepoints);
+		while ($h < $codepointcount) {
+			// let m = the minimum code point >= n in the input
 			$m = array_shift($extended);
 			//printf('next code point to insert is %s' . PHP_EOL, dechex($m));
-#			let delta = delta + (m - n) * (h + 1), fail on overflow
+			// let delta = delta + (m - n) * (h + 1), fail on overflow
 			$delta += ($m - $n) * ($h + 1);
-#			let n = m
+			// let n = m
 			$n = $m;
-#			for each code point c in the input (in order) do begin
-			for ($num = 0; $num < count($codepoints); $num++) {
+			// for each code point c in the input (in order) do begin
+			for ($num = 0; $num < $codepointcount; $num++) {
 				$c = $codepoints[$num];
-#				if c < n then increment delta, fail on overflow
+				// if c < n then increment delta, fail on overflow
 				if ($c < $n) {
 					$delta++;
 				}
-#				if c == n then begin
+				// if c == n then begin
 				elseif ($c === $n) {
-#					let q = delta
+					// let q = delta
 					$q = $delta;
-#					for k = base to infinity in steps of base do begin
+					// for k = base to infinity in steps of base do begin
 					for ($k = self::BOOTSTRAP_BASE; ; $k += self::BOOTSTRAP_BASE) {
-#						let t = tmin if k <= bias {+ tmin}, or
-#								tmax if k >= bias + tmax, or k - bias otherwise
+						// let t = tmin if k <= bias {+ tmin}, or
+						//     tmax if k >= bias + tmax, or k - bias otherwise
 						if ($k <= ($bias + self::BOOTSTRAP_TMIN)) {
 							$t = self::BOOTSTRAP_TMIN;
 						}
@@ -298,34 +301,30 @@ class Requests_IDNAEncoder {
 						else {
 							$t = $k - $bias;
 						}
-#						if q < t then break
+						// if q < t then break
 						if ($q < $t) {
 							break;
 						}
-#						output the code point for digit t + ((q - t) mod (base - t))
-						$digit = $t + (($q - $t) % (self::BOOTSTRAP_BASE - $t));
+						// output the code point for digit t + ((q - t) mod (base - t))
+						$digit   = $t + (($q - $t) % (self::BOOTSTRAP_BASE - $t));
 						$output .= self::digit_to_char($digit);
-#						let q = (q - t) div (base - t)
+						// let q = (q - t) div (base - t)
 						$q = floor(($q - $t) / (self::BOOTSTRAP_BASE - $t));
-#					end
-					}
-#					output the code point for digit q
+					} // end
+					// output the code point for digit q
 					$output .= self::digit_to_char($q);
-#					let bias = adapt(delta, h + 1, test h equals b?)
+					// let bias = adapt(delta, h + 1, test h equals b?)
 					$bias = self::adapt($delta, $h + 1, $h === $b);
-#					let delta = 0
+					// let delta = 0
 					$delta = 0;
-#					increment h
+					// increment h
 					$h++;
-#				end
-				}
-#			end
-			}
-#			increment delta and n
+				} // end
+			} // end
+			// increment delta and n
 			$delta++;
 			$n++;
-#		end
-		}
+		} // end
 
 		return $output;
 	}
@@ -358,31 +357,31 @@ class Requests_IDNAEncoder {
 	 * @param int $numpoints
 	 * @param bool $firsttime
 	 * @return int New bias
+	 *
+	 * function adapt(delta,numpoints,firsttime):
 	 */
 	protected static function adapt($delta, $numpoints, $firsttime) {
-#	function adapt(delta,numpoints,firsttime):
-#		if firsttime then let delta = delta div damp
+		// if firsttime then let delta = delta div damp
 		if ($firsttime) {
 			$delta = floor($delta / self::BOOTSTRAP_DAMP);
 		}
-#		else let delta = delta div 2
+		// else let delta = delta div 2
 		else {
 			$delta = floor($delta / 2);
 		}
-#		let delta = delta + (delta div numpoints)
+		// let delta = delta + (delta div numpoints)
 		$delta += floor($delta / $numpoints);
-#		let k = 0
+		// let k = 0
 		$k = 0;
-#		while delta > ((base - tmin) * tmax) div 2 do begin
+		// while delta > ((base - tmin) * tmax) div 2 do begin
 		$max = floor(((self::BOOTSTRAP_BASE - self::BOOTSTRAP_TMIN) * self::BOOTSTRAP_TMAX) / 2);
 		while ($delta > $max) {
-#			let delta = delta div (base - tmin)
+			// let delta = delta div (base - tmin)
 			$delta = floor($delta / (self::BOOTSTRAP_BASE - self::BOOTSTRAP_TMIN));
-#			let k = k + base
+			// let k = k + base
 			$k += self::BOOTSTRAP_BASE;
-#		end
-		}
-#		return k + (((base - tmin + 1) * delta) div (delta + skew))
+		} // end
+		// return k + (((base - tmin + 1) * delta) div (delta + skew))
 		return $k + floor(((self::BOOTSTRAP_BASE - self::BOOTSTRAP_TMIN + 1) * $delta) / ($delta + self::BOOTSTRAP_SKEW));
 	}
 }

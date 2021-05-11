@@ -22,12 +22,14 @@ class Requests_Session {
 	 * Base URL for requests
 	 *
 	 * URLs will be made absolute using this as the base
+	 *
 	 * @var string|null
 	 */
 	public $url = null;
 
 	/**
 	 * Base headers for requests
+	 *
 	 * @var array
 	 */
 	public $headers = array();
@@ -64,9 +66,9 @@ class Requests_Session {
 	 * @param array $options Default options for requests
 	 */
 	public function __construct($url = null, $headers = array(), $data = array(), $options = array()) {
-		$this->url = $url;
+		$this->url     = $url;
 		$this->headers = $headers;
-		$this->data = $data;
+		$this->data    = $data;
 		$this->options = $options;
 
 		if (empty($this->options['cookies'])) {

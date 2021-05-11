@@ -65,16 +65,16 @@ class Requests_Cookie {
 	 * @param array|Requests_Utility_CaseInsensitiveDictionary $attributes Associative array of attribute data
 	 */
 	public function __construct($name, $value, $attributes = array(), $flags = array(), $reference_time = null) {
-		$this->name = $name;
-		$this->value = $value;
+		$this->name       = $name;
+		$this->value      = $value;
 		$this->attributes = $attributes;
-		$default_flags = array(
-			'creation' => time(),
+		$default_flags    = array(
+			'creation'    => time(),
 			'last-access' => time(),
-			'persistent' => false,
-			'host-only' => true,
+			'persistent'  => false,
+			'host-only'   => true,
 		);
-		$this->flags = array_merge($default_flags, $flags);
+		$this->flags      = array_merge($default_flags, $flags);
 
 		$this->reference_time = time();
 		if ($reference_time !== null) {
@@ -228,7 +228,7 @@ class Requests_Cookie {
 	public function normalize() {
 		foreach ($this->attributes as $key => $value) {
 			$orig_value = $value;
-			$value = $this->normalize_attribute($key, $value);
+			$value      = $this->normalize_attribute($key, $value);
 			if ($value === null) {
 				unset($this->attributes[$key]);
 				continue;
@@ -385,7 +385,7 @@ class Requests_Cookie {
 	 * @return Requests_Cookie Parsed cookie object
 	 */
 	public static function parse($string, $name = '', $reference_time = null) {
-		$parts = explode(';', $string);
+		$parts   = explode(';', $string);
 		$kvparts = array_shift($parts);
 
 		if (!empty($name)) {
@@ -397,13 +397,13 @@ class Requests_Cookie {
 			// (`=foo`)
 			//
 			// https://bugzilla.mozilla.org/show_bug.cgi?id=169091
-			$name = '';
+			$name  = '';
 			$value = $kvparts;
 		}
 		else {
 			list($name, $value) = explode('=', $kvparts, 2);
 		}
-		$name = trim($name);
+		$name  = trim($name);
 		$value = trim($value);
 
 		// Attribute key are handled case-insensitively
@@ -412,15 +412,15 @@ class Requests_Cookie {
 		if (!empty($parts)) {
 			foreach ($parts as $part) {
 				if (strpos($part, '=') === false) {
-					$part_key = $part;
+					$part_key   = $part;
 					$part_value = true;
 				}
 				else {
 					list($part_key, $part_value) = explode('=', $part, 2);
-					$part_value = trim($part_value);
+					$part_value                  = trim($part_value);
 				}
 
-				$part_key = trim($part_key);
+				$part_key              = trim($part_key);
 				$attributes[$part_key] = $part_value;
 			}
 		}
@@ -449,7 +449,7 @@ class Requests_Cookie {
 			// Default domain/path attributes
 			if (empty($parsed->attributes['domain']) && !empty($origin)) {
 				$parsed->attributes['domain'] = $origin->host;
-				$parsed->flags['host-only'] = true;
+				$parsed->flags['host-only']   = true;
 			}
 			else {
 				$parsed->flags['host-only'] = false;
@@ -497,7 +497,7 @@ class Requests_Cookie {
 	 *
 	 * @codeCoverageIgnore
 	 * @deprecated Use {@see Requests_Cookie::parse_from_headers}
-	 * @return string
+	 * @return array
 	 */
 	public static function parseFromHeaders(Requests_Response_Headers $headers) {
 		return self::parse_from_headers($headers);

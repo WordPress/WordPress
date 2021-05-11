@@ -62,9 +62,9 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 		if (empty($url_parts)) {
 			throw new Requests_Exception('Invalid URL.', 'invalidurl', $url);
 		}
-		$host = $url_parts['host'];
-		$context = stream_context_create();
-		$verifyname = false;
+		$host                     = $url_parts['host'];
+		$context                  = stream_context_create();
+		$verifyname               = false;
 		$case_insensitive_headers = new Requests_Utility_CaseInsensitiveDictionary($headers);
 
 		// HTTPS support
@@ -75,13 +75,13 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 			}
 
 			$context_options = array(
-				'verify_peer' => true,
-				// 'CN_match' => $host,
-				'capture_peer_cert' => true
+				'verify_peer'       => true,
+				'capture_peer_cert' => true,
 			);
-			$verifyname = true;
+			$verifyname      = true;
 
 			// SNI, if enabled (OpenSSL >=0.9.8j)
+			// phpcs:ignore PHPCompatibility.Constants.NewConstants.openssl_tlsext_server_nameFound
 			if (defined('OPENSSL_TLSEXT_SERVER_NAME') && OPENSSL_TLSEXT_SERVER_NAME) {
 				$context_options['SNI_enabled'] = true;
 				if (isset($options['verifyname']) && $options['verifyname'] === false) {
@@ -91,7 +91,9 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 
 			if (isset($options['verify'])) {
 				if ($options['verify'] === false) {
-					$context_options['verify_peer'] = false;
+					$context_options['verify_peer']      = false;
+					$context_options['verify_peer_name'] = false;
+					$verifyname                          = false;
 				}
 				elseif (is_string($options['verify'])) {
 					$context_options['cafile'] = $options['verify'];
@@ -100,7 +102,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 
 			if (isset($options['verifyname']) && $options['verifyname'] === false) {
 				$context_options['verify_peer_name'] = false;
-				$verifyname = false;
+				$verifyname                          = false;
 			}
 
 			stream_context_set_option($context, array('ssl' => $context_options));
@@ -116,6 +118,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 		}
 		$remote_socket .= ':' . $url_parts['port'];
 
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler
 		set_error_handler(array($this, 'connect_error_handler'), E_WARNING | E_NOTICE);
 
 		$options['hooks']->dispatch('fsockopen.remote_socket', array(&$remote_socket));
@@ -150,17 +153,19 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 		$options['hooks']->dispatch('fsockopen.remote_host_path', array(&$path, $url));
 
 		$request_body = '';
-		$out = sprintf("%s %s HTTP/%.1F\r\n", $options['type'], $path, $options['protocol_version']);
+		$out          = sprintf("%s %s HTTP/%.1F\r\n", $options['type'], $path, $options['protocol_version']);
 
 		if ($options['type'] !== Requests::TRACE) {
 			if (is_array($data)) {
-				$request_body = http_build_query($data, null, '&');
+				$request_body = http_build_query($data, '', '&');
 			}
 			else {
 				$request_body = $data;
 			}
 
-			if (!empty($data)) {
+			// Always include Content-length on POST requests to prevent
+			// 411 errors from some servers when the body is empty.
+			if (!empty($data) || $options['type'] === Requests::POST) {
 				if (!isset($case_insensitive_headers['Content-Length'])) {
 					$headers['Content-Length'] = strlen($request_body);
 				}
@@ -174,7 +179,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 		if (!isset($case_insensitive_headers['Host'])) {
 			$out .= sprintf('Host: %s', $url_parts['host']);
 
-			if (( 'http' === strtolower($url_parts['scheme']) && $url_parts['port'] !== 80 ) || ( 'https' === strtolower($url_parts['scheme']) && $url_parts['port'] !== 443 )) {
+			if ((strtolower($url_parts['scheme']) === 'http' && $url_parts['port'] !== 80) || (strtolower($url_parts['scheme']) === 'https' && $url_parts['port'] !== 443)) {
 				$out .= ':' . $url_parts['port'];
 			}
 			$out .= "\r\n";
@@ -220,7 +225,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 		}
 
 		$timeout_sec = (int) floor($options['timeout']);
-		if ($timeout_sec == $options['timeout']) {
+		if ($timeout_sec === $options['timeout']) {
 			$timeout_msec = 0;
 		}
 		else {
@@ -228,11 +233,13 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 		}
 		stream_set_timeout($socket, $timeout_sec, $timeout_msec);
 
-		$response = $body = $headers = '';
+		$response   = '';
+		$body       = '';
+		$headers    = '';
 		$this->info = stream_get_meta_data($socket);
-		$size = 0;
-		$doingbody = false;
-		$download = false;
+		$size       = 0;
+		$doingbody  = false;
+		$download   = false;
 		if ($options['filename']) {
 			$download = fopen($options['filename'], 'wb');
 		}
@@ -248,7 +255,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 				$response .= $block;
 				if (strpos($response, "\r\n\r\n")) {
 					list($headers, $block) = explode("\r\n\r\n", $response, 2);
-					$doingbody = true;
+					$doingbody             = true;
 				}
 			}
 
@@ -264,7 +271,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 					if (($size + $data_length) > $this->max_bytes) {
 						// Limit the length
 						$limited_length = ($this->max_bytes - $size);
-						$block = substr($block, 0, $limited_length);
+						$block          = substr($block, 0, $limited_length);
 					}
 				}
 
@@ -300,10 +307,10 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 	 */
 	public function request_multiple($requests, $options) {
 		$responses = array();
-		$class = get_class($this);
+		$class     = get_class($this);
 		foreach ($requests as $id => $request) {
 			try {
-				$handler = new $class();
+				$handler        = new $class();
 				$responses[$id] = $handler->request($request['url'], $request['headers'], $request['data'], $request['options']);
 
 				$request['options']['hooks']->dispatch('transport.internal.parse_response', array(&$responses[$id], $request));
@@ -353,8 +360,8 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 				$url_parts['query'] = '';
 			}
 
-			$url_parts['query'] .= '&' . http_build_query($data, null, '&');
-			$url_parts['query'] = trim($url_parts['query'], '&');
+			$url_parts['query'] .= '&' . http_build_query($data, '', '&');
+			$url_parts['query']  = trim($url_parts['query'], '&');
 		}
 		if (isset($url_parts['path'])) {
 			if (isset($url_parts['query'])) {
