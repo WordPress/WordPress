@@ -387,11 +387,14 @@ function twenty_twenty_one_print_first_instance_of_block( $block_name, $content 
  * Retrieve protected post password form content.
  *
  * @since Twenty Twenty-One 1.0
+ * @since Twenty Twenty-One 1.4 Corrected parameter name for `$output`,
+ *                              added the `$post` parameter.
  *
- * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
+ * @param string      $output The password form HTML output.
+ * @param int|WP_Post $post   Optional. Post ID or WP_Post object. Default is global $post.
  * @return string HTML content for password form for password protected post.
  */
-function twenty_twenty_one_password_form( $post = 0 ) {
+function twenty_twenty_one_password_form( $output, $post = 0 ) {
 	$post   = get_post( $post );
 	$label  = 'pwbox-' . ( empty( $post->ID ) ? wp_rand() : $post->ID );
 	$output = '<p class="post-password-message">' . esc_html__( 'This content is password protected. Please enter a password to view.', 'twentytwentyone' ) . '</p>
@@ -400,7 +403,7 @@ function twenty_twenty_one_password_form( $post = 0 ) {
 	';
 	return $output;
 }
-add_filter( 'the_password_form', 'twenty_twenty_one_password_form' );
+add_filter( 'the_password_form', 'twenty_twenty_one_password_form', 10, 2 );
 
 /**
  * Filters the list of attachment image attributes.
