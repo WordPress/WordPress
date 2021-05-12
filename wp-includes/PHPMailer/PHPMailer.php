@@ -1761,7 +1761,8 @@ class PHPMailer
      */
     protected static function isPermittedPath($path)
     {
-        return !preg_match('#^[a-z]+://#i', $path);
+        //Matches scheme definition from https://tools.ietf.org/html/rfc3986#section-3.1
+        return !preg_match('#^[a-z][a-z\d+.-]*://#i', $path);
     }
 
     /**
@@ -1773,12 +1774,15 @@ class PHPMailer
      */
     protected static function fileIsAccessible($path)
     {
+        if (!static::isPermittedPath($path)) {
+            return false;
+        }
         $readable = file_exists($path);
         //If not a UNC path (expected to start with \\), check read permission, see #2069
         if (strpos($path, '\\\\') !== 0) {
             $readable = $readable && is_readable($path);
         }
-        return static::isPermittedPath($path) && $readable;
+        return $readable;
     }
 
     /**
