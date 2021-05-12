@@ -108,7 +108,27 @@ $tech_features = array(
 		</h2>
 
 		<div class="changelog point-releases">
-			<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 25 ); ?></h3>
+			<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 26 ); ?></h3>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: WordPress version number */
+					__( '<strong>Version %1$s</strong> addressed a security issue.' ),
+					'4.3.26'
+				);
+				?>
+				<?php
+				printf(
+					/* translators: %s: HelpHub URL */
+					__( 'For more information, see <a href="%s">the release notes</a>.' ),
+					sprintf(
+						/* translators: %s: WordPress version */
+						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+						sanitize_title( '4.3.26' )
+					)
+				);
+				?>
+			</p>
 			<p>
 				<?php
 				printf(
