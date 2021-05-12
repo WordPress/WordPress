@@ -476,6 +476,9 @@
 	column-gap: 16px;
 	align-items: center;
 }
+#dashboard_site_health .site-health-progress-label {
+	margin-right: 0;
+}
 
 @media screen and (max-width: 480px) {
 	#dashboard_site_health .inside {
