@@ -55,6 +55,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	border: none;
 	text-decoration: none;
 	background: none;
+	box-shadow: none;
 }
 
 #wpadminbar a:focus,
