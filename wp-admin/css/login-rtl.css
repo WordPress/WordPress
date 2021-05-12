@@ -337,6 +337,10 @@ p {
 	max-height: none;
 }
 
+.login input.password-input {
+	font-family: Consolas, Monaco, monospace;
+}
+
 .js.login input.password-input,
 .js.login-action-rp form .input,
 .js.login-action-rp input[type="text"] {
