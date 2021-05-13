@@ -1,0 +1,35 @@
+{
+    "name": "automattic/underscores",
+    "type": "wordpress-theme",
+    "description": "Hi. I'm a starter theme called _s, or underscores, if you like. I'm a theme meant for hacking so don't use me as a Parent Theme. Instead try turning me into the next, most awesome, WordPress theme out there. That's what I'm here for.",
+    "keywords": [
+        "WordPress",
+        "Themes"
+    ],
+    "homepage": "https://github.com/Automattic/_s",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/Automattic/_s/graphs/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.6"
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "wptrt/wpthemereview": "^0.2.1",
+        "php-parallel-lint/php-parallel-lint": "^1.2.0",
+        "wp-cli/i18n-command": "^2.2.5"
+    },
+    "scripts": {
+        "lint:wpcs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
+        "lint:php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor .",
+        "make-pot": "wp i18n make-pot . languages/_s.pot"
+    },
+    "support": {
+        "issues": "https://github.com/Automattic/_s/issues",
+        "source": "https://github.com/Automattic/_s"
+    }
+}

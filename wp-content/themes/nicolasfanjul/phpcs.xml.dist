@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Theme Coding Standards">
+	<!-- See https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml -->
+	<!-- See https://github.com/WordPress/WordPress-Coding-Standards -->
+	<!-- See https://github.com/WPTRT/WPThemeReview -->
+	<!-- See https://github.com/PHPCompatibility/PHPCompatibilityWP -->
+
+	<!-- Set a description for this ruleset. -->
+	<description>A custom set of code standard rules to check for WordPress themes.</description>
+
+
+	<!--
+	#############################################################################
+	COMMAND LINE ARGUMENTS
+	https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml
+	#############################################################################
+	-->
+
+	<!-- Pass some flags to PHPCS:
+		 p flag: Show progress of the run.
+		 s flag: Show sniff codes in all reports.
+	-->
+	<arg value="ps"/>
+
+	<!-- Strip the filepaths down to the relevant bit. -->
+	<arg name="basepath" value="./"/>
+
+	<!-- Check up to 8 files simultaneously. -->
+	<arg name="parallel" value="8"/>
+
+	<!-- Check PHP files only. JavaScript and CSS files are checked separately using the @wordpress/scripts package. -->
+	<arg name="extensions" value="php"/>
+
+	<!-- Check all files in this directory and the directories below it. -->
+	<file>.</file>
+
+	<!-- Exclude patterns. -->
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+
+
+	<!--
+	#############################################################################
+	USE THE WordPress AND THE Theme Review RULESET
+	#############################################################################
+	-->
+
+	<rule ref="WordPress">
+		<!-- This rule does not apply here since the _s prefix should be changed by the theme author. -->
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.ShortPrefixPassed"/>
+	</rule>
+	<rule ref="WPThemeReview"/>
+
+	<!--
+	#############################################################################
+	SNIFF SPECIFIC CONFIGURATION
+	#############################################################################
+	-->
+
+	<!-- Verify that the text_domain is set to the desired text-domain.
+		 Multiple valid text domains can be provided as a comma-delimited list. -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="_s"/>
+		</properties>
+	</rule>
+
+	<!-- Allow for theme specific exceptions to the file name rules based
+		 on the theme hierarchy. -->
+	<rule ref="WordPress.Files.FileName">
+		<properties>
+			<property name="is_theme" value="true"/>
+		</properties>
+	</rule>
+
+	<!-- Set the minimum supported WP version. This is used by several sniffs.
+		 The minimum version set here should be in line with the minimum WP version
+		 as set in the "Requires at least" tag in the readme.txt file. -->
+	<config name="minimum_supported_wp_version" value="4.5"/>
+
+	<rule ref="WordPress.Arrays.MultipleStatementAlignment">
+		<properties>
+			<!-- No need to adjust alignment of large arrays when the item with the largest key is removed. -->
+			<property name="exact" value="false"/>
+			<!-- Don't align multi-line items if ALL items in the array are multi-line. -->
+			<property name="alignMultilineItems" value="!=100"/>
+			<!-- Array assignment operator should always be on the same line as the array key. -->
+			<property name="ignoreNewlines" value="false"/>
+		</properties>
+	</rule>
+
+	<!-- Verify that everything in the global namespace is prefixed with a theme specific prefix.
+		 Multiple valid prefixes can be provided as a comma-delimited list. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array" value="_s" />
+		</properties>
+	</rule>
+
+
+	<!--
+	#############################################################################
+	USE THE PHPCompatibility RULESET
+	#############################################################################
+	-->
+
+	<config name="testVersion" value="5.6-"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+</ruleset>
