@@ -1,0 +1,15 @@
+.block-editor__typewriter {
+    @apply font-sans;
+}
+
+.wp-block{
+    @apply max-w-screen-lg;
+}
+
+.wp-block[data-align=wide] {
+    @apply max-w-screen-xl;
+}
+
+.wp-block[data-align=full] {
+    @apply max-w-full;
+}

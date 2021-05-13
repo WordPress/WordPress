@@ -1,0 +1,5 @@
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import "custom.css";
+@import "block-editor.css";
