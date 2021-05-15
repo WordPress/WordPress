@@ -83,11 +83,7 @@ define( 'WP_DEBUG', false );
 
 
 
-/**
- * Custom Values must appear above this line.
- *
- * That's all, stop editing! Happy publishing.
- */
+/** Custom Values must appear above this line. That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
