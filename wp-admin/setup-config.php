@@ -453,7 +453,7 @@ if ( ! /iPad|iPod|iPhone/.test( navigator.userAgent ) ) {
 				$wp_config_perms = fileperms( $path_to_wp_config );
 				if ( ! empty( $wp_config_perms ) && ! is_writable( $path_to_wp_config ) ) {
 					$error_message = sprintf(
-						/* translators: 1 wp-config.php, 2: Documentation URL. */
+						/* translators: 1: wp-config.php, 2: Documentation URL. */
 						__( 'You need to make the file %1$s writable before you can save your changes. See <a href="%2$s">Changing File Permissions</a> for more information.' ),
 						'<code>wp-config.php</code>',
 						__( 'https://wordpress.org/support/article/changing-file-permissions/' )

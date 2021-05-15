@@ -1513,8 +1513,8 @@ class WP_Site_Health {
 	 * @return array The test results.
 	 */
 	public function get_test_https_status() {
-		// Enforce fresh HTTPS detection results. This is normally invoked by using cron, but for Site Health it should
-		// always rely on the latest results.
+		// Enforce fresh HTTPS detection results. This is normally invoked by using cron,
+		// but for Site Health it should always rely on the latest results.
 		wp_update_https_detection_errors();
 
 		$default_update_url = wp_get_default_update_https_url();
@@ -1541,8 +1541,8 @@ class WP_Site_Health {
 		);
 
 		if ( ! wp_is_using_https() ) {
-			// If the website is not using HTTPS, provide more information about whether it is supported and how it can
-			// be enabled.
+			// If the website is not using HTTPS, provide more information
+			// about whether it is supported and how it can be enabled.
 			$result['status'] = 'recommended';
 			$result['label']  = __( 'Your website does not use HTTPS' );
 

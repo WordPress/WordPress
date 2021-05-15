@@ -12,7 +12,7 @@ require_once __DIR__ . '/admin.php';
 $error        = null;
 $new_password = '';
 
-// This is the no-js fallback script.  Generally this will all be handled by `auth-app.js`
+// This is the no-js fallback script. Generally this will all be handled by `auth-app.js`.
 if ( isset( $_POST['action'] ) && 'authorize_application_password' === $_POST['action'] ) {
 	check_admin_referer( 'authorize_application_password' );
 
