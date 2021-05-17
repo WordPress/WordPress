@@ -158,7 +158,7 @@ function register_block_style_handle( $metadata, $field_name ) {
 		return false;
 	}
 	$is_core_block = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], ABSPATH . WPINC );
-	if ( $is_core_block && ! should_load_separate_core_block_assets() ) {
+	if ( $is_core_block && ! wp_should_load_separate_core_block_assets() ) {
 		return false;
 	}
 
