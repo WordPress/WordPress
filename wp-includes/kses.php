@@ -2248,8 +2248,6 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'margin-left',
 			'margin-top',
 
-			'object-position',
-
 			'padding',
 			'padding-right',
 			'padding-bottom',
