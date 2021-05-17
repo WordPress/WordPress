@@ -120,21 +120,6 @@ function get_allowed_block_types( $editor_name ) {
 	 * @param string     $editor_name         The name of the editor, e.g. 'post-editor'.
 	 */
 	$allowed_block_types = apply_filters( 'allowed_block_types_all', $allowed_block_types, $editor_name );
-
-	/**
-	 * Filters the allowed block types for the given editor, defaulting to `true`
-	 * (all registered block types supported).
-	 *
-	 * The dynamic portion of the hook name, `$editor_name`, refers to the name
-	 * of the editor type, e.g. 'post-editor', 'site-editor', etc.
-	 *
-	 * @since 5.8.0
-	 *
-	 * @param bool|array $allowed_block_types Array of block type slugs, or
-	 *                                        boolean to enable/disable all.
-	 * @param string     $editor_name         The name of the editor, e.g. 'post-editor'.
-	 */
-	$allowed_block_types = apply_filters( "allowed_block_types_{$editor_name}", $allowed_block_types, $editor_name );
 	if ( 'post-editor' === $editor_name ) {
 		$post = get_post();
 
@@ -267,19 +252,6 @@ function get_block_editor_settings( $editor_name, $custom_settings = array() ) {
 	 * @param string $editor_name     The name of the editor, e.g. 'post-editor'.
 	 */
 	$editor_settings = apply_filters( 'block_editor_settings_all', $editor_settings, $editor_name );
-
-	/**
-	 * Filters the settings to pass to the block editor for a given editor type.
-	 *
-	 * The dynamic portion of the hook name, `$editor_name`, refers to the name
-	 * of the editor type, e.g. 'post-editor', 'site-editor', etc.
-	 *
-	 * @since 5.8.0
-	 *
-	 * @param array  $editor_settings Default editor settings.
-	 * @param string $editor_name     The name of the editor, e.g. 'post-editor'.
-	 */
-	$editor_settings = apply_filters( "block_editor_settings_{$editor_name}", $editor_settings, $editor_name );
 	if ( 'post-editor' === $editor_name ) {
 		$post = get_post();
 
