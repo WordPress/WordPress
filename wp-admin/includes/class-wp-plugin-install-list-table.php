@@ -47,15 +47,19 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$plugin_info = get_site_transient( 'update_plugins' );
 		if ( isset( $plugin_info->no_update ) ) {
 			foreach ( $plugin_info->no_update as $plugin ) {
-				$plugin->upgrade          = false;
-				$plugins[ $plugin->slug ] = $plugin;
+				if ( isset( $plugin->slug ) ) {
+					$plugin->upgrade          = false;
+					$plugins[ $plugin->slug ] = $plugin;
+				}
 			}
 		}
 
 		if ( isset( $plugin_info->response ) ) {
 			foreach ( $plugin_info->response as $plugin ) {
-				$plugin->upgrade          = true;
-				$plugins[ $plugin->slug ] = $plugin;
+				if ( isset( $plugin->slug ) ) {
+					$plugin->upgrade          = true;
+					$plugins[ $plugin->slug ] = $plugin;
+				}
 			}
 		}
 
