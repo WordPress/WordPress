@@ -3,9 +3,9 @@
   "version": "2.0.0",
   "description": "Default WP Theme",
   "bugs": {
-    "url": "https://github.com/WordPress/twentynineteen/issues"
+    "url": "https://core.trac.wordpress.org/"
   },
-  "homepage": "https://github.com/WordPress/twentynineteen#readme",
+  "homepage": "https://wordpress.org/themes/twentynineteen/",
   "devDependencies": {
     "@wordpress/browserslist-config": "^3.0.2",
     "autoprefixer": "^9.8.6",
