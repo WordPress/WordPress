@@ -8,36 +8,6 @@
  */
 
 /**
- * Registers a block type.
- *
- * @since 5.0.0
- *
- * @param string|WP_Block_Type $name Block type name including namespace, or alternatively
- *                                   a complete WP_Block_Type instance. In case a WP_Block_Type
- *                                   is provided, the $args parameter will be ignored.
- * @param array                $args Optional. Array of block type arguments. Accepts any public property
- *                                   of `WP_Block_Type`. See WP_Block_Type::__construct() for information
- *                                   on accepted arguments. Default empty array.
- * @return WP_Block_Type|false The registered block type on success, or false on failure.
- */
-function register_block_type( $name, $args = array() ) {
-	return WP_Block_Type_Registry::get_instance()->register( $name, $args );
-}
-
-/**
- * Unregisters a block type.
- *
- * @since 5.0.0
- *
- * @param string|WP_Block_Type $name Block type name including namespace, or alternatively
- *                                   a complete WP_Block_Type instance.
- * @return WP_Block_Type|false The unregistered block type on success, or false on failure.
- */
-function unregister_block_type( $name ) {
-	return WP_Block_Type_Registry::get_instance()->unregister( $name );
-}
-
-/**
  * Removes the block asset's path prefix if provided.
  *
  * @since 5.5.0
@@ -204,7 +174,7 @@ function register_block_style_handle( $metadata, $field_name ) {
 }
 
 /**
- * Registers a block type from metadata stored in the `block.json` file.
+ * Registers a block type from the metadata stored in the `block.json` file.
  *
  * @since 5.5.0
  *
@@ -348,10 +318,48 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 		$metadata
 	);
 
-	return register_block_type(
+	return WP_Block_Type_Registry::get_instance()->register(
 		$metadata['name'],
 		$settings
 	);
+}
+
+/**
+ * Registers a block type. The recommended way is to register a block type using
+ * the metadata stored in the `block.json` file.
+ *
+ * @since 5.0.0
+ *
+ * @param string|WP_Block_Type $block_type Block type name including namespace, or alternatively
+ *                                         a path to the JSON file with metadata definition for the block,
+ *                                         or a path to the folder where the `block.json` file is located,
+ *                                         or a complete WP_Block_Type instance.
+ *                                         In case a WP_Block_Type is provided, the $args parameter will be ignored.
+ * @param array                $args       Optional. Array of block type arguments. Accepts any public property
+ *                                         of `WP_Block_Type`. See WP_Block_Type::__construct() for information
+ *                                         on accepted arguments. Default empty array.
+ *
+ * @return WP_Block_Type|false The registered block type on success, or false on failure.
+ */
+function register_block_type( $block_type, $args = array() ) {
+	if ( is_string( $block_type ) && file_exists( $block_type ) ) {
+		return register_block_type_from_metadata( $block_type, $args );
+	}
+
+	return WP_Block_Type_Registry::get_instance()->register( $block_type, $args );
+}
+
+/**
+ * Unregisters a block type.
+ *
+ * @since 5.0.0
+ *
+ * @param string|WP_Block_Type $name Block type name including namespace, or alternatively
+ *                                   a complete WP_Block_Type instance.
+ * @return WP_Block_Type|false The unregistered block type on success, or false on failure.
+ */
+function unregister_block_type( $name ) {
+	return WP_Block_Type_Registry::get_instance()->unregister( $name );
 }
 
 /**
