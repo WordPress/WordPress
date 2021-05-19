@@ -1,14 +1,14 @@
 {
 	"apiVersion": 2,
 	"name": "core/table",
+	"title": "Table",
 	"category": "text",
+	"description": "Insert a table — perfect for sharing charts and data.",
+	"textdomain": "default",
 	"attributes": {
 		"hasFixedLayout": {
 			"type": "boolean",
 			"default": false
-		},
-		"backgroundColor": {
-			"type": "string"
 		},
 		"caption": {
 			"type": "string",
@@ -125,8 +125,26 @@
 	"supports": {
 		"anchor": true,
 		"align": true,
+		"color": {
+			"__experimentalSkipSerialization": true,
+			"gradients": true
+		},
+		"__experimentalBorder": {
+			"__experimentalSkipSerialization": true,
+			"color": true,
+			"style": true,
+			"width": true
+		},
 		"__experimentalSelector": ".wp-block-table > table"
 	},
+	"styles": [
+		{
+			"name": "regular",
+			"label": "Default",
+			"isDefault": true
+		},
+		{ "name": "stripes", "label": "Stripes" }
+	],
 	"editorStyle": "wp-block-table-editor",
 	"style": "wp-block-table"
 }

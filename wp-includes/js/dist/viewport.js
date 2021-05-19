@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["viewport"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 469);
+/******/ 	return __webpack_require__(__webpack_require__.s = 573);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,68 +94,10 @@ this["wp"] = this["wp"] || {}; this["wp"]["viewport"] =
 
 /***/ }),
 
-/***/ 11:
+/***/ 10:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ 12:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(38);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
-function _iterableToArrayLimit(arr, i) {
-  var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]);
-
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-
-  var _s, _e;
-
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(39);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
-}
 
 /***/ }),
 
@@ -166,71 +108,14 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 24:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-/***/ }),
-
-/***/ 28:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
-
-/***/ }),
-
-/***/ 38:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-/***/ }),
-
-/***/ 4:
+/***/ 5:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["data"]; }());
 
 /***/ }),
 
-/***/ 469:
+/***/ 573:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -256,7 +141,7 @@ __webpack_require__.d(selectors_namespaceObject, "isViewportMatch", function() {
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external ["wp","data"]
-var external_wp_data_ = __webpack_require__(4);
+var external_wp_data_ = __webpack_require__(5);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/viewport/build-module/store/reducer.js
 /**
@@ -268,10 +153,7 @@ var external_wp_data_ = __webpack_require__(4);
  *
  * @return {Object} Updated state.
  */
-function reducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
+function reducer(state = {}, action) {
   switch (action.type) {
     case 'SET_IS_MATCHING':
       return action.values;
@@ -295,7 +177,7 @@ function reducer() {
 function actions_setIsMatching(values) {
   return {
     type: 'SET_IS_MATCHING',
-    values: values
+    values
   };
 }
 
@@ -337,7 +219,7 @@ function isViewportMatch(state, query) {
 
 
 
-var STORE_NAME = 'core/viewport';
+const STORE_NAME = 'core/viewport';
 /**
  * Store definition for the viewport namespace.
  *
@@ -346,7 +228,7 @@ var STORE_NAME = 'core/viewport';
  * @type {Object}
  */
 
-var store = Object(external_wp_data_["createReduxStore"])(STORE_NAME, {
+const store = Object(external_wp_data_["createReduxStore"])(STORE_NAME, {
   reducer: store_reducer,
   actions: actions_namespaceObject,
   selectors: selectors_namespaceObject
@@ -369,15 +251,13 @@ Object(external_wp_data_["register"])(store);
 
 
 
-var listener_addDimensionsEventListener = function addDimensionsEventListener(breakpoints, operators) {
+const addDimensionsEventListener = (breakpoints, operators) => {
   /**
    * Callback invoked when media query state should be updated. Is invoked a
    * maximum of one time per call stack.
    */
-  var setIsMatching = Object(external_lodash_["debounce"])(function () {
-    var values = Object(external_lodash_["mapValues"])(queries, function (query) {
-      return query.matches;
-    });
+  const setIsMatching = Object(external_lodash_["debounce"])(() => {
+    const values = Object(external_lodash_["mapValues"])(queries, query => query.matches);
     Object(external_wp_data_["dispatch"])(store).setIsMatching(values);
   }, {
     leading: true
@@ -392,11 +272,11 @@ var listener_addDimensionsEventListener = function addDimensionsEventListener(br
    * @type {Object<string,MediaQueryList>}
    */
 
-  var queries = Object(external_lodash_["reduce"])(breakpoints, function (result, width, name) {
-    Object(external_lodash_["forEach"])(operators, function (condition, operator) {
-      var list = window.matchMedia("(".concat(condition, ": ").concat(width, "px)"));
+  const queries = Object(external_lodash_["reduce"])(breakpoints, (result, width, name) => {
+    Object(external_lodash_["forEach"])(operators, (condition, operator) => {
+      const list = window.matchMedia(`(${condition}: ${width}px)`);
       list.addListener(setIsMatching);
-      var key = [operator, name].join(' ');
+      const key = [operator, name].join(' ');
       result[key] = list;
     });
     return result;
@@ -407,22 +287,18 @@ var listener_addDimensionsEventListener = function addDimensionsEventListener(br
   setIsMatching.flush();
 };
 
-/* harmony default export */ var listener = (listener_addDimensionsEventListener);
+/* harmony default export */ var listener = (addDimensionsEventListener);
 
 // EXTERNAL MODULE: external ["wp","compose"]
-var external_wp_compose_ = __webpack_require__(11);
+var external_wp_compose_ = __webpack_require__(10);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(8);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(12);
+var esm_extends = __webpack_require__(7);
 
 // EXTERNAL MODULE: external ["wp","element"]
 var external_wp_element_ = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/viewport/build-module/with-viewport-match.js
-
 
 
 
@@ -459,36 +335,31 @@ var external_wp_element_ = __webpack_require__(0);
  * @return {Function} Higher-order component.
  */
 
-var with_viewport_match_withViewportMatch = function withViewportMatch(queries) {
-  var useViewPortQueriesResult = function useViewPortQueriesResult() {
-    return Object(external_lodash_["mapValues"])(queries, function (query) {
-      var _query$split = query.split(' '),
-          _query$split2 = Object(slicedToArray["a" /* default */])(_query$split, 2),
-          operator = _query$split2[0],
-          breakpointName = _query$split2[1];
+const withViewportMatch = queries => {
+  const useViewPortQueriesResult = () => Object(external_lodash_["mapValues"])(queries, query => {
+    let [operator, breakpointName] = query.split(' ');
 
-      if (breakpointName === undefined) {
-        breakpointName = operator;
-        operator = '>=';
-      } // Hooks should unconditionally execute in the same order,
-      // we are respecting that as from the static query of the HOC we generate
-      // a hook that calls other hooks always in the same order (because the query never changes).
-      // eslint-disable-next-line react-hooks/rules-of-hooks
+    if (breakpointName === undefined) {
+      breakpointName = operator;
+      operator = '>=';
+    } // Hooks should unconditionally execute in the same order,
+    // we are respecting that as from the static query of the HOC we generate
+    // a hook that calls other hooks always in the same order (because the query never changes).
+    // eslint-disable-next-line react-hooks/rules-of-hooks
 
 
-      return Object(external_wp_compose_["useViewportMatch"])(breakpointName, operator);
-    });
-  };
+    return Object(external_wp_compose_["useViewportMatch"])(breakpointName, operator);
+  });
 
-  return Object(external_wp_compose_["createHigherOrderComponent"])(function (WrappedComponent) {
-    return Object(external_wp_compose_["pure"])(function (props) {
-      var queriesResult = useViewPortQueriesResult();
+  return Object(external_wp_compose_["createHigherOrderComponent"])(WrappedComponent => {
+    return Object(external_wp_compose_["pure"])(props => {
+      const queriesResult = useViewPortQueriesResult();
       return Object(external_wp_element_["createElement"])(WrappedComponent, Object(esm_extends["a" /* default */])({}, props, queriesResult));
     });
   }, 'withViewportMatch');
 };
 
-/* harmony default export */ var with_viewport_match = (with_viewport_match_withViewportMatch);
+/* harmony default export */ var with_viewport_match = (withViewportMatch);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/viewport/build-module/if-viewport-matches.js
 /**
@@ -521,15 +392,11 @@ var with_viewport_match_withViewportMatch = function withViewportMatch(queries) 
  * @return {Function} Higher-order component.
  */
 
-var if_viewport_matches_ifViewportMatches = function ifViewportMatches(query) {
-  return Object(external_wp_compose_["createHigherOrderComponent"])(Object(external_wp_compose_["compose"])([with_viewport_match({
-    isViewportMatch: query
-  }), Object(external_wp_compose_["ifCondition"])(function (props) {
-    return props.isViewportMatch;
-  })]), 'ifViewportMatches');
-};
+const ifViewportMatches = query => Object(external_wp_compose_["createHigherOrderComponent"])(Object(external_wp_compose_["compose"])([with_viewport_match({
+  isViewportMatch: query
+}), Object(external_wp_compose_["ifCondition"])(props => props.isViewportMatch)]), 'ifViewportMatches');
 
-/* harmony default export */ var if_viewport_matches = (if_viewport_matches_ifViewportMatches);
+/* harmony default export */ var if_viewport_matches = (ifViewportMatches);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/viewport/build-module/index.js
 /**
@@ -547,7 +414,7 @@ var if_viewport_matches_ifViewportMatches = function ifViewportMatches(query) {
  * @type {Object}
  */
 
-var BREAKPOINTS = {
+const BREAKPOINTS = {
   huge: 1440,
   wide: 1280,
   large: 960,
@@ -561,7 +428,7 @@ var BREAKPOINTS = {
  * @type {Object}
  */
 
-var OPERATORS = {
+const OPERATORS = {
   '<': 'max-width',
   '>=': 'min-width'
 };
@@ -570,7 +437,7 @@ listener(BREAKPOINTS, OPERATORS);
 
 /***/ }),
 
-/***/ 8:
+/***/ 7:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

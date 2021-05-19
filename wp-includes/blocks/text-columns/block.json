@@ -1,8 +1,11 @@
 {
 	"apiVersion": 2,
 	"name": "core/text-columns",
+	"title": "Text Columns (deprecated)",
 	"icon": "columns",
 	"category": "design",
+	"description": "This block is deprecated. Please use the Columns block instead.",
+	"textdomain": "default",
 	"attributes": {
 		"content": {
 			"type": "array",

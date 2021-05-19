@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["keycodes"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 481);
+/******/ 	return __webpack_require__(__webpack_require__.s = 585);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,43 +94,6 @@ this["wp"] = this["wp"] || {}; this["wp"]["keycodes"] =
 
 /***/ }),
 
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(24);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(42);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
-}
-
-/***/ }),
-
 /***/ 2:
 /***/ (function(module, exports) {
 
@@ -138,53 +101,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 24:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-/***/ }),
-
-/***/ 28:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
-
-/***/ }),
-
-/***/ 42:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-
-/***/ }),
-
-/***/ 481:
+/***/ 585:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -215,12 +132,6 @@ __webpack_require__.d(__webpack_exports__, "displayShortcut", function() { retur
 __webpack_require__.d(__webpack_exports__, "shortcutAriaLabel", function() { return /* binding */ shortcutAriaLabel; });
 __webpack_require__.d(__webpack_exports__, "isKeyboardEvent", function() { return /* binding */ isKeyboardEvent; });
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(5);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(15);
-
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__(2);
 
@@ -240,9 +151,7 @@ var external_wp_i18n_ = __webpack_require__(1);
  * @return {boolean} True if MacOS; false otherwise.
  */
 
-function isAppleOS() {
-  var _window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
+function isAppleOS(_window = null) {
   if (!_window) {
     if (typeof window === 'undefined') {
       return false;
@@ -251,14 +160,13 @@ function isAppleOS() {
     _window = window;
   }
 
-  var platform = _window.navigator.platform;
+  const {
+    platform
+  } = _window.navigator;
   return platform.indexOf('Mac') !== -1 || Object(external_lodash_["includes"])(['iPad', 'iPhone'], platform);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/keycodes/build-module/index.js
-
-
-
 /**
  * Note: The order of the modifier keys in many of the [foo]Shortcut()
  * functions in this file are intentional and should not be changed. They're
@@ -309,82 +217,82 @@ function isAppleOS() {
  * Keycode for BACKSPACE key.
  */
 
-var BACKSPACE = 8;
+const BACKSPACE = 8;
 /**
  * Keycode for TAB key.
  */
 
-var TAB = 9;
+const TAB = 9;
 /**
  * Keycode for ENTER key.
  */
 
-var ENTER = 13;
+const ENTER = 13;
 /**
  * Keycode for ESCAPE key.
  */
 
-var ESCAPE = 27;
+const ESCAPE = 27;
 /**
  * Keycode for SPACE key.
  */
 
-var SPACE = 32;
+const SPACE = 32;
 /**
  * Keycode for LEFT key.
  */
 
-var LEFT = 37;
+const LEFT = 37;
 /**
  * Keycode for UP key.
  */
 
-var UP = 38;
+const UP = 38;
 /**
  * Keycode for RIGHT key.
  */
 
-var RIGHT = 39;
+const RIGHT = 39;
 /**
  * Keycode for DOWN key.
  */
 
-var DOWN = 40;
+const DOWN = 40;
 /**
  * Keycode for DELETE key.
  */
 
-var DELETE = 46;
+const DELETE = 46;
 /**
  * Keycode for F10 key.
  */
 
-var F10 = 121;
+const F10 = 121;
 /**
  * Keycode for ALT key.
  */
 
-var ALT = 'alt';
+const ALT = 'alt';
 /**
  * Keycode for CTRL key.
  */
 
-var CTRL = 'ctrl';
+const CTRL = 'ctrl';
 /**
  * Keycode for COMMAND/META key.
  */
 
-var COMMAND = 'meta';
+const COMMAND = 'meta';
 /**
  * Keycode for SHIFT key.
  */
 
-var SHIFT = 'shift';
+const SHIFT = 'shift';
 /**
  * Keycode for ZERO key.
  */
 
-var ZERO = 48;
+const ZERO = 48;
 /**
  * Object that contains functions that return the available modifier
  * depending on platform.
@@ -392,37 +300,17 @@ var ZERO = 48;
  * @type {WPModifierHandler< ( isApple: () => boolean ) => WPModifierPart[]>}
  */
 
-var modifiers = {
-  primary: function primary(_isApple) {
-    return _isApple() ? [COMMAND] : [CTRL];
-  },
-  primaryShift: function primaryShift(_isApple) {
-    return _isApple() ? [SHIFT, COMMAND] : [CTRL, SHIFT];
-  },
-  primaryAlt: function primaryAlt(_isApple) {
-    return _isApple() ? [ALT, COMMAND] : [CTRL, ALT];
-  },
-  secondary: function secondary(_isApple) {
-    return _isApple() ? [SHIFT, ALT, COMMAND] : [CTRL, SHIFT, ALT];
-  },
-  access: function access(_isApple) {
-    return _isApple() ? [CTRL, ALT] : [SHIFT, ALT];
-  },
-  ctrl: function ctrl() {
-    return [CTRL];
-  },
-  alt: function alt() {
-    return [ALT];
-  },
-  ctrlShift: function ctrlShift() {
-    return [CTRL, SHIFT];
-  },
-  shift: function shift() {
-    return [SHIFT];
-  },
-  shiftAlt: function shiftAlt() {
-    return [SHIFT, ALT];
-  }
+const modifiers = {
+  primary: _isApple => _isApple() ? [COMMAND] : [CTRL],
+  primaryShift: _isApple => _isApple() ? [SHIFT, COMMAND] : [CTRL, SHIFT],
+  primaryAlt: _isApple => _isApple() ? [ALT, COMMAND] : [CTRL, ALT],
+  secondary: _isApple => _isApple() ? [SHIFT, ALT, COMMAND] : [CTRL, SHIFT, ALT],
+  access: _isApple => _isApple() ? [CTRL, ALT] : [SHIFT, ALT],
+  ctrl: () => [CTRL],
+  alt: () => [ALT],
+  ctrlShift: () => [CTRL, SHIFT],
+  shift: () => [SHIFT],
+  shiftAlt: () => [SHIFT, ALT]
 };
 /**
  * An object that contains functions to get raw shortcuts.
@@ -440,13 +328,11 @@ var modifiers = {
  *                                                 shortcuts.
  */
 
-var rawShortcut = Object(external_lodash_["mapValues"])(modifiers, function (modifier) {
+const rawShortcut = Object(external_lodash_["mapValues"])(modifiers, modifier => {
   return (
     /** @type {WPKeyHandler<string>} */
-    function (character) {
-      var _isApple = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : isAppleOS;
-
-      return [].concat(Object(toConsumableArray["a" /* default */])(modifier(_isApple)), [character.toLowerCase()]).join('+');
+    (character, _isApple = isAppleOS) => {
+      return [...modifier(_isApple), character.toLowerCase()].join('+');
     }
   );
 });
@@ -464,30 +350,32 @@ var rawShortcut = Object(external_lodash_["mapValues"])(modifiers, function (mod
  *                                                   shortcut sequences.
  */
 
-var displayShortcutList = Object(external_lodash_["mapValues"])(modifiers, function (modifier) {
+const displayShortcutList = Object(external_lodash_["mapValues"])(modifiers, modifier => {
   return (
     /** @type {WPKeyHandler<string[]>} */
-    function (character) {
-      var _replacementKeyMap;
+    (character, _isApple = isAppleOS) => {
+      const isApple = _isApple();
 
-      var _isApple = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : isAppleOS;
-
-      var isApple = _isApple();
-
-      var replacementKeyMap = (_replacementKeyMap = {}, Object(defineProperty["a" /* default */])(_replacementKeyMap, ALT, isApple ? '⌥' : 'Alt'), Object(defineProperty["a" /* default */])(_replacementKeyMap, CTRL, isApple ? '⌃' : 'Ctrl'), Object(defineProperty["a" /* default */])(_replacementKeyMap, COMMAND, '⌘'), Object(defineProperty["a" /* default */])(_replacementKeyMap, SHIFT, isApple ? '⇧' : 'Shift'), _replacementKeyMap);
-      var modifierKeys = modifier(_isApple).reduce(function (accumulator, key) {
-        var replacementKey = Object(external_lodash_["get"])(replacementKeyMap, key, key); // If on the Mac, adhere to platform convention and don't show plus between keys.
+      const replacementKeyMap = {
+        [ALT]: isApple ? '⌥' : 'Alt',
+        [CTRL]: isApple ? '⌃' : 'Ctrl',
+        // Make sure ⌃ is the U+2303 UP ARROWHEAD unicode character and not the caret character.
+        [COMMAND]: '⌘',
+        [SHIFT]: isApple ? '⇧' : 'Shift'
+      };
+      const modifierKeys = modifier(_isApple).reduce((accumulator, key) => {
+        const replacementKey = Object(external_lodash_["get"])(replacementKeyMap, key, key); // If on the Mac, adhere to platform convention and don't show plus between keys.
 
         if (isApple) {
-          return [].concat(Object(toConsumableArray["a" /* default */])(accumulator), [replacementKey]);
+          return [...accumulator, replacementKey];
         }
 
-        return [].concat(Object(toConsumableArray["a" /* default */])(accumulator), [replacementKey, '+']);
+        return [...accumulator, replacementKey, '+'];
       },
       /** @type {string[]} */
       []);
-      var capitalizedCharacter = Object(external_lodash_["capitalize"])(character);
-      return [].concat(Object(toConsumableArray["a" /* default */])(modifierKeys), [capitalizedCharacter]);
+      const capitalizedCharacter = Object(external_lodash_["capitalize"])(character);
+      return [...modifierKeys, capitalizedCharacter];
     }
   );
 });
@@ -505,14 +393,10 @@ var displayShortcutList = Object(external_lodash_["mapValues"])(modifiers, funct
  *                                                 display shortcuts.
  */
 
-var displayShortcut = Object(external_lodash_["mapValues"])(displayShortcutList, function (shortcutList) {
+const displayShortcut = Object(external_lodash_["mapValues"])(displayShortcutList, shortcutList => {
   return (
     /** @type {WPKeyHandler<string>} */
-    function (character) {
-      var _isApple = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : isAppleOS;
-
-      return shortcutList(character, _isApple).join('');
-    }
+    (character, _isApple = isAppleOS) => shortcutList(character, _isApple).join('')
   );
 });
 /**
@@ -530,20 +414,28 @@ var displayShortcut = Object(external_lodash_["mapValues"])(displayShortcutList,
  *                                                 shortcut ARIA labels.
  */
 
-var shortcutAriaLabel = Object(external_lodash_["mapValues"])(modifiers, function (modifier) {
+const shortcutAriaLabel = Object(external_lodash_["mapValues"])(modifiers, modifier => {
   return (
     /** @type {WPKeyHandler<string>} */
-    function (character) {
-      var _replacementKeyMap2;
+    (character, _isApple = isAppleOS) => {
+      const isApple = _isApple();
 
-      var _isApple = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : isAppleOS;
+      const replacementKeyMap = {
+        [SHIFT]: 'Shift',
+        [COMMAND]: isApple ? 'Command' : 'Control',
+        [CTRL]: 'Control',
+        [ALT]: isApple ? 'Option' : 'Alt',
 
-      var isApple = _isApple();
+        /* translators: comma as in the character ',' */
+        ',': Object(external_wp_i18n_["__"])('Comma'),
 
-      var replacementKeyMap = (_replacementKeyMap2 = {}, Object(defineProperty["a" /* default */])(_replacementKeyMap2, SHIFT, 'Shift'), Object(defineProperty["a" /* default */])(_replacementKeyMap2, COMMAND, isApple ? 'Command' : 'Control'), Object(defineProperty["a" /* default */])(_replacementKeyMap2, CTRL, 'Control'), Object(defineProperty["a" /* default */])(_replacementKeyMap2, ALT, isApple ? 'Option' : 'Alt'), Object(defineProperty["a" /* default */])(_replacementKeyMap2, ',', Object(external_wp_i18n_["__"])('Comma')), Object(defineProperty["a" /* default */])(_replacementKeyMap2, '.', Object(external_wp_i18n_["__"])('Period')), Object(defineProperty["a" /* default */])(_replacementKeyMap2, '`', Object(external_wp_i18n_["__"])('Backtick')), _replacementKeyMap2);
-      return [].concat(Object(toConsumableArray["a" /* default */])(modifier(_isApple)), [character]).map(function (key) {
-        return Object(external_lodash_["capitalize"])(Object(external_lodash_["get"])(replacementKeyMap, key, key));
-      }).join(isApple ? ' ' : ' + ');
+        /* translators: period as in the character '.' */
+        '.': Object(external_wp_i18n_["__"])('Period'),
+
+        /* translators: backtick as in the character '`' */
+        '`': Object(external_wp_i18n_["__"])('Backtick')
+      };
+      return [...modifier(_isApple), character].map(key => Object(external_lodash_["capitalize"])(Object(external_lodash_["get"])(replacementKeyMap, key, key))).join(isApple ? ' ' : ' + ');
     }
   );
 });
@@ -559,11 +451,9 @@ var shortcutAriaLabel = Object(external_lodash_["mapValues"])(modifiers, functio
 function getEventModifiers(event) {
   return (
     /** @type {WPModifierPart[]} */
-    [ALT, CTRL, COMMAND, SHIFT].filter(function (key) {
-      return event[
-      /** @type {'altKey' | 'ctrlKey' | 'metaKey' | 'shiftKey'} */
-      "".concat(key, "Key")];
-    })
+    [ALT, CTRL, COMMAND, SHIFT].filter(key => event[
+    /** @type {'altKey' | 'ctrlKey' | 'metaKey' | 'shiftKey'} */
+    `${key}Key`])
   );
 }
 /**
@@ -582,14 +472,12 @@ function getEventModifiers(event) {
  */
 
 
-var isKeyboardEvent = Object(external_lodash_["mapValues"])(modifiers, function (getModifiers) {
+const isKeyboardEvent = Object(external_lodash_["mapValues"])(modifiers, getModifiers => {
   return (
     /** @type {WPEventKeyHandler} */
-    function (event, character) {
-      var _isApple = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : isAppleOS;
-
-      var mods = getModifiers(_isApple);
-      var eventMods = getEventModifiers(event);
+    (event, character, _isApple = isAppleOS) => {
+      const mods = getModifiers(_isApple);
+      const eventMods = getEventModifiers(event);
 
       if (Object(external_lodash_["xor"])(mods, eventMods).length) {
         return false;
@@ -604,28 +492,6 @@ var isKeyboardEvent = Object(external_lodash_["mapValues"])(modifiers, function 
   );
 });
 
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
 
 /***/ })
 

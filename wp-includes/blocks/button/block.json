@@ -1,8 +1,12 @@
 {
 	"apiVersion": 2,
 	"name": "core/button",
+	"title": "Button",
 	"category": "design",
 	"parent": [ "core/buttons" ],
+	"description": "Prompt visitors to take action with a button-style link.",
+	"keywords": [ "link" ],
+	"textdomain": "default",
 	"attributes": {
 		"url": {
 			"type": "string",
@@ -66,6 +70,10 @@
 		"__experimentalFontFamily": true,
 		"__experimentalSelector": ".wp-block-button__link"
 	},
+	"styles": [
+		{ "name": "fill", "label": "Fill", "isDefault": true },
+		{ "name": "outline", "label": "Outline" }
+	],
 	"editorStyle": "wp-block-button-editor",
 	"style": "wp-block-button"
 }

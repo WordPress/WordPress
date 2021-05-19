@@ -132,9 +132,7 @@
   width: 100%;
   height: auto;
   text-align: left;
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: auto 1fr;
   grid-template-columns: auto 1fr;
 }
 .block-directory-downloadable-block-list-item:hover {

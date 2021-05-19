@@ -1,0 +1,22 @@
+{
+	"apiVersion": 2,
+	"name": "core/query-loop",
+	"title": "Query Loop",
+	"category": "design",
+	"parent": [ "core/query" ],
+	"description": "Query loop.",
+	"textdomain": "default",
+	"usesContext": [
+		"queryId",
+		"query",
+		"queryContext",
+		"layout",
+		"templateSlug"
+	],
+	"supports": {
+		"reusable": false,
+		"html": false
+	},
+	"style": "wp-block-query-loop",
+	"editorStyle": "wp-block-query-loop-editor"
+}

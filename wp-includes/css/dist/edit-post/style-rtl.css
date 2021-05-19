@@ -633,15 +633,15 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   .edit-post-fullscreen-mode-close.has-icon {
     display: flex;
     align-items: center;
-    -ms-grid-row-align: stretch;
-        align-self: stretch;
+    align-self: stretch;
     border: none;
     background: #23282e;
     color: #fff;
     border-radius: 0;
-    height: 60px;
+    height: 61px;
     width: 60px;
     position: relative;
+    margin-bottom: -1px;
   }
   .edit-post-fullscreen-mode-close.has-icon:active {
     color: #fff;
@@ -1061,7 +1061,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 }
 
 .edit-post-layout__toggle-publish-panel,
-.edit-post-layout__toogle-sidebar-panel,
+.edit-post-layout__toggle-sidebar-panel,
 .edit-post-layout__toggle-entities-saved-states-panel {
   z-index: 100000;
   position: fixed !important;
@@ -1078,8 +1078,8 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   justify-content: center;
 }
 .interface-interface-skeleton__actions:focus .edit-post-layout__toggle-publish-panel, .interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-publish-panel,
-.interface-interface-skeleton__actions:focus .edit-post-layout__toogle-sidebar-panel,
-.interface-interface-skeleton__actions:focus-within .edit-post-layout__toogle-sidebar-panel,
+.interface-interface-skeleton__actions:focus .edit-post-layout__toggle-sidebar-panel,
+.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-sidebar-panel,
 .interface-interface-skeleton__actions:focus .edit-post-layout__toggle-entities-saved-states-panel,
 .interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-entities-saved-states-panel {
   top: auto;
@@ -1087,7 +1087,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 }
 
 .edit-post-layout .interface-interface-skeleton__content {
-  background-color: #f0f0f0;
+  background-color: #2f2f2f;
 }
 
 .edit-post-layout__inserter-panel {
@@ -1754,13 +1754,17 @@ h2.edit-post-template-summary__title {
   margin-top: 2em;
   margin-right: auto;
   margin-left: auto;
-  margin-bottom: 28px;
+  margin-bottom: 0;
 }
 
 .edit-post-visual-editor__exit-template-mode {
   position: absolute;
   top: 8px;
   right: 8px;
+  color: #fff;
+}
+.edit-post-visual-editor__exit-template-mode:active:not([aria-disabled=true]), .edit-post-visual-editor__exit-template-mode:focus:not([aria-disabled=true]), .edit-post-visual-editor__exit-template-mode:hover {
+  color: #f0f0f0;
 }
 
 .edit-post-welcome-guide {

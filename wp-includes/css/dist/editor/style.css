@@ -670,6 +670,22 @@
   width: 100%;
 }
 
+.editor-post-taxonomies__flat-term-most-used .editor-post-taxonomies__flat-term-most-used-label {
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.editor-post-taxonomies__flat-term-most-used-list {
+  margin: 0;
+}
+.editor-post-taxonomies__flat-term-most-used-list li {
+  display: inline-block;
+  margin-right: 8px;
+}
+.editor-post-taxonomies__flat-term-most-used-list .components-button {
+  font-size: 12px;
+}
+
 .edit-post-text-editor__body textarea.editor-post-text-editor {
   border: 1px solid #949494;
   border-radius: 0;

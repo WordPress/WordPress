@@ -1,7 +1,10 @@
 {
 	"apiVersion": 2,
 	"name": "core/cover",
+	"title": "Cover",
 	"category": "media",
+	"description": "Add an image or video with a text overlay — great for headers.",
+	"textdomain": "default",
 	"attributes": {
 		"url": {
 			"type": "string"
@@ -56,6 +59,11 @@
 		"html": false,
 		"spacing": {
 			"padding": true
+		},
+		"color": {
+			"__experimentalDuotone": "> .wp-block-cover__image-background, > .wp-block-cover__video-background",
+			"text": false,
+			"background": false
 		}
 	},
 	"editorStyle": "wp-block-cover-editor",

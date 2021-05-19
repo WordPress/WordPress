@@ -82,152 +82,22 @@ this["wp"] = this["wp"] || {}; this["wp"]["element"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 468);
+/******/ 	return __webpack_require__(__webpack_require__.s = 572);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 108:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["escapeHtml"]; }());
-
-/***/ }),
-
-/***/ 12:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(38);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
-function _iterableToArrayLimit(arr, i) {
-  var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]);
-
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-
-  var _s, _e;
-
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(39);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
-}
-
-/***/ }),
-
-/***/ 13:
+/***/ 11:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["React"]; }());
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(45);
-
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-  var target = Object(_objectWithoutPropertiesLoose_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
-  var key, i;
-
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 147:
+/***/ 149:
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["ReactDOM"]; }());
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(24);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(42);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
-}
 
 /***/ }),
 
@@ -238,97 +108,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 24:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-/***/ }),
-
-/***/ 28:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
-
-/***/ }),
-
-/***/ 38:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-/***/ }),
-
-/***/ 42:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-
-/***/ }),
-
-/***/ 45:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ 468:
+/***/ 572:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -366,35 +146,22 @@ __webpack_require__.d(__webpack_exports__, "createPortal", function() { return /
 __webpack_require__.d(__webpack_exports__, "findDOMNode", function() { return /* reexport */ external_ReactDOM_["findDOMNode"]; });
 __webpack_require__.d(__webpack_exports__, "render", function() { return /* reexport */ external_ReactDOM_["render"]; });
 __webpack_require__.d(__webpack_exports__, "unmountComponentAtNode", function() { return /* reexport */ external_ReactDOM_["unmountComponentAtNode"]; });
-__webpack_require__.d(__webpack_exports__, "isEmptyElement", function() { return /* reexport */ utils_isEmptyElement; });
+__webpack_require__.d(__webpack_exports__, "isEmptyElement", function() { return /* reexport */ isEmptyElement; });
 __webpack_require__.d(__webpack_exports__, "Platform", function() { return /* reexport */ platform; });
 __webpack_require__.d(__webpack_exports__, "renderToString", function() { return /* reexport */ serialize; });
 __webpack_require__.d(__webpack_exports__, "RawHTML", function() { return /* reexport */ RawHTML; });
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(12);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
-var esm_typeof = __webpack_require__(56);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(15);
-
 // EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__(13);
+var external_React_ = __webpack_require__(11);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/create-interpolate-element.js
-
-
-
-
 /**
  * Internal dependencies
  */
 
 /** @typedef {import('./react').WPElement} WPElement */
 
-var indoc, offset, output, stack;
+let indoc, offset, output, stack;
 /**
  * Matches tags in the localized string
  *
@@ -411,7 +178,7 @@ var indoc, offset, output, stack;
  * @type {RegExp}
  */
 
-var tokenizer = /<(\/)?(\w+)\s*(\/)?>/g;
+const tokenizer = /<(\/)?(\w+)\s*(\/)?>/g;
 /**
  * The stack frame tracking parse progress.
  *
@@ -454,11 +221,11 @@ var tokenizer = /<(\/)?(\w+)\s*(\/)?>/g;
 
 function createFrame(element, tokenStart, tokenLength, prevOffset, leadingTextStart) {
   return {
-    element: element,
-    tokenStart: tokenStart,
-    tokenLength: tokenLength,
-    prevOffset: prevOffset,
-    leadingTextStart: leadingTextStart,
+    element,
+    tokenStart,
+    tokenLength,
+    prevOffset,
+    leadingTextStart,
     children: []
   };
 }
@@ -491,21 +258,21 @@ function createFrame(element, tokenStart, tokenLength, prevOffset, leadingTextSt
  */
 
 
-var create_interpolate_element_createInterpolateElement = function createInterpolateElement(interpolatedString, conversionMap) {
+const createInterpolateElement = (interpolatedString, conversionMap) => {
   indoc = interpolatedString;
   offset = 0;
   output = [];
   stack = [];
   tokenizer.lastIndex = 0;
 
-  if (!create_interpolate_element_isValidConversionMap(conversionMap)) {
+  if (!isValidConversionMap(conversionMap)) {
     throw new TypeError('The conversionMap provided is not valid. It must be an object with values that are WPElements');
   }
 
   do {// twiddle our thumbs
   } while (proceed(conversionMap));
 
-  return external_React_["createElement"].apply(void 0, [external_React_["Fragment"], null].concat(Object(toConsumableArray["a" /* default */])(output)));
+  return Object(external_React_["createElement"])(external_React_["Fragment"], null, ...output);
 };
 /**
  * Validate conversion map.
@@ -521,12 +288,10 @@ var create_interpolate_element_createInterpolateElement = function createInterpo
  */
 
 
-var create_interpolate_element_isValidConversionMap = function isValidConversionMap(conversionMap) {
-  var isObject = Object(esm_typeof["a" /* default */])(conversionMap) === 'object';
-  var values = isObject && Object.values(conversionMap);
-  return isObject && values.length && values.every(function (element) {
-    return Object(external_React_["isValidElement"])(element);
-  });
+const isValidConversionMap = conversionMap => {
+  const isObject = typeof conversionMap === 'object';
+  const values = isObject && Object.values(conversionMap);
+  return isObject && values.length && values.every(element => Object(external_React_["isValidElement"])(element));
 };
 /**
  * This is the iterator over the matches in the string.
@@ -540,16 +305,10 @@ var create_interpolate_element_isValidConversionMap = function isValidConversion
 
 
 function proceed(conversionMap) {
-  var next = nextToken();
-
-  var _next = Object(slicedToArray["a" /* default */])(next, 4),
-      tokenType = _next[0],
-      name = _next[1],
-      startOffset = _next[2],
-      tokenLength = _next[3];
-
-  var stackDepth = stack.length;
-  var leadingTextStart = startOffset > offset ? offset : null;
+  const next = nextToken();
+  const [tokenType, name, startOffset, tokenLength] = next;
+  const stackDepth = stack.length;
+  const leadingTextStart = startOffset > offset ? offset : null;
 
   if (!conversionMap[name]) {
     addText();
@@ -559,10 +318,10 @@ function proceed(conversionMap) {
   switch (tokenType) {
     case 'no-more-tokens':
       if (stackDepth !== 0) {
-        var _stack$pop = stack.pop(),
-            stackLeadingText = _stack$pop.leadingTextStart,
-            tokenStart = _stack$pop.tokenStart;
-
+        const {
+          leadingTextStart: stackLeadingText,
+          tokenStart
+        } = stack.pop();
         output.push(indoc.substr(stackLeadingText, tokenStart));
       }
 
@@ -600,11 +359,11 @@ function proceed(conversionMap) {
       // block and add it as a innerBlock to the parent
 
 
-      var stackTop = stack.pop();
-      var text = indoc.substr(stackTop.prevOffset, startOffset - stackTop.prevOffset);
+      const stackTop = stack.pop();
+      const text = indoc.substr(stackTop.prevOffset, startOffset - stackTop.prevOffset);
       stackTop.children.push(text);
       stackTop.prevOffset = startOffset + tokenLength;
-      var frame = createFrame(stackTop.element, stackTop.tokenStart, stackTop.tokenLength, startOffset + tokenLength);
+      const frame = createFrame(stackTop.element, stackTop.tokenStart, stackTop.tokenLength, startOffset + tokenLength);
       frame.children = stackTop.children;
       addChild(frame);
       offset = startOffset + tokenLength;
@@ -625,21 +384,15 @@ function proceed(conversionMap) {
 
 
 function nextToken() {
-  var matches = tokenizer.exec(indoc); // we have no more tokens
+  const matches = tokenizer.exec(indoc); // we have no more tokens
 
   if (null === matches) {
     return ['no-more-tokens'];
   }
 
-  var startedAt = matches.index;
-
-  var _matches = Object(slicedToArray["a" /* default */])(matches, 4),
-      match = _matches[0],
-      isClosing = _matches[1],
-      name = _matches[2],
-      isSelfClosed = _matches[3];
-
-  var length = match.length;
+  const startedAt = matches.index;
+  const [match, isClosing, name, isSelfClosed] = matches;
+  const length = match.length;
 
   if (isSelfClosed) {
     return ['self-closed', name, startedAt, length];
@@ -661,7 +414,7 @@ function nextToken() {
 
 
 function addText() {
-  var length = indoc.length - offset;
+  const length = indoc.length - offset;
 
   if (0 === length) {
     return;
@@ -681,19 +434,21 @@ function addText() {
 
 
 function addChild(frame) {
-  var element = frame.element,
-      tokenStart = frame.tokenStart,
-      tokenLength = frame.tokenLength,
-      prevOffset = frame.prevOffset,
-      children = frame.children;
-  var parent = stack[stack.length - 1];
-  var text = indoc.substr(parent.prevOffset, tokenStart - parent.prevOffset);
+  const {
+    element,
+    tokenStart,
+    tokenLength,
+    prevOffset,
+    children
+  } = frame;
+  const parent = stack[stack.length - 1];
+  const text = indoc.substr(parent.prevOffset, tokenStart - parent.prevOffset);
 
   if (text) {
     parent.children.push(text);
   }
 
-  parent.children.push(external_React_["cloneElement"].apply(void 0, [element, null].concat(Object(toConsumableArray["a" /* default */])(children))));
+  parent.children.push(Object(external_React_["cloneElement"])(element, null, ...children));
   parent.prevOffset = prevOffset ? prevOffset : tokenStart + tokenLength;
 }
 /**
@@ -711,14 +466,14 @@ function addChild(frame) {
 
 
 function closeOuterElement(endOffset) {
-  var _stack$pop2 = stack.pop(),
-      element = _stack$pop2.element,
-      leadingTextStart = _stack$pop2.leadingTextStart,
-      prevOffset = _stack$pop2.prevOffset,
-      tokenStart = _stack$pop2.tokenStart,
-      children = _stack$pop2.children;
-
-  var text = endOffset ? indoc.substr(prevOffset, endOffset - prevOffset) : indoc.substr(prevOffset);
+  const {
+    element,
+    leadingTextStart,
+    prevOffset,
+    tokenStart,
+    children
+  } = stack.pop();
+  const text = endOffset ? indoc.substr(prevOffset, endOffset - prevOffset) : indoc.substr(prevOffset);
 
   if (text) {
     children.push(text);
@@ -728,28 +483,15 @@ function closeOuterElement(endOffset) {
     output.push(indoc.substr(leadingTextStart, tokenStart - leadingTextStart));
   }
 
-  output.push(external_React_["cloneElement"].apply(void 0, [element, null].concat(Object(toConsumableArray["a" /* default */])(children))));
+  output.push(Object(external_React_["cloneElement"])(element, null, ...children));
 }
 
-/* harmony default export */ var create_interpolate_element = (create_interpolate_element_createInterpolateElement);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(5);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__(14);
+/* harmony default export */ var create_interpolate_element = (createInterpolateElement);
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react.js
-
-
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 /**
  * External dependencies
  */
@@ -931,13 +673,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
  * @return {Array} The concatenated value.
  */
 
-function concatChildren() {
-  for (var _len = arguments.length, childrenArguments = new Array(_len), _key = 0; _key < _len; _key++) {
-    childrenArguments[_key] = arguments[_key];
-  }
-
-  return childrenArguments.reduce(function (accumulator, children, i) {
-    external_React_["Children"].forEach(children, function (child, j) {
+function concatChildren(...childrenArguments) {
+  return childrenArguments.reduce((accumulator, children, i) => {
+    external_React_["Children"].forEach(children, (child, j) => {
       if (child && 'string' !== typeof child) {
         child = Object(external_React_["cloneElement"])(child, {
           key: [i, j].join()
@@ -959,25 +697,26 @@ function concatChildren() {
  */
 
 function switchChildrenNodeName(children, nodeName) {
-  return children && external_React_["Children"].map(children, function (elt, index) {
+  return children && external_React_["Children"].map(children, (elt, index) => {
     if (Object(external_lodash_["isString"])(elt)) {
       return Object(external_React_["createElement"])(nodeName, {
         key: index
       }, elt);
     }
 
-    var _elt$props = elt.props,
-        childrenProp = _elt$props.children,
-        props = Object(objectWithoutProperties["a" /* default */])(_elt$props, ["children"]);
-
-    return Object(external_React_["createElement"])(nodeName, _objectSpread({
-      key: index
-    }, props), childrenProp);
+    const {
+      children: childrenProp,
+      ...props
+    } = elt.props;
+    return Object(external_React_["createElement"])(nodeName, {
+      key: index,
+      ...props
+    }, childrenProp);
   });
 }
 
 // EXTERNAL MODULE: external "ReactDOM"
-var external_ReactDOM_ = __webpack_require__(147);
+var external_ReactDOM_ = __webpack_require__(149);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react-platform.js
 /**
@@ -1030,7 +769,7 @@ var external_ReactDOM_ = __webpack_require__(147);
  * @return {boolean} True when an element is considered empty.
  */
 
-var utils_isEmptyElement = function isEmptyElement(element) {
+const isEmptyElement = element => {
   if (Object(external_lodash_["isNumber"])(element)) {
     return false;
   }
@@ -1051,11 +790,9 @@ var utils_isEmptyElement = function isEmptyElement(element) {
  * Copyright (c) 2015-present, Facebook, Inc.
  *
  */
-var Platform = {
+const Platform = {
   OS: 'web',
-  select: function select(spec) {
-    return 'web' in spec ? spec.web : spec.default;
-  }
+  select: spec => 'web' in spec ? spec.web : spec.default
 };
 /**
  * Component used to detect the current Platform being used.
@@ -1080,16 +817,9 @@ var Platform = {
 /* harmony default export */ var platform = (Platform);
 
 // EXTERNAL MODULE: external ["wp","escapeHtml"]
-var external_wp_escapeHtml_ = __webpack_require__(108);
+var external_wp_escapeHtml_ = __webpack_require__(95);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/raw-html.js
-
-
-
-function raw_html_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function raw_html_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { raw_html_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { raw_html_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 /**
  * Internal dependencies
  */
@@ -1109,28 +839,21 @@ function raw_html_objectSpread(target) { for (var i = 1; i < arguments.length; i
  * @return {JSX.Element} Dangerously-rendering component.
  */
 
-function RawHTML(_ref) {
-  var children = _ref.children,
-      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["children"]);
-
+function RawHTML({
+  children,
+  ...props
+}) {
   // The DIV wrapper will be stripped by serializer, unless there are
   // non-children props present.
-  return Object(external_React_["createElement"])('div', raw_html_objectSpread({
+  return Object(external_React_["createElement"])('div', {
     dangerouslySetInnerHTML: {
       __html: children
-    }
-  }, props));
+    },
+    ...props
+  });
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/serialize.js
-
-
-
-
-function serialize_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function serialize_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { serialize_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { serialize_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 /**
  * Parts of this source were derived and modified from fast-react-render,
  * released under the MIT license.
@@ -1175,11 +898,11 @@ function serialize_objectSpread(target) { for (var i = 1; i < arguments.length; 
 
 /** @typedef {import('./react').WPElement} WPElement */
 
-var _createContext = Object(external_React_["createContext"])(undefined),
-    Provider = _createContext.Provider,
-    Consumer = _createContext.Consumer;
-
-var ForwardRef = Object(external_React_["forwardRef"])(function () {
+const {
+  Provider,
+  Consumer
+} = Object(external_React_["createContext"])(undefined);
+const ForwardRef = Object(external_React_["forwardRef"])(() => {
   return null;
 });
 /**
@@ -1188,14 +911,14 @@ var ForwardRef = Object(external_React_["forwardRef"])(function () {
  * @type {Set<string>}
  */
 
-var ATTRIBUTES_TYPES = new Set(['string', 'boolean', 'number']);
+const ATTRIBUTES_TYPES = new Set(['string', 'boolean', 'number']);
 /**
  * Element tags which can be self-closing.
  *
  * @type {Set<string>}
  */
 
-var SELF_CLOSING_TAGS = new Set(['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
+const SELF_CLOSING_TAGS = new Set(['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
 /**
  * Boolean attributes are attributes whose presence as being assigned is
  * meaningful, even if only empty.
@@ -1212,7 +935,7 @@ var SELF_CLOSING_TAGS = new Set(['area', 'base', 'br', 'col', 'command', 'embed'
  * @type {Set<string>}
  */
 
-var BOOLEAN_ATTRIBUTES = new Set(['allowfullscreen', 'allowpaymentrequest', 'allowusermedia', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled', 'download', 'formnovalidate', 'hidden', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open', 'playsinline', 'readonly', 'required', 'reversed', 'selected', 'typemustmatch']);
+const BOOLEAN_ATTRIBUTES = new Set(['allowfullscreen', 'allowpaymentrequest', 'allowusermedia', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled', 'download', 'formnovalidate', 'hidden', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open', 'playsinline', 'readonly', 'required', 'reversed', 'selected', 'typemustmatch']);
 /**
  * Enumerated attributes are attributes which must be of a specific value form.
  * Like boolean attributes, these are meaningful if specified, even if not of a
@@ -1234,7 +957,7 @@ var BOOLEAN_ATTRIBUTES = new Set(['allowfullscreen', 'allowpaymentrequest', 'all
  * @type {Set<string>}
  */
 
-var ENUMERATED_ATTRIBUTES = new Set(['autocapitalize', 'autocomplete', 'charset', 'contenteditable', 'crossorigin', 'decoding', 'dir', 'draggable', 'enctype', 'formenctype', 'formmethod', 'http-equiv', 'inputmode', 'kind', 'method', 'preload', 'scope', 'shape', 'spellcheck', 'translate', 'type', 'wrap']);
+const ENUMERATED_ATTRIBUTES = new Set(['autocapitalize', 'autocomplete', 'charset', 'contenteditable', 'crossorigin', 'decoding', 'dir', 'draggable', 'enctype', 'formenctype', 'formmethod', 'http-equiv', 'inputmode', 'kind', 'method', 'preload', 'scope', 'shape', 'spellcheck', 'translate', 'type', 'wrap']);
 /**
  * Set of CSS style properties which support assignment of unitless numbers.
  * Used in rendering of style properties, where `px` unit is assumed unless
@@ -1254,7 +977,7 @@ var ENUMERATED_ATTRIBUTES = new Set(['autocapitalize', 'autocomplete', 'charset'
  * @type {Set<string>}
  */
 
-var CSS_PROPERTIES_SUPPORTS_UNITLESS = new Set(['animation', 'animationIterationCount', 'baselineShift', 'borderImageOutset', 'borderImageSlice', 'borderImageWidth', 'columnCount', 'cx', 'cy', 'fillOpacity', 'flexGrow', 'flexShrink', 'floodOpacity', 'fontWeight', 'gridColumnEnd', 'gridColumnStart', 'gridRowEnd', 'gridRowStart', 'lineHeight', 'opacity', 'order', 'orphans', 'r', 'rx', 'ry', 'shapeImageThreshold', 'stopOpacity', 'strokeDasharray', 'strokeDashoffset', 'strokeMiterlimit', 'strokeOpacity', 'strokeWidth', 'tabSize', 'widows', 'x', 'y', 'zIndex', 'zoom']);
+const CSS_PROPERTIES_SUPPORTS_UNITLESS = new Set(['animation', 'animationIterationCount', 'baselineShift', 'borderImageOutset', 'borderImageSlice', 'borderImageWidth', 'columnCount', 'cx', 'cy', 'fillOpacity', 'flexGrow', 'flexShrink', 'floodOpacity', 'fontWeight', 'gridColumnEnd', 'gridColumnStart', 'gridRowEnd', 'gridRowStart', 'lineHeight', 'opacity', 'order', 'orphans', 'r', 'rx', 'ry', 'shapeImageThreshold', 'stopOpacity', 'strokeDasharray', 'strokeDashoffset', 'strokeMiterlimit', 'strokeOpacity', 'strokeWidth', 'tabSize', 'widows', 'x', 'y', 'zIndex', 'zoom']);
 /**
  * Returns true if the specified string is prefixed by one of an array of
  * possible prefixes.
@@ -1266,9 +989,7 @@ var CSS_PROPERTIES_SUPPORTS_UNITLESS = new Set(['animation', 'animationIteration
  */
 
 function hasPrefix(string, prefixes) {
-  return prefixes.some(function (prefix) {
-    return string.indexOf(prefix) === 0;
-  });
+  return prefixes.some(prefix => string.indexOf(prefix) === 0);
 }
 /**
  * Returns true if the given prop name should be ignored in attributes
@@ -1373,9 +1094,7 @@ function getNormalStylePropertyValue(property, value) {
  */
 
 
-function renderElement(element, context) {
-  var legacyContext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
+function renderElement(element, context, legacyContext = {}) {
   if (null === element || undefined === element || false === element) {
     return '';
   }
@@ -1384,7 +1103,7 @@ function renderElement(element, context) {
     return renderChildren(element, context, legacyContext);
   }
 
-  switch (Object(esm_typeof["a" /* default */])(element)) {
+  switch (typeof element) {
     case 'string':
       return Object(external_wp_escapeHtml_["escapeHTML"])(element);
 
@@ -1392,10 +1111,12 @@ function renderElement(element, context) {
       return element.toString();
   }
 
-  var type =
+  const {
+    type,
+    props
+  } =
   /** @type {{type?: any, props?: any}} */
-  element.type,
-      props = element.props;
+  element;
 
   switch (type) {
     case external_React_["StrictMode"]:
@@ -1403,17 +1124,18 @@ function renderElement(element, context) {
       return renderChildren(props.children, context, legacyContext);
 
     case RawHTML:
-      var children = props.children,
-          wrapperProps = Object(objectWithoutProperties["a" /* default */])(props, ["children"]);
-
-      return renderNativeComponent(Object(external_lodash_["isEmpty"])(wrapperProps) ? null : 'div', serialize_objectSpread(serialize_objectSpread({}, wrapperProps), {}, {
+      const {
+        children,
+        ...wrapperProps
+      } = props;
+      return renderNativeComponent(Object(external_lodash_["isEmpty"])(wrapperProps) ? null : 'div', { ...wrapperProps,
         dangerouslySetInnerHTML: {
           __html: children
         }
-      }), context, legacyContext);
+      }, context, legacyContext);
   }
 
-  switch (Object(esm_typeof["a" /* default */])(type)) {
+  switch (typeof type) {
     case 'string':
       return renderNativeComponent(type, props, context, legacyContext);
 
@@ -1450,9 +1172,8 @@ function renderElement(element, context) {
  * @return {string} Serialized element.
  */
 
-function renderNativeComponent(type, props, context) {
-  var legacyContext = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-  var content = '';
+function renderNativeComponent(type, props, context, legacyContext = {}) {
+  let content = '';
 
   if (type === 'textarea' && props.hasOwnProperty('value')) {
     // Textarea children can be assigned as value prop. If it is, render in
@@ -1471,7 +1192,7 @@ function renderNativeComponent(type, props, context) {
     return content;
   }
 
-  var attributes = renderAttributes(props);
+  const attributes = renderAttributes(props);
 
   if (SELF_CLOSING_TAGS.has(type)) {
     return '<' + type + attributes + '/>';
@@ -1492,9 +1213,8 @@ function renderNativeComponent(type, props, context) {
  * @return {string} Serialized element
  */
 
-function renderComponent(Component, props, context) {
-  var legacyContext = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-  var instance = new
+function renderComponent(Component, props, context, legacyContext = {}) {
+  const instance = new
   /** @type {import('react').ComponentClass} */
   Component(props, legacyContext);
 
@@ -1508,7 +1228,7 @@ function renderComponent(Component, props, context) {
     instance.getChildContext());
   }
 
-  var html = renderElement(instance.render(), context, legacyContext);
+  const html = renderElement(instance.render(), context, legacyContext);
   return html;
 }
 /**
@@ -1521,13 +1241,12 @@ function renderComponent(Component, props, context) {
  * @return {string} Serialized children.
  */
 
-function renderChildren(children, context) {
-  var legacyContext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  var result = '';
+function renderChildren(children, context, legacyContext = {}) {
+  let result = '';
   children = Object(external_lodash_["castArray"])(children);
 
-  for (var i = 0; i < children.length; i++) {
-    var child = children[i];
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
     result += renderElement(child, context, legacyContext);
   }
 
@@ -1543,18 +1262,18 @@ function renderChildren(children, context) {
 
 
 function renderAttributes(props) {
-  var result = '';
+  let result = '';
 
-  for (var key in props) {
-    var attribute = getNormalAttributeName(key);
+  for (const key in props) {
+    const attribute = getNormalAttributeName(key);
 
     if (!Object(external_wp_escapeHtml_["isValidAttributeName"])(attribute)) {
       continue;
     }
 
-    var value = getNormalAttributeValue(key, props[key]); // If value is not of serializeable type, skip.
+    let value = getNormalAttributeValue(key, props[key]); // If value is not of serializeable type, skip.
 
-    if (!ATTRIBUTES_TYPES.has(Object(esm_typeof["a" /* default */])(value))) {
+    if (!ATTRIBUTES_TYPES.has(typeof value)) {
       continue;
     } // Don't render internal attribute names.
 
@@ -1563,13 +1282,13 @@ function renderAttributes(props) {
       continue;
     }
 
-    var isBooleanAttribute = BOOLEAN_ATTRIBUTES.has(attribute); // Boolean attribute should be omitted outright if its value is false.
+    const isBooleanAttribute = BOOLEAN_ATTRIBUTES.has(attribute); // Boolean attribute should be omitted outright if its value is false.
 
     if (isBooleanAttribute && value === false) {
       continue;
     }
 
-    var isMeaningfulAttribute = isBooleanAttribute || hasPrefix(key, ['data-', 'aria-']) || ENUMERATED_ATTRIBUTES.has(attribute); // Only write boolean value as attribute if meaningful.
+    const isMeaningfulAttribute = isBooleanAttribute || hasPrefix(key, ['data-', 'aria-']) || ENUMERATED_ATTRIBUTES.has(attribute); // Only write boolean value as attribute if meaningful.
 
     if (typeof value === 'boolean' && !isMeaningfulAttribute) {
       continue;
@@ -1605,10 +1324,10 @@ function renderStyle(style) {
     return style;
   }
 
-  var result;
+  let result;
 
-  for (var property in style) {
-    var value = style[property];
+  for (const property in style) {
+    const value = style[property];
 
     if (null === value || undefined === value) {
       continue;
@@ -1620,8 +1339,8 @@ function renderStyle(style) {
       result = '';
     }
 
-    var normalName = getNormalStylePropertyName(property);
-    var normalValue = getNormalStylePropertyValue(property, value);
+    const normalName = getNormalStylePropertyName(property);
+    const normalValue = getNormalStylePropertyValue(property, value);
     result += normalName + ':' + normalValue;
   }
 
@@ -1641,48 +1360,10 @@ function renderStyle(style) {
 
 /***/ }),
 
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 95:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
-/***/ 56:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
+(function() { module.exports = window["wp"]["escapeHtml"]; }());
 
 /***/ })
 

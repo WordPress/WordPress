@@ -111,6 +111,9 @@
   width: calc(75% - 0.5em);
 }
 .wp-block-buttons > .wp-block-button.wp-block-button__width-100 {
+  width: calc(100% - 0.5em);
+}
+.wp-block-buttons > .wp-block-button.wp-block-button__width-100:only-child {
   margin-left: 0;
   width: 100%;
 }

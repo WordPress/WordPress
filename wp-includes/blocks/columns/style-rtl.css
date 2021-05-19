@@ -134,8 +134,7 @@
   align-self: flex-start;
 }
 .wp-block-column.is-vertically-aligned-center {
-  -ms-grid-row-align: center;
-      align-self: center;
+  align-self: center;
 }
 .wp-block-column.is-vertically-aligned-bottom {
   align-self: flex-end;

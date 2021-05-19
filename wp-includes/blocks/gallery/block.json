@@ -1,7 +1,11 @@
 {
 	"apiVersion": 2,
 	"name": "core/gallery",
+	"title": "Gallery",
 	"category": "media",
+	"description": "Display multiple images in a rich gallery.",
+	"keywords": [ "images", "photos" ],
+	"textdomain": "default",
 	"attributes": {
 		"images": {
 			"type": "array",

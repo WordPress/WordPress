@@ -82,19 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["htmlEntities"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 440);
+/******/ 	return __webpack_require__(__webpack_require__.s = 544);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 440:
+/***/ 544:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "decodeEntities", function() { return decodeEntities; });
 /** @type {HTMLTextAreaElement} */
-var _decodeTextArea;
+let _decodeTextArea;
 /**
  * Decodes the HTML entities from a given string.
  *
@@ -126,7 +126,7 @@ function decodeEntities(html) {
   }
 
   _decodeTextArea.innerHTML = html;
-  var decoded = _decodeTextArea.textContent;
+  const decoded = _decodeTextArea.textContent;
   _decodeTextArea.innerHTML = '';
   /**
    * Cast to string, HTMLTextAreaElement should always have `string` textContent.

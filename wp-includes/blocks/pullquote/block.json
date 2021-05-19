@@ -1,7 +1,10 @@
 {
 	"apiVersion": 2,
 	"name": "core/pullquote",
+	"title": "Pullquote",
 	"category": "text",
+	"description": "Give special visual emphasis to a quote from your text.",
+	"textdomain": "default",
 	"attributes": {
 		"value": {
 			"type": "string",
@@ -34,6 +37,14 @@
 		"anchor": true,
 		"align": [ "left", "right", "wide", "full" ]
 	},
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default",
+			"isDefault": true
+		},
+		{ "name": "solid-color", "label": "Solid color" }
+	],
 	"editorStyle": "wp-block-pullquote-editor",
 	"style": "wp-block-pullquote"
 }

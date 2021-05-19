@@ -82,12 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 467);
+/******/ 	return __webpack_require__(__webpack_require__.s = 571);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 212:
+/***/ 21:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["hooks"]; }());
+
+/***/ }),
+
+/***/ 409:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -326,14 +333,175 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 30:
-/***/ (function(module, exports) {
+/***/ 42:
+/***/ (function(module, exports, __webpack_require__) {
 
-(function() { module.exports = window["wp"]["hooks"]; }());
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
+
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {Function} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {F & MemizeMemoizedFunction} Memoized function.
+ */
+function memize( fn, options ) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
+
+	function memoized( /* ...args */ ) {
+		var node = head,
+			len = arguments.length,
+			args, i;
+
+		searchCache: while ( node ) {
+			// Perform a shallow equality test to confirm that whether the node
+			// under test is a candidate for the arguments passed. Two arrays
+			// are shallowly equal if their length matches and each entry is
+			// strictly equal between the two sets. Avoid abstracting to a
+			// function which could incur an arguments leaking deoptimization.
+
+			// Check whether node arguments match arguments length
+			if ( node.args.length !== arguments.length ) {
+				node = node.next;
+				continue;
+			}
+
+			// Check whether node arguments match arguments values
+			for ( i = 0; i < len; i++ ) {
+				if ( node.args[ i ] !== arguments[ i ] ) {
+					node = node.next;
+					continue searchCache;
+				}
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== head ) {
+				// As tail, shift to previous. Must only shift if not also
+				// head, since if both head and tail, there is no previous.
+				if ( node === tail ) {
+					tail = node.prev;
+				}
+
+				// Adjust siblings to point to each other. If node was tail,
+				// this also handles new tail's empty `next` assignment.
+				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = head;
+				node.prev = null;
+				/** @type {MemizeCacheNode} */ ( head ).prev = node;
+				head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		// Create a copy of arguments (avoid leaking deoptimization)
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		node = {
+			args: args,
+
+			// Generate the result from original function
+			val: fn.apply( null, args ),
+		};
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( head ) {
+			head.prev = node;
+			node.next = head;
+		} else {
+			// If no head, follows that there's no tail (at initial or reset)
+			tail = node;
+		}
+
+		// Trim tail if we're reached max size and are pending cache insertion
+		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
+			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
+			/** @type {MemizeCacheNode} */ ( tail ).next = null;
+		} else {
+			size++;
+		}
+
+		head = node;
+
+		return node.val;
+	}
+
+	memoized.clear = function() {
+		head = null;
+		tail = null;
+		size = 0;
+	};
+
+	if ( false ) {}
+
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
+	return memoized;
+}
+
+module.exports = memize;
+
 
 /***/ }),
 
-/***/ 467:
+/***/ 571:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -342,7 +510,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "sprintf", function() { return /* reexport */ sprintf_sprintf; });
-__webpack_require__.d(__webpack_exports__, "createI18n", function() { return /* reexport */ create_i18n_createI18n; });
+__webpack_require__.d(__webpack_exports__, "createI18n", function() { return /* reexport */ createI18n; });
 __webpack_require__.d(__webpack_exports__, "defaultI18n", function() { return /* reexport */ default_i18n; });
 __webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return /* reexport */ default_i18n_setLocaleData; });
 __webpack_require__.d(__webpack_exports__, "resetLocaleData", function() { return /* reexport */ default_i18n_resetLocaleData; });
@@ -356,11 +524,11 @@ __webpack_require__.d(__webpack_exports__, "isRTL", function() { return /* reexp
 __webpack_require__.d(__webpack_exports__, "hasTranslation", function() { return /* reexport */ default_i18n_hasTranslation; });
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(68);
+var memize = __webpack_require__(42);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(212);
+var sprintf = __webpack_require__(409);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/sprintf.js
@@ -377,7 +545,7 @@ var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
  * @param {...*} args Arguments to pass to `console.error`
  */
 
-var logErrorOnce = memize_default()(console.error); // eslint-disable-line no-console
+const logErrorOnce = memize_default()(console.error); // eslint-disable-line no-console
 
 /**
  * Returns a formatted string. If an error occurs in applying the format, the
@@ -391,21 +559,14 @@ var logErrorOnce = memize_default()(console.error); // eslint-disable-line no-co
  * @return {string} The formatted string.
  */
 
-function sprintf_sprintf(format) {
+function sprintf_sprintf(format, ...args) {
   try {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    return sprintf_default.a.sprintf.apply(sprintf_default.a, [format].concat(args));
+    return sprintf_default.a.sprintf(format, ...args);
   } catch (error) {
     logErrorOnce('sprintf error: \n\n' + error.toString());
     return format;
   }
 }
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(5);
 
 // CONCATENATED MODULE: ./node_modules/@tannin/postfix/index.js
 var PRECEDENCE, OPENERS, TERMINATORS, PATTERN;
@@ -912,12 +1073,6 @@ Tannin.prototype.dcnpgettext = function( domain, context, singular, plural, n ) 
 };
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/create-i18n.js
-
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 /**
  * External dependencies
  */
@@ -933,12 +1088,13 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
  * @type {LocaleData}
  */
 
-var DEFAULT_LOCALE_DATA = {
+const DEFAULT_LOCALE_DATA = {
   '': {
     /** @param {number} n */
-    plural_forms: function plural_forms(n) {
+    plural_forms(n) {
       return n === 1 ? 0 : 1;
     }
+
   }
 };
 /*
@@ -946,7 +1102,7 @@ var DEFAULT_LOCALE_DATA = {
  * `i18n.gettext_domain` or `i18n.ngettext_with_context` or `i18n.has_translation`.
  */
 
-var I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
+const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
 /**
  * @typedef {(domain?: string) => LocaleData} GetLocaleData
  *
@@ -1071,19 +1227,17 @@ var I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  * @return {I18n}                       I18n instance
  */
 
-var create_i18n_createI18n = function createI18n(initialData, initialDomain, hooks) {
+const createI18n = (initialData, initialDomain, hooks) => {
   /**
    * The underlying instance of Tannin to which exported functions interface.
    *
    * @type {Tannin}
    */
-  var tannin = new Tannin({});
-  var listeners = new Set();
+  const tannin = new Tannin({});
+  const listeners = new Set();
 
-  var notifyListeners = function notifyListeners() {
-    listeners.forEach(function (listener) {
-      return listener();
-    });
+  const notifyListeners = () => {
+    listeners.forEach(listener => listener());
   };
   /**
    * Subscribe to changes of locale data.
@@ -1093,43 +1247,42 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
    */
 
 
-  var subscribe = function subscribe(callback) {
+  const subscribe = callback => {
     listeners.add(callback);
-    return function () {
-      return listeners.delete(callback);
-    };
+    return () => listeners.delete(callback);
   };
   /** @type {GetLocaleData} */
 
 
-  var getLocaleData = function getLocaleData() {
-    var domain = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
-    return tannin.data[domain];
-  };
+  const getLocaleData = (domain = 'default') => tannin.data[domain];
   /**
    * @param {LocaleData} [data]
    * @param {string} [domain]
    */
 
 
-  var doSetLocaleData = function doSetLocaleData(data) {
-    var domain = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default';
-    tannin.data[domain] = _objectSpread(_objectSpread(_objectSpread({}, DEFAULT_LOCALE_DATA), tannin.data[domain]), data); // Populate default domain configuration (supported locale date which omits
+  const doSetLocaleData = (data, domain = 'default') => {
+    tannin.data[domain] = { ...DEFAULT_LOCALE_DATA,
+      ...tannin.data[domain],
+      ...data
+    }; // Populate default domain configuration (supported locale date which omits
     // a plural forms expression).
 
-    tannin.data[domain][''] = _objectSpread(_objectSpread({}, DEFAULT_LOCALE_DATA['']), tannin.data[domain]['']);
+    tannin.data[domain][''] = { ...DEFAULT_LOCALE_DATA[''],
+      ...tannin.data[domain]['']
+    };
   };
   /** @type {SetLocaleData} */
 
 
-  var setLocaleData = function setLocaleData(data, domain) {
+  const setLocaleData = (data, domain) => {
     doSetLocaleData(data, domain);
     notifyListeners();
   };
   /** @type {ResetLocaleData} */
 
 
-  var resetLocaleData = function resetLocaleData(data, domain) {
+  const resetLocaleData = (data, domain) => {
     // Reset all current Tannin locale data.
     tannin.data = {}; // Reset cached plural forms functions cache.
 
@@ -1153,13 +1306,7 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
    */
 
 
-  var dcnpgettext = function dcnpgettext() {
-    var domain = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
-    var context = arguments.length > 1 ? arguments[1] : undefined;
-    var single = arguments.length > 2 ? arguments[2] : undefined;
-    var plural = arguments.length > 3 ? arguments[3] : undefined;
-    var number = arguments.length > 4 ? arguments[4] : undefined;
-
+  const dcnpgettext = (domain = 'default', context, single, plural, number) => {
     if (!tannin.data[domain]) {
       // use `doSetLocaleData` to set silently, without notifying listeners
       doSetLocaleData(undefined, domain);
@@ -1170,15 +1317,12 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   /** @type {GetFilterDomain} */
 
 
-  var getFilterDomain = function getFilterDomain() {
-    var domain = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
-    return domain;
-  };
+  const getFilterDomain = (domain = 'default') => domain;
   /** @type {__} */
 
 
-  var __ = function __(text, domain) {
-    var translation = dcnpgettext(domain, undefined, text);
+  const __ = (text, domain) => {
+    let translation = dcnpgettext(domain, undefined, text);
 
     if (!hooks) {
       return translation;
@@ -1207,8 +1351,8 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   /** @type {_x} */
 
 
-  var _x = function _x(text, context, domain) {
-    var translation = dcnpgettext(domain, context, text);
+  const _x = (text, context, domain) => {
+    let translation = dcnpgettext(domain, context, text);
 
     if (!hooks) {
       return translation;
@@ -1238,8 +1382,8 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   /** @type {_n} */
 
 
-  var _n = function _n(single, plural, number, domain) {
-    var translation = dcnpgettext(domain, undefined, single, plural, number);
+  const _n = (single, plural, number, domain) => {
+    let translation = dcnpgettext(domain, undefined, single, plural, number);
 
     if (!hooks) {
       return translation;
@@ -1270,8 +1414,8 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   /** @type {_nx} */
 
 
-  var _nx = function _nx(single, plural, number, context, domain) {
-    var translation = dcnpgettext(domain, context, single, plural, number);
+  const _nx = (single, plural, number, context, domain) => {
+    let translation = dcnpgettext(domain, context, single, plural, number);
 
     if (!hooks) {
       return translation;
@@ -1303,17 +1447,17 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   /** @type {IsRtl} */
 
 
-  var isRTL = function isRTL() {
+  const isRTL = () => {
     return 'rtl' === _x('ltr', 'text direction');
   };
   /** @type {HasTranslation} */
 
 
-  var hasTranslation = function hasTranslation(single, context, domain) {
+  const hasTranslation = (single, context, domain) => {
     var _tannin$data, _tannin$data2;
 
-    var key = context ? context + "\x04" + single : single;
-    var result = !!((_tannin$data = tannin.data) !== null && _tannin$data !== void 0 && (_tannin$data2 = _tannin$data[domain !== null && domain !== void 0 ? domain : 'default']) !== null && _tannin$data2 !== void 0 && _tannin$data2[key]);
+    const key = context ? context + '\u0004' + single : single;
+    let result = !!((_tannin$data = tannin.data) !== null && _tannin$data !== void 0 && (_tannin$data2 = _tannin$data[domain !== null && domain !== void 0 ? domain : 'default']) !== null && _tannin$data2 !== void 0 && _tannin$data2[key]);
 
     if (hooks) {
       /**
@@ -1347,7 +1491,7 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
     /**
      * @param {string} hookName
      */
-    var onHookAddedOrRemoved = function onHookAddedOrRemoved(hookName) {
+    const onHookAddedOrRemoved = hookName => {
       if (I18N_HOOK_REGEXP.test(hookName)) {
         notifyListeners();
       }
@@ -1358,21 +1502,21 @@ var create_i18n_createI18n = function createI18n(initialData, initialDomain, hoo
   }
 
   return {
-    getLocaleData: getLocaleData,
-    setLocaleData: setLocaleData,
-    resetLocaleData: resetLocaleData,
-    subscribe: subscribe,
-    __: __,
-    _x: _x,
-    _n: _n,
-    _nx: _nx,
-    isRTL: isRTL,
-    hasTranslation: hasTranslation
+    getLocaleData,
+    setLocaleData,
+    resetLocaleData,
+    subscribe,
+    __,
+    _x,
+    _n,
+    _nx,
+    isRTL,
+    hasTranslation
   };
 };
 
 // EXTERNAL MODULE: external ["wp","hooks"]
-var external_wp_hooks_ = __webpack_require__(30);
+var external_wp_hooks_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/default-i18n.js
 /**
@@ -1384,7 +1528,7 @@ var external_wp_hooks_ = __webpack_require__(30);
  */
 
 
-var i18n = create_i18n_createI18n(undefined, undefined, external_wp_hooks_["defaultHooks"]);
+const i18n = createI18n(undefined, undefined, external_wp_hooks_["defaultHooks"]);
 /**
  * Default, singleton instance of `I18n`.
  */
@@ -1410,7 +1554,7 @@ var i18n = create_i18n_createI18n(undefined, undefined, external_wp_hooks_["defa
  * @return {LocaleData} Locale data.
  */
 
-var default_i18n_getLocaleData = i18n.getLocaleData.bind(i18n);
+const default_i18n_getLocaleData = i18n.getLocaleData.bind(i18n);
 /**
  * Merges locale data into the Tannin instance by domain. Accepts data in a
  * Jed-formatted JSON object shape.
@@ -1421,7 +1565,7 @@ var default_i18n_getLocaleData = i18n.getLocaleData.bind(i18n);
  * @param {string}     [domain] Domain for which configuration applies.
  */
 
-var default_i18n_setLocaleData = i18n.setLocaleData.bind(i18n);
+const default_i18n_setLocaleData = i18n.setLocaleData.bind(i18n);
 /**
  * Resets all current Tannin instance locale data and sets the specified
  * locale data for the domain. Accepts data in a Jed-formatted JSON object shape.
@@ -1432,7 +1576,7 @@ var default_i18n_setLocaleData = i18n.setLocaleData.bind(i18n);
  * @param {string}     [domain] Domain for which configuration applies.
  */
 
-var default_i18n_resetLocaleData = i18n.resetLocaleData.bind(i18n);
+const default_i18n_resetLocaleData = i18n.resetLocaleData.bind(i18n);
 /**
  * Subscribes to changes of locale data
  *
@@ -1440,7 +1584,7 @@ var default_i18n_resetLocaleData = i18n.resetLocaleData.bind(i18n);
  * @return {UnsubscribeCallback} Unsubscribe callback
  */
 
-var default_i18n_subscribe = i18n.subscribe.bind(i18n);
+const default_i18n_subscribe = i18n.subscribe.bind(i18n);
 /**
  * Retrieve the translation of text.
  *
@@ -1452,7 +1596,7 @@ var default_i18n_subscribe = i18n.subscribe.bind(i18n);
  * @return {string} Translated text.
  */
 
-var default_i18n_ = i18n.__.bind(i18n);
+const default_i18n_ = i18n.__.bind(i18n);
 /**
  * Retrieve translated string with gettext context.
  *
@@ -1465,7 +1609,7 @@ var default_i18n_ = i18n.__.bind(i18n);
  * @return {string} Translated context string without pipe.
  */
 
-var default_i18n_x = i18n._x.bind(i18n);
+const default_i18n_x = i18n._x.bind(i18n);
 /**
  * Translates and retrieves the singular or plural form based on the supplied
  * number.
@@ -1481,7 +1625,7 @@ var default_i18n_x = i18n._x.bind(i18n);
  * @return {string} The translated singular or plural form.
  */
 
-var default_i18n_n = i18n._n.bind(i18n);
+const default_i18n_n = i18n._n.bind(i18n);
 /**
  * Translates and retrieves the singular or plural form based on the supplied
  * number, with gettext context.
@@ -1498,7 +1642,7 @@ var default_i18n_n = i18n._n.bind(i18n);
  * @return {string} The translated singular or plural form.
  */
 
-var default_i18n_nx = i18n._nx.bind(i18n);
+const default_i18n_nx = i18n._nx.bind(i18n);
 /**
  * Check if current locale is RTL.
  *
@@ -1510,7 +1654,7 @@ var default_i18n_nx = i18n._nx.bind(i18n);
  * @return {boolean} Whether locale is RTL.
  */
 
-var default_i18n_isRTL = i18n.isRTL.bind(i18n);
+const default_i18n_isRTL = i18n.isRTL.bind(i18n);
 /**
  * Check if there is a translation for a given string (in singular form).
  *
@@ -1520,202 +1664,12 @@ var default_i18n_isRTL = i18n.isRTL.bind(i18n);
  * @return {boolean} Whether the translation exists or not.
  */
 
-var default_i18n_hasTranslation = i18n.hasTranslation.bind(i18n);
+const default_i18n_hasTranslation = i18n.hasTranslation.bind(i18n);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/index.js
 
 
 
-
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
-/***/ 68:
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Memize options object.
- *
- * @typedef MemizeOptions
- *
- * @property {number} [maxSize] Maximum size of the cache.
- */
-
-/**
- * Internal cache entry.
- *
- * @typedef MemizeCacheNode
- *
- * @property {?MemizeCacheNode|undefined} [prev] Previous node.
- * @property {?MemizeCacheNode|undefined} [next] Next node.
- * @property {Array<*>}                   args   Function arguments for cache
- *                                               entry.
- * @property {*}                          val    Function result.
- */
-
-/**
- * Properties of the enhanced function for controlling cache.
- *
- * @typedef MemizeMemoizedFunction
- *
- * @property {()=>void} clear Clear the cache.
- */
-
-/**
- * Accepts a function to be memoized, and returns a new memoized function, with
- * optional options.
- *
- * @template {Function} F
- *
- * @param {F}             fn        Function to memoize.
- * @param {MemizeOptions} [options] Options object.
- *
- * @return {F & MemizeMemoizedFunction} Memoized function.
- */
-function memize( fn, options ) {
-	var size = 0;
-
-	/** @type {?MemizeCacheNode|undefined} */
-	var head;
-
-	/** @type {?MemizeCacheNode|undefined} */
-	var tail;
-
-	options = options || {};
-
-	function memoized( /* ...args */ ) {
-		var node = head,
-			len = arguments.length,
-			args, i;
-
-		searchCache: while ( node ) {
-			// Perform a shallow equality test to confirm that whether the node
-			// under test is a candidate for the arguments passed. Two arrays
-			// are shallowly equal if their length matches and each entry is
-			// strictly equal between the two sets. Avoid abstracting to a
-			// function which could incur an arguments leaking deoptimization.
-
-			// Check whether node arguments match arguments length
-			if ( node.args.length !== arguments.length ) {
-				node = node.next;
-				continue;
-			}
-
-			// Check whether node arguments match arguments values
-			for ( i = 0; i < len; i++ ) {
-				if ( node.args[ i ] !== arguments[ i ] ) {
-					node = node.next;
-					continue searchCache;
-				}
-			}
-
-			// At this point we can assume we've found a match
-
-			// Surface matched node to head if not already
-			if ( node !== head ) {
-				// As tail, shift to previous. Must only shift if not also
-				// head, since if both head and tail, there is no previous.
-				if ( node === tail ) {
-					tail = node.prev;
-				}
-
-				// Adjust siblings to point to each other. If node was tail,
-				// this also handles new tail's empty `next` assignment.
-				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
-				if ( node.next ) {
-					node.next.prev = node.prev;
-				}
-
-				node.next = head;
-				node.prev = null;
-				/** @type {MemizeCacheNode} */ ( head ).prev = node;
-				head = node;
-			}
-
-			// Return immediately
-			return node.val;
-		}
-
-		// No cached value found. Continue to insertion phase:
-
-		// Create a copy of arguments (avoid leaking deoptimization)
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
-		}
-
-		node = {
-			args: args,
-
-			// Generate the result from original function
-			val: fn.apply( null, args ),
-		};
-
-		// Don't need to check whether node is already head, since it would
-		// have been returned above already if it was
-
-		// Shift existing head down list
-		if ( head ) {
-			head.prev = node;
-			node.next = head;
-		} else {
-			// If no head, follows that there's no tail (at initial or reset)
-			tail = node;
-		}
-
-		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
-			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
-			/** @type {MemizeCacheNode} */ ( tail ).next = null;
-		} else {
-			size++;
-		}
-
-		head = node;
-
-		return node.val;
-	}
-
-	memoized.clear = function() {
-		head = null;
-		tail = null;
-		size = 0;
-	};
-
-	if ( false ) {}
-
-	// Ignore reason: There's not a clear solution to create an intersection of
-	// the function with additional properties, where the goal is to retain the
-	// function signature of the incoming argument and add control properties
-	// on the return value.
-
-	// @ts-ignore
-	return memoized;
-}
-
-module.exports = memize;
 
 
 /***/ })

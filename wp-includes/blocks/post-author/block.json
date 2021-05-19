@@ -1,0 +1,39 @@
+{
+	"apiVersion": 2,
+	"name": "core/post-author",
+	"title": "Post Author",
+	"category": "design",
+	"description": "Add the author of this post.",
+	"textdomain": "default",
+	"attributes": {
+		"textAlign": {
+			"type": "string"
+		},
+		"avatarSize": {
+			"type": "number",
+			"default": 48
+		},
+		"showAvatar": {
+			"type": "boolean",
+			"default": true
+		},
+		"showBio": {
+			"type": "boolean"
+		},
+		"byline": {
+			"type": "string"
+		}
+	},
+	"usesContext": [ "postType", "postId" ],
+	"supports": {
+		"html": false,
+		"fontSize": true,
+		"color": {
+			"gradients": true,
+			"link": true
+		},
+		"lineHeight": true
+	},
+	"editorStyle": "wp-block-post-author-editor",
+	"style": "wp-block-post-author"
+}

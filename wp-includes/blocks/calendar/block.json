@@ -1,7 +1,11 @@
 {
 	"apiVersion": 2,
 	"name": "core/calendar",
+	"title": "Calendar",
 	"category": "widgets",
+	"description": "A calendar of your site’s posts.",
+	"keywords": [ "posts", "archive" ],
+	"textdomain": "default",
 	"attributes": {
 		"month": {
 			"type": "integer"

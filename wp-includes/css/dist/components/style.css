@@ -644,7 +644,6 @@ svg.components-checkbox-control__checked {
   width: 24px;
   height: 24px;
   -webkit-user-select: none;
-      -ms-user-select: none;
           user-select: none;
   pointer-events: none;
 }
@@ -1182,6 +1181,11 @@ input.components-combobox-control__input[type=text]:focus {
   height: 24px;
   min-width: 24px;
   padding: 0;
+}
+
+.components-color-list-picker,
+.components-color-list-picker__swatch-button {
+  width: 100%;
 }
 
 .components-custom-gradient-picker__gradient-bar:not(.has-gradient) {
@@ -1802,7 +1806,6 @@ input.components-combobox-control__input[type=text]:focus {
   text-align: center;
   vertical-align: top;
   -webkit-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -1894,7 +1897,6 @@ input.components-combobox-control__input[type=text]:focus {
 .DayPickerNavigation_button {
   cursor: pointer;
   -webkit-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   border: 0;
   padding: 0;
@@ -2131,7 +2133,6 @@ input.components-combobox-control__input[type=text]:focus {
 
 .DateInput_input__readOnly {
   -webkit-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -2775,6 +2776,17 @@ body.is-dragging-components-draggable {
   align-items: center;
   margin-bottom: 24px;
 }
+.components-font-size-picker__controls .components-unit-control-wrapper {
+  margin-right: 8px;
+}
+.components-font-size-picker__controls .components-unit-control-wrapper .components-input-control__label {
+  font-weight: 300;
+  padding-bottom: 0 !important;
+  margin-bottom: 8px !important;
+}
+.components-font-size-picker__controls .components-custom-select-control__button {
+  min-width: 120px;
+}
 .components-font-size-picker__controls .components-font-size-picker__number {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
@@ -3395,8 +3407,7 @@ body.is-dragging-components-draggable {
 }
 
 .components-menu-item__shortcut {
-  -ms-grid-row-align: center;
-      align-self: center;
+  align-self: center;
   margin-right: 0;
   margin-left: auto;
   padding-left: 24px;
@@ -4543,6 +4554,26 @@ body.lockscroll {
   padding-top: 8px;
 }
 
+.components-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  color: transparent;
+  background: transparent;
+}
+.components-swatch::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+
+.components-button.has-icon.has-text .components-swatch {
+  margin-right: 8px;
+}
+
 .components-tab-panel__tabs {
   display: flex;
   align-items: stretch;
@@ -4789,8 +4820,7 @@ body.lockscroll {
   color: #757575;
 }
 .components-tip svg {
-  -ms-grid-row-align: center;
-      align-self: center;
+  align-self: center;
   fill: #f0b849;
   flex-shrink: 0;
   margin-right: 16px;
@@ -5194,36 +5224,4 @@ div.components-toolbar > div + div.has-left-divider::before {
   left: 0;
   bottom: 0;
   right: 0;
-}
-
-.components-visually-hidden {
-  border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-  word-wrap: normal !important;
-}
-
-.components-visually-hidden:focus {
-  background-color: #ddd;
-  clip: auto !important;
-  -webkit-clip-path: none;
-          clip-path: none;
-  color: #444;
-  display: block;
-  font-size: 1em;
-  height: auto;
-  left: 5px;
-  line-height: normal;
-  padding: 15px 23px 14px;
-  text-decoration: none;
-  top: 5px;
-  width: auto;
-  z-index: 100000;
 }

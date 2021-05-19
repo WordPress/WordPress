@@ -82,47 +82,10 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 455);
+/******/ 	return __webpack_require__(__webpack_require__.s = 559);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(24);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(42);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(28);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
-}
-
-/***/ }),
 
 /***/ 2:
 /***/ (function(module, exports) {
@@ -131,53 +94,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 24:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-/***/ }),
-
-/***/ 28:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
-
-/***/ }),
-
-/***/ 42:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-
-/***/ }),
-
-/***/ 455:
+/***/ 559:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -209,6 +126,7 @@ __webpack_require__.d(__webpack_exports__, "wrap", function() { return /* reexpo
 __webpack_require__.d(__webpack_exports__, "__unstableStripHTML", function() { return /* reexport */ stripHTML; });
 __webpack_require__.d(__webpack_exports__, "isEmpty", function() { return /* reexport */ isEmpty; });
 __webpack_require__.d(__webpack_exports__, "removeInvalidHTML", function() { return /* reexport */ removeInvalidHTML; });
+__webpack_require__.d(__webpack_exports__, "isRTL", function() { return /* reexport */ isRTL; });
 __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return /* reexport */ getPhrasingContentSchema; });
 __webpack_require__.d(__webpack_exports__, "isPhrasingContent", function() { return /* reexport */ isPhrasingContent; });
 __webpack_require__.d(__webpack_exports__, "isTextContent", function() { return /* reexport */ isTextContent; });
@@ -246,7 +164,7 @@ __webpack_require__.d(tabbable_namespaceObject, "findNext", function() { return 
  * AREA elements associated with an IMG:
  *  - https://w3c.github.io/html/editing.html#data-model
  */
-var SELECTOR = ['[tabindex]', 'a[href]', 'button:not([disabled])', 'input:not([type="hidden"]):not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'iframe', 'object', 'embed', 'area[href]', '[contenteditable]:not([contenteditable=false])'].join(',');
+const SELECTOR = ['[tabindex]', 'a[href]', 'button:not([disabled])', 'input:not([type="hidden"]):not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'iframe', 'object', 'embed', 'area[href]', '[contenteditable]:not([contenteditable=false])'].join(',');
 /**
  * Returns true if the specified element is visible (i.e. neither display: none
  * nor visibility: hidden).
@@ -285,7 +203,7 @@ function skipFocus(element) {
 
 function isValidFocusableArea(element) {
   /** @type {HTMLMapElement | null} */
-  var map = element.closest('map[name]');
+  const map = element.closest('map[name]');
 
   if (!map) {
     return false;
@@ -293,7 +211,7 @@ function isValidFocusableArea(element) {
   /** @type {HTMLImageElement | null} */
 
 
-  var img = element.ownerDocument.querySelector('img[usemap="#' + map.name + '"]');
+  const img = element.ownerDocument.querySelector('img[usemap="#' + map.name + '"]');
   return !!img && isVisible(img);
 }
 /**
@@ -311,13 +229,15 @@ function find(context) {
   /** @type {NodeListOf<HTMLElement>} */
 
   /* eslint-enable jsdoc/no-undefined-types */
-  var elements = context.querySelectorAll(SELECTOR);
-  return Array.from(elements).filter(function (element) {
+  const elements = context.querySelectorAll(SELECTOR);
+  return Array.from(elements).filter(element => {
     if (!isVisible(element) || skipFocus(element)) {
       return false;
     }
 
-    var nodeName = element.nodeName;
+    const {
+      nodeName
+    } = element;
 
     if ('AREA' === nodeName) {
       return isValidFocusableArea(
@@ -356,7 +276,7 @@ var external_lodash_ = __webpack_require__(2);
  */
 
 function getTabIndex(element) {
-  var tabIndex = element.getAttribute('tabindex');
+  const tabIndex = element.getAttribute('tabindex');
   return tabIndex === null ? 0 : parseInt(tabIndex, 10);
 }
 /**
@@ -384,24 +304,26 @@ function isTabbableIndex(element) {
 
 function createStatefulCollapseRadioGroup() {
   /** @type {Record<string, MaybeHTMLInputElement>} */
-  var CHOSEN_RADIO_BY_NAME = {};
+  const CHOSEN_RADIO_BY_NAME = {};
   return function collapseRadioGroup(
   /** @type {MaybeHTMLInputElement[]} */
   result,
   /** @type {MaybeHTMLInputElement} */
   element) {
-    var nodeName = element.nodeName,
-        type = element.type,
-        checked = element.checked,
-        name = element.name; // For all non-radio tabbables, construct to array by concatenating.
+    const {
+      nodeName,
+      type,
+      checked,
+      name
+    } = element; // For all non-radio tabbables, construct to array by concatenating.
 
     if (nodeName !== 'INPUT' || type !== 'radio' || !name) {
       return result.concat(element);
     }
 
-    var hasChosen = CHOSEN_RADIO_BY_NAME.hasOwnProperty(name); // Omit by skipping concatenation if the radio element is not chosen.
+    const hasChosen = CHOSEN_RADIO_BY_NAME.hasOwnProperty(name); // Omit by skipping concatenation if the radio element is not chosen.
 
-    var isChosen = checked || !hasChosen;
+    const isChosen = checked || !hasChosen;
 
     if (!isChosen) {
       return result;
@@ -411,7 +333,7 @@ function createStatefulCollapseRadioGroup() {
 
 
     if (hasChosen) {
-      var hadChosenElement = CHOSEN_RADIO_BY_NAME[name];
+      const hadChosenElement = CHOSEN_RADIO_BY_NAME[name];
       result = Object(external_lodash_["without"])(result, hadChosenElement);
     }
 
@@ -434,8 +356,8 @@ function createStatefulCollapseRadioGroup() {
 
 function mapElementToObjectTabbable(element, index) {
   return {
-    element: element,
-    index: index
+    element,
+    index
   };
 }
 /**
@@ -464,8 +386,8 @@ function mapObjectTabbableToElement(object) {
 
 
 function compareObjectTabbables(a, b) {
-  var aTabIndex = getTabIndex(a.element);
-  var bTabIndex = getTabIndex(b.element);
+  const aTabIndex = getTabIndex(a.element);
+  const bTabIndex = getTabIndex(b.element);
 
   if (aTabIndex === bTabIndex) {
     return a.index - b.index;
@@ -502,8 +424,8 @@ function tabbable_find(context) {
  */
 
 function findPrevious(element) {
-  var focusables = find(element.ownerDocument.body);
-  var index = focusables.indexOf(element); // Remove all focusables after and including `element`.
+  const focusables = find(element.ownerDocument.body);
+  const index = focusables.indexOf(element); // Remove all focusables after and including `element`.
 
   focusables.length = index;
   return Object(external_lodash_["last"])(filterTabbable(focusables));
@@ -516,12 +438,10 @@ function findPrevious(element) {
  */
 
 function findNext(element) {
-  var focusables = find(element.ownerDocument.body);
-  var index = focusables.indexOf(element); // Remove all focusables before and inside `element`.
+  const focusables = find(element.ownerDocument.body);
+  const index = focusables.indexOf(element); // Remove all focusables before and inside `element`.
 
-  var remaining = focusables.slice(index + 1).filter(function (node) {
-    return !element.contains(node);
-  });
+  const remaining = focusables.slice(index + 1).filter(node => !element.contains(node));
   return Object(external_lodash_["first"])(filterTabbable(remaining));
 }
 
@@ -548,17 +468,60 @@ function getRectangleFromRange(range) {
   // range; this a rectangle enclosing the union of the bounding rectangles
   // for all the elements in the range.
   if (!range.collapsed) {
-    return range.getBoundingClientRect();
+    const rects = Array.from(range.getClientRects()); // If there's just a single rect, return it.
+
+    if (rects.length === 1) {
+      return rects[0];
+    } // Ignore tiny selection at the edge of a range.
+
+
+    const filteredRects = rects.filter(({
+      width
+    }) => width > 1); // If it's full of tiny selections, return browser default.
+
+    if (filteredRects.length === 0) {
+      return range.getBoundingClientRect();
+    }
+
+    if (filteredRects.length === 1) {
+      return filteredRects[0];
+    }
+
+    let {
+      top: furthestTop,
+      bottom: furthestBottom,
+      left: furthestLeft,
+      right: furthestRight
+    } = filteredRects[0];
+
+    for (const {
+      top,
+      bottom,
+      left,
+      right
+    } of filteredRects) {
+      if (top < furthestTop) furthestTop = top;
+      if (bottom > furthestBottom) furthestBottom = bottom;
+      if (left < furthestLeft) furthestLeft = left;
+      if (right > furthestRight) furthestRight = right;
+    }
+
+    return new window.DOMRect(furthestLeft, furthestTop, furthestRight - furthestLeft, furthestBottom - furthestTop);
   }
 
-  var _range = range,
-      startContainer = _range.startContainer;
-  var ownerDocument = startContainer.ownerDocument; // Correct invalid "BR" ranges. The cannot contain any children.
+  const {
+    startContainer
+  } = range;
+  const {
+    ownerDocument
+  } = startContainer; // Correct invalid "BR" ranges. The cannot contain any children.
 
   if (startContainer.nodeName === 'BR') {
-    var parentNode = startContainer.parentNode;
+    const {
+      parentNode
+    } = startContainer;
     assertIsDefined(parentNode, 'parentNode');
-    var index =
+    const index =
     /** @type {Node[]} */
     Array.from(parentNode.childNodes).indexOf(startContainer);
     assertIsDefined(ownerDocument, 'ownerDocument');
@@ -567,7 +530,7 @@ function getRectangleFromRange(range) {
     range.setEnd(parentNode, index);
   }
 
-  var rect = range.getClientRects()[0]; // If the collapsed range starts (and therefore ends) at an element node,
+  let rect = range.getClientRects()[0]; // If the collapsed range starts (and therefore ends) at an element node,
   // `getClientRects` can be empty in some browsers. This can be resolved
   // by adding a temporary text node with zero-width space to the range.
   //
@@ -575,7 +538,7 @@ function getRectangleFromRange(range) {
 
   if (!rect) {
     assertIsDefined(ownerDocument, 'ownerDocument');
-    var padNode = ownerDocument.createTextNode("\u200B"); // Do not modify the live range.
+    const padNode = ownerDocument.createTextNode('\u200b'); // Do not modify the live range.
 
     range = range.cloneRange();
     range.insertNode(padNode);
@@ -602,9 +565,9 @@ function getRectangleFromRange(range) {
  */
 
 function computeCaretRect(win) {
-  var selection = win.getSelection();
+  const selection = win.getSelection();
   assertIsDefined(selection, 'selection');
-  var range = selection.rangeCount ? selection.getRangeAt(0) : null;
+  const range = selection.rangeCount ? selection.getRangeAt(0) : null;
 
   if (!range) {
     return null;
@@ -632,9 +595,9 @@ function computeCaretRect(win) {
 
 function documentHasTextSelection(doc) {
   assertIsDefined(doc.defaultView, 'doc.defaultView');
-  var selection = doc.defaultView.getSelection();
+  const selection = doc.defaultView.getSelection();
   assertIsDefined(selection, 'selection');
-  var range = selection.rangeCount ? selection.getRangeAt(0) : null;
+  const range = selection.rangeCount ? selection.getRangeAt(0) : null;
   return !!range && !range.collapsed;
 }
 
@@ -669,7 +632,7 @@ function isHTMLInputElement(node) {
 
 function isTextField(node) {
   /* eslint-enable jsdoc/valid-types */
-  var nonTextInputs = ['button', 'checkbox', 'hidden', 'file', 'radio', 'image', 'range', 'reset', 'submit', 'number'];
+  const nonTextInputs = ['button', 'checkbox', 'hidden', 'file', 'radio', 'image', 'range', 'reset', 'submit', 'number'];
   return isHTMLInputElement(node) && node.type && !nonTextInputs.includes(node.type) || node.nodeName === 'TEXTAREA' ||
   /** @type {HTMLElement} */
   node.contentEditable === 'true';
@@ -722,10 +685,12 @@ function inputFieldHasUncollapsedSelection(element) {
   }
 
   try {
-    var selectionStart =
+    const {
+      selectionStart,
+      selectionEnd
+    } =
     /** @type {HTMLInputElement | HTMLTextAreaElement} */
-    element.selectionStart,
-        selectionEnd = element.selectionEnd;
+    element;
     return selectionStart !== null && selectionStart !== selectionEnd;
   } catch (error) {
     // Safari throws an exception when trying to get `selectionStart`
@@ -819,8 +784,9 @@ function getScrollContainer(node) {
 
   if (node.scrollHeight > node.clientHeight) {
     // ...except when overflow is defined to be hidden or visible
-    var _getComputedStyle = getComputedStyle(node),
-        overflowY = _getComputedStyle.overflowY;
+    const {
+      overflowY
+    } = getComputedStyle(node);
 
     if (/(auto|scroll)/.test(overflowY)) {
       return node;
@@ -853,7 +819,7 @@ function getScrollContainer(node) {
 function getOffsetParent(node) {
   // Cannot retrieve computed style or offset parent only anything other than
   // an element node, so find the closest element node.
-  var closestElement;
+  let closestElement;
 
   while (closestElement =
   /** @type {Node} */
@@ -918,40 +884,58 @@ function isEntirelySelected(element) {
     return true;
   }
 
-  var ownerDocument = element.ownerDocument;
-  var defaultView = ownerDocument.defaultView;
+  const {
+    ownerDocument
+  } = element;
+  const {
+    defaultView
+  } = ownerDocument;
   assertIsDefined(defaultView, 'defaultView');
-  var selection = defaultView.getSelection();
+  const selection = defaultView.getSelection();
   assertIsDefined(selection, 'selection');
-  var range = selection.rangeCount ? selection.getRangeAt(0) : null;
+  const range = selection.rangeCount ? selection.getRangeAt(0) : null;
 
   if (!range) {
     return true;
   }
 
-  var startContainer = range.startContainer,
-      endContainer = range.endContainer,
-      startOffset = range.startOffset,
-      endOffset = range.endOffset;
+  const {
+    startContainer,
+    endContainer,
+    startOffset,
+    endOffset
+  } = range;
 
   if (startContainer === element && endContainer === element && startOffset === 0 && endOffset === element.childNodes.length) {
     return true;
   }
 
-  var lastChild = element.lastChild;
+  const lastChild = element.lastChild;
   assertIsDefined(lastChild, 'lastChild');
-  var lastChildContentLength = lastChild.nodeType === lastChild.TEXT_NODE ?
+  const lastChildContentLength = lastChild.nodeType === lastChild.TEXT_NODE ?
   /** @type {Text} */
   lastChild.data.length : lastChild.childNodes.length;
   return startContainer === element.firstChild && endContainer === element.lastChild && startOffset === 0 && endOffset === lastChildContentLength;
 }
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(15);
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-rtl.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Whether the element's text direction is right-to-left.
+ *
+ * @param {Element} element The element to check.
+ *
+ * @return {boolean} True if rtl, false if ltr.
+ */
+
+function isRTL(element) {
+  return getComputedStyle(element).direction === 'rtl';
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/get-range-height.js
-
-
 /**
  * Gets the height of the range without ignoring zero width rectangles, which
  * some browsers ignore when creating a union.
@@ -960,20 +944,18 @@ var toConsumableArray = __webpack_require__(15);
  * @return {number | undefined} Height of the range or undefined if the range has no client rectangles.
  */
 function getRangeHeight(range) {
-  var rects = Array.from(range.getClientRects());
+  const rects = Array.from(range.getClientRects());
 
   if (!rects.length) {
     return;
   }
 
-  var highestTop = Math.min.apply(Math, Object(toConsumableArray["a" /* default */])(rects.map(function (_ref) {
-    var top = _ref.top;
-    return top;
-  })));
-  var lowestBottom = Math.max.apply(Math, Object(toConsumableArray["a" /* default */])(rects.map(function (_ref2) {
-    var bottom = _ref2.bottom;
-    return bottom;
-  })));
+  const highestTop = Math.min(...rects.map(({
+    top
+  }) => top));
+  const lowestBottom = Math.max(...rects.map(({
+    bottom
+  }) => bottom));
   return lowestBottom - highestTop;
 }
 
@@ -994,13 +976,15 @@ function getRangeHeight(range) {
  */
 
 function isSelectionForward(selection) {
-  var anchorNode = selection.anchorNode,
-      focusNode = selection.focusNode,
-      anchorOffset = selection.anchorOffset,
-      focusOffset = selection.focusOffset;
+  const {
+    anchorNode,
+    focusNode,
+    anchorOffset,
+    focusOffset
+  } = selection;
   assertIsDefined(anchorNode, 'anchorNode');
   assertIsDefined(focusNode, 'focusNode');
-  var position = anchorNode.compareDocumentPosition(focusNode); // Disable reason: `Node#compareDocumentPosition` returns a bitmask value,
+  const position = anchorNode.compareDocumentPosition(focusNode); // Disable reason: `Node#compareDocumentPosition` returns a bitmask value,
   // so bitwise operators are intended.
 
   /* eslint-disable no-bitwise */
@@ -1049,14 +1033,14 @@ function caretRangeFromPoint(doc, x, y) {
     return null;
   }
 
-  var point = doc.caretPositionFromPoint(x, y); // If x or y are negative, outside viewport, or there is no text entry node.
+  const point = doc.caretPositionFromPoint(x, y); // If x or y are negative, outside viewport, or there is no text entry node.
   // https://developer.mozilla.org/en-US/docs/Web/API/Document/caretRangeFromPoint
 
   if (!point) {
     return null;
   }
 
-  var range = doc.createRange();
+  const range = doc.createRange();
   range.setStart(point.offsetNode, point.offset);
   range.collapse(true);
   return range;
@@ -1082,20 +1066,18 @@ function caretRangeFromPoint(doc, x, y) {
  */
 
 function hiddenCaretRangeFromPoint(doc, x, y, container) {
-  var originalZIndex = container.style.zIndex;
-  var originalPosition = container.style.position;
-
-  var _getComputedStyle = getComputedStyle(container),
-      _getComputedStyle$pos = _getComputedStyle.position,
-      position = _getComputedStyle$pos === void 0 ? 'static' : _getComputedStyle$pos; // A z-index only works if the element position is not static.
-
+  const originalZIndex = container.style.zIndex;
+  const originalPosition = container.style.position;
+  const {
+    position = 'static'
+  } = getComputedStyle(container); // A z-index only works if the element position is not static.
 
   if (position === 'static') {
     container.style.position = 'relative';
   }
 
   container.style.zIndex = '10000';
-  var range = caretRangeFromPoint(doc, x, y);
+  const range = caretRangeFromPoint(doc, x, y);
   container.style.zIndex = originalZIndex;
   container.style.position = originalPosition;
   return range;
@@ -1124,9 +1106,7 @@ function hiddenCaretRangeFromPoint(doc, x, y, container) {
  * @return {boolean} True if at the edge, false if not.
  */
 
-function isEdge(container, isReverse) {
-  var onlyVertical = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
+function isEdge(container, isReverse, onlyVertical = false) {
   if (isInputOrTextArea(container)) {
     if (container.selectionStart !== container.selectionEnd) {
       return false;
@@ -1145,26 +1125,30 @@ function isEdge(container, isReverse) {
     return true;
   }
 
-  var ownerDocument = container.ownerDocument;
-  var defaultView = ownerDocument.defaultView;
+  const {
+    ownerDocument
+  } = container;
+  const {
+    defaultView
+  } = ownerDocument;
   assertIsDefined(defaultView, 'defaultView');
-  var selection = defaultView.getSelection();
+  const selection = defaultView.getSelection();
 
   if (!selection || !selection.rangeCount) {
     return false;
   }
 
-  var range = selection.getRangeAt(0);
-  var collapsedRange = range.cloneRange();
-  var isForward = isSelectionForward(selection);
-  var isCollapsed = selection.isCollapsed; // Collapse in direction of selection.
+  const range = selection.getRangeAt(0);
+  const collapsedRange = range.cloneRange();
+  const isForward = isSelectionForward(selection);
+  const isCollapsed = selection.isCollapsed; // Collapse in direction of selection.
 
   if (!isCollapsed) {
     collapsedRange.collapse(!isForward);
   }
 
-  var collapsedRangeRect = getRectangleFromRange(collapsedRange);
-  var rangeRect = getRectangleFromRange(range);
+  const collapsedRangeRect = getRectangleFromRange(collapsedRange);
+  const rangeRect = getRectangleFromRange(range);
 
   if (!collapsedRangeRect || !rangeRect) {
     return false;
@@ -1173,18 +1157,15 @@ function isEdge(container, isReverse) {
   // collapsed  selection.
 
 
-  var rangeHeight = getRangeHeight(range);
+  const rangeHeight = getRangeHeight(range);
 
   if (!isCollapsed && rangeHeight && rangeHeight > collapsedRangeRect.height && isForward === isReverse) {
     return false;
   } // In the case of RTL scripts, the horizontal edge is at the opposite side.
 
 
-  var _getComputedStyle = getComputedStyle(container),
-      direction = _getComputedStyle.direction;
-
-  var isReverseDir = direction === 'rtl' ? !isReverse : isReverse;
-  var containerRect = container.getBoundingClientRect(); // To check if a selection is at the edge, we insert a test selection at the
+  const isReverseDir = isRTL(container) ? !isReverse : isReverse;
+  const containerRect = container.getBoundingClientRect(); // To check if a selection is at the edge, we insert a test selection at the
   // edge of the container and check if the selections have the same vertical
   // or horizontal position. If they do, the selection is at the edge.
   // This method proves to be better than a DOM-based calculation for the
@@ -1195,9 +1176,9 @@ function isEdge(container, isReverse) {
   // edge, because we cannot know the padding and line height reliably in
   // pixels. `getComputedStyle` may return a value with different units.
 
-  var x = isReverseDir ? containerRect.left + 1 : containerRect.right - 1;
-  var y = isReverse ? containerRect.top + 1 : containerRect.bottom - 1;
-  var testRange = hiddenCaretRangeFromPoint(ownerDocument, x, y,
+  const x = isReverseDir ? containerRect.left + 1 : containerRect.right - 1;
+  const y = isReverse ? containerRect.top + 1 : containerRect.bottom - 1;
+  const testRange = hiddenCaretRangeFromPoint(ownerDocument, x, y,
   /** @type {HTMLElement} */
   container);
 
@@ -1205,19 +1186,19 @@ function isEdge(container, isReverse) {
     return false;
   }
 
-  var testRect = getRectangleFromRange(testRange);
+  const testRect = getRectangleFromRange(testRange);
 
   if (!testRect) {
     return false;
   }
 
-  var verticalSide = isReverse ? 'top' : 'bottom';
-  var horizontalSide = isReverseDir ? 'left' : 'right';
-  var verticalDiff = testRect[verticalSide] - rangeRect[verticalSide];
-  var horizontalDiff = testRect[horizontalSide] - collapsedRangeRect[horizontalSide]; // Allow the position to be 1px off.
+  const verticalSide = isReverse ? 'top' : 'bottom';
+  const horizontalSide = isReverseDir ? 'left' : 'right';
+  const verticalDiff = testRect[verticalSide] - rangeRect[verticalSide];
+  const horizontalDiff = testRect[horizontalSide] - collapsedRangeRect[horizontalSide]; // Allow the position to be 1px off.
 
-  var hasVerticalDiff = Math.abs(verticalDiff) <= 1;
-  var hasHorizontalDiff = Math.abs(horizontalDiff) <= 1;
+  const hasVerticalDiff = Math.abs(verticalDiff) <= 1;
+  const hasHorizontalDiff = Math.abs(horizontalDiff) <= 1;
   return onlyVertical ? hasVerticalDiff : hasVerticalDiff && hasHorizontalDiff;
 }
 
@@ -1268,6 +1249,7 @@ function isVerticalEdge(container, isReverse) {
 
 
 
+
 /**
  * Places the caret at start or end of a given element.
  *
@@ -1276,9 +1258,7 @@ function isVerticalEdge(container, isReverse) {
  * @param {boolean} [mayUseScroll=false] Whether to allow scrolling.
  */
 
-function placeCaretAtHorizontalEdge(container, isReverse) {
-  var mayUseScroll = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
+function placeCaretAtHorizontalEdge(container, isReverse, mayUseScroll = false) {
   if (!container) {
     return;
   }
@@ -1306,13 +1286,17 @@ function placeCaretAtHorizontalEdge(container, isReverse) {
     return;
   }
 
-  var ownerDocument = container.ownerDocument;
-  var containerRect = container.getBoundingClientRect(); // When placing at the end (isReverse), find the closest range to the bottom
+  const {
+    ownerDocument
+  } = container; // In the case of RTL scripts, the horizontal edge is at the opposite side.
+
+  const isReverseDir = isRTL(container) ? !isReverse : isReverse;
+  const containerRect = container.getBoundingClientRect(); // When placing at the end (isReverse), find the closest range to the bottom
   // right corner. When placing at the start, to the top left corner.
 
-  var x = isReverse ? containerRect.right - 1 : containerRect.left + 1;
-  var y = isReverse ? containerRect.bottom - 1 : containerRect.top + 1;
-  var range = hiddenCaretRangeFromPoint(ownerDocument, x, y, container); // If no range range can be created or it is outside the container, the
+  const x = isReverse ? containerRect.right - 1 : containerRect.left + 1;
+  const y = isReverseDir ? containerRect.bottom - 1 : containerRect.top + 1;
+  const range = hiddenCaretRangeFromPoint(ownerDocument, x, y, container); // If no range range can be created or it is outside the container, the
   // element may be out of view.
 
   if (!range || !range.startContainer || !container.contains(range.startContainer)) {
@@ -1327,9 +1311,11 @@ function placeCaretAtHorizontalEdge(container, isReverse) {
     return;
   }
 
-  var defaultView = ownerDocument.defaultView;
+  const {
+    defaultView
+  } = ownerDocument;
   assertIsDefined(defaultView, 'defaultView');
-  var selection = defaultView.getSelection();
+  const selection = defaultView.getSelection();
   assertIsDefined(selection, 'selection');
   selection.removeAllRanges();
   selection.addRange(range);
@@ -1351,9 +1337,7 @@ function placeCaretAtHorizontalEdge(container, isReverse) {
  * @param {boolean} [mayUseScroll=true] True to allow scrolling, false to disallow.
  */
 
-function placeCaretAtVerticalEdge(container, isReverse, rect) {
-  var mayUseScroll = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-
+function placeCaretAtVerticalEdge(container, isReverse, rect, mayUseScroll = true) {
   if (!container) {
     return;
   }
@@ -1369,13 +1353,17 @@ function placeCaretAtVerticalEdge(container, isReverse, rect) {
   // equivalent to a point at half the height of a line of text.
 
 
-  var buffer = rect.height / 2;
-  var editableRect = container.getBoundingClientRect();
-  var x = rect.left;
-  var y = isReverse ? editableRect.bottom - buffer : editableRect.top + buffer;
-  var ownerDocument = container.ownerDocument;
-  var defaultView = ownerDocument.defaultView;
-  var range = hiddenCaretRangeFromPoint(ownerDocument, x, y, container);
+  const buffer = rect.height / 2;
+  const editableRect = container.getBoundingClientRect();
+  const x = rect.left;
+  const y = isReverse ? editableRect.bottom - buffer : editableRect.top + buffer;
+  const {
+    ownerDocument
+  } = container;
+  const {
+    defaultView
+  } = ownerDocument;
+  const range = hiddenCaretRangeFromPoint(ownerDocument, x, y, container);
 
   if (!range || !container.contains(range.startContainer)) {
     if (mayUseScroll && (!range || !range.startContainer || !range.startContainer.contains(container))) {
@@ -1391,7 +1379,7 @@ function placeCaretAtVerticalEdge(container, isReverse, rect) {
   }
 
   assertIsDefined(defaultView, 'defaultView');
-  var selection = defaultView.getSelection();
+  const selection = defaultView.getSelection();
   assertIsDefined(selection, 'selection');
   selection.removeAllRanges();
   selection.addRange(range);
@@ -1473,7 +1461,7 @@ function replace(processedNode, newNode) {
  */
 
 function unwrap(node) {
-  var parent = node.parentNode;
+  const parent = node.parentNode;
   assertIsDefined(parent, 'node.parentNode');
 
   while (node.firstChild) {
@@ -1498,7 +1486,7 @@ function unwrap(node) {
  */
 
 function replaceTag(node, tagName) {
-  var newNode = node.ownerDocument.createElement(tagName);
+  const newNode = node.ownerDocument.createElement(tagName);
 
   while (node.firstChild) {
     newNode.appendChild(node.firstChild);
@@ -1536,7 +1524,7 @@ function wrap(newNode, referenceNode) {
  * @return {string} The text content with any html removed.
  */
 function stripHTML(html) {
-  var document = new window.DOMParser().parseFromString(html, 'text/html');
+  const document = new window.DOMParser().parseFromString(html, 'text/html');
   return document.body.textContent || '';
 }
 
@@ -1573,16 +1561,7 @@ function isEmpty(element) {
   }
 }
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(5);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/phrasing-content.js
-
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 /**
  * External dependencies
  */
@@ -1611,7 +1590,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
  * @type {ContentSchema}
  */
 
-var textContentSchema = {
+const textContentSchema = {
   strong: {},
   em: {},
   s: {},
@@ -1664,7 +1643,7 @@ var textContentSchema = {
 // Possible: strong > em > strong.
 // Impossible: strong > strong.
 
-Object(external_lodash_["without"])(Object.keys(textContentSchema), '#text', 'br').forEach(function (tag) {
+Object(external_lodash_["without"])(Object.keys(textContentSchema), '#text', 'br').forEach(tag => {
   textContentSchema[tag].children = Object(external_lodash_["omit"])(textContentSchema, tag);
 });
 /**
@@ -1675,7 +1654,7 @@ Object(external_lodash_["without"])(Object.keys(textContentSchema), '#text', 'br
  * @type {ContentSchema}
  */
 
-var embeddedContentSchema = {
+const embeddedContentSchema = {
   audio: {
     attributes: ['src', 'preload', 'autoplay', 'mediagroup', 'loop', 'muted']
   },
@@ -1701,7 +1680,9 @@ var embeddedContentSchema = {
  * @see https://www.w3.org/TR/2011/WD-html5-20110525/content-models.html#phrasing-content-0
  */
 
-var phrasingContentSchema = _objectSpread(_objectSpread({}, textContentSchema), embeddedContentSchema);
+const phrasingContentSchema = { ...textContentSchema,
+  ...embeddedContentSchema
+};
 /**
  * Get schema of possible paths for phrasing content.
  *
@@ -1713,13 +1694,12 @@ var phrasingContentSchema = _objectSpread(_objectSpread({}, textContentSchema), 
  * @return {Partial<ContentSchema>} Schema.
  */
 
-
 function getPhrasingContentSchema(context) {
   if (context !== 'paste') {
     return phrasingContentSchema;
   }
 
-  return Object(external_lodash_["omit"])(_objectSpread(_objectSpread({}, phrasingContentSchema), {}, {
+  return Object(external_lodash_["omit"])({ ...phrasingContentSchema,
     // We shouldn't paste potentially sensitive information which is not
     // visible to the user when pasted, so strip the attributes.
     ins: {
@@ -1728,7 +1708,7 @@ function getPhrasingContentSchema(context) {
     del: {
       children: phrasingContentSchema.del.children
     }
-  }), ['u', // Used to mark misspelling. Shouldn't be pasted.
+  }, ['u', // Used to mark misspelling. Shouldn't be pasted.
   'abbr', // Invisible.
   'data', // Invisible.
   'time', // Invisible.
@@ -1748,7 +1728,7 @@ function getPhrasingContentSchema(context) {
  */
 
 function isPhrasingContent(node) {
-  var tag = node.nodeName.toLowerCase();
+  const tag = node.nodeName.toLowerCase();
   return getPhrasingContentSchema().hasOwnProperty(tag) || tag === 'span';
 }
 /**
@@ -1757,7 +1737,7 @@ function isPhrasingContent(node) {
  */
 
 function isTextContent(node) {
-  var tag = node.nodeName.toLowerCase();
+  const tag = node.nodeName.toLowerCase();
   return textContentSchema.hasOwnProperty(tag) || tag === 'span';
 }
 
@@ -1815,27 +1795,24 @@ function isElement(node) {
  */
 
 function cleanNodeList(nodeList, doc, schema, inline) {
-  Array.from(nodeList).forEach(function (
+  Array.from(nodeList).forEach(
   /** @type {Node & { nextElementSibling?: unknown }} */
-  node) {
+  node => {
     var _schema$tag$isMatch, _schema$tag;
 
-    var tag = node.nodeName.toLowerCase(); // It's a valid child, if the tag exists in the schema without an isMatch
+    const tag = node.nodeName.toLowerCase(); // It's a valid child, if the tag exists in the schema without an isMatch
     // function, or with an isMatch function that matches the node.
 
     if (schema.hasOwnProperty(tag) && (!schema[tag].isMatch || (_schema$tag$isMatch = (_schema$tag = schema[tag]).isMatch) !== null && _schema$tag$isMatch !== void 0 && _schema$tag$isMatch.call(_schema$tag, node))) {
       if (isElement(node)) {
-        var _schema$tag2 = schema[tag],
-            _schema$tag2$attribut = _schema$tag2.attributes,
-            attributes = _schema$tag2$attribut === void 0 ? [] : _schema$tag2$attribut,
-            _schema$tag2$classes = _schema$tag2.classes,
-            classes = _schema$tag2$classes === void 0 ? [] : _schema$tag2$classes,
-            children = _schema$tag2.children,
-            _schema$tag2$require = _schema$tag2.require,
-            require = _schema$tag2$require === void 0 ? [] : _schema$tag2$require,
-            allowEmpty = _schema$tag2.allowEmpty; // If the node is empty and it's supposed to have children,
+        const {
+          attributes = [],
+          classes = [],
+          children,
+          require = [],
+          allowEmpty
+        } = schema[tag]; // If the node is empty and it's supposed to have children,
         // remove the node.
-
 
         if (children && !allowEmpty && isEmpty(node)) {
           remove(node);
@@ -1844,9 +1821,9 @@ function cleanNodeList(nodeList, doc, schema, inline) {
 
         if (node.hasAttributes()) {
           // Strip invalid attributes.
-          Array.from(node.attributes).forEach(function (_ref) {
-            var name = _ref.name;
-
+          Array.from(node.attributes).forEach(({
+            name
+          }) => {
             if (name !== 'class' && !Object(external_lodash_["includes"])(attributes, name)) {
               node.removeAttribute(name);
             }
@@ -1855,27 +1832,23 @@ function cleanNodeList(nodeList, doc, schema, inline) {
           // TODO: Explore patching this in jsdom-jscore.
 
           if (node.classList && node.classList.length) {
-            var mattchers = classes.map(function (item) {
+            const mattchers = classes.map(item => {
               if (typeof item === 'string') {
-                return function (
-                /** @type {string} */
-                className) {
-                  return className === item;
-                };
+                return (
+                  /** @type {string} */
+                  className => className === item
+                );
               } else if (item instanceof RegExp) {
-                return function (
-                /** @type {string} */
-                className) {
-                  return item.test(className);
-                };
+                return (
+                  /** @type {string} */
+                  className => item.test(className)
+                );
               }
 
               return external_lodash_["noop"];
             });
-            Array.from(node.classList).forEach(function (name) {
-              if (!mattchers.some(function (isMatch) {
-                return isMatch(name);
-              })) {
+            Array.from(node.classList).forEach(name => {
+              if (!mattchers.some(isMatch => isMatch(name))) {
                 node.classList.remove(name);
               }
             });
@@ -1904,9 +1877,7 @@ function cleanNodeList(nodeList, doc, schema, inline) {
             } else if (node.parentNode && node.parentNode.nodeName === 'BODY' && isPhrasingContent(node)) {
               cleanNodeList(node.childNodes, doc, schema, inline);
 
-              if (Array.from(node.childNodes).some(function (child) {
-                return !isPhrasingContent(child);
-              })) {
+              if (Array.from(node.childNodes).some(child => !isPhrasingContent(child))) {
                 unwrap(node);
               }
             } else {
@@ -1950,13 +1921,14 @@ function cleanNodeList(nodeList, doc, schema, inline) {
  */
 
 function removeInvalidHTML(HTML, schema, inline) {
-  var doc = document.implementation.createHTMLDocument('');
+  const doc = document.implementation.createHTMLDocument('');
   doc.body.innerHTML = HTML;
   cleanNodeList(doc.body.childNodes, doc, schema, inline);
   return doc.body.innerHTML;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/index.js
+
 
 
 
@@ -1990,16 +1962,15 @@ function removeInvalidHTML(HTML, schema, inline) {
  * @return {File[]} An array containing all files.
  */
 function getFilesFromDataTransfer(dataTransfer) {
-  var files = Array.from(dataTransfer.files);
-  Array.from(dataTransfer.items).forEach(function (item) {
-    var file = item.getAsFile();
+  const files = Array.from(dataTransfer.files);
+  Array.from(dataTransfer.items).forEach(item => {
+    const file = item.getAsFile();
 
-    if (file && !files.find(function (_ref) {
-      var name = _ref.name,
-          type = _ref.type,
-          size = _ref.size;
-      return name === file.name && type === file.type && size === file.size;
-    })) {
+    if (file && !files.find(({
+      name,
+      type,
+      size
+    }) => name === file.name && type === file.type && size === file.size)) {
       files.push(file);
     }
   });
@@ -2017,7 +1988,7 @@ function getFilesFromDataTransfer(dataTransfer) {
  * under the keys with the same name.
  */
 
-var build_module_focus = {
+const build_module_focus = {
   focusable: focusable_namespaceObject,
   tabbable: tabbable_namespaceObject
 };
@@ -2025,28 +1996,6 @@ var build_module_focus = {
 
 
 
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
 
 /***/ })
 

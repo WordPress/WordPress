@@ -1,7 +1,11 @@
 {
 	"apiVersion": 2,
 	"name": "core/verse",
+	"title": "Verse",
 	"category": "text",
+	"description": "Insert poetry. Use special spacing formats. Or quote song lyrics.",
+	"keywords": [ "poetry", "poem" ],
+	"textdomain": "default",
 	"attributes": {
 		"content": {
 			"type": "string",

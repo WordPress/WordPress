@@ -79,8 +79,10 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$has_text_decoration_support = _wp_array_get( $block_type->supports, array( '__experimentalTextDecoration' ), false );
 	$has_text_transform_support  = _wp_array_get( $block_type->supports, array( '__experimentalTextTransform' ), false );
 
+	$skip_font_size_support_serialization = _wp_array_get( $block_type->supports, array( '__experimentalSkipFontSizeSerialization' ), false );
+
 	// Font Size.
-	if ( $has_font_size_support ) {
+	if ( $has_font_size_support && ! $skip_font_size_support_serialization ) {
 		$has_named_font_size  = array_key_exists( 'fontSize', $block_attributes );
 		$has_custom_font_size = isset( $block_attributes['style']['typography']['fontSize'] );
 

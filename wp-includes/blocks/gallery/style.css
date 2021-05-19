@@ -159,8 +159,7 @@
 .wp-block-gallery.is-cropped .blocks-gallery-image, .wp-block-gallery.is-cropped .blocks-gallery-item,
 .blocks-gallery-grid.is-cropped .blocks-gallery-image,
 .blocks-gallery-grid.is-cropped .blocks-gallery-item {
-  -ms-grid-row-align: inherit;
-      align-self: inherit;
+  align-self: inherit;
 }
 .wp-block-gallery.is-cropped .blocks-gallery-image a,
 .wp-block-gallery.is-cropped .blocks-gallery-image img, .wp-block-gallery.is-cropped .blocks-gallery-item a,
@@ -181,8 +180,7 @@
 .blocks-gallery-grid.is-cropped .blocks-gallery-item img {
     height: 100%;
     flex: 1;
-    -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
   }
 }
 .wp-block-gallery.columns-1 .blocks-gallery-image, .wp-block-gallery.columns-1 .blocks-gallery-item,

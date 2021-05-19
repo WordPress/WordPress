@@ -222,10 +222,6 @@
 :root .has-midnight-gradient-background {
   background: linear-gradient(-135deg, #020381 0%, #2874fc 100%);
 }
-:root .has-link-color a:not(.wp-block-button__link) {
-  color: #00e;
-  color: var(--wp--style--color--link, #00e);
-}
 
 .has-small-font-size {
   font-size: 0.8125em;
