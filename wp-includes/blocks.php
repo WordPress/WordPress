@@ -329,6 +329,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
  * the metadata stored in the `block.json` file.
  *
  * @since 5.0.0
+ * @since 5.8.0 First param accepts a path to the `block.json` file.
  *
  * @param string|WP_Block_Type $block_type Block type name including namespace, or alternatively
  *                                         a path to the JSON file with metadata definition for the block,
