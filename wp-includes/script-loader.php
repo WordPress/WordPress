@@ -122,21 +122,6 @@ function wp_default_packages_vendor( $scripts ) {
 	}
 
 	$scripts->add( 'wp-polyfill', null, array( 'wp-polyfill' ) );
-	did_action( 'init' ) && $scripts->add_inline_script(
-		'wp-polyfill',
-		wp_get_script_polyfill(
-			$scripts,
-			array(
-				'\'fetch\' in window' => 'wp-polyfill-fetch',
-				'document.contains'   => 'wp-polyfill-node-contains',
-				'window.DOMRect'      => 'wp-polyfill-dom-rect',
-				'window.URL && window.URL.prototype && window.URLSearchParams' => 'wp-polyfill-url',
-				'window.FormData && window.FormData.prototype.keys' => 'wp-polyfill-formdata',
-				'Element.prototype.matches && Element.prototype.closest' => 'wp-polyfill-element-closest',
-				'\'objectFit\' in document.documentElement.style' => 'wp-polyfill-object-fit',
-			)
-		)
-	);
 
 	did_action( 'init' ) && $scripts->add_inline_script( 'lodash', 'window.lodash = _.noConflict();' );
 
