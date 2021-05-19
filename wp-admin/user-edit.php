@@ -745,10 +745,10 @@ endif;
 					<p>
 						<?php
 						printf(
-							/* translators: 1: URL to my-sites.php, 2: Number of blogs the user has. */
+							/* translators: 1: URL to my-sites.php, 2: Number of sites the user has. */
 							_n(
-								'Application passwords grant access to <a href="%1$s">the %2$s blog in this installation that you have permissions on</a>.',
-								'Application passwords grant access to <a href="%1$s">all %2$s blogs in this installation that you have permissions on</a>.',
+								'Application passwords grant access to <a href="%1$s">the %2$s site in this installation that you have permissions on</a>.',
+								'Application passwords grant access to <a href="%1$s">all %2$s sites in this installation that you have permissions on</a>.',
 								$blogs_count
 							),
 							admin_url( 'my-sites.php' ),
