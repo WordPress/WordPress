@@ -2633,6 +2633,11 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 		}
 	}
 
+	// Restore the type for integer fields after esc_attr().
+	if ( in_array( $field, $int_fields, true ) ) {
+		$value = (int) $value;
+	}
+
 	return $value;
 }
 
