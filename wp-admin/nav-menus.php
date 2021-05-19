@@ -663,7 +663,7 @@ get_current_screen()->set_help_sidebar(
 require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 <div class="wrap">
-	<h1 class="wp-heading-inline"><?php echo esc_html( __( 'Menus' ) ); ?></h1>
+	<h1 class="wp-heading-inline"><?php esc_html_e( 'Menus' ); ?></h1>
 	<?php
 	if ( current_user_can( 'customize' ) ) :
 		$focus = $locations_screen ? array( 'section' => 'menu_locations' ) : array( 'panel' => 'nav_menus' );

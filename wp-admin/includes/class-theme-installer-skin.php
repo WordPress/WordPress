@@ -221,7 +221,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			return false;
 		}
 
-		echo '<h2 class="update-from-upload-heading">' . esc_html( __( 'This theme is already installed.' ) ) . '</h2>';
+		echo '<h2 class="update-from-upload-heading">' . esc_html__( 'This theme is already installed.' ) . '</h2>';
 
 		// Check errors for current theme.
 		if ( is_wp_error( $current_theme_data->errors() ) ) {
@@ -291,7 +291,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		$install_actions = array();
 		$can_update      = true;
 
-		$blocked_message  = '<p>' . esc_html( __( 'The theme cannot be updated due to the following:' ) ) . '</p>';
+		$blocked_message  = '<p>' . esc_html__( 'The theme cannot be updated due to the following:' ) . '</p>';
 		$blocked_message .= '<ul class="ul-disc">';
 
 		$requires_php = isset( $new_theme_data['RequiresPHP'] ) ? $new_theme_data['RequiresPHP'] : null;
