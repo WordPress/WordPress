@@ -605,6 +605,10 @@ code {
 	line-height: 1;
 }
 
+.subtitle strong {
+	word-break: break-all;
+}
+
 .wrap .add-new-h2, /* deprecated */
 .wrap .add-new-h2:active, /* deprecated */
 .wrap .page-title-action,
