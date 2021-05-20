@@ -82,26 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 578);
+/******/ 	return __webpack_require__(__webpack_require__.s = "jncB");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 1:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["i18n"]; }());
-
-/***/ }),
-
-/***/ 393:
+/***/ "Y8OO":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["domReady"]; }());
 
 /***/ }),
 
-/***/ 578:
+/***/ "jncB":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -113,11 +106,11 @@ __webpack_require__.d(__webpack_exports__, "setup", function() { return /* bindi
 __webpack_require__.d(__webpack_exports__, "speak", function() { return /* binding */ speak; });
 
 // EXTERNAL MODULE: external ["wp","domReady"]
-var external_wp_domReady_ = __webpack_require__(393);
+var external_wp_domReady_ = __webpack_require__("Y8OO");
 var external_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(external_wp_domReady_);
 
 // EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(1);
+var external_wp_i18n_ = __webpack_require__("l3Sj");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/add-intro-text.js
 /**
@@ -313,6 +306,13 @@ function speak(message, ariaLive) {
   }
 }
 
+
+/***/ }),
+
+/***/ "l3Sj":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["i18n"]; }());
 
 /***/ })
 

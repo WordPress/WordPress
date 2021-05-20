@@ -82,33 +82,40 @@ this["wp"] = this["wp"] || {}; this["wp"]["element"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 572);
+/******/ 	return __webpack_require__(__webpack_require__.s = "o/Ny");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 11:
+/***/ "Vx3V":
 /***/ (function(module, exports) {
 
-(function() { module.exports = window["React"]; }());
+(function() { module.exports = window["wp"]["escapeHtml"]; }());
 
 /***/ }),
 
-/***/ 149:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["ReactDOM"]; }());
-
-/***/ }),
-
-/***/ 2:
+/***/ "YLtl":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["lodash"]; }());
 
 /***/ }),
 
-/***/ 572:
+/***/ "cDcd":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["React"]; }());
+
+/***/ }),
+
+/***/ "faye":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["ReactDOM"]; }());
+
+/***/ }),
+
+/***/ "o/Ny":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -152,7 +159,7 @@ __webpack_require__.d(__webpack_exports__, "renderToString", function() { return
 __webpack_require__.d(__webpack_exports__, "RawHTML", function() { return /* reexport */ RawHTML; });
 
 // EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__(11);
+var external_React_ = __webpack_require__("cDcd");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/create-interpolate-element.js
 /**
@@ -489,7 +496,7 @@ function closeOuterElement(endOffset) {
 /* harmony default export */ var create_interpolate_element = (createInterpolateElement);
 
 // EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+var external_lodash_ = __webpack_require__("YLtl");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react.js
 /**
@@ -716,7 +723,7 @@ function switchChildrenNodeName(children, nodeName) {
 }
 
 // EXTERNAL MODULE: external "ReactDOM"
-var external_ReactDOM_ = __webpack_require__(149);
+var external_ReactDOM_ = __webpack_require__("faye");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react-platform.js
 /**
@@ -817,7 +824,7 @@ const Platform = {
 /* harmony default export */ var platform = (Platform);
 
 // EXTERNAL MODULE: external ["wp","escapeHtml"]
-var external_wp_escapeHtml_ = __webpack_require__(95);
+var external_wp_escapeHtml_ = __webpack_require__("Vx3V");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/raw-html.js
 /**
@@ -1357,13 +1364,6 @@ function renderStyle(style) {
 
 
 
-
-/***/ }),
-
-/***/ 95:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["escapeHtml"]; }());
 
 /***/ })
 

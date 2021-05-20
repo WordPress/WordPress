@@ -82,54 +82,26 @@ this["wp"] = this["wp"] || {}; this["wp"]["listReusableBlocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 576);
+/******/ 	return __webpack_require__(__webpack_require__.s = "SdGz");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 0:
+/***/ "GRId":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["element"]; }());
 
 /***/ }),
 
-/***/ 1:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["i18n"]; }());
-
-/***/ }),
-
-/***/ 10:
+/***/ "K9lf":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["compose"]; }());
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["lodash"]; }());
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["apiFetch"]; }());
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["components"]; }());
-
-/***/ }),
-
-/***/ 576:
+/***/ "SdGz":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -137,16 +109,16 @@ this["wp"] = this["wp"] || {}; this["wp"]["listReusableBlocks"] =
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(0);
+var external_wp_element_ = __webpack_require__("GRId");
 
 // EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(1);
+var external_wp_i18n_ = __webpack_require__("l3Sj");
 
 // EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+var external_lodash_ = __webpack_require__("YLtl");
 
 // EXTERNAL MODULE: external ["wp","apiFetch"]
-var external_wp_apiFetch_ = __webpack_require__(33);
+var external_wp_apiFetch_ = __webpack_require__("ywyh");
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/file.js
@@ -235,10 +207,10 @@ async function exportReusableBlock(id) {
 /* harmony default export */ var utils_export = (exportReusableBlock);
 
 // EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(4);
+var external_wp_components_ = __webpack_require__("tI+e");
 
 // EXTERNAL MODULE: external ["wp","compose"]
-var external_wp_compose_ = __webpack_require__(10);
+var external_wp_compose_ = __webpack_require__("K9lf");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/import.js
 /**
@@ -522,6 +494,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }), container);
 });
 
+
+/***/ }),
+
+/***/ "YLtl":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["lodash"]; }());
+
+/***/ }),
+
+/***/ "l3Sj":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["i18n"]; }());
+
+/***/ }),
+
+/***/ "tI+e":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["components"]; }());
+
+/***/ }),
+
+/***/ "ywyh":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["apiFetch"]; }());
 
 /***/ })
 

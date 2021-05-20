@@ -82,26 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 568);
+/******/ 	return __webpack_require__(__webpack_require__.s = "jqrR");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 1:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["i18n"]; }());
-
-/***/ }),
-
-/***/ 20:
+/***/ "Mmq9":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 568:
+/***/ "jqrR":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -109,7 +102,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(1);
+var external_wp_i18n_ = __webpack_require__("l3Sj");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js
 /**
@@ -283,7 +276,7 @@ function createPreloadingMiddleware(preloadedData) {
 /* harmony default export */ var preloading = (createPreloadingMiddleware);
 
 // EXTERNAL MODULE: external ["wp","url"]
-var external_wp_url_ = __webpack_require__(20);
+var external_wp_url_ = __webpack_require__("Mmq9");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
 /**
@@ -832,6 +825,13 @@ apiFetch.fetchAllMiddleware = fetch_all_middleware;
 apiFetch.mediaUploadMiddleware = media_upload;
 /* harmony default export */ var build_module = __webpack_exports__["default"] = (apiFetch);
 
+
+/***/ }),
+
+/***/ "l3Sj":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["i18n"]; }());
 
 /***/ })
 

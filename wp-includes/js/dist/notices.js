@@ -82,26 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["notices"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 574);
+/******/ 	return __webpack_require__(__webpack_require__.s = "Ko7W");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["lodash"]; }());
-
-/***/ }),
-
-/***/ 5:
+/***/ "1ZqX":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["data"]; }());
 
 /***/ }),
 
-/***/ 574:
+/***/ "Ko7W":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -127,10 +120,10 @@ __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "getNotices", function() { return getNotices; });
 
 // EXTERNAL MODULE: external ["wp","data"]
-var external_wp_data_ = __webpack_require__(5);
+var external_wp_data_ = __webpack_require__("1ZqX");
 
 // EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+var external_lodash_ = __webpack_require__("YLtl");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/utils/on-sub-key.js
 /**
@@ -472,6 +465,13 @@ Object(external_wp_data_["register"])(store);
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/index.js
 
 
+
+/***/ }),
+
+/***/ "YLtl":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["lodash"]; }());
 
 /***/ })
 

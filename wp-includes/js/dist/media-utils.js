@@ -82,47 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["mediaUtils"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 579);
+/******/ 	return __webpack_require__(__webpack_require__.s = "Lb+8");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 0:
+/***/ "GRId":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["element"]; }());
 
 /***/ }),
 
-/***/ 1:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["i18n"]; }());
-
-/***/ }),
-
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["lodash"]; }());
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["blob"]; }());
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["apiFetch"]; }());
-
-/***/ }),
-
-/***/ 579:
+/***/ "Lb+8":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -134,13 +106,13 @@ __webpack_require__.d(__webpack_exports__, "MediaUpload", function() { return /*
 __webpack_require__.d(__webpack_exports__, "uploadMedia", function() { return /* reexport */ uploadMedia; });
 
 // EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+var external_lodash_ = __webpack_require__("YLtl");
 
 // EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(0);
+var external_wp_element_ = __webpack_require__("GRId");
 
 // EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(1);
+var external_wp_i18n_ = __webpack_require__("l3Sj");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/components/media-upload/index.js
 /**
@@ -557,11 +529,11 @@ class media_upload_MediaUpload extends external_wp_element_["Component"] {
 
 
 // EXTERNAL MODULE: external ["wp","apiFetch"]
-var external_wp_apiFetch_ = __webpack_require__(33);
+var external_wp_apiFetch_ = __webpack_require__("ywyh");
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
 
 // EXTERNAL MODULE: external ["wp","blob"]
-var external_wp_blob_ = __webpack_require__(27);
+var external_wp_blob_ = __webpack_require__("xTGt");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/upload-media.js
 
@@ -781,6 +753,34 @@ function createMediaFromFile(file, additionalData) {
 
 
 
+
+/***/ }),
+
+/***/ "YLtl":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["lodash"]; }());
+
+/***/ }),
+
+/***/ "l3Sj":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["i18n"]; }());
+
+/***/ }),
+
+/***/ "xTGt":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["blob"]; }());
+
+/***/ }),
+
+/***/ "ywyh":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["apiFetch"]; }());
 
 /***/ })
 

@@ -82,19 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 564);
+/******/ 	return __webpack_require__(__webpack_require__.s = "lbya");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 2:
+/***/ "YLtl":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["lodash"]; }());
 
 /***/ }),
 
-/***/ 564:
+/***/ "lbya":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -820,7 +820,7 @@ function filterURLForDisplay(url, maxLength = null) {
 }
 
 // EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+var external_lodash_ = __webpack_require__("YLtl");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/clean-for-slug.js
 /**

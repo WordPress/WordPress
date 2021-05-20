@@ -82,47 +82,61 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 557);
+/******/ 	return __webpack_require__(__webpack_require__.s = "yyEc");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 0:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["element"]; }());
-
-/***/ }),
-
-/***/ 10:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ 12:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["keycodes"]; }());
-
-/***/ }),
-
-/***/ 19:
+/***/ "1CF3":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["dom"]; }());
 
 /***/ }),
 
-/***/ 2:
+/***/ "1ZqX":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["data"]; }());
+
+/***/ }),
+
+/***/ "GRId":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["element"]; }());
+
+/***/ }),
+
+/***/ "K9lf":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ "RxS6":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ "Vx3V":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["escapeHtml"]; }());
+
+/***/ }),
+
+/***/ "YLtl":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["lodash"]; }());
 
 /***/ }),
 
-/***/ 26:
+/***/ "pPDe":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -404,14 +418,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 5:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ 557:
+/***/ "yyEc":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -472,10 +479,10 @@ __webpack_require__.d(actions_namespaceObject, "addFormatTypes", function() { re
 __webpack_require__.d(actions_namespaceObject, "removeFormatTypes", function() { return removeFormatTypes; });
 
 // EXTERNAL MODULE: external ["wp","data"]
-var external_wp_data_ = __webpack_require__(5);
+var external_wp_data_ = __webpack_require__("1ZqX");
 
 // EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+var external_lodash_ = __webpack_require__("YLtl");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/store/reducer.js
 /**
@@ -514,7 +521,7 @@ function reducer_formatTypes(state = {}, action) {
 }));
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(26);
+var rememo = __webpack_require__("pPDe");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/store/selectors.js
 /**
@@ -3056,7 +3063,7 @@ function applySelection({
 }
 
 // EXTERNAL MODULE: external ["wp","escapeHtml"]
-var external_wp_escapeHtml_ = __webpack_require__(95);
+var external_wp_escapeHtml_ = __webpack_require__("Vx3V");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/to-html-string.js
 /**
@@ -3607,7 +3614,7 @@ function changeListType(value, newFormat) {
 }
 
 // EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(0);
+var external_wp_element_ = __webpack_require__("GRId");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-anchor-ref.js
 /**
@@ -3683,13 +3690,13 @@ function useAnchorRef({
 }
 
 // EXTERNAL MODULE: external ["wp","keycodes"]
-var external_wp_keycodes_ = __webpack_require__(12);
+var external_wp_keycodes_ = __webpack_require__("RxS6");
 
 // EXTERNAL MODULE: external ["wp","dom"]
-var external_wp_dom_ = __webpack_require__(19);
+var external_wp_dom_ = __webpack_require__("1CF3");
 
 // EXTERNAL MODULE: external ["wp","compose"]
-var external_wp_compose_ = __webpack_require__(10);
+var external_wp_compose_ = __webpack_require__("K9lf");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/format-edit.js
 
@@ -5181,13 +5188,6 @@ function RichText({
 
 
 
-
-/***/ }),
-
-/***/ 95:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["escapeHtml"]; }());
 
 /***/ })
 

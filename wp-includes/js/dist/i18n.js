@@ -82,19 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 571);
+/******/ 	return __webpack_require__(__webpack_require__.s = "Vhyj");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 21:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["hooks"]; }());
-
-/***/ }),
-
-/***/ 409:
+/***/ "4Z/T":
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -333,7 +326,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 42:
+/***/ "4eJC":
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -501,7 +494,7 @@ module.exports = memize;
 
 /***/ }),
 
-/***/ 571:
+/***/ "Vhyj":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -524,11 +517,11 @@ __webpack_require__.d(__webpack_exports__, "isRTL", function() { return /* reexp
 __webpack_require__.d(__webpack_exports__, "hasTranslation", function() { return /* reexport */ default_i18n_hasTranslation; });
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(42);
+var memize = __webpack_require__("4eJC");
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(409);
+var sprintf = __webpack_require__("4Z/T");
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/sprintf.js
@@ -1516,7 +1509,7 @@ const createI18n = (initialData, initialDomain, hooks) => {
 };
 
 // EXTERNAL MODULE: external ["wp","hooks"]
-var external_wp_hooks_ = __webpack_require__(21);
+var external_wp_hooks_ = __webpack_require__("g56x");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/default-i18n.js
 /**
@@ -1671,6 +1664,13 @@ const default_i18n_hasTranslation = i18n.hasTranslation.bind(i18n);
 
 
 
+
+/***/ }),
+
+/***/ "g56x":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["hooks"]; }());
 
 /***/ })
 

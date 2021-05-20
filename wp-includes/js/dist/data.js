@@ -82,112 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["data"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 561);
+/******/ 	return __webpack_require__(__webpack_require__.s = "pfJ3");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 0:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["element"]; }());
-
-/***/ }),
-
-/***/ 10:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ 11:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["React"]; }());
-
-/***/ }),
-
-/***/ 119:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export useCallback */
-/* unused harmony export useCallbackOne */
-/* unused harmony export useMemo */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useMemoOne; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function areInputsEqual(newInputs, lastInputs) {
-  if (newInputs.length !== lastInputs.length) {
-    return false;
-  }
-
-  for (var i = 0; i < newInputs.length; i++) {
-    if (newInputs[i] !== lastInputs[i]) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function useMemoOne(getResult, inputs) {
-  var initial = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
-    return {
-      inputs: inputs,
-      result: getResult()
-    };
-  })[0];
-  var isFirstRun = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(true);
-  var committed = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(initial);
-  var useCache = isFirstRun.current || Boolean(inputs && committed.current.inputs && areInputsEqual(inputs, committed.current.inputs));
-  var cache = useCache ? committed.current : {
-    inputs: inputs,
-    result: getResult()
-  };
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    isFirstRun.current = false;
-    committed.current = cache;
-  }, [cache]);
-  return cache.result;
-}
-function useCallbackOne(callback, inputs) {
-  return useMemoOne(function () {
-    return callback;
-  }, inputs);
-}
-var useMemo = useMemoOne;
-var useCallback = useCallbackOne;
-
-
-
-
-/***/ }),
-
-/***/ 156:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["priorityQueue"]; }());
-
-/***/ }),
-
-/***/ 157:
-/***/ (function(module, exports) {
-
-module.exports = isPromise;
-module.exports.default = isPromise;
-
-function isPromise(obj) {
-  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-}
-
-
-/***/ }),
-
-/***/ 190:
+/***/ "8mpt":
 /***/ (function(module, exports) {
 
 function combineReducers( reducers ) {
@@ -246,35 +146,443 @@ module.exports = combineReducers;
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
+/***/ "FtRg":
+/***/ (function(module, exports, __webpack_require__) {
 
-(function() { module.exports = window["lodash"]; }());
+"use strict";
+
+
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+/**
+ * Given an instance of EquivalentKeyMap, returns its internal value pair tuple
+ * for a key, if one exists. The tuple members consist of the last reference
+ * value for the key (used in efficient subsequent lookups) and the value
+ * assigned for the key at the leaf node.
+ *
+ * @param {EquivalentKeyMap} instance EquivalentKeyMap instance.
+ * @param {*} key                     The key for which to return value pair.
+ *
+ * @return {?Array} Value pair, if exists.
+ */
+function getValuePair(instance, key) {
+  var _map = instance._map,
+      _arrayTreeMap = instance._arrayTreeMap,
+      _objectTreeMap = instance._objectTreeMap; // Map keeps a reference to the last object-like key used to set the
+  // value, which can be used to shortcut immediately to the value.
+
+  if (_map.has(key)) {
+    return _map.get(key);
+  } // Sort keys to ensure stable retrieval from tree.
+
+
+  var properties = Object.keys(key).sort(); // Tree by type to avoid conflicts on numeric object keys, empty value.
+
+  var map = Array.isArray(key) ? _arrayTreeMap : _objectTreeMap;
+
+  for (var i = 0; i < properties.length; i++) {
+    var property = properties[i];
+    map = map.get(property);
+
+    if (map === undefined) {
+      return;
+    }
+
+    var propertyValue = key[property];
+    map = map.get(propertyValue);
+
+    if (map === undefined) {
+      return;
+    }
+  }
+
+  var valuePair = map.get('_ekm_value');
+
+  if (!valuePair) {
+    return;
+  } // If reached, it implies that an object-like key was set with another
+  // reference, so delete the reference and replace with the current.
+
+
+  _map.delete(valuePair[0]);
+
+  valuePair[0] = key;
+  map.set('_ekm_value', valuePair);
+
+  _map.set(key, valuePair);
+
+  return valuePair;
+}
+/**
+ * Variant of a Map object which enables lookup by equivalent (deeply equal)
+ * object and array keys.
+ */
+
+
+var EquivalentKeyMap =
+/*#__PURE__*/
+function () {
+  /**
+   * Constructs a new instance of EquivalentKeyMap.
+   *
+   * @param {Iterable.<*>} iterable Initial pair of key, value for map.
+   */
+  function EquivalentKeyMap(iterable) {
+    _classCallCheck(this, EquivalentKeyMap);
+
+    this.clear();
+
+    if (iterable instanceof EquivalentKeyMap) {
+      // Map#forEach is only means of iterating with support for IE11.
+      var iterablePairs = [];
+      iterable.forEach(function (value, key) {
+        iterablePairs.push([key, value]);
+      });
+      iterable = iterablePairs;
+    }
+
+    if (iterable != null) {
+      for (var i = 0; i < iterable.length; i++) {
+        this.set(iterable[i][0], iterable[i][1]);
+      }
+    }
+  }
+  /**
+   * Accessor property returning the number of elements.
+   *
+   * @return {number} Number of elements.
+   */
+
+
+  _createClass(EquivalentKeyMap, [{
+    key: "set",
+
+    /**
+     * Add or update an element with a specified key and value.
+     *
+     * @param {*} key   The key of the element to add.
+     * @param {*} value The value of the element to add.
+     *
+     * @return {EquivalentKeyMap} Map instance.
+     */
+    value: function set(key, value) {
+      // Shortcut non-object-like to set on internal Map.
+      if (key === null || _typeof(key) !== 'object') {
+        this._map.set(key, value);
+
+        return this;
+      } // Sort keys to ensure stable assignment into tree.
+
+
+      var properties = Object.keys(key).sort();
+      var valuePair = [key, value]; // Tree by type to avoid conflicts on numeric object keys, empty value.
+
+      var map = Array.isArray(key) ? this._arrayTreeMap : this._objectTreeMap;
+
+      for (var i = 0; i < properties.length; i++) {
+        var property = properties[i];
+
+        if (!map.has(property)) {
+          map.set(property, new EquivalentKeyMap());
+        }
+
+        map = map.get(property);
+        var propertyValue = key[property];
+
+        if (!map.has(propertyValue)) {
+          map.set(propertyValue, new EquivalentKeyMap());
+        }
+
+        map = map.get(propertyValue);
+      } // If an _ekm_value exists, there was already an equivalent key. Before
+      // overriding, ensure that the old key reference is removed from map to
+      // avoid memory leak of accumulating equivalent keys. This is, in a
+      // sense, a poor man's WeakMap, while still enabling iterability.
+
+
+      var previousValuePair = map.get('_ekm_value');
+
+      if (previousValuePair) {
+        this._map.delete(previousValuePair[0]);
+      }
+
+      map.set('_ekm_value', valuePair);
+
+      this._map.set(key, valuePair);
+
+      return this;
+    }
+    /**
+     * Returns a specified element.
+     *
+     * @param {*} key The key of the element to return.
+     *
+     * @return {?*} The element associated with the specified key or undefined
+     *              if the key can't be found.
+     */
+
+  }, {
+    key: "get",
+    value: function get(key) {
+      // Shortcut non-object-like to get from internal Map.
+      if (key === null || _typeof(key) !== 'object') {
+        return this._map.get(key);
+      }
+
+      var valuePair = getValuePair(this, key);
+
+      if (valuePair) {
+        return valuePair[1];
+      }
+    }
+    /**
+     * Returns a boolean indicating whether an element with the specified key
+     * exists or not.
+     *
+     * @param {*} key The key of the element to test for presence.
+     *
+     * @return {boolean} Whether an element with the specified key exists.
+     */
+
+  }, {
+    key: "has",
+    value: function has(key) {
+      if (key === null || _typeof(key) !== 'object') {
+        return this._map.has(key);
+      } // Test on the _presence_ of the pair, not its value, as even undefined
+      // can be a valid member value for a key.
+
+
+      return getValuePair(this, key) !== undefined;
+    }
+    /**
+     * Removes the specified element.
+     *
+     * @param {*} key The key of the element to remove.
+     *
+     * @return {boolean} Returns true if an element existed and has been
+     *                   removed, or false if the element does not exist.
+     */
+
+  }, {
+    key: "delete",
+    value: function _delete(key) {
+      if (!this.has(key)) {
+        return false;
+      } // This naive implementation will leave orphaned child trees. A better
+      // implementation should traverse and remove orphans.
+
+
+      this.set(key, undefined);
+      return true;
+    }
+    /**
+     * Executes a provided function once per each key/value pair, in insertion
+     * order.
+     *
+     * @param {Function} callback Function to execute for each element.
+     * @param {*}        thisArg  Value to use as `this` when executing
+     *                            `callback`.
+     */
+
+  }, {
+    key: "forEach",
+    value: function forEach(callback) {
+      var _this = this;
+
+      var thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+
+      this._map.forEach(function (value, key) {
+        // Unwrap value from object-like value pair.
+        if (key !== null && _typeof(key) === 'object') {
+          value = value[1];
+        }
+
+        callback.call(thisArg, value, key, _this);
+      });
+    }
+    /**
+     * Removes all elements.
+     */
+
+  }, {
+    key: "clear",
+    value: function clear() {
+      this._map = new Map();
+      this._arrayTreeMap = new Map();
+      this._objectTreeMap = new Map();
+    }
+  }, {
+    key: "size",
+    get: function get() {
+      return this._map.size;
+    }
+  }]);
+
+  return EquivalentKeyMap;
+}();
+
+module.exports = EquivalentKeyMap;
+
 
 /***/ }),
 
-/***/ 24:
+/***/ "GRId":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["element"]; }());
+
+/***/ }),
+
+/***/ "JlUD":
+/***/ (function(module, exports) {
+
+module.exports = isPromise;
+module.exports.default = isPromise;
+
+function isPromise(obj) {
+  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+}
+
+
+/***/ }),
+
+/***/ "K9lf":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ "NMb1":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["deprecated"]; }());
 
 /***/ }),
 
-/***/ 407:
+/***/ "XI5e":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["priorityQueue"]; }());
+
+/***/ }),
+
+/***/ "XIDh":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["reduxRoutine"]; }());
 
 /***/ }),
 
-/***/ 50:
+/***/ "YLtl":
 /***/ (function(module, exports) {
 
-(function() { module.exports = window["wp"]["isShallowEqual"]; }());
+(function() { module.exports = window["lodash"]; }());
 
 /***/ }),
 
-/***/ 561:
+/***/ "cDcd":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["React"]; }());
+
+/***/ }),
+
+/***/ "mHlH":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export useCallback */
+/* unused harmony export useCallbackOne */
+/* unused harmony export useMemo */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useMemoOne; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("cDcd");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function areInputsEqual(newInputs, lastInputs) {
+  if (newInputs.length !== lastInputs.length) {
+    return false;
+  }
+
+  for (var i = 0; i < newInputs.length; i++) {
+    if (newInputs[i] !== lastInputs[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function useMemoOne(getResult, inputs) {
+  var initial = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
+    return {
+      inputs: inputs,
+      result: getResult()
+    };
+  })[0];
+  var isFirstRun = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(true);
+  var committed = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(initial);
+  var useCache = isFirstRun.current || Boolean(inputs && committed.current.inputs && areInputsEqual(inputs, committed.current.inputs));
+  var cache = useCache ? committed.current : {
+    inputs: inputs,
+    result: getResult()
+  };
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    isFirstRun.current = false;
+    committed.current = cache;
+  }, [cache]);
+  return cache.result;
+}
+function useCallbackOne(callback, inputs) {
+  return useMemoOne(function () {
+    return callback;
+  }, inputs);
+}
+var useMemo = useMemoOne;
+var useCallback = useCallbackOne;
+
+
+
+
+/***/ }),
+
+/***/ "pfJ3":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -334,11 +642,11 @@ __webpack_require__.d(plugins_namespaceObject, "controls", function() { return p
 __webpack_require__.d(plugins_namespaceObject, "persistence", function() { return plugins_persistence; });
 
 // EXTERNAL MODULE: ./node_modules/turbo-combine-reducers/index.js
-var turbo_combine_reducers = __webpack_require__(190);
+var turbo_combine_reducers = __webpack_require__("8mpt");
 var turbo_combine_reducers_default = /*#__PURE__*/__webpack_require__.n(turbo_combine_reducers);
 
 // EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+var external_lodash_ = __webpack_require__("YLtl");
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 function _defineProperty(obj, key, value) {
@@ -1017,11 +1325,11 @@ if (false) {}
 
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(87);
+var equivalent_key_map = __webpack_require__("FtRg");
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // EXTERNAL MODULE: external ["wp","reduxRoutine"]
-var external_wp_reduxRoutine_ = __webpack_require__(407);
+var external_wp_reduxRoutine_ = __webpack_require__("XIDh");
 var external_wp_reduxRoutine_default = /*#__PURE__*/__webpack_require__.n(external_wp_reduxRoutine_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/factory.js
@@ -1237,7 +1545,7 @@ const builtinControls = {
 };
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(157);
+var is_promise = __webpack_require__("JlUD");
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/promise-middleware.js
@@ -2364,7 +2672,7 @@ function createRegistry(storeConfigs = {}, parent = null) {
 /* harmony default export */ var default_registry = (createRegistry());
 
 // EXTERNAL MODULE: external ["wp","deprecated"]
-var external_wp_deprecated_ = __webpack_require__(24);
+var external_wp_deprecated_ = __webpack_require__("NMb1");
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/plugins/controls/index.js
@@ -2709,22 +3017,22 @@ persistencePlugin.__unstableMigrate = pluginOptions => {
 
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(7);
+var esm_extends = __webpack_require__("wx14");
 
 // EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(0);
+var external_wp_element_ = __webpack_require__("GRId");
 
 // EXTERNAL MODULE: external ["wp","compose"]
-var external_wp_compose_ = __webpack_require__(10);
+var external_wp_compose_ = __webpack_require__("K9lf");
 
 // EXTERNAL MODULE: ./node_modules/use-memo-one/dist/use-memo-one.esm.js
-var use_memo_one_esm = __webpack_require__(119);
+var use_memo_one_esm = __webpack_require__("mHlH");
 
 // EXTERNAL MODULE: external ["wp","priorityQueue"]
-var external_wp_priorityQueue_ = __webpack_require__(156);
+var external_wp_priorityQueue_ = __webpack_require__("XI5e");
 
 // EXTERNAL MODULE: external ["wp","isShallowEqual"]
-var external_wp_isShallowEqual_ = __webpack_require__(50);
+var external_wp_isShallowEqual_ = __webpack_require__("rl8x");
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/registry-provider/context.js
@@ -3626,7 +3934,14 @@ const build_module_register = default_registry.register;
 
 /***/ }),
 
-/***/ 7:
+/***/ "rl8x":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["isShallowEqual"]; }());
+
+/***/ }),
+
+/***/ "wx14":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3648,321 +3963,6 @@ function _extends() {
 
   return _extends.apply(this, arguments);
 }
-
-/***/ }),
-
-/***/ 87:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-/**
- * Given an instance of EquivalentKeyMap, returns its internal value pair tuple
- * for a key, if one exists. The tuple members consist of the last reference
- * value for the key (used in efficient subsequent lookups) and the value
- * assigned for the key at the leaf node.
- *
- * @param {EquivalentKeyMap} instance EquivalentKeyMap instance.
- * @param {*} key                     The key for which to return value pair.
- *
- * @return {?Array} Value pair, if exists.
- */
-function getValuePair(instance, key) {
-  var _map = instance._map,
-      _arrayTreeMap = instance._arrayTreeMap,
-      _objectTreeMap = instance._objectTreeMap; // Map keeps a reference to the last object-like key used to set the
-  // value, which can be used to shortcut immediately to the value.
-
-  if (_map.has(key)) {
-    return _map.get(key);
-  } // Sort keys to ensure stable retrieval from tree.
-
-
-  var properties = Object.keys(key).sort(); // Tree by type to avoid conflicts on numeric object keys, empty value.
-
-  var map = Array.isArray(key) ? _arrayTreeMap : _objectTreeMap;
-
-  for (var i = 0; i < properties.length; i++) {
-    var property = properties[i];
-    map = map.get(property);
-
-    if (map === undefined) {
-      return;
-    }
-
-    var propertyValue = key[property];
-    map = map.get(propertyValue);
-
-    if (map === undefined) {
-      return;
-    }
-  }
-
-  var valuePair = map.get('_ekm_value');
-
-  if (!valuePair) {
-    return;
-  } // If reached, it implies that an object-like key was set with another
-  // reference, so delete the reference and replace with the current.
-
-
-  _map.delete(valuePair[0]);
-
-  valuePair[0] = key;
-  map.set('_ekm_value', valuePair);
-
-  _map.set(key, valuePair);
-
-  return valuePair;
-}
-/**
- * Variant of a Map object which enables lookup by equivalent (deeply equal)
- * object and array keys.
- */
-
-
-var EquivalentKeyMap =
-/*#__PURE__*/
-function () {
-  /**
-   * Constructs a new instance of EquivalentKeyMap.
-   *
-   * @param {Iterable.<*>} iterable Initial pair of key, value for map.
-   */
-  function EquivalentKeyMap(iterable) {
-    _classCallCheck(this, EquivalentKeyMap);
-
-    this.clear();
-
-    if (iterable instanceof EquivalentKeyMap) {
-      // Map#forEach is only means of iterating with support for IE11.
-      var iterablePairs = [];
-      iterable.forEach(function (value, key) {
-        iterablePairs.push([key, value]);
-      });
-      iterable = iterablePairs;
-    }
-
-    if (iterable != null) {
-      for (var i = 0; i < iterable.length; i++) {
-        this.set(iterable[i][0], iterable[i][1]);
-      }
-    }
-  }
-  /**
-   * Accessor property returning the number of elements.
-   *
-   * @return {number} Number of elements.
-   */
-
-
-  _createClass(EquivalentKeyMap, [{
-    key: "set",
-
-    /**
-     * Add or update an element with a specified key and value.
-     *
-     * @param {*} key   The key of the element to add.
-     * @param {*} value The value of the element to add.
-     *
-     * @return {EquivalentKeyMap} Map instance.
-     */
-    value: function set(key, value) {
-      // Shortcut non-object-like to set on internal Map.
-      if (key === null || _typeof(key) !== 'object') {
-        this._map.set(key, value);
-
-        return this;
-      } // Sort keys to ensure stable assignment into tree.
-
-
-      var properties = Object.keys(key).sort();
-      var valuePair = [key, value]; // Tree by type to avoid conflicts on numeric object keys, empty value.
-
-      var map = Array.isArray(key) ? this._arrayTreeMap : this._objectTreeMap;
-
-      for (var i = 0; i < properties.length; i++) {
-        var property = properties[i];
-
-        if (!map.has(property)) {
-          map.set(property, new EquivalentKeyMap());
-        }
-
-        map = map.get(property);
-        var propertyValue = key[property];
-
-        if (!map.has(propertyValue)) {
-          map.set(propertyValue, new EquivalentKeyMap());
-        }
-
-        map = map.get(propertyValue);
-      } // If an _ekm_value exists, there was already an equivalent key. Before
-      // overriding, ensure that the old key reference is removed from map to
-      // avoid memory leak of accumulating equivalent keys. This is, in a
-      // sense, a poor man's WeakMap, while still enabling iterability.
-
-
-      var previousValuePair = map.get('_ekm_value');
-
-      if (previousValuePair) {
-        this._map.delete(previousValuePair[0]);
-      }
-
-      map.set('_ekm_value', valuePair);
-
-      this._map.set(key, valuePair);
-
-      return this;
-    }
-    /**
-     * Returns a specified element.
-     *
-     * @param {*} key The key of the element to return.
-     *
-     * @return {?*} The element associated with the specified key or undefined
-     *              if the key can't be found.
-     */
-
-  }, {
-    key: "get",
-    value: function get(key) {
-      // Shortcut non-object-like to get from internal Map.
-      if (key === null || _typeof(key) !== 'object') {
-        return this._map.get(key);
-      }
-
-      var valuePair = getValuePair(this, key);
-
-      if (valuePair) {
-        return valuePair[1];
-      }
-    }
-    /**
-     * Returns a boolean indicating whether an element with the specified key
-     * exists or not.
-     *
-     * @param {*} key The key of the element to test for presence.
-     *
-     * @return {boolean} Whether an element with the specified key exists.
-     */
-
-  }, {
-    key: "has",
-    value: function has(key) {
-      if (key === null || _typeof(key) !== 'object') {
-        return this._map.has(key);
-      } // Test on the _presence_ of the pair, not its value, as even undefined
-      // can be a valid member value for a key.
-
-
-      return getValuePair(this, key) !== undefined;
-    }
-    /**
-     * Removes the specified element.
-     *
-     * @param {*} key The key of the element to remove.
-     *
-     * @return {boolean} Returns true if an element existed and has been
-     *                   removed, or false if the element does not exist.
-     */
-
-  }, {
-    key: "delete",
-    value: function _delete(key) {
-      if (!this.has(key)) {
-        return false;
-      } // This naive implementation will leave orphaned child trees. A better
-      // implementation should traverse and remove orphans.
-
-
-      this.set(key, undefined);
-      return true;
-    }
-    /**
-     * Executes a provided function once per each key/value pair, in insertion
-     * order.
-     *
-     * @param {Function} callback Function to execute for each element.
-     * @param {*}        thisArg  Value to use as `this` when executing
-     *                            `callback`.
-     */
-
-  }, {
-    key: "forEach",
-    value: function forEach(callback) {
-      var _this = this;
-
-      var thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-
-      this._map.forEach(function (value, key) {
-        // Unwrap value from object-like value pair.
-        if (key !== null && _typeof(key) === 'object') {
-          value = value[1];
-        }
-
-        callback.call(thisArg, value, key, _this);
-      });
-    }
-    /**
-     * Removes all elements.
-     */
-
-  }, {
-    key: "clear",
-    value: function clear() {
-      this._map = new Map();
-      this._arrayTreeMap = new Map();
-      this._objectTreeMap = new Map();
-    }
-  }, {
-    key: "size",
-    get: function get() {
-      return this._map.size;
-    }
-  }]);
-
-  return EquivalentKeyMap;
-}();
-
-module.exports = EquivalentKeyMap;
-
 
 /***/ })
 

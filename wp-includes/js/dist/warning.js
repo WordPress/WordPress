@@ -82,60 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["warning"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 552);
+/******/ 	return __webpack_require__(__webpack_require__.s = "WyMB");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 552:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return warning; });
-function isDev() {
-  return typeof process !== 'undefined' && process.env && "production" !== 'production';
-}
-/**
- * Shows a warning with `message` if environment is not `production`.
- *
- * @param {string} message Message to show in the warning.
- *
- * @example
- * ```js
- * import warning from '@wordpress/warning';
- *
- * function MyComponent( props ) {
- *   if ( ! props.title ) {
- *     warning( '`props.title` was not passed' );
- *   }
- *   ...
- * }
- * ```
- */
-
-
-function warning(message) {
-  if (!isDev()) {
-    return;
-  } // eslint-disable-next-line no-console
-
-
-  console.warn(message); // Throwing an error and catching it immediately to improve debugging
-  // A consumer can use 'pause on caught exceptions'
-  // https://github.com/facebook/react/issues/4216
-
-  try {
-    throw Error(message);
-  } catch (x) {// do nothing
-  }
-}
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(90)))
-
-/***/ }),
-
-/***/ 90:
+/***/ "8oxB":
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -323,6 +275,54 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
+
+/***/ }),
+
+/***/ "WyMB":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return warning; });
+function isDev() {
+  return typeof process !== 'undefined' && process.env && "production" !== 'production';
+}
+/**
+ * Shows a warning with `message` if environment is not `production`.
+ *
+ * @param {string} message Message to show in the warning.
+ *
+ * @example
+ * ```js
+ * import warning from '@wordpress/warning';
+ *
+ * function MyComponent( props ) {
+ *   if ( ! props.title ) {
+ *     warning( '`props.title` was not passed' );
+ *   }
+ *   ...
+ * }
+ * ```
+ */
+
+
+function warning(message) {
+  if (!isDev()) {
+    return;
+  } // eslint-disable-next-line no-console
+
+
+  console.warn(message); // Throwing an error and catching it immediately to improve debugging
+  // A consumer can use 'pause on caught exceptions'
+  // https://github.com/facebook/react/issues/4216
+
+  try {
+    throw Error(message);
+  } catch (x) {// do nothing
+  }
+}
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("8oxB")))
 
 /***/ })
 

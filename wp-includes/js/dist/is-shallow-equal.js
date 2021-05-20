@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["isShallowEqual"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 583);
+/******/ 	return __webpack_require__(__webpack_require__.s = "waYt");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 583:
+/***/ "waYt":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

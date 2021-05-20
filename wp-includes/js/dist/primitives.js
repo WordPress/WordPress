@@ -82,19 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["primitives"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 581);
+/******/ 	return __webpack_require__(__webpack_require__.s = "G8AQ");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 0:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["element"]; }());
-
-/***/ }),
-
-/***/ 581:
+/***/ "G8AQ":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -117,11 +110,11 @@ __webpack_require__.d(__webpack_exports__, "BlockQuotation", function() { return
 __webpack_require__.d(__webpack_exports__, "View", function() { return /* reexport */ View; });
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(9);
+var classnames = __webpack_require__("TSYQ");
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(0);
+var external_wp_element_ = __webpack_require__("GRId");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/primitives/build-module/svg/index.js
 /**
@@ -242,7 +235,14 @@ const View = 'div';
 
 /***/ }),
 
-/***/ 9:
+/***/ "GRId":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["element"]; }());
+
+/***/ }),
+
+/***/ "TSYQ":
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!

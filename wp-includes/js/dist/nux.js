@@ -82,72 +82,470 @@ this["wp"] = this["wp"] || {}; this["wp"]["nux"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 577);
+/******/ 	return __webpack_require__(__webpack_require__.s = "51Wn");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 0:
+/***/ "1ZqX":
 /***/ (function(module, exports) {
 
-(function() { module.exports = window["wp"]["element"]; }());
+(function() { module.exports = window["wp"]["data"]; }());
 
 /***/ }),
 
-/***/ 1:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["i18n"]; }());
-
-/***/ }),
-
-/***/ 10:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ 124:
+/***/ "51Wn":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "store", function() { return /* reexport */ store; });
+__webpack_require__.d(__webpack_exports__, "DotTip", function() { return /* reexport */ dot_tip; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/nux/build-module/store/actions.js
+var actions_namespaceObject = {};
+__webpack_require__.r(actions_namespaceObject);
+__webpack_require__.d(actions_namespaceObject, "triggerGuide", function() { return triggerGuide; });
+__webpack_require__.d(actions_namespaceObject, "dismissTip", function() { return dismissTip; });
+__webpack_require__.d(actions_namespaceObject, "disableTips", function() { return disableTips; });
+__webpack_require__.d(actions_namespaceObject, "enableTips", function() { return enableTips; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/nux/build-module/store/selectors.js
+var selectors_namespaceObject = {};
+__webpack_require__.r(selectors_namespaceObject);
+__webpack_require__.d(selectors_namespaceObject, "getAssociatedGuide", function() { return getAssociatedGuide; });
+__webpack_require__.d(selectors_namespaceObject, "isTipVisible", function() { return isTipVisible; });
+__webpack_require__.d(selectors_namespaceObject, "areTipsEnabled", function() { return selectors_areTipsEnabled; });
+
+// EXTERNAL MODULE: external ["wp","deprecated"]
+var external_wp_deprecated_ = __webpack_require__("NMb1");
+var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_);
+
+// EXTERNAL MODULE: external ["wp","data"]
+var external_wp_data_ = __webpack_require__("1ZqX");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/reducer.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Reducer that tracks which tips are in a guide. Each guide is represented by
+ * an array which contains the tip identifiers contained within that guide.
+ *
+ * @param {Array} state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {Array} Updated state.
+ */
+
+function guides(state = [], action) {
+  switch (action.type) {
+    case 'TRIGGER_GUIDE':
+      return [...state, action.tipIds];
+  }
+
+  return state;
+}
+/**
+ * Reducer that tracks whether or not tips are globally enabled.
+ *
+ * @param {boolean} state Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {boolean} Updated state.
+ */
+
+function areTipsEnabled(state = true, action) {
+  switch (action.type) {
+    case 'DISABLE_TIPS':
+      return false;
+
+    case 'ENABLE_TIPS':
+      return true;
+  }
+
+  return state;
+}
+/**
+ * Reducer that tracks which tips have been dismissed. If the state object
+ * contains a tip identifier, then that tip is dismissed.
+ *
+ * @param {Object} state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {Object} Updated state.
+ */
+
+function dismissedTips(state = {}, action) {
+  switch (action.type) {
+    case 'DISMISS_TIP':
+      return { ...state,
+        [action.id]: true
+      };
+
+    case 'ENABLE_TIPS':
+      return {};
+  }
+
+  return state;
+}
+const preferences = Object(external_wp_data_["combineReducers"])({
+  areTipsEnabled,
+  dismissedTips
+});
+/* harmony default export */ var reducer = (Object(external_wp_data_["combineReducers"])({
+  guides,
+  preferences
+}));
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/actions.js
+/**
+ * Returns an action object that, when dispatched, presents a guide that takes
+ * the user through a series of tips step by step.
+ *
+ * @param {string[]} tipIds Which tips to show in the guide.
+ *
+ * @return {Object} Action object.
+ */
+function triggerGuide(tipIds) {
+  return {
+    type: 'TRIGGER_GUIDE',
+    tipIds
+  };
+}
+/**
+ * Returns an action object that, when dispatched, dismisses the given tip. A
+ * dismissed tip will not show again.
+ *
+ * @param {string} id The tip to dismiss.
+ *
+ * @return {Object} Action object.
+ */
+
+function dismissTip(id) {
+  return {
+    type: 'DISMISS_TIP',
+    id
+  };
+}
+/**
+ * Returns an action object that, when dispatched, prevents all tips from
+ * showing again.
+ *
+ * @return {Object} Action object.
+ */
+
+function disableTips() {
+  return {
+    type: 'DISABLE_TIPS'
+  };
+}
+/**
+ * Returns an action object that, when dispatched, makes all tips show again.
+ *
+ * @return {Object} Action object.
+ */
+
+function enableTips() {
+  return {
+    type: 'ENABLE_TIPS'
+  };
+}
+
+// EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
+var rememo = __webpack_require__("pPDe");
+
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__("YLtl");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/selectors.js
+/**
+ * External dependencies
+ */
+
+
+/**
+ * An object containing information about a guide.
+ *
+ * @typedef {Object} NUXGuideInfo
+ * @property {string[]} tipIds       Which tips the guide contains.
+ * @property {?string}  currentTipId The guide's currently showing tip.
+ * @property {?string}  nextTipId    The guide's next tip to show.
+ */
+
+/**
+ * Returns an object describing the guide, if any, that the given tip is a part
+ * of.
+ *
+ * @param {Object} state Global application state.
+ * @param {string} tipId The tip to query.
+ *
+ * @return {?NUXGuideInfo} Information about the associated guide.
+ */
+
+const getAssociatedGuide = Object(rememo["a" /* default */])((state, tipId) => {
+  for (const tipIds of state.guides) {
+    if (Object(external_lodash_["includes"])(tipIds, tipId)) {
+      const nonDismissedTips = Object(external_lodash_["difference"])(tipIds, Object(external_lodash_["keys"])(state.preferences.dismissedTips));
+      const [currentTipId = null, nextTipId = null] = nonDismissedTips;
+      return {
+        tipIds,
+        currentTipId,
+        nextTipId
+      };
+    }
+  }
+
+  return null;
+}, state => [state.guides, state.preferences.dismissedTips]);
+/**
+ * Determines whether or not the given tip is showing. Tips are hidden if they
+ * are disabled, have been dismissed, or are not the current tip in any
+ * guide that they have been added to.
+ *
+ * @param {Object} state Global application state.
+ * @param {string} tipId The tip to query.
+ *
+ * @return {boolean} Whether or not the given tip is showing.
+ */
+
+function isTipVisible(state, tipId) {
+  if (!state.preferences.areTipsEnabled) {
+    return false;
+  }
+
+  if (Object(external_lodash_["has"])(state.preferences.dismissedTips, [tipId])) {
+    return false;
+  }
+
+  const associatedGuide = getAssociatedGuide(state, tipId);
+
+  if (associatedGuide && associatedGuide.currentTipId !== tipId) {
+    return false;
+  }
+
+  return true;
+}
+/**
+ * Returns whether or not tips are globally enabled.
+ *
+ * @param {Object} state Global application state.
+ *
+ * @return {boolean} Whether tips are globally enabled.
+ */
+
+function selectors_areTipsEnabled(state) {
+  return state.preferences.areTipsEnabled;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/index.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+const STORE_NAME = 'core/nux';
+/**
+ * Store definition for the nux namespace.
+ *
+ * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
+ *
+ * @type {Object}
+ */
+
+const store = Object(external_wp_data_["createReduxStore"])(STORE_NAME, {
+  reducer: reducer,
+  actions: actions_namespaceObject,
+  selectors: selectors_namespaceObject,
+  persist: ['preferences']
+}); // Once we build a more generic persistence plugin that works across types of stores
+// we'd be able to replace this with a register call.
+
+Object(external_wp_data_["registerStore"])(STORE_NAME, {
+  reducer: reducer,
+  actions: actions_namespaceObject,
+  selectors: selectors_namespaceObject,
+  persist: ['preferences']
+});
+
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__("GRId");
+
+// EXTERNAL MODULE: external ["wp","compose"]
+var external_wp_compose_ = __webpack_require__("K9lf");
+
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__("tI+e");
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__("l3Sj");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
+var library_close = __webpack_require__("w95h");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/components/dot-tip/index.js
 
 
 /**
  * WordPress dependencies
  */
 
-const close = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"
-}));
-/* harmony default export */ __webpack_exports__["a"] = (close);
+
+
+
+
+
+
+function onClick(event) {
+  // Tips are often nested within buttons. We stop propagation so that clicking
+  // on a tip doesn't result in the button being clicked.
+  event.stopPropagation();
+}
+
+function DotTip({
+  position = 'middle right',
+  children,
+  isVisible,
+  hasNextTip,
+  onDismiss,
+  onDisable
+}) {
+  const anchorParent = Object(external_wp_element_["useRef"])(null);
+  const onFocusOutsideCallback = Object(external_wp_element_["useCallback"])(event => {
+    if (!anchorParent.current) {
+      return;
+    }
+
+    if (anchorParent.current.contains(event.relatedTarget)) {
+      return;
+    }
+
+    onDisable();
+  }, [onDisable, anchorParent]);
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Popover"], {
+    className: "nux-dot-tip",
+    position: position,
+    noArrow: true,
+    focusOnMount: "container",
+    shouldAnchorIncludePadding: true,
+    role: "dialog",
+    "aria-label": Object(external_wp_i18n_["__"])('Editor tips'),
+    onClick: onClick,
+    onFocusOutside: onFocusOutsideCallback
+  }, Object(external_wp_element_["createElement"])("p", null, children), Object(external_wp_element_["createElement"])("p", null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+    isLink: true,
+    onClick: onDismiss
+  }, hasNextTip ? Object(external_wp_i18n_["__"])('See next tip') : Object(external_wp_i18n_["__"])('Got it'))), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+    className: "nux-dot-tip__disable",
+    icon: library_close["a" /* default */],
+    label: Object(external_wp_i18n_["__"])('Disable tips'),
+    onClick: onDisable
+  }));
+}
+/* harmony default export */ var dot_tip = (Object(external_wp_compose_["compose"])(Object(external_wp_data_["withSelect"])((select, {
+  tipId
+}) => {
+  const {
+    isTipVisible,
+    getAssociatedGuide
+  } = select('core/nux');
+  const associatedGuide = getAssociatedGuide(tipId);
+  return {
+    isVisible: isTipVisible(tipId),
+    hasNextTip: !!(associatedGuide && associatedGuide.nextTipId)
+  };
+}), Object(external_wp_data_["withDispatch"])((dispatch, {
+  tipId
+}) => {
+  const {
+    dismissTip,
+    disableTips
+  } = dispatch('core/nux');
+  return {
+    onDismiss() {
+      dismissTip(tipId);
+    },
+
+    onDisable() {
+      disableTips();
+    }
+
+  };
+}))(DotTip));
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/index.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+external_wp_deprecated_default()('wp.nux', {
+  since: '5.4',
+  hint: 'wp.components.Guide can be used to show a user guide.'
+});
 
 
 /***/ }),
 
-/***/ 2:
+/***/ "GRId":
 /***/ (function(module, exports) {
 
-(function() { module.exports = window["lodash"]; }());
+(function() { module.exports = window["wp"]["element"]; }());
 
 /***/ }),
 
-/***/ 24:
+/***/ "K9lf":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ "NMb1":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["deprecated"]; }());
 
 /***/ }),
 
-/***/ 26:
+/***/ "Tqx9":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["primitives"]; }());
+
+/***/ }),
+
+/***/ "YLtl":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["lodash"]; }());
+
+/***/ }),
+
+/***/ "l3Sj":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["i18n"]; }());
+
+/***/ }),
+
+/***/ "pPDe":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -429,432 +827,34 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 3:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["primitives"]; }());
-
-/***/ }),
-
-/***/ 4:
+/***/ "tI+e":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["components"]; }());
 
 /***/ }),
 
-/***/ 5:
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ 577:
+/***/ "w95h":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "store", function() { return /* reexport */ store; });
-__webpack_require__.d(__webpack_exports__, "DotTip", function() { return /* reexport */ dot_tip; });
 
-// NAMESPACE OBJECT: ./node_modules/@wordpress/nux/build-module/store/actions.js
-var actions_namespaceObject = {};
-__webpack_require__.r(actions_namespaceObject);
-__webpack_require__.d(actions_namespaceObject, "triggerGuide", function() { return triggerGuide; });
-__webpack_require__.d(actions_namespaceObject, "dismissTip", function() { return dismissTip; });
-__webpack_require__.d(actions_namespaceObject, "disableTips", function() { return disableTips; });
-__webpack_require__.d(actions_namespaceObject, "enableTips", function() { return enableTips; });
-
-// NAMESPACE OBJECT: ./node_modules/@wordpress/nux/build-module/store/selectors.js
-var selectors_namespaceObject = {};
-__webpack_require__.r(selectors_namespaceObject);
-__webpack_require__.d(selectors_namespaceObject, "getAssociatedGuide", function() { return getAssociatedGuide; });
-__webpack_require__.d(selectors_namespaceObject, "isTipVisible", function() { return isTipVisible; });
-__webpack_require__.d(selectors_namespaceObject, "areTipsEnabled", function() { return selectors_areTipsEnabled; });
-
-// EXTERNAL MODULE: external ["wp","deprecated"]
-var external_wp_deprecated_ = __webpack_require__(24);
-var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_);
-
-// EXTERNAL MODULE: external ["wp","data"]
-var external_wp_data_ = __webpack_require__(5);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/reducer.js
 /**
  * WordPress dependencies
  */
 
-/**
- * Reducer that tracks which tips are in a guide. Each guide is represented by
- * an array which contains the tip identifiers contained within that guide.
- *
- * @param {Array} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Array} Updated state.
- */
-
-function guides(state = [], action) {
-  switch (action.type) {
-    case 'TRIGGER_GUIDE':
-      return [...state, action.tipIds];
-  }
-
-  return state;
-}
-/**
- * Reducer that tracks whether or not tips are globally enabled.
- *
- * @param {boolean} state Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {boolean} Updated state.
- */
-
-function areTipsEnabled(state = true, action) {
-  switch (action.type) {
-    case 'DISABLE_TIPS':
-      return false;
-
-    case 'ENABLE_TIPS':
-      return true;
-  }
-
-  return state;
-}
-/**
- * Reducer that tracks which tips have been dismissed. If the state object
- * contains a tip identifier, then that tip is dismissed.
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Object} Updated state.
- */
-
-function dismissedTips(state = {}, action) {
-  switch (action.type) {
-    case 'DISMISS_TIP':
-      return { ...state,
-        [action.id]: true
-      };
-
-    case 'ENABLE_TIPS':
-      return {};
-  }
-
-  return state;
-}
-const preferences = Object(external_wp_data_["combineReducers"])({
-  areTipsEnabled,
-  dismissedTips
-});
-/* harmony default export */ var reducer = (Object(external_wp_data_["combineReducers"])({
-  guides,
-  preferences
+const close = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"
 }));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/actions.js
-/**
- * Returns an action object that, when dispatched, presents a guide that takes
- * the user through a series of tips step by step.
- *
- * @param {string[]} tipIds Which tips to show in the guide.
- *
- * @return {Object} Action object.
- */
-function triggerGuide(tipIds) {
-  return {
-    type: 'TRIGGER_GUIDE',
-    tipIds
-  };
-}
-/**
- * Returns an action object that, when dispatched, dismisses the given tip. A
- * dismissed tip will not show again.
- *
- * @param {string} id The tip to dismiss.
- *
- * @return {Object} Action object.
- */
-
-function dismissTip(id) {
-  return {
-    type: 'DISMISS_TIP',
-    id
-  };
-}
-/**
- * Returns an action object that, when dispatched, prevents all tips from
- * showing again.
- *
- * @return {Object} Action object.
- */
-
-function disableTips() {
-  return {
-    type: 'DISABLE_TIPS'
-  };
-}
-/**
- * Returns an action object that, when dispatched, makes all tips show again.
- *
- * @return {Object} Action object.
- */
-
-function enableTips() {
-  return {
-    type: 'ENABLE_TIPS'
-  };
-}
-
-// EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(26);
-
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/selectors.js
-/**
- * External dependencies
- */
-
-
-/**
- * An object containing information about a guide.
- *
- * @typedef {Object} NUXGuideInfo
- * @property {string[]} tipIds       Which tips the guide contains.
- * @property {?string}  currentTipId The guide's currently showing tip.
- * @property {?string}  nextTipId    The guide's next tip to show.
- */
-
-/**
- * Returns an object describing the guide, if any, that the given tip is a part
- * of.
- *
- * @param {Object} state Global application state.
- * @param {string} tipId The tip to query.
- *
- * @return {?NUXGuideInfo} Information about the associated guide.
- */
-
-const getAssociatedGuide = Object(rememo["a" /* default */])((state, tipId) => {
-  for (const tipIds of state.guides) {
-    if (Object(external_lodash_["includes"])(tipIds, tipId)) {
-      const nonDismissedTips = Object(external_lodash_["difference"])(tipIds, Object(external_lodash_["keys"])(state.preferences.dismissedTips));
-      const [currentTipId = null, nextTipId = null] = nonDismissedTips;
-      return {
-        tipIds,
-        currentTipId,
-        nextTipId
-      };
-    }
-  }
-
-  return null;
-}, state => [state.guides, state.preferences.dismissedTips]);
-/**
- * Determines whether or not the given tip is showing. Tips are hidden if they
- * are disabled, have been dismissed, or are not the current tip in any
- * guide that they have been added to.
- *
- * @param {Object} state Global application state.
- * @param {string} tipId The tip to query.
- *
- * @return {boolean} Whether or not the given tip is showing.
- */
-
-function isTipVisible(state, tipId) {
-  if (!state.preferences.areTipsEnabled) {
-    return false;
-  }
-
-  if (Object(external_lodash_["has"])(state.preferences.dismissedTips, [tipId])) {
-    return false;
-  }
-
-  const associatedGuide = getAssociatedGuide(state, tipId);
-
-  if (associatedGuide && associatedGuide.currentTipId !== tipId) {
-    return false;
-  }
-
-  return true;
-}
-/**
- * Returns whether or not tips are globally enabled.
- *
- * @param {Object} state Global application state.
- *
- * @return {boolean} Whether tips are globally enabled.
- */
-
-function selectors_areTipsEnabled(state) {
-  return state.preferences.areTipsEnabled;
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/store/index.js
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-
-const STORE_NAME = 'core/nux';
-/**
- * Store definition for the nux namespace.
- *
- * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
- *
- * @type {Object}
- */
-
-const store = Object(external_wp_data_["createReduxStore"])(STORE_NAME, {
-  reducer: reducer,
-  actions: actions_namespaceObject,
-  selectors: selectors_namespaceObject,
-  persist: ['preferences']
-}); // Once we build a more generic persistence plugin that works across types of stores
-// we'd be able to replace this with a register call.
-
-Object(external_wp_data_["registerStore"])(STORE_NAME, {
-  reducer: reducer,
-  actions: actions_namespaceObject,
-  selectors: selectors_namespaceObject,
-  persist: ['preferences']
-});
-
-// EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(0);
-
-// EXTERNAL MODULE: external ["wp","compose"]
-var external_wp_compose_ = __webpack_require__(10);
-
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(4);
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(1);
-
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
-var library_close = __webpack_require__(124);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/components/dot-tip/index.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-function onClick(event) {
-  // Tips are often nested within buttons. We stop propagation so that clicking
-  // on a tip doesn't result in the button being clicked.
-  event.stopPropagation();
-}
-
-function DotTip({
-  position = 'middle right',
-  children,
-  isVisible,
-  hasNextTip,
-  onDismiss,
-  onDisable
-}) {
-  const anchorParent = Object(external_wp_element_["useRef"])(null);
-  const onFocusOutsideCallback = Object(external_wp_element_["useCallback"])(event => {
-    if (!anchorParent.current) {
-      return;
-    }
-
-    if (anchorParent.current.contains(event.relatedTarget)) {
-      return;
-    }
-
-    onDisable();
-  }, [onDisable, anchorParent]);
-
-  if (!isVisible) {
-    return null;
-  }
-
-  return Object(external_wp_element_["createElement"])(external_wp_components_["Popover"], {
-    className: "nux-dot-tip",
-    position: position,
-    noArrow: true,
-    focusOnMount: "container",
-    shouldAnchorIncludePadding: true,
-    role: "dialog",
-    "aria-label": Object(external_wp_i18n_["__"])('Editor tips'),
-    onClick: onClick,
-    onFocusOutside: onFocusOutsideCallback
-  }, Object(external_wp_element_["createElement"])("p", null, children), Object(external_wp_element_["createElement"])("p", null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-    isLink: true,
-    onClick: onDismiss
-  }, hasNextTip ? Object(external_wp_i18n_["__"])('See next tip') : Object(external_wp_i18n_["__"])('Got it'))), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-    className: "nux-dot-tip__disable",
-    icon: library_close["a" /* default */],
-    label: Object(external_wp_i18n_["__"])('Disable tips'),
-    onClick: onDisable
-  }));
-}
-/* harmony default export */ var dot_tip = (Object(external_wp_compose_["compose"])(Object(external_wp_data_["withSelect"])((select, {
-  tipId
-}) => {
-  const {
-    isTipVisible,
-    getAssociatedGuide
-  } = select('core/nux');
-  const associatedGuide = getAssociatedGuide(tipId);
-  return {
-    isVisible: isTipVisible(tipId),
-    hasNextTip: !!(associatedGuide && associatedGuide.nextTipId)
-  };
-}), Object(external_wp_data_["withDispatch"])((dispatch, {
-  tipId
-}) => {
-  const {
-    dismissTip,
-    disableTips
-  } = dispatch('core/nux');
-  return {
-    onDismiss() {
-      dismissTip(tipId);
-    },
-
-    onDisable() {
-      disableTips();
-    }
-
-  };
-}))(DotTip));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/index.js
-/**
- * WordPress dependencies
- */
-
-
-
-external_wp_deprecated_default()('wp.nux', {
-  since: '5.4',
-  hint: 'wp.components.Guide can be used to show a user guide.'
-});
+/* harmony default export */ __webpack_exports__["a"] = (close);
 
 
 /***/ })

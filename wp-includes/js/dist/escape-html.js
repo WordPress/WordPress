@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["escapeHtml"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 584);
+/******/ 	return __webpack_require__(__webpack_require__.s = "IsfW");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 584:
+/***/ "IsfW":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

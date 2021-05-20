@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["domReady"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 543);
+/******/ 	return __webpack_require__(__webpack_require__.s = "2oG7");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 543:
+/***/ "2oG7":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
