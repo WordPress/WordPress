@@ -118,7 +118,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 		</div>
 
-		<hr class="is-large" />
+		<hr />
 
 		<div class="about__section has-2-columns">
 			<h2 class="is-section-header is-smaller-heading">
