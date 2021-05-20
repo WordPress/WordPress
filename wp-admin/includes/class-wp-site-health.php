@@ -2361,8 +2361,9 @@ class WP_Site_Health {
 		// Conditionally include REST rules if the function for it exists.
 		if ( function_exists( 'rest_url' ) ) {
 			$tests['direct']['rest_availability'] = array(
-				'label' => __( 'REST API availability' ),
-				'test'  => 'rest_availability',
+				'label'     => __( 'REST API availability' ),
+				'test'      => 'rest_availability',
+				'skip_cron' => true,
 			);
 		}
 
@@ -2729,6 +2730,9 @@ class WP_Site_Health {
 		}
 
 		foreach ( $tests['direct'] as $test ) {
+			if ( ! empty( $test['skip_cron'] ) ) {
+				continue;
+			}
 
 			if ( is_string( $test['test'] ) ) {
 				$test_function = sprintf(
