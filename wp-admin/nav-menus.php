@@ -339,15 +339,6 @@ switch ( $action ) {
 						wp_save_nav_menu_items( $nav_menu_selected_id, absint( $_REQUEST['menu-item'] ) );
 					}
 
-					// Set the menu_location value correctly for the newly created menu.
-					foreach ( $menu_locations as $location => $id ) {
-						if ( 0 === $id ) {
-							$menu_locations[ $location ] = $nav_menu_selected_id;
-						}
-					}
-
-					set_theme_mod( 'nav_menu_locations', $menu_locations );
-
 					if ( isset( $_REQUEST['zero-menu-state'] ) || ! empty( $_POST['auto-add-pages'] ) ) {
 						// If there are menu items, add them.
 						wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title );
@@ -1042,7 +1033,14 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 										<legend class="menu-settings-group-name howto"><?php _e( 'Display location' ); ?></legend>
 										<?php
 										foreach ( $locations as $location => $description ) :
-											$checked = isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] === $nav_menu_selected_id;
+											$checked = false;
+
+											if ( isset( $menu_locations[ $location ] )
+													&& 0 !== $nav_menu_selected_id
+													&& $menu_locations[ $location ] === $nav_menu_selected_id
+											) {
+													$checked = true;
+											}
 											?>
 											<div class="menu-settings-input checkbox-input">
 												<input type="checkbox"<?php checked( $checked ); ?> name="menu-locations[<?php echo esc_attr( $location ); ?>]" id="locations-<?php echo esc_attr( $location ); ?>" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
