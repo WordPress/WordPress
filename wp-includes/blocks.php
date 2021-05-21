@@ -763,13 +763,12 @@ function _excerpt_render_inner_columns_blocks( $columns, $allowed_blocks ) {
  * @since 5.0.0
  *
  * @global WP_Post  $post     The post to edit.
- * @global WP_Query $wp_query WordPress Query object.
  *
  * @param array $parsed_block A single parsed block object.
  * @return string String of rendered HTML.
  */
 function render_block( $parsed_block ) {
-	global $post, $wp_query;
+	global $post;
 
 	/**
 	 * Allows render_block() to be short-circuited, by returning a non-null value.
@@ -808,13 +807,6 @@ function render_block( $parsed_block ) {
 		 * it should be included to consistently fulfill the expectation.
 		 */
 		$context['postType'] = $post->post_type;
-	}
-
-	if ( $wp_query instanceof WP_Query && isset( $wp_query->tax_query->queried_terms['category'] ) ) {
-		$context['query'] = array( 'categoryIds' => array() );
-		foreach ( $wp_query->tax_query->queried_terms['category']['terms'] as $category_slug_or_id ) {
-			$context['query']['categoryIds'][] = 'slug' === $wp_query->tax_query->queried_terms['category']['field'] ? get_cat_ID( $category_slug_or_id ) : $category_slug_or_id;
-		}
 	}
 
 	/**
